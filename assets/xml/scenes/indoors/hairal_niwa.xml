@@ -1,8 +1,8 @@
 <Root>
-    <File Name="hairal_niwa_scene">
+    <File Name="hairal_niwa_scene" Segment="2">
         <Scene Name="hairal_niwa_scene"/>
     </File>
-    <File Name="hairal_niwa_room_0">
-        <Room Name="hairal_niwa_room_0"/>
+    <File Name="hairal_niwa_room_0" Segment="3">
+        <Room Name="hairal_niwa_room_0" Offset="0x0"/>
     </File>
 </Root>

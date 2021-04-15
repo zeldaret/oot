@@ -1,8 +1,8 @@
 <Root>
-    <File Name="malon_stable_scene">
+    <File Name="malon_stable_scene" Segment="2">
         <Scene Name="malon_stable_scene"/>
     </File>
-    <File Name="malon_stable_room_0">
-        <Room Name="malon_stable_room_0"/>
+    <File Name="malon_stable_room_0" Segment="3">
+        <Room Name="malon_stable_room_0" Offset="0x0"/>
     </File>
 </Root>

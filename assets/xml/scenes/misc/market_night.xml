@@ -1,9 +1,8 @@
 <Root>
-    <File Name="market_night_scene">
+    <File Name="market_night_scene" Segment="2">
         <Scene Name="market_night_scene"/>
     </File>
-    <File Name="market_night_room_0">
-        <Room Name="market_night_room_0">
-        </Room>
+    <File Name="market_night_room_0" Segment="3">
+        <Room Name="market_night_room_0" Offset="0x0"/>
     </File>
 </Root>

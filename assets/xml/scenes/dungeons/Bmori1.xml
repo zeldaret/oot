@@ -1,75 +1,74 @@
 <Root>
-    <File Name="Bmori1_scene">
+    <File Name="Bmori1_scene" Segment="2">
         <Scene Name="Bmori1_scene"/>
     </File>
-    <File Name="Bmori1_room_0">
-        <Room Name="Bmori1_room_0"/>
+    <File Name="Bmori1_room_0" Segment="3">
+        <Room Name="Bmori1_room_0" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_1">
-        <Room Name="Bmori1_room_1"/>
+    <File Name="Bmori1_room_1" Segment="3">
+        <Room Name="Bmori1_room_1" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_2">
-        <Room Name="Bmori1_room_2">
-        </Room>
+    <File Name="Bmori1_room_2" Segment="3">
+        <Room Name="Bmori1_room_2" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_3">
-        <Room Name="Bmori1_room_3"/>
+    <File Name="Bmori1_room_3" Segment="3">
+        <Room Name="Bmori1_room_3" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_4">
-        <Room Name="Bmori1_room_4"/>
+    <File Name="Bmori1_room_4" Segment="3">
+        <Room Name="Bmori1_room_4" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_5">
-        <Room Name="Bmori1_room_5"/>
+    <File Name="Bmori1_room_5" Segment="3">
+        <Room Name="Bmori1_room_5" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_6">
-        <Room Name="Bmori1_room_6"/>
+    <File Name="Bmori1_room_6" Segment="3">
+        <Room Name="Bmori1_room_6" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_7">
-        <Room Name="Bmori1_room_7"/>
+    <File Name="Bmori1_room_7" Segment="3">
+        <Room Name="Bmori1_room_7" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_8">
-        <Room Name="Bmori1_room_8"/>
+    <File Name="Bmori1_room_8" Segment="3">
+        <Room Name="Bmori1_room_8" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_9">
-        <Room Name="Bmori1_room_9"/>
+    <File Name="Bmori1_room_9" Segment="3">
+        <Room Name="Bmori1_room_9" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_10">
-        <Room Name="Bmori1_room_10"/>
+    <File Name="Bmori1_room_10" Segment="3">
+        <Room Name="Bmori1_room_10" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_11">
-        <Room Name="Bmori1_room_11"/>
+    <File Name="Bmori1_room_11" Segment="3">
+        <Room Name="Bmori1_room_11" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_12">
-        <Room Name="Bmori1_room_12"/>
+    <File Name="Bmori1_room_12" Segment="3">
+        <Room Name="Bmori1_room_12" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_13">
-        <Room Name="Bmori1_room_13"/>
+    <File Name="Bmori1_room_13" Segment="3">
+        <Room Name="Bmori1_room_13" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_14">
-        <Room Name="Bmori1_room_14"/>
+    <File Name="Bmori1_room_14" Segment="3">
+        <Room Name="Bmori1_room_14" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_15">
-        <Room Name="Bmori1_room_15"/>
+    <File Name="Bmori1_room_15" Segment="3">
+        <Room Name="Bmori1_room_15" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_16">
-        <Room Name="Bmori1_room_16"/>
+    <File Name="Bmori1_room_16" Segment="3">
+        <Room Name="Bmori1_room_16" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_17">
-        <Room Name="Bmori1_room_17"/>
+    <File Name="Bmori1_room_17" Segment="3">
+        <Room Name="Bmori1_room_17" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_18">
-        <Room Name="Bmori1_room_18"/>
+    <File Name="Bmori1_room_18" Segment="3">
+        <Room Name="Bmori1_room_18" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_19">
-        <Room Name="Bmori1_room_19"/>
+    <File Name="Bmori1_room_19" Segment="3">
+        <Room Name="Bmori1_room_19" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_20">
-        <Room Name="Bmori1_room_20"/>
+    <File Name="Bmori1_room_20" Segment="3">
+        <Room Name="Bmori1_room_20" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_21">
-        <Room Name="Bmori1_room_21"/>
+    <File Name="Bmori1_room_21" Segment="3">
+        <Room Name="Bmori1_room_21" Offset="0x0"/>
     </File>
-    <File Name="Bmori1_room_22">
-        <Room Name="Bmori1_room_22"/>
+    <File Name="Bmori1_room_22" Segment="3">
+        <Room Name="Bmori1_room_22" Offset="0x0"/>
     </File>
 </Root>

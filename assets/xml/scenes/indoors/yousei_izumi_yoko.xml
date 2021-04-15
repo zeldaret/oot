@@ -1,8 +1,8 @@
 <Root>
-    <File Name="yousei_izumi_yoko_scene">
+    <File Name="yousei_izumi_yoko_scene" Segment="2">
         <Scene Name="yousei_izumi_yoko_scene"/>
     </File>
-    <File Name="yousei_izumi_yoko_room_0">
-        <Room Name="yousei_izumi_yoko_room_0"/>
+    <File Name="yousei_izumi_yoko_room_0" Segment="3">
+        <Room Name="yousei_izumi_yoko_room_0" Offset="0x0"/>
     </File>
 </Root>

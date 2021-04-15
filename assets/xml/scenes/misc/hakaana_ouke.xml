@@ -1,17 +1,14 @@
 <Root>
-    <File Name="hakaana_ouke_scene">
+    <File Name="hakaana_ouke_scene" Segment="2">
         <Scene Name="hakaana_ouke_scene"/>
     </File>
-    <File Name="hakaana_ouke_room_0">
-        <Room Name="hakaana_ouke_room_0">
-        </Room>
+    <File Name="hakaana_ouke_room_0" Segment="3">
+        <Room Name="hakaana_ouke_room_0" Offset="0x0"/>
     </File>
-    <File Name="hakaana_ouke_room_1">
-        <Room Name="hakaana_ouke_room_1">
-        </Room>
+    <File Name="hakaana_ouke_room_1" Segment="3">
+        <Room Name="hakaana_ouke_room_1" Offset="0x0"/>
     </File>
-    <File Name="hakaana_ouke_room_2">
-        <Room Name="hakaana_ouke_room_2">
-        </Room>
+    <File Name="hakaana_ouke_room_2" Segment="3">
+        <Room Name="hakaana_ouke_room_2" Offset="0x0"/>
     </File>
 </Root>
