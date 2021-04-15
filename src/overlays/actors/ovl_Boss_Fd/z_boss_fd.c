@@ -264,7 +264,6 @@ static Vec3f sCeilingTargets[] = {
 // Somehow doesn't use rodata value D_808D1EB4 = 0.1f. It would occur after the 85.56f float
 // literal in case 6 of the boss intro switch statement but before the next switch statement.
 // All instructions match.
-
 void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     u8 sp1CF = false;
     u8 temp_rand;
@@ -302,12 +301,10 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
     Math_ApproachF(&this->fwork[BFD_BODY_PULSE], 0.1f, 1.0f, 0.02);
 
-    /****************************************************************************************
-     *                                   Boss Intro Cutscene                                *
-     ****************************************************************************************/
+    //                                        Boss Intro Cutscene                                
 
     if (this->introState != BFD_CS_NONE) {
-        Player* player2 = PLAYER; // definitely needed for match
+        Player* player2 = PLAYER;
         Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
         switch (this->introState) {
@@ -379,7 +376,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 break;
             case BFD_CS_START:
                 if (this->timers[0] == 0) {
-                    this->camData.accel = 0.0010000002f; // I can't find a reasonable way to get this from a calculation
+                    this->camData.accel = 0.0010000002f;
                     this->timers[0] = 100;
                     this->introState = BFD_CS_LOOK_LINK;
                 }
@@ -504,16 +501,16 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 }
                 if (this->work[BFD_ACTION_STATE] == BOSSFD_FLY_HOLE) {
                     switch (this->introFlyState) {
-                        case INTRO_FLY_EMERGE: // Volvagia emerges
+                        case INTRO_FLY_EMERGE:
                             this->timers[5] = 100;
                             this->introFlyState = INTRO_FLY_HOLE;
-                        case INTRO_FLY_HOLE: // Volvagia flies above his hole
+                        case INTRO_FLY_HOLE:
                             if (this->timers[5] == 0) {
                                 this->introFlyState = INTRO_FLY_CAMERA;
                                 this->timers[5] = 75;
                             }
                             break;
-                        case INTRO_FLY_CAMERA: // Volvagia flies toward the camera
+                        case INTRO_FLY_CAMERA:
                             this->targetPosition = this->camData.eye;
                             if (this->timers[5] == 0) {
                                 this->timers[0] = 0;
@@ -527,7 +524,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                                 this->work[BFD_ROAR_TIMER] = 40;
                                 this->fireBreathTimer = 20;
                             }
-                        case INTRO_FLY_RETRAT: // Volvagia returns to his hole
+                        case INTRO_FLY_RETRAT:
                             break;
                     }
                 }
@@ -552,9 +549,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->fwork[BFD_FLY_SPEED] = 5.0f;
     }
 
-    /***********************************************************************************************
-     *                              Attacks and Death Cutscene                                     *
-     ***********************************************************************************************/
+
+    //                             Attacks and Death Cutscene 
+
     switch (this->work[BFD_ACTION_STATE]) {
         case BOSSFD_FLY_MAIN:
             sp1CF = true;
@@ -635,7 +632,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 func_80033E1C(globalCtx, 1, 0x50, 0x5000);
                 if (this->introState != BFD_CS_NONE) {
                     this->timers[0] = 50;
-                } else { // This isn't a fake match. The game actually does this.
+                } else {
                     this->timers[0] = 50;
                 }
             }
@@ -711,7 +708,6 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->fwork[BFD_TARGET_Y_OFFSET], 50.0, 1.0f, 2.0f);
             }
             break;
-        case 199: // This makes up for the missing float in rodata so it doesn't shift the whole ROM
         case BOSSFD_DEATH_START:
             if (sqrtf(SQ(dx) + SQ(dz)) < 50.0f) {
                 this->timers[0] = 0;
@@ -918,9 +914,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             break;
     }
 
-    /*************************************************************************************************
-     *                                 Body segments and Mane                                        *
-     *************************************************************************************************/
+    //                                 Update body segments and mane                                        
 
     if (!this->work[BFD_STOP_FLAG]) {
         s16 i4;

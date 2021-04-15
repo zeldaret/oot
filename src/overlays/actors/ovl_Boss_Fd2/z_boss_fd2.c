@@ -474,7 +474,10 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         BossFd2_SpawnFireBreath(globalCtx, bossFd->effects, &spawnPos, &spawnVel, &spawnAccel, breathScale,
                                 breathOpacity, this->actor.shape.rot.y + this->headRot.y);
 
-        VEC_SET(spawnSpeed, 0.0f, 17.0f, 0.0f);
+        spawnSpeed.x = 0.0f;
+        spawnSpeed.y = 17.0f;
+        spawnSpeed.z = 0.0f;
+
         for (i = 0; i < 6; i++) {
             tempY = Rand_ZeroFloat(2.0f * M_PI);
             tempX = Rand_ZeroFloat(2.0f * M_PI);
@@ -806,7 +809,6 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
     ColliderInfo* hurtbox;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     
-
     if (this->actionFunc == BossFd2_ClawSwipe) {
         Player* player = PLAYER;
         
@@ -930,6 +932,7 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
     } else {
         this->eyeState = eyeStates[this->work[FD2_BLINK_TIMER]];
     }
+
     if (this->work[FD2_BLINK_TIMER] != 0) {
         this->work[FD2_BLINK_TIMER]--;
     }
@@ -1153,7 +1156,7 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
 }
 
 void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
-    f32 pad;
+    s32 pad;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     s16 i;
 
