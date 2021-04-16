@@ -5,6 +5,7 @@
             <PathHint Offset="0x69E8"/>
             <PathHint Offset="0x69F0"/>
             <PathHint Offset="0x69F8"/>
+            <CutsceneHint Name="gMinuetCs" Offset="0x003F80"/>
         </Scene>
     </File>
     <File Name="spot05_room_0">

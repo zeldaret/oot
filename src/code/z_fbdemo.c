@@ -78,7 +78,7 @@ void TransitionUnk_InitGraphics(TransitionUnk* this) {
                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
             gSP1Quadrangle(gfx++, row, row + 1, row2 + this->row + 2, this->row + row2 + 1, 0);
-            if (1) {}
+
             rowTex += 0x20;
             row2++;
             row++;

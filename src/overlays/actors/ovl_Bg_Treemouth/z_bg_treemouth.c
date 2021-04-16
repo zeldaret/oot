@@ -93,7 +93,7 @@ void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_808BC65C(BgTreemouth* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction;
 
-    if ((globalCtx->csCtx.state != 0)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE)) {
         npcAction = globalCtx->csCtx.npcActions[0];
         if (npcAction != NULL) {
             if (npcAction->action == 2) {
@@ -166,7 +166,7 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
 void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (globalCtx->csCtx.state == 3) {
+    if (globalCtx->csCtx.state == CS_STATE_UNSKIPPABLE_INIT) {
         if (func_8002E12C(&this->dyna.actor, 350.0f, 0x7530)) {
             player->actor.world.pos.x = 3827.0f;
             player->actor.world.pos.y = -161.0f;
@@ -180,7 +180,7 @@ void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx) {
         D_8015FCC4 = 0xFFFF;
         globalCtx->csCtx.unk_1A = 0;
         globalCtx->csCtx.unk_1B = 0;
-        globalCtx->csCtx.state = 2;
+        globalCtx->csCtx.state = CS_STATE_SKIPPABLE_EXEC;
 
         if (globalCtx->msgCtx.choiceIndex == 0) {
             globalCtx->csCtx.segment = D_808BD520;
@@ -197,7 +197,7 @@ void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx) {
 void func_808BCAF0(BgTreemouth* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = globalCtx->csCtx.npcActions[0];
         if (npcAction != NULL) {
             if (npcAction->action == 2) {
