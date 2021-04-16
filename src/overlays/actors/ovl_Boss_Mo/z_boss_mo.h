@@ -26,15 +26,82 @@ typedef struct BossMoParticle {
 } BossMoParticle; // size = 0x40
 
 typedef enum {
-    /* 0 */ MO_NULL,
-    /* 1 */ MO_SMALL_RIPPLE,
-    /* 2 */ MO_BIG_RIPPLE,
-    /* 3 */ MO_DROPLET,
-    /* 4 */ MO_SPLASH,
-    /* 5 */ MO_SPLASH_TRAIL,
-    /* 6 */ MO_WET_SPOT,
-    /* 7 */ MO_BUBBLE
-} BossMoParticleType;
+    /*  0 */ MO_TENT_ACTION_STATE,
+    /*  1 */ MO_TENT_MOVE_TIMER,
+    /*  2 */ MO_TENT_VAR_TIMER,
+    /*  3 */ MO_TENT_UNK_TIMER,
+    /*  4 */ MO_TENT_INVINC_TIMER,
+    /*  5 */ MO_TENT_BASE_TEX1_X,
+    /*  6 */ MO_TENT_BASE_TEX1_Y,
+    /*  7 */ MO_TENT_BASE_TEX2_X,
+    /*  8 */ MO_TENT_BASE_TEX2_Y,
+    /*  9 */ MO_TENT_WIDTH_INDEX,
+    /* 10 */ MO_TENT_PULSE_PHASE,
+    /* 11 */ MO_TENT_SWING_X,
+    /* 12 */ MO_TENT_SWING_Z,
+    /* 13 */ MO_TENT_CUT_INDEX,
+    /* 14 */ MO_TENT_MELT_INDEX,
+    /* 15 */ MO_TENT_LINK_TO_LEFT,
+    /* 16 */ MO_TENT_MASH_COUNTER,
+    /* 17 */ MO_TENT_NO_BUBBLES,
+    /* 18 */ MO_TENT_SFX_TIMER,
+    /* 19 */ MO_TENT_SHORT_MAX
+} BossMoTentVar;
+
+typedef enum {
+    /*  0 */ MO_CORE_ACTION_STATE,
+    /*  1 */ MO_CORE_MOVE_TIMER,
+    /*  2 */ MO_CORE_VAR_TIMER,
+    /*  3 */ MO_CORE_DMG_FLASH_TIMER,
+    /*  4 */ MO_CORE_INVINC_TIMER,
+    /*  5 */ MO_CORE_SHORT_5,
+    /*  6 */ MO_CORE_POS_IN_TENT,
+    /*  7 */ MO_CORE_DRAW_SHADOW,
+    /*  8 */ MO_CORE_WAIT_IN_WATER,
+    /*  9 */ MO_CORE_SHORT_MAX
+} BossMoCoreVar;
+
+typedef enum {
+    /*  0 */ MO_TENT_SWING_LAG_X,
+    /*  1 */ MO_TENT_SWING_SIZE_X,
+    /*  2 */ MO_TENT_SWING_RATE_X,
+    /*  3 */ MO_TENT_SWING_LAG_Z,
+    /*  4 */ MO_TENT_SWING_SIZE_Z,
+    /*  5 */ MO_TENT_SWING_RATE_Z,
+    /*  6 */ MO_TENT_MAX_STRETCH,
+    /*  7 */ MO_TENT_BASE_ALPHA,
+    /*  8 */ MO_TENT_CUT_SCALE,
+    /*  9 */ MO_TENT_FLOAT_9,
+    /* 10 */ MO_TENT_FLOAT_10,
+    /* 11 */ MO_TENT_FLOAT_11,
+    /* 12 */ MO_TENT_FLOAT_12,
+    /* 13 */ MO_TENT_FLOAT_13,
+    /* 14 */ MO_TENT_FLATTEN_RATE,
+    /* 15 */ MO_TENT_WATER_ALPHA,
+    /* 16 */ MO_TENT_WATER_LEVEL_MOD,
+    /* 17 */ MO_TENT_FLOAT_MAX
+} BossMoTentVarF;
+
+typedef enum {
+    /*  0 */ MO_CORE_INTRO_WATER_ALPHA,
+    /*  1 */ MO_CORE_FLOAT_1,
+    /*  2 */ MO_CORE_FLOAT_2,
+    /*  3 */ MO_CORE_FLOAT_3,
+    /*  4 */ MO_CORE_FLOAT_4,
+    /*  5 */ MO_CORE_FLOAT_5,
+    /*  6 */ MO_CORE_FLOAT_6,
+    /*  7 */ MO_CORE_BASE_ALPHA,
+    /*  8 */ MO_CORE_FLOAT_8,
+    /*  9 */ MO_CORE_WATER_TEX1_X,
+    /* 10 */ MO_CORE_WATER_TEX1_Y,
+    /* 11 */ MO_CORE_WATER_TEX2_X,
+    /* 12 */ MO_CORE_WATER_TEX2_Y,
+    /* 13 */ MO_CORE_WATER_LEVEL,
+    /* 14 */ MO_CORE_FLOAT_MAX
+} BossMoCoreVarF;
+
+#define MO_SHORT_MAX MAX(MO_TENT_SHORT_MAX, MO_CORE_SHORT_MAX)
+#define MO_FLOAT_MAX MAX(MO_TENT_FLOAT_MAX, MO_CORE_FLOAT_MAX)
 
 typedef struct BossMo {
     /* 0x0000 */ Actor actor;
