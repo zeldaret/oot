@@ -4758,11 +4758,11 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                             this->unk_664 = this->targetActor;
                         } else if (sp2C == EXCH_ITEM_LETTER_RUTO) {
                             this->unk_84F = 1;
-                            this->actor.textId = 0x4005; // "There is something already inside this bottle..."
+                            this->actor.textId = 0x4005;
                             func_80835EA4(globalCtx, 1);
                         } else {
                             this->unk_84F = 2;
-                            this->actor.textId = 0xCF; // "This item doesn't work here..."
+                            this->actor.textId = 0xCF;
                             func_80835EA4(globalCtx, 4);
                         }
 

@@ -660,7 +660,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
                 return true;
             } else if (LINK_IS_CHILD) {
                 return true;
-            } else if (((this->actor.params & 0x7F) != 12) && (IS_NIGHT2)) {
+            } else if (((this->actor.params & 0x7F) != 12) && (IS_NOT_DAY)) {
                 return false;
             } else {
                 return true;
@@ -668,7 +668,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
         case SCENE_LABO:
             if ((this->actor.params & 0x7F) != 10) {
                 return true;
-            } else if (LINK_IS_CHILD2) {
+            } else if (LINK_IS_NOT_ADULT) {
                 return false;
             } else if (((this->actor.params & 0x7F) == 10) && !gSaveContext.nightFlag) {
                 return false;
@@ -691,7 +691,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
                 return true;
             } else if (!gSaveContext.nightFlag) {
                 return false;
-            } else if (LINK_IS_CHILD2) {
+            } else if (LINK_IS_NOT_ADULT) {
                 return false;
             } else {
                 return true;
@@ -700,7 +700,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
         case SCENE_MARKET_ALLEY_N:
             if ((this->actor.params & 0x7F) != 14) {
                 return true;
-            } else if (IS_NIGHT2) {
+            } else if (IS_NOT_DAY) {
                 return false;
             } else if ((gSaveContext.eventChkInf[8] & 1) && !(gSaveContext.eventChkInf[4] & 0x20)) {
                 return false;

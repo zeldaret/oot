@@ -89,7 +89,7 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->textIdCopy = this->actor.textId;
         this->actor.params &= 0xFF;
         sPuzzleCounter = 0;
-        if (this->actor.textId == 0x109B) { // "Please forgive me, master!..."
+        if (this->actor.textId == 0x109B) {
             if (Flags_GetClear(globalCtx, 0x9) != 0) {
                 Actor_Kill(&this->actor);
                 return;

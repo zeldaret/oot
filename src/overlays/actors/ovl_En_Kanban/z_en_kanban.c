@@ -205,7 +205,7 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         osSyncPrintf("KANBAN ARG    %x\n", this->actor.params);
         if (this->actor.params == ENKANBAN_FISHING) {
-            if (LINK_IS_CHILD2) {
+            if (LINK_IS_NOT_ADULT) {
                 this->actor.textId = 0x409D;
             } else {
                 this->actor.textId = 0x4090;
@@ -217,7 +217,7 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->partFlags = 0xFFFF;
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
         EnKanban_SetFloorRot(this);
-        if (LINK_IS_CHILD2) {
+        if (LINK_IS_NOT_ADULT) {
             this->actor.world.pos.y -= 15.0f;
         }
     }
@@ -879,7 +879,7 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 0, (s8)shadowAlpha);
 
-            if ((this->actionState == ENKANBAN_SIGN) && (LINK_IS_CHILD2)) {
+            if ((this->actionState == ENKANBAN_SIGN) && (LINK_IS_NOT_ADULT)) {
                 zShift = 0.0f;
             } else {
                 zShift = ((this->actor.world.pos.y - this->actor.floorHeight) * -50.0f) / 100.0f;

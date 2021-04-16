@@ -85,7 +85,7 @@ void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_LABO) {
         this->unk_278 = 1;
     }
-    if ((this->unk_278 != 0) && (IS_DAY)) {
+    if ((this->unk_278 != 0) && IS_DAY) {
         Actor_Kill(thisx);
         return;
     }

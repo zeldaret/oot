@@ -176,21 +176,19 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
             sHasParent = true;
             D_80872824 = 0x32;
         }
-    } else {
-        if (Flags_GetEventChkInf(0xB0)) {
-            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[0]);
-            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[1]);
-            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[2]);
-            this->colliders[0].dim.pos.z += 0xC8;
-            this->colliders[1].dim.pos.z += 0xD7;
-            this->colliders[1].dim.pos.x += 0x5A;
-            this->colliders[2].dim.pos.z += 0xD7;
-            this->colliders[2].dim.pos.x -= 0x5A;
+    } else if (Flags_GetEventChkInf(0xB0)) {
+        Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[0]);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[1]);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[2]);
+        this->colliders[0].dim.pos.z += 0xC8;
+        this->colliders[1].dim.pos.z += 0xD7;
+        this->colliders[1].dim.pos.x += 0x5A;
+        this->colliders[2].dim.pos.z += 0xD7;
+        this->colliders[2].dim.pos.x -= 0x5A;
 
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[2].base);
-        }
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[2].base);
     }
 }
 

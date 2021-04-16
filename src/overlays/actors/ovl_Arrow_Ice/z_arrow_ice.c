@@ -197,7 +197,6 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Actor* tranform;
     u32 stateFrames = globalCtx->state.frames;
     EnArrow* arrow = (EnArrow*)this->actor.parent;
-    ;
 
     if (1) {}
 

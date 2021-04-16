@@ -27,16 +27,18 @@
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17
 #define LINK_IS_CHILD (gSaveContext.linkAge != 0)
-#define LINK_IS_CHILD2 (gSaveContext.linkAge == 1)
+#define LINK_IS_NOT_ADULT (gSaveContext.linkAge == 1)
+
 #define LINK_IS_ADULT (gSaveContext.linkAge == 0)
-#define LINK_IS_ADULT2 (gSaveContext.linkAge != 1)
+#define LINK_IS_NOT_CHILD (gSaveContext.linkAge != 1)
+
 #define LINK_AGE_IN_YEARS (LINK_IS_CHILD ? YEARS_CHILD : YEARS_ADULT)
 
 #define IS_NIGHT (gSaveContext.nightFlag != 0)
-#define IS_NIGHT2 (gSaveContext.nightFlag == 1)
+#define IS_NOT_DAY (gSaveContext.nightFlag == 1)
 
 #define IS_DAY (gSaveContext.nightFlag == 0)
-#define IS_DAY2 (gSaveContext.nightFlag != 1)
+#define IS_NOT_NIGHT (gSaveContext.nightFlag != 1)
 
 #define SLOT(item) gItemSlots[item]
 #define INV_CONTENT(item) gSaveContext.inventory.items[SLOT(item)]

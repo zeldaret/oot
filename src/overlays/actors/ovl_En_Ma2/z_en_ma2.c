@@ -88,7 +88,7 @@ u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     if (gSaveContext.eventChkInf[1] & 0x100) {
         return 0x2056;
     }
-    if (IS_NIGHT2) {
+    if (IS_NOT_DAY) {
         if (gSaveContext.infTable[8] & 0x1000) {
             return 0x2052;
         } else if (gSaveContext.infTable[8] & 0x4000) {
@@ -149,24 +149,24 @@ void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
-    if (LINK_IS_CHILD2) {
+    if (LINK_IS_NOT_ADULT) {
         return 0;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) && (IS_DAY) &&
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) && IS_DAY &&
         (this->actor.shape.rot.z == 5)) {
         return 1;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_SPOT20) && (IS_NIGHT2) &&
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_SPOT20) && IS_NOT_DAY &&
         (this->actor.shape.rot.z == 6)) {
         return 2;
     }
     if ((!(gSaveContext.eventChkInf[1] & 0x100)) || (globalCtx->sceneNum != SCENE_SPOT20)) {
         return 0;
     }
-    if ((this->actor.shape.rot.z == 7) && (IS_DAY)) {
+    if ((this->actor.shape.rot.z == 7) && IS_DAY) {
         return 3;
     }
-    if ((this->actor.shape.rot.z == 8) && (IS_NIGHT2)) {
+    if ((this->actor.shape.rot.z == 8) && IS_NOT_DAY) {
         return 3;
     }
     return 0;
