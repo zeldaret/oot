@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_toki_hikari.c
+ * Overlay: ovl_Toki_Hikari
+ * Description: Temple of Time windows
+ */
+
 #include "z_bg_toki_hikari.h"
 
 #define FLAGS 0x00000020
@@ -81,12 +87,13 @@ void BgTokiHikari_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 }
+
 void func_808BA018(BgTokiHikari* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0xF6);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 246);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0xFC),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 252),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (gSaveContext.linkAge == 0) {
@@ -94,28 +101,26 @@ void func_808BA018(BgTokiHikari* this, GlobalContext* globalCtx) {
     } else {
         gSPDisplayList(POLY_OPA_DISP++, D_06007E20);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TexScroll(globalCtx->state.gfxCtx, 0, globalCtx->gameplayFrames & 0x7F, 0x40, 0x20));
+        gSPSegment(POLY_XLU_DISP++, 8,
+                   Gfx_TexScroll(globalCtx->state.gfxCtx, 0, globalCtx->gameplayFrames & 127, 64, 32));
 
-        gSPSegment(POLY_XLU_DISP++, 0x09,
-                   Gfx_TexScroll(globalCtx->state.gfxCtx, 0, globalCtx->gameplayFrames & 0x7F, 0x40, 0x20));
+        gSPSegment(POLY_XLU_DISP++, 9,
+                   Gfx_TexScroll(globalCtx->state.gfxCtx, 0, globalCtx->gameplayFrames & 127, 64, 32));
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x116),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 278),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gSPDisplayList(POLY_XLU_DISP++, D_06007EE0);
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x11C);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 284);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Toki_Hikari/func_808BA204.s")
 void func_808BA204(BgTokiHikari* this, GlobalContext* globalCtx) {
     if (globalCtx->unk_11D30[1] != 0) {
         this->actionFunc = func_808BA22C;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Toki_Hikari/func_808BA22C.s")
 void func_808BA22C(BgTokiHikari* this, GlobalContext* globalCtx) {
     if (this->unk_14C < 1.0f) {
         this->unk_14C += 0.05f;
@@ -125,7 +130,6 @@ void func_808BA22C(BgTokiHikari* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Toki_Hikari/func_808BA274.s")
 void func_808BA274(BgTokiHikari* this, GlobalContext* globalCtx) {
     if (this->unk_14C > 0.2f) {
         this->unk_14C -= 0.025f;
@@ -135,112 +139,53 @@ void func_808BA274(BgTokiHikari* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Toki_Hikari/func_808BA2CC.s")
-// void func_808BA2CC(BgTokiHikari* this, GlobalContext* globalCtx) {
-//     Gfx* sp8C;
-//     Gfx* sp7C;
-//     Gfx* sp78;
-//     Gfx* sp64;
-//     Gfx* sp50;
-//     Gfx* temp_a0;
-//     Gfx* temp_a0_2;
-//     Gfx* temp_a0_3;
-//     Gfx* temp_v0;
-//     Gfx* temp_v0_10;
-//     Gfx* temp_v0_2;
-//     Gfx* temp_v0_3;
-//     Gfx* temp_v0_4;
-//     Gfx* temp_v0_5;
-//     Gfx* temp_v0_6;
-//     Gfx* temp_v0_7;
-//     Gfx* temp_v0_8;
-//     Gfx* temp_v0_9;
-//     Gfx* temp_v1_2;
-//     Gfx* temp_v1_4;
-//     Gfx* temp_v1_6;
-//     GraphicsContext* temp_s0;
-//     f32 temp_f0_2;
-//     f32 temp_f0_3;
-//     f32 temp_f0_4;
-//     s32 temp_v1;
-//     s32 temp_v1_3;
-//     s32 temp_v1_5;
-//     s32 temp_v1_7;
+void func_808BA2CC(BgTokiHikari* this, GlobalContext* globalCtx) {
+    s32 pad[2];
 
-//     temp_s0 = globalCtx->state.gfxCtx;
-//     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x15E);
-//     Matrix_Translate(0.0f, 276.0f, 1122.0f, 0);
-//     Matrix_Scale(0.32f, 0.32f, this->unk_14C * 7.0f, 1);
-//     Matrix_RotateZ(M_PI, 1);
-//     func_80093D18(globalCtx->state.gfxCtx);
-//     Matrix_Push();
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x15E);
+    Matrix_Translate(0.0f, 276.0f, 1122.0f, 0);
+    Matrix_Scale(0.32f, 0.32f, this->unk_14C * 7.0f, 1);
+    Matrix_RotateZ(M_PI, 1);
+    func_80093D18(globalCtx->state.gfxCtx);
+    Matrix_Push();
+    gDPPipeSync(POLY_XLU_DISP++);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, (this->unk_14C * 255.0f), ((u8)(155.0f * this->unk_14C) + 0x64),
+                    (this->unk_14C * 255.0f), (this->unk_14C * 255.0f));
 
-//     gDPPipeSync(POLY_XLU_DISP++);
-//     temp_a0 = temp_s0->polyXlu.p;
-//     temp_s0->polyXlu.p = temp_a0 + 8;
-//     temp_a0->words.w0 = 0xFA000080;
-//     temp_v1 = (u32)(this->unk_14C * 255.0f) & 0xFF;
-//     temp_a0->words.w1 =
-//         (temp_v1 << 0x18) | ((((u32)(155.0f * this->unk_14C) + 0x64) & 0xFF) << 0x10) | (temp_v1 << 8) | temp_v1;
-//     temp_v1_2 = temp_s0->polyXlu.p;
-//     temp_s0->polyXlu.p = temp_v1_2 + 8;
-//     temp_v1_2->words.w0 = 0xFB000000;
-//     temp_f0_2 = this->unk_14C;
-//     temp_v1_2->words.w1 =
-//         (((u32)(temp_f0_2 * 155.0f) + 0x64) << 0x18) | (((u32)(255.0f * temp_f0_2) & 0xFF) << 0x10) | 0x80;
+    gDPSetEnvColor(POLY_XLU_DISP++, ((u8)(this->unk_14C * 155.0f) + 0x64), (u8)(255.0f * this->unk_14C), 0, 128);
 
-//     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x17E),
-//               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x17E),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-//     gSPSegment(POLY_XLU_DISP++, 0x08,
-//                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (0 - globalCtx->gameplayFrames & 0x7F) * 2, 0U, 0x20,
-//                0x40, 1, globalCtx->gameplayFrames & 0x7F * 4, 0, 0x20, 0x40));
+    gSPSegment(POLY_XLU_DISP++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -2 * (globalCtx->gameplayFrames & 0x7F), 0, 0x20, 0x40, 1,
+                                (globalCtx->gameplayFrames & 0x7F) * 4, 0, 0x20, 0x40));
 
-//     gSPDisplayList(POLY_XLU_DISP++, D_06000880);
-//     Matrix_Pull();
-//     Matrix_Push();
+    gSPDisplayList(POLY_XLU_DISP++, D_06000880);
+    Matrix_Pop();
+    Matrix_Push();
+    gDPPipeSync(POLY_XLU_DISP++);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (u8)(this->unk_14C * 200.0f));
 
-//     gDPPipeSync(POLY_XLU_DISP++);
+    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->unk_14C * 255.0f), (u8)(this->unk_14C * 255.0f),
+                   (u8)(this->unk_14C * 255.0f), (u8)(200.0f * this->unk_14C));
 
-//     temp_v1_4 = temp_s0->polyXlu.p;
-//     temp_s0->polyXlu.p = temp_v1_4 + 8;
-//     temp_v1_4->words.w0 = 0xFA000000;
-//     temp_v1_4->words.w1 = ((u32)(this->unk_14C * 200.0f) & 0xFF) | ~0xFF;
-//     temp_a0_2 = temp_s0->polyXlu.p;
-//     temp_s0->polyXlu.p = temp_a0_2 + 8;
-//     temp_a0_2->words.w0 = 0xFB000000;
-//     temp_f0_3 = this->unk_14C;
-//     temp_v1_5 = (u32)(temp_f0_3 * 255.0f) & 0xFF;
-//     temp_a0_2->words.w1 =
-//         (temp_v1_5 << 0x18) | (temp_v1_5 << 0x10) | (temp_v1_5 << 8) | ((u32)(200.0f * temp_f0_3) & 0xFF);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x19F),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-//     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x19F),
-//               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_XLU_DISP++, D_060009C0);
+    Matrix_Pop();
+    Matrix_Push();
+    gDPPipeSync(POLY_XLU_DISP++);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (u8)(this->unk_14C * 200.0f));
 
-//     gSPDisplayList(POLY_XLU_DISP++, D_060009C0);
-//     Matrix_Pull();
-//     Matrix_Push();
+    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->unk_14C * 255.0f), (u8)(this->unk_14C * 255.0f),
+                   (u8)(this->unk_14C * 255.0f), (u8)(200.0f * this->unk_14C));
 
-//     gDPPipeSync(POLY_XLU_DISP++);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 437),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-//     temp_v1_6 = temp_s0->polyXlu.p;
-//     temp_s0->polyXlu.p = temp_v1_6 + 8;
-//     temp_v1_6->words.w0 = 0xFA000000;
-//     temp_v1_6->words.w1 = ((u32)(this->unk_14C * 200.0f) & 0xFF) | ~0xFF;
-//     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0x12, 0x34, 0x56, 0x78);
-
-//     temp_a0_3 = temp_s0->polyXlu.p;
-//     temp_s0->polyXlu.p = temp_a0_3 + 8;
-//     temp_a0_3->words.w0 = 0xFB000000;
-//     temp_f0_4 = this->unk_14C;
-//     temp_v1_7 = (u32)(temp_f0_4 * 255.0f) & 0xFF;
-//     temp_a0_3->words.w1 =
-//         (temp_v1_7 << 0x18) | (temp_v1_7 << 0x10) | (temp_v1_7 << 8) | ((u32)(200.0f * temp_f0_4) & 0xFF);
-
-//     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x1B5),
-//               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-//     gSPDisplayList(POLY_XLU_DISP++, D_06000A10);
-//     Matrix_Pull();
-//     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 0x1BB);
-// }
+    gSPDisplayList(POLY_XLU_DISP++, D_06000A10);
+    Matrix_Pop();
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_hikari.c", 443);
+}

@@ -8,7 +8,6 @@ struct BgTokiHikari;
 
 typedef void (*BgTokiHikariActionFunc)(struct BgTokiHikari*, GlobalContext*);
 
-
 typedef struct BgTokiHikari {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ f32 unk_14C;
