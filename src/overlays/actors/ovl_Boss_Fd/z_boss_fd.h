@@ -4,8 +4,6 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define BOSSFD_EFFECT_COUNT 180
-
 struct BossFd;
 
 typedef void (*BossFdActionFunc)(struct BossFd*, GlobalContext*);
@@ -49,15 +47,16 @@ typedef struct BossFdEffect {
     /* 0x2C */ s16 timer2;
     /* 0x2E */ s16 kbAngle;
     /* 0x30 */ f32 scale;
-    /* 0x34 */ union {
-        f32 xRot;
-        f32 scaleMod;
-    };
-    /* 0x38 */ union {
-        f32 yRot;
-        f32 yStop;
-    };
+    /* 0x34 */ f32 bFdFxFloat1;
+    /* 0x38 */ f32 bFdFxFloat2;
 } BossFdEffect; // size = 0x3C
+
+#define BOSSFD_EFFECT_COUNT 180
+
+#define vFdFxRotX bFdFxFloat1
+#define vFdFxScaleMod bFdFxFloat1
+#define vFdFxRotY bFdFxFloat2
+#define vFdFxYStop bFdFxFloat2
 
 typedef enum {
     /* 0 */ BFD_FX_NONE,

@@ -85,8 +85,8 @@ void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdEffect* effect, Vec3f* 
             effect->velocity = *velocity;
             effect->accel = *acceleration;
             effect->scale = scale / 1000.0f;
-            effect->xRot = Rand_ZeroFloat(100.0f);
-            effect->yRot = Rand_ZeroFloat(100.0f);
+            effect->vFdFxRotX = Rand_ZeroFloat(100.0f);
+            effect->vFdFxRotY = Rand_ZeroFloat(100.0f);
             break;
         }
     }
@@ -106,9 +106,9 @@ void BossFd2_SpawnFireBreath(GlobalContext* globalCtx, BossFdEffect* effect, Vec
             effect->pos.x -= effect->velocity.x;
             effect->pos.y -= effect->velocity.y;
             effect->pos.z -= effect->velocity.z;
-            effect->scaleMod = 0.0f;
+            effect->vFdFxScaleMod = 0.0f;
             effect->alpha = alpha;
-            effect->yStop = Rand_ZeroFloat(10.0f);
+            effect->vFdFxYStop = Rand_ZeroFloat(10.0f);
             effect->timer2 = 0;
             effect->scale = scale / 400.0f;
             effect->kbAngle = kbAngle;
@@ -146,8 +146,8 @@ void BossFd2_SpawnSkullPiece(GlobalContext* globalCtx, BossFdEffect* effect, Vec
             effect->velocity = *velocity;
             effect->accel = *acceleration;
             effect->scale = scale / 1000.0f;
-            effect->xRot = Rand_ZeroFloat(100.0f);
-            effect->yRot = Rand_ZeroFloat(100.0f);
+            effect->vFdFxRotX = Rand_ZeroFloat(100.0f);
+            effect->vFdFxRotY = Rand_ZeroFloat(100.0f);
             break;
         }
     }
@@ -808,10 +808,10 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
     s16 i;
     ColliderInfo* hurtbox;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    
+
     if (this->actionFunc == BossFd2_ClawSwipe) {
         Player* player = PLAYER;
-        
+
         for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
             if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
                 this->collider.elements[i].info.toucherFlags &= ~TOUCH_HIT;
@@ -829,7 +829,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
 
     if (this->collider.elements[0].info.bumperFlags & BUMP_HIT) {
         this->collider.elements[0].info.bumperFlags &= ~BUMP_HIT;
-        
+
         hurtbox = this->collider.elements[0].info.acHitInfo;
         if (!bossFd->faceExposed) {
             if (hurtbox->toucher.dmgFlags & 0x40000040) {

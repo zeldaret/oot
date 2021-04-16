@@ -93,8 +93,8 @@ void BossFd_SpawnDebris(BossFdEffect* effect, Vec3f* position, Vec3f* velocity, 
             effect->velocity = *velocity;
             effect->accel = *acceleration;
             effect->scale = scale / 1000.0f;
-            effect->xRot = Rand_ZeroFloat(100.0f);
-            effect->yRot = Rand_ZeroFloat(100.0f);
+            effect->vFdFxRotX = Rand_ZeroFloat(100.0f);
+            effect->vFdFxRotY = Rand_ZeroFloat(100.0f);
             break;
         }
     }
@@ -130,9 +130,9 @@ void BossFd_SpawnFireBreath(BossFdEffect* effect, Vec3f* position, Vec3f* veloci
             effect->pos.x -= effect->velocity.x;
             effect->pos.y -= effect->velocity.y;
             effect->pos.z -= effect->velocity.z;
-            effect->scaleMod = 0.0f;
+            effect->vFdFxScaleMod = 0.0f;
             effect->alpha = alpha;
-            effect->yStop = Rand_ZeroFloat(10.0f);
+            effect->vFdFxYStop = Rand_ZeroFloat(10.0f);
             effect->timer2 = 0;
             effect->scale = scale / 400.0f;
             effect->kbAngle = kbAngle;
@@ -301,7 +301,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
     Math_ApproachF(&this->fwork[BFD_BODY_PULSE], 0.1f, 1.0f, 0.02);
 
-    //                                        Boss Intro Cutscene                                
+    //                                        Boss Intro Cutscene
 
     if (this->introState != BFD_CS_NONE) {
         Player* player2 = PLAYER;
@@ -549,8 +549,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->fwork[BFD_FLY_SPEED] = 5.0f;
     }
 
-
-    //                             Attacks and Death Cutscene 
+    //                             Attacks and Death Cutscene
 
     switch (this->work[BFD_ACTION_STATE]) {
         case BOSSFD_FLY_MAIN:
@@ -914,7 +913,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             break;
     }
 
-    //                                 Update body segments and mane                                        
+    //                                 Update body segments and mane
 
     if (!this->work[BFD_STOP_FLAG]) {
         s16 i4;
@@ -1467,8 +1466,8 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
                     effect->type = 0;
                 }
             } else if ((effect->type == BFD_FX_DEBRIS) || (effect->type == BFD_FX_SKULL_PIECE)) {
-                effect->xRot += 0.55f;
-                effect->yRot += 0.1f;
+                effect->vFdFxRotX += 0.55f;
+                effect->vFdFxRotY += 0.1f;
                 if (effect->pos.y <= 100.0f) {
                     effect->type = 0;
                 }
@@ -1495,10 +1494,10 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
                 }
                 if (effect->timer2 == 0) {
                     if (effect->scale < 2.5f) {
-                        effect->scale += effect->scaleMod;
-                        effect->scaleMod += 0.08f;
+                        effect->scale += effect->vFdFxScaleMod;
+                        effect->vFdFxScaleMod += 0.08f;
                     }
-                    if ((effect->pos.y <= (effect->yStop + 130.0f)) || (effect->timer1 >= 10)) {
+                    if ((effect->pos.y <= (effect->vFdFxYStop + 130.0f)) || (effect->timer1 >= 10)) {
                         effect->accel.y = 5.0f;
                         effect->timer2++;
                         effect->velocity.y = 0.0f;
@@ -1560,8 +1559,8 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_RotateY(effect->yRot, MTXMODE_APPLY);
-            Matrix_RotateX(effect->xRot, MTXMODE_APPLY);
+            Matrix_RotateY(effect->vFdFxRotY, MTXMODE_APPLY);
+            Matrix_RotateX(effect->vFdFxRotX, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4068),
@@ -1627,8 +1626,8 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            Matrix_RotateY(effect->yRot, MTXMODE_APPLY);
-            Matrix_RotateX(effect->xRot, MTXMODE_APPLY);
+            Matrix_RotateY(effect->vFdFxRotY, MTXMODE_APPLY);
+            Matrix_RotateX(effect->vFdFxRotX, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4192),

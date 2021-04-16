@@ -97,8 +97,8 @@ void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdEffect* effect, Vec3f*
             effect->velocity = *velocity;
             effect->accel = *acceleration;
             effect->scale = scale / 1000.0f;
-            effect->xRot = Rand_ZeroFloat(100.0f);
-            effect->yRot = Rand_ZeroFloat(100.0f);
+            effect->vFdFxRotX = Rand_ZeroFloat(100.0f);
+            effect->vFdFxRotY = Rand_ZeroFloat(100.0f);
             break;
         }
     }
