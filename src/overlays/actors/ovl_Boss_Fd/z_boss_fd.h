@@ -36,7 +36,7 @@ typedef enum {
     /* 6 */ BFD_CS_EMERGE
 } BossFdCutsceneState;
 
-typedef struct BossFdEffect {
+typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
@@ -67,7 +67,7 @@ typedef enum {
     /* 5 */ BFD_FX_SKULL_PIECE
 } BossFdEffectType;
 
-typedef struct BossFdMane {
+typedef struct {
     /* 0x000 */ Vec3f pos[30];
     /* 0x168 */ f32 scale[30];
     /* 0x1E0 */ Vec3f head;

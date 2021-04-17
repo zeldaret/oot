@@ -12,8 +12,6 @@
 
 #define THIS ((BgVbSima*)thisx)
 
-#define BOSSFD ((BossFd*)this->dyna.actor.parent)
-
 void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx);

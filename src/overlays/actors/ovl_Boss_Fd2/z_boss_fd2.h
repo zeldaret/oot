@@ -15,7 +15,7 @@ typedef enum {
     /* 100 */ FD2_SIGNAL_GROUND = 100
 } BossFd2Signal;
 
-typedef struct BossFd2Mane {
+typedef struct {
     /* 0x000 */ Vec3f rot[10];
     /* 0x078 */ Vec3f pos[10];
     /* 0x0F0 */ Vec3f pull[10];
