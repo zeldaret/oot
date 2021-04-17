@@ -21,7 +21,7 @@ EffectSsInit Effect_Ss_Bubble_InitVars = {
 u32 EffectSsBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsBubbleInitParams* initParams = (EffectSsBubbleInitParams*)initParamsx;
 
-    // @bug Rand_ZeroOne in the macro means a random number is generated for both parts of the macro.
+    //! @bug Rand_ZeroOne in the macro means a random number is generated for both parts of the macro.
     // In the base game this works out because both addresses are segment 4, but it may break if
     // the addresses were changed to refer to different segments
     this->gfx = SEGMENTED_TO_VIRTUAL(Rand_ZeroOne() < 0.5f ? &gEffBubble1Tex : &gEffBubble2Tex);

@@ -356,7 +356,7 @@ void EnPeehat_Flying_SetStateGround(EnPeehat* this) {
                      0.0f);
     this->seekPlayerTimer = 400;
     this->unk2D4 = 0;
-    this->unk2FA = 0; // @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
+    this->unk2FA = 0; //! @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
     this->state = PEAHAT_STATE_4;
     EnPeehat_SetupAction(this, EnPeehat_Flying_StateGrounded);
 }
@@ -474,7 +474,8 @@ void EnPeehat_Flying_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
             }
         }
         if (SkelAnime_Update(&this->skelAnime) || this->animTimer == 0) {
-            this->unk2FA = 0; // @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
+            this->unk2FA =
+                0; //! @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
             EnPeehat_Flying_SetStateFly(this);
         } else {
             this->actor.world.pos.y += 18.0f;

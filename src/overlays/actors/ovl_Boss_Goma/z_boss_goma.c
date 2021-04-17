@@ -841,7 +841,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             this->subCameraAt.z = this->actor.world.pos.z;
 
             if (this->framesUntilNextAction < 0) {
-                // @bug ? unreachable, timer is >= 0
+                //! @bug ? unreachable, timer is >= 0
                 SkelAnime_Update(&this->skelanime);
                 Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 2.0f);
             } else {
@@ -1078,7 +1078,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
                 for (i = 0; i < 4; i++) {
                     BossGoma_ClearPixels(sClearPixelTableFirstPass, this->decayingProgress);
-                    // @bug this allows this->decayingProgress = 0x100 = 256 which is out of bounds when accessing
+                    //! @bug this allows this->decayingProgress = 0x100 = 256 which is out of bounds when accessing
                     // sClearPixelTableFirstPass, though timers may prevent this from ever happening?
                     if (this->decayingProgress < 0x100) {
                         this->decayingProgress++;
@@ -1152,7 +1152,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
             for (i = 0; i < 4; i++) {
                 BossGoma_ClearPixels(sClearPixelTableSecondPass, this->decayingProgress);
-                // @bug same as sClearPixelTableFirstPass
+                //! @bug same as sClearPixelTableFirstPass
                 if (this->decayingProgress < 0x100) {
                     this->decayingProgress++;
                 }
@@ -1162,7 +1162,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
         case 3:
             for (i = 0; i < 4; i++) {
                 BossGoma_ClearPixels(sClearPixelTableSecondPass, this->decayingProgress);
-                // @bug same as sClearPixelTableFirstPass
+                //! @bug same as sClearPixelTableFirstPass
                 if (this->decayingProgress < 0x100) {
                     this->decayingProgress++;
                 }

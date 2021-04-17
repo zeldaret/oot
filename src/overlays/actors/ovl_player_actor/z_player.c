@@ -3657,7 +3657,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
         } else {
             sp64 = (this->shieldQuad.base.acFlags & AC_BOUNCED) != 0;
 
-            // @bug The second set of conditions here seems intended as a way for Link to "block" hits by rolling.
+            //! @bug The second set of conditions here seems intended as a way for Link to "block" hits by rolling.
             // However, `Collider.atFlags` is a byte so the flag check at the end is incorrect and cannot work.
             // Additionally, `Collider.atHit` can never be set while already colliding as AC, so it's also bugged.
             // This behavior was later fixed in MM, most likely by removing both the `atHit` and `atFlags` checks.

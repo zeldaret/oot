@@ -322,7 +322,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         GfxPool* pool = &gGfxPools[gfxCtx->gfxPoolIdx & 1];
 
         if (pool->headMagic != GFXPOOL_HEAD_MAGIC) {
-            // @bug (?) : devs might've forgotten "problem = true;"
+            //! @bug (?) : devs might've forgotten "problem = true;"
             osSyncPrintf("%c", 7);
             // Dynamic area head is destroyed
             osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" VT_RST);

@@ -1232,7 +1232,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                     case 0xE4:
                         if (scriptState->value != -1) {
                             data = (*channel->dynTable)[scriptState->value];
-                            // @bug: Missing a stack depth check here
+                            //! @bug: Missing a stack depth check here
                             scriptState->stack[scriptState->depth++] = scriptState->pc;
                             offset = (u16)((data[0] << 8) + data[1]);
                             scriptState->pc = player->seqData + offset;
