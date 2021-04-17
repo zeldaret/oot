@@ -1339,8 +1339,7 @@ endseg
 beginseg
     name "ovl_Bg_Vb_Sima"
     include "build/src/overlays/actors/ovl_Bg_Vb_Sima/z_bg_vb_sima.o"
-    include "build/data/overlays/actors/z_bg_vb_sima.data.o"
-    include "build/data/overlays/actors/z_bg_vb_sima.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Vb_Sima/ovl_Bg_Vb_Sima_reloc.o"
 endseg
 
 beginseg
@@ -1376,15 +1375,17 @@ endseg
 beginseg
     name "ovl_Boss_Fd"
     include "build/src/overlays/actors/ovl_Boss_Fd/z_boss_fd.o"
-    include "build/data/overlays/actors/z_boss_fd.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Boss_Fd/ovl_Boss_Fd_reloc.o"
+#else
     include "build/data/overlays/actors/z_boss_fd.reloc.o"
+#endif
 endseg
 
 beginseg
     name "ovl_Boss_Fd2"
     include "build/src/overlays/actors/ovl_Boss_Fd2/z_boss_fd2.o"
-    include "build/data/overlays/actors/z_boss_fd2.data.o"
-    include "build/data/overlays/actors/z_boss_fd2.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Fd2/ovl_Boss_Fd2_reloc.o"
 endseg
 
 beginseg
@@ -3028,8 +3029,7 @@ endseg
 beginseg
     name "ovl_En_Vb_Ball"
     include "build/src/overlays/actors/ovl_En_Vb_Ball/z_en_vb_ball.o"
-    include "build/data/overlays/actors/z_en_vb_ball.data.o"
-    include "build/data/overlays/actors/z_en_vb_ball.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Vb_Ball/ovl_En_Vb_Ball_reloc.o"
 endseg
 
 beginseg
@@ -4312,7 +4312,8 @@ endseg
 beginseg
     name "object_fd"
     romalign 0x1000
-    include "build/baserom/object_fd.o"
+    include "build/assets/objects/object_fd/object_fd.o"
+    number 6
 endseg
 
 beginseg
@@ -4363,7 +4364,8 @@ endseg
 beginseg
     name "object_fd2"
     romalign 0x1000
-    include "build/baserom/object_fd2.o"
+    include "build/assets/objects/object_fd2/object_fd2.o"
+    number 6
 endseg
 
 beginseg
