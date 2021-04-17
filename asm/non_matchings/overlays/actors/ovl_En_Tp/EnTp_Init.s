@@ -70,7 +70,7 @@ glabel EnTp_Init
 /* 000FC 80B20EDC 8E620190 */  lw      $v0, 0x0190($s3)           ## 00000190
 /* 00100 80B20EE0 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00104 80B20EE4 844E0036 */  lh      $t6, 0x0036($v0)           ## 00000036
-/* 00108 80B20EE8 0C2C86E4 */  jal     func_80B21B90              
+/* 00108 80B20EE8 0C2C86E4 */  jal     EnTp_Head_SetupWait              
 /* 0010C 80B20EEC A44E002E */  sh      $t6, 0x002E($v0)           ## 0000002E
 /* 00110 80B20EF0 8E780024 */  lw      $t8, 0x0024($s3)           ## 00000024
 /* 00114 80B20EF4 8E790004 */  lw      $t9, 0x0004($s3)           ## 00000004
@@ -149,12 +149,12 @@ glabel EnTp_Init
 .L80B21000:
 /* 00220 80B21000 14600005 */  bne     $v1, $zero, .L80B21018     
 /* 00224 80B21004 00000000 */  nop
-/* 00228 80B21008 0C2C8421 */  jal     func_80B21084              
+/* 00228 80B21008 0C2C8421 */  jal     EnTp_Tail_SetupFollowHead              
 /* 0022C 80B2100C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00230 80B21010 10000004 */  beq     $zero, $zero, .L80B21024   
 /* 00234 80B21014 8FBF006C */  lw      $ra, 0x006C($sp)           
 .L80B21018:
-/* 00238 80B21018 0C2C85FF */  jal     func_80B217FC              
+/* 00238 80B21018 0C2C85FF */  jal     EnTp_Fragment_SetupFade              
 /* 0023C 80B2101C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00240 80B21020 8FBF006C */  lw      $ra, 0x006C($sp)           
 .L80B21024:

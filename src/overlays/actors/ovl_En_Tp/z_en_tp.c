@@ -16,20 +16,30 @@ void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTp_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B21084(EnTp* this);
-void func_80B210B0(EnTp* this, GlobalContext* globalCtx);
-void func_80B2128C(EnTp* this);
-void func_80B212C0(EnTp* this, GlobalContext* globalCtx);
-void func_80B21454(EnTp* this);
-void func_80B214CC(EnTp* this, GlobalContext* globalCtx);
-void func_80B217FC(EnTp* this);
-void func_80B21900(EnTp* this, GlobalContext* globalCtx);
-void func_80B2194C(EnTp* this);
-void func_80B219A8(EnTp* this, GlobalContext* globalCtx);
-void func_80B21B90(EnTp* this);
-void func_80B21BDC(EnTp* this, GlobalContext* globalCtx);
-void func_80B21EE8(EnTp* this);
-void func_80B21F18(EnTp* this, GlobalContext* globalCtx);
+void EnTp_Tail_SetupFollowHead(EnTp* this);
+void EnTp_Tail_FollowHead(EnTp* this, GlobalContext* globalCtx);
+void EnTp_Head_SetupApproachPlayer(EnTp* this);
+void EnTp_Head_ApproachPlayer(EnTp* this, GlobalContext* globalCtx);
+void EnTp_SetupDie(EnTp* this);
+void EnTp_Die(EnTp* this, GlobalContext* globalCtx);
+void EnTp_Fragment_SetupFade(EnTp* this);
+void EnTp_Fragment_Fade(EnTp* this, GlobalContext* globalCtx);
+void EnTp_Head_SetupTakeOff(EnTp* this);
+void EnTp_Head_TakeOff(EnTp* this, GlobalContext* globalCtx);
+void EnTp_Head_SetupWait(EnTp* this);
+void EnTp_Head_Wait(EnTp* this, GlobalContext* globalCtx);
+void EnTp_Head_SetupBurrowReturnHome(EnTp* this);
+void EnTp_Head_BurrowReturnHome(EnTp* this, GlobalContext* globalCtx);
+
+typedef enum {
+    /* 0 */ TAILPASARAN_ACTION_FRAGMENT_FADE,
+    /* 1 */ TAILPASARAN_ACTION_DIE,
+    /* 2 */ TAILPASARAN_ACTION_TAIL_FOLLOWHEAD,
+    /* 4 */ TAILPASARAN_ACTION_HEAD_WAIT = 4,
+    /* 7 */ TAILPASARAN_ACTION_HEAD_APPROACHPLAYER = 7,
+    /* 8 */ TAILPASARAN_ACTION_HEAD_TAKEOFF,
+    /* 9 */ TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME
+} TailpasaranAction;
 
 const ActorInit En_Tp_InitVars = {
     ACTOR_EN_TP,
@@ -70,39 +80,46 @@ static ColliderJntSphInit D_80B22AB4 = {
     D_80B22A90,
 };
 
+typedef enum {
+    /* 00 */ TAILPASARAN_DMGEFF_NONE, // No effect
+    /* 01 */ TAILPASARAN_DMGEFF_DEKUNUT,
+    /* 14 */ TAILPASARAN_DMGEFF_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
+    /* 15 */ TAILPASARAN_DMGEFF_INSULATING // Kills the Tailpasaran and does not shock Player
+} TailpasaranDamageEffect;
+
 static DamageTable D_80B22AC4 = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x1),
-    /* Deku stick    */ DMG_ENTRY(2, 0xF),
-    /* Slingshot     */ DMG_ENTRY(0, 0x0),
-    /* Explosive     */ DMG_ENTRY(0, 0x0),
-    /* Boomerang     */ DMG_ENTRY(1, 0xF),
-    /* Normal arrow  */ DMG_ENTRY(0, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0xE),
-    /* Hookshot      */ DMG_ENTRY(0, 0x0),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0xE),
-    /* Master sword  */ DMG_ENTRY(2, 0xE),
-    /* Giant's Knife */ DMG_ENTRY(4, 0xE),
-    /* Fire arrow    */ DMG_ENTRY(0, 0x0),
-    /* Ice arrow     */ DMG_ENTRY(0, 0x0),
-    /* Light arrow   */ DMG_ENTRY(0, 0x0),
-    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
-    /* Fire magic    */ DMG_ENTRY(0, 0x0),
-    /* Ice magic     */ DMG_ENTRY(0, 0x0),
-    /* Light magic   */ DMG_ENTRY(0, 0x0),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0xE),
-    /* Giant spin    */ DMG_ENTRY(4, 0xE),
-    /* Master spin   */ DMG_ENTRY(2, 0xE),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0xE),
-    /* Giant jump    */ DMG_ENTRY(8, 0xE),
-    /* Master jump   */ DMG_ENTRY(4, 0xE),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0xE),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_DEKUNUT),
+    /* Deku stick    */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_INSULATING),
+    /* Slingshot     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Explosive     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Boomerang     */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_INSULATING),
+    /* Normal arrow  */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Hookshot      */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Master sword  */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Giant's Knife */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Fire arrow    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Ice arrow     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Light arrow   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Fire magic    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Ice magic     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Light magic   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Shield        */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Giant spin    */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Master spin   */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Kokiri jump   */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Giant jump    */ DMG_ENTRY(8, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Master jump   */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Unknown 1     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, TAILPASARAN_DMGEFF_SHOCKING),
+    /* Unknown 2     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
 };
 
 // sInitChain
@@ -116,7 +133,7 @@ void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-// #ifdef NON_MATCHING
+#ifdef NON_MATCHING
 // Regalloc, some stack, and compiler refuses to put zero in temp_s4; all seems to be related
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
@@ -135,32 +152,31 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->unk_150 = 0;
     this->actor.colChkInfo.health = 1;
     now = this;
-    this->unk_15E = 255;
+    this->alpha = 255;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80B22AB4, this->colliderItems);
 
-    if (this->actor.params < 0) {
+    if (this->actor.params <= TAILPASARAN_HEAD) {
         this->actor.naviEnemyId = 6;
         this->unk_15A = 0;
-        this->collider.base.acFlags |= 4;
+        this->collider.base.acFlags |= AC_HARD;
         this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;
-        func_80B21B90(this);
+        EnTp_Head_SetupWait(this);
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.flags |= 0x15;
         Actor_SetScale(&this->actor, 1.5f);
 
         for (i = 0; i <= 6; i++) {
-        temp_s4 = 0;
-        // new_var = 0;
-            next =
-            (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
-                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
+            temp_s4 = 0;
+            // new_var = 0;
+            next = (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
+                                      this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
 
             if (next != NULL) {
                 now->actor.child = &next->actor;
                 next->actor.parent = &now->actor;
-                next->unk_162 = i + 1;
-                next->unk_1D4 = this;
+                next->kiraSpawnTimer = i + 1;
+                next->head = this;
                 Actor_SetScale(&next->actor, 0.3f);
 
                 if (i == 2) {
@@ -168,22 +184,20 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     next->unk_150 = 1;
                 }
 
-
-                next->unk_15A = next->unk_15C  = i * -5;
+                next->unk_15A = next->unk_15C = i * -5;
                 next->unk_16C = 6.0f - (i * 0.75f);
                 now = next;
             }
         }
-    } else if (this->actor.params == 0) {
-        func_80B21084(this);
+    } else if (this->actor.params == TAILPASARAN_TAIL) {
+        EnTp_Tail_SetupFollowHead(this);
     } else {
-        func_80B217FC(this);
+        EnTp_Fragment_SetupFade(this);
     }
 }
-
-// #else
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-// #endif
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
+#endif
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Destroy.s")
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -192,69 +206,69 @@ void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21084.s")
-void func_80B21084(EnTp* this) {
-    this->unk_14C = 2;
-    EnTp_SetupAction(this, func_80B210B0);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21084.s")
+void EnTp_Tail_SetupFollowHead(EnTp* this) {
+    this->unk_14C = TAILPASARAN_ACTION_TAIL_FOLLOWHEAD;
+    EnTp_SetupAction(this, EnTp_Tail_FollowHead);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B210B0.s")
-void func_80B210B0(EnTp* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B210B0.s")
+void EnTp_Tail_FollowHead(EnTp* this, GlobalContext* globalCtx) {
     s16 sp36;
     s16 temp_a0;
 
-    if (this->actor.params == 0xB) {
-        this->unk_14C = 1;
+    if (this->actor.params == TAILPASARAN_TAIL_DYING) {
+        this->unk_14C = TAILPASARAN_ACTION_DIE;
 
         if (this->actor.parent == NULL) {
-            func_80B21454(this);
+            EnTp_SetupDie(this);
         }
     } else {
         if (this->unk_150 != 0) {
             this->actor.flags |= 1;
         }
 
-        if (this->unk_1D4->unk_150 != 0) {
-            this->actor.speedXZ = this->unk_160 = this->actor.velocity.y = this->unk_168 = 0.0f;
-            if (this->actor.world.pos.y < this->unk_1D4->actor.home.pos.y) {
+        if (this->head->unk_150 != 0) {
+            this->actor.speedXZ = this->red = this->actor.velocity.y = this->unk_168 = 0.0f;
+            if (this->actor.world.pos.y < this->head->actor.home.pos.y) {
                 this->actor.flags &= ~1;
             }
 
             this->actor.world.pos = this->actor.parent->prevPos;
         } else {
             Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.parent->world.pos.y - 4.0f, 1.0f, 1.0f, 0.0f);
-            sp36 = this->unk_1D4->actor.shape.rot.y + 0x4000;
-            temp_a0 = 2000 * (this->unk_1D4->unk_15C + this->unk_15A);
+            sp36 = this->head->actor.shape.rot.y + 0x4000;
+            temp_a0 = 2000 * (this->head->unk_15C + this->unk_15A);
             this->actor.world.pos.x = this->actor.home.pos.x + Math_SinS(temp_a0) * (Math_SinS(sp36) * this->unk_16C);
             this->actor.world.pos.z = this->actor.home.pos.z + Math_SinS(temp_a0) * (Math_CosS(sp36) * this->unk_16C);
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B2128C.s")
-void func_80B2128C(EnTp* this) {
-    this->unk_14C = 7;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B2128C.s")
+void EnTp_Head_SetupApproachPlayer(EnTp* this) {
+    this->unk_14C = TAILPASARAN_ACTION_HEAD_APPROACHPLAYER;
     this->unk_15A = 200;
-    EnTp_SetupAction(this, func_80B212C0);
+    EnTp_SetupAction(this, EnTp_Head_ApproachPlayer);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B212C0.s")
-void func_80B212C0(EnTp* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B212C0.s")
+void EnTp_Head_ApproachPlayer(EnTp* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
     Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                            &D_801333E8);
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         if (&player->actor == this->collider.base.at) {
             this->unk_15A = 1;
         }
     }
 
-    if (this->unk_160 < 255) {
-        this->unk_160 += 15;
+    if (this->red < 255) {
+        this->red += 15;
     }
 
     if (Math_CosF(this->unk_168) == 0.0f) {
@@ -270,30 +284,30 @@ void func_80B212C0(EnTp* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 750, 0);
         this->actor.shape.rot.y = this->actor.world.rot.y;
     } else {
-        func_80B21EE8(this);
+        EnTp_Head_SetupBurrowReturnHome(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21454.s")
-void func_80B21454(EnTp* this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21454.s")
+void EnTp_SetupDie(EnTp* this) {
     Actor* phi_v0;
 
     this->unk_15A = 2;
-    if (this->actor.params < 0) {
+    if (this->actor.params <= TAILPASARAN_HEAD) {
         for (phi_v0 = this->actor.child; phi_v0 != NULL; phi_v0 = phi_v0->child) {
-            phi_v0->params = 0xB;
+            phi_v0->params = TAILPASARAN_TAIL_DYING;
             phi_v0->colChkInfo.health = 0;
         }
 
         this->unk_15A = 13;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
-    this->unk_14C = 1;
-    EnTp_SetupAction(this, func_80B214CC);
+    this->unk_14C = TAILPASARAN_ACTION_DIE;
+    EnTp_SetupAction(this, EnTp_Die);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B214CC.s")
-void func_80B214CC(EnTp* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B214CC.s")
+void EnTp_Die(EnTp* this, GlobalContext* globalCtx) {
     EnTp* temp_v0;
     s16 phi_s1;
     s32 pad;
@@ -303,7 +317,7 @@ void func_80B214CC(EnTp* this, GlobalContext* globalCtx) {
     this->unk_15A--;
 
     if (this->unk_15A <= 0) {
-        if (this->actor.params == 0xC) {
+        if (this->actor.params == TAILPASARAN_HEAD_DYING) {
             effectPos.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             effectPos.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
             effectPos.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
@@ -318,19 +332,20 @@ void func_80B214CC(EnTp* this, GlobalContext* globalCtx) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
         } else {
             for (phi_s1 = 0; phi_s1 < 1; phi_s1++) {
-                temp_v0 = (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
-                                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0xA);
+                temp_v0 =
+                    (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
+                                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, TAILPASARAN_FRAGMENT);
 
                 if (temp_v0 != NULL) {
                     Actor_SetScale(&temp_v0->actor, this->actor.scale.z * 0.5f);
-                    temp_v0->unk_160 = this->unk_160;
+                    temp_v0->red = this->red;
                 }
             }
         }
 
         if (this->actor.child != NULL) {
             this->actor.child->parent = NULL;
-            this->actor.child->params = 0xB;
+            this->actor.child->params = TAILPASARAN_TAIL_DYING;
             this->actor.child->colChkInfo.health = 0;
         }
 
@@ -339,9 +354,9 @@ void func_80B214CC(EnTp* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B217FC.s")
-void func_80B217FC(EnTp* this) {
-    this->unk_14C = 0;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B217FC.s")
+void EnTp_Fragment_SetupFade(EnTp* this) {
+    this->unk_14C = TAILPASARAN_ACTION_FRAGMENT_FADE;
     this->actor.world.pos.x += ((Rand_ZeroOne() - 0.5f) * 5.0f);
     this->actor.world.pos.y += ((Rand_ZeroOne() - 0.5f) * 5.0f);
     this->actor.world.pos.z += ((Rand_ZeroOne() - 0.5f) * 5.0f);
@@ -349,29 +364,32 @@ void func_80B217FC(EnTp* this) {
     this->actor.velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.flags &= ~1;
-    EnTp_SetupAction(this, func_80B21900);
+    EnTp_SetupAction(this, EnTp_Fragment_Fade);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21900.s")
-void func_80B21900(EnTp* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21900.s")
+void EnTp_Fragment_Fade(EnTp* this, GlobalContext* globalCtx) {
     func_8002D7EC(&this->actor);
-    this->unk_15E -= 20;
+    this->alpha -= 20;
 
-    if (this->unk_15E < 20) {
-        this->unk_15E = 0;
+    if (this->alpha < 20) {
+        this->alpha = 0;
         Actor_Kill(&this->actor);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B2194C.s")
-void func_80B2194C(EnTp* this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B2194C.s")
+void EnTp_Head_SetupTakeOff(EnTp* this) {
     this->unk_15A = (s32)((Rand_ZeroOne() * 15.0f) + 40.0f);
-    this->unk_14C = 8;
-    EnTp_SetupAction(this, func_80B219A8);
+    this->unk_14C = TAILPASARAN_ACTION_HEAD_TAKEOFF;
+    EnTp_SetupAction(this, EnTp_Head_TakeOff);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B219A8.s")
-void func_80B219A8(EnTp* this, GlobalContext* globalCtx) {
+/**
+ * Flies up and loops around until it makes for Player
+ */
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B219A8.s")
+void EnTp_Head_TakeOff(EnTp* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
 
@@ -381,15 +399,15 @@ void func_80B219A8(EnTp* this, GlobalContext* globalCtx) {
     Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                            &D_801333E8);
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         if (&player->actor == this->collider.base.at) {
             this->unk_15C = 1;
         }
     }
 
-    if (this->unk_160 != 0) {
-        this->unk_160 -= 15;
+    if (this->red != 0) {
+        this->red -= 15;
     }
 
     if (Math_CosF(this->unk_168) == 0.0f) {
@@ -408,33 +426,36 @@ void func_80B219A8(EnTp* this, GlobalContext* globalCtx) {
                        0);
 
     if (this->unk_15A == 0) {
-        func_80B2128C(this);
+        EnTp_Head_SetupApproachPlayer(this);
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21B90.s")
-void func_80B21B90(EnTp* this) {
-    this->unk_14C = 4;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21B90.s")
+void EnTp_Head_SetupWait(EnTp* this) {
+    this->unk_14C = TAILPASARAN_ACTION_HEAD_WAIT;
     this->unk_150 = 0;
     this->actor.shape.rot.x = -0x4000;
     this->unk_15A = 60;
     this->unk_15C = 0;
     this->actor.speedXZ = 0.0f;
-    EnTp_SetupAction(this, func_80B21BDC);
+    EnTp_SetupAction(this, EnTp_Head_Wait);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21BDC.s")
-void func_80B21BDC(EnTp* this, GlobalContext* globalCtx) {
+/**
+ * Awaken and rise from the ground when Player is closer than 200
+ */
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21BDC.s")
+void EnTp_Head_Wait(EnTp* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 sp32;
 
     this->unk_15C--;
 
     if (this->actor.xzDistToPlayer < 200.0f) {
-        if (this->collider.base.atFlags & 2) {
-            this->collider.base.atFlags &= ~2;
+        if (this->collider.base.atFlags & AT_HIT) {
+            this->collider.base.atFlags &= ~AT_HIT;
             if (&player->actor == this->collider.base.at) {
                 this->unk_15A = 0;
             }
@@ -455,7 +476,7 @@ void func_80B21BDC(EnTp* this, GlobalContext* globalCtx) {
         } else {
             this->actor.shape.rot.x = 0;
             this->unk_150 = 1;
-            func_80B2194C(this);
+            EnTp_Head_SetupTakeOff(this);
         }
     } else {
         Math_SmoothStepToS(&this->actor.shape.rot.x, -0x4000, 1, 500, 0);
@@ -472,21 +493,22 @@ void func_80B21BDC(EnTp* this, GlobalContext* globalCtx) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
+
     if (this->actor.world.pos.y != this->actor.home.pos.y) {
         Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21EE8.s")
-void func_80B21EE8(EnTp* this) {
-    this->unk_14C = 9;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21EE8.s")
+void EnTp_Head_SetupBurrowReturnHome(EnTp* this) {
+    this->unk_14C = TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME;
     this->unk_15A = 0;
-    EnTp_SetupAction(this, func_80B21F18);
+    EnTp_SetupAction(this, EnTp_Head_BurrowReturnHome);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21F18.s")
-void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21F18.s")
+void EnTp_Head_BurrowReturnHome(EnTp* this, GlobalContext* globalCtx) {
     static Vec3f bubbleAccel = { 0.0f, -0.5f, 0.0f };
     static Color_RGBA8 bubblePrimColor = { 255, 255, 255, 255 };
     static Color_RGBA8 bubbleEnvColor = { 150, 150, 150, 0 };
@@ -505,7 +527,7 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
         temp_v0 = this->unk_15A;
 
         if (temp_v0 == 0) {
-            func_80B21B90(this);
+            EnTp_Head_SetupWait(this);
 
             for (phi_v0 = (EnTp*)this->actor.child; phi_v0 != NULL; phi_v0 = (EnTp*)phi_v0->actor.child) {
                 phi_v0->unk_15C = phi_v0->unk_15A;
@@ -533,8 +555,8 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.x -= 0x400;
         }
 
-        if (this->unk_160 != 0) {
-            this->unk_160 -= 15;
+        if (this->red != 0) {
+            this->red -= 15;
         }
 
         this->actor.speedXZ = 2.0f * Math_CosS(this->actor.shape.rot.x);
@@ -563,45 +585,46 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B221E8.s")
-void func_80B221E8(EnTp* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B221E8.s")
+void EnTp_UpdateDamage(EnTp* this, GlobalContext* globalCtx) {
     s32 phi_s2;
     s32 phi_s4;
     EnTp* temp_s0; // Can eliminate this and just use phi_s0, but they're used differently
     EnTp* phi_s0;
 
-    if ((this->collider.base.acFlags & 2) && (this->unk_14C >= 2)) {
+    if ((this->collider.base.acFlags & AC_HIT) && (this->unk_14C >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD)) {
         phi_s4 = phi_s2 = 0;
 
-        if (this->actor.params < 0) {
+        if (this->actor.params <= TAILPASARAN_HEAD) {
             phi_s2 = 1;
         }
 
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
         func_8003573C(&this->actor, &this->collider, 1);
-        this->unk_158 = this->actor.colChkInfo.damageEffect;
+        this->damageEffect = this->actor.colChkInfo.damageEffect;
 
-        if (this->actor.colChkInfo.damageEffect != 0) {
-            if (this->actor.colChkInfo.damageEffect == 1) {
+        if (this->actor.colChkInfo.damageEffect != TAILPASARAN_DMGEFF_NONE) {
+            if (this->actor.colChkInfo.damageEffect == TAILPASARAN_DMGEFF_DEKUNUT) {
                 phi_s4 = 1;
             }
 
+            // Head is invincible
             if (phi_s2 == 0) {
                 Actor_ApplyDamage(&this->actor);
             }
 
             if (this->actor.colChkInfo.health == 0) {
                 this->actor.flags &= ~1;
-                temp_s0 = this->unk_1D4;
+                temp_s0 = this->head;
 
-                if (temp_s0->actor.params < 0) {
-                    func_80B21454(temp_s0);
-                    temp_s0->unk_158 = this->actor.colChkInfo.damageEffect;
-                    temp_s0->actor.params = 0xC;
+                if (temp_s0->actor.params <= TAILPASARAN_HEAD) {
+                    EnTp_SetupDie(temp_s0);
+                    temp_s0->damageEffect = this->actor.colChkInfo.damageEffect;
+                    temp_s0->actor.params = TAILPASARAN_HEAD_DYING;
                 }
             } else {
                 if (phi_s4 != 0) {
-                    this->actor.freezeTimer = 0x50;
+                    this->actor.freezeTimer = 80;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     if (phi_s2 != 0) {
                         Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
@@ -611,10 +634,10 @@ void func_80B221E8(EnTp* this, GlobalContext* globalCtx) {
                 }
 
                 for (phi_s0 = (EnTp*)this->actor.parent; phi_s0 != NULL; phi_s0 = (EnTp*)phi_s0->actor.parent) {
-                    phi_s0->collider.base.acFlags &= ~2;
+                    phi_s0->collider.base.acFlags &= ~AC_HIT;
 
                     if (phi_s4 != 0) {
-                        phi_s0->actor.freezeTimer = 0x50;
+                        phi_s0->actor.freezeTimer = 80;
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
 
                         if (phi_s2 != 0) {
@@ -626,9 +649,9 @@ void func_80B221E8(EnTp* this, GlobalContext* globalCtx) {
                 }
 
                 for (phi_s0 = (EnTp*)this->actor.child; phi_s0 != NULL; phi_s0 = (EnTp*)phi_s0->actor.child) {
-                    phi_s0->collider.base.acFlags &= ~2;
+                    phi_s0->collider.base.acFlags &= ~AC_HIT;
                     if (phi_s4 != 0) {
-                        phi_s0->actor.freezeTimer = 0x50;
+                        phi_s0->actor.freezeTimer = 80;
 
                         if (phi_s2 != 0) {
                             Actor_SetColorFilter(&phi_s0->actor, 0, 0xFF, 0, 0x50);
@@ -654,30 +677,32 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 yawToWall;
 
-    if (player->stateFlags1 & 0x4000000) {
-        this->unk_158 = 0;
+    if (player->stateFlags1 & 0x4000000) { // Shielding
+        this->damageEffect = TAILPASARAN_DMGEFF_NONE;
     }
 
     if (this->actor.colChkInfo.health != 0) {
-        func_80B221E8(this, globalCtx);
+        EnTp_UpdateDamage(this, globalCtx);
     }
 
     this->actionFunc(this, globalCtx);
 
-    if (this->actor.params < 0) {
+    if (this->actor.params <= TAILPASARAN_HEAD) {
         Actor_MoveForward(&this->actor);
 
-        if (this->unk_14C != 9) {
+        if (this->unk_14C != TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 15.0f, 10.0f, 5);
         }
+
+        // Turn away from wall
         if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 8)) {
             yawToWall = this->actor.wallYaw - this->actor.world.rot.y;
 
             if (ABS(yawToWall) > 0x4000) {
                 if (yawToWall >= 0) {
-                    this->actor.world.rot.y -= 0x1F4;
+                    this->actor.world.rot.y -= 500;
                 } else {
-                    this->actor.world.rot.y += 0x1F4;
+                    this->actor.world.rot.y += 500;
                 }
 
                 this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -691,23 +716,24 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
                                    &D_801333E8);
         }
 
-        if (this->unk_14C >= 2) {
+        if (this->unk_14C >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
-    if (this->actor.params != 0xB) {
-        this->unk_162--;
-        this->unk_162 &= 7;
+
+    if (this->actor.params != TAILPASARAN_TAIL_DYING) {
+        this->kiraSpawnTimer--;
+        this->kiraSpawnTimer &= 7;
     }
 
     this->actor.focus.pos = this->actor.world.pos;
 
-    if (this->unk_158 == 0xE) {
+    if (this->damageEffect == TAILPASARAN_DMGEFF_SHOCKING) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
-    if ((this->unk_162 & 7) == 0) {
-        kiraPrimColor.r = this->unk_160;
+    if ((this->kiraSpawnTimer & 7) == 0) {
+        kiraPrimColor.r = this->red;
         kiraAccel.x = -this->actor.velocity.x * 0.25f;
         kiraAccel.y = -this->actor.velocity.y * 0.25f;
         kiraAccel.z = -this->actor.velocity.z * 0.25f;
@@ -717,12 +743,11 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
         EffectSsKiraKira_SpawnSmall(globalCtx, &kiraPos, &kiraVelocity, &kiraAccel, &kiraPrimColor, &kiraEnvColor);
     }
 
-    if ((this->unk_14C >= 2) && (this->actor.colChkInfo.health != 0)) {
+    if ((this->unk_14C >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD) && (this->actor.colChkInfo.health != 0)) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
-// Matching, but permuter doesn't like it
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Draw.s")
 void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -731,10 +756,10 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tp.c", 1451);
 
     if (this->unk_150 != 2) {
-        if ((thisx->params < 0) || (thisx->params == 0xC)) {
+        if ((thisx->params <= TAILPASARAN_HEAD) || (thisx->params == TAILPASARAN_HEAD_DYING)) {
             func_80093D18(globalCtx->state.gfxCtx);
 
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5B3),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 1459),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gTailpasaranHeadDL);
 
@@ -743,7 +768,7 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_80093D84(globalCtx->state.gfxCtx);
             func_800D1FD4(&globalCtx->mf_11DA0);
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->unk_160, 0, 255, this->unk_15E);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->red, 0, 255, this->alpha);
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,
                               TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,
@@ -751,7 +776,7 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPPipeSync(POLY_XLU_DISP++);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gTailpasaranTailSegmentTex));
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5C8),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 1480),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gTailpasaranTailSegmentDL);
         }
@@ -759,7 +784,7 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tp.c", 1495);
 
-    if ((thisx->params <= 0) || (thisx->params == 0xB)) {
+    if ((thisx->params <= TAILPASARAN_TAIL) || (thisx->params == TAILPASARAN_TAIL_DYING)) {
         Collider_UpdateSpheres(0, &this->collider);
     }
 }
