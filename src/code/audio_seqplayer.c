@@ -1255,7 +1255,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         channel->panChannelWeight = data[-2];
                         channel->reverb = data[-1];
                         channel->reverbIndex = data[0];
-                        //@bug: Not marking reverb state as changed
+                        //! @bug: Not marking reverb state as changed
                         channel->changes.s.pan = true;
                         break;
                     case 0xE8:
@@ -1268,7 +1268,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         channel->panChannelWeight = Audio_M64ReadU8(scriptState);
                         channel->reverb = Audio_M64ReadU8(scriptState);
                         channel->reverbIndex = Audio_M64ReadU8(scriptState);
-                        //@bug: Not marking reverb state as changed
+                        //! @bug: Not marking reverb state as changed
                         channel->changes.s.pan = true;
                         break;
                     case 0xEC:
