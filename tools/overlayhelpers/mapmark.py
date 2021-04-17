@@ -24,7 +24,6 @@ DUNGEON_NAMES = [
 
 HEADER = """\
 #include "global.h"
-
 """
 
 def RamToOff(vram):
@@ -71,7 +70,7 @@ def GetSceneMaps(data, ptr, numMaps):
     return maps
     
 def GetDungeonSymbol(i):
-    return f"sMapMark{DUNGEON_NAMES[i][0]}"
+    return f"static sMapMark{DUNGEON_NAMES[i][0]}"
     
 def GetDungeonName(i):
     return DUNGEON_NAMES[i][1]
