@@ -547,7 +547,9 @@ typedef struct {
     /* 0xB0 */ f32      unk_B0;
     /* 0xB4 */ u8       nbLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
-    /* 0xBC */ char     unk_BC[0x03];
+    /* 0xBC */ u8       unk_BC;
+    /* 0xBD */ u8       unk_BD;
+    /* 0xBE */ u8       unk_BE;
     /* 0xBF */ u8       unk_BF;
     /* 0xC0 */ char     unk_C0[0x0F];
     /* 0xCF */ u8       unk_CF[3];

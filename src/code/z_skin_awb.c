@@ -72,8 +72,9 @@ void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* ske
 }
 
 void func_800A6888(GlobalContext* globalCtx, PSkinAwb* arg1) {
-    s32 i;
     if (arg1->avbTbl != NULL) {
+        s32 i;
+
         for (i = 0; i < arg1->avbCount; i++) {
             if (arg1->avbTbl[i].buf[0] != 0) {
                 ZeldaArena_FreeDebug(arg1->avbTbl[i].buf[0], "../z_skin_awb.c", 276);
