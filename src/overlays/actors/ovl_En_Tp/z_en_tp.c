@@ -158,7 +158,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
         this->actor.naviEnemyId = 6;
-        this->unk_15A = 0;
+        this->timer = 0;
         this->collider.base.acFlags |= AC_HARD;
         this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;
         EnTp_Head_SetupWait(this);
@@ -181,11 +181,11 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
                 if (i == 2) {
                     next->actor.flags |= 0x15;
-                    next->unk_150 = 1;
+                    next->unk_150 = 1; // Why?
                 }
 
-                next->unk_15A = next->unk_15C = i * -5;
-                next->unk_16C = 6.0f - (i * 0.75f);
+                next->timer = next->unk_15C = i * -5;
+                next->horizontalVariation = 6.0f - (i * 0.75f);
                 now = next;
             }
         }
@@ -208,17 +208,17 @@ void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21084.s")
 void EnTp_Tail_SetupFollowHead(EnTp* this) {
-    this->unk_14C = TAILPASARAN_ACTION_TAIL_FOLLOWHEAD;
+    this->actionIndex = TAILPASARAN_ACTION_TAIL_FOLLOWHEAD;
     EnTp_SetupAction(this, EnTp_Tail_FollowHead);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B210B0.s")
 void EnTp_Tail_FollowHead(EnTp* this, GlobalContext* globalCtx) {
     s16 sp36;
-    s16 temp_a0;
+    s16 phase;
 
     if (this->actor.params == TAILPASARAN_TAIL_DYING) {
-        this->unk_14C = TAILPASARAN_ACTION_DIE;
+        this->actionIndex = TAILPASARAN_ACTION_DIE;
 
         if (this->actor.parent == NULL) {
             EnTp_SetupDie(this);
@@ -229,7 +229,7 @@ void EnTp_Tail_FollowHead(EnTp* this, GlobalContext* globalCtx) {
         }
 
         if (this->head->unk_150 != 0) {
-            this->actor.speedXZ = this->red = this->actor.velocity.y = this->unk_168 = 0.0f;
+            this->actor.speedXZ = this->red = this->actor.velocity.y = this->heightPhase = 0.0f;
             if (this->actor.world.pos.y < this->head->actor.home.pos.y) {
                 this->actor.flags &= ~1;
             }
@@ -238,17 +238,17 @@ void EnTp_Tail_FollowHead(EnTp* this, GlobalContext* globalCtx) {
         } else {
             Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.parent->world.pos.y - 4.0f, 1.0f, 1.0f, 0.0f);
             sp36 = this->head->actor.shape.rot.y + 0x4000;
-            temp_a0 = 2000 * (this->head->unk_15C + this->unk_15A);
-            this->actor.world.pos.x = this->actor.home.pos.x + Math_SinS(temp_a0) * (Math_SinS(sp36) * this->unk_16C);
-            this->actor.world.pos.z = this->actor.home.pos.z + Math_SinS(temp_a0) * (Math_CosS(sp36) * this->unk_16C);
+            phase = 2000 * (this->head->unk_15C + this->timer);
+            this->actor.world.pos.x = this->actor.home.pos.x + Math_SinS(phase) * (Math_SinS(sp36) * this->horizontalVariation);
+            this->actor.world.pos.z = this->actor.home.pos.z + Math_SinS(phase) * (Math_CosS(sp36) * this->horizontalVariation);
         }
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B2128C.s")
 void EnTp_Head_SetupApproachPlayer(EnTp* this) {
-    this->unk_14C = TAILPASARAN_ACTION_HEAD_APPROACHPLAYER;
-    this->unk_15A = 200;
+    this->actionIndex = TAILPASARAN_ACTION_HEAD_APPROACHPLAYER;
+    this->timer = 200;
     EnTp_SetupAction(this, EnTp_Head_ApproachPlayer);
 }
 
@@ -263,7 +263,7 @@ void EnTp_Head_ApproachPlayer(EnTp* this, GlobalContext* globalCtx) {
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         if (&player->actor == this->collider.base.at) {
-            this->unk_15A = 1;
+            this->timer = 1;
         }
     }
 
@@ -271,16 +271,16 @@ void EnTp_Head_ApproachPlayer(EnTp* this, GlobalContext* globalCtx) {
         this->red += 15;
     }
 
-    if (Math_CosF(this->unk_168) == 0.0f) {
-        this->unk_170 = 2.0f * Rand_ZeroOne();
+    if (Math_CosF(this->heightPhase) == 0.0f) {
+        this->extraHeightVariation = 2.0f * Rand_ZeroOne();
     }
 
-    this->actor.world.pos.y += Math_CosF(this->unk_168) * (2.0f + this->unk_170);
-    this->unk_168 += 0.2f;
+    this->actor.world.pos.y += Math_CosF(this->heightPhase) * (2.0f + this->extraHeightVariation);
+    this->heightPhase += 0.2f;
     Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
-    this->unk_15A--;
+    this->timer--;
 
-    if (this->unk_15A != 0) {
+    if (this->timer != 0) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 750, 0);
         this->actor.shape.rot.y = this->actor.world.rot.y;
     } else {
@@ -290,33 +290,33 @@ void EnTp_Head_ApproachPlayer(EnTp* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21454.s")
 void EnTp_SetupDie(EnTp* this) {
-    Actor* phi_v0;
+    Actor* now;
 
-    this->unk_15A = 2;
+    this->timer = 2;
     if (this->actor.params <= TAILPASARAN_HEAD) {
-        for (phi_v0 = this->actor.child; phi_v0 != NULL; phi_v0 = phi_v0->child) {
-            phi_v0->params = TAILPASARAN_TAIL_DYING;
-            phi_v0->colChkInfo.health = 0;
+        for (now = this->actor.child; now != NULL; now = now->child) {
+            now->params = TAILPASARAN_TAIL_DYING;
+            now->colChkInfo.health = 0;
         }
 
-        this->unk_15A = 13;
+        this->timer = 13;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
-    this->unk_14C = TAILPASARAN_ACTION_DIE;
+    this->actionIndex = TAILPASARAN_ACTION_DIE;
     EnTp_SetupAction(this, EnTp_Die);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B214CC.s")
 void EnTp_Die(EnTp* this, GlobalContext* globalCtx) {
-    EnTp* temp_v0;
+    EnTp* now;
     s16 phi_s1;
     s32 pad;
     Vec3f effectVelAccel = { 0.0f, 0.5f, 0.0f };
     Vec3f effectPos = { 0.0f, 0.0f, 0.0f };
 
-    this->unk_15A--;
+    this->timer--;
 
-    if (this->unk_15A <= 0) {
+    if (this->timer <= 0) {
         if (this->actor.params == TAILPASARAN_HEAD_DYING) {
             effectPos.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             effectPos.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
@@ -332,13 +332,13 @@ void EnTp_Die(EnTp* this, GlobalContext* globalCtx) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
         } else {
             for (phi_s1 = 0; phi_s1 < 1; phi_s1++) {
-                temp_v0 =
+                now =
                     (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, TAILPASARAN_FRAGMENT);
 
-                if (temp_v0 != NULL) {
-                    Actor_SetScale(&temp_v0->actor, this->actor.scale.z * 0.5f);
-                    temp_v0->red = this->red;
+                if (now != NULL) {
+                    Actor_SetScale(&now->actor, this->actor.scale.z * 0.5f);
+                    now->red = this->red;
                 }
             }
         }
@@ -356,7 +356,7 @@ void EnTp_Die(EnTp* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B217FC.s")
 void EnTp_Fragment_SetupFade(EnTp* this) {
-    this->unk_14C = TAILPASARAN_ACTION_FRAGMENT_FADE;
+    this->actionIndex = TAILPASARAN_ACTION_FRAGMENT_FADE;
     this->actor.world.pos.x += ((Rand_ZeroOne() - 0.5f) * 5.0f);
     this->actor.world.pos.y += ((Rand_ZeroOne() - 0.5f) * 5.0f);
     this->actor.world.pos.z += ((Rand_ZeroOne() - 0.5f) * 5.0f);
@@ -380,8 +380,8 @@ void EnTp_Fragment_Fade(EnTp* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B2194C.s")
 void EnTp_Head_SetupTakeOff(EnTp* this) {
-    this->unk_15A = (s32)((Rand_ZeroOne() * 15.0f) + 40.0f);
-    this->unk_14C = TAILPASARAN_ACTION_HEAD_TAKEOFF;
+    this->timer = (s32)((Rand_ZeroOne() * 15.0f) + 40.0f);
+    this->actionIndex = TAILPASARAN_ACTION_HEAD_TAKEOFF;
     EnTp_SetupAction(this, EnTp_Head_TakeOff);
 }
 
@@ -394,7 +394,7 @@ void EnTp_Head_TakeOff(EnTp* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
-    Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->unk_16C, 1.0f,
+    Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->horizontalVariation, 1.0f,
                        this->actor.speedXZ * 0.25f, 0.0f);
     Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                            &D_801333E8);
@@ -410,22 +410,22 @@ void EnTp_Head_TakeOff(EnTp* this, GlobalContext* globalCtx) {
         this->red -= 15;
     }
 
-    if (Math_CosF(this->unk_168) == 0.0f) {
-        this->unk_170 = Rand_ZeroOne() * 4.0f;
+    if (Math_CosF(this->heightPhase) == 0.0f) {
+        this->extraHeightVariation = Rand_ZeroOne() * 4.0f;
     }
 
-    this->actor.world.pos.y += (Math_CosF(this->unk_168) * ((this->actor.speedXZ * 0.25f) + this->unk_170));
+    this->actor.world.pos.y += (Math_CosF(this->heightPhase) * ((this->actor.speedXZ * 0.25f) + this->extraHeightVariation));
     this->actor.world.rot.y += this->unk_164;
-    this->unk_168 += 0.2f;
+    this->heightPhase += 0.2f;
 
-    if (this->unk_15A != 0) {
-        this->unk_15A--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos), 1, 750,
                        0);
 
-    if (this->unk_15A == 0) {
+    if (this->timer == 0) {
         EnTp_Head_SetupApproachPlayer(this);
     }
 
@@ -434,10 +434,10 @@ void EnTp_Head_TakeOff(EnTp* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21B90.s")
 void EnTp_Head_SetupWait(EnTp* this) {
-    this->unk_14C = TAILPASARAN_ACTION_HEAD_WAIT;
+    this->actionIndex = TAILPASARAN_ACTION_HEAD_WAIT;
     this->unk_150 = 0;
     this->actor.shape.rot.x = -0x4000;
-    this->unk_15A = 60;
+    this->timer = 60;
     this->unk_15C = 0;
     this->actor.speedXZ = 0.0f;
     EnTp_SetupAction(this, EnTp_Head_Wait);
@@ -449,7 +449,7 @@ void EnTp_Head_SetupWait(EnTp* this) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21BDC.s")
 void EnTp_Head_Wait(EnTp* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 sp32;
+    s16 yaw;
 
     this->unk_15C--;
 
@@ -457,22 +457,22 @@ void EnTp_Head_Wait(EnTp* this, GlobalContext* globalCtx) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
             if (&player->actor == this->collider.base.at) {
-                this->unk_15A = 0;
+                this->timer = 0;
             }
         }
 
-        if (this->unk_15A != 0) {
-            this->unk_15A--;
+        if (this->timer != 0) {
+            this->timer--;
 
             Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 500, 0);
             Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 1500, 0);
 
-            sp32 = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos) + 0x4000;
+            yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos) + 0x4000;
             Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 30.0f, 0.3f, 1.0f, 0.3f);
             this->actor.world.pos.x =
-                this->actor.home.pos.x + (Math_SinS(2000 * this->unk_15C) * (Math_SinS(sp32) * this->unk_16C));
+                this->actor.home.pos.x + (Math_SinS(2000 * this->unk_15C) * (Math_SinS(yaw) * this->horizontalVariation));
             this->actor.world.pos.z =
-                this->actor.home.pos.z + (Math_SinS(2000 * this->unk_15C) * (Math_CosS(sp32) * this->unk_16C));
+                this->actor.home.pos.z + (Math_SinS(2000 * this->unk_15C) * (Math_CosS(yaw) * this->horizontalVariation));
         } else {
             this->actor.shape.rot.x = 0;
             this->unk_150 = 1;
@@ -482,13 +482,13 @@ void EnTp_Head_Wait(EnTp* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.x, -0x4000, 1, 500, 0);
 
         if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.3f, 1.5f, 0.3f) == 0.0f) {
-            this->unk_15A = 60;
+            this->timer = 60;
         } else {
-            sp32 = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
+            yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
             this->actor.world.pos.x =
-                this->actor.home.pos.x + (Math_SinS(2000 * this->unk_15C) * (Math_SinS(sp32) * 6.0f));
+                this->actor.home.pos.x + (Math_SinS(2000 * this->unk_15C) * (Math_SinS(yaw) * 6.0f));
             this->actor.world.pos.z =
-                this->actor.home.pos.z + (Math_SinS(2000 * this->unk_15C) * (Math_CosS(sp32) * 6.0f));
+                this->actor.home.pos.z + (Math_SinS(2000 * this->unk_15C) * (Math_CosS(yaw) * 6.0f));
         }
     }
 
@@ -502,8 +502,8 @@ void EnTp_Head_Wait(EnTp* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B21EE8.s")
 void EnTp_Head_SetupBurrowReturnHome(EnTp* this) {
-    this->unk_14C = TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME;
-    this->unk_15A = 0;
+    this->actionIndex = TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME;
+    this->timer = 0;
     EnTp_SetupAction(this, EnTp_Head_BurrowReturnHome);
 }
 
@@ -515,40 +515,40 @@ void EnTp_Head_BurrowReturnHome(EnTp* this, GlobalContext* globalCtx) {
     Vec3f bubbleVelocity;
     Vec3f bubblePos;
     s32 closeToFloor;
-    EnTp* phi_v0;
+    EnTp* now;
     s16 temp_v0;
 
     closeToFloor = false;
-    temp_v0 = this->unk_15A;
+    temp_v0 = this->timer;
     this->unk_15C--;
 
     if ((temp_v0 != 0) || ((this->actor.home.pos.y - this->actor.world.pos.y) > 60.0f)) {
-        this->unk_15A = temp_v0 - 1;
-        temp_v0 = this->unk_15A;
+        this->timer = temp_v0 - 1; // Required to match
+        temp_v0 = this->timer;
 
         if (temp_v0 == 0) {
             EnTp_Head_SetupWait(this);
 
-            for (phi_v0 = (EnTp*)this->actor.child; phi_v0 != NULL; phi_v0 = (EnTp*)phi_v0->actor.child) {
-                phi_v0->unk_15C = phi_v0->unk_15A;
+            for (now = (EnTp*)this->actor.child; now != NULL; now = (EnTp*)now->actor.child) {
+                now->unk_15C = now->timer;
             }
         } else {
             if (this->actor.shape.rot.x != -0x4000) {
-                this->unk_15A = 80;
+                this->timer = 80;
                 this->actor.velocity.y = 0.0f;
                 this->actor.speedXZ = 0.0f;
                 this->actor.world.pos = this->actor.home.pos;
                 this->actor.shape.rot.x = -0x4000;
 
-                for (phi_v0 = (EnTp*)this->actor.child; phi_v0 != NULL; phi_v0 = (EnTp*)phi_v0->actor.child) {
-                    phi_v0->actor.velocity.y = 0.0f;
-                    phi_v0->actor.speedXZ = 0.0f;
-                    phi_v0->actor.world.pos = this->actor.home.pos;
-                    phi_v0->actor.world.pos.y = this->actor.home.pos.y - 80.0f;
+                for (now = (EnTp*)this->actor.child; now != NULL; now = (EnTp*)now->actor.child) {
+                    now->actor.velocity.y = 0.0f;
+                    now->actor.speedXZ = 0.0f;
+                    now->actor.world.pos = this->actor.home.pos;
+                    now->actor.world.pos.y = this->actor.home.pos.y - 80.0f;
                 }
             }
 
-            this->actor.world.pos.y = this->actor.home.pos.y - this->unk_15A;
+            this->actor.world.pos.y = this->actor.home.pos.y - this->timer;
         }
     } else {
         if (this->actor.shape.rot.x != 0x4000) {
@@ -592,7 +592,7 @@ void EnTp_UpdateDamage(EnTp* this, GlobalContext* globalCtx) {
     EnTp* temp_s0; // Can eliminate this and just use phi_s0, but they're used differently
     EnTp* phi_s0;
 
-    if ((this->collider.base.acFlags & AC_HIT) && (this->unk_14C >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD)) {
+    if ((this->collider.base.acFlags & AC_HIT) && (this->actionIndex >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD)) {
         phi_s4 = phi_s2 = 0;
 
         if (this->actor.params <= TAILPASARAN_HEAD) {
@@ -690,7 +690,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params <= TAILPASARAN_HEAD) {
         Actor_MoveForward(&this->actor);
 
-        if (this->unk_14C != TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME) {
+        if (this->actionIndex != TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 15.0f, 10.0f, 5);
         }
 
@@ -716,7 +716,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
                                    &D_801333E8);
         }
 
-        if (this->unk_14C >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD) {
+        if (this->actionIndex >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
@@ -743,7 +743,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
         EffectSsKiraKira_SpawnSmall(globalCtx, &kiraPos, &kiraVelocity, &kiraAccel, &kiraPrimColor, &kiraEnvColor);
     }
 
-    if ((this->unk_14C >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD) && (this->actor.colChkInfo.health != 0)) {
+    if ((this->actionIndex >= TAILPASARAN_ACTION_TAIL_FOLLOWHEAD) && (this->actor.colChkInfo.health != 0)) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
