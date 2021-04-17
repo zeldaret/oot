@@ -11,7 +11,7 @@ typedef void (*EnTpActionFunc)(struct EnTp*, GlobalContext*);
 typedef struct EnTp {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 actionIndex;
-    /* 0x0150 */ s32 unk_150;
+    /* 0x0150 */ s32 unk_150; // Some kind of state indicator
     /* 0x0154 */ EnTpActionFunc actionFunc;
     /* 0x0158 */ u8 damageEffect; // Used to propagate the effect to the other segments' actors
     /* 0x015A */ s16 timer;
