@@ -723,13 +723,10 @@ void func_809688C4(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#if NON_MATCHING
-// regalloc
 void func_80968B70(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     Demo6K* this = THIS;
-    u8 temp1;
-    u8 temp2;
-    s32 timer2 = this->timer2;
+    u32 timer2 = this->timer2;
     u8 primColor[4];
     u8 envColor[3];
 
@@ -744,33 +741,28 @@ void func_80968B70(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0xFF - ((timer2 * 2) & 0xFF), 0, 32, 32, 1,
-                                0xFF - ((timer2 * 2) & 0xFF), (timer2 * 0xF) & 0x3FF, 16, 64));
+                                0xFF - ((timer2 * 2) & 0xFF), (timer2 * 15) & 0x3FF, 16, 64));
 
     if (this->timer2 < 40) {
-        temp1 = 100 - (this->timer2 * 2.5f);
-        temp2 = 100 - temp1;
-        primColor[0] = primColor[2] = temp1;
+        primColor[0] = primColor[2] = 100 - (this->timer2 * 2.5f);
         primColor[1] = envColor[1] = 0;
-        envColor[0] = temp2;
+        envColor[0] = 100 - primColor[2];
         primColor[3] = this->timer2 * 6.375f;
-        envColor[2] = temp2 * 2;
+        envColor[2] = envColor[0] * 2;
     } else if (this->timer2 < 50) {
-        temp1 = (this->timer2 * 5) - 200;
-        primColor[0] = temp1;
+        primColor[0] = (this->timer2 * 5) - 200;
         primColor[1] = primColor[2] = 0;
         primColor[3] = 255;
-        envColor[0] = 100 - temp1;
-        envColor[1] = temp1 * 2;
-        envColor[2] = 200 - (temp1 * 4);
+        envColor[0] = 100 - primColor[0];
+        envColor[1] = primColor[0] * 2;
+        envColor[2] = 200 - (primColor[0] * 4);
     } else {
-        temp1 = (this->timer2 * 5) - 250;
-        temp2 = (temp1 * 2) + 50;
-        primColor[2] = temp1;
+        primColor[2] = (this->timer2 * 5) - 250;
         envColor[2] = 0;
-        primColor[1] = temp1 * 3;
+        primColor[1] = primColor[2] * 3;
         primColor[3] = 255;
-        primColor[0] = envColor[0] = temp2;
-        envColor[1] = 100 - temp1;
+        primColor[0] = envColor[0] = (primColor[2] * 2) + 50;
+        envColor[1] = 100 - primColor[2];
     }
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColor[0], primColor[1], primColor[2], primColor[3]);
@@ -779,9 +771,6 @@ void func_80968B70(Actor* thisx, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_6k.c", 1368);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_6K/func_80968B70.s")
-#endif
 
 void func_80968FB0(Actor* thisx, GlobalContext* globalCtx) {
     static u8 D_809693CC[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1 };
