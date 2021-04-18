@@ -193,6 +193,7 @@ clean:
 
 cleanassets:
 	$(RM) -r $(ASSET_BIN_DIRS)
+	$(RM) -r build/assets
 
 distclean: clean cleanassets
 	$(RM) -r baserom/
