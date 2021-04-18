@@ -283,7 +283,7 @@ void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
             CollisionHeader* colHeader = NULL;
 
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-            this->unk_16C = D_809980F0[this->unk_16B].index1;
+            this->unk_16C = sObjectInfo[this->unk_16B].index1;
             CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &gGohmaDoorCol : &gPhantomGanonBarsCol,
                                        &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
