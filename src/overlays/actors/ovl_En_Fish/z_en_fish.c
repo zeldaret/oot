@@ -167,7 +167,7 @@ void func_80A155D0(EnFish* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15688.s")
-s32 func_80A15688(EnFish* this, GlobalContext* globalCtx) {
+s32 EnFish_InBottleRange(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
     Vec3f sp1C;
@@ -177,10 +177,12 @@ s32 func_80A15688(EnFish* this, GlobalContext* globalCtx) {
         sp1C.y = player->actor.world.pos.y;
         sp1C.z = (Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f) + player->actor.world.pos.z;
 
-        if (EnFish_XZDistanceSquared(&sp1C, &this->actor.world.pos) <= 400.0f) {
+        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's world.rot.
+        if (EnFish_XZDistanceSquared(&sp1C, &this->actor.world.pos) <= SQ(20.0f)) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -715,17 +717,19 @@ void func_80A16C68(EnFish* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistToPlayer < 70.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
+
         Actor_SetFocus(&this->actor, this->actor.shape.yOffset * 0.01f);
+
         if (Actor_HasParent(&this->actor, globalCtx)) {
             this->actor.parent = NULL;
 
-            if (this->actor.params == 0) {
+            if (this->actor.params == FISH_DROPPED) {
                 Actor_Kill(&this->actor);
                 return;
             }
 
             func_80A15374(this);
-        } else if (func_80A15688(this, globalCtx)) {
+        } else if (EnFish_InBottleRange(this, globalCtx)) {
             func_8002F434(&this->actor, globalCtx, GI_MAX, 80.0f, 20.0f);
         }
     }

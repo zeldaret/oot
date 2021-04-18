@@ -87,7 +87,7 @@ f32 EnInsect_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
     return SQ(v1->x - v2->x) + SQ(v1->z - v2->z);
 }
 
-s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
+s32 EnInsect_InBottleRange(EnInsect* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
     Vec3f pos;
@@ -97,12 +97,13 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
         pos.y = player->actor.world.pos.y;
         pos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f + player->actor.world.pos.z;
 
-        if (EnInsect_XZDistanceSquared(&pos, &this->actor.world.pos) <= 400.0f) {
-            return 1;
+        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's world.rot.
+        if (EnInsect_XZDistanceSquared(&pos, &this->actor.world.pos) <= SQ(20.0f)) {
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 void func_80A7BF58(EnInsect* this) {
@@ -775,8 +776,8 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
 
-            if (!(this->unk_314 & 8) && D_80A7DEB4 < 4 && func_80A7BE6C(this, globalCtx) != 0 &&
-                func_8002F434(&this->actor, globalCtx, GI_MAX, 60.0f, 30.0f) != 0) {
+            if (!(this->unk_314 & 8) && D_80A7DEB4 < 4 && EnInsect_InBottleRange(this, globalCtx) &&
+                func_8002F434(&this->actor, globalCtx, GI_MAX, 60.0f, 30.0f)) {
                 D_80A7DEB4++;
             }
         }

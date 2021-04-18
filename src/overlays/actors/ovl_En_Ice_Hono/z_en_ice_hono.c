@@ -185,7 +185,7 @@ void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-u32 EnIceHono_LinkCloseAndFacing(EnIceHono* this, GlobalContext* globalCtx) {
+u32 EnIceHono_InBottleRange(EnIceHono* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->actor.xzDistToPlayer < 60.0f) {
@@ -193,11 +193,13 @@ u32 EnIceHono_LinkCloseAndFacing(EnIceHono* this, GlobalContext* globalCtx) {
         tempPos.x = Math_SinS(this->actor.yawTowardsPlayer + 0x8000) * 40.0f + player->actor.world.pos.x;
         tempPos.y = player->actor.world.pos.y;
         tempPos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 40.0f + player->actor.world.pos.z;
+        
+        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's world.rot.
         if (EnIceHono_SquareDist(&tempPos, &this->actor.world.pos) <= SQ(40.0f)) {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void EnIceHono_SetupActionCapturableFlame(EnIceHono* this) {
@@ -209,7 +211,7 @@ void EnIceHono_SetupActionCapturableFlame(EnIceHono* this) {
 void EnIceHono_CapturableFlame(EnIceHono* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
-    } else if (EnIceHono_LinkCloseAndFacing(this, globalCtx)) {
+    } else if (EnIceHono_InBottleRange(this, globalCtx)) {
         func_8002F434(&this->actor, globalCtx, GI_MAX, 60.0f, 100.0f);
     }
 
