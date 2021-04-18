@@ -65,7 +65,7 @@ def definition_by_name(content, name):
             return definition.split("{")[0].strip()
 
 # Obtain the entire code body of the function
-def get_code_body(content, funcname):
+def get_code_body(content, funcname) -> str:
     line_num = line_numbers_of_functions[index_of_func(funcname)]
     if line_num <= 0:
         return ""
@@ -144,9 +144,7 @@ def getEnums(contents):
     return enums
 
 def index_of_func(func_name):
-    for index, name in enumerate(func_names):
-        if name == func_name:
-            return index
+    return func_names.index(func_name)
 
 def action_var_setups_in_func(content, func_name, action_var):
     code_body = get_code_body(content, func_name)
@@ -225,10 +223,11 @@ def addCallNamesToGraph(dot, func_names: list, index: int, code_body: str, setup
         dot.edge(indexStr, calledFuncIndex, color=edgeColor)
 
 
-def loadConfigFile():
+def loadConfigFile(selectedStyle):
     # For a list of colors, see https://www.graphviz.org/doc/info/colors.html
     # Hex colors works too!
-    configFilename = os.path.join(script_dir, "graphovl.ini")
+    stylesFolder = os.path.join(script_dir, "graphovl_styles")
+    configFilename = os.path.join(stylesFolder, "graphovl_config.ini")
 
     # Set defaults, just in case.
     config.add_section('colors')
@@ -242,8 +241,17 @@ def loadConfigFile():
     if os.path.exists(configFilename):
         config.read(configFilename)
     else:
-        with open(configFilename, 'w') as f:
-            config.write(f)
+        print("Warning! Config file not found.")
+
+    style = config.get("config", "defaultStyle") + ".ini"
+    if selectedStyle is not None:
+        style = selectedStyle + ".ini"
+    styleFilename = os.path.join(stylesFolder, style)
+
+    if os.path.exists(styleFilename):
+        config.read(styleFilename)
+    else:
+        print(f"Warning! Style {style} not found.")
 
 
 def main():
@@ -251,9 +259,10 @@ def main():
     parser = argparse.ArgumentParser(description="Creates a graph of action functions (black and green arrows) and function calls (blue arrows) for a given overlay file")
     parser.add_argument("filename", help="Filename without the z_ or ovl_ prefix, e.x. Door_Ana")
     parser.add_argument("--loners", help="Include functions that are not called or call any other overlay function", action="store_true")
+    parser.add_argument("-s", "--style", help="Use a color style defined in graphovl_styles folder. i.e. solarized")
     args = parser.parse_args()
 
-    loadConfigFile()
+    loadConfigFile(args.style)
     fontColor = config.get("colors", "fontcolor")
     bubbleColor = config.get("colors", "bubbleColor")
 
@@ -292,6 +301,8 @@ def main():
         print("No actor action-based structure found")
         os._exit(1)
 
+    action_functions = []
+    action_var = ""
     if arrayActorFunc:
         action_func_array = re.search(action_func_type + r' (.+)\[\] = \{([^}]*?)\};', contents)
         if action_func_array is None:
