@@ -253,7 +253,7 @@ typedef struct Player {
     /* 0x0434 */ s8         getItemId;
     /* 0x0436 */ u16        getItemDirection;
     /* 0x0438 */ Actor*     interactRangeActor;
-    /* 0x043C */ s8         unk_43C;
+    /* 0x043C */ s8         mountSide;
     /* 0x043D */ char       unk_43D[0x003];
     /* 0x0440 */ Actor*     rideActor;
     /* 0x0444 */ u8         csMode;

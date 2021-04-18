@@ -6,9 +6,12 @@
 
 struct BgTokiHikari;
 
+typedef void (*BgTokiHikariActionFunc)(struct BgTokiHikari*, GlobalContext*);
+
 typedef struct BgTokiHikari {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x8];
+    /* 0x014C */ f32 unk_14C;
+    /* 0x0150 */ BgTokiHikariActionFunc actionFunc; 
 } BgTokiHikari; // size = 0x0154
 
 extern const ActorInit Bg_Toki_Hikari_InitVars;
