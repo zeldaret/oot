@@ -349,7 +349,7 @@ def main():
 
         addCallNamesToGraph(dot, func_names, index, code_body, setupAction, rawActorFunc)
 
-    print(dot.source)
+    # print(dot.source)
     dot.render("graphs/" + fname + ".gv")
 
 if __name__ == "__main__":
