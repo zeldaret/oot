@@ -6,6 +6,7 @@
 
 #include "z_en_anubice_fire.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_anubice/object_anubice.h"
 
 #define FLAGS 0x00000010
 
@@ -19,8 +20,6 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx);
 void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx);
 void func_809B2B48(EnAnubiceFire* this, GlobalContext* globalCtx);
-
-extern Gfx D_06003510[];
 
 const ActorInit En_Anubice_Fire_InitVars = {
     ACTOR_EN_ANUBICE_FIRE,
@@ -182,7 +181,9 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002D7EC(&this->actor);
     this->unk_160[0] = this->actor.world.pos;
 
-    for (i = 4; i >= 0; --i) {
+    if (1) {}
+
+    for (i = 4; i >= 0; i--) {
         this->unk_160[i + 1] = this->unk_160[i];
     }
 
@@ -245,7 +246,7 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 546),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_06003510);
+            gSPDisplayList(POLY_XLU_DISP++, gAnubiceFireAttackDL);
         }
 
         if (this->scale < 0.1f) {

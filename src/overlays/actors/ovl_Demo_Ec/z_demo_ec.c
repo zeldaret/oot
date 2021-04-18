@@ -338,7 +338,7 @@ void DemoEc_UseAnimationObject(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 CsCmdActorAction* DemoEc_GetNpcAction(GlobalContext* globalCtx, s32 actionIndex) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[actionIndex];
     } else {
         return NULL;

@@ -191,8 +191,8 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                 posAhead.x = (Math_SinS(thisx->world.rot.y) * 30.0f) + thisx->world.pos.x;
                 posAhead.z = (Math_CosS(thisx->world.rot.y) * 30.0f) + thisx->world.pos.z;
                 posAhead.y = thisx->world.pos.y;
-                if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &thisx->world.pos, &posAhead, &colPoint, &colPoly, 1, 1,
-                                            0, 1, &bgId) == true) {
+                if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &thisx->world.pos, &posAhead, &colPoint, &colPoly, true,
+                                            true, false, true, &bgId) == true) {
                     this->vContinue = 0.0f;
                 }
             }

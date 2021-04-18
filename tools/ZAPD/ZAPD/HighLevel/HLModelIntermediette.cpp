@@ -1,15 +1,15 @@
 #include "HLModelIntermediette.h"
-#include "../ZDisplayList.h"
-#include "../StringHelper.h"
+#include "../File.h"
 #include "../Globals.h"
 #include "../Path.h"
-#include "../File.h"
+#include "../StringHelper.h"
+#include "../ZDisplayList.h"
 
 #ifdef USE_ASSIMP
-#include <assimp/Importer.hpp>
 #include <assimp/Exporter.hpp>
-#include <assimp/scene.h>
+#include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
+#include <assimp/scene.h>
 #endif
 
 using namespace std;
@@ -31,7 +31,8 @@ HLModelIntermediette* HLModelIntermediette::FromXML(tinyxml2::XMLElement* root)
 {
 	HLModelIntermediette* model = new HLModelIntermediette();
 
-	for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	for (XMLElement* child = root->FirstChildElement(); child != NULL;
+	     child = child->NextSiblingElement())
 	{
 		string childName = child->Name();
 		HLIntermediette* block = nullptr;
@@ -60,18 +61,18 @@ HLModelIntermediette* HLModelIntermediette::FromXML(tinyxml2::XMLElement* root)
 
 void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDisplayList* zDisplayList)
 {
-	//HLModelIntermediette* model = new HLModelIntermediette();
+	// HLModelIntermediette* model = new HLModelIntermediette();
 	HLLimbIntermediette* limb = new HLLimbIntermediette();
 	limb->name = zDisplayList->GetName();
 
 	// Go through verts
 	vector<Vertex> finalVerts = vector<Vertex>();
 
-	uint32_t vStart = -1;
+	int32_t vStart = -1;
 
-	for (pair<uint32_t, vector<Vertex>> pair : zDisplayList->vertices)
+	for (pair<int32_t, vector<Vertex>> pair : zDisplayList->vertices)
 	{
-		if (vStart == -1) // TODO: Find a better way to do this
+		if (vStart == -1)  // TODO: Find a better way to do this
 			vStart = pair.first;
 
 		for (Vertex v : pair.second)
@@ -97,7 +98,7 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 	HLDisplayListIntermediette* dList = new HLDisplayListIntermediette();
 	dList->address = zDisplayList->GetRawDataIndex();
 	int startIndex = 0;
-	
+
 	// Go through the display lists and setup commands
 	int meshCnt = 0;
 
@@ -112,7 +113,7 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 
 	startIndex = 0;
 
-	for (int i = startIndex; i < zDisplayList->instructions.size(); i++)
+	for (size_t i = startIndex; i < zDisplayList->instructions.size(); i++)
 	{
 		uint64_t data = zDisplayList->instructions[i];
 		F3DZEXOpcode opcode = (F3DZEXOpcode)(data >> 56);
@@ -121,15 +122,14 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 		{
 			int ss = (data & 0x0000FF0000000000) >> 40;
 			int nn = (data & 0x000000FF00000000) >> 32;
-			int dd = (data & 0xFFFFFFFF);
+			// int dd = (data & 0xFFFFFFFF);
 
 			int sft = 32 - (nn + 1) - ss;
 
 			if (sft == 3)
 			{
-				int mode1 = (dd & 0xCCCC0000) >> 0;
-				int mode2 = (dd & 0x33330000) >> 0;
-
+				// int mode1 = (dd & 0xCCCC0000) >> 0;
+				// int mode2 = (dd & 0x33330000) >> 0;
 			}
 		}
 		else if (opcode == F3DZEXOpcode::G_SETPRIMCOLOR)
@@ -155,20 +155,30 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 			lastMat->clrL = ff;
 			lastMat->clrM = mm;
 		}
-		else if (opcode == F3DZEXOpcode::G_SETTILE && (F3DZEXOpcode)(zDisplayList->instructions[i - 1] >> 56) != F3DZEXOpcode::G_RDPPIPESYNC)
+		else if (opcode == F3DZEXOpcode::G_SETTILE &&
+		         (F3DZEXOpcode)(zDisplayList->instructions[i - 1] >> 56) !=
+		             F3DZEXOpcode::G_RDPPIPESYNC)
 		{
-			int fff = (data & 0b0000000011100000000000000000000000000000000000000000000000000000) >> 53;
-			int ii = (data & 0b0000000000011000000000000000000000000000000000000000000000000000) >> 51;
-			int nnnnnnnnn = (data & 0b0000000000000011111111100000000000000000000000000000000000000000) >> 41;
-			int mmmmmmmmm = (data & 0b0000000000000000000000011111111100000000000000000000000000000000) >> 32;
-			int ttt = (data & 0b0000000000000000000000000000000000000111000000000000000000000000) >> 24;
-			int pppp = (data & 0b0000000000000000000000000000000000000000111100000000000000000000) >> 20;
-			int cc = (data & 0b0000000000000000000000000000000000000000000011000000000000000000) >> 18;
-			int aaaa = (data & 0b0000000000000000000000000000000000000000000000111100000000000000) >> 14;
-			int ssss = (data & 0b0000000000000000000000000000000000000000000000000011110000000000) >> 10;
-			int dd = (data & 0b0000000000000000000000000000000000000000000000000000001100000000) >> 8;
-			int bbbb = (data & 0b0000000000000000000000000000000000000000000000000000000011110000) >> 4;
-			int uuuu = (data & 0b0000000000000000000000000000000000000000000000000000000000001111);
+			// int fff = (data & 0b0000000011100000000000000000000000000000000000000000000000000000)
+			// >> 53; int ii = (data &
+			// 0b0000000000011000000000000000000000000000000000000000000000000000) >> 51; int
+			// nnnnnnnnn = (data &
+			// 0b0000000000000011111111100000000000000000000000000000000000000000) >> 41; int
+			// mmmmmmmmm = (data &
+			// 0b0000000000000000000000011111111100000000000000000000000000000000) >> 32; int ttt =
+			// (data & 0b0000000000000000000000000000000000000111000000000000000000000000) >> 24; int
+			// pppp = (data & 0b0000000000000000000000000000000000000000111100000000000000000000) >>
+			// 20;
+			int cc =
+				(data & 0b0000000000000000000000000000000000000000000011000000000000000000) >> 18;
+			// int aaaa = (data &
+			// 0b0000000000000000000000000000000000000000000000111100000000000000) >> 14; int ssss =
+			// (data & 0b0000000000000000000000000000000000000000000000000011110000000000) >> 10;
+			int dd =
+				(data & 0b0000000000000000000000000000000000000000000000000000001100000000) >> 8;
+			// int bbbb = (data &
+			// 0b0000000000000000000000000000000000000000000000000000000011110000) >> 4; int uuuu =
+			// (data & 0b0000000000000000000000000000000000000000000000000000000000001111);
 
 			lastMat->cmtH = (HLMaterialCmt)cc;
 			lastMat->cmtV = (HLMaterialCmt)dd;
@@ -188,7 +198,7 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 				lastMat->clrA = lastClrA;
 				lastMat->clrL = lastClrL;
 				lastMat->clrM = lastClrM;
-				
+
 				// Bit of a hack here...
 				int32_t lastData = (int32_t)(zDisplayList->instructions[i - 1]);
 				string texName = zDisplayList->textures[lastData & 0x00FFFFFF]->GetName();
@@ -200,7 +210,8 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 				meshCnt++;
 
 				mesh = new HLMeshIntermediette();
-				mesh->name = StringHelper::Sprintf("%s_%i", zDisplayList->GetName().c_str(), meshCnt);
+				mesh->name =
+					StringHelper::Sprintf("%s_%i", zDisplayList->GetName().c_str(), meshCnt);
 			}
 		}
 		else if (opcode == F3DZEXOpcode::G_SETTIMG)
@@ -242,7 +253,7 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 			mesh->commands.push_back(new HLMeshCmdTriangle2(aa, bb, cc, 0, dd, ee, ff, 0));
 		}
 
-		int bp = 0;
+		// int bp = 0;
 	}
 
 	limb->commands.push_back(new HLLimbCommand(mesh->name, lastMat->name));
@@ -250,18 +261,18 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 	model->blocks.push_back(mesh);
 	model->blocks.push_back(limb);
 
-	//return model;
+	// return model;
 }
 
 void HLModelIntermediette::FromZSkeleton(HLModelIntermediette* model, ZSkeleton* zSkeleton)
 {
 	model->hasSkeleton = true;
 
-	for (int i = 0; i < zSkeleton->limbs.size(); i++)
+	for (size_t i = 0; i < zSkeleton->limbs.size(); i++)
 	{
-		ZLimb* limb = zSkeleton->limbs[i];
+		// ZLimb* limb = zSkeleton->limbs[i];
 
-		for (int j = 0; j < model->blocks.size(); j++)
+		for (size_t j = 0; j < model->blocks.size(); j++)
 		{
 		}
 	}
@@ -332,7 +343,7 @@ string HLModelIntermediette::OutputCode()
 	for (HLIntermediette* block : blocks)
 	{
 		string code = block->OutputCode();
-		
+
 		output += code;
 
 		if (code != "")
@@ -360,8 +371,7 @@ std::string HLModelIntermediette::OutputXML()
 	return printer.CStr();
 }
 
-
-template<typename T>
+template <typename T>
 inline T* HLModelIntermediette::FindByName(string name)
 {
 	for (HLIntermediette* block : blocks)
@@ -376,7 +386,7 @@ inline T* HLModelIntermediette::FindByName(string name)
 	return nullptr;
 }
 
-template<typename T>
+template <typename T>
 inline T* HLModelIntermediette::FindByType()
 {
 	for (HLIntermediette* block : blocks)
@@ -415,17 +425,14 @@ string HLIntermediette::OutputOBJ()
 
 void HLIntermediette::OutputAssimp(aiScene* scene, std::vector<aiVector3D>* verts)
 {
-
 }
 
 void HLIntermediette::OutputXML(tinyxml2::XMLDocument* doc, tinyxml2::XMLElement* root)
 {
-	
 }
 
 void HLMeshCommand::InitFromXML(XMLElement* xmlElement)
 {
-
 }
 
 string HLMeshCommand::OutputCode(HLModelIntermediette* parent)
@@ -446,7 +453,6 @@ void HLMeshCommand::OutputXML(tinyxml2::XMLElement* parent)
 {
 }
 
-
 HLVerticesIntermediette::HLVerticesIntermediette() : HLIntermediette()
 {
 	vertices = vector<Vertex>();
@@ -456,10 +462,13 @@ void HLVerticesIntermediette::InitFromXML(XMLElement* verticesElement)
 {
 	name = verticesElement->Attribute("Name");
 
-	for (XMLElement* child = verticesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
-		vertices.push_back(Vertex(child->IntAttribute("X"), child->IntAttribute("Y"), child->IntAttribute("Z"), child->IntAttribute("Flags"), 
-			child->IntAttribute("S"), child->IntAttribute("T"), 
-			child->IntAttribute("R"), child->IntAttribute("G"), child->IntAttribute("B"), child->IntAttribute("A")));
+	for (XMLElement* child = verticesElement->FirstChildElement(); child != NULL;
+	     child = child->NextSiblingElement())
+		vertices.push_back(Vertex(child->IntAttribute("X"), child->IntAttribute("Y"),
+		                          child->IntAttribute("Z"), child->IntAttribute("Flags"),
+		                          child->IntAttribute("S"), child->IntAttribute("T"),
+		                          child->IntAttribute("R"), child->IntAttribute("G"),
+		                          child->IntAttribute("B"), child->IntAttribute("A")));
 }
 
 void HLVerticesIntermediette::InitFromVertices(vector<Vertex> dispListVertices)
@@ -476,8 +485,8 @@ string HLVerticesIntermediette::OutputCode(HLModelIntermediette* parent)
 
 	for (Vertex v : vertices)
 	{
-		output += StringHelper::Sprintf("\t{ %i, %i, %i, %i, %i, %i, %i, %i, %i, %i },\n", 
-			v.x, v.y, v.z, v.flag, v.s, v.t, v.r, v.g, v.b, v.a);
+		output += StringHelper::Sprintf("\t{ %i, %i, %i, %i, %i, %i, %i, %i, %i, %i },\n", v.x, v.y,
+		                                v.z, v.flag, v.s, v.t, v.r, v.g, v.b, v.a);
 	}
 
 	output += StringHelper::Sprintf("};\n");
@@ -491,32 +500,34 @@ std::string HLVerticesIntermediette::OutputOBJ()
 
 	for (Vertex v : vertices)
 	{
-		output += StringHelper::Sprintf("v %f %f %f %i %i %i %i\n", (float)v.x * 0.1f, (float)v.y * 0.1f, (float)v.z * 0.1f, v.r, v.g, v.b, v.a);
-		//output += StringHelper::Sprintf("v %f %f %f\n", (float)v.x * 0.1f, (float)v.y * 0.1f, (float)v.z * 0.1f);
+		output += StringHelper::Sprintf("v %f %f %f %i %i %i %i\n", (float)v.x * 0.1f,
+		                                (float)v.y * 0.1f, (float)v.z * 0.1f, v.r, v.g, v.b, v.a);
+		// output += StringHelper::Sprintf("v %f %f %f\n", (float)v.x * 0.1f, (float)v.y * 0.1f,
+		// (float)v.z * 0.1f);
 	}
 
-	//for (Vertex v : vertices)
-		//output += StringHelper::Sprintf("vt %i %i\n", v.s, v.t);
+	// for (Vertex v : vertices)
+	// output += StringHelper::Sprintf("vt %i %i\n", v.s, v.t);
 
 	return output;
 }
 
 void HLVerticesIntermediette::OutputAssimp(aiScene* scene, std::vector<aiVector3D>* verts)
 {
-	//aiVector3D* verts = new aiVector3D[vertices.size()];
-	//aiVector3D* normals = new aiVector3D[vertices.size()];
+	// aiVector3D* verts = new aiVector3D[vertices.size()];
+	// aiVector3D* normals = new aiVector3D[vertices.size()];
 
 	verts->clear();
 
-	for (int i = 0; i < vertices.size(); i++)
+	for (size_t i = 0; i < vertices.size(); i++)
 	{
 		verts->push_back(aiVector3D(vertices[i].x, vertices[i].y, vertices[i].z));
-		//normals[i] = aiVector3D(vertices[i].x, vertices[i].y, vertices[i].z);
+		// normals[i] = aiVector3D(vertices[i].x, vertices[i].y, vertices[i].z);
 	}
 
-	//mesh->mVertices = verts;
-	//mesh->mNormals = normals;
-	//mesh->mNumVertices += vertices.size();
+	// mesh->mVertices = verts;
+	// mesh->mNormals = normals;
+	// mesh->mNumVertices += vertices.size();
 }
 
 void HLVerticesIntermediette::OutputXML(tinyxml2::XMLDocument* doc, tinyxml2::XMLElement* root)
@@ -562,8 +573,9 @@ string HLMeshCmdGeoSettings::OutputCode(HLModelIntermediette* parent)
 	string output = "";
 
 	if (off != "")
-		output += StringHelper::Sprintf("gsSPClearGeometryMode(G_TEXTURE_ENABLE | %s),\n", off.c_str());
-	
+		output +=
+			StringHelper::Sprintf("gsSPClearGeometryMode(G_TEXTURE_ENABLE | %s),\n", off.c_str());
+
 	if (on != "")
 		output += StringHelper::Sprintf("gsSPSetGeometryMode(G_TEXTURE_ENABLE | %s),", on.c_str());
 
@@ -635,7 +647,8 @@ HLMeshCmdTriangle2::HLMeshCmdTriangle2()
 	flag1 = 0;
 }
 
-HLMeshCmdTriangle2::HLMeshCmdTriangle2(int32_t nV0, int32_t nV1, int32_t nV2, int32_t nFlag0, int32_t nV10, int32_t nV11, int32_t nV12, int32_t nFlag1)
+HLMeshCmdTriangle2::HLMeshCmdTriangle2(int32_t nV0, int32_t nV1, int32_t nV2, int32_t nFlag0,
+                                       int32_t nV10, int32_t nV11, int32_t nV12, int32_t nFlag1)
 {
 	v0 = nV0;
 	v1 = nV1;
@@ -654,25 +667,28 @@ void HLMeshCmdTriangle2::InitFromXML(tinyxml2::XMLElement* xmlElement)
 	v2 = xmlElement->IntAttribute("V2");
 	flag0 = xmlElement->IntAttribute("Flag0");
 	v10 = xmlElement->IntAttribute("V10");
- 	v11 = xmlElement->IntAttribute("V11");
+	v11 = xmlElement->IntAttribute("V11");
 	v12 = xmlElement->IntAttribute("V12");
 	flag1 = xmlElement->IntAttribute("Flag1");
 }
 
 string HLMeshCmdTriangle2::OutputCode(HLModelIntermediette* parent)
 {
-	return StringHelper::Sprintf("gsSP2Triangles(%i, %i, %i, %i, %i, %i, %i, %i),", v0, v1, v2, flag0, v10, v11, v12, flag1);
+	return StringHelper::Sprintf("gsSP2Triangles(%i, %i, %i, %i, %i, %i, %i, %i),", v0, v1, v2,
+	                             flag0, v10, v11, v12, flag1);
 }
 
 std::string HLMeshCmdTriangle2::OutputOBJ(HLModelIntermediette* parent)
 {
-	HLVerticesIntermediette* verts = parent->FindByName<HLVerticesIntermediette>("");
+	// HLVerticesIntermediette* verts = parent->FindByName<HLVerticesIntermediette>("");
 	string output = "";
 
 	int startIndex = parent->startIndex;
 
-	output += StringHelper::Sprintf("f %i %i %i\n", startIndex+v0+1, startIndex + v1+1, startIndex + v2+1);
-	output += StringHelper::Sprintf("f %i %i %i\n", startIndex + v10+1, startIndex + v11+1, startIndex + v12+1);
+	output += StringHelper::Sprintf("f %i %i %i\n", startIndex + v0 + 1, startIndex + v1 + 1,
+	                                startIndex + v2 + 1);
+	output += StringHelper::Sprintf("f %i %i %i\n", startIndex + v10 + 1, startIndex + v11 + 1,
+	                                startIndex + v12 + 1);
 
 	return output;
 }
@@ -714,7 +730,7 @@ void HLMeshCmdTriangle2::OutputXML(tinyxml2::XMLElement* parent)
 	elem->SetAttribute("V11", v11);
 	elem->SetAttribute("V12", v12);
 	elem->SetAttribute("Flag1", flag1);
-	
+
 	parent->InsertEndChild(elem);
 }
 
@@ -736,7 +752,7 @@ void HLMeshCmdLoadVertices::OutputXML(tinyxml2::XMLElement* parent)
 
 	elem->SetAttribute("StartIndex", startIndex);
 	elem->SetAttribute("NumVerts", numVerts);
-	
+
 	parent->InsertEndChild(elem);
 }
 
@@ -760,24 +776,25 @@ void HLMeshCmdLoadVertices::OutputAssimp(HLModelIntermediette* parent, aiScene* 
 string HLMeshCmdLoadVertices::OutputCode(HLModelIntermediette* parent)
 {
 	HLVerticesIntermediette* verts = parent->FindByType<HLVerticesIntermediette>();
-	return StringHelper::Sprintf("gsSPVertex(&%s[%i], %i, %i),", verts->name.c_str(), startIndex, numVerts, 0);
+	return StringHelper::Sprintf("gsSPVertex(&%s[%i], %i, %i),", verts->name.c_str(), startIndex,
+	                             numVerts, 0);
 }
 
 HLMaterialIntermediette::HLMaterialIntermediette()
 {
 	textureName = "";
-	//repeatH = false;
-	//repeatV = false;
+	// repeatH = false;
+	// repeatV = false;
 	clrR = 0;
 	clrG = 0;
 	clrB = 0;
 	clrA = 0;
 	clrM = 0;
 	clrL = 0;
-	//clampH = false;
-	//clampV = false;
-	//mirrorH = false;
-	//mirrorV = false;
+	// clampH = false;
+	// clampV = false;
+	// mirrorH = false;
+	// mirrorV = false;
 	cmtH = HLMaterialCmt::Wrap;
 	cmtV = HLMaterialCmt::Wrap;
 }
@@ -786,12 +803,12 @@ void HLMaterialIntermediette::InitFromXML(tinyxml2::XMLElement* xmlElement)
 {
 	name = xmlElement->Attribute("Name");
 	textureName = xmlElement->Attribute("TextureName");
-	//repeatH = xmlElement->BoolAttribute("RepeatH");
-	//repeatV = xmlElement->BoolAttribute("RepeatV");
-	//clampH = xmlElement->BoolAttribute("ClampH");
-	//clampV = xmlElement->BoolAttribute("ClampV");
-	//mirrorH  = xmlElement->BoolAttribute("MirrorH");
-	//mirrorV = xmlElement->BoolAttribute("MirrorV");
+	// repeatH = xmlElement->BoolAttribute("RepeatH");
+	// repeatV = xmlElement->BoolAttribute("RepeatV");
+	// clampH = xmlElement->BoolAttribute("ClampH");
+	// clampV = xmlElement->BoolAttribute("ClampV");
+	// mirrorH  = xmlElement->BoolAttribute("MirrorH");
+	// mirrorV = xmlElement->BoolAttribute("MirrorV");
 	clrR = xmlElement->IntAttribute("ClrR");
 	clrG = xmlElement->IntAttribute("ClrG");
 	clrB = xmlElement->IntAttribute("ClrB");
@@ -835,7 +852,8 @@ string HLDisplayListIntermediette::OutputCode()
 
 void HLDisplayListIntermediette::InitFromXML(tinyxml2::XMLElement* xmlElement)
 {
-	for (XMLElement* child = xmlElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	for (XMLElement* child = xmlElement->FirstChildElement(); child != NULL;
+	     child = child->NextSiblingElement())
 	{
 		string name = child->Name();
 
@@ -867,7 +885,6 @@ void HLDisplayListCmdDrawMesh::InitFromXML(tinyxml2::XMLElement* xmlElement)
 {
 	meshName = xmlElement->Attribute("Mesh");
 	materialName = xmlElement->Attribute("Material");
-
 }
 
 std::string HLDisplayListCmdDrawMesh::OutputCode()
@@ -885,16 +902,19 @@ void HLTextureIntermediette::InitFromXML(tinyxml2::XMLElement* xmlElement)
 	name = xmlElement->Attribute("Name");
 
 	fileName = xmlElement->Attribute("TextureName");
-	//string format = xmlElement->Attribute("Format");
-	string format = "rgb5a1"; // TEST
+	// string format = xmlElement->Attribute("Format");
+	string format = "rgb5a1";  // TEST
 
-	//tex = HLTexture::FromPNG(fileName, (HLTextureType)ZTexture::GetTextureTypeFromString(format));
-	tex = ZTexture::FromPNG(Path::GetDirectoryName(Globals::Instance->inputPath) + "/" + fileName, ZTexture::GetTextureTypeFromString(format));
+	// tex = HLTexture::FromPNG(fileName,
+	// (HLTextureType)ZTexture::GetTextureTypeFromString(format));
+	tex = ZTexture::FromPNG(Path::GetDirectoryName(Globals::Instance->inputPath) + "/" + fileName,
+	                        ZTexture::GetTextureTypeFromString(format));
 }
 
 std::string HLTextureIntermediette::OutputCode()
 {
-	return StringHelper::Sprintf("#include <../%s/%s.inc.c>", Globals::Instance->outputPath.c_str(), name.c_str());
+	return StringHelper::Sprintf("#include <../%s/%s.inc.c>", Globals::Instance->outputPath.c_str(),
+	                             name.c_str());
 }
 
 void HLTextureIntermediette::OutputXML(tinyxml2::XMLDocument* doc, tinyxml2::XMLElement* root)
@@ -902,7 +922,8 @@ void HLTextureIntermediette::OutputXML(tinyxml2::XMLDocument* doc, tinyxml2::XML
 	XMLElement* element = doc->NewElement("Texture");
 
 	element->SetAttribute("Name", name.c_str());
-	element->SetAttribute("TextureName", (name + "." + tex->GetExternalExtension() + ".png").c_str());
+	element->SetAttribute("TextureName",
+	                      (name + "." + tex->GetExternalExtension() + ".png").c_str());
 	tex->Save(Globals::Instance->outputPath);
 
 	root->InsertEndChild(element);
@@ -943,7 +964,8 @@ void HLMeshIntermediette::InitFromXML(tinyxml2::XMLElement* xmlElement)
 {
 	name = xmlElement->Attribute("Name");
 
-	for (XMLElement* child = xmlElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	for (XMLElement* child = xmlElement->FirstChildElement(); child != NULL;
+	     child = child->NextSiblingElement())
 	{
 		string name = child->Name();
 
@@ -976,13 +998,15 @@ string HLMeshIntermediette::OutputCode(string materialName)
 	HLTextureIntermediette* tex = parent->FindByName<HLTextureIntermediette>(mat->textureName);
 
 	output += StringHelper::Sprintf("\tgsDPPipeSync(),\n");
-	output += StringHelper::Sprintf("\tgsDPSetPrimColor(%i, %i, %i, %i, %i, %i),\n", mat->clrL, mat->clrM, mat->clrR, mat->clrG, mat->clrB, mat->clrA);
+	output += StringHelper::Sprintf("\tgsDPSetPrimColor(%i, %i, %i, %i, %i, %i),\n", mat->clrL,
+	                                mat->clrM, mat->clrR, mat->clrG, mat->clrB, mat->clrA);
 	output += StringHelper::Sprintf("\tgsDPPipeSync(),\n");
 	output += StringHelper::Sprintf("\tgsSPTexture(65535, 65535, 0, 0, G_ON),\n");
 
-	output += StringHelper::Sprintf("\tgsDPLoadMultiBlock(%s, 0, 0, %s, %s, %i, %i, 0, 0, 0, 5, 5, 0, 0),\n", mat->textureName.c_str(), 
-		tex->tex->GetIMFmtFromType().c_str(), tex->tex->GetIMSizFromType().c_str(), tex->tex->GetWidth(), tex->tex->GetHeight());
-
+	output += StringHelper::Sprintf(
+		"\tgsDPLoadMultiBlock(%s, 0, 0, %s, %s, %i, %i, 0, 0, 0, 5, 5, 0, 0),\n",
+		mat->textureName.c_str(), tex->tex->GetIMFmtFromType().c_str(),
+		tex->tex->GetIMSizFromType().c_str(), tex->tex->GetWidth(), tex->tex->GetHeight());
 
 	for (HLMeshCommand* cmd : commands)
 		output += "\t" + cmd->OutputCode(parent) + "\n";
@@ -1005,7 +1029,8 @@ string HLMeshIntermediette::OutputOBJ()
 void HLMeshIntermediette::OutputAssimp(aiScene* scene, std::vector<aiVector3D>* verts)
 {
 	aiMesh* mesh = new aiMesh();
-	mesh->mVertices = new aiVector3D[8192]; // TODO: Replace these hardcoded counts with the actual count
+	mesh->mVertices =
+		new aiVector3D[8192];  // TODO: Replace these hardcoded counts with the actual count
 	mesh->mNormals = new aiVector3D[8192];
 	mesh->mFaces = new aiFace[8192];
 	mesh->mPrimitiveTypes = 8;
@@ -1024,12 +1049,12 @@ void HLMeshIntermediette::OutputXML(tinyxml2::XMLDocument* doc, tinyxml2::XMLEle
 	XMLElement* element = doc->NewElement("Mesh");
 
 	element->SetAttribute("Name", name.c_str());
-	
+
 	for (HLMeshCommand* cmd : commands)
 	{
 		cmd->OutputXML(element);
 	}
-	
+
 	root->InsertEndChild(element);
 }
 
@@ -1042,7 +1067,8 @@ void HLLimbIntermediette::InitFromXML(tinyxml2::XMLElement* xmlElement)
 {
 	name = xmlElement->Attribute("Name");
 
-	for (XMLElement* child = xmlElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	for (XMLElement* child = xmlElement->FirstChildElement(); child != NULL;
+	     child = child->NextSiblingElement())
 	{
 		string name = child->Name();
 
@@ -1120,8 +1146,8 @@ std::string HLLimbCommand::OutputCode(HLModelIntermediette* parent)
 
 	// Time to generate the display list...
 	HLMeshIntermediette* mesh = parent->FindByName<HLMeshIntermediette>(meshName);
-	HLMaterialIntermediette* mat = parent->FindByName<HLMaterialIntermediette>(materialName);
-	HLTextureIntermediette* tex = parent->FindByName<HLTextureIntermediette>(mat->textureName);
+	// HLMaterialIntermediette* mat = parent->FindByName<HLMaterialIntermediette>(materialName);
+	// HLTextureIntermediette* tex = parent->FindByName<HLTextureIntermediette>(mat->textureName);
 
 	output += mesh->OutputCode(materialName);
 
@@ -1138,11 +1164,11 @@ HLTerminator::~HLTerminator()
 
 void HLTerminator::OutputAssimp(aiScene* scene, std::vector<aiVector3D>* verts)
 {
-	for (int i = parent->meshStartIndex; i < scene->mNumMeshes; i++)
+	for (uint32_t i = parent->meshStartIndex; i < scene->mNumMeshes; i++)
 	{
 		scene->mMeshes[i]->mNumVertices = verts->size();
 
-		for (int j = 0; j < verts->size(); j++)
+		for (uint32_t j = 0; j < verts->size(); j++)
 			scene->mMeshes[i]->mVertices[j] = verts[0][j];
 
 		parent->meshStartIndex++;

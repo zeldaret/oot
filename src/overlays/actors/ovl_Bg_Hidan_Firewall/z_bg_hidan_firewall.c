@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_firewall.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -21,8 +22,6 @@ void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Collide(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* globalCtx);
-
-extern Gfx D_0600DA80[];
 
 const ActorInit Bg_Hidan_Firewall_InitVars = {
     ACTOR_BG_HIDAN_FIREWALL,
@@ -57,10 +56,6 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 80, 100, MASS_IMMOVABLE };
-
-static UNK_PTR D_80886D04[] = {
-    0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920,
-};
 
 void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanFirewall* this = THIS;
@@ -199,6 +194,11 @@ void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+static u64* sFireballTexs[] = {
+    gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
+    gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
+};
+
 void BgHidanFirewall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanFirewall* this = THIS;
 
@@ -206,12 +206,12 @@ void BgHidanFirewall_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80886D04[this->unk_150]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFireballTexs[this->unk_150]));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x01, 255, 255, 0, 150);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 458),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_0600DA80);
+    gSPDisplayList(POLY_XLU_DISP++, gFireTempleFireballUpperHalfDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 463);
 }

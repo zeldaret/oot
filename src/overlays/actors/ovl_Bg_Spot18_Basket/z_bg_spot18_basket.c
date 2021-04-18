@@ -180,7 +180,7 @@ void func_808B7AEC(BgSpot18Basket* this) {
 
 void func_808B7AFC(BgSpot18Basket* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
-        func_800800F8(globalCtx, 4220, 80, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 4220, 80, &this->dyna.actor, MAIN_CAM);
         func_808B7B58(this);
     }
 }
@@ -228,7 +228,7 @@ void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx) {
             if (positionDiff > 120.0f && positionDiff < 200.0f) {
                 if (Math3D_Dist2DSq(colliderBaseAc->world.pos.z, this->colliderJntSph.base.ac->world.pos.x,
                                     this->dyna.actor.world.pos.z, this->dyna.actor.world.pos.x) < SQ(32.0f)) {
-                    func_800800F8(globalCtx, 4210, 240, &this->dyna.actor, 0);
+                    OnePointCutscene_Init(globalCtx, 4210, 240, &this->dyna.actor, MAIN_CAM);
                     func_808B7D38(this);
                     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 }

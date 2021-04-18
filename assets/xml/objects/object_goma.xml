@@ -1,0 +1,45 @@
+<Root>
+    <File Name="object_goma" Segment="6">
+        <!-- Skeleton -->
+        <Skeleton Name="gGohmaSkel" Type="Normal" LimbType="Standard" Offset="0x1DCF8"/>
+
+        <!-- Animations  -->
+        <Animation Name="gGohmaAnim_000AE8" Offset="0xAE8"/> <!-- standing up, wiggle (first encounter?) -->
+        <Animation Name="gGohmaAnim_00193C" Offset="0x193C"/> <!-- stretched, looking up (would make more sense with 0x8000 x rot?) -->
+        <Animation Name="gGohmaAnim_002360" Offset="0x2360"/> <!-- running -->
+        <Animation Name="gGohmaAnim_0029F0" Offset="0x29F0"/> <!-- standing up, shaking -->
+        <Animation Name="gGohmaAnim_004318" Offset="0x4318"/> <!-- attack (or land?) -->
+        <Animation Name="gGohmaAnim_004A20" Offset="0x4A20"/> <!-- briefly look up (rotX 0x8000?) -->
+        <Animation Name="gGohmaAnim_005330" Offset="0x5330"/> <!-- get up and close eye -->
+        <Animation Name="gGohmaAnim_0058C0" Offset="0x58C0"/> <!-- lying on ground, shook (when hit?) -->
+        <Animation Name="gGohmaAnim_005F28" Offset="0x5F28"/> <!-- briefly crouch, eye halfclosed -->
+        <Animation Name="gGohmaAnim_0066DC" Offset="0x66DC"/> <!-- running, head facing down -->
+        <Animation Name="gGohmaAnim_006E60" Offset="0x6E60"/> <!-- lying on ground, shook, rolling eye (when hit?) -->
+        <Animation Name="gGohmaAnim_00B2FC" Offset="0xB2FC"/> <!-- get up, shake, fall, get up, fall (death animation?) -->
+        <Animation Name="gGohmaAnim_00C468" Offset="0xC468"/> <!-- open eye, stretch/get up, blink, "attack posture" (first encounter?) -->
+        <Animation Name="gGohmaAnim_00CCD8" Offset="0xCCD8"/> <!-- on ground, eye and limbs shaking a bit -->
+        <Animation Name="gGohmaAnim_00F70C" Offset="0xF70C"/> <!-- blink, get up, take "attack posture" -->
+        <Animation Name="gGohmaAnim_010918" Offset="0x10918"/> <!-- standing up, roll eye -->
+        <Animation Name="gGohmaAnim_0113BC" Offset="0x113BC"/> <!-- eye half closed, standing up, kind of briefly crouch and agitate limbs -->
+        <Animation Name="gGohmaAnim_012678" Offset="0x12678"/> <!-- eye half closed, one step ahead, one step back (menacing) -->
+        <Animation Name="gGohmaAnim_01EB4C" Offset="0x1EB4C"/> <!-- eye half closed, walk (cautiously?) -->
+
+        <!-- Unused animations -->
+        <Animation Name="gGohmaAnim_0039D0" Offset="0x39D0"/> <!-- unused attack animation -->
+
+        <!-- Limb textures -->
+        <Texture Name="gGohmaTex_0183A8" Outname="gohma_tex_0183A8" Format="rgb5a1" Width="16" Height="16" Offset="0x183A8"/>
+        <Texture Name="gGohmaTex_0185A8" Outname="gohma_tex_0185A8" Format="rgb5a1" Width="16" Height="16" Offset="0x185A8"/>
+        <Texture Name="gGohmaTex_0187A8" Outname="gohma_tex_0187A8" Format="rgb5a1" Width="16" Height="16" Offset="0x187A8"/>
+        <Texture Name="gGohmaTex_0189A8" Outname="gohma_tex_0189A8" Format="rgb5a1" Width="32" Height="32" Offset="0x189A8"/>
+        <Texture Name="gGohmaTex_0191A8" Outname="gohma_tex_0191A8" Format="rgb5a1" Width="16" Height="16" Offset="0x191A8"/>
+        <Texture Name="gGohmaTex_0193A8" Outname="gohma_tex_0193A8" Format="rgb5a1" Width="32" Height="32" Offset="0x193A8"/>
+        
+        <!-- Boss title card -->
+        <Texture Name="gGohmaTitleCardTex" OutName="gohma_title_card" Format="i8" Width="128" Height="120" Offset="0x19BA8"/>
+        
+        <!-- Door -->
+        <DList Name="gGohmaDoorDL" Offset="0x1EC20"/>
+        <Collision Name="gGohmaDoorCol" Offset="0x1EDD0"/>
+    </File>
+</Root>

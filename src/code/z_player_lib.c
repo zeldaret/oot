@@ -693,8 +693,8 @@ Vec3f D_80126038[] = {
 };
 
 f32 D_80126050[] = { 1265.0f, 826.0f };
-f32 D_80126058[] = { 170.0415955f, 48.30249786f };
-f32 D_80126060[] = { 10.019104f, -19.92510223f };
+f32 D_80126058[] = { SQ(13.04f), SQ(6.95f) };
+f32 D_80126060[] = { 10.019104f, -19.925102f };
 f32 D_80126068[] = { 5.0f, 3.0f };
 
 Vec3f D_80126070 = { 0.0f, -300.0f, 0.0f };
@@ -705,7 +705,7 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
     Vec3f sp98;
     Vec3f footprintPos;
     CollisionPoly* sp88;
-    UNK_TYPE sp84;
+    s32 sp84;
     f32 sp80;
     f32 sp7C;
     f32 sp78;
@@ -768,14 +768,14 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
 
             sp50 = Math_FAtan2F(sp58, sp60);
 
-            temp1 = (M_PI - (Math_FAtan2F(sp5C, sp58) + ((M_PI / 2) - sp50))) * 10430.378f;
+            temp1 = (M_PI - (Math_FAtan2F(sp5C, sp58) + ((M_PI / 2) - sp50))) * (0x8000 / M_PI);
             temp1 = temp1 - skelAnime->jointTable[shinLimbIndex].z;
 
             if ((s16)(ABS(skelAnime->jointTable[shinLimbIndex].x) + ABS(skelAnime->jointTable[shinLimbIndex].y)) < 0) {
                 temp1 += 0x8000;
             }
 
-            temp2 = (sp50 - sp54) * 10430.378f;
+            temp2 = (sp50 - sp54) * (0x8000 / M_PI);
             rot->z -= temp2;
 
             skelAnime->jointTable[thighLimbIndex].z = skelAnime->jointTable[thighLimbIndex].z - temp2;
@@ -815,7 +815,7 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
         if (this->unk_6C2 != 0) {
             Matrix_Translate(pos->x, ((Math_CosS(this->unk_6C2) - 1.0f) * 200.0f) + pos->y, pos->z, MTXMODE_APPLY);
-            Matrix_RotateX(this->unk_6C2 * (M_PI / 32768), MTXMODE_APPLY);
+            Matrix_RotateX(this->unk_6C2 * (M_PI / 0x8000), MTXMODE_APPLY);
             Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
             pos->x = pos->y = pos->z = 0.0f;
             rot->x = rot->y = rot->z = 0;
@@ -831,17 +831,17 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             rot->z += this->unk_6B6;
         } else if (limbIndex == PLAYER_LIMB_UPPER) {
             if (this->unk_6B0 != 0) {
-                Matrix_RotateZ(0.10546118f, MTXMODE_APPLY);
-                Matrix_RotateY(this->unk_6B0 * (M_PI / 32768), MTXMODE_APPLY);
+                Matrix_RotateZ(0x44C * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateY(this->unk_6B0 * (M_PI / 0x8000), MTXMODE_APPLY);
             }
             if (this->unk_6BE != 0) {
-                Matrix_RotateY(this->unk_6BE * (M_PI / 32768), MTXMODE_APPLY);
+                Matrix_RotateY(this->unk_6BE * (M_PI / 0x8000), MTXMODE_APPLY);
             }
             if (this->unk_6BC != 0) {
-                Matrix_RotateX(this->unk_6BC * (M_PI / 32768), MTXMODE_APPLY);
+                Matrix_RotateX(this->unk_6BC * (M_PI / 0x8000), MTXMODE_APPLY);
             }
             if (this->unk_6C0 != 0) {
-                Matrix_RotateZ(this->unk_6C0 * (M_PI / 32768), MTXMODE_APPLY);
+                Matrix_RotateZ(this->unk_6C0 * (M_PI / 0x8000), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
             func_8008F87C(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN,
@@ -1364,8 +1364,8 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + 0x3800);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(segment + 0x8800);
 
-    SkelAnime_InitLink(globalCtx, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.linkAge], &gPlayer488Anim, 9, ptr,
-                       ptr, PLAYER_LIMB_MAX);
+    SkelAnime_InitLink(globalCtx, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.linkAge], &gPlayerAnim_003238, 9,
+                       ptr, ptr, PLAYER_LIMB_MAX);
 
     return size + 0x8890;
 }
@@ -1450,7 +1450,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
                         G_TD_CLAMP | G_TP_PERSP | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
     gSPLoadGeometryMode(POLY_OPA_DISP++, G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
-    gDPSetScissorFrac(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, width * 4.0f, height * 4.0f);
+    gDPSetScissor(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, width, height);
     gSPClipRatio(POLY_OPA_DISP++, FRUSTRATIO_1);
 
     gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, img2);
