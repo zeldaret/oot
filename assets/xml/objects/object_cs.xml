@@ -31,7 +31,7 @@
         <DList Name="gGraveYardKidRightSholderDL" Offset="0x6CA8"/>
         <DList Name="gGraveYardKidRightArmDL" Offset="0x6E60"/>
         <DList Name="gGraveYardKidRightHandDL" Offset="0x70A8"/>
-        <DList Name="gGraveYardKidHeadDL" Offset="0xx6808"/>
+        <DList Name="gGraveYardKidHeadDL" Offset="0x6808"/>
 
         <Animation Name="gGraveYardKidWalkAnim" Offset="0x0700"/>
         <Animation Name="gGraveYardKidSwingStickUpAnim" Offset="0x0E10"/>
@@ -45,9 +45,16 @@
 
         <Texture Name="gGraveYardKidPAL" OutName="palette" Format="rgb5a1" Width="16" Height="16" Offset="0x1970"/>
         <Texture Name="gGraveYardKidGradientTex" OutName="gradient" Format="ci8" Width="8" Height="8" Offset="0x1B70"/>
-        <Texture Name="gGradeYardKidStickTex" OutName="stick" Format="ci8" Width="16" Height="16" Offset="0x1BB0"/>
-        <Texture Name="gGraveYardKid_1CB0Tex" Format="ci8" Width="8" Height="8" Offset="0x1CB0"/>
-        <Texture Name="gGraveYardKidShirt1Tex" OutName="shirt1" Format="ci8" Width="16" Height="16" Offset="0x3A30"/>
-        <Texture Name="gGraveYardKidShirt2Tex" OutName="shirt2" Format="ci8" Width="8" Height="8" Offset="0x3B30"/>
-    </File>
+        <Texture Name='gGraveYardKidPantsTex' OutName="pants" Format="ci8" Width="16" Height="16" Offset="0x3C70"/>
+        <Texture Name='gGraveYardKidBootTex1' OutName="boot1" Format="ci8" Width="8" Height="16" Offset="0x3BF0"/>
+        <Texture Name='gGraveYardKidBootTex2' OutName="boot2" Format="ci8" Width="8" Height="8" Offset="0x3BB0"/>
+        <Texture Name='gGraveYardKidHairTex' OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x1BB0"/>
+        <Texture Name='gGraveYardKidEarTex' OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x1CB0"/>
+        <Texture Name='gGraveYardKidNoseTex' OutName="nose" Format="ci8" Width="8" Height="8" Offset="0x1CF0"/>
+        <Texture Name='gGraveYardKidMouthTex' OutName="mouth" Format="ci8" Width="32" Height="16" Offset="0x1D30"/>
+        <Texture Name='gGraveYardKidShirtTex1' OutName="shirt1" Format="ci8" Width="16" Height="16" Offset="0x3A30"/>
+        <Texture Name='gGraveYardKidShirtTex2' OutName="shirt2" Format="ci8" Width="8" Height="8" Offset="0x3B30"/>
+        <Texture Name='gGraveYardKidFingersTex' OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0x3930"/>
+        <Texture Name='gGraveYardKidStickTex' OutName="stick" Format="ci8" Width="8" Height="8" Offset="0x3B70"/>
+   </File>
 </Root>
