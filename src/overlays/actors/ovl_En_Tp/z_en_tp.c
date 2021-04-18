@@ -53,7 +53,7 @@ const ActorInit En_Tp_InitVars = {
     (ActorFunc)EnTp_Draw,
 };
 
-static ColliderJntSphElementInit D_80B22A90[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEMTYPE_UNK0,
@@ -67,7 +67,7 @@ static ColliderJntSphElementInit D_80B22A90[1] = {
     },
 };
 
-static ColliderJntSphInit D_80B22AB4 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_HIT1,
         AT_ON | AT_TYPE_ENEMY,
@@ -77,17 +77,17 @@ static ColliderJntSphInit D_80B22AB4 = {
         COLSHAPE_JNTSPH,
     },
     1,
-    D_80B22A90,
+    sJntSphElementsInit,
 };
 
 typedef enum {
-    /* 00 */ TAILPASARAN_DMGEFF_NONE, // No effect
+    /* 00 */ TAILPASARAN_DMGEFF_NONE,
     /* 01 */ TAILPASARAN_DMGEFF_DEKUNUT,
     /* 14 */ TAILPASARAN_DMGEFF_SHOCKING = 14, // Kills the Tailpasaran but shocks Player
     /* 15 */ TAILPASARAN_DMGEFF_INSULATING     // Kills the Tailpasaran and does not shock Player
 } TailpasaranDamageEffect;
 
-static DamageTable D_80B22AC4 = {
+static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_DEKUNUT),
     /* Deku stick    */ DMG_ENTRY(2, TAILPASARAN_DMGEFF_INSULATING),
     /* Slingshot     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
@@ -122,8 +122,7 @@ static DamageTable D_80B22AC4 = {
     /* Unknown 2     */ DMG_ENTRY(0, TAILPASARAN_DMGEFF_NONE),
 };
 
-// sInitChain
-static InitChainEntry D_80B22AE4[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 10, ICHAIN_STOP),
 };
 
@@ -140,19 +139,18 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnTp* now;
     EnTp* next;
     s32 i;
-    // s64 new_var;
     s64 temp_s4;
 
-    Actor_ProcessInitChain(&this->actor, D_80B22AE4);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.targetMode = 3;
-    this->actor.colChkInfo.damageTable = &D_80B22AC4;
+    this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);
     this->unk_150 = 0;
     this->actor.colChkInfo.health = 1;
     now = this;
     this->alpha = 255;
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80B22AB4, this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
         this->actor.naviEnemyId = 6;
@@ -166,7 +164,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         for (i = 0; i <= 6; i++) {
             temp_s4 = 0;
-            // new_var = 0;
+            
             next = (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
                                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
 
