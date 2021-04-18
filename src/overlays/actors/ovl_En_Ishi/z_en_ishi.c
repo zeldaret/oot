@@ -376,9 +376,9 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer < 90.0f) {
                 if (type == ROCK_LARGE) {
-                    func_8002F434(&this->actor, globalCtx, 0, 80.0f, 20.0f);
+                    func_8002F434(&this->actor, globalCtx, GI_NONE, 80.0f, 20.0f);
                 } else {
-                    func_8002F434(&this->actor, globalCtx, 0, 50.0f, 10.0f);
+                    func_8002F434(&this->actor, globalCtx, GI_NONE, 50.0f, 10.0f);
                 }
             }
         }

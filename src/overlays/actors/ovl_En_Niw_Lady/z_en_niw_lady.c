@@ -307,14 +307,14 @@ void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx) {
         this->unk_26E = 0xB;
         if (!(gSaveContext.itemGetInf[0] & 0x1000)) {
             this->actor.parent = NULL;
-            this->unk_284 = 0xF;
-            func_8002F434(&this->actor, globalCtx, 0xF, 100.0f, 50.0f);
+            this->getItemId = GI_BOTTLE;
+            func_8002F434(&this->actor, globalCtx, GI_BOTTLE, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
             return;
         }
         if (this->unk_26C == 1) {
-            this->unk_284 = 0x55;
-            func_8002F434(&this->actor, globalCtx, 0x55, 100.0f, 50.0f);
+            this->getItemId = GI_RUPEE_PURPLE;
+            func_8002F434(&this->actor, globalCtx, GI_RUPEE_PURPLE, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
         }
         this->actionFunc = func_80ABA244;
@@ -417,7 +417,7 @@ void func_80ABAB08(EnNiwLady* this, GlobalContext* globalCtx) {
             case 0:
                 func_80106CCC(globalCtx);
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, globalCtx, 0xE, 200.0f, 100.0f);
+                func_8002F434(&this->actor, globalCtx, GI_COJIRO, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
                 break;
             case 1:
@@ -439,7 +439,7 @@ void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_80ABAC84;
     } else {
-        getItemId = this->unk_284;
+        getItemId = this->getItemId;
         if (LINK_IS_ADULT) {
             getItemId = !(gSaveContext.itemGetInf[2] & 0x1000) ? GI_POCKET_EGG : GI_COJIRO;
         }

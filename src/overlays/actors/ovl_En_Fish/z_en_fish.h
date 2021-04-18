@@ -20,8 +20,14 @@ typedef struct EnFish {
     /* 0x024A */ s16 unk_24A;
     /* 0x024C */ s16 unk_24C;
     /* 0x024E */ s16 unk_24E;
-    /* 0x0250 */ s32 unk_250;
+    /* 0x0250 */ s32 unk_250; // Set to 0 or 5, arg5 of Actor_UpdateBgCheckInfo
 } EnFish; // size = 0x0254
+
+typedef enum {
+    /* 0 */ FISH_DROPPED,
+    /* 1 */ FISH_1,
+    /* 2 */ FISH_2
+} EnFishType;
 
 extern const ActorInit En_Fish_InitVars;
 
