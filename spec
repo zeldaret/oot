@@ -5645,7 +5645,8 @@ endseg
 beginseg
     name "object_jya_door"
     romalign 0x1000
-    include "build/baserom/object_jya_door.o"
+    include "build/assets/objects/object_jya_door/object_jya_door.o"
+    number 6
 endseg
 
 beginseg

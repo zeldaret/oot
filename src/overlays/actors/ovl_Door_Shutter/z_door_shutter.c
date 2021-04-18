@@ -10,6 +10,7 @@
 #include "objects/object_gnd/object_gnd.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
+#include "objects/object_jya_door/object_jya_door.h"
 
 #define FLAGS 0x00000010
 
@@ -54,7 +55,7 @@ typedef struct {
     u8 index2;
 } ShutterObjectInfo;
 
-static ShutterObjectInfo D_809980F0[] = {
+static ShutterObjectInfo sObjectInfo[] = {
     { OBJECT_GND, 4, 4 },
     { OBJECT_GOMA, 5, 5 },
     { OBJECT_YDAN_OBJECTS, 0, 1 },
@@ -83,14 +84,14 @@ typedef struct {
     /* 0x000B */ u8 f;
 } ShutterInfo;
 
-static ShutterInfo D_80998134[] = {
+static ShutterInfo sShutterInfo[] = {
     { 0x060067A0, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { 0x06006910, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 },
     { 0x06000590, 0x06006460, 0, 110, 50, 15 },
     { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },
     { 0x0601EC20, NULL, 130, 12, 50, 15 },
-    { 0x06000100, 0x060001F0, 240, 14, 50, 15 },
+    { gJyaDoorDL, gJyaDoorMetalBarsDL, 240, 14, 50, 15 },
     { 0x060010C0, NULL, 130, 12, 50, 15 },
     { gDungeonDoorDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { gFireTempleDoorFrontDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
@@ -122,7 +123,7 @@ typedef struct {
     u8 index;
 } ShutterSceneInfo;
 
-static ShutterSceneInfo D_80998240[] = {
+static ShutterSceneInfo sSceneInfo[] = {
     { SCENE_YDAN, 0x02 },       { SCENE_DDAN, 0x03 },         { SCENE_DDAN_BOSS, 0x03 },
     { SCENE_BDAN, 0x04 },       { SCENE_BMORI1, 0x05 },       { SCENE_HIDAN, 0x08 },
     { SCENE_GANON, 0x09 },      { SCENE_GANON_BOSS, 0x09 },   { SCENE_JYASINZOU, 0x0A },
@@ -167,7 +168,7 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
     TransitionActorEntry* transitionEntry = &globalCtx->transitionActorList[(u16)this->dyna.actor.params >> 0xA];
     s8 frontRoom = transitionEntry->sides[0].room;
     s32 doorType = this->doorType;
-    ShutterObjectInfo* temp_t0 = &D_809980F0[this->unk_16B];
+    ShutterObjectInfo* temp_t0 = &sObjectInfo[this->unk_16B];
 
     if (doorType != SHUTTER_KEY_LOCKED) {
         if (frontRoom == transitionEntry->sides[1].room) {
@@ -223,7 +224,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (phi_a3 < 0) {
         ShutterSceneInfo* phi_v1;
 
-        for (phi_v1 = &D_80998240[0], i = 0; i < ARRAY_COUNT(D_80998240) - 1; i++, phi_v1++) {
+        for (phi_v1 = &sSceneInfo[0], i = 0; i < ARRAY_COUNT(sSceneInfo) - 1; i++, phi_v1++) {
             if (globalCtx2->sceneNum == phi_v1->sceneNum) {
                 break;
             }
@@ -241,7 +242,8 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->dyna.actor.room = -1;
     }
-    if (this->requiredObjBankIndex = objectIndex = Object_GetIndex(&globalCtx2->objectCtx, D_809980F0[phi_a3].objectId),
+    if (this->requiredObjBankIndex = objectIndex =
+            Object_GetIndex(&globalCtx2->objectCtx, sObjectInfo[phi_a3].objectId),
         (s8)objectIndex < 0) {
         Actor_Kill(&this->dyna.actor);
         return;
@@ -282,7 +284,7 @@ void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
             CollisionHeader* colHeader = NULL;
 
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-            this->unk_16C = D_809980F0[this->unk_16B].index1;
+            this->unk_16C = sObjectInfo[this->unk_16B].index1;
             CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &gPhantomGanonBarsCol,
                                        &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -322,7 +324,7 @@ s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (!Player_InCsMode(globalCtx)) {
-        ShutterInfo* temp_v1 = &D_80998134[this->unk_16C];
+        ShutterInfo* temp_v1 = &sShutterInfo[this->unk_16C];
         f32 temp_f2 = func_80996840(globalCtx, this, (this->unk_16C != 3) ? 0.0f : 80.0f, temp_v1->e, temp_v1->f);
 
         if (fabsf(temp_f2) < 50.0f) {
@@ -680,7 +682,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.objBankIndex == this->requiredObjBankIndex &&
         (this->unk_16B == 0 || func_80997A34(this, globalCtx) != 0)) {
         s32 pad[2];
-        ShutterInfo* sp70 = &D_80998134[this->unk_16C];
+        ShutterInfo* sp70 = &sShutterInfo[this->unk_16C];
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2048);
         func_80093D18(globalCtx->state.gfxCtx);
