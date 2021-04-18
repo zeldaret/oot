@@ -191,8 +191,10 @@ build/undefined_syms.txt: undefined_syms.txt
 clean:
 	$(RM) -r $(ROM) $(ELF) build
 
-distclean: clean
+cleanassets:
 	$(RM) -r $(ASSET_BIN_DIRS)
+
+distclean: clean cleanassets
 	$(RM) -r baserom/
 	$(MAKE) -C tools distclean
 
