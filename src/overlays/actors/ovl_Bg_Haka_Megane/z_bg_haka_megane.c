@@ -39,8 +39,8 @@ static InitChainEntry sInitChain[] = {
 extern CollisionHeader D_06004330, D_060044D0, D_06004780, D_06004940, D_06004B00, D_06004CC0;
 
 static CollisionHeader* sCollisionHeaders[] = {
-    &gBotwCol1, &gBotwCol2, NULL,        &D_06004330, &D_060044D0, NULL, &D_06004780,
-    &D_06004940, NULL,        &D_06004B00, NULL,        &D_06004CC0, NULL,
+    &gBotwCol1,  &gBotwCol2, NULL,        &D_06004330, &D_060044D0, NULL, &D_06004780,
+    &D_06004940, NULL,       &D_06004B00, NULL,        &D_06004CC0, NULL,
 };
 
 static Gfx* sDLists[] = {

@@ -1,5 +1,6 @@
 #include "z_en_cs.h"
 #include "objects/object_cs/object_cs.h"
+
 #define FLAGS 0x00000009
 
 #define THIS ((EnCs*)thisx)
@@ -15,8 +16,7 @@ void EnCs_Wait(EnCs* this, GlobalContext* globalCtx);
 s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-extern FlexSkeletonHeader D_06008540; // Graveyard boy skeleton
-extern Gfx D_0602AF70[];              // Spooky Mask in Child Link's object
+extern Gfx D_0602AF70[]; // Spooky Mask in Child Link's object
 
 const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,
@@ -55,10 +55,10 @@ static CollisionCheckInfoInit2 sColChkInfoInit2 = { 0, 0, 0, 0, MASS_IMMOVABLE }
 static DamageTable sDamageTable = { 0 };
 
 static struct_D_80AA1678 sAnimations[] = {
-    { 0x06000700, 1.0f, ANIMMODE_ONCE, -10.0f },
-    { 0x06000E10, 1.0f, ANIMMODE_ONCE, -10.0f },
-    { 0x06001588, 1.0f, ANIMMODE_ONCE, -10.0f },
-    { 0x0600195C, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gGraveYardKidWalkAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gGraveYardKidSwingStickUpAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gGraveYardKidGrabStickTwoHandsAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gGraveYardKidIdleAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
 };
 
 void EnCs_SetAnimFromIndex(EnCs* this, s32 animIndex, s32* currentAnimIndex) {
@@ -377,77 +377,50 @@ void EnCs_Talk(EnCs* this, GlobalContext* globalCtx) {
         this->flag &= ~1;
     }
 }
-u8 sUpdateEnable;
+
 void EnCs_Update(Actor* thisx, GlobalContext* globalCtx) {
     static s32 eyeBlinkFrames[] = { 70, 1, 1 };
     EnCs* this = THIS;
     s32 pad;
-    if (sUpdateEnable) {
-        if (this->currentAnimIndex == 0) {
-            if (((s32)this->skelAnime.curFrame == 9) || ((s32)this->skelAnime.curFrame == 23)) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
-            }
-        } else if (this->currentAnimIndex == 1) {
-            if (((s32)this->skelAnime.curFrame == 10) || ((s32)this->skelAnime.curFrame == 25)) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
-            }
-        } else if ((this->currentAnimIndex == 2) && ((s32)this->skelAnime.curFrame == 20)) {
+
+    if (this->currentAnimIndex == 0) {
+        if (((s32)this->skelAnime.curFrame == 9) || ((s32)this->skelAnime.curFrame == 23)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
-
-        Collider_UpdateCylinder(&this->actor, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-
-        this->actionFunc(this, globalCtx);
-
-        EnCs_HandleTalking(this, globalCtx);
-
-        this->eyeBlinkTimer--;
-
-        if (this->eyeBlinkTimer < 0) {
-            this->eyeIndex++;
-
-            if (this->eyeIndex >= 3) {
-                this->eyeIndex = 0;
-            }
-
-            this->eyeBlinkTimer = eyeBlinkFrames[this->eyeIndex];
+    } else if (this->currentAnimIndex == 1) {
+        if (((s32)this->skelAnime.curFrame == 10) || ((s32)this->skelAnime.curFrame == 25)) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
+    } else if ((this->currentAnimIndex == 2) && ((s32)this->skelAnime.curFrame == 20)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
+    }
+
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+
+    this->actionFunc(this, globalCtx);
+
+    EnCs_HandleTalking(this, globalCtx);
+
+    this->eyeBlinkTimer--;
+
+    if (this->eyeBlinkTimer < 0) {
+        this->eyeIndex++;
+
+        if (this->eyeIndex >= 3) {
+            this->eyeIndex = 0;
+        }
+
+        this->eyeBlinkTimer = eyeBlinkFrames[this->eyeIndex];
     }
 }
-
-s8 sLimbIndex;
 
 void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static u64* eyeTextures[] = { 0x06002130, 0x06002930, 0x06003130 };
     EnCs* this = THIS;
     s32 pad;
-    GfxPrint printer;
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_cs.c", 968);
-    GfxPrint_Init(&printer);
-    GfxPrint_Open(&printer, OVERLAY_DISP);
-    GfxPrint_SetColor(&printer, 255, 255, 255, 255);
-    GfxPrint_SetPos(&printer, 0, 7);
-    GfxPrint_Printf(&printer, "Limb: %d\nLimb: %x\n", sLimbIndex, this->skelAnime.skeleton[sLimbIndex]);
-    OVERLAY_DISP = GfxPrint_Close(&printer);
-    GfxPrint_Destroy(&printer);
-    if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_DUP)) {
-        sLimbIndex++;
-        if (sLimbIndex > this->skelAnime.limbCount) {
-            sLimbIndex = 0;
-        }
-    }
-    if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_DDOWN)) {
-        sLimbIndex--;
-        if (sLimbIndex < 0) {
-            sLimbIndex = this->skelAnime.limbCount;
-        }
-    }
 
-    if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L)) {
-        sUpdateEnable ^= 1;
-        this->actor.world.pos.y += 30;
-    }
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_cs.c", 968);
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
@@ -474,44 +447,9 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_cs.c", 1015);
 }
 
-static Vtx cubeVtx[24] = {
-    VTX(-100, 100, -100, 28, 16, 0, 127, 0, 255), VTX(100, 100, 100, 20, 8, 0, 127, 0, 255),
-    VTX(100, 100, -100, 20, 16, 0, 127, 0, 255),  VTX(100, 100, 100, 20, 8, 0, 0, 127, 255),
-    VTX(-100, -100, 100, 12, 0, 0, 0, 127, 255),  VTX(100, -100, 100, 12, 8, 0, 0, 127, 255),
-    VTX(-100, 100, 100, 20, 32, 129, 0, 0, 255),  VTX(-100, -100, -100, 12, 24, 129, 0, 0, 255),
-    VTX(-100, -100, 100, 12, 32, 129, 0, 0, 255), VTX(100, -100, -100, 12, 16, 0, 129, 0, 255),
-    VTX(-100, -100, 100, 4, 8, 0, 129, 0, 255),   VTX(-100, -100, -100, 4, 16, 0, 129, 0, 255),
-    VTX(100, 100, -100, 20, 16, 127, 0, 0, 255),  VTX(100, -100, 100, 12, 8, 127, 0, 0, 255),
-    VTX(100, -100, -100, 12, 16, 127, 0, 0, 255), VTX(-100, 100, -100, 20, 24, 0, 0, 129, 255),
-    VTX(100, -100, -100, 12, 16, 0, 0, 129, 255), VTX(-100, -100, -100, 12, 24, 0, 0, 129, 255),
-    VTX(-100, 100, 100, 28, 8, 0, 127, 0, 255),   VTX(-100, 100, 100, 20, 0, 0, 0, 127, 255),
-    VTX(-100, 100, -100, 20, 24, 129, 0, 0, 255), VTX(100, -100, 100, 12, 8, 0, 129, 0, 255),
-    VTX(100, 100, 100, 20, 8, 127, 0, 0, 255),    VTX(100, 100, -100, 20, 16, 0, 0, 129, 255),
-};
-
-Gfx cubeDList[] = {
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
-    gsSPVertex(cubeVtx, 24, 0),
-    gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
-    gsSP2Triangles(6, 7, 8, 0, 9, 10, 11, 0),
-    gsSP2Triangles(12, 13, 14, 0, 15, 16, 17, 0),
-    gsSP2Triangles(0, 18, 1, 0, 3, 19, 4, 0),
-    gsSP2Triangles(6, 20, 7, 0, 9, 21, 10, 0),
-    gsSP2Triangles(12, 22, 13, 0, 15, 23, 16, 0),
-    gsSPEndDisplayList(),
-};
-
 s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnCs* this = THIS;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, __FILE__, __LINE__);
-
-    if (limbIndex == sLimbIndex) {
-        gDPSetPrimColor(POLY_OPA_DISP, 0, 0, 0, 255, 0, 255);
-        *dList = cubeDList;
-    }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, __FILE__, __LINE__);
     if (this->flag & 1) {
         switch (limbIndex) {
             case 8:
