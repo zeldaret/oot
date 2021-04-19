@@ -25,12 +25,12 @@ void func_80A15AD4(EnFish* this);
 void func_80A15B2C(EnFish* this, GlobalContext* globalCtx);
 void func_80A15D18(EnFish* this);
 void func_80A15D68(EnFish* this, GlobalContext* globalCtx);
-void func_80A15F24(EnFish* this);
-void func_80A15F84(EnFish* this, GlobalContext* globalCtx);
-void func_80A160BC(EnFish* this);
-void func_80A16200(EnFish* this, GlobalContext* globalCtx);
-void func_80A163DC(EnFish* this);
-void func_80A16450(EnFish* this, GlobalContext* globalCtx);
+void EnFish_Dropped_SetupFall(EnFish* this);
+void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx);
+void EnFish_Dropped_SetupFlopOnGround(EnFish* this);
+void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx);
+void EnFish_Dropped_SetupSwimAway(EnFish* this);
+void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx);
 void func_80A16618(EnFish* this);
 void func_80A16670(EnFish* this, GlobalContext* globalCtx);
 
@@ -147,10 +147,10 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_24C = (s32)(Rand_ZeroOne() * 65535.5f);
     this->unk_24E = (s32)(Rand_ZeroOne() * 65535.5f);
 
-    if (params == 0) { // Bottled
+    if (params == FISH_DROPPED) {
         this->actor.flags |= 0x10;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 8.0f);
-        func_80A15F24(this);
+        EnFish_Dropped_SetupFall(this);
     } else if (params == 1) {
         func_80A16618(this);
     } else {
@@ -378,18 +378,18 @@ void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15F24.s")
-void func_80A15F24(EnFish* this) {
+void EnFish_Dropped_SetupFall(EnFish* this) {
     this->actor.gravity = -1.0f;
     this->actor.minVelocityY = -10.0f;
     this->actor.shape.yOffset = 0.0f;
     EnFish_SetOutOfWaterAnimation(this);
     this->unk_250 = 5;
-    this->actionFunc = func_80A15F84;
+    this->actionFunc = EnFish_Dropped_Fall;
     this->unk_248 = 300;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15F84.s")
-void func_80A15F84(EnFish* this, GlobalContext* globalCtx) {
+void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.1f, 0.0f);
     Math_StepToAngleS(&this->actor.world.rot.x, 0x4000, 100);
     Math_StepToAngleS(&this->actor.world.rot.z, -0x4000, 100);
@@ -400,9 +400,9 @@ void func_80A15F84(EnFish* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 1) { // On floor
         this->unk_248 = 400;
-        func_80A160BC(this);
+        EnFish_Dropped_SetupFlopOnGround(this);
     } else if (this->actor.bgCheckFlags & 0x20) { // In water
-        func_80A163DC(this);
+        EnFish_Dropped_SetupSwimAway(this);
     } else if ((this->unk_248 <= 0) && (this->actor.params == FISH_DROPPED) && (this->actor.floorHeight < -31990.0f)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // BG missing? Running Actor_delete
@@ -413,62 +413,62 @@ void func_80A15F84(EnFish* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A160BC.s")
-void func_80A160BC(EnFish* this) {
+/**
+ * If the fish is on a floor, this function is looped back to by EnFish_Dropped_FlopOnGround to set a new flopping random flopping height and whether the sound should play again.
+ */
+void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     s32 pad;
-    f32 temp_f0;
-    s32 phi_v0;
+    f32 randomFloat;
+    s32 playSound;
 
     this->actor.gravity = -1.0f;
     this->actor.minVelocityY = -10.0f;
-    temp_f0 = Rand_ZeroOne();
+    randomFloat = Rand_ZeroOne();
 
-    if (temp_f0 < 0.1f) {
+    if (randomFloat < 0.1f) {
         this->actor.velocity.y = (Rand_ZeroOne() * 3.0f) + 2.5f;
-        phi_v0 = true;
-    } else if (temp_f0 < 0.2f) {
+        playSound = true;
+    } else if (randomFloat < 0.2f) {
         this->actor.velocity.y = (Rand_ZeroOne() * 1.2f) + 0.2f;
-        phi_v0 = true;
+        playSound = true;
     } else {
         this->actor.velocity.y = 0.0f;
 
         if (Rand_ZeroOne() < 0.2f) {
-            phi_v0 = true;
+            playSound = true;
         } else {
-            phi_v0 = false;
+            playSound = false;
         }
     }
 
     this->actor.shape.yOffset = 300.0f;
     EnFish_SetOutOfWaterAnimation(this);
-    this->actionFunc = func_80A16200;
+    this->actionFunc = EnFish_Dropped_FlopOnGround;
     this->unk_250 = 5;
 
-    if (phi_v0 && (this->actor.draw != NULL)) {
+    if (playSound && (this->actor.draw != NULL)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16200.s")
-void func_80A16200(EnFish* this, GlobalContext* globalCtx) {
+void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
-    s16 temp_v0;
-    s16 phi_a1;
-
-    temp_v0 = globalCtx->state.frames;
+    s16 frames = globalCtx->state.frames;
+    s16 targetXRot;
 
     Math_SmoothStepToF(&this->actor.speedXZ, Rand_ZeroOne() * 0.2f, 0.1f, 0.1f, 0.0f);
 
-    phi_a1 = (s16)((((temp_v0 >> 5) & 2) | ((temp_v0 >> 2) & 1)) << 0xB) * 0.3f;
-    // phi_a1 = (s16)((temp_v0 * 0x240) & 0x1800) * 0.3f;
+    targetXRot = (s16)((((frames >> 5) & 2) | ((frames >> 2) & 1)) << 0xB) * 0.3f;
 
-    if (temp_v0 & 4) {
-        phi_a1 = -phi_a1;
+    if (frames & 4) {
+        targetXRot = -targetXRot;
     }
 
-    Math_StepToAngleS(&this->actor.world.rot.x, phi_a1, 4000);
+    Math_StepToAngleS(&this->actor.world.rot.x, targetXRot, 4000);
     Math_StepToAngleS(&this->actor.world.rot.z, 0x4000, 1000);
     this->actor.world.rot.y +=
-        (s32)(s16)(((Math_SinS(this->unk_24C) * 2000.0f) + (Math_SinS(this->unk_24E) * 1000.0f)) * Rand_ZeroOne());
+        (s16)(((Math_SinS(this->unk_24C) * 2000.0f) + (Math_SinS(this->unk_24E) * 1000.0f)) * Rand_ZeroOne());
     this->actor.shape.rot = this->actor.world.rot;
 
     SkelAnime_Update(&this->skelAnime);
@@ -479,20 +479,21 @@ void func_80A16200(EnFish* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_248 <= 60) {
-        if (temp_v0 & 4) {
+        // Blink when about to disappear
+        if (frames & 4) {
             this->actor.draw = EnFish_Draw;
         } else {
             this->actor.draw = NULL;
         }
     } else if (this->actor.bgCheckFlags & 0x20) { // In water
-        func_80A163DC(this);
+        EnFish_Dropped_SetupSwimAway(this);
     } else if (this->actor.bgCheckFlags & 1) { // On floor
-        func_80A160BC(this);
+        EnFish_Dropped_SetupFlopOnGround(this);
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A163DC.s")
-void func_80A163DC(EnFish* this) {
+void EnFish_Dropped_SetupSwimAway(EnFish* this) {
     this->actor.home.pos = this->actor.world.pos;
     this->actor.flags |= 0x10;
     this->unk_248 = 200;
@@ -500,17 +501,17 @@ void func_80A163DC(EnFish* this) {
     this->actor.minVelocityY = 0.0f;
     this->actor.shape.yOffset = 0.0f;
     EnFish_SetInWaterAnimation(this);
-    this->actionFunc = func_80A16450;
+    this->actionFunc = EnFish_Dropped_SwimAway;
     this->unk_250 = 5;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16450.s")
-void func_80A16450(EnFish* this, GlobalContext* globalCtx) {
+void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Math_SmoothStepToF(&this->actor.speedXZ, 2.8f, 0.1f, 0.4f, 0.0f);
 
-    // Touching wall or not in water
+    // If touching wall or not in water, turn back and slow down for one frame.
     if ((this->actor.bgCheckFlags & 8) || !(this->actor.bgCheckFlags & 0x20)) { 
         this->actor.home.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         this->actor.speedXZ *= 0.5f;
@@ -522,12 +523,14 @@ void func_80A16450(EnFish* this, GlobalContext* globalCtx) {
 
     this->actor.shape.rot = this->actor.world.rot;
 
-    if (this->actor.bgCheckFlags & 1) { // On floor
+    // Raise if on a floor.
+    if (this->actor.bgCheckFlags & 1) { 
         Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y - 4.0f, 2.0f);
     } else {
         Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y - 10.0f, 2.0f);
     }
 
+    // Shrink when close to disappearing.
     if (this->unk_248 < 100) {
         Actor_SetScale(&this->actor, this->actor.scale.x * 0.982f);
     }
@@ -769,7 +772,7 @@ void func_80A16DEC(EnFish* this, GlobalContext* globalCtx) {
 void EnFish_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFish* this = THIS;
 
-    if ((D_80A17010 == NULL) && (this->actor.params == 0) && (globalCtx->csCtx.state != 0) &&
+    if ((D_80A17010 == NULL) && (this->actor.params == FISH_DROPPED) && (globalCtx->csCtx.state != 0) &&
         (globalCtx->csCtx.npcActions[1] != NULL)) {
         func_80A153AC(this);
     }
