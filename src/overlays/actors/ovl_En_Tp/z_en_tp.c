@@ -372,7 +372,7 @@ void EnTp_Fragment_Fade(EnTp* this, GlobalContext* globalCtx) {
 }
 
 void EnTp_Head_SetupTakeOff(EnTp* this) {
-    this->timer = (s32)((Rand_ZeroOne() * 15.0f) + 40.0f);
+    this->timer = (Rand_ZeroOne() * 15.0f) + 40.0f;
     this->actionIndex = TAILPASARAN_ACTION_HEAD_TAKEOFF;
     EnTp_SetupAction(this, EnTp_Head_TakeOff);
 }
@@ -406,7 +406,7 @@ void EnTp_Head_TakeOff(EnTp* this, GlobalContext* globalCtx) {
     }
 
     this->actor.world.pos.y +=
-        (Math_CosF(this->heightPhase) * ((this->actor.speedXZ * 0.25f) + this->extraHeightVariation));
+        Math_CosF(this->heightPhase) * ((this->actor.speedXZ * 0.25f) + this->extraHeightVariation);
     this->actor.world.rot.y += this->unk_164;
     this->heightPhase += 0.2f;
 
