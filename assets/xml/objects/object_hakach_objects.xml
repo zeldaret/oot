@@ -15,14 +15,14 @@
         <Collision Name="gBotwCol1" Offset="0x1830"/>
         <Collision Name="gBotwCol2" Offset="0x1AB8"/>
 
-        <Texture Name="gBotwWaterTex1" OutName="water_1" Format="ia16" Width="32" Height="32" Offset="0x028F0"/>
-        <Texture Name="gBotwWaterTex2" OutName="water_2" Format="rgb5a1" Width="32" Height="32" Offset="0x020F0"/>
+        <Texture Name="gBotwWater1Tex" OutName="water_1" Format="ia16" Width="32" Height="32" Offset="0x028F0"/>
+        <Texture Name="gBotwWater2Tex" OutName="water_2" Format="rgb5a1" Width="32" Height="32" Offset="0x020F0"/>
         <Texture Name="gBotw_30F0Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x30F0"/>
         <Texture Name="gBotwBloodSplatterTex" OutName="blood_splatter" Format="ia16" Width="32" Height="32" Offset="0x38F0"/>
-        <Texture Name="gBotw_40F0Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x40F0"/>
-        <Texture Name="gBotw_48F0Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x48F0"/>
-        <Texture Name="gBotw_50F0Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x50F0"/>
-        <Texture Name="gBotw_58F0Tex" Format="rgb5a1" Width="32" Height="32" Offset="0x58F0"/>
-        <Texture Name="gBotw_60F0Tex" Format="i4" Width="32" Height="32" Offset="0x60F0"/>
+        <Texture Name="gBotwTex_40F0" Format="rgb5a1" Width="32" Height="32" Offset="0x40F0"/>
+        <Texture Name="gBotwTex_48F0" Format="rgb5a1" Width="32" Height="32" Offset="0x48F0"/>
+        <Texture Name="gBotwTex_50F0" Format="rgb5a1" Width="32" Height="32" Offset="0x50F0"/>
+        <Texture Name="gBotwTex_58F0" Format="rgb5a1" Width="32" Height="32" Offset="0x58F0"/>
+        <Texture Name="gBotwTex_60F0" Format="i4" Width="32" Height="32" Offset="0x60F0"/>
     </File>
 </Root>
