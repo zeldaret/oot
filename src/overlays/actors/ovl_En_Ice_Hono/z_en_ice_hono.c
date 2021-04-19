@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ice_hono.c
+ * Overlay: ovl_En_Ice_Hono
+ * Description: The various types of Blue Fire
+ */
+
 #include "z_en_ice_hono.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
@@ -92,11 +98,8 @@ static InitChainEntry sInitChainSmallFlame[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-f32 EnIceHono_SquareDist(Vec3f* pos1, Vec3f* pos2) {
-    f32 dx = pos1->x - pos2->x;
-    f32 dz = pos1->z - pos2->z;
-
-    return SQ(dx) + SQ(dz);
+f32 EnIceHono_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
+    return SQ(v1->x - v2->x) + SQ(v1->z - v2->z);
 }
 
 void EnIceHono_InitCapturableFlame(Actor* thisx, GlobalContext* globalCtx) {
@@ -195,7 +198,7 @@ u32 EnIceHono_InBottleRange(EnIceHono* this, GlobalContext* globalCtx) {
         tempPos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 40.0f + player->actor.world.pos.z;
         
         //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's world.rot.
-        if (EnIceHono_SquareDist(&tempPos, &this->actor.world.pos) <= SQ(40.0f)) {
+        if (EnIceHono_XZDistanceSquared(&tempPos, &this->actor.world.pos) <= SQ(40.0f)) {
             return true;
         }
     }

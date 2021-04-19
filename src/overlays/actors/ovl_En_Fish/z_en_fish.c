@@ -1,3 +1,9 @@
+/*
+ * File: z_en_fish.c
+ * Overlay: ovl_En_Fish
+ * Description: Fish
+ */
+
 #include "z_en_fish.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
