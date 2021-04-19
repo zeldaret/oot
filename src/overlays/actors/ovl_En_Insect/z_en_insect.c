@@ -150,7 +150,7 @@ s32 EnInsect_FoundNearbySoil(EnInsect* this, GlobalContext* globalCtx) {
 
 void func_80A7C058(EnInsect* this) {
     if (this->unk_31E > 0) {
-        this->unk_31E -= 1;
+        this->unk_31E--;
         return;
     }
 

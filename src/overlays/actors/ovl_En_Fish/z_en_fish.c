@@ -93,12 +93,14 @@ f32 EnFish_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A152AC.s")
 void EnFish_SetInWaterAnimation(EnFish* this) {
-    Animation_Change(&this->skelAnime, &gFishInWaterAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gFishInWaterAnim), ANIMMODE_LOOP_INTERP, 2.0f);
+    Animation_Change(&this->skelAnime, &gFishInWaterAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gFishInWaterAnim),
+                     ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15310.s")
 void EnFish_SetOutOfWaterAnimation(EnFish* this) {
-    Animation_Change(&this->skelAnime, &gFishOutOfWaterAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gFishOutOfWaterAnim), ANIMMODE_LOOP_INTERP, 2.0f);
+    Animation_Change(&this->skelAnime, &gFishOutOfWaterAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gFishOutOfWaterAnim),
+                     ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15374.s")
@@ -140,7 +142,8 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFishSkel, &gFishInWaterAnim, this->jointTable, this->morphTable, 7);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFishSkel, &gFishInWaterAnim, this->jointTable, this->morphTable,
+                       7);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     this->actor.colChkInfo.mass = 50;
@@ -183,7 +186,9 @@ s32 EnFish_InBottleRange(EnFish* this, GlobalContext* globalCtx) {
         sp1C.y = player->actor.world.pos.y;
         sp1C.z = (Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f) + player->actor.world.pos.z;
 
-        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's world.rot.
+        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
+        //! been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's
+        //! world.rot.
         if (EnFish_XZDistanceSquared(&sp1C, &this->actor.world.pos) <= SQ(20.0f)) {
             return true;
         }
@@ -414,7 +419,8 @@ void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A160BC.s")
 /**
- * If the fish is on a floor, this function is looped back to by EnFish_Dropped_FlopOnGround to set a new flopping random flopping height and whether the sound should play again.
+ * If the fish is on a floor, this function is looped back to by EnFish_Dropped_FlopOnGround to set a new flopping
+ * random flopping height and whether the sound should play again.
  */
 void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     s32 pad;
@@ -512,7 +518,7 @@ void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 2.8f, 0.1f, 0.4f, 0.0f);
 
     // If touching wall or not in water, turn back and slow down for one frame.
-    if ((this->actor.bgCheckFlags & 8) || !(this->actor.bgCheckFlags & 0x20)) { 
+    if ((this->actor.bgCheckFlags & 8) || !(this->actor.bgCheckFlags & 0x20)) {
         this->actor.home.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         this->actor.speedXZ *= 0.5f;
     }
@@ -524,7 +530,7 @@ void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx) {
     this->actor.shape.rot = this->actor.world.rot;
 
     // Raise if on a floor.
-    if (this->actor.bgCheckFlags & 1) { 
+    if (this->actor.bgCheckFlags & 1) {
         Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y - 4.0f, 2.0f);
     } else {
         Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y - 10.0f, 2.0f);
@@ -555,48 +561,48 @@ void func_80A16618(EnFish* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16670.s")
 void func_80A16670(EnFish* this, GlobalContext* globalCtx) {
-    static f32 D_80A17080[] = { 0.0f, 0.04f, 0.09f };
-    static f32 D_80A1708C[] = { 0.5f, 0.1f, 0.15f };
-    f32 sp54;
-    u32 sp50;
-    f32* sp4C;
+    static f32 speedStopping[] = { 0.0f, 0.04f, 0.09f };
+    static f32 speedMoving[] = { 0.5f, 0.1f, 0.15f };
+    f32 playSpeed;
+    u32 frames;
+    f32* speedType;
     s32 pad2;
-    f32 sp44;
+    f32 extraPlaySpeed;
     s32 pad3;
 
-    sp50 = globalCtx->gameplayFrames;
+    frames = globalCtx->gameplayFrames;
 
     if (this->actor.xzDistToPlayer < 60.0f) {
         if (this->unk_248 < 12) {
-            sp4C = D_80A1708C;
+            speedType = speedMoving;
         } else {
-            sp4C = D_80A17080;
+            speedType = speedStopping;
         }
     } else {
         if (this->unk_248 < 4) {
-            sp4C = D_80A1708C;
+            speedType = speedMoving;
         } else {
-            sp4C = D_80A17080;
+            speedType = speedStopping;
         }
     }
 
     func_80A155D0(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, sp4C[0], sp4C[1], sp4C[2], 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, speedType[0], speedType[1], speedType[2], 0.0f);
 
-    sp44 = 0.0f;
+    extraPlaySpeed = 0.0f;
 
     if ((EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 225.0f)) {
         if (!Math_ScaledStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),
                                 200)) {
-            sp44 = 0.5f;
+            extraPlaySpeed = 0.5f;
         }
-    } else if ((this->unk_248 < 4) && !Math_ScaledStepToS(&this->actor.world.rot.y, sp50 * 0x80, 100)) {
-        sp44 = 0.5f;
+    } else if ((this->unk_248 < 4) && !Math_ScaledStepToS(&this->actor.world.rot.y, frames * 0x80, 100)) {
+        extraPlaySpeed = 0.5f;
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    sp54 = (this->actor.speedXZ * 1.2f) + 0.2f + sp44;
-    this->skelAnime.playSpeed = CLAMP(sp54, 1.5f, 0.5);
+    playSpeed = (this->actor.speedXZ * 1.2f) + 0.2f + extraPlaySpeed;
+    this->skelAnime.playSpeed = CLAMP(playSpeed, 1.5f, 0.5);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_248 <= 0) {
@@ -651,11 +657,10 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
     f32 progress;
     s32 bgId;
 
-
     if (csAction == NULL) {
         // Warning : DEMO ended without dousa (action) 3 termination being called
-        osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n",
-                     "../z_en_sakana.c", 1169, this->actor.params);
+        osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
+                     1169, this->actor.params);
         func_80A15444(this);
         Actor_Kill(&this->actor);
         return;
@@ -681,8 +686,7 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
             break;
         default:
             // Improper DEMO action
-            osSyncPrintf("不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1200,
-                         this->actor.params);
+            osSyncPrintf("不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1200, this->actor.params);
             break;
     }
 
