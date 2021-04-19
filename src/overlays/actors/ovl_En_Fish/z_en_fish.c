@@ -147,8 +147,8 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     this->actor.colChkInfo.mass = 50;
-    this->unk_24C = (s32)(Rand_ZeroOne() * 65535.5f);
-    this->unk_24E = (s32)(Rand_ZeroOne() * 65535.5f);
+    this->unk_24C = (s32)(Rand_ZeroOne() * (0xFFFF + 0.5f));
+    this->unk_24E = (s32)(Rand_ZeroOne() * (0xFFFF + 0.5f));
 
     if (params == FISH_DROPPED) {
         this->actor.flags |= 0x10;

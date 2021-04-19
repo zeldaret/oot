@@ -553,9 +553,9 @@ void func_80A7D39C(EnInsect* this) {
     func_80A7BF58(this);
     this->unk_31A = 100;
     this->unk_324 = 1.5f;
-    this->unk_328 = Rand_ZeroOne() * 65535.5f;
+    this->unk_328 = Rand_ZeroOne() * (0xFFFF + 0.5f);
     this->unk_316 = (Rand_ZeroOne() - 0.5f) * 1500.0f;
-    this->actor.world.rot.y = Rand_ZeroOne() * 65535.5f;
+    this->actor.world.rot.y = Rand_ZeroOne() * (0xFFFF + 0.5f);
     Actor_SetScale(&this->actor, 0.003f);
     this->actionFunc = func_80A7D460;
     this->unk_314 |= 0x100;
