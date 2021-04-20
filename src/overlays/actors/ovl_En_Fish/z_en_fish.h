@@ -24,7 +24,7 @@ typedef struct EnFish {
 } EnFish; // size = 0x0254
 
 typedef enum {
-    /* -1 */ FISH_SWIMMING_WILD = -1, // Used in Zora's Domain; code only uses not 0 or 1
+    /* -1 */ FISH_SWIMMING_EXCITABLE = -1, // Used in Zora's Domain; code only uses not 0 or 1
     /*  0 */ FISH_DROPPED,
     /*  1 */ FISH_SWIMMING_DOCILE // Used in grottos
 } EnFishType;

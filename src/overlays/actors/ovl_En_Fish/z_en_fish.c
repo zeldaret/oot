@@ -31,8 +31,8 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this);
 void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx);
 void EnFish_Dropped_SetupSwimAway(EnFish* this);
 void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx);
-void func_80A16618(EnFish* this);
-void func_80A16670(EnFish* this, GlobalContext* globalCtx);
+void EnFish_Docile_SetupSwimIdle(EnFish* this);
+void EnFish_Docile_SwimIdle(EnFish* this, GlobalContext* globalCtx);
 
 static Actor* D_80A17010 = NULL;
 
@@ -154,8 +154,8 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags |= 0x10;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 8.0f);
         EnFish_Dropped_SetupFall(this);
-    } else if (params == 1) {
-        func_80A16618(this);
+    } else if (params == FISH_SWIMMING_DOCILE) {
+        EnFish_Docile_SetupSwimIdle(this);
     } else {
         func_80A157A4(this);
     }
@@ -170,7 +170,7 @@ void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A155D0.s")
-void func_80A155D0(EnFish* this) {
+void EnFish_SetYOffset(EnFish* this) {
     this->actor.shape.yOffset += ((Math_SinS(this->slowPhase) * 10.0f) + (Math_SinS(this->fastPhase) * 5.0f));
     this->actor.shape.yOffset = CLAMP(this->actor.shape.yOffset, -200.0f, 200.0f);
 }
@@ -214,7 +214,7 @@ void func_80A157A4(EnFish* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A157FC.s")
 void func_80A157FC(EnFish* this, GlobalContext* globalCtx) {
-    func_80A155D0(this);
+    EnFish_SetYOffset(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.05f, 0.3f, 0.0f);
     this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.4f) + 0.8f, 2.0f);
     SkelAnime_Update(&this->skelAnime);
@@ -245,7 +245,7 @@ void func_80A15944(EnFish* this, GlobalContext* globalCtx) {
     // Vec3s* pos;
     s32 pad; // Can be replaced with either
 
-    func_80A155D0(this);
+    EnFish_SetYOffset(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.08f, 0.4f, 0.0f);
 
     // pos = &this->actor.world.pos;
@@ -291,7 +291,7 @@ void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
     s16 yaw;
     s16 playerClose;
 
-    func_80A155D0(this);
+    EnFish_SetYOffset(this);
     playerClose = EnFish_CheckXZDistanceToPlayer(this, globalCtx);
     Math_SmoothStepToF(&this->actor.speedXZ, 4.2f, 0.08f, 1.4f, 0.0f);
 
@@ -302,8 +302,8 @@ void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.child->world.pos);
         Math_StepToAngleS(&this->actor.world.rot.y, yaw, 2000);
     } else if (playerClose) {
-        frames = globalCtx->state.frames;
         yaw = this->actor.yawTowardsPlayer + 0x8000;
+        frames = globalCtx->state.frames;
 
         if (frames & 0x10) {
             if (frames & 0x20) {
@@ -349,7 +349,7 @@ void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
     s16 yaw;
     s16 temp_a0_2;
 
-    func_80A155D0(this);
+    EnFish_SetYOffset(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
 
     if (EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 6400.0f) {
@@ -548,17 +548,17 @@ void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16618.s")
-void func_80A16618(EnFish* this) {
+void EnFish_Docile_SetupSwimIdle(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->unk_248 = Rand_S16Offset(5, 35);
     this->unk_250 = 0;
     EnFish_SetInWaterAnimation(this);
-    this->actionFunc = func_80A16670;
+    this->actionFunc = EnFish_Docile_SwimIdle;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16670.s")
-void func_80A16670(EnFish* this, GlobalContext* globalCtx) {
+void EnFish_Docile_SwimIdle(EnFish* this, GlobalContext* globalCtx) {
     static f32 speedStopping[] = { 0.0f, 0.04f, 0.09f };
     static f32 speedMoving[] = { 0.5f, 0.1f, 0.15f };
     f32 playSpeed;
@@ -584,7 +584,7 @@ void func_80A16670(EnFish* this, GlobalContext* globalCtx) {
         }
     }
 
-    func_80A155D0(this);
+    EnFish_SetYOffset(this);
     Math_SmoothStepToF(&this->actor.speedXZ, speedType[0], speedType[1], speedType[2], 0.0f);
 
     extraPlaySpeed = 0.0f;
@@ -748,7 +748,7 @@ void func_80A16C68(EnFish* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16DEC.s")
 void func_80A16DEC(EnFish* this, GlobalContext* globalCtx) {
-    if (this->actor.params == 1) {
+    if (this->actor.params == FISH_SWIMMING_DOCILE) {
         Actor_Kill(&this->actor);
         return;
     }
