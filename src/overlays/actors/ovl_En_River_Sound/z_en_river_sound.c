@@ -10,10 +10,6 @@
 
 #define THIS ((EnRiverSound*)thisx)
 
-void func_800F4634(Vec3f*, f32);
-void func_800F4870(u8);
-void func_800F4E30(Vec3f*, f32);
-
 void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -32,13 +28,6 @@ const ActorInit En_River_Sound_InitVars = {
 };
 
 void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
-    /**
-     * Params format:
-     *     0xPPBB
-     *     P: Sence path index
-     *     B: Behavior
-     **/
-
     EnRiverSound* this = THIS;
 
     this->unk_14C = 0;
@@ -67,7 +56,7 @@ void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         func_800F5504();
 }
 
-#if defined(NON_MATCHING)
+#ifdef NON_MATCHING
 // If anyone wants to try and figure this shit out, be my guest. I'm done.
 s32 func_80AE6A54(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
     Vec3f sp2C;
@@ -115,7 +104,7 @@ s32 func_80AE6BC0(Vec3s* points, s32 numPoints, Vec3f* pos, Vec3f* res) {
     Vec3f sp60;
     Vec3f sp54;
     Vec3f vec;
-    f32 pointDist = 10000.f;
+    f32 pointDist = 10000.0f;
     Vec3s* point;
 
     for (i = 0; i < numPoints; i++) {
@@ -129,7 +118,7 @@ s32 func_80AE6BC0(Vec3s* points, s32 numPoints, Vec3f* pos, Vec3f* res) {
             pointIdx = i;
         }
     }
-    if (pointDist >= 10000.f)
+    if (pointDist >= 10000.0f)
         return 0;
 
     point = &points[pointIdx];
@@ -151,9 +140,9 @@ s32 func_80AE6BC0(Vec3s* points, s32 numPoints, Vec3f* pos, Vec3f* res) {
 
     if (sp78[0] && sp78[1]) {
         if (!func_80AE6A54(&sp54, &sp60, pos, res)) {
-            res->x = (sp54.x + sp60.x) * .5f;
-            res->y = (sp54.y + sp60.y) * .5f;
-            res->z = (sp54.z + sp60.z) * .5f;
+            res->x = (sp54.x + sp60.x) * 0.5f;
+            res->y = (sp54.y + sp60.y) * 0.5f;
+            res->z = (sp54.z + sp60.z) * 0.5f;
         }
     } else if (sp78[0]) {
         res->x = sp54.x;
@@ -179,21 +168,20 @@ void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRiverSound* this = THIS;
     s32 sp34;
 
-    if (this->actor.params == 0 || this->actor.params == 4 || this->actor.params == 5) {
+    if (thisx->params == 0 || thisx->params == 4 || thisx->params == 5) {
         path = &globalCtx->setupPathList[this->pathIndex];
         pos = &thisx->world.pos;
 
         if (func_80AE6BC0(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
-            if (BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp34, &this->actor, pos) !=
-                -32000.f)
-                this->unk_14D = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, this->actor.floorPoly, sp34);
+            if (BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp34, thisx, pos) != BGCHECK_Y_MIN)
+                this->unk_14D = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, thisx->floorPoly, sp34);
             else
                 this->unk_14D = 0;
 
             if (this->unk_14D == 0) {
-                if (this->actor.params == 4)
+                if (thisx->params == 4)
                     this->unk_14D = 0;
-                else if (this->actor.params == 0)
+                else if (thisx->params == 0)
                     this->unk_14D = 1;
                 else
                     this->unk_14D = 2;
@@ -202,24 +190,40 @@ void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk_14D = CLAMP_MAX(this->unk_14D, 2);
             }
         }
-    } else if (this->actor.params == 13 || this->actor.params == 19)
-        func_8002DBD0(&player->actor, &this->actor.home.pos, &this->actor.world.pos);
-    else if (globalCtx->sceneNum == SCENE_DDAN_BOSS && Flags_GetClear(globalCtx, this->actor.room))
-        Actor_Kill(&this->actor);
+    } else if (thisx->params == 13 || thisx->params == 19)
+        func_8002DBD0(&player->actor, &thisx->home.pos, &thisx->world.pos);
+    else if (globalCtx->sceneNum == SCENE_DDAN_BOSS && Flags_GetClear(globalCtx, thisx->room))
+        Actor_Kill(thisx);
 }
 
 void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnRiverSound* this = THIS;
 
     static s16 D_80AE71F8[] = {
-        0x0000, 0x2028, 0x200B, 0x2007, 0x0000, 0x0000, 0x2032, 0x203B, 0x2030, 0x2041, 0x205D,
-        0x0000, 0x20A6, 0x0000, 0x20C0, 0x20CA, 0x20D6, 0x20D7, 0x2098, 0x0000, 0x2031, 0x20E5,
+        0,
+        NA_SE_EV_WATER_WALL - SFX_FLAG,
+        NA_SE_EV_MAGMA_LEVEL - SFX_FLAG,
+        NA_SE_EV_WATER_WALL_BIG - SFX_FLAG,
+        0,
+        0,
+        NA_SE_EV_MAGMA_LEVEL_M - SFX_FLAG,
+        NA_SE_EV_MAGMA_LEVEL_L - SFX_FLAG,
+        NA_SE_EV_WATERDROP - SFX_FLAG,
+        NA_SE_EV_FOUNTAIN - SFX_FLAG,
+        NA_SE_EV_CROWD - SFX_FLAG,
+        0,
+        NA_SE_EV_SARIA_MELODY - SFX_FLAG,
+        0,
+        NA_SE_EV_SAND_STORM - SFX_FLAG,
+        NA_SE_EV_WATER_BUBBLE - SFX_FLAG,
+        NA_SE_EV_KENJA_ENVIROMENT_0 - SFX_FLAG,
+        NA_SE_EV_KENJA_ENVIROMENT_1 - SFX_FLAG,
+        NA_SE_EV_EARTHQUAKE - SFX_FLAG,
+        0,
+        NA_SE_EV_TORCH - SFX_FLAG,
+        NA_SE_EV_COW_CRY_LV - SFX_FLAG,
     };
-    static f32 D_80AE7224[] = {
-        0.7f,
-        1.0f,
-        1.4f,
-    };
+    static f32 D_80AE7224[] = { 0.7f, 1.0f, 1.4f };
 
     if (this->unk_14C == 0)
         this->unk_14C = 1;
