@@ -147,8 +147,8 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     this->actor.colChkInfo.mass = 50;
-    this->unk_24C = (s32)(Rand_ZeroOne() * (0xFFFF + 0.5f));
-    this->unk_24E = (s32)(Rand_ZeroOne() * (0xFFFF + 0.5f));
+    this->slowPhase = Rand_ZeroOne() * (0xFFFF + 0.5f);
+    this->fastPhase = Rand_ZeroOne() * (0xFFFF + 0.5f);
 
     if (params == FISH_DROPPED) {
         this->actor.flags |= 0x10;
@@ -171,7 +171,7 @@ void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A155D0.s")
 void func_80A155D0(EnFish* this) {
-    this->actor.shape.yOffset += ((Math_SinS(this->unk_24C) * 10.0f) + (Math_SinS(this->unk_24E) * 5.0f));
+    this->actor.shape.yOffset += ((Math_SinS(this->slowPhase) * 10.0f) + (Math_SinS(this->fastPhase) * 5.0f));
     this->actor.shape.yOffset = CLAMP(this->actor.shape.yOffset, -200.0f, 200.0f);
 }
 
@@ -361,9 +361,7 @@ void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
         } else {
             temp_a0_2 = (this->actor.yawTowardsPlayer + 0x7000);
         }
-        // temp_a0_2 = ( ((s16)globalCtx->state.frames & 0x40) ? (this->actor.yawTowardsPlayer + 0x9000)
-        // :(this->actor.yawTowardsPlayer + 0x7000));
-
+        
         sp38.x = player->actor.world.pos.x + (Math_SinS(temp_a0_2) * 20.0f);
         sp38.y = player->actor.world.pos.y;
         sp38.z = player->actor.world.pos.z + (Math_CosS(temp_a0_2) * 20.0f);
@@ -474,7 +472,7 @@ void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx) {
     Math_StepToAngleS(&this->actor.world.rot.x, targetXRot, 4000);
     Math_StepToAngleS(&this->actor.world.rot.z, 0x4000, 1000);
     this->actor.world.rot.y +=
-        (s16)(((Math_SinS(this->unk_24C) * 2000.0f) + (Math_SinS(this->unk_24E) * 1000.0f)) * Rand_ZeroOne());
+        (s16)(((Math_SinS(this->slowPhase) * 2000.0f) + (Math_SinS(this->fastPhase) * 1000.0f)) * Rand_ZeroOne());
     this->actor.shape.rot = this->actor.world.rot;
 
     SkelAnime_Update(&this->skelAnime);
@@ -612,8 +610,8 @@ void func_80A16670(EnFish* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16898.s")
 void func_80A16898(EnFish* this, GlobalContext* globalCtx) {
-    f32 sp24 = Math_SinS(this->unk_24C);
-    f32 sp20 = Math_SinS(this->unk_24E);
+    f32 sp24 = Math_SinS(this->slowPhase);
+    f32 sp20 = Math_SinS(this->fastPhase);
 
     D_80A17014 += D_80A17018;
 
@@ -637,8 +635,8 @@ void func_80A16898(EnFish* this, GlobalContext* globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A169C8.s")
 void func_80A169C8(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
-    f32 sp28 = Math_SinS(this->unk_24C);
-    f32 sp24 = Math_SinS(this->unk_24E);
+    f32 sp28 = Math_SinS(this->slowPhase);
+    f32 sp24 = Math_SinS(this->fastPhase);
 
     this->actor.shape.rot.x -= 500;
     this->actor.shape.rot.z += 100;
@@ -666,8 +664,8 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
         return;
     }
 
-    this->unk_24C += 0x111;
-    this->unk_24E += 0x500;
+    this->slowPhase += 0x111;
+    this->fastPhase += 0x500;
 
     // csAction = temp_v0;
     switch (csAction->action) {
@@ -713,8 +711,8 @@ void func_80A16C68(EnFish* this, GlobalContext* globalCtx) {
         this->unk_248--;
     }
 
-    this->unk_24C += 0x111;
-    this->unk_24E += 0x500;
+    this->slowPhase += 0x111;
+    this->fastPhase += 0x500;
 
     if ((this->actor.child != NULL) && (this->actor.child->update == NULL) && (&this->actor != this->actor.child)) {
         this->actor.child = NULL;
