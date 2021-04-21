@@ -2789,8 +2789,11 @@ endseg
 beginseg
     name "ovl_En_River_Sound"
     include "build/src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.o"
-    include "build/data/overlays/actors/z_en_river_sound.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_River_Sound/ovl_En_River_Sound_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_river_sound.reloc.o"
+#endif
 endseg
 
 beginseg
