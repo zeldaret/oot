@@ -145,7 +145,7 @@ void EnSt_SetupAction(EnSt* this, EnStActionFunc actionFunc) {
 }
 
 /**
- * Spawns `dustCnt` dust particles in a random pattern around the skulltulla
+ * Spawns `dustCnt` dust particles in a random pattern around the Skulltula
  */
 void EnSt_SpawnDust(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
     Color_RGBA8 primColor = { 170, 130, 90, 255 };
@@ -213,8 +213,8 @@ s32 EnSt_CreateBlureEffect(GlobalContext* globalCtx) {
 }
 
 /**
- * Checks for the position of the ceiling above the skulltulla.
- * If no ceiling is found it is set to 1000 units above the skulltulla
+ * Checks for the position of the ceiling above the Skulltula.
+ * If no ceiling is found it is set to 1000 units above the Skulltula
  */
 s32 EnSt_CheckCeilingPos(EnSt* this, GlobalContext* globalCtx) {
     CollisionPoly* poly;
@@ -284,7 +284,7 @@ void EnSt_SetDropAnimAndVel(EnSt* this) {
 }
 
 /**
- * Initalizes the skulltulla's 6 cylinders, and sphere collider.
+ * Initalizes the Skulltula's 6 cylinders, and sphere collider.
  */
 void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
     ColliderCylinderInit* cylinders[6] = {
@@ -492,11 +492,11 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
 }
 
 /**
- * Checks if the skulltulla's colliders have been hit, returns true if the hit has dealt damage to the skulltulla
+ * Checks if the Skulltula's colliders have been hit, returns true if the hit has dealt damage to the Skulltula
  */
 s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
     if (EnSt_CheckHitFrontside(this)) {
-        // player has hit the front shield area of the skulltulla
+        // player has hit the front shield area of the Skulltula
         return false;
     }
 
@@ -505,12 +505,12 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
     }
 
     if (EnSt_CheckHitBackside(this, globalCtx)) {
-        // player has hit the backside of the skulltulla
+        // player has hit the backside of the Skulltula
         return true;
     }
 
     if (this->stunTimer == 0 && this->takeDamageSpinTimer == 0) {
-        // check if the skulltulla has hit link.
+        // check if the Skulltula has hit link.
         EnSt_CheckHitLink(this, globalCtx);
     }
     return false;
@@ -575,7 +575,7 @@ s32 EnSt_DecrStunTimer(EnSt* this) {
 }
 
 /**
- * Updates the yaw of the skulltulla, used for the shaking animation right before
+ * Updates the yaw of the Skulltula, used for the shaking animation right before
  * turning, and the actual turning to face away from the player, and then back to
  * face the player
  */
@@ -601,7 +601,7 @@ void EnSt_UpdateYaw(EnSt* this, GlobalContext* globalCtx) {
     if (this->swayTimer == 0 && this->deathTimer == 0 && this->finishDeathTimer == 0) {
         // not swaying or dying
         if (this->takeDamageSpinTimer != 0 || this->gaveDamageSpinTimer != 0) {
-            // skulltulla is doing a spinning animation
+            // Skulltula is doing a spinning animation
             this->actor.shape.rot.y += 0x2000;
             return;
         }
@@ -659,17 +659,17 @@ void EnSt_UpdateYaw(EnSt* this, GlobalContext* globalCtx) {
 }
 
 /**
- * Checks to see if the skulltulla is done bouncing on the ground,
- * spawns dust particles as the skulltulla hits the ground
+ * Checks to see if the Skulltula is done bouncing on the ground,
+ * spawns dust particles as the Skulltula hits the ground
  */
 s32 EnSt_IsDoneBouncing(EnSt* this, GlobalContext* globalCtx) {
     if (this->actor.velocity.y > 0.0f || this->groundBounces == 0) {
-        // the skulltulla is moving upwards or the groundBounces is 0
+        // the Skulltula is moving upwards or the groundBounces is 0
         return false;
     }
 
     if (!(this->actor.bgCheckFlags & 1)) {
-        // the skulltulla is not on the ground.
+        // the Skulltula is not on the ground.
         return false;
     }
 
@@ -681,7 +681,7 @@ s32 EnSt_IsDoneBouncing(EnSt* this, GlobalContext* globalCtx) {
     if (this->groundBounces != 0) {
         return false;
     } else {
-        // make sure the skulltulla stays on the ground.
+        // make sure the Skulltula stays on the ground.
         this->actor.velocity.y = 0.0f;
     }
     return true;
@@ -704,19 +704,19 @@ s32 EnSt_IsCloseToPlayer(EnSt* this, GlobalContext* globalCtx) {
         // skull is spinning from damage.
         return false;
     } else if (this->actor.xzDistToPlayer > 160.0f) {
-        // player is more than 160 xz units from the skulltulla
+        // player is more than 160 xz units from the Skulltula
         return false;
     }
 
     yDist = this->actor.world.pos.y - player->actor.world.pos.y;
     if (yDist < 0.0f || yDist > 400.0f) {
-        // player is above the skulltulla or more than 400 units below
-        // the skulltulla
+        // player is above the Skulltula or more than 400 units below
+        // the Skulltula
         return false;
     }
 
     if (player->actor.world.pos.y < this->actor.floorHeight) {
-        // player is below the Skulltulla's ground position
+        // player is below the Skulltula's ground position
         return false;
     }
     return true;
@@ -743,7 +743,7 @@ s32 EnSt_IsCloseToGround(EnSt* this) {
 }
 
 /**
- * Does the animation of the skulltulla swaying back and forth after the skulltulla
+ * Does the animation of the Skulltula swaying back and forth after the Skulltula
  * has been hit in the front by a sword
  */
 void EnSt_Sway(EnSt* this) {
@@ -835,7 +835,7 @@ void EnSt_WaitOnCeiling(EnSt* this, GlobalContext* globalCtx) {
 }
 
 /**
- * Skulltulla is waiting on the ground for the player to move away, or for
+ * Skulltula is waiting on the ground for the player to move away, or for
  * a collider to have contact
  */
 void EnSt_WaitOnGround(EnSt* this, GlobalContext* globalCtx) {
@@ -887,12 +887,12 @@ void EnSt_LandOnGround(EnSt* this, GlobalContext* globalCtx) {
 
     this->sfxTimer++;
     if (this->sfxTimer == 14) {
-        // play the sound effect of the skulltulla hitting the ground.
+        // play the sound effect of the Skulltula hitting the ground.
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DOWN_SET);
     }
 
     if ((this->actor.floorHeight + this->floorHeightOffset) < this->actor.world.pos.y) {
-        // the skulltulla has hit the ground.
+        // the Skulltula has hit the ground.
         this->sfxTimer = 0;
         EnSt_SetupAction(this, EnSt_WaitOnGround);
     } else {
@@ -913,7 +913,7 @@ void EnSt_MoveToGround(EnSt* this, GlobalContext* globalCtx) {
         EnSt_SetReturnToCeilingAnimation(this);
         EnSt_SetupAction(this, EnSt_ReturnToCeiling);
     } else if (EnSt_IsCloseToGround(this)) {
-        // The skulltulla has become close to the ground.
+        // The Skulltula has become close to the ground.
         EnSt_SpawnBlastEffect(this, globalCtx);
         EnSt_SetLandAnimation(this);
         EnSt_SetupAction(this, EnSt_LandOnGround);
@@ -935,7 +935,7 @@ void EnSt_ReturnToCeiling(EnSt* this, GlobalContext* globalCtx) {
         EnSt_SetDropAnimAndVel(this);
         EnSt_SetupAction(this, EnSt_MoveToGround);
     } else if (EnSt_IsCloseToInitalPos(this)) {
-        // the skulltulla is close to the initial postion.
+        // the Skulltula is close to the initial postion.
         EnSt_SetWaitingAnimation(this);
         EnSt_SetupAction(this, EnSt_WaitOnCeiling);
     } else {
@@ -945,7 +945,7 @@ void EnSt_ReturnToCeiling(EnSt* this, GlobalContext* globalCtx) {
 }
 
 /**
- * The skulltulla has been killed, bounce around
+ * The Skulltula has been killed, bounce around
  */
 void EnSt_BounceAround(EnSt* this, GlobalContext* globalCtx) {
     this->actor.colorFilterTimer = this->deathTimer;
@@ -1037,14 +1037,14 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
         if ((this->stunTimer == 0) && (this->swayTimer == 0)) {
-            // run the current action if the skulltulla isn't stunned
+            // run the current action if the Skulltula isn't stunned
             // or swaying.
             this->actionFunc(this, globalCtx);
         } else if (this->stunTimer != 0) {
             // decrement the stun timer.
             EnSt_DecrStunTimer(this);
         } else {
-            // sway the skulltulla.
+            // sway the Skulltula.
             EnSt_Sway(this);
         }
 
