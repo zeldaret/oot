@@ -2994,8 +2994,11 @@ endseg
 beginseg
     name "ovl_En_Tp"
     include "build/src/overlays/actors/ovl_En_Tp/z_en_tp.o"
-    include "build/data/overlays/actors/z_en_tp.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Tp/ovl_En_Tp_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_tp.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3632,7 +3635,8 @@ endseg
 beginseg
     name "object_tp"
     romalign 0x1000
-    include "build/baserom/object_tp.o"
+    include "build/assets/objects/object_tp/object_tp.o"
+    number 6
 endseg
 
 beginseg
