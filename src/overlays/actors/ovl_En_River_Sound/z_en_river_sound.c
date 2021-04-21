@@ -41,19 +41,20 @@ void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_800F6FB4(4);
         Actor_Kill(&this->actor);
     } else if (this->actor.params == 12) {
-        u32 q = gSaveContext.inventory.questItems;
-        if (!(gBitFlags[12] & q) || (gBitFlags[14] & q))
+        if (!CHECK_QUEST_ITEM(QUEST_SONG_LULLABY) || CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
             Actor_Kill(&this->actor);
+        }
     }
 }
 
 void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnRiverSound* this = THIS;
 
-    if (this->actor.params == 12)
+    if (this->actor.params == 12) {
         func_800F50EC(&this->actor.projectedPos);
-    else if (this->actor.params == 13)
+    } else if (this->actor.params == 13) {
         func_800F5504();
+    }
 }
 
 #ifdef NON_MATCHING
@@ -118,8 +119,9 @@ s32 func_80AE6BC0(Vec3s* points, s32 numPoints, Vec3f* pos, Vec3f* res) {
             pointIdx = i;
         }
     }
-    if (pointDist >= 10000.0f)
+    if (pointDist >= 10000.0f) {
         return 0;
+    }
 
     point = &points[pointIdx];
     pointLoc.x = point->x;
@@ -173,27 +175,31 @@ void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx) {
         pos = &thisx->world.pos;
 
         if (func_80AE6BC0(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
-            if (BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp34, thisx, pos) != BGCHECK_Y_MIN)
+            if (BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp34, thisx, pos) !=
+                BGCHECK_Y_MIN) {
                 this->unk_14D = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, thisx->floorPoly, sp34);
-            else
+            } else {
                 this->unk_14D = 0;
+            }
 
             if (this->unk_14D == 0) {
-                if (thisx->params == 4)
+                if (thisx->params == 4) {
                     this->unk_14D = 0;
-                else if (thisx->params == 0)
+                } else if (thisx->params == 0) {
                     this->unk_14D = 1;
-                else
+                } else {
                     this->unk_14D = 2;
+                }
             } else {
                 this->unk_14D--;
                 this->unk_14D = CLAMP_MAX(this->unk_14D, 2);
             }
         }
-    } else if (thisx->params == 13 || thisx->params == 19)
+    } else if (thisx->params == 13 || thisx->params == 19) {
         func_8002DBD0(&player->actor, &thisx->home.pos, &thisx->world.pos);
-    else if (globalCtx->sceneNum == SCENE_DDAN_BOSS && Flags_GetClear(globalCtx, thisx->room))
+    } else if (globalCtx->sceneNum == SCENE_DDAN_BOSS && Flags_GetClear(globalCtx, thisx->room)) {
         Actor_Kill(thisx);
+    }
 }
 
 void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -225,21 +231,22 @@ void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
     };
     static f32 D_80AE7224[] = { 0.7f, 1.0f, 1.4f };
 
-    if (this->unk_14C == 0)
+    if (this->unk_14C == 0) {
         this->unk_14C = 1;
-    else if (this->actor.params == 0 || this->actor.params == 4 || this->actor.params == 5)
+    } else if (this->actor.params == 0 || this->actor.params == 4 || this->actor.params == 5) {
         func_800F4634(&this->actor.projectedPos, D_80AE7224[this->unk_14D]);
-    else if (this->actor.params == 11)
+    } else if (this->actor.params == 11) {
         func_800F4A54(90);
-    else if (this->actor.params == 12)
+    } else if (this->actor.params == 12) {
         func_800F4E30(&this->actor.projectedPos, this->actor.xzDistToPlayer);
-    else if (this->actor.params == 13)
+    } else if (this->actor.params == 13) {
         func_800F52A0(&this->actor.home, 62, 1000);
-    else if (this->actor.params == 19)
+    } else if (this->actor.params == 19) {
         func_800F52A0(&this->actor.home, 40, 800);
-    else if (this->actor.params == 14 || this->actor.params == 16 || this->actor.params == 17 ||
-             this->actor.params == 18)
+    } else if (this->actor.params == 14 || this->actor.params == 16 || this->actor.params == 17 ||
+               this->actor.params == 18) {
         func_800788CC(D_80AE71F8[this->actor.params]);
-    else
+    } else {
         Audio_PlayActorSound2(&this->actor, D_80AE71F8[this->actor.params]);
+    }
 }
