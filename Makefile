@@ -195,9 +195,12 @@ cleanassets:
 	$(RM) -r $(ASSET_BIN_DIRS)
 	$(RM) -r build/assets
 
-distclean: clean cleanassets
-	$(RM) -r baserom/
+cleantools:
 	$(MAKE) -C tools distclean
+
+distclean: clean cleanassets cleantools
+	$(RM) -r baserom/
+	
 
 setup:
 	$(MAKE) -C tools -j
