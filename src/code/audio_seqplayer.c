@@ -1641,9 +1641,9 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0xCE:
                         command = Audio_M64ReadU8(seqScript);
                         if (command == 0) {
-                            seqScript->value = gAudioContext.audioRandom / 4;
+                            seqScript->value = (gAudioContext.audioRandom >> 2) & 0xff;
                         } else {
-                            seqScript->value = (gAudioContext.audioRandom / 4) % command;
+                            seqScript->value = (gAudioContext.audioRandom >> 2) % command;
                         }
                         break;
                     case 0xCD: {
