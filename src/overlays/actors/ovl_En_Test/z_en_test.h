@@ -6,7 +6,7 @@
 
 struct EnTest;
 
-typedef void (*EnTestActionFunc)(struct EnTest*, struct GlobalContext*);
+typedef void (*EnTestActionFunc)(struct EnTest*, GlobalContext*);
 
 typedef struct EnTest {
     /* 0x0000 */ Actor actor;
@@ -23,7 +23,9 @@ typedef struct EnTest {
     /* 0x07D0 */ s16 unk_7D0;
     /* 0x07D2 */ s16 unk_7D2;
     /* 0x07D4 */ s16 unk_7D4;
-    /* 0x07D6 */ char unk_7D6[0x6];
+    /* 0x07D6 */ char unk_7D6[0x2];
+    /* 0x07D8 */ s16 unk_7D8;
+    /* 0x07DA */ char unk_7DA[0x2];
     /* 0x07DC */ u8 unk_7DC;
     /* 0x07DD */ u8 unk_7DD; // unk?
     /* 0x07DE */ u8 unk_7DE;
@@ -36,7 +38,7 @@ typedef struct EnTest {
     /* 0x07F0 */ struct_80032E24 unk_7F0;
     /* 0x0808 */ s8 atOn;
     /* 0x07EC */ char unk_809[0x3];
-    /* 0x080C */ u32 effectIndex;
+    /* 0x080C */ s32 effectIndex;
     /* 0x0810 */ ColliderCylinder collider;
     /* 0x085C */ ColliderQuad swordCollider;
     /* 0x08DC */ ColliderCylinder shieldCollider;
