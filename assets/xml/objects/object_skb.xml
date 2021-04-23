@@ -1,0 +1,13 @@
+<Root>
+    <File Name="object_skb" Segment="6">
+        <!-- Stalchild skeleton -->
+        <Skeleton Name="gStalchildSkel" Type="Normal" LimbType="Standard" Offset="0x41F8"/>
+
+        <!-- Stalchild animations -->
+        <Animation Name="gStalchildBurrowAnim" Offset="0x1854"/>
+        <Animation Name="gStalchildDieAnim" Offset="0x9DC"/>
+        <Animation Name="gStalchildDamageAnim" Offset="0xD98"/>
+        <Animation Name="gStalchildWalkAnim" Offset="0x47E0"/>
+        <Animation Name="gStalchildAttackAnim" Offset="0x460"/>
+    </File>
+</Root>
