@@ -222,15 +222,15 @@ typedef struct {
 } TargetContext; // size = 0x98
 
 typedef struct {
-    /* 0x00 */ void*    texture;
-    /* 0x04 */ s16      unk_4;
-    /* 0x06 */ s16      unk_6;
-    /* 0x08 */ u8       unk_8;
-    /* 0x09 */ u8       unk_9;
-    /* 0x0A */ u8       delayA;
-    /* 0x0B */ u8       delayB;
-    /* 0x0C */ s16      unk_C;
-    /* 0x0E */ s16      unk_E;
+    /* 0x00 */ void*      texture;
+    /* 0x04 */ s16      x;
+    /* 0x06 */ s16      y;
+    /* 0x08 */ u8       width;
+    /* 0x09 */ u8       height;
+    /* 0x0A */ u8       durationTimer; // how long the title card appears for before fading
+    /* 0x0B */ u8       delayTimer; // how long the title card waits to appear
+    /* 0x0C */ s16      alpha;
+    /* 0x0E */ s16      intensity;
 } TitleCardContext; // size = 0x10
 
 typedef struct {
@@ -385,7 +385,7 @@ typedef struct {
     /* 0x022E */ s16    unk_22E;
     /* 0x0230 */ s16    unk_230;
     /* 0x0232 */ s16    counterDigits[4]; // used for key and rupee counters
-    /* 0x023A */ u8     unk_23A;
+    /* 0x023A */ u8     numHorseBoosts;
     /* 0x023C */ u16    unk_23C;
     /* 0x023E */ u16    hbaAmmo; // ammo while playing the horseback archery minigame
     /* 0x0240 */ u16    unk_240;
@@ -547,7 +547,9 @@ typedef struct {
     /* 0xB0 */ f32      unk_B0;
     /* 0xB4 */ u8       nbLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
-    /* 0xBC */ char     unk_BC[0x03];
+    /* 0xBC */ u8       unk_BC;
+    /* 0xBD */ u8       unk_BD;
+    /* 0xBE */ u8       unk_BE;
     /* 0xBF */ u8       unk_BF;
     /* 0xC0 */ char     unk_C0[0x0F];
     /* 0xCF */ u8       unk_CF[3];

@@ -8,7 +8,9 @@ struct EnRiverSound;
 
 typedef struct EnRiverSound {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x4];
+    /* 0x014C */ u8 unk_14C;
+    /* 0x014D */ u8 unk_14D;
+    /* 0x014E */ s16 pathIndex;
 } EnRiverSound; // size = 0x0150
 
 extern const ActorInit En_River_Sound_InitVars;

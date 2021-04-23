@@ -1184,7 +1184,7 @@ s32 Camera_CalcAtForHorse(Camera* camera, VecSph* eyeAtDir, f32 yOffset, f32* yP
     player = camera->player;
     Actor_GetWorldPosShapeRot(&horsePosRot, player->rideActor);
 
-    if (EN_HORSE_CHECK_5((EnHorse*)player->rideActor)) {
+    if (EN_HORSE_CHECK_JUMPING((EnHorse*)player->rideActor)) {
         horsePosRot.pos.y -= 49.f;
         *yPosOffset = Camera_LERPCeilF(horsePosRot.pos.y, *yPosOffset, 0.1f, 0.2f);
         camera->atLERPStepScale = Camera_LERPCeilF(0.4f, camera->atLERPStepScale, 0.2f, 0.02f);
@@ -6178,8 +6178,8 @@ s32 Camera_Demo9(Camera* camera) {
 
                 // Run the at and eye cs interpoloation functions, if either of them return 1 (that no more points
                 // exist) change the animation state to 2 (standby)
-                if (func_800BB2B4(&csEyeUpdate, &newRoll, camFOV, demo9OnePoint->onePointCs.eyePoints,
-                                  &anim->keyframe, &anim->curFrame) != 0 ||
+                if (func_800BB2B4(&csEyeUpdate, &newRoll, camFOV, demo9OnePoint->onePointCs.eyePoints, &anim->keyframe,
+                                  &anim->curFrame) != 0 ||
                     func_800BB2B4(&csAtUpdate, &newRoll, camFOV, demo9OnePoint->onePointCs.atPoints, &anim->keyframe,
                                   &anim->curFrame) != 0) {
                     camera->animState = 2;
