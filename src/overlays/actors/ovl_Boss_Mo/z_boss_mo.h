@@ -20,8 +20,8 @@ typedef struct BossMoParticle {
     /* 0x2C */ s16 rippleMode;
     /* 0x2E */ s16 maxAlpha;
     /* 0x30 */ f32 scale;
-    /* 0x34 */ union{f32 maxSize; f32 shimmer; f32 suction;};
-    /* 0x38 */ union{f32 spreadRate; f32 stretch; f32 maxScale;};
+    /* 0x34 */ f32 moFxFloat1;
+    /* 0x38 */ f32 moFxFloat2;
     /* 0x3C */ Vec3f* targetPos;
 } BossMoParticle; // size = 0x40
 
@@ -46,7 +46,7 @@ typedef enum {
     /* 17 */ MO_TENT_NO_BUBBLES,
     /* 18 */ MO_TENT_SFX_TIMER,
     /* 19 */ MO_TENT_SHORT_MAX
-} BossMoTentVar;
+} BossMoTentS16Var;
 
 typedef enum {
     /*  0 */ MO_CORE_ACTION_STATE,
@@ -59,7 +59,7 @@ typedef enum {
     /*  7 */ MO_CORE_DRAW_SHADOW,
     /*  8 */ MO_CORE_WAIT_IN_WATER,
     /*  9 */ MO_CORE_SHORT_MAX
-} BossMoCoreVar;
+} BossMoCoreS16Var;
 
 typedef enum {
     /*  0 */ MO_TENT_SWING_LAG_X,
@@ -80,7 +80,7 @@ typedef enum {
     /* 15 */ MO_TENT_WATER_ALPHA,
     /* 16 */ MO_TENT_WATER_LEVEL_MOD,
     /* 17 */ MO_TENT_FLOAT_MAX
-} BossMoTentVarF;
+} BossMoTentF32Var;
 
 typedef enum {
     /*  0 */ MO_CORE_INTRO_WATER_ALPHA,
@@ -98,7 +98,7 @@ typedef enum {
     /* 12 */ MO_CORE_WATER_TEX2_Y,
     /* 13 */ MO_CORE_WATER_LEVEL,
     /* 14 */ MO_CORE_FLOAT_MAX
-} BossMoCoreVarF;
+} BossMoCoreF32Var;
 
 #define MO_SHORT_MAX MAX(MO_TENT_SHORT_MAX, MO_CORE_SHORT_MAX)
 #define MO_FLOAT_MAX MAX(MO_TENT_FLOAT_MAX, MO_CORE_FLOAT_MAX)
