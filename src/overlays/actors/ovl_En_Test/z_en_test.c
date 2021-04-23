@@ -511,7 +511,155 @@ void func_80860438(EnTest* this) {
     EnTest_SetupAction(this, func_808604FC);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808604FC.s")
+void func_808604FC(EnTest* this, GlobalContext* globalCtx) {
+    s32 pad;
+    f32 checkDist = 0.0f;
+    s32 pad1;
+    s32 prevFrame;
+    s32 temp_f16;
+    f32 phi_f2_3;
+    Player* player = PLAYER;
+    f32 absPlaySpeed;
+    s16 yawDiff;
+    s32 temp_v0_2;
+
+    if (func_808641E8(globalCtx, this) == 0) {
+        this->timer++;
+
+        if (func_80033AB8(globalCtx, this) != 0) {
+            checkDist = 150.0f;
+        }
+
+        if (this->actor.xzDistToPlayer <= (80.0f + checkDist)) {
+            Math_SmoothStepToF(&this->actor.speedXZ, -5.0f, 1.0f, 0.8f, 0.0f);
+        } else if (this->actor.xzDistToPlayer > (110.0f + checkDist)) {
+            Math_SmoothStepToF(&this->actor.speedXZ, 5.0f, 1.0f, 0.8f, 0.0f);
+        }
+
+        if (this->actor.speedXZ >= 5.0f) {
+            this->actor.speedXZ = 5.0f;
+        } else if (this->actor.speedXZ < -5.0f) {
+            this->actor.speedXZ = -5.0f;
+        }
+
+        if ((this->actor.params == 3) &&
+            (func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.world.rot.y) == 0)) {
+            this->actor.speedXZ *= -1.0f;
+        }
+
+        if (ABS(this->actor.speedXZ) < 3.0f) {
+            Animation_Change(&this->skelAnime_188, &D_060081B4, 0.0f, this->skelAnime_188.curFrame,
+                             Animation_GetLastFrame(&D_060081B4), 0, -6.0f);
+            phi_f2_3 = this->actor.speedXZ * 10.0f;
+        } else {
+            Animation_Change(&this->skelAnime_188, &D_060026D4, 0.0f, this->skelAnime_188.curFrame,
+                             Animation_GetLastFrame(&D_060026D4), 0, -4.0f);
+            phi_f2_3 = this->actor.speedXZ * 10.0f * 0.02f;
+        }
+
+        if (this->actor.speedXZ >= 0.0f) {
+            if (this->unk_7DE == 0) {
+                this->unk_7DE++;
+            }
+
+            if (phi_f2_3 > 2.5f) {
+                phi_f2_3 = 2.5f;
+            }
+
+            this->skelAnime_188.playSpeed = phi_f2_3;
+        } else {
+            if (phi_f2_3 < -2.5f) {
+                phi_f2_3 = -2.5f;
+            }
+
+            this->skelAnime_188.playSpeed = phi_f2_3;
+        }
+
+        yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
+
+        if ((this->actor.xzDistToPlayer < 100.0f) && (player->swordState != 0)) {
+            if (ABS(yawDiff) >= 0x1F40) {
+                this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+
+                if ((Rand_ZeroOne() > 0.7f) && (player->swordAnimation != 0x11)) {
+                    func_8086194C(this);
+                } else {
+                    func_80861EC0(this);
+                }
+
+                return;
+            }
+        }
+
+        prevFrame = this->skelAnime_188.curFrame;
+        SkelAnime_Update(&this->skelAnime_188);
+
+        temp_f16 = this->skelAnime_188.curFrame - ABS(this->skelAnime_188.playSpeed);
+        absPlaySpeed = ABS(this->skelAnime_188.playSpeed);
+
+        if ((s32)this->skelAnime_188.curFrame != prevFrame) {
+            temp_v0_2 = (s32)absPlaySpeed + prevFrame;
+
+            if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
+                Audio_PlayActorSound2(this, NA_SE_EN_STAL_WALK);
+            }
+        }
+
+        if ((this->timer & 0x1F) == 0) {
+            Audio_PlayActorSound2(this, NA_SE_EN_STAL_WARAU);
+            this->timer += (s16)(Rand_ZeroOne() * 5.0f);
+        }
+
+        if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
+            (func_8002E084(this, 0x71C))) {
+            if (func_80033A84(globalCtx, this)) {
+                if (Rand_ZeroOne() < 0.1f) {
+                    func_80861B94(this);
+                    return;
+                }
+            } else if (player->heldItemActionParam != PLAYER_AP_NONE) {
+                if (this->actor.isTargeted != 0) {
+                    if ((globalCtx->gameplayFrames & 1) != 0) {
+                        func_808627C4(this, globalCtx);
+                        return;
+                    }
+
+                    func_8085FAB0(this, globalCtx);
+                } else {
+                    func_80860EC0(this);
+                }
+            }
+        }
+
+        if (Rand_ZeroOne() < 0.4f) {
+            this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+        }
+
+        if (!func_8002E084(this, 0x11C7)) {
+            func_80860068(this);
+            this->timer = (Rand_ZeroOne() * 10.0f) + 10.0f;
+            return;
+        }
+
+        if (this->actor.xzDistToPlayer < 110.0f) {
+            if (Rand_ZeroOne() > 0.2f) {
+                if (player->stateFlags1 & 0x10) {
+                    if (this->actor.isTargeted != 0) {
+                        func_80861418(this);
+                    } else {
+                        func_808627C4(this, globalCtx);
+                    }
+                } else {
+                    func_80861418(this);
+                }
+            } else {
+                func_80861EC0(this);
+            }
+        } else if (Rand_ZeroOne() < 0.1f) {
+            this->actor.speedXZ = 5.0f;
+        }
+    }
+}
 
 void func_80860BDC(EnTest* this) {
     Animation_PlayLoop(&this->skelAnime_188, &D_0600E2B0);
@@ -519,82 +667,77 @@ void func_80860BDC(EnTest* this) {
     EnTest_SetupAction(this, func_80860C24);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860C24.s")
-// void func_80860C24(EnTest *this, GlobalContext *globalCtx) {
-//     s16 yawDiff;
-//     s16 yawChange;
-//     f32 playSpeed;
-//     s32 prevFrame;
-//     s32 temp1;
-//     s32 temp2;
+void func_80860C24(EnTest* this, GlobalContext* globalCtx) {
+    s16 yawDiff;
+    s16 yawChange;
+    f32 playSpeed;
+    s32 prevFrame;
+    s32 temp1;
+    s32 temp2;
+    f32 absPlaySpeed;
 
-//     if (func_808641E8(globalCtx, this) == 0) {
-//         yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    if (func_808641E8(globalCtx, this) == 0) {
+        yawDiff = this->actor.yawTowardsPlayer;
+        yawDiff -= this->actor.shape.rot.y;
 
-//         if (yawDiff > 0) {
-//             yawChange = (yawDiff / 42.0f) + 300.0f;
-//             this->actor.shape.rot.y += (yawChange * 2);
-//         } else {
-//             yawChange = (yawDiff / 42.0f) - 300.0f;
-//             this->actor.shape.rot.y += (yawChange * 2);
-//         }
+        if (yawDiff > 0) {
+            yawChange = (yawDiff / 42.0f) + 300.0f;
+            this->actor.shape.rot.y += (yawChange * 2);
+        } else {
+            yawChange = (yawDiff / 42.0f) - 300.0f;
+            this->actor.shape.rot.y += (yawChange * 2);
+        }
 
-//         this->actor.world.rot.y = this->actor.shape.rot.y;
+        this->actor.world.rot.y = this->actor.shape.rot.y;
 
-//         if (yawDiff > 0) {
-//             this->skelAnime_188.playSpeed = CLAMP_MAX(yawChange * 0.02f, 1.0f);
+        if (yawDiff > 0) {
+            playSpeed = yawChange * 0.02f;
 
-//             // playSpeed = yawChange * 0.02f;
-//             // if (playSpeed > 1.0f) {
-//             //     playSpeed = 1.0f;
-//             // }
-//         } else {
-//             this->skelAnime_188.playSpeed = CLAMP_MIN(yawChange * 0.02f, -1.0f);
+            if (playSpeed > 1.0f) {
+                playSpeed = 1.0f;
+            }
 
-//             // playSpeed = yawChange * 0.02f;
-//             // if (playSpeed < -1.0f) {
-//             //     playSpeed = -1.0f;
-//             // }
-//         }
+            this->skelAnime_188.playSpeed = playSpeed;
+        } else {
+            playSpeed = yawChange * 0.02f;
 
-//         //this->skelAnime_188.playSpeed = playSpeed;
-//         prevFrame = this->skelAnime_188.curFrame;
+            if (playSpeed < -1.0f) {
+                playSpeed = -1.0f;
+            }
 
-//         SkelAnime_Update(&this->skelAnime_188);
-//         //temp_f0 = this->skelAnime_188.playSpeed;
-//         // if (temp_f0 >= 0.0f) {
-//         //     phi_f2_3 = temp_f0;
-//         // } else {
-//         //     phi_f2_3 = -temp_f0;
-//         // }
+            this->skelAnime_188.playSpeed = playSpeed;
+        }
 
-//         temp1 = this->skelAnime_188.curFrame - ABS(this->skelAnime_188.playSpeed);
-//         // if (temp_f0 >= 0.0f) {
-//         //     phi_f2_2 = temp_f0;
-//         // } else {
-//         //     phi_f2_2 = -temp_f0;
-//         // }
-//         if (prevFrame != this->skelAnime_188.curFrame) {
-//             temp2 = ABS(this->skelAnime_188.playSpeed) + prevFrame;
+        prevFrame = this->skelAnime_188.curFrame;
 
-//             if (((temp2 > 3) && (temp1 < 0)) || ((temp1 < 7) && (temp2 >= 9))) {
-//                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
-//             }
-//         }
+        SkelAnime_Update(&this->skelAnime_188);
 
-//         if (func_8002E084(&this->actor, 0x71C)) {
-//             if (Rand_ZeroOne() > 0.8f) {
-//                 if ((Rand_ZeroOne() < 0.7f)) {
-//                     func_8085FAB0(this, globalCtx);
-//                 } else {
-//                     func_80860EC0(this);
-//                 }
-//             } else {
-//                 func_80860438(this);
-//             }
-//         }
-//     }
-// }
+        temp1 = this->skelAnime_188.curFrame - ABS(this->skelAnime_188.playSpeed);
+        absPlaySpeed = ABS(this->skelAnime_188.playSpeed);
+
+        if (1) {}
+
+        if ((s32)this->skelAnime_188.curFrame != prevFrame) {
+            temp2 = (s32)absPlaySpeed + prevFrame;
+
+            if (((temp2 > 2) && (temp1 <= 0)) || ((temp1 < 7) && (temp2 >= 9))) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
+            }
+        }
+
+        if (func_8002E084(&this->actor, 0x71C)) {
+            if (Rand_ZeroOne() > 0.8f) {
+                if ((Rand_ZeroOne() > 0.7f)) {
+                    func_80860EC0(this);
+                } else {
+                    func_8085FAB0(this, globalCtx);
+                }
+            } else {
+                func_80860438(this);
+            }
+        }
+    }
+}
 
 void func_80860EC0(EnTest* this) {
     Animation_PlayLoop(&this->skelAnime_188, &D_0600E2B0);
@@ -606,7 +749,108 @@ void func_80860EC0(EnTest* this) {
     EnTest_SetupAction(this, func_80860F84);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860F84.s")
+void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
+    s16 playerYaw180;
+    s32 pad;
+    s32 prevFrame;
+    s32 temp_f16;
+    s16 yawDiff;
+    Player* player = PLAYER;
+    f32 checkDist = 0.0f;
+    s16 newYaw;
+    f32 absPlaySpeed;
+    s32 temp_v0_2;
+
+    if (func_808641E8(globalCtx, this) == 0) {
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
+        this->actor.world.rot.y = this->actor.shape.rot.y + 0x3E80;
+        playerYaw180 = player->actor.shape.rot.y + 0x8000;
+
+        if (this->actor.speedXZ >= 0.0f) {
+            if (this->actor.speedXZ < 6.0f) {
+                this->actor.speedXZ += 0.5f;
+            } else {
+                this->actor.speedXZ = 6.0f;
+            }
+        } else {
+            if (this->actor.speedXZ > -6.0f) {
+                this->actor.speedXZ -= 0.5f;
+            } else {
+                this->actor.speedXZ = -6.0f;
+            }
+        }
+
+        if ((this->actor.bgCheckFlags & 8) ||
+            ((this->actor.params == 3) &&
+             !func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.world.rot.y))) {
+            if (this->actor.bgCheckFlags & 8) {
+                if (this->actor.speedXZ >= 0.0f) {
+                    newYaw = (this->actor.shape.rot.y + 0x3FFF);
+                } else {
+                    newYaw = (this->actor.shape.rot.y - 0x3FFF);
+                }
+
+                newYaw = this->actor.wallYaw - newYaw;
+            } else {
+                this->actor.speedXZ *= -0.8f;
+                newYaw = 0;
+            }
+
+            if (ABS(newYaw) > 0x4000) {
+                this->actor.speedXZ *= -0.8f;
+
+                if (this->actor.speedXZ < 0.0f) {
+                    this->actor.speedXZ -= 0.5f;
+                } else {
+                    this->actor.speedXZ += 0.5f;
+                }
+            }
+        }
+        if (func_80033AB8(globalCtx, this)) {
+            checkDist = 200.0f;
+        }
+
+        if (this->actor.xzDistToPlayer <= (80.0f + checkDist)) {
+            Math_SmoothStepToF(&this->unk_7EC, -2.5f, 1.0f, 0.8f, 0.0f);
+        } else if (this->actor.xzDistToPlayer > (110.0f + checkDist)) {
+            Math_SmoothStepToF(&this->unk_7EC, 2.5f, 1.0f, 0.8f, 0.0f);
+        } else {
+            Math_SmoothStepToF(&this->unk_7EC, 0.0f, 1.0f, 6.65f, 0.0f);
+        }
+
+        if (this->unk_7EC != 0.0f) {
+            this->actor.world.pos.x += (Math_SinS(this->actor.shape.rot.y) * this->unk_7EC);
+            this->actor.world.pos.z += (Math_CosS(this->actor.shape.rot.y) * this->unk_7EC);
+        }
+
+        this->skelAnime_188.playSpeed = this->actor.speedXZ * 0.5f;
+        prevFrame = this->skelAnime_188.curFrame;
+        SkelAnime_Update(&this->skelAnime_188);
+
+        temp_f16 = this->skelAnime_188.curFrame - ABS(this->skelAnime_188.playSpeed);
+        absPlaySpeed = ABS(this->skelAnime_188.playSpeed);
+
+        if ((s32)this->skelAnime_188.curFrame != prevFrame) {
+            temp_v0_2 = (s32)absPlaySpeed + prevFrame;
+
+            if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
+                Audio_PlayActorSound2(this, NA_SE_EN_STAL_WALK);
+            }
+        }
+        if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+            Audio_PlayActorSound2(this, NA_SE_EN_STAL_WARAU);
+        }
+        yawDiff = playerYaw180 - this->actor.shape.rot.y;
+        if (yawDiff < 0) {
+            yawDiff = -yawDiff;
+        }
+        if ((yawDiff > 0x6800) || (this->timer == 0)) {
+            func_8085FAB0(this, globalCtx);
+        } else if (this->timer != 0) {
+            this->timer--;
+        }
+    }
+}
 
 // setup slash
 void func_80861418(EnTest* this) {
@@ -1094,7 +1338,126 @@ void func_808627C4(EnTest* this, GlobalContext* globalCtx) {
     this->unk_7EC = 0.0f;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808628C8.s")
+void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Player* player = PLAYER;
+    s32 pad1;
+    s32 prevFrame;
+    s32 temp_f16;
+    s32 pad2;
+    f32 checkDist = 0.0f;
+    s16 newYaw;
+    f32 absPlaySpeed;
+    s32 temp_v0_2;
+
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
+
+    if (this->unk_7DE == 0) {
+        this->unk_7DE++;
+    }
+
+    if (this->actor.speedXZ >= 0.0f) {
+        if (this->actor.speedXZ < 6.0f) {
+            this->actor.speedXZ += 0.125f;
+        } else {
+            this->actor.speedXZ = 6.0f;
+        }
+    } else {
+        if (this->actor.speedXZ > -6.0f) {
+            this->actor.speedXZ -= 0.125f;
+        } else {
+            this->actor.speedXZ = -6.0f;
+        }
+    }
+
+    if ((this->actor.bgCheckFlags & 8) ||
+        ((this->actor.params == 3) &&
+         !func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3FFF))) {
+        if (this->actor.bgCheckFlags & 8) {
+            if (this->actor.speedXZ >= 0.0f) {
+                newYaw = (this->actor.shape.rot.y + 0x3FFF);
+            } else {
+                newYaw = (this->actor.shape.rot.y - 0x3FFF);
+            }
+
+            newYaw = this->actor.wallYaw - newYaw;
+        } else {
+            this->actor.speedXZ *= -0.8f;
+            newYaw = 0;
+        }
+
+        if (ABS(newYaw) > 0x4000) {
+            this->actor.speedXZ *= -0.8f;
+
+            if (this->actor.speedXZ < 0.0f) {
+                this->actor.speedXZ -= 0.5f;
+            } else {
+                this->actor.speedXZ += 0.5f;
+            }
+        }
+    }
+
+    this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
+
+    if (func_80033AB8(globalCtx, this)) {
+        checkDist = 200.0f;
+    }
+
+    if (this->actor.xzDistToPlayer <= (80.0f + checkDist)) {
+        Math_SmoothStepToF(&this->unk_7EC, -2.5f, 1.0f, 0.8f, 0.0f);
+    } else if (this->actor.xzDistToPlayer > (110.0f + checkDist)) {
+        Math_SmoothStepToF(&this->unk_7EC, 2.5f, 1.0f, 0.8f, 0.0f);
+    } else {
+        Math_SmoothStepToF(&this->unk_7EC, 0.0f, 1.0f, 6.65f, 0.0f);
+    }
+
+    if (this->unk_7EC != 0.0f) {
+        this->actor.world.pos.x += (Math_SinS(this->actor.shape.rot.y) * this->unk_7EC);
+        this->actor.world.pos.z += (Math_CosS(this->actor.shape.rot.y) * this->unk_7EC);
+    }
+
+    this->skelAnime_188.playSpeed = this->actor.speedXZ * 0.5f;
+    prevFrame = this->skelAnime_188.curFrame;
+    SkelAnime_Update(&this->skelAnime_188);
+
+    temp_f16 = this->skelAnime_188.curFrame - ABS(this->skelAnime_188.playSpeed);
+    absPlaySpeed = ABS(this->skelAnime_188.playSpeed);
+
+    if ((this->timer & 0x1F) == 0) {
+        Audio_PlayActorSound2(this, NA_SE_EN_STAL_WARAU);
+    }
+    if ((s32)this->skelAnime_188.curFrame != prevFrame) {
+        temp_v0_2 = (s32)absPlaySpeed + prevFrame;
+
+        if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
+            Audio_PlayActorSound2(this, NA_SE_EN_STAL_WALK);
+        }
+    }
+
+    if (this->timer == 0) {
+        if (func_80033AB8(globalCtx, this)) {
+            func_80860068(this);
+        } else {
+            if (func_80033A84(globalCtx, this)) {
+                if (!func_808641E8(globalCtx, this)) {
+                    func_8085FAB0(this, globalCtx);
+                }
+            } else {
+                if (player->heldItemActionParam != PLAYER_AP_NONE) {
+                    if ((globalCtx->gameplayFrames & 1)) {
+                        func_80860068(this);
+                    } else {
+                        func_80860438(this);
+                    }
+                } else {
+                    func_80860438(this);
+                }
+            }
+        }
+    } else {
+        this->timer--;
+    }
+}
 
 void func_80862DBC(EnTest* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);

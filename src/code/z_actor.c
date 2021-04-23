@@ -3367,25 +3367,33 @@ void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 baseTex
 
     actor->textId = prefix | baseTextId;
 }
-
-s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3) {
+/**
+ * Checks if a given actor will be standing on the ground after being translated
+ * by the provided distance and angle.
+ * 
+ * Returns true if the actor will be standing on ground.
+ */
+s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 distance, s16 yaw) {
     s16 ret;
-    s16 sp44;
-    f32 sp40;
-    f32 sp3C;
-    Vec3f sp30;
+    s16 curBgCheckFlags;
+    f32 newX;
+    f32 newZ;
+    Vec3f curPos;
 
-    Math_Vec3f_Copy(&sp30, &actor->world.pos);
-    sp44 = actor->bgCheckFlags;
-    sp40 = Math_SinS(arg3) * arg2;
-    sp3C = Math_CosS(arg3) * arg2;
-    actor->world.pos.x += sp40;
-    actor->world.pos.z += sp3C;
+    Math_Vec3f_Copy(&curPos, &actor->world.pos);
+    curBgCheckFlags = actor->bgCheckFlags;
+
+    newX = Math_SinS(yaw) * distance;
+    newZ = Math_CosS(yaw) * distance;
+
+    actor->world.pos.x += newX;
+    actor->world.pos.z += newZ;
+
     Actor_UpdateBgCheckInfo(globalCtx, actor, 0.0f, 0.0f, 0.0f, 4);
-    Math_Vec3f_Copy(&actor->world.pos, &sp30);
+    Math_Vec3f_Copy(&actor->world.pos, &curPos);
 
     ret = actor->bgCheckFlags & 1;
-    actor->bgCheckFlags = sp44;
+    actor->bgCheckFlags = curBgCheckFlags;
 
     return ret;
 }
