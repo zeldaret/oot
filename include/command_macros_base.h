@@ -16,4 +16,6 @@
 
 #define CMD_W(a) (a)
 
+#define CMD_PTR(a) (u32)(a)
+
 #endif

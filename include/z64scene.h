@@ -1,6 +1,8 @@
 #ifndef _Z64SCENE_H_
 #define _Z64SCENE_H_
 
+#include "command_macros_base.h"
+
 typedef struct {
     /* 0x00 */ u32 vromStart;
     /* 0x04 */ u32 vromEnd;
@@ -416,5 +418,140 @@ typedef enum {
     /* 0x6D */ SCENE_TESTROOM,
     /* 0x6E */ SCENE_ID_MAX
 } SceneID;
+
+
+typedef enum {
+    /* 0x00 */ SCENECMD_ID_SPAWN_LIST,
+    /* 0x01 */ SCENECMD_ID_ACTOR_LIST,
+    /* 0x02 */ SCENECMD_ID_ACTOR_CUTSCENE_CAM_LIST,
+    /* 0x03 */ SCENECMD_ID_COL_HEADER,
+    /* 0x04 */ SCENECMD_ID_ROOM_LIST,
+    /* 0x05 */ SCENECMD_ID_WIND_SETTINGS,
+    /* 0x06 */ SCENECMD_ID_ENTRANCE_LIST,
+    /* 0x07 */ SCENECMD_ID_SPECIAL_FILES,
+    /* 0x08 */ SCENECMD_ID_ROOM_BEHAVIOR,
+    /* 0x09 */ SCENECMD_ID_UNUSED_9,
+    /* 0x0A */ SCENECMD_ID_MESH,
+    /* 0x0B */ SCENECMD_ID_OBJECT_LIST,
+    /* 0x0C */ SCENECMD_ID_POS_LIGHT_LIST,
+    /* 0x0D */ SCENECMD_ID_PATH_LIST,
+    /* 0x0E */ SCENECMD_ID_TRANSI_ACTOR_LIST,
+    /* 0x0F */ SCENECMD_ID_LIGHT_LIST,
+    /* 0x10 */ SCENECMD_ID_TIME_SETTINGS,
+    /* 0x11 */ SCENECMD_ID_SKYBOX_SETTINGS,
+    /* 0x12 */ SCENECMD_ID_SKYBOX_DISABLES,
+    /* 0x13 */ SCENECMD_ID_EXIT_LIST,
+    /* 0x14 */ SCENECMD_ID_END,
+    /* 0x15 */ SCENECMD_ID_SOUND_SETTINGS,
+    /* 0x16 */ SCENECMD_ID_ECHO_SETTINGS,
+    /* 0x17 */ SCENECMD_ID_CUTSCENE_LIST,
+    /* 0x18 */ SCENECMD_ID_ALTERNATE_HEADER_LIST,
+    /* 0x19 */ SCENECMD_ID_MISC_SETTINGS,
+    /* 0x1A */ SCENECMD_ID_TEXTURE_ANIM_LIST,
+    /* 0x1B */ SCENECMD_ID_ACTOR_CUTSCENE_LIST,
+    /* 0x1C */ SCENECMD_ID_MINIMAP_INFO,
+    /* 0x1D */ SCENECMD_ID_UNUSED_1D,
+    /* 0x1E */ SCENECMD_ID_MINIMAP_COMPASS_ICON_INFO
+} SceneCommandTypeID;
+
+#define SCENECMD_SPAWN_LIST(spawnNum, spawnList)                 \
+    { SCENECMD_ID_SPAWN_LIST, spawnNum, CMD_PTR(spawnList) }
+
+#define SCENECMD_ACTOR_LIST(actorNum, actorList)                 \
+    { SCENECMD_ID_ACTOR_LIST, actorNum, CMD_PTR(actorList) }
+
+#define SCENECMD_CAM_LIST(camNum, camList)       \
+    { SCENECMD_ID_ACTOR_CUTSCENE_CAM_LIST, camNum, CMD_PTR(camList) }
+
+#define SCENECMD_COL_HEADER(colHeader)                    \
+    { SCENECMD_ID_COL_HEADER, 0, CMD_PTR(colHeader) }
+
+#define SCENECMD_ROOM_LIST(roomNum, roomList)                 \
+    { SCENECMD_ID_ROOM_LIST, roomNum, CMD_PTR(roomList) }
+
+#define SCENECMD_WIND_SETTINGS(xDir, yDir, zDir, strength)                     \
+    { SCENECMD_ID_WIND_SETTINGS, 0, CMD_BBBB(xDir, yDir, zDir, strength) }
+
+#define SCENECMD_ENTRANCE_LIST(entranceList)                    \
+    { SCENECMD_ID_ENTRANCE_LIST, 0, CMD_PTR(entranceList) }
+
+#define SCENECMD_SPECIAL_FILES(elfMessageFile, specialObject)               \
+    { SCENECMD_ID_SPECIAL_FILES, elfMessageFile, CMD_W(specialObject) }
+
+#define SCENECMD_ROOM_BEHAVIOR(currRoomUnk3, currRoomUnk2, currRoomUnk5, msgCtxunk12044, enablePosLights,  \
+                                kankyoContextUnkE2)                                                         \
+    {                                                                                                       \
+        SCENECMD_ID_ROOM_BEHAVIOR, currRoomUnk3,                                                           \
+            currRoomUnk2 | _SHIFTL(currRoomUnk5, 8, 1) | _SHIFTL(msgCtxunk12044, 10, 1) |                   \
+                _SHIFTL(enablePosLights, 11, 1) | _SHIFTL(kankyoContextUnkE2, 12, 1)                        \
+    }
+
+#define SCENECMD_UNUSED_9()                   \
+    { SCENECMD_ID_UNUSED_9, 0, CMD_W(0) }
+
+#define SCENECMD_MESH(meshHeader)                    \
+    { SCENECMD_ID_MESH, 0, CMD_PTR(meshHeader) }
+
+#define SCENECMD_OBJECT_LIST(objectNum, objectList)                 \
+    { SCENECMD_ID_OBJECT_LIST, objectNum, CMD_PTR(objectList) }
+
+#define SCENECMD_POS_LIGHT_LIST(unusedLightNum, unusedLightList)             \
+    { SCENECMD_ID_POS_LIGHT_LIST, unusedLightNum, CMD_PTR(unusedLightList) } 
+
+#define SCENECMD_PATH_LIST(pathList)                    \
+    { SCENECMD_ID_PATH_LIST, 0, CMD_PTR(pathList) }
+
+#define SCENECMD_TRANSI_ACTOR_LIST(transiNum, transiList)             \
+    { SCENECMD_ID_TRANSI_ACTOR_LIST, transiNum, CMD_PTR(transiList) } 
+
+#define SCENECMD_LIGHT_LIST(lightNum, lightList)                 \
+    { SCENECMD_ID_LIGHT_LIST, lightNum, CMD_PTR(lightList) }
+
+#define SCENECMD_TIME_SETTINGS(hour, min, speed)                        \
+    { SCENECMD_ID_TIME_SETTINGS, 0, CMD_BBBB(hour, min, speed, 0) }
+
+#define SCENECMD_SKYBOX_SETTINGS(externalTextureFileID, skyboxId, weather, lightMode)                     \
+    { SCENECMD_ID_SKYBOX_SETTINGS, externalTextureFileID, CMD_BBBB(skyboxId, weather, lightMode, 0) }
+
+#define SCENECMD_SKYBOX_DISABLES(disableSky, disableSunMoon)                           \
+    { SCENECMD_ID_SKYBOX_DISABLES, 0, CMD_BBBB(disableSky, disableSunMoon, 0, 0) }
+
+#define SCENECMD_EXIT_LIST(exitList)                    \
+    { SCENECMD_ID_EXIT_LIST, 0, CMD_PTR(exitList) }
+
+#define SCENECMD_END()                   \
+    { SCENECMD_ID_END, 0, CMD_W(0) }
+
+#define SCENECMD_SOUND_SETTINGS(audioSessionId, nighttimeSfx, bgmId)                    \
+    { SCENECMD_ID_SOUND_SETTINGS, audioSessionId, CMD_BBBB(0, 0, nighttimeSfx, bgmId) }
+
+#define SCENECMD_ECHO_SETTINGS(echo)                              \
+    { SCENECMD_ID_ECHO_SETTINGS, 0, CMD_BBBB(0, 0, 0, echo) }
+
+#define SCENECMD_CUTSCENE_LIST(cutsceneCount, cutsceneList)                 \
+    { SCENECMD_ID_CUTSCENE_LIST, cutsceneCount, CMD_PTR(cutsceneList) }
+
+#define SCENECMD_ALTERNATE_HEADER_LIST(alternateHeaderList)                    \
+    { SCENECMD_ID_ALTERNATE_HEADER_LIST, 0, CMD_PTR(alternateHeaderList) }
+
+// OoT
+#define SCENECMD_MISC_SETTINGS(camMode, worldMapLocation)               \
+    { SCENECMD_ID_MISC_SETTINGS, camMode, CMD_W(worldMapLocation) }
+// MM
+#define SCENECMD_WORLD_MAP_VISITED()                   \
+    { SCENECMD_ID_MISC_SETTINGS, 0, CMD_W(0) }
+
+#define SCENECMD_TEXTURE_ANIM_LIST(textureAnimList)                    \
+    { SCENECMD_ID_TEXTURE_ANIM_LIST, 0, CMD_PTR(textureAnimList) }
+
+#define SCENECMD_ACTOR_CUTSCENE_LIST(actorCutsceneCount, actorCutsceneList)                 \
+    { SCENECMD_ID_ACTOR_CUTSCENE_LIST, actorCutsceneCount, CMD_PTR(actorCutsceneList) }
+
+#define SCENECMD_MINIMAP_INFO(minimapInfo)                    \
+    { SCENECMD_ID_MINIMAP_INFO, 0, CMD_PTR(minimapInfo) }
+
+#define SCENECMD_MINIMAP_COMPASS_ICON_INFO(compassIconCount, compassIconInfo)                 \
+    { SCENECMD_ID_MINIMAP_COMPASS_ICON_INFO, compassIconCount, CMD_PTR(compassIconInfo) }
+
 
 #endif
