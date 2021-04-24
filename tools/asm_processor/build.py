@@ -28,8 +28,7 @@ del compile_args[out_ind]
 
 in_dir = os.path.split(os.path.realpath(in_file))[0]
 opt_flags = [x for x in compile_args if x in ['-g3', '-g', '-O1', '-O2', '-framepointer']]
-
-preprocessed_file = tempfile.NamedTemporaryFile(prefix='preprocessed', suffix='.c', delete=False)
+preprocessed_file = tempfile.NamedTemporaryFile(prefix=os.path.basename(os.path.normpath(in_file)), suffix='.c', delete=False)
 
 try:
     asmproc_flags = opt_flags + [in_file, '--input-enc', 'utf-8', '--output-enc', 'euc-jp']
