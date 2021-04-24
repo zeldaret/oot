@@ -755,7 +755,9 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
 
     global_asm = None
     asm_functions = []
-    output_lines = []
+    output_lines = [
+        '#line 1 "' + f.name + '"'
+    ]
 
     is_cutscene_data = False
 
@@ -800,8 +802,8 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
                 include_src = StringIO()
                 with open(fpath + os.path.sep + fname, encoding=input_enc) as include_file:
                     parse_source(include_file, opt, framepointer, input_enc, output_enc, include_src)
+                include_src.write('#line ' + str(line_no) + ' "' + f.name + '"\n')
                 output_lines[-1] = include_src.getvalue()
-                include_src.write('#line ' + str(line_no) + '\n')
                 include_src.close()
             else:
                 # This is a hack to replace all floating-point numbers in an array of a particular type
