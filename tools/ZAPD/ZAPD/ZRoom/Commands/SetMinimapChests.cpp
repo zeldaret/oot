@@ -7,15 +7,15 @@
 
 using namespace std;
 
-SetMinimapChests::SetMinimapChests(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
+SetMinimapChests::SetMinimapChests(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
-	int numChests = rawData[rawDataIndex + 1];
+	int32_t numChests = rawData[rawDataIndex + 1];
 	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
 
 	int32_t currentPtr = segmentOffset;
 
-	for (int i = 0; i < numChests; i++)
+	for (int32_t i = 0; i < numChests; i++)
 	{
 		MinimapChest* chest = new MinimapChest(rawData, currentPtr);
 		chests.push_back(chest);
@@ -30,12 +30,12 @@ SetMinimapChests::~SetMinimapChests()
 		delete chest;
 }
 
-string SetMinimapChests::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetMinimapChests::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	return std::string();
 }
 
-string SetMinimapChests::GenerateSourceCodePass2(string roomName, int baseAddress)
+string SetMinimapChests::GenerateSourceCodePass2(string roomName, uint32_t baseAddress)
 {
 	string sourceOutput = "";
 
@@ -86,12 +86,12 @@ RoomCommand SetMinimapChests::GetRoomCommand()
 	return RoomCommand::SetMinimapChests;
 }
 
-int32_t SetMinimapChests::GetRawDataSize()
+size_t SetMinimapChests::GetRawDataSize()
 {
 	return ZRoomCommand::GetRawDataSize() + (chests.size() * 10);
 }
 
-MinimapChest::MinimapChest(std::vector<uint8_t> rawData, int rawDataIndex)
+MinimapChest::MinimapChest(std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: unk0(BitConverter::ToUInt16BE(rawData, rawDataIndex + 0)),
 	  unk2(BitConverter::ToUInt16BE(rawData, rawDataIndex + 2)),
 	  unk4(BitConverter::ToUInt16BE(rawData, rawDataIndex + 4)),

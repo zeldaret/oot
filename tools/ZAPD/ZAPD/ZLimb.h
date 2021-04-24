@@ -40,7 +40,7 @@ public:
 
 	[[nodiscard]] std::string GetSourceOutputCode() const;
 
-	static size_t GetRawDataSize();
+	static size_t GetRawDataSize() ;
 	static std::string GetSourceTypeName();
 };
 
@@ -59,7 +59,7 @@ public:
 
 	[[nodiscard]] std::string GetSourceOutputCode() const;
 
-	static size_t GetRawDataSize();
+	static size_t GetRawDataSize() ;
 	static std::string GetSourceTypeName();
 };
 
@@ -144,16 +144,15 @@ public:
 	std::vector<ZLimb*> children;
 
 	ZLimb(ZFile* nParent);
-	// ZLimb(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, int nRawDataIndex,
-	// ZFile* nParent);
 	ZLimb(ZLimbType limbType, const std::string& prefix, const std::vector<uint8_t>& nRawData,
-	      int nRawDataIndex, ZFile* nParent);
-
+	      uint32_t nRawDataIndex, ZFile* nParent);
+	~ZLimb();
+	
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
 	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const int nRawDataIndex, const std::string& nRelPath) override;
-	int GetRawDataSize() override;
+	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	size_t GetRawDataSize() override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 	std::string GetSourceTypeName() override;
 	ZResourceType GetResourceType() override;

@@ -12,12 +12,12 @@ ZSkeleton::ZSkeleton(ZFile* nParent) : ZResource(nParent)
 	type = ZSkeletonType::Normal;
 	limbType = ZLimbType::Standard;
 	limbs = vector<ZLimb*>();
-	rootLimb = nullptr;
+	//rootLimb = nullptr;
 	dListCount = 0;
 }
 
 ZSkeleton::ZSkeleton(ZSkeletonType nType, ZLimbType nLimbType, const std::string& prefix,
-                     const std::vector<uint8_t>& nRawData, int nRawDataIndex, ZFile* nParent)
+                     const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex, ZFile* nParent)
 	: ZResource(nParent)
 {
 	rawData.assign(nRawData.begin(), nRawData.end());
@@ -126,7 +126,7 @@ void ZSkeleton::ParseRawData()
 }
 
 void ZSkeleton::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                               const int nRawDataIndex, const std::string& nRelPath)
+                               const uint32_t nRawDataIndex, const std::string& nRelPath)
 {
 	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
 
@@ -163,7 +163,7 @@ void ZSkeleton::GenerateHLIntermediette(HLFileIntermediette& hlFile)
 	mdl->blocks.push_back(new HLTerminator());
 }
 
-int ZSkeleton::GetRawDataSize()
+size_t ZSkeleton::GetRawDataSize()
 {
 	switch (type)
 	{

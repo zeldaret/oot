@@ -156,10 +156,10 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClCompile Include="OutputFormatter.cpp" />
     <ClCompile Include="Overlays\ZOverlay.cpp" />
     <ClCompile Include="ZArray.cpp" />
+    <ClCompile Include="ZBackground.cpp" />
     <ClCompile Include="ZCutsceneMM.cpp" />
     <ClCompile Include="ZLimb.cpp" />
     <ClCompile Include="ZMtx.cpp" />
-    <ClCompile Include="ZPrerender.cpp" />
     <ClCompile Include="ZRoom\Commands\SetActorCutsceneList.cpp" />
     <ClCompile Include="ZRoom\Commands\SetAnimatedTextureList.cpp" />
     <ClCompile Include="ZRoom\Commands\SetCsCamera.cpp" />
@@ -247,6 +247,7 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClInclude Include="Vec3s.h" />
     <ClInclude Include="ZAnimation.h" />
     <ClInclude Include="ZArray.h" />
+    <ClInclude Include="ZBackground.h" />
     <ClInclude Include="ZBlob.h" />
     <ClInclude Include="ZCollision.h" />
     <ClInclude Include="ZCutscene.h" />
@@ -255,7 +256,6 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClInclude Include="ZFile.h" />
     <ClInclude Include="ZLimb.h" />
     <ClInclude Include="ZMtx.h" />
-    <ClInclude Include="ZPrerender.h" />
     <ClInclude Include="ZRoom\Commands\SetActorCutsceneList.h" />
     <ClInclude Include="ZRoom\Commands\SetAnimatedTextureList.h" />
     <ClInclude Include="ZRoom\Commands\SetCsCamera.h" />

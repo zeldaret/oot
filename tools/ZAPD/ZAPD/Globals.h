@@ -14,15 +14,23 @@ enum VerbosityLevel
 	VERBOSITY_DEBUG
 };
 
+struct TexturePoolEntry
+{
+	std::string path = ""; // Path to Shared Texture
+};
+
 class GameConfig
 {
 public:
-	std::map<int, std::string> segmentRefs;
-	std::map<int, ZFile*> segmentRefFiles;
+	std::map<int32_t, std::string> segmentRefs;
+	std::map<int32_t, ZFile*> segmentRefFiles;
 	std::map<uint32_t, std::string> symbolMap;
 	std::vector<std::string> actorList;
 	std::vector<std::string> objectList;
-	std::map<uint32_t, std::string> texturePool;  // Key = CRC, Value = Path to Shared Texture
+	std::map<uint32_t, TexturePoolEntry> texturePool;  // Key = CRC
+
+	// ZBackground
+	uint32_t bgScreenWidth = 320, bgScreenHeight = 240;
 
 	GameConfig() = default;
 };
@@ -44,21 +52,22 @@ public:
 	TextureType texType;
 	ZGame game;
 	GameConfig cfg;
+	bool warnUnaccounted = false;
 
 	std::vector<ZFile*> files;
-	std::vector<int> segments;
-	std::map<int, std::string> segmentRefs;
-	std::map<int, ZFile*> segmentRefFiles;
+	std::vector<int32_t> segments;
+	std::map<int32_t, std::string> segmentRefs;
+	std::map<int32_t, ZFile*> segmentRefFiles;
 	ZRoom* lastScene;
 	std::map<uint32_t, std::string> symbolMap;
 
 	Globals();
-	std::string FindSymbolSegRef(int segNumber, uint32_t symbolAddress);
+	std::string FindSymbolSegRef(int32_t segNumber, uint32_t symbolAddress);
 	void ReadConfigFile(const std::string& configFilePath);
 	void ReadTexturePool(const std::string& texturePoolXmlPath);
 	void GenSymbolMap(const std::string& symbolMapPath);
-	void AddSegment(int segment);
-	bool HasSegment(int segment);
+	void AddSegment(int32_t segment);
+	bool HasSegment(int32_t segment);
 };
 
 /*

@@ -7,17 +7,17 @@
 
 using namespace std;
 
-SetRoomList::SetRoomList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
+SetRoomList::SetRoomList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
-	int numRooms = rawData[rawDataIndex + 1];
+	int32_t numRooms = rawData[rawDataIndex + 1];
 	segmentOffset = BitConverter::ToInt32BE(rawData, rawDataIndex + 4) & 0x00FFFFFF;
 
 	rooms = vector<RoomEntry*>();
 
 	int32_t currentPtr = segmentOffset;
 
-	for (int i = 0; i < numRooms; i++)
+	for (int32_t i = 0; i < numRooms; i++)
 	{
 		RoomEntry* entry = new RoomEntry(rawData, currentPtr);
 		rooms.push_back(entry);
@@ -34,7 +34,7 @@ SetRoomList::~SetRoomList()
 		delete entry;
 }
 
-string SetRoomList::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetRoomList::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	return StringHelper::Sprintf(
 		"%s 0x%02X, (u32)&%sRoomList0x%06X",
@@ -42,7 +42,7 @@ string SetRoomList::GenerateSourceCodePass1(string roomName, int baseAddress)
 		zRoom->GetName().c_str(), segmentOffset);
 }
 
-string SetRoomList::GenerateSourceCodePass2(string roomName, int baseAddress)
+string SetRoomList::GenerateSourceCodePass2(string roomName, uint32_t baseAddress)
 {
 	return "";
 }
@@ -100,7 +100,7 @@ RoomEntry::RoomEntry(int32_t nVAS, int32_t nVAE)
 	virtualAddressEnd = nVAE;
 }
 
-RoomEntry::RoomEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+RoomEntry::RoomEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: RoomEntry(BitConverter::ToInt32BE(rawData, rawDataIndex + 0),
                 BitConverter::ToInt32BE(rawData, rawDataIndex + 4))
 {

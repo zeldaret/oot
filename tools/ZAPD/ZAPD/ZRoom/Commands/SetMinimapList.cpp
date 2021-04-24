@@ -7,7 +7,7 @@
 
 using namespace std;
 
-SetMinimapList::SetMinimapList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
+SetMinimapList::SetMinimapList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
@@ -18,7 +18,7 @@ SetMinimapList::SetMinimapList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int 
 
 	int32_t currentPtr = listSegmentOffset;
 
-	for (int i = 0; i < zRoom->roomCount; i++)
+	for (int32_t i = 0; i < zRoom->roomCount; i++)
 	{
 		MinimapEntry* entry = new MinimapEntry(rawData, currentPtr);
 		minimaps.push_back(entry);
@@ -33,7 +33,7 @@ SetMinimapList::~SetMinimapList()
 		delete entry;
 }
 
-string SetMinimapList::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetMinimapList::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	return StringHelper::Sprintf(
 		"%s 0x%02X, (u32)&%sMinimapList0x%06X",
@@ -41,7 +41,7 @@ string SetMinimapList::GenerateSourceCodePass1(string roomName, int baseAddress)
 		zRoom->GetName().c_str(), segmentOffset);
 }
 
-string SetMinimapList::GenerateSourceCodePass2(string roomName, int baseAddress)
+string SetMinimapList::GenerateSourceCodePass2(string roomName, uint32_t baseAddress)
 {
 	string sourceOutput = "";
 
@@ -102,12 +102,12 @@ RoomCommand SetMinimapList::GetRoomCommand()
 	return RoomCommand::SetMinimapList;
 }
 
-int32_t SetMinimapList::GetRawDataSize()
+size_t SetMinimapList::GetRawDataSize()
 {
 	return ZRoomCommand::GetRawDataSize() + (minimaps.size() * 10);
 }
 
-MinimapEntry::MinimapEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+MinimapEntry::MinimapEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: unk0(BitConverter::ToUInt16BE(rawData, rawDataIndex + 0)),
 	  unk2(BitConverter::ToUInt16BE(rawData, rawDataIndex + 2)),
 	  unk4(BitConverter::ToUInt16BE(rawData, rawDataIndex + 4)),

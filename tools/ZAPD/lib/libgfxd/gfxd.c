@@ -514,7 +514,7 @@ int gfxd_arg_callbacks(int arg_num)
 		{
 			if (config.ucdata_fn != NULL)
 			{
-				uint32_t size;
+				size_t size;
 				if (id == gfxd_SPLoadUcodeEx)
 					size = typed_arg_u(gfxd_Size, 0);
 				else

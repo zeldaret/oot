@@ -8,7 +8,7 @@
 
 using namespace std;
 
-SetActorList::SetActorList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
+SetActorList::SetActorList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	numActors = rawData[rawDataIndex + 1];
@@ -26,7 +26,6 @@ SetActorList::~SetActorList()
 	for (ActorSpawnEntry* entry : actors)
 		delete entry;
 
-	actors.clear();
 }
 
 string SetActorList::GetSourceOutputCode(std::string prefix)
@@ -34,12 +33,12 @@ string SetActorList::GetSourceOutputCode(std::string prefix)
 	return "";
 }
 
-string SetActorList::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetActorList::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	return "";
 }
 
-string SetActorList::GenerateSourceCodePass2(string roomName, int baseAddress)
+string SetActorList::GenerateSourceCodePass2(string roomName, uint32_t baseAddress)
 {
 	string sourceOutput = "";
 	size_t numActorsReal = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 16;
@@ -74,7 +73,7 @@ string SetActorList::GenerateSourceCodePass2(string roomName, int baseAddress)
 		{
 			declaration += StringHelper::Sprintf(
 				"    { %s, %i, %i, %i, SPAWN_ROT_FLAGS(%i, 0x%04X), SPAWN_ROT_FLAGS(%i, 0x%04X), "
-			    "SPAWN_ROT_FLAGS(%i, 0x%04X), 0x%04X }, //0x%06X",
+				"SPAWN_ROT_FLAGS(%i, 0x%04X), 0x%04X }, //0x%06X",
 				ZNames::GetActorName(actorNum).c_str(), entry->posX, entry->posY, entry->posZ,
 				(entry->rotX >> 7) & 0b111111111, entry->rotX & 0b1111111,
 				(entry->rotY >> 7) & 0b111111111, entry->rotY & 0b1111111,
@@ -111,9 +110,9 @@ string SetActorList::GenerateSourceCodePass2(string roomName, int baseAddress)
 	return sourceOutput;
 }
 
-int32_t SetActorList::GetRawDataSize()
+size_t SetActorList::GetRawDataSize()
 {
-	return ZRoomCommand::GetRawDataSize() + ((int)actors.size() * 16);
+	return ZRoomCommand::GetRawDataSize() + ((int32_t)actors.size() * 16);
 }
 
 size_t SetActorList::GetActorListArraySize()
@@ -155,7 +154,7 @@ RoomCommand SetActorList::GetRoomCommand()
 	return RoomCommand::SetActorList;
 }
 
-ActorSpawnEntry::ActorSpawnEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+ActorSpawnEntry::ActorSpawnEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 {
 	const uint8_t* data = rawData.data();
 

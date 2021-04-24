@@ -19,7 +19,7 @@ ZScalar::ZScalar(const ZScalarType scalarType, ZFile* nParent) : ZScalar(nParent
 }
 
 void ZScalar::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                             const int nRawDataIndex, const std::string& nRelPath)
+                             const uint32_t nRawDataIndex, const std::string& nRelPath)
 {
 	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
 }
@@ -107,7 +107,7 @@ std::string ZScalar::MapScalarTypeToOutputType(const ZScalarType scalarType)
 	}
 }
 
-int ZScalar::MapTypeToSize(const ZScalarType scalarType)
+size_t ZScalar::MapTypeToSize(const ZScalarType scalarType)
 {
 	switch (scalarType)
 	{
@@ -136,7 +136,7 @@ int ZScalar::MapTypeToSize(const ZScalarType scalarType)
 	}
 }
 
-int ZScalar::GetRawDataSize()
+size_t ZScalar::GetRawDataSize()
 {
 	return ZScalar::MapTypeToSize(scalarType);
 }
@@ -146,7 +146,7 @@ void ZScalar::ParseRawData()
 	ZScalar::ParseRawData(rawData, rawDataIndex);
 }
 
-void ZScalar::ParseRawData(const std::vector<uint8_t>& data, const int offset)
+void ZScalar::ParseRawData(const std::vector<uint8_t>& data, const uint32_t offset)
 {
 	switch (scalarType)
 	{
@@ -181,7 +181,7 @@ void ZScalar::ParseRawData(const std::vector<uint8_t>& data, const int offset)
 		scalarData.f64 = BitConverter::ToDoubleBE(data, offset);
 		break;
 	case ZSCALAR_NONE:
-		fprintf(stderr, "Warning in ZScalar: Invalid type. %d %s %d\n", (int)scalarType, __FILE__,
+		fprintf(stderr, "Warning in ZScalar: Invalid type. %d %s %d\n", (int32_t)scalarType, __FILE__,
 		        __LINE__);
 		break;
 	}

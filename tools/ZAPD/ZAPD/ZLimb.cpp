@@ -6,6 +6,8 @@
 
 using namespace std;
 
+REGISTER_ZFILENODE(Limb, ZLimb);
+
 Struct_800A57C0::Struct_800A57C0(const std::vector<uint8_t>& rawData, uint32_t fileOffset)
 {
 	unk_0 = BitConverter::ToUInt16BE(rawData, fileOffset + 0x00);
@@ -240,6 +242,14 @@ Struct_800A5E28::~Struct_800A5E28()
 	delete unk_8_dlist;
 }
 
+ZLimb::~ZLimb()
+{
+	for(auto DL : dLists)
+		delete DL;
+}
+
+
+
 void Struct_800A5E28::PreGenSourceFiles(const std::string& prefix)
 {
 	if (unk_4 != 0)
@@ -281,7 +291,7 @@ void Struct_800A5E28::PreGenSourceFiles(const std::string& prefix)
 	{
 		uint32_t unk_8_Offset = Seg2Filespace(unk_8, parent->baseAddress);
 
-		int dlistLength = ZDisplayList::GetDListLength(
+		int32_t dlistLength = ZDisplayList::GetDListLength(
 			rawData, unk_8_Offset,
 			Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX);
 		unk_8_dlist = new ZDisplayList(rawData, unk_8_Offset, dlistLength, parent);
@@ -352,7 +362,7 @@ ZLimb::ZLimb(ZFile* nParent) : ZResource(nParent)
 }
 
 ZLimb::ZLimb(ZLimbType limbType, const std::string& prefix, const std::vector<uint8_t>& nRawData,
-             int nRawDataIndex, ZFile* nParent)
+             uint32_t nRawDataIndex, ZFile* nParent)
 	: ZResource(nParent)
 {
 	rawData.assign(nRawData.begin(), nRawData.end());
@@ -446,11 +456,14 @@ void ZLimb::ParseRawData()
 			static_cast<ZLimbSkinType>(BitConverter::ToInt32BE(rawData, rawDataIndex + 8));
 		skinSegment = BitConverter::ToUInt32BE(rawData, rawDataIndex + 12);
 		break;
+	default:
+		throw std::runtime_error("Invalid ZLimb type");
+		break;
 	}
 }
 
 void ZLimb::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                           const int nRawDataIndex, const std::string& nRelPath)
+                           const uint32_t nRawDataIndex, const std::string& nRelPath)
 {
 	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
 	segAddress = nRawDataIndex;
@@ -468,7 +481,7 @@ void ZLimb::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8
 	}
 }
 
-int ZLimb::GetRawDataSize()
+size_t ZLimb::GetRawDataSize()
 {
 	switch (type)
 	{
@@ -564,9 +577,9 @@ const char* ZLimb::GetSourceTypeName(ZLimbType limbType)
 		return "SkinLimb";
 	case ZLimbType::Curve:
 		return "SkelCurveLimb";
+	default:
+		return "StandardLimb";
 	}
-
-	return "StandardLimb";
 }
 
 uint32_t ZLimb::GetFileAddress()
@@ -588,7 +601,7 @@ std::string ZLimb::GetLimbDListSourceOutputCode(const std::string& prefix,
 		dListStr = StringHelper::Sprintf("%s%sLimbDL_%06X", prefix.c_str(), limbPrefix.c_str(),
 		                                 dListOffset);
 
-		int dlistLength = ZDisplayList::GetDListLength(
+		int32_t dlistLength = ZDisplayList::GetDListLength(
 			rawData, dListOffset,
 			Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX);
 		auto dList = new ZDisplayList(rawData, dListOffset, dlistLength, parent);
@@ -658,6 +671,7 @@ std::string ZLimb::GetSourceOutputCodeSkin(const std::string& prefix)
 			        "ZLimb::GetSourceOutputCodeSkinType: Error in '%s'.\n\t Unknown segment type "
 			        "for SkinLimb: '%i'. \n\tPlease report this.\n",
 			        name.c_str(), static_cast<int32_t>(skinSegmentType));
+			break;
 		case ZLimbSkinType::SkinType_0:
 		case ZLimbSkinType::SkinType_5:
 			fprintf(stderr,

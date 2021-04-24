@@ -14,10 +14,10 @@ Globals::Globals()
 	Instance = this;
 
 	files = std::vector<ZFile*>();
-	segments = std::vector<int>();
+	segments = std::vector<int32_t>();
 	symbolMap = std::map<uint32_t, std::string>();
-	segmentRefs = map<int, string>();
-	segmentRefFiles = map<int, ZFile*>();
+	segmentRefs = map<int32_t, string>();
+	segmentRefFiles = map<int32_t, ZFile*>();
 	game = ZGame::OOT_RETAIL;
 	genSourceFile = true;
 	testMode = false;
@@ -29,7 +29,7 @@ Globals::Globals()
 	verbosity = VERBOSITY_SILENT;
 }
 
-string Globals::FindSymbolSegRef(int segNumber, uint32_t symbolAddress)
+string Globals::FindSymbolSegRef(int32_t segNumber, uint32_t symbolAddress)
 {
 	if (segmentRefs.find(segNumber) != segmentRefs.end())
 	{
@@ -54,7 +54,7 @@ string Globals::FindSymbolSegRef(int segNumber, uint32_t symbolAddress)
 			{
 				if (string(child->Name()) == "File")
 				{
-					ZFile* file = new ZFile(fileMode, child, "", "", "", true);
+					ZFile* file = new ZFile(fileMode, child, "", "", "", "", true);
 					file->GeneratePlaceholderDeclarations();
 					segmentRefFiles[segNumber] = file;
 					break;
@@ -95,7 +95,7 @@ void Globals::ReadConfigFile(const std::string& configFilePath)
 		else if (string(child->Name()) == "Segment")
 		{
 			string fileName = string(child->Attribute("File"));
-			int segNumber = child->IntAttribute("Number");
+			int32_t segNumber = child->IntAttribute("Number");
 			segmentRefs[segNumber] = fileName;
 		}
 		else if (string(child->Name()) == "ActorList")
@@ -105,9 +105,7 @@ void Globals::ReadConfigFile(const std::string& configFilePath)
 				File::ReadAllLines(Path::GetDirectoryName(configFilePath) + "/" + fileName);
 
 			for (std::string line : lines)
-			{
 				cfg.actorList.push_back(StringHelper::Strip(line, "\r"));
-			}
 		}
 		else if (string(child->Name()) == "ObjectList")
 		{
@@ -116,14 +114,17 @@ void Globals::ReadConfigFile(const std::string& configFilePath)
 				File::ReadAllLines(Path::GetDirectoryName(configFilePath) + "/" + fileName);
 
 			for (std::string line : lines)
-			{
 				cfg.objectList.push_back(StringHelper::Strip(line, "\r"));
-			}
 		}
 		else if (string(child->Name()) == "TexturePool")
 		{
 			string fileName = string(child->Attribute("File"));
 			ReadTexturePool(Path::GetDirectoryName(configFilePath) + "/" + fileName);
+		}
+		else if (string(child->Name()) == "BGConfig")
+		{
+			cfg.bgScreenWidth = child->IntAttribute("ScreenWidth", 320);
+			cfg.bgScreenHeight = child->IntAttribute("ScreenHeight", 240);
 		}
 	}
 }
@@ -151,8 +152,11 @@ void Globals::ReadTexturePool(const std::string& texturePoolXmlPath)
 		{
 			string crcStr = string(child->Attribute("CRC"));
 			string texPath = string(child->Attribute("Path"));
+			string texName = "";
 
-			cfg.texturePool[strtol(crcStr.c_str(), NULL, 16)] = texPath;
+			uint32_t crc = strtoul(crcStr.c_str(), NULL, 16);
+
+			cfg.texturePool[crc].path = texPath;
 		}
 	}
 }
@@ -171,13 +175,13 @@ void Globals::GenSymbolMap(const std::string& symbolMapPath)
 	}
 }
 
-void Globals::AddSegment(int segment)
+void Globals::AddSegment(int32_t segment)
 {
 	if (std::find(segments.begin(), segments.end(), segment) == segments.end())
 		segments.push_back(segment);
 }
 
-bool Globals::HasSegment(int segment)
+bool Globals::HasSegment(int32_t segment)
 {
 	return std::find(segments.begin(), segments.end(), segment) != segments.end();
 }

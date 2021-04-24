@@ -38,10 +38,10 @@ public:
 	Vec3s pos;
 	Vec3s rot;
 	std::vector<aiVector3D> vertices;
-	std::vector<int> indices;
+	std::vector<int32_t> indices;
 
 	HLModelObj() = default;
-	HLModelObj(Vec3s nPos, Vec3s nRot, std::vector<aiVector3D> nVerts, std::vector<int> nIndices);
+	HLModelObj(Vec3s nPos, Vec3s nRot, std::vector<aiVector3D> nVerts, std::vector<int32_t> nIndices);
 };
 
 class HLModelIntermediette : public HLFileIntermediette
@@ -277,7 +277,7 @@ class HLDisplayListIntermediette : public HLIntermediette
 {
 public:
 	std::vector<HLDisplayListCommand*> commands;
-	int address;
+	uint32_t address;
 
 	HLDisplayListIntermediette();
 

@@ -8,17 +8,17 @@
 using namespace std;
 
 SetActorCutsceneList::SetActorCutsceneList(ZRoom* nZRoom, std::vector<uint8_t> rawData,
-                                           int rawDataIndex)
+                                           uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
-	int numCutscenes = rawData[rawDataIndex + 1];
+	int32_t numCutscenes = rawData[rawDataIndex + 1];
 	segmentOffset = BitConverter::ToInt32BE(rawData, rawDataIndex + 4) & 0x00FFFFFF;
 
 	cutscenes = vector<ActorCutsceneEntry*>();
 
 	int32_t currentPtr = segmentOffset;
 
-	for (int i = 0; i < numCutscenes; i++)
+	for (int32_t i = 0; i < numCutscenes; i++)
 	{
 		ActorCutsceneEntry* entry = new ActorCutsceneEntry(rawData, currentPtr);
 		cutscenes.push_back(entry);
@@ -48,7 +48,7 @@ SetActorCutsceneList::~SetActorCutsceneList()
 		delete entry;
 }
 
-string SetActorCutsceneList::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetActorCutsceneList::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	return StringHelper::Sprintf(
 		"%s 0x%02X, (u32)&%sActorCutsceneList0x%06X",
@@ -56,12 +56,12 @@ string SetActorCutsceneList::GenerateSourceCodePass1(string roomName, int baseAd
 		zRoom->GetName().c_str(), segmentOffset);
 }
 
-string SetActorCutsceneList::GenerateSourceCodePass2(string roomName, int baseAddress)
+string SetActorCutsceneList::GenerateSourceCodePass2(string roomName, uint32_t baseAddress)
 {
 	return "";
 }
 
-int32_t SetActorCutsceneList::GetRawDataSize()
+size_t SetActorCutsceneList::GetRawDataSize()
 {
 	return ZRoomCommand::GetRawDataSize() + (cutscenes.size() * 16);
 }
@@ -82,7 +82,7 @@ RoomCommand SetActorCutsceneList::GetRoomCommand()
 	return RoomCommand::SetActorCutsceneList;
 }
 
-ActorCutsceneEntry::ActorCutsceneEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+ActorCutsceneEntry::ActorCutsceneEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: priority(BitConverter::ToInt16BE(rawData, rawDataIndex + 0)),
 	  length(BitConverter::ToInt16BE(rawData, rawDataIndex + 2)),
 	  unk4(BitConverter::ToInt16BE(rawData, rawDataIndex + 4)),

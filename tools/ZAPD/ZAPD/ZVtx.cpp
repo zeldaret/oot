@@ -60,7 +60,7 @@ void ZVtx::ParseRawData()
 	a = data[rawDataIndex + 15];
 }
 
-int ZVtx::GetRawDataSize()
+size_t ZVtx::GetRawDataSize()
 {
 	return 16;
 }
@@ -86,7 +86,7 @@ std::string ZVtx::GetExternalExtension()
 }
 
 void ZVtx::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                          const int nRawDataIndex, const std::string& nRelPath)
+                          const uint32_t nRawDataIndex, const std::string& nRelPath)
 {
 	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
 }

@@ -1,5 +1,8 @@
 #include "ZResource.h"
 
+#include <regex>
+#include "StringHelper.h"
+
 using namespace std;
 
 ZResource::ZResource(ZFile* nParent)
@@ -15,7 +18,7 @@ ZResource::ZResource(ZFile* nParent)
 }
 
 void ZResource::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                               const int nRawDataIndex, const std::string& nRelPath)
+                               const uint32_t nRawDataIndex, const std::string& nRelPath)
 {
 	rawData = nRawData;
 	rawDataIndex = nRawDataIndex;
@@ -27,8 +30,14 @@ void ZResource::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<u
 	ParseRawData();
 }
 
-void ZResource::ExtractFromFile()
+void ZResource::ExtractFromFile(const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
+                                const std::string& nRelPath)
 {
+	rawData = nRawData;
+	rawDataIndex = nRawDataIndex;
+	relativePath = nRelPath;
+
+	ParseRawData();
 }
 
 void ZResource::ParseXML(tinyxml2::XMLElement* reader)
@@ -36,7 +45,19 @@ void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 	if (reader != nullptr)
 	{
 		if (reader->Attribute("Name") != nullptr)
+		{
 			name = reader->Attribute("Name");
+			static std::regex r("[a-zA-Z_]+[a-zA-Z0-9_]*",
+			                    std::regex::icase | std::regex::optimize);
+
+			if (!std::regex_match(name, r))
+			{
+				throw std::domain_error(
+					StringHelper::Sprintf("ZResource::ParseXML: Fatal error in '%s'.\n\t Resource "
+				                          "with invalid 'Name' attribute.\n",
+				                          name.c_str()));
+			}
+		}
 		else
 			name = "";
 
@@ -49,6 +70,14 @@ void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 			isCustomAsset = true;
 		else
 			isCustomAsset = false;
+
+		if (!canHaveInner && !reader->NoChildren())
+		{
+			throw std::runtime_error(
+				StringHelper::Sprintf("ZResource::ParseXML: Fatal error in '%s'.\n\t Resource '%s' "
+			                          "with inner element/child detected.\n",
+			                          name.c_str(), reader->Name()));
+		}
 	}
 }
 
@@ -110,17 +139,17 @@ void ZResource::SetRawData(std::vector<uint8_t> nData)
 	rawData = nData;
 }
 
-int ZResource::GetRawDataIndex()
+uint32_t ZResource::GetRawDataIndex()
 {
 	return rawDataIndex;
 }
 
-int ZResource::GetRawDataSize()
+size_t ZResource::GetRawDataSize()
 {
 	return rawData.size();
 }
 
-void ZResource::SetRawDataIndex(int value)
+void ZResource::SetRawDataIndex(uint32_t value)
 {
 	rawDataIndex = value;
 }
@@ -166,4 +195,8 @@ uint32_t Seg2Filespace(segptr_t segmentedAddress, uint32_t parentBaseAddress)
 		currentPtr -= GETSEGOFFSET(parentBaseAddress);
 
 	return currentPtr;
+}
+
+ZResource::~ZResource()
+{
 }

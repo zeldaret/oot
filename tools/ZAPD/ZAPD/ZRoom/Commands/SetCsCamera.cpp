@@ -6,7 +6,7 @@
 
 using namespace std;
 
-SetCsCamera::SetCsCamera(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
+SetCsCamera::SetCsCamera(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	_rawData = rawData;
@@ -14,13 +14,13 @@ SetCsCamera::SetCsCamera(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDat
 
 	segmentOffset = 0;
 
-	int numCameras = rawData[rawDataIndex + 1];
+	int32_t numCameras = rawData[rawDataIndex + 1];
 	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
 
 	uint32_t currentPtr = segmentOffset;
-	int numPoints = 0;
+	int32_t numPoints = 0;
 
-	for (int i = 0; i < numCameras; i++)
+	for (int32_t i = 0; i < numCameras; i++)
 	{
 		CsCameraEntry* entry = new CsCameraEntry(_rawData, currentPtr);
 
@@ -34,7 +34,7 @@ SetCsCamera::SetCsCamera(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDat
 	{
 		uint32_t currentPtr = cameras[0]->segmentOffset;
 
-		for (int i = 0; i < numPoints; i++)
+		for (int32_t i = 0; i < numPoints; i++)
 		{
 			int16_t x = BitConverter::ToInt16BE(rawData, currentPtr + 0);
 			int16_t y = BitConverter::ToInt16BE(rawData, currentPtr + 2);
@@ -60,12 +60,12 @@ string SetCsCamera::GetSourceOutputCode(std::string prefix)
 	return "";
 }
 
-string SetCsCamera::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetCsCamera::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	return "";
 }
 
-string SetCsCamera::GenerateSourceCodePass2(string roomName, int baseAddress)
+string SetCsCamera::GenerateSourceCodePass2(string roomName, uint32_t baseAddress)
 {
 	string sourceOutput = "";
 
@@ -125,7 +125,7 @@ string SetCsCamera::GenerateSourceCodePass2(string roomName, int baseAddress)
 	return sourceOutput;
 }
 
-int32_t SetCsCamera::GetRawDataSize()
+size_t SetCsCamera::GetRawDataSize()
 {
 	return ZRoomCommand::GetRawDataSize() + (cameras.size() * 8) + (points.size() * 6);
 }
@@ -145,7 +145,7 @@ RoomCommand SetCsCamera::GetRoomCommand()
 	return RoomCommand::SetCsCamera;
 }
 
-CsCameraEntry::CsCameraEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+CsCameraEntry::CsCameraEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: baseOffset(rawDataIndex), type(BitConverter::ToInt16BE(rawData, rawDataIndex + 0)),
 	  numPoints(BitConverter::ToInt16BE(rawData, rawDataIndex + 2)),
 	  segmentOffset(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4)))

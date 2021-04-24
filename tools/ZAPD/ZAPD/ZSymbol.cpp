@@ -8,26 +8,8 @@ ZSymbol::ZSymbol(ZFile* nParent) : ZResource(nParent)
 {
 }
 
-// ZSymbol::ZSymbol(const std::string& nName, int nRawDataIndex, const std::string& nType, uint32_t
-// nTypeSize, bool nIsArray, uint32_t nCount)
-//    : type(nType), typeSize(nTypeSize), isArray(nIsArray), count(nCount)
-//{
-//    name = nName;
-//    rawDataIndex = nRawDataIndex;
-//}
-//
-// ZSymbol::ZSymbol(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, int
-// nRawDataIndex, ZFile* nParent)
-//{
-//    rawData.assign(nRawData.begin(), nRawData.end());
-//    rawDataIndex = nRawDataIndex;
-//    parent = nParent;
-//
-//    ParseXML(reader);
-//}
-
 void ZSymbol::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                             const int nRawDataIndex, const std::string& nRelPath)
+                             const uint32_t nRawDataIndex, const std::string& nRelPath)
 {
 	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
 }
@@ -75,7 +57,7 @@ void ZSymbol::ParseXML(tinyxml2::XMLElement* reader)
 	}
 }
 
-int ZSymbol::GetRawDataSize()
+size_t ZSymbol::GetRawDataSize()
 {
 	if (isArray)
 		return count * typeSize;

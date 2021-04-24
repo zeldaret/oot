@@ -36,7 +36,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 	vector<string> relSections = {".rel.text", ".rel.data", ".rel.rodata"};
 	vector<string> sections = {".text", ".data", ".rodata"};
 
-	int sectionOffs[5] = {0};
+	int32_t sectionOffs[5] = {0};
 	vector<RelocationEntry*> textRelocs;
 	vector<RelocationEntry*> dataRelocs;
 	vector<RelocationEntry*> rodataRelocs;
@@ -65,7 +65,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 	for (auto curReader : readers)
 	{
 		Elf_Half sec_num = curReader->sections.size();
-		for (int i = 0; i < sec_num; i++)
+		for (int32_t i = 0; i < sec_num; i++)
 		{
 			section* pSec = curReader->sections[i];
 
@@ -163,7 +163,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 		}
 
 		// increase section offsets
-		for (int i = 0; i < sec_num; i++)
+		for (int32_t i = 0; i < sec_num; i++)
 		{
 			section* pSec = curReader->sections[i];
 			if (pSec->get_type() == SHT_PROGBITS &&
@@ -208,7 +208,7 @@ string ZOverlay::GetSourceOutputCode(const std::string& prefix)
 		output += StringHelper::Sprintf(".word 0x%08X\n", reloc->CalcRelocationWord());
 	}
 
-	int offset = ((int)entries.size() * 4) + 20;
+	size_t offset = (entries.size() * 4) + 20;
 
 	while (offset % 16 != 12)
 	{

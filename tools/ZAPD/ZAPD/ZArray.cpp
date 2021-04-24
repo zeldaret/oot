@@ -7,6 +7,12 @@ REGISTER_ZFILENODE(Array, ZArray);
 
 ZArray::ZArray(ZFile* nParent) : ZResource(nParent)
 {
+	canHaveInner = true;
+}
+
+ZArray::~ZArray()
+{
+	delete testFile;
 }
 
 void ZArray::ParseXML(tinyxml2::XMLElement* reader)
@@ -15,7 +21,7 @@ void ZArray::ParseXML(tinyxml2::XMLElement* reader)
 
 	arrayCnt = reader->IntAttribute("Count", 0);
 	testFile = new ZFile(ZFileMode::Extract, reader, Globals::Instance->baseRomPath, "",
-	                     parent->GetName(), true);
+	                     parent->GetName(), "ZArray subfile", true);
 }
 
 // TODO: This is a bit hacky, but until we refactor how ZFile parses the XML, it'll have to do.
@@ -28,7 +34,7 @@ std::string ZArray::GetSourceOutputCode(const std::string& prefix)
 			StringHelper::Sprintf("Error! Array needs at least one sub-element.\n"));
 
 	ZResource* res = testFile->resources[0];
-	int resSize = res->GetRawDataSize();
+	size_t resSize = res->GetRawDataSize();
 
 	if (!res->DoesSupportArray())
 	{
@@ -37,9 +43,9 @@ std::string ZArray::GetSourceOutputCode(const std::string& prefix)
 			res->GetName().c_str()));
 	}
 
-	for (int i = 0; i < arrayCnt; i++)
+	for (size_t i = 0; i < arrayCnt; i++)
 	{
-		int childIndex = rawDataIndex + (i * resSize);
+		size_t childIndex = rawDataIndex + (i * resSize);
 		res->SetRawDataIndex(childIndex);
 		res->ParseRawData();
 		std::string test = res->GetSourceOutputCode("");
@@ -57,13 +63,13 @@ std::string ZArray::GetSourceOutputCode(const std::string& prefix)
 	return "";
 }
 
-int ZArray::GetRawDataSize()
+size_t ZArray::GetRawDataSize()
 {
 	return arrayCnt * testFile->resources[0]->GetRawDataSize();
 }
 
 void ZArray::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                            const int nRawDataIndex, const std::string& nRelPath)
+                            const uint32_t nRawDataIndex, const std::string& nRelPath)
 {
 	rawData = nRawData;
 	rawDataIndex = nRawDataIndex;

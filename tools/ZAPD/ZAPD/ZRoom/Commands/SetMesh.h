@@ -38,7 +38,7 @@ protected:
 	segptr_t xlu = 0;  // Gfx*
 
 	std::vector<uint8_t> rawData;
-	int rawDataIndex;
+	uint32_t rawDataIndex;
 	ZFile* parent;
 	ZRoom* room;
 	std::string name;
@@ -48,10 +48,10 @@ protected:
 
 public:
 	PolygonDlist() = default;
-	PolygonDlist(const std::string& prefix, const std::vector<uint8_t>& nRawData, int nRawDataIndex,
+	PolygonDlist(const std::string& prefix, const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
 	             ZFile* nParent, ZRoom* nRoom);
 
-	int GetRawDataSize();
+	size_t GetRawDataSize();
 
 	void DeclareVar(const std::string& prefix, const std::string& bodyStr);
 
@@ -84,7 +84,7 @@ protected:
 	ZBackground* sourceBackground;
 
 	std::vector<uint8_t> rawData;
-	int rawDataIndex;
+	uint32_t rawDataIndex;
 	ZFile* parent;
 	std::string name;
 	bool isSubStruct;
@@ -95,9 +95,9 @@ protected:
 public:
 	BgImage() = default;
 	BgImage(bool nIsSubStruct, const std::string& prefix, const std::vector<uint8_t>& nRawData,
-	        int nRawDataIndex, ZFile* nParent);
+	        uint32_t nRawDataIndex, ZFile* nParent);
 
-	static int GetRawDataSize();
+	static size_t GetRawDataSize() ;
 
 	std::string GetBodySourceCode(bool arrayElement);
 
@@ -122,17 +122,17 @@ protected:
 	std::vector<BgImage> multiList;
 
 	std::vector<uint8_t> rawData;
-	int rawDataIndex;
+	uint32_t rawDataIndex;
 	ZFile* parent;
 	std::string name;
 
 	void ParseRawData();
 
 public:
-	PolygonType1(const std::string& prefix, const std::vector<uint8_t>& nRawData, int nRawDataIndex,
+	PolygonType1(const std::string& prefix, const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
 	             ZFile* nParent, ZRoom* nRoom);
 
-	int GetRawDataSize();
+	size_t GetRawDataSize() ;
 
 	void DeclareVar(const std::string& prefix, const std::string& bodyStr);
 
@@ -149,16 +149,14 @@ public:
 class SetMesh : public ZRoomCommand
 {
 public:
-	SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, int segAddressOffset);
+	SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex, int32_t segAddressOffset);
 	~SetMesh();
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	// virtual std::string GenerateSourceCodePass2(std::string roomName, int baseAddress);
-	// virtual std::string GenerateSourceCodePass3(std::string roomName);
-	virtual std::string GenerateExterns();
-	virtual std::string GetCommandCName();
-	virtual RoomCommand GetRoomCommand();
-	virtual int32_t GetRawDataSize();
+	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
+	virtual std::string GenerateExterns() override;
+	virtual std::string GetCommandCName() override;
+	virtual RoomCommand GetRoomCommand() override;
+	virtual size_t GetRawDataSize() override;
 
 private:
 	MeshHeaderBase* meshHeader = nullptr;

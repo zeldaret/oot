@@ -11,21 +11,21 @@ public:
 	uint16_t unk6;
 	uint16_t unk8;
 
-	MinimapEntry(std::vector<uint8_t> rawData, int rawDataIndex);
+	MinimapEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
 };
 
 class SetMinimapList : public ZRoomCommand
 {
 public:
-	SetMinimapList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	SetMinimapList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
 	~SetMinimapList();
 
-	std::string GenerateSourceCodePass1(std::string roomName, int baseAddress) override;
-	std::string GenerateSourceCodePass2(std::string roomName, int baseAddress) override;
+	std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
+	std::string GenerateSourceCodePass2(std::string roomName, uint32_t baseAddress) override;
 	std::string GetCommandCName() override;
 	std::string GenerateExterns() override;
 	RoomCommand GetRoomCommand() override;
-	int32_t GetRawDataSize() override;
+	size_t GetRawDataSize() override;
 
 private:
 	std::vector<MinimapEntry*> minimaps;

@@ -9,8 +9,8 @@
 
 using namespace std;
 
-SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex,
-                 int segAddressOffset)
+SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex,
+                 int32_t segAddressOffset)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	data = rawData[rawDataIndex + 1];
@@ -30,7 +30,7 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex,
 		uint32_t currentPtr = dListStart;
 
 		// Hack for Syotes
-		for (int i = 0; i < abs(segAddressOffset); i++)
+		for (int32_t i = 0; i < abs(segAddressOffset); i++)
 		{
 			rawData.erase(rawData.begin());
 			segmentOffset--;
@@ -40,9 +40,9 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex,
 		{
 			std::string polyGfxBody = "";
 			std::string polyGfxType = "";
-			int polyGfxSize = 0;
+			int32_t polyGfxSize = 0;
 
-			for (int i = 0; i < numEntries; i++)
+			for (int32_t i = 0; i < numEntries; i++)
 			{
 				PolygonDlist polyGfxList(zRoom->GetName(), rawData, currentPtr, zRoom->parent,
 				                         zRoom);
@@ -123,7 +123,7 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex,
 		int8_t numEntries = rawData[segmentOffset + 1];
 		uint32_t currentPtr = meshHeader2->dListStart;
 
-		for (int i = 0; i < numEntries; i++)
+		for (int32_t i = 0; i < numEntries; i++)
 		{
 			MeshEntry2* entry = new MeshEntry2();
 			entry->playerXMax = BitConverter::ToInt16BE(rawData, currentPtr + 0);
@@ -285,7 +285,7 @@ std::string SetMesh::GenDListExterns(ZDisplayList* dList)
 	return sourceOutput;
 }
 
-string SetMesh::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetMesh::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	string sourceOutput = "";
 
@@ -303,7 +303,7 @@ string SetMesh::GenerateExterns()
 	return "";
 }
 
-int32_t SetMesh::GetRawDataSize()
+size_t SetMesh::GetRawDataSize()
 {
 	return ZRoomCommand::GetRawDataSize();
 }
@@ -319,7 +319,7 @@ RoomCommand SetMesh::GetRoomCommand()
 }
 
 PolygonDlist::PolygonDlist(const std::string& prefix, const std::vector<uint8_t>& nRawData,
-                           int nRawDataIndex, ZFile* nParent, ZRoom* nRoom)
+                           uint32_t nRawDataIndex, ZFile* nParent, ZRoom* nRoom)
 {
 	rawData.assign(nRawData.begin(), nRawData.end());
 	rawDataIndex = nRawDataIndex;
@@ -349,7 +349,7 @@ ZDisplayList* PolygonDlist::MakeDlist(segptr_t ptr, const std::string& prefix)
 
 	uint32_t dlistAddress = Seg2Filespace(ptr, parent->baseAddress);
 
-	int dlistLength = ZDisplayList::GetDListLength(
+	int32_t dlistLength = ZDisplayList::GetDListLength(
 		rawData, dlistAddress,
 		Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX);
 	ZDisplayList* dlist = new ZDisplayList(rawData, dlistAddress, dlistLength, parent);
@@ -362,7 +362,7 @@ ZDisplayList* PolygonDlist::MakeDlist(segptr_t ptr, const std::string& prefix)
 	return dlist;
 }
 
-int PolygonDlist::GetRawDataSize()
+size_t PolygonDlist::GetRawDataSize()
 {
 	return 0x08;
 }
@@ -464,7 +464,7 @@ std::string PolygonDlist::GetName()
 }
 
 BgImage::BgImage(bool nIsSubStruct, const std::string& prefix, const std::vector<uint8_t>& nRawData,
-                 int nRawDataIndex, ZFile* nParent)
+                 uint32_t nRawDataIndex, ZFile* nParent)
 {
 	rawData.assign(nRawData.begin(), nRawData.end());
 	rawDataIndex = nRawDataIndex;
@@ -514,7 +514,7 @@ ZBackground* BgImage::MakeBackground(segptr_t ptr, const std::string& prefix)
 	return background;
 }
 
-int BgImage::GetRawDataSize()
+size_t BgImage::GetRawDataSize()
 {
 	return 0x1C;
 }
@@ -610,7 +610,7 @@ std::string BgImage::GetName()
 }
 
 PolygonType1::PolygonType1(const std::string& prefix, const std::vector<uint8_t>& nRawData,
-                           int nRawDataIndex, ZFile* nParent, ZRoom* nRoom)
+                           uint32_t nRawDataIndex, ZFile* nParent, ZRoom* nRoom)
 {
 	rawData.assign(nRawData.begin(), nRawData.end());
 	rawDataIndex = nRawDataIndex;
@@ -681,7 +681,7 @@ void PolygonType1::ParseRawData()
 	}
 }
 
-int PolygonType1::GetRawDataSize()
+size_t PolygonType1::GetRawDataSize()
 {
 	switch (format)
 	{

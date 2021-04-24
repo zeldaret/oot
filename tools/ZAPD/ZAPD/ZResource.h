@@ -53,12 +53,14 @@ public:
 	uint32_t hash;
 
 	ZResource(ZFile* nParent);
+	virtual ~ZResource();
 
 	// Parsing from File
 	virtual void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                            const int nRawDataIndex,
+	                            const uint32_t nRawDataIndex,
 	                            const std::string& nRelPath);  // Extract Mode
-	virtual void ExtractFromFile();
+	virtual void ExtractFromFile(const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
+	                             const std::string& nRelPath);
 
 	// Misc
 	virtual void ParseXML(tinyxml2::XMLElement* reader);
@@ -83,9 +85,9 @@ public:
 	std::string GetOutName();
 	void SetOutName(std::string nName);
 	std::string GetRelativePath();
-	virtual int GetRawDataIndex();
-	virtual void SetRawDataIndex(int value);
-	virtual int GetRawDataSize();
+	virtual uint32_t GetRawDataIndex();
+	virtual void SetRawDataIndex(uint32_t value);
+	virtual size_t GetRawDataSize();
 	virtual std::vector<uint8_t> GetRawData();
 	virtual void SetRawData(std::vector<uint8_t> nData);
 
@@ -94,8 +96,9 @@ protected:
 	std::string outName;
 	std::string relativePath;
 	std::vector<uint8_t> rawData;
-	int rawDataIndex;
+	uint32_t rawDataIndex;
 	std::string sourceOutput;
+	bool canHaveInner = false;  // Can this type have an inner node?
 	bool isCustomAsset;  // If set to true, create a reference for the asset in the file, but don't
 	                     // actually try to extract it from the file
 };
@@ -121,7 +124,7 @@ class Declaration
 public:
 	DeclarationAlignment alignment;
 	DeclarationPadding padding;
-	uint32_t size;
+	size_t size;
 	std::string preText;
 	std::string text;
 	std::string rightText;
@@ -133,26 +136,27 @@ public:
 	std::string includePath;
 	bool isExternal;
 	bool isArray;
-	int arrayItemCnt;
+	size_t arrayItemCnt;
 	std::vector<uint32_t> references;
+	bool isUnaccounted = false;
 
-	Declaration(DeclarationAlignment nAlignment, uint32_t nSize, std::string nVarType,
+	Declaration(DeclarationAlignment nAlignment, size_t nSize, std::string nVarType,
 	            std::string nVarName, bool nIsArray, std::string nText);
-	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, uint32_t nSize,
+	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, size_t nSize,
 	            std::string nVarType, std::string nVarName, bool nIsArray, std::string nText);
-	Declaration(DeclarationAlignment nAlignment, uint32_t nSize, std::string nVarType,
-	            std::string nVarName, bool nIsArray, int nArrayItemCnt, std::string nText);
-	Declaration(DeclarationAlignment nAlignment, uint32_t nSize, std::string nVarType,
-	            std::string nVarName, bool nIsArray, int nArrayItemCnt, std::string nText,
+	Declaration(DeclarationAlignment nAlignment, size_t nSize, std::string nVarType,
+	            std::string nVarName, bool nIsArray, size_t nArrayItemCnt, std::string nText);
+	Declaration(DeclarationAlignment nAlignment, size_t nSize, std::string nVarType,
+	            std::string nVarName, bool nIsArray, size_t nArrayItemCnt, std::string nText,
 	            bool nIsExternal);
-	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, uint32_t nSize,
-	            std::string nVarType, std::string nVarName, bool nIsArray, int nArrayItemCnt,
+	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, size_t nSize,
+	            std::string nVarType, std::string nVarName, bool nIsArray, size_t nArrayItemCnt,
 	            std::string nText);
-	Declaration(std::string nIncludePath, uint32_t nSize, std::string nVarType,
+	Declaration(std::string nIncludePath, size_t nSize, std::string nVarType,
 	            std::string nVarName);
 
 protected:
-	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, uint32_t nSize,
+	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, size_t nSize,
 	            std::string nText);
 };
 

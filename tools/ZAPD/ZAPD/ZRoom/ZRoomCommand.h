@@ -52,17 +52,18 @@ class ZRoomCommand
 public:
 	RoomCommand cmdID;
 	int32_t cmdAddress;
-	int32_t cmdIndex;
+	uint32_t cmdIndex;
 	int32_t cmdSet;
 	uint32_t commandSet;
 
-	ZRoomCommand(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
-
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GenerateSourceCodePass2(std::string roomName, int baseAddress);
+	ZRoomCommand() = default;
+	ZRoomCommand(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
+	virtual ~ZRoomCommand();
+	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress);
+	virtual std::string GenerateSourceCodePass2(std::string roomName, uint32_t baseAddress);
 	virtual std::string GenerateSourceCodePass3(std::string roomName);
 	virtual RoomCommand GetRoomCommand();
-	virtual int32_t GetRawDataSize();
+	virtual size_t GetRawDataSize();
 	virtual std::string GetCommandCName();
 	virtual std::string GenerateExterns();
 	virtual std::string Save();

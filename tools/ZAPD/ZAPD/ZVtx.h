@@ -21,14 +21,14 @@ public:
 	std::string GetSourceTypeName() override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 	void ParseRawData() override;
-	int GetRawDataSize() override;
+	size_t GetRawDataSize() override;
 	bool DoesSupportArray() override;
-	ZResourceType GetResourceType();
+	ZResourceType GetResourceType() override;
 	bool IsExternalResource() override;
-	virtual std::string GetExternalExtension();
+	virtual std::string GetExternalExtension() override;
 
 	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const int nRawDataIndex, const std::string& nRelPath) override;
+	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
 
 protected:
 };

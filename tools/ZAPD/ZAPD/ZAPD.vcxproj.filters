@@ -237,9 +237,6 @@
     <ClCompile Include="..\lib\libgfxd\uc_f3dexb.c">
       <Filter>Source Files\Libraries\libgfxd</Filter>
     </ClCompile>
-    <ClCompile Include="ZPrerender.cpp">
-      <Filter>Source Files\Z64</Filter>
-    </ClCompile>
     <ClCompile Include="ZMtx.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
@@ -265,6 +262,9 @@
       <Filter>Source Files\Z64\ZRoom\Commands</Filter>
     </ClCompile>
     <ClCompile Include="ZCutsceneMM.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZBackground.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
   </ItemGroup>
@@ -509,9 +509,6 @@
     <ClInclude Include="..\lib\libgfxd\priv.h">
       <Filter>Header Files\Libraries\libgfxd</Filter>
     </ClInclude>
-    <ClInclude Include="ZPrerender.h">
-      <Filter>Header Files\Z64</Filter>
-    </ClInclude>
     <ClInclude Include="ZMtx.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
@@ -537,6 +534,9 @@
       <Filter>Header Files\Z64\ZRoom\Commands</Filter>
     </ClInclude>
     <ClInclude Include="ZCutsceneMM.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZBackground.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
   </ItemGroup>
