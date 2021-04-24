@@ -5,8 +5,9 @@
  */
 
 #include "z_en_diving_game.h"
-#include "vt.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
+#include "objects/object_zo/object_zo.h"
+#include "vt.h"
 
 #define FLAGS 0x00000019
 
@@ -70,21 +71,17 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static u64* sEyeTextures[] = {
-    0x06003E40,
-    0x06004640,
-    0x06004E40,
+    gZoraEyeOpenTex,
+    gZoraEyeHalfTex,
+    gZoraEyeClosedTex,
 };
-
-extern FlexSkeletonHeader D_0600BFA8;
-extern AnimationHeader D_06002FE8; // Stand/static.
-extern AnimationHeader D_0600219C; // Throw rupees animation.
 
 void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDivingGame* this = THIS;
 
     this->actor.gravity = -3.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, &D_06002FE8, this->jointTable, this->morphTable, 20);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gZoraSkel, &gZoraIdleAnim, this->jointTable, this->morphTable, 20);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n" VT_RST);
@@ -178,9 +175,9 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, GlobalContext* globalCt
 
 // EnDivingGame_FinishMinigame ? // Reset probably
 void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06002FE8);
+    f32 frameCount = Animation_GetLastFrame(&gZoraIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06002FE8, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &gZoraIdleAnim, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->notPlayingMinigame = true;
     this->actionFunc = EnDivingGame_Talk;
 }
@@ -283,9 +280,9 @@ void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx) {
 
 // another "start minigame" step
 void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_0600219C);
+    f32 frameCount = Animation_GetLastFrame(&gZoraThrowRupeesAnim);
 
-    Animation_Change(&this->skelAnime, &D_0600219C, 1.0f, 0.0f, (s16)frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &gZoraThrowRupeesAnim, 1.0f, 0.0f, (s16)frameCount, 2, -10.0f);
     this->notPlayingMinigame = false;
     this->actionFunc = func_809EE194;
 }

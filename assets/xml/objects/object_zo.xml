@@ -1,23 +1,30 @@
 <Root>
     <File Name="object_zo" Segment="6">
-        <Skeleton Name="gZoraSkel_00BFA8" Type="Flex" LimbType="Standard" Offset="0xBFA8"/>
+        <Skeleton Name="gZoraSkel" Type="Flex" LimbType="Standard" Offset="0xBFA8"/>
 
-        <Animation Name="gZoraAnim_002FE8" Offset="0x2FE8"/>
-        <Animation Name="gZoraAnim_002F10" Offset="0x2F10"/>
-        <Animation Name="gZoraAnim_00219C" Offset="0x219C"/>
+        <Animation Name="gZoraIdleAnim" Offset="0x2FE8"/>
+        <Animation Name="gZoraSurfaceAnim" Offset="0x2F10"/>
+        <Animation Name="gZoraThrowRupeesAnim" Offset="0x219C"/>
         <Animation Name="gZoraAnim_000598" Offset="0x598"/>
-        <Animation Name="gZoraAnim_000D48" Offset="0xD48"/>
+        <Animation Name="gZoraOpenArmsAnim" Offset="0xD48"/>
 
-        <DList Name="gZoraDL_0022F0" Offset="0x22F0"/>
-        <DList Name="gZoraDL_002350" Offset="0x2350"/>
-        <DList Name="gZoraDL_0024A0" Offset="0x24A0"/>
-        <DList Name="gZoraDL_002510" Offset="0x2510"/>
-        <DList Name="gZoraDL_00BFC0" Offset="0xBFC0"/>
-        <DList Name="gZoraDL_00C028" Offset="0xC028"/>
+        <DList Name="gZoraBubblesVisualDL" Offset="0x22F0"/>
+        <DList Name="gZoraBubblesGeometryDL" Offset="0x2350"/>
 
-        <!-- <UNK_PTR Name="gZoraUnknown_003E40" Offset="0x3E40"/> -->
-        <!-- <UNK_PTR Name="gZoraUnknown_004640" Offset="0x4640"/> -->
-        <!-- <UNK_PTR Name="gZoraUnknown_004E40" Offset="0x4E40"/> -->
+        <DList Name="gZoraSplashesVisualDL" Offset="0x24A0"/>
+        <DList Name="gZoraSplashesGeometryDL" Offset="0x2510"/>
 
+        <DList Name="gZoraRipplesVisualDL" Offset="0xBFC0"/>
+        <DList Name="gZoraRipplesGeometryDL" Offset="0xC028"/>
+
+        <!-- Eyes textures -->
+        <Texture Name="gZoraEyeOpenTex" OutName="eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x3E40"/>
+        <Texture Name="gZoraEyeHalfTex" OutName="eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4640"/>
+        <Texture Name="gZoraEyeClosedTex" OutName="eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x4E40"/>
+
+        <Texture Name="gZoraMouthTex" OutName="mouth" Format="rgb5a1" Width="32" Height="32" Offset="0x5640"/>
+
+        <!-- Palette / Tlut -->
+        <Texture Name="gZoraTLUT" OutName="tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x3000"/>
     </File>
 </Root>
