@@ -17,27 +17,26 @@ void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A157A4(EnFish* this);
-void func_80A157FC(EnFish* this, GlobalContext* globalCtx);
-void func_80A158EC(EnFish* this);
-void func_80A15944(EnFish* this, GlobalContext* globalCtx);
-void func_80A15AD4(EnFish* this);
-void func_80A15B2C(EnFish* this, GlobalContext* globalCtx);
-void func_80A15D18(EnFish* this);
-void func_80A15D68(EnFish* this, GlobalContext* globalCtx);
+void EnFish_Respawning_SetupSlowDown(EnFish* this);
+void EnFish_Respawning_SlowDown(EnFish* this, GlobalContext* globalCtx);
+void EnFish_Respawning_SetupFollowChild(EnFish* this);
+void EnFish_Respawning_FollowChild(EnFish* this, GlobalContext* globalCtx);
+void EnFish_Respawning_SetupFleePlayer(EnFish* this);
+void EnFish_Respawning_FleePlayer(EnFish* this, GlobalContext* globalCtx);
+void EnFish_Respawning_SetupApproachPlayer(EnFish* this);
+void EnFish_Respawning_ApproachPlayer(EnFish* this, GlobalContext* globalCtx);
 void EnFish_Dropped_SetupFall(EnFish* this);
 void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx);
 void EnFish_Dropped_SetupFlopOnGround(EnFish* this);
 void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx);
 void EnFish_Dropped_SetupSwimAway(EnFish* this);
 void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx);
-void EnFish_Docile_SetupSwimIdle(EnFish* this);
-void EnFish_Docile_SwimIdle(EnFish* this, GlobalContext* globalCtx);
+void EnFish_Unique_SetupSwimIdle(EnFish* this);
+void EnFish_Unique_SwimIdle(EnFish* this, GlobalContext* globalCtx);
 
+// Used in the cutscene functions
 static Actor* D_80A17010 = NULL;
-
 static f32 D_80A17014 = 0.0f;
-
 static f32 D_80A17018 = 0.0f;
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
@@ -86,32 +85,27 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 700, ICHAIN_STOP),
 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15280.s")
 f32 EnFish_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
     return SQ(v1->x - v2->x) + SQ(v1->z - v2->z);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A152AC.s")
 void EnFish_SetInWaterAnimation(EnFish* this) {
     Animation_Change(&this->skelAnime, &gFishInWaterAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gFishInWaterAnim),
                      ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15310.s")
 void EnFish_SetOutOfWaterAnimation(EnFish* this) {
     Animation_Change(&this->skelAnime, &gFishOutOfWaterAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gFishOutOfWaterAnim),
                      ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15374.s")
-void func_80A15374(EnFish* this) {
-    this->unk_24A = 400;
+void EnFish_BeginRespawn(EnFish* this) {
+    this->respawnTimer = 400;
     Actor_SetScale(&this->actor, 0.001f);
     this->actor.draw = NULL;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A153AC.s")
-void func_80A153AC(EnFish* this) {
+void EnFish_SetCutsceneData(EnFish* this) {
     Actor* thisx = &this->actor;
 
     if (D_80A17010 == NULL) {
@@ -129,14 +123,12 @@ void func_80A153AC(EnFish* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15444.s")
-void func_80A15444(EnFish* this) {
+void EnFish_ClearCutsceneData(EnFish* this) {
     D_80A17010 = NULL;
     D_80A17014 = 0.0f;
     D_80A17018 = 0.0f;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/EnFish_Init.s")
 void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFish* this = THIS;
     s16 params = this->actor.params;
@@ -154,14 +146,13 @@ void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags |= 0x10;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 8.0f);
         EnFish_Dropped_SetupFall(this);
-    } else if (params == FISH_SWIMMING_DOCILE) {
-        EnFish_Docile_SetupSwimIdle(this);
+    } else if (params == FISH_SWIMMING_UNIQUE) {
+        EnFish_Unique_SetupSwimIdle(this);
     } else {
-        func_80A157A4(this);
+        EnFish_Respawning_SetupSlowDown(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/EnFish_Destroy.s")
 void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnFish* this = THIS;
@@ -169,13 +160,11 @@ void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A155D0.s")
 void EnFish_SetYOffset(EnFish* this) {
     this->actor.shape.yOffset += ((Math_SinS(this->slowPhase) * 10.0f) + (Math_SinS(this->fastPhase) * 5.0f));
     this->actor.shape.yOffset = CLAMP(this->actor.shape.yOffset, -200.0f, 200.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15688.s")
 s32 EnFish_InBottleRange(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
@@ -197,63 +186,56 @@ s32 EnFish_InBottleRange(EnFish* this, GlobalContext* globalCtx) {
     return false;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15774.s")
 s32 EnFish_CheckXZDistanceToPlayer(EnFish* this, GlobalContext* globalCtx) {
     return (this->actor.xzDistToPlayer < 60.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A157A4.s")
-void func_80A157A4(EnFish* this) {
+// Respawning type functions
+
+void EnFish_Respawning_SetupSlowDown(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
-    this->unk_248 = Rand_S16Offset(5, 35);
+    this->timer = Rand_S16Offset(5, 35);
     this->unk_250 = 0;
     EnFish_SetInWaterAnimation(this);
-    this->actionFunc = func_80A157FC;
+    this->actionFunc = EnFish_Respawning_SlowDown;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A157FC.s")
-void func_80A157FC(EnFish* this, GlobalContext* globalCtx) {
+void EnFish_Respawning_SlowDown(EnFish* this, GlobalContext* globalCtx) {
     EnFish_SetYOffset(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.05f, 0.3f, 0.0f);
     this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.4f) + 0.8f, 2.0f);
     SkelAnime_Update(&this->skelAnime);
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
-    if (this->unk_248 <= 0) {
-        func_80A158EC(this);
+    if (this->timer <= 0) {
+        EnFish_Respawning_SetupFollowChild(this);
     } else if (&this->actor == this->actor.child) {
-        func_80A15D18(this);
+        EnFish_Respawning_SetupApproachPlayer(this);
     } else if (EnFish_CheckXZDistanceToPlayer(this, globalCtx)) {
-        func_80A15AD4(this);
+        EnFish_Respawning_SetupFleePlayer(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A158EC.s")
-void func_80A158EC(EnFish* this) {
+void EnFish_Respawning_SetupFollowChild(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
-    this->unk_248 = Rand_S16Offset(15, 45);
+    this->timer = Rand_S16Offset(15, 45);
     this->unk_250 = 0;
     EnFish_SetInWaterAnimation(this);
-    this->actionFunc = func_80A15944;
+    this->actionFunc = EnFish_Respawning_FollowChild;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15944.s")
-void func_80A15944(EnFish* this, GlobalContext* globalCtx) {
-    // Actor *temp_v0;
-    // Vec3s* pos;
-    s32 pad; // Can be replaced with either
+void EnFish_Respawning_FollowChild(EnFish* this, GlobalContext* globalCtx) {
+    s32 pad;
 
     EnFish_SetYOffset(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.08f, 0.4f, 0.0f);
 
-    // pos = &this->actor.world.pos;
-    if ((EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 6400.0f) || (this->unk_248 < 4)) {
+    if ((EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > SQ(80.0f)) || (this->timer < 4)) {
         Math_StepToAngleS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),
                           3000);
     } else {
-        // temp_v0 = this->actor.child;
         if ((this->actor.child != NULL) && (&this->actor != this->actor.child)) {
             Math_StepToAngleS(&this->actor.world.rot.y,
                               Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.child->world.pos), 3000);
@@ -264,27 +246,25 @@ void func_80A15944(EnFish* this, GlobalContext* globalCtx) {
     this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.5f) + 0.8f, 4.0f);
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_248 <= 0) {
-        func_80A157A4(this);
+    if (this->timer <= 0) {
+        EnFish_Respawning_SetupSlowDown(this);
     } else if (&this->actor == this->actor.child) {
-        func_80A15D18(this);
+        EnFish_Respawning_SetupApproachPlayer(this);
     } else if (EnFish_CheckXZDistanceToPlayer(this, globalCtx)) {
-        func_80A15AD4(this);
+        EnFish_Respawning_SetupFleePlayer(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15AD4.s")
-void func_80A15AD4(EnFish* this) {
+void EnFish_Respawning_SetupFleePlayer(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
-    this->unk_248 = Rand_S16Offset(10, 40);
+    this->timer = Rand_S16Offset(10, 40);
     this->unk_250 = 0;
     EnFish_SetInWaterAnimation(this);
-    this->actionFunc = func_80A15B2C;
+    this->actionFunc = EnFish_Respawning_FleePlayer;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15B2C.s")
-void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
+void EnFish_Respawning_FleePlayer(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 pad2;
     s16 frames;
@@ -295,7 +275,7 @@ void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
     playerClose = EnFish_CheckXZDistanceToPlayer(this, globalCtx);
     Math_SmoothStepToF(&this->actor.speedXZ, 4.2f, 0.08f, 1.4f, 0.0f);
 
-    if (EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 25600.0f) {
+    if (EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > SQ(160.0f)) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         Math_StepToAngleS(&this->actor.world.rot.y, yaw, 3000);
     } else if ((this->actor.child != NULL) && (&this->actor != this->actor.child)) {
@@ -323,25 +303,23 @@ void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->unk_248 <= 0) || !playerClose) {
-        func_80A157A4(this);
+    if ((this->timer <= 0) || !playerClose) {
+        EnFish_Respawning_SetupSlowDown(this);
     } else if (&this->actor == this->actor.child) {
-        func_80A15D18(this);
+        EnFish_Respawning_SetupApproachPlayer(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15D18.s")
-void func_80A15D18(EnFish* this) {
+void EnFish_Respawning_SetupApproachPlayer(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     EnFish_SetInWaterAnimation(this);
-    this->unk_248 = Rand_S16Offset(10, 40);
+    this->timer = Rand_S16Offset(10, 40);
     this->unk_250 = 0;
-    this->actionFunc = func_80A15D68;
+    this->actionFunc = EnFish_Respawning_ApproachPlayer;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15D68.s")
-void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
+void EnFish_Respawning_ApproachPlayer(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
     s32 pad2;
@@ -352,7 +330,7 @@ void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
     EnFish_SetYOffset(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
 
-    if (EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 6400.0f) {
+    if (EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > SQ(80.0f)) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         Math_StepToAngleS(&this->actor.world.rot.y, yaw, 3000);
     } else {
@@ -375,12 +353,13 @@ void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_248 <= 0) {
-        func_80A157A4(this);
+    if (this->timer <= 0) {
+        EnFish_Respawning_SetupSlowDown(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15F24.s")
+// Dropped type functions
+
 void EnFish_Dropped_SetupFall(EnFish* this) {
     this->actor.gravity = -1.0f;
     this->actor.minVelocityY = -10.0f;
@@ -388,10 +367,9 @@ void EnFish_Dropped_SetupFall(EnFish* this) {
     EnFish_SetOutOfWaterAnimation(this);
     this->unk_250 = 5;
     this->actionFunc = EnFish_Dropped_Fall;
-    this->unk_248 = 300;
+    this->timer = 300;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15F84.s")
 void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.1f, 0.0f);
     Math_StepToAngleS(&this->actor.world.rot.x, 0x4000, 100);
@@ -402,11 +380,11 @@ void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.bgCheckFlags & 1) { // On floor
-        this->unk_248 = 400;
+        this->timer = 400;
         EnFish_Dropped_SetupFlopOnGround(this);
     } else if (this->actor.bgCheckFlags & 0x20) { // In water
         EnFish_Dropped_SetupSwimAway(this);
-    } else if ((this->unk_248 <= 0) && (this->actor.params == FISH_DROPPED) && (this->actor.floorHeight < -31990.0f)) {
+    } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) && (this->actor.floorHeight < -31990.0f)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // BG missing? Running Actor_delete
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
@@ -415,10 +393,8 @@ void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A160BC.s")
 /**
- * If the fish is on a floor, this function is looped back to by EnFish_Dropped_FlopOnGround to set a new flopping
- * random flopping height and whether the sound should play again.
+ * If the fish is on a floor, this function is looped back to by EnFish_Dropped_FlopOnGround to set a new flopping height and whether the sound should play again.
  */
 void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     s32 pad;
@@ -455,7 +431,6 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16200.s")
 void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 frames = globalCtx->state.frames;
@@ -477,12 +452,12 @@ void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_248 <= 0) {
+    if (this->timer <= 0) {
         Actor_Kill(&this->actor);
         return;
     }
 
-    if (this->unk_248 <= 60) {
+    if (this->timer <= 60) {
         // Blink when about to disappear
         if (frames & 4) {
             this->actor.draw = EnFish_Draw;
@@ -496,11 +471,10 @@ void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A163DC.s")
 void EnFish_Dropped_SetupSwimAway(EnFish* this) {
     this->actor.home.pos = this->actor.world.pos;
     this->actor.flags |= 0x10;
-    this->unk_248 = 200;
+    this->timer = 200;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->actor.shape.yOffset = 0.0f;
@@ -509,7 +483,6 @@ void EnFish_Dropped_SetupSwimAway(EnFish* this) {
     this->unk_250 = 5;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16450.s")
 void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
 
@@ -535,30 +508,30 @@ void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx) {
     }
 
     // Shrink when close to disappearing.
-    if (this->unk_248 < 100) {
+    if (this->timer < 100) {
         Actor_SetScale(&this->actor, this->actor.scale.x * 0.982f);
     }
 
     this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.5f) + 1.0f, 4.0f);
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_248 <= 0) {
+    if (this->timer <= 0) {
         Actor_Kill(&this->actor);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16618.s")
-void EnFish_Docile_SetupSwimIdle(EnFish* this) {
+// Unique type functions
+
+void EnFish_Unique_SetupSwimIdle(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
-    this->unk_248 = Rand_S16Offset(5, 35);
+    this->timer = Rand_S16Offset(5, 35);
     this->unk_250 = 0;
     EnFish_SetInWaterAnimation(this);
-    this->actionFunc = EnFish_Docile_SwimIdle;
+    this->actionFunc = EnFish_Unique_SwimIdle;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16670.s")
-void EnFish_Docile_SwimIdle(EnFish* this, GlobalContext* globalCtx) {
+void EnFish_Unique_SwimIdle(EnFish* this, GlobalContext* globalCtx) {
     static f32 speedStopping[] = { 0.0f, 0.04f, 0.09f };
     static f32 speedMoving[] = { 0.5f, 0.1f, 0.15f };
     f32 playSpeed;
@@ -571,13 +544,13 @@ void EnFish_Docile_SwimIdle(EnFish* this, GlobalContext* globalCtx) {
     frames = globalCtx->gameplayFrames;
 
     if (this->actor.xzDistToPlayer < 60.0f) {
-        if (this->unk_248 < 12) {
+        if (this->timer < 12) {
             speedType = speedMoving;
         } else {
             speedType = speedStopping;
         }
     } else {
-        if (this->unk_248 < 4) {
+        if (this->timer < 4) {
             speedType = speedMoving;
         } else {
             speedType = speedStopping;
@@ -589,12 +562,12 @@ void EnFish_Docile_SwimIdle(EnFish* this, GlobalContext* globalCtx) {
 
     extraPlaySpeed = 0.0f;
 
-    if ((EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 225.0f)) {
+    if ((EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > SQ(15.0f))) {
         if (!Math_ScaledStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),
                                 200)) {
             extraPlaySpeed = 0.5f;
         }
-    } else if ((this->unk_248 < 4) && !Math_ScaledStepToS(&this->actor.world.rot.y, frames * 0x80, 100)) {
+    } else if ((this->timer < 4) && !Math_ScaledStepToS(&this->actor.world.rot.y, frames * 0x80, 100)) {
         extraPlaySpeed = 0.5f;
     }
 
@@ -603,13 +576,14 @@ void EnFish_Docile_SwimIdle(EnFish* this, GlobalContext* globalCtx) {
     this->skelAnime.playSpeed = CLAMP(playSpeed, 1.5f, 0.5);
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_248 <= 0) {
-        this->unk_248 = Rand_S16Offset(5, 80);
+    if (this->timer <= 0) {
+        this->timer = Rand_S16Offset(5, 80);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16898.s")
-void func_80A16898(EnFish* this, GlobalContext* globalCtx) {
+// Cutscene functions
+
+void EnFish_Cutscene_FlopOnGround(EnFish* this, GlobalContext* globalCtx) {
     f32 sp24 = Math_SinS(this->slowPhase);
     f32 sp20 = Math_SinS(this->fastPhase);
 
@@ -632,8 +606,7 @@ void func_80A16898(EnFish* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A169C8.s")
-void func_80A169C8(EnFish* this, GlobalContext* globalCtx) {
+void EnFish_Cutscene_WiggleFlyingThroughAir(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 sp28 = Math_SinS(this->slowPhase);
     f32 sp24 = Math_SinS(this->fastPhase);
@@ -645,7 +618,6 @@ void func_80A169C8(EnFish* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16A64.s")
 void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
@@ -659,7 +631,7 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
         // Warning : DEMO ended without dousa (action) 3 termination being called
         osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
                      1169, this->actor.params);
-        func_80A15444(this);
+        EnFish_ClearCutsceneData(this);
         Actor_Kill(&this->actor);
         return;
     }
@@ -670,18 +642,17 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
     // csAction = temp_v0;
     switch (csAction->action) {
         case 1:
-            func_80A16898(this, globalCtx);
+            EnFish_Cutscene_FlopOnGround(this, globalCtx);
             break;
         case 2:
-            func_80A169C8(this, globalCtx);
+            EnFish_Cutscene_WiggleFlyingThroughAir(this, globalCtx);
             break;
         case 3:
             // DEMO fish termination
             osSyncPrintf("デモ魚消滅\n");
-            func_80A15444(this);
+            EnFish_ClearCutsceneData(this);
             Actor_Kill(&this->actor);
             return;
-            break;
         default:
             // Improper DEMO action
             osSyncPrintf("不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1200, this->actor.params);
@@ -705,10 +676,11 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
                                                           &this->actor, &this->actor.world.pos);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16C68.s")
-void func_80A16C68(EnFish* this, GlobalContext* globalCtx) {
-    if (this->unk_248 > 0) {
-        this->unk_248--;
+// Update functions and Draw
+
+void EnFish_OrdinaryUpdate(EnFish* this, GlobalContext* globalCtx) {
+    if (this->timer > 0) {
+        this->timer--;
     }
 
     this->slowPhase += 0x111;
@@ -739,16 +711,15 @@ void func_80A16C68(EnFish* this, GlobalContext* globalCtx) {
                 return;
             }
 
-            func_80A15374(this);
+            EnFish_BeginRespawn(this);
         } else if (EnFish_InBottleRange(this, globalCtx)) {
             func_8002F434(&this->actor, globalCtx, GI_MAX, 80.0f, 20.0f);
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16DEC.s")
-void func_80A16DEC(EnFish* this, GlobalContext* globalCtx) {
-    if (this->actor.params == FISH_SWIMMING_DOCILE) {
+void EnFish_RespawningUpdate(EnFish* this, GlobalContext* globalCtx) {
+    if (this->actor.params == FISH_SWIMMING_UNIQUE) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -760,36 +731,34 @@ void func_80A16DEC(EnFish* this, GlobalContext* globalCtx) {
     if ((this->actionFunc == NULL) || (this->actionFunc(this, globalCtx), (this->actor.update != NULL))) {
         Actor_MoveForward(&this->actor);
 
-        if (this->unk_24A == 20) {
+        if (this->respawnTimer == 20) {
             this->actor.draw = EnFish_Draw;
-        } else if (this->unk_24A == 0) {
+        } else if (this->respawnTimer == 0) {
             Actor_SetScale(&this->actor, 0.01f);
-        } else if (this->unk_24A < 20) {
+        } else if (this->respawnTimer < 20) {
             Actor_SetScale(&this->actor, CLAMP_MAX(this->actor.scale.x + 0.001f, 0.01f));
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/EnFish_Update.s")
 void EnFish_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFish* this = THIS;
 
     if ((D_80A17010 == NULL) && (this->actor.params == FISH_DROPPED) && (globalCtx->csCtx.state != 0) &&
         (globalCtx->csCtx.npcActions[1] != NULL)) {
-        func_80A153AC(this);
+        EnFish_SetCutsceneData(this);
     }
 
     if ((D_80A17010 != NULL) && (&this->actor == D_80A17010)) {
         EnFish_UpdateCutscene(this, globalCtx);
-    } else if (this->unk_24A > 0) {
-        this->unk_24A--;
-        func_80A16DEC(this, globalCtx);
+    } else if (this->respawnTimer > 0) {
+        this->respawnTimer--;
+        EnFish_RespawningUpdate(this, globalCtx);
     } else {
-        func_80A16C68(this, globalCtx);
+        EnFish_OrdinaryUpdate(this, globalCtx);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/EnFish_Draw.s")
 void EnFish_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFish* this = THIS;
 
