@@ -50,7 +50,7 @@ typedef enum {
     /* 1 */ SARIA_EYE_HALF,
     /* 2 */ SARIA_EYE_CLOSED,
     /* 3 */ SARIA_EYE_SUPRISED,
-    /* 4 */ SARIA_EYE_SAD,
+    /* 4 */ SARIA_EYE_SAD
 } SariaEyeState;
 
 typedef enum {
@@ -58,7 +58,7 @@ typedef enum {
     /* 1 */ SARIA_MOUTH_SUPRISED,
     /* 2 */ SARIA_MOUTH_CLOSED,
     /* 3 */ SARIA_MOUTH_SMILING_OPEN,
-    /* 4 */ SARIA_MOUTH_FROWNING,
+    /* 4 */ SARIA_MOUTH_FROWNING
 } SariaMouthState;
 
 static u64* sEyeTextures[] = {
