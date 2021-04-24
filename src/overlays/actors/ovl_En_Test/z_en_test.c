@@ -22,7 +22,7 @@ void EnTest_WaitAbove(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Fall(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Land(EnTest* this, GlobalContext* globalCtx);
 void func_80863360(EnTest* this, GlobalContext* globalCtx);
-void func_808600EC(EnTest* this, GlobalContext* globalCtx);
+void EnTest_Idle(EnTest* this, GlobalContext* globalCtx);
 void func_808604FC(EnTest* this, GlobalContext* globalCtx);
 void func_80860C24(EnTest* this, GlobalContext* globalCtx);
 void func_80860F84(EnTest* this, GlobalContext* globalCtx);
@@ -64,8 +64,26 @@ void func_80862154(EnTest* this);
 void func_80861EC0(EnTest* this);
 void func_808627C4(EnTest* this, GlobalContext* globalCtx);
 
+extern SkeletonHeader D_06007C28;
+extern AnimationHeader D_0600316C; // ready stance
+extern AnimationHeader D_06001978; // jump back
+extern AnimationHeader D_0600B00C; // slash 1
+extern AnimationHeader D_0600B4E4; // slash 1 end
+extern AnimationHeader D_0600BE4C; // slash 2
+extern AnimationHeader D_0600A324; // jumpslash start
+extern AnimationHeader D_0600A99C; // jumpslash
+extern AnimationHeader D_0600E2B0; // sidestep
+extern AnimationHeader D_060081B4; // walk forward?
+extern AnimationHeader D_06001C20; // block
+extern AnimationHeader D_060026D4; //?
+extern AnimationHeader D_06000444;
+extern AnimationHeader D_06001420;
+extern AnimationHeader D_06008604;
+extern AnimationHeader D_06009A90;
+extern AnimationHeader D_0600C438;
+
 // animation indexes?
-u8 D_80864510[] = {
+static u8 D_80864510[] = {
     0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -144,51 +162,46 @@ static ColliderQuadInit D_808645C8 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-// sDamageTable
-DamageTable D_80864618[] = {
-    0x10, 0x02, 0xD1, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x02, 0xF4, 0xE2, 0x02, 0x02,
-    0x02, 0x60, 0xF3, 0xE0, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0 , 0x1),
+    /* Deku stick    */ DMG_ENTRY(2 , 0x0),
+    /* Slingshot     */ DMG_ENTRY(1 , 0xD),
+    /* Explosive     */ DMG_ENTRY(2 , 0x0),
+    /* Boomerang     */ DMG_ENTRY(0 , 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2 , 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2 , 0x0),
+    /* Hookshot      */ DMG_ENTRY(0 , 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1 , 0x0),
+    /* Master sword  */ DMG_ENTRY(2 , 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4 , 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2 , 0x0),
+    /* Ice arrow     */ DMG_ENTRY(4 , 0xF),
+    /* Light arrow   */ DMG_ENTRY(2 , 0xE),
+    /* Unk arrow 1   */ DMG_ENTRY(2 , 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2 , 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2 , 0x0),
+    /* Fire magic    */ DMG_ENTRY(0 , 0x6),
+    /* Ice magic     */ DMG_ENTRY(3 , 0xF),
+    /* Light magic   */ DMG_ENTRY(0 , 0xE),
+    /* Shield        */ DMG_ENTRY(0 , 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1 , 0x0),
+    /* Giant spin    */ DMG_ENTRY(4 , 0x0),
+    /* Master spin   */ DMG_ENTRY(2 , 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2 , 0x0),
+    /* Giant jump    */ DMG_ENTRY(8 , 0x0),
+    /* Master jump   */ DMG_ENTRY(4 , 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0 , 0x0),
+    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4 , 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
 };
 
-// sInitChain
-InitChainEntry D_80864638[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 27, ICHAIN_CONTINUE),      ICHAIN_F32(targetArrowOffset, 500, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE), ICHAIN_F32(scale.y, 0, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 64036, ICHAIN_STOP),
 };
-
-Vec3f unused1 = { 1100.0f, -700.0f, 0.0f };
-Vec3f D_80864658 = { 300.0f, 0.0f, 0.0f };
-Vec3f D_80864664 = { 3400.0f, 0.0f, 0.0f };
-Vec3f D_80864670 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_8086467C = { 7000.0f, 1000.0f, 0.0f };
-Vec3f D_80864688 = { 3000.0f, -2000.0f, -1000.0f };
-Vec3f D_80864694 = { 3000.0f, -2000.0f, 1000.0f };
-Vec3f D_808646A0 = { -1300.0f, 1100.0f, 0.0f };
-
-// part of the array above? unused?
-Vec3f unused2[] = {
-    { -3000.0f, 1900.0f, 800.0f },  { -3000.0f, -1100.0f, 800.0f }, { 1900.0f, 1900.0f, 800.0f },
-    { -3000.0f, -1100.0f, 800.0f }, { 1900.0f, -1100.0f, 800.0f },  { 1900.0f, 1900.0f, 800.0f },
-};
-
-extern SkeletonHeader D_06007C28;
-extern AnimationHeader D_0600316C; // ready stance
-extern AnimationHeader D_06001978; // jump back
-extern AnimationHeader D_0600B00C; // slash 1
-extern AnimationHeader D_0600B4E4; // slash 1 end
-extern AnimationHeader D_0600BE4C; // slash 2
-extern AnimationHeader D_0600A324; // jumpslash start
-extern AnimationHeader D_0600A99C; // jumpslash
-extern AnimationHeader D_0600E2B0; // sidestep
-extern AnimationHeader D_060081B4; // walk forward?
-extern AnimationHeader D_06001C20; // block
-extern AnimationHeader D_060026D4; //?
-extern AnimationHeader D_06000444;
-extern AnimationHeader D_06001420;
-extern AnimationHeader D_06008604;
-extern AnimationHeader D_06009A90;
-extern AnimationHeader D_0600C438;
 
 void EnTest_SetupAction(EnTest* this, EnTestActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -198,7 +211,7 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EffectBlureInit1 slashBlure;
     EnTest* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_80864638);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
 
     SkelAnime_Init(globalCtx, &this->skelAnime_188, &D_06007C28, &D_0600316C, this->limbDrawTable_1CC,
                    this->transitionTbl_16E, 61);
@@ -211,7 +224,7 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.cylHeight = 100;
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 45.0f;
-    this->actor.colChkInfo.damageTable = D_80864618;
+    this->actor.colChkInfo.damageTable = &sDamageTable;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80864570);
@@ -240,7 +253,7 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &slashBlure);
 
-    if (this->actor.params != 3) {
+    if (this->actor.params != STALFOS_CEILING) {
         EnTest_SetupWaitGround(this);
     } else {
         EnTest_SetupWaitAbove(this);
@@ -418,18 +431,17 @@ void EnTest_WaitAbove(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-// setup wait after jump back/jump slash/fall
-void func_80860068(EnTest* this) {
+void EnTest_SetupIdle(EnTest* this) {
     Animation_PlayLoop(&this->skelAnime_188, &D_0600316C);
     this->unk_7C8 = 0xA;
     this->timer = (Rand_ZeroOne() * 10.0f) + 5.0f;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    EnTest_SetupAction(this, func_808600EC);
+    EnTest_SetupAction(this, EnTest_Idle);
 }
 
 // wait after jump back
-void func_808600EC(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_Idle(EnTest* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 yawDiff;
 
@@ -496,7 +508,7 @@ void EnTest_Fall(EnTest* this, GlobalContext* globalCtx) {
 
 void EnTest_Land(EnTest* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime_188)) {
-        func_80860068(this);
+        EnTest_SetupIdle(this);
         this->timer = (Rand_ZeroOne() * 10.0f) + 5.0f;
     }
 }
@@ -526,7 +538,7 @@ void func_808604FC(EnTest* this, GlobalContext* globalCtx) {
     if (func_808641E8(globalCtx, this) == 0) {
         this->timer++;
 
-        if (func_80033AB8(globalCtx, this) != 0) {
+        if (func_80033AB8(globalCtx, &this->actor) != 0) {
             checkDist = 150.0f;
         }
 
@@ -543,7 +555,7 @@ void func_808604FC(EnTest* this, GlobalContext* globalCtx) {
         }
 
         if ((this->actor.params == 3) &&
-            (func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.world.rot.y) == 0)) {
+            (func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.world.rot.y) == 0)) {
             this->actor.speedXZ *= -1.0f;
         }
 
@@ -601,18 +613,18 @@ void func_808604FC(EnTest* this, GlobalContext* globalCtx) {
             temp_v0_2 = (s32)absPlaySpeed + prevFrame;
 
             if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
-                Audio_PlayActorSound2(this, NA_SE_EN_STAL_WALK);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
             }
         }
 
         if ((this->timer & 0x1F) == 0) {
-            Audio_PlayActorSound2(this, NA_SE_EN_STAL_WARAU);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
             this->timer += (s16)(Rand_ZeroOne() * 5.0f);
         }
 
         if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
-            (func_8002E084(this, 0x71C))) {
-            if (func_80033A84(globalCtx, this)) {
+            (func_8002E084(&this->actor, 0x71C))) {
+            if (func_80033A84(globalCtx, &this->actor)) {
                 if (Rand_ZeroOne() < 0.1f) {
                     func_80861B94(this);
                     return;
@@ -635,8 +647,8 @@ void func_808604FC(EnTest* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         }
 
-        if (!func_8002E084(this, 0x11C7)) {
-            func_80860068(this);
+        if (!func_8002E084(&this->actor, 0x11C7)) {
+            EnTest_SetupIdle(this);
             this->timer = (Rand_ZeroOne() * 10.0f) + 10.0f;
             return;
         }
@@ -782,7 +794,7 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
 
         if ((this->actor.bgCheckFlags & 8) ||
             ((this->actor.params == 3) &&
-             !func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.world.rot.y))) {
+             !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.world.rot.y))) {
             if (this->actor.bgCheckFlags & 8) {
                 if (this->actor.speedXZ >= 0.0f) {
                     newYaw = (this->actor.shape.rot.y + 0x3FFF);
@@ -806,7 +818,8 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
                 }
             }
         }
-        if (func_80033AB8(globalCtx, this)) {
+
+        if (func_80033AB8(globalCtx, &this->actor)) {
             checkDist = 200.0f;
         }
 
@@ -834,11 +847,11 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
             temp_v0_2 = (s32)absPlaySpeed + prevFrame;
 
             if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
-                Audio_PlayActorSound2(this, NA_SE_EN_STAL_WALK);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
             }
         }
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-            Audio_PlayActorSound2(this, NA_SE_EN_STAL_WARAU);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
         }
         yawDiff = playerYaw180 - this->actor.shape.rot.y;
         if (yawDiff < 0) {
@@ -917,7 +930,7 @@ void func_808615F4(EnTest* this, GlobalContext* globalCtx) {
         }
 
         if (Rand_ZeroOne() > 0.7f) {
-            func_80860068(this);
+            EnTest_SetupIdle(this);
             this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
             return;
         }
@@ -1028,14 +1041,14 @@ void func_808619EC(EnTest* this, GlobalContext* globalCtx) {
                 if (func_8002E084(&this->actor, 0x1555)) {
                     func_80861418(this);
                 } else {
-                    func_80860068(this);
+                    EnTest_SetupIdle(this);
                     this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
                 }
             } else {
                 if ((this->actor.xzDistToPlayer <= 220.0f) && func_8002E084(&this->actor, 0xE38)) {
                     func_80861B94(this);
                 } else {
-                    func_80860068(this);
+                    EnTest_SetupIdle(this);
                     this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
                 }
             }
@@ -1077,7 +1090,7 @@ void func_80861C40(EnTest* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
         } else {
             this->actor.speedXZ = 0.0f;
-            func_80860068(this);
+            EnTest_SetupIdle(this);
         }
     }
 
@@ -1372,7 +1385,7 @@ void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
 
     if ((this->actor.bgCheckFlags & 8) ||
         ((this->actor.params == 3) &&
-         !func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3FFF))) {
+         !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3FFF))) {
         if (this->actor.bgCheckFlags & 8) {
             if (this->actor.speedXZ >= 0.0f) {
                 newYaw = (this->actor.shape.rot.y + 0x3FFF);
@@ -1399,7 +1412,7 @@ void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
 
-    if (func_80033AB8(globalCtx, this)) {
+    if (func_80033AB8(globalCtx, &this->actor)) {
         checkDist = 200.0f;
     }
 
@@ -1424,28 +1437,28 @@ void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
     absPlaySpeed = ABS(this->skelAnime_188.playSpeed);
 
     if ((this->timer & 0x1F) == 0) {
-        Audio_PlayActorSound2(this, NA_SE_EN_STAL_WARAU);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
     }
     if ((s32)this->skelAnime_188.curFrame != prevFrame) {
         temp_v0_2 = (s32)absPlaySpeed + prevFrame;
 
         if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
-            Audio_PlayActorSound2(this, NA_SE_EN_STAL_WALK);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
         }
     }
 
     if (this->timer == 0) {
-        if (func_80033AB8(globalCtx, this)) {
-            func_80860068(this);
+        if (func_80033AB8(globalCtx, &this->actor)) {
+            EnTest_SetupIdle(this);
         } else {
-            if (func_80033A84(globalCtx, this)) {
+            if (func_80033A84(globalCtx, &this->actor)) {
                 if (!func_808641E8(globalCtx, this)) {
                     func_8085FAB0(this, globalCtx);
                 }
             } else {
                 if (player->heldItemActionParam != PLAYER_AP_NONE) {
                     if ((globalCtx->gameplayFrames & 1)) {
-                        func_80860068(this);
+                        EnTest_SetupIdle(this);
                     } else {
                         func_80860438(this);
                     }
@@ -1584,7 +1597,7 @@ void func_80863240(EnTest* this) {
 void func_80863294(EnTest* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime_188)) {
         if (Rand_ZeroOne() > 0.7f) {
-            func_80860068(this);
+            EnTest_SetupIdle(this);
             this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
         } else if (((globalCtx->gameplayFrames & 1) != 0) && (this->actor.params != 3)) {
             func_8086194C(this);
@@ -1716,6 +1729,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
         switch (this->unk_7DE) {
             case 0:
                 break;
+
             case 1:
                 Animation_Change(&this->skelAnime_4A8, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2,
                                  2.0f);
@@ -1723,6 +1737,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
                                              this->skelAnime_4A8.jointTable, D_80864510);
                 this->unk_7DE++;
                 break;
+                
             case 2:
                 SkelAnime_Update(&this->skelAnime_4A8);
                 SkelAnime_CopyFrameTableTrue(&this->skelAnime_188, this->skelAnime_188.jointTable,
@@ -1822,6 +1837,20 @@ s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void func_80863CC4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    static Vec3f unused1 = { 1100.0f, -700.0f, 0.0f };
+    static Vec3f D_80864658 = { 300.0f, 0.0f, 0.0f };
+    static Vec3f D_80864664 = { 3400.0f, 0.0f, 0.0f };
+    static Vec3f D_80864670 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f D_8086467C = { 7000.0f, 1000.0f, 0.0f };
+    static Vec3f D_80864688 = { 3000.0f, -2000.0f, -1000.0f };
+    static Vec3f D_80864694 = { 3000.0f, -2000.0f, 1000.0f };
+    static Vec3f D_808646A0 = { -1300.0f, 1100.0f, 0.0f };
+    static Vec3f unused2 = { -3000.0f, 1900.0f, 800.0f };
+    static Vec3f unused3 = { -3000.0f, -1100.0f, 800.0f };
+    static Vec3f unused4 = { 1900.0f, 1900.0f, 800.0f };
+    static Vec3f unused5 = { -3000.0f, -1100.0f, 800.0f };
+    static Vec3f unused6 = { 1900.0f, -1100.0f, 800.0f };
+    static Vec3f unused7 = { 1900.0f, 1900.0f, 800.0f };
     s32 bodyPart = -1;
     Vec3f sp70;
     Vec3f sp64;
@@ -1910,6 +1939,8 @@ void func_80863CC4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
+
+
 void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnTest* this = THIS;
 
@@ -1943,4 +1974,90 @@ void func_80864158(EnTest* this, f32 xzSpeed) {
     EnTest_SetupAction(this, func_808628C8);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808641E8.s")
+/**
+ * Checks if a projectile actor is within 300 units 
+ */
+s32 func_808641E8(GlobalContext* globalCtx, EnTest* this) {
+    Actor* projectileActor;
+    s16 yawToProjectile;
+    s16 sp20;
+    s16 touchingWall;
+    s16 phi_v1;
+
+    projectileActor = func_80033780(globalCtx, &this->actor, 300.0f);
+
+    if (projectileActor != NULL) {
+        yawToProjectile = Actor_WorldYawTowardActor(&this->actor, projectileActor) - (u16)this->actor.shape.rot.y;
+
+        if ((u8)(this->actor.bgCheckFlags & 8)) {
+            sp20 = ((u16)this->actor.wallYaw - (u16)this->actor.shape.rot.y);
+            touchingWall = true;
+        } else {
+            touchingWall = false;
+        }
+
+        if ((Math_Vec3f_DistXYZ(&this->actor.world.pos, &projectileActor->world.pos) < 200.0f)) {
+            if (func_80033A84(globalCtx, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
+                func_80861D50(this);
+                return 1;
+            }
+
+            if (ABS(yawToProjectile) < 0x2000) {
+                func_80861EC0(this);
+                return 1;
+            }
+
+            if (ABS(yawToProjectile) < 0x6000) {
+                func_8086194C(this);
+                return 1;
+            }
+
+            func_80861D50(this);
+            return 1;
+        }
+
+        if (func_80033A84(globalCtx, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
+            func_80861D50(this);
+            return 1;
+        }
+
+        if ((ABS(yawToProjectile) < 0x2000) || (ABS(yawToProjectile) > 0x6000)) {
+            phi_v1 = globalCtx->gameplayFrames & 1;
+
+            if ((touchingWall != 0) && (sp20 > 0x2000) && (sp20 < 0x6000)) {
+                phi_v1 = 0;
+            } else if ((touchingWall != 0) && (sp20 < -0x2000) && (sp20 >= -0x5FFF)) {
+                phi_v1 = 1;
+            }
+
+            if (phi_v1) {
+                func_80864158(this, 4.0f);
+                return 1;
+            } else {
+                func_80864158(this, -4.0f);
+                return 1;
+            }
+        }
+
+        if (ABS(yawToProjectile) < 0x6000) {
+            phi_v1 = globalCtx->gameplayFrames & 1;
+
+            if ((touchingWall != 0) && (ABS(sp20) > 0x6000)) {
+                phi_v1 = 0;
+            } else if ((touchingWall != 0) && (ABS(sp20) < 0x2000)) {
+                phi_v1 = 1;
+            }
+
+            if (phi_v1 != 0) {
+                func_8086194C(this);
+                return 1;
+            } else {
+                func_80861D50(this);
+            }
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
