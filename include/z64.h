@@ -403,7 +403,7 @@ typedef struct {
     /* 0x0258 */ s16    unk_258;
     /* 0x025A */ s16    unk_25A;
     /* 0x025C */ s16    mapRoomNum;
-    /* 0x025E */ s16    mapPaletteNum; // "map_palete_no"
+    /* 0x025E */ s16    mapPaletteIndex; // "map_palete_no"
     /* 0x0260 */ u8     unk_260;
     /* 0x0261 */ u8     unk_261;
     struct {
@@ -423,6 +423,12 @@ typedef struct {
 } InterfaceContext; // size = 0x270
 
 typedef struct {
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ u8 unk_02;
+} UnkAudioStruct;
+
+typedef struct {
     /* 0x00 */ void* loadedRamAddr;
     /* 0x04 */ u32 vromStart;
     /* 0x08 */ u32 vromEnd;
@@ -438,11 +444,18 @@ typedef enum {
     /* 0x02 */ KALEIDO_OVL_MAX
 } KaleidoOverlayType;
 
-typedef struct {
-    /* 0x00 */ u8 unk_00;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 unk_02;
-} UnkAudioStruct;
+#define PAUSE_ITEM_NONE 999
+
+#define PAUSE_CURSOR_PAGE_LEFT 10
+#define PAUSE_CURSOR_PAGE_RIGHT 11
+
+typedef enum {
+    /* 0x00 */ PAUSE_ITEM,
+    /* 0x01 */ PAUSE_MAP,
+    /* 0x02 */ PAUSE_QUEST,
+    /* 0x03 */ PAUSE_EQUIP,
+    /* 0x04 */ PAUSE_WORLD_MAP
+} PauseMenuPage;
 
 typedef struct {
     /* 0x0000 */ View   view;
@@ -457,7 +470,7 @@ typedef struct {
     /* 0x0148 */ Vtx*   equipPageVtx;
     /* 0x014C */ Vtx*   mapPageVtx;
     /* 0x0150 */ Vtx*   questPageVtx;
-    /* 0x0154 */ Vtx*   namePanelVtx;
+    /* 0x0154 */ Vtx*   infoPanelVtx;
     /* 0x0158 */ Vtx*   itemVtx;
     /* 0x015C */ Vtx*   equipVtx;
     /* 0x0160 */ char   unk_160[0x04];
@@ -470,11 +483,11 @@ typedef struct {
     /* 0x01B8 */ OSMesgQueue loadQueue;
     /* 0x01D0 */ OSMesg loadMsg;
     /* 0x01D4 */ u16    state;
-    /* 0x01D6 */ u16    flag;
+    /* 0x01D6 */ u16    debugState;
     /* 0x01D8 */ Vec3f  eye;
     /* 0x01E4 */ u16    unk_1E4;
     /* 0x01E6 */ u16    mode;
-    /* 0x01E8 */ u16    kscpPos; // "kscp_pos"; basically the page index (0=SELECT ITEM; 1=MAP; 2=QUEST STATUS; 3=EQUIPMENT)
+    /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
     /* 0x01EA */ u16    unk_1EA;
     /* 0x01EC */ u16    unk_1EC;
     /* 0x01F0 */ f32    unk_1F0;
@@ -483,34 +496,34 @@ typedef struct {
     /* 0x01FC */ f32    unk_1FC;
     /* 0x0200 */ f32    unk_200;
     /* 0x0204 */ f32    unk_204; // "angle_s"
-    /* 0x0208 */ u16    unk_208;
-    /* 0x020A */ s16    unk_20A;
+    /* 0x0208 */ u16    alpha;
+    /* 0x020A */ s16    offsetY;
     /* 0x020C */ char   unk_20C[0x08];
     /* 0x0214 */ s16    stickRelX;
     /* 0x0216 */ s16    stickRelY;
-    /* 0x0218 */ s16    unk_218[5]; // "cursor_point"
-    /* 0x0222 */ s16    unk_222[5]; // "cur_xpt"
-    /* 0x022C */ s16    unk_22C[5]; // "cur_ypt"
-    /* 0x0236 */ s16    unk_236;
-    /* 0x0238 */ s16    unk_238; // "key_angle"
-    /* 0x023A */ s16    unk_23A;
-    /* 0x023C */ u16    unk_23C; // "zoom_name"
-    /* 0x023E */ u16    unk_23E[4]; // "select_name"
-    /* 0x0246 */ u16    unk_246[4];
-    /* 0x024E */ u16    unk_24E; // "sl_item_no"
-    /* 0x0250 */ u16    unk_250; // "sl_number"
-    /* 0x0252 */ u16    unk_252;
-    /* 0x0254 */ s16    unk_254;
-    /* 0x0256 */ s16    unk_256;
-    /* 0x0258 */ s16    unk_258;
-    /* 0x025A */ s16    unk_25A;
-    /* 0x025C */ u16    unk_25C;
-    /* 0x025E */ u16    unk_25E;
-    /* 0x0260 */ s16    unk_260;
-    /* 0x0262 */ s16    unk_262;
+    /* 0x0218 */ s16    cursorPoint[5]; // "cursor_point"
+    /* 0x0222 */ s16    cursorX[5]; // "cur_xpt"
+    /* 0x022C */ s16    cursorY[5]; // "cur_ypt"
+    /* 0x0236 */ s16    dungeonMapSlot;
+    /* 0x0238 */ s16    cursorSpecialPos; // "key_angle"
+    /* 0x023A */ s16    pageSwitchTimer;
+    /* 0x023C */ u16    namedItem; // "zoom_name"
+    /* 0x023E */ u16    cursorItem[4]; // "select_name"
+    /* 0x0246 */ u16    cursorSlot[4];
+    /* 0x024E */ u16    equipTargetItem; // "sl_item_no"
+    /* 0x0250 */ u16    equipTargetSlot; // "sl_number"
+    /* 0x0252 */ u16    equipTargetCBtn;
+    /* 0x0254 */ s16    equipAnimX;
+    /* 0x0256 */ s16    equipAnimY;
+    /* 0x0258 */ s16    equipAnimAlpha;
+    /* 0x025A */ s16    infoPanelOffsetY;
+    /* 0x025C */ u16    nameDisplayTimer;
+    /* 0x025E */ u16    nameColorSet; // 0 = white; 1 = grey
+    /* 0x0260 */ s16    cursorColorSet; // 0 = white; 4 = yellow; 8 = green
+    /* 0x0262 */ s16    promptChoice; // save/continue choice: 0 = yes; 4 = no
     /* 0x0264 */ s16    unk_264;
-    /* 0x0266 */ u8     unk_266[20];
-    /* 0x027A */ u8     unk_27A;
+    /* 0x0266 */ u8     worldMapPoints[20]; // 0 = hidden; 1 = displayed; 2 = highlighted
+    /* 0x027A */ u8     tradeQuestLocation;
     /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0
 

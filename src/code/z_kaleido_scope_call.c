@@ -54,7 +54,7 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
     KaleidoMgrOverlay* kaleidoScopeOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE];
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
 
-    if ((pauseCtx->state != 0) || (pauseCtx->flag != 0)) {
+    if ((pauseCtx->state != 0) || (pauseCtx->debugState != 0)) {
         if (pauseCtx->state == 1) {
             if (ShrinkWindow_GetCurrentVal() == 0) {
                 HREG(80) = 7;
@@ -97,7 +97,7 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
             if (gKaleidoMgrCurOvl == kaleidoScopeOvl) {
                 sKaleidoScopeUpdateFunc(globalCtx);
 
-                if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0)) {
+                if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0)) {
                     osSyncPrintf(VT_FGCOL(GREEN));
                     osSyncPrintf("カレイド領域 カレイドスコープ排出\n"); // Kaleid area Kaleidoscope Emission
                     osSyncPrintf(VT_RST);

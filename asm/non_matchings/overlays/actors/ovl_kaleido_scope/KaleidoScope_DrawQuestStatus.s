@@ -97,7 +97,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 000F0 80813910 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 000F4 80813914 16010005 */  bne     $s0, $at, .L8081392C       
 /* 000F8 80813918 00000000 */  nop
-/* 000FC 8081391C 0C207E07 */  jal     func_8081F81C              
+/* 000FC 8081391C 0C207E07 */  jal     KaleidoScope_MoveCursorToSpecialPos              
 /* 00100 80813920 2405000A */  addiu   $a1, $zero, 0x000A         ## $a1 = 0000000A
 /* 00104 80813924 1000002A */  beq     $zero, $zero, .L808139D0   
 /* 00108 80813928 A68001E4 */  sh      $zero, 0x01E4($s4)         ## 000001E4
@@ -105,7 +105,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 0010C 8081392C 06000028 */  bltz    $s0, .L808139D0            
 /* 00110 80813930 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 .L80813934:
-/* 00114 80813934 0C205732 */  jal     func_80815CC8              
+/* 00114 80813934 0C205732 */  jal     KaleidoScope_UpdateQuestStatusPoint              
 /* 00118 80813938 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0011C 8081393C 00027C00 */  sll     $t7, $v0, 16               
 /* 00120 80813940 000FC403 */  sra     $t8, $t7, 16               
@@ -129,7 +129,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 00164 80813984 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 00168 80813988 16010005 */  bne     $s0, $at, .L808139A0       
 /* 0016C 8081398C 00000000 */  nop
-/* 00170 80813990 0C207E07 */  jal     func_8081F81C              
+/* 00170 80813990 0C207E07 */  jal     KaleidoScope_MoveCursorToSpecialPos              
 /* 00174 80813994 2405000B */  addiu   $a1, $zero, 0x000B         ## $a1 = 0000000B
 /* 00178 80813998 1000000D */  beq     $zero, $zero, .L808139D0   
 /* 0017C 8081399C A68001E4 */  sh      $zero, 0x01E4($s4)         ## 000001E4
@@ -137,7 +137,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 00180 808139A0 0600000B */  bltz    $s0, .L808139D0            
 /* 00184 808139A4 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 .L808139A8:
-/* 00188 808139A8 0C205732 */  jal     func_80815CC8              
+/* 00188 808139A8 0C205732 */  jal     KaleidoScope_UpdateQuestStatusPoint              
 /* 0018C 808139AC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00190 808139B0 0002CC00 */  sll     $t9, $v0, 16               
 /* 00194 808139B4 00197403 */  sra     $t6, $t9, 16               
@@ -160,7 +160,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 001D0 808139F0 0600001E */  bltz    $s0, .L80813A6C            
 /* 001D4 808139F4 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 .L808139F8:
-/* 001D8 808139F8 0C205732 */  jal     func_80815CC8              
+/* 001D8 808139F8 0C205732 */  jal     KaleidoScope_UpdateQuestStatusPoint              
 /* 001DC 808139FC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 001E0 80813A00 00027C00 */  sll     $t7, $v0, 16               
 /* 001E4 80813A04 000FC403 */  sra     $t8, $t7, 16               
@@ -181,7 +181,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 0021C 80813A3C 0600000B */  bltz    $s0, .L80813A6C            
 /* 00220 80813A40 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 .L80813A44:
-/* 00224 80813A44 0C205732 */  jal     func_80815CC8              
+/* 00224 80813A44 0C205732 */  jal     KaleidoScope_UpdateQuestStatusPoint              
 /* 00228 80813A48 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0022C 80813A4C 0002CC00 */  sll     $t9, $v0, 16               
 /* 00230 80813A50 00197403 */  sra     $t6, $t9, 16               
@@ -303,7 +303,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 003BC 80813BDC 00172880 */  sll     $a1, $s7,  2               
 /* 003C0 80813BE0 30A5FFFF */  andi    $a1, $a1, 0xFFFF           ## $a1 = 00000000
 /* 003C4 80813BE4 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 003C8 80813BE8 0C206785 */  jal     func_80819E14              
+/* 003C8 80813BE8 0C206785 */  jal     KaleidoScope_SetCursorVtx              
 /* 003CC 80813BEC 8E860164 */  lw      $a2, 0x0164($s4)           ## 00000164
 /* 003D0 80813BF0 969901D4 */  lhu     $t9, 0x01D4($s4)           ## 000001D4
 /* 003D4 80813BF4 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
@@ -451,7 +451,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 005F0 80813E10 A6800238 */  sh      $zero, 0x0238($s4)         ## 00000238
 /* 005F4 80813E14 00022880 */  sll     $a1, $v0,  2               
 /* 005F8 80813E18 30A5FFFF */  andi    $a1, $a1, 0xFFFF           ## $a1 = 00000000
-/* 005FC 80813E1C 0C206785 */  jal     func_80819E14              
+/* 005FC 80813E1C 0C206785 */  jal     KaleidoScope_SetCursorVtx              
 /* 00600 80813E20 8E860164 */  lw      $a2, 0x0164($s4)           ## 00000164
 /* 00604 80813E24 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 00608 80813E28 3C0E8013 */  lui     $t6, %hi(D_801333E8)
@@ -504,7 +504,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 006B8 80813ED8 A6800238 */  sh      $zero, 0x0238($s4)         ## 00000238
 /* 006BC 80813EDC 00022880 */  sll     $a1, $v0,  2               
 /* 006C0 80813EE0 30A5FFFF */  andi    $a1, $a1, 0xFFFF           ## $a1 = 00000000
-/* 006C4 80813EE4 0C206785 */  jal     func_80819E14              
+/* 006C4 80813EE4 0C206785 */  jal     KaleidoScope_SetCursorVtx              
 /* 006C8 80813EE8 8E860164 */  lw      $a2, 0x0164($s4)           ## 00000164
 /* 006CC 80813EEC 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 006D0 80813EF0 3C198013 */  lui     $t9, %hi(D_801333E8)
@@ -639,7 +639,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 008B8 808140D8 87A50216 */  lh      $a1, 0x0216($sp)           
 /* 008BC 808140DC 8E860164 */  lw      $a2, 0x0164($s4)           ## 00000164
 /* 008C0 808140E0 00052880 */  sll     $a1, $a1,  2               
-/* 008C4 808140E4 0C206785 */  jal     func_80819E14              
+/* 008C4 808140E4 0C206785 */  jal     KaleidoScope_SetCursorVtx              
 /* 008C8 808140E8 30A5FFFF */  andi    $a1, $a1, 0xFFFF           ## $a1 = 00000000
 .L808140EC:
 /* 008CC 808140EC 3C0F8083 */  lui     $t7, %hi(D_8082A124)       ## $t7 = 80830000
@@ -652,7 +652,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 008E4 80814104 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 008E8 80814108 8E860164 */  lw      $a2, 0x0164($s4)           ## 00000164
 /* 008EC 8081410C 00102880 */  sll     $a1, $s0,  2               
-/* 008F0 80814110 0C206785 */  jal     func_80819E14              
+/* 008F0 80814110 0C206785 */  jal     KaleidoScope_SetCursorVtx              
 /* 008F4 80814114 30A5FFFF */  andi    $a1, $a1, 0xFFFF           ## $a1 = 00000000
 /* 008F8 80814118 A7B00216 */  sh      $s0, 0x0216($sp)           
 /* 008FC 8081411C 3C128083 */  lui     $s2, %hi(D_8082A124)       ## $s2 = 80830000

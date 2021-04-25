@@ -76,25 +76,26 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_collect.c", 248);
 
-    if ((!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 5) || (pauseCtx->unk_1E4 == 8)) && (pauseCtx->kscpPos == 2)) {
-        pauseCtx->unk_260 = 0;
+    if ((!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 5) || (pauseCtx->unk_1E4 == 8)) &&
+        (pauseCtx->pageIndex == PAUSE_QUEST)) {
+        pauseCtx->cursorColorSet = 0;
 
-        if (pauseCtx->unk_238 == 0) {
-            pauseCtx->unk_25E = 0;
+        if (pauseCtx->cursorSpecialPos == 0) {
+            pauseCtx->nameColorSet = 0;
 
             if ((pauseCtx->state != 6) || ((pauseCtx->stickRelX == 0) && (pauseCtx->stickRelY == 0))) {
-                sp216 = pauseCtx->unk_246[2];
+                sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
             } else {
-                phi_s3 = pauseCtx->unk_218[2];
+                phi_s3 = pauseCtx->cursorPoint[PAUSE_QUEST];
 
                 if (pauseCtx->stickRelX < -30) {
                     phi_s0 = D_8082A1AC[phi_s3][2];
                     if (phi_s0 == -3) {
-                        func_8081F81C(globalCtx, 10);
+                        KaleidoScope_MoveCursorToSpecialPos(globalCtx, PAUSE_CURSOR_PAGE_LEFT);
                         pauseCtx->unk_1E4 = 0;
                     } else {
                         while (phi_s0 >= 0) {
-                            if ((s16)func_80815CC8(pauseCtx, phi_s0) != 0) {
+                            if ((s16)KaleidoScope_UpdateQuestStatusPoint(pauseCtx, phi_s0) != 0) {
                                 break;
                             }
                             phi_s0 = D_8082A1AC[phi_s0][2];
@@ -103,11 +104,11 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 } else if (pauseCtx->stickRelX > 30) {
                     phi_s0 = D_8082A1AC[phi_s3][3];
                     if (phi_s0 == -2) {
-                        func_8081F81C(globalCtx, 11);
+                        KaleidoScope_MoveCursorToSpecialPos(globalCtx, PAUSE_CURSOR_PAGE_RIGHT);
                         pauseCtx->unk_1E4 = 0;
                     } else {
                         while (phi_s0 >= 0) {
-                            if ((s16)func_80815CC8(pauseCtx, phi_s0) != 0) {
+                            if ((s16)KaleidoScope_UpdateQuestStatusPoint(pauseCtx, phi_s0) != 0) {
                                 break;
                             }
                             phi_s0 = D_8082A1AC[phi_s0][3];
@@ -118,7 +119,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 if (pauseCtx->stickRelY < -30) {
                     phi_s0 = D_8082A1AC[phi_s3][1];
                     while (phi_s0 >= 0) {
-                        if ((s16)func_80815CC8(pauseCtx, phi_s0) != 0) {
+                        if ((s16)KaleidoScope_UpdateQuestStatusPoint(pauseCtx, phi_s0) != 0) {
                             break;
                         }
                         phi_s0 = D_8082A1AC[phi_s0][1];
@@ -126,55 +127,57 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 } else if (pauseCtx->stickRelY > 30) {
                     phi_s0 = D_8082A1AC[phi_s3][0];
                     while (phi_s0 >= 0) {
-                        if ((s16)func_80815CC8(pauseCtx, phi_s0) != 0) {
+                        if ((s16)KaleidoScope_UpdateQuestStatusPoint(pauseCtx, phi_s0) != 0) {
                             break;
                         }
                         phi_s0 = D_8082A1AC[phi_s0][0];
                     }
                 }
 
-                if (phi_s3 != pauseCtx->unk_218[2]) {
+                if (phi_s3 != pauseCtx->cursorPoint[PAUSE_QUEST]) {
                     pauseCtx->unk_1E4 = 0;
                     Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
 
-                if (pauseCtx->unk_218[2] != 0x18) {
-                    if (CHECK_QUEST_ITEM(pauseCtx->unk_218[2])) {
-                        if (pauseCtx->unk_218[2] < 6) {
-                            phi_s0 = pauseCtx->unk_218[2] + 0x66;
+                if (pauseCtx->cursorPoint[PAUSE_QUEST] != 0x18) {
+                    if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
+                        if (pauseCtx->cursorPoint[PAUSE_QUEST] < 6) {
+                            phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x66;
                             osSyncPrintf("000 ccc=%d\n", phi_s0);
-                        } else if (pauseCtx->unk_218[2] < 0x12) {
-                            phi_s0 = pauseCtx->unk_218[2] + 0x54;
+                        } else if (pauseCtx->cursorPoint[PAUSE_QUEST] < 0x12) {
+                            phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x54;
                             osSyncPrintf("111 ccc=%d\n", phi_s0);
                         } else {
-                            phi_s0 = pauseCtx->unk_218[2] + 0x5A;
-                            osSyncPrintf("222 ccc=%d (%d, %d, %d)\n", phi_s0, pauseCtx->unk_218[2], 0x12, 0x6C);
+                            phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x5A;
+                            osSyncPrintf("222 ccc=%d (%d, %d, %d)\n", phi_s0, pauseCtx->cursorPoint[PAUSE_QUEST], 0x12,
+                                         0x6C);
                         }
                     } else {
-                        phi_s0 = 999;
-                        osSyncPrintf("999 ccc=%d (%d,  %d)\n", 999, pauseCtx->unk_218[2], 0x18);
+                        phi_s0 = PAUSE_ITEM_NONE;
+                        osSyncPrintf("999 ccc=%d (%d,  %d)\n", PAUSE_ITEM_NONE, pauseCtx->cursorPoint[PAUSE_QUEST],
+                                     0x18);
                     }
                 } else {
                     if ((gSaveContext.inventory.questItems & 0xF0000000) != 0) {
                         phi_s0 = 0x72;
                     } else {
-                        phi_s0 = 999;
+                        phi_s0 = PAUSE_ITEM_NONE;
                     }
-                    osSyncPrintf("888 ccc=%d (%d,  %d,  %x)\n", phi_s0, pauseCtx->unk_218[2], 0x72,
+                    osSyncPrintf("888 ccc=%d (%d,  %d,  %x)\n", phi_s0, pauseCtx->cursorPoint[PAUSE_QUEST], 0x72,
                                  gSaveContext.inventory.questItems & 0xF0000000);
                 }
 
-                sp216 = pauseCtx->unk_218[2];
-                pauseCtx->unk_23E[pauseCtx->kscpPos] = phi_s0;
-                pauseCtx->unk_246[pauseCtx->kscpPos] = sp216;
+                sp216 = pauseCtx->cursorPoint[PAUSE_QUEST];
+                pauseCtx->cursorItem[pauseCtx->pageIndex] = phi_s0;
+                pauseCtx->cursorSlot[pauseCtx->pageIndex] = sp216;
             }
 
-            func_80819E14(pauseCtx, sp216 * 4, pauseCtx->questVtx);
+            KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
 
-            if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0) && (pauseCtx->unk_238 == 0)) {
+            if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0) && (pauseCtx->cursorSpecialPos == 0)) {
                 if ((sp216 >= 6) && (sp216 < 0x12)) {
-                    if (CHECK_QUEST_ITEM(pauseCtx->unk_218[2])) {
-                        sp216 = pauseCtx->unk_246[2];
+                    if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
+                        sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
                         pauseCtx->unk_264 = D_80153960[sp216];
                         D_8082A120 = 10;
 
@@ -209,49 +212,51 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                     D_8082A120 = 10;
                 }
             }
-        } else if (pauseCtx->unk_238 == 10) {
+        } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
             if (pauseCtx->stickRelX > 30) {
-                pauseCtx->unk_218[2] = 0x15;
-                pauseCtx->unk_25C = 0;
-                pauseCtx->unk_238 = 0;
-                sp216 = pauseCtx->unk_218[2];
-                func_80819E14(pauseCtx, sp216 * 4, pauseCtx->questVtx);
+                pauseCtx->cursorPoint[PAUSE_QUEST] = 0x15;
+                pauseCtx->nameDisplayTimer = 0;
+                pauseCtx->cursorSpecialPos = 0;
+                sp216 = pauseCtx->cursorPoint[PAUSE_QUEST];
+                KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
                 Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                if (CHECK_QUEST_ITEM(pauseCtx->unk_218[2])) {
-                    phi_s0 = pauseCtx->unk_218[2] + 0x5A;
+                if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
+                    phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x5A;
                 } else {
-                    phi_s0 = 999;
+                    phi_s0 = PAUSE_ITEM_NONE;
                 }
-                sp216 = pauseCtx->unk_218[2];
-                pauseCtx->unk_23E[pauseCtx->kscpPos] = phi_s0;
-                pauseCtx->unk_246[pauseCtx->kscpPos] = sp216;
+                sp216 = pauseCtx->cursorPoint[PAUSE_QUEST];
+                pauseCtx->cursorItem[pauseCtx->pageIndex] = phi_s0;
+                pauseCtx->cursorSlot[pauseCtx->pageIndex] = sp216;
             }
-        } else if (pauseCtx->stickRelX < -30) {
-            pauseCtx->unk_218[2] = 0;
-            pauseCtx->unk_25C = 0;
-            pauseCtx->unk_238 = 0;
-            sp216 = pauseCtx->unk_218[2];
-            func_80819E14(pauseCtx, sp216 * 4, pauseCtx->questVtx);
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            if (CHECK_QUEST_ITEM(pauseCtx->unk_218[2])) {
-                if (pauseCtx->unk_218[2] < 6) {
-                    phi_s0 = pauseCtx->unk_218[2] + 0x66;
-                } else if (pauseCtx->unk_218[2] < 0xC) {
-                    phi_s0 = pauseCtx->unk_218[2] + 0x4E;
+        } else {
+            if (pauseCtx->stickRelX < -30) {
+                pauseCtx->cursorPoint[PAUSE_QUEST] = 0;
+                pauseCtx->nameDisplayTimer = 0;
+                pauseCtx->cursorSpecialPos = 0;
+                sp216 = pauseCtx->cursorPoint[PAUSE_QUEST];
+                KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
+                    if (pauseCtx->cursorPoint[PAUSE_QUEST] < 6) {
+                        phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x66;
+                    } else if (pauseCtx->cursorPoint[PAUSE_QUEST] < 0xC) {
+                        phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x4E;
+                    } else {
+                        phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x69;
+                    }
                 } else {
-                    phi_s0 = pauseCtx->unk_218[2] + 0x69;
+                    phi_s0 = PAUSE_ITEM_NONE;
                 }
-            } else {
-                phi_s0 = 999;
+                sp216 = pauseCtx->cursorPoint[PAUSE_QUEST];
+                pauseCtx->cursorItem[pauseCtx->pageIndex] = phi_s0;
+                pauseCtx->cursorSlot[pauseCtx->pageIndex] = sp216;
             }
-            sp216 = pauseCtx->unk_218[2];
-            pauseCtx->unk_23E[pauseCtx->kscpPos] = phi_s0;
-            pauseCtx->unk_246[pauseCtx->kscpPos] = sp216;
         }
 
     } else {
         if (pauseCtx->unk_1E4 == 9) {
-            pauseCtx->unk_260 = 8;
+            pauseCtx->cursorColorSet = 8;
             D_8082A120--;
 
             if (D_8082A120 == 0) {
@@ -266,7 +271,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 VREG(23) = -49;
                 VREG(24) = -46;
                 VREG(25) = -41;
-                phi_s6 = pauseCtx->unk_246[2];
+                phi_s6 = pauseCtx->cursorSlot[PAUSE_QUEST];
                 func_800ED858(1);
                 func_800ED858(1);
                 pauseCtx->unk_264 = D_80153960[phi_s6];
@@ -274,17 +279,17 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 pauseCtx->unk_1E4 = 2;
                 pauseCtx->unk_194 = func_800EE3F8();
                 pauseCtx->unk_194->unk_02 = 0;
-                sp216 = pauseCtx->unk_246[2];
-                func_80819E14(pauseCtx, sp216 * 4, pauseCtx->questVtx);
+                sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
+                KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
             }
         } else {
-            sp216 = pauseCtx->unk_246[2];
-            func_80819E14(pauseCtx, sp216 * 4, pauseCtx->questVtx);
+            sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
+            KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
         }
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
@@ -322,7 +327,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
         if (CHECK_QUEST_ITEM(sp218)) {
             gDPPipeSync(POLY_OPA_DISP++);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
             gDPSetEnvColor(POLY_OPA_DISP++, D_8082A0D8[sp218], D_8082A0E4[sp218], D_8082A0F0[sp218], 0);
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
@@ -339,7 +344,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
     gDPLoadTextureBlock(POLY_OPA_DISP++, gSongNoteTex, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -363,14 +368,14 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
             }
 
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8082A164[sp218], D_8082A17C[sp218], D_8082A194[sp218],
-                            pauseCtx->unk_208);
+                            pauseCtx->alpha);
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
             gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
         }
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
     for (sp218 = 0; sp218 < 3; sp218++, sp21A += 4) {
@@ -381,12 +386,12 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
     for (sp218 = 0; sp218 < 3; sp218++, sp21A += 4) {
         if (CHECK_QUEST_ITEM(sp218 + 0x15)) {
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
             KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_STONE_OF_AGONY + sp218], 24, 24, 0);
         }
     }
@@ -435,7 +440,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
         if ((pauseCtx->state == 4) || (pauseCtx->state == 0x12)) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8082A070[0][0], D_8082A070[0][1], D_8082A070[0][2],
-                            pauseCtx->unk_208);
+                            pauseCtx->alpha);
         } else {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8082A104, D_8082A108, D_8082A10C, D_8082A110);
         }
@@ -453,12 +458,12 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
         sp21A += 4;
-        if ((pauseCtx->unk_238 == 0) && (sp216 >= 6) && (sp216 < 0x12)) {
+        if ((pauseCtx->cursorSpecialPos == 0) && (sp216 >= 6) && (sp216 < 0x12)) {
             if ((pauseCtx->unk_1E4 < 3) || (pauseCtx->unk_1E4 == 5) || (pauseCtx->unk_1E4 == 8)) {
-                if (pauseCtx->unk_23E[pauseCtx->kscpPos] != 999) {
-                    pauseCtx->unk_260 = 8;
+                if (pauseCtx->cursorItem[pauseCtx->pageIndex] != PAUSE_ITEM_NONE) {
+                    pauseCtx->cursorColorSet = 8;
                     if ((pauseCtx->unk_1E4 >= 2) && (pauseCtx->unk_1E4 < 7)) {
-                        pauseCtx->unk_260 = 0;
+                        pauseCtx->cursorColorSet = 0;
                     }
                 }
             }
@@ -638,11 +643,11 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
         for (phi_s3 = 0, sp21A = 0; phi_s3 < 2; phi_s3++) {
             if (phi_s3 == 0) {
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, pauseCtx->unk_208);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, pauseCtx->alpha);
             } else if (gSaveContext.inventory.gsTokens == 100) {
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 200, 50, 50, pauseCtx->unk_208);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 200, 50, 50, pauseCtx->alpha);
             } else {
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
             }
 
             phi_s0 = 0;
@@ -720,8 +725,8 @@ static s8 D_8082A1AC[][4] = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/KaleidoScope_DrawQuestStatus.s")
 #endif
 
-s32 func_80815CC8(PauseContext* pauseCtx, s32 arg1) {
-    pauseCtx->unk_218[2] = arg1;
+s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point) {
+    pauseCtx->cursorPoint[PAUSE_QUEST] = point;
 
     return 1;
 }

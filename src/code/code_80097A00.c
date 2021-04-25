@@ -95,7 +95,7 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
         }
 
         Player_SetEquipmentData(globalCtx, player);
-        globalCtx->pauseCtx.unk_238 = 10;
+        globalCtx->pauseCtx.cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 
     return sp26;

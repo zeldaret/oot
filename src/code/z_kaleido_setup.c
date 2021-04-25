@@ -1,10 +1,10 @@
 #include "global.h"
 
-s16 sKaleidoSetupKscpPos0[] = { 2, 3, 0, 1 };
+s16 sKaleidoSetupKscpPos0[] = { PAUSE_QUEST, PAUSE_EQUIP, PAUSE_ITEM, PAUSE_MAP };
 f32 sKaleidoSetupEyeX0[] = { 0.0f, 64.0f, 0.0f, -64.0f };
 f32 sKaleidoSetupEyeZ0[] = { -64.0f, 0.0f, 64.0f, 0.0f };
 
-s16 sKaleidoSetupKscpPos1[] = { 1, 2, 3, 0 };
+s16 sKaleidoSetupKscpPos1[] = { PAUSE_MAP, PAUSE_QUEST, PAUSE_EQUIP, PAUSE_ITEM };
 f32 sKaleidoSetupEyeX1[] = { -64.0f, 0.0f, 64.0f, 0.0f };
 f32 sKaleidoSetupEyeZ1[] = { 0.0f, -64.0f, 0.0f, 64.0f };
 
@@ -12,7 +12,7 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     Input* input = &globalCtx->state.input[0];
 
-    if (pauseCtx->state == 0 && pauseCtx->flag == 0 && globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE &&
+    if (pauseCtx->state == 0 && pauseCtx->debugState == 0 && globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE &&
         globalCtx->sceneLoadFlag == 0 && globalCtx->transitionMode == 0 && gSaveContext.cutsceneIndex < 0xFFF0 &&
         gSaveContext.nextCutsceneIndex < 0xFFF0 && !Gameplay_InCsMode(globalCtx) &&
         globalCtx->shootingGalleryStatus <= 1 && gSaveContext.unk_13F0 != 8 && gSaveContext.unk_13F0 != 9 &&
@@ -20,7 +20,7 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
             if (BREG(0)) {
-                pauseCtx->flag = 3;
+                pauseCtx->debugState = 3;
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
             gSaveContext.unk_13EE = gSaveContext.unk_13EA;
@@ -32,20 +32,20 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
             pauseCtx->unk_1E4 = 1;
 
             if (ZREG(48) == 0) {
-                pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->kscpPos];
-                pauseCtx->eye.z = sKaleidoSetupEyeZ0[pauseCtx->kscpPos];
-                pauseCtx->kscpPos = sKaleidoSetupKscpPos0[pauseCtx->kscpPos];
+                pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->pageIndex];
+                pauseCtx->eye.z = sKaleidoSetupEyeZ0[pauseCtx->pageIndex];
+                pauseCtx->pageIndex = sKaleidoSetupKscpPos0[pauseCtx->pageIndex];
             } else {
-                pauseCtx->eye.x = sKaleidoSetupEyeX1[pauseCtx->kscpPos];
-                pauseCtx->eye.z = sKaleidoSetupEyeZ1[pauseCtx->kscpPos];
-                pauseCtx->kscpPos = sKaleidoSetupKscpPos1[pauseCtx->kscpPos];
+                pauseCtx->eye.x = sKaleidoSetupEyeX1[pauseCtx->pageIndex];
+                pauseCtx->eye.z = sKaleidoSetupEyeZ1[pauseCtx->pageIndex];
+                pauseCtx->pageIndex = sKaleidoSetupKscpPos1[pauseCtx->pageIndex];
             }
 
-            pauseCtx->mode = (u16)(pauseCtx->kscpPos * 2) + 1;
+            pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
             pauseCtx->state = 1;
 
             osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, pauseCtx->eye.x,
-                         pauseCtx->eye.z, pauseCtx->kscpPos);
+                         pauseCtx->eye.z, pauseCtx->pageIndex);
         }
 
         if (pauseCtx->state == 1) {
@@ -66,12 +66,13 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
     u64 temp = 0; // Necessary to match
 
     pauseCtx->state = 0;
-    pauseCtx->flag = 0;
-    pauseCtx->unk_208 = 0;
+    pauseCtx->debugState = 0;
+    pauseCtx->alpha = 0;
     pauseCtx->unk_1EA = 0;
     pauseCtx->unk_1E4 = 0;
     pauseCtx->mode = 0;
-    pauseCtx->kscpPos = 0;
+    pauseCtx->pageIndex = PAUSE_ITEM;
+
     pauseCtx->unk_1F4 = 160.0f;
     pauseCtx->unk_1F8 = 160.0f;
     pauseCtx->unk_1FC = 160.0f;
@@ -80,33 +81,38 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
     pauseCtx->unk_1F0 = 936.0f;
     pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
     pauseCtx->unk_204 = -314.0f;
-    pauseCtx->unk_218[0] = 0;
-    pauseCtx->unk_218[1] = VREG(30) + 3;
-    pauseCtx->unk_218[2] = 0;
-    pauseCtx->unk_218[3] = 1;
-    pauseCtx->unk_218[4] = 10;
-    pauseCtx->unk_222[0] = 0;
-    pauseCtx->unk_22C[0] = 0;
-    pauseCtx->unk_222[1] = 0;
-    pauseCtx->unk_22C[1] = 0;
-    pauseCtx->unk_222[2] = temp;
-    pauseCtx->unk_22C[2] = temp;
-    pauseCtx->unk_222[3] = 1;
-    pauseCtx->unk_22C[3] = 0;
-    pauseCtx->unk_23E[0] = 999;
-    pauseCtx->unk_23E[1] = VREG(30) + 3;
-    pauseCtx->unk_23E[2] = 999;
-    pauseCtx->unk_23E[3] = 59;
-    pauseCtx->unk_246[0] = 0;
-    pauseCtx->unk_246[1] = VREG(30) + 3;
-    pauseCtx->unk_246[2] = 0;
-    pauseCtx->unk_246[3] = pauseCtx->unk_218[3];
-    pauseCtx->unk_25A = -40;
-    pauseCtx->unk_25C = 0;
-    pauseCtx->unk_25E = 0;
-    pauseCtx->unk_260 = 4;
+
+    pauseCtx->cursorPoint[PAUSE_ITEM] = 0;
+    pauseCtx->cursorPoint[PAUSE_MAP] = VREG(30) + 3;
+    pauseCtx->cursorPoint[PAUSE_QUEST] = 0;
+    pauseCtx->cursorPoint[PAUSE_EQUIP] = 1;
+    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 10;
+
+    pauseCtx->cursorX[PAUSE_ITEM] = 0;
+    pauseCtx->cursorY[PAUSE_ITEM] = 0;
+    pauseCtx->cursorX[PAUSE_MAP] = 0;
+    pauseCtx->cursorY[PAUSE_MAP] = 0;
+    pauseCtx->cursorX[PAUSE_QUEST] = temp;
+    pauseCtx->cursorY[PAUSE_QUEST] = temp;
+    pauseCtx->cursorX[PAUSE_EQUIP] = 1;
+    pauseCtx->cursorY[PAUSE_EQUIP] = 0;
+
+    pauseCtx->cursorItem[PAUSE_ITEM] = PAUSE_ITEM_NONE;
+    pauseCtx->cursorItem[PAUSE_MAP] = VREG(30) + 3;
+    pauseCtx->cursorItem[PAUSE_QUEST] = PAUSE_ITEM_NONE;
+    pauseCtx->cursorItem[PAUSE_EQUIP] = ITEM_SWORD_KOKIRI;
+
+    pauseCtx->cursorSlot[PAUSE_ITEM] = 0;
+    pauseCtx->cursorSlot[PAUSE_MAP] = VREG(30) + 3;
+    pauseCtx->cursorSlot[PAUSE_QUEST] = 0;
+    pauseCtx->cursorSlot[PAUSE_EQUIP] = pauseCtx->cursorPoint[PAUSE_EQUIP];
+
+    pauseCtx->infoPanelOffsetY = -40;
+    pauseCtx->nameDisplayTimer = 0;
+    pauseCtx->nameColorSet = 0;
+    pauseCtx->cursorColorSet = 4;
     pauseCtx->unk_264 = -1;
-    pauseCtx->unk_238 = 0;
+    pauseCtx->cursorSpecialPos = 0;
 
     View_Init(&pauseCtx->view, globalCtx->state.gfxCtx);
 }

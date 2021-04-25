@@ -1,6 +1,6 @@
 #include "z_kaleido_scope.h"
 
-// Positions of each input section in the debug menu
+// Positions of each input section in the editor
 u16 sSectionPositions[][2] = {
     { 64, 15 },   { 144, 15 },  { 170, 15 },  { 78, 35 },   { 104, 35 },  { 130, 35 },  { 156, 35 },  { 182, 35 },
     { 208, 35 },  { 78, 50 },   { 104, 50 },  { 130, 50 },  { 156, 50 },  { 182, 50 },  { 208, 50 },  { 78, 65 },
@@ -16,7 +16,7 @@ u16 sSectionPositions[][2] = {
     { 234, 149 }, { 78, 185 },  { 90, 185 },  { 145, 185 }, { 210, 185 },
 };
 
-// First section of each row in the debug menu (starting from the top)
+// First section of each row in the editor (starting from the top)
 u16 sRowFirstSections[] = {
     0x00, 0x03, 0x1B, 0x2C, 0x34, 0x38, 0x44, 0x4A, 0x56, 0x59, 0x5C,
 };
@@ -33,7 +33,7 @@ s16 sSlotItems[] = {
     ITEM_BOOMERANG, ITEM_LENS,          ITEM_BEAN,    ITEM_HAMMER,   ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
 };
 
-void KaleidoScope_DrawDebugMenuText(Gfx** gfxp) {
+void KaleidoScope_DrawDebugEditorText(Gfx** gfxp) {
     GfxPrint printer;
     s32 pad[2];
 
@@ -90,7 +90,7 @@ void KaleidoScope_DrawDigit(GlobalContext* globalCtx, s32 digit, s32 rectLeft, s
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 220);
 }
 
-void KaleidoScope_DrawDebugMenu(GlobalContext* globalCtx) {
+void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
     static s16 curSection = 0;
     static s16 curRow = 0;
     static s32 prevDBtnInput = 0;
@@ -126,7 +126,7 @@ void KaleidoScope_DrawDebugMenu(GlobalContext* globalCtx) {
     gfx = Graph_GfxPlusOne(gfxRef);
     gSPDisplayList(OVERLAY_DISP++, gfx);
 
-    KaleidoScope_DrawDebugMenuText(&gfx);
+    KaleidoScope_DrawDebugEditorText(&gfx);
 
     gSPEndDisplayList(gfx++);
     Graph_BranchDlist(gfxRef, gfx);
@@ -192,7 +192,7 @@ void KaleidoScope_DrawDebugMenu(GlobalContext* globalCtx) {
             spD8[2] = 0;
 
             if ((slot <= SLOT_BOW) || (slot == SLOT_SLINGSHOT) || (slot == SLOT_BOMBCHU) || (slot == SLOT_BEAN)) {
-                spD8[3] = AMMO(D_8082A420[slot]);
+                spD8[3] = AMMO(gAmmoItems[slot]);
             } else if (slot == SLOT_OCARINA) {
                 spD8[3] = gSaveContext.inventory.items[slot];
             } else {
@@ -409,22 +409,22 @@ void KaleidoScope_DrawDebugMenu(GlobalContext* globalCtx) {
                 i = curSection - 3;
                 if ((i <= SLOT_BOW) || (i == SLOT_SLINGSHOT) || (i == SLOT_BOMBCHU) || (i == SLOT_BEAN)) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
-                        Inventory_DeleteItem(D_8082A420[i], SLOT(D_8082A420[i]));
-                        AMMO(D_8082A420[i]) = 0;
+                        Inventory_DeleteItem(gAmmoItems[i], SLOT(gAmmoItems[i]));
+                        AMMO(gAmmoItems[i]) = 0;
                     }
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                        if (i != gSaveContext.inventory.items[SLOT(D_8082A420[i])]) {
-                            gSaveContext.inventory.items[SLOT(D_8082A420[i])] = D_8082A420[i];
+                        if (i != gSaveContext.inventory.items[SLOT(gAmmoItems[i])]) {
+                            gSaveContext.inventory.items[SLOT(gAmmoItems[i])] = gAmmoItems[i];
                         }
-                        gSaveContext.inventory.ammo[SLOT(D_8082A420[i])]++;
-                        if (gSaveContext.inventory.ammo[SLOT(D_8082A420[i])] > 99) {
-                            gSaveContext.inventory.ammo[SLOT(D_8082A420[i])] = 99;
+                        gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])]++;
+                        if (gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] > 99) {
+                            gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] = 99;
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                        gSaveContext.inventory.ammo[SLOT(D_8082A420[i])]--;
-                        if (gSaveContext.inventory.ammo[SLOT(D_8082A420[i])] < 0) {
-                            gSaveContext.inventory.ammo[SLOT(D_8082A420[i])] = 0;
+                        gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])]--;
+                        if (gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] < 0) {
+                            gSaveContext.inventory.ammo[SLOT(gAmmoItems[i])] = 0;
                         }
                     }
                 } else if (i == SLOT_OCARINA) {
@@ -635,12 +635,12 @@ void KaleidoScope_DrawDebugMenu(GlobalContext* globalCtx) {
                          sSectionPositions[curSection][0] + 24, sSectionPositions[curSection][1] + 16);
     }
 
-    // Handles exiting the menu with the L trigger
-    // The menu is opened with `flag` set to 1, and becomes closable after a frame once `flag` is set to 2
-    if (pauseCtx->flag == 1) {
-        pauseCtx->flag = 2;
-    } else if ((pauseCtx->flag == 2) && CHECK_BTN_ALL(input->press.button, BTN_L)) {
-        pauseCtx->flag = 0;
+    // Handles exiting the inventory editor with the L trigger
+    // The editor is opened with `debugState` set to 1, and becomes closable after a frame once `debugState` is set to 2
+    if (pauseCtx->debugState == 1) {
+        pauseCtx->debugState = 2;
+    } else if ((pauseCtx->debugState == 2) && CHECK_BTN_ALL(input->press.button, BTN_L)) {
+        pauseCtx->debugState = 0;
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 861);

@@ -20,20 +20,20 @@ void Map_SavePlayerInitialInfo(GlobalContext* globalCtx) {
 void Map_SetPaletteData(GlobalContext* globalCtx, s16 room) {
     s32 mapIndex = gSaveContext.mapIndex;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    s16 paletteNum = gMapData->roomPalette[mapIndex][room];
+    s16 paletteIndex = gMapData->roomPalette[mapIndex][room];
 
     if (interfaceCtx->mapRoomNum == room) {
-        interfaceCtx->mapPaletteNum = paletteNum;
+        interfaceCtx->mapPaletteIndex = paletteIndex;
     }
 
     osSyncPrintf(VT_FGCOL(YELLOW));
     // Translates to: "PALETE Set"
-    osSyncPrintf("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n", paletteNum,
-                 room, mapIndex, gSaveContext.sceneFlags[mapIndex].rooms, interfaceCtx->mapPaletteNum);
+    osSyncPrintf("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n", paletteIndex,
+                 room, mapIndex, gSaveContext.sceneFlags[mapIndex].rooms, interfaceCtx->mapPaletteIndex);
     osSyncPrintf(VT_RST);
 
-    interfaceCtx->mapPalette[paletteNum * 2] = 2;
-    interfaceCtx->mapPalette[paletteNum * 2 + 1] = 0xBF;
+    interfaceCtx->mapPalette[paletteIndex * 2] = 2;
+    interfaceCtx->mapPalette[paletteIndex * 2 + 1] = 0xBF;
 }
 
 void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
@@ -512,7 +512,7 @@ void Map_Update(GlobalContext* globalCtx) {
     s16 floor;
     s16 i;
 
-    if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0)) {
+    if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0)) {
         switch (globalCtx->sceneNum) {
             case SCENE_YDAN:
             case SCENE_DDAN:

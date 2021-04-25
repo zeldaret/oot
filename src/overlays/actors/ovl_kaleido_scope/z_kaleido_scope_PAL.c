@@ -1,106 +1,130 @@
 #include "z_kaleido_scope.h"
 #include "textures/icon_item_static/icon_item_static.h"
 #include "textures/icon_item_24_static/icon_item_24_static.h"
+#include "textures/icon_item_nes_static/icon_item_nes_static.h"
+#include "textures/icon_item_ger_static/icon_item_ger_static.h"
+#include "textures/icon_item_fra_static/icon_item_fra_static.h"
 #include "textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "vt.h"
 
-// .data
-void* D_8082A6F0[] = {
-    0x0D008680, 0x080613C0, 0x0806A9C0, 0x08073FC0, 0x0807D5C0, 0x0D009080, 0x08061DC0, 0x0806B3C0,
-    0x080749C0, 0x0807DFC0, 0x0D009A80, 0x080627C0, 0x0806BDC0, 0x080753C0, 0x0807E9C0,
+void* sEquipmentFRATexs[] = {
+    gPauseEquipment00FRATex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
+    gPauseEquipment10FRATex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
+    gPauseEquipment20FRATex, gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
 };
-void* D_8082A72C[] = {
-    0x0D00A480, 0x080631C0, 0x0806C7C0, 0x08075DC0, 0x0807F3C0, 0x0D00AE80, 0x08063BC0, 0x0806D1C0,
-    0x080767C0, 0x0807FDC0, 0x0D00B880, 0x080645C0, 0x0806DBC0, 0x080771C0, 0x080807C0,
+void* sSelectItemFRATexs[] = {
+    gPauseSelectItem00FRATex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,    gPauseSelectItem10FRATex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20FRATex, gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
 };
-void* D_8082A768[] = {
-    0x0805D7C0, 0x08064FC0, 0x0806E5C0, 0x08077BC0, 0x080811C0, 0x0D00C280, 0x080659C0, 0x0806EFC0,
-    0x080785C0, 0x08081BC0, 0x0805E1C0, 0x080663C0, 0x0806F9C0, 0x08078FC0, 0x080825C0,
+void* sMapFRATexs[] = {
+    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
+    gPauseMap10FRATex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
+    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
 };
-void* D_8082A7A4[] = {
-    0x0805EBC0, 0x08066DC0, 0x080703C0, 0x080799C0, 0x08082FC0, 0x0D00CC80, 0x080677C0, 0x08070DC0,
-    0x0807A3C0, 0x080839C0, 0x0805F5C0, 0x080681C0, 0x080717C0, 0x0807ADC0, 0x080843C0,
+void* sQuestStatusFRATexs[] = {
+    gPauseQuestStatus00Tex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex, gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex, gPauseQuestStatus10FRATex, gPauseQuestStatus11Tex, gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex, gPauseQuestStatus14Tex,    gPauseQuestStatus20Tex, gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex, gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
 };
-void* D_8082A7E0[] = {
-    0x0D00D680, 0x08068BC0, 0x080721C0, 0x0807B7C0, 0x08084DC0, 0x0D00E080, 0x080695C0, 0x08072BC0,
-    0x0807C1C0, 0x080857C0, 0x0D00EA80, 0x08069FC0, 0x080735C0, 0x0807CBC0, 0x080861C0,
-};
-
-void* D_8082A81C[] = {
-    0x0D008780, 0x080613C0, 0x0806A9C0, 0x08073FC0, 0x0807D5C0, 0x0D009180, 0x08061DC0, 0x0806B3C0,
-    0x080749C0, 0x0807DFC0, 0x0D009B80, 0x080627C0, 0x0806BDC0, 0x080753C0, 0x0807E9C0,
-};
-void* D_8082A858[] = {
-    0x0D00A580, 0x080631C0, 0x0806C7C0, 0x08075DC0, 0x0807F3C0, 0x0D00AF80, 0x08063BC0, 0x0806D1C0,
-    0x080767C0, 0x0807FDC0, 0x0D00B980, 0x080645C0, 0x0806DBC0, 0x080771C0, 0x080807C0,
-};
-void* D_8082A894[] = {
-    0x0805D7C0, 0x08064FC0, 0x0806E5C0, 0x08077BC0, 0x080811C0, 0x0D00C380, 0x080659C0, 0x0806EFC0,
-    0x080785C0, 0x08081BC0, 0x0805E1C0, 0x080663C0, 0x0806F9C0, 0x08078FC0, 0x080825C0,
-};
-void* D_8082A8D0[] = {
-    0x0805EBC0, 0x08066DC0, 0x080703C0, 0x080799C0, 0x08082FC0, 0x0D00CD80, 0x080677C0, 0x08070DC0,
-    0x0807A3C0, 0x080839C0, 0x0805F5C0, 0x080681C0, 0x080717C0, 0x0807ADC0, 0x080843C0,
-};
-void* D_8082A90C[] = {
-    0x0805FFC0, 0x08068BC0, 0x080721C0, 0x0807B7C0, 0x08084DC0, 0x0D00D780, 0x080695C0, 0x08072BC0,
-    0x0807C1C0, 0x080857C0, 0x0D00E180, 0x08069FC0, 0x080735C0, 0x0807CBC0, 0x080861C0,
+void* sSaveFRATexs[] = {
+    gPauseSave00FRATex, gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
+    gPauseSave10FRATex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
+    gPauseSave20FRATex, gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
 };
 
-void* D_8082A948[] = {
-    0x0805C3C0, 0x080613C0, 0x0806A9C0, 0x08073FC0, 0x0807D5C0, 0x0D008280, 0x08061DC0, 0x0806B3C0,
-    0x080749C0, 0x0807DFC0, 0x0805CDC0, 0x080627C0, 0x0806BDC0, 0x080753C0, 0x0807E9C0,
+void* sEquipmentGERTexs[] = {
+    gPauseEquipment00GERTex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
+    gPauseEquipment10GERTex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
+    gPauseEquipment20GERTex, gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
 };
-void* D_8082A984[] = {
-    0x0D008C80, 0x080631C0, 0x0806C7C0, 0x08075DC0, 0x0807F3C0, 0x0D009680, 0x08063BC0, 0x0806D1C0,
-    0x080767C0, 0x0807FDC0, 0x0D00A080, 0x080645C0, 0x0806DBC0, 0x080771C0, 0x080807C0,
+void* sSelectItemGERTexs[] = {
+    gPauseSelectItem00GERTex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,    gPauseSelectItem10GERTex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20GERTex, gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
 };
-void* D_8082A9C0[] = {
-    0x0805D7C0, 0x08064FC0, 0x0806E5C0, 0x08077BC0, 0x080811C0, 0x0D00AA80, 0x080659C0, 0x0806EFC0,
-    0x080785C0, 0x08081BC0, 0x0805E1C0, 0x080663C0, 0x0806F9C0, 0x08078FC0, 0x080825C0,
+void* sMapGERTexs[] = {
+    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
+    gPauseMap10GERTex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
+    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
 };
-void* D_8082A9FC[] = {
-    0x0D00B480, 0x08066DC0, 0x080703C0, 0x080799C0, 0x08082FC0, 0x0D00BE80, 0x080677C0, 0x08070DC0,
-    0x0807A3C0, 0x080839C0, 0x0D00C880, 0x080681C0, 0x080717C0, 0x0807ADC0, 0x080843C0,
+void* sQuestStatusGERTexs[] = {
+    gPauseQuestStatus00Tex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex, gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex, gPauseQuestStatus10GERTex, gPauseQuestStatus11Tex, gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex, gPauseQuestStatus14Tex,    gPauseQuestStatus20Tex, gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex, gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
 };
-void* D_8082AA38[] = {
-    0x0805FFC0, 0x08068BC0, 0x080721C0, 0x0807B7C0, 0x08084DC0, 0x0D00D280, 0x080695C0, 0x08072BC0,
-    0x0807C1C0, 0x080857C0, 0x080609C0, 0x08069FC0, 0x080735C0, 0x0807CBC0, 0x080861C0,
-};
-
-void* D_8082AA74[] = {
-    0x0805FFC0, 0x08068BC0, 0x080721C0, 0x0807B7C0, 0x08084DC0, 0x08086BC0, 0x080695C0, 0x08072BC0,
-    0x0807C1C0, 0x080857C0, 0x080609C0, 0x08069FC0, 0x080735C0, 0x0807CBC0, 0x080861C0,
-};
-
-void* D_8082AAB0[] = {
-    D_8082A948,
-    D_8082A81C,
-    D_8082A6F0,
+void* sSaveGERTexs[] = {
+    gPauseSave00Tex,    gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
+    gPauseSave10GERTex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
+    gPauseSave20GERTex, gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
 };
 
-void* D_8082AABC[] = {
-    D_8082A984,
-    D_8082A858,
-    D_8082A72C,
+void* sEquipmentENGTexs[] = {
+    gPauseEquipment00Tex,    gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
+    gPauseEquipment10ENGTex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
+    gPauseEquipment20Tex,    gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
+};
+void* sSelectItemENGTexs[] = {
+    gPauseSelectItem00ENGTex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
+    gPauseSelectItem04Tex,    gPauseSelectItem10ENGTex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
+    gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20ENGTex, gPauseSelectItem21Tex,
+    gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
+};
+void* sMapENGTexs[] = {
+    gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
+    gPauseMap10ENGTex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
+    gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
+};
+void* sQuestStatusENGTexs[] = {
+    gPauseQuestStatus00ENGTex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex,    gPauseQuestStatus03Tex,
+    gPauseQuestStatus04Tex,    gPauseQuestStatus10ENGTex, gPauseQuestStatus11Tex,    gPauseQuestStatus12Tex,
+    gPauseQuestStatus13Tex,    gPauseQuestStatus14Tex,    gPauseQuestStatus20ENGTex, gPauseQuestStatus21Tex,
+    gPauseQuestStatus22Tex,    gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
+};
+void* sSaveENGTexs[] = {
+    gPauseSave00Tex,    gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
+    gPauseSave10ENGTex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
+    gPauseSave20Tex,    gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
 };
 
-void* D_8082AAC8[] = {
-    D_8082A9C0,
-    D_8082A894,
-    D_8082A768,
+void* sGameOverTexs[] = {
+    gPauseSave00Tex,     gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
+    gPauseGameOver10Tex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
+    gPauseSave20Tex,     gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
 };
 
-void* D_8082AAD4[] = {
-    D_8082A9FC,
-    D_8082A8D0,
-    D_8082A7A4,
+void* sEquipmentTexs[] = {
+    sEquipmentENGTexs,
+    sEquipmentGERTexs,
+    sEquipmentFRATexs,
 };
 
-void* D_8082AAE0[] = {
-    D_8082AA38,
-    D_8082A90C,
-    D_8082A7E0,
+void* sSelectItemTexs[] = {
+    sSelectItemENGTexs,
+    sSelectItemGERTexs,
+    sSelectItemFRATexs,
+};
+
+void* sMapTexs[] = {
+    sMapENGTexs,
+    sMapGERTexs,
+    sMapFRATexs,
+};
+
+void* sQuestStatusTexs[] = {
+    sQuestStatusENGTexs,
+    sQuestStatusGERTexs,
+    sQuestStatusFRATexs,
+};
+
+void* sSaveTexs[] = {
+    sSaveENGTexs,
+    sSaveGERTexs,
+    sSaveFRATexs,
 };
 
 s16 D_8082AAEC[] = {
@@ -124,11 +148,12 @@ s16 D_8082AB8C = 0;
 s16 D_8082AB90 = 0;
 s16 D_8082AB94 = 0;
 s16 D_8082AB98 = 255;
+
 s16 D_8082AB9C = 255;
 s16 D_8082ABA0 = 0;
 s16 D_8082ABA4 = 0;
 
-s16 D_8082ABA8 = 0;
+s16 sInDungeonScene = false;
 
 f32 D_8082ABAC[] = {
     -4.0f, 4.0f, 4.0f, 4.0f, 4.0f, -4.0f, -4.0f, -4.0f,
@@ -138,26 +163,28 @@ f32 D_8082ABCC[] = {
     -4.0f, -4.0f, -4.0f, 4.0f, 4.0f, 4.0f, 4.0f, -4.0f,
 };
 
-u16 D_8082ABEC[] = { 1, 3, 2, 0, 3, 1, 0, 2 };
+u16 D_8082ABEC[] = {
+    PAUSE_MAP, PAUSE_EQUIP, PAUSE_QUEST, PAUSE_ITEM, PAUSE_EQUIP, PAUSE_MAP, PAUSE_ITEM, PAUSE_QUEST,
+};
 
-u8 D_8082ABFC[] = {
+u8 gSlotAgeReqs[] = {
     1, 9, 9, 0, 0, 9, 1, 9, 9, 0, 0, 9, 1, 9, 1, 0, 0, 9, 9, 9, 9, 9, 0, 1,
 };
 
-u8 D_8082A014[][4] = {
+u8 gEquipAgeReqs[][4] = {
     { 0, 1, 0, 0 },
     { 9, 1, 9, 0 },
     { 0, 9, 0, 0 },
     { 9, 9, 0, 0 },
 };
 
-u8 D_8082AC24[] = {
+u8 gItemAgeReqs[] = {
     1, 9, 9, 0, 0, 9, 1, 9, 9, 9, 0, 0, 0, 9, 1, 9, 1, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
     9, 9, 9, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 0, 0, 1, 9, 0, 9, 0, 0, 9, 0, 0, 1, 1, 1, 0, 0, 0, 9, 9, 9, 1, 0, 0, 9, 9, 0,
 };
 
-u8 D_8082AC7C[] = {
+u8 gAreaGsFlags[] = {
     0x0F, 0x1F, 0x0F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x07, 0x07, 0x03, 0x0F,
     0x07, 0x0F, 0x0F, 0xFF, 0xFF, 0xFF, 0x1F, 0x0F, 0x03, 0x0F, 0x00, 0x00,
 };
@@ -169,43 +196,35 @@ void* sCursorTexs[] = {
     gPauseMenuCursorBottomRightTex,
 };
 
-s16 D_8082ACA4[][3] = {
+s16 sCursorColors[][3] = {
     { 255, 255, 255 },
     { 255, 255, 0 },
     { 0, 255, 50 },
 };
 
-void* D_8082ACB8[] = {
-    0x0D006880,
-    0x0D006D80,
-    0x0D006C80,
+void* sSavePromptTexs[] = {
+    gPauseSavePromptENGTex,
+    gPauseSavePromptGERTex,
+    gPauseSavePromptFRATex,
 };
 
-void* D_8082ACC4[] = {
-    0x0D007200,
-    0x0D007700,
-    0x0D007600,
+void* sSaveConfirmationTexs[] = {
+    gPauseSaveConfirmationENGTex,
+    gPauseSaveConfirmationGERTex,
+    gPauseSaveConfirmationFRATex,
 };
 
-void* sContinuePlayingTexs[] = {
+void* sContinuePromptTexs[] = {
     gContinuePlayingENGTex,
     gContinuePlayingGERTex,
     gContinuePlayingFRATex,
 };
 
-void* D_8082ACDC[][2] = {
-    { 0x0D007B80, 0x0D007E80 },
-    { 0x0D008080, 0x0D008380 },
-    { 0x0D007F80, 0x0D008280 },
+void* sPromptChoiceTexs[][2] = {
+    { gPauseYesENGTex, gPauseNoENGTex },
+    { gPauseYesGERTex, gPauseNoGERTex },
+    { gPauseYesFRATex, gPauseNoFRATex },
 };
-
-// .bss
-#ifndef NON_MATCHING
-s16 D_808321A0;
-s16 D_808321A2;
-s16 D_808321A4;
-s16 D_808321A6;
-#endif
 
 u8 D_808321A8[5];
 PreRenderContext sPlayerPreRenderCtx;
@@ -259,41 +278,41 @@ Gfx* KaleidoScope_QuadTextureIA8(Gfx* gfx, void* texture, s16 width, s16 height,
     return gfx;
 }
 
-void func_8081F6E4(u8* arg0, s32 arg1, s32 arg2, s32 arg3) {
+void KaleidoScope_OverridePalIndexCI4(u8* texture, s32 size, s32 targetIndex, s32 newIndex) {
     s32 i;
-    s32 temp1;
-    s32 temp2;
+    s32 index1;
+    s32 index2;
 
-    arg2 &= 0xF;
-    arg3 &= 0xF;
+    targetIndex &= 0xF;
+    newIndex &= 0xF;
 
-    if ((arg1 == 0) || (arg2 == arg3) || (arg0 == 0)) {
+    if ((size == 0) || (targetIndex == newIndex) || (texture == NULL)) {
         return;
     }
 
-    for (i = 0; i < arg1; i++) {
-        temp1 = temp2 = arg0[i];
+    for (i = 0; i < size; i++) {
+        index1 = index2 = texture[i];
 
-        temp1 = (temp1 >> 4) & 0xF;
-        temp2 = temp2 & 0xF;
+        index1 = (index1 >> 4) & 0xF;
+        index2 = index2 & 0xF;
 
-        if (temp1 == arg2) {
-            temp1 = arg3;
+        if (index1 == targetIndex) {
+            index1 = newIndex;
         }
 
-        if (temp2 == arg2) {
-            temp2 = arg3;
+        if (index2 == targetIndex) {
+            index2 = newIndex;
         }
 
-        arg0[i] = (temp1 << 4) | temp2;
+        texture[i] = (index1 << 4) | index2;
     }
 }
 
-void func_8081F81C(GlobalContext* globalCtx, u16 arg1) {
+void KaleidoScope_MoveCursorToSpecialPos(GlobalContext* globalCtx, u16 specialPos) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
 
-    pauseCtx->unk_238 = arg1;
-    pauseCtx->unk_23A = 0;
+    pauseCtx->cursorSpecialPos = specialPos;
+    pauseCtx->pageSwitchTimer = 0;
 
     Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
@@ -309,14 +328,14 @@ void KaleidoScope_DrawQuadTextureRGBA32(GraphicsContext* gfxCtx, void* texture, 
     CLOSE_DISPS(gfxCtx, "../z_kaleido_scope_PAL.c", 758);
 }
 
-void func_8081FABC(GlobalContext* globalCtx) {
+void KaleidoScope_SetDefaultCursor(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     s16 s;
     s16 i;
 
-    switch (pauseCtx->kscpPos) {
-        case 0:
-            s = pauseCtx->unk_246[0];
+    switch (pauseCtx->pageIndex) {
+        case PAUSE_ITEM:
+            s = pauseCtx->cursorSlot[PAUSE_ITEM];
             if (gSaveContext.inventory.items[s] == ITEM_NONE) {
                 i = s + 1;
                 while (true) {
@@ -328,84 +347,84 @@ void func_8081FABC(GlobalContext* globalCtx) {
                         i = 0;
                     }
                     if (i == s) {
-                        pauseCtx->unk_23E[0] = pauseCtx->unk_23C = 999;
+                        pauseCtx->cursorItem[PAUSE_ITEM] = pauseCtx->namedItem = PAUSE_ITEM_NONE;
                         return;
                     }
                 }
-                pauseCtx->unk_23E[0] = gSaveContext.inventory.items[i];
-                pauseCtx->unk_246[0] = i;
+                pauseCtx->cursorItem[PAUSE_ITEM] = gSaveContext.inventory.items[i];
+                pauseCtx->cursorSlot[PAUSE_ITEM] = i;
             }
             break;
-        case 1:
-        case 2:
-        case 3:
+        case PAUSE_MAP:
+        case PAUSE_QUEST:
+        case PAUSE_EQUIP:
             break;
     }
 }
 
-void func_8081FB7C(PauseContext* pauseCtx, u8 pt) {
+void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
     pauseCtx->unk_1E4 = 1;
     pauseCtx->unk_1EA = 0;
 
     if (!pt) {
-        pauseCtx->mode = pauseCtx->kscpPos * 2 + 1;
+        pauseCtx->mode = pauseCtx->pageIndex * 2 + 1;
         Audio_PlaySoundGeneral(NA_SE_SY_WIN_SCROLL_LEFT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        pauseCtx->unk_238 = 11;
+        pauseCtx->cursorSpecialPos = PAUSE_CURSOR_PAGE_RIGHT;
     } else {
-        pauseCtx->mode = pauseCtx->kscpPos * 2;
+        pauseCtx->mode = pauseCtx->pageIndex * 2;
         Audio_PlaySoundGeneral(NA_SE_SY_WIN_SCROLL_RIGHT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        pauseCtx->unk_238 = 10;
+        pauseCtx->cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 
-    gSaveContext.buttonStatus[1] = D_8082AB6C[pauseCtx->kscpPos + pt][1];
-    gSaveContext.buttonStatus[2] = D_8082AB6C[pauseCtx->kscpPos + pt][2];
-    gSaveContext.buttonStatus[3] = D_8082AB6C[pauseCtx->kscpPos + pt][3];
-    gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->kscpPos + pt][4];
+    gSaveContext.buttonStatus[1] = D_8082AB6C[pauseCtx->pageIndex + pt][1];
+    gSaveContext.buttonStatus[2] = D_8082AB6C[pauseCtx->pageIndex + pt][2];
+    gSaveContext.buttonStatus[3] = D_8082AB6C[pauseCtx->pageIndex + pt][3];
+    gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->pageIndex + pt][4];
 
-    osSyncPrintf("kscope->kscp_pos+pt = %d\n", pauseCtx->kscpPos + pt);
+    osSyncPrintf("kscope->kscp_pos+pt = %d\n", pauseCtx->pageIndex + pt);
 
     gSaveContext.unk_13EA = 0;
     Interface_ChangeAlpha(50);
 }
 
-void func_8081FCF4(PauseContext* pauseCtx, Input* input) {
-    if ((pauseCtx->flag == 0) && CHECK_BTN_ALL(input->press.button, BTN_L)) {
-        pauseCtx->flag = 1;
+void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
+    if ((pauseCtx->debugState == 0) && CHECK_BTN_ALL(input->press.button, BTN_L)) {
+        pauseCtx->debugState = 1;
         return;
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
-        func_8081FB7C(pauseCtx, 2);
+        KaleidoScope_SwitchPage(pauseCtx, 2);
         return;
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_Z)) {
-        func_8081FB7C(pauseCtx, 0);
+        KaleidoScope_SwitchPage(pauseCtx, 0);
         return;
     }
 
-    if (pauseCtx->unk_238 == 10) {
+    if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
         if (pauseCtx->stickRelX < -30) {
-            pauseCtx->unk_23A++;
-            if ((pauseCtx->unk_23A >= 10) || (pauseCtx->unk_23A == 0)) {
-                func_8081FB7C(pauseCtx, 0);
+            pauseCtx->pageSwitchTimer++;
+            if ((pauseCtx->pageSwitchTimer >= 10) || (pauseCtx->pageSwitchTimer == 0)) {
+                KaleidoScope_SwitchPage(pauseCtx, 0);
             }
         } else {
-            pauseCtx->unk_23A = -1;
+            pauseCtx->pageSwitchTimer = -1;
         }
-    } else if (pauseCtx->unk_238 == 11) {
+    } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) {
         if (pauseCtx->stickRelX > 30) {
-            pauseCtx->unk_23A++;
-            if ((pauseCtx->unk_23A >= 10) || (pauseCtx->unk_23A == 0)) {
-                func_8081FB7C(pauseCtx, 2);
+            pauseCtx->pageSwitchTimer++;
+            if ((pauseCtx->pageSwitchTimer >= 10) || (pauseCtx->pageSwitchTimer == 0)) {
+                KaleidoScope_SwitchPage(pauseCtx, 2);
             }
         } else {
-            pauseCtx->unk_23A = -1;
+            pauseCtx->pageSwitchTimer = -1;
         }
     }
 }
 
-void func_8081FE30(GlobalContext* globalCtx, u16 arg1) {
+void KaleidoScope_DrawCursor(GlobalContext* globalCtx, u16 pageIndex) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     u16 temp;
 
@@ -414,17 +433,18 @@ void func_8081FE30(GlobalContext* globalCtx, u16 arg1) {
     temp = pauseCtx->unk_1E4;
 
     if ((((pauseCtx->unk_1E4 == 0) || (temp == 8)) && (pauseCtx->state == 6)) ||
-        ((pauseCtx->kscpPos == 2) && ((temp < 3) || (temp == 5) || (temp == 8)))) {
+        ((pauseCtx->pageIndex == PAUSE_QUEST) && ((temp < 3) || (temp == 5) || (temp == 8)))) {
 
-        if (pauseCtx->kscpPos == arg1) {
+        if (pauseCtx->pageIndex == pageIndex) {
             s16 i;
             s16 j;
 
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8082ACA4[pauseCtx->unk_260 >> 2][0],
-                            D_8082ACA4[pauseCtx->unk_260 >> 2][1], D_8082ACA4[pauseCtx->unk_260 >> 2][2], 255);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sCursorColors[pauseCtx->cursorColorSet >> 2][0],
+                            sCursorColors[pauseCtx->cursorColorSet >> 2][1],
+                            sCursorColors[pauseCtx->cursorColorSet >> 2][2], 255);
             gDPSetEnvColor(POLY_OPA_DISP++, D_8082AB8C, D_8082AB90, D_8082AB94, 255);
             gSPVertex(POLY_OPA_DISP++, pauseCtx->cursorVtx, 16, 0);
 
@@ -443,7 +463,7 @@ void func_8081FE30(GlobalContext* globalCtx, u16 arg1) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 985);
 }
 
-Gfx* func_8082018C(Gfx* gfx, Vtx* vertices, void** textures) {
+Gfx* KaleidoScope_DrawPageSections(Gfx* gfx, Vtx* vertices, void** textures) {
     s32 i;
     s32 j;
 
@@ -481,7 +501,7 @@ Gfx* func_8082018C(Gfx* gfx, Vtx* vertices, void** textures) {
     return gfx;
 }
 
-void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
+void KaleidoScope_DrawPages(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     static s16 D_8082ACF4[][3] = {
         { 0, 0, 0 }, { 0, 0, 0 },     { 0, 0, 0 },    { 0, 0, 0 }, { 255, 255, 0 }, { 0, 0, 0 },
         { 0, 0, 0 }, { 255, 255, 0 }, { 0, 255, 50 }, { 0, 0, 0 }, { 0, 0, 0 },     { 0, 255, 50 },
@@ -493,38 +513,38 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     static s16 D_8082AD4C = 0;
     static s16 D_8082AD50 = 0;
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
-    s16 temp1;
-    s16 temp2;
-    s16 temp3;
+    s16 stepR;
+    s16 stepG;
+    s16 stepB;
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_scope_PAL.c", 1100);
 
     if ((pauseCtx->state < 8) || (pauseCtx->state > 0x11)) {
         if (pauseCtx->state != 7) {
-            temp1 = ABS(D_8082AB8C - D_8082ACF4[pauseCtx->unk_260 + D_8082AD40][0]) / D_8082AD3C;
-            temp2 = ABS(D_8082AB90 - D_8082ACF4[pauseCtx->unk_260 + D_8082AD40][1]) / D_8082AD3C;
-            temp3 = ABS(D_8082AB94 - D_8082ACF4[pauseCtx->unk_260 + D_8082AD40][2]) / D_8082AD3C;
-            if (D_8082AB8C >= D_8082ACF4[pauseCtx->unk_260 + D_8082AD40][0]) {
-                D_8082AB8C -= temp1;
+            stepR = ABS(D_8082AB8C - D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][0]) / D_8082AD3C;
+            stepG = ABS(D_8082AB90 - D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][1]) / D_8082AD3C;
+            stepB = ABS(D_8082AB94 - D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][2]) / D_8082AD3C;
+            if (D_8082AB8C >= D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][0]) {
+                D_8082AB8C -= stepR;
             } else {
-                D_8082AB8C += temp1;
+                D_8082AB8C += stepR;
             }
-            if (D_8082AB90 >= D_8082ACF4[pauseCtx->unk_260 + D_8082AD40][1]) {
-                D_8082AB90 -= temp2;
+            if (D_8082AB90 >= D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][1]) {
+                D_8082AB90 -= stepG;
             } else {
-                D_8082AB90 += temp2;
+                D_8082AB90 += stepG;
             }
-            if (D_8082AB94 >= D_8082ACF4[pauseCtx->unk_260 + D_8082AD40][2]) {
-                D_8082AB94 -= temp3;
+            if (D_8082AB94 >= D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][2]) {
+                D_8082AB94 -= stepB;
             } else {
-                D_8082AB94 += temp3;
+                D_8082AB94 += stepB;
             }
 
             D_8082AD3C--;
             if (D_8082AD3C == 0) {
-                D_8082AB8C = D_8082ACF4[pauseCtx->unk_260 + D_8082AD40][0];
-                D_8082AB90 = D_8082ACF4[pauseCtx->unk_260 + D_8082AD40][1];
-                D_8082AB94 = D_8082ACF4[pauseCtx->unk_260 + D_8082AD40][2];
+                D_8082AB8C = D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][0];
+                D_8082AB90 = D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][1];
+                D_8082AB94 = D_8082ACF4[pauseCtx->cursorColorSet + D_8082AD40][2];
                 D_8082AD3C = ZREG(28 + D_8082AD40);
                 D_8082AD40++;
                 if (D_8082AD40 >= 4) {
@@ -585,7 +605,7 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
             }
         }
 
-        if (pauseCtx->kscpPos) {
+        if (pauseCtx->pageIndex) { // pageIndex != PAUSE_ITEM
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
@@ -596,12 +616,13 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1173),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            POLY_OPA_DISP = func_8082018C(POLY_OPA_DISP, pauseCtx->itemPageVtx, D_8082AABC[gSaveContext.language]);
+            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
+                                                          sSelectItemTexs[gSaveContext.language]);
 
-            KaleidoScope_DrawInventory(globalCtx);
+            KaleidoScope_DrawItemSelect(globalCtx);
         }
 
-        if (pauseCtx->kscpPos != 3) {
+        if (pauseCtx->pageIndex != PAUSE_EQUIP) {
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
@@ -613,12 +634,13 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1196),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            POLY_OPA_DISP = func_8082018C(POLY_OPA_DISP, pauseCtx->equipPageVtx, D_8082AAB0[gSaveContext.language]);
+            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
+                                                          sEquipmentTexs[gSaveContext.language]);
 
             KaleidoScope_DrawEquipment(globalCtx);
         }
 
-        if (pauseCtx->kscpPos != 2) {
+        if (pauseCtx->pageIndex != PAUSE_QUEST) {
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_BILERP);
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
@@ -631,12 +653,13 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1220),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            POLY_OPA_DISP = func_8082018C(POLY_OPA_DISP, pauseCtx->questPageVtx, D_8082AAD4[gSaveContext.language]);
+            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
+                                                          sQuestStatusTexs[gSaveContext.language]);
 
             KaleidoScope_DrawQuestStatus(globalCtx, gfxCtx);
         }
 
-        if (pauseCtx->kscpPos != 1) {
+        if (pauseCtx->pageIndex != PAUSE_MAP) {
             gDPPipeSync(POLY_OPA_DISP++);
 
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
@@ -649,9 +672,10 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1243),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            POLY_OPA_DISP = func_8082018C(POLY_OPA_DISP, pauseCtx->mapPageVtx, D_8082AAC8[gSaveContext.language]);
+            POLY_OPA_DISP =
+                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, sMapTexs[gSaveContext.language]);
 
-            if (D_8082ABA8 != 0) {
+            if (sInDungeonScene) {
                 KaleidoScope_DrawDungeonMap(globalCtx, gfxCtx);
                 func_800949A8(gfxCtx);
 
@@ -661,15 +685,15 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                     PauseMapMark_Draw(globalCtx);
                 }
             } else {
-                KaleidoScope_DrawOverworldMap(globalCtx, gfxCtx);
+                KaleidoScope_DrawWorldMap(globalCtx, gfxCtx);
             }
         }
 
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
-        switch (pauseCtx->kscpPos) {
-            case 0:
+        switch (pauseCtx->pageIndex) {
+            case PAUSE_ITEM:
                 Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, -(f32)WREG(3) / 100.0f, MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
                 Matrix_RotateX(-pauseCtx->unk_1F4 / 100.0f, MTXMODE_APPLY);
@@ -677,12 +701,13 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1281),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-                POLY_OPA_DISP = func_8082018C(POLY_OPA_DISP, pauseCtx->itemPageVtx, D_8082AABC[gSaveContext.language]);
+                POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
+                                                              sSelectItemTexs[gSaveContext.language]);
 
-                KaleidoScope_DrawInventory(globalCtx);
+                KaleidoScope_DrawItemSelect(globalCtx);
                 break;
 
-            case 1:
+            case PAUSE_MAP:
                 Matrix_Translate((f32)WREG(3) / 100.0f, (f32)WREG(2) / 100.0f, 0.0f, MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
                 Matrix_RotateZ(-pauseCtx->unk_1FC / 100.0f, MTXMODE_APPLY);
@@ -691,27 +716,28 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1303),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-                POLY_OPA_DISP = func_8082018C(POLY_OPA_DISP, pauseCtx->mapPageVtx, D_8082AAC8[gSaveContext.language]);
+                POLY_OPA_DISP =
+                    KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx, sMapTexs[gSaveContext.language]);
 
-                if (D_8082ABA8 != 0) {
+                if (sInDungeonScene) {
                     KaleidoScope_DrawDungeonMap(globalCtx, gfxCtx);
                     func_800949A8(gfxCtx);
 
                     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-                    if (pauseCtx->unk_238 == 0) {
-                        func_8081FE30(globalCtx, 1);
+                    if (pauseCtx->cursorSpecialPos == 0) {
+                        KaleidoScope_DrawCursor(globalCtx, PAUSE_MAP);
                     }
 
                     if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, gSaveContext.mapIndex)) {
                         PauseMapMark_Draw(globalCtx);
                     }
                 } else {
-                    KaleidoScope_DrawOverworldMap(globalCtx, gfxCtx);
+                    KaleidoScope_DrawWorldMap(globalCtx, gfxCtx);
                 }
                 break;
 
-            case 2:
+            case PAUSE_QUEST:
                 gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_BILERP);
 
                 Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, (f32)WREG(3) / 100.0f, MTXMODE_NEW);
@@ -722,16 +748,17 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1343),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-                POLY_OPA_DISP = func_8082018C(POLY_OPA_DISP, pauseCtx->questPageVtx, D_8082AAD4[gSaveContext.language]);
+                POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
+                                                              sQuestStatusTexs[gSaveContext.language]);
 
                 KaleidoScope_DrawQuestStatus(globalCtx, gfxCtx);
 
-                if (pauseCtx->unk_238 == 0) {
-                    func_8081FE30(globalCtx, 2);
+                if (pauseCtx->cursorSpecialPos == 0) {
+                    KaleidoScope_DrawCursor(globalCtx, PAUSE_QUEST);
                 }
                 break;
 
-            case 3:
+            case PAUSE_EQUIP:
                 Matrix_Translate(-(f32)WREG(3) / 100.0f, (f32)WREG(2) / 100.0f, 0.0f, MTXMODE_NEW);
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
                 Matrix_RotateZ(pauseCtx->unk_1F8 / 100.0f, MTXMODE_APPLY);
@@ -740,12 +767,13 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1367),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-                POLY_OPA_DISP = func_8082018C(POLY_OPA_DISP, pauseCtx->equipPageVtx, D_8082AAB0[gSaveContext.language]);
+                POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
+                                                              sEquipmentTexs[gSaveContext.language]);
 
                 KaleidoScope_DrawEquipment(globalCtx);
 
-                if (pauseCtx->unk_238 == 0) {
-                    func_8081FE30(globalCtx, 3);
+                if (pauseCtx->cursorSpecialPos == 0) {
+                    KaleidoScope_DrawCursor(globalCtx, PAUSE_EQUIP);
                 }
                 break;
         }
@@ -754,24 +782,24 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     func_800949A8(gfxCtx);
 
     if ((pauseCtx->state == 7) || ((pauseCtx->state >= 8) && (pauseCtx->state < 0x12))) {
-        func_8081EFF0(globalCtx);
+        KaleidoScope_UpdatePrompt(globalCtx);
 
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
-        if (!pauseCtx->kscpPos) {
+        if (!pauseCtx->pageIndex) { // pageIndex == PAUSE_ITEM
             pauseCtx->unk_1F4 = pauseCtx->unk_204 + 314.0f;
 
             Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, -pauseCtx->unk_1F0 / 10.0f, MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateX(-pauseCtx->unk_204 / 100.0f, MTXMODE_APPLY);
-        } else if (pauseCtx->kscpPos == 1) {
+        } else if (pauseCtx->pageIndex == PAUSE_MAP) {
             pauseCtx->unk_1FC = pauseCtx->unk_204 + 314.0f;
 
             Matrix_Translate(pauseCtx->unk_1F0 / 10.0f, (f32)WREG(2) / 100.0f, 0.0f, MTXMODE_NEW);
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateZ(-pauseCtx->unk_204 / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(-1.57f, MTXMODE_APPLY);
-        } else if (pauseCtx->kscpPos == 2) {
+        } else if (pauseCtx->pageIndex == PAUSE_QUEST) {
             pauseCtx->unk_200 = pauseCtx->unk_204 + 314.0f;
 
             Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, pauseCtx->unk_1F0 / 10.0f, MTXMODE_NEW);
@@ -791,59 +819,61 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         if ((pauseCtx->state >= 8) && (pauseCtx->state <= 0x11)) {
-            POLY_OPA_DISP = func_8082018C(POLY_OPA_DISP, pauseCtx->saveVtx, D_8082AA74);
+            POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sGameOverTexs);
         } else {
-            POLY_OPA_DISP = func_8082018C(POLY_OPA_DISP, pauseCtx->saveVtx, D_8082AAE0[gSaveContext.language]);
+            POLY_OPA_DISP =
+                KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sSaveTexs[gSaveContext.language]);
         }
 
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->saveVtx[60], 32, 0);
 
         if (((pauseCtx->state == 7) && (pauseCtx->unk_1EC < 4)) || (pauseCtx->state == 0xE)) {
-            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082ACB8[gSaveContext.language], 152, 16, 0);
+            POLY_OPA_DISP =
+                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sSavePromptTexs[gSaveContext.language], 152, 16, 0);
 
             gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0,
                               0, PRIMITIVE, 0);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 100, 255, 100, VREG(61));
 
-            if (pauseCtx->unk_262 == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, gSaveCursorLeftDL);
+            if (pauseCtx->promptChoice == 0) {
+                gSPDisplayList(POLY_OPA_DISP++, gPromptCursorLeftDL);
             } else {
-                gSPDisplayList(POLY_OPA_DISP++, gSaveCursorRightDL);
+                gSPDisplayList(POLY_OPA_DISP++, gPromptCursorRightDL);
             }
 
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
             POLY_OPA_DISP =
-                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082ACDC[gSaveContext.language][0], 48, 16, 12);
+                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][0], 48, 16, 12);
 
             POLY_OPA_DISP =
-                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082ACDC[gSaveContext.language][1], 48, 16, 16);
+                KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48, 16, 16);
         } else if ((pauseCtx->state != 7) || (pauseCtx->unk_1EC < 4)) {
             if ((pauseCtx->state != 0xF) && ((pauseCtx->state == 0x10) || (pauseCtx->state == 0x11))) {
                 POLY_OPA_DISP =
-                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sContinuePlayingTexs[gSaveContext.language], 152, 16, 0);
+                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sContinuePromptTexs[gSaveContext.language], 152, 16, 0);
 
                 gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0,
                                   TEXEL0, 0, PRIMITIVE, 0);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 100, 255, 100, VREG(61));
 
-                if (pauseCtx->unk_262 == 0) {
-                    gSPDisplayList(POLY_OPA_DISP++, gSaveCursorLeftDL);
+                if (pauseCtx->promptChoice == 0) {
+                    gSPDisplayList(POLY_OPA_DISP++, gPromptCursorLeftDL);
                 } else {
-                    gSPDisplayList(POLY_OPA_DISP++, gSaveCursorRightDL);
+                    gSPDisplayList(POLY_OPA_DISP++, gPromptCursorRightDL);
                 }
 
                 gDPPipeSync(POLY_OPA_DISP++);
                 gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
                 POLY_OPA_DISP =
-                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082ACDC[gSaveContext.language][0], 48, 16, 12);
+                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][0], 48, 16, 12);
 
                 POLY_OPA_DISP =
-                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082ACDC[gSaveContext.language][1], 48, 16, 16);
+                    KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, sPromptChoiceTexs[gSaveContext.language][1], 48, 16, 16);
             }
         }
 
@@ -852,7 +882,7 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
         if ((pauseCtx->state != 0x10) && (pauseCtx->state != 0x11)) {
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, pauseCtx->unk_208);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, pauseCtx->alpha);
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
         }
     }
@@ -860,35 +890,33 @@ void func_80820434(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_kaleido_scope_PAL.c", 1577);
 }
 
-#ifdef NON_MATCHING
-// should match but causes bss ordering issues
-void func_80821C10(GlobalContext* globalCtx) {
-    static UNK_PTR D_8082AD54[3] = {
-        0x0D003C00,
-        0x0D003C00,
-        0x0D003C00,
+void KaleidoScope_DrawInfoPanel(GlobalContext* globalCtx) {
+    static void* D_8082AD54[3] = {
+        gPauseToEquipENGTex,
+        gPauseToEquipGERTex,
+        gPauseToEquipFRATex,
     };
-    static UNK_PTR D_8082AD60[3] = {
-        0x0D003F80,
-        0x0D004180,
-        0x0D004100,
+    static void* D_8082AD60[3] = {
+        gPauseToDecideENGTex,
+        gPauseToDecideGERTex,
+        gPauseToDecideFRATex,
     };
-    static UNK_PTR D_8082AD6C[3] = {
-        0x0D004380,
-        0x0D004700,
-        0x0D004580,
+    static void* D_8082AD6C[3] = {
+        gPauseToPlayMelodyENGTex,
+        gPauseToPlayMelodyGERTex,
+        gPauseToPlayMelodyFRATex,
     };
-    static UNK_PTR D_8082AD78[][3] = {
-        { 0x0D006080, 0x0D006580, 0x0D006480 },
-        { 0x0D004880, 0x0D004D80, 0x0D004C80 },
-        { 0x0D005080, 0x0D005580, 0x0D005480 },
-        { 0x0D005880, 0x0D005D80, 0x0D005C80 },
+    static void* D_8082AD78[][3] = {
+        { gPauseToEquipmentENGTex, gPauseToEquipmentGERTex, gPauseToEquipmentFRATex },
+        { gPauseToSelectItemENGTex, gPauseToSelectItemGERTex, gPauseToSelectItemFRATex },
+        { gPauseToMapENGTex, gPauseToMapGERTex, gPauseToMapFRATex },
+        { gPauseToQuestStatusENGTex, gPauseToQuestStatusGERTex, gPauseToQuestStatusFRATex },
     };
-    static UNK_PTR D_8082ADA8[][3] = {
-        { 0x0D005080, 0x0D005580, 0x0D005480 },
-        { 0x0D005880, 0x0D005D80, 0x0D005C80 },
-        { 0x0D006080, 0x0D006580, 0x0D006480 },
-        { 0x0D004880, 0x0D004D80, 0x0D004C80 },
+    static void* D_8082ADA8[][3] = {
+        { gPauseToMapENGTex, gPauseToMapGERTex, gPauseToMapFRATex },
+        { gPauseToQuestStatusENGTex, gPauseToQuestStatusGERTex, gPauseToQuestStatusFRATex },
+        { gPauseToEquipmentENGTex, gPauseToEquipmentGERTex, gPauseToEquipmentFRATex },
+        { gPauseToSelectItemENGTex, gPauseToSelectItemGERTex, gPauseToSelectItemFRATex },
     };
     static u16 D_8082ADD8[3] = { 56, 88, 80 };
     static u16 D_8082ADE0[3] = { 64, 88, 72 };
@@ -955,91 +983,91 @@ void func_80821C10(GlobalContext* globalCtx) {
         D_8082AE04 ^= 1;
     }
 
-    temp = pauseCtx->unk_25A - 76;
+    temp = pauseCtx->infoPanelOffsetY - 76;
     for (j = 0, i = 0; i < 7; i++, j += 4) {
-        pauseCtx->namePanelVtx[j + 0].v.ob[0] = pauseCtx->namePanelVtx[j + 2].v.ob[0] = -72;
+        pauseCtx->infoPanelVtx[j + 0].v.ob[0] = pauseCtx->infoPanelVtx[j + 2].v.ob[0] = -72;
 
-        pauseCtx->namePanelVtx[j + 1].v.ob[0] = pauseCtx->namePanelVtx[j + 3].v.ob[0] = 0;
+        pauseCtx->infoPanelVtx[j + 1].v.ob[0] = pauseCtx->infoPanelVtx[j + 3].v.ob[0] = 0;
 
-        pauseCtx->namePanelVtx[j + 0].v.ob[1] = pauseCtx->namePanelVtx[j + 1].v.ob[1] = temp;
+        pauseCtx->infoPanelVtx[j + 0].v.ob[1] = pauseCtx->infoPanelVtx[j + 1].v.ob[1] = temp;
 
-        pauseCtx->namePanelVtx[j + 2].v.ob[1] = pauseCtx->namePanelVtx[j + 3].v.ob[1] = temp - 24;
+        pauseCtx->infoPanelVtx[j + 2].v.ob[1] = pauseCtx->infoPanelVtx[j + 3].v.ob[1] = temp - 24;
 
-        pauseCtx->namePanelVtx[j + 0].v.ob[2] = pauseCtx->namePanelVtx[j + 1].v.ob[2] =
-            pauseCtx->namePanelVtx[j + 2].v.ob[2] = pauseCtx->namePanelVtx[j + 3].v.ob[2] = 0;
+        pauseCtx->infoPanelVtx[j + 0].v.ob[2] = pauseCtx->infoPanelVtx[j + 1].v.ob[2] =
+            pauseCtx->infoPanelVtx[j + 2].v.ob[2] = pauseCtx->infoPanelVtx[j + 3].v.ob[2] = 0;
 
-        pauseCtx->namePanelVtx[j + 0].v.flag = pauseCtx->namePanelVtx[j + 1].v.flag =
-            pauseCtx->namePanelVtx[j + 2].v.flag = pauseCtx->namePanelVtx[j + 3].v.flag = 0;
+        pauseCtx->infoPanelVtx[j + 0].v.flag = pauseCtx->infoPanelVtx[j + 1].v.flag =
+            pauseCtx->infoPanelVtx[j + 2].v.flag = pauseCtx->infoPanelVtx[j + 3].v.flag = 0;
 
-        pauseCtx->namePanelVtx[j + 0].v.tc[0] = pauseCtx->namePanelVtx[j + 0].v.tc[1] =
-            pauseCtx->namePanelVtx[j + 1].v.tc[1] = pauseCtx->namePanelVtx[j + 2].v.tc[0] = 0;
+        pauseCtx->infoPanelVtx[j + 0].v.tc[0] = pauseCtx->infoPanelVtx[j + 0].v.tc[1] =
+            pauseCtx->infoPanelVtx[j + 1].v.tc[1] = pauseCtx->infoPanelVtx[j + 2].v.tc[0] = 0;
 
-        pauseCtx->namePanelVtx[j + 1].v.tc[0] = pauseCtx->namePanelVtx[j + 3].v.tc[0] = 0x900;
+        pauseCtx->infoPanelVtx[j + 1].v.tc[0] = pauseCtx->infoPanelVtx[j + 3].v.tc[0] = 0x900;
 
-        pauseCtx->namePanelVtx[j + 2].v.tc[1] = pauseCtx->namePanelVtx[j + 3].v.tc[1] = 0x300;
+        pauseCtx->infoPanelVtx[j + 2].v.tc[1] = pauseCtx->infoPanelVtx[j + 3].v.tc[1] = 0x300;
 
-        pauseCtx->namePanelVtx[j + 0].v.cn[0] = pauseCtx->namePanelVtx[j + 2].v.cn[0] =
-            pauseCtx->namePanelVtx[j + 0].v.cn[1] = pauseCtx->namePanelVtx[j + 2].v.cn[1] =
-                pauseCtx->namePanelVtx[j + 0].v.cn[2] = pauseCtx->namePanelVtx[j + 2].v.cn[2] =
-                    pauseCtx->namePanelVtx[j + 1].v.cn[0] = pauseCtx->namePanelVtx[j + 3].v.cn[0] =
-                        pauseCtx->namePanelVtx[j + 1].v.cn[1] = pauseCtx->namePanelVtx[j + 3].v.cn[1] =
-                            pauseCtx->namePanelVtx[j + 1].v.cn[2] = pauseCtx->namePanelVtx[j + 3].v.cn[2] = 200;
+        pauseCtx->infoPanelVtx[j + 0].v.cn[0] = pauseCtx->infoPanelVtx[j + 2].v.cn[0] =
+            pauseCtx->infoPanelVtx[j + 0].v.cn[1] = pauseCtx->infoPanelVtx[j + 2].v.cn[1] =
+                pauseCtx->infoPanelVtx[j + 0].v.cn[2] = pauseCtx->infoPanelVtx[j + 2].v.cn[2] =
+                    pauseCtx->infoPanelVtx[j + 1].v.cn[0] = pauseCtx->infoPanelVtx[j + 3].v.cn[0] =
+                        pauseCtx->infoPanelVtx[j + 1].v.cn[1] = pauseCtx->infoPanelVtx[j + 3].v.cn[1] =
+                            pauseCtx->infoPanelVtx[j + 1].v.cn[2] = pauseCtx->infoPanelVtx[j + 3].v.cn[2] = 200;
 
-        pauseCtx->namePanelVtx[j + 0].v.cn[3] = pauseCtx->namePanelVtx[j + 2].v.cn[3] =
-            pauseCtx->namePanelVtx[j + 1].v.cn[3] = pauseCtx->namePanelVtx[j + 3].v.cn[3] = pauseCtx->unk_208;
+        pauseCtx->infoPanelVtx[j + 0].v.cn[3] = pauseCtx->infoPanelVtx[j + 2].v.cn[3] =
+            pauseCtx->infoPanelVtx[j + 1].v.cn[3] = pauseCtx->infoPanelVtx[j + 3].v.cn[3] = pauseCtx->alpha;
     }
 
-    pauseCtx->namePanelVtx[4].v.ob[0] = pauseCtx->namePanelVtx[6].v.ob[0] = pauseCtx->namePanelVtx[0].v.ob[0] + 72;
+    pauseCtx->infoPanelVtx[4].v.ob[0] = pauseCtx->infoPanelVtx[6].v.ob[0] = pauseCtx->infoPanelVtx[0].v.ob[0] + 72;
 
-    pauseCtx->namePanelVtx[5].v.ob[0] = pauseCtx->namePanelVtx[7].v.ob[0] = pauseCtx->namePanelVtx[4].v.ob[0] + 72;
+    pauseCtx->infoPanelVtx[5].v.ob[0] = pauseCtx->infoPanelVtx[7].v.ob[0] = pauseCtx->infoPanelVtx[4].v.ob[0] + 72;
 
-    if ((pauseCtx->unk_238 == 10) && (pauseCtx->unk_1E4 == 0)) {
-        pauseCtx->namePanelVtx[8].v.ob[0] = pauseCtx->namePanelVtx[10].v.ob[0] = WREG(16);
+    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) && (pauseCtx->unk_1E4 == 0)) {
+        pauseCtx->infoPanelVtx[8].v.ob[0] = pauseCtx->infoPanelVtx[10].v.ob[0] = WREG(16);
 
-        pauseCtx->namePanelVtx[9].v.ob[0] = pauseCtx->namePanelVtx[11].v.ob[0] = pauseCtx->namePanelVtx[8].v.ob[0] + 24;
+        pauseCtx->infoPanelVtx[9].v.ob[0] = pauseCtx->infoPanelVtx[11].v.ob[0] = pauseCtx->infoPanelVtx[8].v.ob[0] + 24;
 
-        pauseCtx->namePanelVtx[8].v.ob[1] = pauseCtx->namePanelVtx[9].v.ob[1] = WREG(18);
+        pauseCtx->infoPanelVtx[8].v.ob[1] = pauseCtx->infoPanelVtx[9].v.ob[1] = WREG(18);
 
-        pauseCtx->namePanelVtx[10].v.ob[1] = pauseCtx->namePanelVtx[11].v.ob[1] =
-            pauseCtx->namePanelVtx[8].v.ob[1] - 32;
+        pauseCtx->infoPanelVtx[10].v.ob[1] = pauseCtx->infoPanelVtx[11].v.ob[1] =
+            pauseCtx->infoPanelVtx[8].v.ob[1] - 32;
     } else {
-        pauseCtx->namePanelVtx[8].v.ob[0] = pauseCtx->namePanelVtx[10].v.ob[0] = WREG(16) + 3;
+        pauseCtx->infoPanelVtx[8].v.ob[0] = pauseCtx->infoPanelVtx[10].v.ob[0] = WREG(16) + 3;
 
-        pauseCtx->namePanelVtx[9].v.ob[0] = pauseCtx->namePanelVtx[11].v.ob[0] = pauseCtx->namePanelVtx[8].v.ob[0] + 18;
+        pauseCtx->infoPanelVtx[9].v.ob[0] = pauseCtx->infoPanelVtx[11].v.ob[0] = pauseCtx->infoPanelVtx[8].v.ob[0] + 18;
 
-        pauseCtx->namePanelVtx[8].v.ob[1] = pauseCtx->namePanelVtx[9].v.ob[1] = WREG(18) - 3;
+        pauseCtx->infoPanelVtx[8].v.ob[1] = pauseCtx->infoPanelVtx[9].v.ob[1] = WREG(18) - 3;
 
-        pauseCtx->namePanelVtx[10].v.ob[1] = pauseCtx->namePanelVtx[11].v.ob[1] =
-            pauseCtx->namePanelVtx[8].v.ob[1] - 26;
+        pauseCtx->infoPanelVtx[10].v.ob[1] = pauseCtx->infoPanelVtx[11].v.ob[1] =
+            pauseCtx->infoPanelVtx[8].v.ob[1] - 26;
     }
 
-    if ((pauseCtx->unk_238 == 11) && (pauseCtx->unk_1E4 == 0)) {
-        pauseCtx->namePanelVtx[12].v.ob[0] = pauseCtx->namePanelVtx[14].v.ob[0] = WREG(17);
+    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) && (pauseCtx->unk_1E4 == 0)) {
+        pauseCtx->infoPanelVtx[12].v.ob[0] = pauseCtx->infoPanelVtx[14].v.ob[0] = WREG(17);
 
-        pauseCtx->namePanelVtx[13].v.ob[0] = pauseCtx->namePanelVtx[15].v.ob[0] =
-            pauseCtx->namePanelVtx[12].v.ob[0] + 24;
+        pauseCtx->infoPanelVtx[13].v.ob[0] = pauseCtx->infoPanelVtx[15].v.ob[0] =
+            pauseCtx->infoPanelVtx[12].v.ob[0] + 24;
 
-        pauseCtx->namePanelVtx[12].v.ob[1] = pauseCtx->namePanelVtx[13].v.ob[1] = WREG(18);
+        pauseCtx->infoPanelVtx[12].v.ob[1] = pauseCtx->infoPanelVtx[13].v.ob[1] = WREG(18);
 
-        pauseCtx->namePanelVtx[14].v.ob[1] = pauseCtx->namePanelVtx[15].v.ob[1] =
-            pauseCtx->namePanelVtx[12].v.ob[1] - 32;
+        pauseCtx->infoPanelVtx[14].v.ob[1] = pauseCtx->infoPanelVtx[15].v.ob[1] =
+            pauseCtx->infoPanelVtx[12].v.ob[1] - 32;
     } else {
-        pauseCtx->namePanelVtx[12].v.ob[0] = pauseCtx->namePanelVtx[14].v.ob[0] = WREG(17) + 3;
+        pauseCtx->infoPanelVtx[12].v.ob[0] = pauseCtx->infoPanelVtx[14].v.ob[0] = WREG(17) + 3;
 
-        pauseCtx->namePanelVtx[13].v.ob[0] = pauseCtx->namePanelVtx[15].v.ob[0] =
-            pauseCtx->namePanelVtx[12].v.ob[0] + 18;
+        pauseCtx->infoPanelVtx[13].v.ob[0] = pauseCtx->infoPanelVtx[15].v.ob[0] =
+            pauseCtx->infoPanelVtx[12].v.ob[0] + 18;
 
-        pauseCtx->namePanelVtx[12].v.ob[1] = pauseCtx->namePanelVtx[13].v.ob[1] = WREG(18) - 3;
+        pauseCtx->infoPanelVtx[12].v.ob[1] = pauseCtx->infoPanelVtx[13].v.ob[1] = WREG(18) - 3;
 
-        pauseCtx->namePanelVtx[14].v.ob[1] = pauseCtx->namePanelVtx[15].v.ob[1] =
-            pauseCtx->namePanelVtx[12].v.ob[1] - 26;
+        pauseCtx->infoPanelVtx[14].v.ob[1] = pauseCtx->infoPanelVtx[15].v.ob[1] =
+            pauseCtx->infoPanelVtx[12].v.ob[1] - 26;
     }
 
-    pauseCtx->namePanelVtx[9].v.tc[0] = pauseCtx->namePanelVtx[11].v.tc[0] = pauseCtx->namePanelVtx[13].v.tc[0] =
-        pauseCtx->namePanelVtx[15].v.tc[0] = 0x300;
+    pauseCtx->infoPanelVtx[9].v.tc[0] = pauseCtx->infoPanelVtx[11].v.tc[0] = pauseCtx->infoPanelVtx[13].v.tc[0] =
+        pauseCtx->infoPanelVtx[15].v.tc[0] = 0x300;
 
-    pauseCtx->namePanelVtx[10].v.tc[1] = pauseCtx->namePanelVtx[11].v.tc[1] = pauseCtx->namePanelVtx[14].v.tc[1] =
-        pauseCtx->namePanelVtx[15].v.tc[1] = 0x400;
+    pauseCtx->infoPanelVtx[10].v.tc[1] = pauseCtx->infoPanelVtx[11].v.tc[1] = pauseCtx->infoPanelVtx[14].v.tc[1] =
+        pauseCtx->infoPanelVtx[15].v.tc[1] = 0x400;
 
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
@@ -1050,11 +1078,11 @@ void func_80821C10(GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 90, 100, 130, 255);
-    gSPVertex(POLY_OPA_DISP++, &pauseCtx->namePanelVtx[0], 16, 0);
+    gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[0], 16, 0);
 
     gSPDisplayList(POLY_OPA_DISP++, gItemNamePanelDL);
 
-    if ((pauseCtx->unk_238 == 10) && (pauseCtx->unk_1E4 == 0)) {
+    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) && (pauseCtx->unk_1E4 == 0)) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_808321A0, D_808321A2, D_808321A4, D_808321A6);
     }
 
@@ -1062,47 +1090,47 @@ void func_80821C10(GlobalContext* globalCtx) {
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 210, 255, 220);
 
-    if ((pauseCtx->unk_238 == 11) && (pauseCtx->unk_1E4 == 0)) {
+    if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) && (pauseCtx->unk_1E4 == 0)) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_808321A0, D_808321A2, D_808321A4, D_808321A6);
     }
 
     gSPDisplayList(POLY_OPA_DISP++, gRButtonIconDL);
 
-    if (pauseCtx->unk_238 != 0) {
-        j = (pauseCtx->unk_238 * 4) - 32;
-        pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->namePanelVtx[j].v.ob[0];
-        pauseCtx->cursorVtx[0].v.ob[1] = pauseCtx->namePanelVtx[j].v.ob[1];
-        func_8081FE30(globalCtx, pauseCtx->kscpPos);
+    if (pauseCtx->cursorSpecialPos != 0) {
+        j = (pauseCtx->cursorSpecialPos * 4) - 32;
+        pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->infoPanelVtx[j].v.ob[0];
+        pauseCtx->cursorVtx[0].v.ob[1] = pauseCtx->infoPanelVtx[j].v.ob[1];
+        KaleidoScope_DrawCursor(globalCtx, pauseCtx->pageIndex);
     }
 
-    temp = pauseCtx->unk_25A - 0x50;
-    pauseCtx->namePanelVtx[16].v.ob[1] = pauseCtx->namePanelVtx[17].v.ob[1] = temp;
+    temp = pauseCtx->infoPanelOffsetY - 80;
+    pauseCtx->infoPanelVtx[16].v.ob[1] = pauseCtx->infoPanelVtx[17].v.ob[1] = temp;
 
-    pauseCtx->namePanelVtx[18].v.ob[1] = pauseCtx->namePanelVtx[19].v.ob[1] = pauseCtx->namePanelVtx[16].v.ob[1] - 16;
+    pauseCtx->infoPanelVtx[18].v.ob[1] = pauseCtx->infoPanelVtx[19].v.ob[1] = pauseCtx->infoPanelVtx[16].v.ob[1] - 16;
 
-    pauseCtx->namePanelVtx[18].v.tc[1] = pauseCtx->namePanelVtx[19].v.tc[1] = 0x200;
+    pauseCtx->infoPanelVtx[18].v.tc[1] = pauseCtx->infoPanelVtx[19].v.tc[1] = 0x200;
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
     gDPSetEnvColor(POLY_OPA_DISP++, 20, 30, 40, 0);
 
-    if ((pauseCtx->state == 6) && (pauseCtx->unk_23C != 999) && (pauseCtx->unk_25C < WREG(89)) &&
+    if ((pauseCtx->state == 6) && (pauseCtx->namedItem != PAUSE_ITEM_NONE) && (pauseCtx->nameDisplayTimer < WREG(89)) &&
         (!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 2) || ((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 7)) ||
          (pauseCtx->unk_1E4 == 8)) &&
-        (pauseCtx->unk_238 == 0)) {
+        (pauseCtx->cursorSpecialPos == 0)) {
         if (!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 2) || ((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 7)) ||
             (pauseCtx->unk_1E4 == 8)) {
-            pauseCtx->namePanelVtx[16].v.ob[0] = pauseCtx->namePanelVtx[18].v.ob[0] = -63;
+            pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = -63;
 
-            pauseCtx->namePanelVtx[17].v.ob[0] = pauseCtx->namePanelVtx[19].v.ob[0] =
-                pauseCtx->namePanelVtx[16].v.ob[0] + 128;
+            pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
+                pauseCtx->infoPanelVtx[16].v.ob[0] + 128;
 
-            pauseCtx->namePanelVtx[17].v.tc[0] = pauseCtx->namePanelVtx[19].v.tc[0] = 0x1000;
+            pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x1000;
 
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->namePanelVtx[16], 4, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[16], 4, 0);
 
-            if (pauseCtx->unk_25E == 1) {
+            if (pauseCtx->nameColorSet == 1) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 70, 70, 70, 255);
             } else {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
@@ -1111,71 +1139,73 @@ void func_80821C10(GlobalContext* globalCtx) {
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA4(POLY_OPA_DISP, pauseCtx->nameSegment, 128, 16, 0);
         }
 
-        if (pauseCtx->kscpPos == 1) {
+        if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (YREG(7) != 0) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAG(YREG(6)),
-                             D_8082AC7C[YREG(6)], gSaveContext.gsFlags[YREG(6) >> 2]);
+                             gAreaGsFlags[YREG(6)], gSaveContext.gsFlags[YREG(6) >> 2]);
                 osSyncPrintf(VT_RST);
 
                 YREG(7) = 0;
-                gSaveContext.gsFlags[D_8082AE30[pauseCtx->unk_218[4]] >> 2] |=
-                    (D_8082AC7C[D_8082AE30[pauseCtx->unk_218[4]]]
-                     << gGsFlagsShift[D_8082AE30[pauseCtx->unk_218[4]] & 3]);
+                gSaveContext.gsFlags[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] >> 2] |=
+                    (gAreaGsFlags[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]]
+                     << gGsFlagsShift[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] & 3]);
             }
         }
 
-        if ((pauseCtx->kscpPos == 1) && (D_8082ABA8 == 0)) {
-            if (GET_GS_FLAG(D_8082AE30[pauseCtx->unk_218[4]]) == D_8082AC7C[D_8082AE30[pauseCtx->unk_218[4]]]) {
-                pauseCtx->namePanelVtx[24].v.ob[0] = pauseCtx->namePanelVtx[26].v.ob[0] = -74;
+        if ((pauseCtx->pageIndex == PAUSE_MAP) && !sInDungeonScene) {
+            if (GET_GS_FLAG(D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]) ==
+                gAreaGsFlags[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]]) {
 
-                pauseCtx->namePanelVtx[25].v.ob[0] = pauseCtx->namePanelVtx[27].v.ob[0] =
-                    pauseCtx->namePanelVtx[24].v.ob[0] + 19;
+                pauseCtx->infoPanelVtx[24].v.ob[0] = pauseCtx->infoPanelVtx[26].v.ob[0] = -74;
 
-                pauseCtx->namePanelVtx[24].v.ob[1] = pauseCtx->namePanelVtx[25].v.ob[1] =
-                    pauseCtx->namePanelVtx[24].v.ob[1] - 2;
+                pauseCtx->infoPanelVtx[25].v.ob[0] = pauseCtx->infoPanelVtx[27].v.ob[0] =
+                    pauseCtx->infoPanelVtx[24].v.ob[0] + 19;
 
-                pauseCtx->namePanelVtx[26].v.ob[1] = pauseCtx->namePanelVtx[27].v.ob[1] =
-                    pauseCtx->namePanelVtx[24].v.ob[1] - 19;
+                pauseCtx->infoPanelVtx[24].v.ob[1] = pauseCtx->infoPanelVtx[25].v.ob[1] =
+                    pauseCtx->infoPanelVtx[24].v.ob[1] - 2;
 
-                pauseCtx->namePanelVtx[25].v.tc[0] = pauseCtx->namePanelVtx[27].v.tc[0] = 0x300;
+                pauseCtx->infoPanelVtx[26].v.ob[1] = pauseCtx->infoPanelVtx[27].v.ob[1] =
+                    pauseCtx->infoPanelVtx[24].v.ob[1] - 19;
+
+                pauseCtx->infoPanelVtx[25].v.tc[0] = pauseCtx->infoPanelVtx[27].v.tc[0] = 0x300;
 
                 gDPPipeSync(POLY_OPA_DISP++);
-                gSPVertex(POLY_OPA_DISP++, &pauseCtx->namePanelVtx[24], 4, 0);
+                gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[24], 4, 0);
 
                 gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                                   PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
                 KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx, gGoldSkulltulaIconTex, 24, 24, 0);
             }
         }
     } else if ((pauseCtx->unk_1E4 < 3) || (pauseCtx->unk_1E4 == 7) || (pauseCtx->unk_1E4 == 8)) {
-        pauseCtx->namePanelVtx[20].v.ob[1] = pauseCtx->namePanelVtx[21].v.ob[1] = temp;
+        pauseCtx->infoPanelVtx[20].v.ob[1] = pauseCtx->infoPanelVtx[21].v.ob[1] = temp;
 
-        pauseCtx->namePanelVtx[22].v.ob[1] = pauseCtx->namePanelVtx[23].v.ob[1] =
-            pauseCtx->namePanelVtx[20].v.ob[1] - 16;
+        pauseCtx->infoPanelVtx[22].v.ob[1] = pauseCtx->infoPanelVtx[23].v.ob[1] =
+            pauseCtx->infoPanelVtx[20].v.ob[1] - 16;
 
-        pauseCtx->namePanelVtx[22].v.tc[1] = pauseCtx->namePanelVtx[23].v.tc[1] = 0x200;
+        pauseCtx->infoPanelVtx[22].v.tc[1] = pauseCtx->infoPanelVtx[23].v.tc[1] = 0x200;
 
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->namePanelVtx[16], 8, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[16], 8, 0);
 
         if (pauseCtx->state == 7) {
-            pauseCtx->namePanelVtx[16].v.ob[0] = pauseCtx->namePanelVtx[18].v.ob[0] = WREG(61 + gSaveContext.language);
+            pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = WREG(61 + gSaveContext.language);
 
-            pauseCtx->namePanelVtx[17].v.ob[0] = pauseCtx->namePanelVtx[19].v.ob[0] =
-                pauseCtx->namePanelVtx[16].v.ob[0] + 24;
+            pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
+                pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
 
-            pauseCtx->namePanelVtx[20].v.ob[0] = pauseCtx->namePanelVtx[22].v.ob[0] =
-                pauseCtx->namePanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
+            pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
+                pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
 
-            pauseCtx->namePanelVtx[21].v.ob[0] = pauseCtx->namePanelVtx[23].v.ob[0] =
-                pauseCtx->namePanelVtx[20].v.ob[0] + D_8082ADE0[gSaveContext.language];
+            pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
+                pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADE0[gSaveContext.language];
 
-            pauseCtx->namePanelVtx[17].v.tc[0] = pauseCtx->namePanelVtx[19].v.tc[0] = 0x300;
+            pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x300;
 
-            pauseCtx->namePanelVtx[21].v.tc[0] = pauseCtx->namePanelVtx[23].v.tc[0] = D_8082ADE0[gSaveContext.language]
+            pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] = D_8082ADE0[gSaveContext.language]
                                                                                       << 5;
 
             gSPDisplayList(POLY_OPA_DISP++, gAButtonIconDL);
@@ -1185,43 +1215,43 @@ void func_80821C10(GlobalContext* globalCtx) {
 
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082AD60[gSaveContext.language],
                                                         D_8082ADE0[gSaveContext.language], 16, 4);
-        } else if (pauseCtx->unk_238 != 0) {
+        } else if (pauseCtx->cursorSpecialPos != 0) {
             if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0)) {
-                pauseCtx->namePanelVtx[16].v.ob[0] = pauseCtx->namePanelVtx[18].v.ob[0] = -63;
+                pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = -63;
 
-                pauseCtx->namePanelVtx[17].v.ob[0] = pauseCtx->namePanelVtx[19].v.ob[0] =
-                    pauseCtx->namePanelVtx[16].v.ob[0] + 128;
+                pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
+                    pauseCtx->infoPanelVtx[16].v.ob[0] + 128;
 
-                pauseCtx->namePanelVtx[17].v.tc[0] = pauseCtx->namePanelVtx[19].v.tc[0] = 0x1000;
+                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x1000;
 
                 gDPPipeSync(POLY_OPA_DISP++);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 200, 0, 255);
 
-                if (pauseCtx->unk_238 == 10) {
+                if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) {
                     POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(
-                        POLY_OPA_DISP, D_8082AD78[pauseCtx->kscpPos][gSaveContext.language], 128, 16, 0);
+                        POLY_OPA_DISP, D_8082AD78[pauseCtx->pageIndex][gSaveContext.language], 128, 16, 0);
                 } else {
                     POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(
-                        POLY_OPA_DISP, D_8082ADA8[pauseCtx->kscpPos][gSaveContext.language], 128, 16, 0);
+                        POLY_OPA_DISP, D_8082ADA8[pauseCtx->pageIndex][gSaveContext.language], 128, 16, 0);
                 }
             }
         } else {
-            if (!pauseCtx->kscpPos) {
-                pauseCtx->namePanelVtx[16].v.ob[0] = pauseCtx->namePanelVtx[18].v.ob[0] =
+            if (!pauseCtx->pageIndex) { // pageIndex == PAUSE_ITEM
+                pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
                     WREG(49 + gSaveContext.language);
 
-                pauseCtx->namePanelVtx[17].v.ob[0] = pauseCtx->namePanelVtx[19].v.ob[0] =
-                    pauseCtx->namePanelVtx[16].v.ob[0] + 48;
+                pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
+                    pauseCtx->infoPanelVtx[16].v.ob[0] + 48;
 
-                pauseCtx->namePanelVtx[20].v.ob[0] = pauseCtx->namePanelVtx[22].v.ob[0] =
-                    pauseCtx->namePanelVtx[16].v.ob[0] + WREG(58 + gSaveContext.language);
+                pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
+                    pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(58 + gSaveContext.language);
 
-                pauseCtx->namePanelVtx[21].v.ob[0] = pauseCtx->namePanelVtx[23].v.ob[0] =
-                    pauseCtx->namePanelVtx[20].v.ob[0] + D_8082ADD8[gSaveContext.language];
+                pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
+                    pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADD8[gSaveContext.language];
 
-                pauseCtx->namePanelVtx[17].v.tc[0] = pauseCtx->namePanelVtx[19].v.tc[0] = 0x600;
+                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x600;
 
-                pauseCtx->namePanelVtx[21].v.tc[0] = pauseCtx->namePanelVtx[23].v.tc[0] =
+                pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
                     D_8082ADD8[gSaveContext.language] << 5;
 
                 gSPDisplayList(POLY_OPA_DISP++, gCButtonIconsDL);
@@ -1231,30 +1261,31 @@ void func_80821C10(GlobalContext* globalCtx) {
 
                 POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082AD54[gSaveContext.language],
                                                             D_8082ADD8[gSaveContext.language], 16, 4);
-            } else if ((pauseCtx->kscpPos == 1) && (D_8082ABA8 != 0)) {
+            } else if ((pauseCtx->pageIndex == PAUSE_MAP) && sInDungeonScene) {
 
-            } else if ((pauseCtx->kscpPos == 2) && (pauseCtx->unk_246[2] >= 6) && (pauseCtx->unk_246[2] <= 0x11)) {
-                if (pauseCtx->unk_23C != 999) {
-                    pauseCtx->namePanelVtx[16].v.ob[0] = pauseCtx->namePanelVtx[18].v.ob[0] =
+            } else if ((pauseCtx->pageIndex == PAUSE_QUEST) && (pauseCtx->cursorSlot[PAUSE_QUEST] >= 6) &&
+                       (pauseCtx->cursorSlot[PAUSE_QUEST] <= 0x11)) {
+                if (pauseCtx->namedItem != PAUSE_ITEM_NONE) {
+                    pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
                         WREG(55 + gSaveContext.language);
 
-                    pauseCtx->namePanelVtx[17].v.ob[0] = pauseCtx->namePanelVtx[19].v.ob[0] =
-                        pauseCtx->namePanelVtx[16].v.ob[0] + 24;
+                    pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
+                        pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
 
-                    pauseCtx->namePanelVtx[20].v.ob[0] = pauseCtx->namePanelVtx[22].v.ob[0] =
-                        pauseCtx->namePanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
+                    pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
+                        pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
 
                     if (gSaveContext.language == 1) {
-                        pauseCtx->namePanelVtx[20].v.ob[0] = pauseCtx->namePanelVtx[22].v.ob[0] =
-                            pauseCtx->namePanelVtx[16].v.ob[0] - 99;
+                        pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
+                            pauseCtx->infoPanelVtx[16].v.ob[0] - 99;
                     }
 
-                    pauseCtx->namePanelVtx[21].v.ob[0] = pauseCtx->namePanelVtx[23].v.ob[0] =
-                        pauseCtx->namePanelVtx[20].v.ob[0] + D_8082ADE8[gSaveContext.language];
+                    pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
+                        pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADE8[gSaveContext.language];
 
-                    pauseCtx->namePanelVtx[17].v.tc[0] = pauseCtx->namePanelVtx[19].v.tc[0] = 0x300;
+                    pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x300;
 
-                    pauseCtx->namePanelVtx[21].v.tc[0] = pauseCtx->namePanelVtx[23].v.tc[0] =
+                    pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
                         D_8082ADE8[gSaveContext.language] << 5;
 
                     gSPDisplayList(POLY_OPA_DISP++, gAButtonIconDL);
@@ -1265,22 +1296,22 @@ void func_80821C10(GlobalContext* globalCtx) {
                     POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082AD6C[gSaveContext.language],
                                                                 D_8082ADE8[gSaveContext.language], 16, 4);
                 }
-            } else if (pauseCtx->kscpPos == 3) {
-                pauseCtx->namePanelVtx[16].v.ob[0] = pauseCtx->namePanelVtx[18].v.ob[0] =
+            } else if (pauseCtx->pageIndex == PAUSE_EQUIP) {
+                pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
                     WREG(64 + gSaveContext.language);
 
-                pauseCtx->namePanelVtx[17].v.ob[0] = pauseCtx->namePanelVtx[19].v.ob[0] =
-                    pauseCtx->namePanelVtx[16].v.ob[0] + 24;
+                pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
+                    pauseCtx->infoPanelVtx[16].v.ob[0] + 24;
 
-                pauseCtx->namePanelVtx[20].v.ob[0] = pauseCtx->namePanelVtx[22].v.ob[0] =
-                    pauseCtx->namePanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
+                pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
+                    pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
 
-                pauseCtx->namePanelVtx[21].v.ob[0] = pauseCtx->namePanelVtx[23].v.ob[0] =
-                    pauseCtx->namePanelVtx[20].v.ob[0] + D_8082ADD8[gSaveContext.language];
+                pauseCtx->infoPanelVtx[21].v.ob[0] = pauseCtx->infoPanelVtx[23].v.ob[0] =
+                    pauseCtx->infoPanelVtx[20].v.ob[0] + D_8082ADD8[gSaveContext.language];
 
-                pauseCtx->namePanelVtx[17].v.tc[0] = pauseCtx->namePanelVtx[19].v.tc[0] = 0x300;
+                pauseCtx->infoPanelVtx[17].v.tc[0] = pauseCtx->infoPanelVtx[19].v.tc[0] = 0x300;
 
-                pauseCtx->namePanelVtx[21].v.tc[0] = pauseCtx->namePanelVtx[23].v.tc[0] =
+                pauseCtx->infoPanelVtx[21].v.tc[0] = pauseCtx->infoPanelVtx[23].v.tc[0] =
                     D_8082ADD8[gSaveContext.language] << 5;
 
                 gSPDisplayList(POLY_OPA_DISP++, gAButtonIconDL);
@@ -1296,67 +1327,21 @@ void func_80821C10(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 2032);
 }
-#else
-UNK_PTR D_8082AD54[3] = {
-    0x0D003C00,
-    0x0D003C00,
-    0x0D003C00,
-};
-UNK_PTR D_8082AD60[3] = {
-    0x0D003F80,
-    0x0D004180,
-    0x0D004100,
-};
-UNK_PTR D_8082AD6C[3] = {
-    0x0D004380,
-    0x0D004700,
-    0x0D004580,
-};
-UNK_PTR D_8082AD78[][3] = {
-    { 0x0D006080, 0x0D006580, 0x0D006480 },
-    { 0x0D004880, 0x0D004D80, 0x0D004C80 },
-    { 0x0D005080, 0x0D005580, 0x0D005480 },
-    { 0x0D005880, 0x0D005D80, 0x0D005C80 },
-};
-UNK_PTR D_8082ADA8[][3] = {
-    { 0x0D005080, 0x0D005580, 0x0D005480 },
-    { 0x0D005880, 0x0D005D80, 0x0D005C80 },
-    { 0x0D006080, 0x0D006580, 0x0D006480 },
-    { 0x0D004880, 0x0D004D80, 0x0D004C80 },
-};
-u16 D_8082ADD8[3] = { 56, 88, 80 };
-u16 D_8082ADE0[3] = { 64, 88, 72 };
-u16 D_8082ADE8[3] = { 80, 104, 112 };
-s16 D_8082ADF0[][4] = {
-    { 180, 210, 255, 220 },
-    { 100, 100, 150, 220 },
-};
-s16 D_8082AE00 = 20;
-s16 D_8082AE04 = 0;
-s16 D_8082AE08[] = {
-    10, 16, 16, 17, 12, 13, 18, 17, 17, 19, 13, 21, 20, 21, 14, 15, 15, 15, 11, 14,
-};
-s16 D_8082AE30[] = {
-    21, 20, 19, 18, 11, 14, 10, 15, 16, 13, 12, 17,
-};
-void func_80821C10(GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/func_80821C10.s")
-#endif
 
-void func_80823548(GlobalContext* globalCtx) {
+void KaleidoScope_UpdateNamePanel(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     u16 sp2A;
 
-    if ((pauseCtx->unk_23C != pauseCtx->unk_23E[pauseCtx->kscpPos]) ||
-        ((pauseCtx->kscpPos == 1) && (pauseCtx->unk_238 != 0))) {
+    if ((pauseCtx->namedItem != pauseCtx->cursorItem[pauseCtx->pageIndex]) ||
+        ((pauseCtx->pageIndex == PAUSE_MAP) && (pauseCtx->cursorSpecialPos != 0))) {
 
-        pauseCtx->unk_23C = pauseCtx->unk_23E[pauseCtx->kscpPos];
-        sp2A = pauseCtx->unk_23C;
+        pauseCtx->namedItem = pauseCtx->cursorItem[pauseCtx->pageIndex];
+        sp2A = pauseCtx->namedItem;
 
         osCreateMesgQueue(&pauseCtx->loadQueue, &pauseCtx->loadMsg, 1);
 
-        if (pauseCtx->unk_23C != 999) {
-            if ((pauseCtx->kscpPos == 1) && (D_8082ABA8 == 0)) {
+        if (pauseCtx->namedItem != PAUSE_ITEM_NONE) {
+            if ((pauseCtx->pageIndex == PAUSE_MAP) && !sInDungeonScene) {
                 if (gSaveContext.language) {
                     sp2A += 12;
                 }
@@ -1367,7 +1352,7 @@ void func_80823548(GlobalContext* globalCtx) {
                 DmaMgr_SendRequest1(pauseCtx->nameSegment, (u32)_map_name_staticSegmentRomStart + (sp2A * 0x400), 0x400,
                                     "../z_kaleido_scope_PAL.c", 2093);
             } else {
-                osSyncPrintf("zoom_name=%d\n", pauseCtx->unk_23C);
+                osSyncPrintf("zoom_name=%d\n", pauseCtx->namedItem);
 
                 if (gSaveContext.language) {
                     sp2A += 123;
@@ -1382,23 +1367,24 @@ void func_80823548(GlobalContext* globalCtx) {
                                     0x400, "../z_kaleido_scope_PAL.c", 2120);
             }
 
-            pauseCtx->unk_25C = 0;
+            pauseCtx->nameDisplayTimer = 0;
         }
-    } else if (pauseCtx->unk_25E == 0) {
-        if (((pauseCtx->kscpPos == 2) && (pauseCtx->unk_246[2] >= 6) && (pauseCtx->unk_246[2] <= 0x11) &&
-             (pauseCtx->unk_1E4 == 8)) ||
-            (pauseCtx->kscpPos == 0) || ((pauseCtx->kscpPos == 3) && (pauseCtx->unk_222[3] != 0))) {
-            if (pauseCtx->unk_23C != 44) {
-                pauseCtx->unk_25C++;
-                if (pauseCtx->unk_25C > WREG(88)) {
-                    pauseCtx->unk_25C = 0;
+    } else if (pauseCtx->nameColorSet == 0) {
+        if (((pauseCtx->pageIndex == PAUSE_QUEST) && (pauseCtx->cursorSlot[PAUSE_QUEST] >= 6) &&
+             (pauseCtx->cursorSlot[PAUSE_QUEST] <= 0x11) && (pauseCtx->unk_1E4 == 8)) ||
+            (pauseCtx->pageIndex == PAUSE_ITEM) ||
+            ((pauseCtx->pageIndex == PAUSE_EQUIP) && (pauseCtx->cursorX[PAUSE_EQUIP] != 0))) {
+            if (pauseCtx->namedItem != ITEM_SOLD_OUT) {
+                pauseCtx->nameDisplayTimer++;
+                if (pauseCtx->nameDisplayTimer > WREG(88)) {
+                    pauseCtx->nameDisplayTimer = 0;
                 }
             }
         } else {
-            pauseCtx->unk_25C = 0;
+            pauseCtx->nameDisplayTimer = 0;
         }
     } else {
-        pauseCtx->unk_25C = 0;
+        pauseCtx->nameDisplayTimer = 0;
     }
 }
 
@@ -1428,13 +1414,13 @@ void func_808237B4(GlobalContext* globalCtx, Input* input) {
 
         if (pauseCtx->unk_1EA == 64) {
             pauseCtx->unk_1EA = 0;
-            pauseCtx->kscpPos = D_8082ABEC[pauseCtx->mode];
+            pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
             pauseCtx->unk_1E4 = 0;
         }
     }
 }
 
-void func_80823994(PauseContext* pauseCtx, f32 x, f32 y, f32 z) {
+void KaleidoScope_SetView(PauseContext* pauseCtx, f32 x, f32 y, f32 z) {
     Vec3f eye;
     Vec3f lookAt;
     Vec3f up;
@@ -1563,15 +1549,7 @@ s16* D_8082B030[] = {
 };
 
 s16* D_8082B048[] = {
-    D_8082AFC4,
-    D_8082AFC8,
-    D_8082AFCC,
-    D_8082AFF0,
-};
-
-s16* D_8082B058[] = {
-    D_8082AB2C,
-    D_8082AFF4,
+    D_8082AFC4, D_8082AFC8, D_8082AFCC, D_8082AFF0, D_8082AB2C, D_8082AFF4,
 };
 
 s16 D_8082B060[] = {
@@ -1620,7 +1598,7 @@ s16 func_80823A0C(GlobalContext* globalCtx, Vtx* vtx, s16 arg2, s16 arg3) {
 
             vtx[phi_t1 + 1].v.ob[0] = vtx[phi_t1 + 3].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] + 80;
 
-            vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = phi_a1 + pauseCtx->unk_20A;
+            vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = phi_a1 + pauseCtx->offsetY;
 
             vtx[phi_t1 + 2].v.ob[1] = vtx[phi_t1 + 3].v.ob[1] = vtx[phi_t1 + 0].v.ob[1] - 32;
 
@@ -1650,7 +1628,7 @@ s16 func_80823A0C(GlobalContext* globalCtx, Vtx* vtx, s16 arg2, s16 arg3) {
             vtx[phi_t1 + 1].v.cn[2] = vtx[phi_t1 + 3].v.cn[2] = D_8082AE78[arg2][phi_t3 + 1];
 
             vtx[phi_t1 + 0].v.cn[3] = vtx[phi_t1 + 2].v.cn[3] = vtx[phi_t1 + 1].v.cn[3] = vtx[phi_t1 + 3].v.cn[3] =
-                pauseCtx->unk_208;
+                pauseCtx->alpha;
         }
     }
 
@@ -1668,9 +1646,9 @@ s16 func_80823A0C(GlobalContext* globalCtx, Vtx* vtx, s16 arg2, s16 arg3) {
             vtx[phi_t1 + 1].v.ob[0] = vtx[phi_t1 + 3].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] + ptr2[phi_t3];
 
             if (!((pauseCtx->state >= 8) && (pauseCtx->state <= 0x11))) {
-                vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = ptr3[phi_t3] + pauseCtx->unk_20A;
+                vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = ptr3[phi_t3] + pauseCtx->offsetY;
             } else {
-                vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = YREG(60 + phi_t3) + pauseCtx->unk_20A;
+                vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = YREG(60 + phi_t3) + pauseCtx->offsetY;
             }
 
             vtx[phi_t1 + 2].v.ob[1] = vtx[phi_t1 + 3].v.ob[1] = vtx[phi_t1 + 0].v.ob[1] - ptr4[phi_t3];
@@ -1691,7 +1669,7 @@ s16 func_80823A0C(GlobalContext* globalCtx, Vtx* vtx, s16 arg2, s16 arg3) {
                         vtx[phi_t1 + 3].v.cn[2] = 255;
 
             vtx[phi_t1 + 0].v.cn[3] = vtx[phi_t1 + 2].v.cn[3] = vtx[phi_t1 + 1].v.cn[3] = vtx[phi_t1 + 3].v.cn[3] =
-                pauseCtx->unk_208;
+                pauseCtx->alpha;
         }
 
         if (arg2 == 4) {
@@ -1705,13 +1683,13 @@ s16 func_80823A0C(GlobalContext* globalCtx, Vtx* vtx, s16 arg2, s16 arg3) {
 
             vtx[phi_t1 + 1].v.ob[0] = vtx[phi_t1 + 3].v.ob[0] = vtx[phi_t1 + 0].v.ob[0] + D_8082B08C[phi_t3];
 
-            vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = D_8082B0B8[phi_t3] + pauseCtx->unk_20A;
+            vtx[phi_t1 + 0].v.ob[1] = vtx[phi_t1 + 1].v.ob[1] = D_8082B0B8[phi_t3] + pauseCtx->offsetY;
 
             vtx[phi_t1 + 2].v.ob[1] = vtx[phi_t1 + 3].v.ob[1] = vtx[phi_t1 + 0].v.ob[1] - D_8082B0E4[phi_t3];
 
             phi_t1 += 12;
 
-            if (pauseCtx->unk_27A != 0xFF) {
+            if (pauseCtx->tradeQuestLocation != 0xFF) {
                 if (D_8082B114 == 0) {
                     D_8082B118++;
                     switch (D_8082B118) {
@@ -1729,7 +1707,7 @@ s16 func_80823A0C(GlobalContext* globalCtx, Vtx* vtx, s16 arg2, s16 arg3) {
                     D_8082B114--;
                 }
 
-                phi_t3 = phi_s2 + (pauseCtx->unk_27A * 4) + 64;
+                phi_t3 = phi_s2 + (pauseCtx->tradeQuestLocation * 4) + 64;
                 phi_a2 = phi_s2 + 116;
 
                 vtx[phi_a2 + 0].v.ob[0] = vtx[phi_a2 + 2].v.ob[0] = vtx[phi_t3 + 0].v.ob[0];
@@ -1757,7 +1735,7 @@ s16 func_80823A0C(GlobalContext* globalCtx, Vtx* vtx, s16 arg2, s16 arg3) {
                             vtx[phi_a2 + 1].v.cn[2] = vtx[phi_a2 + 3].v.cn[2] = 255;
 
                 vtx[phi_a2 + 0].v.cn[3] = vtx[phi_a2 + 2].v.cn[3] = vtx[phi_a2 + 1].v.cn[3] = vtx[phi_a2 + 3].v.cn[3] =
-                    pauseCtx->unk_208;
+                    pauseCtx->alpha;
             }
         }
     }
@@ -1787,22 +1765,21 @@ s16 D_8082B1F8[] = {
     48, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
 };
 
-#ifdef NON_MATCHING
-// regalloc differences
-void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
+void KaleidoScope_InitVertices(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     s16 phi_t1;
     s16 phi_t2;
+    s16 phi_t2_2;
     s16 phi_t3;
     s16 phi_t4;
     s16 phi_t5;
 
-    pauseCtx->unk_20A = 0;
+    pauseCtx->offsetY = 0;
 
     if ((pauseCtx->state == 4) || (pauseCtx->state >= 0x12) ||
         ((pauseCtx->state == 7) && ((pauseCtx->unk_1EC == 2) || (pauseCtx->unk_1EC == 5))) ||
         ((pauseCtx->state >= 8) && (pauseCtx->state <= 0xD))) {
-        pauseCtx->unk_20A = 80;
+        pauseCtx->offsetY = 80;
     }
 
     pauseCtx->itemPageVtx = Graph_Alloc(gfxCtx, 60 * sizeof(Vtx));
@@ -1811,9 +1788,8 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     pauseCtx->equipPageVtx = Graph_Alloc(gfxCtx, 60 * sizeof(Vtx));
     func_80823A0C(globalCtx, pauseCtx->equipPageVtx, 1, 0);
 
-    if (D_8082ABA8 == 0) {
+    if (!sInDungeonScene) {
         pauseCtx->mapPageVtx = Graph_Alloc(gfxCtx, 248 * sizeof(Vtx));
-
         phi_t3 = func_80823A0C(globalCtx, pauseCtx->mapPageVtx, 4, 32);
 
         for (phi_t2 = 0, phi_t5 = 58; phi_t2 < 15; phi_t2++, phi_t3 += 4, phi_t5 -= 9) {
@@ -1824,7 +1800,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 pauseCtx->mapPageVtx[phi_t3 + 0].v.ob[0] + 216;
 
             pauseCtx->mapPageVtx[phi_t3 + 0].v.ob[1] = pauseCtx->mapPageVtx[phi_t3 + 1].v.ob[1] =
-                phi_t5 + pauseCtx->unk_20A;
+                phi_t5 + pauseCtx->offsetY;
 
             pauseCtx->mapPageVtx[phi_t3 + 2].v.ob[1] = pauseCtx->mapPageVtx[phi_t3 + 3].v.ob[1] =
                 pauseCtx->mapPageVtx[phi_t3 + 0].v.ob[1] - 9;
@@ -1851,7 +1827,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                                     pauseCtx->mapPageVtx[phi_t3 + 0].v.cn[3] =
                                         pauseCtx->mapPageVtx[phi_t3 + 2].v.cn[3] =
                                             pauseCtx->mapPageVtx[phi_t3 + 1].v.cn[3] =
-                                                pauseCtx->mapPageVtx[phi_t3 + 3].v.cn[3] = pauseCtx->unk_208;
+                                                pauseCtx->mapPageVtx[phi_t3 + 3].v.cn[3] = pauseCtx->alpha;
         }
 
         pauseCtx->mapPageVtx[phi_t3 - 2].v.ob[1] = pauseCtx->mapPageVtx[phi_t3 - 1].v.ob[1] =
@@ -1900,7 +1876,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] + 0x1C;
 
             pauseCtx->itemVtx[phi_t2 + 0].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 1].v.ob[1] =
-                phi_t5 + pauseCtx->unk_20A - 2;
+                phi_t5 + pauseCtx->offsetY - 2;
 
             pauseCtx->itemVtx[phi_t2 + 2].v.ob[1] = pauseCtx->itemVtx[phi_t2 + 3].v.ob[1] =
                 pauseCtx->itemVtx[phi_t2 + 0].v.ob[1] - 0x1C;
@@ -1965,7 +1941,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                                 pauseCtx->itemVtx[phi_t2 + 2].v.cn[2] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[2] = 255;
 
             pauseCtx->itemVtx[phi_t2 + 0].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[3] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[3] = pauseCtx->unk_208;
+                pauseCtx->itemVtx[phi_t2 + 2].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[3] = pauseCtx->alpha;
         } else {
             pauseCtx->itemVtx[phi_t2 + 0].v.ob[0] = pauseCtx->itemVtx[phi_t2 + 2].v.ob[0] = -300;
 
@@ -2027,7 +2003,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                                 pauseCtx->itemVtx[phi_t2 + 2].v.cn[2] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[2] = 255;
 
             pauseCtx->itemVtx[phi_t2 + 0].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 1].v.cn[3] =
-                pauseCtx->itemVtx[phi_t2 + 2].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[3] = pauseCtx->unk_208;
+                pauseCtx->itemVtx[phi_t2 + 2].v.cn[3] = pauseCtx->itemVtx[phi_t2 + 3].v.cn[3] = pauseCtx->alpha;
         }
     }
 
@@ -2041,7 +2017,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 pauseCtx->equipVtx[phi_t4 + 0].v.ob[0] + 28;
 
             pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 1].v.ob[1] =
-                phi_t5 + pauseCtx->unk_20A - 2;
+                phi_t5 + pauseCtx->offsetY - 2;
 
             pauseCtx->equipVtx[phi_t4 + 2].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[1] =
                 pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] - 28;
@@ -2066,7 +2042,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                                 pauseCtx->equipVtx[phi_t4 + 2].v.cn[2] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[2] = 255;
 
             pauseCtx->equipVtx[phi_t4 + 0].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[3] =
-                pauseCtx->equipVtx[phi_t4 + 2].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[3] = pauseCtx->unk_208;
+                pauseCtx->equipVtx[phi_t4 + 2].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[3] = pauseCtx->alpha;
         }
     }
 
@@ -2106,7 +2082,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                                 pauseCtx->equipVtx[phi_t4 + 2].v.cn[2] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[2] = 255;
 
             pauseCtx->equipVtx[phi_t4 + 0].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[3] =
-                pauseCtx->equipVtx[phi_t4 + 2].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[3] = pauseCtx->unk_208;
+                pauseCtx->equipVtx[phi_t4 + 2].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[3] = pauseCtx->alpha;
         }
     }
 
@@ -2118,7 +2094,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
         pauseCtx->equipVtx[phi_t4 + 1].v.ob[0] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[0] =
             pauseCtx->equipVtx[phi_t4 + 0].v.ob[0] + 64;
 
-        pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 1].v.ob[1] = phi_t5 + pauseCtx->unk_20A;
+        pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 1].v.ob[1] = phi_t5 + pauseCtx->offsetY;
 
         pauseCtx->equipVtx[phi_t4 + 2].v.ob[1] = pauseCtx->equipVtx[phi_t4 + 3].v.ob[1] =
             pauseCtx->equipVtx[phi_t4 + 0].v.ob[1] - 32;
@@ -2144,7 +2120,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                             pauseCtx->equipVtx[phi_t4 + 2].v.cn[2] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[2] = 255;
 
         pauseCtx->equipVtx[phi_t4 + 0].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 1].v.cn[3] =
-            pauseCtx->equipVtx[phi_t4 + 2].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[3] = pauseCtx->unk_208;
+            pauseCtx->equipVtx[phi_t4 + 2].v.cn[3] = pauseCtx->equipVtx[phi_t4 + 3].v.cn[3] = pauseCtx->alpha;
 
         phi_t1 -= 32;
         phi_t5 -= 32;
@@ -2162,7 +2138,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     pauseCtx->questVtx = Graph_Alloc(gfxCtx, 188 * sizeof(Vtx));
 
     for (phi_t4 = 0, phi_t3 = 0; phi_t3 < 47; phi_t3++, phi_t4 += 4) {
-        phi_t2 = D_8082B1F8[phi_t3];
+        phi_t2_2 = D_8082B1F8[phi_t3];
 
         if ((phi_t3 < 6) || (phi_t3 >= 41)) {
             pauseCtx->questVtx[phi_t4 + 0].v.ob[0] = pauseCtx->questVtx[phi_t4 + 2].v.ob[0] = D_8082B138[phi_t3];
@@ -2171,7 +2147,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 pauseCtx->questVtx[phi_t4 + 0].v.ob[0] + D_8082B1F8[phi_t3];
 
             pauseCtx->questVtx[phi_t4 + 0].v.ob[1] = pauseCtx->questVtx[phi_t4 + 1].v.ob[1] =
-                D_8082B198[phi_t3] + pauseCtx->unk_20A;
+                D_8082B198[phi_t3] + pauseCtx->offsetY;
 
             pauseCtx->questVtx[phi_t4 + 2].v.ob[1] = pauseCtx->questVtx[phi_t4 + 3].v.ob[1] =
                 pauseCtx->questVtx[phi_t4 + 0].v.ob[1] - D_8082B1F8[phi_t3];
@@ -2181,25 +2157,25 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                     pauseCtx->questVtx[phi_t4 + 0].v.ob[0] + 8;
 
                 pauseCtx->questVtx[phi_t4 + 0].v.ob[1] = pauseCtx->questVtx[phi_t4 + 1].v.ob[1] =
-                    D_8082B198[phi_t3] + pauseCtx->unk_20A - 6;
+                    D_8082B198[phi_t3] + pauseCtx->offsetY - 6;
 
                 pauseCtx->questVtx[phi_t4 + 2].v.ob[1] = pauseCtx->questVtx[phi_t4 + 3].v.ob[1] =
                     pauseCtx->questVtx[phi_t4 + 0].v.ob[1] - 16;
 
-                phi_t2 = 8;
+                phi_t2_2 = 8;
             }
         } else {
             if ((phi_t3 >= 6) && (phi_t3 <= 17)) {
-                phi_t2 = 16;
+                phi_t2_2 = 16;
             }
 
             pauseCtx->questVtx[phi_t4 + 0].v.ob[0] = pauseCtx->questVtx[phi_t4 + 2].v.ob[0] = D_8082B138[phi_t3] + 2;
 
             pauseCtx->questVtx[phi_t4 + 1].v.ob[0] = pauseCtx->questVtx[phi_t4 + 3].v.ob[0] =
-                pauseCtx->questVtx[phi_t4 + 0].v.ob[0] + phi_t2 - 4;
+                pauseCtx->questVtx[phi_t4 + 0].v.ob[0] + phi_t2_2 - 4;
 
             pauseCtx->questVtx[phi_t4 + 0].v.ob[1] = pauseCtx->questVtx[phi_t4 + 1].v.ob[1] =
-                D_8082B198[phi_t3] + pauseCtx->unk_20A - 2;
+                D_8082B198[phi_t3] + pauseCtx->offsetY - 2;
 
             pauseCtx->questVtx[phi_t4 + 2].v.ob[1] = pauseCtx->questVtx[phi_t4 + 3].v.ob[1] =
                 pauseCtx->questVtx[phi_t4 + 0].v.ob[1] - D_8082B1F8[phi_t3] + 4;
@@ -2214,7 +2190,7 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
         pauseCtx->questVtx[phi_t4 + 0].v.tc[0] = pauseCtx->questVtx[phi_t4 + 0].v.tc[1] =
             pauseCtx->questVtx[phi_t4 + 1].v.tc[1] = pauseCtx->questVtx[phi_t4 + 2].v.tc[0] = 0;
 
-        pauseCtx->questVtx[phi_t4 + 1].v.tc[0] = pauseCtx->questVtx[phi_t4 + 3].v.tc[0] = phi_t2 << 5;
+        pauseCtx->questVtx[phi_t4 + 1].v.tc[0] = pauseCtx->questVtx[phi_t4 + 3].v.tc[0] = phi_t2_2 << 5;
         pauseCtx->questVtx[phi_t4 + 2].v.tc[1] = pauseCtx->questVtx[phi_t4 + 3].v.tc[1] = D_8082B1F8[phi_t3] << 5;
 
         pauseCtx->questVtx[phi_t4 + 0].v.cn[0] = pauseCtx->questVtx[phi_t4 + 1].v.cn[0] =
@@ -2225,20 +2201,16 @@ void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                             pauseCtx->questVtx[phi_t4 + 2].v.cn[2] = pauseCtx->questVtx[phi_t4 + 3].v.cn[2] = 255;
 
         pauseCtx->questVtx[phi_t4 + 0].v.cn[3] = pauseCtx->questVtx[phi_t4 + 1].v.cn[3] =
-            pauseCtx->questVtx[phi_t4 + 2].v.cn[3] = pauseCtx->questVtx[phi_t4 + 3].v.cn[3] = pauseCtx->unk_208;
+            pauseCtx->questVtx[phi_t4 + 2].v.cn[3] = pauseCtx->questVtx[phi_t4 + 3].v.cn[3] = pauseCtx->alpha;
     }
 
-    pauseCtx->namePanelVtx = Graph_Alloc(gfxCtx, 28 * sizeof(Vtx));
-    pauseCtx->saveVtx = Graph_Alloc(gfxCtx, 80 * sizeof(Vtx));
+    pauseCtx->infoPanelVtx = Graph_Alloc(gfxCtx, 28 * sizeof(Vtx));
 
+    pauseCtx->saveVtx = Graph_Alloc(gfxCtx, 80 * sizeof(Vtx));
     func_80823A0C(globalCtx, pauseCtx->saveVtx, 5, 5);
 }
-#else
-void func_8082409C(GlobalContext* globalCtx, GraphicsContext* gfxCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/func_8082409C.s")
-#endif
 
-void func_80825C14(GlobalContext* globalCtx) {
+void KaleidoScope_DrawGameOver(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_scope_PAL.c", 3122);
@@ -2301,49 +2273,52 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x0C, pauseCtx->iconItemAltSegment);
     gSPSegment(POLY_OPA_DISP++, 0x0D, pauseCtx->iconItemLangSegment);
 
-    if (pauseCtx->flag == 0) {
-        func_80823994(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
-        func_800949A8(globalCtx->state.gfxCtx);
-        func_8082409C(globalCtx, globalCtx->state.gfxCtx);
-        func_80820434(globalCtx, globalCtx->state.gfxCtx);
-        func_800949A8(globalCtx->state.gfxCtx);
+    if (pauseCtx->debugState == 0) {
+        KaleidoScope_SetView(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
 
+        func_800949A8(globalCtx->state.gfxCtx);
+        KaleidoScope_InitVertices(globalCtx, globalCtx->state.gfxCtx);
+        KaleidoScope_DrawPages(globalCtx, globalCtx->state.gfxCtx);
+
+        func_800949A8(globalCtx->state.gfxCtx);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-        func_80823994(pauseCtx, 0.0f, 0.0f, 64.0f);
+        KaleidoScope_SetView(pauseCtx, 0.0f, 0.0f, 64.0f);
 
         if (!((pauseCtx->state >= 8) && (pauseCtx->state <= 0x11))) {
-            func_80821C10(globalCtx);
+            KaleidoScope_DrawInfoPanel(globalCtx);
         }
     }
 
     if ((pauseCtx->state >= 0xB) && (pauseCtx->state <= 0x11)) {
-        func_80825C14(globalCtx);
+        KaleidoScope_DrawGameOver(globalCtx);
     }
 
-    if ((pauseCtx->flag == 1) || (pauseCtx->flag == 2)) {
-        KaleidoScope_DrawDebugMenu(globalCtx);
+    if ((pauseCtx->debugState == 1) || (pauseCtx->debugState == 2)) {
+        KaleidoScope_DrawDebugEditor(globalCtx);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3254);
 }
 
-void func_8082650C(u32* arg0, u16 arg1) {
-    u32 temp1;
-    u16 temp2;
+void KaleidoScope_GrayOutTextureRGBA32(u32* texture, u16 pixelCount) {
+    u32 rgb;
+    u16 gray;
     u16 i;
 
-    for (i = 0; i < arg1; i++) {
-        if (arg0[i] & 0xFFFFFF00) {
-            temp1 = arg0[i] >> 8;
-            temp2 = ((((temp1 & 0xFF0000) >> 16) + ((temp1 & 0xFF00) >> 7) + (temp1 & 0xFF)) / 7) & 0xFF;
-            temp1 = temp2;
-            temp1 <<= 8;
-            temp1 |= temp2;
-            temp1 <<= 8;
-            temp1 |= temp2;
-            arg0[i] = (temp1 << 8) | (arg0[i] & 0xFF);
+    for (i = 0; i < pixelCount; i++) {
+        if ((texture[i] & 0xFFFFFF00) != 0) {
+            rgb = texture[i] >> 8;
+            gray = ((((rgb & 0xFF0000) >> 16) + ((rgb & 0xFF00) >> 7) + (rgb & 0xFF)) / 7) & 0xFF;
+
+            rgb = gray;
+            rgb <<= 8;
+            rgb |= gray;
+            rgb <<= 8;
+            rgb |= gray;
+
+            texture[i] = (rgb << 8) | (texture[i] & 0xFF);
         }
     }
 }
@@ -2357,41 +2332,41 @@ void func_808265BC(GlobalContext* globalCtx) {
 
     if (pauseCtx->unk_1EA == (64 * ZREG(47))) {
         func_80084BF4(globalCtx, 1);
-        gSaveContext.buttonStatus[0] = D_8082AB6C[pauseCtx->kscpPos][0];
-        gSaveContext.buttonStatus[1] = D_8082AB6C[pauseCtx->kscpPos][1];
-        gSaveContext.buttonStatus[2] = D_8082AB6C[pauseCtx->kscpPos][2];
-        gSaveContext.buttonStatus[3] = D_8082AB6C[pauseCtx->kscpPos][3];
-        gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->kscpPos][4];
-        pauseCtx->kscpPos = D_8082ABEC[pauseCtx->mode];
+        gSaveContext.buttonStatus[0] = D_8082AB6C[pauseCtx->pageIndex][0];
+        gSaveContext.buttonStatus[1] = D_8082AB6C[pauseCtx->pageIndex][1];
+        gSaveContext.buttonStatus[2] = D_8082AB6C[pauseCtx->pageIndex][2];
+        gSaveContext.buttonStatus[3] = D_8082AB6C[pauseCtx->pageIndex][3];
+        gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->pageIndex][4];
+        pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
         pauseCtx->unk_1E4 = 0;
         pauseCtx->state++;
-        pauseCtx->unk_208 = 0xFF;
+        pauseCtx->alpha = 255;
         Interface_LoadActionLabelB(globalCtx, 0xE);
     } else if (pauseCtx->unk_1EA == 64) {
-        pauseCtx->kscpPos = D_8082ABEC[pauseCtx->mode];
-        pauseCtx->mode = (u16)(pauseCtx->kscpPos * 2) + 1;
+        pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
+        pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
     }
 }
 
-void func_808267AC(GlobalContext* globalCtx) {
+void KaleidoScope_UpdateCursorSize(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     s32 temp1;
     s32 temp2;
     s32 temp3;
     s32 temp4;
 
-    if (pauseCtx->unk_238 == 0) {
+    if (pauseCtx->cursorSpecialPos == 0) {
         temp1 = -1;
         temp2 = 1;
         temp3 = 14;
         temp4 = 14;
-        if (pauseCtx->kscpPos == 1) {
-            if (D_8082ABA8 == 0) {
+        if (pauseCtx->pageIndex == PAUSE_MAP) {
+            if (!sInDungeonScene) {
                 temp1 = -6;
                 temp2 = 6;
                 temp3 = 4;
                 temp4 = 4;
-            } else if (pauseCtx->unk_246[pauseCtx->kscpPos] >= 3) {
+            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] >= 3) {
                 temp1 = -6;
                 temp2 = 5;
                 temp4 = 7;
@@ -2402,27 +2377,28 @@ void func_808267AC(GlobalContext* globalCtx) {
                 temp3 = 13;
                 temp4 = 13;
             }
-        } else if (pauseCtx->kscpPos == 2) {
+        } else if (pauseCtx->pageIndex == PAUSE_QUEST) {
             temp1 = -4;
             temp2 = 4;
             temp3 = 12;
             temp4 = 12;
-            if (pauseCtx->unk_246[pauseCtx->kscpPos] == 0x18) {
+            if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == 0x18) {
                 temp1 = -2;
                 temp2 = 2;
                 temp3 = 32;
                 temp4 = 32;
-            } else if (pauseCtx->unk_246[pauseCtx->kscpPos] == 0x17) {
+            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] == 0x17) {
                 temp1 = -4;
                 temp2 = 4;
                 temp4 = 13;
                 temp3 = 34;
-            } else if (pauseCtx->unk_246[pauseCtx->kscpPos] < 6) {
+            } else if (pauseCtx->cursorSlot[pauseCtx->pageIndex] < 6) {
                 temp1 = -1;
                 temp2 = 1;
                 temp3 = 10;
                 temp4 = 10;
-            } else if ((pauseCtx->unk_246[pauseCtx->kscpPos] >= 6) && (pauseCtx->unk_246[pauseCtx->kscpPos] < 0x12)) {
+            } else if ((pauseCtx->cursorSlot[pauseCtx->pageIndex] >= 6) &&
+                       (pauseCtx->cursorSlot[pauseCtx->pageIndex] < 0x12)) {
                 temp1 = -5;
                 temp2 = 3;
                 temp3 = 8;
@@ -2457,36 +2433,36 @@ void func_808267AC(GlobalContext* globalCtx) {
     pauseCtx->cursorVtx[14].v.ob[1] = pauseCtx->cursorVtx[15].v.ob[1] = pauseCtx->cursorVtx[12].v.ob[1] - 16;
 }
 
-void func_80826AEC(GlobalContext* globalCtx) {
+void KaleidoScope_LoadDungeonMap(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    u8* romStart = _map_48x85_staticSegmentRomStart;
+    s32 pad;
 
-    DmaMgr_SendRequest1(interfaceCtx->mapSegment, (u32)_map_48x85_staticSegmentRomStart + (R_MAP_TEX_INDEX * 0x7F8),
-                        0x7F8, "../z_kaleido_scope_PAL.c", 3467);
+    DmaMgr_SendRequest1(interfaceCtx->mapSegment, (u32)_map_48x85_staticSegmentRomStart + (R_MAP_TEX_INDEX * 2040),
+                        2040, "../z_kaleido_scope_PAL.c", 3467);
 
     DmaMgr_SendRequest1(interfaceCtx->mapSegment + 0x800,
-                        (u32)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 1) * 0x7F8), 0x7F8,
+                        (u32)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 1) * 2040), 2040,
                         "../z_kaleido_scope_PAL.c", 3471);
 }
 
-void func_80826BA8(GlobalContext* globalCtx) {
+void KaleidoScope_UpdateDungeonMap(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
-    osSyncPrintf("ＭＡＰ ＤＭＡ = %d\n", globalCtx->interfaceCtx.mapPaletteNum);
+    osSyncPrintf("ＭＡＰ ＤＭＡ = %d\n", globalCtx->interfaceCtx.mapPaletteIndex);
 
-    func_80826AEC(globalCtx);
-    Map_SetFloorPalettesData(globalCtx, pauseCtx->unk_236 - 3);
+    KaleidoScope_LoadDungeonMap(globalCtx);
+    Map_SetFloorPalettesData(globalCtx, pauseCtx->dungeonMapSlot - 3);
 
     if ((globalCtx->sceneNum >= SCENE_YDAN) && (globalCtx->sceneNum <= SCENE_TAKARAYA)) {
-        if ((VREG(30) + 3) == pauseCtx->unk_218[1]) {
-            func_8081F6E4(interfaceCtx->mapSegment, 0x7F8, interfaceCtx->mapPaletteNum, 0xE);
+        if ((VREG(30) + 3) == pauseCtx->cursorPoint[PAUSE_MAP]) {
+            KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment, 2040, interfaceCtx->mapPaletteIndex, 14);
         }
     }
 
     if ((globalCtx->sceneNum >= SCENE_YDAN) && (globalCtx->sceneNum <= SCENE_TAKARAYA)) {
-        if ((VREG(30) + 3) == pauseCtx->unk_218[1]) {
-            func_8081F6E4(interfaceCtx->mapSegment + 0x800, 0x7F8, interfaceCtx->mapPaletteNum, 0xE);
+        if ((VREG(30) + 3) == pauseCtx->cursorPoint[PAUSE_MAP]) {
+            KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment + 0x800, 2040, interfaceCtx->mapPaletteIndex, 14);
         }
     }
 }
@@ -2505,10 +2481,10 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
     u32 size1;
     u32 size2;
     u16 i;
-    s16 temp1;
-    s16 temp2;
-    s16 temp3;
-    s16 temp4;
+    s16 stepR;
+    s16 stepG;
+    s16 stepB;
+    s16 stepA;
     s32 pad;
 
     if ((R_PAUSE_MENU_MODE >= 3) && (((pauseCtx->state >= 4) && (pauseCtx->state <= 7)) ||
@@ -2517,14 +2493,14 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
         if ((!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 8)) && (pauseCtx->state == 6)) {
             pauseCtx->stickRelX = input->rel.stick_x;
             pauseCtx->stickRelY = input->rel.stick_y;
-            func_808267AC(globalCtx);
-            func_8081FCF4(pauseCtx, input);
-        } else if ((pauseCtx->kscpPos == 2) && ((pauseCtx->unk_1E4 < 3) || (pauseCtx->unk_1E4 == 5))) {
-            func_808267AC(globalCtx);
+            KaleidoScope_UpdateCursorSize(globalCtx);
+            KaleidoScope_HandlePageToggles(pauseCtx, input);
+        } else if ((pauseCtx->pageIndex == PAUSE_QUEST) && ((pauseCtx->unk_1E4 < 3) || (pauseCtx->unk_1E4 == 5))) {
+            KaleidoScope_UpdateCursorSize(globalCtx);
         }
 
         if (pauseCtx->state == 6) {
-            func_80823548(globalCtx);
+            KaleidoScope_UpdateNamePanel(globalCtx);
         }
     }
 
@@ -2536,8 +2512,9 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             D_808321A8[3] = gSaveContext.buttonStatus[3];
             D_808321A8[4] = gSaveContext.buttonStatus[4];
 
-            pauseCtx->unk_222[1] = 0;
-            pauseCtx->unk_246[1] = pauseCtx->unk_218[1] = pauseCtx->unk_236 = VREG(30) + 3;
+            pauseCtx->cursorX[PAUSE_MAP] = 0;
+            pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot =
+                VREG(30) + 3;
 
             WREG(16) = -175;
             WREG(17) = 155;
@@ -2558,9 +2535,9 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             gSegments[8] = VIRTUAL_TO_PHYSICAL(pauseCtx->iconItemSegment);
 
-            for (i = 0; i < ARRAY_COUNTU(D_8082AC24); i++) {
-                if ((D_8082AC24[i] != 9) && (D_8082AC24[i] != ((void)0, gSaveContext.linkAge))) {
-                    func_8082650C(SEGMENTED_TO_VIRTUAL(gItemIcons[i]), 0x400);
+            for (i = 0; i < ARRAY_COUNTU(gItemAgeReqs); i++) {
+                if ((gItemAgeReqs[i] != 9) && (gItemAgeReqs[i] != ((void)0, gSaveContext.linkAge))) {
+                    KaleidoScope_GrayOutTextureRGBA32(SEGMENTED_TO_VIRTUAL(gItemIcons[i]), 0x400);
                 }
             }
 
@@ -2592,7 +2569,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 case SCENE_MIZUSIN_BS:
                 case SCENE_JYASINBOSS:
                 case SCENE_HAKADAN_BS:
-                    D_8082ABA8 = 1;
+                    sInDungeonScene = true;
                     size2 = (u32)_icon_item_dungeon_staticSegmentRomEnd - (u32)_icon_item_dungeon_staticSegmentRomStart;
                     osSyncPrintf("icon_item_dungeon dungeon-size2=%x\n", size2);
                     DmaMgr_SendRequest1(pauseCtx->iconItemAltSegment, (u32)_icon_item_dungeon_staticSegmentRomStart,
@@ -2600,11 +2577,11 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
                     interfaceCtx->mapPalette[28] = 6;
                     interfaceCtx->mapPalette[29] = 99;
-                    func_80826BA8(globalCtx);
+                    KaleidoScope_UpdateDungeonMap(globalCtx);
                     break;
 
                 default:
-                    D_8082ABA8 = 0;
+                    sInDungeonScene = false;
                     size2 = (u32)_icon_item_field_staticSegmentRomEnd - (u32)_icon_item_field_staticSegmentRomStart;
                     osSyncPrintf("icon_item_field field-size2=%x\n", size2);
                     DmaMgr_SendRequest1(pauseCtx->iconItemAltSegment, (u32)_icon_item_field_staticSegmentRomStart,
@@ -2638,7 +2615,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             Interface_SetDoAction(globalCtx, 6);
             osSyncPrintf("サイズ＝%x\n", size2 + size1 + size0 + size + 0x800);
 
-            if (((void)0, gSaveContext.worldMapArea) < 0x16) {
+            if (((void)0, gSaveContext.worldMapArea) < 22) {
                 if (gSaveContext.language == 0) {
                     DmaMgr_SendRequest1(pauseCtx->nameSegment + 0x400,
                                         (u32)_map_name_staticSegmentRomStart +
@@ -2665,224 +2642,224 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             KaleidoScope_DrawPlayerWork(globalCtx);
             KaleidoScope_SetupPlayerPreRender(globalCtx);
 
-            for (i = 0; i < ARRAY_COUNT(pauseCtx->unk_266); i++) {
-                pauseCtx->unk_266[i] = 0;
+            for (i = 0; i < ARRAY_COUNT(pauseCtx->worldMapPoints); i++) {
+                pauseCtx->worldMapPoints[i] = 0;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
-                pauseCtx->unk_266[0] = 2;
+                pauseCtx->worldMapPoints[0] = 2;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
-                pauseCtx->unk_266[0] = 1;
+                pauseCtx->worldMapPoints[0] = 1;
             }
 
             if (INV_CONTENT(ITEM_LONGSHOT) == ITEM_LONGSHOT) {
-                pauseCtx->unk_266[1] = 2;
+                pauseCtx->worldMapPoints[1] = 2;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
-                pauseCtx->unk_266[1] = 1;
+                pauseCtx->worldMapPoints[1] = 1;
             }
 
             if (gSaveContext.eventChkInf[11] & 4) {
-                pauseCtx->unk_266[2] = 1;
+                pauseCtx->worldMapPoints[2] = 1;
             }
 
             if (INV_CONTENT(ITEM_LONGSHOT) == ITEM_LONGSHOT) {
-                pauseCtx->unk_266[2] = 2;
+                pauseCtx->worldMapPoints[2] = 2;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
-                pauseCtx->unk_266[2] = 1;
+                pauseCtx->worldMapPoints[2] = 1;
             }
 
             if (CUR_UPG_VALUE(UPG_SCALE)) {
-                pauseCtx->unk_266[3] = 1;
+                pauseCtx->worldMapPoints[3] = 1;
             }
 
             if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1)) {
-                pauseCtx->unk_266[3] = 2;
+                pauseCtx->worldMapPoints[3] = 2;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_WATER)) {
-                pauseCtx->unk_266[3] = 1;
+                pauseCtx->worldMapPoints[3] = 1;
             }
 
             if (gSaveContext.eventChkInf[0] & 0x200) {
-                pauseCtx->unk_266[4] = 1;
+                pauseCtx->worldMapPoints[4] = 1;
             }
 
-            if (INV_CONTENT(7) != ITEM_NONE) {
-                pauseCtx->unk_266[4] = 2;
+            if (INV_CONTENT(ITEM_OCARINA_FAIRY) != ITEM_NONE) {
+                pauseCtx->worldMapPoints[4] = 2;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
-                pauseCtx->unk_266[4] = 1;
+                pauseCtx->worldMapPoints[4] = 1;
             }
 
             if (gSaveContext.eventChkInf[6] & 0x400) {
-                pauseCtx->unk_266[4] = 2;
+                pauseCtx->worldMapPoints[4] = 2;
             }
 
             if (gSaveContext.eventChkInf[1] & 0x100) {
-                pauseCtx->unk_266[4] = 1;
+                pauseCtx->worldMapPoints[4] = 1;
             }
 
             if (gSaveContext.eventChkInf[0] & 0x200) {
-                pauseCtx->unk_266[5] = 2;
+                pauseCtx->worldMapPoints[5] = 2;
             }
 
             if (gSaveContext.eventChkInf[4] & 1) {
-                pauseCtx->unk_266[5] = 1;
+                pauseCtx->worldMapPoints[5] = 1;
             }
 
             if (INV_CONTENT(ITEM_OCARINA_TIME) == ITEM_OCARINA_TIME) {
-                pauseCtx->unk_266[5] = 2;
+                pauseCtx->worldMapPoints[5] = 2;
             }
 
             if (gSaveContext.eventChkInf[4] & 0x20) {
-                pauseCtx->unk_266[5] = 1;
+                pauseCtx->worldMapPoints[5] = 1;
             }
 
             if (INV_CONTENT(ITEM_ARROW_LIGHT) == ITEM_ARROW_LIGHT) {
-                pauseCtx->unk_266[5] = 2;
+                pauseCtx->worldMapPoints[5] = 2;
             }
 
             if (gSaveContext.eventChkInf[0] & 0x200) {
-                pauseCtx->unk_266[6] = 1;
+                pauseCtx->worldMapPoints[6] = 1;
             }
 
             if (gSaveContext.eventChkInf[4] & 1) {
-                pauseCtx->unk_266[7] = 2;
+                pauseCtx->worldMapPoints[7] = 2;
             }
 
             if (gSaveContext.eventChkInf[2] & 0x20) {
-                pauseCtx->unk_266[7] = 1;
+                pauseCtx->worldMapPoints[7] = 1;
             }
 
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
-                pauseCtx->unk_266[7] = 2;
+                pauseCtx->worldMapPoints[7] = 2;
             }
 
             if (gSaveContext.eventChkInf[4] & 0x200) {
-                pauseCtx->unk_266[7] = 1;
+                pauseCtx->worldMapPoints[7] = 1;
             }
 
             if (gBitFlags[1] & gSaveContext.worldMapAreaData) {
-                pauseCtx->unk_266[8] = 1;
+                pauseCtx->worldMapPoints[8] = 1;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-                pauseCtx->unk_266[8] = 2;
+                pauseCtx->worldMapPoints[8] = 2;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
-                pauseCtx->unk_266[8] = 1;
+                pauseCtx->worldMapPoints[8] = 1;
             }
 
             if (gSaveContext.eventChkInf[4] & 0x20) {
-                pauseCtx->unk_266[8] = 2;
+                pauseCtx->worldMapPoints[8] = 2;
             }
 
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
-                pauseCtx->unk_266[8] = 1;
+                pauseCtx->worldMapPoints[8] = 1;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_SONG_STORMS)) {
-                pauseCtx->unk_266[8] = 2;
+                pauseCtx->worldMapPoints[8] = 2;
             }
 
             if (gSaveContext.eventChkInf[6] & 0x80) {
-                pauseCtx->unk_266[8] = 1;
+                pauseCtx->worldMapPoints[8] = 1;
             }
 
             if (gSaveContext.eventChkInf[10] & 0x400) {
-                pauseCtx->unk_266[8] = 2;
+                pauseCtx->worldMapPoints[8] = 2;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
-                pauseCtx->unk_266[8] = 1;
+                pauseCtx->worldMapPoints[8] = 1;
             }
 
             if (gBitFlags[10] & gSaveContext.worldMapAreaData) {
-                pauseCtx->unk_266[9] = 1;
+                pauseCtx->worldMapPoints[9] = 1;
             }
 
             if (gSaveContext.eventChkInf[0] & 0x8000) {
-                pauseCtx->unk_266[9] = 2;
+                pauseCtx->worldMapPoints[9] = 2;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
-                pauseCtx->unk_266[9] = 1;
+                pauseCtx->worldMapPoints[9] = 1;
             }
 
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
-                pauseCtx->unk_266[9] = 2;
+                pauseCtx->worldMapPoints[9] = 2;
             }
 
             if (gSaveContext.eventChkInf[4] & 0x100) {
-                pauseCtx->unk_266[9] = 1;
+                pauseCtx->worldMapPoints[9] = 1;
             }
 
-            pauseCtx->unk_266[10] = 2;
+            pauseCtx->worldMapPoints[10] = 2;
 
             if (gSaveContext.eventChkInf[0] & 0x200) {
-                pauseCtx->unk_266[10] = 1;
+                pauseCtx->worldMapPoints[10] = 1;
             }
 
             if (gSaveContext.eventChkInf[6] & 0x4000) {
-                pauseCtx->unk_266[10] = 2;
+                pauseCtx->worldMapPoints[10] = 2;
             }
 
             if (gSaveContext.eventChkInf[0] & 0x8000) {
-                pauseCtx->unk_266[10] = 1;
+                pauseCtx->worldMapPoints[10] = 1;
             }
 
             if (CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-                pauseCtx->unk_266[11] = 1;
+                pauseCtx->worldMapPoints[11] = 1;
             }
 
             if (gSaveContext.eventChkInf[2] & 0x20) {
-                pauseCtx->unk_266[11] = 2;
+                pauseCtx->worldMapPoints[11] = 2;
             }
 
             if (gSaveContext.eventChkInf[3] & 0x80) {
-                pauseCtx->unk_266[11] = 1;
+                pauseCtx->worldMapPoints[11] = 1;
             }
 
             if (INV_CONTENT(ITEM_HOOKSHOT) == ITEM_HOOKSHOT) {
-                pauseCtx->unk_266[11] = 2;
+                pauseCtx->worldMapPoints[11] = 2;
             }
 
             if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1)) {
-                pauseCtx->unk_266[11] = 1;
+                pauseCtx->worldMapPoints[11] = 1;
             }
 
-            pauseCtx->unk_27A = 0xFF;
+            pauseCtx->tradeQuestLocation = 0xFF;
 
             i = INV_CONTENT(ITEM_TRADE_ADULT);
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
                 if ((i <= ITEM_POCKET_CUCCO) || (i == ITEM_ODD_MUSHROOM)) {
-                    pauseCtx->unk_27A = 8;
+                    pauseCtx->tradeQuestLocation = 8;
                 }
                 if ((i == ITEM_COJIRO) || (i == ITEM_ODD_POTION)) {
-                    pauseCtx->unk_27A = 9;
+                    pauseCtx->tradeQuestLocation = 9;
                 }
                 if (i == ITEM_SAW) {
-                    pauseCtx->unk_27A = 2;
+                    pauseCtx->tradeQuestLocation = 2;
                 }
                 if ((i == ITEM_SWORD_BROKEN) || (i == ITEM_EYEDROPS)) {
-                    pauseCtx->unk_27A = 7;
+                    pauseCtx->tradeQuestLocation = 7;
                 }
                 if (i == ITEM_PRESCRIPTION) {
-                    pauseCtx->unk_27A = 11;
+                    pauseCtx->tradeQuestLocation = 11;
                 }
                 if (i == ITEM_FROG) {
-                    pauseCtx->unk_27A = 3;
+                    pauseCtx->tradeQuestLocation = 3;
                 }
                 if ((i == ITEM_CLAIM_CHECK) && (gSaveContext.bgsFlag == 0)) {
-                    pauseCtx->unk_27A = 7;
+                    pauseCtx->tradeQuestLocation = 7;
                 }
             }
 
@@ -2891,17 +2868,17 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
         case 4:
             if (pauseCtx->unk_1F4 == 160.0f) {
-                func_8081FABC(globalCtx);
+                KaleidoScope_SetDefaultCursor(globalCtx);
                 KaleidoScope_ProcessPlayerPreRender();
             }
 
             pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 -= 160.0f / WREG(6);
-            pauseCtx->unk_25A += 40 / WREG(6);
+            pauseCtx->infoPanelOffsetY += 40 / WREG(6);
             interfaceCtx->startAlpha += 255 / WREG(6);
             WREG(16) += WREG(25) / WREG(6);
             WREG(17) += WREG(26) / WREG(6);
             XREG(5) += 150 / WREG(6);
-            pauseCtx->unk_208 += (u16)(255 / (WREG(6) + WREG(4)));
+            pauseCtx->alpha += (u16)(255 / (WREG(6) + WREG(4)));
 
             if (pauseCtx->unk_1F4 == 0) {
                 interfaceCtx->startAlpha = 255;
@@ -2913,10 +2890,10 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             break;
 
         case 5:
-            pauseCtx->unk_208 += (u16)(255 / (WREG(6) + WREG(4)));
+            pauseCtx->alpha += (u16)(255 / (WREG(6) + WREG(4)));
             func_808265BC(globalCtx);
             if (pauseCtx->state == 6) {
-                func_80823548(globalCtx);
+                KaleidoScope_UpdateNamePanel(globalCtx);
             }
             break;
 
@@ -2930,7 +2907,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         func_800F64E0(0);
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         pauseCtx->mode = 0;
-                        pauseCtx->unk_262 = 0;
+                        pauseCtx->promptChoice = 0;
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
@@ -2955,7 +2932,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 3:
-                    func_8081AD44(globalCtx);
+                    KaleidoScope_UpdateItemEquip(globalCtx);
                     break;
 
                 case 4:
@@ -2976,7 +2953,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         func_800ED858(0);
                         pauseCtx->unk_1E4 = 0;
                         pauseCtx->mode = 0;
-                        pauseCtx->unk_262 = 0;
+                        pauseCtx->promptChoice = 0;
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
@@ -3025,7 +3002,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         func_800ED858(0);
                         pauseCtx->unk_1E4 = 0;
                         pauseCtx->mode = 0;
-                        pauseCtx->unk_262 = 0;
+                        pauseCtx->promptChoice = 0;
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
@@ -3060,7 +3037,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
                 case 1:
                     if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
-                        if (pauseCtx->unk_262 != 0) {
+                        if (pauseCtx->promptChoice != 0) {
                             Interface_SetDoAction(globalCtx, 10);
                             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                                 gSaveContext.buttonStatus[3] = BTN_ENABLED;
@@ -3127,19 +3104,19 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 +=
                             160.0f / WREG(6);
                         pauseCtx->unk_204 += 160.0f / WREG(6);
-                        pauseCtx->unk_25A -= 40 / WREG(6);
+                        pauseCtx->infoPanelOffsetY -= 40 / WREG(6);
                         WREG(16) -= WREG(25) / WREG(6);
                         WREG(17) -= WREG(26) / WREG(6);
                         XREG(5) -= 150 / WREG(6);
-                        pauseCtx->unk_208 -= (u16)(255 / WREG(6));
+                        pauseCtx->alpha -= (u16)(255 / WREG(6));
                         if (pauseCtx->unk_204 == (YREG(8) + 160.0f)) {
-                            pauseCtx->unk_208 = 0;
+                            pauseCtx->alpha = 0;
                         }
                     } else {
-                        pauseCtx->flag = 0;
+                        pauseCtx->debugState = 0;
                         pauseCtx->state = 0x13;
                         pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 = 160.0f;
-                        pauseCtx->unk_23C = 999;
+                        pauseCtx->namedItem = PAUSE_ITEM_NONE;
                         pauseCtx->unk_1E4 = 0;
                         pauseCtx->unk_204 = -434.0f;
                     }
@@ -3148,7 +3125,8 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             break;
 
         case 0xA:
-            pauseCtx->unk_246[1] = pauseCtx->unk_218[1] = pauseCtx->unk_236 = VREG(30) + 3;
+            pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot =
+                VREG(30) + 3;
             WREG(16) = -175;
             WREG(17) = 155;
             pauseCtx->unk_204 = -434.0f;
@@ -3200,53 +3178,53 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             D_8082ABA4 = 0;
             D_8082B260 = 30;
             VREG(88) = 98;
-            pauseCtx->unk_262 = 0;
+            pauseCtx->promptChoice = 0;
             pauseCtx->state++;
             break;
 
         case 0xB:
-            temp1 = ABS(D_8082AB8C - 30) / D_8082B260;
-            temp2 = ABS(D_8082AB90) / D_8082B260;
-            temp3 = ABS(D_8082AB94) / D_8082B260;
-            temp4 = ABS(D_8082AB98 - 255) / D_8082B260;
+            stepR = ABS(D_8082AB8C - 30) / D_8082B260;
+            stepG = ABS(D_8082AB90) / D_8082B260;
+            stepB = ABS(D_8082AB94) / D_8082B260;
+            stepA = ABS(D_8082AB98 - 255) / D_8082B260;
             if (D_8082AB8C >= 30) {
-                D_8082AB8C -= temp1;
+                D_8082AB8C -= stepR;
             } else {
-                D_8082AB8C += temp1;
+                D_8082AB8C += stepR;
             }
             if (D_8082AB90 >= 0) {
-                D_8082AB90 -= temp2;
+                D_8082AB90 -= stepG;
             } else {
-                D_8082AB90 += temp2;
+                D_8082AB90 += stepG;
             }
             if (D_8082AB94 >= 0) {
-                D_8082AB94 -= temp3;
+                D_8082AB94 -= stepB;
             } else {
-                D_8082AB94 += temp3;
+                D_8082AB94 += stepB;
             }
             if (D_8082AB98 >= 255) {
-                D_8082AB98 -= temp4;
+                D_8082AB98 -= stepA;
             } else {
-                D_8082AB98 += temp4;
+                D_8082AB98 += stepA;
             }
 
-            temp1 = ABS(D_8082AB9C - 255) / D_8082B260;
-            temp2 = ABS(D_8082ABA0 - 130) / D_8082B260;
-            temp3 = ABS(D_8082ABA4) / D_8082B260;
+            stepR = ABS(D_8082AB9C - 255) / D_8082B260;
+            stepG = ABS(D_8082ABA0 - 130) / D_8082B260;
+            stepB = ABS(D_8082ABA4) / D_8082B260;
             if (D_8082AB9C >= 255) {
-                D_8082AB9C -= temp1;
+                D_8082AB9C -= stepR;
             } else {
-                D_8082AB9C += temp1;
+                D_8082AB9C += stepR;
             }
             if (D_8082ABA0 >= 130) {
-                D_8082ABA0 -= temp2;
+                D_8082ABA0 -= stepG;
             } else {
-                D_8082ABA0 += temp2;
+                D_8082ABA0 += stepG;
             }
             if (D_8082ABA4 >= 0) {
-                D_8082ABA4 -= temp3;
+                D_8082ABA4 -= stepB;
             } else {
-                D_8082ABA4 += temp3;
+                D_8082ABA4 += stepB;
             }
 
             D_8082B260--;
@@ -3255,9 +3233,11 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 D_8082AB90 = 0;
                 D_8082AB94 = 0;
                 D_8082AB98 = 255;
+
                 D_8082AB9C = 255;
                 D_8082ABA0 = 130;
                 D_8082ABA4 = 0;
+
                 pauseCtx->state++;
                 D_8082B260 = 40;
             }
@@ -3273,19 +3253,19 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
         case 0xD:
             pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 = pauseCtx->unk_204 -=
                 160.0f / WREG(6);
-            pauseCtx->unk_25A += 40 / WREG(6);
+            pauseCtx->infoPanelOffsetY += 40 / WREG(6);
             interfaceCtx->startAlpha += 255 / WREG(6);
             VREG(88) -= 3;
             WREG(16) += WREG(25) / WREG(6);
             WREG(17) += WREG(26) / WREG(6);
             XREG(5) += 150 / WREG(6);
-            pauseCtx->unk_208 += (u16)(255 / (WREG(6) + WREG(4)));
+            pauseCtx->alpha += (u16)(255 / (WREG(6) + WREG(4)));
             if (pauseCtx->unk_204 < -628.0f) {
                 pauseCtx->unk_204 = -628.0f;
                 interfaceCtx->startAlpha = 255;
                 VREG(88) = 66;
                 WREG(2) = 0;
-                pauseCtx->unk_208 = 255;
+                pauseCtx->alpha = 255;
                 pauseCtx->state = 0xE;
                 gSaveContext.deaths++;
                 if (gSaveContext.deaths > 999) {
@@ -3297,15 +3277,15 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
         case 0xE:
             if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
-                if (pauseCtx->unk_262 != 0) {
-                    pauseCtx->unk_262 = 0;
+                if (pauseCtx->promptChoice != 0) {
+                    pauseCtx->promptChoice = 0;
                     Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     pauseCtx->state = 0x10;
                     gameOverCtx->state++;
                 } else {
                     Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
-                    pauseCtx->unk_262 = 0;
+                    pauseCtx->promptChoice = 0;
                     Gameplay_SaveSceneFlags(globalCtx);
                     gSaveContext.savedSceneNum = globalCtx->sceneNum;
                     Sram_WriteSave(&globalCtx->sramCtx);
@@ -3330,7 +3310,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
         case 0x10:
             if (CHECK_BTN_ALL(input->press.button, BTN_A) || CHECK_BTN_ALL(input->press.button, BTN_START)) {
-                if (pauseCtx->unk_262 == 0) {
+                if (pauseCtx->promptChoice == 0) {
                     Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     Gameplay_SaveSceneFlags(globalCtx);
@@ -3398,7 +3378,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     R_PAUSE_MENU_MODE = 0;
                     func_800981B8(&globalCtx->objectCtx);
                     func_800418D0(&globalCtx->colCtx, globalCtx);
-                    if (pauseCtx->unk_262 == 0) {
+                    if (pauseCtx->promptChoice == 0) {
                         Gameplay_TriggerRespawn(globalCtx);
                         gSaveContext.respawnFlag = -2;
                         gSaveContext.nextTransition = 2;
@@ -3427,23 +3407,23 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
         case 0x12:
             if (pauseCtx->unk_1F4 != 160.0f) {
                 pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 += 160.0f / WREG(6);
-                pauseCtx->unk_25A -= 40 / WREG(6);
+                pauseCtx->infoPanelOffsetY -= 40 / WREG(6);
                 interfaceCtx->startAlpha -= 255 / WREG(6);
                 WREG(16) -= WREG(25) / WREG(6);
                 WREG(17) -= WREG(26) / WREG(6);
                 XREG(5) -= 150 / WREG(6);
-                pauseCtx->unk_208 -= (u16)(255 / WREG(6));
+                pauseCtx->alpha -= (u16)(255 / WREG(6));
                 if (pauseCtx->unk_1F4 == 160.0f) {
-                    pauseCtx->unk_208 = 0;
+                    pauseCtx->alpha = 0;
                 }
             } else {
-                pauseCtx->flag = 0;
+                pauseCtx->debugState = 0;
                 pauseCtx->state = 0x13;
                 pauseCtx->unk_200 = 160.0f;
                 pauseCtx->unk_1FC = 160.0f;
                 pauseCtx->unk_1F8 = 160.0f;
                 pauseCtx->unk_1F4 = 160.0f;
-                pauseCtx->unk_23C = 999;
+                pauseCtx->namedItem = PAUSE_ITEM_NONE;
                 globalCtx->interfaceCtx.startAlpha = 0;
             }
             break;
