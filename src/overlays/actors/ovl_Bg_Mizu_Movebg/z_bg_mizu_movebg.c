@@ -12,11 +12,11 @@
 
 #define THIS ((BgMizuMovebg*)thisx)
 
-#define BgMizuMovebgGetType(params) (((u16)(params) >> 0xC) & 0xF)
-#define BgMizuMovebgGetFlags(params) ((u16)(params)&0x3F)
-#define BgMizuMovebgGetPathId(params) (((u16)(params) >> 0x8) & 0xF)
-#define BgMizuMovebgGetPointId(params) ((u16)(params)&0xF)
-#define BgMizuMovebgGetSpeed(params) (((u16)(params) >> 0x4) & 0xF)
+#define MOVEBG_TYPE(params) (((u16)(params) >> 0xC) & 0xF)
+#define MOVEBG_FLAGS(params) ((u16)(params)&0x3F)
+#define MOVEBG_PATH_ID(params) (((u16)(params) >> 0x8) & 0xF)
+#define MOVEBG_POINT_ID(params) ((u16)(params)&0xF)
+#define MOVEBG_SPEED(params) (((u16)(params) >> 0x4) & 0xF)
 
 void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuMovebg_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -39,12 +39,7 @@ const ActorInit Bg_Mizu_Movebg_InitVars = {
     (ActorFunc)BgMizuMovebg_Draw,
 };
 
-static f32 D_8089EB40[] = {
-    -115.200005,
-    -115.200005,
-    -115.200005,
-    0.0f,
-};
+static f32 D_8089EB40[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
 
 static Gfx* D_8089EB50[] = {
     gObjectMizuObjectsMovebgDL_000190, gObjectMizuObjectsMovebgDL_000680, gObjectMizuObjectsMovebgDL_000C20,
@@ -97,12 +92,12 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, D_8089EB90);
     this->homeY = this->dyna.actor.world.pos.y;
-    this->dlist = D_8089EB50[BgMizuMovebgGetType(this->dyna.actor.params)];
+    this->dlist = D_8089EB50[MOVEBG_TYPE(this->dyna.actor.params)];
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(D_8089EB70[BgMizuMovebgGetType(this->dyna.actor.params)], &colHeader);
+    CollisionHeader_GetVirtual(D_8089EB70[MOVEBG_TYPE(this->dyna.actor.params)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    switch (BgMizuMovebgGetType(this->dyna.actor.params)) {
+    switch (MOVEBG_TYPE(this->dyna.actor.params)) {
         case 0:
             if (waterBoxes[2].ySurface + 15.0f < this->homeY - 700.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 700.0f;
@@ -134,7 +129,7 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 4:
         case 5:
         case 6:
-            if (Flags_GetSwitch(globalCtx, BgMizuMovebgGetFlags(this->dyna.actor.params))) {
+            if (Flags_GetSwitch(globalCtx, MOVEBG_FLAGS(this->dyna.actor.params))) {
                 this->dyna.actor.world.pos.y = this->homeY + 115.2;
             } else {
                 this->dyna.actor.world.pos.y = this->homeY;
@@ -146,13 +141,13 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->scrollAlpha2 = 160;
             this->scrollAlpha3 = 160;
             this->scrollAlpha4 = 160;
-            this->waypointId = BgMizuMovebgGetPointId(this->dyna.actor.params);
+            this->waypointId = MOVEBG_POINT_ID(this->dyna.actor.params);
             func_8089E108(globalCtx->setupPathList, &this->dyna.actor.world.pos,
-                          BgMizuMovebgGetPathId(this->dyna.actor.params), this->waypointId);
+                          MOVEBG_PATH_ID(this->dyna.actor.params), this->waypointId);
             this->actionFunc = func_8089E650;
             break;
     }
-    switch (BgMizuMovebgGetType(this->dyna.actor.params)) {
+    switch (MOVEBG_TYPE(this->dyna.actor.params)) {
         case 3:
         case 4:
         case 5:
@@ -179,7 +174,7 @@ void BgMizuMovebg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMizuMovebg* this = THIS;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-    switch (BgMizuMovebgGetType(thisx->params)) {
+    switch (MOVEBG_TYPE(thisx->params)) {
         case 3:
         case 4:
         case 5:
@@ -246,7 +241,7 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
 
     waterBoxes = globalCtx->colCtx.colHeader->waterBoxes;
     func_8089E198(this, globalCtx);
-    switch (BgMizuMovebgGetType(this->dyna.actor.params)) {
+    switch (MOVEBG_TYPE(this->dyna.actor.params)) {
         case 0:
         case 2:
             if (waterBoxes[2].ySurface + 15.0f < this->homeY - 700.0f) {
@@ -265,7 +260,7 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
         case 3:
             phi_f0 = this->homeY + D_8089EB40[func_8089DC30(globalCtx)];
             if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
-                if (!(D_8089EE40 & 2) && BgMizuMovebgGetSpeed(this->dyna.actor.params) != 0) {
+                if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
                     this->sfxFlags |= 2;
                 }
@@ -281,13 +276,13 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
         case 4:
         case 5:
         case 6:
-            if (Flags_GetSwitch(globalCtx, BgMizuMovebgGetFlags(this->dyna.actor.params))) {
+            if (Flags_GetSwitch(globalCtx, MOVEBG_FLAGS(this->dyna.actor.params))) {
                 phi_f0 = this->homeY + 115.200005f;
             } else {
                 phi_f0 = this->homeY;
             }
             if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
-                if (!(D_8089EE40 & 2) && BgMizuMovebgGetSpeed(this->dyna.actor.params) != 0) {
+                if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
                     this->sfxFlags |= 2;
                 }
@@ -297,7 +292,7 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
             }
             break;
     }
-    switch (BgMizuMovebgGetType(this->dyna.actor.params)) {
+    switch (MOVEBG_TYPE(this->dyna.actor.params)) {
         case 3:
         case 4:
         case 5:
@@ -323,9 +318,8 @@ void func_8089E650(BgMizuMovebg* this, GlobalContext* globalCtx) {
     f32 dy;
     f32 dz;
 
-    this->dyna.actor.speedXZ = BgMizuMovebgGetSpeed(this->dyna.actor.params) * 0.1f;
-    func_8089E108(globalCtx->setupPathList, &waypoint, BgMizuMovebgGetPathId(this->dyna.actor.params),
-                  this->waypointId);
+    this->dyna.actor.speedXZ = MOVEBG_SPEED(this->dyna.actor.params) * 0.1f;
+    func_8089E108(globalCtx->setupPathList, &waypoint, MOVEBG_PATH_ID(this->dyna.actor.params), this->waypointId);
     dist = Actor_WorldDistXYZToPoint(&this->dyna.actor, &waypoint);
     if (dist < this->dyna.actor.speedXZ) {
         this->dyna.actor.speedXZ = dist;
@@ -337,13 +331,13 @@ void func_8089E650(BgMizuMovebg* this, GlobalContext* globalCtx) {
     dz = waypoint.z - this->dyna.actor.world.pos.z;
     if (fabsf(dx) < 2.0f && fabsf(dy) < 2.0f && fabsf(dz) < 2.0f) {
         this->waypointId++;
-        if (this->waypointId >= globalCtx->setupPathList[BgMizuMovebgGetPathId(this->dyna.actor.params)].count) {
+        if (this->waypointId >= globalCtx->setupPathList[MOVEBG_PATH_ID(this->dyna.actor.params)].count) {
             this->waypointId = 0;
             func_8089E108(globalCtx->setupPathList, &this->dyna.actor.world.pos,
-                          BgMizuMovebgGetPathId(this->dyna.actor.params), 0);
+                          MOVEBG_PATH_ID(this->dyna.actor.params), 0);
         }
     }
-    if (!(D_8089EE40 & 1) && BgMizuMovebgGetSpeed(this->dyna.actor.params) != 0) {
+    if (!(D_8089EE40 & 1) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
         D_8089EE40 |= 1;
         this->sfxFlags |= 1;
     }
