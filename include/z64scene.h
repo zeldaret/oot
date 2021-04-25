@@ -483,9 +483,6 @@ typedef enum {
     { SCENE_CMD_ID_ROOM_BEHAVIOR, curRoomUnk3, \
         curRoomUnk2 | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(msgCtxUnkE40C, 10, 1) }
 
-#define SCENE_CMD_UNUSED_09() \
-    { SCENE_CMD_ID_UNUSED_09, 0, CMD_W(0) }
-
 #define SCENE_CMD_MESH(meshHeader) \
     { SCENE_CMD_ID_MESH, 0, CMD_PTR(meshHeader) }
 
@@ -498,8 +495,8 @@ typedef enum {
 #define SCENE_CMD_PATH_LIST(pathList) \
     { SCENE_CMD_ID_PATH_LIST, 0, CMD_PTR(pathList) }
 
-#define SCENE_CMD_TRANSI_ACTOR_LIST(numTransi, transiList) \
-    { SCENE_CMD_ID_TRANSI_ACTOR_LIST, numTransi, CMD_PTR(transiList) } 
+#define SCENE_CMD_TRANSITION_ACTOR_LIST(numTransitionActors, transitionActorList) \
+    { SCENE_CMD_ID_TRANSI_ACTOR_LIST, numTransitionActors, CMD_PTR(transitionActorList) } 
 
 #define SCENE_CMD_ENV_LIGHT_SETTINGS(numLights, lightList) \
     { SCENE_CMD_ID_ENV_LIGHT_SETTINGS, numLights, CMD_PTR(lightList) }
@@ -507,8 +504,8 @@ typedef enum {
 #define SCENE_CMD_TIME_SETTINGS(hour, min, speed) \
     { SCENE_CMD_ID_TIME_SETTINGS, 0, CMD_BBBB(hour, min, speed, 0) }
 
-#define SCENE_CMD_SKYBOX_SETTINGS(externalTextureFileID, skyboxId, weather, lightMode) \
-    { SCENE_CMD_ID_SKYBOX_SETTINGS, externalTextureFileID, CMD_BBBB(skyboxId, weather, lightMode, 0) }
+#define SCENE_CMD_SKYBOX_SETTINGS(externalTextureFileId, skyboxId, weather, lightMode) \
+    { SCENE_CMD_ID_SKYBOX_SETTINGS, externalTextureFileId, CMD_BBBB(skyboxId, weather, lightMode, 0) }
 
 #define SCENE_CMD_SKYBOX_DISABLES(disableSky, disableSunMoon) \
     { SCENE_CMD_ID_SKYBOX_DISABLES, 0, CMD_BBBB(disableSky, disableSunMoon, 0, 0) }
@@ -525,26 +522,14 @@ typedef enum {
 #define SCENE_CMD_ECHO_SETTINGS(echo) \
     { SCENE_CMD_ID_ECHO_SETTINGS, 0, CMD_BBBB(0, 0, 0, echo) }
 
-#define SCENE_CMD_CUTSCENE_LIST(cutsceneCount, cutsceneList) \
-    { SCENE_CMD_ID_CUTSCENE_LIST, cutsceneCount, CMD_PTR(cutsceneList) }
+#define SCENE_CMD_CUTSCENE_LIST(numCutscene, cutsceneList) \
+    { SCENE_CMD_ID_CUTSCENE_LIST, numCutscene, CMD_PTR(cutsceneList) }
 
 #define SCENE_CMD_ALTERNATE_HEADER_LIST(alternateHeaderList) \
     { SCENE_CMD_ID_ALTERNATE_HEADER_LIST, 0, CMD_PTR(alternateHeaderList) }
 
 #define SCENE_CMD_MISC_SETTINGS(camMode, worldMapLocation) \
     { SCENE_CMD_ID_MISC_SETTINGS, camMode, CMD_W(worldMapLocation) }
-
-#define SCENE_CMD_TEXTURE_ANIM_LIST(textureAnimList) \
-    { SCENE_CMD_ID_TEXTURE_ANIM_LIST, 0, CMD_PTR(textureAnimList) }
-
-#define SCENE_CMD_ACTOR_CUTSCENE_LIST(actorCutsceneCount, actorCutsceneList) \
-    { SCENE_CMD_ID_ACTOR_CUTSCENE_LIST, actorCutsceneCount, CMD_PTR(actorCutsceneList) }
-
-#define SCENE_CMD_MINIMAP_INFO(minimapInfo) \
-    { SCENE_CMD_ID_MINIMAP_INFO, 0, CMD_PTR(minimapInfo) }
-
-#define SCENE_CMD_MINIMAP_COMPASS_ICON_INFO(compassIconCount, compassIconInfo) \
-    { SCENE_CMD_ID_MINIMAP_COMPASS_ICON_INFO, compassIconCount, CMD_PTR(compassIconInfo) }
 
 
 #endif
