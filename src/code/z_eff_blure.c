@@ -309,11 +309,8 @@ void EffectBlure_UpdateFlags(EffectBlureElement* elem) {
 void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3s* vec1, Vec3s* vec2,
                                    Color_RGBA8* color1, Color_RGBA8* color2) {
     Vec3s sp30;
-    s32 pad;
-    EffectBlureElement* elem;
     f32 mode4Param;
-
-    elem = &this->elements[index];
+    EffectBlureElement* elem = &this->elements[index];
 
     switch (this->calcMode) {
         case 1:
@@ -335,7 +332,7 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             break;
 
         case 3:
-            ratio /= 2.0f;
+            ratio *= 0.5f;
             vec1->x = func_80027E34(elem->p1.x, elem->p2.x, ratio);
             vec1->y = func_80027E34(elem->p1.y, elem->p2.y, ratio);
             vec1->z = func_80027E34(elem->p1.z, elem->p2.z, ratio);
@@ -349,14 +346,15 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             sp30.x = elem->p1.x - elem->p2.x;
             sp30.y = elem->p1.y - elem->p2.y;
             sp30.z = elem->p1.z - elem->p2.z;
-            mode4Param = this->mode4Param;
+            mode4Param = this->mode4Param - 1.0f;
 
-            vec1->x = (sp30.x * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p1.x;
-            vec1->y = (sp30.y * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p1.y;
-            vec1->z = (sp30.z * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p1.z;
-            vec2->x = elem->p2.x - (sp30.x * 0.5f * (mode4Param - 1.0f) * ratio);
-            vec2->y = elem->p2.y - (sp30.y * 0.5f * (mode4Param - 1.0f) * ratio);
-            vec2->z = elem->p2.z - (sp30.z * 0.5f * (mode4Param - 1.0f) * ratio);
+            vec1->x = (sp30.x * 0.5f * mode4Param * ratio) + elem->p1.x;
+            vec1->y = (sp30.y * 0.5f * mode4Param * ratio) + elem->p1.y;
+            vec1->z = (sp30.z * 0.5f * mode4Param * ratio) + elem->p1.z;
+
+            vec2->x = elem->p2.x - (sp30.x * 0.5f * mode4Param * ratio);
+            vec2->y = elem->p2.y - (sp30.y * 0.5f * mode4Param * ratio);
+            vec2->z = elem->p2.z - (sp30.z * 0.5f * mode4Param * ratio);
             break;
 
         case 0:
@@ -401,7 +399,7 @@ void EffectBlure_SetupSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
 // original name: "SQ_NoInterpolate_disp"
 void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* elem, s32 index,
                                          GraphicsContext* gfxCtx) {
-    static Vtx_t baseVtx = VTX_T(0, 0, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
+    static Vtx_t baseVtx = VTX_T(0, 0, 0, 0, 0, 255, 255, 255, 255);
     Vtx* vtx;
     Vec3s sp8C;
     Vec3s sp84;
@@ -495,8 +493,6 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 932);
 }
 
-// original name: "SQ_HermiteInterpolate_disp"
-#ifdef NON_MATCHING
 void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElement* elem, s32 index,
                                               GraphicsContext* gfxCtx) {
     static Vtx_t baseVtx = VTX_T(0, 0, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -518,6 +514,7 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
     Vec3f sp180;
     Vec3f sp174;
     Vec3f sp168;
+    s32 i;
     Vec3f sp158;
     Vec3f sp14C;
     Color_RGBA8 sp148;
@@ -545,9 +542,7 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         Vec3f sp118;
         Vec3f sp10C;
 
-        if (index - 1 < 0) {
-            __assert("index - 1 >= 0", "../z_eff_blure.c", 1005);
-        }
+        (index - 1 >= 0) ? (void)0 : __assert("index - 1 >= 0", "../z_eff_blure.c", 1005);
 
         ratio = (f32)(elem - 1)->timer / (f32)this->elemDuration;
         EffectBlure_GetComputedValues(this, index - 1, ratio, &sp1EC, &sp1E4, &sp1DC, &sp1D8);
@@ -567,9 +562,8 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         Vec3f sp100;
         Vec3f spF4;
 
-        if (index + 2 >= this->numElements) {
-            __assert("index + 2 < this2->now_edge_num", "../z_eff_blure.c", 1032);
-        }
+        (index + 2 < this->numElements) ? (void)0
+                                        : __assert("index + 2 < this2->now_edge_num", "../z_eff_blure.c", 1032);
 
         ratio = (f32)(elem + 2)->timer / (f32)this->elemDuration;
         EffectBlure_GetComputedValues(this, index + 2, ratio, &sp1EC, &sp1E4, &sp1DC, &sp1D8);
@@ -587,11 +581,6 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         // Translates to: "Vertices cannot be secured."
         osSyncPrintf("z_eff_blure.c::SQ_HermiteInterpolate_disp() 頂点確保できず。\n");
     } else {
-        s32 j1;
-        s32 j2;
-        Vec3f spE0;
-        s32 i;
-
         Math_Vec3f_Diff(&sp1CC, &sp138, &sp158);
         Math_Vec3f_Scale(&sp158, 10.0f);
         Math_Vec3f_Diff(&sp1C0, &sp138, &sp14C);
@@ -618,16 +607,19 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         vtx[1].v.cn[2] = sp144.b;
         vtx[1].v.cn[3] = sp144.a;
 
-        for (i = 1, j1 = 2, j2 = 3; i < 8; i++, j1 += 2, j2 += 2) {
-            f32 temp_f28 = i / 7.0f;                                 // t
-            f32 temp_f0 = temp_f28 * temp_f28;                       // t^2
-            f32 temp_f2 = temp_f0 * temp_f28;                        // t^3
-            f32 temp_f14 = temp_f0 * 3.0f;                           // 3t^2
-            f32 temp_f12 = temp_f2 + temp_f2;                        // 2t^3
-            f32 temp_f26 = temp_f14 - temp_f12;                      // 3t^2 - 2t^3
-            f32 temp_f24 = temp_f12 - temp_f14 + 1.0f;               // 2t^3 - 3t^2 + 1
-            f32 temp_f22 = temp_f2 - (temp_f0 + temp_f0) + temp_f28; // t^3 - 2t^2 + t
-            f32 temp_f20 = temp_f2 - temp_f0;                        // t^3 - t^2
+        for (i = 1; i < 8; i++) {
+            s32 j1 = 2 * i;
+            s32 j2 = 2 * i + 1;
+            Vec3f spE0;
+            f32 temp_f28 = i / 7.0f;                               // t
+            f32 temp_f0 = temp_f28 * temp_f28;                     // t^2
+            f32 temp_f2 = temp_f0 * temp_f28;                      // t^3
+            f32 temp_f20 = temp_f2 - temp_f0;                      // t^3 - t^2
+            f32 temp_f22 = temp_f2 - 2.0f * temp_f0 + temp_f28;    // t^3 - 2t^2 + t
+            f32 temp_f24 = 2.0f * temp_f2 - temp_f0 * 3.0f + 1.0f; // 2t^3 - 3t^2 + 1
+            f32 temp_f26 = temp_f0 * 3.0f - 2.0f * temp_f2;        // 3t^2 - 2t^3
+            s32 pad1;
+            s32 pad2;
 
             // p = (2t^3 - 3t^2 + 1)p0 + (3t^2 - 2t^3)p1 + (t^3 - 2t^2 + t)m0 + (t^3 - t^2)m1
             spE0.x = (temp_f24 * sp1CC.x) + (temp_f26 * sp18C.x) + (temp_f22 * sp1B4.x) + (temp_f20 * sp174.x);
@@ -674,14 +666,9 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1184);
 }
-#else
-Vtx D_80115770 = VTX(0, 0, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_eff_blure/EffectBlure_DrawElemHermiteInterpolation.s")
-#endif
 
-#ifdef NON_MATCHING
-// missing extra load instructions and saved register/stack usage differences
-void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
+void EffectBlure_DrawSmooth(EffectBlure* this2, GraphicsContext* gfxCtx) {
+    EffectBlure* this = this2;
     EffectBlureElement* elem;
     s32 i;
     MtxF spDC;
@@ -698,7 +685,7 @@ void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
     this->elements[0].flags &= ~3;
     this->elements[0].flags |= 2;
 
-    for (elem = &this->elements[1]; elem < &this->elements[this->numElements - 1]; elem++) {
+    for (elem = &this->elements[1]; elem < this->elements + this->numElements - 1; elem++) {
         EffectBlure_UpdateFlags(elem);
     }
 
@@ -717,11 +704,10 @@ void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    for (i = 0, elem = &this->elements[0]; elem < &this->elements[this->numElements - 1]; elem++, i++) {
+    for (i = 0, elem = &this->elements[0]; elem < this->elements + this->numElements - 1; i++, elem++) {
         if ((elem->state == 0) || ((elem + 1)->state == 0)) {
             continue;
         }
-
         if ((((elem->flags & 3) == 0) && (((elem + 1)->flags & 3) == 0)) ||
             (((elem->flags & 3) == 2) && (((elem + 1)->flags & 3) == 0)) ||
             (((elem->flags & 3) == 0) && (((elem + 1)->flags & 3) == 2)) ||
@@ -734,9 +720,6 @@ void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1263);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_eff_blure/EffectBlure_DrawSmooth.s")
-#endif
 
 void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1280);
@@ -872,7 +855,8 @@ Vtx_t D_801157CC[] = {
 };
 
 #ifdef NON_MATCHING
-void EffectBlure_DrawSimple(EffectBlure* this, GraphicsContext* gfxCtx) {
+void EffectBlure_DrawSimple(EffectBlure* this2, GraphicsContext* gfxCtx) {
+    EffectBlure* this = this2;
     Vtx* vtx;
     Vtx* vtxIter;
     EffectBlureElement* elem;
@@ -902,34 +886,32 @@ void EffectBlure_DrawSimple(EffectBlure* this, GraphicsContext* gfxCtx) {
         vtxIter[1].v = D_8011578C[1];
         vtxIter[2].v = D_8011578C[2];
         vtxIter[3].v = D_8011578C[3];
-        vtxIter = vtx + 4;
+        vtxIter += 4;
 
         if (this->numElements >= 2) {
-            for (elem = &this->elements[1]; elem < &this->elements[this->numElements - 2]; elem++) {
+            for (elem = &this->elements[0]; elem < this->elements + this->numElements - 2; elem++, vtxIter += 4) {
                 vtxIter[0].v = D_801157CC[0];
                 vtxIter[1].v = D_801157CC[1];
                 vtxIter[2].v = D_801157CC[2];
                 vtxIter[3].v = D_801157CC[3];
-                vtxIter += 4;
             }
         }
 
-        j1 = -2;
-        j2 = -1;
-        for (i = 0; i < this->numElements; i++) {
+        for (j1 = -2, j2 = -1, i = 0; i < this->numElements; j1 += 4, j2 += 4, i++) {
+
             elem = &this->elements[i];
 
             ratio = (f32)elem->timer / (f32)this->elemDuration;
             EffectBlure_GetComputedValues(this, i, ratio, &sp74, &sp6C, &sp64, &sp60);
-
-            if (j1 >= 0) {
-                vtx[j1].v.ob[0] = sp74.x;
-                vtx[j1].v.ob[1] = sp74.y;
-                vtx[j1].v.ob[2] = sp74.z;
-                vtx[j1].v.cn[0] = sp64.r;
-                vtx[j1].v.cn[1] = sp64.g;
-                vtx[j1].v.cn[2] = sp64.b;
-                vtx[j1].v.cn[3] = sp64.a;
+            j3 = j1;
+            if (j3 >= 0) {
+                vtx[j3].v.ob[0] = sp74.x;
+                vtx[j3].v.ob[1] = sp74.y;
+                vtx[j3].v.ob[2] = sp74.z;
+                vtx[j3].v.cn[0] = sp64.r;
+                vtx[j3].v.cn[1] = sp64.g;
+                vtx[j3].v.cn[2] = sp64.b;
+                vtx[j3].v.cn[3] = sp64.a;
             }
 
             j3 = j2;
@@ -964,9 +946,6 @@ void EffectBlure_DrawSimple(EffectBlure* this, GraphicsContext* gfxCtx) {
                 vtx[j3].v.cn[2] = sp60.b;
                 vtx[j3].v.cn[3] = sp60.a;
             }
-
-            j1 += 4;
-            j2 += 4;
         }
 
         EffectBlure_DrawSimpleVertices(gfxCtx, this, vtx);
