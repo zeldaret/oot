@@ -493,8 +493,8 @@ typedef enum {
 #define SCENE_CMD_TRANSITION_ACTOR_LIST(numTransitionActors, transitionActorList) \
     { SCENE_CMD_ID_TRANSI_ACTOR_LIST, numTransitionActors, CMD_PTR(transitionActorList) } 
 
-#define SCENE_CMD_ENV_LIGHT_SETTINGS(numLights, lightList) \
-    { SCENE_CMD_ID_ENV_LIGHT_SETTINGS, numLights, CMD_PTR(lightList) }
+#define SCENE_CMD_ENV_LIGHT_SETTINGS(numLightSettings, lightSettingsList) \
+    { SCENE_CMD_ID_ENV_LIGHT_SETTINGS, numLightSettings, CMD_PTR(lightSettingsList) }
 
 #define SCENE_CMD_TIME_SETTINGS(hour, min, speed) \
     { SCENE_CMD_ID_TIME_SETTINGS, 0, CMD_BBBB(hour, min, speed, 0) }
