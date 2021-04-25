@@ -323,7 +323,7 @@ void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     Matrix_Scale(10.0f, 10.0f, 10.0f, MTXMODE_APPLY);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          0, 0, this);
+                          NULL, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_jj.c", 898);
 }
