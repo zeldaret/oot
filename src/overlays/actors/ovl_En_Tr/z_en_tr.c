@@ -185,21 +185,17 @@ void EnTr_ChooseAction2(EnTr* this, GlobalContext* globalCtx) {
 }
 
 void EnTr_FlyKidnapCutscene(EnTr* this, GlobalContext* globalCtx) {
-    Vec3f originalPos;
-    s16 actionIndex;
+    Vec3f originalPos = this->actor.world.pos;
 
-    originalPos = this->actor.world.pos;
     if (globalCtx->csCtx.state != CS_STATE_IDLE) {
-        actionIndex = this->actionIndex;
-
-        if (globalCtx->csCtx.npcActions[actionIndex] != NULL) {
-            if (globalCtx->csCtx.npcActions[actionIndex]->action == 8) {
-                func_80B24038(this, globalCtx, actionIndex);
+        if (globalCtx->csCtx.npcActions[this->actionIndex] != NULL) {
+            if (globalCtx->csCtx.npcActions[this->actionIndex]->action == 8) {
+                func_80B24038(this, globalCtx, this->actionIndex);
                 this->actor.world.rot.y = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
                 Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 10, 0x400, 0x100);
                 this->actor.world.rot.y = this->actor.shape.rot.y;
             } else {
-                EnTr_SetStartPosRot(this, globalCtx, actionIndex);
+                EnTr_SetStartPosRot(this, globalCtx, this->actionIndex);
                 this->actor.world.pos.x += Math_SinS(this->timer) * 150.0f;
                 this->actor.world.pos.y += -100.0f;
                 this->actor.world.pos.z += Math_CosS(this->timer) * 150.0f;
@@ -226,16 +222,12 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
     Vec3f sp58;
     Color_RGBA8* primColor;
     Color_RGBA8* envColor;
-    Vec3f cameraEye;
-    s16 yaw;
-    s16 reversePitch;
+    Vec3f cameraEye = ACTIVE_CAM->eye;
+    s16 yaw = Math_Vec3f_Yaw(&cameraEye, &this->actor.world.pos);
+    s16 reversePitch = -Math_Vec3f_Pitch(&cameraEye, &this->actor.world.pos);
     f32 sp3C;
 
-    cameraEye = ACTIVE_CAM->eye;
-    yaw = Math_Vec3f_Yaw(&cameraEye, &this->actor.world.pos);
-    reversePitch = -Math_Vec3f_Pitch(&cameraEye, &this->actor.world.pos);
-    accel.z = 0.0f;
-    accel.x = 0.0f;
+    accel.x = accel.z = 0.0f;
     sp3C = Math_SinS(yaw);
     velocity.x = Math_CosS(reversePitch) * (arg3 * sp3C);
     velocity.y = Math_SinS(reversePitch) * arg3;
@@ -258,8 +250,6 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
 }
 
 void EnTr_ShrinkVanish(EnTr* this, GlobalContext* globalCtx) {
-    s32 temp_hi;
-
     if (this->timer >= 17) {
         this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->timer * 0x28F)) + 0x3D68;
     } else {
@@ -267,7 +257,8 @@ void EnTr_ShrinkVanish(EnTr* this, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
             this->actor.shape.rot.y = (this->actor.shape.rot.y - (this->timer * 0x28F)) + 0x3D68;
         } else if (this->timer > 0) {
-            temp_hi = (this->timer * 2) % 7;
+            s32 temp_hi = (this->timer * 2) % 7;
+
             func_80B23254(this, globalCtx, temp_hi, 5.0f, 0.2f);
             func_80B23254(this, globalCtx, (temp_hi + 1) % 7, 5.0f, 0.2f);
             Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
@@ -288,10 +279,8 @@ void EnTr_ShrinkVanish(EnTr* this, GlobalContext* globalCtx) {
 }
 
 void EnTr_Reappear(EnTr* this, GlobalContext* globalCtx) {
-    s32 temp_hi;
-
     if (this->timer >= 31) {
-        temp_hi = (this->timer * 2) % 7;
+        s32 temp_hi = (this->timer * 2) % 7;
 
         func_80B23254(this, globalCtx, temp_hi, 5.0f, 1.0f);
         func_80B23254(this, globalCtx, (temp_hi + 1) % 7, 5.0f, 1.0f);
@@ -383,7 +372,8 @@ void EnTr_ChooseAction1(EnTr* this, GlobalContext* globalCtx) {
                     EnTr_SetupAction(this, EnTr_FlyKidnapCutscene);
                     Animation_PlayLoop(&this->skelAnime, &D_060049C8);
                     this->animation = NULL;
-                    this->timer = ((this->actor.params != TR_KOUME) ? ((u8)frames << 10) + 0x8000 : (u8)frames << 10);
+                    this->timer =
+                        ((this->actor.params != TR_KOUME) ? ((u8)frames * 0x400) + 0x8000 : (u8)frames * 0x400);
                     break;
             }
         }
@@ -452,37 +442,31 @@ void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((globalCtx->csCtx.state == CS_STATE_IDLE) || (globalCtx->csCtx.npcActions[this->actionIndex] == 0)) {
         this->actor.shape.shadowDraw = NULL;
-        return;
-    }
+    } else {
+        this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
 
-    this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tr.c", 840);
-    func_800943C8(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
-    func_8002EBCC(&this->actor, globalCtx, 0);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          EnTr_OverrideLimbDraw, NULL, this);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tr.c", 854);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tr.c", 840);
+        func_800943C8(globalCtx->state.gfxCtx);
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+        func_8002EBCC(&this->actor, globalCtx, 0);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              this->skelAnime.dListCount, EnTr_OverrideLimbDraw, NULL, this);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tr.c", 854);
+    }
 }
 
 f32 func_80B23FDC(GlobalContext* globalCtx, s32 actionIndex) {
-    f32 phi_f2;
-
-    phi_f2 = func_8006F93C(globalCtx->csCtx.npcActions[actionIndex]->endFrame,
-                           globalCtx->csCtx.npcActions[actionIndex]->startFrame, globalCtx->csCtx.frames);
+    f32 phi_f2 = func_8006F93C(globalCtx->csCtx.npcActions[actionIndex]->endFrame,
+                               globalCtx->csCtx.npcActions[actionIndex]->startFrame, globalCtx->csCtx.frames);
     phi_f2 = CLAMP_MAX(phi_f2, 1.0f);
     return phi_f2;
 }
 
-#ifdef NON_MATCHING
-// Major ordering issues, not making the three 0.1fs separate rodata, etc.
 void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
     Vec3f startPos;
     Vec3f endPos;
-    Vec3f goalVel;
     f32 temp_f0;
     f32 temp_f0_2;
-    f32 temp_f2_2;
     f32 phi_f12;
 
     startPos.x = globalCtx->csCtx.npcActions[actionIndex]->startPos.x;
@@ -495,47 +479,43 @@ void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
 
     temp_f0 = func_80B23FDC(globalCtx, actionIndex);
 
-    goalVel.x = ((((endPos.x - startPos.x) * temp_f0) + startPos.x) - this->actor.world.pos.x) * 0.1f;
-    goalVel.y = ((((endPos.y - startPos.y) * temp_f0) + startPos.y) - this->actor.world.pos.y) * 0.1f;
-    goalVel.z = ((((endPos.z - startPos.z) * temp_f0) + startPos.z) - this->actor.world.pos.z) * 0.1f;
+    startPos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
+    startPos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
+    startPos.z = ((endPos.z - startPos.z) * temp_f0) + startPos.z;
 
-    temp_f0_2 = sqrtf(SQ(goalVel.x) + SQ(goalVel.y) + SQ(goalVel.z));
+    endPos.x = (startPos.x - this->actor.world.pos.x) * 0.1f;
+    endPos.y = (startPos.y - this->actor.world.pos.y) * 0.1f;
+    endPos.z = (startPos.z - this->actor.world.pos.z) * 0.1f;
+
+    temp_f0_2 = sqrtf(SQ(endPos.x) + SQ(endPos.y) + SQ(endPos.z));
     phi_f12 = CLAMP(temp_f0_2, 0.0f, 20.0f);
 
     if ((temp_f0_2 != phi_f12) && (temp_f0_2 != 0.0f)) {
-        temp_f2_2 = phi_f12 / temp_f0_2;
-
-        goalVel.x *= temp_f2_2;
-        goalVel.y *= temp_f2_2;
-        goalVel.z *= temp_f2_2;
+        endPos.x *= phi_f12 / temp_f0_2;
+        endPos.y *= phi_f12 / temp_f0_2;
+        endPos.z *= phi_f12 / temp_f0_2;
     }
 
-    Math_StepToF(&this->actor.velocity.x, goalVel.x, 1.0f);
-    Math_StepToF(&this->actor.velocity.y, goalVel.y, 1.0f);
-    Math_StepToF(&this->actor.velocity.z, goalVel.z, 1.0f);
+    Math_StepToF(&this->actor.velocity.x, endPos.x, 1.0f);
+    Math_StepToF(&this->actor.velocity.y, endPos.y, 1.0f);
+    Math_StepToF(&this->actor.velocity.z, endPos.z, 1.0f);
     func_8002D7EC(&this->actor);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tr/func_80B24038.s")
-#endif
 
 void EnTr_UpdateRotation(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
-    s16 rotY;
-    s32 rotDiff;
+    s16 rotY = globalCtx->csCtx.npcActions[actionIndex]->rot.y;
+    s32 rotDiff = this->actor.world.rot.y - rotY;
     s32 rotSign;
 
-    rotY = globalCtx->csCtx.npcActions[actionIndex]->rot.y;
-    rotDiff = this->actor.world.rot.y - rotY;
-
     if (rotDiff < 0) {
-        rotDiff = 0 - rotDiff;
+        rotDiff = -rotDiff;
         rotSign = 1;
     } else {
         rotSign = -1;
     }
 
     if (rotDiff >= 0x8000) {
-        rotSign = 0 - rotSign;
+        rotSign = -rotSign;
         rotDiff = 0x10000 - rotDiff;
     }
 
@@ -551,6 +531,7 @@ void EnTr_SetStartPosRot(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) 
     startPos.x = globalCtx->csCtx.npcActions[actionIndex]->startPos.x;
     startPos.y = globalCtx->csCtx.npcActions[actionIndex]->startPos.y;
     startPos.z = globalCtx->csCtx.npcActions[actionIndex]->startPos.z;
+
     this->actor.world.pos = startPos;
     this->actor.world.rot.y = this->actor.shape.rot.y = globalCtx->csCtx.npcActions[actionIndex]->rot.y;
 }
