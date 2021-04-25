@@ -150,10 +150,12 @@ static ColliderTrisInit sTrisInitStingerWall = {
 };
 
 static Gfx* sDLists[] = {
-    gObjectMizuObjectsBwallDL_001A30, gObjectMizuObjectsBwallDL_002390, gObjectMizuObjectsBwallDL_001CD0, gObjectMizuObjectsBwallDL_002090, gObjectMizuObjectsBwallDL_001770,
+    gObjectMizuObjectsBwallDL_001A30, gObjectMizuObjectsBwallDL_002390, gObjectMizuObjectsBwallDL_001CD0,
+    gObjectMizuObjectsBwallDL_002090, gObjectMizuObjectsBwallDL_001770,
 };
 static CollisionHeader* sColHeaders[] = {
-    &gObjectMizuObjectsBwallCol_001C58, &gObjectMizuObjectsBwallCol_0025A4, &gObjectMizuObjectsBwallCol_001DE8, &gObjectMizuObjectsBwallCol_001DE8, &gObjectMizuObjectsBwallCol_001DE8,
+    &gObjectMizuObjectsBwallCol_001C58, &gObjectMizuObjectsBwallCol_0025A4, &gObjectMizuObjectsBwallCol_001DE8,
+    &gObjectMizuObjectsBwallCol_001DE8, &gObjectMizuObjectsBwallCol_001DE8,
 };
 
 static InitChainEntry D_8089D854[] = {
@@ -386,25 +388,30 @@ void BgMizuBwall_SetAlpha(BgMizuBwall* this, GlobalContext* globalCtx) {
     if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
         this->scrollAlpha1 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F2_Y) {
-        this->scrollAlpha1 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F1_Y) / (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) * (255 - 160));
-            
+        this->scrollAlpha1 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F1_Y) /
+                                         (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) * (255 - 160));
     } else {
         this->scrollAlpha1 = 160;
     }
+
     if (waterLevel < WATER_TEMPLE_WATER_F2_Y) {
         this->scrollAlpha2 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F3_Y) {
-        this->scrollAlpha2 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F2_Y) / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) * (255 - 160));
+        this->scrollAlpha2 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F2_Y) /
+                                         (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) * (255 - 160));
     } else {
         this->scrollAlpha2 = 160;
     }
+
     if (waterLevel < WATER_TEMPLE_WATER_B1_Y) {
         this->scrollAlpha3 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
-        this->scrollAlpha3 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_B1_Y) / (WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_B1_Y) * (255 - 160));
+        this->scrollAlpha3 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_B1_Y) /
+                                         (WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_B1_Y) * (255 - 160));
     } else {
         this->scrollAlpha3 = 160;
     }
+
     this->scrollAlpha4 = this->scrollAlpha3;
 }
 

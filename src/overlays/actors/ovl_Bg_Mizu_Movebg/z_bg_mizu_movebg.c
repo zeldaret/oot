@@ -193,12 +193,14 @@ void BgMizuMovebg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId) {
     Path* path = pathList;
     Vec3s* point;
+
     path += pathId;
     point = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[pointId];
 
     pos->x = point->x;
     pos->y = point->y;
     pos->z = point->z;
+
     return 0;
 }
 
@@ -210,10 +212,10 @@ void func_8089E198(BgMizuMovebg* this, GlobalContext* globalCtx) {
     } else if (waterLevel < WATER_TEMPLE_WATER_F2_Y) {
         this->scrollAlpha1 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F1_Y) /
                                          (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) * (255 - 160));
-
     } else {
         this->scrollAlpha1 = 160;
     }
+
     if (waterLevel < WATER_TEMPLE_WATER_F2_Y) {
         this->scrollAlpha2 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F3_Y) {
@@ -222,6 +224,7 @@ void func_8089E198(BgMizuMovebg* this, GlobalContext* globalCtx) {
     } else {
         this->scrollAlpha2 = 160;
     }
+
     if (waterLevel < WATER_TEMPLE_WATER_B1_Y) {
         this->scrollAlpha3 = 255;
     } else if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
@@ -230,6 +233,7 @@ void func_8089E198(BgMizuMovebg* this, GlobalContext* globalCtx) {
     } else {
         this->scrollAlpha3 = 160;
     }
+
     this->scrollAlpha4 = this->scrollAlpha3;
 }
 
@@ -354,10 +358,11 @@ void BgMizuMovebg_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     BgMizuMovebg* this = THIS;
-    GlobalContext* globalCtx = (GlobalContext*)globalCtx2;
+    GlobalContext* globalCtx = globalCtx2;
     u32 frames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_movebg.c", 754);
+
     if (1) {}
     frames = globalCtx->gameplayFrames;
     func_80093D18(globalCtx->state.gfxCtx);
@@ -384,5 +389,6 @@ void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->dlist != NULL) {
         gSPDisplayList(POLY_OPA_DISP++, this->dlist);
     }
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_movebg.c", 795);
 }

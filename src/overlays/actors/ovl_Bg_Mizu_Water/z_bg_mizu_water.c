@@ -108,7 +108,8 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 0:
             if (bREG(15) == 0) {
                 osSyncPrintf("<コンストラクト>%x %x %x\n", Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG),
-                             Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG), Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F3_FLAG));
+                             Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG),
+                             Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F3_FLAG));
             }
             waterLevelActionIndex = BgMizuWater_GetWaterLevelActionIndex(-1, globalCtx);
             this->actor.world.pos.y = sWaterLevels[waterLevelActionIndex].yDiff + this->baseY;
@@ -299,9 +300,10 @@ void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (bREG(15) == 0) {
-        osSyncPrintf("%x %x %x\n", Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG), Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG),
+        osSyncPrintf("%x %x %x\n", Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG),
+                     Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG),
                      Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F3_FLAG));
-    } 
+    }
     if (this->type == 0) {
         posY = this->actor.world.pos.y;
         unk0 = 0;
@@ -311,10 +313,12 @@ void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
             unk1 = (posY - WATER_TEMPLE_WATER_B1_Y) / (WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_B1_Y) * 200;
         } else if (posY < WATER_TEMPLE_WATER_F2_Y) {
             unk0 = 1;
-            unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F1_Y) / (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) * (255 - 160));
+            unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F1_Y) / (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) *
+                               (255 - 160));
         } else if (posY <= WATER_TEMPLE_WATER_F3_Y) {
             unk0 = 2;
-            unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F2_Y) / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) * (255 - 160));
+            unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F2_Y) / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) *
+                               (255 - 160));
         }
         globalCtx->unk_11D30[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
     }
