@@ -474,9 +474,9 @@ typedef enum {
 #define SCENE_CMD_SPECIAL_FILES(elfMessageFile, keepObjectId) \
     { SCENE_CMD_ID_SPECIAL_FILES, elfMessageFile, CMD_W(keepObjectId) }
 
-#define SCENE_CMD_ROOM_BEHAVIOR(curRoomUnk3, curRoomUnk2, showInvisActors, msgCtxUnkE40C) \
+#define SCENE_CMD_ROOM_BEHAVIOR(curRoomUnk3, curRoomUnk2, showInvisActors, disableWarpSongs) \
     { SCENE_CMD_ID_ROOM_BEHAVIOR, curRoomUnk3, \
-        curRoomUnk2 | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(msgCtxUnkE40C, 10, 1) }
+        curRoomUnk2 | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(disableWarpSongs, 10, 1) }
 
 #define SCENE_CMD_MESH(meshHeader) \
     { SCENE_CMD_ID_MESH, 0, CMD_PTR(meshHeader) }
@@ -484,8 +484,8 @@ typedef enum {
 #define SCENE_CMD_OBJECT_LIST(numObjects, objectList) \
     { SCENE_CMD_ID_OBJECT_LIST, numObjects, CMD_PTR(objectList) }
 
-#define SCENE_CMD_LIGHT_LIST(numLights, lightList) \
-    { SCENE_CMD_ID_POS_LIGHT_LIST, numLights, CMD_PTR(lightList) } 
+#define SCENE_CMD_LIGHT_LIST(numLights, lightSettingsList) \
+    { SCENE_CMD_ID_POS_LIGHT_LIST, numLights, CMD_PTR(lightSettingsList) } 
 
 #define SCENE_CMD_PATH_LIST(pathList) \
     { SCENE_CMD_ID_PATH_LIST, 0, CMD_PTR(pathList) }
