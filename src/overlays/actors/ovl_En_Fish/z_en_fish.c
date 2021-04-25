@@ -415,12 +415,11 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     } else {
         this->actor.velocity.y = 0.0f;
 
-        // if (Rand_ZeroOne() < 0.2f) {
-        //     playSound = true;
-        // } else {
-        //     playSound = false;
-        // }
-        playSound = (Rand_ZeroOne() < 0.2f ? true : false);
+        if (Rand_ZeroOne() < 0.2f) {
+            playSound = true;
+        } else {
+            playSound = false;
+        }
     }
 
     this->actor.shape.yOffset = 300.0f;
