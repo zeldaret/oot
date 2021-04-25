@@ -181,14 +181,14 @@ endseg
 beginseg
     name "icon_item_ger_static"
     romalign 0x1000
-    include "build/baserom/icon_item_ger_static.o"
+    include "build/assets/textures/icon_item_ger_static/icon_item_ger_static.o"
     number 13
 endseg
 
 beginseg
     name "icon_item_fra_static"
     romalign 0x1000
-    include "build/baserom/icon_item_fra_static.o"
+    include "build/assets/textures/icon_item_fra_static/icon_item_fra_static.o"
     number 13
 endseg
 
