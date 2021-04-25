@@ -421,137 +421,137 @@ typedef enum {
 
 
 typedef enum {
-    /* 0x00 */ SCENECMD_ID_SPAWN_LIST,
-    /* 0x01 */ SCENECMD_ID_ACTOR_LIST,
-    /* 0x02 */ SCENECMD_ID_ACTOR_CUTSCENE_CAM_LIST,
-    /* 0x03 */ SCENECMD_ID_COL_HEADER,
-    /* 0x04 */ SCENECMD_ID_ROOM_LIST,
-    /* 0x05 */ SCENECMD_ID_WIND_SETTINGS,
-    /* 0x06 */ SCENECMD_ID_ENTRANCE_LIST,
-    /* 0x07 */ SCENECMD_ID_SPECIAL_FILES,
-    /* 0x08 */ SCENECMD_ID_ROOM_BEHAVIOR,
-    /* 0x09 */ SCENECMD_ID_UNUSED_9,
-    /* 0x0A */ SCENECMD_ID_MESH,
-    /* 0x0B */ SCENECMD_ID_OBJECT_LIST,
-    /* 0x0C */ SCENECMD_ID_POS_LIGHT_LIST,
-    /* 0x0D */ SCENECMD_ID_PATH_LIST,
-    /* 0x0E */ SCENECMD_ID_TRANSI_ACTOR_LIST,
-    /* 0x0F */ SCENECMD_ID_LIGHT_LIST,
-    /* 0x10 */ SCENECMD_ID_TIME_SETTINGS,
-    /* 0x11 */ SCENECMD_ID_SKYBOX_SETTINGS,
-    /* 0x12 */ SCENECMD_ID_SKYBOX_DISABLES,
-    /* 0x13 */ SCENECMD_ID_EXIT_LIST,
-    /* 0x14 */ SCENECMD_ID_END,
-    /* 0x15 */ SCENECMD_ID_SOUND_SETTINGS,
-    /* 0x16 */ SCENECMD_ID_ECHO_SETTINGS,
-    /* 0x17 */ SCENECMD_ID_CUTSCENE_LIST,
-    /* 0x18 */ SCENECMD_ID_ALTERNATE_HEADER_LIST,
-    /* 0x19 */ SCENECMD_ID_MISC_SETTINGS,
-    /* 0x1A */ SCENECMD_ID_TEXTURE_ANIM_LIST,
-    /* 0x1B */ SCENECMD_ID_ACTOR_CUTSCENE_LIST,
-    /* 0x1C */ SCENECMD_ID_MINIMAP_INFO,
-    /* 0x1D */ SCENECMD_ID_UNUSED_1D,
-    /* 0x1E */ SCENECMD_ID_MINIMAP_COMPASS_ICON_INFO
+    /* 0x00 */ SCENE_CMD_ID_SPAWN_LIST,
+    /* 0x01 */ SCENE_CMD_ID_ACTOR_LIST,
+    /* 0x02 */ SCENE_CMD_ID_ACTOR_CUTSCENE_CAM_LIST,
+    /* 0x03 */ SCENE_CMD_ID_COL_HEADER,
+    /* 0x04 */ SCENE_CMD_ID_ROOM_LIST,
+    /* 0x05 */ SCENE_CMD_ID_WIND_SETTINGS,
+    /* 0x06 */ SCENE_CMD_ID_ENTRANCE_LIST,
+    /* 0x07 */ SCENE_CMD_ID_SPECIAL_FILES,
+    /* 0x08 */ SCENE_CMD_ID_ROOM_BEHAVIOR,
+    /* 0x09 */ SCENE_CMD_ID_UNUSED_9,
+    /* 0x0A */ SCENE_CMD_ID_MESH,
+    /* 0x0B */ SCENE_CMD_ID_OBJECT_LIST,
+    /* 0x0C */ SCENE_CMD_ID_POS_LIGHT_LIST,
+    /* 0x0D */ SCENE_CMD_ID_PATH_LIST,
+    /* 0x0E */ SCENE_CMD_ID_TRANSI_ACTOR_LIST,
+    /* 0x0F */ SCENE_CMD_ID_LIGHT_LIST,
+    /* 0x10 */ SCENE_CMD_ID_TIME_SETTINGS,
+    /* 0x11 */ SCENE_CMD_ID_SKYBOX_SETTINGS,
+    /* 0x12 */ SCENE_CMD_ID_SKYBOX_DISABLES,
+    /* 0x13 */ SCENE_CMD_ID_EXIT_LIST,
+    /* 0x14 */ SCENE_CMD_ID_END,
+    /* 0x15 */ SCENE_CMD_ID_SOUND_SETTINGS,
+    /* 0x16 */ SCENE_CMD_ID_ECHO_SETTINGS,
+    /* 0x17 */ SCENE_CMD_ID_CUTSCENE_LIST,
+    /* 0x18 */ SCENE_CMD_ID_ALTERNATE_HEADER_LIST,
+    /* 0x19 */ SCENE_CMD_ID_MISC_SETTINGS,
+    /* 0x1A */ SCENE_CMD_ID_TEXTURE_ANIM_LIST,
+    /* 0x1B */ SCENE_CMD_ID_ACTOR_CUTSCENE_LIST,
+    /* 0x1C */ SCENE_CMD_ID_MINIMAP_INFO,
+    /* 0x1D */ SCENE_CMD_ID_UNUSED_1D,
+    /* 0x1E */ SCENE_CMD_ID_MINIMAP_COMPASS_ICON_INFO
 } SceneCommandTypeID;
 
-#define SCENECMD_SPAWN_LIST(spawnNum, spawnList)                 \
-    { SCENECMD_ID_SPAWN_LIST, spawnNum, CMD_PTR(spawnList) }
+#define SCENE_CMD_SPAWN_LIST(spawnNum, spawnList)                 \
+    { SCENE_CMD_ID_SPAWN_LIST, spawnNum, CMD_PTR(spawnList) }
 
-#define SCENECMD_ACTOR_LIST(actorNum, actorList)                 \
-    { SCENECMD_ID_ACTOR_LIST, actorNum, CMD_PTR(actorList) }
+#define SCENE_CMD_ACTOR_LIST(actorNum, actorList)                 \
+    { SCENE_CMD_ID_ACTOR_LIST, actorNum, CMD_PTR(actorList) }
 
-#define SCENECMD_CAM_LIST(camNum, camList)       \
-    { SCENECMD_ID_ACTOR_CUTSCENE_CAM_LIST, camNum, CMD_PTR(camList) }
+#define SCENE_CMD_CAM_LIST(camNum, camList)       \
+    { SCENE_CMD_ID_ACTOR_CUTSCENE_CAM_LIST, camNum, CMD_PTR(camList) }
 
-#define SCENECMD_COL_HEADER(colHeader)                    \
-    { SCENECMD_ID_COL_HEADER, 0, CMD_PTR(colHeader) }
+#define SCENE_CMD_COL_HEADER(colHeader)                    \
+    { SCENE_CMD_ID_COL_HEADER, 0, CMD_PTR(colHeader) }
 
-#define SCENECMD_ROOM_LIST(roomNum, roomList)                 \
-    { SCENECMD_ID_ROOM_LIST, roomNum, CMD_PTR(roomList) }
+#define SCENE_CMD_ROOM_LIST(roomNum, roomList)                 \
+    { SCENE_CMD_ID_ROOM_LIST, roomNum, CMD_PTR(roomList) }
 
-#define SCENECMD_WIND_SETTINGS(xDir, yDir, zDir, strength)                     \
-    { SCENECMD_ID_WIND_SETTINGS, 0, CMD_BBBB(xDir, yDir, zDir, strength) }
+#define SCENE_CMD_WIND_SETTINGS(xDir, yDir, zDir, strength)                     \
+    { SCENE_CMD_ID_WIND_SETTINGS, 0, CMD_BBBB(xDir, yDir, zDir, strength) }
 
-#define SCENECMD_ENTRANCE_LIST(entranceList)                    \
-    { SCENECMD_ID_ENTRANCE_LIST, 0, CMD_PTR(entranceList) }
+#define SCENE_CMD_ENTRANCE_LIST(entranceList)                    \
+    { SCENE_CMD_ID_ENTRANCE_LIST, 0, CMD_PTR(entranceList) }
 
-#define SCENECMD_SPECIAL_FILES(elfMessageFile, specialObject)               \
-    { SCENECMD_ID_SPECIAL_FILES, elfMessageFile, CMD_W(specialObject) }
+#define SCENE_CMD_SPECIAL_FILES(elfMessageFile, specialObject)               \
+    { SCENE_CMD_ID_SPECIAL_FILES, elfMessageFile, CMD_W(specialObject) }
 
-#define SCENECMD_ROOM_BEHAVIOR(currRoomUnk3, currRoomUnk2, currRoomUnk5, msgCtxunk12044, enablePosLights,  \
+#define SCENE_CMD_ROOM_BEHAVIOR(currRoomUnk3, currRoomUnk2, currRoomUnk5, msgCtxunk12044, enablePosLights,  \
                                 kankyoContextUnkE2)                                                         \
     {                                                                                                       \
-        SCENECMD_ID_ROOM_BEHAVIOR, currRoomUnk3,                                                           \
+        SCENE_CMD_ID_ROOM_BEHAVIOR, currRoomUnk3,                                                           \
             currRoomUnk2 | _SHIFTL(currRoomUnk5, 8, 1) | _SHIFTL(msgCtxunk12044, 10, 1) |                   \
                 _SHIFTL(enablePosLights, 11, 1) | _SHIFTL(kankyoContextUnkE2, 12, 1)                        \
     }
 
-#define SCENECMD_UNUSED_9()                   \
-    { SCENECMD_ID_UNUSED_9, 0, CMD_W(0) }
+#define SCENE_CMD_UNUSED_9()                   \
+    { SCENE_CMD_ID_UNUSED_9, 0, CMD_W(0) }
 
-#define SCENECMD_MESH(meshHeader)                    \
-    { SCENECMD_ID_MESH, 0, CMD_PTR(meshHeader) }
+#define SCENE_CMD_MESH(meshHeader)                    \
+    { SCENE_CMD_ID_MESH, 0, CMD_PTR(meshHeader) }
 
-#define SCENECMD_OBJECT_LIST(objectNum, objectList)                 \
-    { SCENECMD_ID_OBJECT_LIST, objectNum, CMD_PTR(objectList) }
+#define SCENE_CMD_OBJECT_LIST(objectNum, objectList)                 \
+    { SCENE_CMD_ID_OBJECT_LIST, objectNum, CMD_PTR(objectList) }
 
-#define SCENECMD_POS_LIGHT_LIST(unusedLightNum, unusedLightList)             \
-    { SCENECMD_ID_POS_LIGHT_LIST, unusedLightNum, CMD_PTR(unusedLightList) } 
+#define SCENE_CMD_POS_LIGHT_LIST(unusedLightNum, unusedLightList)             \
+    { SCENE_CMD_ID_POS_LIGHT_LIST, unusedLightNum, CMD_PTR(unusedLightList) } 
 
-#define SCENECMD_PATH_LIST(pathList)                    \
-    { SCENECMD_ID_PATH_LIST, 0, CMD_PTR(pathList) }
+#define SCENE_CMD_PATH_LIST(pathList)                    \
+    { SCENE_CMD_ID_PATH_LIST, 0, CMD_PTR(pathList) }
 
-#define SCENECMD_TRANSI_ACTOR_LIST(transiNum, transiList)             \
-    { SCENECMD_ID_TRANSI_ACTOR_LIST, transiNum, CMD_PTR(transiList) } 
+#define SCENE_CMD_TRANSI_ACTOR_LIST(transiNum, transiList)             \
+    { SCENE_CMD_ID_TRANSI_ACTOR_LIST, transiNum, CMD_PTR(transiList) } 
 
-#define SCENECMD_LIGHT_LIST(lightNum, lightList)                 \
-    { SCENECMD_ID_LIGHT_LIST, lightNum, CMD_PTR(lightList) }
+#define SCENE_CMD_LIGHT_LIST(lightNum, lightList)                 \
+    { SCENE_CMD_ID_LIGHT_LIST, lightNum, CMD_PTR(lightList) }
 
-#define SCENECMD_TIME_SETTINGS(hour, min, speed)                        \
-    { SCENECMD_ID_TIME_SETTINGS, 0, CMD_BBBB(hour, min, speed, 0) }
+#define SCENE_CMD_TIME_SETTINGS(hour, min, speed)                        \
+    { SCENE_CMD_ID_TIME_SETTINGS, 0, CMD_BBBB(hour, min, speed, 0) }
 
-#define SCENECMD_SKYBOX_SETTINGS(externalTextureFileID, skyboxId, weather, lightMode)                     \
-    { SCENECMD_ID_SKYBOX_SETTINGS, externalTextureFileID, CMD_BBBB(skyboxId, weather, lightMode, 0) }
+#define SCENE_CMD_SKYBOX_SETTINGS(externalTextureFileID, skyboxId, weather, lightMode)                     \
+    { SCENE_CMD_ID_SKYBOX_SETTINGS, externalTextureFileID, CMD_BBBB(skyboxId, weather, lightMode, 0) }
 
-#define SCENECMD_SKYBOX_DISABLES(disableSky, disableSunMoon)                           \
-    { SCENECMD_ID_SKYBOX_DISABLES, 0, CMD_BBBB(disableSky, disableSunMoon, 0, 0) }
+#define SCENE_CMD_SKYBOX_DISABLES(disableSky, disableSunMoon)                           \
+    { SCENE_CMD_ID_SKYBOX_DISABLES, 0, CMD_BBBB(disableSky, disableSunMoon, 0, 0) }
 
-#define SCENECMD_EXIT_LIST(exitList)                    \
-    { SCENECMD_ID_EXIT_LIST, 0, CMD_PTR(exitList) }
+#define SCENE_CMD_EXIT_LIST(exitList)                    \
+    { SCENE_CMD_ID_EXIT_LIST, 0, CMD_PTR(exitList) }
 
-#define SCENECMD_END()                   \
-    { SCENECMD_ID_END, 0, CMD_W(0) }
+#define SCENE_CMD_END()                   \
+    { SCENE_CMD_ID_END, 0, CMD_W(0) }
 
-#define SCENECMD_SOUND_SETTINGS(audioSessionId, nighttimeSfx, bgmId)                    \
-    { SCENECMD_ID_SOUND_SETTINGS, audioSessionId, CMD_BBBB(0, 0, nighttimeSfx, bgmId) }
+#define SCENE_CMD_SOUND_SETTINGS(audioSessionId, nighttimeSfx, bgmId)                    \
+    { SCENE_CMD_ID_SOUND_SETTINGS, audioSessionId, CMD_BBBB(0, 0, nighttimeSfx, bgmId) }
 
-#define SCENECMD_ECHO_SETTINGS(echo)                              \
-    { SCENECMD_ID_ECHO_SETTINGS, 0, CMD_BBBB(0, 0, 0, echo) }
+#define SCENE_CMD_ECHO_SETTINGS(echo)                              \
+    { SCENE_CMD_ID_ECHO_SETTINGS, 0, CMD_BBBB(0, 0, 0, echo) }
 
-#define SCENECMD_CUTSCENE_LIST(cutsceneCount, cutsceneList)                 \
-    { SCENECMD_ID_CUTSCENE_LIST, cutsceneCount, CMD_PTR(cutsceneList) }
+#define SCENE_CMD_CUTSCENE_LIST(cutsceneCount, cutsceneList)                 \
+    { SCENE_CMD_ID_CUTSCENE_LIST, cutsceneCount, CMD_PTR(cutsceneList) }
 
-#define SCENECMD_ALTERNATE_HEADER_LIST(alternateHeaderList)                    \
-    { SCENECMD_ID_ALTERNATE_HEADER_LIST, 0, CMD_PTR(alternateHeaderList) }
+#define SCENE_CMD_ALTERNATE_HEADER_LIST(alternateHeaderList)                    \
+    { SCENE_CMD_ID_ALTERNATE_HEADER_LIST, 0, CMD_PTR(alternateHeaderList) }
 
 // OoT
-#define SCENECMD_MISC_SETTINGS(camMode, worldMapLocation)               \
-    { SCENECMD_ID_MISC_SETTINGS, camMode, CMD_W(worldMapLocation) }
+#define SCENE_CMD_MISC_SETTINGS(camMode, worldMapLocation)               \
+    { SCENE_CMD_ID_MISC_SETTINGS, camMode, CMD_W(worldMapLocation) }
 // MM
-#define SCENECMD_WORLD_MAP_VISITED()                   \
-    { SCENECMD_ID_MISC_SETTINGS, 0, CMD_W(0) }
+#define SCENE_CMD_WORLD_MAP_VISITED()                   \
+    { SCENE_CMD_ID_MISC_SETTINGS, 0, CMD_W(0) }
 
-#define SCENECMD_TEXTURE_ANIM_LIST(textureAnimList)                    \
-    { SCENECMD_ID_TEXTURE_ANIM_LIST, 0, CMD_PTR(textureAnimList) }
+#define SCENE_CMD_TEXTURE_ANIM_LIST(textureAnimList)                    \
+    { SCENE_CMD_ID_TEXTURE_ANIM_LIST, 0, CMD_PTR(textureAnimList) }
 
-#define SCENECMD_ACTOR_CUTSCENE_LIST(actorCutsceneCount, actorCutsceneList)                 \
-    { SCENECMD_ID_ACTOR_CUTSCENE_LIST, actorCutsceneCount, CMD_PTR(actorCutsceneList) }
+#define SCENE_CMD_ACTOR_CUTSCENE_LIST(actorCutsceneCount, actorCutsceneList)                 \
+    { SCENE_CMD_ID_ACTOR_CUTSCENE_LIST, actorCutsceneCount, CMD_PTR(actorCutsceneList) }
 
-#define SCENECMD_MINIMAP_INFO(minimapInfo)                    \
-    { SCENECMD_ID_MINIMAP_INFO, 0, CMD_PTR(minimapInfo) }
+#define SCENE_CMD_MINIMAP_INFO(minimapInfo)                    \
+    { SCENE_CMD_ID_MINIMAP_INFO, 0, CMD_PTR(minimapInfo) }
 
-#define SCENECMD_MINIMAP_COMPASS_ICON_INFO(compassIconCount, compassIconInfo)                 \
-    { SCENECMD_ID_MINIMAP_COMPASS_ICON_INFO, compassIconCount, CMD_PTR(compassIconInfo) }
+#define SCENE_CMD_MINIMAP_COMPASS_ICON_INFO(compassIconCount, compassIconInfo)                 \
+    { SCENE_CMD_ID_MINIMAP_COMPASS_ICON_INFO, compassIconCount, CMD_PTR(compassIconInfo) }
 
 
 #endif
