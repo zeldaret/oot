@@ -161,7 +161,7 @@ void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnFish_SetYOffset(EnFish* this) {
-    this->actor.shape.yOffset += ((Math_SinS(this->slowPhase) * 10.0f) + (Math_SinS(this->fastPhase) * 5.0f));
+    this->actor.shape.yOffset += (Math_SinS(this->slowPhase) * 10.0f + Math_SinS(this->fastPhase) * 5.0f);
     this->actor.shape.yOffset = CLAMP(this->actor.shape.yOffset, -200.0f, 200.0f);
 }
 
@@ -177,7 +177,7 @@ s32 EnFish_InBottleRange(EnFish* this, GlobalContext* globalCtx) {
 
         //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
         //! been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's
-        //! world.rot.
+        //! world rotation.
         if (EnFish_XZDistanceSquared(&sp1C, &this->actor.world.pos) <= SQ(20.0f)) {
             return true;
         }
@@ -204,7 +204,7 @@ void EnFish_Respawning_SetupSlowDown(EnFish* this) {
 void EnFish_Respawning_SlowDown(EnFish* this, GlobalContext* globalCtx) {
     EnFish_SetYOffset(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.05f, 0.3f, 0.0f);
-    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.4f) + 0.8f, 2.0f);
+    this->skelAnime.playSpeed = CLAMP_MAX(this->actor.speedXZ * 1.4f + 0.8f, 2.0f);
     SkelAnime_Update(&this->skelAnime);
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
@@ -237,15 +237,13 @@ void EnFish_Respawning_FollowChild(EnFish* this, GlobalContext* globalCtx) {
     if ((EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > SQ(80.0f)) || (this->timer < 4)) {
         Math_StepToAngleS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),
                           3000);
-    } else {
-        if ((this->actor.child != NULL) && (&this->actor != this->actor.child)) {
-            Math_StepToAngleS(&this->actor.world.rot.y,
-                              Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.child->world.pos), 3000);
-        }
+    } else if ((this->actor.child != NULL) && (&this->actor != this->actor.child)) {
+        Math_StepToAngleS(&this->actor.world.rot.y,
+                          Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.child->world.pos), 3000);
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.5f) + 0.8f, 4.0f);
+    this->skelAnime.playSpeed = CLAMP_MAX(this->actor.speedXZ * 1.5f + 0.8f, 4.0f);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->timer <= 0) {
@@ -301,7 +299,7 @@ void EnFish_Respawning_FleePlayer(EnFish* this, GlobalContext* globalCtx) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.5f) + 0.8f, 4.0f);
+    this->skelAnime.playSpeed = CLAMP_MAX(this->actor.speedXZ * 1.5f + 0.8f, 4.0f);
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -386,7 +384,7 @@ void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
         EnFish_Dropped_SetupFlopOnGround(this);
     } else if (this->actor.bgCheckFlags & 0x20) { // In water
         EnFish_Dropped_SetupSwimAway(this);
-    } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) && (this->actor.floorHeight < -31990.0f)) {
+    } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) && (this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // BG missing? Running Actor_delete
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
@@ -417,11 +415,12 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     } else {
         this->actor.velocity.y = 0.0f;
 
-        if (Rand_ZeroOne() < 0.2f) {
-            playSound = true;
-        } else {
-            playSound = false;
-        }
+        // if (Rand_ZeroOne() < 0.2f) {
+        //     playSound = true;
+        // } else {
+        //     playSound = false;
+        // }
+        playSound = (Rand_ZeroOne() < 0.2f ? true : false);
     }
 
     this->actor.shape.yOffset = 300.0f;
@@ -538,30 +537,28 @@ void EnFish_Unique_SwimIdle(EnFish* this, GlobalContext* globalCtx) {
     static f32 speedStopping[] = { 0.0f, 0.04f, 0.09f };
     static f32 speedMoving[] = { 0.5f, 0.1f, 0.15f };
     f32 playSpeed;
-    u32 frames;
-    f32* speedType;
+    u32 frames = globalCtx->gameplayFrames;
+    f32* speed;
     s32 pad2;
     f32 extraPlaySpeed;
     s32 pad3;
 
-    frames = globalCtx->gameplayFrames;
-
     if (this->actor.xzDistToPlayer < 60.0f) {
         if (this->timer < 12) {
-            speedType = speedMoving;
+            speed = speedMoving;
         } else {
-            speedType = speedStopping;
+            speed = speedStopping;
         }
     } else {
         if (this->timer < 4) {
-            speedType = speedMoving;
+            speed = speedMoving;
         } else {
-            speedType = speedStopping;
+            speed = speedStopping;
         }
     }
 
     EnFish_SetYOffset(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, speedType[0], speedType[1], speedType[2], 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, speed[0], speed[1], speed[2], 0.0f);
 
     extraPlaySpeed = 0.0f;
 
@@ -670,9 +667,9 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
 
     progress = func_8006F93C(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
 
-    this->actor.world.pos.x = ((endPos.x - startPos.x) * progress) + startPos.x;
-    this->actor.world.pos.y = ((endPos.y - startPos.y) * progress) + startPos.y + D_80A17014;
-    this->actor.world.pos.z = ((endPos.z - startPos.z) * progress) + startPos.z;
+    this->actor.world.pos.x = (endPos.x - startPos.x) * progress + startPos.x;
+    this->actor.world.pos.y = (endPos.y - startPos.y) * progress + startPos.y + D_80A17014;
+    this->actor.world.pos.z = (endPos.z - startPos.z) * progress + startPos.z;
 
     this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &bgId,
                                                           &this->actor, &this->actor.world.pos);

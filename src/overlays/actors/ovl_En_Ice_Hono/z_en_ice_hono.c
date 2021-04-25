@@ -196,8 +196,10 @@ u32 EnIceHono_InBottleRange(EnIceHono* this, GlobalContext* globalCtx) {
         tempPos.x = Math_SinS(this->actor.yawTowardsPlayer + 0x8000) * 40.0f + player->actor.world.pos.x;
         tempPos.y = player->actor.world.pos.y;
         tempPos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 40.0f + player->actor.world.pos.z;
-        
-        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's world.rot.
+
+        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
+        //! been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's
+        //! world rotation.
         if (EnIceHono_XZDistanceSquared(&tempPos, &this->actor.world.pos) <= SQ(40.0f)) {
             return true;
         }

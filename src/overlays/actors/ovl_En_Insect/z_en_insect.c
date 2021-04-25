@@ -103,7 +103,9 @@ s32 EnInsect_InBottleRange(EnInsect* this, GlobalContext* globalCtx) {
         pos.y = player->actor.world.pos.y;
         pos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f + player->actor.world.pos.z;
 
-        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's world.rot.
+        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
+        //! been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's
+        //! world rotation.
         if (EnInsect_XZDistanceSquared(&pos, &this->actor.world.pos) <= SQ(20.0f)) {
             return true;
         }
@@ -710,7 +712,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
     } else if (sp50 != 0) {
         func_80A7C3A0(this);
     } else if ((sp3A == 2 || sp3A == 3) && (this->unk_314 & 1) && this->unk_31C <= 0 && this->unk_31A <= 0 &&
-               this->actor.floorHeight < -31990.0f) {
+               this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // BG missing? To do Actor_delete
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_mushi.c", 1197);
