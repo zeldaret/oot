@@ -243,7 +243,7 @@ void EfcErupc_AddParticle(EfcErupcParticles* particles, Vec3f* pos, Vec3f* vel, 
             particles->accel = *accel;
             particles->scale = scaleFactor / 1000.0f;
             particles->alpha = 255;
-            particles->animTimer = (s8)(s32)(s8)(s32)Rand_ZeroFloat(10);
+            particles->animTimer = (s16)Rand_ZeroFloat(10.0f);
             return;
         }
     }
