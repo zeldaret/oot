@@ -419,6 +419,7 @@ typedef enum {
     /* 0x6E */ SCENE_ID_MAX
 } SceneID;
 
+// Scene commands
 
 typedef enum {
     /* 0x00 */ SCENE_CMD_ID_SPAWN_LIST,
@@ -478,12 +479,10 @@ typedef enum {
 #define SCENE_CMD_SPECIAL_FILES(elfMessageFile, specialObject)               \
     { SCENE_CMD_ID_SPECIAL_FILES, elfMessageFile, CMD_W(specialObject) }
 
-#define SCENE_CMD_ROOM_BEHAVIOR(currRoomUnk3, currRoomUnk2, currRoomUnk5, msgCtxunk12044, enablePosLights,  \
-                                kankyoContextUnkE2)                                                         \
-    {                                                                                                       \
-        SCENE_CMD_ID_ROOM_BEHAVIOR, currRoomUnk3,                                                           \
-            currRoomUnk2 | _SHIFTL(currRoomUnk5, 8, 1) | _SHIFTL(msgCtxunk12044, 10, 1) |                   \
-                _SHIFTL(enablePosLights, 11, 1) | _SHIFTL(kankyoContextUnkE2, 12, 1)                        \
+#define SCENE_CMD_ROOM_BEHAVIOR(curRoomUnk3, curRoomUnk2, showInvisActors, msgCtxUnkE40C)                  \
+    {                                                                                                      \
+        SCENE_CMD_ID_ROOM_BEHAVIOR, curRoomUnk3,                                                           \
+            curRoomUnk2 | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(msgCtxUnkE40C, 10, 1) \
     }
 
 #define SCENE_CMD_UNUSED_9() \
