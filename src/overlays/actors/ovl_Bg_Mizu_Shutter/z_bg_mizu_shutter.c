@@ -31,12 +31,17 @@ const ActorInit Bg_Mizu_Shutter_InitVars = {
 };
 
 static Gfx* sDisplayLists[] = { gObjectMizuObjectsShutterDL_007130, gObjectMizuObjectsShutterDL_0072D0 };
-static CollisionHeader* sCollisionHeaders[] = { &gObjectMizuObjectsShutterCol_007250,
-                                                &gObjectMizuObjectsShutterCol_0073F0 };
+
+static CollisionHeader* sCollisionHeaders[] = {
+    &gObjectMizuObjectsShutterCol_007250,
+    &gObjectMizuObjectsShutterCol_0073F0,
+};
+
 static Vec3f sDisplacements[] = {
     { 0.0f, 100.0f, 0.0f },
     { 0.0f, 140.0f, 0.0f },
 };
+
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_CONTINUE),

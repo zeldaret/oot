@@ -361,9 +361,10 @@ void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     u32 frames;
 
+    if (1) {}
+    
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_movebg.c", 754);
 
-    if (1) {}
     frames = globalCtx->gameplayFrames;
     func_80093D18(globalCtx->state.gfxCtx);
 
