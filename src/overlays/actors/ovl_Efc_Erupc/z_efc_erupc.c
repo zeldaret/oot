@@ -33,15 +33,14 @@ const ActorInit Efc_Erupc_InitVars = {
 };
 
 void EfcErupc_SetupAction(EfcErupc* this, EfcErupcActionFunc actionFunc) {
-
     this->actionFunc = actionFunc;
 }
 
 void EfcErupc_Init(Actor* thisx, GlobalContext* globalCtx) {
     EfcErupc* this = THIS;
 
-    EfcErupc_SetupAction(this, &EfcErupc_UpdateAction);
-    Actor_SetScale(thisx, 1.0f);
+    EfcErupc_SetupAction(this, EfcErupc_UpdateAction);
+    Actor_SetScale(&this->actor, 1.0f);
     EfcErupc_InitParticles(this->particles);
     this->unk14C = this->unk14E = this->unk150 = 0;
     this->unk152 = 5;
@@ -131,11 +130,11 @@ void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(
         POLY_XLU_DISP++, 0x09,
-        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, this->unk150 * -4, 16, 128, 1, 0, this->unk150 * 12, 32, 32));
+        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, this->unk150 * -4, 16, 128, 1, 0, this->unk150 * 12, 32, 32));
 
     gSPSegment(
         POLY_XLU_DISP++, 0x0A,
-        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, this->unk150 * -4, 16, 128, 1, 0, this->unk150 * 12, 32, 32));
+        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, this->unk150 * -4, 16, 128, 1, 0, this->unk150 * 12, 32, 32));
 
     Matrix_Push();
     Matrix_Scale(0.8f, 0.8f, 0.8f, MTXMODE_APPLY);
@@ -167,11 +166,10 @@ void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EfcErupc_DrawParticles(EfcErupcParticles* particles, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
     s32 pad;
-
-    gfxCtx = globalCtx->state.gfxCtx;
+    
     OPEN_DISPS(gfxCtx, "../z_efc_erupc.c", 368);
     for (i = 0; i < EFC_ERUPC_NUM_PARTICLES; i++, particles++) {
         if (particles->isActive) {
@@ -192,7 +190,7 @@ void EfcErupc_DrawParticles(EfcErupcParticles* particles, GlobalContext* globalC
     CLOSE_DISPS(gfxCtx, "../z_efc_erupc.c", 399);
 }
 
-Color_RGB8 D_8099D770[] = {
+static Color_RGB8 D_8099D770[] = {
     { 255, 128, 0 },
     { 255, 0, 0 },
     { 255, 255, 0 },
