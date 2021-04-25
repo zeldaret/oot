@@ -433,10 +433,10 @@ typedef enum {
     /* 0x09 */ SCENE_CMD_ID_UNUSED_9,
     /* 0x0A */ SCENE_CMD_ID_MESH,
     /* 0x0B */ SCENE_CMD_ID_OBJECT_LIST,
-    /* 0x0C */ SCENE_CMD_ID_POS_LIGHT_LIST,
+    /* 0x0C */ SCENE_CMD_ID_LIGHT_LIST,
     /* 0x0D */ SCENE_CMD_ID_PATH_LIST,
     /* 0x0E */ SCENE_CMD_ID_TRANSI_ACTOR_LIST,
-    /* 0x0F */ SCENE_CMD_ID_LIGHT_LIST,
+    /* 0x0F */ SCENE_CMD_ID_ENV_LIGHT_SETTINGS,
     /* 0x10 */ SCENE_CMD_ID_TIME_SETTINGS,
     /* 0x11 */ SCENE_CMD_ID_SKYBOX_SETTINGS,
     /* 0x12 */ SCENE_CMD_ID_SKYBOX_DISABLES,
@@ -486,7 +486,7 @@ typedef enum {
                 _SHIFTL(enablePosLights, 11, 1) | _SHIFTL(kankyoContextUnkE2, 12, 1)                        \
     }
 
-#define SCENE_CMD_UNUSED_9()                   \
+#define SCENE_CMD_UNUSED_9() \
     { SCENE_CMD_ID_UNUSED_9, 0, CMD_W(0) }
 
 #define SCENE_CMD_MESH(meshHeader)                    \
@@ -495,7 +495,7 @@ typedef enum {
 #define SCENE_CMD_OBJECT_LIST(objectNum, objectList)                 \
     { SCENE_CMD_ID_OBJECT_LIST, objectNum, CMD_PTR(objectList) }
 
-#define SCENE_CMD_POS_LIGHT_LIST(unusedLightNum, unusedLightList)             \
+#define SCENE_CMD_LIGHT_LIST(unusedLightNum, unusedLightList)             \
     { SCENE_CMD_ID_POS_LIGHT_LIST, unusedLightNum, CMD_PTR(unusedLightList) } 
 
 #define SCENE_CMD_PATH_LIST(pathList)                    \
@@ -504,8 +504,8 @@ typedef enum {
 #define SCENE_CMD_TRANSI_ACTOR_LIST(transiNum, transiList)             \
     { SCENE_CMD_ID_TRANSI_ACTOR_LIST, transiNum, CMD_PTR(transiList) } 
 
-#define SCENE_CMD_LIGHT_LIST(lightNum, lightList)                 \
-    { SCENE_CMD_ID_LIGHT_LIST, lightNum, CMD_PTR(lightList) }
+#define SCENE_CMD_ENV_LIGHT_SETTINGS(lightNum, lightList)                 \
+    { SCENE_CMD_ID_ENV_LIGHT_SETTINGS, lightNum, CMD_PTR(lightList) }
 
 #define SCENE_CMD_TIME_SETTINGS(hour, min, speed)                        \
     { SCENE_CMD_ID_TIME_SETTINGS, 0, CMD_BBBB(hour, min, speed, 0) }
