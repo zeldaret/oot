@@ -217,6 +217,8 @@ void EnFish_Respawning_SlowDown(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
+// The three following actionfunctions also turn the yaw to home if the fish is too far from it.
+
 void EnFish_Respawning_SetupFollowChild(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
@@ -339,7 +341,7 @@ void EnFish_Respawning_ApproachPlayer(EnFish* this, GlobalContext* globalCtx) {
         } else {
             temp_a0_2 = (this->actor.yawTowardsPlayer + 0x7000);
         }
-        
+
         sp38.x = player->actor.world.pos.x + (Math_SinS(temp_a0_2) * 20.0f);
         sp38.y = player->actor.world.pos.y;
         sp38.z = player->actor.world.pos.z + (Math_CosS(temp_a0_2) * 20.0f);
@@ -394,7 +396,8 @@ void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
 }
 
 /**
- * If the fish is on a floor, this function is looped back to by EnFish_Dropped_FlopOnGround to set a new flopping height and whether the sound should play again.
+ * If the fish is on a floor, this function is looped back to by EnFish_Dropped_FlopOnGround to set a new flopping
+ * height and whether the sound should play again.
  */
 void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     s32 pad;
@@ -639,7 +642,6 @@ void EnFish_UpdateCutscene(EnFish* this, GlobalContext* globalCtx) {
     this->slowPhase += 0x111;
     this->fastPhase += 0x500;
 
-    // csAction = temp_v0;
     switch (csAction->action) {
         case 1:
             EnFish_Cutscene_FlopOnGround(this, globalCtx);
