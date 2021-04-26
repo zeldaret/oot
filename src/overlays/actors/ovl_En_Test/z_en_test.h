@@ -45,7 +45,7 @@ typedef enum {
     /* 0 */ STALFOS_INVISIBLE,
     /* 1 */ STALFOS_1,
     /* 2 */ STALFOS_2,
-    /* 3 */ STALFOS_CEILING,
+    /* 3 */ STALFOS_CEILING
 } StalfosType;
 
 extern const ActorInit En_Test_InitVars;
