@@ -195,11 +195,11 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.013f);
     this->unkUpTimer++;
     tempActionFunc = func_80AB94D0;
-    if (this->unk_274 == 0) {
-        this->unk_272++;
-        if (this->unk_272 >= 3) {
-            this->unk_272 = 0;
-            this->unk_274 = (s16)Rand_ZeroFloat(60.0f) + 20;
+    if (this->blinkTimer == 0) {
+        this->eyeIndex++;
+        if (this->eyeIndex >= 3) {
+            this->eyeIndex = 0;
+            this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->unk_280 = 30.0f;
@@ -217,8 +217,8 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->unk_260.y, 0, 5, 3000, 0);
         Math_SmoothStepToS(&this->unk_260.z, 0, 5, 3000, 0);
     }
-    if (this->unk_274 != 0) {
-        this->unk_274--;
+    if (this->blinkTimer != 0) {
+        this->blinkTimer--;
     }
     if (this->jumpTimer != 0) {
         this->jumpTimer--;
@@ -247,7 +247,7 @@ s32 EnNiwGirlOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 
 void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = { gNiwGirlEyeOpenTex, gNiwGirlHalfClosedTex, gNiwGirlClosedTex };
+    static u64* eyeTextures[] = { gNiwGirlEyeOpenTex, gNiwGirlEyeHalfTex, gNiwGirlEyeClosedTex };
     EnNiwGirl* this = THIS;
     s32 pad;
     Vec3f sp4C = sConstVec3f;
@@ -255,7 +255,7 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 573);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->unk_272]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnNiwGirlOverrideLimbDraw, 0, this);
     func_80033C30(&this->actor.world.pos, &sp4C, 255, globalCtx);
