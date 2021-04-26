@@ -481,7 +481,7 @@ void EnBb_Death(EnBb* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (this->bodyBreak.val == 0) {
+        if (this->bodyBreak.val == BODYBREAK_STATUS_FINISHED) {
             BodyBreak_Alloc(&this->bodyBreak, 12, globalCtx);
         }
 

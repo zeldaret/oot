@@ -3094,7 +3094,7 @@ void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s3
 
         if ((u32)bodyBreak->count >= count) {
             bodyBreak->count = bodyBreak->val - 1;
-            bodyBreak->val = -1;
+            bodyBreak->val = BODYBREAK_STATUS_READY;
         }
     }
 
@@ -3106,7 +3106,7 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* glob
     MtxF* mtx;
     s16 objBankIndex;
 
-    if (bodyBreak->val != -1) {
+    if (bodyBreak->val != BODYBREAK_STATUS_READY) {
         return false;
     }
 
@@ -3137,7 +3137,7 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* glob
         bodyBreak->count--;
     }
 
-    bodyBreak->val = 0;
+    bodyBreak->val = BODYBREAK_STATUS_FINISHED;
 
     ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7678);
     ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7679);

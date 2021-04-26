@@ -200,7 +200,7 @@ void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->flipState = TEKTITE_INITIAL;
     thisx->colChkInfo.damageTable = sDamageTable;
     this->actionVar1 = 0;
-    this->bodyBreak.val = 0;
+    this->bodyBreak.val = BODYBREAK_STATUS_FINISHED;
     thisx->focus.pos = thisx->world.pos;
     thisx->focus.pos.y += 20.0f;
     thisx->colChkInfo.health = 2;
