@@ -3369,7 +3369,7 @@ void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 baseTex
 /**
  * Checks if a given actor will be standing on the ground after being translated
  * by the provided distance and angle.
- * 
+ *
  * Returns true if the actor will be standing on ground.
  */
 s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 distance, s16 yaw) {

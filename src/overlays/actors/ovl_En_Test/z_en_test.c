@@ -15,8 +15,23 @@ void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnTest_ChooseBackupAction(EnTest* this, GlobalContext* globalCtx);
-void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx);
+void EnTest_SetupWaitGround(EnTest* this);
+void EnTest_SetupWaitAbove(EnTest* this);
+void EnTest_SetupJumpBack(EnTest* this);
+void EnTest_SetupSlash1End(EnTest* this);
+void EnTest_SetupSlash2(EnTest* this);
+void EnTest_SetupJumpslash(EnTest* this);
+void EnTest_SetupWalkAndBlock(EnTest* this);
+void EnTest_SetupSidestepInactive(EnTest* this);
+void EnTest_SetupSlash1(EnTest* this);
+void EnTest_SetupSidestepFromIdle(EnTest* this);
+void EnTest_SetupIdleFromBlock(EnTest* this);
+void EnTest_SetupRecoil(EnTest* this);
+void func_80862398(EnTest* this);
+void func_80862154(EnTest* this);
+void EnTest_SetupStopAndBlock(EnTest* this);
+void EnTest_SetupSidestepAgro(EnTest* this, GlobalContext* globalCtx);
+
 void EnTest_WaitGround(EnTest* this, GlobalContext* globalCtx);
 void EnTest_WaitAbove(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Fall(EnTest* this, GlobalContext* globalCtx);
@@ -47,23 +62,6 @@ void func_80862FA8(EnTest* this, GlobalContext* globalCtx);
 
 s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this);
 
-void EnTest_SetupWaitGround(EnTest* this);
-void EnTest_SetupWaitAbove(EnTest* this);
-void EnTest_SetupJumpBack(EnTest* this);
-void EnTest_SetupSlash1End(EnTest* this);
-void EnTest_SetupSlash2(EnTest* this);
-void EnTest_SetupJumpslash(EnTest* this);
-void EnTest_SetupWalkAndBlock(EnTest* this);
-void EnTest_SetupSidestepInactive(EnTest* this);
-void EnTest_SetupSlash1(EnTest* this);
-void EnTest_SetupSidestepFromIdle(EnTest* this);
-void EnTest_SetupIdleFromBlock(EnTest* this);
-void EnTest_SetupRecoil(EnTest* this);
-void func_80862398(EnTest* this);
-void func_80862154(EnTest* this);
-void EnTest_SetupStopAndBlock(EnTest* this);
-void EnTest_SetupSidestepAgro(EnTest* this, GlobalContext* globalCtx);
-
 extern SkeletonHeader D_06007C28;
 extern AnimationHeader D_0600316C; // ready stance
 extern AnimationHeader D_06001978; // jump back
@@ -82,7 +80,6 @@ extern AnimationHeader D_06008604;
 extern AnimationHeader D_06009A90;
 extern AnimationHeader D_0600C438;
 
-// animation indexes?
 static u8 D_80864510[] = {
     0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
@@ -471,7 +468,6 @@ void EnTest_Idle(EnTest* this, GlobalContext* globalCtx) {
             if (Actor_YawInRangeWithPlayer(&this->actor, 0x1555)) {
                 if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
                     (Rand_ZeroOne() < 0.3f)) {
-                    // player is targeting this stalfos
                     if (Actor_IsTargeted(globalCtx, &this->actor)) {
                         EnTest_SetupJumpslash(this);
                     } else {
@@ -1054,10 +1050,8 @@ void EnTest_JumpBack(EnTest* this, GlobalContext* globalCtx) {
             }
             this->actor.flags |= 1;
         }
-    } else {
-        if (this->skelAnime_188.curFrame == (this->skelAnime_188.endFrame - 4.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND); // landing on the ground
-        }
+    } else if (this->skelAnime_188.curFrame == (this->skelAnime_188.endFrame - 4.0f)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 }
 
@@ -1169,8 +1163,6 @@ void EnTest_StopAndBlock(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-// todo: why is this idle animation different from the other?
-// not sure what the morph stuff is for
 void EnTest_SetupIdleFromBlock(EnTest* this) {
     Animation_MorphToLoop(&this->skelAnime_188, &D_0600316C, -4.0f);
     this->unk_7C8 = 0x16;
@@ -1967,7 +1959,6 @@ void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// sidestep 4
 void EnTest_SetupSidestepSetSpeed(EnTest* this, f32 xzSpeed) {
     Animation_MorphToLoop(&this->skelAnime_188, &D_0600E2B0, -2.0f);
     this->actor.speedXZ = xzSpeed;
@@ -1978,7 +1969,8 @@ void EnTest_SetupSidestepSetSpeed(EnTest* this, f32 xzSpeed) {
 }
 
 /**
- * Checks if a projectile actor is within 300 units
+ * Checks if a projectile actor is within 300 units and react accordingly.
+ * Returns true if the projectile test passes and a new action is performed .
  */
 s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
     Actor* projectileActor;
