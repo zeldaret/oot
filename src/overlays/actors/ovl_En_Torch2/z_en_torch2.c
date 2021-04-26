@@ -172,7 +172,7 @@ void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 Actor* EnTorch2_GetAttackItem(GlobalContext* globalCtx, Player* this) {
-    Actor* rangedItem = func_80033780(globalCtx, &this->actor, 4000.0f);
+    Actor* rangedItem = Actor_GetProjectileActor(globalCtx, &this->actor, 4000.0f);
 
     if (rangedItem != NULL) {
         return rangedItem;
@@ -636,7 +636,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_8A0 = this->actor.colChkInfo.damage;
                 this->unk_8A4 = 8.0f;
                 this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
-                func_80035650(&this->actor, &this->cylinder.info, 1);
+                Actor_SetDropFlag(&this->actor, &this->cylinder.info, 1);
                 this->stateFlags3 &= ~4;
                 this->stateFlags3 |= 1;
                 sActionState = ENTORCH2_DAMAGE;

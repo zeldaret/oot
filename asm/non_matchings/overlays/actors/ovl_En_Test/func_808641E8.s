@@ -3,7 +3,7 @@ glabel func_808641E8
 /* 04B9C 808641EC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 04BA0 808641F0 AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 04BA4 808641F4 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 04BA8 808641F8 0C00CDE0 */  jal     func_80033780              
+/* 04BA8 808641F8 0C00CDE0 */  jal     Actor_GetProjectileActor              
 /* 04BAC 808641FC 3C064396 */  lui     $a2, 0x4396                ## $a2 = 43960000
 /* 04BB0 80864200 8FA7002C */  lw      $a3, 0x002C($sp)           
 /* 04BB4 80864204 104000BD */  beq     $v0, $zero, .L808644FC     

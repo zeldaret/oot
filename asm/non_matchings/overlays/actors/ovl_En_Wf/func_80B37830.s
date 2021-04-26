@@ -4,7 +4,7 @@ glabel func_80B37830
 /* 03B88 80B37838 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 03B8C 80B3783C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 03B90 80B37840 AFA40028 */  sw      $a0, 0x0028($sp)           
-/* 03B94 80B37844 0C00CDE0 */  jal     func_80033780              
+/* 03B94 80B37844 0C00CDE0 */  jal     Actor_GetProjectileActor              
 /* 03B98 80B37848 3C064416 */  lui     $a2, 0x4416                ## $a2 = 44160000
 /* 03B9C 80B3784C 10400049 */  beq     $v0, $zero, .L80B37974     
 /* 03BA0 80B37850 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

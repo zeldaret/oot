@@ -1395,7 +1395,7 @@ glabel EnTorch2_Update
 /* 0182C 80B1F1AC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01830 80B1F1B0 E60008A8 */  swc1    $f0, 0x08A8($s0)           ## 000008A8
 /* 01834 80B1F1B4 A20B08A0 */  sb      $t3, 0x08A0($s0)           ## 000008A0
-/* 01838 80B1F1B8 0C00D594 */  jal     func_80035650              
+/* 01838 80B1F1B8 0C00D594 */  jal     Actor_SetDropFlag              
 /* 0183C 80B1F1BC E61008A4 */  swc1    $f16, 0x08A4($s0)          ## 000008A4
 /* 01840 80B1F1C0 920F0692 */  lbu     $t7, 0x0692($s0)           ## 00000692
 /* 01844 80B1F1C4 3C0C80B2 */  lui     $t4, %hi(sAlpha)       ## $t4 = 80B20000

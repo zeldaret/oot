@@ -12,7 +12,7 @@ glabel func_809E8140
 /* 02998 809E8168 304FFFFD */  andi    $t7, $v0, 0xFFFD           ## $t7 = 00000000
 /* 0299C 809E816C A08F0249 */  sb      $t7, 0x0249($a0)           ## 00000249
 /* 029A0 809E8170 26250238 */  addiu   $a1, $s1, 0x0238           ## $a1 = 00000238
-/* 029A4 809E8174 0C00D5CF */  jal     func_8003573C              
+/* 029A4 809E8174 0C00D5CF */  jal     Actor_SetDropFlagJntSph              
 /* 029A8 809E8178 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 029AC 809E817C 9238024C */  lbu     $t8, 0x024C($s1)           ## 0000024C
 /* 029B0 809E8180 2401000C */  addiu   $at, $zero, 0x000C         ## $at = 0000000C

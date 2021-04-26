@@ -587,7 +587,7 @@ void EnTp_UpdateDamage(EnTp* this, GlobalContext* globalCtx) {
         }
 
         this->collider.base.acFlags &= ~AC_HIT;
-        func_8003573C(&this->actor, &this->collider, 1);
+        Actor_SetDropFlagJntSph(&this->actor, &this->collider, 1);
         this->damageEffect = this->actor.colChkInfo.damageEffect;
 
         if (this->actor.colChkInfo.damageEffect != TAILPASARAN_DMGEFF_NONE) {
