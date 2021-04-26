@@ -3042,15 +3042,15 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, GlobalContext* globalCtx) 
     u32 dListsSize;
     u32 objectIdsSize;
 
-    matricesSize = (count * sizeof(*bodyBreak->matrices)) + sizeof(*bodyBreak->matrices);
+    matricesSize = (count + 1) * sizeof(*bodyBreak->matrices);
     bodyBreak->matrices = ZeldaArena_MallocDebug(matricesSize, "../z_actor.c", 7540);
 
     if (bodyBreak->matrices != NULL) {
-        dListsSize = (count * sizeof(*bodyBreak->dLists)) + sizeof(*bodyBreak->dLists);
+        dListsSize = (count + 1) * sizeof(*bodyBreak->dLists);
         bodyBreak->dLists = ZeldaArena_MallocDebug(dListsSize, "../z_actor.c", 7543);
 
         if (bodyBreak->dLists != NULL) {
-            objectIdsSize = (count * sizeof(*bodyBreak->objectIds)) + sizeof(*bodyBreak->objectIds);
+            objectIdsSize = (count + 1) * sizeof(*bodyBreak->objectIds);
             bodyBreak->objectIds = ZeldaArena_MallocDebug(objectIdsSize, "../z_actor.c", 7546);
 
             if (bodyBreak->objectIds != NULL) {
