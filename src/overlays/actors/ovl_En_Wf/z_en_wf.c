@@ -406,8 +406,87 @@ void func_80B347FC(EnWf* this, GlobalContext* globalCtx) {
 }
 
 // EnWf_?????? (probably when it runs forward)
-void func_80B3487C(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B3487C.s")
+void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
+    s32 sp5C;
+    s32 sp58;
+    s32 pad;
+    f32 sp50 = 0.0f;
+    s32 pad2;
+    Player* player = PLAYER;
+    s32 pad3;
+    s16 temp_v1;
+    s16 temp_v0;
+    f32 sp3C;
+
+    if (!EnWf_DodgeRanged(globalCtx, this)) {
+
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
+        this->actor.world.rot.y = this->actor.shape.rot.y;
+        if (func_80033AB8(globalCtx, &this->actor)) {
+            sp50 = 150.0f;
+        }
+
+        if (this->actor.xzDistToPlayer <= (50.0f + sp50)) {
+            Math_SmoothStepToF(&this->actor.speedXZ, -8.0f, 1.0f, 1.5f, 0.0f);
+        } else if ((65.0f + sp50) < this->actor.xzDistToPlayer) {
+            Math_SmoothStepToF(&this->actor.speedXZ, 8.0f, 1.0f, 1.5f, 0.0f);
+        } else {
+            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 6.65f, 0.0f);
+        }
+
+        this->skelAnime.playSpeed = this->actor.speedXZ * 0.175f;
+        temp_v0 = player->actor.shape.rot.y - this->actor.shape.rot.y;
+        temp_v0 = ABS(temp_v0);
+
+        if ((this->actor.xzDistToPlayer < (150.0f + sp50)) && (player->swordState != 0) && (temp_v0 >= 8000)) {
+            this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+            if (Rand_ZeroOne() > 0.7f) {
+                func_80B34F28(this);
+                return;
+            }
+        }
+
+        sp5C = this->skelAnime.curFrame;
+        SkelAnime_Update(&this->skelAnime);
+        sp3C = ABS(this->skelAnime.playSpeed);
+        sp58 = this->skelAnime.curFrame - sp3C;
+        sp3C = ABS(this->skelAnime.playSpeed);
+
+        if (!func_8002E084(&this->actor, 0x11C7)) {
+            if (Rand_ZeroOne() > 0.5f) {
+                func_80B34F28(this);
+            } else {
+                EnWf_SetupWait(this);
+            }
+        } else if (this->actor.xzDistToPlayer < (90.0f + sp50)) {
+            temp_v1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
+
+            if ((func_80033AB8(globalCtx, &this->actor) == 0) &&
+                ((Rand_ZeroOne() > 0.03f) || ((this->actor.xzDistToPlayer <= 80.0f) && (ABS(temp_v1) < 0x38E0)))) {
+                func_80B35540(this);
+            } else {
+                if (func_80033AB8(globalCtx, &this->actor) && (Rand_ZeroOne() > 0.5f)) {
+                    EnWf_SetupBackFlip(this);
+                } else {
+                    func_80B34F28(this);
+                }
+            }
+        }
+
+        if (func_80B33FB0(globalCtx, this, 0) == 0) {
+            if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+                Audio_PlayActorSound2(&this->actor, (u16)0x383EU);
+            }
+            if ((sp5C != (s32)this->skelAnime.curFrame) && (sp58 <= 0) && (((s32)sp3C + sp5C) > 0)) {
+                Audio_PlayActorSound2(&this->actor, (u16)0x385AU);
+                func_80033260(globalCtx, &this->actor, (Vec3f*)&this->actor.world, 20.0f, 3, 3.0f, 0x32, 0x32, 1);
+            }
+        }
+    }
+}
+
+// void func_80B3487C(EnWf* this, GlobalContext* globalCtx);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B3487C.s")
 
 void EnWf_SetupSearchForPlayer(EnWf* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_060098C8, -4.0f);
