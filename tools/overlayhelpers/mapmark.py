@@ -42,10 +42,10 @@ def GetMapsPerScene(ptrs):
         result.append(v)
     return result
 
-def GetPoints(data, ptr):
+def GetPoints(data, ptr, numPoints):
     points = []
     off = RamToOff(ptr);
-    for i in range(12):
+    for i in range(numPoints):
         points.append(struct.unpack_from(">bBB", data[off:off+3]))
         off = off + 3
     return points
@@ -53,14 +53,15 @@ def GetPoints(data, ptr):
 def GetIconData(data, ptr):
     off = RamToOff(ptr)
     v = struct.unpack_from(">bB", data[off:off+2])
-    points = GetPoints(data, ptr+2)
+    points = GetPoints(data, ptr+2, v[1])
     return [v[0], v[1], points]
 
 def GetSceneMap(data, ptr):
     icons = []
     for i in range(3):
-        icon = GetIconData(data, ptr+(i * 0x26))
-        icons.append(icon)
+        icon = GetIconData(data, ptr + (i * 0x26))
+        if icon[0] != 0 or icon[1] > 0:
+            icons.append(icon)
     return icons
 
 def GetSceneMaps(data, ptr, numMaps):
@@ -115,9 +116,7 @@ for scenemap in scenemaps:
         cstr += IND(1) + f"// {GetDungeonName(scenemap[0])} minimap {mapId}\n"
         cstr += IND(1) + "{\n"
         for icon in map:
-            if SIMPLIFY_OUTPUT and icon[0] == 0 and icon[1] == 0:
-                cstr += IND(2) + "{ 0 },\n"
-            elif SIMPLIFY_OUTPUT and icon[0] == -1:
+            if SIMPLIFY_OUTPUT and icon[0] == -1:
                 cstr += IND(2) + f"{{ {GetIconName(icon[0])}, 0, {{ 0 }} }},\n"
             else:
                 cstr += IND(2) + "{\n"
@@ -133,7 +132,7 @@ for scenemap in scenemaps:
 cstr += "MapMarkData* gMapMarkDataTable[] = {\n"
 for scenemap in scenemaps:
     cstr += f"    {GetDungeonSymbol(scenemap[0])},\n" 
-cstr += "};"
+cstr += "};\n"
 
 with open(sys.argv[1], "w") as file:
     file.write(cstr)
