@@ -7,10 +7,10 @@
         <Texture Name="gNiwGirlHalfClosedTex" OutName="eye_half_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x04978"/>
         <Texture Name="gNiwGirlClosedTex" OutName="eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x05178"/>
         <Texture Name="gNiwGirlMouthTex"  OutName="mouth" Format="rgb5a1" Width="32" Height="16" Offset="0x5978"/>
-        <Texture Name="gNiwGirlDressTex1" OutName="dress_1" Format="rgb5a1" Width="32" Height="32" Offset="0x5FF8"/>
-        <Texture Name="gNiwGirlDressTex2" OutName="dress_2" Format="rgb5a1" Width="32" Height="32" Offset="0x6FF8"/>
-        <Texture Name="gNiwGirlDressTex3" OutName="dress_3" Format="rgb5a1" Width="32" Height="32" Offset="0x8FF8"/>
-        <Texture Name="gNiwGirlDressTex4" OutName="dress_4" Format="rgb5a1" Width="32" Height="32" Offset="0x67F8"/>
-        <Texture Name="gNiwGirlDressTex5" OutName="dress_5" Format="rgb5a1" Width="32" Height="32" Offset="0x87F8"/>
+        <Texture Name="gNiwGirlDress1Tex" OutName="dress_1" Format="rgb5a1" Width="32" Height="32" Offset="0x5FF8"/>
+        <Texture Name="gNiwGirlDress2Tex" OutName="dress_2" Format="rgb5a1" Width="32" Height="32" Offset="0x6FF8"/>
+        <Texture Name="gNiwGirlDress3Tex" OutName="dress_3" Format="rgb5a1" Width="32" Height="32" Offset="0x8FF8"/>
+        <Texture Name="gNiwGirlDress4Tex" OutName="dress_4" Format="rgb5a1" Width="32" Height="32" Offset="0x67F8"/>
+        <Texture Name="gNiwGirlDress5Tex" OutName="dress_5" Format="rgb5a1" Width="32" Height="32" Offset="0x87F8"/>
     </File>
 </Root>

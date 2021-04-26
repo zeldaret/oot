@@ -26,6 +26,11 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, GlobalContext* globalCtx);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
+typedef enum {
+    /* -1 */ HASHIGO_CLASP = -1,
+    /*  0  */ HASHIGO_LADDER
+} HasigoType;
+
 const ActorInit Bg_Mori_Hashigo_InitVars = {
     ACTOR_BG_MORI_HASHIGO,
     ACTORCAT_BG,
@@ -139,7 +144,7 @@ s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, GlobalContext* globalCtx) {
     this->dyna.actor.flags |= 1;
     Actor_SetFocus(&this->dyna.actor, 55.0f);
     BgMoriHashigo_InitCollider(this, globalCtx);
-    if ((this->dyna.actor.params == -1) && !BgMoriHashigo_SpawnLadder(this, globalCtx)) {
+    if ((this->dyna.actor.params == HASHIGO_CLASP) && !BgMoriHashigo_SpawnLadder(this, globalCtx)) {
         return false;
     } else {
         return true;
@@ -156,12 +161,12 @@ void BgMoriHashigo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriHashigo* this = THIS;
 
-    if (this->dyna.actor.params == -1) {
+    if (this->dyna.actor.params == HASHIGO_CLASP) {
         if (!BgMoriHashigo_InitClasp(this, globalCtx)) {
             Actor_Kill(&this->dyna.actor);
             return;
         }
-    } else if (this->dyna.actor.params == 0) {
+    } else if (this->dyna.actor.params == HASHIGO_LADDER) {
         if (!BgMoriHashigo_InitLadder(this, globalCtx)) {
             Actor_Kill(&this->dyna.actor);
             return;
@@ -184,10 +189,10 @@ void BgMoriHashigo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriHashigo* this = THIS;
 
-    if (this->dyna.actor.params == 0) {
+    if (this->dyna.actor.params == HASHIGO_LADDER) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
-    if (this->dyna.actor.params == -1) {
+    if (this->dyna.actor.params == HASHIGO_CLASP) {
         Collider_DestroyJntSph(globalCtx, &this->collider);
     }
 }
@@ -198,9 +203,9 @@ void BgMoriHashigo_SetupWaitForMoriTex(BgMoriHashigo* this) {
 
 void BgMoriHashigo_WaitForMoriTex(BgMoriHashigo* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
-        if (this->dyna.actor.params == -1) {
+        if (this->dyna.actor.params == HASHIGO_CLASP) {
             BgMoriHashigo_SetupClasp(this);
-        } else if (this->dyna.actor.params == 0) {
+        } else if (this->dyna.actor.params == HASHIGO_LADDER) {
             BgMoriHashigo_SetupLadderWait(this);
         }
         this->dyna.actor.draw = BgMoriHashigo_Draw;
@@ -292,10 +297,10 @@ void BgMoriHashigo_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     switch (this->dyna.actor.params) {
-        case -1:
+        case HASHIGO_CLASP:
             gSPDisplayList(POLY_OPA_DISP++, gMoriHashigoClaspDL);
             break;
-        case 0:
+        case HASHIGO_LADDER:
             gSPDisplayList(POLY_OPA_DISP++, gMoriHashigoLadderDL);
             break;
     }

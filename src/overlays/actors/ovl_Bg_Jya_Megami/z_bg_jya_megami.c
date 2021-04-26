@@ -289,13 +289,13 @@ void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 static u64* sRightSideCrumbles[] = {
-    gMeagmiRightCrumbleTex1, gMeagmiRightCrumbleTex2, gMeagmiRightCrumbleTex3,
-    gMeagmiRightCrumbleTex4, gMeagmiRightCrumbleTex5,
+    gMeagmiRightCrumble1Tex, gMeagmiRightCrumble2Tex, gMeagmiRightCrumble3Tex,
+    gMeagmiRightCrumble4Tex, gMeagmiRightCrumble5Tex,
 };
 
 static u64* sLeftSideCrumbles[] = {
-    gMeagmiLeftCrumbleTex1, gMeagmiLeftCrumbleTex2, gMeagmiLeftCrumbleTex3,
-    gMeagmiLeftCrumbleTex4, gMeagmiLeftCrumbleTex5,
+    gMeagmiLeftCrumble1Tex, gMeagmiLeftCrumble2Tex, gMeagmiLeftCrumble3Tex,
+    gMeagmiLeftCrumble4Tex, gMeagmiLeftCrumble5Tex,
 };
 
 void BgJyaMegami_DrawFace(BgJyaMegami* this, GlobalContext* globalCtx) {

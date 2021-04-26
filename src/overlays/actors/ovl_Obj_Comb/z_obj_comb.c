@@ -72,7 +72,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
     Vec3f pos;
     Vec3f velocity;
-    Gfx* dlist = &gFieldBeehiveFragmentDL;
+    Gfx* dlist = gFieldBeehiveFragmentDL;
     s16 scale;
     s16 angle = 0;
     s16 gravity;
@@ -83,7 +83,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 31; i++) {
-        angle += 20000;
+        angle += 0x4E20;
         rand1 = Rand_ZeroOne() * 10.0f;
 
         pos1.x = Math_SinS(angle) * rand1;
@@ -198,7 +198,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
 void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjComb* this = THIS;
 
-    this->unk_1B2 += 12000;
+    this->unk_1B2 += 0x2EE0;
     this->actionFunc(this, globalCtx);
     this->actor.shape.rot.x = Math_SinS(this->unk_1B2) * this->unk_1B0 + this->actor.home.rot.x;
 }
