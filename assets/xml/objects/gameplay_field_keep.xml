@@ -16,17 +16,17 @@
         <DList Name="gBgBombwallBrokenDL" Offset="0x4088"/>
         <DList Name="gGrottoDL" Offset="0x1390"/>
         <Texture Name="gGrottoTex" OutName="grotto_tex" Format="ia16" Width="32" Height="64" Offset="0x1420"/>
-        <DList Name="gButterflyDL_2480" Offset="0x2480"/>
-        <DList Name="gButterflyDL_2520" Offset="0x2520"/>
-        <DList Name="gButterflyDL_2580" Offset="0x2580"/>
-        <DList Name="gButterflyDL_2620" Offset="0x2620"/>
+        <DList Name="gButterflyDL_002480" Offset="0x2480"/>
+        <DList Name="gButterflyDL_002520" Offset="0x2520"/>
+        <DList Name="gButterflyDL_002580" Offset="0x2580"/>
+        <DList Name="gButterflyDL_002620" Offset="0x2620"/>
         <Texture Name="gButterflyWingTex" OutName="butterfly_wing" Format="rgb5a1" Width="32" Height="64" Offset="0x2680"/>
         <Skeleton Name="gButterflySkel" Type="Standard" LimbType="Standard" Offset="0x36F0"/>
         <Animation Name="gButterflyAnim" Offset="0x2470"/>
         <Texture Name="gBgBombwallTLUT" OutName="bombwall_palette" Format="rgb5a1" Width="4" Height="4" Offset="0x3700"/>
         <Texture Name="gBgBombwallNormalTex" OutName="bombwall_normal" Format="ci4" Width="32" Height="64" Offset="0x3720"/>
         <Texture Name="gBgBombWallBrokenTex" OutName="bombwall_broken" Format="ci4" Width="32" Height="64" Offset="0x3B20"/>
-        <DList Name="gFieldDoorDL_4720" Offset="0x4720"/>
+        <DList Name="gFieldDoorDL_004720" Offset="0x4720"/>
         <DList Name="gFieldDoor1DL" Offset="0x47A0"/>
         <DList Name="gFieldDoor2DL" Offset="0x4978"/>
         <Texture Name="gFieldDoor1Tex" OutName="field_door1" Format="i8" Width="32" Height="128" Offset="0x04F50"/>
@@ -35,9 +35,9 @@
         <Skeleton Name="gFieldUnusedFishSkel" Type="Standard" LimbType="Standard" Offset="0x088F8"/>
         <Animation Name="gFieldUnusedFishAnim" Offset="0x5FF0"/>
         <DList Name="gFieldUnusedFishDL" Offset="0x6000"/>
-        <DList Name="gFieldSkelUnusedFishDL_61E8" Offset="0x61E8"/>
-        <DList Name="gFieldSkelUnusedFishDL_63A8" Offset="0x63A8"/>
-        <DList Name="gFieldSkelUnusedFishDL_6448" Offset="0x6448"/>
+        <DList Name="gFieldSkelUnusedFishDL_0061E8" Offset="0x61E8"/>
+        <DList Name="gFieldSkelUnusedFishDL_0063A8" Offset="0x63A8"/>
+        <DList Name="gFieldSkelUnusedFishDL_006448" Offset="0x6448"/>
         <Texture Name="gFieldUnusedFishTex" OutName="unused_fish" Format="rgb5a1" Width="64" Height="32" Offset="0x64A8"/>
         <Texture Name="gFieldUnusedFishBottomTex" OutName="unused_fish_bottom" Format="rgb5a1" Width="64" Height="32" Offset="0x074A8"/>
         <Texture Name="gFieldUnusedFishFinTex" OutName="unused_fish_fin" Format="rgb5a1" Width="32" Height="16" Offset="0x84A8"/>
@@ -54,7 +54,7 @@
         <Texture Name="gFieldSilverRockTex" OutName="silver_rock" Format="ci4" Width="64" Height="64" Offset="0x99F8"/>
         <Texture Name="gFieldSilverRockTLUT" OutName="silver_rock_palette" Format="rgb5a1" Width="4" Height="4" Offset="0x99D0"/>
         <!-- Kankyo Stuff-->
-        <DList Name="gFieldDL_CA70" Offset="0xCA70"/>
-        <Blob Name="gFieldUnaccounted_CB30" Size="0x800"/>
+        <DList Name="gFieldDL_00CA70" Offset="0xCA70"/>
+        <Blob Name="gFieldUnaccounted_00CB30" Size="0x800"/>
     </File>
 </Root>

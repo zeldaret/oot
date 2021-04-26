@@ -1,11 +1,11 @@
 <Root>
     <File Name="object_gr" Segment="6">
-        <Skeleton Name="gniwGirlSkel1" Type="Flex" LimbType="Standard" Offset="0x09948"/>
-        <Animation Name="gNiwGirlRunAnim" Offset="0x00378"/>
-        <Animation Name="gNiwGirlJumpAnim" Offset="0x09C78"/>
-        <Texture Name="gNiwGirlEyeOpenTex" OutName="eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x04178"/>
-        <Texture Name="gNiwGirlHalfClosedTex" OutName="eye_half_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x04978"/>
-        <Texture Name="gNiwGirlClosedTex" OutName="eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x05178"/>
+        <Skeleton Name="gniwGirlSkel1" Type="Flex" LimbType="Standard" Offset="0x9948"/>
+        <Animation Name="gNiwGirlRunAnim" Offset="0x0378"/>
+        <Animation Name="gNiwGirlJumpAnim" Offset="0x9C78"/>
+        <Texture Name="gNiwGirlEyeOpenTex" OutName="eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4178"/>
+        <Texture Name="gNiwGirlHalfClosedTex" OutName="eye_half_closed" Format="rgb5a1" Width="32" Height="32" Offset="004978"/>
+        <Texture Name="gNiwGirlClosedTex" OutName="eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x5178"/>
         <Texture Name="gNiwGirlMouthTex"  OutName="mouth" Format="rgb5a1" Width="32" Height="16" Offset="0x5978"/>
         <Texture Name="gNiwGirlDress1Tex" OutName="dress_1" Format="rgb5a1" Width="32" Height="32" Offset="0x5FF8"/>
         <Texture Name="gNiwGirlDress2Tex" OutName="dress_2" Format="rgb5a1" Width="32" Height="32" Offset="0x6FF8"/>

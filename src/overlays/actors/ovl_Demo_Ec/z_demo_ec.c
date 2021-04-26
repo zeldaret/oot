@@ -777,13 +777,13 @@ void func_8096F1D4(DemoEc* this) {
 
 void func_8096F224(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &gDemoEcAnim_6930, 2, -8.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcAnim_006930, 2, -8.0f, false);
     this->updateMode = EC_UPDATE_17;
 }
 
 void func_8096F26C(DemoEc* this, s32 arg1) {
     if (arg1 != 0) {
-        DemoEc_ChangeAnimation(this, &gDemoEcAnim_6220, 0, 0.0f, false);
+        DemoEc_ChangeAnimation(this, &gDemoEcAnim_006220, 0, 0.0f, false);
         this->updateMode = EC_UPDATE_18;
     }
 }
@@ -852,13 +852,13 @@ void DemoEc_InitMido(DemoEc* this, GlobalContext* globalCtx) {
 
 void func_8096F4FC(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &gDemoEcAnim_8D1C, 2, -8.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcAnim_008D1C, 2, -8.0f, false);
     this->updateMode = EC_UPDATE_20;
 }
 
 void func_8096F544(DemoEc* this, s32 changeAnim) {
     if (changeAnim) {
-        DemoEc_ChangeAnimation(this, &gDemoEcAnim_9234, 0, 0.0f, false);
+        DemoEc_ChangeAnimation(this, &gDemoEcAnim_009234, 0, 0.0f, false);
     }
 }
 

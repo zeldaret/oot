@@ -10,11 +10,11 @@
         <Animation Name="gDemoEcDancingKokiriAnim" Offset="0x513C"/>
         <Animation Name="gDemoEcKokiriAnim" Offset="0x5670"/>
         <Animation Name="gDemoEcOldManAnim" Offset="0x5EA8"/>
-        <Animation Name="gDemoEcAnim_6220" Offset="0x6220"/>
-        <Animation Name="gDemoEcAnim_6930" Offset="0x6930"/>
+        <Animation Name="gDemoEcAnim_006220" Offset="0x6220"/>
+        <Animation Name="gDemoEcAnim_006930" Offset="0x6930"/>
         <Animation Name="gDemoEcKingZoraAnim" Offset="0x6C40"/>
-        <Animation Name="gDemoEcAnim_8D1C" Offset="0x8D1C"/>
-        <Animation Name="gDemoEcAnim_9234" Offset="0x9234"/>
+        <Animation Name="gDemoEcAnim_008D1C" Offset="0x8D1C"/>
+        <Animation Name="gDemoEcAnim_009234" Offset="0x9234"/>
         <Animation Name="gDemoEcMidoAnim" Offset="0x95DC"/>
         <Animation Name="gDemoEcJumpingCuccoAnim" Offset="0x9BB4"/>
         <Animation Name="gDemoEcJumpingCuccoAnim2" Offset="0xA07C"/>
