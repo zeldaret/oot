@@ -3147,7 +3147,7 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
 }
 
 void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 scale,
-                   s16 scaleStep, u8 arg8) {
+                          s16 scaleStep, u8 arg8) {
     Vec3f pos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
@@ -3238,7 +3238,7 @@ void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Acto
 
 /**
  * Checks if a hookshot or arrow actor is going to collide with the cylinder denoted by the
- * actor's `cylRadius` and `cylHeight`. 
+ * actor's `cylRadius` and `cylHeight`.
  * The check is only peformed if the projectile actor is within the provided sphere radius.
  *
  * Returns the actor if there will be collision, NULL otherwise.

@@ -169,7 +169,7 @@ void EfcErupc_DrawParticles(EfcErupcParticles* particles, GlobalContext* globalC
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
     s32 pad;
-    
+
     OPEN_DISPS(gfxCtx, "../z_efc_erupc.c", 368);
     for (i = 0; i < EFC_ERUPC_NUM_PARTICLES; i++, particles++) {
         if (particles->isActive) {
