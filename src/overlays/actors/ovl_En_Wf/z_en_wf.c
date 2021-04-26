@@ -422,6 +422,7 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
 
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
+
         if (func_80033AB8(globalCtx, &this->actor)) {
             sp50 = 150.0f;
         }
@@ -440,6 +441,7 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
 
         if ((this->actor.xzDistToPlayer < (150.0f + sp50)) && (player->swordState != 0) && (temp_v0 >= 8000)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+
             if (Rand_ZeroOne() > 0.7f) {
                 func_80B34F28(this);
                 return;
@@ -652,7 +654,6 @@ void func_80B35540(EnWf* this) {
 }
 
 // EnWf_??????
-/****** not bad so far but needs the gotos fixed and regalloc *****/
 void func_80B355BC(EnWf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 shapeAngleDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
@@ -676,7 +677,7 @@ void func_80B355BC(EnWf* this, GlobalContext* globalCtx) {
     if ((((curFrame == 15) && !func_80033A84(globalCtx, &this->actor)) &&
          ((!func_8002E084(&this->actor, 0x2000)) || (this->actor.xzDistToPlayer >= 100.0f))) ||
         SkelAnime_Update(&this->skelAnime)) {
-        if ((curFrame != 0xF) && (this->actionTimer != 0)) {
+        if ((curFrame != 15) && (this->actionTimer != 0)) {
             this->actor.shape.rot.y += (s16)(3276.0f * (1.5f + (this->actionTimer - 4) * 0.4f));
             func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 1, 2.0f, 0x32, 0x32, 1);
             this->actionTimer--;
@@ -1089,21 +1090,11 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
 
                 this->actor.world.rot.y = this->actor.shape.rot.y;
 
-                /********TODO: Remove these gotos! *************/
-                if ((this->actor.xzDistToPlayer <= 80.0f) && (!(func_80033AB8(globalCtx, &this->actor)))) {
-                    if ((globalCtx->gameplayFrames & 3) != 0) {
-                        if (ABS(angleDiff2) < 0x38E0) {
-                        block_51:
-                            func_80B35540(this);
-                        } else {
-                        block_52:
-                            func_80B347FC(this, globalCtx);
-                        }
-                    } else {
-                        goto block_51;
-                    }
+                if (((this->actor.xzDistToPlayer <= 80.0f) && !func_80033AB8(globalCtx, &this->actor)) &&
+                    (((globalCtx->gameplayFrames & 3) == 0) || (ABS(angleDiff2) < 0x38E0))) {
+                    func_80B35540(this);
                 } else {
-                    goto block_52;
+                    func_80B347FC(this, globalCtx);
                 }
             }
         }
