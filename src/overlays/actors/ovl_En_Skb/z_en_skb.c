@@ -419,15 +419,14 @@ void func_80AFD880(EnSkb* this, GlobalContext* globalCtx) {
     if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, 1)) {
         if (this->actor.scale.x == 0.01f) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x10);
+        } else if (this->actor.scale.x <= 0.015f) {
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_BLUE);
         } else {
-            if (this->actor.scale.x <= 0.015f) {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_BLUE);
-            } else {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
-            }
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
         }
+
         this->unk_283 |= 8;
         Actor_Kill(&this->actor);
     }
