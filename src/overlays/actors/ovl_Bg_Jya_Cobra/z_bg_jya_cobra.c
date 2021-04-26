@@ -302,7 +302,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
     rotY = !(this->dyna.actor.params & 3) ? (this->dyna.actor.shape.rot.y + 0x4000)
-                                                   : (this->dyna.actor.shape.rot.y - 0x4000);
+                                          : (this->dyna.actor.shape.rot.y - 0x4000);
     Matrix_RotateY(rotY * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
 
@@ -551,7 +551,7 @@ void func_80896CB4(GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 867),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, gCobraDlist2);
+    gSPDisplayList(POLY_XLU_DISP++, gCobra2DL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 872);
 }
@@ -572,7 +572,7 @@ void func_80896D78(BgJyaCobra* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 939),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s32)(this->unk_18C * 140.0f));
-    gSPDisplayList(POLY_XLU_DISP++, gCobraDlist3);
+    gSPDisplayList(POLY_XLU_DISP++, gCobra3DL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 947);
 }
@@ -626,7 +626,7 @@ void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra* this = THIS;
 
     func_80896CB4(globalCtx);
-    Gfx_DrawDListOpa(globalCtx, gCobraDlist1);
+    Gfx_DrawDListOpa(globalCtx, gCobra1DL);
 
     if (this->unk_18C > 0.0f) {
         func_80896D78(this, globalCtx);

@@ -154,7 +154,7 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
             }
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -400, arg5, arg6, arg7, 0, scale, 1, 20, 80,
-                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gBombiwaEffectDlist);
+                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gBombiwaEffectDL);
     }
     pos.x = this->dyna.actor.world.pos.x;
     pos.y = this->dyna.actor.world.pos.y + 70.0f;
@@ -178,6 +178,6 @@ void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, gBombiwaDlist);
+    Gfx_DrawDListOpa(globalCtx, gBombiwaDL);
     Collider_UpdateSpheres(0, &this->collider);
 }

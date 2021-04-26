@@ -42,7 +42,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-static Gfx* sDisplayLists[] = { gMoriHashiraPlatformsDlist, gMoriHashiraGateDlist };
+static Gfx* sDisplayLists[] = { gMoriHashiraPlatformsDL, gMoriHashiraGateDL };
 
 static s16 sUnkTimer; // seems to be unused
 

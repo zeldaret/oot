@@ -207,7 +207,7 @@ void func_8086EB5C(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void func_8086ED50(BgBombwall* this, GlobalContext* globalCtx) {
-    this->dList = gBgBombwallNormalDlist;
+    this->dList = gBgBombwallNormalDL;
     this->actionFunc = func_8086ED70;
 }
 
@@ -222,7 +222,7 @@ void func_8086ED70(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void func_8086EDFC(BgBombwall* this, GlobalContext* globalCtx) {
-    this->dList = gBgBombwallNormalDlist;
+    this->dList = gBgBombwallNormalDL;
     this->unk_2A0 = 1;
     func_8086EB5C(this, globalCtx);
     this->actionFunc = func_8086EE40;
@@ -241,7 +241,7 @@ void func_8086EE40(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void func_8086EE94(BgBombwall* this, GlobalContext* globalCtx) {
-    this->dList = gBgBombwallBrokenDlist;
+    this->dList = gBgBombwallBrokenDL;
     BgBombwall_DestroyCollision(this, globalCtx);
     this->actionFunc = NULL;
 }

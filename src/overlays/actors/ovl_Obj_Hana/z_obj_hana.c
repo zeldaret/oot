@@ -59,9 +59,9 @@ typedef struct {
 } HanaParams; // size = 0x10
 
 static HanaParams sHanaParams[] = {
-    { gHanaDlist1, 0.01f, 0.0f, -1, 0 },
-    { gFieldKakeraDlist, 0.1f, 58.0f, 10, 18 },
-    { gFieldBushDlist, 0.4f, 0.0f, 12, 44 },
+    { gHanaDL, 0.01f, 0.0f, -1, 0 },
+    { gFieldKakeraDL, 0.1f, 58.0f, 10, 18 },
+    { gFieldBushDL, 0.4f, 0.0f, 12, 44 },
 };
 
 static InitChainEntry sInitChain[] = {

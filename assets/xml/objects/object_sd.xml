@@ -7,22 +7,22 @@
     <Animation Name="gEnHeishiDyingGuardTalk" Offset="0xC6C8"/>
     <Animation Name="gEnHeishiDyingGuardDie" Offset="0xC374"/>
     <Animation Name="gEnHeishiDyingGuard_unk" Offset="0xC444"/>
-    <DList Name="gHeishiKingGuardDlist" Offset="0x2C10"/>
-    <DList Name="gEnHeishiHeadDlist" Offset="0xA030"/>
-    <DList Name="gEnHeishiTorsoArmorDlist" Offset="0xA440"/>
+    <DList Name="gHeishiKingGuardDL" Offset="0x2C10"/>
+    <DList Name="gEnHeishiHeadDL" Offset="0xA030"/>
+    <DList Name="gEnHeishiTorsoArmorDL" Offset="0xA440"/>
     <DList Name="gEnHeishiDlist_A6F8" Offset="0xA6F8"/><!--Belt?-->
-    <DList Name="gEnHeishiFootDlist1" Offset="0xA848"/>
-    <DList Name="gEnHeishiLegDlist1" Offset="0xA930"/>
-    <DList Name="gEnHeishiUpperLegDlist1" Offset="0xAAC0"/>
-    <DList Name="gEnHeishiSpearDlist" Offset="0xAC10"/>
-    <DList Name="gEnHeishiLowerArmDlist1" Offset="0xAEC0"/>
-    <DList Name="gEnHeishiUpperArmDlist" Offset="0xB050"/>
-    <DList Name="gEnHeishiFootDlist2" Offset="0xB158"/>
-    <DList Name="gEnHeishiLegDlist2" Offset="0xB240"/>
-    <DList Name="gEnHeishiUpperLegDlist2" Offset="0xB3D0"/>
-    <DList Name="gEnHeishiHandDlist" Offset="0xB520"/>
-    <DList Name="gEnHeishiLowerArmDlist2" Offset="0xB730"/>
-    <DList Name="gEnHeishiUpperArmDlist2" Offset="0xB8C0"/>
+    <DList Name="gEnHeishiFoot1DL" Offset="0xA848"/>
+    <DList Name="gEnHeishiLeg1DL" Offset="0xA930"/>
+    <DList Name="gEnHeishiUpperLeg1DL" Offset="0xAAC0"/>
+    <DList Name="gEnHeishiSpearDL" Offset="0xAC10"/>
+    <DList Name="gEnHeishiLowerArm1DL" Offset="0xAEC0"/>
+    <DList Name="gEnHeishiUpperArmDL" Offset="0xB050"/>
+    <DList Name="gEnHeishiFoot2DL" Offset="0xB158"/>
+    <DList Name="gEnHeishiLeg2DL" Offset="0xB240"/>
+    <DList Name="gEnHeishiUpperLeg2DL" Offset="0xB3D0"/>
+    <DList Name="gEnHeishiHandDL" Offset="0xB520"/>
+    <DList Name="gEnHeishiLowerArm2DL" Offset="0xB730"/>
+    <DList Name="gEnHeishiUpperArm2DL" Offset="0xB8C0"/>
     <!--King Guard Textures-->
     <Texture Name="gEnHeishiKingGuardPAL" Format="rgb5a1" Width="16" Height="16" Offset="0x0000"/>
     <Texture Name="gEnHeishiKingGuard_200Tex" Format="ci8" Width="8" Height="8" Offset="0x0200"/><!--Mouth?-->

@@ -3,43 +3,43 @@
         <Skeleton Name="gLinkChildSkel" Type="Flex" LimbType="LOD" Offset="0x2CF6C"/>
         
         <!--Far Limb DLists--> 
-        <DList Name="gChildLimbLeftHandFarDlist" Offset="0x16280"/>   
-        <DList Name="gChildLimbRightHandFarDlist" Offset="0x164E0"/>  
-        <DList Name="gChildLimbSwordAndSheathFarDlist" Offset="0x17360"/>
-        <DList Name="gChildLimbWaistFarDlist"  Offset="0x1AEC8"/>
-        <DList Name="gChildLimbLeftThighFarDlist"  Offset="0x1B0F8"/>
-        <DList Name="gChildLimbLeftShinFarDlist"  Offset="0x1B2B8"/>
-        <DList Name="gChildLimbLeftFootFarDlist"  Offset="0x1B510"/>
-        <DList Name="gChildLimbRightThighFarDlist"  Offset="0x1B638"/>
-        <DList Name="gChildLimbRightShinFarDlist"  Offset="0x1B7F8"/>
-        <DList Name="gChildLimbRightFootFarDlist"  Offset="0x1BA50"/>
-        <DList Name="gChildLimbCollarFarDlist"  Offset="0x1BB78"/>
-        <DList Name="gChildLimbTorsoFarDlist"  Offset="0x1BBD8"/>
-        <DList Name="gChildLimbHeadFarDlist"  Offset="0x1BDA0"/>
-        <DList Name="gChildLimbHatFarDlist"  Offset="0x1C2A8"/>
-        <DList Name="gChildLimbLeftShoulderFarDlist"  Offset="0x1C398"/>
-        <DList Name="gChildLimbLeftForearmFarDlist"  Offset="0x1C558"/>
-        <DList Name="gChildLimbRightShoulderFarDlist"  Offset="0x1C688"/>
-        <DList Name="gChildLimbRightForearmFarDlist" Offset="0x1C848"/>
+        <DList Name="gChildLimbLeftHandFarDL" Offset="0x16280"/>   
+        <DList Name="gChildLimbRightHandFarDL" Offset="0x164E0"/>  
+        <DList Name="gChildLimbSwordAndSheathFarDL" Offset="0x17360"/>
+        <DList Name="gChildLimbWaistFarDL"  Offset="0x1AEC8"/>
+        <DList Name="gChildLimbLeftThighFarDL"  Offset="0x1B0F8"/>
+        <DList Name="gChildLimbLeftShinFarDL"  Offset="0x1B2B8"/>
+        <DList Name="gChildLimbLeftFootFarDL"  Offset="0x1B510"/>
+        <DList Name="gChildLimbRightThighFarDL"  Offset="0x1B638"/>
+        <DList Name="gChildLimbRightShinFarDL"  Offset="0x1B7F8"/>
+        <DList Name="gChildLimbRightFootFarDL"  Offset="0x1BA50"/>
+        <DList Name="gChildLimbCollarFarDL"  Offset="0x1BB78"/>
+        <DList Name="gChildLimbTorsoFarDL"  Offset="0x1BBD8"/>
+        <DList Name="gChildLimbHeadFarDL"  Offset="0x1BDA0"/>
+        <DList Name="gChildLimbHatFarDL"  Offset="0x1C2A8"/>
+        <DList Name="gChildLimbLeftShoulderFarDL"  Offset="0x1C398"/>
+        <DList Name="gChildLimbLeftForearmFarDL"  Offset="0x1C558"/>
+        <DList Name="gChildLimbRightShoulderFarDL"  Offset="0x1C688"/>
+        <DList Name="gChildLimbRightForearmFarDL" Offset="0x1C848"/>
         
         <!--Near Limb DLists-->
-        <DList Name="gChildLimbLeftHandNearDlist" Offset="0x13CB0"/>
-        <DList Name="gChildLimbRightHandNearDlist" Offset="0x141C0"/>
-        <DList Name="gChildLimbSwordAndSheathNearDlist" Offset="0x15248"/>
-        <DList Name="gChildLimbWaistNearDlist"  Offset="0x202A8"/>
-        <DList Name="gChildLimbLeftThighNearDlist"  Offset="0x204F0"/>
-        <DList Name="gChildLimbLeftShinNearDlist"  Offset="0x206E8"/>
-        <DList Name="gChildLimbLeftFootNearDlist"  Offset="0x20978"/>
-        <DList Name="gChildLimbRightThighNearDlist"  Offset="0x20AD8"/>
-        <DList Name="gChildLimbRightShinNearDlist"  Offset="0x20CD0"/>
-        <DList Name="gChildLimbRightFootNearDlist"  Offset="0x20F60"/>
-        <DList Name="gChildLimbCollarNearDlist"  Offset="0x210C0"/>
-        <DList Name="gChildLimbTorsoNearDlist"  Offset="0x21130"/>
-        <DList Name="gChildLimbHeadNearDlist"  Offset="0x21360"/>
-        <DList Name="gChildLimbHatNearDlist"  Offset="0x219B0"/>
-        <DList Name="gChildLimbLeftShoulderNearDlist"  Offset="0x21AE8"/>
-        <DList Name="gChildLimbLeftForearmNearDlist"  Offset="0x21CB8"/>
-        <DList Name="gChildLimbRightShoulderNearDlist"  Offset="0x21E18"/>
+        <DList Name="gChildLimbLeftHandNearDL" Offset="0x13CB0"/>
+        <DList Name="gChildLimbRightHandNearDL" Offset="0x141C0"/>
+        <DList Name="gChildLimbSwordAndSheathNearDL" Offset="0x15248"/>
+        <DList Name="gChildLimbWaistNearDL"  Offset="0x202A8"/>
+        <DList Name="gChildLimbLeftThighNearDL"  Offset="0x204F0"/>
+        <DList Name="gChildLimbLeftShinNearDL"  Offset="0x206E8"/>
+        <DList Name="gChildLimbLeftFootNearDL"  Offset="0x20978"/>
+        <DList Name="gChildLimbRightThighNearDL"  Offset="0x20AD8"/>
+        <DList Name="gChildLimbRightShinNearDL"  Offset="0x20CD0"/>
+        <DList Name="gChildLimbRightFootNearDL"  Offset="0x20F60"/>
+        <DList Name="gChildLimbCollarNearDL"  Offset="0x210C0"/>
+        <DList Name="gChildLimbTorsoNearDL"  Offset="0x21130"/>
+        <DList Name="gChildLimbHeadNearDL"  Offset="0x21360"/>
+        <DList Name="gChildLimbHatNearDL"  Offset="0x219B0"/>
+        <DList Name="gChildLimbLeftShoulderNearDL"  Offset="0x21AE8"/>
+        <DList Name="gChildLimbLeftForearmNearDL"  Offset="0x21CB8"/>
+        <DList Name="gChildLimbRightShoulderNearDL"  Offset="0x21E18"/>
         <DList Name="gChildLimbRightForearmNearDList" Offset="0x21FE8"/>
         
         <!--Limbs-->
@@ -66,15 +66,15 @@
         <Limb Name="gChildLinkTorsoLimb" Type="LOD" Offset="0x2CF08"/>
         
         <!--General DLists-->
-        <DList Name="gChildLinkDekuStickDlist" Offset="0x6CC0"/>
-        <DList Name="gChildLeftHandHoldingMasterSwordDlist" Offset="0x15540"/>
-        <DList Name="gChildLinkGoronBraceletDlist" Offset="0x16118"/>
+        <DList Name="gChildLinkDekuStickDL" Offset="0x6CC0"/>
+        <DList Name="gChildLeftHandHoldingMasterSwordDL" Offset="0x15540"/>
+        <DList Name="gChildLinkGoronBraceletDL" Offset="0x16118"/>
         
         <!--Body Parts not used in Limbs-->
-        <DList Name="gChildLeftFistNearDlist" Offset="0x13E18"/>
-        <DList Name="gChildRightHandClosedNearDlist" Offset="0x14320"/>
-        <DList Name="gChildRightHandClosedFarDlist" Offset="0x16620"/>
-        <DList Name="gChildLeftFistFarDlist" Offset="0x163C0"/>
+        <DList Name="gChildLeftFistNearDL" Offset="0x13E18"/>
+        <DList Name="gChildRightHandClosedNearDL" Offset="0x14320"/>
+        <DList Name="gChildRightHandClosedFarDL" Offset="0x16620"/>
+        <DList Name="gChildLeftFistFarDL" Offset="0x163C0"/>
         <DList Name="gChildLeftFistAndKokiriSwordNear" Offset="0x13F38"/>
         <DList Name="gChildLeftFistAndKokiriSwordFar" Offset="0x17630"/>
         <DList Name="gChildRightFistAndDekuShieldNear" Offset="0x14440"/>
@@ -83,41 +83,41 @@
         <DList Name="gChildLeftFistAndBoomerangDlistFar" Offset="0x16908"/>
         <DList Name="gChildHylianShieldSwordAndSheathDlistNear" Offset="0x148A8"/>
         <DList Name="gChildHylianShieldSwordAndSheathDlistFar" Offset="0x16A98"/>
-        <DList Name="gChildHylianShieldAndSheathNearDlist" Offset="0x14B40"/>
-        <DList Name="gChildHylianShieldAndSheathFarDlist" Offset="0x16CF8"/>
-        <DList Name="gChildDekuShieldSwordAndSheathNearDlist" Offset="0x14D68"/>
-        <DList Name="gChildDekuShieldSwordAndSheathFarDlist" Offset="0x16EE8"/>
-        <DList Name="gChildDekuShieldAndSheathNearDlist" Offset="0x15010"/>
-        <DList Name="gChildDekuShieldAndSheathFarDlist" Offset="0x17150"/>
-        <DList Name="gChildSheathNearDlist" Offset="0x15408"/>
-        <DList Name="gChildSheathFarDlist" Offset="0x17500"/>
-        <DList Name="gChildRightHandAndOOTNearDlist" Offset="0x15958"/>
-        <DList Name="gChildRightHandHoldingOOTFarDlist" Offset="0x178A0"/>
-        <DList Name="gChildRightHandHoldingFairyOcarinaNearDlist" Offset="0x15BA8"/>
-        <DList Name="gChildRightHandHoldingFairyOcarinaFarDlist" Offset="0x17AF0"/>
-        <DList Name="gChildRightHandHoldingFairySlingshotNearDlist" Offset="0x15DF0"/>
-        <DList Name="gChildRightHandHoldingFairySlingshotFarDlist" Offset="0x17D38"/>
-        <DList Name="gChildLeftHandUpNearDlist" Offset="0x15FD0"/>
-        <DList Name="gChildLeftHandUpFarDlist" Offset="0x17F00"/>
+        <DList Name="gChildHylianShieldAndSheathNearDL" Offset="0x14B40"/>
+        <DList Name="gChildHylianShieldAndSheathFarDL" Offset="0x16CF8"/>
+        <DList Name="gChildDekuShieldSwordAndSheathNearDL" Offset="0x14D68"/>
+        <DList Name="gChildDekuShieldSwordAndSheathFarDL" Offset="0x16EE8"/>
+        <DList Name="gChildDekuShieldAndSheathNearDL" Offset="0x15010"/>
+        <DList Name="gChildDekuShieldAndSheathFarDL" Offset="0x17150"/>
+        <DList Name="gChildSheathNearDL" Offset="0x15408"/>
+        <DList Name="gChildSheathFarDL" Offset="0x17500"/>
+        <DList Name="gChildRightHandAndOOTNearDL" Offset="0x15958"/>
+        <DList Name="gChildRightHandHoldingOOTFarDL" Offset="0x178A0"/>
+        <DList Name="gChildRightHandHoldingFairyOcarinaNearDL" Offset="0x15BA8"/>
+        <DList Name="gChildRightHandHoldingFairyOcarinaFarDL" Offset="0x17AF0"/>
+        <DList Name="gChildRightHandHoldingFairySlingshotNearDL" Offset="0x15DF0"/>
+        <DList Name="gChildRightHandHoldingFairySlingshotFarDL" Offset="0x17D38"/>
+        <DList Name="gChildLeftHandUpNearDL" Offset="0x15FD0"/>
+        <DList Name="gChildLeftHandUpFarDL" Offset="0x17F00"/>
 
-        <DList Name="gChildRightArmStretchedSlingshotDlist" Offset="0x18048"/>
-        <DList Name="gChildBottleDlist" Offset="0x18478"/>
-        <DList Name="gCHild_18580Dlist" Offset="0x18580"/>
-        <DList Name="gChildBottle2Dlist" Offset="0x18648"/>
-        <DList Name="gChildSlinghotStringDlist" Offset="0x221A8"/>
-        <DList Name="gChildDekuShieldDlist" Offset="0x224F8"/>
+        <DList Name="gChildRightArmStretchedSlingshotDL" Offset="0x18048"/>
+        <DList Name="gChildBottleDL" Offset="0x18478"/>
+        <DList Name="gCHild_18580DL" Offset="0x18580"/>
+        <DList Name="gChildBottle2DL" Offset="0x18648"/>
+        <DList Name="gChildSlinghotStringDL" Offset="0x221A8"/>
+        <DList Name="gChildDekuShieldDL" Offset="0x224F8"/>
         <Blob Name="gChildDekuShieldMtx" Size="0x40" Offset="0x22648"/><!--TODO make this a matrix when ZAPD can extract them-->
-        <DList Name="gChildDekuShieldWithMatrixDlist" Offset="0x22688"/>
+        <DList Name="gChildDekuShieldWithMatrixDL" Offset="0x22688"/>
         
         <!--Masks-->
-        <DList Name="gChildSkullMaskDlist" Offset="0x2AD40"/>
-        <DList Name="gChildSpookyMaskDlist" Offset="0x2AF70"/>
-        <DList Name="gChildKeatonMaskDlist" Offset="0x2B060"/>
-        <DList Name="gChildMaskOfTruthDlist" Offset="0x2B1F0"/>
-        <DList Name="gChildGoronMaskDlist" Offset="0x2B350"/>
-        <DList Name="gChildZoraMaskDlist" Offset="0x2B580"/>
-        <DList Name="gChildGerudoMaskDlist" Offset="0x2B788"/>
-        <DList Name="gChildBunnyHoodDlist" Offset="0x2CA38"/>
+        <DList Name="gChildSkullMaskDL" Offset="0x2AD40"/>
+        <DList Name="gChildSpookyMaskDL" Offset="0x2AF70"/>
+        <DList Name="gChildKeatonMaskDL" Offset="0x2B060"/>
+        <DList Name="gChildMaskOfTruthDL" Offset="0x2B1F0"/>
+        <DList Name="gChildGoronMaskDL" Offset="0x2B350"/>
+        <DList Name="gChildZoraMaskDL" Offset="0x2B580"/>
+        <DList Name="gChildGerudoMaskDL" Offset="0x2B788"/>
+        <DList Name="gChildBunnyHoodDL" Offset="0x2CA38"/>
         
         <!--Textures-->
         <Texture Name="gLinkChildNoseTex" OutName="link_child_nose" Format="ci8" Width="16" Height="16" Offset="0x5000"/>

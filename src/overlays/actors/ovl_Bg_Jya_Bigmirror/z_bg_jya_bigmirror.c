@@ -225,7 +225,7 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Scale(0.1f, (this->liftHeight * -(1.0f / 1280.0f)) + (1779.4f / 1280.0f), 0.1f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, gBigMirrorDlist1);
+    gSPDisplayList(POLY_XLU_DISP++, gBigMirror1DL);
 
     if (lift != NULL) {
         if (1) {}
@@ -233,7 +233,7 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gBigMirrorDlist2);
+        gSPDisplayList(POLY_XLU_DISP++, gBigMirror2DL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 476);
@@ -243,8 +243,8 @@ void BgJyaBigmirror_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBigmirror* this = THIS;
 
     if (this->puzzleFlags & BIGMIR_PUZZLE_IN_1ST_TOP_ROOM) {
-        Gfx_DrawDListOpa(globalCtx, gBigMirrorDlist3);
-        Gfx_DrawDListXlu(globalCtx, gBigMirrorDlist4);
+        Gfx_DrawDListOpa(globalCtx, gBigMirror3DL);
+        Gfx_DrawDListXlu(globalCtx, gBigMirror4DL);
     }
 
     if ((this->puzzleFlags &

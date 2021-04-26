@@ -127,5 +127,5 @@ void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaKanaami_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gKanaamiDlist);
+    Gfx_DrawDListOpa(globalCtx, gKanaamiDL);
 }

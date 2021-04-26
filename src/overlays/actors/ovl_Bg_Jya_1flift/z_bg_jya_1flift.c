@@ -207,5 +207,5 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJya1flift_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, g1fliftDlist);
+    Gfx_DrawDListOpa(globalCtx, g1fliftDL);
 }

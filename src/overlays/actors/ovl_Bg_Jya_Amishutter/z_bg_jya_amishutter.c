@@ -126,5 +126,5 @@ void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaAmishutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gAmishutterDlist);
+    Gfx_DrawDListOpa(globalCtx, gAmishutterDL);
 }

@@ -131,7 +131,7 @@ void BgJyaMegami_SpawnEffect(GlobalContext* globalCtx, Vec3f* pos, Vec3f* veloci
         s32 idx = ((s16)(Rand_ZeroOne() * 8.0f)) & D_8089B17C[arg4];
         s16 arg5 = ((idx < 5) && (Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20;
         EffectSsKakera_Spawn(globalCtx, pos, velocity, pos, -90, arg5, D_8089B16C[idx], 4, 0, D_8089B14C[idx], 0, 5,
-                             D_8089B15C[idx], KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gMegamiDlist2);
+                             D_8089B15C[idx], KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gMegami2DL);
         if (Rand_ZeroOne() < 0.45f) {
             Math_Vec3f_Copy(&spB4, pos);
             spB4.z += 25.0f;
@@ -306,15 +306,15 @@ void BgJyaMegami_DrawFace(BgJyaMegami* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sLeftSideCrumbles[this->crumbleIndex]));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 716),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, gMegamiDlist1);
+    gSPDisplayList(POLY_OPA_DISP++, gMegami1DL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_megami.c", 720);
 }
 
 static Gfx* sDLists[] = {
-    gMegamiPieceDlist1,  gMegamiPieceDlist2,  gMegamiPieceDlist3,  gMegamiPieceDlist4, gMegamiPieceDlist5,
-    gMegamiPieceDlist6,  gMegamiPieceDlist7,  gMegamiPieceDlist8,  gMegamiPieceDlist9, gMegamiPieceDlist10,
-    gMegamiPieceDlist11, gMegamiPieceDlist12, gMegamiPieceDlist13,
+    gMegamiPiece1DL,  gMegamiPiece2DL,  gMegamiPiece3DL,  gMegamiPiece4DL, gMegamiPiece5DL,
+    gMegamiPiece6DL,  gMegamiPiece7DL,  gMegamiPiece8DL,  gMegamiPiece9DL, gMegamiPiece10DL,
+    gMegamiPiece11DL, gMegamiPiece12DL, gMegamiPiece13DL,
 };
 
 void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {

@@ -293,10 +293,10 @@ void BgMoriHashigo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->dyna.actor.params) {
         case -1:
-            gSPDisplayList(POLY_OPA_DISP++, gMoriHashigoClaspDlist);
+            gSPDisplayList(POLY_OPA_DISP++, gMoriHashigoClaspDL);
             break;
         case 0:
-            gSPDisplayList(POLY_OPA_DISP++, gMoriHashigoLadderDlist);
+            gSPDisplayList(POLY_OPA_DISP++, gMoriHashigoLadderDL);
             break;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashigo.c", 531);

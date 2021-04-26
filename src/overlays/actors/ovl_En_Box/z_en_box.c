@@ -550,17 +550,17 @@ void EnBox_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_box.c", 1492),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
-            gSPDisplayList((*gfx)++, gEnBoxChestFrontDlist);
+            gSPDisplayList((*gfx)++, gEnBoxChestFrontDL);
         } else {
-            gSPDisplayList((*gfx)++, gEnBoxBossKeyChestFrontDlist);
+            gSPDisplayList((*gfx)++, gEnBoxBossKeyChestFrontDL);
         }
     } else if (limbIndex == 3) {
         gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_box.c", 1502),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
-            gSPDisplayList((*gfx)++, gEnBoxChestSideAndLidDlist);
+            gSPDisplayList((*gfx)++, gEnBoxChestSideAndLidDL);
         } else {
-            gSPDisplayList((*gfx)++, gEnBoxBossKeyChestSideAndTopDlist);
+            gSPDisplayList((*gfx)++, gEnBoxBossKeyChestSideAndTopDL);
         }
     }
 }

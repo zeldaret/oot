@@ -165,7 +165,7 @@ void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx) {
             phi_v0 = 33;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 30, 5, 0, scales[i], 3, 10, 40,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDlist);
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
     }
 }
 
@@ -211,7 +211,7 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
             phi_v1 = -320;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, phi_v1, phi_v0, 30, 5, 0, scales[i], 5,
-                             2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDlist);
+                             2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDL);
     }
 }
 
@@ -476,7 +476,7 @@ void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIshi_DrawSmall(EnIshi* this, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gFieldKakeraDlist);
+    Gfx_DrawDListOpa(globalCtx, gFieldKakeraDL);
 }
 
 void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
@@ -486,7 +486,7 @@ void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1055),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
-    gSPDisplayList(POLY_OPA_DISP++, gSilverRockDlist);
+    gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1062);
 }

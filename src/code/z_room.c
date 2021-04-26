@@ -35,7 +35,7 @@ void func_80095AA0(GlobalContext* globalCtx, Room* room, Input* arg2, UNK_TYPE a
 void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
     s32 i;
     PolygonType0* polygon0;
-    PolygonDlist* polygonDlist;
+    PolygonDL* polygonDL;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 193);
 
@@ -54,17 +54,17 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
     }
 
     polygon0 = &room->mesh->polygon0;
-    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon0->start);
+    polygonDL = SEGMENTED_TO_VIRTUAL(polygon0->start);
     for (i = 0; i < polygon0->num; i++) {
-        if ((flags & 1) && (polygonDlist->opa != NULL)) {
-            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
+        if ((flags & 1) && (polygonDL->opa != NULL)) {
+            gSPDisplayList(POLY_OPA_DISP++, polygonDL->opa);
         }
 
-        if ((flags & 2) && (polygonDlist->xlu != NULL)) {
-            gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
+        if ((flags & 2) && (polygonDL->xlu != NULL)) {
+            gSPDisplayList(POLY_XLU_DISP++, polygonDL->xlu);
         }
 
-        polygonDlist++;
+        polygonDL++;
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 239);
@@ -84,7 +84,7 @@ typedef struct struct_80095D04 {
 // Saved register problems and ordering issues, but definitely equivalent.
 void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     PolygonType2* polygon2;
-    PolygonDlist2* polygonDlist;
+    PolygonDlist2* polygonDL;
     struct_80095D04 spB8[SHAPE_SORT_MAX];
     struct_80095D04* spB4 = NULL;
     struct_80095D04* spB0 = NULL;
@@ -118,24 +118,24 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     }
 
     polygon2 = &room->mesh->polygon2;
-    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon2->start);
+    polygonDL = SEGMENTED_TO_VIRTUAL(polygon2->start);
     spA4 = spB8;
 
     if (polygon2->num > SHAPE_SORT_MAX) {
         __assert("polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
     }
-    sp78 = polygonDlist;
+    sp78 = polygonDL;
 
-    for (sp9C = 0; sp9C < polygon2->num; sp9C++, polygonDlist++) {
-        sp90.x = polygonDlist->pos.x;
-        sp90.y = polygonDlist->pos.y;
-        sp90.z = polygonDlist->pos.z;
+    for (sp9C = 0; sp9C < polygon2->num; sp9C++, polygonDL++) {
+        sp90.x = polygonDL->pos.x;
+        sp90.y = polygonDL->pos.y;
+        sp90.z = polygonDL->pos.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp90, &sp84, &sp80);
-        if (-(f32)polygonDlist->unk_06 < sp84.z) {
-            temp_f2 = sp84.z - polygonDlist->unk_06;
+        if (-(f32)polygonDL->unk_06 < sp84.z) {
+            temp_f2 = sp84.z - polygonDL->unk_06;
             if (temp_f2 < globalCtx->lightCtx.unk_0C) {
                 phi_v0 = spB4;
-                spA4->unk_00 = polygonDlist;
+                spA4->unk_00 = polygonDL;
                 spA4->unk_04 = temp_f2;
                 if (phi_v0 == NULL) {
                     spB4 = spB0 = spA4;
@@ -323,7 +323,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     Camera* camera;
     Gfx* spA8;
     PolygonType1* polygon1;
-    PolygonDlist* polygonDlist;
+    PolygonDL* polygonDL;
     u32 sp9C;
     u32 sp98;
     u32 sp94;
@@ -334,10 +334,10 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     camera = ACTIVE_CAM;
     sp9C = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
-    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
+    polygonDL = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     sp98 = (flags & 1) && sp9C && polygon1->single.source && !(SREG(25) & 1);
-    sp94 = (flags & 1) && polygonDlist->opa && !(SREG(25) & 2);
-    sp90 = (flags & 2) && polygonDlist->xlu && !(SREG(25) & 4);
+    sp94 = (flags & 1) && polygonDL->opa && !(SREG(25) & 2);
+    sp90 = (flags & 2) && polygonDL->xlu && !(SREG(25) & 4);
 
     if (sp94 || sp98) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -345,7 +345,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
         if (sp94) {
             func_80093D18(globalCtx->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
+            gSPDisplayList(POLY_OPA_DISP++, polygonDL->opa);
         }
 
         if (sp98) {
@@ -372,7 +372,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         func_80093D84(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
+        gSPDisplayList(POLY_XLU_DISP++, polygonDL->xlu);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 691);
@@ -418,7 +418,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     Gfx* spA8;
     PolygonType1* polygon1;
     BgImage* bgImage;
-    PolygonDlist* polygonDlist;
+    PolygonDL* polygonDL;
     u32 sp98;
     u32 sp94;
     u32 sp90;
@@ -429,11 +429,11 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     camera = ACTIVE_CAM;
     sp98 = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
-    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
+    polygonDL = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);
     sp94 = (flags & 1) && sp98 && bgImage->source && !(SREG(25) & 1);
-    sp90 = (flags & 1) && polygonDlist->opa && !(SREG(25) & 2);
-    sp8C = (flags & 2) && polygonDlist->xlu && !(SREG(25) & 4);
+    sp90 = (flags & 1) && polygonDL->opa && !(SREG(25) & 2);
+    sp8C = (flags & 2) && polygonDL->xlu && !(SREG(25) & 4);
 
     if (sp90 || sp94) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
@@ -441,7 +441,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
         if (sp90) {
             func_80093D18(globalCtx->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
+            gSPDisplayList(POLY_OPA_DISP++, polygonDL->opa);
         }
 
         if (sp94) {
@@ -467,7 +467,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         func_80093D84(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
+        gSPDisplayList(POLY_XLU_DISP++, polygonDL->xlu);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 819);

@@ -131,7 +131,7 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
             }
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -300, arg5, arg6, arg7, 0, scale, 1, 15, 80,
-                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gBombiwaEffectDlist);
+                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gBombiwaEffectDL);
     }
     func_80033480(globalCtx, &this->actor.world.pos, 100.0f, 8, 100, 160, 0);
 }
@@ -202,7 +202,7 @@ void BgJyaBombchuiwa_DrawRock(GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 439),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, gBombchuiwaDlist2);
+    gSPDisplayList(POLY_XLU_DISP++, gBombchuiwa2DL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 443);
 }
 
@@ -214,10 +214,10 @@ void BgJyaBombchuiwa_DrawLight(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, CLAMP_MAX((u32)(this->lightRayIntensity * 153.0f), 153));
-    gSPDisplayList(POLY_XLU_DISP++, gBombchuiwaLightDlist1);
+    gSPDisplayList(POLY_XLU_DISP++, gBombchuiwaLight1DL);
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, CLAMP_MAX((u32)(this->lightRayIntensity * 255.0f), 255));
-    gSPDisplayList(POLY_XLU_DISP++, gBombchuiwaLightDlist2);
+    gSPDisplayList(POLY_XLU_DISP++, gBombchuiwaLight2DL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 472);
 }
 
@@ -227,7 +227,7 @@ void BgJyaBombchuiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombchuiwa* this = THIS;
 
     if (this->drawFlags & 1) {
-        Gfx_DrawDListOpa(globalCtx, gBombchuiwaDlist);
+        Gfx_DrawDListOpa(globalCtx, gBombchuiwaDL);
         Collider_UpdateSpheres(0, &this->collider);
     }
 

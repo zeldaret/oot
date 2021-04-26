@@ -439,7 +439,7 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_cs.c", 1000);
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[childLinkObjectIndex].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx - 7);
-            gSPDisplayList(POLY_OPA_DISP++, gChildSpookyMaskDlist);
+            gSPDisplayList(POLY_OPA_DISP++, gChildSpookyMaskDL);
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         }
     }

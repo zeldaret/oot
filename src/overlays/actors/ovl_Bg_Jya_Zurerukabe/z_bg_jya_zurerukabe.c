@@ -179,5 +179,5 @@ void BgJyaZurerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaZurerukabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gZurerukabeDlist);
+    Gfx_DrawDListOpa(globalCtx, gZurerukabeDL);
 }
