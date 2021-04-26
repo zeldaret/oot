@@ -618,7 +618,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
             sDeathFlag++;
             sActionState = ENTORCH2_DEATH;
-            func_80032C7C(globalCtx, &this->actor);
+            Actor_PlayDeathFx(globalCtx, &this->actor);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xC0);
             this->stateFlags3 &= ~4;
         } else {

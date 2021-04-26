@@ -1163,7 +1163,7 @@ void func_80ADC10C(EnPoSisters* this, GlobalContext* globalCtx) {
             if (Actor_ApplyDamage(&this->actor) != 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DAMAGE);
             } else {
-                func_80032C7C(globalCtx, &this->actor);
+                Actor_PlayDeathFx(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_SISTER_DEAD);
             }
             func_80AD95D8(this);

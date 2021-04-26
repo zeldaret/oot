@@ -745,7 +745,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
 
     if (this->actor.colChkInfo.health == 0) {
         func_80A7598C(this);
-        func_80032C7C(globalCtx, &this->actor);
+        Actor_PlayDeathFx(globalCtx, &this->actor);
         return;
     }
     Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x7D0, 0);

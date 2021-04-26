@@ -455,7 +455,7 @@ void EnDekunuts_ColliderCheck(EnDekunuts* this, GlobalContext* globalCtx) {
                     }
                     EnDekunuts_SetupBeDamaged(this);
                     if (Actor_ApplyDamage(&this->actor) == 0) {
-                        func_80032C7C(globalCtx, &this->actor);
+                        Actor_PlayDeathFx(globalCtx, &this->actor);
                     }
                 } else if (this->actionFunc != EnDekunuts_BeStunned) {
                     EnDekunuts_SetupBeStunned(this);

@@ -348,7 +348,7 @@ void EnAm_SetupRecoilFromDamage(EnAm* this, GlobalContext* globalCtx) {
     }
 
     this->dyna.actor.colorFilterTimer = 0;
-    func_80032C7C(globalCtx, &this->dyna.actor);
+    Actor_PlayDeathFx(globalCtx, &this->dyna.actor);
     EnAm_SetupAction(this, EnAm_RecoilFromDamage);
 }
 

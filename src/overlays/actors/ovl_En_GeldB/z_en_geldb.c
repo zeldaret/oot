@@ -1380,7 +1380,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
                         }
                     }
                     EnGeldB_SetupDefeated(this);
-                    func_80032C7C(globalCtx, &this->actor);
+                    Actor_PlayDeathFx(globalCtx, &this->actor);
                 } else {
                     EnGeldB_SetupDamaged(this);
                 }

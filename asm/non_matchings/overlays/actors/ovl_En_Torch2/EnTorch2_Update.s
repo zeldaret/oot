@@ -1333,7 +1333,7 @@ glabel EnTorch2_Update
 /* 01744 80B1F0C4 272E0001 */  addiu   $t6, $t9, 0x0001           ## $t6 = 00000001
 /* 01748 80B1F0C8 A04E0000 */  sb      $t6, 0x0000($v0)           ## 80B1FA04
 /* 0174C 80B1F0CC A023015E */  sb      $v1, %lo(sActionState)($at)  
-/* 01750 80B1F0D0 0C00CB1F */  jal     func_80032C7C              
+/* 01750 80B1F0D0 0C00CB1F */  jal     Actor_PlayDeathFx              
 /* 01754 80B1F0D4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01758 80B1F0D8 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 0175C 80B1F0DC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000

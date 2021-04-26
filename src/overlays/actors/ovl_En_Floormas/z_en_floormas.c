@@ -997,7 +997,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
                     } else {
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DEAD);
                     }
-                    func_80032C7C(globalCtx, &this->actor);
+                    Actor_PlayDeathFx(globalCtx, &this->actor);
                     this->actor.flags &= ~1;
                 } else if (this->actor.colChkInfo.damage != 0) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DAMAGE);

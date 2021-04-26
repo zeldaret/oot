@@ -439,7 +439,7 @@ void func_80AE5A9C(EnReeba* this, GlobalContext* globalCtx) {
         }
     } else {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DEAD);
-        func_80032C7C(globalCtx, &this->actor);
+        Actor_PlayDeathFx(globalCtx, &this->actor);
         this->actionfunc = func_80AE5C38;
     }
 }
@@ -546,7 +546,7 @@ void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DEAD);
-                        func_80032C7C(globalCtx, &this->actor);
+                        Actor_PlayDeathFx(globalCtx, &this->actor);
                         this->actionfunc = func_80AE5BC4;
                     } else {
                         if (this->actionfunc == func_80AE5E48) {

@@ -28,7 +28,7 @@ glabel func_80B2790C
               
 /* 012BC 80B2796C 2405389F */  addiu   $a1, $zero, 0x389F         ## $a1 = 0000389F
 /* 012C0 80B27970 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 012C4 80B27974 0C00CB1F */  jal     func_80032C7C              
+/* 012C4 80B27974 0C00CB1F */  jal     Actor_PlayDeathFx              
 /* 012C8 80B27978 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 012CC 80B2797C 8E080004 */  lw      $t0, 0x0004($s0)           ## 00000004
 /* 012D0 80B27980 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE

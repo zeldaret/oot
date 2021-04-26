@@ -1257,7 +1257,7 @@ void BossDodongo_UpdateDamage(BossDodongo* this, GlobalContext* globalCtx) {
 
     if ((this->health <= 0) && (this->actionFunc != BossDodongo_DeathCutscene)) {
         BossDodongo_SetupDeathCutscene(this);
-        func_80032C7C(globalCtx, &this->actor);
+        Actor_PlayDeathFx(globalCtx, &this->actor);
         return;
     }
 

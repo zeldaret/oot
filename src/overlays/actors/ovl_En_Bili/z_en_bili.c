@@ -551,7 +551,7 @@ void EnBili_UpdateDamage(EnBili* this, GlobalContext* globalCtx) {
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_DEAD);
-                func_80032C7C(globalCtx, &this->actor);
+                Actor_PlayDeathFx(globalCtx, &this->actor);
                 this->actor.flags &= ~1;
             }
 

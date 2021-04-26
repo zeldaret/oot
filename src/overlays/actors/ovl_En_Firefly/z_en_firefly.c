@@ -627,7 +627,7 @@ void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                func_80032C7C(globalCtx, &this->actor);
+                Actor_PlayDeathFx(globalCtx, &this->actor);
                 this->actor.flags &= ~1;
             }
 
@@ -636,7 +636,7 @@ void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
             if (damageEffect == 2) { // Din's Fire
                 if (this->actor.params == KEESE_ICE_FLY) {
                     this->actor.colChkInfo.health = 0;
-                    func_80032C7C(globalCtx, &this->actor);
+                    Actor_PlayDeathFx(globalCtx, &this->actor);
                     EnFirefly_Combust(this, globalCtx);
                     EnFirefly_SetupFall(this);
                 } else if (!this->onFire) {

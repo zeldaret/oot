@@ -420,7 +420,7 @@ void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
             } else {
                 Actor_ApplyDamage(&this->actor);
                 this->actor.flags &= ~1;
-                func_80032C7C(globalCtx, &this->actor);
+                Actor_PlayDeathFx(globalCtx, &this->actor);
                 EnCrow_SetupDamaged(this, globalCtx);
             }
         }

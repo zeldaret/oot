@@ -24,7 +24,7 @@ glabel func_80A0142C
 /* 014DC 80A0147C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 014E0 80A01480 1440000A */  bne     $v0, $zero, .L80A014AC     
 /* 014E4 80A01484 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 014E8 80A01488 0C00CB1F */  jal     func_80032C7C              
+/* 014E8 80A01488 0C00CB1F */  jal     Actor_PlayDeathFx              
 /* 014EC 80A0148C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 014F0 80A01490 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 014F4 80A01494 0C00BE0A */  jal     Audio_PlayActorSound2

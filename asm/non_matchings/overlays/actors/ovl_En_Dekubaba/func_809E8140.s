@@ -173,7 +173,7 @@ glabel func_809E8140
 /* 02BD0 809E83A0 1000000F */  beq     $zero, $zero, .L809E83E0   
 /* 02BD4 809E83A4 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L809E83A8:
-/* 02BD8 809E83A8 0C00CB1F */  jal     func_80032C7C              
+/* 02BD8 809E83A8 0C00CB1F */  jal     Actor_PlayDeathFx              
 /* 02BDC 809E83AC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 02BE0 809E83B0 862B001C */  lh      $t3, 0x001C($s1)           ## 0000001C
 /* 02BE4 809E83B4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001

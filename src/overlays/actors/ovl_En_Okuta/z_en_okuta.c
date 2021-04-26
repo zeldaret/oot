@@ -559,7 +559,7 @@ void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
-            func_80032C7C(globalCtx, &this->actor);
+            Actor_PlayDeathFx(globalCtx, &this->actor);
             this->actor.colChkInfo.health = 0;
             this->actor.flags &= ~1;
             if (this->actor.colChkInfo.damageEffect == 3) {

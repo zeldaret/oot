@@ -115,7 +115,7 @@ glabel func_80B37038
 /* 03520 80B371D0 0C2CDB23 */  jal     func_80B36C8C              
 /* 03524 80B371D4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03528 80B371D8 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 0352C 80B371DC 0C00CB1F */  jal     func_80032C7C              
+/* 0352C 80B371DC 0C00CB1F */  jal     Actor_PlayDeathFx              
 /* 03530 80B371E0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03534 80B371E4 10000004 */  beq     $zero, $zero, .L80B371F8   
 /* 03538 80B371E8 8FBF0024 */  lw      $ra, 0x0024($sp)           

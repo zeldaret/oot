@@ -85,7 +85,7 @@ glabel func_80B490B4
               
 /* 05194 80B491E4 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
 /* 05198 80B491E8 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 0519C 80B491EC 0C00CB1F */  jal     func_80032C7C              
+/* 0519C 80B491EC 0C00CB1F */  jal     Actor_PlayDeathFx              
 /* 051A0 80B491F0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 051A4 80B491F4 10000011 */  beq     $zero, $zero, .L80B4923C   
 /* 051A8 80B491F8 8FBF0024 */  lw      $ra, 0x0024($sp)           

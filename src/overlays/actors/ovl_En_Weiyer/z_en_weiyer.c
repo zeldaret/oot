@@ -572,7 +572,7 @@ void func_80B3368C(EnWeiyer* this, GlobalContext* globalCtx) {
                     func_80B32660(this);
                 }
             } else if (Actor_ApplyDamage(&this->actor) == 0) {
-                func_80032C7C(globalCtx, &this->actor);
+                Actor_PlayDeathFx(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_DEAD);
                 this->actor.flags &= ~1;
                 func_80B32724(this);

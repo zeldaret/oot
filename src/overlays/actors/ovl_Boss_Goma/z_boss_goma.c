@@ -1819,7 +1819,7 @@ void BossGoma_UpdateHit(BossGoma* this, GlobalContext* globalCtx) {
                     EffectSsSibuki_SpawnBurst(globalCtx, &this->actor.focus.pos);
                 } else {
                     BossGoma_SetupDefeated(this, globalCtx);
-                    func_80032C7C(globalCtx, &this->actor);
+                    Actor_PlayDeathFx(globalCtx, &this->actor);
                 }
 
                 this->invincibilityFrames = 10;

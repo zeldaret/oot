@@ -341,7 +341,7 @@ s32 func_80B0C9F0(EnSw* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
                 return true;
             }
-            func_80032C7C(globalCtx, &this->actor);
+            Actor_PlayDeathFx(globalCtx, &this->actor);
             if (((this->actor.params & 0xE000) >> 0xD) != 0) {
                 this->skelAnime.playSpeed = 8.0f;
                 if ((globalCtx->state.frames & 1) == 0) {
