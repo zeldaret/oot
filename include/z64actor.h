@@ -209,7 +209,7 @@ typedef struct {
     /* 0x14 */ s32 prevLimbIndex;
 } BodyBreak;
 
-#define BODYBREAK_OBJECT_DEFAULT -1 // use the same object that the actor spawning en_part is using
+#define BODYBREAK_OBJECT_DEFAULT -1 // use the same object as the actor
 #define BODYBREAK_STATUS_READY -1
 #define BODYBREAK_STATUS_FINISHED 0
 
