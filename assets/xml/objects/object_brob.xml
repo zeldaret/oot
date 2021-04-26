@@ -1,0 +1,25 @@
+<Root>
+  <File Name="object_brob" Segment="6">
+    <Animation Name="gobject_brob_anim_00000290" Offset="0x290" />
+    <DList Name="gobject_brob_dlist_000007E0" Offset="0x7E0" />
+    <DList Name="gobject_brob_dlist_00000898" Offset="0x898" />
+    <DList Name="gobject_brob_dlist_000009D0" Offset="0x9D0" />
+    <DList Name="gobject_brob_dlist_00000AE8" Offset="0xAE8" />
+    <DList Name="gobject_brob_dlist_00000C00" Offset="0xC00" />
+    <Texture Name="gobject_brob_tex_00000D48" OutName="tex_00000D48" Format="rgb5a1" Width="32" Height="32" Offset="0xD48" />
+    <Limb Name="gobject_brob_limb_00001548" LimbType="Standard" Offset="0x1548" />
+    <Limb Name="gobject_brob_limb_00001554" LimbType="Standard" Offset="0x1554" />
+    <Limb Name="gobject_brob_limb_00001560" LimbType="Standard" Offset="0x1560" />
+    <Limb Name="gobject_brob_limb_0000156C" LimbType="Standard" Offset="0x156C" />
+    <Limb Name="gobject_brob_limb_00001578" LimbType="Standard" Offset="0x1578" />
+    <Limb Name="gobject_brob_limb_00001584" LimbType="Standard" Offset="0x1584" />
+    <Limb Name="gobject_brob_limb_00001590" LimbType="Standard" Offset="0x1590" />
+    <Limb Name="gobject_brob_limb_0000159C" LimbType="Standard" Offset="0x159C" />
+    <Limb Name="gobject_brob_limb_000015A8" LimbType="Standard" Offset="0x15A8" />
+    <Skeleton Name="gobject_brob_skel_000015D8" Type="Flex" LimbType="Standard" Offset="0x15D8" />
+    <Animation Name="gobject_brob_anim_00001678" Offset="0x1678" />
+    <Animation Name="gobject_brob_anim_00001750" Offset="0x1750" />
+    <Animation Name="gobject_brob_anim_00001958" Offset="0x1958" />
+    <Blob Name="gobject_brob_unk_00001968" Size="312" Offset="0x1968" />
+  </File>
+</Root>

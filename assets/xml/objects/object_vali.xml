@@ -1,0 +1,28 @@
+<Root>
+  <File Name="object_vali" Segment="6">
+    <Animation Name="gobject_vali_anim_00000710" Offset="0x710" />
+    <Animation Name="gobject_vali_anim_00000854" Offset="0x854" />
+    <Animation Name="gobject_vali_anim_00000B34" Offset="0xB34" />
+    <Animation Name="gobject_vali_anim_00000D9C" Offset="0xD9C" />
+    <Animation Name="gobject_vali_anim_000014AC" Offset="0x14AC" />
+    <DList Name="gobject_vali_dlist_00002610" Offset="0x2610" />
+    <DList Name="gobject_vali_dlist_00002740" Offset="0x2740" />
+    <DList Name="gobject_vali_dlist_000027D8" Offset="0x27D8" />
+    <DList Name="gobject_vali_dlist_00002968" Offset="0x2968" />
+    <DList Name="gobject_vali_dlist_00002A28" Offset="0x2A28" />
+    <DList Name="gobject_vali_dlist_00002AE8" Offset="0x2AE8" />
+    <DList Name="gobject_vali_dlist_00002B80" Offset="0x2B80" />
+    <DList Name="gobject_vali_dlist_00002C20" Offset="0x2C20" />
+    <DList Name="gobject_vali_dlist_00002D50" Offset="0x2D50" />
+    <DList Name="gobject_vali_dlist_00002DF8" Offset="0x2DF8" />
+    <DList Name="gobject_vali_dlist_00002E90" Offset="0x2E90" />
+    <DList Name="gobject_vali_dlist_00002F30" Offset="0x2F30" />
+    <DList Name="gobject_vali_dlist_00003060" Offset="0x3060" />
+    <Texture Name="gobject_vali_tex_00003108" OutName="tex_00003108" Format="ia16" Width="32" Height="32" Offset="0x3108" />
+    <Texture Name="gobject_vali_tex_00003908" OutName="tex_00003908" Format="ia16" Width="8" Height="8" Offset="0x3908" />
+    <Texture Name="gobject_vali_tex_00003988" OutName="tex_00003988" Format="ia16" Width="16" Height="32" Offset="0x3988" />
+    <Texture Name="gobject_vali_tex_00003D88" OutName="tex_00003D88" Format="ia16" Width="8" Height="16" Offset="0x3D88" />
+    <Texture Name="gobject_vali_tex_00003E88" OutName="tex_00003E88" Format="ia16" Width="32" Height="32" Offset="0x3E88" />
+    <Blob Name="gobject_vali_unk_00004688" Size="456" Offset="0x4688" />
+  </File>
+</Root>

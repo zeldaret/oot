@@ -1,0 +1,47 @@
+<Root>
+  <File Name="object_kw1" Segment="6">
+    <Limb Name="gobject_kw1_limb_00000000" LimbType="Standard" Offset="0x0" />
+    <Limb Name="gobject_kw1_limb_0000000C" LimbType="Standard" Offset="0xC" />
+    <Limb Name="gobject_kw1_limb_00000018" LimbType="Standard" Offset="0x18" />
+    <Limb Name="gobject_kw1_limb_00000024" LimbType="Standard" Offset="0x24" />
+    <Limb Name="gobject_kw1_limb_00000030" LimbType="Standard" Offset="0x30" />
+    <Limb Name="gobject_kw1_limb_0000003C" LimbType="Standard" Offset="0x3C" />
+    <Limb Name="gobject_kw1_limb_00000048" LimbType="Standard" Offset="0x48" />
+    <Limb Name="gobject_kw1_limb_00000054" LimbType="Standard" Offset="0x54" />
+    <Limb Name="gobject_kw1_limb_00000060" LimbType="Standard" Offset="0x60" />
+    <Limb Name="gobject_kw1_limb_0000006C" LimbType="Standard" Offset="0x6C" />
+    <Limb Name="gobject_kw1_limb_00000078" LimbType="Standard" Offset="0x78" />
+    <Limb Name="gobject_kw1_limb_00000084" LimbType="Standard" Offset="0x84" />
+    <Limb Name="gobject_kw1_limb_00000090" LimbType="Standard" Offset="0x90" />
+    <Limb Name="gobject_kw1_limb_0000009C" LimbType="Standard" Offset="0x9C" />
+    <Limb Name="gobject_kw1_limb_000000A8" LimbType="Standard" Offset="0xA8" />
+    <Skeleton Name="gobject_kw1_skel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0" />
+    <Texture Name="gobject_kw1_tex_000002FC" OutName="tex_000002FC" Format="i8" Width="16" Height="16" Offset="0x2FC" />
+    <Texture Name="gobject_kw1_tex_000003FC" OutName="tex_000003FC" Format="ci8" Width="8" Height="8" Offset="0x3FC" />
+    <Texture Name="gobject_kw1_tex_0000043C" OutName="tex_0000043C" Format="i8" Width="8" Height="8" Offset="0x43C" />
+    <Blob Name="gobject_kw1_unk_0000047C" Size="2112" Offset="0x47C" />
+    <Texture Name="gobject_kw1_tex_00000CBC" OutName="tex_00000CBC" Format="ci8" Width="8" Height="8" Offset="0xCBC" />
+    <Texture Name="gobject_kw1_tex_00000CFC" OutName="tex_00000CFC" Format="ci8" Width="8" Height="8" Offset="0xCFC" />
+    <Blob Name="gobject_kw1_unk_00000F3C" Size="1040" Offset="0xF3C" />
+    <Texture Name="gobject_kw1_tex_0000134C" OutName="tex_0000134C" Format="ci8" Width="16" Height="32" Offset="0x134C" />
+    <Texture Name="gobject_kw1_tex_0000154C" OutName="tex_0000154C" Format="ci8" Width="8" Height="8" Offset="0x154C" />
+    <Texture Name="gobject_kw1_tex_0000158C" OutName="tex_0000158C" Format="ci8" Width="16" Height="8" Offset="0x158C" />
+    <Texture Name="gobject_kw1_tex_0000160C" OutName="tex_0000160C" Format="ci8" Width="32" Height="32" Offset="0x160C" />
+    <Blob Name="gobject_kw1_unk_00001A0C" Size="2052" Offset="0x1A0C" />
+    <DList Name="gobject_kw1_dlist_00002C10" Offset="0x2C10" />
+    <DList Name="gobject_kw1_dlist_000053F8" Offset="0x53F8" />
+    <DList Name="gobject_kw1_dlist_00005668" Offset="0x5668" />
+    <DList Name="gobject_kw1_dlist_000057A8" Offset="0x57A8" />
+    <DList Name="gobject_kw1_dlist_000058D8" Offset="0x58D8" />
+    <DList Name="gobject_kw1_dlist_00005A60" Offset="0x5A60" />
+    <DList Name="gobject_kw1_dlist_00005BA0" Offset="0x5BA0" />
+    <DList Name="gobject_kw1_dlist_00005CD0" Offset="0x5CD0" />
+    <DList Name="gobject_kw1_dlist_00005E58" Offset="0x5E58" />
+    <DList Name="gobject_kw1_dlist_00006018" Offset="0x6018" />
+    <DList Name="gobject_kw1_dlist_000061C0" Offset="0x61C0" />
+    <DList Name="gobject_kw1_dlist_00006360" Offset="0x6360" />
+    <DList Name="gobject_kw1_dlist_00006478" Offset="0x6478" />
+    <DList Name="gobject_kw1_dlist_00006620" Offset="0x6620" />
+    <DList Name="gobject_kw1_dlist_000067C0" Offset="0x67C0" />
+  </File>
+</Root>

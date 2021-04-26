@@ -1,0 +1,45 @@
+<Root>
+  <File Name="object_cne" Segment="6">
+    <Limb Name="gobject_cne_limb_00000000" LimbType="Standard" Offset="0x0" />
+    <Limb Name="gobject_cne_limb_0000000C" LimbType="Standard" Offset="0xC" />
+    <Limb Name="gobject_cne_limb_00000018" LimbType="Standard" Offset="0x18" />
+    <Limb Name="gobject_cne_limb_00000024" LimbType="Standard" Offset="0x24" />
+    <Limb Name="gobject_cne_limb_00000030" LimbType="Standard" Offset="0x30" />
+    <Limb Name="gobject_cne_limb_0000003C" LimbType="Standard" Offset="0x3C" />
+    <Limb Name="gobject_cne_limb_00000048" LimbType="Standard" Offset="0x48" />
+    <Limb Name="gobject_cne_limb_00000054" LimbType="Standard" Offset="0x54" />
+    <Limb Name="gobject_cne_limb_00000060" LimbType="Standard" Offset="0x60" />
+    <Limb Name="gobject_cne_limb_0000006C" LimbType="Standard" Offset="0x6C" />
+    <Limb Name="gobject_cne_limb_00000078" LimbType="Standard" Offset="0x78" />
+    <Limb Name="gobject_cne_limb_00000084" LimbType="Standard" Offset="0x84" />
+    <Limb Name="gobject_cne_limb_00000090" LimbType="Standard" Offset="0x90" />
+    <Limb Name="gobject_cne_limb_0000009C" LimbType="Standard" Offset="0x9C" />
+    <Limb Name="gobject_cne_limb_000000A8" LimbType="Standard" Offset="0xA8" />
+    <Skeleton Name="gobject_cne_skel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0" />
+    <Texture Name="gobject_cne_tex_000002FC" OutName="tex_000002FC" Format="ci8" Width="8" Height="8" Offset="0x2FC" />
+    <Texture Name="gobject_cne_tex_0000033C" OutName="tex_0000033C" Format="ci8" Width="8" Height="8" Offset="0x33C" />
+    <Texture Name="gobject_cne_tex_0000037C" OutName="tex_0000037C" Format="ci8" Width="8" Height="8" Offset="0x37C" />
+    <Texture Name="gobject_cne_tex_000003BC" OutName="tex_000003BC" Format="ci8" Width="8" Height="8" Offset="0x3BC" />
+    <Texture Name="gobject_cne_tex_000003FC" OutName="tex_000003FC" Format="ci8" Width="8" Height="16" Offset="0x3FC" />
+    <Texture Name="gobject_cne_tex_0000047C" OutName="tex_0000047C" Format="i8" Width="8" Height="8" Offset="0x47C" />
+    <Texture Name="gobject_cne_tex_000004BC" OutName="tex_000004BC" Format="ci8" Width="8" Height="8" Offset="0x4BC" />
+    <DList Name="gobject_cne_dlist_00001300" Offset="0x1300" />
+    <DList Name="gobject_cne_dlist_00001608" Offset="0x1608" />
+    <DList Name="gobject_cne_dlist_000016E8" Offset="0x16E8" />
+    <DList Name="gobject_cne_dlist_00001808" Offset="0x1808" />
+    <DList Name="gobject_cne_dlist_000018C8" Offset="0x18C8" />
+    <DList Name="gobject_cne_dlist_000019A8" Offset="0x19A8" />
+    <DList Name="gobject_cne_dlist_00001AC8" Offset="0x1AC8" />
+    <DList Name="gobject_cne_dlist_00001B88" Offset="0x1B88" />
+    <DList Name="gobject_cne_dlist_00001E50" Offset="0x1E50" />
+    <DList Name="gobject_cne_dlist_00001F18" Offset="0x1F18" />
+    <DList Name="gobject_cne_dlist_00001FE0" Offset="0x1FE0" />
+    <DList Name="gobject_cne_dlist_000020A8" Offset="0x20A8" />
+    <DList Name="gobject_cne_dlist_00002170" Offset="0x2170" />
+    <DList Name="gobject_cne_dlist_00002238" Offset="0x2238" />
+    <DList Name="gobject_cne_dlist_00002300" Offset="0x2300" />
+    <Texture Name="gobject_cne_tex_000023D0" OutName="tex_000023D0" Format="rgb5a1" Width="8" Height="16" Offset="0x23D0" />
+    <Texture Name="gobject_cne_tex_000024D0" OutName="tex_000024D0" Format="rgb5a1" Width="8" Height="8" Offset="0x24D0" />
+    <DList Name="gobject_cne_dlist_00002860" Offset="0x2860" />
+  </File>
+</Root>

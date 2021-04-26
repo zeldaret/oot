@@ -1,0 +1,13 @@
+<Root>
+  <File Name="object_ganon_anime3" Segment="6">
+    <Animation Name="gobject_ganon_anime3_anim_00000BFC" Offset="0xBFC" />
+    <Animation Name="gobject_ganon_anime3_anim_00002168" Offset="0x2168" />
+    <Animation Name="gobject_ganon_anime3_anim_000028A8" Offset="0x28A8" />
+    <Animation Name="gobject_ganon_anime3_anim_00002E6C" Offset="0x2E6C" />
+    <Animation Name="gobject_ganon_anime3_anim_00003754" Offset="0x3754" />
+    <Animation Name="gobject_ganon_anime3_anim_00003884" Offset="0x3884" />
+    <Animation Name="gobject_ganon_anime3_anim_00003F38" Offset="0x3F38" />
+    <Animation Name="gobject_ganon_anime3_anim_00010380" Offset="0x10380" />
+    <Blob Name="gobject_ganon_anime3_unk_00010390" Size="17504" Offset="0x10390" />
+  </File>
+</Root>

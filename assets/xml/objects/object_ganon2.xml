@@ -1,0 +1,149 @@
+<Root>
+  <File Name="object_ganon2" Segment="6">
+    <Animation Name="gobject_ganon2_anim_00003B1C" Offset="0x3B1C" />
+    <Animation Name="gobject_ganon2_anim_00007288" Offset="0x7288" />
+    <Animation Name="gobject_ganon2_anim_00008EB8" Offset="0x8EB8" />
+    <Animation Name="gobject_ganon2_anim_00009654" Offset="0x9654" />
+    <Animation Name="gobject_ganon2_anim_0000ADD0" Offset="0xADD0" />
+    <Animation Name="gobject_ganon2_anim_0000CAF8" Offset="0xCAF8" />
+    <Animation Name="gobject_ganon2_anim_0000DFF0" Offset="0xDFF0" />
+    <Animation Name="gobject_ganon2_anim_0000E8EC" Offset="0xE8EC" />
+    <Animation Name="gobject_ganon2_anim_0000F1D0" Offset="0xF1D0" />
+    <Animation Name="gobject_ganon2_anim_0000FFE4" Offset="0xFFE4" />
+    <DList Name="gobject_ganon2_dlist_000163F0" Offset="0x163F0" />
+    <DList Name="gobject_ganon2_dlist_00016630" Offset="0x16630" />
+    <DList Name="gobject_ganon2_dlist_00016740" Offset="0x16740" />
+    <DList Name="gobject_ganon2_dlist_000168E0" Offset="0x168E0" />
+    <DList Name="gobject_ganon2_dlist_00016AA8" Offset="0x16AA8" />
+    <DList Name="gobject_ganon2_dlist_00016BE8" Offset="0x16BE8" />
+    <DList Name="gobject_ganon2_dlist_00016D10" Offset="0x16D10" />
+    <DList Name="gobject_ganon2_dlist_00016F80" Offset="0x16F80" />
+    <DList Name="gobject_ganon2_dlist_00017160" Offset="0x17160" />
+    <DList Name="gobject_ganon2_dlist_00017620" Offset="0x17620" />
+    <DList Name="gobject_ganon2_dlist_00017910" Offset="0x17910" />
+    <DList Name="gobject_ganon2_dlist_00017AF0" Offset="0x17AF0" />
+    <DList Name="gobject_ganon2_dlist_00017FB0" Offset="0x17FB0" />
+    <DList Name="gobject_ganon2_dlist_000180E0" Offset="0x180E0" />
+    <DList Name="gobject_ganon2_dlist_00018650" Offset="0x18650" />
+    <DList Name="gobject_ganon2_dlist_00018740" Offset="0x18740" />
+    <DList Name="gobject_ganon2_dlist_00018828" Offset="0x18828" />
+    <DList Name="gobject_ganon2_dlist_000188D8" Offset="0x188D8" />
+    <DList Name="gobject_ganon2_dlist_000189C8" Offset="0x189C8" />
+    <DList Name="gobject_ganon2_dlist_00018AB0" Offset="0x18AB0" />
+    <DList Name="gobject_ganon2_dlist_00018B60" Offset="0x18B60" />
+    <DList Name="gobject_ganon2_dlist_00018EA0" Offset="0x18EA0" />
+    <DList Name="gobject_ganon2_dlist_00019210" Offset="0x19210" />
+    <DList Name="gobject_ganon2_dlist_00019330" Offset="0x19330" />
+    <DList Name="gobject_ganon2_dlist_00019420" Offset="0x19420" />
+    <DList Name="gobject_ganon2_dlist_00019510" Offset="0x19510" />
+    <DList Name="gobject_ganon2_dlist_000195C0" Offset="0x195C0" />
+    <DList Name="gobject_ganon2_dlist_00019A40" Offset="0x19A40" />
+    <DList Name="gobject_ganon2_dlist_00019C68" Offset="0x19C68" />
+    <DList Name="gobject_ganon2_dlist_00019F48" Offset="0x19F48" />
+    <DList Name="gobject_ganon2_dlist_0001A050" Offset="0x1A050" />
+    <DList Name="gobject_ganon2_dlist_0001A4E0" Offset="0x1A4E0" />
+    <DList Name="gobject_ganon2_dlist_0001A708" Offset="0x1A708" />
+    <DList Name="gobject_ganon2_dlist_0001A9E8" Offset="0x1A9E8" />
+    <DList Name="gobject_ganon2_dlist_0001AAF0" Offset="0x1AAF0" />
+    <Blob Name="gobject_ganon2_unk_0001B380" Size="512" Offset="0x1B380" />
+    <Texture Name="gobject_ganon2_tex_0001C180" OutName="tex_0001C180" Format="rgb5a1" Width="8" Height="16" Offset="0x1C180" />
+    <Texture Name="gobject_ganon2_tex_0001C280" OutName="tex_0001C280" Format="rgb5a1" Width="8" Height="16" Offset="0x1C280" />
+    <Texture Name="gobject_ganon2_tex_0001C380" OutName="tex_0001C380" Format="rgb5a1" Width="8" Height="8" Offset="0x1C380" />
+    <Texture Name="gobject_ganon2_tex_0001C400" OutName="tex_0001C400" Format="ci8" Width="32" Height="32" Offset="0x1C400" />
+    <Texture Name="gobject_ganon2_tex_0001C800" OutName="tex_0001C800" Format="rgb5a1" Width="8" Height="16" Offset="0x1C800" />
+    <Texture Name="gobject_ganon2_tex_0001C900" OutName="tex_0001C900" Format="rgb5a1" Width="8" Height="16" Offset="0x1C900" />
+    <Texture Name="gobject_ganon2_tex_0001CA00" OutName="tex_0001CA00" Format="ci8" Width="32" Height="16" Offset="0x1CA00" />
+    <Texture Name="gobject_ganon2_tex_0001CC00" OutName="tex_0001CC00" Format="ci8" Width="16" Height="16" Offset="0x1CC00" />
+    <Texture Name="gobject_ganon2_tex_0001CD00" OutName="tex_0001CD00" Format="rgb5a1" Width="16" Height="16" Offset="0x1CD00" />
+    <Texture Name="gobject_ganon2_tex_0001CF00" OutName="tex_0001CF00" Format="ci8" Width="16" Height="16" Offset="0x1CF00" />
+    <Texture Name="gobject_ganon2_tex_0001D000" OutName="tex_0001D000" Format="ci8" Width="16" Height="16" Offset="0x1D000" />
+    <Texture Name="gobject_ganon2_tex_0001D100" OutName="tex_0001D100" Format="ci8" Width="16" Height="16" Offset="0x1D100" />
+    <Texture Name="gobject_ganon2_tex_0001D200" OutName="tex_0001D200" Format="ci8" Width="16" Height="16" Offset="0x1D200" />
+    <Texture Name="gobject_ganon2_tex_0001D300" OutName="tex_0001D300" Format="ci8" Width="16" Height="16" Offset="0x1D300" />
+    <Texture Name="gobject_ganon2_tex_0001D400" OutName="tex_0001D400" Format="ci8" Width="16" Height="16" Offset="0x1D400" />
+    <Texture Name="gobject_ganon2_tex_0001D500" OutName="tex_0001D500" Format="rgb5a1" Width="4" Height="16" Offset="0x1D500" />
+    <Texture Name="gobject_ganon2_tex_0001D580" OutName="tex_0001D580" Format="ci8" Width="16" Height="32" Offset="0x1D580" />
+    <Texture Name="gobject_ganon2_tex_0001D780" OutName="tex_0001D780" Format="rgb5a1" Width="4" Height="4" Offset="0x1D780" />
+    <Blob Name="gobject_ganon2_unk_0001D7A0" Size="360" Offset="0x1D7A0" />
+    <Texture Name="gobject_ganon2_tex_0001D908" OutName="tex_0001D908" Format="ci8" Width="32" Height="32" Offset="0x1D908" />
+    <Texture Name="gobject_ganon2_tex_0001DD08" OutName="tex_0001DD08" Format="rgb5a1" Width="16" Height="32" Offset="0x1DD08" />
+    <Texture Name="gobject_ganon2_tex_0001E108" OutName="tex_0001E108" Format="rgb5a1" Width="8" Height="8" Offset="0x1E108" />
+    <Blob Name="gobject_ganon2_unk_0001E188" Size="128" Offset="0x1E188" />
+    <Texture Name="gobject_ganon2_tex_0001E208" OutName="tex_0001E208" Format="rgb5a1" Width="8" Height="8" Offset="0x1E208" />
+    <Texture Name="gobject_ganon2_tex_0001E288" OutName="tex_0001E288" Format="rgb5a1" Width="16" Height="16" Offset="0x1E288" />
+    <Texture Name="gobject_ganon2_tex_0001E488" OutName="tex_0001E488" Format="rgb5a1" Width="16" Height="8" Offset="0x1E488" />
+    <Texture Name="gobject_ganon2_tex_0001E588" OutName="tex_0001E588" Format="i4" Width="32" Height="32" Offset="0x1E588" />
+    <Texture Name="gobject_ganon2_tex_0001E788" OutName="tex_0001E788" Format="rgb5a1" Width="8" Height="16" Offset="0x1E788" />
+    <Texture Name="gobject_ganon2_tex_0001E888" OutName="tex_0001E888" Format="rgb5a1" Width="8" Height="16" Offset="0x1E888" />
+    <Blob Name="gobject_ganon2_unk_0001E988" Size="256" Offset="0x1E988" />
+    <DList Name="gobject_ganon2_dlist_00020B18" Offset="0x20B18" />
+    <DList Name="gobject_ganon2_dlist_00020BE0" Offset="0x20BE0" />
+    <DList Name="gobject_ganon2_dlist_00020C80" Offset="0x20C80" />
+    <DList Name="gobject_ganon2_dlist_00020DE8" Offset="0x20DE8" />
+    <DList Name="gobject_ganon2_dlist_00020F50" Offset="0x20F50" />
+    <DList Name="gobject_ganon2_dlist_00021120" Offset="0x21120" />
+    <DList Name="gobject_ganon2_dlist_000212F0" Offset="0x212F0" />
+    <DList Name="gobject_ganon2_dlist_000215D0" Offset="0x215D0" />
+    <DList Name="gobject_ganon2_dlist_000218B8" Offset="0x218B8" />
+    <DList Name="gobject_ganon2_dlist_000219D8" Offset="0x219D8" />
+    <Blob Name="gobject_ganon2_unk_00021A90" Size="15360" Offset="0x21A90" />
+    <Limb Name="gobject_ganon2_limb_00025690" LimbType="Standard" Offset="0x25690" />
+    <Limb Name="gobject_ganon2_limb_0002569C" LimbType="Standard" Offset="0x2569C" />
+    <Limb Name="gobject_ganon2_limb_000256A8" LimbType="Standard" Offset="0x256A8" />
+    <Limb Name="gobject_ganon2_limb_000256B4" LimbType="Standard" Offset="0x256B4" />
+    <Limb Name="gobject_ganon2_limb_000256C0" LimbType="Standard" Offset="0x256C0" />
+    <Limb Name="gobject_ganon2_limb_000256CC" LimbType="Standard" Offset="0x256CC" />
+    <Limb Name="gobject_ganon2_limb_000256D8" LimbType="Standard" Offset="0x256D8" />
+    <Limb Name="gobject_ganon2_limb_000256E4" LimbType="Standard" Offset="0x256E4" />
+    <Limb Name="gobject_ganon2_limb_000256F0" LimbType="Standard" Offset="0x256F0" />
+    <Limb Name="gobject_ganon2_limb_000256FC" LimbType="Standard" Offset="0x256FC" />
+    <Limb Name="gobject_ganon2_limb_00025708" LimbType="Standard" Offset="0x25708" />
+    <Limb Name="gobject_ganon2_limb_00025714" LimbType="Standard" Offset="0x25714" />
+    <Limb Name="gobject_ganon2_limb_00025720" LimbType="Standard" Offset="0x25720" />
+    <Limb Name="gobject_ganon2_limb_0002572C" LimbType="Standard" Offset="0x2572C" />
+    <Limb Name="gobject_ganon2_limb_00025738" LimbType="Standard" Offset="0x25738" />
+    <Limb Name="gobject_ganon2_limb_00025744" LimbType="Standard" Offset="0x25744" />
+    <Limb Name="gobject_ganon2_limb_00025750" LimbType="Standard" Offset="0x25750" />
+    <Limb Name="gobject_ganon2_limb_0002575C" LimbType="Standard" Offset="0x2575C" />
+    <Limb Name="gobject_ganon2_limb_00025768" LimbType="Standard" Offset="0x25768" />
+    <Limb Name="gobject_ganon2_limb_00025774" LimbType="Standard" Offset="0x25774" />
+    <Limb Name="gobject_ganon2_limb_00025780" LimbType="Standard" Offset="0x25780" />
+    <Limb Name="gobject_ganon2_limb_0002578C" LimbType="Standard" Offset="0x2578C" />
+    <Limb Name="gobject_ganon2_limb_00025798" LimbType="Standard" Offset="0x25798" />
+    <Limb Name="gobject_ganon2_limb_000257A4" LimbType="Standard" Offset="0x257A4" />
+    <Limb Name="gobject_ganon2_limb_000257B0" LimbType="Standard" Offset="0x257B0" />
+    <Limb Name="gobject_ganon2_limb_000257BC" LimbType="Standard" Offset="0x257BC" />
+    <Limb Name="gobject_ganon2_limb_000257C8" LimbType="Standard" Offset="0x257C8" />
+    <Limb Name="gobject_ganon2_limb_000257D4" LimbType="Standard" Offset="0x257D4" />
+    <Limb Name="gobject_ganon2_limb_000257E0" LimbType="Standard" Offset="0x257E0" />
+    <Limb Name="gobject_ganon2_limb_000257EC" LimbType="Standard" Offset="0x257EC" />
+    <Limb Name="gobject_ganon2_limb_000257F8" LimbType="Standard" Offset="0x257F8" />
+    <Limb Name="gobject_ganon2_limb_00025804" LimbType="Standard" Offset="0x25804" />
+    <Limb Name="gobject_ganon2_limb_00025810" LimbType="Standard" Offset="0x25810" />
+    <Limb Name="gobject_ganon2_limb_0002581C" LimbType="Standard" Offset="0x2581C" />
+    <Limb Name="gobject_ganon2_limb_00025828" LimbType="Standard" Offset="0x25828" />
+    <Limb Name="gobject_ganon2_limb_00025834" LimbType="Standard" Offset="0x25834" />
+    <Limb Name="gobject_ganon2_limb_00025840" LimbType="Standard" Offset="0x25840" />
+    <Limb Name="gobject_ganon2_limb_0002584C" LimbType="Standard" Offset="0x2584C" />
+    <Limb Name="gobject_ganon2_limb_00025858" LimbType="Standard" Offset="0x25858" />
+    <Limb Name="gobject_ganon2_limb_00025864" LimbType="Standard" Offset="0x25864" />
+    <Limb Name="gobject_ganon2_limb_00025870" LimbType="Standard" Offset="0x25870" />
+    <Limb Name="gobject_ganon2_limb_0002587C" LimbType="Standard" Offset="0x2587C" />
+    <Limb Name="gobject_ganon2_limb_00025888" LimbType="Standard" Offset="0x25888" />
+    <Limb Name="gobject_ganon2_limb_00025894" LimbType="Standard" Offset="0x25894" />
+    <Limb Name="gobject_ganon2_limb_000258A0" LimbType="Standard" Offset="0x258A0" />
+    <Limb Name="gobject_ganon2_limb_000258AC" LimbType="Standard" Offset="0x258AC" />
+    <Skeleton Name="gobject_ganon2_skel_00025970" Type="Flex" LimbType="Standard" Offset="0x25970" />
+    <Animation Name="gobject_ganon2_anim_00026510" Offset="0x26510" />
+    <Animation Name="gobject_ganon2_anim_00026AF4" Offset="0x26AF4" />
+    <Animation Name="gobject_ganon2_anim_00027824" Offset="0x27824" />
+    <Animation Name="gobject_ganon2_anim_0002A848" Offset="0x2A848" />
+    <Animation Name="gobject_ganon2_anim_0002B528" Offset="0x2B528" />
+    <Animation Name="gobject_ganon2_anim_0002C0D0" Offset="0x2C0D0" />
+    <Animation Name="gobject_ganon2_anim_0002C6B4" Offset="0x2C6B4" />
+    <Animation Name="gobject_ganon2_anim_000334F8" Offset="0x334F8" />
+    <Animation Name="gobject_ganon2_anim_00034278" Offset="0x34278" />
+    <Animation Name="gobject_ganon2_anim_000353C0" Offset="0x353C0" />
+    <Animation Name="gobject_ganon2_anim_00035BDC" Offset="0x35BDC" />
+  </File>
+</Root>

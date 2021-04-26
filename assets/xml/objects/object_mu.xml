@@ -1,0 +1,94 @@
+<Root>
+  <File Name="object_mu" Segment="6">
+    <Animation Name="gobject_mu_anim_000003F4" Offset="0x3F4" />
+    <Texture Name="gobject_mu_tex_00000610" OutName="tex_00000610" Format="i8" Width="8" Height="8" Offset="0x610" />
+    <Texture Name="gobject_mu_tex_00000650" OutName="tex_00000650" Format="i8" Width="8" Height="8" Offset="0x650" />
+    <Texture Name="gobject_mu_tex_00000690" OutName="tex_00000690" Format="i8" Width="8" Height="8" Offset="0x690" />
+    <Texture Name="gobject_mu_tex_000006D0" OutName="tex_000006D0" Format="i8" Width="8" Height="8" Offset="0x6D0" />
+    <Texture Name="gobject_mu_tex_00000710" OutName="tex_00000710" Format="ci8" Width="8" Height="16" Offset="0x710" />
+    <Texture Name="gobject_mu_tex_00000790" OutName="tex_00000790" Format="ci8" Width="8" Height="8" Offset="0x790" />
+    <Texture Name="gobject_mu_tex_000007D0" OutName="tex_000007D0" Format="ci8" Width="8" Height="8" Offset="0x7D0" />
+    <Texture Name="gobject_mu_tex_00000810" OutName="tex_00000810" Format="ci8" Width="8" Height="8" Offset="0x810" />
+    <Texture Name="gobject_mu_tex_00000850" OutName="tex_00000850" Format="ci8" Width="8" Height="8" Offset="0x850" />
+    <Texture Name="gobject_mu_tex_00000890" OutName="tex_00000890" Format="ci8" Width="8" Height="8" Offset="0x890" />
+    <DList Name="gobject_mu_dlist_00003110" Offset="0x3110" />
+    <DList Name="gobject_mu_dlist_000035E8" Offset="0x35E8" />
+    <DList Name="gobject_mu_dlist_000037B0" Offset="0x37B0" />
+    <DList Name="gobject_mu_dlist_00003B08" Offset="0x3B08" />
+    <DList Name="gobject_mu_dlist_00003DB0" Offset="0x3DB0" />
+    <DList Name="gobject_mu_dlist_00004108" Offset="0x4108" />
+    <DList Name="gobject_mu_dlist_000043E0" Offset="0x43E0" />
+    <DList Name="gobject_mu_dlist_000044C8" Offset="0x44C8" />
+    <DList Name="gobject_mu_dlist_000045F0" Offset="0x45F0" />
+    <DList Name="gobject_mu_dlist_00004798" Offset="0x4798" />
+    <DList Name="gobject_mu_dlist_00004958" Offset="0x4958" />
+    <DList Name="gobject_mu_dlist_00004C68" Offset="0x4C68" />
+    <DList Name="gobject_mu_dlist_00004D80" Offset="0x4D80" />
+    <Limb Name="gobject_mu_limb_00004E80" LimbType="Standard" Offset="0x4E80" />
+    <Limb Name="gobject_mu_limb_00004E8C" LimbType="Standard" Offset="0x4E8C" />
+    <Limb Name="gobject_mu_limb_00004E98" LimbType="Standard" Offset="0x4E98" />
+    <Limb Name="gobject_mu_limb_00004EA4" LimbType="Standard" Offset="0x4EA4" />
+    <Limb Name="gobject_mu_limb_00004EB0" LimbType="Standard" Offset="0x4EB0" />
+    <Limb Name="gobject_mu_limb_00004EBC" LimbType="Standard" Offset="0x4EBC" />
+    <Limb Name="gobject_mu_limb_00004EC8" LimbType="Standard" Offset="0x4EC8" />
+    <Limb Name="gobject_mu_limb_00004ED4" LimbType="Standard" Offset="0x4ED4" />
+    <Limb Name="gobject_mu_limb_00004EE0" LimbType="Standard" Offset="0x4EE0" />
+    <Limb Name="gobject_mu_limb_00004EEC" LimbType="Standard" Offset="0x4EEC" />
+    <Limb Name="gobject_mu_limb_00004EF8" LimbType="Standard" Offset="0x4EF8" />
+    <Limb Name="gobject_mu_limb_00004F04" LimbType="Standard" Offset="0x4F04" />
+    <Limb Name="gobject_mu_limb_00004F10" LimbType="Standard" Offset="0x4F10" />
+    <Limb Name="gobject_mu_limb_00004F1C" LimbType="Standard" Offset="0x4F1C" />
+    <Limb Name="gobject_mu_limb_00004F28" LimbType="Standard" Offset="0x4F28" />
+    <Skeleton Name="gobject_mu_skel_00004F70" Type="Flex" LimbType="Standard" Offset="0x4F70" />
+    <Animation Name="gobject_mu_anim_00005040" Offset="0x5040" />
+    <Texture Name="gobject_mu_tex_00005250" OutName="tex_00005250" Format="i8" Width="16" Height="16" Offset="0x5250" />
+    <Texture Name="gobject_mu_tex_00005350" OutName="tex_00005350" Format="ci8" Width="16" Height="16" Offset="0x5350" />
+    <Texture Name="gobject_mu_tex_00005450" OutName="tex_00005450" Format="i8" Width="8" Height="8" Offset="0x5450" />
+    <Texture Name="gobject_mu_tex_00005490" OutName="tex_00005490" Format="ci8" Width="8" Height="8" Offset="0x5490" />
+    <Texture Name="gobject_mu_tex_000054D0" OutName="tex_000054D0" Format="ci8" Width="16" Height="16" Offset="0x54D0" />
+    <Texture Name="gobject_mu_tex_000055D0" OutName="tex_000055D0" Format="ci8" Width="8" Height="8" Offset="0x55D0" />
+    <Texture Name="gobject_mu_tex_00005610" OutName="tex_00005610" Format="ci8" Width="32" Height="16" Offset="0x5610" />
+    <Texture Name="gobject_mu_tex_00005810" OutName="tex_00005810" Format="ci8" Width="32" Height="32" Offset="0x5810" />
+    <Texture Name="gobject_mu_tex_00005C10" OutName="tex_00005C10" Format="ci8" Width="8" Height="8" Offset="0x5C10" />
+    <Texture Name="gobject_mu_tex_00005C50" OutName="tex_00005C50" Format="ci8" Width="8" Height="16" Offset="0x5C50" />
+    <Texture Name="gobject_mu_tex_00005CD0" OutName="tex_00005CD0" Format="ci8" Width="32" Height="32" Offset="0x5CD0" />
+    <DList Name="gobject_mu_dlist_00008FD0" Offset="0x8FD0" />
+    <DList Name="gobject_mu_dlist_00009328" Offset="0x9328" />
+    <DList Name="gobject_mu_dlist_00009828" Offset="0x9828" />
+    <DList Name="gobject_mu_dlist_00009970" Offset="0x9970" />
+    <DList Name="gobject_mu_dlist_00009A70" Offset="0x9A70" />
+    <DList Name="gobject_mu_dlist_00009B70" Offset="0x9B70" />
+    <DList Name="gobject_mu_dlist_00009CB8" Offset="0x9CB8" />
+    <DList Name="gobject_mu_dlist_00009DB8" Offset="0x9DB8" />
+    <DList Name="gobject_mu_dlist_00009EB8" Offset="0x9EB8" />
+    <DList Name="gobject_mu_dlist_0000A028" Offset="0xA028" />
+    <DList Name="gobject_mu_dlist_0000A170" Offset="0xA170" />
+    <DList Name="gobject_mu_dlist_0000A670" Offset="0xA670" />
+    <DList Name="gobject_mu_dlist_0000A770" Offset="0xA770" />
+    <DList Name="gobject_mu_dlist_0000A870" Offset="0xA870" />
+    <DList Name="gobject_mu_dlist_0000A9B8" Offset="0xA9B8" />
+    <DList Name="gobject_mu_dlist_0000AAB8" Offset="0xAAB8" />
+    <DList Name="gobject_mu_dlist_0000ABB8" Offset="0xABB8" />
+    <Limb Name="gobject_mu_limb_0000AD00" LimbType="Standard" Offset="0xAD00" />
+    <Limb Name="gobject_mu_limb_0000AD0C" LimbType="Standard" Offset="0xAD0C" />
+    <Limb Name="gobject_mu_limb_0000AD18" LimbType="Standard" Offset="0xAD18" />
+    <Limb Name="gobject_mu_limb_0000AD24" LimbType="Standard" Offset="0xAD24" />
+    <Limb Name="gobject_mu_limb_0000AD30" LimbType="Standard" Offset="0xAD30" />
+    <Limb Name="gobject_mu_limb_0000AD3C" LimbType="Standard" Offset="0xAD3C" />
+    <Limb Name="gobject_mu_limb_0000AD48" LimbType="Standard" Offset="0xAD48" />
+    <Limb Name="gobject_mu_limb_0000AD54" LimbType="Standard" Offset="0xAD54" />
+    <Limb Name="gobject_mu_limb_0000AD60" LimbType="Standard" Offset="0xAD60" />
+    <Limb Name="gobject_mu_limb_0000AD6C" LimbType="Standard" Offset="0xAD6C" />
+    <Limb Name="gobject_mu_limb_0000AD78" LimbType="Standard" Offset="0xAD78" />
+    <Limb Name="gobject_mu_limb_0000AD84" LimbType="Standard" Offset="0xAD84" />
+    <Limb Name="gobject_mu_limb_0000AD90" LimbType="Standard" Offset="0xAD90" />
+    <Limb Name="gobject_mu_limb_0000AD9C" LimbType="Standard" Offset="0xAD9C" />
+    <Limb Name="gobject_mu_limb_0000ADA8" LimbType="Standard" Offset="0xADA8" />
+    <Limb Name="gobject_mu_limb_0000ADB4" LimbType="Standard" Offset="0xADB4" />
+    <Limb Name="gobject_mu_limb_0000ADC0" LimbType="Standard" Offset="0xADC0" />
+    <Limb Name="gobject_mu_limb_0000ADCC" LimbType="Standard" Offset="0xADCC" />
+    <Limb Name="gobject_mu_limb_0000ADD8" LimbType="Standard" Offset="0xADD8" />
+    <Limb Name="gobject_mu_limb_0000ADE4" LimbType="Standard" Offset="0xADE4" />
+    <Skeleton Name="gobject_mu_skel_0000AE40" Type="Flex" LimbType="Standard" Offset="0xAE40" />
+  </File>
+</Root>

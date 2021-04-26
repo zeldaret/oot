@@ -1,0 +1,5 @@
+<Root>
+  <File Name="object_mjin_wind" Segment="6">
+    <Blob Name="gobject_mjin_wind_unk_00000000" Size="4096" Offset="0x0" />
+  </File>
+</Root>

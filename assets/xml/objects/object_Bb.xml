@@ -1,0 +1,37 @@
+<Root>
+  <File Name="object_Bb" Segment="6">
+    <Animation Name="gobject_Bb_anim_00000184" Offset="0x184" />
+    <Animation Name="gobject_Bb_anim_000002AC" Offset="0x2AC" />
+    <Animation Name="gobject_Bb_anim_00000444" Offset="0x444" />
+    <DList Name="gobject_Bb_dlist_00000C20" Offset="0xC20" />
+    <DList Name="gobject_Bb_dlist_00000CB0" Offset="0xCB0" />
+    <DList Name="gobject_Bb_dlist_00000D40" Offset="0xD40" />
+    <DList Name="gobject_Bb_dlist_00000E08" Offset="0xE08" />
+    <DList Name="gobject_Bb_dlist_00001100" Offset="0x1100" />
+    <DList Name="gobject_Bb_dlist_00001190" Offset="0x1190" />
+    <Texture Name="gobject_Bb_tex_00001220" OutName="tex_00001220" Format="rgb5a1" Width="16" Height="16" Offset="0x1220" />
+    <Texture Name="gobject_Bb_tex_00001420" OutName="tex_00001420" Format="rgb5a1" Width="8" Height="8" Offset="0x1420" />
+    <Texture Name="gobject_Bb_tex_000014A0" OutName="tex_000014A0" Format="rgb5a1" Width="4" Height="4" Offset="0x14A0" />
+    <Texture Name="gobject_Bb_tex_000014C0" OutName="tex_000014C0" Format="rgb5a1" Width="8" Height="8" Offset="0x14C0" />
+    <Texture Name="gobject_Bb_tex_00001540" OutName="tex_00001540" Format="rgb5a1" Width="8" Height="8" Offset="0x1540" />
+    <Texture Name="gobject_Bb_tex_000015C0" OutName="tex_000015C0" Format="rgb5a1" Width="8" Height="8" Offset="0x15C0" />
+    <Texture Name="gobject_Bb_tex_00001640" OutName="tex_00001640" Format="rgb5a1" Width="16" Height="8" Offset="0x1640" />
+    <Texture Name="gobject_Bb_tex_00001740" OutName="tex_00001740" Format="rgb5a1" Width="16" Height="16" Offset="0x1740" />
+    <Limb Name="gobject_Bb_limb_00001940" LimbType="Standard" Offset="0x1940" />
+    <Limb Name="gobject_Bb_limb_0000194C" LimbType="Standard" Offset="0x194C" />
+    <Limb Name="gobject_Bb_limb_00001958" LimbType="Standard" Offset="0x1958" />
+    <Limb Name="gobject_Bb_limb_00001964" LimbType="Standard" Offset="0x1964" />
+    <Limb Name="gobject_Bb_limb_00001970" LimbType="Standard" Offset="0x1970" />
+    <Limb Name="gobject_Bb_limb_0000197C" LimbType="Standard" Offset="0x197C" />
+    <Limb Name="gobject_Bb_limb_00001988" LimbType="Standard" Offset="0x1988" />
+    <Limb Name="gobject_Bb_limb_00001994" LimbType="Standard" Offset="0x1994" />
+    <Limb Name="gobject_Bb_limb_000019A0" LimbType="Standard" Offset="0x19A0" />
+    <Limb Name="gobject_Bb_limb_000019AC" LimbType="Standard" Offset="0x19AC" />
+    <Limb Name="gobject_Bb_limb_000019B8" LimbType="Standard" Offset="0x19B8" />
+    <Limb Name="gobject_Bb_limb_000019C4" LimbType="Standard" Offset="0x19C4" />
+    <Limb Name="gobject_Bb_limb_000019D0" LimbType="Standard" Offset="0x19D0" />
+    <Limb Name="gobject_Bb_limb_000019DC" LimbType="Standard" Offset="0x19DC" />
+    <Limb Name="gobject_Bb_limb_000019E8" LimbType="Standard" Offset="0x19E8" />
+    <Skeleton Name="gobject_Bb_skel_00001A30" Type="Normal" LimbType="Standard" Offset="0x1A30" />
+  </File>
+</Root>

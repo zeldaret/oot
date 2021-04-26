@@ -1,0 +1,11 @@
+<Root>
+  <File Name="object_opening_demo1" Segment="6">
+    <Animation Name="gobject_opening_demo1_anim_00000450" Offset="0x450" />
+    <Animation Name="gobject_opening_demo1_anim_00001410" Offset="0x1410" />
+    <Animation Name="gobject_opening_demo1_anim_00002574" Offset="0x2574" />
+    <Animation Name="gobject_opening_demo1_anim_000029CC" Offset="0x29CC" />
+    <Animation Name="gobject_opening_demo1_anim_0000420C" Offset="0x420C" />
+    <Animation Name="gobject_opening_demo1_anim_000048FC" Offset="0x48FC" />
+    <Animation Name="gobject_opening_demo1_anim_0000504C" Offset="0x504C" />
+  </File>
+</Root>

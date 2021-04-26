@@ -1,0 +1,113 @@
+<Root>
+  <File Name="object_kingdodongo" Segment="6">
+    <Animation Name="gobject_kingdodongo_anim_00000690" Offset="0x690" />
+    <Animation Name="gobject_kingdodongo_anim_00001074" Offset="0x1074" />
+    <Animation Name="gobject_kingdodongo_anim_00002D0C" Offset="0x2D0C" />
+    <Animation Name="gobject_kingdodongo_anim_00003CF8" Offset="0x3CF8" />
+    <Animation Name="gobject_kingdodongo_anim_000042A8" Offset="0x42A8" />
+    <Animation Name="gobject_kingdodongo_anim_00004E0C" Offset="0x4E0C" />
+    <Animation Name="gobject_kingdodongo_anim_000061D4" Offset="0x61D4" />
+    <Animation Name="gobject_kingdodongo_anim_00006924" Offset="0x6924" />
+    <Animation Name="gobject_kingdodongo_anim_00008EEC" Offset="0x8EEC" />
+    <Animation Name="gobject_kingdodongo_anim_00009D10" Offset="0x9D10" />
+    <DList Name="gobject_kingdodongo_dlist_00009D50" Offset="0x9D50" />
+    <DList Name="gobject_kingdodongo_dlist_00009DD0" Offset="0x9DD0" />
+    <Texture Name="gobject_kingdodongo_tex_00009DE8" OutName="tex_00009DE8" Format="i8" Width="16" Height="16" Offset="0x9DE8" />
+    <Animation Name="gobject_kingdodongo_anim_0000AA9C" Offset="0xAA9C" />
+    <Animation Name="gobject_kingdodongo_anim_0000DF38" Offset="0xDF38" />
+    <Animation Name="gobject_kingdodongo_anim_0000E848" Offset="0xE848" />
+    <Animation Name="gobject_kingdodongo_anim_0000F0D8" Offset="0xF0D8" />
+    <DList Name="gobject_kingdodongo_dlist_0000F310" Offset="0xF310" />
+    <DList Name="gobject_kingdodongo_dlist_0000F6C0" Offset="0xF6C0" />
+    <DList Name="gobject_kingdodongo_dlist_0000FAC0" Offset="0xFAC0" />
+    <DList Name="gobject_kingdodongo_dlist_0000FF68" Offset="0xFF68" />
+    <DList Name="gobject_kingdodongo_dlist_00010390" Offset="0x10390" />
+    <DList Name="gobject_kingdodongo_dlist_00010878" Offset="0x10878" />
+    <DList Name="gobject_kingdodongo_dlist_00010BE0" Offset="0x10BE0" />
+    <DList Name="gobject_kingdodongo_dlist_00010F90" Offset="0x10F90" />
+    <DList Name="gobject_kingdodongo_dlist_00011390" Offset="0x11390" />
+    <DList Name="gobject_kingdodongo_dlist_00011838" Offset="0x11838" />
+    <DList Name="gobject_kingdodongo_dlist_00011C60" Offset="0x11C60" />
+    <DList Name="gobject_kingdodongo_dlist_00012148" Offset="0x12148" />
+    <DList Name="gobject_kingdodongo_dlist_000127D0" Offset="0x127D0" />
+    <DList Name="gobject_kingdodongo_dlist_00012F28" Offset="0x12F28" />
+    <DList Name="gobject_kingdodongo_dlist_000137B0" Offset="0x137B0" />
+    <DList Name="gobject_kingdodongo_dlist_00013C20" Offset="0x13C20" />
+    <DList Name="gobject_kingdodongo_dlist_00013EF8" Offset="0x13EF8" />
+    <DList Name="gobject_kingdodongo_dlist_00014100" Offset="0x14100" />
+    <DList Name="gobject_kingdodongo_dlist_00014A30" Offset="0x14A30" />
+    <DList Name="gobject_kingdodongo_dlist_00015630" Offset="0x15630" />
+    <Texture Name="gobject_kingdodongo_tex_00015890" OutName="tex_00015890" Format="rgb5a1" Width="8" Height="16" Offset="0x15890" />
+    <Texture Name="gobject_kingdodongo_tex_00015990" OutName="tex_00015990" Format="rgb5a1" Width="16" Height="32" Offset="0x15990" />
+    <Texture Name="gobject_kingdodongo_tex_00015D90" OutName="tex_00015D90" Format="rgb5a1" Width="16" Height="16" Offset="0x15D90" />
+    <Texture Name="gobject_kingdodongo_tex_00015F90" OutName="tex_00015F90" Format="rgb5a1" Width="16" Height="32" Offset="0x15F90" />
+    <Texture Name="gobject_kingdodongo_tex_00016390" OutName="tex_00016390" Format="rgb5a1" Width="16" Height="16" Offset="0x16390" />
+    <Texture Name="gobject_kingdodongo_tex_00016590" OutName="tex_00016590" Format="rgb5a1" Width="16" Height="16" Offset="0x16590" />
+    <Texture Name="gobject_kingdodongo_tex_00016790" OutName="tex_00016790" Format="rgb5a1" Width="16" Height="16" Offset="0x16790" />
+    <Texture Name="gobject_kingdodongo_tex_00016990" OutName="tex_00016990" Format="rgb5a1" Width="32" Height="16" Offset="0x16990" />
+    <Texture Name="gobject_kingdodongo_tex_00016D90" OutName="tex_00016D90" Format="rgb5a1" Width="8" Height="8" Offset="0x16D90" />
+    <Texture Name="gobject_kingdodongo_tex_00016E10" OutName="tex_00016E10" Format="rgb5a1" Width="32" Height="16" Offset="0x16E10" />
+    <Texture Name="gobject_kingdodongo_tex_00017210" OutName="tex_00017210" Format="rgb5a1" Width="8" Height="32" Offset="0x17210" />
+    <Blob Name="gobject_kingdodongo_unk_00017410" Size="15360" Offset="0x17410" />
+    <Limb Name="gobject_kingdodongo_limb_0001B010" LimbType="Standard" Offset="0x1B010" />
+    <Limb Name="gobject_kingdodongo_limb_0001B01C" LimbType="Standard" Offset="0x1B01C" />
+    <Limb Name="gobject_kingdodongo_limb_0001B028" LimbType="Standard" Offset="0x1B028" />
+    <Limb Name="gobject_kingdodongo_limb_0001B034" LimbType="Standard" Offset="0x1B034" />
+    <Limb Name="gobject_kingdodongo_limb_0001B040" LimbType="Standard" Offset="0x1B040" />
+    <Limb Name="gobject_kingdodongo_limb_0001B04C" LimbType="Standard" Offset="0x1B04C" />
+    <Limb Name="gobject_kingdodongo_limb_0001B058" LimbType="Standard" Offset="0x1B058" />
+    <Limb Name="gobject_kingdodongo_limb_0001B064" LimbType="Standard" Offset="0x1B064" />
+    <Limb Name="gobject_kingdodongo_limb_0001B070" LimbType="Standard" Offset="0x1B070" />
+    <Limb Name="gobject_kingdodongo_limb_0001B07C" LimbType="Standard" Offset="0x1B07C" />
+    <Limb Name="gobject_kingdodongo_limb_0001B088" LimbType="Standard" Offset="0x1B088" />
+    <Limb Name="gobject_kingdodongo_limb_0001B094" LimbType="Standard" Offset="0x1B094" />
+    <Limb Name="gobject_kingdodongo_limb_0001B0A0" LimbType="Standard" Offset="0x1B0A0" />
+    <Limb Name="gobject_kingdodongo_limb_0001B0AC" LimbType="Standard" Offset="0x1B0AC" />
+    <Limb Name="gobject_kingdodongo_limb_0001B0B8" LimbType="Standard" Offset="0x1B0B8" />
+    <Limb Name="gobject_kingdodongo_limb_0001B0C4" LimbType="Standard" Offset="0x1B0C4" />
+    <Limb Name="gobject_kingdodongo_limb_0001B0D0" LimbType="Standard" Offset="0x1B0D0" />
+    <Limb Name="gobject_kingdodongo_limb_0001B0DC" LimbType="Standard" Offset="0x1B0DC" />
+    <Limb Name="gobject_kingdodongo_limb_0001B0E8" LimbType="Standard" Offset="0x1B0E8" />
+    <Limb Name="gobject_kingdodongo_limb_0001B0F4" LimbType="Standard" Offset="0x1B0F4" />
+    <Limb Name="gobject_kingdodongo_limb_0001B100" LimbType="Standard" Offset="0x1B100" />
+    <Limb Name="gobject_kingdodongo_limb_0001B10C" LimbType="Standard" Offset="0x1B10C" />
+    <Limb Name="gobject_kingdodongo_limb_0001B118" LimbType="Standard" Offset="0x1B118" />
+    <Limb Name="gobject_kingdodongo_limb_0001B124" LimbType="Standard" Offset="0x1B124" />
+    <Limb Name="gobject_kingdodongo_limb_0001B130" LimbType="Standard" Offset="0x1B130" />
+    <Limb Name="gobject_kingdodongo_limb_0001B13C" LimbType="Standard" Offset="0x1B13C" />
+    <Limb Name="gobject_kingdodongo_limb_0001B148" LimbType="Standard" Offset="0x1B148" />
+    <Limb Name="gobject_kingdodongo_limb_0001B154" LimbType="Standard" Offset="0x1B154" />
+    <Limb Name="gobject_kingdodongo_limb_0001B160" LimbType="Standard" Offset="0x1B160" />
+    <Limb Name="gobject_kingdodongo_limb_0001B16C" LimbType="Standard" Offset="0x1B16C" />
+    <Limb Name="gobject_kingdodongo_limb_0001B178" LimbType="Standard" Offset="0x1B178" />
+    <Limb Name="gobject_kingdodongo_limb_0001B184" LimbType="Standard" Offset="0x1B184" />
+    <Limb Name="gobject_kingdodongo_limb_0001B190" LimbType="Standard" Offset="0x1B190" />
+    <Limb Name="gobject_kingdodongo_limb_0001B19C" LimbType="Standard" Offset="0x1B19C" />
+    <Limb Name="gobject_kingdodongo_limb_0001B1A8" LimbType="Standard" Offset="0x1B1A8" />
+    <Limb Name="gobject_kingdodongo_limb_0001B1B4" LimbType="Standard" Offset="0x1B1B4" />
+    <Limb Name="gobject_kingdodongo_limb_0001B1C0" LimbType="Standard" Offset="0x1B1C0" />
+    <Limb Name="gobject_kingdodongo_limb_0001B1CC" LimbType="Standard" Offset="0x1B1CC" />
+    <Limb Name="gobject_kingdodongo_limb_0001B1D8" LimbType="Standard" Offset="0x1B1D8" />
+    <Limb Name="gobject_kingdodongo_limb_0001B1E4" LimbType="Standard" Offset="0x1B1E4" />
+    <Limb Name="gobject_kingdodongo_limb_0001B1F0" LimbType="Standard" Offset="0x1B1F0" />
+    <Limb Name="gobject_kingdodongo_limb_0001B1FC" LimbType="Standard" Offset="0x1B1FC" />
+    <Limb Name="gobject_kingdodongo_limb_0001B208" LimbType="Standard" Offset="0x1B208" />
+    <Limb Name="gobject_kingdodongo_limb_0001B214" LimbType="Standard" Offset="0x1B214" />
+    <Limb Name="gobject_kingdodongo_limb_0001B220" LimbType="Standard" Offset="0x1B220" />
+    <Limb Name="gobject_kingdodongo_limb_0001B22C" LimbType="Standard" Offset="0x1B22C" />
+    <Limb Name="gobject_kingdodongo_limb_0001B238" LimbType="Standard" Offset="0x1B238" />
+    <Limb Name="gobject_kingdodongo_limb_0001B244" LimbType="Standard" Offset="0x1B244" />
+    <Skeleton Name="gobject_kingdodongo_skel_0001B310" Type="Normal" LimbType="Standard" Offset="0x1B310" />
+    <Animation Name="gobject_kingdodongo_anim_0001CAE0" Offset="0x1CAE0" />
+    <Animation Name="gobject_kingdodongo_anim_0001D218" Offset="0x1D218" />
+    <Blob Name="gobject_kingdodongo_unk_0001D228" Size="1480" Offset="0x1D228" />
+    <DList Name="gobject_kingdodongo_dlist_0001D7F0" Offset="0x1D7F0" />
+    <Blob Name="gobject_kingdodongo_unk_0001D9F0" Size="32616" Offset="0x1D9F0" />
+    <DList Name="gobject_kingdodongo_dlist_00025958" Offset="0x25958" />
+    <DList Name="gobject_kingdodongo_dlist_00025A90" Offset="0x25A90" />
+    <Blob Name="gobject_kingdodongo_unk_00025B30" Size="96" Offset="0x25B30" />
+    <DList Name="gobject_kingdodongo_dlist_00025BD0" Offset="0x25BD0" />
+    <Texture Name="gobject_kingdodongo_tex_00025C58" OutName="tex_00025C58" Format="rgb5a1" Width="32" Height="32" Offset="0x25C58" />
+    <Blob Name="gobject_kingdodongo_unk_00026458" Size="43144" Offset="0x26458" />
+  </File>
+</Root>

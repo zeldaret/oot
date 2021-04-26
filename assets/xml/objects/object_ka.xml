@@ -1,0 +1,64 @@
+<Root>
+  <File Name="object_ka" Segment="6">
+    <Animation Name="gobject_ka_anim_00000214" Offset="0x214" />
+    <DList Name="gobject_ka_dlist_00001550" Offset="0x1550" />
+    <DList Name="gobject_ka_dlist_00001600" Offset="0x1600" />
+    <DList Name="gobject_ka_dlist_000017D8" Offset="0x17D8" />
+    <DList Name="gobject_ka_dlist_00001878" Offset="0x1878" />
+    <DList Name="gobject_ka_dlist_00001918" Offset="0x1918" />
+    <DList Name="gobject_ka_dlist_000019B8" Offset="0x19B8" />
+    <DList Name="gobject_ka_dlist_00001CD8" Offset="0x1CD8" />
+    <DList Name="gobject_ka_dlist_00001F68" Offset="0x1F68" />
+    <DList Name="gobject_ka_dlist_00002020" Offset="0x2020" />
+    <DList Name="gobject_ka_dlist_000020C0" Offset="0x20C0" />
+    <DList Name="gobject_ka_dlist_00002160" Offset="0x2160" />
+    <DList Name="gobject_ka_dlist_00002200" Offset="0x2200" />
+    <DList Name="gobject_ka_dlist_000022A0" Offset="0x22A0" />
+    <DList Name="gobject_ka_dlist_00002340" Offset="0x2340" />
+    <DList Name="gobject_ka_dlist_00002430" Offset="0x2430" />
+    <DList Name="gobject_ka_dlist_000024D0" Offset="0x24D0" />
+    <DList Name="gobject_ka_dlist_00002570" Offset="0x2570" />
+    <DList Name="gobject_ka_dlist_00002610" Offset="0x2610" />
+    <DList Name="gobject_ka_dlist_000027A0" Offset="0x27A0" />
+    <DList Name="gobject_ka_dlist_00002890" Offset="0x2890" />
+    <DList Name="gobject_ka_dlist_00002930" Offset="0x2930" />
+    <DList Name="gobject_ka_dlist_000029D0" Offset="0x29D0" />
+    <DList Name="gobject_ka_dlist_00002A70" Offset="0x2A70" />
+    <Texture Name="gobject_ka_tex_00002C00" OutName="tex_00002C00" Format="rgb5a1" Width="32" Height="32" Offset="0x2C00" />
+    <Texture Name="gobject_ka_tex_00003400" OutName="tex_00003400" Format="rgb5a1" Width="32" Height="32" Offset="0x3400" />
+    <Texture Name="gobject_ka_tex_00003C00" OutName="tex_00003C00" Format="rgb5a1" Width="32" Height="32" Offset="0x3C00" />
+    <Texture Name="gobject_ka_tex_00004400" OutName="tex_00004400" Format="rgb5a1" Width="32" Height="32" Offset="0x4400" />
+    <Texture Name="gobject_ka_tex_00004C00" OutName="tex_00004C00" Format="rgb5a1" Width="32" Height="32" Offset="0x4C00" />
+    <Texture Name="gobject_ka_tex_00005400" OutName="tex_00005400" Format="rgb5a1" Width="32" Height="32" Offset="0x5400" />
+    <Texture Name="gobject_ka_tex_00005C00" OutName="tex_00005C00" Format="rgb5a1" Width="32" Height="32" Offset="0x5C00" />
+    <Limb Name="gobject_ka_limb_00006400" LimbType="Standard" Offset="0x6400" />
+    <Limb Name="gobject_ka_limb_0000640C" LimbType="Standard" Offset="0x640C" />
+    <Limb Name="gobject_ka_limb_00006418" LimbType="Standard" Offset="0x6418" />
+    <Limb Name="gobject_ka_limb_00006424" LimbType="Standard" Offset="0x6424" />
+    <Limb Name="gobject_ka_limb_00006430" LimbType="Standard" Offset="0x6430" />
+    <Limb Name="gobject_ka_limb_0000643C" LimbType="Standard" Offset="0x643C" />
+    <Limb Name="gobject_ka_limb_00006448" LimbType="Standard" Offset="0x6448" />
+    <Limb Name="gobject_ka_limb_00006454" LimbType="Standard" Offset="0x6454" />
+    <Limb Name="gobject_ka_limb_00006460" LimbType="Standard" Offset="0x6460" />
+    <Limb Name="gobject_ka_limb_0000646C" LimbType="Standard" Offset="0x646C" />
+    <Limb Name="gobject_ka_limb_00006478" LimbType="Standard" Offset="0x6478" />
+    <Limb Name="gobject_ka_limb_00006484" LimbType="Standard" Offset="0x6484" />
+    <Limb Name="gobject_ka_limb_00006490" LimbType="Standard" Offset="0x6490" />
+    <Limb Name="gobject_ka_limb_0000649C" LimbType="Standard" Offset="0x649C" />
+    <Limb Name="gobject_ka_limb_000064A8" LimbType="Standard" Offset="0x64A8" />
+    <Limb Name="gobject_ka_limb_000064B4" LimbType="Standard" Offset="0x64B4" />
+    <Limb Name="gobject_ka_limb_000064C0" LimbType="Standard" Offset="0x64C0" />
+    <Limb Name="gobject_ka_limb_000064CC" LimbType="Standard" Offset="0x64CC" />
+    <Limb Name="gobject_ka_limb_000064D8" LimbType="Standard" Offset="0x64D8" />
+    <Limb Name="gobject_ka_limb_000064E4" LimbType="Standard" Offset="0x64E4" />
+    <Limb Name="gobject_ka_limb_000064F0" LimbType="Standard" Offset="0x64F0" />
+    <Limb Name="gobject_ka_limb_000064FC" LimbType="Standard" Offset="0x64FC" />
+    <Limb Name="gobject_ka_limb_00006508" LimbType="Standard" Offset="0x6508" />
+    <Limb Name="gobject_ka_limb_00006514" LimbType="Standard" Offset="0x6514" />
+    <Limb Name="gobject_ka_limb_00006520" LimbType="Standard" Offset="0x6520" />
+    <Limb Name="gobject_ka_limb_0000652C" LimbType="Standard" Offset="0x652C" />
+    <Limb Name="gobject_ka_limb_00006538" LimbType="Standard" Offset="0x6538" />
+    <Skeleton Name="gobject_ka_skel_000065B0" Type="Flex" LimbType="Standard" Offset="0x65B0" />
+    <Animation Name="gobject_ka_anim_000067AC" Offset="0x67AC" />
+  </File>
+</Root>

@@ -1,0 +1,59 @@
+<Root>
+  <File Name="object_dh" Segment="6">
+    <DList Name="gobject_dh_dlist_00000760" Offset="0x760" />
+    <DList Name="gobject_dh_dlist_00000808" Offset="0x808" />
+    <DList Name="gobject_dh_dlist_00000910" Offset="0x910" />
+    <Limb Name="gobject_dh_limb_00000BA8" LimbType="Standard" Offset="0xBA8" />
+    <Limb Name="gobject_dh_limb_00000BB4" LimbType="Standard" Offset="0xBB4" />
+    <Limb Name="gobject_dh_limb_00000BC0" LimbType="Standard" Offset="0xBC0" />
+    <Skeleton Name="gobject_dh_skel_00000BD8" Type="Flex" LimbType="Standard" Offset="0xBD8" />
+    <Texture Name="gobject_dh_tex_00000BF0" OutName="tex_00000BF0" Format="rgb5a1" Width="16" Height="32" Offset="0xBF0" />
+    <Texture Name="gobject_dh_tex_00000FF0" OutName="tex_00000FF0" Format="rgb5a1" Width="32" Height="16" Offset="0xFF0" />
+    <Animation Name="gobject_dh_anim_000015B0" Offset="0x15B0" />
+    <Animation Name="gobject_dh_anim_00001A3C" Offset="0x1A3C" />
+    <Animation Name="gobject_dh_anim_00002148" Offset="0x2148" />
+    <Animation Name="gobject_dh_anim_000032BC" Offset="0x32BC" />
+    <Animation Name="gobject_dh_anim_0000375C" Offset="0x375C" />
+    <Animation Name="gobject_dh_anim_00003A8C" Offset="0x3A8C" />
+    <Animation Name="gobject_dh_anim_00003D6C" Offset="0x3D6C" />
+    <Animation Name="gobject_dh_anim_00004658" Offset="0x4658" />
+    <Texture Name="gobject_dh_tex_00004670" OutName="tex_00004670" Format="rgb5a1" Width="16" Height="32" Offset="0x4670" />
+    <Texture Name="gobject_dh_tex_00004A70" OutName="tex_00004A70" Format="rgb5a1" Width="16" Height="32" Offset="0x4A70" />
+    <Texture Name="gobject_dh_tex_00004E70" OutName="tex_00004E70" Format="rgb5a1" Width="16" Height="16" Offset="0x4E70" />
+    <Texture Name="gobject_dh_tex_00005070" OutName="tex_00005070" Format="rgb5a1" Width="16" Height="16" Offset="0x5070" />
+    <Animation Name="gobject_dh_anim_00005880" Offset="0x5880" />
+    <DList Name="gobject_dh_dlist_00006D10" Offset="0x6D10" />
+    <DList Name="gobject_dh_dlist_00006DD8" Offset="0x6DD8" />
+    <DList Name="gobject_dh_dlist_00006EF8" Offset="0x6EF8" />
+    <DList Name="gobject_dh_dlist_00006FE0" Offset="0x6FE0" />
+    <DList Name="gobject_dh_dlist_00007108" Offset="0x7108" />
+    <DList Name="gobject_dh_dlist_00007228" Offset="0x7228" />
+    <DList Name="gobject_dh_dlist_00007338" Offset="0x7338" />
+    <DList Name="gobject_dh_dlist_00007420" Offset="0x7420" />
+    <DList Name="gobject_dh_dlist_00007540" Offset="0x7540" />
+    <DList Name="gobject_dh_dlist_00007650" Offset="0x7650" />
+    <DList Name="gobject_dh_dlist_00007738" Offset="0x7738" />
+    <DList Name="gobject_dh_dlist_00007818" Offset="0x7818" />
+    <DList Name="gobject_dh_dlist_000078F8" Offset="0x78F8" />
+    <DList Name="gobject_dh_dlist_00007BA8" Offset="0x7BA8" />
+    <Limb Name="gobject_dh_limb_00007D98" LimbType="Standard" Offset="0x7D98" />
+    <Limb Name="gobject_dh_limb_00007DA4" LimbType="Standard" Offset="0x7DA4" />
+    <Limb Name="gobject_dh_limb_00007DB0" LimbType="Standard" Offset="0x7DB0" />
+    <Limb Name="gobject_dh_limb_00007DBC" LimbType="Standard" Offset="0x7DBC" />
+    <Limb Name="gobject_dh_limb_00007DC8" LimbType="Standard" Offset="0x7DC8" />
+    <Limb Name="gobject_dh_limb_00007DD4" LimbType="Standard" Offset="0x7DD4" />
+    <Limb Name="gobject_dh_limb_00007DE0" LimbType="Standard" Offset="0x7DE0" />
+    <Limb Name="gobject_dh_limb_00007DEC" LimbType="Standard" Offset="0x7DEC" />
+    <Limb Name="gobject_dh_limb_00007DF8" LimbType="Standard" Offset="0x7DF8" />
+    <Limb Name="gobject_dh_limb_00007E04" LimbType="Standard" Offset="0x7E04" />
+    <Limb Name="gobject_dh_limb_00007E10" LimbType="Standard" Offset="0x7E10" />
+    <Limb Name="gobject_dh_limb_00007E1C" LimbType="Standard" Offset="0x7E1C" />
+    <Limb Name="gobject_dh_limb_00007E28" LimbType="Standard" Offset="0x7E28" />
+    <Limb Name="gobject_dh_limb_00007E34" LimbType="Standard" Offset="0x7E34" />
+    <Limb Name="gobject_dh_limb_00007E40" LimbType="Standard" Offset="0x7E40" />
+    <Skeleton Name="gobject_dh_skel_00007E88" Type="Flex" LimbType="Standard" Offset="0x7E88" />
+    <DList Name="gobject_dh_dlist_00007FC0" Offset="0x7FC0" />
+    <Texture Name="gobject_dh_tex_000080C0" OutName="tex_000080C0" Format="i8" Width="32" Height="64" Offset="0x80C0" />
+    <Texture Name="gobject_dh_tex_000088C0" OutName="tex_000088C0" Format="i8" Width="32" Height="64" Offset="0x88C0" />
+  </File>
+</Root>

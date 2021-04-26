@@ -1,0 +1,12 @@
+<Root>
+  <File Name="object_oE7" Segment="6">
+    <DList Name="gobject_oE7_dlist_000006B0" Offset="0x6B0" />
+    <Texture Name="gobject_oE7_tex_00000D18" OutName="tex_00000D18" Format="ci8" Width="32" Height="32" Offset="0xD18" />
+    <Texture Name="gobject_oE7_tex_00001118" OutName="tex_00001118" Format="ci8" Width="8" Height="8" Offset="0x1118" />
+    <Texture Name="gobject_oE7_tex_00001158" OutName="tex_00001158" Format="ci8" Width="16" Height="16" Offset="0x1158" />
+    <Texture Name="gobject_oE7_tex_00001458" OutName="tex_00001458" Format="ci8" Width="32" Height="32" Offset="0x1458" />
+    <Blob Name="gobject_oE7_unk_00001858" Size="2048" Offset="0x1858" />
+    <Texture Name="gobject_oE7_tex_00002058" OutName="tex_00002058" Format="rgb5a1" Width="32" Height="32" Offset="0x2058" />
+    <Texture Name="gobject_oE7_tex_00002858" OutName="tex_00002858" Format="rgb5a1" Width="16" Height="16" Offset="0x2858" />
+  </File>
+</Root>

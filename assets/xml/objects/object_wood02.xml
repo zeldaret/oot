@@ -1,0 +1,34 @@
+<Root>
+  <File Name="object_wood02" Segment="6">
+    <DList Name="gobject_wood02_dlist_00000090" Offset="0x90" />
+    <DList Name="gobject_wood02_dlist_00000160" Offset="0x160" />
+    <DList Name="gobject_wood02_dlist_00000340" Offset="0x340" />
+    <DList Name="gobject_wood02_dlist_00000440" Offset="0x440" />
+    <Texture Name="gobject_wood02_tex_000004D0" OutName="tex_000004D0" Format="rgb5a1" Width="16" Height="16" Offset="0x4D0" />
+    <DList Name="gobject_wood02_dlist_00000700" Offset="0x700" />
+    <Texture Name="gobject_wood02_tex_00000790" OutName="tex_00000790" Format="rgb5a1" Width="32" Height="32" Offset="0x790" />
+    <Texture Name="gobject_wood02_tex_00000F90" OutName="tex_00000F90" Format="ia4" Width="32" Height="128" Offset="0xF90" />
+    <Texture Name="gobject_wood02_tex_00001790" OutName="tex_00001790" Format="ia8" Width="32" Height="128" Offset="0x1790" />
+    <Texture Name="gobject_wood02_tex_00002790" OutName="tex_00002790" Format="ia4" Width="32" Height="128" Offset="0x2790" />
+    <Texture Name="gobject_wood02_tex_00002F90" OutName="tex_00002F90" Format="rgb5a1" Width="32" Height="32" Offset="0x2F90" />
+    <Texture Name="gobject_wood02_tex_00003790" OutName="tex_00003790" Format="ia8" Width="32" Height="128" Offset="0x3790" />
+    <Texture Name="gobject_wood02_tex_00004790" OutName="tex_00004790" Format="ia8" Width="32" Height="64" Offset="0x4790" />
+    <Texture Name="gobject_wood02_tex_00004F90" OutName="tex_00004F90" Format="ia8" Width="32" Height="128" Offset="0x4F90" />
+    <Texture Name="gobject_wood02_tex_00005F90" OutName="tex_00005F90" Format="ia8" Width="32" Height="64" Offset="0x5F90" />
+    <Texture Name="gobject_wood02_tex_00006790" OutName="tex_00006790" Format="ia8" Width="32" Height="64" Offset="0x6790" />
+    <Texture Name="gobject_wood02_tex_00006F90" OutName="tex_00006F90" Format="ia8" Width="32" Height="64" Offset="0x6F90" />
+    <DList Name="gobject_wood02_dlist_000078D0" Offset="0x78D0" />
+    <DList Name="gobject_wood02_dlist_00007968" Offset="0x7968" />
+    <Blob Name="gobject_wood02_unk_00007A00" Size="160" Offset="0x7A00" />
+    <DList Name="gobject_wood02_dlist_00007AD0" Offset="0x7AD0" />
+    <DList Name="gobject_wood02_dlist_00007CA0" Offset="0x7CA0" />
+    <DList Name="gobject_wood02_dlist_00007D38" Offset="0x7D38" />
+    <DList Name="gobject_wood02_dlist_00007E20" Offset="0x7E20" />
+    <DList Name="gobject_wood02_dlist_000080D0" Offset="0x80D0" />
+    <DList Name="gobject_wood02_dlist_000081A8" Offset="0x81A8" />
+    <DList Name="gobject_wood02_dlist_000082B0" Offset="0x82B0" />
+    <DList Name="gobject_wood02_dlist_00008350" Offset="0x8350" />
+    <DList Name="gobject_wood02_dlist_000083E0" Offset="0x83E0" />
+    <DList Name="gobject_wood02_dlist_000085C0" Offset="0x85C0" />
+  </File>
+</Root>

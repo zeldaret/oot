@@ -1,0 +1,9 @@
+<Root>
+  <File Name="object_lightswitch" Segment="6">
+    <DList Name="gobject_lightswitch_dlist_00000260" Offset="0x260" />
+    <DList Name="gobject_lightswitch_dlist_00000398" Offset="0x398" />
+    <DList Name="gobject_lightswitch_dlist_00000408" Offset="0x408" />
+    <Blob Name="gobject_lightswitch_unk_00000420" Size="6144" Offset="0x420" />
+    <Texture Name="gobject_lightswitch_tex_00001C20" OutName="tex_00001C20" Format="rgb5a1" Width="32" Height="32" Offset="0x1C20" />
+  </File>
+</Root>

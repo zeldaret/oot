@@ -1,0 +1,14 @@
+<Root>
+  <File Name="object_bl" Segment="6">
+    <Animation Name="gobject_bl_anim_00000024" Offset="0x24" />
+    <Animation Name="gobject_bl_anim_00000064" Offset="0x64" />
+    <Animation Name="gobject_bl_anim_000000A4" Offset="0xA4" />
+    <DList Name="gobject_bl_dlist_000003B0" Offset="0x3B0" />
+    <DList Name="gobject_bl_dlist_00000448" Offset="0x448" />
+    <DList Name="gobject_bl_dlist_00000530" Offset="0x530" />
+    <Texture Name="gobject_bl_tex_00000608" OutName="tex_00000608" Format="ia16" Width="16" Height="64" Offset="0x608" />
+    <Blob Name="gobject_bl_unk_00000E08" Size="18432" Offset="0xE08" />
+    <Texture Name="gobject_bl_tex_00005608" OutName="tex_00005608" Format="ia16" Width="16" Height="16" Offset="0x5608" />
+    <Blob Name="gobject_bl_unk_00005808" Size="72" Offset="0x5808" />
+  </File>
+</Root>

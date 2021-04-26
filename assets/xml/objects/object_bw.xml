@@ -1,0 +1,28 @@
+<Root>
+  <File Name="object_bw" Segment="6">
+    <Animation Name="gobject_bw_anim_00000228" Offset="0x228" />
+    <DList Name="gobject_bw_dlist_000002C0" Offset="0x2C0" />
+    <DList Name="gobject_bw_dlist_000003E8" Offset="0x3E8" />
+    <DList Name="gobject_bw_dlist_00000558" Offset="0x558" />
+    <DList Name="gobject_bw_dlist_00000680" Offset="0x680" />
+    <DList Name="gobject_bw_dlist_00001050" Offset="0x1050" />
+    <Texture Name="gobject_bw_tex_00001240" OutName="tex_00001240" Format="rgb5a1" Width="16" Height="16" Offset="0x1240" />
+    <Texture Name="gobject_bw_tex_00001440" OutName="tex_00001440" Format="rgb5a1" Width="16" Height="16" Offset="0x1440" />
+    <Texture Name="gobject_bw_tex_00001840" OutName="tex_00001840" Format="ci8" Width="32" Height="32" Offset="0x1840" />
+    <Texture Name="gobject_bw_tex_00001C40" OutName="tex_00001C40" Format="ci8" Width="32" Height="32" Offset="0x1C40" />
+    <Limb Name="gobject_bw_limb_00002040" LimbType="Standard" Offset="0x2040" />
+    <Limb Name="gobject_bw_limb_0000204C" LimbType="Standard" Offset="0x204C" />
+    <Limb Name="gobject_bw_limb_00002058" LimbType="Standard" Offset="0x2058" />
+    <Limb Name="gobject_bw_limb_00002064" LimbType="Standard" Offset="0x2064" />
+    <Limb Name="gobject_bw_limb_00002070" LimbType="Standard" Offset="0x2070" />
+    <Limb Name="gobject_bw_limb_0000207C" LimbType="Standard" Offset="0x207C" />
+    <Limb Name="gobject_bw_limb_00002088" LimbType="Standard" Offset="0x2088" />
+    <Limb Name="gobject_bw_limb_00002094" LimbType="Standard" Offset="0x2094" />
+    <Limb Name="gobject_bw_limb_000020A0" LimbType="Standard" Offset="0x20A0" />
+    <Limb Name="gobject_bw_limb_000020AC" LimbType="Standard" Offset="0x20AC" />
+    <Limb Name="gobject_bw_limb_000020B8" LimbType="Standard" Offset="0x20B8" />
+    <Skeleton Name="gobject_bw_skel_000020F0" Type="Normal" LimbType="Standard" Offset="0x20F0" />
+    <Animation Name="gobject_bw_anim_000021A0" Offset="0x21A0" />
+    <Blob Name="gobject_bw_unk_000021B0" Size="176" Offset="0x21B0" />
+  </File>
+</Root>

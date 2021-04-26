@@ -1,0 +1,11 @@
+<Root>
+  <File Name="object_o_anime" Segment="6">
+    <Animation Name="gobject_o_anime_anim_00000A1C" Offset="0xA1C" />
+    <Animation Name="gobject_o_anime_anim_00000E78" Offset="0xE78" />
+    <Animation Name="gobject_o_anime_anim_00001300" Offset="0x1300" />
+    <Animation Name="gobject_o_anime_anim_000017B4" Offset="0x17B4" />
+    <Animation Name="gobject_o_anime_anim_000018F0" Offset="0x18F0" />
+    <Animation Name="gobject_o_anime_anim_00001E80" Offset="0x1E80" />
+    <Animation Name="gobject_o_anime_anim_0000213C" Offset="0x213C" />
+  </File>
+</Root>

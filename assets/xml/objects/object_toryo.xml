@@ -1,0 +1,52 @@
+<Root>
+  <File Name="object_toryo" Segment="6">
+    <Animation Name="gobject_toryo_anim_00000E50" Offset="0xE50" />
+    <Texture Name="gobject_toryo_tex_00001060" OutName="tex_00001060" Format="ci8" Width="16" Height="16" Offset="0x1060" />
+    <Texture Name="gobject_toryo_tex_00001160" OutName="tex_00001160" Format="ci8" Width="8" Height="4" Offset="0x1160" />
+    <Texture Name="gobject_toryo_tex_00001180" OutName="tex_00001180" Format="ci8" Width="8" Height="8" Offset="0x1180" />
+    <Texture Name="gobject_toryo_tex_000011C0" OutName="tex_000011C0" Format="ci8" Width="8" Height="8" Offset="0x11C0" />
+    <Texture Name="gobject_toryo_tex_00001200" OutName="tex_00001200" Format="ci8" Width="8" Height="8" Offset="0x1200" />
+    <Texture Name="gobject_toryo_tex_00001240" OutName="tex_00001240" Format="ci8" Width="8" Height="16" Offset="0x1240" />
+    <Texture Name="gobject_toryo_tex_000012C0" OutName="tex_000012C0" Format="rgb5a1" Width="32" Height="16" Offset="0x12C0" />
+    <Texture Name="gobject_toryo_tex_000016C0" OutName="tex_000016C0" Format="ci8" Width="16" Height="16" Offset="0x16C0" />
+    <Texture Name="gobject_toryo_tex_000017C0" OutName="tex_000017C0" Format="ci8" Width="16" Height="16" Offset="0x17C0" />
+    <Texture Name="gobject_toryo_tex_000018C0" OutName="tex_000018C0" Format="ci8" Width="16" Height="16" Offset="0x18C0" />
+    <Texture Name="gobject_toryo_tex_000019C0" OutName="tex_000019C0" Format="ci8" Width="8" Height="8" Offset="0x19C0" />
+    <Texture Name="gobject_toryo_tex_00001A00" OutName="tex_00001A00" Format="ci8" Width="8" Height="16" Offset="0x1A00" />
+    <Texture Name="gobject_toryo_tex_00001A80" OutName="tex_00001A80" Format="ci8" Width="16" Height="16" Offset="0x1A80" />
+    <Texture Name="gobject_toryo_tex_00001B80" OutName="tex_00001B80" Format="ci8" Width="16" Height="16" Offset="0x1B80" />
+    <DList Name="gobject_toryo_dlist_00004B20" Offset="0x4B20" />
+    <DList Name="gobject_toryo_dlist_00004F20" Offset="0x4F20" />
+    <DList Name="gobject_toryo_dlist_00005438" Offset="0x5438" />
+    <DList Name="gobject_toryo_dlist_00005720" Offset="0x5720" />
+    <DList Name="gobject_toryo_dlist_00005958" Offset="0x5958" />
+    <DList Name="gobject_toryo_dlist_00005BA0" Offset="0x5BA0" />
+    <DList Name="gobject_toryo_dlist_00005D10" Offset="0x5D10" />
+    <DList Name="gobject_toryo_dlist_00005EC8" Offset="0x5EC8" />
+    <DList Name="gobject_toryo_dlist_00006110" Offset="0x6110" />
+    <DList Name="gobject_toryo_dlist_00006280" Offset="0x6280" />
+    <DList Name="gobject_toryo_dlist_000064B8" Offset="0x64B8" />
+    <DList Name="gobject_toryo_dlist_000067E0" Offset="0x67E0" />
+    <DList Name="gobject_toryo_dlist_000068E8" Offset="0x68E8" />
+    <DList Name="gobject_toryo_dlist_00006A88" Offset="0x6A88" />
+    <DList Name="gobject_toryo_dlist_00006DA8" Offset="0x6DA8" />
+    <DList Name="gobject_toryo_dlist_00006EB0" Offset="0x6EB0" />
+    <Limb Name="gobject_toryo_limb_00007050" LimbType="Standard" Offset="0x7050" />
+    <Limb Name="gobject_toryo_limb_0000705C" LimbType="Standard" Offset="0x705C" />
+    <Limb Name="gobject_toryo_limb_00007068" LimbType="Standard" Offset="0x7068" />
+    <Limb Name="gobject_toryo_limb_00007074" LimbType="Standard" Offset="0x7074" />
+    <Limb Name="gobject_toryo_limb_00007080" LimbType="Standard" Offset="0x7080" />
+    <Limb Name="gobject_toryo_limb_0000708C" LimbType="Standard" Offset="0x708C" />
+    <Limb Name="gobject_toryo_limb_00007098" LimbType="Standard" Offset="0x7098" />
+    <Limb Name="gobject_toryo_limb_000070A4" LimbType="Standard" Offset="0x70A4" />
+    <Limb Name="gobject_toryo_limb_000070B0" LimbType="Standard" Offset="0x70B0" />
+    <Limb Name="gobject_toryo_limb_000070BC" LimbType="Standard" Offset="0x70BC" />
+    <Limb Name="gobject_toryo_limb_000070C8" LimbType="Standard" Offset="0x70C8" />
+    <Limb Name="gobject_toryo_limb_000070D4" LimbType="Standard" Offset="0x70D4" />
+    <Limb Name="gobject_toryo_limb_000070E0" LimbType="Standard" Offset="0x70E0" />
+    <Limb Name="gobject_toryo_limb_000070EC" LimbType="Standard" Offset="0x70EC" />
+    <Limb Name="gobject_toryo_limb_000070F8" LimbType="Standard" Offset="0x70F8" />
+    <Limb Name="gobject_toryo_limb_00007104" LimbType="Standard" Offset="0x7104" />
+    <Skeleton Name="gobject_toryo_skel_00007150" Type="Flex" LimbType="Standard" Offset="0x7150" />
+  </File>
+</Root>
