@@ -77,11 +77,11 @@ def GetDungeonName(i):
 
 def GetIconName(v):
     if v == 0:
-        return "MAP_MARK_ICON_CHEST"
+        return "MAP_MARK_CHEST"
     if v == 1:
-        return "MAP_MARK_ICON_BOSS"
+        return "MAP_MARK_BOSS"
     if v == -1:
-        return "MAP_MARK_ICON_NONE"
+        return "MAP_MARK_NONE"
     return v
 
 def IND(n):
