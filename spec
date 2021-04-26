@@ -1028,9 +1028,11 @@ endseg
 beginseg
     name "ovl_Bg_Mizu_Movebg"
     include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/z_bg_mizu_movebg.o"
-    include "build/data/overlays/actors/z_bg_mizu_movebg.data.o"
-    include "build/data/overlays/actors/z_bg_mizu_movebg.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/ovl_Bg_Mizu_Movebg_reloc.o"
+#else
     include "build/data/overlays/actors/z_bg_mizu_movebg.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1591,8 +1593,7 @@ endseg
 beginseg
     name "ovl_Efc_Erupc"
     include "build/src/overlays/actors/ovl_Efc_Erupc/z_efc_erupc.o"
-    include "build/data/overlays/actors/z_efc_erupc.data.o"
-    include "build/data/overlays/actors/z_efc_erupc.reloc.o"
+    include "build/src/overlays/actors/ovl_Efc_Erupc/ovl_Efc_Erupc_reloc.o"
 endseg
 
 beginseg
@@ -2789,8 +2790,11 @@ endseg
 beginseg
     name "ovl_En_River_Sound"
     include "build/src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.o"
-    include "build/data/overlays/actors/z_en_river_sound.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_River_Sound/ovl_En_River_Sound_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_river_sound.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2991,8 +2995,11 @@ endseg
 beginseg
     name "ovl_En_Tp"
     include "build/src/overlays/actors/ovl_En_Tp/z_en_tp.o"
-    include "build/data/overlays/actors/z_en_tp.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Tp/ovl_En_Tp_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_tp.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3629,7 +3636,8 @@ endseg
 beginseg
     name "object_tp"
     romalign 0x1000
-    include "build/baserom/object_tp.o"
+    include "build/assets/objects/object_tp/object_tp.o"
+    number 6
 endseg
 
 beginseg
@@ -3964,7 +3972,8 @@ endseg
 beginseg
     name "object_mizu_objects"
     romalign 0x1000
-    include "build/baserom/object_mizu_objects.o"
+    include "build/assets/objects/object_mizu_objects/object_mizu_objects.o"
+    number 6
 endseg
 
 beginseg
