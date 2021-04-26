@@ -285,7 +285,7 @@ Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
         if ((prop == actor) || (prop->id != ACTOR_BG_JYA_IRONOBJ)) {
             prop = prop->next;
             continue;
-        } else if (func_8002E1A8(actor, prop, 80.0f, 0x2710)) {
+        } else if (Actor_YawAndDistInRangeWithActor(actor, prop, 80.0f, 0x2710)) {
             return prop;
         }
 

@@ -289,7 +289,7 @@ void EnTest_ChooseBackupAction(EnTest* this, GlobalContext* globalCtx) {
         case 5:
         case 6:
             if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 170.0f) &&
-                func_8002E084(&this->actor, 0x71C) && func_80033A84(globalCtx, &this->actor)) {
+                Actor_YawInRangeWithPlayer(&this->actor, 0x71C) && Actor_IsTargeted(globalCtx, &this->actor)) {
                 EnTest_SetupJumpslash(this);
                 break;
             }
@@ -354,7 +354,7 @@ void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
             }
 
             if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 170.0f)) {
-                if (func_8002E084(&this->actor, 0x71C) && !func_80033A84(globalCtx, &this->actor)) {
+                if (Actor_YawInRangeWithPlayer(&this->actor, 0x71C) && !Actor_IsTargeted(globalCtx, &this->actor)) {
                     EnTest_SetupJumpslash(this);
                 }
             } else {
@@ -468,11 +468,11 @@ void EnTest_Idle(EnTest* this, GlobalContext* globalCtx) {
         if (this->timer != 0) {
             this->timer--;
         } else {
-            if (func_8002E084(&this->actor, 0x1555)) {
+            if (Actor_YawInRangeWithPlayer(&this->actor, 0x1555)) {
                 if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
                     (Rand_ZeroOne() < 0.3f)) {
                     // player is targeting this stalfos
-                    if (func_80033A84(globalCtx, &this->actor)) {
+                    if (Actor_IsTargeted(globalCtx, &this->actor)) {
                         EnTest_SetupJumpslash(this);
                     } else {
                         EnTest_SetupSidestepAgro(this, globalCtx);
@@ -539,7 +539,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
     if (!EnTest_ReactToProjectile(globalCtx, this)) {
         this->timer++;
 
-        if (func_80033AB8(globalCtx, &this->actor)) {
+        if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
             checkDist = 150.0f;
         }
 
@@ -624,8 +624,8 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
         }
 
         if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 160.0f) &&
-            (func_8002E084(&this->actor, 0x71C))) {
-            if (func_80033A84(globalCtx, &this->actor)) {
+            (Actor_YawInRangeWithPlayer(&this->actor, 0x71C))) {
+            if (Actor_IsTargeted(globalCtx, &this->actor)) {
                 if (Rand_ZeroOne() < 0.1f) {
                     EnTest_SetupJumpslash(this);
                     return;
@@ -648,7 +648,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         }
 
-        if (!func_8002E084(&this->actor, 0x11C7)) {
+        if (!Actor_YawInRangeWithPlayer(&this->actor, 0x11C7)) {
             EnTest_SetupIdle(this);
             this->timer = (Rand_ZeroOne() * 10.0f) + 10.0f;
             return;
@@ -738,7 +738,7 @@ void EnTest_SidestepFromIdle(EnTest* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (func_8002E084(&this->actor, 0x71C)) {
+        if (Actor_YawInRangeWithPlayer(&this->actor, 0x71C)) {
             if (Rand_ZeroOne() > 0.8f) {
                 if ((Rand_ZeroOne() > 0.7f)) {
                     EnTest_SetupSidestepInactive(this);
@@ -823,7 +823,7 @@ void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (func_80033AB8(globalCtx, &this->actor)) {
+        if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
             checkDist = 200.0f;
         }
 
@@ -1038,14 +1038,14 @@ void EnTest_JumpBack(EnTest* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime_188)) {
         if (!EnTest_ReactToProjectile(globalCtx, this)) {
             if (this->actor.xzDistToPlayer <= 100.0f) {
-                if (func_8002E084(&this->actor, 0x1555)) {
+                if (Actor_YawInRangeWithPlayer(&this->actor, 0x1555)) {
                     EnTest_SetupSlash1(this);
                 } else {
                     EnTest_SetupIdle(this);
                     this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
                 }
             } else {
-                if ((this->actor.xzDistToPlayer <= 220.0f) && func_8002E084(&this->actor, 0xE38)) {
+                if ((this->actor.xzDistToPlayer <= 220.0f) && Actor_YawInRangeWithPlayer(&this->actor, 0xE38)) {
                     EnTest_SetupJumpslash(this);
                 } else {
                     EnTest_SetupIdle(this);
@@ -1343,7 +1343,7 @@ void EnTest_Stunned(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupSidestepAgro(EnTest* this, GlobalContext* globalCtx) {
-    if (func_80033AB8(globalCtx, &this->actor)) {
+    if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
         EnTest_SetupSidestepInactive(this);
         return;
     }
@@ -1419,7 +1419,7 @@ void EnTest_SidestepAgro(EnTest* this, GlobalContext* globalCtx) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
 
-    if (func_80033AB8(globalCtx, &this->actor)) {
+    if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
         checkDist = 200.0f;
     }
 
@@ -1455,9 +1455,9 @@ void EnTest_SidestepAgro(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 0) {
-        if (func_80033AB8(globalCtx, &this->actor)) {
+        if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
             EnTest_SetupIdle(this);
-        } else if (func_80033A84(globalCtx, &this->actor)) {
+        } else if (Actor_IsTargeted(globalCtx, &this->actor)) {
             if (!EnTest_ReactToProjectile(globalCtx, this)) {
                 EnTest_ChooseAction(this, globalCtx);
             }
@@ -1679,7 +1679,7 @@ void func_808634F8(EnTest* this, GlobalContext* globalCtx) {
                     EnTest_SetupStunned(this);
                 }
             } else {
-                if (func_8002E084(&this->actor, 0x4000)) {
+                if (Actor_YawInRangeWithPlayer(&this->actor, 0x4000)) {
                     if (Actor_ApplyDamage(&this->actor) == 0) {
                         func_80032C7C(globalCtx, &this->actor);
                         func_80862FA8(this, globalCtx);
@@ -2000,7 +2000,7 @@ s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
         }
 
         if ((Math_Vec3f_DistXYZ(&this->actor.world.pos, &projectileActor->world.pos) < 200.0f)) {
-            if (func_80033A84(globalCtx, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
+            if (Actor_IsTargeted(globalCtx, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
                 EnTest_SetupJumpUp(this);
             } else if (ABS(yawToProjectile) < 0x2000) {
                 EnTest_SetupStopAndBlock(this);
@@ -2013,7 +2013,7 @@ s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
             return 1;
         }
 
-        if (func_80033A84(globalCtx, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
+        if (Actor_IsTargeted(globalCtx, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
             EnTest_SetupJumpUp(this);
             return 1;
         }

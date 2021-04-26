@@ -74,13 +74,13 @@ glabel func_80B355BC
 /* 019D8 80B35688 14C10012 */  bne     $a2, $at, .L80B356D4       
 /* 019DC 80B3568C 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 019E0 80B35690 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 019E4 80B35694 0C00CEA1 */  jal     func_80033A84              
+/* 019E4 80B35694 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 019E8 80B35698 AFA6003C */  sw      $a2, 0x003C($sp)           
 /* 019EC 80B3569C 1440000D */  bne     $v0, $zero, .L80B356D4     
 /* 019F0 80B356A0 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 019F4 80B356A4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 019F8 80B356A8 24052000 */  addiu   $a1, $zero, 0x2000         ## $a1 = 00002000
-/* 019FC 80B356AC 0C00B821 */  jal     func_8002E084              
+/* 019FC 80B356AC 0C00B821 */  jal     Actor_YawInRangeWithPlayer              
 /* 01A00 80B356B0 AFA6003C */  sw      $a2, 0x003C($sp)           
 /* 01A04 80B356B4 1040000C */  beq     $v0, $zero, .L80B356E8     
 /* 01A08 80B356B8 8FA6003C */  lw      $a2, 0x003C($sp)           
@@ -143,7 +143,7 @@ glabel func_80B355BC
 /* 01AE0 80B35790 AE0A02E8 */  sw      $t2, 0x02E8($s0)           ## 000002E8
 .L80B35794:
 /* 01AE4 80B35794 24051554 */  addiu   $a1, $zero, 0x1554         ## $a1 = 00001554
-/* 01AE8 80B35798 0C00B821 */  jal     func_8002E084              
+/* 01AE8 80B35798 0C00B821 */  jal     Actor_YawInRangeWithPlayer              
 /* 01AEC 80B3579C AFA6003C */  sw      $a2, 0x003C($sp)           
 /* 01AF0 80B357A0 14400017 */  bne     $v0, $zero, .L80B35800     
 /* 01AF4 80B357A4 8FA6003C */  lw      $a2, 0x003C($sp)           

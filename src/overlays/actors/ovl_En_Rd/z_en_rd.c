@@ -357,7 +357,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     }
 
     if (!this->unk_307 && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 45.0f) &&
-        func_8002E084(&this->actor, 0x38E3)) {
+        Actor_YawInRangeWithPlayer(&this->actor, 0x38E3)) {
         player->actor.freezeTimer = 0;
         if (globalCtx->grabPlayer(globalCtx, player)) {
             this->actor.flags &= ~1;

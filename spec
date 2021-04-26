@@ -1027,9 +1027,11 @@ endseg
 beginseg
     name "ovl_Bg_Mizu_Movebg"
     include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/z_bg_mizu_movebg.o"
-    include "build/data/overlays/actors/z_bg_mizu_movebg.data.o"
-    include "build/data/overlays/actors/z_bg_mizu_movebg.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/ovl_Bg_Mizu_Movebg_reloc.o"
+#else
     include "build/data/overlays/actors/z_bg_mizu_movebg.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1590,8 +1592,7 @@ endseg
 beginseg
     name "ovl_Efc_Erupc"
     include "build/src/overlays/actors/ovl_Efc_Erupc/z_efc_erupc.o"
-    include "build/data/overlays/actors/z_efc_erupc.data.o"
-    include "build/data/overlays/actors/z_efc_erupc.reloc.o"
+    include "build/src/overlays/actors/ovl_Efc_Erupc/ovl_Efc_Erupc_reloc.o"
 endseg
 
 beginseg
@@ -3969,7 +3970,8 @@ endseg
 beginseg
     name "object_mizu_objects"
     romalign 0x1000
-    include "build/baserom/object_mizu_objects.o"
+    include "build/assets/objects/object_mizu_objects/object_mizu_objects.o"
+    number 6
 endseg
 
 beginseg

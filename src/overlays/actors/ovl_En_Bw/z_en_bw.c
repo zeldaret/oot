@@ -337,7 +337,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
         case 3:
             Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
             if ((this->unk_224 == 0) && (this->actor.xzDistToPlayer < 200.0f) &&
-                (ABS(this->actor.yDistToPlayer) < 50.0f) && func_8002E084(&this->actor, 0x1C70)) {
+                (ABS(this->actor.yDistToPlayer) < 50.0f) && Actor_YawInRangeWithPlayer(&this->actor, 0x1C70)) {
                 func_809CF72C(this);
             } else {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_236 + this->unk_238, 1,
@@ -350,7 +350,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1,
                                    this->actor.speedXZ * 1000.0f, 0);
                 if ((this->actor.xzDistToPlayer < 90.0f) && (this->actor.yDistToPlayer < 50.0f) &&
-                    func_8002E084(&this->actor, 0x1554) &&
+                    Actor_YawInRangeWithPlayer(&this->actor, 0x1554) &&
                     func_800339B8(&this->actor, globalCtx, 71.24802f, this->actor.yawTowardsPlayer)) {
                     func_809CF8F0(this);
                 }
@@ -365,8 +365,8 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if (((sp64 == 0) && !(this->actor.bgCheckFlags & 8)) || func_8002E084(&this->actor, 0x1C70)) {
-                if (func_8002E084(&this->actor, 0x1C70)) {
+            if (((sp64 == 0) && !(this->actor.bgCheckFlags & 8)) || Actor_YawInRangeWithPlayer(&this->actor, 0x1C70)) {
+                if (Actor_YawInRangeWithPlayer(&this->actor, 0x1C70)) {
                     this->unk_238 = -this->unk_238;
                 }
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer - 0x8000, 1,

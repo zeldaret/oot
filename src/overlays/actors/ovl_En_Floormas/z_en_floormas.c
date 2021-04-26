@@ -444,11 +444,11 @@ void EnFloormas_Die(EnFloormas* this, GlobalContext* globalCtx) {
 void EnFloormas_BigDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         // within 400 units of link and within 90 degrees rotation of him
-        if (this->actor.xzDistToPlayer < 400.0f && !func_8002E084(&this->actor, 0x4000)) {
+        if (this->actor.xzDistToPlayer < 400.0f && !Actor_YawInRangeWithPlayer(&this->actor, 0x4000)) {
             this->actionTarget = this->actor.yawTowardsPlayer;
             EnFloormas_SetupTurn(this);
             // within 280 units of link and within 45 degrees rotation of him
-        } else if (this->actor.xzDistToPlayer < 280.0f && func_8002E084(&this->actor, 0x2000)) {
+        } else if (this->actor.xzDistToPlayer < 280.0f && Actor_YawInRangeWithPlayer(&this->actor, 0x2000)) {
             EnFloormas_SetupHover(this, globalCtx);
         } else {
             EnFloormas_SetupStand(this);
@@ -483,13 +483,13 @@ void EnFloormas_BigWalk(EnFloormas* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 
-    if ((this->actor.xzDistToPlayer < 320.0f) && (func_8002E084(&this->actor, 0x4000))) {
+    if ((this->actor.xzDistToPlayer < 320.0f) && (Actor_YawInRangeWithPlayer(&this->actor, 0x4000))) {
         EnFloormas_SetupRun(this);
     } else if (this->actor.bgCheckFlags & 8) {
         // set target rotation to the colliding wall's rotation
         this->actionTarget = this->actor.wallYaw;
         EnFloormas_SetupTurn(this);
-    } else if ((this->actor.xzDistToPlayer < 400.0f) && !func_8002E084(&this->actor, 0x4000)) {
+    } else if ((this->actor.xzDistToPlayer < 400.0f) && !Actor_YawInRangeWithPlayer(&this->actor, 0x4000)) {
         // set target rotation to link.
         this->actionTarget = this->actor.yawTowardsPlayer;
         EnFloormas_SetupTurn(this);
@@ -514,7 +514,7 @@ void EnFloormas_Run(EnFloormas* this, GlobalContext* globalCtx) {
 
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x71C);
 
-    if ((this->actor.xzDistToPlayer < 280.0f) && func_8002E084(&this->actor, 0x2000) &&
+    if ((this->actor.xzDistToPlayer < 280.0f) && Actor_YawInRangeWithPlayer(&this->actor, 0x2000) &&
         !(this->actor.bgCheckFlags & 8)) {
         EnFloormas_SetupHover(this, globalCtx);
     } else if (this->actor.xzDistToPlayer > 400.0f) {

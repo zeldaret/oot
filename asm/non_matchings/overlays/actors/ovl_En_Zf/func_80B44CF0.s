@@ -16,7 +16,7 @@ glabel func_80B44CF0
 /* 00CD4 80B44D24 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 00CD8 80B44D28 AFA30018 */  sw      $v1, 0x0018($sp)           
 .L80B44D2C:
-/* 00CDC 80B44D2C 0C00CEAE */  jal     func_80033AB8              
+/* 00CDC 80B44D2C 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 00CE0 80B44D30 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00CE4 80B44D34 8FA30018 */  lw      $v1, 0x0018($sp)           
 /* 00CE8 80B44D38 14400003 */  bne     $v0, $zero, .L80B44D48     

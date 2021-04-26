@@ -266,7 +266,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->skelAnime.playSpeed = 0.0f;
             this->actor.world.pos.x = (Math_SinS(this->actor.world.rot.y) * 25.0f) + sSpawnPoint.x;
             this->actor.world.pos.z = (Math_CosS(this->actor.world.rot.y) * 25.0f) + sSpawnPoint.z;
-            if ((this->actor.xzDistToPlayer <= 120.0f) || func_80033A84(globalCtx, &this->actor) ||
+            if ((this->actor.xzDistToPlayer <= 120.0f) || Actor_IsTargeted(globalCtx, &this->actor) ||
                 (attackItem != NULL)) {
                 if (attackItem != NULL) {
                     sDodgeRollState = 1;
@@ -399,7 +399,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                             if ((this->swordState == 0) && (sCounterState == 0) && (player->invincibilityTimer == 0) &&
                                 (player->swordAnimation == STAB_1H) && (this->actor.xzDistToPlayer <= 85.0f) &&
-                                func_80033A84(globalCtx, &this->actor)) {
+                                Actor_IsTargeted(globalCtx, &this->actor)) {
 
                                 sStickTilt = 0.0f;
                                 sSwordJumpState = 1;

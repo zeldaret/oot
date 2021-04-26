@@ -164,7 +164,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         for (i = 0; i <= 6; i++) {
             temp_s4 = 0;
-            
+
             next = (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
                                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
 
