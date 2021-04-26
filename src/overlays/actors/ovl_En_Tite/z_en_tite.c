@@ -814,7 +814,7 @@ void EnTite_FlipOnBack(EnTite* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 3) {
         // Upon landing, spawn dust and make noise
         if (this->actor.bgCheckFlags & 2) {
-            func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 0xB, 4.0f, 0, 0, 0);
+            Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 0xB, 4.0f, 0, 0, 0);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->vOnBackTimer--;
@@ -861,7 +861,7 @@ void EnTite_CheckDamage(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (thisx->colChkInfo.damageEffect != 0xE) { // Immune to fire magic
             this->damageEffect = thisx->colChkInfo.damageEffect;
-            func_80035650(thisx, &this->collider.elements[0].info, 0);
+            Actor_SetDropFlag(thisx, &this->collider.elements[0].info, 0);
             // Stun if Tektite hit by nut, boomerang, hookshot, ice arrow or ice magic
             if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)) {
                 if (this->action != TEKTITE_STUNNED) {

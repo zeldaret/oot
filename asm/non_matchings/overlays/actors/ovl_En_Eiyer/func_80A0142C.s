@@ -10,7 +10,7 @@ glabel func_80A0142C
 /* 014AC 80A0144C 11C00043 */  beq     $t6, $zero, .L80A0155C     
 /* 014B0 80A01450 304FFFFD */  andi    $t7, $v0, 0xFFFD           ## $t7 = 00000000
 /* 014B4 80A01454 A08F0299 */  sb      $t7, 0x0299($a0)           ## 00000299
-/* 014B8 80A01458 0C00D594 */  jal     func_80035650              
+/* 014B8 80A01458 0C00D594 */  jal     Actor_SetDropFlag              
 /* 014BC 80A0145C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 014C0 80A01460 921800B1 */  lbu     $t8, 0x00B1($s0)           ## 000000B1
 /* 014C4 80A01464 17000004 */  bne     $t8, $zero, .L80A01478     
@@ -24,7 +24,7 @@ glabel func_80A0142C
 /* 014DC 80A0147C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 014E0 80A01480 1440000A */  bne     $v0, $zero, .L80A014AC     
 /* 014E4 80A01484 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 014E8 80A01488 0C00CB1F */  jal     func_80032C7C              
+/* 014E8 80A01488 0C00CB1F */  jal     Actor_PlayDeathFx              
 /* 014EC 80A0148C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 014F0 80A01490 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 014F4 80A01494 0C00BE0A */  jal     Audio_PlayActorSound2

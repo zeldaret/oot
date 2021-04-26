@@ -888,7 +888,7 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, GlobalContext* globalCtx) {
         this->colJntSph.base.acFlags &= ~AC_HIT;
     } else if (this->colJntSph.base.acFlags & AC_HIT) {
         this->colJntSph.base.acFlags &= ~AC_HIT;
-        func_8003573C(&this->actor, &this->colJntSph, 1);
+        Actor_SetDropFlagJntSph(&this->actor, &this->colJntSph, 1);
         if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_NUT ||
             this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
             return;

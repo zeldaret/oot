@@ -474,17 +474,17 @@ Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, GlobalCo
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalCtx);
 Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** actorPtr, Player* player);
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory);
-void func_80032C7C(GlobalContext* globalCtx, Actor* actor);
+void Actor_PlayDeathFx(GlobalContext* globalCtx, Actor* actor);
 s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3);
 void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx);
 void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6);
 s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx, s16 params);
-void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
+void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
                    s16 arg7, u8 arg8);
 void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
-Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2);
+Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 arg2);
 void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorCategory);
 void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 textIdLower);
 s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3);
@@ -522,8 +522,8 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1);
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider);
 u8 Actor_ApplyDamage(Actor* actor);
-void func_80035650(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
-void func_8003573C(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
+void Actor_SetDropFlag(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
+void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
 Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
                      GlobalContext* globalCtx, s16 params, s32 arg8);

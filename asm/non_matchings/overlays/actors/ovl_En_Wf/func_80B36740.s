@@ -365,7 +365,7 @@ glabel func_80B36740
 /* 02F94 80B36C44 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02F98 80B36C48 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
 /* 02F9C 80B36C4C 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
-/* 02FA0 80B36C50 0C00CC98 */  jal     func_80033260              
+/* 02FA0 80B36C50 0C00CC98 */  jal     Actor_SpawnFloorDust              
 /* 02FA4 80B36C54 E7A60014 */  swc1    $f6, 0x0014($sp)           
 /* 02FA8 80B36C58 8FAF003C */  lw      $t7, 0x003C($sp)           
 .L80B36C5C:

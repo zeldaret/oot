@@ -366,8 +366,8 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.bgCheckFlags &= ~2;
         this->actor.velocity.y = 0.0f;
-        func_80033260(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
-        func_80033260(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         EnGeldB_SetupReady(this);
@@ -391,8 +391,8 @@ void EnGeldB_Flee(EnGeldB* this, GlobalContext* globalCtx) {
     }
     if (this->skelAnime.curFrame == 2.0f) {
         this->actor.gravity = 0.0f;
-        func_80033260(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
-        func_80033260(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 300.0f, 1.0f, 20.5f, 0.0f);
@@ -923,8 +923,8 @@ void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
     if ((s32)this->skelAnime.curFrame < 9) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     } else if ((s32)this->skelAnime.curFrame == 13) {
-        func_80033260(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
-        func_80033260(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
         this->swordState = 1;
         this->actor.speedXZ = 10.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_ATTACK);
@@ -1358,7 +1358,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != GELDB_DMG_UNK_6) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            func_80035650(&this->actor, &this->bodyCollider.info, 1);
+            Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 1);
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
             if ((this->actor.colChkInfo.damageEffect == GELDB_DMG_STUN) ||
                 (this->actor.colChkInfo.damageEffect == GELDB_DMG_FREEZE)) {
@@ -1380,7 +1380,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
                         }
                     }
                     EnGeldB_SetupDefeated(this);
-                    func_80032C7C(globalCtx, &this->actor);
+                    Actor_PlayDeathFx(globalCtx, &this->actor);
                 } else {
                     EnGeldB_SetupDamaged(this);
                 }
@@ -1606,7 +1606,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
-    Actor* actor = func_80033780(globalCtx, &this->actor, 800.0f);
+    Actor* actor = Actor_GetProjectileActor(globalCtx, &this->actor, 800.0f);
 
     if (actor != NULL) {
         s16 angleToFacing;

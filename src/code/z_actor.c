@@ -3006,8 +3006,12 @@ Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory) {
     return NULL;
 }
 
-void func_80032C7C(GlobalContext* globalCtx, Actor* actor) {
-    globalCtx->actorCtx.unk_00 = 5;
+/**
+ * Play the death sound effect and flash the screen white for 4 frames.
+ * While the screen flashes, the game freezes.
+ */
+void Actor_PlayDeathFx(GlobalContext* globalCtx, Actor* actor) {
+    globalCtx->actorCtx.freezeFlashTimer = 5;
     Audio_PlaySoundAtPosition(globalCtx, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
 
@@ -3079,7 +3083,7 @@ void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
 void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6) {
     GlobalContext* globalCtx = Effect_GetGlobalCtx();
 
-    if ((globalCtx->actorCtx.unk_00 == 0) && (arg0->unk_10 > 0)) {
+    if ((globalCtx->actorCtx.freezeFlashTimer == 0) && (arg0->unk_10 > 0)) {
         if ((arg1 >= arg2) && (arg3 >= arg1) && (*dList != 0)) {
             arg0->unk_0C[arg0->unk_10] = *dList;
             Matrix_Get(&arg0->unk_00[arg0->unk_10]);
@@ -3142,7 +3146,7 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
     return true;
 }
 
-void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 scale,
+void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 scale,
                    s16 scaleStep, u8 arg8) {
     Vec3f pos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
@@ -3232,44 +3236,47 @@ void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Acto
     Actor_AddToCategory(actorCtx, actor, actorCategory);
 }
 
-typedef struct {
-    /* 0x000 */ Actor actor;
-    /* 0x14C */ char unk_14C[0xC4];
-    /* 0x210 */ s16 unk_210;
-} Actor_80033780;
-
-Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
-    Actor_80033780* itemActor;
+/**
+ * Checks if a hookshot or arrow actor is going to collide with the cylinder denoted by the
+ * actor's `cylRadius` and `cylHeight`. 
+ * The check is only peformed if the projectile actor is within the provided sphere radius.
+ *
+ * Returns the actor if there will be collision, NULL otherwise.
+ */
+Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius) {
+    Actor* actor;
     Vec3f spA8;
     f32 deltaX;
     f32 deltaY;
     f32 deltaZ;
     Vec3f sp90;
     Vec3f sp84;
-    Actor* actor;
 
     actor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     while (actor != NULL) {
         if (((actor->id != ACTOR_ARMS_HOOK) && (actor->id != ACTOR_EN_ARROW)) || (actor == refActor)) {
             actor = actor->next;
         } else {
-            itemActor = (Actor_80033780*)actor;
-            if ((arg2 < Math_Vec3f_DistXYZ(&refActor->world.pos, &itemActor->actor.world.pos)) ||
-                (itemActor->unk_210 == 0)) {
+            //! @bug The projectile actor gets unsafely casted to a hookshot to check its timer, even though
+            //  it can also be an arrow.
+            //  Luckily, the field at the same offset in the arrow actor is the x component of a vector
+            //  which will rarely ever be 0. So its very unlikely for this bug to cause an issue.
+            if ((Math_Vec3f_DistXYZ(&refActor->world.pos, &actor->world.pos) > radius) ||
+                (((ArmsHook*)actor)->timer == 0)) {
                 actor = actor->next;
             } else {
-                deltaX = Math_SinS(itemActor->actor.world.rot.y) * (itemActor->actor.speedXZ * 10.0f);
-                deltaY = itemActor->actor.velocity.y + (itemActor->actor.gravity * 10.0f);
-                deltaZ = Math_CosS(itemActor->actor.world.rot.y) * (itemActor->actor.speedXZ * 10.0f);
+                deltaX = Math_SinS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
+                deltaY = actor->velocity.y + (actor->gravity * 10.0f);
+                deltaZ = Math_CosS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
 
-                spA8.x = itemActor->actor.world.pos.x + deltaX;
-                spA8.y = itemActor->actor.world.pos.y + deltaY;
-                spA8.z = itemActor->actor.world.pos.z + deltaZ;
+                spA8.x = actor->world.pos.x + deltaX;
+                spA8.y = actor->world.pos.y + deltaY;
+                spA8.z = actor->world.pos.z + deltaZ;
 
                 if (CollisionCheck_CylSideVsLineSeg(refActor->colChkInfo.cylRadius, refActor->colChkInfo.cylHeight,
-                                                    0.0f, &refActor->world.pos, &itemActor->actor.world.pos, &spA8,
-                                                    &sp90, &sp84)) {
-                    return &itemActor->actor;
+                                                    0.0f, &refActor->world.pos, &actor->world.pos, &spA8, &sp90,
+                                                    &sp84)) {
+                    return actor;
                 } else {
                     actor = actor->next;
                 }
@@ -4013,7 +4020,7 @@ u8 Actor_ApplyDamage(Actor* actor) {
     return actor->colChkInfo.health;
 }
 
-void func_80035650(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
+void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     if (colInfo->acHitInfo == NULL) {
         actor->dropFlag = 0x00;
     } else if (freezeFlag && (colInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
@@ -4041,7 +4048,7 @@ void func_80035650(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     }
 }
 
-void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
+void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
     ColliderInfo* curColInfo;
     s32 flag;
     s32 i;

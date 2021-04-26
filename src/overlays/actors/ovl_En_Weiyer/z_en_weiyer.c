@@ -564,7 +564,7 @@ void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx) {
 void func_80B3368C(EnWeiyer* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) {
@@ -572,7 +572,7 @@ void func_80B3368C(EnWeiyer* this, GlobalContext* globalCtx) {
                     func_80B32660(this);
                 }
             } else if (Actor_ApplyDamage(&this->actor) == 0) {
-                func_80032C7C(globalCtx, &this->actor);
+                Actor_PlayDeathFx(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_DEAD);
                 this->actor.flags &= ~1;
                 func_80B32724(this);

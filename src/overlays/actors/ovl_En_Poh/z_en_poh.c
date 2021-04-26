@@ -866,7 +866,7 @@ void func_80AE032C(EnPoh* this, GlobalContext* globalCtx) {
         this->colliderCyl.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                func_80032C7C(globalCtx, &this->actor);
+                Actor_PlayDeathFx(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DEAD);
             } else {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DAMAGE);

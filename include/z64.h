@@ -239,7 +239,7 @@ typedef struct {
 } ActorListEntry; // size = 0x08
 
 typedef struct {
-    /* 0x0000 */ u8     unk_00;
+    /* 0x0000 */ u8     freezeFlashTimer; // on frames 4 through 1, the game will freeze and the screen will flash white
     /* 0x0001 */ char   unk_01[0x01];
     /* 0x0002 */ u8     unk_02;
     /* 0x0003 */ u8     unk_03;
