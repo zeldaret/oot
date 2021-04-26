@@ -709,7 +709,8 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
                     if (func_800355E4(globalCtx, &this->collider2.base)) {
                         this->unk_230 = 0;
                         this->actor.scale.y -= 0.009f;
-                        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+                        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0,
+                                             0);
                     } else {
                         this->unk_230 = 1;
                     }
