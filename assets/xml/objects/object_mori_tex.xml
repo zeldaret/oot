@@ -1,5 +1,5 @@
 <Root>
   <File Name="object_mori_tex" Segment="6">
-    <Blob Name="gobject_mori_tex_unk_00000000" Size="40448" Offset="0x0" />
+    <Blob Name="gobject_mori_tex_unk_00000000" Size="0x9E00" Offset="0x0" />
   </File>
 </Root>

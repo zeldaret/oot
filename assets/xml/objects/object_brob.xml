@@ -20,6 +20,6 @@
     <Animation Name="gobject_brob_anim_00001678" Offset="0x1678" />
     <Animation Name="gobject_brob_anim_00001750" Offset="0x1750" />
     <Animation Name="gobject_brob_anim_00001958" Offset="0x1958" />
-    <Blob Name="gobject_brob_unk_00001968" Size="312" Offset="0x1968" />
+    <Blob Name="gobject_brob_unk_00001968" Size="0x138" Offset="0x1968" />
   </File>
 </Root>

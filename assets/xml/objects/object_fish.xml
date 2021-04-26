@@ -18,7 +18,7 @@
     <Texture Name="gobject_fish_tex_000018D0" OutName="tex_000018D0" Format="rgb5a1" Width="16" Height="16" Offset="0x18D0" />
     <Texture Name="gobject_fish_tex_00001AD0" OutName="tex_00001AD0" Format="rgb5a1" Width="32" Height="32" Offset="0x1AD0" />
     <Texture Name="gobject_fish_tex_000022D0" OutName="tex_000022D0" Format="rgb5a1" Width="16" Height="16" Offset="0x22D0" />
-    <Blob Name="gobject_fish_unk_000024D0" Size="512" Offset="0x24D0" />
+    <Blob Name="gobject_fish_unk_000024D0" Size="0x200" Offset="0x24D0" />
     <Texture Name="gobject_fish_tex_000026D0" OutName="tex_000026D0" Format="rgb5a1" Width="16" Height="16" Offset="0x26D0" />
     <Limb Name="gobject_fish_limb_000028D0" LimbType="Standard" Offset="0x28D0" />
     <Limb Name="gobject_fish_limb_000028DC" LimbType="Standard" Offset="0x28DC" />
@@ -79,13 +79,14 @@
     <Texture Name="gobject_fish_tex_00008690" OutName="tex_00008690" Format="i4" Width="32" Height="32" Offset="0x8690" />
     <DList Name="gobject_fish_dlist_000088C0" Offset="0x88C0" />
     <DList Name="gobject_fish_dlist_00008970" Offset="0x8970" />
+    <Texture Name="gobject_fish_tlut_00008990" OutName="tlut_00008990" Format="rgb5a1" Width="16" Height="16" Offset="0x8990" />
     <Texture Name="gobject_fish_tex_00008B90" OutName="tex_00008B90" Format="ci8" Width="8" Height="8" Offset="0x8B90" />
     <Texture Name="gobject_fish_tex_00008BD0" OutName="tex_00008BD0" Format="ci8" Width="16" Height="16" Offset="0x8BD0" />
     <Texture Name="gobject_fish_tex_00008CD0" OutName="tex_00008CD0" Format="ci8" Width="16" Height="16" Offset="0x8CD0" />
     <Texture Name="gobject_fish_tex_00008DD0" OutName="tex_00008DD0" Format="ci8" Width="8" Height="8" Offset="0x8DD0" />
     <Texture Name="gobject_fish_tex_00008E10" OutName="tex_00008E10" Format="ci8" Width="32" Height="32" Offset="0x8E10" />
     <Texture Name="gobject_fish_tex_00009210" OutName="tex_00009210" Format="ci8" Width="8" Height="8" Offset="0x9210" />
-    <Blob Name="gobject_fish_unk_00009250" Size="3072" Offset="0x9250" />
+    <Blob Name="gobject_fish_unk_00009250" Size="0xC00" Offset="0x9250" />
     <Texture Name="gobject_fish_tex_00009E50" OutName="tex_00009E50" Format="ci8" Width="64" Height="32" Offset="0x9E50" />
     <Texture Name="gobject_fish_tex_0000A650" OutName="tex_0000A650" Format="ci8" Width="8" Height="8" Offset="0xA650" />
     <Texture Name="gobject_fish_tex_0000A690" OutName="tex_0000A690" Format="ci8" Width="16" Height="16" Offset="0xA690" />
@@ -129,7 +130,7 @@
     <Limb Name="gobject_fish_limb_00011014" LimbType="Standard" Offset="0x11014" />
     <Limb Name="gobject_fish_limb_00011020" LimbType="Standard" Offset="0x11020" />
     <Skeleton Name="gobject_fish_skel_00011058" Type="Flex" LimbType="Standard" Offset="0x11058" />
-    <Blob Name="gobject_fish_unk_00011064" Size="780" Offset="0x11064" />
+    <Blob Name="gobject_fish_unk_00011064" Size="0x30C" Offset="0x11064" />
     <DList Name="gobject_fish_dlist_000113D0" Offset="0x113D0" />
     <DList Name="gobject_fish_dlist_00011410" Offset="0x11410" />
     <Texture Name="gobject_fish_tex_00011440" OutName="tex_00011440" Format="rgb5a1" Width="32" Height="32" Offset="0x11440" />

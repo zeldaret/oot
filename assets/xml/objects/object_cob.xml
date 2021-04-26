@@ -1,5 +1,6 @@
 <Root>
   <File Name="object_cob" Segment="6">
+    <Texture Name="gobject_cob_tlut_00000000" OutName="tlut_00000000" Format="rgb5a1" Width="16" Height="16" Offset="0x0" />
     <Texture Name="gobject_cob_tex_00000200" OutName="tex_00000200" Format="ci8" Width="8" Height="16" Offset="0x200" />
     <Texture Name="gobject_cob_tex_00000280" OutName="tex_00000280" Format="ci8" Width="8" Height="8" Offset="0x280" />
     <Texture Name="gobject_cob_tex_000002C0" OutName="tex_000002C0" Format="ci8" Width="8" Height="8" Offset="0x2C0" />

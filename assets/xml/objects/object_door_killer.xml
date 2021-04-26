@@ -12,6 +12,6 @@
     <DList Name="gobject_door_killer_dlist_00001550" Offset="0x1550" />
     <DList Name="gobject_door_killer_dlist_000017B8" Offset="0x17B8" />
     <DList Name="gobject_door_killer_dlist_00001A58" Offset="0x1A58" />
-    <Blob Name="gobject_door_killer_unk_00001B28" Size="184" Offset="0x1B28" />
+    <Blob Name="gobject_door_killer_unk_00001B28" Size="0xB8" Offset="0x1B28" />
   </File>
 </Root>

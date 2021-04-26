@@ -23,6 +23,6 @@
     <Texture Name="gobject_vali_tex_00003988" OutName="tex_00003988" Format="ia16" Width="16" Height="32" Offset="0x3988" />
     <Texture Name="gobject_vali_tex_00003D88" OutName="tex_00003D88" Format="ia16" Width="8" Height="16" Offset="0x3D88" />
     <Texture Name="gobject_vali_tex_00003E88" OutName="tex_00003E88" Format="ia16" Width="32" Height="32" Offset="0x3E88" />
-    <Blob Name="gobject_vali_unk_00004688" Size="456" Offset="0x4688" />
+    <Blob Name="gobject_vali_unk_00004688" Size="0x1C8" Offset="0x4688" />
   </File>
 </Root>

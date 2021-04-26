@@ -16,11 +16,12 @@
     <Limb Name="gobject_bob_limb_0000009C" LimbType="Standard" Offset="0x9C" />
     <Limb Name="gobject_bob_limb_000000A8" LimbType="Standard" Offset="0xA8" />
     <Skeleton Name="gobject_bob_skel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0" />
+    <Texture Name="gobject_bob_tlut_00000108" OutName="tlut_00000108" Format="rgb5a1" Width="16" Height="16" Offset="0x108" />
     <Texture Name="gobject_bob_tex_00000308" OutName="tex_00000308" Format="ci8" Width="8" Height="8" Offset="0x308" />
     <Texture Name="gobject_bob_tex_00000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348" />
     <Texture Name="gobject_bob_tex_00000388" OutName="tex_00000388" Format="ci8" Width="32" Height="32" Offset="0x388" />
     <Texture Name="gobject_bob_tex_00000788" OutName="tex_00000788" Format="ci8" Width="8" Height="8" Offset="0x788" />
-    <Blob Name="gobject_bob_unk_000007C8" Size="6144" Offset="0x7C8" />
+    <Blob Name="gobject_bob_unk_000007C8" Size="0x1800" Offset="0x7C8" />
     <Texture Name="gobject_bob_tex_00001FC8" OutName="tex_00001FC8" Format="ci8" Width="16" Height="16" Offset="0x1FC8" />
     <Texture Name="gobject_bob_tex_000020C8" OutName="tex_000020C8" Format="ci8" Width="16" Height="16" Offset="0x20C8" />
     <Texture Name="gobject_bob_tex_000021C8" OutName="tex_000021C8" Format="ci8" Width="8" Height="8" Offset="0x21C8" />

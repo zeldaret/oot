@@ -1,6 +1,7 @@
 <Root>
   <File Name="object_toryo" Segment="6">
     <Animation Name="gobject_toryo_anim_00000E50" Offset="0xE50" />
+    <Texture Name="gobject_toryo_tlut_00000E60" OutName="tlut_00000E60" Format="rgb5a1" Width="16" Height="16" Offset="0xE60" />
     <Texture Name="gobject_toryo_tex_00001060" OutName="tex_00001060" Format="ci8" Width="16" Height="16" Offset="0x1060" />
     <Texture Name="gobject_toryo_tex_00001160" OutName="tex_00001160" Format="ci8" Width="8" Height="4" Offset="0x1160" />
     <Texture Name="gobject_toryo_tex_00001180" OutName="tex_00001180" Format="ci8" Width="8" Height="8" Offset="0x1180" />

@@ -16,6 +16,7 @@
     <DList Name="gobject_mk_dlist_00004B30" Offset="0x4B30" />
     <DList Name="gobject_mk_dlist_00004C60" Offset="0x4C60" />
     <DList Name="gobject_mk_dlist_00004DB0" Offset="0x4DB0" />
+    <Texture Name="gobject_mk_tlut_00004F30" OutName="tlut_00004F30" Format="rgb5a1" Width="16" Height="16" Offset="0x4F30" />
     <Texture Name="gobject_mk_tex_00005130" OutName="tex_00005130" Format="ci8" Width="8" Height="8" Offset="0x5130" />
     <Texture Name="gobject_mk_tex_00005170" OutName="tex_00005170" Format="ci8" Width="16" Height="16" Offset="0x5170" />
     <Texture Name="gobject_mk_tex_00005270" OutName="tex_00005270" Format="ci8" Width="8" Height="8" Offset="0x5270" />

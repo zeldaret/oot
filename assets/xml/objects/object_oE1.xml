@@ -54,8 +54,10 @@
     <DList Name="gobject_oE1_dlist_00004530" Offset="0x4530" />
     <DList Name="gobject_oE1_dlist_000045E8" Offset="0x45E8" />
     <DList Name="gobject_oE1_dlist_00004738" Offset="0x4738" />
+    <Texture Name="gobject_oE1_tlut_00004808" OutName="tlut_00004808" Format="rgb5a1" Width="16" Height="16" Offset="0x4808" />
     <Texture Name="gobject_oE1_tex_00004A08" OutName="tex_00004A08" Format="ci8" Width="32" Height="32" Offset="0x4A08" />
-    <Blob Name="gobject_oE1_unk_00004E08" Size="2048" Offset="0x4E08" />
+    <Blob Name="gobject_oE1_unk_00004E08" Size="0x800" Offset="0x4E08" />
+    <Texture Name="gobject_oE1_tlut_00005608" OutName="tlut_00005608" Format="rgb5a1" Width="16" Height="16" Offset="0x5608" />
     <Texture Name="gobject_oE1_tex_00005808" OutName="tex_00005808" Format="ci8" Width="8" Height="8" Offset="0x5808" />
     <Texture Name="gobject_oE1_tex_00005848" OutName="tex_00005848" Format="ci8" Width="16" Height="16" Offset="0x5848" />
     <Texture Name="gobject_oE1_tex_00005948" OutName="tex_00005948" Format="ci8" Width="16" Height="16" Offset="0x5948" />

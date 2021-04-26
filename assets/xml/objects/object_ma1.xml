@@ -2,19 +2,21 @@
   <File Name="object_ma1" Segment="6">
     <Animation Name="gobject_ma1_anim_00000244" Offset="0x244" />
     <Animation Name="gobject_ma1_anim_00000820" Offset="0x820" />
+    <Texture Name="gobject_ma1_tlut_00000830" OutName="tlut_00000830" Format="rgb5a1" Width="16" Height="16" Offset="0x830" />
     <Texture Name="gobject_ma1_tex_00000A30" OutName="tex_00000A30" Format="ci8" Width="8" Height="16" Offset="0xA30" />
     <Texture Name="gobject_ma1_tex_00000AB0" OutName="tex_00000AB0" Format="rgb5a1" Width="16" Height="16" Offset="0xAB0" />
     <Texture Name="gobject_ma1_tex_00000CB0" OutName="tex_00000CB0" Format="rgb5a1" Width="16" Height="32" Offset="0xCB0" />
     <Texture Name="gobject_ma1_tex_000010B0" OutName="tex_000010B0" Format="ci8" Width="8" Height="8" Offset="0x10B0" />
     <Texture Name="gobject_ma1_tex_000010F0" OutName="tex_000010F0" Format="ci8" Width="64" Height="16" Offset="0x10F0" />
-    <Blob Name="gobject_ma1_unk_000016F0" Size="40" Offset="0x16F0" />
+    <Texture Name="gobject_ma1_tlut_000014F0" OutName="tlut_000014F0" Format="rgb5a1" Width="16" Height="16" Offset="0x14F0" />
+    <Blob Name="gobject_ma1_unk_000016F0" Size="0x28" Offset="0x16F0" />
     <Texture Name="gobject_ma1_tex_00001718" OutName="tex_00001718" Format="rgb5a1" Width="8" Height="8" Offset="0x1718" />
     <Texture Name="gobject_ma1_tex_00001798" OutName="tex_00001798" Format="rgb5a1" Width="8" Height="8" Offset="0x1798" />
     <Texture Name="gobject_ma1_tex_00001818" OutName="tex_00001818" Format="rgb5a1" Width="16" Height="16" Offset="0x1818" />
     <Texture Name="gobject_ma1_tex_00001A18" OutName="tex_00001A18" Format="ci8" Width="16" Height="16" Offset="0x1A18" />
-    <Blob Name="gobject_ma1_unk_00001B18" Size="1024" Offset="0x1B18" />
+    <Blob Name="gobject_ma1_unk_00001B18" Size="0x400" Offset="0x1B18" />
     <Texture Name="gobject_ma1_tex_00001F18" OutName="tex_00001F18" Format="rgb5a1" Width="32" Height="16" Offset="0x1F18" />
-    <Blob Name="gobject_ma1_unk_00002318" Size="4096" Offset="0x2318" />
+    <Blob Name="gobject_ma1_unk_00002318" Size="0x1000" Offset="0x2318" />
     <DList Name="gobject_ma1_dlist_00004148" Offset="0x4148" />
     <DList Name="gobject_ma1_dlist_00006C68" Offset="0x6C68" />
     <DList Name="gobject_ma1_dlist_00006DD8" Offset="0x6DD8" />

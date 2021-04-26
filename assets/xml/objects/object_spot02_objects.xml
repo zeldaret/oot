@@ -3,17 +3,17 @@
     <Texture Name="gobject_spot02_objects_tex_00000000" OutName="tex_00000000" Format="i8" Width="32" Height="64" Offset="0x0" />
     <Texture Name="gobject_spot02_objects_tex_00000800" OutName="tex_00000800" Format="i8" Width="32" Height="64" Offset="0x800" />
     <DList Name="gobject_spot02_objects_dlist_000013F0" Offset="0x13F0" />
-    <Blob Name="gobject_spot02_objects_unk_000015D8" Size="32776" Offset="0x15D8" />
+    <Blob Name="gobject_spot02_objects_unk_000015D8" Size="0x8008" Offset="0x15D8" />
     <DList Name="gobject_spot02_objects_dlist_00009620" Offset="0x9620" />
-    <Blob Name="gobject_spot02_objects_unk_000096A8" Size="36872" Offset="0x96A8" />
+    <Blob Name="gobject_spot02_objects_unk_000096A8" Size="0x9008" Offset="0x96A8" />
     <DList Name="gobject_spot02_objects_dlist_000126F0" Offset="0x126F0" />
     <DList Name="gobject_spot02_objects_dlist_000127C0" Offset="0x127C0" />
-    <Blob Name="gobject_spot02_objects_unk_00012890" Size="128" Offset="0x12890" />
+    <Blob Name="gobject_spot02_objects_unk_00012890" Size="0x80" Offset="0x12890" />
     <DList Name="gobject_spot02_objects_dlist_00012A50" Offset="0x12A50" />
-    <Blob Name="gobject_spot02_objects_unk_00012B28" Size="168" Offset="0x12B28" />
+    <Blob Name="gobject_spot02_objects_unk_00012B28" Size="0xA8" Offset="0x12B28" />
     <DList Name="gobject_spot02_objects_dlist_00012D30" Offset="0x12D30" />
     <DList Name="gobject_spot02_objects_dlist_000130B0" Offset="0x130B0" />
-    <Blob Name="gobject_spot02_objects_unk_00013220" Size="512" Offset="0x13220" />
+    <Blob Name="gobject_spot02_objects_unk_00013220" Size="0x200" Offset="0x13220" />
     <Texture Name="gobject_spot02_objects_tex_00013420" OutName="tex_00013420" Format="i4" Width="32" Height="64" Offset="0x13420" />
     <Texture Name="gobject_spot02_objects_tex_00013820" OutName="tex_00013820" Format="rgb5a1" Width="32" Height="32" Offset="0x13820" />
     <Texture Name="gobject_spot02_objects_tex_00014020" OutName="tex_00014020" Format="rgb5a1" Width="32" Height="32" Offset="0x14020" />

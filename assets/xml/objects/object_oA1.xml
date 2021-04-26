@@ -54,6 +54,7 @@
     <DList Name="gobject_oA1_dlist_000033D0" Offset="0x33D0" />
     <DList Name="gobject_oA1_dlist_00003508" Offset="0x3508" />
     <DList Name="gobject_oA1_dlist_00003678" Offset="0x3678" />
+    <Texture Name="gobject_oA1_tlut_00003748" OutName="tlut_00003748" Format="rgb5a1" Width="16" Height="16" Offset="0x3748" />
     <Texture Name="gobject_oA1_tex_00003948" OutName="tex_00003948" Format="ci8" Width="32" Height="32" Offset="0x3948" />
     <Texture Name="gobject_oA1_tex_00003D48" OutName="tex_00003D48" Format="ci8" Width="16" Height="16" Offset="0x3D48" />
     <Texture Name="gobject_oA1_tex_00003E48" OutName="tex_00003E48" Format="ci8" Width="8" Height="8" Offset="0x3E48" />

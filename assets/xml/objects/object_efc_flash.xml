@@ -1,5 +1,3 @@
 <Root>
-  <File Name="object_efc_flash" Segment="6">
-    <Blob Name="gobject_efc_flash_zeroes_unk_00000000" Size="16" Offset="0x0" />
-  </File>
+  <File Name="object_efc_flash" Segment="6" />
 </Root>

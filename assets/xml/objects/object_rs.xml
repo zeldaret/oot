@@ -9,10 +9,11 @@
     <DList Name="gobject_rs_dlist_00002A70" Offset="0x2A70" />
     <DList Name="gobject_rs_dlist_00002BA8" Offset="0x2BA8" />
     <DList Name="gobject_rs_dlist_00002CD8" Offset="0x2CD8" />
+    <Texture Name="gobject_rs_tlut_00002EE8" OutName="tlut_00002EE8" Format="rgb5a1" Width="16" Height="16" Offset="0x2EE8" />
     <Texture Name="gobject_rs_tex_000030E8" OutName="tex_000030E8" Format="ci8" Width="8" Height="8" Offset="0x30E8" />
     <Texture Name="gobject_rs_tex_00003128" OutName="tex_00003128" Format="ci8" Width="8" Height="8" Offset="0x3128" />
     <Texture Name="gobject_rs_tex_00003168" OutName="tex_00003168" Format="ci8" Width="32" Height="64" Offset="0x3168" />
-    <Blob Name="gobject_rs_unk_00003968" Size="3072" Offset="0x3968" />
+    <Blob Name="gobject_rs_unk_00003968" Size="0xC00" Offset="0x3968" />
     <Texture Name="gobject_rs_tex_00004568" OutName="tex_00004568" Format="ci8" Width="16" Height="16" Offset="0x4568" />
     <Texture Name="gobject_rs_tex_00004668" OutName="tex_00004668" Format="i8" Width="8" Height="16" Offset="0x4668" />
     <Texture Name="gobject_rs_tex_000046E8" OutName="tex_000046E8" Format="ci8" Width="8" Height="32" Offset="0x46E8" />

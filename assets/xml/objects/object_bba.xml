@@ -16,6 +16,7 @@
     <Limb Name="gobject_bba_limb_0000009C" LimbType="Standard" Offset="0x9C" />
     <Limb Name="gobject_bba_limb_000000A8" LimbType="Standard" Offset="0xA8" />
     <Skeleton Name="gobject_bba_skel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0" />
+    <Texture Name="gobject_bba_tlut_00000108" OutName="tlut_00000108" Format="rgb5a1" Width="16" Height="16" Offset="0x108" />
     <Texture Name="gobject_bba_tex_00000308" OutName="tex_00000308" Format="ci8" Width="8" Height="8" Offset="0x308" />
     <Texture Name="gobject_bba_tex_00000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348" />
     <Texture Name="gobject_bba_tex_00000388" OutName="tex_00000388" Format="ci8" Width="16" Height="16" Offset="0x388" />

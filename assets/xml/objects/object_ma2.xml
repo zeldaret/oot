@@ -1,6 +1,7 @@
 <Root>
   <File Name="object_ma2" Segment="6">
     <Animation Name="gobject_ma2_anim_000007D4" Offset="0x7D4" />
+    <Texture Name="gobject_ma2_tlut_000007F0" OutName="tlut_000007F0" Format="rgb5a1" Width="16" Height="16" Offset="0x7F0" />
     <Texture Name="gobject_ma2_tex_000009F0" OutName="tex_000009F0" Format="rgb5a1" Width="16" Height="16" Offset="0x9F0" />
     <Texture Name="gobject_ma2_tex_00000BF0" OutName="tex_00000BF0" Format="ci8" Width="16" Height="16" Offset="0xBF0" />
     <Texture Name="gobject_ma2_tex_00000CF0" OutName="tex_00000CF0" Format="ci8" Width="8" Height="16" Offset="0xCF0" />
@@ -11,16 +12,17 @@
     <Texture Name="gobject_ma2_tex_000016B0" OutName="tex_000016B0" Format="ci8" Width="16" Height="32" Offset="0x16B0" />
     <Texture Name="gobject_ma2_tex_000018B0" OutName="tex_000018B0" Format="ci8" Width="64" Height="16" Offset="0x18B0" />
     <Texture Name="gobject_ma2_tex_00001CB0" OutName="tex_00001CB0" Format="ci8" Width="32" Height="16" Offset="0x1CB0" />
-    <Blob Name="gobject_ma2_unk_000020B0" Size="192" Offset="0x20B0" />
+    <Texture Name="gobject_ma2_tlut_00001EB0" OutName="tlut_00001EB0" Format="rgb5a1" Width="16" Height="16" Offset="0x1EB0" />
+    <Blob Name="gobject_ma2_unk_000020B0" Size="0xC0" Offset="0x20B0" />
     <Texture Name="gobject_ma2_tex_00002170" OutName="tex_00002170" Format="rgb5a1" Width="8" Height="8" Offset="0x2170" />
     <Texture Name="gobject_ma2_tex_000021F0" OutName="tex_000021F0" Format="rgb5a1" Width="8" Height="8" Offset="0x21F0" />
     <Texture Name="gobject_ma2_tex_00002270" OutName="tex_00002270" Format="rgb5a1" Width="16" Height="16" Offset="0x2270" />
     <Texture Name="gobject_ma2_tex_00002470" OutName="tex_00002470" Format="ci8" Width="16" Height="16" Offset="0x2470" />
-    <Blob Name="gobject_ma2_unk_00002570" Size="1536" Offset="0x2570" />
+    <Blob Name="gobject_ma2_unk_00002570" Size="0x600" Offset="0x2570" />
     <Texture Name="gobject_ma2_tex_00002B70" OutName="tex_00002B70" Format="rgb5a1" Width="8" Height="16" Offset="0x2B70" />
-    <Blob Name="gobject_ma2_unk_00002C70" Size="2048" Offset="0x2C70" />
+    <Blob Name="gobject_ma2_unk_00002C70" Size="0x800" Offset="0x2C70" />
     <Texture Name="gobject_ma2_tex_00003470" OutName="tex_00003470" Format="rgb5a1" Width="8" Height="16" Offset="0x3470" />
-    <Blob Name="gobject_ma2_unk_00003570" Size="1024" Offset="0x3570" />
+    <Blob Name="gobject_ma2_unk_00003570" Size="0x400" Offset="0x3570" />
     <DList Name="gobject_ma2_dlist_00004BE0" Offset="0x4BE0" />
     <DList Name="gobject_ma2_dlist_00005420" Offset="0x5420" />
     <DList Name="gobject_ma2_dlist_00007568" Offset="0x7568" />
@@ -59,6 +61,6 @@
     <Skeleton Name="gobject_ma2_skel_00008D90" Type="Flex" LimbType="Standard" Offset="0x8D90" />
     <Animation Name="gobject_ma2_anim_000092F0" Offset="0x92F0" />
     <Animation Name="gobject_ma2_anim_000093BC" Offset="0x93BC" />
-    <Blob Name="gobject_ma2_unk_000093CC" Size="2852" Offset="0x93CC" />
+    <Blob Name="gobject_ma2_unk_000093CC" Size="0xB24" Offset="0x93CC" />
   </File>
 </Root>

@@ -9,11 +9,12 @@
     <DList Name="gobject_ds2_dlist_00002610" Offset="0x2610" />
     <DList Name="gobject_ds2_dlist_00002738" Offset="0x2738" />
     <DList Name="gobject_ds2_dlist_00002908" Offset="0x2908" />
+    <Texture Name="gobject_ds2_tlut_00002A98" OutName="tlut_00002A98" Format="rgb5a1" Width="16" Height="16" Offset="0x2A98" />
     <Texture Name="gobject_ds2_tex_00002C98" OutName="tex_00002C98" Format="ci8" Width="16" Height="16" Offset="0x2C98" />
     <Texture Name="gobject_ds2_tex_00002D98" OutName="tex_00002D98" Format="ci8" Width="8" Height="8" Offset="0x2D98" />
     <Texture Name="gobject_ds2_tex_00002DD8" OutName="tex_00002DD8" Format="ci8" Width="16" Height="16" Offset="0x2DD8" />
     <Texture Name="gobject_ds2_tex_00002ED8" OutName="tex_00002ED8" Format="ci8" Width="32" Height="16" Offset="0x2ED8" />
-    <Blob Name="gobject_ds2_unk_000030D8" Size="3072" Offset="0x30D8" />
+    <Blob Name="gobject_ds2_unk_000030D8" Size="0xC00" Offset="0x30D8" />
     <Texture Name="gobject_ds2_tex_00003CD8" OutName="tex_00003CD8" Format="ci8" Width="16" Height="16" Offset="0x3CD8" />
     <Texture Name="gobject_ds2_tex_00003DD8" OutName="tex_00003DD8" Format="ci8" Width="16" Height="16" Offset="0x3DD8" />
     <Texture Name="gobject_ds2_tex_00003ED8" OutName="tex_00003ED8" Format="ci8" Width="16" Height="16" Offset="0x3ED8" />

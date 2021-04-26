@@ -45,7 +45,15 @@
     <DList Name="gobject_ganon2_dlist_0001A708" Offset="0x1A708" />
     <DList Name="gobject_ganon2_dlist_0001A9E8" Offset="0x1A9E8" />
     <DList Name="gobject_ganon2_dlist_0001AAF0" Offset="0x1AAF0" />
-    <Blob Name="gobject_ganon2_unk_0001B380" Size="512" Offset="0x1B380" />
+    <Texture Name="gobject_ganon2_tlut_0001AF80" OutName="tlut_0001AF80" Format="rgb5a1" Width="16" Height="16" Offset="0x1AF80" />
+    <Texture Name="gobject_ganon2_tlut_0001B180" OutName="tlut_0001B180" Format="rgb5a1" Width="16" Height="16" Offset="0x1B180" />
+    <Blob Name="gobject_ganon2_unk_0001B380" Size="0x200" Offset="0x1B380" />
+    <Texture Name="gobject_ganon2_tlut_0001B580" OutName="tlut_0001B580" Format="rgb5a1" Width="16" Height="16" Offset="0x1B580" />
+    <Texture Name="gobject_ganon2_tlut_0001B780" OutName="tlut_0001B780" Format="rgb5a1" Width="16" Height="16" Offset="0x1B780" />
+    <Texture Name="gobject_ganon2_tlut_0001B980" OutName="tlut_0001B980" Format="rgb5a1" Width="16" Height="16" Offset="0x1B980" />
+    <Texture Name="gobject_ganon2_tlut_0001BB80" OutName="tlut_0001BB80" Format="rgb5a1" Width="16" Height="16" Offset="0x1BB80" />
+    <Texture Name="gobject_ganon2_tlut_0001BD80" OutName="tlut_0001BD80" Format="rgb5a1" Width="16" Height="16" Offset="0x1BD80" />
+    <Texture Name="gobject_ganon2_tlut_0001BF80" OutName="tlut_0001BF80" Format="rgb5a1" Width="16" Height="16" Offset="0x1BF80" />
     <Texture Name="gobject_ganon2_tex_0001C180" OutName="tex_0001C180" Format="rgb5a1" Width="8" Height="16" Offset="0x1C180" />
     <Texture Name="gobject_ganon2_tex_0001C280" OutName="tex_0001C280" Format="rgb5a1" Width="8" Height="16" Offset="0x1C280" />
     <Texture Name="gobject_ganon2_tex_0001C380" OutName="tex_0001C380" Format="rgb5a1" Width="8" Height="8" Offset="0x1C380" />
@@ -64,18 +72,18 @@
     <Texture Name="gobject_ganon2_tex_0001D500" OutName="tex_0001D500" Format="rgb5a1" Width="4" Height="16" Offset="0x1D500" />
     <Texture Name="gobject_ganon2_tex_0001D580" OutName="tex_0001D580" Format="ci8" Width="16" Height="32" Offset="0x1D580" />
     <Texture Name="gobject_ganon2_tex_0001D780" OutName="tex_0001D780" Format="rgb5a1" Width="4" Height="4" Offset="0x1D780" />
-    <Blob Name="gobject_ganon2_unk_0001D7A0" Size="360" Offset="0x1D7A0" />
+    <Blob Name="gobject_ganon2_unk_0001D7A0" Size="0x168" Offset="0x1D7A0" />
     <Texture Name="gobject_ganon2_tex_0001D908" OutName="tex_0001D908" Format="ci8" Width="32" Height="32" Offset="0x1D908" />
     <Texture Name="gobject_ganon2_tex_0001DD08" OutName="tex_0001DD08" Format="rgb5a1" Width="16" Height="32" Offset="0x1DD08" />
     <Texture Name="gobject_ganon2_tex_0001E108" OutName="tex_0001E108" Format="rgb5a1" Width="8" Height="8" Offset="0x1E108" />
-    <Blob Name="gobject_ganon2_unk_0001E188" Size="128" Offset="0x1E188" />
+    <Blob Name="gobject_ganon2_unk_0001E188" Size="0x80" Offset="0x1E188" />
     <Texture Name="gobject_ganon2_tex_0001E208" OutName="tex_0001E208" Format="rgb5a1" Width="8" Height="8" Offset="0x1E208" />
     <Texture Name="gobject_ganon2_tex_0001E288" OutName="tex_0001E288" Format="rgb5a1" Width="16" Height="16" Offset="0x1E288" />
     <Texture Name="gobject_ganon2_tex_0001E488" OutName="tex_0001E488" Format="rgb5a1" Width="16" Height="8" Offset="0x1E488" />
     <Texture Name="gobject_ganon2_tex_0001E588" OutName="tex_0001E588" Format="i4" Width="32" Height="32" Offset="0x1E588" />
     <Texture Name="gobject_ganon2_tex_0001E788" OutName="tex_0001E788" Format="rgb5a1" Width="8" Height="16" Offset="0x1E788" />
     <Texture Name="gobject_ganon2_tex_0001E888" OutName="tex_0001E888" Format="rgb5a1" Width="8" Height="16" Offset="0x1E888" />
-    <Blob Name="gobject_ganon2_unk_0001E988" Size="256" Offset="0x1E988" />
+    <Blob Name="gobject_ganon2_unk_0001E988" Size="0x100" Offset="0x1E988" />
     <DList Name="gobject_ganon2_dlist_00020B18" Offset="0x20B18" />
     <DList Name="gobject_ganon2_dlist_00020BE0" Offset="0x20BE0" />
     <DList Name="gobject_ganon2_dlist_00020C80" Offset="0x20C80" />
@@ -86,7 +94,7 @@
     <DList Name="gobject_ganon2_dlist_000215D0" Offset="0x215D0" />
     <DList Name="gobject_ganon2_dlist_000218B8" Offset="0x218B8" />
     <DList Name="gobject_ganon2_dlist_000219D8" Offset="0x219D8" />
-    <Blob Name="gobject_ganon2_unk_00021A90" Size="15360" Offset="0x21A90" />
+    <Blob Name="gobject_ganon2_unk_00021A90" Size="0x3C00" Offset="0x21A90" />
     <Limb Name="gobject_ganon2_limb_00025690" LimbType="Standard" Offset="0x25690" />
     <Limb Name="gobject_ganon2_limb_0002569C" LimbType="Standard" Offset="0x2569C" />
     <Limb Name="gobject_ganon2_limb_000256A8" LimbType="Standard" Offset="0x256A8" />

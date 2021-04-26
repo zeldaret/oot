@@ -48,7 +48,7 @@
     <Texture Name="gobject_kingdodongo_tex_00016D90" OutName="tex_00016D90" Format="rgb5a1" Width="8" Height="8" Offset="0x16D90" />
     <Texture Name="gobject_kingdodongo_tex_00016E10" OutName="tex_00016E10" Format="rgb5a1" Width="32" Height="16" Offset="0x16E10" />
     <Texture Name="gobject_kingdodongo_tex_00017210" OutName="tex_00017210" Format="rgb5a1" Width="8" Height="32" Offset="0x17210" />
-    <Blob Name="gobject_kingdodongo_unk_00017410" Size="15360" Offset="0x17410" />
+    <Blob Name="gobject_kingdodongo_unk_00017410" Size="0x3C00" Offset="0x17410" />
     <Limb Name="gobject_kingdodongo_limb_0001B010" LimbType="Standard" Offset="0x1B010" />
     <Limb Name="gobject_kingdodongo_limb_0001B01C" LimbType="Standard" Offset="0x1B01C" />
     <Limb Name="gobject_kingdodongo_limb_0001B028" LimbType="Standard" Offset="0x1B028" />
@@ -100,14 +100,14 @@
     <Skeleton Name="gobject_kingdodongo_skel_0001B310" Type="Normal" LimbType="Standard" Offset="0x1B310" />
     <Animation Name="gobject_kingdodongo_anim_0001CAE0" Offset="0x1CAE0" />
     <Animation Name="gobject_kingdodongo_anim_0001D218" Offset="0x1D218" />
-    <Blob Name="gobject_kingdodongo_unk_0001D228" Size="1480" Offset="0x1D228" />
+    <Blob Name="gobject_kingdodongo_unk_0001D228" Size="0x5C8" Offset="0x1D228" />
     <DList Name="gobject_kingdodongo_dlist_0001D7F0" Offset="0x1D7F0" />
-    <Blob Name="gobject_kingdodongo_unk_0001D9F0" Size="32616" Offset="0x1D9F0" />
+    <Blob Name="gobject_kingdodongo_unk_0001D9F0" Size="0x7F68" Offset="0x1D9F0" />
     <DList Name="gobject_kingdodongo_dlist_00025958" Offset="0x25958" />
     <DList Name="gobject_kingdodongo_dlist_00025A90" Offset="0x25A90" />
-    <Blob Name="gobject_kingdodongo_unk_00025B30" Size="96" Offset="0x25B30" />
+    <Blob Name="gobject_kingdodongo_unk_00025B30" Size="0x60" Offset="0x25B30" />
     <DList Name="gobject_kingdodongo_dlist_00025BD0" Offset="0x25BD0" />
     <Texture Name="gobject_kingdodongo_tex_00025C58" OutName="tex_00025C58" Format="rgb5a1" Width="32" Height="32" Offset="0x25C58" />
-    <Blob Name="gobject_kingdodongo_unk_00026458" Size="43144" Offset="0x26458" />
+    <Blob Name="gobject_kingdodongo_unk_00026458" Size="0xA888" Offset="0x26458" />
   </File>
 </Root>

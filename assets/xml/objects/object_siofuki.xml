@@ -2,6 +2,6 @@
   <File Name="object_siofuki" Segment="6">
     <Texture Name="gobject_siofuki_tex_00000000" OutName="tex_00000000" Format="i4" Width="64" Height="64" Offset="0x0" />
     <DList Name="gobject_siofuki_dlist_00000B70" Offset="0xB70" />
-    <Blob Name="gobject_siofuki_unk_00000D30" Size="128" Offset="0xD30" />
+    <Blob Name="gobject_siofuki_unk_00000D30" Size="0x80" Offset="0xD30" />
   </File>
 </Root>

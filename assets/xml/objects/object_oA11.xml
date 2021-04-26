@@ -1,6 +1,6 @@
 <Root>
   <File Name="object_oA11" Segment="6">
-    <Limb Name="gobject_oA11_limb_00000000" LimbType="Standard" Offset="0x0" />
+    <!--<Limb Name="gobject_oA11_limb_00000000" LimbType="Standard" Offset="0x0" />
     <Limb Name="gobject_oA11_limb_0000000C" LimbType="Standard" Offset="0xC" />
     <Limb Name="gobject_oA11_limb_00000018" LimbType="Standard" Offset="0x18" />
     <Limb Name="gobject_oA11_limb_00000024" LimbType="Standard" Offset="0x24" />
@@ -37,8 +37,8 @@
     <Limb Name="gobject_oA11_limb_00000198" LimbType="Standard" Offset="0x198" />
     <Limb Name="gobject_oA11_limb_000001A4" LimbType="Standard" Offset="0x1A4" />
     <Limb Name="gobject_oA11_limb_000001B0" LimbType="Standard" Offset="0x1B0" />
-    <Limb Name="gobject_oA11_limb_000001BC" LimbType="Standard" Offset="0x1BC" />
-    <Skeleton Name="gobject_oA11_skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260" />
+    <Limb Name="gobject_oA11_limb_000001BC" LimbType="Standard" Offset="0x1BC" />-->
+    <!--Skeleton Name="gobject_oA11_skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260" /-->
     <DList Name="gobject_oA11_dlist_00000A58" Offset="0xA58" />
     <DList Name="gobject_oA11_dlist_00000BA8" Offset="0xBA8" />
     <DList Name="gobject_oA11_dlist_00000C40" Offset="0xC40" />

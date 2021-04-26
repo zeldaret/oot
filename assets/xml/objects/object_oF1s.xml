@@ -18,7 +18,8 @@
     <Limb Name="gobject_oF1s_limb_000000B4" LimbType="Standard" Offset="0xB4" />
     <Limb Name="gobject_oF1s_limb_000000C0" LimbType="Standard" Offset="0xC0" />
     <Skeleton Name="gobject_oF1s_skel_00000110" Type="Flex" LimbType="Standard" Offset="0x110" />
-    <Blob Name="gobject_oF1s_unk_0000031C" Size="416" Offset="0x31C" />
+    <Texture Name="gobject_oF1s_tlut_0000011C" OutName="tlut_0000011C" Format="rgb5a1" Width="16" Height="16" Offset="0x11C" />
+    <Blob Name="gobject_oF1s_unk_0000031C" Size="0x1A0" Offset="0x31C" />
     <Texture Name="gobject_oF1s_tex_000004BC" OutName="tex_000004BC" Format="ci8" Width="32" Height="32" Offset="0x4BC" />
     <Texture Name="gobject_oF1s_tex_000008BC" OutName="tex_000008BC" Format="rgb5a1" Width="64" Height="32" Offset="0x8BC" />
     <Texture Name="gobject_oF1s_tex_000018BC" OutName="tex_000018BC" Format="ci8" Width="8" Height="8" Offset="0x18BC" />
@@ -27,10 +28,10 @@
     <Texture Name="gobject_oF1s_tex_00001AFC" OutName="tex_00001AFC" Format="ci8" Width="8" Height="16" Offset="0x1AFC" />
     <Texture Name="gobject_oF1s_tex_00001B7C" OutName="tex_00001B7C" Format="ci8" Width="32" Height="32" Offset="0x1B7C" />
     <Texture Name="gobject_oF1s_tex_00001F7C" OutName="tex_00001F7C" Format="ci8" Width="32" Height="16" Offset="0x1F7C" />
-    <Blob Name="gobject_oF1s_unk_0000217C" Size="1024" Offset="0x217C" />
+    <Blob Name="gobject_oF1s_unk_0000217C" Size="0x400" Offset="0x217C" />
     <Texture Name="gobject_oF1s_tex_0000257C" OutName="tex_0000257C" Format="ci8" Width="8" Height="8" Offset="0x257C" />
     <Texture Name="gobject_oF1s_tex_000025BC" OutName="tex_000025BC" Format="ci8" Width="32" Height="32" Offset="0x25BC" />
-    <Blob Name="gobject_oF1s_unk_000029BC" Size="1024" Offset="0x29BC" />
+    <Blob Name="gobject_oF1s_unk_000029BC" Size="0x400" Offset="0x29BC" />
     <Texture Name="gobject_oF1s_tex_00002DBC" OutName="tex_00002DBC" Format="ci8" Width="32" Height="64" Offset="0x2DBC" />
     <DList Name="gobject_oF1s_dlist_00006A40" Offset="0x6A40" />
     <DList Name="gobject_oF1s_dlist_00006DE8" Offset="0x6DE8" />

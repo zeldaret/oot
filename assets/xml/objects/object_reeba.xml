@@ -22,6 +22,6 @@
     <Texture Name="gobject_reeba_tex_00000CD8" OutName="tex_00000CD8" Format="rgb5a1" Width="8" Height="16" Offset="0xCD8" />
     <Texture Name="gobject_reeba_tex_00000DD8" OutName="tex_00000DD8" Format="rgb5a1" Width="32" Height="32" Offset="0xDD8" />
     <Texture Name="gobject_reeba_tex_000015D8" OutName="tex_000015D8" Format="rgb5a1" Width="32" Height="32" Offset="0x15D8" />
-    <Blob Name="gobject_reeba_unk_00001DD8" Size="280" Offset="0x1DD8" />
+    <Blob Name="gobject_reeba_unk_00001DD8" Size="0x118" Offset="0x1DD8" />
   </File>
 </Root>

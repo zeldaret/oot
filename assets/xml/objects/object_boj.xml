@@ -16,11 +16,12 @@
     <Limb Name="gobject_boj_limb_0000009C" LimbType="Standard" Offset="0x9C" />
     <Limb Name="gobject_boj_limb_000000A8" LimbType="Standard" Offset="0xA8" />
     <Skeleton Name="gobject_boj_skel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0" />
+    <Texture Name="gobject_boj_tlut_000000FC" OutName="tlut_000000FC" Format="rgb5a1" Width="16" Height="16" Offset="0xFC" />
     <Texture Name="gobject_boj_tex_000002FC" OutName="tex_000002FC" Format="ci8" Width="8" Height="16" Offset="0x2FC" />
     <Texture Name="gobject_boj_tex_0000037C" OutName="tex_0000037C" Format="ci8" Width="8" Height="8" Offset="0x37C" />
     <Texture Name="gobject_boj_tex_000003BC" OutName="tex_000003BC" Format="ci8" Width="32" Height="16" Offset="0x3BC" />
     <Texture Name="gobject_boj_tex_000005BC" OutName="tex_000005BC" Format="ci8" Width="8" Height="8" Offset="0x5BC" />
-    <Blob Name="gobject_boj_unk_000005FC" Size="768" Offset="0x5FC" />
+    <Blob Name="gobject_boj_unk_000005FC" Size="0x300" Offset="0x5FC" />
     <Texture Name="gobject_boj_tex_000008FC" OutName="tex_000008FC" Format="ci8" Width="8" Height="8" Offset="0x8FC" />
     <Texture Name="gobject_boj_tex_0000093C" OutName="tex_0000093C" Format="i8" Width="16" Height="16" Offset="0x93C" />
     <Texture Name="gobject_boj_tex_00000A3C" OutName="tex_00000A3C" Format="ci8" Width="8" Height="8" Offset="0xA3C" />
@@ -40,7 +41,7 @@
     <DList Name="gobject_boj_dlist_00003798" Offset="0x3798" />
     <DList Name="gobject_boj_dlist_000038A8" Offset="0x38A8" />
     <DList Name="gobject_boj_dlist_000039B0" Offset="0x39B0" />
-    <Blob Name="gobject_boj_unk_00003B98" Size="504" Offset="0x3B98" />
+    <Blob Name="gobject_boj_unk_00003B98" Size="0x1F8" Offset="0x3B98" />
     <Texture Name="gobject_boj_tex_00003D90" OutName="tex_00003D90" Format="ci8" Width="8" Height="8" Offset="0x3D90" />
     <Texture Name="gobject_boj_tex_00003DD0" OutName="tex_00003DD0" Format="ci8" Width="16" Height="16" Offset="0x3DD0" />
     <Texture Name="gobject_boj_tex_00003ED0" OutName="tex_00003ED0" Format="ci8" Width="16" Height="16" Offset="0x3ED0" />

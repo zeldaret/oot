@@ -1,6 +1,6 @@
 <Root>
   <File Name="object_oE5" Segment="6">
-    <Limb Name="gobject_oE5_limb_00000000" LimbType="Standard" Offset="0x0" />
+    <!--<Limb Name="gobject_oE5_limb_00000000" LimbType="Standard" Offset="0x0" />
     <Limb Name="gobject_oE5_limb_0000000C" LimbType="Standard" Offset="0xC" />
     <Limb Name="gobject_oE5_limb_00000018" LimbType="Standard" Offset="0x18" />
     <Limb Name="gobject_oE5_limb_00000024" LimbType="Standard" Offset="0x24" />
@@ -38,7 +38,7 @@
     <Limb Name="gobject_oE5_limb_000001A4" LimbType="Standard" Offset="0x1A4" />
     <Limb Name="gobject_oE5_limb_000001B0" LimbType="Standard" Offset="0x1B0" />
     <Limb Name="gobject_oE5_limb_000001BC" LimbType="Standard" Offset="0x1BC" />
-    <Skeleton Name="gobject_oE5_skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260" />
+    <Skeleton Name="gobject_oE5_skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260" />-->
     <DList Name="gobject_oE5_dlist_000024E8" Offset="0x24E8" />
     <DList Name="gobject_oE5_dlist_00002690" Offset="0x2690" />
     <DList Name="gobject_oE5_dlist_00002C60" Offset="0x2C60" />
@@ -47,8 +47,10 @@
     <DList Name="gobject_oE5_dlist_00003050" Offset="0x3050" />
     <DList Name="gobject_oE5_dlist_00003200" Offset="0x3200" />
     <DList Name="gobject_oE5_dlist_000032F0" Offset="0x32F0" />
+    <Texture Name="gobject_oE5_tlut_00003440" OutName="tlut_00003440" Format="rgb5a1" Width="16" Height="16" Offset="0x3440" />
     <Texture Name="gobject_oE5_tex_00003640" OutName="tex_00003640" Format="ci8" Width="32" Height="32" Offset="0x3640" />
-    <Blob Name="gobject_oE5_unk_00003A40" Size="2048" Offset="0x3A40" />
+    <Blob Name="gobject_oE5_unk_00003A40" Size="0x800" Offset="0x3A40" />
+    <Texture Name="gobject_oE5_tlut_00004240" OutName="tlut_00004240" Format="rgb5a1" Width="16" Height="16" Offset="0x4240" />
     <Texture Name="gobject_oE5_tex_00004440" OutName="tex_00004440" Format="ci8" Width="8" Height="8" Offset="0x4440" />
     <Texture Name="gobject_oE5_tex_00004480" OutName="tex_00004480" Format="ci8" Width="16" Height="16" Offset="0x4480" />
     <Texture Name="gobject_oE5_tex_00004580" OutName="tex_00004580" Format="ci8" Width="16" Height="16" Offset="0x4580" />

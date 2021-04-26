@@ -8,7 +8,7 @@
     <Animation Name="gobject_tr_anim_00003FC8" Offset="0x3FC8" />
     <Animation Name="gobject_tr_anim_000049C8" Offset="0x49C8" />
     <Animation Name="gobject_tr_anim_00005308" Offset="0x5308" />
-    <Blob Name="gobject_tr_unk_000062E0" Size="96" Offset="0x62E0" />
+    <Blob Name="gobject_tr_unk_000062E0" Size="0x60" Offset="0x62E0" />
     <DList Name="gobject_tr_dlist_00006520" Offset="0x6520" />
     <DList Name="gobject_tr_dlist_000066A0" Offset="0x66A0" />
     <DList Name="gobject_tr_dlist_00006800" Offset="0x6800" />
@@ -26,12 +26,12 @@
     <DList Name="gobject_tr_dlist_00007600" Offset="0x7600" />
     <DList Name="gobject_tr_dlist_00007720" Offset="0x7720" />
     <DList Name="gobject_tr_dlist_00007728" Offset="0x7728" />
-    <Blob Name="gobject_tr_unk_00007730" Size="424" Offset="0x7730" />
+    <Blob Name="gobject_tr_unk_00007730" Size="0x1A8" Offset="0x7730" />
     <Texture Name="gobject_tr_tex_000078D8" OutName="tex_000078D8" Format="rgb5a1" Width="32" Height="32" Offset="0x78D8" />
     <Texture Name="gobject_tr_tex_000080D8" OutName="tex_000080D8" Format="rgb5a1" Width="16" Height="16" Offset="0x80D8" />
     <Texture Name="gobject_tr_tex_000082D8" OutName="tex_000082D8" Format="rgb5a1" Width="16" Height="16" Offset="0x82D8" />
     <Texture Name="gobject_tr_tex_000084D8" OutName="tex_000084D8" Format="rgb5a1" Width="16" Height="16" Offset="0x84D8" />
-    <Blob Name="gobject_tr_unk_000086D8" Size="1024" Offset="0x86D8" />
+    <Blob Name="gobject_tr_unk_000086D8" Size="0x400" Offset="0x86D8" />
     <Texture Name="gobject_tr_tex_00008AD8" OutName="tex_00008AD8" Format="ci8" Width="16" Height="8" Offset="0x8AD8" />
     <Texture Name="gobject_tr_tex_00008B58" OutName="tex_00008B58" Format="ci8" Width="8" Height="8" Offset="0x8B58" />
     <Texture Name="gobject_tr_tex_00008B98" OutName="tex_00008B98" Format="rgb5a1" Width="8" Height="32" Offset="0x8B98" />
@@ -43,7 +43,7 @@
     <Texture Name="gobject_tr_tex_000093D8" OutName="tex_000093D8" Format="rgb5a1" Width="8" Height="8" Offset="0x93D8" />
     <Texture Name="gobject_tr_tex_00009458" OutName="tex_00009458" Format="ci8" Width="8" Height="8" Offset="0x9458" />
     <Texture Name="gobject_tr_tex_00009498" OutName="tex_00009498" Format="ci8" Width="8" Height="8" Offset="0x9498" />
-    <Blob Name="gobject_tr_unk_000094D8" Size="2048" Offset="0x94D8" />
+    <Blob Name="gobject_tr_unk_000094D8" Size="0x800" Offset="0x94D8" />
     <DList Name="gobject_tr_dlist_0000AF38" Offset="0xAF38" />
     <DList Name="gobject_tr_dlist_0000B568" Offset="0xB568" />
     <DList Name="gobject_tr_dlist_0000B5C8" Offset="0xB5C8" />
@@ -54,9 +54,9 @@
     <DList Name="gobject_tr_dlist_0000BA00" Offset="0xBA00" />
     <DList Name="gobject_tr_dlist_0000BB68" Offset="0xBB68" />
     <Texture Name="gobject_tr_tex_0000BCD0" OutName="tex_0000BCD0" Format="rgb5a1" Width="8" Height="8" Offset="0xBCD0" />
-    <Blob Name="gobject_tr_unk_0000BD50" Size="1408" Offset="0xBD50" />
+    <Blob Name="gobject_tr_unk_0000BD50" Size="0x580" Offset="0xBD50" />
     <Texture Name="gobject_tr_tex_0000C2D0" OutName="tex_0000C2D0" Format="rgb5a1" Width="4" Height="8" Offset="0xC2D0" />
-    <Blob Name="gobject_tr_unk_0000C310" Size="128" Offset="0xC310" />
+    <Blob Name="gobject_tr_unk_0000C310" Size="0x80" Offset="0xC310" />
     <Limb Name="gobject_tr_limb_0000C390" LimbType="Standard" Offset="0xC390" />
     <Limb Name="gobject_tr_limb_0000C39C" LimbType="Standard" Offset="0xC39C" />
     <Limb Name="gobject_tr_limb_0000C3A8" LimbType="Standard" Offset="0xC3A8" />
@@ -85,7 +85,7 @@
     <Limb Name="gobject_tr_limb_0000C4BC" LimbType="Standard" Offset="0xC4BC" />
     <Skeleton Name="gobject_tr_skel_0000C530" Type="Flex" LimbType="Standard" Offset="0xC530" />
     <Animation Name="gobject_tr_anim_0000C60C" Offset="0xC60C" />
-    <Blob Name="gobject_tr_unk_0000D5E0" Size="96" Offset="0xD5E0" />
+    <Blob Name="gobject_tr_unk_0000D5E0" Size="0x60" Offset="0xD5E0" />
     <DList Name="gobject_tr_dlist_0000D820" Offset="0xD820" />
     <DList Name="gobject_tr_dlist_0000D9A0" Offset="0xD9A0" />
     <DList Name="gobject_tr_dlist_0000DB00" Offset="0xDB00" />

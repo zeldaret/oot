@@ -4,6 +4,7 @@
     <Animation Name="gobject_im_anim_00000AFC" Offset="0xAFC" />
     <Animation Name="gobject_im_anim_000014E4" Offset="0x14E4" />
     <Animation Name="gobject_im_anim_00001868" Offset="0x1868" />
+    <Texture Name="gobject_im_tlut_00001880" OutName="tlut_00001880" Format="rgb5a1" Width="16" Height="16" Offset="0x1880" />
     <Texture Name="gobject_im_tex_00001A80" OutName="tex_00001A80" Format="ci8" Width="8" Height="8" Offset="0x1A80" />
     <Texture Name="gobject_im_tex_00001AC0" OutName="tex_00001AC0" Format="ci8" Width="16" Height="32" Offset="0x1AC0" />
     <Texture Name="gobject_im_tex_00001CC0" OutName="tex_00001CC0" Format="ci8" Width="16" Height="16" Offset="0x1CC0" />
@@ -29,7 +30,8 @@
     <DList Name="gobject_im_dlist_00006BB8" Offset="0x6BB8" />
     <DList Name="gobject_im_dlist_00006D70" Offset="0x6D70" />
     <Texture Name="gobject_im_tex_00006F40" OutName="tex_00006F40" Format="rgb5a1" Width="16" Height="16" Offset="0x6F40" />
-    <Blob Name="gobject_im_unk_00007340" Size="720" Offset="0x7340" />
+    <Texture Name="gobject_im_tlut_00007140" OutName="tlut_00007140" Format="rgb5a1" Width="16" Height="16" Offset="0x7140" />
+    <Blob Name="gobject_im_unk_00007340" Size="0x2D0" Offset="0x7340" />
     <Texture Name="gobject_im_tex_00007610" OutName="tex_00007610" Format="ci8" Width="16" Height="16" Offset="0x7610" />
     <Texture Name="gobject_im_tex_00007710" OutName="tex_00007710" Format="ci8" Width="8" Height="8" Offset="0x7710" />
     <Texture Name="gobject_im_tex_00007750" OutName="tex_00007750" Format="rgb5a1" Width="8" Height="8" Offset="0x7750" />
@@ -39,7 +41,7 @@
     <Texture Name="gobject_im_tex_00007B10" OutName="tex_00007B10" Format="ci8" Width="8" Height="8" Offset="0x7B10" />
     <Texture Name="gobject_im_tex_00007B50" OutName="tex_00007B50" Format="ci8" Width="16" Height="16" Offset="0x7B50" />
     <Texture Name="gobject_im_tex_00007C50" OutName="tex_00007C50" Format="ci8" Width="16" Height="16" Offset="0x7C50" />
-    <Blob Name="gobject_im_unk_00007D50" Size="2048" Offset="0x7D50" />
+    <Blob Name="gobject_im_unk_00007D50" Size="0x800" Offset="0x7D50" />
     <DList Name="gobject_im_dlist_0000BDC0" Offset="0xBDC0" />
     <DList Name="gobject_im_dlist_0000D0D8" Offset="0xD0D8" />
     <DList Name="gobject_im_dlist_0000DDB8" Offset="0xDDB8" />

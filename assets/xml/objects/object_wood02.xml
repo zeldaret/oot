@@ -19,7 +19,7 @@
     <Texture Name="gobject_wood02_tex_00006F90" OutName="tex_00006F90" Format="ia8" Width="32" Height="64" Offset="0x6F90" />
     <DList Name="gobject_wood02_dlist_000078D0" Offset="0x78D0" />
     <DList Name="gobject_wood02_dlist_00007968" Offset="0x7968" />
-    <Blob Name="gobject_wood02_unk_00007A00" Size="160" Offset="0x7A00" />
+    <Blob Name="gobject_wood02_unk_00007A00" Size="0xA0" Offset="0x7A00" />
     <DList Name="gobject_wood02_dlist_00007AD0" Offset="0x7AD0" />
     <DList Name="gobject_wood02_dlist_00007CA0" Offset="0x7CA0" />
     <DList Name="gobject_wood02_dlist_00007D38" Offset="0x7D38" />

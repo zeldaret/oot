@@ -16,18 +16,20 @@
     <Limb Name="gobject_kw1_limb_0000009C" LimbType="Standard" Offset="0x9C" />
     <Limb Name="gobject_kw1_limb_000000A8" LimbType="Standard" Offset="0xA8" />
     <Skeleton Name="gobject_kw1_skel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0" />
+    <Texture Name="gobject_kw1_tlut_000000FC" OutName="tlut_000000FC" Format="rgb5a1" Width="16" Height="16" Offset="0xFC" />
     <Texture Name="gobject_kw1_tex_000002FC" OutName="tex_000002FC" Format="i8" Width="16" Height="16" Offset="0x2FC" />
     <Texture Name="gobject_kw1_tex_000003FC" OutName="tex_000003FC" Format="ci8" Width="8" Height="8" Offset="0x3FC" />
     <Texture Name="gobject_kw1_tex_0000043C" OutName="tex_0000043C" Format="i8" Width="8" Height="8" Offset="0x43C" />
-    <Blob Name="gobject_kw1_unk_0000047C" Size="2112" Offset="0x47C" />
+    <Blob Name="gobject_kw1_unk_0000047C" Size="0x840" Offset="0x47C" />
     <Texture Name="gobject_kw1_tex_00000CBC" OutName="tex_00000CBC" Format="ci8" Width="8" Height="8" Offset="0xCBC" />
     <Texture Name="gobject_kw1_tex_00000CFC" OutName="tex_00000CFC" Format="ci8" Width="8" Height="8" Offset="0xCFC" />
-    <Blob Name="gobject_kw1_unk_00000F3C" Size="1040" Offset="0xF3C" />
+    <Texture Name="gobject_kw1_tlut_00000D3C" OutName="tlut_00000D3C" Format="rgb5a1" Width="16" Height="16" Offset="0xD3C" />
+    <Blob Name="gobject_kw1_unk_00000F3C" Size="0x410" Offset="0xF3C" />
     <Texture Name="gobject_kw1_tex_0000134C" OutName="tex_0000134C" Format="ci8" Width="16" Height="32" Offset="0x134C" />
     <Texture Name="gobject_kw1_tex_0000154C" OutName="tex_0000154C" Format="ci8" Width="8" Height="8" Offset="0x154C" />
     <Texture Name="gobject_kw1_tex_0000158C" OutName="tex_0000158C" Format="ci8" Width="16" Height="8" Offset="0x158C" />
     <Texture Name="gobject_kw1_tex_0000160C" OutName="tex_0000160C" Format="ci8" Width="32" Height="32" Offset="0x160C" />
-    <Blob Name="gobject_kw1_unk_00001A0C" Size="2052" Offset="0x1A0C" />
+    <Blob Name="gobject_kw1_unk_00001A0C" Size="0x804" Offset="0x1A0C" />
     <DList Name="gobject_kw1_dlist_00002C10" Offset="0x2C10" />
     <DList Name="gobject_kw1_dlist_000053F8" Offset="0x53F8" />
     <DList Name="gobject_kw1_dlist_00005668" Offset="0x5668" />

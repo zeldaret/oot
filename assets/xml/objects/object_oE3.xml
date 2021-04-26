@@ -54,13 +54,15 @@
     <DList Name="gobject_oE3_dlist_00004AD8" Offset="0x4AD8" />
     <DList Name="gobject_oE3_dlist_00004C30" Offset="0x4C30" />
     <DList Name="gobject_oE3_dlist_00004D70" Offset="0x4D70" />
+    <Texture Name="gobject_oE3_tlut_00004F20" OutName="tlut_00004F20" Format="rgb5a1" Width="16" Height="16" Offset="0x4F20" />
     <Texture Name="gobject_oE3_tex_00005120" OutName="tex_00005120" Format="ci8" Width="32" Height="32" Offset="0x5120" />
-    <Blob Name="gobject_oE3_unk_00005520" Size="2048" Offset="0x5520" />
+    <Blob Name="gobject_oE3_unk_00005520" Size="0x800" Offset="0x5520" />
+    <Texture Name="gobject_oE3_tlut_00005D20" OutName="tlut_00005D20" Format="rgb5a1" Width="16" Height="16" Offset="0x5D20" />
     <Texture Name="gobject_oE3_tex_00005F20" OutName="tex_00005F20" Format="ci8" Width="8" Height="8" Offset="0x5F20" />
-    <Blob Name="gobject_oE3_unk_00005F60" Size="512" Offset="0x5F60" />
+    <Blob Name="gobject_oE3_unk_00005F60" Size="0x200" Offset="0x5F60" />
     <Texture Name="gobject_oE3_tex_00006160" OutName="tex_00006160" Format="ci8" Width="16" Height="16" Offset="0x6160" />
     <Texture Name="gobject_oE3_tex_00006260" OutName="tex_00006260" Format="ci8" Width="16" Height="16" Offset="0x6260" />
-    <Blob Name="gobject_oE3_unk_00006360" Size="512" Offset="0x6360" />
+    <Blob Name="gobject_oE3_unk_00006360" Size="0x200" Offset="0x6360" />
     <Texture Name="gobject_oE3_tex_00006560" OutName="tex_00006560" Format="rgb5a1" Width="8" Height="16" Offset="0x6560" />
     <Texture Name="gobject_oE3_tex_00006660" OutName="tex_00006660" Format="rgb5a1" Width="32" Height="32" Offset="0x6660" />
     <Texture Name="gobject_oE3_tex_00006E60" OutName="tex_00006E60" Format="i4" Width="16" Height="8" Offset="0x6E60" />

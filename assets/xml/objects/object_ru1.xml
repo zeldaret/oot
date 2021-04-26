@@ -36,13 +36,13 @@
     <DList Name="gobject_ru1_dlist_0000DDA8" Offset="0xDDA8" />
     <Texture Name="gobject_ru1_tex_0000E038" OutName="tex_0000E038" Format="rgb5a1" Width="16" Height="16" Offset="0xE038" />
     <Texture Name="gobject_ru1_tex_0000E238" OutName="tex_0000E238" Format="rgb5a1" Width="16" Height="16" Offset="0xE238" />
-    <Blob Name="gobject_ru1_unk_0000E438" Size="896" Offset="0xE438" />
+    <Blob Name="gobject_ru1_unk_0000E438" Size="0x380" Offset="0xE438" />
     <Texture Name="gobject_ru1_tex_0000E7B8" OutName="tex_0000E7B8" Format="rgb5a1" Width="8" Height="8" Offset="0xE7B8" />
-    <Blob Name="gobject_ru1_unk_0000E838" Size="1024" Offset="0xE838" />
+    <Blob Name="gobject_ru1_unk_0000E838" Size="0x400" Offset="0xE838" />
     <Texture Name="gobject_ru1_tex_0000EC38" OutName="tex_0000EC38" Format="rgb5a1" Width="16" Height="16" Offset="0xEC38" />
     <Texture Name="gobject_ru1_tex_0000EE38" OutName="tex_0000EE38" Format="rgb5a1" Width="16" Height="16" Offset="0xEE38" />
     <Texture Name="gobject_ru1_tex_0000F038" OutName="tex_0000F038" Format="rgb5a1" Width="16" Height="16" Offset="0xF038" />
-    <Blob Name="gobject_ru1_unk_0000F238" Size="7168" Offset="0xF238" />
+    <Blob Name="gobject_ru1_unk_0000F238" Size="0x1C00" Offset="0xF238" />
     <DList Name="gobject_ru1_dlist_000119F8" Offset="0x119F8" />
     <Texture Name="gobject_ru1_tex_00012200" OutName="tex_00012200" Format="rgb5a1" Width="16" Height="16" Offset="0x12200" />
     <Texture Name="gobject_ru1_tex_00012400" OutName="tex_00012400" Format="rgb5a1" Width="16" Height="16" Offset="0x12400" />

@@ -37,11 +37,12 @@
     <DList Name="gobject_gndd_dlist_0000D470" Offset="0xD470" />
     <DList Name="gobject_gndd_dlist_0000D668" Offset="0xD668" />
     <DList Name="gobject_gndd_dlist_0000E1A8" Offset="0xE1A8" />
+    <Texture Name="gobject_gndd_tlut_0000ECB8" OutName="tlut_0000ECB8" Format="rgb5a1" Width="16" Height="16" Offset="0xECB8" />
     <Texture Name="gobject_gndd_tex_0000EEB8" OutName="tex_0000EEB8" Format="rgb5a1" Width="8" Height="8" Offset="0xEEB8" />
     <Texture Name="gobject_gndd_tex_0000EF38" OutName="tex_0000EF38" Format="rgb5a1" Width="16" Height="16" Offset="0xEF38" />
     <Texture Name="gobject_gndd_tex_0000F138" OutName="tex_0000F138" Format="rgb5a1" Width="4" Height="8" Offset="0xF138" />
     <Texture Name="gobject_gndd_tex_0000F178" OutName="tex_0000F178" Format="ci8" Width="32" Height="16" Offset="0xF178" />
-    <Blob Name="gobject_gndd_unk_0000F378" Size="1536" Offset="0xF378" />
+    <Blob Name="gobject_gndd_unk_0000F378" Size="0x600" Offset="0xF378" />
     <Texture Name="gobject_gndd_tex_0000F978" OutName="tex_0000F978" Format="rgb5a1" Width="16" Height="16" Offset="0xF978" />
     <Texture Name="gobject_gndd_tex_0000FB78" OutName="tex_0000FB78" Format="rgb5a1" Width="8" Height="16" Offset="0xFB78" />
     <Texture Name="gobject_gndd_tex_0000FC78" OutName="tex_0000FC78" Format="rgb5a1" Width="8" Height="8" Offset="0xFC78" />

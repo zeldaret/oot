@@ -3,6 +3,7 @@
     <Animation Name="gobject_daiku_anim_00000600" Offset="0x600" />
     <Animation Name="gobject_daiku_anim_00000C44" Offset="0xC44" />
     <Animation Name="gobject_daiku_anim_00001AB0" Offset="0x1AB0" />
+    <Texture Name="gobject_daiku_tlut_00001AC0" OutName="tlut_00001AC0" Format="rgb5a1" Width="16" Height="16" Offset="0x1AC0" />
     <Texture Name="gobject_daiku_tex_00001CC0" OutName="tex_00001CC0" Format="ci8" Width="8" Height="8" Offset="0x1CC0" />
     <Texture Name="gobject_daiku_tex_00001D00" OutName="tex_00001D00" Format="ci8" Width="16" Height="16" Offset="0x1D00" />
     <Texture Name="gobject_daiku_tex_00001E00" OutName="tex_00001E00" Format="rgb5a1" Width="4" Height="4" Offset="0x1E00" />

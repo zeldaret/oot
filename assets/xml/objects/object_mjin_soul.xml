@@ -1,5 +1,5 @@
 <Root>
   <File Name="object_mjin_soul" Segment="6">
-    <Blob Name="gobject_mjin_soul_unk_00000000" Size="4096" Offset="0x0" />
+    <Blob Name="gobject_mjin_soul_unk_00000000" Size="0x1000" Offset="0x0" />
   </File>
 </Root>

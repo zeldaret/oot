@@ -1,5 +1,3 @@
 <Root>
-  <File Name="object_demo_tre_lgt" Segment="6">
-    <Blob Name="gobject_demo_tre_lgt_zeroes_unk_00000000" Size="16" Offset="0x0" />
-  </File>
+  <File Name="object_demo_tre_lgt" Segment="6" />
 </Root>

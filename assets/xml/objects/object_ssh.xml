@@ -1,15 +1,16 @@
 <Root>
   <File Name="object_ssh" Segment="6">
     <Animation Name="gobject_ssh_anim_00000304" Offset="0x304" />
+    <Texture Name="gobject_ssh_tlut_00000320" OutName="tlut_00000320" Format="rgb5a1" Width="16" Height="16" Offset="0x320" />
     <Texture Name="gobject_ssh_tex_00000520" OutName="tex_00000520" Format="ci8" Width="8" Height="8" Offset="0x520" />
     <Texture Name="gobject_ssh_tex_00000560" OutName="tex_00000560" Format="ci8" Width="16" Height="8" Offset="0x560" />
     <Texture Name="gobject_ssh_tex_000005E0" OutName="tex_000005E0" Format="ci8" Width="8" Height="8" Offset="0x5E0" />
     <Texture Name="gobject_ssh_tex_00000620" OutName="tex_00000620" Format="i8" Width="16" Height="16" Offset="0x620" />
     <Texture Name="gobject_ssh_tex_00000720" OutName="tex_00000720" Format="ci8" Width="8" Height="16" Offset="0x720" />
     <Texture Name="gobject_ssh_tex_000007A0" OutName="tex_000007A0" Format="ci8" Width="8" Height="8" Offset="0x7A0" />
-    <Blob Name="gobject_ssh_unk_000007E0" Size="1024" Offset="0x7E0" />
+    <Blob Name="gobject_ssh_unk_000007E0" Size="0x400" Offset="0x7E0" />
     <Texture Name="gobject_ssh_tex_00000BE0" OutName="tex_00000BE0" Format="ci8" Width="8" Height="16" Offset="0xBE0" />
-    <Blob Name="gobject_ssh_unk_00000C60" Size="2048" Offset="0xC60" />
+    <Blob Name="gobject_ssh_unk_00000C60" Size="0x800" Offset="0xC60" />
     <DList Name="gobject_ssh_dlist_00003CD0" Offset="0x3CD0" />
     <DList Name="gobject_ssh_dlist_00004080" Offset="0x4080" />
     <DList Name="gobject_ssh_dlist_00004510" Offset="0x4510" />
