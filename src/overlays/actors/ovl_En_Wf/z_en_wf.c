@@ -28,6 +28,7 @@ void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx);
 void func_80B361A0(EnWf* this, GlobalContext* globalCtx);
+void EnWf_SetupReactToPlayer(EnWf* this);
 void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx);
 void func_80B36740(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Die(EnWf* this, GlobalContext* globalCtx);
@@ -280,8 +281,90 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // EnWf_???????????
-s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B33FB0.s")
+s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2) {
+    Player* player = PLAYER;
+    s32 pad;
+    s16 temp_t0;
+    s16 temp_v1;
+    Actor* temp_v0_2;
+    s16 temp_v1_5;
+    s16 temp_v1_2;
+
+    temp_t0 = this->actor.wallYaw - this->actor.shape.rot.y;
+    temp_t0 = ABS(temp_t0);
+    temp_v1 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    temp_v1 = ABS(temp_v1);
+
+    if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x2EE0, this->actor.shape.rot.y)) {
+
+        if (player->swordAnimation == 0x11) {
+            EnWf_SetupReactToPlayer(this);
+            return 1;
+        }
+
+        if ((globalCtx->gameplayFrames & 1) != 0) {
+            EnWf_SetupReactToPlayer(this);
+            return 1;
+        }
+    }
+
+    if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x5DC0, 0x2AA8, this->actor.shape.rot.y)) {
+        this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+
+        if ((this->actor.bgCheckFlags & 8) && (ABS(temp_t0) < 0x2EE0) && (this->actor.xzDistToPlayer < 120.0f)) {
+            func_80B360E8(this);
+            return 1;
+        } else if (player->swordAnimation == 0x11) {
+            EnWf_SetupReactToPlayer(this);
+            return 1;
+        } else if ((this->actor.xzDistToPlayer < 80.0f) && (globalCtx->gameplayFrames & 1) != 0) {
+            EnWf_SetupReactToPlayer(this);
+            return 1;
+        } else {
+            EnWf_SetupBackFlip(this);
+            return 1;
+        }
+    }
+
+    temp_v0_2 = Actor_FindNearby(globalCtx, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
+
+    if (temp_v0_2 != NULL) {
+        this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+
+        if (((this->actor.bgCheckFlags & 8) && (temp_t0 < 0x2EE0)) || (temp_v0_2->id == 0xDA)) {
+            if ((temp_v0_2->id == 0xDA) && (Actor_WorldDistXYZToActor(&this->actor, temp_v0_2) < 80.0f) &&
+                (s16)((this->actor.shape.rot.y - temp_v0_2->world.rot.y) + 0x8000) < 0x3E80) {
+                func_80B360E8(this);
+                return 1;
+            } else {
+                EnWf_SetupSideStep(this, globalCtx);
+                return 1;
+            }
+        } else {
+            EnWf_SetupBackFlip(this);
+            return 1;
+        }
+    }
+
+    if (arg2 != 0) {
+        if (temp_v1 >= 0x1B58) {
+            EnWf_SetupSideStep(this, globalCtx);
+            return 1;
+        }
+
+        temp_v1_5 = player->actor.shape.rot.y - this->actor.shape.rot.y;
+
+        if (((this->actor.xzDistToPlayer <= 80.0f) && (!func_80033AB8(globalCtx, &this->actor))) &&
+            (((globalCtx->gameplayFrames & 7) != 0) || (ABS(temp_v1_5) < 0x38E0))) {
+            func_80B35540(this);
+            return 1;
+        } else {
+            func_80B34F28(this);
+            return 1;
+        }
+    }
+    return 0;
+}
 
 void EnWf_SetupWaitToAppear(EnWf* this) {
     Animation_Change(&this->skelAnime, &D_06005430, 0.5f, 0.0f, 7.0f, ANIMMODE_ONCE_INTERP, 0.0f);
