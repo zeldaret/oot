@@ -333,9 +333,10 @@ void EnWf_SetupWait(EnWf* this) {
 }
 
 // EnWf_Wait
-#ifdef NON_MATCHING
+// #ifdef NON_MATCHING
 void func_80B345E4(EnWf* this, GlobalContext* globalCtx) {
     Player* player;
+    s32 pad;
     s16 angle;
 
     player = PLAYER;
@@ -359,44 +360,41 @@ void func_80B345E4(EnWf* this, GlobalContext* globalCtx) {
         if (this->unk_2E0 != 0) {
             this->unk_2E0--;
 
-            if (angle < 0x1FFE) {
-                this->unk_2E0 = 0;
-            block_13:
-                angle = player->actor.shape.rot.y - this->actor.shape.rot.y;
-                angle = ABS(angle);
+            if (angle >= 0x1FFE) {
+                return;
+            }
+            this->unk_2E0 = 0;
+        } else if (func_80B33FB0(globalCtx, this, 0)) {
+            return;
+        }
 
-                if ((this->actor.xzDistToPlayer < 80.0f) && (player->swordState != 0) && (angle >= 0x1F40)) {
-                    this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-                    func_80B34F28(this);
-                    return;
-                }
+        angle = player->actor.shape.rot.y - this->actor.shape.rot.y;
+        angle = ABS(angle);
 
-                this->actionTimer--;
+        if ((this->actor.xzDistToPlayer < 80.0f) && (player->swordState != 0) && (angle >= 0x1F40)) {
+            this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+            func_80B34F28(this);
+        } else {
 
-                if (this->actionTimer == 0) {
-                    if (func_8002E084(&this->actor, 0x1555)) {
-                        if (Rand_ZeroOne() > 0.3f) {
-                            func_80B347FC(this, globalCtx);
-                        } else {
-                            func_80B34F28(this);
-                        }
+            this->actionTimer--;
+
+            if (this->actionTimer == 0) {
+                if (func_8002E084(&this->actor, 0x1555)) {
+                    if (Rand_ZeroOne() > 0.3f) {
+                        func_80B347FC(this, globalCtx);
                     } else {
-                        EnWf_SetupSearchForPlayer(this);
+                        func_80B34F28(this);
                     }
-                    if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
-                    }
+                } else {
+                    EnWf_SetupSearchForPlayer(this);
+                }
+                if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
                 }
             }
-        } else if (!(func_80B33FB0(globalCtx, this, 0))) {
-            goto block_13;
         }
     }
 }
-#else
-void func_80B345E4(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B345E4.s")
-#endif
 
 // EnWf_Setup?????? (probably when it runs forward)
 void func_80B347FC(EnWf* this, GlobalContext* globalCtx) {
@@ -576,84 +574,61 @@ void func_80B35540(EnWf* this) {
 
 // EnWf_??????
 /****** not bad so far but needs the gotos fixed and regalloc *****/
-#ifdef NON_MATCHING
 void func_80B355BC(EnWf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 angle1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
-    s16 angle2 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    s16 shapeAngleDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
+    s16 yawAngleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     s32 curFrame = this->skelAnime.curFrame;
 
-    angle1 = ABS(angle1);
-    angle2 = ABS(angle2);
+    shapeAngleDiff = ABS(shapeAngleDiff);
+    yawAngleDiff = ABS(yawAngleDiff);
     this->actor.speedXZ = 0.0f;
 
-    if ((curFrame < 9) || (curFrame >= 13)) {
-        if ((curFrame >= 17) && (curFrame < 20)) {
-        block_8:
-            if (this->unk_2F8 == 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_ATTACK);
-            }
-
-            this->unk_2F8 = 1;
-        } else {
-            this->unk_2F8 = 0;
+    if (((curFrame >= 9) && (curFrame <= 12)) || ((curFrame >= 17) && (curFrame <= 19))) {
+        if (this->unk_2F8 == 0) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_ATTACK);
         }
+
+        this->unk_2F8 = 1;
     } else {
-        goto block_8;
+        this->unk_2F8 = 0;
     }
 
-    if ((curFrame == 15) && (!(func_80033A84(globalCtx, &this->actor)))) {
+    if ((((curFrame == 15) && !func_80033A84(globalCtx, &this->actor)) &&
+         ((!func_8002E084(&this->actor, 0x2000)) || (this->actor.xzDistToPlayer >= 100.0f))) ||
+        SkelAnime_Update(&this->skelAnime)) {
+        if ((curFrame != 0xF) && (this->actionTimer != 0)) {
+            this->actor.shape.rot.y += (s16)(3276.0f * (1.5f + (this->actionTimer - 4) * 0.4f));
+            func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 1, 2.0f, 0x32, 0x32, 1);
+            this->actionTimer--;
+        } else if (!func_8002E084(&this->actor, 0x1554) && (curFrame != 15)) {
+            EnWf_SetupWait(this);
+            this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
 
-        if (func_8002E084(&this->actor, 0x2000) && (!(this->actor.xzDistToPlayer >= 100.0f))) {
-        block_16:
-            if (SkelAnime_Update(&this->skelAnime)) {
-            block_17:
-                if (curFrame != 15) {
-                    if (this->actionTimer != 0) {
-                        this->actor.shape.rot.y =
-                            this->actor.shape.rot.y + (3276.0f * (1.5f + ((this->actionTimer - 4) * 0.4f)));
-                        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 1, 2.0f, 50, 50, 1);
-                        this->actionTimer--;
-                    }
-                } else if ((func_8002E084(&this->actor, 0x1554) == 0) && (curFrame != 15)) {
-                    EnWf_SetupWait(this);
-                    this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
-                    if (angle2 >= 0x32C9) {
-                        this->unk_2E2 = 7;
-                    }
-                } else {
-                    if ((Rand_ZeroOne() > 0.7f) || (this->actor.xzDistToPlayer >= 120.0f)) {
-                        EnWf_SetupWait(this);
-                        this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
-                    } else {
-                        this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-
-                        if (Rand_ZeroOne() > 0.7f) {
-                            EnWf_SetupSideStep(this, globalCtx);
-                        } else if (angle1 < 0x2711) {
-                            if (angle2 < 0x3E81) {
-                                func_80B33FB0(globalCtx, this, 1);
-                            } else {
-                                this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-                                func_80B34F28(this);
-                            }
-                        } else {
-                            func_80B34F28(this);
-                        }
-                    }
-                }
+            if (yawAngleDiff > 13000) {
+                this->unk_2E2 = 7;
             }
+        } else if ((Rand_ZeroOne() > 0.7f) || (this->actor.xzDistToPlayer >= 120.0f)) {
+            EnWf_SetupWait(this);
+            this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
         } else {
-            goto block_17;
+            this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+
+            if (Rand_ZeroOne() > 0.7f) {
+                EnWf_SetupSideStep(this, globalCtx);
+            } else if (shapeAngleDiff <= 10000) {
+                if (yawAngleDiff > 16000) {
+                    this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+                    func_80B34F28(this);
+                } else {
+                    func_80B33FB0(globalCtx, this, 1);
+                }
+            } else {
+                func_80B34F28(this);
+            }
         }
-    } else {
-        goto block_16;
     }
 }
-#else
-void func_80B355BC(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B355BC.s")
-#endif
 
 // EnWf_Setup??????
 void func_80B3590C(EnWf* this) {
