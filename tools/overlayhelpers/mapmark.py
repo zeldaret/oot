@@ -6,7 +6,6 @@ import sys
 NUM_SCENES = 10
 SIMPLIFY_OUTPUT = True # setting to True reduces the final output by ~9k lines
 MAP_MARK_RAM = 0x80858B70
-MAP_MARK_ROM = 0x00C27940
 gMapMarkDataTable = 0x8085F5E8
 
 DUNGEON_NAMES = [
@@ -29,11 +28,11 @@ HEADER = """\
 
 def RamToOff(vram):
     return vram - MAP_MARK_RAM
-    
+
 def GetMapPtrs(data):
     off = RamToOff(gMapMarkDataTable)
     return struct.unpack_from(">10L", data[off:off+(NUM_SCENES * 4)])
-    
+
 def GetMapsPerScene(ptrs):
     result = []
     endAddr = list(ptrs)
@@ -56,7 +55,7 @@ def GetIconData(data, ptr):
     v = struct.unpack_from(">bB", data[off:off+2])
     points = GetPoints(data, ptr+2)
     return [v[0], v[1], points]
-    
+
 def GetSceneMap(data, ptr):
     icons = []
     for i in range(3):
@@ -69,10 +68,10 @@ def GetSceneMaps(data, ptr, numMaps):
     for i in range(numMaps):
         maps.append(GetSceneMap(data, ptr + (i * 0x72)))
     return maps
-    
+
 def GetDungeonSymbol(i):
     return f"sMapMark{DUNGEON_NAMES[i][0]}"
-    
+
 def GetDungeonName(i):
     return DUNGEON_NAMES[i][1]
 
@@ -84,23 +83,23 @@ def GetIconName(v):
     if v == -1:
         return "MAP_MARK_ICON_NONE"
     return v
-    
+
 def IND(n):
     return ' ' * 4 * n
-    
-    
+
+
 if len(sys.argv) != 2:
     print("Script requires an output filename for the generated .c file")
     quit()
 
 scriptDir = os.path.dirname(os.path.realpath(__file__))
-repo = scriptDir + os.sep +  ".." + os.sep + ".."    
+repo = scriptDir + os.sep +  ".." + os.sep + ".."
 
 
 map_mark_data = []
 with open(repo + "/baserom/ovl_map_mark_data", "rb") as file:
     map_mark_data = bytearray(file.read())
-    
+
 scenemaps = []
 
 scenemap_ptrs = GetMapPtrs(map_mark_data)
@@ -109,7 +108,7 @@ for i in range(NUM_SCENES):
     scenemaps.append((i, GetSceneMaps(map_mark_data, scenemap_ptrs[i], maps_per_scene[i])))
 
 cstr = HEADER
-    
+
 for scenemap in scenemaps:
     cstr += f"MapMarkData {GetDungeonSymbol(scenemap[0])}[] = {{\n" 
     for mapId, map in enumerate(scenemap[1]):
@@ -130,7 +129,7 @@ for scenemap in scenemaps:
                 cstr += IND(2) + "},\n"
         cstr += IND(1) + "},\n"
     cstr += "};\n\n"
-    
+
 cstr += "MapMarkData* gMapMarkDataTable[] = {\n"
 for scenemap in scenemaps:
     cstr += f"    {GetDungeonSymbol(scenemap[0])},\n" 
