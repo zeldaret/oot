@@ -8,8 +8,8 @@
     <Texture Name="gobject_ma1_tex_00000CB0" OutName="tex_00000CB0" Format="rgb5a1" Width="16" Height="32" Offset="0xCB0" />
     <Texture Name="gobject_ma1_tex_000010B0" OutName="tex_000010B0" Format="ci8" Width="8" Height="8" Offset="0x10B0" />
     <Texture Name="gobject_ma1_tex_000010F0" OutName="tex_000010F0" Format="ci8" Width="64" Height="16" Offset="0x10F0" />
-    <Texture Name="gobject_ma1_tlut_000014F0" OutName="tlut_000014F0" Format="rgb5a1" Width="16" Height="16" Offset="0x14F0" />
-    <Blob Name="gobject_ma1_unk_000016F0" Size="0x28" Offset="0x16F0" />
+    <Texture Name="gobject_ma1_tlut_000014F0" OutName="tlut_000014F0" Format="rgb5a1" Width="96" Height="1" Offset="0x14F0" />
+    <!--Blob Name="gobject_ma1_unk_000016F0" Size="0x28" Offset="0x16F0" /-->
     <Texture Name="gobject_ma1_tex_00001718" OutName="tex_00001718" Format="rgb5a1" Width="8" Height="8" Offset="0x1718" />
     <Texture Name="gobject_ma1_tex_00001798" OutName="tex_00001798" Format="rgb5a1" Width="8" Height="8" Offset="0x1798" />
     <Texture Name="gobject_ma1_tex_00001818" OutName="tex_00001818" Format="rgb5a1" Width="16" Height="16" Offset="0x1818" />

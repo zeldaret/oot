@@ -17,8 +17,8 @@
     <Blob Name="gobject_in_unk_00003150" Size="0x80" Offset="0x3150" />
     <Texture Name="gobject_in_tex_000031D0" OutName="tex_000031D0" Format="ci8" Width="8" Height="8" Offset="0x31D0" />
     <Blob Name="gobject_in_unk_00003210" Size="0x1F8" Offset="0x3210" />
-    <Texture Name="gobject_in_tlut_00003408" OutName="tlut_00003408" Format="rgb5a1" Width="16" Height="16" Offset="0x3408" />
-    <Blob Name="gobject_in_unk_00003608" Size="0x388" Offset="0x3608" />
+    <Texture Name="gobject_in_tlut_00003408" OutName="tlut_00003408" Format="rgb5a1" Width="100" Height="1" Offset="0x3408" />
+    <!--Blob Name="gobject_in_unk_00003608" Size="0x388" Offset="0x3608" /-->
     <Texture Name="gobject_in_tex_00003990" OutName="tex_00003990" Format="rgb5a1" Width="16" Height="16" Offset="0x3990" />
     <Texture Name="gobject_in_tex_00003B90" OutName="tex_00003B90" Format="ci8" Width="16" Height="16" Offset="0x3B90" />
     <Texture Name="gobject_in_tex_00003C90" OutName="tex_00003C90" Format="ci8" Width="16" Height="16" Offset="0x3C90" />

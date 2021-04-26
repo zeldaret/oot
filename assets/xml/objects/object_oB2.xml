@@ -1,6 +1,6 @@
 <Root>
   <File Name="object_oB2" Segment="6">
-    <Limb Name="gobject_oB2_limb_00000000" LimbType="Standard" Offset="0x0" />
+    <!--Limb Name="gobject_oB2_limb_00000000" LimbType="Standard" Offset="0x0" />
     <Limb Name="gobject_oB2_limb_0000000C" LimbType="Standard" Offset="0xC" />
     <Limb Name="gobject_oB2_limb_00000018" LimbType="Standard" Offset="0x18" />
     <Limb Name="gobject_oB2_limb_00000024" LimbType="Standard" Offset="0x24" />
@@ -38,15 +38,15 @@
     <Limb Name="gobject_oB2_limb_000001A4" LimbType="Standard" Offset="0x1A4" />
     <Limb Name="gobject_oB2_limb_000001B0" LimbType="Standard" Offset="0x1B0" />
     <Limb Name="gobject_oB2_limb_000001BC" LimbType="Standard" Offset="0x1BC" />
-    <Skeleton Name="gobject_oB2_skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260" />
-    <DList Name="gobject_oB2_dlist_00001F68" Offset="0x1F68" />
+    <Skeleton Name="gobject_oB2_skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260" /-->
+    <!--DList Name="gobject_oB2_dlist_00001F68" Offset="0x1F68" />
     <DList Name="gobject_oB2_dlist_000021D0" Offset="0x21D0" />
     <DList Name="gobject_oB2_dlist_00002450" Offset="0x2450" />
     <DList Name="gobject_oB2_dlist_000025B8" Offset="0x25B8" />
     <DList Name="gobject_oB2_dlist_00002678" Offset="0x2678" />
     <DList Name="gobject_oB2_dlist_00002758" Offset="0x2758" />
     <DList Name="gobject_oB2_dlist_000028B8" Offset="0x28B8" />
-    <DList Name="gobject_oB2_dlist_00002978" Offset="0x2978" />
+    <DList Name="gobject_oB2_dlist_00002978" Offset="0x2978" /-->
     <Texture Name="gobject_oB2_tex_00002A58" OutName="tex_00002A58" Format="rgb5a1" Width="16" Height="16" Offset="0x2A58" />
     <Texture Name="gobject_oB2_tex_00002C58" OutName="tex_00002C58" Format="rgb5a1" Width="8" Height="8" Offset="0x2C58" />
     <Texture Name="gobject_oB2_tex_00002CD8" OutName="tex_00002CD8" Format="rgb5a1" Width="32" Height="16" Offset="0x2CD8" />

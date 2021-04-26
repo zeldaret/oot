@@ -74,7 +74,7 @@
     <Limb Name="gobject_fish_limb_000085C0" LimbType="Standard" Offset="0x85C0" />
     <Limb Name="gobject_fish_limb_000085CC" LimbType="Standard" Offset="0x85CC" />
     <Skeleton Name="gobject_fish_skel_000085F8" Type="Flex" LimbType="Standard" Offset="0x85F8" />
-    <DList Name="gobject_fish_dlist_00008608" Offset="0x8608" />
+    <DList Name="gobject_fish_dlist_00008610" Offset="0x8610" />
     <DList Name="gobject_fish_dlist_00008678" Offset="0x8678" />
     <Texture Name="gobject_fish_tex_00008690" OutName="tex_00008690" Format="i4" Width="32" Height="32" Offset="0x8690" />
     <DList Name="gobject_fish_dlist_000088C0" Offset="0x88C0" />

@@ -100,10 +100,10 @@
     <Skeleton Name="gobject_kingdodongo_skel_0001B310" Type="Normal" LimbType="Standard" Offset="0x1B310" />
     <Animation Name="gobject_kingdodongo_anim_0001CAE0" Offset="0x1CAE0" />
     <Animation Name="gobject_kingdodongo_anim_0001D218" Offset="0x1D218" />
-    <Blob Name="gobject_kingdodongo_unk_0001D228" Size="0x5C8" Offset="0x1D228" />
-    <DList Name="gobject_kingdodongo_dlist_0001D7F0" Offset="0x1D7F0" />
-    <Blob Name="gobject_kingdodongo_unk_0001D9F0" Size="0x7F68" Offset="0x1D9F0" />
-    <DList Name="gobject_kingdodongo_dlist_00025958" Offset="0x25958" />
+    <Animation Name="gobject_kingdodongo_anim_0001D934" Offset="0x1D934" />
+    <DList Name="gobject_kingdodongo_dlist_0001D950" Offset="0x1D950" />
+    <!--Blob Name="gobject_kingdodongo_unk_0001D9F0" Size="0x8000" Offset="0x1D9F0" /-->
+    <DList Name="gobject_kingdodongo_dlist_000259F0" Offset="0x259F0" />
     <DList Name="gobject_kingdodongo_dlist_00025A90" Offset="0x25A90" />
     <Blob Name="gobject_kingdodongo_unk_00025B30" Size="0x60" Offset="0x25B30" />
     <DList Name="gobject_kingdodongo_dlist_00025BD0" Offset="0x25BD0" />

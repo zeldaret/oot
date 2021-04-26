@@ -22,7 +22,8 @@
     <Texture Name="gobject_st_tex_000024D0" OutName="tex_000024D0" Format="rgb5a1" Width="16" Height="8" Offset="0x24D0" />
     <Texture Name="gobject_st_tex_000025D0" OutName="tex_000025D0" Format="i4" Width="16" Height="16" Offset="0x25D0" />
     <Texture Name="gobject_st_tex_00002650" OutName="tex_00002650" Format="rgb5a1" Width="8" Height="8" Offset="0x2650" />
-    <DList Name="gobject_st_dlist_00003C50" Offset="0x3C50" />
+    <Blob Name="gobject_st_unk_00003C50" Size="0x358" Offset="0x3C50" />
+    <DList Name="gobject_st_dlist_00003FA8" Offset="0x3FA8" />
     <DList Name="gobject_st_dlist_000043D8" Offset="0x43D8" />
     <DList Name="gobject_st_dlist_000045C0" Offset="0x45C0" />
     <DList Name="gobject_st_dlist_00004658" Offset="0x4658" />

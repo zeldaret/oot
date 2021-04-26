@@ -2,12 +2,12 @@
   <File Name="object_lightbox" Segment="6">
     <Blob Name="gobject_lightbox_unk_00000000" Size="0x8" Offset="0x0" />
     <DList Name="gobject_lightbox_dlist_00000008" Offset="0x8" />
-    <Blob Name="gobject_lightbox_unk_000002A0" Size="0x110" Offset="0x2A0" />
-    <DList Name="gobject_lightbox_dlist_000003B0" Offset="0x3B0" />
-    <Blob Name="gobject_lightbox_unk_00000670" Size="0x110" Offset="0x670" />
-    <DList Name="gobject_lightbox_dlist_00000780" Offset="0x780" />
-    <Blob Name="gobject_lightbox_unk_00000A40" Size="0x110" Offset="0xA40" />
-    <DList Name="gobject_lightbox_dlist_00000B50" Offset="0xB50" />
+    <Blob Name="gobject_lightbox_unk_000002A0" Size="0x130" Offset="0x2A0" />
+    <DList Name="gobject_lightbox_dlist_000003D0" Offset="0x3D0" />
+    <Blob Name="gobject_lightbox_unk_00000670" Size="0x130" Offset="0x670" />
+    <DList Name="gobject_lightbox_dlist_000007A0" Offset="0x7A0" />
+    <Blob Name="gobject_lightbox_unk_00000A40" Size="0x130" Offset="0xA40" />
+    <DList Name="gobject_lightbox_dlist_00000B70" Offset="0xB70" />
     <Texture Name="gobject_lightbox_tex_00000E10" OutName="tex_00000E10" Format="rgb5a1" Width="32" Height="32" Offset="0xE10" />
     <Texture Name="gobject_lightbox_tex_00001610" OutName="tex_00001610" Format="rgb5a1" Width="32" Height="32" Offset="0x1610" />
     <Blob Name="gobject_lightbox_unk_00001E10" Size="0x130" Offset="0x1E10" />

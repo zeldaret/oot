@@ -23,8 +23,8 @@
     <Blob Name="gobject_kw1_unk_0000047C" Size="0x840" Offset="0x47C" />
     <Texture Name="gobject_kw1_tex_00000CBC" OutName="tex_00000CBC" Format="ci8" Width="8" Height="8" Offset="0xCBC" />
     <Texture Name="gobject_kw1_tex_00000CFC" OutName="tex_00000CFC" Format="ci8" Width="8" Height="8" Offset="0xCFC" />
-    <Texture Name="gobject_kw1_tlut_00000D3C" OutName="tlut_00000D3C" Format="rgb5a1" Width="16" Height="16" Offset="0xD3C" />
-    <Blob Name="gobject_kw1_unk_00000F3C" Size="0x410" Offset="0xF3C" />
+    <Texture Name="gobject_kw1_tlut_00000D3C" OutName="tlut_00000D3C" Format="rgb5a1" Width="232" Height="1" Offset="0xD3C" />
+    <!--Blob Name="gobject_kw1_unk_00000F3C" Size="0x410" Offset="0xF3C" /-->
     <Texture Name="gobject_kw1_tex_0000134C" OutName="tex_0000134C" Format="ci8" Width="16" Height="32" Offset="0x134C" />
     <Texture Name="gobject_kw1_tex_0000154C" OutName="tex_0000154C" Format="ci8" Width="8" Height="8" Offset="0x154C" />
     <Texture Name="gobject_kw1_tex_0000158C" OutName="tex_0000158C" Format="ci8" Width="16" Height="8" Offset="0x158C" />

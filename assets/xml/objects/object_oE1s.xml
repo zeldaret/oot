@@ -18,9 +18,9 @@
     <Limb Name="gobject_oE1s_limb_00000138" LimbType="Standard" Offset="0x138" />
     <Limb Name="gobject_oE1s_limb_00000144" LimbType="Standard" Offset="0x144" />
     <Skeleton Name="gobject_oE1s_skel_00000190" Type="Flex" LimbType="Standard" Offset="0x190" />
-    <Blob Name="gobject_oE1s_unk_0000019C" Size="0x204" Offset="0x19C" />
-    <Texture Name="gobject_oE1s_tlut_000003A0" OutName="tlut_000003A0" Format="rgb5a1" Width="16" Height="16" Offset="0x3A0" />
-    <Blob Name="gobject_oE1s_unk_000005A0" Size="0x2D8" Offset="0x5A0" />
+    <!--Blob Name="gobject_oE1s_unk_0000019C" Size="0x204" Offset="0x19C" /-->
+    <Texture Name="gobject_oE1s_tlut_000003A0" OutName="tlut_000003A0" Format="rgb5a1" Width="108" Height="1" Offset="0x3A0" />
+    <!--Blob Name="gobject_oE1s_unk_000005A0" Size="0x2D8" Offset="0x5A0" /-->
     <Texture Name="gobject_oE1s_tex_00000878" OutName="tex_00000878" Format="ci8" Width="8" Height="8" Offset="0x878" />
     <Texture Name="gobject_oE1s_tex_000008B8" OutName="tex_000008B8" Format="rgb5a1" Width="16" Height="32" Offset="0x8B8" />
     <Texture Name="gobject_oE1s_tex_00000CB8" OutName="tex_00000CB8" Format="rgb5a1" Width="32" Height="32" Offset="0xCB8" />
