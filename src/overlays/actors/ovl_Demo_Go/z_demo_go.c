@@ -27,7 +27,7 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D290(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D29C(DemoGo* this, GlobalContext* globalCtx);
 
-static UNK_PTR D_8097D440[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
+static u64* D_8097D440[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
 
 static DemoGoActionFunc D_8097D44C[] = {
     func_8097CFDC, func_8097CFFC, func_8097D01C, func_8097D058, func_8097D088, func_8097D0D0, func_8097D130,
@@ -52,10 +52,10 @@ const ActorInit Demo_Go_InitVars = {
 
 extern AnimationHeader D_060029A8;
 extern AnimationHeader D_06004930;
-extern UNK_TYPE D_0600E680;
+extern u64 D_0600E680[];
 extern FlexSkeletonHeader D_0600FEF0;
 
-UNK_TYPE func_8097C870(DemoGo* this) {
+s32 func_8097C870(DemoGo* this) {
     s32 ret;
 
     switch (this->actor.params) {
@@ -75,10 +75,9 @@ UNK_TYPE func_8097C870(DemoGo* this) {
 }
 
 void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
-    s32 pad[2];
     Actor* thisx = &this->actor;
-    Vec3f* sp20;
-    Vec3f* sp1C;
+    Vec3f sp20;
+    f32 sp1C;
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &thisx->world.pos, &sp20, &sp1C);
@@ -98,7 +97,7 @@ void func_8097C930(DemoGo* this) {
     s32 pad[3];
 
     if (DECR(*something) == 0) {
-        *something = Rand_S16Offset(0x3C, 0x3C);
+        *something = Rand_S16Offset(60, 60);
     }
     *other = *something;
     if (*other >= 3) {
@@ -138,7 +137,7 @@ void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
     Vec3f startPos;
     Vec3f endPos;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = csCtx->npcActions[func_8097C870(this)];
         if (npcAction != NULL) {
             temp_ret = func_8006F93C(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
@@ -158,8 +157,9 @@ void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
 
 void func_8097CC08(DemoGo* this) {
     f32 something = this->unk_19C;
+
     if (something < 8.0f) {
-        this->actor.speedXZ = (((kREG(15) * 0.01f) + 1.2f) * 0.125f) * something;
+        this->actor.speedXZ = (((kREG(15) * 0.01f) + 1.2f) / 8.0f) * something;
     } else {
         this->actor.speedXZ = (kREG(15) * 0.01f) + 1.2f;
     }
@@ -177,7 +177,7 @@ void func_8097CCE0(DemoGo* this, GlobalContext* globalCtx) {
     s32 newRotY;
     s32 thisRotY;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = globalCtx->csCtx.npcActions[func_8097C870(this)];
         if (npcAction != NULL) {
             thisRotY = thisx->world.rot.y;
@@ -203,7 +203,7 @@ s32 func_8097CDB0(DemoGo* this, GlobalContext* globalCtx, u16 npcAction) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
     s32 actionIdx = func_8097C870(this);
 
-    if ((csCtx->state != 0) && (csCtx->npcActions[actionIdx] != NULL) &&
+    if ((csCtx->state != CS_STATE_IDLE) && (csCtx->npcActions[actionIdx] != NULL) &&
         (csCtx->npcActions[actionIdx]->action == npcAction)) {
         return 1;
     }
@@ -227,7 +227,7 @@ void func_8097CE78(DemoGo* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
     CsCmdActorAction* npcAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = csCtx->npcActions[func_8097C870(this)];
         if (npcAction != NULL && csCtx->frames >= npcAction->endFrame) {
             func_8097CA78(this, globalCtx);
@@ -349,7 +349,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
 void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGo* this = THIS;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == 0) {
+    if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

@@ -5,7 +5,9 @@
  */
 
 #include "z_bg_hidan_kowarerukabe.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -22,8 +24,6 @@ void BgHidanKowarerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanKowarerukabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern Gfx D_05000530[];
-
 const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     ACTOR_BG_HIDAN_KOWARERUKABE,
     ACTORCAT_BG,
@@ -36,7 +36,11 @@ const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     (ActorFunc)BgHidanKowarerukabe_Draw,
 };
 
-static Gfx* sBreakableWallDLists[] = { 0x0600B9C0, 0x0600C038, 0x0600B900 };
+static Gfx* sBreakableWallDLists[] = {
+    gFireTempleCrackedStoneFloorDL,
+    gFireTempleBombableWallDL,
+    gFireTempleLargeBombableWallDL,
+};
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
@@ -66,7 +70,11 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
-    static CollisionHeader* collisionHeaders[] = { 0x0600D800, 0x0600D878, 0x0600D8F8 };
+    static CollisionHeader* collisionHeaders[] = {
+        &gFireTempleCrackedStoneFloorCol,
+        &gFireTempleBombableWallCol,
+        &gFireTempleLargeBombableWallCol,
+    };
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -190,7 +198,7 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
             arg5 = (((i == 0) || (i == 4)) && ((j == 0) || (j == 4))) ? 65 : 64;
 
             EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -550, arg5, 15, 15, 0, arg9, 2, 16, 100,
-                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
+                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, gBrownFragmentDL);
         }
     }
 }
@@ -231,7 +239,7 @@ void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
             }
 
             EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -540, arg5, 20, 20, 0, arg9, 2, 32, 100,
-                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
+                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, gBrownFragmentDL);
         }
     }
 }
@@ -271,8 +279,8 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
                 arg5 |= 1;
             }
 
-            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world, -650, arg5, 20, 20, 0, arg9, 2, 32, 100,
-                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05000530);
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -650, arg5, 20, 20, 0, arg9, 2, 32, 100,
+                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, gBrownFragmentDL);
         }
     }
 }

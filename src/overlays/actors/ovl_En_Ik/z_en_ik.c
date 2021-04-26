@@ -724,7 +724,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         }
         return;
     }
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
     prevHealth = this->actor.colChkInfo.health;
     Actor_ApplyDamage(&this->actor);
     if (this->actor.params != 0) {
@@ -1065,7 +1065,7 @@ s32 func_80A7707C(EnIk* this) {
 }
 
 CsCmdActorAction* EnIk_GetNpcAction(GlobalContext* globalCtx, s32 actionIdx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[actionIdx];
     } else {
         return NULL;

@@ -1,5 +1,6 @@
 #include "global.h"
 #include "z64camera.h"
+#include "scenes/dungeons/ganontika/ganontika_scene.h"
 
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;
@@ -25,22 +26,22 @@ u8 sTitleCsState = 0;
 
 // TODO: use symbols for these cutscene locations once scenes and rooms are in C
 EntranceCutscene sEntranceCutsceneTable[] = {
-    { 0x0185, 2, 0xA0, 0x02013AA0 }, { 0x013D, 2, 0xA1, 0x02007EA0 }, { 0x00DB, 2, 0xA3, 0x0200A540 },
-    { 0x0108, 2, 0xA4, 0x02003D70 }, { 0x0138, 1, 0xA5, 0x02003F40 }, { 0x014D, 2, 0xA6, 0x02008400 },
-    { 0x0053, 2, 0xA7, 0x0200CE00 }, { 0x0000, 2, 0xA8, 0x0200B650 }, { 0x028A, 0, 0x18, 0x0200F9E0 },
-    { 0x0292, 0, 0x18, 0x0200FF00 }, { 0x028E, 0, 0x18, 0x02010550 }, { 0x0476, 0, 0x18, 0x02010B30 },
-    { 0x050F, 1, 0xA9, 0x0200BB80 }, { 0x0102, 2, 0xB1, 0x02007A30 }, { 0x0117, 2, 0xB2, 0x020031E0 },
-    { 0x0129, 2, 0xB3, 0x02006490 }, { 0x0157, 2, 0xB4, 0x02005BD0 }, { 0x0028, 2, 0xB5, 0x02015600 },
-    { 0x00E4, 2, 0xB6, 0x020070C0 }, { 0x0225, 2, 0xB7, 0x02004A80 }, { 0x0123, 2, 0xB8, 0x02007990 },
-    { 0x0147, 2, 0xB9, 0x020076D0 }, { 0x0138, 0, 0xBA, 0x02004280 }, { 0x0574, 2, 0x5A, 0x020028E0 },
-    { 0x0538, 2, 0xBB, 0x0201E790 }, { 0x053C, 2, 0xBC, 0x0201EF70 }, { 0x0540, 2, 0xBD, 0x02021380 },
-    { 0x0544, 2, 0xBE, 0x0201E3E0 }, { 0x0548, 2, 0xBF, 0x0201DF90 }, { 0x054C, 2, 0xAD, 0x0201EB40 },
-    { 0x008D, 0, 0xC0, 0x02002BB0 }, { 0x03B4, 0, 0xC7, 0x020055C0 }, { 0x0246, 2, 0xB9, 0x020076D0 },
+    { 0x0185, 2, 0xA0, 0x02013AA0 },       { 0x013D, 2, 0xA1, 0x02007EA0 },      { 0x00DB, 2, 0xA3, 0x0200A540 },
+    { 0x0108, 2, 0xA4, 0x02003D70 },       { 0x0138, 1, 0xA5, 0x02003F40 },      { 0x014D, 2, 0xA6, 0x02008400 },
+    { 0x0053, 2, 0xA7, 0x0200CE00 },       { 0x0000, 2, 0xA8, 0x0200B650 },      { 0x028A, 0, 0x18, 0x0200F9E0 },
+    { 0x0292, 0, 0x18, 0x0200FF00 },       { 0x028E, 0, 0x18, 0x02010550 },      { 0x0476, 0, 0x18, 0x02010B30 },
+    { 0x050F, 1, 0xA9, 0x0200BB80 },       { 0x0102, 2, 0xB1, 0x02007A30 },      { 0x0117, 2, 0xB2, 0x020031E0 },
+    { 0x0129, 2, 0xB3, 0x02006490 },       { 0x0157, 2, 0xB4, 0x02005BD0 },      { 0x0028, 2, 0xB5, 0x02015600 },
+    { 0x00E4, 2, 0xB6, 0x020070C0 },       { 0x0225, 2, 0xB7, 0x02004A80 },      { 0x0123, 2, 0xB8, 0x02007990 },
+    { 0x0147, 2, 0xB9, 0x020076D0 },       { 0x0138, 0, 0xBA, 0x02004280 },      { 0x0574, 2, 0x5A, 0x020028E0 },
+    { 0x0538, 2, 0xBB, gForestBarrierCs }, { 0x053C, 2, 0xBC, gWaterBarrierCs }, { 0x0540, 2, 0xBD, gShadowBarrierCs },
+    { 0x0544, 2, 0xBE, gFireBarrierCs },   { 0x0548, 2, 0xBF, gLightBarrierCs }, { 0x054C, 2, 0xAD, gSpiritBarrierCs },
+    { 0x008D, 0, 0xC0, 0x02002BB0 },       { 0x03B4, 0, 0xC7, 0x020055C0 },      { 0x0246, 2, 0xB9, 0x020076D0 },
     { 0x05E8, 2, 0xC6, 0x0200C9D0 },
 };
 
 // Unused, seems to be an early list of dungeon entrance cutscene locations
-u32 D_8011E304[] = { 0x0200B650, 0x02015600, 0x02014F80, 0x02003F80, 0x02000330, 0x0201DA50 };
+u32 D_8011E304[] = { 0x0200B650, 0x02015600, 0x02014F80, 0x02003F80, 0x02000330, gTowerBarrierCs };
 
 u16 D_8015FCC0;
 u16 D_8015FCC2;
@@ -105,7 +106,7 @@ void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     }
 
     if (CHECK_BTN_ALL(pad1->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
-        (gSaveContext.sceneSetupIndex >= 4) && (gDbgCamEnabled == 0)) {
+        (gSaveContext.sceneSetupIndex >= 4) && !gDbgCamEnabled) {
         D_8015FCC8 = 1;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
@@ -164,7 +165,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
 
     sp3F = 0;
 
-    if ((csCtx->frames < cmd->startFrame) || (csCtx->frames >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame)) {
+    if ((csCtx->frames < cmd->startFrame) || ((csCtx->frames >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame))) {
         return;
     }
 
@@ -258,8 +259,8 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 15:
             if (sp3F != 0) {
-                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, player->giObjectSegment, 0xA0, 0x78,
-                                        0x90, 0x18, 0x14);
+                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, player->giObjectSegment, 160, 120,
+                                        144, 24, 20);
             }
             break;
         case 16:
@@ -371,7 +372,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 35:
-            func_800EE824(csCtx);
+            func_800EE824();
             csCtx->frames = cmd->startFrame - 1;
             break;
     }
@@ -427,8 +428,8 @@ void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTim
     s16 temp2;
 
     if (csCtx->frames == cmd->startFrame) {
-        temp1 = (cmd->hour * 60.0f) / 0.021972656f;
-        temp2 = (cmd->minute + 1) / 0.021972656f;
+        temp1 = (cmd->hour * 60.0f) / (360.0f / 0x4000);
+        temp2 = (cmd->minute + 1) / (360.0f / 0x4000);
 
         gSaveContext.dayTime = temp1 + temp2;
         gSaveContext.environmentTime = temp1 + temp2;
@@ -1123,7 +1124,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 113:
                 if (Flags_GetEventChkInf(0xBB) && Flags_GetEventChkInf(0xBC) && Flags_GetEventChkInf(0xBD) &&
                     Flags_GetEventChkInf(0xBE) && Flags_GetEventChkInf(0xBF) && Flags_GetEventChkInf(0xAD)) {
-                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_0201DA50);
+                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
                     globalCtx->csCtx.frames = 0;
                     gSaveContext.cutsceneTrigger = 1;
                     gSaveContext.cutsceneIndex = 0xFFFF;
@@ -1300,7 +1301,7 @@ s32 Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContext* 
     }
 
     while (shouldContinue) {
-        if (((CutsceneCameraPoint*)cmd)->continueFlag == -1) {
+        if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
             shouldContinue = 0;
         }
         cmd += 0x10;
@@ -1337,7 +1338,7 @@ s32 Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCt
     }
 
     while (shouldContinue) {
-        if (((CutsceneCameraPoint*)cmd)->continueFlag == -1) {
+        if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
             shouldContinue = 0;
         }
         cmd += 0x10;
@@ -1368,7 +1369,7 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
             if (D_8015FCC8 != 0) {
                 sp2C = Gameplay_GetCamera(globalCtx, csCtx->unk_14);
                 sp2C->player = NULL;
-                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_FREE0);
                 sp28 = csCtx->cameraFocus->cameraRoll * 1.40625f;
@@ -1411,7 +1412,7 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
             if (D_8015FCC8 != 0) {
                 sp2C = Gameplay_GetCamera(globalCtx, csCtx->unk_14);
                 sp2C->player = NULL;
-                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_FREE0);
                 sp3C.x = csCtx->cameraFocus->pos.x;
@@ -1913,7 +1914,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
                     Gameplay_CopyCamera(globalCtx, D_8015FCC6, csCtx->unk_14);
             }
 
-            Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_ACTIVE);
             Gameplay_ClearCamera(globalCtx, csCtx->unk_14);
             func_8005B1A4(globalCtx->cameraPtrs[D_8015FCC6]);
         }

@@ -321,19 +321,19 @@ void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
 void BgHeavyBlock_Wait(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 quakeIndex;
 
-    // if block has a parent link has lifted it, start onepointdemo (cutscene) and quake
+    // if block has a parent link has lifted it, start one point cutscene and quake
     if (Actor_HasParent(&this->dyna.actor, globalCtx)) {
         this->timer = 0;
 
         switch (this->dyna.actor.params & 0xFF) {
             case HEAVYBLOCK_BREAKABLE:
-                func_800800F8(globalCtx, 0xFB4, 0x10E, &this->dyna.actor, 0);
+                OnePointCutscene_Init(globalCtx, 4020, 270, &this->dyna.actor, MAIN_CAM);
                 break;
             case HEAVYBLOCK_UNBREAKABLE:
-                func_800800F8(globalCtx, 0xFB5, 0xDC, &this->dyna.actor, 0);
+                OnePointCutscene_Init(globalCtx, 4021, 220, &this->dyna.actor, MAIN_CAM);
                 break;
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
-                func_800800F8(globalCtx, 0xFB6, 0xD2, &this->dyna.actor, 0);
+                OnePointCutscene_Init(globalCtx, 4022, 210, &this->dyna.actor, MAIN_CAM);
                 break;
         }
 
@@ -355,7 +355,7 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
     if (this->timer == 11) {
         func_800AA000(0.0f, 0xFF, 0x14, 0x14);
-        func_8002F7DC(player, NA_SE_PL_PULL_UP_BIGROCK);
+        func_8002F7DC(&player->actor, NA_SE_PL_PULL_UP_BIGROCK);
         LOG_STRING("NA_SE_PL_PULL_UP_BIGROCK", "../z_bg_heavy_block.c", 691);
     }
 
@@ -372,7 +372,7 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
     this->timer++;
 
-    func_8002DF54(globalCtx, player, 8);
+    func_8002DF54(globalCtx, &player->actor, 8);
 
     // if parent is NULL, link threw it
     if (Actor_HasNoParent(&this->dyna.actor, globalCtx)) {

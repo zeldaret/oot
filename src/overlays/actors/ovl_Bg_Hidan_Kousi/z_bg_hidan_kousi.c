@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_kousi.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -40,12 +41,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_0600E2CC, D_0600E380, D_0600E430;
-
-static CollisionHeader* D_80889E70[] = {
-    &D_0600E2CC,
-    &D_0600E380,
-    &D_0600E430,
+static CollisionHeader* sMetalFencesCollisions[] = {
+    &gFireTempleMetalFenceWithSlantCol,
+    &gFireTempleMetalFenceCol,
+    &gFireTempleMetalFence2Col,
 };
 
 static s16 D_80889E7C[] = {
@@ -55,10 +54,10 @@ static s16 D_80889E7C[] = {
     0x0000,
 };
 
-static Gfx (*D_80889E84[])[] = {
-    0x0600C798,
-    0x0600BFA8,
-    0x0600BB58,
+static Gfx* sMetalFencesDLs[] = {
+    gFireTempleMetalFenceWithSlantDL,
+    gFireTempleMetalFenceDL,
+    gFireTempleMetalFence2DL,
 };
 
 void BgHidanKousi_SetupAction(BgHidanKousi* this, BgHidanKousiActionFunc actionFunc) {
@@ -80,7 +79,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("arg_data おかしい 【格子】\n");
     }
 
-    CollisionHeader_GetVirtual(D_80889E70[thisx->params & 0xFF], &colHeader);
+    CollisionHeader_GetVirtual(sMetalFencesCollisions[thisx->params & 0xFF], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     thisx->world.rot.y = D_80889E7C[this->dyna.actor.params & 0xFF] + thisx->shape.rot.y;
     if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0xFF)) {
@@ -101,16 +100,15 @@ void func_80889ACC(BgHidanKousi* this) {
     Vec3s* rot = &this->dyna.actor.world.rot;
     f32 temp1 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_SinS(rot->y);
     f32 temp2 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_CosS(rot->y);
-    Vec3f* initPos = &this->dyna.actor.home.pos;
 
-    this->dyna.actor.world.pos.x = initPos->x + temp1;
-    this->dyna.actor.world.pos.z = initPos->z + temp2;
+    this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + temp1;
+    this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z + temp2;
 }
 
 void func_80889B5C(BgHidanKousi* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF)) {
         BgHidanKousi_SetupAction(this, func_80889BC0);
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         this->unk_168 = 0xC8;
     }
 }
@@ -160,7 +158,7 @@ void BgHidanKousi_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_80889E84[thisx->params & 0xFF]);
+    gSPDisplayList(POLY_OPA_DISP++, sMetalFencesDLs[thisx->params & 0xFF]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 359);
 }

@@ -1,7 +1,8 @@
 #include "global.h"
 
 void osViSetSpecialFeatures(u32 func) {
-    register u32 int_disabled = __osDisableInt();
+    register u32 prevInt = __osDisableInt();
+
     if (func & OS_VI_GAMMA_ON) {
         __osViNext->features |= OS_VI_GAMMA;
     }
@@ -32,5 +33,6 @@ void osViSetSpecialFeatures(u32 func) {
         __osViNext->features |= __osViNext->modep->comRegs.ctrl & (OS_VI_UNK200 | OS_VI_UNK100);
     }
     __osViNext->state |= 8;
-    __osRestoreInt(int_disabled);
+
+    __osRestoreInt(prevInt);
 }

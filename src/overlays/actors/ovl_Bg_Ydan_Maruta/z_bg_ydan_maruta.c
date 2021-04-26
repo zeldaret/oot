@@ -1,10 +1,11 @@
 /*
  * File: z_bg_ydan_maruta.c
  * Overlay: ovl_Bg_Ydan_Maruta
- * Description: Rotating spike log in Deku Tree
+ * Description: Rotating spike log and falling ladder in Deku Tree
  */
 
 #include "z_bg_ydan_maruta.h"
+#include "objects/object_ydan_objects/object_ydan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -75,10 +76,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_060066A8;
-extern Gfx D_06008D88[];
-extern Gfx D_06006570[];
-
 void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgYdanMaruta* this = THIS;
@@ -91,7 +88,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     Collider_InitTris(globalCtx, &this->collider);
-    Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, &this->elements);
+    Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, this->elements);
 
     this->unk_168 = thisx->params & 0xFFFF;
     thisx->params = (thisx->params >> 8) & 0xFF;
@@ -102,7 +99,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         triInit = &sTrisElementsInit[1];
         DynaPolyActor_Init(&this->dyna, DPM_UNK);
-        CollisionHeader_GetVirtual(&D_060066A8, &colHeader);
+        CollisionHeader_GetVirtual(&gDTFallingLadderCol, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
         thisx->home.pos.y += -280.0f;
         if (Flags_GetSwitch(globalCtx, this->unk_168)) {
@@ -135,7 +132,7 @@ void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanMaruta* this = THIS;
 
     Collider_DestroyTris(globalCtx, &this->collider);
-    if (thisx->params == 1) {
+    if (this->dyna.actor.params == 1) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
@@ -155,7 +152,7 @@ void func_808BF078(BgYdanMaruta* this, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, this->unk_168);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_808BF108;
-        func_800800F8(globalCtx, 0xBC2, 0x32, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 3010, 50, &this->dyna.actor, MAIN_CAM);
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
@@ -204,9 +201,11 @@ void BgYdanMaruta_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanMaruta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    if (thisx->params == 0) {
-        Gfx_DrawDListOpa(globalCtx, D_06008D88);
+    BgYdanMaruta* this = THIS;
+
+    if (this->dyna.actor.params == 0) {
+        Gfx_DrawDListOpa(globalCtx, gDTRollingSpikeTrapDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_06006570);
+        Gfx_DrawDListOpa(globalCtx, gDTFallingLadderDL);
     }
 }

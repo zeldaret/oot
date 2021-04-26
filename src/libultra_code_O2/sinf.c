@@ -21,10 +21,9 @@ f32 sinf(f32 x) {
     f64 dn;
     s32 n;
     f64 result;
-    s32 ix, xpt;
+    s32 ix = *(s32*)&x;
+    s32 xpt = (ix >> 22);
 
-    ix = *(s32*)&x;
-    xpt = (ix >> 22);
     xpt &= 0x1FF;
 
     if (xpt < 0xFF) {
@@ -55,7 +54,6 @@ f32 sinf(f32 x) {
         if (!(n & 1)) {
             return (f32)result;
         }
-
         return -(f32)result;
     }
 

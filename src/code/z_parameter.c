@@ -238,9 +238,7 @@ void func_8008277C(GlobalContext* globalCtx, s16 maxAlpha, s16 alpha) {
 
 void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    s16 alpha;
-
-    alpha = 255 - maxAlpha;
+    s16 alpha = 255 - maxAlpha;
 
     switch (gSaveContext.unk_13E8) {
         case 1:
@@ -600,9 +598,7 @@ void func_80083108(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s16 i;
-    s16 sp28;
-
-    sp28 = 0;
+    s16 sp28 = 0;
 
     if ((gSaveContext.cutsceneIndex < 0xFFF0) ||
         ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
@@ -760,22 +756,21 @@ void func_80083108(GlobalContext* globalCtx) {
                         }
                     }
                 } else {
-                    do {
-                        sp28 = 1;
+                    sp28 = 1;
 
-                        if ((gSaveContext.equips.buttonItems[0] == ITEM_NONE) ||
-                            (gSaveContext.equips.buttonItems[0] == ITEM_BOW)) {
+                    if ((gSaveContext.equips.buttonItems[0] == ITEM_NONE) ||
+                        (gSaveContext.equips.buttonItems[0] == ITEM_BOW)) {
 
-                            if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
-                                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-                                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-                                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
-                                gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
-                            } else {
-                                gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
-                            }
+                        if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
+                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
+                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
+                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+                            gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
+                        } else {
+                            gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
                         }
-                    } while (0); // Necessary to match
+                    }
+                    if (1) {} // Necessary to match
                 }
 
                 if (sp28) {
@@ -1788,10 +1783,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
 u8 Item_CheckObtainability(u8 item) {
     s16 i;
-    s16 slot;
+    s16 slot = SLOT(item);
     s32 temp;
 
-    slot = SLOT(item);
     if (item >= ITEM_STICKS_5) {
         slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);
     }
@@ -2009,11 +2003,9 @@ void Inventory_UpdateBottleItem(GlobalContext* globalCtx, u8 item, u8 button) {
 }
 
 s32 Inventory_ConsumeFairy(GlobalContext* globalCtx) {
-    s32 bottleSlot;
+    s32 bottleSlot = SLOT(ITEM_FAIRY);
     s16 i;
     s16 j;
-
-    bottleSlot = SLOT(ITEM_FAIRY);
 
     for (i = 0; i < 4; i++) {
         if (gSaveContext.inventory.items[bottleSlot + i] == ITEM_FAIRY) {
@@ -2090,7 +2082,7 @@ void Interface_SetNaviCall(GlobalContext* globalCtx, u16 naviCallState) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     if (((naviCallState == 0x1D) || (naviCallState == 0x1E)) && !interfaceCtx->naviCalling &&
-        (globalCtx->csCtx.state == 0)) {
+        (globalCtx->csCtx.state == CS_STATE_IDLE)) {
         // clang-format off
         if (naviCallState == 0x1E) { Audio_PlaySoundGeneral(NA_SE_VO_NAVY_CALL, &D_801333D4, 4,
                                                             &D_801333E0, &D_801333E0, &D_801333E8); }
@@ -2461,8 +2453,8 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
 
         case 7:
             if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
-                (globalCtx->unk_10A20 == 0) && (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0) &&
-                !Gameplay_InCsMode(globalCtx)) {
+                (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (globalCtx->sceneLoadFlag == 0) &&
+                (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {
                 if ((gSaveContext.magic == 0) || ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) ||
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
@@ -2730,7 +2722,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     }
 
     if (interfaceCtx->naviCalling && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
-        (globalCtx->csCtx.state == 0)) {
+        (globalCtx->csCtx.state == CS_STATE_IDLE)) {
         if (!sCUpInvisible) {
             // C-Up Button Texture, Color & Label (Navi Text)
             gDPPipeSync(OVERLAY_DISP++);
@@ -3020,11 +3012,10 @@ s16 D_80125B5C[] = { 91, 91 }; // unused
 
 // Due to an unknown reason, bss ordering changes within the 5 static variables in the function below.
 // In order to restore the correct order, we need a specific number of bss variables in the file before that point.
-// For this, we introduce 3 dummy variables which end up in padding at the end of the file's bss, so they don't actually
+// For this, we introduce 2 dummy variables which end up in padding at the end of the file's bss, so they don't actually
 // take space.
 s8 sBssDummy1;
 s8 sBssDummy2;
-s8 sBssDummy3;
 
 #ifdef NON_MATCHING
 // mostly regalloc, minor ordering and stack usage differences
@@ -3340,7 +3331,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     phi_s1 = ZREG(14);
                     for (phi_s3 = 1; phi_s3 < 7; phi_s3++) {
                         // Carrot Color (based on availability)
-                        if ((interfaceCtx->unk_23A == 0) || (interfaceCtx->unk_23A < phi_s3)) {
+                        if ((interfaceCtx->numHorseBoosts == 0) || (interfaceCtx->numHorseBoosts < phi_s3)) {
                             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 150, 255, interfaceCtx->aAlpha);
                         } else {
                             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->aAlpha);
@@ -3422,8 +3413,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
             }
         }
 
-        if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (globalCtx->unk_10A20 == 0) &&
-            (msgCtx->msgMode == 0) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
+        if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
+            (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == 0) &&
+            !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
             (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
@@ -3844,7 +3836,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         if ((gSaveContext.minigameState == 1) || (gSaveContext.sceneSetupIndex < 4) ||
             ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.sceneSetupIndex == 4))) {
             if ((msgCtx->msgMode == 0) || ((msgCtx->msgMode != 0) && (globalCtx->sceneNum == SCENE_BOWLING))) {
-                if (globalCtx->unk_10A20 == 0) {
+                if (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) {
                     func_80083108(globalCtx);
                 }
             }
@@ -4064,8 +4056,9 @@ void Interface_Update(GlobalContext* globalCtx) {
     WREG(7) = interfaceCtx->unk_1F4;
 
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
-        (globalCtx->sceneLoadFlag == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->transitionMode == 0) &&
-        ((globalCtx->csCtx.state == 0) || !Player_InCsMode(globalCtx))) {
+        (globalCtx->sceneLoadFlag == 0) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
+        (globalCtx->transitionMode == 0) &&
+        ((globalCtx->csCtx.state == CS_STATE_IDLE) || !Player_InCsMode(globalCtx))) {
         if ((gSaveContext.magicAcquired != 0) && (gSaveContext.magicLevel == 0)) {
             gSaveContext.magicLevel = gSaveContext.doubleMagic + 1;
             gSaveContext.unk_13F0 = 8;

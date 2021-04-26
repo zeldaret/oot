@@ -39,5 +39,5 @@ void EnVase_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnVase_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &gUnusedVaseDL);
+    Gfx_DrawDListOpa(globalCtx, gUnusedVaseDL);
 }

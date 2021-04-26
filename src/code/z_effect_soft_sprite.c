@@ -158,7 +158,7 @@ s32 EffectSs_FindSlot(s32 priority, s32* pIndex) {
 void EffectSs_Insert(GlobalContext* globalCtx, EffectSs* effectSs) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) != 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) != true) {
         if (EffectSs_FindSlot(effectSs->priority, &index) == 0) {
             sEffectSsInfo.searchStartIndex = index + 1;
             sEffectSsInfo.table[index] = *effectSs;
@@ -294,10 +294,9 @@ void EffectSs_Draw(GlobalContext* globalCtx, s32 index) {
 
 // original name: "EffectSoftSprite2_disp"
 void EffectSs_DrawAll(GlobalContext* globalCtx) {
-    Lights* lights;
+    Lights* lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
     s32 i;
 
-    lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
     Lights_BindAll(lights, globalCtx->lightCtx.listHead, NULL);
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 

@@ -95,14 +95,14 @@ static EnGoAnimation sAnimationEntries[] = {
     { &D_06010590, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
 };
 
-void EnGo_SetupAction(EnGo* this, EnGoActionFunc* actionFunc) {
+void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
+u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = PLAYER;
 
-    switch (this->actor.params & 0xF0) {
+    switch (thisx->params & 0xF0) {
         case 0x90:
             if (gSaveContext.bgsFlag) {
                 return 0x305E;
@@ -146,7 +146,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
                 }
             }
         case 0x10:
-            if (Flags_GetSwitch(globalCtx, this->actor.params >> 8)) {
+            if (Flags_GetSwitch(globalCtx, thisx->params >> 8)) {
                 return 0x3052;
             } else {
                 return 0x3051;
@@ -206,16 +206,16 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
     }
 }
 
-s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
+s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
     s16 unkState = 1;
     f32 xzRange;
-    f32 yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
+    f32 yRange = fabsf(thisx->yDistToPlayer) + 1.0f;
 
-    xzRange = this->actor.xzDistToPlayer + 1.0f;
+    xzRange = thisx->xzDistToPlayer + 1.0f;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         if (globalCtx) {}
         case 2:
-            switch (this->actor.textId) {
+            switch (thisx->textId) {
                 case 0x3008:
                     gSaveContext.infTable[14] |= 1;
                     unkState = 0;
@@ -237,7 +237,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
                     unkState = 0;
                     break;
                 case 0x3036:
-                    func_8002F434(&this->actor, globalCtx, GI_TUNIC_GORON, xzRange, yRange);
+                    func_8002F434(thisx, globalCtx, GI_TUNIC_GORON, xzRange, yRange);
                     gSaveContext.infTable[16] |= 0x2000; // EnGo exclusive flag
                     unkState = 2;
                     break;
@@ -268,33 +268,33 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
             break;
         case 4:
             if (func_80106BC8(globalCtx)) {
-                switch (this->actor.textId) {
+                switch (thisx->textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
                             if (CUR_UPG_VALUE(UPG_STRENGTH) || (gSaveContext.infTable[14] & 0x800)) {
-                                this->actor.textId = 0x300B;
+                                thisx->textId = 0x300B;
                             } else {
-                                this->actor.textId = 0x300C;
+                                thisx->textId = 0x300C;
                             }
                         } else {
-                            this->actor.textId = 0x300D;
+                            thisx->textId = 0x300D;
                         }
-                        func_8010B720(globalCtx, this->actor.textId);
+                        func_8010B720(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3034:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
                             if (gSaveContext.infTable[16] & 0x800) {
-                                this->actor.textId = 0x3033;
+                                thisx->textId = 0x3033;
                             } else {
-                                this->actor.textId = 0x3035;
+                                thisx->textId = 0x3035;
                             }
                         } else if (gSaveContext.infTable[16] & 0x800) {
-                            this->actor.textId = 0x3036;
+                            thisx->textId = 0x3036;
                         } else {
-                            this->actor.textId = 0x3033;
+                            thisx->textId = 0x3033;
                         }
-                        func_8010B720(globalCtx, this->actor.textId);
+                        func_8010B720(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3054:
@@ -302,8 +302,8 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
                         if (globalCtx->msgCtx.choiceIndex == 0) {
                             unkState = 2;
                         } else {
-                            this->actor.textId = 0x3056;
-                            func_8010B720(globalCtx, this->actor.textId);
+                            thisx->textId = 0x3056;
+                            func_8010B720(globalCtx, thisx->textId);
                             unkState = 1;
                         }
                         gSaveContext.infTable[11] |= 0x10;
@@ -313,13 +313,13 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
             break;
         case 5:
             if (func_80106BC8(globalCtx)) {
-                switch (this->actor.textId) {
+                switch (thisx->textId) {
                     case 0x3035:
                         gSaveContext.infTable[16] |= 0x800;
                     case 0x3032:
                     case 0x3033:
-                        this->actor.textId = 0x3034;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        thisx->textId = 0x3034;
+                        func_8010B720(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     default:
@@ -431,7 +431,7 @@ void func_80A3F0E4(EnGo* this) {
 s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
     f32 xyzDist;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    Camera* camera = globalCtx->cameraPtrs[0];
+    Camera* camera = globalCtx->cameraPtrs[MAIN_CAM];
 
     if (fabsf(yawDiff) > 10920.0f) {
         return 0;
@@ -444,7 +444,7 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
     }
 
     if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDist) {
-        if (camera->setting == 0x3F) {
+        if (camera->setting == CAM_SET_TEPPEN) {
             Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
         }
         return 0;
@@ -597,10 +597,10 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 
         if ((this->actor.params & 0xF0) == 0x90) {
             isUnkCondition =
-                func_80A3ED24(globalCtx, &this->actor, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
+                func_80A3ED24(globalCtx, this, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
         } else {
-            isUnkCondition =
-                func_800343CC(globalCtx, &this->actor, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
+            isUnkCondition = func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, float1, EnGo_GetTextID,
+                                           EnGo_SetFlagsGetStates);
         }
 
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {
@@ -785,7 +785,7 @@ void EnGo_CurledUp(EnGo* this, GlobalContext* globalCtx) {
 
         EnGo_SetupAction(this, EnGo_WakeUp);
         if ((this->actor.params & 0xF0) == 0x90) {
-            func_800800F8(globalCtx, 0x1068, -0x63, &this->actor, 0);
+            OnePointCutscene_Init(globalCtx, 4200, -99, &this->actor, MAIN_CAM);
         }
     }
 }
@@ -877,7 +877,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 globalCtx->msgCtx.msgMode = 0x37;
                 gSaveContext.timer2State = 0;
-                func_800800F8(globalCtx, 0x105E, -0x63, &this->actor, 0);
+                OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
             } else {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_GetItem);
@@ -1066,7 +1066,7 @@ void EnGo_DrawCurledUp(EnGo* this, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_OPA_DISP++, D_0600BD80);
 
     Matrix_MultVec3f(&D_80A41BB4, &this->actor.focus.pos);
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2341);
 }
@@ -1084,7 +1084,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_0600C140);
     Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus.pos);
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2383);
 }
@@ -1139,7 +1139,7 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo_UpdateDust(this);
     Matrix_Push();
     EnGo_DrawDust(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
 
     if (this->actionFunc == EnGo_CurledUp) {
         EnGo_DrawCurledUp(this, globalCtx);

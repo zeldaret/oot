@@ -38,10 +38,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 typedef enum {
-    STATE_GO_BOTTOM,
-    STATE_GO_MIDDLE_FROM_BOTTOM,
-    STATE_GO_MIDDLE_FROM_TOP,
-    STATE_GO_TOP,
+    /* 0 */ STATE_GO_BOTTOM,
+    /* 1 */ STATE_GO_MIDDLE_FROM_BOTTOM,
+    /* 2 */ STATE_GO_MIDDLE_FROM_TOP,
+    /* 3 */ STATE_GO_TOP
 } BgDdanJdState;
 
 #define MOVE_HEIGHT_MIDDLE 140.0f
@@ -55,14 +55,14 @@ typedef enum {
 #define SHORTCUT_Y_SPEED 5
 
 void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanJd* this = THIS;
     s32 pad;
+    BgDdanJd* this = THIS;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(thisx, DPM_PLAYER);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(&D_06003CE0, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->idleTimer = IDLE_FRAMES;
     this->state = STATE_GO_BOTTOM;
 
@@ -95,7 +95,7 @@ void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx) {
         this->state = STATE_GO_MIDDLE_FROM_BOTTOM;
         this->idleTimer = 0;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;
-        func_800800F8(globalCtx, 0xBF4, -0x63, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 3060, -99, &this->dyna.actor, MAIN_CAM);
     }
     if (this->idleTimer == 0) {
         this->idleTimer = IDLE_FRAMES;
@@ -164,7 +164,7 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;
         this->idleTimer = 0;
         this->actionFunc = BgDdanJd_Idle;
-        func_800800F8(globalCtx, 0xBF4, -0x63, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 3060, -99, &this->dyna.actor, MAIN_CAM);
     } else if (Math_StepToF(&this->dyna.actor.world.pos.y, this->targetY, this->ySpeed)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
         this->actionFunc = BgDdanJd_Idle;
