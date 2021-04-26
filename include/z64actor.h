@@ -211,7 +211,7 @@ typedef struct {
 
 #define BODYBREAK_OBJECT_DEFAULT -1 // use the same object that the actor spawning en_part is using
 #define BODYBREAK_STATUS_READY -1
-#define BODYBREAK_STATUS_FINISHED -1
+#define BODYBREAK_STATUS_FINISHED 0
 
 typedef enum {
     /* 0x00 */ ITEM00_RUPEE_GREEN,
