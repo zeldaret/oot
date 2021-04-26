@@ -1084,33 +1084,33 @@ s32 func_8002E020(Actor* actorA, Actor* actorB, s16 arg2) {
     return false;
 }
 
-s32 func_8002E084(Actor* actor, s16 arg1) {
-    s16 var = actor->yawTowardsPlayer - actor->shape.rot.y;
+s32 Actor_YawInRangeWithPlayer(Actor* actor, s16 yaw) {
+    s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(var) < arg1) {
+    if (ABS(yawDiff) < yaw) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E0D0(Actor* actorA, Actor* actorB, s16 arg2) {
-    s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
+s32 Actor_YawInRangeWithActor(Actor* actorA, Actor* actorB, s16 yaw) {
+    s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-    if (ABS(var) < arg2) {
+    if (ABS(yawDiff) < yaw) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
-    s16 var = actor->yawTowardsPlayer - actor->shape.rot.y;
+s32 Actor_YawAndDistInRangeWithPlayer(Actor* actor, f32 dist, s16 yaw) {
+    s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(var) < arg2) {
+    if (ABS(yawDiff) < yaw) {
         f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer));
 
-        if (xyzDistanceFromLink < arg1) {
+        if (xyzDistanceFromLink < dist) {
             return true;
         }
     }
@@ -1118,11 +1118,11 @@ s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
     return false;
 }
 
-s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3) {
-    if (Actor_WorldDistXYZToActor(actorA, actorB) < arg2) {
-        s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
+s32 Actor_YawAndDistInRangeWithActor(Actor* actorA, Actor* actorB, f32 dist, s16 yaw) {
+    if (Actor_WorldDistXYZToActor(actorA, actorB) < dist) {
+        s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-        if (ABS(var) < arg3) {
+        if (ABS(yawDiff) < yaw) {
             return true;
         }
     }
@@ -1204,7 +1204,8 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
     return true;
 }
 
-void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
+void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallCheckHeight, f32 wallCheckRadius,
+                             f32 ceilingCheckHeight, s32 flags) {
     f32 sp74;
     s32 pad;
     Vec3f sp64;
@@ -1221,11 +1222,13 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
         func_800433A4(&globalCtx->colCtx, actor->floorBgId, actor);
     }
 
-    if (arg5 & 1) {
-        if ((!(arg5 & 0x80) && BgCheck_EntitySphVsWall3(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos,
-                                                        arg3, &actor->wallPoly, &bgId, actor, arg2)) ||
-            ((arg5 & 0x80) && BgCheck_EntitySphVsWall4(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos,
-                                                       arg3, &actor->wallPoly, &bgId, actor, arg2))) {
+    if (flags & 1) {
+        if ((!(flags & 0x80) &&
+             BgCheck_EntitySphVsWall3(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
+                                      &actor->wallPoly, &bgId, actor, wallCheckHeight)) ||
+            ((flags & 0x80) &&
+             BgCheck_EntitySphVsWall4(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
+                                      &actor->wallPoly, &bgId, actor, wallCheckHeight))) {
             wallPoly = actor->wallPoly;
             Math_Vec3f_Copy(&actor->world.pos, &sp64);
             actor->wallYaw = Math_Atan2S(wallPoly->normal.z, wallPoly->normal.x);
@@ -1239,10 +1242,10 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
     sp64.x = actor->world.pos.x;
     sp64.z = actor->world.pos.z;
 
-    if (arg5 & 2) {
+    if (flags & 2) {
         sp64.y = actor->prevPos.y + 10.0f;
-        if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (arg4 + sp74) - 10.0f, &sCurCeilingPoly,
-                                       &sCurCeilingBgId, actor)) {
+        if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (ceilingCheckHeight + sp74) - 10.0f,
+                                       &sCurCeilingPoly, &sCurCeilingBgId, actor)) {
             actor->bgCheckFlags |= 0x10;
             actor->world.pos.y = (sp58 + sp74) - 10.0f;
         } else {
@@ -1250,9 +1253,9 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
         }
     }
 
-    if (arg5 & 4) {
+    if (flags & 4) {
         sp64.y = actor->prevPos.y;
-        func_8002E2AC(globalCtx, actor, &sp64, arg5);
+        func_8002E2AC(globalCtx, actor, &sp64, flags);
         waterBoxYSurface = actor->world.pos.y;
         if (WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, actor->world.pos.x, actor->world.pos.z,
                                  &waterBoxYSurface, &waterBox)) {
@@ -1262,7 +1265,7 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
             } else {
                 if (!(actor->bgCheckFlags & 0x20)) {
                     actor->bgCheckFlags |= 0x40;
-                    if (!(arg5 & 0x40)) {
+                    if (!(flags & 0x40)) {
                         ripplePos.x = actor->world.pos.x;
                         ripplePos.y = waterBoxYSurface;
                         ripplePos.z = actor->world.pos.z;
@@ -3379,7 +3382,10 @@ s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3) {
     return ret;
 }
 
-s32 func_80033A84(GlobalContext* globalCtx, Actor* actor) {
+/**
+ * Returns true if the player is targeting the provided actor
+ */
+s32 Actor_IsTargeted(GlobalContext* globalCtx, Actor* actor) {
     Player* player = PLAYER;
 
     if ((player->stateFlags1 & 0x10) && actor->isTargeted) {
@@ -3389,7 +3395,10 @@ s32 func_80033A84(GlobalContext* globalCtx, Actor* actor) {
     }
 }
 
-s32 func_80033AB8(GlobalContext* globalCtx, Actor* actor) {
+/**
+ * Returns true if the player is targeting an actor other than the provided actor
+ */
+s32 Actor_OtherIsTargeted(GlobalContext* globalCtx, Actor* actor) {
     Player* player = PLAYER;
 
     if ((player->stateFlags1 & 0x10) && !actor->isTargeted) {

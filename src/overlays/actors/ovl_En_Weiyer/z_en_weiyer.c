@@ -370,7 +370,7 @@ void func_80B32E34(EnWeiyer* this, GlobalContext* globalCtx) {
         (this->collider.base.atFlags & AT_HIT)) {
         func_80B32538(this);
     } else {
-        if (func_8002E084(&this->actor, 0x2800)) {
+        if (Actor_YawInRangeWithPlayer(&this->actor, 0x2800)) {
             Math_StepToF(&this->actor.speedXZ, 4.0f, 0.2f);
         } else {
             Math_StepToF(&this->actor.speedXZ, 1.3f, 0.2f);
@@ -392,7 +392,7 @@ void func_80B32E34(EnWeiyer* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0x200, 0x80);
 
         if ((player->actor.yDistToWater < 50.0f) && (this->actor.yDistToWater < 20.0f) &&
-            func_8002E084(&this->actor, 0x2000)) {
+            Actor_YawInRangeWithPlayer(&this->actor, 0x2000)) {
             func_80B327D8(this);
         }
     }

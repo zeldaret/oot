@@ -152,7 +152,7 @@ glabel func_808628C8
 /* 0347C 80862ACC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03480 80862AD0 254B3FFF */  addiu   $t3, $t2, 0x3FFF           ## $t3 = 00003FFF
 /* 03484 80862AD4 A60B0032 */  sh      $t3, 0x0032($s0)           ## 00000032
-/* 03488 80862AD8 0C00CEAE */  jal     func_80033AB8              
+/* 03488 80862AD8 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 0348C 80862ADC 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 03490 80862AE0 10400004 */  beq     $v0, $zero, .L80862AF4     
 /* 03494 80862AE4 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
@@ -309,7 +309,7 @@ glabel func_808628C8
 /* 036A0 80862CF0 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 036A4 80862CF4 1440002B */  bne     $v0, $zero, .L80862DA4     
 /* 036A8 80862CF8 2458FFFF */  addiu   $t8, $v0, 0xFFFF           ## $t8 = FFFFFFFF
-/* 036AC 80862CFC 0C00CEAE */  jal     func_80033AB8              
+/* 036AC 80862CFC 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 036B0 80862D00 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 036B4 80862D04 10400005 */  beq     $v0, $zero, .L80862D1C     
 /* 036B8 80862D08 8FA40054 */  lw      $a0, 0x0054($sp)           
@@ -318,7 +318,7 @@ glabel func_808628C8
 /* 036C4 80862D14 10000025 */  beq     $zero, $zero, .L80862DAC   
 /* 036C8 80862D18 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80862D1C:
-/* 036CC 80862D1C 0C00CEA1 */  jal     func_80033A84              
+/* 036CC 80862D1C 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 036D0 80862D20 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 036D4 80862D24 1040000A */  beq     $v0, $zero, .L80862D50     
 /* 036D8 80862D28 8FAB0048 */  lw      $t3, 0x0048($sp)           

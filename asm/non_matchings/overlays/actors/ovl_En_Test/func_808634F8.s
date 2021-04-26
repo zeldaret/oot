@@ -70,7 +70,7 @@ glabel func_808634F8
 /* 03FA8 808635F8 10000022 */  beq     $zero, $zero, .L80863684   
 /* 03FAC 808635FC 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80863600:
-/* 03FB0 80863600 0C00B821 */  jal     func_8002E084              
+/* 03FB0 80863600 0C00B821 */  jal     Actor_YawInRangeWithPlayer              
 /* 03FB4 80863604 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 03FB8 80863608 10400010 */  beq     $v0, $zero, .L8086364C     
 /* 03FBC 8086360C 00000000 */  nop

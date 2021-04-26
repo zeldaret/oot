@@ -93,7 +93,7 @@ glabel EnTorch2_Update
 /* 00558 80B1DED8 46083280 */  add.s   $f10, $f6, $f8             
 /* 0055C 80B1DEDC 45010007 */  bc1t    .L80B1DEFC                 
 /* 00560 80B1DEE0 E60A002C */  swc1    $f10, 0x002C($s0)          ## 0000002C
-/* 00564 80B1DEE4 0C00CEA1 */  jal     func_80033A84              
+/* 00564 80B1DEE4 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 00568 80B1DEE8 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 0056C 80B1DEEC 14400003 */  bne     $v0, $zero, .L80B1DEFC     
 /* 00570 80B1DEF0 8FAB005C */  lw      $t3, 0x005C($sp)           
@@ -514,7 +514,7 @@ glabel EnTorch2_Update
 /* 00B78 80B1E4F8 00000000 */  nop
 /* 00B7C 80B1E4FC 4500002E */  bc1f    .L80B1E5B8                 
 /* 00B80 80B1E500 00000000 */  nop
-/* 00B84 80B1E504 0C00CEA1 */  jal     func_80033A84              
+/* 00B84 80B1E504 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 00B88 80B1E508 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00B8C 80B1E50C 1040002A */  beq     $v0, $zero, .L80B1E5B8     
 /* 00B90 80B1E510 3C0380B2 */  lui     $v1, %hi(sSwordJumpTimer)       ## $v1 = 80B20000

@@ -196,7 +196,7 @@ void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AFCD60(EnSkb* this) {
     if (gSaveContext.nightFlag == 0) {
         func_80AFCF48(this);
-    } else if ((func_8002E084(&this->actor, 0x11C7) != 0) &&
+    } else if ((Actor_YawInRangeWithPlayer(&this->actor, 0x11C7) != 0) &&
                (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
         func_80AFD33C(this);
     } else {
@@ -291,7 +291,7 @@ void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
     }
     if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) > 800.0f || gSaveContext.nightFlag == 0) {
         func_80AFCF48(this);
-    } else if ((func_8002E084(&this->actor, 0x11C7) != 0) &&
+    } else if ((Actor_YawInRangeWithPlayer(&this->actor, 0x11C7) != 0) &&
                (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
         func_80AFD33C(this);
     }

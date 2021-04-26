@@ -465,7 +465,7 @@ void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
         Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
-    } else if (func_8002E084(&this->actor, 0x2800)) {
+    } else if (Actor_YawInRangeWithPlayer(&this->actor, 0x2800)) {
         if (Animation_OnFrame(&this->skelAnime, 4.0f)) {
             this->skelAnime.playSpeed = 0.0f;
             this->skelAnime.curFrame = 4.0f;

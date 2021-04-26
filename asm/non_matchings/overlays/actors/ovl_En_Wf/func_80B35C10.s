@@ -14,7 +14,7 @@ glabel func_80B35C10
 /* 01F78 80B35C28 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 01F7C 80B35C2C 1040002D */  beq     $v0, $zero, .L80B35CE4     
 /* 01F80 80B35C30 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 01F84 80B35C34 0C00CEAE */  jal     func_80033AB8              
+/* 01F84 80B35C34 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 01F88 80B35C38 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01F8C 80B35C3C 1440001B */  bne     $v0, $zero, .L80B35CAC     
 /* 01F90 80B35C40 3C01432A */  lui     $at, 0x432A                ## $at = 432A0000
