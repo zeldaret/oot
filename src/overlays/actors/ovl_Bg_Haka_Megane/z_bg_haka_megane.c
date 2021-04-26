@@ -36,17 +36,16 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06004330, D_060044D0, D_06004780, D_06004940, D_06004B00, D_06004CC0;
 
 static CollisionHeader* sCollisionHeaders[] = {
-    &gBotwCol1,  &gBotwCol2, NULL,        &D_06004330, &D_060044D0, NULL, &D_06004780,
-    &D_06004940, NULL,       &D_06004B00, NULL,        &D_06004CC0, NULL,
+    &gBotw1Col,  &gBotw2Col, NULL,        0x06004330, 0x060044D0, NULL, 0x06004780,
+    0x06004940, NULL,       0x06004B00, NULL,        0x06004CC0, NULL,
 };
 
 static Gfx* sDLists[] = {
-    gBotwFakeWallsAndFloorsDlist,
-    gBotwThreeFakeFloorsDlist,
-    gBotwHoleTrap2Dlist,
+    gBotwFakeWallsAndFloorsDL,
+    gBotwThreeFakeFloorsDL,
+    gBotwHoleTrap2DL,
     0x060040F0,
     0x060043B0,
     0x06001120,
@@ -138,6 +137,6 @@ void BgHakaMegane_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 0) {
-        Gfx_DrawDListXlu(globalCtx, gBotwBloodSplatterDlist);
+        Gfx_DrawDListXlu(globalCtx, gBotwBloodSplatterDL);
     }
 }

@@ -47,7 +47,7 @@ void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&gBotwTumbLidCol, &colHeader);
+    CollisionHeader_GetVirtual(&gBotwCoffinLidCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->unk_16A = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
@@ -213,5 +213,5 @@ void BgHakaHuta_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaHuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gBotwTumbLidDlist);
+    Gfx_DrawDListOpa(globalCtx, gBotwCoffinLidDL);
 }

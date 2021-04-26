@@ -1,19 +1,19 @@
 <Root>
     <File Name="object_hakach_objects" Segment="6">
-        <DList Name="gBotwHoleTrap1Dlist" Offset="0x01B0"/>
-        <DList Name="gBotwHoleTrap2Dlist" Offset="0x03F0"/>
-        <DList Name="gBotwTumbLidDlist" Offset="0x06B0"/>
+        <DList Name="gBotwHoleTrap1DL" Offset="0x01B0"/>
+        <DList Name="gBotwHoleTrap2DL" Offset="0x03F0"/>
+        <DList Name="gBotwCoffinLidDL" Offset="0x06B0"/>
         <DList Name="gBotwBombSpotDlist" Offset="0x0A10"/>
-        <DList Name="gBotwFakeWallsAndFloorsDlist" Offset="0x1060"/>
-        <DList Name="gBotwBloodSplatterDlist" Offset="0x1250"/>
-        <DList Name="gBotwThreeFakeFloorsDlist" Offset="0x1920"/>
-        <DList Name="gBotwWaterRingDlist" Offset="0x1E50"/>
-        <DList Name="gBotwWaterFallTex" Offset="0x2010"/>
+        <DList Name="gBotwFakeWallsAndFloorsDL" Offset="0x1060"/>
+        <DList Name="gBotwBloodSplatterDL" Offset="0x1250"/>
+        <DList Name="gBotwThreeFakeFloorsDL" Offset="0x1920"/>
+        <DList Name="gBotwWaterRingDL" Offset="0x1E50"/>
+        <DList Name="gBotwWaterFallDL" Offset="0x2010"/>
 
-        <Collision Name="gBotwTumbLidCol" Offset="0x0870"/>
+        <Collision Name="gBotwCoffinLidCol" Offset="0x0870"/>
         <Collision Name="gBotwBombSpotCol" Offset="0x0C2C"/>
-        <Collision Name="gBotwCol1" Offset="0x1830"/>
-        <Collision Name="gBotwCol2" Offset="0x1AB8"/>
+        <Collision Name="gBotw1Col" Offset="0x1830"/>
+        <Collision Name="gBotw2Col" Offset="0x1AB8"/>
 
         <Texture Name="gBotwWater1Tex" OutName="water_1" Format="ia16" Width="32" Height="32" Offset="0x028F0"/>
         <Texture Name="gBotwWater2Tex" OutName="water_2" Format="rgb5a1" Width="32" Height="32" Offset="0x020F0"/>

@@ -19,16 +19,16 @@
 
         <DList Name="gGraveYardKidTorsoDL" Offset="0x7910"/>
         <DList Name="gGraveYardKidLeftThighDL" Offset="0x7F00"/>
-        <DList Name="gGraveYardKidLeftShinhDL" Offset="0x8050"/>
+        <DList Name="gGraveYardKidLeftShinDL" Offset="0x8050"/>
         <DList Name="gGraveYardKidLeftFootDL" Offset="0x81E8"/>
         <DList Name="gGraveYardKidRightThighDL" Offset="0x7A30"/>
-        <DList Name="gGraveYardKidRightShinhDL" Offset="0x7B80"/>
+        <DList Name="gGraveYardKidRightShinDL" Offset="0x7B80"/>
         <DList Name="gGraveYardKidRightFootDL" Offset="0x7D18"/>
         <DList Name="gGraveYardKidChestDL" Offset="0x65B0"/>
-        <DList Name="gGraveYardKidLeftSholderDL" Offset="0x7388"/>
+        <DList Name="gGraveYardKidLeftUpperArmDL" Offset="0x7388"/>
         <DList Name="gGraveYardKidLeftArmDL" Offset="0x7540"/>
         <DList Name="gGraveYardKidLeftHandDL" Offset="0x7788"/>
-        <DList Name="gGraveYardKidRightSholderDL" Offset="0x6CA8"/>
+        <DList Name="gGraveYardKidRightUpperArmDL" Offset="0x6CA8"/>
         <DList Name="gGraveYardKidRightArmDL" Offset="0x6E60"/>
         <DList Name="gGraveYardKidRightHandDL" Offset="0x70A8"/>
         <DList Name="gGraveYardKidHeadDL" Offset="0x6808"/>
