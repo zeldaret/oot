@@ -1,6 +1,6 @@
 <Root>
   <File Name="object_ahg" Segment="6">
-    <Limb Name="gobject_ahg_limb_00000000" LimbType="Standard" Offset="0x0" />
+    <!--Limb Name="gobject_ahg_limb_00000000" LimbType="Standard" Offset="0x0" />
     <Limb Name="gobject_ahg_limb_0000000C" LimbType="Standard" Offset="0xC" />
     <Limb Name="gobject_ahg_limb_00000018" LimbType="Standard" Offset="0x18" />
     <Limb Name="gobject_ahg_limb_00000024" LimbType="Standard" Offset="0x24" />
@@ -20,9 +20,9 @@
     <Texture Name="gobject_ahg_tex_000002FC" OutName="tex_000002FC" Format="ci8" Width="16" Height="16" Offset="0x2FC" />
     <Texture Name="gobject_ahg_tex_000003FC" OutName="tex_000003FC" Format="ci8" Width="16" Height="16" Offset="0x3FC" />
     <Texture Name="gobject_ahg_tex_000004FC" OutName="tex_000004FC" Format="ci8" Width="8" Height="8" Offset="0x4FC" />
-    <Texture Name="gobject_ahg_tex_0000053C" OutName="tex_0000053C" Format="ci8" Width="8" Height="8" Offset="0x53C" />
+    <Texture Name="gobject_ahg_tex_0000053C" OutName="tex_0000053C" Format="ci8" Width="8" Height="8" Offset="0x53C" /-->
     <Blob Name="gobject_ahg_unk_0000057C" Size="0x300" Offset="0x57C" />
-    <Texture Name="gobject_ahg_tex_0000087C" OutName="tex_0000087C" Format="ci8" Width="16" Height="16" Offset="0x87C" />
+    <!--Texture Name="gobject_ahg_tex_0000087C" OutName="tex_0000087C" Format="ci8" Width="16" Height="16" Offset="0x87C" />
     <Texture Name="gobject_ahg_tex_0000097C" OutName="tex_0000097C" Format="i8" Width="8" Height="8" Offset="0x97C" />
     <Texture Name="gobject_ahg_tex_000009BC" OutName="tex_000009BC" Format="i8" Width="8" Height="8" Offset="0x9BC" />
     <Texture Name="gobject_ahg_tex_000009FC" OutName="tex_000009FC" Format="ci8" Width="32" Height="16" Offset="0x9FC" />
@@ -48,6 +48,6 @@
     <Texture Name="gobject_ahg_tex_00004B88" OutName="tex_00004B88" Format="ci8" Width="16" Height="16" Offset="0x4B88" />
     <Texture Name="gobject_ahg_tex_00004C88" OutName="tex_00004C88" Format="ci8" Width="8" Height="16" Offset="0x4C88" />
     <DList Name="gobject_ahg_dlist_00005508" Offset="0x5508" />
-    <DList Name="gobject_ahg_dlist_00005728" Offset="0x5728" />
+    <DList Name="gobject_ahg_dlist_00005728" Offset="0x5728" /-->
   </File>
 </Root>

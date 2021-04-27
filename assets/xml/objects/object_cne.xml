@@ -1,6 +1,7 @@
 <Root>
   <File Name="object_cne" Segment="6">
-    <Limb Name="gobject_cne_limb_00000000" LimbType="Standard" Offset="0x0" />
+    <Blob Name="gCneBlob_000000" Size="0x10" Offset="0x0"/>
+    <!--Limb Name="gobject_cne_limb_00000000" LimbType="Standard" Offset="0x0" />
     <Limb Name="gobject_cne_limb_0000000C" LimbType="Standard" Offset="0xC" />
     <Limb Name="gobject_cne_limb_00000018" LimbType="Standard" Offset="0x18" />
     <Limb Name="gobject_cne_limb_00000024" LimbType="Standard" Offset="0x24" />
@@ -41,6 +42,6 @@
     <DList Name="gobject_cne_dlist_00002300" Offset="0x2300" />
     <Texture Name="gobject_cne_tex_000023D0" OutName="tex_000023D0" Format="rgb5a1" Width="8" Height="16" Offset="0x23D0" />
     <Texture Name="gobject_cne_tex_000024D0" OutName="tex_000024D0" Format="rgb5a1" Width="8" Height="8" Offset="0x24D0" />
-    <DList Name="gobject_cne_dlist_00002860" Offset="0x2860" />
+    <DList Name="gobject_cne_dlist_00002860" Offset="0x2860" /-->
   </File>
 </Root>

@@ -1,6 +1,6 @@
 <Root>
   <File Name="object_bji" Segment="6">
-    <Limb Name="gobject_bji_limb_00000000" LimbType="Standard" Offset="0x0" />
+    <!--Limb Name="gobject_bji_limb_00000000" LimbType="Standard" Offset="0x0" />
     <Limb Name="gobject_bji_limb_0000000C" LimbType="Standard" Offset="0xC" />
     <Limb Name="gobject_bji_limb_00000018" LimbType="Standard" Offset="0x18" />
     <Limb Name="gobject_bji_limb_00000024" LimbType="Standard" Offset="0x24" />
@@ -22,9 +22,9 @@
     <Texture Name="gobject_bji_tex_0000037C" OutName="tex_0000037C" Format="ci8" Width="16" Height="16" Offset="0x37C" />
     <Texture Name="gobject_bji_tex_0000047C" OutName="tex_0000047C" Format="ci8" Width="8" Height="8" Offset="0x47C" />
     <Texture Name="gobject_bji_tex_000004BC" OutName="tex_000004BC" Format="ci8" Width="8" Height="8" Offset="0x4BC" />
-    <Texture Name="gobject_bji_tex_000004FC" OutName="tex_000004FC" Format="i8" Width="16" Height="16" Offset="0x4FC" />
+    <Texture Name="gobject_bji_tex_000004FC" OutName="tex_000004FC" Format="i8" Width="16" Height="16" Offset="0x4FC" /-->
     <Blob Name="gobject_bji_unk_000005FC" Size="0xC00" Offset="0x5FC" />
-    <Texture Name="gobject_bji_tex_000011FC" OutName="tex_000011FC" Format="i8" Width="8" Height="8" Offset="0x11FC" />
+    <!--Texture Name="gobject_bji_tex_000011FC" OutName="tex_000011FC" Format="i8" Width="8" Height="8" Offset="0x11FC" />
     <DList Name="gobject_bji_dlist_00002560" Offset="0x2560" />
     <DList Name="gobject_bji_dlist_00002B88" Offset="0x2B88" />
     <DList Name="gobject_bji_dlist_00002C50" Offset="0x2C50" />
@@ -43,6 +43,6 @@
     <Texture Name="gobject_bji_tex_00003908" OutName="tex_00003908" Format="rgb5a1" Width="8" Height="8" Offset="0x3908" />
     <Texture Name="gobject_bji_tex_00003988" OutName="tex_00003988" Format="rgb5a1" Width="8" Height="8" Offset="0x3988" />
     <Texture Name="gobject_bji_tex_00003A08" OutName="tex_00003A08" Format="rgb5a1" Width="8" Height="8" Offset="0x3A08" />
-    <DList Name="gobject_bji_dlist_00003F68" Offset="0x3F68" />
+    <DList Name="gobject_bji_dlist_00003F68" Offset="0x3F68" /-->
   </File>
 </Root>
