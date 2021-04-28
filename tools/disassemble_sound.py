@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 from collections import namedtuple, defaultdict
-from pathlib import PurePosixPath
 import subprocess
 import tempfile
 import math
 import shutil
-import subprocess
 import uuid
 import json
 import os
@@ -15,11 +13,24 @@ import sys
 
 rawSamples = []
 
+# Used for data gap detection (finding potentially unreferenced data)
+# Format: list of tuples (object, start offset, end offset)
+usedSetData = []
+usedRawData = []
+
 class InstrumentSet:
     def __init__(self, record, ctl, raw_defs):
         self.offset, self.length, self.major, self.minor, self.bank, self.unk, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBBBBBH", record)
-        percussionOffset, effectsOffset = struct.unpack(">LL", ctl[self.offset:self.offset + 8])
-        instrumentOffsets = [] if self.instrumentCount == 0 else struct.unpack(">" + str(self.instrumentCount) + "L", ctl[self.offset + 8:self.offset + 8 + (self.instrumentCount * 4)])
+        endOffset = self.offset + 8
+        percussionOffset, effectsOffset = struct.unpack(">LL", ctl[self.offset:endOffset])
+        instrumentOffsets = []
+        if self.instrumentCount != 0:
+            newEndOffset = endOffset + (self.instrumentCount * 4)
+            instrumentOffsets = struct.unpack(">" + str(self.instrumentCount) + "L", ctl[endOffset:newEndOffset])
+            endOffset = newEndOffset
+
+        usedSetData.append((self, self.offset, endOffset))
+
         setCtl = ctl[self.offset:]
         percussionTable = setCtl[percussionOffset:]
         effectsTable = setCtl[effectsOffset:]
@@ -30,55 +41,68 @@ class InstrumentSet:
         if self.instrumentCount > 0:
             for offset in instrumentOffsets:
                 buffer = setCtl[offset:offset + 32]
-                instrument = None if offset == 0 else Instrument(raw_defs, self.bank, buffer, setCtl)
+                instrument = None if offset == 0 else Instrument(raw_defs, self.bank, buffer, setCtl, self.offset, offset)
                 self.instruments.append(instrument)
 
         if self.effectCount > 0:
             for i in range(self.effectCount):
                 buffer = effectsTable[i * 8:(i * 8) + 8]
                 offset = struct.unpack(">L", buffer[0:4])[0]
-                effect = None if offset == 0 else SoundEffect(raw_defs, self.bank, buffer, setCtl)
+                effect = None if offset == 0 else SoundEffect(raw_defs, self.bank, buffer, setCtl, self.offset, offset)
                 self.effects.append(effect)
         
         if self.percussionCount > 0:
             percussionsOffsets = struct.unpack(">" + str(self.percussionCount) + "L", percussionTable[:self.percussionCount * 4])
             for i in range(self.percussionCount):
                 offset = percussionsOffsets[i]
-                percussion = None if offset == 0 else Percussion(raw_defs, self.bank, setCtl[offset:offset + 16], setCtl)
+                percussion = None if offset == 0 else Percussion(raw_defs, self.bank, setCtl[offset:offset + 16], setCtl, self.offset, offset)
                 self.percussions.append(percussion)
 
 class SoundEffect:
-    def __init__(self, raw_defs, bank, record, tbl):
+    def __init__(self, raw_defs, bank, record, tbl, baseOffset, offset):
         self.headerOffset, self.pitch = struct.unpack(">Lf", record)
-        self.sample = SampleHeader(raw_defs, bank, tbl[self.headerOffset:self.headerOffset + 16], tbl)
+        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 8))
+        self.sample = SampleHeader(raw_defs, bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
 
 class Percussion:
-    def __init__(self, raw_defs, bank, record, tbl):
+    def __init__(self, raw_defs, bank, record, tbl, baseOffset, offset):
         self.unk, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">LLfL", record)
-        self.sample = SampleHeader(raw_defs, bank, tbl[self.headerOffset:self.headerOffset + 16], tbl)
+        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 16))
+        self.sample = SampleHeader(raw_defs, bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
         self.envelope = Envelope(tbl[self.envelopeOffset:self.envelopeOffset + 16])
+        usedSetData.append((self.envelope, baseOffset + self.envelopeOffset, baseOffset + self.envelopeOffset + 16))
 
 class Instrument:
-    def __init__(self, raw_defs, bank, record, tbl):
+    def __init__(self, raw_defs, bank, record, tbl, baseOffset, offset):
         self.keyLow, self.keyMedium, self.keyHigh, self.decay, self.envelopeOffset, self.keyLowOffset, self.keyLowPitch, self.keyMedOffset, self.keyMedPitch, self.keyHighOffset, self.keyHighPitch = struct.unpack(">BBBbLLfLfLf", record)
+        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 32))
         self.envelope = Envelope(tbl[self.envelopeOffset:self.envelopeOffset + 16])
-        self.keyLowSample = None if self.keyLowOffset == 0 else SampleHeader(raw_defs, bank, tbl[self.keyLowOffset:self.keyLowOffset + 16], tbl)
-        self.keyMedSample = None if self.keyMedOffset == 0 else SampleHeader(raw_defs, bank, tbl[self.keyMedOffset:self.keyMedOffset + 16], tbl)
-        self.keyHighSample = None if self.keyHighOffset == 0 else SampleHeader(raw_defs, bank, tbl[self.keyHighOffset:self.keyHighOffset + 16], tbl)
+        usedSetData.append((self.envelope, baseOffset + self.envelopeOffset, baseOffset + self.envelopeOffset + 16))
+        self.keyLowSample = None if self.keyLowOffset == 0 else SampleHeader(raw_defs, bank, tbl[self.keyLowOffset:self.keyLowOffset + 16], tbl, baseOffset, self.keyLowOffset)
+        self.keyMedSample = None if self.keyMedOffset == 0 else SampleHeader(raw_defs, bank, tbl[self.keyMedOffset:self.keyMedOffset + 16], tbl, baseOffset, self.keyMedOffset)
+        self.keyHighSample = None if self.keyHighOffset == 0 else SampleHeader(raw_defs, bank, tbl[self.keyHighOffset:self.keyHighOffset + 16], tbl, baseOffset, self.keyHighOffset)
 
 class Envelope:
     def __init__(self, record):
         self.attackRate, self.attackLevel, self.sustainRate, self.sustainLevel, self.decayRate, self.decayLevel, self.releaseRate, self.releaseLevel = struct.unpack(">hHhHhHhH", record)
 
 class SampleHeader:
-    def __init__(self, raw_defs, bank, record, tbl):
+    def __init__(self, raw_defs, bank, record, tbl, baseOffset, offset):
         self.u1, self.u2, self.length, self.address, self.loopOffset, self.bookOffset = struct.unpack(">bbHLLL", record)
+        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 16))
         self.bank = bank
         assert self.length % 2 == 0
         if (self.length % 9 != 0):
             self.length -= self.length % 9
-        self.loop = None if self.loopOffset == 0 else PCMLoop(tbl[self.loopOffset:self.loopOffset + 44])
-        self.book = None if self.bookOffset == 0 else PCMBook(tbl[self.bookOffset:self.bookOffset + 8], tbl[self.bookOffset + 8:])
+        
+        self.loop = None
+        if self.loopOffset != 0:
+            self.loop = PCMLoop(tbl[self.loopOffset:self.loopOffset + 44])
+            usedSetData.append((self.loop, baseOffset + self.loopOffset, baseOffset + self.loopOffset + 44))
+        
+        self.book = None
+        if self.bookOffset != 0:
+            self.book = PCMBook(tbl[self.bookOffset:self.bookOffset + 8], tbl[self.bookOffset + 8:], baseOffset, self.bookOffset)
         rawSamples.append(self)
 
 class PCMLoop:
@@ -87,10 +111,11 @@ class PCMLoop:
         self.state = struct.unpack(">16h", record[12:])
 
 class PCMBook:
-    def __init__(self, record, remainder):
+    def __init__(self, record, remainder, baseOffset, offset):
         self.order, self.predictorCount = struct.unpack(">LL", record)
         self.predictors = []
         predictorSize = self.order * 8
+        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 8 + predictorSize))
         for i in range(self.predictorCount):
             self.predictors.append(struct.unpack(">" + str(predictorSize) + "h", remainder[i * predictorSize * 2:(i * predictorSize * 2) + (predictorSize * 2)]))
 
@@ -310,6 +335,7 @@ def write_aiff(raw, offset, entry, filename):
     #temp = open("tempfile.aifc", "wb")
     try:
         data = raw[offset:offset + entry.length]
+        usedRawData.append((data, offset, offset + entry.length))
         write_aifc(data, entry, temp)
         temp.flush()
         temp.close()
@@ -467,11 +493,34 @@ def write_instrument_set(_set, filename):
     file.flush()
     file.close()
 
+def report_gaps(report_type, data, length):
+    sorted_data = sorted(data, key = lambda tup: (tup[1], tup[2]))
+    gaps = []
+    intersections = []
+    lastTuple = (None, -1, -1)
+    currentEnd = 0
+    for tup in sorted_data:
+        if tup[1] > currentEnd:
+            gaps.append((currentEnd, tup[1]))
+        elif tup[1] < currentEnd and (lastTuple[1] != tup[1] or lastTuple[2] != tup[2]):
+            intersections.append((tup[0], currentEnd, tup[1]))
+        lastTuple = tup
+        currentEnd = tup[2] if report_type == "SET" else (16 * math.ceil(tup[2] / 16))
+    if currentEnd < length:
+        gaps.append((sorted_data[-1][2], length))
+    if len(gaps) > 0:
+        print(f"GAPS DETECTED IN {report_type} DATA:")
+        for gap in gaps:
+            print(f"Unreferenced data at {gap[0]}-{gap[1]}")
+    if len(intersections) > 0:
+        print(f"INTERSECTIONS DETECTED IN {report_type} DATA:")
+        for intersection in intersections:
+            print(f"{type(intersection[0]).__name__} overlaps data at {intersection[1]}-{intersection[2]}")
+
 # Modified from https://stackoverflow.com/a/25935321/1359139, cc by-sa 3.0
 class NoIndent(object):
     def __init__(self, value):
         self.value = value
-
 
 def main():
     args = []
@@ -524,6 +573,8 @@ def main():
     bank_defs = parse_raw_def_data(rawdef_data)
     sets = parse_setfile(setdef_data, set_data, bank_defs)
 
+    report_gaps("SET", usedSetData, len(set_data))
+
     bank_ctr = defaultdict(int)
 
     # Export AIFF samples
@@ -532,9 +583,11 @@ def main():
         dir = os.path.join(samples_out_dir, str(header.bank))
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, "{0:0>8x}.aiff".format(header.address))
-        if not os.path.exists(filename) or os.path.getsize(filename) == 0:
-            write_aiff(raw_data, bank_defs[header.bank] + header.address, header, filename)
+        # if not os.path.exists(filename) or os.path.getsize(filename) == 0:
+        write_aiff(raw_data, bank_defs[header.bank] + header.address, header, filename)
     
+    report_gaps("SAMPLE", usedRawData, len(raw_data))
+
     # Export sequences
     sequences = parse_seq_def_data(seqdef_data, setmap_data, seq_data)
 
