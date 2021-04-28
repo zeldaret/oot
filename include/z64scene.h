@@ -39,7 +39,7 @@ typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 segment;
-} SCmdCsCameraList;
+} SCmdUnused02;
 
 typedef struct {
     /* 0x00 */ u8  code;
@@ -279,7 +279,7 @@ typedef union {
     SCmdBase              base;
     SCmdSpawnList         spawnList;
     SCmdActorList         actorList;
-    SCmdCsCameraList      csCameraList;
+    SCmdUnused02          unused02;
     SCmdRoomList          roomList;
     SCmdEntranceList      entranceList;
     SCmdObjectList        objectList;
@@ -455,6 +455,9 @@ typedef enum {
 
 #define SCENE_CMD_ACTOR_LIST(numActors, actorList) \
     { SCENE_CMD_ID_ACTOR_LIST, numActors, CMD_PTR(actorList) }
+
+#define SCENE_CMD_UNUSED_02(unk, data) \
+    { SCENE_CMD_ID_UNUSED_02, unk, CMD_PTR(data) }
 
 #define SCENE_CMD_COL_HEADER(colHeader) \
     { SCENE_CMD_ID_COL_HEADER, 0, CMD_PTR(colHeader) }
