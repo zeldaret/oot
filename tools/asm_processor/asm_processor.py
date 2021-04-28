@@ -755,7 +755,9 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
 
     global_asm = None
     asm_functions = []
-    output_lines = []
+    output_lines = [
+        '#line 1 "' + f.name + '"'
+    ]
 
     is_cutscene_data = False
 
@@ -800,8 +802,8 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
                 include_src = StringIO()
                 with open(fpath + os.path.sep + fname, encoding=input_enc) as include_file:
                     parse_source(include_file, opt, framepointer, input_enc, output_enc, include_src)
+                include_src.write('#line ' + str(line_no + 1) + ' "' + f.name + '"')
                 output_lines[-1] = include_src.getvalue()
-                include_src.write('#line ' + str(line_no) + '\n')
                 include_src.close()
             else:
                 # This is a hack to replace all floating-point numbers in an array of a particular type
@@ -856,6 +858,7 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
     # simplicity we pad with nops/.space so that addresses match exactly, so we
     # don't have to fix up relocations/symbol references.
     all_text_glabels = set()
+    func_sizes = {}
     for function in functions:
         ifdefed = False
         for sectype, (temp_name, size) in function.data.items():
@@ -878,6 +881,8 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
                 else:
                     asm.append('.space {}'.format(loc - prev_loc))
             to_copy[sectype].append((loc, size, temp_name, function.fn_desc))
+            if function.text_glabels:
+                func_sizes[function.text_glabels[0]] = size
             prev_locs[sectype] = loc + size
         if not ifdefed:
             all_text_glabels.update(function.text_glabels)
@@ -1041,6 +1046,8 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
                 # glabel's aren't marked as functions, making objdump output confusing. Fix that.
                 if s.name in all_text_glabels:
                     s.type = STT_FUNC
+                    if s.name in func_sizes:
+                        s.st_size = func_sizes[s.name]
                 if objfile.sections[s.st_shndx].name == '.rodata' and s.st_value in moved_late_rodata:
                     s.st_value = moved_late_rodata[s.st_value]
             s.st_name += strtab_adj

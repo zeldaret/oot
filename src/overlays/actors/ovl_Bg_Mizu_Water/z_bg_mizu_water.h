@@ -19,4 +19,13 @@ typedef struct BgMizuWater {
 
 extern const ActorInit Bg_Mizu_Water_InitVars;
 
+#define WATER_TEMPLE_WATER_F3_Y 765.0f
+#define WATER_TEMPLE_WATER_F2_Y 445.0f
+#define WATER_TEMPLE_WATER_F1_Y -15.0f
+#define WATER_TEMPLE_WATER_B1_Y -835.0f
+
+#define WATER_TEMPLE_WATER_F3_FLAG 0x1E
+#define WATER_TEMPLE_WATER_F2_FLAG 0x1D
+#define WATER_TEMPLE_WATER_F1_FLAG 0x1C
+
 #endif

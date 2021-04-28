@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mizu_uzu.h"
+#include "objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -35,8 +36,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_060074EC;
-
 void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMizuUzu* this = THIS;
@@ -45,7 +44,7 @@ void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_060074EC, &colHeader);
+    CollisionHeader_GetVirtual(&gObjectMizuObjectsUzuCol_0074EC, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8089F788;
 }
