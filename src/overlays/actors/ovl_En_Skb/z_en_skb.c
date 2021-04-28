@@ -380,7 +380,7 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
     // this cast is likely not real, but allows for a match
     u8* new_var;
     new_var = &this->unk_283;
-    if ((this->unk_283 != 1) || func_8003305C(&this->actor, &this->unk_28C, globalCtx, 1)) {
+    if ((this->unk_283 != 1) || BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, 1)) {
         if ((*new_var) != 0) {
             this->unk_283 = (*new_var) | 2;
         }
@@ -409,25 +409,24 @@ void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
     }
     this->unk_280 = 1;
     this->actor.flags &= ~1;
-    func_80032E24(&this->unk_28C, 18, globalCtx);
+    BodyBreak_Alloc(&this->bodyBreak, 18, globalCtx);
     this->unk_283 |= 4;
     EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_STALKID_DEAD, 1, 1, 0x28);
     EnSkb_SetupAction(this, func_80AFD880);
 }
 
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx) {
-    if (func_8003305C(&this->actor, &this->unk_28C, globalCtx, 1) != 0) {
+    if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, 1)) {
         if (this->actor.scale.x == 0.01f) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x10);
+        } else if (this->actor.scale.x <= 0.015f) {
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_BLUE);
         } else {
-            if (this->actor.scale.x <= 0.015f) {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_BLUE);
-            } else {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
-            }
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
         }
+
         this->unk_283 |= 8;
         Actor_Kill(&this->actor);
     }
@@ -482,7 +481,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                             ((this->actor.colChkInfo.damageEffect == 0xE) &&
                              ((player->swordAnimation >= 4 && player->swordAnimation <= 11) ||
                               (player->swordAnimation == 20 || player->swordAnimation == 21)))) {
-                            func_80032E24(&this->unk_28C, 2, globalCtx);
+                            BodyBreak_Alloc(&this->bodyBreak, 2, globalCtx);
                             this->unk_283 = 1;
                         }
                     }
@@ -545,9 +544,9 @@ void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     Collider_UpdateSpheres(limbIndex, &this->collider);
 
     if ((this->unk_283 ^ 1) == 0) {
-        func_80032F54(&this->unk_28C, limbIndex, 0xB, 0xC, 0x12, dList, -1);
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 11, 12, 18, dList, BODYBREAK_OBJECT_DEFAULT);
     } else if ((this->unk_283 | 4) == this->unk_283) {
-        func_80032F54(&this->unk_28C, limbIndex, 0, 0x12, 0x12, dList, -1);
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 18, 18, dList, BODYBREAK_OBJECT_DEFAULT);
     }
 }
 #else
