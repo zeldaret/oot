@@ -23,7 +23,7 @@ glabel EnSkb_PostLimbDraw
 /* 015D8 80AFDF78 AFB80018 */  sw      $t8, 0x0018($sp)           
 /* 015DC 80AFDF7C AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 015E0 80AFDF80 2407000C */  addiu   $a3, $zero, 0x000C         ## $a3 = 0000000C
-/* 015E4 80AFDF84 0C00CBD5 */  jal     func_80032F54              
+/* 015E4 80AFDF84 0C00CBD5 */  jal     BodyBreak_SetInfo              
 /* 015E8 80AFDF88 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 015EC 80AFDF8C 1000000C */  beq     $zero, $zero, .L80AFDFC0   
 /* 015F0 80AFDF90 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -36,7 +36,7 @@ glabel EnSkb_PostLimbDraw
 /* 01608 80AFDFA8 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 0160C 80AFDFAC 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 01610 80AFDFB0 24070012 */  addiu   $a3, $zero, 0x0012         ## $a3 = 00000012
-/* 01614 80AFDFB4 0C00CBD5 */  jal     func_80032F54              
+/* 01614 80AFDFB4 0C00CBD5 */  jal     BodyBreak_SetInfo              
 /* 01618 80AFDFB8 AFA80014 */  sw      $t0, 0x0014($sp)           
 .L80AFDFBC:
 /* 0161C 80AFDFBC 8FBF0024 */  lw      $ra, 0x0024($sp)           

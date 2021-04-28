@@ -468,7 +468,7 @@ void EnBb_SetupDeath(EnBb* this, GlobalContext* globalCtx) {
 }
 
 void EnBb_Death(EnBb* this, GlobalContext* globalCtx) {
-    s16 sp4E = 3;
+    s16 enpartType = 3;
     Vec3f sp40 = { 0.0f, 0.5f, 0.0f };
     Vec3f sp34 = { 0.0f, 0.0f, 0.0f };
 
@@ -480,13 +480,16 @@ void EnBb_Death(EnBb* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.x -= 0x4E20;
             return;
         }
-        if (this->enPartInfo.unk_10 == 0) {
-            func_80032E24(&this->enPartInfo, 0xC, globalCtx);
+
+        if (this->bodyBreak.val == BODYBREAK_STATUS_FINISHED) {
+            BodyBreak_Alloc(&this->bodyBreak, 12, globalCtx);
         }
+
         if ((this->dmgEffect == 7) || (this->dmgEffect == 5)) {
-            sp4E = 0xB;
+            enpartType = 11;
         }
-        if (!func_8003305C(&this->actor, &this->enPartInfo, globalCtx, sp4E)) {
+
+        if (!BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, enpartType)) {
             return;
         }
         Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xD0);
@@ -1263,7 +1266,7 @@ void EnBb_Update(Actor* thisx, GlobalContext* globalCtx2) {
 void EnBb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnBb* this = THIS;
 
-    func_80032F54(&this->enPartInfo, limbIndex, 4, 0xF, 0xF, dList, -1);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 4, 15, 15, dList, BODYBREAK_OBJECT_DEFAULT);
 }
 
 static Vec3f sFireIceOffsets[] = {

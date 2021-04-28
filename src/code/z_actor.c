@@ -3037,104 +3037,111 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
     return arg0[0];
 }
 
-void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
-    u32 sp28;
-    u32 sp24;
-    u32 sp20;
+void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, GlobalContext* globalCtx) {
+    u32 matricesSize;
+    u32 dListsSize;
+    u32 objectIdsSize;
 
-    sp28 = (arg1 * sizeof(*arg0->unk_00)) + sizeof(*arg0->unk_00);
-    arg0->unk_00 = ZeldaArena_MallocDebug(sp28, "../z_actor.c", 7540);
-    if (arg0->unk_00 != NULL) {
-        sp24 = (arg1 * sizeof(*arg0->unk_0C)) + sizeof(*arg0->unk_0C);
-        arg0->unk_0C = ZeldaArena_MallocDebug(sp24, "../z_actor.c", 7543);
-        if (arg0->unk_0C != NULL) {
-            sp20 = (arg1 * sizeof(*arg0->unk_04)) + sizeof(*arg0->unk_04);
-            arg0->unk_04 = ZeldaArena_MallocDebug(sp20, "../z_actor.c", 7546);
-            if (arg0->unk_04 != NULL) {
-                Lib_MemSet((u8*)arg0->unk_00, sp28, 0);
-                Lib_MemSet((u8*)arg0->unk_0C, sp24, 0);
-                Lib_MemSet((u8*)arg0->unk_04, sp20, 0);
-                arg0->unk_10 = 1;
+    matricesSize = (count + 1) * sizeof(*bodyBreak->matrices);
+    bodyBreak->matrices = ZeldaArena_MallocDebug(matricesSize, "../z_actor.c", 7540);
+
+    if (bodyBreak->matrices != NULL) {
+        dListsSize = (count + 1) * sizeof(*bodyBreak->dLists);
+        bodyBreak->dLists = ZeldaArena_MallocDebug(dListsSize, "../z_actor.c", 7543);
+
+        if (bodyBreak->dLists != NULL) {
+            objectIdsSize = (count + 1) * sizeof(*bodyBreak->objectIds);
+            bodyBreak->objectIds = ZeldaArena_MallocDebug(objectIdsSize, "../z_actor.c", 7546);
+
+            if (bodyBreak->objectIds != NULL) {
+                Lib_MemSet((u8*)bodyBreak->matrices, matricesSize, 0);
+                Lib_MemSet((u8*)bodyBreak->dLists, dListsSize, 0);
+                Lib_MemSet((u8*)bodyBreak->objectIds, objectIdsSize, 0);
+                bodyBreak->val = 1;
                 return;
             }
         }
     }
 
-    if (arg0->unk_00 != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_00, "../z_actor.c", 7558);
+    if (bodyBreak->matrices != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7558);
     }
 
-    if (arg0->unk_0C != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_0C, "../z_actor.c", 7561);
+    if (bodyBreak->dLists != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7561);
     }
 
-    if (arg0->unk_04 != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_04, "../z_actor.c", 7564);
+    if (bodyBreak->objectIds != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7564);
     }
 }
 
-void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6) {
+void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
+                       s16 objectId) {
     GlobalContext* globalCtx = Effect_GetGlobalCtx();
 
-    if ((globalCtx->actorCtx.unk_00 == 0) && (arg0->unk_10 > 0)) {
-        if ((arg1 >= arg2) && (arg3 >= arg1) && (*dList != 0)) {
-            arg0->unk_0C[arg0->unk_10] = *dList;
-            Matrix_Get(&arg0->unk_00[arg0->unk_10]);
-            arg0->unk_04[arg0->unk_10] = arg6;
-            arg0->unk_10++;
+    if ((globalCtx->actorCtx.unk_00 == 0) && (bodyBreak->val > 0)) {
+        if ((limbIndex >= minLimbIndex) && (limbIndex <= maxLimbIndex) && (*dList != NULL)) {
+            bodyBreak->dLists[bodyBreak->val] = *dList;
+            Matrix_Get(&bodyBreak->matrices[bodyBreak->val]);
+            bodyBreak->objectIds[bodyBreak->val] = objectId;
+            bodyBreak->val++;
         }
 
-        if (arg1 != arg0->unk_14) {
-            arg0->unk_08++;
+        if (limbIndex != bodyBreak->prevLimbIndex) {
+            bodyBreak->count++;
         }
 
-        if ((u32)arg0->unk_08 >= arg4) {
-            arg0->unk_08 = arg0->unk_10 - 1;
-            arg0->unk_10 = -1;
+        if ((u32)bodyBreak->count >= count) {
+            bodyBreak->count = bodyBreak->val - 1;
+            bodyBreak->val = BODYBREAK_STATUS_READY;
         }
     }
 
-    arg0->unk_14 = arg1;
+    bodyBreak->prevLimbIndex = limbIndex;
 }
 
-s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx, s16 params) {
+s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type) {
     EnPart* spawnedEnPart;
     MtxF* mtx;
     s16 objBankIndex;
 
-    if (arg1->unk_10 != -1) {
+    if (bodyBreak->val != BODYBREAK_STATUS_READY) {
         return false;
     }
 
-    while (arg1->unk_08 > 0) {
-        Matrix_Put(&arg1->unk_00[arg1->unk_08]);
+    while (bodyBreak->count > 0) {
+        Matrix_Put(&bodyBreak->matrices[bodyBreak->count]);
         Matrix_Scale(1.0f / actor->scale.x, 1.0f / actor->scale.y, 1.0f / actor->scale.z, MTXMODE_APPLY);
-        Matrix_Get(&arg1->unk_00[arg1->unk_08]);
+        Matrix_Get(&bodyBreak->matrices[bodyBreak->count]);
 
-        if (1) { // Necessary to match
-            if (arg1->unk_04[arg1->unk_08] >= 0) {
-                objBankIndex = arg1->unk_04[arg1->unk_08];
+        if (1) {
+            if (bodyBreak->objectIds[bodyBreak->count] >= 0) {
+                objBankIndex = bodyBreak->objectIds[bodyBreak->count];
             } else {
                 objBankIndex = actor->objBankIndex;
             }
         }
 
-        mtx = &arg1->unk_00[arg1->unk_08];
+        mtx = &bodyBreak->matrices[bodyBreak->count];
+
         spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->wx,
-                                                    mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
+                                                    mtx->wy, mtx->wz, 0, 0, objBankIndex, type);
+
         if (spawnedEnPart != NULL) {
-            func_800D20CC(&arg1->unk_00[arg1->unk_08], &spawnedEnPart->actor.shape.rot, 0);
-            spawnedEnPart->displayList = arg1->unk_0C[arg1->unk_08];
+            func_800D20CC(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
+            spawnedEnPart->displayList = bodyBreak->dLists[bodyBreak->count];
             spawnedEnPart->actor.scale = actor->scale;
         }
 
-        arg1->unk_08--;
+        bodyBreak->count--;
     }
 
-    arg1->unk_10 = 0;
-    ZeldaArena_FreeDebug(arg1->unk_00, "../z_actor.c", 7678);
-    ZeldaArena_FreeDebug(arg1->unk_0C, "../z_actor.c", 7679);
-    ZeldaArena_FreeDebug(arg1->unk_04, "../z_actor.c", 7680);
+    bodyBreak->val = BODYBREAK_STATUS_FINISHED;
+
+    ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7678);
+    ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7679);
+    ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7680);
 
     return true;
 }

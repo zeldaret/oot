@@ -13,7 +13,7 @@ typedef struct EnSb {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnSbActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ struct_80032E24 unk_1E0;
+    /* 0x01E0 */ BodyBreak bodyBreak;
     /* 0x01F8 */ s16 fire;
     /* 0x01FA */ s16 behavior;
     /* 0x01FC */ s16 isDead;

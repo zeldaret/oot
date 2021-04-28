@@ -425,7 +425,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
         }
         if (this->actor.colChkInfo.health == 0) {
             this->hitByWindArrow = hitByWindArrow;
-            func_80032E24(&this->unk_1E0, 8, globalCtx);
+            BodyBreak_Alloc(&this->bodyBreak, 8, globalCtx);
             this->isDead = true;
             func_80032C7C(globalCtx, &this->actor);
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
@@ -454,7 +454,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             this->actor.params = 1;
         }
-        if (func_8003305C(&this->actor, &this->unk_1E0, globalCtx, this->actor.params) != 0) {
+        if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, this->actor.params)) {
             if (!this->hitByWindArrow) {
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x80);
             } else {
@@ -480,7 +480,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnSb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSb* this = THIS;
 
-    func_80032F54(&this->unk_1E0, limbIndex, 0, 6, 8, dList, -1);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 6, 8, dList, BODYBREAK_OBJECT_DEFAULT);
 }
 
 void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
