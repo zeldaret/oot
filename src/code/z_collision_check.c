@@ -2254,7 +2254,6 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
 
 static s8 sBssDummy0;
 static s8 sBssDummy1;
-static s8 sBssDummy2;
 
 /**
  * AC overlap check. Calculates the center of each collider element and the point of contact.

@@ -1,5 +1,14 @@
+/**
+ * File: z_en_horse.c
+ * Overlay: ovl_En_Horse
+ * Description: Rideable horses
+ */
+
 #include "z_en_horse.h"
 #include "overlays/actors/ovl_En_In/z_en_in.h"
+#include "objects/object_horse/object_horse.h"
+#include "objects/object_hni/object_hni.h"
+#include "scenes/overworld/spot09/spot09_scene.h"
 
 #define FLAGS 0x00000010
 
@@ -42,23 +51,22 @@ void EnHorse_CutsceneUpdate(EnHorse* this, GlobalContext* globalCtx);
 void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx);
 void EnHorse_FleePlayer(EnHorse* this, GlobalContext* globalCtx);
 
-extern CutsceneData D_02000230[];
-extern CutsceneData D_02002AC0[];
-extern Gfx D_06006530[];
-
 static AnimationHeader* sEponaAnimHeaders[] = {
-    0x06006D50, 0x06005584, 0x06004DEC, 0x06003CEC, 0x060075F0, 0x060032B0, 0x06001E2C, 0x06002470, 0x06002C38,
+    &gEponaIdleAnim,     &gEponaWhinnyAnim,    &gEponaRefuseAnim,  &gEponaRearingAnim,     &gEponaWalkingAnim,
+    &gEponaTrottingAnim, &gEponaGallopingAnim, &gEponaJumpingAnim, &gEponaJumpingHighAnim,
 };
 
 static AnimationHeader* sHniAnimHeaders[] = {
-    0x06009FC4, 0x0600A6B4, 0x0600901C, 0x060085E0, 0x0600AF60, 0x06007B54, 0x0600506C, 0x06005684, 0x06005E20,
+    &gHorseIngoIdleAnim,      &gHorseIngoWhinnyAnim,  &gHorseIngoRefuseAnim,
+    &gHorseIngoRearingAnim,   &gHorseIngoWalkingAnim, &gHorseIngoTrottingAnim,
+    &gHorseIngoGallopingAnim, &gHorseIngoJumpingAnim, &gHorseIngoJumpingHighAnim,
 };
 
 static AnimationHeader** sAnimationHeaders[] = { sEponaAnimHeaders, sHniAnimHeaders };
 
 static f32 sPlaybackSpeeds[] = { 0.6666667f, 0.6666667f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.6666667f, 0.6666667f };
 
-static SkeletonHeader* sSkeletonHeaders[] = { 0x06009D74, 0x06004A24 };
+static SkeletonHeader* sSkeletonHeaders[] = { &gEponaSkel, &gHorseIngoSkel };
 
 const ActorInit En_Horse_InitVars = {
     ACTOR_EN_HORSE,
@@ -318,7 +326,7 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
     { SCENE_SPOT12, -966, 24, -761, 0 },
     { SCENE_SPOT12, -694, 174, -2820, 0 },
 
-    /* Lon Lon Ranch */
+    // Lon Lon Ranch
     { SCENE_SPOT20, 1039, 0, 2051, 0 },
     { SCENE_SPOT20, -1443, 0, 1429, 0 },
     { SCENE_SPOT20, 856, 0, -918, 0 }, // Hardcoded to always load in lon lon
@@ -361,62 +369,9 @@ typedef struct {
 } RaceInfo;
 
 static RaceWaypoint sIngoRaceWaypoints[] = {
-    {
-        1056,
-        1,
-        -1540,
-        11,
-        0x2A8D,
-    },
-    {
-        1593,
-        1,
-        -985,
-        10,
-        0xFC27,
-    },
-    {
-        1645,
-        1,
-        -221,
-        11,
-        0xE891,
-    },
-    {
-        985,
-        1,
-        403,
-        10,
-        0xBB9C,
-    },
-    {
-        -1023,
-        1,
-        354,
-        11,
-        0xA37D,
-    },
-    {
-        -1679,
-        1,
-        -213,
-        10,
-        0x889C,
-    },
-    {
-        -1552,
-        1,
-        -1008,
-        11,
-        0x638D,
-    },
-    {
-        -947,
-        -1,
-        -1604,
-        10,
-        0x4002,
-    },
+    { 1056, 1, -1540, 11, 0x2A8D },  { 1593, 1, -985, 10, 0xFC27 },   { 1645, 1, -221, 11, 0xE891 },
+    { 985, 1, 403, 10, 0xBB9C },     { -1023, 1, 354, 11, 0xA37D },   { -1679, 1, -213, 10, 0x889C },
+    { -1552, 1, -1008, 11, 0x638D }, { -947, -1, -1604, 10, 0x4002 },
 };
 
 static RaceInfo sIngoRace = { 8, sIngoRaceWaypoints };
@@ -464,64 +419,12 @@ typedef struct {
 } CsActionEntry;
 
 static CsActionEntry sCsActionTable[] = {
-    {
-        36,
-        1,
-    },
-    {
-        37,
-        2,
-    },
-    {
-        38,
-        3,
-    },
-    {
-        64,
-        4,
-    },
-    {
-        65,
-        5,
-    },
+    { 36, 1 }, { 37, 2 }, { 38, 3 }, { 64, 4 }, { 65, 5 },
 };
 
 static RaceWaypoint sHbaWaypoints[] = {
-    {
-        3600,
-        1413,
-        -5055,
-        11,
-        0x8001,
-    },
-    {
-        3360,
-        1413,
-        -5220,
-        5,
-        0xC000,
-    },
-    {
-        3100,
-        1413,
-        -4900,
-        5,
-        0x0000,
-    },
-    {
-        3600,
-        1413,
-        -4100,
-        11,
-        0x0000,
-    },
-    {
-        3600,
-        1413,
-        360,
-        11,
-        0x0000,
-    },
+    { 3600, 1413, -5055, 11, 0x8001 }, { 3360, 1413, -5220, 5, 0xC000 }, { 3100, 1413, -4900, 5, 0x0000 },
+    { 3600, 1413, -4100, 11, 0x0000 }, { 3600, 1413, 360, 11, 0x0000 },
 };
 
 static RaceInfo sHbaInfo = { 5, sHbaWaypoints };
@@ -2850,10 +2753,10 @@ void EnHorse_BridgeJumpInit(EnHorse* this, GlobalContext* globalCtx) {
 void EnHorse_StartBridgeJump(EnHorse* this, GlobalContext* globalCtx) {
     this->postDrawFunc = EnHorse_BridgeJumpInit;
     if (this->bridgeJumpIdx == 0) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02002AC0);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGerudoValleyBridgeJumpFieldFortressCs);
         gSaveContext.cutsceneTrigger = 1;
     } else {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02000230);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGerudoValleyBridgeJumpFortressToFieldCs);
         gSaveContext.cutsceneTrigger = 1;
     }
 }
@@ -3885,24 +3788,28 @@ void EnHorse_SkinCallback1(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* ski
 }
 
 static s32 unk_80A667DC[] = { 0, 3, 7, 14 };
-static UNK_PTR D_80A667EC[] = { 0x06009F80, 0x0600A180, 0x0600A380 };
+static u64* sEyeTextures[] = {
+    gEponaEyeOpenTex,
+    gEponaEyeHalfTex,
+    gEponaEyeClosedTex,
+};
 static u8 sBlinkTextures[] = { 0, 1, 2, 1 };
 
-s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSkinAwb* arg3) {
+s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 limbIndex, PSkinAwb* arg3) {
     EnHorse* this = THIS;
-    s32 sp48;
+    s32 drawOriginalLimb = true;
 
-    sp48 = 1;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
-    if (arg2 == 13 && this->type == HORSE_EPONA) {
+    if (limbIndex == 13 && this->type == HORSE_EPONA) {
         u8 index = sBlinkTextures[this->blinkTimer];
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A667EC[index]));
-    } else if (this->type == HORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && arg2 == 30) {
-        func_800A5F60(globalCtx->state.gfxCtx, &this->skin, arg2, D_06006530, 0);
-        sp48 = 0;
+
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[index]));
+    } else if (this->type == HORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && limbIndex == 30) {
+        func_800A5F60(globalCtx->state.gfxCtx, &this->skin, limbIndex, gHorseIngoGerudoSaddleDL, 0);
+        drawOriginalLimb = false;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8601);
-    return sp48;
+    return drawOriginalLimb;
 }
 
 void EnHorse_Draw(Actor* thisx, GlobalContext* globalCtx) {
