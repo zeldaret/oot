@@ -445,7 +445,7 @@ typedef enum {
     /* 0x14 */ SCENE_CMD_ID_END,
     /* 0x15 */ SCENE_CMD_ID_SOUND_SETTINGS,
     /* 0x16 */ SCENE_CMD_ID_ECHO_SETTINGS,
-    /* 0x17 */ SCENE_CMD_ID_CUTSCENE_LIST,
+    /* 0x17 */ SCENE_CMD_ID_CUTSCENE_DATA,
     /* 0x18 */ SCENE_CMD_ID_ALTERNATE_HEADER_LIST,
     /* 0x19 */ SCENE_CMD_ID_MISC_SETTINGS
 } SceneCommandTypeID;
@@ -514,8 +514,8 @@ typedef enum {
 #define SCENE_CMD_ECHO_SETTINGS(echo) \
     { SCENE_CMD_ID_ECHO_SETTINGS, 0, CMD_BBBB(0, 0, 0, echo) }
 
-#define SCENE_CMD_DEFAULT_CUTSCENE(defaultCutscene) \
-    { SCENE_CMD_ID_CUTSCENE_LIST, 0, CMD_PTR(defaultCutscene) }
+#define SCENE_CMD_CUTSCENE_DATA(cutsceneData) \
+    { SCENE_CMD_ID_CUTSCENE_DATA, 0, CMD_PTR(cutsceneData) }
 
 #define SCENE_CMD_ALTERNATE_HEADER_LIST(alternateHeaderList) \
     { SCENE_CMD_ID_ALTERNATE_HEADER_LIST, 0, CMD_PTR(alternateHeaderList) }
