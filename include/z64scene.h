@@ -424,7 +424,7 @@ typedef enum {
 typedef enum {
     /* 0x00 */ SCENE_CMD_ID_SPAWN_LIST,
     /* 0x01 */ SCENE_CMD_ID_ACTOR_LIST,
-    /* 0x02 */ SCENE_CMD_ID_ACTOR_CUTSCENE_CAM_LIST,
+    /* 0x02 */ SCENE_CMD_ID_UNUSED_02,
     /* 0x03 */ SCENE_CMD_ID_COL_HEADER,
     /* 0x04 */ SCENE_CMD_ID_ROOM_LIST,
     /* 0x05 */ SCENE_CMD_ID_WIND_SETTINGS,
@@ -455,9 +455,6 @@ typedef enum {
 
 #define SCENE_CMD_ACTOR_LIST(numActors, actorList) \
     { SCENE_CMD_ID_ACTOR_LIST, numActors, CMD_PTR(actorList) }
-
-#define SCENE_CMD_CAM_LIST(numCams, camList) \
-    { SCENE_CMD_ID_ACTOR_CUTSCENE_CAM_LIST, numCams, CMD_PTR(camList) }
 
 #define SCENE_CMD_COL_HEADER(colHeader) \
     { SCENE_CMD_ID_COL_HEADER, 0, CMD_PTR(colHeader) }
@@ -499,8 +496,8 @@ typedef enum {
 #define SCENE_CMD_TIME_SETTINGS(hour, min, speed) \
     { SCENE_CMD_ID_TIME_SETTINGS, 0, CMD_BBBB(hour, min, speed, 0) }
 
-#define SCENE_CMD_SKYBOX_SETTINGS(externalTextureFileId, skyboxId, weather, lightMode) \
-    { SCENE_CMD_ID_SKYBOX_SETTINGS, externalTextureFileId, CMD_BBBB(skyboxId, weather, lightMode, 0) }
+#define SCENE_CMD_SKYBOX_SETTINGS(skyboxId, weather, isIndoors) \
+    { SCENE_CMD_ID_SKYBOX_SETTINGS, 0, CMD_BBBB(skyboxId, weather, isIndoors, 0) }
 
 #define SCENE_CMD_SKYBOX_DISABLES(disableSky, disableSunMoon) \
     { SCENE_CMD_ID_SKYBOX_DISABLES, 0, CMD_BBBB(disableSky, disableSunMoon, 0, 0) }
@@ -517,8 +514,8 @@ typedef enum {
 #define SCENE_CMD_ECHO_SETTINGS(echo) \
     { SCENE_CMD_ID_ECHO_SETTINGS, 0, CMD_BBBB(0, 0, 0, echo) }
 
-#define SCENE_CMD_CUTSCENE_LIST(numCutscene, cutsceneList) \
-    { SCENE_CMD_ID_CUTSCENE_LIST, numCutscene, CMD_PTR(cutsceneList) }
+#define SCENE_CMD_DEFAULT_CUTSCENE(defaultCutscene) \
+    { SCENE_CMD_ID_CUTSCENE_LIST, 0, CMD_PTR(defaultCutscene) }
 
 #define SCENE_CMD_ALTERNATE_HEADER_LIST(alternateHeaderList) \
     { SCENE_CMD_ID_ALTERNATE_HEADER_LIST, 0, CMD_PTR(alternateHeaderList) }
