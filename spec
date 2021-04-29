@@ -567,7 +567,7 @@ beginseg
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_equipment.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_item.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_map_PAL.o"
-    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_8081EFF0.o"
+    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_prompt.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark_data.o"
