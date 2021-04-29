@@ -570,9 +570,6 @@ void func_80B3487C(EnWf* this, GlobalContext* globalCtx) {
     }
 }
 
-// void func_80B3487C(EnWf* this, GlobalContext* globalCtx);
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B3487C.s")
-
 void EnWf_SetupSearchForPlayer(EnWf* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_060098C8, -4.0f);
     this->unk_2D4 = 10;
