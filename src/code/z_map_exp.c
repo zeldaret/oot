@@ -235,9 +235,7 @@ void Map_Init(GlobalContext* globalCtx) {
     // Translates to "ＭＡＰ TEXTURE INITIALIZATION scene_data_ID=%d mapSegment=%x"
     osSyncPrintf("\n\n\nＭＡＰ テクスチャ初期化   scene_data_ID=%d\nmapSegment=%x\n\n", globalCtx->sceneNum,
                  interfaceCtx->mapSegment, globalCtx);
-    if (interfaceCtx->mapSegment == NULL) {
-        __assert("parameter->mapSegment != NULL", "../z_map_exp.c", 459);
-    }
+    ASSERT(interfaceCtx->mapSegment != NULL, "parameter->mapSegment != NULL", "../z_map_exp.c", 459);
 
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT00:

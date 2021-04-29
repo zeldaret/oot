@@ -291,7 +291,7 @@ void func_80A3A8D0(EnGirlA* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
         osSyncPrintf(VT_RST);
-        __assert("0", "../z_en_girlA.c", 1421);
+        ASSERT(0, "0", "../z_en_girlA.c", 1421);
         return;
     }
 
@@ -302,7 +302,7 @@ void func_80A3A8D0(EnGirlA* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("バンクが無いよ！！(%s)\n", D_80A3C590[params]);
         osSyncPrintf(VT_RST);
-        __assert("0", "../z_en_girlA.c", 1434);
+        ASSERT(0, "0", "../z_en_girlA.c", 1434);
         return;
     }
 

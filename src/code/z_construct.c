@@ -36,10 +36,7 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     osSyncPrintf("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
 
-    if (interfaceCtx->parameterSegment == NULL) {
-        __assert("parameter->parameterSegment != NULL", "../z_construct.c", 161);
-    }
-
+    ASSERT(interfaceCtx->parameterSegment != NULL, "parameter->parameterSegment != NULL", "../z_construct.c", 161);
     DmaMgr_SendRequest1(interfaceCtx->parameterSegment, (u32)_parameter_staticSegmentRomStart, parameterSize,
                         "../z_construct.c", 162);
 
@@ -49,9 +46,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480);
     osSyncPrintf("parameter->do_actionSegment=%x\n", interfaceCtx->do_actionSegment);
 
-    if (interfaceCtx->do_actionSegment == NULL) {
-        __assert("parameter->do_actionSegment != NULL", "../z_construct.c", 169);
-    }
+    ASSERT(interfaceCtx->do_actionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
 
     if (gSaveContext.language == 0) {
         do_actionOffset = 0;
@@ -81,9 +76,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 0x4000);
     osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->icon_itemSegment);
 
-    if (interfaceCtx->icon_itemSegment == NULL) {
-        __assert("parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
-    }
+    ASSERT(interfaceCtx->icon_itemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
 
     osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.equips.buttonItems[0],
                  gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
@@ -194,10 +187,7 @@ void func_80110F68(GlobalContext* globalCtx) {
 
     // Translates to: "Textbox game_alloc=%x"
     osSyncPrintf("吹き出しgame_alloc=%x\n", 0x2200);
-
-    if (msgCtx->textboxSegment == NULL) {
-        __assert("message->fukidashiSegment != NULL", "../z_construct.c", 352);
-    }
+    ASSERT(msgCtx->textboxSegment != NULL, "message->fukidashiSegment != NULL", "../z_construct.c", 352);
 
     Font_LoadOrderedFont(&globalCtx->msgCtx.font);
 

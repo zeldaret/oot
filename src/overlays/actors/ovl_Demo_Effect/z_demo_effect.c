@@ -196,7 +196,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectIndex);
 
     if (objectIndex < 0) {
-        __assert("0", "../z_demo_effect.c", 723);
+        ASSERT(0, "0", "../z_demo_effect.c", 723);
     } else {
         this->initObjectBankIndex = objectIndex;
     }
@@ -506,7 +506,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         default:
-            __assert("0", "../z_demo_effect.c", 1062);
+            ASSERT(0, "0", "../z_demo_effect.c", 1062);
             break;
     }
 
@@ -683,7 +683,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     s32 effectType = (this->actor.params & 0x00FF);
 
     if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTimeWarpSkel, &gTimeWarpAnim)) {
-        __assert("0", "../z_demo_effect.c", 1283);
+        ASSERT(0, "0", "../z_demo_effect.c", 1283);
     }
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
