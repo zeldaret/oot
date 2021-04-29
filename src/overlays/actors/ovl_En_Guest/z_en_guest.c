@@ -71,7 +71,7 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
             // No such bank!!
             osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
             osSyncPrintf(VT_RST);
-            __assert("0", "../z_en_guest.c", 132);
+            ASSERT(0, "0", "../z_en_guest.c", 132);
         }
     }
 }
