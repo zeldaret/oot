@@ -19,7 +19,7 @@ usedSetData = []
 usedRawData = []
 
 class InstrumentSet:
-    def __init__(self, record, ctl, raw_defs):
+    def __init__(self, record, ctl):
         self.offset, self.length, self.major, self.minor, self.bank, self.unk, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBBBBBH", record)
         endOffset = self.offset + 8
         percussionOffset, effectsOffset = struct.unpack(">LL", ctl[self.offset:endOffset])
@@ -41,53 +41,53 @@ class InstrumentSet:
         if self.instrumentCount > 0:
             for offset in instrumentOffsets:
                 buffer = setCtl[offset:offset + 32]
-                instrument = None if offset == 0 else Instrument(raw_defs, self.bank, buffer, setCtl, self.offset, offset)
+                instrument = None if offset == 0 else Instrument(self.bank, buffer, setCtl, self.offset, offset)
                 self.instruments.append(instrument)
 
         if self.effectCount > 0:
             for i in range(self.effectCount):
                 buffer = effectsTable[i * 8:(i * 8) + 8]
                 offset = struct.unpack(">L", buffer[0:4])[0]
-                effect = None if offset == 0 else SoundEffect(raw_defs, self.bank, buffer, setCtl, self.offset, offset)
+                effect = None if offset == 0 else SoundEffect(self.bank, buffer, setCtl, self.offset, offset)
                 self.effects.append(effect)
         
         if self.percussionCount > 0:
             percussionsOffsets = struct.unpack(">" + str(self.percussionCount) + "L", percussionTable[:self.percussionCount * 4])
             for i in range(self.percussionCount):
                 offset = percussionsOffsets[i]
-                percussion = None if offset == 0 else Percussion(raw_defs, self.bank, setCtl[offset:offset + 16], setCtl, self.offset, offset)
+                percussion = None if offset == 0 else Percussion(self.bank, setCtl[offset:offset + 16], setCtl, self.offset, offset)
                 self.percussions.append(percussion)
 
 class SoundEffect:
-    def __init__(self, raw_defs, bank, record, tbl, baseOffset, offset):
+    def __init__(self, bank, record, tbl, baseOffset, offset):
         self.headerOffset, self.pitch = struct.unpack(">Lf", record)
         usedSetData.append((self, baseOffset + offset, baseOffset + offset + 8))
-        self.sample = SampleHeader(raw_defs, bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
+        self.sample = SampleHeader(bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
 
 class Percussion:
-    def __init__(self, raw_defs, bank, record, tbl, baseOffset, offset):
+    def __init__(self, bank, record, tbl, baseOffset, offset):
         self.unk, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">LLfL", record)
         usedSetData.append((self, baseOffset + offset, baseOffset + offset + 16))
-        self.sample = SampleHeader(raw_defs, bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
+        self.sample = SampleHeader(bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
         self.envelope = Envelope(tbl[self.envelopeOffset:self.envelopeOffset + 16])
         usedSetData.append((self.envelope, baseOffset + self.envelopeOffset, baseOffset + self.envelopeOffset + 16))
 
 class Instrument:
-    def __init__(self, raw_defs, bank, record, tbl, baseOffset, offset):
+    def __init__(self, bank, record, tbl, baseOffset, offset):
         self.keyLow, self.keyMedium, self.keyHigh, self.decay, self.envelopeOffset, self.keyLowOffset, self.keyLowPitch, self.keyMedOffset, self.keyMedPitch, self.keyHighOffset, self.keyHighPitch = struct.unpack(">BBBbLLfLfLf", record)
         usedSetData.append((self, baseOffset + offset, baseOffset + offset + 32))
         self.envelope = Envelope(tbl[self.envelopeOffset:self.envelopeOffset + 16])
         usedSetData.append((self.envelope, baseOffset + self.envelopeOffset, baseOffset + self.envelopeOffset + 16))
-        self.keyLowSample = None if self.keyLowOffset == 0 else SampleHeader(raw_defs, bank, tbl[self.keyLowOffset:self.keyLowOffset + 16], tbl, baseOffset, self.keyLowOffset)
-        self.keyMedSample = None if self.keyMedOffset == 0 else SampleHeader(raw_defs, bank, tbl[self.keyMedOffset:self.keyMedOffset + 16], tbl, baseOffset, self.keyMedOffset)
-        self.keyHighSample = None if self.keyHighOffset == 0 else SampleHeader(raw_defs, bank, tbl[self.keyHighOffset:self.keyHighOffset + 16], tbl, baseOffset, self.keyHighOffset)
+        self.keyLowSample = None if self.keyLowOffset == 0 else SampleHeader(bank, tbl[self.keyLowOffset:self.keyLowOffset + 16], tbl, baseOffset, self.keyLowOffset)
+        self.keyMedSample = None if self.keyMedOffset == 0 else SampleHeader(bank, tbl[self.keyMedOffset:self.keyMedOffset + 16], tbl, baseOffset, self.keyMedOffset)
+        self.keyHighSample = None if self.keyHighOffset == 0 else SampleHeader(bank, tbl[self.keyHighOffset:self.keyHighOffset + 16], tbl, baseOffset, self.keyHighOffset)
 
 class Envelope:
     def __init__(self, record):
         self.attackRate, self.attackLevel, self.sustainRate, self.sustainLevel, self.decayRate, self.decayLevel, self.releaseRate, self.releaseLevel = struct.unpack(">hHhHhHhH", record)
 
 class SampleHeader:
-    def __init__(self, raw_defs, bank, record, tbl, baseOffset, offset):
+    def __init__(self, bank, record, tbl, baseOffset, offset):
         self.u1, self.u2, self.length, self.address, self.loopOffset, self.bookOffset = struct.unpack(">bbHLLL", record)
         usedSetData.append((self, baseOffset + offset, baseOffset + offset + 16))
         self.bank = bank
@@ -159,7 +159,8 @@ def parse_setfile(setdef_data, set_data, raw_indexes):
     sets = []
     for i in range(count):
         buffer = setdef_data[16 + (i * 16):32 + (i * 16)]
-        sets.append(InstrumentSet(buffer, set_data, raw_indexes))
+        if i != 37:
+            sets.append(InstrumentSet(buffer, set_data))
     return sets
 
 def align(val, al):
@@ -503,7 +504,7 @@ def report_gaps(report_type, data, length):
         if tup[1] > currentEnd:
             gaps.append((currentEnd, tup[1]))
         elif tup[1] < currentEnd and (lastTuple[1] != tup[1] or lastTuple[2] != tup[2]):
-            intersections.append((tup[0], currentEnd, tup[1]))
+            intersections.append((lastTuple, tup))
         lastTuple = tup
         currentEnd = tup[2] if report_type == "SET" else (16 * math.ceil(tup[2] / 16))
     if currentEnd < length:
@@ -511,11 +512,11 @@ def report_gaps(report_type, data, length):
     if len(gaps) > 0:
         print(f"GAPS DETECTED IN {report_type} DATA:")
         for gap in gaps:
-            print(f"Unreferenced data at {gap[0]}-{gap[1]}")
+            print(f"Unreferenced data at {gap[0]:08X}-{gap[1]:08X} ({gap[1] - gap[0]} bytes)")
     if len(intersections) > 0:
         print(f"INTERSECTIONS DETECTED IN {report_type} DATA:")
-        for intersection in intersections:
-            print(f"{type(intersection[0]).__name__} overlaps data at {intersection[1]}-{intersection[2]}")
+        for cross in intersections:
+            print(f"{type(cross[0][0]).__name__} at {cross[0][1]:08X}-{cross[0][2]:08X} overlaps {type(cross[1][0]).__name__} at {cross[1][1]:08X}-{cross[1][2]:08X}")
 
 # Modified from https://stackoverflow.com/a/25935321/1359139, cc by-sa 3.0
 class NoIndent(object):
