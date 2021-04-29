@@ -1,6 +1,6 @@
 #include "z_kaleido_scope.h"
 
-s16 D_8082A6E0[] = { 100, 255 };
+static s16 D_8082A6E0[] = { 100, 255 };
 
 void KaleidoScope_UpdatePrompt(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;

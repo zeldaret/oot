@@ -7,121 +7,121 @@
 #include "textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "vt.h"
 
-void* sEquipmentFRATexs[] = {
+static void* sEquipmentFRATexs[] = {
     gPauseEquipment00FRATex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
     gPauseEquipment10FRATex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
     gPauseEquipment20FRATex, gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
 };
-void* sSelectItemFRATexs[] = {
+static void* sSelectItemFRATexs[] = {
     gPauseSelectItem00FRATex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
     gPauseSelectItem04Tex,    gPauseSelectItem10FRATex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
     gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20FRATex, gPauseSelectItem21Tex,
     gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
 };
-void* sMapFRATexs[] = {
+static void* sMapFRATexs[] = {
     gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
     gPauseMap10FRATex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
     gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
 };
-void* sQuestStatusFRATexs[] = {
+static void* sQuestStatusFRATexs[] = {
     gPauseQuestStatus00Tex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex, gPauseQuestStatus03Tex,
     gPauseQuestStatus04Tex, gPauseQuestStatus10FRATex, gPauseQuestStatus11Tex, gPauseQuestStatus12Tex,
     gPauseQuestStatus13Tex, gPauseQuestStatus14Tex,    gPauseQuestStatus20Tex, gPauseQuestStatus21Tex,
     gPauseQuestStatus22Tex, gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
 };
-void* sSaveFRATexs[] = {
+static void* sSaveFRATexs[] = {
     gPauseSave00FRATex, gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
     gPauseSave10FRATex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
     gPauseSave20FRATex, gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
 };
 
-void* sEquipmentGERTexs[] = {
+static void* sEquipmentGERTexs[] = {
     gPauseEquipment00GERTex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
     gPauseEquipment10GERTex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
     gPauseEquipment20GERTex, gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
 };
-void* sSelectItemGERTexs[] = {
+static void* sSelectItemGERTexs[] = {
     gPauseSelectItem00GERTex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
     gPauseSelectItem04Tex,    gPauseSelectItem10GERTex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
     gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20GERTex, gPauseSelectItem21Tex,
     gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
 };
-void* sMapGERTexs[] = {
+static void* sMapGERTexs[] = {
     gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
     gPauseMap10GERTex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
     gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
 };
-void* sQuestStatusGERTexs[] = {
+static void* sQuestStatusGERTexs[] = {
     gPauseQuestStatus00Tex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex, gPauseQuestStatus03Tex,
     gPauseQuestStatus04Tex, gPauseQuestStatus10GERTex, gPauseQuestStatus11Tex, gPauseQuestStatus12Tex,
     gPauseQuestStatus13Tex, gPauseQuestStatus14Tex,    gPauseQuestStatus20Tex, gPauseQuestStatus21Tex,
     gPauseQuestStatus22Tex, gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
 };
-void* sSaveGERTexs[] = {
+static void* sSaveGERTexs[] = {
     gPauseSave00Tex,    gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
     gPauseSave10GERTex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
     gPauseSave20GERTex, gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
 };
 
-void* sEquipmentENGTexs[] = {
+static void* sEquipmentENGTexs[] = {
     gPauseEquipment00Tex,    gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
     gPauseEquipment10ENGTex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
     gPauseEquipment20Tex,    gPauseEquipment21Tex, gPauseEquipment22Tex, gPauseEquipment23Tex, gPauseEquipment24Tex,
 };
-void* sSelectItemENGTexs[] = {
+static void* sSelectItemENGTexs[] = {
     gPauseSelectItem00ENGTex, gPauseSelectItem01Tex,    gPauseSelectItem02Tex,    gPauseSelectItem03Tex,
     gPauseSelectItem04Tex,    gPauseSelectItem10ENGTex, gPauseSelectItem11Tex,    gPauseSelectItem12Tex,
     gPauseSelectItem13Tex,    gPauseSelectItem14Tex,    gPauseSelectItem20ENGTex, gPauseSelectItem21Tex,
     gPauseSelectItem22Tex,    gPauseSelectItem23Tex,    gPauseSelectItem24Tex,
 };
-void* sMapENGTexs[] = {
+static void* sMapENGTexs[] = {
     gPauseMap00Tex,    gPauseMap01Tex, gPauseMap02Tex, gPauseMap03Tex, gPauseMap04Tex,
     gPauseMap10ENGTex, gPauseMap11Tex, gPauseMap12Tex, gPauseMap13Tex, gPauseMap14Tex,
     gPauseMap20Tex,    gPauseMap21Tex, gPauseMap22Tex, gPauseMap23Tex, gPauseMap24Tex,
 };
-void* sQuestStatusENGTexs[] = {
+static void* sQuestStatusENGTexs[] = {
     gPauseQuestStatus00ENGTex, gPauseQuestStatus01Tex,    gPauseQuestStatus02Tex,    gPauseQuestStatus03Tex,
     gPauseQuestStatus04Tex,    gPauseQuestStatus10ENGTex, gPauseQuestStatus11Tex,    gPauseQuestStatus12Tex,
     gPauseQuestStatus13Tex,    gPauseQuestStatus14Tex,    gPauseQuestStatus20ENGTex, gPauseQuestStatus21Tex,
     gPauseQuestStatus22Tex,    gPauseQuestStatus23Tex,    gPauseQuestStatus24Tex,
 };
-void* sSaveENGTexs[] = {
+static void* sSaveENGTexs[] = {
     gPauseSave00Tex,    gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
     gPauseSave10ENGTex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
     gPauseSave20Tex,    gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
 };
 
-void* sGameOverTexs[] = {
+static void* sGameOverTexs[] = {
     gPauseSave00Tex,     gPauseSave01Tex, gPauseSave02Tex, gPauseSave03Tex, gPauseSave04Tex,
     gPauseGameOver10Tex, gPauseSave11Tex, gPauseSave12Tex, gPauseSave13Tex, gPauseSave14Tex,
     gPauseSave20Tex,     gPauseSave21Tex, gPauseSave22Tex, gPauseSave23Tex, gPauseSave24Tex,
 };
 
-void* sEquipmentTexs[] = {
+static void* sEquipmentTexs[] = {
     sEquipmentENGTexs,
     sEquipmentGERTexs,
     sEquipmentFRATexs,
 };
 
-void* sSelectItemTexs[] = {
+static void* sSelectItemTexs[] = {
     sSelectItemENGTexs,
     sSelectItemGERTexs,
     sSelectItemFRATexs,
 };
 
-void* sMapTexs[] = {
+static void* sMapTexs[] = {
     sMapENGTexs,
     sMapGERTexs,
     sMapFRATexs,
 };
 
-void* sQuestStatusTexs[] = {
+static void* sQuestStatusTexs[] = {
     sQuestStatusENGTexs,
     sQuestStatusGERTexs,
     sQuestStatusFRATexs,
 };
 
-void* sSaveTexs[] = {
+static void* sSaveTexs[] = {
     sSaveENGTexs,
     sSaveGERTexs,
     sSaveFRATexs,
@@ -135,7 +135,7 @@ s16 D_8082AB2C[] = {
     24, 72, 13, 22, 19, 20, 19, 27, 14, 26, 22, 21, 49, 32, 45, 60, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 16, 32, 8,
 };
 
-u8 D_8082AB6C[][5] = {
+static u8 D_8082AB6C[][5] = {
     { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_ENABLED },
     { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },
     { BTN_ENABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED, BTN_DISABLED },
@@ -144,26 +144,26 @@ u8 D_8082AB6C[][5] = {
     { BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_ENABLED, BTN_DISABLED },
 };
 
-s16 D_8082AB8C = 0;
-s16 D_8082AB90 = 0;
-s16 D_8082AB94 = 0;
-s16 D_8082AB98 = 255;
+static s16 D_8082AB8C = 0;
+static s16 D_8082AB90 = 0;
+static s16 D_8082AB94 = 0;
+static s16 D_8082AB98 = 255;
 
-s16 D_8082AB9C = 255;
-s16 D_8082ABA0 = 0;
-s16 D_8082ABA4 = 0;
+static s16 D_8082AB9C = 255;
+static s16 D_8082ABA0 = 0;
+static s16 D_8082ABA4 = 0;
 
-s16 sInDungeonScene = false;
+static s16 sInDungeonScene = false;
 
-f32 D_8082ABAC[] = {
+static f32 D_8082ABAC[] = {
     -4.0f, 4.0f, 4.0f, 4.0f, 4.0f, -4.0f, -4.0f, -4.0f,
 };
 
-f32 D_8082ABCC[] = {
+static f32 D_8082ABCC[] = {
     -4.0f, -4.0f, -4.0f, 4.0f, 4.0f, 4.0f, 4.0f, -4.0f,
 };
 
-u16 D_8082ABEC[] = {
+static u16 D_8082ABEC[] = {
     PAUSE_MAP, PAUSE_EQUIP, PAUSE_QUEST, PAUSE_ITEM, PAUSE_EQUIP, PAUSE_MAP, PAUSE_ITEM, PAUSE_QUEST,
 };
 
@@ -189,46 +189,46 @@ u8 gAreaGsFlags[] = {
     0x07, 0x0F, 0x0F, 0xFF, 0xFF, 0xFF, 0x1F, 0x0F, 0x03, 0x0F, 0x00, 0x00,
 };
 
-void* sCursorTexs[] = {
+static void* sCursorTexs[] = {
     gPauseMenuCursorTopLeftTex,
     gPauseMenuCursorTopRightTex,
     gPauseMenuCursorBottomLeftTex,
     gPauseMenuCursorBottomRightTex,
 };
 
-s16 sCursorColors[][3] = {
+static s16 sCursorColors[][3] = {
     { 255, 255, 255 },
     { 255, 255, 0 },
     { 0, 255, 50 },
 };
 
-void* sSavePromptTexs[] = {
+static void* sSavePromptTexs[] = {
     gPauseSavePromptENGTex,
     gPauseSavePromptGERTex,
     gPauseSavePromptFRATex,
 };
 
-void* sSaveConfirmationTexs[] = {
+static void* sSaveConfirmationTexs[] = {
     gPauseSaveConfirmationENGTex,
     gPauseSaveConfirmationGERTex,
     gPauseSaveConfirmationFRATex,
 };
 
-void* sContinuePromptTexs[] = {
+static void* sContinuePromptTexs[] = {
     gContinuePlayingENGTex,
     gContinuePlayingGERTex,
     gContinuePlayingFRATex,
 };
 
-void* sPromptChoiceTexs[][2] = {
+static void* sPromptChoiceTexs[][2] = {
     { gPauseYesENGTex, gPauseNoENGTex },
     { gPauseYesGERTex, gPauseNoGERTex },
     { gPauseYesFRATex, gPauseNoFRATex },
 };
 
-u8 D_808321A8[5];
-PreRenderContext sPlayerPreRenderCtx;
-void* sPreRenderCvg;
+static u8 D_808321A8[5];
+static PreRenderContext sPlayerPreRenderCtx;
+static void* sPreRenderCvg;
 
 void KaleidoScope_SetupPlayerPreRender(GlobalContext* globalCtx) {
     Gfx* gfx;

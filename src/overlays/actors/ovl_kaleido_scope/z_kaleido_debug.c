@@ -1,7 +1,7 @@
 #include "z_kaleido_scope.h"
 
 // Positions of each input section in the editor
-u16 sSectionPositions[][2] = {
+static u16 sSectionPositions[][2] = {
     { 64, 15 },   { 144, 15 },  { 170, 15 },  { 78, 35 },   { 104, 35 },  { 130, 35 },  { 156, 35 },  { 182, 35 },
     { 208, 35 },  { 78, 50 },   { 104, 50 },  { 130, 50 },  { 156, 50 },  { 182, 50 },  { 208, 50 },  { 78, 65 },
     { 104, 65 },  { 130, 65 },  { 156, 65 },  { 182, 65 },  { 208, 65 },  { 78, 80 },   { 104, 80 },  { 130, 80 },
@@ -17,17 +17,17 @@ u16 sSectionPositions[][2] = {
 };
 
 // First section of each row in the editor (starting from the top)
-u16 sRowFirstSections[] = {
+static u16 sRowFirstSections[] = {
     0x00, 0x03, 0x1B, 0x2C, 0x34, 0x38, 0x44, 0x4A, 0x56, 0x59, 0x5C,
 };
 
 // Maximum value of each upgrade type
-u8 sMaxUpgradeValues[] = {
+static u8 sMaxUpgradeValues[] = {
     3, 3, 3, 2, 2, 3, 3, 3,
 };
 
 // Item ID corresponding to each slot, aside from bottles and trade items
-s16 sSlotItems[] = {
+static s16 sSlotItems[] = {
     ITEM_STICK,     ITEM_NUT,           ITEM_BOMB,    ITEM_BOW,      ITEM_ARROW_FIRE,  ITEM_DINS_FIRE,
     ITEM_SLINGSHOT, ITEM_OCARINA_FAIRY, ITEM_BOMBCHU, ITEM_HOOKSHOT, ITEM_ARROW_ICE,   ITEM_FARORES_WIND,
     ITEM_BOOMERANG, ITEM_LENS,          ITEM_BEAN,    ITEM_HAMMER,   ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
