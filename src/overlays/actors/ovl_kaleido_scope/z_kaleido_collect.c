@@ -3,7 +3,7 @@
 #include "textures/icon_item_static/icon_item_static.h"
 
 #ifdef NON_MATCHING
-// still needs some work
+// many non matching issues but should be functionally equivalent
 void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     static s16 D_8082A070[][4] = {
         { 255, 0, 0, 255 },
@@ -72,6 +72,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
     s16 phi_s6;
     s16 phi_v1;
     s16 phi_a2;
+    s16 phi_s0_2;
     s16 sp208[3];
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_collect.c", 248);
@@ -142,33 +143,33 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 if (pauseCtx->cursorPoint[PAUSE_QUEST] != 0x18) {
                     if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
                         if (pauseCtx->cursorPoint[PAUSE_QUEST] < 6) {
-                            phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x66;
-                            osSyncPrintf("000 ccc=%d\n", phi_s0);
+                            phi_s0_2 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x66;
+                            osSyncPrintf("000 ccc=%d\n", phi_s0_2);
                         } else if (pauseCtx->cursorPoint[PAUSE_QUEST] < 0x12) {
-                            phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x54;
-                            osSyncPrintf("111 ccc=%d\n", phi_s0);
+                            phi_s0_2 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x54;
+                            osSyncPrintf("111 ccc=%d\n", phi_s0_2);
                         } else {
-                            phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x5A;
-                            osSyncPrintf("222 ccc=%d (%d, %d, %d)\n", phi_s0, pauseCtx->cursorPoint[PAUSE_QUEST], 0x12,
+                            phi_s0_2 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x5A;
+                            osSyncPrintf("222 ccc=%d (%d, %d, %d)\n", phi_s0_2, pauseCtx->cursorPoint[PAUSE_QUEST], 0x12,
                                          0x6C);
                         }
                     } else {
-                        phi_s0 = PAUSE_ITEM_NONE;
+                        phi_s0_2 = PAUSE_ITEM_NONE;
                         osSyncPrintf("999 ccc=%d (%d,  %d)\n", PAUSE_ITEM_NONE, pauseCtx->cursorPoint[PAUSE_QUEST],
                                      0x18);
                     }
                 } else {
                     if ((gSaveContext.inventory.questItems & 0xF0000000) != 0) {
-                        phi_s0 = 0x72;
+                        phi_s0_2 = 0x72;
                     } else {
-                        phi_s0 = PAUSE_ITEM_NONE;
+                        phi_s0_2 = PAUSE_ITEM_NONE;
                     }
-                    osSyncPrintf("888 ccc=%d (%d,  %d,  %x)\n", phi_s0, pauseCtx->cursorPoint[PAUSE_QUEST], 0x72,
+                    osSyncPrintf("888 ccc=%d (%d,  %d,  %x)\n", phi_s0_2, pauseCtx->cursorPoint[PAUSE_QUEST], 0x72,
                                  gSaveContext.inventory.questItems & 0xF0000000);
                 }
 
                 sp216 = pauseCtx->cursorPoint[PAUSE_QUEST];
-                pauseCtx->cursorItem[pauseCtx->pageIndex] = phi_s0;
+                pauseCtx->cursorItem[pauseCtx->pageIndex] = phi_s0_2;
                 pauseCtx->cursorSlot[pauseCtx->pageIndex] = sp216;
             }
 
@@ -221,12 +222,12 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
                 Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
-                    phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x5A;
+                    phi_s0_2 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x5A;
                 } else {
-                    phi_s0 = PAUSE_ITEM_NONE;
+                    phi_s0_2 = PAUSE_ITEM_NONE;
                 }
                 sp216 = pauseCtx->cursorPoint[PAUSE_QUEST];
-                pauseCtx->cursorItem[pauseCtx->pageIndex] = phi_s0;
+                pauseCtx->cursorItem[pauseCtx->pageIndex] = phi_s0_2;
                 pauseCtx->cursorSlot[pauseCtx->pageIndex] = sp216;
             }
         } else {
@@ -239,17 +240,17 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 if (CHECK_QUEST_ITEM(pauseCtx->cursorPoint[PAUSE_QUEST])) {
                     if (pauseCtx->cursorPoint[PAUSE_QUEST] < 6) {
-                        phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x66;
+                        phi_s0_2 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x66;
                     } else if (pauseCtx->cursorPoint[PAUSE_QUEST] < 0xC) {
-                        phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x4E;
+                        phi_s0_2 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x4E;
                     } else {
-                        phi_s0 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x69;
+                        phi_s0_2 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x69;
                     }
                 } else {
-                    phi_s0 = PAUSE_ITEM_NONE;
+                    phi_s0_2 = PAUSE_ITEM_NONE;
                 }
                 sp216 = pauseCtx->cursorPoint[PAUSE_QUEST];
-                pauseCtx->cursorItem[pauseCtx->pageIndex] = phi_s0;
+                pauseCtx->cursorItem[pauseCtx->pageIndex] = phi_s0_2;
                 pauseCtx->cursorSlot[pauseCtx->pageIndex] = sp216;
             }
         }
