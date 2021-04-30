@@ -199,8 +199,8 @@ void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&thisx->shape, -200.0f, ActorShadow_DrawCircle, 70.0f);
     this->flipState = TEKTITE_INITIAL;
     thisx->colChkInfo.damageTable = sDamageTable;
-    this->actionVar1 = 0; // value immediately overwritten in SetupIdle
-    this->unk_2C4.unk_10 = 0;
+    this->actionVar1 = 0;
+    this->bodyBreak.val = BODYBREAK_STATUS_FINISHED;
     thisx->focus.pos = thisx->world.pos;
     thisx->focus.pos.y += 20.0f;
     thisx->colChkInfo.health = 2;
@@ -769,14 +769,14 @@ void EnTite_DeathCry(EnTite* this, GlobalContext* globalCtx) {
                                       DEADSOUND_REPEAT_MODE_OFF, 40);
     this->action = TEKTITE_FALL_APART;
     EnTite_SetupAction(this, EnTite_FallApart);
-    func_80032E24(&this->unk_2C4, 0x18, globalCtx);
+    BodyBreak_Alloc(&this->bodyBreak, 24, globalCtx);
 }
 
 /**
  * Spawn EnPart and drop items
  */
 void EnTite_FallApart(EnTite* this, GlobalContext* globalCtx) {
-    if (func_8003305C(&this->actor, &this->unk_2C4, globalCtx, (this->actor.params + 0xB))) {
+    if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, this->actor.params + 0xB)) {
         if (this->actor.params == TEKTITE_BLUE) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xE0);
         } else {
@@ -971,26 +971,25 @@ void EnTite_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-/**
- * Get the locations where the tektite feet are rendered
- */
 void EnTite_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** limbDList, Vec3s* rot, void* thisx) {
     EnTite* this = THIS;
+
     switch (limbIndex) {
         case 8:
             Matrix_MultVec3f(&sFootOffset, &this->backRightFootPos);
             break;
-        case 0xD:
+        case 13:
             Matrix_MultVec3f(&sFootOffset, &this->frontRightFootPos);
             break;
-        case 0x12:
+        case 18:
             Matrix_MultVec3f(&sFootOffset, &this->backLeftFootPos);
             break;
-        case 0x17:
+        case 23:
             Matrix_MultVec3f(&sFootOffset, &this->frontLeftFootPos);
             break;
     }
-    func_80032F54(&this->unk_2C4, limbIndex, 0, 0x18, 0x18, limbDList, -1);
+
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 24, 24, limbDList, BODYBREAK_OBJECT_DEFAULT);
 }
 
 void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx) {

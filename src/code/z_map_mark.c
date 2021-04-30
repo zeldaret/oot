@@ -98,7 +98,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_mark.c", 303);
 
     while (true) {
-        if (mapMarkIconData->markType == MAP_MARK_ICON_NONE) {
+        if (mapMarkIconData->markType == MAP_MARK_NONE) {
             break;
         }
 
@@ -109,8 +109,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
 
         markPoint = mapMarkIconData->points;
         for (i = 0; i < mapMarkIconData->count; i++) {
-            if (mapMarkIconData->markType != MAP_MARK_ICON_CHEST ||
-                !Flags_GetTreasure(globalCtx, markPoint->chestFlag)) {
+            if ((mapMarkIconData->markType != MAP_MARK_CHEST) || !Flags_GetTreasure(globalCtx, markPoint->chestFlag)) {
                 markInfo = &sMapMarkInfoTable[mapMarkIconData->markType];
 
                 gDPPipeSync(OVERLAY_DISP++);

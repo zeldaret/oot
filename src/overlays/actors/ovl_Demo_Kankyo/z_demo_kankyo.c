@@ -193,7 +193,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("bank_ID = %d\n", objBankIndex);
     if (objBankIndex < 0) {
-        __assert("0", "../z_demo_kankyo.c", 521);
+        ASSERT(0, "0", "../z_demo_kankyo.c", 521);
     } else {
         this->objBankIndex = objBankIndex;
     }

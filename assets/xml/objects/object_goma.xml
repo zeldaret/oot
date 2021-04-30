@@ -28,16 +28,16 @@
         <Animation Name="gGohmaAnim_0039D0" Offset="0x39D0"/> <!-- unused attack animation -->
 
         <!-- Limb textures -->
-        <Texture Name="gGohmaTex_0183A8" Outname="gohma_tex_0183A8" Format="rgb5a1" Width="16" Height="16" Offset="0x183A8"/>
-        <Texture Name="gGohmaTex_0185A8" Outname="gohma_tex_0185A8" Format="rgb5a1" Width="16" Height="16" Offset="0x185A8"/>
-        <Texture Name="gGohmaTex_0187A8" Outname="gohma_tex_0187A8" Format="rgb5a1" Width="16" Height="16" Offset="0x187A8"/>
-        <Texture Name="gGohmaTex_0189A8" Outname="gohma_tex_0189A8" Format="rgb5a1" Width="32" Height="32" Offset="0x189A8"/>
-        <Texture Name="gGohmaTex_0191A8" Outname="gohma_tex_0191A8" Format="rgb5a1" Width="16" Height="16" Offset="0x191A8"/>
-        <Texture Name="gGohmaTex_0193A8" Outname="gohma_tex_0193A8" Format="rgb5a1" Width="32" Height="32" Offset="0x193A8"/>
-        
+        <Texture Name="gGohmaTex_0183A8" OutName="gohma_tex_0183A8" Format="rgb5a1" Width="16" Height="16" Offset="0x183A8"/>
+        <Texture Name="gGohmaTex_0185A8" OutName="gohma_tex_0185A8" Format="rgb5a1" Width="16" Height="16" Offset="0x185A8"/>
+        <Texture Name="gGohmaTex_0187A8" OutName="gohma_tex_0187A8" Format="rgb5a1" Width="16" Height="16" Offset="0x187A8"/>
+        <Texture Name="gGohmaTex_0189A8" OutName="gohma_tex_0189A8" Format="rgb5a1" Width="32" Height="32" Offset="0x189A8"/>
+        <Texture Name="gGohmaTex_0191A8" OutName="gohma_tex_0191A8" Format="rgb5a1" Width="16" Height="16" Offset="0x191A8"/>
+        <Texture Name="gGohmaTex_0193A8" OutName="gohma_tex_0193A8" Format="rgb5a1" Width="32" Height="32" Offset="0x193A8"/>
+
         <!-- Boss title card -->
         <Texture Name="gGohmaTitleCardTex" OutName="gohma_title_card" Format="i8" Width="128" Height="120" Offset="0x19BA8"/>
-        
+
         <!-- Door -->
         <DList Name="gGohmaDoorDL" Offset="0x1EC20"/>
         <Collision Name="gGohmaDoorCol" Offset="0x1EDD0"/>

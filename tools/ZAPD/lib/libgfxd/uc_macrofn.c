@@ -2016,6 +2016,10 @@ UCFUNC int c_DPLoadTLUT(gfxd_macro_t *m, int n_macro)
 	return 0;
 }
 
+#ifdef _MSC_VER
+#pragma warning(disable:4146)
+#endif
+
 #if defined(F3DEX_GBI) || defined(F3DEX_GBI_2)
 UCFUNC int d_BranchZ(gfxd_macro_t *m, uint32_t hi, uint32_t lo)
 {
