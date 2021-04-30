@@ -36,7 +36,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 	vector<string> relSections = {".rel.text", ".rel.data", ".rel.rodata"};
 	vector<string> sections = {".text", ".data", ".rodata"};
 
-	int sectionOffs[5] = {0};
+	int32_t sectionOffs[5] = {0};
 	vector<RelocationEntry*> textRelocs;
 	vector<RelocationEntry*> dataRelocs;
 	vector<RelocationEntry*> rodataRelocs;
@@ -65,7 +65,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 	for (auto curReader : readers)
 	{
 		Elf_Half sec_num = curReader->sections.size();
-		for (int i = 0; i < sec_num; i++)
+		for (int32_t i = 0; i < sec_num; i++)
 		{
 			section* pSec = curReader->sections[i];
 
@@ -75,16 +75,16 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 				SectionType sectionType = GetSectionTypeFromStr(pSec->get_name());
 
 				if (sectionType == SectionType::ERROR)
-					printf("WARNING: One of the section types returned ERROR\n");
+					fprintf(stderr, "WARNING: One of the section types returned ERROR\n");
 
 				relocation_section_accessor relocs(*curReader, pSec);
 				for (Elf_Xword j = 0; j < relocs.get_entries_num(); j++)
 				{
-					Elf64_Addr offset;
-					Elf_Word symbol;
-					Elf_Word type;
+					Elf64_Addr offset = 0;
+					Elf_Word symbol = 0;
+					Elf_Word type = 0;
 					{
-						Elf_Sxword addend;
+						Elf_Sxword addend = 0;
 						relocs.get_entry(j, offset, symbol, type, addend);
 					}
 
@@ -163,7 +163,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 		}
 
 		// increase section offsets
-		for (int i = 0; i < sec_num; i++)
+		for (int32_t i = 0; i < sec_num; i++)
 		{
 			section* pSec = curReader->sections[i];
 			if (pSec->get_type() == SHT_PROGBITS &&
@@ -208,7 +208,7 @@ string ZOverlay::GetSourceOutputCode(const std::string& prefix)
 		output += StringHelper::Sprintf(".word 0x%08X\n", reloc->CalcRelocationWord());
 	}
 
-	int offset = ((int)entries.size() * 4) + 20;
+	size_t offset = (entries.size() * 4) + 20;
 
 	while (offset % 16 != 12)
 	{
@@ -218,11 +218,6 @@ string ZOverlay::GetSourceOutputCode(const std::string& prefix)
 
 	output += StringHelper::Sprintf(".word 0x%08X\n", offset + 4);
 	return output;
-}
-
-ZResourceType ZOverlay::GetResourceType()
-{
-	return ZResourceType::Overlay;
 }
 
 SectionType ZOverlay::GetSectionTypeFromStr(string sectionName)

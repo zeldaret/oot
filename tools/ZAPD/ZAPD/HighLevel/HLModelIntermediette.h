@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Vec3s.h>
 #include <assimp/scene.h>
 #include <stdint.h>
 #include <string>
@@ -8,7 +9,6 @@
 #include "../ZDisplayList.h"
 #include "../ZSkeleton.h"
 #include "HLFileIntermediette.h"
-#include "HLTexture.h"
 
 /*
  * An intermediette format for models. Goes from FBX<-->Intermediette<-->Display List C Code.
@@ -32,10 +32,26 @@ public:
 	virtual void InitFromXML(tinyxml2::XMLElement* xmlElement);
 };
 
+class HLModelObj
+{
+public:
+	Vec3s pos;
+	Vec3s rot;
+	std::vector<aiVector3D> vertices;
+	std::vector<int32_t> indices;
+
+	HLModelObj() = default;
+	HLModelObj(Vec3s nPos, Vec3s nRot, std::vector<aiVector3D> nVerts,
+	           std::vector<int32_t> nIndices);
+};
+
 class HLModelIntermediette : public HLFileIntermediette
 {
 public:
 	std::vector<HLIntermediette*> blocks;
+	std::vector<Vec3s> meshTranslations;
+	std::vector<HLModelObj*> objects;
+	Vec3s lastTrans;
 
 	bool hasSkeleton;
 
@@ -52,8 +68,10 @@ public:
 	static HLModelIntermediette* FromXML(tinyxml2::XMLElement* root);
 	static void FromZDisplayList(HLModelIntermediette* model, ZDisplayList* zDisplayList);
 	static void FromZSkeleton(HLModelIntermediette* model, ZSkeleton* zSkeleton);
+	static void ProcessZSkeletonLimb(HLModelIntermediette* model, ZSkeleton* zSkeleton,
+	                                 ZLimb* limb);
 	std::string ToOBJFile();
-	std::string ToFBXFile();
+	std::string ToAssimpFile();
 
 	std::string OutputCode();
 	std::string OutputXML();
@@ -76,6 +94,17 @@ public:
 	virtual void InitFromXML(tinyxml2::XMLElement* xmlElement);
 	virtual std::string OutputCode();
 	virtual void OutputXML(tinyxml2::XMLDocument* doc, tinyxml2::XMLElement* root);
+};
+
+class HLSetTranslation : public HLIntermediette
+{
+public:
+	float transX, transY, transZ;
+
+	HLSetTranslation();
+	HLSetTranslation(float nTransX, float nTransY, float nTransZ);
+
+	virtual void OutputAssimp(aiScene* scene, std::vector<aiVector3D>* verts);
 };
 
 class HLTerminator : public HLIntermediette
@@ -249,7 +278,7 @@ class HLDisplayListIntermediette : public HLIntermediette
 {
 public:
 	std::vector<HLDisplayListCommand*> commands;
-	int address;
+	uint32_t address;
 
 	HLDisplayListIntermediette();
 

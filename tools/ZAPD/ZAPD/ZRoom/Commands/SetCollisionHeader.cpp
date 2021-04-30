@@ -7,17 +7,19 @@
 using namespace std;
 
 SetCollisionHeader::SetCollisionHeader(ZRoom* nZRoom, std::vector<uint8_t> rawData,
-                                       int rawDataIndex)
+                                       uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
-	collisionHeader = ZCollisionHeader(
-		nZRoom->parent,
-		StringHelper::Sprintf("%sCollisionHeader0x%06X", nZRoom->GetName().c_str(), segmentOffset),
-		rawData, segmentOffset);
+	collisionHeader = new ZCollisionHeader(nZRoom->parent);
+	collisionHeader->SetRawData(rawData);
+	collisionHeader->SetRawDataIndex(segmentOffset);
+	collisionHeader->SetName(
+		StringHelper::Sprintf("%sCollisionHeader0x%06X", nZRoom->GetName().c_str(), segmentOffset));
+	collisionHeader->ParseRawData();
 }
 
-string SetCollisionHeader::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetCollisionHeader::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	return StringHelper::Sprintf(
 		"%s 0x00, (u32)&%sCollisionHeader0x%06X",
@@ -25,7 +27,7 @@ string SetCollisionHeader::GenerateSourceCodePass1(string roomName, int baseAddr
 		zRoom->GetName().c_str(), segmentOffset);
 }
 
-string SetCollisionHeader::GenerateSourceCodePass2(string roomName, int baseAddress)
+string SetCollisionHeader::GenerateSourceCodePass2(string roomName, uint32_t baseAddress)
 {
 	return "";
 }
