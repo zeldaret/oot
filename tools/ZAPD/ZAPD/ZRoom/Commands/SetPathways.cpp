@@ -9,7 +9,7 @@ REGISTER_ZFILENODE(Path, ZSetPathways);
 
 using namespace std;
 
-ZSetPathways::ZSetPathways(ZFile* nParent) : ZResource(parent)
+ZSetPathways::ZSetPathways(ZFile* nParent) : ZResource(nParent)
 {
 }
 
@@ -71,7 +71,7 @@ string ZSetPathways::GenerateSourceCodePass2(string roomName, uint32_t baseAddre
 {
 	string sourceOutput = "";
 
-	sourceOutput += StringHelper::Sprintf("%s 0, (u32)%sPathway0x%06X };",
+	sourceOutput += StringHelper::Sprintf("\n\t%s 0, (u32)%sPathway0x%06X\n};",
 	                                      ZRoomCommand::GenerateSourceCodePass1("", 0).c_str(),
 	                                      parent->GetName().c_str(), segmentOffset);
 

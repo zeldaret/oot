@@ -80,11 +80,11 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 				relocation_section_accessor relocs(*curReader, pSec);
 				for (Elf_Xword j = 0; j < relocs.get_entries_num(); j++)
 				{
-					Elf64_Addr offset;
-					Elf_Word symbol;
-					Elf_Word type;
+					Elf64_Addr offset = 0;
+					Elf_Word symbol = 0;
+					Elf_Word type = 0;
 					{
-						Elf_Sxword addend;
+						Elf_Sxword addend = 0;
 						relocs.get_entry(j, offset, symbol, type, addend);
 					}
 

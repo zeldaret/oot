@@ -244,11 +244,9 @@ Struct_800A5E28::~Struct_800A5E28()
 
 ZLimb::~ZLimb()
 {
-	for(auto DL : dLists)
+	for (auto DL : dLists)
 		delete DL;
 }
-
-
 
 void Struct_800A5E28::PreGenSourceFiles(const std::string& prefix)
 {

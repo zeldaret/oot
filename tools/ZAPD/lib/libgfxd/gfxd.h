@@ -335,13 +335,13 @@ void gfxd_vtx_callback(gfxd_vtx_fn_t *fn);
 typedef int gfxd_vp_fn_t(uint32_t vp);
 void gfxd_vp_callback(gfxd_vp_fn_t *fn);
 
-typedef int gfxd_uctext_fn_t(uint32_t text, size_t size);
+typedef int gfxd_uctext_fn_t(uint32_t text, uint32_t size);
 void gfxd_uctext_callback(gfxd_uctext_fn_t *fn);
 
-typedef int gfxd_ucdata_fn_t(uint32_t data, size_t size);
+typedef int gfxd_ucdata_fn_t(uint32_t data, uint32_t size);
 void gfxd_ucdata_callback(gfxd_ucdata_fn_t *fn);
 
-typedef int gfxd_dram_fn_t(uint32_t dram, size_t size);
+typedef int gfxd_dram_fn_t(uint32_t dram, uint32_t size);
 void gfxd_dram_callback(gfxd_dram_fn_t *fn);
 
 int gfxd_write(const void *buf, int count);

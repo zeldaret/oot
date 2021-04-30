@@ -65,7 +65,7 @@ protected:
 
     struct Header {
         uint16_t type;
-        size_t size;
+        uint32_t size;
         uint16_t reserved1;
         uint16_t reserved2;
         uint32_t offset;
@@ -81,7 +81,7 @@ protected:
     };
 
     struct DIB {
-        size_t size;
+        uint32_t size;
         int32_t width;
         int32_t height;
         uint16_t planes;

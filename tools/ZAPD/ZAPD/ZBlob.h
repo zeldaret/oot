@@ -7,8 +7,8 @@ class ZBlob : public ZResource
 {
 public:
 	ZBlob(ZFile* nParent);
-	ZBlob(const std::vector<uint8_t>& nRawData, uint32_t rawDataIndex, size_t size, std::string nName,
-	      ZFile* nParent);
+	ZBlob(const std::vector<uint8_t>& nRawData, uint32_t rawDataIndex, size_t size,
+	      std::string nName, ZFile* nParent);
 
 	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
 	                    const uint32_t nRawDataIndex,

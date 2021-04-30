@@ -62,8 +62,9 @@ void ZTexture::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<ui
 	PrepareBitmap();
 }
 
-ZTexture* ZTexture::FromBinary(TextureType nType, std::vector<uint8_t> nRawData, uint32_t nRawDataIndex,
-                               std::string nName, int32_t nWidth, int32_t nHeight, ZFile* nParent)
+ZTexture* ZTexture::FromBinary(TextureType nType, std::vector<uint8_t> nRawData,
+                               uint32_t nRawDataIndex, std::string nName, int32_t nWidth,
+                               int32_t nHeight, ZFile* nParent)
 {
 	ZTexture* tex = new ZTexture(nParent);
 
@@ -104,8 +105,8 @@ ZTexture* ZTexture::FromPNG(string pngFilePath, TextureType texType)
 	tex->type = texType;
 	tex->name = StringHelper::Split(Path::GetFileNameWithoutExtension(pngFilePath), ".")[0];
 
-	tex->bmpRgb =
-		(uint8_t*)stbi_load((pngFilePath).c_str(), (int*)&tex->width, (int*)&tex->height, &comp, STBI_rgb);
+	tex->bmpRgb = (uint8_t*)stbi_load((pngFilePath).c_str(), (int*)&tex->width, (int*)&tex->height,
+	                                  &comp, STBI_rgb);
 	stbi_image_free(tex->bmpRgb);
 	tex->bmpRgb = nullptr;
 	tex->rawData = vector<uint8_t>(tex->GetRawDataSize());
@@ -218,16 +219,16 @@ void ZTexture::PrepareBitmap()
 {
 	switch (type)
 	{
-		case TextureType::RGBA16bpp:
-		case TextureType::RGBA32bpp:
-		case TextureType::GrayscaleAlpha4bpp:
-		case TextureType::GrayscaleAlpha8bpp:
-		case TextureType::GrayscaleAlpha16bpp:
-			bmpRgba = new uint8_t[width * height * 4];
-			break;
-		default:
-			bmpRgb = new uint8_t[width * height * 3];
-			break;
+	case TextureType::RGBA16bpp:
+	case TextureType::RGBA32bpp:
+	case TextureType::GrayscaleAlpha4bpp:
+	case TextureType::GrayscaleAlpha8bpp:
+	case TextureType::GrayscaleAlpha16bpp:
+		bmpRgba = new uint8_t[width * height * 4];
+		break;
+	default:
+		bmpRgb = new uint8_t[width * height * 3];
+		break;
 	}
 
 	switch (type)
@@ -785,15 +786,16 @@ TextureType ZTexture::GetTextureType()
 
 void ZTexture::Save(const std::string& outFolder)
 {
-	//CalcHash();
-
-	// Optionally generate text file containing CRC information. This is going to be a one time process for generating the Texture Pool XML.
+	// Optionally generate text file containing CRC information. This is going to be a one time
+	// process for generating the Texture Pool XML.
 	if (Globals::Instance->testMode)
 	{
 		if (hash != 0)
 		{
-			File::WriteAllText(StringHelper::Sprintf("%s/%s.txt", Globals::Instance->outputPath.c_str(),
-				outName.c_str()), StringHelper::Sprintf("%08lX", hash));
+			File::WriteAllText(StringHelper::Sprintf("%s/%s.txt",
+			                                         Globals::Instance->outputPath.c_str(),
+			                                         outName.c_str()),
+			                   StringHelper::Sprintf("%08lX", hash));
 			hash = 0;
 		}
 	}
@@ -883,7 +885,7 @@ void ZTexture::CalcHash()
 {
 	// Make sure raw data is fixed before we calc the hash...
 	bool fixFlag = !isRawDataFixed;
-	
+
 	if (fixFlag)
 		FixRawData();
 

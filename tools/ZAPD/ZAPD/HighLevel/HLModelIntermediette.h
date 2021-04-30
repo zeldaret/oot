@@ -41,7 +41,8 @@ public:
 	std::vector<int32_t> indices;
 
 	HLModelObj() = default;
-	HLModelObj(Vec3s nPos, Vec3s nRot, std::vector<aiVector3D> nVerts, std::vector<int32_t> nIndices);
+	HLModelObj(Vec3s nPos, Vec3s nRot, std::vector<aiVector3D> nVerts,
+	           std::vector<int32_t> nIndices);
 };
 
 class HLModelIntermediette : public HLFileIntermediette

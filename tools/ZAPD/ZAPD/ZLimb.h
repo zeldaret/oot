@@ -40,7 +40,7 @@ public:
 
 	[[nodiscard]] std::string GetSourceOutputCode() const;
 
-	static size_t GetRawDataSize() ;
+	static size_t GetRawDataSize();
 	static std::string GetSourceTypeName();
 };
 
@@ -59,7 +59,7 @@ public:
 
 	[[nodiscard]] std::string GetSourceOutputCode() const;
 
-	static size_t GetRawDataSize() ;
+	static size_t GetRawDataSize();
 	static std::string GetSourceTypeName();
 };
 
@@ -147,7 +147,7 @@ public:
 	ZLimb(ZLimbType limbType, const std::string& prefix, const std::vector<uint8_t>& nRawData,
 	      uint32_t nRawDataIndex, ZFile* nParent);
 	~ZLimb();
-	
+
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
 	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,

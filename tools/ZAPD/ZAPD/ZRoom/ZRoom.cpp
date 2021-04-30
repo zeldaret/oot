@@ -536,11 +536,10 @@ string ZRoom::GetSourceOutputCode(const std::string& prefix)
 
 		item.second->Save(outPath);
 
+		auto filepath = Globals::Instance->outputPath / Path::GetFileNameWithoutExtension(item.second->GetName());
 		parent->AddDeclarationIncludeArray(
 			item.first,
-			StringHelper::Sprintf("%s/%s.%s.inc.c", outPath.c_str(),
-		                          Path::GetFileNameWithoutExtension(item.second->GetName()).c_str(),
-		                          item.second->GetExternalExtension().c_str()),
+			StringHelper::Sprintf("%s.%s.inc.c", filepath.c_str(), item.second->GetExternalExtension().c_str()),
 			item.second->GetRawDataSize(), "u64",
 			StringHelper::Sprintf("%sTex_%06X", prefix.c_str(), item.first), 0);
 	}

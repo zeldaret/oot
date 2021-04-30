@@ -25,9 +25,9 @@ void OutputFormatter::Flush()
 	wordNests = 0;
 }
 
-int OutputFormatter::Write(const char* buf, uint32_t count)
+int OutputFormatter::Write(const char* buf, int count)
 {
-	for (uint32_t i = 0; i < count; i++)
+	for (int i = 0; i < count; i++)
 	{
 		char c = buf[i];
 
@@ -83,6 +83,11 @@ int OutputFormatter::Write(const char* buf, uint32_t count)
 	return count;
 }
 
+int OutputFormatter::Write(const std::string& buf)
+{
+	return Write(buf.data(), buf.size());
+}
+
 OutputFormatter* OutputFormatter::Instance;
 
 int OutputFormatter::WriteStatic(const char* buf, int count)
@@ -98,7 +103,8 @@ int (*OutputFormatter::StaticWriter())(const char* buf, int count)
 
 OutputFormatter::OutputFormatter(uint32_t tabSize, uint32_t defaultIndent, uint32_t lineLimit)
 	: tabSize{tabSize}, defaultIndent{defaultIndent}, lineLimit{lineLimit}, col{0}, nest{0},
-	  nestIndent{defaultIndent}, currentIndent{defaultIndent}, wordNests(0), wordP{word}, spaceP{space}
+	  nestIndent{defaultIndent}, currentIndent{defaultIndent},
+	  wordNests(0), wordP{word}, spaceP{space}
 {
 }
 

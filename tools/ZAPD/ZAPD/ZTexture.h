@@ -68,8 +68,9 @@ public:
 	                              bool readFile);
 	// static ZTexture* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData,
 	// uint32_t rawDataIndex, std::string nRelPath, ZFile* nParent);
-	static ZTexture* FromBinary(TextureType nType, std::vector<uint8_t> nRawData, uint32_t rawDataIndex,
-	                            std::string nName, int32_t nWidth, int32_t nHeight, ZFile* nParent);
+	static ZTexture* FromBinary(TextureType nType, std::vector<uint8_t> nRawData,
+	                            uint32_t rawDataIndex, std::string nName, int32_t nWidth,
+	                            int32_t nHeight, ZFile* nParent);
 	static ZTexture* FromPNG(std::string pngFilePath, TextureType texType);
 	static ZTexture* FromHLTexture(HLTexture* hlTex);
 	static TextureType GetTextureTypeFromString(std::string str);

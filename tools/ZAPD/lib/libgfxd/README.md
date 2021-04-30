@@ -257,21 +257,21 @@ Set the callback function for viewport arguments. The argument type is
 
 ---
 
-##### `typedef int gfxd_uctext_fn_t(uint32_t text, size_t size)`
+##### `typedef int gfxd_uctext_fn_t(uint32_t text, uint32_t size)`
 ##### `void gfxd_uctext_callback(gfxd_uctext_fn_t *fn)`
 Set the callback function for microcode text arguments. The argument type is
 `gfxd_Uctext`. The size of the text segment is in `size`.
 
 ---
 
-##### `typedef int gfxd_ucdata_fn_t(uint32_t data, size_t size)`
+##### `typedef int gfxd_ucdata_fn_t(uint32_t data, uint32_t size)`
 ##### `void gfxd_ucdata_callback(gfxd_ucdata_fn_t *fn)`
 Set the callback function for microcode data arguments. The argument type is
 `gfxd_Ucdata`. The size of the data segment is in `size`.
 
 ---
 
-##### `typedef int gfxd_dram_fn_t(uint32_t dram, size_t size)`
+##### `typedef int gfxd_dram_fn_t(uint32_t dram, uint32_t size)`
 ##### `void gfxd_dram_callback(gfxd_dram_fn_t *fn)`
 Set the callback function for generic pointer arguments. The argument type is
 `gfxd_Dram`. The size of the data is in `size`.

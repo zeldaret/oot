@@ -11,8 +11,6 @@ ZSkeleton::ZSkeleton(ZFile* nParent) : ZResource(nParent)
 {
 	type = ZSkeletonType::Normal;
 	limbType = ZLimbType::Standard;
-	limbs = vector<ZLimb*>();
-	//rootLimb = nullptr;
 	dListCount = 0;
 }
 

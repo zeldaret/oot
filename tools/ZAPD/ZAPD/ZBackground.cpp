@@ -1,10 +1,10 @@
 #include "ZBackground.h"
 #include "BitConverter.h"
 #include "File.h"
+#include "Globals.h"
 #include "Path.h"
 #include "StringHelper.h"
 #include "ZFile.h"
-#include "Globals.h"
 
 REGISTER_ZFILENODE(Background, ZBackground);
 

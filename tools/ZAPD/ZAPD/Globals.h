@@ -16,7 +16,7 @@ enum VerbosityLevel
 
 struct TexturePoolEntry
 {
-	std::string path = ""; // Path to Shared Texture
+	fs::path path = "";  // Path to Shared Texture
 };
 
 class GameConfig
@@ -48,7 +48,7 @@ public:
 	bool useLegacyZDList;
 	VerbosityLevel verbosity;  // ZAPD outputs additional information
 	ZFileMode fileMode;
-	std::string baseRomPath, inputPath, outputPath, sourceOutputPath, cfgPath;
+	fs::path baseRomPath, inputPath, outputPath, sourceOutputPath, cfgPath;
 	TextureType texType;
 	ZGame game;
 	GameConfig cfg;

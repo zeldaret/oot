@@ -152,8 +152,7 @@ public:
 	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, size_t nSize,
 	            std::string nVarType, std::string nVarName, bool nIsArray, size_t nArrayItemCnt,
 	            std::string nText);
-	Declaration(std::string nIncludePath, size_t nSize, std::string nVarType,
-	            std::string nVarName);
+	Declaration(std::string nIncludePath, size_t nSize, std::string nVarType, std::string nVarName);
 
 protected:
 	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, size_t nSize,

@@ -14,8 +14,8 @@ ZBlob::ZBlob(ZFile* nParent) : ZResource(nParent)
 {
 }
 
-ZBlob::ZBlob(const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex, size_t size, std::string nName,
-             ZFile* nParent)
+ZBlob::ZBlob(const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex, size_t size,
+             std::string nName, ZFile* nParent)
 	: ZBlob(nParent)
 {
 	rawDataIndex = nRawDataIndex;
