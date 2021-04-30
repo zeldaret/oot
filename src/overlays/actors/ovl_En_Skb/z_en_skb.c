@@ -154,7 +154,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gStalchildSkel, &gStalchildBurrowAnim, this->jointTable, this->morphTable, 20);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlingAnim, this->jointTable, this->morphTable, 20);
     this->actor.naviEnemyId = 0x55;
 
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -199,7 +199,7 @@ void func_80AFCD60(EnSkb* this) {
 }
 
 void func_80AFCDF8(EnSkb* this) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildBurrowAnim, 1.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
     this->unk_280 = 0;
     this->actor.flags &= ~1;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
@@ -224,7 +224,7 @@ void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFCF48(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &gStalchildBurrowAnim, -1.0f, Animation_GetLastFrame(&gStalchildBurrowAnim), 0.0f, 2, -4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildUncurlingAnim, -1.0f, Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, 2, -4.0f);
     this->unk_280 = 0;
     this->unk_281 = 0;
     this->actor.flags &= ~1;
@@ -245,7 +245,7 @@ void func_80AFCFF0(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD0A4(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &gStalchildWalkAnim, 0.96000004f, 0.0f, Animation_GetLastFrame(&gStalchildWalkAnim), 0, -4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildWalkingAnim, 0.96000004f, 0.0f, Animation_GetLastFrame(&gStalchildWalkingAnim), 0, -4.0f);
     this->unk_280 = 4;
     this->unk_288 = 0;
     this->actor.speedXZ = this->actor.scale.y * 160.0f;
@@ -292,7 +292,7 @@ void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD33C(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &gStalchildAttackAnim, 0.6f, 0.0f, Animation_GetLastFrame(&gStalchildAttackAnim), 3, 4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, 0.6f, 0.0f, Animation_GetLastFrame(&gStalchildAttackingAnim), 3, 4.0f);
     this->collider.base.atFlags &= ~4;
     this->unk_280 = 3;
     this->actor.speedXZ = 0.0f;
@@ -318,7 +318,7 @@ void EnSkb_SetupAttack(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD47C(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &gStalchildAttackAnim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f, 3, 0.0f);
+    Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f, 3, 0.0f);
     this->collider.base.atFlags &= ~4;
     this->unk_280 = 5;
     this->unk_281 = 0;
@@ -360,7 +360,7 @@ void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD644(EnSkb* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDamageAnim, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDamagedAnim, -4.0f);
     if (this->actor.bgCheckFlags & 1) {
         this->actor.speedXZ = -4.0f;
     }
@@ -395,7 +395,7 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDieAnim, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDyingAnim, -4.0f);
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     if (this->actor.bgCheckFlags & 1) {
