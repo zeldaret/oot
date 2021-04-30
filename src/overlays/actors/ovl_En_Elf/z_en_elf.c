@@ -405,7 +405,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         default:
-            __assert("0", "../z_en_elf.c", 1103);
+            ASSERT(0, "0", "../z_en_elf.c", 1103);
             break;
     }
 
@@ -798,7 +798,7 @@ void func_80A03AB0(EnElf* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->func_2C8 == NULL) {
-        __assert("0", "../z_en_elf.c", 1725);
+        ASSERT(0, "0", "../z_en_elf.c", 1725);
     }
 
     this->func_2C8(this, globalCtx);

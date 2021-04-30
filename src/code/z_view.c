@@ -157,18 +157,10 @@ void func_800AA550(View* view) {
     lrx = view->viewport.rightX - varX;
     lry = view->viewport.bottomY - varY;
 
-    if (ulx < 0) {
-        __assert("ulx >= 0", "../z_view.c", 454);
-    }
-    if (uly < 0) {
-        __assert("uly >= 0", "../z_view.c", 455);
-    }
-    if (lrx > SCREEN_WIDTH) {
-        __assert("lrx <= SCREEN_WD", "../z_view.c", 456);
-    }
-    if (lry > SCREEN_HEIGHT) {
-        __assert("lry <= SCREEN_HT", "../z_view.c", 457);
-    }
+    ASSERT(ulx >= 0, "ulx >= 0", "../z_view.c", 454);
+    ASSERT(uly >= 0, "uly >= 0", "../z_view.c", 455);
+    ASSERT(lrx <= SCREEN_WIDTH, "lrx <= SCREEN_WD", "../z_view.c", 456);
+    ASSERT(lry <= SCREEN_HEIGHT, "lry <= SCREEN_HT", "../z_view.c", 457);
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 459);
 
