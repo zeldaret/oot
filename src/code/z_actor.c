@@ -667,8 +667,8 @@ void func_8002CDE4(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     titleCtx->durationTimer = titleCtx->delayTimer = titleCtx->intensity = titleCtx->alpha = 0;
 }
 
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
-                            s16 y, u8 width, u8 height) {
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x, s16 y, u8 width,
+                            u8 height) {
     titleCtx->texture = texture;
     titleCtx->x = x;
     titleCtx->y = y;
@@ -678,8 +678,8 @@ void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx
     titleCtx->delayTimer = 0;
 }
 
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
-                             s32 y, s32 width, s32 height, s32 delay) {
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x, s32 y,
+                             s32 width, s32 height, s32 delay) {
     Scene* loadedScene = globalCtx->loadedScene;
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
@@ -764,10 +764,10 @@ s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     if ((globalCtx->actorCtx.titleCtx.delayTimer != 0) || (globalCtx->actorCtx.titleCtx.alpha != 0)) {
         titleCtx->durationTimer = 0;
         titleCtx->delayTimer = 0;
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 void Actor_Kill(Actor* actor) {
@@ -847,8 +847,9 @@ void Actor_Destroy(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-void func_8002D7EC(Actor* actor) {
+s16 func_8002D7EC(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
+
     actor->world.pos.x += (actor->velocity.x * speedRate) + actor->colChkInfo.displacement.x;
     actor->world.pos.y += (actor->velocity.y * speedRate) + actor->colChkInfo.displacement.y;
     actor->world.pos.z += (actor->velocity.z * speedRate) + actor->colChkInfo.displacement.z;
@@ -871,6 +872,7 @@ void Actor_MoveForward(Actor* actor) {
 
 void func_8002D908(Actor* actor) {
     f32 sp24 = Math_CosS(actor->world.rot.x) * actor->speedXZ;
+
     actor->velocity.x = Math_SinS(actor->world.rot.y) * sp24;
     actor->velocity.y = Math_SinS(actor->world.rot.x) * actor->speedXZ;
     actor->velocity.z = Math_CosS(actor->world.rot.y) * sp24;
@@ -888,6 +890,7 @@ void func_8002D9A4(Actor* actor, f32 arg1) {
 
 void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
     Vec3f sp1C;
+
     SkelAnime_UpdateTranslation(skelAnime, &sp1C, actor->shape.rot.y);
     actor->world.pos.x += sp1C.x * actor->scale.x;
     actor->world.pos.y += sp1C.y * actor->scale.y;
@@ -1001,9 +1004,8 @@ s32 func_8002DDF4(GlobalContext* globalCtx) {
 }
 
 void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
-    ArmsHook* hookshot;
+    ArmsHook* hookshot = (ArmsHook*)Actor_Find(&globalCtx->actorCtx, ACTOR_ARMS_HOOK, ACTORCAT_ITEMACTION);
 
-    hookshot = (ArmsHook*)Actor_Find(&globalCtx->actorCtx, ACTOR_ARMS_HOOK, ACTORCAT_ITEMACTION);
     hookshot->grabbed = actorB;
     hookshot->grabbedDistDiff.x = 0.0f;
     hookshot->grabbedDistDiff.y = 0.0f;
@@ -1014,11 +1016,11 @@ void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
 
 void func_8002DE74(GlobalContext* globalCtx, Player* player) {
     if ((globalCtx->roomCtx.curRoom.unk_03 != 4) && func_800C0CB8(globalCtx)) {
-        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_HORSE0);
+        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, MAIN_CAM), CAM_SET_HORSE0);
     }
 }
 
-void func_8002DECC(GlobalContext* globalCtx, Player* player, Actor* horse) {
+void Actor_MountHorse(GlobalContext* globalCtx, Player* player, Actor* horse) {
     player->rideActor = horse;
     player->stateFlags1 |= 0x800000;
     horse->child = &player->actor;
@@ -1039,7 +1041,7 @@ s32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
     player->unk_448 = actor;
     player->unk_46A = 0;
 
-    return 1;
+    return true;
 }
 
 s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
@@ -1048,7 +1050,7 @@ s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
     func_8002DF38(globalCtx, actor, csMode);
     player->unk_46A = 1;
 
-    return 1;
+    return true;
 }
 
 void func_8002DF90(DynaPolyActor* dynaActor) {
@@ -1066,40 +1068,40 @@ s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx) {
     s16 var = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
 
     if (ABS(var) < arg1) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E020(Actor* actorA, Actor* actorB, s16 arg2) {
     s16 var = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
 
     if (ABS(var) < arg2) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E084(Actor* actor, s16 arg1) {
     s16 var = actor->yawTowardsPlayer - actor->shape.rot.y;
 
     if (ABS(var) < arg1) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E0D0(Actor* actorA, Actor* actorB, s16 arg2) {
     s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
     if (ABS(var) < arg2) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
@@ -1109,11 +1111,11 @@ s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
         f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer));
 
         if (xyzDistanceFromLink < arg1) {
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3) {
@@ -1121,11 +1123,11 @@ s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3) {
         s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
         if (ABS(var) < arg3) {
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
@@ -1137,10 +1139,10 @@ s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
             actor->velocity.y = 0.0f;
         }
 
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 CollisionPoly* sCurCeilingPoly;
@@ -1199,7 +1201,7 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
         return func_8002E234(actor, floorHeightDiff, arg3);
     }
 
-    return 1;
+    return true;
 }
 
 void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
@@ -1410,19 +1412,15 @@ PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor) {
 }
 
 f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
-    s16 yawTemp;
-    s16 yawTempAbs;
-    f32 ret;
-
-    yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - arg2;
-    yawTempAbs = ABS(yawTemp);
+    s16 yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - arg2;
+    s16 yawTempAbs = ABS(yawTemp);
 
     if (player->unk_664 != NULL) {
         if ((yawTempAbs > 0x4000) || (actor->flags & 0x8000000)) {
             return FLT_MAX;
         } else {
-            ret = actor->xyzDistToPlayerSq -
-                  actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * 3.0517578125e-05f);
+            f32 ret =
+                actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
             return ret;
         }
     }
@@ -1453,17 +1451,14 @@ u32 func_8002F090(Actor* actor, f32 arg1) {
 }
 
 s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
-    s16 var;
-    s16 abs_var;
-    f32 dist;
-
     if ((actor->update == NULL) || !(actor->flags & 1)) {
-        return 1;
+        return true;
     }
 
     if (!flag) {
-        var = (s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y;
-        abs_var = ABS(var);
+        s16 var = (s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y;
+        s16 abs_var = ABS(var);
+        f32 dist;
 
         if ((player->unk_664 == NULL) && (abs_var > 0x2AAA)) {
             dist = FLT_MAX;
@@ -1474,16 +1469,16 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
         return !func_8002F090(actor, D_80115FF8[actor->targetMode].leashScale * dist);
     }
 
-    return 0;
+    return false;
 }
 
 u32 func_8002F194(Actor* actor, GlobalContext* globalCtx) {
     if (actor->flags & 0x100) {
         actor->flags &= ~0x100;
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u32 exchangeItemId) {
@@ -1494,14 +1489,14 @@ s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u3
         (!actor->isTargeted &&
          ((arg3 < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
           (arg2 < actor->xzDistToPlayer)))) {
-        return 0;
+        return false;
     }
 
     player->targetActor = actor;
     player->targetActorDistance = actor->xzDistToPlayer;
     player->exchangeItemId = exchangeItemId;
 
-    return 1;
+    return true;
 }
 
 s32 func_8002F298(Actor* actor, GlobalContext* globalCtx, f32 arg2, u32 exchangeItemId) {
@@ -1514,14 +1509,15 @@ s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2) {
 
 s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
     f32 var1 = 50.0f + actor->colChkInfo.cylRadius;
+
     return func_8002F2CC(actor, globalCtx, var1);
 }
 
 u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -1550,27 +1546,26 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
 
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = PLAYER;
-    s16 yawDiff;
-    s32 absYawDiff;
 
     if (!(player->stateFlags1 & 0x3C7080) && Player_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (actor == player->targetActor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
             (!(player->stateFlags1 & 0x20000800))) {
             if ((actor->xzDistToPlayer < xzRange) && (fabsf(actor->yDistToPlayer) < yRange)) {
-                yawDiff = actor->yawTowardsPlayer - player->actor.shape.rot.y;
-                absYawDiff = ABS(yawDiff);
+                s16 yawDiff = actor->yawTowardsPlayer - player->actor.shape.rot.y;
+                s32 absYawDiff = ABS(yawDiff);
+
                 if ((getItemId != GI_NONE) || (player->getItemDirection < absYawDiff)) {
                     player->getItemId = getItemId;
                     player->interactRangeActor = actor;
                     player->getItemDirection = absYawDiff;
-                    return 1;
+                    return true;
                 }
             }
         }
     }
 
-    return 0;
+    return false;
 }
 
 void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
@@ -1594,6 +1589,7 @@ void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx) {
 
     if (parent->id == ACTOR_PLAYER) {
         Player* player = (Player*)parent;
+
         player->heldActor = actorB;
         player->interactRangeActor = actorB;
     }
@@ -1611,28 +1607,28 @@ void func_8002F5F0(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-u32 Actor_HasChild(GlobalContext* globalCtx, Actor* actor) {
-    if (actor->child != NULL) {
+s32 Actor_IsMounted(GlobalContext* globalCtx, Actor* horse) {
+    if (horse->child != NULL) {
         return true;
     } else {
         return false;
     }
 }
 
-u32 func_8002F63C(GlobalContext* globalCtx, Actor* horse, s32 arg2) {
+u32 Actor_SetRideActor(GlobalContext* globalCtx, Actor* horse, s32 mountSide) {
     Player* player = PLAYER;
 
     if (!(player->stateFlags1 & 0x003C7880)) {
         player->rideActor = horse;
-        player->unk_43C = arg2;
-        return 1;
+        player->mountSide = mountSide;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
-u32 Actor_HasNoChild(GlobalContext* globalCtx, Actor* actor) {
-    if (actor->child == NULL) {
+s32 Actor_NotMounted(GlobalContext* globalCtx, Actor* horse) {
+    if (horse->child == NULL) {
         return true;
     } else {
         return false;
@@ -1775,87 +1771,65 @@ void func_8002FA60(GlobalContext* globalCtx) {
     D_8015BC18 = 0.0f;
 }
 
-Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
-Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
-Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
-Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
-
 #ifdef NON_MATCHING
-// saved register, stack usage and minor ordering differences
-// this also doesn't generate a few useless struct copies
+// some regalloc and odd loading of gSaveContext
 void func_8002FBAC(GlobalContext* globalCtx) {
-    Vec3f lightPos;
-    f32 spD8;
-    f32 spD4;
-    s32 spD0;
-    s32 spCC;
-    f32 spC0;
-    Vec3f spB4;
-    Vec3f spA4;
-    f32 sp9C;
-    Vec3f sp7C;
-    Vec3f sp70;
-    f32 temp_f12;
-    f32 temp_f14;
-    f32 temp_f2;
-    f32 temp_ret;
-    s32 temp_a3;
-    f32 phi_f14;
-    f32 phi_f10;
-    f32 phi_f6;
+    static Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
+    static Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
+    static Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
+    static Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
+    Vec3f* temp = &gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
+    s32 spF0;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5308);
 
-    if (gSaveContext.respawn[RESPAWN_MODE_TOP].data != 0) {
-        if (LINK_IS_ADULT) {
-            spD8 = 80.0f;
-        } else {
-            spD8 = 60.0f;
-        }
+    spF0 = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
-        spD0 = 0xFF;
-        spD4 = 1.0f;
+    if (spF0 != 0) {
+        f32 spD8 = (LINK_IS_ADULT) ? 80.0f : 60.0f;
+        f32 spD4 = 1.0f;
+        s32 spD0 = 0xFF;
+        s32 spCC = spF0 - 40;
+        s32 temp2;
+        s32 pad;
 
-        temp_a3 = gSaveContext.respawn[RESPAWN_MODE_TOP].data - 0x28;
-        spCC = temp_a3;
-
-        if (temp_a3 < 0) {
-            gSaveContext.respawn[RESPAWN_MODE_TOP].data++;
-            spD4 = ABS(gSaveContext.respawn[RESPAWN_MODE_TOP].data) * 0.025f;
+        if (spCC < 0) {
+            gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++spF0;
+            spD4 = ABS(spF0) * 0.025f;
             D_8015BC14 = 60;
             D_8015BC18 = 1.0f;
         } else if (D_8015BC14 != 0) {
             D_8015BC14--;
         } else if (D_8015BC18 > 0.0f) {
-            spC0 = D_8015BC18;
-            temp_ret = Math_Vec3f_DistXYZAndStoreDiff(&gSaveContext.respawn[RESPAWN_MODE_DOWN].pos,
-                                                      &gSaveContext.respawn[RESPAWN_MODE_TOP].pos, &spB4);
+            f32 spC0 = D_8015BC18;
+            Vec3f spB4;
+            f32 spB0 = Math_Vec3f_DistXYZAndStoreDiff(&gSaveContext.respawn[RESPAWN_MODE_DOWN].pos, temp, &spB4);
+            Vec3f spA4;
 
-            if (temp_ret < 20.0f) {
+            if (spB0 < 20.0f) {
                 D_8015BC18 = 0.0f;
-                Math_Vec3f_Copy(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos,
-                                &gSaveContext.respawn[RESPAWN_MODE_DOWN].pos);
+                Math_Vec3f_Copy(temp, &gSaveContext.respawn[RESPAWN_MODE_DOWN].pos);
             } else {
-                sp9C = (1.0f / D_8015BC18) * temp_ret;
-                phi_f14 = 20.0f / sp9C;
-                phi_f14 = (phi_f14 < 0.05f) ? 0.05f : phi_f14;
+                f32 temp_f2;
+                f32 sp9C = spB0 * (1.0f / D_8015BC18);
+                f32 phi_f14 = 20.0f / sp9C;
+
+                phi_f14 = CLAMP_MIN(phi_f14, 0.05f);
                 Math_StepToF(&D_8015BC18, 0.0f, phi_f14);
-                temp_f2 = ((D_8015BC18 / spC0) * temp_ret) / temp_ret;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x =
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x + (spB4.x * temp_f2);
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y =
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y + (spB4.y * temp_f2);
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z =
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z + (spB4.z * temp_f2);
-                temp_f12 = sp9C * 0.5f;
-                temp_f14 = temp_ret - temp_f12;
-                spD8 += sqrtf((temp_f12 * temp_f12) - (temp_f14 * temp_f14)) * 0.2f;
+
+                temp_f2 = ((D_8015BC18 / spC0) * spB0) / spB0;
+
+                temp->x = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x + (spB4.x * temp_f2);
+                temp->y = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y + (spB4.y * temp_f2);
+                temp->z = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z + (spB4.z * temp_f2);
+                spD8 += sqrtf(SQ(sp9C / 2.0f) - SQ(spB0 - sp9C / 2.0f)) * 0.2f;
+
                 osSyncPrintf("-------- DISPLAY Y=%f\n", spD8);
             }
 
-            spA4.x = Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
-            spA4.y = Rand_ZeroOne() * 6.0f + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
-            spA4.z = Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
+            spA4.x = temp->x + Rand_CenteredFloat(6.0f);
+            spA4.y = temp->y + 80.0f + Rand_ZeroOne() * 6.0f;
+            spA4.z = temp->z + Rand_CenteredFloat(6.0f);
 
             EffectSsKiraKira_SpawnDispersed(globalCtx, &spA4, &D_80116048, &D_80116054, &D_80116060, &D_80116064, 1000,
                                             16);
@@ -1863,83 +1837,98 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             if (D_8015BC18 == 0.0f) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP] = gSaveContext.respawn[RESPAWN_MODE_DOWN];
                 gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = 0x06FF;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0x28;
+                gSaveContext.respawn[RESPAWN_MODE_TOP].data = 40;
             }
 
-            // somehow this shouldn't be optimized out
-            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
-        } else if (temp_a3 > 0) {
-            temp_f12 = temp_a3 * 0.1f;
+            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *temp;
+        } else if (spCC > 0) {
+            if (spCC * 0.1f < 1.0f) {
+                s32 pad2;
+                s32 pad3;
+                f32 temp3;
+                f32 temp4;
+                Vec3f sp7C;
+                Vec3f sp70;
 
-            if (temp_f12 < 1.0f) {
                 sp7C.x = globalCtx->view.eye.x;
                 sp7C.y = globalCtx->view.eye.y - spD8;
                 sp7C.z = globalCtx->view.eye.z;
-                temp_ret = Math_Vec3f_DistXYZAndStoreDiff(&sp7C, &gSaveContext.respawn[RESPAWN_MODE_TOP].pos, &sp70);
-                temp_f2 = (((1.0f - temp_f12) / (1.0f - ((f32)(temp_a3 - 1) * 0.1f))) * temp_ret) / temp_ret;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = sp70.x * temp_f2 + sp7C.x;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = sp70.y * temp_f2 + sp7C.y;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = sp70.z * temp_f2 + sp7C.z;
+                temp4 = Math_Vec3f_DistXYZAndStoreDiff(&sp7C, temp, &sp70);
+                temp3 = (((1.0f - spCC * 0.1f) / (1.0f - ((f32)(spCC - 1) * 0.1f))) * temp4) / temp4;
+                temp->x = sp70.x * temp3 + sp7C.x;
+                temp->y = sp70.y * temp3 + sp7C.y;
+                temp->z = sp70.z * temp3 + sp7C.z;
+
+                gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *temp;
             }
 
-            // somehow this shouldn't be optimized out
-            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
-
-            spD0 = 0xFF - (((temp_a3 * 0x10) - temp_a3) * 2);
+            spD0 = 0xFF - 30 * spCC;
 
             if (spD0 < 0) {
                 gSaveContext.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
                 spD0 = 0;
             } else {
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data++;
+                gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++spF0;
             }
 
-            spD4 = spCC * 0.200000000000000011102230246252 + 1.0f;
+            spD4 = (f32)spCC * 0.2 + 1.0f;
         }
 
-        if ((globalCtx->csCtx.state == CS_STATE_IDLE) &&
-            (gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex == gSaveContext.entranceIndex) &&
-            (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
-            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
+        if (globalCtx->csCtx.state == CS_STATE_IDLE) {
+            temp2 = gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex;
+            if ((temp2 == gSaveContext.entranceIndex) &&
+                (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
+                f32 phi_f10;
+                f32 phi_f6;
 
-            Matrix_Translate(gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x,
-                             gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8,
-                             gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z, MTXMODE_NEW);
-            Matrix_Scale(0.025f * spD4, 0.025f * spD4, 0.025f * spD4, MTXMODE_APPLY);
-            Matrix_Mult(&globalCtx->mf_11D60, MTXMODE_APPLY);
-            Matrix_Push();
+                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
+                // bad gSaveContext load here
+                Matrix_Translate(temp->x, temp->y + spD8, temp->z, MTXMODE_NEW);
+                Matrix_Scale(0.025f * spD4, 0.025f * spD4, 0.025f * spD4, MTXMODE_APPLY);
+                Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+                Matrix_Push();
 
-            gDPPipeSync(POLY_XLU_DISP++);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, spD0);
-            gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
+                gDPPipeSync(POLY_XLU_DISP++);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, spD0);
+                gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
 
-            phi_f10 = (globalCtx->gameplayFrames * 1500) & 0xFFFF;
-            Matrix_RotateZ((phi_f10 * M_PI) / 32768.0f, MTXMODE_APPLY);
+                phi_f10 = (globalCtx->gameplayFrames * 1500) & 0xFFFF;
+                Matrix_RotateZ((phi_f10 * M_PI) / 32768.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
-                      G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
+                          G_MTX_MODELVIEW | G_MTX_LOAD);
+                gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
 
-            Matrix_Pop();
-            phi_f6 = ~((globalCtx->gameplayFrames * 1200) & 0xFFFF);
-            Matrix_RotateZ((phi_f6 * M_PI) / 32768.0f, MTXMODE_APPLY);
+                Matrix_Pop();
+                phi_f6 = ~((globalCtx->gameplayFrames * 1200) & 0xFFFF);
+                Matrix_RotateZ((phi_f6 * M_PI) / 32768.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
-                      G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
+                          G_MTX_MODELVIEW | G_MTX_LOAD);
+                gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
+            }
+            {
+                Vec3f lightPos;
+
+                lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
+                lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8;
+                lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
+
+                Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
+                                          500.0f * spD4);
+            }
+            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5474);
         }
-
-        lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
-        lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8;
-        lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
-
-        Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, 500.0f * spD4);
-
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5474);
     }
 }
 #else
+
+static Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
+static Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
+static Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
+static Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_8002FBAC.s")
 #endif
 
@@ -2008,10 +1997,8 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     player = PLAYER;
 
     if (0) {
-        // This assert is optimized out but it exists due to its presence in rodata
-        if (gMaxActorId != ACTOR_ID_MAX) {
-            __assert("MaxProfile == ACTOR_DLF_MAX", "../z_actor.c", UNK_LINE);
-        }
+        // This ASSERT is optimized out but it exists due to its presence in rodata
+        ASSERT(gMaxActorId == ACTOR_ID_MAX, "MaxProfile == ACTOR_DLF_MAX", "../z_actor.c", UNK_LINE);
     }
 
     sp74 = NULL;
@@ -2343,11 +2330,11 @@ s32 func_800314D4(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3)
         if ((((fabsf(arg2->x) - actor->uncullZoneScale) * var) < 1.0f) &&
             (((arg2->y + actor->uncullZoneDownward) * var) > -1.0f) &&
             (((arg2->y - actor->uncullZoneScale) * var) < 1.0f)) {
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
@@ -2401,9 +2388,8 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     if ((actor->flags & 0x80) &&
                         ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || (globalCtx->actorCtx.unk_03 != 0) ||
                          (actor->room != globalCtx->roomCtx.curRoom.num))) {
-                        if (invisibleActorCounter >= INVISIBLE_ACTOR_MAX) {
-                            __assert("invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
-                        }
+                        ASSERT(invisibleActorCounter < INVISIBLE_ACTOR_MAX,
+                               "invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
                         invisibleActors[invisibleActorCounter] = actor;
                         invisibleActorCounter++;
                     } else {
@@ -2643,10 +2629,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     u32 overlaySize;
 
     overlayEntry = &gActorOverlayTable[actorId];
-
-    if (actorId >= ACTOR_ID_MAX) {
-        __assert("profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
-    }
+    ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
 
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
     overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
@@ -2677,9 +2660,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
             }
         } else {
             if (overlayEntry->allocType & ALLOCTYPE_ABSOLUTE) {
-                if (overlaySize > AM_FIELD_SIZE) {
-                    __assert("actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
-                }
+                ASSERT(overlaySize <= AM_FIELD_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
 
                 if (actorCtx->absoluteSpace == NULL) {
                     // Translates to: "AMF: ABSOLUTE MAGIC FIELD"
@@ -2743,9 +2724,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
         return NULL;
     }
 
-    if (overlayEntry->nbLoaded >= 255) {
-        __assert("actor_dlftbl->clients < 255", "../z_actor.c", 7031);
-    }
+    ASSERT(overlayEntry->nbLoaded < 255, "actor_dlftbl->clients < 255", "../z_actor.c", 7031);
 
     overlayEntry->nbLoaded++;
 
@@ -2884,14 +2863,8 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
             osSyncPrintf("オーバーレイではありません\n");
         }
     } else {
-        if (overlayEntry->loadedRamAddr == NULL) {
-            __assert("actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
-        }
-
-        if (overlayEntry->nbLoaded <= 0) {
-            __assert("actor_dlftbl->clients > 0", "../z_actor.c", 7252);
-        }
-
+        ASSERT(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
+        ASSERT(overlayEntry->nbLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);
         overlayEntry->nbLoaded--;
         Actor_FreeOverlay(overlayEntry);
     }
@@ -3048,106 +3021,113 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
     return arg0[0];
 }
 
-void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
-    u32 sp28;
-    u32 sp24;
-    u32 sp20;
+void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, GlobalContext* globalCtx) {
+    u32 matricesSize;
+    u32 dListsSize;
+    u32 objectIdsSize;
 
-    sp28 = (arg1 * sizeof(*arg0->unk_00)) + sizeof(*arg0->unk_00);
-    arg0->unk_00 = ZeldaArena_MallocDebug(sp28, "../z_actor.c", 7540);
-    if (arg0->unk_00 != NULL) {
-        sp24 = (arg1 * sizeof(*arg0->unk_0C)) + sizeof(*arg0->unk_0C);
-        arg0->unk_0C = ZeldaArena_MallocDebug(sp24, "../z_actor.c", 7543);
-        if (arg0->unk_0C != NULL) {
-            sp20 = (arg1 * sizeof(*arg0->unk_04)) + sizeof(*arg0->unk_04);
-            arg0->unk_04 = ZeldaArena_MallocDebug(sp20, "../z_actor.c", 7546);
-            if (arg0->unk_04 != NULL) {
-                Lib_MemSet((u8*)arg0->unk_00, sp28, 0);
-                Lib_MemSet((u8*)arg0->unk_0C, sp24, 0);
-                Lib_MemSet((u8*)arg0->unk_04, sp20, 0);
-                arg0->unk_10 = 1;
+    matricesSize = (count + 1) * sizeof(*bodyBreak->matrices);
+    bodyBreak->matrices = ZeldaArena_MallocDebug(matricesSize, "../z_actor.c", 7540);
+
+    if (bodyBreak->matrices != NULL) {
+        dListsSize = (count + 1) * sizeof(*bodyBreak->dLists);
+        bodyBreak->dLists = ZeldaArena_MallocDebug(dListsSize, "../z_actor.c", 7543);
+
+        if (bodyBreak->dLists != NULL) {
+            objectIdsSize = (count + 1) * sizeof(*bodyBreak->objectIds);
+            bodyBreak->objectIds = ZeldaArena_MallocDebug(objectIdsSize, "../z_actor.c", 7546);
+
+            if (bodyBreak->objectIds != NULL) {
+                Lib_MemSet((u8*)bodyBreak->matrices, matricesSize, 0);
+                Lib_MemSet((u8*)bodyBreak->dLists, dListsSize, 0);
+                Lib_MemSet((u8*)bodyBreak->objectIds, objectIdsSize, 0);
+                bodyBreak->val = 1;
                 return;
             }
         }
     }
 
-    if (arg0->unk_00 != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_00, "../z_actor.c", 7558);
+    if (bodyBreak->matrices != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7558);
     }
 
-    if (arg0->unk_0C != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_0C, "../z_actor.c", 7561);
+    if (bodyBreak->dLists != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7561);
     }
 
-    if (arg0->unk_04 != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_04, "../z_actor.c", 7564);
+    if (bodyBreak->objectIds != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7564);
     }
 }
 
-void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6) {
+void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
+                       s16 objectId) {
     GlobalContext* globalCtx = Effect_GetGlobalCtx();
 
-    if ((globalCtx->actorCtx.unk_00 == 0) && (arg0->unk_10 > 0)) {
-        if ((arg1 >= arg2) && (arg3 >= arg1) && (*dList != 0)) {
-            arg0->unk_0C[arg0->unk_10] = *dList;
-            Matrix_Get(&arg0->unk_00[arg0->unk_10]);
-            arg0->unk_04[arg0->unk_10] = arg6;
-            arg0->unk_10++;
+    if ((globalCtx->actorCtx.unk_00 == 0) && (bodyBreak->val > 0)) {
+        if ((limbIndex >= minLimbIndex) && (limbIndex <= maxLimbIndex) && (*dList != NULL)) {
+            bodyBreak->dLists[bodyBreak->val] = *dList;
+            Matrix_Get(&bodyBreak->matrices[bodyBreak->val]);
+            bodyBreak->objectIds[bodyBreak->val] = objectId;
+            bodyBreak->val++;
         }
 
-        if (arg1 != arg0->unk_14) {
-            arg0->unk_08++;
+        if (limbIndex != bodyBreak->prevLimbIndex) {
+            bodyBreak->count++;
         }
 
-        if ((u32)arg0->unk_08 >= arg4) {
-            arg0->unk_08 = arg0->unk_10 - 1;
-            arg0->unk_10 = -1;
+        if ((u32)bodyBreak->count >= count) {
+            bodyBreak->count = bodyBreak->val - 1;
+            bodyBreak->val = BODYBREAK_STATUS_READY;
         }
     }
 
-    arg0->unk_14 = arg1;
+    bodyBreak->prevLimbIndex = limbIndex;
 }
 
-s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx, s16 params) {
+s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type) {
     EnPart* spawnedEnPart;
     MtxF* mtx;
     s16 objBankIndex;
 
-    if (arg1->unk_10 != -1) {
-        return 0;
+    if (bodyBreak->val != BODYBREAK_STATUS_READY) {
+        return false;
     }
 
-    while (arg1->unk_08 > 0) {
-        Matrix_Put(&arg1->unk_00[arg1->unk_08]);
+    while (bodyBreak->count > 0) {
+        Matrix_Put(&bodyBreak->matrices[bodyBreak->count]);
         Matrix_Scale(1.0f / actor->scale.x, 1.0f / actor->scale.y, 1.0f / actor->scale.z, MTXMODE_APPLY);
-        Matrix_Get(&arg1->unk_00[arg1->unk_08]);
+        Matrix_Get(&bodyBreak->matrices[bodyBreak->count]);
 
-        if (1) { // Necessary to match
-            if (arg1->unk_04[arg1->unk_08] >= 0) {
-                objBankIndex = arg1->unk_04[arg1->unk_08];
+        if (1) {
+            if (bodyBreak->objectIds[bodyBreak->count] >= 0) {
+                objBankIndex = bodyBreak->objectIds[bodyBreak->count];
             } else {
                 objBankIndex = actor->objBankIndex;
             }
         }
 
-        mtx = &arg1->unk_00[arg1->unk_08];
+        mtx = &bodyBreak->matrices[bodyBreak->count];
+
         spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->wx,
-                                                    mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
+                                                    mtx->wy, mtx->wz, 0, 0, objBankIndex, type);
+
         if (spawnedEnPart != NULL) {
-            func_800D20CC(&arg1->unk_00[arg1->unk_08], &spawnedEnPart->actor.shape.rot, 0);
-            spawnedEnPart->displayList = arg1->unk_0C[arg1->unk_08];
+            func_800D20CC(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
+            spawnedEnPart->displayList = bodyBreak->dLists[bodyBreak->count];
             spawnedEnPart->actor.scale = actor->scale;
         }
 
-        arg1->unk_08--;
+        bodyBreak->count--;
     }
 
-    arg1->unk_10 = 0;
-    ZeldaArena_FreeDebug(arg1->unk_00, "../z_actor.c", 7678);
-    ZeldaArena_FreeDebug(arg1->unk_0C, "../z_actor.c", 7679);
-    ZeldaArena_FreeDebug(arg1->unk_04, "../z_actor.c", 7680);
+    bodyBreak->val = BODYBREAK_STATUS_FINISHED;
 
-    return 1;
+    ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7678);
+    ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7679);
+    ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7680);
+
+    return true;
 }
 
 void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 scale,
@@ -3394,9 +3374,9 @@ s32 func_80033A84(GlobalContext* globalCtx, Actor* actor) {
     Player* player = PLAYER;
 
     if ((player->stateFlags1 & 0x10) && actor->isTargeted) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -3404,9 +3384,9 @@ s32 func_80033AB8(GlobalContext* globalCtx, Actor* actor) {
     Player* player = PLAYER;
 
     if ((player->stateFlags1 & 0x10) && !actor->isTargeted) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -3504,7 +3484,7 @@ typedef struct {
     /* 0x18 */ u32 unk_18;
 } struct_801160DC; // size = 0x1C
 
-struct_801160DC D_801160DC[] = {
+static struct_801160DC D_801160DC[] = {
     { 0.54f, 6000.0f, 5000.0f, 1.0f, 0.0f, 0x050011F0, 0x05001100 },
     { 0.644f, 12000.0f, 8000.0f, 1.0f, 0.0f, 0x06001530, 0x06001400 },
     { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, 0x050011F0, 0x05001100 },
@@ -3602,27 +3582,27 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, c
 
     if (func_8002F194(actor, globalCtx)) {
         *arg2 = 1;
-        return 1;
+        return true;
     }
 
     if (*arg2 != 0) {
         *arg2 = unkFunc2(globalCtx, actor);
-        return 0;
+        return false;
     }
 
     func_8002F374(globalCtx, actor, &sp26, &sp24);
 
     if ((sp26 < 0) || (sp26 > SCREEN_WIDTH) || (sp24 < 0) || (sp24 > SCREEN_HEIGHT)) {
-        return 0;
+        return false;
     }
 
     if (!func_8002F2CC(actor, globalCtx, arg3)) {
-        return 0;
+        return false;
     }
 
     actor->textId = unkFunc1(globalCtx, actor);
 
-    return 0;
+    return false;
 }
 
 typedef struct {
@@ -3641,7 +3621,7 @@ typedef struct {
     /* 0x14 */ s16 unk_14;
 } struct_80116130; // size = 0x18
 
-struct_80116130 D_80116130[] = {
+static struct_80116130 D_80116130[] = {
     { { 0x2AA8, 0xF1C8, 0x18E2, 0x1554, 0x0000, 0x0000, 1 }, 170.0f, 0x3FFC },
     { { 0x2AA8, 0xEAAC, 0x1554, 0x1554, 0xF8E4, 0x0E38, 1 }, 170.0f, 0x3FFC },
     { { 0x31C4, 0xE390, 0x0E38, 0x0E38, 0xF1C8, 0x071C, 1 }, 170.0f, 0x3FFC },
@@ -3657,8 +3637,6 @@ struct_80116130 D_80116130[] = {
     { { 0x18E2, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
 };
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7,
                    u8 arg8) {
     s16 sp46;
@@ -3679,23 +3657,22 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     temp1 = CLAMP(sp40, -arg2, arg2);
     Math_SmoothStepToS(&arg1->unk_08.y, temp1, 6, 2000, 1);
 
-    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    arg1->unk_08.y = CLAMP(arg1->unk_08.y, -sp40, sp40);
+    temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
+    arg1->unk_08.y = CLAMP(arg1->unk_08.y, -temp1, temp1);
 
-    sp40 = sp40 - arg1->unk_08.y;
+    sp40 -= arg1->unk_08.y;
 
     temp1 = CLAMP(sp40, -arg5, arg5);
     Math_SmoothStepToS(&arg1->unk_0E.y, temp1, 6, 2000, 1);
 
-    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -sp40, sp40);
+    temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
+    arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -temp1, temp1);
 
-    if (arg8 != 0) {
-        if (arg3) {} // Seems necessary to match
+    if (arg8) {
         Math_SmoothStepToS(&actor->shape.rot.y, sp44, 6, 2000, 1);
     }
 
-    temp1 = CLAMP(sp46, arg4, arg3);
+    temp1 = CLAMP(sp46, arg4, (s16)(u16)arg3);
     Math_SmoothStepToS(&arg1->unk_08.x, temp1, 6, 2000, 1);
 
     temp2 = sp46 - arg1->unk_08.x;
@@ -3703,9 +3680,6 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     temp1 = CLAMP(temp2, arg7, arg6);
     Math_SmoothStepToS(&arg1->unk_0E.x, temp1, 6, 2000, 1);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_800344BC.s")
-#endif
 
 s16 func_800347E8(s16 arg0) {
     return D_80116130[arg0].unk_14;
@@ -3957,9 +3931,9 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
     var2 = actor->yawTowardsPlayer - arg5;
 
     if ((actor->xzDistToPlayer <= range) && (player->swordState != 0) && (arg4 >= ABS(var1)) && (arg3 >= ABS(var2))) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -3997,9 +3971,9 @@ u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
     Player* player = PLAYER;
 
     if ((collider->acFlags & AC_TYPE_PLAYER) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -5367,7 +5341,7 @@ u16 func_80037C30(GlobalContext* globalCtx, s16 arg1) {
 
 s32 func_80037C5C(GlobalContext* globalCtx, s16 arg1, u16 textId) {
     func_80036E50(textId, arg1);
-    return 0;
+    return false;
 }
 
 s32 func_80037C94(GlobalContext* globalCtx, Actor* actor, s32 arg2) {
@@ -5376,19 +5350,19 @@ s32 func_80037C94(GlobalContext* globalCtx, Actor* actor, s32 arg2) {
 
 s32 func_80037CB8(GlobalContext* globalCtx, Actor* actor, s16 arg2) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
-    s32 ret = 0;
+    s32 ret = false;
 
     switch (func_8010BDBC(msgCtx)) {
         case 2:
             func_80037C5C(globalCtx, arg2, actor->textId);
-            ret = 1;
+            ret = true;
             break;
         case 4:
         case 5:
             if (func_80106BC8(globalCtx) && func_80037C94(globalCtx, actor, arg2)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 msgCtx->msgMode = 0x36;
-                ret = 1;
+                ret = true;
             }
             break;
     }
@@ -5404,14 +5378,14 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
 
     if (func_8002F194(actor, globalCtx)) {
         *arg3 = 1;
-        return 1;
+        return true;
     }
 
     if (*arg3 == 1) {
         if (func_80037CB8(globalCtx, actor, arg2)) {
             *arg3 = 0;
         }
-        return 0;
+        return false;
     }
 
     func_8002F374(globalCtx, actor, &sp2C, &sp2A);
@@ -5419,21 +5393,21 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
     if (0) {} // Necessary to match
 
     if ((sp2C < 0) || (sp2C > SCREEN_WIDTH) || (sp2A < 0) || (sp2A > SCREEN_HEIGHT)) {
-        return 0;
+        return false;
     }
 
     var = actor->yawTowardsPlayer - actor->shape.rot.y;
     abs_var = ABS(var);
 
     if (abs_var >= 0x4300) {
-        return 0;
+        return false;
     }
 
-    if ((actor->xyzDistToPlayerSq > 25600.0f) && !actor->isTargeted) {
-        return 0;
+    if ((actor->xyzDistToPlayerSq > SQ(160.0f)) && !actor->isTargeted) {
+        return false;
     }
 
-    if (actor->xyzDistToPlayerSq <= 6400.0f) {
+    if (actor->xyzDistToPlayerSq <= SQ(80.0f)) {
         if (func_8002F2CC(actor, globalCtx, 80.0f)) {
             actor->textId = func_80037C30(globalCtx, arg2);
         }
@@ -5443,7 +5417,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
         }
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_80037F30(Vec3s* arg0, Vec3s* arg1) {
@@ -5451,7 +5425,7 @@ s32 func_80037F30(Vec3s* arg0, Vec3s* arg1) {
     Math_SmoothStepToS(&arg0->x, 0, 6, 6200, 100);
     Math_SmoothStepToS(&arg1->y, 0, 6, 6200, 100);
     Math_SmoothStepToS(&arg1->x, 0, 6, 6200, 100);
-    return 1;
+    return true;
 }
 
 s32 func_80037FC8(Actor* actor, Vec3f* arg1, Vec3s* arg2, Vec3s* arg3) {
@@ -5469,13 +5443,13 @@ s32 func_80037FC8(Actor* actor, Vec3f* arg1, Vec3s* arg2, Vec3s* arg3) {
     arg2->y = (arg2->y < -8000) ? -8000 : ((arg2->y > 8000) ? 8000 : arg2->y);
 
     if (var && (ABS(arg2->y) < 8000)) {
-        return 0;
+        return false;
     }
 
     Math_SmoothStepToS(&arg3->y, sp34 - arg2->y, 4, 2000, 1);
     arg3->y = (arg3->y < -12000) ? -12000 : ((arg3->y > 12000) ? 12000 : arg3->y);
 
-    return 1;
+    return true;
 }
 
 s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* arg3, f32 arg4) {
@@ -5493,7 +5467,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
             func_80037F30(arg2, arg3);
-            return 0;
+            return false;
         }
     }
 
@@ -5505,7 +5479,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 
     func_80037FC8(actor, &sp2C, arg2, arg3);
 
-    return 1;
+    return true;
 }
 
 s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* arg3, Vec3f arg4) {
@@ -5522,7 +5496,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
             func_80037F30(arg2, arg3);
-            return 0;
+            return false;
         }
     }
 
@@ -5534,5 +5508,5 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 
     func_80037FC8(actor, &sp24, arg2, arg3);
 
-    return 1;
+    return true;
 }

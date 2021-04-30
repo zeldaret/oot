@@ -777,10 +777,7 @@ Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f) {
     if (f == n) {
         f++;
     }
-
-    if (n == f) {
-        __assert("n != f", "../z_rcp.c", 1155);
-    }
+    ASSERT(n != f, "n != f", "../z_rcp.c", 1155);
 
     gDPSetFogColor(gfx++, r, g, b, a);
 
@@ -801,10 +798,7 @@ Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f) {
     if (f == n) {
         f++;
     }
-
-    if (n == f) {
-        __assert("n != f", "../z_rcp.c", 1187);
-    }
+    ASSERT(n != f, "n != f", "../z_rcp.c", 1187);
 
     gDPPipeSync(gfx++);
     gDPSetFogColor(gfx++, r, g, b, a);
@@ -1372,9 +1366,9 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     gSPDisplayList(POLY_XLU_DISP++, sFillSetupDL);
     gSPDisplayList(OVERLAY_DISP++, sFillSetupDL);
 
-    gDPSetScissorFrac(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
-    gDPSetScissorFrac(POLY_XLU_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
-    gDPSetScissorFrac(OVERLAY_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+    gDPSetScissor(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, gScreenHeight);
+    gDPSetScissor(POLY_XLU_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, gScreenHeight);
+    gDPSetScissor(OVERLAY_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, gScreenHeight);
 
     gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
     gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
@@ -1460,7 +1454,7 @@ void func_80095974(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2503);
 
     gSPDisplayList(POLY_OPA_DISP++, sFillSetupDL);
-    gDPSetScissorFrac(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+    gDPSetScissor(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, gScreenHeight);
     gDPSetDepthImage(POLY_OPA_DISP++, gZBuffer);
     gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
 

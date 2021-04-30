@@ -21,6 +21,7 @@ HLModelIntermediette::HLModelIntermediette()
 	startIndex = 0;
 	meshStartIndex = 0;
 	hasSkeleton = false;
+	lastTrans = Vec3s(0, 0, 0);
 }
 
 HLModelIntermediette::~HLModelIntermediette()
@@ -61,7 +62,6 @@ HLModelIntermediette* HLModelIntermediette::FromXML(tinyxml2::XMLElement* root)
 
 void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDisplayList* zDisplayList)
 {
-	// HLModelIntermediette* model = new HLModelIntermediette();
 	HLLimbIntermediette* limb = new HLLimbIntermediette();
 	limb->name = zDisplayList->GetName();
 
@@ -97,15 +97,15 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 	// Analyze display lists to determine components
 	HLDisplayListIntermediette* dList = new HLDisplayListIntermediette();
 	dList->address = zDisplayList->GetRawDataIndex();
-	int startIndex = 0;
+	int32_t startIndex = 0;
 
 	// Go through the display lists and setup commands
-	int meshCnt = 0;
+	int32_t meshCnt = 0;
 
 	HLMeshIntermediette* mesh = new HLMeshIntermediette();
 	mesh->name = StringHelper::Sprintf("%s_%i", zDisplayList->GetName().c_str(), meshCnt);
 
-	int matCnt = 0;
+	int32_t matCnt = 0;
 	HLMaterialIntermediette* lastMat = new HLMaterialIntermediette();
 	lastMat->name = StringHelper::Sprintf("Material_%i", matCnt);
 
@@ -120,26 +120,15 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 
 		if (opcode == F3DZEXOpcode::G_SETOTHERMODE_L)
 		{
-			int ss = (data & 0x0000FF0000000000) >> 40;
-			int nn = (data & 0x000000FF00000000) >> 32;
-			// int dd = (data & 0xFFFFFFFF);
-
-			int sft = 32 - (nn + 1) - ss;
-
-			if (sft == 3)
-			{
-				// int mode1 = (dd & 0xCCCC0000) >> 0;
-				// int mode2 = (dd & 0x33330000) >> 0;
-			}
 		}
 		else if (opcode == F3DZEXOpcode::G_SETPRIMCOLOR)
 		{
-			int mm = (data & 0x0000FF0000000000) >> 40;
-			int ff = (data & 0x000000FF00000000) >> 32;
-			int rr = (data & 0x00000000FF000000) >> 24;
-			int gg = (data & 0x0000000000FF0000) >> 16;
-			int bb = (data & 0x000000000000FF00) >> 8;
-			int aa = (data & 0x00000000000000FF) >> 0;
+			int32_t mm = (data & 0x0000FF0000000000) >> 40;
+			int32_t ff = (data & 0x000000FF00000000) >> 32;
+			int32_t rr = (data & 0x00000000FF000000) >> 24;
+			int32_t gg = (data & 0x0000000000FF0000) >> 16;
+			int32_t bb = (data & 0x000000000000FF00) >> 8;
+			int32_t aa = (data & 0x00000000000000FF) >> 0;
 
 			lastClrR = rr;
 			lastClrG = gg;
@@ -159,33 +148,17 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 		         (F3DZEXOpcode)(zDisplayList->instructions[i - 1] >> 56) !=
 		             F3DZEXOpcode::G_RDPPIPESYNC)
 		{
-			// int fff = (data & 0b0000000011100000000000000000000000000000000000000000000000000000)
-			// >> 53; int ii = (data &
-			// 0b0000000000011000000000000000000000000000000000000000000000000000) >> 51; int
-			// nnnnnnnnn = (data &
-			// 0b0000000000000011111111100000000000000000000000000000000000000000) >> 41; int
-			// mmmmmmmmm = (data &
-			// 0b0000000000000000000000011111111100000000000000000000000000000000) >> 32; int ttt =
-			// (data & 0b0000000000000000000000000000000000000111000000000000000000000000) >> 24; int
-			// pppp = (data & 0b0000000000000000000000000000000000000000111100000000000000000000) >>
-			// 20;
-			int cc =
+			int32_t cc =
 				(data & 0b0000000000000000000000000000000000000000000011000000000000000000) >> 18;
-			// int aaaa = (data &
-			// 0b0000000000000000000000000000000000000000000000111100000000000000) >> 14; int ssss =
-			// (data & 0b0000000000000000000000000000000000000000000000000011110000000000) >> 10;
-			int dd =
+			int32_t dd =
 				(data & 0b0000000000000000000000000000000000000000000000000000001100000000) >> 8;
-			// int bbbb = (data &
-			// 0b0000000000000000000000000000000000000000000000000000000011110000) >> 4; int uuuu =
-			// (data & 0b0000000000000000000000000000000000000000000000000000000000001111);
 
 			lastMat->cmtH = (HLMaterialCmt)cc;
 			lastMat->cmtV = (HLMaterialCmt)dd;
 
 			matCnt++;
 
-			if (matCnt > 1)
+			if (matCnt > 1 && mesh->commands.size() > 0)
 			{
 				model->blocks.push_back(lastMat);
 				limb->commands.push_back(new HLLimbCommand(mesh->name, lastMat->name));
@@ -223,9 +196,9 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 		}
 		else if (opcode == F3DZEXOpcode::G_VTX)
 		{
-			int nn = (data & 0x000FF00000000000ULL) >> 44;
-			int aa = (data & 0x000000FF00000000ULL) >> 32;
-			int startIndex = ((aa >> 1) - nn);
+			int32_t nn = (data & 0x000FF00000000000ULL) >> 44;
+			int32_t aa = (data & 0x000000FF00000000ULL) >> 32;
+			int32_t startIndex = ((aa >> 1) - nn);
 			uint32_t vtxAddr = data & 0x00FFFFFF;
 			uint32_t diff = vtxAddr - vStart;
 
@@ -235,46 +208,59 @@ void HLModelIntermediette::FromZDisplayList(HLModelIntermediette* model, ZDispla
 		}
 		else if (opcode == F3DZEXOpcode::G_TRI1)
 		{
-			int aa = ((data & 0x00FF000000000000ULL) >> 48) / 2;
-			int bb = ((data & 0x0000FF0000000000ULL) >> 40) / 2;
-			int cc = ((data & 0x000000FF00000000ULL) >> 32) / 2;
+			int32_t aa = ((data & 0x00FF000000000000ULL) >> 48) / 2;
+			int32_t bb = ((data & 0x0000FF0000000000ULL) >> 40) / 2;
+			int32_t cc = ((data & 0x000000FF00000000ULL) >> 32) / 2;
 
 			mesh->commands.push_back(new HLMeshCmdTriangle1(aa, bb, cc, 0));
 		}
 		else if (opcode == F3DZEXOpcode::G_TRI2)
 		{
-			int aa = ((data & 0x00FF000000000000ULL) >> 48) / 2;
-			int bb = ((data & 0x0000FF0000000000ULL) >> 40) / 2;
-			int cc = ((data & 0x000000FF00000000ULL) >> 32) / 2;
-			int dd = ((data & 0x00000000FF0000ULL) >> 16) / 2;
-			int ee = ((data & 0x0000000000FF00ULL) >> 8) / 2;
-			int ff = ((data & 0x000000000000FFULL) >> 0) / 2;
+			int32_t aa = ((data & 0x00FF000000000000ULL) >> 48) / 2;
+			int32_t bb = ((data & 0x0000FF0000000000ULL) >> 40) / 2;
+			int32_t cc = ((data & 0x000000FF00000000ULL) >> 32) / 2;
+			int32_t dd = ((data & 0x00000000FF0000ULL) >> 16) / 2;
+			int32_t ee = ((data & 0x0000000000FF00ULL) >> 8) / 2;
+			int32_t ff = ((data & 0x000000000000FFULL) >> 0) / 2;
 
 			mesh->commands.push_back(new HLMeshCmdTriangle2(aa, bb, cc, 0, dd, ee, ff, 0));
 		}
 
-		// int bp = 0;
+		// int32_t bp = 0;
 	}
 
 	limb->commands.push_back(new HLLimbCommand(mesh->name, lastMat->name));
 	model->blocks.push_back(lastMat);
 	model->blocks.push_back(mesh);
 	model->blocks.push_back(limb);
-
-	// return model;
 }
 
 void HLModelIntermediette::FromZSkeleton(HLModelIntermediette* model, ZSkeleton* zSkeleton)
 {
 	model->hasSkeleton = true;
 
-	for (size_t i = 0; i < zSkeleton->limbs.size(); i++)
-	{
-		// ZLimb* limb = zSkeleton->limbs[i];
+	// Start at the root skeleton node, go down...
+	ProcessZSkeletonLimb(model, zSkeleton, zSkeleton->limbs[0]);
+}
 
-		for (size_t j = 0; j < model->blocks.size(); j++)
-		{
-		}
+void HLModelIntermediette::ProcessZSkeletonLimb(HLModelIntermediette* model, ZSkeleton* zSkeleton,
+                                                ZLimb* limb)
+{
+	if (limb->dList == nullptr && limb->dListPtr != 0)
+		limb->dList = (ZDisplayList*)zSkeleton->parent->FindResource(limb->dListPtr);
+
+	if (limb->dList != nullptr)
+	{
+		auto cmdTrans = new HLSetTranslation(limb->transX, limb->transY, limb->transZ);
+		cmdTrans->parent = model;
+		model->blocks.push_back(cmdTrans);
+
+		FromZDisplayList(model, limb->dList);
+	}
+
+	for (ZLimb* childLimb : limb->children)
+	{
+		ProcessZSkeletonLimb(model, zSkeleton, childLimb);
 	}
 }
 
@@ -296,7 +282,7 @@ string HLModelIntermediette::ToOBJFile()
 	return output;
 }
 
-string HLModelIntermediette::ToFBXFile()
+string HLModelIntermediette::ToAssimpFile()
 {
 #ifdef USE_ASSIMP
 	Assimp::Exporter exporter;
@@ -307,22 +293,30 @@ string HLModelIntermediette::ToFBXFile()
 
 	std::vector<aiVector3D> vertices;
 
+	int32_t idx = 0;
+
 	for (HLIntermediette* block : blocks)
 	{
 		block->parent = this;
 		block->OutputAssimp(newScene, &vertices);
+
+		idx++;
 	}
 
 	newScene->mRootNode->mNumChildren += newScene->mNumMeshes;
 	newScene->mRootNode->mChildren = new aiNode*[newScene->mRootNode->mNumChildren];
 
-	for (int i = 0; i < newScene->mNumMeshes; i++)
+	for (size_t i = 0; i < newScene->mNumMeshes; i++)
 	{
 		aiNode* child = new aiNode();
 		child->mName = StringHelper::Sprintf("OBJ_%i", i);
 		child->mNumMeshes = 1;
-		child->mMeshes = new unsigned int[1];
+		child->mMeshes = new uint32_t[1];
 		child->mMeshes[0] = i;
+		child->mTransformation.Translation(aiVector3D(meshTranslations[i].x * 10,
+		                                              meshTranslations[i].y * 10,
+		                                              meshTranslations[i].z * 10),
+		                                   child->mTransformation);
 		newScene->mRootNode->mChildren[i] = child;
 	}
 
@@ -485,8 +479,8 @@ string HLVerticesIntermediette::OutputCode(HLModelIntermediette* parent)
 
 	for (Vertex v : vertices)
 	{
-		output += StringHelper::Sprintf("\t{ %i, %i, %i, %i, %i, %i, %i, %i, %i, %i },\n", v.x, v.y,
-		                                v.z, v.flag, v.s, v.t, v.r, v.g, v.b, v.a);
+		output += StringHelper::Sprintf("    { %i, %i, %i, %i, %i, %i, %i, %i, %i, %i },\n", v.x,
+		                                v.y, v.z, v.flag, v.s, v.t, v.r, v.g, v.b, v.a);
 	}
 
 	output += StringHelper::Sprintf("};\n");
@@ -502,32 +496,19 @@ std::string HLVerticesIntermediette::OutputOBJ()
 	{
 		output += StringHelper::Sprintf("v %f %f %f %i %i %i %i\n", (float)v.x * 0.1f,
 		                                (float)v.y * 0.1f, (float)v.z * 0.1f, v.r, v.g, v.b, v.a);
-		// output += StringHelper::Sprintf("v %f %f %f\n", (float)v.x * 0.1f, (float)v.y * 0.1f,
-		// (float)v.z * 0.1f);
 	}
-
-	// for (Vertex v : vertices)
-	// output += StringHelper::Sprintf("vt %i %i\n", v.s, v.t);
 
 	return output;
 }
 
 void HLVerticesIntermediette::OutputAssimp(aiScene* scene, std::vector<aiVector3D>* verts)
 {
-	// aiVector3D* verts = new aiVector3D[vertices.size()];
-	// aiVector3D* normals = new aiVector3D[vertices.size()];
-
 	verts->clear();
 
 	for (size_t i = 0; i < vertices.size(); i++)
 	{
 		verts->push_back(aiVector3D(vertices[i].x, vertices[i].y, vertices[i].z));
-		// normals[i] = aiVector3D(vertices[i].x, vertices[i].y, vertices[i].z);
 	}
-
-	// mesh->mVertices = verts;
-	// mesh->mNormals = normals;
-	// mesh->mNumVertices += vertices.size();
 }
 
 void HLVerticesIntermediette::OutputXML(tinyxml2::XMLDocument* doc, tinyxml2::XMLElement* root)
@@ -615,7 +596,7 @@ void HLMeshCmdTriangle1::OutputAssimp(HLModelIntermediette* parent, aiScene* sce
 {
 	aiFace* face = new aiFace();
 	face->mNumIndices = 3;
-	face->mIndices = new unsigned int[3];
+	face->mIndices = new uint32_t[3];
 	face->mIndices[0] = parent->startIndex + v0;
 	face->mIndices[1] = parent->startIndex + v1;
 	face->mIndices[2] = parent->startIndex + v2;
@@ -680,10 +661,9 @@ string HLMeshCmdTriangle2::OutputCode(HLModelIntermediette* parent)
 
 std::string HLMeshCmdTriangle2::OutputOBJ(HLModelIntermediette* parent)
 {
-	// HLVerticesIntermediette* verts = parent->FindByName<HLVerticesIntermediette>("");
 	string output = "";
 
-	int startIndex = parent->startIndex;
+	int32_t startIndex = parent->startIndex;
 
 	output += StringHelper::Sprintf("f %i %i %i\n", startIndex + v0 + 1, startIndex + v1 + 1,
 	                                startIndex + v2 + 1);
@@ -698,7 +678,7 @@ void HLMeshCmdTriangle2::OutputAssimp(HLModelIntermediette* parent, aiScene* sce
 	{
 		aiFace* face = new aiFace();
 		face->mNumIndices = 3;
-		face->mIndices = new unsigned int[3];
+		face->mIndices = new uint32_t[3];
 		face->mIndices[0] = parent->startIndex + v0;
 		face->mIndices[1] = parent->startIndex + v1;
 		face->mIndices[2] = parent->startIndex + v2;
@@ -709,7 +689,7 @@ void HLMeshCmdTriangle2::OutputAssimp(HLModelIntermediette* parent, aiScene* sce
 	{
 		aiFace* face = new aiFace();
 		face->mNumIndices = 3;
-		face->mIndices = new unsigned int[3];
+		face->mIndices = new uint32_t[3];
 		face->mIndices[0] = parent->startIndex + v10;
 		face->mIndices[1] = parent->startIndex + v11;
 		face->mIndices[2] = parent->startIndex + v12;
@@ -783,18 +763,12 @@ string HLMeshCmdLoadVertices::OutputCode(HLModelIntermediette* parent)
 HLMaterialIntermediette::HLMaterialIntermediette()
 {
 	textureName = "";
-	// repeatH = false;
-	// repeatV = false;
 	clrR = 0;
 	clrG = 0;
 	clrB = 0;
 	clrA = 0;
 	clrM = 0;
 	clrL = 0;
-	// clampH = false;
-	// clampV = false;
-	// mirrorH = false;
-	// mirrorV = false;
 	cmtH = HLMaterialCmt::Wrap;
 	cmtV = HLMaterialCmt::Wrap;
 }
@@ -803,12 +777,6 @@ void HLMaterialIntermediette::InitFromXML(tinyxml2::XMLElement* xmlElement)
 {
 	name = xmlElement->Attribute("Name");
 	textureName = xmlElement->Attribute("TextureName");
-	// repeatH = xmlElement->BoolAttribute("RepeatH");
-	// repeatV = xmlElement->BoolAttribute("RepeatV");
-	// clampH = xmlElement->BoolAttribute("ClampH");
-	// clampV = xmlElement->BoolAttribute("ClampV");
-	// mirrorH  = xmlElement->BoolAttribute("MirrorH");
-	// mirrorV = xmlElement->BoolAttribute("MirrorV");
 	clrR = xmlElement->IntAttribute("ClrR");
 	clrG = xmlElement->IntAttribute("ClrG");
 	clrB = xmlElement->IntAttribute("ClrB");
@@ -834,8 +802,8 @@ void HLMaterialIntermediette::OutputXML(tinyxml2::XMLDocument* doc, tinyxml2::XM
 	elem->SetAttribute("ClrA", clrA);
 	elem->SetAttribute("ClrL", clrL);
 	elem->SetAttribute("ClrM", clrM);
-	elem->SetAttribute("CmtH", (int)cmtH);
-	elem->SetAttribute("CmtV", (int)cmtV);
+	elem->SetAttribute("CmtH", (int32_t)cmtH);
+	elem->SetAttribute("CmtV", (int32_t)cmtV);
 
 	parent->InsertEndChild(elem);
 }
@@ -997,19 +965,19 @@ string HLMeshIntermediette::OutputCode(string materialName)
 	HLMaterialIntermediette* mat = parent->FindByName<HLMaterialIntermediette>(materialName);
 	HLTextureIntermediette* tex = parent->FindByName<HLTextureIntermediette>(mat->textureName);
 
-	output += StringHelper::Sprintf("\tgsDPPipeSync(),\n");
-	output += StringHelper::Sprintf("\tgsDPSetPrimColor(%i, %i, %i, %i, %i, %i),\n", mat->clrL,
+	output += StringHelper::Sprintf("    gsDPPipeSync(),\n");
+	output += StringHelper::Sprintf("    gsDPSetPrimColor(%i, %i, %i, %i, %i, %i),\n", mat->clrL,
 	                                mat->clrM, mat->clrR, mat->clrG, mat->clrB, mat->clrA);
-	output += StringHelper::Sprintf("\tgsDPPipeSync(),\n");
-	output += StringHelper::Sprintf("\tgsSPTexture(65535, 65535, 0, 0, G_ON),\n");
+	output += StringHelper::Sprintf("    gsDPPipeSync(),\n");
+	output += StringHelper::Sprintf("    gsSPTexture(65535, 65535, 0, 0, G_ON),\n");
 
 	output += StringHelper::Sprintf(
-		"\tgsDPLoadMultiBlock(%s, 0, 0, %s, %s, %i, %i, 0, 0, 0, 5, 5, 0, 0),\n",
+		"    gsDPLoadMultiBlock(%s, 0, 0, %s, %s, %i, %i, 0, 0, 0, 5, 5, 0, 0),\n",
 		mat->textureName.c_str(), tex->tex->GetIMFmtFromType().c_str(),
 		tex->tex->GetIMSizFromType().c_str(), tex->tex->GetWidth(), tex->tex->GetHeight());
 
 	for (HLMeshCommand* cmd : commands)
-		output += "\t" + cmd->OutputCode(parent) + "\n";
+		output += "    " + cmd->OutputCode(parent) + "\n";
 
 	return output;
 }
@@ -1040,6 +1008,9 @@ void HLMeshIntermediette::OutputAssimp(aiScene* scene, std::vector<aiVector3D>* 
 	{
 		cmd->OutputAssimp(parent, scene, mesh);
 	}
+
+	parent->meshTranslations.push_back(parent->lastTrans);
+	// parent->objects.push_back(new HLModelObj(parent->lastTransX, ))
 
 	scene->mMeshes[scene->mNumMeshes++] = mesh;
 }
@@ -1094,7 +1065,7 @@ std::string HLLimbIntermediette::OutputCode()
 	for (HLLimbCommand* cmd : commands)
 		output += cmd->OutputCode(parent);
 
-	output += StringHelper::Sprintf("\tgsSPEndDisplayList(),\n");
+	output += StringHelper::Sprintf("    gsSPEndDisplayList(),\n");
 	output += StringHelper::Sprintf("};\n");
 
 	return output;
@@ -1146,8 +1117,6 @@ std::string HLLimbCommand::OutputCode(HLModelIntermediette* parent)
 
 	// Time to generate the display list...
 	HLMeshIntermediette* mesh = parent->FindByName<HLMeshIntermediette>(meshName);
-	// HLMaterialIntermediette* mat = parent->FindByName<HLMaterialIntermediette>(materialName);
-	// HLTextureIntermediette* tex = parent->FindByName<HLTextureIntermediette>(mat->textureName);
 
 	output += mesh->OutputCode(materialName);
 
@@ -1175,4 +1144,32 @@ void HLTerminator::OutputAssimp(aiScene* scene, std::vector<aiVector3D>* verts)
 	}
 
 	verts->clear();
+}
+
+HLSetTranslation::HLSetTranslation()
+{
+	transX = 0;
+	transY = 0;
+	transZ = 0;
+}
+
+HLSetTranslation::HLSetTranslation(float nTransX, float nTransY, float nTransZ)
+{
+	transX = nTransX;
+	transY = nTransY;
+	transZ = nTransZ;
+}
+
+void HLSetTranslation::OutputAssimp(aiScene* scene, std::vector<aiVector3D>* verts)
+{
+	parent->lastTrans = Vec3s(transX, transY, transZ);
+}
+
+HLModelObj::HLModelObj(Vec3s nPos, Vec3s nRot, std::vector<aiVector3D> nVerts,
+                       std::vector<int32_t> nIndices)
+{
+	pos = nPos;
+	rot = nRot;
+	vertices = nVerts;
+	indices = nIndices;
 }

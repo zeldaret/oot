@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)lib\tinyxml2;$(SolutionDir)lib\elfio;$(SolutionDir)lib\assimp\include;$(SolutionDir)lib\stb;$(ProjectDir);$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)lib\assimp-built;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)lib\tinyxml2;$(SolutionDir)lib\libgfxd;$(SolutionDir)lib\elfio;$(SolutionDir)lib\assimp\include;$(SolutionDir)lib\stb;$(ProjectDir);$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\libgfxd;$(SolutionDir)lib\assimp-built;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(IncludePath)</IncludePath>
@@ -98,6 +98,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;USE_ASSIMP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <Profile>true</Profile>
@@ -139,14 +140,33 @@ python3 ZAPD/genbuildinfo.py</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\lib\libgfxd\gfxd.c" />
+    <ClCompile Include="..\lib\libgfxd\uc.c" />
+    <ClCompile Include="..\lib\libgfxd\uc_f3d.c" />
+    <ClCompile Include="..\lib\libgfxd\uc_f3db.c" />
+    <ClCompile Include="..\lib\libgfxd\uc_f3dex.c" />
+    <ClCompile Include="..\lib\libgfxd\uc_f3dex2.c" />
+    <ClCompile Include="..\lib\libgfxd\uc_f3dexb.c" />
     <ClCompile Include="..\lib\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="HighLevel\HLAnimationIntermediette.cpp" />
     <ClCompile Include="HighLevel\HLModelIntermediette.cpp" />
     <ClCompile Include="HighLevel\HLTexture.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="OutputFormatter.cpp" />
     <ClCompile Include="Overlays\ZOverlay.cpp" />
     <ClCompile Include="ZArray.cpp" />
+    <ClCompile Include="ZBackground.cpp" />
+    <ClCompile Include="ZCutsceneMM.cpp" />
+    <ClCompile Include="ZLimb.cpp" />
+    <ClCompile Include="ZMtx.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetActorCutsceneList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetAnimatedTextureList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetCsCamera.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetMinimapChests.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetMinimapList.cpp" />
+    <ClCompile Include="ZRoom\Commands\SetWorldMapVisited.cpp" />
+    <ClCompile Include="ZRoom\Commands\Unused1D.cpp" />
     <ClCompile Include="ZScalar.cpp" />
     <ClCompile Include="ZAnimation.cpp" />
     <ClCompile Include="ZBlob.cpp" />
@@ -184,6 +204,7 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClCompile Include="ZRoom\Commands\ZRoomCommandUnk.cpp" />
     <ClCompile Include="ZRoom\ZRoom.cpp" />
     <ClCompile Include="ZRoom\ZRoomCommand.cpp" />
+    <ClCompile Include="ZSymbol.cpp" />
     <ClCompile Include="ZTexture.cpp" />
     <ClCompile Include="ZVector.cpp" />
     <ClCompile Include="ZVtx.cpp" />
@@ -202,11 +223,15 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClInclude Include="..\lib\elfio\elfio\elfio_utils.hpp" />
     <ClInclude Include="..\lib\elfio\elfio\elf_types.hpp" />
     <ClInclude Include="..\lib\json\include\nlohmann\json.hpp" />
+    <ClInclude Include="..\lib\libgfxd\gbi.h" />
+    <ClInclude Include="..\lib\libgfxd\gfxd.h" />
+    <ClInclude Include="..\lib\libgfxd\priv.h" />
     <ClInclude Include="..\lib\stb\stb_image.h" />
     <ClInclude Include="..\lib\stb\stb_image_write.h" />
     <ClInclude Include="..\lib\stb\tinyxml2.h" />
     <ClInclude Include="..\lib\tinygtlf\tiny_gltf.h" />
     <ClInclude Include="BitConverter.h" />
+    <ClInclude Include="CRC32.h" />
     <ClInclude Include="Directory.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="Globals.h" />
@@ -215,17 +240,29 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClInclude Include="HighLevel\HLFileIntermediette.h" />
     <ClInclude Include="HighLevel\HLModelIntermediette.h" />
     <ClInclude Include="HighLevel\HLTexture.h" />
+    <ClInclude Include="OutputFormatter.h" />
     <ClInclude Include="Overlays\ZOverlay.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="Vec3s.h" />
     <ClInclude Include="ZAnimation.h" />
     <ClInclude Include="ZArray.h" />
+    <ClInclude Include="ZBackground.h" />
     <ClInclude Include="ZBlob.h" />
     <ClInclude Include="ZCollision.h" />
     <ClInclude Include="ZCutscene.h" />
+    <ClInclude Include="ZCutsceneMM.h" />
     <ClInclude Include="ZDisplayList.h" />
     <ClInclude Include="ZFile.h" />
+    <ClInclude Include="ZLimb.h" />
+    <ClInclude Include="ZMtx.h" />
+    <ClInclude Include="ZRoom\Commands\SetActorCutsceneList.h" />
+    <ClInclude Include="ZRoom\Commands\SetAnimatedTextureList.h" />
+    <ClInclude Include="ZRoom\Commands\SetCsCamera.h" />
+    <ClInclude Include="ZRoom\Commands\SetMinimapChests.h" />
+    <ClInclude Include="ZRoom\Commands\SetMinimapList.h" />
+    <ClInclude Include="ZRoom\Commands\SetWorldMapVisited.h" />
+    <ClInclude Include="ZRoom\Commands\Unused1D.h" />
     <ClInclude Include="ZScalar.h" />
     <ClInclude Include="ZSkeleton.h" />
     <ClInclude Include="ZResource.h" />
@@ -259,6 +296,7 @@ python3 ZAPD/genbuildinfo.py</Command>
     <ClInclude Include="ZRoom\ObjectList.h" />
     <ClInclude Include="ZRoom\ZRoom.h" />
     <ClInclude Include="ZRoom\ZRoomCommand.h" />
+    <ClInclude Include="ZSymbol.h" />
     <ClInclude Include="ZTexture.h" />
     <ClInclude Include="ZVector.h" />
     <ClInclude Include="ZVtx.h" />

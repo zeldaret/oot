@@ -7,31 +7,35 @@
 class OutputFormatter
 {
 private:
-	const int tab_size;
-	const int default_indent;
-	const int line_limit;
+	const uint32_t tabSize;
+	const uint32_t defaultIndent;
+	const uint32_t lineLimit;
 
-	int col;
-	int nest;
-	int nest_indent[8];
-	int current_indent;
+	uint32_t col;
+	uint32_t nest;
+	uint32_t nestIndent[8];
+	uint32_t currentIndent;
+	uint32_t wordNests;
 
 	char word[128];
 	char space[128];
-	char* word_p;
-	char* space_p;
+	char* wordP;
+	char* spaceP;
 
 	std::string str;
 
-	int write(const char* buf, int count);
+	void Flush();
 
-	static OutputFormatter* static_instance;
-	static int write_static(const char* buf, int count);
+	static OutputFormatter* Instance;
+	static int WriteStatic(const char* buf, int count);
 
 public:
-	OutputFormatter(int tab_size = 4, int default_indent = 4, int line_limit = 120);
+	OutputFormatter(uint32_t tabSize = 4, uint32_t defaultIndent = 4, uint32_t lineLimit = 120);
 
-	int (*static_writer())(const char* buf, int count);
+	int (*StaticWriter())(const char* buf, int count);  // Must be `int` due to libgfxd
 
-	std::string get_output();
+	int Write(const char* buf, int count);
+	int Write(const std::string& buf);
+
+	std::string GetOutput();
 };

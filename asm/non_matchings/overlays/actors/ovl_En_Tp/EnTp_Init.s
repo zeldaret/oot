@@ -9,7 +9,7 @@ glabel EnTp_Init
 /* 00010 80B20DF0 00A0B025 */  or      $s6, $a1, $zero            ## $s6 = 00000000
 /* 00014 80B20DF4 AFBF006C */  sw      $ra, 0x006C($sp)           
 /* 00018 80B20DF8 AFB30054 */  sw      $s3, 0x0054($sp)           
-/* 0001C 80B20DFC 3C0580B2 */  lui     $a1, %hi(D_80B22AE4)       ## $a1 = 80B20000
+/* 0001C 80B20DFC 3C0580B2 */  lui     $a1, %hi(sInitChain)       ## $a1 = 80B20000
 /* 00020 80B20E00 00809825 */  or      $s3, $a0, $zero            ## $s3 = 00000000
 /* 00024 80B20E04 AFBE0068 */  sw      $s8, 0x0068($sp)           
 /* 00028 80B20E08 AFB70064 */  sw      $s7, 0x0064($sp)           
@@ -23,10 +23,10 @@ glabel EnTp_Init
 /* 00048 80B20E28 F7B40030 */  sdc1    $f20, 0x0030($sp)          
 /* 0004C 80B20E2C 0C01E037 */  jal     Actor_ProcessInitChain
               
-/* 00050 80B20E30 24A52AE4 */  addiu   $a1, $a1, %lo(D_80B22AE4)  ## $a1 = 80B22AE4
-/* 00054 80B20E34 3C0F80B2 */  lui     $t7, %hi(D_80B22AC4)       ## $t7 = 80B20000
+/* 00050 80B20E30 24A52AE4 */  addiu   $a1, $a1, %lo(sInitChain)  ## $a1 = 80B22AE4
+/* 00054 80B20E34 3C0F80B2 */  lui     $t7, %hi(sDamageTable)       ## $t7 = 80B20000
 /* 00058 80B20E38 240E0003 */  addiu   $t6, $zero, 0x0003         ## $t6 = 00000003
-/* 0005C 80B20E3C 25EF2AC4 */  addiu   $t7, $t7, %lo(D_80B22AC4)  ## $t7 = 80B22AC4
+/* 0005C 80B20E3C 25EF2AC4 */  addiu   $t7, $t7, %lo(sDamageTable)  ## $t7 = 80B22AC4
 /* 00060 80B20E40 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
 /* 00064 80B20E44 3C073E0F */  lui     $a3, 0x3E0F                ## $a3 = 3E0F0000
 /* 00068 80B20E48 A26E001F */  sb      $t6, 0x001F($s3)           ## 0000001F
@@ -47,10 +47,10 @@ glabel EnTp_Init
 /* 000A0 80B20E80 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000174
 /* 000A4 80B20E84 0C016EFE */  jal     Collider_InitJntSph              
 /* 000A8 80B20E88 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
-/* 000AC 80B20E8C 3C0780B2 */  lui     $a3, %hi(D_80B22AB4)       ## $a3 = 80B20000
+/* 000AC 80B20E8C 3C0780B2 */  lui     $a3, %hi(sJntSphInit)       ## $a3 = 80B20000
 /* 000B0 80B20E90 26680194 */  addiu   $t0, $s3, 0x0194           ## $t0 = 00000194
 /* 000B4 80B20E94 AFA80010 */  sw      $t0, 0x0010($sp)           
-/* 000B8 80B20E98 24E72AB4 */  addiu   $a3, $a3, %lo(D_80B22AB4)  ## $a3 = 80B22AB4
+/* 000B8 80B20E98 24E72AB4 */  addiu   $a3, $a3, %lo(sJntSphInit)  ## $a3 = 80B22AB4
 /* 000BC 80B20E9C 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 000C0 80B20EA0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000174
 /* 000C4 80B20EA4 0C017014 */  jal     Collider_SetJntSph              
@@ -70,7 +70,7 @@ glabel EnTp_Init
 /* 000FC 80B20EDC 8E620190 */  lw      $v0, 0x0190($s3)           ## 00000190
 /* 00100 80B20EE0 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00104 80B20EE4 844E0036 */  lh      $t6, 0x0036($v0)           ## 00000036
-/* 00108 80B20EE8 0C2C86E4 */  jal     func_80B21B90              
+/* 00108 80B20EE8 0C2C86E4 */  jal     EnTp_Head_SetupWait              
 /* 0010C 80B20EEC A44E002E */  sh      $t6, 0x002E($v0)           ## 0000002E
 /* 00110 80B20EF0 8E780024 */  lw      $t8, 0x0024($s3)           ## 00000024
 /* 00114 80B20EF4 8E790004 */  lw      $t9, 0x0004($s3)           ## 00000004
@@ -149,12 +149,12 @@ glabel EnTp_Init
 .L80B21000:
 /* 00220 80B21000 14600005 */  bne     $v1, $zero, .L80B21018     
 /* 00224 80B21004 00000000 */  nop
-/* 00228 80B21008 0C2C8421 */  jal     func_80B21084              
+/* 00228 80B21008 0C2C8421 */  jal     EnTp_Tail_SetupFollowHead              
 /* 0022C 80B2100C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00230 80B21010 10000004 */  beq     $zero, $zero, .L80B21024   
 /* 00234 80B21014 8FBF006C */  lw      $ra, 0x006C($sp)           
 .L80B21018:
-/* 00238 80B21018 0C2C85FF */  jal     func_80B217FC              
+/* 00238 80B21018 0C2C85FF */  jal     EnTp_Fragment_SetupFade              
 /* 0023C 80B2101C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00240 80B21020 8FBF006C */  lw      $ra, 0x006C($sp)           
 .L80B21024:
