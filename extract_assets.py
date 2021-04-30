@@ -11,18 +11,18 @@ def checkTouchedFile(inFile: str, outFile: str) -> bool:
         return True
     return os.path.getmtime(inFile) > os.path.getmtime(outFile)
 
-def Extract(xmlPath, outputPath):
-    ExtractFile(xmlPath, outputPath, 1, 0)
+def Extract(xmlPath, outputPath, outputSourcePath):
+    ExtractFile(xmlPath, outputPath, outputSourcePath, 1, 0)
 
-def ExtractScene(xmlPath, outputPath):
-    ExtractFile(xmlPath, outputPath, 1, 1)
+def ExtractScene(xmlPath, outputPath, outputSourcePath):
+    ExtractFile(xmlPath, outputPath, outputSourcePath, 1, 1)
 
-def ExtractFile(xmlPath, outputPath, genSrcFile, incFilePrefix):
+def ExtractFile(xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix):
     if globalAbort.is_set():
         # Don't extract if another file wasn't extracted properly.
         return
 
-    execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -gsf %i -ifp %i -sm tools/ZAPD/SymbolMap_OoTMqDbg.txt" % (xmlPath, outputPath, genSrcFile, incFilePrefix)
+    execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf %i -ifp %i -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix)
 
     print(execStr)
     exitValue = os.system(execStr)
@@ -38,6 +38,7 @@ def ExtractFunc(fullPath):
     objectName = os.path.splitext(xmlName)[0]
 
     outPath = os.path.join("assets", *pathList[2:], objectName)
+    outSourcePath = outPath
 
     isScene = fullPath.startswith("assets/xml/scenes/")
     if isScene:
@@ -50,9 +51,9 @@ def ExtractFunc(fullPath):
             return
 
     if isScene:
-        ExtractScene(fullPath, outPath)
+        ExtractScene(fullPath, outPath, outSourcePath)
     else:
-        Extract(fullPath, outPath)
+        Extract(fullPath, outPath, outSourcePath)
 
 def initializeWorker(force, abort):
     global globalForce

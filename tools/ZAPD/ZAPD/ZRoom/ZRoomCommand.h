@@ -11,7 +11,7 @@ enum class RoomCommand : uint8_t
 {
 	SetStartPositionList = 0x00,
 	SetActorList = 0x01,
-	SetCameraSomething = 0x02,
+	SetCsCamera = 0x02,
 	SetCollisionHeader = 0x03,
 	SetRoomList = 0x04,
 	SetWind = 0x05,
@@ -36,6 +36,14 @@ enum class RoomCommand : uint8_t
 	SetAlternateHeaders = 0x18,
 	SetCameraSettings = 0x19,
 
+	// MM Commands
+	SetWorldMapVisited = 0x19,
+	SetAnimatedTextureList = 0x1A,
+	SetActorCutsceneList = 0x1B,
+	SetMinimapList = 0x1C,
+	Unused1D = 0x1D,
+	SetMinimapChests = 0x1E,
+
 	Error = 0xFF
 };
 
@@ -44,17 +52,18 @@ class ZRoomCommand
 public:
 	RoomCommand cmdID;
 	int32_t cmdAddress;
-	int32_t cmdIndex;
+	uint32_t cmdIndex;
 	int32_t cmdSet;
 	uint32_t commandSet;
 
-	ZRoomCommand(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
-
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GenerateSourceCodePass2(std::string roomName, int baseAddress);
+	ZRoomCommand() = default;
+	ZRoomCommand(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
+	virtual ~ZRoomCommand();
+	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress);
+	virtual std::string GenerateSourceCodePass2(std::string roomName, uint32_t baseAddress);
 	virtual std::string GenerateSourceCodePass3(std::string roomName);
 	virtual RoomCommand GetRoomCommand();
-	virtual int32_t GetRawDataSize();
+	virtual size_t GetRawDataSize();
 	virtual std::string GetCommandCName();
 	virtual std::string GenerateExterns();
 	virtual std::string Save();

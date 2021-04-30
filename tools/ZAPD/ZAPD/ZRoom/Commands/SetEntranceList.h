@@ -8,19 +8,19 @@ public:
 	uint8_t startPositionIndex;
 	uint8_t roomToLoad;
 
-	EntranceEntry(std::vector<uint8_t> rawData, int rawDataIndex);
+	EntranceEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
 };
 
 class SetEntranceList : public ZRoomCommand
 {
 public:
-	SetEntranceList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	SetEntranceList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
 	~SetEntranceList();
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GenerateExterns();
-	virtual std::string GetCommandCName();
-	virtual RoomCommand GetRoomCommand();
+	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
+	virtual std::string GenerateExterns() override;
+	virtual std::string GetCommandCName() override;
+	virtual RoomCommand GetRoomCommand() override;
 
 private:
 	std::vector<EntranceEntry*> entrances;
