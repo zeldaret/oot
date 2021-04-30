@@ -775,9 +775,9 @@ void DemoEc_UpdateDancingZora(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawDancingZora(DemoEc* this, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
+    static void* eyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
     s32 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTexture = eyeTextures[eyeTexIndex];
+    void* eyeTexture = eyeTextures[eyeTexIndex];
 
     DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, NULL, NULL, NULL);
 }

@@ -27,16 +27,16 @@
         <!-- Left arm -->
         <Limb Name="gZoraLeftArmLimb" LimbType="Standard" Offset="0xBED8"/>
         <DList Name="gZoraLeftArmDL" Offset="0xA630"/>
-        <Limb Name="gZoraLeftForeArmLimb" LimbType="Standard" Offset="0xBEE4"/>
-        <DList Name="gZoraLeftForeArmDL" Offset="0xA890"/>
+        <Limb Name="gZoraLeftForearmLimb" LimbType="Standard" Offset="0xBEE4"/>
+        <DList Name="gZoraLeftForearmDL" Offset="0xA890"/>
         <Limb Name="gZoraLeftHandLimb" LimbType="Standard" Offset="0xBEF0"/>
         <DList Name="gZoraLeftHandDL" Offset="0xAB70"/>
 
         <!-- Right arm -->
         <Limb Name="gZoraRightArmLimb" LimbType="Standard" Offset="0xBEFC"/>
         <DList Name="gZoraRightArmDL" Offset="0x9EE8"/>
-        <Limb Name="gZoraRightForeArmLimb" LimbType="Standard" Offset="0xBF08"/>
-        <DList Name="gZoraRightForeArmDL" Offset="0xA148"/>
+        <Limb Name="gZoraRightForearmLimb" LimbType="Standard" Offset="0xBF08"/>
+        <DList Name="gZoraRightForearmDL" Offset="0xA148"/>
         <Limb Name="gZoraRightHandLimb" LimbType="Standard" Offset="0xBF14"/>
         <DList Name="gZoraRightHandDL" Offset="0xA428"/>
 
