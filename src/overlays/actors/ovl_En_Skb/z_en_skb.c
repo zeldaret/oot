@@ -154,7 +154,8 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlingAnim, this->jointTable, this->morphTable, 20);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlingAnim, this->jointTable,
+                   this->morphTable, 20);
     this->actor.naviEnemyId = 0x55;
 
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -224,7 +225,8 @@ void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFCF48(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &gStalchildUncurlingAnim, -1.0f, Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, 2, -4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildUncurlingAnim, -1.0f,
+                     Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, 2, -4.0f);
     this->unk_280 = 0;
     this->unk_281 = 0;
     this->actor.flags &= ~1;
@@ -245,7 +247,8 @@ void func_80AFCFF0(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD0A4(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &gStalchildWalkingAnim, 0.96000004f, 0.0f, Animation_GetLastFrame(&gStalchildWalkingAnim), 0, -4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildWalkingAnim, 0.96000004f, 0.0f,
+                     Animation_GetLastFrame(&gStalchildWalkingAnim), 0, -4.0f);
     this->unk_280 = 4;
     this->unk_288 = 0;
     this->actor.speedXZ = this->actor.scale.y * 160.0f;
@@ -292,7 +295,8 @@ void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD33C(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, 0.6f, 0.0f, Animation_GetLastFrame(&gStalchildAttackingAnim), 3, 4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, 0.6f, 0.0f,
+                     Animation_GetLastFrame(&gStalchildAttackingAnim), 3, 4.0f);
     this->collider.base.atFlags &= ~4;
     this->unk_280 = 3;
     this->actor.speedXZ = 0.0f;
