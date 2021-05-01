@@ -48,5 +48,17 @@ try:
         # os._exit(1)
 
     asm_processor.run(asmproc_flags + ['--post-process', out_file, '--assembler', assembler_sh, '--asm-prelude', prelude], functions=functions)
+
+    deps_file = out_file[:-2] + ".asmproc.d"
+    if deps:
+        with open(deps_file, "w") as f:
+            f.write(out_file + ": " + " \\\n    ".join(deps) + "\n")
+            for dep in deps:
+                f.write("\n" + dep + ":\n")
+    else:
+        try:
+            os.remove(deps_file)
+        except OSError:
+            pass
 finally:
     os.remove(preprocessed_file.name)
