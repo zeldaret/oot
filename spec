@@ -3458,7 +3458,6 @@ endseg
 beginseg
     name "gameplay_field_keep"
     romalign 0x1000
-    //include "build/baserom/gameplay_field_keep.o"
     include "build/assets/objects/gameplay_field_keep/gameplay_field_keep.o"
     number 5
 endseg
@@ -3485,7 +3484,6 @@ endseg
 beginseg
     name "object_link_child"
     romalign 0x1000
-    //include "build/baserom/object_link_child.o"
     include "build/assets/objects/object_link_child/object_link_child.o"
     number 6
 endseg

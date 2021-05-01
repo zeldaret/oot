@@ -45,17 +45,21 @@ u8 gPlayerModelTypes[][5] = {
 };
 
 Gfx* D_80125CE8[] = {
-    0x060226E0, gChildRightHandClosedNearDL,   0x06027690, gChildRightHandClosedFarDL,
+    0x060226E0, gChildRightHandClosedNearDL,      0x06027690, gChildRightHandClosedFarDL,
     0x060226E0, gChildRightFistAndDekuShieldNear, 0x06027690, gChildRightFistAndDekuShieldFar,
-    0x06022970, gChildRightHandClosedNearDL,   0x06027918, gChildRightHandClosedFarDL,
-    0x060241C0, gChildRightHandClosedNearDL,   0x06028B40, gChildRightHandClosedFarDL,
+    0x06022970, gChildRightHandClosedNearDL,      0x06027918, gChildRightHandClosedFarDL,
+    0x060241C0, gChildRightHandClosedNearDL,      0x06028B40, gChildRightHandClosedFarDL,
 };
 
 Gfx* D_80125D28[] = {
-    0x06023160, gChildLimbSwordAndSheathNearDL,         0x06027F00, gChildLimbSwordAndSheathFarDL,
-    0x06023160, gChildDekuShieldSwordAndSheathNearDL,   0x06027F00, gChildDekuShieldSwordAndSheathFarDL,
-    0x06020A78, gChildHylianShieldSwordAndSheathDlistNear, 0x06025FB8, gChildHylianShieldSwordAndSheathDlistFar,
-    0x060211B8, gChildLimbSwordAndSheathNearDL,         0x060264F0, gChildLimbSwordAndSheathFarDL,
+    0x06023160, gChildLimbSwordAndSheathNearDL,
+    0x06027F00, gChildLimbSwordAndSheathFarDL,
+    0x06023160, gChildDekuShieldSwordAndSheathNearDL,
+    0x06027F00, gChildDekuShieldSwordAndSheathFarDL,
+    0x06020A78, gChildHylianShieldSwordAndSheathDlistNear,
+    0x06025FB8, gChildHylianShieldSwordAndSheathDlistFar,
+    0x060211B8, gChildLimbSwordAndSheathNearDL,
+    0x060264F0, gChildLimbSwordAndSheathFarDL,
 };
 
 Gfx* D_80125D68[] = {
