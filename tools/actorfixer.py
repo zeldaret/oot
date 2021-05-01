@@ -76,7 +76,19 @@ animdict ={
     "func_80062734":"Collider_SetQuadVertices",
     "func_80061ED4":"CollisionCheck_SetInfo",
     "func_80061EFC":"CollisionCheck_SetInfo2",
-    "func_80061EB0":"CollisionCheck_SetInfoNoDamageTable"
+    "func_80061EB0":"CollisionCheck_SetInfoNoDamageTable",
+    # "func_8002E084": "Actor_YawInRangeWithPlayer",
+    # "func_8002E0D0": "Actor_YawInRangeWithActor",
+    # "func_8002E12C": "Actor_YawAndDistInRangeWithPlayer",
+    # "func_8002E1A8": "Actor_YawAndDistInRangeWithActor",
+    # "func_80033A84": "Actor_IsTargeted",
+    # "func_80033AB8": "Actor_OtherIsTargeted",
+    # "func_80035650": "Actor_SetDropFlag",
+    # "func_8003573C": "Actor_SetDropFlagJntSph",
+    # "func_80033780": "Actor_GetProjectileActor",
+    # "func_80033260": "Actor_SpawnFloorDust",
+    # "func_80032C7C": "Actor_PlayDeathFx",
+    # "actorCtx.unk_00": "actorCtx.freezeFlashTimer",
 }
 
 def replace_anim(file):
@@ -119,7 +131,7 @@ parser.add_argument('file', help="source file to be processed. use . to process 
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    if(args.file is '.'):
+    if(args.file == '.'):
         replace_anim_all(os.curdir)
     else:
         replace_anim(args.file)
