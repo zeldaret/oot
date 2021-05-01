@@ -106,7 +106,7 @@
         <DList Name="gChildBottle2DL" Offset="0x18648"/>
         <DList Name="gChildSlinghotStringDL" Offset="0x221A8"/>
         <DList Name="gChildDekuShieldDL" Offset="0x224F8"/>
-        <Mtx Name="gChildDekuShieldMtx"  Offset="0x22648"/><!--TODO make this a matrix when ZAPD can extract them-->
+        <Mtx Name="gChildDekuShieldMtx"  Offset="0x22648"/>
         <DList Name="gChildDekuShieldWithMatrixDL" Offset="0x22688"/>
         
         <!--Masks-->
