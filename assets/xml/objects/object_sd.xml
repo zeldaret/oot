@@ -9,7 +9,7 @@
         <Limb Name="gEnHeishiRightThighLimb" LimbType="Standard" Offset="0xBA04"/>
         <Limb Name="gEnHeishiRightShinLimb" LimbType="Standard" Offset="0xBA10"/>    
         <Limb Name="gEnHeishiRightFootLimb" LimbType="Standard" Offset="0xBA1C"/>
-        <!--<Limb Nane="gEnHeishiChestLimb" LimbType="Standard" Offset="0xBA28"/> For some reason this is extracting as "& "-->
+        <Limb Name="gEnHeishiChestLimb" LimbType="Standard" Offset="0xBA28"/>
         <Limb Name="gEnHeishiLeftUpperArmLimb" LimbType="Standard" Offset="0xBA34"/>
         <Limb Name="gEnHeishiLeftArmLimb" LimbType="Standard" Offset="0xBA40"/>    
         <Limb Name="gEnHeishiLeftHandLimb" LimbType="Standard" Offset="0xBA4C"/>
