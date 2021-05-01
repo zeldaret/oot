@@ -1202,6 +1202,10 @@ typedef struct {
     /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
 
+#define PAUSE_MAP_MARK_NONE -1
+#define PAUSE_MAP_MARK_CHEST 0
+#define PAUSE_MAP_MARK_BOSS 1
+
 typedef struct {
     /* 0x00 */ s16 chestFlag; // chest icon is only displayed if this flag is not set for the current room, -1 for no flag
     /* 0x04 */ f32 x, y; // coordinates to place the icon (top-left corner)
@@ -1209,8 +1213,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s16 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
-    /* 0x02 */ char unk_02[0x06];
-    /* 0x08 */ Vtx* vtx;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ const Vtx* vtx;
     /* 0x0C */ s32 vtxCount;
     /* 0x10 */ s32 count; // number of icons to display
     /* 0x14 */ PauseMapMarkPoint points[12];

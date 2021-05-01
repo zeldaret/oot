@@ -31,12 +31,12 @@ static const u32 sLineBytesImageSizes[] = { 0, 1, 2, 2 };
 #define G_IM_SIZ_MARK_BYTES sBytesImageSizes[markInfo->imageSize]
 #define G_IM_SIZ_MARK_LINE_BYTES sLineBytesImageSizes[markInfo->imageSize]
 
-extern PauseMapMarksData sPauseMapMarkDataTable[];
+extern PauseMapMarksData gPauseMapMarkDataTable[];
 
 void PauseMapMark_Init(GlobalContext* globalCtx) {
     gBossMarkState = 0;
     gBossMarkScale = 1.0f;
-    gLoadedPauseMarkDataTable = sPauseMapMarkDataTable;
+    gLoadedPauseMarkDataTable = gPauseMapMarkDataTable;
 }
 
 void PauseMapMark_Clear(GlobalContext* globalCtx) {
@@ -55,11 +55,11 @@ void PauseMapMark_DrawForDungeon(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_lmap_mark.c", 182);
 
     while (true) {
-        if (mapMarkData->markType == -1) {
+        if (mapMarkData->markType == PAUSE_MAP_MARK_NONE) {
             break;
         }
 
-        if ((mapMarkData->markType == 1) && (globalCtx->sceneNum >= SCENE_YDAN_BOSS) &&
+        if ((mapMarkData->markType == PAUSE_MAP_MARK_BOSS) && (globalCtx->sceneNum >= SCENE_YDAN_BOSS) &&
             (globalCtx->sceneNum <= SCENE_GANON_FINAL)) {
             if (gBossMarkState == 0) {
                 Math_ApproachF(&gBossMarkScale, 1.5f, 1.0f, 0.041f);
@@ -93,7 +93,7 @@ void PauseMapMark_DrawForDungeon(GlobalContext* globalCtx) {
         for (i = 0; i < mapMarkData->count; i++) {
             s32 display;
 
-            if (mapMarkData->markType == 0) {
+            if (mapMarkData->markType == PAUSE_MAP_MARK_CHEST) {
                 if (Flags_GetTreasure(globalCtx, markPoint->chestFlag)) {
                     display = false;
                 } else {
