@@ -1,93 +1,92 @@
 <Root>
-    <File Name="jyasinzou_scene">
+    <File Name="jyasinzou_scene" Segment="2">
         <Scene Name="jyasinzou_scene"/>
     </File>
-    <File Name="jyasinzou_room_0">
-        <Room Name="jyasinzou_room_0"/>
+    <File Name="jyasinzou_room_0" Segment="3">
+        <Room Name="jyasinzou_room_0" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_1">
-        <Room Name="jyasinzou_room_1"/>
+    <File Name="jyasinzou_room_1" Segment="3">
+        <Room Name="jyasinzou_room_1" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_2">
-        <Room Name="jyasinzou_room_2">
-        </Room>
+    <File Name="jyasinzou_room_2" Segment="3">
+        <Room Name="jyasinzou_room_2" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_3">
-        <Room Name="jyasinzou_room_3"/>
+    <File Name="jyasinzou_room_3" Segment="3">
+        <Room Name="jyasinzou_room_3" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_4">
-        <Room Name="jyasinzou_room_4"/>
+    <File Name="jyasinzou_room_4" Segment="3">
+        <Room Name="jyasinzou_room_4" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_5">
-        <Room Name="jyasinzou_room_5"/>
+    <File Name="jyasinzou_room_5" Segment="3">
+        <Room Name="jyasinzou_room_5" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_6">
-        <Room Name="jyasinzou_room_6"/>
+    <File Name="jyasinzou_room_6" Segment="3">
+        <Room Name="jyasinzou_room_6" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_7">
-        <Room Name="jyasinzou_room_7"/>
+    <File Name="jyasinzou_room_7" Segment="3">
+        <Room Name="jyasinzou_room_7" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_8">
-        <Room Name="jyasinzou_room_8"/>
+    <File Name="jyasinzou_room_8" Segment="3">
+        <Room Name="jyasinzou_room_8" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_9">
-        <Room Name="jyasinzou_room_9"/>
+    <File Name="jyasinzou_room_9" Segment="3">
+        <Room Name="jyasinzou_room_9" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_10">
-        <Room Name="jyasinzou_room_10"/>
+    <File Name="jyasinzou_room_10" Segment="3">
+        <Room Name="jyasinzou_room_10" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_11">
-        <Room Name="jyasinzou_room_11"/>
+    <File Name="jyasinzou_room_11" Segment="3">
+        <Room Name="jyasinzou_room_11" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_12">
-        <Room Name="jyasinzou_room_12"/>
+    <File Name="jyasinzou_room_12" Segment="3">
+        <Room Name="jyasinzou_room_12" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_13">
-        <Room Name="jyasinzou_room_13"/>
+    <File Name="jyasinzou_room_13" Segment="3">
+        <Room Name="jyasinzou_room_13" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_14">
-        <Room Name="jyasinzou_room_14"/>
+    <File Name="jyasinzou_room_14" Segment="3">
+        <Room Name="jyasinzou_room_14" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_15">
-        <Room Name="jyasinzou_room_15"/>
+    <File Name="jyasinzou_room_15" Segment="3">
+        <Room Name="jyasinzou_room_15" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_16">
-        <Room Name="jyasinzou_room_16"/>
+    <File Name="jyasinzou_room_16" Segment="3">
+        <Room Name="jyasinzou_room_16" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_17">
-        <Room Name="jyasinzou_room_17"/>
+    <File Name="jyasinzou_room_17" Segment="3">
+        <Room Name="jyasinzou_room_17" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_18">
-        <Room Name="jyasinzou_room_18"/>
+    <File Name="jyasinzou_room_18" Segment="3">
+        <Room Name="jyasinzou_room_18" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_19">
-        <Room Name="jyasinzou_room_19"/>
+    <File Name="jyasinzou_room_19" Segment="3">
+        <Room Name="jyasinzou_room_19" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_20">
-        <Room Name="jyasinzou_room_20"/>
+    <File Name="jyasinzou_room_20" Segment="3">
+        <Room Name="jyasinzou_room_20" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_21">
-        <Room Name="jyasinzou_room_21"/>
+    <File Name="jyasinzou_room_21" Segment="3">
+        <Room Name="jyasinzou_room_21" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_22">
-        <Room Name="jyasinzou_room_22"/>
+    <File Name="jyasinzou_room_22" Segment="3">
+        <Room Name="jyasinzou_room_22" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_23">
-        <Room Name="jyasinzou_room_23"/>
+    <File Name="jyasinzou_room_23" Segment="3">
+        <Room Name="jyasinzou_room_23" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_24">
-        <Room Name="jyasinzou_room_24"/>
+    <File Name="jyasinzou_room_24" Segment="3">
+        <Room Name="jyasinzou_room_24" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_25">
-        <Room Name="jyasinzou_room_25"/>
+    <File Name="jyasinzou_room_25" Segment="3">
+        <Room Name="jyasinzou_room_25" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_26">
-        <Room Name="jyasinzou_room_26"/>
+    <File Name="jyasinzou_room_26" Segment="3">
+        <Room Name="jyasinzou_room_26" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_27">
-        <Room Name="jyasinzou_room_27"/>
+    <File Name="jyasinzou_room_27" Segment="3">
+        <Room Name="jyasinzou_room_27" Offset="0x0"/>
     </File>
-    <File Name="jyasinzou_room_28">
-        <Room Name="jyasinzou_room_28"/>
+    <File Name="jyasinzou_room_28" Segment="3">
+        <Room Name="jyasinzou_room_28" Offset="0x0"/>
     </File>
 </Root>
