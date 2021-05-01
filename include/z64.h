@@ -594,7 +594,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Gfx* opa;
     /* 0x04 */ Gfx* xlu;
-} PolygonDL; // size = 0x8
+} PolygonDlist; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u8    type;
