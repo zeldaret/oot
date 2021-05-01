@@ -201,14 +201,17 @@ typedef struct DynaPolyActor {
 } DynaPolyActor; // size = 0x164
 
 typedef struct {
-    /* 0x00 */ MtxF* unk_00;
-    /* 0x04 */ s16* unk_04;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ char unk_0A[0x02];
-    /* 0x0C */ Gfx** unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-} struct_80032E24;
+    /* 0x00 */ MtxF* matrices;
+    /* 0x04 */ s16* objectIds;
+    /* 0x08 */ s16 count;
+    /* 0x0C */ Gfx** dLists;
+    /* 0x10 */ s32 val; // used for various purposes: both a status indicator and counter
+    /* 0x14 */ s32 prevLimbIndex;
+} BodyBreak;
+
+#define BODYBREAK_OBJECT_DEFAULT -1 // use the same object as the actor
+#define BODYBREAK_STATUS_READY -1
+#define BODYBREAK_STATUS_FINISHED 0
 
 typedef enum {
     /* 0x00 */ ITEM00_RUPEE_GREEN,

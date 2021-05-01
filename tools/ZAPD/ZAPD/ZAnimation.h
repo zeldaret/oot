@@ -26,13 +26,13 @@ class ZAnimation : public ZResource
 public:
 	int16_t frameCount;
 
-	ZAnimation();
+	ZAnimation(ZFile* nParent);
 
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 	ZResourceType GetResourceType() override;
 
 protected:
-	virtual void ParseRawData() override;
+	void ParseRawData() override;
 	void Save(const std::string& outFolder) override;
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 };
@@ -46,16 +46,14 @@ public:
 	uint32_t rotationIndicesSeg;
 	int16_t limit;
 
-	ZNormalAnimation();
+	ZNormalAnimation(ZFile* nParent);
 
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	int GetRawDataSize() override;
-
+	size_t GetRawDataSize() override;
 	std::string GetSourceTypeName() override;
 
-	static ZNormalAnimation* ExtractFromXML(tinyxml2::XMLElement* reader,
-	                                        std::vector<uint8_t> nRawData, int rawDataIndex,
-	                                        const std::string& nRelPath);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
 
 protected:
 	virtual void ParseRawData() override;
@@ -64,18 +62,16 @@ protected:
 class ZLinkAnimation : public ZAnimation
 {
 public:
-	uint32_t segmentAddress;
+	segptr_t segmentAddress;
 
-	ZLinkAnimation();
+	ZLinkAnimation(ZFile* nParent);
 
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	int GetRawDataSize() override;
-
+	size_t GetRawDataSize() override;
 	std::string GetSourceTypeName() override;
 
-	static ZLinkAnimation* ExtractFromXML(tinyxml2::XMLElement* reader,
-	                                      std::vector<uint8_t> nRawData, int rawDataIndex,
-	                                      const std::string& nRelPath);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
 
 protected:
 	virtual void ParseRawData() override;
@@ -132,18 +128,16 @@ protected:
 	std::vector<int16_t> copyValuesArr;
 
 public:
-	ZCurveAnimation() = default;
-	ZCurveAnimation(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                int nRawDataIndex, ZFile* nParent);
+	ZCurveAnimation();
+	ZCurveAnimation(ZFile* nParent);
 	~ZCurveAnimation();
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
-	static ZCurveAnimation* ExtractFromXML(tinyxml2::XMLElement* reader,
-	                                       const std::vector<uint8_t>& nRawData, int nRawDataIndex,
-	                                       std::string nRelPath, ZFile* nParent);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
 
 	void PreGenValues(const std::string& prefix);
-	int GetRawDataSize() override;
+	size_t GetRawDataSize() override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 
 	std::string GetSourceTypeName() override;

@@ -4949,7 +4949,8 @@ endseg
 beginseg
     name "object_zo"
     romalign 0x1000
-    include "build/baserom/object_zo.o"
+    include "build/assets/objects/object_zo/object_zo.o"
+    number 6
 endseg
 
 beginseg
@@ -5807,7 +5808,8 @@ endseg
 beginseg
     name "object_skb"
     romalign 0x1000
-    include "build/baserom/object_skb.o"
+    include "build/assets/objects/object_skb/object_skb.o"
+    number 6
 endseg
 
 beginseg

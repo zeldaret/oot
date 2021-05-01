@@ -362,7 +362,7 @@ void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     u32 frames;
 
     if (1) {}
-    
+
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_movebg.c", 754);
 
     frames = globalCtx->gameplayFrames;

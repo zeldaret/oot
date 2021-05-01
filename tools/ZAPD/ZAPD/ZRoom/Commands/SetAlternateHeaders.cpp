@@ -6,7 +6,7 @@
 using namespace std;
 
 SetAlternateHeaders::SetAlternateHeaders(ZRoom* nZRoom, std::vector<uint8_t> rawData,
-                                         int rawDataIndex)
+                                         uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
@@ -18,12 +18,12 @@ SetAlternateHeaders::SetAlternateHeaders(ZRoom* nZRoom, std::vector<uint8_t> raw
 	_rawDataIndex = rawDataIndex;
 }
 
-string SetAlternateHeaders::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetAlternateHeaders::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	string sourceOutput = "";
-	int numHeaders = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 4;
+	int32_t numHeaders = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 4;
 
-	for (int i = 0; i < numHeaders; i++)
+	for (int32_t i = 0; i < numHeaders; i++)
 	{
 		int32_t address = BitConverter::ToInt32BE(_rawData, segmentOffset + (i * 4));
 		headers.push_back(address);
@@ -39,14 +39,14 @@ string SetAlternateHeaders::GenerateSourceCodePass1(string roomName, int baseAdd
 
 	string declaration = "";
 
-	for (int i = 0; i < numHeaders; i++)
+	for (int32_t i = 0; i < numHeaders; i++)
 	{
-		// sprintf(line, "\t0x%06X,\n", headers[i]);
+		// sprintf(line, "    0x%06X,\n", headers[i]);
 
 		if (headers[i] == 0)
-			declaration += StringHelper::Sprintf("\t0,\n");
+			declaration += StringHelper::Sprintf("    0,\n");
 		else
-			declaration += StringHelper::Sprintf("\t(u32)&%sSet%04XCmd00,\n", roomName.c_str(),
+			declaration += StringHelper::Sprintf("    (u32)&%sSet%04XCmd00,\n", roomName.c_str(),
 			                                     headers[i] & 0x00FFFFFF);
 	}
 
@@ -58,7 +58,7 @@ string SetAlternateHeaders::GenerateSourceCodePass1(string roomName, int baseAdd
 	return sourceOutput;
 }
 
-int32_t SetAlternateHeaders::GetRawDataSize()
+size_t SetAlternateHeaders::GetRawDataSize()
 {
 	return ZRoomCommand::GetRawDataSize() + 0;
 }

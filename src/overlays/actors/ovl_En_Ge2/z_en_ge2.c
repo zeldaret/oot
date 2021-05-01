@@ -157,7 +157,7 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.targetMode = 6;
             break;
         default:
-            __assert("0", "../z_en_ge2.c", 418);
+            ASSERT(0, "0", "../z_en_ge2.c", 418);
     }
 
     this->stateFlags = 0;
