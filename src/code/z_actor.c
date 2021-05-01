@@ -1544,7 +1544,6 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-// GI_NONE is used for picking things up, GI_MAX for catching in a bottle.
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = PLAYER;
 

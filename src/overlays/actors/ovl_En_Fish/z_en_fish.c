@@ -384,7 +384,8 @@ void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
         EnFish_Dropped_SetupFlopOnGround(this);
     } else if (this->actor.bgCheckFlags & 0x20) { // In water
         EnFish_Dropped_SetupSwimAway(this);
-    } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) && (this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f)) {
+    } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) &&
+               (this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // BG missing? Running Actor_delete
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
@@ -711,6 +712,7 @@ void EnFish_OrdinaryUpdate(EnFish* this, GlobalContext* globalCtx) {
 
             EnFish_BeginRespawn(this);
         } else if (EnFish_InBottleRange(this, globalCtx)) {
+            // GI_MAX in this case allows the player to catch the actor in a bottle
             func_8002F434(&this->actor, globalCtx, GI_MAX, 80.0f, 20.0f);
         }
     }
