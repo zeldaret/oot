@@ -1142,19 +1142,18 @@ void KaleidoScope_DrawInfoPanel(GlobalContext* globalCtx) {
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (YREG(7) != 0) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
-                osSyncPrintf("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAG(YREG(6)),
+                osSyncPrintf("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAGS(YREG(6)),
                              gAreaGsFlags[YREG(6)], gSaveContext.gsFlags[YREG(6) >> 2]);
                 osSyncPrintf(VT_RST);
 
                 YREG(7) = 0;
-                gSaveContext.gsFlags[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] >> 2] |=
-                    (gAreaGsFlags[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]]
-                     << gGsFlagsShift[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] & 3]);
+                SET_GS_FLAGS(D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]],
+                             gAreaGsFlags[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]]);
             }
         }
 
         if ((pauseCtx->pageIndex == PAUSE_MAP) && !sInDungeonScene) {
-            if (GET_GS_FLAG(D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]) ==
+            if (GET_GS_FLAGS(D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]) ==
                 gAreaGsFlags[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]]) {
 
                 pauseCtx->infoPanelVtx[24].v.ob[0] = pauseCtx->infoPanelVtx[26].v.ob[0] = -74;

@@ -150,8 +150,8 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                             osSyncPrintf("111 ccc=%d\n", phi_s0_2);
                         } else {
                             phi_s0_2 = pauseCtx->cursorPoint[PAUSE_QUEST] + 0x5A;
-                            osSyncPrintf("222 ccc=%d (%d, %d, %d)\n", phi_s0_2, pauseCtx->cursorPoint[PAUSE_QUEST], 0x12,
-                                         0x6C);
+                            osSyncPrintf("222 ccc=%d (%d, %d, %d)\n", phi_s0_2, pauseCtx->cursorPoint[PAUSE_QUEST],
+                                         0x12, 0x6C);
                         }
                     } else {
                         phi_s0_2 = PAUSE_ITEM_NONE;

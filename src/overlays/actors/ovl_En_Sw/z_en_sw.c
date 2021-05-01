@@ -237,7 +237,7 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     // Check to see if this gold skull token has already been retrieved.
-    if (GET_GS_FLAG((thisx->params & 0x1F00) >> 8) & (thisx->params & 0xFF)) {
+    if (GET_GS_FLAGS((thisx->params & 0x1F00) >> 8) & (thisx->params & 0xFF)) {
         Actor_Kill(&this->actor);
         return;
     }

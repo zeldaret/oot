@@ -46,8 +46,10 @@
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.inventory.questItems)
 #define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
 
-#define GET_GS_FLAG(index) \
+#define GET_GS_FLAGS(index) \
     ((gSaveContext.gsFlags[(index) >> 2] & gGsFlagsMask[(index) & 3]) >> gGsFlagsShift[(index) & 3])
+#define SET_GS_FLAGS(index, value) \
+    (gSaveContext.gsFlags[(index) >> 2] |= (value) << gGsFlagsShift[(index) & 3])
 
 #define HIGH_SCORE(score) (gSaveContext.highScores[score])
 
