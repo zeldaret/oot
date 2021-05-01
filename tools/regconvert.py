@@ -54,7 +54,7 @@ def check_valid_index(index):
     return 0x0 <= index <= 0xADF
 
 def check_valid_offset(offset):
-    return 0x14 <= index <= 0x15D2
+    return 0x14 <= offset <= 0x15D2
 
 def main():
     parser = argparse.ArgumentParser(description="Converts a gGameInfo->data index to a REG macro.")
