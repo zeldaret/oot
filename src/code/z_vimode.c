@@ -108,11 +108,9 @@ void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures) {
     }
     if (viFeatures & OS_VI_GAMMA_DITHER_ON) {
         ctrl = ctrl | OS_VI_GAMMA_DITHER;
-        ;
     }
     if (viFeatures & OS_VI_GAMMA_DITHER_OFF) {
         ctrl = ctrl & ~OS_VI_GAMMA_DITHER;
-        ;
     }
     if (viFeatures & OS_VI_DIVOT_ON) {
         ctrl = ctrl | OS_VI_DIVOT;
