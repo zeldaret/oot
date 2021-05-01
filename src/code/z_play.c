@@ -18,9 +18,7 @@ void func_800BC450(GlobalContext* globalCtx) {
 }
 
 void func_800BC490(GlobalContext* globalCtx, s16 point) {
-    if (!(point == 1 || point == 2)) {
-        __assert("point == 1 || point == 2", "../z_play.c", 2160);
-    }
+    ASSERT(point == 1 || point == 2, "point == 1 || point == 2", "../z_play.c", 2160);
 
     globalCtx->unk_1242B = point;
 
@@ -1469,9 +1467,8 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
 
     globalCtx->sceneSegment = Gameplay_LoadFile(globalCtx, &scene->sceneFile);
     scene->unk_13 = 0;
-    if (globalCtx->sceneSegment == NULL) {
-        __assert("this->sceneSegment != NULL", "../z_play.c", 4960);
-    }
+    ASSERT(globalCtx->sceneSegment != NULL, "this->sceneSegment != NULL", "../z_play.c", 4960);
+
     gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     Gameplay_InitScene(globalCtx, spawn);

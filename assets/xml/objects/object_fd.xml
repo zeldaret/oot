@@ -4,9 +4,9 @@
         <Texture Name="gVolvagiaBossTitleCardTex" OutName="volvagia_boss_title_card" Format="i8" Width="128" Height="120" Offset="0xD700"/>
 
         <!-- Skeletons -->
-        <Skeleton Name="gVolvagiaLeftArmSkel" Type="Standard" LimbType="Standard" Offset="0x114E0"/>
-        <Skeleton Name="gVolvagiaRightArmSkel" Type="Standard" LimbType="Standard" Offset="0x115A0"/>
-        <Skeleton Name="gVolvagiaHeadSkel" Type="Standard" LimbType="Standard" Offset="0x11660"/>
+        <Skeleton Name="gVolvagiaLeftArmSkel" Type="Normal" LimbType="Standard" Offset="0x114E0"/>
+        <Skeleton Name="gVolvagiaRightArmSkel" Type="Normal" LimbType="Standard" Offset="0x115A0"/>
+        <Skeleton Name="gVolvagiaHeadSkel" Type="Normal" LimbType="Standard" Offset="0x11660"/>
 
         <!-- Animations -->
         <Animation Name="gVolvagiaLeftArmEmergeAnim" Offset="0x11464"/>

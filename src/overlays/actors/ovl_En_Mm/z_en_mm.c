@@ -522,7 +522,7 @@ void EnMm_Update(Actor* thisx, GlobalContext* globalCtx) {
 extern Gfx D_0602CA38[]; // bunny hood dlist from object_link_child. replace with proper symbol later
 
 void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* mouthTextures[] = { gRunningManMouthClosedTex, gRunningManMouthOpenTex };
+    static u64* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
     s32 pad;
     EnMm* this = THIS;
 
