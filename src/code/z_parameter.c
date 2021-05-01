@@ -2847,11 +2847,11 @@ void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
         }
 
         if (i != 0) {
-            OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, &D_020035C0[i], 8, 8, R_ITEM_AMMO_X(button),
+            OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, D_020035C0[i], 8, 8, R_ITEM_AMMO_X(button),
                                           R_ITEM_AMMO_Y(button), 8, 8, 1024, 1024);
         }
 
-        OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, &D_020035C0[ammo], 8, 8, R_ITEM_AMMO_X(button) + 6,
+        OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, D_020035C0[ammo], 8, 8, R_ITEM_AMMO_X(button) + 6,
                                       R_ITEM_AMMO_Y(button), 8, 8, 1024, 1024);
     }
 
@@ -3096,12 +3096,12 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                     phi_s2 = 42;
                     if (interfaceCtx->counterDigits[2] != 0) {
-                        OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, &D_02003040[interfaceCtx->counterDigits[2]], 8, 16,
+                        OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, D_02003040[interfaceCtx->counterDigits[2]], 8, 16,
                                                      phi_s2, 190, 8, 16, 1024, 1024);
                         phi_s2 = 50;
                     }
 
-                    OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, &D_02003040[interfaceCtx->counterDigits[3]], 8, 16,
+                    OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, D_02003040[interfaceCtx->counterDigits[3]], 8, 16,
                                                  phi_s2, 190, 8, 16, 1024, 1024);
                 }
 
@@ -3149,7 +3149,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         phi_s1 = sRupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
 
         for (phi_s3 = 0; phi_s3 < phi_s1; phi_s3++, phi_s0++, phi_s2 += 8) {
-            OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, &D_02003040[interfaceCtx->counterDigits[phi_s0]], 8, 16, phi_s2,
+            OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, D_02003040[interfaceCtx->counterDigits[phi_s0]], 8, 16, phi_s2,
                                          206, 8, 16, 1024, 1024);
         }
 
@@ -3367,7 +3367,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 for (phi_s3 = 0; phi_s3 < 4; phi_s3++) {
                     if (sHBAScoreDigits[phi_s3] != 0 || (phi_s0 != 0) || (phi_s3 >= 3)) {
                         OVERLAY_DISP =
-                            Gfx_TextureI8(OVERLAY_DISP, &D_02003040[sHBAScoreDigits[phi_s3]], 8, 16, phi_s1,
+                            Gfx_TextureI8(OVERLAY_DISP, D_02003040[sHBAScoreDigits[phi_s3]], 8, 16, phi_s1,
                                           ZREG(15) - 2, sDigitWidth[0], VREG(42), VREG(43) * 2, VREG(43) * 2);
                         phi_s1 += 9;
                         phi_s0++;
@@ -3782,7 +3782,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 }
 
                 for (phi_s3 = 0; phi_s3 < 5; phi_s3++) {
-                    OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, &D_02003040[sTimerDigits[phi_s3]], 8, 16,
+                    OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP, D_02003040[sTimerDigits[phi_s3]], 8, 16,
                                                  gSaveContext.timerX[sp274] + sTimerDigitLeftPos[phi_s3],
                                                  gSaveContext.timerY[sp274], sDigitWidth[phi_s3], VREG(42),
                                                  VREG(43) * 2, VREG(43) * 2);

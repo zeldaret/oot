@@ -149,5 +149,6 @@ void MapMark_Draw(GlobalContext* globalCtx) {
         case SCENE_MORIBOSSROOM:
         case SCENE_FIRE_BS:
             MapMark_DrawForDungeon(globalCtx);
+            break;
     }
 }

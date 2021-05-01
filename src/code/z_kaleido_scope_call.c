@@ -99,7 +99,7 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
 
                 if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0)) {
                     osSyncPrintf(VT_FGCOL(GREEN));
-                    osSyncPrintf("カレイド領域 カレイドスコープ排出\n"); // Kaleid area Kaleidoscope Emission
+                    osSyncPrintf("カレイド領域 カレイドスコープ排出\n"); // "Kaleido area Kaleidoscope Emission"
                     osSyncPrintf(VT_RST);
 
                     KaleidoManager_ClearOvl(kaleidoScopeOvl);

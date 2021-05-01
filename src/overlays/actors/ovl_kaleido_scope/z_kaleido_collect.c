@@ -654,7 +654,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
             phi_s0 = 0;
             for (sp218 = 0; sp218 < 3; sp218++, sp21A += 4) {
                 if ((sp218 >= 2) || (sp208[sp218] != 0) || (phi_s0 != 0)) {
-                    gDPLoadTextureBlock(POLY_OPA_DISP++, &D_02003040[sp208[sp218]], G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0,
+                    gDPLoadTextureBlock(POLY_OPA_DISP++, D_02003040[sp208[sp218]], G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0,
                                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                         G_TX_NOLOD, G_TX_NOLOD);
                     if (1) {}

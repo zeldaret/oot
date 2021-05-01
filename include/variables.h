@@ -230,7 +230,7 @@ extern u8 gUpgradeShifts[8];
 extern u16 gUpgradeCapacities[8][4];
 extern u32 gGsFlagsMask[4];
 extern u32 gGsFlagsShift[4];
-extern u8* gItemIcons[0x82];
+extern void* gItemIcons[0x82];
 extern u8 gItemSlots[56];
 extern void (*gSceneCmdHandlers[26])(GlobalContext*, SceneCmd*);
 extern s16 gLinkObjectIds[2];
