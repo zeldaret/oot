@@ -1080,7 +1080,7 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
                         assert symbol_name_offset_end != -1
                         symbol_name = objfile.data[symbol_name_offset : symbol_name_offset_end + 1]
                         symbol_name_str = symbol_name[:-1].decode('latin1')
-                        section_name = ['', '.text', '.data', '.bss'][sc]
+                        section_name = {1: '.text', 2: '.data', 3: '.bss', 15: '.rodata'}[sc]
                         section = objfile.find_section(section_name)
                         symtype = STT_FUNC if sc == 1 else STT_OBJECT
                         sym = Symbol.from_parts(
