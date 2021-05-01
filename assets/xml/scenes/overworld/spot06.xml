@@ -1,15 +1,16 @@
 <Root>
-    <File Name="spot06_scene">
-        <Scene Name="spot06_scene">
-            <CutsceneHint Offset="0x7020"/>
-            <PathHint Offset="0x776C"/>
-            <CutsceneHint Offset="0x1B0C0"/>
-        </Scene>
+    <File Name="spot06_scene" Segment="2">
+        <Cutscene Name="gSpot06Cs_007020" Offset="0x7020"/>
+        <Cutscene Name="gSpot06Cs_01B0C0" Offset="0x1B0C0"/>
+
+        <Path Name="gSpot06Path_00776C" Offset="0x776C"/>
+
+        <Scene Name="spot06_scene" Offset="0x0"/>
     </File>
-    <File Name="spot06_room_0">
-        <Room Name="spot06_room_0">
-            <DListHint Offset="0xA400" Comment="This display list appears to be unused..."/>
-            <DListHint Offset="0xA608" Comment="This display list appears to be unused..."/>
-        </Room>
+    <File Name="spot06_room_0" Segment="3">
+        <DList Name="gSpot06DL_00A400" Offset="0xA400"/>
+        <DList Name="gSpot06DL_00A608" Offset="0xA608"/>
+
+        <Room Name="spot06_room_0" Offset="0x0"/>
     </File>
 </Root>
