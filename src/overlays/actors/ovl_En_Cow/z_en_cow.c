@@ -202,7 +202,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF6BC(EnCow* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         this->actor.flags &= ~0x10000;
         func_80106CCC(globalCtx);
         this->actionFunc = func_809DF96C;
@@ -226,7 +226,7 @@ void func_809DF778(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF7D8(EnCow* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         this->actor.flags &= ~0x10000;
         func_80106CCC(globalCtx);
         this->actionFunc = func_809DF778;
@@ -235,7 +235,7 @@ void func_809DF7D8(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF870(EnCow* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         if (Inventory_HasEmptyBottle()) {
             func_8010B720(globalCtx, 0x2007);
             this->actionFunc = func_809DF7D8;
@@ -247,7 +247,7 @@ void func_809DF870(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF8FC(EnCow* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = func_809DF870;
     } else {
         this->actor.flags |= 0x10000;

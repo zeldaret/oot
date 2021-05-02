@@ -45,7 +45,7 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE3D4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE3F8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/Audio_OcaGetDisplayStaff.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE404.s")
 

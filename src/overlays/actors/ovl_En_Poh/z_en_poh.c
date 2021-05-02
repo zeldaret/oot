@@ -763,7 +763,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
     if (this->unk_198 != 0) {
         this->unk_198--;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         if (this->actor.params >= EN_POH_SHARP) {
             func_80ADE9BC(this);
         } else {
@@ -811,7 +811,7 @@ void EnPoh_TalkRegular(EnPoh* this, GlobalContext* globalCtx) {
         func_8002F974(&this->actor, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
     }
     if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
             if (globalCtx->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {
@@ -836,7 +836,7 @@ void EnPoh_TalkRegular(EnPoh* this, GlobalContext* globalCtx) {
 void EnPoh_TalkComposer(EnPoh* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
     if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             if (globalCtx->msgCtx.choiceIndex == 0) {
                 if (!Flags_GetSwitch(globalCtx, 0xB) && !Flags_GetSwitch(globalCtx, 0xA)) {
                     this->actor.textId = 0x5010;

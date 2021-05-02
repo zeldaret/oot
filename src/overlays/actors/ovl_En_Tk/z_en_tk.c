@@ -366,7 +366,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
         case 3:
             break;
         case 4:
-            if (func_80106BC8(globalCtx) && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
+            if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
                 if (globalCtx->msgCtx.choiceIndex == 1) {
                     /* "Thanks a lot!" */
                     thisx->textId = 0x0084;
@@ -374,7 +374,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
                     /* "You don't have enough Rupees!" */
                     thisx->textId = 0x0085;
                 } else {
-                    globalCtx->msgCtx.msgMode = 0x37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
                     Rupees_ChangeBy(-10);
                     gSaveContext.infTable[13] |= 0x0200;
                     return 2;
@@ -384,7 +384,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case 5:
-            if (func_80106BC8(globalCtx) && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
+            if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
                 func_80106CCC(globalCtx);
                 ret = 0;
             }
@@ -540,7 +540,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
         this->actionCountdown = 0;
         func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
                       func_80B1C5A0);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;

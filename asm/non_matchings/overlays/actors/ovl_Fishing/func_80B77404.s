@@ -91,7 +91,7 @@ glabel L80B7743C
 /* 0DB2C 80B774CC A58B010E */  sh      $t3, 0x010E($t4)           ## 0000010E
 .L80B774D0:
 /* 0DB30 80B774D0 8FA40038 */  lw      $a0, 0x0038($sp)           
-/* 0DB34 80B774D4 0C00BC65 */  jal     func_8002F194              
+/* 0DB34 80B774D4 0C00BC65 */  jal     Actor_IsTalking              
 /* 0DB38 80B774D8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0DB3C 80B774DC 3C068016 */  lui     $a2, %hi(gSaveContext)
 /* 0DB40 80B774E0 24C6E660 */  addiu   $a2, %lo(gSaveContext)
@@ -133,7 +133,7 @@ glabel L80B77558
 /* 0DBC0 80B77560 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 0DBC4 80B77564 54410339 */  bnel    $v0, $at, .L80B7824C       
 /* 0DBC8 80B77568 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0DBCC 80B7756C 0C041AF2 */  jal     func_80106BC8              
+/* 0DBCC 80B7756C 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0DBD0 80B77570 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DBD4 80B77574 50400335 */  beql    $v0, $zero, .L80B7824C     
 /* 0DBD8 80B77578 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -198,7 +198,7 @@ glabel L80B77644
 /* 0DCAC 80B7764C 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 0DCB0 80B77650 544102FE */  bnel    $v0, $at, .L80B7824C       
 /* 0DCB4 80B77654 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0DCB8 80B77658 0C041AF2 */  jal     func_80106BC8              
+/* 0DCB8 80B77658 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0DCBC 80B7765C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DCC0 80B77660 504002FA */  beql    $v0, $zero, .L80B7824C     
 /* 0DCC4 80B77664 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -218,7 +218,7 @@ glabel L80B7768C
 /* 0DCF8 80B77698 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 0DCFC 80B7769C 14410009 */  bne     $v0, $at, .L80B776C4       
 /* 0DD00 80B776A0 00000000 */  nop
-/* 0DD04 80B776A4 0C041AF2 */  jal     func_80106BC8              
+/* 0DD04 80B776A4 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0DD08 80B776A8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DD0C 80B776AC 10400005 */  beq     $v0, $zero, .L80B776C4     
 /* 0DD10 80B776B0 00000000 */  nop
@@ -240,7 +240,7 @@ glabel L80B776E0
 /* 0DD48 80B776E8 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 0DD4C 80B776EC 544102D7 */  bnel    $v0, $at, .L80B7824C       
 /* 0DD50 80B776F0 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0DD54 80B776F4 0C041AF2 */  jal     func_80106BC8              
+/* 0DD54 80B776F4 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0DD58 80B776F8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DD5C 80B776FC 504002D3 */  beql    $v0, $zero, .L80B7824C     
 /* 0DD60 80B77700 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -314,7 +314,7 @@ glabel L80B777F0
 /* 0DE58 80B777F8 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 0DE5C 80B777FC 54410293 */  bnel    $v0, $at, .L80B7824C       
 /* 0DE60 80B77800 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0DE64 80B77804 0C041AF2 */  jal     func_80106BC8              
+/* 0DE64 80B77804 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0DE68 80B77808 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DE6C 80B7780C 5040028F */  beql    $v0, $zero, .L80B7824C     
 /* 0DE70 80B77810 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -359,7 +359,7 @@ glabel L80B77890
 /* 0DF08 80B778A8 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 0DF0C 80B778AC 54410267 */  bnel    $v0, $at, .L80B7824C       
 /* 0DF10 80B778B0 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0DF14 80B778B4 0C041AF2 */  jal     func_80106BC8              
+/* 0DF14 80B778B4 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0DF18 80B778B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DF1C 80B778BC 50400263 */  beql    $v0, $zero, .L80B7824C     
 /* 0DF20 80B778C0 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -397,7 +397,7 @@ glabel L80B77890
 /* 0DF94 80B77934 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 0DF98 80B77938 54410244 */  bnel    $v0, $at, .L80B7824C       
 /* 0DF9C 80B7793C 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0DFA0 80B77940 0C041AF2 */  jal     func_80106BC8              
+/* 0DFA0 80B77940 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0DFA4 80B77944 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DFA8 80B77948 50400240 */  beql    $v0, $zero, .L80B7824C     
 /* 0DFAC 80B7794C 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -637,7 +637,7 @@ glabel L80B77C74
 /* 0E2F4 80B77C94 5440016D */  bnel    $v0, $zero, .L80B7824C     
 /* 0E2F8 80B77C98 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80B77C9C:
-/* 0E2FC 80B77C9C 0C041AF2 */  jal     func_80106BC8              
+/* 0E2FC 80B77C9C 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0E300 80B77CA0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0E304 80B77CA4 50400169 */  beql    $v0, $zero, .L80B7824C     
 /* 0E308 80B77CA8 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -905,7 +905,7 @@ glabel L80B78068
 /* 0E6D0 80B78070 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 0E6D4 80B78074 54410075 */  bnel    $v0, $at, .L80B7824C       
 /* 0E6D8 80B78078 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0E6DC 80B7807C 0C041AF2 */  jal     func_80106BC8              
+/* 0E6DC 80B7807C 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0E6E0 80B78080 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0E6E4 80B78084 50400071 */  beql    $v0, $zero, .L80B7824C     
 /* 0E6E8 80B78088 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -920,7 +920,7 @@ glabel L80B780A0
 /* 0E708 80B780A8 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 0E70C 80B780AC 54410067 */  bnel    $v0, $at, .L80B7824C       
 /* 0E710 80B780B0 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0E714 80B780B4 0C041AF2 */  jal     func_80106BC8              
+/* 0E714 80B780B4 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0E718 80B780B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0E71C 80B780BC 50400063 */  beql    $v0, $zero, .L80B7824C     
 /* 0E720 80B780C0 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -1014,7 +1014,7 @@ glabel L80B781EC
 /* 0E85C 80B781FC 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 0E860 80B78200 54410012 */  bnel    $v0, $at, .L80B7824C       
 /* 0E864 80B78204 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0E868 80B78208 0C041AF2 */  jal     func_80106BC8              
+/* 0E868 80B78208 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0E86C 80B7820C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0E870 80B78210 1040000D */  beq     $v0, $zero, .L80B78248     
 /* 0E874 80B78214 3C0E80B8 */  lui     $t6, %hi(D_80B7E07C)       ## $t6 = 80B80000

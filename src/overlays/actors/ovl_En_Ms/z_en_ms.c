@@ -109,7 +109,7 @@ void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     EnMs_SetOfferText(this, globalCtx);
 
-    if (func_8002F194(&this->actor, globalCtx)) { // if talk is initiated
+    if (Actor_IsTalking(&this->actor, globalCtx)) { // if talk is initiated
         this->actionFunc = EnMs_Talk;
     } else if ((this->actor.xzDistToPlayer < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
         func_8002F2CC(&this->actor, globalCtx, 90.0f);
@@ -121,10 +121,10 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
 
     dialogState = func_8010BDBC(&globalCtx->msgCtx);
     if (dialogState != 4) {
-        if ((dialogState == 6) && (func_80106BC8(globalCtx) != 0)) { // advanced final textbox
+        if ((dialogState == 6) && (Message_ShouldAdvance(globalCtx) != 0)) { // advanced final textbox
             this->actionFunc = EnMs_Wait;
         }
-    } else if (func_80106BC8(globalCtx) != 0) {
+    } else if (Message_ShouldAdvance(globalCtx) != 0) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < sPrices[BEANS_BOUGHT]) {
@@ -154,7 +154,7 @@ void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
 
 void EnMs_TalkAfterPurchase(EnMs* this, GlobalContext* globalCtx) {
     // if dialog state is 6 and player responded to textbox
-    if ((func_8010BDBC(&globalCtx->msgCtx)) == 6 && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx)) == 6 && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_8010B720(globalCtx, 0x406C);
         this->actionFunc = EnMs_Talk;
     }

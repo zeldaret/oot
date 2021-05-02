@@ -1472,7 +1472,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
     return false;
 }
 
-u32 func_8002F194(Actor* actor, GlobalContext* globalCtx) {
+u32 Actor_IsTalking(Actor* actor, GlobalContext* globalCtx) {
     if (actor->flags & 0x100) {
         actor->flags &= ~0x100;
         return true;
@@ -1527,13 +1527,13 @@ s8 func_8002F368(GlobalContext* globalCtx) {
     return player->exchangeItemId;
 }
 
-void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* arg2, s16* arg3) {
-    Vec3f sp1C;
-    f32 sp18;
+void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* outX, s16* outY) {
+    Vec3f projectedPos;
+    f32 w;
 
-    func_8002BE04(globalCtx, &actor->focus.pos, &sp1C, &sp18);
-    *arg2 = sp1C.x * sp18 * 160.0f + 160.0f;
-    *arg3 = sp1C.y * sp18 * -120.0f + 120.0f;
+    func_8002BE04(globalCtx, &actor->focus.pos, &projectedPos, &w);
+    *outX = projectedPos.x * w * (SCREEN_WIDTH/2) + (SCREEN_WIDTH/2);
+    *outY = projectedPos.y * w * -(SCREEN_HEIGHT/2) + (SCREEN_HEIGHT/2);
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
@@ -3596,7 +3596,7 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, c
     s16 sp26;
     s16 sp24;
 
-    if (func_8002F194(actor, globalCtx)) {
+    if (Actor_IsTalking(actor, globalCtx)) {
         *arg2 = 1;
         return true;
     }
@@ -5381,9 +5381,9 @@ s32 func_80037CB8(GlobalContext* globalCtx, Actor* actor, s16 arg2) {
             break;
         case 4:
         case 5:
-            if (func_80106BC8(globalCtx) && func_80037C94(globalCtx, actor, arg2)) {
+            if (Message_ShouldAdvance(globalCtx) && func_80037C94(globalCtx, actor, arg2)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                msgCtx->msgMode = 0x36;
+                msgCtx->msgMode = MSGMODE_UNK_36;
                 ret = true;
             }
             break;
@@ -5398,7 +5398,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
     s16 sp2A;
     s16 abs_var;
 
-    if (func_8002F194(actor, globalCtx)) {
+    if (Actor_IsTalking(actor, globalCtx)) {
         *arg3 = 1;
         return true;
     }

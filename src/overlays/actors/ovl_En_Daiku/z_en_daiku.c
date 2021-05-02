@@ -232,7 +232,7 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, GlobalContext* globalCtx) {
 
     if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
         if (globalCtx->sceneNum == SCENE_GERUDOWAY) {
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 if (this->actor.textId == 0x6007) {
                     Flags_SetSwitch(globalCtx, this->startFightSwitchFlag);
                     newTalkState = ENDAIKU_STATE_CAN_TALK;
@@ -242,7 +242,7 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, GlobalContext* globalCtx) {
                 }
             }
         } else if (globalCtx->sceneNum == SCENE_TENT) {
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 switch (this->actor.textId) {
                     case 0x6061:
                         gSaveContext.infTable[23] |= 0x40;
@@ -270,7 +270,7 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
 
     if (this->talkState == ENDAIKU_STATE_TALKING) {
         this->talkState = EnDaiku_UpdateTalking(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->talkState = ENDAIKU_STATE_TALKING;
     } else {
         func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);

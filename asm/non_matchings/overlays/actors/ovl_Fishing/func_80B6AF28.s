@@ -479,7 +479,7 @@ glabel func_80B6AF28
 /* 01C38 80B6B5D8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 000020D8
 /* 01C3C 80B6B5DC 56C20010 */  bnel    $s6, $v0, .L80B6B620       
 /* 01C40 80B6B5E0 26940001 */  addiu   $s4, $s4, 0x0001           ## $s4 = 0000000C
-/* 01C44 80B6B5E4 0C041AF2 */  jal     func_80106BC8              
+/* 01C44 80B6B5E4 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 01C48 80B6B5E8 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01C4C 80B6B5EC 14400005 */  bne     $v0, $zero, .L80B6B604     
 /* 01C50 80B6B5F0 00000000 */  nop

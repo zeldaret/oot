@@ -119,7 +119,7 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
             this->actor.flags &= ~1;
             this->unk_15A = true;
         }
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         if ((this->switchFlag >= 0) && (this->talkMode != 2)) {
             Flags_SetSwitch(globalCtx, this->switchFlag);
             // I saved it! All of it!
@@ -177,7 +177,7 @@ void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx) {
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 5:
         case 6:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
                     func_80106CCC(globalCtx);
                 }

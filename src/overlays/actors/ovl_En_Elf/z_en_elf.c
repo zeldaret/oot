@@ -1259,7 +1259,7 @@ void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 func_8010B720(globalCtx, ElfMessage_GetSariaText(globalCtx));
@@ -1282,7 +1282,7 @@ void func_80A05114(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
         func_8010B720(globalCtx, 0xE3);
         this->actor.update = func_80A05040;
     }
@@ -1295,7 +1295,7 @@ void func_80A05188(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
         func_8010B720(globalCtx, ElfMessage_GetSariaText(globalCtx));
         this->actor.update = func_80A05114;
     }
@@ -1310,7 +1310,7 @@ void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 naviCUpText = ElfMessage_GetCUpText(globalCtx);
@@ -1342,7 +1342,7 @@ void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
     func_80A04DE4(this, globalCtx);
 
     if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (func_80106BC8(globalCtx)) {
+        if (Message_ShouldAdvance(globalCtx)) {
             globalCtx->msgCtx.unk_E3F2 = 0xFF;
 
             switch (globalCtx->msgCtx.choiceIndex) {
@@ -1386,7 +1386,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags |= 0x10000;
     }
 
-    if (func_8002F194(thisx, globalCtx)) {
+    if (Actor_IsTalking(thisx, globalCtx)) {
         func_800F4524(&D_801333D4, NA_SE_VO_SK_LAUGH, 0x20);
         thisx->focus.pos = thisx->world.pos;
 

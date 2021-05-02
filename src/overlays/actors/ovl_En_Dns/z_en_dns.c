@@ -326,7 +326,7 @@ void EnDns_SetupWait(EnDns* this, GlobalContext* globalCtx) {
 void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 2000, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnDns_Talk;
     } else {
         if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
@@ -341,7 +341,7 @@ void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_Talk(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx))) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // OK
                 switch (this->dnsItemEntry->purchaseableCheck(this)) {
@@ -390,7 +390,7 @@ void func_809EFDD0(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809EFEE8(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         func_809EFDD0(this, globalCtx);
         this->actionFunc = func_809EFF50;
@@ -410,7 +410,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->stateFlags1 & 0x400) {
-        if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+        if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
             this->dnsItemEntry->setRupeesAndFlags(this);
             this->dropCollectible = 1;
             this->maintainCollider = 0;
@@ -429,7 +429,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
         this->maintainCollider = 0;
         this->actor.flags &= ~1;
         EnDns_Change(this, 1);

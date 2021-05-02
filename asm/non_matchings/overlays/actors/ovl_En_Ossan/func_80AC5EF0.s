@@ -21,7 +21,7 @@ glabel func_80AC5EF0
 /* 03274 80AC5F14 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 03278 80AC5F18 14410043 */  bne     $v0, $at, .L80AC6028       
 /* 0327C 80AC5F1C 00401825 */  or      $v1, $v0, $zero            ## $v1 = 00000000
-/* 03280 80AC5F20 0C041AF2 */  jal     func_80106BC8              
+/* 03280 80AC5F20 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 03284 80AC5F24 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03288 80AC5F28 5040006A */  beql    $v0, $zero, .L80AC60D4     
 /* 0328C 80AC5F2C 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -95,7 +95,7 @@ glabel func_80AC5EF0
 /* 03388 80AC6028 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 0338C 80AC602C 54610029 */  bnel    $v1, $at, .L80AC60D4       
 /* 03390 80AC6030 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 03394 80AC6034 0C041AF2 */  jal     func_80106BC8              
+/* 03394 80AC6034 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 03398 80AC6038 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0339C 80AC603C 50400025 */  beql    $v0, $zero, .L80AC60D4     
 /* 033A0 80AC6040 8FBF001C */  lw      $ra, 0x001C($sp)           

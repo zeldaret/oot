@@ -268,7 +268,7 @@ void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80B142F4(EnTa* this, GlobalContext* globalCtx, u16 textId) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         return true;
     }
 
@@ -348,7 +348,7 @@ void func_80B145F8(EnTa* this, GlobalContext* globalCtx) {
 void func_80B14634(EnTa* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         s32 exchangeItemId = func_8002F368(globalCtx);
 
         switch (exchangeItemId) {
@@ -371,7 +371,7 @@ void func_80B14634(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B146F8(EnTa* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         func_80B13AA0(this, func_80B143D4, func_80B167FC);
     }
     this->actor.textId = 0x204B;
@@ -381,7 +381,7 @@ void func_80B146F8(EnTa* this, GlobalContext* globalCtx) {
 void func_80B14754(EnTa* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         s32 exchangeItemId = func_8002F368(globalCtx);
 
         switch (exchangeItemId) {
@@ -583,7 +583,7 @@ void func_80B14FAC(EnTa* this, EnTaActionFunc arg1) {
 }
 
 void func_80B15034(EnTa* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         func_80B14F20(this, func_80B16504);
         func_80B13AAC(this, globalCtx);
@@ -608,7 +608,7 @@ s32 func_80B150AC(EnTa* this, GlobalContext* globalCtx, s32 idx) {
 void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         s32 unk_2CA;
 
         Animation_Change(&this->skelAnime, &D_0600C48C, 1.0f, Animation_GetLastFrame(&D_0600C48C) - 1.0f,
@@ -635,7 +635,7 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B15260(EnTa* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->unk_25C = func_80B15100;
         this->actor.flags &= ~0x10000;
     } else {
@@ -683,7 +683,7 @@ void func_80B153D4(EnTa* this, GlobalContext* globalCtx) {
 void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
     func_80B15308(this);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         globalCtx->nextEntranceIndex = 0x5E4;
 
         if (gSaveContext.eventInf[0] & 0x100) {
@@ -830,7 +830,7 @@ void func_80B15AD4(EnTa* this, GlobalContext* globalCtx) {
         func_8002DF54(globalCtx, &this->actor, 1);
     }
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         this->unk_2E0 |= 0x20;
     }
 
@@ -844,7 +844,7 @@ void func_80B15BF8(EnTa* this, GlobalContext* globalCtx) {
         Animation_Change(&this->skelAnime, &D_0600BF38, 1.0f, 0.0f, 1.0f, ANIMMODE_ONCE, 0.0f);
         this->unk_2CC = 5;
     }
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         this->unk_2E0 |= 0x20;
     }
     this->unk_2E0 |= 1;
@@ -856,7 +856,7 @@ void func_80B15CC8(EnTa* this, GlobalContext* globalCtx) {
         this->unk_2E0 &= ~0x10;
         Animation_Change(&this->skelAnime, &D_0600BF38, -1.0f, 29.0f, 0.0f, ANIMMODE_ONCE, 10.0f);
     }
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         this->unk_2E0 |= 0x20;
     }
     this->unk_2E0 |= 1;
@@ -895,7 +895,7 @@ void func_80B15E80(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B15F54(EnTa* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->unk_2E0 &= ~0x2;
         func_80B13AA0(this, func_80B15E80, func_80B16938);
@@ -904,7 +904,7 @@ void func_80B15F54(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B15FE8(EnTa* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 switch (func_80B14DD8()) {
@@ -955,7 +955,7 @@ void func_80B161C0(EnTa* this, GlobalContext* globalCtx) {
     }
 
     if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             switch (globalCtx->msgCtx.choiceIndex) {
                 case 0:
                     if (gSaveContext.rupees < price) {
@@ -980,7 +980,7 @@ void func_80B161C0(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B162E8(EnTa* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_8010B720(globalCtx, 0x2087);
         func_80B13AA0(this, func_80B15F54, func_80B16938);
     }
@@ -991,7 +991,7 @@ void func_80B162E8(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B16364(EnTa* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         gSaveContext.infTable[7] |= 0x4000;
         if (gSaveContext.itemGetInf[0] & 4) {
             func_8010B720(globalCtx, 0x208B);
@@ -1008,7 +1008,7 @@ void func_80B16364(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B1642C(EnTa* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         if (Inventory_HasEmptyBottle()) {
             func_80106CCC(globalCtx);
             this->unk_2E0 |= 2;
@@ -1052,7 +1052,7 @@ void func_80B16504(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B16608(EnTa* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         switch (this->actor.textId) {
             case 0x2085:
                 this->unk_25C = func_80B161C0;

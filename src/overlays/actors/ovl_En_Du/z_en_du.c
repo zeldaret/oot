@@ -125,7 +125,7 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
         case 5:
             break;
         case 6:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 return 3;
             }
             break;

@@ -1192,7 +1192,7 @@ void EnNb_SetupIdleCrawlspace(EnNb* this, s32 animFinished) {
 }
 
 void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->action = NB_IN_DIALOG;
     } else {
         this->actor.flags |= 9;
@@ -1232,7 +1232,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             this->action = NB_IDLE_CRAWLSPACE;
         }
         this->actor.flags &= ~9;
-    } else if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    } else if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
         choiceIndex = globalCtx->msgCtx.choiceIndex;
 
         if (textId == 0x601D) {
@@ -1284,7 +1284,7 @@ void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, s32 animFinished) {
 }
 
 void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->action = NB_ACTION_30;
     } else {
         this->actor.flags |= 9;

@@ -11,7 +11,7 @@ glabel func_80AC5DAC
 /* 03130 80AC5DD0 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 03134 80AC5DD4 54410042 */  bnel    $v0, $at, .L80AC5EE0       
 /* 03138 80AC5DD8 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 0313C 80AC5DDC 0C041AF2 */  jal     func_80106BC8              
+/* 0313C 80AC5DDC 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 03140 80AC5DE0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 03144 80AC5DE4 5040003E */  beql    $v0, $zero, .L80AC5EE0     
 /* 03148 80AC5DE8 8FBF001C */  lw      $ra, 0x001C($sp)           

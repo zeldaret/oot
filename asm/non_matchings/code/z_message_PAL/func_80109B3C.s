@@ -1274,7 +1274,7 @@ glabel L8010A850
 /* B81DB0 8010AC10 25257FFF */  addiu $a1, $t1, 0x7fff
 /* B81DB4 8010AC14 00063400 */  sll   $a2, $a2, 0x10
 /* B81DB8 8010AC18 00063403 */  sra   $a2, $a2, 0x10
-/* B81DBC 8010AC1C 0C04265A */  jal   func_80109968
+/* B81DBC 8010AC1C 0C04265A */  jal   Message_LoadItemIcon
 /* B81DC0 8010AC20 90A55C8A */   lbu   $a1, 0x5c8a($a1)
 /* B81DC4 8010AC24 10000112 */  b     .L8010B070
 /* B81DC8 8010AC28 8FB90054 */   lw    $t9, 0x54($sp)

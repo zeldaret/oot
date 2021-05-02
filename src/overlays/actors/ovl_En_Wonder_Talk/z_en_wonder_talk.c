@@ -140,7 +140,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
         return;
     }
     if (this->switchFlag < 0 || !Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        if ((func_8002F194(&this->actor, globalCtx))) {
+        if ((Actor_IsTalking(&this->actor, globalCtx))) {
             if (this->unk_156 != 6) {
                 this->actionFunc = func_80B395F0;
             } else {
@@ -176,7 +176,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
 
 void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
     if (this->unk_156 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx)) {
+        if (Message_ShouldAdvance(globalCtx)) {
             if (this->switchFlag >= 0) {
                 this->actor.flags &= -2;
                 Flags_SetSwitch(globalCtx, this->switchFlag);

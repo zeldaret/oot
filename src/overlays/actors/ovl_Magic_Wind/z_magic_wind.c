@@ -215,7 +215,7 @@ void MagicWind_Shrink(MagicWind* this, GlobalContext* globalCtx) {
 
 void MagicWind_Update(Actor* thisx, GlobalContext* globalCtx) {
     MagicWind* this = THIS;
-    if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
+    if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_0D || globalCtx->msgCtx.msgMode == MSGMODE_UNK_11) {
         Actor_Kill(thisx);
         return;
     }

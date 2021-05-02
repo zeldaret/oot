@@ -16,7 +16,7 @@ glabel func_80AC4288
 /* 01620 80AC42C0 26260014 */  addiu   $a2, $s1, 0x0014           ## $a2 = 00000014
 /* 01624 80AC42C4 54400032 */  bnel    $v0, $zero, .L80AC4390     
 /* 01628 80AC42C8 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 0162C 80AC42CC 0C041AF2 */  jal     func_80106BC8              
+/* 0162C 80AC42CC 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 01630 80AC42D0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01634 80AC42D4 10400009 */  beq     $v0, $zero, .L80AC42FC     
 /* 01638 80AC42D8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

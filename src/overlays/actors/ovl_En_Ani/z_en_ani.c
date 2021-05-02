@@ -157,7 +157,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
     }
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x5056) { // "To get a good view..."
             EnAni_SetupAction(this, func_809B04F0);
         } else if (this->actor.textId == 0x5055) { // "...I'll give you this as a memento."
@@ -183,7 +183,7 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
     u16 textId;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x5056) { // "To get a good view..."
             EnAni_SetupAction(this, func_809B0524);
         } else if (this->actor.textId == 0x5055) { // "...I'll give you this as a memento."

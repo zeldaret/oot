@@ -89,7 +89,7 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
-    if (func_8002F194(&this->actor, globalCtx) && this->dialogState != 6) {
+    if (Actor_IsTalking(&this->actor, globalCtx) && this->dialogState != 6) {
         if (!this->unk_214) {
             this->actionFunc = func_80B17934;
         } else {
@@ -130,7 +130,7 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
 }
 
 void func_80B17934(EnTakaraMan* this, GlobalContext* globalCtx) {
-    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
+    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // Yes
                 if (gSaveContext.rupees >= 10) {
@@ -168,13 +168,13 @@ void func_80B17A6C(EnTakaraMan* this, GlobalContext* globalCtx) {
 }
 
 void func_80B17AC4(EnTakaraMan* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = func_80B176E0;
     }
 }
 
 void func_80B17B14(EnTakaraMan* this, GlobalContext* globalCtx) {
-    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
+    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         this->actionFunc = func_80B176E0;
     }

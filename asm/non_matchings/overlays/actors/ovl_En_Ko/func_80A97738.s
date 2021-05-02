@@ -205,7 +205,7 @@ glabel L80A97900
 /* 00BE4 80A97994 10000064 */  beq     $zero, $zero, .L80A97B28   
 /* 00BE8 80A97998 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80A9799C:
-/* 00BEC 80A9799C 0C041AF2 */  jal     func_80106BC8              
+/* 00BEC 80A9799C 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 00BF0 80A979A0 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00BF4 80A979A4 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00BF8 80A979A8 1040005E */  beq     $v0, $zero, .L80A97B24     
@@ -313,7 +313,7 @@ glabel L80A97900
 /* 00D54 80A97B04 10000008 */  beq     $zero, $zero, .L80A97B28   
 /* 00D58 80A97B08 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80A97B0C:
-/* 00D5C 80A97B0C 0C041AF2 */  jal     func_80106BC8              
+/* 00D5C 80A97B0C 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 00D60 80A97B10 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 00D64 80A97B14 50400004 */  beql    $v0, $zero, .L80A97B28     
 /* 00D68 80A97B18 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001

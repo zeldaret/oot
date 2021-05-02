@@ -10,7 +10,7 @@ glabel func_80AC5C9C
 /* 0301C 80AC5CBC 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 03020 80AC5CC0 5441001B */  bnel    $v0, $at, .L80AC5D30       
 /* 03024 80AC5CC4 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 03028 80AC5CC8 0C041AF2 */  jal     func_80106BC8              
+/* 03028 80AC5CC8 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0302C 80AC5CCC 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 03030 80AC5CD0 50400017 */  beql    $v0, $zero, .L80AC5D30     
 /* 03034 80AC5CD4 8FBF001C */  lw      $ra, 0x001C($sp)           

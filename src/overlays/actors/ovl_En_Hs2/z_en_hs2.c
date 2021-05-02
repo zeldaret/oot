@@ -76,7 +76,7 @@ void EnHs2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80A6F0B4(EnHs2* this, GlobalContext* globalCtx, u16 textId, EnHs2ActionFunc actionFunc) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return 1;
     }

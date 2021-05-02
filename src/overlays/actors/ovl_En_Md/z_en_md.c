@@ -450,7 +450,7 @@ s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
             }
             return 0;
         case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 return 2;
             }
         default:
@@ -690,7 +690,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
             (globalCtx->sceneNum == SCENE_SPOT04)) {
-            globalCtx->msgCtx.msgMode = 0x37;
+            globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         }
 
         if (globalCtx->sceneNum == SCENE_SPOT04) {

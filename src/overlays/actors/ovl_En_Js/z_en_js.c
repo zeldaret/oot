@@ -84,7 +84,7 @@ void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         return 1;
     } else {
         this->actor.textId = textId;
@@ -112,7 +112,7 @@ void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A890C0(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         En_Js_SetupAction(this, func_80A89078);
     } else {
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
@@ -137,7 +137,7 @@ void func_80A89160(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < 200) {

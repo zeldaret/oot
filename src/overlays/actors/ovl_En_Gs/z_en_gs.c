@@ -125,7 +125,7 @@ s32 func_80A4E3EC(EnGs* this, GlobalContext* globalCtx) {
     s32 ret = 2;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 6:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x2054:
                         this->actor.textId = (this->actor.params & 0xFF) + 0x400;
@@ -185,7 +185,7 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
         this->unk_19C = 2;
     } else if (this->unk_19C == 2) {
         this->unk_19C = func_80A4E3EC(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->unk_19C = 2;
     } else {
         func_8002F374(globalCtx, &this->actor, &sp26, &sp24);

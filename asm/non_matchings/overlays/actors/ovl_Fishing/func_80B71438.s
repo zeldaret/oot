@@ -51,7 +51,7 @@ glabel func_80B71438
 /* 07B44 80B714E4 37190001 */  ori     $t9, $t8, 0x0001           ## $t9 = 00000001
 /* 07B48 80B714E8 AC990004 */  sw      $t9, 0x0004($a0)           ## 00000004
 /* 07B4C 80B714EC AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 07B50 80B714F0 0C00BC65 */  jal     func_8002F194              
+/* 07B50 80B714F0 0C00BC65 */  jal     Actor_IsTalking              
 /* 07B54 80B714F4 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 07B58 80B714F8 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 07B5C 80B714FC 10400028 */  beq     $v0, $zero, .L80B715A0     

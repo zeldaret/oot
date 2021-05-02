@@ -353,7 +353,7 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (!this->loadStarted) {
         // if dialog state is 5 and textbox has been advanced, kick player out
-        if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx))) {
+        if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx))) {
             func_80106CCC(globalCtx);
             if (!this->loadStarted) {
                 gSaveContext.eventChkInf[4] |= 0x4000;

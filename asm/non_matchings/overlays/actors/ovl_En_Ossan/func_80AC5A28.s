@@ -54,7 +54,7 @@ glabel func_80AC5A28
 /* 02DFC 80AC5A9C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 02E00 80AC5AA0 54410011 */  bnel    $v0, $at, .L80AC5AE8       
 /* 02E04 80AC5AA4 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
-/* 02E08 80AC5AA8 0C041AF2 */  jal     func_80106BC8              
+/* 02E08 80AC5AA8 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 02E0C 80AC5AAC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02E10 80AC5AB0 50400058 */  beql    $v0, $zero, .L80AC5C14     
 /* 02E14 80AC5AB4 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -77,7 +77,7 @@ glabel func_80AC5A28
 /* 02E54 80AC5AF4 26260014 */  addiu   $a2, $s1, 0x0014           ## $a2 = 00000014
 /* 02E58 80AC5AF8 54400046 */  bnel    $v0, $zero, .L80AC5C14     
 /* 02E5C 80AC5AFC 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 02E60 80AC5B00 0C041AF2 */  jal     func_80106BC8              
+/* 02E60 80AC5B00 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 02E64 80AC5B04 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02E68 80AC5B08 10400041 */  beq     $v0, $zero, .L80AC5C10     
 /* 02E6C 80AC5B0C 8FAD0020 */  lw      $t5, 0x0020($sp)           

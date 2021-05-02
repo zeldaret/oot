@@ -67,7 +67,7 @@ glabel func_80AC47DC
 /* 01B78 80AC4818 10000052 */  beq     $zero, $zero, .L80AC4964   
 /* 01B7C 80AC481C 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80AC4820:
-/* 01B80 80AC4820 0C041AF2 */  jal     func_80106BC8              
+/* 01B80 80AC4820 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 01B84 80AC4824 8FA40028 */  lw      $a0, 0x0028($sp)           
 /* 01B88 80AC4828 5040004E */  beql    $v0, $zero, .L80AC4964     
 /* 01B8C 80AC482C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000

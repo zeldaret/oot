@@ -203,7 +203,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
     SkelAnime_Update(&this->skelanime);
     this->camId = SUBCAM_NONE;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (this->unk_196 == 5) {
             this->actionFunc = func_80A8F9C8;
         } else {
@@ -240,7 +240,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (globalCtx->msgCtx.unk_E3EE == 4 && globalCtx->msgCtx.msgMode == 0) {
+    if (globalCtx->msgCtx.unk_E3EE == 4 && globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
         // end?
         osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n" VT_RST);
 
@@ -266,13 +266,13 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     func_8002DF54(globalCtx, NULL, 8);
 
-    if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0)) {
+    if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && (Message_ShouldAdvance(globalCtx) != 0)) {
 
         if (this->camId != SUBCAM_NONE) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
         }
         this->camId = OnePointCutscene_Init(globalCtx, 2270, -99, &this->actor, MAIN_CAM);
-        globalCtx->msgCtx.msgMode = 0x37;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         func_8002DF54(globalCtx, NULL, 8);
         func_8010BD58(globalCtx, 0x2B);
         this->actionFunc = func_80A8FAA4;
@@ -287,7 +287,7 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("game_play->message.msg_mode=%d\n", globalCtx->msgCtx.msgMode);
 
-    if (globalCtx->msgCtx.msgMode == 0) {
+    if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
         if (this->unk_194) {
             this->actor.textId = 0x4077;
             this->unk_196 = 5;
@@ -310,7 +310,7 @@ void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
 
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
             func_80106CCC(globalCtx);
             func_8002DF54(globalCtx, NULL, 7);

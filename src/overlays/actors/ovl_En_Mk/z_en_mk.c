@@ -113,7 +113,7 @@ void func_80AACB14(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACB6C(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACB14;
     }
 
@@ -158,10 +158,10 @@ void func_80AACCA0(EnMk* this, GlobalContext* globalCtx) {
 void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->actionFunc = func_80AACCA0;
-        globalCtx->msgCtx.msgMode = 0x37;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         player->exchangeItemId = EXCH_ITEM_NONE;
         this->timer = 16;
         Animation_Change(&this->skelAnime, &D_06000D88, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000D88), ANIMMODE_LOOP,
@@ -173,7 +173,7 @@ void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_8010B720(globalCtx, 0x4001);
         Animation_Change(&this->skelAnime, &D_06000AC0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000AC0), ANIMMODE_ONCE,
                          -4.0f);
@@ -185,7 +185,7 @@ void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACEE8(EnMk* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_8010B720(globalCtx, 0x4000);
         Animation_Change(&this->skelAnime, &D_06000AC0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000AC0), ANIMMODE_LOOP,
                          -4.0f);
@@ -221,7 +221,7 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 playerExchangeItem;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         playerExchangeItem = func_8002F368(globalCtx);
 
         if (this->actor.textId != 0x4018) {

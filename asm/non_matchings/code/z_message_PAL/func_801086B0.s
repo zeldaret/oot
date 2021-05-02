@@ -188,7 +188,7 @@ glabel L8010887C
 /* B7FA38 80108898 30A5000F */  andi  $a1, $a1, 0xf
 /* B7FA3C 8010889C 30A5FFFF */  andi  $a1, $a1, 0xffff
 /* B7FA40 801088A0 3052FFFF */  andi  $s2, $v0, 0xffff
-/* B7FA44 801088A4 0C041DB3 */  jal   func_801076CC
+/* B7FA44 801088A4 0C041DB3 */  jal   Message_SetTextColor
 /* B7FA48 801088A8 02202025 */   move  $a0, $s1
 /* B7FA4C 801088AC 24080009 */  li    $t0, 9
 /* B7FA50 801088B0 2409000A */  li    $t1, 10
@@ -1266,7 +1266,7 @@ glabel L801097E4
 /* B80A00 80109860 27A60120 */  addiu $a2, $sp, 0x120
 /* B80A04 80109864 01EE2821 */  addu  $a1, $t7, $t6
 /* B80A08 80109868 24A50008 */  addiu $a1, $a1, 8
-/* B80A0C 8010986C 0C041BC7 */  jal   func_80106F1C
+/* B80A0C 8010986C 0C041BC7 */  jal   Message_DrawTextChar
 /* B80A10 80109870 AFA20050 */   sw    $v0, 0x50($sp)
 /* B80A14 80109874 97B80128 */  lhu   $t8, 0x128($sp)
 /* B80A18 80109878 8EEF0000 */  lw    $t7, ($s7)
@@ -1277,11 +1277,11 @@ glabel L801097E4
 /* B80A2C 8010988C 44814000 */  mtc1  $at, $f8
 /* B80A30 80109890 8FA20050 */  lw    $v0, 0x50($sp)
 /* B80A34 80109894 448E2000 */  mtc1  $t6, $f4
-/* B80A38 80109898 3C018015 */  lui   $at, %hi(D_80153A00 - 0x80)
+/* B80A38 80109898 3C018015 */  lui   $at, %hi(sFontWidths - 0x80)
 /* B80A3C 8010989C 0002C080 */  sll   $t8, $v0, 2
 /* B80A40 801098A0 468021A0 */  cvt.s.w $f6, $f4
 /* B80A44 801098A4 00380821 */  addu  $at, $at, $t8
-/* B80A48 801098A8 C4303980 */  lwc1  $f16, %lo(D_80153A00 - 0x80)($at)
+/* B80A48 801098A8 C4303980 */  lwc1  $f16, %lo(sFontWidths - 0x80)($at)
 /* B80A4C 801098AC 860E63D8 */  lh    $t6, 0x63d8($s0)
 /* B80A50 801098B0 26217FFF */  addiu $at, $s1, 0x7fff
 /* B80A54 801098B4 24080009 */  li    $t0, 9

@@ -468,7 +468,7 @@ s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
             return 0;
 
         case 4:
-            switch (func_80106BC8(globalCtx)) {
+            switch (Message_ShouldAdvance(globalCtx)) {
                 case 0:
                     return 1;
                 default:
@@ -481,7 +481,7 @@ s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
             return 1;
 
         case 5:
-            switch (func_80106BC8(globalCtx)) {
+            switch (Message_ShouldAdvance(globalCtx)) {
                 case 0:
                     return 1;
                 default:

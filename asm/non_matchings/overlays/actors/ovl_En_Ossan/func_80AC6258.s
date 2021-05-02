@@ -9,7 +9,7 @@ glabel func_80AC6258
 /* 035D4 80AC6274 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 035D8 80AC6278 5441000F */  bnel    $v0, $at, .L80AC62B8       
 /* 035DC 80AC627C 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 035E0 80AC6280 0C041AF2 */  jal     func_80106BC8              
+/* 035E0 80AC6280 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 035E4 80AC6284 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 035E8 80AC6288 1040000A */  beq     $v0, $zero, .L80AC62B4     
 /* 035EC 80AC628C 3C028016 */  lui     $v0, %hi(gSaveContext)

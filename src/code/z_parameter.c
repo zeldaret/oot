@@ -697,7 +697,7 @@ void func_80083108(GlobalContext* globalCtx) {
                     gSaveContext.buttonStatus[3] = BTN_DISABLED;
                 Interface_ChangeAlpha(50);
             }
-        } else if (msgCtx->msgMode == 0) {
+        } else if (msgCtx->msgMode == MSGMODE_UNK_00) {
             if ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     sp28 = 1;
@@ -2452,7 +2452,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             break;
 
         case 7:
-            if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
+            if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == MSGMODE_UNK_00) &&
                 (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (globalCtx->sceneLoadFlag == 0) &&
                 (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {
                 if ((gSaveContext.magic == 0) || ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) ||
@@ -3415,7 +3415,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         }
 
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
-            (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == 0) &&
+            (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == MSGMODE_UNK_00) &&
             !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
             (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->shootingGalleryStatus <= 1) &&
@@ -3836,7 +3836,7 @@ void Interface_Update(GlobalContext* globalCtx) {
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0)) {
         if ((gSaveContext.minigameState == 1) || (gSaveContext.sceneSetupIndex < 4) ||
             ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.sceneSetupIndex == 4))) {
-            if ((msgCtx->msgMode == 0) || ((msgCtx->msgMode != 0) && (globalCtx->sceneNum == SCENE_BOWLING))) {
+            if ((msgCtx->msgMode == MSGMODE_UNK_00) || ((msgCtx->msgMode != MSGMODE_UNK_00) && (globalCtx->sceneNum == SCENE_BOWLING))) {
                 if (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) {
                     func_80083108(globalCtx);
                 }
@@ -3976,7 +3976,7 @@ void Interface_Update(GlobalContext* globalCtx) {
     HealthMeter_Update(globalCtx);
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
-        (msgCtx->msgMode == 0) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
+        (msgCtx->msgMode == MSGMODE_UNK_00) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
         (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {}
 
     if (gSaveContext.rupeeAccumulator != 0) {
@@ -4056,7 +4056,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     WREG(7) = interfaceCtx->unk_1F4;
 
-    if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
+    if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == MSGMODE_UNK_00) &&
         (globalCtx->sceneLoadFlag == 0) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
         (globalCtx->transitionMode == 0) &&
         ((globalCtx->csCtx.state == CS_STATE_IDLE) || !Player_InCsMode(globalCtx))) {

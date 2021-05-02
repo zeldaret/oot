@@ -354,7 +354,7 @@ Actor* func_80AEB124(GlobalContext* globalCtx) {
 }
 
 s32 func_80AEB174(GlobalContext* globalCtx) {
-    return (func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx));
+    return (func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx));
 }
 
 s32 func_80AEB1B4(GlobalContext* globalCtx) {
@@ -1514,7 +1514,7 @@ void func_80AEE050(EnRu1* this) {
 }
 
 s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
-    if (!func_8002F194(&this->actor, globalCtx)) {
+    if (!Actor_IsTalking(&this->actor, globalCtx)) {
         this->actor.flags |= 9;
         if ((gSaveContext.infTable[20] & 8)) {
             this->actor.textId = 0x404E;
@@ -1832,7 +1832,7 @@ s32 func_80AEF0BC(EnRu1* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[20] & 4) {
         frameCount = Animation_GetLastFrame(&D_06007534);
         Animation_Change(&this->skelAnime, &D_06007534, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
-        globalCtx->msgCtx.msgMode = 0x37;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         this->action = 26;
         this->actor.flags &= ~0x9;
         return 1;
@@ -2143,7 +2143,7 @@ void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
-    if (!func_8002F194(&this->actor, globalCtx)) {
+    if (!Actor_IsTalking(&this->actor, globalCtx)) {
         this->actor.flags |= 9;
         this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1F);
         if (this->actor.textId == 0) {

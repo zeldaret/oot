@@ -345,7 +345,7 @@ s16 EnGo2_GetStateGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
         case 2:
             return 2;
         case 5:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3012) {
                     this->actionFunc = EnGo2_SetupGetItem;
                     bombBagUpgrade = CUR_CAPACITY(UPG_BOMB_BAG) == 30 ? GI_BOMB_BAG_40 : GI_BOMB_BAG_30;
@@ -377,7 +377,7 @@ s16 EnGo2_GetStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
                 return 0;
             }
         case 4:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 // Ask question to DMT Goron by bomb flower
                 if (this->actor.textId == 0x300A) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -524,7 +524,7 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
                     return 0;
             }
         case 4:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3034) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3033 : 0x3035;
@@ -545,7 +545,7 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
             }
             return 1;
         case 5:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x3035:
                         gSaveContext.infTable[16] |= 0x800;
@@ -615,7 +615,7 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
             }
             return 1;
         case 4:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if ((this->actor.textId == 0x3054) || (this->actor.textId == 0x3055)) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         EnGo2_GetItem(this, globalCtx, GI_PRESCRIPTION);
@@ -629,9 +629,9 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
             }
             break;
         case 5:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3059) {
-                    globalCtx->msgCtx.msgMode = 0x37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
                     this->actionFunc = EnGo2_BiggoronEyedrops;
                 }
                 return 2;
@@ -653,7 +653,7 @@ s16 EnGo2_GetStateGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
         case 2:
             return 0;
         case 5:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3071) {
                     this->actor.textId = EnGo2_GoronFireGenericGetTextId(this);
                     func_8010B720(globalCtx, this->actor.textId);
@@ -814,7 +814,7 @@ s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.ocFlags2 & 1) == 0)) {
         return false;
     } else {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_IsTalking(&this->actor, globalCtx)) {
             this->unk_194.unk_00 = 1;
             return true;
         } else if (this->unk_194.unk_00 != 0) {
@@ -1778,7 +1778,7 @@ void EnGo2_SetupGetItem(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void EnGo2_SetGetItem(EnGo2* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && Message_ShouldAdvance(globalCtx)) {
         this->unk_194.unk_00 = 0;
         switch (this->getItemId) {
             case GI_CLAIM_CHECK:
@@ -1886,7 +1886,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
         case 0: // Wake up
             if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
                 EnGo2_GoronFireCamera(this, globalCtx);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
                 func_80034EC0(&this->skelAnime, sAnimations, 2);
                 this->waypoint = 1;
                 this->skelAnime.playSpeed = 2.0f;

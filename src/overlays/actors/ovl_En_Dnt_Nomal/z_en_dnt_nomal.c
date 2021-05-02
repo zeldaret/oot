@@ -337,7 +337,7 @@ void EnDntNomal_SetupTargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
 
 void EnDntNomal_TargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         func_8005B1A4(ACTIVE_CAM);
         ACTIVE_CAM->csId = 0;

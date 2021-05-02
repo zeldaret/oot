@@ -14,7 +14,7 @@ glabel func_80AC3B18
 /* 00E90 80AC3B30 01CFC023 */  subu    $t8, $t6, $t7              
 /* 00E94 80AC3B34 A49801F0 */  sh      $t8, 0x01F0($a0)           ## 000001F0
 /* 00E98 80AC3B38 AFA40018 */  sw      $a0, 0x0018($sp)           
-/* 00E9C 80AC3B3C 0C00BC65 */  jal     func_8002F194              
+/* 00E9C 80AC3B3C 0C00BC65 */  jal     Actor_IsTalking              
 /* 00EA0 80AC3B40 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 00EA4 80AC3B44 10400012 */  beq     $v0, $zero, .L80AC3B90     
 /* 00EA8 80AC3B48 8FA70018 */  lw      $a3, 0x0018($sp)           

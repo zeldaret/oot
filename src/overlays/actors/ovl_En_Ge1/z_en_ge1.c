@@ -184,7 +184,7 @@ void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnGe1_SetTalkAction(EnGe1* this, GlobalContext* globalCtx, u16 textId, f32 arg3, EnGe1ActionFunc actionFunc) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         this->animFunc = EnGe1_StopFidget;
         this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
@@ -342,7 +342,7 @@ void EnGe1_Open_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_SetupOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = EnGe1_Open_GTGGuard;
         Animation_Change(&this->skelAnime, &gGerudoWhiteClapAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gGerudoWhiteClapAnim), ANIMMODE_ONCE, -3.0f);
@@ -361,7 +361,7 @@ void EnGe1_RefuseEntryTooPoor_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_OfferOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
 
         switch (globalCtx->msgCtx.choiceIndex) {
@@ -406,7 +406,7 @@ void EnGe1_CheckForCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_WaitGateOpen_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         this->actionFunc = EnGe1_CheckGate_GateOp;
         EnGe1_SetAnimationIdle(this);
@@ -437,7 +437,7 @@ void EnGe1_OpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_SetupOpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = EnGe1_OpenGate_GateOp;
         Animation_Change(&this->skelAnime, &gGerudoWhiteClapAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gGerudoWhiteClapAnim), ANIMMODE_ONCE, -3.0f);
@@ -549,7 +549,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
         this->actor.flags &= ~0x10000;
     } else {
@@ -558,7 +558,7 @@ void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkTooPoor_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         this->actionFunc = EnGe1_Wait_Archery;
         EnGe1_SetAnimationIdle(this);
@@ -572,7 +572,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Actor* horse;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && Message_ShouldAdvance(globalCtx)) {
         this->actor.flags &= ~0x10000;
 
         switch (globalCtx->msgCtx.choiceIndex) {
@@ -613,14 +613,14 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkOfferPlay_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
         func_8010B720(globalCtx, 0x6041);
         this->actionFunc = EnGe1_BeginGame_Archery;
     }
 }
 
 void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_TalkOfferPlay_Archery;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 300.0f);
@@ -630,11 +630,11 @@ void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     gSaveContext.eventInf[0] &= ~0x100;
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
-    LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", gSaveContext.highScores[HS_HBA], "../z_en_ge1.c", 1111);
+    LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
     this->actor.flags |= 0x10000;
 
-    if (gSaveContext.highScores[HS_HBA] < gSaveContext.minigameScore) {
-        gSaveContext.highScores[HS_HBA] = gSaveContext.minigameScore;
+    if (HIGH_SCORE(HS_HBA) < gSaveContext.minigameScore) {
+        HIGH_SCORE(HS_HBA) = gSaveContext.minigameScore;
     }
 
     if (gSaveContext.minigameScore < 1000) {

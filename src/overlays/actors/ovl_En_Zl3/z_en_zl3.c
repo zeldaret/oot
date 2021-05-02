@@ -1118,7 +1118,7 @@ void func_80B55CCC(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55D00(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->action = 13;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         this->actor.flags |= 9;
@@ -1174,7 +1174,7 @@ void func_80B55F38(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55F6C(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->action = 0x12;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
@@ -1235,7 +1235,7 @@ void func_80B561E0(EnZl3* this, s32 arg1) {
 }
 
 void func_80B56214(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->action = 21;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
@@ -1687,7 +1687,7 @@ u16 func_80B572F0(GlobalContext* globalCtx) {
 }
 
 s32 func_80B57324(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         return 1;
     }
     return 0;

@@ -514,7 +514,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
             }
             return 0;
         case 5:
-            if (!func_80106BC8(globalCtx)) {
+            if (!Message_ShouldAdvance(globalCtx)) {
                 return 1;
             } else {
                 return 2;
@@ -901,7 +901,7 @@ void func_80A714C4(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void func_80A71530(EnHy* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && Message_ShouldAdvance(globalCtx)) {
         switch (this->unk_260) {
             case GI_HEART_PIECE:
                 gSaveContext.dogParams = 0;

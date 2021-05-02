@@ -238,7 +238,7 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void func_80A5344C(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
         this->unk_300 = 5;
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
@@ -268,9 +268,9 @@ void func_80A53538(EnHeishi2* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_300 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             func_8002DF54(globalCtx, NULL, 8);
-            globalCtx->msgCtx.msgMode = 0x37;
+            globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
             this->actionFunc = func_80A535BC;
         }
     }
@@ -410,7 +410,7 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x200E; // "The road is closed beyond this point! Can't you read..."
     }
     this->unk_300 = 6;
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         exchangeItemId = func_8002F368(globalCtx);
         if (exchangeItemId == EXCH_ITEM_LETTER_ZELDA) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -432,9 +432,9 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A53C0C(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_300 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             func_8002DF54(globalCtx, 0, 8);
-            globalCtx->msgCtx.msgMode = 0x37;
+            globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
             this->actionFunc = func_80A53C90;
         }
     }
@@ -534,7 +534,7 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A54038(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             gSaveContext.infTable[7] |= 0x40;
             func_80106CCC(globalCtx);
             func_8002DF54(globalCtx, 0, 7);
@@ -545,7 +545,7 @@ void func_80A54038(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 this->actor.textId = 0x2020; // "My boy will be very happy with this!.."
@@ -579,7 +579,7 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         this->actor.textId = 0x2021; // "You sold the 10-Rupee mask for 15 Rupees. You earned a little profit. Let's
                                      // go to the Mask Shop..."
         Rupees_ChangeBy(15);
@@ -590,14 +590,14 @@ void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void func_80A5427C(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         if (this->unk_30E == 0) {
             this->unk_30E = 0;
             this->unk_30A = this->unk_30E;
             func_80106CCC(globalCtx);
             this->actionFunc = func_80A53908;
         } else {
-            globalCtx->msgCtx.msgMode = 0x37;
+            globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
             this->actionFunc = func_80A54320;
         }
     }
@@ -663,7 +663,7 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 rotY;
     EnBom* bomb;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_8002DF54(globalCtx, NULL, 7);
         func_80106CCC(globalCtx);
 
@@ -719,7 +719,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (this->initParams == 2) {
             if (this->unk_30E == 1) {
                 this->actionFunc = func_80A5344C;
@@ -764,7 +764,7 @@ void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A549E8(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_300 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             func_80106CCC(globalCtx);
             if (this->initParams == 2) {
                 this->actionFunc = func_80A531E4;

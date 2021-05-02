@@ -101,7 +101,7 @@ void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnBomBowMan_TalkAsleep;
     } else {
         yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
@@ -115,8 +115,8 @@ void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
 void EnBomBowMan_TalkAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
-        globalCtx->msgCtx.msgMode = 0x37;
+    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (Message_ShouldAdvance(globalCtx) != 0)) {
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         this->actionFunc = EnBomBowMan_WakeUp;
     }
 }
@@ -157,7 +157,7 @@ void EnBomBowMan_BlinkAwake(EnBomBowlMan* this, GlobalContext* globalCtx) {
 void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->frameCount = (f32)Animation_GetLastFrame(&gChuGirlLeanOverCounterAnim);
         Animation_Change(&this->skelAnime, &gChuGirlLeanOverCounterAnim, 1.0f, 0.0f, this->frameCount, ANIMMODE_LOOP,
@@ -180,7 +180,7 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
 void EnBomBowMan_WaitNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnBomBowMan_TalkNotBeatenDC;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 120.0f);
@@ -190,7 +190,7 @@ void EnBomBowMan_WaitNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
 void EnBomBowMan_TalkNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->actionFunc = EnBomBowMan_WaitNotBeatenDC;
     }
@@ -269,7 +269,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = EnBomBowlMan_HandlePlayChoice;
     } else {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_IsTalking(&this->actor, globalCtx)) {
             if (this->minigamePlayStatus == 0) {
                 this->actionFunc = EnBomBowlMan_HandlePlayChoice;
             } else {
@@ -288,7 +288,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
 void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
 
         switch (globalCtx->msgCtx.choiceIndex) {
@@ -334,7 +334,7 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, GlobalContext* globalCtx)
 
 void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
 
         if (((this->actor.textId == 0x2D) || (this->actor.textId == 0x85)) && Flags_GetSwitch(globalCtx, 0x38)) {
@@ -364,7 +364,7 @@ void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalC
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (Message_ShouldAdvance(globalCtx) != 0)) {
         pos.x = 148.0f;
         pos.y = 40.0f;
         pos.z = 300.0f;
@@ -452,7 +452,7 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
 void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         func_8005B1A4(ACTIVE_CAM);
         this->startedPlaying = true;

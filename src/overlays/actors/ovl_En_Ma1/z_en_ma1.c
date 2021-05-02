@@ -155,12 +155,12 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
             break;
         case 4:
         case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 ret = 2;
             }
             break;
         case 6:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 ret = 3;
             }
             break;
@@ -309,7 +309,7 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
         if (this->unk_1E8.unk_00 == 2) {
             this->actionFunc = func_80AA0EA0;
             globalCtx->msgCtx.unk_E3E7 = 4;
-            globalCtx->msgCtx.msgMode = 0x36;
+            globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
         }
     }
 }
@@ -328,7 +328,7 @@ void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx) {
         this->unk_1E8.unk_00 = 0;
         this->actionFunc = func_80AA0D88;
         gSaveContext.eventChkInf[1] |= 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
     }
 }
 

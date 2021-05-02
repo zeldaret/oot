@@ -125,7 +125,7 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
                     ret = 2;
                     break;
                 case 0x401B:
-                    ret = func_80106BC8(globalCtx) == 0 ? 1 : 2;
+                    ret = Message_ShouldAdvance(globalCtx) == 0 ? 1 : 2;
                     break;
                 case 0x401F:
                     gSaveContext.infTable[19] |= 0x200;
@@ -145,7 +145,7 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case 4:
-            if (func_80106BC8(globalCtx) == 0) {
+            if (Message_ShouldAdvance(globalCtx) == 0) {
                 break;
             }
             if (this->actor.textId == 0x4014) {
@@ -159,7 +159,7 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 ret = 2;
             }
             break;
@@ -192,7 +192,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
     f32 xzDistToPlayer;
     f32 yaw;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         *arg2 = 1;
         return 1;
     }
@@ -436,7 +436,7 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx))) {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_FROG) {
             func_80088AA0(180); // start timer2 with 3 minutes
             gSaveContext.eventInf[1] &= ~1;

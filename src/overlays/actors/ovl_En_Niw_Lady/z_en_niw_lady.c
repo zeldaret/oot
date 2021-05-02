@@ -251,7 +251,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
         phi_s1 = 10;
         this->unk_26E = 11;
     }
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         osSyncPrintf("\n\n");
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん選択\t ☆☆☆☆ %d\n" VT_RST, phi_s1);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n" VT_RST, this->unk_26C);
@@ -299,7 +299,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx) {
-    if (this->unk_262 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx) != 0) {
+    if (this->unk_262 == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx) != 0) {
         func_80106CCC(globalCtx);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ハート ☆☆☆☆☆ %d\n" VT_RST, this->unk_26C);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 爆弾   ☆☆☆☆☆ %d\n" VT_RST, this->unk_272);
@@ -362,7 +362,7 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
         this->unk_26E = 11;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         playerExchangeItemId = func_8002F368(globalCtx);
         if ((playerExchangeItemId == 6) && (gSaveContext.eventChkInf[6] & 0x400)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
@@ -384,7 +384,7 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx) {
-    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (Message_ShouldAdvance(globalCtx) != 0)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 func_80106CCC(globalCtx);
@@ -405,14 +405,14 @@ void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx) {
 
 void func_80ABAA9C(EnNiwLady* this, GlobalContext* globalCtx) {
     this->unk_26E = 11;
-    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->actionFunc = func_80ABA778;
     }
 }
 
 void func_80ABAB08(EnNiwLady* this, GlobalContext* globalCtx) {
-    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (Message_ShouldAdvance(globalCtx) != 0)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 func_80106CCC(globalCtx);
@@ -448,7 +448,7 @@ void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) != 6) || (func_80106BC8(globalCtx) == 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) != 6) || (Message_ShouldAdvance(globalCtx) == 0)) {
         return;
     }
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
@@ -480,7 +480,7 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
         this->unk_26E = 8;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         this->unk_274 = 1;
         this->unk_26E = this->unk_27A + 9;
         this->actionFunc = func_80ABAD38;

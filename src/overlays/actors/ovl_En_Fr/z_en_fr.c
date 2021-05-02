@@ -607,7 +607,7 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
         }
 
         OnePointCutscene_Init(globalCtx, 4110, ~0x62, &this->actor, MAIN_CAM);
-        globalCtx->msgCtx.msgMode = 0x37;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         player->actor.world.pos.x = this->actor.world.pos.x; // x = 990.0f
         player->actor.world.pos.y = this->actor.world.pos.y; // y = 205.0f
         player->actor.world.pos.z = this->actor.world.pos.z; // z = -1220.0f
@@ -620,11 +620,11 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_Activate(EnFr* this, GlobalContext* globalCtx) {
-    if (globalCtx->msgCtx.msgMode == 0xC) {
-        globalCtx->msgCtx.msgMode = 0x37;
+    if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_0C) {
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         sEnFrPointers.flags = 1;
         this->actionFunc = EnFr_ActivateCheckFrogSong;
-    } else if (globalCtx->msgCtx.msgMode == 0x37) { // Goes to Frogs 2 Song
+    } else if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_37) { // Goes to Frogs 2 Song
         sEnFrPointers.flags = 1;
         this->actionFunc = EnFr_ActivateCheckFrogSong;
     }
@@ -755,7 +755,7 @@ void EnFr_ChildSongFirstTime(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_TalkBeforeFrogSong(EnFr* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx))) {
         func_80106CCC(globalCtx);
         this->frogSongTimer = 2;
         this->actionFunc = EnFr_SetupFrogSong;
@@ -864,7 +864,7 @@ void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx) {
         EnFr_OcarinaMistake(this, globalCtx);
     } else {
         this->frogSongTimer--;
-        if (globalCtx->msgCtx.msgMode == 0x32) {
+        if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_32) {
             counter = 0;
             for (i = 0; i < ARRAY_COUNT(sEnFrPointers.frogs); i++) {
                 frog = sEnFrPointers.frogs[i];
@@ -880,8 +880,8 @@ void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (globalCtx->msgCtx.msgMode == 0x33) {
-            globalCtx->msgCtx.msgMode = 0x31;
+        if (globalCtx->msgCtx.msgMode == MSGMODE_UNK_33) {
+            globalCtx->msgCtx.msgMode = MSGMODE_UNK_31;
             switch (globalCtx->msgCtx.unk_E410) {
                 case 0:
                     EnFr_SetupJumpingUp(this, FROG_BLUE);
@@ -915,7 +915,7 @@ void EnFr_SetupReward(EnFr* this, GlobalContext* globalCtx, u8 unkCondition) {
     }
 
     func_800ED858(0);
-    globalCtx->msgCtx.msgMode = 0x37;
+    globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
     this->actionFunc = EnFr_PrintTextBox;
 }
 
@@ -925,7 +925,7 @@ void EnFr_PrintTextBox(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_TalkBeforeReward(EnFr* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
         this->frogSongTimer = 100;
         func_80106CCC(globalCtx);
         this->actionFunc = EnFr_SetReward;
@@ -1020,7 +1020,7 @@ void EnFr_GiveReward(EnFr* this, GlobalContext* globalCtx) {
 }
 
 void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx))) {
         this->actionFunc = EnFr_Idle;
     }
 }

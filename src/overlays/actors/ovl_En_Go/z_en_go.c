@@ -267,7 +267,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case 4:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -312,7 +312,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case 5:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x3035:
                         gSaveContext.infTable[16] |= 0x800;
@@ -329,7 +329,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case 6:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 unkState = 3;
             }
             break;
@@ -348,7 +348,7 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     if (arg2->unk_00) {
         arg2->unk_00 = unkFunc2(globalCtx, &this->actor);
         return false;
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         arg2->unk_00 = 1;
         return true;
     } else if (!func_8002F2CC(&this->actor, globalCtx, arg3)) {
@@ -875,7 +875,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
                 this->unk_21E = 100;
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
                 gSaveContext.timer2State = 0;
                 OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
             } else {
@@ -888,7 +888,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
     } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.unk_00 == 2)) {
         EnGo_SetupAction(this, EnGo_GetItem);
         globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
     } else {
         if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, globalCtx)) {
             EnGo_ReverseAnimation(this);

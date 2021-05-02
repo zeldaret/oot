@@ -126,7 +126,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 globalCtx->nextEntranceIndex = 0x157;
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
                 globalCtx->fadeTransition = 0x26;
@@ -136,7 +136,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case 4:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 gSaveContext.infTable[11] |= 0x200;
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     if (gSaveContext.eventChkInf[1] & 0x4000) {

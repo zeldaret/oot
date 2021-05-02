@@ -131,7 +131,7 @@ void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
 
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->unk_180, &this->unk_18C);
 
-    if ((this->unk_154 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+    if ((this->unk_154 == func_8010BDBC(&globalCtx->msgCtx)) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
     }
 
@@ -199,7 +199,7 @@ void EnBomBowlPit_WaitTillPrizeGiven(EnBomBowlPit* this, GlobalContext* globalCt
 }
 
 void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
         // Normal termination/completion
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         if (this->getItemId == GI_HEART_PIECE) {

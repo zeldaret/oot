@@ -455,7 +455,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnGe2_WaitTillCardGiven;
@@ -465,7 +465,7 @@ void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
 
 void EnGe2_ForceTalk(EnGe2* this, GlobalContext* globalCtx) {
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnGe2_GiveCard;
     } else {
         this->actor.textId = 0x6004;
@@ -518,7 +518,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
     this->actionFunc(this, globalCtx);
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if ((this->actor.params & 0xFF) == GE2_TYPE_PATROLLING) {
             this->actor.speedXZ = 0.0f;
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);

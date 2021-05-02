@@ -217,7 +217,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
     this->camId = SUBCAM_NONE;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (!this->unk_194) {
             if (this->unk_1A8 == 0) {
                 this->actionFunc = func_80A91284;
@@ -238,7 +238,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 
                     if (player->stateFlags2 & 0x1000000) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
-                        globalCtx->msgCtx.msgMode = 0x37;
+                        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
                         this->dialogState = 5;
                         this->unk_1B8 = 0.0f;
                         func_8010B680(globalCtx, 0x40A4, NULL);
@@ -253,7 +253,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 
                     if (player->stateFlags2 & 0x1000000) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
-                        globalCtx->msgCtx.msgMode = 0x37;
+                        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
                         this->dialogState = 5;
                         this->unk_1B8 = 0.0f;
                         func_8010B680(globalCtx, 0x40A8, NULL);
@@ -273,7 +273,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 
 void func_80A915B8(EnKakasi3* this, GlobalContext* globalCtx) {
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         func_8010BD58(globalCtx, 0x2C);
         this->actionFunc = func_80A91620;
@@ -284,7 +284,7 @@ void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
-        (globalCtx->msgCtx.msgMode == 0)) {
+        (globalCtx->msgCtx.msgMode == MSGMODE_UNK_00)) {
 
         OnePointCutscene_EndCutscene(globalCtx, this->camId);
         if (globalCtx->cameraPtrs[this->camId] == NULL) {
@@ -297,7 +297,7 @@ void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == 0) {
+    if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
         this->dialogState = 5;
         func_8010B680(globalCtx, 0x40A5, NULL);
         func_8002DF54(globalCtx, NULL, 8);
@@ -315,8 +315,8 @@ void func_80A91760(EnKakasi3* this, GlobalContext* globalCtx) {
 
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
-    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
-        globalCtx->msgCtx.msgMode = 0x37;
+    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
         func_8010BD58(globalCtx, 0x2D);
         this->actionFunc = func_80A917FC;
         this->camId = OnePointCutscene_Init(globalCtx, 2280, -99, &this->actor, MAIN_CAM);
@@ -337,7 +337,7 @@ void func_80A917FC(EnKakasi3* this, GlobalContext* globalCtx) {
 
 void func_80A9187C(EnKakasi3* this, GlobalContext* globalCtx) {
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && Message_ShouldAdvance(globalCtx)) {
         func_80106CCC(globalCtx);
         func_8010BD58(globalCtx, 0x28);
         this->actionFunc = func_80A918E4;
@@ -352,7 +352,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.unk_E3EE);
     }
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
-        globalCtx->msgCtx.msgMode == 0) {
+        globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
 
         func_8010B680(globalCtx, 0x40A6, NULL);
         this->dialogState = 5;
@@ -363,7 +363,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == 0) {
+    if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) {
         globalCtx->msgCtx.unk_E3EE = 4;
         if (BREG(3) != 0) {
             osSyncPrintf("\n\n");
@@ -390,7 +390,7 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     func_8002DF54(globalCtx, NULL, 8);
 
-    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
+    if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         if (this->unk_195) {
             if (!(gSaveContext.eventChkInf[9] & 0x1000)) {
                 gSaveContext.eventChkInf[9] |= 0x1000;

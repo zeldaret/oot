@@ -245,7 +245,7 @@ void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
     if (this->unk_284 != 0) {
         SkelAnime_Update(&this->skelAnime);
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         if (this->unk_284 == 0) {
             this->actionFunc = func_80A5673C;
 
@@ -268,7 +268,7 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_266, this->actor.focus.pos);
     if (this->unk_282 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             func_80106CCC(globalCtx);
             gSaveContext.infTable[6] |= 0x1000;
             func_8002DF54(globalCtx, NULL, 8);
@@ -328,7 +328,7 @@ void func_80A56B40(EnHeishi4* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
             this->unk_284 = 1;
             this->actionFunc = func_80A563BC;

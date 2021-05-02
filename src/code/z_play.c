@@ -771,7 +771,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3542);
             }
 
-            if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == 0) &&
+            if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == MSGMODE_UNK_00) &&
                 (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE)) {
                 KaleidoSetup_Update(globalCtx);
             }
@@ -1041,7 +1041,7 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
         Interface_Draw(globalCtx);
     }
 
-    func_8010F58C(globalCtx);
+    Message_Draw(globalCtx);
 
     if (globalCtx->gameOverCtx.state != GAMEOVER_INACTIVE) {
         GameOver_FadeInLights(globalCtx);

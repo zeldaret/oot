@@ -38,7 +38,7 @@ glabel func_80AC5594
 /* 02954 80AC55F4 26060014 */  addiu   $a2, $s0, 0x0014           ## $a2 = 00000014
 /* 02958 80AC55F8 5440001D */  bnel    $v0, $zero, .L80AC5670     
 /* 0295C 80AC55FC 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 02960 80AC5600 0C041AF2 */  jal     func_80106BC8              
+/* 02960 80AC5600 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 02964 80AC5604 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02968 80AC5608 10400018 */  beq     $v0, $zero, .L80AC566C     
 /* 0296C 80AC560C 3C020001 */  lui     $v0, 0x0001                ## $v0 = 00010000

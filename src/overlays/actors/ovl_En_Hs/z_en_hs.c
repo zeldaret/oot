@@ -106,7 +106,7 @@ void EnHs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80A6E53C(EnHs* this, GlobalContext* globalCtx, u16 textId, EnHsActionFunc actionFunc) {
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         func_80A6E3A0(this, actionFunc);
         return 1;
     }
@@ -130,7 +130,7 @@ void func_80A6E5EC(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E630(EnHs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && Message_ShouldAdvance(globalCtx)) {
         func_80088AA0(180);
         func_80A6E3A0(this, func_80A6E6B0);
         gSaveContext.eventInf[1] &= ~1;
@@ -167,7 +167,7 @@ void func_80A6E740(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 func_80A6E3A0(this, func_80A6E740);
@@ -189,7 +189,7 @@ void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
 void func_80A6E8CC(EnHs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && Message_ShouldAdvance(globalCtx)) {
         func_8010B720(globalCtx, 0x10B3);
         func_80A6E3A0(this, func_80A6E7BC);
         Animation_Change(&this->skelAnime, &D_06000528, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000528), ANIMMODE_LOOP,
@@ -210,7 +210,7 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (func_8002F368(globalCtx) == 7) {
             player->actor.textId = 0x10B2;
             func_80A6E3A0(this, func_80A6E8CC);

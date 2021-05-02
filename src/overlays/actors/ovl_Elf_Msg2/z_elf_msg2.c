@@ -153,7 +153,7 @@ void ElfMsg2_WaitForTextClose(ElfMsg2* this, GlobalContext* globalCtx) {
  * Runs while Navi text is not up.
  */
 void ElfMsg2_WaitForTextRead(ElfMsg2* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextClose);
     }
 }

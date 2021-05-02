@@ -179,7 +179,7 @@ void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
         this->chasedEnNiw->path = 0;
     }
     Math_ApproachZeroF(&this->actor.speedXZ, 0.8f, 0.2f);
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x70EA) {
             this->unk_27A = 1;
         }

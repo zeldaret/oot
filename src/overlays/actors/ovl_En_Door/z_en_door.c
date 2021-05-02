@@ -224,7 +224,7 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
 }
 
 void EnDoor_WaitForCheck(EnDoor* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnDoor_Check;
     } else {
         func_8002F2CC(&this->actor, globalCtx, DOOR_CHECK_RANGE);

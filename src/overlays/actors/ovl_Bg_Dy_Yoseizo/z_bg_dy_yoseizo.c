@@ -406,7 +406,7 @@ void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCt
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->dialogState == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+    if ((this->dialogState == func_8010BDBC(&globalCtx->msgCtx)) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         Interface_ChangeAlpha(5);
         this->actionFunc = BgDyYoseizo_SetupHealPlayer_NoReward;
@@ -510,7 +510,7 @@ void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, GlobalContext* globalCt
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->dialogState == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+    if ((this->dialogState == func_8010BDBC(&globalCtx->msgCtx)) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->mouthState = 0;
         this->actionFunc = BgDyYoseizo_SetupSpinShrink;

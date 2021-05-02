@@ -132,7 +132,7 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 4:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     this->actor.textId = 0x2026;
                     EnCs_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
@@ -145,7 +145,7 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
             }
             break;
         case 6:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x2026) {
                     Player_UnsetMask(globalCtx);
                     Item_Give(globalCtx, ITEM_SOLD_OUT);
@@ -198,7 +198,7 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
         this->talkState = 1;
     } else if (this->talkState == 1) {
         this->talkState = EnCs_GetTalkState(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         if ((this->actor.textId == 0x2022) || ((this->actor.textId != 0x2022) && (this->actor.textId != 0x2028))) {
             EnCs_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
         }

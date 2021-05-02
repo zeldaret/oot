@@ -13,7 +13,7 @@ glabel EnDaiku_UpdateText
 /* 00564 809E3094 AE0201E4 */  sw      $v0, 0x01E4($s0)           ## 000001E4
 /* 00568 809E3098 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L809E309C:
-/* 0056C 809E309C 0C00BC65 */  jal     func_8002F194              
+/* 0056C 809E309C 0C00BC65 */  jal     Actor_IsTalking              
 /* 00570 809E30A0 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00574 809E30A4 10400004 */  beq     $v0, $zero, .L809E30B8     
 /* 00578 809E30A8 8FA4003C */  lw      $a0, 0x003C($sp)           

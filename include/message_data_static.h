@@ -7,13 +7,14 @@
 #define TEXT_ID(bank, id) (_SHIFTL(bank, 8, 8) | _SHIFTL(id, 0, 8))
 
 typedef enum {
-    BOX_BLACK,
-    BOX_WOODEN,
-    BOX_BLUE,
-    BOX_OCARINA,
-    BOX_NONE_BOTTOM,
-    BOX_NONE_NO_SHADOW,
-    BOX_CREDITS = 11
+    /*  0 */ BOX_BLACK,
+    /*  1 */ BOX_WOODEN,
+    /*  2 */ BOX_BLUE,
+    /*  3 */ BOX_OCARINA,
+    /*  4 */ BOX_NONE_BOTTOM,
+    /*  5 */ BOX_NONE_NO_SHADOW,
+
+    /* 11 */ BOX_CREDITS = 11
 } MessageBoxType;
 
 typedef enum {

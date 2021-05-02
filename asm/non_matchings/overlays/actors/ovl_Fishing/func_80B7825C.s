@@ -1161,7 +1161,7 @@ glabel L80B79158
 /* 0F7BC 80B7915C 914AA6D0 */  lbu     $t2, %lo(D_80B7A6D0)($t2)  
 /* 0F7C0 80B79160 15400011 */  bne     $t2, $zero, .L80B791A8     
 /* 0F7C4 80B79164 00000000 */  nop
-/* 0F7C8 80B79168 0C041AF2 */  jal     func_80106BC8              
+/* 0F7C8 80B79168 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0F7CC 80B7916C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0F7D0 80B79170 1040000D */  beq     $v0, $zero, .L80B791A8     
 /* 0F7D4 80B79174 240C0016 */  addiu   $t4, $zero, 0x0016         ## $t4 = 00000016
@@ -1353,7 +1353,7 @@ glabel L80B791B0
 /* 0FA8C 80B7942C 5440004B */  bnel    $v0, $zero, .L80B7955C     
 /* 0FA90 80B79430 8FA800E4 */  lw      $t0, 0x00E4($sp)           
 .L80B79434:
-/* 0FA94 80B79434 0C041AF2 */  jal     func_80106BC8              
+/* 0FA94 80B79434 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0FA98 80B79438 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0FA9C 80B7943C 10400046 */  beq     $v0, $zero, .L80B79558     
 /* 0FAA0 80B79440 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

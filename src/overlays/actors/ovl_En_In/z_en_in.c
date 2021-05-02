@@ -276,12 +276,12 @@ s16 func_80A79500(GlobalContext* globalCtx, Actor* thisx) {
         case 3:
             break;
         case 4:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 sp1E = func_80A7924C(globalCtx, thisx);
             }
             break;
         case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 sp1E = func_80A7949C(globalCtx, thisx);
             }
             break;
@@ -629,7 +629,7 @@ void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
         gSaveContext.infTable[10] &= ~4;
         func_800775F0(0x40);
         globalCtx->msgCtx.unk_E3E7 = 0;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -651,7 +651,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
         if (globalCtx->msgCtx.choiceIndex == 0) {
             if (gSaveContext.rupees < 50) {
                 globalCtx->msgCtx.unk_E3E7 = 4;
-                globalCtx->msgCtx.msgMode = 0x36;
+                globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
                 this->unk_308.unk_00 = 0;
                 return;
             }
@@ -675,7 +675,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
         func_80A79BAC(this, globalCtx, phi_a2, phi_a3);
         globalCtx->msgCtx.unk_E3E7 = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -693,7 +693,7 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x20;
         if (!(gSaveContext.eventInf[0] & 0x40)) {
             globalCtx->msgCtx.unk_E3E7 = 4;
-            globalCtx->msgCtx.msgMode = 0x36;
+            globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
         }
     }
 }
@@ -708,7 +708,7 @@ void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
             globalCtx->msgCtx.unk_E3E7 = 0;
-            globalCtx->msgCtx.msgMode = 0x36;
+            globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
         }
         this->unk_308.unk_00 = 0;
         gSaveContext.eventInf[0] &= ~0x20;
@@ -733,7 +733,7 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0002;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         globalCtx->msgCtx.unk_E3E7 = 0;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
         this->unk_308.unk_00 = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x40;
     }
@@ -803,7 +803,7 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
                 this->unk_308.unk_00 = 1;
                 func_80A796EC(this, 3);
             } else {
-                globalCtx->msgCtx.msgMode = 0x36;
+                globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
                 this->unk_308.unk_00 = 0;
             }
         }
@@ -858,7 +858,7 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A7B018;
     } else if (this->unk_308.unk_00 == 2) {
         globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -883,7 +883,7 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
         gSaveContext.eventInf[0] = gSaveContext.eventInf[0] & ~0xF;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
         this->unk_308.unk_00 = 0;
     }
 }
@@ -911,7 +911,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, globalCtx);
         if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->unk_308.unk_00 == 0) {
-            if (func_8002F194(&this->actor, globalCtx)) {}
+            if (Actor_IsTalking(&this->actor, globalCtx)) {}
         } else {
             func_800343CC(globalCtx, &this->actor, &this->unk_308.unk_00,
                           ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,

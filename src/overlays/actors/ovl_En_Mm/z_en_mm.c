@@ -231,7 +231,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
         case 3:
             break;
         case 4:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     player->actor.textId = 0x202D;
                     this->unk_254 &= ~1;
@@ -244,7 +244,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 Player_UnsetMask(globalCtx);
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
                 gSaveContext.itemGetInf[3] |= 0x800;
@@ -254,7 +254,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
             }
             break;
         case 6:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if ((player->actor.textId == 0x202E) || (player->actor.textId == 0x202C)) {
                     this->unk_254 |= 1;
                     EnMm_ChangeAnimation(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
@@ -298,7 +298,7 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
     } else if (this->unk_1E0 == 1) {
         this->unk_1E0 = func_80AADAA0(this, globalCtx);
     } else {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_IsTalking(&this->actor, globalCtx)) {
             this->unk_1E0 = 1;
 
             if (this->curAnimIndex != 5) {

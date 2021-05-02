@@ -208,7 +208,7 @@ void func_8001D25C(EnAObj* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.textId != 0) {
         var = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
         if ((ABS(var) < 0x2800) || ((this->dyna.actor.params == 0xA) && (ABS(var) > 0x5800))) {
-            if (func_8002F194(&this->dyna.actor, globalCtx)) {
+            if (Actor_IsTalking(&this->dyna.actor, globalCtx)) {
                 EnAObj_SetupAction(this, func_8001D204);
             } else {
                 func_8002F2F4(&this->dyna.actor, globalCtx);

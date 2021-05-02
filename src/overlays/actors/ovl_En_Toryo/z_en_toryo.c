@@ -161,12 +161,12 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
             ret = 1;
             break;
         case 4:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     func_80106CCC(globalCtx);
                     this->actor.parent = NULL;
                     player->exchangeItemId = EXCH_ITEM_NONE;
-                    globalCtx->msgCtx.msgMode = 0x37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
                     this->actor.textId = 0x601B;
                     ret = 3;
                 } else {
@@ -179,27 +179,27 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
             switch (this->actor.textId) {
                 case 0x5028:
                     ret = 1;
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx) != 0) {
                         gSaveContext.infTable[23] |= 4;
                         ret = 0;
                     }
                     break;
                 case 0x601B:
                     ret = 1;
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx) != 0) {
                         ret = 4;
                     }
                     break;
                 case 0x606F:
                     ret = 1;
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx) != 0) {
                         gSaveContext.infTable[23] |= 2;
                         ret = 0;
                     }
                     break;
                 case 0x606A:
                     ret = 1;
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx) != 0) {
                         gSaveContext.infTable[23] |= 1;
                         ret = 0;
                     }
@@ -210,7 +210,7 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                 case 0x606E:
                 default:
                     ret = 1;
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx) != 0) {
                         ret = 0;
                     }
                     break;
@@ -235,7 +235,7 @@ s32 func_80B205CC(EnToryo* this, GlobalContext* globalCtx) {
             ret = 5;
             break;
         case 6:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx) != 0) {
                 ret = 0;
             }
             break;
@@ -297,7 +297,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
     s16 sp30;
 
     if (this->unk_1E4 == 3) {
-        func_8002F194(&this->actor, globalCtx);
+        Actor_IsTalking(&this->actor, globalCtx);
         func_8010B720(globalCtx, this->actor.textId);
         this->unk_1E4 = 1;
     }
@@ -327,7 +327,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1E4 == 0) {
-        if (func_8002F194(&this->actor, globalCtx) != 0) {
+        if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
             this->unk_1E0 = func_8002F368(globalCtx);
             if (this->unk_1E0 != 0) {
                 player->actor.textId = func_80B20634(this, globalCtx);

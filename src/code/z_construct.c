@@ -181,10 +181,10 @@ void Message_Init(GlobalContext* globalCtx) {
 
     globalCtx->msgCtx.unk_E3EE = 0;
 
-    msgCtx->msgMode = 0;
+    msgCtx->msgMode = MSGMODE_UNK_00;
     msgCtx->unk_E300 = 0;
-    msgCtx->unk_E2F8 = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->unk_E3F0 = msgCtx->unk_E3D6 = 0;
-    msgCtx->unk_E3E2 = 0xFF;
+    msgCtx->textId = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->unk_E3F0 = msgCtx->unk_E3D6 = 0;
+    msgCtx->textColorAlpha = 255;
 
     View_Init(&msgCtx->view, globalCtx->state.gfxCtx);
 
@@ -260,8 +260,8 @@ void func_80111070(void) {
     YREG(75) = 0x18;
     YREG(76) = 0x20;
     YREG(77) = 0;
-    YREG(78) = 0;
-    YREG(79) = 0x30;
+    R_MESSAGE_DEBUGGER_SELECT = 0;
+    R_MESSAGE_DEBUGGER_TEXTID = 0x30;
     YREG(80) = 0x1C2;
     YREG(81) = 0;
     YREG(82) = -0xF;
@@ -551,12 +551,15 @@ void func_80111070(void) {
     VREG(30) = 0;
     VREG(31) = 0;
     VREG(32) = 0;
-    VREG(33) = 0x46;
-    VREG(34) = 0xFF;
-    VREG(35) = 0x50;
-    VREG(36) = 0x46;
-    VREG(37) = 0xFF;
-    VREG(38) = 0x50;
+
+    VREG(33) = 70;
+    VREG(34) = 255;
+    VREG(35) = 80;
+
+    VREG(36) = 70;
+    VREG(37) = 255;
+    VREG(38) = 80;
+
     VREG(40) = 9;
     VREG(42) = 0xFA;
     VREG(43) = 0x1B8;

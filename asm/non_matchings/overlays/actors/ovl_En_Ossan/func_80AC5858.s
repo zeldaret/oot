@@ -36,7 +36,7 @@ glabel func_80AC5858
 /* 02C10 80AC58B0 1441000F */  bne     $v0, $at, .L80AC58F0       
 /* 02C14 80AC58B4 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 02C18 80AC58B8 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 02C1C 80AC58BC 0C041AF2 */  jal     func_80106BC8              
+/* 02C1C 80AC58BC 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 02C20 80AC58C0 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 02C24 80AC58C4 1040000A */  beq     $v0, $zero, .L80AC58F0     
 /* 02C28 80AC58C8 8FA60018 */  lw      $a2, 0x0018($sp)           

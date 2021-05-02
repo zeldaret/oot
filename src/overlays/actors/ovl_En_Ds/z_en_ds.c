@@ -62,7 +62,7 @@ void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->actionFunc = EnDs_Wait;
     }
@@ -70,7 +70,7 @@ void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         this->actionFunc = EnDs_Talk;
     } else {
         this->actor.flags |= 0x10000;
@@ -98,7 +98,7 @@ void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_TalkAfterBrewOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->actionFunc = EnDs_GiveOddPotion;
         func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
@@ -142,13 +142,13 @@ void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx) {
 void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 this->actionFunc = EnDs_BrewOddPotion1;
                 this->brewTimer = 60;
                 Flags_SetSwitch(globalCtx, 0x3F);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_UNK_37;
                 player->exchangeItemId = EXCH_ITEM_NONE;
                 break;
             case 1: // no
@@ -178,7 +178,7 @@ void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 switch (EnDs_CheckRupeesAndBottle()) {
@@ -208,7 +208,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         if (func_8002F368(globalCtx) == EXCH_ITEM_ODD_MUSHROOM) {
             Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             player->actor.textId = 0x504A;

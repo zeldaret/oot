@@ -12,7 +12,7 @@ glabel func_80AC5C24
 /* 02FAC 80AC5C4C 1441000F */  bne     $v0, $at, .L80AC5C8C       
 /* 02FB0 80AC5C50 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 02FB4 80AC5C54 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 02FB8 80AC5C58 0C041AF2 */  jal     func_80106BC8              
+/* 02FB8 80AC5C58 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 02FBC 80AC5C5C AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 02FC0 80AC5C60 1040000A */  beq     $v0, $zero, .L80AC5C8C     
 /* 02FC4 80AC5C64 8FA60018 */  lw      $a2, 0x0018($sp)           

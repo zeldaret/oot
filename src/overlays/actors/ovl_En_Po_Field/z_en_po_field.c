@@ -648,7 +648,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         EnPoField_SetupInteractWithSoul(this);
         return;
     }
@@ -694,7 +694,7 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
         func_8002F974(&this->actor, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
     }
     if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
             if (globalCtx->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {

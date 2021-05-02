@@ -178,7 +178,7 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         EnGm_SetTextID(this);
         this->actionFunc = func_80A3DC44;
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = func_80A3DBF4;
     } else if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
@@ -187,7 +187,7 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3DBF4(EnGm* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = func_80A3DB04;
     }
 }
@@ -203,7 +203,7 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
     dx = this->talkPos.x - player->actor.world.pos.x;
     dz = this->talkPos.z - player->actor.world.pos.z;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         switch (func_80A3D7C8()) {
             case 0:
                 gSaveContext.infTable[11] |= 1;
@@ -229,17 +229,17 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
 void func_80A3DD7C(EnGm* this, GlobalContext* globalCtx) {
     u8 dialogState = func_8010BDBC(&globalCtx->msgCtx);
 
-    if ((dialogState == 6 || dialogState == 5) && func_80106BC8(globalCtx)) {
+    if ((dialogState == 6 || dialogState == 5) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = func_80A3DC44;
         if (dialogState == 5) {
-            globalCtx->msgCtx.msgMode = 0x36;
+            globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
             globalCtx->msgCtx.unk_E3E7 = 4;
         }
     }
 }
 
 void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < 200) {
@@ -268,7 +268,7 @@ void func_80A3DF00(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3DF60(EnGm* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && Message_ShouldAdvance(globalCtx)) {
         Rupees_ChangeBy(-200);
         this->actionFunc = func_80A3DC44;
     }

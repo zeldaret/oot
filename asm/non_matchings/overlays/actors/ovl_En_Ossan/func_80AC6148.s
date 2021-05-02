@@ -9,7 +9,7 @@ glabel func_80AC6148
 /* 034C4 80AC6164 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 034C8 80AC6168 54410010 */  bnel    $v0, $at, .L80AC61AC       
 /* 034CC 80AC616C 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 034D0 80AC6170 0C041AF2 */  jal     func_80106BC8              
+/* 034D0 80AC6170 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 034D4 80AC6174 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 034D8 80AC6178 1040000B */  beq     $v0, $zero, .L80AC61A8     
 /* 034DC 80AC617C 8FAF0018 */  lw      $t7, 0x0018($sp)           

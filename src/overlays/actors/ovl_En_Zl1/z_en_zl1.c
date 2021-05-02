@@ -153,7 +153,7 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
         if (func_8002F334(&this->actor, globalCtx)) {
             this->unk_1E6 = 0;
         }
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->unk_1E6 = 1;
     } else if (this->actor.world.pos.y <= player->actor.world.pos.y) {
         func_8002F2F4(&this->actor, globalCtx);
@@ -173,7 +173,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     Vec3f playerPos = { -398.0f, 84.0f, 0.0f };
     s16 rotDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         Animation_Change(&this->skelAnime, &D_06010B38, 1.0f, 0.0f, Animation_GetLastFrame(&D_06010B38),
                          ANIMMODE_ONCE_INTERP, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
@@ -237,7 +237,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 globalCtx->envCtx.unk_E1 = 0;
                 Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp74, &sp68);
                 Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 25.0f);
@@ -248,7 +248,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 2:
-            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
                     animHeaderSeg = &D_06013F10;
                     sp3C = 2;
@@ -271,7 +271,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 4:
-            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
                     animHeaderSeg = &D_060132D8;
                     sp3C = 2;
@@ -284,7 +284,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 this->actor.textId = 0x7033;
                 func_8010B720(globalCtx, this->actor.textId);
                 this->unk_1E2--;
@@ -301,14 +301,14 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 7:
-            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 this->actor.textId = 0x7030;
                 func_8010B720(globalCtx, this->actor.textId);
                 this->unk_1E2++;
             }
             break;
         case 8:
-            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
                     animHeaderSeg = &D_060138E0;
                     sp3C = 2;
@@ -486,7 +486,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
 
     switch (this->unk_1E2) {
         case 0:
-            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
                     this->actor.textId = 0x703B;
                     func_8010B720(globalCtx, this->actor.textId);
@@ -499,11 +499,11 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 this->actor.textId = 0xFFFF;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
-                globalCtx->msgCtx.msgMode = 0x36;
+                globalCtx->msgCtx.msgMode = MSGMODE_UNK_36;
                 globalCtx->msgCtx.unk_E3E7 = 4;
                 this->unk_1E2++;
             } else {
@@ -521,7 +521,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            if ((func_8010BDBC(msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 this->actor.textId = 0x703C;
                 func_8010B720(globalCtx, this->actor.textId);
                 Flags_SetEventChkInf(0x40);
@@ -532,7 +532,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             if (player->actor.world.pos.y < this->actor.world.pos.y) {
                 break;
             } else {
-                if (func_8002F194(&this->actor, globalCtx)) {
+                if (Actor_IsTalking(&this->actor, globalCtx)) {
                     this->unk_1E2++;
                 } else {
                     func_8002F2F4(&this->actor, globalCtx);

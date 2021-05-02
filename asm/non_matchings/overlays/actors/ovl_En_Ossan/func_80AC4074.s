@@ -35,7 +35,7 @@ glabel func_80AC4074
 /* 01418 80AC40B8 26060014 */  addiu   $a2, $s0, 0x0014           ## $a2 = 00000014
 /* 0141C 80AC40BC 54400054 */  bnel    $v0, $zero, .L80AC4210     
 /* 01420 80AC40C0 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 01424 80AC40C4 0C041AF2 */  jal     func_80106BC8              
+/* 01424 80AC40C4 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 01428 80AC40C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0142C 80AC40CC 1040004F */  beq     $v0, $zero, .L80AC420C     
 /* 01430 80AC40D0 3C020001 */  lui     $v0, 0x0001                ## $v0 = 00010000
@@ -63,7 +63,7 @@ glabel func_80AC4074
 /* 0147C 80AC411C 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 01480 80AC4120 5441003B */  bnel    $v0, $at, .L80AC4210       
 /* 01484 80AC4124 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 01488 80AC4128 0C041AF2 */  jal     func_80106BC8              
+/* 01488 80AC4128 0C041AF2 */  jal     Message_ShouldAdvance              
 /* 0148C 80AC412C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01490 80AC4130 50400037 */  beql    $v0, $zero, .L80AC4210     
 /* 01494 80AC4134 8FBF001C */  lw      $ra, 0x001C($sp)           

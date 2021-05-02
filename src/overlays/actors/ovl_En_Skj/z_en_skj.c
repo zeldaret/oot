@@ -966,17 +966,17 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
 
     // Played a song thats not Saria's song
     if (!(gSaveContext.itemGetInf[1] & 0x40) &&
-        ((globalCtx->msgCtx.msgMode == 0xE) || (globalCtx->msgCtx.msgMode == 0xF))) {
+        ((globalCtx->msgCtx.msgMode == MSGMODE_UNK_0E) || (globalCtx->msgCtx.msgMode == MSGMODE_UNK_0F))) {
         globalCtx->msgCtx.unk_E3EE = 4;
         func_80106CCC(globalCtx);
         player->unk_6A8 = &this->actor;
         func_8002F2CC(&this->actor, globalCtx, EnSkj_GetItemXzRange(this));
         EnSkj_SetupWrongSong(this);
     } else {
-        if ((globalCtx->msgCtx.msgMode == 0xD) && (this->unk_2D6 == 0)) {
+        if ((globalCtx->msgCtx.msgMode == MSGMODE_UNK_0D) && (this->unk_2D6 == 0)) {
             this->unk_2D6 = 1;
             EnSkj_ChangeAnim(this, SKJ_ANIM_PLAY_FLUTE);
-        } else if ((this->unk_2D6 != 0) && (globalCtx->msgCtx.msgMode == 0x1A)) {
+        } else if ((this->unk_2D6 != 0) && (globalCtx->msgCtx.msgMode == MSGMODE_UNK_1A)) {
             this->unk_2D6 = 0;
             EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
         }
@@ -1043,7 +1043,7 @@ void EnSkj_SetupTalk(EnSkj* this) {
 void EnSkj_SariaSongTalk(EnSkj* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
         if (gSaveContext.itemGetInf[1] & 0x40) {
             EnSkj_SetupWaitInRange(this);
         } else {
@@ -1072,7 +1072,7 @@ void EnSkj_SetupPostSariasSong(EnSkj* this) {
 }
 
 void EnSkj_ChangeModeAfterSong(EnSkj* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
         gSaveContext.itemGetInf[1] |= 0x40;
         EnSkj_SetNaviId(this);
         EnSkj_SetupWaitInRange(this);
@@ -1087,7 +1087,7 @@ void EnSkj_StartMaskTrade(EnSkj* this, GlobalContext* globalCtx) {
     u8 sp1F = func_8010BDBC(&globalCtx->msgCtx);
 
     func_8002DF54(globalCtx, &this->actor, 1);
-    if ((sp1F == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((sp1F == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
         EnSkj_JumpFromStump(this);
     }
 }
@@ -1148,7 +1148,7 @@ void EnSkj_SetupAskForMask(EnSkj* this, GlobalContext* globalCtx) {
 
 void EnSkj_AskForMask(EnSkj* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (Message_ShouldAdvance(globalCtx) != 0) {
             switch (globalCtx->msgCtx.choiceIndex) {
                 case 0: // Yes
                     EnSkj_SetupTakeMask(this, globalCtx);
@@ -1168,7 +1168,7 @@ void EnSkj_SetupTakeMask(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_TakeMask(EnSkj* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
         Rupees_ChangeBy(10);
         gSaveContext.itemGetInf[3] |= 0x200;
         EnSkj_SetNaviId(this);
@@ -1184,7 +1184,7 @@ void EnSkj_SetupWaitForMaskTextClear(EnSkj* this) {
 }
 
 void EnSkj_WaitForMaskTextClear(EnSkj* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
         func_8002DF54(globalCtx, &this->actor, 7);
         this->backfilpFlag = 1;
         EnSkj_Backflip(this);
@@ -1213,7 +1213,7 @@ void EnSkj_SariasSongWaitForTextClear(EnSkj* this, GlobalContext* globalCtx) {
     u8 state = func_8010BDBC(&globalCtx->msgCtx);
     Player* player = PLAYER;
 
-    if (state == 6 && func_80106BC8(globalCtx)) {
+    if (state == 6 && Message_ShouldAdvance(globalCtx)) {
         EnSkj_SetupWaitInRange(this);
         player->stateFlags2 |= 0x800000;
         player->unk_6A8 = (Actor*)sSmallStumpSkullKid.skullkid;
@@ -1300,7 +1300,7 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSkj* this = THIS;
 
-    D_80B01EA0 = func_8002F194(&this->actor, globalCtx);
+    D_80B01EA0 = Actor_IsTalking(&this->actor, globalCtx);
 
     this->timer++;
 
@@ -1356,7 +1356,7 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
     EnSkj* this = THIS;
 
-    D_80B01EA0 = func_8002F194(&this->actor, globalCtx);
+    D_80B01EA0 = Actor_IsTalking(&this->actor, globalCtx);
 
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
@@ -1490,7 +1490,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     this->songFailTimer = 160;
                     func_800ED858(6); // related instrument sound (flute?)
                     func_800ED93C(0xE, 1);
-                    globalCtx->msgCtx.msgMode = 0x2A;
+                    globalCtx->msgCtx.msgMode = MSGMODE_UNK_2A;
                     globalCtx->msgCtx.unk_E3E7 = 2;
                 }
                 break;
@@ -1507,7 +1507,7 @@ void EnSkj_FailedMiniGame(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_WaitForNextRound(EnSkj* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && Message_ShouldAdvance(globalCtx)) {
         EnSkj_OfferNextRound(this, globalCtx);
     }
 }
@@ -1520,7 +1520,7 @@ void EnSkj_OfferNextRound(EnSkj* this, GlobalContext* globalCtx) {
 void EnSkj_WaitForOfferResponse(EnSkj* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 player = PLAYER;
@@ -1543,7 +1543,7 @@ void EnSkj_WonOcarinaMiniGame(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_WaitToGiveReward(EnSkj* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx))) {
         func_8002F434(&this->actor, globalCtx, sOcarinaGameRewards[gSaveContext.ocarinaGameReward], 26.0f, 26.0f);
         this->actionFunc = EnSkj_GiveOcarinaGameReward;
     }
@@ -1559,7 +1559,7 @@ void EnSkj_GiveOcarinaGameReward(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_FinishOcarinaGameRound(EnSkj* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx))) {
         s32 ocarinaGameReward = gSaveContext.ocarinaGameReward;
 
         if (gSaveContext.ocarinaGameReward < 3) {
@@ -1594,7 +1594,7 @@ void EnSkj_CleanupOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
 void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
     EnSkj* this = THIS;
 
-    D_80B01EA0 = func_8002F194(&this->actor, globalCtx);
+    D_80B01EA0 = Actor_IsTalking(&this->actor, globalCtx);
     this->timer++;
 
     this->actor.focus.pos.x = 1230.0f;
