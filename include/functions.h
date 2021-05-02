@@ -1434,7 +1434,10 @@ s32 func_800AB944(View* view);
 s32 func_800AB9EC(View* view, s32 arg1, Gfx** p);
 s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ);
 void ViMode_LogPrint(OSViMode *viMode);
-void ViMode_Configure(ViMode * viMode, s32 mode, s32 tvType, u32 flagTop, u32 flagBottom, u32 flagLeft, u32 flagRight, u32 width, u32 height, s32 adjLeft, s32 adjRight, s32 adjTop, s32 adjBottom);
+void ViMode_Configure(ViMode *viMode, u32 mode, u32 type,
+                    u32 unk_70, u32 unk_74, u32 unk_78, u32 unk_7C,
+                    s32 width, s32 height,
+                    s32 unk_left, s32 unk_right, s32 unk_top, s32 unk_bottom);
 void ViMode_Save(ViMode *viMode);
 void ViMode_Load(ViMode *viMode);
 void ViMode_Init(ViMode *viMode);
