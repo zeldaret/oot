@@ -618,7 +618,7 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
             break;
     }
 
-    // Draws an highlight on the selected section
+    // Draws a highlight on the selected section
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
@@ -635,7 +635,7 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
                          sSectionPositions[curSection][0] + 24, sSectionPositions[curSection][1] + 16);
     }
 
-    // Handles exiting the inventory editor with the L trigger
+    // Handles exiting the inventory editor with the L button
     // The editor is opened with `debugState` set to 1, and becomes closable after a frame once `debugState` is set to 2
     if (pauseCtx->debugState == 1) {
         pauseCtx->debugState = 2;
