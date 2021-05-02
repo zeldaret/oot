@@ -434,7 +434,7 @@ typedef struct {
     /* 0x08 */ u32 vromEnd;
     /* 0x0C */ void* vramStart;
     /* 0x10 */ void* vramEnd;
-    /* 0x14 */ u32 off; // loadedRamAddr - vramStart
+    /* 0x14 */ u32 offset; // loadedRamAddr - vramStart
     /* 0x18 */ const char* name;
 } KaleidoMgrOverlay; // size = 0x1C
 

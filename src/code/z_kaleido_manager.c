@@ -28,13 +28,13 @@ void KaleidoManager_LoadOvl(KaleidoMgrOverlay* ovl) {
                  (u32)ovl->vramStart - (u32)ovl->loadedRamAddr, ovl->name);
     osSyncPrintf(VT_RST);
 
-    ovl->off = (u32)ovl->loadedRamAddr - (u32)ovl->vramStart;
+    ovl->offset = (u32)ovl->loadedRamAddr - (u32)ovl->vramStart;
     gKaleidoMgrCurOvl = ovl;
 }
 
 void KaleidoManager_ClearOvl(KaleidoMgrOverlay* ovl) {
     if (ovl->loadedRamAddr != NULL) {
-        ovl->off = 0;
+        ovl->offset = 0;
         bzero(ovl->loadedRamAddr, (u32)ovl->vramEnd - (u32)ovl->vramStart);
         ovl->loadedRamAddr = NULL;
         gKaleidoMgrCurOvl = NULL;
@@ -102,5 +102,5 @@ KaleidoManager_GetRamAddr_end:
         return NULL;
     }
 
-    return (void*)((u32)vram + ovl->off);
+    return (void*)((u32)vram + ovl->offset);
 }
