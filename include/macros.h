@@ -16,6 +16,7 @@
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
+#define MEDIAN3(a1, a2, a3) ((a2 >= a1) ? ((a3 >= a2) ? a2 : ((a1 >= a3) ? a1 : a3)) : ((a2 >= a3) ? a2 : ((a3 >= a1) ? a1 : a3)))
 
 #define RGBA8(r, g, b, a) (((r & 0xFF) << 24) | ((g & 0xFF) << 16) | ((b & 0xFF) << 8) | ((a & 0xFF) << 0))
 
@@ -75,8 +76,10 @@
 #define LOG_FLOAT(exp, value, file, line) LOG(exp, value, "%f", file, line)
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
-    (curState)->init = newInit;                          \
-    (curState)->size = sizeof(newStruct)
+    do {                                                 \
+        (curState)->init = newInit;                      \
+        (curState)->size = sizeof(newStruct);            \
+    } while (0)
 
 #define SET_FULLSCREEN_VIEWPORT(view)      \
     {                                      \
@@ -103,6 +106,7 @@ extern GraphicsContext* __gfxCtx;
         GraphicsContext* __gfxCtx;     \
         Gfx* dispRefs[4];              \
         __gfxCtx = gfxCtx;             \
+        (void)__gfxCtx;                \
         Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
 #define CLOSE_DISPS(gfxCtx, file, line)                 \
@@ -124,5 +128,13 @@ extern GraphicsContext* __gfxCtx;
 #define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a } } }
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
+
+#ifdef NDEBUG
+#define ASSERT(cond, msg, file, line) ((void)0)
+#elif defined(REAL_ASSERT_MACRO)
+#define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(#cond, __FILE__, __LINE__))
+#else
+#define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(msg, file, line))
+#endif
 
 #endif

@@ -115,7 +115,7 @@ s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
     }
 
     if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &player->actor.world.pos, &collisionPos,
-                                &poly, 1, 0, 0, 1, &bgId)) {
+                                &poly, true, false, false, true, &bgId)) {
         return false;
     }
 
@@ -249,7 +249,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->actor.scale.x, 0.024999999f, 0.08f, 0.6f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
         if (this->actor.colorFilterTimer == 0) {
-            func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->explosionTimer);
+            Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->explosionTimer);
             this->explosionTimer--;
         }
 
@@ -267,7 +267,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         }
     } else {
         if (!(this->actor.bgCheckFlags & 1) || this->actor.velocity.y > 0.0f) {
-            func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->damageTimer);
+            Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->damageTimer);
             return;
         }
         DECR(this->damageTimer);
@@ -399,7 +399,7 @@ void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFw_UpdateDust(this);
     Matrix_Push();
     EnFw_DrawDust(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);

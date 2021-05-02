@@ -158,7 +158,7 @@ void DemoKekkai_SpawnParticles(DemoKekkai* this, GlobalContext* globalCtx) {
 }
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, GlobalContext* globalCtx) {
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[0] != NULL) &&
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[0] != NULL) &&
         (globalCtx->csCtx.npcActions[0]->action != 1) && (globalCtx->csCtx.npcActions[0]->action == 2)) {
         if (!(this->sfxFlag & 1)) {
             func_800F3F3C(0xC);
@@ -298,7 +298,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, GlobalContext* globalCtx2) {
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, frames * 5, frames * -10, 0x20, 0x20, 1, frames * 5,
                                     frames * -10, 0x20, 0x20));
         gSPDisplayList(POLY_XLU_DISP++, gTrialBarrierOrbDL);
-        Matrix_Pull();
+        Matrix_Pop();
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kekkai.c", 656),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_XLU_DISP++);

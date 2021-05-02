@@ -54,7 +54,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 isPositionInit;
     /* 0x01 */ u8 isLoaded;
-    /* 0x02 */ u8 giIndex;
+    /* 0x02 */ u8 drawId;
     /* 0x04 */ s16 rotation;
 } DemoEffectGetItem;
 

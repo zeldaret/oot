@@ -84,7 +84,7 @@ void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
         Actor_SetFocus(&this->dyna.actor, 50.0f);
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         this->actionFunc = func_808AE630;
         this->dyna.actor.speedXZ = 0.5f;
     }
@@ -92,7 +92,8 @@ void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
 
 void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
     this->dyna.actor.speedXZ *= 1.5f;
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speedXZ) != 0) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speedXZ) !=
+        0) {
         Actor_Kill(&this->dyna.actor);
     }
 }

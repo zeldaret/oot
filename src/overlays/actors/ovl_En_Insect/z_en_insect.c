@@ -583,7 +583,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
 
     if (!this->soilActor->actor.params) {}
 
-    D_80A7DEB0 += 0.0033333332f;
+    D_80A7DEB0 += 0.99999994f / 300.0f;
     if (D_80A7DEB0 > 1.0f) {
         D_80A7DEB0 = 1.0f;
     }
@@ -671,7 +671,8 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
                 temp_a0 = ((this->soilActor->actor.params >> 8) & 0x1F) - 1;
                 temp_a1 = temp_a0 & 3;
 
-                if ((((gSaveContext.gsFlags[temp_a0 >> 2] & D_8012723C[temp_a1]) >> D_8012724C[temp_a1]) &
+                if ((((gSaveContext.gsFlags[temp_a0 >> 2] & gGoldSkullFlgMask[temp_a1]) >>
+                      gGoldSkullFlgShift[temp_a1]) &
                      (this->soilActor->actor.params & 0xFF)) == 0) {
                     func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 }

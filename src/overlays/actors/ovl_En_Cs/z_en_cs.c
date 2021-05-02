@@ -215,7 +215,8 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
     } else {
         func_8002F374(globalCtx, &this->actor, &sp2A, &sp28);
 
-        if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) && (func_8002F2CC(&this->actor, globalCtx, 100.0f))) {
+        if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) &&
+            (func_8002F2CC(&this->actor, globalCtx, 100.0f))) {
             this->actor.textId = EnCs_GetTextID(this, globalCtx);
         }
     }
@@ -474,7 +475,7 @@ void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_Translate(0.0f, -200.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(0.0f, MTXMODE_APPLY);
         Matrix_RotateX(0.0f, MTXMODE_APPLY);
-        Matrix_RotateZ(1.7453293f, MTXMODE_APPLY);
+        Matrix_RotateZ(1.7453293f, MTXMODE_APPLY); // close to 5 * M_PI / 9
         Matrix_Get(&this->spookyMaskMtx);
     }
 }

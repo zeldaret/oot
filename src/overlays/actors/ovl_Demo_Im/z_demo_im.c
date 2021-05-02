@@ -142,7 +142,7 @@ void func_80984C68(DemoIm* this) {
 void func_80984C8C(DemoIm* this, GlobalContext* globalCtx) {
     u32* something = &D_8098783C;
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         if (*something != 0) {
             if (this->actor.params == 2) {
                 func_80984C68(this);
@@ -227,7 +227,7 @@ s32 func_80985060(DemoIm* this) {
 }
 
 s32 func_80985080(GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         return 1;
     }
     return 0;
@@ -349,7 +349,7 @@ void func_8098544C(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_809854DC(DemoIm* this, GlobalContext* globalCtx) {
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[5] != NULL) &&
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[5] != NULL) &&
         (globalCtx->csCtx.npcActions[5]->action == 2)) {
         Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), ANIMMODE_LOOP,
                          0.0f);
@@ -367,7 +367,7 @@ void func_8098557C(DemoIm* this) {
 }
 
 void func_809855A8(DemoIm* this, GlobalContext* globalCtx) {
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[5] != NULL) &&
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[5] != NULL) &&
         (globalCtx->csCtx.npcActions[5]->action == 3)) {
         Animation_Change(&this->skelAnime, &D_06000710, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000710), ANIMMODE_ONCE,
                          4.0f);
@@ -384,7 +384,7 @@ void func_80985640(DemoIm* this, s32 arg1) {
 }
 
 void func_809856AC(DemoIm* this, GlobalContext* globalCtx) {
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[6] != NULL) &&
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[6] != NULL) &&
         (globalCtx->csCtx.npcActions[6]->action == 2)) {
         this->action = 6;
         func_809853B4(this, globalCtx);
@@ -1163,7 +1163,7 @@ s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     if ((*unk_2D0 != 0) && (limbIndex == 15)) {
         *dList = D_0600EDE8;
     }
-    
+
     return false;
 }
 
@@ -1202,8 +1202,8 @@ void func_80987658(DemoIm* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, DemoIm_OverrideLimbDraw,
-                          DemoIm_PostLimbDraw, this);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
+                          DemoIm_OverrideLimbDraw, DemoIm_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_im.c", 925);
 }

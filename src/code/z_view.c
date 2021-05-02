@@ -52,7 +52,7 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     view->eye.z = -1.0f;
 
     if (D_8012ABF0) {
-        if (&D_8012ABF0) {}
+        if (D_8012ABF0 == 0) {}
         osSyncPrintf("\nview: initialize ---\n");
         D_8012ABF0 = false;
     }
@@ -132,9 +132,7 @@ void func_800AA550(View* view) {
     s32 uly;
     s32 lrx;
     s32 lry;
-    GraphicsContext* gfxCtx;
-
-    gfxCtx = view->gfxCtx;
+    GraphicsContext* gfxCtx = view->gfxCtx;
 
     varY = ShrinkWindow_GetCurrentVal();
 
@@ -159,18 +157,10 @@ void func_800AA550(View* view) {
     lrx = view->viewport.rightX - varX;
     lry = view->viewport.bottomY - varY;
 
-    if (ulx < 0) {
-        __assert("ulx >= 0", "../z_view.c", 454);
-    }
-    if (uly < 0) {
-        __assert("uly >= 0", "../z_view.c", 455);
-    }
-    if (lrx > SCREEN_WIDTH) {
-        __assert("lrx <= SCREEN_WD", "../z_view.c", 456);
-    }
-    if (lry > SCREEN_HEIGHT) {
-        __assert("lry <= SCREEN_HT", "../z_view.c", 457);
-    }
+    ASSERT(ulx >= 0, "ulx >= 0", "../z_view.c", 454);
+    ASSERT(uly >= 0, "uly >= 0", "../z_view.c", 455);
+    ASSERT(lrx <= SCREEN_WIDTH, "lrx <= SCREEN_WD", "../z_view.c", 456);
+    ASSERT(lry <= SCREEN_HEIGHT, "lry <= SCREEN_HT", "../z_view.c", 457);
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 459);
 
@@ -276,9 +266,7 @@ s32 func_800AAA9C(View* view) {
     Vp* vp;
     Mtx* projection;
     Mtx* viewing;
-    GraphicsContext* gfxCtx;
-
-    gfxCtx = view->gfxCtx;
+    GraphicsContext* gfxCtx = view->gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 596);
 
@@ -377,9 +365,7 @@ s32 func_800AAA9C(View* view) {
 s32 func_800AB0A8(View* view) {
     Vp* vp;
     Mtx* projection;
-    GraphicsContext* gfxCtx;
-
-    gfxCtx = view->gfxCtx;
+    GraphicsContext* gfxCtx = view->gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 726);
 
@@ -456,9 +442,7 @@ s32 func_800AB560(View* view) {
     Vp* vp;
     Mtx* projection;
     Mtx* viewing;
-    GraphicsContext* gfxCtx;
-
-    gfxCtx = view->gfxCtx;
+    GraphicsContext* gfxCtx = view->gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 816);
 

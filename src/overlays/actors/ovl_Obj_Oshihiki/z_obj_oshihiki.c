@@ -6,6 +6,7 @@
 
 #include "z_obj_oshihiki.h"
 #include "overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -24,12 +25,6 @@ void ObjOshihiki_SetupPush(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_Push(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_SetupFall(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_05004E98;
-extern UNK_TYPE D_05003350;
-extern UNK_TYPE D_05003B50;
-extern UNK_TYPE D_05004350;
-extern Gfx D_05004CD0[];
 
 const ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
@@ -216,7 +211,7 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, GlobalContext* globalCtx) {
         case PUSHBLOCK_MEDIUM_START_OFF:
         case PUSHBLOCK_LARGE_START_OFF:
         case PUSHBLOCK_HUGE_START_OFF:
-            ObjOshihiki_InitDynapoly(this, globalCtx, &D_05004E98, 1);
+            ObjOshihiki_InitDynapoly(this, globalCtx, &gPushBlockCol, 1);
             break;
         default:
             // Error : type cannot be determined
@@ -236,15 +231,15 @@ void ObjOshihiki_SetTexture(ObjOshihiki* this, GlobalContext* globalCtx) {
         case PUSHBLOCK_MEDIUM_START_ON:
         case PUSHBLOCK_SMALL_START_OFF:
         case PUSHBLOCK_MEDIUM_START_OFF:
-            this->texture = &D_05003350;
+            this->texture = gPushBlockSilverTex;
             break;
         case PUSHBLOCK_LARGE_START_ON:
         case PUSHBLOCK_LARGE_START_OFF:
-            this->texture = &D_05003B50;
+            this->texture = gPushBlockBaseTex;
             break;
         case PUSHBLOCK_HUGE_START_ON:
         case PUSHBLOCK_HUGE_START_OFF:
-            this->texture = &D_05004350;
+            this->texture = gPushBlockGrayTex;
             break;
     }
 }
@@ -433,12 +428,12 @@ s32 ObjOshihiki_CheckWall(GlobalContext* globalCtx, s16 angle, f32 direction, Ob
         faceVtxNext.x = faceVtx.x + maxDist * sn;
         faceVtxNext.y = faceVtx.y;
         faceVtxNext.z = faceVtx.z + maxDist * cs;
-        if (BgCheck_EntityLineTest3(&globalCtx->colCtx, &faceVtx, &faceVtxNext, &posResult, &outPoly, 1, 0, 0, 1, &bgId,
-                                    &this->dyna.actor, 0.0f)) {
-            return 1;
+        if (BgCheck_EntityLineTest3(&globalCtx->colCtx, &faceVtx, &faceVtxNext, &posResult, &outPoly, true, false,
+                                    false, true, &bgId, &this->dyna.actor, 0.0f)) {
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 s32 ObjOshihiki_MoveWithBlockUnder(ObjOshihiki* this, GlobalContext* globalCtx) {
@@ -457,12 +452,12 @@ s32 ObjOshihiki_MoveWithBlockUnder(ObjOshihiki* this, GlobalContext* globalCtx) 
             this->dyna.actor.world.pos.x += this->underDistX;
             this->dyna.actor.world.pos.z += this->underDistZ;
             ObjOshihiki_UpdateInitPos(this);
-            return 1;
+            return true;
         } else if (!(this->blockUnder->stateFlags & PUSHBLOCK_SETUP_PUSH)) {
             this->blockUnder = NULL;
         }
     }
-    return 0;
+    return false;
 }
 
 void ObjOshihiki_SetupOnScene(ObjOshihiki* this, GlobalContext* globalCtx) {
@@ -495,9 +490,7 @@ void ObjOshihiki_OnScene(ObjOshihiki* this, GlobalContext* globalCtx) {
 void ObjOshihiki_SetupOnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
     this->stateFlags |= PUSHBLOCK_SETUP_ON_ACTOR;
     this->actionFunc = ObjOshihiki_OnActor;
-    this->dyna.actor.velocity.z = 0.0f;
-    this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.velocity.x = 0.0f;
+    this->dyna.actor.velocity.x = this->dyna.actor.velocity.y = this->dyna.actor.velocity.z = 0.0f;
     this->dyna.actor.gravity = -1.0f;
 }
 
@@ -690,6 +683,6 @@ void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    gSPDisplayList(POLY_OPA_DISP++, &D_05004CD0);
+    gSPDisplayList(POLY_OPA_DISP++, &gPushBlockDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1334);
 }

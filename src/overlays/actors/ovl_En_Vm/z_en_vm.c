@@ -406,7 +406,7 @@ void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.colChkInfo.health != 0) {
-        func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
         EnVm_SetupStun(this);
     } else {
         bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.world.pos.x,

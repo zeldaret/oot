@@ -70,9 +70,7 @@ void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC,
     gDPPipeSync(POLY_OPA_DISP++);
 
     vtxTbl = Graph_Alloc(gfxCtx, 3 * sizeof(Vtx));
-    if (vtxTbl == NULL) {
-        __assert("vtx_tbl != NULL", "../z_collision_check.c", 726);
-    }
+    ASSERT(vtxTbl != NULL, "vtx_tbl != NULL", "../z_collision_check.c", 726);
 
     vtxTbl[0].n.ob[0] = vA->x;
     vtxTbl[0].n.ob[1] = vA->y;
@@ -457,10 +455,8 @@ s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* ac
     Collider_SetBase(globalCtx, &dest->base, actor, &src->base);
     dest->count = src->count;
     dest->elements = elements;
+    ASSERT(dest->elements != NULL, "pclobj_jntsph->elem_tbl != NULL", "../z_collision_check.c", 1603);
 
-    if (dest->elements == NULL) {
-        __assert("pclobj_jntsph->elem_tbl != NULL", "../z_collision_check.c", 1603);
-    }
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
          destElem++, srcElem++) {
         Collider_InitJntSphElement(globalCtx, destElem);
@@ -798,10 +794,7 @@ s32 Collider_SetTris(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor,
     Collider_SetBase(globalCtx, &dest->base, actor, &src->base);
     dest->count = src->count;
     dest->elements = elements;
-
-    if (dest->elements == NULL) {
-        __assert("pclobj_tris->elem_tbl != NULL", "../z_collision_check.c", 2258);
-    }
+    ASSERT(dest->elements != NULL, "pclobj_tris->elem_tbl != NULL", "../z_collision_check.c", 2258);
 
     for (destElem = dest->elements, srcElem = src->elements; destElem < dest->elements + dest->count;
          destElem++, srcElem++) {
@@ -1189,12 +1182,10 @@ static ColChkResetFunc sATResetFuncs[] = {
 s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
-    if (!(collider->shape <= COLSHAPE_QUAD)) {
-        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 2997);
-    }
+    ASSERT(collider->shape <= COLSHAPE_QUAD, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 2997);
     sATResetFuncs[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
@@ -1219,11 +1210,8 @@ s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChk
  */
 s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
                              s32 index) {
-
-    if (!(collider->shape <= COLSHAPE_QUAD)) {
-        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3037);
-    }
-    if (func_800C0D28(globalCtx) == 1) {
+    ASSERT(collider->shape <= COLSHAPE_QUAD, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3037);
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
     sATResetFuncs[collider->shape](globalCtx, collider);
@@ -1263,12 +1251,10 @@ static ColChkResetFunc sACResetFuncs[] = {
 s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
-    if (!(collider->shape <= COLSHAPE_QUAD)) {
-        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3114);
-    }
+    ASSERT(collider->shape <= COLSHAPE_QUAD, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3114);
     sACResetFuncs[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
@@ -1293,11 +1279,8 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChk
  */
 s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
                              s32 index) {
-
-    if (!(collider->shape <= COLSHAPE_QUAD)) {
-        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3153);
-    }
-    if (func_800C0D28(globalCtx) == 1) {
+    ASSERT(collider->shape <= COLSHAPE_QUAD, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3153);
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
     sACResetFuncs[collider->shape](globalCtx, collider);
@@ -1337,12 +1320,12 @@ static ColChkResetFunc sOCResetFuncs[] = {
 s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
-    if (!(collider->shape <= COLSHAPE_QUAD)) {
-        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3229);
-    }
+
+    ASSERT(collider->shape <= COLSHAPE_QUAD, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3229);
+
     sOCResetFuncs[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
@@ -1367,13 +1350,10 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChk
  */
 s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
                              s32 index) {
-
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
-    if (!(collider->shape <= COLSHAPE_QUAD)) {
-        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3274);
-    }
+    ASSERT(collider->shape <= COLSHAPE_QUAD, "pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3274);
     sOCResetFuncs[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
@@ -1405,7 +1385,7 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
 s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, OcLine* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
     Collider_ResetLineOC(globalCtx, collider);
@@ -1591,9 +1571,8 @@ void CollisionCheck_RedBloodUnused(GlobalContext* globalCtx, Collider* collider,
  * Plays sound effects and displays hitmarks for solid-type AC colliders (METAL, WOOD, HARD, and TREE)
  */
 void CollisionCheck_HitSolid(GlobalContext* globalCtx, ColliderInfo* info, Collider* collider, Vec3f* hitPos) {
-    s32 flags;
+    s32 flags = info->toucherFlags & TOUCH_SFX_NONE;
 
-    flags = info->toucherFlags & TOUCH_SFX_NONE;
     if (flags == TOUCH_SFX_NORMAL && collider->colType != COLTYPE_METAL) {
         EffectSsHitMark_SpawnFixedScale(globalCtx, EFFECT_HITMARK_WHITE, hitPos);
         if (collider->actor == NULL) {
@@ -1715,7 +1694,6 @@ void CollisionCheck_SetBounce(Collider* at, Collider* ac) {
  */
 s32 CollisionCheck_SetATvsAC(GlobalContext* globalCtx, Collider* at, ColliderInfo* atInfo, Vec3f* atPos, Collider* ac,
                              ColliderInfo* acInfo, Vec3f* acPos, Vec3f* hitPos) {
-
     if (ac->acFlags & AC_HARD && at->actor != NULL && ac->actor != NULL) {
         CollisionCheck_SetBounce(at, ac);
     }
@@ -2258,7 +2236,6 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
 
 static s8 sBssDummy0;
 static s8 sBssDummy1;
-static s8 sBssDummy2;
 
 /**
  * AC overlap check. Calculates the center of each collider element and the point of contact.
@@ -2477,10 +2454,12 @@ void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContex
     if (CollisionCheck_NoSharedFlags(&at->info, &ac->info) == 1) {
         return;
     }
+
     Math3D_TriNorm(&D_8015E5A8[0], &at->dim.quad[2], &at->dim.quad[3], &at->dim.quad[1]);
     Math3D_TriNorm(&D_8015E5A8[1], &at->dim.quad[2], &at->dim.quad[1], &at->dim.quad[0]);
     Math3D_TriNorm(&D_8015E530[0], &ac->dim.quad[2], &ac->dim.quad[3], &ac->dim.quad[1]);
     Math3D_TriNorm(&D_8015E530[1], &ac->dim.quad[2], &ac->dim.quad[1], &ac->dim.quad[0]);
+
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             if (Math3D_TriVsTriIntersect(&D_8015E5A8[j], &D_8015E530[i], &D_8015E598) == 1) {
@@ -3012,9 +2991,8 @@ void CollisionCheck_ApplyDamage(GlobalContext* globalCtx, CollisionCheckContext*
     if (!(info->bumperFlags & BUMP_HIT) || info->bumperFlags & BUMP_NO_DAMAGE) {
         return;
     }
-    if (info->acHitInfo == NULL) {
-        __assert("pclobj_elem->ac_hit_elem != NULL", "../z_collision_check.c", 6493);
-    }
+
+    ASSERT(info->acHitInfo != NULL, "pclobj_elem->ac_hit_elem != NULL", "../z_collision_check.c", 6493);
     tbl = collider->actor->colChkInfo.damageTable;
     if (tbl == NULL) {
         damage = (f32)info->acHitInfo->toucher.damage - info->bumper.defense;

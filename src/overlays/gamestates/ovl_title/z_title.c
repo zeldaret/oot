@@ -156,7 +156,7 @@ void Title_Main(GameState* thisx) {
 void Title_Destroy(GameState* thisx) {
     TitleContext* this = (TitleContext*)thisx;
 
-    Sram_InitSram(this, &this->sramCtx);
+    Sram_InitSram(&this->state, &this->sramCtx);
 }
 
 void Title_Init(GameState* thisx) {
@@ -165,9 +165,7 @@ void Title_Init(GameState* thisx) {
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_title.c", 611);
     osSyncPrintf("z_title.c\n");
-    if (this->staticSegment == NULL) {
-        __assert("this->staticSegment != NULL", "../z_title.c", 614);
-    }
+    ASSERT(this->staticSegment != NULL, "this->staticSegment != NULL", "../z_title.c", 614);
     DmaMgr_SendRequest1(this->staticSegment, (u32)_nintendo_rogo_staticSegmentRomStart, size, "../z_title.c", 615);
     R_UPDATE_RATE = 1;
     Matrix_Init(&this->state);

@@ -121,9 +121,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon2->start);
     spA4 = spB8;
 
-    if (polygon2->num > SHAPE_SORT_MAX) {
-        __assert("polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
-    }
+    ASSERT(polygon2->num <= SHAPE_SORT_MAX, "polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
     sp78 = polygonDlist;
 
     for (sp9C = 0; sp9C < polygon2->num; sp9C++, polygonDlist++) {
@@ -237,7 +235,7 @@ s32 func_80096238(void* data) {
         osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
 
         time = osGetTime();
-        if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
+        if (!Jpeg_Decode(data, (u16*)gZBuffer, (JpegWork*)gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
             time = osGetTime() - time;
 
             // Translates to: "SUCCESS... I THINK. time = %6.3f ms"
@@ -266,7 +264,7 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     displayListHead = *displayList;
     func_80096238(SEGMENTED_TO_VIRTUAL(source));
 
-    bg = displayListHead + 1;
+    bg = (uObjBg*)(displayListHead + 1);
     gSPBranchList(displayListHead, (u8*)bg + sizeof(uObjBg));
     bg->b.imageX = 0;
     bg->b.imageW = width * 4;
@@ -332,7 +330,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
 
     camera = ACTIVE_CAM;
-    sp9C = (camera->setting == 25);
+    sp9C = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     sp98 = (flags & 1) && sp9C && polygon1->single.source && !(SREG(25) & 1);
@@ -427,7 +425,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = ACTIVE_CAM;
-    sp98 = (camera->setting == 25);
+    sp98 = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);
@@ -533,7 +531,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
 
     osSyncPrintf(VT_FGCOL(YELLOW));
     // Translates to: "ROOM BUFFER SIZE=%08x(%5.1fK)"
-    osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize * 0.0009765625f);
+    osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
     roomCtx->bufPtrs[0] = GameState_Alloc(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
     // Translates to: "ROOM BUFFER INITIAL POINTER=%08x"
     osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
@@ -565,9 +563,7 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
         roomCtx->curRoom.segment = NULL;
         roomCtx->status = 1;
 
-        if (roomNum >= globalCtx->nbRooms) {
-            __assert("read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
-        }
+        ASSERT(roomNum < globalCtx->nbRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
         size = globalCtx->roomList[roomNum].vromEnd - globalCtx->roomList[roomNum].vromStart;
         roomCtx->unk_34 = (void*)ALIGN16((s32)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
@@ -608,9 +604,8 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
 void Room_Draw(GlobalContext* globalCtx, Room* room, u32 flags) {
     if (room->segment != NULL) {
         gSegments[3] = VIRTUAL_TO_PHYSICAL(room->segment);
-        if (room->mesh->polygon.type >= ARRAY_COUNTU(sRoomDrawHandlers)) {
-            __assert("this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
-        }
+        ASSERT(room->mesh->polygon.type < ARRAY_COUNTU(sRoomDrawHandlers),
+               "this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
         sRoomDrawHandlers[room->mesh->polygon.type](globalCtx, room, flags);
     }
 }

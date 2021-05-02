@@ -790,11 +790,11 @@ EntranceInfo gEntranceTable[] = {
 #define TITLED_SCENE(name, title, unk_10, config, unk_12)                                            \
     {                                                                                                \
         (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd, (u32)_##title##SegmentRomStart, \
-            (u32)_##title##SegmentRomEnd, unk_10, config, unk_12                                     \
+            (u32)_##title##SegmentRomEnd, unk_10, config, unk_12, 0                                  \
     }
 
 #define UNTITLED_SCENE(name, unk_10, config, unk_12) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd, 0, 0, unk_10, config, unk_12 }
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd, 0, 0, unk_10, config, unk_12, 0 }
 
 Scene gSceneTable[] = {
     TITLED_SCENE(ydan_scene, g_pn_06, 1, 19, 2),
@@ -957,9 +957,7 @@ u32 D_8012A2F8[] = { 0x0200BA18, 0x0200CA18 };
 
 // Scene Draw Config 19
 void func_800995DC(GlobalContext* globalCtx) {
-    u32 gameplayFrames;
-
-    gameplayFrames = globalCtx->gameplayFrames;
+    u32 gameplayFrames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4763);
 
@@ -1001,9 +999,7 @@ u32 D_8012A308[] = { 0x02011F78, 0x02014778, 0x02014378, 0x02013F78, 0x02014B78,
 void func_80099878(GlobalContext* globalCtx) {
     u32 gameplayFrames;
     s32 pad;
-    Gfx* displayListHead;
-
-    displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 6 * sizeof(Gfx));
+    Gfx* displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 6 * sizeof(Gfx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4905);
 
@@ -1040,9 +1036,7 @@ void func_80099878(GlobalContext* globalCtx) {
 // Scene Draw Config 30
 void func_80099BD8(GlobalContext* globalCtx) {
     f32 temp;
-    Gfx* displayListHead;
-
-    displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 18 * sizeof(Gfx));
+    Gfx* displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 18 * sizeof(Gfx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5069);
 
@@ -2176,9 +2170,7 @@ void func_8009F40C(GlobalContext* globalCtx) {
 
 // Scene Draw Config 14
 void func_8009F5D4(GlobalContext* globalCtx) {
-    Gfx* displayListHead;
-
-    displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 3 * sizeof(Gfx));
+    Gfx* displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 3 * sizeof(Gfx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7461);
 
@@ -2213,12 +2205,9 @@ void func_8009F5D4(GlobalContext* globalCtx) {
 
 // Scene Draw Config 15
 void func_8009F7D4(GlobalContext* globalCtx) {
-    s8 sp6F;
-    s8 sp6E;
+    s8 sp6F = coss((globalCtx->gameplayFrames * 1500) & 0xFFFF) >> 8;
+    s8 sp6E = coss((globalCtx->gameplayFrames * 1500) & 0xFFFF) >> 8;
     u32 gameplayFrames;
-
-    sp6F = coss((globalCtx->gameplayFrames * 1500) & 0xFFFF) >> 8;
-    sp6E = coss((globalCtx->gameplayFrames * 1500) & 0xFFFF) >> 8;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7512);
 
@@ -2338,13 +2327,14 @@ void func_8009FE58(GlobalContext* globalCtx) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    if (func_800C0D28(globalCtx) != 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) != true) {
         D_8012A39C += 1820;
         D_8012A3A0 += 1820;
 
         temp = 0.020000001f;
-        func_800AA76C(&globalCtx->view, 0.00009587531f * temp * Math_CosS(D_8012A39C),
-                      0.00009587531f * temp * Math_SinS(D_8012A39C), 0.00009587531f * temp * Math_SinS(D_8012A3A0));
+        func_800AA76C(&globalCtx->view, ((360.00018f / 65535.0f) * (M_PI / 180.0f)) * temp * Math_CosS(D_8012A39C),
+                      ((360.00018f / 65535.0f) * (M_PI / 180.0f)) * temp * Math_SinS(D_8012A39C),
+                      ((360.00018f / 65535.0f) * (M_PI / 180.0f)) * temp * Math_SinS(D_8012A3A0));
         func_800AA78C(&globalCtx->view, 1.f + (0.79999995f * temp * Math_SinS(D_8012A3A0)),
                       1.f + (0.39999998f * temp * Math_CosS(D_8012A3A0)), 1.f + (1 * temp * Math_CosS(D_8012A39C)));
         func_800AA7AC(&globalCtx->view, 0.95f);

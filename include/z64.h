@@ -19,6 +19,7 @@
 #include "z64animation.h"
 #include "z64dma.h"
 #include "z64math.h"
+#include "z64map_mark.h"
 #include "z64transition.h"
 #include "bgm.h"
 #include "sfx.h"
@@ -47,6 +48,11 @@
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
 
+typedef struct{
+    /* 0x00 */ char unk[0x4];
+    /* 0x04 */ MtxF mf;
+} HorseStruct;
+
 // Game Info aka. Static Context (dbg ram start: 80210A10)
 // Data normally accessed through REG macros (see regs.h)
 typedef struct {
@@ -70,9 +76,9 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ u32    size;
-    /* 0x0004 */ void*  bufp;
-    /* 0x0008 */ void*  head;
-    /* 0x000C */ void*  tail;
+    /* 0x0004 */ void*    bufp;
+    /* 0x0008 */ void*    head;
+    /* 0x000C */ void*    tail;
 } TwoHeadArena; // size = 0x10
 
 typedef struct {
@@ -185,9 +191,9 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ u32 toggle;
-    /* 0x04 */ s32 counter;
-} SubGlobalContext7B8; // size = 0x8
+    /* 0x00 */ s32 enabled;
+    /* 0x04 */ s32 timer;
+} FrameAdvanceContext; // size = 0x8
 
 typedef struct {
     /* 0x00 */ Vec3f    pos;
@@ -216,15 +222,15 @@ typedef struct {
 } TargetContext; // size = 0x98
 
 typedef struct {
-    /* 0x00 */ u8*      texture;
-    /* 0x04 */ s16      unk_4;
-    /* 0x06 */ s16      unk_6;
-    /* 0x08 */ u8       unk_8;
-    /* 0x09 */ u8       unk_9;
-    /* 0x0A */ u8       delayA;
-    /* 0x0B */ u8       delayB;
-    /* 0x0C */ s16      unk_C;
-    /* 0x0E */ s16      unk_E;
+    /* 0x00 */ void*      texture;
+    /* 0x04 */ s16      x;
+    /* 0x06 */ s16      y;
+    /* 0x08 */ u8       width;
+    /* 0x09 */ u8       height;
+    /* 0x0A */ u8       durationTimer; // how long the title card appears for before fading
+    /* 0x0B */ u8       delayTimer; // how long the title card waits to appear
+    /* 0x0C */ s16      alpha;
+    /* 0x0E */ s16      intensity;
 } TitleCardContext; // size = 0x10
 
 typedef struct {
@@ -379,7 +385,7 @@ typedef struct {
     /* 0x022E */ s16    unk_22E;
     /* 0x0230 */ s16    unk_230;
     /* 0x0232 */ s16    counterDigits[4]; // used for key and rupee counters
-    /* 0x023A */ u8     unk_23A;
+    /* 0x023A */ u8     numHorseBoosts;
     /* 0x023C */ u16    unk_23C;
     /* 0x023E */ u16    hbaAmmo; // ammo while playing the horseback archery minigame
     /* 0x0240 */ u16    unk_240;
@@ -489,6 +495,23 @@ typedef struct {
     /* 0x0268 */ char   unk_268[0x58];
 } PauseContext; // size = 0x2C0
 
+typedef enum {
+    /* 00 */ GAMEOVER_INACTIVE,
+    /* 01 */ GAMEOVER_DEATH_START,
+    /* 02 */ GAMEOVER_DEATH_WAIT_GROUND, // wait for link to fall and hit the ground
+    /* 03 */ GAMEOVER_DEATH_DELAY_MENU, // wait for 1 second before showing the game over menu
+    /* 04 */ GAMEOVER_DEATH_MENU, // do nothing while kaliedoscope handles the game over menu
+    /* 20 */ GAMEOVER_REVIVE_START = 20,
+    /* 21 */ GAMEOVER_REVIVE_RUMBLE,
+    /* 22 */ GAMEOVER_REVIVE_WAIT_GROUND, // wait for link to fall and hit the ground
+    /* 23 */ GAMEOVER_REVIVE_WAIT_FAIRY, // wait for the fairy to rise all the way up out of links body
+    /* 24 */ GAMEOVER_REVIVE_FADE_OUT // fade out the game over lights as link is revived and gets back up
+} GameOverState;
+
+typedef struct {
+    /* 0x00 */ u16 state;
+} GameOverContext;
+
 typedef struct {
     /* 0x00 */ char     unk_00[0x02];
     /* 0x02 */ u16      unk_02;
@@ -524,13 +547,15 @@ typedef struct {
     /* 0xB0 */ f32      unk_B0;
     /* 0xB4 */ u8       nbLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
-    /* 0xBC */ char     unk_BC[0x03];
+    /* 0xBC */ u8       unk_BC;
+    /* 0xBD */ u8       unk_BD;
+    /* 0xBE */ u8       unk_BE;
     /* 0xBF */ u8       unk_BF;
     /* 0xC0 */ char     unk_C0[0x0F];
     /* 0xCF */ u8       unk_CF[3];
     /* 0xD2 */ s16      unk_D2;
     /* 0xD4 */ char     unk_D4[0x02];
-    /* 0xD6 */ s16      unk_D6;
+    /* 0xD6 */ u16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;
@@ -714,7 +739,7 @@ typedef struct {
         TransitionWipe wipe;
         char data[0x228];
     };
-    /* 0x228 */ s32    transitionType;
+    /* 0x228 */ s32   transitionType;
     /* 0x22C */ void* (*init)(void* transition);
     /* 0x230 */ void  (*destroy)(void* transition);
     /* 0x234 */ void  (*update)(void* transition, s32 updateRate);
@@ -858,13 +883,13 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
-    /* 0x001E0 */ Camera subCameras[3];
-    /* 0x00790 */ Camera* cameraPtrs[4];
+    /* 0x0034C */ Camera subCameras[NUM_CAMS - SUBCAM_FIRST];
+    /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
     /* 0x007A4 */ SoundContext soundCtx;
     /* 0x007A8 */ LightContext lightCtx;
-    /* 0x007B8 */ SubGlobalContext7B8 sub_7B8;
+    /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;
     /* 0x007C0 */ CollisionContext colCtx;
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
@@ -875,7 +900,7 @@ typedef struct GlobalContext {
     /* 0x020D8 */ MessageContext msgCtx; // "message"
     /* 0x104F0 */ InterfaceContext interfaceCtx; // "parameter"
     /* 0x10760 */ PauseContext pauseCtx;
-    /* 0x10A20 */ u16 unk_10A20;
+    /* 0x10A20 */ GameOverContext gameOverCtx;
     /* 0x10A24 */ EnvironmentContext envCtx;
     /* 0x10B20 */ AnimationContext animationCtx;
     /* 0x117A4 */ ObjectContext objectCtx;
@@ -909,7 +934,7 @@ typedef struct GlobalContext {
     /* 0x11E04 */ s16* setupExitList;
     /* 0x11E08 */ Path* setupPathList;
     /* 0x11E0C */ ElfMessage* cUpElfMsgs;
-    /* 0x11E10 */ char unk_11E10[0x4];
+    /* 0x11E10 */ void* specialEffects;
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 sceneLoadFlag; // "fade_direction"
     /* 0x11E16 */ s16 unk_11E16;
@@ -1145,19 +1170,6 @@ typedef struct {
     /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
 
-typedef struct {
-    /* 0x00 */ s8 chestFlag; // chest icon is only displayed if this flag is not set for the current room
-    /* 0x01 */ u8 x, y; // coordinates to place the icon (top-left corner), relative to the minimap texture
-} MapMarkPoint; // size = 0x3
-
-typedef struct {
-    /* 0x00 */ s8 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
-    /* 0x01 */ u8 count; // number of icons to display
-    /* 0x02 */ MapMarkPoint points[12];
-} MapMarkData; // size = 0x26
-
-typedef MapMarkData MapMarksData[3]; // size = 0x72
-
 typedef struct DebugDispObject {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3s rot;
@@ -1228,7 +1240,7 @@ typedef struct {
     /* 0x14 */ u16 backColor;
     /* 0x14 */ u16 cursorX;
     /* 0x16 */ u16 cursorY;
-    /* 0x18 */ u32* fontData;
+    /* 0x18 */ const u32* fontData;
     /* 0x1C */ u8 charW;
     /* 0x1D */ u8 charH;
     /* 0x1E */ s8 charWPad;
@@ -1240,7 +1252,7 @@ typedef struct {
 } FaultDrawer; // size = 0x3C
 
 typedef struct GfxPrint {
-    /* 0x00 */ struct GfxPrint*(*callback)(struct GfxPrint*, const char*, size_t);
+    /* 0x00 */ struct GfxPrint *(*callback)(struct GfxPrint*, const char*, size_t);
     /* 0x04 */ Gfx* dlist;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;
@@ -1330,7 +1342,7 @@ typedef struct {
     /* 0x278 */ OSTime retraceTime;
 } IrqMgr; // size = 0x280
 
-typedef struct {
+typedef struct PadMgr {
     /* 0x0000 */ OSContStatus padStatus[4];
     /* 0x0010 */ OSMesg serialMsgBuf[1];
     /* 0x0014 */ OSMesg lockMsgBuf[1];
@@ -1344,7 +1356,7 @@ typedef struct {
     /* 0x0230 */ Input inputs[4];
     /* 0x0290 */ OSContPad pads[4];
     /* 0x02A8 */ vu8 validCtrlrsMask;
-    /* 0x02A9 */ u8 ncontrollers;
+    /* 0x02A9 */ u8 nControllers;
     /* 0x02AA */ u8 ctrlrIsConnected[4]; // "Key_switch" originally
     /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
     /* 0x02B2 */ vu8 rumbleEnable[4];
@@ -1353,7 +1365,7 @@ typedef struct {
     /* 0x045C */ vu8 rumbleOffFrames;
     /* 0x045D */ vu8 rumbleOnFrames;
     /* 0x045E */ u8 preNMIShutdown;
-    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
+    /* 0x0460 */ void (*retraceCallback)(struct PadMgr* padmgr, s32 unk464);
     /* 0x0464 */ u32 retraceCallbackValue;
 } PadMgr; // size = 0x468
 
@@ -1640,6 +1652,13 @@ typedef struct {
     /* 0x10 */ s16 unk_10;
 } JpegDecoderState; // size = 0x14
 
+typedef struct {
+    /* 0x0000 */ OSViMode viMode;
+    /* 0x0050 */ char unk_50[0x30];
+    /* 0x0080 */ u32 viFeatures;
+    /* 0x0084 */ char unk_84[4];
+} unk_80166528;
+
 // Vis...
 typedef struct {
     /* 0x00 */ u32 type;
@@ -1699,7 +1718,7 @@ typedef struct {
 } SpeedMeterAllocEntry; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ OSTime* time;
+    /* 0x00 */ volatile OSTime* time;
     /* 0x04 */ u8 x;
     /* 0x05 */ u8 y;
     /* 0x06 */ u16 color;

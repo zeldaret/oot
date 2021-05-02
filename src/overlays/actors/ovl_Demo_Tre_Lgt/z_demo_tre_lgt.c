@@ -55,10 +55,7 @@ void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
     }
 
-    // This assert is optimized out but it exists due to its presence in rodata
-    if (0) {
-        __assert("1", "../z_demo_tre_lgt.c", UNK_LINE);
-    }
+    ASSERT(true, "1", "../z_demo_tre_lgt.c", UNK_LINE);
 
     this->unk_170 = 255;
     this->unk_174 = 255;
@@ -102,8 +99,8 @@ void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx) {
     if (currentFrame < sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].endFrame) {
         this->unk_170 = 255;
     } else {
-        if (currentFrame <=
-            (sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].endFrame + sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].unk_08)) {
+        if (currentFrame <= (sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].endFrame +
+                             sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].unk_08)) {
             this->unk_170 = ((((sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].endFrame - currentFrame) /
                                sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].unk_08) *
                               255.0f) +

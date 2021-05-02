@@ -283,7 +283,7 @@ glabel func_80958B0C
 /* 09C84 80958F44 8FA60030 */  lw      $a2, 0x0030($sp)
 /* 09C88 80958F48 0C0189CD */  jal     Collider_SetQuadVertices
 /* 09C8C 80958F4C AFAB0010 */  sw      $t3, 0x0010($sp)
-/* 09C90 80958F50 0C034221 */  jal     Matrix_Pull
+/* 09C90 80958F50 0C034221 */  jal     Matrix_Pop
 /* 09C94 80958F54 00000000 */  nop
 /* 09C98 80958F58 8FBF0024 */  lw      $ra, 0x0024($sp)
 .L80958F5C:

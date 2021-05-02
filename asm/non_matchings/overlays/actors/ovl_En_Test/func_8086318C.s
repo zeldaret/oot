@@ -27,7 +27,7 @@ glabel func_8086318C
 /* 03B98 808631E8 AE0F07E8 */  sw      $t7, 0x07E8($s0)           ## 000007E8
 /* 03B9C 808631EC 260407F0 */  addiu   $a0, $s0, 0x07F0           ## $a0 = 000007F0
 /* 03BA0 808631F0 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
-/* 03BA4 808631F4 0C00CB89 */  jal     func_80032E24              
+/* 03BA4 808631F4 0C00CB89 */  jal     BodyBreak_Alloc              
 /* 03BA8 808631F8 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 03BAC 808631FC C60A01A0 */  lwc1    $f10, 0x01A0($s0)          ## 000001A0
 .L80863200:

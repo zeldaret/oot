@@ -1,17 +1,17 @@
 #pragma once
 
-#include "ZResource.h"
 #include "ZFile.h"
+#include "ZResource.h"
 #include "ZRoom/ZRoom.h"
 
 class PolygonEntry
 {
 public:
-	int16_t type;
-	int16_t vtxA, vtxB, vtxC;
-	int16_t a, b, c, d;
+	uint16_t type;
+	uint16_t vtxA, vtxB, vtxC;
+	uint16_t a, b, c, d;
 
-	PolygonEntry(const std::vector<uint8_t>& rawData, int rawDataIndex);
+	PolygonEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 };
 
 class VertexEntry
@@ -19,7 +19,7 @@ class VertexEntry
 public:
 	int16_t x, y, z;
 
-	VertexEntry(const std::vector<uint8_t>& rawData, int rawDataIndex);
+	VertexEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 };
 
 class WaterBoxHeader
@@ -33,7 +33,7 @@ public:
 	int16_t pad;
 	int32_t properties;
 
-	WaterBoxHeader(const std::vector<uint8_t>& rawData, int rawDataIndex);
+	WaterBoxHeader(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 };
 
 class CameraPositionData
@@ -41,7 +41,7 @@ class CameraPositionData
 public:
 	int16_t x, y, z;
 
-	CameraPositionData(const std::vector<uint8_t>& rawData, int rawDataIndex);
+	CameraPositionData(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 };
 
 class CameraDataEntry
@@ -58,7 +58,9 @@ public:
 	std::vector<CameraDataEntry*> entries;
 	std::vector<CameraPositionData*> cameraPositionData;
 
-	CameraDataList(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData, int rawDataIndex, int polyTypeDefSegmentOffset, int polygonTypesCnt);
+	CameraDataList(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData,
+	               uint32_t rawDataIndex, uint32_t polyTypeDefSegmentOffset,
+	               uint32_t polygonTypesCnt);
 };
 
 class ZCollisionHeader : public ZResource
@@ -66,28 +68,31 @@ class ZCollisionHeader : public ZResource
 public:
 	int16_t absMinX, absMinY, absMinZ;
 	int16_t absMaxX, absMaxY, absMaxZ;
-	int16_t numVerts;
-	segptr_t vtxSegmentOffset;
-	int16_t numPolygons;
-	segptr_t polySegmentOffset;
-	segptr_t polyTypeDefSegmentOffset;
-	segptr_t camDataSegmentOffset;
+	uint16_t numVerts;
+	segptr_t vtxAddress;
+	uint16_t numPolygons;
+	segptr_t polyAddress;
+	segptr_t polyTypeDefAddress;
+	segptr_t camDataAddress;
 
 	int32_t numWaterBoxes;
-	int32_t waterBoxSegmentOffset;
+	segptr_t waterBoxAddress;
 
-	std::vector<VertexEntry*> vertices;
-	std::vector<PolygonEntry*> polygons;
+	uint32_t vtxSegmentOffset, polySegmentOffset, polyTypeDefSegmentOffset, camDataSegmentOffset,
+		waterBoxSegmentOffset;
+
+	std::vector<VertexEntry> vertices;
+	std::vector<PolygonEntry> polygons;
 	std::vector<uint64_t> polygonTypes;
 	std::vector<WaterBoxHeader*> waterBoxes;
 	CameraDataList* camData;
 
-	ZCollisionHeader();
-	//ZCollisionHeader(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
-	ZCollisionHeader(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData, int rawDataIndex);
+	ZCollisionHeader(ZFile* nParent);
 	~ZCollisionHeader();
 
 	ZResourceType GetResourceType() override;
 
-	static ZCollisionHeader* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	void ParseRawData() override;
 };

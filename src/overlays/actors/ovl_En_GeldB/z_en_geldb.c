@@ -495,7 +495,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         } else {
             Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 6.65f, 0.0f);
         }
-        this->skelAnime.playSpeed = this->actor.speedXZ * 0.125f;
+        this->skelAnime.playSpeed = this->actor.speedXZ / 8.0f;
         facingAngletoLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
         facingAngletoLink = ABS(facingAngletoLink);
         if ((this->actor.xzDistToPlayer < 150.0f) && (player->swordState != 0) && (facingAngletoLink >= 0x1F40)) {
@@ -1363,12 +1363,12 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
             if ((this->actor.colChkInfo.damageEffect == GELDB_DMG_STUN) ||
                 (this->actor.colChkInfo.damageEffect == GELDB_DMG_FREEZE)) {
                 if (this->action != GELDB_STUNNED) {
-                    func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
+                    Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
                     Actor_ApplyDamage(&this->actor);
                     EnGeldB_SetupStunned(this);
                 }
             } else {
-                func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     if (this->keyFlag != 0) {
                         key = Item_DropCollectible(globalCtx, &this->actor.world.pos, this->keyFlag | ITEM00_SMALL_KEY);

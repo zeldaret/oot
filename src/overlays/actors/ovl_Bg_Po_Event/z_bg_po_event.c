@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_po_event.h"
+#include "objects/object_po_sisters/object_po_sisters.h"
 
 #define FLAGS 0x00000000
 
@@ -28,13 +29,6 @@ void BgPoEvent_PaintingEmpty(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingAppear(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx);
-
-extern Gfx D_060075A0[];
-extern Gfx D_060079E0[];
-extern Gfx D_06006830[];
-extern Gfx D_06006D60[];
-extern Gfx D_06007230[];
-extern CollisionHeader D_06007860;
 
 const ActorInit Bg_Po_Event_InitVars = {
     ACTOR_BG_PO_EVENT,
@@ -164,7 +158,7 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
     s32 bgId;
 
     this->dyna.actor.flags |= 0x30;
-    CollisionHeader_GetVirtual(&D_06007860, &colHeader);
+    CollisionHeader_GetVirtual(&gPoSistersAmyBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((this->type == 0) && (this->index != 3)) {
         newBlock = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT,
@@ -244,7 +238,7 @@ void BgPoEvent_BlockWait(BgPoEvent* this, GlobalContext* globalCtx) {
     this->dyna.actor.world.pos.y = 833.0f;
     if (sPuzzleState == 0x3F) {
         if (this->type == 1) {
-            func_800800F8(globalCtx, 0xC4E, 0x41, NULL, 0);
+            OnePointCutscene_Init(globalCtx, 3150, 65, NULL, MAIN_CAM);
         }
         this->timer = 45;
         this->actionFunc = BgPoEvent_BlockShake;
@@ -348,7 +342,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, GlobalContext* globalCtx) {
                             this->dyna.actor.world.pos.y - 30.0f, this->dyna.actor.world.pos.z + 30.0f, 0,
                             this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + 0x300);
             if (amy != NULL) {
-                func_800800F8(globalCtx, 0xC62, 0x1E, amy, 0);
+                OnePointCutscene_Init(globalCtx, 3170, 30, amy, MAIN_CAM);
             }
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             gSaveContext.timer1State = 0xA;
@@ -458,7 +452,7 @@ void BgPoEvent_AmyWait(BgPoEvent* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         sPuzzleState |= 0x20;
         this->timer = 5;
-        func_8003426C(&this->dyna.actor, 0x4000, 0xFF, 0, 5);
+        Actor_SetColorFilter(&this->dyna.actor, 0x4000, 0xFF, 0, 5);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_PO_LAUGH2);
         this->actionFunc = BgPoEvent_AmyPuzzle;
     }
@@ -544,12 +538,12 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, thisx->world.pos.x,
                         thisx->world.pos.y - 40.0f, thisx->world.pos.z, 0, thisx->shape.rot.y, 0,
                         thisx->params + ((this->type - 1) << 8));
-            func_800800F8(globalCtx, 0xC58, 0x50, thisx, 0);
+            OnePointCutscene_Init(globalCtx, 3160, 80, thisx, MAIN_CAM);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
 
         } else {
             Audio_PlayActorSound2(thisx, NA_SE_EN_PO_LAUGH2);
-            func_800800F8(globalCtx, 0xC58, 0x23, thisx, 0);
+            OnePointCutscene_Init(globalCtx, 3160, 35, thisx, MAIN_CAM);
         }
         if (thisx->parent != NULL) {
             thisx->parent->child = NULL;
@@ -599,7 +593,10 @@ void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* displayLists[] = { D_060075A0, D_060079E0, D_06006830, D_06006D60, D_06007230 };
+    static Gfx* displayLists[] = {
+        gPoSistersAmyBlockDL,     gPoSistersAmyBethBlockDL, gPoSistersJoellePaintingDL,
+        gPoSistersBethPaintingDL, gPoSistersAmyPaintingDL,
+    };
     s32 pad;
     BgPoEvent* this = THIS;
     u8 alpha;

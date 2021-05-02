@@ -107,7 +107,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
     this->outOfRangeTimer = 0;
     spawnPos = this->actor.world.pos;
 
-    if ((this->timer == 0) && (globalCtx->csCtx.state == 0) && (this->curNumSpawn <= this->maxCurSpawns) &&
+    if ((this->timer == 0) && (globalCtx->csCtx.state == CS_STATE_IDLE) && (this->curNumSpawn <= this->maxCurSpawns) &&
         (this->curNumSpawn < 5)) {
         floorType = func_80041D4C(&globalCtx->colCtx, player->actor.floorPoly, player->actor.floorBgId);
         if ((floorType != 4) && (floorType != 7) && (floorType != 12)) {

@@ -174,7 +174,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
 
         pathDiffX = pointPos->x - this->actor.world.pos.x;
         pathDiffZ = pointPos->z - this->actor.world.pos.z;
-        Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * 10430.378f), 3,
+        Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * (0x8000 / M_PI)), 3,
                            this->bodyTurnSpeed, 0);
 
         Math_ApproachF(&this->bodyTurnSpeed, this->bodyTurnSpeedTarget, 1.0f, this->bodyTurnSpeedMax);
@@ -437,7 +437,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, 0);
                         searchBallMult.z = 30.0f;
                         Matrix_MultVec3f(&searchBallMult, &searchBallVel);
-                        Matrix_Pull();
+                        Matrix_Pop();
 
                         EffectSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
                                                      &this->linkDetected);

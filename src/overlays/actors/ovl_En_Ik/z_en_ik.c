@@ -632,8 +632,8 @@ void func_80A75790(EnIk* this) {
 
 void func_80A758B0(EnIk* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
-    if (func_8003305C(&this->actor, &this->unk_308, globalCtx, this->actor.params + 4)) {
-        this->unk_308.unk_10 = 0;
+    if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, this->actor.params + 4)) {
+        this->bodyBreak.val = BODYBREAK_STATUS_FINISHED;
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4000) {
@@ -724,13 +724,13 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         }
         return;
     }
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
     prevHealth = this->actor.colChkInfo.health;
     Actor_ApplyDamage(&this->actor);
     if (this->actor.params != 0) {
         if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
             this->unk_2FB = 1;
-            func_80032E24(&this->unk_308, 3, globalCtx);
+            BodyBreak_Alloc(&this->bodyBreak, 3, globalCtx);
         }
     } else if (this->actor.colChkInfo.health <= 10) {
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_BOSS);
@@ -884,7 +884,7 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1201);
 
     if (this->unk_2FB & 1) {
-        func_80032F54(&this->unk_308, limbIndex, 0x1A, 0x1B, 0x1C, dList, -1);
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 26, 27, 28, dList, BODYBREAK_OBJECT_DEFAULT);
     }
     if (limbIndex == 12) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1217),
@@ -1065,7 +1065,7 @@ s32 func_80A7707C(EnIk* this) {
 }
 
 CsCmdActorAction* EnIk_GetNpcAction(GlobalContext* globalCtx, s32 actionIdx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[actionIdx];
     } else {
         return NULL;

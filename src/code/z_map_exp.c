@@ -235,9 +235,7 @@ void Map_Init(GlobalContext* globalCtx) {
     // Translates to "ＭＡＰ TEXTURE INITIALIZATION scene_data_ID=%d mapSegment=%x"
     osSyncPrintf("\n\n\nＭＡＰ テクスチャ初期化   scene_data_ID=%d\nmapSegment=%x\n\n", globalCtx->sceneNum,
                  interfaceCtx->mapSegment, globalCtx);
-    if (interfaceCtx->mapSegment == NULL) {
-        __assert("parameter->mapSegment != NULL", "../z_map_exp.c", 459);
-    }
+    ASSERT(interfaceCtx->mapSegment != NULL, "parameter->mapSegment != NULL", "../z_map_exp.c", 459);
 
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT00:
@@ -537,13 +535,12 @@ void Map_Update(GlobalContext* globalCtx) {
                     }
                 }
 
-                if (1) { // Appears to be necessary to match
-                    gSaveContext.sceneFlags[mapIndex].floors |= gBitFlags[floor];
-                    VREG(30) = floor;
-                    if (R_MAP_TEX_INDEX != (R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor))) {
-                        R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor);
-                    }
+                gSaveContext.sceneFlags[mapIndex].floors |= gBitFlags[floor];
+                VREG(30) = floor;
+                if (R_MAP_TEX_INDEX != (R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor))) {
+                    R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor);
                 }
+                if (1) {} // Appears to be necessary to match
 
                 if (interfaceCtx->mapRoomNum != sLastRoomNum) {
                     // Translates to "Current floor = %d Current room = %x Number of rooms = %d"

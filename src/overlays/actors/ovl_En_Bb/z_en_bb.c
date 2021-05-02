@@ -468,7 +468,7 @@ void EnBb_SetupDeath(EnBb* this, GlobalContext* globalCtx) {
 }
 
 void EnBb_Death(EnBb* this, GlobalContext* globalCtx) {
-    s16 sp4E = 3;
+    s16 enpartType = 3;
     Vec3f sp40 = { 0.0f, 0.5f, 0.0f };
     Vec3f sp34 = { 0.0f, 0.0f, 0.0f };
 
@@ -480,13 +480,16 @@ void EnBb_Death(EnBb* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.x -= 0x4E20;
             return;
         }
-        if (this->enPartInfo.unk_10 == 0) {
-            func_80032E24(&this->enPartInfo, 0xC, globalCtx);
+
+        if (this->bodyBreak.val == BODYBREAK_STATUS_FINISHED) {
+            BodyBreak_Alloc(&this->bodyBreak, 12, globalCtx);
         }
+
         if ((this->dmgEffect == 7) || (this->dmgEffect == 5)) {
-            sp4E = 0xB;
+            enpartType = 11;
         }
-        if (!func_8003305C(&this->actor, &this->enPartInfo, globalCtx, sp4E)) {
+
+        if (!BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, enpartType)) {
             return;
         }
         Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xD0);
@@ -516,7 +519,7 @@ void EnBb_SetupDamage(EnBb* this) {
     if (this->actor.params == ENBB_RED) {
         EnBb_KillFlameTrail(this);
     }
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
     this->timer = 5;
     EnBb_SetupAction(this, EnBb_Damage);
 }
@@ -1083,13 +1086,13 @@ void EnBb_SetupStunned(EnBb* this) {
     }
     switch (this->dmgEffect) {
         case 8:
-            func_8003426C(&this->actor, -0x8000, 0xC8, 0, 0x50);
+            Actor_SetColorFilter(&this->actor, -0x8000, 0xC8, 0, 0x50);
             break;
         case 9:
             this->fireIceTimer = 0x30;
         case 15:
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-            func_8003426C(&this->actor, 0, 0xB4, 0, 0x50);
+            Actor_SetColorFilter(&this->actor, 0, 0xB4, 0, 0x50);
             break;
     }
     this->actor.bgCheckFlags &= ~1;
@@ -1157,8 +1160,8 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
             case 5:
                 this->fireIceTimer = 0x30;
                 //! @bug
-                //! Setting fireIceTimer here without calling func_8003426C causes a crash if the bubble is killed
-                //! in a single hit by an attack with damage effect 5 or 7 while actor updating is halted. Using
+                //! Setting fireIceTimer here without calling Actor_SetColorFilter causes a crash if the bubble is
+                //! killed in a single hit by an attack with damage effect 5 or 7 while actor updating is halted. Using
                 //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
                 goto block_15;
             case 6:
@@ -1197,13 +1200,13 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
                     }
                     EnBb_SetupDeath(this, globalCtx);
                     //! @bug
-                    //! Because Din's Fire kills the bubble in a single hit, func_8003426C is never called and
+                    //! Because Din's Fire kills the bubble in a single hit, Actor_SetColorFilter is never called and
                     //! colorFilterParams is never set. And because Din's Fire halts updating during its cutscene,
                     //! EnBb_Death doesn't kill the bubble on the next frame like it should. This combines with
                     //! the bug in EnBb_Draw below to crash the game.
                 } else if ((this->actor.params == ENBB_WHITE) &&
                            ((this->action == BB_WHITE) || (this->action == BB_STUNNED))) {
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
                     this->actor.speedXZ = -8.0f;
                     this->maxSpeed = 0.0f;
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -1263,7 +1266,7 @@ void EnBb_Update(Actor* thisx, GlobalContext* globalCtx2) {
 void EnBb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnBb* this = THIS;
 
-    func_80032F54(&this->enPartInfo, limbIndex, 4, 0xF, 0xF, dList, -1);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 4, 15, 15, dList, BODYBREAK_OBJECT_DEFAULT);
 }
 
 static Vec3f sFireIceOffsets[] = {

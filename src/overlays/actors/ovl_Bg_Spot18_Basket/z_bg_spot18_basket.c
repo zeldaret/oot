@@ -82,8 +82,7 @@ void func_808B7710(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
 
     Collider_InitJntSph(globalCtx, &this->colliderJntSph);
-    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit,
-                       this->ColliderJntSphElements);
+    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, this->ColliderJntSphElements);
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
@@ -155,8 +154,9 @@ void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_808B7AEC(this);
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_SPOT18_FUTA, this->dyna.actor.world.pos.x,
-                       this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y + 0x1555,
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_SPOT18_FUTA,
+                       this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
+                       this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y + 0x1555,
                        this->dyna.actor.shape.rot.z, -1);
 
     if (this->dyna.actor.child == NULL) {
@@ -180,7 +180,7 @@ void func_808B7AEC(BgSpot18Basket* this) {
 
 void func_808B7AFC(BgSpot18Basket* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
-        func_800800F8(globalCtx, 4220, 80, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 4220, 80, &this->dyna.actor, MAIN_CAM);
         func_808B7B58(this);
     }
 }
@@ -228,7 +228,7 @@ void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx) {
             if (positionDiff > 120.0f && positionDiff < 200.0f) {
                 if (Math3D_Dist2DSq(colliderBaseAc->world.pos.z, this->colliderJntSph.base.ac->world.pos.x,
                                     this->dyna.actor.world.pos.z, this->dyna.actor.world.pos.x) < SQ(32.0f)) {
-                    func_800800F8(globalCtx, 4210, 240, &this->dyna.actor, 0);
+                    OnePointCutscene_Init(globalCtx, 4210, 240, &this->dyna.actor, MAIN_CAM);
                     func_808B7D38(this);
                     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 }

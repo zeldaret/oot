@@ -233,7 +233,8 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.destroy = NULL;
         this->actor.draw = NULL;
         this->actor.update = EnFr_UpdateIdle;
-        this->actor.flags = this->actor.flags &= ~0x11;
+        this->actor.flags &= ~0x11;
+        this->actor.flags &= ~0;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
         this->actor.textId = 0x40AC;
         this->actionFunc = EnFr_Idle;
@@ -243,7 +244,7 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Translation: The argument is wrong!!
             osSyncPrintf("%s[%d] : 引数が間違っている！！(%d)\n", "../z_en_fr.c", 370, this->actor.params);
             osSyncPrintf(VT_RST);
-            __assert("0", "../z_en_fr.c", 372);
+            ASSERT(0, "0", "../z_en_fr.c", 372);
         }
 
         this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
@@ -253,7 +254,7 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Translation: There is no bank!!
             osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_fr.c", 380);
             osSyncPrintf(VT_RST);
-            __assert("0", "../z_en_fr.c", 382);
+            ASSERT(0, "0", "../z_en_fr.c", 382);
         }
     }
 }
@@ -267,13 +268,11 @@ void EnFr_DrawActive(EnFr* this) {
     this->actor.draw = EnFr_Draw;
 }
 
-// Down to regalloc
-#ifdef NON_MATCHING
 void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFr* this = THIS;
-    LightInfo* lightInfo;
+    s32 pad;
     s32 frogIndex;
-    s16 randomNumber;
+    s32 pad2;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         this->actor.flags &= ~0x10;
@@ -286,13 +285,10 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         // butterfly
         SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, this->jointTableButterfly,
                        this->morphTableButterfly, 8);
-        // When playing the frogs song for the HP,
-        // the frog with the next note and the butterfly
-        // turns on its lightsource
-        lightInfo = &this->lightInfo;
-        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, lightInfo);
-        Lights_PointNoGlowSetInfo(lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
-                                  255, 255, 255, -1);
+        // When playing the song for the HP, the frog with the next note and the butterfly turns on its lightsource
+        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
+                                  this->actor.home.pos.z, 255, 255, 255, -1);
         // Check to see if the song for a particular frog has been played.
         // If it has, the frog is larger. If not, the frog is smaller
         this->scale = gSaveContext.eventChkInf[13] & sSongIndex[sFrogToSongIndex[frogIndex]] ? 270.0f : 150.0f;
@@ -304,13 +300,10 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->eyeTexIndex = 1;
         this->blinkTimer = (s16)(Rand_ZeroFloat(60.0f) + 20.0f);
         this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
-
-        // regalloc issues here
-        this->isBelowWaterSurfaceCurrent = false;
-        this->isBelowWaterSurfacePrevious = false;
+        this->isBelowWaterSurfacePrevious = this->isBelowWaterSurfaceCurrent = false;
         this->isJumpingUp = false;
-        this->actionFunc = EnFr_SetupJumpingOutOfWater;
         this->posLogSpot = this->actor.world.pos;
+        this->actionFunc = EnFr_SetupJumpingOutOfWater;
         this->isDeactivating = false;
         this->growingScaleIndex = 0;
         this->isActive = false;
@@ -328,9 +321,6 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~1;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fr/EnFr_Update.s")
-#endif
 
 void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnFr* this = THIS;
@@ -616,7 +606,7 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
             globalCtx->msgCtx.unk_E3EE = 0;
         }
 
-        func_800800F8(globalCtx, 0x100E, ~0x62, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 4110, ~0x62, &this->actor, MAIN_CAM);
         globalCtx->msgCtx.msgMode = 0x37;
         player->actor.world.pos.x = this->actor.world.pos.x; // x = 990.0f
         player->actor.world.pos.y = this->actor.world.pos.y; // y = 205.0f
@@ -1064,7 +1054,7 @@ void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fr.c", 1738),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
-        Matrix_Pull();
+        Matrix_Pop();
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1741);
     }
 }

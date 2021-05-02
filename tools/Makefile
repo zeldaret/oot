@@ -8,17 +8,17 @@ all: $(PROGRAMS)
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
-	$(RM) ZAPD/ZAPD.out
-# Need to clean the above line later...
+	$(MAKE) -C ZAPD clean
+
+distclean: clean
+
+.PHONY: all clean distclean
 
 mkldscript_SOURCES := mkldscript.c util.c
 elf2rom_SOURCES    := elf2rom.c elf32.c n64chksum.c util.c
 yaz0_SOURCES       := yaz0tool.c yaz0.c util.c
 makeromfs_SOURCES  := makeromfs.c n64chksum.c util.c
 vtxdis_SOURCES	   := vtxdis.c
-
-#$(ZAPD):
-#	cd ZAPD && $(MAKE)
 
 define COMPILE =
 $(1): $($1_SOURCES)

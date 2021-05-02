@@ -16,9 +16,7 @@ void EffectSs_InitInfo(GlobalContext* globalCtx, s32 tableSize) {
 
     sEffectSsInfo.table =
         GameState_Alloc(&globalCtx->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
-    if (sEffectSsInfo.table == NULL) {
-        __assert("EffectSS2Info.data_table != NULL", "../z_effect_soft_sprite.c", 290);
-    }
+    ASSERT(sEffectSsInfo.table != NULL, "EffectSS2Info.data_table != NULL", "../z_effect_soft_sprite.c", 290);
 
     sEffectSsInfo.searchStartIndex = 0;
     sEffectSsInfo.tableSize = tableSize;
@@ -158,7 +156,7 @@ s32 EffectSs_FindSlot(s32 priority, s32* pIndex) {
 void EffectSs_Insert(GlobalContext* globalCtx, EffectSs* effectSs) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) != 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) != true) {
         if (EffectSs_FindSlot(effectSs->priority, &index) == 0) {
             sEffectSsInfo.searchStartIndex = index + 1;
             sEffectSsInfo.table[index] = *effectSs;
@@ -175,9 +173,7 @@ void EffectSs_Spawn(GlobalContext* globalCtx, s32 type, s32 priority, void* init
 
     overlayEntry = &gEffectSsOverlayTable[type];
 
-    if (type >= EFFECT_SS_TYPE_MAX) {
-        __assert("type < EFFECT_SS2_TYPE_LAST_LABEL", "../z_effect_soft_sprite.c", 556);
-    }
+    ASSERT(type < EFFECT_SS_TYPE_MAX, "type < EFFECT_SS2_TYPE_LAST_LABEL", "../z_effect_soft_sprite.c", 556);
 
     if (EffectSs_FindSlot(priority, &index) != 0) {
         // Abort because we couldn't find a suitable slot to add this effect in
@@ -294,10 +290,9 @@ void EffectSs_Draw(GlobalContext* globalCtx, s32 index) {
 
 // original name: "EffectSoftSprite2_disp"
 void EffectSs_DrawAll(GlobalContext* globalCtx) {
-    Lights* lights;
+    Lights* lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
     s32 i;
 
-    lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
     Lights_BindAll(lights, globalCtx->lightCtx.listHead, NULL);
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 
