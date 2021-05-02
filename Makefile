@@ -110,6 +110,10 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
+# Automatic dependency files
+# (Only asm_processor dependencies are handled for now)
+DEP_FILES := $(O_FILES:.o=.asmproc.d)
+
 TEXTURE_FILES_RGBA32 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.rgba32.png))
 TEXTURE_FILES_RGBA16 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.rgb5a1.png))
 TEXTURE_FILES_GRAY4 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.i4.png))
@@ -216,36 +220,36 @@ build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 build/asm/%.o: asm/%.s
-	$(AS) $(ASFLAGS) $^ -o $@
+	$(AS) $(ASFLAGS) $< -o $@
 
 build/data/%.o: data/%.s
-	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
+	iconv --from UTF-8 --to EUC-JP $< | $(AS) $(ASFLAGS) -o $@
 
 build/assets/%.o: assets/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
 
 build/src/overlays/%.o: src/overlays/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
-	$(CC_CHECK) $^
-	$(ZAPD) bovl -i $@ -cfg $^ --outputpath $(@D)/$(notdir $(@D))_reloc.s
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC_CHECK) $<
+	$(ZAPD) bovl -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
 	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/%.o: src/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
-	$(CC_CHECK) $^
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC_CHECK) $<
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra_boot_O1/ll.o: src/libultra_boot_O1/ll.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
-	$(CC_CHECK) $^
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
-	$(CC_CHECK) $^
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
@@ -286,3 +290,5 @@ build/assets/%.bin.inc.c: assets/%.bin
 
 build/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -i $< -o $@ -eh
+
+-include $(DEP_FILES)

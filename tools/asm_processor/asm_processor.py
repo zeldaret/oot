@@ -722,7 +722,7 @@ float_regexpr = re.compile(r"[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?f")
 def repl_float_hex(m):
     return str(struct.unpack(">I", struct.pack(">f", float(m.group(0).strip().rstrip("f"))))[0])
 
-def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None):
+def parse_source(f, opt, framepointer, input_enc, output_enc, out_dependencies, print_source=None):
     if opt in ['O2', 'O1']:
         if framepointer:
             min_instr_count = 6
@@ -786,6 +786,7 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
             elif ((line.startswith('GLOBAL_ASM("') or line.startswith('#pragma GLOBAL_ASM("'))
                     and line.endswith('")')):
                 fname = line[line.index('(') + 2 : -2]
+                out_dependencies.append(fname)
                 global_asm = GlobalAsmBlock(fname)
                 with open(fname, encoding=input_enc) as f:
                     for line2 in f:
@@ -798,10 +799,11 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
                 # C includes qualified with EARLY (i.e. #include "file.c" EARLY) will be
                 # processed recursively when encountered
                 fpath = os.path.dirname(f.name)
-                fname = line[line.index(' ') + 2 : -7]
+                fname = os.path.join(fpath, line[line.index(' ') + 2 : -7])
+                out_dependencies.append(fname)
                 include_src = StringIO()
-                with open(fpath + os.path.sep + fname, encoding=input_enc) as include_file:
-                    parse_source(include_file, opt, framepointer, input_enc, output_enc, include_src)
+                with open(fname, encoding=input_enc) as include_file:
+                    parse_source(include_file, opt, framepointer, input_enc, output_enc, out_dependencies, include_src)
                 include_src.write('#line ' + str(line_no + 1) + ' "' + f.name + '"')
                 output_lines[-1] = include_src.getvalue()
                 include_src.close()
@@ -1078,7 +1080,7 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
                         assert symbol_name_offset_end != -1
                         symbol_name = objfile.data[symbol_name_offset : symbol_name_offset_end + 1]
                         symbol_name_str = symbol_name[:-1].decode('latin1')
-                        section_name = ['', '.text', '.data', '.bss'][sc]
+                        section_name = {1: '.text', 2: '.data', 3: '.bss', 15: '.rodata'}[sc]
                         section = objfile.find_section(section_name)
                         symtype = STT_FUNC if sc == 1 else STT_OBJECT
                         sym = Symbol.from_parts(
@@ -1191,13 +1193,15 @@ def run_wrapped(argv, outfile, functions):
 
     if args.objfile is None:
         with open(args.filename, encoding=args.input_enc) as f:
-            return parse_source(f, opt=opt, framepointer=args.framepointer, input_enc=args.input_enc, output_enc=args.output_enc, print_source=outfile)
+            deps = []
+            functions = parse_source(f, opt=opt, framepointer=args.framepointer, input_enc=args.input_enc, output_enc=args.output_enc, out_dependencies=deps, print_source=outfile)
+            return functions, deps
     else:
         if args.assembler is None:
             raise Failure("must pass assembler command")
         if functions is None:
             with open(args.filename, encoding=args.input_enc) as f:
-                functions = parse_source(f, opt=opt, framepointer=args.framepointer, input_enc=args.input_enc, output_enc=args.output_enc)
+                functions = parse_source(f, opt=opt, framepointer=args.framepointer, input_enc=args.input_enc, out_dependencies=[], output_enc=args.output_enc)
         if not functions:
             return
         asm_prelude = b''
