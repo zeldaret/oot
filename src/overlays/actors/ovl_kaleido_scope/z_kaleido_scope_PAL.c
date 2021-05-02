@@ -280,8 +280,6 @@ Gfx* KaleidoScope_QuadTextureIA8(Gfx* gfx, void* texture, s16 width, s16 height,
 
 void KaleidoScope_OverridePalIndexCI4(u8* texture, s32 size, s32 targetIndex, s32 newIndex) {
     s32 i;
-    s32 index1;
-    s32 index2;
 
     targetIndex &= 0xF;
     newIndex &= 0xF;
@@ -290,7 +288,10 @@ void KaleidoScope_OverridePalIndexCI4(u8* texture, s32 size, s32 targetIndex, s3
         return;
     }
 
-    for (i = 0; i < size; i++) {
+    for (i = 0; i < size; i++) {        
+        s32 index1;
+        s32 index2;
+
         index1 = index2 = texture[i];
 
         index1 = (index1 >> 4) & 0xF;

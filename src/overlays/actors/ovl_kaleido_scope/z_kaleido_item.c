@@ -528,15 +528,13 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
         offsetY = ABS(pauseCtx->equipAnimY - sCButtonPosY[pauseCtx->equipTargetCBtn]) / sEquipMoveTimer;
     }
 
-    if (pauseCtx->equipTargetItem >= 0xBF) {
-        if (pauseCtx->equipAnimAlpha < 254) {
-            pauseCtx->equipAnimAlpha += 14;
-            if (pauseCtx->equipAnimAlpha > 255) {
-                pauseCtx->equipAnimAlpha = 254;
-            }
-            sEquipAnimTimer = 5;
-            return;
+    if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipAnimAlpha < 254)) {
+        pauseCtx->equipAnimAlpha += 14;
+        if (pauseCtx->equipAnimAlpha > 255) {
+            pauseCtx->equipAnimAlpha = 254;
         }
+        sEquipAnimTimer = 5;
+        return;
     }
 
     if (sEquipAnimTimer == 0) {
@@ -802,12 +800,10 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
             WREG(90) = 320;
             WREG(87) = WREG(91);
         }
-        return;
-    }
-
-    sEquipAnimTimer--;
-
-    if (sEquipAnimTimer == 0) {
-        pauseCtx->equipAnimAlpha = 255;
+    } else {
+        sEquipAnimTimer--;
+        if (sEquipAnimTimer == 0) {
+            pauseCtx->equipAnimAlpha = 255;
+        }
     }
 }
