@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ice_hono.c
+ * Overlay: ovl_En_Ice_Hono
+ * Description: The various types of Blue Fire
+ */
+
 #include "z_en_ice_hono.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
@@ -92,11 +98,8 @@ static InitChainEntry sInitChainSmallFlame[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-f32 EnIceHono_SquareDist(Vec3f* pos1, Vec3f* pos2) {
-    f32 dx = pos1->x - pos2->x;
-    f32 dz = pos1->z - pos2->z;
-
-    return SQ(dx) + SQ(dz);
+f32 EnIceHono_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
+    return SQ(v1->x - v2->x) + SQ(v1->z - v2->z);
 }
 
 void EnIceHono_InitCapturableFlame(Actor* thisx, GlobalContext* globalCtx) {
@@ -185,7 +188,7 @@ void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-u32 EnIceHono_LinkCloseAndFacing(EnIceHono* this, GlobalContext* globalCtx) {
+u32 EnIceHono_InBottleRange(EnIceHono* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->actor.xzDistToPlayer < 60.0f) {
@@ -193,11 +196,15 @@ u32 EnIceHono_LinkCloseAndFacing(EnIceHono* this, GlobalContext* globalCtx) {
         tempPos.x = Math_SinS(this->actor.yawTowardsPlayer + 0x8000) * 40.0f + player->actor.world.pos.x;
         tempPos.y = player->actor.world.pos.y;
         tempPos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 40.0f + player->actor.world.pos.z;
-        if (EnIceHono_SquareDist(&tempPos, &this->actor.world.pos) <= SQ(40.0f)) {
-            return 1;
+
+        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
+        //! been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's
+        //! world rotation.
+        if (EnIceHono_XZDistanceSquared(&tempPos, &this->actor.world.pos) <= SQ(40.0f)) {
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void EnIceHono_SetupActionCapturableFlame(EnIceHono* this) {
@@ -209,8 +216,9 @@ void EnIceHono_SetupActionCapturableFlame(EnIceHono* this) {
 void EnIceHono_CapturableFlame(EnIceHono* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
-    } else if (EnIceHono_LinkCloseAndFacing(this, globalCtx)) {
-        func_8002F434(&this->actor, globalCtx, 0x7E, 60.0f, 100.0f);
+    } else if (EnIceHono_InBottleRange(this, globalCtx)) {
+        // GI_MAX in this case allows the player to catch the actor in a bottle
+        func_8002F434(&this->actor, globalCtx, GI_MAX, 60.0f, 100.0f);
     }
 
     if (this->actor.xzDistToPlayer < 200.0f) {

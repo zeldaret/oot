@@ -1,3 +1,9 @@
+/*
+ * File: z_en_insect.c
+ * Overlay: ovl_En_Insect
+ * Description: Bugs
+ */
+
 #include "z_en_insect.h"
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
@@ -87,7 +93,7 @@ f32 EnInsect_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
     return SQ(v1->x - v2->x) + SQ(v1->z - v2->z);
 }
 
-s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
+s32 EnInsect_InBottleRange(EnInsect* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
     Vec3f pos;
@@ -97,12 +103,15 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
         pos.y = player->actor.world.pos.y;
         pos.z = Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f + player->actor.world.pos.z;
 
-        if (EnInsect_XZDistanceSquared(&pos, &this->actor.world.pos) <= 400.0f) {
-            return 1;
+        //! @bug: this check is superfluous: it is automatically satisfied if the coarse check is satisfied. It may have
+        //! been intended to check the actor is in front of Player, but yawTowardsPlayer does not depend on Player's
+        //! world rotation.
+        if (EnInsect_XZDistanceSquared(&pos, &this->actor.world.pos) <= SQ(20.0f)) {
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 void func_80A7BF58(EnInsect* this) {
@@ -143,7 +152,7 @@ s32 EnInsect_FoundNearbySoil(EnInsect* this, GlobalContext* globalCtx) {
 
 void func_80A7C058(EnInsect* this) {
     if (this->unk_31E > 0) {
-        this->unk_31E -= 1;
+        this->unk_31E--;
         return;
     }
 
@@ -546,9 +555,9 @@ void func_80A7D39C(EnInsect* this) {
     func_80A7BF58(this);
     this->unk_31A = 100;
     this->unk_324 = 1.5f;
-    this->unk_328 = Rand_ZeroOne() * 65535.5f;
+    this->unk_328 = Rand_ZeroOne() * (0xFFFF + 0.5f);
     this->unk_316 = (Rand_ZeroOne() - 0.5f) * 1500.0f;
-    this->actor.world.rot.y = Rand_ZeroOne() * 65535.5f;
+    this->actor.world.rot.y = Rand_ZeroOne() * (0xFFFF + 0.5f);
     Actor_SetScale(&this->actor, 0.003f);
     this->actionFunc = func_80A7D460;
     this->unk_314 |= 0x100;
@@ -703,7 +712,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
     } else if (sp50 != 0) {
         func_80A7C3A0(this);
     } else if ((sp3A == 2 || sp3A == 3) && (this->unk_314 & 1) && this->unk_31C <= 0 && this->unk_31A <= 0 &&
-               this->actor.floorHeight < -31990.0f) {
+               this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // BG missing? To do Actor_delete
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_mushi.c", 1197);
@@ -775,8 +784,9 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
 
-            if (!(this->unk_314 & 8) && D_80A7DEB4 < 4 && func_80A7BE6C(this, globalCtx) != 0 &&
-                func_8002F434(&this->actor, globalCtx, GI_MAX, 60.0f, 30.0f) != 0) {
+            if (!(this->unk_314 & 8) && D_80A7DEB4 < 4 && EnInsect_InBottleRange(this, globalCtx) &&
+                // GI_MAX in this case allows the player to catch the actor in a bottle
+                func_8002F434(&this->actor, globalCtx, GI_MAX, 60.0f, 30.0f)) {
                 D_80A7DEB4++;
             }
         }
