@@ -23,6 +23,8 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix
         return
 
     execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf %i -ifp %i -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix)
+    if globalUnaccounted:
+        execStr += " -wu"
 
     print(execStr)
     exitValue = os.system(execStr)
@@ -55,16 +57,19 @@ def ExtractFunc(fullPath):
     else:
         Extract(fullPath, outPath, outSourcePath)
 
-def initializeWorker(force, abort):
+def initializeWorker(force: bool, abort, unaccounted: bool):
     global globalForce
     global globalAbort
+    global globalUnaccounted
     globalForce = force
     globalAbort = abort
+    globalUnaccounted = unaccounted
 
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
     parser.add_argument("-s", "--single", help="asset path relative to assets/, e.g. objects/gameplay_keep")
     parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones.", action="store_true")
+    parser.add_argument("-u", "--unaccounted", help="Enables ZAPD unaccounted detector warning system.", action="store_true")
     args = parser.parse_args()
 
     abort = Event()
@@ -72,7 +77,7 @@ def main():
     asset_path = args.single
     if asset_path is not None:
         # Always force if -s is used.
-        initializeWorker(True, abort)
+        initializeWorker(True, abort, args.unaccounted)
         fullPath = os.path.join("assets", "xml", asset_path + ".xml")
         ExtractFunc(fullPath)
     else:
@@ -85,7 +90,7 @@ def main():
 
         numCores = cpu_count()
         print("Extracting assets with " + str(numCores) + " CPU cores.")
-        with Pool(numCores,  initializer=initializeWorker, initargs=(args.force, abort)) as p:
+        with Pool(numCores,  initializer=initializeWorker, initargs=(args.force, abort, args.unaccounted)) as p:
             p.map(ExtractFunc, xmlFiles)
 
     if abort.is_set():
