@@ -142,7 +142,7 @@ extern GraphicsContext* __gfxCtx;
 #define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(msg, file, line))
 #endif
 
-#define gSetTileCustom(pkt, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)                      \
+#define gDPSetTileCustom(pkt, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)                    \
     do {                                                                                                               \
         gDPPipeSync(pkt);                                                                                              \
         gDPTileSync(pkt);                                                                                              \
