@@ -2212,8 +2212,7 @@ endseg
 beginseg
     name "ovl_En_Fish"
     include "build/src/overlays/actors/ovl_En_Fish/z_en_fish.o"
-    include "build/data/overlays/actors/z_en_fish.data.o"
-    include "build/data/overlays/actors/z_en_fish.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fish/ovl_En_Fish_reloc.o"
 endseg
 
 beginseg
