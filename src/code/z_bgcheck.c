@@ -3119,7 +3119,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
     if ((result != BGCHECK_Y_MIN) && (dynaActor != NULL) && (dynaRaycast->globalCtx != NULL)) {
         pauseState = dynaRaycast->globalCtx->pauseCtx.state != 0;
         if (pauseState == 0) {
-            pauseState = dynaRaycast->globalCtx->pauseCtx.flag != 0;
+            pauseState = dynaRaycast->globalCtx->pauseCtx.debugState != 0;
         }
         if (!pauseState && (dynaRaycast->colCtx->dyna.bgActorFlags[*dynaRaycast->bgId] & 2)) {
             curTransform = &dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].curTransform;

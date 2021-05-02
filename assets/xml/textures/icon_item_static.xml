@@ -93,81 +93,81 @@
         <Texture Name="gHeartPieceIcon1Tex" OutName="heart_piece_icon_1" Format="ia8" Width="48" Height="48"/>
         <Texture Name="gHeartPieceIcon2Tex" OutName="heart_piece_icon_2" Format="ia8" Width="48" Height="48"/>
         <Texture Name="gHeartPieceIcon3Tex" OutName="heart_piece_icon_3" Format="ia8" Width="48" Height="48"/>
-        <Texture Name="gSaveGameOverCursorTex" OutName="save_game_over_cursor" Format="i4" Width="48" Height="48"/>
-        <Texture Name="gUnusedMenuCursorTex" OutName="unused_menu_cursor" Format="i8" Width="24" Height="24"/>
+        <Texture Name="gPausePromptCursorTex" OutName="pause_prompt_cursor" Format="i4" Width="48" Height="48"/>
+        <Texture Name="gPauseUnusedCursorTex" OutName="pause_unused_cursor" Format="i8" Width="24" Height="24"/>
         <Texture Name="gPauseMenuCursorTopLeftTex" OutName="pause_menu_cursor_top_left" Format="ia4" Width="16" Height="16"/>
         <Texture Name="gPauseMenuCursorTopRightTex" OutName="pause_menu_cursor_top_right" Format="ia4" Width="16" Height="16"/>
         <Texture Name="gPauseMenuCursorBottomLeftTex" OutName="pause_menu_cursor_bottom_left" Format="ia4" Width="16" Height="16"/>
         <Texture Name="gPauseMenuCursorBottomRightTex" OutName="pause_menu_cursor_bottom_right" Format="ia4" Width="16" Height="16"/>
-        <Texture Name="gEquipment00Tex" OutName="equipment_0_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment20Tex" OutName="equipment_2_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap00Tex" OutName="map_0_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap20Tex" OutName="map_2_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus00Tex" OutName="quest_status_0_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus20Tex" OutName="quest_status_2_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave00Tex" OutName="save_0_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave20Tex" OutName="save_2_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment01Tex" OutName="equipment_0_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment11Tex" OutName="equipment_1_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment21Tex" OutName="equipment_2_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem01Tex" OutName="select_item_0_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem11Tex" OutName="select_item_1_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem21Tex" OutName="select_item_2_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap01Tex" OutName="map_0_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap11Tex" OutName="map_1_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap21Tex" OutName="map_2_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus01Tex" OutName="quest_status_0_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus11Tex" OutName="quest_status_1_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus21Tex" OutName="quest_status_2_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave01Tex" OutName="save_0_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave11Tex" OutName="save_1_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave21Tex" OutName="save_2_1" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment02Tex" OutName="equipment_0_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment12Tex" OutName="equipment_1_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment22Tex" OutName="equipment_2_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem02Tex" OutName="select_item_0_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem12Tex" OutName="select_item_1_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem22Tex" OutName="select_item_2_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap02Tex" OutName="map_0_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap12Tex" OutName="map_1_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap22Tex" OutName="map_2_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus02Tex" OutName="quest_status_0_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus12Tex" OutName="quest_status_1_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus22Tex" OutName="quest_status_2_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave02Tex" OutName="save_0_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave12Tex" OutName="save_1_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave22Tex" OutName="save_2_2" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment03Tex" OutName="equipment_0_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment13Tex" OutName="equipment_1_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment23Tex" OutName="equipment_2_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem03Tex" OutName="select_item_0_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem13Tex" OutName="select_item_1_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem23Tex" OutName="select_item_2_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap03Tex" OutName="map_0_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap13Tex" OutName="map_1_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap23Tex" OutName="map_2_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus03Tex" OutName="quest_status_0_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus13Tex" OutName="quest_status_1_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus23Tex" OutName="quest_status_2_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave03Tex" OutName="save_0_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave13Tex" OutName="save_1_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave23Tex" OutName="save_2_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment04Tex" OutName="equipment_0_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment14Tex" OutName="equipment_1_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment24Tex" OutName="equipment_2_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem04Tex" OutName="select_item_0_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem14Tex" OutName="select_item_1_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSelectItem24Tex" OutName="select_item_2_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap04Tex" OutName="map_0_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap14Tex" OutName="map_1_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMap24Tex" OutName="map_2_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus04Tex" OutName="quest_status_0_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus14Tex" OutName="quest_status_1_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestStatus24Tex" OutName="quest_status_2_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave04Tex" OutName="save_0_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave14Tex" OutName="save_1_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSave24Tex" OutName="save_2_4" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGameOver10Tex" OutName="game_over_1_0" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment00Tex" OutName="pause_equipment_0_0" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment20Tex" OutName="pause_equipment_2_0" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap00Tex" OutName="pause_map_0_0" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap20Tex" OutName="pause_map_2_0" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus00Tex" OutName="pause_quest_status_0_0" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus20Tex" OutName="pause_quest_status_2_0" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave00Tex" OutName="pause_save_0_0" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave20Tex" OutName="pause_save_2_0" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment01Tex" OutName="pause_equipment_0_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment11Tex" OutName="pause_equipment_1_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment21Tex" OutName="pause_equipment_2_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem01Tex" OutName="pause_select_item_0_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem11Tex" OutName="pause_select_item_1_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem21Tex" OutName="pause_select_item_2_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap01Tex" OutName="pause_map_0_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap11Tex" OutName="pause_map_1_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap21Tex" OutName="pause_map_2_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus01Tex" OutName="pause_quest_status_0_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus11Tex" OutName="pause_quest_status_1_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus21Tex" OutName="pause_quest_status_2_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave01Tex" OutName="pause_save_0_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave11Tex" OutName="pause_save_1_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave21Tex" OutName="pause_save_2_1" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment02Tex" OutName="pause_equipment_0_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment12Tex" OutName="pause_equipment_1_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment22Tex" OutName="pause_equipment_2_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem02Tex" OutName="pause_select_item_0_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem12Tex" OutName="pause_select_item_1_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem22Tex" OutName="pause_select_item_2_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap02Tex" OutName="pause_map_0_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap12Tex" OutName="pause_map_1_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap22Tex" OutName="pause_map_2_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus02Tex" OutName="pause_quest_status_0_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus12Tex" OutName="pause_quest_status_1_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus22Tex" OutName="pause_quest_status_2_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave02Tex" OutName="pause_save_0_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave12Tex" OutName="pause_save_1_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave22Tex" OutName="pause_save_2_2" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment03Tex" OutName="pause_equipment_0_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment13Tex" OutName="pause_equipment_1_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment23Tex" OutName="pause_equipment_2_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem03Tex" OutName="pause_select_item_0_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem13Tex" OutName="pause_select_item_1_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem23Tex" OutName="pause_select_item_2_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap03Tex" OutName="pause_map_0_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap13Tex" OutName="pause_map_1_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap23Tex" OutName="pause_map_2_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus03Tex" OutName="pause_quest_status_0_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus13Tex" OutName="pause_quest_status_1_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus23Tex" OutName="pause_quest_status_2_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave03Tex" OutName="pause_save_0_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave13Tex" OutName="pause_save_1_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave23Tex" OutName="pause_save_2_3" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment04Tex" OutName="pause_equipment_0_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment14Tex" OutName="pause_equipment_1_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseEquipment24Tex" OutName="pause_equipment_2_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem04Tex" OutName="pause_select_item_0_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem14Tex" OutName="pause_select_item_1_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem24Tex" OutName="pause_select_item_2_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap04Tex" OutName="pause_map_0_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap14Tex" OutName="pause_map_1_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap24Tex" OutName="pause_map_2_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus04Tex" OutName="pause_quest_status_0_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus14Tex" OutName="pause_quest_status_1_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus24Tex" OutName="pause_quest_status_2_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave04Tex" OutName="pause_save_0_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave14Tex" OutName="pause_save_1_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave24Tex" OutName="pause_save_2_4" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseGameOver10Tex" OutName="pause_game_over_1_0" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gABtnSymbolTex" OutName="a_button_symbol" Format="ia8" Width="24" Height="16"/>
         <Texture Name="gBBtnSymbolTex" OutName="b_button_symbol" Format="ia8" Width="24" Height="16"/>
         <Texture Name="gCBtnSymbolsTex" OutName="c_button_symbols" Format="ia8" Width="48" Height="16"/>
@@ -178,13 +178,13 @@
         <Texture Name="gUnknownJPTex" OutName="unknown_JP" Format="ia8" Width="80" Height="16"/>
         <Texture Name="gSongNoteTex" OutName="song_note" Format="ia8" Width="16" Height="24"/>
         <Texture Name="gMagicArrowEquipEffectTex" OutName="magic_arrow_equip_effect" Format="ia8" Width="32" Height="32"/>
-        <DList Name="gItemStaticDL_080899C0" Offset="0x899C0"/>
-        <DList Name="gItemStaticDL_08089A50" Offset="0x89A50"/>
-        <DList Name="gItemStaticDL_08089AA0" Offset="0x89AA0"/>
-        <DList Name="gItemStaticDL_08089AF0" Offset="0x89AF0"/>
-        <DList Name="gItemStaticDL_08089B48" Offset="0x89B48"/>
-        <DList Name="gItemStaticDL_08089BA0" Offset="0x89BA0"/>
-        <DList Name="gItemStaticDL_08089BF8" Offset="0x89BF8"/>
-        <DList Name="gItemStaticDL_08089C48" Offset="0x89C48"/>
+        <DList Name="gItemNamePanelDL" Offset="0x899C0"/>
+        <DList Name="gLButtonIconDL" Offset="0x89A50"/>
+        <DList Name="gRButtonIconDL" Offset="0x89AA0"/>
+        <DList Name="gCButtonIconsDL" Offset="0x89AF0"/>
+        <DList Name="gAButtonIconDL" Offset="0x89B48"/>
+        <DList Name="gBButtonIconDL" Offset="0x89BA0"/>
+        <DList Name="gPromptCursorLeftDL" Offset="0x89BF8"/>
+        <DList Name="gPromptCursorRightDL" Offset="0x89C48"/>
     </File>
 </Root>

@@ -126,16 +126,11 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
 
 void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 temp;
-    s16 params;
 
     if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
         player->actor.freezeTimer = 10;
     } else {
-        params = this->actor.params;
-        temp = (params & 0x1F00) >> 8;
-        gSaveContext.gsFlags[temp >> 2] |= (params & 0xFF) << gGoldSkullFlgShift[temp & 3];
-
+        SET_GS_FLAGS((this->actor.params & 0x1F00) >> 8, this->actor.params & 0xFF);
         Actor_Kill(&this->actor);
     }
 }
