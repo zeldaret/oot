@@ -22,6 +22,9 @@ def main():
         print("\tCurrent warnings: " + str(currentLines))
         print("\tNew warnings: " + str(newLines))
         print()
+        with open(args.newwarnings) as f:
+            print("Warnings:\n\n" + f.read())
+        print()
         exit(-1)
     print("There are no new warnings. Good Job!")
 
