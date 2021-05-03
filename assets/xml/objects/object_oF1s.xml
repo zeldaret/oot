@@ -1,7 +1,9 @@
 <Root>
     <File Name="object_oF1s" Segment="6">
         <Blob Name="g_oF1sBlob_000000" Size="0x10" Offset="0x0"/>
-        <!--Limb Name="gobject_oF1sLimb_00000000" LimbType="Standard" Offset="0x0" />
+
+        <!-- The textures are unaligned, so this won't compile to a matching ROM.
+        <Limb Name="gobject_oF1sLimb_00000000" LimbType="Standard" Offset="0x0" />
         <Limb Name="gobject_oF1sLimb_0000000C" LimbType="Standard" Offset="0xC" />
         <Limb Name="gobject_oF1sLimb_00000018" LimbType="Standard" Offset="0x18" />
         <Limb Name="gobject_oF1sLimb_00000024" LimbType="Standard" Offset="0x24" />

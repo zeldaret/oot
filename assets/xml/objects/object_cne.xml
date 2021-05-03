@@ -1,7 +1,9 @@
 <Root>
     <File Name="object_cne" Segment="6">
         <Blob Name="gCneBlob_000000" Size="0x10" Offset="0x0"/>
-        <!--Limb Name="gobject_cneLimb_00000000" LimbType="Standard" Offset="0x0" />
+
+        <!-- The textures are unaligned, so this won't compile to a matching ROM.
+        <Limb Name="gobject_cneLimb_00000000" LimbType="Standard" Offset="0x0" />
         <Limb Name="gobject_cneLimb_0000000C" LimbType="Standard" Offset="0xC" />
         <Limb Name="gobject_cneLimb_00000018" LimbType="Standard" Offset="0x18" />
         <Limb Name="gobject_cneLimb_00000024" LimbType="Standard" Offset="0x24" />
@@ -42,6 +44,7 @@
         <DList Name="gobject_cneDL_00002300" Offset="0x2300" />
         <Texture Name="gobject_cneTex_000023D0" OutName="tex_000023D0" Format="rgb5a1" Width="8" Height="16" Offset="0x23D0" />
         <Texture Name="gobject_cneTex_000024D0" OutName="tex_000024D0" Format="rgb5a1" Width="8" Height="8" Offset="0x24D0" />
-        <DList Name="gobject_cneDL_00002860" Offset="0x2860" /-->
+        <DList Name="gobject_cneDL_00002860" Offset="0x2860" />
+        -->
     </File>
 </Root>

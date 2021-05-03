@@ -1,6 +1,7 @@
 <Root>
     <File Name="object_kw1" Segment="6">
-        <!--Limb Name="gobject_kw1Limb_00000000" LimbType="Standard" Offset="0x0" />
+        <!-- The textures are unaligned, so this won't compile to a matching ROM.
+        <Limb Name="gobject_kw1Limb_00000000" LimbType="Standard" Offset="0x0" />
         <Limb Name="gobject_kw1Limb_0000000C" LimbType="Standard" Offset="0xC" />
         <Limb Name="gobject_kw1Limb_00000018" LimbType="Standard" Offset="0x18" />
         <Limb Name="gobject_kw1Limb_00000024" LimbType="Standard" Offset="0x24" />
@@ -44,6 +45,7 @@
         <DList Name="gobject_kw1DL_00006360" Offset="0x6360" />
         <DList Name="gobject_kw1DL_00006478" Offset="0x6478" />
         <DList Name="gobject_kw1DL_00006620" Offset="0x6620" />
-        <DList Name="gobject_kw1DL_000067C0" Offset="0x67C0" /-->
+        <DList Name="gobject_kw1DL_000067C0" Offset="0x67C0" />
+        -->
     </File>
 </Root>
