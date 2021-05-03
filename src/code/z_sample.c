@@ -27,7 +27,7 @@ void Sample_Draw(SampleContext* this) {
         gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_LOAD);
     }
 
-    POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, 0xFF, 0xFF, 0xFF, 0, 0, 0);
+    POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, 255, 255, 255, 0, 0, 0);
     func_80093D18(gfxCtx);
 
     gDPSetCycleType(POLY_OPA_DISP++, G_CYC_1CYCLE);
@@ -54,24 +54,24 @@ void Sample_SetupView(SampleContext* this) {
 
     View_Init(view, gfxCtx);
     SET_FULLSCREEN_VIEWPORT(view);
-    func_800AA460(view, 60, 10, 12800);
+    func_800AA460(view, 60.0f, 10.0f, 12800.0f);
 
     {
-        Vec3f v1;
-        Vec3f v2;
-        Vec3f v3;
+        Vec3f eye;
+        Vec3f lookAt;
+        Vec3f up;
 
-        v1.x = 0;
-        v1.y = 0;
-        v2.x = 0;
-        v2.y = 0;
-        v2.z = 0;
-        v3.x = 0;
-        v3.z = 0;
-        v1.z = 3000;
-        v3.y = 1;
+        eye.x = 0.0f;
+        eye.y = 0.0f;
+        eye.z = 3000.0f;
+        lookAt.x = 0.0f;
+        lookAt.y = 0.0f;
+        lookAt.z = 0.0f;
+        up.x = 0.0f;
+        up.z = 0.0f;
+        up.y = 1.0f;
 
-        func_800AA358(view, &v1, &v2, &v3);
+        func_800AA358(view, &eye, &lookAt, &up);
     }
 }
 

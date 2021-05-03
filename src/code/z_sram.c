@@ -451,7 +451,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
  *  Write the contents of the Save Context to a main and backup slot in SRAM.
  *  Note: The whole Save Context is written even though only the `save` substruct is read back later
  */
-void Sram_WriteSave(s32 unused) {
+void Sram_WriteSave(SramContext* sramCtx) {
     u16 offset;
     u16 checksum;
     u16 j;

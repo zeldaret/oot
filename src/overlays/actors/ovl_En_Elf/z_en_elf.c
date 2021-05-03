@@ -660,6 +660,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
         }
 
         if (!(this->fairyFlags & FAIRY_FLAG_BIG)) {
+            // GI_MAX in this case allows the player to catch the actor in a bottle
             func_8002F434(&this->actor, globalCtx, GI_MAX, 80.0f, 60.0f);
         }
     }

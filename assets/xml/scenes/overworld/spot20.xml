@@ -1,12 +1,10 @@
 <Root>
-    <File Name="spot20_scene">
-        <Scene Name="spot20_scene">
-        </Scene>
+    <File Name="spot20_scene" Segment="2">
+        <Scene Name="spot20_scene" Offset="0x0"/>
     </File>
-    <File Name="spot20_room_0">
-        <Room Name="spot20_room_0">
-            <DListHint Offset="0x5E50"/>
-            <DListHint Offset="0x66B8"/>
-        </Room>
+    <File Name="spot20_room_0" Segment="3">
+        <DList Name="gSpot20DL_005E50" Offset="0x5E50"/>
+        <DList Name="gSpot20DL_0066B8" Offset="0x66B8"/>
+        <Room Name="spot20_room_0" Offset="0x0"/>
     </File>
 </Root>

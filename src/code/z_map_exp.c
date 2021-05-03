@@ -20,20 +20,20 @@ void Map_SavePlayerInitialInfo(GlobalContext* globalCtx) {
 void Map_SetPaletteData(GlobalContext* globalCtx, s16 room) {
     s32 mapIndex = gSaveContext.mapIndex;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    s16 paletteNum = gMapData->roomPalette[mapIndex][room];
+    s16 paletteIndex = gMapData->roomPalette[mapIndex][room];
 
     if (interfaceCtx->mapRoomNum == room) {
-        interfaceCtx->mapPaletteNum = paletteNum;
+        interfaceCtx->mapPaletteIndex = paletteIndex;
     }
 
     osSyncPrintf(VT_FGCOL(YELLOW));
     // Translates to: "PALETE Set"
-    osSyncPrintf("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n", paletteNum,
-                 room, mapIndex, gSaveContext.sceneFlags[mapIndex].rooms, interfaceCtx->mapPaletteNum);
+    osSyncPrintf("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n", paletteIndex,
+                 room, mapIndex, gSaveContext.sceneFlags[mapIndex].rooms, interfaceCtx->mapPaletteIndex);
     osSyncPrintf(VT_RST);
 
-    interfaceCtx->unk_140[paletteNum * 2] = 2;
-    interfaceCtx->unk_140[paletteNum * 2 + 1] = 0xBF;
+    interfaceCtx->mapPalette[paletteIndex * 2] = 2;
+    interfaceCtx->mapPalette[paletteIndex * 2 + 1] = 0xBF;
 }
 
 void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
@@ -43,13 +43,13 @@ void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
     s16 i;
 
     for (i = 0; i < 16; i++) {
-        interfaceCtx->unk_140[i] = 0;
-        interfaceCtx->unk_140[i + 16] = 0;
+        interfaceCtx->mapPalette[i] = 0;
+        interfaceCtx->mapPalette[i + 16] = 0;
     }
 
     if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
-        interfaceCtx->unk_140[30] = 0;
-        interfaceCtx->unk_140[31] = 1;
+        interfaceCtx->mapPalette[30] = 0;
+        interfaceCtx->mapPalette[31] = 1;
     }
 
     switch (globalCtx->sceneNum) {
@@ -397,7 +397,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, mapIndex)) {
                         Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
                         func_80094520(globalCtx->state.gfxCtx);
-                        MapMark_DrawConditionally(globalCtx);
+                        MapMark_Draw(globalCtx);
                     }
                 }
 
@@ -510,7 +510,7 @@ void Map_Update(GlobalContext* globalCtx) {
     s16 floor;
     s16 i;
 
-    if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0)) {
+    if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0)) {
         switch (globalCtx->sceneNum) {
             case SCENE_YDAN:
             case SCENE_DDAN:
@@ -522,11 +522,11 @@ void Map_Update(GlobalContext* globalCtx) {
             case SCENE_HAKADAN:
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
-                interfaceCtx->unk_140[30] = 0;
+                interfaceCtx->mapPalette[30] = 0;
                 if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
-                    interfaceCtx->unk_140[31] = 1;
+                    interfaceCtx->mapPalette[31] = 1;
                 } else {
-                    interfaceCtx->unk_140[31] = 0;
+                    interfaceCtx->mapPalette[31] = 0;
                 }
 
                 for (floor = 0; floor < 8; floor++) {

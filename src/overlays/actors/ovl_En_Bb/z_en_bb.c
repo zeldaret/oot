@@ -550,7 +550,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
     Math_SmoothStepToF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
-    if (this->actor.floorHeight > -32000.0f) {
+    if (this->actor.floorHeight > BGCHECK_Y_MIN) {
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 50.0f + this->flyHeightMod, 1.0f, 0.5f,
                            0.0f);
     }

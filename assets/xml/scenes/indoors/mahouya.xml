@@ -1,9 +1,8 @@
 <Root>
-    <File Name="mahouya_scene">
+    <File Name="mahouya_scene" Segment="2">
         <Scene Name="mahouya_scene"/>
     </File>
-    <File Name="mahouya_room_0">
-        <Room Name="mahouya_room_0">
-        </Room>
+    <File Name="mahouya_room_0" Segment="3">
+        <Room Name="mahouya_room_0" Offset="0x0"/>
     </File>
 </Root>
