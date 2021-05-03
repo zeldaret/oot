@@ -1,45 +1,45 @@
 <Root>
     <File Name="object_bob" Segment="6">
-        <Limb Name="gobject_bob_limb_00000000" LimbType="Standard" Offset="0x0"/>
-        <Limb Name="gobject_bob_limb_0000000C" LimbType="Standard" Offset="0xC"/>
-        <Limb Name="gobject_bob_limb_00000018" LimbType="Standard" Offset="0x18"/>
-        <Limb Name="gobject_bob_limb_00000024" LimbType="Standard" Offset="0x24"/>
-        <Limb Name="gobject_bob_limb_00000030" LimbType="Standard" Offset="0x30"/>
-        <Limb Name="gobject_bob_limb_0000003C" LimbType="Standard" Offset="0x3C"/>
-        <Limb Name="gobject_bob_limb_00000048" LimbType="Standard" Offset="0x48"/>
-        <Limb Name="gobject_bob_limb_00000054" LimbType="Standard" Offset="0x54"/>
-        <Limb Name="gobject_bob_limb_00000060" LimbType="Standard" Offset="0x60"/>
-        <Limb Name="gobject_bob_limb_0000006C" LimbType="Standard" Offset="0x6C"/>
-        <Limb Name="gobject_bob_limb_00000078" LimbType="Standard" Offset="0x78"/>
-        <Limb Name="gobject_bob_limb_00000084" LimbType="Standard" Offset="0x84"/>
-        <Limb Name="gobject_bob_limb_00000090" LimbType="Standard" Offset="0x90"/>
-        <Limb Name="gobject_bob_limb_0000009C" LimbType="Standard" Offset="0x9C"/>
-        <Limb Name="gobject_bob_limb_000000A8" LimbType="Standard" Offset="0xA8"/>
-        <Skeleton Name="gobject_bob_skel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0"/>
-        <Texture Name="gobject_bob_tlut_00000108" OutName="tlut_00000108" Format="rgb5a1" Width="16" Height="16" Offset="0x108"/>
-        <Texture Name="gobject_bob_tex_00000308" OutName="tex_00000308" Format="ci8" Width="8" Height="8" Offset="0x308"/>
-        <Texture Name="gobject_bob_tex_00000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348"/>
-        <Texture Name="gobject_bob_tex_00000388" OutName="tex_00000388" Format="ci8" Width="32" Height="32" Offset="0x388"/>
-        <Texture Name="gobject_bob_tex_00000788" OutName="tex_00000788" Format="ci8" Width="8" Height="8" Offset="0x788"/>
-        <Blob Name="gobject_bob_unk_000007C8" Size="0x1800" Offset="0x7C8"/>
-        <Texture Name="gobject_bob_tex_00001FC8" OutName="tex_00001FC8" Format="ci8" Width="16" Height="16" Offset="0x1FC8"/>
-        <Texture Name="gobject_bob_tex_000020C8" OutName="tex_000020C8" Format="ci8" Width="16" Height="16" Offset="0x20C8"/>
-        <Texture Name="gobject_bob_tex_000021C8" OutName="tex_000021C8" Format="ci8" Width="8" Height="8" Offset="0x21C8"/>
-        <Texture Name="gobject_bob_tex_00002208" OutName="tex_00002208" Format="ci8" Width="16" Height="16" Offset="0x2208"/>
-        <DList Name="gobject_bob_dlist_00003B78" Offset="0x3B78"/>
-        <DList Name="gobject_bob_dlist_00003F68" Offset="0x3F68"/>
-        <DList Name="gobject_bob_dlist_000040B0" Offset="0x40B0"/>
-        <DList Name="gobject_bob_dlist_000041E0" Offset="0x41E0"/>
-        <DList Name="gobject_bob_dlist_00004310" Offset="0x4310"/>
-        <DList Name="gobject_bob_dlist_00004458" Offset="0x4458"/>
-        <DList Name="gobject_bob_dlist_00004588" Offset="0x4588"/>
-        <DList Name="gobject_bob_dlist_000046B8" Offset="0x46B8"/>
-        <DList Name="gobject_bob_dlist_00004A48" Offset="0x4A48"/>
-        <DList Name="gobject_bob_dlist_00004B18" Offset="0x4B18"/>
-        <DList Name="gobject_bob_dlist_00004BE8" Offset="0x4BE8"/>
-        <DList Name="gobject_bob_dlist_00004C38" Offset="0x4C38"/>
-        <DList Name="gobject_bob_dlist_00004D08" Offset="0x4D08"/>
-        <DList Name="gobject_bob_dlist_00004DD8" Offset="0x4DD8"/>
-        <DList Name="gobject_bob_dlist_00004E28" Offset="0x4E28"/>
+        <Limb Name="gobject_bobLimb_00000000" LimbType="Standard" Offset="0x0"/>
+        <Limb Name="gobject_bobLimb_0000000C" LimbType="Standard" Offset="0xC"/>
+        <Limb Name="gobject_bobLimb_00000018" LimbType="Standard" Offset="0x18"/>
+        <Limb Name="gobject_bobLimb_00000024" LimbType="Standard" Offset="0x24"/>
+        <Limb Name="gobject_bobLimb_00000030" LimbType="Standard" Offset="0x30"/>
+        <Limb Name="gobject_bobLimb_0000003C" LimbType="Standard" Offset="0x3C"/>
+        <Limb Name="gobject_bobLimb_00000048" LimbType="Standard" Offset="0x48"/>
+        <Limb Name="gobject_bobLimb_00000054" LimbType="Standard" Offset="0x54"/>
+        <Limb Name="gobject_bobLimb_00000060" LimbType="Standard" Offset="0x60"/>
+        <Limb Name="gobject_bobLimb_0000006C" LimbType="Standard" Offset="0x6C"/>
+        <Limb Name="gobject_bobLimb_00000078" LimbType="Standard" Offset="0x78"/>
+        <Limb Name="gobject_bobLimb_00000084" LimbType="Standard" Offset="0x84"/>
+        <Limb Name="gobject_bobLimb_00000090" LimbType="Standard" Offset="0x90"/>
+        <Limb Name="gobject_bobLimb_0000009C" LimbType="Standard" Offset="0x9C"/>
+        <Limb Name="gobject_bobLimb_000000A8" LimbType="Standard" Offset="0xA8"/>
+        <Skeleton Name="gobject_bobSkel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0"/>
+        <Texture Name="gobject_bobTLUT_00000108" OutName="tlut_00000108" Format="rgb5a1" Width="16" Height="16" Offset="0x108"/>
+        <Texture Name="gobject_bobTex_00000308" OutName="tex_00000308" Format="ci8" Width="8" Height="8" Offset="0x308"/>
+        <Texture Name="gobject_bobTex_00000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348"/>
+        <Texture Name="gobject_bobTex_00000388" OutName="tex_00000388" Format="ci8" Width="32" Height="32" Offset="0x388"/>
+        <Texture Name="gobject_bobTex_00000788" OutName="tex_00000788" Format="ci8" Width="8" Height="8" Offset="0x788"/>
+        <Blob Name="gobject_bobBlob_000007C8" Size="0x1800" Offset="0x7C8"/>
+        <Texture Name="gobject_bobTex_00001FC8" OutName="tex_00001FC8" Format="ci8" Width="16" Height="16" Offset="0x1FC8"/>
+        <Texture Name="gobject_bobTex_000020C8" OutName="tex_000020C8" Format="ci8" Width="16" Height="16" Offset="0x20C8"/>
+        <Texture Name="gobject_bobTex_000021C8" OutName="tex_000021C8" Format="ci8" Width="8" Height="8" Offset="0x21C8"/>
+        <Texture Name="gobject_bobTex_00002208" OutName="tex_00002208" Format="ci8" Width="16" Height="16" Offset="0x2208"/>
+        <DList Name="gobject_bobDL_00003B78" Offset="0x3B78"/>
+        <DList Name="gobject_bobDL_00003F68" Offset="0x3F68"/>
+        <DList Name="gobject_bobDL_000040B0" Offset="0x40B0"/>
+        <DList Name="gobject_bobDL_000041E0" Offset="0x41E0"/>
+        <DList Name="gobject_bobDL_00004310" Offset="0x4310"/>
+        <DList Name="gobject_bobDL_00004458" Offset="0x4458"/>
+        <DList Name="gobject_bobDL_00004588" Offset="0x4588"/>
+        <DList Name="gobject_bobDL_000046B8" Offset="0x46B8"/>
+        <DList Name="gobject_bobDL_00004A48" Offset="0x4A48"/>
+        <DList Name="gobject_bobDL_00004B18" Offset="0x4B18"/>
+        <DList Name="gobject_bobDL_00004BE8" Offset="0x4BE8"/>
+        <DList Name="gobject_bobDL_00004C38" Offset="0x4C38"/>
+        <DList Name="gobject_bobDL_00004D08" Offset="0x4D08"/>
+        <DList Name="gobject_bobDL_00004DD8" Offset="0x4DD8"/>
+        <DList Name="gobject_bobDL_00004E28" Offset="0x4E28"/>
     </File>
 </Root>

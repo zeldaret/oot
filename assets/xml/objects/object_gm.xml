@@ -1,5 +1,5 @@
 <Root>
     <File Name="object_gm" Segment="6">
-        <Animation Name="gobject_gm_anim_000002B8" Offset="0x2B8"/>
+        <Animation Name="gobject_gmAnim_000002B8" Offset="0x2B8"/>
     </File>
 </Root>

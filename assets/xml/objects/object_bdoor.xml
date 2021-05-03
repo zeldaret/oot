@@ -1,9 +1,9 @@
 <Root>
     <File Name="object_bdoor" Segment="6">
-        <Blob Name="gobject_bdoor_unk_00000000" Size="0x1000" Offset="0x0"/>
-        <DList Name="gobject_bdoor_dlist_000010C0" Offset="0x10C0"/>
-        <DList Name="gobject_bdoor_dlist_00001400" Offset="0x1400"/>
-        <DList Name="gobject_bdoor_dlist_00001530" Offset="0x1530"/>
-        <Blob Name="gobject_bdoor_unk_000015C0" Size="0x6000" Offset="0x15C0"/>
+        <Blob Name="gobject_bdoorBlob_00000000" Size="0x1000" Offset="0x0"/>
+        <DList Name="gobject_bdoorDL_000010C0" Offset="0x10C0"/>
+        <DList Name="gobject_bdoorDL_00001400" Offset="0x1400"/>
+        <DList Name="gobject_bdoorDL_00001530" Offset="0x1530"/>
+        <Blob Name="gobject_bdoorBlob_000015C0" Size="0x6000" Offset="0x15C0"/>
     </File>
 </Root>

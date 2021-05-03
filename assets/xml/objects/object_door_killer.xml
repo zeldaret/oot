@@ -1,17 +1,17 @@
 <Root>
     <File Name="object_door_killer" Segment="6">
-        <DList Name="gobject_door_killer_dlist_00000A20" Offset="0xA20"/>
-        <DList Name="gobject_door_killer_dlist_00000AD8" Offset="0xAD8"/>
-        <DList Name="gobject_door_killer_dlist_00000BB0" Offset="0xBB0"/>
-        <DList Name="gobject_door_killer_dlist_00000C88" Offset="0xC88"/>
-        <DList Name="gobject_door_killer_dlist_00000D60" Offset="0xD60"/>
-        <DList Name="gobject_door_killer_dlist_00000E38" Offset="0xE38"/>
-        <DList Name="gobject_door_killer_dlist_00000F10" Offset="0xF10"/>
-        <DList Name="gobject_door_killer_dlist_00000FE8" Offset="0xFE8"/>
-        <DList Name="gobject_door_killer_dlist_00001250" Offset="0x1250"/>
-        <DList Name="gobject_door_killer_dlist_00001550" Offset="0x1550"/>
-        <DList Name="gobject_door_killer_dlist_000017B8" Offset="0x17B8"/>
-        <DList Name="gobject_door_killer_dlist_00001A58" Offset="0x1A58"/>
-        <Blob Name="gobject_door_killer_unk_00001B28" Size="0xB8" Offset="0x1B28"/>
+        <DList Name="gobject_door_killerDL_00000A20" Offset="0xA20"/>
+        <DList Name="gobject_door_killerDL_00000AD8" Offset="0xAD8"/>
+        <DList Name="gobject_door_killerDL_00000BB0" Offset="0xBB0"/>
+        <DList Name="gobject_door_killerDL_00000C88" Offset="0xC88"/>
+        <DList Name="gobject_door_killerDL_00000D60" Offset="0xD60"/>
+        <DList Name="gobject_door_killerDL_00000E38" Offset="0xE38"/>
+        <DList Name="gobject_door_killerDL_00000F10" Offset="0xF10"/>
+        <DList Name="gobject_door_killerDL_00000FE8" Offset="0xFE8"/>
+        <DList Name="gobject_door_killerDL_00001250" Offset="0x1250"/>
+        <DList Name="gobject_door_killerDL_00001550" Offset="0x1550"/>
+        <DList Name="gobject_door_killerDL_000017B8" Offset="0x17B8"/>
+        <DList Name="gobject_door_killerDL_00001A58" Offset="0x1A58"/>
+        <Blob Name="gobject_door_killerBlob_00001B28" Size="0xB8" Offset="0x1B28"/>
     </File>
 </Root>

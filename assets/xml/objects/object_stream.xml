@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_stream" Segment="6">
-        <Texture Name="gobject_stream_tex_00000000" OutName="tex_00000000" Format="i4" Width="64" Height="64" Offset="0x0"/>
-        <DList Name="gobject_stream_dlist_00000950" Offset="0x950"/>
+        <Texture Name="gobject_streamTex_00000000" OutName="tex_00000000" Format="i4" Width="64" Height="64" Offset="0x0"/>
+        <DList Name="gobject_streamDL_00000950" Offset="0x950"/>
     </File>
 </Root>

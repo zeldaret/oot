@@ -1,179 +1,179 @@
 <Root>
     <File Name="object_zf" Segment="6">
-        <Texture Name="gobject_zf_tlut_00000000" OutName="tlut_00000000" Format="rgb5a1" Width="16" Height="16" Offset="0x0"/>
-        <Texture Name="gobject_zf_tex_00000200" OutName="tex_00000200" Format="ci8" Width="8" Height="8" Offset="0x200"/>
-        <Texture Name="gobject_zf_tex_00000240" OutName="tex_00000240" Format="ci8" Width="16" Height="16" Offset="0x240"/>
-        <Texture Name="gobject_zf_tex_00000340" OutName="tex_00000340" Format="rgb5a1" Width="8" Height="8" Offset="0x340"/>
-        <Texture Name="gobject_zf_tex_000003C0" OutName="tex_000003C0" Format="rgb5a1" Width="8" Height="8" Offset="0x3C0"/>
-        <Texture Name="gobject_zf_tex_00000440" OutName="tex_00000440" Format="ci8" Width="16" Height="16" Offset="0x440"/>
-        <Texture Name="gobject_zf_tex_00000540" OutName="tex_00000540" Format="i8" Width="8" Height="8" Offset="0x540"/>
-        <Texture Name="gobject_zf_tex_00000580" OutName="tex_00000580" Format="i8" Width="8" Height="16" Offset="0x580"/>
-        <Texture Name="gobject_zf_tex_00000600" OutName="tex_00000600" Format="ci8" Width="16" Height="16" Offset="0x600"/>
-        <Texture Name="gobject_zf_tex_00000700" OutName="tex_00000700" Format="rgb5a1" Width="16" Height="16" Offset="0x700"/>
-        <DList Name="gobject_zf_dlist_00003510" Offset="0x3510"/>
-        <DList Name="gobject_zf_dlist_00003778" Offset="0x3778"/>
-        <DList Name="gobject_zf_dlist_00003908" Offset="0x3908"/>
-        <DList Name="gobject_zf_dlist_00003A60" Offset="0x3A60"/>
-        <DList Name="gobject_zf_dlist_00003CC8" Offset="0x3CC8"/>
-        <DList Name="gobject_zf_dlist_00003E58" Offset="0x3E58"/>
-        <DList Name="gobject_zf_dlist_00003FB0" Offset="0x3FB0"/>
-        <DList Name="gobject_zf_dlist_000041A8" Offset="0x41A8"/>
-        <DList Name="gobject_zf_dlist_00004330" Offset="0x4330"/>
-        <DList Name="gobject_zf_dlist_000044F0" Offset="0x44F0"/>
-        <DList Name="gobject_zf_dlist_000046E8" Offset="0x46E8"/>
-        <DList Name="gobject_zf_dlist_00004870" Offset="0x4870"/>
-        <DList Name="gobject_zf_dlist_00004A00" Offset="0x4A00"/>
-        <DList Name="gobject_zf_dlist_00004D50" Offset="0x4D50"/>
-        <DList Name="gobject_zf_dlist_00004DF8" Offset="0x4DF8"/>
-        <DList Name="gobject_zf_dlist_00004EA0" Offset="0x4EA0"/>
-        <DList Name="gobject_zf_dlist_00005180" Offset="0x5180"/>
-        <DList Name="gobject_zf_dlist_00005300" Offset="0x5300"/>
-        <DList Name="gobject_zf_dlist_00005598" Offset="0x5598"/>
-        <DList Name="gobject_zf_dlist_000059C8" Offset="0x59C8"/>
-        <Limb Name="gobject_zf_limb_00006390" LimbType="Standard" Offset="0x6390"/>
-        <Limb Name="gobject_zf_limb_0000639C" LimbType="Standard" Offset="0x639C"/>
-        <Limb Name="gobject_zf_limb_000063A8" LimbType="Standard" Offset="0x63A8"/>
-        <Limb Name="gobject_zf_limb_000063B4" LimbType="Standard" Offset="0x63B4"/>
-        <Limb Name="gobject_zf_limb_000063C0" LimbType="Standard" Offset="0x63C0"/>
-        <Limb Name="gobject_zf_limb_000063CC" LimbType="Standard" Offset="0x63CC"/>
-        <Limb Name="gobject_zf_limb_000063D8" LimbType="Standard" Offset="0x63D8"/>
-        <Limb Name="gobject_zf_limb_000063E4" LimbType="Standard" Offset="0x63E4"/>
-        <Limb Name="gobject_zf_limb_000063F0" LimbType="Standard" Offset="0x63F0"/>
-        <Limb Name="gobject_zf_limb_000063FC" LimbType="Standard" Offset="0x63FC"/>
-        <Limb Name="gobject_zf_limb_00006408" LimbType="Standard" Offset="0x6408"/>
-        <Limb Name="gobject_zf_limb_00006414" LimbType="Standard" Offset="0x6414"/>
-        <Limb Name="gobject_zf_limb_00006420" LimbType="Standard" Offset="0x6420"/>
-        <Limb Name="gobject_zf_limb_0000642C" LimbType="Standard" Offset="0x642C"/>
-        <Limb Name="gobject_zf_limb_00006438" LimbType="Standard" Offset="0x6438"/>
-        <Limb Name="gobject_zf_limb_00006444" LimbType="Standard" Offset="0x6444"/>
-        <Limb Name="gobject_zf_limb_00006450" LimbType="Standard" Offset="0x6450"/>
-        <Limb Name="gobject_zf_limb_0000645C" LimbType="Standard" Offset="0x645C"/>
-        <Limb Name="gobject_zf_limb_00006468" LimbType="Standard" Offset="0x6468"/>
-        <Limb Name="gobject_zf_limb_00006474" LimbType="Standard" Offset="0x6474"/>
-        <Limb Name="gobject_zf_limb_00006480" LimbType="Standard" Offset="0x6480"/>
-        <Limb Name="gobject_zf_limb_0000648C" LimbType="Standard" Offset="0x648C"/>
-        <Limb Name="gobject_zf_limb_00006498" LimbType="Standard" Offset="0x6498"/>
-        <Limb Name="gobject_zf_limb_000064A4" LimbType="Standard" Offset="0x64A4"/>
-        <Limb Name="gobject_zf_limb_000064B0" LimbType="Standard" Offset="0x64B0"/>
-        <Limb Name="gobject_zf_limb_000064BC" LimbType="Standard" Offset="0x64BC"/>
-        <Limb Name="gobject_zf_limb_000064C8" LimbType="Standard" Offset="0x64C8"/>
-        <Limb Name="gobject_zf_limb_000064D4" LimbType="Standard" Offset="0x64D4"/>
-        <Limb Name="gobject_zf_limb_000064E0" LimbType="Standard" Offset="0x64E0"/>
-        <Limb Name="gobject_zf_limb_000064EC" LimbType="Standard" Offset="0x64EC"/>
-        <Limb Name="gobject_zf_limb_000064F8" LimbType="Standard" Offset="0x64F8"/>
-        <Limb Name="gobject_zf_limb_00006504" LimbType="Standard" Offset="0x6504"/>
-        <Limb Name="gobject_zf_limb_00006510" LimbType="Standard" Offset="0x6510"/>
-        <Limb Name="gobject_zf_limb_0000651C" LimbType="Standard" Offset="0x651C"/>
-        <Limb Name="gobject_zf_limb_00006528" LimbType="Standard" Offset="0x6528"/>
-        <Limb Name="gobject_zf_limb_00006534" LimbType="Standard" Offset="0x6534"/>
-        <Limb Name="gobject_zf_limb_00006540" LimbType="Standard" Offset="0x6540"/>
-        <Limb Name="gobject_zf_limb_0000654C" LimbType="Standard" Offset="0x654C"/>
-        <Limb Name="gobject_zf_limb_00006558" LimbType="Standard" Offset="0x6558"/>
-        <Limb Name="gobject_zf_limb_00006564" LimbType="Standard" Offset="0x6564"/>
-        <Limb Name="gobject_zf_limb_00006570" LimbType="Standard" Offset="0x6570"/>
-        <Limb Name="gobject_zf_limb_0000657C" LimbType="Standard" Offset="0x657C"/>
-        <Limb Name="gobject_zf_limb_00006588" LimbType="Standard" Offset="0x6588"/>
-        <Limb Name="gobject_zf_limb_00006594" LimbType="Standard" Offset="0x6594"/>
-        <Limb Name="gobject_zf_limb_000065A0" LimbType="Standard" Offset="0x65A0"/>
-        <Limb Name="gobject_zf_limb_000065AC" LimbType="Standard" Offset="0x65AC"/>
-        <Limb Name="gobject_zf_limb_000065B8" LimbType="Standard" Offset="0x65B8"/>
-        <Limb Name="gobject_zf_limb_000065C4" LimbType="Standard" Offset="0x65C4"/>
-        <Skeleton Name="gobject_zf_skel_00006690" Type="Normal" LimbType="Standard" Offset="0x6690"/>
-        <Animation Name="gobject_zf_anim_00008138" Offset="0x8138"/>
-        <Animation Name="gobject_zf_anim_00008C6C" Offset="0x8C6C"/>
-        <Animation Name="gobject_zf_anim_00009530" Offset="0x9530"/>
-        <Animation Name="gobject_zf_anim_0000A3D4" Offset="0xA3D4"/>
-        <Animation Name="gobject_zf_anim_0000B10C" Offset="0xB10C"/>
-        <Texture Name="gobject_zf_tex_0000B120" OutName="tex_0000B120" Format="rgb5a1" Width="32" Height="32" Offset="0xB120"/>
-        <Texture Name="gobject_zf_tex_0000B920" OutName="tex_0000B920" Format="rgb5a1" Width="8" Height="8" Offset="0xB920"/>
-        <Texture Name="gobject_zf_tex_0000B9A0" OutName="tex_0000B9A0" Format="rgb5a1" Width="8" Height="8" Offset="0xB9A0"/>
-        <Texture Name="gobject_zf_tex_0000BA20" OutName="tex_0000BA20" Format="rgb5a1" Width="8" Height="8" Offset="0xBA20"/>
-        <Texture Name="gobject_zf_tex_0000BAA0" OutName="tex_0000BAA0" Format="rgb5a1" Width="8" Height="8" Offset="0xBAA0"/>
-        <Texture Name="gobject_zf_tex_0000BB20" OutName="tex_0000BB20" Format="rgb5a1" Width="8" Height="8" Offset="0xBB20"/>
-        <Texture Name="gobject_zf_tex_0000BBA0" OutName="tex_0000BBA0" Format="rgb5a1" Width="16" Height="16" Offset="0xBBA0"/>
-        <Texture Name="gobject_zf_tex_0000BDA0" OutName="tex_0000BDA0" Format="rgb5a1" Width="8" Height="8" Offset="0xBDA0"/>
-        <Texture Name="gobject_zf_tex_0000BE20" OutName="tex_0000BE20" Format="rgb5a1" Width="16" Height="16" Offset="0xBE20"/>
-        <Texture Name="gobject_zf_tex_0000C020" OutName="tex_0000C020" Format="rgb5a1" Width="16" Height="16" Offset="0xC020"/>
-        <Texture Name="gobject_zf_tex_0000C220" OutName="tex_0000C220" Format="rgb5a1" Width="8" Height="8" Offset="0xC220"/>
-        <Texture Name="gobject_zf_tex_0000C2A0" OutName="tex_0000C2A0" Format="rgb5a1" Width="8" Height="8" Offset="0xC2A0"/>
-        <DList Name="gobject_zf_dlist_0000C410" Offset="0xC410"/>
-        <DList Name="gobject_zf_dlist_0000C640" Offset="0xC640"/>
-        <DList Name="gobject_zf_dlist_0000C978" Offset="0xC978"/>
-        <DList Name="gobject_zf_dlist_0000CB48" Offset="0xCB48"/>
-        <DList Name="gobject_zf_dlist_0000CC80" Offset="0xCC80"/>
-        <DList Name="gobject_zf_dlist_0000CFF0" Offset="0xCFF0"/>
-        <DList Name="gobject_zf_dlist_0000D230" Offset="0xD230"/>
-        <DList Name="gobject_zf_dlist_0000D460" Offset="0xD460"/>
-        <DList Name="gobject_zf_dlist_0000D798" Offset="0xD798"/>
-        <DList Name="gobject_zf_dlist_0000D968" Offset="0xD968"/>
-        <DList Name="gobject_zf_dlist_0000DAA0" Offset="0xDAA0"/>
-        <DList Name="gobject_zf_dlist_0000DD20" Offset="0xDD20"/>
-        <DList Name="gobject_zf_dlist_0000E198" Offset="0xE198"/>
-        <DList Name="gobject_zf_dlist_0000E3E8" Offset="0xE3E8"/>
-        <DList Name="gobject_zf_dlist_0000E7E0" Offset="0xE7E0"/>
-        <DList Name="gobject_zf_dlist_0000EBA8" Offset="0xEBA8"/>
-        <DList Name="gobject_zf_dlist_0000EE60" Offset="0xEE60"/>
-        <DList Name="gobject_zf_dlist_0000F620" Offset="0xF620"/>
-        <DList Name="gobject_zf_dlist_0000F970" Offset="0xF970"/>
-        <DList Name="gobject_zf_dlist_0000FB88" Offset="0xFB88"/>
-        <DList Name="gobject_zf_dlist_0000FDA0" Offset="0xFDA0"/>
-        <DList Name="gobject_zf_dlist_00010060" Offset="0x10060"/>
-        <Limb Name="gobject_zf_limb_000101B8" LimbType="Standard" Offset="0x101B8"/>
-        <Limb Name="gobject_zf_limb_000101C4" LimbType="Standard" Offset="0x101C4"/>
-        <Limb Name="gobject_zf_limb_000101D0" LimbType="Standard" Offset="0x101D0"/>
-        <Limb Name="gobject_zf_limb_000101DC" LimbType="Standard" Offset="0x101DC"/>
-        <Limb Name="gobject_zf_limb_000101E8" LimbType="Standard" Offset="0x101E8"/>
-        <Limb Name="gobject_zf_limb_000101F4" LimbType="Standard" Offset="0x101F4"/>
-        <Limb Name="gobject_zf_limb_00010200" LimbType="Standard" Offset="0x10200"/>
-        <Limb Name="gobject_zf_limb_0001020C" LimbType="Standard" Offset="0x1020C"/>
-        <Limb Name="gobject_zf_limb_00010218" LimbType="Standard" Offset="0x10218"/>
-        <Limb Name="gobject_zf_limb_00010224" LimbType="Standard" Offset="0x10224"/>
-        <Limb Name="gobject_zf_limb_00010230" LimbType="Standard" Offset="0x10230"/>
-        <Limb Name="gobject_zf_limb_0001023C" LimbType="Standard" Offset="0x1023C"/>
-        <Limb Name="gobject_zf_limb_00010248" LimbType="Standard" Offset="0x10248"/>
-        <Limb Name="gobject_zf_limb_00010254" LimbType="Standard" Offset="0x10254"/>
-        <Limb Name="gobject_zf_limb_00010260" LimbType="Standard" Offset="0x10260"/>
-        <Limb Name="gobject_zf_limb_0001026C" LimbType="Standard" Offset="0x1026C"/>
-        <Limb Name="gobject_zf_limb_00010278" LimbType="Standard" Offset="0x10278"/>
-        <Limb Name="gobject_zf_limb_00010284" LimbType="Standard" Offset="0x10284"/>
-        <Limb Name="gobject_zf_limb_00010290" LimbType="Standard" Offset="0x10290"/>
-        <Limb Name="gobject_zf_limb_0001029C" LimbType="Standard" Offset="0x1029C"/>
-        <Limb Name="gobject_zf_limb_000102A8" LimbType="Standard" Offset="0x102A8"/>
-        <Limb Name="gobject_zf_limb_000102B4" LimbType="Standard" Offset="0x102B4"/>
-        <Limb Name="gobject_zf_limb_000102C0" LimbType="Standard" Offset="0x102C0"/>
-        <Limb Name="gobject_zf_limb_000102CC" LimbType="Standard" Offset="0x102CC"/>
-        <Limb Name="gobject_zf_limb_000102D8" LimbType="Standard" Offset="0x102D8"/>
-        <Limb Name="gobject_zf_limb_000102E4" LimbType="Standard" Offset="0x102E4"/>
-        <Limb Name="gobject_zf_limb_000102F0" LimbType="Standard" Offset="0x102F0"/>
-        <Limb Name="gobject_zf_limb_000102FC" LimbType="Standard" Offset="0x102FC"/>
-        <Limb Name="gobject_zf_limb_00010308" LimbType="Standard" Offset="0x10308"/>
-        <Limb Name="gobject_zf_limb_00010314" LimbType="Standard" Offset="0x10314"/>
-        <Limb Name="gobject_zf_limb_00010320" LimbType="Standard" Offset="0x10320"/>
-        <Limb Name="gobject_zf_limb_0001032C" LimbType="Standard" Offset="0x1032C"/>
-        <Limb Name="gobject_zf_limb_00010338" LimbType="Standard" Offset="0x10338"/>
-        <Limb Name="gobject_zf_limb_00010344" LimbType="Standard" Offset="0x10344"/>
-        <Limb Name="gobject_zf_limb_00010350" LimbType="Standard" Offset="0x10350"/>
-        <Limb Name="gobject_zf_limb_0001035C" LimbType="Standard" Offset="0x1035C"/>
-        <Limb Name="gobject_zf_limb_00010368" LimbType="Standard" Offset="0x10368"/>
-        <Limb Name="gobject_zf_limb_00010374" LimbType="Standard" Offset="0x10374"/>
-        <Limb Name="gobject_zf_limb_00010380" LimbType="Standard" Offset="0x10380"/>
-        <Limb Name="gobject_zf_limb_0001038C" LimbType="Standard" Offset="0x1038C"/>
-        <Limb Name="gobject_zf_limb_00010398" LimbType="Standard" Offset="0x10398"/>
-        <Limb Name="gobject_zf_limb_000103A4" LimbType="Standard" Offset="0x103A4"/>
-        <Limb Name="gobject_zf_limb_000103B0" LimbType="Standard" Offset="0x103B0"/>
-        <Limb Name="gobject_zf_limb_000103BC" LimbType="Standard" Offset="0x103BC"/>
-        <Limb Name="gobject_zf_limb_000103C8" LimbType="Standard" Offset="0x103C8"/>
-        <Limb Name="gobject_zf_limb_000103D4" LimbType="Standard" Offset="0x103D4"/>
-        <Limb Name="gobject_zf_limb_000103E0" LimbType="Standard" Offset="0x103E0"/>
-        <Limb Name="gobject_zf_limb_000103EC" LimbType="Standard" Offset="0x103EC"/>
-        <Skeleton Name="gobject_zf_skel_000104B8" Type="Normal" LimbType="Standard" Offset="0x104B8"/>
-        <Animation Name="gobject_zf_anim_0001081C" Offset="0x1081C"/>
-        <Animation Name="gobject_zf_anim_00010CAC" Offset="0x10CAC"/>
-        <Animation Name="gobject_zf_anim_00011070" Offset="0x11070"/>
-        <Animation Name="gobject_zf_anim_000119F4" Offset="0x119F4"/>
-        <Animation Name="gobject_zf_anim_0001366C" Offset="0x1366C"/>
-        <Animation Name="gobject_zf_anim_00014E60" Offset="0x14E60"/>
-        <Animation Name="gobject_zf_anim_000157F8" Offset="0x157F8"/>
-        <Animation Name="gobject_zf_anim_00016388" Offset="0x16388"/>
+        <Texture Name="gobject_zfTLUT_00000000" OutName="tlut_00000000" Format="rgb5a1" Width="16" Height="16" Offset="0x0"/>
+        <Texture Name="gobject_zfTex_00000200" OutName="tex_00000200" Format="ci8" Width="8" Height="8" Offset="0x200"/>
+        <Texture Name="gobject_zfTex_00000240" OutName="tex_00000240" Format="ci8" Width="16" Height="16" Offset="0x240"/>
+        <Texture Name="gobject_zfTex_00000340" OutName="tex_00000340" Format="rgb5a1" Width="8" Height="8" Offset="0x340"/>
+        <Texture Name="gobject_zfTex_000003C0" OutName="tex_000003C0" Format="rgb5a1" Width="8" Height="8" Offset="0x3C0"/>
+        <Texture Name="gobject_zfTex_00000440" OutName="tex_00000440" Format="ci8" Width="16" Height="16" Offset="0x440"/>
+        <Texture Name="gobject_zfTex_00000540" OutName="tex_00000540" Format="i8" Width="8" Height="8" Offset="0x540"/>
+        <Texture Name="gobject_zfTex_00000580" OutName="tex_00000580" Format="i8" Width="8" Height="16" Offset="0x580"/>
+        <Texture Name="gobject_zfTex_00000600" OutName="tex_00000600" Format="ci8" Width="16" Height="16" Offset="0x600"/>
+        <Texture Name="gobject_zfTex_00000700" OutName="tex_00000700" Format="rgb5a1" Width="16" Height="16" Offset="0x700"/>
+        <DList Name="gobject_zfDL_00003510" Offset="0x3510"/>
+        <DList Name="gobject_zfDL_00003778" Offset="0x3778"/>
+        <DList Name="gobject_zfDL_00003908" Offset="0x3908"/>
+        <DList Name="gobject_zfDL_00003A60" Offset="0x3A60"/>
+        <DList Name="gobject_zfDL_00003CC8" Offset="0x3CC8"/>
+        <DList Name="gobject_zfDL_00003E58" Offset="0x3E58"/>
+        <DList Name="gobject_zfDL_00003FB0" Offset="0x3FB0"/>
+        <DList Name="gobject_zfDL_000041A8" Offset="0x41A8"/>
+        <DList Name="gobject_zfDL_00004330" Offset="0x4330"/>
+        <DList Name="gobject_zfDL_000044F0" Offset="0x44F0"/>
+        <DList Name="gobject_zfDL_000046E8" Offset="0x46E8"/>
+        <DList Name="gobject_zfDL_00004870" Offset="0x4870"/>
+        <DList Name="gobject_zfDL_00004A00" Offset="0x4A00"/>
+        <DList Name="gobject_zfDL_00004D50" Offset="0x4D50"/>
+        <DList Name="gobject_zfDL_00004DF8" Offset="0x4DF8"/>
+        <DList Name="gobject_zfDL_00004EA0" Offset="0x4EA0"/>
+        <DList Name="gobject_zfDL_00005180" Offset="0x5180"/>
+        <DList Name="gobject_zfDL_00005300" Offset="0x5300"/>
+        <DList Name="gobject_zfDL_00005598" Offset="0x5598"/>
+        <DList Name="gobject_zfDL_000059C8" Offset="0x59C8"/>
+        <Limb Name="gobject_zfLimb_00006390" LimbType="Standard" Offset="0x6390"/>
+        <Limb Name="gobject_zfLimb_0000639C" LimbType="Standard" Offset="0x639C"/>
+        <Limb Name="gobject_zfLimb_000063A8" LimbType="Standard" Offset="0x63A8"/>
+        <Limb Name="gobject_zfLimb_000063B4" LimbType="Standard" Offset="0x63B4"/>
+        <Limb Name="gobject_zfLimb_000063C0" LimbType="Standard" Offset="0x63C0"/>
+        <Limb Name="gobject_zfLimb_000063CC" LimbType="Standard" Offset="0x63CC"/>
+        <Limb Name="gobject_zfLimb_000063D8" LimbType="Standard" Offset="0x63D8"/>
+        <Limb Name="gobject_zfLimb_000063E4" LimbType="Standard" Offset="0x63E4"/>
+        <Limb Name="gobject_zfLimb_000063F0" LimbType="Standard" Offset="0x63F0"/>
+        <Limb Name="gobject_zfLimb_000063FC" LimbType="Standard" Offset="0x63FC"/>
+        <Limb Name="gobject_zfLimb_00006408" LimbType="Standard" Offset="0x6408"/>
+        <Limb Name="gobject_zfLimb_00006414" LimbType="Standard" Offset="0x6414"/>
+        <Limb Name="gobject_zfLimb_00006420" LimbType="Standard" Offset="0x6420"/>
+        <Limb Name="gobject_zfLimb_0000642C" LimbType="Standard" Offset="0x642C"/>
+        <Limb Name="gobject_zfLimb_00006438" LimbType="Standard" Offset="0x6438"/>
+        <Limb Name="gobject_zfLimb_00006444" LimbType="Standard" Offset="0x6444"/>
+        <Limb Name="gobject_zfLimb_00006450" LimbType="Standard" Offset="0x6450"/>
+        <Limb Name="gobject_zfLimb_0000645C" LimbType="Standard" Offset="0x645C"/>
+        <Limb Name="gobject_zfLimb_00006468" LimbType="Standard" Offset="0x6468"/>
+        <Limb Name="gobject_zfLimb_00006474" LimbType="Standard" Offset="0x6474"/>
+        <Limb Name="gobject_zfLimb_00006480" LimbType="Standard" Offset="0x6480"/>
+        <Limb Name="gobject_zfLimb_0000648C" LimbType="Standard" Offset="0x648C"/>
+        <Limb Name="gobject_zfLimb_00006498" LimbType="Standard" Offset="0x6498"/>
+        <Limb Name="gobject_zfLimb_000064A4" LimbType="Standard" Offset="0x64A4"/>
+        <Limb Name="gobject_zfLimb_000064B0" LimbType="Standard" Offset="0x64B0"/>
+        <Limb Name="gobject_zfLimb_000064BC" LimbType="Standard" Offset="0x64BC"/>
+        <Limb Name="gobject_zfLimb_000064C8" LimbType="Standard" Offset="0x64C8"/>
+        <Limb Name="gobject_zfLimb_000064D4" LimbType="Standard" Offset="0x64D4"/>
+        <Limb Name="gobject_zfLimb_000064E0" LimbType="Standard" Offset="0x64E0"/>
+        <Limb Name="gobject_zfLimb_000064EC" LimbType="Standard" Offset="0x64EC"/>
+        <Limb Name="gobject_zfLimb_000064F8" LimbType="Standard" Offset="0x64F8"/>
+        <Limb Name="gobject_zfLimb_00006504" LimbType="Standard" Offset="0x6504"/>
+        <Limb Name="gobject_zfLimb_00006510" LimbType="Standard" Offset="0x6510"/>
+        <Limb Name="gobject_zfLimb_0000651C" LimbType="Standard" Offset="0x651C"/>
+        <Limb Name="gobject_zfLimb_00006528" LimbType="Standard" Offset="0x6528"/>
+        <Limb Name="gobject_zfLimb_00006534" LimbType="Standard" Offset="0x6534"/>
+        <Limb Name="gobject_zfLimb_00006540" LimbType="Standard" Offset="0x6540"/>
+        <Limb Name="gobject_zfLimb_0000654C" LimbType="Standard" Offset="0x654C"/>
+        <Limb Name="gobject_zfLimb_00006558" LimbType="Standard" Offset="0x6558"/>
+        <Limb Name="gobject_zfLimb_00006564" LimbType="Standard" Offset="0x6564"/>
+        <Limb Name="gobject_zfLimb_00006570" LimbType="Standard" Offset="0x6570"/>
+        <Limb Name="gobject_zfLimb_0000657C" LimbType="Standard" Offset="0x657C"/>
+        <Limb Name="gobject_zfLimb_00006588" LimbType="Standard" Offset="0x6588"/>
+        <Limb Name="gobject_zfLimb_00006594" LimbType="Standard" Offset="0x6594"/>
+        <Limb Name="gobject_zfLimb_000065A0" LimbType="Standard" Offset="0x65A0"/>
+        <Limb Name="gobject_zfLimb_000065AC" LimbType="Standard" Offset="0x65AC"/>
+        <Limb Name="gobject_zfLimb_000065B8" LimbType="Standard" Offset="0x65B8"/>
+        <Limb Name="gobject_zfLimb_000065C4" LimbType="Standard" Offset="0x65C4"/>
+        <Skeleton Name="gobject_zfSkel_00006690" Type="Normal" LimbType="Standard" Offset="0x6690"/>
+        <Animation Name="gobject_zfAnim_00008138" Offset="0x8138"/>
+        <Animation Name="gobject_zfAnim_00008C6C" Offset="0x8C6C"/>
+        <Animation Name="gobject_zfAnim_00009530" Offset="0x9530"/>
+        <Animation Name="gobject_zfAnim_0000A3D4" Offset="0xA3D4"/>
+        <Animation Name="gobject_zfAnim_0000B10C" Offset="0xB10C"/>
+        <Texture Name="gobject_zfTex_0000B120" OutName="tex_0000B120" Format="rgb5a1" Width="32" Height="32" Offset="0xB120"/>
+        <Texture Name="gobject_zfTex_0000B920" OutName="tex_0000B920" Format="rgb5a1" Width="8" Height="8" Offset="0xB920"/>
+        <Texture Name="gobject_zfTex_0000B9A0" OutName="tex_0000B9A0" Format="rgb5a1" Width="8" Height="8" Offset="0xB9A0"/>
+        <Texture Name="gobject_zfTex_0000BA20" OutName="tex_0000BA20" Format="rgb5a1" Width="8" Height="8" Offset="0xBA20"/>
+        <Texture Name="gobject_zfTex_0000BAA0" OutName="tex_0000BAA0" Format="rgb5a1" Width="8" Height="8" Offset="0xBAA0"/>
+        <Texture Name="gobject_zfTex_0000BB20" OutName="tex_0000BB20" Format="rgb5a1" Width="8" Height="8" Offset="0xBB20"/>
+        <Texture Name="gobject_zfTex_0000BBA0" OutName="tex_0000BBA0" Format="rgb5a1" Width="16" Height="16" Offset="0xBBA0"/>
+        <Texture Name="gobject_zfTex_0000BDA0" OutName="tex_0000BDA0" Format="rgb5a1" Width="8" Height="8" Offset="0xBDA0"/>
+        <Texture Name="gobject_zfTex_0000BE20" OutName="tex_0000BE20" Format="rgb5a1" Width="16" Height="16" Offset="0xBE20"/>
+        <Texture Name="gobject_zfTex_0000C020" OutName="tex_0000C020" Format="rgb5a1" Width="16" Height="16" Offset="0xC020"/>
+        <Texture Name="gobject_zfTex_0000C220" OutName="tex_0000C220" Format="rgb5a1" Width="8" Height="8" Offset="0xC220"/>
+        <Texture Name="gobject_zfTex_0000C2A0" OutName="tex_0000C2A0" Format="rgb5a1" Width="8" Height="8" Offset="0xC2A0"/>
+        <DList Name="gobject_zfDL_0000C410" Offset="0xC410"/>
+        <DList Name="gobject_zfDL_0000C640" Offset="0xC640"/>
+        <DList Name="gobject_zfDL_0000C978" Offset="0xC978"/>
+        <DList Name="gobject_zfDL_0000CB48" Offset="0xCB48"/>
+        <DList Name="gobject_zfDL_0000CC80" Offset="0xCC80"/>
+        <DList Name="gobject_zfDL_0000CFF0" Offset="0xCFF0"/>
+        <DList Name="gobject_zfDL_0000D230" Offset="0xD230"/>
+        <DList Name="gobject_zfDL_0000D460" Offset="0xD460"/>
+        <DList Name="gobject_zfDL_0000D798" Offset="0xD798"/>
+        <DList Name="gobject_zfDL_0000D968" Offset="0xD968"/>
+        <DList Name="gobject_zfDL_0000DAA0" Offset="0xDAA0"/>
+        <DList Name="gobject_zfDL_0000DD20" Offset="0xDD20"/>
+        <DList Name="gobject_zfDL_0000E198" Offset="0xE198"/>
+        <DList Name="gobject_zfDL_0000E3E8" Offset="0xE3E8"/>
+        <DList Name="gobject_zfDL_0000E7E0" Offset="0xE7E0"/>
+        <DList Name="gobject_zfDL_0000EBA8" Offset="0xEBA8"/>
+        <DList Name="gobject_zfDL_0000EE60" Offset="0xEE60"/>
+        <DList Name="gobject_zfDL_0000F620" Offset="0xF620"/>
+        <DList Name="gobject_zfDL_0000F970" Offset="0xF970"/>
+        <DList Name="gobject_zfDL_0000FB88" Offset="0xFB88"/>
+        <DList Name="gobject_zfDL_0000FDA0" Offset="0xFDA0"/>
+        <DList Name="gobject_zfDL_00010060" Offset="0x10060"/>
+        <Limb Name="gobject_zfLimb_000101B8" LimbType="Standard" Offset="0x101B8"/>
+        <Limb Name="gobject_zfLimb_000101C4" LimbType="Standard" Offset="0x101C4"/>
+        <Limb Name="gobject_zfLimb_000101D0" LimbType="Standard" Offset="0x101D0"/>
+        <Limb Name="gobject_zfLimb_000101DC" LimbType="Standard" Offset="0x101DC"/>
+        <Limb Name="gobject_zfLimb_000101E8" LimbType="Standard" Offset="0x101E8"/>
+        <Limb Name="gobject_zfLimb_000101F4" LimbType="Standard" Offset="0x101F4"/>
+        <Limb Name="gobject_zfLimb_00010200" LimbType="Standard" Offset="0x10200"/>
+        <Limb Name="gobject_zfLimb_0001020C" LimbType="Standard" Offset="0x1020C"/>
+        <Limb Name="gobject_zfLimb_00010218" LimbType="Standard" Offset="0x10218"/>
+        <Limb Name="gobject_zfLimb_00010224" LimbType="Standard" Offset="0x10224"/>
+        <Limb Name="gobject_zfLimb_00010230" LimbType="Standard" Offset="0x10230"/>
+        <Limb Name="gobject_zfLimb_0001023C" LimbType="Standard" Offset="0x1023C"/>
+        <Limb Name="gobject_zfLimb_00010248" LimbType="Standard" Offset="0x10248"/>
+        <Limb Name="gobject_zfLimb_00010254" LimbType="Standard" Offset="0x10254"/>
+        <Limb Name="gobject_zfLimb_00010260" LimbType="Standard" Offset="0x10260"/>
+        <Limb Name="gobject_zfLimb_0001026C" LimbType="Standard" Offset="0x1026C"/>
+        <Limb Name="gobject_zfLimb_00010278" LimbType="Standard" Offset="0x10278"/>
+        <Limb Name="gobject_zfLimb_00010284" LimbType="Standard" Offset="0x10284"/>
+        <Limb Name="gobject_zfLimb_00010290" LimbType="Standard" Offset="0x10290"/>
+        <Limb Name="gobject_zfLimb_0001029C" LimbType="Standard" Offset="0x1029C"/>
+        <Limb Name="gobject_zfLimb_000102A8" LimbType="Standard" Offset="0x102A8"/>
+        <Limb Name="gobject_zfLimb_000102B4" LimbType="Standard" Offset="0x102B4"/>
+        <Limb Name="gobject_zfLimb_000102C0" LimbType="Standard" Offset="0x102C0"/>
+        <Limb Name="gobject_zfLimb_000102CC" LimbType="Standard" Offset="0x102CC"/>
+        <Limb Name="gobject_zfLimb_000102D8" LimbType="Standard" Offset="0x102D8"/>
+        <Limb Name="gobject_zfLimb_000102E4" LimbType="Standard" Offset="0x102E4"/>
+        <Limb Name="gobject_zfLimb_000102F0" LimbType="Standard" Offset="0x102F0"/>
+        <Limb Name="gobject_zfLimb_000102FC" LimbType="Standard" Offset="0x102FC"/>
+        <Limb Name="gobject_zfLimb_00010308" LimbType="Standard" Offset="0x10308"/>
+        <Limb Name="gobject_zfLimb_00010314" LimbType="Standard" Offset="0x10314"/>
+        <Limb Name="gobject_zfLimb_00010320" LimbType="Standard" Offset="0x10320"/>
+        <Limb Name="gobject_zfLimb_0001032C" LimbType="Standard" Offset="0x1032C"/>
+        <Limb Name="gobject_zfLimb_00010338" LimbType="Standard" Offset="0x10338"/>
+        <Limb Name="gobject_zfLimb_00010344" LimbType="Standard" Offset="0x10344"/>
+        <Limb Name="gobject_zfLimb_00010350" LimbType="Standard" Offset="0x10350"/>
+        <Limb Name="gobject_zfLimb_0001035C" LimbType="Standard" Offset="0x1035C"/>
+        <Limb Name="gobject_zfLimb_00010368" LimbType="Standard" Offset="0x10368"/>
+        <Limb Name="gobject_zfLimb_00010374" LimbType="Standard" Offset="0x10374"/>
+        <Limb Name="gobject_zfLimb_00010380" LimbType="Standard" Offset="0x10380"/>
+        <Limb Name="gobject_zfLimb_0001038C" LimbType="Standard" Offset="0x1038C"/>
+        <Limb Name="gobject_zfLimb_00010398" LimbType="Standard" Offset="0x10398"/>
+        <Limb Name="gobject_zfLimb_000103A4" LimbType="Standard" Offset="0x103A4"/>
+        <Limb Name="gobject_zfLimb_000103B0" LimbType="Standard" Offset="0x103B0"/>
+        <Limb Name="gobject_zfLimb_000103BC" LimbType="Standard" Offset="0x103BC"/>
+        <Limb Name="gobject_zfLimb_000103C8" LimbType="Standard" Offset="0x103C8"/>
+        <Limb Name="gobject_zfLimb_000103D4" LimbType="Standard" Offset="0x103D4"/>
+        <Limb Name="gobject_zfLimb_000103E0" LimbType="Standard" Offset="0x103E0"/>
+        <Limb Name="gobject_zfLimb_000103EC" LimbType="Standard" Offset="0x103EC"/>
+        <Skeleton Name="gobject_zfSkel_000104B8" Type="Normal" LimbType="Standard" Offset="0x104B8"/>
+        <Animation Name="gobject_zfAnim_0001081C" Offset="0x1081C"/>
+        <Animation Name="gobject_zfAnim_00010CAC" Offset="0x10CAC"/>
+        <Animation Name="gobject_zfAnim_00011070" Offset="0x11070"/>
+        <Animation Name="gobject_zfAnim_000119F4" Offset="0x119F4"/>
+        <Animation Name="gobject_zfAnim_0001366C" Offset="0x1366C"/>
+        <Animation Name="gobject_zfAnim_00014E60" Offset="0x14E60"/>
+        <Animation Name="gobject_zfAnim_000157F8" Offset="0x157F8"/>
+        <Animation Name="gobject_zfAnim_00016388" Offset="0x16388"/>
     </File>
 </Root>

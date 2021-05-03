@@ -1,69 +1,69 @@
 <Root>
     <File Name="object_ru1" Segment="6">
-        <Animation Name="gobject_ru1_anim_00000690" Offset="0x690"/>
-        <Animation Name="gobject_ru1_anim_00000E54" Offset="0xE54"/>
-        <Animation Name="gobject_ru1_anim_00001488" Offset="0x1488"/>
-        <Animation Name="gobject_ru1_anim_00002058" Offset="0x2058"/>
-        <Animation Name="gobject_ru1_anim_00002990" Offset="0x2990"/>
-        <Animation Name="gobject_ru1_anim_00002EC0" Offset="0x2EC0"/>
-        <Animation Name="gobject_ru1_anim_00003608" Offset="0x3608"/>
-        <Animation Name="gobject_ru1_anim_00003784" Offset="0x3784"/>
-        <Animation Name="gobject_ru1_anim_00004074" Offset="0x4074"/>
-        <Animation Name="gobject_ru1_anim_00004350" Offset="0x4350"/>
-        <Animation Name="gobject_ru1_anim_00004648" Offset="0x4648"/>
-        <Animation Name="gobject_ru1_anim_00004BF0" Offset="0x4BF0"/>
-        <Animation Name="gobject_ru1_anim_000063F4" Offset="0x63F4"/>
-        <Animation Name="gobject_ru1_anim_00006B9C" Offset="0x6B9C"/>
-        <Animation Name="gobject_ru1_anim_00007534" Offset="0x7534"/>
-        <Animation Name="gobject_ru1_anim_000078E4" Offset="0x78E4"/>
-        <Animation Name="gobject_ru1_anim_00008100" Offset="0x8100"/>
-        <Animation Name="gobject_ru1_anim_00008AA8" Offset="0x8AA8"/>
-        <Animation Name="gobject_ru1_anim_00009060" Offset="0x9060"/>
-        <Animation Name="gobject_ru1_anim_000097B8" Offset="0x97B8"/>
-        <DList Name="gobject_ru1_dlist_0000C0A0" Offset="0xC0A0"/>
-        <DList Name="gobject_ru1_dlist_0000C188" Offset="0xC188"/>
-        <DList Name="gobject_ru1_dlist_0000C3D8" Offset="0xC3D8"/>
-        <DList Name="gobject_ru1_dlist_0000C630" Offset="0xC630"/>
-        <DList Name="gobject_ru1_dlist_0000C7D0" Offset="0xC7D0"/>
-        <DList Name="gobject_ru1_dlist_0000CA20" Offset="0xCA20"/>
-        <DList Name="gobject_ru1_dlist_0000CC78" Offset="0xCC78"/>
-        <DList Name="gobject_ru1_dlist_0000CE18" Offset="0xCE18"/>
-        <DList Name="gobject_ru1_dlist_0000D0B8" Offset="0xD0B8"/>
-        <DList Name="gobject_ru1_dlist_0000D308" Offset="0xD308"/>
-        <DList Name="gobject_ru1_dlist_0000D5E0" Offset="0xD5E0"/>
-        <DList Name="gobject_ru1_dlist_0000D870" Offset="0xD870"/>
-        <DList Name="gobject_ru1_dlist_0000DAC0" Offset="0xDAC0"/>
-        <DList Name="gobject_ru1_dlist_0000DDA8" Offset="0xDDA8"/>
-        <Texture Name="gobject_ru1_tex_0000E038" OutName="tex_0000E038" Format="rgb5a1" Width="16" Height="16" Offset="0xE038"/>
-        <Texture Name="gobject_ru1_tex_0000E238" OutName="tex_0000E238" Format="rgb5a1" Width="16" Height="16" Offset="0xE238"/>
-        <Blob Name="gobject_ru1_unk_0000E438" Size="0x380" Offset="0xE438"/>
-        <Texture Name="gobject_ru1_tex_0000E7B8" OutName="tex_0000E7B8" Format="rgb5a1" Width="8" Height="8" Offset="0xE7B8"/>
-        <Blob Name="gobject_ru1_unk_0000E838" Size="0x400" Offset="0xE838"/>
-        <Texture Name="gobject_ru1_tex_0000EC38" OutName="tex_0000EC38" Format="rgb5a1" Width="16" Height="16" Offset="0xEC38"/>
-        <Texture Name="gobject_ru1_tex_0000EE38" OutName="tex_0000EE38" Format="rgb5a1" Width="16" Height="16" Offset="0xEE38"/>
-        <Texture Name="gobject_ru1_tex_0000F038" OutName="tex_0000F038" Format="rgb5a1" Width="16" Height="16" Offset="0xF038"/>
-        <Blob Name="gobject_ru1_unk_0000F238" Size="0x1C00" Offset="0xF238"/>
-        <DList Name="gobject_ru1_dlist_000119F8" Offset="0x119F8"/>
-        <Texture Name="gobject_ru1_tex_00012200" OutName="tex_00012200" Format="rgb5a1" Width="16" Height="16" Offset="0x12200"/>
-        <Texture Name="gobject_ru1_tex_00012400" OutName="tex_00012400" Format="rgb5a1" Width="16" Height="16" Offset="0x12400"/>
-        <Limb Name="gobject_ru1_limb_00012600" LimbType="Standard" Offset="0x12600"/>
-        <Limb Name="gobject_ru1_limb_0001260C" LimbType="Standard" Offset="0x1260C"/>
-        <Limb Name="gobject_ru1_limb_00012618" LimbType="Standard" Offset="0x12618"/>
-        <Limb Name="gobject_ru1_limb_00012624" LimbType="Standard" Offset="0x12624"/>
-        <Limb Name="gobject_ru1_limb_00012630" LimbType="Standard" Offset="0x12630"/>
-        <Limb Name="gobject_ru1_limb_0001263C" LimbType="Standard" Offset="0x1263C"/>
-        <Limb Name="gobject_ru1_limb_00012648" LimbType="Standard" Offset="0x12648"/>
-        <Limb Name="gobject_ru1_limb_00012654" LimbType="Standard" Offset="0x12654"/>
-        <Limb Name="gobject_ru1_limb_00012660" LimbType="Standard" Offset="0x12660"/>
-        <Limb Name="gobject_ru1_limb_0001266C" LimbType="Standard" Offset="0x1266C"/>
-        <Limb Name="gobject_ru1_limb_00012678" LimbType="Standard" Offset="0x12678"/>
-        <Limb Name="gobject_ru1_limb_00012684" LimbType="Standard" Offset="0x12684"/>
-        <Limb Name="gobject_ru1_limb_00012690" LimbType="Standard" Offset="0x12690"/>
-        <Limb Name="gobject_ru1_limb_0001269C" LimbType="Standard" Offset="0x1269C"/>
-        <Limb Name="gobject_ru1_limb_000126A8" LimbType="Standard" Offset="0x126A8"/>
-        <Limb Name="gobject_ru1_limb_000126B4" LimbType="Standard" Offset="0x126B4"/>
-        <Skeleton Name="gobject_ru1_skel_00012700" Type="Flex" LimbType="Standard" Offset="0x12700"/>
-        <Animation Name="gobject_ru1_anim_00012E94" Offset="0x12E94"/>
-        <Animation Name="gobject_ru1_anim_00013A64" Offset="0x13A64"/>
+        <Animation Name="gobject_ru1Anim_00000690" Offset="0x690"/>
+        <Animation Name="gobject_ru1Anim_00000E54" Offset="0xE54"/>
+        <Animation Name="gobject_ru1Anim_00001488" Offset="0x1488"/>
+        <Animation Name="gobject_ru1Anim_00002058" Offset="0x2058"/>
+        <Animation Name="gobject_ru1Anim_00002990" Offset="0x2990"/>
+        <Animation Name="gobject_ru1Anim_00002EC0" Offset="0x2EC0"/>
+        <Animation Name="gobject_ru1Anim_00003608" Offset="0x3608"/>
+        <Animation Name="gobject_ru1Anim_00003784" Offset="0x3784"/>
+        <Animation Name="gobject_ru1Anim_00004074" Offset="0x4074"/>
+        <Animation Name="gobject_ru1Anim_00004350" Offset="0x4350"/>
+        <Animation Name="gobject_ru1Anim_00004648" Offset="0x4648"/>
+        <Animation Name="gobject_ru1Anim_00004BF0" Offset="0x4BF0"/>
+        <Animation Name="gobject_ru1Anim_000063F4" Offset="0x63F4"/>
+        <Animation Name="gobject_ru1Anim_00006B9C" Offset="0x6B9C"/>
+        <Animation Name="gobject_ru1Anim_00007534" Offset="0x7534"/>
+        <Animation Name="gobject_ru1Anim_000078E4" Offset="0x78E4"/>
+        <Animation Name="gobject_ru1Anim_00008100" Offset="0x8100"/>
+        <Animation Name="gobject_ru1Anim_00008AA8" Offset="0x8AA8"/>
+        <Animation Name="gobject_ru1Anim_00009060" Offset="0x9060"/>
+        <Animation Name="gobject_ru1Anim_000097B8" Offset="0x97B8"/>
+        <DList Name="gobject_ru1DL_0000C0A0" Offset="0xC0A0"/>
+        <DList Name="gobject_ru1DL_0000C188" Offset="0xC188"/>
+        <DList Name="gobject_ru1DL_0000C3D8" Offset="0xC3D8"/>
+        <DList Name="gobject_ru1DL_0000C630" Offset="0xC630"/>
+        <DList Name="gobject_ru1DL_0000C7D0" Offset="0xC7D0"/>
+        <DList Name="gobject_ru1DL_0000CA20" Offset="0xCA20"/>
+        <DList Name="gobject_ru1DL_0000CC78" Offset="0xCC78"/>
+        <DList Name="gobject_ru1DL_0000CE18" Offset="0xCE18"/>
+        <DList Name="gobject_ru1DL_0000D0B8" Offset="0xD0B8"/>
+        <DList Name="gobject_ru1DL_0000D308" Offset="0xD308"/>
+        <DList Name="gobject_ru1DL_0000D5E0" Offset="0xD5E0"/>
+        <DList Name="gobject_ru1DL_0000D870" Offset="0xD870"/>
+        <DList Name="gobject_ru1DL_0000DAC0" Offset="0xDAC0"/>
+        <DList Name="gobject_ru1DL_0000DDA8" Offset="0xDDA8"/>
+        <Texture Name="gobject_ru1Tex_0000E038" OutName="tex_0000E038" Format="rgb5a1" Width="16" Height="16" Offset="0xE038"/>
+        <Texture Name="gobject_ru1Tex_0000E238" OutName="tex_0000E238" Format="rgb5a1" Width="16" Height="16" Offset="0xE238"/>
+        <Blob Name="gobject_ru1Blob_0000E438" Size="0x380" Offset="0xE438"/>
+        <Texture Name="gobject_ru1Tex_0000E7B8" OutName="tex_0000E7B8" Format="rgb5a1" Width="8" Height="8" Offset="0xE7B8"/>
+        <Blob Name="gobject_ru1Blob_0000E838" Size="0x400" Offset="0xE838"/>
+        <Texture Name="gobject_ru1Tex_0000EC38" OutName="tex_0000EC38" Format="rgb5a1" Width="16" Height="16" Offset="0xEC38"/>
+        <Texture Name="gobject_ru1Tex_0000EE38" OutName="tex_0000EE38" Format="rgb5a1" Width="16" Height="16" Offset="0xEE38"/>
+        <Texture Name="gobject_ru1Tex_0000F038" OutName="tex_0000F038" Format="rgb5a1" Width="16" Height="16" Offset="0xF038"/>
+        <Blob Name="gobject_ru1Blob_0000F238" Size="0x1C00" Offset="0xF238"/>
+        <DList Name="gobject_ru1DL_000119F8" Offset="0x119F8"/>
+        <Texture Name="gobject_ru1Tex_00012200" OutName="tex_00012200" Format="rgb5a1" Width="16" Height="16" Offset="0x12200"/>
+        <Texture Name="gobject_ru1Tex_00012400" OutName="tex_00012400" Format="rgb5a1" Width="16" Height="16" Offset="0x12400"/>
+        <Limb Name="gobject_ru1Limb_00012600" LimbType="Standard" Offset="0x12600"/>
+        <Limb Name="gobject_ru1Limb_0001260C" LimbType="Standard" Offset="0x1260C"/>
+        <Limb Name="gobject_ru1Limb_00012618" LimbType="Standard" Offset="0x12618"/>
+        <Limb Name="gobject_ru1Limb_00012624" LimbType="Standard" Offset="0x12624"/>
+        <Limb Name="gobject_ru1Limb_00012630" LimbType="Standard" Offset="0x12630"/>
+        <Limb Name="gobject_ru1Limb_0001263C" LimbType="Standard" Offset="0x1263C"/>
+        <Limb Name="gobject_ru1Limb_00012648" LimbType="Standard" Offset="0x12648"/>
+        <Limb Name="gobject_ru1Limb_00012654" LimbType="Standard" Offset="0x12654"/>
+        <Limb Name="gobject_ru1Limb_00012660" LimbType="Standard" Offset="0x12660"/>
+        <Limb Name="gobject_ru1Limb_0001266C" LimbType="Standard" Offset="0x1266C"/>
+        <Limb Name="gobject_ru1Limb_00012678" LimbType="Standard" Offset="0x12678"/>
+        <Limb Name="gobject_ru1Limb_00012684" LimbType="Standard" Offset="0x12684"/>
+        <Limb Name="gobject_ru1Limb_00012690" LimbType="Standard" Offset="0x12690"/>
+        <Limb Name="gobject_ru1Limb_0001269C" LimbType="Standard" Offset="0x1269C"/>
+        <Limb Name="gobject_ru1Limb_000126A8" LimbType="Standard" Offset="0x126A8"/>
+        <Limb Name="gobject_ru1Limb_000126B4" LimbType="Standard" Offset="0x126B4"/>
+        <Skeleton Name="gobject_ru1Skel_00012700" Type="Flex" LimbType="Standard" Offset="0x12700"/>
+        <Animation Name="gobject_ru1Anim_00012E94" Offset="0x12E94"/>
+        <Animation Name="gobject_ru1Anim_00013A64" Offset="0x13A64"/>
     </File>
 </Root>

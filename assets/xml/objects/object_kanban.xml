@@ -1,18 +1,18 @@
 <Root>
     <File Name="object_kanban" Segment="6">
-        <DList Name="gobject_kanban_dlist_00000C30" Offset="0xC30"/>
-        <DList Name="gobject_kanban_dlist_00000CB0" Offset="0xCB0"/>
-        <DList Name="gobject_kanban_dlist_00000DB8" Offset="0xDB8"/>
-        <DList Name="gobject_kanban_dlist_00000E78" Offset="0xE78"/>
-        <DList Name="gobject_kanban_dlist_00000F38" Offset="0xF38"/>
-        <DList Name="gobject_kanban_dlist_00000FF8" Offset="0xFF8"/>
-        <DList Name="gobject_kanban_dlist_000010B8" Offset="0x10B8"/>
-        <DList Name="gobject_kanban_dlist_000011C0" Offset="0x11C0"/>
-        <DList Name="gobject_kanban_dlist_000012C8" Offset="0x12C8"/>
-        <DList Name="gobject_kanban_dlist_000013D0" Offset="0x13D0"/>
-        <DList Name="gobject_kanban_dlist_00001488" Offset="0x1488"/>
-        <DList Name="gobject_kanban_dlist_00001540" Offset="0x1540"/>
-        <DList Name="gobject_kanban_dlist_00001630" Offset="0x1630"/>
-        <Texture Name="gobject_kanban_tex_000016B0" OutName="tex_000016B0" Format="i8" Width="16" Height="16" Offset="0x16B0"/>
+        <DList Name="gobject_kanbanDL_00000C30" Offset="0xC30"/>
+        <DList Name="gobject_kanbanDL_00000CB0" Offset="0xCB0"/>
+        <DList Name="gobject_kanbanDL_00000DB8" Offset="0xDB8"/>
+        <DList Name="gobject_kanbanDL_00000E78" Offset="0xE78"/>
+        <DList Name="gobject_kanbanDL_00000F38" Offset="0xF38"/>
+        <DList Name="gobject_kanbanDL_00000FF8" Offset="0xFF8"/>
+        <DList Name="gobject_kanbanDL_000010B8" Offset="0x10B8"/>
+        <DList Name="gobject_kanbanDL_000011C0" Offset="0x11C0"/>
+        <DList Name="gobject_kanbanDL_000012C8" Offset="0x12C8"/>
+        <DList Name="gobject_kanbanDL_000013D0" Offset="0x13D0"/>
+        <DList Name="gobject_kanbanDL_00001488" Offset="0x1488"/>
+        <DList Name="gobject_kanbanDL_00001540" Offset="0x1540"/>
+        <DList Name="gobject_kanbanDL_00001630" Offset="0x1630"/>
+        <Texture Name="gobject_kanbanTex_000016B0" OutName="tex_000016B0" Format="i8" Width="16" Height="16" Offset="0x16B0"/>
     </File>
 </Root>

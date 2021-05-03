@@ -1,15 +1,15 @@
 <Root>
     <File Name="object_oE8" Segment="6">
-        <DList Name="gobject_oE8_dlist_00000CA0" Offset="0xCA0"/>
-        <Texture Name="gobject_oE8_tlut_00001248" OutName="tlut_00001248" Format="rgb5a1" Width="16" Height="16" Offset="0x1248"/>
-        <Texture Name="gobject_oE8_tex_00001448" OutName="tex_00001448" Format="ci8" Width="32" Height="32" Offset="0x1448"/>
-        <Blob Name="gobject_oE8_unk_00001848" Size="0x800" Offset="0x1848"/>
-        <Texture Name="gobject_oE8_tlut_00002048" OutName="tlut_00002048" Format="rgb5a1" Width="16" Height="16" Offset="0x2048"/>
-        <Texture Name="gobject_oE8_tex_00002248" OutName="tex_00002248" Format="ci8" Width="8" Height="8" Offset="0x2248"/>
-        <Texture Name="gobject_oE8_tex_00002288" OutName="tex_00002288" Format="ci8" Width="16" Height="16" Offset="0x2288"/>
-        <Texture Name="gobject_oE8_tex_00002388" OutName="tex_00002388" Format="rgb5a1" Width="32" Height="16" Offset="0x2388"/>
-        <Texture Name="gobject_oE8_tex_00002788" OutName="tex_00002788" Format="rgb5a1" Width="16" Height="32" Offset="0x2788"/>
-        <Texture Name="gobject_oE8_tex_00002B88" OutName="tex_00002B88" Format="i4" Width="16" Height="8" Offset="0x2B88"/>
-        <Texture Name="gobject_oE8_tex_00002BC8" OutName="tex_00002BC8" Format="rgb5a1" Width="32" Height="32" Offset="0x2BC8"/>
+        <DList Name="gobject_oE8DL_00000CA0" Offset="0xCA0"/>
+        <Texture Name="gobject_oE8TLUT_00001248" OutName="tlut_00001248" Format="rgb5a1" Width="16" Height="16" Offset="0x1248"/>
+        <Texture Name="gobject_oE8Tex_00001448" OutName="tex_00001448" Format="ci8" Width="32" Height="32" Offset="0x1448"/>
+        <Blob Name="gobject_oE8Blob_00001848" Size="0x800" Offset="0x1848"/>
+        <Texture Name="gobject_oE8TLUT_00002048" OutName="tlut_00002048" Format="rgb5a1" Width="16" Height="16" Offset="0x2048"/>
+        <Texture Name="gobject_oE8Tex_00002248" OutName="tex_00002248" Format="ci8" Width="8" Height="8" Offset="0x2248"/>
+        <Texture Name="gobject_oE8Tex_00002288" OutName="tex_00002288" Format="ci8" Width="16" Height="16" Offset="0x2288"/>
+        <Texture Name="gobject_oE8Tex_00002388" OutName="tex_00002388" Format="rgb5a1" Width="32" Height="16" Offset="0x2388"/>
+        <Texture Name="gobject_oE8Tex_00002788" OutName="tex_00002788" Format="rgb5a1" Width="16" Height="32" Offset="0x2788"/>
+        <Texture Name="gobject_oE8Tex_00002B88" OutName="tex_00002B88" Format="i4" Width="16" Height="8" Offset="0x2B88"/>
+        <Texture Name="gobject_oE8Tex_00002BC8" OutName="tex_00002BC8" Format="rgb5a1" Width="32" Height="32" Offset="0x2BC8"/>
     </File>
 </Root>

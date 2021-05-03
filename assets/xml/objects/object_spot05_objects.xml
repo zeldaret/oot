@@ -1,10 +1,10 @@
 <Root>
     <File Name="object_spot05_objects" Segment="6">
-        <Texture Name="gobject_spot05_objects_tex_00000000" OutName="tex_00000000" Format="rgb5a1" Width="32" Height="32" Offset="0x0"/>
-        <DList Name="gobject_spot05_objects_dlist_00000840" Offset="0x840"/>
-        <Blob Name="gobject_spot05_objects_unk_000008D0" Size="0x80" Offset="0x8D0"/>
-        <Texture Name="gobject_spot05_objects_tex_00000950" OutName="tex_00000950" Format="rgb5a1" Width="16" Height="64" Offset="0x950"/>
-        <DList Name="gobject_spot05_objects_dlist_00001190" Offset="0x1190"/>
-        <Blob Name="gobject_spot05_objects_unk_00001220" Size="0xD0" Offset="0x1220"/>
+        <Texture Name="gobject_spot05_objectsTex_00000000" OutName="tex_00000000" Format="rgb5a1" Width="32" Height="32" Offset="0x0"/>
+        <DList Name="gobject_spot05_objectsDL_00000840" Offset="0x840"/>
+        <Blob Name="gobject_spot05_objectsBlob_000008D0" Size="0x80" Offset="0x8D0"/>
+        <Texture Name="gobject_spot05_objectsTex_00000950" OutName="tex_00000950" Format="rgb5a1" Width="16" Height="64" Offset="0x950"/>
+        <DList Name="gobject_spot05_objectsDL_00001190" Offset="0x1190"/>
+        <Blob Name="gobject_spot05_objectsBlob_00001220" Size="0xD0" Offset="0x1220"/>
     </File>
 </Root>

@@ -1,148 +1,148 @@
 <Root>
     <File Name="object_tr" Segment="6">
-        <Animation Name="gobject_tr_anim_00000BFC" Offset="0xBFC"/>
-        <Animation Name="gobject_tr_anim_000013CC" Offset="0x13CC"/>
-        <Animation Name="gobject_tr_anim_00001CDC" Offset="0x1CDC"/>
-        <Animation Name="gobject_tr_anim_00002BC4" Offset="0x2BC4"/>
-        <Animation Name="gobject_tr_anim_000035CC" Offset="0x35CC"/>
-        <Animation Name="gobject_tr_anim_00003FC8" Offset="0x3FC8"/>
-        <Animation Name="gobject_tr_anim_000049C8" Offset="0x49C8"/>
-        <Animation Name="gobject_tr_anim_00005308" Offset="0x5308"/>
-        <Blob Name="gobject_tr_unk_000062E0" Size="0x60" Offset="0x62E0"/>
-        <DList Name="gobject_tr_dlist_00006520" Offset="0x6520"/>
-        <DList Name="gobject_tr_dlist_000066A0" Offset="0x66A0"/>
-        <DList Name="gobject_tr_dlist_00006800" Offset="0x6800"/>
-        <DList Name="gobject_tr_dlist_00006940" Offset="0x6940"/>
-        <DList Name="gobject_tr_dlist_00006A50" Offset="0x6A50"/>
-        <DList Name="gobject_tr_dlist_00006B48" Offset="0x6B48"/>
-        <DList Name="gobject_tr_dlist_00006C58" Offset="0x6C58"/>
-        <DList Name="gobject_tr_dlist_00006D50" Offset="0x6D50"/>
-        <DList Name="gobject_tr_dlist_00006E70" Offset="0x6E70"/>
-        <DList Name="gobject_tr_dlist_00006FF0" Offset="0x6FF0"/>
-        <DList Name="gobject_tr_dlist_00007118" Offset="0x7118"/>
-        <DList Name="gobject_tr_dlist_00007238" Offset="0x7238"/>
-        <DList Name="gobject_tr_dlist_00007358" Offset="0x7358"/>
-        <DList Name="gobject_tr_dlist_000074D8" Offset="0x74D8"/>
-        <DList Name="gobject_tr_dlist_00007600" Offset="0x7600"/>
-        <DList Name="gobject_tr_dlist_00007720" Offset="0x7720"/>
-        <DList Name="gobject_tr_dlist_00007728" Offset="0x7728"/>
-        <Blob Name="gobject_tr_unk_00007730" Size="0x1A8" Offset="0x7730"/>
-        <Texture Name="gobject_tr_tex_000078D8" OutName="tex_000078D8" Format="rgb5a1" Width="32" Height="32" Offset="0x78D8"/>
-        <Texture Name="gobject_tr_tex_000080D8" OutName="tex_000080D8" Format="rgb5a1" Width="16" Height="16" Offset="0x80D8"/>
-        <Texture Name="gobject_tr_tex_000082D8" OutName="tex_000082D8" Format="rgb5a1" Width="16" Height="16" Offset="0x82D8"/>
-        <Texture Name="gobject_tr_tex_000084D8" OutName="tex_000084D8" Format="rgb5a1" Width="16" Height="16" Offset="0x84D8"/>
-        <Blob Name="gobject_tr_unk_000086D8" Size="0x400" Offset="0x86D8"/>
-        <Texture Name="gobject_tr_tex_00008AD8" OutName="tex_00008AD8" Format="ci8" Width="16" Height="8" Offset="0x8AD8"/>
-        <Texture Name="gobject_tr_tex_00008B58" OutName="tex_00008B58" Format="ci8" Width="8" Height="8" Offset="0x8B58"/>
-        <Texture Name="gobject_tr_tex_00008B98" OutName="tex_00008B98" Format="rgb5a1" Width="8" Height="32" Offset="0x8B98"/>
-        <Texture Name="gobject_tr_tex_00008D98" OutName="tex_00008D98" Format="ci8" Width="8" Height="8" Offset="0x8D98"/>
-        <Texture Name="gobject_tr_tex_00008DD8" OutName="tex_00008DD8" Format="ci8" Width="8" Height="16" Offset="0x8DD8"/>
-        <Texture Name="gobject_tr_tex_00008E58" OutName="tex_00008E58" Format="rgb5a1" Width="8" Height="8" Offset="0x8E58"/>
-        <Texture Name="gobject_tr_tex_00008ED8" OutName="tex_00008ED8" Format="rgb5a1" Width="16" Height="32" Offset="0x8ED8"/>
-        <Texture Name="gobject_tr_tex_000092D8" OutName="tex_000092D8" Format="rgb5a1" Width="16" Height="8" Offset="0x92D8"/>
-        <Texture Name="gobject_tr_tex_000093D8" OutName="tex_000093D8" Format="rgb5a1" Width="8" Height="8" Offset="0x93D8"/>
-        <Texture Name="gobject_tr_tex_00009458" OutName="tex_00009458" Format="ci8" Width="8" Height="8" Offset="0x9458"/>
-        <Texture Name="gobject_tr_tex_00009498" OutName="tex_00009498" Format="ci8" Width="8" Height="8" Offset="0x9498"/>
-        <Blob Name="gobject_tr_unk_000094D8" Size="0x800" Offset="0x94D8"/>
-        <DList Name="gobject_tr_dlist_0000AF38" Offset="0xAF38"/>
-        <DList Name="gobject_tr_dlist_0000B568" Offset="0xB568"/>
-        <DList Name="gobject_tr_dlist_0000B5C8" Offset="0xB5C8"/>
-        <DList Name="gobject_tr_dlist_0000B678" Offset="0xB678"/>
-        <DList Name="gobject_tr_dlist_0000B728" Offset="0xB728"/>
-        <DList Name="gobject_tr_dlist_0000B8D0" Offset="0xB8D0"/>
-        <DList Name="gobject_tr_dlist_0000B968" Offset="0xB968"/>
-        <DList Name="gobject_tr_dlist_0000BA00" Offset="0xBA00"/>
-        <DList Name="gobject_tr_dlist_0000BB68" Offset="0xBB68"/>
-        <Texture Name="gobject_tr_tex_0000BCD0" OutName="tex_0000BCD0" Format="rgb5a1" Width="8" Height="8" Offset="0xBCD0"/>
-        <Blob Name="gobject_tr_unk_0000BD50" Size="0x580" Offset="0xBD50"/>
-        <Texture Name="gobject_tr_tex_0000C2D0" OutName="tex_0000C2D0" Format="rgb5a1" Width="4" Height="8" Offset="0xC2D0"/>
-        <Blob Name="gobject_tr_unk_0000C310" Size="0x80" Offset="0xC310"/>
-        <Limb Name="gobject_tr_limb_0000C390" LimbType="Standard" Offset="0xC390"/>
-        <Limb Name="gobject_tr_limb_0000C39C" LimbType="Standard" Offset="0xC39C"/>
-        <Limb Name="gobject_tr_limb_0000C3A8" LimbType="Standard" Offset="0xC3A8"/>
-        <Limb Name="gobject_tr_limb_0000C3B4" LimbType="Standard" Offset="0xC3B4"/>
-        <Limb Name="gobject_tr_limb_0000C3C0" LimbType="Standard" Offset="0xC3C0"/>
-        <Limb Name="gobject_tr_limb_0000C3CC" LimbType="Standard" Offset="0xC3CC"/>
-        <Limb Name="gobject_tr_limb_0000C3D8" LimbType="Standard" Offset="0xC3D8"/>
-        <Limb Name="gobject_tr_limb_0000C3E4" LimbType="Standard" Offset="0xC3E4"/>
-        <Limb Name="gobject_tr_limb_0000C3F0" LimbType="Standard" Offset="0xC3F0"/>
-        <Limb Name="gobject_tr_limb_0000C3FC" LimbType="Standard" Offset="0xC3FC"/>
-        <Limb Name="gobject_tr_limb_0000C408" LimbType="Standard" Offset="0xC408"/>
-        <Limb Name="gobject_tr_limb_0000C414" LimbType="Standard" Offset="0xC414"/>
-        <Limb Name="gobject_tr_limb_0000C420" LimbType="Standard" Offset="0xC420"/>
-        <Limb Name="gobject_tr_limb_0000C42C" LimbType="Standard" Offset="0xC42C"/>
-        <Limb Name="gobject_tr_limb_0000C438" LimbType="Standard" Offset="0xC438"/>
-        <Limb Name="gobject_tr_limb_0000C444" LimbType="Standard" Offset="0xC444"/>
-        <Limb Name="gobject_tr_limb_0000C450" LimbType="Standard" Offset="0xC450"/>
-        <Limb Name="gobject_tr_limb_0000C45C" LimbType="Standard" Offset="0xC45C"/>
-        <Limb Name="gobject_tr_limb_0000C468" LimbType="Standard" Offset="0xC468"/>
-        <Limb Name="gobject_tr_limb_0000C474" LimbType="Standard" Offset="0xC474"/>
-        <Limb Name="gobject_tr_limb_0000C480" LimbType="Standard" Offset="0xC480"/>
-        <Limb Name="gobject_tr_limb_0000C48C" LimbType="Standard" Offset="0xC48C"/>
-        <Limb Name="gobject_tr_limb_0000C498" LimbType="Standard" Offset="0xC498"/>
-        <Limb Name="gobject_tr_limb_0000C4A4" LimbType="Standard" Offset="0xC4A4"/>
-        <Limb Name="gobject_tr_limb_0000C4B0" LimbType="Standard" Offset="0xC4B0"/>
-        <Limb Name="gobject_tr_limb_0000C4BC" LimbType="Standard" Offset="0xC4BC"/>
-        <Skeleton Name="gobject_tr_skel_0000C530" Type="Flex" LimbType="Standard" Offset="0xC530"/>
-        <Animation Name="gobject_tr_anim_0000C60C" Offset="0xC60C"/>
-        <Blob Name="gobject_tr_unk_0000D5E0" Size="0x60" Offset="0xD5E0"/>
-        <DList Name="gobject_tr_dlist_0000D820" Offset="0xD820"/>
-        <DList Name="gobject_tr_dlist_0000D9A0" Offset="0xD9A0"/>
-        <DList Name="gobject_tr_dlist_0000DB00" Offset="0xDB00"/>
-        <DList Name="gobject_tr_dlist_0000DC40" Offset="0xDC40"/>
-        <DList Name="gobject_tr_dlist_0000DD50" Offset="0xDD50"/>
-        <DList Name="gobject_tr_dlist_0000DE48" Offset="0xDE48"/>
-        <DList Name="gobject_tr_dlist_0000DF58" Offset="0xDF58"/>
-        <DList Name="gobject_tr_dlist_0000E050" Offset="0xE050"/>
-        <DList Name="gobject_tr_dlist_0000E170" Offset="0xE170"/>
-        <DList Name="gobject_tr_dlist_0000E2F0" Offset="0xE2F0"/>
-        <DList Name="gobject_tr_dlist_0000E418" Offset="0xE418"/>
-        <DList Name="gobject_tr_dlist_0000E538" Offset="0xE538"/>
-        <DList Name="gobject_tr_dlist_0000E658" Offset="0xE658"/>
-        <DList Name="gobject_tr_dlist_0000E7D8" Offset="0xE7D8"/>
-        <DList Name="gobject_tr_dlist_0000E900" Offset="0xE900"/>
-        <DList Name="gobject_tr_dlist_0000EA20" Offset="0xEA20"/>
-        <DList Name="gobject_tr_dlist_0000EA28" Offset="0xEA28"/>
-        <Texture Name="gobject_tr_tex_0000EA30" OutName="tex_0000EA30" Format="rgb5a1" Width="32" Height="32" Offset="0xEA30"/>
-        <Texture Name="gobject_tr_tex_0000F230" OutName="tex_0000F230" Format="rgb5a1" Width="16" Height="16" Offset="0xF230"/>
-        <Texture Name="gobject_tr_tex_0000F430" OutName="tex_0000F430" Format="rgb5a1" Width="8" Height="8" Offset="0xF430"/>
-        <DList Name="gobject_tr_dlist_00010710" Offset="0x10710"/>
-        <DList Name="gobject_tr_dlist_00010D40" Offset="0x10D40"/>
-        <DList Name="gobject_tr_dlist_00010DA0" Offset="0x10DA0"/>
-        <DList Name="gobject_tr_dlist_00010E50" Offset="0x10E50"/>
-        <DList Name="gobject_tr_dlist_00010F00" Offset="0x10F00"/>
-        <DList Name="gobject_tr_dlist_000110A8" Offset="0x110A8"/>
-        <DList Name="gobject_tr_dlist_00011140" Offset="0x11140"/>
-        <DList Name="gobject_tr_dlist_000111D8" Offset="0x111D8"/>
-        <DList Name="gobject_tr_dlist_00011340" Offset="0x11340"/>
-        <Texture Name="gobject_tr_tex_000114A8" OutName="tex_000114A8" Format="rgb5a1" Width="4" Height="8" Offset="0x114A8"/>
-        <Limb Name="gobject_tr_limb_000114E8" LimbType="Standard" Offset="0x114E8"/>
-        <Limb Name="gobject_tr_limb_000114F4" LimbType="Standard" Offset="0x114F4"/>
-        <Limb Name="gobject_tr_limb_00011500" LimbType="Standard" Offset="0x11500"/>
-        <Limb Name="gobject_tr_limb_0001150C" LimbType="Standard" Offset="0x1150C"/>
-        <Limb Name="gobject_tr_limb_00011518" LimbType="Standard" Offset="0x11518"/>
-        <Limb Name="gobject_tr_limb_00011524" LimbType="Standard" Offset="0x11524"/>
-        <Limb Name="gobject_tr_limb_00011530" LimbType="Standard" Offset="0x11530"/>
-        <Limb Name="gobject_tr_limb_0001153C" LimbType="Standard" Offset="0x1153C"/>
-        <Limb Name="gobject_tr_limb_00011548" LimbType="Standard" Offset="0x11548"/>
-        <Limb Name="gobject_tr_limb_00011554" LimbType="Standard" Offset="0x11554"/>
-        <Limb Name="gobject_tr_limb_00011560" LimbType="Standard" Offset="0x11560"/>
-        <Limb Name="gobject_tr_limb_0001156C" LimbType="Standard" Offset="0x1156C"/>
-        <Limb Name="gobject_tr_limb_00011578" LimbType="Standard" Offset="0x11578"/>
-        <Limb Name="gobject_tr_limb_00011584" LimbType="Standard" Offset="0x11584"/>
-        <Limb Name="gobject_tr_limb_00011590" LimbType="Standard" Offset="0x11590"/>
-        <Limb Name="gobject_tr_limb_0001159C" LimbType="Standard" Offset="0x1159C"/>
-        <Limb Name="gobject_tr_limb_000115A8" LimbType="Standard" Offset="0x115A8"/>
-        <Limb Name="gobject_tr_limb_000115B4" LimbType="Standard" Offset="0x115B4"/>
-        <Limb Name="gobject_tr_limb_000115C0" LimbType="Standard" Offset="0x115C0"/>
-        <Limb Name="gobject_tr_limb_000115CC" LimbType="Standard" Offset="0x115CC"/>
-        <Limb Name="gobject_tr_limb_000115D8" LimbType="Standard" Offset="0x115D8"/>
-        <Limb Name="gobject_tr_limb_000115E4" LimbType="Standard" Offset="0x115E4"/>
-        <Limb Name="gobject_tr_limb_000115F0" LimbType="Standard" Offset="0x115F0"/>
-        <Limb Name="gobject_tr_limb_000115FC" LimbType="Standard" Offset="0x115FC"/>
-        <Limb Name="gobject_tr_limb_00011608" LimbType="Standard" Offset="0x11608"/>
-        <Limb Name="gobject_tr_limb_00011614" LimbType="Standard" Offset="0x11614"/>
-        <Skeleton Name="gobject_tr_skel_00011688" Type="Flex" LimbType="Standard" Offset="0x11688"/>
-        <Animation Name="gobject_tr_anim_00012E1C" Offset="0x12E1C"/>
+        <Animation Name="gobject_trAnim_00000BFC" Offset="0xBFC"/>
+        <Animation Name="gobject_trAnim_000013CC" Offset="0x13CC"/>
+        <Animation Name="gobject_trAnim_00001CDC" Offset="0x1CDC"/>
+        <Animation Name="gobject_trAnim_00002BC4" Offset="0x2BC4"/>
+        <Animation Name="gobject_trAnim_000035CC" Offset="0x35CC"/>
+        <Animation Name="gobject_trAnim_00003FC8" Offset="0x3FC8"/>
+        <Animation Name="gobject_trAnim_000049C8" Offset="0x49C8"/>
+        <Animation Name="gobject_trAnim_00005308" Offset="0x5308"/>
+        <Blob Name="gobject_trBlob_000062E0" Size="0x60" Offset="0x62E0"/>
+        <DList Name="gobject_trDL_00006520" Offset="0x6520"/>
+        <DList Name="gobject_trDL_000066A0" Offset="0x66A0"/>
+        <DList Name="gobject_trDL_00006800" Offset="0x6800"/>
+        <DList Name="gobject_trDL_00006940" Offset="0x6940"/>
+        <DList Name="gobject_trDL_00006A50" Offset="0x6A50"/>
+        <DList Name="gobject_trDL_00006B48" Offset="0x6B48"/>
+        <DList Name="gobject_trDL_00006C58" Offset="0x6C58"/>
+        <DList Name="gobject_trDL_00006D50" Offset="0x6D50"/>
+        <DList Name="gobject_trDL_00006E70" Offset="0x6E70"/>
+        <DList Name="gobject_trDL_00006FF0" Offset="0x6FF0"/>
+        <DList Name="gobject_trDL_00007118" Offset="0x7118"/>
+        <DList Name="gobject_trDL_00007238" Offset="0x7238"/>
+        <DList Name="gobject_trDL_00007358" Offset="0x7358"/>
+        <DList Name="gobject_trDL_000074D8" Offset="0x74D8"/>
+        <DList Name="gobject_trDL_00007600" Offset="0x7600"/>
+        <DList Name="gobject_trDL_00007720" Offset="0x7720"/>
+        <DList Name="gobject_trDL_00007728" Offset="0x7728"/>
+        <Blob Name="gobject_trBlob_00007730" Size="0x1A8" Offset="0x7730"/>
+        <Texture Name="gobject_trTex_000078D8" OutName="tex_000078D8" Format="rgb5a1" Width="32" Height="32" Offset="0x78D8"/>
+        <Texture Name="gobject_trTex_000080D8" OutName="tex_000080D8" Format="rgb5a1" Width="16" Height="16" Offset="0x80D8"/>
+        <Texture Name="gobject_trTex_000082D8" OutName="tex_000082D8" Format="rgb5a1" Width="16" Height="16" Offset="0x82D8"/>
+        <Texture Name="gobject_trTex_000084D8" OutName="tex_000084D8" Format="rgb5a1" Width="16" Height="16" Offset="0x84D8"/>
+        <Blob Name="gobject_trBlob_000086D8" Size="0x400" Offset="0x86D8"/>
+        <Texture Name="gobject_trTex_00008AD8" OutName="tex_00008AD8" Format="ci8" Width="16" Height="8" Offset="0x8AD8"/>
+        <Texture Name="gobject_trTex_00008B58" OutName="tex_00008B58" Format="ci8" Width="8" Height="8" Offset="0x8B58"/>
+        <Texture Name="gobject_trTex_00008B98" OutName="tex_00008B98" Format="rgb5a1" Width="8" Height="32" Offset="0x8B98"/>
+        <Texture Name="gobject_trTex_00008D98" OutName="tex_00008D98" Format="ci8" Width="8" Height="8" Offset="0x8D98"/>
+        <Texture Name="gobject_trTex_00008DD8" OutName="tex_00008DD8" Format="ci8" Width="8" Height="16" Offset="0x8DD8"/>
+        <Texture Name="gobject_trTex_00008E58" OutName="tex_00008E58" Format="rgb5a1" Width="8" Height="8" Offset="0x8E58"/>
+        <Texture Name="gobject_trTex_00008ED8" OutName="tex_00008ED8" Format="rgb5a1" Width="16" Height="32" Offset="0x8ED8"/>
+        <Texture Name="gobject_trTex_000092D8" OutName="tex_000092D8" Format="rgb5a1" Width="16" Height="8" Offset="0x92D8"/>
+        <Texture Name="gobject_trTex_000093D8" OutName="tex_000093D8" Format="rgb5a1" Width="8" Height="8" Offset="0x93D8"/>
+        <Texture Name="gobject_trTex_00009458" OutName="tex_00009458" Format="ci8" Width="8" Height="8" Offset="0x9458"/>
+        <Texture Name="gobject_trTex_00009498" OutName="tex_00009498" Format="ci8" Width="8" Height="8" Offset="0x9498"/>
+        <Blob Name="gobject_trBlob_000094D8" Size="0x800" Offset="0x94D8"/>
+        <DList Name="gobject_trDL_0000AF38" Offset="0xAF38"/>
+        <DList Name="gobject_trDL_0000B568" Offset="0xB568"/>
+        <DList Name="gobject_trDL_0000B5C8" Offset="0xB5C8"/>
+        <DList Name="gobject_trDL_0000B678" Offset="0xB678"/>
+        <DList Name="gobject_trDL_0000B728" Offset="0xB728"/>
+        <DList Name="gobject_trDL_0000B8D0" Offset="0xB8D0"/>
+        <DList Name="gobject_trDL_0000B968" Offset="0xB968"/>
+        <DList Name="gobject_trDL_0000BA00" Offset="0xBA00"/>
+        <DList Name="gobject_trDL_0000BB68" Offset="0xBB68"/>
+        <Texture Name="gobject_trTex_0000BCD0" OutName="tex_0000BCD0" Format="rgb5a1" Width="8" Height="8" Offset="0xBCD0"/>
+        <Blob Name="gobject_trBlob_0000BD50" Size="0x580" Offset="0xBD50"/>
+        <Texture Name="gobject_trTex_0000C2D0" OutName="tex_0000C2D0" Format="rgb5a1" Width="4" Height="8" Offset="0xC2D0"/>
+        <Blob Name="gobject_trBlob_0000C310" Size="0x80" Offset="0xC310"/>
+        <Limb Name="gobject_trLimb_0000C390" LimbType="Standard" Offset="0xC390"/>
+        <Limb Name="gobject_trLimb_0000C39C" LimbType="Standard" Offset="0xC39C"/>
+        <Limb Name="gobject_trLimb_0000C3A8" LimbType="Standard" Offset="0xC3A8"/>
+        <Limb Name="gobject_trLimb_0000C3B4" LimbType="Standard" Offset="0xC3B4"/>
+        <Limb Name="gobject_trLimb_0000C3C0" LimbType="Standard" Offset="0xC3C0"/>
+        <Limb Name="gobject_trLimb_0000C3CC" LimbType="Standard" Offset="0xC3CC"/>
+        <Limb Name="gobject_trLimb_0000C3D8" LimbType="Standard" Offset="0xC3D8"/>
+        <Limb Name="gobject_trLimb_0000C3E4" LimbType="Standard" Offset="0xC3E4"/>
+        <Limb Name="gobject_trLimb_0000C3F0" LimbType="Standard" Offset="0xC3F0"/>
+        <Limb Name="gobject_trLimb_0000C3FC" LimbType="Standard" Offset="0xC3FC"/>
+        <Limb Name="gobject_trLimb_0000C408" LimbType="Standard" Offset="0xC408"/>
+        <Limb Name="gobject_trLimb_0000C414" LimbType="Standard" Offset="0xC414"/>
+        <Limb Name="gobject_trLimb_0000C420" LimbType="Standard" Offset="0xC420"/>
+        <Limb Name="gobject_trLimb_0000C42C" LimbType="Standard" Offset="0xC42C"/>
+        <Limb Name="gobject_trLimb_0000C438" LimbType="Standard" Offset="0xC438"/>
+        <Limb Name="gobject_trLimb_0000C444" LimbType="Standard" Offset="0xC444"/>
+        <Limb Name="gobject_trLimb_0000C450" LimbType="Standard" Offset="0xC450"/>
+        <Limb Name="gobject_trLimb_0000C45C" LimbType="Standard" Offset="0xC45C"/>
+        <Limb Name="gobject_trLimb_0000C468" LimbType="Standard" Offset="0xC468"/>
+        <Limb Name="gobject_trLimb_0000C474" LimbType="Standard" Offset="0xC474"/>
+        <Limb Name="gobject_trLimb_0000C480" LimbType="Standard" Offset="0xC480"/>
+        <Limb Name="gobject_trLimb_0000C48C" LimbType="Standard" Offset="0xC48C"/>
+        <Limb Name="gobject_trLimb_0000C498" LimbType="Standard" Offset="0xC498"/>
+        <Limb Name="gobject_trLimb_0000C4A4" LimbType="Standard" Offset="0xC4A4"/>
+        <Limb Name="gobject_trLimb_0000C4B0" LimbType="Standard" Offset="0xC4B0"/>
+        <Limb Name="gobject_trLimb_0000C4BC" LimbType="Standard" Offset="0xC4BC"/>
+        <Skeleton Name="gobject_trSkel_0000C530" Type="Flex" LimbType="Standard" Offset="0xC530"/>
+        <Animation Name="gobject_trAnim_0000C60C" Offset="0xC60C"/>
+        <Blob Name="gobject_trBlob_0000D5E0" Size="0x60" Offset="0xD5E0"/>
+        <DList Name="gobject_trDL_0000D820" Offset="0xD820"/>
+        <DList Name="gobject_trDL_0000D9A0" Offset="0xD9A0"/>
+        <DList Name="gobject_trDL_0000DB00" Offset="0xDB00"/>
+        <DList Name="gobject_trDL_0000DC40" Offset="0xDC40"/>
+        <DList Name="gobject_trDL_0000DD50" Offset="0xDD50"/>
+        <DList Name="gobject_trDL_0000DE48" Offset="0xDE48"/>
+        <DList Name="gobject_trDL_0000DF58" Offset="0xDF58"/>
+        <DList Name="gobject_trDL_0000E050" Offset="0xE050"/>
+        <DList Name="gobject_trDL_0000E170" Offset="0xE170"/>
+        <DList Name="gobject_trDL_0000E2F0" Offset="0xE2F0"/>
+        <DList Name="gobject_trDL_0000E418" Offset="0xE418"/>
+        <DList Name="gobject_trDL_0000E538" Offset="0xE538"/>
+        <DList Name="gobject_trDL_0000E658" Offset="0xE658"/>
+        <DList Name="gobject_trDL_0000E7D8" Offset="0xE7D8"/>
+        <DList Name="gobject_trDL_0000E900" Offset="0xE900"/>
+        <DList Name="gobject_trDL_0000EA20" Offset="0xEA20"/>
+        <DList Name="gobject_trDL_0000EA28" Offset="0xEA28"/>
+        <Texture Name="gobject_trTex_0000EA30" OutName="tex_0000EA30" Format="rgb5a1" Width="32" Height="32" Offset="0xEA30"/>
+        <Texture Name="gobject_trTex_0000F230" OutName="tex_0000F230" Format="rgb5a1" Width="16" Height="16" Offset="0xF230"/>
+        <Texture Name="gobject_trTex_0000F430" OutName="tex_0000F430" Format="rgb5a1" Width="8" Height="8" Offset="0xF430"/>
+        <DList Name="gobject_trDL_00010710" Offset="0x10710"/>
+        <DList Name="gobject_trDL_00010D40" Offset="0x10D40"/>
+        <DList Name="gobject_trDL_00010DA0" Offset="0x10DA0"/>
+        <DList Name="gobject_trDL_00010E50" Offset="0x10E50"/>
+        <DList Name="gobject_trDL_00010F00" Offset="0x10F00"/>
+        <DList Name="gobject_trDL_000110A8" Offset="0x110A8"/>
+        <DList Name="gobject_trDL_00011140" Offset="0x11140"/>
+        <DList Name="gobject_trDL_000111D8" Offset="0x111D8"/>
+        <DList Name="gobject_trDL_00011340" Offset="0x11340"/>
+        <Texture Name="gobject_trTex_000114A8" OutName="tex_000114A8" Format="rgb5a1" Width="4" Height="8" Offset="0x114A8"/>
+        <Limb Name="gobject_trLimb_000114E8" LimbType="Standard" Offset="0x114E8"/>
+        <Limb Name="gobject_trLimb_000114F4" LimbType="Standard" Offset="0x114F4"/>
+        <Limb Name="gobject_trLimb_00011500" LimbType="Standard" Offset="0x11500"/>
+        <Limb Name="gobject_trLimb_0001150C" LimbType="Standard" Offset="0x1150C"/>
+        <Limb Name="gobject_trLimb_00011518" LimbType="Standard" Offset="0x11518"/>
+        <Limb Name="gobject_trLimb_00011524" LimbType="Standard" Offset="0x11524"/>
+        <Limb Name="gobject_trLimb_00011530" LimbType="Standard" Offset="0x11530"/>
+        <Limb Name="gobject_trLimb_0001153C" LimbType="Standard" Offset="0x1153C"/>
+        <Limb Name="gobject_trLimb_00011548" LimbType="Standard" Offset="0x11548"/>
+        <Limb Name="gobject_trLimb_00011554" LimbType="Standard" Offset="0x11554"/>
+        <Limb Name="gobject_trLimb_00011560" LimbType="Standard" Offset="0x11560"/>
+        <Limb Name="gobject_trLimb_0001156C" LimbType="Standard" Offset="0x1156C"/>
+        <Limb Name="gobject_trLimb_00011578" LimbType="Standard" Offset="0x11578"/>
+        <Limb Name="gobject_trLimb_00011584" LimbType="Standard" Offset="0x11584"/>
+        <Limb Name="gobject_trLimb_00011590" LimbType="Standard" Offset="0x11590"/>
+        <Limb Name="gobject_trLimb_0001159C" LimbType="Standard" Offset="0x1159C"/>
+        <Limb Name="gobject_trLimb_000115A8" LimbType="Standard" Offset="0x115A8"/>
+        <Limb Name="gobject_trLimb_000115B4" LimbType="Standard" Offset="0x115B4"/>
+        <Limb Name="gobject_trLimb_000115C0" LimbType="Standard" Offset="0x115C0"/>
+        <Limb Name="gobject_trLimb_000115CC" LimbType="Standard" Offset="0x115CC"/>
+        <Limb Name="gobject_trLimb_000115D8" LimbType="Standard" Offset="0x115D8"/>
+        <Limb Name="gobject_trLimb_000115E4" LimbType="Standard" Offset="0x115E4"/>
+        <Limb Name="gobject_trLimb_000115F0" LimbType="Standard" Offset="0x115F0"/>
+        <Limb Name="gobject_trLimb_000115FC" LimbType="Standard" Offset="0x115FC"/>
+        <Limb Name="gobject_trLimb_00011608" LimbType="Standard" Offset="0x11608"/>
+        <Limb Name="gobject_trLimb_00011614" LimbType="Standard" Offset="0x11614"/>
+        <Skeleton Name="gobject_trSkel_00011688" Type="Flex" LimbType="Standard" Offset="0x11688"/>
+        <Animation Name="gobject_trAnim_00012E1C" Offset="0x12E1C"/>
     </File>
 </Root>

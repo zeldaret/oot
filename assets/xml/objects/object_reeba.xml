@@ -1,27 +1,27 @@
 <Root>
     <File Name="object_reeba" Segment="6">
-        <Animation Name="gobject_reeba_anim_000001E4" Offset="0x1E4"/>
-        <DList Name="gobject_reeba_dlist_00000200" Offset="0x200"/>
-        <DList Name="gobject_reeba_dlist_000002D0" Offset="0x2D0"/>
-        <DList Name="gobject_reeba_dlist_000002E0" Offset="0x2E0"/>
-        <DList Name="gobject_reeba_dlist_00000430" Offset="0x430"/>
-        <DList Name="gobject_reeba_dlist_00000570" Offset="0x570"/>
-        <DList Name="gobject_reeba_dlist_00000580" Offset="0x580"/>
-        <DList Name="gobject_reeba_dlist_00000760" Offset="0x760"/>
-        <DList Name="gobject_reeba_dlist_000007F8" Offset="0x7F8"/>
-        <DList Name="gobject_reeba_dlist_00000808" Offset="0x808"/>
-        <DList Name="gobject_reeba_dlist_000008B8" Offset="0x8B8"/>
-        <DList Name="gobject_reeba_dlist_00000950" Offset="0x950"/>
-        <DList Name="gobject_reeba_dlist_00000960" Offset="0x960"/>
-        <DList Name="gobject_reeba_dlist_00000A10" Offset="0xA10"/>
-        <DList Name="gobject_reeba_dlist_00000AB0" Offset="0xAB0"/>
-        <DList Name="gobject_reeba_dlist_00000AC0" Offset="0xAC0"/>
-        <DList Name="gobject_reeba_dlist_00000B80" Offset="0xB80"/>
-        <DList Name="gobject_reeba_dlist_00000C18" Offset="0xC18"/>
-        <DList Name="gobject_reeba_dlist_00000C28" Offset="0xC28"/>
-        <Texture Name="gobject_reeba_tex_00000CD8" OutName="tex_00000CD8" Format="rgb5a1" Width="8" Height="16" Offset="0xCD8"/>
-        <Texture Name="gobject_reeba_tex_00000DD8" OutName="tex_00000DD8" Format="rgb5a1" Width="32" Height="32" Offset="0xDD8"/>
-        <Texture Name="gobject_reeba_tex_000015D8" OutName="tex_000015D8" Format="rgb5a1" Width="32" Height="32" Offset="0x15D8"/>
-        <Blob Name="gobject_reeba_unk_00001DD8" Size="0x118" Offset="0x1DD8"/>
+        <Animation Name="gobject_reebaAnim_000001E4" Offset="0x1E4"/>
+        <DList Name="gobject_reebaDL_00000200" Offset="0x200"/>
+        <DList Name="gobject_reebaDL_000002D0" Offset="0x2D0"/>
+        <DList Name="gobject_reebaDL_000002E0" Offset="0x2E0"/>
+        <DList Name="gobject_reebaDL_00000430" Offset="0x430"/>
+        <DList Name="gobject_reebaDL_00000570" Offset="0x570"/>
+        <DList Name="gobject_reebaDL_00000580" Offset="0x580"/>
+        <DList Name="gobject_reebaDL_00000760" Offset="0x760"/>
+        <DList Name="gobject_reebaDL_000007F8" Offset="0x7F8"/>
+        <DList Name="gobject_reebaDL_00000808" Offset="0x808"/>
+        <DList Name="gobject_reebaDL_000008B8" Offset="0x8B8"/>
+        <DList Name="gobject_reebaDL_00000950" Offset="0x950"/>
+        <DList Name="gobject_reebaDL_00000960" Offset="0x960"/>
+        <DList Name="gobject_reebaDL_00000A10" Offset="0xA10"/>
+        <DList Name="gobject_reebaDL_00000AB0" Offset="0xAB0"/>
+        <DList Name="gobject_reebaDL_00000AC0" Offset="0xAC0"/>
+        <DList Name="gobject_reebaDL_00000B80" Offset="0xB80"/>
+        <DList Name="gobject_reebaDL_00000C18" Offset="0xC18"/>
+        <DList Name="gobject_reebaDL_00000C28" Offset="0xC28"/>
+        <Texture Name="gobject_reebaTex_00000CD8" OutName="tex_00000CD8" Format="rgb5a1" Width="8" Height="16" Offset="0xCD8"/>
+        <Texture Name="gobject_reebaTex_00000DD8" OutName="tex_00000DD8" Format="rgb5a1" Width="32" Height="32" Offset="0xDD8"/>
+        <Texture Name="gobject_reebaTex_000015D8" OutName="tex_000015D8" Format="rgb5a1" Width="32" Height="32" Offset="0x15D8"/>
+        <Blob Name="gobject_reebaBlob_00001DD8" Size="0x118" Offset="0x1DD8"/>
     </File>
 </Root>

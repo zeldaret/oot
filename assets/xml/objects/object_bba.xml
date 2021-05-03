@@ -1,45 +1,45 @@
 <Root>
     <File Name="object_bba" Segment="6">
-        <Limb Name="gobject_bba_limb_00000000" LimbType="Standard" Offset="0x0"/>
-        <Limb Name="gobject_bba_limb_0000000C" LimbType="Standard" Offset="0xC"/>
-        <Limb Name="gobject_bba_limb_00000018" LimbType="Standard" Offset="0x18"/>
-        <Limb Name="gobject_bba_limb_00000024" LimbType="Standard" Offset="0x24"/>
-        <Limb Name="gobject_bba_limb_00000030" LimbType="Standard" Offset="0x30"/>
-        <Limb Name="gobject_bba_limb_0000003C" LimbType="Standard" Offset="0x3C"/>
-        <Limb Name="gobject_bba_limb_00000048" LimbType="Standard" Offset="0x48"/>
-        <Limb Name="gobject_bba_limb_00000054" LimbType="Standard" Offset="0x54"/>
-        <Limb Name="gobject_bba_limb_00000060" LimbType="Standard" Offset="0x60"/>
-        <Limb Name="gobject_bba_limb_0000006C" LimbType="Standard" Offset="0x6C"/>
-        <Limb Name="gobject_bba_limb_00000078" LimbType="Standard" Offset="0x78"/>
-        <Limb Name="gobject_bba_limb_00000084" LimbType="Standard" Offset="0x84"/>
-        <Limb Name="gobject_bba_limb_00000090" LimbType="Standard" Offset="0x90"/>
-        <Limb Name="gobject_bba_limb_0000009C" LimbType="Standard" Offset="0x9C"/>
-        <Limb Name="gobject_bba_limb_000000A8" LimbType="Standard" Offset="0xA8"/>
-        <Skeleton Name="gobject_bba_skel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0"/>
-        <Texture Name="gobject_bba_tlut_00000108" OutName="tlut_00000108" Format="rgb5a1" Width="16" Height="16" Offset="0x108"/>
-        <Texture Name="gobject_bba_tex_00000308" OutName="tex_00000308" Format="ci8" Width="8" Height="8" Offset="0x308"/>
-        <Texture Name="gobject_bba_tex_00000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348"/>
-        <Texture Name="gobject_bba_tex_00000388" OutName="tex_00000388" Format="ci8" Width="16" Height="16" Offset="0x388"/>
-        <Texture Name="gobject_bba_tex_00000488" OutName="tex_00000488" Format="ci8" Width="8" Height="8" Offset="0x488"/>
-        <Texture Name="gobject_bba_tex_000004C8" OutName="tex_000004C8" Format="rgb5a1" Width="32" Height="32" Offset="0x4C8"/>
-        <Texture Name="gobject_bba_tex_00000CC8" OutName="tex_00000CC8" Format="ci8" Width="16" Height="16" Offset="0xCC8"/>
-        <Texture Name="gobject_bba_tex_00000DC8" OutName="tex_00000DC8" Format="ci8" Width="8" Height="8" Offset="0xDC8"/>
-        <Texture Name="gobject_bba_tex_00000E08" OutName="tex_00000E08" Format="ci8" Width="16" Height="16" Offset="0xE08"/>
-        <Texture Name="gobject_bba_tex_00000F08" OutName="tex_00000F08" Format="ci8" Width="16" Height="16" Offset="0xF08"/>
-        <DList Name="gobject_bba_dlist_00002948" Offset="0x2948"/>
-        <DList Name="gobject_bba_dlist_00003298" Offset="0x3298"/>
-        <DList Name="gobject_bba_dlist_000033A8" Offset="0x33A8"/>
-        <DList Name="gobject_bba_dlist_000034C8" Offset="0x34C8"/>
-        <DList Name="gobject_bba_dlist_000035F0" Offset="0x35F0"/>
-        <DList Name="gobject_bba_dlist_00003700" Offset="0x3700"/>
-        <DList Name="gobject_bba_dlist_00003820" Offset="0x3820"/>
-        <DList Name="gobject_bba_dlist_00003948" Offset="0x3948"/>
-        <DList Name="gobject_bba_dlist_00003C80" Offset="0x3C80"/>
-        <DList Name="gobject_bba_dlist_00003D50" Offset="0x3D50"/>
-        <DList Name="gobject_bba_dlist_00003E20" Offset="0x3E20"/>
-        <DList Name="gobject_bba_dlist_00003EF0" Offset="0x3EF0"/>
-        <DList Name="gobject_bba_dlist_00003FC0" Offset="0x3FC0"/>
-        <DList Name="gobject_bba_dlist_00004090" Offset="0x4090"/>
-        <DList Name="gobject_bba_dlist_00004160" Offset="0x4160"/>
+        <Limb Name="gobject_bbaLimb_00000000" LimbType="Standard" Offset="0x0"/>
+        <Limb Name="gobject_bbaLimb_0000000C" LimbType="Standard" Offset="0xC"/>
+        <Limb Name="gobject_bbaLimb_00000018" LimbType="Standard" Offset="0x18"/>
+        <Limb Name="gobject_bbaLimb_00000024" LimbType="Standard" Offset="0x24"/>
+        <Limb Name="gobject_bbaLimb_00000030" LimbType="Standard" Offset="0x30"/>
+        <Limb Name="gobject_bbaLimb_0000003C" LimbType="Standard" Offset="0x3C"/>
+        <Limb Name="gobject_bbaLimb_00000048" LimbType="Standard" Offset="0x48"/>
+        <Limb Name="gobject_bbaLimb_00000054" LimbType="Standard" Offset="0x54"/>
+        <Limb Name="gobject_bbaLimb_00000060" LimbType="Standard" Offset="0x60"/>
+        <Limb Name="gobject_bbaLimb_0000006C" LimbType="Standard" Offset="0x6C"/>
+        <Limb Name="gobject_bbaLimb_00000078" LimbType="Standard" Offset="0x78"/>
+        <Limb Name="gobject_bbaLimb_00000084" LimbType="Standard" Offset="0x84"/>
+        <Limb Name="gobject_bbaLimb_00000090" LimbType="Standard" Offset="0x90"/>
+        <Limb Name="gobject_bbaLimb_0000009C" LimbType="Standard" Offset="0x9C"/>
+        <Limb Name="gobject_bbaLimb_000000A8" LimbType="Standard" Offset="0xA8"/>
+        <Skeleton Name="gobject_bbaSkel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0"/>
+        <Texture Name="gobject_bbaTLUT_00000108" OutName="tlut_00000108" Format="rgb5a1" Width="16" Height="16" Offset="0x108"/>
+        <Texture Name="gobject_bbaTex_00000308" OutName="tex_00000308" Format="ci8" Width="8" Height="8" Offset="0x308"/>
+        <Texture Name="gobject_bbaTex_00000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348"/>
+        <Texture Name="gobject_bbaTex_00000388" OutName="tex_00000388" Format="ci8" Width="16" Height="16" Offset="0x388"/>
+        <Texture Name="gobject_bbaTex_00000488" OutName="tex_00000488" Format="ci8" Width="8" Height="8" Offset="0x488"/>
+        <Texture Name="gobject_bbaTex_000004C8" OutName="tex_000004C8" Format="rgb5a1" Width="32" Height="32" Offset="0x4C8"/>
+        <Texture Name="gobject_bbaTex_00000CC8" OutName="tex_00000CC8" Format="ci8" Width="16" Height="16" Offset="0xCC8"/>
+        <Texture Name="gobject_bbaTex_00000DC8" OutName="tex_00000DC8" Format="ci8" Width="8" Height="8" Offset="0xDC8"/>
+        <Texture Name="gobject_bbaTex_00000E08" OutName="tex_00000E08" Format="ci8" Width="16" Height="16" Offset="0xE08"/>
+        <Texture Name="gobject_bbaTex_00000F08" OutName="tex_00000F08" Format="ci8" Width="16" Height="16" Offset="0xF08"/>
+        <DList Name="gobject_bbaDL_00002948" Offset="0x2948"/>
+        <DList Name="gobject_bbaDL_00003298" Offset="0x3298"/>
+        <DList Name="gobject_bbaDL_000033A8" Offset="0x33A8"/>
+        <DList Name="gobject_bbaDL_000034C8" Offset="0x34C8"/>
+        <DList Name="gobject_bbaDL_000035F0" Offset="0x35F0"/>
+        <DList Name="gobject_bbaDL_00003700" Offset="0x3700"/>
+        <DList Name="gobject_bbaDL_00003820" Offset="0x3820"/>
+        <DList Name="gobject_bbaDL_00003948" Offset="0x3948"/>
+        <DList Name="gobject_bbaDL_00003C80" Offset="0x3C80"/>
+        <DList Name="gobject_bbaDL_00003D50" Offset="0x3D50"/>
+        <DList Name="gobject_bbaDL_00003E20" Offset="0x3E20"/>
+        <DList Name="gobject_bbaDL_00003EF0" Offset="0x3EF0"/>
+        <DList Name="gobject_bbaDL_00003FC0" Offset="0x3FC0"/>
+        <DList Name="gobject_bbaDL_00004090" Offset="0x4090"/>
+        <DList Name="gobject_bbaDL_00004160" Offset="0x4160"/>
     </File>
 </Root>

@@ -1,17 +1,17 @@
 <Root>
     <File Name="object_medal" Segment="6">
-        <DList Name="gobject_medal_dlist_00000360" Offset="0x360"/>
-        <DList Name="gobject_medal_dlist_00000840" Offset="0x840"/>
-        <DList Name="gobject_medal_dlist_00000D20" Offset="0xD20"/>
-        <DList Name="gobject_medal_dlist_00001200" Offset="0x1200"/>
-        <DList Name="gobject_medal_dlist_000016E0" Offset="0x16E0"/>
-        <DList Name="gobject_medal_dlist_00001BC0" Offset="0x1BC0"/>
-        <Blob Name="gobject_medal_unk_00001D40" Size="0x400" Offset="0x1D40"/>
-        <Texture Name="gobject_medal_tex_00002140" OutName="tex_00002140" Format="rgb5a1" Width="32" Height="32" Offset="0x2140"/>
-        <Texture Name="gobject_medal_tex_00002940" OutName="tex_00002940" Format="rgb5a1" Width="32" Height="32" Offset="0x2940"/>
-        <Texture Name="gobject_medal_tex_00003140" OutName="tex_00003140" Format="rgb5a1" Width="32" Height="32" Offset="0x3140"/>
-        <Texture Name="gobject_medal_tex_00003940" OutName="tex_00003940" Format="rgb5a1" Width="32" Height="32" Offset="0x3940"/>
-        <Texture Name="gobject_medal_tex_00004140" OutName="tex_00004140" Format="rgb5a1" Width="32" Height="32" Offset="0x4140"/>
-        <Texture Name="gobject_medal_tex_00004940" OutName="tex_00004940" Format="rgb5a1" Width="32" Height="32" Offset="0x4940"/>
+        <DList Name="gobject_medalDL_00000360" Offset="0x360"/>
+        <DList Name="gobject_medalDL_00000840" Offset="0x840"/>
+        <DList Name="gobject_medalDL_00000D20" Offset="0xD20"/>
+        <DList Name="gobject_medalDL_00001200" Offset="0x1200"/>
+        <DList Name="gobject_medalDL_000016E0" Offset="0x16E0"/>
+        <DList Name="gobject_medalDL_00001BC0" Offset="0x1BC0"/>
+        <Blob Name="gobject_medalBlob_00001D40" Size="0x400" Offset="0x1D40"/>
+        <Texture Name="gobject_medalTex_00002140" OutName="tex_00002140" Format="rgb5a1" Width="32" Height="32" Offset="0x2140"/>
+        <Texture Name="gobject_medalTex_00002940" OutName="tex_00002940" Format="rgb5a1" Width="32" Height="32" Offset="0x2940"/>
+        <Texture Name="gobject_medalTex_00003140" OutName="tex_00003140" Format="rgb5a1" Width="32" Height="32" Offset="0x3140"/>
+        <Texture Name="gobject_medalTex_00003940" OutName="tex_00003940" Format="rgb5a1" Width="32" Height="32" Offset="0x3940"/>
+        <Texture Name="gobject_medalTex_00004140" OutName="tex_00004140" Format="rgb5a1" Width="32" Height="32" Offset="0x4140"/>
+        <Texture Name="gobject_medalTex_00004940" OutName="tex_00004940" Format="rgb5a1" Width="32" Height="32" Offset="0x4940"/>
     </File>
 </Root>

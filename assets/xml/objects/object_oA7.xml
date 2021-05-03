@@ -1,62 +1,62 @@
 <Root>
     <File Name="object_oA7" Segment="6">
-        <Limb Name="gobject_oA7_limb_00000000" LimbType="Standard" Offset="0x0"/>
-        <Limb Name="gobject_oA7_limb_0000000C" LimbType="Standard" Offset="0xC"/>
-        <Limb Name="gobject_oA7_limb_00000018" LimbType="Standard" Offset="0x18"/>
-        <Limb Name="gobject_oA7_limb_00000024" LimbType="Standard" Offset="0x24"/>
-        <Limb Name="gobject_oA7_limb_00000030" LimbType="Standard" Offset="0x30"/>
-        <Limb Name="gobject_oA7_limb_0000003C" LimbType="Standard" Offset="0x3C"/>
-        <Limb Name="gobject_oA7_limb_00000048" LimbType="Standard" Offset="0x48"/>
-        <Limb Name="gobject_oA7_limb_00000054" LimbType="Standard" Offset="0x54"/>
-        <Limb Name="gobject_oA7_limb_00000060" LimbType="Standard" Offset="0x60"/>
-        <Limb Name="gobject_oA7_limb_0000006C" LimbType="Standard" Offset="0x6C"/>
-        <Limb Name="gobject_oA7_limb_00000078" LimbType="Standard" Offset="0x78"/>
-        <Limb Name="gobject_oA7_limb_00000084" LimbType="Standard" Offset="0x84"/>
-        <Limb Name="gobject_oA7_limb_00000090" LimbType="Standard" Offset="0x90"/>
-        <Limb Name="gobject_oA7_limb_0000009C" LimbType="Standard" Offset="0x9C"/>
-        <Limb Name="gobject_oA7_limb_000000A8" LimbType="Standard" Offset="0xA8"/>
-        <Limb Name="gobject_oA7_limb_000000B4" LimbType="Standard" Offset="0xB4"/>
-        <Limb Name="gobject_oA7_limb_000000C0" LimbType="Standard" Offset="0xC0"/>
-        <Limb Name="gobject_oA7_limb_000000CC" LimbType="Standard" Offset="0xCC"/>
-        <Limb Name="gobject_oA7_limb_000000D8" LimbType="Standard" Offset="0xD8"/>
-        <Limb Name="gobject_oA7_limb_000000E4" LimbType="Standard" Offset="0xE4"/>
-        <Limb Name="gobject_oA7_limb_000000F0" LimbType="Standard" Offset="0xF0"/>
-        <Limb Name="gobject_oA7_limb_000000FC" LimbType="Standard" Offset="0xFC"/>
-        <Limb Name="gobject_oA7_limb_00000108" LimbType="Standard" Offset="0x108"/>
-        <Limb Name="gobject_oA7_limb_00000114" LimbType="Standard" Offset="0x114"/>
-        <Limb Name="gobject_oA7_limb_00000120" LimbType="Standard" Offset="0x120"/>
-        <Limb Name="gobject_oA7_limb_0000012C" LimbType="Standard" Offset="0x12C"/>
-        <Limb Name="gobject_oA7_limb_00000138" LimbType="Standard" Offset="0x138"/>
-        <Limb Name="gobject_oA7_limb_00000144" LimbType="Standard" Offset="0x144"/>
-        <Limb Name="gobject_oA7_limb_00000150" LimbType="Standard" Offset="0x150"/>
-        <Limb Name="gobject_oA7_limb_0000015C" LimbType="Standard" Offset="0x15C"/>
-        <Limb Name="gobject_oA7_limb_00000168" LimbType="Standard" Offset="0x168"/>
-        <Limb Name="gobject_oA7_limb_00000174" LimbType="Standard" Offset="0x174"/>
-        <Limb Name="gobject_oA7_limb_00000180" LimbType="Standard" Offset="0x180"/>
-        <Limb Name="gobject_oA7_limb_0000018C" LimbType="Standard" Offset="0x18C"/>
-        <Limb Name="gobject_oA7_limb_00000198" LimbType="Standard" Offset="0x198"/>
-        <Limb Name="gobject_oA7_limb_000001A4" LimbType="Standard" Offset="0x1A4"/>
-        <Limb Name="gobject_oA7_limb_000001B0" LimbType="Standard" Offset="0x1B0"/>
-        <Limb Name="gobject_oA7_limb_000001BC" LimbType="Standard" Offset="0x1BC"/>
-        <Skeleton Name="gobject_oA7_skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
-        <DList Name="gobject_oA7_dlist_000002C8" Offset="0x2C8"/>
-        <DList Name="gobject_oA7_dlist_000003E8" Offset="0x3E8"/>
-        <DList Name="gobject_oA7_dlist_000004B8" Offset="0x4B8"/>
-        <DList Name="gobject_oA7_dlist_00000568" Offset="0x568"/>
-        <DList Name="gobject_oA7_dlist_00000600" Offset="0x600"/>
-        <DList Name="gobject_oA7_dlist_000006D8" Offset="0x6D8"/>
-        <DList Name="gobject_oA7_dlist_000007C8" Offset="0x7C8"/>
-        <DList Name="gobject_oA7_dlist_000008E8" Offset="0x8E8"/>
-        <DList Name="gobject_oA7_dlist_000009B8" Offset="0x9B8"/>
-        <DList Name="gobject_oA7_dlist_00000A68" Offset="0xA68"/>
-        <DList Name="gobject_oA7_dlist_00000B00" Offset="0xB00"/>
-        <DList Name="gobject_oA7_dlist_00000BD8" Offset="0xBD8"/>
-        <DList Name="gobject_oA7_dlist_00000EE8" Offset="0xEE8"/>
-        <DList Name="gobject_oA7_dlist_00001068" Offset="0x1068"/>
-        <DList Name="gobject_oA7_dlist_00001218" Offset="0x1218"/>
-        <Texture Name="gobject_oA7_tex_000012C8" OutName="tex_000012C8" Format="rgb5a1" Width="8" Height="8" Offset="0x12C8"/>
-        <Texture Name="gobject_oA7_tex_00001348" OutName="tex_00001348" Format="rgb5a1" Width="8" Height="8" Offset="0x1348"/>
-        <Texture Name="gobject_oA7_tex_000013C8" OutName="tex_000013C8" Format="rgb5a1" Width="8" Height="16" Offset="0x13C8"/>
-        <Texture Name="gobject_oA7_tex_000014C8" OutName="tex_000014C8" Format="rgb5a1" Width="8" Height="8" Offset="0x14C8"/>
+        <Limb Name="gobject_oA7Limb_00000000" LimbType="Standard" Offset="0x0"/>
+        <Limb Name="gobject_oA7Limb_0000000C" LimbType="Standard" Offset="0xC"/>
+        <Limb Name="gobject_oA7Limb_00000018" LimbType="Standard" Offset="0x18"/>
+        <Limb Name="gobject_oA7Limb_00000024" LimbType="Standard" Offset="0x24"/>
+        <Limb Name="gobject_oA7Limb_00000030" LimbType="Standard" Offset="0x30"/>
+        <Limb Name="gobject_oA7Limb_0000003C" LimbType="Standard" Offset="0x3C"/>
+        <Limb Name="gobject_oA7Limb_00000048" LimbType="Standard" Offset="0x48"/>
+        <Limb Name="gobject_oA7Limb_00000054" LimbType="Standard" Offset="0x54"/>
+        <Limb Name="gobject_oA7Limb_00000060" LimbType="Standard" Offset="0x60"/>
+        <Limb Name="gobject_oA7Limb_0000006C" LimbType="Standard" Offset="0x6C"/>
+        <Limb Name="gobject_oA7Limb_00000078" LimbType="Standard" Offset="0x78"/>
+        <Limb Name="gobject_oA7Limb_00000084" LimbType="Standard" Offset="0x84"/>
+        <Limb Name="gobject_oA7Limb_00000090" LimbType="Standard" Offset="0x90"/>
+        <Limb Name="gobject_oA7Limb_0000009C" LimbType="Standard" Offset="0x9C"/>
+        <Limb Name="gobject_oA7Limb_000000A8" LimbType="Standard" Offset="0xA8"/>
+        <Limb Name="gobject_oA7Limb_000000B4" LimbType="Standard" Offset="0xB4"/>
+        <Limb Name="gobject_oA7Limb_000000C0" LimbType="Standard" Offset="0xC0"/>
+        <Limb Name="gobject_oA7Limb_000000CC" LimbType="Standard" Offset="0xCC"/>
+        <Limb Name="gobject_oA7Limb_000000D8" LimbType="Standard" Offset="0xD8"/>
+        <Limb Name="gobject_oA7Limb_000000E4" LimbType="Standard" Offset="0xE4"/>
+        <Limb Name="gobject_oA7Limb_000000F0" LimbType="Standard" Offset="0xF0"/>
+        <Limb Name="gobject_oA7Limb_000000FC" LimbType="Standard" Offset="0xFC"/>
+        <Limb Name="gobject_oA7Limb_00000108" LimbType="Standard" Offset="0x108"/>
+        <Limb Name="gobject_oA7Limb_00000114" LimbType="Standard" Offset="0x114"/>
+        <Limb Name="gobject_oA7Limb_00000120" LimbType="Standard" Offset="0x120"/>
+        <Limb Name="gobject_oA7Limb_0000012C" LimbType="Standard" Offset="0x12C"/>
+        <Limb Name="gobject_oA7Limb_00000138" LimbType="Standard" Offset="0x138"/>
+        <Limb Name="gobject_oA7Limb_00000144" LimbType="Standard" Offset="0x144"/>
+        <Limb Name="gobject_oA7Limb_00000150" LimbType="Standard" Offset="0x150"/>
+        <Limb Name="gobject_oA7Limb_0000015C" LimbType="Standard" Offset="0x15C"/>
+        <Limb Name="gobject_oA7Limb_00000168" LimbType="Standard" Offset="0x168"/>
+        <Limb Name="gobject_oA7Limb_00000174" LimbType="Standard" Offset="0x174"/>
+        <Limb Name="gobject_oA7Limb_00000180" LimbType="Standard" Offset="0x180"/>
+        <Limb Name="gobject_oA7Limb_0000018C" LimbType="Standard" Offset="0x18C"/>
+        <Limb Name="gobject_oA7Limb_00000198" LimbType="Standard" Offset="0x198"/>
+        <Limb Name="gobject_oA7Limb_000001A4" LimbType="Standard" Offset="0x1A4"/>
+        <Limb Name="gobject_oA7Limb_000001B0" LimbType="Standard" Offset="0x1B0"/>
+        <Limb Name="gobject_oA7Limb_000001BC" LimbType="Standard" Offset="0x1BC"/>
+        <Skeleton Name="gobject_oA7Skel_00000260" Type="Normal" LimbType="Standard" Offset="0x260"/>
+        <DList Name="gobject_oA7DL_000002C8" Offset="0x2C8"/>
+        <DList Name="gobject_oA7DL_000003E8" Offset="0x3E8"/>
+        <DList Name="gobject_oA7DL_000004B8" Offset="0x4B8"/>
+        <DList Name="gobject_oA7DL_00000568" Offset="0x568"/>
+        <DList Name="gobject_oA7DL_00000600" Offset="0x600"/>
+        <DList Name="gobject_oA7DL_000006D8" Offset="0x6D8"/>
+        <DList Name="gobject_oA7DL_000007C8" Offset="0x7C8"/>
+        <DList Name="gobject_oA7DL_000008E8" Offset="0x8E8"/>
+        <DList Name="gobject_oA7DL_000009B8" Offset="0x9B8"/>
+        <DList Name="gobject_oA7DL_00000A68" Offset="0xA68"/>
+        <DList Name="gobject_oA7DL_00000B00" Offset="0xB00"/>
+        <DList Name="gobject_oA7DL_00000BD8" Offset="0xBD8"/>
+        <DList Name="gobject_oA7DL_00000EE8" Offset="0xEE8"/>
+        <DList Name="gobject_oA7DL_00001068" Offset="0x1068"/>
+        <DList Name="gobject_oA7DL_00001218" Offset="0x1218"/>
+        <Texture Name="gobject_oA7Tex_000012C8" OutName="tex_000012C8" Format="rgb5a1" Width="8" Height="8" Offset="0x12C8"/>
+        <Texture Name="gobject_oA7Tex_00001348" OutName="tex_00001348" Format="rgb5a1" Width="8" Height="8" Offset="0x1348"/>
+        <Texture Name="gobject_oA7Tex_000013C8" OutName="tex_000013C8" Format="rgb5a1" Width="8" Height="16" Offset="0x13C8"/>
+        <Texture Name="gobject_oA7Tex_000014C8" OutName="tex_000014C8" Format="rgb5a1" Width="8" Height="8" Offset="0x14C8"/>
     </File>
 </Root>

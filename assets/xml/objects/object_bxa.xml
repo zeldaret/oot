@@ -1,12 +1,12 @@
 <Root>
     <File Name="object_bxa" Segment="6">
-        <DList Name="gobject_bxa_dlist_00000890" Offset="0x890"/>
-        <Texture Name="gobject_bxa_tex_00000C40" OutName="tex_00000C40" Format="rgb5a1" Width="32" Height="32" Offset="0xC40"/>
-        <Texture Name="gobject_bxa_tex_00001440" OutName="tex_00001440" Format="rgb5a1" Width="32" Height="32" Offset="0x1440"/>
-        <DList Name="gobject_bxa_dlist_00001D80" Offset="0x1D80"/>
-        <DList Name="gobject_bxa_dlist_000022F0" Offset="0x22F0"/>
-        <Blob Name="gobject_bxa_unk_000024F0" Size="0x200" Offset="0x24F0"/>
-        <Texture Name="gobject_bxa_tex_000026F0" OutName="tex_000026F0" Format="i8" Width="16" Height="16" Offset="0x26F0"/>
-        <Blob Name="gobject_bxa_unk_000027F0" Size="0x400" Offset="0x27F0"/>
+        <DList Name="gobject_bxaDL_00000890" Offset="0x890"/>
+        <Texture Name="gobject_bxaTex_00000C40" OutName="tex_00000C40" Format="rgb5a1" Width="32" Height="32" Offset="0xC40"/>
+        <Texture Name="gobject_bxaTex_00001440" OutName="tex_00001440" Format="rgb5a1" Width="32" Height="32" Offset="0x1440"/>
+        <DList Name="gobject_bxaDL_00001D80" Offset="0x1D80"/>
+        <DList Name="gobject_bxaDL_000022F0" Offset="0x22F0"/>
+        <Blob Name="gobject_bxaBlob_000024F0" Size="0x200" Offset="0x24F0"/>
+        <Texture Name="gobject_bxaTex_000026F0" OutName="tex_000026F0" Format="i8" Width="16" Height="16" Offset="0x26F0"/>
+        <Blob Name="gobject_bxaBlob_000027F0" Size="0x400" Offset="0x27F0"/>
     </File>
 </Root>

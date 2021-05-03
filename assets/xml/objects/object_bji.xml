@@ -1,48 +1,48 @@
 <Root>
     <File Name="object_bji" Segment="6">
-        <!--Limb Name="gobject_bji_limb_00000000" LimbType="Standard" Offset="0x0" />
-        <Limb Name="gobject_bji_limb_0000000C" LimbType="Standard" Offset="0xC" />
-        <Limb Name="gobject_bji_limb_00000018" LimbType="Standard" Offset="0x18" />
-        <Limb Name="gobject_bji_limb_00000024" LimbType="Standard" Offset="0x24" />
-        <Limb Name="gobject_bji_limb_00000030" LimbType="Standard" Offset="0x30" />
-        <Limb Name="gobject_bji_limb_0000003C" LimbType="Standard" Offset="0x3C" />
-        <Limb Name="gobject_bji_limb_00000048" LimbType="Standard" Offset="0x48" />
-        <Limb Name="gobject_bji_limb_00000054" LimbType="Standard" Offset="0x54" />
-        <Limb Name="gobject_bji_limb_00000060" LimbType="Standard" Offset="0x60" />
-        <Limb Name="gobject_bji_limb_0000006C" LimbType="Standard" Offset="0x6C" />
-        <Limb Name="gobject_bji_limb_00000078" LimbType="Standard" Offset="0x78" />
-        <Limb Name="gobject_bji_limb_00000084" LimbType="Standard" Offset="0x84" />
-        <Limb Name="gobject_bji_limb_00000090" LimbType="Standard" Offset="0x90" />
-        <Limb Name="gobject_bji_limb_0000009C" LimbType="Standard" Offset="0x9C" />
-        <Limb Name="gobject_bji_limb_000000A8" LimbType="Standard" Offset="0xA8" />
-        <Skeleton Name="gobject_bji_skel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0" />
-        <Texture Name="gobject_bji_tlut_000000FC" OutName="tlut_000000FC" Format="rgb5a1" Width="16" Height="16" Offset="0xFC" />
-        <Texture Name="gobject_bji_tex_000002FC" OutName="tex_000002FC" Format="ci8" Width="8" Height="8" Offset="0x2FC" />
-        <Texture Name="gobject_bji_tex_0000033C" OutName="tex_0000033C" Format="ci8" Width="8" Height="8" Offset="0x33C" />
-        <Texture Name="gobject_bji_tex_0000037C" OutName="tex_0000037C" Format="ci8" Width="16" Height="16" Offset="0x37C" />
-        <Texture Name="gobject_bji_tex_0000047C" OutName="tex_0000047C" Format="ci8" Width="8" Height="8" Offset="0x47C" />
-        <Texture Name="gobject_bji_tex_000004BC" OutName="tex_000004BC" Format="ci8" Width="8" Height="8" Offset="0x4BC" />
-        <Texture Name="gobject_bji_tex_000004FC" OutName="tex_000004FC" Format="i8" Width="16" Height="16" Offset="0x4FC" /-->
-        <Blob Name="gobject_bji_unk_000005FC" Size="0xC00" Offset="0x5FC" />
-        <!--Texture Name="gobject_bji_tex_000011FC" OutName="tex_000011FC" Format="i8" Width="8" Height="8" Offset="0x11FC" />
-        <DList Name="gobject_bji_dlist_00002560" Offset="0x2560" />
-        <DList Name="gobject_bji_dlist_00002B88" Offset="0x2B88" />
-        <DList Name="gobject_bji_dlist_00002C50" Offset="0x2C50" />
-        <DList Name="gobject_bji_dlist_00002D40" Offset="0x2D40" />
-        <DList Name="gobject_bji_dlist_00002E40" Offset="0x2E40" />
-        <DList Name="gobject_bji_dlist_00002F08" Offset="0x2F08" />
-        <DList Name="gobject_bji_dlist_00002FF8" Offset="0x2FF8" />
-        <DList Name="gobject_bji_dlist_000030F8" Offset="0x30F8" />
-        <DList Name="gobject_bji_dlist_00003328" Offset="0x3328" />
-        <DList Name="gobject_bji_dlist_000033F0" Offset="0x33F0" />
-        <DList Name="gobject_bji_dlist_000034B8" Offset="0x34B8" />
-        <DList Name="gobject_bji_dlist_00003580" Offset="0x3580" />
-        <DList Name="gobject_bji_dlist_00003648" Offset="0x3648" />
-        <DList Name="gobject_bji_dlist_00003710" Offset="0x3710" />
-        <DList Name="gobject_bji_dlist_000037D8" Offset="0x37D8" />
-        <Texture Name="gobject_bji_tex_00003908" OutName="tex_00003908" Format="rgb5a1" Width="8" Height="8" Offset="0x3908" />
-        <Texture Name="gobject_bji_tex_00003988" OutName="tex_00003988" Format="rgb5a1" Width="8" Height="8" Offset="0x3988" />
-        <Texture Name="gobject_bji_tex_00003A08" OutName="tex_00003A08" Format="rgb5a1" Width="8" Height="8" Offset="0x3A08" />
-        <DList Name="gobject_bji_dlist_00003F68" Offset="0x3F68" /-->
+        <!--Limb Name="gobject_bjiLimb_00000000" LimbType="Standard" Offset="0x0" />
+        <Limb Name="gobject_bjiLimb_0000000C" LimbType="Standard" Offset="0xC" />
+        <Limb Name="gobject_bjiLimb_00000018" LimbType="Standard" Offset="0x18" />
+        <Limb Name="gobject_bjiLimb_00000024" LimbType="Standard" Offset="0x24" />
+        <Limb Name="gobject_bjiLimb_00000030" LimbType="Standard" Offset="0x30" />
+        <Limb Name="gobject_bjiLimb_0000003C" LimbType="Standard" Offset="0x3C" />
+        <Limb Name="gobject_bjiLimb_00000048" LimbType="Standard" Offset="0x48" />
+        <Limb Name="gobject_bjiLimb_00000054" LimbType="Standard" Offset="0x54" />
+        <Limb Name="gobject_bjiLimb_00000060" LimbType="Standard" Offset="0x60" />
+        <Limb Name="gobject_bjiLimb_0000006C" LimbType="Standard" Offset="0x6C" />
+        <Limb Name="gobject_bjiLimb_00000078" LimbType="Standard" Offset="0x78" />
+        <Limb Name="gobject_bjiLimb_00000084" LimbType="Standard" Offset="0x84" />
+        <Limb Name="gobject_bjiLimb_00000090" LimbType="Standard" Offset="0x90" />
+        <Limb Name="gobject_bjiLimb_0000009C" LimbType="Standard" Offset="0x9C" />
+        <Limb Name="gobject_bjiLimb_000000A8" LimbType="Standard" Offset="0xA8" />
+        <Skeleton Name="gobject_bjiSkel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0" />
+        <Texture Name="gobject_bjiTLUT_000000FC" OutName="tlut_000000FC" Format="rgb5a1" Width="16" Height="16" Offset="0xFC" />
+        <Texture Name="gobject_bjiTex_000002FC" OutName="tex_000002FC" Format="ci8" Width="8" Height="8" Offset="0x2FC" />
+        <Texture Name="gobject_bjiTex_0000033C" OutName="tex_0000033C" Format="ci8" Width="8" Height="8" Offset="0x33C" />
+        <Texture Name="gobject_bjiTex_0000037C" OutName="tex_0000037C" Format="ci8" Width="16" Height="16" Offset="0x37C" />
+        <Texture Name="gobject_bjiTex_0000047C" OutName="tex_0000047C" Format="ci8" Width="8" Height="8" Offset="0x47C" />
+        <Texture Name="gobject_bjiTex_000004BC" OutName="tex_000004BC" Format="ci8" Width="8" Height="8" Offset="0x4BC" />
+        <Texture Name="gobject_bjiTex_000004FC" OutName="tex_000004FC" Format="i8" Width="16" Height="16" Offset="0x4FC" /-->
+        <Blob Name="gobject_bjiBlob_000005FC" Size="0xC00" Offset="0x5FC" />
+        <!--Texture Name="gobject_bjiTex_000011FC" OutName="tex_000011FC" Format="i8" Width="8" Height="8" Offset="0x11FC" />
+        <DList Name="gobject_bjiDL_00002560" Offset="0x2560" />
+        <DList Name="gobject_bjiDL_00002B88" Offset="0x2B88" />
+        <DList Name="gobject_bjiDL_00002C50" Offset="0x2C50" />
+        <DList Name="gobject_bjiDL_00002D40" Offset="0x2D40" />
+        <DList Name="gobject_bjiDL_00002E40" Offset="0x2E40" />
+        <DList Name="gobject_bjiDL_00002F08" Offset="0x2F08" />
+        <DList Name="gobject_bjiDL_00002FF8" Offset="0x2FF8" />
+        <DList Name="gobject_bjiDL_000030F8" Offset="0x30F8" />
+        <DList Name="gobject_bjiDL_00003328" Offset="0x3328" />
+        <DList Name="gobject_bjiDL_000033F0" Offset="0x33F0" />
+        <DList Name="gobject_bjiDL_000034B8" Offset="0x34B8" />
+        <DList Name="gobject_bjiDL_00003580" Offset="0x3580" />
+        <DList Name="gobject_bjiDL_00003648" Offset="0x3648" />
+        <DList Name="gobject_bjiDL_00003710" Offset="0x3710" />
+        <DList Name="gobject_bjiDL_000037D8" Offset="0x37D8" />
+        <Texture Name="gobject_bjiTex_00003908" OutName="tex_00003908" Format="rgb5a1" Width="8" Height="8" Offset="0x3908" />
+        <Texture Name="gobject_bjiTex_00003988" OutName="tex_00003988" Format="rgb5a1" Width="8" Height="8" Offset="0x3988" />
+        <Texture Name="gobject_bjiTex_00003A08" OutName="tex_00003A08" Format="rgb5a1" Width="8" Height="8" Offset="0x3A08" />
+        <DList Name="gobject_bjiDL_00003F68" Offset="0x3F68" /-->
     </File>
 </Root>

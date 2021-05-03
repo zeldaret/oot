@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_mori_hineri1a" Segment="6">
-        <DList Name="gobject_mori_hineri1a_dlist_00001980" Offset="0x1980"/>
-        <Blob Name="gobject_mori_hineri1a_unk_000028D8" Size="0xBE8" Offset="0x28D8"/>
+        <DList Name="gobject_mori_hineri1aDL_00001980" Offset="0x1980"/>
+        <Blob Name="gobject_mori_hineri1aBlob_000028D8" Size="0xBE8" Offset="0x28D8"/>
     </File>
 </Root>

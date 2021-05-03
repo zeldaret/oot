@@ -1,33 +1,33 @@
 <Root>
     <File Name="object_dodojr" Segment="6">
-        <Animation Name="gobject_dodojr_anim_000004A0" Offset="0x4A0"/>
-        <Animation Name="gobject_dodojr_anim_000005F0" Offset="0x5F0"/>
-        <Animation Name="gobject_dodojr_anim_00000724" Offset="0x724"/>
-        <Animation Name="gobject_dodojr_anim_00000860" Offset="0x860"/>
-        <Animation Name="gobject_dodojr_anim_000009D4" Offset="0x9D4"/>
-        <DList Name="gobject_dodojr_dlist_00001180" Offset="0x1180"/>
-        <DList Name="gobject_dodojr_dlist_000012E0" Offset="0x12E0"/>
-        <DList Name="gobject_dodojr_dlist_000013E8" Offset="0x13E8"/>
-        <DList Name="gobject_dodojr_dlist_00001508" Offset="0x1508"/>
-        <DList Name="gobject_dodojr_dlist_00001618" Offset="0x1618"/>
-        <Texture Name="gobject_dodojr_tex_00001700" OutName="tex_00001700" Format="rgb5a1" Width="16" Height="16" Offset="0x1700"/>
-        <Texture Name="gobject_dodojr_tex_00001900" OutName="tex_00001900" Format="rgb5a1" Width="8" Height="16" Offset="0x1900"/>
-        <Texture Name="gobject_dodojr_tex_00001A00" OutName="tex_00001A00" Format="rgb5a1" Width="32" Height="8" Offset="0x1A00"/>
-        <Texture Name="gobject_dodojr_tex_00001C00" OutName="tex_00001C00" Format="rgb5a1" Width="16" Height="32" Offset="0x1C00"/>
-        <Limb Name="gobject_dodojr_limb_00002000" LimbType="Standard" Offset="0x2000"/>
-        <Limb Name="gobject_dodojr_limb_0000200C" LimbType="Standard" Offset="0x200C"/>
-        <Limb Name="gobject_dodojr_limb_00002018" LimbType="Standard" Offset="0x2018"/>
-        <Limb Name="gobject_dodojr_limb_00002024" LimbType="Standard" Offset="0x2024"/>
-        <Limb Name="gobject_dodojr_limb_00002030" LimbType="Standard" Offset="0x2030"/>
-        <Limb Name="gobject_dodojr_limb_0000203C" LimbType="Standard" Offset="0x203C"/>
-        <Limb Name="gobject_dodojr_limb_00002048" LimbType="Standard" Offset="0x2048"/>
-        <Limb Name="gobject_dodojr_limb_00002054" LimbType="Standard" Offset="0x2054"/>
-        <Limb Name="gobject_dodojr_limb_00002060" LimbType="Standard" Offset="0x2060"/>
-        <Limb Name="gobject_dodojr_limb_0000206C" LimbType="Standard" Offset="0x206C"/>
-        <Limb Name="gobject_dodojr_limb_00002078" LimbType="Standard" Offset="0x2078"/>
-        <Limb Name="gobject_dodojr_limb_00002084" LimbType="Standard" Offset="0x2084"/>
-        <Limb Name="gobject_dodojr_limb_00002090" LimbType="Standard" Offset="0x2090"/>
-        <Limb Name="gobject_dodojr_limb_0000209C" LimbType="Standard" Offset="0x209C"/>
-        <Skeleton Name="gobject_dodojr_skel_000020E0" Type="Normal" LimbType="Standard" Offset="0x20E0"/>
+        <Animation Name="gobject_dodojrAnim_000004A0" Offset="0x4A0"/>
+        <Animation Name="gobject_dodojrAnim_000005F0" Offset="0x5F0"/>
+        <Animation Name="gobject_dodojrAnim_00000724" Offset="0x724"/>
+        <Animation Name="gobject_dodojrAnim_00000860" Offset="0x860"/>
+        <Animation Name="gobject_dodojrAnim_000009D4" Offset="0x9D4"/>
+        <DList Name="gobject_dodojrDL_00001180" Offset="0x1180"/>
+        <DList Name="gobject_dodojrDL_000012E0" Offset="0x12E0"/>
+        <DList Name="gobject_dodojrDL_000013E8" Offset="0x13E8"/>
+        <DList Name="gobject_dodojrDL_00001508" Offset="0x1508"/>
+        <DList Name="gobject_dodojrDL_00001618" Offset="0x1618"/>
+        <Texture Name="gobject_dodojrTex_00001700" OutName="tex_00001700" Format="rgb5a1" Width="16" Height="16" Offset="0x1700"/>
+        <Texture Name="gobject_dodojrTex_00001900" OutName="tex_00001900" Format="rgb5a1" Width="8" Height="16" Offset="0x1900"/>
+        <Texture Name="gobject_dodojrTex_00001A00" OutName="tex_00001A00" Format="rgb5a1" Width="32" Height="8" Offset="0x1A00"/>
+        <Texture Name="gobject_dodojrTex_00001C00" OutName="tex_00001C00" Format="rgb5a1" Width="16" Height="32" Offset="0x1C00"/>
+        <Limb Name="gobject_dodojrLimb_00002000" LimbType="Standard" Offset="0x2000"/>
+        <Limb Name="gobject_dodojrLimb_0000200C" LimbType="Standard" Offset="0x200C"/>
+        <Limb Name="gobject_dodojrLimb_00002018" LimbType="Standard" Offset="0x2018"/>
+        <Limb Name="gobject_dodojrLimb_00002024" LimbType="Standard" Offset="0x2024"/>
+        <Limb Name="gobject_dodojrLimb_00002030" LimbType="Standard" Offset="0x2030"/>
+        <Limb Name="gobject_dodojrLimb_0000203C" LimbType="Standard" Offset="0x203C"/>
+        <Limb Name="gobject_dodojrLimb_00002048" LimbType="Standard" Offset="0x2048"/>
+        <Limb Name="gobject_dodojrLimb_00002054" LimbType="Standard" Offset="0x2054"/>
+        <Limb Name="gobject_dodojrLimb_00002060" LimbType="Standard" Offset="0x2060"/>
+        <Limb Name="gobject_dodojrLimb_0000206C" LimbType="Standard" Offset="0x206C"/>
+        <Limb Name="gobject_dodojrLimb_00002078" LimbType="Standard" Offset="0x2078"/>
+        <Limb Name="gobject_dodojrLimb_00002084" LimbType="Standard" Offset="0x2084"/>
+        <Limb Name="gobject_dodojrLimb_00002090" LimbType="Standard" Offset="0x2090"/>
+        <Limb Name="gobject_dodojrLimb_0000209C" LimbType="Standard" Offset="0x209C"/>
+        <Skeleton Name="gobject_dodojrSkel_000020E0" Type="Normal" LimbType="Standard" Offset="0x20E0"/>
     </File>
 </Root>
