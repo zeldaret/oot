@@ -177,15 +177,12 @@ void ViMode_Save(ViMode* viMode) {
 }
 
 void ViMode_Load(ViMode* viMode) {
-    GameInfo* _gameInfo = gGameInfo;
-
-    s16 width = SREG(49);
-    if ((width & ((s16)0xfffc)) == 1) {
-        SREG(49) = width + 4;
+    if ((SREG(49) & ~3) == 1) {
+        SREG(49) += 4;
     }
 
     viMode->viModeBase = SREG(48);
-    viMode->viWidth = SREG(49) & (~3);
+    viMode->viWidth = SREG(49) & ~3;
     viMode->viHeight = SREG(50);
     viMode->unk_64 = SREG(51);
     viMode->unk_60 = SREG(52);
