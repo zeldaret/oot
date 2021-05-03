@@ -155,7 +155,7 @@ This means that the built ROM isn't the same as the base one, so something went 
 * pass `-jN` to `make setup` and `make`, where N is the number of threads to use in the build. The generally-accepted wisdom is to use the number of virtual cores your computer has.
 * pass `-j` to `make setup` and `make`, to use as many threads as possible, but beware that this can use too much memory on lower-end systems.
 
-Both of these have the disadvantage that the ordering of the terminal output is scrambled, so for debugging it is best to stick to one.
+Both of these have the disadvantage that the ordering of the terminal output is scrambled, so for debugging it is best to stick to one thread (i.e. not pass `-j` or `-jN`).
 
 
 ### Cygwin
