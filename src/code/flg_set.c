@@ -145,7 +145,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_L)) {
-        globalCtx->pauseCtx.flag = 0;
+        globalCtx->pauseCtx.debugState = 0;
     }
 
     CLOSE_DISPS(gfxCtx, "../flg_set.c", 241);

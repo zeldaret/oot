@@ -394,7 +394,7 @@ void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80038290(globalCtx, &this->actor, &this->headRot, &this->bodyRot, this->actor.focus.pos);
 }
 
-s32 func_80B1148C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnSyatekiMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSyatekiMan* this = THIS;
     s32 turnDirection;
 
@@ -419,7 +419,7 @@ void EnSyatekiMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          func_80B1148C, NULL, this);
+                          EnSyatekiMan_OverrideLimbDraw, NULL, this);
 }
 
 void EnSyatekiMan_SetBgm(void) {

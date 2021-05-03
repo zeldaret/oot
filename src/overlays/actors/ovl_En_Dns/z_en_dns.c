@@ -222,7 +222,7 @@ u32 func_809EF70C(EnDns* this) {
 }
 
 u32 func_809EF73C(EnDns* this) {
-    if (INV_CONTENT(SLOT_SLINGSHOT) == ITEM_NONE) {
+    if (INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE) {
         return 3;
     }
     if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {

@@ -6390,7 +6390,7 @@ class output_stream_adapter : public output_adapter_protocol<CharType>
 
     void write_characters(const CharType* s, std::size_t length) override
     {
-        stream.write(s, static_cast<std::streamsize>(length));
+        stream.Write(s, static_cast<std::streamsize>(length));
     }
 
   private:
@@ -10974,7 +10974,7 @@ class serializer
     void dump(const BasicJsonType& val, const bool pretty_print,
               const bool ensure_ascii,
               const unsigned int indent_step,
-              const unsigned int current_indent = 0)
+              const unsigned int currentIndent = 0)
     {
         switch (val.m_type)
         {
@@ -10991,7 +10991,7 @@ class serializer
                     o->write_characters("{\n", 2);
 
                     // variable to hold indentation for recursive calls
-                    const auto new_indent = current_indent + indent_step;
+                    const auto new_indent = currentIndent + indent_step;
                     if (JSON_UNLIKELY(indent_string.size() < new_indent))
                     {
                         indent_string.resize(indent_string.size() * 2, ' ');
@@ -11019,7 +11019,7 @@ class serializer
                     dump(i->second, true, ensure_ascii, indent_step, new_indent);
 
                     o->write_character('\n');
-                    o->write_characters(indent_string.c_str(), current_indent);
+                    o->write_characters(indent_string.c_str(), currentIndent);
                     o->write_character('}');
                 }
                 else
@@ -11033,7 +11033,7 @@ class serializer
                         o->write_character('\"');
                         dump_escaped(i->first, ensure_ascii);
                         o->write_characters("\":", 2);
-                        dump(i->second, false, ensure_ascii, indent_step, current_indent);
+                        dump(i->second, false, ensure_ascii, indent_step, currentIndent);
                         o->write_character(',');
                     }
 
@@ -11043,7 +11043,7 @@ class serializer
                     o->write_character('\"');
                     dump_escaped(i->first, ensure_ascii);
                     o->write_characters("\":", 2);
-                    dump(i->second, false, ensure_ascii, indent_step, current_indent);
+                    dump(i->second, false, ensure_ascii, indent_step, currentIndent);
 
                     o->write_character('}');
                 }
@@ -11064,7 +11064,7 @@ class serializer
                     o->write_characters("[\n", 2);
 
                     // variable to hold indentation for recursive calls
-                    const auto new_indent = current_indent + indent_step;
+                    const auto new_indent = currentIndent + indent_step;
                     if (JSON_UNLIKELY(indent_string.size() < new_indent))
                     {
                         indent_string.resize(indent_string.size() * 2, ' ');
@@ -11085,7 +11085,7 @@ class serializer
                     dump(val.m_value.array->back(), true, ensure_ascii, indent_step, new_indent);
 
                     o->write_character('\n');
-                    o->write_characters(indent_string.c_str(), current_indent);
+                    o->write_characters(indent_string.c_str(), currentIndent);
                     o->write_character(']');
                 }
                 else
@@ -11096,13 +11096,13 @@ class serializer
                     for (auto i = val.m_value.array->cbegin();
                             i != val.m_value.array->cend() - 1; ++i)
                     {
-                        dump(*i, false, ensure_ascii, indent_step, current_indent);
+                        dump(*i, false, ensure_ascii, indent_step, currentIndent);
                         o->write_character(',');
                     }
 
                     // last element
                     assert(not val.m_value.array->empty());
-                    dump(val.m_value.array->back(), false, ensure_ascii, indent_step, current_indent);
+                    dump(val.m_value.array->back(), false, ensure_ascii, indent_step, currentIndent);
 
                     o->write_character(']');
                 }

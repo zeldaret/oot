@@ -1,30 +1,17 @@
 #include "ZSymbol.h"
 #include "StringHelper.h"
+#include "ZFile.h"
 
-ZSymbol::ZSymbol(const std::string& nName, int nRawDataIndex, const std::string& nType,
-                 uint32_t nTypeSize, bool nIsArray, uint32_t nCount)
-	: type(nType), typeSize(nTypeSize), isArray(nIsArray), count(nCount)
+REGISTER_ZFILENODE(Symbol, ZSymbol);
+
+ZSymbol::ZSymbol(ZFile* nParent) : ZResource(nParent)
 {
-	name = nName;
-	rawDataIndex = nRawDataIndex;
 }
 
-ZSymbol::ZSymbol(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                 int nRawDataIndex, ZFile* nParent)
+void ZSymbol::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+                             const uint32_t nRawDataIndex, const std::string& nRelPath)
 {
-	rawData.assign(nRawData.begin(), nRawData.end());
-	rawDataIndex = nRawDataIndex;
-	parent = nParent;
-
-	ParseXML(reader);
-}
-
-ZSymbol* ZSymbol::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                                 int nRawDataIndex, ZFile* parent)
-{
-	ZSymbol* symbol = new ZSymbol(reader, nRawData, nRawDataIndex, parent);
-
-	return symbol;
+	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
 }
 
 void ZSymbol::ParseXML(tinyxml2::XMLElement* reader)
@@ -32,6 +19,7 @@ void ZSymbol::ParseXML(tinyxml2::XMLElement* reader)
 	ZResource::ParseXML(reader);
 
 	const char* typeXml = reader->Attribute("Type");
+
 	if (typeXml == nullptr)
 	{
 		fprintf(stderr,
@@ -63,19 +51,17 @@ void ZSymbol::ParseXML(tinyxml2::XMLElement* reader)
 	if (countXml != nullptr)
 	{
 		isArray = true;
+
 		if (!std::string(countXml).empty())
-		{
 			count = std::strtoul(countXml, nullptr, 0);
-		}
 	}
 }
 
-int ZSymbol::GetRawDataSize()
+size_t ZSymbol::GetRawDataSize()
 {
 	if (isArray)
-	{
 		return count * typeSize;
-	}
+
 	return typeSize;
 }
 
@@ -84,13 +70,13 @@ std::string ZSymbol::GetSourceOutputHeader(const std::string& prefix)
 	if (isArray)
 	{
 		if (count == 0)
-		{
 			return StringHelper::Sprintf("extern %s %s%s[];\n", type.c_str(), prefix.c_str(),
 			                             name.c_str());
-		}
-		return StringHelper::Sprintf("extern %s %s%s[%i];\n", type.c_str(), prefix.c_str(),
-		                             name.c_str(), count);
+		else
+			return StringHelper::Sprintf("extern %s %s%s[%i];\n", type.c_str(), prefix.c_str(),
+			                             name.c_str(), count);
 	}
+
 	return StringHelper::Sprintf("extern %s %s%s;\n", type.c_str(), prefix.c_str(), name.c_str());
 }
 

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-SetEntranceList::SetEntranceList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
+SetEntranceList::SetEntranceList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	segmentOffset = BitConverter::ToInt32BE(rawData, rawDataIndex + 4) & 0x00FFFFFF;
@@ -23,7 +23,7 @@ SetEntranceList::~SetEntranceList()
 		delete entry;
 }
 
-string SetEntranceList::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetEntranceList::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	string sourceOutput =
 		StringHelper::Sprintf("%s 0x00, (u32)&%sEntranceList0x%06X",
@@ -32,10 +32,10 @@ string SetEntranceList::GenerateSourceCodePass1(string roomName, int baseAddress
 
 	// Parse Entrances and Generate Declaration
 	zRoom->parent->AddDeclarationPlaceholder(segmentOffset);  // Make sure this segment is defined
-	int numEntrances = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 2;
+	int32_t numEntrances = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 2;
 	uint32_t currentPtr = segmentOffset;
 
-	for (int i = 0; i < numEntrances; i++)
+	for (int32_t i = 0; i < numEntrances; i++)
 	{
 		EntranceEntry* entry = new EntranceEntry(_rawData, currentPtr);
 		entrances.push_back(entry);
@@ -45,12 +45,12 @@ string SetEntranceList::GenerateSourceCodePass1(string roomName, int baseAddress
 
 	string declaration = "";
 
-	int index = 0;
+	int32_t index = 0;
 
 	for (EntranceEntry* entry : entrances)
 	{
 		declaration +=
-			StringHelper::Sprintf("\t{ 0x%02X, 0x%02X }, //0x%06X \n", entry->startPositionIndex,
+			StringHelper::Sprintf("    { 0x%02X, 0x%02X }, //0x%06X \n", entry->startPositionIndex,
 		                          entry->roomToLoad, segmentOffset + (index * 2));
 		index++;
 	}
@@ -79,7 +79,7 @@ RoomCommand SetEntranceList::GetRoomCommand()
 	return RoomCommand::SetEntranceList;
 }
 
-EntranceEntry::EntranceEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+EntranceEntry::EntranceEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 {
 	startPositionIndex = rawData[rawDataIndex + 0];
 	roomToLoad = rawData[rawDataIndex + 1];
