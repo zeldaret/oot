@@ -1,27 +1,25 @@
 #include "global.h"
 
-#define LOG_MODE_FIELD(exp, line) LOG_ADDRESS(#exp, exp, "../z_vimode.c", line)
-
-void ViMode_LogPrint(OSViMode* osvimodep) {
-    LOG_MODE_FIELD(osvimodep, 87);
-    LOG_MODE_FIELD(osvimodep->comRegs.ctrl, 88);
-    LOG_MODE_FIELD(osvimodep->comRegs.width, 89);
-    LOG_MODE_FIELD(osvimodep->comRegs.burst, 90);
-    LOG_MODE_FIELD(osvimodep->comRegs.vSync, 91);
-    LOG_MODE_FIELD(osvimodep->comRegs.hSync, 92);
-    LOG_MODE_FIELD(osvimodep->comRegs.leap, 93);
-    LOG_MODE_FIELD(osvimodep->comRegs.hStart, 94);
-    LOG_MODE_FIELD(osvimodep->comRegs.xScale, 95);
-    LOG_MODE_FIELD(osvimodep->fldRegs[0].vStart, 96);
-    LOG_MODE_FIELD(osvimodep->fldRegs[0].vBurst, 97);
-    LOG_MODE_FIELD(osvimodep->fldRegs[0].origin, 98);
-    LOG_MODE_FIELD(osvimodep->fldRegs[0].yScale, 99);
-    LOG_MODE_FIELD(osvimodep->fldRegs[0].vIntr, 100);
-    LOG_MODE_FIELD(osvimodep->fldRegs[1].vStart, 101);
-    LOG_MODE_FIELD(osvimodep->fldRegs[1].vBurst, 102);
-    LOG_MODE_FIELD(osvimodep->fldRegs[1].origin, 103);
-    LOG_MODE_FIELD(osvimodep->fldRegs[1].yScale, 104);
-    LOG_MODE_FIELD(osvimodep->fldRegs[1].vIntr, 105);
+void ViMode_LogPrint(OSViMode* osViMode) {
+    LOG_ADDRESS("osvimodep", osViMode, "../z_vimode.c", 87);
+    LOG_ADDRESS("osvimodep->comRegs.ctrl", osViMode->comRegs.ctrl, "../z_vimode.c", 88);
+    LOG_ADDRESS("osvimodep->comRegs.width", osViMode->comRegs.width, "../z_vimode.c", 89);
+    LOG_ADDRESS("osvimodep->comRegs.burst", osViMode->comRegs.burst, "../z_vimode.c", 90);
+    LOG_ADDRESS("osvimodep->comRegs.vSync", osViMode->comRegs.vSync, "../z_vimode.c", 91);
+    LOG_ADDRESS("osvimodep->comRegs.hSync", osViMode->comRegs.hSync, "../z_vimode.c", 92);
+    LOG_ADDRESS("osvimodep->comRegs.leap", osViMode->comRegs.leap, "../z_vimode.c", 93);
+    LOG_ADDRESS("osvimodep->comRegs.hStart", osViMode->comRegs.hStart, "../z_vimode.c", 94);
+    LOG_ADDRESS("osvimodep->comRegs.xScale", osViMode->comRegs.xScale, "../z_vimode.c", 95);
+    LOG_ADDRESS("osvimodep->fldRegs[0].vStart", osViMode->fldRegs[0].vStart, "../z_vimode.c", 96);
+    LOG_ADDRESS("osvimodep->fldRegs[0].vBurst", osViMode->fldRegs[0].vBurst, "../z_vimode.c", 97);
+    LOG_ADDRESS("osvimodep->fldRegs[0].origin", osViMode->fldRegs[0].origin, "../z_vimode.c", 98);
+    LOG_ADDRESS("osvimodep->fldRegs[0].yScale", osViMode->fldRegs[0].yScale, "../z_vimode.c", 99);
+    LOG_ADDRESS("osvimodep->fldRegs[0].vIntr", osViMode->fldRegs[0].vIntr, "../z_vimode.c", 100);
+    LOG_ADDRESS("osvimodep->fldRegs[1].vStart", osViMode->fldRegs[1].vStart, "../z_vimode.c", 101);
+    LOG_ADDRESS("osvimodep->fldRegs[1].vBurst", osViMode->fldRegs[1].vBurst, "../z_vimode.c", 102);
+    LOG_ADDRESS("osvimodep->fldRegs[1].origin", osViMode->fldRegs[1].origin, "../z_vimode.c", 103);
+    LOG_ADDRESS("osvimodep->fldRegs[1].yScale", osViMode->fldRegs[1].yScale, "../z_vimode.c", 104);
+    LOG_ADDRESS("osvimodep->fldRegs[1].vIntr", osViMode->fldRegs[1].vIntr, "../z_vimode.c", 105);
 }
 
 #ifdef NON_MATCHING
