@@ -19,8 +19,6 @@ typedef struct EnKo {
     /* 0x0197 */ s8 objectIndex;
     /* 0x0198 */ ColliderCylinder collider;
     /* 0x01E4 */ Path* path;
-    ///* 0x01EA */ s16 unk_1E8;
-    ///* 0x01EA */ char unk_1EA[0x28];
     /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;
     /* 0X0210 */ u8 unk_210;
     /* 0x0212 */ s16 unk_212;
@@ -31,7 +29,9 @@ typedef struct EnKo {
     /* 0x0220 */ f32 unk_220;
     /* 0x0224 */ Vec3s limbDrawTable[16];
     /* 0x0284 */ Vec3s transitionDrawTable[16];
-    /* 0x02E4 */ char unk_2E4[0x40];
+    /* 0x02E4 */ s16 unk_2E4[16];
+    /* 0x0304 */ s16 unk_304[16];
+    
     ///* 0x0198 */ char unk_198[0x18C];
 } EnKo; // size = 0x0324
 
