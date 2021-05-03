@@ -1,76 +1,76 @@
 <Root>
-  <File Name="object_im" Segment="6">
-    <Animation Name="gobject_im_anim_00000710" Offset="0x710" />
-    <Animation Name="gobject_im_anim_00000AFC" Offset="0xAFC" />
-    <Animation Name="gobject_im_anim_000014E4" Offset="0x14E4" />
-    <Animation Name="gobject_im_anim_00001868" Offset="0x1868" />
-    <Texture Name="gobject_im_tlut_00001880" OutName="tlut_00001880" Format="rgb5a1" Width="16" Height="16" Offset="0x1880" />
-    <Texture Name="gobject_im_tex_00001A80" OutName="tex_00001A80" Format="ci8" Width="8" Height="8" Offset="0x1A80" />
-    <Texture Name="gobject_im_tex_00001AC0" OutName="tex_00001AC0" Format="ci8" Width="16" Height="32" Offset="0x1AC0" />
-    <Texture Name="gobject_im_tex_00001CC0" OutName="tex_00001CC0" Format="ci8" Width="16" Height="16" Offset="0x1CC0" />
-    <Texture Name="gobject_im_tex_00001DC0" OutName="tex_00001DC0" Format="ci8" Width="8" Height="8" Offset="0x1DC0" />
-    <Texture Name="gobject_im_tex_00001E00" OutName="tex_00001E00" Format="ci8" Width="8" Height="16" Offset="0x1E00" />
-    <Texture Name="gobject_im_tex_00001E80" OutName="tex_00001E80" Format="ci8" Width="8" Height="16" Offset="0x1E80" />
-    <Texture Name="gobject_im_tex_00001F00" OutName="tex_00001F00" Format="ci8" Width="16" Height="32" Offset="0x1F00" />
-    <Texture Name="gobject_im_tex_00002100" OutName="tex_00002100" Format="ci8" Width="16" Height="32" Offset="0x2100" />
-    <Texture Name="gobject_im_tex_00002300" OutName="tex_00002300" Format="ci8" Width="16" Height="16" Offset="0x2300" />
-    <Texture Name="gobject_im_tex_00002400" OutName="tex_00002400" Format="ci8" Width="8" Height="16" Offset="0x2400" />
-    <Texture Name="gobject_im_tex_00002480" OutName="tex_00002480" Format="ci8" Width="32" Height="32" Offset="0x2480" />
-    <Texture Name="gobject_im_tex_00002880" OutName="tex_00002880" Format="rgb5a1" Width="8" Height="16" Offset="0x2880" />
-    <Texture Name="gobject_im_tex_00002980" OutName="tex_00002980" Format="rgb5a1" Width="16" Height="32" Offset="0x2980" />
-    <Texture Name="gobject_im_tex_00002D80" OutName="tex_00002D80" Format="ci8" Width="8" Height="8" Offset="0x2D80" />
-    <DList Name="gobject_im_dlist_00005040" Offset="0x5040" />
-    <DList Name="gobject_im_dlist_00005D60" Offset="0x5D60" />
-    <DList Name="gobject_im_dlist_00006048" Offset="0x6048" />
-    <DList Name="gobject_im_dlist_00006200" Offset="0x6200" />
-    <DList Name="gobject_im_dlist_000064E8" Offset="0x64E8" />
-    <DList Name="gobject_im_dlist_00006720" Offset="0x6720" />
-    <DList Name="gobject_im_dlist_00006880" Offset="0x6880" />
-    <DList Name="gobject_im_dlist_000069E8" Offset="0x69E8" />
-    <DList Name="gobject_im_dlist_00006BB8" Offset="0x6BB8" />
-    <DList Name="gobject_im_dlist_00006D70" Offset="0x6D70" />
-    <Texture Name="gobject_im_tex_00006F40" OutName="tex_00006F40" Format="rgb5a1" Width="16" Height="16" Offset="0x6F40" />
-    <Texture Name="gobject_im_tlut_00007140" OutName="tlut_00007140" Format="rgb5a1" Width="16" Height="16" Offset="0x7140" />
-    <Blob Name="gobject_im_unk_00007340" Size="0x2D0" Offset="0x7340" />
-    <Texture Name="gobject_im_tex_00007610" OutName="tex_00007610" Format="ci8" Width="16" Height="16" Offset="0x7610" />
-    <Texture Name="gobject_im_tex_00007710" OutName="tex_00007710" Format="ci8" Width="8" Height="8" Offset="0x7710" />
-    <Texture Name="gobject_im_tex_00007750" OutName="tex_00007750" Format="rgb5a1" Width="8" Height="8" Offset="0x7750" />
-    <Texture Name="gobject_im_tex_000077D0" OutName="tex_000077D0" Format="rgb5a1" Width="16" Height="16" Offset="0x77D0" />
-    <Texture Name="gobject_im_tex_000079D0" OutName="tex_000079D0" Format="ci8" Width="8" Height="8" Offset="0x79D0" />
-    <Texture Name="gobject_im_tex_00007A10" OutName="tex_00007A10" Format="rgb5a1" Width="8" Height="16" Offset="0x7A10" />
-    <Texture Name="gobject_im_tex_00007B10" OutName="tex_00007B10" Format="ci8" Width="8" Height="8" Offset="0x7B10" />
-    <Texture Name="gobject_im_tex_00007B50" OutName="tex_00007B50" Format="ci8" Width="16" Height="16" Offset="0x7B50" />
-    <Texture Name="gobject_im_tex_00007C50" OutName="tex_00007C50" Format="ci8" Width="16" Height="16" Offset="0x7C50" />
-    <Blob Name="gobject_im_unk_00007D50" Size="0x800" Offset="0x7D50" />
-    <DList Name="gobject_im_dlist_0000BDC0" Offset="0xBDC0" />
-    <DList Name="gobject_im_dlist_0000D0D8" Offset="0xD0D8" />
-    <DList Name="gobject_im_dlist_0000DDB8" Offset="0xDDB8" />
-    <DList Name="gobject_im_dlist_0000E0F0" Offset="0xE0F0" />
-    <DList Name="gobject_im_dlist_0000E5D0" Offset="0xE5D0" />
-    <DList Name="gobject_im_dlist_0000E908" Offset="0xE908" />
-    <DList Name="gobject_im_dlist_0000EDE8" Offset="0xEDE8" />
-    <Limb Name="gobject_im_limb_0000F688" LimbType="Standard" Offset="0xF688" />
-    <Limb Name="gobject_im_limb_0000F694" LimbType="Standard" Offset="0xF694" />
-    <Limb Name="gobject_im_limb_0000F6A0" LimbType="Standard" Offset="0xF6A0" />
-    <Limb Name="gobject_im_limb_0000F6AC" LimbType="Standard" Offset="0xF6AC" />
-    <Limb Name="gobject_im_limb_0000F6B8" LimbType="Standard" Offset="0xF6B8" />
-    <Limb Name="gobject_im_limb_0000F6C4" LimbType="Standard" Offset="0xF6C4" />
-    <Limb Name="gobject_im_limb_0000F6D0" LimbType="Standard" Offset="0xF6D0" />
-    <Limb Name="gobject_im_limb_0000F6DC" LimbType="Standard" Offset="0xF6DC" />
-    <Limb Name="gobject_im_limb_0000F6E8" LimbType="Standard" Offset="0xF6E8" />
-    <Limb Name="gobject_im_limb_0000F6F4" LimbType="Standard" Offset="0xF6F4" />
-    <Limb Name="gobject_im_limb_0000F700" LimbType="Standard" Offset="0xF700" />
-    <Limb Name="gobject_im_limb_0000F70C" LimbType="Standard" Offset="0xF70C" />
-    <Limb Name="gobject_im_limb_0000F718" LimbType="Standard" Offset="0xF718" />
-    <Limb Name="gobject_im_limb_0000F724" LimbType="Standard" Offset="0xF724" />
-    <Limb Name="gobject_im_limb_0000F730" LimbType="Standard" Offset="0xF730" />
-    <Limb Name="gobject_im_limb_0000F73C" LimbType="Standard" Offset="0xF73C" />
-    <Skeleton Name="gobject_im_skel_0000F788" Type="Flex" LimbType="Standard" Offset="0xF788" />
-    <Animation Name="gobject_im_anim_0000FB10" Offset="0xFB10" />
-    <Animation Name="gobject_im_anim_000101C8" Offset="0x101C8" />
-    <Animation Name="gobject_im_anim_00010EE0" Offset="0x10EE0" />
-    <Animation Name="gobject_im_anim_0001182C" Offset="0x1182C" />
-    <Animation Name="gobject_im_anim_00011C08" Offset="0x11C08" />
-    <Animation Name="gobject_im_anim_00012218" Offset="0x12218" />
-  </File>
+    <File Name="object_im" Segment="6">
+        <Animation Name="gobject_im_anim_00000710" Offset="0x710"/>
+        <Animation Name="gobject_im_anim_00000AFC" Offset="0xAFC"/>
+        <Animation Name="gobject_im_anim_000014E4" Offset="0x14E4"/>
+        <Animation Name="gobject_im_anim_00001868" Offset="0x1868"/>
+        <Texture Name="gobject_im_tlut_00001880" OutName="tlut_00001880" Format="rgb5a1" Width="16" Height="16" Offset="0x1880"/>
+        <Texture Name="gobject_im_tex_00001A80" OutName="tex_00001A80" Format="ci8" Width="8" Height="8" Offset="0x1A80"/>
+        <Texture Name="gobject_im_tex_00001AC0" OutName="tex_00001AC0" Format="ci8" Width="16" Height="32" Offset="0x1AC0"/>
+        <Texture Name="gobject_im_tex_00001CC0" OutName="tex_00001CC0" Format="ci8" Width="16" Height="16" Offset="0x1CC0"/>
+        <Texture Name="gobject_im_tex_00001DC0" OutName="tex_00001DC0" Format="ci8" Width="8" Height="8" Offset="0x1DC0"/>
+        <Texture Name="gobject_im_tex_00001E00" OutName="tex_00001E00" Format="ci8" Width="8" Height="16" Offset="0x1E00"/>
+        <Texture Name="gobject_im_tex_00001E80" OutName="tex_00001E80" Format="ci8" Width="8" Height="16" Offset="0x1E80"/>
+        <Texture Name="gobject_im_tex_00001F00" OutName="tex_00001F00" Format="ci8" Width="16" Height="32" Offset="0x1F00"/>
+        <Texture Name="gobject_im_tex_00002100" OutName="tex_00002100" Format="ci8" Width="16" Height="32" Offset="0x2100"/>
+        <Texture Name="gobject_im_tex_00002300" OutName="tex_00002300" Format="ci8" Width="16" Height="16" Offset="0x2300"/>
+        <Texture Name="gobject_im_tex_00002400" OutName="tex_00002400" Format="ci8" Width="8" Height="16" Offset="0x2400"/>
+        <Texture Name="gobject_im_tex_00002480" OutName="tex_00002480" Format="ci8" Width="32" Height="32" Offset="0x2480"/>
+        <Texture Name="gobject_im_tex_00002880" OutName="tex_00002880" Format="rgb5a1" Width="8" Height="16" Offset="0x2880"/>
+        <Texture Name="gobject_im_tex_00002980" OutName="tex_00002980" Format="rgb5a1" Width="16" Height="32" Offset="0x2980"/>
+        <Texture Name="gobject_im_tex_00002D80" OutName="tex_00002D80" Format="ci8" Width="8" Height="8" Offset="0x2D80"/>
+        <DList Name="gobject_im_dlist_00005040" Offset="0x5040"/>
+        <DList Name="gobject_im_dlist_00005D60" Offset="0x5D60"/>
+        <DList Name="gobject_im_dlist_00006048" Offset="0x6048"/>
+        <DList Name="gobject_im_dlist_00006200" Offset="0x6200"/>
+        <DList Name="gobject_im_dlist_000064E8" Offset="0x64E8"/>
+        <DList Name="gobject_im_dlist_00006720" Offset="0x6720"/>
+        <DList Name="gobject_im_dlist_00006880" Offset="0x6880"/>
+        <DList Name="gobject_im_dlist_000069E8" Offset="0x69E8"/>
+        <DList Name="gobject_im_dlist_00006BB8" Offset="0x6BB8"/>
+        <DList Name="gobject_im_dlist_00006D70" Offset="0x6D70"/>
+        <Texture Name="gobject_im_tex_00006F40" OutName="tex_00006F40" Format="rgb5a1" Width="16" Height="16" Offset="0x6F40"/>
+        <Texture Name="gobject_im_tlut_00007140" OutName="tlut_00007140" Format="rgb5a1" Width="16" Height="16" Offset="0x7140"/>
+        <Blob Name="gobject_im_unk_00007340" Size="0x2D0" Offset="0x7340"/>
+        <Texture Name="gobject_im_tex_00007610" OutName="tex_00007610" Format="ci8" Width="16" Height="16" Offset="0x7610"/>
+        <Texture Name="gobject_im_tex_00007710" OutName="tex_00007710" Format="ci8" Width="8" Height="8" Offset="0x7710"/>
+        <Texture Name="gobject_im_tex_00007750" OutName="tex_00007750" Format="rgb5a1" Width="8" Height="8" Offset="0x7750"/>
+        <Texture Name="gobject_im_tex_000077D0" OutName="tex_000077D0" Format="rgb5a1" Width="16" Height="16" Offset="0x77D0"/>
+        <Texture Name="gobject_im_tex_000079D0" OutName="tex_000079D0" Format="ci8" Width="8" Height="8" Offset="0x79D0"/>
+        <Texture Name="gobject_im_tex_00007A10" OutName="tex_00007A10" Format="rgb5a1" Width="8" Height="16" Offset="0x7A10"/>
+        <Texture Name="gobject_im_tex_00007B10" OutName="tex_00007B10" Format="ci8" Width="8" Height="8" Offset="0x7B10"/>
+        <Texture Name="gobject_im_tex_00007B50" OutName="tex_00007B50" Format="ci8" Width="16" Height="16" Offset="0x7B50"/>
+        <Texture Name="gobject_im_tex_00007C50" OutName="tex_00007C50" Format="ci8" Width="16" Height="16" Offset="0x7C50"/>
+        <Blob Name="gobject_im_unk_00007D50" Size="0x800" Offset="0x7D50"/>
+        <DList Name="gobject_im_dlist_0000BDC0" Offset="0xBDC0"/>
+        <DList Name="gobject_im_dlist_0000D0D8" Offset="0xD0D8"/>
+        <DList Name="gobject_im_dlist_0000DDB8" Offset="0xDDB8"/>
+        <DList Name="gobject_im_dlist_0000E0F0" Offset="0xE0F0"/>
+        <DList Name="gobject_im_dlist_0000E5D0" Offset="0xE5D0"/>
+        <DList Name="gobject_im_dlist_0000E908" Offset="0xE908"/>
+        <DList Name="gobject_im_dlist_0000EDE8" Offset="0xEDE8"/>
+        <Limb Name="gobject_im_limb_0000F688" LimbType="Standard" Offset="0xF688"/>
+        <Limb Name="gobject_im_limb_0000F694" LimbType="Standard" Offset="0xF694"/>
+        <Limb Name="gobject_im_limb_0000F6A0" LimbType="Standard" Offset="0xF6A0"/>
+        <Limb Name="gobject_im_limb_0000F6AC" LimbType="Standard" Offset="0xF6AC"/>
+        <Limb Name="gobject_im_limb_0000F6B8" LimbType="Standard" Offset="0xF6B8"/>
+        <Limb Name="gobject_im_limb_0000F6C4" LimbType="Standard" Offset="0xF6C4"/>
+        <Limb Name="gobject_im_limb_0000F6D0" LimbType="Standard" Offset="0xF6D0"/>
+        <Limb Name="gobject_im_limb_0000F6DC" LimbType="Standard" Offset="0xF6DC"/>
+        <Limb Name="gobject_im_limb_0000F6E8" LimbType="Standard" Offset="0xF6E8"/>
+        <Limb Name="gobject_im_limb_0000F6F4" LimbType="Standard" Offset="0xF6F4"/>
+        <Limb Name="gobject_im_limb_0000F700" LimbType="Standard" Offset="0xF700"/>
+        <Limb Name="gobject_im_limb_0000F70C" LimbType="Standard" Offset="0xF70C"/>
+        <Limb Name="gobject_im_limb_0000F718" LimbType="Standard" Offset="0xF718"/>
+        <Limb Name="gobject_im_limb_0000F724" LimbType="Standard" Offset="0xF724"/>
+        <Limb Name="gobject_im_limb_0000F730" LimbType="Standard" Offset="0xF730"/>
+        <Limb Name="gobject_im_limb_0000F73C" LimbType="Standard" Offset="0xF73C"/>
+        <Skeleton Name="gobject_im_skel_0000F788" Type="Flex" LimbType="Standard" Offset="0xF788"/>
+        <Animation Name="gobject_im_anim_0000FB10" Offset="0xFB10"/>
+        <Animation Name="gobject_im_anim_000101C8" Offset="0x101C8"/>
+        <Animation Name="gobject_im_anim_00010EE0" Offset="0x10EE0"/>
+        <Animation Name="gobject_im_anim_0001182C" Offset="0x1182C"/>
+        <Animation Name="gobject_im_anim_00011C08" Offset="0x11C08"/>
+        <Animation Name="gobject_im_anim_00012218" Offset="0x12218"/>
+    </File>
 </Root>

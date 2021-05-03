@@ -1,60 +1,60 @@
 <Root>
-  <File Name="object_daiku" Segment="6">
-    <Animation Name="gobject_daiku_anim_00000600" Offset="0x600" />
-    <Animation Name="gobject_daiku_anim_00000C44" Offset="0xC44" />
-    <Animation Name="gobject_daiku_anim_00001AB0" Offset="0x1AB0" />
-    <Texture Name="gobject_daiku_tlut_00001AC0" OutName="tlut_00001AC0" Format="rgb5a1" Width="16" Height="16" Offset="0x1AC0" />
-    <Texture Name="gobject_daiku_tex_00001CC0" OutName="tex_00001CC0" Format="ci8" Width="8" Height="8" Offset="0x1CC0" />
-    <Texture Name="gobject_daiku_tex_00001D00" OutName="tex_00001D00" Format="ci8" Width="16" Height="16" Offset="0x1D00" />
-    <Texture Name="gobject_daiku_tex_00001E00" OutName="tex_00001E00" Format="rgb5a1" Width="4" Height="4" Offset="0x1E00" />
-    <Texture Name="gobject_daiku_tex_00001E20" OutName="tex_00001E20" Format="ci8" Width="8" Height="16" Offset="0x1E20" />
-    <Texture Name="gobject_daiku_tex_00001EA0" OutName="tex_00001EA0" Format="ci8" Width="8" Height="8" Offset="0x1EA0" />
-    <Texture Name="gobject_daiku_tex_00001EE0" OutName="tex_00001EE0" Format="ci8" Width="16" Height="16" Offset="0x1EE0" />
-    <Texture Name="gobject_daiku_tex_00001FE0" OutName="tex_00001FE0" Format="ci8" Width="8" Height="8" Offset="0x1FE0" />
-    <Texture Name="gobject_daiku_tex_00002020" OutName="tex_00002020" Format="rgb5a1" Width="32" Height="32" Offset="0x2020" />
-    <Texture Name="gobject_daiku_tex_00002820" OutName="tex_00002820" Format="ci8" Width="16" Height="16" Offset="0x2820" />
-    <Texture Name="gobject_daiku_tex_00002920" OutName="tex_00002920" Format="ci8" Width="8" Height="8" Offset="0x2920" />
-    <Texture Name="gobject_daiku_tex_00002960" OutName="tex_00002960" Format="ci8" Width="8" Height="8" Offset="0x2960" />
-    <Texture Name="gobject_daiku_tex_000029A0" OutName="tex_000029A0" Format="ci8" Width="8" Height="8" Offset="0x29A0" />
-    <DList Name="gobject_daiku_dlist_00005490" Offset="0x5490" />
-    <DList Name="gobject_daiku_dlist_00005880" Offset="0x5880" />
-    <DList Name="gobject_daiku_dlist_00005990" Offset="0x5990" />
-    <DList Name="gobject_daiku_dlist_00005AC0" Offset="0x5AC0" />
-    <DList Name="gobject_daiku_dlist_00005BD0" Offset="0x5BD0" />
-    <DList Name="gobject_daiku_dlist_00005CF0" Offset="0x5CF0" />
-    <DList Name="gobject_daiku_dlist_00006210" Offset="0x6210" />
-    <DList Name="gobject_daiku_dlist_00006520" Offset="0x6520" />
-    <DList Name="gobject_daiku_dlist_00006650" Offset="0x6650" />
-    <DList Name="gobject_daiku_dlist_00006780" Offset="0x6780" />
-    <DList Name="gobject_daiku_dlist_000068F0" Offset="0x68F0" />
-    <DList Name="gobject_daiku_dlist_00006A20" Offset="0x6A20" />
-    <DList Name="gobject_daiku_dlist_00006B50" Offset="0x6B50" />
-    <DList Name="gobject_daiku_dlist_00006CC0" Offset="0x6CC0" />
-    <DList Name="gobject_daiku_dlist_00006EB0" Offset="0x6EB0" />
-    <DList Name="gobject_daiku_dlist_00007158" Offset="0x7158" />
-    <DList Name="gobject_daiku_dlist_00007268" Offset="0x7268" />
-    <DList Name="gobject_daiku_dlist_00007380" Offset="0x7380" />
-    <DList Name="gobject_daiku_dlist_00007630" Offset="0x7630" />
-    <DList Name="gobject_daiku_dlist_00007740" Offset="0x7740" />
-    <Limb Name="gobject_daiku_limb_00007858" LimbType="Standard" Offset="0x7858" />
-    <Limb Name="gobject_daiku_limb_00007864" LimbType="Standard" Offset="0x7864" />
-    <Limb Name="gobject_daiku_limb_00007870" LimbType="Standard" Offset="0x7870" />
-    <Limb Name="gobject_daiku_limb_0000787C" LimbType="Standard" Offset="0x787C" />
-    <Limb Name="gobject_daiku_limb_00007888" LimbType="Standard" Offset="0x7888" />
-    <Limb Name="gobject_daiku_limb_00007894" LimbType="Standard" Offset="0x7894" />
-    <Limb Name="gobject_daiku_limb_000078A0" LimbType="Standard" Offset="0x78A0" />
-    <Limb Name="gobject_daiku_limb_000078AC" LimbType="Standard" Offset="0x78AC" />
-    <Limb Name="gobject_daiku_limb_000078B8" LimbType="Standard" Offset="0x78B8" />
-    <Limb Name="gobject_daiku_limb_000078C4" LimbType="Standard" Offset="0x78C4" />
-    <Limb Name="gobject_daiku_limb_000078D0" LimbType="Standard" Offset="0x78D0" />
-    <Limb Name="gobject_daiku_limb_000078DC" LimbType="Standard" Offset="0x78DC" />
-    <Limb Name="gobject_daiku_limb_000078E8" LimbType="Standard" Offset="0x78E8" />
-    <Limb Name="gobject_daiku_limb_000078F4" LimbType="Standard" Offset="0x78F4" />
-    <Limb Name="gobject_daiku_limb_00007900" LimbType="Standard" Offset="0x7900" />
-    <Limb Name="gobject_daiku_limb_0000790C" LimbType="Standard" Offset="0x790C" />
-    <Skeleton Name="gobject_daiku_skel_00007958" Type="Flex" LimbType="Standard" Offset="0x7958" />
-    <Animation Name="gobject_daiku_anim_00007DE0" Offset="0x7DE0" />
-    <Animation Name="gobject_daiku_anim_00008164" Offset="0x8164" />
-    <Animation Name="gobject_daiku_anim_0000885C" Offset="0x885C" />
-  </File>
+    <File Name="object_daiku" Segment="6">
+        <Animation Name="gobject_daiku_anim_00000600" Offset="0x600"/>
+        <Animation Name="gobject_daiku_anim_00000C44" Offset="0xC44"/>
+        <Animation Name="gobject_daiku_anim_00001AB0" Offset="0x1AB0"/>
+        <Texture Name="gobject_daiku_tlut_00001AC0" OutName="tlut_00001AC0" Format="rgb5a1" Width="16" Height="16" Offset="0x1AC0"/>
+        <Texture Name="gobject_daiku_tex_00001CC0" OutName="tex_00001CC0" Format="ci8" Width="8" Height="8" Offset="0x1CC0"/>
+        <Texture Name="gobject_daiku_tex_00001D00" OutName="tex_00001D00" Format="ci8" Width="16" Height="16" Offset="0x1D00"/>
+        <Texture Name="gobject_daiku_tex_00001E00" OutName="tex_00001E00" Format="rgb5a1" Width="4" Height="4" Offset="0x1E00"/>
+        <Texture Name="gobject_daiku_tex_00001E20" OutName="tex_00001E20" Format="ci8" Width="8" Height="16" Offset="0x1E20"/>
+        <Texture Name="gobject_daiku_tex_00001EA0" OutName="tex_00001EA0" Format="ci8" Width="8" Height="8" Offset="0x1EA0"/>
+        <Texture Name="gobject_daiku_tex_00001EE0" OutName="tex_00001EE0" Format="ci8" Width="16" Height="16" Offset="0x1EE0"/>
+        <Texture Name="gobject_daiku_tex_00001FE0" OutName="tex_00001FE0" Format="ci8" Width="8" Height="8" Offset="0x1FE0"/>
+        <Texture Name="gobject_daiku_tex_00002020" OutName="tex_00002020" Format="rgb5a1" Width="32" Height="32" Offset="0x2020"/>
+        <Texture Name="gobject_daiku_tex_00002820" OutName="tex_00002820" Format="ci8" Width="16" Height="16" Offset="0x2820"/>
+        <Texture Name="gobject_daiku_tex_00002920" OutName="tex_00002920" Format="ci8" Width="8" Height="8" Offset="0x2920"/>
+        <Texture Name="gobject_daiku_tex_00002960" OutName="tex_00002960" Format="ci8" Width="8" Height="8" Offset="0x2960"/>
+        <Texture Name="gobject_daiku_tex_000029A0" OutName="tex_000029A0" Format="ci8" Width="8" Height="8" Offset="0x29A0"/>
+        <DList Name="gobject_daiku_dlist_00005490" Offset="0x5490"/>
+        <DList Name="gobject_daiku_dlist_00005880" Offset="0x5880"/>
+        <DList Name="gobject_daiku_dlist_00005990" Offset="0x5990"/>
+        <DList Name="gobject_daiku_dlist_00005AC0" Offset="0x5AC0"/>
+        <DList Name="gobject_daiku_dlist_00005BD0" Offset="0x5BD0"/>
+        <DList Name="gobject_daiku_dlist_00005CF0" Offset="0x5CF0"/>
+        <DList Name="gobject_daiku_dlist_00006210" Offset="0x6210"/>
+        <DList Name="gobject_daiku_dlist_00006520" Offset="0x6520"/>
+        <DList Name="gobject_daiku_dlist_00006650" Offset="0x6650"/>
+        <DList Name="gobject_daiku_dlist_00006780" Offset="0x6780"/>
+        <DList Name="gobject_daiku_dlist_000068F0" Offset="0x68F0"/>
+        <DList Name="gobject_daiku_dlist_00006A20" Offset="0x6A20"/>
+        <DList Name="gobject_daiku_dlist_00006B50" Offset="0x6B50"/>
+        <DList Name="gobject_daiku_dlist_00006CC0" Offset="0x6CC0"/>
+        <DList Name="gobject_daiku_dlist_00006EB0" Offset="0x6EB0"/>
+        <DList Name="gobject_daiku_dlist_00007158" Offset="0x7158"/>
+        <DList Name="gobject_daiku_dlist_00007268" Offset="0x7268"/>
+        <DList Name="gobject_daiku_dlist_00007380" Offset="0x7380"/>
+        <DList Name="gobject_daiku_dlist_00007630" Offset="0x7630"/>
+        <DList Name="gobject_daiku_dlist_00007740" Offset="0x7740"/>
+        <Limb Name="gobject_daiku_limb_00007858" LimbType="Standard" Offset="0x7858"/>
+        <Limb Name="gobject_daiku_limb_00007864" LimbType="Standard" Offset="0x7864"/>
+        <Limb Name="gobject_daiku_limb_00007870" LimbType="Standard" Offset="0x7870"/>
+        <Limb Name="gobject_daiku_limb_0000787C" LimbType="Standard" Offset="0x787C"/>
+        <Limb Name="gobject_daiku_limb_00007888" LimbType="Standard" Offset="0x7888"/>
+        <Limb Name="gobject_daiku_limb_00007894" LimbType="Standard" Offset="0x7894"/>
+        <Limb Name="gobject_daiku_limb_000078A0" LimbType="Standard" Offset="0x78A0"/>
+        <Limb Name="gobject_daiku_limb_000078AC" LimbType="Standard" Offset="0x78AC"/>
+        <Limb Name="gobject_daiku_limb_000078B8" LimbType="Standard" Offset="0x78B8"/>
+        <Limb Name="gobject_daiku_limb_000078C4" LimbType="Standard" Offset="0x78C4"/>
+        <Limb Name="gobject_daiku_limb_000078D0" LimbType="Standard" Offset="0x78D0"/>
+        <Limb Name="gobject_daiku_limb_000078DC" LimbType="Standard" Offset="0x78DC"/>
+        <Limb Name="gobject_daiku_limb_000078E8" LimbType="Standard" Offset="0x78E8"/>
+        <Limb Name="gobject_daiku_limb_000078F4" LimbType="Standard" Offset="0x78F4"/>
+        <Limb Name="gobject_daiku_limb_00007900" LimbType="Standard" Offset="0x7900"/>
+        <Limb Name="gobject_daiku_limb_0000790C" LimbType="Standard" Offset="0x790C"/>
+        <Skeleton Name="gobject_daiku_skel_00007958" Type="Flex" LimbType="Standard" Offset="0x7958"/>
+        <Animation Name="gobject_daiku_anim_00007DE0" Offset="0x7DE0"/>
+        <Animation Name="gobject_daiku_anim_00008164" Offset="0x8164"/>
+        <Animation Name="gobject_daiku_anim_0000885C" Offset="0x885C"/>
+    </File>
 </Root>

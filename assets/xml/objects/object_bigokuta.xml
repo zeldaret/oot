@@ -1,58 +1,58 @@
 <Root>
-  <File Name="object_bigokuta" Segment="6">
-    <Animation Name="gobject_bigokuta_anim_00000444" Offset="0x444" />
-    <Animation Name="gobject_bigokuta_anim_00000A74" Offset="0xA74" />
-    <Animation Name="gobject_bigokuta_anim_00000D1C" Offset="0xD1C" />
-    <Animation Name="gobject_bigokuta_anim_000014B8" Offset="0x14B8" />
-    <Animation Name="gobject_bigokuta_anim_00001CA4" Offset="0x1CA4" />
-    <DList Name="gobject_bigokuta_dlist_00004090" Offset="0x4090" />
-    <DList Name="gobject_bigokuta_dlist_00004158" Offset="0x4158" />
-    <DList Name="gobject_bigokuta_dlist_000042A8" Offset="0x42A8" />
-    <DList Name="gobject_bigokuta_dlist_000043D0" Offset="0x43D0" />
-    <DList Name="gobject_bigokuta_dlist_000044F8" Offset="0x44F8" />
-    <DList Name="gobject_bigokuta_dlist_00004AB8" Offset="0x4AB8" />
-    <DList Name="gobject_bigokuta_dlist_00004CA0" Offset="0x4CA0" />
-    <DList Name="gobject_bigokuta_dlist_00004E10" Offset="0x4E10" />
-    <DList Name="gobject_bigokuta_dlist_00004EB8" Offset="0x4EB8" />
-    <DList Name="gobject_bigokuta_dlist_00004F90" Offset="0x4F90" />
-    <DList Name="gobject_bigokuta_dlist_00005038" Offset="0x5038" />
-    <DList Name="gobject_bigokuta_dlist_00005110" Offset="0x5110" />
-    <DList Name="gobject_bigokuta_dlist_000051D0" Offset="0x51D0" />
-    <DList Name="gobject_bigokuta_dlist_000053B0" Offset="0x53B0" />
-    <DList Name="gobject_bigokuta_dlist_00005470" Offset="0x5470" />
-    <DList Name="gobject_bigokuta_dlist_00005650" Offset="0x5650" />
-    <DList Name="gobject_bigokuta_dlist_00005710" Offset="0x5710" />
-    <DList Name="gobject_bigokuta_dlist_000058F0" Offset="0x58F0" />
-    <DList Name="gobject_bigokuta_dlist_000059B0" Offset="0x59B0" />
-    <Texture Name="gobject_bigokuta_tex_00005B90" OutName="tex_00005B90" Format="rgb5a1" Width="16" Height="16" Offset="0x5B90" />
-    <Texture Name="gobject_bigokuta_tex_00005D90" OutName="tex_00005D90" Format="rgb5a1" Width="8" Height="16" Offset="0x5D90" />
-    <Texture Name="gobject_bigokuta_tex_00005E90" OutName="tex_00005E90" Format="rgb5a1" Width="16" Height="16" Offset="0x5E90" />
-    <Texture Name="gobject_bigokuta_tex_00006090" OutName="tex_00006090" Format="rgb5a1" Width="16" Height="16" Offset="0x6090" />
-    <Texture Name="gobject_bigokuta_tex_00006290" OutName="tex_00006290" Format="rgb5a1" Width="8" Height="8" Offset="0x6290" />
-    <Texture Name="gobject_bigokuta_tex_00006310" OutName="tex_00006310" Format="rgb5a1" Width="8" Height="8" Offset="0x6310" />
-    <Texture Name="gobject_bigokuta_tex_00006390" OutName="tex_00006390" Format="rgb5a1" Width="16" Height="16" Offset="0x6390" />
-    <Texture Name="gobject_bigokuta_tex_00006590" OutName="tex_00006590" Format="rgb5a1" Width="16" Height="16" Offset="0x6590" />
-    <Texture Name="gobject_bigokuta_tex_00006790" OutName="tex_00006790" Format="rgb5a1" Width="8" Height="16" Offset="0x6790" />
-    <Texture Name="gobject_bigokuta_tex_00006890" OutName="tex_00006890" Format="rgb5a1" Width="16" Height="16" Offset="0x6890" />
-    <Limb Name="gobject_bigokuta_limb_00006A90" LimbType="Standard" Offset="0x6A90" />
-    <Limb Name="gobject_bigokuta_limb_00006A9C" LimbType="Standard" Offset="0x6A9C" />
-    <Limb Name="gobject_bigokuta_limb_00006AA8" LimbType="Standard" Offset="0x6AA8" />
-    <Limb Name="gobject_bigokuta_limb_00006AB4" LimbType="Standard" Offset="0x6AB4" />
-    <Limb Name="gobject_bigokuta_limb_00006AC0" LimbType="Standard" Offset="0x6AC0" />
-    <Limb Name="gobject_bigokuta_limb_00006ACC" LimbType="Standard" Offset="0x6ACC" />
-    <Limb Name="gobject_bigokuta_limb_00006AD8" LimbType="Standard" Offset="0x6AD8" />
-    <Limb Name="gobject_bigokuta_limb_00006AE4" LimbType="Standard" Offset="0x6AE4" />
-    <Limb Name="gobject_bigokuta_limb_00006AF0" LimbType="Standard" Offset="0x6AF0" />
-    <Limb Name="gobject_bigokuta_limb_00006AFC" LimbType="Standard" Offset="0x6AFC" />
-    <Limb Name="gobject_bigokuta_limb_00006B08" LimbType="Standard" Offset="0x6B08" />
-    <Limb Name="gobject_bigokuta_limb_00006B14" LimbType="Standard" Offset="0x6B14" />
-    <Limb Name="gobject_bigokuta_limb_00006B20" LimbType="Standard" Offset="0x6B20" />
-    <Limb Name="gobject_bigokuta_limb_00006B2C" LimbType="Standard" Offset="0x6B2C" />
-    <Limb Name="gobject_bigokuta_limb_00006B38" LimbType="Standard" Offset="0x6B38" />
-    <Limb Name="gobject_bigokuta_limb_00006B44" LimbType="Standard" Offset="0x6B44" />
-    <Limb Name="gobject_bigokuta_limb_00006B50" LimbType="Standard" Offset="0x6B50" />
-    <Limb Name="gobject_bigokuta_limb_00006B5C" LimbType="Standard" Offset="0x6B5C" />
-    <Limb Name="gobject_bigokuta_limb_00006B68" LimbType="Standard" Offset="0x6B68" />
-    <Skeleton Name="gobject_bigokuta_skel_00006BC0" Type="Flex" LimbType="Standard" Offset="0x6BC0" />
-  </File>
+    <File Name="object_bigokuta" Segment="6">
+        <Animation Name="gobject_bigokuta_anim_00000444" Offset="0x444"/>
+        <Animation Name="gobject_bigokuta_anim_00000A74" Offset="0xA74"/>
+        <Animation Name="gobject_bigokuta_anim_00000D1C" Offset="0xD1C"/>
+        <Animation Name="gobject_bigokuta_anim_000014B8" Offset="0x14B8"/>
+        <Animation Name="gobject_bigokuta_anim_00001CA4" Offset="0x1CA4"/>
+        <DList Name="gobject_bigokuta_dlist_00004090" Offset="0x4090"/>
+        <DList Name="gobject_bigokuta_dlist_00004158" Offset="0x4158"/>
+        <DList Name="gobject_bigokuta_dlist_000042A8" Offset="0x42A8"/>
+        <DList Name="gobject_bigokuta_dlist_000043D0" Offset="0x43D0"/>
+        <DList Name="gobject_bigokuta_dlist_000044F8" Offset="0x44F8"/>
+        <DList Name="gobject_bigokuta_dlist_00004AB8" Offset="0x4AB8"/>
+        <DList Name="gobject_bigokuta_dlist_00004CA0" Offset="0x4CA0"/>
+        <DList Name="gobject_bigokuta_dlist_00004E10" Offset="0x4E10"/>
+        <DList Name="gobject_bigokuta_dlist_00004EB8" Offset="0x4EB8"/>
+        <DList Name="gobject_bigokuta_dlist_00004F90" Offset="0x4F90"/>
+        <DList Name="gobject_bigokuta_dlist_00005038" Offset="0x5038"/>
+        <DList Name="gobject_bigokuta_dlist_00005110" Offset="0x5110"/>
+        <DList Name="gobject_bigokuta_dlist_000051D0" Offset="0x51D0"/>
+        <DList Name="gobject_bigokuta_dlist_000053B0" Offset="0x53B0"/>
+        <DList Name="gobject_bigokuta_dlist_00005470" Offset="0x5470"/>
+        <DList Name="gobject_bigokuta_dlist_00005650" Offset="0x5650"/>
+        <DList Name="gobject_bigokuta_dlist_00005710" Offset="0x5710"/>
+        <DList Name="gobject_bigokuta_dlist_000058F0" Offset="0x58F0"/>
+        <DList Name="gobject_bigokuta_dlist_000059B0" Offset="0x59B0"/>
+        <Texture Name="gobject_bigokuta_tex_00005B90" OutName="tex_00005B90" Format="rgb5a1" Width="16" Height="16" Offset="0x5B90"/>
+        <Texture Name="gobject_bigokuta_tex_00005D90" OutName="tex_00005D90" Format="rgb5a1" Width="8" Height="16" Offset="0x5D90"/>
+        <Texture Name="gobject_bigokuta_tex_00005E90" OutName="tex_00005E90" Format="rgb5a1" Width="16" Height="16" Offset="0x5E90"/>
+        <Texture Name="gobject_bigokuta_tex_00006090" OutName="tex_00006090" Format="rgb5a1" Width="16" Height="16" Offset="0x6090"/>
+        <Texture Name="gobject_bigokuta_tex_00006290" OutName="tex_00006290" Format="rgb5a1" Width="8" Height="8" Offset="0x6290"/>
+        <Texture Name="gobject_bigokuta_tex_00006310" OutName="tex_00006310" Format="rgb5a1" Width="8" Height="8" Offset="0x6310"/>
+        <Texture Name="gobject_bigokuta_tex_00006390" OutName="tex_00006390" Format="rgb5a1" Width="16" Height="16" Offset="0x6390"/>
+        <Texture Name="gobject_bigokuta_tex_00006590" OutName="tex_00006590" Format="rgb5a1" Width="16" Height="16" Offset="0x6590"/>
+        <Texture Name="gobject_bigokuta_tex_00006790" OutName="tex_00006790" Format="rgb5a1" Width="8" Height="16" Offset="0x6790"/>
+        <Texture Name="gobject_bigokuta_tex_00006890" OutName="tex_00006890" Format="rgb5a1" Width="16" Height="16" Offset="0x6890"/>
+        <Limb Name="gobject_bigokuta_limb_00006A90" LimbType="Standard" Offset="0x6A90"/>
+        <Limb Name="gobject_bigokuta_limb_00006A9C" LimbType="Standard" Offset="0x6A9C"/>
+        <Limb Name="gobject_bigokuta_limb_00006AA8" LimbType="Standard" Offset="0x6AA8"/>
+        <Limb Name="gobject_bigokuta_limb_00006AB4" LimbType="Standard" Offset="0x6AB4"/>
+        <Limb Name="gobject_bigokuta_limb_00006AC0" LimbType="Standard" Offset="0x6AC0"/>
+        <Limb Name="gobject_bigokuta_limb_00006ACC" LimbType="Standard" Offset="0x6ACC"/>
+        <Limb Name="gobject_bigokuta_limb_00006AD8" LimbType="Standard" Offset="0x6AD8"/>
+        <Limb Name="gobject_bigokuta_limb_00006AE4" LimbType="Standard" Offset="0x6AE4"/>
+        <Limb Name="gobject_bigokuta_limb_00006AF0" LimbType="Standard" Offset="0x6AF0"/>
+        <Limb Name="gobject_bigokuta_limb_00006AFC" LimbType="Standard" Offset="0x6AFC"/>
+        <Limb Name="gobject_bigokuta_limb_00006B08" LimbType="Standard" Offset="0x6B08"/>
+        <Limb Name="gobject_bigokuta_limb_00006B14" LimbType="Standard" Offset="0x6B14"/>
+        <Limb Name="gobject_bigokuta_limb_00006B20" LimbType="Standard" Offset="0x6B20"/>
+        <Limb Name="gobject_bigokuta_limb_00006B2C" LimbType="Standard" Offset="0x6B2C"/>
+        <Limb Name="gobject_bigokuta_limb_00006B38" LimbType="Standard" Offset="0x6B38"/>
+        <Limb Name="gobject_bigokuta_limb_00006B44" LimbType="Standard" Offset="0x6B44"/>
+        <Limb Name="gobject_bigokuta_limb_00006B50" LimbType="Standard" Offset="0x6B50"/>
+        <Limb Name="gobject_bigokuta_limb_00006B5C" LimbType="Standard" Offset="0x6B5C"/>
+        <Limb Name="gobject_bigokuta_limb_00006B68" LimbType="Standard" Offset="0x6B68"/>
+        <Skeleton Name="gobject_bigokuta_skel_00006BC0" Type="Flex" LimbType="Standard" Offset="0x6BC0"/>
+    </File>
 </Root>

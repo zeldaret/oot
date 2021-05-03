@@ -1,9 +1,9 @@
 <Root>
-  <File Name="object_tsubo" Segment="6">
-    <Texture Name="gobject_tsubo_tex_00000000" OutName="tex_00000000" Format="rgb5a1" Width="32" Height="64" Offset="0x0" />
-    <Texture Name="gobject_tsubo_tex_00001000" OutName="tex_00001000" Format="rgb5a1" Width="16" Height="16" Offset="0x1000" />
-    <Texture Name="gobject_tsubo_tex_00001200" OutName="tex_00001200" Format="rgb5a1" Width="16" Height="16" Offset="0x1200" />
-    <DList Name="gobject_tsubo_dlist_000017C0" Offset="0x17C0" />
-    <DList Name="gobject_tsubo_dlist_00001960" Offset="0x1960" />
-  </File>
+    <File Name="object_tsubo" Segment="6">
+        <Texture Name="gobject_tsubo_tex_00000000" OutName="tex_00000000" Format="rgb5a1" Width="32" Height="64" Offset="0x0"/>
+        <Texture Name="gobject_tsubo_tex_00001000" OutName="tex_00001000" Format="rgb5a1" Width="16" Height="16" Offset="0x1000"/>
+        <Texture Name="gobject_tsubo_tex_00001200" OutName="tex_00001200" Format="rgb5a1" Width="16" Height="16" Offset="0x1200"/>
+        <DList Name="gobject_tsubo_dlist_000017C0" Offset="0x17C0"/>
+        <DList Name="gobject_tsubo_dlist_00001960" Offset="0x1960"/>
+    </File>
 </Root>

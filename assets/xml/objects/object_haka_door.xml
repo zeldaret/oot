@@ -1,12 +1,12 @@
 <Root>
-  <File Name="object_haka_door" Segment="6">
-    <Texture Name="gobject_haka_door_tex_00000000" OutName="tex_00000000" Format="rgb5a1" Width="32" Height="64" Offset="0x0" />
-    <DList Name="gobject_haka_door_dlist_00001310" Offset="0x1310" />
-    <DList Name="gobject_haka_door_dlist_000013B8" Offset="0x13B8" />
-    <DList Name="gobject_haka_door_dlist_00001420" Offset="0x1420" />
-    <Texture Name="gobject_haka_door_tex_00001490" OutName="tex_00001490" Format="rgb5a1" Width="32" Height="64" Offset="0x1490" />
-    <DList Name="gobject_haka_door_dlist_00002620" Offset="0x2620" />
-    <Texture Name="gobject_haka_door_tex_00002700" OutName="tex_00002700" Format="rgb5a1" Width="32" Height="64" Offset="0x2700" />
-    <DList Name="gobject_haka_door_dlist_00003890" Offset="0x3890" />
-  </File>
+    <File Name="object_haka_door" Segment="6">
+        <Texture Name="gobject_haka_door_tex_00000000" OutName="tex_00000000" Format="rgb5a1" Width="32" Height="64" Offset="0x0"/>
+        <DList Name="gobject_haka_door_dlist_00001310" Offset="0x1310"/>
+        <DList Name="gobject_haka_door_dlist_000013B8" Offset="0x13B8"/>
+        <DList Name="gobject_haka_door_dlist_00001420" Offset="0x1420"/>
+        <Texture Name="gobject_haka_door_tex_00001490" OutName="tex_00001490" Format="rgb5a1" Width="32" Height="64" Offset="0x1490"/>
+        <DList Name="gobject_haka_door_dlist_00002620" Offset="0x2620"/>
+        <Texture Name="gobject_haka_door_tex_00002700" OutName="tex_00002700" Format="rgb5a1" Width="32" Height="64" Offset="0x2700"/>
+        <DList Name="gobject_haka_door_dlist_00003890" Offset="0x3890"/>
+    </File>
 </Root>

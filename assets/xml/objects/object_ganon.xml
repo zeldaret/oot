@@ -1,89 +1,89 @@
 <Root>
-  <File Name="object_ganon" Segment="6">
-    <DList Name="gobject_ganon_dlist_000049C0" Offset="0x49C0" />
-    <DList Name="gobject_ganon_dlist_00004C08" Offset="0x4C08" />
-    <DList Name="gobject_ganon_dlist_00004E08" Offset="0x4E08" />
-    <DList Name="gobject_ganon_dlist_00004F20" Offset="0x4F20" />
-    <DList Name="gobject_ganon_dlist_00005070" Offset="0x5070" />
-    <DList Name="gobject_ganon_dlist_00005270" Offset="0x5270" />
-    <DList Name="gobject_ganon_dlist_00005388" Offset="0x5388" />
-    <DList Name="gobject_ganon_dlist_000054D8" Offset="0x54D8" />
-    <DList Name="gobject_ganon_dlist_00006030" Offset="0x6030" />
-    <DList Name="gobject_ganon_dlist_00006198" Offset="0x6198" />
-    <DList Name="gobject_ganon_dlist_000062F0" Offset="0x62F0" />
-    <DList Name="gobject_ganon_dlist_00006460" Offset="0x6460" />
-    <DList Name="gobject_ganon_dlist_000066E8" Offset="0x66E8" />
-    <DList Name="gobject_ganon_dlist_00006A28" Offset="0x6A28" />
-    <DList Name="gobject_ganon_dlist_00006B90" Offset="0x6B90" />
-    <DList Name="gobject_ganon_dlist_00006F20" Offset="0x6F20" />
-    <DList Name="gobject_ganon_dlist_00007048" Offset="0x7048" />
-    <DList Name="gobject_ganon_dlist_00007310" Offset="0x7310" />
-    <DList Name="gobject_ganon_dlist_00007518" Offset="0x7518" />
-    <DList Name="gobject_ganon_dlist_00007640" Offset="0x7640" />
-    <DList Name="gobject_ganon_dlist_00007908" Offset="0x7908" />
-    <Texture Name="gobject_ganon_tlut_00007B10" OutName="tlut_00007B10" Format="rgb5a1" Width="16" Height="16" Offset="0x7B10" />
-    <Texture Name="gobject_ganon_tlut_00007D10" OutName="tlut_00007D10" Format="rgb5a1" Width="16" Height="16" Offset="0x7D10" />
-    <Texture Name="gobject_ganon_tex_00007F10" OutName="tex_00007F10" Format="rgb5a1" Width="8" Height="8" Offset="0x7F10" />
-    <Texture Name="gobject_ganon_tex_00007F90" OutName="tex_00007F90" Format="ci8" Width="16" Height="16" Offset="0x7F90" />
-    <Texture Name="gobject_ganon_tex_00008090" OutName="tex_00008090" Format="ci8" Width="16" Height="16" Offset="0x8090" />
-    <Texture Name="gobject_ganon_tex_00008190" OutName="tex_00008190" Format="rgb5a1" Width="4" Height="8" Offset="0x8190" />
-    <Texture Name="gobject_ganon_tex_000081D0" OutName="tex_000081D0" Format="ci8" Width="16" Height="16" Offset="0x81D0" />
-    <Texture Name="gobject_ganon_tex_000082D0" OutName="tex_000082D0" Format="ci8" Width="16" Height="16" Offset="0x82D0" />
-    <Texture Name="gobject_ganon_tex_000083D0" OutName="tex_000083D0" Format="rgb5a1" Width="4" Height="4" Offset="0x83D0" />
-    <Texture Name="gobject_ganon_tex_000083F0" OutName="tex_000083F0" Format="ci8" Width="16" Height="8" Offset="0x83F0" />
-    <Texture Name="gobject_ganon_tex_00008470" OutName="tex_00008470" Format="ci8" Width="16" Height="16" Offset="0x8470" />
-    <Texture Name="gobject_ganon_tex_00008570" OutName="tex_00008570" Format="rgb5a1" Width="4" Height="16" Offset="0x8570" />
-    <Texture Name="gobject_ganon_tex_000085F0" OutName="tex_000085F0" Format="ci8" Width="8" Height="8" Offset="0x85F0" />
-    <Texture Name="gobject_ganon_tex_00008630" OutName="tex_00008630" Format="rgb5a1" Width="8" Height="16" Offset="0x8630" />
-    <Texture Name="gobject_ganon_tex_00008730" OutName="tex_00008730" Format="ci8" Width="32" Height="16" Offset="0x8730" />
-    <Texture Name="gobject_ganon_tex_00008930" OutName="tex_00008930" Format="rgb5a1" Width="16" Height="16" Offset="0x8930" />
-    <Texture Name="gobject_ganon_tex_00008B30" OutName="tex_00008B30" Format="rgb5a1" Width="16" Height="16" Offset="0x8B30" />
-    <Texture Name="gobject_ganon_tex_00008D30" OutName="tex_00008D30" Format="rgb5a1" Width="8" Height="8" Offset="0x8D30" />
-    <Texture Name="gobject_ganon_tex_00008DB0" OutName="tex_00008DB0" Format="rgb5a1" Width="16" Height="16" Offset="0x8DB0" />
-    <Texture Name="gobject_ganon_tex_00008FB0" OutName="tex_00008FB0" Format="rgb5a1" Width="16" Height="16" Offset="0x8FB0" />
-    <Texture Name="gobject_ganon_tex_000091B0" OutName="tex_000091B0" Format="rgb5a1" Width="32" Height="16" Offset="0x91B0" />
-    <Blob Name="gobject_ganon_unk_000095B0" Size="0x70" Offset="0x95B0" />
-    <Texture Name="gobject_ganon_tex_00009620" OutName="tex_00009620" Format="rgb5a1" Width="16" Height="32" Offset="0x9620" />
-    <Texture Name="gobject_ganon_tex_00009A20" OutName="tex_00009A20" Format="rgb5a1" Width="32" Height="16" Offset="0x9A20" />
-    <Texture Name="gobject_ganon_tex_00009E20" OutName="tex_00009E20" Format="rgb5a1" Width="16" Height="16" Offset="0x9E20" />
-    <Texture Name="gobject_ganon_tex_0000A020" OutName="tex_0000A020" Format="rgb5a1" Width="16" Height="16" Offset="0xA020" />
-    <Texture Name="gobject_ganon_tex_0000A220" OutName="tex_0000A220" Format="ci8" Width="8" Height="8" Offset="0xA220" />
-    <Texture Name="gobject_ganon_tex_0000A260" OutName="tex_0000A260" Format="rgb5a1" Width="16" Height="16" Offset="0xA260" />
-    <Texture Name="gobject_ganon_tex_0000A460" OutName="tex_0000A460" Format="ci8" Width="8" Height="8" Offset="0xA460" />
-    <Texture Name="gobject_ganon_tex_0000A4A0" OutName="tex_0000A4A0" Format="ci8" Width="8" Height="8" Offset="0xA4A0" />
-    <Blob Name="gobject_ganon_unk_0000A4E0" Size="0x800" Offset="0xA4E0" />
-    <DList Name="gobject_ganon_dlist_0000BE90" Offset="0xBE90" />
-    <DList Name="gobject_ganon_dlist_0000BF40" Offset="0xBF40" />
-    <DList Name="gobject_ganon_dlist_0000C048" Offset="0xC048" />
-    <DList Name="gobject_ganon_dlist_0000C518" Offset="0xC518" />
-    <DList Name="gobject_ganon_dlist_0000C9E8" Offset="0xC9E8" />
-    <Blob Name="gobject_ganon_unk_0000CF00" Size="0x3C00" Offset="0xCF00" />
-    <Animation Name="gobject_ganon_anim_00011348" Offset="0x11348" />
-    <Limb Name="gobject_ganon_limb_00011358" LimbType="Standard" Offset="0x11358" />
-    <Limb Name="gobject_ganon_limb_00011364" LimbType="Standard" Offset="0x11364" />
-    <Limb Name="gobject_ganon_limb_00011370" LimbType="Standard" Offset="0x11370" />
-    <Limb Name="gobject_ganon_limb_0001137C" LimbType="Standard" Offset="0x1137C" />
-    <Limb Name="gobject_ganon_limb_00011388" LimbType="Standard" Offset="0x11388" />
-    <Limb Name="gobject_ganon_limb_00011394" LimbType="Standard" Offset="0x11394" />
-    <Limb Name="gobject_ganon_limb_000113A0" LimbType="Standard" Offset="0x113A0" />
-    <Limb Name="gobject_ganon_limb_000113AC" LimbType="Standard" Offset="0x113AC" />
-    <Limb Name="gobject_ganon_limb_000113B8" LimbType="Standard" Offset="0x113B8" />
-    <Limb Name="gobject_ganon_limb_000113C4" LimbType="Standard" Offset="0x113C4" />
-    <Limb Name="gobject_ganon_limb_000113D0" LimbType="Standard" Offset="0x113D0" />
-    <Limb Name="gobject_ganon_limb_000113DC" LimbType="Standard" Offset="0x113DC" />
-    <Limb Name="gobject_ganon_limb_000113E8" LimbType="Standard" Offset="0x113E8" />
-    <Limb Name="gobject_ganon_limb_000113F4" LimbType="Standard" Offset="0x113F4" />
-    <Limb Name="gobject_ganon_limb_00011400" LimbType="Standard" Offset="0x11400" />
-    <Limb Name="gobject_ganon_limb_0001140C" LimbType="Standard" Offset="0x1140C" />
-    <Limb Name="gobject_ganon_limb_00011418" LimbType="Standard" Offset="0x11418" />
-    <Limb Name="gobject_ganon_limb_00011424" LimbType="Standard" Offset="0x11424" />
-    <Limb Name="gobject_ganon_limb_00011430" LimbType="Standard" Offset="0x11430" />
-    <Limb Name="gobject_ganon_limb_0001143C" LimbType="Standard" Offset="0x1143C" />
-    <Limb Name="gobject_ganon_limb_00011448" LimbType="Standard" Offset="0x11448" />
-    <Limb Name="gobject_ganon_limb_00011454" LimbType="Standard" Offset="0x11454" />
-    <Limb Name="gobject_ganon_limb_00011460" LimbType="Standard" Offset="0x11460" />
-    <Limb Name="gobject_ganon_limb_0001146C" LimbType="Standard" Offset="0x1146C" />
-    <Limb Name="gobject_ganon_limb_00011478" LimbType="Standard" Offset="0x11478" />
-    <Skeleton Name="gobject_ganon_skel_000114E8" Type="Flex" LimbType="Standard" Offset="0x114E8" />
-  </File>
+    <File Name="object_ganon" Segment="6">
+        <DList Name="gobject_ganon_dlist_000049C0" Offset="0x49C0"/>
+        <DList Name="gobject_ganon_dlist_00004C08" Offset="0x4C08"/>
+        <DList Name="gobject_ganon_dlist_00004E08" Offset="0x4E08"/>
+        <DList Name="gobject_ganon_dlist_00004F20" Offset="0x4F20"/>
+        <DList Name="gobject_ganon_dlist_00005070" Offset="0x5070"/>
+        <DList Name="gobject_ganon_dlist_00005270" Offset="0x5270"/>
+        <DList Name="gobject_ganon_dlist_00005388" Offset="0x5388"/>
+        <DList Name="gobject_ganon_dlist_000054D8" Offset="0x54D8"/>
+        <DList Name="gobject_ganon_dlist_00006030" Offset="0x6030"/>
+        <DList Name="gobject_ganon_dlist_00006198" Offset="0x6198"/>
+        <DList Name="gobject_ganon_dlist_000062F0" Offset="0x62F0"/>
+        <DList Name="gobject_ganon_dlist_00006460" Offset="0x6460"/>
+        <DList Name="gobject_ganon_dlist_000066E8" Offset="0x66E8"/>
+        <DList Name="gobject_ganon_dlist_00006A28" Offset="0x6A28"/>
+        <DList Name="gobject_ganon_dlist_00006B90" Offset="0x6B90"/>
+        <DList Name="gobject_ganon_dlist_00006F20" Offset="0x6F20"/>
+        <DList Name="gobject_ganon_dlist_00007048" Offset="0x7048"/>
+        <DList Name="gobject_ganon_dlist_00007310" Offset="0x7310"/>
+        <DList Name="gobject_ganon_dlist_00007518" Offset="0x7518"/>
+        <DList Name="gobject_ganon_dlist_00007640" Offset="0x7640"/>
+        <DList Name="gobject_ganon_dlist_00007908" Offset="0x7908"/>
+        <Texture Name="gobject_ganon_tlut_00007B10" OutName="tlut_00007B10" Format="rgb5a1" Width="16" Height="16" Offset="0x7B10"/>
+        <Texture Name="gobject_ganon_tlut_00007D10" OutName="tlut_00007D10" Format="rgb5a1" Width="16" Height="16" Offset="0x7D10"/>
+        <Texture Name="gobject_ganon_tex_00007F10" OutName="tex_00007F10" Format="rgb5a1" Width="8" Height="8" Offset="0x7F10"/>
+        <Texture Name="gobject_ganon_tex_00007F90" OutName="tex_00007F90" Format="ci8" Width="16" Height="16" Offset="0x7F90"/>
+        <Texture Name="gobject_ganon_tex_00008090" OutName="tex_00008090" Format="ci8" Width="16" Height="16" Offset="0x8090"/>
+        <Texture Name="gobject_ganon_tex_00008190" OutName="tex_00008190" Format="rgb5a1" Width="4" Height="8" Offset="0x8190"/>
+        <Texture Name="gobject_ganon_tex_000081D0" OutName="tex_000081D0" Format="ci8" Width="16" Height="16" Offset="0x81D0"/>
+        <Texture Name="gobject_ganon_tex_000082D0" OutName="tex_000082D0" Format="ci8" Width="16" Height="16" Offset="0x82D0"/>
+        <Texture Name="gobject_ganon_tex_000083D0" OutName="tex_000083D0" Format="rgb5a1" Width="4" Height="4" Offset="0x83D0"/>
+        <Texture Name="gobject_ganon_tex_000083F0" OutName="tex_000083F0" Format="ci8" Width="16" Height="8" Offset="0x83F0"/>
+        <Texture Name="gobject_ganon_tex_00008470" OutName="tex_00008470" Format="ci8" Width="16" Height="16" Offset="0x8470"/>
+        <Texture Name="gobject_ganon_tex_00008570" OutName="tex_00008570" Format="rgb5a1" Width="4" Height="16" Offset="0x8570"/>
+        <Texture Name="gobject_ganon_tex_000085F0" OutName="tex_000085F0" Format="ci8" Width="8" Height="8" Offset="0x85F0"/>
+        <Texture Name="gobject_ganon_tex_00008630" OutName="tex_00008630" Format="rgb5a1" Width="8" Height="16" Offset="0x8630"/>
+        <Texture Name="gobject_ganon_tex_00008730" OutName="tex_00008730" Format="ci8" Width="32" Height="16" Offset="0x8730"/>
+        <Texture Name="gobject_ganon_tex_00008930" OutName="tex_00008930" Format="rgb5a1" Width="16" Height="16" Offset="0x8930"/>
+        <Texture Name="gobject_ganon_tex_00008B30" OutName="tex_00008B30" Format="rgb5a1" Width="16" Height="16" Offset="0x8B30"/>
+        <Texture Name="gobject_ganon_tex_00008D30" OutName="tex_00008D30" Format="rgb5a1" Width="8" Height="8" Offset="0x8D30"/>
+        <Texture Name="gobject_ganon_tex_00008DB0" OutName="tex_00008DB0" Format="rgb5a1" Width="16" Height="16" Offset="0x8DB0"/>
+        <Texture Name="gobject_ganon_tex_00008FB0" OutName="tex_00008FB0" Format="rgb5a1" Width="16" Height="16" Offset="0x8FB0"/>
+        <Texture Name="gobject_ganon_tex_000091B0" OutName="tex_000091B0" Format="rgb5a1" Width="32" Height="16" Offset="0x91B0"/>
+        <Blob Name="gobject_ganon_unk_000095B0" Size="0x70" Offset="0x95B0"/>
+        <Texture Name="gobject_ganon_tex_00009620" OutName="tex_00009620" Format="rgb5a1" Width="16" Height="32" Offset="0x9620"/>
+        <Texture Name="gobject_ganon_tex_00009A20" OutName="tex_00009A20" Format="rgb5a1" Width="32" Height="16" Offset="0x9A20"/>
+        <Texture Name="gobject_ganon_tex_00009E20" OutName="tex_00009E20" Format="rgb5a1" Width="16" Height="16" Offset="0x9E20"/>
+        <Texture Name="gobject_ganon_tex_0000A020" OutName="tex_0000A020" Format="rgb5a1" Width="16" Height="16" Offset="0xA020"/>
+        <Texture Name="gobject_ganon_tex_0000A220" OutName="tex_0000A220" Format="ci8" Width="8" Height="8" Offset="0xA220"/>
+        <Texture Name="gobject_ganon_tex_0000A260" OutName="tex_0000A260" Format="rgb5a1" Width="16" Height="16" Offset="0xA260"/>
+        <Texture Name="gobject_ganon_tex_0000A460" OutName="tex_0000A460" Format="ci8" Width="8" Height="8" Offset="0xA460"/>
+        <Texture Name="gobject_ganon_tex_0000A4A0" OutName="tex_0000A4A0" Format="ci8" Width="8" Height="8" Offset="0xA4A0"/>
+        <Blob Name="gobject_ganon_unk_0000A4E0" Size="0x800" Offset="0xA4E0"/>
+        <DList Name="gobject_ganon_dlist_0000BE90" Offset="0xBE90"/>
+        <DList Name="gobject_ganon_dlist_0000BF40" Offset="0xBF40"/>
+        <DList Name="gobject_ganon_dlist_0000C048" Offset="0xC048"/>
+        <DList Name="gobject_ganon_dlist_0000C518" Offset="0xC518"/>
+        <DList Name="gobject_ganon_dlist_0000C9E8" Offset="0xC9E8"/>
+        <Blob Name="gobject_ganon_unk_0000CF00" Size="0x3C00" Offset="0xCF00"/>
+        <Animation Name="gobject_ganon_anim_00011348" Offset="0x11348"/>
+        <Limb Name="gobject_ganon_limb_00011358" LimbType="Standard" Offset="0x11358"/>
+        <Limb Name="gobject_ganon_limb_00011364" LimbType="Standard" Offset="0x11364"/>
+        <Limb Name="gobject_ganon_limb_00011370" LimbType="Standard" Offset="0x11370"/>
+        <Limb Name="gobject_ganon_limb_0001137C" LimbType="Standard" Offset="0x1137C"/>
+        <Limb Name="gobject_ganon_limb_00011388" LimbType="Standard" Offset="0x11388"/>
+        <Limb Name="gobject_ganon_limb_00011394" LimbType="Standard" Offset="0x11394"/>
+        <Limb Name="gobject_ganon_limb_000113A0" LimbType="Standard" Offset="0x113A0"/>
+        <Limb Name="gobject_ganon_limb_000113AC" LimbType="Standard" Offset="0x113AC"/>
+        <Limb Name="gobject_ganon_limb_000113B8" LimbType="Standard" Offset="0x113B8"/>
+        <Limb Name="gobject_ganon_limb_000113C4" LimbType="Standard" Offset="0x113C4"/>
+        <Limb Name="gobject_ganon_limb_000113D0" LimbType="Standard" Offset="0x113D0"/>
+        <Limb Name="gobject_ganon_limb_000113DC" LimbType="Standard" Offset="0x113DC"/>
+        <Limb Name="gobject_ganon_limb_000113E8" LimbType="Standard" Offset="0x113E8"/>
+        <Limb Name="gobject_ganon_limb_000113F4" LimbType="Standard" Offset="0x113F4"/>
+        <Limb Name="gobject_ganon_limb_00011400" LimbType="Standard" Offset="0x11400"/>
+        <Limb Name="gobject_ganon_limb_0001140C" LimbType="Standard" Offset="0x1140C"/>
+        <Limb Name="gobject_ganon_limb_00011418" LimbType="Standard" Offset="0x11418"/>
+        <Limb Name="gobject_ganon_limb_00011424" LimbType="Standard" Offset="0x11424"/>
+        <Limb Name="gobject_ganon_limb_00011430" LimbType="Standard" Offset="0x11430"/>
+        <Limb Name="gobject_ganon_limb_0001143C" LimbType="Standard" Offset="0x1143C"/>
+        <Limb Name="gobject_ganon_limb_00011448" LimbType="Standard" Offset="0x11448"/>
+        <Limb Name="gobject_ganon_limb_00011454" LimbType="Standard" Offset="0x11454"/>
+        <Limb Name="gobject_ganon_limb_00011460" LimbType="Standard" Offset="0x11460"/>
+        <Limb Name="gobject_ganon_limb_0001146C" LimbType="Standard" Offset="0x1146C"/>
+        <Limb Name="gobject_ganon_limb_00011478" LimbType="Standard" Offset="0x11478"/>
+        <Skeleton Name="gobject_ganon_skel_000114E8" Type="Flex" LimbType="Standard" Offset="0x114E8"/>
+    </File>
 </Root>

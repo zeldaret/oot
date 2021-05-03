@@ -1,5 +1,5 @@
 <Root>
-  <File Name="object_warp2" Segment="6">
-    <Blob Name="gWarp2Blob_000000" Size="0x10" Offset="0x0"/>
-  </File>
+    <File Name="object_warp2" Segment="6">
+        <Blob Name="gWarp2Blob_000000" Size="0x10" Offset="0x0"/>
+    </File>
 </Root>

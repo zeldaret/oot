@@ -1,114 +1,114 @@
 <Root>
-  <File Name="object_wf" Segment="6">
-    <Texture Name="gobject_wf_tex_00000000" OutName="tex_00000000" Format="rgb5a1" Width="8" Height="16" Offset="0x0" />
-    <Texture Name="gobject_wf_tex_00000100" OutName="tex_00000100" Format="rgb5a1" Width="8" Height="8" Offset="0x100" />
-    <Texture Name="gobject_wf_tex_00000180" OutName="tex_00000180" Format="rgb5a1" Width="8" Height="8" Offset="0x180" />
-    <Texture Name="gobject_wf_tex_00000200" OutName="tex_00000200" Format="rgb5a1" Width="8" Height="8" Offset="0x200" />
-    <Texture Name="gobject_wf_tex_00000280" OutName="tex_00000280" Format="rgb5a1" Width="8" Height="8" Offset="0x280" />
-    <Blob Name="gobject_wf_unk_00000300" Size="0x200" Offset="0x300" />
-    <DList Name="gobject_wf_dlist_00001A20" Offset="0x1A20" />
-    <DList Name="gobject_wf_dlist_00001AE8" Offset="0x1AE8" />
-    <DList Name="gobject_wf_dlist_00001BD8" Offset="0x1BD8" />
-    <DList Name="gobject_wf_dlist_00001CC8" Offset="0x1CC8" />
-    <DList Name="gobject_wf_dlist_00001D98" Offset="0x1D98" />
-    <DList Name="gobject_wf_dlist_00001E98" Offset="0x1E98" />
-    <DList Name="gobject_wf_dlist_00001F88" Offset="0x1F88" />
-    <DList Name="gobject_wf_dlist_00002078" Offset="0x2078" />
-    <DList Name="gobject_wf_dlist_00002148" Offset="0x2148" />
-    <DList Name="gobject_wf_dlist_00002248" Offset="0x2248" />
-    <DList Name="gobject_wf_dlist_00002368" Offset="0x2368" />
-    <DList Name="gobject_wf_dlist_00002490" Offset="0x2490" />
-    <DList Name="gobject_wf_dlist_000025A0" Offset="0x25A0" />
-    <DList Name="gobject_wf_dlist_000026C8" Offset="0x26C8" />
-    <Blob Name="gobject_wf_unk_000027D8" Size="0x400" Offset="0x27D8" />
-    <DList Name="gobject_wf_dlist_00003488" Offset="0x3488" />
-    <DList Name="gobject_wf_dlist_00003528" Offset="0x3528" />
-    <DList Name="gobject_wf_dlist_000035F0" Offset="0x35F0" />
-    <DList Name="gobject_wf_dlist_000036B8" Offset="0x36B8" />
-    <DList Name="gobject_wf_dlist_000039D8" Offset="0x39D8" />
-    <Limb Name="gobject_wf_limb_00003A70" LimbType="Standard" Offset="0x3A70" />
-    <Limb Name="gobject_wf_limb_00003A7C" LimbType="Standard" Offset="0x3A7C" />
-    <Limb Name="gobject_wf_limb_00003A88" LimbType="Standard" Offset="0x3A88" />
-    <Limb Name="gobject_wf_limb_00003A94" LimbType="Standard" Offset="0x3A94" />
-    <Limb Name="gobject_wf_limb_00003AA0" LimbType="Standard" Offset="0x3AA0" />
-    <Limb Name="gobject_wf_limb_00003AAC" LimbType="Standard" Offset="0x3AAC" />
-    <Limb Name="gobject_wf_limb_00003AB8" LimbType="Standard" Offset="0x3AB8" />
-    <Limb Name="gobject_wf_limb_00003AC4" LimbType="Standard" Offset="0x3AC4" />
-    <Limb Name="gobject_wf_limb_00003AD0" LimbType="Standard" Offset="0x3AD0" />
-    <Limb Name="gobject_wf_limb_00003ADC" LimbType="Standard" Offset="0x3ADC" />
-    <Limb Name="gobject_wf_limb_00003AE8" LimbType="Standard" Offset="0x3AE8" />
-    <Limb Name="gobject_wf_limb_00003AF4" LimbType="Standard" Offset="0x3AF4" />
-    <Limb Name="gobject_wf_limb_00003B00" LimbType="Standard" Offset="0x3B00" />
-    <Limb Name="gobject_wf_limb_00003B0C" LimbType="Standard" Offset="0x3B0C" />
-    <Limb Name="gobject_wf_limb_00003B18" LimbType="Standard" Offset="0x3B18" />
-    <Limb Name="gobject_wf_limb_00003B24" LimbType="Standard" Offset="0x3B24" />
-    <Limb Name="gobject_wf_limb_00003B30" LimbType="Standard" Offset="0x3B30" />
-    <Limb Name="gobject_wf_limb_00003B3C" LimbType="Standard" Offset="0x3B3C" />
-    <Limb Name="gobject_wf_limb_00003B48" LimbType="Standard" Offset="0x3B48" />
-    <Limb Name="gobject_wf_limb_00003B54" LimbType="Standard" Offset="0x3B54" />
-    <Limb Name="gobject_wf_limb_00003B60" LimbType="Standard" Offset="0x3B60" />
-    <Skeleton Name="gobject_wf_skel_00003BC0" Type="Flex" LimbType="Standard" Offset="0x3BC0" />
-    <Animation Name="gobject_wf_anim_00004638" Offset="0x4638" />
-    <Blob Name="gobject_wf_zeroes_unk_00004648" Size="0x48" Offset="0x4648" />
-    <Animation Name="gobject_wf_anim_00004AD0" Offset="0x4AD0" />
-    <Blob Name="gobject_wf_zeroes_unk_00004AE0" Size="0x20" Offset="0x4AE0" />
-    <Animation Name="gobject_wf_anim_00004CA4" Offset="0x4CA4" />
-    <Animation Name="gobject_wf_anim_00005430" Offset="0x5430" />
-    <Blob Name="gobject_wf_zeroes_unk_00005440" Size="0x40" Offset="0x5440" />
-    <Animation Name="gobject_wf_anim_000057A0" Offset="0x57A0" />
-    <Blob Name="gobject_wf_zeroes_unk_000057B0" Size="0x20" Offset="0x57B0" />
-    <DList Name="gobject_wf_dlist_00006DD0" Offset="0x6DD0" />
-    <DList Name="gobject_wf_dlist_00006E98" Offset="0x6E98" />
-    <DList Name="gobject_wf_dlist_00006F88" Offset="0x6F88" />
-    <DList Name="gobject_wf_dlist_00007078" Offset="0x7078" />
-    <DList Name="gobject_wf_dlist_00007148" Offset="0x7148" />
-    <DList Name="gobject_wf_dlist_00007248" Offset="0x7248" />
-    <DList Name="gobject_wf_dlist_00007338" Offset="0x7338" />
-    <DList Name="gobject_wf_dlist_00007428" Offset="0x7428" />
-    <DList Name="gobject_wf_dlist_000074F8" Offset="0x74F8" />
-    <DList Name="gobject_wf_dlist_000075F8" Offset="0x75F8" />
-    <DList Name="gobject_wf_dlist_00007718" Offset="0x7718" />
-    <DList Name="gobject_wf_dlist_00007830" Offset="0x7830" />
-    <DList Name="gobject_wf_dlist_00007940" Offset="0x7940" />
-    <DList Name="gobject_wf_dlist_00007A58" Offset="0x7A58" />
-    <Blob Name="gobject_wf_unk_00007B68" Size="0x200" Offset="0x7B68" />
-    <Texture Name="gobject_wf_tex_00007D68" OutName="tex_00007D68" Format="rgb5a1" Width="16" Height="32" Offset="0x7D68" />
-    <Texture Name="gobject_wf_tex_00008168" OutName="tex_00008168" Format="rgb5a1" Width="8" Height="8" Offset="0x8168" />
-    <Texture Name="gobject_wf_tex_000081E8" OutName="tex_000081E8" Format="rgb5a1" Width="8" Height="8" Offset="0x81E8" />
-    <Texture Name="gobject_wf_tex_00008268" OutName="tex_00008268" Format="rgb5a1" Width="8" Height="8" Offset="0x8268" />
-    <Texture Name="gobject_wf_tex_000082E8" OutName="tex_000082E8" Format="rgb5a1" Width="8" Height="8" Offset="0x82E8" />
-    <Blob Name="gobject_wf_unk_00008368" Size="0x400" Offset="0x8368" />
-    <DList Name="gobject_wf_dlist_00008F58" Offset="0x8F58" />
-    <DList Name="gobject_wf_dlist_00008FF8" Offset="0x8FF8" />
-    <DList Name="gobject_wf_dlist_000090C0" Offset="0x90C0" />
-    <DList Name="gobject_wf_dlist_00009188" Offset="0x9188" />
-    <DList Name="gobject_wf_dlist_000094A8" Offset="0x94A8" />
-    <Limb Name="gobject_wf_limb_00009540" LimbType="Standard" Offset="0x9540" />
-    <Limb Name="gobject_wf_limb_0000954C" LimbType="Standard" Offset="0x954C" />
-    <Limb Name="gobject_wf_limb_00009558" LimbType="Standard" Offset="0x9558" />
-    <Limb Name="gobject_wf_limb_00009564" LimbType="Standard" Offset="0x9564" />
-    <Limb Name="gobject_wf_limb_00009570" LimbType="Standard" Offset="0x9570" />
-    <Limb Name="gobject_wf_limb_0000957C" LimbType="Standard" Offset="0x957C" />
-    <Limb Name="gobject_wf_limb_00009588" LimbType="Standard" Offset="0x9588" />
-    <Limb Name="gobject_wf_limb_00009594" LimbType="Standard" Offset="0x9594" />
-    <Limb Name="gobject_wf_limb_000095A0" LimbType="Standard" Offset="0x95A0" />
-    <Limb Name="gobject_wf_limb_000095AC" LimbType="Standard" Offset="0x95AC" />
-    <Limb Name="gobject_wf_limb_000095B8" LimbType="Standard" Offset="0x95B8" />
-    <Limb Name="gobject_wf_limb_000095C4" LimbType="Standard" Offset="0x95C4" />
-    <Limb Name="gobject_wf_limb_000095D0" LimbType="Standard" Offset="0x95D0" />
-    <Limb Name="gobject_wf_limb_000095DC" LimbType="Standard" Offset="0x95DC" />
-    <Limb Name="gobject_wf_limb_000095E8" LimbType="Standard" Offset="0x95E8" />
-    <Limb Name="gobject_wf_limb_000095F4" LimbType="Standard" Offset="0x95F4" />
-    <Limb Name="gobject_wf_limb_00009600" LimbType="Standard" Offset="0x9600" />
-    <Limb Name="gobject_wf_limb_0000960C" LimbType="Standard" Offset="0x960C" />
-    <Limb Name="gobject_wf_limb_00009618" LimbType="Standard" Offset="0x9618" />
-    <Limb Name="gobject_wf_limb_00009624" LimbType="Standard" Offset="0x9624" />
-    <Limb Name="gobject_wf_limb_00009630" LimbType="Standard" Offset="0x9630" />
-    <Skeleton Name="gobject_wf_skel_00009690" Type="Flex" LimbType="Standard" Offset="0x9690" />
-    <Animation Name="gobject_wf_anim_000098C8" Offset="0x98C8" />
-    <Blob Name="gobject_wf_zeroes_unk_000098D8" Size="0x18" Offset="0x98D8" />
-    <Animation Name="gobject_wf_anim_00009B20" Offset="0x9B20" />
-    <Animation Name="gobject_wf_anim_0000A4AC" Offset="0xA4AC" />
-    <Blob Name="gobject_wf_zeroes_unk_0000A4BC" Size="0x44" Offset="0xA4BC" />
-  </File>
+    <File Name="object_wf" Segment="6">
+        <Texture Name="gobject_wf_tex_00000000" OutName="tex_00000000" Format="rgb5a1" Width="8" Height="16" Offset="0x0"/>
+        <Texture Name="gobject_wf_tex_00000100" OutName="tex_00000100" Format="rgb5a1" Width="8" Height="8" Offset="0x100"/>
+        <Texture Name="gobject_wf_tex_00000180" OutName="tex_00000180" Format="rgb5a1" Width="8" Height="8" Offset="0x180"/>
+        <Texture Name="gobject_wf_tex_00000200" OutName="tex_00000200" Format="rgb5a1" Width="8" Height="8" Offset="0x200"/>
+        <Texture Name="gobject_wf_tex_00000280" OutName="tex_00000280" Format="rgb5a1" Width="8" Height="8" Offset="0x280"/>
+        <Blob Name="gobject_wf_unk_00000300" Size="0x200" Offset="0x300"/>
+        <DList Name="gobject_wf_dlist_00001A20" Offset="0x1A20"/>
+        <DList Name="gobject_wf_dlist_00001AE8" Offset="0x1AE8"/>
+        <DList Name="gobject_wf_dlist_00001BD8" Offset="0x1BD8"/>
+        <DList Name="gobject_wf_dlist_00001CC8" Offset="0x1CC8"/>
+        <DList Name="gobject_wf_dlist_00001D98" Offset="0x1D98"/>
+        <DList Name="gobject_wf_dlist_00001E98" Offset="0x1E98"/>
+        <DList Name="gobject_wf_dlist_00001F88" Offset="0x1F88"/>
+        <DList Name="gobject_wf_dlist_00002078" Offset="0x2078"/>
+        <DList Name="gobject_wf_dlist_00002148" Offset="0x2148"/>
+        <DList Name="gobject_wf_dlist_00002248" Offset="0x2248"/>
+        <DList Name="gobject_wf_dlist_00002368" Offset="0x2368"/>
+        <DList Name="gobject_wf_dlist_00002490" Offset="0x2490"/>
+        <DList Name="gobject_wf_dlist_000025A0" Offset="0x25A0"/>
+        <DList Name="gobject_wf_dlist_000026C8" Offset="0x26C8"/>
+        <Blob Name="gobject_wf_unk_000027D8" Size="0x400" Offset="0x27D8"/>
+        <DList Name="gobject_wf_dlist_00003488" Offset="0x3488"/>
+        <DList Name="gobject_wf_dlist_00003528" Offset="0x3528"/>
+        <DList Name="gobject_wf_dlist_000035F0" Offset="0x35F0"/>
+        <DList Name="gobject_wf_dlist_000036B8" Offset="0x36B8"/>
+        <DList Name="gobject_wf_dlist_000039D8" Offset="0x39D8"/>
+        <Limb Name="gobject_wf_limb_00003A70" LimbType="Standard" Offset="0x3A70"/>
+        <Limb Name="gobject_wf_limb_00003A7C" LimbType="Standard" Offset="0x3A7C"/>
+        <Limb Name="gobject_wf_limb_00003A88" LimbType="Standard" Offset="0x3A88"/>
+        <Limb Name="gobject_wf_limb_00003A94" LimbType="Standard" Offset="0x3A94"/>
+        <Limb Name="gobject_wf_limb_00003AA0" LimbType="Standard" Offset="0x3AA0"/>
+        <Limb Name="gobject_wf_limb_00003AAC" LimbType="Standard" Offset="0x3AAC"/>
+        <Limb Name="gobject_wf_limb_00003AB8" LimbType="Standard" Offset="0x3AB8"/>
+        <Limb Name="gobject_wf_limb_00003AC4" LimbType="Standard" Offset="0x3AC4"/>
+        <Limb Name="gobject_wf_limb_00003AD0" LimbType="Standard" Offset="0x3AD0"/>
+        <Limb Name="gobject_wf_limb_00003ADC" LimbType="Standard" Offset="0x3ADC"/>
+        <Limb Name="gobject_wf_limb_00003AE8" LimbType="Standard" Offset="0x3AE8"/>
+        <Limb Name="gobject_wf_limb_00003AF4" LimbType="Standard" Offset="0x3AF4"/>
+        <Limb Name="gobject_wf_limb_00003B00" LimbType="Standard" Offset="0x3B00"/>
+        <Limb Name="gobject_wf_limb_00003B0C" LimbType="Standard" Offset="0x3B0C"/>
+        <Limb Name="gobject_wf_limb_00003B18" LimbType="Standard" Offset="0x3B18"/>
+        <Limb Name="gobject_wf_limb_00003B24" LimbType="Standard" Offset="0x3B24"/>
+        <Limb Name="gobject_wf_limb_00003B30" LimbType="Standard" Offset="0x3B30"/>
+        <Limb Name="gobject_wf_limb_00003B3C" LimbType="Standard" Offset="0x3B3C"/>
+        <Limb Name="gobject_wf_limb_00003B48" LimbType="Standard" Offset="0x3B48"/>
+        <Limb Name="gobject_wf_limb_00003B54" LimbType="Standard" Offset="0x3B54"/>
+        <Limb Name="gobject_wf_limb_00003B60" LimbType="Standard" Offset="0x3B60"/>
+        <Skeleton Name="gobject_wf_skel_00003BC0" Type="Flex" LimbType="Standard" Offset="0x3BC0"/>
+        <Animation Name="gobject_wf_anim_00004638" Offset="0x4638"/>
+        <Blob Name="gobject_wf_zeroes_unk_00004648" Size="0x48" Offset="0x4648"/>
+        <Animation Name="gobject_wf_anim_00004AD0" Offset="0x4AD0"/>
+        <Blob Name="gobject_wf_zeroes_unk_00004AE0" Size="0x20" Offset="0x4AE0"/>
+        <Animation Name="gobject_wf_anim_00004CA4" Offset="0x4CA4"/>
+        <Animation Name="gobject_wf_anim_00005430" Offset="0x5430"/>
+        <Blob Name="gobject_wf_zeroes_unk_00005440" Size="0x40" Offset="0x5440"/>
+        <Animation Name="gobject_wf_anim_000057A0" Offset="0x57A0"/>
+        <Blob Name="gobject_wf_zeroes_unk_000057B0" Size="0x20" Offset="0x57B0"/>
+        <DList Name="gobject_wf_dlist_00006DD0" Offset="0x6DD0"/>
+        <DList Name="gobject_wf_dlist_00006E98" Offset="0x6E98"/>
+        <DList Name="gobject_wf_dlist_00006F88" Offset="0x6F88"/>
+        <DList Name="gobject_wf_dlist_00007078" Offset="0x7078"/>
+        <DList Name="gobject_wf_dlist_00007148" Offset="0x7148"/>
+        <DList Name="gobject_wf_dlist_00007248" Offset="0x7248"/>
+        <DList Name="gobject_wf_dlist_00007338" Offset="0x7338"/>
+        <DList Name="gobject_wf_dlist_00007428" Offset="0x7428"/>
+        <DList Name="gobject_wf_dlist_000074F8" Offset="0x74F8"/>
+        <DList Name="gobject_wf_dlist_000075F8" Offset="0x75F8"/>
+        <DList Name="gobject_wf_dlist_00007718" Offset="0x7718"/>
+        <DList Name="gobject_wf_dlist_00007830" Offset="0x7830"/>
+        <DList Name="gobject_wf_dlist_00007940" Offset="0x7940"/>
+        <DList Name="gobject_wf_dlist_00007A58" Offset="0x7A58"/>
+        <Blob Name="gobject_wf_unk_00007B68" Size="0x200" Offset="0x7B68"/>
+        <Texture Name="gobject_wf_tex_00007D68" OutName="tex_00007D68" Format="rgb5a1" Width="16" Height="32" Offset="0x7D68"/>
+        <Texture Name="gobject_wf_tex_00008168" OutName="tex_00008168" Format="rgb5a1" Width="8" Height="8" Offset="0x8168"/>
+        <Texture Name="gobject_wf_tex_000081E8" OutName="tex_000081E8" Format="rgb5a1" Width="8" Height="8" Offset="0x81E8"/>
+        <Texture Name="gobject_wf_tex_00008268" OutName="tex_00008268" Format="rgb5a1" Width="8" Height="8" Offset="0x8268"/>
+        <Texture Name="gobject_wf_tex_000082E8" OutName="tex_000082E8" Format="rgb5a1" Width="8" Height="8" Offset="0x82E8"/>
+        <Blob Name="gobject_wf_unk_00008368" Size="0x400" Offset="0x8368"/>
+        <DList Name="gobject_wf_dlist_00008F58" Offset="0x8F58"/>
+        <DList Name="gobject_wf_dlist_00008FF8" Offset="0x8FF8"/>
+        <DList Name="gobject_wf_dlist_000090C0" Offset="0x90C0"/>
+        <DList Name="gobject_wf_dlist_00009188" Offset="0x9188"/>
+        <DList Name="gobject_wf_dlist_000094A8" Offset="0x94A8"/>
+        <Limb Name="gobject_wf_limb_00009540" LimbType="Standard" Offset="0x9540"/>
+        <Limb Name="gobject_wf_limb_0000954C" LimbType="Standard" Offset="0x954C"/>
+        <Limb Name="gobject_wf_limb_00009558" LimbType="Standard" Offset="0x9558"/>
+        <Limb Name="gobject_wf_limb_00009564" LimbType="Standard" Offset="0x9564"/>
+        <Limb Name="gobject_wf_limb_00009570" LimbType="Standard" Offset="0x9570"/>
+        <Limb Name="gobject_wf_limb_0000957C" LimbType="Standard" Offset="0x957C"/>
+        <Limb Name="gobject_wf_limb_00009588" LimbType="Standard" Offset="0x9588"/>
+        <Limb Name="gobject_wf_limb_00009594" LimbType="Standard" Offset="0x9594"/>
+        <Limb Name="gobject_wf_limb_000095A0" LimbType="Standard" Offset="0x95A0"/>
+        <Limb Name="gobject_wf_limb_000095AC" LimbType="Standard" Offset="0x95AC"/>
+        <Limb Name="gobject_wf_limb_000095B8" LimbType="Standard" Offset="0x95B8"/>
+        <Limb Name="gobject_wf_limb_000095C4" LimbType="Standard" Offset="0x95C4"/>
+        <Limb Name="gobject_wf_limb_000095D0" LimbType="Standard" Offset="0x95D0"/>
+        <Limb Name="gobject_wf_limb_000095DC" LimbType="Standard" Offset="0x95DC"/>
+        <Limb Name="gobject_wf_limb_000095E8" LimbType="Standard" Offset="0x95E8"/>
+        <Limb Name="gobject_wf_limb_000095F4" LimbType="Standard" Offset="0x95F4"/>
+        <Limb Name="gobject_wf_limb_00009600" LimbType="Standard" Offset="0x9600"/>
+        <Limb Name="gobject_wf_limb_0000960C" LimbType="Standard" Offset="0x960C"/>
+        <Limb Name="gobject_wf_limb_00009618" LimbType="Standard" Offset="0x9618"/>
+        <Limb Name="gobject_wf_limb_00009624" LimbType="Standard" Offset="0x9624"/>
+        <Limb Name="gobject_wf_limb_00009630" LimbType="Standard" Offset="0x9630"/>
+        <Skeleton Name="gobject_wf_skel_00009690" Type="Flex" LimbType="Standard" Offset="0x9690"/>
+        <Animation Name="gobject_wf_anim_000098C8" Offset="0x98C8"/>
+        <Blob Name="gobject_wf_zeroes_unk_000098D8" Size="0x18" Offset="0x98D8"/>
+        <Animation Name="gobject_wf_anim_00009B20" Offset="0x9B20"/>
+        <Animation Name="gobject_wf_anim_0000A4AC" Offset="0xA4AC"/>
+        <Blob Name="gobject_wf_zeroes_unk_0000A4BC" Size="0x44" Offset="0xA4BC"/>
+    </File>
 </Root>

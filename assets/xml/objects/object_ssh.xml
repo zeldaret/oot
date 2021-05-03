@@ -1,60 +1,60 @@
 <Root>
-  <File Name="object_ssh" Segment="6">
-    <Animation Name="gobject_ssh_anim_00000304" Offset="0x304" />
-    <Texture Name="gobject_ssh_tlut_00000320" OutName="tlut_00000320" Format="rgb5a1" Width="16" Height="16" Offset="0x320" />
-    <Texture Name="gobject_ssh_tex_00000520" OutName="tex_00000520" Format="ci8" Width="8" Height="8" Offset="0x520" />
-    <Texture Name="gobject_ssh_tex_00000560" OutName="tex_00000560" Format="ci8" Width="16" Height="8" Offset="0x560" />
-    <Texture Name="gobject_ssh_tex_000005E0" OutName="tex_000005E0" Format="ci8" Width="8" Height="8" Offset="0x5E0" />
-    <Texture Name="gobject_ssh_tex_00000620" OutName="tex_00000620" Format="i8" Width="16" Height="16" Offset="0x620" />
-    <Texture Name="gobject_ssh_tex_00000720" OutName="tex_00000720" Format="ci8" Width="8" Height="16" Offset="0x720" />
-    <Texture Name="gobject_ssh_tex_000007A0" OutName="tex_000007A0" Format="ci8" Width="8" Height="8" Offset="0x7A0" />
-    <Blob Name="gobject_ssh_unk_000007E0" Size="0x400" Offset="0x7E0" />
-    <Texture Name="gobject_ssh_tex_00000BE0" OutName="tex_00000BE0" Format="ci8" Width="8" Height="16" Offset="0xBE0" />
-    <Blob Name="gobject_ssh_unk_00000C60" Size="0x800" Offset="0xC60" />
-    <DList Name="gobject_ssh_dlist_00003CD0" Offset="0x3CD0" />
-    <DList Name="gobject_ssh_dlist_00004080" Offset="0x4080" />
-    <DList Name="gobject_ssh_dlist_00004510" Offset="0x4510" />
-    <DList Name="gobject_ssh_dlist_000046C0" Offset="0x46C0" />
-    <DList Name="gobject_ssh_dlist_00004878" Offset="0x4878" />
-    <DList Name="gobject_ssh_dlist_00004940" Offset="0x4940" />
-    <DList Name="gobject_ssh_dlist_00004A08" Offset="0x4A08" />
-    <DList Name="gobject_ssh_dlist_00004AD0" Offset="0x4AD0" />
-    <DList Name="gobject_ssh_dlist_00004B98" Offset="0x4B98" />
-    <DList Name="gobject_ssh_dlist_00004C60" Offset="0x4C60" />
-    <DList Name="gobject_ssh_dlist_00004D28" Offset="0x4D28" />
-    <DList Name="gobject_ssh_dlist_00004DE8" Offset="0x4DE8" />
-    <DList Name="gobject_ssh_dlist_00005048" Offset="0x5048" />
-    <Limb Name="gobject_ssh_limb_00005110" LimbType="Standard" Offset="0x5110" />
-    <Limb Name="gobject_ssh_limb_0000511C" LimbType="Standard" Offset="0x511C" />
-    <Limb Name="gobject_ssh_limb_00005128" LimbType="Standard" Offset="0x5128" />
-    <Limb Name="gobject_ssh_limb_00005134" LimbType="Standard" Offset="0x5134" />
-    <Limb Name="gobject_ssh_limb_00005140" LimbType="Standard" Offset="0x5140" />
-    <Limb Name="gobject_ssh_limb_0000514C" LimbType="Standard" Offset="0x514C" />
-    <Limb Name="gobject_ssh_limb_00005158" LimbType="Standard" Offset="0x5158" />
-    <Limb Name="gobject_ssh_limb_00005164" LimbType="Standard" Offset="0x5164" />
-    <Limb Name="gobject_ssh_limb_00005170" LimbType="Standard" Offset="0x5170" />
-    <Limb Name="gobject_ssh_limb_0000517C" LimbType="Standard" Offset="0x517C" />
-    <Limb Name="gobject_ssh_limb_00005188" LimbType="Standard" Offset="0x5188" />
-    <Limb Name="gobject_ssh_limb_00005194" LimbType="Standard" Offset="0x5194" />
-    <Limb Name="gobject_ssh_limb_000051A0" LimbType="Standard" Offset="0x51A0" />
-    <Limb Name="gobject_ssh_limb_000051AC" LimbType="Standard" Offset="0x51AC" />
-    <Limb Name="gobject_ssh_limb_000051B8" LimbType="Standard" Offset="0x51B8" />
-    <Limb Name="gobject_ssh_limb_000051C4" LimbType="Standard" Offset="0x51C4" />
-    <Limb Name="gobject_ssh_limb_000051D0" LimbType="Standard" Offset="0x51D0" />
-    <Limb Name="gobject_ssh_limb_000051DC" LimbType="Standard" Offset="0x51DC" />
-    <Limb Name="gobject_ssh_limb_000051E8" LimbType="Standard" Offset="0x51E8" />
-    <Limb Name="gobject_ssh_limb_000051F4" LimbType="Standard" Offset="0x51F4" />
-    <Limb Name="gobject_ssh_limb_00005200" LimbType="Standard" Offset="0x5200" />
-    <Limb Name="gobject_ssh_limb_0000520C" LimbType="Standard" Offset="0x520C" />
-    <Limb Name="gobject_ssh_limb_00005218" LimbType="Standard" Offset="0x5218" />
-    <Limb Name="gobject_ssh_limb_00005224" LimbType="Standard" Offset="0x5224" />
-    <Limb Name="gobject_ssh_limb_00005230" LimbType="Standard" Offset="0x5230" />
-    <Limb Name="gobject_ssh_limb_0000523C" LimbType="Standard" Offset="0x523C" />
-    <Limb Name="gobject_ssh_limb_00005248" LimbType="Standard" Offset="0x5248" />
-    <Limb Name="gobject_ssh_limb_00005254" LimbType="Standard" Offset="0x5254" />
-    <Limb Name="gobject_ssh_limb_00005260" LimbType="Standard" Offset="0x5260" />
-    <Skeleton Name="gobject_ssh_skel_000052E0" Type="Normal" LimbType="Standard" Offset="0x52E0" />
-    <Animation Name="gobject_ssh_anim_000055F8" Offset="0x55F8" />
-    <Animation Name="gobject_ssh_anim_00005BE8" Offset="0x5BE8" />
-  </File>
+    <File Name="object_ssh" Segment="6">
+        <Animation Name="gobject_ssh_anim_00000304" Offset="0x304"/>
+        <Texture Name="gobject_ssh_tlut_00000320" OutName="tlut_00000320" Format="rgb5a1" Width="16" Height="16" Offset="0x320"/>
+        <Texture Name="gobject_ssh_tex_00000520" OutName="tex_00000520" Format="ci8" Width="8" Height="8" Offset="0x520"/>
+        <Texture Name="gobject_ssh_tex_00000560" OutName="tex_00000560" Format="ci8" Width="16" Height="8" Offset="0x560"/>
+        <Texture Name="gobject_ssh_tex_000005E0" OutName="tex_000005E0" Format="ci8" Width="8" Height="8" Offset="0x5E0"/>
+        <Texture Name="gobject_ssh_tex_00000620" OutName="tex_00000620" Format="i8" Width="16" Height="16" Offset="0x620"/>
+        <Texture Name="gobject_ssh_tex_00000720" OutName="tex_00000720" Format="ci8" Width="8" Height="16" Offset="0x720"/>
+        <Texture Name="gobject_ssh_tex_000007A0" OutName="tex_000007A0" Format="ci8" Width="8" Height="8" Offset="0x7A0"/>
+        <Blob Name="gobject_ssh_unk_000007E0" Size="0x400" Offset="0x7E0"/>
+        <Texture Name="gobject_ssh_tex_00000BE0" OutName="tex_00000BE0" Format="ci8" Width="8" Height="16" Offset="0xBE0"/>
+        <Blob Name="gobject_ssh_unk_00000C60" Size="0x800" Offset="0xC60"/>
+        <DList Name="gobject_ssh_dlist_00003CD0" Offset="0x3CD0"/>
+        <DList Name="gobject_ssh_dlist_00004080" Offset="0x4080"/>
+        <DList Name="gobject_ssh_dlist_00004510" Offset="0x4510"/>
+        <DList Name="gobject_ssh_dlist_000046C0" Offset="0x46C0"/>
+        <DList Name="gobject_ssh_dlist_00004878" Offset="0x4878"/>
+        <DList Name="gobject_ssh_dlist_00004940" Offset="0x4940"/>
+        <DList Name="gobject_ssh_dlist_00004A08" Offset="0x4A08"/>
+        <DList Name="gobject_ssh_dlist_00004AD0" Offset="0x4AD0"/>
+        <DList Name="gobject_ssh_dlist_00004B98" Offset="0x4B98"/>
+        <DList Name="gobject_ssh_dlist_00004C60" Offset="0x4C60"/>
+        <DList Name="gobject_ssh_dlist_00004D28" Offset="0x4D28"/>
+        <DList Name="gobject_ssh_dlist_00004DE8" Offset="0x4DE8"/>
+        <DList Name="gobject_ssh_dlist_00005048" Offset="0x5048"/>
+        <Limb Name="gobject_ssh_limb_00005110" LimbType="Standard" Offset="0x5110"/>
+        <Limb Name="gobject_ssh_limb_0000511C" LimbType="Standard" Offset="0x511C"/>
+        <Limb Name="gobject_ssh_limb_00005128" LimbType="Standard" Offset="0x5128"/>
+        <Limb Name="gobject_ssh_limb_00005134" LimbType="Standard" Offset="0x5134"/>
+        <Limb Name="gobject_ssh_limb_00005140" LimbType="Standard" Offset="0x5140"/>
+        <Limb Name="gobject_ssh_limb_0000514C" LimbType="Standard" Offset="0x514C"/>
+        <Limb Name="gobject_ssh_limb_00005158" LimbType="Standard" Offset="0x5158"/>
+        <Limb Name="gobject_ssh_limb_00005164" LimbType="Standard" Offset="0x5164"/>
+        <Limb Name="gobject_ssh_limb_00005170" LimbType="Standard" Offset="0x5170"/>
+        <Limb Name="gobject_ssh_limb_0000517C" LimbType="Standard" Offset="0x517C"/>
+        <Limb Name="gobject_ssh_limb_00005188" LimbType="Standard" Offset="0x5188"/>
+        <Limb Name="gobject_ssh_limb_00005194" LimbType="Standard" Offset="0x5194"/>
+        <Limb Name="gobject_ssh_limb_000051A0" LimbType="Standard" Offset="0x51A0"/>
+        <Limb Name="gobject_ssh_limb_000051AC" LimbType="Standard" Offset="0x51AC"/>
+        <Limb Name="gobject_ssh_limb_000051B8" LimbType="Standard" Offset="0x51B8"/>
+        <Limb Name="gobject_ssh_limb_000051C4" LimbType="Standard" Offset="0x51C4"/>
+        <Limb Name="gobject_ssh_limb_000051D0" LimbType="Standard" Offset="0x51D0"/>
+        <Limb Name="gobject_ssh_limb_000051DC" LimbType="Standard" Offset="0x51DC"/>
+        <Limb Name="gobject_ssh_limb_000051E8" LimbType="Standard" Offset="0x51E8"/>
+        <Limb Name="gobject_ssh_limb_000051F4" LimbType="Standard" Offset="0x51F4"/>
+        <Limb Name="gobject_ssh_limb_00005200" LimbType="Standard" Offset="0x5200"/>
+        <Limb Name="gobject_ssh_limb_0000520C" LimbType="Standard" Offset="0x520C"/>
+        <Limb Name="gobject_ssh_limb_00005218" LimbType="Standard" Offset="0x5218"/>
+        <Limb Name="gobject_ssh_limb_00005224" LimbType="Standard" Offset="0x5224"/>
+        <Limb Name="gobject_ssh_limb_00005230" LimbType="Standard" Offset="0x5230"/>
+        <Limb Name="gobject_ssh_limb_0000523C" LimbType="Standard" Offset="0x523C"/>
+        <Limb Name="gobject_ssh_limb_00005248" LimbType="Standard" Offset="0x5248"/>
+        <Limb Name="gobject_ssh_limb_00005254" LimbType="Standard" Offset="0x5254"/>
+        <Limb Name="gobject_ssh_limb_00005260" LimbType="Standard" Offset="0x5260"/>
+        <Skeleton Name="gobject_ssh_skel_000052E0" Type="Normal" LimbType="Standard" Offset="0x52E0"/>
+        <Animation Name="gobject_ssh_anim_000055F8" Offset="0x55F8"/>
+        <Animation Name="gobject_ssh_anim_00005BE8" Offset="0x5BE8"/>
+    </File>
 </Root>

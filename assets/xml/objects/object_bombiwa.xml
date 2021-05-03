@@ -1,7 +1,7 @@
 <Root>
-  <File Name="object_bombiwa" Segment="6">
-    <Texture Name="gobject_bombiwa_tlut_00000000" OutName="tlut_00000000" Format="rgb5a1" Width="4" Height="4" Offset="0x0" />
-    <Texture Name="gobject_bombiwa_tex_00000020" OutName="tex_00000020" Format="ci4" Width="64" Height="64" Offset="0x20" />
-    <DList Name="gobject_bombiwa_dlist_000009E0" Offset="0x9E0" />
-  </File>
+    <File Name="object_bombiwa" Segment="6">
+        <Texture Name="gobject_bombiwa_tlut_00000000" OutName="tlut_00000000" Format="rgb5a1" Width="4" Height="4" Offset="0x0"/>
+        <Texture Name="gobject_bombiwa_tex_00000020" OutName="tex_00000020" Format="ci4" Width="64" Height="64" Offset="0x20"/>
+        <DList Name="gobject_bombiwa_dlist_000009E0" Offset="0x9E0"/>
+    </File>
 </Root>
