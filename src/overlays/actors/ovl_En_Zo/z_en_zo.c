@@ -5,6 +5,7 @@
  */
 
 #include "z_en_zo.h"
+#include "objects/object_zo/object_zo.h"
 
 #define FLAGS 0x00000009
 
@@ -28,20 +29,6 @@ void EnZo_Submerged(EnZo* this, GlobalContext* globalCtx);
 void EnZo_Surface(EnZo* this, GlobalContext* globalCtx);
 void EnZo_TreadWater(EnZo* this, GlobalContext* globalCtx);
 void EnZo_Dive(EnZo* this, GlobalContext* globalCtx);
-
-extern Gfx D_060022F0[];
-extern Gfx D_06002350[];
-extern Gfx D_060024A0[];
-extern Gfx D_06002510[];
-extern Gfx D_0600BFC0[];
-extern Gfx D_0600C028[];
-extern FlexSkeletonHeader D_0600BFA8;
-
-extern AnimationHeader D_06002FE8;
-extern AnimationHeader D_06002F10;
-extern AnimationHeader D_0600219C;
-extern AnimationHeader D_06000598;
-extern AnimationHeader D_06000D48;
 
 void EnZo_Ripple(EnZo* this, Vec3f* pos, f32 scale, f32 targetScale, u8 alpha) {
     EnZoEffect* effect;
@@ -198,7 +185,7 @@ void EnZo_DrawRipples(EnZo* this, GlobalContext* globalCtx) {
             if (!setup) {
                 if (1) {}
                 gDPPipeSync(POLY_XLU_DISP++);
-                gSPDisplayList(POLY_XLU_DISP++, D_0600BFC0);
+                gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesVisualDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                 setup = true;
             }
@@ -208,7 +195,7 @@ void EnZo_DrawRipples(EnZo* this, GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 242),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_0600C028);
+            gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesGeometryDL);
         }
         effect++;
     }
@@ -216,11 +203,10 @@ void EnZo_DrawRipples(EnZo* this, GlobalContext* globalCtx) {
 }
 
 void EnZo_DrawBubbles(EnZo* this, GlobalContext* globalCtx) {
-    EnZoEffect* effect;
+    EnZoEffect* effect = this->effects;
     s16 i;
     u8 setup;
 
-    effect = this->effects;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 260);
     setup = false;
     func_80093D84(globalCtx->state.gfxCtx);
@@ -228,7 +214,7 @@ void EnZo_DrawBubbles(EnZo* this, GlobalContext* globalCtx) {
         if (effect->type == ENZO_EFFECT_BUBBLE) {
             if (!setup) {
                 if (1) {}
-                gSPDisplayList(POLY_XLU_DISP++, D_060022F0);
+                gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesVisualDL);
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
@@ -242,7 +228,7 @@ void EnZo_DrawBubbles(EnZo* this, GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 281),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_06002350);
+            gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesGeometryDL);
         }
         effect++;
     }
@@ -262,7 +248,7 @@ void EnZo_DrawSplashes(EnZo* this, GlobalContext* globalCtx) {
         if (effect->type == ENZO_EFFECT_SPLASH) {
             if (!setup) {
                 if (1) {}
-                gSPDisplayList(POLY_XLU_DISP++, D_060024A0);
+                gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesVisualDL);
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
                 setup = true;
@@ -275,7 +261,7 @@ void EnZo_DrawSplashes(EnZo* this, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 325),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_06002510);
+            gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesGeometryDL);
         }
         effect++;
     }
@@ -326,10 +312,14 @@ const ActorInit En_Zo_InitVars = {
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { &D_06002FE8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &D_06002FE8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &D_06002F10, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },   { &D_06002F10, 1.0f, 1.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { &D_06002F10, 1.0f, 8.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &D_0600219C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { &D_06000598, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &D_06000D48, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gZoraIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gZoraIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gZoraSurfaceAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gZoraSurfaceAnim, 1.0f, 1.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gZoraSurfaceAnim, 1.0f, 8.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gZoraThrowRupeesAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gZoraHandsOnHipsTappingFootAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gZoraOpenArmsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
 void EnZo_SpawnSplashes(EnZo* this) {
@@ -540,7 +530,8 @@ s32 EnZo_PlayerInProximity(EnZo* this, GlobalContext* globalCtx) {
 void EnZo_SetAnimation(EnZo* this) {
     s32 animId = 8;
 
-    if (this->skelAnime.animation == &D_06000598 || this->skelAnime.animation == &D_06000D48) {
+    if (this->skelAnime.animation == &gZoraHandsOnHipsTappingFootAnim ||
+        this->skelAnime.animation == &gZoraOpenArmsAnim) {
         if (this->unk_194.unk_00 == 0) {
             if (this->actionFunc == EnZo_Standing) {
                 animId = 0;
@@ -550,11 +541,12 @@ void EnZo_SetAnimation(EnZo* this) {
         }
     }
 
-    if (this->unk_194.unk_00 != 0 && this->actor.textId == 0x4006 && this->skelAnime.animation != &D_06000598) {
+    if (this->unk_194.unk_00 != 0 && this->actor.textId == 0x4006 &&
+        this->skelAnime.animation != &gZoraHandsOnHipsTappingFootAnim) {
         animId = 6;
     }
 
-    if (this->unk_194.unk_00 != 0 && this->actor.textId == 0x4007 && this->skelAnime.animation != &D_06000D48) {
+    if (this->unk_194.unk_00 != 0 && this->actor.textId == 0x4007 && this->skelAnime.animation != &gZoraOpenArmsAnim) {
         animId = 7;
     }
 
@@ -571,7 +563,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnZo* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, NULL, this->jointTable, this->morphTable, 20);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gZoraSkel, NULL, this->jointTable, this->morphTable, 20);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInit);
@@ -786,7 +778,7 @@ void EnZo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnZo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnZo* this = THIS;
-    UNK_PTR eyeTextures[] = { 0x06003E40, 0x06004640, 0x06004E40 };
+    void* eyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
 
     Matrix_Push();
     EnZo_DrawRipples(this, globalCtx);

@@ -31,9 +31,7 @@ void Matrix_Push(void) {
 
 void Matrix_Pop(void) {
     sCurrentMatrix--;
-    if (sCurrentMatrix < sMatrixStack) {
-        __assert("Matrix_now >= Matrix_stack", "../sys_matrix.c", 176);
-    }
+    ASSERT(sCurrentMatrix >= sMatrixStack, "Matrix_now >= Matrix_stack", "../sys_matrix.c", 176);
 }
 
 void Matrix_Get(MtxF* dest) {

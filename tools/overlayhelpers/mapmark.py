@@ -53,14 +53,14 @@ def GetPoints(data, ptr, numPoints):
 def GetIconData(data, ptr):
     off = RamToOff(ptr)
     v = struct.unpack_from(">bB", data[off:off+2])
-    points = GetPoints(data, ptr+2, v[1])
+    points = GetPoints(data, ptr+2, v[1] if SIMPLIFY_OUTPUT else 12)
     return [v[0], v[1], points]
 
 def GetSceneMap(data, ptr):
     icons = []
     for i in range(3):
         icon = GetIconData(data, ptr + (i * 0x26))
-        if icon[0] != 0 or icon[1] > 0:
+        if not SIMPLIFY_OUTPUT or icon[0] != 0 or icon[1] > 0:
             icons.append(icon)
     return icons
 

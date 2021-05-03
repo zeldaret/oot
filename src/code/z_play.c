@@ -18,9 +18,7 @@ void func_800BC450(GlobalContext* globalCtx) {
 }
 
 void func_800BC490(GlobalContext* globalCtx, s16 point) {
-    if (!(point == 1 || point == 2)) {
-        __assert("point == 1 || point == 2", "../z_play.c", 2160);
-    }
+    ASSERT(point == 1 || point == 2, "point == 1 || point == 2", "../z_play.c", 2160);
 
     globalCtx->unk_1242B = point;
 
@@ -780,7 +778,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3551);
             }
 
-            sp80 = (globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0);
+            sp80 = (globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3555);
@@ -905,7 +903,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
             if (globalCtx->unk_1242B != 0) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
-                    if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
+                    if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
                         // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (Player_InCsMode(globalCtx)) {
@@ -930,7 +928,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3716);
             }
 
-            if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
+            if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
                 if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3721);
                 }
@@ -1033,7 +1031,7 @@ skip:
 }
 
 void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
-    if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
+    if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
         KaleidoScopeCall_Draw(globalCtx);
     }
 
@@ -1469,9 +1467,8 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
 
     globalCtx->sceneSegment = Gameplay_LoadFile(globalCtx, &scene->sceneFile);
     scene->unk_13 = 0;
-    if (globalCtx->sceneSegment == NULL) {
-        __assert("this->sceneSegment != NULL", "../z_play.c", 4960);
-    }
+    ASSERT(globalCtx->sceneSegment != NULL, "this->sceneSegment != NULL", "../z_play.c", 4960);
+
     gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     Gameplay_InitScene(globalCtx, spawn);
