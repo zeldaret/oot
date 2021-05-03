@@ -22,15 +22,18 @@ CPPFLAGS += -P
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
+    NUM_CORES=$(NUMBER_OF_PROCESSORS)
 else
     UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
         DETECTED_OS=linux
+        NUM_CORES=$(shell nproc)
     endif
     ifeq ($(UNAME_S),Darwin)
         DETECTED_OS=macos
         MAKE=gmake
         CPPFLAGS += -xc++
+        NUM_CORES=$(shell sysctl -n hw.logicalcpu)
     endif
 endif
 
@@ -203,7 +206,7 @@ distclean: clean
 	$(MAKE) -C tools distclean
 
 setup:
-	$(MAKE) -C tools -j`nproc`
+	$(MAKE) -C tools -j $(NUM_CORES)
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py
