@@ -203,7 +203,7 @@ distclean: clean
 	$(MAKE) -C tools distclean
 
 setup:
-	$(MAKE) -C tools -j
+	$(MAKE) -C tools
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py
