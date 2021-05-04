@@ -4557,7 +4557,8 @@ endseg
 beginseg
     name "object_sb"
     romalign 0x1000
-    include "build/baserom/object_sb.o"
+    include "build/assets/objects/object_sb/object_sb.o"
+    number 6
 endseg
 
 beginseg
@@ -5371,7 +5372,8 @@ endseg
 beginseg
     name "object_fu"
     romalign 0x1000
-    include "build/baserom/object_fu.o"
+    include "build/assets/objects/object_fu/object_fu.o"
+    number 6
 endseg
 
 beginseg

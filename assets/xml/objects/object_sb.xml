@@ -1,0 +1,30 @@
+<Root>
+    <File Name="object_sb" Segment="6">
+        <Animation Name="gobject_sbAnim_0000004C" Offset="0x4C"/>
+        <Animation Name="gobject_sbAnim_000000B4" Offset="0xB4"/>
+        <Animation Name="gobject_sbAnim_00000124" Offset="0x124"/>
+        <Animation Name="gobject_sbAnim_00000194" Offset="0x194"/>
+        <Blob Name="gobject_sbBlob_000001A4" Size="0x49C" Offset="0x1A4"/>
+        <Blob Name="gobject_sbBlob_00000840" Size="0x3C0" Offset="0x840"/>
+        <DList Name="gobject_sbDL_00000D80" Offset="0xD80"/>
+        <DList Name="gobject_sbDL_00000E70" Offset="0xE70"/>
+        <Texture Name="gobject_sbTex_00001020" OutName="tex_00001020" Format="rgb5a1" Width="32" Height="32" Offset="0x1020"/>
+        <Texture Name="gobject_sbTex_00001820" OutName="tex_00001820" Format="rgb5a1" Width="8" Height="16" Offset="0x1820"/>
+        <Texture Name="gobject_sbTex_00001920" OutName="tex_00001920" Format="rgb5a1" Width="8" Height="8" Offset="0x1920"/>
+        <Texture Name="gobject_sbTex_000019A0" OutName="tex_000019A0" Format="rgb5a1" Width="8" Height="8" Offset="0x19A0"/>
+        <Texture Name="gobject_sbTex_00001A20" OutName="tex_00001A20" Format="rgb5a1" Width="8" Height="8" Offset="0x1A20"/>
+        <DList Name="gobject_sbDL_000025B0" Offset="0x25B0"/>
+        <DList Name="gobject_sbDL_00002858" Offset="0x2858"/>
+        <Texture Name="gobject_sbTex_00002AF0" OutName="tex_00002AF0" Format="rgb5a1" Width="8" Height="8" Offset="0x2AF0"/>
+        <Limb Name="gobject_sbLimb_00002B70" LimbType="Standard" Offset="0x2B70"/>
+        <Limb Name="gobject_sbLimb_00002B7C" LimbType="Standard" Offset="0x2B7C"/>
+        <Limb Name="gobject_sbLimb_00002B88" LimbType="Standard" Offset="0x2B88"/>
+        <Limb Name="gobject_sbLimb_00002B94" LimbType="Standard" Offset="0x2B94"/>
+        <Limb Name="gobject_sbLimb_00002BA0" LimbType="Standard" Offset="0x2BA0"/>
+        <Limb Name="gobject_sbLimb_00002BAC" LimbType="Standard" Offset="0x2BAC"/>
+        <Limb Name="gobject_sbLimb_00002BB8" LimbType="Standard" Offset="0x2BB8"/>
+        <Limb Name="gobject_sbLimb_00002BC4" LimbType="Standard" Offset="0x2BC4"/>
+        <Skeleton Name="gobject_sbSkel_00002BF0" Type="Flex" LimbType="Standard" Offset="0x2BF0"/>
+        <Animation Name="gobject_sbAnim_00002C8C" Offset="0x2C8C"/>
+    </File>
+</Root>
