@@ -1438,14 +1438,17 @@ s32 func_800AB560(View* view);
 s32 func_800AB944(View* view);
 s32 func_800AB9EC(View* view, s32 arg1, Gfx** p);
 s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ);
-// ? func_800AC030(?);
-// ? func_800AC2F4(?);
-// ? func_800AC89C(?);
-// ? func_800AC9A4(?);
-void func_800ACA28(unk_80166528*);
-void func_800ACA90(unk_80166528*);
-// ? func_800ACA98(?);
-void func_800ACAF8(unk_80166528*, Input*, GraphicsContext*);
+void ViMode_LogPrint(OSViMode *viMode);
+void ViMode_Configure(ViMode *viMode, u32 mode, u32 type,
+                    u32 unk_70, u32 unk_74, u32 unk_78, u32 unk_7C,
+                    s32 width, s32 height,
+                    s32 unk_left, s32 unk_right, s32 unk_top, s32 unk_bottom);
+void ViMode_Save(ViMode *viMode);
+void ViMode_Load(ViMode *viMode);
+void ViMode_Init(ViMode *viMode);
+void ViMode_Destroy(ViMode *viMode);
+void ViMode_ConfigureFeatures(ViMode *viMode, s32 viFeatures);
+void ViMode_Update(ViMode *viMode, Input *input);
 void func_800ACE70(struct_801664F0* this);
 void func_800ACE90(struct_801664F0* this);
 void func_800ACE98(struct_801664F0* this, Gfx** gfxp);
