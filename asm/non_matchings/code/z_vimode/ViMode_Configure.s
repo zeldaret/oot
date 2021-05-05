@@ -1,4 +1,4 @@
-glabel func_800AC2F4
+glabel ViMode_Configure
 /* B23494 800AC2F4 2CE80001 */  sltiu $t0, $a3, 1
 /* B23498 800AC2F8 27BDFFA0 */  addiu $sp, $sp, -0x60
 /* B2349C 800AC2FC 0008102B */  sltu  $v0, $zero, $t0
