@@ -3,7 +3,9 @@
 #include "StringHelper.h"
 #include "ZFile.h"
 
-ZVtx::ZVtx()
+REGISTER_ZFILENODE(Vtx, ZVtx);
+
+ZVtx::ZVtx(ZFile* nParent) : ZResource(nParent)
 {
 	x = 0;
 	y = 0;
@@ -32,8 +34,12 @@ std::string ZVtx::GetSourceOutputCode(const std::string& prefix)
 		StringHelper::Sprintf("VTX(%i, %i, %i, %i, %i, %i, %i, %i, %i)", x, y, z, s, t, r, g, b, a);
 
 	if (parent != nullptr)
-		parent->AddDeclaration(rawDataIndex, DeclarationAlignment::Align16, GetRawDataSize(),
-		                       GetSourceTypeName(), name, output);
+	{
+		Declaration* decl =
+			parent->AddDeclaration(rawDataIndex, DeclarationAlignment::Align16, GetRawDataSize(),
+		                           GetSourceTypeName(), name, output);
+		decl->isExternal = true;
+	}
 
 	return "";
 }
@@ -54,7 +60,7 @@ void ZVtx::ParseRawData()
 	a = data[rawDataIndex + 15];
 }
 
-int ZVtx::GetRawDataSize()
+size_t ZVtx::GetRawDataSize()
 {
 	return 16;
 }
@@ -69,13 +75,18 @@ ZResourceType ZVtx::GetResourceType()
 	return ZResourceType::Vertex;
 }
 
-ZVtx* ZVtx::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                           const int rawDataIndex, const std::string& nRelPath)
+bool ZVtx::IsExternalResource()
 {
-	ZVtx* vtx = new ZVtx();
-	vtx->rawData = nRawData;
-	vtx->rawDataIndex = rawDataIndex;
-	vtx->ParseRawData();
+	return true;
+}
 
-	return vtx;
+std::string ZVtx::GetExternalExtension()
+{
+	return "vtx";
+}
+
+void ZVtx::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+                          const uint32_t nRawDataIndex, const std::string& nRelPath)
+{
+	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
 }

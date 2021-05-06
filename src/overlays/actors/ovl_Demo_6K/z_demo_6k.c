@@ -89,7 +89,7 @@ void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("bank_ID = %d\n", objBankIndex);
 
     if (objBankIndex < 0) {
-        __assert("0", "../z_demo_6k.c", 334);
+        ASSERT(0, "0", "../z_demo_6k.c", 334);
     } else {
         this->objBankIndex = objBankIndex;
     }
@@ -176,7 +176,7 @@ void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_293 = params - 14;
             break;
         default:
-            __assert("0", "../z_demo_6k.c", 435);
+            ASSERT(0, "0", "../z_demo_6k.c", 435);
             break;
     }
 

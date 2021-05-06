@@ -47,7 +47,7 @@ void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader_GetVirtual(&gJsjutanCol, &header);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, header);
     Actor_SetScale(thisx, 0.02f);
-    this->unk_164 = 1;
+    this->unk_164 = true;
     this->shadowAlpha = 100.0f;
 }
 
@@ -58,11 +58,10 @@ void EnJsjutan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx) {
-    s32 pad;
+    s16 i;
     Vtx* phi_s0;
     Vtx* phi_s2;
     Vec3f actorPos = this->dyna.actor.world.pos;
-    s16 i;
 
     phi_s0 = SEGMENTED_TO_VIRTUAL(gJsjutanShadowOddVtx);
     phi_s2 = SEGMENTED_TO_VIRTUAL(gJsjutanShadowEvenVtx);
@@ -82,10 +81,8 @@ void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
-    u8 isPlayerOnTop;
+    u8 isPlayerOnTop = false; // sp127
     s16 i;
     s16 j;
     Vtx* phi_s0;
@@ -93,12 +90,12 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     Vtx* phi_s0_2;
     Vec3f sp108;
     Vec3f spFC;
-    Vtx* phi_s0_3;
-    f32 temp_f0_3;
-    Player* player;
-    Actor* parent;
-    Actor* actorExplosive;
-    f32 phi_f28;
+    Actor* actorProfessor;
+    Actor* actorBeanGuy;
+    f32 dxVtx;
+    f32 dyVtx;
+    f32 dzVtx;
+    f32 distVtx;
     // 0 if no actor in that index of diffToTracked
     u8 spE0[3];
     // Tracks distance to other actors.
@@ -110,28 +107,16 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     f32 spB8; // diffToPlayer X
     f32 spB4; // diffToPlayer Y
     f32 spB0; // diffToPlayer Z
-    f32 phi_f2_4;
+    f32 weight;
     f32 spA8; // wave amplitude (?)
-    Actor* actorProfessor;
-    Actor* actorBeanGuy;
-    f32 distance_1;
-    f32 temp_f14_2;
-    f32 distance_2;
-    f32 phi_f2_2;
-    f32 phi_f2_3;
-    u8 isInCreditsScene;
-    s16 index; // phi_v1_5
-    f32 phi_f22;
-    f32 aux_f20;
-    s16 phi_v1_4;
-    s16 temp_a0_3;
-    u16 dayTime;
-
-    isPlayerOnTop = 0;
-    player = PLAYER;
-    parent = this->dyna.actor.parent;
-    actorExplosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
-    isInCreditsScene = 0;
+    f32 offset;
+    f32 maxOffset;
+    f32 maxAmp;
+    f32 waveform;
+    Player* player = PLAYER;
+    Actor* parent = this->dyna.actor.parent;
+    Actor* actorExplosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
+    u8 isInCreditsScene = false; // sp8B
 
     if (globalCtx->gameplayFrames % 2 != 0) {
         phi_s0 = SEGMENTED_TO_VIRTUAL(gJsjutanCarpetOddVtx);
@@ -148,7 +133,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     phi_s0_2 = phi_s0;
 
     if ((fabsf(spB8) < 5500.0f) && (fabsf(spB4) < 3000.0f) && (fabsf(spB0) < 5500.0f)) {
-        isPlayerOnTop = 1;
+        isPlayerOnTop = true;
     }
 
     // Distance of Magic Carpet Salesman to carpet.
@@ -165,7 +150,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
     if ((gSaveContext.entranceIndex == 0x157) && (gSaveContext.sceneSetupIndex == 8)) {
-        isInCreditsScene = 1;
+        isInCreditsScene = true;
 
         actorProfessor = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
         while (actorProfessor != NULL) {
@@ -199,9 +184,9 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         // Player can place bombs in carpet and it will react to it.
         while (actorExplosive != NULL) {
             if (i < 3) {
-                spD4[i] = 50.0f * (actorExplosive->world.pos.x - this->dyna.actor.world.pos.x);
-                spC8[i] = 50.0f * (actorExplosive->world.pos.y - this->unk_168);
-                spBC[i] = 50.0f * (actorExplosive->world.pos.z - this->dyna.actor.world.pos.z);
+                spD4[i] = (actorExplosive->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
+                spC8[i] = (actorExplosive->world.pos.y - this->unk_168) * 50.0f;
+                spBC[i] = (actorExplosive->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
 
                 if ((fabsf(spD4[i]) < 5500.0f) && (fabsf(spC8[i]) < 3000.0f) && (fabsf(spBC[i]) < 5500.0f)) {
                     if (actorExplosive->params == BOMB_EXPLOSION) {
@@ -217,74 +202,66 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (1) {}
-
     // Fancy math to make a woobly and reactive carpet.
-    for (j = 0; j < ARRAY_COUNT(D_80A8EE10); j++, phi_s0++, phi_s3++) {
+    for (i = 0; i < ARRAY_COUNT(D_80A8EE10); i++, phi_s0++, phi_s3++) {
         if (isPlayerOnTop) {
             // Linear distance from j-th wave to player, in XZ plane.
-            distance_1 = sqrtf(SQ(phi_s0->n.ob[2] - spB0) + SQ(phi_s0->n.ob[0] - spB8));
+            dxVtx = phi_s0->n.ob[0] - spB8;
+            dzVtx = phi_s0->n.ob[2] - spB0;
+            distVtx = sqrtf(SQ(dxVtx) + SQ(dzVtx));
 
             // Distance percentage. 0.0f to 1.0f. 2500.0f is the max distance to an actor that this wave will consider.
-            phi_f2_4 = (2500.0f - distance_1) / 2500.0f;
-            if (phi_f2_4 < 0.0f) {
-                phi_f2_4 = 0.0f;
+            weight = (2500.0f - distVtx) / 2500.0f;
+            if (weight < 0.0f) {
+                weight = 0.0f;
+            }
+            offset = (spB4 * weight) + ((this->unk_170 - (this->unk_170 * weight)) - 200.0f);
+
+            distVtx -= 1500.0f;
+            if (distVtx < 0.0f) {
+                distVtx = 0.0f;
             }
 
-            // phi_f28 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
-            spA8 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
-            phi_f28 = spA8;
+            spA8 = 100.0f * distVtx * 0.01f;
+            spA8 = CLAMP_MAX(spA8, 100.0f);
 
-            distance_1 -= 1500.0f;
-            if (distance_1 < 0.0f) {
-                distance_1 = 0.0f;
-            }
-
-            spA8 = 100.0f * distance_1 * 0.01f;
-            if (spA8 > 100.0f) {
-                spA8 = 100.0f;
-            }
         } else {
-            phi_f28 = this->unk_170 - 200.f;
+            offset = this->unk_170 - 200.f;
             spA8 = 100.0f;
         }
 
-        for (i = 0; i < 3; i++) {
-            if (spE0[i] != 0) {
+        for (j = 0; j < 3; j++) {
+            if (spE0[j] != 0) {
+                dxVtx = phi_s0->n.ob[0] - spD4[j];
+                dzVtx = phi_s0->n.ob[2] - spBC[j];
                 // Linear distance from j-th wave to whatever actor is there, in XZ plane.
-                distance_2 = sqrtf(SQ(phi_s0->n.ob[2] - spBC[i]) + SQ(phi_s0->n.ob[0] - spD4[i]));
+                distVtx = sqrtf(SQ(dxVtx) + SQ(dzVtx));
 
-                if ((i == 0) || isInCreditsScene) {
-                    phi_f2_2 = (3000.0f - distance_2) / 3000.0f;
+                if ((j == 0) || isInCreditsScene) {
+                    weight = (3000.0f - distVtx) / 3000.0f;
                 } else {
-                    phi_f2_2 = (2000.0f - distance_2) / 2000.0f;
+                    weight = (2000.0f - distVtx) / 2000.0f;
+                }
+                if (weight < 0.0f) {
+                    weight = 0.0f;
                 }
 
-                if (phi_f2_2 < 0.0f) {
-                    phi_f2_2 = 0.0f;
+                // should be the following, but doesn't match that way.
+                // maxoffset = (spC8[i] * weight) + ((this->unk_170 - (this->unk_170 * weight)) - 200.0f);
+                maxOffset = (spC8[j] * weight);
+                maxOffset += ((this->unk_170 - (this->unk_170 * weight)) - 200.0f);
+
+                distVtx -= 1500.0f;
+                if (distVtx < 0.0f) {
+                    distVtx = 0.0f;
                 }
 
-                // temp_f14_2 = (spC8[i] * phi_f2_2) + ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
-                temp_f14_2 = (spC8[i] * phi_f2_2);
-                temp_f14_2 += ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
+                maxAmp = 100.0f * distVtx * 0.01f;
+                maxAmp = CLAMP_MAX(maxAmp, 100.0f);
 
-                distance_2 = distance_2 - 1500.0f;
-                if (distance_2 < 0.0f) {
-                    distance_2 = 0.0f;
-                }
+                offset = CLAMP_MAX(offset, maxOffset);
 
-                phi_f2_3 = 100.0f * distance_2 * 0.01f;
-                if (phi_f2_3 > 100.0f) {
-                    phi_f2_3 = 100.0f;
-                }
-
-                if (temp_f14_2 < phi_f28) {
-                    phi_f28 = temp_f14_2;
-                }
-
-                if (phi_f2_3 < spA8) {
-                    spA8 = phi_f2_3;
-                }
+                spA8 = CLAMP_MAX(spA8, maxAmp);
             }
         }
 
@@ -297,13 +274,11 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
          * A: spA8
          * D: phi_f28
          */
-        temp_f0_3 = Math_SinS(globalCtx->gameplayFrames * 4000 + j * 10000);
+        waveform = spA8 * Math_SinS(globalCtx->gameplayFrames * 4000 + i * 10000);
 
         if (this->unk_174) {
-            temp_f14_2 = temp_f0_3 * spA8;
-
-            phi_v1_4 = phi_f28 + (temp_f14_2);
-            temp_a0_3 = (phi_s3->n.ob[1] - this->unk_168) * 50.0f;
+            s16 phi_v1_4 = offset + waveform;
+            s16 temp_a0_3 = (phi_s3->n.ob[1] - this->unk_168) * 50.0f;
 
             if (phi_v1_4 < temp_a0_3) {
                 phi_v1_4 = temp_a0_3;
@@ -311,22 +286,19 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
             phi_s0->n.ob[1] = phi_v1_4;
         } else {
-            temp_f14_2 = temp_f0_3 * spA8;
+            phi_s0->n.ob[1] = offset + waveform;
 
-            phi_s0->n.ob[1] = phi_f28 + (temp_f14_2);
+            phi_s0->n.ob[0] = D_80A8EE10[i].x + (s16)(waveform * 0.5f);
+            phi_s0->n.ob[2] = D_80A8EE10[i].z + (s16)(waveform * 0.5f);
 
-            phi_v1_4 = temp_f14_2 * 0.5f;
-            phi_s0->n.ob[0] = D_80A8EE10[j].x + phi_v1_4;
-            phi_s0->n.ob[2] = D_80A8EE10[j].z + phi_v1_4;
-
-            phi_v1_4 = temp_f14_2;
-            phi_s3->n.ob[0] = D_80A8EE10[j].x + phi_v1_4;
-            phi_s3->n.ob[2] = D_80A8EE10[j].z + phi_v1_4;
+            phi_s3->n.ob[0] = D_80A8EE10[i].x + (s16)waveform;
+            phi_s3->n.ob[2] = D_80A8EE10[i].z + (s16)waveform;
         }
     }
 
-    // address: ac4 ~ bb8
     if (!this->unk_174) {
+        u16 dayTime;
+
         this->dyna.actor.velocity.y = 0.0f;
         this->dyna.actor.world.pos.y = this->unk_168;
 
@@ -339,69 +311,54 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         this->unk_170 = 1000.0f;
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
-        //! Note to whoever tries to match this function:
-        //!  daytime commonly needs the (void)0 trick.
-        //!  could help with the temp above and some of these other memes.
-        //!  -fig02 (https://github.com/zeldaret/oot/pull/713#discussion_r593921251)
-        if (!gSaveContext.dayTime) {
-            if (1) {}
-            if (1) {}
-            if (1) {}
-            if (1) {}
-        }
         Math_ApproachF(&this->dyna.actor.velocity.y, 5.0f, 1.0f, 0.5f);
         Math_ApproachF(&this->shadowAlpha, 0.0f, 1.0f, 3.0f);
         Math_ApproachF(&this->unk_170, -5000.0f, 1.0f, 100.0f);
     }
 
-    // address: bbc
-    phi_s0_3 = phi_s0_2;
-
-    if (1) {}
-    if (1) {}
+    phi_s0 = phi_s0_2;
 
     sp108.x = 0.0f;
     sp108.y = 0.0f;
     sp108.z = 120.0f;
 
     // Fancy math to smooth each part of the wave considering its neighborhood.
-    for (j = 0; j < ARRAY_COUNT(gJsjutanCarpetOddVtx); j++, phi_s0_3++) {
+    for (i = 0; i < ARRAY_COUNT(gJsjutanCarpetOddVtx); i++, phi_s0++) {
+        f32 rotX;
+        f32 rotZ;
+        s32 pad;
         // Carpet size is 12x12.
-        if ((j % 12) == 11) { // Last column.
-            index = j - 1;
-            phi_f22 = phi_s0_3->n.ob[2] - phi_s0_2[index].n.ob[2];
+        if ((i % 12) == 11) { // Last column.
+            j = i - 1;
+            dzVtx = phi_s0->n.ob[2] - phi_s0_2[j].n.ob[2];
         } else {
-            index = j + 1;
-            phi_f22 = phi_s0_2[index].n.ob[2] - phi_s0_3->n.ob[2];
+            j = i + 1;
+            dzVtx = phi_s0_2[j].n.ob[2] - phi_s0->n.ob[2];
         }
 
-        temp_f0_3 = phi_s0_2[index].n.ob[1] - phi_s0_3->n.ob[1];
+        dyVtx = phi_s0_2[j].n.ob[1] - phi_s0->n.ob[1];
 
-        phi_f22 = Math_Atan2F(phi_f22, temp_f0_3);
+        rotX = Math_Atan2F(dzVtx, dyVtx);
 
-        if (j >= 132) { // Last row.
-            index = j - 12;
-            aux_f20 = phi_s0_3->n.ob[0] - phi_s0_2[index].n.ob[0];
+        if (i >= 132) { // Last row.
+            j = i - 12;
+            dxVtx = phi_s0->n.ob[0] - phi_s0_2[j].n.ob[0];
         } else {
-            index = j + 12;
-            aux_f20 = phi_s0_2[index].n.ob[0] - phi_s0_3->n.ob[0];
+            j = i + 12;
+            dxVtx = phi_s0_2[j].n.ob[0] - phi_s0->n.ob[0];
         }
 
-        aux_f20 = Math_Atan2F(aux_f20, temp_f0_3);
+        rotZ = Math_Atan2F(dxVtx, dyVtx);
 
-        Matrix_RotateX(phi_f22, MTXMODE_NEW);
-        Matrix_RotateZ(aux_f20, MTXMODE_APPLY);
+        Matrix_RotateX(rotX, MTXMODE_NEW);
+        Matrix_RotateZ(rotZ, MTXMODE_APPLY);
         Matrix_MultVec3f(&sp108, &spFC);
 
-        phi_s0_3->n.n[0] = spFC.x;
-        phi_s0_3->n.n[1] = spFC.y;
-        phi_s0_3->n.n[2] = spFC.z;
+        phi_s0->n.n[0] = spFC.x;
+        phi_s0->n.n[1] = spFC.y;
+        phi_s0->n.n[2] = spFC.z;
     }
 }
-#else
-void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
-#endif
 
 void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
@@ -423,12 +380,12 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         thisx->world.pos.y = parent->world.pos.y;
         thisx->world.pos.z = parent->world.pos.z;
         this->unk_168 = thisx->world.pos.y;
-        if (this->unk_175 == 0) {
-            this->unk_175 = 1;
+        if (!this->unk_175) {
+            this->unk_175 = true;
             func_80A89860(this, globalCtx);
         }
-    } else if (this->unk_175 == 0) {
-        this->unk_175 = 1;
+    } else if (!this->unk_175) {
+        this->unk_175 = true;
         thisx->world.pos.x = Math_SinS(parent->shape.rot.y) * 60.0f + parent->world.pos.x;
         thisx->world.pos.y = (parent->world.pos.y + 5.0f) - 10.0f;
         thisx->world.pos.z = Math_CosS(parent->shape.rot.y) * 60.0f + parent->world.pos.z;
@@ -437,8 +394,8 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     func_80A89A6C(this, globalCtx);
-    if (this->unk_164 != 0) {
-        this->unk_164 = 0;
+    if (this->unk_164) {
+        this->unk_164 = false;
         for (i = 0; i < ARRAY_COUNT(gJsjutanShadowTex); i++) {
             if (((u16*)gJsjutanCarpetTex)[i] != 0) { // Hack to bypass ZAPD exporting textures as u64.
                 gJsjutanShadowTex[i] = 0xFF;

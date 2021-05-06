@@ -95,9 +95,16 @@ static ColliderCylinderInit sCylinderInits[] = {
             OC2_TYPE_2,
             COLSHAPE_CYLINDER,
         },
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x4FC1FFF6, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 55, 70, 0, { 0, 0, 0 } },
-    }
+    },
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
@@ -368,10 +375,11 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistToPlayer < 400.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer < 90.0f) {
+                // GI_NONE in these cases allows the player to lift the actor
                 if (type == ROCK_LARGE) {
-                    func_8002F434(&this->actor, globalCtx, 0, 80.0f, 20.0f);
+                    func_8002F434(&this->actor, globalCtx, GI_NONE, 80.0f, 20.0f);
                 } else {
-                    func_8002F434(&this->actor, globalCtx, 0, 50.0f, 10.0f);
+                    func_8002F434(&this->actor, globalCtx, GI_NONE, 50.0f, 10.0f);
                 }
             }
         }

@@ -405,7 +405,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         default:
-            __assert("0", "../z_en_elf.c", 1103);
+            ASSERT(0, "0", "../z_en_elf.c", 1103);
             break;
     }
 
@@ -660,6 +660,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
         }
 
         if (!(this->fairyFlags & FAIRY_FLAG_BIG)) {
+            // GI_MAX in this case allows the player to catch the actor in a bottle
             func_8002F434(&this->actor, globalCtx, GI_MAX, 80.0f, 60.0f);
         }
     }
@@ -798,7 +799,7 @@ void func_80A03AB0(EnElf* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->func_2C8 == NULL) {
-        __assert("0", "../z_en_elf.c", 1725);
+        ASSERT(0, "0", "../z_en_elf.c", 1725);
     }
 
     this->func_2C8(this, globalCtx);
@@ -1053,8 +1054,6 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// useless branch near case 11/default in the switch for this->unk_2A8
 void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
     s32 temp;
     Actor* arrowPointedActor;
@@ -1087,7 +1086,7 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
         if ((player->stateFlags1 & 0x400) || ((YREG(15) & 0x10) && func_800BC56C(globalCtx, 2))) {
             temp = 12;
             this->unk_2C0 = 100;
-        } else if ((arrowPointedActor == NULL) || (temp = 1, (arrowPointedActor->category == ACTORCAT_NPC))) {
+        } else if (arrowPointedActor == NULL || arrowPointedActor->category == ACTORCAT_NPC) {
             if (arrowPointedActor != NULL) {
                 this->unk_2C0 = 100;
                 player->stateFlags2 |= 0x100000;
@@ -1135,6 +1134,8 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
                         break;
                 }
             }
+        } else {
+            temp = 1;
         }
 
         switch (temp) {
@@ -1174,9 +1175,6 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A0461C.s")
-#endif
 
 void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife) {
     static Vec3f sparkleVelocity = { 0.0f, -0.05f, 0.0f };

@@ -11,6 +11,7 @@
 #include "objects/object_goma/object_goma.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
+#include "objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -97,8 +98,8 @@ static ShutterInfo D_80998134[] = {
     { gFireTempleDoorFrontDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { gFireTempleDoorBackDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { 0x060000C0, gDoorMetalBarsDL, 130, 12, 20, 15 },
-    { 0x06005D90, gDoorMetalBarsDL, 130, 12, 20, 15 },
-    { 0x06007000, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { gObjectMizuObjectsDoorShutterDL_005D90, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { gObjectMizuObjectsDoorShutterDL_007000, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { 0x06002620, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { 0x06003890, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { 0x06001D10, gDoorMetalBarsDL, 130, 12, 20, 15 },

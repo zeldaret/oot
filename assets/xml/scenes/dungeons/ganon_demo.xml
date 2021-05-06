@@ -1,8 +1,8 @@
 <Root>
-    <File Name="ganon_demo_scene">
+    <File Name="ganon_demo_scene" Segment="2">
         <Scene Name="ganon_demo_scene"/>
     </File>
-    <File Name="ganon_demo_room_0">
-        <Room Name="ganon_demo_room_0"/>
+    <File Name="ganon_demo_room_0" Segment="3">
+        <Room Name="ganon_demo_room_0" Offset="0x0"/>
     </File>
 </Root>

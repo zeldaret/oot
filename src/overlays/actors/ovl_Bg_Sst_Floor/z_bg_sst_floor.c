@@ -42,8 +42,7 @@ void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(&gBongoDrumCol, &colHeader);
-    this->dyna.bgId =
-        DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgSstFloor_Destroy(BgSstFloor* thisx, GlobalContext* globalCtx) {
@@ -112,10 +111,9 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     this->drumHeight = sinf(this->drumPhase * (M_PI / 2)) * (-this->drumAmp);
     Math_StepToS(&this->drumAmp, 0, 5);
 
-    colHeader->vtxList[1].y = colHeader->vtxList[0].y = colHeader->vtxList[2].y =
-        colHeader->vtxList[3].y = colHeader->vtxList[4].y = colHeader->vtxList[7].y =
-            colHeader->vtxList[9].y = colHeader->vtxList[11].y = colHeader->vtxList[13].y =
-                this->dyna.actor.home.pos.y + this->drumHeight;
+    colHeader->vtxList[1].y = colHeader->vtxList[0].y = colHeader->vtxList[2].y = colHeader->vtxList[3].y =
+        colHeader->vtxList[4].y = colHeader->vtxList[7].y = colHeader->vtxList[9].y = colHeader->vtxList[11].y =
+            colHeader->vtxList[13].y = this->dyna.actor.home.pos.y + this->drumHeight;
 
     if (this->drumPhase != 0) {
         this->drumPhase--;

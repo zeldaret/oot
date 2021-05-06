@@ -190,21 +190,38 @@ typedef struct {
 
 // Also known as a Group, according to sm64 debug strings.
 typedef struct {
-    /* 0x000 */ u8 enabled : 1;
-    /*?0x000 */ u8 finished : 1;
-    /* 0x000 */ u8 muted : 1;
-    /* 0x000 */ u8 seqDmaInProgress : 1;
-    /* 0x000 */ u8 bankDmaInProgress : 1;
-    /*?0x000 */ u8 recalculateVolume : 1;
-    /* 0x000 */ u8 unk_0b2 : 1;
-    /* 0x000 */ u8 unk_0b1 : 1;
-    /* 0x001 */ u8 state;
-    /* 0x002 */ u8 noteAllocPolicy;
-    /* 0x003 */ u8 muteBehavior;
+    union {
+        s32 playerState;
+        struct {
+            /* 0x000 */ u8 enabled : 1;
+            /*?0x000 */ u8 finished : 1;
+            /* 0x000 */ u8 muted : 1;
+            /* 0x000 */ u8 seqDmaInProgress : 1;
+            /* 0x000 */ u8 bankDmaInProgress : 1;
+            /*?0x000 */ u8 recalculateVolume : 1;
+            /* 0x000 */ u8 unk_0b2 : 1;
+            /* 0x000 */ u8 unk_0b1 : 1;
+            /* 0x001 */ u8 state;
+            /* 0x002 */ u8 noteAllocPolicy;
+            union {
+                /* 0x003 */ u8 muteBehavior;
+                struct {
+                    u8 mute_u00 : 1;
+                    u8 mute_u01 : 1;
+                    u8 mute_u02 : 1;
+                    u8 mute_u03 : 1;
+                    u8 mute_u04 : 1;
+                    u8 mute_u05 : 1;
+                    u8 mute_u06 : 1;
+                    u8 mute_u07 : 1;
+                };
+            };
+        };
+    };
     /* 0x004 */ u8 seqId;
     /* 0x005 */ u8 defaultBank;
     /*?0x006 */ u8 loadingBankId;
-    /*?0x007 */ s8 seqVariationEu[1];
+    /*?0x007 */ s8 seqVariationEu;
     /* 0x008 */ u16 tempo; // tatums per minute
     /* 0x00A */ u16 tempoAcc;
     /* 0x00C */ u16 unk_0C;
@@ -227,7 +244,7 @@ typedef struct {
     /* 0x098 */ u8* shortNoteDurationTable;
     /* 0x09C */ NotePool notePool;
     /* 0x0DC */ s32 unk_DC;
-    /* 0x0D0 */ u32 unk_E0;
+    /* 0x0E0 */ u32 unk_E0;
     /* 0x0E4 */ u8 pad_E4[0x10]; // OSMesgQueue seqDmaMesgQueue;
     /*?0x0F4 */ OSMesg seqDmaMesg;
     /*?0x0F8 */ OSIoMesg seqDmaIoMesg;
@@ -300,24 +317,29 @@ typedef struct {
 // Also known as a SubTrack, according to sm64 debug strings.
 // Confusingly, a SubTrack is a container of Tracks.
 typedef struct SequenceChannel {
-    /* 0x00 */ u8 enabled : 1;
-    /* 0x00 */ u8 finished : 1;
-    /* 0x00 */ u8 stopScript : 1;
-    /* 0x00 */ u8 stopSomething2 : 1; // sets SequenceChannelLayer.stopSomething
-    /* 0x00 */ u8 hasInstrument : 1;
-    /* 0x00 */ u8 stereoHeadsetEffects : 1;
-    /* 0x00 */ u8 largeNotes : 1; // notes specify duration and velocity
-    /* 0x00 */ u8 unused : 1; // still unused?
     union {
+        s32 channelState;
         struct {
-            /* 0x01 */ u8 freqScale : 1;
-            /* 0x01 */ u8 volume : 1;
-            /* 0x01 */ u8 pan : 1;
-        } s;
-        /* 0x01 */ u8 asByte;
-    } changes;
-    /* 0x02 */ u8 noteAllocPolicy;
-    /* 0x03 */ u8 muteBehavior;
+            /* 0x00 */ u8 enabled : 1;
+            /* 0x00 */ u8 finished : 1;
+            /* 0x00 */ u8 stopScript : 1;
+            /* 0x00 */ u8 stopSomething2 : 1; // sets SequenceChannelLayer.stopSomething
+            /* 0x00 */ u8 hasInstrument : 1;
+            /* 0x00 */ u8 stereoHeadsetEffects : 1;
+            /* 0x00 */ u8 largeNotes : 1; // notes specify duration and velocity
+            /* 0x00 */ u8 unused : 1; // still unused?
+            union {
+                struct {
+                    /* 0x01 */ u8 freqScale : 1;
+                    /* 0x01 */ u8 volume : 1;
+                    /* 0x01 */ u8 pan : 1;
+                } s;
+                /* 0x01 */ u8 asByte;
+            } changes;
+            /* 0x02 */ u8 noteAllocPolicy;
+            /* 0x03 */ u8 muteBehavior;
+        };
+    };
     /* 0x04 */ u8 reverb;       // or dry/wet mix
     /* 0x05 */ u8 notePriority; // 0-3
     /* 0x06 */ u8 someOtherPriority;
@@ -339,7 +361,7 @@ typedef struct SequenceChannel {
     /* 0x1C */ u16 vibratoDelay;
     /* 0x1E */ u16 delay;
     /* 0x20 */ u16 unk_20;
-    /* 0x22 */ u16 pad_22;
+    /* 0x22 */ u16 unk_22;
     /* 0x24 */ s16 instOrWave; // either 0 (none), instrument index + 1, or
                              // 0x80..0x83 for sawtooth/triangle/sine/square waves.
     /* 0x26 */ s16 transposition;
@@ -671,7 +693,8 @@ typedef struct {
     /* 0x2624 */ char unk_2624[0x210];
     /* 0x2834 */ s16* unk_2834;
     /* 0x2838 */ ManyStruct_800E0E0C_2* unk_2838;
-    /* 0x283C */ char unk_283C[0x8];
+    /* 0x283C */ u8* unk_283C;
+    /* 0x2840 */ char unk_2840[0x4];
     /* 0x2844 */ CtlEntry* gCtlEntries;
     /* 0x2848 */ AudioBufferParameters gAudioBufferParameters;
     /* 0x2870 */ f32 unk_2870;
