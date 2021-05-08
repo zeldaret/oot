@@ -32,7 +32,7 @@ The ZAPD output will go in the folder `assets/objects/object_name/`. You'll want
 
 Most objects are used by at least one actor. For those used by an actor, we can use the script `tools/xmlcreate.py` on the actor to separate all the blobs of data in the object that we already know about. (While it is possible to do this manually, it is much simpler to run the script first and sort it out afterwards, since it won't miss anything accidentally.)
 
-Many objects were added in an automated way, so most parts of each object are already identified, but still need to name and document them them properly. Also, they usually have some unreferenced blobs by the object itself, most of the time those are referenced by the actor who uses said object.
+Many objects have been added in an automated way, so most constituent parts of each object are already identified, but will still need to be named and documented properly. Also, these objects usually have some blobs unreferenced by the object's own contents and hence not automatically extracted; most of the time these can be identified by looking at references in the actor which uses said object.
 
 ### Extracting assets
 
