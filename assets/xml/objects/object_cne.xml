@@ -1,8 +1,7 @@
 <Root>
     <File Name="object_cne" Segment="6">
-        <Blob Name="gCneBlob_000000" Size="0x10" Offset="0x0"/>
-
-        <!-- The textures are unaligned, so this won't compile to a matching ROM.
+        <!-- The textures used by this limbs are unaligned, so this won't compile to a matching ROM. -->
+        <!-- 
         <Limb Name="gobject_cneLimb_00000000" LimbType="Standard" Offset="0x0" />
         <Limb Name="gobject_cneLimb_0000000C" LimbType="Standard" Offset="0xC" />
         <Limb Name="gobject_cneLimb_00000018" LimbType="Standard" Offset="0x18" />
@@ -18,7 +17,14 @@
         <Limb Name="gobject_cneLimb_00000090" LimbType="Standard" Offset="0x90" />
         <Limb Name="gobject_cneLimb_0000009C" LimbType="Standard" Offset="0x9C" />
         <Limb Name="gobject_cneLimb_000000A8" LimbType="Standard" Offset="0xA8" />
+        -->
+
+        <!--
         <Skeleton Name="gobject_cneSkel_000000F0" Type="Flex" LimbType="Standard" Offset="0xF0" />
+        -->
+
+        <!-- Unaligned textures. -->
+        <!--
         <Texture Name="gobject_cneTLUT_000000FC" OutName="tlut_000000FC" Format="rgb5a1" Width="16" Height="16" Offset="0xFC" />
         <Texture Name="gobject_cneTex_000002FC" OutName="tex_000002FC" Format="ci8" Width="8" Height="8" Offset="0x2FC" />
         <Texture Name="gobject_cneTex_0000033C" OutName="tex_0000033C" Format="ci8" Width="8" Height="8" Offset="0x33C" />
@@ -27,6 +33,9 @@
         <Texture Name="gobject_cneTex_000003FC" OutName="tex_000003FC" Format="ci8" Width="8" Height="16" Offset="0x3FC" />
         <Texture Name="gobject_cneTex_0000047C" OutName="tex_0000047C" Format="i8" Width="8" Height="8" Offset="0x47C" />
         <Texture Name="gobject_cneTex_000004BC" OutName="tex_000004BC" Format="ci8" Width="8" Height="8" Offset="0x4BC" />
+        -->
+
+        <!--
         <DList Name="gobject_cneDL_00001300" Offset="0x1300" />
         <DList Name="gobject_cneDL_00001608" Offset="0x1608" />
         <DList Name="gobject_cneDL_000016E8" Offset="0x16E8" />
@@ -42,9 +51,11 @@
         <DList Name="gobject_cneDL_00002170" Offset="0x2170" />
         <DList Name="gobject_cneDL_00002238" Offset="0x2238" />
         <DList Name="gobject_cneDL_00002300" Offset="0x2300" />
+        -->
+
         <Texture Name="gobject_cneTex_000023D0" OutName="tex_000023D0" Format="rgb5a1" Width="8" Height="16" Offset="0x23D0" />
         <Texture Name="gobject_cneTex_000024D0" OutName="tex_000024D0" Format="rgb5a1" Width="8" Height="8" Offset="0x24D0" />
+
         <DList Name="gobject_cneDL_00002860" Offset="0x2860" />
-        -->
     </File>
 </Root>
