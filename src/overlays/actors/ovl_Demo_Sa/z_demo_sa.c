@@ -135,7 +135,7 @@ void func_8098E530(DemoSa* this) {
 void func_8098E554(DemoSa* this, GlobalContext* globalCtx) {
     u32* something = &D_80990108;
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         if (*something != 0) {
             if (this->actor.params == 2) {
                 func_8098E530(this);
@@ -156,7 +156,7 @@ s32 DemoSa_FrameUpdateMatrix(DemoSa* this) {
 }
 
 CsCmdActorAction* DemoSa_GetNpcAction(GlobalContext* globalCtx, s32 idx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[idx];
     }
     return NULL;
@@ -259,7 +259,7 @@ void func_8098E960(DemoSa* this, GlobalContext* globalCtx) {
 void func_8098E9EC(DemoSa* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = globalCtx->csCtx.npcActions[4];
         if ((npcAction != NULL) && (npcAction->action == 2)) {
             this->action = 2;
@@ -279,7 +279,7 @@ void func_8098EA3C(DemoSa* this) {
 void func_8098EA68(DemoSa* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = globalCtx->csCtx.npcActions[4];
         if ((npcAction != NULL) && (npcAction->action == 3)) {
             Animation_Change(&this->skelAnime, &D_0600DF80, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600DF80),
@@ -300,7 +300,7 @@ void func_8098EB00(DemoSa* this, s32 arg1) {
 void func_8098EB6C(DemoSa* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = globalCtx->csCtx.npcActions[6];
         if ((npcAction != NULL) && (npcAction->action == 2)) {
             this->action = 6;

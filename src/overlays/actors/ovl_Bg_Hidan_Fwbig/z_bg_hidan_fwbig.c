@@ -123,7 +123,7 @@ void BgHidanFwbig_UpdatePosition(BgHidanFwbig* this) {
 void BgHidanFwbig_WaitForSwitch(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         this->actionFunc = BgHidanFwbig_WaitForCs;
-        func_800800F8(globalCtx, 0xD0C, -0x63, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 3340, -99, &this->actor, MAIN_CAM);
         this->timer = 35;
     }
 }
@@ -180,7 +180,7 @@ void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx) {
 
     if (player->actor.world.pos.x < 1150.0f) {
         this->actionFunc = BgHidanFwbig_Rise;
-        func_800800F8(globalCtx, 0xCDA, -0x63, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 3290, -99, &this->actor, MAIN_CAM);
     }
 }
 

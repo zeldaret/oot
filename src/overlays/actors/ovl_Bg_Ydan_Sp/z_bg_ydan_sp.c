@@ -406,7 +406,7 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
     } else if (player->heldItemActionParam == PLAYER_AP_STICK && player->unk_860 != 0) {
         func_8002DBD0(&this->dyna.actor, &sp30, &player->swordInfo[0].tip);
         if (fabsf(sp30.x) < 100.0f && sp30.z < 1.0f && sp30.y < 200.0f) {
-            func_800800F8(globalCtx, 0xBCC, 0x28, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 3020, 40, &this->dyna.actor, MAIN_CAM);
             Math_Vec3f_Copy(&this->dyna.actor.home.pos, &player->swordInfo[0].tip);
             BgYdanSp_BurnWeb(this, globalCtx);
         }

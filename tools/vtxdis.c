@@ -36,7 +36,7 @@ const struct option cmdline_opts[] = {
 
 static uint32_t parse_int(const char *num){
     uint32_t ret = 0;
-    char outnum[20];
+    char outnum[21];
     if(strlen(num) > 2 && num[0] == '0' && (num[1] == 'x' || num[1] == 'X')) {
         strncpy(outnum, &num[2], 20);
         sscanf(outnum, "%"SCNx32, &ret);

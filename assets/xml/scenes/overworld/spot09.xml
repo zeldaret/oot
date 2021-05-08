@@ -1,16 +1,17 @@
 <Root>
-    <File Name="spot09_scene">
-        <Scene Name="spot09_scene">
-            <PathHint Offset="0x2F60"/>
-            <PathHint Offset="0x2F68"/>
-            <CutsceneHint Offset="0x2AC0"/>
-            <CutsceneHint Offset="0x230"/>
-        </Scene>
+    <File Name="spot09_scene" Segment="2">
+        <Cutscene Name="gGerudoValleyBridgeJumpFieldFortressCs" Offset="0x2AC0"/>
+        <Cutscene Name="gGerudoValleyBridgeJumpFortressToFieldCs" Offset="0x230"/>
+
+        <Path Name="gSpot09Path_002F60" Offset="0x2F60"/>
+        <Path Name="gSpot09Path_002F68" Offset="0x2F68"/>
+
+        <Scene Name="spot09_scene" Offset="0x0"/>
     </File>
-    <File Name="spot09_room_0">
-        <Room Name="spot09_room_0">
-            <DListHint Offset="0x7108"/>
-            <DListHint Offset="0x8780"/>
-        </Room>
+    <File Name="spot09_room_0" Segment="3">
+        <DList Name="gSpot09DL_007108" Offset="0x7108"/>
+        <DList Name="gSpot09DL_008780" Offset="0x8780"/>
+
+        <Room Name="spot09_room_0" Offset="0x0"/>
     </File>
 </Root>

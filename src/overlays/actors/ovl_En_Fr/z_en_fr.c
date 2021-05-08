@@ -233,7 +233,8 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.destroy = NULL;
         this->actor.draw = NULL;
         this->actor.update = EnFr_UpdateIdle;
-        this->actor.flags = this->actor.flags &= ~0x11;
+        this->actor.flags &= ~0x11;
+        this->actor.flags &= ~0;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
         this->actor.textId = 0x40AC;
         this->actionFunc = EnFr_Idle;
@@ -243,7 +244,7 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Translation: The argument is wrong!!
             osSyncPrintf("%s[%d] : 引数が間違っている！！(%d)\n", "../z_en_fr.c", 370, this->actor.params);
             osSyncPrintf(VT_RST);
-            __assert("0", "../z_en_fr.c", 372);
+            ASSERT(0, "0", "../z_en_fr.c", 372);
         }
 
         this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
@@ -253,7 +254,7 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Translation: There is no bank!!
             osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_fr.c", 380);
             osSyncPrintf(VT_RST);
-            __assert("0", "../z_en_fr.c", 382);
+            ASSERT(0, "0", "../z_en_fr.c", 382);
         }
     }
 }
@@ -605,7 +606,7 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
             globalCtx->msgCtx.unk_E3EE = 0;
         }
 
-        func_800800F8(globalCtx, 0x100E, ~0x62, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 4110, ~0x62, &this->actor, MAIN_CAM);
         globalCtx->msgCtx.msgMode = 0x37;
         player->actor.world.pos.x = this->actor.world.pos.x; // x = 990.0f
         player->actor.world.pos.y = this->actor.world.pos.y; // y = 205.0f

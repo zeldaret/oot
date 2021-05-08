@@ -281,7 +281,7 @@ void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx) {
     if ((func_80BA2304(this, globalCtx) != 0) && (this->unk_16C <= 0)) {
         ObjWarp2block_Spawn(this, globalCtx);
         this->unk_16C = 0xA0;
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         this->unk_170 = 0xC;
     }
 

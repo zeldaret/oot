@@ -43,6 +43,17 @@ public:
 		return s;
 	}
 
+	static std::string Replace(std::string str, const std::string& from, const std::string& to)
+	{
+		size_t start_pos = str.find(from);
+
+		if (start_pos == std::string::npos)
+			return str;
+
+		str.replace(start_pos, from.length(), to);
+		return str;
+	}
+
 	static bool StartsWith(const std::string& s, const std::string& input)
 	{
 		return s.rfind(input, 0) == 0;
@@ -55,7 +66,7 @@ public:
 
 	static bool EndsWith(const std::string& s, const std::string& input)
 	{
-		int inputLen = strlen(input.c_str());
+		int32_t inputLen = strlen(input.c_str());
 		return s.rfind(input) == (s.size() - inputLen);
 	}
 

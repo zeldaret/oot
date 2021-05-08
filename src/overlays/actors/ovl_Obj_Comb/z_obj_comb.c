@@ -214,9 +214,9 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y + (118.0f * this->actor.scale.y),
                      this->actor.world.pos.z, 0);
-    Matrix_RotateY(this->actor.shape.rot.y * 0.0000958738f, 1);
-    Matrix_RotateX(this->actor.shape.rot.x * 0.0000958738f, 1);
-    Matrix_RotateZ(this->actor.shape.rot.z * 0.0000958738f, 1);
+    Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), 1);
+    Matrix_RotateX(this->actor.shape.rot.x * (M_PI / 0x8000), 1);
+    Matrix_RotateZ(this->actor.shape.rot.z * (M_PI / 0x8000), 1);
     Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, 1);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
 

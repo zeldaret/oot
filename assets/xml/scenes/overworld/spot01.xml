@@ -1,10 +1,9 @@
 <Root>
-    <File Name="spot01_scene">
+    <File Name="spot01_scene" Segment="2">
         <Scene Name="spot01_scene"/>
     </File>
-    <File Name="spot01_room_0">
-        <Room Name="spot01_room_0">
-        <DListHint Offset="0x9E38" Comment="This display list appears to be unused..."/>
-        </Room>
+    <File Name="spot01_room_0" Segment="3">
+        <DList Name="gSpot01DL_009E38" Offset="0x9E38"/>
+        <Room Name="spot01_room_0" Offset="0x0"/>
     </File>
 </Root>

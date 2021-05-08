@@ -106,7 +106,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
     if ((explosive != NULL) && (this->prevExplosive != NULL) && (explosive != this->prevExplosive) &&
         (Math_Vec3f_DistXZ(&this->prevExplosivePos, &explosive->world.pos) > 80.0f)) {
         BgDdanKd_SetupAction(this, BgDdanKd_LowerStairs);
-        func_800800F8(globalCtx, 0xBEA, 0x3E7, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 3050, 999, &this->dyna.actor, MAIN_CAM);
     } else {
         if (this->timer != 0) {
             this->timer -= 1;

@@ -126,8 +126,8 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         this->actionFunc = EnDntDemo_Results;
     } else if ((this->actor.xzDistToPlayer > 30.0f) || (Player_GetMask(globalCtx) == 0)) {
         this->debugArrowTimer++;
-        if (this->subCamera != 0) {
-            this->subCamera = 0;
+        if (this->subCamera != SUBCAM_FREE) {
+            this->subCamera = SUBCAM_FREE;
         }
         if (this->judgeTimer != 0) {
             for (i = 0; i < 9; i++) {
@@ -136,8 +136,8 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
             this->judgeTimer = 0;
         }
     } else {
-        if ((Player_GetMask(globalCtx) != 0) && (this->subCamera == 0)) {
-            this->subCamera = func_800800F8(globalCtx, 0x8AC, -0x63, &this->scrubs[3]->actor, 0);
+        if ((Player_GetMask(globalCtx) != 0) && (this->subCamera == SUBCAM_FREE)) {
+            this->subCamera = OnePointCutscene_Init(globalCtx, 2220, -99, &this->scrubs[3]->actor, MAIN_CAM);
         }
         this->debugArrowTimer = 0;
         if (this->judgeTimer == 40) {
@@ -171,10 +171,10 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         this->prize = DNT_PRIZE_NUTS;
                         this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
                         reaction = DNT_SIGNAL_LOOK;
-                        if (this->subCamera != 0) {
-                            this->subCamera = 0;
+                        if (this->subCamera != SUBCAM_FREE) {
+                            this->subCamera = SUBCAM_FREE;
                             reaction = DNT_SIGNAL_LOOK;
-                            func_800800F8(globalCtx, 0x924, -0x63, &this->leader->actor, 0);
+                            OnePointCutscene_Init(globalCtx, 2340, -99, &this->leader->actor, MAIN_CAM);
                         }
                         break;
                     }
@@ -211,9 +211,9 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                                 Audio_SetBGM(0x2D);
                                 break;
                             case DNT_ACTION_ATTACK:
-                                if (this->subCamera != 0) {
-                                    this->subCamera = 0;
-                                    func_800800F8(globalCtx, 0x92E, -0x63, &this->scrubs[3]->actor, 0);
+                                if (this->subCamera != SUBCAM_FREE) {
+                                    this->subCamera = SUBCAM_FREE;
+                                    OnePointCutscene_Init(globalCtx, 2350, -99, &this->scrubs[3]->actor, MAIN_CAM);
                                 }
                                 Audio_SetBGM(0x81A);
                                 break;

@@ -50,6 +50,7 @@ tools/ido_recomp/build53/*
 *.ia16.png
 *.ci4.png
 *.ci8.png
+*.jpg
 *.mdli
 *.anmi
 *.obj

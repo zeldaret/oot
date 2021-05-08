@@ -165,7 +165,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
 }
 
 void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->actionFunc = EnFu_WaitAdult;
         gSaveContext.eventChkInf[5] |= 0x800;
         globalCtx->msgCtx.unk_E3EE = 4;

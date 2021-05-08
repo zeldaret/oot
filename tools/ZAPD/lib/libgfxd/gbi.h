@@ -1,5 +1,5 @@
 /**
- * gbi.h version 0.3.3
+ * gbi.h version 0.3.4
  * n64 graphics microcode interface library
  * compatible with fast3d, f3dex, f3dex2, s2dex, and s2dex2
  *
@@ -200,6 +200,10 @@
 /* tile indices */
 #define G_TX_LOADTILE		7
 #define G_TX_RENDERTILE		0
+
+/* loadblock constants */
+#define G_TX_DXT_FRAC		11
+#define G_TX_LDBLK_MAX_TXL	2047
 
 /* geometry mode */
 #define G_ZBUFFER		(gI_(0b1) << 0)
@@ -1813,8 +1817,7 @@
 	gsDPLoadSync(), \
 	gsDPLoadBlock( \
 		G_TX_LOADTILE, 0, 0, \
-		(((width) * (height) + 1) * G_SIZ_BITS(siz) - 1) / \
-			G_SIZ_BITS(G_SIZ_LDSIZ(siz)) - 1, \
+		G_LTB_LRS(width, height, siz), \
 		dxt), \
 	gsDPPipeSync(), \
 	gsDPSetTile( \
@@ -2112,7 +2115,7 @@
 		gF_(uls, 12, 12) | \
 		gF_(ult, 12, 0), \
 		gF_(tile, 3, 24) | \
-		gF_(lrs, 12, 12) | \
+		gF_(G_LDBLK_TXL(lrs), 12, 12) | \
 		gF_(dxt, 12, 0))
 
 #define gsDPNoOp() \
@@ -3719,10 +3722,21 @@ typedef struct
 #define G_SIZ_LDBITS(siz)	((siz) < G_IM_SIZ_16b ? G_SIZ_BITS(siz) : 16)
 #define G_DXT(siz, width) \
 	( \
-		(width) * G_SIZ_BITS(siz) <= 64 ? \
-		(1 << 11) : \
-		((1 << 11) + (width) * G_SIZ_BITS(siz) / 64 - 1) / \
-		((width) * G_SIZ_BITS(siz) / 64) \
+		(width) * G_SIZ_BITS(siz) > 64 ? \
+			((1 << 11) + (width) * G_SIZ_BITS(siz) / 64 - 1) / \
+			((width) * G_SIZ_BITS(siz) / 64) : \
+			(1 << 11) \
+	)
+#define G_LTB_LRS(width, height, siz) \
+	( \
+		(((width) * (height) + 1) * G_SIZ_BITS(siz) - 1) / \
+		G_SIZ_BITS(G_SIZ_LDSIZ(siz)) - 1 \
+	)
+#define G_LDBLK_TXL(txl) \
+	( \
+		(txl) > G_TX_LDBLK_MAX_TXL ? \
+			G_TX_LDBLK_MAX_TXL : \
+			(txl) \
 	)
 
 /* depth value macros */

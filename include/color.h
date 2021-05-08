@@ -21,4 +21,14 @@ typedef struct {
     f32 r, g, b, a;
 } Color_RGBAf;
 
+typedef union {
+    struct {
+        u16 r : 5;
+        u16 g : 5;
+        u16 b : 5;
+        u16 a : 1;
+    };
+    u16 rgba;
+} Color_RGB5A1;
+
 #endif

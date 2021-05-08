@@ -157,7 +157,7 @@ void func_80AF26AC(EnRu2* this) {
 void func_80AF26D0(EnRu2* this, GlobalContext* globalCtx) {
     s32 one; // Needed to match
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         if (D_80AF4118 != 0) {
             if (this->actor.params == 2) {
                 func_80AF26AC(this);
@@ -182,7 +182,7 @@ s32 EnRu2_FrameUpdateMatrix(EnRu2* this) {
 }
 
 CsCmdActorAction* func_80AF27AC(GlobalContext* globalCtx, s32 npcActionIdx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[npcActionIdx];
     }
     return NULL;
@@ -241,7 +241,7 @@ void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 transit
 }
 
 void func_80AF2978(EnRu2* this, GlobalContext* globalCtx) {
-    this->actor.shape.yOffset += 83.333336f;
+    this->actor.shape.yOffset += 250.0f / 3.0f;
 }
 
 void func_80AF2994(EnRu2* this, GlobalContext* globalCtx) {
@@ -289,7 +289,7 @@ void func_80AF2B44(EnRu2* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
     CsCmdActorAction* csCmdNPCAction;
 
-    if (csCtx->state != 0) {
+    if (csCtx->state != CS_STATE_IDLE) {
         csCmdNPCAction = csCtx->npcActions[3];
         if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 2)) {
             this->action = 2;
@@ -310,7 +310,7 @@ void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
     AnimationHeader* animation = &D_0600D3DC;
     CsCmdActorAction* csCmdNPCAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[3];
         if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 3)) {
             Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE,
@@ -329,7 +329,7 @@ void func_80AF2C54(EnRu2* this, UNK_TYPE arg1) {
 void func_80AF2C68(EnRu2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* csCmdNPCAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[6];
         if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 2)) {
             this->action = 6;
@@ -641,13 +641,13 @@ s32 func_80AF383C(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF3878(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF383C(this, globalCtx) && !Gameplay_InCsMode(globalCtx)) {
         this->action = 16;
-        func_800800F8(globalCtx, 0xC3A, -0x63, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 3130, -99, &this->actor, MAIN_CAM);
     }
 }
 
 void func_80AF38D0(EnRu2* this, GlobalContext* globalCtx) {
     this->action = 16;
-    func_800800F8(globalCtx, 0xC3A, -0x63, &this->actor, 0);
+    OnePointCutscene_Init(globalCtx, 3130, -99, &this->actor, MAIN_CAM);
 }
 
 void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
