@@ -1,56 +1,56 @@
 <Root>
-    <File Name="ddan_scene">
+    <File Name="ddan_scene" Segment="2">
         <Scene Name="ddan_scene"/>
     </File>
-    <File Name="ddan_room_0">
-        <Room Name="ddan_room_0"/>
+    <File Name="ddan_room_0" Segment="3">
+        <Room Name="ddan_room_0" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_1">
-        <Room Name="ddan_room_1"/>
+    <File Name="ddan_room_1" Segment="3">
+        <Room Name="ddan_room_1" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_2">
-        <Room Name="ddan_room_2"/>
+    <File Name="ddan_room_2" Segment="3">
+        <Room Name="ddan_room_2" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_3">
-        <Room Name="ddan_room_3"/>
+    <File Name="ddan_room_3" Segment="3">
+        <Room Name="ddan_room_3" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_4">
-        <Room Name="ddan_room_4"/>
+    <File Name="ddan_room_4" Segment="3">
+        <Room Name="ddan_room_4" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_5">
-        <Room Name="ddan_room_5"/>
+    <File Name="ddan_room_5" Segment="3">
+        <Room Name="ddan_room_5" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_6">
-        <Room Name="ddan_room_6"/>
+    <File Name="ddan_room_6" Segment="3">
+        <Room Name="ddan_room_6" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_7">
-        <Room Name="ddan_room_7"/>
+    <File Name="ddan_room_7" Segment="3">
+        <Room Name="ddan_room_7" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_8">
-        <Room Name="ddan_room_8"/>
+    <File Name="ddan_room_8" Segment="3">
+        <Room Name="ddan_room_8" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_9">
-        <Room Name="ddan_room_9"/>
+    <File Name="ddan_room_9" Segment="3">
+        <Room Name="ddan_room_9" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_10">
-        <Room Name="ddan_room_10"/>
+    <File Name="ddan_room_10" Segment="3">
+        <Room Name="ddan_room_10" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_11">
-        <Room Name="ddan_room_11"/>
+    <File Name="ddan_room_11" Segment="3">
+        <Room Name="ddan_room_11" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_12">
-        <Room Name="ddan_room_12"/>
+    <File Name="ddan_room_12" Segment="3">
+        <Room Name="ddan_room_12" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_13">
-        <Room Name="ddan_room_13"/>
+    <File Name="ddan_room_13" Segment="3">
+        <Room Name="ddan_room_13" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_14">
-        <Room Name="ddan_room_14"/>
+    <File Name="ddan_room_14" Segment="3">
+        <Room Name="ddan_room_14" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_15">
-        <Room Name="ddan_room_15"/>
+    <File Name="ddan_room_15" Segment="3">
+        <Room Name="ddan_room_15" Offset="0x0"/>
     </File>
-    <File Name="ddan_room_16">
-        <Room Name="ddan_room_16"/>
+    <File Name="ddan_room_16" Segment="3">
+        <Room Name="ddan_room_16" Offset="0x0"/>
     </File>
 </Root>
