@@ -20,7 +20,7 @@ public:
 	static std::vector<uint8_t> ReadAllBytes(const std::string& filePath)
 	{
 		std::ifstream file(filePath, std::ios::in | std::ios::binary | std::ios::ate);
-		int fileSize = (int)file.tellg();
+		int32_t fileSize = (int32_t)file.tellg();
 		file.seekg(0);
 		char* data = new char[fileSize];
 		file.read(data, fileSize);
@@ -33,7 +33,7 @@ public:
 	static std::string ReadAllText(const std::string& filePath)
 	{
 		std::ifstream file(filePath, std::ios::in | std::ios::binary | std::ios::ate);
-		int fileSize = (int)file.tellg();
+		int32_t fileSize = (int32_t)file.tellg();
 		file.seekg(0);
 		char* data = new char[fileSize + 1];
 		memset(data, 0, fileSize + 1);
