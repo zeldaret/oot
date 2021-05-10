@@ -198,8 +198,8 @@ distclean: clean
 
 setup:
 	$(MAKE) -C tools -j
-	python3 fixbaserom.py
-	python3 extract_baserom.py
+	mkdir -p baserom
+	tools/extract_baserom
 	python3 extract_assets.py
 
 resources: $(ASSET_FILES_OUT)
