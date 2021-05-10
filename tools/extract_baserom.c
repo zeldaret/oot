@@ -7,7 +7,7 @@
 #define DMA_TABLE_ENTRIES 1532
 #define DMA_ENTRY_SIZE 16
 
-static const char *sDmaMgrFileNames[0x5FC] = {
+static const char* sDmaMgrFileNames[0x5FC] = {
     "makerom",
     "boot",
     "dmadata",
@@ -1542,73 +1542,63 @@ static const char *sDmaMgrFileNames[0x5FC] = {
     "softsprite_matrix_static",
 };
 
-int main(void)
-{
-
-    FILE *rom = fopen("baserom.z64", "rb");
-    FILE *outFile;
+int main(void) {
+    FILE* rom = fopen("baserom.z64", "rb");
+    FILE* outFile;
     unsigned int virtualStart;
     unsigned int virtualEnd;
 
-
-
-    if (rom == NULL)
-    {
+    if (rom == NULL) {
         fprintf(stderr, "Could not open baserom.z64\n");
         exit(1);
     }
 
-    for (unsigned int i = 0; i < DMA_TABLE_ENTRIES; i++)
-    {
+    for (unsigned int i = 0; i < DMA_TABLE_ENTRIES; i++) {
         char outFileName[45] = "baserom/";
         fseek(rom, DMA_TABLE_OFFSET + (DMA_ENTRY_SIZE * i), SEEK_SET);
 
-        if (fread(&virtualStart, sizeof(unsigned int), 1, rom) != 1)
-        {
+        if (fread(&virtualStart, sizeof(unsigned int), 1, rom) != 1) {
             fprintf(stderr, "Could not read start address for file %s\n", sDmaMgrFileNames[i]);
             exit(1);
         }
 
         virtualStart = __bswap_32(virtualStart);
 
-        if (fread(&virtualEnd, sizeof(unsigned int), 1, rom) != 1)
-        {
+        if (fread(&virtualEnd, sizeof(unsigned int), 1, rom) != 1) {
             fprintf(stderr, "Could not read end address for file %s\n", sDmaMgrFileNames[i]);
             exit(1);
         }
 
         virtualEnd = __bswap_32(virtualEnd);
 
-        void *data = malloc(virtualEnd - virtualStart);
+        void* data = malloc(virtualEnd - virtualStart);
 
         outFile = fopen(strcat(outFileName, sDmaMgrFileNames[i]), "wb");
 
-        if (data == NULL)
-        {
+        if (data == NULL) {
             fprintf(stderr, "Could not allocate memory for %s\n", outFileName);
             exit(1);
         }
 
-        if (outFile == NULL)
-        {
+        if (outFile == NULL) {
             fprintf(stderr, "Could not open output file for %s\n", outFileName);
             exit(1);
         }
 
         fseek(rom, virtualStart, SEEK_SET);
 
-        if (fread(data, virtualEnd - virtualStart, 1, rom) != 1)
-        {
+        if (fread(data, virtualEnd - virtualStart, 1, rom) != 1) {
             fprintf(stderr, "Could not read rom file %s\n", sDmaMgrFileNames[i]);
         }
+
         printf("Extracting file %s	0x%x - 0x%x\n", sDmaMgrFileNames[i], virtualEnd, virtualStart);
-        if (fwrite(data, virtualEnd - virtualStart, 1, outFile) != 1)
-        {
+
+        if (fwrite(data, virtualEnd - virtualStart, 1, outFile) != 1) {
             fprintf(stderr, "Could not write rom file %s\n", sDmaMgrFileNames[i]);
         }
 
+        free(data);
         fclose(outFile);
     }
     fclose(rom);
 }
-
