@@ -13,7 +13,7 @@ ido:
 	$(MAKE) -C ido_recomp
 
 zapd:
-	cd ZAPD && $(MAKE)
+	$(MAKE) -C ZAPD
 
 
 .PHONY: all clean distclean ido zapd
