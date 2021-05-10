@@ -56,7 +56,7 @@
         <DList Name="gobject_ahgDL_00004628" Offset="0x4628" />
         -->
 
-        <Blob Name="gobject_ahgBlob_000047C8" Size="0x180" Offset="0x47C8" />
+        <!-- <Blob Name="gobject_ahgBlob_000047C8" Size="0x180" Offset="0x47C8" /> -->
         <Texture Name="gobject_ahgTex_00004948" OutName="tex_00004948" Format="ci8" Width="8" Height="8" Offset="0x4948" />
         <Texture Name="gobject_ahgTex_00004988" OutName="tex_00004988" Format="ci8" Width="32" Height="16" Offset="0x4988" />
         <Texture Name="gobject_ahgTex_00004B88" OutName="tex_00004B88" Format="ci8" Width="16" Height="16" Offset="0x4B88" />

@@ -42,7 +42,7 @@
         <Texture Name="gobject_ganonTex_00008DB0" OutName="tex_00008DB0" Format="rgb5a1" Width="16" Height="16" Offset="0x8DB0"/>
         <Texture Name="gobject_ganonTex_00008FB0" OutName="tex_00008FB0" Format="rgb5a1" Width="16" Height="16" Offset="0x8FB0"/>
         <Texture Name="gobject_ganonTex_000091B0" OutName="tex_000091B0" Format="rgb5a1" Width="32" Height="16" Offset="0x91B0"/>
-        <Blob Name="gobject_ganonBlob_000095B0" Size="0x70" Offset="0x95B0"/>
+        <!-- <Blob Name="gobject_ganonBlob_000095B0" Size="0x70" Offset="0x95B0"/> -->
         <Texture Name="gobject_ganonTex_00009620" OutName="tex_00009620" Format="rgb5a1" Width="16" Height="32" Offset="0x9620"/>
         <Texture Name="gobject_ganonTex_00009A20" OutName="tex_00009A20" Format="rgb5a1" Width="32" Height="16" Offset="0x9A20"/>
         <Texture Name="gobject_ganonTex_00009E20" OutName="tex_00009E20" Format="rgb5a1" Width="16" Height="16" Offset="0x9E20"/>

@@ -52,7 +52,7 @@
         <DList Name="gobject_bojDL_000039B0" Offset="0x39B0" />
         -->
 
-        <Blob Name="gobject_bojBlob_00003B98" Size="0x1F8" Offset="0x3B98" />
+        <!-- <Blob Name="gobject_bojBlob_00003B98" Size="0x1F8" Offset="0x3B98" /> -->
         <Texture Name="gobject_bojTex_00003D90" OutName="tex_00003D90" Format="ci8" Width="8" Height="8" Offset="0x3D90" />
         <Texture Name="gobject_bojTex_00003DD0" OutName="tex_00003DD0" Format="ci8" Width="16" Height="16" Offset="0x3DD0" />
         <Texture Name="gobject_bojTex_00003ED0" OutName="tex_00003ED0" Format="ci8" Width="16" Height="16" Offset="0x3ED0" />
