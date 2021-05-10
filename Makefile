@@ -212,7 +212,7 @@ resources: $(ASSET_FILES_OUT)
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
 
-.PHONY: all clean setup test distclean
+.PHONY: all clean setup test distclean assetclean toolclean
 
 #### Various Recipes ####
 
