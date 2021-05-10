@@ -55,10 +55,7 @@ void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
     }
 
-    // This assert is optimized out but it exists due to its presence in rodata
-    if (0) {
-        __assert("1", "../z_demo_tre_lgt.c", UNK_LINE);
-    }
+    ASSERT(true, "1", "../z_demo_tre_lgt.c", UNK_LINE);
 
     this->unk_170 = 255;
     this->unk_174 = 255;

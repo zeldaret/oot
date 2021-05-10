@@ -218,10 +218,9 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     OSTime time2;
 
     time = osGetTime();
-    if (workSize <
-        sizeof(JpegWork)) { // (?) I guess MB_SIZE=0x180, PROC_OF_MBS=5 which means unk_6C0 is not a part of JpegWork
-        __assert("worksize >= sizeof(JPEGWork) + MB_SIZE * (PROC_OF_MBS - 1)", "../z_jpeg.c", 527);
-    }
+    // (?) I guess MB_SIZE=0x180, PROC_OF_MBS=5 which means unk_6C0 is not a part of JpegWork
+    ASSERT(workSize >= sizeof(JpegWork), "worksize >= sizeof(JPEGWork) + MB_SIZE * (PROC_OF_MBS - 1)", "../z_jpeg.c",
+           527);
 
     osCreateMesgQueue(&ctx.mq, &ctx.msg, 1);
     MsgEvent_SendNullTask();

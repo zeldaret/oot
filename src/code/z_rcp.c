@@ -777,10 +777,7 @@ Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f) {
     if (f == n) {
         f++;
     }
-
-    if (n == f) {
-        __assert("n != f", "../z_rcp.c", 1155);
-    }
+    ASSERT(n != f, "n != f", "../z_rcp.c", 1155);
 
     gDPSetFogColor(gfx++, r, g, b, a);
 
@@ -801,10 +798,7 @@ Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f) {
     if (f == n) {
         f++;
     }
-
-    if (n == f) {
-        __assert("n != f", "../z_rcp.c", 1187);
-    }
+    ASSERT(n != f, "n != f", "../z_rcp.c", 1187);
 
     gDPPipeSync(gfx++);
     gDPSetFogColor(gfx++, r, g, b, a);

@@ -1,42 +1,41 @@
 <Root>
-    <File Name="ice_doukutu_scene">
+    <File Name="ice_doukutu_scene" Segment="2">
         <Scene Name="ice_doukutu_scene"/>
     </File>
-    <File Name="ice_doukutu_room_0">
-        <Room Name="ice_doukutu_room_0"/>
+    <File Name="ice_doukutu_room_0" Segment="3">
+        <Room Name="ice_doukutu_room_0" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_1">
-        <Room Name="ice_doukutu_room_1"/>
+    <File Name="ice_doukutu_room_1" Segment="3">
+        <Room Name="ice_doukutu_room_1" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_2">
-        <Room Name="ice_doukutu_room_2">
-        </Room>
+    <File Name="ice_doukutu_room_2" Segment="3">
+        <Room Name="ice_doukutu_room_2" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_3">
-        <Room Name="ice_doukutu_room_3"/>
+    <File Name="ice_doukutu_room_3" Segment="3">
+        <Room Name="ice_doukutu_room_3" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_4">
-        <Room Name="ice_doukutu_room_4"/>
+    <File Name="ice_doukutu_room_4" Segment="3">
+        <Room Name="ice_doukutu_room_4" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_5">
-        <Room Name="ice_doukutu_room_5"/>
+    <File Name="ice_doukutu_room_5" Segment="3">
+        <Room Name="ice_doukutu_room_5" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_6">
-        <Room Name="ice_doukutu_room_6"/>
+    <File Name="ice_doukutu_room_6" Segment="3">
+        <Room Name="ice_doukutu_room_6" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_7">
-        <Room Name="ice_doukutu_room_7"/>
+    <File Name="ice_doukutu_room_7" Segment="3">
+        <Room Name="ice_doukutu_room_7" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_8">
-        <Room Name="ice_doukutu_room_8"/>
+    <File Name="ice_doukutu_room_8" Segment="3">
+        <Room Name="ice_doukutu_room_8" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_9">
-        <Room Name="ice_doukutu_room_9"/>
+    <File Name="ice_doukutu_room_9" Segment="3">
+        <Room Name="ice_doukutu_room_9" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_10">
-        <Room Name="ice_doukutu_room_10"/>
+    <File Name="ice_doukutu_room_10" Segment="3">
+        <Room Name="ice_doukutu_room_10" Offset="0x0"/>
     </File>
-    <File Name="ice_doukutu_room_11">
-        <Room Name="ice_doukutu_room_11"/>
+    <File Name="ice_doukutu_room_11" Segment="3">
+        <Room Name="ice_doukutu_room_11" Offset="0x0"/>
     </File>
 </Root>

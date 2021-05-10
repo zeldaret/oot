@@ -390,7 +390,7 @@ s32 ObjOshihiki_CheckFloor(ObjOshihiki* this, GlobalContext* globalCtx) {
 }
 
 s32 ObjOshihiki_CheckGround(ObjOshihiki* this, GlobalContext* globalCtx) {
-    if (this->dyna.actor.world.pos.y <= -31990.0f) {
+    if (this->dyna.actor.world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
         // Warning : Push-pull block fell too much
         osSyncPrintf("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 809,
                      this->dyna.actor.params);
