@@ -683,7 +683,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
         ShutterInfo* sp70 = &D_80998134[this->unk_16C];
 
         //! @bug In very niche scenarios, depending on the placement of other doors when a new room is loading,
-        //! it is possible that a newly spawned door will try to draw after init, without having run it's first update.
+        //! it is possible that a newly spawned door will try to draw after init, without having run its first update.
         //! In this case, `DoorShutter_SetupDoor` will not have run yet, so unk_16C is not initialized.
         //! When this occurs, it will try to draw the display list of the first entry in `D_80998134`.
         //! This bug can be avoided either by initialized 16C in init, or by checking 
