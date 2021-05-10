@@ -3,7 +3,7 @@
         <!-- This blob was added just to ensure the object will be extracted. Should be removed in the future. -->
         <Blob Name="g_oF1sBlob_000000" Size="0x10" Offset="0x0"/>
 
-        <!-- The textures used by this limbs are unaligned, so this won't compile to a matching ROM. -->
+        <!-- The textures used by these limbs aren't 64-bit aligned, so this won't compile to a matching ROM. -->
         <!-- 
         <Limb Name="gobject_oF1sLimb_00000000" LimbType="Standard" Offset="0x0" />
         <Limb Name="gobject_oF1sLimb_0000000C" LimbType="Standard" Offset="0xC" />
@@ -28,7 +28,7 @@
         <Skeleton Name="gobject_oF1sSkel_00000110" Type="Flex" LimbType="Standard" Offset="0x110" />
         -->
 
-        <!-- Unaligned textures. -->
+        <!-- 32-bit aligned textures. -->
         <!--
         <Texture Name="gobject_oF1sTLUT_0000011C" OutName="tlut_0000011C" Format="rgb5a1" Width="216" Height="1" Offset="0x11C" />
         <Blob Name="gobject_oF1sBlob_0000031C" Size="0x1A0" Offset="0x31C" />
