@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <byteswap.h>
 #include <string.h>
 #include <stdlib.h>
+#include <endian.h>
 
 #define DMA_TABLE_OFFSET 0x12F70
 #define DMA_TABLE_ENTRIES 1532
@@ -1562,14 +1562,14 @@ int main(void) {
             exit(1);
         }
 
-        virtualStart = __bswap_32(virtualStart);
+        virtualStart = htobe32(virtualStart);
 
         if (fread(&virtualEnd, sizeof(unsigned int), 1, rom) != 1) {
             fprintf(stderr, "Could not read end address for file %s\n", sDmaMgrFileNames[i]);
             exit(1);
         }
 
-        virtualEnd = __bswap_32(virtualEnd);
+        virtualEnd = htobe32(virtualEnd);
 
         void* data = malloc(virtualEnd - virtualStart);
 
