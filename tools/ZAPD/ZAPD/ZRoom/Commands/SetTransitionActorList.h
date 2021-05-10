@@ -14,22 +14,22 @@ public:
 	int16_t rotY;
 	uint16_t initVar;
 
-	TransitionActorEntry(std::vector<uint8_t> rawData, int rawDataIndex);
+	TransitionActorEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
 };
 
 class SetTransitionActorList : public ZRoomCommand
 {
 public:
-	SetTransitionActorList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	SetTransitionActorList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
 	~SetTransitionActorList();
 
 	std::string GetSourceOutputCode(std::string prefix);
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GenerateSourceCodePass2(std::string roomName, int baseAddress);
-	virtual RoomCommand GetRoomCommand();
-	virtual int32_t GetRawDataSize();
-	virtual std::string GetCommandCName();
-	virtual std::string GenerateExterns();
+	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
+	virtual std::string GenerateSourceCodePass2(std::string roomName, uint32_t baseAddress) override;
+	virtual RoomCommand GetRoomCommand() override;
+	virtual size_t GetRawDataSize() override;
+	virtual std::string GetCommandCName() override;
+	virtual std::string GenerateExterns() override;
 
 private:
 	std::vector<TransitionActorEntry*> transitionActors;

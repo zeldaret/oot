@@ -955,7 +955,7 @@ void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
 void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
     f32 xzDist;
     f32 yDist;
-    s32 getItem;
+    s32 getItemId;
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->unk_1E0.unk_00 = 2;
@@ -965,24 +965,24 @@ void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
         this->unk_20C = 0;
         if ((this->actor.params & 0xF0) == 0x90) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
-                getItem = GI_SWORD_BGS;
+                getItemId = GI_SWORD_BGS;
                 this->unk_20C = 1;
             }
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
-                getItem = GI_CLAIM_CHECK;
+                getItemId = GI_CLAIM_CHECK;
             }
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
-                getItem = GI_PRESCRIPTION;
+                getItemId = GI_PRESCRIPTION;
             }
         }
 
         if ((this->actor.params & 0xF0) == 0) {
-            getItem = GI_TUNIC_GORON;
+            getItemId = GI_TUNIC_GORON;
         }
 
         yDist = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzDist = this->actor.xzDistToPlayer + 1.0f;
-        func_8002F434(&this->actor, globalCtx, getItem, xzDist, yDist);
+        func_8002F434(&this->actor, globalCtx, getItemId, xzDist, yDist);
     }
 }
 

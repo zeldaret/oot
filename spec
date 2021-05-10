@@ -147,42 +147,49 @@ beginseg
     name "icon_item_24_static"
     romalign 0x1000
     include "build/assets/textures/icon_item_24_static/icon_item_24_static.o"
+    number 9
 endseg
 
 beginseg
     name "icon_item_field_static"
     romalign 0x1000
     include "build/assets/textures/icon_item_field_static/icon_item_field_static.o"
+    number 12
 endseg
 
 beginseg
     name "icon_item_dungeon_static"
     romalign 0x1000
     include "build/assets/textures/icon_item_dungeon_static/icon_item_dungeon_static.o"
+    number 12
 endseg
 
 beginseg
     name "icon_item_gameover_static"
     romalign 0x1000
-    include "build/baserom/icon_item_gameover_static.o"
+    include "build/assets/textures/icon_item_gameover_static/icon_item_gameover_static.o"
+    number 12
 endseg
 
 beginseg
     name "icon_item_nes_static"
     romalign 0x1000
-    include "build/baserom/icon_item_nes_static.o"
+    include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
+    number 13
 endseg
 
 beginseg
     name "icon_item_ger_static"
     romalign 0x1000
-    include "build/baserom/icon_item_ger_static.o"
+    include "build/assets/textures/icon_item_ger_static/icon_item_ger_static.o"
+    number 13
 endseg
 
 beginseg
     name "icon_item_fra_static"
     romalign 0x1000
-    include "build/baserom/icon_item_fra_static.o"
+    include "build/assets/textures/icon_item_fra_static/icon_item_fra_static.o"
+    number 13
 endseg
 
 beginseg
@@ -556,22 +563,19 @@ endseg
 beginseg
     name "ovl_kaleido_scope"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_collect.o"
-    include "build/data/overlays/actors/z_kaleido_collect.data.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_debug.o"
-    include "build/data/overlays/actors/z_kaleido_debug.data.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_equipment.o"
-    include "build/data/overlays/actors/z_kaleido_equipment.data.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_item.o"
-    include "build/data/overlays/actors/z_kaleido_item.data.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_map_PAL.o"
-    include "build/data/overlays/actors/z_kaleido_map_PAL.data.o"
+    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_prompt.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
-    include "build/data/overlays/actors/z_kaleido_scope_PAL.data.o"
-    include "build/data/overlays/actors/z_kaleido_scope_PAL.bss.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o"
-    include "build/data/overlays/actors/z_lmap_mark.data.o"
-    include "build/data/overlays/actors/z_lmap_mark.rodata.o"
+    include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark_data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_kaleido_scope/ovl_kaleido_scope_reloc.o"
+#else
     include "build/data/overlays/actors/z_kaleido_scope.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1028,9 +1032,11 @@ endseg
 beginseg
     name "ovl_Bg_Mizu_Movebg"
     include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/z_bg_mizu_movebg.o"
-    include "build/data/overlays/actors/z_bg_mizu_movebg.data.o"
-    include "build/data/overlays/actors/z_bg_mizu_movebg.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Bg_Mizu_Movebg/ovl_Bg_Mizu_Movebg_reloc.o"
+#else
     include "build/data/overlays/actors/z_bg_mizu_movebg.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1591,8 +1597,7 @@ endseg
 beginseg
     name "ovl_Efc_Erupc"
     include "build/src/overlays/actors/ovl_Efc_Erupc/z_efc_erupc.o"
-    include "build/data/overlays/actors/z_efc_erupc.data.o"
-    include "build/data/overlays/actors/z_efc_erupc.reloc.o"
+    include "build/src/overlays/actors/ovl_Efc_Erupc/ovl_Efc_Erupc_reloc.o"
 endseg
 
 beginseg
@@ -2211,8 +2216,7 @@ endseg
 beginseg
     name "ovl_En_Fish"
     include "build/src/overlays/actors/ovl_En_Fish/z_en_fish.o"
-    include "build/data/overlays/actors/z_en_fish.data.o"
-    include "build/data/overlays/actors/z_en_fish.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fish/ovl_En_Fish_reloc.o"
 endseg
 
 beginseg
@@ -2789,8 +2793,11 @@ endseg
 beginseg
     name "ovl_En_River_Sound"
     include "build/src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.o"
-    include "build/data/overlays/actors/z_en_river_sound.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_River_Sound/ovl_En_River_Sound_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_river_sound.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2991,8 +2998,11 @@ endseg
 beginseg
     name "ovl_En_Tp"
     include "build/src/overlays/actors/ovl_En_Tp/z_en_tp.o"
-    include "build/data/overlays/actors/z_en_tp.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Tp/ovl_En_Tp_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_tp.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3629,7 +3639,8 @@ endseg
 beginseg
     name "object_tp"
     romalign 0x1000
-    include "build/baserom/object_tp.o"
+    include "build/assets/objects/object_tp/object_tp.o"
+    number 6
 endseg
 
 beginseg
@@ -3963,7 +3974,8 @@ endseg
 beginseg
     name "object_mizu_objects"
     romalign 0x1000
-    include "build/baserom/object_mizu_objects.o"
+    include "build/assets/objects/object_mizu_objects/object_mizu_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -4931,7 +4943,8 @@ endseg
 beginseg
     name "object_zo"
     romalign 0x1000
-    include "build/baserom/object_zo.o"
+    include "build/assets/objects/object_zo/object_zo.o"
+    number 6
 endseg
 
 beginseg
@@ -5787,7 +5800,8 @@ endseg
 beginseg
     name "object_skb"
     romalign 0x1000
-    include "build/baserom/object_skb.o"
+    include "build/assets/objects/object_skb/object_skb.o"
+    number 6
 endseg
 
 beginseg

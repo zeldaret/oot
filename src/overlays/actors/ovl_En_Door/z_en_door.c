@@ -7,6 +7,7 @@
 #include "z_en_door.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
+#include "objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -68,8 +69,10 @@ static u8 sDoorAnimOpenFrames[] = { 25, 25, 25, 25 };
 static u8 sDoorAnimCloseFrames[] = { 60, 70, 60, 70 };
 
 static Gfx* D_809FCEE4[5][2] = {
-    { gDoorLeftDL, gDoorRightDL }, { gFireTempleDoorWithHandleFrontDL, gFireTempleDoorWithHandleBackDL },
-    { 0x06004958, 0x06004A10 },    { 0x060013B8, 0x06001420 },
+    { gDoorLeftDL, gDoorRightDL },
+    { gFireTempleDoorWithHandleFrontDL, gFireTempleDoorWithHandleBackDL },
+    { gWaterTempleDoorLeftDL, gWaterTempleDoorRightDL },
+    { 0x060013B8, 0x06001420 },
     { 0x050047A0, 0x05004978 },
 };
 
