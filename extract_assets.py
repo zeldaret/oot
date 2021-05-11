@@ -6,26 +6,18 @@ from shutil import copyfile
 from multiprocessing import Pool
 from multiprocessing import cpu_count
 
-def Extract(xmlPath, outputPath, outputSourcePath):
-	ExtractFile(xmlPath, outputPath, outputSourcePath, 1, 0)	
+def ExtractFile(xmlPath, outputPath, outputSourcePath):
+    execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath)
 
-def ExtractScene(xmlPath, outputPath, outputSourcePath):
-	ExtractFile(xmlPath, outputPath, outputSourcePath, 1, 1)
-
-def ExtractFile(xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix):
-	execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf %i -ifp %i -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix)
-
-	print(execStr)
-	os.system(execStr)
+    print(execStr)
+    os.system(execStr)
 
 def ExtractFunc(fullPath):
-	outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
-	outSourcePath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
+    print(fullPath)
+    outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
+    outSourcePath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
 
-	if (fullPath.startswith("assets/xml/scenes/")):
-		ExtractScene(fullPath, outPath, outSourcePath)
-	else:
-		Extract(fullPath, outPath, outSourcePath)
+    ExtractFile(fullPath, outPath, outSourcePath)
 
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
@@ -36,7 +28,7 @@ def main():
     if asset_path is not None:
         if asset_path.endswith("/"):
             asset_path = asset_path[0:-1]
-        Extract(f"assets/xml/{asset_path}.xml", f"assets/{asset_path}/", f"assets/{asset_path}/")
+        ExtractFunc(f"assets/xml/{asset_path}.xml")
     else:
         xmlFiles = []
         for currentPath, folders, files in os.walk("assets"):
