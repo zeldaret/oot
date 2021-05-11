@@ -29,11 +29,11 @@ public:
 	ZAnimation(ZFile* nParent);
 
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	ZResourceType GetResourceType() override;
+	ZResourceType GetResourceType() const override;
 
 protected:
 	void ParseRawData() override;
-	void Save(const std::string& outFolder) override;
+	void Save(const fs::path& outFolder) override;
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 };
 
@@ -49,11 +49,11 @@ public:
 	ZNormalAnimation(ZFile* nParent);
 
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	size_t GetRawDataSize() override;
-	std::string GetSourceTypeName() override;
+	size_t GetRawDataSize() const override;
+	std::string GetSourceTypeName() const override;
 
 	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	                    const uint32_t nRawDataIndex) override;
 
 protected:
 	virtual void ParseRawData() override;
@@ -67,11 +67,11 @@ public:
 	ZLinkAnimation(ZFile* nParent);
 
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	size_t GetRawDataSize() override;
-	std::string GetSourceTypeName() override;
+	size_t GetRawDataSize() const override;
+	std::string GetSourceTypeName() const override;
 
 	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	                    const uint32_t nRawDataIndex) override;
 
 protected:
 	virtual void ParseRawData() override;
@@ -101,8 +101,8 @@ public:
 
 	[[nodiscard]] std::string GetBody(const std::string& prefix) const;
 
-	static size_t GetRawDataSize();
-	static std::string GetSourceTypeName();
+	size_t GetRawDataSize() const;
+	std::string GetSourceTypeName();
 };
 
 class ZCurveAnimation : public ZAnimation
@@ -134,12 +134,12 @@ public:
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
 	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	                    const uint32_t nRawDataIndex) override;
 
 	void PreGenValues(const std::string& prefix);
-	size_t GetRawDataSize() override;
+	size_t GetRawDataSize() const override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 
-	std::string GetSourceTypeName() override;
+	std::string GetSourceTypeName() const override;
 };
 // TransformUpdateIndex

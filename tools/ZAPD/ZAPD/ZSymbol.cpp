@@ -9,9 +9,9 @@ ZSymbol::ZSymbol(ZFile* nParent) : ZResource(nParent)
 }
 
 void ZSymbol::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                             const uint32_t nRawDataIndex, const std::string& nRelPath)
+                             const uint32_t nRawDataIndex)
 {
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
+	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
 }
 
 void ZSymbol::ParseXML(tinyxml2::XMLElement* reader)
@@ -57,7 +57,7 @@ void ZSymbol::ParseXML(tinyxml2::XMLElement* reader)
 	}
 }
 
-size_t ZSymbol::GetRawDataSize()
+size_t ZSymbol::GetRawDataSize() const
 {
 	if (isArray)
 		return count * typeSize;
@@ -80,12 +80,12 @@ std::string ZSymbol::GetSourceOutputHeader(const std::string& prefix)
 	return StringHelper::Sprintf("extern %s %s%s;\n", type.c_str(), prefix.c_str(), name.c_str());
 }
 
-std::string ZSymbol::GetSourceTypeName()
+std::string ZSymbol::GetSourceTypeName() const
 {
 	return type;
 }
 
-ZResourceType ZSymbol::GetResourceType()
+ZResourceType ZSymbol::GetResourceType() const
 {
 	return ZResourceType::Symbol;
 }

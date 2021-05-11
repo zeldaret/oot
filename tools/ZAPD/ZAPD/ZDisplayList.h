@@ -4,6 +4,7 @@
 #include "ZResource.h"
 #include "ZRoom/ZRoom.h"
 #include "ZTexture.h"
+#include "ZVtx.h"
 #include "tinyxml2.h"
 
 #include <map>
@@ -282,20 +283,6 @@ enum class OoTSegments
 #define FORCE_BL 0x4000
 #define TEX_EDGE 0x0000
 
-class Vertex
-{
-public:
-	int16_t x, y, z;
-	uint16_t flag;
-	int16_t s, t;
-	uint8_t r, g, b, a;
-
-	Vertex();
-	Vertex(int16_t nX, int16_t nY, int16_t nZ, uint16_t nFlag, int16_t nS, int16_t nT, uint8_t nR,
-	       uint8_t nG, uint8_t nB, uint8_t nA);
-	Vertex(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
-};
-
 class ZDisplayList : public ZResource
 {
 protected:
@@ -350,14 +337,12 @@ public:
 
 	DListType dListType;
 
-	// int32_t dListAddress;
-
-	std::map<uint32_t, std::vector<Vertex>> vertices;
+	std::map<uint32_t, std::vector<ZVtx>> vertices;
 	std::map<uint32_t, std::string> vtxDeclarations;
 	std::vector<ZDisplayList*> otherDLists;
 
-	std::map<uint32_t, ZTexture*> textures;
-	std::map<uint32_t, std::string> texDeclarations;
+	ZTexture* lastTexture = nullptr;
+	ZTexture* lastTlut = nullptr;
 
 	std::vector<uint32_t> references;
 
@@ -371,31 +356,27 @@ public:
 	~ZDisplayList();
 
 	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
-	// static ZDisplayList* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder, bool
-	// readFile, ZFile* nParent);
+	                    const uint32_t nRawDataIndex) override;
 
 	void TextureGenCheck(std::string prefix);
-	static bool TextureGenCheck(std::vector<uint8_t> fileData,
-	                            std::map<uint32_t, ZTexture*>& textures, ZRoom* scene,
-	                            ZFile* parent, std::string prefix, int32_t texWidth,
-	                            int32_t texHeight, uint32_t texAddr, uint32_t texSeg,
-	                            F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz, bool texLoaded,
-	                            bool texIsPalette);
+	static bool TextureGenCheck(std::vector<uint8_t> fileData, ZRoom* scene, ZFile* parent,
+	                            std::string prefix, int32_t texWidth, int32_t texHeight,
+	                            uint32_t texAddr, uint32_t texSeg, F3DZEXTexFormats texFmt,
+	                            F3DZEXTexSizes texSiz, bool texLoaded, bool texIsPalette,
+	                            ZDisplayList* self);
 	static int32_t GetDListLength(std::vector<uint8_t> rawData, uint32_t rawDataIndex,
 	                              DListType dListType);
 
-	size_t GetRawDataSize() override;
+	size_t GetRawDataSize() const override;
 	std::string GetSourceOutputHeader(const std::string& prefix) override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 	std::string ProcessLegacy(const std::string& prefix);
 	std::string ProcessGfxDis(const std::string& prefix);
 
-	void Save(const std::string& outFolder) override;
 	virtual void GenerateHLIntermediette(HLFileIntermediette& hlFile) override;
-	bool IsExternalResource() override;
-	virtual std::string GetExternalExtension() override;
-	std::string GetSourceTypeName() override;
+	bool IsExternalResource() const override;
+	virtual std::string GetExternalExtension() const override;
+	std::string GetSourceTypeName() const override;
 
-	ZResourceType GetResourceType() override;
+	ZResourceType GetResourceType() const override;
 };

@@ -1,8 +1,8 @@
 #pragma once
 
+#include <cstring>
 #include <numeric>
 #include <stdarg.h>
-#include <string.h>
 #include <string>
 #include <vector>
 
@@ -66,7 +66,7 @@ public:
 
 	static bool EndsWith(const std::string& s, const std::string& input)
 	{
-		int32_t inputLen = strlen(input.c_str());
+		size_t inputLen = strlen(input.c_str());
 		return s.rfind(input) == (s.size() - inputLen);
 	}
 
@@ -92,4 +92,11 @@ public:
 								   return ss.empty() ? s : ss + separator + s;
 							   });
 	}
+
+	static int64_t StrToL(const std::string& str, int32_t base = 10)
+	{
+		return std::strtoull(str.c_str(), nullptr, base);
+	}
+
+	static std::string BoolStr(bool b) { return b ? "true" : "false"; }
 };

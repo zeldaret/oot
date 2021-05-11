@@ -10,28 +10,14 @@ REGISTER_ZFILENODE(Vector, ZVector);
 
 ZVector::ZVector(ZFile* nParent) : ZResource(nParent)
 {
-	scalars = std::vector<ZScalar*>();
-	this->scalarType = ZSCALAR_NONE;
-	this->dimensions = 0;
-}
-
-ZVector::~ZVector()
-{
-	ClearScalars();
-}
-
-void ZVector::ClearScalars()
-{
-	for (auto s : scalars)
-		delete s;
-
-	scalars.clear();
+	scalarType = ZScalarType::ZSCALAR_NONE;
+	dimensions = 0;
 }
 
 void ZVector::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                             const uint32_t nRawDataIndex, const std::string& nRelPath)
+                             const uint32_t nRawDataIndex)
 {
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
+	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
 }
 
 void ZVector::ParseXML(tinyxml2::XMLElement* reader)
@@ -47,47 +33,47 @@ void ZVector::ParseXML(tinyxml2::XMLElement* reader)
 
 void ZVector::ParseRawData()
 {
-	int32_t currentRawDataIndex = this->rawDataIndex;
+	int32_t currentRawDataIndex = rawDataIndex;
+	// TODO: this shouldn't be necessary.
+	scalars.clear();
 
-	ClearScalars();
-
-	for (uint32_t i = 0; i < this->dimensions; i++)
+	for (uint32_t i = 0; i < dimensions; i++)
 	{
-		ZScalar* scalar = new ZScalar(this->scalarType, this->parent);
-		scalar->rawDataIndex = currentRawDataIndex;
-		scalar->rawData = this->rawData;
-		scalar->ParseRawData();
-		currentRawDataIndex += scalar->GetRawDataSize();
+		ZScalar scalar(scalarType, parent);
+		scalar.rawDataIndex = currentRawDataIndex;
+		scalar.rawData = rawData;
+		scalar.ParseRawData();
+		currentRawDataIndex += scalar.GetRawDataSize();
 
-		this->scalars.push_back(scalar);
+		scalars.push_back(scalar);
 	}
 
 	// Ensure the scalars vector has the same number of elements as the vector dimension.
-	assert(this->scalars.size() == this->dimensions);
+	assert(scalars.size() == dimensions);
 }
 
-size_t ZVector::GetRawDataSize()
+size_t ZVector::GetRawDataSize() const
 {
 	size_t size = 0;
 
 	for (size_t i = 0; i < this->scalars.size(); i++)
-		size += this->scalars[i]->GetRawDataSize();
+		size += this->scalars[i].GetRawDataSize();
 
 	return size;
 }
 
-bool ZVector::DoesSupportArray()
+bool ZVector::DoesSupportArray() const
 {
 	return true;
 }
 
-std::string ZVector::GetSourceTypeName()
+std::string ZVector::GetSourceTypeName() const
 {
-	if (dimensions == 3 && scalarType == ZSCALAR_F32)
+	if (dimensions == 3 && scalarType == ZScalarType::ZSCALAR_F32)
 		return "Vec3f";
-	else if (dimensions == 3 && scalarType == ZSCALAR_S16)
+	else if (dimensions == 3 && scalarType == ZScalarType::ZSCALAR_S16)
 		return "Vec3s";
-	else if (dimensions == 3 && scalarType == ZSCALAR_S32)
+	else if (dimensions == 3 && scalarType == ZScalarType::ZSCALAR_S32)
 		return "Vec3i";
 	else
 	{
@@ -95,33 +81,43 @@ std::string ZVector::GetSourceTypeName()
 			"Encountered unsupported vector type: %d dimensions, %s type", dimensions,
 			ZScalar::MapScalarTypeToOutputType(scalarType).c_str());
 
-		if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+		if (Globals::Instance->verbosity >= VerbosityLevel::VERBOSITY_DEBUG)
 			printf("%s\n", output.c_str());
 
 		throw std::runtime_error(output);
 	}
 }
 
-std::string ZVector::GetSourceValue()
+std::string ZVector::GetBodySourceCode() const
 {
-	std::vector<std::string> strings = std::vector<std::string>();
+	std::string body = "";
 
 	for (size_t i = 0; i < this->scalars.size(); i++)
-		strings.push_back(scalars[i]->GetSourceValue());
+		body += StringHelper::Sprintf("%6s, ", scalars[i].GetBodySourceCode().c_str());
 
-	return "{ " + StringHelper::Implode(strings, ", ") + " }";
+	return "{ " + body + "}";
 }
 
 std::string ZVector::GetSourceOutputCode(const std::string& prefix)
 {
 	if (parent != nullptr)
 		parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, GetRawDataSize(),
-		                       GetSourceTypeName(), GetName(), GetSourceValue());
+		                       GetSourceTypeName(), GetName(), GetBodySourceCode());
 
 	return "";
 }
 
-ZResourceType ZVector::GetResourceType()
+ZResourceType ZVector::GetResourceType() const
 {
 	return ZResourceType::Vector;
+}
+
+void ZVector::SetScalarType(ZScalarType type)
+{
+	scalarType = type;
+}
+
+void ZVector::SetDimensions(uint32_t dim)
+{
+	dimensions = dim;
 }
