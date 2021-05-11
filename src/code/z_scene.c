@@ -1,7 +1,12 @@
 #include "global.h"
 #include "vt.h"
 
-RomFile sNaviMsgFiles[];
+#define ROM_FILE(name) \
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
+#define ROM_FILE_EMPTY(name) \
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
+#define ROM_FILE_UNSET \
+    { 0 }
 
 s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
     u32 size;
@@ -159,6 +164,12 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
 }
 
 s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
+    static void (*sceneCmdHandlers[])(GlobalContext*, SceneCmd*) = {
+        func_80098508, func_800985DC, func_80098630, func_80098674, func_800987A4, func_80099090, func_800987F8,
+        func_8009883C, func_80098904, func_80099134, func_80098958, func_8009899C, func_80098B74, func_80098C24,
+        func_80098C68, func_80098CC8, func_80098D80, func_80098D1C, func_80098D5C, func_800990F0, NULL,
+        func_80099140, func_8009918C, func_8009934C, func_800991A0, func_800993C0,
+    };
     u32 cmdCode;
 
     while (true) {
@@ -171,7 +182,7 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
         }
 
         if (cmdCode <= 0x19) {
-            gSceneCmdHandlers[cmdCode](globalCtx, sceneCmd);
+            sceneCmdHandlers[cmdCode](globalCtx, sceneCmd);
         } else {
             osSyncPrintf(VT_FGCOL(RED));
             // Translates to: "code VARIABLE IS ABNORMAL"
@@ -184,13 +195,14 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
 }
 
 void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
+    static s16 playerObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
     ActorEntry* linkEntry = globalCtx->linkActorEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
                                                         globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
     s16 linkObjectId;
 
     globalCtx->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
 
-    linkObjectId = gLinkObjectIds[((void)0, gSaveContext.linkAge)];
+    linkObjectId = playerObjectIds[((void)0, gSaveContext.linkAge)];
 
     gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
     Object_Spawn(&globalCtx->objectCtx, linkObjectId);
@@ -233,13 +245,19 @@ void func_800987F8(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x07: Special Files
 void func_8009883C(GlobalContext* globalCtx, SceneCmd* cmd) {
+    static RomFile naviMsgFiles[] = {
+        ROM_FILE(elf_message_field),
+        ROM_FILE(elf_message_ydan),
+        ROM_FILE_UNSET,
+    };
+
     if (cmd->specialFiles.keepObjectId != 0) {
         globalCtx->objectCtx.subKeepIndex = Object_Spawn(&globalCtx->objectCtx, cmd->specialFiles.keepObjectId);
         gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
     }
 
     if (cmd->specialFiles.cUpElfMsgNum != 0) {
-        globalCtx->cUpElfMsgs = Gameplay_LoadFile(globalCtx, &sNaviMsgFiles[cmd->specialFiles.cUpElfMsgNum - 1]);
+        globalCtx->cUpElfMsgs = Gameplay_LoadFile(globalCtx, &naviMsgFiles[cmd->specialFiles.cUpElfMsgNum - 1]);
     }
 }
 
@@ -494,28 +512,6 @@ void func_800993C0(GlobalContext* globalCtx, SceneCmd* cmd) {
         }
     }
 }
-
-void (*gSceneCmdHandlers[])(GlobalContext*, SceneCmd*) = {
-    func_80098508, func_800985DC, func_80098630, func_80098674, func_800987A4, func_80099090, func_800987F8,
-    func_8009883C, func_80098904, func_80099134, func_80098958, func_8009899C, func_80098B74, func_80098C24,
-    func_80098C68, func_80098CC8, func_80098D80, func_80098D1C, func_80098D5C, func_800990F0, NULL,
-    func_80099140, func_8009918C, func_8009934C, func_800991A0, func_800993C0,
-};
-
-#define ROM_FILE(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd }
-#define ROM_FILE_EMPTY(name) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomStart }
-#define ROM_FILE_UNSET \
-    { 0 }
-
-RomFile sNaviMsgFiles[] = {
-    ROM_FILE(elf_message_field),
-    ROM_FILE(elf_message_ydan),
-    ROM_FILE_UNSET,
-};
-
-s16 gLinkObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
 
 u32 gObjectTableSize = ARRAY_COUNT(gObjectTable);
 
