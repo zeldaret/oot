@@ -54,15 +54,19 @@ typedef struct {
     /* 0x02 */ s16 unk_02;
     /* 0x04 */ Vec3f unk_04;
     /* 0x10 */ Vec3f unk_10;
-    /* 0x1C */ char unk_1C[0x10];
+    /* 0x1C */ f32 unk_1C;
+    /* 0x20 */ f32 unk_20;
+    /* 0x24 */ f32 unk_24;
+    /* 0x28 */ f32 unk_28;
     /* 0x2C */ f32 unk_2C;
-    /* 0x30 */ char unk_30[0x0C];
+    /* 0x30 */ f32 unk_30;
+    /* 0x34 */ f32 unk_34;
+    /* 0x38 */ f32 unk_38;
     /* 0x3C */ s16 unk_3C;
     /* 0x3E */ s16 unk_3E;
     /* 0x40 */ s16 unk_40;
-    /* 0x42 */ char unk_42[0x02];
+    /* 0x42 */ s16 unk_42;
     /* 0x44 */ u8 unk_44;
-    /* 0x45 */ char unk_45[0x03];
 } struct_80B81FC8; // size = 0x48
 
 typedef struct {
@@ -93,18 +97,16 @@ const ActorInit Fishing_InitVars = {
     (ActorFunc)Fishing_Draw,
 };
 
+extern s8 D_80B7A66C;
+extern f32 D_80B7A670;
 extern u8 D_80B7A674;
 extern u16 D_80B7A678;
+extern s32 D_80B7A680;
 extern s16 D_80B7A684;
 extern u8 D_80B7A688;
 extern u8 D_80B7A68C;
 extern u8 D_80B7A690;
 extern s16 D_80B7A694;
-extern ColliderJntSphInit D_80B7A888;
-extern Vec3f D_80B7A89C;
-extern Vec3f D_80B7A8B4;
-extern Vec3f D_80B7A8C0;
-extern Vec3f D_80B7A8CC;
 extern Vec3f D_80B7A698;
 extern u8 D_80B7A6A4;
 extern f32 D_80B7A6A8;
@@ -117,6 +119,13 @@ extern f32 D_80B7A6C0;
 extern s16 D_80B7A6C4;
 extern s16 D_80B7A6C8;
 extern u8 D_80B7A6D4;
+extern f32 D_80B7A70C[][4];
+extern ColliderJntSphInit D_80B7A888;
+extern Vec3f D_80B7A89C;
+extern Vec3f D_80B7A8B4;
+extern Vec3f D_80B7A8C0;
+extern Vec3f D_80B7A8CC;
+extern f32 D_80B7A898;
 extern struct_80B7A8D8 D_80B7A8D8[];
 extern struct_80B7AD40 D_80B7AD40[];
 extern InitChainEntry D_80B7AE50[];
@@ -128,7 +137,10 @@ extern f32 D_80B7AE88[];
 extern f32 D_80B7AED8[];
 extern f32 D_80B7AF30[];
 extern Vec3f D_80B7AF88;
+extern Vec3f D_80B7AF94;
+extern Vec3f D_80B7AFA0;
 extern Vec3f D_80B7AFAC;
+extern u16 D_80B7AFB8[];
 extern void* D_80B7AFF4[];
 
 extern Fishing* D_80B7E070;
@@ -137,7 +149,11 @@ extern u8 D_80B7E075;
 extern u8 D_80B7E076;
 extern u8 D_80B7E077;
 extern f32 D_80B7E078;
+extern u8 D_80B7E07C;
 extern u8 D_80B7E07D;
+extern u8 D_80B7E07E;
+extern u8 D_80B7E082;
+extern u16 D_80B7E084;
 extern Vec3f D_80B7E090;
 extern Vec3s D_80B7E09C;
 extern s16 D_80B7E0A6;
@@ -151,9 +167,11 @@ extern Vec3f D_80B7E0B8;
 extern Vec3f D_80B7E0C8;
 extern Vec3f D_80B7E0D8;
 extern Vec3f D_80B7E0E8;
+extern Vec3f D_80B7E0F8;
 extern f32 D_80B7E0BC;
 extern f32 D_80B7E104;
 extern f32 D_80B7E108;
+extern s8 D_80B7E114;
 extern u8 D_80B7E124;
 extern f32 D_80B7E138;
 extern f32 D_80B7E144;
@@ -1817,8 +1835,64 @@ void func_80B70CF0(Fishing* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B70ED4(Fishing* this, Input* input);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B70ED4.s")
+void func_80B70ED4(Fishing* this, Input* input) {
+    Vec3f sp34;
+    Vec3f sp28;
+    f32 sp24;
+
+    sp34.x = D_80B7E0B8.x - this->actor.world.pos.x;
+    sp34.y = D_80B7E0B8.y - this->actor.world.pos.y;
+    sp34.z = D_80B7E0B8.z - this->actor.world.pos.z;
+
+    sp24 = SQ(sp34.x) + SQ(sp34.y) + SQ(sp34.z);
+
+    if ((D_80B7A694 == 3) && (this->unk_1A2 == 0) && (D_80B7A68C == 0)) {
+        Matrix_RotateY(((0 - this->actor.shape.rot.y) / 32768.0f) * 3.1415927f, 0);
+        Matrix_MultVec3f(&sp34, &sp28);
+
+        if ((sp28.z > 0.0f) || (this->unk_1AC < 40.0f)) {
+            if ((this->unk_158 == 7) && (sp24 < SQ(200.0f))) {
+                this->unk_158 = 4;
+                this->unk_1B4 = D_80B7E0B8;
+                this->unk_1B0 = 28672.0f;
+                this->unk_188 = 5.0f;
+            } else {
+                if ((CHECK_BTN_ALL(input->cur.button, BTN_A) || (D_80B7E138 > 1.0f)) && (sp24 < SQ(120.0f))) {
+                    this->unk_158 = 2;
+                    this->unk_15E = 0;
+                    this->unk_17A = 0;
+                    this->unk_17E = (s16)Rand_ZeroFloat(100.0f) + 100;
+                    this->unk_1A8 = D_80B7A70C[this->actor.params][0];
+                    this->unk_1B0 = 0.0f;
+                }
+
+                if ((this->unk_17C == 0) && (sp24 < SQ(70.0f))) {
+                    this->unk_158 = 2;
+                    this->unk_15E = 0;
+                    this->unk_17A = 0;
+                    this->unk_17E = (s16)Rand_ZeroFloat(100.0f) + 100;
+                    this->unk_1A8 = D_80B7A70C[this->actor.params][0];
+                    this->unk_1B0 = 0.0f;
+                }
+            }
+        }
+    } else if ((D_80B7A694 == 4) && (D_80B7E124 != 0) && (sp24 < SQ(100.0f)) && (this->unk_158 >= 10)) {
+        this->unk_15A = 0;
+        this->unk_158 = 1;
+        this->unk_1A4 = 1000;
+        this->unk_1A2 = 100;
+        this->unk_17C = 50;
+    }
+
+    if ((D_80B7E0B6 != 2) && (D_80B7E114 != 0) && (this->unk_1AC > 60.0f) && (sp24 < SQ(30.0f)) &&
+        (this->unk_158 >= 10)) {
+        this->unk_15A = 0;
+        this->unk_158 = 1;
+        this->unk_1A4 = 1000;
+        this->unk_1A2 = 100;
+        this->unk_17C = 50;
+    }
+}
 
 void func_80B71278(Fishing* this, u8 arg1) {
     s16 sfxId;
@@ -1949,8 +2023,33 @@ void func_80B75DA4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-void Fishing_Draw(Actor* thisx, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/Fishing_Draw.s")
+void Fishing_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Fishing* this = THIS;
+
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
+    Matrix_RotateY(((this->unk_162 + this->actor.shape.rot.y) / 32768.0f) * M_PI, MTXMODE_APPLY);
+    Matrix_RotateX(((this->unk_160 + this->actor.shape.rot.x) / 32768.0f) * M_PI, MTXMODE_APPLY);
+    Matrix_RotateZ(((this->unk_164 + this->actor.shape.rot.z) / 32768.0f) * M_PI, MTXMODE_APPLY);
+    Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
+
+    if (this->unk_150 == 0) {
+        Matrix_RotateY((this->unk_16C * (M_PI / 32768)) - (M_PI / 2), MTXMODE_APPLY);
+        Matrix_Translate(0.0f, 0.0f, this->unk_16C * 10.0f * 0.01f, MTXMODE_APPLY);
+
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              this->skelAnime.dListCount, func_80B75BAC, func_80B75CE0, this);
+    } else {
+        Matrix_Translate(0.0f, 0.0f, 3000.0f, MTXMODE_APPLY);
+        Matrix_RotateY(this->unk_16C * (M_PI / 32768), MTXMODE_APPLY);
+        Matrix_Translate(0.0f, 0.0f, -3000.0f, MTXMODE_APPLY);
+        Matrix_RotateY(-(M_PI / 2), MTXMODE_APPLY);
+
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              this->skelAnime.dListCount, func_80B75D20, func_80B75DA4, this);
+    }
+}
 
 void func_80B76028(struct_80B7FEF8* arg0, Vec3f* arg1) {
     f32 dx = arg0->unk_00.x - arg1->x;
@@ -2153,8 +2252,191 @@ void func_80B76474(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 7805);
 }
 
-void func_80B768FC(GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B768FC.s")
+void func_80B768FC(GlobalContext* globalCtx) {
+    s16 spFE = 0;
+    Player* player = PLAYER;
+    struct_80B81FC8* phi_s0 = &D_80B81FC8[0];
+    f32 spF0;
+    f32 temp_f22;
+    f32 spE8;
+    f32 temp_f20_4;
+    f32 spE0;
+    f32 temp_f22_4;
+    f32 spD8;
+    s16 spD6;
+    s16 spD4;
+    f32 temp_f20;
+    Vec3f spAC[3];
+    Vec3f spA0;
+    Vec3f* phi_s2;
+    s16 phi_s6;
+    s16 phi_s3;
+    s16 phi_s2_2;
+    s16 phi_a1;
+
+    if ((D_80B7E114 != 0) || (D_80B7A694 == 4)) {
+        phi_s2 = &D_80B7E0B8;
+    } else {
+        phi_s2 = &player->actor.world.pos;
+    }
+
+    spAC[0].x = sinf(D_80B830A8) * 720.0f;
+    spAC[0].y = -35.0f;
+    spAC[0].z = cosf(D_80B830A8) * 720.0f;
+
+    temp_f20 = phi_s2->x - spAC[0].x;
+    temp_f22 = phi_s2->z - spAC[0].z;
+
+    if ((SQ(temp_f20) + SQ(temp_f22)) < 2500.0f) {
+        D_80B830A8 += 0.3f;
+        spFE = 1;
+    } else if (D_80B7A898 != 0.0f) {
+        D_80B830A8 += 0.05f;
+        spAC[0].y = globalCtx->colCtx.colHeader->waterBoxes->ySurface - 5.0f;
+    } else {
+        Math_ApproachF(&D_80B830A8, 0.7f, 1.0f, 0.001f);
+    }
+
+    spAC[1].x = sinf(D_80B830AC) * 720.0f;
+    spAC[1].y = -35.0f;
+    spAC[1].z = cosf(D_80B830AC) * 720.0f;
+
+    temp_f20 = phi_s2->x - spAC[1].x;
+    temp_f22 = phi_s2->z - spAC[1].z;
+
+    if ((SQ(temp_f20) + SQ(temp_f22)) < 2500.0f) {
+        spFE |= 2;
+        D_80B830AC -= 0.3f;
+    } else if (D_80B7A898 != 0.0f) {
+        D_80B830AC -= 0.05f;
+        spAC[1].y = globalCtx->colCtx.colHeader->waterBoxes->ySurface - 5.0f;
+    } else {
+        Math_ApproachF(&D_80B830AC, 2.3f, 1.0f, 0.001f);
+    }
+
+    spAC[2].x = sinf(D_80B830B0) * 720.0f;
+    spAC[2].y = -35.0f;
+    spAC[2].z = cosf(D_80B830B0) * 720.0f;
+
+    temp_f20 = phi_s2->x - spAC[2].x;
+    temp_f22 = phi_s2->z - spAC[2].z;
+
+    if ((SQ(temp_f20) + SQ(temp_f22)) < 2500.0f) {
+        spFE |= 4;
+        D_80B830B0 -= 0.3f;
+    } else if (D_80B7A898 != 0.0f) {
+        D_80B830B0 -= 0.05f;
+        spAC[2].y = globalCtx->colCtx.colHeader->waterBoxes->ySurface - 5.0f;
+    } else {
+        Math_ApproachF(&D_80B830B0, 4.6f, 1.0f, 0.001f);
+    }
+
+    if (D_80B7E075 == 1) {
+        spD8 = 0.8f;
+    } else {
+        spD8 = 1.0f;
+    }
+
+    for (phi_s6 = 0; phi_s6 < 0x3C; phi_s6++) {
+        if (phi_s0->unk_00 != 0) {
+            phi_s0->unk_02++;
+
+            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &phi_s0->unk_04, &phi_s0->unk_1C, &D_80B7FEA4);
+
+            if ((phi_s0->unk_24 < 400.0f) && (fabsf(phi_s0->unk_1C) < (100.0f + phi_s0->unk_24))) {
+                phi_s0->unk_44 = 1;
+            } else {
+                phi_s0->unk_44 = 0;
+            }
+
+            if (phi_s6 < 0x15) {
+                phi_s2_2 = 0;
+                phi_s3 = 1;
+            } else if (phi_s6 < 0x29) {
+                phi_s2_2 = 1;
+                phi_s3 = 2;
+            } else {
+                phi_s2_2 = 2;
+                phi_s3 = 4;
+            }
+
+            temp_f20_4 = phi_s0->unk_10.x - phi_s0->unk_04.x;
+            spF0 = phi_s0->unk_10.y - phi_s0->unk_04.y;
+            temp_f22_4 = phi_s0->unk_10.z - phi_s0->unk_04.z;
+            spD4 = Math_Atan2S(temp_f22_4, temp_f20_4);
+            spE8 = sqrtf(SQ(temp_f20_4) + SQ(temp_f22_4));
+            spD6 = Math_Atan2S(spE8, spF0);
+
+            if ((spE8 < 10.0f) || (((phi_s0->unk_02 & 31) == 0) && (Rand_ZeroOne() > 0.5f))) {
+                phi_s0->unk_10.y = spAC[phi_s2_2].y + Rand_CenteredFloat(10.0f);
+
+                if (D_80B7A898 != 0.0f) {
+                    phi_s0->unk_10.x = spAC[phi_s2_2].x + Rand_CenteredFloat(200.0f);
+                    phi_s0->unk_10.z = spAC[phi_s2_2].z + Rand_CenteredFloat(200.0f);
+                } else {
+                    phi_s0->unk_10.x = spAC[phi_s2_2].x + Rand_CenteredFloat(100.0f);
+                    phi_s0->unk_10.z = spAC[phi_s2_2].z + Rand_CenteredFloat(100.0f);
+                }
+
+                spA0 = phi_s0->unk_04;
+                spA0.y = globalCtx->colCtx.colHeader->waterBoxes->ySurface;
+                func_80B69C2C(&phi_s0->unk_1C, globalCtx->specialEffects, &spA0, 20.0f, Rand_ZeroFloat(50.0f) + 100.0f,
+                              150, 90);
+
+                if (phi_s0->unk_28 < 1.5f) {
+                    phi_s0->unk_28 = 1.5f;
+                }
+
+                phi_s0->unk_34 = 1.5f;
+                phi_s0->unk_38 = 1.0f;
+            }
+
+            phi_a1 = func_80B69B84(&phi_s0->unk_3E, spD4, 5, 0x4000) * 3.0f;
+            if (phi_a1 > 0x1F40) {
+                phi_a1 = 0x1F40;
+            } else if (phi_a1 < -0x1F40) {
+                phi_a1 = -0x1F40;
+            }
+
+            Math_ApproachS(&phi_s0->unk_42, phi_a1, 3, 0x1388);
+
+            spE0 = phi_s0->unk_42 * -0.0001f;
+            Math_ApproachS(&phi_s0->unk_3C, spD6, 5, 0x4000);
+
+            if ((spFE & phi_s3) != 0) {
+                phi_s0->unk_38 = 1.0f;
+                phi_s0->unk_28 = 6.0f;
+                phi_s0->unk_34 = 2.0f;
+            }
+
+            if (D_80B7A898 != 0.0f) {
+                phi_s0->unk_38 = 1.0f;
+                phi_s0->unk_28 = 4.0f;
+                phi_s0->unk_34 = 2.0f;
+            }
+
+            Math_ApproachF(&phi_s0->unk_28, 0.75f, 1.0f, 0.05f);
+
+            temp_f20 = phi_s0->unk_28 * spD8;
+            temp_f22 = Math_CosS(phi_s0->unk_3C) * temp_f20;
+
+            phi_s0->unk_04.x += temp_f22 * Math_SinS(phi_s0->unk_3E);
+            phi_s0->unk_04.y += temp_f20 * Math_SinS(phi_s0->unk_3C);
+            phi_s0->unk_04.z += temp_f22 * Math_CosS(phi_s0->unk_3E);
+
+            if (phi_s0->unk_44 != 0) {
+                Math_ApproachF(&phi_s0->unk_34, 1.0f, 1.0f, 0.1f);
+                Math_ApproachF(&phi_s0->unk_38, 0.4f, 1.0f, 0.04f);
+                phi_s0->unk_30 += phi_s0->unk_34;
+                phi_s0->unk_2C = (cosf(phi_s0->unk_30) * phi_s0->unk_38) + spE0;
+            }
+        }
+
+        phi_s0++;
+    }
+
+    D_80B7A898 = 0.0f;
+}
 
 void func_80B771CC(GlobalContext* globalCtx) {
     u8 phi_s5 = 0;
@@ -2206,8 +2488,348 @@ void func_80B771CC(GlobalContext* globalCtx) {
     }
 }
 
-void func_80B77404(Fishing* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B77404.s")
+void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
+    s32 sp34;
+    f32 temp;
+
+    switch (this->unk_15C) {
+        case 0:
+            if (D_80B7E0AC == 0) {
+                if (D_80B7E075 != 1) {
+                    if ((gSaveContext.highScores[2] & 0x100) && !(gSaveContext.highScores[2] & 0x200)) {
+                        this->actor.textId = 0x4093;
+                    } else {
+                        this->actor.textId = 0x407B;
+                    }
+                } else {
+                    this->actor.textId = 0x407B;
+                }
+            } else if (D_80B7A68C == 0) {
+                this->actor.textId = 0x4084;
+            } else {
+                this->actor.textId = 0x4097;
+            }
+
+            if (func_8002F194(&this->actor, globalCtx) != 0) {
+                if (D_80B7E0AC == 0) {
+                    this->unk_15C = 1;
+                    if (D_80B7E075 != 1) {
+                        gSaveContext.highScores[2] |= 0x200;
+                    } else {
+                        gSaveContext.highScores[2] |= 0x100;
+                    }
+                } else {
+                    this->unk_15C = 10;
+                }
+            } else {
+                func_8002F2CC(&this->actor, globalCtx, 100.0f);
+            }
+            break;
+
+        case 1:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                func_80106CCC(globalCtx);
+
+                switch (globalCtx->msgCtx.choiceIndex) {
+                    case 0:
+                        if (gSaveContext.rupees >= 20) {
+                            Rupees_ChangeBy(-20);
+                            if (func_800AA148() == 0) {
+                                this->actor.textId = 0x407C;
+                            } else {
+                                this->actor.textId = 0x407D;
+                            }
+                            func_8010B720(globalCtx, this->actor.textId);
+                            this->unk_15C = 2;
+                        } else {
+                            func_8010B720(globalCtx, 0x407E);
+                            this->unk_15C = 3;
+                        }
+                        break;
+                    case 1:
+                        func_8010B720(globalCtx, 0x2D);
+                        this->unk_15C = 3;
+                        break;
+                }
+            }
+            break;
+
+        case 2:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+                func_80106CCC(globalCtx);
+                func_8010B720(globalCtx, 0x407F);
+                this->unk_15C = 4;
+            }
+            break;
+
+        case 3:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+                func_80106CCC(globalCtx);
+                this->unk_15C = 0;
+            }
+            if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
+                this->unk_15C = 0;
+            }
+            break;
+
+        case 4:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                func_80106CCC(globalCtx);
+
+                switch (globalCtx->msgCtx.choiceIndex) {
+                    case 0:
+                        D_80B7A678 = D_80B7E078;
+                        func_8010B720(globalCtx, 0x4080);
+                        this->unk_15C = 5;
+                        break;
+                    case 1:
+                        func_8010B720(globalCtx, 0x407F);
+                        break;
+                }
+            }
+            break;
+
+        case 5:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+                func_80106CCC(globalCtx);
+
+                globalCtx->interfaceCtx.unk_260 = 1;
+                globalCtx->startPlayerFishing(globalCtx);
+                D_80B7E0AC = 1;
+                D_80B7A684 = 20;
+                this->unk_15C = 0;
+
+                if ((gSaveContext.highScores[2] & 0xFF0000) < 0xFF0000) {
+                    gSaveContext.highScores[2] += 0x10000;
+                }
+            }
+            break;
+
+        case 10:
+            if (D_80B7A68C != 0) {
+                if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                    func_80106CCC(globalCtx);
+
+                    switch (globalCtx->msgCtx.choiceIndex) {
+                        case 0:
+                            func_8010B720(globalCtx, 0x40B2);
+                            D_80B7A688 = 1;
+                            D_80B7A68C = 0;
+                            this->unk_15C = 20;
+                            break;
+                        case 1:
+                            this->unk_15C = 0;
+                            break;
+                    }
+                }
+            } else {
+                if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                    func_80106CCC(globalCtx);
+
+                    switch (globalCtx->msgCtx.choiceIndex) {
+                        case 0:
+                            if (D_80B7A670 == 0.0f) {
+                                this->actor.textId = 0x408C;
+                                this->unk_15C = 20;
+                            } else if (D_80B7E07C == 0) {
+                                D_80B7A678 = D_80B7A670;
+                                if ((s16)D_80B7E078 < (s16)D_80B7A670) {
+                                    if (D_80B7E07E == 2) {
+                                        this->actor.textId = 0x40B0;
+                                    } else {
+                                        this->actor.textId = 0x4086;
+                                    }
+                                    this->unk_15C = 11;
+                                } else {
+                                    this->actor.textId = 0x408B;
+                                    this->unk_15C = 20;
+                                }
+                            } else {
+                                this->actor.textId = 0x409B;
+                                this->unk_15C = 11;
+                            }
+                            func_8010B720(globalCtx, this->actor.textId);
+                            break;
+                        case 1:
+                            if (D_80B7A680 > 0x8CA0) {
+                                D_80B7A680 = 0x7530;
+                                func_8010B720(globalCtx, 0x4088);
+                            } else {
+                                if (D_80B7E076 == 0) {
+                                    if (D_80B7E082 == 0) {
+                                        D_80B7E082++;
+                                    }
+                                }
+
+                                if ((D_80B7E0B6 == 2) && (D_80B7AFB8[D_80B7E082] == 0x408D)) {
+                                    func_8010B720(globalCtx, 0x40AF);
+                                } else {
+                                    func_8010B720(globalCtx, D_80B7AFB8[D_80B7E082]);
+                                }
+
+                                D_80B7E082++;
+
+                                if (D_80B7E075 != 1) {
+                                    if (D_80B7E082 >= 6) {
+                                        D_80B7E082 = 0;
+                                    }
+                                } else {
+                                    if (D_80B7E082 >= 4) {
+                                        D_80B7E082 = 0;
+                                    }
+                                }
+                            }
+                            this->unk_15C = 0;
+                            break;
+                        case 2:
+                            if (D_80B7E084 == 0) {
+                                func_8010B720(globalCtx, 0x4085);
+                            } else if (D_80B7E075 == 1) {
+                                func_8010B720(globalCtx, 0x4092);
+                            }
+                            this->unk_15C = 22;
+                            break;
+                    }
+                }
+            }
+            break;
+
+        case 11:
+            if (((func_8010BDBC(&globalCtx->msgCtx) == 5) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) &&
+                (func_80106BC8(globalCtx) != 0)) {
+                func_80106CCC(globalCtx);
+
+                if (D_80B7E07C == 0) {
+                    D_80B7E078 = D_80B7A670;
+                    D_80B7A670 = 0.0f;
+
+                    if (D_80B7E075 == 1) {
+                        gSaveContext.highScores[2] &= 0xFFFFFF00;
+                        gSaveContext.highScores[2] |= (s32)D_80B7E078 & 0x7F;
+
+                        temp = ((gSaveContext.highScores[2] & 0x7F000000) >> 0x18);
+                        if (temp < D_80B7E078) {
+                            gSaveContext.highScores[2] &= 0xFFFFFF;
+                            gSaveContext.highScores[2] |= ((s32)D_80B7E078 & 0x7F) << 0x18;
+
+                            if (D_80B7E07E == 2) {
+                                gSaveContext.highScores[2] |= 0x80000000;
+                            }
+                        }
+
+                        if (D_80B7E07E == 2) {
+                            gSaveContext.highScores[2] |= 0x80;
+                            this->unk_15C = 0;
+                            break;
+                        }
+                    } else {
+                        gSaveContext.highScores[2] &= 0xFFFFFF;
+                        gSaveContext.highScores[2] |= ((s32)D_80B7E078 & 0x7F) << 0x18;
+
+                        if (D_80B7E07E == 2) {
+                            gSaveContext.highScores[2] |= 0x80000000;
+                            this->unk_15C = 0;
+                            break;
+                        }
+                    }
+
+                    if (D_80B7E078 >= 60.0f) {
+                        sp34 = GI_RUPEE_PURPLE;
+                    } else if (D_80B7E078 >= 50.0f) {
+                        sp34 = GI_RUPEE_RED;
+                    } else if (D_80B7E078 >= 40.0f) {
+                        sp34 = GI_RUPEE_BLUE;
+                    } else {
+                        sp34 = GI_RUPEE_GREEN;
+                    }
+
+                    if (D_80B7E075 == 1) {
+                        if ((D_80B7E078 >= 50.0f) && !(gSaveContext.highScores[2] & 0x400)) {
+                            gSaveContext.highScores[2] |= 0x400;
+                            sp34 = GI_HEART_PIECE;
+                            D_80B7A66C = (u8)Rand_ZeroFloat(3.999f) + 1;
+                        }
+                    } else {
+                        if ((D_80B7E078 >= 60.0f) && !(gSaveContext.highScores[2] & 0x800)) {
+                            gSaveContext.highScores[2] |= 0x800;
+                            sp34 = GI_SCALE_GOLD;
+                            D_80B7A66C = (u8)Rand_ZeroFloat(3.999f) + 1;
+                        }
+                    }
+                } else {
+                    sp34 = GI_RUPEE_PURPLE;
+                    D_80B7A670 = 0.0f;
+                }
+
+                this->actor.parent = NULL;
+                func_8002F434(&this->actor, globalCtx, sp34, 2000.0f, 1000.0f);
+                this->unk_15C = 23;
+            }
+            break;
+
+        case 20:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+                func_80106CCC(globalCtx);
+                this->unk_15C = 0;
+            }
+            break;
+
+        case 21:
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                func_80106CCC(globalCtx);
+
+                switch (globalCtx->msgCtx.choiceIndex) {
+                    case 0:
+                        this->unk_15C = 0;
+                        break;
+                    case 1:
+                        if (D_80B7E084 == 0) {
+                            func_8010B720(globalCtx, 0x4085);
+                        } else if (D_80B7E075 == 1) {
+                            func_8010B720(globalCtx, 0x4092);
+                        }
+                        this->unk_15C = 22;
+                        break;
+                }
+            }
+            break;
+
+        case 22:
+            if (globalCtx) {}
+
+            if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
+                this->unk_15C = 0;
+                if (D_80B7A68C != 0) {
+                    D_80B7A688 = 1;
+                    D_80B7A68C = 0;
+                }
+                D_80B7E0AC = 0;
+                globalCtx->interfaceCtx.unk_260 = 0;
+            }
+            break;
+
+        case 23:
+            D_80B7A674 = 0;
+            if (Actor_HasParent(&this->actor, globalCtx)) {
+                this->unk_15C = 24;
+            } else {
+                func_8002F434(&this->actor, globalCtx, GI_SCALE_GOLD, 2000.0f, 1000.0f);
+            }
+            break;
+
+        case 24:
+            D_80B7A674 = 0;
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+                if (D_80B7E07C == 0) {
+                    this->unk_15C = 0;
+                } else {
+                    func_8010B680(globalCtx, 0x409C, NULL);
+                    this->unk_15C = 20;
+                }
+            }
+            break;
+    }
+}
 
 void func_80B7825C(Actor* thisx, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B7825C.s")
