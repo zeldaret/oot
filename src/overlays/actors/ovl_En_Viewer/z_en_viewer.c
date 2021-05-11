@@ -572,7 +572,7 @@ void func_80B2B4A8(EnViewer* this, GlobalContext* globalCtx) {
 
     if (params == 9) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
-                              this->skin.skelAnime.dListCount, 0, func_80B2B364, this);
+                              this->skin.skelAnime.dListCount, NULL, func_80B2B364, this);
     } else if (params == 3) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
                               this->skin.skelAnime.dListCount, func_80B2B2F4, func_80B2B468, this);
@@ -580,11 +580,11 @@ void func_80B2B4A8(EnViewer* this, GlobalContext* globalCtx) {
     } else if ((params == 3) || (params == 5) || (params == 7) || (params == 8)) {
         if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[1] != NULL)) {
             SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
-                                  this->skin.skelAnime.dListCount, 0, func_80B2B468, this);
+                                  this->skin.skelAnime.dListCount, NULL, func_80B2B468, this);
             func_80B2CC1C(globalCtx, this);
         }
     } else {
-        SkelAnime_DrawOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable, NULL, 0, this);
+        SkelAnime_DrawOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable, NULL, NULL, this);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1511);
 }
@@ -688,7 +688,7 @@ void func_80B2C130(EnViewer* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
     SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
-                          this->skin.skelAnime.dListCount, func_80B2C10C, 0, this);
+                          this->skin.skelAnime.dListCount, func_80B2C10C, NULL, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1740);
 }
 

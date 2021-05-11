@@ -46,6 +46,11 @@
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.inventory.questItems)
 #define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
 
+#define GET_GS_FLAGS(index) \
+    ((gSaveContext.gsFlags[(index) >> 2] & gGsFlagsMask[(index) & 3]) >> gGsFlagsShift[(index) & 3])
+#define SET_GS_FLAGS(index, value) \
+    (gSaveContext.gsFlags[(index) >> 2] |= (value) << gGsFlagsShift[(index) & 3])
+
 #define HIGH_SCORE(score) (gSaveContext.highScores[score])
 
 #define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
@@ -136,5 +141,18 @@ extern GraphicsContext* __gfxCtx;
 #else
 #define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(msg, file, line))
 #endif
+
+#define gDPSetTileCustom(pkt, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)                    \
+    do {                                                                                                               \
+        gDPPipeSync(pkt);                                                                                              \
+        gDPTileSync(pkt);                                                                                              \
+        gDPSetTile(pkt, fmt, siz, (((width)*siz##_TILE_BYTES) + 7) >> 3, 0, G_TX_LOADTILE, 0, cmt, maskt, shiftt, cms, \
+                   masks, shifts);                                                                                     \
+        gDPTileSync(pkt);                                                                                              \
+        gDPSetTile(pkt, fmt, siz, (((width)*siz##_TILE_BYTES) + 7) >> 3, 0, G_TX_RENDERTILE, pal, cmt, maskt, shiftt,  \
+                   cms, masks, shifts);                                                                                \
+        gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,                                \
+                       ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
+    } while (0)
 
 #endif
