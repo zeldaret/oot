@@ -232,6 +232,7 @@ extern u32 gGsFlagsMask[4];
 extern u32 gGsFlagsShift[4];
 extern void* gItemIcons[0x82];
 extern u8 gItemSlots[56];
+extern s16 gPlayerObjectIds[2];
 extern u32 gObjectTableSize;
 extern RomFile gObjectTable[OBJECT_ID_MAX];
 extern EntranceInfo gEntranceTable[1556];

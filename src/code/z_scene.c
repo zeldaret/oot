@@ -194,15 +194,16 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
     return 0;
 }
 
+s16 gPlayerObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
+
 void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
-    static s16 playerObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
     ActorEntry* linkEntry = globalCtx->linkActorEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
                                                         globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
     s16 linkObjectId;
 
     globalCtx->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
 
-    linkObjectId = playerObjectIds[((void)0, gSaveContext.linkAge)];
+    linkObjectId = gPlayerObjectIds[((void)0, gSaveContext.linkAge)];
 
     gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
     Object_Spawn(&globalCtx->objectCtx, linkObjectId);
