@@ -232,8 +232,6 @@ extern u32 gGsFlagsMask[4];
 extern u32 gGsFlagsShift[4];
 extern void* gItemIcons[0x82];
 extern u8 gItemSlots[56];
-extern void (*sSceneCmdHandlers[26])(GlobalContext*, SceneCmd*);
-extern s16 gLinkObjectIds[2];
 extern u32 gObjectTableSize;
 extern RomFile gObjectTable[OBJECT_ID_MAX];
 extern EntranceInfo gEntranceTable[1556];
