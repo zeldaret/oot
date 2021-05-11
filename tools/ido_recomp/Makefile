@@ -34,6 +34,7 @@ cc_c.c: ./$(RECOMP)
 	./$(RECOMP)  ../ido7.1_compiler/usr/bin/cc > cc_c.c
 	gcc libc_impl.c  cc_c.c -o cc -fno-strict-aliasing -lm -no-pie -O2 -DIDO73
 	mv cc build71
+	rm cc_c.c
 
 cfe_c.c: ./$(RECOMP)
 	./$(RECOMP)  ../ido5.3_compiler/usr/lib/cfe > cfe_c.c
@@ -43,6 +44,7 @@ cfe_c.c: ./$(RECOMP)
 	./$(RECOMP)  ../ido7.1_compiler/usr/lib/cfe > cfe_c.c
 	gcc libc_impl.c  cfe_c.c -o cfe -fno-strict-aliasing -lm -no-pie -O2 -DIDO71
 	mv cfe build71
+	rm cfe_c.c
 
 uopt_c.c: ./$(RECOMP)
 	./$(RECOMP)  ../ido5.3_compiler/usr/lib/uopt > uopt_c.c
@@ -52,6 +54,7 @@ uopt_c.c: ./$(RECOMP)
 	./$(RECOMP)  ../ido7.1_compiler/usr/lib/uopt > uopt_c.c
 	gcc libc_impl.c  uopt_c.c -o uopt -fno-strict-aliasing -lm -no-pie -O2 -DIDO71
 	mv uopt build71
+	rm uopt_c.c
 
 ugen_c.c: ./$(RECOMP)
 	./$(RECOMP)  ../ido5.3_compiler/usr/lib/ugen > ugen_c.c
@@ -61,6 +64,7 @@ ugen_c.c: ./$(RECOMP)
 	./$(RECOMP)  ../ido7.1_compiler/usr/lib/ugen > ugen_c.c
 	gcc libc_impl.c  ugen_c.c -o ugen -fno-strict-aliasing -lm -no-pie -O2 -DIDO71
 	mv ugen build71
+	rm ugen_c.c
 
 as1_c.c: ./$(RECOMP)
 	./$(RECOMP)  ../ido5.3_compiler/usr/lib/as1 > as1_c.c
@@ -70,20 +74,10 @@ as1_c.c: ./$(RECOMP)
 	./$(RECOMP)  ../ido7.1_compiler/usr/lib/as1 > as1_c.c
 	gcc libc_impl.c  as1_c.c -o as1 -fno-strict-aliasing -lm -no-pie -O2 -DIDO71
 	mv as1 build71
+	rm as1_c.c
+
 err:
 	$(shell cp ../ido5.3_compiler/usr/lib/err.english.cc build53)
 	$(shell cp ../ido7.1_compiler/usr/lib/err.english.cc build71)
-
-##err.english.cc: $(IRIX_ROOT53)/usr/lib/err.english.cc ##
-##	cp $^ $@
-
-##cc_c.c: $(IRIX_ROOT53)/usr/bin/cc $(RECOMP)
-##	./$(RECOMP) $(RECOMP_FLAGS) $< > $@
-
-##%_c.c: $(IRIX_ROOT53)/usr/lib/% $(RECOMP) 
-##	./$(RECOMP) $(RECOMP_FLAGS) $< > $@
-
-##%: %_c.c libc_impl.o
-##	$(CC) libc_impl.o $< -o $@ $(OPT_CFLAGS) -fno-strict-aliasing -lm -no-pie
 
 .PHONY: all clean

@@ -246,7 +246,7 @@ static void find_bin_dir(void) {
     }
 #elif defined __APPLE__
     uint32_t size = PATH_MAX;
-    if (_NSGetExecutablePath(path, &size)) < 0) {
+    if (_NSGetExecutablePath(path, &size) < 0) {
         return;
     }
 #else
