@@ -13,7 +13,6 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
     os.system(execStr)
 
 def ExtractFunc(fullPath):
-    print(fullPath)
     outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
     outSourcePath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
 
