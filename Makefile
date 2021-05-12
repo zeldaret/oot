@@ -207,6 +207,7 @@ setup:
 	mkdir -p baserom
 	python3 fixbaserom.py
 	tools/extract_baserom
+	python3 extract_assets.py
 
 resources: $(ASSET_FILES_OUT)
 test: $(ROM)
