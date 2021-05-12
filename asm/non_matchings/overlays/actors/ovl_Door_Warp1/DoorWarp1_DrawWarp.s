@@ -24,7 +24,7 @@ glabel D_8099C7EC
     .float 1.7
 
 .text
-glabel func_8099B5EC
+glabel DoorWarp1_DrawWarp
 /* 02E6C 8099B5EC 27BDFF08 */  addiu   $sp, $sp, 0xFF08           ## $sp = FFFFFF08
 /* 02E70 8099B5F0 AFBF003C */  sw      $ra, 0x003C($sp)           
 /* 02E74 8099B5F4 AFB00038 */  sw      $s0, 0x0038($sp)           

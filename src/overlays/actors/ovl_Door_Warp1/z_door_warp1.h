@@ -6,6 +6,23 @@
 
 struct DoorWarp1;
 
+typedef enum {
+    WARP_BLUE_CRYSTAL = -2, // For spawning in at the destination scene from an adult dungeon warp
+    WARP_UNK_FFFF,          // ?
+    WARP_UNK_0,             // Normal
+    WARP_UNK_1,             // Nothing
+    WARP_UNK_2,             // Blue, Disappears
+    WARP_PURPLE_CRYSTAL,    // Purple Crystal (Zelda)
+    WARP_UNK_4,             // Yellow, Disappears
+    WARP_UNK_5,             // Blue, Does Nothing
+    WARP_UNK_6,             // Spawn in from child blue warp
+    WARP_UNK_7,             // Blue warp, warping anim
+    WARP_UNK_8,             // Tan, Disappears
+    WARP_UNK_9,             // Green, Disappears
+    WARP_UNK_A,             // Red, Disappears
+    WARP_UNK_B              // ?
+} DoorWarp1Type;
+
 typedef void (*DoorWarp1ActionFunc)(struct DoorWarp1*, GlobalContext*);
 
 typedef struct DoorWarp1 {
@@ -17,9 +34,9 @@ typedef struct DoorWarp1 {
     /* 0x0198 */ f32 unk_198;
     /* 0x019C */ f32 unk_19C;
     /* 0x01A0 */ f32 unk_1A0;
-    /* 0x01A4 */ f32 unk_1A4;
-    /* 0x01A8 */ f32 alpha;
-    /* 0x01AC */ s16 unk_1AC;
+    /* 0x01A4 */ f32 warpAlpha;
+    /* 0x01A8 */ f32 crystalAlpha;
+    /* 0x01AC */ s16 scale;
     /* 0x01AE */ s16 unk_1AE;
     /* 0x01B0 */ s16 unk_1B0;
     /* 0x01B2 */ s16 unk_1B2;
