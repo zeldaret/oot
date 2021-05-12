@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <endian.h>
+#include <byteswap.h>
 
 #define DMA_TABLE_OFFSET 0x12F70
 #define DMA_TABLE_ENTRIES 1532
 #define DMA_ENTRY_SIZE 16
 
-static const char* sDmaMgrFileNames[0x5FC] = {
+
+static const char* sDmaMgrFileNames[DMA_TABLE_ENTRIES] = {
     "makerom",
     "boot",
     "dmadata",
@@ -1548,6 +1549,10 @@ int main(void) {
     unsigned int virtualStart;
     unsigned int virtualEnd;
 
+    #if defined(__mips) || defined(__powerpc)
+    #error "Detected big endian system. Please remove lines 1559 and 1576 for correct output"
+    #endif
+
     if (rom == NULL) {
         fprintf(stderr, "Could not open baserom.z64\n");
         exit(1);
@@ -1562,14 +1567,14 @@ int main(void) {
             exit(1);
         }
 
-        virtualStart = htobe32(virtualStart);
+        virtualStart = bswap_32(virtualStart);
 
         if (fread(&virtualEnd, sizeof(unsigned int), 1, rom) != 1) {
             fprintf(stderr, "Could not read end address for file %s\n", sDmaMgrFileNames[i]);
             exit(1);
         }
 
-        virtualEnd = htobe32(virtualEnd);
+        virtualEnd = bswap_32(virtualEnd);
 
         void* data = malloc(virtualEnd - virtualStart);
 
@@ -1589,16 +1594,19 @@ int main(void) {
 
         if (fread(data, virtualEnd - virtualStart, 1, rom) != 1) {
             fprintf(stderr, "Could not read rom file %s\n", sDmaMgrFileNames[i]);
+            exit(1);
         }
 
         printf("Extracting file %s	0x%x - 0x%x\n", sDmaMgrFileNames[i], virtualEnd, virtualStart);
 
         if (fwrite(data, virtualEnd - virtualStart, 1, outFile) != 1) {
             fprintf(stderr, "Could not write rom file %s\n", sDmaMgrFileNames[i]);
+            exit(1);
         }
 
-        free(data);
         fclose(outFile);
+        free(data);
     }
     fclose(rom);
+    return 0;
 }
