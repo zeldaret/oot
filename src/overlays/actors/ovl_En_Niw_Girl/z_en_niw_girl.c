@@ -60,7 +60,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec2;
     s32 pad2;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gniwGirlSkel1, &gNiwGirlRunAnim, this->jointTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gNiwGirlSkel, &gNiwGirlRunAnim, this->jointTable,
                        this->morphTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);

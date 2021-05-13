@@ -26,11 +26,6 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, GlobalContext* globalCtx);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
-typedef enum {
-    /* -1 */ HASHIGO_CLASP = -1,
-    /*  0  */ HASHIGO_LADDER
-} HasigoType;
-
 const ActorInit Bg_Mori_Hashigo_InitVars = {
     ACTOR_BG_MORI_HASHIGO,
     ACTORCAT_BG,

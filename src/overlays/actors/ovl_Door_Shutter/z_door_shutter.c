@@ -87,8 +87,8 @@ typedef struct {
 } ShutterInfo;
 
 static ShutterInfo D_80998134[] = {
-    { 0x060067A0, gDoorMetalBarsDL, 130, 12, 20, 15 },
-    { 0x06006910, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { gDTDungeonDoor1DL, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { gDTDungeonDoor2DL, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 },
     { 0x06000590, 0x06006460, 0, 110, 50, 15 },
     { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },

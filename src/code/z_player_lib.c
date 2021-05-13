@@ -624,11 +624,11 @@ u8 sEyeMouthIndexes[][2] = {
  * shiftability, and changes will need to be made in the code to account for this in a modding scenario. The symbols
  * from adult Link's object are used here.
  */
-u64* sEyeTextures[] = {
+void* sEyeTextures[] = {
     0x06000000, 0x06000800, 0x06001000, 0x06001800, 0x06002000, 0x06002800, 0x06003000, 0x06003800,
 };
 
-u64* sMouthTextures[] = {
+void* sMouthTextures[] = {
     0x06004000,
     0x06004400,
     0x06004800,

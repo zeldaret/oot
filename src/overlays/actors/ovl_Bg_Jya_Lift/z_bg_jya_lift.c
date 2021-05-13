@@ -81,7 +81,7 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
 
-    if (this->isSpawned != false) {
+    if (this->isSpawned) {
 
         // Goddess Lift DT
         osSyncPrintf("女神リフト DT\n");

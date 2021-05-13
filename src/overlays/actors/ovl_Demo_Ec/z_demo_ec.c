@@ -920,7 +920,7 @@ void DemoEc_InitCucco(DemoEc* this, GlobalContext* globalCtx) {
     if (this->actor.params == 22) {
         animation = &gDemoEcJumpingCuccoAnim;
     } else if (this->actor.params == 23) {
-        animation = &gDemoEcJumpingCuccoAnim2;
+        animation = &gDemoEcJumpingCucco2Anim;
     } else {
         animation = &gDemoEcWalkingCuccoAnim;
     }
@@ -1089,7 +1089,7 @@ void DemoEc_InitGorons(DemoEc* this, GlobalContext* globalCtx) {
         animation = &gDemoEcGoronAnim;
         goronScale = 1.0f;
     } else if (this->actor.params == 31) {
-        animation = &gDemoEcGoronAnim2;
+        animation = &gDemoEcGoron2Anim;
         goronScale = 1.0f;
     } else if (this->actor.params == 32) {
         animation = &gDemoEcGoronAnim;

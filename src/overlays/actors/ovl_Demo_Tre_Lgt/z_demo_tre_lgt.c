@@ -40,7 +40,7 @@ const ActorInit Demo_Tre_Lgt_InitVars = {
     (ActorFunc)DemoTreLgt_Draw,
 };
 
-static TransformUpdateIndex* sTransformUpdIdx[] = { &gEnBoxCurveAnim_4B60, &gEnBoxCurveAnim_4F70 };
+static TransformUpdateIndex* sTransformUpdIdx[] = { &gTreasureChestCurveAnim_4B60, &gTreasureChestCurveAnim_4F70 };
 
 static DemoTreLgtActionFunc sActionFuncs[] = {
     func_8099375C,
@@ -50,7 +50,7 @@ static DemoTreLgtActionFunc sActionFuncs[] = {
 void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoTreLgt* this = THIS;
 
-    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gEnBoxCurveSkel, sTransformUpdIdx[0])) {
+    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTreasureChestCurveSkel, sTransformUpdIdx[0])) {
         // Demo_Tre_Lgt_Actor_ct (); Construct failed
         osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
     }

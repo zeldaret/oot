@@ -63,8 +63,8 @@ const ActorInit En_Box_InitVars = {
     (ActorFunc)EnBox_Draw,
 };
 
-static AnimationHeader* sAnimations[4] = { &gEnBoxAnim_00024C, &gEnBoxAnim_000128, &gEnBoxAnim_00043C,
-                                           &gEnBoxAnim_00043C };
+static AnimationHeader* sAnimations[4] = { &gTreasureChestAnim_00024C, &gTreasureChestAnim_000128, &gTreasureChestAnim_00043C,
+                                           &gTreasureChestAnim_00043C };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 0, ICHAIN_STOP),
@@ -105,7 +105,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&gEnBoxCol, &colHeader);
+    CollisionHeader_GetVirtual(&gTreasureChestCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
     func_8003ECA8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
 
@@ -171,7 +171,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.world.rot.y += 0x8000;
     this->dyna.actor.home.rot.z = this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
 
-    SkelAnime_Init(globalCtx2, &this->skelanime, &gEnBoxSkel, anim, this->jointTable, this->morphTable, 5);
+    SkelAnime_Init(globalCtx2, &this->skelanime, &gTreasureChestSkel, anim, this->jointTable, this->morphTable, 5);
     Animation_Change(&this->skelanime, anim, 1.5f, animFrameStart, endFrame, ANIMMODE_ONCE, 0.0f);
 
     switch (this->type) {
@@ -550,17 +550,17 @@ void EnBox_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_box.c", 1492),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
-            gSPDisplayList((*gfx)++, gEnBoxChestFrontDL);
+            gSPDisplayList((*gfx)++, gTreasureChestChestFrontDL);
         } else {
-            gSPDisplayList((*gfx)++, gEnBoxBossKeyChestFrontDL);
+            gSPDisplayList((*gfx)++, gTreasureChestBossKeyChestFrontDL);
         }
     } else if (limbIndex == 3) {
         gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_box.c", 1502),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
-            gSPDisplayList((*gfx)++, gEnBoxChestSideAndLidDL);
+            gSPDisplayList((*gfx)++, gTreasureChestChestSideAndLidDL);
         } else {
-            gSPDisplayList((*gfx)++, gEnBoxBossKeyChestSideAndTopDL);
+            gSPDisplayList((*gfx)++, gTreasureChestBossKeyChestSideAndTopDL);
         }
     }
 }

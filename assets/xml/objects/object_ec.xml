@@ -5,7 +5,7 @@
         <Animation Name="gDemoEcWindmillManAnim" Offset="0x196C"/>        
         <Animation Name="gDemoEcGerudoAnim" Offset="0x2254"/>
         <Animation Name="gDemoEcGoronAnim" Offset="0x2FA0"/>
-        <Animation Name="gDemoEcGoronAnim2" Offset="0x3A98"/>
+        <Animation Name="gDemoEcGoron2Anim" Offset="0x3A98"/>
         <Animation Name="gDemoEcIngoAnim" Offset="0x48F4"/>
         <Animation Name="gDemoEcDancingKokiriAnim" Offset="0x513C"/>
         <Animation Name="gDemoEcKokiriAnim" Offset="0x5670"/>
@@ -17,7 +17,7 @@
         <Animation Name="gDemoEcAnim_009234" Offset="0x9234"/>
         <Animation Name="gDemoEcMidoAnim" Offset="0x95DC"/>
         <Animation Name="gDemoEcJumpingCuccoAnim" Offset="0x9BB4"/>
-        <Animation Name="gDemoEcJumpingCuccoAnim2" Offset="0xA07C"/>
+        <Animation Name="gDemoEcJumpingCucco2Anim" Offset="0xA07C"/>
         <Animation Name="gDemoEcWalkingCuccoAnim" Offset="0xA474"/>
         <Animation Name="gDemoEcPotionShopOwnerAnim" Offset="0xAFE0"/>
         <Animation Name="gDemoEcTalonAnim" Offset="0xBD38"/>

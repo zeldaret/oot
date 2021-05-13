@@ -15,6 +15,12 @@ typedef struct BgYdanHasi {
     /* 0x016A */ s16 timer; //Also used as an offset for the water blocks Y position for a "bobbing" effect
 } BgYdanHasi; // size = 0x016C
 
+typedef enum {
+    /* 0 */ HASI_WATER_BLOCK,
+    /* 1 */ HASI_WATER,
+    /* 2 */ HASI_THREE_BLOCKS
+} HasiTypes;
+
 extern const ActorInit Bg_Ydan_Hasi_InitVars;
 
 #endif

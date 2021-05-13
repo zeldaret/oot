@@ -11,8 +11,8 @@
         <Collision Name="gMoriHashigoCol" Offset="0x37D8"/>
         <DList Name="gMoriHashigoLadderDL" Offset="0x36B0"/>
         <DList Name="gMoriHashigoClaspDL" Offset="0x4770"/>
-        <Collision Name="gMoriHashiraCol1" Offset="0x1AF8"/>
-        <Collision Name="gMoriHashiraCol2" Offset="0x89E0"/>
+        <Collision Name="gMoriHashira1Col" Offset="0x1AF8"/>
+        <Collision Name="gMoriHashira2Col" Offset="0x89E0"/>
         <DList Name="gMoriHashiraPlatformsDL" Offset="0x1300"/>
         <DList Name="gMoriHashiraGateDL" Offset="0x8840"/>
         <DList Name="gMoriIdomizuWaterDL" Offset="0x49D0"/>

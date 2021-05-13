@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_gr" Segment="6">
-        <Skeleton Name="gniwGirlSkel1" Type="Flex" LimbType="Standard" Offset="0x9948"/>
+        <Skeleton Name="gNiwGirlSkel" Type="Flex" LimbType="Standard" Offset="0x9948"/>
         <Animation Name="gNiwGirlRunAnim" Offset="0x0378"/>
         <Animation Name="gNiwGirlJumpAnim" Offset="0x9C78"/>
         <Texture Name="gNiwGirlEyeOpenTex" OutName="eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4178"/>

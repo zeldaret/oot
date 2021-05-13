@@ -624,145 +624,237 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM_NONE,
 };
 
-static LinkAnimationHeader* D_80853914[] = { &gPlayerAnim_003240, &gPlayerAnim_003238, &gPlayerAnim_003238,
-                                             &gPlayerAnim_002BE0, &gPlayerAnim_003240, &gPlayerAnim_003240 };
+static LinkAnimationHeader* D_80853914[] = {
+    &gPlayerAnim_003240, &gPlayerAnim_003238, &gPlayerAnim_003238,
+    &gPlayerAnim_002BE0, &gPlayerAnim_003240, &gPlayerAnim_003240,
+};
 
-static LinkAnimationHeader* D_8085392C[] = { &gPlayerAnim_003290, &gPlayerAnim_003268, &gPlayerAnim_003268,
-                                             &gPlayerAnim_002BF8, &gPlayerAnim_003290, &gPlayerAnim_003290 };
+static LinkAnimationHeader* D_8085392C[] = {
+    &gPlayerAnim_003290, &gPlayerAnim_003268, &gPlayerAnim_003268,
+    &gPlayerAnim_002BF8, &gPlayerAnim_003290, &gPlayerAnim_003290,
+};
 
-static LinkAnimationHeader* D_80853944[] = { &gPlayerAnim_003140, &gPlayerAnim_002B38, &gPlayerAnim_003138,
-                                             &gPlayerAnim_002B40, &gPlayerAnim_003140, &gPlayerAnim_003140 };
+static LinkAnimationHeader* D_80853944[] = {
+    &gPlayerAnim_003140, &gPlayerAnim_002B38, &gPlayerAnim_003138,
+    &gPlayerAnim_002B40, &gPlayerAnim_003140, &gPlayerAnim_003140,
+};
 
-static LinkAnimationHeader* D_8085395C[] = { &gPlayerAnim_002E98, &gPlayerAnim_0029E8, &gPlayerAnim_002E98,
-                                             &gPlayerAnim_0029F0, &gPlayerAnim_002E98, &gPlayerAnim_002E98 };
+static LinkAnimationHeader* D_8085395C[] = {
+    &gPlayerAnim_002E98, &gPlayerAnim_0029E8, &gPlayerAnim_002E98,
+    &gPlayerAnim_0029F0, &gPlayerAnim_002E98, &gPlayerAnim_002E98,
+};
 
-static LinkAnimationHeader* D_80853974[] = { &gPlayerAnim_002FB0, &gPlayerAnim_002FA8, &gPlayerAnim_002FB0,
-                                             &gPlayerAnim_002A40, &gPlayerAnim_002FB0, &gPlayerAnim_002FB0 };
+static LinkAnimationHeader* D_80853974[] = {
+    &gPlayerAnim_002FB0, &gPlayerAnim_002FA8, &gPlayerAnim_002FB0,
+    &gPlayerAnim_002A40, &gPlayerAnim_002FB0, &gPlayerAnim_002FB0,
+};
 
-static LinkAnimationHeader* D_8085398C[] = { &gPlayerAnim_003220, &gPlayerAnim_002590, &gPlayerAnim_002590,
-                                             &gPlayerAnim_002BC0, &gPlayerAnim_003220, &gPlayerAnim_003220 };
+static LinkAnimationHeader* D_8085398C[] = {
+    &gPlayerAnim_003220, &gPlayerAnim_002590, &gPlayerAnim_002590,
+    &gPlayerAnim_002BC0, &gPlayerAnim_003220, &gPlayerAnim_003220,
+};
 
-static LinkAnimationHeader* D_808539A4[] = { &gPlayerAnim_003230, &gPlayerAnim_0025D0, &gPlayerAnim_0025D0,
-                                             &gPlayerAnim_002BD0, &gPlayerAnim_003230, &gPlayerAnim_003230 };
+static LinkAnimationHeader* D_808539A4[] = {
+    &gPlayerAnim_003230, &gPlayerAnim_0025D0, &gPlayerAnim_0025D0,
+    &gPlayerAnim_002BD0, &gPlayerAnim_003230, &gPlayerAnim_003230,
+};
 
-static LinkAnimationHeader* D_808539BC[] = { &gPlayerAnim_002BB0, &gPlayerAnim_0031F8, &gPlayerAnim_0031F8,
-                                             &gPlayerAnim_002BB0, &gPlayerAnim_002BB0, &gPlayerAnim_002BB0 };
+static LinkAnimationHeader* D_808539BC[] = {
+    &gPlayerAnim_002BB0, &gPlayerAnim_0031F8, &gPlayerAnim_0031F8,
+    &gPlayerAnim_002BB0, &gPlayerAnim_002BB0, &gPlayerAnim_002BB0,
+};
 
-static LinkAnimationHeader* D_808539D4[] = { &gPlayerAnim_003088, &gPlayerAnim_002A70, &gPlayerAnim_002A70,
-                                             &gPlayerAnim_003088, &gPlayerAnim_003088, &gPlayerAnim_003088 };
+static LinkAnimationHeader* D_808539D4[] = {
+    &gPlayerAnim_003088, &gPlayerAnim_002A70, &gPlayerAnim_002A70,
+    &gPlayerAnim_003088, &gPlayerAnim_003088, &gPlayerAnim_003088,
+};
 
-static LinkAnimationHeader* D_808539EC[] = { &gPlayerAnim_002750, &gPlayerAnim_002748, &gPlayerAnim_002748,
-                                             &gPlayerAnim_002750, &gPlayerAnim_002750, &gPlayerAnim_002750 };
+static LinkAnimationHeader* D_808539EC[] = {
+    &gPlayerAnim_002750, &gPlayerAnim_002748, &gPlayerAnim_002748,
+    &gPlayerAnim_002750, &gPlayerAnim_002750, &gPlayerAnim_002750,
+};
 
-static LinkAnimationHeader* D_80853A04[] = { &gPlayerAnim_002330, &gPlayerAnim_002330, &gPlayerAnim_002330,
-                                             &gPlayerAnim_002330, &gPlayerAnim_002330, &gPlayerAnim_002330 };
+static LinkAnimationHeader* D_80853A04[] = {
+    &gPlayerAnim_002330, &gPlayerAnim_002330, &gPlayerAnim_002330,
+    &gPlayerAnim_002330, &gPlayerAnim_002330, &gPlayerAnim_002330,
+};
 
-static LinkAnimationHeader* D_80853A1C[] = { &gPlayerAnim_002760, &gPlayerAnim_002758, &gPlayerAnim_002758,
-                                             &gPlayerAnim_002760, &gPlayerAnim_002760, &gPlayerAnim_002760 };
+static LinkAnimationHeader* D_80853A1C[] = {
+    &gPlayerAnim_002760, &gPlayerAnim_002758, &gPlayerAnim_002758,
+    &gPlayerAnim_002760, &gPlayerAnim_002760, &gPlayerAnim_002760,
+};
 
-static LinkAnimationHeader* D_80853A34[] = { &gPlayerAnim_002338, &gPlayerAnim_002338, &gPlayerAnim_002338,
-                                             &gPlayerAnim_002338, &gPlayerAnim_002338, &gPlayerAnim_002338 };
+static LinkAnimationHeader* D_80853A34[] = {
+    &gPlayerAnim_002338, &gPlayerAnim_002338, &gPlayerAnim_002338,
+    &gPlayerAnim_002338, &gPlayerAnim_002338, &gPlayerAnim_002338,
+};
 
-static LinkAnimationHeader* D_80853A4C[] = { &gPlayerAnim_002E08, &gPlayerAnim_002E00, &gPlayerAnim_002E00,
-                                             &gPlayerAnim_002E08, &gPlayerAnim_002E08, &gPlayerAnim_002E08 };
+static LinkAnimationHeader* D_80853A4C[] = {
+    &gPlayerAnim_002E08, &gPlayerAnim_002E00, &gPlayerAnim_002E00,
+    &gPlayerAnim_002E08, &gPlayerAnim_002E08, &gPlayerAnim_002E08,
+};
 
-static LinkAnimationHeader* D_80853A64[] = { &gPlayerAnim_003028, &gPlayerAnim_003020, &gPlayerAnim_003020,
-                                             &gPlayerAnim_003028, &gPlayerAnim_003028, &gPlayerAnim_003028 };
+static LinkAnimationHeader* D_80853A64[] = {
+    &gPlayerAnim_003028, &gPlayerAnim_003020, &gPlayerAnim_003020,
+    &gPlayerAnim_003028, &gPlayerAnim_003028, &gPlayerAnim_003028,
+};
 
-static LinkAnimationHeader* D_80853A7C[] = { &gPlayerAnim_003170, &gPlayerAnim_003168, &gPlayerAnim_003168,
-                                             &gPlayerAnim_003170, &gPlayerAnim_003170, &gPlayerAnim_003170 };
+static LinkAnimationHeader* D_80853A7C[] = {
+    &gPlayerAnim_003170, &gPlayerAnim_003168, &gPlayerAnim_003168,
+    &gPlayerAnim_003170, &gPlayerAnim_003170, &gPlayerAnim_003170,
+};
 
-static LinkAnimationHeader* D_80853A94[] = { &gPlayerAnim_003038, &gPlayerAnim_003030, &gPlayerAnim_003030,
-                                             &gPlayerAnim_002A68, &gPlayerAnim_003038, &gPlayerAnim_003038 };
+static LinkAnimationHeader* D_80853A94[] = {
+    &gPlayerAnim_003038, &gPlayerAnim_003030, &gPlayerAnim_003030,
+    &gPlayerAnim_002A68, &gPlayerAnim_003038, &gPlayerAnim_003038,
+};
 
-static LinkAnimationHeader* D_80853AAC[] = { &gPlayerAnim_002FC0, &gPlayerAnim_002FB8, &gPlayerAnim_002FB8,
-                                             &gPlayerAnim_002FC8, &gPlayerAnim_002FC0, &gPlayerAnim_002FC0 };
+static LinkAnimationHeader* D_80853AAC[] = {
+    &gPlayerAnim_002FC0, &gPlayerAnim_002FB8, &gPlayerAnim_002FB8,
+    &gPlayerAnim_002FC8, &gPlayerAnim_002FC0, &gPlayerAnim_002FC0,
+};
 
-static LinkAnimationHeader* D_80853AC4[] = { &gPlayerAnim_003278, &gPlayerAnim_003270, &gPlayerAnim_003270,
-                                             &gPlayerAnim_002BE8, &gPlayerAnim_003278, &gPlayerAnim_003278 };
+static LinkAnimationHeader* D_80853AC4[] = {
+    &gPlayerAnim_003278, &gPlayerAnim_003270, &gPlayerAnim_003270,
+    &gPlayerAnim_002BE8, &gPlayerAnim_003278, &gPlayerAnim_003278,
+};
 
-static LinkAnimationHeader* D_80853ADC[] = { &gPlayerAnim_003288, &gPlayerAnim_003280, &gPlayerAnim_003280,
-                                             &gPlayerAnim_002BF0, &gPlayerAnim_003288, &gPlayerAnim_003288 };
+static LinkAnimationHeader* D_80853ADC[] = {
+    &gPlayerAnim_003288, &gPlayerAnim_003280, &gPlayerAnim_003280,
+    &gPlayerAnim_002BF0, &gPlayerAnim_003288, &gPlayerAnim_003288,
+};
 
-static LinkAnimationHeader* D_80853AF4[] = { &gPlayerAnim_002EB8, &gPlayerAnim_002EA0, &gPlayerAnim_002EA0,
-                                             &gPlayerAnim_002EB8, &gPlayerAnim_0026C8, &gPlayerAnim_002EB8 };
+static LinkAnimationHeader* D_80853AF4[] = {
+    &gPlayerAnim_002EB8, &gPlayerAnim_002EA0, &gPlayerAnim_002EA0,
+    &gPlayerAnim_002EB8, &gPlayerAnim_0026C8, &gPlayerAnim_002EB8,
+};
 
-static LinkAnimationHeader* D_80853B0C[] = { &gPlayerAnim_002ED8, &gPlayerAnim_002ED0, &gPlayerAnim_002ED0,
-                                             &gPlayerAnim_002ED8, &gPlayerAnim_0026D0, &gPlayerAnim_002ED8 };
+static LinkAnimationHeader* D_80853B0C[] = {
+    &gPlayerAnim_002ED8, &gPlayerAnim_002ED0, &gPlayerAnim_002ED0,
+    &gPlayerAnim_002ED8, &gPlayerAnim_0026D0, &gPlayerAnim_002ED8,
+};
 
-static LinkAnimationHeader* D_80853B24[] = { &gPlayerAnim_002EB0, &gPlayerAnim_002EA8, &gPlayerAnim_002EA8,
-                                             &gPlayerAnim_002EB0, &gPlayerAnim_002EB0, &gPlayerAnim_002EB0 };
+static LinkAnimationHeader* D_80853B24[] = {
+    &gPlayerAnim_002EB0, &gPlayerAnim_002EA8, &gPlayerAnim_002EA8,
+    &gPlayerAnim_002EB0, &gPlayerAnim_002EB0, &gPlayerAnim_002EB0,
+};
 
-static LinkAnimationHeader* D_80853B3C[] = { &gPlayerAnim_003190, &gPlayerAnim_003188, &gPlayerAnim_003188,
-                                             &gPlayerAnim_002B68, &gPlayerAnim_003190, &gPlayerAnim_003190 };
+static LinkAnimationHeader* D_80853B3C[] = {
+    &gPlayerAnim_003190, &gPlayerAnim_003188, &gPlayerAnim_003188,
+    &gPlayerAnim_002B68, &gPlayerAnim_003190, &gPlayerAnim_003190,
+};
 
-static LinkAnimationHeader* D_80853B54[] = { &gPlayerAnim_003178, &gPlayerAnim_002568, &gPlayerAnim_002568,
-                                             &gPlayerAnim_002B58, &gPlayerAnim_003178, &gPlayerAnim_003178 };
+static LinkAnimationHeader* D_80853B54[] = {
+    &gPlayerAnim_003178, &gPlayerAnim_002568, &gPlayerAnim_002568,
+    &gPlayerAnim_002B58, &gPlayerAnim_003178, &gPlayerAnim_003178,
+};
 
-static LinkAnimationHeader* D_80853B6C[] = { &gPlayerAnim_003180, &gPlayerAnim_002570, &gPlayerAnim_002570,
-                                             &gPlayerAnim_002B60, &gPlayerAnim_003180, &gPlayerAnim_003180 };
+static LinkAnimationHeader* D_80853B6C[] = {
+    &gPlayerAnim_003180, &gPlayerAnim_002570, &gPlayerAnim_002570,
+    &gPlayerAnim_002B60, &gPlayerAnim_003180, &gPlayerAnim_003180,
+};
 
-static LinkAnimationHeader* D_80853B84[] = { &gPlayerAnim_002D60, &gPlayerAnim_002D58, &gPlayerAnim_002D58,
-                                             &gPlayerAnim_002D60, &gPlayerAnim_002D60, &gPlayerAnim_002D60 };
+static LinkAnimationHeader* D_80853B84[] = {
+    &gPlayerAnim_002D60, &gPlayerAnim_002D58, &gPlayerAnim_002D58,
+    &gPlayerAnim_002D60, &gPlayerAnim_002D60, &gPlayerAnim_002D60,
+};
 
-static LinkAnimationHeader* D_80853B9C[] = { &gPlayerAnim_002BB8, &gPlayerAnim_003218, &gPlayerAnim_003218,
-                                             &gPlayerAnim_002BB8, &gPlayerAnim_002BB8, &gPlayerAnim_002BB8 };
+static LinkAnimationHeader* D_80853B9C[] = {
+    &gPlayerAnim_002BB8, &gPlayerAnim_003218, &gPlayerAnim_003218,
+    &gPlayerAnim_002BB8, &gPlayerAnim_002BB8, &gPlayerAnim_002BB8,
+};
 
-static LinkAnimationHeader* D_80853BB4[] = { &gPlayerAnim_002BC8, &gPlayerAnim_003228, &gPlayerAnim_003228,
-                                             &gPlayerAnim_002BC8, &gPlayerAnim_002BC8, &gPlayerAnim_002BC8 };
+static LinkAnimationHeader* D_80853BB4[] = {
+    &gPlayerAnim_002BC8, &gPlayerAnim_003228, &gPlayerAnim_003228,
+    &gPlayerAnim_002BC8, &gPlayerAnim_002BC8, &gPlayerAnim_002BC8,
+};
 
-static LinkAnimationHeader* D_80853BCC[] = { &gPlayerAnim_0031C8, &gPlayerAnim_0031C0, &gPlayerAnim_0031C0,
-                                             &gPlayerAnim_0031C8, &gPlayerAnim_0031C8, &gPlayerAnim_0031C8 };
+static LinkAnimationHeader* D_80853BCC[] = {
+    &gPlayerAnim_0031C8, &gPlayerAnim_0031C0, &gPlayerAnim_0031C0,
+    &gPlayerAnim_0031C8, &gPlayerAnim_0031C8, &gPlayerAnim_0031C8,
+};
 
-static LinkAnimationHeader* D_80853BE4[] = { &gPlayerAnim_003118, &gPlayerAnim_003110, &gPlayerAnim_003110,
-                                             &gPlayerAnim_003118, &gPlayerAnim_003118, &gPlayerAnim_003118 };
+static LinkAnimationHeader* D_80853BE4[] = {
+    &gPlayerAnim_003118, &gPlayerAnim_003110, &gPlayerAnim_003110,
+    &gPlayerAnim_003118, &gPlayerAnim_003118, &gPlayerAnim_003118,
+};
 
-static LinkAnimationHeader* D_80853BFC[] = { &gPlayerAnim_002DE8, &gPlayerAnim_002DE8, &gPlayerAnim_002DE8,
-                                             &gPlayerAnim_002DE8, &gPlayerAnim_002DE8, &gPlayerAnim_002DE8 };
+static LinkAnimationHeader* D_80853BFC[] = {
+    &gPlayerAnim_002DE8, &gPlayerAnim_002DE8, &gPlayerAnim_002DE8,
+    &gPlayerAnim_002DE8, &gPlayerAnim_002DE8, &gPlayerAnim_002DE8,
+};
 
-static LinkAnimationHeader* D_80853C14[] = { &gPlayerAnim_002E30, &gPlayerAnim_002E18, &gPlayerAnim_002E18,
-                                             &gPlayerAnim_002E30, &gPlayerAnim_002E30, &gPlayerAnim_002E30 };
+static LinkAnimationHeader* D_80853C14[] = {
+    &gPlayerAnim_002E30, &gPlayerAnim_002E18, &gPlayerAnim_002E18,
+    &gPlayerAnim_002E30, &gPlayerAnim_002E30, &gPlayerAnim_002E30,
+};
 
-static LinkAnimationHeader* D_80853C2C[] = { &gPlayerAnim_002E40, &gPlayerAnim_002E38, &gPlayerAnim_002E38,
-                                             &gPlayerAnim_002E40, &gPlayerAnim_002E40, &gPlayerAnim_002E40 };
+static LinkAnimationHeader* D_80853C2C[] = {
+    &gPlayerAnim_002E40, &gPlayerAnim_002E38, &gPlayerAnim_002E38,
+    &gPlayerAnim_002E40, &gPlayerAnim_002E40, &gPlayerAnim_002E40,
+};
 
-static LinkAnimationHeader* D_80853C44[] = { &gPlayerAnim_002E28, &gPlayerAnim_002E20, &gPlayerAnim_002E20,
-                                             &gPlayerAnim_002E28, &gPlayerAnim_002E28, &gPlayerAnim_002E28 };
+static LinkAnimationHeader* D_80853C44[] = {
+    &gPlayerAnim_002E28, &gPlayerAnim_002E20, &gPlayerAnim_002E20,
+    &gPlayerAnim_002E28, &gPlayerAnim_002E28, &gPlayerAnim_002E28,
+};
 
-static LinkAnimationHeader* D_80853C5C[] = { &gPlayerAnim_0030C8, &gPlayerAnim_0030C0, &gPlayerAnim_0030C0,
-                                             &gPlayerAnim_0030C8, &gPlayerAnim_0030C8, &gPlayerAnim_0030C8 };
+static LinkAnimationHeader* D_80853C5C[] = {
+    &gPlayerAnim_0030C8, &gPlayerAnim_0030C0, &gPlayerAnim_0030C0,
+    &gPlayerAnim_0030C8, &gPlayerAnim_0030C8, &gPlayerAnim_0030C8,
+};
 
-static LinkAnimationHeader* D_80853C74[] = { &gPlayerAnim_0030D8, &gPlayerAnim_0030D0, &gPlayerAnim_0030D0,
-                                             &gPlayerAnim_0030D8, &gPlayerAnim_0030D8, &gPlayerAnim_0030D8 };
+static LinkAnimationHeader* D_80853C74[] = {
+    &gPlayerAnim_0030D8, &gPlayerAnim_0030D0, &gPlayerAnim_0030D0,
+    &gPlayerAnim_0030D8, &gPlayerAnim_0030D8, &gPlayerAnim_0030D8,
+};
 
-static LinkAnimationHeader* D_80853C8C[] = { &gPlayerAnim_0030B8, &gPlayerAnim_0030B0, &gPlayerAnim_0030B0,
-                                             &gPlayerAnim_0030B8, &gPlayerAnim_0030B8, &gPlayerAnim_0030B8 };
+static LinkAnimationHeader* D_80853C8C[] = {
+    &gPlayerAnim_0030B8, &gPlayerAnim_0030B0, &gPlayerAnim_0030B0,
+    &gPlayerAnim_0030B8, &gPlayerAnim_0030B8, &gPlayerAnim_0030B8,
+};
 
-static LinkAnimationHeader* D_80853CA4[] = { &gPlayerAnim_002F20, &gPlayerAnim_002F18, &gPlayerAnim_002F18,
-                                             &gPlayerAnim_002F20, &gPlayerAnim_002F20, &gPlayerAnim_002F20 };
+static LinkAnimationHeader* D_80853CA4[] = {
+    &gPlayerAnim_002F20, &gPlayerAnim_002F18, &gPlayerAnim_002F18,
+    &gPlayerAnim_002F20, &gPlayerAnim_002F20, &gPlayerAnim_002F20,
+};
 
-static LinkAnimationHeader* D_80853CBC[] = { &gPlayerAnim_002FF0, &gPlayerAnim_002FE8, &gPlayerAnim_002FE8,
-                                             &gPlayerAnim_002FF0, &gPlayerAnim_002FF0, &gPlayerAnim_002FF0 };
+static LinkAnimationHeader* D_80853CBC[] = {
+    &gPlayerAnim_002FF0, &gPlayerAnim_002FE8, &gPlayerAnim_002FE8,
+    &gPlayerAnim_002FF0, &gPlayerAnim_002FF0, &gPlayerAnim_002FF0,
+};
 
-static LinkAnimationHeader* D_80853CD4[] = { &gPlayerAnim_003010, &gPlayerAnim_003008, &gPlayerAnim_003008,
-                                             &gPlayerAnim_003010, &gPlayerAnim_003010, &gPlayerAnim_003010 };
+static LinkAnimationHeader* D_80853CD4[] = {
+    &gPlayerAnim_003010, &gPlayerAnim_003008, &gPlayerAnim_003008,
+    &gPlayerAnim_003010, &gPlayerAnim_003010, &gPlayerAnim_003010,
+};
 
-static LinkAnimationHeader* D_80853CEC[] = { &gPlayerAnim_003000, &gPlayerAnim_002FF8, &gPlayerAnim_002FF8,
-                                             &gPlayerAnim_003000, &gPlayerAnim_003000, &gPlayerAnim_003000 };
+static LinkAnimationHeader* D_80853CEC[] = {
+    &gPlayerAnim_003000, &gPlayerAnim_002FF8, &gPlayerAnim_002FF8,
+    &gPlayerAnim_003000, &gPlayerAnim_003000, &gPlayerAnim_003000,
+};
 
-static LinkAnimationHeader* D_80853D04[] = { &gPlayerAnim_002EF0, &gPlayerAnim_002EE8, &gPlayerAnim_002EE8,
-                                             &gPlayerAnim_002EF8, &gPlayerAnim_002EF0, &gPlayerAnim_002EF0 };
+static LinkAnimationHeader* D_80853D04[] = {
+    &gPlayerAnim_002EF0, &gPlayerAnim_002EE8, &gPlayerAnim_002EE8,
+    &gPlayerAnim_002EF8, &gPlayerAnim_002EF0, &gPlayerAnim_002EF0,
+};
 
-static LinkAnimationHeader* D_80853D1C[] = { &gPlayerAnim_0031E0, &gPlayerAnim_0031D8, &gPlayerAnim_0031D8,
-                                             &gPlayerAnim_0031E8, &gPlayerAnim_0031E0, &gPlayerAnim_0031E0 };
+static LinkAnimationHeader* D_80853D1C[] = {
+    &gPlayerAnim_0031E0, &gPlayerAnim_0031D8, &gPlayerAnim_0031D8,
+    &gPlayerAnim_0031E8, &gPlayerAnim_0031E0, &gPlayerAnim_0031E0,
+};
 
-static LinkAnimationHeader* D_80853D34[] = { &gPlayerAnim_003468, &gPlayerAnim_003438, &gPlayerAnim_003438,
-                                             &gPlayerAnim_003468, &gPlayerAnim_003468, &gPlayerAnim_003468 };
+static LinkAnimationHeader* D_80853D34[] = {
+    &gPlayerAnim_003468, &gPlayerAnim_003438, &gPlayerAnim_003438,
+    &gPlayerAnim_003468, &gPlayerAnim_003468, &gPlayerAnim_003468,
+};
 
-static LinkAnimationHeader* D_80853D4C[][3] = { { &gPlayerAnim_002A28, &gPlayerAnim_002A38, &gPlayerAnim_002A30 },
-                                                { &gPlayerAnim_002950, &gPlayerAnim_002960, &gPlayerAnim_002958 },
-                                                { &gPlayerAnim_0029D0, &gPlayerAnim_0029E0, &gPlayerAnim_0029D8 },
-                                                { &gPlayerAnim_002988, &gPlayerAnim_002998, &gPlayerAnim_002990 } };
+static LinkAnimationHeader* D_80853D4C[][3] = {
+    { &gPlayerAnim_002A28, &gPlayerAnim_002A38, &gPlayerAnim_002A30 },
+    { &gPlayerAnim_002950, &gPlayerAnim_002960, &gPlayerAnim_002958 },
+    { &gPlayerAnim_0029D0, &gPlayerAnim_0029E0, &gPlayerAnim_0029D8 },
+    { &gPlayerAnim_002988, &gPlayerAnim_002998, &gPlayerAnim_002990 },
+};
 
 static LinkAnimationHeader* D_80853D7C[][2] = {
     { &gPlayerAnim_003248, &gPlayerAnim_003200 }, { &gPlayerAnim_003258, &gPlayerAnim_003210 },
@@ -9987,9 +10079,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8000000)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this)
-                                      ? &gPlayerAnim_003310
-                                      : (this->shockTimer != 0) ? &gPlayerAnim_002F08 : &gPlayerAnim_002878);
+                                  func_808332B8(this)       ? &gPlayerAnim_003310
+                                  : (this->shockTimer != 0) ? &gPlayerAnim_002F08
+                                                            : &gPlayerAnim_002878);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&

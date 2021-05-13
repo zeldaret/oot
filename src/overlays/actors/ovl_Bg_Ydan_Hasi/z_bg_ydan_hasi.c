@@ -23,12 +23,6 @@ void BgYdanHasi_MoveWater(BgYdanHasi* this, GlobalContext* globalCtx);
 void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, GlobalContext* globalCtx);
 void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx);
 
-typedef enum {
-    /* 0 */ HASI_WATER_BLOCK,
-    /* 1 */ HASI_WATER,
-    /* 2 */ HASI_THREE_BLOCKS
-} HasiTypes;
-
 const ActorInit Bg_Ydan_Hasi_InitVars = {
     ACTOR_BG_YDAN_HASI,
     ACTORCAT_BG,
@@ -56,12 +50,12 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params = thisx->params & 0xFF;
     waterBox = &globalCtx->colCtx.colHeader->waterBoxes[1];
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    if (thisx->params == 1) {
+    if (thisx->params == HASI_WATER) {
         // Water the moving platform floats on in B1. Never runs in Master Quest
         waterBox->ySurface = thisx->world.pos.y = thisx->home.pos.y += -5.0f;
         this->actionFunc = BgYdanHasi_InitWater;
     } else {
-        if (thisx->params == 0) {
+        if (thisx->params == HASI_WATER_BLOCK) {
             // Moving platform on the water in B1
             CollisionHeader_GetVirtual(&gDTSlidingPlatformCol, &colHeader);
             thisx->scale.z = 0.15f;
@@ -113,7 +107,6 @@ void BgYdanHasi_InitWater(BgYdanHasi* this, GlobalContext* globalCtx) {
     }
 }
 
-//! @bug This is an actionFunc and should not return anything however it returns waterBox + 1 for an unknown reason
 void BgYdanHasi_MoveWater(BgYdanHasi* this, GlobalContext* globalCtx) {
     WaterBox* waterBox;
 
@@ -182,7 +175,7 @@ void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* dLists[] = { gDTSlidingPlatformDL, gDTWaterPlaneDL, gDTRisingPlatformsDL };
     BgYdanHasi* this = THIS;
 
-    if (this->dyna.actor.params == 0 || this->dyna.actor.params == 2) {
+    if (this->dyna.actor.params == HASI_WATER_BLOCK || this->dyna.actor.params == HASI_THREE_BLOCKS) {
         Gfx_DrawDListOpa(globalCtx, dLists[this->dyna.actor.params]);
     } else {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 577);
