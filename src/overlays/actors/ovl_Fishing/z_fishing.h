@@ -11,7 +11,8 @@ typedef struct Fishing {
     /* 0x014C */ char unk_14C[0x004];
     /* 0x0150 */ u8 unk_150;
     /* 0x0151 */ u8 unk_151;
-    /* 0x0152 */ char unk_152[0x006];
+    /* 0x0152 */ char unk_152[0x005];
+    /* 0x0157 */ u8 unk_157;
     /* 0x0158 */ s16 unk_158;
     /* 0x015A */ s16 unk_15A;
     /* 0x015C */ s16 unk_15C;
