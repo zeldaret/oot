@@ -131,7 +131,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     }
 
     // Change her angle so that she is always facing the cuckoo
-    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(xDistBetween, zDistBetween) * 10430.378f, 3,
+    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(xDistBetween, zDistBetween) * (0x8000 / M_PI), 3,
                        this->unk_27C, 0);
     Math_ApproachF(&this->unk_27C, 5000.0f, 30.0f, 150.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -260,7 +260,7 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          EnNiwGirlOverrideLimbDraw, 0, this);
+                          EnNiwGirlOverrideLimbDraw, NULL, this);
     func_80033C30(&this->actor.world.pos, &sp4C, 255, globalCtx);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 592);

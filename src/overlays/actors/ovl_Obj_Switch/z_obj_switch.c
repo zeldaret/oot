@@ -251,9 +251,9 @@ void ObjSwitch_SetOn(ObjSwitch* this, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F));
 
         if (subType == 0 || subType == 4) {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
+            OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
         } else {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
+            OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
 
         this->cooldownOn = true;
@@ -267,7 +267,7 @@ void ObjSwitch_SetOff(ObjSwitch* this, GlobalContext* globalCtx) {
         Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F));
 
         if ((this->dyna.actor.params >> 4 & 7) == 1) {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
+            OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
             this->cooldownOn = true;
         }
     }

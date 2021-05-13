@@ -213,7 +213,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         BgJyaMegami_SetupExplode(this);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
-        func_800800F8(globalCtx, 0xD70, -0x63, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 3440, -99, &this->dyna.actor, MAIN_CAM);
     } else {
         if (this->lightTimer < 8) {
             this->crumbleIndex = 0;
@@ -331,8 +331,8 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
         piece = &this->pieces[i];
         Matrix_Translate(piece->pos.x + sPiecesInit[i].unk_00.x, piece->pos.y + sPiecesInit[i].unk_00.y,
                          piece->pos.z + sPiecesInit[i].unk_00.z, MTXMODE_NEW);
-        Matrix_RotateY(piece->rotVelY * 0.0000958738f, MTXMODE_APPLY);
-        Matrix_RotateX(piece->rotVelX * 0.0000958738f, MTXMODE_APPLY);
+        Matrix_RotateY(piece->rotVelY * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateX(piece->rotVelX * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         Matrix_Translate(sPiecesInit[i].unk_00.x * -10.0f, sPiecesInit[i].unk_00.y * -10.0f,
                          sPiecesInit[i].unk_00.z * -10.0f, MTXMODE_APPLY);

@@ -144,7 +144,7 @@ void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
     } else {
         tmpf2 = 1569.0f - thisx->world.pos.x;
         tmpf1 = fabsf(tmpf2) - 103.0f;
-        thisx->world.pos.y = (0.38043478f * tmpf1) - 129.5f;
+        thisx->world.pos.y = ((35.0f / 92.0f) * tmpf1) - 129.5f;
     }
 
     if (this->collider.base.atFlags & AT_HIT) {

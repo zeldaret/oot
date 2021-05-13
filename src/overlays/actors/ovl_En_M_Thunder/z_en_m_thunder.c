@@ -279,7 +279,7 @@ void func_80A9F938(EnMThunder* this, GlobalContext* globalCtx) {
 void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (Math_StepToF(&this->unk_1AC, 0.0f, 0.0625f)) {
+    if (Math_StepToF(&this->unk_1AC, 0.0f, 1 / 16.0f)) {
         Actor_Kill(&this->actor);
     } else {
         Math_SmoothStepToF(&this->actor.scale.x, (s32)this->unk_1C9, 0.6f, 0.8f, 0.0f);
@@ -298,7 +298,7 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     if (this->unk_1AC > 0.6f) {
         this->unk_1B0 = 1.0f;
     } else {
-        this->unk_1B0 = this->unk_1AC * 1.6666666f;
+        this->unk_1B0 = this->unk_1AC * (5.0f / 3.0f);
     }
 
     func_80A9F938(this, globalCtx);

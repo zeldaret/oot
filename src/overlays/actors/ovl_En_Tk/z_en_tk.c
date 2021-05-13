@@ -6,6 +6,7 @@
 
 #include "z_en_tk.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_tk/object_tk.h"
 
 #define FLAGS 0x00000009
 
@@ -20,17 +21,6 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx);
 void EnTk_Rest(EnTk* this, GlobalContext* globalCtx);
 void EnTk_Walk(EnTk* this, GlobalContext* globalCtx);
 void EnTk_Dig(EnTk* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06001144;
-extern AnimationHeader D_06001FA8;
-extern AnimationHeader D_06002F84;
-extern UNK_TYPE D_06003B40;
-extern UNK_TYPE D_06004340;
-extern UNK_TYPE D_06004B40;
-extern Gfx D_0600ACE0[];
-extern Gfx D_0600BC90[];
-extern Gfx D_0600BCA0[];
-extern FlexSkeletonHeader D_0600BE40;
 
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
@@ -111,7 +101,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
         if (eff->active != 0) {
             if (gfxSetup == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
-                gSPDisplayList(POLY_XLU_DISP++, D_0600BC90);
+                gSPDisplayList(POLY_XLU_DISP++, gDampeEff1DL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 gfxSetup = 1;
             }
@@ -129,7 +119,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
             imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustImages) / eff->timeTotal);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustImages[imageIdx]));
 
-            gSPDisplayList(POLY_XLU_DISP++, D_0600BCA0);
+            gSPDisplayList(POLY_XLU_DISP++, gDampeEff2DL);
         }
         eff++;
     }
@@ -173,26 +163,28 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
-    AnimationHeader* anim = &D_06002F84;
+    AnimationHeader* anim = &gDampeRestAnim;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&gDampeRestAnim), ANIMMODE_LOOP,
+                     -10.0f);
 
     this->actionCountdown = Rand_S16Offset(60, 60);
     this->actor.speedXZ = 0.0f;
 }
 
 void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
-    AnimationHeader* anim = &D_06001FA8;
+    AnimationHeader* anim = &gDampeWalkAnim;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&gDampeRestAnim), ANIMMODE_LOOP,
+                     -10.0f);
 
     this->actionCountdown = Rand_S16Offset(240, 240);
 }
 
 void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
-    AnimationHeader* anim = &D_06001144;
+    AnimationHeader* anim = &gDampeDigAnim;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001144), ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&gDampeDigAnim), ANIMMODE_LOOP, -10.0f);
 
     if (EnTk_CheckNextSpot(this, globalCtx) >= 0) {
         this->validDigHere = 1;
@@ -290,7 +282,7 @@ f32 EnTk_Step(EnTk* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
     }
 
-    if (this->skelAnime.animation != &D_06001FA8) {
+    if (this->skelAnime.animation != &gDampeWalkAnim) {
         return 0.0f;
     }
 
@@ -492,9 +484,9 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 24.0f);
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BE40, NULL, this->jointTable, this->morphTable, 18);
-    Animation_Change(&this->skelAnime, &D_06002F84, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP,
-                     0.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDampeSkel, NULL, this->jointTable, this->morphTable, 18);
+    Animation_Change(&this->skelAnime, &gDampeRestAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDampeRestAnim),
+                     ANIMMODE_LOOP, 0.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -684,7 +676,7 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80B1D200(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_0600ACE0);
+    gSPDisplayList(POLY_OPA_DISP++, gDampeShovelDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
@@ -725,10 +717,10 @@ void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR sEyesSegments[] = {
-        0x06003B40,
-        0x06004340,
-        0x06004B40,
+    static u64* sEyesSegments[] = {
+        gDampeEyeOpenTex,
+        gDampeEyeHalfOpenTex,
+        gDampeEyeClosedTex,
     };
     EnTk* this = THIS;
 

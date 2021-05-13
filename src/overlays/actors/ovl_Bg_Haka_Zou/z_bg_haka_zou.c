@@ -77,8 +77,8 @@ extern CollisionHeader D_06006F70;
 extern CollisionHeader D_06000C2C;
 
 void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaZou* this = THIS;
     s32 pad;
+    BgHakaZou* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
@@ -89,7 +89,7 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(thisx, (Rand_ZeroOne() * 0.005f) + 0.025f);
 
         thisx->speedXZ = Rand_ZeroOne();
-        thisx->world.rot.y = thisx->shape.rot.y * ((Rand_ZeroOne() < 0.5f) ? -1 : 1) + Rand_CenteredFloat(4096.0f);
+        thisx->world.rot.y = thisx->shape.rot.y * ((Rand_ZeroOne() < 0.5f) ? -1 : 1) + Rand_CenteredFloat(0x1000);
         this->timer = 20;
         thisx->world.rot.x = Rand_S16Offset(0x100, 0x300) * ((Rand_ZeroOne() < 0.5f) ? -1 : 1);
         thisx->world.rot.z = Rand_S16Offset(0x400, 0x800) * ((Rand_ZeroOne() < 0.5f) ? -1 : 1);
@@ -169,38 +169,36 @@ void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
 
         if (this->dyna.actor.params == STA_UNKNOWN) {
             this->actionFunc = func_80882BDC;
-            return;
-        }
-
-        Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-
-        colHeader = NULL;
-
-        if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
-            CollisionHeader_GetVirtual(&D_06006F70, &colHeader);
-            this->collider.dim.radius = 80;
-            this->collider.dim.height = 100;
-            this->collider.dim.yShift = -30;
-            this->collider.dim.pos.x -= 56;
-            this->collider.dim.pos.z += 56;
-            this->dyna.actor.uncullZoneScale = 1500.0f;
-        } else if (this->dyna.actor.params == STA_BOMBABLE_SKULL_WALL) {
-            CollisionHeader_GetVirtual(&D_06005E30, &colHeader);
-            this->collider.dim.yShift = -50;
         } else {
-            CollisionHeader_GetVirtual(&D_06000C2C, &colHeader);
-            this->collider.dim.radius = 55;
-            this->collider.dim.height = 20;
+            Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
+
+            colHeader = NULL;
+
+            if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
+                CollisionHeader_GetVirtual(&D_06006F70, &colHeader);
+                this->collider.dim.radius = 80;
+                this->collider.dim.height = 100;
+                this->collider.dim.yShift = -30;
+                this->collider.dim.pos.x -= 56;
+                this->collider.dim.pos.z += 56;
+                this->dyna.actor.uncullZoneScale = 1500.0f;
+            } else if (this->dyna.actor.params == STA_BOMBABLE_SKULL_WALL) {
+                CollisionHeader_GetVirtual(&D_06005E30, &colHeader);
+                this->collider.dim.yShift = -50;
+            } else {
+                CollisionHeader_GetVirtual(&D_06000C2C, &colHeader);
+                this->collider.dim.radius = 55;
+                this->collider.dim.height = 20;
+            }
+
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+
+            if ((this->dyna.actor.params == STA_GIANT_BIRD_STATUE) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+                this->actionFunc = BgHakaZou_DoNothing;
+            } else {
+                this->actionFunc = func_80883000;
+            }
         }
-
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-
-        if ((this->dyna.actor.params == STA_GIANT_BIRD_STATUE) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
-            this->actionFunc = BgHakaZou_DoNothing;
-            return;
-        }
-
-        this->actionFunc = func_80883000;
     }
 }
 void func_80882BDC(BgHakaZou* this, GlobalContext* globalCtx) {
@@ -214,7 +212,7 @@ void func_80882BDC(BgHakaZou* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.bgCheckFlags & 2) {
         if (this->dyna.actor.velocity.y < -8.0f) {
             this->dyna.actor.velocity.y *= -0.6f;
-            this->dyna.actor.velocity.y = (this->dyna.actor.velocity.y > 10.0f) ? 10.0f : this->dyna.actor.velocity.y;
+            this->dyna.actor.velocity.y = CLAMP_MAX(this->dyna.actor.velocity.y, 10.0f);
             this->dyna.actor.bgCheckFlags &= ~3;
             this->dyna.actor.speedXZ = 2.0f;
         } else {
@@ -274,13 +272,13 @@ void func_80882E54(BgHakaZou* this, GlobalContext* globalCtx) {
 }
 
 void func_80883000(BgHakaZou* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         Flags_SetSwitch(globalCtx, this->switchFlag);
 
         if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
             this->timer = 20;
             this->actionFunc = func_80883144;
-            func_800800F8(globalCtx, 3400, 999, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 3400, 999, &this->dyna.actor, MAIN_CAM);
         } else if (this->dyna.actor.params == 2) {
             func_80882E54(this, globalCtx);
             this->dyna.actor.draw = NULL;
@@ -342,7 +340,7 @@ void func_80883254(BgHakaZou* this, GlobalContext* globalCtx) {
 
         if (this->timer == 0) {
             this->timer = 60;
-            this->dyna.actor.world.rot.x = 0x0008;
+            this->dyna.actor.world.rot.x = 8;
             this->actionFunc = func_80883328;
         }
     } else {
@@ -355,9 +353,9 @@ void func_80883328(BgHakaZou* this, GlobalContext* globalCtx) {
     s32 i;
     s32 j;
 
-    this->dyna.actor.world.rot.x += this->dyna.actor.world.rot.x * 0.125f;
+    this->dyna.actor.world.rot.x += this->dyna.actor.world.rot.x / 8.0f;
 
-    if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, this->dyna.actor.world.rot.x) != 0) {
+    if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, this->dyna.actor.world.rot.x)) {
         effectPos.x = this->dyna.actor.world.pos.x;
         effectPos.y = this->dyna.actor.world.pos.y;
 
@@ -385,7 +383,7 @@ void func_808834D8(BgHakaZou* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    moveDist = ((this->timer % 2) ? 15.0f : -15.0f);
+    moveDist = (this->timer % 2) ? 15.0f : -15.0f;
     this->dyna.actor.world.pos.y += ((this->timer & 0xFE) * 0.04f * moveDist);
 
     if (this->timer == 0) {

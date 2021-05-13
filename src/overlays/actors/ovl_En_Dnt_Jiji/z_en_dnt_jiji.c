@@ -120,7 +120,7 @@ void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->timer == 1) && (this->actor.xzDistToPlayer < 150.0f) && !Gameplay_InCsMode(globalCtx) &&
         !(player->stateFlags1 & 0x800)) {
-        func_800800F8(globalCtx, 0x8B6, -0x63, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 2230, -99, &this->actor, MAIN_CAM);
         this->timer = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = EnDntJiji_SetupUnburrow;
@@ -344,7 +344,7 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     dx = this->flowerPos.x - this->actor.world.pos.x;
     dz = this->flowerPos.z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * 10430.378f, 1, 0xBB8, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 1, 0xBB8, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
         this->actor.velocity.y = 9.0f;

@@ -1,14 +1,14 @@
 #pragma once
 
+#include <Vec3s.h>
+#include <assimp/scene.h>
 #include <stdint.h>
-#include <vector>
 #include <string>
-#include "HLTexture.h"
-#include "HLFileIntermediette.h"
+#include <tinyxml2.h>
+#include <vector>
 #include "../ZDisplayList.h"
 #include "../ZSkeleton.h"
-#include <tinyxml2.h>
-#include <assimp/scene.h>
+#include "HLFileIntermediette.h"
 
 /*
  * An intermediette format for models. Goes from FBX<-->Intermediette<-->Display List C Code.
@@ -32,10 +32,26 @@ public:
 	virtual void InitFromXML(tinyxml2::XMLElement* xmlElement);
 };
 
+class HLModelObj
+{
+public:
+	Vec3s pos;
+	Vec3s rot;
+	std::vector<aiVector3D> vertices;
+	std::vector<int32_t> indices;
+
+	HLModelObj() = default;
+	HLModelObj(Vec3s nPos, Vec3s nRot, std::vector<aiVector3D> nVerts,
+	           std::vector<int32_t> nIndices);
+};
+
 class HLModelIntermediette : public HLFileIntermediette
 {
 public:
 	std::vector<HLIntermediette*> blocks;
+	std::vector<Vec3s> meshTranslations;
+	std::vector<HLModelObj*> objects;
+	Vec3s lastTrans;
 
 	bool hasSkeleton;
 
@@ -43,8 +59,8 @@ public:
 	bool startsWithClearGeometryMode;
 	bool lerpBeforeTextureBlock;
 
-	int startIndex;
-	int meshStartIndex;
+	uint32_t startIndex;
+	uint32_t meshStartIndex;
 
 	HLModelIntermediette();
 	~HLModelIntermediette();
@@ -52,8 +68,10 @@ public:
 	static HLModelIntermediette* FromXML(tinyxml2::XMLElement* root);
 	static void FromZDisplayList(HLModelIntermediette* model, ZDisplayList* zDisplayList);
 	static void FromZSkeleton(HLModelIntermediette* model, ZSkeleton* zSkeleton);
+	static void ProcessZSkeletonLimb(HLModelIntermediette* model, ZSkeleton* zSkeleton,
+	                                 ZLimb* limb);
 	std::string ToOBJFile();
-	std::string ToFBXFile();
+	std::string ToAssimpFile();
 
 	std::string OutputCode();
 	std::string OutputXML();
@@ -78,6 +96,17 @@ public:
 	virtual void OutputXML(tinyxml2::XMLDocument* doc, tinyxml2::XMLElement* root);
 };
 
+class HLSetTranslation : public HLIntermediette
+{
+public:
+	float transX, transY, transZ;
+
+	HLSetTranslation();
+	HLSetTranslation(float nTransX, float nTransY, float nTransZ);
+
+	virtual void OutputAssimp(aiScene* scene, std::vector<aiVector3D>* verts);
+};
+
 class HLTerminator : public HLIntermediette
 {
 public:
@@ -98,10 +127,10 @@ class HLMaterialIntermediette : public HLIntermediette
 {
 public:
 	std::string textureName;
-	//int32_t repeatH, repeatV;
+	// int32_t repeatH, repeatV;
 	uint8_t clrR, clrG, clrB, clrA, clrM, clrL;
-	//bool clampH, clampV;
-	//bool mirrorH, mirrorV;
+	// bool clampH, clampV;
+	// bool mirrorH, mirrorV;
 	HLMaterialCmt cmtH, cmtV;
 
 	// TODO: Remember to add lerp params here...
@@ -130,7 +159,7 @@ public:
 	std::vector<Vertex> vertices;
 
 	HLVerticesIntermediette();
-	
+
 	virtual void InitFromXML(tinyxml2::XMLElement* verticesElement);
 	void InitFromVertices(std::vector<Vertex> dispListVertices);
 	virtual std::string OutputCode(HLModelIntermediette* parent);
@@ -159,7 +188,8 @@ public:
 	int32_t v0, v1, v2, flag0, v10, v11, v12, flag1;
 
 	HLMeshCmdTriangle2();
-	HLMeshCmdTriangle2(int32_t nV0, int32_t nV1, int32_t nV2, int32_t nFlag0, int32_t nV10, int32_t nV11, int32_t nV12, int32_t nFlag1);
+	HLMeshCmdTriangle2(int32_t nV0, int32_t nV1, int32_t nV2, int32_t nFlag0, int32_t nV10,
+	                   int32_t nV11, int32_t nV12, int32_t nFlag1);
 
 	virtual void InitFromXML(tinyxml2::XMLElement* xmlElement);
 	virtual std::string OutputCode(HLModelIntermediette* parent);
@@ -248,7 +278,7 @@ class HLDisplayListIntermediette : public HLIntermediette
 {
 public:
 	std::vector<HLDisplayListCommand*> commands;
-	int address;
+	uint32_t address;
 
 	HLDisplayListIntermediette();
 

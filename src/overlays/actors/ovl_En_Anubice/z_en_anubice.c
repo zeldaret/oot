@@ -5,6 +5,7 @@
  */
 
 #include "z_en_anubice.h"
+#include "objects/object_anubice/object_anubice.h"
 #include "overlays/actors/ovl_En_Anubice_Tag/z_en_anubice_tag.h"
 #include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
 #include "vt.h"
@@ -25,12 +26,6 @@ void EnAnubice_GoToHome(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubis_ShootFireball(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06000348;
-extern AnimationHeader D_0600078C;
-extern AnimationHeader D_06000F74;
-extern Gfx D_06003468[];
-extern SkeletonHeader D_06003990;
 
 const ActorInit En_Anubice_InitVars = {
     ACTOR_EN_ANUBICE,
@@ -99,10 +94,6 @@ static DamageTable sDamageTable[] = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-Vec3f D_809B231C = { 0.0f, 0.0f, 0.0f };
-Vec3f D_809B2328 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_809B2334 = { 0.0f, 0.0f, 0.0f };
-
 void EnAnubice_Hover(EnAnubice* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -133,7 +124,8 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubice* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003990, &D_06000F74, this->jointTable, this->morphTable, 16);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gAnubiceSkel, &gAnubiceIdleAnim, this->jointTable, this->morphTable,
+                   16);
 
     osSyncPrintf("\n\n");
     // ☆☆☆☆☆ Anubis occurence ☆☆☆☆☆
@@ -203,9 +195,9 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx) {
 }
 
 void EnAnubice_SetupIdle(EnAnubice* this, GlobalContext* globalCtx) {
-    f32 lastFrame = Animation_GetLastFrame(&D_06000F74);
+    f32 lastFrame = Animation_GetLastFrame(&gAnubiceIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06000F74, 1.0f, 0.0f, (s16)lastFrame, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &gAnubiceIdleAnim, 1.0f, 0.0f, (s16)lastFrame, 0, -10.0f);
 
     this->actionFunc = EnAnubice_Idle;
     this->actor.velocity.x = this->actor.velocity.z = this->actor.gravity = 0.0f;
@@ -267,10 +259,10 @@ void EnAnubice_GoToHome(EnAnubice* this, GlobalContext* globalCtx) {
 }
 
 void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
-    f32 lastFrame = Animation_GetLastFrame(&D_0600078C);
+    f32 lastFrame = Animation_GetLastFrame(&gAnubiceAttackingAnim);
 
     this->animLastFrame = lastFrame;
-    Animation_Change(&this->skelAnime, &D_0600078C, 1.0f, 0.0f, lastFrame, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &gAnubiceAttackingAnim, 1.0f, 0.0f, lastFrame, 2, -10.0f);
     this->actionFunc = EnAnubis_ShootFireball;
     this->actor.velocity.x = this->actor.velocity.z = 0.0f;
 }
@@ -297,10 +289,10 @@ void EnAnubis_ShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
 }
 
 void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
-    f32 lastFrame = Animation_GetLastFrame(&D_06000348);
+    f32 lastFrame = Animation_GetLastFrame(&gAnubiceFallDownAnim);
 
     this->animLastFrame = lastFrame;
-    Animation_Change(&this->skelAnime, &D_06000348, 1.0f, 0.0f, lastFrame, 2, -20.0f);
+    Animation_Change(&this->skelAnime, &gAnubiceFallDownAnim, 1.0f, 0.0f, lastFrame, 2, -20.0f);
 
     this->unk_256 = false;
     this->unk_258 = 0;
@@ -319,8 +311,8 @@ void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
 void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     f32 curFrame;
     f32 phi_f2;
-    Vec3f sp4C = D_809B231C;
-    Vec3f fireEffectPos = D_809B2328;
+    Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
+    Vec3f fireEffectPos = { 0.0f, 0.0f, 0.0f };
     s32 pad;
 
     SkelAnime_Update(&this->skelAnime);
@@ -477,15 +469,15 @@ s32 EnAnubis_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 
 void EnAnubis_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnAnubice* this = THIS;
-    Vec3f sp38 = D_809B2334;
+    Vec3f pos = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice.c", 853);
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice.c", 856),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06003468);
-        Matrix_MultVec3f(&sp38, &this->fireballPos);
+        gSPDisplayList(POLY_XLU_DISP++, gAnubiceEyesDL);
+        Matrix_MultVec3f(&pos, &this->fireballPos);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice.c", 868);
     }

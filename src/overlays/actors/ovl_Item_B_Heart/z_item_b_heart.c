@@ -65,11 +65,11 @@ void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx) {
-    f32 temp;
+    f32 yOffset;
 
-    this->unk_164 += 1;
-    temp = ((Math_SinS(this->unk_164 * 1548) * 5.0f) + 20.0f);
-    Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y + temp, 0.1f, this->unk_158);
+    this->unk_164++;
+    yOffset = (Math_SinS(this->unk_164 * 0x60C) * 5.0f) + 20.0f;
+    Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y + yOffset, 0.1f, this->unk_158);
     Math_ApproachF(&this->unk_158, 2.0f, 1.0f, 0.1f);
     this->actor.shape.rot.y += 0x400;
 
@@ -80,7 +80,7 @@ void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx) {
 void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ItemBHeart* this = THIS;
     Actor* actorIt;
-    u8 flag = 0;
+    u8 flag = false;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 506);
 
@@ -88,11 +88,10 @@ void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     while (actorIt != NULL) {
         if ((actorIt->id == ACTOR_DOOR_WARP1) && (actorIt->projectedPos.z > this->actor.projectedPos.z)) {
-            flag = 1;
+            flag = true;
             break;
-        } else {
-            actorIt = actorIt->next;
         }
+        actorIt = actorIt->next;
     }
 
     if (flag) {

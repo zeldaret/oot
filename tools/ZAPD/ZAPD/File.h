@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
 #include <fstream>
-#include <vector>
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
+#include <string>
+#include <vector>
 #include "StringHelper.h"
 
 class File
@@ -20,12 +20,12 @@ public:
 	static std::vector<uint8_t> ReadAllBytes(const std::string& filePath)
 	{
 		std::ifstream file(filePath, std::ios::in | std::ios::binary | std::ios::ate);
-		int fileSize = (int)file.tellg();
+		int32_t fileSize = (int32_t)file.tellg();
 		file.seekg(0);
 		char* data = new char[fileSize];
 		file.read(data, fileSize);
 		std::vector<uint8_t> result = std::vector<uint8_t>(data, data + fileSize);
-		delete data;
+		delete[] data;
 
 		return result;
 	};
@@ -33,13 +33,13 @@ public:
 	static std::string ReadAllText(const std::string& filePath)
 	{
 		std::ifstream file(filePath, std::ios::in | std::ios::binary | std::ios::ate);
-		int fileSize = (int)file.tellg();
+		int32_t fileSize = (int32_t)file.tellg();
 		file.seekg(0);
-		char* data = new char[fileSize+1];
+		char* data = new char[fileSize + 1];
 		memset(data, 0, fileSize + 1);
 		file.read(data, fileSize);
 		std::string str = std::string((const char*)data);
-		delete data;
+		delete[] data;
 
 		return str;
 	};

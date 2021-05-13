@@ -75,9 +75,6 @@ unknownStruct D_80B4362C[] = {
     { 40.0f, 120.0f, 160.0f, 777.0f },
 };
 
-Vec3f D_80B4365C = { 0.0f, 0.0f, 0.0f };
-Vec3f D_80B43668 = { 0.0f, 0.0f, 0.0f };
-
 void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnYabusameMark* this = THIS;
 
@@ -126,20 +123,18 @@ void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // regalloc
 void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
-    Vec3f effectAccel;
-    Vec3f effectVelocity;
+    Vec3f effectAccel = { 0.0f, 0.0f, 0.0f };
+    Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f arrowHitPos;
     Vec3f distanceFromCenter;
+    s32 pad;
+    s32 scoreIndex;
     f32 scoreDistance100;
     f32 scoreDistance60;
     f32 scoreDistance30;
-    s32 scoreIndex;
 
-    effectAccel = D_80B4365C;
-    effectVelocity = D_80B43668;
-
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
 
         arrowHitPos.x = this->collider.info.bumper.hitPos.x;
         arrowHitPos.y = this->collider.info.bumper.hitPos.y;
@@ -151,13 +146,13 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
 
         scoreIndex = 2;
 
-        distanceFromCenter.x = fabsf(D_80B435F0[this->subTypeIndex].x - arrowHitPos.x);
-        distanceFromCenter.y = fabsf(D_80B435F0[this->subTypeIndex].y - arrowHitPos.y);
-        distanceFromCenter.z = fabsf(D_80B435F0[this->subTypeIndex].z - arrowHitPos.z);
-
         scoreDistance100 = D_80B4362C[this->typeIndex].unk_0;
         scoreDistance60 = D_80B4362C[this->typeIndex].unk_4;
         scoreDistance30 = D_80B4362C[this->typeIndex].unk_8;
+        // Needs to skip a t register somewhere around here.
+        distanceFromCenter.x = fabsf(D_80B435F0[this->subTypeIndex].x - arrowHitPos.x);
+        distanceFromCenter.y = fabsf(D_80B435F0[this->subTypeIndex].y - arrowHitPos.y);
+        distanceFromCenter.z = fabsf(D_80B435F0[this->subTypeIndex].z - arrowHitPos.z);
 
         if (distanceFromCenter.x > scoreDistance100 || distanceFromCenter.y > scoreDistance100 ||
             distanceFromCenter.z > scoreDistance100) {
@@ -198,6 +193,8 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
     }
 }
 #else
+static Vec3f D_80B4365C = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80B43668 = { 0.0f, 0.0f, 0.0f };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Yabusame_Mark/func_80B42F74.s")
 #endif
 

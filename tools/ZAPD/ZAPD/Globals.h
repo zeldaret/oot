@@ -4,65 +4,75 @@
 #include <string>
 #include <vector>
 #include "ZFile.h"
-#include "ZTexture.h"
 #include "ZRoom/ZRoom.h"
+#include "ZTexture.h"
 
-typedef enum VerbosityLevel {
+enum VerbosityLevel
+{
 	VERBOSITY_SILENT,
 	VERBOSITY_INFO,
 	VERBOSITY_DEBUG
-} VerbosityLevel;
+};
 
-class GameConfig;
+struct TexturePoolEntry
+{
+	fs::path path = "";  // Path to Shared Texture
+};
+
+class GameConfig
+{
+public:
+	std::map<int32_t, std::string> segmentRefs;
+	std::map<int32_t, ZFile*> segmentRefFiles;
+	std::map<uint32_t, std::string> symbolMap;
+	std::vector<std::string> actorList;
+	std::vector<std::string> objectList;
+	std::map<uint32_t, TexturePoolEntry> texturePool;  // Key = CRC
+
+	// ZBackground
+	uint32_t bgScreenWidth = 320, bgScreenHeight = 240;
+
+	GameConfig() = default;
+};
 
 class Globals
 {
 public:
 	static Globals* Instance;
 
-	bool genSourceFile; // Used for extraction
+	bool genSourceFile;  // Used for extraction
 	bool useExternalResources;
-	bool testMode; // Enables certain experimental features
-	bool profile; // Measure performance of certain operations
-	bool includeFilePrefix; // Include the file prefix in symbols
-	VerbosityLevel verbosity; // ZAPD outputs additional information
+	bool testMode;           // Enables certain experimental features
+	bool profile;            // Measure performance of certain operations
+	bool includeFilePrefix;  // Include the file prefix in symbols
+	bool useLegacyZDList;
+	VerbosityLevel verbosity;  // ZAPD outputs additional information
 	ZFileMode fileMode;
-	std::string baseRomPath, inputPath, outputPath, cfgPath;
+	fs::path baseRomPath, inputPath, outputPath, sourceOutputPath, cfgPath;
 	TextureType texType;
 	ZGame game;
+	GameConfig cfg;
+	bool warnUnaccounted = false;
 
 	std::vector<ZFile*> files;
-	std::vector<int> segments;
-	std::map<int, std::string> segmentRefs;
-	std::map<int, ZFile*> segmentRefFiles;
+	std::vector<int32_t> segments;
+	std::map<int32_t, std::string> segmentRefs;
+	std::map<int32_t, ZFile*> segmentRefFiles;
 	ZRoom* lastScene;
 	std::map<uint32_t, std::string> symbolMap;
 
 	Globals();
-	std::string FindSymbolSegRef(int segNumber, uint32_t symbolAddress);
+	std::string FindSymbolSegRef(int32_t segNumber, uint32_t symbolAddress);
 	void ReadConfigFile(const std::string& configFilePath);
+	void ReadTexturePool(const std::string& texturePoolXmlPath);
 	void GenSymbolMap(const std::string& symbolMapPath);
-	void AddSegment(int segment);
-	bool HasSegment(int segment);
-};
-
-class GameConfig
-{
-public:
-	std::map<int, std::string> segmentRefs;
-	std::map<int, ZFile*> segmentRefFiles;
-	std::map<uint32_t, std::string> symbolMap;
-	std::vector<std::string> actorList;
-	std::vector<std::string> objectList;
-
-	GameConfig();
-
-private:
-
+	void AddSegment(int32_t segment);
+	bool HasSegment(int32_t segment);
 };
 
 /*
- * Note: In being able to track references across files, there are a few major files that make use of segments...
+ * Note: In being able to track references across files, there are a few major files that make use
+ * of segments...
  * Segment 1: nintendo_rogo_static/title_static
  * Segment 2: parameter_static
  * Segment 4: gameplay_keep

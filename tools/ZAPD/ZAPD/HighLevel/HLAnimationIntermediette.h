@@ -1,8 +1,8 @@
 #pragma once
 
 #include <stdint.h>
-#include "../ZAnimation.h"
 #include <tinyxml2.h>
+#include "../ZAnimation.h"
 #include "HLFileIntermediette.h"
 
 /*
@@ -23,7 +23,7 @@ public:
 
 	HLAnimationIntermediette();
 	~HLAnimationIntermediette();
-	
+
 	std::string OutputXML();
 	ZAnimation* ToZAnimation();
 

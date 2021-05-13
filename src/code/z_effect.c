@@ -104,7 +104,7 @@ void Effect_Add(GlobalContext* globalCtx, s32* pIndex, s32 type, u8 arg3, u8 arg
 
     *pIndex = TOTAL_EFFECT_COUNT;
 
-    if (func_800C0D28(globalCtx) != 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) != true) {
         slotFound = false;
         switch (type) {
             case EFFECT_SPARK:
