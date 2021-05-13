@@ -1516,7 +1516,7 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
         }
     } else if (D_80B7A694 == 0) {
         D_80B7E0B8 = D_80B7E168[0xC7];
-        D_80B7E0D8.x = D_80B7EAC8[0xC6].x + 3.1415927f;
+        D_80B7E0D8.x = D_80B7EAC8[0xC6].x + M_PI;
 
         if ((player->actor.speedXZ == 0.0f) && (D_80B7E0B0 == 0)) {
             Math_ApproachF(&D_80B7E0D8.y, D_80B7EAC8[0xC6].y, 0.1f, 0.2f);
@@ -1847,8 +1847,8 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
         D_80B7E082 = 0;
         D_80B7E0B6 = 0;
 
-        if (((D_80B7E075 == 1) && (gSaveContext.highScores[2] & 0x400)) ||
-            ((D_80B7E075 != 1) && (gSaveContext.highScores[2] & 0x800))) {
+        if (((D_80B7E075 == 1) && (HIGH_SCORE(HS_FISHING) & 0x400)) ||
+            ((D_80B7E075 != 1) && (HIGH_SCORE(HS_FISHING) & 0x800))) {
             D_80B7A66C = (u8)Rand_ZeroFloat(3.999f) + 1;
         }
 
@@ -1901,13 +1901,13 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                     func_80106CCC(globalCtx);
                 }
             } else {
-                D_80B7E0D8.x = D_80B7EAC8[0xC6].x + 3.1415927f;
+                D_80B7E0D8.x = D_80B7EAC8[0xC6].x + M_PI;
                 D_80B7E0D8.y = D_80B7EAC8[0xC6].y;
 
                 if (D_80B7E0B4 == 0x12) {
                     D_80B7A694 = 1;
                     D_80B7E0B8 = D_80B7E158;
-                    Matrix_RotateY((player->actor.shape.rot.y / 32768.0f) * 3.1415927f, 0);
+                    Matrix_RotateY((player->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
                     sp90.x = 0.0f;
                     sp90.y = 0.0f;
                     sp90.z = 25.0f;
@@ -1920,7 +1920,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                     D_80B7E11C = 0.5f;
                     D_80B7E118 = Rand_ZeroFloat(1.9f);
                     D_80B7A69C = 500.0f;
-                    func_80078914(&D_80B7AF94, 0x1818);
+                    func_80078914(&D_80B7AF94, NA_SE_IT_SWORD_SWING_HARD);
                 }
             }
             break;
@@ -1940,7 +1940,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                 D_80B7E0E8.x *= 0.9f;
                 D_80B7E0E8.z *= 0.9f;
                 if (D_80B7A68C == 0) {
-                    func_80078884(0x103E);
+                    func_80078884(NA_SE_IT_FISHING_REEL_HIGH - SFX_FLAG);
                 }
             }
 
@@ -1949,11 +1949,11 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
             spD0 = D_80B7E0B8.z - D_80B7E158.z;
 
             if (D_80B7E0B2 != 0) {
-                D_80B7E0D8.x = D_80B7EAC8[0xC6].x + 3.1415927f;
+                D_80B7E0D8.x = D_80B7EAC8[0xC6].x + M_PI;
                 D_80B7E0D8.y = D_80B7EAC8[0xC6].y;
             } else {
                 D_80B7E0D8.x = 0.0f;
-                D_80B7E0D8.y = Math_Atan2F(spD0, spD8) + 3.1415927f;
+                D_80B7E0D8.y = Math_Atan2F(spD0, spD8) + M_PI;
             }
 
             phi_f16 = sqrtf(SQ(spD8) + SQ(spD4) + SQ(spD0));
@@ -1995,7 +1995,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                     D_80B7E154 = 0.0;
                 } else {
                     Math_ApproachF(&D_80B7E148, 0.0f, 1.0f, 0.05f);
-                    func_80078914(&D_80B7AF94, 0x30A4);
+                    func_80078914(&D_80B7AF94, NA_SE_EN_FANTOM_FLOAT - SFX_FLAG);
                 }
             } else {
                 spE4 = globalCtx->colCtx.colHeader->waterBoxes->ySurface;
@@ -2014,7 +2014,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                     if ((D_80B7E0B8.y <= spE4) && (spE4 < spE0) &&
                         (spE4 == globalCtx->colCtx.colHeader->waterBoxes->ySurface)) {
                         D_80B7E114 = 10;
-                        func_80078914(&D_80B7AF94, 0x2817);
+                        func_80078914(&D_80B7AF94, NA_SE_EV_BOMB_DROP_WATER);
                         D_80B7E0F8.y = 0.0f;
                         D_80B7E0E8.y *= 0.2f;
 
@@ -2039,7 +2039,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                     }
                 } else {
                     Math_ApproachZeroF(&D_80B7E148, 1.0f, 0.05f);
-                    func_80078914(&D_80B7AF94, 0x30A4);
+                    func_80078914(&D_80B7AF94, NA_SE_EN_FANTOM_FLOAT - SFX_FLAG);
                 }
             }
 
@@ -2147,7 +2147,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                         }
                     } else if (CHECK_BTN_ALL(input->cur.button, BTN_A)) {
                         spDC = 0x500;
-                        D_80B7E134 = D_80B7EAC8[0xC6].y + 3.1415927f;
+                        D_80B7E134 = D_80B7EAC8[0xC6].y + M_PI;
                         D_80B7E0D8.x = 0.0f;
                         D_80B7E10C = 0.5f;
                         if (D_80B7E0B6 == 2) {
@@ -2158,8 +2158,8 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                     }
                 } else {
                     if (D_80B7E144 > 150.0f) {
-                        D_80B7E0D8.x = D_80B7EAC8[0xC6].x + 3.1415927f;
-                        D_80B7E134 = D_80B7EAC8[0xC6].y + 3.1415927f;
+                        D_80B7E0D8.x = D_80B7EAC8[0xC6].x + M_PI;
+                        D_80B7E134 = D_80B7EAC8[0xC6].y + M_PI;
                         D_80B7E144 += 2.0f;
                     }
                 }
@@ -2168,31 +2168,31 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                 if (D_80B7E0B8.y <= spE4) {
                     D_80B7E0B8.y = spE4;
                     spDC = 0x500;
-                    D_80B7E134 = D_80B7EAC8[0xC6].y + 3.1415927f;
+                    D_80B7E134 = D_80B7EAC8[0xC6].y + M_PI;
                     D_80B7E0D8.x = 0.0f;
                     if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         D_80B7E144 += 6.0f;
-                        func_80078914(&D_80B7AF94, 0x801);
+                        func_80078914(&D_80B7AF94, NA_SE_PL_WALK_SAND);
                     }
                 } else {
                     if (D_80B7E144 > 150.0f) {
-                        D_80B7E0D8.x = D_80B7EAC8[0xC6].x + 3.1415927f;
-                        D_80B7E134 = D_80B7EAC8[0xC6].y + 3.1415927f;
+                        D_80B7E0D8.x = D_80B7EAC8[0xC6].x + M_PI;
+                        D_80B7E134 = D_80B7EAC8[0xC6].y + M_PI;
                         D_80B7E144 += 2.0f;
                     }
                 }
             }
 
             Math_ApproachZeroF(&D_80B7E138, 1.0f, 0.3f);
-            Math_ApproachS(&D_80B7E13C, (D_80B7E134 * 32768.0f) / 3.1415927f, 3, spDC);
+            Math_ApproachS(&D_80B7E13C, (D_80B7E134 * 32768.0f) / M_PI, 3, spDC);
 
-            D_80B7E0D8.y = (D_80B7E13C / 32768.0f) * 3.1415927f;
+            D_80B7E0D8.y = (D_80B7E13C / 32768.0f) * M_PI;
 
             sp90.x = 0.0f;
             sp90.y = 0.0f;
             sp90.z = D_80B7E138;
 
-            Matrix_RotateY(D_80B7E0D8.y, 0);
+            Matrix_RotateY(D_80B7E0D8.y, MTXMODE_NEW);
 
             if (D_80B7E0B6 == 2) {
                 Matrix_MultVec3f(&sp90, &sp64);
@@ -2253,11 +2253,11 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
             if (CHECK_BTN_ALL(input->cur.button, BTN_A)) {
                 if (CHECK_BTN_ALL(input->cur.button, BTN_R)) {
                     D_80B7E144 += 1.5f;
-                    func_80078884(0x103E);
+                    func_80078884(NA_SE_IT_FISHING_REEL_HIGH - SFX_FLAG);
                     Math_ApproachF(&D_80B7E154, 1000.0f, 1.0f, 2.0f);
                 } else {
                     D_80B7E144 += D_80B7E11C;
-                    func_80078884(0x103D);
+                    func_80078884(NA_SE_IT_FISHING_REEL_SLOW - SFX_FLAG);
                     Math_ApproachF(&D_80B7E154, 1000.0f, 1.0f, 0.2f);
                 }
 
@@ -2298,7 +2298,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                 if ((D_80B7E0AE & phi_v0) == 0) {
                     spA8 = D_80B7E0B8;
                     spA8.y = globalCtx->colCtx.colHeader->waterBoxes->ySurface;
-                    func_80B69C2C(NULL, globalCtx->specialEffects, &spA8, 30.0f, 300.0f, 0x96, 0x5A);
+                    func_80B69C2C(NULL, globalCtx->specialEffects, &spA8, 30.0f, 300.0f, 150, 90);
                 }
             }
             break;
@@ -2315,7 +2315,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                 } else {
                     D_80B7E144 += D_80B7E11C;
                 }
-                func_80078884(0x103D);
+                func_80078884(NA_SE_IT_FISHING_REEL_SLOW - SFX_FLAG);
             }
 
             if ((D_80B7E0AE & 0x1F) == 0) {
@@ -2442,7 +2442,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
     sp24 = SQ(sp34.x) + SQ(sp34.y) + SQ(sp34.z);
 
     if ((D_80B7A694 == 3) && (this->unk_1A2 == 0) && (D_80B7A68C == 0)) {
-        Matrix_RotateY(((0 - this->actor.shape.rot.y) / 32768.0f) * 3.1415927f, 0);
+        Matrix_RotateY(((0 - this->actor.shape.rot.y) / 32768.0f) * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&sp34, &sp28);
 
         if ((sp28.z > 0.0f) || (this->unk_1AC < 40.0f)) {
@@ -3060,8 +3060,8 @@ void func_80B771CC(GlobalContext* globalCtx) {
 
             if (phi_s1->unk_44 != 0) {
                 Matrix_Translate(phi_s1->unk_04.x, phi_s1->unk_04.y, phi_s1->unk_04.z, MTXMODE_NEW);
-                Matrix_RotateY(((f32)phi_s1->unk_3E * 3.1415927f) / 32768.0f, MTXMODE_APPLY);
-                Matrix_RotateX((-(f32)phi_s1->unk_3C * 3.1415927f) / 32768.0f, MTXMODE_APPLY);
+                Matrix_RotateY(((f32)phi_s1->unk_3E * M_PI) / 32768.0f, MTXMODE_APPLY);
+                Matrix_RotateX((-(f32)phi_s1->unk_3C * M_PI) / 32768.0f, MTXMODE_APPLY);
                 Matrix_Scale(phi_s1->unk_2C * phi_f20, phi_f20, phi_f20, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 8093),
@@ -3091,7 +3091,7 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
         case 0:
             if (D_80B7E0AC == 0) {
                 if (D_80B7E075 != 1) {
-                    if ((gSaveContext.highScores[2] & 0x100) && !(gSaveContext.highScores[2] & 0x200)) {
+                    if ((HIGH_SCORE(HS_FISHING) & 0x100) && !(HIGH_SCORE(HS_FISHING) & 0x200)) {
                         this->actor.textId = 0x4093;
                     } else {
                         this->actor.textId = 0x407B;
@@ -3109,9 +3109,9 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
                 if (D_80B7E0AC == 0) {
                     this->unk_15C = 1;
                     if (D_80B7E075 != 1) {
-                        gSaveContext.highScores[2] |= 0x200;
+                        HIGH_SCORE(HS_FISHING) |= 0x200;
                     } else {
-                        gSaveContext.highScores[2] |= 0x100;
+                        HIGH_SCORE(HS_FISHING) |= 0x100;
                     }
                 } else {
                     this->unk_15C = 10;
@@ -3194,8 +3194,8 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
                 D_80B7A684 = 20;
                 this->unk_15C = 0;
 
-                if ((gSaveContext.highScores[2] & 0xFF0000) < 0xFF0000) {
-                    gSaveContext.highScores[2] += 0x10000;
+                if ((HIGH_SCORE(HS_FISHING) & 0xFF0000) < 0xFF0000) {
+                    HIGH_SCORE(HS_FISHING) += 0x10000;
                 }
             }
             break;
@@ -3299,30 +3299,30 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
                     D_80B7A670 = 0.0f;
 
                     if (D_80B7E075 == 1) {
-                        gSaveContext.highScores[2] &= 0xFFFFFF00;
-                        gSaveContext.highScores[2] |= (s32)D_80B7E078 & 0x7F;
+                        HIGH_SCORE(HS_FISHING) &= 0xFFFFFF00;
+                        HIGH_SCORE(HS_FISHING) |= (s32)D_80B7E078 & 0x7F;
 
-                        temp = ((gSaveContext.highScores[2] & 0x7F000000) >> 0x18);
+                        temp = ((HIGH_SCORE(HS_FISHING) & 0x7F000000) >> 0x18);
                         if (temp < D_80B7E078) {
-                            gSaveContext.highScores[2] &= 0xFFFFFF;
-                            gSaveContext.highScores[2] |= ((s32)D_80B7E078 & 0x7F) << 0x18;
+                            HIGH_SCORE(HS_FISHING) &= 0xFFFFFF;
+                            HIGH_SCORE(HS_FISHING) |= ((s32)D_80B7E078 & 0x7F) << 0x18;
 
                             if (D_80B7E07E == 2) {
-                                gSaveContext.highScores[2] |= 0x80000000;
+                                HIGH_SCORE(HS_FISHING) |= 0x80000000;
                             }
                         }
 
                         if (D_80B7E07E == 2) {
-                            gSaveContext.highScores[2] |= 0x80;
+                            HIGH_SCORE(HS_FISHING) |= 0x80;
                             this->unk_15C = 0;
                             break;
                         }
                     } else {
-                        gSaveContext.highScores[2] &= 0xFFFFFF;
-                        gSaveContext.highScores[2] |= ((s32)D_80B7E078 & 0x7F) << 0x18;
+                        HIGH_SCORE(HS_FISHING) &= 0xFFFFFF;
+                        HIGH_SCORE(HS_FISHING) |= ((s32)D_80B7E078 & 0x7F) << 0x18;
 
                         if (D_80B7E07E == 2) {
-                            gSaveContext.highScores[2] |= 0x80000000;
+                            HIGH_SCORE(HS_FISHING) |= 0x80000000;
                             this->unk_15C = 0;
                             break;
                         }
@@ -3339,14 +3339,14 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
                     }
 
                     if (D_80B7E075 == 1) {
-                        if ((D_80B7E078 >= 50.0f) && !(gSaveContext.highScores[2] & 0x400)) {
-                            gSaveContext.highScores[2] |= 0x400;
+                        if ((D_80B7E078 >= 50.0f) && !(HIGH_SCORE(HS_FISHING) & 0x400)) {
+                            HIGH_SCORE(HS_FISHING) |= 0x400;
                             sp34 = GI_HEART_PIECE;
                             D_80B7A66C = (u8)Rand_ZeroFloat(3.999f) + 1;
                         }
                     } else {
-                        if ((D_80B7E078 >= 60.0f) && !(gSaveContext.highScores[2] & 0x800)) {
-                            gSaveContext.highScores[2] |= 0x800;
+                        if ((D_80B7E078 >= 60.0f) && !(HIGH_SCORE(HS_FISHING) & 0x800)) {
+                            HIGH_SCORE(HS_FISHING) |= 0x800;
                             sp34 = GI_SCALE_GOLD;
                             D_80B7A66C = (u8)Rand_ZeroFloat(3.999f) + 1;
                         }
@@ -3503,9 +3503,9 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (D_80B7A688 == 0) {
-        gSaveContext.highScores[2] |= 0x1000;
+        HIGH_SCORE(HS_FISHING) |= 0x1000;
     } else if (D_80B7A688 == 1) {
-        gSaveContext.highScores[2] &= ~0x1000;
+        HIGH_SCORE(HS_FISHING) &= ~0x1000;
     }
 
     if (KREG(77) < 0) {
@@ -3574,9 +3574,9 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
             Camera* camera;
 
             D_80B7FEC4 = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, D_80B7FEC4, 7);
-            camera = Gameplay_GetCamera(globalCtx, 0);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, D_80B7FEC4, CAM_STAT_ACTIVE);
+            camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
             D_80B7FEA8.x = camera->eye.x;
             D_80B7FEA8.y = camera->eye.y;
             D_80B7FEA8.z = camera->eye.z;
@@ -3595,7 +3595,7 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
             spFC.x = D_80B7E0B8.x - player->actor.world.pos.x;
             spFC.z = D_80B7E0B8.z - player->actor.world.pos.z;
             spEC = sqrtf(SQ(spFC.x) + SQ(spFC.z));
-            Matrix_RotateY(Math_Atan2F(spFC.z, spFC.x), 0);
+            Matrix_RotateY(Math_Atan2F(spFC.z, spFC.x), MTXMODE_NEW);
 
             sp114.x = 0.0f;
             sp114.y = 0.0f;
@@ -3684,7 +3684,7 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case 3: {
-            Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+            Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
             camera->eye = D_80B7FEA8;
             camera->eyeNext = D_80B7FEA8;
@@ -3705,10 +3705,10 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
 
             func_80064520(globalCtx, &globalCtx->csCtx);
             D_80B7FEC4 = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, D_80B7FEC4, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, D_80B7FEC4, CAM_STAT_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 5);
-            camera = Gameplay_GetCamera(globalCtx, 0);
+            camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
             D_80B7FEA8.x = camera->eye.x;
             D_80B7FEA8.y = camera->eye.y;
             D_80B7FEA8.z = camera->eye.z;
@@ -3726,7 +3726,7 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
             player->actor.speedXZ = 0.0f;
 
             if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
-                Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+                Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
                 camera->eye = D_80B7FEA8;
                 camera->eyeNext = D_80B7FEA8;
@@ -3747,10 +3747,10 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
 
             func_80064520(globalCtx, &globalCtx->csCtx);
             D_80B7FEC4 = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, D_80B7FEC4, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, D_80B7FEC4, CAM_STAT_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 5);
-            camera = Gameplay_GetCamera(globalCtx, 0);
+            camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
             D_80B7FEA8.x = camera->eye.x;
             D_80B7FEA8.y = camera->eye.y;
             D_80B7FEA8.z = camera->eye.z;
@@ -3781,7 +3781,7 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
             D_80B7A6D4 = 1;
 
             Math_ApproachF(&D_80B7FEE4, 71.0f, 0.5f, 3.0f);
-            Matrix_RotateY((player->actor.shape.rot.y / 32768.0f) * M_PI, 0);
+            Matrix_RotateY((player->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
 
             sp114.x = Math_SinS(globalCtx->gameplayFrames * 0x1000);
             sp114.y = D_80B7FEE4;
@@ -3823,7 +3823,7 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
             if (D_80B7A6D0 == 0) {
                 if ((func_8010BDBC(&globalCtx->msgCtx) == 4) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
                     if (func_80106BC8(globalCtx) != 0) {
-                        Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+                        Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
                         func_80106CCC(globalCtx);
                         if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -3981,7 +3981,7 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
 
     if ((u8)D_80B7A650 > 0) {
         s32 pad;
-        Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+        Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
         s16 sp76;
         s32 pad1;
         Vec3f sp64;
@@ -4021,7 +4021,7 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
         func_8010B680(globalCtx, 0x407B + BREG(27), NULL);
     }
 
-    osSyncPrintf("HI_SCORE = %x\n", gSaveContext.highScores[2]);
+    osSyncPrintf("HI_SCORE = %x\n", HIGH_SCORE(HS_FISHING));
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B7825C.s")
