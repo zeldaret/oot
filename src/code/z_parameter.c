@@ -3020,7 +3020,6 @@ s16 D_80125B5C[] = { 91, 91 }; // unused
 // For this, we introduce 2 dummy variables which end up in padding at the end of the file's bss, so they don't actually
 // take space.
 s8 sBssDummy1;
-s8 sBssDummy2;
 
 #ifdef NON_MATCHING
 // mostly regalloc, minor ordering and stack usage differences

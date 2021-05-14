@@ -5462,7 +5462,7 @@ endseg
 beginseg
     name "object_mag"
     romalign 0x1000
-    include "build/assets/objects/object_mag/object_mag.o"
+    include "build/baserom/object_mag.o"
     number 6
 endseg
 

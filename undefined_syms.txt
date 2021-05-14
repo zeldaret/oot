@@ -1028,6 +1028,7 @@ D_06001AF8 = 0x06001AF8;
 D_060089E0 = 0x060089E0;
 
 //z_boss_dodongo
+D_06003CF8 = 0x06003CF8;
 D_0601B310 = 0x0601B310;
 D_0600F0D8 = 0x0600F0D8;
 D_030021D8 = 0x030021D8;
@@ -1051,7 +1052,6 @@ D_06001074 = 0x06001074;
 D_06000980 = 0x06000980;
 D_06000B30 = 0x06000B30;
 
->>>>>>> master
 // z_bg_ddan_jd
 D_06003CE0 = 0x06003CE0;
 D_060037B8 = 0x060037B8;
@@ -1074,25 +1074,6 @@ D_06001628 = 0x06001628;
 D_06001828 = 0x06001828;
 D_06002A40 = 0x06002A40;
 D_06003070 = 0x06003070;
-
-<<<<<<< HEAD
-// z_en_bom_bowl_man
-D_06006EB0 = 0x06006EB0;
-D_06000710 = 0x06000710;
-D_06000080 = 0x06000080;
-D_060072AC = 0x060072AC;
-
-// z_en_firefly
-D_060018B8 = 0x060018B8;
-D_0600017C = 0x0600017C;
-D_06001678 = 0x06001678;
-=======
-// z_en_niw
-D_06002530 = 0x06002530;
-D_060000E8 = 0x060000E8;
-D_060023B0 = 0x060023B0;
-D_06002428 = 0x06002428;
->>>>>>> master
 
 // z_bg_ice_turara
 D_060023D0 = 0x060023D0;
@@ -1308,6 +1289,7 @@ D_060353C0 = 0x060353C0;
 
 // z_boss_mo
 D_06001010 = 0x06001010;
+D_06000F20 = 0x06000F20;
 
 // z_boss_tw
 D_060004A4 = 0x060004A4;
@@ -2000,3 +1982,26 @@ D_06009620 = 0x06009620;
 // z_obj_hamishi
 D_0500A3B8 = 0x0500A3B8;
 D_0500A5E8 = 0x0500A5E8;
+
+// z_en_mag
+gZeldaTitleScreenLogoTex = 0x06000000;
+gNintendoCopyright2002Tex = 0x06019000;
+gNintendoCopyright2003Tex = 0x06019A00;
+gMasterQuestSubTitleTex = 0x0601A400;
+gTitleLogoFlameEffectTex = 0x06024800;
+gTitleLogoTheLegendOfTex = 0x06024C00;
+gTitleLogoOcarinaOfTimeTex = 0x06024E40;
+gTitleEffectMask0 = 0x06020000;
+gTitleEffectMask1 = 0x06020800;
+gTitleEffectMask2 = 0x06021000;
+gTitleEffectMask3 = 0x06021800;
+gTitleEffectMask4 = 0x06022000;
+gTitleEffectMask5 = 0x06022800;
+gTitleEffectMask6 = 0x06023000;
+gTitleEffectMask7 = 0x06023800;
+gTitleEffectMask8 = 0x06024000;
+gTitleLogoFlameEffectTex = 0x06024800;
+gTitleLogoTheLegendOfTex = 0x06024C00;
+gTitleLogoOcarinaOfTimeTex = 0x6024E40;
+
+
