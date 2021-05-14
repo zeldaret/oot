@@ -156,87 +156,6 @@ extern Vec3f D_80B7AFD0;
 extern Vec3s D_80B7AFDC[];
 extern void* D_80B7AFF4[];
 
-extern Fishing* D_80B7E070;
-extern u8 D_80B7E074;
-extern u8 D_80B7E075;
-extern u8 D_80B7E076;
-extern u8 D_80B7E077;
-extern f32 D_80B7E078;
-extern u8 D_80B7E07C;
-extern u8 D_80B7E07D;
-extern u8 D_80B7E07E;
-extern u8 D_80B7E082;
-extern u16 D_80B7E084;
-extern u16 D_80B7E086;
-extern s8 D_80B7E088;
-extern Vec3f D_80B7E090;
-extern Vec3s D_80B7E09C;
-extern u8 D_80B7E0A2;
-extern s16 D_80B7E0A4;
-extern s16 D_80B7E0A6;
-extern s16 D_80B7E0AC;
-extern s16 D_80B7E0AE;
-extern s16 D_80B7E0B0;
-extern s16 D_80B7E0B2;
-extern s16 D_80B7E0B4;
-extern u8 D_80B7E0B6;
-extern Fishing* D_80B7E0A8;
-extern Vec3f D_80B7E0B8;
-extern Vec3f D_80B7E0C8;
-extern Vec3f D_80B7E0D8;
-extern Vec3f D_80B7E0E8;
-extern f32 D_80B7E0EC;
-extern Vec3f D_80B7E0F8;
-extern f32 D_80B7E104;
-extern f32 D_80B7E108;
-extern f32 D_80B7E10C;
-extern f32 D_80B7E110;
-extern s8 D_80B7E114;
-extern f32 D_80B7E11C;
-extern u8 D_80B7E118;
-extern u8 D_80B7E120;
-extern s16 D_80B7E122;
-extern Vec3f D_80B7E128;
-extern u8 D_80B7E124;
-extern f32 D_80B7E134;
-extern f32 D_80B7E138;
-extern s16 D_80B7E13C;
-extern f32 D_80B7E140;
-extern f32 D_80B7E144;
-extern f32 D_80B7E148;
-extern f32 D_80B7E14C;
-extern s16 D_80B7E150;
-extern f32 D_80B7E154;
-extern Vec3f D_80B7E158;
-extern Vec3f D_80B7E168[];
-extern Vec3f D_80B7EAC8[];
-extern s16 D_80B7FEA0;
-extern Vec3f D_80B7F428[];
-extern Vec3f D_80B7FD88;
-extern Vec3f D_80B7FD94;
-extern f32 D_80B7FDA0[];
-extern u8 D_80B7FDA8;
-extern Vec3f D_80B7FDB0[];
-extern f32 D_80B7FEA4;
-extern Vec3f D_80B7FEA8;
-extern Vec3f D_80B7FEB8;
-extern s16 D_80B7FEC4;
-extern f32 D_80B7FEC8;
-extern f32 D_80B7FECC;
-extern f32 D_80B7FED0;
-extern Vec3f D_80B7FED8;
-extern f32 D_80B7FEE4;
-extern s32 D_80B7FEE8;
-extern s32 D_80B7FEEC;
-extern s32 D_80B7FEF0;
-extern struct_80B7FEF8 D_80B7FEF8[];
-extern struct_80B81FC8 D_80B81FC8[];
-extern f32 D_80B830A8;
-extern f32 D_80B830AC;
-extern f32 D_80B830B0;
-extern struct_80B830B8 D_80B830B8[];
-extern Vec3f D_80B85138;
-
 extern AnimationHeader D_0600007C;
 extern FlexSkeletonHeader D_060029C0;
 extern Gfx D_06003230[];
@@ -279,6 +198,87 @@ extern Gfx D_06014030[];
 extern Gfx D_060140B0[];
 extern Gfx D_060153D0[];
 extern Gfx D_06015470[];
+
+static Fishing* D_80B7E070;
+static u8 D_80B7E074;
+static u8 D_80B7E075;
+static u8 D_80B7E076;
+static u8 D_80B7E077;
+static f32 D_80B7E078;
+static u8 D_80B7E07C;
+static u8 D_80B7E07D;
+static u8 D_80B7E07E;
+static s16 D_80B7E080;
+static u8 D_80B7E082;
+static u16 D_80B7E084;
+static u16 D_80B7E086;
+static s8 D_80B7E088;
+static Vec3f D_80B7E090;
+static Vec3s D_80B7E09C;
+static u8 D_80B7E0A2;
+static s16 D_80B7E0A4;
+static s16 D_80B7E0A6;
+static Fishing* D_80B7E0A8;
+static s16 D_80B7E0AC;
+static s16 D_80B7E0AE;
+static s16 D_80B7E0B0;
+static s16 D_80B7E0B2;
+static s16 D_80B7E0B4;
+static u8 D_80B7E0B6;
+static Vec3f D_80B7E0B8;
+static Vec3f D_80B7E0C8;
+static Vec3f D_80B7E0D8;
+static Vec3f D_80B7E0E8;
+static Vec3f D_80B7E0F8;
+static f32 D_80B7E104;
+static f32 D_80B7E108;
+static f32 D_80B7E10C;
+static f32 D_80B7E110;
+static s8 D_80B7E114;
+static s16 D_80B7E116;
+static u8 D_80B7E118;
+static f32 D_80B7E11C;
+static u8 D_80B7E120;
+static s16 D_80B7E122;
+static u8 D_80B7E124;
+static Vec3f D_80B7E128;
+static f32 D_80B7E134;
+static f32 D_80B7E138;
+static s16 D_80B7E13C;
+static f32 D_80B7E140;
+static f32 D_80B7E144;
+static f32 D_80B7E148;
+static f32 D_80B7E14C;
+static s16 D_80B7E150;
+static f32 D_80B7E154;
+static Vec3f D_80B7E158;
+static Vec3f D_80B7E168[200];
+static Vec3f D_80B7EAC8[200];
+static Vec3f D_80B7F428[200];
+static Vec3f D_80B7FD88[2];
+static f32 D_80B7FDA0[2];
+static u8 D_80B7FDA8;
+static Vec3f D_80B7FDB0[20];
+static s16 D_80B7FEA0;
+static f32 D_80B7FEA4;
+static Vec3f D_80B7FEA8;
+static Vec3f D_80B7FEB8;
+static s16 D_80B7FEC4;
+static f32 D_80B7FEC8;
+static f32 D_80B7FECC;
+static f32 D_80B7FED0;
+static Vec3f D_80B7FED8;
+static f32 D_80B7FEE4;
+static s32 D_80B7FEE8;
+static s32 D_80B7FEEC;
+static s32 D_80B7FEF0;
+static struct_80B7FEF8 D_80B7FEF8[140];
+static struct_80B81FC8 D_80B81FC8[60];
+static f32 D_80B830A8;
+static f32 D_80B830AC;
+static f32 D_80B830B0;
+static struct_80B830B8 D_80B830B8[130];
+static Vec3f D_80B85138;
 
 void func_80B699A0(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 arg3) {
     collider->elements[index].dim.worldSphere.center.x = pos->x;
@@ -1478,8 +1478,6 @@ void func_80B6D354(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 3271);
 }
 
-#ifdef NON_MATCHING
-// matches but requires D_80B7E158 to be static
 void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
     Vec3f spDC;
     Vec3f spD0;
@@ -1547,12 +1545,12 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
         spDC.x = 500.0f;
         spDC.z = -300.0f;
         Matrix_MultVec3f(&spDC, &spB8);
-        func_80B6CAF8(globalCtx, &spB8, &D_80B7FD88, 0);
+        func_80B6CAF8(globalCtx, &spB8, &D_80B7FD88[0], 0);
 
         spDC.x = 2100.0f;
         spDC.z = -50.0f;
         Matrix_MultVec3f(&spDC, &spC4);
-        func_80B6CAF8(globalCtx, &spC4, &D_80B7FD94, 1);
+        func_80B6CAF8(globalCtx, &spC4, &D_80B7FD88[1], 1);
     }
 
     POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
@@ -1634,10 +1632,6 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 3500);
 }
-#else
-void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B6D688.s")
-#endif
 
 void func_80B6DF30(GlobalContext* globalCtx) {
     s16 i;
@@ -1779,8 +1773,6 @@ void func_80B6DF30(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 3838);
 }
 
-#ifdef NON_MATCHING
-// minor float regalloc and requires static bss to match
 void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
     f32 spE4;
     f32 spE0;
@@ -1805,7 +1797,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
     f32 sp70;
     Vec3f sp64;
     Vec3f sp58;
-    f32 temp;
+    s32 pad;
 
     D_80B7E0AE++;
 
@@ -2055,7 +2047,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
             if (D_80B7E0B8.y <= globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
                 D_80B7E0B8.y += D_80B7E0E8.y;
 
-                Math_ApproachZeroF(&D_80B7E0EC, 1.0f, 1.0f);
+                Math_ApproachZeroF(&D_80B7E0E8.y, 1.0f, 1.0f);
 
                 if (D_80B7E0B6 != 2) {
                     Math_ApproachF(&D_80B7E0B8.y, globalCtx->colCtx.colHeader->waterBoxes->ySurface, 0.5f, 1.0f);
@@ -2081,8 +2073,8 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
             player->unk_860 = 2;
 
             if (D_80B7E138 < 3.0f) {
-                temp = Math_SinS(D_80B7E0AE * 0x1060) * D_80B7E10C;
-                Math_ApproachF(&D_80B7E0D8.x, -0.5235988f + temp, 0.3f, D_80B7E110);
+                spD0 = D_80B7E10C * Math_SinS(D_80B7E0AE * 0x1060);
+                Math_ApproachF(&D_80B7E0D8.x, -0.5235988f + spD0, 0.3f, D_80B7E110);
                 Math_ApproachF(&D_80B7E110, 0.5f, 1.0f, 0.02f);
                 Math_ApproachZeroF(&D_80B7E10C, 1.0f, 0.02f);
             } else {
@@ -2336,10 +2328,6 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
             break;
     }
 }
-#else
-void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B6E9E0.s")
-#endif
 
 s32 func_80B70A2C(Fishing* this, GlobalContext* globalCtx, u8 arg2) {
     s16 phi_s0;
@@ -3426,8 +3414,6 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// should match but requires D_80B7E0B8, D_80B7FEA8 and D_80B7FEB8 to be static
 void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     Fishing* this = THIS;
@@ -4023,9 +4009,6 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
 
     osSyncPrintf("HI_SCORE = %x\n", HIGH_SCORE(HS_FISHING));
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B7825C.s")
-#endif
 
 s32 func_80B7A10C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     Fishing* this = THIS;
