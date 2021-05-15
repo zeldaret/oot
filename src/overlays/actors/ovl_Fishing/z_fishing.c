@@ -2130,7 +2130,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                         D_80B7E10C = 0.5f;
                         D_80B7E144 += (fabsf(sp70) * (7.5f + (KREG(25) * 0.1f)));
 
-                        func_800F436C(&D_80B7AF94, 0x28C3, (sp70 * 1.999f * 0.25f) + 0.75f);
+                        func_800F436C(&D_80B7AF94, NA_SE_EV_LURE_MOVE_W, (sp70 * 1.999f * 0.25f) + 0.75f);
 
                         if (D_80B7E0B6 == 2) {
                             D_80B7E128.y = 5.0f * sp70;
@@ -2443,17 +2443,17 @@ void func_80B70ED4(Fishing* this, Input* input) {
                 if ((CHECK_BTN_ALL(input->cur.button, BTN_A) || (D_80B7E138 > 1.0f)) && (sp24 < SQ(120.0f))) {
                     this->unk_158 = 2;
                     this->unk_15E = 0;
-                    this->unk_17A = 0;
-                    this->unk_17E = (s16)Rand_ZeroFloat(100.0f) + 100;
+                    this->unk_17A[0] = 0;
+                    this->unk_17A[2] = (s16)Rand_ZeroFloat(100.0f) + 100;
                     this->unk_1A8 = D_80B7A70C[this->actor.params][0];
                     this->unk_1B0 = 0.0f;
                 }
 
-                if ((this->unk_17C == 0) && (sp24 < SQ(70.0f))) {
+                if ((this->unk_17A[1] == 0) && (sp24 < SQ(70.0f))) {
                     this->unk_158 = 2;
                     this->unk_15E = 0;
-                    this->unk_17A = 0;
-                    this->unk_17E = (s16)Rand_ZeroFloat(100.0f) + 100;
+                    this->unk_17A[0] = 0;
+                    this->unk_17A[2] = (s16)Rand_ZeroFloat(100.0f) + 100;
                     this->unk_1A8 = D_80B7A70C[this->actor.params][0];
                     this->unk_1B0 = 0.0f;
                 }
@@ -2464,7 +2464,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
         this->unk_158 = 1;
         this->unk_1A4 = 1000;
         this->unk_1A2 = 100;
-        this->unk_17C = 50;
+        this->unk_17A[1] = 50;
     }
 
     if ((D_80B7E0B6 != 2) && (D_80B7E114 != 0) && (this->unk_1AC > 60.0f) && (sp24 < SQ(30.0f)) &&
@@ -2473,7 +2473,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
         this->unk_158 = 1;
         this->unk_1A4 = 1000;
         this->unk_1A2 = 100;
-        this->unk_17C = 50;
+        this->unk_17A[1] = 50;
     }
 }
 
@@ -2551,8 +2551,1324 @@ void func_80B71438(Fishing* this, GlobalContext* globalCtx) {
     }
 }
 
-void Fishing_Update(Actor* thisx, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/Fishing_Update.s")
+void Fishing_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    s16 sp136;
+    s16 sp134 = 10;
+    f32 sp130;
+    f32 sp12C;
+    f32 sp128;
+    f32 sp124;
+    f32 sp120;
+    f32 sp11C;
+    f32 sp118;
+    Vec3f sp10C;
+    Vec3f sp100;
+    s16 spFE;
+    s16 spFC;
+    s16 spFA;
+    s16 phi_v0;
+    s16 spF6;
+    s16 spF4;
+    s16 spF2;
+    s16 spF0;
+    s16 spEE;
+    Fishing* this = THIS;
+    GlobalContext* globalCtx = globalCtx2;
+    Player* spE0 = PLAYER;
+    Input* input = &globalCtx->state.input[0];
+    f32 spD8;
+    f32 phi_f0;
+    f32 phi_f2;
+    Vec3f spC4;
+    Vec3f spB8;
+    u8 phi_v0_2;
+    f32 temp_f0;
+    f32 temp;
+    s32 pad;
+    f32 spA4;
+    u16 spA2;
+    u8 phi_a1;
+
+    this->actor.uncullZoneForward = 700.0f;
+    this->actor.uncullZoneScale = 50.0f;
+
+    if (this->unk_150 == 0) {
+        sp118 = (spE0->actor.speedXZ * 0.15f) + 0.25f;
+    } else {
+        sp118 = (spE0->actor.speedXZ * 0.3f) + 0.25f;
+    }
+
+    if ((D_80B7E0B0 != 0) || (D_80B7FEC4 != 0) || ((spE0->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
+        this->actor.flags &= ~1;
+    } else {
+        this->actor.flags |= 1;
+        if (D_80B7A694 != 0) {
+            if (D_80B7E0B2 == 0) {
+                this->actor.focus.pos = D_80B7E0B8;
+            } else if (D_80B7E0B2 == 1) {
+                D_80B7A6CC = 1;
+                D_80B7FED0 = 0.0f;
+                D_80B7E088 = 2;
+            }
+        }
+        this->actor.focus.pos = this->actor.world.pos;
+    }
+
+    this->unk_15C++;
+
+    for (sp136 = 0; sp136 < 4; sp136++) {
+        if (this->unk_17A[sp136] != 0) {
+            this->unk_17A[sp136]--;
+        }
+    }
+
+    if (this->unk_1A4 != 0) {
+        this->unk_1A4--;
+    }
+
+    if (this->unk_1A2 != 0) {
+        this->unk_1A2--;
+    }
+
+    if (this->unk_1A0 != 0) {
+        this->unk_1A0--;
+    }
+
+    if (this->unk_151 != 0) {
+        this->unk_151--;
+    }
+
+    Math_ApproachF(&this->unk_198, this->unk_190, 1.0f, 0.2f);
+
+    if (this->unk_158 == 6) {
+        Math_ApproachF(&this->unk_19C, this->unk_194, 0.2f, 200.0f);
+    } else {
+        phi_f0 = 1.0f;
+        phi_f2 = 1.0f;
+        if (globalCtx->colCtx.colHeader->waterBoxes->ySurface < this->actor.world.pos.y) {
+            phi_f0 = (KREG(64) * 0.1f) + 1.5f;
+            phi_f2 = 3.0f;
+        }
+        Math_ApproachF(&this->unk_19C, this->unk_194 * phi_f0, 1.0f, 500.0f * phi_f2);
+    }
+
+    Math_ApproachS(&this->unk_170, 0, 5, 0x1F4);
+
+    if (this->unk_150 == 0) {
+        Actor_SetScale(&this->actor, this->unk_1AC * 15.0f * 0.00001f);
+        this->unk_18C += this->unk_198;
+        temp = cosf(this->unk_18C);
+        this->unk_16C = this->unk_16E + (s16)(temp * this->unk_19C);
+        temp = cosf(this->unk_18C + -1.2f);
+        this->unk_176 = this->unk_16E + (s16)(temp * this->unk_19C * 1.6f);
+    } else {
+        Actor_SetScale(&this->actor, this->unk_1AC * 65.0f * 0.000001f);
+        this->actor.scale.x = this->actor.scale.z * 1.1f;
+        this->actor.scale.y = this->actor.scale.z * 1.1f;
+        this->unk_18C += this->unk_198 * 0.8f;
+        for (sp136 = 0; sp136 < 3; sp136++) {
+            temp = cosf(this->unk_18C + (sp136 * 2.1f));
+            this->unk_1CC[sp136] = this->unk_16E + (s16)(temp * this->unk_19C * 2.0f);
+        }
+        temp = cosf(this->unk_18C + 0.4f);
+        this->unk_16C = (this->unk_19C * temp * 2.0f) * 0.6f;
+    }
+
+    sp130 = this->unk_1B4.x - this->actor.world.pos.x;
+    sp12C = this->unk_1B4.y - this->actor.world.pos.y;
+    sp128 = this->unk_1B4.z - this->actor.world.pos.z;
+
+    spFC = Math_Atan2S(sp128, sp130);
+    sp124 = sqrtf(SQ(sp130) + SQ(sp128));
+
+    spFE = Math_Atan2S(sp124, sp12C);
+    sp124 = sqrtf(SQ(sp130) + SQ(sp128) + SQ(sp12C));
+
+    if ((this->unk_1A0 != 0) && (this->unk_158 != 2) && (this->unk_158 != 3) && (this->unk_158 != 4)) {
+        if ((this->unk_15C & 0x40) != 0) {
+            spFC = spFC + 0x4000;
+        } else {
+            spFC = spFC - 0x4000;
+        }
+        if (((this->unk_15C + 0x20) & 0x40) != 0) {
+            spFE = spFE + 0x2000;
+        } else {
+            spFE = spFE - 0x2000;
+        }
+    }
+
+    switch (this->unk_158) {
+        case 100:
+            func_80B71438(this, globalCtx);
+
+            this->actor.uncullZoneForward = 500.0f;
+            this->actor.uncullZoneScale = 300.0f;
+
+            Lights_PointNoGlowSetInfo(&this->lightInfo, (s16)this->actor.world.pos.x,
+                                      (s16)this->actor.world.pos.y + 20.0f, (s16)this->actor.world.pos.z - 50.0f, 255,
+                                      255, 255, 255);
+
+            this->unk_1AC = D_80B7E078;
+            sp100.y = (f32)Math_SinS(globalCtx->gameplayFrames * 300) * 1;
+            sp100.z = (f32)Math_SinS(globalCtx->gameplayFrames * 230) * 2;
+            this->actor.world.pos.x = 130.0f;
+            this->actor.world.pos.y = 55.0f + sp100.y;
+            this->actor.world.pos.z = 1300.0f + sp100.z;
+            this->actor.shape.rot.y = -0x8000;
+
+            if ((this->actor.projectedPos.z < 200.0f) && (this->actor.projectedPos.z > 0.0f)) {
+                spC4.x = Rand_CenteredFloat(5.0f) + 130.0f;
+                spC4.y = 40.0f;
+                spC4.z = Rand_CenteredFloat(5.0f) + 1280.0f;
+                func_80B6A008(NULL, globalCtx->specialEffects, &spC4, Rand_ZeroFloat(0.02f) + 0.03f, 1);
+            }
+
+            Math_ApproachS(&this->unk_172, (Math_SinS(this->unk_15C * 0x800) * 2500.0f) + 2500.0f, 2, 0x7D0);
+            Math_ApproachS(&this->unk_174, Math_SinS(this->unk_15C * 0xA00) * 1500.0f, 2, 0x7D0);
+
+            this->unk_190 = 0.3f;
+            this->unk_194 = 333.33334f;
+            return;
+
+        case 10:
+            this->unk_1B4 = this->actor.home.pos;
+
+            Math_ApproachF(&this->actor.speedXZ, 2.0f, 1.0f, 0.5f);
+            Math_ApproachF(&this->unk_1B0, 4096.0f, 1.0f, 256.0f);
+
+            if (sp124 < 40.0f) {
+                this->unk_158 = 11;
+                this->unk_190 = 0.4f;
+                this->unk_194 = 500.0f;
+            }
+
+            func_80B70ED4(this, input);
+
+            if (this->actor.xzDistToPlayer < (250.0f * sp118)) {
+                this->unk_15A = this->unk_158 = 0;
+                this->unk_1A4 = 1000;
+                this->unk_1A2 = 200;
+                this->unk_17A[1] = 50;
+            }
+            break;
+
+        case 11:
+            this->unk_1B4 = this->actor.home.pos;
+
+            Math_ApproachF(&this->actor.speedXZ, 0.0f, 1.0f, 0.05f);
+            Math_ApproachF(&this->unk_1B0, 0.0f, 1.0f, 256.0f);
+
+            if (sp124 >= 40.0f) {
+                this->unk_158 = 10;
+                this->unk_190 = 1.0f;
+                this->unk_194 = 2000.0f;
+            }
+            func_80B70ED4(this, input);
+
+            if (this->actor.xzDistToPlayer < (250.0f * sp118)) {
+                this->unk_15A = this->unk_158 = 0;
+                this->unk_1A4 = 1000;
+                this->unk_1A2 = 200;
+                this->unk_17A[1] = 50;
+            }
+
+            if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
+                if ((gSaveContext.dayTime >= 0xC000) && (gSaveContext.dayTime <= 0xC01B)) {
+                    this->unk_158 = 7;
+                    this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
+                }
+                if ((gSaveContext.dayTime >= 0x3AAA) && (gSaveContext.dayTime <= 0x3AC5)) {
+                    this->unk_158 = 7;
+                    this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
+                }
+            }
+
+            if (KREG(15) != 0) {
+                KREG(15) = 0;
+                this->unk_158 = 7;
+                this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 2000;
+            }
+            break;
+
+        case 0:
+            Math_ApproachF(&this->actor.speedXZ, 1.0f, 1.0f, 0.05f);
+            Math_ApproachF(&this->unk_1B0, 0.0f, 1.0f, 256.0f);
+
+            if (this->unk_17A[0] == 0) {
+                if (this->unk_1A4 == 0) {
+                    this->unk_158 = this->unk_15A = 10;
+                } else {
+                    this->unk_158 = 1;
+                    this->unk_17A[0] = (s16)Rand_ZeroFloat(30.0f) + 10;
+                    this->unk_1B4.x = Rand_CenteredFloat(300.0f);
+                    this->unk_1B4.y =
+                        (globalCtx->colCtx.colHeader->waterBoxes->ySurface - 50.0f) - Rand_ZeroFloat(50.0f);
+                    this->unk_1B4.z = Rand_CenteredFloat(300.0f);
+                    this->unk_190 = 1.0f;
+                    this->unk_194 = 2000.0f;
+                }
+            }
+
+            if (D_80B7E0B6 == 2) {
+                func_80B70ED4(this, input);
+            } else {
+                this->actor.flags &= ~1;
+            }
+            break;
+
+        case 1:
+            if (this->unk_150 == 1) {
+                this->unk_158 = -1;
+                this->unk_1A4 = 20000;
+                this->unk_1A2 = 20000;
+                this->unk_1B4.x = 0.0f;
+                this->unk_1B4.y = -140.0f;
+                this->unk_1B4.z = 0.0f;
+            } else {
+                Math_ApproachF(&this->unk_1B0, 4096.0f, 1.0f, 256.0f);
+
+                if ((this->actor.xzDistToPlayer < (250.0f * sp118)) || (this->unk_17A[1] != 0)) {
+                    Math_ApproachF(&this->unk_1B0, 8192.0f, 1.0f, 768.0f);
+                    Math_ApproachF(&this->actor.speedXZ, 4.2f, 1.0f, 0.75);
+                    this->unk_190 = 1.2f;
+                    this->unk_194 = 4000.0f;
+                    this->unk_17A[0] = 20;
+                } else {
+                    this->unk_190 = 1.0f;
+                    this->unk_194 = 2000.0f;
+                    Math_ApproachF(&this->actor.speedXZ, 1.5f, 1.0f, 0.1f);
+                }
+
+                if ((this->unk_17A[0] == 0) || (sp124 < 50.0f)) {
+                    this->unk_158 = 0;
+                    this->unk_17A[0] = (s16)Rand_ZeroFloat(30.0f) + 3;
+                    this->unk_190 = 1.0f;
+                    this->unk_194 = 500.0f;
+                }
+
+                if (D_80B7E0B6 == 2) {
+                    func_80B70ED4(this, input);
+                } else {
+                    this->actor.flags &= ~1;
+                }
+            }
+            break;
+
+        case -1:
+            Math_ApproachS(&this->unk_166, 0, 0x14, 0x20);
+
+            if ((this->actor.xzDistToPlayer < (250.0f * sp118)) || (this->unk_17A[1] != 0)) {
+                Math_ApproachF(&this->actor.speedXZ, 3.0f, 1.0f, 0.75);
+                this->unk_190 = 1.0f;
+                this->unk_17A[0] = 20;
+                this->unk_194 = 4000.0f;
+                Math_ApproachF(&this->unk_1B0, 4096.0f, 1.0f, 256.0f);
+
+                if ((globalCtx->gameplayFrames & 0x1F) == 0) {
+                    this->unk_1B4.x = Rand_CenteredFloat(600.0f);
+                    this->unk_1B4.z = Rand_CenteredFloat(600.0f);
+                    this->unk_1B4.y = -120.0f;
+                }
+            } else if (sp124 > 50.0f) {
+                this->unk_190 = 0.8f;
+                this->unk_194 = 1500.0f;
+                Math_ApproachF(&this->actor.speedXZ, 1.0f, 1.0f, 0.1f);
+                Math_ApproachF(&this->unk_1B0, 2048.0f, 1.0f, 128.0f);
+            } else {
+                this->unk_190 = 0.4f;
+                this->unk_194 = 500.0f;
+                Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.02f);
+                Math_ApproachF(&this->unk_1B0, 0.0f, 1.0f, 256.0f);
+            }
+
+            if (this->unk_1A4 == 0) {
+                this->unk_158 = 10;
+                this->unk_15A = 10;
+            } else if ((KREG(2) != 0) || (((this->unk_1A4 & 0x7FF) == 0) && (this->unk_1A4 < 15000))) {
+                KREG(2) = 0;
+                this->unk_158 = -2;
+                this->actor.world.rot.x = this->actor.shape.rot.x = 0;
+                this->unk_1B4.y = globalCtx->colCtx.colHeader->waterBoxes->ySurface + 10.0f;
+                this->unk_1B4.x = Rand_ZeroFloat(50.0f);
+                this->unk_1B4.z = Rand_ZeroFloat(50.0f);
+            }
+
+            this->actor.flags &= ~1;
+            break;
+
+        case -2:
+            if ((this->actor.xzDistToPlayer < (250.0f * sp118)) || (this->unk_17A[1] != 0)) {
+                this->unk_158 = -1;
+                this->unk_1B4.y = -120.0f;
+            } else {
+                this->unk_190 = 0.6f;
+                this->unk_194 = 1000.0f;
+
+                Math_ApproachS(&this->unk_166, -0x1000, 0x14, 0x100);
+
+                if (this->actor.world.pos.y < (globalCtx->colCtx.colHeader->waterBoxes->ySurface - 20.0f)) {
+                    Math_ApproachF(&this->actor.speedXZ, 0.5f, 1.0f, 0.1f);
+                } else {
+                    Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.01f);
+                    if ((this->actor.speedXZ == 0.0f) ||
+                        ((globalCtx->colCtx.colHeader->waterBoxes->ySurface - 5.0f) < this->actor.world.pos.y)) {
+                        this->unk_1B4.x = Rand_ZeroFloat(300.0f);
+                        this->unk_1B4.z = Rand_ZeroFloat(300.0f);
+                        this->unk_1B4.y = this->actor.floorHeight + 10.0f;
+                        this->unk_158 = -25;
+                        this->unk_1B0 = 0.0f;
+                        spB8 = this->unk_1C0;
+                        spB8.y = globalCtx->colCtx.colHeader->waterBoxes->ySurface;
+                        func_80B69C2C(&this->actor.projectedPos, globalCtx->specialEffects, &spB8, 10.0f, 300.0f, 150,
+                                      90);
+                        func_80B69C2C(&this->actor.projectedPos, globalCtx->specialEffects, &spB8, 30.0f, 400.0f, 150,
+                                      90);
+                        Audio_PlayActorSound2(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
+                        break;
+                    }
+                }
+
+                Math_ApproachF(&this->unk_1B0, 2048.0f, 1.0f, 128.0f);
+                this->actor.flags &= ~1;
+            }
+            break;
+
+        case -25:
+            if ((this->actor.xzDistToPlayer < (250.0f * sp118)) || (this->unk_17A[1] != 0)) {
+                this->unk_158 = -1;
+                this->unk_1B4.y = -120.0f;
+            } else {
+                Math_ApproachS(&this->unk_166, 0x1000, 0x14, 0x6A);
+
+                if (sp124 > 40.0f) {
+                    this->unk_190 = 0.7f;
+                    this->unk_194 = 1200.0f;
+                    Math_ApproachF(&this->actor.speedXZ, 0.5f, 1.0f, 0.01f);
+                    Math_ApproachF(&this->unk_1B0, 2048.0f, 1.0f, 128.0f);
+                } else {
+                    this->unk_158 = -1;
+                }
+            }
+            break;
+
+        case 2:
+            if (((this->actor.params + D_80B7E118) & 1) != 0) {
+                sp10C.x = 10.0f;
+            } else {
+                sp10C.x = -10.0f;
+            }
+            sp10C.y = 0.0f;
+            sp10C.z = 0.0f;
+            Matrix_RotateY(D_80B7E0D8.y, MTXMODE_NEW);
+            Matrix_MultVec3f(&sp10C, &sp100);
+
+            this->unk_1B4.x = D_80B7E0B8.x + sp100.x;
+            this->unk_1B4.z = D_80B7E0B8.z + sp100.z;
+
+            if (D_80B7E0B6 == 2) {
+                this->unk_1B4.y = D_80B7E0B8.y;
+            } else if (this->unk_150 == 0) {
+                this->unk_1B4.y = D_80B7E0B8.y - 15.0f;
+            } else {
+                this->unk_1B4.y = D_80B7E0B8.y - 5.0f;
+            }
+
+            if (this->unk_1B4.y <= this->actor.floorHeight) {
+                this->unk_1B4.y = this->actor.floorHeight + 3.0f;
+            }
+
+            if ((D_80B7E0B6 != 2) && (this->unk_1B4.y < this->actor.world.pos.y)) {
+                Math_ApproachF(&this->actor.world.pos.y, this->unk_1B4.y, 0.1f,
+                               (this->actor.world.pos.y - this->unk_1B4.y) * 0.1f);
+            }
+
+            Math_ApproachF(&this->unk_1B0, 8192.0f, 1.0f, (KREG(16) * 128) + 384.0f);
+            if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
+                this->unk_1A8 += 0.005f;
+            }
+
+            if (D_80B7E120 != 0) {
+                if (D_80B7E120 == 1) {
+                    this->unk_1A8 += 0.01f;
+                } else {
+                    this->unk_1A8 += 0.05f;
+                }
+                D_80B7E120 = 0;
+            }
+
+            if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
+                this->unk_1A8 += 0.008f;
+            }
+
+            if (sp124 < ((this->unk_1AC * 0.5f) + 20.0f)) {
+                if (this->unk_15E == 0) {
+                    this->unk_190 = 1.0f;
+                    this->unk_194 = 500.0f;
+                    this->unk_17A[0] = (s16)Rand_ZeroFloat(10.0f) + 2;
+                }
+                Math_ApproachF(&this->actor.speedXZ, -0.2f, 1.0f, 0.1f);
+                this->unk_15E = 1;
+            } else {
+                if (this->unk_15E != 0) {
+                    this->unk_190 = 1.0f;
+                    this->unk_1B0 = 0.0f;
+                    this->unk_194 = 3000.0f;
+                }
+                Math_ApproachF(&this->actor.speedXZ, 3.0f, 1.0f, 0.15f);
+                this->unk_15E = 0;
+            }
+
+            if (this->unk_1AC >= 60.0f) {
+                sp120 = 0.3f;
+            } else if (this->unk_1AC >= 45.0f) {
+                sp120 = 0.6f;
+            } else {
+                sp120 = 1.0f;
+            }
+
+            if ((gSaveContext.dayTime >= 0xB555) && (gSaveContext.dayTime <= 0xCAAA)) {
+                sp120 *= 1.75f;
+            } else if ((gSaveContext.dayTime >= 0x3555) && (gSaveContext.dayTime <= 0x4AAA)) {
+                sp120 *= 1.5f;
+            } else if (D_80B7E076 != 0) {
+                sp120 *= 1.5f;
+            } else if ((u8)D_80B7A650 != 0) {
+                sp120 *= 3.0f;
+            }
+
+            sp11C = 0.03f * sp120;
+            if (D_80B7E0B6 == 2) {
+                sp11C *= 5.0f;
+            }
+
+            if (((this->unk_17A[0] == 1) || (Rand_ZeroOne() < sp11C)) &&
+                ((Rand_ZeroOne() < (this->unk_1A8 * sp120)) || ((this->unk_150 + 1) == KREG(69)))) {
+                if (this->unk_150 == 0) {
+                    this->unk_158 = 3;
+                    this->unk_190 = 1.2f;
+                    this->unk_194 = 5000.0f;
+                    this->unk_17A[0] = Rand_ZeroFloat(10.0f);
+                } else {
+                    this->unk_158 = -3;
+                    this->unk_190 = 1.0f;
+                    this->unk_194 = 3000.0f;
+                    this->unk_17A[0] = 40;
+                }
+                if (D_80B7E0B6 == 2) {
+                    this->unk_188 = Rand_ZeroFloat(1.5f) + 3.0f;
+                } else {
+                    this->unk_188 = Rand_ZeroFloat(1.5f) + 4.5f;
+                }
+            }
+
+            if ((D_80B7A694 != 3) || (this->unk_17A[2] == 0) ||
+                (sqrtf(SQ(this->actor.world.pos.x) + SQ(this->actor.world.pos.z)) > 800.0f)) {
+                this->unk_158 = this->unk_15A;
+                this->unk_17A[1] = (s16)Rand_ZeroFloat(30.0f) + 50;
+                this->unk_17A[0] = (s16)Rand_ZeroFloat(10.0f) + 5;
+                this->unk_190 = 1.0f;
+                this->unk_1B0 = 0.0f;
+                this->unk_194 = 2000.0f;
+            }
+
+            if (this->actor.xzDistToPlayer < (100.0f * sp118)) {
+                this->unk_15A = this->unk_158 = 0;
+                this->unk_1A4 = 1000;
+                this->unk_1A2 = 200;
+                this->unk_17A[1] = 50;
+            }
+            break;
+
+        case 3:
+            this->unk_151 = 6;
+            sp134 = 2;
+
+            if ((((s16)spE0->actor.world.pos.x + D_80B7E118) & 1) != 0) {
+                sp10C.x = 30.0f;
+            } else {
+                sp10C.x = -30.0f;
+            }
+            sp10C.y = 0.0f;
+            sp10C.z = 30.0f;
+
+            Matrix_RotateY(D_80B7E0D8.y, MTXMODE_NEW);
+            Matrix_MultVec3f(&sp10C, &sp100);
+
+            this->unk_1B4.x = D_80B7E0B8.x + sp100.x;
+            this->unk_1B4.z = D_80B7E0B8.z + sp100.z;
+            this->unk_1B4.y = D_80B7E0B8.y - 10.0f;
+            this->unk_1B0 = 4096.0f;
+            Math_ApproachF(&this->actor.speedXZ, this->unk_188 * 0.8f, 1.0f, 1.0f);
+
+            if ((D_80B7A694 != 3) || ((globalCtx->colCtx.colHeader->waterBoxes->ySurface + 5.0f) < D_80B7E0B8.y) ||
+                (sqrtf(SQ(D_80B7E0B8.x) + SQ(D_80B7E0B8.z)) > 800.0f)) {
+                this->unk_158 = this->unk_15A;
+                this->unk_17A[0] = 0;
+                this->unk_190 = 1.0f;
+                this->unk_194 = 2000.0f;
+            } else if ((this->unk_17A[0] == 0) || (sp124 < 30.0f)) {
+                this->unk_158 = 4;
+                this->unk_1B4 = D_80B7E0B8;
+                this->unk_1B0 = 16384.0f;
+                this->unk_190 = 1.2f;
+                this->unk_194 = 5000.0f;
+                this->unk_17A[0] = 20;
+            }
+            break;
+
+        case 4:
+            Math_ApproachF(&this->unk_1B0, 16384.0f, 1.0f, 4096.0f);
+            Math_ApproachS(&this->unk_170, 0x4E20, 4, 0x1388);
+
+            this->unk_151 = 50;
+            sp134 = 2;
+            this->unk_1B4 = D_80B7E0B8;
+            Math_ApproachF(&this->actor.speedXZ, this->unk_188, 1.0f, 1.0f);
+
+            if ((D_80B7A694 != 3) || (this->unk_17A[0] == 0) ||
+                ((globalCtx->colCtx.colHeader->waterBoxes->ySurface + 5.0f) < D_80B7E0B8.y) ||
+                (sqrtf(SQ(D_80B7E0B8.x) + SQ(D_80B7E0B8.z)) > 800.0f)) {
+
+                this->unk_17A[0] = 0;
+                this->unk_158 = this->unk_15A;
+                this->unk_190 = 1.0f;
+                this->unk_194 = 2000.0f;
+            } else if (sp124 < 10.0f) {
+                if (func_80B70A2C(this, globalCtx, 0) != 0) {
+                    func_80B71278(this, 0);
+                }
+
+                this->unk_158 = 5;
+                this->unk_190 = 1.2f;
+                this->unk_194 = 5000.0f;
+                this->unk_17A[1] = 150;
+                this->unk_17A[0] = 0;
+                this->unk_17A[2] = 0;
+                this->unk_17A[3] = 120;
+
+                D_80B7A694 = 4;
+                D_80B7E0A8 = this;
+                D_80B7A69C = 500.0f - Rand_ZeroFloat(400.0f);
+
+                if (D_80B7E0B6 == 2) {
+                    if (this->unk_1AC > 70.0f) {
+                        phi_v0 = (s16)Rand_ZeroFloat(20.0f) + 10;
+                    } else if (this->unk_1AC > 60.0f) {
+                        phi_v0 = (s16)Rand_ZeroFloat(30.0f) + 20;
+                    } else if (this->unk_1AC > 50.0f) {
+                        phi_v0 = (s16)Rand_ZeroFloat(30.0f) + 30;
+                    } else {
+                        phi_v0 = (s16)Rand_ZeroFloat(40.0f) + 40;
+                    }
+                    D_80B7E122 = phi_v0;
+                    D_80B7E0A4 = phi_v0;
+                    func_800A9F6C(0.0f, 60, phi_v0 * 3, 10);
+                } else {
+                    if (this->unk_1AC > 70.0f) {
+                        phi_v0 = (s16)Rand_ZeroFloat(5.0f) + 10;
+                    } else if (this->unk_1AC > 60.0f) {
+                        phi_v0 = (s16)Rand_ZeroFloat(5.0f) + 15;
+                    } else if (this->unk_1AC > 50.0f) {
+                        phi_v0 = (s16)Rand_ZeroFloat(5.0f) + 17;
+                    } else {
+                        phi_v0 = (s16)Rand_ZeroFloat(5.0f) + 25;
+                    }
+                    D_80B7E122 = phi_v0;
+                    D_80B7E0A4 = phi_v0;
+                    func_800A9F6C(0.0f, 180, phi_v0 * 3, 10);
+                }
+
+                D_80B7E124 = 0;
+                D_80B7E116 = 100;
+                D_80B7E080 = 0;
+            }
+            break;
+
+        case -3:
+            this->unk_151 = 50;
+            this->unk_1B4 = D_80B7E0B8;
+            Math_ApproachF(&this->actor.speedXZ, 2.0f, 1.0f, 1.0f);
+
+            if ((D_80B7A694 != 3) || (this->unk_17A[0] == 0) ||
+                ((globalCtx->colCtx.colHeader->waterBoxes->ySurface + 5.0f) < D_80B7E0B8.y) ||
+                (sqrtf(SQ(D_80B7E0B8.x) + SQ(D_80B7E0B8.z)) > 800.0f)) {
+
+                this->unk_17A[0] = 0;
+                this->unk_190 = 1.0f;
+                this->unk_158 = this->unk_15A;
+                this->unk_194 = 2000.0f;
+            } else if (sp124 < 10.0f) {
+                if ((globalCtx->colCtx.colHeader->waterBoxes->ySurface - 10.0f) < D_80B7E0B8.y) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
+                    func_80078884(NA_SE_PL_CATCH_BOOMERANG);
+                }
+
+                func_80B70A2C(this, globalCtx, 0);
+                this->unk_158 = 5;
+                this->unk_190 = 1.2f;
+                this->unk_194 = 5000.0f;
+                this->unk_17A[1] = 150;
+                this->unk_17A[0] = 0;
+                this->unk_17A[2] = 0;
+                this->unk_17A[3] = 120;
+
+                D_80B7A694 = 4;
+                D_80B7E0A8 = this;
+
+                if (D_80B7E0B6 == 2) {
+                    D_80B7E122 = 30;
+                    D_80B7E0A4 = 100;
+                    func_800A9F6C(0.0f, 60, 90, 10);
+                } else {
+                    D_80B7E122 = 30;
+                    D_80B7E0A4 = 40;
+                    func_800A9F6C(0.0f, 180, 90, 10);
+                }
+
+                D_80B7E124 = 0;
+                D_80B7E116 = 100;
+                D_80B7E080 = 0;
+            }
+            break;
+
+        case 5:
+            this->actor.uncullZoneForward = 1200.0f;
+            this->actor.uncullZoneScale = 200.0f;
+
+            D_80B7E080++;
+            osSyncPrintf("HIT FISH %dcm\n", (u8)this->unk_1AC);
+
+            Math_ApproachS(&this->unk_170, 0x2AF8, 4, 0xBB8);
+            D_80B7E0A8 = this;
+            Math_ApproachS(&spE0->actor.shape.rot.y, this->actor.yawTowardsPlayer + 0x8000, 5, 0x500);
+
+            if (D_80B7E124 == 0) {
+                if ((D_80B7FEA0 < 20) && ((D_80B7E0AE & 3) == 0)) {
+                    D_80B7FEA0++;
+                    if (1) {}
+                }
+            }
+
+            if ((D_80B7E122 != 0) && (D_80B7E124 == 0)) {
+                if (((input->rel.stick_y < -50) && (D_80B7A6C8 > -40)) || CHECK_BTN_ALL(input->press.button, BTN_A)) {
+                    if (input->rel.stick_y < -50) {
+                        temp_f0 = 40.0f - ((this->unk_1AC - 30.0f) * 1.333333f);
+                        if (temp_f0 > 0.0f) {
+                            this->unk_152 = temp_f0;
+                            this->unk_154 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+                            this->unk_156 = 1;
+                        }
+                    }
+
+                    this->unk_198 = 1.7f;
+                    this->unk_19C = 7000.0f;
+                    D_80B7E124 = 1;
+                    Audio_SetBGM(0x81A);
+                    D_80B7E0A6 = 0;
+
+                    if (this->unk_150 == 1) {
+                        spA4 = (this->unk_1AC * 3.0f) + 120.0f;
+                    } else {
+                        spA4 = (2.0f * this->unk_1AC) + 120.0f;
+                    }
+                    if (spA4 > 255.0f) {
+                        spA4 = 255.0f;
+                    }
+
+                    func_800A9F6C(0.0f, spA4, 120, 5);
+                    D_80B7E0A4 = 40;
+                    D_80B7FDA8 = 10;
+                    func_80078884(NA_SE_IT_FISHING_HIT);
+                }
+            }
+
+            if (this->actor.world.pos.y < globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
+                if (this->unk_17A[1] > 30) {
+                    phi_v0_2 = 7;
+                } else {
+                    phi_v0_2 = 0xF;
+                }
+
+                if (((this->unk_15C & phi_v0_2) == 0) && (Rand_ZeroOne() < 0.75f) && (D_80B7E0A4 == 0)) {
+                    if (this->unk_1AC >= 70.0f) {
+                        spA4 = 255.0f;
+                    } else if (this->unk_1AC >= 60.0f) {
+                        spA4 = 230.0f;
+                    } else if (this->unk_1AC >= 50.0f) {
+                        spA4 = 200.0f;
+                    } else if (this->unk_1AC >= 40.0f) {
+                        spA4 = 170.0f;
+                    } else {
+                        spA4 = 140.0f;
+                    }
+                    if (phi_v0_2 == 0xF) {
+                        spA4 *= 3.0f / 4.0f;
+                    }
+
+                    func_800A9F6C(0.0f, spA4, (s16)Rand_ZeroFloat(5.0f) + 10, 5);
+                }
+
+                if (this->unk_17A[1] > 30) {
+                    if (this->unk_17A[0] == 0) {
+                        sp10C.x = 0.0f;
+                        sp10C.y = 0.0f;
+                        sp10C.z = 200.0f;
+                        for (spA2 = 0; spA2 < 100; spA2++) {
+                            Matrix_RotateY(Rand_CenteredFloat(2.3561945f) +
+                                               (((this->actor.yawTowardsPlayer + 0x8000) / 32768.0f) * M_PI),
+                                           MTXMODE_NEW);
+                            Matrix_MultVec3f(&sp10C, &sp100);
+                            this->unk_1B4.x = this->actor.world.pos.x + sp100.x;
+                            this->unk_1B4.z = this->actor.world.pos.z + sp100.z;
+                            if ((SQ(this->unk_1B4.x) + SQ(this->unk_1B4.z)) < 562500.0f) {
+                                break;
+                            }
+                        }
+
+                        if ((Rand_ZeroOne() < 0.1f) && (this->unk_17A[3] == 0)) {
+                            if (this->unk_1AC >= 60.0f) {
+                                phi_a1 = 255;
+                            } else if (this->unk_1AC >= 50.0f) {
+                                phi_a1 = 200;
+                            } else {
+                                phi_a1 = 180;
+                            }
+                            func_800A9F6C(0.0f, phi_a1, 90, 2);
+                            this->unk_17A[0] = 20;
+                            this->unk_17A[1] = 100;
+                            this->unk_17A[2] = 20;
+                            this->unk_17A[3] = 100;
+                            this->unk_1B4.y = 300.0f;
+                            D_80B7E0A4 = 0x28;
+                            D_80B7E116 = (s16)Rand_ZeroFloat(30.0f) + 20;
+                        } else {
+                            this->unk_17A[0] = (s16)Rand_ZeroFloat(10.0f) + 3;
+                            this->unk_17A[2] = 0;
+                            this->unk_1B4.y = -70.0f - Rand_ZeroFloat(150.0f);
+                        }
+                    }
+
+                    if (this->unk_17A[2] != 0) {
+                        D_80B7E11C = 0.0f;
+                        this->unk_190 = 1.6f;
+                        this->unk_194 = 6000.0f;
+                        Math_ApproachF(&this->actor.speedXZ, 7.5f, 1.0f, 1.0f);
+                        Math_ApproachS(&this->unk_170, 0x4E20, 2, 0xFA0);
+                    } else {
+                        if ((D_80B7E124 == 0) && (D_80B7E0B6 == 2)) {
+                            this->unk_190 = 1.0f;
+                            this->unk_194 = 2000.0f;
+                            Math_ApproachF(&this->actor.speedXZ, 3.0f, 1.0f, 0.2f);
+                        } else {
+                            this->unk_190 = 1.4f;
+                            this->unk_194 = 5000.0f;
+                            Math_ApproachF(&this->actor.speedXZ, 5.0f, 1.0f, 0.5f);
+                        }
+
+                        if (this->unk_150 == 0) {
+                            D_80B7E11C = 1.0f - (this->unk_1AC * 0.00899f);
+                        } else {
+                            D_80B7E11C = 1.0f - (this->unk_1AC * 0.00899f * 1.4f);
+                        }
+                    }
+                } else {
+                    if (((this->unk_17A[1] & 0xF) == 0) && CHECK_BTN_ALL(input->cur.button, BTN_A) &&
+                        (!(this->unk_1AC >= 60.0f) || (D_80B7E080 >= 2000))) {
+                        this->unk_152 = (s16)Rand_ZeroFloat(30.0f) + 15;
+                        this->unk_154 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+                    }
+
+                    this->unk_190 = 1.0f;
+                    this->unk_194 = 4500.0f;
+
+                    if (this->unk_150 == 0) {
+                        D_80B7E11C = 1.3f - (this->unk_1AC * 0.00899f);
+                    } else {
+                        D_80B7E11C = 1.3f - (this->unk_1AC * 0.00899f * 1.4f);
+                    }
+
+                    Math_ApproachF(&this->actor.speedXZ, 2.0f, 1.0f, 0.5f);
+
+                    if (this->unk_17A[1] == 0) {
+                        this->unk_152 = 0;
+
+                        if (D_80B7E080 < 2000) {
+                            this->unk_17A[1] = (s16)Rand_ZeroFloat(50.0f) + 50;
+                        } else if (D_80B7E080 < 3000) {
+                            this->unk_17A[1] = (s16)Rand_ZeroFloat(20.0f) + 30;
+                        } else {
+                            this->unk_17A[1] = (s16)Rand_ZeroFloat(10.0f) + 25;
+                        }
+                    }
+                }
+            }
+
+            if (D_80B7E074 != 0) {
+                D_80B7E11C = 0.0f;
+            }
+
+            if (D_80B7E124 || (D_80B7E0B6 != 2)) {
+                if (this->actor.speedXZ < 3.0f) {
+                    if ((D_80B7E0AE & 8) != 0) {
+                        sp100.x = -0.8f;
+                    } else {
+                        sp100.x = -0.75f;
+                    }
+                } else {
+                    if ((D_80B7E0AE & 4) != 0) {
+                        sp100.x = -0.9f;
+                    } else {
+                        sp100.x = -0.85f;
+                    }
+                }
+
+                Math_ApproachF(&D_80B7A6C0, 35.0f, 0.1f, 3.5f);
+                Math_ApproachF(&D_80B7A6BC, sp100.x, 0.3f, 0.1f);
+            }
+
+            D_80B7E168[0xC7] = this->unk_1C0;
+            sp10C.x = D_80B7E168[0xC7].x - D_80B7E168[0xC6].x;
+            sp10C.y = D_80B7E168[0xC7].y - D_80B7E168[0xC6].y;
+            sp10C.z = D_80B7E168[0xC7].z - D_80B7E168[0xC6].z;
+
+            if ((SQ(sp10C.x) + SQ(sp10C.y) + SQ(sp10C.z)) > 400.0f) {
+                Math_ApproachF(&this->actor.world.pos.x, D_80B7E168[0xC6].x, 0.2f, 2.0f * (this->actor.speedXZ * 1.5f));
+                Math_ApproachF(&this->actor.world.pos.y, D_80B7E168[0xC6].y, 0.2f,
+                               2.0f * (this->actor.speedXZ * 1.5f) * 5.0f * 0.1f);
+                Math_ApproachF(&this->actor.world.pos.z, D_80B7E168[0xC6].z, 0.2f, 2.0f * (this->actor.speedXZ * 1.5f));
+            }
+
+            if (CHECK_BTN_ALL(input->cur.button, BTN_A) || (input->rel.stick_y < -30)) {
+                if (D_80B7E116 < 100) {
+                    D_80B7E116++;
+                }
+            } else {
+                if (D_80B7E116 != 0) {
+                    D_80B7E116--;
+                }
+            }
+
+            if ((D_80B7A694 < 3) || ((D_80B7E074 != 0) && (D_80B7E080 > 50)) || (D_80B7E080 >= 6000) ||
+                ((D_80B7E122 == 0) && (D_80B7E124 == 0)) || (D_80B7E116 == 0) ||
+                (((D_80B7E0AE & 0x7F) == 0) && (Rand_ZeroOne() < 0.05f) && (D_80B7E0B6 != 2) && (KREG(69) == 0))) {
+                D_80B7A67C = 20;
+
+                if ((D_80B7E122 == 0) && (D_80B7E124 == 0)) {
+                    D_80B7E086 = 0x4081;
+                    if (((D_80B7E075 == 1) && (HIGH_SCORE(HS_FISHING) & 0x400)) ||
+                        ((D_80B7E075 != 1) && (HIGH_SCORE(HS_FISHING) & 0x800))) {
+                        D_80B7A67C = 0;
+                    }
+                } else {
+                    D_80B7E086 = 0x4082;
+                    func_800A9F6C(0.0f, 1, 3, 1);
+                    Audio_SetBGM(0x100A00FF);
+                }
+
+                this->unk_158 = this->unk_15A = 0;
+                this->unk_1A4 = 10000;
+                this->unk_1A2 = 500;
+                this->unk_17A[1] = 50;
+                this->unk_17A[0] = 0;
+                this->unk_190 = 1.0f;
+                this->unk_194 = 3000.0f;
+
+                if (D_80B7A694 == 4) {
+                    D_80B7A694 = 3;
+                }
+
+                D_80B7E0A6 = 50;
+                D_80B7E11C = 0.5f;
+                this->unk_152 = 0;
+            } else if (this->actor.xzDistToPlayer < (KREG(59) + 50.0f)) {
+                this->unk_158 = 6;
+                this->unk_17A[0] = 100;
+                spE0->unk_860 = 3;
+                func_800A9F6C(0.0f, 1, 3, 1);
+                D_80B7E084++;
+                func_80064520(globalCtx, &globalCtx->csCtx);
+                D_80B7A6CC = 100;
+                D_80B7FEC8 = 45.0f;
+                D_80B7A694 = 5;
+                this->unk_190 = 1.0f;
+                this->unk_194 = 500.0f;
+                this->unk_19C = 5000.0f;
+
+                if (this->actor.world.pos.y <= globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
+                    func_80B71278(this, 1);
+                    func_80B70A2C(this, globalCtx, 1);
+                }
+                goto case_6;
+            }
+            break;
+
+        case_6:
+        case 6:
+            Math_ApproachS(&this->unk_170, 0x2AF8, 2, 0xFA0);
+            Math_ApproachF(&D_80B7FEC8, 15.0f, 0.05f, 0.75f);
+
+            sp10C.x = D_80B7FEC8;
+            if (D_80B7E075 != 1) {
+                sp10C.y = 30.0f;
+                sp10C.z = 55.0f;
+            } else {
+                sp10C.y = 10.0f;
+                sp10C.z = 50.0f;
+            }
+            Matrix_RotateY((spE0->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+            Matrix_MultVec3f(&sp10C, &D_80B7FEA8);
+
+            D_80B7FEA8.x += spE0->actor.world.pos.x;
+            D_80B7FEA8.y += spE0->actor.world.pos.y;
+            D_80B7FEA8.z += spE0->actor.world.pos.z;
+            D_80B7FEB8 = spE0->actor.world.pos;
+
+            if (D_80B7E075 != 1) {
+                D_80B7FEB8.y += 40.0f;
+            } else {
+                D_80B7FEB8.y += 25.0f;
+            }
+
+            if (this->unk_17A[0] == 90) {
+                Audio_SetBGM(0x924);
+                D_80B7A67C = 40;
+
+                if (this->unk_150 == 0) {
+                    D_80B7A678 = this->unk_1AC;
+
+                    if (D_80B7A678 >= 75) {
+                        D_80B7E086 = 0x409F;
+                    } else if (D_80B7A678 >= 50) {
+                        D_80B7E086 = 0x4091;
+                    } else {
+                        D_80B7E086 = 0x4083;
+                    }
+                } else {
+                    D_80B7A678 = 2.0f * this->unk_1AC;
+                    D_80B7E086 = 0x4099;
+                }
+
+                this->unk_1D5 = 0;
+            }
+
+            this->unk_160 = -0x4000;
+            this->actor.shape.rot.y = spE0->actor.shape.rot.y + 0x5000;
+            this->actor.shape.rot.x = this->actor.shape.rot.z = this->unk_162 = this->unk_164 = this->unk_16E = 0;
+
+            sp10C.x = 4.0f;
+            sp10C.y = -10.0f;
+            sp10C.z = 5.0f;
+            Matrix_MultVec3f(&sp10C, &sp100);
+            Math_ApproachF(&this->actor.world.pos.x, spE0->bodyPartsPos[15].x + sp100.x, 1.0f, 6.0f);
+            Math_ApproachF(&this->actor.world.pos.y, spE0->bodyPartsPos[15].y + sp100.y, 1.0f, 6.0f);
+            Math_ApproachF(&this->actor.world.pos.z, spE0->bodyPartsPos[15].z + sp100.z, 1.0f, 6.0f);
+
+            D_80B7E144 = 188.0f;
+
+            if (this->unk_17A[0] <= 50) {
+                switch (this->unk_1D5) {
+                    case 0:
+                        if ((func_8010BDBC(&globalCtx->msgCtx) == 4) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                            if (func_80106BC8(globalCtx) != 0) {
+                                func_80106CCC(globalCtx);
+                                if (globalCtx->msgCtx.choiceIndex == 0) {
+                                    if (D_80B7A670 == 0.0f) {
+                                        D_80B7A670 = this->unk_1AC;
+                                        D_80B7E07C = this->unk_150;
+                                        D_80B7E07E = D_80B7E0B6;
+                                        Actor_Kill(&this->actor);
+                                    } else if ((this->unk_150 == 0) && (D_80B7E07C == 0) &&
+                                               ((s16)this->unk_1AC < (s16)D_80B7A670)) {
+                                        this->unk_1D5 = 1;
+                                        this->unk_17A[0] = 0x3C;
+                                        func_8010B680(globalCtx, 0x4098, NULL);
+                                    } else {
+                                        f32 temp1 = D_80B7A670;
+                                        s16 temp2 = D_80B7E07C;
+                                        D_80B7A670 = this->unk_1AC;
+                                        D_80B7E07C = this->unk_150;
+                                        D_80B7E07E = D_80B7E0B6;
+                                        this->unk_1AC = temp1;
+                                        this->unk_150 = temp2;
+                                    }
+                                }
+                                if (this->unk_1D5 == 0) {
+                                    D_80B7A694 = 0;
+                                }
+                            }
+                        }
+                        break;
+                    case 1:
+                        if ((func_8010BDBC(&globalCtx->msgCtx) == 4) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                            if (func_80106BC8(globalCtx) != 0) {
+                                func_80106CCC(globalCtx);
+                                if (globalCtx->msgCtx.choiceIndex != 0) {
+                                    f32 temp1 = D_80B7A670;
+                                    s16 temp2 = D_80B7E07C;
+                                    D_80B7A670 = this->unk_1AC;
+                                    D_80B7E07E = D_80B7E0B6;
+                                    this->unk_1AC = temp1;
+                                    this->unk_150 = temp2;
+                                }
+                                D_80B7A694 = 0;
+                            }
+                        }
+                        break;
+                }
+            }
+
+            if (D_80B7A694 == 0) {
+                if (this->actor.update != NULL) {
+                    this->unk_158 = this->unk_15A = 0;
+                    this->unk_1A4 = 10000;
+                    this->unk_1A2 = 500;
+                    this->unk_17A[1] = 50;
+                    this->unk_17A[0] = 0;
+                    this->unk_190 = 1.0f;
+                    this->unk_194 = 2000.0f;
+                    SkelAnime_Free(&this->skelAnime, globalCtx);
+
+                    if (this->unk_150 == 0) {
+                        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060029C0, &D_0600007C, 0, 0, 0);
+                        Animation_MorphToLoop(&this->skelAnime, &D_0600007C, 0.0f);
+                    } else {
+                        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011058, &D_0600CFE0, 0, 0, 0);
+                        Animation_MorphToLoop(&this->skelAnime, &D_0600CFE0, 0.0f);
+                    }
+                }
+
+                D_80B7E148 = 520.0f;
+                D_80B7E144 = 195.0f;
+                Audio_SetBGM(0x100A00FF);
+                D_80B7E0A6 = 20;
+                D_80B7A6CC = 3;
+            }
+            break;
+
+        case 7:
+            this->unk_151 = 50;
+            sp134 = 5;
+            this->unk_1B0 = 12288.0f;
+
+            if (this->actor.params < 104) {
+                this->unk_1B4 = D_80B81FC8[this->actor.params - 100].unk_04;
+                D_80B7A898 = 1;
+            } else if (this->actor.params < 108) {
+                this->unk_1B4 = D_80B81FC8[this->actor.params - 84].unk_04;
+                D_80B7A898 = 2;
+            } else {
+                this->unk_1B4 = D_80B81FC8[this->actor.params - 68].unk_04;
+                D_80B7A898 = 3;
+            }
+
+            Math_ApproachF(&this->actor.speedXZ, 5.0f, 1.0f, 1.0f);
+
+            if (sp124 < 20.0f) {
+                Math_ApproachS(&this->unk_170, 0x4E20, 2, 0xFA0);
+
+                if ((this->unk_17A[2] == 0) && (func_80B70A2C(this, globalCtx, 0) != 0)) {
+                    func_80B71278(this, Rand_ZeroFloat(1.99f));
+                    this->unk_17A[2] = (s16)Rand_ZeroFloat(20.0f) + 20;
+                }
+            }
+
+            if (this->unk_17A[3] == 0) {
+                this->unk_158 = 10;
+                this->unk_15A = 10;
+            } else {
+                func_80B70ED4(this, input);
+                if (this->actor.xzDistToPlayer < (100.0f * sp118)) {
+                    this->unk_15A = this->unk_158 = 0;
+                    this->unk_1A4 = 500;
+                    this->unk_1A2 = 200;
+                    this->unk_17A[1] = 50;
+                }
+            }
+            break;
+    }
+
+    Math_ApproachS(&this->unk_172, (Math_SinS(this->unk_15C << 0xC) * 5000.0f) + 5000.0f, 2, 0x7D0);
+
+    if (this->unk_158 != 6) {
+        if (globalCtx->colCtx.colHeader->waterBoxes->ySurface < this->actor.world.pos.y) {
+            this->unk_190 = 1.5f;
+            this->unk_194 = 5000.0f;
+
+            Math_ApproachS(&this->unk_16E, 0, 5, 0x7D0);
+
+            spF4 = spF0 = spFA = 3;
+            spF2 = spEE = 0x2000;
+
+            this->unk_17A[2] = 0;
+            this->unk_184 -= 1.0f;
+        } else {
+            Math_ApproachZeroF(&this->unk_184, 1.0f, 2.0f);
+            if ((this->unk_158 != -1) && (this->unk_158 != -2) && (this->unk_158 != -25)) {
+                this->unk_166 = 0;
+            }
+
+            this->unk_168 = this->unk_16A = 0;
+            spF4 = spF0 = spFA = 4;
+            spF2 = spEE = 0x2000;
+
+            spF6 = func_80B69B84(&this->actor.world.rot.y, spFC, sp134, this->unk_1B0) * 3.0f;
+            Math_ApproachS(&this->actor.world.rot.x, spFE, sp134, this->unk_1B0 * 0.5f);
+
+            if (spF6 > 0x1F40) {
+                spF6 = 0x1F40;
+            } else if (spF6 < -0x1F40) {
+                spF6 = -0x1F40;
+            }
+
+            if (this->actor.speedXZ >= 3.2f) {
+                Math_ApproachS(&this->unk_16E, spF6, 2, 0x4E20);
+            } else {
+                Math_ApproachS(&this->unk_16E, spF6, 3, 0xBB8);
+            }
+
+            func_8002D908(&this->actor);
+        }
+
+        func_8002D7EC(&this->actor);
+
+        this->actor.world.pos.y += (this->unk_184 * 1.5f);
+
+        if (1) {}
+
+        if (this->unk_152 != 0) {
+            this->unk_168 = this->unk_154;
+            this->unk_152--;
+            if (this->unk_156 != 0) {
+                spF0 = 5;
+                spEE = 0x4000;
+            } else {
+                spF0 = 10;
+                spEE = 0x800;
+            }
+            this->unk_166 = -0x500 - this->actor.shape.rot.x;
+            spF4 = 5;
+            spF2 = 0x4000;
+        } else {
+            this->unk_156 = 0;
+        }
+
+        Math_ApproachS(&this->unk_160, this->unk_166, spF4, spF2);
+        Math_ApproachS(&this->unk_162, this->unk_168, spF0, spEE);
+        Math_ApproachS(&this->unk_164, this->unk_16A, spFA, 0x2000);
+
+        if (this->actor.speedXZ <= 0.5f) {
+            Math_ApproachS(&this->actor.shape.rot.x, 0, 10, this->unk_178);
+            Math_ApproachS(&this->unk_178, 0x500, 1, 0x20);
+        } else {
+            Math_ApproachS(&this->actor.shape.rot.x, -this->actor.world.rot.x, 10, 0x1000);
+            this->unk_178 = 0;
+        }
+
+        this->actor.shape.rot.y = this->actor.world.rot.y;
+
+        if ((this->unk_158 != -1) && (this->unk_158 != -2) && (this->unk_158 != -25)) {
+            if ((globalCtx->colCtx.colHeader->waterBoxes->ySurface < this->actor.world.pos.y) &&
+                (this->actor.prevPos.y <= globalCtx->colCtx.colHeader->waterBoxes->ySurface)) {
+                func_80B70A2C(this, globalCtx, 1);
+                func_80B71278(this, 1);
+                this->unk_184 = this->actor.velocity.y;
+                this->actor.velocity.y = 0.0f;
+                this->unk_16A = Rand_CenteredFloat(32768.0f);
+            } else if ((this->actor.world.pos.y < globalCtx->colCtx.colHeader->waterBoxes->ySurface) &&
+                       (globalCtx->colCtx.colHeader->waterBoxes->ySurface <= this->actor.prevPos.y)) {
+                if (this->unk_184 < -5.0f) {
+                    this->unk_184 = -5.0f;
+                }
+                this->actor.world.rot.x = -0xFA0;
+                func_80B70A2C(this, globalCtx, 1);
+                this->unk_1D2 = 20;
+                func_80B71278(this, 0);
+            }
+        }
+
+        if ((this->actor.world.pos.y < globalCtx->colCtx.colHeader->waterBoxes->ySurface) &&
+            ((globalCtx->colCtx.colHeader->waterBoxes->ySurface - 10.0f) < this->actor.world.pos.y) &&
+            ((this->unk_15C & 1) == 0) && (this->actor.speedXZ > 0.0f)) {
+            Vec3f sp84 = this->actor.world.pos;
+            sp84.y = globalCtx->colCtx.colHeader->waterBoxes->ySurface;
+            func_80B69C2C(&this->actor.projectedPos, globalCtx->specialEffects, &sp84, 80.0f, 500.0f, 150, 90);
+        }
+
+        if ((this->actor.speedXZ > 0.0f) || (this->unk_158 == 5)) {
+            f32 sp80 = this->actor.velocity.y;
+
+            spD8 = this->unk_1AC * 0.1f;
+
+            this->actor.world.pos.y -= spD8;
+            this->actor.prevPos.y -= spD8;
+            this->actor.velocity.y = -1.0f;
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 100.0f, 0x45);
+            this->actor.world.pos.y += spD8;
+            this->actor.prevPos.y += spD8;
+            this->actor.velocity.y = sp80;
+
+            if (this->actor.bgCheckFlags & 8) {
+                this->unk_1A0 = 20;
+            }
+
+            if (this->actor.bgCheckFlags & 1) {
+                if (globalCtx->colCtx.colHeader->waterBoxes->ySurface < this->actor.world.pos.y) {
+                    this->unk_184 = Rand_ZeroFloat(3.0f) + 3.0f;
+                    this->actor.velocity.x = this->actor.world.pos.x * -0.003f;
+                    this->actor.velocity.z = this->actor.world.pos.z * -0.003f;
+
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
+                    func_80B70CF0(this, globalCtx);
+
+                    if (Rand_ZeroOne() < 0.5f) {
+                        this->unk_16A = 0x4000;
+                    } else {
+                        this->unk_16A = -0x4000;
+                    }
+
+                    if (Rand_ZeroOne() < 0.5f) {
+                        this->unk_166 = 0;
+                    } else {
+                        this->unk_166 = (s16)Rand_CenteredFloat(32.0f) + 0x8000;
+                    }
+
+                    this->unk_168 = (s16)Rand_CenteredFloat(16384.0f);
+                    this->unk_190 = 1.0f;
+                    this->unk_194 = 5000.0f;
+                    this->unk_19C = 5000.0f;
+                } else {
+                    this->unk_184 = 0.0f;
+
+                    if ((this->unk_158 == 5) && ((this->unk_15C & 1) == 0)) {
+                        Vec3f sp74;
+
+                        sp74.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
+                        sp74.z = Rand_CenteredFloat(10.0f) + this->actor.world.pos.z;
+                        sp74.y = this->actor.floorHeight + 5.0f;
+                        func_80B69ED0(&this->actor.projectedPos, globalCtx->specialEffects, &sp74,
+                                      (this->unk_1AC * 0.005f) + 0.15f);
+                    }
+                }
+            }
+        }
+    }
+
+    if (this->unk_1D2 != 0) {
+        s16 sp72;
+        Vec3f sp64;
+        f32 sp60 = (this->unk_1AC * 0.075f) + 10.0f;
+
+        this->unk_1D2--;
+
+        for (sp72 = 0; sp72 < 2; sp72++) {
+            sp64.x = Rand_CenteredFloat(sp60) + this->actor.world.pos.x;
+            sp64.y = Rand_CenteredFloat(sp60) + this->actor.world.pos.y;
+            sp64.z = Rand_CenteredFloat(sp60) + this->actor.world.pos.z;
+            func_80B6A008(&this->actor.projectedPos, globalCtx->specialEffects, &sp64, Rand_ZeroFloat(0.035f) + 0.04f,
+                          0);
+        }
+    }
+}
 
 s32 func_80B75BAC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     Fishing* this = THIS;
@@ -2588,11 +3904,11 @@ s32 func_80B75D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     Fishing* this = THIS;
 
     if (limbIndex == 3) {
-        rot->y += this->unk_1CC;
+        rot->y += this->unk_1CC[0];
     } else if (limbIndex == 4) {
-        rot->y += this->unk_1CE;
+        rot->y += this->unk_1CC[1];
     } else if (limbIndex == 5) {
-        rot->y += this->unk_1D0;
+        rot->y += this->unk_1CC[2];
     }
 
     return 0;
