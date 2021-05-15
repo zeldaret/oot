@@ -1381,11 +1381,7 @@ endseg
 beginseg
     name "ovl_Boss_Fd"
     include "build/src/overlays/actors/ovl_Boss_Fd/z_boss_fd.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Boss_Fd/ovl_Boss_Fd_reloc.o"
-#else
-    include "build/data/overlays/actors/z_boss_fd.reloc.o"
-#endif
 endseg
 
 beginseg
