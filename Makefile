@@ -242,12 +242,12 @@ assets/%.c: assets/%.xml
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o build/$(@:.c=.o) $@
 
 build/%.inc.c: %.png
-	$(ZAPD) btex -eh -tt $(lastword ,$(subst ., ,$(basename $<))) -i $< -o $@
+	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
 
 build/assets/%.bin.inc.c: assets/%.bin
 	$(ZAPD) bblb -eh -i $< -o $@
 
 build/assets/%.jpg.inc.c: assets/%.jpg
-	$(ZAPD) bren -eh -i $< -o $@ -eh
+	$(ZAPD) bren -eh -i $< -o $@
 
 -include $(DEP_FILES)
