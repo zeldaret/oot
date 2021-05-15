@@ -202,9 +202,9 @@ void func_800985DC(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->setupActorList = SEGMENTED_TO_VIRTUAL(cmd->actorList.segment);
 }
 
-// Scene Command 0x02: Cutscene Camera List
+// Scene Command 0x02: Unused 02
 void func_80098630(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->unk_11DFC = SEGMENTED_TO_VIRTUAL(cmd->csCameraList.segment);
+    globalCtx->unk_11DFC = SEGMENTED_TO_VIRTUAL(cmd->unused02.segment);
 }
 
 // Scene Command 0x03: Collision Header

@@ -1691,11 +1691,22 @@ typedef struct {
 } JpegDecoderState; // size = 0x14
 
 typedef struct {
-    /* 0x0000 */ OSViMode viMode;
-    /* 0x0050 */ char unk_50[0x30];
+    /* 0x0000 */ OSViMode customViMode;
+    /* 0x0050 */ s32 viHeight;
+    /* 0x0054 */ s32 viWidth;
+    /* 0x0058 */ s32 unk_58; // Right adjustment?
+    /* 0x005c */ s32 unk_5C; // Left adjustment?
+    /* 0x0060 */ s32 unk_60; // Bottom adjustment?
+    /* 0x0064 */ s32 unk_64; // Top adjustment?
+    /* 0x0068 */ s32 viModeBase; // enum: {0, 1, 2, 3}
+    /* 0x006c */ s32 viTvType;
+    /* 0x0070 */ u32 unk_70; // bool
+    /* 0x0074 */ u32 unk_74; // bool
+    /* 0x0078 */ u32 unk_78; // bool
+    /* 0x007c */ u32 unk_7C; // bool
     /* 0x0080 */ u32 viFeatures;
-    /* 0x0084 */ char unk_84[4];
-} unk_80166528;
+    /* 0x0084 */ u32 unk_84;
+} ViMode;
 
 // Vis...
 typedef struct {
