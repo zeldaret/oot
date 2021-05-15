@@ -460,8 +460,6 @@ void StaticLookup_AddPolyToSSList(CollisionContext* colCtx, SSList* ssList, Coll
     }
 
     polyYMin = CollisionPoly_GetMinY(&polyList[polyId], vtxList);
-
-    // Swapped operands on this pointer addition
     curNode = &colCtx->polyNodes.tbl[ssList->head];
     curPolyId = curNode->polyId;
 
@@ -1084,7 +1082,7 @@ StaticLookup* BgCheck_GetNearestStaticLookup(CollisionContext* colCtx, StaticLoo
     s32 subdivAmountX;
 
     BgCheck_GetStaticLookupIndicesFromPos(colCtx, pos, &sector);
-    subdivAmountX = colCtx->subdivAmount.x; // fix regalloc
+    subdivAmountX = colCtx->subdivAmount.x;
     return (sector.z * subdivAmountX) * colCtx->subdivAmount.y + lookupTbl + sector.x + sector.y * subdivAmountX;
 }
 
@@ -1100,7 +1098,7 @@ StaticLookup* BgCheck_GetStaticLookup(CollisionContext* colCtx, StaticLookup* lo
         return NULL;
     }
     BgCheck_GetStaticLookupIndicesFromPos(colCtx, pos, &sector);
-    subdivAmountX = colCtx->subdivAmount.x; // fix regalloc
+    subdivAmountX = colCtx->subdivAmount.x;
     return (sector.z * subdivAmountX) * colCtx->subdivAmount.y + lookupTbl + sector.x + sector.y * subdivAmountX;
 }
 
