@@ -1,0 +1,8 @@
+<Root>
+    <File Name="object_mjin_oka" Segment="6">
+        <DList Name="object_mjin_oka_DL_000140" Offset="0x140"/>
+        <Blob Name="object_mjin_oka_Blob_000248" Size="0x118" Offset="0x248"/>
+        <Texture Name="object_mjin_oka_Tex_000360" OutName="tex_00000360" Format="rgb5a1" Width="64" Height="16" Offset="0x360"/>
+        <Texture Name="object_mjin_oka_Tex_000B60" OutName="tex_00000B60" Format="i8" Width="64" Height="64" Offset="0xB60"/>
+    </File>
+</Root>

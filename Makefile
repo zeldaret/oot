@@ -114,25 +114,9 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
 # (Only asm_processor dependencies are handled for now)
 DEP_FILES := $(O_FILES:.o=.asmproc.d)
 
-TEXTURE_FILES_RGBA32 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.rgba32.png))
-TEXTURE_FILES_RGBA16 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.rgb5a1.png))
-TEXTURE_FILES_GRAY4 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.i4.png))
-TEXTURE_FILES_GRAY8 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.i8.png))
-TEXTURE_FILES_GRAYA4 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.ia4.png))
-TEXTURE_FILES_GRAYA8 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.ia8.png))
-TEXTURE_FILES_GRAYA16 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.ia16.png))
-TEXTURE_FILES_CI4 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.ci4.png))
-TEXTURE_FILES_CI8 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.ci8.png))
+TEXTURE_FILES_PNG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_JPG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.jpg))
-TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_RGBA32:.rgba32.png=.rgba32.inc.c),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_RGBA16:.rgb5a1.png=.rgb5a1.inc.c),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_GRAY4:.i4.png=.i4.inc.c),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_GRAY8:.i8.png=.i8.inc.c),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_GRAYA4:.ia4.png=.ia4.inc.c),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_GRAYA8:.ia8.png=.ia8.inc.c),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_GRAYA16:.ia16.png=.ia16.inc.c),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_CI4:.ci4.png=.ci4.inc.c),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_CI8:.ci8.png=.ci8.inc.c),build/$f) \
+TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),build/$f) \
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),build/$f) \
 
 # create build directories
@@ -232,7 +216,7 @@ build/assets/%.o: assets/%.c
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
-	$(ZAPD) bovl -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
+	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
 	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
@@ -254,41 +238,16 @@ build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 assets/%.c: assets/%.xml
-#	$(ZAPD) bsf -i $< -o $(dir $@)
 	$(ZAPD) bsf -eh -i $< -o $(dir $<)
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o build/$(@:.c=.o) $@
 
-build/%.rgba32.inc.c: %.rgba32.png
-	$(ZAPD) btex -tt rgba32 -i $< -o $@
-
-build/%.rgb5a1.inc.c: %.rgb5a1.png
-	$(ZAPD) btex -tt rgb5a1 -i $< -o $@
-
-build/%.i4.inc.c: %.i4.png
-	$(ZAPD) btex -tt i4 -i $< -o $@
-
-build/%.i8.inc.c: %.i8.png
-	$(ZAPD) btex -tt i8 -i $< -o $@
-
-build/%.ia4.inc.c: %.ia4.png
-	$(ZAPD) btex -tt ia4 -i $< -o $@
-
-build/%.ia8.inc.c: %.ia8.png
-	$(ZAPD) btex -tt ia8 -i $< -o $@
-
-build/%.ia16.inc.c: %.ia16.png
-	$(ZAPD) btex -tt ia16 -i $< -o $@
-
-build/%.ci4.inc.c: %.ci4.png
-	$(ZAPD) btex -tt ci4 -i $< -o $@
-
-build/%.ci8.inc.c: %.ci8.png
-	$(ZAPD) btex -tt ci8 -i $< -o $@
+build/%.inc.c: %.png
+	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
 
 build/assets/%.bin.inc.c: assets/%.bin
-	$(ZAPD) bblb -i $< -o $@
+	$(ZAPD) bblb -eh -i $< -o $@
 
 build/assets/%.jpg.inc.c: assets/%.jpg
-	$(ZAPD) bren -i $< -o $@ -eh
+	$(ZAPD) bren -eh -i $< -o $@
 
 -include $(DEP_FILES)

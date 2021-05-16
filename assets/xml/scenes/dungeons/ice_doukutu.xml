@@ -1,6 +1,8 @@
 <Root>
     <File Name="ice_doukutu_scene" Segment="2">
-        <Scene Name="ice_doukutu_scene"/>
+        <Cutscene Name="gIceCavernSerenadeCs" Offset="0x330"/>
+
+        <Scene Name="ice_doukutu_scene" Offset="0x0"/>
     </File>
     <File Name="ice_doukutu_room_0" Segment="3">
         <Room Name="ice_doukutu_room_0" Offset="0x0"/>

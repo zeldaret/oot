@@ -1,0 +1,27 @@
+<Root>
+    <File Name="object_bird" Segment="6">
+        <Animation Name="object_bird_Anim_00006C" Offset="0x6C"/>
+        <DList Name="object_bird_DL_000080" Offset="0x80"/>
+        <DList Name="object_bird_DL_000120" Offset="0x120"/>
+        <DList Name="object_bird_DL_000130" Offset="0x130"/>
+        <DList Name="object_bird_DL_000180" Offset="0x180"/>
+        <DList Name="object_bird_DL_000220" Offset="0x220"/>
+        <DList Name="object_bird_DL_000230" Offset="0x230"/>
+        <DList Name="object_bird_DL_000280" Offset="0x280"/>
+        <DList Name="object_bird_DL_0003D0" Offset="0x3D0"/>
+        <DList Name="object_bird_DL_0003E0" Offset="0x3E0"/>
+        <Texture Name="object_bird_Tex_000500" OutName="tex_00000500" Format="rgb5a1" Width="32" Height="32" Offset="0x500"/>
+        <Texture Name="object_bird_Tex_000D00" OutName="tex_00000D00" Format="rgb5a1" Width="16" Height="32" Offset="0xD00"/>
+        <Texture Name="object_bird_Tex_001100" OutName="tex_00001100" Format="rgb5a1" Width="64" Height="32" Offset="0x1100"/>
+        <Limb Name="object_bird_Limb_002100" LimbType="Standard" Offset="0x2100"/>
+        <Limb Name="object_bird_Limb_00210C" LimbType="Standard" Offset="0x210C"/>
+        <Limb Name="object_bird_Limb_002118" LimbType="Standard" Offset="0x2118"/>
+        <Limb Name="object_bird_Limb_002124" LimbType="Standard" Offset="0x2124"/>
+        <Limb Name="object_bird_Limb_002130" LimbType="Standard" Offset="0x2130"/>
+        <Limb Name="object_bird_Limb_00213C" LimbType="Standard" Offset="0x213C"/>
+        <Limb Name="object_bird_Limb_002148" LimbType="Standard" Offset="0x2148"/>
+        <Limb Name="object_bird_Limb_002154" LimbType="Standard" Offset="0x2154"/>
+        <Limb Name="object_bird_Limb_002160" LimbType="Standard" Offset="0x2160"/>
+        <Skeleton Name="object_bird_Skel_002190" Type="Normal" LimbType="Standard" Offset="0x2190"/>
+    </File>
+</Root>
