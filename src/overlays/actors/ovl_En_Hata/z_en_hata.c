@@ -83,17 +83,17 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnHata* this = THIS;
     s32 pitch;
-    Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
-    Vec3f sWindVec;
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    Vec3f windVec;
     f32 sin;
 
     SkelAnime_Update(&this->skelAnime);
 
     // Rotate to hang down by default
     this->limbs[FLAGPOLE_LIMB_FLAG_1_BASE].y = this->limbs[FLAGPOLE_LIMB_FLAG_2_BASE].y = -0x4000;
-    sWindVec.x = globalCtx->envCtx.unk_A8;
-    sWindVec.y = globalCtx->envCtx.unk_AA;
-    sWindVec.z = globalCtx->envCtx.unk_AC;
+    windVec.x = globalCtx->envCtx.unk_A8;
+    windVec.y = globalCtx->envCtx.unk_AA;
+    windVec.z = globalCtx->envCtx.unk_AC;
 
     if (globalCtx->envCtx.unk_B0 > 255.0f) {
         globalCtx->envCtx.unk_B0 = 255.0f;
@@ -111,11 +111,12 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     // Mimic varying wind gusts
     sin = Math_SinS(this->unk_278) * 80.0f;
-    pitch = -Math_Vec3f_Pitch(&sZeroVec, &sWindVec);
+    pitch = -Math_Vec3f_Pitch(&zeroVec, &windVec);
     pitch = ((s32)((15000 - pitch) * (1.0f - (globalCtx->envCtx.unk_B0 / (255.0f - sin))))) + pitch;
-    Math_SmoothStepToS(&this->limbs[FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE].y, pitch, this->invScale, this->maxStep, this->minStep);
+    Math_SmoothStepToS(&this->limbs[FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE].y, pitch, this->invScale, this->maxStep,
+                       this->minStep);
     this->limbs[FLAGPOLE_LIMB_FLAG_2_HOIST_END_BASE].y = this->limbs[FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE].y;
-    this->limbs[FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE].z = -Math_Vec3f_Yaw(&sZeroVec, &sWindVec);
+    this->limbs[FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE].z = -Math_Vec3f_Yaw(&zeroVec, &windVec);
     this->limbs[FLAGPOLE_LIMB_FLAG_2_HOIST_END_BASE].z = this->limbs[FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE].z;
     this->skelAnime.playSpeed = (Rand_ZeroFloat(1.25f) + 2.75f) * (globalCtx->envCtx.unk_B0 / 255.0f);
 }
@@ -124,7 +125,8 @@ s32 EnHata_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     EnHata* this = THIS;
     Vec3s* limbs;
 
-    if (limbIndex == FLAGPOLE_LIMB_FLAG_2_BASE || limbIndex == FLAGPOLE_LIMB_FLAG_1_BASE || limbIndex == FLAGPOLE_LIMB_FLAG_2_HOIST_END_BASE || limbIndex == FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE) {
+    if (limbIndex == FLAGPOLE_LIMB_FLAG_2_BASE || limbIndex == FLAGPOLE_LIMB_FLAG_1_BASE ||
+        limbIndex == FLAGPOLE_LIMB_FLAG_2_HOIST_END_BASE || limbIndex == FLAGPOLE_LIMB_FLAG_1_HOIST_END_BASE) {
         limbs = this->limbs;
         rot->x += limbs[limbIndex].x;
         rot->y += limbs[limbIndex].y;
