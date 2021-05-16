@@ -193,14 +193,11 @@ clean:
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
-	$(RM) -r build/assets
+	$(RM) -r build/assets	
 
-toolclean:
-	$(MAKE) -C tools distclean
-
-distclean: clean assetclean toolclean
+distclean: clean assetclean
 	$(RM) -r baserom/
-	
+	$(MAKE) -C tools distclean
 
 setup:
 	$(MAKE) -C tools -j
@@ -212,7 +209,7 @@ resources: $(ASSET_FILES_OUT)
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
 
-.PHONY: all clean setup test distclean assetclean toolclean
+.PHONY: all clean setup test distclean assetclean
 
 #### Various Recipes ####
 
