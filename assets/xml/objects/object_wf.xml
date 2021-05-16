@@ -1,0 +1,114 @@
+<Root>
+    <File Name="object_wf" Segment="6">
+        <Texture Name="object_wf_Tex_000000" OutName="tex_00000000" Format="rgb5a1" Width="8" Height="16" Offset="0x0"/>
+        <Texture Name="object_wf_Tex_000100" OutName="tex_00000100" Format="rgb5a1" Width="8" Height="8" Offset="0x100"/>
+        <Texture Name="object_wf_Tex_000180" OutName="tex_00000180" Format="rgb5a1" Width="8" Height="8" Offset="0x180"/>
+        <Texture Name="object_wf_Tex_000200" OutName="tex_00000200" Format="rgb5a1" Width="8" Height="8" Offset="0x200"/>
+        <Texture Name="object_wf_Tex_000280" OutName="tex_00000280" Format="rgb5a1" Width="8" Height="8" Offset="0x280"/>
+        <Blob Name="object_wf_Blob_000300" Size="0x200" Offset="0x300"/>
+        <DList Name="object_wf_DL_001A20" Offset="0x1A20"/>
+        <DList Name="object_wf_DL_001AE8" Offset="0x1AE8"/>
+        <DList Name="object_wf_DL_001BD8" Offset="0x1BD8"/>
+        <DList Name="object_wf_DL_001CC8" Offset="0x1CC8"/>
+        <DList Name="object_wf_DL_001D98" Offset="0x1D98"/>
+        <DList Name="object_wf_DL_001E98" Offset="0x1E98"/>
+        <DList Name="object_wf_DL_001F88" Offset="0x1F88"/>
+        <DList Name="object_wf_DL_002078" Offset="0x2078"/>
+        <DList Name="object_wf_DL_002148" Offset="0x2148"/>
+        <DList Name="object_wf_DL_002248" Offset="0x2248"/>
+        <DList Name="object_wf_DL_002368" Offset="0x2368"/>
+        <DList Name="object_wf_DL_002490" Offset="0x2490"/>
+        <DList Name="object_wf_DL_0025A0" Offset="0x25A0"/>
+        <DList Name="object_wf_DL_0026C8" Offset="0x26C8"/>
+        <Blob Name="object_wf_Blob_0027D8" Size="0x400" Offset="0x27D8"/>
+        <DList Name="object_wf_DL_003488" Offset="0x3488"/>
+        <DList Name="object_wf_DL_003528" Offset="0x3528"/>
+        <DList Name="object_wf_DL_0035F0" Offset="0x35F0"/>
+        <DList Name="object_wf_DL_0036B8" Offset="0x36B8"/>
+        <DList Name="object_wf_DL_0039D8" Offset="0x39D8"/>
+        <Limb Name="object_wf_Limb_003A70" LimbType="Standard" Offset="0x3A70"/>
+        <Limb Name="object_wf_Limb_003A7C" LimbType="Standard" Offset="0x3A7C"/>
+        <Limb Name="object_wf_Limb_003A88" LimbType="Standard" Offset="0x3A88"/>
+        <Limb Name="object_wf_Limb_003A94" LimbType="Standard" Offset="0x3A94"/>
+        <Limb Name="object_wf_Limb_003AA0" LimbType="Standard" Offset="0x3AA0"/>
+        <Limb Name="object_wf_Limb_003AAC" LimbType="Standard" Offset="0x3AAC"/>
+        <Limb Name="object_wf_Limb_003AB8" LimbType="Standard" Offset="0x3AB8"/>
+        <Limb Name="object_wf_Limb_003AC4" LimbType="Standard" Offset="0x3AC4"/>
+        <Limb Name="object_wf_Limb_003AD0" LimbType="Standard" Offset="0x3AD0"/>
+        <Limb Name="object_wf_Limb_003ADC" LimbType="Standard" Offset="0x3ADC"/>
+        <Limb Name="object_wf_Limb_003AE8" LimbType="Standard" Offset="0x3AE8"/>
+        <Limb Name="object_wf_Limb_003AF4" LimbType="Standard" Offset="0x3AF4"/>
+        <Limb Name="object_wf_Limb_003B00" LimbType="Standard" Offset="0x3B00"/>
+        <Limb Name="object_wf_Limb_003B0C" LimbType="Standard" Offset="0x3B0C"/>
+        <Limb Name="object_wf_Limb_003B18" LimbType="Standard" Offset="0x3B18"/>
+        <Limb Name="object_wf_Limb_003B24" LimbType="Standard" Offset="0x3B24"/>
+        <Limb Name="object_wf_Limb_003B30" LimbType="Standard" Offset="0x3B30"/>
+        <Limb Name="object_wf_Limb_003B3C" LimbType="Standard" Offset="0x3B3C"/>
+        <Limb Name="object_wf_Limb_003B48" LimbType="Standard" Offset="0x3B48"/>
+        <Limb Name="object_wf_Limb_003B54" LimbType="Standard" Offset="0x3B54"/>
+        <Limb Name="object_wf_Limb_003B60" LimbType="Standard" Offset="0x3B60"/>
+        <Skeleton Name="object_wf_Skel_003BC0" Type="Flex" LimbType="Standard" Offset="0x3BC0"/>
+        <Animation Name="object_wf_Anim_004638" Offset="0x4638"/>
+        <Blob Name="object_wf_zeroes_Blob_004648" Size="0x48" Offset="0x4648"/>
+        <Animation Name="object_wf_Anim_004AD0" Offset="0x4AD0"/>
+        <Blob Name="object_wf_zeroes_Blob_004AE0" Size="0x20" Offset="0x4AE0"/>
+        <Animation Name="object_wf_Anim_004CA4" Offset="0x4CA4"/>
+        <Animation Name="object_wf_Anim_005430" Offset="0x5430"/>
+        <Blob Name="object_wf_zeroes_Blob_005440" Size="0x40" Offset="0x5440"/>
+        <Animation Name="object_wf_Anim_0057A0" Offset="0x57A0"/>
+        <Blob Name="object_wf_zeroes_Blob_0057B0" Size="0x20" Offset="0x57B0"/>
+        <DList Name="object_wf_DL_006DD0" Offset="0x6DD0"/>
+        <DList Name="object_wf_DL_006E98" Offset="0x6E98"/>
+        <DList Name="object_wf_DL_006F88" Offset="0x6F88"/>
+        <DList Name="object_wf_DL_007078" Offset="0x7078"/>
+        <DList Name="object_wf_DL_007148" Offset="0x7148"/>
+        <DList Name="object_wf_DL_007248" Offset="0x7248"/>
+        <DList Name="object_wf_DL_007338" Offset="0x7338"/>
+        <DList Name="object_wf_DL_007428" Offset="0x7428"/>
+        <DList Name="object_wf_DL_0074F8" Offset="0x74F8"/>
+        <DList Name="object_wf_DL_0075F8" Offset="0x75F8"/>
+        <DList Name="object_wf_DL_007718" Offset="0x7718"/>
+        <DList Name="object_wf_DL_007830" Offset="0x7830"/>
+        <DList Name="object_wf_DL_007940" Offset="0x7940"/>
+        <DList Name="object_wf_DL_007A58" Offset="0x7A58"/>
+        <Blob Name="object_wf_Blob_007B68" Size="0x200" Offset="0x7B68"/>
+        <Texture Name="object_wf_Tex_007D68" OutName="tex_00007D68" Format="rgb5a1" Width="16" Height="32" Offset="0x7D68"/>
+        <Texture Name="object_wf_Tex_008168" OutName="tex_00008168" Format="rgb5a1" Width="8" Height="8" Offset="0x8168"/>
+        <Texture Name="object_wf_Tex_0081E8" OutName="tex_000081E8" Format="rgb5a1" Width="8" Height="8" Offset="0x81E8"/>
+        <Texture Name="object_wf_Tex_008268" OutName="tex_00008268" Format="rgb5a1" Width="8" Height="8" Offset="0x8268"/>
+        <Texture Name="object_wf_Tex_0082E8" OutName="tex_000082E8" Format="rgb5a1" Width="8" Height="8" Offset="0x82E8"/>
+        <Blob Name="object_wf_Blob_008368" Size="0x400" Offset="0x8368"/>
+        <DList Name="object_wf_DL_008F58" Offset="0x8F58"/>
+        <DList Name="object_wf_DL_008FF8" Offset="0x8FF8"/>
+        <DList Name="object_wf_DL_0090C0" Offset="0x90C0"/>
+        <DList Name="object_wf_DL_009188" Offset="0x9188"/>
+        <DList Name="object_wf_DL_0094A8" Offset="0x94A8"/>
+        <Limb Name="object_wf_Limb_009540" LimbType="Standard" Offset="0x9540"/>
+        <Limb Name="object_wf_Limb_00954C" LimbType="Standard" Offset="0x954C"/>
+        <Limb Name="object_wf_Limb_009558" LimbType="Standard" Offset="0x9558"/>
+        <Limb Name="object_wf_Limb_009564" LimbType="Standard" Offset="0x9564"/>
+        <Limb Name="object_wf_Limb_009570" LimbType="Standard" Offset="0x9570"/>
+        <Limb Name="object_wf_Limb_00957C" LimbType="Standard" Offset="0x957C"/>
+        <Limb Name="object_wf_Limb_009588" LimbType="Standard" Offset="0x9588"/>
+        <Limb Name="object_wf_Limb_009594" LimbType="Standard" Offset="0x9594"/>
+        <Limb Name="object_wf_Limb_0095A0" LimbType="Standard" Offset="0x95A0"/>
+        <Limb Name="object_wf_Limb_0095AC" LimbType="Standard" Offset="0x95AC"/>
+        <Limb Name="object_wf_Limb_0095B8" LimbType="Standard" Offset="0x95B8"/>
+        <Limb Name="object_wf_Limb_0095C4" LimbType="Standard" Offset="0x95C4"/>
+        <Limb Name="object_wf_Limb_0095D0" LimbType="Standard" Offset="0x95D0"/>
+        <Limb Name="object_wf_Limb_0095DC" LimbType="Standard" Offset="0x95DC"/>
+        <Limb Name="object_wf_Limb_0095E8" LimbType="Standard" Offset="0x95E8"/>
+        <Limb Name="object_wf_Limb_0095F4" LimbType="Standard" Offset="0x95F4"/>
+        <Limb Name="object_wf_Limb_009600" LimbType="Standard" Offset="0x9600"/>
+        <Limb Name="object_wf_Limb_00960C" LimbType="Standard" Offset="0x960C"/>
+        <Limb Name="object_wf_Limb_009618" LimbType="Standard" Offset="0x9618"/>
+        <Limb Name="object_wf_Limb_009624" LimbType="Standard" Offset="0x9624"/>
+        <Limb Name="object_wf_Limb_009630" LimbType="Standard" Offset="0x9630"/>
+        <Skeleton Name="object_wf_Skel_009690" Type="Flex" LimbType="Standard" Offset="0x9690"/>
+        <Animation Name="object_wf_Anim_0098C8" Offset="0x98C8"/>
+        <Blob Name="object_wf_zeroes_Blob_0098D8" Size="0x18" Offset="0x98D8"/>
+        <Animation Name="object_wf_Anim_009B20" Offset="0x9B20"/>
+        <Animation Name="object_wf_Anim_00A4AC" Offset="0xA4AC"/>
+        <Blob Name="object_wf_zeroes_Blob_00A4BC" Size="0x44" Offset="0xA4BC"/>
+    </File>
+</Root>
