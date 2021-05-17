@@ -31,17 +31,6 @@ void EnWeatherTag_SetSandstormIntensity(EnWeatherTag* this, GlobalContext* globa
 void EnWeatherTag_DisabledRainThunder(EnWeatherTag* this, GlobalContext* globalCtx);
 void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, GlobalContext* globalCtx);
 
-typedef enum {
-    EN_WEATHER_TAG_TYPE_CLOUDY_MARKET,
-    EN_WEATHER_TAG_TYPE_CLOUDY_LON_LON_RANCH,
-    EN_WEATHER_TAG_TYPE_SNOW_ZORAS_DOMAIN,
-    EN_WEATHER_TAG_TYPE_RAIN_LAKE_HYLIA,
-    EN_WEATHER_TAG_TYPE_CLOUDY_DEATH_MOUNTAIN,
-    EN_WEATHER_TAG_TYPE_THUNDERSTORM_KAKARIKO,
-    EN_WEATHER_TAG_TYPE_SANDSTORM_INTENSITY,
-    EN_WEATHER_TAG_TYPE_THUNDERSTORM_GRAVEYARD
-} EnWeatherTagType;
-
 #define WEATHER_TAG_RANGE100(x) ((x >> 8) * 100.0f)
 
 const ActorInit En_Weather_Tag_InitVars = {
