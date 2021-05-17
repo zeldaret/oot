@@ -28,7 +28,7 @@ typedef enum {
     /* 0x13 */ FLAGPOLE_LIMB_FLAG_2_HOIST_MID,
     /* 0x14 */ FLAGPOLE_LIMB_FLAG_2_HOIST_END,
     /* 0x15 */ FLAGPOLE_LIMB_MAX
-} EnNbLimb;
+} EnHataLimb;
 
 typedef struct {
     /* 0x0000 */ DynaPolyActor dyna;
