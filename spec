@@ -4194,7 +4194,8 @@ endseg
 beginseg
     name "object_hata"
     romalign 0x1000
-    include "build/baserom/object_hata.o"
+    include "build/assets/objects/object_hata/object_hata.o"
+    number 6
 endseg
 
 beginseg
