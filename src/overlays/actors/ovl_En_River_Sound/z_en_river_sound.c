@@ -110,15 +110,18 @@ s32 func_80AE6BC0(Vec3s* points, s32 numPoints, Vec3f* pos, Vec3f* res) {
 
     for (i = 0; i < numPoints; i++) {
         f32 d;
+
         vec.x = points[i].x;
         vec.y = points[i].y;
         vec.z = points[i].z;
         d = Math_Vec3f_DistXYZ(pos, &vec);
+
         if (d < pointDist) {
             pointDist = d;
             pointIdx = i;
         }
     }
+
     if (pointDist >= 10000.0f) {
         return 0;
     }
@@ -127,12 +130,14 @@ s32 func_80AE6BC0(Vec3s* points, s32 numPoints, Vec3f* pos, Vec3f* res) {
     pointLoc.x = point->x;
     pointLoc.y = point->y;
     pointLoc.z = point->z;
+
     if (pointIdx != 0) {
         vec.x = point[-1].x;
         vec.y = point[-1].y;
         vec.z = point[-1].z;
         sp78[0] = func_80AE6A54(&vec, &pointLoc, pos, &sp54);
     }
+
     if (pointIdx + 1 != numPoints) {
         vec.x = point[1].x;
         vec.y = point[1].y;
@@ -240,9 +245,9 @@ void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else if (this->actor.params == 12) {
         func_800F4E30(&this->actor.projectedPos, this->actor.xzDistToPlayer);
     } else if (this->actor.params == 13) {
-        func_800F52A0(&this->actor.home, 62, 1000);
+        func_800F52A0(&this->actor.home.pos, 62, 1000);
     } else if (this->actor.params == 19) {
-        func_800F52A0(&this->actor.home, 40, 800);
+        func_800F52A0(&this->actor.home.pos, 40, 800);
     } else if (this->actor.params == 14 || this->actor.params == 16 || this->actor.params == 17 ||
                this->actor.params == 18) {
         func_800788CC(D_80AE71F8[this->actor.params]);
