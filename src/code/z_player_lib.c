@@ -45,164 +45,164 @@ u8 gPlayerModelTypes[][5] = {
 };
 
 Gfx* D_80125CE8[] = {
-    0x060226E0, gChildRightHandClosedNearDL,      0x06027690, gChildRightHandClosedFarDL,
-    0x060226E0, gChildRightFistAndDekuShieldNear, 0x06027690, gChildRightFistAndDekuShieldFar,
-    0x06022970, gChildRightHandClosedNearDL,      0x06027918, gChildRightHandClosedFarDL,
-    0x060241C0, gChildRightHandClosedNearDL,      0x06028B40, gChildRightHandClosedFarDL,
+    0x060226E0, gLinkChildRightHandClosedNearDL,      0x06027690, gLinkChildRightHandClosedFarDL,
+    0x060226E0, gLinkChildRightFistAndDekuShieldNear, 0x06027690, gLinkChildRightFistAndDekuShieldFar,
+    0x06022970, gLinkChildRightHandClosedNearDL,      0x06027918, gLinkChildRightHandClosedFarDL,
+    0x060241C0, gLinkChildRightHandClosedNearDL,      0x06028B40, gLinkChildRightHandClosedFarDL,
 };
 
 Gfx* D_80125D28[] = {
-    0x06023160, gChildLimbSwordAndSheathNearDL,
-    0x06027F00, gChildLimbSwordAndSheathFarDL,
-    0x06023160, gChildDekuShieldSwordAndSheathNearDL,
-    0x06027F00, gChildDekuShieldSwordAndSheathFarDL,
-    0x06020A78, gChildHylianShieldSwordAndSheathDlistNear,
-    0x06025FB8, gChildHylianShieldSwordAndSheathDlistFar,
-    0x060211B8, gChildLimbSwordAndSheathNearDL,
-    0x060264F0, gChildLimbSwordAndSheathFarDL,
+    0x06023160, gLinkChildSwordAndSheathNearDL,
+    0x06027F00, gLinkChildSwordAndSheathFarDL,
+    0x06023160, gLinkChildDekuShieldSwordAndSheathNearDL,
+    0x06027F00, gLinkChildDekuShieldSwordAndSheathFarDL,
+    0x06020A78, gLinkChildHylianShieldSwordAndSheathDlistNear,
+    0x06025FB8, gLinkChildHylianShieldSwordAndSheathDlistFar,
+    0x060211B8, gLinkChildSwordAndSheathNearDL,
+    0x060264F0, gLinkChildSwordAndSheathFarDL,
 };
 
 Gfx* D_80125D68[] = {
-    NULL, NULL, NULL, NULL, NULL, gChildDekuShieldWithMatrixDL, NULL, gChildDekuShieldWithMatrixDL,
+    NULL, NULL, NULL, NULL, NULL, gLinkChildDekuShieldWithMatrixDL, NULL, gLinkChildDekuShieldWithMatrixDL,
 };
 
 Gfx* D_80125D88[] = {
-    0x060249D8, gChildSheathNearDL,
-    0x06028150, gChildSheathFarDL,
-    0x060249D8, gChildDekuShieldAndSheathNearDL,
-    0x06028150, gChildDekuShieldAndSheathFarDL,
-    0x06020E70, gChildHylianShieldAndSheathNearDL,
-    0x060262B8, gChildHylianShieldAndSheathFarDL,
-    0x060216B0, gChildSheathNearDL,
-    0x06026910, gChildSheathFarDL,
+    0x060249D8, gLinkChildSheathNearDL,
+    0x06028150, gLinkChildSheathFarDL,
+    0x060249D8, gLinkChildDekuShieldAndSheathNearDL,
+    0x06028150, gLinkChildDekuShieldAndSheathFarDL,
+    0x06020E70, gLinkChildHylianShieldAndSheathNearDL,
+    0x060262B8, gLinkChildHylianShieldAndSheathFarDL,
+    0x060216B0, gLinkChildSheathNearDL,
+    0x06026910, gLinkChildSheathFarDL,
     NULL,       NULL,
     NULL,       NULL,
-    0x060249D8, gChildDekuShieldWithMatrixDL,
-    0x060249D8, gChildDekuShieldWithMatrixDL,
+    0x060249D8, gLinkChildDekuShieldWithMatrixDL,
+    0x060249D8, gLinkChildDekuShieldWithMatrixDL,
 };
 
 Gfx* D_80125DE8[] = {
-    0x060238C8, gChildLeftHandHoldingMasterSwordDL, 0x060286B8, gChildLeftHandHoldingMasterSwordDL,
-    0x06023D50, gChildLeftHandHoldingMasterSwordDL, 0x060291E8, gChildLeftHandHoldingMasterSwordDL,
+    0x060238C8, gLinkChildLeftHandHoldingMasterSwordDL, 0x060286B8, gLinkChildLeftHandHoldingMasterSwordDL,
+    0x06023D50, gLinkChildLeftHandHoldingMasterSwordDL, 0x060291E8, gLinkChildLeftHandHoldingMasterSwordDL,
 };
 
 Gfx* D_80125E08[] = {
     0x06021AA8,
-    gChildLimbLeftHandNearDL,
+    gLinkChildLeftHandNearDL,
     0x06026C58,
-    gChildLimbLeftHandFarDL,
+    gLinkChildLeftHandFarDL,
 };
 
 Gfx* D_80125E18[] = {
     0x06021CE8,
-    gChildLeftFistNearDL,
+    gLinkChildLeftFistNearDL,
     0x06026DF0,
-    gChildLeftFistFarDL,
+    gLinkChildLeftFistFarDL,
 };
 
 Gfx* D_80125E28[] = {
     0x06021F78,
-    gChildLeftFistAndKokiriSwordNear,
+    gLinkChildLeftFistAndKokiriSwordNear,
     0x06027078,
-    gChildLeftFistAndKokiriSwordFar,
+    gLinkChildLeftFistAndKokiriSwordFar,
 };
 
 Gfx* D_80125E38[] = {
     0x06021F78,
-    gChildLeftFistAndKokiriSwordNear,
+    gLinkChildLeftFistAndKokiriSwordNear,
     0x06027078,
-    gChildLeftFistAndKokiriSwordFar,
+    gLinkChildLeftFistAndKokiriSwordFar,
 };
 
 Gfx* D_80125E48[] = {
     0x06022498,
-    gChildLimbRightHandNearDL,
+    gLinkChildRightHandNearDL,
     0x060274F8,
-    gChildLimbRightHandFarDL,
+    gLinkChildRightHandFarDL,
 };
 
 Gfx* D_80125E58[] = {
     0x060226E0,
-    gChildRightHandClosedNearDL,
+    gLinkChildRightHandClosedNearDL,
     0x06027690,
-    gChildRightHandClosedFarDL,
+    gLinkChildRightHandClosedFarDL,
 };
 
 Gfx* D_80125E68[] = {
     0x06022DA8,
-    gChildRightHandHoldingFairySlingshotNearDL,
+    gLinkChildRightHandHoldingFairySlingshotNearDL,
     0x06027B88,
-    gChildRightHandHoldingFairySlingshotFarDL,
+    gLinkChildRightHandHoldingFairySlingshotFarDL,
 };
 
 Gfx* D_80125E78[] = {
     0x06023160,
-    gChildLimbSwordAndSheathNearDL,
+    gLinkChildSwordAndSheathNearDL,
     0x06027F00,
-    gChildLimbSwordAndSheathFarDL,
+    gLinkChildSwordAndSheathFarDL,
 };
 
 Gfx* D_80125E88[] = {
     0x060249D8,
-    gChildSheathNearDL,
+    gLinkChildSheathNearDL,
     0x06028150,
-    gChildSheathFarDL,
+    gLinkChildSheathFarDL,
 };
 
 Gfx* D_80125E98[] = {
     0x06035330,
-    gChildLimbWaistNearDL,
+    gLinkChildWaistNearDL,
     0x0602F530,
-    gChildLimbWaistFarDL,
+    gLinkChildWaistFarDL,
 };
 
 Gfx* D_80125EA8[] = {
     0x06022DA8,
-    gChildRightHandHoldingFairySlingshotNearDL,
+    gLinkChildRightHandHoldingFairySlingshotNearDL,
     0x06027B88,
-    gChildRightHandHoldingFairySlingshotFarDL,
+    gLinkChildRightHandHoldingFairySlingshotFarDL,
 };
 
 Gfx* D_80125EB8[] = {
     0x06024698,
-    gChildRightHandHoldingFairyOcarinaNearDL,
+    gLinkChildRightHandHoldingFairyOcarinaNearDL,
     0x06028F58,
-    gChildRightHandHoldingFairyOcarinaFarDL,
+    gLinkChildRightHandHoldingFairyOcarinaFarDL,
 };
 
 Gfx* D_80125EC8[] = {
     0x06024698,
-    gChildRightHandAndOOTNearDL,
+    gLinkChildRightHandAndOOTNearDL,
     0x06028F58,
-    gChildRightHandHoldingOOTFarDL,
+    gLinkChildRightHandHoldingOOTFarDL,
 };
 
 Gfx* D_80125ED8[] = {
     0x06024D70,
-    gChildLimbRightHandNearDL,
+    gLinkChildRightHandNearDL,
     0x06024D70,
-    gChildLimbRightHandFarDL,
+    gLinkChildRightHandFarDL,
 };
 
 Gfx* D_80125EE8[] = {
     0x060233E0,
-    gChildLimbLeftHandNearDL,
+    gLinkChildLeftHandNearDL,
     0x06028288,
-    gChildLimbLeftHandFarDL,
+    gLinkChildLeftHandFarDL,
 };
 
 Gfx* D_80125EF8[] = {
     0x06021AA8,
-    gChildLeftFistAndBoomerangDlistNear,
+    gLinkChildLeftFistAndBoomerangDlistNear,
     0x06026C58,
-    gChildLeftFistAndBoomerangDlistFar,
+    gLinkChildLeftFistAndBoomerangDlistFar,
 };
 
 Gfx* D_80125F08[] = {
     0x06024B58,
-    gChildLeftHandUpNearDL,
+    gLinkChildLeftHandUpNearDL,
     0x06024B58,
-    gChildLeftHandUpNearDL,
+    gLinkChildLeftHandUpNearDL,
 };
 
 Gfx* D_80125F18[] = {
@@ -217,7 +217,7 @@ Gfx* D_80125F20[] = {
 
 Gfx* D_80125F28[] = {
     0x06036E58,
-    gChildLimbLeftShoulderNearDL,
+    gLinkChildLeftShoulderNearDL,
 };
 
 Gfx* D_80125F30[] = {
@@ -227,7 +227,7 @@ Gfx* D_80125F30[] = {
 
 Gfx* D_80125F38[] = {
     0x0602A248,
-    gChildRightArmStretchedSlingshotDL,
+    gLinkChildRightArmStretchedSlingshotDL,
 };
 
 // Indexed by model types (left hand, right hand, sheath or waist)
@@ -702,7 +702,7 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
             }
         } else {
             if (Player_GetStrength() > PLAYER_STR_NONE) {
-                gSPDisplayList(POLY_OPA_DISP++, gChildLinkGoronBraceletDL);
+                gSPDisplayList(POLY_OPA_DISP++, gLinkChildGoronBraceletDL);
             }
         }
     }
@@ -1137,7 +1137,7 @@ f32 sSwordLengths[] = {
     0.0f, 4000.0f, 3000.0f, 5500.0f, 0.0f, 2500.0f,
 };
 
-Gfx* sBottleDLists[] = { 0x0602AD58, gChildBottleDL };
+Gfx* sBottleDLists[] = { 0x0602AD58, gLinkChildBottleDL };
 
 Color_RGB8 sBottleColors[] = {
     { 255, 255, 255 }, { 80, 80, 255 },   { 255, 100, 255 }, { 0, 0, 255 }, { 255, 0, 255 },
@@ -1211,7 +1211,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2653),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, gChildLinkDekuStickDL);
+            gSPDisplayList(POLY_OPA_DISP++, gLinkChildLinkDekuStickDL);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2656);
         } else if ((this->actor.scale.y >= 0.0f) && (this->swordState != 0)) {

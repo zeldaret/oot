@@ -19,7 +19,7 @@ typedef enum {
     /* 0 */ HASI_WATER_BLOCK,
     /* 1 */ HASI_WATER,
     /* 2 */ HASI_THREE_BLOCKS
-} HasiTypes;
+} HasiType;
 
 extern const ActorInit Bg_Ydan_Hasi_InitVars;
 

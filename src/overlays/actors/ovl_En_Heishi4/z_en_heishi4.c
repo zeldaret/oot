@@ -68,7 +68,7 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->type == HEISHI4_AT_MARKET_DYING) {
         this->height = 30.0f;
         ActorShape_Init(&thisx->shape, 0.0f, NULL, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiDyingGuard_unk, this->jointTable,
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiDyingGuardAnim_00C444, this->jointTable,
                        this->morphTable, 17);
     } else {
         this->height = 60.0f;
@@ -221,8 +221,8 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
     this->unk_284 = 0;
     if (gSaveContext.eventChkInf[8] & 1) {
         if (!(gSaveContext.infTable[6] & 0x1000)) {
-            f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuard_unk);
-            Animation_Change(&this->skelAnime, &gEnHeishiDyingGuard_unk, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,
+            f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardAnim_00C444);
+            Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardAnim_00C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,
                              -10.0f);
             this->actor.textId = 0x7007;
             this->unk_282 = 5;
@@ -256,9 +256,9 @@ void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardTalk);
+    f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardTalkAnim);
 
-    Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardTalk, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardTalkAnim, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A56994;
 }
 
@@ -276,9 +276,9 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardDie);
+    f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardDieAnim);
     this->unk_288 = frames;
-    Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardDie, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardDieAnim, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A56ACC;
 }
 

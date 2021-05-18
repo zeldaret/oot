@@ -35,7 +35,7 @@ typedef struct {
     /* 0x0C */ s16 params;
     /* 0x0E */ s16 solvedRotY;
     /* 0x10 */ s16 initRotY;
-} BigMirrorDataEntry; // size = 0x12
+} BigMirrorDataEntry; // size = 0x14
 
 static BigMirrorDataEntry sCobraSpawnData[] = {
     { { -560.0f, 1743.0f, -310.0f }, 0xFF01, 0x4000, 0x8000 },

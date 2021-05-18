@@ -10299,8 +10299,8 @@ static struct_80858AC8 D_80858AC8;
 static Vec3s D_80858AD8[25];
 
 static Gfx* sMaskDlists[PLAYER_MASK_MAX - 1] = {
-    gChildKeatonMaskDL, gChildSkullMaskDL, gChildSpookyMaskDL, gChildBunnyHoodDL,
-    gChildGoronMaskDL,  gChildZoraMaskDL,  gChildGerudoMaskDL, gChildMaskOfTruthDL,
+    gLinkChildKeatonMaskDL, gLinkChildSkullMaskDL, gLinkChildSpookyMaskDL, gLinkChildBunnyHoodDL,
+    gLinkChildGoronMaskDL,  gLinkChildZoraMaskDL,  gLinkChildGerudoMaskDL, gLinkChildMaskOfTruthDL,
 };
 
 static Vec3s D_80854864 = { 0, 0, 0 };

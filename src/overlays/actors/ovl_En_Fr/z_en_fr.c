@@ -160,8 +160,7 @@ static s16 sTimerFrogSong[] = {
     40, 20, 15, 12, 12,
 };
 
-// static InitChainEntry D_80A1D0BC[]
-InitChainEntry D_80A1D0BC[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -277,7 +276,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         frogIndex = this->actor.params - 1;
         sEnFrPointers.frogs[frogIndex] = this;
-        Actor_ProcessInitChain(&this->actor, D_80A1D0BC);
+        Actor_ProcessInitChain(&this->actor, sInitChain);
         // frog
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, this->jointTable, this->morphTable,
                            24);
