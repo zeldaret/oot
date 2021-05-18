@@ -1,0 +1,49 @@
+<Root>
+    <File Name="object_fu" Segment="6">
+        <Animation Name="object_fu_Anim_00057C" Offset="0x57C"/>
+        <Animation Name="object_fu_Anim_000B04" Offset="0xB04"/>
+        <DList Name="object_fu_DL_003130" Offset="0x3130"/>
+        <DList Name="object_fu_DL_003320" Offset="0x3320"/>
+        <DList Name="object_fu_DL_0036A0" Offset="0x36A0"/>
+        <DList Name="object_fu_DL_003BD8" Offset="0x3BD8"/>
+        <DList Name="object_fu_DL_003D08" Offset="0x3D08"/>
+        <DList Name="object_fu_DL_003E38" Offset="0x3E38"/>
+        <DList Name="object_fu_DL_0040E0" Offset="0x40E0"/>
+        <DList Name="object_fu_DL_004390" Offset="0x4390"/>
+        <DList Name="object_fu_DL_004460" Offset="0x4460"/>
+        <DList Name="object_fu_DL_004570" Offset="0x4570"/>
+        <DList Name="object_fu_DL_004690" Offset="0x4690"/>
+        <DList Name="object_fu_DL_0047E0" Offset="0x47E0"/>
+        <DList Name="object_fu_DL_0048E8" Offset="0x48E8"/>
+        <DList Name="object_fu_DL_004A08" Offset="0x4A08"/>
+        <DList Name="object_fu_DL_004B58" Offset="0x4B58"/>
+        <Texture Name="object_fu_TLUT_004C60" OutName="tlut_00004C60" Format="rgb5a1" Width="16" Height="16" Offset="0x4C60"/>
+        <Texture Name="object_fu_TLUT_004E60" OutName="tlut_00004E60" Format="rgb5a1" Width="16" Height="16" Offset="0x4E60"/>
+        <Texture Name="object_fu_Tex_005060" OutName="tex_00005060" Format="ci8" Width="16" Height="16" Offset="0x5060"/>
+        <Texture Name="object_fu_Tex_005160" OutName="tex_00005160" Format="ci8" Width="8" Height="8" Offset="0x5160"/>
+        <Texture Name="object_fu_Tex_0051A0" OutName="tex_000051A0" Format="ci8" Width="32" Height="32" Offset="0x51A0"/>
+        <Texture Name="object_fu_Tex_0055A0" OutName="tex_000055A0" Format="ci8" Width="16" Height="16" Offset="0x55A0"/>
+        <Texture Name="object_fu_Tex_0056A0" OutName="tex_000056A0" Format="ci8" Width="8" Height="8" Offset="0x56A0"/>
+        <Texture Name="object_fu_Tex_0056E0" OutName="tex_000056E0" Format="ci8" Width="32" Height="32" Offset="0x56E0"/>
+        <Texture Name="object_fu_Tex_005AE0" OutName="tex_00005AE0" Format="ci8" Width="32" Height="32" Offset="0x5AE0"/>
+        <Texture Name="object_fu_Tex_005EE0" OutName="tex_00005EE0" Format="ci8" Width="8" Height="8" Offset="0x5EE0"/>
+        <Blob Name="object_fu_Blob_005F20" Size="0xC00" Offset="0x5F20"/>
+        <Texture Name="object_fu_Tex_006B20" OutName="tex_00006B20" Format="ci8" Width="8" Height="16" Offset="0x6B20"/>
+        <Limb Name="object_fu_Limb_006BA0" LimbType="Standard" Offset="0x6BA0"/>
+        <Limb Name="object_fu_Limb_006BAC" LimbType="Standard" Offset="0x6BAC"/>
+        <Limb Name="object_fu_Limb_006BB8" LimbType="Standard" Offset="0x6BB8"/>
+        <Limb Name="object_fu_Limb_006BC4" LimbType="Standard" Offset="0x6BC4"/>
+        <Limb Name="object_fu_Limb_006BD0" LimbType="Standard" Offset="0x6BD0"/>
+        <Limb Name="object_fu_Limb_006BDC" LimbType="Standard" Offset="0x6BDC"/>
+        <Limb Name="object_fu_Limb_006BE8" LimbType="Standard" Offset="0x6BE8"/>
+        <Limb Name="object_fu_Limb_006BF4" LimbType="Standard" Offset="0x6BF4"/>
+        <Limb Name="object_fu_Limb_006C00" LimbType="Standard" Offset="0x6C00"/>
+        <Limb Name="object_fu_Limb_006C0C" LimbType="Standard" Offset="0x6C0C"/>
+        <Limb Name="object_fu_Limb_006C18" LimbType="Standard" Offset="0x6C18"/>
+        <Limb Name="object_fu_Limb_006C24" LimbType="Standard" Offset="0x6C24"/>
+        <Limb Name="object_fu_Limb_006C30" LimbType="Standard" Offset="0x6C30"/>
+        <Limb Name="object_fu_Limb_006C3C" LimbType="Standard" Offset="0x6C3C"/>
+        <Limb Name="object_fu_Limb_006C48" LimbType="Standard" Offset="0x6C48"/>
+        <Skeleton Name="object_fu_Skel_006C90" Type="Flex" LimbType="Standard" Offset="0x6C90"/>
+    </File>
+</Root>

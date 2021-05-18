@@ -1,0 +1,28 @@
+<Root>
+    <File Name="object_vali" Segment="6">
+        <Animation Name="object_vali_Anim_000710" Offset="0x710"/>
+        <Animation Name="object_vali_Anim_000854" Offset="0x854"/>
+        <Animation Name="object_vali_Anim_000B34" Offset="0xB34"/>
+        <Animation Name="object_vali_Anim_000D9C" Offset="0xD9C"/>
+        <Animation Name="object_vali_Anim_0014AC" Offset="0x14AC"/>
+        <DList Name="object_vali_DL_002610" Offset="0x2610"/>
+        <DList Name="object_vali_DL_002740" Offset="0x2740"/>
+        <DList Name="object_vali_DL_0027D8" Offset="0x27D8"/>
+        <DList Name="object_vali_DL_002968" Offset="0x2968"/>
+        <DList Name="object_vali_DL_002A28" Offset="0x2A28"/>
+        <DList Name="object_vali_DL_002AE8" Offset="0x2AE8"/>
+        <DList Name="object_vali_DL_002B80" Offset="0x2B80"/>
+        <DList Name="object_vali_DL_002C20" Offset="0x2C20"/>
+        <DList Name="object_vali_DL_002D50" Offset="0x2D50"/>
+        <DList Name="object_vali_DL_002DF8" Offset="0x2DF8"/>
+        <DList Name="object_vali_DL_002E90" Offset="0x2E90"/>
+        <DList Name="object_vali_DL_002F30" Offset="0x2F30"/>
+        <DList Name="object_vali_DL_003060" Offset="0x3060"/>
+        <Texture Name="object_vali_Tex_003108" OutName="tex_00003108" Format="ia16" Width="32" Height="32" Offset="0x3108"/>
+        <Texture Name="object_vali_Tex_003908" OutName="tex_00003908" Format="ia16" Width="8" Height="8" Offset="0x3908"/>
+        <Texture Name="object_vali_Tex_003988" OutName="tex_00003988" Format="ia16" Width="16" Height="32" Offset="0x3988"/>
+        <Texture Name="object_vali_Tex_003D88" OutName="tex_00003D88" Format="ia16" Width="8" Height="16" Offset="0x3D88"/>
+        <Texture Name="object_vali_Tex_003E88" OutName="tex_00003E88" Format="ia16" Width="32" Height="32" Offset="0x3E88"/>
+        <Blob Name="object_vali_Blob_004688" Size="0x1C8" Offset="0x4688"/>
+    </File>
+</Root>

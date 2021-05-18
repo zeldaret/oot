@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mizu_water.h"
+#include "objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS 0x00000030
 
@@ -18,8 +19,6 @@ void BgMizuWater_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuWater_WaitForAction(BgMizuWater* this, GlobalContext* globalCtx);
 void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx);
 
-extern Gfx D_06004B20[];
-
 typedef struct {
     s32 switchFlag;
     s32 yDiff;
@@ -27,9 +26,9 @@ typedef struct {
 
 static WaterLevel sWaterLevels[] = {
     { 0x00, 0 },
-    { 0x1E, 0 },
-    { 0x1D, -320 },
-    { 0x1C, -780 },
+    { WATER_TEMPLE_WATER_F3_FLAG, 0 },
+    { WATER_TEMPLE_WATER_F2_FLAG, WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F3_Y },
+    { WATER_TEMPLE_WATER_F1_FLAG, WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_F3_Y },
 };
 
 const ActorInit Bg_Mizu_Water_InitVars = {
@@ -59,22 +58,22 @@ u32 BgMizuWater_GetWaterLevelActionIndex(s16 switchFlag, GlobalContext* globalCt
     if (bREG(0) != 0) {
         switch (bREG(1)) {
             case 0:
-                Flags_SetSwitch(globalCtx, 0x1C);
+                Flags_SetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG);
                 break;
             case 1:
-                Flags_SetSwitch(globalCtx, 0x1D);
+                Flags_SetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG);
                 break;
             case 2:
-                Flags_SetSwitch(globalCtx, 0x1E);
+                Flags_SetSwitch(globalCtx, WATER_TEMPLE_WATER_F3_FLAG);
                 break;
         }
         bREG(0) = 0;
     }
-    if (Flags_GetSwitch(globalCtx, 0x1C) && (switchFlag != 0x1C)) {
+    if (Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG) && (switchFlag != WATER_TEMPLE_WATER_F1_FLAG)) {
         ret = 3;
-    } else if (Flags_GetSwitch(globalCtx, 0x1D) && (switchFlag != 0x1D)) {
+    } else if (Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG) && (switchFlag != WATER_TEMPLE_WATER_F2_FLAG)) {
         ret = 2;
-    } else if (Flags_GetSwitch(globalCtx, 0x1E) && (switchFlag != 0x1E)) {
+    } else if (Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F3_FLAG) && (switchFlag != WATER_TEMPLE_WATER_F3_FLAG)) {
         ret = 1;
     } else {
         ret = 0;
@@ -108,27 +107,28 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->type) {
         case 0:
             if (bREG(15) == 0) {
-                osSyncPrintf("<コンストラクト>%x %x %x\n", Flags_GetSwitch(globalCtx, 0x1C),
-                             Flags_GetSwitch(globalCtx, 0x1D), Flags_GetSwitch(globalCtx, 0x1E));
+                osSyncPrintf("<コンストラクト>%x %x %x\n", Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG),
+                             Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG),
+                             Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F3_FLAG));
             }
             waterLevelActionIndex = BgMizuWater_GetWaterLevelActionIndex(-1, globalCtx);
             this->actor.world.pos.y = sWaterLevels[waterLevelActionIndex].yDiff + this->baseY;
             BgMizuWater_SetWaterBoxesHeight(waterBoxes, this->actor.world.pos.y);
             this->actor.params = sWaterLevels[waterLevelActionIndex].switchFlag;
-            Flags_UnsetSwitch(globalCtx, 0x1C);
-            Flags_UnsetSwitch(globalCtx, 0x1D);
-            Flags_UnsetSwitch(globalCtx, 0x1E);
+            Flags_UnsetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG);
+            Flags_UnsetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG);
+            Flags_UnsetSwitch(globalCtx, WATER_TEMPLE_WATER_F3_FLAG);
 
             switch (this->actor.params) {
                 case 0x1E:
-                    Flags_SetSwitch(globalCtx, 0x1E);
+                    Flags_SetSwitch(globalCtx, WATER_TEMPLE_WATER_F3_FLAG);
                     break;
                 case 0x1D:
-                    Flags_SetSwitch(globalCtx, 0x1D);
+                    Flags_SetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG);
                     break;
                 case 0x1C:
                 default:
-                    Flags_SetSwitch(globalCtx, 0x1C);
+                    Flags_SetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG);
                     break;
             }
             this->targetY = this->actor.world.pos.y;
@@ -300,23 +300,25 @@ void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (bREG(15) == 0) {
-        osSyncPrintf("%x %x %x\n", Flags_GetSwitch(globalCtx, 0x1C), Flags_GetSwitch(globalCtx, 0x1D),
-                     Flags_GetSwitch(globalCtx, 0x1E));
+        osSyncPrintf("%x %x %x\n", Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG),
+                     Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG),
+                     Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F3_FLAG));
     }
-
     if (this->type == 0) {
         posY = this->actor.world.pos.y;
         unk0 = 0;
         unk1 = 0;
-        if (posY < -15.0f) {
+        if (posY < WATER_TEMPLE_WATER_F1_Y) {
             unk0 = 0;
-            unk1 = ((posY - -835.0f) / 820.0f) * 200.0f;
-        } else if (posY < 445.0f) {
+            unk1 = (posY - WATER_TEMPLE_WATER_B1_Y) / (WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_B1_Y) * 200;
+        } else if (posY < WATER_TEMPLE_WATER_F2_Y) {
             unk0 = 1;
-            unk1 = 0xFF - (s32)(((posY - -15.0f) / 460.0f) * 95.0f);
-        } else if (posY <= 765.0f) {
+            unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F1_Y) / (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) *
+                               (255 - 160));
+        } else if (posY <= WATER_TEMPLE_WATER_F3_Y) {
             unk0 = 2;
-            unk1 = 0xFF - (s32)(((posY - 445.0f) / 320.0f) * 95.0f);
+            unk1 = 255 - (s32)((posY - WATER_TEMPLE_WATER_F2_Y) / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) *
+                               (255 - 160));
         }
         globalCtx->unk_11D30[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
     }
@@ -343,7 +345,7 @@ void BgMizuWater_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 102);
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06004B20);
+    gSPDisplayList(POLY_XLU_DISP++, gObjectMizuObjectsWaterDL_004B20);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_water.c", 756);
 }

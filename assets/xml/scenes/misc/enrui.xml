@@ -1,9 +1,8 @@
 <Root>
-    <File Name="enrui_scene">
+    <File Name="enrui_scene" Segment="2">
         <Scene Name="enrui_scene"/>
     </File>
-    <File Name="enrui_room_0">
-        <Room Name="enrui_room_0">
-        </Room>
+    <File Name="enrui_room_0" Segment="3">
+        <Room Name="enrui_room_0" Offset="0x0"/>
     </File>
 </Root>

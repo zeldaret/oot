@@ -1,16 +1,17 @@
 <Root>
-    <File Name="spot05_scene">
-        <Scene Name="spot05_scene">
-            <PathHint Offset="0x69E0"/>
-            <PathHint Offset="0x69E8"/>
-            <PathHint Offset="0x69F0"/>
-            <PathHint Offset="0x69F8"/>
-        </Scene>
+    <File Name="spot05_scene" Segment="2">
+        <Cutscene Name="gMinuetCs" Offset="0x3F80"/>
+
+        <Path Name="gSpot05Path_0069E0" Offset="0x69E0"/>
+        <Path Name="gSpot05Path_0069E8" Offset="0x69E8"/>
+        <Path Name="gSpot05Path_0069F0" Offset="0x69F0"/>
+        <Path Name="gSpot05Path_0069F8" Offset="0x69F8"/>
+
+        <Scene Name="spot05_scene" Offset="0x0"/>
     </File>
-    <File Name="spot05_room_0">
-        <Room Name="spot05_room_0">
-            <DListHint Offset="0x9A60"/>
-            <DListHint Offset="0x9EE0"/>
-        </Room>
+    <File Name="spot05_room_0" Segment="3">
+        <DList Name="gSpot05DL_009A60" Offset="0x9A60"/>
+        <DList Name="gSpot05DL_009EE0" Offset="0x9EE0"/>
+        <Room Name="spot05_room_0" Offset="0x0"/>
     </File>
 </Root>

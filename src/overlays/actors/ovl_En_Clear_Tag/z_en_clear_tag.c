@@ -88,15 +88,10 @@ static EnClearTagEffect sClearTagEffects[CLEAR_TAG_EFFECT_MAX_COUNT];
  * Creates a debris effect.
  * Debris effects are spawned when the Arwing dies. It spawns fire effects.
  */
-void EnClearTag_CreateDebrisEffect(GlobalContext* globalCtx2, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
+void EnClearTag_CreateDebrisEffect(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
                                    f32 scale, f32 floorHeight) {
     s16 i;
-    s16 seed;
-    EnClearTagEffect* effect;
-    GlobalContext* globalCtx;
-
-    globalCtx = globalCtx2;
-    effect = (EnClearTagEffect*)globalCtx->specialEffects;
+    EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a Debris effect to.
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
@@ -117,8 +112,7 @@ void EnClearTag_CreateDebrisEffect(GlobalContext* globalCtx2, Vec3f* position, V
 
             effect->floorHeight = floorHeight;
 
-            seed = (s32)Rand_ZeroFloat(10.0f);
-            effect->random = seed;
+            effect->random = (s16)Rand_ZeroFloat(10.0f);
 
             return;
         }
@@ -129,20 +123,14 @@ void EnClearTag_CreateDebrisEffect(GlobalContext* globalCtx2, Vec3f* position, V
  * Creates a fire effect.
  * Fire effects are spawned by debris effects. Fire effects spawn smoke effects
  */
-void EnClearTag_CreateFireEffect(GlobalContext* globalCtx2, Vec3f* pos, f32 scale) {
+void EnClearTag_CreateFireEffect(GlobalContext* globalCtx, Vec3f* pos, f32 scale) {
     s16 i;
-    s16 seed;
-    EnClearTagEffect* effect;
-    GlobalContext* globalCtx;
-
-    globalCtx = globalCtx2;
-    effect = (EnClearTagEffect*)globalCtx->specialEffects;
+    EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a fire effect to.
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
-            seed = (s32)Rand_ZeroFloat(100.0f);
-            effect->random = seed;
+            effect->random = (s16)Rand_ZeroFloat(100.0f);
             effect->type = CLEAR_TAG_EFFECT_FIRE;
 
             effect->position = *pos;
@@ -163,20 +151,14 @@ void EnClearTag_CreateFireEffect(GlobalContext* globalCtx2, Vec3f* pos, f32 scal
  * Creates a smoke effect.
  * Smoke effects are spawned by fire effects.
  */
-void EnClearTag_CreateSmokeEffect(GlobalContext* globalCtx2, Vec3f* position, f32 scale) {
+void EnClearTag_CreateSmokeEffect(GlobalContext* globalCtx, Vec3f* position, f32 scale) {
     s16 i;
-    s16 seed;
-    EnClearTagEffect* effect;
-    GlobalContext* globalCtx;
-
-    globalCtx = globalCtx2;
-    effect = (EnClearTagEffect*)globalCtx->specialEffects;
+    EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a smoke effect to.
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
-            seed = (s32)Rand_ZeroFloat(100.0f);
-            effect->random = seed;
+            effect->random = (s16)Rand_ZeroFloat(100.0f);
             effect->type = CLEAR_TAG_EFFECT_SMOKE;
 
             effect->position = *position;
@@ -207,8 +189,7 @@ void EnClearTag_CreateSmokeEffect(GlobalContext* globalCtx2, Vec3f* position, f3
 void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32 scale, f32 floorHeight,
                                   Vec3f* floorTangent) {
     s16 i;
-    EnClearTagEffect* effect;
-    effect = (EnClearTagEffect*)globalCtx->specialEffects;
+    EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a flash effect to.
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
@@ -238,6 +219,7 @@ void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32
  */
 void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnClearTag* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -248,14 +230,15 @@ void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnClearTag* this = THIS;
     s32 defaultCutsceneTimer = 100;
-    s16 j, i;
+    s16 i;
+    s16 j;
 
     Collider_InitCylinder(globalCtx, &this->collider);
 
     // Initialize the Arwing laser.
     if (this->actor.params == CLEAR_TAG_LASER) {
         this->state = CLEAR_TAG_STATE_LASER;
-        this->work[CLEAR_TAG_TIMER_LASER_DEATH] = 70;
+        this->timers[CLEAR_TAG_TIMER_LASER_DEATH] = 70;
         this->actor.speedXZ = 35.0f;
         func_8002D908(&this->actor);
         for (j = 0; j <= 0; j++) {
@@ -270,34 +253,32 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_8002D908(&this->actor);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sLaserCylinderInit);
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
-        return;
-    }
+    } else { // Initialize the Arwing.
+        this->actor.flags |= 1;
+        this->actor.targetMode = 5;
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sArwingCylinderInit);
+        this->actor.colChkInfo.health = 3;
 
-    // Initialize the Arwing.
-    this->actor.flags |= 1;
-    this->actor.targetMode = 5;
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sArwingCylinderInit);
-    this->actor.colChkInfo.health = 3;
-
-    // Update the Arwing to play the intro cutscene.
-    if (this->actor.params == CLEAR_TAG_CUTSCENE_ARWING) {
-        this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = 70;
-        this->work[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] = 250;
-        this->state = CLEAR_TAG_STATE_DEMO;
-        this->actor.world.rot.x = 0x4000;
-        this->cutsceneMode = CLEAR_TAG_CUTSCENE_MODE_SETUP;
-        this->cutsceneTimer = defaultCutsceneTimer;
-        this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO] = 20;
-    }
-
-    // Initialize all effects to available if effects have not been initialized.
-    if (!sIsEffectsInitialized) {
-        sIsEffectsInitialized = true;
-        globalCtx->specialEffects = &sClearTagEffects[0];
-        for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++) {
-            sClearTagEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
+        // Update the Arwing to play the intro cutscene.
+        if (this->actor.params == CLEAR_TAG_CUTSCENE_ARWING) {
+            this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = 70;
+            this->timers[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] = 250;
+            this->state = CLEAR_TAG_STATE_DEMO;
+            this->actor.world.rot.x = 0x4000;
+            this->cutsceneMode = CLEAR_TAG_CUTSCENE_MODE_SETUP;
+            this->cutsceneTimer = defaultCutsceneTimer;
+            this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO] = 20;
         }
-        this->drawMode = CLEAR_TAG_DRAW_MODE_ALL;
+
+        // Initialize all effects to available if effects have not been initialized.
+        if (!sIsEffectsInitialized) {
+            sIsEffectsInitialized = true;
+            globalCtx->specialEffects = &sClearTagEffects[0];
+            for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++) {
+                sClearTagEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
+            }
+            this->drawMode = CLEAR_TAG_DRAW_MODE_ALL;
+        }
     }
 }
 
@@ -306,15 +287,11 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
  * This is used for the ground flash display lists and Arwing shadow display lists to snap onto the floor.
  */
 void EnClearTag_CalculateFloorTangent(EnClearTag* this) {
-    f32 x;
-    f32 y;
-    f32 z;
-
     // If there is a floor poly below the Arwing, calculate the floor tangent.
     if (this->actor.floorPoly != NULL) {
-        x = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
-        y = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
-        z = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
+        f32 x = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
+        f32 y = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
+        f32 z = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
 
         this->floorTangent.x = -Math_FAtan2F(-z * y, 1.0f);
         this->floorTangent.z = Math_FAtan2F(-x * y, 1.0f);
@@ -336,39 +313,20 @@ void EnClearTag_CalculateFloorTangent(EnClearTag* this) {
  * cutscene. The cutscene stops playing when the Arwing is a specified distance from the starting point.
  */
 void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    u8 hasAtHit = 0;
+    u8 hasAtHit = false;
     s16 i;
     s16 xRotationTarget;
     s16 rotationScale;
-    EnClearTag* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
+    EnClearTag* this = THIS;
     Player* player = PLAYER;
-    f32 vectorToTargetX;
-    f32 vectorToTargetY;
-    f32 vectorToTargetZ;
-    s16 worldRotationTargetZ;
-    s16 cutsceneTimer;
-    f32 loseTargetLockDistance;
-    s32 pad;
-    s16 worldRotationTargetY;
-    s16 worldRotationTargetX;
-    f32 targetCircleX;
-    f32 targetCircleZ;
-    f32 cutsceneCameraCircleX;
-    f32 cutsceneCameraCircleZ;
-    s16 isArwingAlive;
-    Vec3f cutsceneCameraAtTarget;
-    Vec3f cutsceneCameraEyeTarget;
-    Vec3f crashEffectLocation;
-    Vec3f crashEffectVelocity;
-    Vec3f debrisEffectAcceleration;
 
-    this->timer++;
+    this->frameCounter++;
 
     if (this->drawMode != CLEAR_TAG_DRAW_MODE_EFFECT) {
         for (i = 0; i < 3; i++) {
-            if (this->work[i] != 0) {
-                this->work[i]--;
+            if (this->timers[i] != 0) {
+                this->timers[i]--;
             }
         }
 
@@ -379,152 +337,164 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
         switch (this->state) {
             case CLEAR_TAG_STATE_DEMO:
             case CLEAR_TAG_STATE_TARGET_LOCKED:
-            case CLEAR_TAG_STATE_FLYING:
+            case CLEAR_TAG_STATE_FLYING: {
+                f32 vectorToTargetX;
+                f32 vectorToTargetY;
+                f32 vectorToTargetZ;
+                s16 worldRotationTargetX;
+                s16 worldRotationTargetY;
+                f32 loseTargetLockDistance;
+                s16 worldRotationTargetZ;
+                s32 pad;
+
                 // Check if the Arwing should crash.
-                if (this->collider.base.acFlags & 2 &&
-                    (this->collider.base.acFlags &= ~2, this->crashingTimer = 20,
-                     Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 5),
-                     this->acceleration.x = Rand_CenteredFloat(15.0f), this->acceleration.y = Rand_CenteredFloat(15.0f),
-                     this->acceleration.z = Rand_CenteredFloat(15.0f),
-                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_THUNDER_GND), this->actor.colChkInfo.health--,
-                     (s8)this->actor.colChkInfo.health <= 0)) {
-                    this->state = CLEAR_TAG_STATE_CRASHING;
-                    this->actor.velocity.y = 0.0f;
-                } else {
-                    Actor_SetScale(&this->actor, 0.2f);
-                    this->actor.speedXZ = 7.0f;
+                if (this->collider.base.acFlags & AC_HIT) {
 
-                    if (this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] == 0) {
-                        if (this->work[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] == 0) {
-                            this->state = CLEAR_TAG_STATE_TARGET_LOCKED;
-                            this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = 300;
-                        } else {
-                            this->state = CLEAR_TAG_STATE_FLYING;
-                            this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = ((s16)Rand_ZeroFloat(50.0f)) + 20;
+                    this->collider.base.acFlags &= ~AC_HIT;
+                    this->crashingTimer = 20;
+                    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 5);
+                    this->acceleration.x = Rand_CenteredFloat(15.0f);
+                    this->acceleration.y = Rand_CenteredFloat(15.0f);
+                    this->acceleration.z = Rand_CenteredFloat(15.0f);
 
-                            if (this->actor.params == CLEAR_TAG_ARWING) {
-                                // Set the Arwing to fly in a circle around the player.
-                                targetCircleX = Math_SinS(player->actor.shape.rot.y) * 400.0f;
-                                targetCircleZ = Math_CosS(player->actor.shape.rot.y) * 400.0f;
-                                this->targetPosition.x =
-                                    Rand_CenteredFloat(700.0f) + (player->actor.world.pos.x + targetCircleX);
-                                this->targetPosition.y = Rand_ZeroFloat(200.0f) + player->actor.world.pos.y + 150.0f;
-                                this->targetPosition.z =
-                                    Rand_CenteredFloat(700.0f) + (player->actor.world.pos.z + targetCircleZ);
-                            } else {
-                                // Set the Arwing to fly to a random position.
-                                this->targetPosition.x = Rand_CenteredFloat(700.0f);
-                                this->targetPosition.y = Rand_ZeroFloat(200.0f) + 150.0f;
-                                this->targetPosition.z = Rand_CenteredFloat(700.0f);
-                            }
-                        }
-
-                        this->targetDirection.x = this->targetDirection.y = this->targetDirection.z = 0.0f;
-                    }
-
-                    rotationScale = 10;
-                    xRotationTarget = 2048;
-                    loseTargetLockDistance = 100.0f;
-                    if (this->state == CLEAR_TAG_STATE_TARGET_LOCKED) {
-                        // Set the Arwing to fly towards the player.
-                        this->targetPosition.x = player->actor.world.pos.x;
-                        this->targetPosition.y = player->actor.world.pos.y + 40.0f;
-                        this->targetPosition.z = player->actor.world.pos.z;
-                        rotationScale = 7;
-                        xRotationTarget = 0x1000;
-                        loseTargetLockDistance = 150.0f;
-                    } else if (this->state == CLEAR_TAG_STATE_DEMO) {
-                        // Move the Arwing for the intro cutscene.
-
-                        // Do a Barrel Roll!
-                        this->roll += 0.5f;
-                        if (this->roll > M_PI * 2) {
-                            this->roll -= M_PI * 2;
-                        }
-
-                        // Set the Arwing to fly to a hardcoded position.
-                        this->targetPosition.x = 0.0f;
-                        this->targetPosition.y = 300.0f;
-                        this->targetPosition.z = 0.0f;
-                        loseTargetLockDistance = 100.0f;
-                    }
-
-                    // If the Arwing is not in cutscene state, smoothly update the roll to zero.
-                    // This will reset the Arwing to be right side up after the cutscene is done.
-                    // The cutscene will set the Arwing to do a barrel roll and doesn't end on right side up.
-                    if (this->state != CLEAR_TAG_STATE_DEMO) {
-                        Math_ApproachZeroF(&this->roll, 0.1f, 0.2f);
-                    }
-
-                    // Calculate a vector towards the targetted position.
-                    vectorToTargetX = this->targetPosition.x - this->actor.world.pos.x;
-                    vectorToTargetY = this->targetPosition.y - this->actor.world.pos.y;
-                    vectorToTargetZ = this->targetPosition.z - this->actor.world.pos.z;
-
-                    // If the Arwing is within a certain distance to the target position, it will be updated to flymode
-                    if (sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetY) + SQ(vectorToTargetZ)) <
-                        loseTargetLockDistance) {
-                        this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = 0;
-                        if (this->state == CLEAR_TAG_STATE_TARGET_LOCKED) {
-                            this->work[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] = ((s16)Rand_ZeroFloat(100.0f)) + 100;
-                        }
-                        this->state = CLEAR_TAG_STATE_FLYING;
-                    }
-
-                    // Calculate the direction for the Arwing to fly and the rotation for the Arwing
-                    // based on the Arwing's direction, and current rotation.
-                    worldRotationTargetY = (s32)(Math_FAtan2F(vectorToTargetX, vectorToTargetZ) * (0x8000 / M_PI));
-                    worldRotationTargetX =
-                        (s32)(Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))) *
-                              (0x8000 / M_PI));
-                    if (worldRotationTargetX < 0) {
-                        if (this->actor.world.pos.y < this->actor.floorHeight + 20.0f) {
-                            worldRotationTargetX = 0;
-                        }
-                    }
-                    Math_ApproachS(&this->actor.world.rot.x, worldRotationTargetX, rotationScale,
-                                   this->targetDirection.x);
-                    worldRotationTargetZ = Math_SmoothStepToS(&thisx->world.rot.y, worldRotationTargetY, rotationScale,
-                                                              this->targetDirection.y, 0);
-                    Math_ApproachF(&this->targetDirection.x, xRotationTarget, 1.0f, 256.0f);
-                    this->targetDirection.y = this->targetDirection.x;
-                    if (ABS(worldRotationTargetZ) < 4096) {
-                        Math_ApproachS(&thisx->world.rot.z, 0, 15, this->targetDirection.z);
-                        Math_ApproachF(&this->targetDirection.z, 1280.0f, 1.0f, 256.0f);
-
-                        // Check if the Arwing should fire it's laser.
-                        if ((this->timer % 4) == 0 && (Rand_ZeroOne() < 0.75f) &&
-                            (this->state == CLEAR_TAG_STATE_TARGET_LOCKED)) {
-                            this->shouldShootLaser = 1;
-                        }
-                    } else {
-                        worldRotationTargetZ = worldRotationTargetZ > 0 ? -9472 : 9472;
-                        Math_ApproachS(&this->actor.world.rot.z, worldRotationTargetZ, rotationScale,
-                                       this->targetDirection.z);
-                        Math_ApproachF(&this->targetDirection.z, 4096.0f, 1.0f, 512.0f);
-                    }
-                    this->actor.shape.rot = this->actor.world.rot;
-                    this->actor.shape.rot.x = -this->actor.shape.rot.x;
-
-                    // Update the Arwing's velocity.
-                    func_8002D908(&this->actor);
-                    this->actor.velocity.x += this->acceleration.x;
-                    this->actor.velocity.y += this->acceleration.y;
-                    this->actor.velocity.z += this->acceleration.z;
-                    Math_ApproachZeroF(&this->acceleration.x, 1.0f, 1.0f);
-                    Math_ApproachZeroF(&this->acceleration.y, 1.0f, 1.0f);
-                    Math_ApproachZeroF(&this->acceleration.z, 1.0f, 1.0f);
-
-                    // Fire the Arwing laser.
-                    if (this->shouldShootLaser) {
-                        this->shouldShootLaser = 0;
-                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_CLEAR_TAG, this->actor.world.pos.x,
-                                    this->actor.world.pos.y, this->actor.world.pos.z, this->actor.world.rot.x,
-                                    this->actor.world.rot.y, this->actor.world.rot.z, CLEAR_TAG_STATE_LASER);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_THUNDER_GND);
+                    this->actor.colChkInfo.health--;
+                    if ((s8)this->actor.colChkInfo.health <= 0) {
+                        this->state = CLEAR_TAG_STATE_CRASHING;
+                        this->actor.velocity.y = 0.0f;
+                        goto state_crashing;
                     }
                 }
+                Actor_SetScale(&this->actor, 0.2f);
+                this->actor.speedXZ = 7.0f;
 
+                if (this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] == 0) {
+                    if (this->timers[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] == 0) {
+                        this->state = CLEAR_TAG_STATE_TARGET_LOCKED;
+                        this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = 300;
+                    } else {
+                        this->state = CLEAR_TAG_STATE_FLYING;
+                        this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = (s16)Rand_ZeroFloat(50.0f) + 20;
+
+                        if (this->actor.params == CLEAR_TAG_ARWING) {
+                            // Set the Arwing to fly in a circle around the player.
+                            f32 targetCircleX = Math_SinS(player->actor.shape.rot.y) * 400.0f;
+                            f32 targetCircleZ = Math_CosS(player->actor.shape.rot.y) * 400.0f;
+
+                            this->targetPosition.x =
+                                Rand_CenteredFloat(700.0f) + (player->actor.world.pos.x + targetCircleX);
+                            this->targetPosition.y = Rand_ZeroFloat(200.0f) + player->actor.world.pos.y + 150.0f;
+                            this->targetPosition.z =
+                                Rand_CenteredFloat(700.0f) + (player->actor.world.pos.z + targetCircleZ);
+                        } else {
+                            // Set the Arwing to fly to a random position.
+                            this->targetPosition.x = Rand_CenteredFloat(700.0f);
+                            this->targetPosition.y = Rand_ZeroFloat(200.0f) + 150.0f;
+                            this->targetPosition.z = Rand_CenteredFloat(700.0f);
+                        }
+                    }
+
+                    this->targetDirection.x = this->targetDirection.y = this->targetDirection.z = 0.0f;
+                }
+
+                rotationScale = 10;
+                xRotationTarget = 0x800;
+                loseTargetLockDistance = 100.0f;
+                if (this->state == CLEAR_TAG_STATE_TARGET_LOCKED) {
+                    // Set the Arwing to fly towards the player.
+                    this->targetPosition.x = player->actor.world.pos.x;
+                    this->targetPosition.y = player->actor.world.pos.y + 40.0f;
+                    this->targetPosition.z = player->actor.world.pos.z;
+                    rotationScale = 7;
+                    xRotationTarget = 0x1000;
+                    loseTargetLockDistance = 150.0f;
+                } else if (this->state == CLEAR_TAG_STATE_DEMO) {
+                    // Move the Arwing for the intro cutscene.
+
+                    // Do a Barrel Roll!
+                    this->roll += 0.5f;
+                    if (this->roll > M_PI * 2) {
+                        this->roll -= M_PI * 2;
+                    }
+
+                    // Set the Arwing to fly to a hardcoded position.
+                    this->targetPosition.x = 0.0f;
+                    this->targetPosition.y = 300.0f;
+                    this->targetPosition.z = 0.0f;
+                    loseTargetLockDistance = 100.0f;
+                }
+
+                // If the Arwing is not in cutscene state, smoothly update the roll to zero.
+                // This will reset the Arwing to be right side up after the cutscene is done.
+                // The cutscene will set the Arwing to do a barrel roll and doesn't end on right side up.
+                if (this->state != CLEAR_TAG_STATE_DEMO) {
+                    Math_ApproachZeroF(&this->roll, 0.1f, 0.2f);
+                }
+
+                // Calculate a vector towards the targetted position.
+                vectorToTargetX = this->targetPosition.x - this->actor.world.pos.x;
+                vectorToTargetY = this->targetPosition.y - this->actor.world.pos.y;
+                vectorToTargetZ = this->targetPosition.z - this->actor.world.pos.z;
+
+                // If the Arwing is within a certain distance to the target position, it will be updated to flymode
+                if (sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetY) + SQ(vectorToTargetZ)) < loseTargetLockDistance) {
+                    this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = 0;
+                    if (this->state == CLEAR_TAG_STATE_TARGET_LOCKED) {
+                        this->timers[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] = (s16)Rand_ZeroFloat(100.0f) + 100;
+                    }
+                    this->state = CLEAR_TAG_STATE_FLYING;
+                }
+
+                // Calculate the direction for the Arwing to fly and the rotation for the Arwing
+                // based on the Arwing's direction, and current rotation.
+                worldRotationTargetY = Math_FAtan2F(vectorToTargetX, vectorToTargetZ) * (0x8000 / M_PI);
+                worldRotationTargetX =
+                    Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))) * (0x8000 / M_PI);
+                if ((worldRotationTargetX < 0) && (this->actor.world.pos.y < this->actor.floorHeight + 20.0f)) {
+                    worldRotationTargetX = 0;
+                }
+                Math_ApproachS(&this->actor.world.rot.x, worldRotationTargetX, rotationScale, this->targetDirection.x);
+                worldRotationTargetZ = Math_SmoothStepToS(&this->actor.world.rot.y, worldRotationTargetY, rotationScale,
+                                                          this->targetDirection.y, 0);
+                Math_ApproachF(&this->targetDirection.x, xRotationTarget, 1.0f, 0x100);
+                this->targetDirection.y = this->targetDirection.x;
+                if (ABS(worldRotationTargetZ) < 0x1000) {
+                    Math_ApproachS(&this->actor.world.rot.z, 0, 15, this->targetDirection.z);
+                    Math_ApproachF(&this->targetDirection.z, 0x500, 1.0f, 0x100);
+
+                    // Check if the Arwing should fire it's laser.
+                    if ((this->frameCounter % 4) == 0 && (Rand_ZeroOne() < 0.75f) &&
+                        (this->state == CLEAR_TAG_STATE_TARGET_LOCKED)) {
+                        this->shouldShootLaser = true;
+                    }
+                } else {
+                    worldRotationTargetZ = worldRotationTargetZ > 0 ? -0x2500 : 0x2500;
+                    Math_ApproachS(&this->actor.world.rot.z, worldRotationTargetZ, rotationScale,
+                                   this->targetDirection.z);
+                    Math_ApproachF(&this->targetDirection.z, 0x1000, 1.0f, 0x200);
+                }
+                this->actor.shape.rot = this->actor.world.rot;
+                this->actor.shape.rot.x = -this->actor.shape.rot.x;
+
+                // Update the Arwing's velocity.
+                func_8002D908(&this->actor);
+                this->actor.velocity.x += this->acceleration.x;
+                this->actor.velocity.y += this->acceleration.y;
+                this->actor.velocity.z += this->acceleration.z;
+                Math_ApproachZeroF(&this->acceleration.x, 1.0f, 1.0f);
+                Math_ApproachZeroF(&this->acceleration.y, 1.0f, 1.0f);
+                Math_ApproachZeroF(&this->acceleration.z, 1.0f, 1.0f);
+
+                // Fire the Arwing laser.
+                if (this->shouldShootLaser) {
+                    this->shouldShootLaser = false;
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_CLEAR_TAG, this->actor.world.pos.x,
+                                this->actor.world.pos.y, this->actor.world.pos.z, this->actor.world.rot.x,
+                                this->actor.world.rot.y, this->actor.world.rot.z, CLEAR_TAG_STATE_LASER);
+                }
+            }
             case CLEAR_TAG_STATE_CRASHING:
+            state_crashing:
                 if (this->crashingTimer != 0) {
                     this->crashingTimer--;
                 }
@@ -542,7 +512,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-                if (this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO] == 0) {
+                if (this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO] == 0) {
                     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 30.0f, 100.0f, 5);
                     EnClearTag_CalculateFloorTangent(this);
                 }
@@ -554,13 +524,13 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     // Causes the Arwing to roll around seemingly randomly while crashing.
                     this->roll -= 0.5f;
                     this->actor.velocity.y -= 0.2f;
-                    this->actor.shape.rot.x += 16;
+                    this->actor.shape.rot.x += 0x10;
 
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
 
                     // Check if the Arwing has hit the ground.
                     if (this->actor.bgCheckFlags & 9) {
-                        this->shouldExplode = 1;
+                        this->shouldExplode = true;
 
                         if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {
                             this->drawMode = CLEAR_TAG_DRAW_MODE_EFFECT;
@@ -578,7 +548,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 // Check if the laser has hit a target.
                 if (this->collider.base.atFlags & AT_HIT) {
-                    hasAtHit = 1;
+                    hasAtHit = true;
                 }
 
                 // Set laser collider properties.
@@ -590,11 +560,11 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 80.0f, 100.0f, 5);
 
                 // Check if the laser has hit a target, timed out, or hit the ground.
-                if (this->actor.bgCheckFlags & 9 || hasAtHit || this->work[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
+                if (this->actor.bgCheckFlags & 9 || hasAtHit || this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
                     // Kill the laser.
                     Actor_Kill(&this->actor);
                     // Player laser sound effect if the laser did not time out.
-                    if (this->work[CLEAR_TAG_TIMER_LASER_DEATH] != 0) {
+                    if (this->timers[CLEAR_TAG_TIMER_LASER_DEATH] != 0) {
                         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_FANTOM_THUNDER_GND);
                     }
                 }
@@ -607,17 +577,23 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
             osSyncPrintf("CAMERA_NO %d\n", this->cameraId);
 
             if (this->cutsceneMode != CLEAR_TAG_CUTSCENE_MODE_NONE) {
+                f32 cutsceneCameraCircleX;
+                f32 cutsceneCameraCircleZ;
+                s16 cutsceneTimer;
+                Vec3f cutsceneCameraAtTarget;
+                Vec3f cutsceneCameraEyeTarget;
+
                 switch (this->cutsceneMode) {
                     case CLEAR_TAG_CUTSCENE_MODE_SETUP:
                         // Initializes Arwing cutscene camera data.
                         this->cutsceneMode = CLEAR_TAG_CUTSCENE_MODE_PLAY;
                         func_80064520(globalCtx, &globalCtx->csCtx);
                         this->cameraId = Gameplay_CreateSubCamera(globalCtx);
-                        Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-                        Gameplay_ChangeCameraStatus(globalCtx, this->cameraId, 7);
+                        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                        Gameplay_ChangeCameraStatus(globalCtx, this->cameraId, CAM_STAT_ACTIVE);
                     case CLEAR_TAG_CUTSCENE_MODE_PLAY:
                         // Update the Arwing cutscene camera to spin around in a circle.
-                        cutsceneTimer = this->timer * 128;
+                        cutsceneTimer = this->frameCounter * 128;
                         cutsceneCameraCircleX = Math_SinS(cutsceneTimer) * 200.0f;
                         cutsceneCameraCircleZ = Math_CosS(cutsceneTimer) * 200.0f;
                         cutsceneCameraAtTarget.x = this->actor.world.pos.x + cutsceneCameraCircleX;
@@ -628,7 +604,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
 
                 // Make the Arwing cutscene camera approach the target.
-                if (this->cameraId != 0) {
+                if (this->cameraId != SUBCAM_FREE) {
                     Math_ApproachF(&this->cutsceneCameraAt.x, cutsceneCameraAtTarget.x, 0.1f, 500.0f);
                     Math_ApproachF(&this->cutsceneCameraAt.y, cutsceneCameraAtTarget.y, 0.1f, 500.0f);
                     Math_ApproachF(&this->cutsceneCameraAt.z, cutsceneCameraAtTarget.z, 0.1f, 500.0f);
@@ -642,7 +618,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 // Cutscene has finished.
                 if (this->cutsceneTimer == 1) {
                     func_800C08AC(globalCtx, this->cameraId, 0);
-                    this->cutsceneMode = this->cameraId = 0;
+                    this->cutsceneMode = this->cameraId = SUBCAM_FREE;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                 }
             }
@@ -651,7 +627,11 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     // Explode the Arwing
     if (this->shouldExplode) {
-        this->shouldExplode = 0;
+        Vec3f crashEffectLocation;
+        Vec3f crashEffectVelocity;
+        Vec3f debrisEffectAcceleration;
+
+        this->shouldExplode = false;
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_IT_BOMB_EXPLOSION);
 
         // Spawn flash effect.
@@ -675,8 +655,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
             crashEffectVelocity.z += Rand_CenteredFloat(0.5f);
 
             debrisEffectAcceleration.x = 0.0f;
-            debrisEffectAcceleration.z = 0.0f;
             debrisEffectAcceleration.y = -1.0f;
+            debrisEffectAcceleration.z = 0.0f;
 
             EnClearTag_CreateDebrisEffect(globalCtx, &crashEffectLocation, &crashEffectVelocity,
                                           &debrisEffectAcceleration, Rand_ZeroFloat(0.15f) + 0.075f,
@@ -686,17 +666,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {
         // Check if the Arwing should be removed.
-        if (this->drawMode == CLEAR_TAG_DRAW_MODE_EFFECT) {
-            if (this->deathTimer == 0) {
-                isArwingAlive = 0;
-            } else {
-                this->deathTimer--;
-                isArwingAlive = this->deathTimer;
-            }
-
-            if (!isArwingAlive) {
-                Actor_Kill(thisx);
-            }
+        if ((this->drawMode == CLEAR_TAG_DRAW_MODE_EFFECT) && (DECR(this->deathTimer) == 0)) {
+            Actor_Kill(&this->actor);
         }
 
         EnClearTag_UpdateEffects(globalCtx);
@@ -708,9 +679,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
  * Laser clear tag type will draw two lasers.
  * Arwing clear tage types will draw the Arwing, the backfire, and a shadow.
  */
-void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     EnClearTag* this = THIS;
-    GlobalContext* globalCtx = globalCtx2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_clear_tag.c", 983);
     if (this->drawMode != CLEAR_TAG_DRAW_MODE_EFFECT) {
@@ -738,8 +709,8 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                 f32 yRotation;
                 f32 scaledCrashingTimer = this->crashingTimer * 0.05f;
 
-                xRotation = Math_SinS(this->timer * 12288) * scaledCrashingTimer;
-                yRotation = Math_SinS(this->timer * 14080) * scaledCrashingTimer;
+                xRotation = Math_SinS(this->frameCounter * 0x3000) * scaledCrashingTimer;
+                yRotation = Math_SinS(this->frameCounter * 0x3700) * scaledCrashingTimer;
                 Matrix_RotateX(xRotation, MTXMODE_APPLY);
                 Matrix_RotateY(yRotation, MTXMODE_APPLY);
             }
@@ -752,7 +723,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx2) {
             Matrix_Translate(0.0f, 0.0f, -60.0f, MTXMODE_APPLY);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(2.5f, 1.3f, 0.0f, MTXMODE_APPLY);
-            if ((this->timer & 1) != 0) {
+            if ((this->frameCounter % 2) != 0) {
                 Matrix_Scale(1.15f, 1.15f, 1.15f, MTXMODE_APPLY);
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 200, 155);
@@ -774,10 +745,10 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx2) {
             if (this->crashingTimer != 0) {
                 f32 xRotation;
                 f32 yRotation;
-                f32 scaledCrashingTimer;
-                scaledCrashingTimer = this->crashingTimer * 0.05f;
-                xRotation = Math_SinS(this->timer * 12288) * scaledCrashingTimer;
-                yRotation = Math_SinS(this->timer * 14080) * scaledCrashingTimer;
+                f32 scaledCrashingTimer = this->crashingTimer * 0.05f;
+
+                xRotation = Math_SinS(this->frameCounter * 0x3000) * scaledCrashingTimer;
+                yRotation = Math_SinS(this->frameCounter * 0x3700) * scaledCrashingTimer;
                 Matrix_RotateX(xRotation, MTXMODE_APPLY);
                 Matrix_RotateY(yRotation, MTXMODE_APPLY);
             }
@@ -801,16 +772,11 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx2) {
  * Moves and bounces debris effects.
  * Fades most effects out of view. When effects are completely faded away they are removed.
  */
-void EnClearTag_UpdateEffects(GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx;
+void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
+    EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
     s16 i;
     f32 originalYPosition;
     Vec3f sphereCenter;
-    EnClearTagEffect* effect;
-    s32 pad;
-
-    globalCtx = globalCtx2;
-    effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type != CLEAR_TAG_EFFECT_AVAILABLE) {
@@ -847,10 +813,8 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx2) {
                             effect->timer = ((s16)Rand_ZeroFloat(20)) + 25;
                         } else {
                             // The Debris effect is done bounding. Set it's velocity and acceleration to 0.
-                            effect->velocity.y = 0.0f;
-                            effect->acceleration.y = 0.0f;
-                            effect->velocity.z = 0.0f;
-                            effect->velocity.x = 0.0f;
+                            effect->velocity.x = effect->velocity.z = effect->acceleration.y = effect->velocity.y =
+                                0.0f;
                         }
                     }
                 }
@@ -922,19 +886,12 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx2) {
  * Each effect type is drawn before the next. The function will apply a material that applies to all effects of that
  * type while drawing the first effect of that type.
  */
-void EnClearTag_DrawEffects(GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx;
-    GraphicsContext* gfxCtx;
-    u8 isMaterialApplied;
+void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
     s16 i;
-    EnClearTagEffect* effect;
-    EnClearTagEffect* firstEffect;
-
-    globalCtx = globalCtx2;
-    gfxCtx = globalCtx->state.gfxCtx;
-
-    firstEffect = effect = (EnClearTagEffect*)globalCtx->specialEffects;
-    isMaterialApplied = false;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    u8 isMaterialApplied = false;
+    EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
+    EnClearTagEffect* firstEffect = effect;
 
     OPEN_DISPS(gfxCtx, "../z_en_clear_tag.c", 1288);
     func_80093D18(globalCtx->state.gfxCtx);
@@ -1031,8 +988,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx2) {
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (effect->random * -15) & 0xFF, 32, 64, 1, 0, 0,
                                         32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
-            // using globalCtx2 here fixes saved reg usage, but will need to be changed when switching to GameState
-            func_800D1FD4(&globalCtx2->mf_11DA0);
+            func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1439),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

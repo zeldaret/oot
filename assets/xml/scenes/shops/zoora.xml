@@ -1,8 +1,8 @@
 <Root>
-    <File Name="zoora_scene">
+    <File Name="zoora_scene" Segment="2">
         <Scene Name="zoora_scene"/>
     </File>
-    <File Name="zoora_room_0">
-        <Room Name="zoora_room_0"/>
+    <File Name="zoora_room_0" Segment="3">
+        <Room Name="zoora_room_0" Offset="0x0"/>
     </File>
 </Root>

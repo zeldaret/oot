@@ -38,15 +38,7 @@ ctx.c
 tools/*dSYM/
 
 # Assets
-*.rgba32.png
-*.rgb5a1.png
-*.i4.png
-*.i8.png
-*.ia4.png
-*.ia8.png
-*.ia16.png
-*.ci4.png
-*.ci8.png
+*.png
 *.jpg
 *.mdli
 *.anmi
