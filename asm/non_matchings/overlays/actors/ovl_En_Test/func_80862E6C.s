@@ -19,7 +19,7 @@ glabel func_80862E6C
 /* 0385C 80862EAC 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 03860 80862EB0 24E70008 */  addiu   $a3, $a3, 0x0008           ## $a3 = 00000008
 /* 03864 80862EB4 00073C00 */  sll     $a3, $a3, 16               
-/* 03868 80862EB8 0C00CC17 */  jal     func_8003305C              
+/* 03868 80862EB8 0C00CC17 */  jal     BodyBreak_SpawnParts              
 /* 0386C 80862EBC 00073C03 */  sra     $a3, $a3, 16               
 /* 03870 80862EC0 50400035 */  beql    $v0, $zero, .L80862F98     
 /* 03874 80862EC4 8FBF0024 */  lw      $ra, 0x0024($sp)           

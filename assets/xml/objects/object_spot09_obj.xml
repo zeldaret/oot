@@ -6,9 +6,9 @@
         <DList Name="gCarpentersTentDL" Offset="0x7D40"/>
         <DList Name="gValleyRepairedBridgeDL" Offset="0x6210"/>
         <DList Name="gCarpentersTentEntranceDL" Offset="0x8010"/>
-        <Collision Name="gValleyObjects1Col" Offset="0x5520" Size="0x30"/>
-        <Collision Name="gValleyObjects2Col" Offset="0x283C" Size="0x30"/>
-        <Collision Name="gValleyObjects3Col" Offset="0x8458" Size="0x30"/>
-        <Collision Name="gValleyObjects4Col" Offset="0x7580" Size="0x30"/>
+        <Collision Name="gValleyObjects1Col" Offset="0x5520"/>
+        <Collision Name="gValleyObjects2Col" Offset="0x283C"/>
+        <Collision Name="gValleyObjects3Col" Offset="0x8458"/>
+        <Collision Name="gValleyObjects4Col" Offset="0x7580"/>
     </File>
 </Root>

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-SetTimeSettings::SetTimeSettings(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
+SetTimeSettings::SetTimeSettings(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	hour = rawData[rawDataIndex + 4];
@@ -12,7 +12,7 @@ SetTimeSettings::SetTimeSettings(ZRoom* nZRoom, std::vector<uint8_t> rawData, in
 	unk = rawData[rawDataIndex + 6];
 }
 
-string SetTimeSettings::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetTimeSettings::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	return StringHelper::Sprintf(
 		"%s 0x00, 0x00, 0x00, 0x%02X, 0x%02X, 0x%02X",

@@ -1,4 +1,11 @@
+/*
+ * File: z_demo_ec.c
+ * Overlay: ovl_Demo_Ec
+ * Description: Credits revelers in Lon Lon
+ */
+
 #include "z_demo_ec.h"
+#include "objects/object_zo/object_zo.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -751,7 +758,7 @@ void DemoEc_DrawGerudo(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitDancingZora(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_0600BFA8);
+    DemoEc_InitSkelAnime(this, globalCtx, &gZoraSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &D_0600C918, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -768,7 +775,7 @@ void DemoEc_UpdateDancingZora(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawDancingZora(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x06003E40, 0x06004640, 0x06004E40 };
+    static void* eyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 

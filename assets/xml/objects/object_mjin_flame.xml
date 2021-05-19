@@ -1,0 +1,5 @@
+<Root>
+    <File Name="object_mjin_flame" Segment="6">
+        <Blob Name="object_mjin_flame_Blob_000000" Size="0x1000" Offset="0x0"/>
+    </File>
+</Root>

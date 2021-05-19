@@ -256,38 +256,37 @@ static u8 sClearPixelTableSecondPass[16 * 16] = {
 };
 
 // indexed by limb (where the root limb is 1)
-static u8 D_8091B244[] = {
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x1E, // tail end/last part
-    0x28, // tail 2nd to last part
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x0A, // back of right claw/hand
-    0x0F, // front of right claw/hand
-    0x15, // part of right arm (inner)
-    0x00, 0x00,
-    0x19, // part of right arm (shell)
-    0x00, 0x00,
-    0x1F, // part of right arm (shell on shoulder)
-    0x23, // part of right arm (shoulder)
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x2B, // end of left antenna
-    0x30, // middle of left antenna
-    0x35, // start of left antenna
-    0x00, 0x00, 0x00, 0x00,
-    0x2A, // end of right antenna
-    0x2D, // middle of right antenna
-    0x35, // start of right antenna
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x0B, // back of left claw/hand
-    0x0F, // front of left claw/hand
-    0x15, // part of left arm (inner)
-    0x00, 0x00,
-    0x19, // part of left arm (shell)
-    0x00, 0x00,
-    0x1E, // part of left arm (shell on shoulder)
-    0x23, // part of left arm (shoulder)
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+static u8 sDeadLimbLifetime[] = {
+    0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    30, // tail end/last part
+    40, // tail 2nd to last part
+    0,  0, 0, 0, 0, 0, 0, 0,
+    10, // back of right claw/hand
+    15, // front of right claw/hand
+    21, // part of right arm (inner)
+    0,  0,
+    25, // part of right arm (shell)
+    0,  0,
+    31, // part of right arm (shell on shoulder)
+    35, // part of right arm (shoulder)
+    0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    43, // end of left antenna
+    48, // middle of left antenna
+    53, // start of left antenna
+    0,  0, 0, 0,
+    42, // end of right antenna
+    45, // middle of right antenna
+    53, // start of right antenna
+    0,  0, 0, 0, 0, 0,
+    11, // back of left claw/hand
+    15, // front of left claw/hand
+    21, // part of left arm (inner)
+    0,  0,
+    25, // part of left arm (shell)
+    0,  0,
+    30, // part of left arm (shell on shoulder)
+    35, // part of left arm (shoulder)
+    0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
 
 /**
@@ -1004,7 +1003,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
     if (this->framesUntilNextAction == 1001) {
         for (i = 0; i < 90; i++) {
-            if (D_8091B244[i] != 0) {
+            if (sDeadLimbLifetime[i] != 0) {
                 this->deadLimbsState[i] = 1;
             }
         }
@@ -2073,9 +2072,9 @@ void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         // These are the pieces of Gohma as it falls apart. It appears to use the same actor as the baby gohmas.
         babyGohma = (EnGoma*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA,
                                                 childPos.x, childPos.y, childPos.z, childRot.x, childRot.y, childRot.z,
-                                                D_8091B244[limbIndex] + 100);
+                                                sDeadLimbLifetime[limbIndex] + 100);
         if (babyGohma != NULL) {
-            babyGohma->unk_308 = *dList;
+            babyGohma->bossLimbDl = *dList;
             babyGohma->actor.objBankIndex = this->actor.objBankIndex;
         }
     }

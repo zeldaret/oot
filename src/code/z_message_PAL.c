@@ -1149,8 +1149,8 @@ void Message_LoadItemIcon(GlobalContext* globalCtx, u16 itemId, s16 arg2) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     if (itemId == ITEM_DUNGEON_MAP) {
-        interfaceCtx->unk_140[30] = 0xFF;
-        interfaceCtx->unk_140[31] = 0xFF;
+        interfaceCtx->mapPalette[30] = 0xFF;
+        interfaceCtx->mapPalette[31] = 0xFF;
     }
     if (itemId < ITEM_MEDALLION_FOREST) {
         YREG(71) = XREG(54) - D_80153C40[gSaveContext.language];

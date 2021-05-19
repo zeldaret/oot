@@ -368,7 +368,6 @@ void EnSkj_SetNaviId(EnSkj* this) {
     }
 }
 
-#ifdef NON_MATCHING
 void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 type = (thisx->params >> 0xA) & 0x3F;
     EnSkj* this = (EnSkj*)thisx;
@@ -445,8 +444,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
             Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &D_80B01678);
             ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
             Actor_SetScale(thisx, 0.01f);
-            this->textId = 0;
-            this->actor.textId = 0;
+            this->actor.textId = this->textId = 0;
             this->multiuseTimer = 0;
             this->backfilpFlag = 0;
             this->needlesToShoot = 3;
@@ -467,9 +465,6 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/EnSkj_Init.s")
-#endif
 
 void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
