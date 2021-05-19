@@ -48,16 +48,17 @@ typedef struct EnOssan {
     /* 0x01E9 */ s8 objBankIndex2;
     /* 0x01EA */ s8 objBankIndex3;
     /* 0x01EB */ u8 happyMaskShopState;
-    /* 0x01EC */ u8 unk_1EC;
+    /* 0x01EC */ u8 happyMaskShopkeeperEyeIdx;
     /* 0x01ED */ s8 unk_1ED;
     /* 0x01EE */ s16 unk_1EE;
     /* 0x01F0 */ s16 lookAngle;
-    /* 0x01F2 */ s16 unk_1F2;
+    /* 0x01F2 */ s16 eyeTextureIdx;
     /* 0x01F4 */ s16 unk_1F4;
     /* 0x01F8 */ EnOssanUnkFunc2 unk_1F8;
     /* 0x01FC */ s16 stateFlag;
     /* 0x01FE */ s16 unk_1FE;
     /* 0x0200 */ EnGirlA* shelfSlots[8];
+    // Shelves are indexed as such:
     /* 7 5  3 1 */
     /* 6 4  2 0 */
     /* 0x0220 */ EnTana* shelves;
@@ -83,7 +84,7 @@ typedef struct EnOssan {
     /* 0x02CC */ u8 arrowAnimState;
     /* 0x02CD */ u8 stickAnimState;
     /* 0x02D0 */ f32 shopItemSelectedTween;
-    /* 0x02D4 */ f32 unk_2D4;
+    /* 0x02D4 */ f32 lookRot; //rotation in degrees. 
 } EnOssan; // size = 0x02D8
 
 extern const ActorInit En_Ossan_InitVars;
@@ -93,20 +94,20 @@ typedef enum {
     /* 01 */ ENOSSAN_STATE_1, //Start Conversation
     /* 02 */ ENOSSAN_STATE_2, //Facing Shopkeeper
     /* 03 */ ENOSSAN_STATE_3, //Talking to Shopkeeper
-    /* 04 */ ENOSSAN_STATE_4,
-    /* 05 */ ENOSSAN_STATE_5,
-    /* 06 */ ENOSSAN_STATE_6,
-    /* 07 */ ENOSSAN_STATE_7,
-    /* 08 */ ENOSSAN_STATE_8,
-    /* 09 */ ENOSSAN_STATE_9,
+    /* 04 */ ENOSSAN_STATE_4, //Look to left shelf
+    /* 05 */ ENOSSAN_STATE_5, //Look to right shelf
+    /* 06 */ ENOSSAN_STATE_6, //Browse left shelf
+    /* 07 */ ENOSSAN_STATE_7, //Browse right shelf
+    /* 08 */ ENOSSAN_STATE_8, //Look from shelf to Shopkeeper
+    /* 09 */ ENOSSAN_STATE_9, //Select Item
     /* 10 */ ENOSSAN_STATE_10,
     /* 11 */ ENOSSAN_STATE_11,
     /* 12 */ ENOSSAN_STATE_12,
     /* 13 */ ENOSSAN_STATE_13,
-    /* 14 */ ENOSSAN_STATE_14,
-    /* 15 */ ENOSSAN_STATE_15,
-    /* 16 */ ENOSSAN_STATE_16,
-    /* 17 */ ENOSSAN_STATE_17,
+    /* 14 */ ENOSSAN_STATE_14, //Can't get this now?
+    /* 15 */ ENOSSAN_STATE_15, //Give Item (Hold it up with fanfare?)
+    /* 16 */ ENOSSAN_STATE_16, //Item Purchased
+    /* 17 */ ENOSSAN_STATE_17, //Would you like to buy something else?
     /* 18 */ ENOSSAN_STATE_18,
     /* 19 */ ENOSSAN_STATE_19,
     /* 20 */ ENOSSAN_STATE_20,
