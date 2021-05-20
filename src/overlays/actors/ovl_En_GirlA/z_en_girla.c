@@ -15,10 +15,10 @@ void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGirlA_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A3BEAC(GlobalContext* globalCtx, EnGirlA* this);
-void func_80A3BEE0(GlobalContext* globalCtx, EnGirlA* this);
+void EnGirlA_SetItemOutOfStock(GlobalContext* globalCtx, EnGirlA* this);
+void EnGirlA_UpdateStockedItem(GlobalContext* globalCtx, EnGirlA* this);
 void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx);
-void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx);
+void EnGirlA_Update2(EnGirlA* this, GlobalContext* globalCtx);
 void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags);
 void EnGirlA_Draw(Actor* thisx, GlobalContext* globalCtx);
 
@@ -165,9 +165,10 @@ static ShopItemEntry shopItemEntries[] = {
     /* 49 */ { OBJECT_GI_LIQUID, GID_POTION_RED, func_8002EBCC, 50, 1, 0x0065, 0x0063, GI_POTION_RED, CanBuy_RedPotion, ItemGive_BottledItem, BuyEvent_ShieldDiscount },
 };
 
+// Defines the Hylian Shield discount amount
 static s16 randomDiscount[] = { 5, 10, 15, 20, 25, 30, 35, 40 };
 
-void func_80A3A750(EnGirlA* this, EnGirlAActionFunc func) {
+void EnGirlA_SetupAction(EnGirlA* this, EnGirlAActionFunc func) {
     this->actionFunc = func;
 }
 
@@ -271,7 +272,7 @@ void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGirlA* this = THIS;
 
-    if (this->unk_19C != 0) {
+    if (this->isInitialized) {
         SkelAnime_Free(&this->skelAnime, globalCtx);
     }
 }
@@ -718,38 +719,38 @@ void BuyEvent_ZoraTunic(GlobalContext* globalCtx, EnGirlA* this) {
 
 void BuyEvent_ObtainBombchuPack(GlobalContext* globalCtx, EnGirlA* this) {
     switch (this->actor.params) {
-        case 24:
+        case SI_BOMBCHU_10_2:
             gSaveContext.itemGetInf[0] |= 0x40;
             break;
-        case 25:
+        case SI_BOMBCHU_10_3:
             gSaveContext.itemGetInf[0] |= 0x80;
             break;
-        case 26:
+        case SI_BOMBCHU_20_3:
             gSaveContext.itemGetInf[0] |= 0x100;
             break;
-        case 27:
+        case SI_BOMBCHU_20_4:
             gSaveContext.itemGetInf[0] |= 0x200;
             break;
-        case 28:
+        case SI_BOMBCHU_10_4:
             gSaveContext.itemGetInf[0] |= 0x400;
             break;
-        case 21:
+        case SI_BOMBCHU_10_1:
             gSaveContext.itemGetInf[0] |= 0x8;
             break;
-        case 22:
+        case SI_BOMBCHU_20_1:
             gSaveContext.itemGetInf[0] |= 0x10;
             break;
-        case 23:
+        case SI_BOMBCHU_20_2:
             gSaveContext.itemGetInf[0] |= 0x20;
             break;
     }
     Rupees_ChangeBy(-this->basePrice);
 }
 
-void func_80A3BD80(EnGirlA* this, GlobalContext* globalCtx) {
+void EnGirlA_Noop(EnGirlA* this, GlobalContext* globalCtx) {
 }
 
-void func_80A3BD8C(GlobalContext* globalCtx, EnGirlA* this) {
+void EnGirlA_SetItemDescription(GlobalContext* globalCtx, EnGirlA* this) {
     ShopItemEntry* tmp = &shopItemEntries[this->actor.params];
     s32 params = this->actor.params;
     s32 maskId;
@@ -797,7 +798,7 @@ void func_80A3BD8C(GlobalContext* globalCtx, EnGirlA* this) {
     this->actor.draw = EnGirlA_Draw;
 }
 
-void func_80A3BEAC(GlobalContext* globalCtx, EnGirlA* this) {
+void EnGirlA_SetItemOutOfStock(GlobalContext* globalCtx, EnGirlA* this) {
     this->isInvisible = true;
     this->actor.draw = NULL;
     if ((this->actor.params >= SI_KEATON_MASK) && (this->actor.params <= SI_GERUDO_MASK)) {
@@ -805,7 +806,7 @@ void func_80A3BEAC(GlobalContext* globalCtx, EnGirlA* this) {
     }
 }
 
-void func_80A3BEE0(GlobalContext* globalCtx, EnGirlA* this) {
+void EnGirlA_UpdateStockedItem(GlobalContext* globalCtx, EnGirlA* this) {
     ShopItemEntry* itemEntry;
 
     if (EnGirlA_TryChangeShopItem(this)) {
@@ -818,19 +819,19 @@ void func_80A3BEE0(GlobalContext* globalCtx, EnGirlA* this) {
     }
 }
 
-s32 func_80A3BF54(EnGirlA* this, GlobalContext* globalCtx) {
+s32 EnGirlA_TrySetMaskItemDescription(EnGirlA* this, GlobalContext* globalCtx) {
     s32 params;
 
     if ((this->actor.params >= SI_KEATON_MASK) && (this->actor.params <= SI_GERUDO_MASK)) {
         params = this->actor.params - SI_KEATON_MASK;
         if (INV_CONTENT(ITEM_TRADE_CHILD) == maskShopItems[params]) {
-            func_80A3BEAC(globalCtx, this);
+            EnGirlA_SetItemOutOfStock(globalCtx, this);
         } else {
-            func_80A3BD8C(globalCtx, this);
+            EnGirlA_SetItemDescription(globalCtx, this);
         }
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
@@ -899,12 +900,12 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
                 this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
                 break;
         }
-        if (func_80A3BF54(this, globalCtx) == 0) {
-            func_80A3BD8C(globalCtx, this);
+        if (!EnGirlA_TrySetMaskItemDescription(this, globalCtx)) {
+            EnGirlA_SetItemDescription(globalCtx, this);
         }
 
-        this->unk_1AC = func_80A3BEAC;
-        this->unk_1B0 = func_80A3BEE0;
+        this->setOutOfStockFunc = EnGirlA_SetItemOutOfStock;
+        this->updateStockedItemFunc = EnGirlA_UpdateStockedItem;
         this->getItemId = itemEntry->getItemId;
         this->canBuyFunc = itemEntry->canBuyFunc;
         this->itemGiveFunc = itemEntry->itemGiveFunc;
@@ -920,20 +921,20 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
         this->actor.shape.shadowScale = 4.0f;
         this->actor.floorHeight = this->actor.home.pos.y;
         this->actor.gravity = 0.0f;
-        func_80A3A750(this, func_80A3BD80);
-        this->unk_19C = 1;
-        this->actionFunc2 = func_80A3C3BC;
+        EnGirlA_SetupAction(this, EnGirlA_Noop);
+        this->isInitialized = true;
+        this->actionFunc2 = EnGirlA_Update2;
         this->isSelected = false;
         this->yRotation = 0;
-        this->unk_1B6 = this->actor.shape.rot.y;
+        this->yRotationInit = this->actor.shape.rot.y;
     }
 }
 
-void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx) {
+void EnGirlA_Update2(EnGirlA* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.25f);
     this->actor.shape.yOffset = 24.0f;
     this->actor.shape.shadowScale = 4.0f;
-    func_80A3BF54(this, globalCtx);
+    EnGirlA_TrySetMaskItemDescription(this, globalCtx);
     this->actionFunc(this, globalCtx);
     Actor_SetFocus(&this->actor, 5.0f);
     this->actor.shape.rot.x = 0.0f;

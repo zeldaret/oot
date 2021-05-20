@@ -11,7 +11,6 @@ struct EnOssan;
 typedef void (*EnOssanActionFunc)(struct EnOssan*, GlobalContext*);
 typedef void (*EnOssanTalkOwnerFunc)(GlobalContext*);
 typedef void (*EnOssanUnkFunc1)(struct EnOssan*, GlobalContext*);
-typedef void (*EnOssanUnkFunc2)(struct EnOssan*);
 typedef s16 (*EnOssanGetGirlAParams)(s16);
 typedef void (*EnOssanUnkFunc4)(struct EnOssan*, GlobalContext*, Player*);
 
@@ -40,8 +39,8 @@ typedef struct EnOssan {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnOssanActionFunc actionFunc;
-    /* 0x0194 */ void(*unk_194)(struct EnOssan*, GlobalContext*); //objBankIndex3 VirtualToPhysical
-    /* 0x0198 */ ColliderCylinder collider;
+    /* 0x0194 */ void(*obj3ToSeg6Func)(struct EnOssan*, GlobalContext*); //objBankIndex3 VirtualToPhysical
+    /* 0x0198 */ ColliderCylinder collider; //unused
     /* 0x01E4 */ s16 timer;
     /* 0x01E6 */ s16 delayTimer;
     /* 0x01E8 */ s8 objBankIndex1;
@@ -49,14 +48,13 @@ typedef struct EnOssan {
     /* 0x01EA */ s8 objBankIndex3;
     /* 0x01EB */ u8 happyMaskShopState;
     /* 0x01EC */ u8 happyMaskShopkeeperEyeIdx;
-    /* 0x01ED */ s8 unk_1ED;
     /* 0x01EE */ s16 unk_1EE;
     /* 0x01F0 */ s16 lookAngle;
     /* 0x01F2 */ s16 eyeTextureIdx;
-    /* 0x01F4 */ s16 unk_1F4;
-    /* 0x01F8 */ EnOssanUnkFunc2 unk_1F8;
+    /* 0x01F4 */ s16 blinkTimer;
+    /* 0x01F8 */ void (*blinkFunc)(struct EnOssan*);
     /* 0x01FC */ s16 stateFlag;
-    /* 0x01FE */ s16 unk_1FE;
+    /* 0x01FE */ s16 tempStateFlag;
     /* 0x0200 */ EnGirlA* shelfSlots[8];
     // Shelves are indexed as such:
     /* 7 5  3 1 */
@@ -120,15 +118,14 @@ typedef enum {
 } EnOssan_State;
 
 typedef enum {
-    ENOSSAN_HAPPY_STATE_0, //Keaton Mask
-    ENOSSAN_HAPPY_STATE_1, //Spooky Mask
-    ENOSSAN_HAPPY_STATE_2, //Skull Mask
-    ENOSSAN_HAPPY_STATE_3, //Bunny Hood
-    ENOSSAN_HAPPY_STATE_4,
-    ENOSSAN_HAPPY_STATE_5, //Give me my money man!
-    ENOSSAN_HAPPY_STATE_6, //All Masks Sold Out
-    ENOSSAN_HAPPY_STATE_7,
-    ENOSSAN_HAPPY_STATE_8  //Payment received!
+    ENOSSAN_HAPPY_STATE_REQUEST_PAYMENT_KEATON_MASK,
+    ENOSSAN_HAPPY_STATE_REQUEST_PAYMENT_SPOOKY_MASK,
+    ENOSSAN_HAPPY_STATE_REQUEST_PAYMENT_SKULL_MASK,
+    ENOSSAN_HAPPY_STATE_REQUEST_PAYMENT_BUNNY_HOOD,
+    ENOSSAN_HAPPY_STATE_BORROWED_FIRST_MASK,
+    ENOSSAN_HAPPY_STATE_ANGRY, //Give me my money man!
+    ENOSSAN_HAPPY_STATE_ALL_MASKS_SOLD, //All masks have been sold
+    ENOSSAN_HAPPY_STATE_NONE = 8  //No Action / Payment received!
 } EnOssan_HappyMaskState;
 
 #endif
