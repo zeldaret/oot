@@ -68,7 +68,7 @@ You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTI
 Going forward in this guide, please use `gmake` whenever you encounter a `make` command.
 The `make` that comes with MacOS behaves differently than GNU make and is incompatible with this project.
 
-You should now be able to continue from step 2 of the Linux instructions.
+You should now be able to continue from [step 2](#2-clone-the-repository) of the Linux instructions.
 
 ### Linux (Native or under WSL / VM)
 
