@@ -192,7 +192,7 @@ docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/
 
 #### 4. Setup and Build the ROM
 
-Once inside the container, you can follow steps 4 and 5 of the Linux instructions to setup and build the ROM, or run any other command you need.
+Once inside the container, you can follow steps [4](#4-setup-the-rom-and-build-process) and [5](#5-build-the-rom) of the Linux instructions to setup and build the ROM, or run any other command you need.
 
 ## Contributing
 
