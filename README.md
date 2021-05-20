@@ -157,7 +157,7 @@ Once mips-linux-binutils is installed you will need to install the following pac
 * dos2unix
 * python3
 
-Then you can continue from step 2 of the Linux instructions.
+Then you can continue from step [step 2](#2-clone-the-repository) of the Linux instructions.
 
 Note that, before building anything, you will need to run the following commands to fix line endings:
 
