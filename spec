@@ -4695,7 +4695,8 @@ endseg
 beginseg
     name "object_oF1d_map"
     romalign 0x1000
-    include "build/baserom/object_oF1d_map.o"
+    include "build/assets/objects/object_oF1d_map/object_oF1d_map.o"
+    number 6
 endseg
 
 beginseg

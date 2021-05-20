@@ -6,6 +6,7 @@
 
 #include "z_demo_ec.h"
 #include "objects/object_zo/object_zo.h"
+#include "objects/object_oF1d_map/object_oF1d_map.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -107,7 +108,6 @@ extern FlexSkeletonHeader D_06004258;
 extern FlexSkeletonHeader D_06004658;
 extern FlexSkeletonHeader D_060085F8;
 extern FlexSkeletonHeader D_06004868;
-extern FlexSkeletonHeader D_0600FEF0;
 extern FlexSkeletonHeader D_06008D90;
 
 // animations
@@ -148,7 +148,6 @@ extern u8 D_06007AC0[];
 extern u8 D_06006920[];
 extern u8 D_060004C8[];
 extern u8 D_060035D8[];
-extern u8 D_0600DE80[];
 extern u8 D_06003770[];
 
 // PostLimbDraw display lists
@@ -1104,7 +1103,7 @@ void DemoEc_InitGorons(DemoEc* this, GlobalContext* globalCtx) {
     Vec3f* scale = &this->actor.scale;
 
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_0600FEF0);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_oF1d_map_Skel_00FEF0);
     DemoEc_UseAnimationObject(this, globalCtx);
 
     if (this->actor.params == 30) {
@@ -1141,11 +1140,11 @@ void DemoEc_UpdateGorons(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawGorons(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
+    static void* eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &D_0600DE80, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &gGoronCsMouthNeutralTex, NULL, NULL);
 }
 
 void DemoEc_InitMalon(DemoEc* this, GlobalContext* globalCtx) {

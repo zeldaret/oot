@@ -2,6 +2,7 @@
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_ossan/object_ossan.h"
+#include "objects/object_oF1d_map/object_oF1d_map.h"
 #include "objects/object_os/object_os.h"
 #include "objects/object_zo/object_zo.h"
 #include "objects/object_rs/object_rs.h"
@@ -24,12 +25,10 @@ void EnOssan_DrawZoraShopkeeper(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_DrawGoronShopkeeper(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, GlobalContext* globalCtx);
 
-extern FlexSkeletonHeader D_0600FEF0;
 extern FlexSkeletonHeader D_060000F0;
 extern AnimationHeader D_060000FC;
 extern AnimationHeader D_0600078C;
 extern Gfx D_06002820[];
-extern Gfx D_0600DE80[];
 
 void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx);
 void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx);
@@ -130,9 +129,11 @@ const ActorInit En_Ossan_InitVars = {
     NULL,
 };
 
-s32 D_80AC88C0[] = {
-    0x0A000039, 0x01000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000100, 0x001E0050, 0x00000000, 0x00000000,
+// Unused collider
+static ColliderCylinderInitType1 sCylinderInit = {
+    { COLTYPE_NONE, AT_NONE, AC_NONE, OC1_ON | OC1_TYPE_ALL, COLSHAPE_CYLINDER, },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_NONE | TOUCH_SFX_NORMAL, BUMP_NONE, OCELEM_ON, },
+    { 30, 80, 0, { 0, 0, 0 } },
 };
 
 // Rupees to pay back to Happy Mask Shop
@@ -140,6 +141,7 @@ static s16 sMaskPaymentPrice[] = { 10, 30, 20, 50 };
 
 // item yaw offsets 
 static s16 sItemShelfRot[] = { 0xEAAC, 0xEAAC, 0xEAAC, 0xEAAC, 0x1554, 0x1554, 0x1554, 0x1554 };
+
 // unused values?
 s16 D_80AC8904[] = { 0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025 };
 
@@ -389,7 +391,7 @@ EnOssanUnkFunc4 D_80AC8E34[] = {
 
 static u64* sBazaarShopkeeperEyeTextures[] = { gOssanEyeOpenTex, gOssanEyeHalfTex, gOssanEyeShutText };
 static u64* sKokiriShopkeeperEyeTextures[] = { 0x06001570, 0x060001F0, 0x06000B30 };
-static u64* sGoronShopkeeperEyeTextures[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
+static u64* sGoronShopkeeperEyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
 static u64* sZoraShopkeeperEyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
 static u64* sPotionShopkeeperEyeTextures[] = { gPotionShopkeeperEyeOpenTex, gPotionShopkeeperEyeHalfTex, gPotionShopkeeperEyeClosedTex };
 static u64* sHappyMaskShopkeeperEyeTextures[] = { gOsEyeClosedTex, gOsEyeOpenTex };
@@ -2047,7 +2049,7 @@ void EnOssan_InitKokiriShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
 }
 
 void EnOssan_InitGoronShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_oF1d_map_Skel_00FEF0, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &D_060000FC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000FC), 0, 0.0f);
     this->actor.draw = EnOssan_DrawGoronShopkeeper;
@@ -2463,7 +2465,7 @@ void EnOssan_DrawGoronShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGoronShopkeeperEyeTextures[this->eyeTextureIdx]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600DE80));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
     EnOssan_DrawCursor(globalCtx, this, this->cursorX, this->cursorY, this->cursorZ, this->drawCursor);
