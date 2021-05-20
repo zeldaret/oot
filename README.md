@@ -68,7 +68,7 @@ You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTI
 Going forward in this guide, please use `gmake` whenever you encounter a `make` command.
 The `make` that comes with MacOS behaves differently than GNU make and is incompatible with this project.
 
-You should now be able to continue from step 3 of the Linux instructions.
+You should now be able to continue from step 2 of the Linux instructions.
 
 ### Linux (Native or under WSL / VM)
 
@@ -157,7 +157,7 @@ Once mips-linux-binutils is installed you will need to install the following pac
 * dos2unix
 * python3
 
-Then you can continue from step 3 of the Linux instructions.
+Then you can continue from step 2 of the Linux instructions.
 
 Note that, before building anything, you will need to run the following commands to fix line endings:
 
@@ -172,7 +172,7 @@ dos2unix fixle.sh
 
 To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and setup based on your system.
 
-You'll also need to prepare a local version of the project with a copied base ROM (see steps 3 and 4 of the Linux instructions).
+You'll also need to prepare a local version of the project with a copied base ROM (see steps 2 and 3 of the Linux instructions).
 
 #### 2. Create the docker image
 
@@ -192,7 +192,7 @@ docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/
 
 #### 4. Setup and Build the ROM
 
-Once inside the container, you can follow steps 5 and 6 of the Linux instructions to setup and build the ROM, or run any other command you need.
+Once inside the container, you can follow steps 4 and 5 of the Linux instructions to setup and build the ROM, or run any other command you need.
 
 ## Contributing
 
