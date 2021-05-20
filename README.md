@@ -172,7 +172,7 @@ dos2unix fixle.sh
 
 To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and setup based on your system.
 
-You'll also need to prepare a local version of the project with a copied base ROM (see steps 2 and 3 of the Linux instructions).
+You'll also need to prepare a local version of the project with a copied base ROM (see steps [2](#2-clone-the-repository) and [3](#3-prepare-a-base-rom) of the Linux instructions).
 
 #### 2. Create the docker image
 
