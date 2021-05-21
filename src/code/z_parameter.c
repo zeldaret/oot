@@ -2655,7 +2655,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     Player* player = PLAYER;
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
-    s16 temp;
+    s16 temp; // Used as both an alpha value and a button index
     s16 dxdy;
     s16 width;
     s16 height;
@@ -2668,30 +2668,38 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_B_BTN_COLOR(0), R_B_BTN_COLOR(1), R_B_BTN_COLOR(2), interfaceCtx->bAlpha);
     gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
-    OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gHUDActionButtonTex, 32, 32, R_ITEM_BTN_X(0), R_ITEM_BTN_Y(0),
-                                  R_ITEM_BTN_WIDTH(0), R_ITEM_BTN_WIDTH(0), R_ITEM_BTN_DD(0) * 2, R_ITEM_BTN_DD(0) * 2);
+    OVERLAY_DISP =
+        Gfx_TextureIA8(OVERLAY_DISP, gHUDActionButtonTex, 32, 32, R_ITEM_BTN_X(HUD_ITEM_BTN_B),
+                       R_ITEM_BTN_Y(HUD_ITEM_BTN_B), R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_B), R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_B),
+                       R_ITEM_BTN_DD(HUD_ITEM_BTN_B) * 2, R_ITEM_BTN_DD(HUD_ITEM_BTN_B) * 2);
 
     // C-Left Button Color & Texture
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                     interfaceCtx->cLeftAlpha);
-    gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(1) << 2, R_ITEM_BTN_Y(1) << 2,
-                        (R_ITEM_BTN_X(1) + R_ITEM_BTN_WIDTH(1)) << 2, (R_ITEM_BTN_Y(1) + R_ITEM_BTN_WIDTH(1)) << 2,
-                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(1) * 2, R_ITEM_BTN_DD(1) * 2);
+    gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(HUD_ITEM_BTN_C_LEFT) << 2, R_ITEM_BTN_Y(HUD_ITEM_BTN_C_LEFT) << 2,
+                        (R_ITEM_BTN_X(HUD_ITEM_BTN_C_LEFT) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_LEFT)) << 2,
+                        (R_ITEM_BTN_Y(HUD_ITEM_BTN_C_LEFT) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_LEFT)) << 2,
+                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(HUD_ITEM_BTN_C_LEFT) * 2,
+                        R_ITEM_BTN_DD(HUD_ITEM_BTN_C_LEFT) * 2);
 
     // C-Down Button Color & Texture
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                     interfaceCtx->cDownAlpha);
-    gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(2) << 2, R_ITEM_BTN_Y(2) << 2,
-                        (R_ITEM_BTN_X(2) + R_ITEM_BTN_WIDTH(2)) << 2, (R_ITEM_BTN_Y(2) + R_ITEM_BTN_WIDTH(2)) << 2,
-                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(2) * 2, R_ITEM_BTN_DD(2) * 2);
+    gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(HUD_ITEM_BTN_C_DOWN) << 2, R_ITEM_BTN_Y(HUD_ITEM_BTN_C_DOWN) << 2,
+                        (R_ITEM_BTN_X(HUD_ITEM_BTN_C_DOWN) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_DOWN)) << 2,
+                        (R_ITEM_BTN_Y(HUD_ITEM_BTN_C_DOWN) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_DOWN)) << 2,
+                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(HUD_ITEM_BTN_C_DOWN) * 2,
+                        R_ITEM_BTN_DD(HUD_ITEM_BTN_C_DOWN) * 2);
 
     // C-Right Button Color & Texture
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                     interfaceCtx->cRightAlpha);
-    gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(3) << 2, R_ITEM_BTN_Y(3) << 2,
-                        (R_ITEM_BTN_X(3) + R_ITEM_BTN_WIDTH(3)) << 2, (R_ITEM_BTN_Y(3) + R_ITEM_BTN_WIDTH(3)) << 2,
-                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(3) * 2, R_ITEM_BTN_DD(3) * 2);
+    gSPTextureRectangle(
+        OVERLAY_DISP++, R_ITEM_BTN_X(HUD_ITEM_BTN_C_RIGHT) << 2, R_ITEM_BTN_Y(HUD_ITEM_BTN_C_RIGHT) << 2,
+        (R_ITEM_BTN_X(HUD_ITEM_BTN_C_RIGHT) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_RIGHT)) << 2,
+        (R_ITEM_BTN_Y(HUD_ITEM_BTN_C_RIGHT) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_RIGHT)) << 2, G_TX_RENDERTILE, 0, 0,
+        R_ITEM_BTN_DD(HUD_ITEM_BTN_C_RIGHT) * 2, R_ITEM_BTN_DD(HUD_ITEM_BTN_C_RIGHT) * 2);
 
     if ((pauseCtx->state < 8) || (pauseCtx->state >= 18)) {
         if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
@@ -2764,12 +2772,12 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     gDPPipeSync(OVERLAY_DISP++);
 
     // Empty C Button Arrows
-    for (temp = 1; temp < 4; temp++) {
+    for (temp = HUD_ITEM_BTN_C_LEFT; temp < HUD_ITEM_BTN_MAX; temp++) {
         if (gSaveContext.equips.buttonItems[temp] > 0xF0) {
-            if (temp == 1) {
+            if (temp == HUD_ITEM_BTN_C_LEFT) {
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                                 interfaceCtx->cLeftAlpha);
-            } else if (temp == 2) {
+            } else if (temp == HUD_ITEM_BTN_C_DOWN) {
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                                 interfaceCtx->cDownAlpha);
             } else {
@@ -3169,14 +3177,14 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (interfaceCtx->unk_1FA == 0) {
             // B Button Icon & possibly Ammo Count
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
-                Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment, 0);
+                Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment, HUD_ITEM_BTN_B);
 
                 if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
                     ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
                                       0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-                    Interface_DrawAmmoCount(globalCtx, 0, interfaceCtx->bAlpha);
+                    Interface_DrawAmmoCount(globalCtx, HUD_ITEM_BTN_B, interfaceCtx->bAlpha);
                 }
             }
         } else {
@@ -3203,11 +3211,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (gSaveContext.equips.buttonItems[1] < 0xF0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->cLeftAlpha);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x1000, 1);
+            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x1000, HUD_ITEM_BTN_C_LEFT);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-            Interface_DrawAmmoCount(globalCtx, 1, interfaceCtx->cLeftAlpha);
+            Interface_DrawAmmoCount(globalCtx, HUD_ITEM_BTN_C_LEFT, interfaceCtx->cLeftAlpha);
         }
 
         gDPPipeSync(OVERLAY_DISP++);
@@ -3216,11 +3224,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (gSaveContext.equips.buttonItems[2] < 0xF0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->cDownAlpha);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x2000, 2);
+            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x2000, HUD_ITEM_BTN_C_DOWN);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-            Interface_DrawAmmoCount(globalCtx, 2, interfaceCtx->cDownAlpha);
+            Interface_DrawAmmoCount(globalCtx, HUD_ITEM_BTN_C_DOWN, interfaceCtx->cDownAlpha);
         }
 
         gDPPipeSync(OVERLAY_DISP++);
@@ -3229,11 +3237,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (gSaveContext.equips.buttonItems[3] < 0xF0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->cRightAlpha);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x3000, 3);
+            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x3000, HUD_ITEM_BTN_C_RIGHT);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-            Interface_DrawAmmoCount(globalCtx, 3, interfaceCtx->cRightAlpha);
+            Interface_DrawAmmoCount(globalCtx, HUD_ITEM_BTN_C_RIGHT, interfaceCtx->cRightAlpha);
         }
 
         // A Button

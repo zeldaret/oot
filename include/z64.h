@@ -21,6 +21,7 @@
 #include "z64math.h"
 #include "z64map_mark.h"
 #include "z64transition.h"
+#include "z64interface.h"
 #include "bgm.h"
 #include "sfx.h"
 #include "color.h"

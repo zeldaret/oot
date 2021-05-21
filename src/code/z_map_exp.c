@@ -377,7 +377,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
             case SCENE_HAKADAN:
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
-                if (!R_MINIMAP_TOGGLED) {
+                if (!R_MINIMAP_DISABLED) {
                     func_80094520(globalCtx->state.gfxCtx);
                     gDPSetCombineLERP(OVERLAY_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0,
                                       TEXEL0, 0, PRIMITIVE, 0);
@@ -404,12 +404,12 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                 if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Gameplay_InCsMode(globalCtx)) {
                     osSyncPrintf("Game_play_demo_mode_check=%d\n", Gameplay_InCsMode(globalCtx));
                     // clang-format off
-                    if (!R_MINIMAP_TOGGLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &D_801333D4, 4,
+                    if (!R_MINIMAP_DISABLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &D_801333D4, 4,
                                                                      &D_801333E0, &D_801333E0, &D_801333E8); }
                     else { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_DOWN, &D_801333D4, 4,
                                                   &D_801333E0, &D_801333E0, &D_801333E8); }
                     // clang-format on
-                    R_MINIMAP_TOGGLED ^= 1;
+                    R_MINIMAP_DISABLED ^= 1;
                 }
 
                 break;
@@ -433,7 +433,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
             case SCENE_SPOT18:
             case SCENE_SPOT20:
             case SCENE_GANON_TOU:
-                if (!R_MINIMAP_TOGGLED) {
+                if (!R_MINIMAP_DISABLED) {
                     func_80094520(globalCtx->state.gfxCtx);
 
                     gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
@@ -483,12 +483,12 @@ void Minimap_Draw(GlobalContext* globalCtx) {
 
                 if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Gameplay_InCsMode(globalCtx)) {
                     // clang-format off
-                    if (!R_MINIMAP_TOGGLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &D_801333D4, 4,
+                    if (!R_MINIMAP_DISABLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &D_801333D4, 4,
                                                                      &D_801333E0, &D_801333E0, &D_801333E8); }
                     else { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_DOWN, &D_801333D4, 4,
                                                   &D_801333E0, &D_801333E0, &D_801333E8); }
                     // clang-format on
-                    R_MINIMAP_TOGGLED ^= 1;
+                    R_MINIMAP_DISABLED ^= 1;
                 }
 
                 break;
