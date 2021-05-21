@@ -368,11 +368,13 @@ void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossGoma_PlayEffectsAndSfx(BossGoma* this, GlobalContext* globalCtx, s16 arg2, s16 amountMinus1) {
     if (arg2 == 0 || arg2 == 1 || arg2 == 3) {
-        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->rightHandBackLimbWorldPos, 25.0f, amountMinus1, 8.0f, 500, 10, 1);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->rightHandBackLimbWorldPos, 25.0f, amountMinus1, 8.0f, 500,
+                             10, 1);
     }
 
     if (arg2 == 0 || arg2 == 2 || arg2 == 3) {
-        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->leftHandBackLimbWorldPos, 25.0f, amountMinus1, 8.0f, 500, 10, 1);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->leftHandBackLimbWorldPos, 25.0f, amountMinus1, 8.0f, 500,
+                             10, 1);
     }
 
     if (arg2 == 0) {
