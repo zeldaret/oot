@@ -1065,13 +1065,13 @@ void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2) {
 
 /**
  * Chcek if the player is facing the specified actor.
- * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  */
-s32 Player_IsFacingActor(Actor* actor, s16 angle, GlobalContext* globalCtx) {
+s32 Player_IsFacingActor(Actor* actor, s16 maxAngle, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 var = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
+    s16 yawDiff = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
 
-    if (ABS(var) < angle) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
@@ -1080,14 +1080,14 @@ s32 Player_IsFacingActor(Actor* actor, s16 angle, GlobalContext* globalCtx) {
 
 /**
  * Chcek if `actorB` is facing `actorA`.
- * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  *
  * This function is unused in the original game.
  */
-s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 angle) {
-    s16 var = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
+s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 maxAngle) {
+    s16 yawDiff = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
 
-    if (ABS(var) < angle) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
@@ -1096,12 +1096,12 @@ s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 angle) {
 
 /**
  * Chcek if the specified actor is facing the player.
- * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  */
-s32 Actor_IsFacingPlayer(Actor* actor, s16 angle) {
-    s16 var = actor->yawTowardsPlayer - actor->shape.rot.y;
+s32 Actor_IsFacingPlayer(Actor* actor, s16 maxAngle) {
+    s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(var) < angle) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
@@ -1110,14 +1110,14 @@ s32 Actor_IsFacingPlayer(Actor* actor, s16 angle) {
 
 /**
  * Chcek if `actorA` is facing `actorB`.
- * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  *
  * This function is unused in the original game.
  */
-s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 angle) {
-    s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
+s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 maxAngle) {
+    s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-    if (ABS(var) < angle) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
@@ -1126,13 +1126,13 @@ s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 angle) {
 
 /**
  * Chcek if the specified actor is facing the player and is nearby.
- * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  * The minimum distance that qualifies as "nearby" is specified by `range`.
  */
-s32 Actor_IsFacingPlayerAndNearby(Actor* actor, f32 range, s16 angle) {
-    s16 var = actor->yawTowardsPlayer - actor->shape.rot.y;
+s32 Actor_IsFacingPlayerAndNearby(Actor* actor, f32 range, s16 maxAngle) {
+    s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(var) < angle) {
+    if (ABS(yawDiff) < maxAngle) {
         f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer));
 
         if (xyzDistanceFromLink < range) {
@@ -1145,14 +1145,14 @@ s32 Actor_IsFacingPlayerAndNearby(Actor* actor, f32 range, s16 angle) {
 
 /**
  * Chcek if `actorA` is facing `actorB` and is nearby.
- * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  * The minimum distance that qualifies as "nearby" is specified by `range`.
  */
-s32 Actor_ActorAIsFacingActorBAndNearby(Actor* actorA, Actor* actorB, f32 range, s16 angle) {
+s32 Actor_ActorAIsFacingActorBAndNearby(Actor* actorA, Actor* actorB, f32 range, s16 maxAngle) {
     if (Actor_WorldDistXYZToActor(actorA, actorB) < range) {
-        s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
+        s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-        if (ABS(var) < angle) {
+        if (ABS(yawDiff) < maxAngle) {
             return true;
         }
     }
