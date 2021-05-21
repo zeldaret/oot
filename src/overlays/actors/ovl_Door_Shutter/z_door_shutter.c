@@ -678,7 +678,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = THIS;
 
     //! @bug This actor is not fully initialized until the required object dependency is loaded.
-    //! In  most cases, the check for objBankIndex to equal requiredObjBankIndex prevents the actor
+    //! In most cases, the check for objBankIndex to equal requiredObjBankIndex prevents the actor
     //! from drawing until initialization is complete. However when the required object is 
     //! gameplay_keep, this check will pass no matter what.
     //! This only matters in very specific scenarios, when the door is unculled on the first possible frame after
