@@ -1299,9 +1299,8 @@ void func_80084BF4(GlobalContext* globalCtx, u16 flag) {
     }
 }
 
-s16 sAmmoRefillCounts[] = { 5, 10, 20, 30, 5, 10, 30, 0, 5, 20, 1, 5, 20, 50, 200, 10 };
-
 u8 Item_Give(GlobalContext* globalCtx, u8 item) {
+    static s16 sAmmoRefillCounts[] = { 5, 10, 20, 30, 5, 10, 30, 0, 5, 20, 1, 5, 20, 50, 200, 10 };
     s16 i;
     s16 slot;
     s16 temp;
@@ -2038,9 +2037,9 @@ void func_80086D5C(s32* buf, u16 size) {
     }
 }
 
-u32 sDoActionTextures[] = { gAttackDoActionENGTex, gCheckDoActionENGTex };
-
 void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 arg2) {
+    static void* sDoActionTextures[] = { gAttackDoActionENGTex, gCheckDoActionENGTex };
+
     if (action >= 0x1D) {
         action = 0x0A;
     }
@@ -2061,7 +2060,7 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 a
         osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
     } else {
         gSegments[7] = VIRTUAL_TO_PHYSICAL(interfaceCtx->doActionSegment);
-        func_80086D5C(SEGMENTED_TO_VIRTUAL(sDoActionTextures[arg2]), 0x180 / 4);
+        func_80086D5C(SEGMENTED_TO_VIRTUAL((s32*)sDoActionTextures[arg2]), 0x180 / 4);
     }
 }
 
@@ -2342,10 +2341,10 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
 
 void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
     static s16 sMagicBorderColors[][3] = {
-        { 0xFF, 0xFF, 0xFF },
-        { 0x96, 0x96, 0x96 },
-        { 0xFF, 0xFF, 0x96 },
-        { 0xFF, 0xFF, 0x32 },
+        { 255, 255, 255 },
+        { 150, 150, 150 },
+        { 255, 255, 150 },
+        { 255, 255, 50 },
     };
     static s16 sMagicBorderIndexes[] = { 0, 1, 1, 0 };
     static s16 sMagicBorderRatio = 2;
@@ -2994,26 +2993,26 @@ void func_8008A994(InterfaceContext* interfaceCtx) {
     func_800AB2C4(&interfaceCtx->view);
 }
 
-s16 sMagicArrowEffectsR[] = { 255, 100, 255 };
-s16 sMagicArrowEffectsG[] = { 0, 100, 255 };
-s16 sMagicArrowEffectsB[] = { 0, 255, 100 };
+static s16 sMagicArrowEffectsR[] = { 255, 100, 255 };
+static s16 sMagicArrowEffectsG[] = { 0, 100, 255 };
+static s16 sMagicArrowEffectsB[] = { 0, 255, 100 };
 
-s16 sTimerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
-s16 sDigitWidth[] = { 9, 9, 8, 9, 9 };
+static s16 sTimerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
+static s16 sDigitWidth[] = { 9, 9, 8, 9, 9 };
 
 // unused, most likely colors
-s16 D_80125B1C[][3] = {
+static s16 D_80125B1C[][3] = {
     { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
 };
 
-s16 sRupeeDigitsFirst[] = { 1, 0, 0 };
-s16 sRupeeDigitsCount[] = { 2, 3, 3 };
+static s16 sRupeeDigitsFirst[] = { 1, 0, 0 };
+static s16 sRupeeDigitsCount[] = { 2, 3, 3 };
 
-s16 sSpoilingItemEntrances[] = { 0x01AD, 0x0153, 0x0153 };
+static s16 sSpoilingItemEntrances[] = { 0x01AD, 0x0153, 0x0153 };
 
-u16 D_80125B54 = 0xC220;       // unused
-u16 D_80125B58 = 0xC20C;       // unused
-s16 D_80125B5C[] = { 91, 91 }; // unused
+static u16 D_80125B54 = 0xC220;       // unused
+static u16 D_80125B58 = 0xC20C;       // unused
+static s16 D_80125B5C[] = { 91, 91 }; // unused
 
 #ifdef NON_MATCHING
 // mostly regalloc, minor ordering and stack usage differences
@@ -3804,11 +3803,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 4269);
 }
 #else
-s16 D_8015FFE0;
-s16 D_8015FFE2;
-s16 D_8015FFE4;
-s16 D_8015FFE6;
-s16 sTimerDigits[5];
+static s16 D_8015FFE0;
+static s16 D_8015FFE2;
+static s16 D_8015FFE4;
+static s16 D_8015FFE6;
+static s16 sTimerDigits[5];
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Interface_Draw.s")
 #endif
 
