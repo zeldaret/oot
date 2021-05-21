@@ -682,7 +682,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     //! from drawing until initialization is complete. However when the required object is 
     //! gameplay_keep, this check will pass no matter what.
     //! This only matters in very specific scenarios, when the door is unculled on the first possible frame after
-    //! spawning. It will try to draw on the first possible frame without having run update yet.
+    //! spawning. It will try to draw without having run update yet.
     //! If the required object is gameplay_keep, the check will pass even though initialization has not completed
     //! yet, and will try to draw the display list of the first entry in `D_80998134`, which will likely crash the game.
     //!
