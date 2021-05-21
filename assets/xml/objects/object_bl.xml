@@ -1,0 +1,14 @@
+<Root>
+    <File Name="object_bl" Segment="6">
+        <Animation Name="object_bl_Anim_000024" Offset="0x24"/>
+        <Animation Name="object_bl_Anim_000064" Offset="0x64"/>
+        <Animation Name="object_bl_Anim_0000A4" Offset="0xA4"/>
+        <DList Name="object_bl_DL_0003B0" Offset="0x3B0"/>
+        <DList Name="object_bl_DL_000448" Offset="0x448"/>
+        <DList Name="object_bl_DL_000530" Offset="0x530"/>
+        <Texture Name="object_bl_Tex_000608" OutName="tex_00000608" Format="ia16" Width="16" Height="64" Offset="0x608"/>
+        <Blob Name="object_bl_Blob_000E08" Size="0x4800" Offset="0xE08"/>
+        <Texture Name="object_bl_Tex_005608" OutName="tex_00005608" Format="ia16" Width="16" Height="16" Offset="0x5608"/>
+        <Blob Name="object_bl_Blob_005808" Size="0x48" Offset="0x5808"/>
+    </File>
+</Root>

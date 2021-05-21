@@ -3209,7 +3209,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
     obstaclePos.z += intersectDist * Math_CosS(this->actor.world.rot.y);
     obstacleTop = obstaclePos;
     obstacleTop.y = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &obstacleFloor, &bgId, &obstaclePos);
-    if (obstacleTop.y == -32000.0f) {
+    if (obstacleTop.y == BGCHECK_Y_MIN) {
         return;
     }
     obstacleHeight = obstacleTop.y - this->actor.world.pos.y;
@@ -3258,7 +3258,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
 
     obstacleTop = obstaclePos;
     obstacleTop.y = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &obstacleFloor, &bgId, &obstaclePos);
-    if (obstacleTop.y == -32000.0f) {
+    if (obstacleTop.y == BGCHECK_Y_MIN) {
         return;
     }
 

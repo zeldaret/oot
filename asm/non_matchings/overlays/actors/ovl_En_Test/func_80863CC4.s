@@ -71,7 +71,7 @@ glabel func_80863CC4
 /* 046B0 80863D00 2407003C */  addiu   $a3, $zero, 0x003C         ## $a3 = 0000003C
 /* 046B4 80863D04 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 046B8 80863D08 260407F0 */  addiu   $a0, $s0, 0x07F0           ## $a0 = 000007F0
-/* 046BC 80863D0C 0C00CBD5 */  jal     func_80032F54              
+/* 046BC 80863D0C 0C00CBD5 */  jal     BodyBreak_SetInfo              
 /* 046C0 80863D10 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 046C4 80863D14 8FA80084 */  lw      $t0, 0x0084($sp)           
 /* 046C8 80863D18 24010022 */  addiu   $at, $zero, 0x0022         ## $at = 00000022
