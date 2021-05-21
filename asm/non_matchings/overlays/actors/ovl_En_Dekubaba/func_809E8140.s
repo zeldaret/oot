@@ -12,7 +12,7 @@ glabel func_809E8140
 /* 02998 809E8168 304FFFFD */  andi    $t7, $v0, 0xFFFD           ## $t7 = 00000000
 /* 0299C 809E816C A08F0249 */  sb      $t7, 0x0249($a0)           ## 00000249
 /* 029A0 809E8170 26250238 */  addiu   $a1, $s1, 0x0238           ## $a1 = 00000238
-/* 029A4 809E8174 0C00D5CF */  jal     func_8003573C              
+/* 029A4 809E8174 0C00D5CF */  jal     Actor_SetDropFlagJntSph              
 /* 029A8 809E8178 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 029AC 809E817C 9238024C */  lbu     $t8, 0x024C($s1)           ## 0000024C
 /* 029B0 809E8180 2401000C */  addiu   $at, $zero, 0x000C         ## $at = 0000000C
@@ -173,7 +173,7 @@ glabel func_809E8140
 /* 02BD0 809E83A0 1000000F */  beq     $zero, $zero, .L809E83E0   
 /* 02BD4 809E83A4 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L809E83A8:
-/* 02BD8 809E83A8 0C00CB1F */  jal     func_80032C7C              
+/* 02BD8 809E83A8 0C00CB1F */  jal     Enemy_StartFinishingBlow              
 /* 02BDC 809E83AC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 02BE0 809E83B0 862B001C */  lh      $t3, 0x001C($s1)           ## 0000001C
 /* 02BE4 809E83B4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001

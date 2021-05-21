@@ -3,7 +3,7 @@ glabel func_808641E8
 /* 04B9C 808641EC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 04BA0 808641F0 AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 04BA4 808641F4 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 04BA8 808641F8 0C00CDE0 */  jal     func_80033780              
+/* 04BA8 808641F8 0C00CDE0 */  jal     Actor_GetProjectileActor              
 /* 04BAC 808641FC 3C064396 */  lui     $a2, 0x4396                ## $a2 = 43960000
 /* 04BB0 80864200 8FA7002C */  lw      $a3, 0x002C($sp)           
 /* 04BB4 80864204 104000BD */  beq     $v0, $zero, .L808644FC     
@@ -50,7 +50,7 @@ glabel func_808641E8
 /* 04C50 808642A0 8FA40028 */  lw      $a0, 0x0028($sp)           
 /* 04C54 808642A4 00E02825 */  or      $a1, $a3, $zero            ## $a1 = 00000000
 /* 04C58 808642A8 A7A30022 */  sh      $v1, 0x0022($sp)           
-/* 04C5C 808642AC 0C00CEA1 */  jal     func_80033A84              
+/* 04C5C 808642AC 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 04C60 808642B0 AFA7002C */  sw      $a3, 0x002C($sp)           
 /* 04C64 808642B4 87A30022 */  lh      $v1, 0x0022($sp)           
 /* 04C68 808642B8 1040000A */  beq     $v0, $zero, .L808642E4     
@@ -99,7 +99,7 @@ glabel func_808641E8
 /* 04CFC 8086434C A7A30022 */  sh      $v1, 0x0022($sp)           
 /* 04D00 80864350 A7A60020 */  sh      $a2, 0x0020($sp)           
 /* 04D04 80864354 AFA7002C */  sw      $a3, 0x002C($sp)           
-/* 04D08 80864358 0C00CEA1 */  jal     func_80033A84              
+/* 04D08 80864358 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 04D0C 8086435C A7A8001E */  sh      $t0, 0x001E($sp)           
 /* 04D10 80864360 87A30022 */  lh      $v1, 0x0022($sp)           
 /* 04D14 80864364 87A60020 */  lh      $a2, 0x0020($sp)           

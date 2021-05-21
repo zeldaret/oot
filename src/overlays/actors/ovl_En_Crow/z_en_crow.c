@@ -295,7 +295,7 @@ void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    yaw = func_8002E084(&this->actor, 0x2800);
+    yaw = Actor_IsFacingPlayer(&this->actor, 0x2800);
 
     if (yaw != 0) {
         pos.x = player->actor.world.pos.x;
@@ -413,14 +413,14 @@ void EnCrow_Respawn(EnCrow* this, GlobalContext* globalCtx) {
 void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.elements[0].info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) { // Deku Nuts
                 EnCrow_SetupTurnAway(this);
             } else {
                 Actor_ApplyDamage(&this->actor);
                 this->actor.flags &= ~1;
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 EnCrow_SetupDamaged(this, globalCtx);
             }
         }

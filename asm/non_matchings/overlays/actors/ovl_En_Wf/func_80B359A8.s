@@ -41,7 +41,7 @@ glabel func_80B359A8
 /* 01D68 80B35A18 87A60022 */  lh      $a2, 0x0022($sp)           
 /* 01D6C 80B35A1C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01D70 80B35A20 24051554 */  addiu   $a1, $zero, 0x1554         ## $a1 = 00001554
-/* 01D74 80B35A24 0C00B821 */  jal     func_8002E084              
+/* 01D74 80B35A24 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 01D78 80B35A28 A7A60022 */  sh      $a2, 0x0022($sp)           
 /* 01D7C 80B35A2C 14400014 */  bne     $v0, $zero, .L80B35A80     
 /* 01D80 80B35A30 87A60022 */  lh      $a2, 0x0022($sp)           
