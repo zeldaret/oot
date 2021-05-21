@@ -344,8 +344,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            if ((this->actor.xzDistToPlayer <= 100.0f) &&
-                (Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360) != 0)) {
+            if ((this->actor.xzDistToPlayer <= 100.0f) && (Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360))) {
                 Animation_Change(&this->skelAnime, &D_06004658, 1.0f, 20.0f, Animation_GetLastFrame(&D_06004658),
                                  ANIMMODE_ONCE, -6.0f);
                 this->actionState = 0;

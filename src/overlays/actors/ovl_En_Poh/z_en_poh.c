@@ -537,7 +537,7 @@ void func_80ADEC9C(EnPoh* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistToPlayer > 280.0f) {
         EnPoh_SetupIdle(this);
     } else if (this->unk_198 == 0 && this->actor.xzDistToPlayer < 140.0f &&
-               Player_IsFacingActor(&this->actor, 0x2AAA, globalCtx) == 0) {
+               !Player_IsFacingActor(&this->actor, 0x2AAA, globalCtx)) {
         EnPoh_SetupAttack(this);
     }
     if (this->lightColor.a == 255) {

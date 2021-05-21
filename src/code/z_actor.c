@@ -3167,8 +3167,8 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* glob
     return true;
 }
 
-void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 scale,
-                          s16 scaleStep, u8 arg8) {
+void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 randAccelWeight,
+                          s16 scale, s16 scaleStep, u8 arg8) {
     Vec3f pos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
@@ -3182,8 +3182,8 @@ void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f
     for (i = arg4; i >= 0; i--) {
         pos.x = (Math_SinF(var) * arg3) + arg2->x;
         pos.z = (Math_CosF(var) * arg3) + arg2->z;
-        accel.x = (Rand_ZeroOne() - 0.5f) * arg5;
-        accel.z = (Rand_ZeroOne() - 0.5f) * arg5;
+        accel.x = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
+        accel.z = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
 
         if (scale == 0) {
             func_8002857C(globalCtx, &pos, &velocity, &accel);
