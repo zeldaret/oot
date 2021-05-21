@@ -84,7 +84,7 @@ glabel L8085FA00
 /* 003E0 8085FA30 00000000 */  nop
 /* 003E4 8085FA34 4500000F */  bc1f    .L8085FA74                 
 /* 003E8 8085FA38 00000000 */  nop
-/* 003EC 8085FA3C 0C00B821 */  jal     Actor_YawInRangeWithPlayer              
+/* 003EC 8085FA3C 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 003F0 8085FA40 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 003F4 8085FA44 1040000B */  beq     $v0, $zero, .L8085FA74     
 /* 003F8 8085FA48 8FA60018 */  lw      $a2, 0x0018($sp)           

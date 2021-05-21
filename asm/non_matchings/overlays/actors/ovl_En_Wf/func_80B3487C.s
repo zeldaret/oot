@@ -170,7 +170,7 @@ glabel func_80B3487C
 /* 00E08 80B34AB8 46000107 */  neg.s   $f4, $f0                   
 /* 00E0C 80B34ABC E7A4003C */  swc1    $f4, 0x003C($sp)           
 .L80B34AC0:
-/* 00E10 80B34AC0 0C00B821 */  jal     Actor_YawInRangeWithPlayer              
+/* 00E10 80B34AC0 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 00E14 80B34AC4 240511C7 */  addiu   $a1, $zero, 0x11C7         ## $a1 = 000011C7
 /* 00E18 80B34AC8 14400012 */  bne     $v0, $zero, .L80B34B14     
 /* 00E1C 80B34ACC 3C0142B4 */  lui     $at, 0x42B4                ## $at = 42B40000

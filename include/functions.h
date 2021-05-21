@@ -372,10 +372,10 @@ void Flags_SetTempClear(GlobalContext* globalCtx, s32 flag);
 void Flags_UnsetTempClear(GlobalContext* globalCtx, s32 flag);
 s32 Flags_GetCollectible(GlobalContext* globalCtx, s32 flag);
 void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag);
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
-                            s16 y, u8 width, u8 height);
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
-                             s32 y, s32 width, s32 height, s32 delay);
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x, s16 y, u8 width,
+                            u8 height);
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x, s32 y,
+                             s32 width, s32 height, s32 delay);
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx);
 void Actor_Kill(Actor* actor);
 void Actor_SetFocus(Actor* actor, f32 offset);
@@ -412,11 +412,12 @@ s32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 csMode);
 s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 arg2);
 void func_8002DF90(DynaPolyActor* dynaActor);
 void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2);
-s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx);
-s32 Actor_YawInRangeWithPlayer(Actor* actor, s16 arg1);
-s32 Actor_YawAndDistInRangeWithPlayer(Actor* actor, f32 arg1, s16 arg2);
-s32 Actor_YawAndDistInRangeWithActor(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3);
-void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+s32 Player_IsFacingActor(Actor* actor, s16 angle, GlobalContext* globalCtx);
+s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 angle);
+s32 Actor_IsFacingPlayer(Actor* actor, s16 angle);
+s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 angle);
+s32 Actor_IsFacingPlayerAndNearby(Actor* actor, f32 dist, s16 angle);
+s32 Actor_ActorAIsFacingActorBAndNearby(Actor* actorA, Actor* actorB, f32 dist, s16 angle);
 Hilite* func_8002EABC(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx);
 Hilite* func_8002EB44(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx);
 void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag);
@@ -474,13 +475,13 @@ Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, GlobalCo
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalCtx);
 Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** actorPtr, Player* player);
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory);
-void Actor_PlayDeathFx(GlobalContext* globalCtx, Actor* actor);
+void Enemy_StartFinishingBlow(GlobalContext* globalCtx, Actor* actor);
 s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3);
 void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx);
 void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6);
 s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx, s16 params);
 void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
-                   s16 arg7, u8 arg8);
+                          s16 arg7, u8 arg8);
 void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
@@ -1236,8 +1237,8 @@ void func_80094D28(Gfx** gfxp);
 Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height);
 Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
-Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, 
-                        u32 x2, u32 y2, s32 width2, s32 height2);
+Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
+                      u32 y2, s32 width2, s32 height2);
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
 Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);

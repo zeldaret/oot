@@ -334,7 +334,7 @@ s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
                 this->actor.shape.shadowAlpha = 0;
                 this->actor.flags &= ~1;
                 this->unk_1D0 = sp3F;
-                Actor_PlayDeathFx(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 return 1;
             }
             EffectSsHitMark_SpawnFixedScale(globalCtx, 0, &effectPos);

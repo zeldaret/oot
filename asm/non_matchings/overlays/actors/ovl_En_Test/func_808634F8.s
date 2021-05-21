@@ -70,7 +70,7 @@ glabel func_808634F8
 /* 03FA8 808635F8 10000022 */  beq     $zero, $zero, .L80863684   
 /* 03FAC 808635FC 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80863600:
-/* 03FB0 80863600 0C00B821 */  jal     Actor_YawInRangeWithPlayer              
+/* 03FB0 80863600 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 03FB4 80863604 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 03FB8 80863608 10400010 */  beq     $v0, $zero, .L8086364C     
 /* 03FBC 8086360C 00000000 */  nop
@@ -79,7 +79,7 @@ glabel func_808634F8
 /* 03FC4 80863614 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03FC8 80863618 14400008 */  bne     $v0, $zero, .L8086363C     
 /* 03FCC 8086361C 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 03FD0 80863620 0C00CB1F */  jal     Actor_PlayDeathFx              
+/* 03FD0 80863620 0C00CB1F */  jal     Enemy_StartFinishingBlow              
 /* 03FD4 80863624 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03FD8 80863628 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03FDC 8086362C 0C218BEA */  jal     func_80862FA8              
@@ -100,7 +100,7 @@ glabel func_808634F8
 /* 0400C 8086365C 0C218C3C */  jal     func_808630F0              
 /* 04010 80863660 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 04014 80863664 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 04018 80863668 0C00CB1F */  jal     Actor_PlayDeathFx              
+/* 04018 80863668 0C00CB1F */  jal     Enemy_StartFinishingBlow              
 /* 0401C 8086366C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 04020 80863670 10000004 */  beq     $zero, $zero, .L80863684   
 /* 04024 80863674 8FBF001C */  lw      $ra, 0x001C($sp)           

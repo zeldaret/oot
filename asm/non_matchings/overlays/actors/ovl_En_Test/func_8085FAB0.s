@@ -158,7 +158,7 @@ glabel L8085FBE0
 /* 00660 8085FCB0 45000011 */  bc1f    .L8085FCF8                 
 /* 00664 8085FCB4 00000000 */  nop
 /* 00668 8085FCB8 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 0066C 8085FCBC 0C00B821 */  jal     Actor_YawInRangeWithPlayer              
+/* 0066C 8085FCBC 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 00670 8085FCC0 AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 00674 8085FCC4 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00678 8085FCC8 1040003D */  beq     $v0, $zero, .L8085FDC0     

@@ -295,7 +295,7 @@ void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    yaw = Actor_YawInRangeWithPlayer(&this->actor, 0x2800);
+    yaw = Actor_IsFacingPlayer(&this->actor, 0x2800);
 
     if (yaw != 0) {
         pos.x = player->actor.world.pos.x;
@@ -420,7 +420,7 @@ void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
             } else {
                 Actor_ApplyDamage(&this->actor);
                 this->actor.flags &= ~1;
-                Actor_PlayDeathFx(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 EnCrow_SetupDamaged(this, globalCtx);
             }
         }

@@ -82,7 +82,7 @@ glabel func_808600EC
 /* 00B94 808601E4 10000047 */  beq     $zero, $zero, .L80860304   
 /* 00B98 808601E8 AE0B07E8 */  sw      $t3, 0x07E8($s0)           ## 000007E8
 .L808601EC:
-/* 00B9C 808601EC 0C00B821 */  jal     Actor_YawInRangeWithPlayer              
+/* 00B9C 808601EC 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 00BA0 808601F0 24051555 */  addiu   $a1, $zero, 0x1555         ## $a1 = 00001555
 /* 00BA4 808601F4 10400034 */  beq     $v0, $zero, .L808602C8     
 /* 00BA8 808601F8 3C01435C */  lui     $at, 0x435C                ## $at = 435C0000

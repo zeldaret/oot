@@ -1063,51 +1063,76 @@ void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2) {
     dynaActor->unk_158 = arg2;
 }
 
-s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx) {
+/**
+ * Chcek if the player is facing the specified actor.
+ * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ */
+s32 Player_IsFacingActor(Actor* actor, s16 angle, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 var = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
 
-    if (ABS(var) < arg1) {
+    if (ABS(var) < angle) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E020(Actor* actorA, Actor* actorB, s16 arg2) {
+/**
+ * Chcek if `actorB` is facing `actorA`.
+ * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ *
+ * This function is unused in the original game.
+ */
+s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 angle) {
     s16 var = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
 
-    if (ABS(var) < arg2) {
+    if (ABS(var) < angle) {
         return true;
     }
 
     return false;
 }
 
-s32 Actor_YawInRangeWithPlayer(Actor* actor, s16 yaw) {
+/**
+ * Chcek if the specified actor is facing the player.
+ * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ */
+s32 Actor_IsFacingPlayer(Actor* actor, s16 angle) {
     s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(yawDiff) < yaw) {
+    if (ABS(yawDiff) < angle) {
         return true;
     }
 
     return false;
 }
 
-s32 Actor_YawInRangeWithActor(Actor* actorA, Actor* actorB, s16 yaw) {
+/**
+ * Chcek if `actorA` is facing `actorB`.
+ * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ *
+ * This function is unused in the original game.
+ */
+s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 angle) {
     s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-    if (ABS(yawDiff) < yaw) {
+    if (ABS(yawDiff) < angle) {
         return true;
     }
 
     return false;
 }
 
-s32 Actor_YawAndDistInRangeWithPlayer(Actor* actor, f32 dist, s16 yaw) {
+/**
+ * Chcek if the specified actor is facing the player and is nearby.
+ * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ * The minimum distance that qualifies as "nearby" is specified by `dist`.
+ */
+s32 Actor_IsFacingPlayerAndNearby(Actor* actor, f32 dist, s16 angle) {
     s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(yawDiff) < yaw) {
+    if (ABS(yawDiff) < angle) {
         f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer));
 
         if (xyzDistanceFromLink < dist) {
@@ -1118,11 +1143,16 @@ s32 Actor_YawAndDistInRangeWithPlayer(Actor* actor, f32 dist, s16 yaw) {
     return false;
 }
 
-s32 Actor_YawAndDistInRangeWithActor(Actor* actorA, Actor* actorB, f32 dist, s16 yaw) {
+/**
+ * Chcek if `actorA` is facing `actorB` and is nearby.
+ * The maximum angle difference that qualifies as "facing" is specified by `angle`.
+ * The minimum distance that qualifies as "nearby" is specified by `dist`.
+ */
+s32 Actor_ActorAIsFacingActorBAndNearby(Actor* actorA, Actor* actorB, f32 dist, s16 angle) {
     if (Actor_WorldDistXYZToActor(actorA, actorB) < dist) {
         s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-        if (ABS(yawDiff) < yaw) {
+        if (ABS(yawDiff) < angle) {
             return true;
         }
     }
@@ -3010,7 +3040,7 @@ Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory) {
  * Play the death sound effect and flash the screen white for 4 frames.
  * While the screen flashes, the game freezes.
  */
-void Actor_PlayDeathFx(GlobalContext* globalCtx, Actor* actor) {
+void Enemy_StartFinishingBlow(GlobalContext* globalCtx, Actor* actor) {
     globalCtx->actorCtx.freezeFlashTimer = 5;
     Audio_PlaySoundAtPosition(globalCtx, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }

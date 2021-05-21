@@ -361,7 +361,7 @@ glabel func_808604FC
 /* 01378 808609C8 00000000 */  nop
 /* 0137C 808609CC 4500002D */  bc1f    .L80860A84
 /* 01380 808609D0 00000000 */  nop
-/* 01384 808609D4 0C00B821 */  jal     Actor_YawInRangeWithPlayer
+/* 01384 808609D4 0C00B821 */  jal     Actor_IsFacingPlayer
 /* 01388 808609D8 2405071C */  addiu   $a1, $zero, 0x071C         ## $a1 = 0000071C
 /* 0138C 808609DC 10400029 */  beq     $v0, $zero, .L80860A84
 /* 01390 808609E0 8FA40074 */  lw      $a0, 0x0074($sp)
@@ -424,7 +424,7 @@ glabel func_808604FC
 /* 0145C 80860AAC A6020032 */  sh      $v0, 0x0032($s0)           ## 00000032
 /* 01460 80860AB0 A60200B6 */  sh      $v0, 0x00B6($s0)           ## 000000B6
 .L80860AB4:
-/* 01464 80860AB4 0C00B821 */  jal     Actor_YawInRangeWithPlayer
+/* 01464 80860AB4 0C00B821 */  jal     Actor_IsFacingPlayer
 /* 01468 80860AB8 240511C7 */  addiu   $a1, $zero, 0x11C7         ## $a1 = 000011C7
 /* 0146C 80860ABC 1440000E */  bne     $v0, $zero, .L80860AF8
 /* 01470 80860AC0 3C0142DC */  lui     $at, 0x42DC                ## $at = 42DC0000

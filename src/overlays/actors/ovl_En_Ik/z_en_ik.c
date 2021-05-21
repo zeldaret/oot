@@ -285,7 +285,7 @@ Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
         if ((prop == actor) || (prop->id != ACTOR_BG_JYA_IRONOBJ)) {
             prop = prop->next;
             continue;
-        } else if (Actor_YawAndDistInRangeWithActor(actor, prop, 80.0f, 0x2710)) {
+        } else if (Actor_ActorAIsFacingActorBAndNearby(actor, prop, 80.0f, 0x2710)) {
             return prop;
         }
 
@@ -745,7 +745,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
 
     if (this->actor.colChkInfo.health == 0) {
         func_80A7598C(this);
-        Actor_PlayDeathFx(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
         return;
     }
     Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x7D0, 0);
