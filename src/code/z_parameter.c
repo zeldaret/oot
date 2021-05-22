@@ -3001,20 +3001,21 @@ void func_8008A994(InterfaceContext* interfaceCtx) {
     func_800AB2C4(&interfaceCtx->view);
 }
 
+#ifdef NON_MATCHING
 void Interface_Draw(GlobalContext* globalCtx) {
-    static s16 sMagicArrowEffectsR[] = { 255, 100, 255 };
-    static s16 sMagicArrowEffectsG[] = { 0, 100, 255 };
-    static s16 sMagicArrowEffectsB[] = { 0, 255, 100 };
-    static s16 sTimerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
-    static s16 sDigitWidth[] = { 9, 9, 8, 9, 9 };
+    static s16 magicArrowEffectsR[] = { 255, 100, 255 };
+    static s16 magicArrowEffectsG[] = { 0, 100, 255 };
+    static s16 magicArrowEffectsB[] = { 0, 255, 100 };
+    static s16 timerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
+    static s16 digitWidth[] = { 9, 9, 8, 9, 9 };
     // unused, most likely colors
     static s16 D_80125B1C[][3] = {
         { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
     };
-    static s16 sTimerDigits[5];
-    static s16 sRupeeDigitsFirst[] = { 1, 0, 0 };
-    static s16 sRupeeDigitsCount[] = { 2, 3, 3 };
-    static s16 sSpoilingItemEntrances[] = { 0x01AD, 0x0153, 0x0153 };
+    static s16 timerDigits[5];
+    static s16 rupeeDigitsFirst[] = { 1, 0, 0 };
+    static s16 rupeeDigitsCount[] = { 2, 3, 3 };
+    static s16 spoilingItemEntrances[] = { 0x01AD, 0x0153, 0x0153 };
     static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
     static s16 D_80125B5C[] = { 91, 91 };         // unused
     static s16 D_8015FFE0;
@@ -3137,8 +3138,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
             interfaceCtx->counterDigits[2] -= 10;
         }
 
-        svar2 = sRupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
-        svar4 = sRupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
+        svar2 = rupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
+        svar4 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
 
         for (svar1 = 0, svar3 = 26 + 16; svar1 < svar4; svar1++, svar2++, svar3 += 8) {
             OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP,
@@ -3288,8 +3289,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
             } else {
                 // Magic Arrow Equip Effect
                 svar1 = pauseCtx->equipTargetItem - 0xBF;
-                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, sMagicArrowEffectsR[svar1], sMagicArrowEffectsG[svar1],
-                                sMagicArrowEffectsB[svar1], pauseCtx->equipAnimAlpha);
+                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, magicArrowEffectsR[svar1], magicArrowEffectsG[svar1],
+                                magicArrowEffectsB[svar1], pauseCtx->equipAnimAlpha);
 
                 if ((pauseCtx->equipAnimAlpha > 0) && (pauseCtx->equipAnimAlpha < 255)) {
                     svar1 = (pauseCtx->equipAnimAlpha / 8) / 2;
@@ -3359,7 +3360,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     if (sHBAScoreDigits[svar1] != 0 || (svar2 != 0) || (svar1 >= 3)) {
                         OVERLAY_DISP = Gfx_TextureI8(
                             OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * sHBAScoreDigits[svar1])), 8, 16, svar5,
-                            (ZREG(15) - 2), sDigitWidth[0], VREG(42), VREG(43) << 1, VREG(43) << 1);
+                            (ZREG(15) - 2), digitWidth[0], VREG(42), VREG(43) << 1, VREG(43) << 1);
                         svar5 += 9;
                         svar2++;
                     }
@@ -3394,7 +3395,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
                     gSaveContext.eventInf[0] &= 0x7F80;
                     osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[0]);
-                    globalCtx->nextEntranceIndex = sSpoilingItemEntrances[svar1];
+                    globalCtx->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
 
                     for (svar2 = 1; svar2 < 4; svar2++) {
@@ -3506,12 +3507,12 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                 }
                                 D_80125A5C = 0;
                             } else if (gSaveContext.timer1Value > 60) {
-                                if (sTimerDigits[4] == 1) {
+                                if (timerDigits[4] == 1) {
                                     Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_WOMAN, &D_801333D4, 4, &D_801333E0,
                                                            &D_801333E0, &D_801333E8);
                                 }
                             } else if (gSaveContext.timer1Value >= 11) {
-                                if (sTimerDigits[4] & 1) {
+                                if (timerDigits[4] & 1) {
                                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &D_801333D4, 4, &D_801333E0,
                                                            &D_801333E0, &D_801333E8);
                                 }
@@ -3682,12 +3683,12 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                                 gSaveContext.timer2State = 7;
                                             }
                                         } else if (gSaveContext.timer2Value > 60) {
-                                            if (sTimerDigits[4] == 1) {
+                                            if (timerDigits[4] == 1) {
                                                 Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_WOMAN, &D_801333D4, 4,
                                                                        &D_801333E0, &D_801333E0, &D_801333E8);
                                             }
                                         } else if (gSaveContext.timer2Value > 10) {
-                                            if ((sTimerDigits[4] & 1)) {
+                                            if ((timerDigits[4] & 1)) {
                                                 Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &D_801333D4, 4,
                                                                        &D_801333E0, &D_801333E0, &D_801333E8);
                                             }
@@ -3725,27 +3726,27 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
             if (((gSaveContext.timer1State != 0) && (gSaveContext.timer1State != 10)) ||
                 (gSaveContext.timer2State != 0)) {
-                sTimerDigits[0] = sTimerDigits[1] = sTimerDigits[3] = 0;
-                sTimerDigits[2] = 10; // digit 10 is used as ':' (colon)
+                timerDigits[0] = timerDigits[1] = timerDigits[3] = 0;
+                timerDigits[2] = 10; // digit 10 is used as ':' (colon)
 
                 if (gSaveContext.timer1State != 0) {
-                    sTimerDigits[4] = gSaveContext.timer1Value;
+                    timerDigits[4] = gSaveContext.timer1Value;
                 } else {
-                    sTimerDigits[4] = gSaveContext.timer2Value;
+                    timerDigits[4] = gSaveContext.timer2Value;
                 }
 
-                while (sTimerDigits[4] >= 60) {
-                    sTimerDigits[1]++;
-                    if (sTimerDigits[1] >= 10) {
-                        sTimerDigits[0]++;
-                        sTimerDigits[1] -= 10;
+                while (timerDigits[4] >= 60) {
+                    timerDigits[1]++;
+                    if (timerDigits[1] >= 10) {
+                        timerDigits[0]++;
+                        timerDigits[1] -= 10;
                     }
-                    sTimerDigits[4] -= 60;
+                    timerDigits[4] -= 60;
                 }
 
-                while (sTimerDigits[4] >= 10) {
-                    sTimerDigits[3]++;
-                    sTimerDigits[4] -= 10;
+                while (timerDigits[4] >= 10) {
+                    timerDigits[3]++;
+                    timerDigits[4] -= 10;
                 }
 
                 // Clock Icon
@@ -3774,10 +3775,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 }
 
                 for (svar1 = 0; svar1 < 5; svar1++) {
-                    OVERLAY_DISP = Gfx_TextureI8(
-                        OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * sTimerDigits[svar1])), 8, 16,
-                        gSaveContext.timerX[svar6] + sTimerDigitLeftPos[svar1], gSaveContext.timerY[svar6],
-                        sDigitWidth[svar1], VREG(42), VREG(43) << 1, VREG(43) << 1);
+                    OVERLAY_DISP =
+                        Gfx_TextureI8(OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
+                                      gSaveContext.timerX[svar6] + timerDigitLeftPos[svar1], gSaveContext.timerY[svar6],
+                                      digitWidth[svar1], VREG(42), VREG(43) << 1, VREG(43) << 1);
                 }
             }
         }
@@ -3796,6 +3797,28 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 4269);
 }
+#else
+static s16 magicArrowEffectsR[] = { 255, 100, 255 };
+static s16 magicArrowEffectsG[] = { 0, 100, 255 };
+static s16 magicArrowEffectsB[] = { 0, 255, 100 };
+static s16 timerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
+static s16 digitWidth[] = { 9, 9, 8, 9, 9 };
+// unused, most likely colors
+static s16 D_80125B1C[][3] = {
+    { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
+};
+static s16 timerDigits[5];
+static s16 rupeeDigitsFirst[] = { 1, 0, 0 };
+static s16 rupeeDigitsCount[] = { 2, 3, 3 };
+static s16 spoilingItemEntrances[] = { 0x01AD, 0x0153, 0x0153 };
+static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
+static s16 D_80125B5C[] = { 91, 91 };         // unused
+static s16 D_8015FFE0;
+static s16 D_8015FFE2;
+static s16 D_8015FFE4;
+static s16 D_8015FFE6;
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Interface_Draw.s")
+#endif
 
 void Interface_Update(GlobalContext* globalCtx) {
     static u8 D_80125B60 = 0;

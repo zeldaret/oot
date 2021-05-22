@@ -75,9 +75,9 @@ void KaleidoScope_SetItemCursorVtx(PauseContext* pauseCtx) {
     KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_ITEM] * 4, pauseCtx->itemVtx);
 }
 
-static s16 sMagicArrowEffectsR[] = { 255, 100, 255 };
-static s16 sMagicArrowEffectsG[] = { 0, 100, 255 };
-static s16 sMagicArrowEffectsB[] = { 0, 255, 100 };
+static s16 magicArrowEffectsR[] = { 255, 100, 255 };
+static s16 magicArrowEffectsG[] = { 0, 100, 255 };
+static s16 magicArrowEffectsB[] = { 0, 255, 100 };
 
 void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
     Input* input = &globalCtx->state.input[0];
@@ -430,9 +430,9 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
             if ((pauseCtx->unk_1E4 == 0) && (pauseCtx->pageIndex == PAUSE_ITEM) && (pauseCtx->cursorSpecialPos == 0)) {
                 if ((gSlotAgeReqs[i] == 9) || (gSlotAgeReqs[i] == ((void)0, gSaveContext.linkAge))) {
                     if ((sEquipState == 2) && (i == 3)) {
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sMagicArrowEffectsR[pauseCtx->equipTargetItem - 0xBF],
-                                        sMagicArrowEffectsG[pauseCtx->equipTargetItem - 0xBF],
-                                        sMagicArrowEffectsB[pauseCtx->equipTargetItem - 0xBF], pauseCtx->alpha);
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, magicArrowEffectsR[pauseCtx->equipTargetItem - 0xBF],
+                                        magicArrowEffectsG[pauseCtx->equipTargetItem - 0xBF],
+                                        magicArrowEffectsB[pauseCtx->equipTargetItem - 0xBF], pauseCtx->alpha);
 
                         pauseCtx->itemVtx[j + 0].v.ob[0] = pauseCtx->itemVtx[j + 2].v.ob[0] =
                             pauseCtx->itemVtx[j + 0].v.ob[0] - 2;
