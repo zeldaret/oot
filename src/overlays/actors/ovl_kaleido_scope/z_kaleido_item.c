@@ -75,11 +75,10 @@ void KaleidoScope_SetItemCursorVtx(PauseContext* pauseCtx) {
     KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_ITEM] * 4, pauseCtx->itemVtx);
 }
 
-static s16 magicArrowEffectsR[] = { 255, 100, 255 };
-static s16 magicArrowEffectsG[] = { 0, 100, 255 };
-static s16 magicArrowEffectsB[] = { 0, 255, 100 };
-
 void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
+    static s16 magicArrowEffectsR[] = { 255, 100, 255 };
+    static s16 magicArrowEffectsG[] = { 0, 100, 255 };
+    static s16 magicArrowEffectsB[] = { 0, 255, 100 };
     Input* input = &globalCtx->state.input[0];
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     u16 i;
