@@ -80,7 +80,7 @@ The build process has the following package requirements:
 * build-essential
 * binutils-mips-linux-gnu
 * python3
-* libpng
+* libpng-dev
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
