@@ -129,8 +129,8 @@ void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-u8 CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3, u8 arg4, u8 arg5, u16 arg6,
-                            u8 weatherMode) {
+u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3, u8 arg4, u8 arg5,
+                                       u16 arg6, u8 weatherMode) {
     s32 pad;
     u8 ret = false;
     Player* player = PLAYER;
@@ -169,7 +169,8 @@ u8 CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg
     return ret;
 }
 
-u8 CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3, u8 arg4, u8 arg5, u16 arg6) {
+u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3, u8 arg4, u8 arg5,
+                                  u16 arg6) {
     s32 pad;
     u8 ret = false;
     Player* player = PLAYER;
@@ -203,57 +204,57 @@ u8 CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8
 }
 
 void EnWeatherTag_DisabledCloudyHyruleMarket(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 3, 60, 1)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 3, 60, 1)) {
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudyHyruleMarket);
     }
 }
 
 void EnWeatherTag_EnabledCloudyHyruleMarket(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckRestoreWeather(this, globalCtx, 1, 0, 3, 0, 60)) {
+    if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 3, 0, 60)) {
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyHyruleMarket);
     }
 }
 
 void EnWeatherTag_DisabledCloudyLonLonRanch(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 100, 2)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 100, 2)) {
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudyLonLonRanch);
     }
 }
 
 void EnWeatherTag_EnabledCloudyLonLonRanch(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 100)) {
+    if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 100)) {
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyLonLonRanch);
     }
 }
 
 void EnWeatherTag_DisabledCloudyDeathMountain(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 60, 2)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 60, 2)) {
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudyDeathMountain);
     }
 }
 
 void EnWeatherTag_EnabledCloudyDeathMountain(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 60)) {
+    if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 60)) {
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyLonLonRanch);
     }
 }
 
 void EnWeatherTag_DisabledCloudySnow(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 60, 3)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 60, 3)) {
         globalCtx->envCtx.unk_EE[3] = 64;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudySnow);
     }
 }
 
 void EnWeatherTag_EnabledCloudySnow(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 60)) {
+    if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 60)) {
         globalCtx->envCtx.unk_EE[3] = 0;
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudySnow);
     }
 }
 
 void EnWeatherTag_DisabledRainLakeHylia(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 100, 4)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 100, 4)) {
         func_80077624(globalCtx);
         globalCtx->envCtx.unk_EE[0] = 25;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledRainLakeHylia);
@@ -261,7 +262,7 @@ void EnWeatherTag_DisabledRainLakeHylia(EnWeatherTag* this, GlobalContext* globa
 }
 
 void EnWeatherTag_EnabledRainLakeHylia(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 100)) {
+    if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 100)) {
         func_80077684(globalCtx);
         globalCtx->envCtx.unk_EE[0] = 0;
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledRainLakeHylia);
@@ -269,7 +270,7 @@ void EnWeatherTag_EnabledRainLakeHylia(EnWeatherTag* this, GlobalContext* global
 }
 
 void EnWeatherTag_DisabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 4, 100, 5)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 4, 100, 5)) {
         func_80077624(globalCtx);
         globalCtx->envCtx.lightning = 1;
         globalCtx->envCtx.unk_EE[0] = 30;
@@ -278,7 +279,7 @@ void EnWeatherTag_DisabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalCo
 }
 
 void EnWeatherTag_EnabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (CheckRestoreWeather(this, globalCtx, 1, 0, 4, 0, 100)) {
+    if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 4, 0, 100)) {
         func_80077684(globalCtx);
         globalCtx->envCtx.lightning = 2;
         globalCtx->envCtx.unk_EE[0] = 0;
