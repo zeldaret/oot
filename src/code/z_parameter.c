@@ -2547,17 +2547,17 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
         gDPSetEnvColor(OVERLAY_DISP++, 100, 50, 50, 255);
 
         OVERLAY_DISP =
-            Gfx_TextureIA8(OVERLAY_DISP, gHUDMagicBarEndTex, 8, 16, R_MAGIC_BAR_X, magicBarY, 8, 16, 1024, 1024);
+            Gfx_TextureIA8(OVERLAY_DISP, gHUDMagicBarEndTex, 8, 16, R_MAGIC_BAR_X, magicBarY, 8, 16, 1 << 10, 1 << 10);
 
         OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gHUDMagicBarMidTex, 24, 16, R_MAGIC_BAR_X + 8, magicBarY,
-                                      gSaveContext.unk_13F4, 16, 1024, 1024);
+                                      gSaveContext.unk_13F4, 16, 1 << 10, 1 << 10);
 
         gDPLoadTextureBlock(OVERLAY_DISP++, gHUDMagicBarEndTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 16, 0,
                             G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 3, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
         gSPTextureRectangle(OVERLAY_DISP++, ((R_MAGIC_BAR_X + gSaveContext.unk_13F4) + 8) << 2, magicBarY << 2,
                             ((R_MAGIC_BAR_X + gSaveContext.unk_13F4) + 16) << 2, (magicBarY + 16) << 2, G_TX_RENDERTILE,
-                            256, 0, 1024, 1024);
+                            256, 0, 1 << 10, 1 << 10);
 
         gDPPipeSync(OVERLAY_DISP++);
         gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE, PRIMITIVE,
@@ -2565,7 +2565,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
 
         if (gSaveContext.unk_13F0 == 4) {
-            // Yellow part of the bar being used when casting a spell
+            // Yellow part of the bar indicating the amount of magic to be subtracted
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 250, 250, 0, interfaceCtx->magicAlpha);
 
             gDPLoadMultiBlock_4b(OVERLAY_DISP++, gHUDMagicBarFillTex, 0, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
@@ -2574,7 +2574,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
 
             gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicBarY + 3) << 2,
                                 (R_MAGIC_FILL_X + gSaveContext.magic) << 2, (magicBarY + 10) << 2, G_TX_RENDERTILE, 0,
-                                0, 1024, 1024);
+                                0, 1 << 10, 1 << 10);
 
             // Fill the rest of the bar with the normal magic color
             gDPPipeSync(OVERLAY_DISP++);
@@ -2583,7 +2583,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
 
             gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicBarY + 3) << 2,
                                 (R_MAGIC_FILL_X + gSaveContext.unk_13F8) << 2, (magicBarY + 10) << 2, G_TX_RENDERTILE,
-                                0, 0, 1024, 1024);
+                                0, 0, 1 << 10, 1 << 10);
         } else {
             // Fill the whole bar with the normal magic color
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MAGIC_FILL_COLOR(0), R_MAGIC_FILL_COLOR(1), R_MAGIC_FILL_COLOR(2),
@@ -2595,7 +2595,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
 
             gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicBarY + 3) << 2,
                                 (R_MAGIC_FILL_X + gSaveContext.magic) << 2, (magicBarY + 10) << 2, G_TX_RENDERTILE, 0,
-                                0, 1024, 1024);
+                                0, 1 << 10, 1 << 10);
         }
     }
 
@@ -2671,7 +2671,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     OVERLAY_DISP =
         Gfx_TextureIA8(OVERLAY_DISP, gHUDActionButtonTex, 32, 32, R_ITEM_BTN_X(HUD_ITEM_BTN_B),
                        R_ITEM_BTN_Y(HUD_ITEM_BTN_B), R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_B), R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_B),
-                       R_ITEM_BTN_DD(HUD_ITEM_BTN_B) * 2, R_ITEM_BTN_DD(HUD_ITEM_BTN_B) * 2);
+                       R_ITEM_BTN_DD(HUD_ITEM_BTN_B) << 1, R_ITEM_BTN_DD(HUD_ITEM_BTN_B) << 1);
 
     // C-Left Button Color & Texture
     gDPPipeSync(OVERLAY_DISP++);
@@ -2680,8 +2680,8 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(HUD_ITEM_BTN_C_LEFT) << 2, R_ITEM_BTN_Y(HUD_ITEM_BTN_C_LEFT) << 2,
                         (R_ITEM_BTN_X(HUD_ITEM_BTN_C_LEFT) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_LEFT)) << 2,
                         (R_ITEM_BTN_Y(HUD_ITEM_BTN_C_LEFT) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_LEFT)) << 2,
-                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(HUD_ITEM_BTN_C_LEFT) * 2,
-                        R_ITEM_BTN_DD(HUD_ITEM_BTN_C_LEFT) * 2);
+                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(HUD_ITEM_BTN_C_LEFT) << 1,
+                        R_ITEM_BTN_DD(HUD_ITEM_BTN_C_LEFT) << 1);
 
     // C-Down Button Color & Texture
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
@@ -2689,8 +2689,8 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(HUD_ITEM_BTN_C_DOWN) << 2, R_ITEM_BTN_Y(HUD_ITEM_BTN_C_DOWN) << 2,
                         (R_ITEM_BTN_X(HUD_ITEM_BTN_C_DOWN) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_DOWN)) << 2,
                         (R_ITEM_BTN_Y(HUD_ITEM_BTN_C_DOWN) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_DOWN)) << 2,
-                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(HUD_ITEM_BTN_C_DOWN) * 2,
-                        R_ITEM_BTN_DD(HUD_ITEM_BTN_C_DOWN) * 2);
+                        G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(HUD_ITEM_BTN_C_DOWN) << 1,
+                        R_ITEM_BTN_DD(HUD_ITEM_BTN_C_DOWN) << 1);
 
     // C-Right Button Color & Texture
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
@@ -2699,7 +2699,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
         OVERLAY_DISP++, R_ITEM_BTN_X(HUD_ITEM_BTN_C_RIGHT) << 2, R_ITEM_BTN_Y(HUD_ITEM_BTN_C_RIGHT) << 2,
         (R_ITEM_BTN_X(HUD_ITEM_BTN_C_RIGHT) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_RIGHT)) << 2,
         (R_ITEM_BTN_Y(HUD_ITEM_BTN_C_RIGHT) + R_ITEM_BTN_WIDTH(HUD_ITEM_BTN_C_RIGHT)) << 2, G_TX_RENDERTILE, 0, 0,
-        R_ITEM_BTN_DD(HUD_ITEM_BTN_C_RIGHT) * 2, R_ITEM_BTN_DD(HUD_ITEM_BTN_C_RIGHT) * 2);
+        R_ITEM_BTN_DD(HUD_ITEM_BTN_C_RIGHT) << 1, R_ITEM_BTN_DD(HUD_ITEM_BTN_C_RIGHT) << 1);
 
     if ((pauseCtx->state < 8) || (pauseCtx->state >= 18)) {
         if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
@@ -2719,7 +2719,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                    G_TX_NOLOD, G_TX_NOLOD);
 
-            dxdy = 1024.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            dxdy = (f32)(1 << 10) / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             width = 48.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             height = 16.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             gSPTextureRectangle(
@@ -2747,7 +2747,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2), temp);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             gSPTextureRectangle(OVERLAY_DISP++, R_C_UP_BTN_X << 2, R_C_UP_BTN_Y << 2, (R_C_UP_BTN_X + 16) << 2,
-                                (R_C_UP_BTN_Y + 16) << 2, G_TX_RENDERTILE, 0, 0, 2048, 2048);
+                                (R_C_UP_BTN_Y + 16) << 2, G_TX_RENDERTILE, 0, 0, 2 << 10, 2 << 10);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, temp);
             gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
@@ -2759,7 +2759,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
                                    G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(OVERLAY_DISP++, R_C_UP_ICON_X << 2, R_C_UP_ICON_Y << 2, (R_C_UP_ICON_X + 32) << 2,
-                                (R_C_UP_ICON_Y + 8) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
+                                (R_C_UP_ICON_Y + 8) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         }
 
         sCUpTimer--;
@@ -2803,7 +2803,7 @@ void Interface_DrawItemIconTexture(GlobalContext* globalCtx, void* texture, s16 
     gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_ICON_X(button) << 2, R_ITEM_ICON_Y(button) << 2,
                         (R_ITEM_ICON_X(button) + R_ITEM_ICON_WIDTH(button)) << 2,
                         (R_ITEM_ICON_Y(button) + R_ITEM_ICON_WIDTH(button)) << 2, G_TX_RENDERTILE, 0, 0,
-                        R_ITEM_ICON_DD(button) * 2, R_ITEM_ICON_DD(button) * 2);
+                        R_ITEM_ICON_DD(button) << 1, R_ITEM_ICON_DD(button) << 1);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 3094);
 }
@@ -2856,11 +2856,11 @@ void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
 
         if (i != 0) {
             OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, ((u8*)gHUDAmmo0Tex + ((8 * 8) * i)), 8, 8,
-                                          R_ITEM_AMMO_X(button), R_ITEM_AMMO_Y(button), 8, 8, 1024, 1024);
+                                          R_ITEM_AMMO_X(button), R_ITEM_AMMO_Y(button), 8, 8, 1 << 10, 1 << 10);
         }
 
         OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, ((u8*)gHUDAmmo0Tex + ((8 * 8) * ammo)), 8, 8,
-                                      R_ITEM_AMMO_X(button) + 6, R_ITEM_AMMO_Y(button), 8, 8, 1024, 1024);
+                                      R_ITEM_AMMO_X(button) + 6, R_ITEM_AMMO_Y(button), 8, 8, 1 << 10, 1 << 10);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 3158);
@@ -3186,7 +3186,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                    G_TX_NOLOD, G_TX_NOLOD);
 
-            R_B_LABEL_DD = 1024.0f / (WREG(37 + gSaveContext.language) / 100.0f);
+            R_B_LABEL_DD = (f32)(1 << 10) / (WREG(37 + gSaveContext.language) / 100.0f);
             gSPTextureRectangle(OVERLAY_DISP++, R_B_LABEL_X(gSaveContext.language) << 2,
                                 R_B_LABEL_Y(gSaveContext.language) << 2, (R_B_LABEL_X(gSaveContext.language) + 48) << 2,
                                 (R_B_LABEL_Y(gSaveContext.language) + 16) << 2, G_TX_RENDERTILE, 0, 0, R_B_LABEL_DD,
