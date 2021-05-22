@@ -60,8 +60,8 @@ typedef struct EnOssan {
     /* 7 5  3 1 */
     /* 6 4  2 0 */
     /* 0x0220 */ EnTana* shelves;
-    /* 0x0224 */ s32 stickX;
-    /* 0x0228 */ s32 stickY;
+    /* 0x0224 */ s32 stickAccumX;
+    /* 0x0228 */ s32 stickAccumY;
     /* 0x022C */ u8 moveHorizontal;
     /* 0x022D */ u8 moveVertical;
     /* 0x0230 */ f32 cursorX;
@@ -88,6 +88,20 @@ typedef struct EnOssan {
 extern const ActorInit En_Ossan_InitVars;
 
 typedef enum {
+    /* 00 */ OSSAN_TYPE_KOKIRI,
+    /* 01 */ OSSAN_TYPE_KAKARIKO_POTION,
+    /* 02 */ OSSAN_TYPE_BOMBCHUS,
+    /* 03 */ OSSAN_TYPE_MARKET_POTION,
+    /* 04 */ OSSAN_TYPE_BAZAAR,
+    /* 05 */ OSSAN_TYPE_ADULT,
+    /* 06 */ OSSAN_TYPE_TALON,
+    /* 07 */ OSSAN_TYPE_ZORA,
+    /* 08 */ OSSAN_TYPE_GORON,
+    /* 09 */ OSSAN_TYPE_INGO,
+    /* 10 */ OSSAN_TYPE_MASK
+} OssanType;
+
+typedef enum {
     /* 00 */ ENOSSAN_STATE_0, //Idle
     /* 01 */ ENOSSAN_STATE_1, //Start Conversation
     /* 02 */ ENOSSAN_STATE_2, //Facing Shopkeeper
@@ -97,24 +111,24 @@ typedef enum {
     /* 06 */ ENOSSAN_STATE_6, //Browse left shelf
     /* 07 */ ENOSSAN_STATE_7, //Browse right shelf
     /* 08 */ ENOSSAN_STATE_8, //Look from shelf to Shopkeeper
-    /* 09 */ ENOSSAN_STATE_9, //Select Item
-    /* 10 */ ENOSSAN_STATE_10,
-    /* 11 */ ENOSSAN_STATE_11,
-    /* 12 */ ENOSSAN_STATE_12,
-    /* 13 */ ENOSSAN_STATE_13,
-    /* 14 */ ENOSSAN_STATE_14, //Can't get this now?
+    /* 09 */ ENOSSAN_STATE_9, //Select Generic Item
+    /* 10 */ ENOSSAN_STATE_10, //Select Milk Bottle
+    /* 11 */ ENOSSAN_STATE_11, //Select Weird Egg
+    /* 12 */ ENOSSAN_STATE_12, //Select Unimplemented Item
+    /* 13 */ ENOSSAN_STATE_13, //Select Bombs
+    /* 14 */ ENOSSAN_STATE_14, //Can't get item
     /* 15 */ ENOSSAN_STATE_15, //Give Item (Hold it up with fanfare?)
     /* 16 */ ENOSSAN_STATE_16, //Item Purchased
     /* 17 */ ENOSSAN_STATE_17, //Would you like to buy something else?
     /* 18 */ ENOSSAN_STATE_18,
-    /* 19 */ ENOSSAN_STATE_19,
-    /* 20 */ ENOSSAN_STATE_20,
+    /* 19 */ ENOSSAN_STATE_19, //Spin to shopkeeper?
+    /* 20 */ ENOSSAN_STATE_20, //Can't Get Goron City Bombs
     /* 21 */ ENOSSAN_STATE_21,
     /* 22 */ ENOSSAN_STATE_22,
     /* 23 */ ENOSSAN_STATE_23,
-    /* 24 */ ENOSSAN_STATE_24,
+    /* 24 */ ENOSSAN_STATE_24, //Select Mask Item
     /* 25 */ ENOSSAN_STATE_25,
-    /* 26 */ ENOSSAN_STATE_26
+    /* 26 */ ENOSSAN_STATE_26 //Hylian Shield Discount
 } EnOssan_State;
 
 typedef enum {

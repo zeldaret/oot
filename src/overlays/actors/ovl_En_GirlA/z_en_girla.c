@@ -530,7 +530,7 @@ s32 CanBuy_BlueFire(GlobalContext* globalCtx, EnGirlA* this) {
     if (Item_CheckObtainability(ITEM_BLUE_FIRE) == ITEM_NONE) {
         return CANBUY_RESULT_0;
     }
-    return 1;
+    return CANBUY_RESULT_1;
 }
 
 s32 CanBuy_Bugs(GlobalContext* globalCtx, EnGirlA* this) {
@@ -668,31 +668,31 @@ void ItemGive_DekuSeeds(GlobalContext* globalCtx, EnGirlA* this) {
 
 void ItemGive_BottledItem(GlobalContext* globalCtx, EnGirlA* this) {
     switch (this->actor.params) {
-        case 7:
+        case SI_FISH:
             Item_Give(globalCtx, ITEM_FISH);
             break;
-        case 8:
+        case SI_RED_POTION_R30:
             Item_Give(globalCtx, ITEM_POTION_RED);
             break;
-        case 9:
+        case SI_GREEN_POTION:
             Item_Give(globalCtx, ITEM_POTION_GREEN);
             break;
-        case 10:
+        case SI_BLUE_POTION:
             Item_Give(globalCtx, ITEM_POTION_BLUE);
             break;
-        case 39:
+        case SI_BLUE_FIRE:
             Item_Give(globalCtx, ITEM_BLUE_FIRE);
             break;
-        case 40:
+        case SI_BUGS:
             Item_Give(globalCtx, ITEM_BUG);
             break;
-        case 41:
+        case SI_BIG_POE:
             Item_Give(globalCtx, ITEM_BIG_POE);
             break;
-        case 42:
+        case SI_POE:
             Item_Give(globalCtx, ITEM_POE);
             break;
-        case 43:
+        case SI_FAIRY:
             Item_Give(globalCtx, ITEM_FAIRY);
             break;
     }
@@ -700,7 +700,7 @@ void ItemGive_BottledItem(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 void BuyEvent_ShieldDiscount(GlobalContext* globalCtx, EnGirlA* this) {
-    if (this->actor.params == 12) {
+    if (this->actor.params == SI_HYLIAN_SHIELD) {
         if (gSaveContext.infTable[7] & 0x40) {
             Rupees_ChangeBy(-(this->basePrice - randomDiscount[(s32)Rand_ZeroFloat(7.9f)]));
             return;

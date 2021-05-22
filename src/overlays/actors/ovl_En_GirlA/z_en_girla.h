@@ -47,7 +47,7 @@ typedef enum {
     /* 06 */ SI_BOMBS_10,
     /* 07 */ SI_FISH,
     /* 08 */ SI_RED_POTION_R30,
-    /* 09 */ SI_GREEN_POITION,
+    /* 09 */ SI_GREEN_POTION,
     /* 10 */ SI_BLUE_POTION,
     /* 11 */ SI_LONGSWORD,
     /* 12 */ SI_HYLIAN_SHIELD,
