@@ -3,6 +3,7 @@
 #include "textures/parameter_static/parameter_static.h"
 #include "textures/do_action_static/do_action_static.h"
 #include "textures/icon_item_static/icon_item_static.h"
+
 typedef struct {
     /* 0x00 */ u8 scene;
     /* 0x01 */ u8 flags1;
