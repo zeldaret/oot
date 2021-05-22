@@ -3015,11 +3015,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
     static s16 sRupeeDigitsFirst[] = { 1, 0, 0 };
     static s16 sRupeeDigitsCount[] = { 2, 3, 3 };
     static s16 sSpoilingItemEntrances[] = { 0x01AD, 0x0153, 0x0153 };
-    static f32 D_80125B54[] = {
-        -40.0f,
-        -35.0f,
-    };                                    // unused
-    static s16 D_80125B5C[] = { 91, 91 }; // unused
+    static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
+    static s16 D_80125B5C[] = { 91, 91 };         // unused
     static s16 D_8015FFE0;
     static s16 D_8015FFE2;
     static s16 D_8015FFE4;
@@ -3028,12 +3025,12 @@ void Interface_Draw(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Player* player = PLAYER;
-    s16 i;
-    s16 j;
-    s16 phi_s2;
-    s16 phi_s1;
-    s16 phi_s0;
-    s16 sp274;
+    s16 svar1;
+    s16 svar2;
+    s16 svar3;
+    s16 svar4;
+    s16 svar5;
+    s16 svar6;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 3405);
 
@@ -3042,7 +3039,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     gSPSegment(OVERLAY_DISP++, 0x08, interfaceCtx->iconItemSegment);
     gSPSegment(OVERLAY_DISP++, 0x0B, interfaceCtx->mapSegment);
 
-    if (!(pauseCtx->debugState)) {
+    if (pauseCtx->debugState == 0) {
         Interface_InitVertices(globalCtx);
         func_8008A994(interfaceCtx);
         HealthMeter_Draw(globalCtx);
@@ -3091,18 +3088,18 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         interfaceCtx->counterDigits[3] -= 10;
                     }
 
-                    phi_s2 = 42;
+                    svar3 = 42;
 
                     if (interfaceCtx->counterDigits[2]) {
                         OVERLAY_DISP = Gfx_TextureIA8(
                             OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[2])), 8,
-                            16, phi_s2, 190, 8, 16, 1 << 10, 1 << 10);
-                        phi_s2 += 8;
+                            16, svar3, 190, 8, 16, 1 << 10, 1 << 10);
+                        svar3 += 8;
                     }
 
                     OVERLAY_DISP = Gfx_TextureIA8(
                         OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[3])), 8, 16,
-                        phi_s2, 190, 8, 16, 1 << 10, 1 << 10);
+                        svar3, 190, 8, 16, 1 << 10, 1 << 10);
                 }
                 break;
             default:
@@ -3114,7 +3111,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         if (gSaveContext.rupees == CUR_CAPACITY(UPG_WALLET)) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 120, 255, 0, interfaceCtx->magicAlpha);
-        } else if (gSaveContext.rupees) {
+        } else if (gSaveContext.rupees != 0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->magicAlpha);
         } else {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 100, 100, 100, interfaceCtx->magicAlpha);
@@ -3140,13 +3137,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
             interfaceCtx->counterDigits[2] -= 10;
         }
 
-        j = sRupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
-        phi_s1 = sRupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
+        svar2 = sRupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
+        svar4 = sRupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
 
-        for (i = 0, phi_s2 = 26 + 16; i < phi_s1; i++, j++, phi_s2 += 8) {
-            OVERLAY_DISP =
-                Gfx_TextureIA8(OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[j])), 8,
-                               16, phi_s2, 206, 8, 16, 1 << 10, 1 << 10);
+        for (svar1 = 0, svar3 = 26 + 16; svar1 < svar4; svar1++, svar2++, svar3 += 8) {
+            OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP,
+                                          ((u8*)gHUDCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[svar2])),
+                                          8, 16, svar3, 206, 8, 16, 1 << 10, 1 << 10);
         }
 
         Interface_DrawMagicBar(globalCtx);
@@ -3163,12 +3160,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
         gDPPipeSync(OVERLAY_DISP++);
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
         gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
+
         if (!(interfaceCtx->unk_1FA)) {
             // B Button Icon & Ammo Count
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment, HUD_ITEM_BTN_B);
 
-                if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus >= 2) ||
+                if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
                     ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
@@ -3289,20 +3287,20 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                     G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             } else {
                 // Magic Arrow Equip Effect
-                i = pauseCtx->equipTargetItem - 0xBF;
-                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, sMagicArrowEffectsR[i], sMagicArrowEffectsG[i],
-                                sMagicArrowEffectsB[i], pauseCtx->equipAnimAlpha);
+                svar1 = pauseCtx->equipTargetItem - 0xBF;
+                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, sMagicArrowEffectsR[svar1], sMagicArrowEffectsG[svar1],
+                                sMagicArrowEffectsB[svar1], pauseCtx->equipAnimAlpha);
 
-                if (pauseCtx->equipAnimAlpha >= 1 && pauseCtx->equipAnimAlpha < 255) {
-                    i = (pauseCtx->equipAnimAlpha / 8) / 2;
+                if ((pauseCtx->equipAnimAlpha > 0) && (pauseCtx->equipAnimAlpha < 255)) {
+                    svar1 = (pauseCtx->equipAnimAlpha / 8) / 2;
                     pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] =
-                        pauseCtx->cursorVtx[16].v.ob[0] - i;
+                        pauseCtx->cursorVtx[16].v.ob[0] - svar1;
                     pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] =
-                        pauseCtx->cursorVtx[16].v.ob[0] + i * 2 + 32;
+                        pauseCtx->cursorVtx[16].v.ob[0] + svar1 * 2 + 32;
                     pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] =
-                        pauseCtx->cursorVtx[16].v.ob[1] + i;
+                        pauseCtx->cursorVtx[16].v.ob[1] + svar1;
                     pauseCtx->cursorVtx[18].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] =
-                        pauseCtx->cursorVtx[16].v.ob[1] - i * 2 - 32;
+                        pauseCtx->cursorVtx[16].v.ob[1] - svar1 * 2 - 32;
                 }
 
                 gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[16], 4, 0);
@@ -3322,25 +3320,25 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 if (interfaceCtx->unk_1EE == 8) {
                     // Load Carrot Icon
                     gDPLoadTextureBlock(OVERLAY_DISP++, gHUDCarrotTex, G_IM_FMT_RGBA, G_IM_SIZ_32b, 16, 16, 0,
-                                        G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK,
+                                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                         G_TX_NOLOD, G_TX_NOLOD);
 
                     // Draw 6 carrots
-                    for (i = 1, phi_s0 = ZREG(14); i < 7; i++, phi_s0 += 16) {
+                    for (svar1 = 1, svar5 = ZREG(14); svar1 < 7; svar1++, svar5 += 16) {
                         // Carrot Color (based on availability)
-                        if ((interfaceCtx->numHorseBoosts == 0) || (interfaceCtx->numHorseBoosts < i)) {
+                        if ((interfaceCtx->numHorseBoosts == 0) || (interfaceCtx->numHorseBoosts < svar1)) {
                             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 150, 255, interfaceCtx->aAlpha);
                         } else {
                             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->aAlpha);
                         }
 
-                        gSPTextureRectangle(OVERLAY_DISP++, phi_s0 << 2, ZREG(15) << 2, (phi_s0 + 16) << 2,
+                        gSPTextureRectangle(OVERLAY_DISP++, svar5 << 2, ZREG(15) << 2, (svar5 + 16) << 2,
                                             (ZREG(15) + 16) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
                     }
                 }
             } else {
                 // Score for the Horseback Archery
-                phi_s0 = WREG(32);
+                svar5 = WREG(32);
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
 
                 // Target Icon
@@ -3355,15 +3353,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPPipeSync(OVERLAY_DISP++);
                 gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-                phi_s0 = WREG(32) + 6 * 9;
+                svar5 = WREG(32) + 6 * 9;
 
-                for (i = j = 0; i < 4; i++) {
-                    if (sHBAScoreDigits[i] != 0 || (j != 0) || (i >= 3)) {
+                for (svar1 = svar2 = 0; svar1 < 4; svar1++) {
+                    if (sHBAScoreDigits[svar1] != 0 || (svar2 != 0) || (svar1 >= 3)) {
                         OVERLAY_DISP = Gfx_TextureI8(
-                            OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * sHBAScoreDigits[i])), 8, 16, phi_s0,
+                            OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * sHBAScoreDigits[svar1])), 8, 16, svar5,
                             (ZREG(15) - 2), sDigitWidth[0], VREG(42), VREG(43) << 1, VREG(43) << 1);
-                        phi_s0 += 9;
-                        j++;
+                        svar5 += 9;
+                        svar2++;
                     }
                 }
 
@@ -3380,10 +3378,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
             globalCtx->fadeTransition = 3;
             gSaveContext.timer2State = 0;
 
-            if (!(gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KOKIRI ||
-                  gSaveContext.equips.buttonItems[0] == ITEM_SWORD_MASTER ||
-                  gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BGS ||
-                  gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE)) {
+            if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
+                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
+                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
+                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
                 if (gSaveContext.buttonStatus[0] != BTN_ENABLED) {
                     gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 } else {
@@ -3392,17 +3390,17 @@ void Interface_Draw(GlobalContext* globalCtx) {
             }
 
             // Revert any spoiling trade quest items
-            for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) {
-                if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[i]) {
+            for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
+                if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
                     gSaveContext.eventInf[0] &= 0x7F80;
                     osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[0]);
-                    globalCtx->nextEntranceIndex = sSpoilingItemEntrances[i];
-                    INV_CONTENT(gSpoilingItemReverts[i]) = gSpoilingItemReverts[i];
+                    globalCtx->nextEntranceIndex = sSpoilingItemEntrances[svar1];
+                    INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
 
-                    for (j = 1; j < 4; j++) {
-                        if (gSaveContext.equips.buttonItems[j] == gSpoilingItems[i]) {
-                            gSaveContext.equips.buttonItems[j] = gSpoilingItemReverts[i];
-                            Interface_LoadItemIcon1(globalCtx, j);
+                    for (svar2 = 1; svar2 < 4; svar2++) {
+                        if (gSaveContext.equips.buttonItems[svar2] == gSpoilingItems[svar1]) {
+                            gSaveContext.equips.buttonItems[svar2] = gSpoilingItemReverts[svar1];
+                            Interface_LoadItemIcon1(globalCtx, svar2);
                         }
                     }
                 }
@@ -3415,7 +3413,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
-            sp274 = 0;
+            svar6 = 0;
             switch (gSaveContext.timer1State) {
                 case 1:
                     D_8015FFE2 = 20;
@@ -3454,15 +3452,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     break;
                 case 3:
                 case 7:
-                    i = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
-                    gSaveContext.timerX[0] -= i;
+                    svar1 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
+                    gSaveContext.timerX[0] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        i = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
                     } else {
-                        i = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
                     }
-                    gSaveContext.timerY[0] -= i;
+                    gSaveContext.timerY[0] -= svar1;
 
                     D_8015FFE2--;
                     if (D_8015FFE2 == 0) {
@@ -3512,7 +3510,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                     Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_WOMAN, &D_801333D4, 4, &D_801333E0,
                                                            &D_801333E0, &D_801333E8);
                                 }
-                            } else if (gSaveContext.timer1Value > 10) {
+                            } else if (gSaveContext.timer1Value >= 11) {
                                 if (sTimerDigits[4] & 1) {
                                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &D_801333D4, 4, &D_801333E0,
                                                            &D_801333E0, &D_801333E8);
@@ -3525,15 +3523,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     }
                     break;
                 case 13:
-                    i = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
-                    gSaveContext.timerX[0] -= i;
+                    svar1 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
+                    gSaveContext.timerX[0] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        i = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
                     } else {
-                        i = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
                     }
-                    gSaveContext.timerY[0] -= i;
+                    gSaveContext.timerY[0] -= svar1;
 
                     D_8015FFE2--;
                     if (D_8015FFE2 == 0) {
@@ -3558,7 +3556,6 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                     if (gSaveContext.timer1State >= 3) {
                         D_8015FFE0--;
-
                         if (D_8015FFE0 == 0) {
                             gSaveContext.timer1Value++;
                             D_8015FFE0 = 20;
@@ -3593,7 +3590,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 case 15:
                     break;
                 default:
-                    sp274 = 1;
+                    svar6 = 1;
                     switch (gSaveContext.timer2State) {
                         case 1:
                         case 7:
@@ -3624,15 +3621,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n", gSaveContext.timerX[1],
                                          gSaveContext.timerY[1], gSaveContext.timer2Value);
 
-                            i = (gSaveContext.timerX[1] - 26) / D_8015FFE6;
-                            gSaveContext.timerX[1] -= i;
+                            svar1 = (gSaveContext.timerX[1] - 26) / D_8015FFE6;
+                            gSaveContext.timerX[1] -= svar1;
 
                             if (gSaveContext.healthCapacity > 0xA0) {
-                                i = (gSaveContext.timerY[1] - 54) / D_8015FFE6;
+                                svar1 = (gSaveContext.timerY[1] - 54) / D_8015FFE6;
                             } else {
-                                i = (gSaveContext.timerY[1] - 46) / D_8015FFE6;
+                                svar1 = (gSaveContext.timerY[1] - 46) / D_8015FFE6;
                             }
-                            gSaveContext.timerY[1] -= i;
+                            gSaveContext.timerY[1] -= svar1;
 
                             D_8015FFE6--;
                             if (D_8015FFE6 == 0) {
@@ -3729,7 +3726,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             if (((gSaveContext.timer1State != 0) && (gSaveContext.timer1State != 10)) ||
                 (gSaveContext.timer2State != 0)) {
                 sTimerDigits[0] = sTimerDigits[1] = sTimerDigits[3] = 0;
-                sTimerDigits[2] = 10; // // digit 10 is used as ':' (colon)
+                sTimerDigits[2] = 10; // digit 10 is used as ':' (colon)
 
                 if (gSaveContext.timer1State != 0) {
                     sTimerDigits[4] = gSaveContext.timer1Value;
@@ -3755,8 +3752,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPPipeSync(OVERLAY_DISP++);
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                 gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
-                OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gHUDTimerClockTex, 16, 16, gSaveContext.timerX[sp274],
-                                              gSaveContext.timerY[sp274] + 2, 16, 16, 1 << 10, 1 << 10);
+                OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gHUDTimerClockTex, 16, 16, gSaveContext.timerX[svar6],
+                                              gSaveContext.timerY[svar6] + 2, 16, 16, 1 << 10, 1 << 10);
 
                 // Timer Counter
                 gDPPipeSync(OVERLAY_DISP++);
@@ -3775,18 +3772,20 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 0, 255);
                     }
                 }
-                for (i = 0; i < 5; i++) {
-                    OVERLAY_DISP =
-                        Gfx_TextureI8(OVERLAY_DISP, (u8*)gHUDCounterDigit0Tex + (8 * 16) * sTimerDigits[i], 8, 16,
-                                      gSaveContext.timerX[sp274] + sTimerDigitLeftPos[i], gSaveContext.timerY[sp274],
-                                      sDigitWidth[i], VREG(42), VREG(43) << 1, VREG(43) << 1);
+
+                for (svar1 = 0; svar1 < 5; svar1++) {
+                    OVERLAY_DISP = Gfx_TextureI8(
+                        OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * sTimerDigits[svar1])), 8, 16,
+                        gSaveContext.timerX[svar6] + sTimerDigitLeftPos[svar1], gSaveContext.timerY[svar6],
+                        sDigitWidth[svar1], VREG(42), VREG(43) << 1, VREG(43) << 1);
                 }
             }
         }
     }
 
-    if (pauseCtx->debugState == 3)
+    if (pauseCtx->debugState == 3) {
         FlagSet_Update(globalCtx);
+    }
 
     if (interfaceCtx->unk_244 != 0) {
         gDPPipeSync(OVERLAY_DISP++);
