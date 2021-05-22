@@ -3002,7 +3002,7 @@ void func_8008A994(InterfaceContext* interfaceCtx) {
     func_800AB2C4(&interfaceCtx->view);
 }
 
-#ifdef NON_MATCHING
+#if 1
 void Interface_Draw(GlobalContext* globalCtx) {
     static s16 magicArrowEffectsR[] = { 255, 100, 255 };
     static s16 magicArrowEffectsG[] = { 0, 100, 255 };
@@ -3142,7 +3142,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         svar2 = rupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
         svar4 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
 
-        for (svar1 = 0, svar3 = 26 + 16; svar1 < svar4; svar1++, svar2++, svar3 += 8) {
+        for (svar1 = 0, svar3 = 42; svar1 < svar4; svar1++, svar2++, svar3 += 8) {
             OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP,
                                           ((u8*)gHUDCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[svar2])),
                                           8, 16, svar3, 206, 8, 16, 1 << 10, 1 << 10);
