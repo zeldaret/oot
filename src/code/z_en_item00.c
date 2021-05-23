@@ -1,7 +1,6 @@
 #include "global.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
-#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -29,19 +28,7 @@ const ActorInit En_Item00_InitVars = {
     (ActorFunc)EnItem00_Draw,
 };
 
-// TODO: Define this section of .data here and rename the symbols
-extern ColliderCylinderInit D_801154E0; // rename to sCylinderInit when data is moved
-extern InitChainEntry D_8011550C[];     // rename to sInitChain when data is moved
-extern Color_RGBA8 D_80115510;
-extern Color_RGBA8 D_80115514;
-extern Vec3f D_80115518;
-extern Vec3f D_80115524;
-extern u32 D_80115530[];
-extern u32 D_80115544[];
-extern u8 D_80115574[];
-extern u8 D_80115664[];
-
-// Internal Actor Functions
+#include "z_en_item00_data.c"
 
 void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -66,9 +53,9 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    Actor_ProcessInitChain(&this->actor, D_8011550C);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_801154E0);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
     this->unk_158 = 1;
 
@@ -279,19 +266,21 @@ void EnItem00_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
     if ((this->actor.params <= ITEM00_RUPEE_RED) || ((this->actor.params == ITEM00_HEART) && (this->unk_15A < 0)) ||
         (this->actor.params == ITEM00_HEART_PIECE)) {
-        this->actor.shape.rot.y += 960;
+        this->actor.shape.rot.y += 0x3C0;
     } else {
         if ((this->actor.params >= ITEM00_SHIELD_DEKU) && (this->actor.params != ITEM00_BOMBS_SPECIAL)) {
             if (this->unk_15A == -1) {
-                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x - 0x4000, 2, 3000, 1500)) {
+                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x - 0x4000, 0x0002, 0x0BB8,
+                                        0x05DC)) {
                     this->unk_15A = -2;
                 }
             } else {
-                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x - 0x4000, 2, 3000, 1500)) {
+                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x - 0x4000, 0x0002, 0x0BB8,
+                                        0x05DC)) {
                     this->unk_15A = -1;
                 }
             }
-            Math_SmoothStepToS(&this->actor.world.rot.x, 0, 2, 2500, 500);
+            Math_SmoothStepToS(&this->actor.world.rot.x, 0x0000, 0x0002, 0x09C4, 0x01F4);
         }
     }
 
@@ -325,14 +314,14 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     if (this->actor.params <= ITEM00_RUPEE_RED) {
-        this->actor.shape.rot.y += 960;
+        this->actor.shape.rot.y += 0x03C0;
     }
 
     if (globalCtx->gameplayFrames & 1) {
         pos.x = this->actor.world.pos.x + Rand_CenteredFloat(10.0f);
         pos.y = this->actor.world.pos.y + Rand_CenteredFloat(10.0f);
         pos.z = this->actor.world.pos.z + Rand_CenteredFloat(10.0f);
-        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectPos, &sEffectAcell, &sEffectPrimColor, &sEffectEnvColor);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -370,19 +359,19 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params <= ITEM00_RUPEE_RED) {
-        this->actor.shape.rot.y += 960;
+        this->actor.shape.rot.y += 0x03C0;
     } else if ((this->actor.params >= ITEM00_SHIELD_DEKU) && (this->actor.params != ITEM00_BOMBS_SPECIAL)) {
-        this->actor.world.rot.x -= 700;
-        this->actor.shape.rot.y += 400;
+        this->actor.world.rot.x -= 0x02BC;
+        this->actor.shape.rot.y += 0x0190;
         this->actor.shape.rot.x = this->actor.world.rot.x - 0x4000;
     }
 
     if (this->actor.velocity.y <= 2.0f) {
-        var1 = (u16)this->actor.shape.rot.z + 10000;
-        if (var1 < 65535) {
-            this->actor.shape.rot.z += 10000;
+        var1 = (u16)this->actor.shape.rot.z + 0x2710;
+        if (var1 < 0xFFFF) {
+            this->actor.shape.rot.z += 0x2710;
         } else {
-            this->actor.shape.rot.z = -1;
+            this->actor.shape.rot.z = -0x0001;
         }
     }
 
@@ -390,12 +379,12 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.world.pos.x + (Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.y = this->actor.world.pos.y + (Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.z = this->actor.world.pos.z + (Rand_ZeroOne() - 0.5f) * 10.0f;
-        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectPos, &sEffectAcell, &sEffectPrimColor, &sEffectEnvColor);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
         EnItem00_SetupAction(this, func_8001DFC8);
-        this->actor.shape.rot.z = 0;
+        this->actor.shape.rot.z = 0x0000;
         this->actor.velocity.y = 0.0f;
         this->actor.speedXZ = 0.0f;
     }
@@ -421,9 +410,9 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
     this->actor.world.pos = player->actor.world.pos;
 
     if (this->actor.params <= ITEM00_RUPEE_RED) {
-        this->actor.shape.rot.y += 960;
+        this->actor.shape.rot.y += 0x03C0;
     } else if (this->actor.params == ITEM00_HEART) {
-        this->actor.shape.rot.y = 0;
+        this->actor.shape.rot.y = 0x0000;
     }
 
     this->actor.world.pos.y += 40.0f + Math_SinS(this->unk_15A * 15000) * (this->unk_15A * 0.3f);
@@ -638,7 +627,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_15A = 15;
     this->unk_154 = 35;
-    this->actor.shape.rot.z = 0;
+    this->actor.shape.rot.z = 0x0000;
     this->actor.speedXZ = 0;
     this->actor.velocity.y = 0;
     this->actor.gravity = 0;
@@ -745,7 +734,7 @@ void func_8001EF30(EnItem00* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1562),
               G_MTX_MODELVIEW | G_MTX_LOAD);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115530[iconNb]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[iconNb]));
 
     gSPDisplayList(POLY_OPA_DISP++, &gRupeeDL);
 
@@ -770,7 +759,7 @@ void func_8001F080(EnItem00* this, GlobalContext* globalCtx) {
 
     POLY_OPA_DISP = func_800946E4(POLY_OPA_DISP);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115544[iconNb]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sItemDropTex[iconNb]));
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1607),
               G_MTX_MODELVIEW | G_MTX_LOAD);
@@ -971,10 +960,10 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
         if (fromActor->dropFlag & 0x20) {
             dropId = ITEM00_RUPEE_PURPLE;
         } else {
-            dropId = D_80115574[params + dropTableIndex];
+            dropId = sItemDropIds[params + dropTableIndex];
         }
     } else {
-        dropId = D_80115574[params + dropTableIndex];
+        dropId = sItemDropIds[params + dropTableIndex];
     }
 
     if (dropId == ITEM00_FLEXIBLE) {
@@ -996,24 +985,23 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_LARGE;
-        } else if ((gSaveContext.magicLevel != 0) &&
-                   (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) { // Half magic or less
+        } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_SMALL;
-        } else if (LINK_IS_CHILD && (AMMO(ITEM_SLINGSHOT) < 6)) { // Child and less then 6 deku seeds
+        } else if (LINK_IS_CHILD && (AMMO(ITEM_SLINGSHOT) < 6)) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_SEEDS;
-        } else if (LINK_IS_ADULT && (AMMO(ITEM_BOW) < 6)) { // Adult and less than 6 arrows
+        } else if (LINK_IS_ADULT && (AMMO(ITEM_BOW) < 6)) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_ARROWS_MEDIUM;
-        } else if (AMMO(ITEM_BOMB) < 6) { // Less than 6 bombs
+        } else if (AMMO(ITEM_BOMB) < 6) {
             params = 0xD * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_BOMBS_A;
-        } else if (gSaveContext.rupees < 11) { // Less than 11 Rupees
+        } else if (gSaveContext.rupees < 11) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_RUPEE_RED;
@@ -1023,7 +1011,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
     }
 
     if (dropId != 0xFF) {
-        dropQuantity = D_80115664[params + dropTableIndex];
+        dropQuantity = sDropQuantities[params + dropTableIndex];
         while (dropQuantity > 0) {
             if (!param8000) {
                 dropId = func_8001F404(dropId);
