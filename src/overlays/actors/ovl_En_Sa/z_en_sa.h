@@ -21,9 +21,9 @@ typedef struct EnSa {
     /* 0x020C */ s16 unk_20C;
     /* 0x020E */ s16 unk_20E;
     /* 0x0210 */ s16 unk_210;
-    /* 0x0212 */ s16 unk_212;
-    /* 0x0214 */ s16 unk_214;
-    /* 0x0216 */ s16 unk_216;
+    /* 0x0212 */ s16 rightEyeIndex;
+    /* 0x0214 */ s16 leftEyeIndex;
+    /* 0x0216 */ s16 mouthIndex;
     /* 0x0218 */ s16 alpha;
     /* 0x021A */ Vec3s unk_21A;
     /* 0x0220 */ Vec3s jointTable[17];
