@@ -43,7 +43,7 @@
         <Texture Name="gGraveYardKidEyesHalfTex" OutName="eyes_half" Format="rgb5a1" Width="64" Height="16" Offset="0x2930"/>
         <Texture Name="gGraveYardKidEyesClosedTex" OutName="eyes_closed" Format="rgb5a1" Width="64" Height="16" Offset="0x3130"/>
 
-        <Texture Name="gGraveYardKidTLUT" OutName="palette" Format="rgb5a1" Width="16" Height="16" Offset="0x1970"/>
+        <Texture Name="gGraveYardKidTLUT" OutName="tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x1970"/>
         <Texture Name="gGraveYardKidGradientTex" OutName="gradient" Format="ci8" Width="8" Height="8" Offset="0x1B70"/>
         <Texture Name='gGraveYardKidPantsTex' OutName="pants" Format="ci8" Width="16" Height="16" Offset="0x3C70"/>
         <Texture Name='gGraveYardKidBoot1Tex' OutName="boot1" Format="ci8" Width="8" Height="16" Offset="0x3BF0"/>
