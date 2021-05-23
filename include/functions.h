@@ -540,54 +540,16 @@ void ActorOverlayTable_LogPrint(void);
 void ActorOverlayTable_Init(void);
 void ActorOverlayTable_Cleanup(void);
 // ? func_80038600(?);
-// ? SSNode_SetValue(?);
-// ? SSNode_SetNull(?);
-// ? func_80038728(?);
-// ? func_80038780(?);
-// ? DynaSSNodeList_Initialize(?);
-// ? DynaSSNodeList_Alloc(?);
-// ? DynaSSNodeList_ResetCount(?);
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList*);
-// ? func_800388A8(?);
-// ? func_800388E8(?);
-// ? func_800389D4(?);
 void func_80038A28(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest);
 f32 CollisionPoly_GetPointDistanceFromPlane(CollisionPoly* poly, Vec3f* point);
 void CollisionPoly_GetVerticesByBgId(CollisionPoly* poly, s32 bgId, CollisionContext* colCtx, Vec3f* dest);
-// ? func_80038BE0(?);
-// ? CollisionPoly_CheckYIntersectApprox1(?);
-// ? CollisionPoly_CheckYIntersect(?);
-// ? CollisionPoly_CheckYIntersectApprox2(?);
-// ? CollisionPoly_CheckXIntersectApprox(?);
-// ? CollisionPoly_CheckZIntersectApprox(?);
-// ? CollisionPoly_LineVsPoly(?);
-// ? CollisionPoly_SphVsPoly(?);
-// ? StaticLookup_AddPolyToNodeList(?);
-// ? func_8003965C(?);
-// ? func_800396F0(?);
-// ? func_8003992C(?);
-// ? BgCheck_ComputeWallDisplacement(?);
-// ? BgCheck_SphVsStaticWall(?);
 s32 BgCheck_CheckStaticCeiling(StaticLookup* lookup, u16 xpFlags, CollisionContext* colCtx, f32* outY, Vec3f* pos,
                                f32 checkHeight, CollisionPoly** outPoly);
-s32 func_8003A5B8(SSList* headNodeId, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
+s32 BgCheck_CheckLineAgainstSSList(SSList* headNodeId, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
                   Vec3f* outPos, CollisionPoly** outPoly, f32* outDistSq, f32 chkDist, s32 bccFlags);
-// ? func_8003A7D8(?);
-// ? BgCheck_SphVsFirstStaticPolyList(?);
-// ? BgCheck_SphVsFirstStaticPoly(?);
-// ? BgCheck_GetNearestStaticLookup(?);
-// ? BgCheck_GetStaticLookup(?);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* arg2);
-// ? func_8003AEA8(?);
-// ? func_8003B04C(?);
-// ? func_8003B218(?);
-// ? func_8003B3C8(?);
-// ? func_8003BB18(?);
-// ? BgCheck_IsSpotScene(?);
-// ? BgCheck_TryGetCustomMemsize(?);
-// ? BgCheck_SetSubdivisionDimension(?);
 void BgCheck_Allocate(CollisionContext* colCtx, GlobalContext* globalCtx, CollisionHeader* colHeader);
-// ? BgCheck_GetCollisionHeader(?);
 s32 BgCheck_PosInStaticBoundingBox(CollisionContext* colCtx, Vec3f* pos);
 f32 BgCheck_EntityRaycastFloor1(CollisionContext* colCtx, CollisionPoly** outPoly, Vec3f* pos);
 f32 BgCheck_EntityRaycastFloor2(GlobalContext* globalCtx, CollisionContext* colCtx, CollisionPoly** outPoly,
@@ -605,7 +567,7 @@ f32 BgCheck_AnyRaycastFloor2(CollisionContext* colCtx, CollisionPoly* outPoly, s
 f32 BgCheck_CameraRaycastFloor2(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
 f32 BgCheck_EntityRaycastFloor8(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
 f32 BgCheck_EntityRaycastFloor9(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
-s32 BgCheck_SphVsWallImpl(CollisionContext* colCtx, u16 xpFlags, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev,
+s32 BgCheck_CheckWallImpl(CollisionContext* colCtx, u16 xpFlags, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev,
                           f32 radius, CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 checkHeight, u8 argA);
 s32 BgCheck_EntitySphVsWall1(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 radius,
                              CollisionPoly** outPoly, f32 checkHeight);
@@ -615,11 +577,10 @@ s32 BgCheck_EntitySphVsWall3(CollisionContext* colCtx, Vec3f* posResult, Vec3f* 
                              CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 checkHeight);
 s32 BgCheck_EntitySphVsWall4(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 radius,
                              CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 checkHeight);
-// ? BgCheck_CheckCeilingImpl(?);
 s32 BgCheck_AnyCheckCeiling(CollisionContext* colCtx, f32* outY, Vec3f* pos, f32 checkHeight);
 s32 BgCheck_EntityCheckCeiling(CollisionContext* colCtx, f32* arg1, Vec3f* arg2, f32 arg3, CollisionPoly** outPoly,
                                s32* outBgId, Actor* actor);
-s32 BgCheck_LineTestImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
+s32 BgCheck_CheckLineImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
                          Vec3f* posResult, CollisionPoly** outPoly, s32* bgId, Actor* actor, f32 chkDist, u32 bccFlags);
 s32 BgCheck_CameraLineTest1(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
                             CollisionPoly** outPoly, s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
@@ -642,25 +603,10 @@ s32 BgCheck_AnyLineTest2(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec
                          s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace);
 s32 BgCheck_AnyLineTest3(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
                          s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
-// ? BgCheck_SphVsFirstPolyImpl(?);
 s32 BgCheck_SphVsFirstPoly(CollisionContext* colCtx, Vec3f* center, f32 radius);
 void SSNodeList_Initialize(SSNodeList*);
 void SSNodeList_Alloc(GlobalContext* globalCtx, SSNodeList* this, s32 tblMax, s32 numPolys);
 u16 SSNodeList_GetNextNodeIdx(SSNodeList* this);
-// ? ScaleRotPos_Initialize(?);
-// ? ScaleRotPos_SetValue(?);
-// ? ScaleRotPos_Equals(?);
-// ? DynaLookup_ResetLists(?);
-// ? DynaLookup_Reset(?);
-// ? DynaLookup_ResetVtxStartIndex(?);
-// ? BgActor_Initialize(?);
-// ? BgActor_SetActor(?);
-// ? BgActor_HasTransformChanged(?);
-// ? DynaPoly_NullPolyList(?);
-// ? DynaPoly_AllocPolyList(?);
-// ? DynaPoly_NullVtxList(?);
-// ? DynaPoly_AllocVtxList(?);
-// ? DynaPoly_SetBgActorPrevTransform(?);
 s32 DynaPoly_IsBgIdBgActor(s32 bgId);
 void DynaPoly_Init(GlobalContext* globalCtx, DynaCollisionContext* dyna);
 void DynaPoly_Alloc(GlobalContext* globalCtx, DynaCollisionContext* dyna);
@@ -674,38 +620,27 @@ void func_8003EE6C(GlobalContext* globalCtx, DynaCollisionContext* dyna);
 void func_8003F8EC(GlobalContext* globalCtx, DynaCollisionContext* dyna, Actor* actor);
 void DynaPoly_Setup(GlobalContext* globalCtx, DynaCollisionContext* dyna);
 void DynaPoly_UpdateBgActorTransforms(GlobalContext* globalCtx, DynaCollisionContext* dyna);
-// ? BgCheck_RaycastFloorDynaList(?);
 f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast);
-// ? BgCheck_SphVsDynaWallInBgActor(?);
 s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ, Vec3f* pos, f32 radius,
                           CollisionPoly** outPoly, s32* outBgId, Actor* actor);
-// ? BgCheck_CheckDynaCeilingList(?);
 s32 BgCheck_CheckDynaCeiling(CollisionContext* colCtx, u16 xpFlags, f32* outY, Vec3f* pos, f32 chkDist,
                              CollisionPoly** outPoly, s32* outBgId, Actor* actor);
-// ? func_80040FA4(?);
-// ? func_80041128(?);
-s32 func_80041240(CollisionContext* colCtx, u16 xpFlags, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
+s32 BgCheck_CheckLineAgainstDyna(CollisionContext* colCtx, u16 xpFlags, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
                   CollisionPoly** outPoly, f32* distSq, s32* outBgId, Actor* actor, f32 chkDist, s32 bccFlags);
-// ? BgCheck_SphVsFirstDynaPolyList(?);
-// ? BgCheck_SphVsFirstDynaPolyInBgActor(?);
 s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, s32* outBgId,
                                Vec3f* center, f32 radius, Actor* actor, u16 bciFlags);
-// ? CollisionHeader_SegmentedToVirtual(?);
 void CollisionHeader_GetVirtual(void* colHeader, CollisionHeader** dest);
 void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx);
 void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
-// ? SurfaceType_GetData(?);
 u32 SurfaceType_GetCamDataIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 func_80041A4C(CollisionContext* colCtx, u32 camId, s32 bgId);
 u16 SurfaceType_GetCameraSType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-// ? func_80041B24(?);
 u16 SurfaceType_GetNumCameras(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 Vec3s* func_80041C10(CollisionContext* colCtx, s32 camId, s32 bgId);
 Vec3s* SurfaceType_GetCamPosData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetSceneExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-// ? func_80041D94(?);
 s32 func_80041DB8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 func_80041DE4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 s32 func_80041E18(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
@@ -736,14 +671,8 @@ u16 WaterBox_GetCameraSType(CollisionContext* colCtx, WaterBox* waterBox);
 u32 WaterBox_GetLightSettingIndex(CollisionContext* colCtx, WaterBox* waterBox);
 s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* point, Vec3f* closestPoint);
 s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec3f* pointB, Vec3f* closestPoint);
-// ? BgCheck_DrawDynaPolyList(?);
-// ? BgCheck_DrawBgActor(?);
 void BgCheck_DrawDynaCollision(GlobalContext*, CollisionContext*);
-// ? BgCheck_DrawStaticPoly(?);
-// ? BgCheck_DrawStaticPolyList(?);
 void BgCheck_DrawStaticCollision(GlobalContext*, CollisionContext*);
-// ? func_800430A0(?);
-// ? func_800432A0(?);
 void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId);
 s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor);
 void DynaPolyActor_Init(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags);
