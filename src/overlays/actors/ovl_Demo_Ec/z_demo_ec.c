@@ -5,8 +5,8 @@
  */
 
 #include "z_demo_ec.h"
-#include "objects/object_zo/object_zo.h"
 #include "vt.h"
+#include "objects/object_zo/object_zo.h"
 #include "objects/object_ec/object_ec.h"
 
 #define FLAGS 0x00000010
@@ -93,25 +93,57 @@ static s16 sAnimationObjects[] = {
 };
 
 // skeletons (all from other objects)
-// clang-format off
-extern FlexSkeletonHeader D_06013B88; //Object_IN
-extern FlexSkeletonHeader D_0600B7B8; //Object_TA
-extern FlexSkeletonHeader D_06006C90; //Object_FU
-extern FlexSkeletonHeader D_060000F0; //Object_KM1 + Object_KW1 + Object_BJI + Objct_AHG + Object_BOB + Object_BBA + Object_ANE
-extern FlexSkeletonHeader D_06007150; //Object_Toryo
-extern FlexSkeletonHeader D_06007958; //Object_Daiku
-extern FlexSkeletonHeader D_06000330; //Object_GE1
-extern FlexSkeletonHeader D_0600BFA8; //Object_ZO
-extern FlexSkeletonHeader D_060086D0; //Object_KZ
-extern FlexSkeletonHeader D_06007FB8; //Object_MD
-extern FlexSkeletonHeader D_06002530; //Object_Niw
-extern FlexSkeletonHeader D_06004258; //Object_DS2
-extern FlexSkeletonHeader D_06004658; //Object_OS
-extern FlexSkeletonHeader D_060085F8; //Object_Fish
-extern FlexSkeletonHeader D_06004868; //Object_RS
-extern FlexSkeletonHeader D_0600FEF0; //Object_OF1D_MAP
-extern FlexSkeletonHeader D_06008D90; //Object_MA2
-// clang-format on
+
+// Object_IN
+extern FlexSkeletonHeader D_06013B88;
+
+// Object_TA
+extern FlexSkeletonHeader D_0600B7B8;
+
+// Object_FU
+extern FlexSkeletonHeader D_06006C90;
+
+// Object_KM1, Object_KW1, Object_BJI, Objct_AHG, Object_BOB, Object_BBA, Object_ANE
+extern FlexSkeletonHeader D_060000F0;
+
+// Object_Toryo
+extern FlexSkeletonHeader D_06007150;
+
+// Object_Daiku
+extern FlexSkeletonHeader D_06007958;
+
+// Object_GE1
+extern FlexSkeletonHeader D_06000330;
+
+// Object_ZO
+extern FlexSkeletonHeader D_0600BFA8;
+
+// Object_KZ
+extern FlexSkeletonHeader D_060086D0;
+
+// Object_MD
+extern FlexSkeletonHeader D_06007FB8;
+
+// Object_Niw
+extern FlexSkeletonHeader D_06002530;
+
+// Object_DS2
+extern FlexSkeletonHeader D_06004258;
+
+// Object_OS
+extern FlexSkeletonHeader D_06004658;
+
+// Object_Fish
+extern FlexSkeletonHeader D_060085F8;
+
+// Object_RS
+extern FlexSkeletonHeader D_06004868;
+
+// Object_OF1D_MAP
+extern FlexSkeletonHeader D_0600FEF0;
+
+// Object_MA2
+extern FlexSkeletonHeader D_06008D90;
 
 // animations from other objects
 extern AnimationHeader D_060002B8;
