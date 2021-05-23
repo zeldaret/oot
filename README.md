@@ -68,7 +68,7 @@ You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTI
 Going forward in this guide, please use `gmake` whenever you encounter a `make` command.
 The `make` that comes with MacOS behaves differently than GNU make and is incompatible with this project.
 
-You should now be able to continue from step 3 of the Linux instructions.
+You should now be able to continue from [step 2](#2-clone-the-repository) of the Linux instructions.
 
 ### Linux (Native or under WSL / VM)
 
@@ -88,22 +88,7 @@ sudo apt-get update
 sudo apt-get install git build-essential binutils-mips-linux-gnu python3
 ```
 
-#### 2. Download and set up qemu-irix (optional)
-
-Note: We are currently testing a recompiled version of the compiler that does not require qemu-irix.
-This step is optional and allows you to build with qemu-irix and the original compiler by adding `ORIG_COMPILER=1` to the `make` command in step 6, for example if you experience issues with the recompiled version.
-
-Download qemu-irix from the Releases section in the repository. Place it at a location of your choosing.
-
-Open up your .bashrc file (~/.bashrc), scroll to the bottom, and add the following, replacing the paths as necessary:
-
-```text
-export QEMU_IRIX="path/to/your/qemu-irix"
-```
-
-Save and close/reopen your terminal window.
-
-#### 3. Clone the repository
+#### 2. Clone the repository
 
 Clone `https://github.com/zeldaret/oot.git` where you wish to have the project, with a command such as:
 
@@ -111,12 +96,12 @@ Clone `https://github.com/zeldaret/oot.git` where you wish to have the project, 
 git clone https://github.com/zeldaret/oot.git
 ```
 
-#### 4. Prepare a base ROM
+#### 3. Prepare a base ROM
 
 Copy over your copy of the Master Quest (Debug) ROM inside the root of this new project directory.
 Rename the file to "baserom_original.z64", "baserom_original.n64" or "baserom_original.v64", depending on the original extension.
 
-#### 5. Setup the ROM and build process
+#### 4. Setup the ROM and build process
 
 Setup and extract everything from your ROM with the following command:
 
@@ -127,7 +112,7 @@ make setup
 This will generate a new ROM called "baserom.z64" that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
-#### 6. Build the ROM
+#### 5. Build the ROM
 
 Run make to build the ROM.
 Make sure your path to the project is not too long, otherwise this process may error.
@@ -172,7 +157,7 @@ Once mips-linux-binutils is installed you will need to install the following pac
 * dos2unix
 * python3
 
-Then you can continue from step 3 of the Linux instructions.
+Then you can continue from step [step 2](#2-clone-the-repository) of the Linux instructions.
 
 Note that, before building anything, you will need to run the following commands to fix line endings:
 
@@ -187,7 +172,7 @@ dos2unix fixle.sh
 
 To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and setup based on your system.
 
-You'll also need to prepare a local version of the project with a copied base ROM (see steps 3 and 4 of the Linux instructions).
+You'll also need to prepare a local version of the project with a copied base ROM (see steps [2](#2-clone-the-repository) and [3](#3-prepare-a-base-rom) of the Linux instructions).
 
 #### 2. Create the docker image
 
@@ -207,7 +192,7 @@ docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/
 
 #### 4. Setup and Build the ROM
 
-Once inside the container, you can follow steps 5 and 6 of the Linux instructions to setup and build the ROM, or run any other command you need.
+Once inside the container, you can follow steps [4](#4-setup-the-rom-and-build-process) and [5](#5-build-the-rom) of the Linux instructions to setup and build the ROM, or run any other command you need.
 
 ## Contributing
 

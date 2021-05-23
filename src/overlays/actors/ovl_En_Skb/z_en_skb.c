@@ -534,8 +534,6 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-#ifdef NON_MATCHING
-// t1 needs to be skipped when storing the args for the second function call
 void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSkb* this = THIS;
 
@@ -543,14 +541,10 @@ void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
     if ((this->unk_283 ^ 1) == 0) {
         BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 11, 12, 18, dList, BODYBREAK_OBJECT_DEFAULT);
-    } else if ((this->unk_283 | 4) == this->unk_283) {
+    } else if ((this->unk_283 ^ (this->unk_283 | 4)) == 0) {
         BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 18, 18, dList, BODYBREAK_OBJECT_DEFAULT);
     }
 }
-#else
-void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_PostLimbDraw.s")
-#endif
 
 void EnSkb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSkb* this = THIS;

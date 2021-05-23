@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_mori_hineri2a" Segment="6">
+        <DList Name="object_mori_hineri2a_DL_002B70" Offset="0x2B70"/>
+        <Blob Name="object_mori_hineri2a_Blob_004BB8" Size="0x14F8" Offset="0x4BB8"/>
+    </File>
+</Root>
