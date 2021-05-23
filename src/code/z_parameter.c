@@ -3002,7 +3002,8 @@ void func_8008A994(InterfaceContext* interfaceCtx) {
     func_800AB2C4(&interfaceCtx->view);
 }
 
-#if 1
+#ifdef NON_MATCHING
+// Starting to get close to matching, but there are issues with usages of Gfx_TextureIA8()
 void Interface_Draw(GlobalContext* globalCtx) {
     static s16 magicArrowEffectsR[] = { 255, 100, 255 };
     static s16 magicArrowEffectsG[] = { 0, 100, 255 };
