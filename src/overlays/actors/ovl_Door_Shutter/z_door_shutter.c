@@ -93,7 +93,7 @@ static ShutterInfo sShutterInfo[] = {
     { 0x06000590, 0x06006460, 0, 110, 50, 15 },
     { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },
     { gGohmaDoorDL, NULL, 130, 12, 50, 15 },
-    { gJyaDoorDL, gJyaDoorMetalBarsDL, 240, 14, 50, 15 },
+    { gSpiritDoorDL, gJyaDoorMetalBarsDL, 240, 14, 50, 15 },
     { 0x060010C0, NULL, 130, 12, 50, 15 },
     { gDungeonDoorDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { gFireTempleDoorFrontDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
