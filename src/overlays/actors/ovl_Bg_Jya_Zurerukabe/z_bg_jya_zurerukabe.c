@@ -81,12 +81,15 @@ void func_8089B4C8(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
 
     if ((player->stateFlags1 == 0x200000) && (player->actor.wallPoly != NULL)) {
         s32 i;
+
         for (i = 0; i < ARRAY_COUNT(D_8089BA18); i++) {
             f32 posY = player->actor.world.pos.y;
+
             if ((posY >= D_8089BA18[i][0]) && (posY <= D_8089BA18[i][1])) {
                 break;
             }
         }
+
         switch (i) {
             case 0:
             case 2:
@@ -112,18 +115,21 @@ void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     BgJyaZurerukabe_InitDynaPoly(this, globalCtx, &gZurerukabeCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
+
     for (i = 0; i < ARRAY_COUNT(D_8089B9F0); i++) {
         if (fabsf(D_8089B9F0[i] - this->dyna.actor.home.pos.y) < 1.0f) {
             this->unk_168 = i;
             break;
         }
     }
+
     if (i == ARRAY_COUNT(D_8089B9F0)) {
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 299,
                      this->dyna.actor.params);
         osSyncPrintf(VT_RST);
     }
+
     this->unk_16E = D_8089B9F8[this->unk_168];
     func_8089B7B4(this);
     osSyncPrintf("(jya ずれる壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
@@ -172,7 +178,9 @@ void BgJyaZurerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_16A > 0) {
         this->unk_16A--;
     }
+
     this->actionFunc(this, globalCtx);
+    
     if (this->unk_168 == 0) {
         func_8089B4C8(this, globalCtx);
     }
