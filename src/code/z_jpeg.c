@@ -40,7 +40,7 @@ u32 Jpeg_SendTask(JpegContext* ctx) {
     JpegWork* workBuf = ctx->workBuf;
     s32 pad[2];
 
-    workBuf->taskData.address = PHYSICAL_TO_VIRTUAL(&workBuf->address);
+    workBuf->taskData.address = PHYSICAL_TO_VIRTUAL(&workBuf->data);
     workBuf->taskData.mode = ctx->mode;
     workBuf->taskData.mbCount = 4;
     workBuf->taskData.qTableYPtr = PHYSICAL_TO_VIRTUAL(&workBuf->qTableY);
@@ -226,7 +226,7 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
 }
 
 #ifdef NON_MATCHING
-// the time diff isn't correct, workBuff->address is kept in a temp register instead of being stored in the stack and
+// the time diff isn't correct, workBuff->data is kept in a temp register instead of being stored in the stack and
 // regalloc differences
 s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     s32 y;
@@ -243,7 +243,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     OSTime time2;
 
     time = osGetTime();
-    // (?) I guess MB_SIZE=0x180, PROC_OF_MBS=5 which means address is not a part of JpegWork
+    // (?) I guess MB_SIZE=0x180, PROC_OF_MBS=5 which means data is not a part of JpegWork
     ASSERT(workSize >= sizeof(JpegWork), "worksize >= sizeof(JPEGWork) + MB_SIZE * (PROC_OF_MBS - 1)", "../z_jpeg.c",
            527);
 
@@ -337,16 +337,16 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     y = 0;
     x = 0;
     for (i = 0; i < 300; i += 4) {
-        if (JpegDecoder_Decode(&decoder, (u16*)workBuff->address, 4, i != 0, &state)) {
+        if (JpegDecoder_Decode(&decoder, (u16*)workBuff->data, 4, i != 0, &state)) {
             osSyncPrintf(VT_FGCOL(RED));
             osSyncPrintf("Error : Can't decode jpeg\n");
             osSyncPrintf(VT_RST);
         } else {
             Jpeg_SendTask(&ctx);
-            osInvalDCache(&workBuff->address, sizeof(workBuff->address[0]));
+            osInvalDCache(&workBuff->data, sizeof(workBuff->data[0]));
 
-            src = workBuff->address;
-            for (j = 0; j < ARRAY_COUNT(workBuff->address); j++) {
+            src = workBuff->data;
+            for (j = 0; j < ARRAY_COUNT(workBuff->data); j++) {
                 Jpeg_CopyToZbuffer(src[j], zbuffer, x, y);
                 x++;
 

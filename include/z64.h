@@ -1654,7 +1654,7 @@ typedef struct {
     /* 0x320 */ JpegQuantizationTable qTableV;
     /* 0x3A0 */ u8 codesLengths[0x110];
     /* 0x4B0 */ u16 codes[0x108];
-    /* 0x6C0 */ u16 address[4][0x180];
+    /* 0x6C0 */ u16 data[4][0x180];
 } JpegWork; // size = 0x12C0
 
 typedef struct {
