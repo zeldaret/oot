@@ -287,7 +287,7 @@ s32 CanBuy_Arrows(GlobalContext* globalCtx, EnGirlA* this) {
     if (gSaveContext.rupees < this->basePrice) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_Bombs(GlobalContext* globalCtx, EnGirlA* this) {
@@ -300,7 +300,7 @@ s32 CanBuy_Bombs(GlobalContext* globalCtx, EnGirlA* this) {
     if (gSaveContext.rupees < this->basePrice) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_DekuNuts(GlobalContext* globalCtx, EnGirlA* this) {
@@ -311,9 +311,9 @@ s32 CanBuy_DekuNuts(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_NUT) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_DekuSticks(GlobalContext* globalCtx, EnGirlA* this) {
@@ -324,9 +324,9 @@ s32 CanBuy_DekuSticks(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_STICK) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_Fish(GlobalContext* globalCtx, EnGirlA* this) {
@@ -337,9 +337,9 @@ s32 CanBuy_Fish(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_FISH) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_RedPotion(GlobalContext* globalCtx, EnGirlA* this) {
@@ -350,9 +350,9 @@ s32 CanBuy_RedPotion(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_POTION_RED) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_GreenPotion(GlobalContext* globalCtx, EnGirlA* this) {
@@ -363,9 +363,9 @@ s32 CanBuy_GreenPotion(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_POTION_GREEN) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_BluePotion(GlobalContext* globalCtx, EnGirlA* this) {
@@ -376,9 +376,9 @@ s32 CanBuy_BluePotion(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_POTION_BLUE) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_Longsword(GlobalContext* globalCtx, EnGirlA* this) {
@@ -389,9 +389,9 @@ s32 CanBuy_Longsword(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_SWORD_BGS) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_HylianShield(GlobalContext* globalCtx, EnGirlA* this) {
@@ -402,9 +402,9 @@ s32 CanBuy_HylianShield(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_SHIELD_HYLIAN) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_DekuShield(GlobalContext* globalCtx, EnGirlA* this) {
@@ -415,9 +415,9 @@ s32 CanBuy_DekuShield(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_SHIELD_DEKU) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_GoronTunic(GlobalContext* globalCtx, EnGirlA* this) {
@@ -431,9 +431,9 @@ s32 CanBuy_GoronTunic(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_TUNIC_GORON) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_ZoraTunic(GlobalContext* globalCtx, EnGirlA* this) {
@@ -447,9 +447,9 @@ s32 CanBuy_ZoraTunic(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_TUNIC_ZORA) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_Health(GlobalContext* globalCtx, EnGirlA* this) {
@@ -459,7 +459,7 @@ s32 CanBuy_Health(GlobalContext* globalCtx, EnGirlA* this) {
     if (gSaveContext.rupees < this->basePrice) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_MilkBottle(GlobalContext* globalCtx, EnGirlA* this) {
@@ -467,9 +467,9 @@ s32 CanBuy_MilkBottle(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_MILK_BOTTLE) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_WeirdEgg(GlobalContext* globalCtx, EnGirlA* this) {
@@ -477,9 +477,9 @@ s32 CanBuy_WeirdEgg(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_LETTER_ZELDA) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_Unk19(GlobalContext* globalCtx, EnGirlA* this) {
@@ -498,9 +498,9 @@ s32 CanBuy_Bombchus(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_BOMBCHU) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_DekuSeeds(GlobalContext* globalCtx, EnGirlA* this) {
@@ -511,9 +511,9 @@ s32 CanBuy_DekuSeeds(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_SEEDS) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_SoldOut(GlobalContext* globalCtx, EnGirlA* this) {
@@ -528,9 +528,9 @@ s32 CanBuy_BlueFire(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_BLUE_FIRE) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_Bugs(GlobalContext* globalCtx, EnGirlA* this) {
@@ -541,9 +541,9 @@ s32 CanBuy_Bugs(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_BUG) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_Poe(GlobalContext* globalCtx, EnGirlA* this) {
@@ -554,9 +554,9 @@ s32 CanBuy_Poe(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_POE) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 s32 CanBuy_Fairy(GlobalContext* globalCtx, EnGirlA* this) {
@@ -567,9 +567,9 @@ s32 CanBuy_Fairy(GlobalContext* globalCtx, EnGirlA* this) {
         return CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_FAIRY) == ITEM_NONE) {
-        return CANBUY_RESULT_0;
+        return CANBUY_RESULT_SUCCESS_FANFARE;
     }
-    return CANBUY_RESULT_1;
+    return CANBUY_RESULT_SUCCESS;
 }
 
 void ItemGive_Arrows(GlobalContext* globalCtx, EnGirlA* this) {

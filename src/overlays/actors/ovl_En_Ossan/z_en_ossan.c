@@ -68,24 +68,24 @@ void EnOssan_State_LookToRightShelf(EnOssan* this, GlobalContext* globalCtx, Pla
 void EnOssan_State_BrowseLeftShelf(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void EnOssan_State_BrowseRightShelf(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void EnOssan_State_LookFromShelfToShopkeeper(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State9_80AC5594(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_ItemSelected(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void EnOssan_State_SelectMilkBottle(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void EnOssan_State_SelectWeirdEgg(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void EnOssan_State_SelectUnimplementedItem(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void EnOssan_State_SelectBombs(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State14_80AC5C24(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_CantGetItem(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void EnOssan_State_GiveItemWithFanfare(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void EnOssan_State_ItemPurchased(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State18_80AC6208(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State19_80AC4DDC(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State20_80AC60E4(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State21_80AC6148(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State22_80AC61B8(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State23_80AC5C9C(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State24_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State25_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* player);
-void EnOssan_State26_80AC62F4(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_GiveLonLonMilk(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_DisplayOnlyBombDialog(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_WaitForDisplayOnlyBombDialog(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_21(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_22(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_QuickBuyDialog(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_SelectMaskItem(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_LendMaskOfTruth(EnOssan* this, GlobalContext* globalCtx, Player* player);
+void EnOssan_State_GiveDiscountDialog(EnOssan* this, GlobalContext* globalCtx, Player* player);
 
 void EnOssan_Obj3ToSeg6(EnOssan* this, GlobalContext* globalCtx);
 
@@ -99,7 +99,7 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this);
 s32 EnOssan_TakeItemOffShelf(EnOssan* this);
 s32 EnOssan_ReturnItemToShelf(EnOssan* this);
 void EnOssan_ResetItemPosition(EnOssan* this);
-void func_80AC62C4(GlobalContext* globalCtx, EnOssan* this);
+void EnOssan_SetStateGiveDiscountDialog(GlobalContext* globalCtx, EnOssan* this);
 
 #define CURSOR_INVALID 0xFF
 
@@ -542,9 +542,9 @@ void EnOssan_TalkHappyMaskShopkeeper(GlobalContext* globalCtx) {
     }
 }
 
-void EnOssan_UpdateCameraDirection(EnOssan* this, GlobalContext* globalCtx, f32 lookRot) {
-    this->lookRot = lookRot;
-    Camera_SetCameraData(ACTIVE_CAM, 0xC, NULL, NULL, lookRot, 0, 0);
+void EnOssan_UpdateCameraDirection(EnOssan* this, GlobalContext* globalCtx, f32 cameraFaceAngle) {
+    this->cameraFaceAngle = cameraFaceAngle;
+    Camera_SetCameraData(ACTIVE_CAM, 0xC, NULL, NULL, cameraFaceAngle, 0, 0);
 }
 
 s32 EnOssan_TryGetObjBankIndexes(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
@@ -687,7 +687,7 @@ s32 EnOssan_TestCancelOption(EnOssan* this, GlobalContext* globalCtx, Input* inp
 void EnOssan_SetStateStartShopping(GlobalContext* globalCtx, EnOssan* this, u8 skipHelloState) {
 
     YREG(31) = 1;
-    this->unk_1EE = this->lookAngle = 0;
+    this->headRot = this->headTargetRot = 0;
     Interface_SetDoAction(globalCtx, 0x10);
     EnOssan_UpdateCameraDirection(this, globalCtx, 0);
 
@@ -734,7 +734,7 @@ void EnOssan_SetLookToShopkeeperFromShelf(GlobalContext* globalCtx, EnOssan* thi
 }
 
 void EnOssan_State_Idle(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    this->lookAngle = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    this->headTargetRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (func_8002F194(&this->actor, globalCtx)) {
         // "Start conversation!!"
@@ -990,15 +990,15 @@ void EnOssan_State_TalkingToShopkeeper(EnOssan* this, GlobalContext* globalCtx, 
 
 // Look to left shelf
 void EnOssan_State_LookToLeftShelf(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    Math_ApproachF(&this->lookRot, 30.0f, 0.5f, 10.0f);
+    Math_ApproachF(&this->cameraFaceAngle, 30.0f, 0.5f, 10.0f);
 
-    if (this->lookRot > 29.5f) {
+    if (this->cameraFaceAngle > 29.5f) {
         EnOssan_UpdateCameraDirection(this, globalCtx, 30.0f);
     }
 
-    EnOssan_UpdateCameraDirection(this, globalCtx, this->lookRot);
+    EnOssan_UpdateCameraDirection(this, globalCtx, this->cameraFaceAngle);
 
-    if (this->lookRot >= 30.0f) {
+    if (this->cameraFaceAngle >= 30.0f) {
         EnOssan_UpdateCameraDirection(this, globalCtx, 30.0f);
         EnOssan_UpdateCursorPos(globalCtx, this);
         this->stateFlag = ENOSSAN_STATE_6;
@@ -1010,15 +1010,15 @@ void EnOssan_State_LookToLeftShelf(EnOssan* this, GlobalContext* globalCtx, Play
 
 // Look to right Shelf
 void EnOssan_State_LookToRightShelf(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    Math_ApproachF(&this->lookRot, -30.0f, 0.5f, 10.0f);
+    Math_ApproachF(&this->cameraFaceAngle, -30.0f, 0.5f, 10.0f);
 
-    if (this->lookRot < -29.5f) {
+    if (this->cameraFaceAngle < -29.5f) {
         EnOssan_UpdateCameraDirection(this, globalCtx, -30.0f);
     }
 
-    EnOssan_UpdateCameraDirection(this, globalCtx, this->lookRot);
+    EnOssan_UpdateCameraDirection(this, globalCtx, this->cameraFaceAngle);
 
-    if (this->lookRot <= -30.0f) {
+    if (this->cameraFaceAngle <= -30.0f) {
         EnOssan_UpdateCameraDirection(this, globalCtx, -30.0f);
         EnOssan_UpdateCursorPos(globalCtx, this);
         this->stateFlag = ENOSSAN_STATE_7;
@@ -1296,33 +1296,33 @@ void EnOssan_State_BrowseRightShelf(EnOssan* this, GlobalContext* globalCtx, Pla
 }
 
 void EnOssan_State_LookFromShelfToShopkeeper(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    Math_ApproachF(&this->lookRot, 0.0f, 0.5f, 10.0f);
-    if ((this->lookRot < 0.5f) && (this->lookRot > -0.5f)) {
+    Math_ApproachF(&this->cameraFaceAngle, 0.0f, 0.5f, 10.0f);
+    if ((this->cameraFaceAngle < 0.5f) && (this->cameraFaceAngle > -0.5f)) {
         EnOssan_UpdateCameraDirection(this, globalCtx, 0.0f);
     }
-    EnOssan_UpdateCameraDirection(this, globalCtx, this->lookRot);
-    if (this->lookRot == 0.0f) {
+    EnOssan_UpdateCameraDirection(this, globalCtx, this->cameraFaceAngle);
+    if (this->cameraFaceAngle == 0.0f) {
         EnOssan_StartShopping(globalCtx, this);
     }
 }
 
-void EnOssan_State19_80AC4DDC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+void EnOssan_State_DisplayOnlyBombDialog(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (!EnOssan_ReturnItemToShelf(this)) {
         osSyncPrintf("%s[%d]:\x1b[32mズーム中！！\x1b[m\n", "../z_en_oB1.c", 2355);
         return;
     }
-    Math_ApproachF(&this->lookRot, 0.0f, 0.5f, 10.0f);
-    if (this->lookRot < 0.5f && this->lookRot > -0.5f) {
+    Math_ApproachF(&this->cameraFaceAngle, 0.0f, 0.5f, 10.0f);
+    if (this->cameraFaceAngle < 0.5f && this->cameraFaceAngle > -0.5f) {
         EnOssan_UpdateCameraDirection(this, globalCtx, 0.0f);
     }
-    EnOssan_UpdateCameraDirection(this, globalCtx, this->lookRot);
-    if (this->lookRot == 0.0f) {
+    EnOssan_UpdateCameraDirection(this, globalCtx, this->cameraFaceAngle);
+    if (this->cameraFaceAngle == 0.0f) {
         func_8010B720(globalCtx, 0x3010);
         this->stateFlag = ENOSSAN_STATE_20;
     }
 }
 
-void func_80AC4EC8(GlobalContext* globalCtx, EnOssan* this) {
+void EnOssan_GiveItemWithFanfare(GlobalContext* globalCtx, EnOssan* this) {
     Player* player = PLAYER;
 
     osSyncPrintf("\n\x1b[33m初めて手にいれた！！\x1b[m\n\n");
@@ -1343,29 +1343,29 @@ void EnOssan_SetStateCantGetItem(GlobalContext* globalCtx, EnOssan* this, u16 te
     this->stateFlag = ENOSSAN_STATE_14;
 }
 
-void func_80AC4FE0(GlobalContext* globalCtx, EnOssan* this, u16 textId) {
+void EnOssan_SetStateQuickBuyDialog(GlobalContext* globalCtx, EnOssan* this, u16 textId) {
     func_8010B720(globalCtx, textId);
     this->stateFlag = ENOSSAN_STATE_23;
 }
 
-void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
+void EnOssan_HandleCanBuyItem(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* selectedItem = this->shelfSlots[this->cursorIndex];
 
     switch (selectedItem->canBuyFunc(globalCtx, selectedItem)) {
-        case CANBUY_RESULT_0:
+        case CANBUY_RESULT_SUCCESS_FANFARE:
             if (selectedItem->actor.params == SI_HYLIAN_SHIELD && gSaveContext.infTable[7] & 0x40) {
-                func_80AC62C4(globalCtx, this);
+                EnOssan_SetStateGiveDiscountDialog(globalCtx, this);
                 break;
             } else {
-                func_80AC4EC8(globalCtx, this);
+                EnOssan_GiveItemWithFanfare(globalCtx, this);
                 this->drawCursor = 0;
                 this->shopItemSelectedTween = 0.0f;
                 selectedItem->setOutOfStockFunc(globalCtx, selectedItem);
                 return;
             }
-        case CANBUY_RESULT_1:
+        case CANBUY_RESULT_SUCCESS:
             selectedItem->itemGiveFunc(globalCtx, selectedItem);
-            func_80AC4FE0(globalCtx, this, 0x84);
+            EnOssan_SetStateQuickBuyDialog(globalCtx, this, 0x84);
             this->drawCursor = 0;
             this->shopItemSelectedTween = 0.0f;
             selectedItem->setOutOfStockFunc(globalCtx, selectedItem);
@@ -1389,18 +1389,17 @@ void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
     }
 }
 
-// Lon Lon Milk
-void func_80AC51B8(GlobalContext* globalCtx, EnOssan* this) {
+void EnOssan_HandleCanBuyLonLonMilk(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* item = this->shelfSlots[this->cursorIndex];
     switch (item->canBuyFunc(globalCtx, item)) {
-        case CANBUY_RESULT_0:
+        case CANBUY_RESULT_SUCCESS_FANFARE:
             func_8010B720(globalCtx, 0x9C);
             this->stateFlag = ENOSSAN_STATE_18;
             this->drawCursor = 0;
             return;
-        case CANBUY_RESULT_1:
+        case CANBUY_RESULT_SUCCESS:
             item->itemGiveFunc(globalCtx, item);
-            func_80AC4FE0(globalCtx, this, 0x98);
+            EnOssan_SetStateQuickBuyDialog(globalCtx, this, 0x98);
             this->drawCursor = 0;
             this->shopItemSelectedTween = 0.0f;
             item->setOutOfStockFunc(globalCtx, item);
@@ -1413,20 +1412,19 @@ void func_80AC51B8(GlobalContext* globalCtx, EnOssan* this) {
     }
 }
 
-// Weird Egg
-void func_80AC52C0(GlobalContext* globalCtx, EnOssan* this) {
+void EnOssan_HandleCanBuyWeirdEgg(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* item = this->shelfSlots[this->cursorIndex];
 
     switch (item->canBuyFunc(globalCtx, item)) {
-        case CANBUY_RESULT_0:
-            func_80AC4EC8(globalCtx, this);
+        case CANBUY_RESULT_SUCCESS_FANFARE:
+            EnOssan_GiveItemWithFanfare(globalCtx, this);
             this->drawCursor = 0;
             this->shopItemSelectedTween = 0.0f;
             item->setOutOfStockFunc(globalCtx, item);
             return;
-        case CANBUY_RESULT_1:
+        case CANBUY_RESULT_SUCCESS:
             item->itemGiveFunc(globalCtx, item);
-            func_80AC4FE0(globalCtx, this, 0x9A);
+            EnOssan_SetStateQuickBuyDialog(globalCtx, this, 0x9A);
             this->drawCursor = 0;
             this->shopItemSelectedTween = 0.0f;
             item->setOutOfStockFunc(globalCtx, item);
@@ -1445,10 +1443,10 @@ void EnOssan_HandleCanBuyBombs(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* item = this->shelfSlots[this->cursorIndex];
 
     switch (item->canBuyFunc(globalCtx, item)) {
-        case CANBUY_RESULT_0:
-        case CANBUY_RESULT_1:
+        case CANBUY_RESULT_SUCCESS_FANFARE:
+        case CANBUY_RESULT_SUCCESS:
             item->itemGiveFunc(globalCtx, item);
-            func_80AC4FE0(globalCtx, this, 0x84);
+            EnOssan_SetStateQuickBuyDialog(globalCtx, this, 0x84);
             this->drawCursor = 0;
             this->shopItemSelectedTween = 0.0f;
             item->setOutOfStockFunc(globalCtx, item);
@@ -1482,7 +1480,7 @@ void EnOssan_BuyGoronCityBombs(GlobalContext* globalCtx, EnOssan* this) {
     }
 }
 
-void EnOssan_State9_80AC5594(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+void EnOssan_State_ItemSelected(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     GlobalContext* globalCtx2 = globalCtx; // Necessary for OKs
 
     if (!EnOssan_TakeItemOffShelf(this)) {
@@ -1494,7 +1492,7 @@ void EnOssan_State9_80AC5594(EnOssan* this, GlobalContext* globalCtx, Player* pl
         func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
-                func_80AC5014(globalCtx, this);
+                EnOssan_HandleCanBuyItem(globalCtx, this);
                 break;
             case 1:
                 this->stateFlag = this->tempStateFlag;
@@ -1515,7 +1513,7 @@ void EnOssan_State_SelectMilkBottle(EnOssan* this, GlobalContext* globalCtx, Pla
         func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
-                func_80AC51B8(globalCtx, this);
+                EnOssan_HandleCanBuyLonLonMilk(globalCtx, this);
                 break;
             case 1:
                 this->stateFlag = this->tempStateFlag;
@@ -1535,7 +1533,7 @@ void EnOssan_State_SelectWeirdEgg(EnOssan* this, GlobalContext* globalCtx, Playe
         func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
-                func_80AC52C0(globalCtx, this);
+                EnOssan_HandleCanBuyWeirdEgg(globalCtx, this);
                 break;
             case 1:
                 this->stateFlag = this->tempStateFlag;
@@ -1562,7 +1560,7 @@ void EnOssan_State_SelectBombs(EnOssan* this, GlobalContext* globalCtx, Player* 
     }
     osSyncPrintf("店主の依頼 ( %d )\n", gSaveContext.infTable[15] & 0x1000);
     if (this->actor.params != OSSAN_TYPE_GORON) {
-        EnOssan_State9_80AC5594(this, globalCtx, player);
+        EnOssan_State_ItemSelected(this, globalCtx, player);
         return;
     }
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 
@@ -1579,7 +1577,7 @@ void EnOssan_State_SelectBombs(EnOssan* this, GlobalContext* globalCtx, Player* 
     }
 }
 
-void EnOssan_State24_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+void EnOssan_State_SelectMaskItem(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     u8 talkState = func_8010BDBC(&globalCtx->msgCtx);
     EnGirlA* item = this->shelfSlots[this->cursorIndex];
 
@@ -1617,7 +1615,7 @@ void EnOssan_State24_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* p
                     case SI_GERUDO_MASK:
                         break;
                 }
-                func_80AC4EC8(globalCtx, this);
+                EnOssan_GiveItemWithFanfare(globalCtx, this);
                 this->drawCursor = 0;
                 this->shopItemSelectedTween = 0.0f;
                 item->setOutOfStockFunc(globalCtx, item);
@@ -1630,21 +1628,21 @@ void EnOssan_State24_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* p
     }
 }
 
-void EnOssan_State14_80AC5C24(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+void EnOssan_State_CantGetItem(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
         this->stateFlag = this->tempStateFlag;
         func_8010B720(globalCtx, this->shelfSlots[this->cursorIndex]->actor.textId);
     }
 }
 
-void EnOssan_State23_80AC5C9C(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    EnGirlA* temp_a1;
+void EnOssan_State_QuickBuyDialog(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    EnGirlA* item;
 
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
         this->shopItemSelectedTween = 0.0f;
         EnOssan_ResetItemPosition(this);
-        temp_a1 = this->shelfSlots[this->cursorIndex];
-        temp_a1->updateStockedItemFunc(globalCtx, temp_a1);
+        item = this->shelfSlots[this->cursorIndex];
+        item->updateStockedItemFunc(globalCtx, item);
         this->stateFlag = this->tempStateFlag;
         func_8010B720(globalCtx, this->shelfSlots[this->cursorIndex]->actor.textId);
     }
@@ -1729,14 +1727,15 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCt
     }
 }
 
-void EnOssan_State20_80AC60E4(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+void EnOssan_State_WaitForDisplayOnlyBombDialog(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
         gSaveContext.infTable[15] |= 0x1000;
         EnOssan_StartShopping(globalCtx, this);
     }
 }
 
-void EnOssan_State21_80AC6148(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+// Unreachable
+void EnOssan_State_21(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 1 && func_80106BC8(globalCtx)) {
         this->stateFlag = ENOSSAN_STATE_22;
         func_8010B720(globalCtx, 0x3012);
@@ -1744,38 +1743,40 @@ void EnOssan_State21_80AC6148(EnOssan* this, GlobalContext* globalCtx, Player* p
     }
 }
 
-void EnOssan_State22_80AC61B8(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+// Unreachable
+void EnOssan_State_22(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
         EnOssan_StartShopping(globalCtx, this);
     }
 }
 
-void EnOssan_State18_80AC6208(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+void EnOssan_State_GiveLonLonMilk(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
-        func_80AC4EC8(globalCtx, this);
+        EnOssan_GiveItemWithFanfare(globalCtx, this);
     }
 }
 
-void EnOssan_State25_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+// For giving Mask of Truth when you first sell all masks
+void EnOssan_State_LendMaskOfTruth(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx)) {
         gSaveContext.itemGetInf[2] |= 0x400;
         this->cursorIndex = 2;
-        func_80AC4EC8(globalCtx, this);
+        EnOssan_GiveItemWithFanfare(globalCtx, this);
     }
 }
 
 // Hylian Shield discount dialog
-void func_80AC62C4(GlobalContext* globalCtx, EnOssan* this) {
+void EnOssan_SetStateGiveDiscountDialog(GlobalContext* globalCtx, EnOssan* this) {
     func_8010B720(globalCtx, 0x71B2);
     this->stateFlag = ENOSSAN_STATE_26;
 }
 
-void EnOssan_State26_80AC62F4(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+void EnOssan_State_GiveDiscountDialog(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     EnGirlA* selectedItem;
 
     if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
         selectedItem = this->shelfSlots[this->cursorIndex];
-        func_80AC4EC8(globalCtx, this);
+        EnOssan_GiveItemWithFanfare(globalCtx, this);
         this->drawCursor = 0;
         this->shopItemSelectedTween = 0.0f;
         selectedItem->setOutOfStockFunc(globalCtx, selectedItem);
@@ -2195,7 +2196,7 @@ void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx) {
         this->shopItemSelectedTween = 0;
         Actor_SetScale(&this->actor, sShopkeeperScale[this->actor.params]);
         EnOssan_SpawnItemsOnShelves(this, globalCtx, items);
-        this->unk_1EE = this->lookAngle = 0;
+        this->headRot = this->headTargetRot = 0;
         this->blinkTimer = 20;
         this->eyeTextureIdx = 0;
         this->blinkFunc = EnOssan_WaitForBlink;
@@ -2212,11 +2213,11 @@ void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx) {
     static EnOssanUnkFunc4 stateFunc[] = {
         EnOssan_State_Idle, EnOssan_State_StartConversation, EnOssan_State_FacingShopkeeper, EnOssan_State_TalkingToShopkeeper,
         EnOssan_State_LookToLeftShelf, EnOssan_State_LookToRightShelf, EnOssan_State_BrowseLeftShelf, EnOssan_State_BrowseRightShelf,
-        EnOssan_State_LookFromShelfToShopkeeper, EnOssan_State9_80AC5594, EnOssan_State_SelectMilkBottle, EnOssan_State_SelectWeirdEgg,
-        EnOssan_State_SelectUnimplementedItem, EnOssan_State_SelectBombs, EnOssan_State14_80AC5C24, EnOssan_State_GiveItemWithFanfare,
-        EnOssan_State_ItemPurchased, EnOssan_State_ContinueShoppingPrompt, EnOssan_State18_80AC6208, EnOssan_State19_80AC4DDC,
-        EnOssan_State20_80AC60E4, EnOssan_State21_80AC6148, EnOssan_State22_80AC61B8, EnOssan_State23_80AC5C9C,
-        EnOssan_State24_80AC5A28, EnOssan_State25_80AC5A28, EnOssan_State26_80AC62F4,
+        EnOssan_State_LookFromShelfToShopkeeper, EnOssan_State_ItemSelected, EnOssan_State_SelectMilkBottle, EnOssan_State_SelectWeirdEgg,
+        EnOssan_State_SelectUnimplementedItem, EnOssan_State_SelectBombs, EnOssan_State_CantGetItem, EnOssan_State_GiveItemWithFanfare,
+        EnOssan_State_ItemPurchased, EnOssan_State_ContinueShoppingPrompt, EnOssan_State_GiveLonLonMilk, EnOssan_State_DisplayOnlyBombDialog,
+        EnOssan_State_WaitForDisplayOnlyBombDialog, EnOssan_State_21, EnOssan_State_22, EnOssan_State_QuickBuyDialog,
+        EnOssan_State_SelectMaskItem, EnOssan_State_LendMaskOfTruth, EnOssan_State_GiveDiscountDialog,
     };
     Player* player = PLAYER;
 
@@ -2225,7 +2226,7 @@ void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx) {
     EnOssan_UpdateItemSelectedProperty(this);
     EnOssan_UpdateStickDirectionPromptAnim(this);
     EnOssan_UpdateCursorAnim(this);
-    Math_StepToS(&this->unk_1EE, this->lookAngle, 0x190);
+    Math_StepToS(&this->headRot, this->headTargetRot, 0x190);
 
     if (player != NULL) {
         stateFunc[this->stateFlag](this, globalCtx, player);
@@ -2256,7 +2257,7 @@ s32 EnOssan_OverrideLimbDrawDefaultShopkeeper(GlobalContext* globalCtx, s32 limb
     EnOssan* this = THIS;
 
     if (limbIndex == 8) {
-        rot->x += this->unk_1EE;
+        rot->x += this->headRot;
     }
     return 0;
 }
@@ -2455,7 +2456,7 @@ s32 EnOssan_OverrideLimbDrawZoraShopkeeper(GlobalContext* globalCtx, s32 limbInd
     EnOssan* this = THIS;
 
     if (limbIndex == 15) {
-        rot->x += this->unk_1EE;
+        rot->x += this->headRot;
     }
     return 0;
 }
