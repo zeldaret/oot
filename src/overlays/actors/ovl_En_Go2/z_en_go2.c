@@ -128,12 +128,18 @@ static f32 D_80A482D8[14][2] = {
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { &object_oF1d_map_Anim_004930, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },  { &object_oF1d_map_Anim_004930, 0.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_0029A8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f }, { &object_oF1d_map_Anim_010590, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_003768, 1.0f, 0.0f, -1.0f, 0x00, -8.0f }, { &object_oF1d_map_Anim_0038E4, 1.0f, 0.0f, -1.0f, 0x02, -8.0f },
-    { &object_oF1d_map_Anim_002D80, 1.0f, 0.0f, -1.0f, 0x02, -8.0f }, { &object_oF1d_map_Anim_00161C, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_001A00, 1.0f, 0.0f, -1.0f, 0x00, -8.0f }, { &object_oF1d_map_Anim_0021D0, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_004930, 0.0f, 0.0f, -1.0f, 0x01, -8.0f }, { &object_oF1d_map_Anim_000750, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &object_oF1d_map_Anim_004930, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &object_oF1d_map_Anim_004930, 0.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &object_oF1d_map_Anim_0029A8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &object_oF1d_map_Anim_010590, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &object_oF1d_map_Anim_003768, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &object_oF1d_map_Anim_0038E4, 1.0f, 0.0f, -1.0f, 0x02, -8.0f },
+    { &object_oF1d_map_Anim_002D80, 1.0f, 0.0f, -1.0f, 0x02, -8.0f },
+    { &object_oF1d_map_Anim_00161C, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &object_oF1d_map_Anim_001A00, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &object_oF1d_map_Anim_0021D0, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &object_oF1d_map_Anim_004930, 0.0f, 0.0f, -1.0f, 0x01, -8.0f },
+    { &object_oF1d_map_Anim_000750, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
     { &object_oF1d_map_Anim_000D5C, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
 };
 
@@ -1069,7 +1075,9 @@ void func_80A45288(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A45360(EnGo2* this, f32* alpha) {
-    f32 alphaTarget = (this->skelAnime.animation == &object_oF1d_map_Anim_004930) && (this->skelAnime.curFrame <= 32.0f) ? 0.0f : 255.0f;
+    f32 alphaTarget = (this->skelAnime.animation == &object_oF1d_map_Anim_004930) && (this->skelAnime.curFrame <= 32.0f)
+                          ? 0.0f
+                          : 255.0f;
 
     Math_ApproachF(alpha, alphaTarget, 0.4f, 100.0f);
     this->actor.shape.shadowAlpha = (u8)(u32)*alpha;
@@ -1476,7 +1484,8 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_oF1d_map_Skel_00FEF0, NULL, this->jointTable, this->morphTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_oF1d_map_Skel_00FEF0, NULL, this->jointTable,
+                       this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);

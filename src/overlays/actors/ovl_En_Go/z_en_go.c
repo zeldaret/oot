@@ -453,10 +453,10 @@ void EnGo_ReverseAnimation(EnGo* this) {
 void EnGo_UpdateShadow(EnGo* this) {
     s16 shadowAlpha;
     f32 currentFrame = this->skelAnime.curFrame;
-    s16 shadowAlphaTarget =
-        (this->skelAnime.animation == &object_oF1d_map_Anim_004930 && currentFrame > 32.0f) || this->skelAnime.animation != &object_oF1d_map_Anim_004930
-            ? 255
-            : 0;
+    s16 shadowAlphaTarget = (this->skelAnime.animation == &object_oF1d_map_Anim_004930 && currentFrame > 32.0f) ||
+                                    this->skelAnime.animation != &object_oF1d_map_Anim_004930
+                                ? 255
+                                : 0;
 
     shadowAlpha = this->actor.shape.shadowAlpha;
     Math_SmoothStepToS(&shadowAlpha, shadowAlphaTarget, 10, 60, 1);

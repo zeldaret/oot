@@ -76,7 +76,8 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
     this->actor.targetMode = 1;
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gObjectOssanSkel_009B38, &gObjectOssanAnim_000338, this->jointTable, this->morphTable, 9);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gObjectOssanSkel_009B38, &gObjectOssanAnim_000338,
+                       this->jointTable, this->morphTable, 9);
     if (LINK_IS_CHILD) {
         this->headRot.z = 20;
     }

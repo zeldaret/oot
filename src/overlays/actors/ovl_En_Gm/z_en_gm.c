@@ -107,7 +107,8 @@ s32 func_80A3D7C8(void) {
 void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objGmBankIndex)) {
         this->actor.flags &= ~0x10;
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_oF1d_map_Skel_00FEF0, NULL, this->jointTable, this->morphTable, 18);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_oF1d_map_Skel_00FEF0, NULL, this->jointTable,
+                           this->morphTable, 18);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
         Animation_Change(&this->skelAnime, &D_060002B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), ANIMMODE_LOOP,
                          0.0f);

@@ -10,9 +10,9 @@ struct EnOssan;
 
 typedef void (*EnOssanActionFunc)(struct EnOssan*, GlobalContext*);
 typedef void (*EnOssanTalkOwnerFunc)(GlobalContext*);
-typedef void (*EnOssanUnkFunc1)(struct EnOssan*, GlobalContext*);
+typedef void (*EnOssanInitFunc)(struct EnOssan*, GlobalContext*);
 typedef s16 (*EnOssanGetGirlAParams)(s16);
-typedef void (*EnOssanUnkFunc4)(struct EnOssan*, GlobalContext*, Player*);
+typedef void (*EnOssanStateFunc)(struct EnOssan*, GlobalContext*, Player*);
 
 typedef struct {
     u32 r;
@@ -39,8 +39,8 @@ typedef struct EnOssan {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnOssanActionFunc actionFunc;
-    /* 0x0194 */ void(*obj3ToSeg6Func)(struct EnOssan*, GlobalContext*);
-    /* 0x0198 */ ColliderCylinder collider; //unused
+    /* 0x0194 */ void (*obj3ToSeg6Func)(struct EnOssan*, GlobalContext*);
+    /* 0x0198 */ ColliderCylinder collider; // unused
     /* 0x01E4 */ s16 timer;
     /* 0x01E6 */ s16 delayTimer;
     /* 0x01E8 */ s8 objBankIndex1;
@@ -67,7 +67,7 @@ typedef struct EnOssan {
     /* 0x0230 */ f32 cursorX;
     /* 0x0234 */ f32 cursorY;
     /* 0x0238 */ f32 cursorZ;
-    
+
     /* 0x023C */ EnvColor cursorColor;
     /* 0x024C */ f32 cursorAnimTween;
     /* 0x0250 */ u8 cursorAnimState;
@@ -83,7 +83,7 @@ typedef struct EnOssan {
     /* 0x02CD */ u8 stickAnimState;
     /* 0x02D0 */ f32 shopItemSelectedTween;
     /* 0x02D4 */ f32 cameraFaceAngle; // stored in degrees
-} EnOssan; // size = 0x02D8
+} EnOssan;                            // size = 0x02D8
 
 extern const ActorInit En_Ossan_InitVars;
 
@@ -102,33 +102,33 @@ typedef enum {
 } OssanType;
 
 typedef enum {
-    /* 00 */ ENOSSAN_STATE_0, //Idle
-    /* 01 */ ENOSSAN_STATE_1, //Start Conversation
-    /* 02 */ ENOSSAN_STATE_2, //Facing Shopkeeper
-    /* 03 */ ENOSSAN_STATE_3, //Talking to Shopkeeper
-    /* 04 */ ENOSSAN_STATE_4, //Look to left shelf
-    /* 05 */ ENOSSAN_STATE_5, //Look to right shelf
-    /* 06 */ ENOSSAN_STATE_6, //Browse left shelf
-    /* 07 */ ENOSSAN_STATE_7, //Browse right shelf
-    /* 08 */ ENOSSAN_STATE_8, //Look from shelf to Shopkeeper
-    /* 09 */ ENOSSAN_STATE_9, //Select Generic Item
-    /* 10 */ ENOSSAN_STATE_10, //Select Milk Bottle
-    /* 11 */ ENOSSAN_STATE_11, //Select Weird Egg
-    /* 12 */ ENOSSAN_STATE_12, //Select Unimplemented Item
-    /* 13 */ ENOSSAN_STATE_13, //Select Bombs
-    /* 14 */ ENOSSAN_STATE_14, //Can't get item
-    /* 15 */ ENOSSAN_STATE_15, //Give Item (Hold it up with fanfare?)
-    /* 16 */ ENOSSAN_STATE_16, //Item Purchased
-    /* 17 */ ENOSSAN_STATE_17, //Would you like to buy something else?
-    /* 18 */ ENOSSAN_STATE_18, //Give Lon Lon Milk
-    /* 19 */ ENOSSAN_STATE_19, //Turn to shopkeeper, talk about fake bombs
-    /* 20 */ ENOSSAN_STATE_20, //Can't Get Goron City Bombs
-    /* 21 */ ENOSSAN_STATE_21, //Unused
-    /* 22 */ ENOSSAN_STATE_22, //Follows ENOSSAN_STATE_21
-    /* 23 */ ENOSSAN_STATE_23, //Quick Buy
-    /* 24 */ ENOSSAN_STATE_24, //Select Mask Item
+    /* 00 */ ENOSSAN_STATE_0,  // Idle
+    /* 01 */ ENOSSAN_STATE_1,  // Start Conversation
+    /* 02 */ ENOSSAN_STATE_2,  // Facing Shopkeeper
+    /* 03 */ ENOSSAN_STATE_3,  // Talking to Shopkeeper
+    /* 04 */ ENOSSAN_STATE_4,  // Look to left shelf
+    /* 05 */ ENOSSAN_STATE_5,  // Look to right shelf
+    /* 06 */ ENOSSAN_STATE_6,  // Browse left shelf
+    /* 07 */ ENOSSAN_STATE_7,  // Browse right shelf
+    /* 08 */ ENOSSAN_STATE_8,  // Look from shelf to Shopkeeper
+    /* 09 */ ENOSSAN_STATE_9,  // Select Generic Item
+    /* 10 */ ENOSSAN_STATE_10, // Select Milk Bottle
+    /* 11 */ ENOSSAN_STATE_11, // Select Weird Egg
+    /* 12 */ ENOSSAN_STATE_12, // Select Unimplemented Item
+    /* 13 */ ENOSSAN_STATE_13, // Select Bombs
+    /* 14 */ ENOSSAN_STATE_14, // Can't get item
+    /* 15 */ ENOSSAN_STATE_15, // Give Item (Hold it up with fanfare?)
+    /* 16 */ ENOSSAN_STATE_16, // Item Purchased
+    /* 17 */ ENOSSAN_STATE_17, // Would you like to buy something else?
+    /* 18 */ ENOSSAN_STATE_18, // Give Lon Lon Milk
+    /* 19 */ ENOSSAN_STATE_19, // Turn to shopkeeper, talk about fake bombs
+    /* 20 */ ENOSSAN_STATE_20, // Can't Get Goron City Bombs
+    /* 21 */ ENOSSAN_STATE_21, // Unused
+    /* 22 */ ENOSSAN_STATE_22, // Follows ENOSSAN_STATE_21
+    /* 23 */ ENOSSAN_STATE_23, // Quick Buy
+    /* 24 */ ENOSSAN_STATE_24, // Select Mask Item
     /* 25 */ ENOSSAN_STATE_25, // Lend Mask of Truth
-    /* 26 */ ENOSSAN_STATE_26 //Hylian Shield Discount
+    /* 26 */ ENOSSAN_STATE_26  // Hylian Shield Discount
 } EnOssan_State;
 
 typedef enum {
@@ -137,9 +137,9 @@ typedef enum {
     ENOSSAN_HAPPY_STATE_REQUEST_PAYMENT_SKULL_MASK,
     ENOSSAN_HAPPY_STATE_REQUEST_PAYMENT_BUNNY_HOOD,
     ENOSSAN_HAPPY_STATE_BORROWED_FIRST_MASK,
-    ENOSSAN_HAPPY_STATE_ANGRY, //Give me my money man!
-    ENOSSAN_HAPPY_STATE_ALL_MASKS_SOLD, //All masks have been sold
-    ENOSSAN_HAPPY_STATE_NONE = 8  //No Action / Payment received!
+    ENOSSAN_HAPPY_STATE_ANGRY,          // Give me my money man!
+    ENOSSAN_HAPPY_STATE_ALL_MASKS_SOLD, // All masks have been sold
+    ENOSSAN_HAPPY_STATE_NONE = 8        // No Action / Payment received!
 } EnOssan_HappyMaskState;
 
 #endif
