@@ -15,9 +15,9 @@
 #define MARKER_EOI 0xD9
 
 /**
- * Sends the JPEG decoding task to the JPEG microcode and waits for it to finish.
+ * Configures and schedules a JPEG decoder task and waits for it to finish.
  */
-u32 Jpeg_SendTask(JpegContext* ctx) {
+u32 Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
     static OSTask_t sJpegTask = {
         M_NJPEGTASK,          // type
         0,                    // flags
@@ -342,7 +342,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
             osSyncPrintf("Error : Can't decode jpeg\n");
             osSyncPrintf(VT_RST);
         } else {
-            Jpeg_SendTask(&ctx);
+            Jpeg_ScheduleDecoderTask(&ctx);
             osInvalDCache(&workBuff->data, sizeof(workBuff->data[0]));
 
             src = workBuff->data;
