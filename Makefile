@@ -181,8 +181,11 @@ build/undefined_syms.txt: undefined_syms.txt
 clean:
 	$(RM) -r $(ROM) $(ELF) build
 
-distclean: clean
+assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
+	$(RM) -r build/assets	
+
+distclean: clean assetclean
 	$(RM) -r baserom/
 	$(MAKE) -C tools distclean
 
@@ -196,7 +199,7 @@ resources: $(ASSET_FILES_OUT)
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
 
-.PHONY: all clean setup test distclean
+.PHONY: all clean setup test distclean assetclean
 
 #### Various Recipes ####
 

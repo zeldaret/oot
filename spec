@@ -2865,11 +2865,7 @@ endseg
 beginseg
     name "ovl_En_Skb"
     include "build/src/overlays/actors/ovl_En_Skb/z_en_skb.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Skb/ovl_En_Skb_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_skb.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -4193,7 +4189,8 @@ endseg
 beginseg
     name "object_hata"
     romalign 0x1000
-    include "build/baserom/object_hata.o"
+    include "build/assets/objects/object_hata/object_hata.o"
+    number 6
 endseg
 
 beginseg
