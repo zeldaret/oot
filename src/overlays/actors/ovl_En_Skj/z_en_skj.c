@@ -1439,7 +1439,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
         this->actionFunc = EnSkj_WonOcarinaMiniGame;
     } else { // playing the game
         switch (globalCtx->msgCtx.msgMode) {
-            case 0x2B:
+            case MSGMODE_UNK_2B:
                 if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
                     sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCRAINA_WAIT;
                 }
@@ -1451,8 +1451,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     func_80106AA8(globalCtx);
                 }
                 break;
-
-            case 0x2D:
+            case MSGMODE_UNK_2D:
                 if (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid != NULL) {
                     sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState = SKULL_KID_OCRAINA_WAIT;
                 }
@@ -1461,8 +1460,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     this->songFailTimer = 160;
                 }
                 break;
-
-            case 0x2E:
+            case MSGMODE_UNK_2E:
                 if (this->songFailTimer != 0) {
                     this->songFailTimer--;
                 } else { // took too long, game failed
@@ -1475,8 +1473,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     this->actionFunc = EnSkj_FailedMiniGame;
                 }
                 break;
-
-            case 0x30:
+            case MSGMODE_UNK_30:
                 if (func_800F8FF4(NA_SE_SY_METRONOME) == 0) {
                     if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
                         sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState =
