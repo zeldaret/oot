@@ -183,10 +183,10 @@ clean:
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
-	$(RM) -r build/assets	
+	$(RM) -r build/assets
 
 distclean: clean assetclean
-	$(RM) -r baserom/
+	$(RM) -r baserom/ .extracted-assets.json
 	$(MAKE) -C tools distclean
 
 setup:
