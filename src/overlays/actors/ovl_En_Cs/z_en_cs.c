@@ -88,10 +88,10 @@ static DamageTable sDamageTable[] = {
 };
 
 static struct_D_80AA1678 sAnimations[] = {
-    { &gGraveYardKidWalkAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
-    { &gGraveYardKidSwingStickUpAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
-    { &gGraveYardKidGrabStickTwoHandsAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
-    { &gGraveYardKidIdleAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gGraveyardKidWalkAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gGraveyardKidSwingStickUpAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gGraveyardKidGrabStickTwoHandsAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gGraveyardKidIdleAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
 };
 
 void EnCs_SetAnimFromIndex(EnCs* this, s32 animIndex, s32* currentAnimIndex) {
@@ -127,7 +127,7 @@ void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 19.0f);
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGraveYardKidSkel, NULL, this->jointTable, this->morphTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGraveyardKidSkel, NULL, this->jointTable, this->morphTable, 16);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -450,9 +450,9 @@ void EnCs_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static u64* eyeTextures[] = {
-        gGraveYardKidEyesOpenTex,
-        gGraveYardKidEyesHalfTex,
-        gGraveYardKidEyesClosedTex,
+        gGraveyardKidEyesOpenTex,
+        gGraveyardKidEyesHalfTex,
+        gGraveyardKidEyesClosedTex,
     };
     EnCs* this = THIS;
     s32 pad;
