@@ -102,33 +102,33 @@ typedef enum {
 } OssanType;
 
 typedef enum {
-    /* 00 */ ENOSSAN_STATE_0,  // Idle
-    /* 01 */ ENOSSAN_STATE_1,  // Start Conversation
-    /* 02 */ ENOSSAN_STATE_2,  // Facing Shopkeeper
-    /* 03 */ ENOSSAN_STATE_3,  // Talking to Shopkeeper
-    /* 04 */ ENOSSAN_STATE_4,  // Look to left shelf
-    /* 05 */ ENOSSAN_STATE_5,  // Look to right shelf
-    /* 06 */ ENOSSAN_STATE_6,  // Browse left shelf
-    /* 07 */ ENOSSAN_STATE_7,  // Browse right shelf
-    /* 08 */ ENOSSAN_STATE_8,  // Look from shelf to Shopkeeper
-    /* 09 */ ENOSSAN_STATE_9,  // Select Generic Item
-    /* 10 */ ENOSSAN_STATE_10, // Select Milk Bottle
-    /* 11 */ ENOSSAN_STATE_11, // Select Weird Egg
-    /* 12 */ ENOSSAN_STATE_12, // Select Unimplemented Item
-    /* 13 */ ENOSSAN_STATE_13, // Select Bombs
-    /* 14 */ ENOSSAN_STATE_14, // Can't get item
-    /* 15 */ ENOSSAN_STATE_15, // Give Item (Hold it up with fanfare?)
-    /* 16 */ ENOSSAN_STATE_16, // Item Purchased
-    /* 17 */ ENOSSAN_STATE_17, // Would you like to buy something else?
-    /* 18 */ ENOSSAN_STATE_18, // Give Lon Lon Milk
-    /* 19 */ ENOSSAN_STATE_19, // Turn to shopkeeper, talk about fake bombs
-    /* 20 */ ENOSSAN_STATE_20, // Can't Get Goron City Bombs
-    /* 21 */ ENOSSAN_STATE_21, // Unused
-    /* 22 */ ENOSSAN_STATE_22, // Follows ENOSSAN_STATE_21
-    /* 23 */ ENOSSAN_STATE_23, // Quick Buy
-    /* 24 */ ENOSSAN_STATE_24, // Select Mask Item
-    /* 25 */ ENOSSAN_STATE_25, // Lend Mask of Truth
-    /* 26 */ ENOSSAN_STATE_26  // Hylian Shield Discount
+    /* 00 */ ENOSSAN_STATE_IDLE,
+    /* 01 */ ENOSSAN_STATE_START_CONVERSATION,
+    /* 02 */ ENOSSAN_STATE_FACING_SHOPKEEPER,
+    /* 03 */ ENOSSAN_STATE_TALKING_TO_SHOPKEEPER,
+    /* 04 */ ENOSSAN_STATE_LOOK_SHELF_LEFT,
+    /* 05 */ ENOSSAN_STATE_LOOK_SHELF_RIGHT,
+    /* 06 */ ENOSSAN_STATE_BROWSE_LEFT_SHELF,
+    /* 07 */ ENOSSAN_STATE_BROWSE_RIGHT_SHELF,
+    /* 08 */ ENOSSAN_STATE_LOOK_SHOPKEEPER, // From looking at shelf
+    /* 09 */ ENOSSAN_STATE_SELECT_ITEM,     // Select most items
+    /* 10 */ ENOSSAN_STATE_SELECT_ITEM_MILK_BOTTLE,
+    /* 11 */ ENOSSAN_STATE_SELECT_ITEM_WEIRD_EGG,
+    /* 12 */ ENOSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED, // Handles two unfinished shop items
+    /* 13 */ ENOSSAN_STATE_SELECT_ITEM_BOMBS,
+    /* 14 */ ENOSSAN_STATE_CANT_GET_ITEM,
+    /* 15 */ ENOSSAN_STATE_GIVE_ITEM_FANFARE, // Give Item, hold it up with fanfare
+    /* 16 */ ENOSSAN_STATE_ITEM_PURCHASED,
+    /* 17 */ ENOSSAN_STATE_CONTINUE_SHOPPING_PROMPT,
+    /* 18 */ ENOSSAN_STATE_GIVE_LON_LON_MILK,
+    /* 19 */ ENOSSAN_STATE_DISPLAY_ONLY_BOMB_DIALOG,          // Turn to shopkeeper, talk about fake bombs
+    /* 20 */ ENOSSAN_STATE_WAIT_FOR_DISPLAY_ONLY_BOMB_DIALOG, // Can't Get Goron City Bombs
+    /* 21 */ ENOSSAN_STATE_21,                                // Unused
+    /* 22 */ ENOSSAN_STATE_22,                                // Follows ENOSSAN_STATE_21
+    /* 23 */ ENOSSAN_STATE_QUICK_BUY,
+    /* 24 */ ENOSSAN_STATE_SELECT_ITEM_MASK,
+    /* 25 */ ENOSSAN_STATE_LEND_MASK_OF_TRUTH, // First time all masks are sold
+    /* 26 */ ENOSSAN_STATE_DISCOUNT_DIALOG     // Hylian Shield Discount
 } EnOssan_State;
 
 typedef enum {

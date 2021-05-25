@@ -63,6 +63,7 @@ static u16 sBgmList[] = {
     0x48, 0x49,  0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50,  0x51,  0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59,
     0x5A, 0x5B,  0x5C, 0x5D, 0x6D, 0x5E, 0x5E, 0x5F, 0x60,  0x61,  0x6D, 0x62, 0x63, 0x64, 0x65, 0x66,
 };
+
 static s16 sTextIds[] = { 0x2B, 0x2E, 0xC8, 0x2D };
 
 static s16 sTextBoxCount[] = { 4, 5, 5, 5 };
@@ -76,8 +77,8 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
     this->actor.targetMode = 1;
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gObjectOssanSkel_009B38, &gObjectOssanAnim_000338,
-                       this->jointTable, this->morphTable, 9);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gObjectOssanSkel, &gObjectOssanAnim_000338, this->jointTable,
+                       this->morphTable, 9);
     if (LINK_IS_CHILD) {
         this->headRot.z = 20;
     }

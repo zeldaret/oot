@@ -1103,7 +1103,7 @@ void DemoEc_InitGorons(DemoEc* this, GlobalContext* globalCtx) {
     Vec3f* scale = &this->actor.scale;
 
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &object_oF1d_map_Skel_00FEF0);
+    DemoEc_InitSkelAnime(this, globalCtx, &gGoronSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
 
     if (this->actor.params == 30) {

@@ -28,7 +28,7 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D290(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D29C(DemoGo* this, GlobalContext* globalCtx);
 
-static u64* sEyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
+static void* sEyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
 
 static DemoGoActionFunc D_8097D44C[] = {
     func_8097CFDC, func_8097CFFC, func_8097D01C, func_8097D058, func_8097D088, func_8097D0D0, func_8097D130,
@@ -239,7 +239,7 @@ void func_8097CEEC(DemoGo* this, GlobalContext* globalCtx) {
 }
 
 void func_8097CF20(DemoGo* this, GlobalContext* globalCtx, s32 arg2) {
-    AnimationHeader* animation = &object_oF1d_map_Anim_0029A8;
+    AnimationHeader* animation = &gGoronAnim_0029A8;
     if (arg2 != 0) {
         Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
                          -8.0f);
@@ -276,6 +276,7 @@ void func_8097D058(DemoGo* this, GlobalContext* globalCtx) {
 
 void func_8097D088(DemoGo* this, GlobalContext* globalCtx) {
     s32 something;
+
     func_8097CA30(this, globalCtx);
     something = DemoGo_FrameUpdateMatrix(this);
     func_8097C930(this);
@@ -312,10 +313,10 @@ void DemoGo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoGo* this = THIS;
-    AnimationHeader* animation = &object_oF1d_map_Anim_004930;
+    AnimationHeader* animation = &gGoronAnim_004930;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_oF1d_map_Skel_00FEF0, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
     this->action = 0;
 }

@@ -82,18 +82,54 @@ const ActorInit En_GirlA_InitVars = {
 };
 
 static char* sShopItemDescriptions[] = {
-    "デクの実×5   ",  "矢×30        ",  "矢×50        ",  "爆弾×5       ",  "デクの実×10  ",  "デクの棒      ",
-    "爆弾×10      ",  "さかな        ", "赤クスリ      ", "緑クスリ      ", "青クスリ      ", "巨人のナイフ  ",
-    "ハイリアの盾  ", "デクの盾      ", "ゴロンの服    ", "ゾ─ラの服    ",  "回復のハート  ", "ロンロン牛乳  ",
-    "鶏の卵        ", "インゴー牛乳  ", "インゴー卵    ", "もだえ石      ", "大人の財布    ", "ハートの欠片  ",
-    "ボムチュウ    ", "ボムチュウ    ", "ボムチュウ    ", "ボムチュウ    ", "ボムチュウ    ", "デクのタネ    ",
-    "キータンのお面", "こわそなお面  ", "ドクロのお面  ", "ウサギずきん  ", "まことの仮面  ", "ゾーラのお面  ",
-    "ゴロンのお面  ", "ゲルドのお面  ", "ＳＯＬＤＯＵＴ", "炎            ", "虫            ", "チョウチョ    ",
-    "ポウ          ", "妖精の魂      ", "矢×10        ",  "爆弾×20      ",  "爆弾×30      ",  "爆弾×5       ",
-    "赤クスリ      ", "赤クスリ      ",
+    "デクの実×5   ",  // Deku fruit
+    "矢×30        ",  // Arrow
+    "矢×50        ",  // Arrow
+    "爆弾×5       ",  // bomb
+    "デクの実×10  ",  // Deku fruit
+    "デクの棒      ", //デクの棒
+    "爆弾×10      ",  // Bomb
+    "さかな        ", // Fish
+    "赤クスリ      ", // Red medicine
+    "緑クスリ      ", // Green medicine
+    "青クスリ      ", // Blue medicine
+    "巨人のナイフ  ", // Giant knife
+    "ハイリアの盾  ", // Hyria Shield
+    "デクの盾      ", // Deku Shield
+    "ゴロンの服    ", // Goron's clothes
+    "ゾ─ラの服    ",  // Zora's clothes
+    "回復のハート  ", // Heart of recovery
+    "ロンロン牛乳  ", // Ron Ron milk
+    "鶏の卵        ", // Chicken egg
+    "インゴー牛乳  ", // Ingo milk
+    "インゴー卵    ", // Ingo egg
+    "もだえ石      ", // Modae stone
+    "大人の財布    ", // Adult wallet
+    "ハートの欠片  ", // Heart fragment
+    "ボムチュウ    ", // Bombchu
+    "ボムチュウ    ", // Bombchu
+    "ボムチュウ    ", // Bombchu
+    "ボムチュウ    ", // Bombchu
+    "ボムチュウ    ", // Bombchu
+    "デクのタネ    ", // Deku seeds
+    "キータンのお面", // Ketan's mask
+    "こわそなお面  ", // Scary face
+    "ドクロのお面  ", // Skull mask
+    "ウサギずきん  ", // Rabbit hood
+    "まことの仮面  ", // True mask
+    "ゾーラのお面  ", // Zora's mask
+    "ゴロンのお面  ", // Goron's mask
+    "ゲルドのお面  ", // Gerd's mask
+    "ＳＯＬＤＯＵＴ", "炎            ", "虫            ", "チョウチョ    ", "ポウ          ", "妖精の魂      ",
+    "矢×10        ",  // Arrow
+    "爆弾×20      ",  // Bomb
+    "爆弾×30      ",  // Bomb
+    "爆弾×5       ",  // Bomb
+    "赤クスリ      ", // Red medicine
+    "赤クスリ      "  // Red medicine
 };
 
-static s16 maskShopItems[8] = {
+static s16 sMaskShopItems[8] = {
     ITEM_MASK_KEATON, ITEM_MASK_SPOOKY, ITEM_MASK_SKULL, ITEM_MASK_BUNNY,
     ITEM_MASK_TRUTH,  ITEM_MASK_ZORA,   ITEM_MASK_GORON, ITEM_MASK_GERUDO,
 };
@@ -266,7 +302,7 @@ static ShopItemEntry shopItemEntries[] = {
 };
 
 // Defines the Hylian Shield discount amount
-static s16 randomDiscount[] = { 5, 10, 15, 20, 25, 30, 35, 40 };
+static s16 sShieldDiscounts[] = { 5, 10, 15, 20, 25, 30, 35, 40 };
 
 void EnGirlA_SetupAction(EnGirlA* this, EnGirlAActionFunc func) {
     this->actionFunc = func;
@@ -802,7 +838,7 @@ void ItemGive_BottledItem(GlobalContext* globalCtx, EnGirlA* this) {
 void BuyEvent_ShieldDiscount(GlobalContext* globalCtx, EnGirlA* this) {
     if (this->actor.params == SI_HYLIAN_SHIELD) {
         if (gSaveContext.infTable[7] & 0x40) {
-            Rupees_ChangeBy(-(this->basePrice - randomDiscount[(s32)Rand_ZeroFloat(7.9f)]));
+            Rupees_ChangeBy(-(this->basePrice - sShieldDiscounts[(s32)Rand_ZeroFloat(7.9f)]));
             return;
         }
     }
@@ -924,7 +960,7 @@ s32 EnGirlA_TrySetMaskItemDescription(EnGirlA* this, GlobalContext* globalCtx) {
 
     if ((this->actor.params >= SI_KEATON_MASK) && (this->actor.params <= SI_GERUDO_MASK)) {
         params = this->actor.params - SI_KEATON_MASK;
-        if (INV_CONTENT(ITEM_TRADE_CHILD) == maskShopItems[params]) {
+        if (INV_CONTENT(ITEM_TRADE_CHILD) == sMaskShopItems[params]) {
             EnGirlA_SetItemOutOfStock(globalCtx, this);
         } else {
             EnGirlA_SetItemDescription(globalCtx, this);

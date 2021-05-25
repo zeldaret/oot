@@ -128,19 +128,13 @@ static f32 D_80A482D8[14][2] = {
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { &object_oF1d_map_Anim_004930, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { &object_oF1d_map_Anim_004930, 0.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_0029A8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_010590, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_003768, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_0038E4, 1.0f, 0.0f, -1.0f, 0x02, -8.0f },
-    { &object_oF1d_map_Anim_002D80, 1.0f, 0.0f, -1.0f, 0x02, -8.0f },
-    { &object_oF1d_map_Anim_00161C, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_001A00, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_0021D0, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_004930, 0.0f, 0.0f, -1.0f, 0x01, -8.0f },
-    { &object_oF1d_map_Anim_000750, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &object_oF1d_map_Anim_000D5C, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronAnim_004930, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },  { &gGoronAnim_004930, 0.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronAnim_0029A8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f }, { &gGoronAnim_010590, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronAnim_003768, 1.0f, 0.0f, -1.0f, 0x00, -8.0f }, { &gGoronAnim_0038E4, 1.0f, 0.0f, -1.0f, 0x02, -8.0f },
+    { &gGoronAnim_002D80, 1.0f, 0.0f, -1.0f, 0x02, -8.0f }, { &gGoronAnim_00161C, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronAnim_001A00, 1.0f, 0.0f, -1.0f, 0x00, -8.0f }, { &gGoronAnim_0021D0, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronAnim_004930, 0.0f, 0.0f, -1.0f, 0x01, -8.0f }, { &gGoronAnim_000750, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gGoronAnim_000D5C, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
 };
 
 static EnGo2DustEffectData sDustEffectData[2][4] = {
@@ -224,7 +218,7 @@ void EnGo2_DrawDust(EnGo2* this, GlobalContext* globalCtx) {
         if (dustEffect->type) {
             if (!firstDone) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
-                gSPDisplayList(POLY_XLU_DISP++, object_oF1d_map_DL_00FD40);
+                gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 firstDone = true;
             }
@@ -239,7 +233,7 @@ void EnGo2_DrawDust(EnGo2* this, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDustTex[index]));
-            gSPDisplayList(POLY_XLU_DISP++, object_oF1d_map_DL_00FD50);
+            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
         }
     }
 
@@ -1075,9 +1069,8 @@ void func_80A45288(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A45360(EnGo2* this, f32* alpha) {
-    f32 alphaTarget = (this->skelAnime.animation == &object_oF1d_map_Anim_004930) && (this->skelAnime.curFrame <= 32.0f)
-                          ? 0.0f
-                          : 255.0f;
+    f32 alphaTarget =
+        (this->skelAnime.animation == &gGoronAnim_004930) && (this->skelAnime.curFrame <= 32.0f) ? 0.0f : 255.0f;
 
     Math_ApproachF(alpha, alphaTarget, 0.4f, 100.0f);
     this->actor.shape.shadowAlpha = (u8)(u32)*alpha;
@@ -1242,7 +1235,7 @@ void EnGo2_EyeMouthTexState(EnGo2* this) {
 }
 
 void EnGo2_SitDownAnimation(EnGo2* this) {
-    if ((this->skelAnime.playSpeed != 0.0f) && (this->skelAnime.animation == &object_oF1d_map_Anim_004930)) {
+    if ((this->skelAnime.playSpeed != 0.0f) && (this->skelAnime.animation == &gGoronAnim_004930)) {
         if (this->skelAnime.playSpeed > 0.0f && this->skelAnime.curFrame == 14.0f) {
             if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
@@ -1421,7 +1414,7 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) == GORON_CITY_LINK) {
         if ((this->actor.textId == 0x3035 && this->unk_20C == 0) ||
             (this->actor.textId == 0x3036 && this->unk_20C == 0)) {
-            if (this->skelAnime.animation != &object_oF1d_map_Anim_000D5C) {
+            if (this->skelAnime.animation != &gGoronAnim_000D5C) {
                 animation = 12;
                 this->eyeMouthTexState = 0;
             }
@@ -1429,13 +1422,13 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
 
         if ((this->actor.textId == 0x3032 && this->unk_20C == 12) || (this->actor.textId == 0x3033) ||
             (this->actor.textId == 0x3035 && this->unk_20C == 6)) {
-            if (this->skelAnime.animation != &object_oF1d_map_Anim_000750) {
+            if (this->skelAnime.animation != &gGoronAnim_000750) {
                 animation = 11;
                 this->eyeMouthTexState = 1;
             }
         }
 
-        if (this->skelAnime.animation == &object_oF1d_map_Anim_000750) {
+        if (this->skelAnime.animation == &gGoronAnim_000750) {
             if (this->skelAnime.curFrame == 20.0f) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_CRY);
             }
@@ -1484,8 +1477,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_oF1d_map_Skel_00FEF0, NULL, this->jointTable,
-                       this->morphTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -1964,7 +1956,7 @@ s32 EnGo2_DrawCurledUp(EnGo2* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2.c", 2884),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, object_oF1d_map_DL_00BD80);
+    gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00BD80);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 2889);
     Matrix_MultVec3f(&D_80A48554, &this->actor.focus.pos);
 
@@ -1982,7 +1974,7 @@ s32 EnGo2_DrawRolling(EnGo2* this, GlobalContext* globalCtx) {
     Matrix_RotateRPY((globalCtx->state.frames * ((s16)speedXZ * 1400)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2.c", 2926),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, object_oF1d_map_DL_00C140);
+    gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00C140);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 2930);
     Matrix_MultVec3f(&D_80A48560, &this->actor.focus.pos);
     return 1;

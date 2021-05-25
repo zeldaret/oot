@@ -79,10 +79,10 @@ typedef struct {
 } EnGoAnimation;
 
 static EnGoAnimation sAnimationEntries[] = {
-    { &object_oF1d_map_Anim_004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
-    { &object_oF1d_map_Anim_004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
-    { &object_oF1d_map_Anim_0029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
-    { &object_oF1d_map_Anim_010590, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
+    { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronAnim_0029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gGoronAnim_010590, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
 };
 
 void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
@@ -453,8 +453,8 @@ void EnGo_ReverseAnimation(EnGo* this) {
 void EnGo_UpdateShadow(EnGo* this) {
     s16 shadowAlpha;
     f32 currentFrame = this->skelAnime.curFrame;
-    s16 shadowAlphaTarget = (this->skelAnime.animation == &object_oF1d_map_Anim_004930 && currentFrame > 32.0f) ||
-                                    this->skelAnime.animation != &object_oF1d_map_Anim_004930
+    s16 shadowAlphaTarget = (this->skelAnime.animation == &gGoronAnim_004930 && currentFrame > 32.0f) ||
+                                    this->skelAnime.animation != &gGoronAnim_004930
                                 ? 255
                                 : 0;
 
@@ -626,7 +626,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_oF1d_map_Skel_00FEF0, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
@@ -659,7 +659,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 0x10:
-            this->skelAnime.curFrame = Animation_GetLastFrame(&object_oF1d_map_Anim_004930);
+            this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
             Actor_SetScale(&this->actor, 0.01f);
             EnGo_SetupAction(this, EnGo_FireGenericActionFunc);
             break;
@@ -836,7 +836,7 @@ void func_80A405CC(EnGo* this, GlobalContext* globalCtx) {
     f32 lastFrame;
     f32 frame;
 
-    lastFrame = Animation_GetLastFrame(&object_oF1d_map_Anim_004930);
+    lastFrame = Animation_GetLastFrame(&gGoronAnim_004930);
     Math_SmoothStepToF(&this->skelAnime.playSpeed, (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f, 0.1f, 1000.0f,
                        0.1f);
 
@@ -921,13 +921,13 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
-    f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&object_oF1d_map_Anim_010590));
+    f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&gGoronAnim_010590));
     f32 float2 = this->skelAnime.curFrame * float1;
 
     this->actor.speedXZ = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, globalCtx) && this->unk_218 == 0) {
         EnGo_ChangeAnimation(this, 1);
-        this->skelAnime.curFrame = Animation_GetLastFrame(&object_oF1d_map_Anim_004930);
+        this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
     }
@@ -1009,7 +1009,7 @@ void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         EnGo_ChangeAnimation(this, 1);
-        this->skelAnime.curFrame = Animation_GetLastFrame(&object_oF1d_map_Anim_004930);
+        this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         func_80106CCC(globalCtx);
         EnGo_SetupAction(this, EnGo_GetItem);
         EnGo_GetItem(this, globalCtx);
@@ -1053,7 +1053,7 @@ void EnGo_DrawCurledUp(EnGo* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2326),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, object_oF1d_map_DL_00BD80);
+    gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00BD80);
 
     Matrix_MultVec3f(&D_80A41BB4, &this->actor.focus.pos);
     Matrix_Pop();
@@ -1072,7 +1072,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
                      MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2368),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, object_oF1d_map_DL_00C140);
+    gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00C140);
     Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus.pos);
     Matrix_Pop();
 
@@ -1215,7 +1215,7 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
         if (dustEffect->type) {
             if (!firstDone) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
-                gSPDisplayList(POLY_XLU_DISP++, object_oF1d_map_DL_00FD40);
+                gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 firstDone = true;
             }
@@ -1231,7 +1231,7 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
 
             index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[index]));
-            gSPDisplayList(POLY_XLU_DISP++, object_oF1d_map_DL_00FD50);
+            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2678);
