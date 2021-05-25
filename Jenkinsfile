@@ -12,8 +12,7 @@ pipeline {
         stage('Setup') {
             steps {
                 sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom_original.z64'
-                sh 'make -j setup 2> tools/warnings_count/warnings_setup_new.txt'
-                sh 'cat tools/warnings_count/warnings_setup_new.txt'
+                sh 'bash -c "make -j setup 2> >(tee tools/warnings_count/warnings_setup_new.txt)"'
             }
         }
         stage('Check setup warnings') {
@@ -36,8 +35,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'make -j 2> tools/warnings_count/warnings_build_new.txt'
-                sh 'cat tools/warnings_count/warnings_build_new.txt'
+                sh 'bash -c "make -j all 2> >(tee tools/warnings_count/warnings_build_new.txt)"'
             }
         }
         stage('Check build warnings') {
