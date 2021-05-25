@@ -39,7 +39,6 @@ extern Gfx D_06002740[];
 extern Gfx D_060027D8[];
 extern SkeletonHeader D_06004848;
 
-
 const ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,
     ACTORCAT_ENEMY,
@@ -52,7 +51,7 @@ const ActorInit En_Vali_InitVars = {
     (ActorFunc)EnVali_Draw,
 };
 
-static ColliderQuadInit D_80B288A0 = {
+static ColliderQuadInit sQuadInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -72,7 +71,7 @@ static ColliderQuadInit D_80B288A0 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-static ColliderCylinderInit D_80B288F0 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_HIT8,
         AT_ON | AT_TYPE_ENEMY,
@@ -92,53 +91,57 @@ static ColliderCylinderInit D_80B288F0 = {
     { 17, 35, -15, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit D_80B2891C = { 2, 18, 32, MASS_HEAVY };
+static CollisionCheckInfoInit sColChkInfoInit = { 2, 18, 32, MASS_HEAVY };
 
-DamageTable D_80B28924 = {
-    /* Deku nut      */ DMG_ENTRY(0 , 0x1),
-    /* Deku stick    */ DMG_ENTRY(2 , 0x0),
-    /* Slingshot     */ DMG_ENTRY(0 , 0xE),
-    /* Explosive     */ DMG_ENTRY(2 , 0x0),
-    /* Boomerang     */ DMG_ENTRY(0 , 0x1),
-    /* Normal arrow  */ DMG_ENTRY(2 , 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2 , 0x0),
-    /* Hookshot      */ DMG_ENTRY(2 , 0x0),
-    /* Kokiri sword  */ DMG_ENTRY(1 , 0xF),
-    /* Master sword  */ DMG_ENTRY(2 , 0xF),
-    /* Giant's Knife */ DMG_ENTRY(4 , 0xF),
-    /* Fire arrow    */ DMG_ENTRY(4 , 0x2),
-    /* Ice arrow     */ DMG_ENTRY(4 , 0x3),
-    /* Light arrow   */ DMG_ENTRY(2 , 0x0),
-    /* Unk arrow 1   */ DMG_ENTRY(2 , 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(2 , 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(2 , 0x0),
-    /* Fire magic    */ DMG_ENTRY(4 , 0x2),
-    /* Ice magic     */ DMG_ENTRY(4 , 0x3),
-    /* Light magic   */ DMG_ENTRY(0 , 0x0),
-    /* Shield        */ DMG_ENTRY(0 , 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1 , 0x0),
-    /* Giant spin    */ DMG_ENTRY(4 , 0x0),
-    /* Master spin   */ DMG_ENTRY(2 , 0x0),
-    /* Kokiri jump   */ DMG_ENTRY(2 , 0x0),
-    /* Giant jump    */ DMG_ENTRY(8 , 0x0),
-    /* Master jump   */ DMG_ENTRY(4 , 0x0),
-    /* Unknown 1     */ DMG_ENTRY(0 , 0x0),
-    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4 , 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
+typedef enum {
+    /* 0x0 */ BARI_DMGEFF_NONE,
+    /* 0x1 */ BARI_DMGEFF_DEKUNUT,
+    /* 0x2 */ BARI_DMGEFF_FIRE,
+    /* 0x3 */ BARI_DMGEFF_ICE,
+    /* 0xE */ BARI_DMGEFF_SLINGSHOT = 0xE,
+    /* 0xF */ BARI_DMGEFF_SWORD
+} BariDamageEffect;
+
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, BARI_DMGEFF_DEKUNUT),
+    /* Deku stick    */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Slingshot     */ DMG_ENTRY(0, BARI_DMGEFF_SLINGSHOT),
+    /* Explosive     */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, BARI_DMGEFF_DEKUNUT),
+    /* Normal arrow  */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Hookshot      */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Kokiri sword  */ DMG_ENTRY(1, BARI_DMGEFF_SWORD),
+    /* Master sword  */ DMG_ENTRY(2, BARI_DMGEFF_SWORD),
+    /* Giant's Knife */ DMG_ENTRY(4, BARI_DMGEFF_SWORD),
+    /* Fire arrow    */ DMG_ENTRY(4, BARI_DMGEFF_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(4, BARI_DMGEFF_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, BARI_DMGEFF_FIRE),
+    /* Ice magic     */ DMG_ENTRY(4, BARI_DMGEFF_ICE),
+    /* Light magic   */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
+    /* Shield        */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, BARI_DMGEFF_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, BARI_DMGEFF_NONE),
+    /* Master spin   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Kokiri jump   */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, BARI_DMGEFF_NONE),
+    /* Master jump   */ DMG_ENTRY(4, BARI_DMGEFF_NONE),
+    /* Unknown 1     */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, BARI_DMGEFF_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, BARI_DMGEFF_NONE),
 };
 
-// sInitChain
-static InitChainEntry D_80B28944[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 24, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5000, ICHAIN_STOP),
 };
-
-
-
-
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/EnVali_Init.s")
 void EnVali_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -146,18 +149,18 @@ void EnVali_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnVali* this = THIS;
     s32 bgId;
 
-    Actor_ProcessInitChain(&this->actor, D_80B28944);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06004848, &D_060014AC, this->jointTable, this->morphTable, 29);
 
     Collider_InitQuad(globalCtx, &this->colliderQuad1);
-    Collider_SetQuad(globalCtx, &this->colliderQuad1, &this->actor, &D_80B288A0);
+    Collider_SetQuad(globalCtx, &this->colliderQuad1, &this->actor, &sQuadInit);
     Collider_InitQuad(globalCtx, &this->colliderQuad2);
-    Collider_SetQuad(globalCtx, &this->colliderQuad2, &this->actor, &D_80B288A0);
+    Collider_SetQuad(globalCtx, &this->colliderQuad2, &this->actor, &sQuadInit);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
-    Collider_SetCylinder(globalCtx, &this->colliderCylinder, &this->actor, &D_80B288F0);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_80B28924, &D_80B2891C);
+    Collider_SetCylinder(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
     func_80B26878(this);
 
@@ -184,7 +187,7 @@ void EnVali_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80B26878(EnVali* this) {
     Animation_PlayLoop(&this->skelAnime, &D_060014AC);
     this->actor.draw = NULL;
-    this->colliderCylinder.base.acFlags &= ~1;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     this->actionFunc = func_80B27098;
 }
 
@@ -208,7 +211,7 @@ void func_80B268FC(EnVali* this) {
             this->colliderQuad2.dim.quad[0].y = this->colliderQuad2.dim.quad[1].y = this->actor.world.pos.y - 10.0f;
 
     this->actor.flags &= ~0x10;
-    this->colliderCylinder.base.acFlags |= 1;
+    this->colliderCylinder.base.acFlags |= AC_ON;
     this->unk_195 = 0;
     this->unk_2F8 = this->actor.world.pos.y;
     this->actionFunc = func_80B2716C;
@@ -218,7 +221,7 @@ void func_80B268FC(EnVali* this) {
 void func_80B26B18(EnVali* this) {
     this->unk_194 = 20;
     this->actor.flags &= ~1;
-    this->colliderCylinder.base.acFlags &= ~1;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     this->actionFunc = func_80B27318;
 }
 
@@ -227,7 +230,7 @@ void func_80B26B4C(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000854, -5.0f);
     Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
     this->actor.params = 0;
-    this->colliderCylinder.base.acFlags &= ~1;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     this->actionFunc = func_80B273D0;
 }
 
@@ -240,16 +243,16 @@ void func_80B26BBC(EnVali* this) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26BF8.s")
 void func_80B26BF8(EnVali* this) {
     this->unk_196 = 2;
-    this->colliderCylinder.base.acFlags &= ~1;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
     this->actionFunc = func_80B27464;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26C50.s")
 void func_80B26C50(EnVali* this, GlobalContext* globalCtx) {
-    s32 phi_s1;
+    s32 i;
 
-    for (phi_s1 = 0; phi_s1 < 3; phi_s1++) {
+    for (i = 0; i < 3; i++) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BILI, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, this->actor.world.rot.y, 0, 0);
 
@@ -258,7 +261,7 @@ void func_80B26C50(EnVali* this, GlobalContext* globalCtx) {
 
     Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
     this->unk_196 = Rand_S16Offset(10, 10);
-    this->colliderCylinder.base.acFlags &= ~1;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_BARI_SPLIT);
     this->actor.flags &= ~1;
     this->actor.draw = NULL;
@@ -281,7 +284,7 @@ void func_80B26D54(EnVali* this) {
 void func_80B26DE0(EnVali* this) {
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 36);
-    this->colliderCylinder.base.acFlags &= ~1;
+    this->colliderCylinder.base.acFlags &= ~AC_ON;
     this->unk_196 = 36;
     this->actionFunc = func_80B27710;
 }
@@ -341,7 +344,7 @@ void func_80B270D8(EnVali* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B2716C.s")
 void func_80B2716C(EnVali* this, GlobalContext* globalCtx) {
-    s32 temp_f6;
+    s32 curFrame;
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -349,24 +352,24 @@ void func_80B2716C(EnVali* this, GlobalContext* globalCtx) {
         this->unk_195--;
     }
 
-    temp_f6 = this->skelAnime.curFrame;
+    curFrame = this->skelAnime.curFrame;
 
     Math_StepToF(&this->unk_2F8, this->actor.floorHeight + 40.0f, 1.2f);
-    this->actor.world.pos.y = this->unk_2F8 - (sinf(temp_f6 * 3.1415927f * 0.0125f) * 8.0f);
+    this->actor.world.pos.y = this->unk_2F8 - (sinf(curFrame * M_PI * 0.0125f) * 8.0f);
 
     if (!!this->unk_195) {
         this->actor.shape.rot.y += 0x800;
 
-        if (((this->unk_195 % 6) == 0) && (temp_f6 >= 0x10) && (temp_f6 < 0x38)) {
+        if (((this->unk_195 % 6) == 0) && (curFrame > 15) && (curFrame <= 55)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_ROLL);
         }
-    } else if ((temp_f6 == 0x10) || (temp_f6 == 0x1E) || (temp_f6 == 0x2A) || (temp_f6 == 0x37)) {
+    } else if ((curFrame == 16) || (curFrame == 30) || (curFrame == 42) || (curFrame == 55)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_ROLL);
     }
 
-    temp_f6 = (temp_f6 >= 0x29) ? 0x50 - temp_f6 : temp_f6;
+    curFrame = ((curFrame > 40) ? (80 - curFrame) : curFrame);
 
-    this->actor.shape.rot.y += (s16)(s32)((temp_f6 + 4) * 0.4f * 182.04445f);
+    this->actor.shape.rot.y += (s16)(s32)((curFrame + 4) * 0.4f * 182.04445f);
     if (this->actor.xzDistToPlayer > 250.0f) {
         func_80B26E40(this);
     }
@@ -381,13 +384,13 @@ void func_80B27318(EnVali* this, GlobalContext* globalCtx) {
 
     if (this->unk_194 == 0) {
         this->actor.flags |= 1;
-        this->colliderCylinder.base.acFlags |= 1;
+        this->colliderCylinder.base.acFlags |= AC_ON;
         if (this->actor.params == 1) {
             func_80B26B4C(this);
         } else {
             this->actionFunc = func_80B2716C;
         }
-    } else if ((this->unk_194 & 1) != 0) {
+    } else if ((this->unk_194 % 2) != 0) {
         this->actor.world.pos.y += 1.0f;
     } else {
         this->actor.world.pos.y -= 1.0f;
@@ -425,34 +428,29 @@ void func_80B27464(EnVali* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B274A0.s")
 void func_80B274A0(EnVali* this, GlobalContext* globalCtx) {
-    static Vec3f D_80B28958 = { 0.0f, 0.0f, 0.0f};
-    static Vec3f D_80B28964 = { 0.0f, 0.0f, 0.0f};
-    s16 temp_s0;
-    Vec3f sp70;
-    // f32 *temp_s3;
-    // s16 temp_v0;
-    // s32 temp_s1;
-    s32 phi_s1;
+    static Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
+    static Vec3f effectAccel = { 0.0f, 0.0f, 0.0f };
+    s16 effectScale;
+    Vec3f effectPos;
+    s32 i;
 
-    // temp_v0 = this->unk_196;
     if (this->unk_196 != 0) {
         this->unk_196--;
     }
 
-    // temp_s3 = &sp70;
-    //     phi_s1 = 0;
-    // loop_3:
-    for (phi_s1 = 0; phi_s1 < 2; phi_s1++) {
-        sp70.x = this->actor.world.pos.x + Rand_CenteredFloat(20.0f);
-        sp70.y = this->actor.world.pos.y + Rand_CenteredFloat(8.0f);
-        sp70.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
-        D_80B28958.y = (Rand_ZeroOne() + 1.0f);
-        temp_s0 = Rand_S16Offset(40, 40);
+    for (i = 0; i < 2; i++) {
+        effectPos.x = this->actor.world.pos.x + Rand_CenteredFloat(20.0f);
+        effectPos.y = this->actor.world.pos.y + Rand_CenteredFloat(8.0f);
+        effectPos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
+        effectVelocity.y = (Rand_ZeroOne() + 1.0f);
+        effectScale = Rand_S16Offset(40, 40);
 
         if (Rand_ZeroOne() < 0.7f) {
-            EffectSsDtBubble_SpawnColorProfile(globalCtx, &sp70, &D_80B28958, &D_80B28964, temp_s0, 25, 2, 1);
+            EffectSsDtBubble_SpawnColorProfile(globalCtx, &effectPos, &effectVelocity, &effectAccel, effectScale, 25, 2,
+                                               1);
         } else {
-            EffectSsDtBubble_SpawnColorProfile(globalCtx, &sp70, &D_80B28958, &D_80B28964, temp_s0, 25, 0, 1);
+            EffectSsDtBubble_SpawnColorProfile(globalCtx, &effectPos, &effectVelocity, &effectAccel, effectScale, 25, 0,
+                                               1);
         }
     }
 
@@ -462,13 +460,13 @@ void func_80B274A0(EnVali* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B27654.s")
-void func_80B27654(EnVali *this, GlobalContext *globalCtx) {
+void func_80B27654(EnVali* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    
+
     if (this->unk_196 != 0) {
         this->unk_196--;
     }
-    
+
     if (this->actor.velocity.y != 0.0f) {
         if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
             this->actor.velocity.y = 0.0f;
@@ -479,14 +477,14 @@ void func_80B27654(EnVali *this, GlobalContext *globalCtx) {
     }
 
     if (this->unk_196 == 0) {
-        this->colliderCylinder.info.bumper.effect = 1;
+        this->colliderCylinder.info.bumper.effect = 1; // Shock?
         func_80B268FC(this);
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B27710.s")
-void func_80B27710(EnVali *this, GlobalContext *globalCtx) {
-    Vec3f sp54;
+void func_80B27710(EnVali* this, GlobalContext* globalCtx) {
+    Vec3f effectPos;
     s32 temp_v0_2;
     s32 temp_v1;
 
@@ -494,15 +492,16 @@ void func_80B27710(EnVali *this, GlobalContext *globalCtx) {
         this->unk_196--;
     }
     temp_v1 = this->unk_196 - 20;
-    this->actor.colorFilterTimer = 0x24;
+    this->actor.colorFilterTimer = 36;
     if (temp_v1 > 0) {
         temp_v0_2 = temp_v1 >> 1;
         if ((this->unk_196 & 1) != 0) {
-            sp54.y = this->actor.world.pos.y - 20.0f + ( -temp_v0_2 * 5 + 0x28 );
-            sp54.x = this->actor.world.pos.x + (((temp_v0_2 & 2) != 0) ? 12.0f : -12.0f);
-            sp54.z = this->actor.world.pos.z + (((temp_v0_2 & 1) != 0) ? 12.0f : -12.0f);
+            effectPos.y = this->actor.world.pos.y - 20.0f + (-temp_v0_2 * 5 + 40);
+            effectPos.x = this->actor.world.pos.x + (((temp_v0_2 & 2) != 0) ? 12.0f : -12.0f);
+            effectPos.z = this->actor.world.pos.z + (((temp_v0_2 & 1) != 0) ? 12.0f : -12.0f);
 
-            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &sp54, 150, 150, 150, 250, 235, 245, 255, (Rand_ZeroOne() * 0.2f) + 1.3f);
+            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255,
+                                           (Rand_ZeroOne() * 0.2f) + 1.3f);
         }
     } else if (this->unk_196 == 0) {
         this->actor.velocity.y += 1.0f;
@@ -524,27 +523,28 @@ void func_80B278A0(EnVali* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B2790C.s")
 void func_80B2790C(EnVali* this, GlobalContext* globalCtx) {
-    if (this->colliderCylinder.base.acFlags & 2) {
-        this->colliderCylinder.base.acFlags &= ~2;
+    if (this->colliderCylinder.base.acFlags & AC_HIT) {
+        this->colliderCylinder.base.acFlags &= ~AC_HIT;
         func_80035650(&this->actor, &this->colliderCylinder.info, 1);
 
-        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+        if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DEAD);
                 func_80032C7C(globalCtx, &this->actor);
                 this->actor.flags &= ~1;
             } else {
-                if ((this->actor.colChkInfo.damageEffect != 1) && (this->actor.colChkInfo.damageEffect != 0xE)) {
+                if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_DEKUNUT) &&
+                    (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DAMAGE);
                 }
             }
 
-            if (this->actor.colChkInfo.damageEffect == 1) {
+            if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_DEKUNUT) {
                 if (this->actionFunc != func_80B27654) {
                     func_80B26D54(this);
                 }
             } else {
-                if (this->actor.colChkInfo.damageEffect == 0xF) {
+                if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SWORD) {
                     if (this->actionFunc != func_80B27654) {
                         Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
                         this->actor.params = 1;
@@ -552,15 +552,15 @@ void func_80B2790C(EnVali* this, GlobalContext* globalCtx) {
                     } else {
                         func_80B26B4C(this);
                     }
-                } else if (this->actor.colChkInfo.damageEffect == 2) {
+                } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_FIRE) {
                     func_80B26BF8(this);
-                } else if (this->actor.colChkInfo.damageEffect == 3) {
+                } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_ICE) {
                     func_80B26DE0(this);
-                } else if (this->actor.colChkInfo.damageEffect == 0xE) {
+                } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SLINGSHOT) {
                     if (this->unk_195 == 0) {
                         this->unk_195 = 20;
                     }
-                } else {
+                } else { // Only DMGEFF_NONE
                     func_80B26B4C(this);
                 }
             }
@@ -573,11 +573,11 @@ void EnVali_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnVali* this = THIS;
 
-    if ((this->colliderCylinder.base.atFlags & 2) || (this->colliderQuad1.base.atFlags & 2) ||
-        (this->colliderQuad2.base.atFlags & 2)) {
-        this->colliderQuad1.base.atFlags &= ~2;
-        this->colliderQuad2.base.atFlags &= ~2;
-        this->colliderCylinder.base.atFlags &= ~2;
+    if ((this->colliderCylinder.base.atFlags & AT_HIT) || (this->colliderQuad1.base.atFlags & AT_HIT) ||
+        (this->colliderQuad2.base.atFlags & AT_HIT)) {
+        this->colliderQuad1.base.atFlags &= ~AT_HIT;
+        this->colliderQuad2.base.atFlags &= ~AT_HIT;
+        this->colliderCylinder.base.atFlags &= ~AT_HIT;
         func_80B26B18(this);
     }
 
@@ -593,7 +593,7 @@ void EnVali_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
         }
 
-        if (this->colliderCylinder.base.acFlags & 1) {
+        if (this->colliderCylinder.base.acFlags & AC_ON) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
         }
 
@@ -704,13 +704,14 @@ s32 func_80B28054(EnVali* this, f32 curFrame) {
 
     if (this->unk_2F4 == 1.0f) {
         return false;
+    } else {
+        return true;
     }
-    return true;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B281F0.s")
-s32 func_80B281F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                  Gfx** gfx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/EnVali_OverrideLimbDraw.s")
+s32 EnVali_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+                            Gfx** gfx) {
     EnVali* this = THIS;
     f32 curFrame;
 
@@ -725,15 +726,15 @@ s32 func_80B281F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                 Matrix_Scale(this->unk_2F4, 1.0f, 1.0f, 1);
             }
         }
+
         return false;
     }
 }
 
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B28280.s")
-void func_80B28280(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-static Vec3f D_80B28970 = { 3000.0f, 0.0f, 0.0f };
-static Vec3f D_80B2897C = { -1000.0f, 0.0f, 0.0f };
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/EnVali_PostLimbDraw.s")
+void EnVali_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
+    static Vec3f D_80B28970 = { 3000.0f, 0.0f, 0.0f };
+    static Vec3f D_80B2897C = { -1000.0f, 0.0f, 0.0f };
     Vec3f sp3C;
     Vec3f sp30;
     EnVali* this = THIS;
@@ -753,7 +754,6 @@ static Vec3f D_80B2897C = { -1000.0f, 0.0f, 0.0f };
         }
     }
 }
-
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B28344.s")
 void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
@@ -808,12 +808,14 @@ void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
 }
 
 static Gfx D_80B28998[] = {
-    gsDPSetCombineLERP(1, TEXEL0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0, TEXEL1, 0, PRIM_LOD_FRAC, COMBINED),
+    gsDPSetCombineLERP(1, TEXEL0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0, TEXEL1, 0,
+                       PRIM_LOD_FRAC, COMBINED),
     gsSPEndDisplayList(),
 };
 
 static Gfx D_80B289A8[] = {
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0, TEXEL1, 0, PRIM_LOD_FRAC, COMBINED),
+    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0, TEXEL1, 0,
+                       PRIM_LOD_FRAC, COMBINED),
     gsSPEndDisplayList(),
 };
 
@@ -828,7 +830,7 @@ void EnVali_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (127 - (globalCtx->gameplayFrames * 12)) % 128, 32, 32));
 
-    if ((this->unk_194 & 1) != 0) {
+    if ((this->unk_194 % 2) != 0) {
         gSPSegment(POLY_XLU_DISP++, 0x09, D_80B28998);
     } else {
         gSPSegment(POLY_XLU_DISP++, 0x09, D_80B289A8);
@@ -836,8 +838,8 @@ void EnVali_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80B28344(this, globalCtx);
 
-    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, func_80B281F0,
-                                   func_80B28280, this, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                                   EnVali_OverrideLimbDraw, EnVali_PostLimbDraw, this, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_vali.c", 1538);
 }
