@@ -58,22 +58,22 @@ src/overlays/gamestates/ovl_select/z_select.c:172:16: note: (near initialization
 src/overlays/gamestates/ovl_select/z_select.c:421:52: warning: unknown escape sequence: '\B'
   421 |     "\x8C\Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",                 // "Please set B side"
       |                          ^
-make: [Makefile:236: build/src/overlays/gamestates/ovl_file_choose/z_file_choose.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd_cutscene_data_1.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd_cutscene_data_2.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/gamestates/ovl_file_choose/z_file_choose.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd_cutscene_data_1.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd_cutscene_data_2.o] Error 1 (ignored)
 src/overlays/actors/ovl_kaleido_scope/z_kaleido_collect.c: In function ‘KaleidoScope_DrawQuestStatus’:
 src/overlays/actors/ovl_kaleido_scope/z_kaleido_collect.c:561:56: warning: comparison is always true due to limited range of data type [-Wtype-limits]
   561 |                         if ((pauseCtx->unk_194->unk_00 >= 0) && (pauseCtx->unk_194->unk_00 < 5)) {
       |                                                        ^~
-make: [Makefile:236: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_collect.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_debug.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_equipment.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_item.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_map_PAL.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_prompt.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_collect.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_debug.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_equipment.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_item.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_map_PAL.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_prompt.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o] Error 1 (ignored)
 src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth.c:28:43: warning: extra tokens at end of #include directive
    28 | #include "z_bg_treemouth_cutscene_data.c" EARLY
       |                                           ^~~~~
@@ -86,49 +86,20 @@ src/overlays/actors/ovl_En_Ru2/z_en_ru2.c:66:37: warning: extra tokens at end of
 src/overlays/actors/ovl_Demo_Du/z_demo_du.c:20:38: warning: extra tokens at end of #include directive
    20 | #include "z_demo_du_cutscene_data.c" EARLY
       |                                      ^~~~~
-make: [Makefile:236: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data1.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data2.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data3.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data4.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data5.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data6.o] Error 1 (ignored)
-make: [Makefile:236: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data7.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data1.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data2.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data3.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data4.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data5.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data6.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data7.o] Error 1 (ignored)
 src/overlays/actors/ovl_En_Ru1/z_en_ru1.c:108:37: warning: extra tokens at end of #include directive
   108 | #include "z_en_ru1_cutscene_data.c" EARLY
       |                                     ^~~~~
-src/overlays/actors/ovl_Demo_Sa/z_demo_sa.c:57:38: warning: extra tokens at end of #include directive
-   57 | #include "z_demo_sa_cutscene_data.c" EARLY
+src/overlays/actors/ovl_Demo_Sa/z_demo_sa.c:75:38: warning: extra tokens at end of #include directive
+   75 | #include "z_demo_sa_cutscene_data.c" EARLY
       |                                      ^~~~~
-cfe: Warning 709: src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.c, line 243: Incompatible pointer type assignment
-         func_800F52A0(&this->actor.home, 62, 1000);
- ----------------------^
-cfe: Warning 709: src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.c, line 245: Incompatible pointer type assignment
-         func_800F52A0(&this->actor.home, 40, 800);
- ----------------------^
-src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.c: In function ‘EnRiverSound_Draw’:
-src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.c:243:23: warning: passing argument 1 of ‘func_800F52A0’ from incompatible pointer type [-Wincompatible-pointer-types]
-  243 |         func_800F52A0(&this->actor.home, 62, 1000);
-      |                       ^~~~~~~~~~~~~~~~~
-      |                       |
-      |                       PosRot *
-In file included from include/global.h:4,
-                 from src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.h:5,
-                 from src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.c:7:
-include/functions.h:2282:20: note: expected ‘Vec3f *’ but argument is of type ‘PosRot *’
- 2282 | void func_800F52A0(Vec3f*, u16, u16);
-      |                    ^~~~~~
-src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.c:245:23: warning: passing argument 1 of ‘func_800F52A0’ from incompatible pointer type [-Wincompatible-pointer-types]
-  245 |         func_800F52A0(&this->actor.home, 40, 800);
-      |                       ^~~~~~~~~~~~~~~~~
-      |                       |
-      |                       PosRot *
-In file included from include/global.h:4,
-                 from src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.h:5,
-                 from src/overlays/actors/ovl_En_River_Sound/z_en_river_sound.c:7:
-include/functions.h:2282:20: note: expected ‘Vec3f *’ but argument is of type ‘PosRot *’
- 2282 | void func_800F52A0(Vec3f*, u16, u16);
-      |                    ^~~~~~
 src/overlays/actors/ovl_En_Nb/z_en_nb.c:89:36: warning: extra tokens at end of #include directive
    89 | #include "z_en_nb_cutscene_data.c" EARLY
       |                                    ^~~~~
@@ -177,7 +148,7 @@ src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:241:5: note: (near initializ
 src/overlays/actors/ovl_En_Jj/z_en_jj.c:47:36: warning: extra tokens at end of #include directive
    47 | #include "z_en_jj_cutscene_data.c" EARLY
       |                                    ^~~~~
-make: [Makefile:236: build/src/overlays/actors/ovl_En_Okarina_Tag/z_en_okarina_tag.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_En_Okarina_Tag/z_en_okarina_tag.o] Error 1 (ignored)
 src/overlays/actors/ovl_En_Fr/z_en_fr.c: In function ‘EnFr_SetReward’:
 src/overlays/actors/ovl_En_Fr/z_en_fr.c:942:20: warning: comparison is always true due to limited range of data type [-Wtype-limits]
   942 |     if ((songIndex >= FROG_ZL) && (songIndex <= FROG_SOT)) {
@@ -189,4 +160,4 @@ src/overlays/actors/ovl_Bg_Mori_Rakkatenjo/z_bg_mori_rakkatenjo.c: In function �
 src/overlays/actors/ovl_Bg_Mori_Rakkatenjo/z_bg_mori_rakkatenjo.c:66:37: warning: comparison is always true due to limited range of data type [-Wtype-limits]
    66 |     if (this->dyna.actor.home.rot.y != 0x8000) {
       |                                     ^~
-make: [Makefile:236: build/src/overlays/actors/ovl_En_Ms/dlists.o] Error 1 (ignored)
+make: [Makefile:223: build/src/overlays/actors/ovl_En_Ms/dlists.o] Error 1 (ignored)
