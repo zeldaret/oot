@@ -96,13 +96,18 @@ void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y) {
 }
 
 /**
- * Gets an u16 from an (possibly unaligned) address in memory, avoiding unaligned memory accesses.
+ * Reads an u16 from a possibly unaligned address in memory.
+ *
+ * Replaces unaligned 16-bit reads with a pair of aligned reads, allowing for reading the possibly
+ * unaligned values in JPEG header files.
  */
-u16 Jpeg_GetU16(u8* ptr) {
-    if (((u32)ptr & 1) == 0) { // if the address is aligned to 2
+u16 Jpeg_GetUnalignedU16(u8* ptr) {
+    if (((u32)ptr & 1) == 0) {
+        // Read the value normally if it's aligned to a 16-bit address.
         return *(u16*)ptr;
     } else {
-        return *(u16*)(ptr - 1) << 8 | (*(u16*)(ptr + 1) >> 8); // lhu crashes with unaligned addresses
+        // Read unaligned values using two separate aligned memory accesses when it's not.
+        return *(u16*)(ptr - 1) << 8 | (*(u16*)(ptr + 1) >> 8);
     }
 }
 
@@ -135,39 +140,39 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                 }
                 case MARKER_APP0: {
                     // Application marker for JFIF
-                    osSyncPrintf("MARKER_APP0 %d\n", Jpeg_GetU16(ptr));
-                    ptr += Jpeg_GetU16(ptr);
+                    osSyncPrintf("MARKER_APP0 %d\n", Jpeg_GetUnalignedU16(ptr));
+                    ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_APP1: {
                     // Application marker for EXIF
-                    osSyncPrintf("MARKER_APP1 %d\n", Jpeg_GetU16(ptr));
-                    ptr += Jpeg_GetU16(ptr);
+                    osSyncPrintf("MARKER_APP1 %d\n", Jpeg_GetUnalignedU16(ptr));
+                    ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_APP2: {
-                    osSyncPrintf("MARKER_APP2 %d\n", Jpeg_GetU16(ptr));
-                    ptr += Jpeg_GetU16(ptr);
+                    osSyncPrintf("MARKER_APP2 %d\n", Jpeg_GetUnalignedU16(ptr));
+                    ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_DQT: {
                     // Define Quantization Table, stored for later processing
-                    osSyncPrintf("MARKER_DQT %d %d %02x\n", ctx->dqtCount, Jpeg_GetU16(ptr), ptr[2]);
+                    osSyncPrintf("MARKER_DQT %d %d %02x\n", ctx->dqtCount, Jpeg_GetUnalignedU16(ptr), ptr[2]);
                     ctx->dqtPtr[ctx->dqtCount++] = ptr + 2;
-                    ptr += Jpeg_GetU16(ptr);
+                    ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_DHT: {
                     // Define Huffman Table, stored for later processing
-                    osSyncPrintf("MARKER_DHT %d %d %02x\n", ctx->dhtCount, Jpeg_GetU16(ptr), ptr[2]);
+                    osSyncPrintf("MARKER_DHT %d %d %02x\n", ctx->dhtCount, Jpeg_GetUnalignedU16(ptr), ptr[2]);
                     ctx->dhtPtr[ctx->dhtCount++] = ptr + 2;
-                    ptr += Jpeg_GetU16(ptr);
+                    ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_DRI: {
                     // Define Restart Interval
-                    osSyncPrintf("MARKER_DRI %d\n", Jpeg_GetU16(ptr));
-                    ptr += Jpeg_GetU16(ptr);
+                    osSyncPrintf("MARKER_DRI %d\n", Jpeg_GetUnalignedU16(ptr));
+                    ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_SOF: {
@@ -181,14 +186,14 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                                  "(1:Y)%d (H0=2,V0=1(422) or 2(420))%02x (量子化テーブル)%02x "
                                  "(2:Cb)%d (H1=1,V1=1)%02x (量子化テーブル)%02x "
                                  "(3:Cr)%d (H2=1,V2=1)%02x (量子化テーブル)%02x\n",
-                                 Jpeg_GetU16(ptr),
-                                 ptr[2],                    // precision
-                                 Jpeg_GetU16(ptr + 3),      // height
-                                 Jpeg_GetU16(ptr + 5),      // width
-                                 ptr[7],                    // component count (assumed to be 3)
-                                 ptr[8], ptr[9], ptr[10],   // Y component
-                                 ptr[11], ptr[12], ptr[13], // Cb component
-                                 ptr[14], ptr[15], ptr[16]  // Cr component
+                                 Jpeg_GetUnalignedU16(ptr),
+                                 ptr[2],                        // precision
+                                 Jpeg_GetUnalignedU16(ptr + 3), // height
+                                 Jpeg_GetUnalignedU16(ptr + 5), // width
+                                 ptr[7],                        // component count (assumed to be 3)
+                                 ptr[8], ptr[9], ptr[10],       // Y component
+                                 ptr[11], ptr[12], ptr[13],     // Cb component
+                                 ptr[14], ptr[15], ptr[16]      // Cr component
                     );
 
                     if (ptr[9] == 0x21) {
@@ -198,13 +203,13 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                         // component Y : V0 == 2
                         ctx->mode = 2;
                     }
-                    ptr += Jpeg_GetU16(ptr);
+                    ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_SOS: {
                     // Start of Scan marker, indicates the start of the image data.
-                    osSyncPrintf("MARKER_SOS %d\n", Jpeg_GetU16(ptr));
-                    ptr += Jpeg_GetU16(ptr);
+                    osSyncPrintf("MARKER_SOS %d\n", Jpeg_GetUnalignedU16(ptr));
+                    ptr += Jpeg_GetUnalignedU16(ptr);
                     ctx->imageData = ptr;
                     break;
                 }
@@ -217,7 +222,7 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                 default: {
                     // Unknown marker
                     osSyncPrintf("マーカー不明 %02x\n", ptr[-1]);
-                    ptr += Jpeg_GetU16(ptr);
+                    ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
             }
