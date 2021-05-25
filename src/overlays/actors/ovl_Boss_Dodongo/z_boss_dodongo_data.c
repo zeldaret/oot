@@ -237,10 +237,4 @@ static ColliderJntSphInit sJntSphInit = {
 
 static Vec3f sUnkZeroVec = { 0.0f, 0.0f, 0.0f };
 
-static u64 sLavaFloorLavaTex[] = {
-#include "assets/overlays/ovl_Boss_Dodongo/lava_floor_lava.rgb5a1.inc.c"
-};
-
-static u64 sLavaFloorRockTex[] = {
-#include "assets/overlays/ovl_Boss_Dodongo/lava_floor_rock.rgb5a1.inc.c"
-};
+#include "overlays/ovl_Boss_Dodongo/ovl_Boss_Dodongo.c"
