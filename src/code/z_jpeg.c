@@ -23,9 +23,9 @@ u32 Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
         0,                    // flags
         NULL,                 // ucode_boot
         0,                    // ucode_boot_size
-        njpegUCode,           // ucode
+        gJpegUCode,           // ucode
         0x1000,               // ucode_size
-        njpegUCodeData,       // ucode_data
+        gJpegUCodeData,       // ucode_data
         0x800,                // ucode_data_size
         NULL,                 // dram_stack
         0,                    // dram_stack_size
