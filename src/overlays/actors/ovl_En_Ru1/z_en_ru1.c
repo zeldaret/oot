@@ -11,6 +11,26 @@
 
 #define THIS ((EnRu1*)thisx)
 
+typedef enum {
+    /* 0 */ ROOT,
+    /* 1 */ LEFT_THIGH,
+    /* 2 */ LEFT_SHIN,
+    /* 3 */ LEFT_FOOT,
+    /* 4 */ RIGHT_THIGH,
+    /* 5 */ RIGHT_SHIN,
+    /* 6 */ RIGHT_FOOT,
+    /* 7 */ CHEST,
+    /* 8 */ LEFT_UPPER_ARM,
+    /* 9 */ LEFT_FIN,
+    /* 10 */ LEFT_HAND,
+    /* 11 */ RIGHT_UPPER_ARM,
+    /* 12 */ RIGHT_FIN,
+    /* 13 */ RIGHT_HAND,
+    /* 14 */ HEAD,
+    /* 15 */ TORSO
+} RutoLimb;
+
+
 void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -2278,11 +2298,11 @@ void func_80AF0278(EnRu1* this, GlobalContext* globalCtx, s32 limbIndex, Vec3s* 
     Vec3s* vec2 = &this->unk_374.unk_08;
 
     switch (limbIndex) {
-        case 8:
+        case LEFT_UPPER_ARM:
             rot->x += vec1->y;
             rot->y -= vec1->x;
             break;
-        case 15:
+        case TORSO:
             rot->x += vec2->y;
             rot->z += vec2->x;
             break;
@@ -2307,7 +2327,7 @@ void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     Vec3f vec1;
     Vec3f vec2;
 
-    if (limbIndex == 15) {
+    if (limbIndex == TORSO) {
         vec1 = sMultVec;
         Matrix_MultVec3f(&vec1, &vec2);
         this->actor.focus.pos.x = vec2.x;
