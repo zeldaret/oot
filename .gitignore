@@ -36,6 +36,7 @@ tools/asmsplitter/asm/*
 tools/asmsplitter/c/*
 ctx.c
 tools/*dSYM/
+graphs/
 
 # Assets
 *.png

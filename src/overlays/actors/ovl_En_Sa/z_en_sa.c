@@ -1,5 +1,6 @@
 #include "z_en_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "objects/object_sa/object_sa.h"
 
 #define FLAGS 0x02000019
 
@@ -15,6 +16,22 @@ void func_80AF67D0(EnSa* this, GlobalContext* globalCtx);
 void func_80AF683C(EnSa* this, GlobalContext* globalCtx);
 void func_80AF68E4(EnSa* this, GlobalContext* globalCtx);
 void func_80AF6B20(EnSa* this, GlobalContext* globalCtx);
+
+typedef enum {
+    /* 0 */ SARIA_EYE_OPEN,
+    /* 1 */ SARIA_EYE_HALF,
+    /* 2 */ SARIA_EYE_CLOSED,
+    /* 3 */ SARIA_EYE_SUPRISED,
+    /* 4 */ SARIA_EYE_SAD
+} SariaEyeState;
+
+typedef enum {
+    /* 0 */ SARIA_MOUTH_CLOSED2,
+    /* 1 */ SARIA_MOUTH_SUPRISED,
+    /* 2 */ SARIA_MOUTH_CLOSED,
+    /* 3 */ SARIA_MOUTH_SMILING_OPEN,
+    /* 4 */ SARIA_MOUTH_FROWNING
+} SariaMouthState;
 
 const ActorInit En_Sa_InitVars = {
     ACTOR_EN_SA,
@@ -53,31 +70,35 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 };
 
 static struct_D_80AA1678 sAnimationInfo[] = {
-    { 0x060021D8, 1.0f, ANIMMODE_LOOP, 0.0f },   { 0x0600E908, 1.0f, ANIMMODE_ONCE, -10.0f },
-    { 0x0600F1D4, 1.0f, ANIMMODE_LOOP, -10.0f }, { 0x0600EBB0, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x060021D8, 1.0f, ANIMMODE_LOOP, -10.0f }, { 0x06010C44, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x0600BAEC, 1.0f, ANIMMODE_LOOP, -10.0f }, { 0x0600C500, 1.0f, ANIMMODE_ONCE, -10.0f },
-    { 0x06001D50, 1.0f, ANIMMODE_ONCE, -10.0f }, { 0x0600CFD8, 1.0f, ANIMMODE_ONCE, -10.0f },
-    { 0x0600D7E8, 1.0f, ANIMMODE_ONCE, -10.0f }, { 0x0600BAEC, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gSariaWaitArmsToSideAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gSariaLookUpArmExtendedAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gSariaWaveAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gSariaRunAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gSariaWaitArmsToSideAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gSariaLookOverShoulderAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gSariaPlayingOcarinaAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gSariaStopPlayingOcarinaAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gSariaOcarinaToMouthAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gSariaLinkLearnedSariasSongAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gSariaReturnToOcarinaAnim, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gSariaPlayingOcarinaAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x0601291C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06011580, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -4.0f },
-    { 0x06013008, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x0601186C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { 0x06014470, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x06014850, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { 0x06011C38, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x06012100, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { 0x06015220, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x060021D8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gSariaTransitionHandsSideToChestToSideAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gSariaTransitionHandsSideToBackAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -4.0f },
+    { &gSariaRightArmExtendedWaitAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gSariaHandsOutAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gSariaStandHandsOnHipsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gSariaExtendRightArmAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gSariaTransitionHandsSideToHipsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gSariaHandsBehindBackWaitAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gSariaHandsOnFaceAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gSariaWaitArmsToSideAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
 extern CutsceneData D_02005730[];
 extern CutsceneData D_02010E20[];
-
-extern AnimationHeader D_06001D50;
-extern Gfx D_06007B80[];
-extern FlexSkeletonHeader D_0600B1A0;
-extern AnimationHeader D_0600BAEC;
-extern AnimationHeader D_0600C500;
-extern AnimationHeader D_06012100;
 
 s16 func_80AF5560(EnSa* this, GlobalContext* globalCtx) {
     s16 textState = func_8010BDBC(&globalCtx->msgCtx);
@@ -319,7 +340,7 @@ void func_80AF5CE4(EnSa* this) {
     }
 }
 
-void func_80AF5D8C(EnSa* this, s32 action) {
+void EnSa_ChangeAnim(EnSa* this, s32 action) {
     Animation_Change(&this->skelAnime, sAnimationInfo[action].animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimationInfo[action].animation), sAnimationInfo[action].mode,
                      sAnimationInfo[action].transitionRate);
@@ -358,14 +379,14 @@ void func_80AF5F34(EnSa* this, GlobalContext* globalCtx) {
         phi_a3 = (this->actionFunc == func_80AF68E4) ? 1 : 4;
     }
     if (globalCtx->sceneNum == SCENE_SPOT05) {
-        phi_a3 = (this->skelAnime.animation == &D_0600BAEC) ? 1 : 3;
+        phi_a3 = (this->skelAnime.animation == &gSariaPlayingOcarinaAnim) ? 1 : 3;
     }
     if (globalCtx->sceneNum == SCENE_SPOT05 && this->actionFunc == func_80AF6448 &&
-        this->skelAnime.animation == &D_0600C500) {
+        this->skelAnime.animation == &gSariaStopPlayingOcarinaAnim) {
         phi_a3 = 1;
     }
     if (globalCtx->sceneNum == SCENE_SPOT05 && this->actionFunc == func_80AF68E4 &&
-        this->skelAnime.animation == &D_06001D50) {
+        this->skelAnime.animation == &gSariaOcarinaToMouthAnim) {
         phi_a3 = 1;
     }
     this->unk_1E0.unk_18 = player->actor.world.pos;
@@ -374,14 +395,15 @@ void func_80AF5F34(EnSa* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AF603C(EnSa* this) {
-    if (this->skelAnime.animation != &D_0600BAEC && this->skelAnime.animation != &D_06001D50) {
+    if (this->skelAnime.animation != &gSariaPlayingOcarinaAnim &&
+        this->skelAnime.animation != &gSariaOcarinaToMouthAnim) {
         return 0;
     }
     if (this->unk_1E0.unk_00 != 0) {
         return 0;
     }
     this->unk_20E = 0;
-    if (this->unk_212 != 2) {
+    if (this->rightEyeIndex != SARIA_EYE_CLOSED) {
         return 0;
     }
     return 1;
@@ -398,13 +420,13 @@ void func_80AF609C(EnSa* this) {
             phi_v1 = this->unk_20E;
         }
         if (phi_v1 == 0) {
-            this->unk_212++;
-            if (this->unk_212 < 3) {
-                this->unk_214 = this->unk_212;
+            this->rightEyeIndex++;
+            if (this->rightEyeIndex < SARIA_EYE_SUPRISED) {
+                this->leftEyeIndex = this->rightEyeIndex;
             } else {
                 this->unk_20E = Rand_S16Offset(30, 30);
-                this->unk_214 = 0;
-                this->unk_212 = this->unk_214;
+                this->leftEyeIndex = SARIA_EYE_OPEN;
+                this->rightEyeIndex = this->leftEyeIndex;
             }
         }
     }
@@ -427,23 +449,23 @@ void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 12.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B1A0, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gSariaSkel, NULL, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     switch (func_80AF5DFC(this, globalCtx)) {
         case 2:
-            func_80AF5D8C(this, 0xB);
+            EnSa_ChangeAnim(this, 0xB);
             this->actionFunc = func_80AF6448;
             break;
         case 5:
-            func_80AF5D8C(this, 0xB);
+            EnSa_ChangeAnim(this, 0xB);
             this->actionFunc = func_80AF683C;
             break;
         case 1:
             this->actor.gravity = -1.0f;
-            func_80AF5D8C(this, 0);
+            EnSa_ChangeAnim(this, 0);
             this->actionFunc = func_80AF6448;
             break;
         case 4:
@@ -451,13 +473,13 @@ void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.gravity = -1.0f;
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02010E20);
             gSaveContext.cutsceneTrigger = 1;
-            func_80AF5D8C(this, 4);
+            EnSa_ChangeAnim(this, 4);
             this->actionFunc = func_80AF68E4;
             break;
         case 3:
             this->unk_210 = 0;
             this->actor.gravity = -1.0f;
-            func_80AF5D8C(this, 0);
+            EnSa_ChangeAnim(this, 0);
             this->actionFunc = func_80AF68E4;
             break;
         case 0:
@@ -489,14 +511,14 @@ void func_80AF6448(EnSa* this, GlobalContext* globalCtx) {
                 case 0x1002:
                     if (this->unk_208 == 0 && this->unk_20B != 1) {
                         func_80AF5CD4(this, 1);
-                        this->unk_216 = 1;
+                        this->mouthIndex = 1;
                     }
                     if (this->unk_208 == 2 && this->unk_20B != 2) {
                         func_80AF5CD4(this, 2);
-                        this->unk_216 = 1;
+                        this->mouthIndex = 1;
                     }
                     if (this->unk_208 == 5) {
-                        this->unk_216 = 0;
+                        this->mouthIndex = 0;
                     }
                     break;
                 case 0x1003:
@@ -505,21 +527,23 @@ void func_80AF6448(EnSa* this, GlobalContext* globalCtx) {
                     }
                     break;
                 case 0x1031:
-                    if (this->unk_208 == 0 && this->unk_20B != 4 && this->skelAnime.animation == &D_06012100) {
+                    if (this->unk_208 == 0 && this->unk_20B != 4 &&
+                        this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
                         func_80AF5CD4(this, 4);
-                        this->unk_216 = 3;
+                        this->mouthIndex = 3;
                     }
                     if (this->unk_208 == 2 && this->unk_20B != 5) {
                         func_80AF5CD4(this, 5);
-                        this->unk_216 = 2;
+                        this->mouthIndex = 2;
                     }
                     if (this->unk_208 == 4 && this->unk_20B != 6) {
                         func_80AF5CD4(this, 6);
-                        this->unk_216 = 0;
+                        this->mouthIndex = 0;
                     }
                     break;
                 case 0x1032:
-                    if (this->unk_208 == 0 && this->unk_20B != 4 && this->skelAnime.animation == &D_06012100) {
+                    if (this->unk_208 == 0 && this->unk_20B != 4 &&
+                        this->skelAnime.animation == &gSariaHandsBehindBackWaitAnim) {
                         func_80AF5CD4(this, 4);
                     }
                     break;
@@ -544,21 +568,21 @@ void func_80AF6448(EnSa* this, GlobalContext* globalCtx) {
         }
         func_80AF5CE4(this);
     }
-    if (this->skelAnime.animation == &D_0600C500) {
+    if (this->skelAnime.animation == &gSariaStopPlayingOcarinaAnim) {
         this->skelAnime.playSpeed = -1.0f;
         if ((s32)this->skelAnime.curFrame == 0) {
-            func_80AF5D8C(this, 6);
+            EnSa_ChangeAnim(this, 6);
         }
     }
     if (this->unk_1E0.unk_00 != 0 && globalCtx->sceneNum == SCENE_SPOT05) {
-        Animation_Change(&this->skelAnime, &D_0600C500, 1.0f, 0.0f, 10.0f, ANIMMODE_ONCE, -10.0f);
+        Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 1.0f, 0.0f, 10.0f, ANIMMODE_ONCE, -10.0f);
         this->actionFunc = func_80AF67D0;
     }
 }
 
 void func_80AF67D0(EnSa* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 0) {
-        Animation_Change(&this->skelAnime, &D_0600C500, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
+        Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
         this->actionFunc = func_80AF6448;
     }
 }
@@ -597,16 +621,16 @@ void func_80AF68E4(EnSa* this, GlobalContext* globalCtx) {
         if (this->unk_210 != csAction->action) {
             switch (csAction->action) {
                 case 2:
-                    this->unk_216 = 1;
+                    this->mouthIndex = 1;
                     break;
                 case 9:
-                    this->unk_216 = 1;
+                    this->mouthIndex = 1;
                     break;
                 default:
-                    this->unk_216 = 0;
+                    this->mouthIndex = 0;
                     break;
             }
-            func_80AF5D8C(this, csAction->action);
+            EnSa_ChangeAnim(this, csAction->action);
             this->unk_210 = csAction->action;
         }
         if (phi_v0) {}
@@ -648,14 +672,14 @@ void func_80AF68E4(EnSa* this, GlobalContext* globalCtx) {
 void func_80AF6B20(EnSa* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT05) {
         Item_Give(globalCtx, ITEM_SONG_SARIA);
-        func_80AF5D8C(this, 6);
+        EnSa_ChangeAnim(this, 6);
     }
 
     if (globalCtx->sceneNum == SCENE_SPOT04) {
-        func_80AF5D8C(this, 4);
+        EnSa_ChangeAnim(this, 4);
         this->actor.world.pos = this->actor.home.pos;
         this->actor.world.rot = this->unk_21A;
-        this->unk_216 = 0;
+        this->mouthIndex = 0;
         gSaveContext.infTable[0] |= 1;
     }
 
@@ -670,8 +694,9 @@ void EnSa_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->skelAnime.animation == &D_06001D50 && this->skelAnime.curFrame >= Animation_GetLastFrame(&D_06001D50)) {
-        func_80AF5D8C(this, 6);
+    if (this->skelAnime.animation == &gSariaOcarinaToMouthAnim &&
+        this->skelAnime.curFrame >= Animation_GetLastFrame(&gSariaOcarinaToMouthAnim)) {
+        EnSa_ChangeAnim(this, 6);
     }
 
     if (this->actionFunc != func_80AF68E4) {
@@ -721,7 +746,7 @@ s32 EnSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
 
     if (globalCtx->sceneNum == SCENE_SPOT05 && limbIndex == 15) {
-        *dList = D_06007B80;
+        *dList = gSariaRightHandAndOcarinaDL;
     }
 
     return 0;
@@ -737,22 +762,24 @@ void EnSa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnSa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR D_80AF7460[] = { 0x06003588, 0x06004448, 0x06004648, 0x06004C48, 0x06003348 };
-    static UNK_PTR D_80AF7474[] = { 0x06002F48, 0x06003C48, 0x06003848, 0x06004848, 0x06004E48 };
+    static u64* sMouthTextures[] = { gSariaMouthClosed2Tex, gSariaMouthSmilingOpenTex, gSariaMouthFrowningTex,
+                                     gSariaMouthSuprisedTex, gSariaMouthClosedTex };
+    static u64* sEyeTextures[] = { gSariaEyeOpenTex, gSariaEyeHalfTex, gSariaEyeClosedTex, gSariaEyeSuprisedTex,
+                                   gSariaEyeSadTex };
 
     EnSa* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sa.c", 1444);
 
     if (this->alpha == 255) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AF7474[this->unk_212]));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AF7474[this->unk_214]));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80AF7460[this->unk_216]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->rightEyeIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->leftEyeIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
         func_80034BA0(globalCtx, &this->skelAnime, EnSa_OverrideLimbDraw, EnSa_PostLimbDraw, &this->actor, this->alpha);
     } else if (this->alpha != 0) {
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AF7474[this->unk_212]));
-        gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AF7474[this->unk_214]));
-        gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80AF7460[this->unk_216]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->rightEyeIndex]));
+        gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->leftEyeIndex]));
+        gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
         func_80034CC4(globalCtx, &this->skelAnime, EnSa_OverrideLimbDraw, EnSa_PostLimbDraw, &this->actor, this->alpha);
     }
 

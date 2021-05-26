@@ -677,13 +677,27 @@ s32 func_80997A34(DoorShutter* this, GlobalContext* globalCtx) {
 void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = THIS;
 
+    //! @bug This actor is not fully initialized until the required object dependency is loaded.
+    //! In most cases, the check for objBankIndex to equal requiredObjBankIndex prevents the actor
+    //! from drawing until initialization is complete. However if the required object is the same as the
+    //! object dependency listed in init vars (gameplay_keep in this case), the check will pass even though
+    //! initialization has not completed. When this happens, it will try to draw the display list of the
+    //! first entry in `D_80998134`, which will likely crash the game.
+    //! This only matters in very specific scenarios, when the door is unculled on the first possible frame
+    //! after spawning. It will try to draw without having run update yet.
+    //!
+    //! The best way to fix this issue (and what was done in Majora's Mask) is to null out the draw function in
+    //! the init vars for the actor, and only set draw after initialization is complete.
+
     if (this->dyna.actor.objBankIndex == this->requiredObjBankIndex &&
         (this->unk_16B == 0 || func_80997A34(this, globalCtx) != 0)) {
         s32 pad[2];
         ShutterInfo* sp70 = &D_80998134[this->unk_16C];
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2048);
+
         func_80093D18(globalCtx->state.gfxCtx);
+
         if (this->unk_16C == 3) {
             POLY_OPA_DISP = func_80997838(globalCtx, this, POLY_OPA_DISP);
             if (this->unk_170 != 0.0f) {
@@ -725,11 +739,13 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 gSPDisplayList(POLY_OPA_DISP++, sp70->b);
             }
         }
+
         if (this->unk_16E != 0) {
             Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
             Actor_DrawDoorLock(globalCtx, this->unk_16E,
                                (this->doorType == SHUTTER_BOSS) ? 1 : ((this->unk_16C == 6) ? 2 : 0));
         }
+
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2135);
     }
 }
