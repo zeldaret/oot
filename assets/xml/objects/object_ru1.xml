@@ -46,22 +46,22 @@
         <DList Name="object_ru1_DL_0119F8" Offset="0x119F8"/>
         <Texture Name="object_ru1_Tex_012200" OutName="tex_00012200" Format="rgb5a1" Width="16" Height="16" Offset="0x12200"/>
         <Texture Name="object_ru1_Tex_012400" OutName="tex_00012400" Format="rgb5a1" Width="16" Height="16" Offset="0x12400"/>
-        <Limb Name="object_ru1_Limb_012600" LimbType="Standard" Offset="0x12600"/>
-        <Limb Name="object_ru1_Limb_01260C" LimbType="Standard" Offset="0x1260C"/>
-        <Limb Name="object_ru1_Limb_012618" LimbType="Standard" Offset="0x12618"/>
-        <Limb Name="object_ru1_Limb_012624" LimbType="Standard" Offset="0x12624"/>
-        <Limb Name="object_ru1_Limb_012630" LimbType="Standard" Offset="0x12630"/>
-        <Limb Name="object_ru1_Limb_01263C" LimbType="Standard" Offset="0x1263C"/>
-        <Limb Name="object_ru1_Limb_012648" LimbType="Standard" Offset="0x12648"/>
-        <Limb Name="object_ru1_Limb_012654" LimbType="Standard" Offset="0x12654"/>
-        <Limb Name="object_ru1_Limb_012660" LimbType="Standard" Offset="0x12660"/>
-        <Limb Name="object_ru1_Limb_01266C" LimbType="Standard" Offset="0x1266C"/>
-        <Limb Name="object_ru1_Limb_012678" LimbType="Standard" Offset="0x12678"/>
-        <Limb Name="object_ru1_Limb_012684" LimbType="Standard" Offset="0x12684"/>
-        <Limb Name="object_ru1_Limb_012690" LimbType="Standard" Offset="0x12690"/>
-        <Limb Name="object_ru1_Limb_01269C" LimbType="Standard" Offset="0x1269C"/>
-        <Limb Name="object_ru1_Limb_0126A8" LimbType="Standard" Offset="0x126A8"/>
-        <Limb Name="object_ru1_Limb_0126B4" LimbType="Standard" Offset="0x126B4"/>
+        <Limb Name="gRutoRootLimb" LimbType="Standard" Offset="0x12600"/>
+        <Limb Name="gRutoLeftThighLimb" LimbType="Standard" Offset="0x1260C"/>
+        <Limb Name="gRutoLeftShinLimb" LimbType="Standard" Offset="0x12618"/>
+        <Limb Name="gRutoLeftFootLimb" LimbType="Standard" Offset="0x12624"/>
+        <Limb Name="gRutoRightThighLimb" LimbType="Standard" Offset="0x12630"/>
+        <Limb Name="gRutoRightShinLimb" LimbType="Standard" Offset="0x1263C"/>
+        <Limb Name="gRutoRightFootLimb" LimbType="Standard" Offset="0x12648"/>
+        <Limb Name="gRutoChestLimb" LimbType="Standard" Offset="0x12654"/>
+        <Limb Name="gRutoLeftUpperArmLimb" LimbType="Standard" Offset="0x12660"/>
+        <Limb Name="gRutoLeftFinLimb" LimbType="Standard" Offset="0x1266C"/>
+        <Limb Name="gRutoLeftHandLimb" LimbType="Standard" Offset="0x12678"/>
+        <Limb Name="gRutoRightUpperArmLimb" LimbType="Standard" Offset="0x12684"/>
+        <Limb Name="gRutoRightFinLimb" LimbType="Standard" Offset="0x12690"/>
+        <Limb Name="gRutoRightHandLimb" LimbType="Standard" Offset="0x1269C"/>
+        <Limb Name="gRutoHeadLimb" LimbType="Standard" Offset="0x126A8"/>
+        <Limb Name="gRutoTorsoLimb" LimbType="Standard" Offset="0x126B4"/>
         <Skeleton Name="object_ru1_Skel_012700" Type="Flex" LimbType="Standard" Offset="0x12700"/>
         <Animation Name="object_ru1_Anim_012E94" Offset="0x12E94"/>
         <Animation Name="object_ru1_Anim_013A64" Offset="0x13A64"/>
