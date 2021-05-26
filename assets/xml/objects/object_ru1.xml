@@ -34,18 +34,28 @@
         <DList Name="gRutoChildLeftUpperArmDL" Offset="0xD870"/>
         <DList Name="gRutoChildLeftFinDL" Offset="0xDAC0"/>
         <DList Name="gRutoChildLeftHandDL" Offset="0xDDA8"/>
-        <Texture Name="object_ru1_Tex_00E038" OutName="tex_0000E038" Format="rgb5a1" Width="16" Height="16" Offset="0xE038"/>
-        <Texture Name="object_ru1_Tex_00E238" OutName="tex_0000E238" Format="rgb5a1" Width="16" Height="16" Offset="0xE238"/>
-        <Blob Name="object_ru1_Blob_00E438" Size="0x380" Offset="0xE438"/>
-        <Texture Name="object_ru1_Tex_00E7B8" OutName="tex_0000E7B8" Format="rgb5a1" Width="8" Height="8" Offset="0xE7B8"/>
-        <Blob Name="object_ru1_Blob_00E838" Size="0x400" Offset="0xE838"/>
-        <Texture Name="object_ru1_Tex_00EC38" OutName="tex_0000EC38" Format="rgb5a1" Width="16" Height="16" Offset="0xEC38"/>
-        <Texture Name="object_ru1_Tex_00EE38" OutName="tex_0000EE38" Format="rgb5a1" Width="16" Height="16" Offset="0xEE38"/>
-        <Texture Name="object_ru1_Tex_00F038" OutName="tex_0000F038" Format="rgb5a1" Width="16" Height="16" Offset="0xF038"/>
-        <Blob Name="object_ru1_Blob_00F238" Size="0x1C00" Offset="0xF238"/>
+        <Texture Name="gRutoChildEyeTLUT" OutName="eye_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0xE038"/>
+        <Texture Name="gRutoChildMouthTLUT" OutName="mouth_tlut" Format="rgb5a1" Width="16" Height="12" Offset="0xE238"/>
+        
+        <Texture Name="gRutoChildEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0xE3B8"/>
+        <Texture Name="gRutoChildEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0xF238"/>
+        <Texture Name="gRutoChildEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0xF638"/>
+        <Texture Name="gRutoChildEyeRollLeftTex" OutName="eye_roll_left" Format="ci8" Width="32" Height="32" Offset="0xFE38"/>
+        <Texture Name="gRutoChildEyeHalf2Tex" OutName="eye_half_2" Format="ci8" Width="32" Height="32" Offset="0x10238"/>-->
+        <Texture Name="gRutoChildEyeHalfWithBlushTex" OutName="eye_half_with_blush" Format="ci8" Width="32" Height="32" Offset="0x10A38"/>
+
+        <Texture Name="gRutoChildBlueSkinGradientTex" OutName="blue_skin_gradient" Format="rgb5a1" Width="8" Height="8" Offset="0xE7B8"/>
+
+        <Texture Name="gRutoChildMouthClosedTex" OutName="mouth_closed" Format="ci8" Width="32" Height="32" Offset="0xE838"/>
+        <Texture Name="gRutoChildMouthFrownTex" OutName="mouth_frown" Format="ci8" Width="32" Height="32" Offset="0xFA38"/>
+        <Texture Name="gRutoChildMouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="32" Offset="0x10638"/>
+
+        <Texture Name="gRutoChildEarTex" OutName="ear" Format="rgb5a1" Width="16" Height="16" Offset="0xEC38"/>
+        <Texture Name="gRutoChildBlueSkinPatchesTex" OutName="blue_skin_patches" Format="rgb5a1" Width="16" Height="16" Offset="0xEE38"/>
+        <Texture Name="gRutoChildUnkHeadCircle" OutName="tex_0000F038" Format="rgb5a1" Width="16" Height="16" Offset="0xF038"/> <!-- TODO rename me-->
         <DList Name="gRutoChildHeadDL" Offset="0x119F8"/>
-        <Texture Name="object_ru1_Tex1_012200" OutName="tex_00012200" Format="rgb5a1" Width="16" Height="16" Offset="0x12200"/>
-        <Texture Name="object_ru1_Tex_012400" OutName="tex_00012400" Format="rgb5a1" Width="16" Height="16" Offset="0x12400"/>
+        <Texture Name="gRutoChildFingersTex" OutName="fingers" Format="rgb5a1" Width="16" Height="16" Offset="0x12200"/>
+        <Texture Name="gRutoChildCircleGradientTex" OutName="circle_gradient" Format="rgb5a1" Width="16" Height="16" Offset="0x12400"/>
         <Skeleton Name="gRutoChildSkel" Type="Flex" LimbType="Standard" Offset="0x12700"/>
         <Limb Name="gRutoChildRootLimb" LimbType="Standard" Offset="0x12600"/>
         <Limb Name="gRutoChildLeftThighLimb" LimbType="Standard" Offset="0x1260C"/>

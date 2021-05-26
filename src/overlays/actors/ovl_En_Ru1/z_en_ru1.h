@@ -18,9 +18,9 @@ typedef struct EnRu1 {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s jointTable[17];
     /* 0x01F6 */ Vec3s morphTable[17];
-    /* 0x025C */ s16 unk_25C;
+    /* 0x025C */ s16 eyeIndex;
     /* 0x025E */ s16 unk_25E;
-    /* 0x0260 */ s16 unk_260;
+    /* 0x0260 */ s16 mouthIndex;
     /* 0x0262 */ char unk_262[0x2];
     /* 0x0264 */ s32 action;
     /* 0x0268 */ s32 drawConfig;
