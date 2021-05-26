@@ -8,6 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
+#include "objects/object_ru1/object_ru1.h"
 
 #define FLAGS 0x00000010
 
@@ -17,6 +18,25 @@
 #define DOOR_AJAR_OPEN_RANGE (2 * DOOR_AJAR_SLAM_RANGE)
 
 #define DOOR_CHECK_RANGE 40.0f
+
+typedef enum {
+    /* 0 */ ROOT,
+    /* 1 */ LEFT_THIGH,
+    /* 2 */ LEFT_SHIN,
+    /* 3 */ LEFT_FOOT,
+    /* 4 */ RIGHT_THIGH,
+    /* 5 */ RIGHT_SHIN,
+    /* 6 */ RIGHT_FOOT,
+    /* 7 */ CHEST,
+    /* 8 */ LEFT_UPPER_ARM,
+    /* 9 */ LEFT_FIN,
+    /* 10 */ LEFT_HAND,
+    /* 11 */ RIGHT_UPPER_ARM,
+    /* 12 */ RIGHT_FIN,
+    /* 13 */ RIGHT_HAND,
+    /* 14 */ HEAD,
+    /* 15 */ TORSO
+} RutoLimb;
 
 void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -304,7 +324,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     s32 phi_v0;
     EnDoor* this = THIS;
 
-    if (limbIndex == 4) {
+    if (limbIndex == RIGHT_THIGH) {
         temp_a2 = D_809FCEE4[this->dListIndex];
         transitionEntry = &globalCtx->transitionActorList[(u16)this->actor.params >> 0xA];
         rot->z += this->actor.world.rot.y;
