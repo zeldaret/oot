@@ -43,25 +43,24 @@ public:
 	ZScalarData scalarData;
 	ZScalarType scalarType;
 
-	ZScalar();
-	ZScalar(const ZScalarType scalarType);
+	ZScalar(ZFile* nParent);
+	ZScalar(const ZScalarType scalarType, ZFile* nParent);
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	std::string GetSourceTypeName() override;
 	std::string GetSourceValue();
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	int GetRawDataSize() override;
+	size_t GetRawDataSize() override;
 	ZResourceType GetResourceType() override;
 	bool DoesSupportArray() override;
 	void ParseRawData() override;
 
-	static ZScalar* ExtractFromXML(tinyxml2::XMLElement* reader,
-	                               const std::vector<uint8_t>& nRawData, const int rawDataIndex,
-	                               const std::string& nRelPath);
-	static int MapTypeToSize(const ZScalarType scalarType);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	static size_t MapTypeToSize(const ZScalarType scalarType);
 	static ZScalarType MapOutputTypeToScalarType(const std::string& type);
 	static std::string MapScalarTypeToOutputType(const ZScalarType scalarType);
 
 protected:
-	void ParseRawData(const std::vector<uint8_t>& data, const int offset);
+	void ParseRawData(const std::vector<uint8_t>& data, const uint32_t offset);
 };

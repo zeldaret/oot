@@ -6,7 +6,7 @@
 
 using namespace std;
 
-SetExitList::SetExitList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
+SetExitList::SetExitList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
@@ -19,7 +19,7 @@ SetExitList::SetExitList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDat
 	_rawDataIndex = rawDataIndex;
 }
 
-string SetExitList::GenerateSourceCodePass1(string roomName, int baseAddress)
+string SetExitList::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
 {
 	string sourceOutput =
 		StringHelper::Sprintf("%s 0x00, (u32)&%sExitList0x%06X",
@@ -28,10 +28,10 @@ string SetExitList::GenerateSourceCodePass1(string roomName, int baseAddress)
 
 	// Parse Entrances and Generate Declaration
 	zRoom->parent->AddDeclarationPlaceholder(segmentOffset);  // Make sure this segment is defined
-	int numEntrances = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 2;
+	int32_t numEntrances = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 2;
 	uint32_t currentPtr = segmentOffset;
 
-	for (int i = 0; i < numEntrances; i++)
+	for (int32_t i = 0; i < numEntrances; i++)
 	{
 		uint16_t exit = BitConverter::ToInt16BE(_rawData, currentPtr);
 		exits.push_back(exit);
@@ -42,7 +42,7 @@ string SetExitList::GenerateSourceCodePass1(string roomName, int baseAddress)
 	string declaration = "";
 
 	for (uint16_t exit : exits)
-		declaration += StringHelper::Sprintf("\t0x%04X,\n", exit);
+		declaration += StringHelper::Sprintf("    0x%04X,\n", exit);
 	;
 
 	zRoom->parent->AddDeclarationArray(

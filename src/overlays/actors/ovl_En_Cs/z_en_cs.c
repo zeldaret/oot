@@ -1,5 +1,6 @@
 #include "z_en_cs.h"
 #include "objects/object_cs/object_cs.h"
+#include "objects/object_link_child/object_link_child.h"
 
 #define FLAGS 0x00000009
 
@@ -15,8 +16,6 @@ void EnCs_Talk(EnCs* this, GlobalContext* globalCtx);
 void EnCs_Wait(EnCs* this, GlobalContext* globalCtx);
 s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-
-extern Gfx D_0602AF70[]; // Spooky Mask in Child Link's object
 
 const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,
@@ -476,7 +475,7 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_cs.c", 1000);
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[childLinkObjectIndex].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx - 7);
-            gSPDisplayList(POLY_OPA_DISP++, D_0602AF70);
+            gSPDisplayList(POLY_OPA_DISP++, gLinkChildSpookyMaskDL);
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         }
     }

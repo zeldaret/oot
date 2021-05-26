@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mori_kaitenkabe.h"
+#include "objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -20,9 +21,6 @@ void BgMoriKaitenkabe_SetupWait(BgMoriKaitenkabe* this);
 void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this);
 void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_060063B8;
-extern Gfx D_060056B0[];
 
 const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
     ACTOR_BG_MORI_KAITENKABE,
@@ -58,7 +56,7 @@ void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n", this->dyna.actor.params);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_060063B8, &colHeader);
+    CollisionHeader_GetVirtual(&gMoriKaitenkabeCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
@@ -172,7 +170,7 @@ void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 352),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_060056B0);
+    gSPDisplayList(POLY_OPA_DISP++, gMoriKaitenkabeDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 356);
 }

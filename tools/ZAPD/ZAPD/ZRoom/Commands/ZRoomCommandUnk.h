@@ -12,15 +12,15 @@ public:
 	uint8_t data1;
 	uint32_t data2;
 
-	ZRoomCommandUnk(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	ZRoomCommandUnk(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GenerateSourceCodePass2(std::string roomName, int baseAddress);
-	virtual std::string GenerateSourceCodePass3(std::string roomName);
-	virtual RoomCommand GetRoomCommand();
-	virtual int32_t GetRawDataSize();
-	virtual std::string GetCommandCName();
-	virtual std::string GenerateExterns();
+	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
+	virtual std::string GenerateSourceCodePass2(std::string roomName, uint32_t baseAddress) override;
+	virtual std::string GenerateSourceCodePass3(std::string roomName) override;
+	virtual RoomCommand GetRoomCommand() override;
+	virtual size_t GetRawDataSize() override;
+	virtual std::string GetCommandCName() override;
+	virtual std::string GenerateExterns() override;
 
 protected:
 	ZRoom* zRoom;
