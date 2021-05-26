@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 
 import argparse
-from multiprocessing import Pool, cpu_count, Event
+from multiprocessing import Pool, cpu_count, Event, Manager
 import os
+import json
+import time
+import signal
 
-# Returns True if outFile doesn't exists
-# or if inFile has been modified after the last modification of outFile
-def checkTouchedFile(inFile: str, outFile: str) -> bool:
-    if not os.path.exists(outFile):
-        return True
-    return os.path.getmtime(inFile) > os.path.getmtime(outFile)
+EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
+
+def SignalHandler(sig, frame):
+    print(f'Signal {sig} received. Aborting...')
+    mainAbort.set()
+    # Don't exit immediately to update the extracted assets file.
 
 def Extract(xmlPath, outputPath, outputSourcePath):
     ExtractFile(xmlPath, outputPath, outputSourcePath, 1, 0)
@@ -47,23 +50,37 @@ def ExtractFunc(fullPath):
         objectName += "_scene"
 
     if not globalForce:
-        cFile = os.path.join(outPath, objectName + ".c")
-        hFile = os.path.join(outPath, objectName + ".h")
-        if not checkTouchedFile(fullPath, cFile) and not checkTouchedFile(fullPath, hFile):
-            return
+        if fullPath in globalExtractedAssetsTracker:
+            timestamp = globalExtractedAssetsTracker[fullPath]["timestamp"]
+            modificationTime = int(os.path.getmtime(fullPath) * (10**9))
+            if modificationTime < timestamp:
+                # XML has not been modified since last extraction.
+                return
+
+    currentTimeStamp = time.time_ns()
 
     if isScene:
         ExtractScene(fullPath, outPath, outSourcePath)
     else:
         Extract(fullPath, outPath, outSourcePath)
 
-def initializeWorker(force: bool, abort, unaccounted: bool):
+    if not globalAbort.is_set():
+        # Only update timestamp on succesful extractions
+        if fullPath not in globalExtractedAssetsTracker:
+            globalExtractedAssetsTracker[fullPath] = globalManager.dict()
+        globalExtractedAssetsTracker[fullPath]["timestamp"] = currentTimeStamp
+
+def initializeWorker(force: bool, abort, unaccounted: bool, extractedAssetsTracker: dict, manager):
     global globalForce
     global globalAbort
     global globalUnaccounted
+    global globalExtractedAssetsTracker
+    global globalManager
     globalForce = force
     globalAbort = abort
     globalUnaccounted = unaccounted
+    globalExtractedAssetsTracker = extractedAssetsTracker
+    globalManager = manager
 
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
@@ -72,17 +89,25 @@ def main():
     parser.add_argument("-u", "--unaccounted", help="Enables ZAPD unaccounted detector warning system.", action="store_true")
     args = parser.parse_args()
 
-    abort = Event()
+    global mainAbort
+    mainAbort = Event()
+    manager = Manager()
+    signal.signal(signal.SIGINT, SignalHandler)
+
+    extractedAssetsTracker = manager.dict()
+    if os.path.exists(EXTRACTED_ASSETS_NAMEFILE):
+        with open(EXTRACTED_ASSETS_NAMEFILE) as f:
+            extractedAssetsTracker.update(json.load(f, object_hook=manager.dict))
 
     asset_path = args.single
     if asset_path is not None:
         # Always force if -s is used.
-        initializeWorker(True, abort, args.unaccounted)
+        initializeWorker(True, mainAbort, args.unaccounted, extractedAssetsTracker, manager)
         fullPath = os.path.join("assets", "xml", asset_path + ".xml")
         ExtractFunc(fullPath)
     else:
         xmlFiles = []
-        for currentPath, folders, files in os.walk(os.path.join("assets", "xml")):
+        for currentPath, _, files in os.walk(os.path.join("assets", "xml")):
             for file in files:
                 fullPath = os.path.join(currentPath, file)
                 if file.endswith(".xml"):
@@ -90,10 +115,16 @@ def main():
 
         numCores = cpu_count()
         print("Extracting assets with " + str(numCores) + " CPU cores.")
-        with Pool(numCores,  initializer=initializeWorker, initargs=(args.force, abort, args.unaccounted)) as p:
+        with Pool(numCores,  initializer=initializeWorker, initargs=(args.force, mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
             p.map(ExtractFunc, xmlFiles)
 
-    if abort.is_set():
+    with open(EXTRACTED_ASSETS_NAMEFILE, 'w', encoding='utf-8') as f:
+        serializableDict = dict()
+        for xml, data in extractedAssetsTracker.items():
+            serializableDict[xml] = dict(data)
+        json.dump(dict(serializableDict), f, ensure_ascii=False, indent=4)
+
+    if mainAbort.is_set():
         exit(1)
 
 if __name__ == "__main__":
