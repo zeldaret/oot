@@ -20,20 +20,20 @@
         <Animation Name="object_ru1_Anim_008AA8" Offset="0x8AA8"/>
         <Animation Name="object_ru1_Anim_009060" Offset="0x9060"/>
         <Animation Name="object_ru1_Anim_0097B8" Offset="0x97B8"/>
-        <DList Name="object_ru1_DL_00C0A0" Offset="0xC0A0"/>
-        <DList Name="object_ru1_DL_00C188" Offset="0xC188"/>
-        <DList Name="object_ru1_DL_00C3D8" Offset="0xC3D8"/>
-        <DList Name="object_ru1_DL_00C630" Offset="0xC630"/>
-        <DList Name="object_ru1_DL_00C7D0" Offset="0xC7D0"/>
-        <DList Name="object_ru1_DL_00CA20" Offset="0xCA20"/>
-        <DList Name="object_ru1_DL_00CC78" Offset="0xCC78"/>
-        <DList Name="object_ru1_DL_00CE18" Offset="0xCE18"/>
-        <DList Name="object_ru1_DL_00D0B8" Offset="0xD0B8"/>
-        <DList Name="object_ru1_DL_00D308" Offset="0xD308"/>
-        <DList Name="object_ru1_DL_00D5E0" Offset="0xD5E0"/>
-        <DList Name="object_ru1_DL_00D870" Offset="0xD870"/>
-        <DList Name="object_ru1_DL_00DAC0" Offset="0xDAC0"/>
-        <DList Name="object_ru1_DL_00DDA8" Offset="0xDDA8"/>
+        <DList Name="gRutoChildTorsoDL" Offset="0xC0A0"/>
+        <DList Name="gRutoChildLeftThighDL" Offset="0xC188"/>
+        <DList Name="gRutoChildLeftShinDL" Offset="0xC3D8"/>
+        <DList Name="gRutoChildLeftFootDL" Offset="0xC630"/>
+        <DList Name="gRutoChildRightThighDL" Offset="0xC7D0"/>
+        <DList Name="gRutoChildRightShinDL" Offset="0xCA20"/>
+        <DList Name="gRutoChildRightFootDL" Offset="0xCC78"/>
+        <DList Name="gRutoChildChestDL" Offset="0xCE18"/>
+        <DList Name="gRutoChildRightUpperArmDL" Offset="0xD0B8"/>
+        <DList Name="gRutoChildRightFinDL" Offset="0xD308"/>
+        <DList Name="gRutoChildDLRightHand" Offset="0xD5E0"/>
+        <DList Name="gRutoChildLeftUpperArmDL" Offset="0xD870"/>
+        <DList Name="gRutoChildLeftFinDL" Offset="0xDAC0"/>
+        <DList Name="gRutoChildLeftHandDL" Offset="0xDDA8"/>
         <Texture Name="object_ru1_Tex_00E038" OutName="tex_0000E038" Format="rgb5a1" Width="16" Height="16" Offset="0xE038"/>
         <Texture Name="object_ru1_Tex_00E238" OutName="tex_0000E238" Format="rgb5a1" Width="16" Height="16" Offset="0xE238"/>
         <Blob Name="object_ru1_Blob_00E438" Size="0x380" Offset="0xE438"/>
@@ -43,26 +43,26 @@
         <Texture Name="object_ru1_Tex_00EE38" OutName="tex_0000EE38" Format="rgb5a1" Width="16" Height="16" Offset="0xEE38"/>
         <Texture Name="object_ru1_Tex_00F038" OutName="tex_0000F038" Format="rgb5a1" Width="16" Height="16" Offset="0xF038"/>
         <Blob Name="object_ru1_Blob_00F238" Size="0x1C00" Offset="0xF238"/>
-        <DList Name="object_ru1_DL_0119F8" Offset="0x119F8"/>
-        <Texture Name="object_ru1_Tex_012200" OutName="tex_00012200" Format="rgb5a1" Width="16" Height="16" Offset="0x12200"/>
+        <DList Name="gRutoChildHeadDL" Offset="0x119F8"/>
+        <Texture Name="object_ru1_Tex1_012200" OutName="tex_00012200" Format="rgb5a1" Width="16" Height="16" Offset="0x12200"/>
         <Texture Name="object_ru1_Tex_012400" OutName="tex_00012400" Format="rgb5a1" Width="16" Height="16" Offset="0x12400"/>
-        <Limb Name="gRutoRootLimb" LimbType="Standard" Offset="0x12600"/>
-        <Limb Name="gRutoLeftThighLimb" LimbType="Standard" Offset="0x1260C"/>
-        <Limb Name="gRutoLeftShinLimb" LimbType="Standard" Offset="0x12618"/>
-        <Limb Name="gRutoLeftFootLimb" LimbType="Standard" Offset="0x12624"/>
-        <Limb Name="gRutoRightThighLimb" LimbType="Standard" Offset="0x12630"/>
-        <Limb Name="gRutoRightShinLimb" LimbType="Standard" Offset="0x1263C"/>
-        <Limb Name="gRutoRightFootLimb" LimbType="Standard" Offset="0x12648"/>
-        <Limb Name="gRutoChestLimb" LimbType="Standard" Offset="0x12654"/>
-        <Limb Name="gRutoLeftUpperArmLimb" LimbType="Standard" Offset="0x12660"/>
-        <Limb Name="gRutoLeftFinLimb" LimbType="Standard" Offset="0x1266C"/>
-        <Limb Name="gRutoLeftHandLimb" LimbType="Standard" Offset="0x12678"/>
-        <Limb Name="gRutoRightUpperArmLimb" LimbType="Standard" Offset="0x12684"/>
-        <Limb Name="gRutoRightFinLimb" LimbType="Standard" Offset="0x12690"/>
-        <Limb Name="gRutoRightHandLimb" LimbType="Standard" Offset="0x1269C"/>
-        <Limb Name="gRutoHeadLimb" LimbType="Standard" Offset="0x126A8"/>
-        <Limb Name="gRutoTorsoLimb" LimbType="Standard" Offset="0x126B4"/>
-        <Skeleton Name="object_ru1_Skel_012700" Type="Flex" LimbType="Standard" Offset="0x12700"/>
+        <Skeleton Name="gRutoChildSkel" Type="Flex" LimbType="Standard" Offset="0x12700"/>
+        <Limb Name="gRutoChildRootLimb" LimbType="Standard" Offset="0x12600"/>
+        <Limb Name="gRutoChildLeftThighLimb" LimbType="Standard" Offset="0x1260C"/>
+        <Limb Name="gRutoChildLeftShinLimb" LimbType="Standard" Offset="0x12618"/>
+        <Limb Name="gRutoChildLeftFootLimb" LimbType="Standard" Offset="0x12624"/>
+        <Limb Name="gRutoChildRightThighLimb" LimbType="Standard" Offset="0x12630"/>
+        <Limb Name="gRutoChildRightShinLimb" LimbType="Standard" Offset="0x1263C"/>
+        <Limb Name="gRutoChildRightFootLimb" LimbType="Standard" Offset="0x12648"/>
+        <Limb Name="gRutoChildChestLimb" LimbType="Standard" Offset="0x12654"/>
+        <Limb Name="gRutoChildLeftUpperArmLimb" LimbType="Standard" Offset="0x12660"/>
+        <Limb Name="gRutoChildLeftFinLimb" LimbType="Standard" Offset="0x1266C"/>
+        <Limb Name="gRutoChildLeftHandLimb" LimbType="Standard" Offset="0x12678"/>
+        <Limb Name="gRutoChildRightUpperArmLimb" LimbType="Standard" Offset="0x12684"/>
+        <Limb Name="gRutoChildRightFinLimb" LimbType="Standard" Offset="0x12690"/>
+        <Limb Name="gRutoChildRightHandLimb" LimbType="Standard" Offset="0x1269C"/>
+        <Limb Name="gRutoChildHeadLimb" LimbType="Standard" Offset="0x126A8"/>
+        <Limb Name="gRutoChildTorsoLimb" LimbType="Standard" Offset="0x126B4"/>
         <Animation Name="object_ru1_Anim_012E94" Offset="0x12E94"/>
         <Animation Name="object_ru1_Anim_013A64" Offset="0x13A64"/>
     </File>

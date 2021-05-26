@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ru1.h"
+#include "objects/object_ru1/object_ru1.h"
 #include "vt.h"
 
 #define FLAGS 0x04000011
@@ -183,7 +184,7 @@ extern AnimationHeader D_06008100;
 extern AnimationHeader D_06008AA8;
 extern AnimationHeader D_06009060;
 extern AnimationHeader D_060097B8;
-extern FlexSkeletonHeader D_06012700;
+extern FlexSkeletonHeader gRutoChildSkel;
 extern AnimationHeader D_06012E94;
 extern AnimationHeader D_06013A64;
 
@@ -2258,7 +2259,7 @@ void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnRu1* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06012700, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRutoChildSkel, NULL, this->jointTable, this->morphTable, 17);
     func_80AEAD20(&this->actor, globalCtx);
     switch (func_80AEADF0(this)) {
         case 0:
