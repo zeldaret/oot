@@ -1041,7 +1041,7 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     spawnX = ((kREG(1) + 12.0f) * Math_SinS(yawTowardsPlayer)) + pos->x;
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_CosS(yawTowardsPlayer)) + pos->z;
-    this->unk_278 = (DoorWarp1*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
+    this->blueWarp = (DoorWarp1*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
                                                    spawnX, spawnY, spawnZ, 0, yawTowardsPlayer, 0, 5);
 }
 
@@ -1112,15 +1112,15 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AED084(EnRu1* this, UNK_TYPE arg1) {
-    if (this->unk_278 != NULL && this->unk_278->unk_1EC == arg1) {
+    if (this->blueWarp != NULL && this->blueWarp->unk_1EC == arg1) {
         return 1;
     }
     return 0;
 }
 
 void func_80AED0B0(EnRu1* this, UNK_TYPE arg1) {
-    if (this->unk_278 != NULL) {
-        this->unk_278->unk_1EC = arg1;
+    if (this->blueWarp != NULL) {
+        this->blueWarp->unk_1EC = arg1;
     }
 }
 
