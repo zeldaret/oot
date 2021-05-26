@@ -6,6 +6,8 @@
 
 #include "vt.h"
 #include "z_en_heishi2.h"
+#include "objects/object_sd/object_sd.h"
+#include "objects/object_link_child/object_link_child.h"
 #include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
@@ -19,9 +21,9 @@ void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx);
-void func_80A531CC(EnHeishi2* this, GlobalContext* globalCtx);
-void func_80A531D8(EnHeishi2* this, GlobalContext* globalCtx);
+void EnHeishi2_DrawKingGuard(Actor* thisx, GlobalContext* globalCtx);
+void EnHeishi2_DoNothing1(EnHeishi2* this, GlobalContext* globalCtx);
+void EnHeishi_DoNothing2(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A5344C(EnHeishi2* this, GlobalContext* globalCtx);
@@ -49,12 +51,6 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06005C30;
-extern AnimationHeader D_06005500;
-extern SkeletonHeader D_0600BAC8;
-extern Gfx D_0602B060[]; // Keaton Mask
-extern Gfx D_06002C10[]; // 2D Guard in Window
 
 const ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
@@ -93,15 +89,15 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi2* this = THIS;
 
     Actor_SetScale(&this->actor, 0.01f);
-    this->initParams = this->actor.params & 0xFF;
+    this->type = this->actor.params & 0xFF;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
-    if ((this->initParams == 6) || (this->initParams == 9)) {
-        this->actor.draw = func_80A54C6C;
+    if ((this->type == 6) || (this->type == 9)) {
+        this->actor.draw = EnHeishi2_DrawKingGuard;
         this->actor.flags &= -2;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
-        if (this->initParams == 6) {
-            this->actionFunc = func_80A531CC;
+        if (this->type == 6) {
+            this->actionFunc = EnHeishi2_DoNothing1;
 
         } else {
             osSyncPrintf("\n\n");
@@ -124,7 +120,8 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->unk_2E0 = 60.0f;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTable, this->morphTable, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable,
+                       this->morphTable, 17);
         collider = &this->collider;
         Collider_InitCylinder(globalCtx, collider);
         Collider_SetCylinder(globalCtx, collider, &this->actor, &sCylinderInit);
@@ -133,7 +130,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.dim.height = 0x46;
         this->actor.targetMode = 6;
 
-        switch (this->initParams) {
+        switch (this->type) {
 
             case 2:
                 this->actionFunc = func_80A531E4;
@@ -149,7 +146,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
                 Collider_DestroyCylinder(globalCtx, collider);
                 this->actor.flags &= -0xA;
-                this->actionFunc = func_80A531D8;
+                this->actionFunc = EnHeishi_DoNothing2;
                 break;
         }
 
@@ -158,7 +155,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         // "Soldier Set 2 Completed!"
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
         // "Identification Completed!"
-        osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" VT_RST, this->initParams);
+        osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" VT_RST, this->type);
         // "Message completed!"
         osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, (this->actor.params >> 8) & 0xF);
     }
@@ -172,16 +169,16 @@ void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A531CC(EnHeishi2* this, GlobalContext* globalCtx) {
+void EnHeishi2_DoNothing1(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
-void func_80A531D8(EnHeishi2* this, GlobalContext* globalCtx) {
+void EnHeishi_DoNothing2(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A53278;
 }
 
@@ -277,10 +274,10 @@ void func_80A53538(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A535BC(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005500);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiSlamSpearAnim);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiSlamSpearAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A53638;
 }
 
@@ -312,9 +309,9 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->unk_2F2[0] = 200;
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
@@ -348,9 +345,9 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A5399C;
 }
 
@@ -441,10 +438,10 @@ void func_80A53C0C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53C90(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005500);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiSlamSpearAnim);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiSlamSpearAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A53D0C;
 }
 
@@ -479,9 +476,9 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->unk_2F2[0] = 200;
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
@@ -604,10 +601,10 @@ void func_80A5427C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005500);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiSlamSpearAnim);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiSlamSpearAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->audioFlag = 0;
     this->actionFunc = func_80A543A0;
 }
@@ -699,28 +696,28 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 
     if (Text_GetFaceReaction(globalCtx, 5) != 0) {
         if (this->unk_30B == 0) {
-            if (this->initParams == 2) {
+            if (this->type == 2) {
                 this->actionFunc = func_80A53278;
                 return;
             }
-            if (this->initParams == 5) {
+            if (this->type == 5) {
                 this->actionFunc = func_80A5399C;
                 return;
             }
         }
     } else if (this->unk_30B != 0) {
-        if (this->initParams == 2) {
+        if (this->type == 2) {
             this->actionFunc = func_80A53278;
             return;
         }
-        if (this->initParams == 5) {
+        if (this->type == 5) {
             this->actionFunc = func_80A5399C;
             return;
         }
     }
 
     if (func_8002F194(&this->actor, globalCtx)) {
-        if (this->initParams == 2) {
+        if (this->type == 2) {
             if (this->unk_30E == 1) {
                 this->actionFunc = func_80A5344C;
                 return;
@@ -728,7 +725,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80A53278;
                 return;
             }
-        } else if (this->initParams == 5) {
+        } else if (this->type == 5) {
             if (this->unk_300 == 6) {
                 this->actionFunc = func_80A5399C;
             }
@@ -746,7 +743,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (((this->initParams != 2) && (this->initParams != 5)) ||
+    if (((this->type != 2) && (this->type != 5)) ||
         ((yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)),
           !(this->actor.xzDistToPlayer > 120.0f)) &&
          (yawDiff < 0x4300))) {
@@ -755,9 +752,9 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A549E8;
 }
 
@@ -766,10 +763,10 @@ void func_80A549E8(EnHeishi2* this, GlobalContext* globalCtx) {
     if (this->unk_300 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             func_80106CCC(globalCtx);
-            if (this->initParams == 2) {
+            if (this->type == 2) {
                 this->actionFunc = func_80A531E4;
             }
-            if (this->initParams == 5) {
+            if (this->type == 5) {
                 this->actionFunc = func_80A53908;
             }
         }
@@ -782,7 +779,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
 
     Actor_SetFocus(&this->actor, this->unk_2E0);
-    if ((this->initParams == 2) || (this->initParams == 5)) {
+    if ((this->type == 2) || (this->type == 5)) {
         this->actor.focus.pos.y = 70.0f;
         Actor_SetFocus(&this->actor, 70.0f);
         func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_26C, this->actor.focus.pos);
@@ -797,7 +794,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    switch (this->initParams) {
+    switch (this->type) {
         case 6:
             break;
         case 9:
@@ -814,7 +811,7 @@ s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
                                void* thisx) {
     EnHeishi2* this = THIS;
 
-    switch (this->initParams) {
+    switch (this->type) {
         case 1:
             break;
         case 7:
@@ -840,12 +837,12 @@ void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     }
 }
 
-void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx) {
+void EnHeishi2_DrawKingGuard(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &D_06002C10);
+    gSPDisplayList(POLY_OPA_DISP++, &gHeishiKingGuardDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
@@ -861,7 +858,7 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi2_OverrideLimbDraw,
                       EnHeishi2_PostLimbDraw, this);
-    if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80)) {
+    if ((this->type == 5) && (gSaveContext.infTable[7] & 0x80)) {
         linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
         if (linkObjBankIndex >= 0) {
             Matrix_Put(&this->mtxf_330);
@@ -871,7 +868,7 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[linkObjBankIndex].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx);
-            gSPDisplayList(POLY_OPA_DISP++, &D_0602B060);
+            gSPDisplayList(POLY_OPA_DISP++, gLinkChildKeatonMaskDL);
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         }
     }

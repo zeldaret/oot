@@ -6,6 +6,7 @@
 
 #include "z_en_light.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -45,8 +46,6 @@ static FlameParams D_80A9E840[] = {
     { { 255, 170, 255, 255 }, { 255, 0, 100 }, 75 }, { { 255, 170, 255, 255 }, { 100, 0, 255 }, 75 },
     { { 170, 255, 255, 255 }, { 0, 0, 255 }, 75 },   { { 170, 255, 255, 255 }, { 0, 150, 255 }, 75 },
 };
-
-extern Gfx D_05000440[];
 
 void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnLight* this = THIS;
@@ -180,7 +179,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, ((this->timer * 2) & 63),
                                     (this->timer * -6) & 127 * 1, 16, 32));
 
-        dList = D_05000440;
+        dList = gUnusedCandleDL;
         gDPSetPrimColor(POLY_XLU_DISP++, 0xC0, 0xC0, 255, 200, 0, 0);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
     }
