@@ -1,10 +1,11 @@
 /*
  * File: z_bg_jya_zurerukabe.c
  * Overlay: ovl_Bg_Jya_Zurerukabe
- * Description:
+ * Description: Sliding, Climbable Brick Wall
  */
 
 #include "z_bg_jya_zurerukabe.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -60,18 +61,15 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern Gfx D_06012340[];
-extern CollisionHeader D_06012508;
-
-void func_8089B440(BgJyaZurerukabe* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
+void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                                  DynaPolyMoveFlag flag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyActor_Init(&this->dyna, flags);
+    DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 194,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -86,6 +84,7 @@ void func_8089B4C8(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
 
         for (i = 0; i < ARRAY_COUNT(D_8089BA18); i++) {
             f32 posY = player->actor.world.pos.y;
+
             if ((posY >= D_8089BA18[i][0]) && (posY <= D_8089BA18[i][1])) {
                 break;
             }
@@ -114,7 +113,7 @@ void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaZurerukabe* this = THIS;
     s32 i;
 
-    func_8089B440(this, globalCtx, &D_06012508, DPM_UNK);
+    BgJyaZurerukabe_InitDynaPoly(this, globalCtx, &gZurerukabeCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
 
     for (i = 0; i < ARRAY_COUNT(D_8089B9F0); i++) {
@@ -157,11 +156,9 @@ void func_8089B7C4(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
 void func_8089B80C(BgJyaZurerukabe* this) {
     this->actionFunc = func_8089B870;
     this->unk_16A = D_8089BA00[this->unk_168];
-
     if (ABS(this->unk_16C) == 4) {
         this->unk_16E = -this->unk_16E;
     }
-
     this->unk_16C += this->unk_16E;
 }
 
@@ -183,12 +180,12 @@ void BgJyaZurerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->actionFunc(this, globalCtx);
-
+    
     if (this->unk_168 == 0) {
         func_8089B4C8(this, globalCtx);
     }
 }
 
 void BgJyaZurerukabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06012340);
+    Gfx_DrawDListOpa(globalCtx, gZurerukabeDL);
 }

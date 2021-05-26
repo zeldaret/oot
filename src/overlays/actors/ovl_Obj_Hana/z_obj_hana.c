@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_hana.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -58,9 +59,9 @@ typedef struct {
 } HanaParams; // size = 0x10
 
 static HanaParams sHanaParams[] = {
-    { 0x05000500, 0.01f, 0.0f, -1, 0 },
-    { 0x0500A880, 0.1f, 58.0f, 10, 18 },
-    { 0x0500B9D0, 0.4f, 0.0f, 12, 44 },
+    { gHanaDL, 0.01f, 0.0f, -1, 0 },
+    { gFieldKakeraDL, 0.1f, 58.0f, 10, 18 },
+    { gFieldBushDL, 0.4f, 0.0f, 12, 44 },
 };
 
 static InitChainEntry sInitChain[] = {

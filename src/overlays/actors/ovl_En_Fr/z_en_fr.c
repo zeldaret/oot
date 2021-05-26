@@ -1,4 +1,5 @@
 #include "z_en_fr.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "vt.h"
 
 #define FLAGS 0x02000019
@@ -51,8 +52,6 @@ void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx);
 
 extern FlexSkeletonHeader D_0600B498; // Frog
 extern AnimationHeader D_06001534;    // Frog
-extern SkeletonHeader D_050036F0;     // Butterfly
-extern AnimationHeader D_05002470;    // Butterfly
 extern AnimationHeader D_060007BC;    // Frog Jumping
 extern AnimationHeader D_060011C0;    // Frog Landing
 
@@ -161,8 +160,7 @@ static s16 sTimerFrogSong[] = {
     40, 20, 15, 12, 12,
 };
 
-// static InitChainEntry sInitChain[]
-InitChainEntry D_80A1D0BC[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -278,13 +276,13 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         frogIndex = this->actor.params - 1;
         sEnFrPointers.frogs[frogIndex] = this;
-        Actor_ProcessInitChain(&this->actor, D_80A1D0BC);
+        Actor_ProcessInitChain(&this->actor, sInitChain);
         // frog
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, this->jointTable, this->morphTable,
                            24);
         // butterfly
-        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, this->jointTableButterfly,
-                       this->morphTableButterfly, 8);
+        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim,
+                       this->jointTableButterfly, this->morphTableButterfly, 8);
         // When playing the song for the HP, the frog with the next note and the butterfly turns on its lightsource
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
