@@ -857,7 +857,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player);
 void func_8006D684(GlobalContext* globalCtx, Player* player);
 void func_8006DC68(GlobalContext* globalCtx, Player* player);
 void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
-u32 Jpeg_SendTask(JpegContext* ctx);
+u32 Jpeg_ScheduleDecoderTask(JpegContext* ctx);
 void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y);
 u16 Jpeg_GetU16(u8* ptr);
 void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx);
