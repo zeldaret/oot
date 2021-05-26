@@ -3,7 +3,7 @@
         <DList Name="gBotwHoleTrap1DL" Offset="0x01B0"/>
         <DList Name="gBotwHoleTrap2DL" Offset="0x03F0"/>
         <DList Name="gBotwCoffinLidDL" Offset="0x06B0"/>
-        <DList Name="gBotwBombSpotDlist" Offset="0x0A10"/>
+        <DList Name="gBotwBombSpotDL" Offset="0x0A10"/>
         <DList Name="gBotwFakeWallsAndFloorsDL" Offset="0x1060"/>
         <DList Name="gBotwBloodSplatterDL" Offset="0x1250"/>
         <DList Name="gBotwThreeFakeFloorsDL" Offset="0x1920"/>

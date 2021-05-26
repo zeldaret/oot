@@ -185,7 +185,7 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     func_808B4D04(this, globalCtx);
     this->sinRotation = Math_SinS(this->actor.shape.rot.y);
     this->cosRotation = Math_CosS(this->actor.shape.rot.y);
-    this->dlist = gDodongosCavernRockDlist2;
+    this->dList = gDodongosCavernRock3DL;
 
     func_808B5934(this);
     return true;
@@ -221,7 +221,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
     actor->shape.rot.y = D_808B5DD8[actor->params][8];
     actor->shape.rot.z = D_808B5DD8[actor->params][9];
 
-    this->dlist = D_060009E0;
+    this->dList = D_060009E0;
     this->bombiwaBankIndex = Object_GetIndex(&globalctx->objectCtx, OBJECT_BOMBIWA);
 
     if (this->bombiwaBankIndex < 0) {
@@ -546,11 +546,11 @@ void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actor.params == 0xFF) {
         // The boulder is intact
-        gSPDisplayList(POLY_OPA_DISP++, this->dlist);
+        gSPDisplayList(POLY_OPA_DISP++, this->dList);
     } else {
         // The boulder is debris
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->bombiwaBankIndex].segment);
-        gSPDisplayList(POLY_OPA_DISP++, this->dlist);
+        gSPDisplayList(POLY_OPA_DISP++, this->dList);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1274);

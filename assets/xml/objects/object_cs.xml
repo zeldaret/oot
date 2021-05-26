@@ -5,14 +5,14 @@
         <Limb Name="gGraveyardKidLeftThighLimb" LimbType="Standard" Offset="0x845C"/>
         <Limb Name="gGraveyardKidLeftShinLimb" LimbType="Standard" Offset="0x8468"/>
         <Limb Name="gGraveyardKidLeftFootLimb" LimbType="Standard" Offset="0x8474"/>
-        <Limb Name="gGraveyardKidRightThighimb" LimbType="Standard" Offset="0x8480"/>
+        <Limb Name="gGraveyardKidRightThighLimb" LimbType="Standard" Offset="0x8480"/>
         <Limb Name="gGraveyardKidRightShinLimb" LimbType="Standard" Offset="0x848C"/>
         <Limb Name="gGraveyardKidRightFootLimb" LimbType="Standard" Offset="0x8498"/>
         <Limb Name="gGraveyardKidChestLimb" LimbType="Standard" Offset="0x84A4"/>
-        <Limb Name="gGraveyardKidLeftSholderLimb" LimbType="Standard" Offset="0x84B0"/>
+        <Limb Name="gGraveyardKidLeftShoulderLimb" LimbType="Standard" Offset="0x84B0"/>
         <Limb Name="gGraveyardKidLeftArmLimb" LimbType="Standard" Offset="0x84BC"/>
         <Limb Name="gGraveyardKidLeftHandLimb" LimbType="Standard" Offset="0x84C8"/>
-        <Limb Name="gGraveyardKidRightSholderLimb" LimbType="Standard" Offset="0x84D4"/>
+        <Limb Name="gGraveyardKidRightShoulderLimb" LimbType="Standard" Offset="0x84D4"/>
         <Limb Name="gGraveyardKidRightArmLimb" LimbType="Standard" Offset="0x84E0"/>
         <Limb Name="gGraveyardKidRightHandLimb" LimbType="Standard" Offset="0x84EC"/>
         <Limb Name="gGraveyardKidHeadLimb" LimbType="Standard" Offset="0x84F8"/>

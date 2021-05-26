@@ -950,7 +950,7 @@ void func_80070600(GlobalContext* globalCtx, s32 waterboxProperties);
 void func_800706A0(GlobalContext* globalCtx);
 // ? func_80070718(?);
 void func_80070C24(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
-                   MessageContext* msgCtx, u16*, GraphicsContext* gfxCtx);
+                   MessageContext* msgCtx, GameOverContext*, GraphicsContext* gfxCtx);
 void func_800730DC(GlobalContext*);
 void func_80073988(GlobalContext*, EnvironmentContext*, View*, GraphicsContext*, Vec3f, UNK_TYPE);
 // ? func_80073A5C(?);
