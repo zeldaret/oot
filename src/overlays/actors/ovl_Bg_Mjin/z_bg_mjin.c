@@ -24,7 +24,7 @@ void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808A0850(BgMjin* this, GlobalContext* globalCtx);
-void func_808A0920(BgMjin* this, GlobalContext* globalCtx);
+void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mjin_InitVars = {
     ACTOR_BG_MJIN,
@@ -87,12 +87,12 @@ void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
         collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
         CollisionHeader_GetVirtual(collision, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-        BgMjin_SetupAction(this, func_808A0920);
+        BgMjin_SetupAction(this, BgMjin_DoNothing);
         this->dyna.actor.draw = BgMjin_Draw;
     }
 }
 
-void func_808A0920(BgMjin* this, GlobalContext* globalCtx) {
+void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx) {
 }
 
 void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -108,6 +108,7 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
 
     if (thisx->params != 0) {
+        // Thisx is required
         s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
         if (objBankIndex >= 0) {
             gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
@@ -117,6 +118,7 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         dlist = gOcarinaWarpPadDL;
     }
+
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 285),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
