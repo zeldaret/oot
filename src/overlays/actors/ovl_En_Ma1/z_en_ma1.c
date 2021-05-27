@@ -26,7 +26,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx);
 void func_80AA106C(EnMa1* this, GlobalContext* globalCtx);
 void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx);
 void func_80AA1150(EnMa1* this, GlobalContext* globalCtx);
-void func_80AA11C8(EnMa1* this, GlobalContext* globalCtx);
+void EnMa1_DoNothing(EnMa1* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma1_InitVars = {
     ACTOR_EN_MA1,
@@ -71,16 +71,16 @@ static struct_D_80AA1678 D_80AA1678[] = {
 
 static Vec3f D_80AA16B8 = { 800.0f, 0.0f, 0.0f };
 
-static UNK_PTR D_80AA16C4[] = {
-    0x06001F18,
-    0x06002B18,
-    0x06002F18,
+static void* sMouthTextures[] = {
+    gMalonChildNeutralMouthTex,
+    gMalonChildSmilingMouthTex,
+    gMalonChildTalkingMouthTex,
 };
 
-static UNK_PTR D_80AA16D0[] = {
-    0x06001B18,
-    0x06002318,
-    0x06002718,
+static void* sEyeTextures[] = {
+    gMalonChildEyeOpenTex,
+    gMalonChildEyeHalfTex,
+    gMalonChildEyeClosedTex,
 };
 
 extern AnimationHeader D_06000820;
@@ -386,11 +386,11 @@ void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
         gSaveContext.nextCutsceneIndex = 0xFFF1;
         globalCtx->fadeTransition = 42;
         globalCtx->sceneLoadFlag = 0x14;
-        this->actionFunc = func_80AA11C8;
+        this->actionFunc = EnMa1_DoNothing;
     }
 }
 
-void func_80AA11C8(EnMa1* this, GlobalContext* globalCtx) {
+void EnMa1_DoNothing(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -402,7 +402,7 @@ void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     func_80AA0A0C(this);
     this->actionFunc(this, globalCtx);
-    if (this->actionFunc != func_80AA11C8) {
+    if (this->actionFunc != EnMa1_DoNothing) {
         func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, (f32)this->collider.dim.radius + 30.0f,
                       EnMa1_GetText, func_80AA0778);
     }
@@ -444,18 +444,18 @@ void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMa1* this = THIS;
     Camera* camera;
-    f32 someFloat;
+    f32 distFromCamera;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
 
     camera = ACTIVE_CAM;
-    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
-    func_800F6268(someFloat, 0x2F);
+    distFromCamera = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
+    func_800F6268(distFromCamera, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA16C4[this->unk_1E6]));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA16D0[this->unk_1E4]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->unk_1E6]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->unk_1E4]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMa1_OverrideLimbDraw, EnMa1_PostLimbDraw, this);
