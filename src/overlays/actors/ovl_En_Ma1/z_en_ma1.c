@@ -62,11 +62,11 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static struct_D_80AA1678 D_80AA1678[] = {
-    { 0x06000820, 1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06000820, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x06008D64, 1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06008D64, 1.0f, ANIMMODE_LOOP, -10.0f },
+static struct_D_80AA1678 sAnimationInfo[] = {
+    { &gMalonChildIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gMalonChildIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gMalonChildSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gMalonChildSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
 static Vec3f D_80AA16B8 = { 800.0f, 0.0f, 0.0f };
@@ -82,10 +82,6 @@ static void* sEyeTextures[] = {
     gMalonChildEyeHalfTex,
     gMalonChildEyeClosedTex,
 };
-
-extern AnimationHeader D_06000820;
-extern FlexSkeletonHeader D_06008460;
-extern AnimationHeader D_06008D64;
 
 u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 0x17);
@@ -218,18 +214,18 @@ void EnMa1_UpdateEyes(EnMa1* this) {
     }
 }
 
-void func_80AA0A84(EnMa1* this, UNK_TYPE idx) {
-    f32 frameCount = Animation_GetLastFrame(D_80AA1678[idx].animation);
+void EnMa1_ChangeAnimation(EnMa1* this, UNK_TYPE idx) {
+    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
 
-    Animation_Change(&this->skelAnime, D_80AA1678[idx].animation, 1.0f, 0.0f, frameCount, D_80AA1678[idx].mode,
-                     D_80AA1678[idx].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
+                     sAnimationInfo[idx].transitionRate);
 }
 
 void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if ((this->unk_1E8.unk_00 == 0) && (this->skelAnime.animation == &D_06008D64)) {
+    if ((this->unk_1E8.unk_00 == 0) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -242,7 +238,7 @@ void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0B74(EnMa1* this) {
-    if (this->skelAnime.animation == &D_06008D64) {
+    if (this->skelAnime.animation == &gMalonChildSingAnim) {
         if (this->unk_1E8.unk_00 == 0) {
             if (this->unk_1E0 != 0) {
                 this->unk_1E0 = 0;
@@ -279,10 +275,10 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((!(gSaveContext.eventChkInf[1] & 0x10)) || (CHECK_QUEST_ITEM(QUEST_SONG_EPONA))) {
         this->actionFunc = func_80AA0D88;
-        func_80AA0A84(this, 2);
+        EnMa1_ChangeAnimation(this, 2);
     } else {
         this->actionFunc = func_80AA0F44;
-        func_80AA0A84(this, 2);
+        EnMa1_ChangeAnimation(this, 2);
     }
 }
 
@@ -295,12 +291,12 @@ void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
-        if (this->skelAnime.animation != &D_06000820) {
-            func_80AA0A84(this, 1);
+        if (this->skelAnime.animation != &gMalonChildIdleAnim) {
+            EnMa1_ChangeAnimation(this, 1);
         }
     } else {
-        if (this->skelAnime.animation != &D_06008D64) {
-            func_80AA0A84(this, 3);
+        if (this->skelAnime.animation != &gMalonChildSingAnim) {
+            EnMa1_ChangeAnimation(this, 3);
         }
     }
 
@@ -337,12 +333,12 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->unk_1E8.unk_00 != 0) {
-        if (this->skelAnime.animation != &D_06000820) {
-            func_80AA0A84(this, 1);
+        if (this->skelAnime.animation != &gMalonChildIdleAnim) {
+            EnMa1_ChangeAnimation(this, 1);
         }
     } else {
-        if (this->skelAnime.animation != &D_06008D64) {
-            func_80AA0A84(this, 3);
+        if (this->skelAnime.animation != &gMalonChildSingAnim) {
+            EnMa1_ChangeAnimation(this, 3);
         }
     }
 

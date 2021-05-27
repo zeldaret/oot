@@ -1250,7 +1250,7 @@ s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
                (this->actor.yDistToWater > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
-        this->unk_2A8 = 0xFF;
+        this->alpha = 0xFF;
         this->unk_2A4 = 0.0f;
     }
     return 1;
@@ -1281,7 +1281,7 @@ void func_80AED738(EnRu1* this, GlobalContext* globalCtx) {
         this->unk_2A4 += 1.0f;
         if (this->unk_2A4 < 20.0f) {
             temp_v0 = ((20.0f - this->unk_2A4) * 255.0f) / 20.0f;
-            this->unk_2A8 = temp_v0;
+            this->alpha = temp_v0;
             this->actor.shape.shadowAlpha = temp_v0;
         } else {
             Actor_Kill(&this->actor);
@@ -2367,7 +2367,7 @@ void EnRu1_DrawXlu(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTex));
-    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_2A8);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
