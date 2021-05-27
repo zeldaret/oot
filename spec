@@ -3451,7 +3451,8 @@ endseg
 beginseg
     name "gameplay_field_keep"
     romalign 0x1000
-    include "build/baserom/gameplay_field_keep.o"
+    include "build/assets/objects/gameplay_field_keep/gameplay_field_keep.o"
+    number 5
 endseg
 
 beginseg
@@ -3476,13 +3477,15 @@ endseg
 beginseg
     name "object_link_child"
     romalign 0x1000
-    include "build/baserom/object_link_child.o"
+    include "build/assets/objects/object_link_child/object_link_child.o"
+    number 6
 endseg
 
 beginseg
     name "object_box"
     romalign 0x1000
-    include "build/baserom/object_box.o"
+    include "build/assets/objects/object_box/object_box.o"
+    number 6
 endseg
 
 beginseg
@@ -3730,7 +3733,8 @@ endseg
 beginseg
     name "object_mb"
     romalign 0x1000
-    include "build/baserom/object_mb.o"
+    include "build/assets/objects/object_mb/object_mb.o"
+    number 6
 endseg
 
 beginseg
@@ -4162,7 +4166,8 @@ endseg
 beginseg
     name "object_mori_objects"
     romalign 0x1000
-    include "build/baserom/object_mori_objects.o"
+    include "build/assets/objects/object_mori_objects/object_mori_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -4351,7 +4356,8 @@ endseg
 beginseg
     name "object_sd"
     romalign 0x1000
-    include "build/baserom/object_sd.o"
+    include "build/assets/objects/object_sd/object_sd.o"
+    number 6
 endseg
 
 beginseg
@@ -4597,7 +4603,8 @@ endseg
 beginseg
     name "object_sa"
     romalign 0x1000
-    include "build/baserom/object_sa.o"
+    include "build/assets/objects/object_sa/object_sa.o"
+    number 6
 endseg
 
 beginseg
@@ -4945,7 +4952,8 @@ endseg
 beginseg
     name "object_jya_obj"
     romalign 0x1000
-    include "build/baserom/object_jya_obj.o"
+    include "build/assets/objects/object_jya_obj/object_jya_obj.o"
+    number 6
 endseg
 
 beginseg
@@ -5630,7 +5638,8 @@ endseg
 beginseg
     name "object_ec"
     romalign 0x1000
-    include "build/baserom/object_ec.o"
+    include "build/assets/objects/object_ec/object_ec.o"
+    number 6
 endseg
 
 beginseg
@@ -5738,7 +5747,8 @@ endseg
 beginseg
     name "object_gr"
     romalign 0x1000
-    include "build/baserom/object_gr.o"
+    include "build/assets/objects/object_gr/object_gr.o"
+    number 6
 endseg
 
 beginseg

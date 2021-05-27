@@ -1,4 +1,5 @@
 #include "z_en_cs.h"
+#include "objects/object_link_child/object_link_child.h"
 
 #define FLAGS 0x00000009
 
@@ -16,7 +17,6 @@ s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 extern FlexSkeletonHeader D_06008540; // Graveyard boy skeleton
-extern Gfx D_0602AF70[];              // Spooky Mask in Child Link's object
 
 const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,
@@ -439,7 +439,7 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_cs.c", 1000);
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[childLinkObjectIndex].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx - 7);
-            gSPDisplayList(POLY_OPA_DISP++, D_0602AF70);
+            gSPDisplayList(POLY_OPA_DISP++, gLinkChildSpookyMaskDL);
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         }
     }

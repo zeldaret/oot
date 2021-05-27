@@ -230,7 +230,7 @@ TODO. I'm hoping somebody else will do this.
 - Example:
 
 ```xml
-<CurveAnimation Name="gEnBoxCurveAnim_4B60" SkelOffset="0x5EB8" Offset="0x4B60"/>
+<CurveAnimation Name="gTreasureChestCurveAnim_4B60" SkelOffset="0x5EB8" Offset="0x4B60"/>
 ```
 
 - Attributes:
@@ -245,7 +245,7 @@ TODO. I'm hoping somebody else will do this.
 - Example:
 
 ```xml
-<Skeleton Name="gEnBoxCurveSkel" Type="Curve" LimbType="Curve" Offset="0x5EB8"/>
+<Skeleton Name="gTreasureChestCurveSkel" Type="Curve" LimbType="Curve" Offset="0x5EB8"/>
 ```
 
 - Attributes:
