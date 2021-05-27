@@ -14,9 +14,11 @@
 
 #if !defined(_MSC_VER) && !defined(__CYGWIN__)
 #include <csignal>
+#include <cstdlib>
 #include <cxxabi.h>  // for __cxa_demangle
 #include <dlfcn.h>   // for dladdr
 #include <execinfo.h>
+#include <time.h>
 #include <unistd.h>
 #endif
 
@@ -35,6 +37,7 @@ void BuildAssetModelIntermediette(const fs::path& outPath);
 void BuildAssetAnimationIntermediette(const fs::path& animPath, const fs::path& outPath);
 
 #if !defined(_MSC_VER) && !defined(__CYGWIN__)
+#define ARRAY_COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
 void ErrorHandler(int sig)
 {
 	void* array[4096];
@@ -44,11 +47,15 @@ void ErrorHandler(int sig)
 
 	fprintf(stderr, "\nZAPD crashed. (Signal: %i)\n", sig);
 
-	fprintf(stderr, "\n\t\tYou've met with a terrible fate, haven't you?\n\n");
-	/**
-	 * Other possible options:
-	 * - SEA BEARS FOAM. SLEEP BEARS DREAMS. \n BOTH END IN THE SAME WAY: CRASSSH!
-	 */
+	const char* crashEasterEgg[] = {
+		"\tYou've met with a terrible fate, haven't you?",
+		"\tSEA BEARS FOAM. SLEEP BEARS DREAMS. \n\tBOTH END IN THE SAME WAY: CRASSSH!",
+	};
+
+	srand(time(nullptr));
+	auto easterIndex = rand() % ARRAY_COUNT(crashEasterEgg);
+
+	fprintf(stderr, "\n%s\n\n", crashEasterEgg[easterIndex]);
 
 	fprintf(stderr, "Traceback:\n");
 	for (size_t i = 1; i < size; i++)

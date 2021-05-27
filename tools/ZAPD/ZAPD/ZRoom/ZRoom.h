@@ -46,5 +46,5 @@ public:
 
 	size_t GetRawDataSize() const override;
 	ZResourceType GetResourceType() const override;
-	virtual void PreGenSourceFiles() override;
+	void PreGenSourceFiles() override;
 };

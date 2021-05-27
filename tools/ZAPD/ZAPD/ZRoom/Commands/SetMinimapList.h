@@ -34,6 +34,7 @@ public:
 private:
 	std::vector<MinimapEntry> minimaps;
 
+	segptr_t listSegmentAddr;
 	uint32_t listSegmentOffset;
 	uint32_t unk4;
 };

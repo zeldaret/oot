@@ -12,7 +12,9 @@ public:
 	void DeclareReferences(const std::string& prefix) override;
 
 	std::string GetBodySourceCode() const;
-	void DeclareVar();
+
+	std::string GetSourceTypeName() const override;
+	ZResourceType GetResourceType() const override;
 
 	size_t GetRawDataSize() const;
 	segptr_t GetListAddress() const;
@@ -41,6 +43,7 @@ public:
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 
 	std::string GetSourceTypeName() const override;
+	ZResourceType GetResourceType() const override;
 
 	size_t GetRawDataSize() const override;
 	void SetNumPaths(uint32_t nNumPaths);

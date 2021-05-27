@@ -1,10 +1,10 @@
-# ZAPD extraction xml reference
+# ZAPD extraction XML reference
 
 This document aims to be a small reference of how to create a compatible xml file for ZAPD.
 
 ## Table of contents
 
-- [ZAPD extraction xml reference](#zapd-extraction-xml-reference)
+- [ZAPD extraction XML reference](#zapd-extraction-xml-reference)
   - [Table of contents](#table-of-contents)
   - [Basic XML](#basic-xml)
   - [Resources types](#resources-types)
@@ -232,7 +232,7 @@ TODO. I'm hoping somebody else will do this.
 - Example:
 
 ```xml
-<CurveAnimation Name="gTreasureChestCurveAnim_4B60" SkelOffset="0x5EB8" Offset="0x4B60"/>
+<CurveAnimation Name="gEnBoxCurveAnim_4B60" SkelOffset="0x5EB8" Offset="0x4B60"/>
 ```
 
 - Attributes:
@@ -247,7 +247,7 @@ TODO. I'm hoping somebody else will do this.
 - Example:
 
 ```xml
-<Skeleton Name="gTreasureChestCurveSkel" Type="Curve" LimbType="Curve" Offset="0x5EB8"/>
+<Skeleton Name="gEnBoxCurveSkel" Type="Curve" LimbType="Curve" Offset="0x5EB8"/>
 ```
 
 - Attributes:

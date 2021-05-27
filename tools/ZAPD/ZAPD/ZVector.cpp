@@ -12,23 +12,17 @@ ZVector::ZVector(ZFile* nParent) : ZResource(nParent)
 {
 	scalarType = ZScalarType::ZSCALAR_NONE;
 	dimensions = 0;
-}
-
-void ZVector::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                             const uint32_t nRawDataIndex)
-{
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
+	RegisterRequiredAttribute("Type");
+	RegisterRequiredAttribute("Dimensions");
 }
 
 void ZVector::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZResource::ParseXML(reader);
 
-	std::string type = reader->Attribute("Type");
-	this->scalarType = ZScalar::MapOutputTypeToScalarType(type);
+	this->scalarType = ZScalar::MapOutputTypeToScalarType(registeredAttributes.at("Type").value);
 
-	std::string dimensions = reader->Attribute("Dimensions");
-	this->dimensions = strtol(dimensions.c_str(), NULL, 16);
+	this->dimensions = StringHelper::StrToL(registeredAttributes.at("Dimensions").value, 16);
 }
 
 void ZVector::ParseRawData()

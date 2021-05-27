@@ -14,10 +14,15 @@ ZTexture::ZTexture(ZFile* nParent) : ZResource(nParent)
 {
 	width = 0;
 	height = 0;
+
+	RegisterRequiredAttribute("Width");
+	RegisterRequiredAttribute("Height");
+	RegisterRequiredAttribute("Format");
+	RegisterOptionalAttribute("TlutOffset");
 }
 
 void ZTexture::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                              const uint32_t nRawDataIndex)
+                              uint32_t nRawDataIndex)
 {
 	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
 
@@ -65,41 +70,41 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZResource::ParseXML(reader);
 
-	if (reader->Attribute("Width") != nullptr)
+	std::string widthXml = registeredAttributes.at("Width").value;
+	std::string heightXml = registeredAttributes.at("Height").value;
+
+	if (!StringHelper::HasOnlyDigits(widthXml))
 	{
-		width = atoi(reader->Attribute("Width"));
+		throw std::runtime_error(StringHelper::Sprintf(
+			"ZTexture::ParseXML: Error in %s\n"
+			"\t Value of 'Width' attribute has non-decimal digits: '%s'.\n",
+			name.c_str(), widthXml.c_str()));
 	}
-	else
+	if (!StringHelper::HasOnlyDigits(heightXml))
 	{
-		throw std::runtime_error("Width == nullptr for asset " +
-		                         std::string(reader->Attribute("Name")));
+		throw std::runtime_error(StringHelper::Sprintf(
+			"ZTexture::ParseXML: Error in %s\n"
+			"\t Value of 'Height' attribute has non-decimal digits: '%s'.\n",
+			name.c_str(), heightXml.c_str()));
 	}
 
-	if (reader->Attribute("Height") != nullptr)
-	{
-		height = atoi(reader->Attribute("Height"));
-	}
-	else
-	{
-		throw std::runtime_error("Height == nullptr for asset " +
-		                         std::string(reader->Attribute("Name")));
-	}
+	width = StringHelper::StrToL(widthXml);
+	height = StringHelper::StrToL(heightXml);
 
-	std::string formatStr = reader->Attribute("Format");
-
+	std::string formatStr = registeredAttributes.at("Format").value;
 	format = GetTextureTypeFromString(formatStr);
 
 	if (format == TextureType::Error)
 		throw std::runtime_error("Format " + formatStr + " is not supported!");
 
-	auto tlutOffsetXml = reader->Attribute("TlutOffset");
-	if (tlutOffsetXml != nullptr)
+	const auto& tlutOffsetAttr = registeredAttributes.at("TlutOffset");
+	if (tlutOffsetAttr.wasSet)
 	{
 		switch (format)
 		{
 		case TextureType::Palette4bpp:
 		case TextureType::Palette8bpp:
-			tlutOffset = StringHelper::StrToL(std::string(tlutOffsetXml), 16);
+			tlutOffset = StringHelper::StrToL(tlutOffsetAttr.value, 16);
 			break;
 
 		default:

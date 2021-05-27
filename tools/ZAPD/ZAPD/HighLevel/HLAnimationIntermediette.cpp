@@ -62,7 +62,7 @@ HLAnimationIntermediette* HLAnimationIntermediette::FromZAnimation(ZAnimation* z
 
 ZAnimation* HLAnimationIntermediette::ToZAnimation()
 {
-	ZAnimation* zAnim = new ZAnimation(nullptr);
+	ZAnimation* zAnim = new ZNormalAnimation(nullptr);
 
 	return zAnim;
 }

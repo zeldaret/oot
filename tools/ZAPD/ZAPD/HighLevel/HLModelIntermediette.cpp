@@ -250,22 +250,24 @@ void HLModelIntermediette::FromZSkeleton(HLModelIntermediette* model, ZSkeleton*
 void HLModelIntermediette::ProcessZSkeletonLimb(HLModelIntermediette* model, ZSkeleton* zSkeleton,
                                                 ZLimb* limb)
 {
+	/*
 	if (limb->dList == nullptr && limb->dListPtr != 0)
-		limb->dList = (ZDisplayList*)zSkeleton->parent->FindResource(limb->dListPtr);
+	    limb->dList = (ZDisplayList*)zSkeleton->parent->FindResource(limb->dListPtr);
 
 	if (limb->dList != nullptr)
 	{
-		auto cmdTrans = new HLSetTranslation(limb->transX, limb->transY, limb->transZ);
-		cmdTrans->parent = model;
-		model->blocks.push_back(cmdTrans);
+	    auto cmdTrans = new HLSetTranslation(limb->transX, limb->transY, limb->transZ);
+	    cmdTrans->parent = model;
+	    model->blocks.push_back(cmdTrans);
 
-		FromZDisplayList(model, limb->dList);
+	    FromZDisplayList(model, limb->dList);
 	}
+	*/
 
-	for (ZLimb* childLimb : limb->children)
+	/*for (ZLimb* childLimb : limb->children)
 	{
-		ProcessZSkeletonLimb(model, zSkeleton, childLimb);
-	}
+	    ProcessZSkeletonLimb(model, zSkeleton, childLimb);
+	}*/
 }
 
 std::string HLModelIntermediette::ToOBJFile()

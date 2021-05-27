@@ -56,6 +56,11 @@ public:
 
 	uint16_t cycleLength;
 	uint16_t numKeyFrames;
+
+	segptr_t primColorSegmentAddr;
+	segptr_t envColorSegmentAddr;
+	segptr_t keyFrameSegmentAddr;
+
 	uint32_t primColorSegmentOffset;
 	uint32_t envColorSegmentOffset;
 	uint32_t keyFrameSegmentOffset;
@@ -73,6 +78,9 @@ public:
 	size_t GetParamsSize() override;
 
 	uint16_t cycleLength;
+
+	segptr_t textureSegmentOffsetsSegmentAddress;
+	segptr_t textureIndicesSegmentAddress;
 	uint32_t textureSegmentOffsetsSegmentOffset;
 	uint32_t textureIndicesSegmentOffset;
 
@@ -87,6 +95,7 @@ public:
 
 	int8_t segment;
 	int16_t type;
+	segptr_t segmentAddress;
 	uint32_t segmentOffset;
 	std::vector<std::shared_ptr<AnitmatedTextureParams>> params;
 };

@@ -39,11 +39,6 @@ std::string ZVtx::GetBodySourceCode() const
 	                             a);
 }
 
-std::string ZVtx::GetSourceTypeName() const
-{
-	return "Vtx";
-}
-
 std::string ZVtx::GetSourceOutputCode(const std::string& prefix)
 {
 	std::string output = GetBodySourceCode();
@@ -79,13 +74,12 @@ bool ZVtx::IsExternalResource() const
 	return true;
 }
 
+std::string ZVtx::GetSourceTypeName() const
+{
+	return "Vtx";
+}
+
 std::string ZVtx::GetExternalExtension() const
 {
 	return "vtx";
-}
-
-void ZVtx::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                          const uint32_t nRawDataIndex)
-{
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
 }

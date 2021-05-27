@@ -423,6 +423,8 @@ public:
 	ZCutscene(ZFile* nParent);
 	~ZCutscene();
 
+	void ParseRawData() override;
+
 	std::string GetBodySourceCode() override;
 	void DeclareVar(const std::string& prefix, const std::string& bodyStr) const override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
@@ -439,6 +441,4 @@ protected:
 	int32_t numCommands;
 	int32_t endFrame;
 	std::vector<CutsceneCommand*> commands;
-
-	void ParseRawData() override;
 };

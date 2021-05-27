@@ -40,9 +40,14 @@ std::string ZRoomCommand::GetCommandCName() const
 	return "SCmdBase";
 }
 
-RoomCommand ZRoomCommand::GetRoomCommand() const
+ZResourceType ZRoomCommand::GetResourceType() const
 {
-	return RoomCommand::Error;
+	return ZResourceType::RoomCommand;
+}
+
+size_t ZRoomCommand::GetRawDataSize() const
+{
+	return 0x08;
 }
 
 std::string ZRoomCommand::GetCommandHex() const

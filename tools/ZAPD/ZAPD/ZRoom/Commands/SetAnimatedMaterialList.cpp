@@ -97,7 +97,7 @@ void SetAnimatedMaterialList::DeclareReferences(const std::string& prefix)
 
 		for (size_t i = 0; i < textures.size(); i++)
 		{
-			std::string textureName = parent->GetDeclarationPtrName(textures.at(i).segmentOffset);
+			std::string textureName = parent->GetDeclarationPtrName(textures.at(i).segmentAddress);
 
 			declaration += StringHelper::Sprintf("\t{ %2i, %2i, %s },", textures.at(i).segment,
 			                                     textures.at(i).type, textureName.c_str());
@@ -143,9 +143,11 @@ RoomCommand SetAnimatedMaterialList::GetRoomCommand() const
 }
 
 AnimatedMaterial::AnimatedMaterial(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
-	: segment(rawData.at(rawDataIndex)), type(BitConverter::ToInt16BE(rawData, rawDataIndex + 2)),
-	  segmentOffset(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4)))
+	: segment(rawData.at(rawDataIndex)), type(BitConverter::ToInt16BE(rawData, rawDataIndex + 2))
 {
+	segmentAddress = BitConverter::ToInt32BE(rawData, rawDataIndex + 4);
+	segmentOffset = GETSEGOFFSET(segmentAddress);
+
 	switch (type)
 	{
 	case 0:
@@ -201,12 +203,17 @@ FlashingTextureEnvColor::FlashingTextureEnvColor(const std::vector<uint8_t>& raw
 FlashingTexture::FlashingTexture(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex,
                                  int32_t type)
 	: cycleLength(BitConverter::ToUInt16BE(rawData, rawDataIndex + 0)),
-	  numKeyFrames(BitConverter::ToUInt16BE(rawData, rawDataIndex + 2)),
-	  primColorSegmentOffset(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4))),
-	  envColorSegmentOffset(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 8))),
-	  keyFrameSegmentOffset(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 12)))
+	  numKeyFrames(BitConverter::ToUInt16BE(rawData, rawDataIndex + 2))
 {
 	uint16_t length = (type == 2) ? cycleLength : numKeyFrames;
+
+	primColorSegmentAddr = BitConverter::ToInt32BE(rawData, rawDataIndex + 4);
+	envColorSegmentAddr = BitConverter::ToInt32BE(rawData, rawDataIndex + 8);
+	keyFrameSegmentAddr = BitConverter::ToInt32BE(rawData, rawDataIndex + 12);
+
+	primColorSegmentOffset = GETSEGOFFSET(primColorSegmentAddr);
+	envColorSegmentOffset = GETSEGOFFSET(envColorSegmentAddr);
+	keyFrameSegmentOffset = GETSEGOFFSET(keyFrameSegmentAddr);
 
 	int32_t currentPtr = primColorSegmentOffset;
 	for (uint16_t i = 0; i < length; i++)
@@ -251,7 +258,7 @@ std::string FlashingTexture::GenerateSourceCode(ZRoom* zRoom, uint32_t baseAddre
 		zRoom->parent->AddDeclarationArray(
 			primColorSegmentOffset, DeclarationAlignment::Align4, primColors.size() * 5,
 			"F3DPrimColor",
-			StringHelper::Sprintf("%sAnimatedMaterialPrimColor0x%06X", zRoom->GetName().c_str(),
+			StringHelper::Sprintf("%sAnimatedMaterialPrimColor_%06X", zRoom->GetName().c_str(),
 		                          primColorSegmentOffset),
 			primColors.size(), declaration);
 	}
@@ -302,9 +309,9 @@ std::string FlashingTexture::GenerateSourceCode(ZRoom* zRoom, uint32_t baseAddre
 			keyFrames.size(), declaration);
 	}
 
-	std::string primName = zRoom->parent->GetDeclarationPtrName(primColorSegmentOffset);
-	std::string envName = zRoom->parent->GetDeclarationPtrName(envColorSegmentOffset);
-	std::string keyName = zRoom->parent->GetDeclarationPtrName(keyFrameSegmentOffset);
+	std::string primName = zRoom->parent->GetDeclarationPtrName(primColorSegmentAddr);
+	std::string envName = zRoom->parent->GetDeclarationPtrName(envColorSegmentAddr);
+	std::string keyName = zRoom->parent->GetDeclarationPtrName(keyFrameSegmentAddr);
 
 	return StringHelper::Sprintf("%i, %i, %s, %s, %s", cycleLength, numKeyFrames, primName.c_str(),
 	                             envName.c_str(), keyName.c_str());
@@ -317,11 +324,14 @@ size_t FlashingTexture::GetParamsSize()
 
 AnimatedMatTexCycleParams::AnimatedMatTexCycleParams(const std::vector<uint8_t>& rawData,
                                                      uint32_t rawDataIndex)
-	: cycleLength(BitConverter::ToUInt16BE(rawData, rawDataIndex + 0)),
-	  textureSegmentOffsetsSegmentOffset(
-		  GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4))),
-	  textureIndicesSegmentOffset(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 8)))
+	: cycleLength(BitConverter::ToUInt16BE(rawData, rawDataIndex + 0))
 {
+	textureSegmentOffsetsSegmentAddress = BitConverter::ToInt32BE(rawData, rawDataIndex + 4);
+	textureIndicesSegmentAddress = BitConverter::ToInt32BE(rawData, rawDataIndex + 8);
+
+	textureSegmentOffsetsSegmentOffset = GETSEGOFFSET(textureSegmentOffsetsSegmentAddress);
+	textureIndicesSegmentOffset = GETSEGOFFSET(textureIndicesSegmentAddress);
+
 	int32_t currentPtr = textureIndicesSegmentOffset;
 	int32_t maxIndex = 0;
 
@@ -390,8 +400,8 @@ std::string AnimatedMatTexCycleParams::GenerateSourceCode(ZRoom* zRoom, uint32_t
 			textureIndices.size(), declaration);
 	}
 
-	std::string segmName = zRoom->parent->GetDeclarationPtrName(textureSegmentOffsetsSegmentOffset);
-	std::string indexesName = zRoom->parent->GetDeclarationPtrName(textureIndicesSegmentOffset);
+	std::string segmName = zRoom->parent->GetDeclarationPtrName(textureSegmentOffsetsSegmentAddress);
+	std::string indexesName = zRoom->parent->GetDeclarationPtrName(textureIndicesSegmentAddress);
 
 	return StringHelper::Sprintf("%i, %s, %s", cycleLength, segmName.c_str(), indexesName.c_str());
 }

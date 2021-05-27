@@ -36,11 +36,6 @@ void ZAnimation::Save(const fs::path& outFolder)
 	}
 }
 
-void ZAnimation::ParseXML(tinyxml2::XMLElement* reader)
-{
-	ZResource::ParseXML(reader);
-}
-
 std::string ZAnimation::GetSourceOutputCode(const std::string& prefix)
 {
 	return "";
@@ -120,16 +115,6 @@ std::string ZNormalAnimation::GetSourceTypeName() const
 	return "AnimationHeader";
 }
 
-void ZNormalAnimation::ExtractFromXML(tinyxml2::XMLElement* reader,
-                                      const std::vector<uint8_t>& nRawData,
-                                      const uint32_t nRawDataIndex)
-{
-	rawData = std::move(nRawData);
-	rawDataIndex = nRawDataIndex;
-	ParseXML(reader);
-	ParseRawData();
-}
-
 void ZNormalAnimation::ParseRawData()
 {
 	ZAnimation::ParseRawData();
@@ -196,16 +181,6 @@ std::string ZLinkAnimation::GetSourceTypeName() const
 	return "LinkAnimationHeader";
 }
 
-void ZLinkAnimation::ExtractFromXML(tinyxml2::XMLElement* reader,
-                                    const std::vector<uint8_t>& nRawData,
-                                    const uint32_t nRawDataIndex)
-{
-	rawData = std::move(nRawData);
-	rawDataIndex = nRawDataIndex;
-	ParseXML(reader);
-	ParseRawData();
-}
-
 void ZLinkAnimation::ParseRawData()
 {
 	ZAnimation::ParseRawData();
@@ -251,26 +226,23 @@ std::string TransformData::GetSourceTypeName()
 
 ZCurveAnimation::ZCurveAnimation(ZFile* nParent) : ZAnimation(nParent)
 {
-}
-
-ZCurveAnimation::~ZCurveAnimation()
-{
-	delete skel;
+	RegisterOptionalAttribute("SkelOffset");
 }
 
 void ZCurveAnimation::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZAnimation::ParseXML(reader);
 
-	const char* skelOffsetXml = reader->Attribute("SkelOffset");
-	if (skelOffsetXml == nullptr)
+	std::string skelOffsetXml = registeredAttributes.at("SkelOffset").value;
+	if (skelOffsetXml == "")
 	{
-		throw std::runtime_error(StringHelper::Sprintf(
-			"ZCurveAnimation::ParseXML: Fatal error in '%s'. Missing 'SkelOffset' attribute in "
-			"ZCurveAnimation. You need to provide the offset of the curve skeleton.",
-			name.c_str()));
+		throw std::runtime_error(
+			StringHelper::Sprintf("ZCurveAnimation::ParseXML: Fatal error in '%s'.\n"
+		                          "\t Missing 'SkelOffset' attribute in ZCurveAnimation.\n"
+		                          "\t You need to provide the offset of the curve skeleton.",
+		                          name.c_str()));
 	}
-	skelOffset = std::strtoul(skelOffsetXml, nullptr, 0);
+	skelOffset = StringHelper::StrToL(skelOffsetXml, 0);
 }
 
 void ZCurveAnimation::ParseRawData()
@@ -282,25 +254,18 @@ void ZCurveAnimation::ParseRawData()
 	copyValues = BitConverter::ToUInt32BE(rawData, rawDataIndex + 8);
 	unk_0C = BitConverter::ToInt16BE(rawData, rawDataIndex + 12);
 	unk_10 = BitConverter::ToInt16BE(rawData, rawDataIndex + 14);
-}
 
-void ZCurveAnimation::ExtractFromXML(tinyxml2::XMLElement* reader,
-                                     const std::vector<uint8_t>& nRawData,
-                                     const uint32_t nRawDataIndex)
-{
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
-
-	skel = new ZSkeleton(ZSkeletonType::Curve, ZLimbType::Curve, "CurveAnim", nRawData,
-	                     Seg2Filespace(skelOffset, parent->baseAddress), parent);
+	limbCount =
+		BitConverter::ToUInt8BE(rawData, Seg2Filespace(skelOffset, parent->baseAddress) + 4);
 
 	size_t transformDataSize = 0;
 	size_t copyValuesSize = 0;
 	if (refIndex != 0)
 	{
 		uint32_t refIndexOffset = Seg2Filespace(refIndex, parent->baseAddress);
-		for (size_t i = 0; i < 3 * 3 * skel->GetLimbCount(); i++)
+		for (size_t i = 0; i < 3 * 3 * limbCount; i++)
 		{
-			uint8_t ref = BitConverter::ToUInt8BE(nRawData, refIndexOffset + i);
+			uint8_t ref = BitConverter::ToUInt8BE(rawData, refIndexOffset + i);
 			if (ref == 0)
 				copyValuesSize++;
 			else
@@ -315,7 +280,7 @@ void ZCurveAnimation::ExtractFromXML(tinyxml2::XMLElement* reader,
 		uint32_t transformDataOffset = Seg2Filespace(transformData, parent->baseAddress);
 
 		for (size_t i = 0; i < transformDataSize; i++)
-			transformDataArr.emplace_back(parent, nRawData, transformDataOffset, i);
+			transformDataArr.emplace_back(parent, rawData, transformDataOffset, i);
 	}
 
 	if (copyValues != 0)
@@ -323,21 +288,21 @@ void ZCurveAnimation::ExtractFromXML(tinyxml2::XMLElement* reader,
 		uint32_t copyValuesOffset = Seg2Filespace(copyValues, parent->baseAddress);
 
 		for (size_t i = 0; i < copyValuesSize; i++)
-			copyValuesArr.emplace_back(BitConverter::ToInt16BE(nRawData, copyValuesOffset + i * 2));
+			copyValuesArr.emplace_back(BitConverter::ToInt16BE(rawData, copyValuesOffset + i * 2));
 	}
+}
+
+void ZCurveAnimation::ExtractFromXML(tinyxml2::XMLElement* reader,
+                                     const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex)
+{
+	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
 
 	parent->AddDeclaration(rawDataIndex, DeclarationAlignment::Align16, GetRawDataSize(),
 	                       GetSourceTypeName(), name, "");
 }
 
-void ZCurveAnimation::PreGenValues(const std::string& prefix)
+void ZCurveAnimation::DeclareReferences(const std::string& prefix)
 {
-	Declaration* decl = parent->GetDeclaration(skelOffset);
-	if (decl == nullptr)
-	{
-		skel->GetSourceOutputCode(prefix);
-	}
-
 	if (refIndex != 0)
 	{
 		uint32_t refIndexOffset = Seg2Filespace(refIndex, parent->baseAddress);
@@ -435,8 +400,6 @@ std::string ZCurveAnimation::GetSourceOutputCode(const std::string& prefix)
 {
 	std::string bodyStr = "";
 	uint32_t address = Seg2Filespace(rawDataIndex, parent->baseAddress);
-
-	PreGenValues(prefix);
 
 	std::string refIndexStr = "NULL";
 	if (refIndex != 0)

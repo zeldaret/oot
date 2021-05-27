@@ -13,19 +13,18 @@ public:
 	ZVector(ZFile* nParent);
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
-	std::string GetSourceTypeName() const override;
-	std::string GetBodySourceCode() const;
-	std::string GetSourceOutputCode(const std::string& prefix) override;
 	void ParseRawData() override;
-	size_t GetRawDataSize() const override;
+
+	std::string GetBodySourceCode() const override;
+	std::string GetSourceOutputCode(const std::string& prefix) override;
+
 	bool DoesSupportArray() const override;
+	std::string GetSourceTypeName() const override;
 	ZResourceType GetResourceType() const override;
+	size_t GetRawDataSize() const override;
 
 	void SetScalarType(ZScalarType type);
 	void SetDimensions(uint32_t dim);
-
-	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex) override;
 
 protected:
 	std::vector<ZScalar> scalars;

@@ -11,6 +11,7 @@ ZScalar::ZScalar(ZFile* nParent) : ZResource(nParent)
 {
 	memset(&scalarData, 0, sizeof(ZScalarData));
 	scalarType = ZScalarType::ZSCALAR_NONE;
+	RegisterRequiredAttribute("Type");
 }
 
 ZScalar::ZScalar(const ZScalarType scalarType, ZFile* nParent) : ZScalar(nParent)
@@ -18,18 +19,11 @@ ZScalar::ZScalar(const ZScalarType scalarType, ZFile* nParent) : ZScalar(nParent
 	this->scalarType = scalarType;
 }
 
-void ZScalar::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                             const uint32_t nRawDataIndex)
-{
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
-}
-
 void ZScalar::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZResource::ParseXML(reader);
 
-	std::string type = reader->Attribute("Type");
-	scalarType = ZScalar::MapOutputTypeToScalarType(type);
+	scalarType = ZScalar::MapOutputTypeToScalarType(registeredAttributes.at("Type").value);
 }
 
 ZScalarType ZScalar::MapOutputTypeToScalarType(const std::string& type)
@@ -143,42 +137,37 @@ size_t ZScalar::GetRawDataSize() const
 
 void ZScalar::ParseRawData()
 {
-	ZScalar::ParseRawData(rawData, rawDataIndex);
-}
-
-void ZScalar::ParseRawData(const std::vector<uint8_t>& data, const uint32_t offset)
-{
 	switch (scalarType)
 	{
 	case ZScalarType::ZSCALAR_S8:
-		scalarData.s8 = BitConverter::ToInt8BE(data, offset);
+		scalarData.s8 = BitConverter::ToInt8BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_U8:
-		scalarData.u8 = BitConverter::ToUInt8BE(data, offset);
+		scalarData.u8 = BitConverter::ToUInt8BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_S16:
-		scalarData.s16 = BitConverter::ToInt16BE(data, offset);
+		scalarData.s16 = BitConverter::ToInt16BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_U16:
-		scalarData.u16 = BitConverter::ToUInt16BE(data, offset);
+		scalarData.u16 = BitConverter::ToUInt16BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_S32:
-		scalarData.s32 = BitConverter::ToInt32BE(data, offset);
+		scalarData.s32 = BitConverter::ToInt32BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_U32:
-		scalarData.u32 = BitConverter::ToUInt32BE(data, offset);
+		scalarData.u32 = BitConverter::ToUInt32BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_S64:
-		scalarData.s64 = BitConverter::ToInt64BE(data, offset);
+		scalarData.s64 = BitConverter::ToInt64BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_U64:
-		scalarData.u64 = BitConverter::ToUInt64BE(data, offset);
+		scalarData.u64 = BitConverter::ToUInt64BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_F32:
-		scalarData.f32 = BitConverter::ToFloatBE(data, offset);
+		scalarData.f32 = BitConverter::ToFloatBE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_F64:
-		scalarData.f64 = BitConverter::ToDoubleBE(data, offset);
+		scalarData.f64 = BitConverter::ToDoubleBE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_NONE:
 		fprintf(stderr, "Warning in ZScalar: Invalid type. %d %s %d\n", (int32_t)scalarType,
@@ -217,7 +206,7 @@ std::string ZScalar::GetBodySourceCode() const
 	case ZScalarType::ZSCALAR_F64:
 		return StringHelper::Sprintf("%lf", scalarData.f64);
 	default:
-		return "";
+		return "SCALAR_ERROR";
 	}
 }
 

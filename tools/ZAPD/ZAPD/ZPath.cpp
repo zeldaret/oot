@@ -10,6 +10,7 @@ REGISTER_ZFILENODE(Path, ZPath);
 ZPath::ZPath(ZFile* nParent) : ZResource(nParent)
 {
 	numPaths = 1;
+	RegisterOptionalAttribute("NumPaths", "1");
 }
 
 void ZPath::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
@@ -25,16 +26,13 @@ void ZPath::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZResource::ParseXML(reader);
 
-	const char* numPathsXml = reader->Attribute("NumPaths");
-	if (numPathsXml != nullptr)
-	{
-		numPaths = StringHelper::StrToL(std::string(numPathsXml));
-		if (numPaths < 1)
-			throw std::runtime_error(
-				StringHelper::Sprintf("ZPath::ParseXML: Fatal error in '%s'.\n"
-			                          "\t Invalid value for attribute 'NumPaths': '%i'\n",
-			                          name.c_str(), numPaths));
-	}
+	numPaths = StringHelper::StrToL(registeredAttributes.at("NumPaths").value);
+
+	if (numPaths < 1)
+		throw std::runtime_error(
+			StringHelper::Sprintf("ZPath::ParseXML: Fatal error in '%s'.\n"
+		                          "\t Invalid value for attribute 'NumPaths': '%i'\n",
+		                          name.c_str(), numPaths));
 }
 
 void ZPath::ParseRawData()
@@ -72,7 +70,7 @@ std::string ZPath::GetBodySourceCode() const
 	size_t index = 0;
 	for (const auto& entry : pathways)
 	{
-		declaration += entry.GetBodySourceCode();
+		declaration += StringHelper::Sprintf("\t{ %s },", entry.GetBodySourceCode().c_str());
 
 		if (index < pathways.size() - 1)
 			declaration += "\n";
@@ -100,6 +98,11 @@ std::string ZPath::GetSourceOutputCode(const std::string& prefix)
 std::string ZPath::GetSourceTypeName() const
 {
 	return "Path";
+}
+
+ZResourceType ZPath::GetResourceType() const
+{
+	return ZResourceType::Path;
 }
 
 size_t ZPath::GetRawDataSize() const
@@ -183,11 +186,21 @@ std::string PathwayEntry::GetBodySourceCode() const
 
 	if (Globals::Instance->game == ZGame::MM_RETAIL)
 		declaration +=
-			StringHelper::Sprintf("	{ %i, %i, %i, %s },", numPoints, unk1, unk2, listName.c_str());
+			StringHelper::Sprintf("%i, %i, %i, %s", numPoints, unk1, unk2, listName.c_str());
 	else
-		declaration += StringHelper::Sprintf("	{ %i, %s },", numPoints, listName.c_str());
+		declaration += StringHelper::Sprintf("%i, %s", numPoints, listName.c_str());
 
 	return declaration;
+}
+
+std::string PathwayEntry::GetSourceTypeName() const
+{
+	return "Path";
+}
+
+ZResourceType PathwayEntry::GetResourceType() const
+{
+	return ZResourceType::Path;
 }
 
 size_t PathwayEntry::GetRawDataSize() const
