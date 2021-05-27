@@ -208,12 +208,12 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_80AA0A0C(EnMa1* this) {
-    if (DECR(this->unk_1E2) == 0) {
-        this->unk_1E4 += 1;
-        if (this->unk_1E4 >= 3) {
-            this->unk_1E2 = Rand_S16Offset(0x1E, 0x1E);
-            this->unk_1E4 = 0;
+void EnMa1_UpdateEyes(EnMa1* this) {
+    if (DECR(this->blinkTimer) == 0) {
+        this->eyeIndex += 1;
+        if (this->eyeIndex >= 3) {
+            this->blinkTimer = Rand_S16Offset(30, 30);
+            this->eyeIndex = 0;
         }
     }
 }
@@ -400,7 +400,7 @@ void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
-    func_80AA0A0C(this);
+    EnMa1_UpdateEyes(this);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != EnMa1_DoNothing) {
         func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, (f32)this->collider.dim.radius + 30.0f,
@@ -454,8 +454,8 @@ void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800F6268(distFromCamera, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->unk_1E6]));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->unk_1E4]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMa1_OverrideLimbDraw, EnMa1_PostLimbDraw, this);
