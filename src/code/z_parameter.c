@@ -3094,13 +3094,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     svar3 = 42;
 
                     if (interfaceCtx->counterDigits[2]) {
-                        OVERLAY_DISP = Gfx_TextureIA8(
+                        OVERLAY_DISP = Gfx_TextureI8(
                             OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[2])), 8,
                             16, svar3, 190, 8, 16, 1 << 10, 1 << 10);
                         svar3 += 8;
                     }
 
-                    OVERLAY_DISP = Gfx_TextureIA8(
+                    OVERLAY_DISP = Gfx_TextureI8(
                         OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[3])), 8, 16,
                         svar3, 190, 8, 16, 1 << 10, 1 << 10);
                 }
@@ -3144,9 +3144,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
         svar4 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
 
         for (svar1 = 0, svar3 = 42; svar1 < svar4; svar1++, svar2++, svar3 += 8) {
-            OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP,
-                                          ((u8*)gHUDCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[svar2])),
-                                          8, 16, svar3, 206, 8, 16, 1 << 10, 1 << 10);
+            OVERLAY_DISP =
+                Gfx_TextureI8(OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[svar2])),
+                              8, 16, svar3, 206, 8, 16, 1 << 10, 1 << 10);
         }
 
         Interface_DrawMagicBar(globalCtx);
