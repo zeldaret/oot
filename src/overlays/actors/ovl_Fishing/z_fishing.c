@@ -20,6 +20,49 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx);
 void Fishing_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80B7A278(Actor* thisx, GlobalContext* globalCtx);
 
+extern AnimationHeader D_0600007C;
+extern FlexSkeletonHeader D_060029C0;
+extern Gfx D_06003230[];
+extern Gfx D_06003460[];
+extern Gfx D_060034C0[];
+extern Gfx D_06003610[];
+extern Gfx D_06003680[];
+extern Gfx D_06003710[];
+extern Gfx D_06003760[];
+extern Gfx D_060039A8[];
+extern Gfx D_06003A18[];
+extern AnimationHeader D_0600453C;
+extern Gfx D_06007350[];
+extern Gfx D_060074C8[];
+extern FlexSkeletonHeader D_060085F8;
+extern Gfx D_06008610[];
+extern Gfx D_06008678[];
+extern Gfx D_060088C0[];
+extern Gfx D_06008970[];
+extern Gfx D_0600B950[];
+extern Gfx D_0600B9C0[];
+extern Gfx D_0600C220[];
+extern Gfx D_0600C298[];
+extern AnimationHeader D_0600CFE0;
+extern FlexSkeletonHeader D_06011058;
+extern u64 D_06011170[];
+extern u64 D_06011270[];
+extern u64 D_060113D0[];
+extern Gfx D_06011410[];
+extern Gfx D_06012160[];
+extern Gfx D_060121F0[];
+extern Gfx D_06011070[];
+extern Gfx D_06013330[];
+extern Gfx D_060133B0[];
+extern Gfx D_06013590[];
+extern Gfx D_06013610[];
+extern Gfx D_06013F50[];
+extern Gfx D_06013FD0[];
+extern Gfx D_06014030[];
+extern Gfx D_060140B0[];
+extern Gfx D_060153D0[];
+extern Gfx D_06015470[];
+
 typedef struct {
     /* 0x00 */ u8 unk_00;
     /* 0x02 */ Vec3s unk_02;
@@ -97,107 +140,207 @@ const ActorInit Fishing_InitVars = {
     (ActorFunc)Fishing_Draw,
 };
 
-extern f32 D_80B7A650;
-extern u8 D_80B7A654;
-extern f32 D_80B7A658;
-extern Vec3f D_80B7A65C;
-extern f32 D_80B7A664;
-extern f32 D_80B7A668;
-extern u8 D_80B7A66C;
-extern f32 D_80B7A670;
-extern u8 D_80B7A674;
-extern u16 D_80B7A678;
-extern u8 D_80B7A67C;
-extern s32 D_80B7A680;
-extern s16 D_80B7A684;
-extern u8 D_80B7A688;
-extern u8 D_80B7A68C;
-extern u8 D_80B7A690;
-extern s16 D_80B7A694;
-extern Vec3f D_80B7A698;
-extern f32 D_80B7A69C;
-extern u8 D_80B7A6A4;
-extern f32 D_80B7A6A8;
-extern f32 D_80B7A6AC;
-extern f32 D_80B7A6B0;
-extern f32 D_80B7A6B4;
-extern f32 D_80B7A6B8;
-extern f32 D_80B7A6BC;
-extern f32 D_80B7A6C0;
-extern s16 D_80B7A6C4;
-extern s16 D_80B7A6C8;
-extern u8 D_80B7A6CC;
-extern u8 D_80B7A6D0;
-extern u8 D_80B7A6D4;
-extern f32 D_80B7A70C[][4];
-extern ColliderJntSphInit D_80B7A888;
-extern Vec3f D_80B7A89C;
-extern Vec3f D_80B7A8B4;
-extern Vec3f D_80B7A8C0;
-extern Vec3f D_80B7A8CC;
-extern f32 D_80B7A898;
-extern struct_80B7A8D8 D_80B7A8D8[];
-extern struct_80B7AD40 D_80B7AD40[];
-extern InitChainEntry D_80B7AE50[];
-extern Vec3f D_80B7AE58;
-extern Vec3f D_80B7AE64;
-extern Vec3f D_80B7AE70;
-extern Vec3f D_80B7AE7C;
-extern f32 D_80B7AE88[];
-extern f32 D_80B7AED8[];
-extern f32 D_80B7AF30[];
-extern Vec3f D_80B7AF88;
-extern Vec3f D_80B7AF94;
-extern Vec3f D_80B7AFA0;
-extern Vec3f D_80B7AFAC;
-extern u16 D_80B7AFB8[];
-extern s16 D_80B7AFC4[];
-extern Vec3f D_80B7AFD0;
-extern Vec3s D_80B7AFDC[];
-extern void* D_80B7AFF4[];
+static f32 D_80B7A650 = 0.0f;
 
-extern AnimationHeader D_0600007C;
-extern FlexSkeletonHeader D_060029C0;
-extern Gfx D_06003230[];
-extern Gfx D_06003460[];
-extern Gfx D_060034C0[];
-extern Gfx D_06003610[];
-extern Gfx D_06003680[];
-extern Gfx D_06003710[];
-extern Gfx D_06003760[];
-extern Gfx D_060039A8[];
-extern Gfx D_06003A18[];
-extern AnimationHeader D_0600453C;
-extern Gfx D_06007350[];
-extern Gfx D_060074C8[];
-extern FlexSkeletonHeader D_060085F8;
-extern Gfx D_06008610[];
-extern Gfx D_06008678[];
-extern Gfx D_060088C0[];
-extern Gfx D_06008970[];
-extern Gfx D_0600B950[];
-extern Gfx D_0600B9C0[];
-extern Gfx D_0600C220[];
-extern Gfx D_0600C298[];
-extern AnimationHeader D_0600CFE0;
-extern FlexSkeletonHeader D_06011058;
-extern u64 D_06011170[];
-extern u64 D_06011270[];
-extern u64 D_060113D0[];
-extern Gfx D_06011410[];
-extern Gfx D_06012160[];
-extern Gfx D_060121F0[];
-extern Gfx D_06011070[];
-extern Gfx D_06013330[];
-extern Gfx D_060133B0[];
-extern Gfx D_06013590[];
-extern Gfx D_06013610[];
-extern Gfx D_06013F50[];
-extern Gfx D_06013FD0[];
-extern Gfx D_06014030[];
-extern Gfx D_060140B0[];
-extern Gfx D_060153D0[];
-extern Gfx D_06015470[];
+static u8 D_80B7A654 = 0;
+
+static f32 D_80B7A658 = 0.0f;
+
+static Vec3f D_80B7A65C = { 0.0f, 0.0f, 0.0f };
+
+static f32 D_80B7A668 = 0.0f;
+
+static u8 D_80B7A66C = 0;
+
+static f32 D_80B7A670 = 0.0f;
+
+static u8 D_80B7A674 = true;
+
+static u16 D_80B7A678 = 0;
+
+static u8 D_80B7A67C = 0;
+
+static s32 D_80B7A680 = 0;
+
+static s16 D_80B7A684 = 0;
+
+static u8 D_80B7A688 = 0;
+static u8 D_80B7A68C = 0;
+static u8 D_80B7A690 = 0;
+
+static s16 D_80B7A694 = 0;
+
+static Vec3f D_80B7A698 = { 500.0f, 500.0f, 0.0f };
+
+static u8 D_80B7A6A4 = 0;
+
+static f32 D_80B7A6A8 = 0.0f;
+static f32 D_80B7A6AC = 0.0f;
+static f32 D_80B7A6B0 = 0.0f;
+static f32 D_80B7A6B4 = 0.0f;
+static f32 D_80B7A6B8 = 0.0f;
+static f32 D_80B7A6BC = 0.0f;
+static f32 D_80B7A6C0 = 0.0f;
+
+static s16 D_80B7A6C4 = 0;
+static s16 D_80B7A6C8 = 0;
+
+static u8 D_80B7A6CC = 0;
+static u8 D_80B7A6D0 = 0;
+static u8 D_80B7A6D4 = 0;
+
+static ColliderJntSphElementInit D_80B7A6D8[12] = {
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x10 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_80B7A888 = {
+    {
+        COLTYPE_NONE,
+        AT_TYPE_ENEMY,
+        AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    12,
+    D_80B7A6D8,
+};
+
+static f32 D_80B7A898 = 0.0f;
+
+static Vec3f D_80B7A89C = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80B7A8A8 = { 0.0f, 0.0f, 2000.0f };
 
 static Fishing* D_80B7E070;
 static u8 D_80B7E074;
@@ -362,7 +505,7 @@ void func_80B69C2C(Vec3f* arg0, struct_80B830B8* effects, Vec3f* arg2, f32 arg3,
 
 void func_80B69D88(Vec3f* arg0, struct_80B830B8* effects, Vec3f* arg2, Vec3f* arg3, f32 arg4) {
     s16 i;
-    Vec3f sp20 = D_80B7A8B4;
+    Vec3f sp20 = { 0.0f, -1.0f, 0.0f };
 
     if ((arg0 == NULL) || (!(arg0->z > 500.0f) && !(arg0->z < 0.0f))) {
         for (i = 0; i < 100; i++) {
@@ -383,7 +526,7 @@ void func_80B69D88(Vec3f* arg0, struct_80B830B8* effects, Vec3f* arg2, Vec3f* ar
 
 void func_80B69ED0(Vec3f* arg0, struct_80B830B8* effects, Vec3f* arg2, f32 arg3) {
     s16 i;
-    Vec3f sp20 = D_80B7A8C0;
+    Vec3f sp20 = { 0.0f, 0.05f, 0.0f };
 
     if ((arg0 == NULL) || (!(arg0->z > 500.0f) && !(arg0->z < 0.0f))) {
         for (i = 0; i < 90; i++) {
@@ -406,7 +549,7 @@ void func_80B69ED0(Vec3f* arg0, struct_80B830B8* effects, Vec3f* arg2, f32 arg3)
 
 void func_80B6A008(Vec3f* arg0, struct_80B830B8* effects, Vec3f* arg2, f32 arg3, u8 arg4) {
     s16 i;
-    Vec3f sp20 = D_80B7A8CC;
+    Vec3f sp20 = { 0.0f, 1.0f, 0.0f };
 
     if ((arg0 == NULL) || (!(arg0->z > 500.0f) && !(arg0->z < 0.0f))) {
         for (i = 0; i < 90; i++) {
@@ -454,6 +597,45 @@ void func_80B6A138(struct_80B830B8* effects, Vec3f* arg1, Vec3f* arg2) {
     }
 }
 
+static struct_80B7A8D8 D_80B7A8D8[] = {
+    { 3, { 529, -53, -498 } },  { 3, { 461, -66, -480 } },  { 3, { 398, -73, -474 } },  { 3, { -226, -52, -691 } },
+    { 3, { -300, -41, -710 } }, { 3, { -333, -50, -643 } }, { 3, { -387, -46, -632 } }, { 3, { -484, -43, -596 } },
+    { 3, { -409, -57, -560 } }, { 4, { 444, -87, -322 } },  { 4, { 447, -91, -274 } },  { 4, { 395, -109, -189 } },
+    { 1, { 617, -29, 646 } },   { 1, { 698, -26, 584 } },   { 1, { 711, -29, 501 } },   { 1, { 757, -28, 457 } },
+    { 1, { 812, -29, 341 } },   { 1, { 856, -30, 235 } },   { 1, { 847, -31, 83 } },    { 1, { 900, -26, 119 } },
+    { 2, { 861, -22, 137 } },   { 2, { 836, -22, 150 } },   { 2, { 829, -22, 200 } },   { 2, { 788, -22, 232 } },
+    { 2, { 803, -22, 319 } },   { 2, { 756, -22, 348 } },   { 2, { 731, -22, 377 } },   { 2, { 700, -22, 392 } },
+    { 2, { 706, -22, 351 } },   { 2, { 677, -22, 286 } },   { 2, { 691, -22, 250 } },   { 2, { 744, -22, 290 } },
+    { 2, { 766, -22, 201 } },   { 2, { 781, -22, 128 } },   { 2, { 817, -22, 46 } },    { 2, { 857, -22, -50 } },
+    { 2, { 724, -22, 110 } },   { 2, { 723, -22, 145 } },   { 2, { 728, -22, 202 } },   { 2, { 721, -22, 237 } },
+    { 2, { 698, -22, 312 } },   { 2, { 660, -22, 349 } },   { 2, { 662, -22, 388 } },   { 2, { 667, -22, 432 } },
+    { 2, { 732, -22, 429 } },   { 2, { 606, -22, 366 } },   { 2, { 604, -22, 286 } },   { 2, { 620, -22, 217 } },
+    { 2, { 663, -22, 159 } },   { 2, { 682, -22, 73 } },    { 2, { 777, -22, 83 } },    { 2, { 766, -22, 158 } },
+    { 1, { 1073, 0, -876 } },   { 1, { 970, 0, -853 } },    { 1, { 896, 0, -886 } },    { 1, { 646, -27, -651 } },
+    { 1, { 597, -29, -657 } },  { 1, { 547, -32, -651 } },  { 1, { 690, -29, -546 } },  { 1, { 720, -29, -490 } },
+    { 1, { -756, -30, -409 } }, { 1, { -688, -34, -458 } }, { 1, { -613, -34, -581 } }, { 2, { -593, -22, -479 } },
+    { 2, { -602, -22, -421 } }, { 2, { -664, -22, -371 } }, { 2, { -708, -22, -316 } }, { 2, { -718, -22, -237 } },
+    { 1, { -807, -36, -183 } }, { 1, { -856, -29, -259 } }, { 2, { -814, -22, -317 } }, { 2, { -759, -22, -384 } },
+    { 2, { -718, -22, -441 } }, { 2, { -474, -22, -567 } }, { 2, { -519, -22, -517 } }, { 2, { -539, -22, -487 } },
+    { 2, { -575, -22, -442 } }, { 2, { -594, -22, -525 } }, { 2, { -669, -22, -514 } }, { 2, { -653, -22, -456 } },
+    { 1, { -663, -28, -606 } }, { 1, { -708, -26, -567 } }, { 1, { -739, -27, -506 } }, { 1, { -752, -28, -464 } },
+    { 1, { -709, -29, -513 } }, { 2, { -544, -22, -436 } }, { 2, { -559, -22, -397 } }, { 2, { -616, -22, -353 } },
+    { 2, { -712, -22, -368 } }, { 2, { -678, -22, -403 } }, { 2, { -664, -22, -273 } }, { 2, { -630, -22, -276 } },
+    { 2, { -579, -22, -311 } }, { 2, { -588, -22, -351 } }, { 2, { -555, -22, -534 } }, { 2, { -547, -22, -567 } },
+    { 2, { -592, -22, -571 } }, { 2, { -541, -22, -610 } }, { 2, { -476, -22, -629 } }, { 2, { -439, -22, -598 } },
+    { 2, { -412, -22, -550 } }, { 2, { -411, -22, -606 } }, { 2, { -370, -22, -634 } }, { 2, { -352, -22, -662 } },
+    { 2, { -413, -22, -641 } }, { 2, { -488, -22, -666 } }, { 2, { -578, -22, -656 } }, { 2, { -560, -22, -640 } },
+    { 2, { -531, -22, -654 } }, { 2, { -451, -22, -669 } }, { 2, { -439, -22, -699 } }, { 2, { -482, -22, -719 } },
+    { 2, { -524, -22, -720 } }, { 2, { -569, -22, -714 } }, { 1, { -520, -27, -727 } }, { 1, { -572, -28, -686 } },
+    { 1, { -588, -32, -631 } }, { 1, { -622, -34, -571 } }, { 1, { -628, -36, -510 } }, { 1, { -655, -36, -466 } },
+    { 1, { -655, -41, -393 } }, { 1, { -661, -47, -328 } }, { 1, { -723, -40, -287 } }, { 1, { -756, -33, -349 } },
+    { 1, { -755, -43, -210 } }, { 2, { -770, -22, -281 } }, { 2, { -750, -22, -313 } }, { 2, { -736, -22, -341 } },
+    { 2, { -620, -22, -418 } }, { 2, { -601, -22, -371 } }, { 2, { -635, -22, -383 } }, { 2, { -627, -22, -311 } },
+    { 2, { -665, -22, -327 } }, { 2, { -524, -22, -537 } }, { 2, { -514, -22, -579 } }, { 2, { -512, -22, -623 } },
+    { 2, { -576, -22, -582 } }, { 2, { -600, -22, -608 } }, { 2, { -657, -22, -531 } }, { 2, { -641, -22, -547 } },
+    { 35, { 0, 0, 0 } },
+};
+
 void func_80B6A22C(Fishing* this, GlobalContext* globalCtx) {
     struct_80B7FEF8* phi_s0 = &D_80B7FEF8[0];
     Vec3f sp80;
@@ -462,7 +644,7 @@ void func_80B6A22C(Fishing* this, GlobalContext* globalCtx) {
     func_80B69A44(1, 29100, 9786);
 
     for (i = 0; i < 140; i++) {
-        if (D_80B7A8D8[i].unk_00 == 0x23) {
+        if (D_80B7A8D8[i].unk_00 == 35) {
             break;
         }
 
@@ -509,6 +691,20 @@ void func_80B6A22C(Fishing* this, GlobalContext* globalCtx) {
         phi_s0++;
     }
 }
+
+static struct_80B7AD40 D_80B7AD40[] = {
+    { 0, { 666, -45, 354 }, 38, 0.1f },    { 0, { 681, -45, 240 }, 36, 0.1f },   { 0, { 670, -45, 90 }, 41, 0.05f },
+    { 0, { 615, -45, -450 }, 35, 0.2f },   { 0, { 500, -45, -420 }, 39, 0.1f },  { 0, { 420, -45, -550 }, 44, 0.05f },
+    { 0, { -264, -45, -640 }, 40, 0.1f },  { 0, { -470, -45, -540 }, 34, 0.2f }, { 0, { -557, -45, -430 }, 54, 0.01f },
+    { 0, { -260, -60, -330 }, 47, 0.05f }, { 0, { -500, -60, 330 }, 42, 0.06f }, { 0, { 428, -40, -283 }, 33, 0.2f },
+    { 0, { 409, -70, -230 }, 57, 0.0f },   { 0, { 450, -67, -300 }, 63, 0.0f },  { 0, { -136, -65, -196 }, 71, 0.0f },
+    { 1, { -561, -35, -547 }, 45, 0.0f },  { 1, { 667, -35, 317 }, 43, 0.0f },
+};
+
+static InitChainEntry D_80B7AE50[] = {
+    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
+};
 
 void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
@@ -1120,7 +1316,7 @@ void func_80B6C3E0(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     s16 temp_s2;
     s32 pad;
     f32 temp_f20;
-    Vec3f spC0;
+    Vec3f spC0 = { 0.0f, 0.0f, 0.0f };
     Vec3f spB4;
     f32 phi_f18;
     Vec3f spA4;
@@ -1132,8 +1328,6 @@ void func_80B6C3E0(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     f32 temp_f18;
     f32 phi_f12;
     f32 phi_f2;
-
-    spC0 = D_80B7AE58;
 
     if (D_80B7A6A4 != 0) {
         spA4 = *arg1;
@@ -1241,7 +1435,7 @@ void func_80B6C960(Vec3f* arg0) {
     f32 rx;
     f32 ry;
     f32 dxz;
-    Vec3f sp70 = D_80B7AE64;
+    Vec3f sp70 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp64;
     s16 min = D_80B7E144;
 
@@ -1274,7 +1468,7 @@ void func_80B6CAF8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, u8 arg3) 
     f32 ry;
     f32 dxz;
     f32 phi_f0;
-    Vec3f spA0 = D_80B7AE70;
+    Vec3f spA0 = { 0.0f, 0.0f, 1.0f };
     Vec3f sp94;
     Player* player = PLAYER;
 
@@ -1375,7 +1569,7 @@ void func_80B6D054(GlobalContext* globalCtx) {
     f32 ry;
     f32 dxz;
     f32 spB8;
-    Vec3f spAC = D_80B7AE7C;
+    Vec3f spAC = { 0.0f, 0.0f, 0.0f };
     Vec3f spA0;
     Vec3f sp94;
     Vec3f sp88;
@@ -1430,6 +1624,11 @@ void func_80B6D054(GlobalContext* globalCtx) {
         (temp + i)->z = (temp + i - 1)->z + spA0.z;
     }
 }
+
+static f32 D_80B7AE88[] = {
+    1.0f, 1.5f,  1.8f, 2.0f, 1.8f, 1.6f, 1.4f, 1.2f, 1.0f, 1.0f,
+    0.9f, 0.85f, 0.8f, 0.7f, 0.8f, 1.0f, 1.2f, 1.1f, 1.0f, 0.8f,
+};
 
 void func_80B6D354(GlobalContext* globalCtx) {
     s16 i;
@@ -1633,6 +1832,19 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 3500);
 }
 
+static f32 D_80B7AED8[22] = {
+    1.0f,        1.0f,        1.0f,        0.9625f,     0.925f, 0.8875f,     0.85f,       0.8125f,
+    0.775f,      0.73749995f, 0.7f,        0.6625f,     0.625f, 0.5875f,     0.54999995f, 0.5125f,
+    0.47499996f, 0.4375f,     0.39999998f, 0.36249995f, 0.325f, 0.28749996f,
+};
+
+static f32 D_80B7AF30[22] = {
+    0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.06f,   0.12f,   0.18f,   0.24f,   0.30f,   0.36f,
+    0.42f, 0.48f, 0.54f, 0.60f, 0.60f, 0.5142f, 0.4285f, 0.3428f, 0.2571f, 0.1714f, 0.0857f,
+};
+
+static Vec3f D_80B7AF88 = { 0.0f, 0.0f, 0.0f };
+
 void func_80B6DF30(GlobalContext* globalCtx) {
     s16 i;
     f32 spC8;
@@ -1773,6 +1985,8 @@ void func_80B6DF30(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 3838);
 }
 
+static Vec3f D_80B7AF94 = { 0.0f, 0.0f, 0.0f };
+
 void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
     f32 spE4;
     f32 spE0;
@@ -1785,7 +1999,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
     f32 spC8;
     s16 phi_s0;
     Player* player = PLAYER;
-    Vec3f spB4 = D_80B7AFA0;
+    Vec3f spB4 = { 0.0f, 0.0f, 0.0f };
     Vec3f spA8;
     Vec3f sp9C;
     Vec3f sp90;
@@ -1911,7 +2125,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
                     D_80B7E0B2 = 5;
                     D_80B7E11C = 0.5f;
                     D_80B7E118 = Rand_ZeroFloat(1.9f);
-                    D_80B7A69C = 500.0f;
+                    D_80B7A698.y = 500.0f;
                     func_80078914(&D_80B7AF94, NA_SE_IT_SWORD_SWING_HARD);
                 }
             }
@@ -2445,7 +2659,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
                     this->unk_15E = 0;
                     this->unk_17A[0] = 0;
                     this->unk_17A[2] = (s16)Rand_ZeroFloat(100.0f) + 100;
-                    this->unk_1A8 = D_80B7A70C[this->actor.params][0];
+                    this->unk_1A8 = D_80B7AD40[this->actor.params - 100].unk_0C;
                     this->unk_1B0 = 0.0f;
                 }
 
@@ -2454,7 +2668,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
                     this->unk_15E = 0;
                     this->unk_17A[0] = 0;
                     this->unk_17A[2] = (s16)Rand_ZeroFloat(100.0f) + 100;
-                    this->unk_1A8 = D_80B7A70C[this->actor.params][0];
+                    this->unk_1A8 = D_80B7AD40[this->actor.params - 100].unk_0C;
                     this->unk_1B0 = 0.0f;
                 }
             }
@@ -3148,7 +3362,7 @@ void Fishing_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 D_80B7A694 = 4;
                 D_80B7E0A8 = this;
-                D_80B7A69C = 500.0f - Rand_ZeroFloat(400.0f);
+                D_80B7A698.y = 500.0f - Rand_ZeroFloat(400.0f);
 
                 if (D_80B7E0B6 == 2) {
                     if (this->unk_1AC > 70.0f) {
@@ -3914,6 +4128,8 @@ s32 func_80B75D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
+static Vec3f D_80B7AFAC = { 500.0f, 500.0f, 0.0f };
+
 void func_80B75DA4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Fishing* this = THIS;
 
@@ -4150,6 +4366,8 @@ void func_80B76474(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 7805);
 }
+
+static u16 D_80B7AFB8[] = { 0x4096, 0x408D, 0x408E, 0x408F, 0x4094, 0x4095 };
 
 void func_80B768FC(GlobalContext* globalCtx) {
     s16 spFE = 0;
@@ -4550,8 +4768,8 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
                             func_8010B720(globalCtx, this->actor.textId);
                             break;
                         case 1:
-                            if (D_80B7A680 > 0x8CA0) {
-                                D_80B7A680 = 0x7530;
+                            if (D_80B7A680 > 36000) {
+                                D_80B7A680 = 30000;
                                 func_8010B720(globalCtx, 0x4088);
                             } else {
                                 if (D_80B7E076 == 0) {
@@ -4708,7 +4926,7 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 23:
-            D_80B7A674 = 0;
+            D_80B7A674 = false;
             if (Actor_HasParent(&this->actor, globalCtx)) {
                 this->unk_15C = 24;
             } else {
@@ -4717,7 +4935,7 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 24:
-            D_80B7A674 = 0;
+            D_80B7A674 = false;
             if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
                 if (D_80B7E07C == 0) {
                     this->unk_15C = 0;
@@ -4729,6 +4947,17 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
             break;
     }
 }
+
+static s16 D_80B7AFC4[] = { 0, 1, 2, 2, 1 };
+
+static Vec3f D_80B7AFD0 = { 670.0f, 0.0f, -600.0f };
+
+static Vec3s D_80B7AFDC[] = {
+    { -364, -30, -269 },
+    { 1129, 3, -855 },
+    { -480, 0, -1055 },
+    { 553, -48, -508 },
+};
 
 void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
@@ -4827,7 +5056,7 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
     D_80B7E14C = 0.0015f;
     D_80B7A680++;
 
-    if ((D_80B7E0AC != 0) && (D_80B7A674 != 0)) {
+    if ((D_80B7E0AC != 0) && D_80B7A674) {
         func_80B6E9E0(this, globalCtx);
     }
 
@@ -5351,6 +5580,12 @@ void func_80B7A140(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
+static void* D_80B7AFF4[] = {
+    0x06009250,
+    0x06009650,
+    0x06009A50,
+};
+
 void func_80B7A278(Actor* thisx, GlobalContext* globalCtx) {
     Fishing* this = THIS;
     s32 pad;
@@ -5392,7 +5627,7 @@ void func_80B7A278(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if ((D_80B7E0AC != 0) && (D_80B7A674 != 0)) {
+    if ((D_80B7E0AC != 0) && D_80B7A674) {
         func_80B6DF30(globalCtx);
         func_80B6C960(D_80B7E168);
         func_80B6C3E0(globalCtx, &D_80B7E158, D_80B7E168, D_80B7EAC8, D_80B7F428);
@@ -5402,7 +5637,7 @@ void func_80B7A278(Actor* thisx, GlobalContext* globalCtx) {
         D_80B7A6C8 = input->rel.stick_y;
     }
 
-    D_80B7A674 = 1;
+    D_80B7A674 = true;
 
     Matrix_Translate(130.0f, 40.0f, 1300.0f, MTXMODE_NEW);
     Matrix_Scale(0.08f, 0.12f, 0.14f, MTXMODE_APPLY);
