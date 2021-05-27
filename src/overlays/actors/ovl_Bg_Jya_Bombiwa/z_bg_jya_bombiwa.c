@@ -6,6 +6,7 @@
 
 #include "z_bg_jya_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
 #define FLAGS 0x00000000
@@ -42,6 +43,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
         { 0, { { 0, 0, 0 }, 50 }, 100 },
     },
 };
+
 static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_NONE,
@@ -54,6 +56,7 @@ static ColliderJntSphInit sJntSphInit = {
     1,
     sJntSphElementsInit,
 };
+
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
@@ -61,17 +64,14 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_0600E710;
-extern Gfx D_0600E490[];
-extern Gfx D_0600EDC0[];
-
-void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flag) {
+void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                                DynaPolyMoveFlag flag) {
     s16 pad1;
     CollisionHeader* colHeader = NULL;
     s16 pad2;
 
     DynaPolyActor_Init(&this->dyna, flag);
-    CollisionHeader_GetVirtual(arg2, &colHeader);
+    CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
 
@@ -99,7 +99,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
                      this->dyna.actor.params & 0x3F);
         osSyncPrintf(VT_RST);
     }
-    BgJyaBombiwa_SetupDynaPoly(this, globalCtx, &D_0600E710, DPM_UNK);
+    BgJyaBombiwa_SetupDynaPoly(this, globalCtx, &gBombiwaCol, DPM_UNK);
     BgJyaBombiwa_InitCollider(this, globalCtx);
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         Actor_Kill(&this->dyna.actor);
@@ -154,7 +154,7 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
             }
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -400, arg5, arg6, arg7, 0, scale, 1, 20, 80,
-                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, D_0600EDC0);
+                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gBombiwaEffectDL);
     }
     pos.x = this->dyna.actor.world.pos.x;
     pos.y = this->dyna.actor.world.pos.y + 70.0f;
@@ -178,6 +178,6 @@ void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, D_0600E490);
+    Gfx_DrawDListOpa(globalCtx, gBombiwaDL);
     Collider_UpdateSpheres(0, &this->collider);
 }

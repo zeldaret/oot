@@ -1,5 +1,20 @@
 <Root>
     <File Name="object_ydan_objects" Segment="6">
+
+        <Texture Name="gYdanDoor1Tex" OutName="door_tex1" Format="rgb5a1" Width="32" Height="64" Offset="0x2800"/>
+        <Texture Name="gYdanWebTex" OutName="web_tex" Format="ia16" Width="32" Height="64" Offset="0x1000"/>
+        <Texture Name="gYdanHasiFloatingBlockSideTex" OutName="floating_block_side" Format="rgb5a1" Width="32" Height="32" Offset="0x0"/>
+        <Texture Name="gYdanHasiFloatingBlockBottomTex" OutName="floating_block_bottom" Format="rgb5a1" Width="32" Height="32" Offset="0x800"/>
+        <Texture Name="gYdanUnused1Tex" OutName="unused_1" Format="ci8" Width="32" Height="64" Offset="0x6BC8"/>
+        <Texture Name="gYdanHasi2TLUT" OutName="palette_2" Format="rgb5a1" Width="16" Height="16" Offset="0x69C0"/>
+        <Texture Name="gYdanHasi3BlocksTopTex" OutName="three_blocks_top" Format="ci8" Width="32" Height="64" Offset="0x3AF8"/>
+        <Texture Name="gYdanTLUT_38F0" OutName="palette_3" Format="rgb5a1" Width="16" Height="16" Offset="0x38F0"/> <!--3Blocks Palette?-->
+        <Texture Name="gYdanHasi3BlocksSideTex" OutName="three_blocks_side" Format="ci8" Width="32" Height="64" Offset="0x42F8"/>
+        <Texture Name="gYdanHasiWaterTex" OutName="water_tex" Format="ci8" Width="32" Height="32" Offset="0x5950"/>
+        <Texture Name="gYdanHasiWaterTLUT" OutName="water_palette" Format="rgb5a1" Width="208" Height="1" Offset="0x57B0"/>
+        <Texture Name="gYdanMarutaUnused1Tex" OutName="maruta_unused_1" Format="rgb5a1" Width="32" Height="32" Offset="0x2000"/>
+        <Texture Name="gYdanMarutaUnused2Tex" OutName="maruta_unused_2" Format="ci8" Width="32" Height="64" Offset="0x79D8"/>
+        <Texture Name="gYdanMaruta1TLUT" OutName="maruta_palette" Format="rgb5a1" Width="16" Height="16" Offset="0x77D0"/>
         <DList Name="gDTUnknownWebDL" Offset="0x3850"/>
         <DList Name="gDTRisingPlatformsDL" Offset="0x5018"/>
         <DList Name="gDTWaterPlaneDL" Offset="0x5DE0"/>
