@@ -52,12 +52,12 @@ def ExtractFunc(fullPath):
     if not globalForce:
         if fullPath in globalExtractedAssetsTracker:
             timestamp = globalExtractedAssetsTracker[fullPath]["timestamp"]
-            modificationTime = int(os.path.getmtime(fullPath) * (10**9))
+            modificationTime = int(os.path.getmtime(fullPath))
             if modificationTime < timestamp:
                 # XML has not been modified since last extraction.
                 return
 
-    currentTimeStamp = time.time_ns()
+    currentTimeStamp = int(time.time())
 
     if isScene:
         ExtractScene(fullPath, outPath, outSourcePath)
