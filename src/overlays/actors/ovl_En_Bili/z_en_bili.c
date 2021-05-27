@@ -635,7 +635,7 @@ void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-// Draw assaciated functions
+// Draw associated functions
 
 void EnBili_PulseLimb3(EnBili* this, f32 frame, Vec3f* arg2) {
     f32 cos;

@@ -15,25 +15,25 @@ void EnVali_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVali_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnVali_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B26878(EnVali* this);
-void func_80B268C8(EnVali* this);
+void EnVali_SetupLurk(EnVali* this);
+void EnVali_SetupDropAppear(EnVali* this);
 
-void func_80B27098(EnVali* this, GlobalContext* globalCtx);
-void func_80B270D8(EnVali* this, GlobalContext* globalCtx);
-void func_80B2716C(EnVali* this, GlobalContext* globalCtx);
+void EnVali_Lurk(EnVali* this, GlobalContext* globalCtx);
+void EnVali_DropAppear(EnVali* this, GlobalContext* globalCtx);
+void EnVali_FloatIdle(EnVali* this, GlobalContext* globalCtx);
 void func_80B27318(EnVali* this, GlobalContext* globalCtx);
 void func_80B273D0(EnVali* this, GlobalContext* globalCtx);
-void func_80B2742C(EnVali* this, GlobalContext* globalCtx);
-void func_80B27464(EnVali* this, GlobalContext* globalCtx);
-void func_80B274A0(EnVali* this, GlobalContext* globalCtx);
-void func_80B27654(EnVali* this, GlobalContext* globalCtx);
-void func_80B27710(EnVali* this, GlobalContext* globalCtx);
-void func_80B278A0(EnVali* this, GlobalContext* globalCtx);
+void EnVali_MoveArmsDown(EnVali* this, GlobalContext* globalCtx);
+void EnVali_Burnt(EnVali* this, GlobalContext* globalCtx);
+void EnVali_DivideAndDie(EnVali* this, GlobalContext* globalCtx);
+void EnVali_Stunned(EnVali* this, GlobalContext* globalCtx);
+void EnVali_Frozen(EnVali* this, GlobalContext* globalCtx);
+void EnVali_ReturnToLurk(EnVali* this, GlobalContext* globalCtx);
 
-extern AnimationHeader D_06000710;
-extern AnimationHeader D_06000854;
-extern AnimationHeader D_06000B34;
-extern AnimationHeader D_060014AC;
+extern AnimationHeader D_06000710; // Flap arms wide
+extern AnimationHeader D_06000854; // Swing arms up quickly
+extern AnimationHeader D_06000B34; // Fold arms down
+extern AnimationHeader D_060014AC; // Flap arms medium and slow
 extern Gfx D_06002610[];
 extern Gfx D_06002740[];
 extern Gfx D_060027D8[];
@@ -95,7 +95,7 @@ static CollisionCheckInfoInit sColChkInfoInit = { 2, 18, 32, MASS_HEAVY };
 
 typedef enum {
     /* 0x0 */ BARI_DMGEFF_NONE,
-    /* 0x1 */ BARI_DMGEFF_DEKUNUT,
+    /* 0x1 */ BARI_DMGEFF_STUN,
     /* 0x2 */ BARI_DMGEFF_FIRE,
     /* 0x3 */ BARI_DMGEFF_ICE,
     /* 0xE */ BARI_DMGEFF_SLINGSHOT = 0xE,
@@ -103,11 +103,11 @@ typedef enum {
 } BariDamageEffect;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, BARI_DMGEFF_DEKUNUT),
+    /* Deku nut      */ DMG_ENTRY(0, BARI_DMGEFF_STUN),
     /* Deku stick    */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
     /* Slingshot     */ DMG_ENTRY(0, BARI_DMGEFF_SLINGSHOT),
     /* Explosive     */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
-    /* Boomerang     */ DMG_ENTRY(0, BARI_DMGEFF_DEKUNUT),
+    /* Boomerang     */ DMG_ENTRY(0, BARI_DMGEFF_STUN),
     /* Normal arrow  */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
     /* Hammer swing  */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
     /* Hookshot      */ DMG_ENTRY(2, BARI_DMGEFF_NONE),
@@ -162,7 +162,7 @@ void EnVali_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
-    func_80B26878(this);
+    EnVali_SetupLurk(this);
 
     this->actor.flags &= ~1;
     this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &bgId,
@@ -183,24 +183,24 @@ void EnVali_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26878.s")
-void func_80B26878(EnVali* this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26878.s")
+void EnVali_SetupLurk(EnVali* this) {
     Animation_PlayLoop(&this->skelAnime, &D_060014AC);
     this->actor.draw = NULL;
     this->colliderCylinder.base.acFlags &= ~AC_ON;
-    this->actionFunc = func_80B27098;
+    this->actionFunc = EnVali_Lurk;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B268C8.s")
-void func_80B268C8(EnVali* this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B268C8.s")
+void EnVali_SetupDropAppear(EnVali* this) {
     this->actor.draw = EnVali_Draw;
     this->actor.flags |= 1;
     this->actor.velocity.y = 1.0f;
-    this->actionFunc = func_80B270D8;
+    this->actionFunc = EnVali_DropAppear;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B268FC.s")
-void func_80B268FC(EnVali* this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B268FC.s")
+void EnVali_SetupFloatIdle(EnVali* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_06000710, -3.0f);
     this->colliderQuad1.dim.quad[2] = this->colliderQuad1.dim.quad[3] = this->colliderQuad2.dim.quad[2] =
         this->colliderQuad2.dim.quad[3] = this->colliderQuad1.dim.quad[0] = this->colliderQuad1.dim.quad[1] =
@@ -212,12 +212,12 @@ void func_80B268FC(EnVali* this) {
 
     this->actor.flags &= ~0x10;
     this->colliderCylinder.base.acFlags |= AC_ON;
-    this->unk_195 = 0;
-    this->unk_2F8 = this->actor.world.pos.y;
-    this->actionFunc = func_80B2716C;
+    this->slingshotReactionTimer = 0;
+    this->floatHomeHeight = this->actor.world.pos.y;
+    this->actionFunc = EnVali_FloatIdle;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26B18.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26B18.s")
 void func_80B26B18(EnVali* this) {
     this->unk_194 = 20;
     this->actor.flags &= ~1;
@@ -225,7 +225,7 @@ void func_80B26B18(EnVali* this) {
     this->actionFunc = func_80B27318;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26B4C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26B4C.s")
 void func_80B26B4C(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000854, -5.0f);
     Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
@@ -234,22 +234,22 @@ void func_80B26B4C(EnVali* this) {
     this->actionFunc = func_80B273D0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26BBC.s")
-void func_80B26BBC(EnVali* this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26BBC.s")
+void EnVali_SetupMoveArmsDown(EnVali* this) {
     Animation_PlayOnce(&this->skelAnime, &D_06000B34);
-    this->actionFunc = func_80B2742C;
+    this->actionFunc = EnVali_MoveArmsDown;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26BF8.s")
-void func_80B26BF8(EnVali* this) {
-    this->unk_196 = 2;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26BF8.s")
+void EnVali_SetupBurnt(EnVali* this) {
+    this->timer = 2;
     this->colliderCylinder.base.acFlags &= ~AC_ON;
     Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
-    this->actionFunc = func_80B27464;
+    this->actionFunc = EnVali_Burnt;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26C50.s")
-void func_80B26C50(EnVali* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26C50.s")
+void EnVali_SetupDivideAndDie(EnVali* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
@@ -260,47 +260,47 @@ void func_80B26C50(EnVali* this, GlobalContext* globalCtx) {
     }
 
     Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
-    this->unk_196 = Rand_S16Offset(10, 10);
+    this->timer = Rand_S16Offset(10, 10);
     this->colliderCylinder.base.acFlags &= ~AC_ON;
     Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_BARI_SPLIT);
     this->actor.flags &= ~1;
     this->actor.draw = NULL;
-    this->actionFunc = func_80B274A0;
+    this->actionFunc = EnVali_DivideAndDie;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26D54.s")
-void func_80B26D54(EnVali* this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26D54.s")
+void EnVali_SetupStunned(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000710, 10.0f);
-    this->unk_196 = 80;
+    this->timer = 80;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 80);
     this->colliderCylinder.info.bumper.effect = 0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actor.velocity.y = 1.0f;
-    this->actionFunc = func_80B27654;
+    this->actionFunc = EnVali_Stunned;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26DE0.s")
-void func_80B26DE0(EnVali* this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26DE0.s")
+void EnVali_SetupFrozen(EnVali* this) {
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 36);
     this->colliderCylinder.base.acFlags &= ~AC_ON;
-    this->unk_196 = 36;
-    this->actionFunc = func_80B27710;
+    this->timer = 36;
+    this->actionFunc = EnVali_Frozen;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26E40.s")
-void func_80B26E40(EnVali* this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26E40.s")
+void EnVali_SetupReturnToLurk(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_060014AC, 10.0f);
     this->actor.flags |= 0x10;
     this->actor.flags &= ~1;
-    this->actionFunc = func_80B278A0;
+    this->actionFunc = EnVali_ReturnToLurk;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B26E9C.s")
-void func_80B26E9C(EnVali* this, GlobalContext* globalCtx) {
-    static Color_RGBA8 D_80B28950 = { 255, 255, 255, 255 };
-    static Color_RGBA8 D_80B28954 = { 200, 255, 255, 255 };
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26E9C.s")
+void EnVali_DischargeLightning(EnVali* this, GlobalContext* globalCtx) {
+    static Color_RGBA8 effectPrimColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 effectEnvColor = { 200, 255, 255, 255 };
     Vec3f effectPos;
     s32 i;
     f32 cos;
@@ -316,51 +316,51 @@ void func_80B26E9C(EnVali* this, GlobalContext* globalCtx) {
             effectPos.y = this->actor.world.pos.y - (Math_CosS(effectYaw) * 12.0f) + 10.0f;
             effectPos.z = this->actor.world.pos.z + (Math_SinS(effectYaw) * 12.0f * sin);
 
-            EffectSsLightning_Spawn(globalCtx, &effectPos, &D_80B28950, &D_80B28954, 0x11, effectYaw, 6, 2);
+            EffectSsLightning_Spawn(globalCtx, &effectPos, &effectPrimColor, &effectEnvColor, 17, effectYaw, 6, 2);
         }
     }
 
     func_8002F974(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B27098.s")
-void func_80B27098(EnVali* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27098.s")
+void EnVali_Lurk(EnVali* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistToPlayer < 150.0f) {
-        func_80B268C8(this);
+        EnVali_SetupDropAppear(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B270D8.s")
-void func_80B270D8(EnVali* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B270D8.s")
+void EnVali_DropAppear(EnVali* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     this->actor.velocity.y *= 1.5f;
     this->actor.velocity.y = CLAMP_MAX(this->actor.velocity.y, 40.0f);
 
     if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
-        func_80B268FC(this);
+        EnVali_SetupFloatIdle(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B2716C.s")
-void func_80B2716C(EnVali* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B2716C.s")
+void EnVali_FloatIdle(EnVali* this, GlobalContext* globalCtx) {
     s32 curFrame;
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_195 != 0) {
-        this->unk_195--;
+    if (this->slingshotReactionTimer != 0) {
+        this->slingshotReactionTimer--;
     }
 
     curFrame = this->skelAnime.curFrame;
 
-    Math_StepToF(&this->unk_2F8, this->actor.floorHeight + 40.0f, 1.2f);
-    this->actor.world.pos.y = this->unk_2F8 - (sinf(curFrame * M_PI * 0.0125f) * 8.0f);
+    Math_StepToF(&this->floatHomeHeight, this->actor.floorHeight + 40.0f, 1.2f);
+    this->actor.world.pos.y = this->floatHomeHeight - (sinf(curFrame * M_PI * 0.0125f) * 8.0f);
 
-    if (!!this->unk_195) {
+    if (!!this->slingshotReactionTimer) {
         this->actor.shape.rot.y += 0x800;
 
-        if (((this->unk_195 % 6) == 0) && (curFrame > 15) && (curFrame <= 55)) {
+        if (((this->slingshotReactionTimer % 6) == 0) && (curFrame > 15) && (curFrame <= 55)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_ROLL);
         }
     } else if ((curFrame == 16) || (curFrame == 30) || (curFrame == 42) || (curFrame == 55)) {
@@ -371,16 +371,16 @@ void func_80B2716C(EnVali* this, GlobalContext* globalCtx) {
 
     this->actor.shape.rot.y += (s16)(s32)((curFrame + 4) * 0.4f * 182.04445f);
     if (this->actor.xzDistToPlayer > 250.0f) {
-        func_80B26E40(this);
+        EnVali_SetupReturnToLurk(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B27318.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27318.s")
 void func_80B27318(EnVali* this, GlobalContext* globalCtx) {
     if (this->unk_194 != 0) {
         this->unk_194--;
     }
-    func_80B26E9C(this, globalCtx);
+    EnVali_DischargeLightning(this, globalCtx);
 
     if (this->unk_194 == 0) {
         this->actor.flags |= 1;
@@ -388,7 +388,7 @@ void func_80B27318(EnVali* this, GlobalContext* globalCtx) {
         if (this->actor.params == 1) {
             func_80B26B4C(this);
         } else {
-            this->actionFunc = func_80B2716C;
+            this->actionFunc = EnVali_FloatIdle;
         }
     } else if ((this->unk_194 % 2) != 0) {
         this->actor.world.pos.y += 1.0f;
@@ -397,45 +397,45 @@ void func_80B27318(EnVali* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B273D0.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B273D0.s")
 void func_80B273D0(EnVali* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health != 0) {
-            func_80B26BBC(this);
+            EnVali_SetupMoveArmsDown(this);
         } else {
-            func_80B26C50(this, globalCtx);
+            EnVali_SetupDivideAndDie(this, globalCtx);
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B2742C.s")
-void func_80B2742C(EnVali* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B2742C.s")
+void EnVali_MoveArmsDown(EnVali* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        func_80B268FC(this);
+        EnVali_SetupFloatIdle(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B27464.s")
-void func_80B27464(EnVali* this, GlobalContext* globalCtx) {
-    if (this->unk_196 != 0) {
-        this->unk_196--;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27464.s")
+void EnVali_Burnt(EnVali* this, GlobalContext* globalCtx) {
+    if (this->timer != 0) {
+        this->timer--;
     }
 
-    if (this->unk_196 == 0) {
-        func_80B26C50(this, globalCtx);
+    if (this->timer == 0) {
+        EnVali_SetupDivideAndDie(this, globalCtx);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B274A0.s")
-void func_80B274A0(EnVali* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B274A0.s")
+void EnVali_DivideAndDie(EnVali* this, GlobalContext* globalCtx) {
     static Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     static Vec3f effectAccel = { 0.0f, 0.0f, 0.0f };
     s16 effectScale;
     Vec3f effectPos;
     s32 i;
 
-    if (this->unk_196 != 0) {
-        this->unk_196--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     for (i = 0; i < 2; i++) {
@@ -454,17 +454,17 @@ void func_80B274A0(EnVali* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->unk_196 == 0) {
+    if (this->timer == 0) {
         Actor_Kill(&this->actor);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B27654.s")
-void func_80B27654(EnVali* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27654.s")
+void EnVali_Stunned(EnVali* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_196 != 0) {
-        this->unk_196--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     if (this->actor.velocity.y != 0.0f) {
@@ -476,53 +476,54 @@ void func_80B27654(EnVali* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->unk_196 == 0) {
+    if (this->timer == 0) {
         this->colliderCylinder.info.bumper.effect = 1; // Shock?
-        func_80B268FC(this);
+        EnVali_SetupFloatIdle(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B27710.s")
-void func_80B27710(EnVali* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27710.s")
+void EnVali_Frozen(EnVali* this, GlobalContext* globalCtx) {
     Vec3f effectPos;
     s32 temp_v0_2;
     s32 temp_v1;
 
-    if (this->unk_196 != 0) {
-        this->unk_196--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    temp_v1 = this->unk_196 - 20;
+    temp_v1 = this->timer - 20;
     this->actor.colorFilterTimer = 36;
     if (temp_v1 > 0) {
         temp_v0_2 = temp_v1 >> 1;
-        if ((this->unk_196 & 1) != 0) {
+        if ((this->timer & 1) != 0) {
             effectPos.y = this->actor.world.pos.y - 20.0f + (-temp_v0_2 * 5 + 40);
+            // Cannot be %
             effectPos.x = this->actor.world.pos.x + (((temp_v0_2 & 2) != 0) ? 12.0f : -12.0f);
             effectPos.z = this->actor.world.pos.z + (((temp_v0_2 & 1) != 0) ? 12.0f : -12.0f);
 
             EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255,
                                            (Rand_ZeroOne() * 0.2f) + 1.3f);
         }
-    } else if (this->unk_196 == 0) {
+    } else if (this->timer == 0) {
         this->actor.velocity.y += 1.0f;
         if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
-            func_80B26C50(this, globalCtx);
+            EnVali_SetupDivideAndDie(this, globalCtx);
             this->actor.colorFilterTimer = 0;
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B278A0.s")
-void func_80B278A0(EnVali* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B278A0.s")
+void EnVali_ReturnToLurk(EnVali* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.5f, 15.0f, 0.1f) < 0.01f) {
-        func_80B26878(this);
+        EnVali_SetupLurk(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B2790C.s")
-void func_80B2790C(EnVali* this, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B2790C.s")
+void EnVali_UpdateDamage(EnVali* this, GlobalContext* globalCtx) {
     if (this->colliderCylinder.base.acFlags & AC_HIT) {
         this->colliderCylinder.base.acFlags &= ~AC_HIT;
         func_80035650(&this->actor, &this->colliderCylinder.info, 1);
@@ -533,19 +534,19 @@ void func_80B2790C(EnVali* this, GlobalContext* globalCtx) {
                 func_80032C7C(globalCtx, &this->actor);
                 this->actor.flags &= ~1;
             } else {
-                if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_DEKUNUT) &&
+                if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
                     (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DAMAGE);
                 }
             }
 
-            if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_DEKUNUT) {
-                if (this->actionFunc != func_80B27654) {
-                    func_80B26D54(this);
+            if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_STUN) {
+                if (this->actionFunc != EnVali_Stunned) {
+                    EnVali_SetupStunned(this);
                 }
             } else {
                 if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SWORD) {
-                    if (this->actionFunc != func_80B27654) {
+                    if (this->actionFunc != EnVali_Stunned) {
                         Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
                         this->actor.params = 1;
                         func_80B26B18(this);
@@ -553,12 +554,12 @@ void func_80B2790C(EnVali* this, GlobalContext* globalCtx) {
                         func_80B26B4C(this);
                     }
                 } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_FIRE) {
-                    func_80B26BF8(this);
+                    EnVali_SetupBurnt(this);
                 } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_ICE) {
-                    func_80B26DE0(this);
+                    EnVali_SetupFrozen(this);
                 } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SLINGSHOT) {
-                    if (this->unk_195 == 0) {
-                        this->unk_195 = 20;
+                    if (this->slingshotReactionTimer == 0) {
+                        this->slingshotReactionTimer = 20;
                     }
                 } else { // Only DMGEFF_NONE
                     func_80B26B4C(this);
@@ -581,13 +582,13 @@ void EnVali_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80B26B18(this);
     }
 
-    func_80B2790C(this, globalCtx);
+    EnVali_UpdateDamage(this, globalCtx);
     this->actionFunc(this, globalCtx);
 
-    if ((this->actionFunc != func_80B274A0) && (this->actionFunc != func_80B27098)) {
+    if ((this->actionFunc != EnVali_DivideAndDie) && (this->actionFunc != EnVali_Lurk)) {
         Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
 
-        if (this->actionFunc == func_80B2716C) {
+        if (this->actionFunc == EnVali_FloatIdle) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderQuad1.base);
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderQuad2.base);
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
@@ -602,7 +603,9 @@ void EnVali_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B27C1C.s")
+// Draw and functions used by Draw
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27C1C.s")
 void func_80B27C1C(EnVali* this, f32 curFrame, Vec3f* arg2) {
     f32 temp_f0;
     f32 temp_f0_2;
@@ -622,13 +625,13 @@ void func_80B27C1C(EnVali* this, f32 curFrame, Vec3f* arg2) {
         arg2->y -= (0.24f * temp_f0);
         arg2->x -= (0.13f * temp_f0);
         arg2->z = arg2->x;
-    } else if (this->actionFunc == func_80B2742C) {
+    } else if (this->actionFunc == EnVali_MoveArmsDown) {
         temp_f0_2 = cosf((M_PI / 50) * curFrame);
         arg2->y -= (0.24f * temp_f0_2);
         arg2->x -= (0.13f * temp_f0_2);
         arg2->z = arg2->x;
-    } else if (this->actionFunc == func_80B27654) {
-        temp_f2 = sinf(this->unk_196 * (M_PI / 10)) * 0.08f;
+    } else if (this->actionFunc == EnVali_Stunned) {
+        temp_f2 = sinf(this->timer * (M_PI / 10)) * 0.08f;
         arg2->x += temp_f2;
         arg2->y -= temp_f2;
         arg2->z += temp_f2;
@@ -640,7 +643,7 @@ void func_80B27C1C(EnVali* this, f32 curFrame, Vec3f* arg2) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B27E38.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27E38.s")
 void func_80B27E38(EnVali* this, f32 curFrame, Vec3f* arg2) {
     f32 temp_f0;
     f32 temp_f0_2;
@@ -660,13 +663,13 @@ void func_80B27E38(EnVali* this, f32 curFrame, Vec3f* arg2) {
         arg2->y -= (0.18f * temp_f0);
         arg2->x -= (0.1f * temp_f0);
         arg2->z = arg2->x;
-    } else if (this->actionFunc == func_80B2742C) {
+    } else if (this->actionFunc == EnVali_MoveArmsDown) {
         temp_f0_2 = cosf((M_PI / 50) * curFrame);
         arg2->y -= (0.18f * temp_f0_2);
         arg2->x -= (0.1f * temp_f0_2);
         arg2->z = arg2->x;
-    } else if (this->actionFunc == func_80B27654) {
-        temp_f2 = sinf(this->unk_196 * (M_PI / 10)) * 0.08f;
+    } else if (this->actionFunc == EnVali_Stunned) {
+        temp_f2 = sinf(this->timer * (M_PI / 10)) * 0.08f;
         arg2->x -= temp_f2;
         arg2->y += temp_f2;
         arg2->z -= temp_f2;
@@ -678,11 +681,11 @@ void func_80B27E38(EnVali* this, f32 curFrame, Vec3f* arg2) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B28054.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B28054.s")
 s32 func_80B28054(EnVali* this, f32 curFrame) {
     f32 phi_f2;
 
-    if (this->actionFunc == func_80B2716C) {
+    if (this->actionFunc == EnVali_FloatIdle) {
         if (curFrame <= 10.0f) {
             phi_f2 = (curFrame * 0.05f) + 1.0f;
         } else if (curFrame > 70.0f) {
@@ -692,9 +695,9 @@ s32 func_80B28054(EnVali* this, f32 curFrame) {
         }
     } else if (this->actionFunc == func_80B273D0) {
         phi_f2 = 1.0f - (sinf((M_PI / 10) * curFrame) * 0.35f);
-    } else if (this->actionFunc == func_80B2742C) {
+    } else if (this->actionFunc == EnVali_MoveArmsDown) {
         phi_f2 = 1.0f - (cosf((M_PI / 50) * curFrame) * 0.35f);
-    } else if ((this->actionFunc == func_80B27318) || (this->actionFunc == func_80B27710)) {
+    } else if ((this->actionFunc == func_80B27318) || (this->actionFunc == EnVali_Frozen)) {
         phi_f2 = this->unk_2F4;
     } else {
         phi_f2 = 1.0f;
@@ -723,7 +726,7 @@ s32 EnVali_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
         if ((limbIndex == 9) || (limbIndex == 18)) {
             if (func_80B28054(this, curFrame) != 0) {
-                Matrix_Scale(this->unk_2F4, 1.0f, 1.0f, 1);
+                Matrix_Scale(this->unk_2F4, 1.0f, 1.0f, MTXMODE_APPLY);
             }
         }
 
@@ -739,7 +742,7 @@ void EnVali_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     Vec3f sp30;
     EnVali* this = THIS;
 
-    if (this->actionFunc == func_80B2716C) {
+    if (this->actionFunc == EnVali_FloatIdle) {
         if ((limbIndex == 11) || (limbIndex == 20)) {
             Matrix_MultVec3f(&D_80B28970, &sp3C);
             Matrix_MultVec3f(&D_80B2897C, &sp30);
@@ -755,7 +758,7 @@ void EnVali_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_80B28344.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B28344.s")
 void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
     MtxF mtx;
     f32 cos;
