@@ -402,7 +402,7 @@ glabel Jpeg_Decode
 /* AE5ABC 8006E91C 10000016 */  b     .L8006E978
 /* AE5AC0 8006E920 26B50004 */   addiu $s5, $s5, 4
 .L8006E924:
-/* AE5AC4 8006E924 0C01B78C */  jal   Jpeg_SendTask
+/* AE5AC4 8006E924 0C01B78C */  jal   Jpeg_ScheduleDecoderTask
 /* AE5AC8 8006E928 27A40208 */   addiu $a0, $sp, 0x208
 /* AE5ACC 8006E92C 8FA40040 */  lw    $a0, 0x40($sp)
 /* AE5AD0 8006E930 0C001880 */  jal   osInvalDCache

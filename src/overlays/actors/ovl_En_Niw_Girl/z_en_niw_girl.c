@@ -5,6 +5,7 @@
  */
 
 #include "z_en_niw_girl.h"
+#include "objects/object_gr/object_gr.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
@@ -52,14 +53,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 30, 0, { 0, 0, 0 } },
 };
 
-static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
-
-static Gfx* D_80AB99D8[] = { 0x06004178, 0x06004978, 0x06005178 };
-
-extern FlexSkeletonHeader D_06009948;
-extern AnimationHeader D_06000378;
-extern AnimationHeader D_06009C78;
-
 void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwGirl* this = THIS;
     s32 pad;
@@ -67,7 +60,8 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec2;
     s32 pad2;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gNiwGirlSkel, &gNiwGirlRunAnim, this->jointTable, this->morphTable,
+                       17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.targetMode = 6;
@@ -103,8 +97,8 @@ void EnNiwGirl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNiwGirl_Jump(EnNiwGirl* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06000378);
-    Animation_Change(&this->skelAnime, &D_06000378, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -10.0f);
+    f32 frameCount = Animation_GetLastFrame(&gNiwGirlRunAnim);
+    Animation_Change(&this->skelAnime, &gNiwGirlRunAnim, 1.0f, 0.0f, frameCount, 0, -10.0f);
     this->actor.flags &= ~1;
     this->actionFunc = func_80AB9210;
 }
@@ -144,7 +138,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 }
 
 void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06009C78), ANIMMODE_LOOP,
+    Animation_Change(&this->skelAnime, &gNiwGirlJumpAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gNiwGirlJumpAnim), 0,
                      -10.0f);
     this->actor.flags |= 1;
     this->actor.textId = 0x7000;
@@ -201,11 +195,11 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.013f);
     this->unkUpTimer++;
     tempActionFunc = func_80AB94D0;
-    if (this->unk_274 == 0) {
-        this->unk_272++;
-        if (this->unk_272 >= 3) {
-            this->unk_272 = 0;
-            this->unk_274 = (s16)Rand_ZeroFloat(60.0f) + 20;
+    if (this->blinkTimer == 0) {
+        this->eyeIndex++;
+        if (this->eyeIndex >= 3) {
+            this->eyeIndex = 0;
+            this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->unk_280 = 30.0f;
@@ -223,8 +217,8 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->unk_260.y, 0, 5, 3000, 0);
         Math_SmoothStepToS(&this->unk_260.z, 0, 5, 3000, 0);
     }
-    if (this->unk_274 != 0) {
-        this->unk_274--;
+    if (this->blinkTimer != 0) {
+        this->blinkTimer--;
     }
     if (this->jumpTimer != 0) {
         this->jumpTimer--;
@@ -250,7 +244,10 @@ s32 EnNiwGirlOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
     return false;
 }
 
+static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
+
 void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static u64* eyeTextures[] = { gNiwGirlEyeOpenTex, gNiwGirlEyeHalfTex, gNiwGirlEyeClosedTex };
     EnNiwGirl* this = THIS;
     s32 pad;
     Vec3f sp4C = sConstVec3f;
@@ -258,7 +255,7 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 573);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnNiwGirlOverrideLimbDraw, NULL, this);
     func_80033C30(&this->actor.world.pos, &sp4C, 255, globalCtx);

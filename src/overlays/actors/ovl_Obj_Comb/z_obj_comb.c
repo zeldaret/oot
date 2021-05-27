@@ -6,6 +6,7 @@
 
 #include "z_obj_comb.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -67,14 +68,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 900, ICHAIN_STOP),
 };
 
-extern Gfx D_050095B0[];
-extern Gfx D_05009940[];
-
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
     Vec3f pos;
     Vec3f velocity;
-    Gfx* dlist = D_05009940;
+    Gfx* dlist = gFieldBeehiveFragmentDL;
     s16 scale;
     s16 angle = 0;
     s16 gravity;
@@ -85,7 +83,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 31; i++) {
-        angle += 20000;
+        angle += 0x4E20;
         rand1 = Rand_ZeroOne() * 10.0f;
 
         pos1.x = Math_SinS(angle) * rand1;
@@ -200,7 +198,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
 void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjComb* this = THIS;
 
-    this->unk_1B2 += 12000;
+    this->unk_1B2 += 0x2EE0;
     this->actionFunc(this, globalCtx);
     this->actor.shape.rot.x = Math_SinS(this->unk_1B2) * this->unk_1B0 + this->actor.home.rot.x;
 }
@@ -223,7 +221,7 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_050095B0);
+    gSPDisplayList(POLY_OPA_DISP++, gFieldBeehiveDL);
 
     Collider_UpdateSpheres(0, &this->collider);
 
