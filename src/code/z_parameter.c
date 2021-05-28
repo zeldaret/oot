@@ -3346,7 +3346,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                 // Score Counter
                 gDPPipeSync(OVERLAY_DISP++);
-                gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+                gDPSetCombineLERP(OVERLAY_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
+                                  TEXEL0, 0, PRIMITIVE, 0);
 
                 svar5 = WREG(32) + 6 * 9;
 
@@ -3747,8 +3748,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPPipeSync(OVERLAY_DISP++);
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                 gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
-                OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gHUDTimerClockTex, 16, 16, ((void)0, gSaveContext.timerX[svar6]),
-                                              ((void)0, gSaveContext.timerY[svar6]) + 2, 16, 16, 1 << 10, 1 << 10);
+                OVERLAY_DISP =
+                    Gfx_TextureIA8(OVERLAY_DISP, gHUDTimerClockTex, 16, 16, ((void)0, gSaveContext.timerX[svar6]),
+                                   ((void)0, gSaveContext.timerY[svar6]) + 2, 16, 16, 1 << 10, 1 << 10);
 
                 // Timer Counter
                 gDPPipeSync(OVERLAY_DISP++);
@@ -3769,10 +3771,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 }
 
                 for (svar1 = 0; svar1 < 5; svar1++) {
-                    OVERLAY_DISP = Gfx_TextureI8(
-                        OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
-                        ((void)0, gSaveContext.timerX[svar6]) + timerDigitLeftPos[svar1], ((void)0, gSaveContext.timerY[svar6]),
-                        digitWidth[svar1], VREG(42), VREG(43) << 1, VREG(43) << 1);
+                    OVERLAY_DISP =
+                        Gfx_TextureI8(OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
+                                      ((void)0, gSaveContext.timerX[svar6]) + timerDigitLeftPos[svar1],
+                                      ((void)0, gSaveContext.timerY[svar6]), digitWidth[svar1], VREG(42), VREG(43) << 1,
+                                      VREG(43) << 1);
                 }
             }
         }
