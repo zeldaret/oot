@@ -79,13 +79,4 @@
 #define HEARTS_DROWN_ENV_G 0
 #define HEARTS_DROWN_ENV_B 255
 
-// REG indexes
-typedef enum {
-    HUD_ITEM_BTN_B,
-    HUD_ITEM_BTN_C_LEFT,
-    HUD_ITEM_BTN_C_DOWN,
-    HUD_ITEM_BTN_C_RIGHT,
-    HUD_ITEM_BTN_MAX
-} HUDItemButtonIndex;
-
 #endif
