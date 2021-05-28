@@ -3455,13 +3455,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     break;
                 case 3:
                 case 7:
-                    svar1 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
-                    gSaveContext.timerX[0] -= svar1;
+                    svar1 = ((0, gSaveContext.timerX[0]) - 26) / D_8015FFE2;
+                    gSaveContext.timerX[0] = (0, gSaveContext.timerX[0]) - svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        svar1 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
+                        svar1 = ((0, gSaveContext.timerY[0]) - 54) / D_8015FFE2;
                     } else {
-                        svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
+                        svar1 = ((0, gSaveContext.timerY[0]) - 46) / D_8015FFE2;
                     }
                     gSaveContext.timerY[0] -= svar1;
 
@@ -3526,15 +3526,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     }
                     break;
                 case 13:
-                    svar1 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
-                    gSaveContext.timerX[0] -= svar1;
+                    svar1 = ((0, gSaveContext.timerX[0]) - 26) / D_8015FFE2;
+                    gSaveContext.timerX[0] = (0, gSaveContext.timerX[0]) - svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
                         svar1 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
                     } else {
                         svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
                     }
-                    gSaveContext.timerY[0] -= svar1;
+                    gSaveContext.timerY[0] = (0, gSaveContext.timerY[0]) -svar1;
 
                     D_8015FFE2--;
                     if (D_8015FFE2 == 0) {
@@ -3624,15 +3624,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n", gSaveContext.timerX[1],
                                          gSaveContext.timerY[1], gSaveContext.timer2Value);
 
-                            svar1 = (gSaveContext.timerX[1] - 26) / D_8015FFE6;
-                            gSaveContext.timerX[1] -= svar1;
+                            svar1 = ((0, gSaveContext.timerX[1]) - 26) / D_8015FFE6;
+                            gSaveContext.timerX[1] = (0, gSaveContext.timerX[1]) - svar1;
 
                             if (gSaveContext.healthCapacity > 0xA0) {
-                                svar1 = (gSaveContext.timerY[1] - 54) / D_8015FFE6;
+                                svar1 = ((0, gSaveContext.timerY[1]) - 54) / D_8015FFE6;
                             } else {
-                                svar1 = (gSaveContext.timerY[1] - 46) / D_8015FFE6;
+                                svar1 = ((0, gSaveContext.timerY[1]) - 46) / D_8015FFE6;
                             }
-                            gSaveContext.timerY[1] -= svar1;
+                            gSaveContext.timerY[1] = (0, gSaveContext.timerY[1]) - svar1;
 
                             D_8015FFE6--;
                             if (D_8015FFE6 == 0) {
@@ -3755,8 +3755,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPPipeSync(OVERLAY_DISP++);
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                 gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
-                OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gHUDTimerClockTex, 16, 16, gSaveContext.timerX[svar6],
-                                              gSaveContext.timerY[svar6] + 2, 16, 16, 1 << 10, 1 << 10);
+                OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gHUDTimerClockTex, 16, 16, (0, gSaveContext.timerX[svar6]),
+                                              (0, gSaveContext.timerY[svar6]) + 2, 16, 16, 1 << 10, 1 << 10);
 
                 // Timer Counter
                 gDPPipeSync(OVERLAY_DISP++);
@@ -3779,7 +3779,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 for (svar1 = 0; svar1 < 5; svar1++) {
                     OVERLAY_DISP =
                         Gfx_TextureI8(OVERLAY_DISP, ((u8*)gHUDCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
-                                      gSaveContext.timerX[svar6] + timerDigitLeftPos[svar1], gSaveContext.timerY[svar6],
+                                      (0, gSaveContext.timerX[svar6]) + timerDigitLeftPos[svar1], (0, gSaveContext.timerY[svar6]),
                                       digitWidth[svar1], VREG(42), VREG(43) << 1, VREG(43) << 1);
                 }
             }
