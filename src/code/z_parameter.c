@@ -2781,7 +2781,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
 
             OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, ((u8*)gHUDActionButtonTex + ((32 * 32) * (temp + 1))), 32, 32,
                                           R_ITEM_BTN_X(temp), R_ITEM_BTN_Y(temp), R_ITEM_BTN_WIDTH(temp),
-                                          R_ITEM_BTN_WIDTH(temp), R_ITEM_BTN_DD(temp) * 2, R_ITEM_BTN_DD(temp) * 2);
+                                          R_ITEM_BTN_WIDTH(temp), R_ITEM_BTN_DD(temp) << 1, R_ITEM_BTN_DD(temp) << 1);
         }
     }
 
