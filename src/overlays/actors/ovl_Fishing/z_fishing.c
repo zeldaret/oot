@@ -7,6 +7,7 @@
 #include "z_fishing.h"
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
+#include "objects/object_fish/object_fish.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -19,49 +20,6 @@ void Fishing_Update(Actor* thisx, GlobalContext* globalCtx);
 void func_80B7825C(Actor* thisx, GlobalContext* globalCtx);
 void Fishing_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80B7A278(Actor* thisx, GlobalContext* globalCtx);
-
-extern AnimationHeader D_0600007C;
-extern FlexSkeletonHeader D_060029C0;
-extern Gfx D_06003230[];
-extern Gfx D_06003460[];
-extern Gfx D_060034C0[];
-extern Gfx D_06003610[];
-extern Gfx D_06003680[];
-extern Gfx D_06003710[];
-extern Gfx D_06003760[];
-extern Gfx D_060039A8[];
-extern Gfx D_06003A18[];
-extern AnimationHeader D_0600453C;
-extern Gfx D_06007350[];
-extern Gfx D_060074C8[];
-extern FlexSkeletonHeader D_060085F8;
-extern Gfx D_06008610[];
-extern Gfx D_06008678[];
-extern Gfx D_060088C0[];
-extern Gfx D_06008970[];
-extern Gfx D_0600B950[];
-extern Gfx D_0600B9C0[];
-extern Gfx D_0600C220[];
-extern Gfx D_0600C298[];
-extern AnimationHeader D_0600CFE0;
-extern FlexSkeletonHeader D_06011058;
-extern u64 D_06011170[];
-extern u64 D_06011270[];
-extern u64 D_060113D0[];
-extern Gfx D_06011410[];
-extern Gfx D_06012160[];
-extern Gfx D_060121F0[];
-extern Gfx D_06011070[];
-extern Gfx D_06013330[];
-extern Gfx D_060133B0[];
-extern Gfx D_06013590[];
-extern Gfx D_06013610[];
-extern Gfx D_06013F50[];
-extern Gfx D_06013FD0[];
-extern Gfx D_06014030[];
-extern Gfx D_060140B0[];
-extern Gfx D_060153D0[];
-extern Gfx D_06015470[];
 
 typedef struct {
     /* 0x00 */ u8 unk_00;
@@ -729,8 +687,8 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         thisx->params = 1;
 
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060085F8, &D_0600453C, NULL, NULL, 0);
-        Animation_MorphToLoop(&this->skelAnime, &D_0600453C, 0.0f);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fish_Skel_0085F8, &object_fish_Anim_00453C, NULL, NULL, 0);
+        Animation_MorphToLoop(&this->skelAnime, &object_fish_Anim_00453C, 0.0f);
 
         thisx->update = func_80B7825C;
         thisx->draw = func_80B7A278;
@@ -863,11 +821,11 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
     } else {
         if ((thisx->params < 115) || (thisx->params == 200)) {
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060029C0, &D_0600007C, NULL, NULL, 0);
-            Animation_MorphToLoop(&this->skelAnime, &D_0600007C, 0.0f);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fish_Skel_0029C0, &object_fish_Anim_00007C, NULL, NULL, 0);
+            Animation_MorphToLoop(&this->skelAnime, &object_fish_Anim_00007C, 0.0f);
         } else {
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011058, &D_0600CFE0, NULL, NULL, 0);
-            Animation_MorphToLoop(&this->skelAnime, &D_0600CFE0, 0.0f);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fish_Skel_011058, &object_fish_Anim_00CFE0, NULL, NULL, 0);
+            Animation_MorphToLoop(&this->skelAnime, &object_fish_Anim_00CFE0, 0.0f);
         }
 
         SkelAnime_Update(&this->skelAnime);
@@ -1080,7 +1038,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
     for (i = 0; i < 100; i++) {
         if (effects->unk_24 == 1) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, D_06008610);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_008610);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                 flag++;
             }
@@ -1093,7 +1051,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2305),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_06008678);
+            gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_008678);
         }
         effects++;
     }
@@ -1103,7 +1061,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
     for (i = 0; i < 100; i++) {
         if (effects->unk_24 == 2) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, D_06003610);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003610);
                 gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
                 flag++;
             }
@@ -1117,7 +1075,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2346),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_06003680);
+            gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003680);
         }
         effects++;
     }
@@ -1127,7 +1085,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
     for (i = 0; i < 100; i++) {
         if (effects->unk_24 == 3) {
             if (flag == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, D_060088C0);
+                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0088C0);
                 gDPSetEnvColor(POLY_OPA_DISP++, 40, 90, 80, 128);
                 flag++;
             }
@@ -1145,7 +1103,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2394),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_OPA_DISP++, D_06008970);
+            gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_008970);
         }
         effects++;
     }
@@ -1155,7 +1113,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
     for (i = 0; i < 100; i++) {
         if (effects->unk_24 == 4) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, D_06003460);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003460);
                 gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
                 flag++;
@@ -1168,7 +1126,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2423),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_060034C0);
+            gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_0034C0);
         }
         effects++;
     }
@@ -1193,7 +1151,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2467),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_06003760);
+            gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003760);
         }
         effects++;
     }
@@ -1205,7 +1163,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
     for (i = 30; i < 130; i++) {
         if (effects->unk_24 == 7) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, D_06008610);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_008610);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 130);
                 flag++;
@@ -1217,7 +1175,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2504),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_06008678);
+            gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_008678);
         }
         effects++;
     }
@@ -1227,7 +1185,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
     for (i = 30; i < 130; i++) {
         if (effects->unk_24 == 8) {
             if (flag == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, D_060039A8);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_0039A8);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, KREG(19) + 80);
                 flag++;
             }
@@ -1246,7 +1204,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2541),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_06003A18);
+            gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003A18);
         }
         effects++;
     }
@@ -1263,7 +1221,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2560),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPDisplayList(POLY_OPA_DISP++, D_060074C8);
+        gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0074C8);
     }
 
     Matrix_Pop();
@@ -1287,7 +1245,7 @@ void func_80B6C134(GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2598),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_06003230));
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_fish_DL_003230));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 2613);
 }
@@ -1516,13 +1474,13 @@ void func_80B6CAF8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, u8 arg3) 
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3029),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06012160);
+    gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_012160);
 
     Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3034),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06012160);
+    gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_012160);
 
     if ((arg3 == 1) && (D_80B7A68C != 0)) {
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
@@ -1552,7 +1510,7 @@ void func_80B6CAF8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, u8 arg3) 
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3085),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_060074C8);
+        gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0074C8);
     }
 
     Matrix_Pop();
@@ -1641,7 +1599,7 @@ void func_80B6D354(GlobalContext* globalCtx) {
     if (D_80B7E0B8.y < globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
         func_80093D18(globalCtx->state.gfxCtx);
 
-        gSPDisplayList(POLY_OPA_DISP++, D_0600B950);
+        gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_00B950);
 
         for (i = 19; i >= 0; i--) {
             if ((i + D_80B7FEA0) < 20) {
@@ -1652,13 +1610,13 @@ void func_80B6D354(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3239),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, D_0600B9C0);
+                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_00B9C0);
             }
         }
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
 
-        gSPDisplayList(POLY_XLU_DISP++, D_0600B950);
+        gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_00B950);
 
         for (i = 19; i >= 0; i--) {
             if ((i + D_80B7FEA0) < 20) {
@@ -1669,7 +1627,7 @@ void func_80B6D354(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3265),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, D_0600B9C0);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_00B9C0);
             }
         }
     }
@@ -1734,7 +1692,7 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3369),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_060121F0);
+        gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0121F0);
 
         spDC.x = -850.0f;
         spDC.y = 0.0f;
@@ -1782,7 +1740,7 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3444),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06003710);
+        gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003710);
 
     } else {
         for (i = spB4; i < 0xC7; i++) {
@@ -1811,7 +1769,7 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3475),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, D_06003710);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003710);
                 break;
             }
 
@@ -1822,7 +1780,7 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3492),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_06003710);
+            gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003710);
         }
     }
 
@@ -1924,7 +1882,7 @@ void func_80B6DF30(GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_060113D0);
+    gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0113D0);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 0, 255);
 
@@ -1962,17 +1920,17 @@ void func_80B6DF30(GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         if (i < 5) {
-            gDPLoadTextureBlock(POLY_OPA_DISP++, D_06011170, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
+            gDPLoadTextureBlock(POLY_OPA_DISP++, object_fish_Tex_011170, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 3, G_TX_NOLOD, G_TX_NOLOD);
         } else if ((i < 8) || ((i & 1) == 0)) {
-            gDPLoadTextureBlock(POLY_OPA_DISP++, D_06011270, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
+            gDPLoadTextureBlock(POLY_OPA_DISP++, object_fish_Tex_011270, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 3, G_TX_NOLOD, G_TX_NOLOD);
         } else {
-            gDPLoadTextureBlock(POLY_OPA_DISP++, D_06011070, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
+            gDPLoadTextureBlock(POLY_OPA_DISP++, object_fish_Tex_011070, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 3, G_TX_NOLOD, G_TX_NOLOD);
         }
 
-        gSPDisplayList(POLY_OPA_DISP++, D_06011410);
+        gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_011410);
 
         Matrix_Pop();
         Matrix_Translate(0.0f, 0.0f, 500.0f, MTXMODE_APPLY);
@@ -3843,11 +3801,11 @@ void Fishing_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     SkelAnime_Free(&this->skelAnime, globalCtx);
 
                     if (this->unk_150 == 0) {
-                        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060029C0, &D_0600007C, 0, 0, 0);
-                        Animation_MorphToLoop(&this->skelAnime, &D_0600007C, 0.0f);
+                        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fish_Skel_0029C0, &object_fish_Anim_00007C, 0, 0, 0);
+                        Animation_MorphToLoop(&this->skelAnime, &object_fish_Anim_00007C, 0.0f);
                     } else {
-                        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011058, &D_0600CFE0, 0, 0, 0);
-                        Animation_MorphToLoop(&this->skelAnime, &D_0600CFE0, 0.0f);
+                        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fish_Skel_011058, &object_fish_Anim_00CFE0, 0, 0, 0);
+                        Animation_MorphToLoop(&this->skelAnime, &object_fish_Anim_00CFE0, 0.0f);
                     }
                 }
 
@@ -4273,7 +4231,7 @@ void func_80B76474(GlobalContext* globalCtx) {
     for (phi_s3 = 0; phi_s3 < 140; phi_s3++) {
         if (phi_s0->unk_30 == 1) {
             if (phi_s5 == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, D_06014030);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_014030);
                 phi_s5++;
             }
 
@@ -4286,7 +4244,7 @@ void func_80B76474(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7726),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, D_060140B0);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_0140B0);
             }
         }
 
@@ -4298,7 +4256,7 @@ void func_80B76474(GlobalContext* globalCtx) {
     for (phi_s3 = 0; phi_s3 < 140; phi_s3++) {
         if (phi_s0->unk_30 == 4) {
             if (phi_s5 == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, D_06013F50);
+                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_013F50);
                 phi_s5++;
             }
             if (phi_s0->unk_34 != 0) {
@@ -4307,7 +4265,7 @@ void func_80B76474(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7748),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, D_06013FD0);
+                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_013FD0);
             }
         }
 
@@ -4319,7 +4277,7 @@ void func_80B76474(GlobalContext* globalCtx) {
     for (phi_s3 = 0; phi_s3 < 140; phi_s3++) {
         if (phi_s0->unk_30 == 2) {
             if (phi_s5 == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, D_06013330);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_013330);
                 phi_s5++;
             }
 
@@ -4332,7 +4290,7 @@ void func_80B76474(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7774),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, D_060133B0);
+                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_0133B0);
             }
         }
 
@@ -4344,7 +4302,7 @@ void func_80B76474(GlobalContext* globalCtx) {
     for (phi_s3 = 0; phi_s3 < 140; phi_s3++) {
         if (phi_s0->unk_30 == 3) {
             if (phi_s5 == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, D_06013590);
+                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_013590);
                 phi_s5++;
             }
 
@@ -4355,7 +4313,7 @@ void func_80B76474(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7798),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, D_06013610);
+                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_013610);
             }
         }
 
@@ -4575,7 +4533,7 @@ void func_80B771CC(GlobalContext* globalCtx) {
     for (phi_s4 = 0; phi_s4 < 60; phi_s4++) {
         if (phi_s1->unk_00 != 0) {
             if (phi_s5 == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, D_0600C220);
+                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_00C220);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
                 phi_s5++;
             }
@@ -4588,7 +4546,7 @@ void func_80B771CC(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 8093),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, D_0600C298);
+                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_00C298);
             }
         }
         phi_s1++;
@@ -5571,9 +5529,9 @@ void func_80B7A140(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         Matrix_MultVec3f(&D_80B7A89C, &D_80B7E090);
 
         if (D_80B7A688 == 1) {
-            gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(D_060074C8));
+            gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(object_fish_DL_0074C8));
         } else if (D_80B7A688 == 2) {
-            gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(D_06007350));
+            gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(object_fish_DL_007350));
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 9142);
@@ -5647,8 +5605,8 @@ void func_80B7A278(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 9298),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_060153D0);
-    gSPDisplayList(POLY_XLU_DISP++, D_06015470);
+    gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0153D0);
+    gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_015470);
 
     if ((D_80B7E0AC != 0) && (D_80B7E0B6 == 2)) {
         func_80B6D354(globalCtx);

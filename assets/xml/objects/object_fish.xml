@@ -18,7 +18,7 @@
         <Texture Name="object_fish_Tex_0018D0" OutName="tex_000018D0" Format="rgb5a1" Width="16" Height="16" Offset="0x18D0"/>
         <Texture Name="object_fish_Tex_001AD0" OutName="tex_00001AD0" Format="rgb5a1" Width="32" Height="32" Offset="0x1AD0"/>
         <Texture Name="object_fish_Tex_0022D0" OutName="tex_000022D0" Format="rgb5a1" Width="16" Height="16" Offset="0x22D0"/>
-        <Blob Name="object_fish_Blob_0024D0" Size="0x200" Offset="0x24D0"/>
+        <Texture Name="object_fish_Tex_0024D0" OutName="tex_000024D0" Format="rgb5a1" Width="16" Height="16" Offset="0x24D0"/>
         <Texture Name="object_fish_Tex_0026D0" OutName="tex_000026D0" Format="rgb5a1" Width="16" Height="16" Offset="0x26D0"/>
         <Limb Name="object_fish_Limb_0028D0" LimbType="Standard" Offset="0x28D0"/>
         <Limb Name="object_fish_Limb_0028DC" LimbType="Standard" Offset="0x28DC"/>
@@ -86,7 +86,9 @@
         <Texture Name="object_fish_Tex_008DD0" OutName="tex_00008DD0" Format="ci8" Width="8" Height="8" Offset="0x8DD0"/>
         <Texture Name="object_fish_Tex_008E10" OutName="tex_00008E10" Format="ci8" Width="32" Height="32" Offset="0x8E10"/>
         <Texture Name="object_fish_Tex_009210" OutName="tex_00009210" Format="ci8" Width="8" Height="8" Offset="0x9210"/>
-        <Blob Name="object_fish_Blob_009250" Size="0xC00" Offset="0x9250"/>
+        <Texture Name="object_fish_Tex_009250" OutName="tex_00009250" Format="ci8" Width="32" Height="32" Offset="0x9250"/>
+        <Texture Name="object_fish_Tex_009650" OutName="tex_00009650" Format="ci8" Width="32" Height="32" Offset="0x9650"/>
+        <Texture Name="object_fish_Tex_009A50" OutName="tex_00009A50" Format="ci8" Width="32" Height="32" Offset="0x9A50"/>
         <Texture Name="object_fish_Tex_009E50" OutName="tex_00009E50" Format="ci8" Width="64" Height="32" Offset="0x9E50"/>
         <Texture Name="object_fish_Tex_00A650" OutName="tex_0000A650" Format="ci8" Width="8" Height="8" Offset="0xA650"/>
         <Texture Name="object_fish_Tex_00A690" OutName="tex_0000A690" Format="ci8" Width="16" Height="16" Offset="0xA690"/>
@@ -130,7 +132,9 @@
         <Limb Name="object_fish_Limb_011014" LimbType="Standard" Offset="0x11014"/>
         <Limb Name="object_fish_Limb_011020" LimbType="Standard" Offset="0x11020"/>
         <Skeleton Name="object_fish_Skel_011058" Type="Flex" LimbType="Standard" Offset="0x11058"/>
-        <Blob Name="object_fish_Blob_011064" Size="0x30C" Offset="0x11064"/>
+        <Texture Name="object_fish_Tex_011070" OutName="tex_00011070" Format="rgb5a1" Width="16" Height="8" Offset="0x11070"/>
+        <Texture Name="object_fish_Tex_011170" OutName="tex_00011170" Format="rgb5a1" Width="16" Height="8" Offset="0x11170"/>
+        <Texture Name="object_fish_Tex_011270" OutName="tex_00011270" Format="rgb5a1" Width="16" Height="8" Offset="0x11270"/>
         <DList Name="object_fish_DL_0113D0" Offset="0x113D0"/>
         <DList Name="object_fish_DL_011410" Offset="0x11410"/>
         <Texture Name="object_fish_Tex_011440" OutName="tex_00011440" Format="rgb5a1" Width="32" Height="32" Offset="0x11440"/>
