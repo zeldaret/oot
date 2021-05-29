@@ -22,10 +22,8 @@ void ViMode_LogPrint(OSViMode* osViMode) {
     LOG_ADDRESS("osvimodep->fldRegs[1].vIntr", osViMode->fldRegs[1].vIntr, "../z_vimode.c", 105);
 }
 
-#ifdef NON_MATCHING
-// This function configures the custom VI mode (`viMode.customViMode`) based
-// on the other flags in `viMode`.
-void ViMode_Configure(ViMode* viMode, u32 mode, u32 type, u32 unk_70, u32 unk_74, u32 unk_78, u32 unk_7C, s32 width,
+// This function configures the custom VI mode (`viMode.customViMode`) based on the other flags in `viMode`.
+void ViMode_Configure(ViMode* viMode, s32 mode, s32 type, s32 unk_70, s32 unk_74, s32 unk_78, s32 unk_7C, s32 width,
                       s32 height, s32 unk_left, s32 unk_right, s32 unk_top, s32 unk_bottom) {
     s32 not_70;
     s32 not_74;
@@ -106,9 +104,9 @@ void ViMode_Configure(ViMode* viMode, u32 mode, u32 type, u32 unk_70, u32 unk_74
         viMode->customViMode.fldRegs[0].vBurst = 0xE0204;
     }
 
-    viMode->customViMode.comRegs.hStart += (unk_left << 16) + (s16)unk_right;
-
     viMode->customViMode.fldRegs[1].vStart = viMode->customViMode.fldRegs[0].vStart;
+
+    viMode->customViMode.comRegs.hStart += (unk_left << 16) + (s16)unk_right;
     viMode->customViMode.fldRegs[0].vStart += (unk_top << 16) + (s16)unk_bottom;
     viMode->customViMode.fldRegs[1].vStart += (unk_top << 16) + (s16)unk_bottom;
 
@@ -128,15 +126,15 @@ void ViMode_Configure(ViMode* viMode, u32 mode, u32 type, u32 unk_70, u32 unk_74
             viMode->customViMode.fldRegs[0].vBurst += 0xFFFCFFFE;
         }
         if (type == 0) {
-            viMode->customViMode.fldRegs[1].vBurst = 0x2FFFE;
+            viMode->customViMode.fldRegs[1].vBurst += 0x2FFFE;
         }
     }
 
     viMode->customViMode.comRegs.xScale = (width << 10) / (SCREEN_WIDTH * 2 + unk_right - unk_left);
     viMode->customViMode.comRegs.vCurrent = 0;
 
-    viMode->customViMode.fldRegs[0].origin = (unk_7C ? 1 : 2) * width * 2;
-    viMode->customViMode.fldRegs[1].origin = (unk_70 ? 1 : 2) * ((unk_7C ? 1 : 2) * width * 2);
+    viMode->customViMode.fldRegs[0].origin = width * 2 * (unk_7C ? 1 : 2);
+    viMode->customViMode.fldRegs[1].origin = width * 2 * (unk_7C ? 1 : 2) * (unk_70 ? 1 : 2);
 
     viMode->customViMode.fldRegs[0].yScale = yScaleLo | yScaleHi0;
     viMode->customViMode.fldRegs[1].yScale = yScaleLo | yScaleHi1;
@@ -144,10 +142,6 @@ void ViMode_Configure(ViMode* viMode, u32 mode, u32 type, u32 unk_70, u32 unk_74
     viMode->customViMode.fldRegs[0].vIntr = 2;
     viMode->customViMode.fldRegs[1].vIntr = 2;
 }
-
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_vimode/ViMode_Configure.s")
-#endif
 
 void ViMode_Save(ViMode* viMode) {
     SREG(48) = viMode->viModeBase;

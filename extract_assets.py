@@ -83,7 +83,7 @@ def main():
 
     extractedAssetsTracker = manager.dict()
     if os.path.exists(EXTRACTED_ASSETS_NAMEFILE):
-        with open(EXTRACTED_ASSETS_NAMEFILE) as f:
+        with open(EXTRACTED_ASSETS_NAMEFILE, encoding='utf-8') as f:
             extractedAssetsTracker.update(json.load(f, object_hook=manager.dict))
 
     asset_path = args.single
