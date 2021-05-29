@@ -57,45 +57,36 @@ void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// If anyone wants to try and figure this shit out, be my guest. I'm done.
 s32 func_80AE6A54(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
-    Vec3f sp2C;
-    Vec3f sp20;
-    Vec3f sp14;
-    f32 f;
-    f32 g;
-    f32 h;
+    Vec3f vec[3];
+    f32 temp;
 
-    sp20.x = arg0->x - arg2->x;
-    sp20.y = arg0->y - arg2->y;
-    sp20.z = arg0->z - arg2->z;
+    vec[0].x = arg0->x - arg2->x;
+    vec[0].y = arg0->y - arg2->y;
+    vec[0].z = arg0->z - arg2->z;
 
-    sp14.x = arg1->x - arg2->x;
-    sp14.y = arg1->y - arg2->y;
-    sp14.z = arg1->z - arg2->z;
+    vec[1].x = arg1->x - arg2->x;
+    vec[1].y = arg1->y - arg2->y;
+    vec[1].z = arg1->z - arg2->z;
 
-    sp2C.x = sp14.x - sp20.x;
-    sp2C.y = sp14.y - sp20.y;
-    sp2C.z = sp14.z - sp20.z;
+    vec[2].x = vec[1].x - vec[0].x;
+    vec[2].y = vec[1].y - vec[0].y;
+    vec[2].z = vec[1].z - vec[0].z;
 
-    f = sp20.z * sp2C.z + (sp2C.x * sp20.x + sp2C.y * sp20.y);
-    g = sp14.z * sp2C.z + (sp2C.x * sp14.x + sp2C.y * sp14.y);
-    h = sp2C.z * sp2C.z + (sp2C.x * sp2C.x + sp2C.y * sp2C.y);
+    temp = ((vec[2].x * vec[0].x) + (vec[2].y * vec[0].y)) + (vec[2].z * vec[0].z);
 
-    if (g * f < 0) {
-        arg3->x = sp2C.x * (-f / h) + arg0->x;
-        arg3->y = sp2C.y * (-f / h) + arg0->y;
-        arg3->z = sp2C.z * (-f / h) + arg0->z;
+    if (((((vec[2].x * vec[1].x) + (vec[2].y * vec[1].y)) + (vec[2].z * vec[1].z)) * temp) < 0.0f) {
+        temp = -temp / (SQ(vec[2].x) + SQ(vec[2].y) + SQ(vec[2].z));
 
-        return 1;
-    } else {
-        return 0;
+        arg3->x = (vec[2].x * temp) + arg0->x;
+        arg3->y = (vec[2].y * temp) + arg0->y;
+        arg3->z = (vec[2].z * temp) + arg0->z;
+
+        return true;
     }
+
+    return false;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_River_Sound/func_80AE6A54.s")
-#endif
 
 s32 func_80AE6BC0(Vec3s* points, s32 numPoints, Vec3f* pos, Vec3f* res) {
     s32 i;
