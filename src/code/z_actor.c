@@ -1799,25 +1799,25 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             f32 diff = Math_Vec3f_DistXYZAndStoreDiff(nextPos, curPos, &dist);
             Vec3f effectPos;
             f32 factor;
-            f32 totalLength;
-            f32 diffLength;
+            f32 length;
+            f32 dx;
             f32 speed;
 
             if (diff < 20.0f) {
                 D_8015BC18 = 0.0f;
                 Math_Vec3f_Copy(curPos, nextPos);
             } else {
-                totalLength = diff * (1.0f / D_8015BC18);
-                speed = 20.0f / totalLength;
+                length = diff * (1.0f / D_8015BC18);
+                speed = 20.0f / length;
                 speed = CLAMP_MIN(speed, 0.05f);
                 Math_StepToF(&D_8015BC18, 0.0f, speed);
                 factor = (diff * (D_8015BC18 / prevNum)) / diff;
                 curPos->x = nextPos->x + (dist.x * factor);
                 curPos->y = nextPos->y + (dist.y * factor);
                 curPos->z = nextPos->z + (dist.z * factor);
-                totalLength *= 0.5f;
-                diffLength = diff - totalLength;
-                yOffset += sqrtf(SQ(totalLength) - SQ(diffLength)) * 0.2f;
+                length *= 0.5f;
+                dx = diff - length;
+                yOffset += sqrtf(SQ(length) - SQ(dx)) * 0.2f;
                 osSyncPrintf("-------- DISPLAY Y=%f\n", yOffset);
             }
 
@@ -4028,12 +4028,12 @@ void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
 }
 
 void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3) {
-    f32 diffLength = arg1->x - arg0->x;
+    f32 dx = arg1->x - arg0->x;
     f32 dz = arg1->z - arg0->z;
     f32 dy = arg3 ? (arg1->y - arg0->y) : (arg0->y - arg1->y);
 
-    arg2->y = Math_Atan2S(dz, diffLength);
-    arg2->x = Math_Atan2S(sqrtf(SQ(diffLength) + SQ(dz)), dy);
+    arg2->y = Math_Atan2S(dz, dx);
+    arg2->x = Math_Atan2S(sqrtf(SQ(dx) + SQ(dz)), dy);
 }
 
 /**
