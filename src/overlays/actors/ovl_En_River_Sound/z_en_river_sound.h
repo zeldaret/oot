@@ -26,7 +26,7 @@ typedef enum {
     /* 9 */ RS_FOUNTAIN_WATER,
     /* 10 */ RS_MARKET_CROWD,
     /* 11 */ RS_UNK_11,
-    /* 12 */ RS_PROXIMITY_LOST_WOODS_BGM,
+    /* 12 */ RS_SARIAS_SONG,
     /* 13 */ RS_UNK_13,
     /* 14 */ RS_SANDSTORM,
     /* 15 */ RS_LAKESIDE_LAB_TANK,

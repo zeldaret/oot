@@ -40,7 +40,7 @@ void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (this->actor.params == RS_UNK_247) {
         func_800F6FB4(4);
         Actor_Kill(&this->actor);
-    } else if (this->actor.params == RS_PROXIMITY_LOST_WOODS_BGM) {
+    } else if (this->actor.params == RS_SARIAS_SONG) {
         if ((!CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) || (CHECK_QUEST_ITEM(QUEST_SONG_SARIA))) {
             Actor_Kill(&this->actor);
         }
@@ -50,7 +50,7 @@ void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnRiverSound* this = THIS;
 
-    if (this->actor.params == RS_PROXIMITY_LOST_WOODS_BGM) {
+    if (this->actor.params == RS_SARIAS_SONG) {
         func_800F50EC(&this->actor.projectedPos);
     } else if (this->actor.params == RS_UNK_13) {
         func_800F5504();
@@ -239,7 +239,7 @@ void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_800F4634(&this->actor.projectedPos, soundPitch[this->soundPitchIndex]);
     } else if (this->actor.params == RS_UNK_11) {
         func_800F4A54(90);
-    } else if (this->actor.params == RS_PROXIMITY_LOST_WOODS_BGM) {
+    } else if (this->actor.params == RS_SARIAS_SONG) {
         func_800F4E30(&this->actor.projectedPos, this->actor.xzDistToPlayer);
     } else if (this->actor.params == RS_UNK_13) {
         func_800F52A0(&this->actor.home.pos, 62, 1000);
