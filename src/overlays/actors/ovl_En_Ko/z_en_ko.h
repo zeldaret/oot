@@ -16,7 +16,7 @@ typedef struct EnKo {
     /* 0x0194 */ s8 unk_194;
     /* 0x0195 */ s8 unk_195;
     /* 0x0196 */ s8 unk_196;
-    /* 0x0197 */ s8 objectIndex;
+    /* 0x0197 */ s8 objectBankIndex;
     /* 0x0198 */ ColliderCylinder collider;
     /* 0x01E4 */ Path* path;
     /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;

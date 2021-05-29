@@ -174,15 +174,15 @@ s32 func_80A96EC4(EnKo* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80A96F48(EnKo* this, GlobalContext* globalCtx) {
-    this->objectIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
-    if (this->objectIndex < 0) {
+    this->objectBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
+    if (this->objectBankIndex < 0) {
         return 0;
     }
     return 1;
 }
 
 s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex)) {
+    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objectBankIndex)) {
         return 0;
     }
     return 1;
@@ -373,16 +373,20 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
 u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction;
 
-    if ((((((((thisx->params & 0xFF) == 0) || (thisx->params & 0xFF) == 2) || (thisx->params & 0xFF) == 3) ||
-           (thisx->params & 0xFF) == 4) ||
-          (thisx->params & 0xFF) == 7) ||
-         (thisx->params & 0xFF) == 8) ||
-        (thisx->params & 0xFF) == 0xB) {
+    if ((thisx->params & 0xFF) == 0
+        || (thisx->params & 0xFF) == 2
+        || (thisx->params & 0xFF) == 3 
+        || (thisx->params & 0xFF) == 4
+        || (thisx->params & 0xFF) == 7
+        || (thisx->params & 0xFF) == 8
+        || (thisx->params & 0xFF) == 0xB) {
         faceReaction = Text_GetFaceReaction(globalCtx, 0x13);
     }
-    if ((((((thisx->params & 0xFF) == 1) || ((thisx->params & 0xFF) == 5)) || ((thisx->params & 0xFF) == 6)) ||
-         ((thisx->params & 0xFF) == 9)) ||
-        ((thisx->params & 0xFF) == 0xA)) {
+    if ((thisx->params & 0xFF) == 1 
+        || (thisx->params & 0xFF) == 5 
+        || (thisx->params & 0xFF) == 6 
+        || (thisx->params & 0xFF) == 9
+        || (thisx->params & 0xFF) == 0xA) {
         faceReaction = Text_GetFaceReaction(globalCtx, 0x14);
     }
     if ((thisx->params & 0xFF) == 0xC) {
@@ -397,16 +401,12 @@ u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
     return func_80A96FD0(globalCtx, thisx);
 }
 
-//#define NON_EQUIVALENT
-#ifdef NON_EQUIVALENT // Is it actually non-equivalent? I havn't the slight idea
 s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
-    u16 phi_v1;
+    EnKo* this = THIS;
 
-    // temp_v0 = func_8010BDBC(&globalCtx->msgCtx);
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
-            // TODO the big one
-            switch (thisx->textId) {
+            switch (this->actor.textId) {
                 case 0x1005:
                     gSaveContext.infTable[1] |= 0x4000;
                 default:
@@ -437,56 +437,51 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                     return 0;
                 case 0x105D:
                     gSaveContext.infTable[4] |= 0x80;
-                case 0x10BA:
-                    return 0;
+                    break;
                 case 0x10D7:
                     gSaveContext.infTable[11] |= 0x80;
-                    return 0;
+                    break;
+                case 0x10BA:
+                    return 1;
             }
-          
+            return 0;
         case 3:
-            if ((thisx->textId == 0x10B7) || (thisx->textId == 0x10B8)) {
+            switch (this->actor.textId) {
+            case 0x10B7:
+            case 0x10B8:
                 if (THIS->unk_210 == 0) {
-                    Audio_PlaySoundGeneral((u16)0x4807U, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(0x4807, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     THIS->unk_210 = 1;
                 }
             }
-            break;
+            return 1;
         case 4:
             if (func_80106BC8(globalCtx)) {
-                switch (thisx->textId) {
+                switch (this->actor.textId) {
                     case 0x1035:
-                        thisx->textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x1036 : 0x1037;
-                        func_8010B720(globalCtx, thisx->textId);
+                        this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x1036 : 0x1037;
+                        func_8010B720(globalCtx, this->actor.textId);
                         break;
                     case 0x1038:
-                        phi_v1 = globalCtx->msgCtx.choiceIndex;
-                        switch (phi_v1) {
-                            case 0:
-                                thisx->textId = 0x1039;
-                                break;
-                            case 1:
-                                thisx->textId = 0x103A;
-                                break;
-                            default:
-                                thisx->textId = 0x0103B;
-                                break;
-                        }
-                        func_8010B720(globalCtx, thisx->textId);
+                        this->actor.textId = (globalCtx->msgCtx.choiceIndex != 0) ?
+                            (globalCtx->msgCtx.choiceIndex == 1) ?
+                            0x103A : 0x103B : 0x1039;
+                        func_8010B720(globalCtx, this->actor.textId);
                         break;
                     case 0x103E:
-                        thisx->textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x103F : 0x1040;
-                        func_8010B720(globalCtx, thisx->textId);
+                        this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x103F : 0x1040;
+                        func_8010B720(globalCtx, this->actor.textId);
                         break;
                     case 0x10B7:
                         gSaveContext.infTable[11] |= 0x1000;
 
                     case 0x10B8:
-                        thisx->textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
+                        this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
                         return (globalCtx->msgCtx.choiceIndex == 0) ? 2 : 1;
                 }
-                break;
+                return 1;
             }
+            break;
         case 6:
             if (func_80106BC8(globalCtx) != 0) {
                 return 3;
@@ -494,9 +489,6 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
     }
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97738.s")
-#endif
 
 s32 func_80A97B38(EnKo* this) {
     s32 rv;
@@ -814,43 +806,30 @@ s32 func_80A98674(EnKo* this, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xFF) {
         case 0:
             return func_80A98034(this, globalCtx);
-
         case 1:
             return func_80A97E18(this, globalCtx);
-            break;
         case 2:
             return func_80A97E18(this, globalCtx);
-            break;
         case 3:
             return func_80A97EB0(this, globalCtx);
-            break;
         case 4:
             return func_80A97E18(this, globalCtx);
-            break;
         case 5:
             return func_80A97EB0(this, globalCtx);
-            break;
         case 6:
             return func_80A97F20(this, globalCtx);
-            break;
         case 7:
             return func_80A97EB0(this, globalCtx);
-            break;
         case 8:
             return func_80A97EB0(this, globalCtx);
-            break;
         case 9:
             return func_80A97EB0(this, globalCtx);
-            break;
         case 10:
             return func_80A97E18(this, globalCtx);
-            break;
         case 11:
             return func_80A97EB0(this, globalCtx);
-            break;
         case 12:
             return func_80A97E18(this, globalCtx);
-            break;
     }
 }
 void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
@@ -860,7 +839,7 @@ void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
         this->unk_1E8.unk_18 = globalCtx->view.eye;
         this->unk_1E8.unk_14 = 40.0f;
         if ((this->actor.params & 0xFF) != 0) {
-            func_80034A14((Actor*)this, &this->unk_1E8, (u16)2, (u16)2);
+            func_80034A14(&this->actor, &this->unk_1E8, (u16)2, (u16)2);
         }
     } else {
         this->unk_1E8.unk_18 = player->actor.world.pos;
@@ -1059,7 +1038,7 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, D_80A9A17C[D_80A9A500[this->actor.params & 0xFF].unk_6].unk_4,
                            NULL, this->limbDrawTable, this->transitionDrawTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectBankIndex].segment);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A9A100);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80A9A12C);
@@ -1176,10 +1155,11 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
 void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
     EnKo* this = THIS;
+    s32 pad;
 
     if (this->actionFunc != func_80A99048) {
         if ((s32)this->unk_220 != 0) {
-            gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectIndex].segment);
+            gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectBankIndex].segment);
             SkelAnime_Update(&this->skelAnime);
             func_80A98DB4(this, globalCtx);
             func_80A98C18(this);
@@ -1199,7 +1179,6 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     func_80A9877C(this, globalCtx);
     collider = &this->collider;
-    { s32 pad; } // Probably fake but works
     Collider_UpdateCylinder(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
 }
