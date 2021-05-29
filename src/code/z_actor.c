@@ -96,21 +96,21 @@ void ActorShadow_DrawFoot(GlobalContext* globalCtx, Light* light, MtxF* arg2, s3
 }
 
 #ifdef NON_MATCHING
-// function is matching but seems to mess up the surrounding functions?
+// function is matching but breaks bss later on in the file
 void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
     f32 distToFloor = actor->world.pos.y - actor->floorHeight;
 
     if (distToFloor > 20.0f) {
-        f32 shadowScaleSave = actor->shape.shadowScale;
-        u8 shadowScaleAlpha = actor->shape.shadowAlpha;
+        f32 shadowScale = actor->shape.shadowScale;
+        u8 shadowAlpha = actor->shape.shadowAlpha;
         f32 alphaRatio;
 
         actor->shape.shadowScale *= 0.3f;
         alphaRatio = (distToFloor - 20.0f) * 0.02f;
-        actor->shape.shadowAlpha = (f32)actor->shape.shadowAlpha * (alphaRatio > 1.0f ? 1.0f : alphaRatio);
+        actor->shape.shadowAlpha = (f32)actor->shape.shadowAlpha * ((alphaRatio > 1.0f) ? 1.0f : alphaRatio);
         ActorShadow_DrawCircle(actor, lights, globalCtx);
-        actor->shape.shadowScale = shadowScaleSave;
-        actor->shape.shadowAlpha = shadowScaleAlpha;
+        actor->shape.shadowScale = shadowScale;
+        actor->shape.shadowAlpha = shadowAlpha;
     }
 
     if (distToFloor < 200.0f) {
@@ -147,17 +147,9 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
                 if (distToFloor <= 0.0f) {
                     actor->shape.feetFloorFlags++;
                 }
-
-                if (distToFloor > 30.0f) {
-                    distToFloor = 30.0f;
-                }
-
+                distToFloor = CLAMP_MAX(distToFloor, 30.0f);
                 shadowAlpha = (f32)actor->shape.shadowAlpha * (1.0f - (distToFloor * (1.0f / 30.0f)));
-
-                if (distToFloor > 30.0f) {
-                    distToFloor = 30.0f;
-                }
-
+                distToFloor = CLAMP_MAX(distToFloor, 30.0f);
                 shadowScaleZ = 1.0f - (distToFloor * (1.0f / (30.0f + 40.0f)));
                 shadowScaleX = shadowScaleZ * actor->shape.shadowScale * actor->scale.x;
                 lightNumMax = 0;
