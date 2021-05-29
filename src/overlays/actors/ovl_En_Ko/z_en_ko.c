@@ -1120,37 +1120,33 @@ void func_80A99560(EnKo* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 temp_f10;
     f32 temp_f2;
-    s16 homeYawToPlayer;
     f32 phi_f0;
-    f32 new_var;
-    homeYawToPlayer = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
+    s16 homeYawToPlayer = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
+
     this->actor.world.pos.x = this->actor.home.pos.x;
-    new_var = Math_SinS(homeYawToPlayer);
-    temp_f10 = 80.0f * new_var;
-    this->actor.world.pos.x += temp_f10;
+    this->actor.world.pos.x += 80.0f * Math_SinS(homeYawToPlayer);
     this->actor.world.pos.z = this->actor.home.pos.z;
     this->actor.world.pos.z += 80.0f * Math_CosS(homeYawToPlayer);
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-    if ((this->unk_1E8.unk_00 == 0) || (this->actor.isTargeted == 0)) {
-        temp_f2 = fabsf(((f32)this->actor.yawTowardsPlayer) - homeYawToPlayer) * 0.001f * 3.0f;
-        this->skelAnime.playSpeed = 1.0f;
-        if (temp_f2 > 1.0f) {
-            phi_f0 = CLAMP_MAX(temp_f2,3.0f);
+    if ((this->unk_1E8.unk_00 == 0) || !this->actor.isTargeted) {
+        temp_f2 = fabsf((f32)this->actor.yawTowardsPlayer - homeYawToPlayer) * 0.001f * 3.0f;
+        if (temp_f2 < 1.0f) {
+            this->skelAnime.playSpeed = 1.0f;
+        }
+        else {
+            phi_f0 = CLAMP_MAX(temp_f2, 3.0f);
             this->skelAnime.playSpeed = phi_f0;
         }
-        return;
     }
-    this->skelAnime.playSpeed = 1.0f;
+    else
+    {
+        this->skelAnime.playSpeed = 1.0f;
+    }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A995CC.s")
-#endif
 
 void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
