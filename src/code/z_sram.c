@@ -85,12 +85,18 @@ typedef struct {
 #define SLOT_OFFSET(idx) (SLOT_SIZE * idx + 0x20)
 
 u16 gSramSlotOffsets[] = {
-    SLOT_OFFSET(0), SLOT_OFFSET(1), SLOT_OFFSET(2), SLOT_OFFSET(3), SLOT_OFFSET(4), SLOT_OFFSET(5),
+    SLOT_OFFSET(0),
+    SLOT_OFFSET(1),
+    SLOT_OFFSET(2),
+    // the latter three saves are backup saves for the former saves
+    SLOT_OFFSET(3),
+    SLOT_OFFSET(4),
+    SLOT_OFFSET(5),
 };
 
-char sZeldaMagic[] = { '\0', '\0', '\0', '\x98', '\x09', '\x10', '\x21', 'Z', 'E', 'L', 'D', 'A' };
+static char sZeldaMagic[] = { '\0', '\0', '\0', '\x98', '\x09', '\x10', '\x21', 'Z', 'E', 'L', 'D', 'A' };
 
-SavePlayerData sNewSavePlayerData = {
+static SavePlayerData sNewSavePlayerData = {
     { '\0', '\0', '\0', '\0', '\0', '\0' },             // newf
     0,                                                  // deaths
     { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E }, // playerName
@@ -123,13 +129,13 @@ SavePlayerData sNewSavePlayerData = {
     0x34,                                               // savedSceneNum
 };
 
-ItemEquips sNewSaveEquips = {
+static ItemEquips sNewSaveEquips = {
     { ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE }, // buttonItems
     { SLOT_NONE, SLOT_NONE, SLOT_NONE },            // cButtonSlots
     0x1100,                                         // equipment
 };
 
-Inventory sNewSaveInventory = {
+static Inventory sNewSaveInventory = {
     { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
       0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }, // items
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },                         // ammo
@@ -145,7 +151,7 @@ Inventory sNewSaveInventory = {
     0, // gsTokens
 };
 
-u16 sNewSaveChecksum = 0;
+static u16 sNewSaveChecksum = 0;
 
 /**
  *  Initialize new save.
@@ -173,7 +179,7 @@ void Sram_InitNewSave(void) {
     gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
 
-SavePlayerData sDebugSavePlayerData = {
+static SavePlayerData sDebugSavePlayerData = {
     { 'Z', 'E', 'L', 'D', 'A', 'Z' },                   // newf
     0,                                                  // deaths
     { 0x15, 0x12, 0x17, 0x14, 0x3E, 0x3E, 0x3E, 0x3E }, // playerName ( "LINK" )
@@ -206,13 +212,13 @@ SavePlayerData sDebugSavePlayerData = {
     0x51,                                               // savedSceneNum
 };
 
-ItemEquips sDebugSaveEquips = {
+static ItemEquips sDebugSaveEquips = {
     { ITEM_SWORD_MASTER, ITEM_BOW, ITEM_BOMB, ITEM_OCARINA_FAIRY }, // buttonItems
     { SLOT_BOW, SLOT_BOMB, SLOT_OCARINA },                          // cButtonSlots
     0x1122,                                                         // equipment
 };
 
-Inventory sDebugSaveInventory = {
+static Inventory sDebugSaveInventory = {
     {
         ITEM_STICK,     ITEM_NUT,           ITEM_BOMB,         ITEM_BOW,         ITEM_ARROW_FIRE,  ITEM_DINS_FIRE,
         ITEM_SLINGSHOT, ITEM_OCARINA_FAIRY, ITEM_BOMBCHU,      ITEM_HOOKSHOT,    ITEM_ARROW_ICE,   ITEM_FARORES_WIND,
@@ -229,7 +235,7 @@ Inventory sDebugSaveInventory = {
     0,                                                              // gsTokens
 };
 
-u16 sDebugSaveChecksum = 0;
+static u16 sDebugSaveChecksum = 0;
 
 /**
  *  Initialize debug save. This is also used on the Title Screen
