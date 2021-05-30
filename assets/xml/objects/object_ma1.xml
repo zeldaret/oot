@@ -1,57 +1,67 @@
 <Root>
     <File Name="object_ma1" Segment="6">
-        <Animation Name="object_ma1_Anim_000244" Offset="0x244"/>
-        <Animation Name="object_ma1_Anim_000820" Offset="0x820"/>
-        <Texture Name="object_ma1_TLUT_000830" OutName="tlut_00000830" Format="rgb5a1" Width="16" Height="16" Offset="0x830"/>
-        <Texture Name="object_ma1_Tex_000A30" OutName="tex_00000A30" Format="ci8" Width="8" Height="16" Offset="0xA30"/>
-        <Texture Name="object_ma1_Tex_000AB0" OutName="tex_00000AB0" Format="rgb5a1" Width="16" Height="16" Offset="0xAB0"/>
-        <Texture Name="object_ma1_Tex_000CB0" OutName="tex_00000CB0" Format="rgb5a1" Width="16" Height="32" Offset="0xCB0"/>
-        <Texture Name="object_ma1_Tex_0010B0" OutName="tex_000010B0" Format="ci8" Width="8" Height="8" Offset="0x10B0"/>
-        <Texture Name="object_ma1_Tex_0010F0" OutName="tex_000010F0" Format="ci8" Width="64" Height="16" Offset="0x10F0"/>
-        <Texture Name="object_ma1_TLUT_0014F0" OutName="tlut_000014F0" Format="rgb5a1" Width="96" Height="1" Offset="0x14F0"/><!--Blob Name="object_ma1_Blob_0016F0" Size="0x28" Offset="0x16F0" /-->
-        <Texture Name="object_ma1_Tex_001718" OutName="tex_00001718" Format="rgb5a1" Width="8" Height="8" Offset="0x1718"/>
-        <Texture Name="object_ma1_Tex_001798" OutName="tex_00001798" Format="rgb5a1" Width="8" Height="8" Offset="0x1798"/>
-        <Texture Name="object_ma1_Tex_001818" OutName="tex_00001818" Format="rgb5a1" Width="16" Height="16" Offset="0x1818"/>
-        <Texture Name="object_ma1_Tex_001A18" OutName="tex_00001A18" Format="ci8" Width="16" Height="16" Offset="0x1A18"/>
-        <Blob Name="object_ma1_Blob_001B18" Size="0x400" Offset="0x1B18"/>
-        <Texture Name="object_ma1_Tex_001F18" OutName="tex_00001F18" Format="rgb5a1" Width="32" Height="16" Offset="0x1F18"/>
-        <Blob Name="object_ma1_Blob_002318" Size="0x1000" Offset="0x2318"/>
-        <DList Name="object_ma1_DL_004148" Offset="0x4148"/>
-        <DList Name="object_ma1_DL_006C68" Offset="0x6C68"/>
-        <DList Name="object_ma1_DL_006DD8" Offset="0x6DD8"/>
-        <DList Name="object_ma1_DL_006F10" Offset="0x6F10"/>
-        <DList Name="object_ma1_DL_007360" Offset="0x7360"/>
-        <DList Name="object_ma1_DL_007518" Offset="0x7518"/>
-        <DList Name="object_ma1_DL_007628" Offset="0x7628"/>
-        <DList Name="object_ma1_DL_0077D0" Offset="0x77D0"/>
-        <DList Name="object_ma1_DL_007988" Offset="0x7988"/>
-        <DList Name="object_ma1_DL_007A98" Offset="0x7A98"/>
-        <DList Name="object_ma1_DL_007C40" Offset="0x7C40"/>
-        <DList Name="object_ma1_DL_007D40" Offset="0x7D40"/>
-        <DList Name="object_ma1_DL_007D98" Offset="0x7D98"/>
-        <DList Name="object_ma1_DL_007EF8" Offset="0x7EF8"/>
-        <DList Name="object_ma1_DL_008040" Offset="0x8040"/>
-        <DList Name="object_ma1_DL_008098" Offset="0x8098"/>
-        <DList Name="object_ma1_DL_0081F8" Offset="0x81F8"/>
-        <Limb Name="object_ma1_Limb_008340" LimbType="Standard" Offset="0x8340"/>
-        <Limb Name="object_ma1_Limb_00834C" LimbType="Standard" Offset="0x834C"/>
-        <Limb Name="object_ma1_Limb_008358" LimbType="Standard" Offset="0x8358"/>
-        <Limb Name="object_ma1_Limb_008364" LimbType="Standard" Offset="0x8364"/>
-        <Limb Name="object_ma1_Limb_008370" LimbType="Standard" Offset="0x8370"/>
-        <Limb Name="object_ma1_Limb_00837C" LimbType="Standard" Offset="0x837C"/>
-        <Limb Name="object_ma1_Limb_008388" LimbType="Standard" Offset="0x8388"/>
-        <Limb Name="object_ma1_Limb_008394" LimbType="Standard" Offset="0x8394"/>
-        <Limb Name="object_ma1_Limb_0083A0" LimbType="Standard" Offset="0x83A0"/>
-        <Limb Name="object_ma1_Limb_0083AC" LimbType="Standard" Offset="0x83AC"/>
-        <Limb Name="object_ma1_Limb_0083B8" LimbType="Standard" Offset="0x83B8"/>
-        <Limb Name="object_ma1_Limb_0083C4" LimbType="Standard" Offset="0x83C4"/>
-        <Limb Name="object_ma1_Limb_0083D0" LimbType="Standard" Offset="0x83D0"/>
-        <Limb Name="object_ma1_Limb_0083DC" LimbType="Standard" Offset="0x83DC"/>
-        <Limb Name="object_ma1_Limb_0083E8" LimbType="Standard" Offset="0x83E8"/>
-        <Limb Name="object_ma1_Limb_0083F4" LimbType="Standard" Offset="0x83F4"/>
-        <Limb Name="object_ma1_Limb_008400" LimbType="Standard" Offset="0x8400"/>
-        <Limb Name="object_ma1_Limb_00840C" LimbType="Standard" Offset="0x840C"/>
-        <Skeleton Name="object_ma1_Skel_008460" Type="Flex" LimbType="Standard" Offset="0x8460"/>
-        <Animation Name="object_ma1_Anim_008D64" Offset="0x8D64"/>
+        <Skeleton Name="gMalonChildSkel" Type="Flex" LimbType="Standard" Offset="0x8460"/>
+    
+        <Limb Name="gMalonChildRootLimb" LimbType="Standard" Offset="0x8340"/>
+        <Limb Name="gMalonChildLeftThighLimb" LimbType="Standard" Offset="0x834C"/>
+        <Limb Name="gMalonChildLeftShinLimb" LimbType="Standard" Offset="0x8358"/>
+        <Limb Name="gMalonChildLeftFootLimb" LimbType="Standard" Offset="0x8364"/>
+        <Limb Name="gMalonChildRightThighLimb" LimbType="Standard" Offset="0x8370"/>
+        <Limb Name="gMalonChildRightShinLimb" LimbType="Standard" Offset="0x837C"/>
+        <Limb Name="gMalonChildRightFootLimb" LimbType="Standard" Offset="0x8388"/>
+        <Limb Name="gMalonChildChestLimb" LimbType="Standard" Offset="0x8394"/>
+        <Limb Name="gMalonChildLeftShoulderLimb" LimbType="Standard" Offset="0x83A0"/>
+        <Limb Name="gMalonChildLeftArmLimb" LimbType="Standard" Offset="0x83AC"/>
+        <Limb Name="gMalonChildLeftHandLimb" LimbType="Standard" Offset="0x83B8"/>
+        <Limb Name="gMalonChildRightShoulderLimb" LimbType="Standard" Offset="0x83C4"/>
+        <Limb Name="gMalonChildRightArmLimb" LimbType="Standard" Offset="0x83D0"/>
+        <Limb Name="gMalonChildRightHandLimb" LimbType="Standard" Offset="0x83DC"/>
+        <Limb Name="gMalonChildHeadLimb" LimbType="Standard" Offset="0x83E8"/>
+        <Limb Name="gMalonChildLimb_0083F4" LimbType="Standard" Offset="0x83F4"/>
+        <Limb Name="gMalonChildDressMiddleLimb" LimbType="Standard" Offset="0x8400"/>
+        <Limb Name="gMalonChildDressLowerLimb" LimbType="Standard" Offset="0x840C"/>
+
+        <Animation Name="gMalonChildRaiseHandsAnim" Offset="0x244"/>
+        <Animation Name="gMalonChildIdleAnim" Offset="0x820"/>
+        <Animation Name="gMalonChildSingAnim" Offset="0x8D64"/>
+
+        <Texture Name="gMalonChildDressTLUT" OutName="dress_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x830"/>
+        <Texture Name="gMalonChildDressDesignTex" OutName="dress_design" Format="ci8" Width="8" Height="16" Offset="0xA30"/>
+        <Texture Name="gMalonChildFingersTex" OutName="fingers" Format="rgb5a1" Width="16" Height="16" Offset="0xAB0"/>
+        <Texture Name="gMalonChildBowserTex" OutName="bowser" Format="rgb5a1" Width="16" Height="32" Offset="0xCB0"/>
+        <Texture Name="gMalonChildScarfTex" OutName="scarf" Format="ci8" Width="8" Height="8" Offset="0x10B0"/>
+        <Texture Name="gMalonChildBootTex" OutName="boot" Format="ci8" Width="64" Height="16" Offset="0x10F0"/>
+        <Texture Name="gMalonChildHairTLUT" OutName="hair_tlut" Format="rgb5a1" Width="96" Height="1" Offset="0x14F0"/>
+        <Texture Name="gMalonChildSkinGradientTex" OutName="skin_gradient" Format="rgb5a1" Width="8" Height="8" Offset="0x1718"/>
+        <Texture Name="gMalonChildBrownCircleTex" OutName="unk_circle" Format="rgb5a1" Width="8" Height="8" Offset="0x1798"/>
+        <Texture Name="gMalonChildEarTex" OutName="ear" Format="rgb5a1" Width="16" Height="16" Offset="0x1818"/>
+        <Texture Name="gMalonChildHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x1A18"/>
+
+        <Texture Name="gMalonChildNeutralMouthTex" OutName="neutral_mouth" Format="rgb5a1" Width="32" Height="16" Offset="0x1F18"/>
+        <Texture Name="gMalonChildSmilingMouthTex" OutName="smiling_mouth" Format="rgb5a1" Width="32" Height="16" Offset="0x2B18"/>
+        <Texture Name="gMalonChildTalkingMouthTex" OutName="talking_mouth" Format="rgb5a1" Width="32" Height="16" Offset="0x2F18"/>
+
+        <Texture Name="gMalonChildEyeTLUT" OutName="eye_tlut" Format="rgb5a1" Width="15" Height="12" Offset="0x15B0"/>
+        <Texture Name="gMalonChildEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x1B18"/>
+        <Texture Name="gMalonChildEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x2318"/>
+        <Texture Name="gMalonChildEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x2718"/>
+
+        <DList Name="gMalonChildHeadDL" Offset="0x4148"/>
+        <DList Name="gMalonChildDressLowerDL" Offset="0x6C68"/>
+        <DList Name="gMalonChildDressMiddleDL" Offset="0x6DD8"/>
+        <DList Name="gMalonChildChestDL" Offset="0x6F10"/>
+        <DList Name="gMalonChildRightShoulderDL" Offset="0x7360"/>
+        <DList Name="gMalonChildRightArmDL" Offset="0x7518"/>
+        <DList Name="gMalonChildRightHandDL" Offset="0x7628"/>
+        <DList Name="gMalonChildLeftShoulderDL" Offset="0x77D0"/>
+        <DList Name="gMalonChildLeftArmDL" Offset="0x7988"/>
+        <DList Name="gMalonChildLeftHandDL" Offset="0x7A98"/>
+        <DList Name="gMalonChildDressUpperDL" Offset="0x7C40"/>
+        <DList Name="gMalonChildRightThighDL" Offset="0x7D40"/>
+        <DList Name="gMalonChildRightShinDL" Offset="0x7D98"/>
+        <DList Name="gMalonChildRightFoorDL" Offset="0x7EF8"/>
+        <DList Name="gMalonChildLeftThighDL" Offset="0x8040"/>
+        <DList Name="gMalonChildLeftShinDL" Offset="0x8098"/>
+        <DList Name="gMalonChildLeftFootDL" Offset="0x81F8"/>
     </File>
 </Root>
