@@ -712,8 +712,8 @@ glabel func_80076934
 /* AEE4D0 80077330 AC400004 */  sw    $zero, 4($v0)
 /* AEE4D4 80077334 AC590000 */  sw    $t9, ($v0)
 /* AEE4D8 80077338 8C6202D0 */  lw    $v0, 0x2d0($v1)
-/* AEE4DC 8007733C 3C0E0501 */  lui   $t6, %hi(D_0500CA70) # $t6, 0x501
-/* AEE4E0 80077340 25CECA70 */  addiu $t6, %lo(D_0500CA70) # addiu $t6, $t6, -0x3590
+/* AEE4DC 8007733C 3C0E0501 */  lui   $t6, %hi(gFieldDL_00CA70) # $t6, 0x501
+/* AEE4E0 80077340 25CECA70 */  addiu $t6, %lo(gFieldDL_00CA70) # addiu $t6, $t6, -0x3590
 /* AEE4E4 80077344 244F0008 */  addiu $t7, $v0, 8
 /* AEE4E8 80077348 AC6F02D0 */  sw    $t7, 0x2d0($v1)
 /* AEE4EC 8007734C 3C18DE00 */  lui   $t8, 0xde00

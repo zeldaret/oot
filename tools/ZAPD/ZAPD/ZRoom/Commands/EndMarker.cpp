@@ -1,25 +1,20 @@
 #include "EndMarker.h"
-#include "../../StringHelper.h"
 
-using namespace std;
-
-EndMarker::EndMarker(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+EndMarker::EndMarker(ZFile* nParent) : ZRoomCommand(nParent)
 {
 }
 
-string EndMarker::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
+std::string EndMarker::GetBodySourceCode() const
 {
-	return StringHelper::Sprintf(
-		"%s 0x00, 0x00", ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str());
+	return "SCENE_CMD_END()";
 }
 
-string EndMarker::GetCommandCName()
+std::string EndMarker::GetCommandCName() const
 {
 	return "SCmdEndMarker";
 }
 
-RoomCommand EndMarker::GetRoomCommand()
+RoomCommand EndMarker::GetRoomCommand() const
 {
 	return RoomCommand::EndMarker;
 }
