@@ -180,7 +180,7 @@ void BgJyaZurerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->actionFunc(this, globalCtx);
-    
+
     if (this->unk_168 == 0) {
         func_8089B4C8(this, globalCtx);
     }

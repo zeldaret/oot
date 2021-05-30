@@ -45,10 +45,10 @@ u8 gPlayerModelTypes[][5] = {
 };
 
 Gfx* D_80125CE8[] = {
-    0x060226E0, gLinkChildRightHandClosedNearDL,      0x06027690, gLinkChildRightHandClosedFarDL,
+    0x060226E0, gLinkChildRightHandClosedNearDL,        0x06027690, gLinkChildRightHandClosedFarDL,
     0x060226E0, gLinkChildRightFistAndDekuShieldNearDL, 0x06027690, gLinkChildRightFistAndDekuShieldFarDL,
-    0x06022970, gLinkChildRightHandClosedNearDL,      0x06027918, gLinkChildRightHandClosedFarDL,
-    0x060241C0, gLinkChildRightHandClosedNearDL,      0x06028B40, gLinkChildRightHandClosedFarDL,
+    0x06022970, gLinkChildRightHandClosedNearDL,        0x06027918, gLinkChildRightHandClosedFarDL,
+    0x060241C0, gLinkChildRightHandClosedNearDL,        0x06028B40, gLinkChildRightHandClosedFarDL,
 };
 
 Gfx* D_80125D28[] = {
