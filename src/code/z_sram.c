@@ -84,17 +84,8 @@ typedef struct {
 
 #define SLOT_OFFSET(idx) (SLOT_SIZE * idx + 0x20)
 
-u16 gSramSlotOffsets[][3] = {
-    {
-        SLOT_OFFSET(0),
-        SLOT_OFFSET(1),
-        SLOT_OFFSET(2),
-    },
-    {
-        SLOT_OFFSET(3),
-        SLOT_OFFSET(4),
-        SLOT_OFFSET(5),
-    },
+u16 gSramSlotOffsets[] = {
+    SLOT_OFFSET(0), SLOT_OFFSET(1), SLOT_OFFSET(2), SLOT_OFFSET(3), SLOT_OFFSET(4), SLOT_OFFSET(5),
 };
 
 char sZeldaMagic[] = { '\0', '\0', '\0', '\x98', '\x09', '\x10', '\x21', 'Z', 'E', 'L', 'D', 'A' };
@@ -306,7 +297,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
     u8* ptr;
 
     osSyncPrintf("個人Ｆｉｌｅ作成\n"); // Create personal file
-    i = gSramSlotOffsets[0][gSaveContext.fileNum];
+    i = gSramSlotOffsets[gSaveContext.fileNum];
     osSyncPrintf("ぽいんと＝%x(%d)\n", i, gSaveContext.fileNum); // Point=
 
     MemCopy(&gSaveContext, sramCtx->readBuff + i, sizeof(Save));
@@ -482,7 +473,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
         checksum += *ptr++;
     }
 
-    offset = gSramSlotOffsets[0][gSaveContext.fileNum];
+    offset = gSramSlotOffsets[gSaveContext.fileNum];
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
     ptr = (u16*)&gSaveContext;
@@ -495,7 +486,7 @@ void Sram_WriteSave(SramContext* sramCtx) {
         checksum += *ptr++;
     }
 
-    offset = gSramSlotOffsets[1][gSaveContext.fileNum];
+    offset = gSramSlotOffsets[gSaveContext.fileNum + 3];
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
 }
 
@@ -505,77 +496,69 @@ void Sram_WriteSave(SramContext* sramCtx) {
  *
  *  After verifying all 3 saves, pass relevant data to File Select to be displayed.
  */
-#ifdef NON_MATCHING
-// There's a problem with how "offset" is loaded
 void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
-    u16 slotNum; // 0x72
-    u16 oldChecksum;
-    u16 newChecksum;
-    u16 dayTime; // 0x66
-    // u16* offPtr;
-    s32 offset;
     u16 i;
+    u16 newChecksum;
+    u16 slotNum;
+    u16 offset;
     u16 j;
+    u16 oldChecksum;
     u16* ptr;
+    u16 dayTime;
 
     osSyncPrintf("ＳＲＡＭ ＳＴＡＲＴ─ＬＯＡＤ\n");
     bzero(sramCtx->readBuff, SRAM_SIZE);
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
 
-    dayTime = gSaveContext.dayTime;
+    dayTime = ((void)0, gSaveContext.dayTime);
 
     for (slotNum = 0; slotNum < 3; slotNum++) {
-        offset = gSramSlotOffsets[0][slotNum];
+        offset = gSramSlotOffsets[slotNum];
         osSyncPrintf("ぽいんと＝%x(%d)    SAVE_MAX=%d\n", offset, gSaveContext.fileNum, sizeof(Save));
         MemCopy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
 
         oldChecksum = gSaveContext.checksum;
         gSaveContext.checksum = 0;
+        ptr = (u16*)&gSaveContext;
         osSyncPrintf("\n＝＝＝＝＝＝＝＝＝＝＝＝＝  Ｓ（%d） ＝＝＝＝＝＝＝＝＝＝＝＝＝\n", slotNum);
 
-        // j = 0;
-        newChecksum = 0;
-        ptr = (u16*)&gSaveContext;
-        for (i = 0; i < CHECKSUM_SIZE; i++) {
-            j += 2;
+        for (i = newChecksum = j = 0; i < CHECKSUM_SIZE; i++, offset += 2) {
             newChecksum += *ptr++;
         }
 
         // SAVE checksum calculation
         osSyncPrintf("\nＳＡＶＥチェックサム計算  j=%x  mmm=%x  ", newChecksum, oldChecksum);
 
-        if (oldChecksum != newChecksum) {
+        if (newChecksum != oldChecksum) {
             // checksum didnt match, try backup save
-            osSyncPrintf("ＥＲＲＯＲ！！！ ＝ %x(%d)\n", offset, slotNum);
-            offset = gSramSlotOffsets[1][slotNum];
+            osSyncPrintf("ＥＲＲＯＲ！！！ ＝ %x(%d)\n", gSramSlotOffsets[slotNum], slotNum);
+            offset = gSramSlotOffsets[slotNum + 3];
             MemCopy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
 
             oldChecksum = gSaveContext.checksum;
             gSaveContext.checksum = 0;
+            ptr = (u16*)&gSaveContext;
             osSyncPrintf("================= ＢＡＣＫ─ＵＰ ========================\n");
 
-            newChecksum = 0;
-            ptr = (u16*)&gSaveContext;
-            for (i = 0; i < CHECKSUM_SIZE; i++) {
-                j += 2;
+            for (i = newChecksum = j = 0; i < CHECKSUM_SIZE; i++, offset += 2) {
                 newChecksum += *ptr++;
             }
             // (B) SAVE checksum calculation
             osSyncPrintf("\n（Ｂ）ＳＡＶＥチェックサム計算  j=%x  mmm=%x  ", newChecksum, oldChecksum);
 
-            if (oldChecksum != newChecksum) {
+            if (newChecksum != oldChecksum) {
                 // backup save didnt work, make new save
-                // offPtr = &gSramSlotOffsets[1][slotNum];
-                osSyncPrintf("ＥＲＲＯＲ！！！ ＝ %x(%d+3)\n", offset, slotNum);
+                osSyncPrintf("ＥＲＲＯＲ！！！ ＝ %x(%d+3)\n", gSramSlotOffsets[slotNum + 3], slotNum);
                 bzero(&gSaveContext.entranceIndex, sizeof(gSaveContext.entranceIndex));
                 bzero(&gSaveContext.linkAge, sizeof(gSaveContext.linkAge));
                 bzero(&gSaveContext.cutsceneIndex, sizeof(gSaveContext.cutsceneIndex));
-                bzero(&gSaveContext.dayTime, sizeof(gSaveContext.dayTime));
+                //! @bug: The size here was probably not intended to be multiplied by 2
+                bzero(&gSaveContext.dayTime, sizeof(gSaveContext.dayTime) * 2);
                 bzero(&gSaveContext.nightFlag, sizeof(gSaveContext.nightFlag));
                 bzero(&gSaveContext.numDays, sizeof(gSaveContext.numDays));
                 bzero(&gSaveContext.unk_18, sizeof(gSaveContext.unk_18));
 
-                if (slotNum == 0) {
+                if (!slotNum) {
                     Sram_InitDebugSave();
                     gSaveContext.newf[0] = 'Z';
                     gSaveContext.newf[1] = 'E';
@@ -590,12 +573,10 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
                     Sram_InitNewSave();
                 }
 
+                ptr = (u16*)&gSaveContext;
                 osSyncPrintf("\n--------------------------------------------------------------\n");
 
-                j = 0;
-                newChecksum = 0;
-                ptr = (u16*)&gSaveContext;
-                for (i = 0; i < CHECKSUM_SIZE; i++) {
+                for (i = newChecksum = j = 0; i < CHECKSUM_SIZE; i++) {
                     osSyncPrintf("%x ", *ptr);
                     if (++j == 0x20) {
                         osSyncPrintf("\n");
@@ -607,19 +588,19 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
                 gSaveContext.checksum = newChecksum;
                 osSyncPrintf("\nCheck_Sum=%x(%x)\n", gSaveContext.checksum, newChecksum);
 
-                offset = gSramSlotOffsets[1][slotNum];
-                SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
+                i = gSramSlotOffsets[slotNum + 3];
+                SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
                 osSyncPrintf("????#%x,%x,%x,%x,%x,%x\n", gSaveContext.newf[0], gSaveContext.newf[1],
                              gSaveContext.newf[2], gSaveContext.newf[3], gSaveContext.newf[4], gSaveContext.newf[5]);
-                osSyncPrintf("\nぽいんと＝%x(%d+3)  check_sum=%x(%x)\n", offset, slotNum, gSaveContext.checksum,
+                osSyncPrintf("\nぽいんと＝%x(%d+3)  check_sum=%x(%x)\n", i, slotNum, gSaveContext.checksum,
                              newChecksum);
             }
 
-            offset = gSramSlotOffsets[0][slotNum];
-            SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
+            i = gSramSlotOffsets[slotNum];
+            SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + i, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
-            osSyncPrintf("ぽいんと＝%x(%d)  check_sum=%x(%x)\n", offset, slotNum, gSaveContext.checksum, newChecksum);
+            osSyncPrintf("ぽいんと＝%x(%d)  check_sum=%x(%x)\n", i, slotNum, gSaveContext.checksum, newChecksum);
         } else {
             // SAVE data OK! ! ! !
             osSyncPrintf("\nＳＡＶＥデータ ＯＫ！！！！\n");
@@ -683,9 +664,6 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
     osSyncPrintf("now_life=%d, %d, %d\n", fileChooseCtx->nowLife[0], fileChooseCtx->nowLife[1],
                  fileChooseCtx->nowLife[2]);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_sram/Sram_VerifyAndLoadAllSaves.s")
-#endif
 
 void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     u16 offset;
@@ -741,11 +719,11 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     gSaveContext.checksum = checksum;
     osSyncPrintf("\nチェックサム＝%x\n", gSaveContext.checksum); // Checksum = %x
 
-    offset = gSramSlotOffsets[0][gSaveContext.fileNum];
+    offset = gSramSlotOffsets[gSaveContext.fileNum];
     osSyncPrintf("I=%x no=%d\n", offset, gSaveContext.fileNum);
     MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
 
-    offset = gSramSlotOffsets[1][gSaveContext.fileNum];
+    offset = gSramSlotOffsets[gSaveContext.fileNum + 3];
     osSyncPrintf("I=%x no=%d\n", offset, gSaveContext.fileNum + 3);
     MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
 
@@ -756,7 +734,7 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     osSyncPrintf("z_common_data.file_no = %d\n", gSaveContext.fileNum);
     osSyncPrintf("SAVECT=%x, NAME=%x, LIFE=%x, ITEM=%x,  SAVE_64DD=%x\n", DEATHS, NAME, HEALTH_CAP, QUEST, N64DD);
 
-    j = gSramSlotOffsets[0][gSaveContext.fileNum];
+    j = gSramSlotOffsets[gSaveContext.fileNum];
 
     MemCopy(&fileChooseCtx->deaths[gSaveContext.fileNum], sramCtx->readBuff + j + DEATHS,
             sizeof(fileChooseCtx->deaths[0]));
@@ -783,14 +761,14 @@ void Sram_EraseSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
 
     Sram_InitNewSave();
 
-    offset = gSramSlotOffsets[0][fileChooseCtx->selectedFileIdx];
+    offset = gSramSlotOffsets[fileChooseCtx->selectedFileIdx];
     MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
     MemCopy(&fileChooseCtx->n64ddFlags[fileChooseCtx->selectedFileIdx], sramCtx->readBuff + offset + N64DD,
             sizeof(fileChooseCtx->n64ddFlags[0]));
 
-    offset = gSramSlotOffsets[1][fileChooseCtx->selectedFileIdx];
+    offset = gSramSlotOffsets[fileChooseCtx->selectedFileIdx + 3];
     MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
@@ -801,21 +779,21 @@ void Sram_CopySave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     s32 offset;
 
     osSyncPrintf("ＲＥＡＤ=%d(%x)  ＣＯＰＹ=%d(%x)\n", fileChooseCtx->selectedFileIdx,
-                 gSramSlotOffsets[0][fileChooseCtx->selectedFileIdx], fileChooseCtx->copyDestFileIdx,
-                 gSramSlotOffsets[0][fileChooseCtx->copyDestFileIdx]);
+                 gSramSlotOffsets[fileChooseCtx->selectedFileIdx], fileChooseCtx->copyDestFileIdx,
+                 gSramSlotOffsets[fileChooseCtx->copyDestFileIdx]);
 
-    offset = gSramSlotOffsets[0][fileChooseCtx->selectedFileIdx];
+    offset = gSramSlotOffsets[fileChooseCtx->selectedFileIdx];
     MemCopy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
 
-    offset = gSramSlotOffsets[0][fileChooseCtx->copyDestFileIdx];
+    offset = gSramSlotOffsets[fileChooseCtx->copyDestFileIdx];
     MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
 
-    offset = gSramSlotOffsets[1][fileChooseCtx->copyDestFileIdx];
+    offset = gSramSlotOffsets[fileChooseCtx->copyDestFileIdx + 3];
     MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
 
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_WRITE);
 
-    offset = gSramSlotOffsets[0][fileChooseCtx->copyDestFileIdx];
+    offset = gSramSlotOffsets[fileChooseCtx->copyDestFileIdx];
 
     MemCopy(&fileChooseCtx->deaths[fileChooseCtx->copyDestFileIdx], sramCtx->readBuff + offset + DEATHS,
             sizeof(fileChooseCtx->deaths[0]));
