@@ -29,12 +29,11 @@ public:
 	ZAnimation(ZFile* nParent);
 
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	ZResourceType GetResourceType() override;
+	ZResourceType GetResourceType() const override;
 
 protected:
 	void ParseRawData() override;
-	void Save(const std::string& outFolder) override;
-	void ParseXML(tinyxml2::XMLElement* reader) override;
+	void Save(const fs::path& outFolder) override;
 };
 
 class ZNormalAnimation : public ZAnimation
@@ -49,11 +48,8 @@ public:
 	ZNormalAnimation(ZFile* nParent);
 
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	size_t GetRawDataSize() override;
-	std::string GetSourceTypeName() override;
-
-	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	size_t GetRawDataSize() const override;
+	std::string GetSourceTypeName() const override;
 
 protected:
 	virtual void ParseRawData() override;
@@ -67,11 +63,8 @@ public:
 	ZLinkAnimation(ZFile* nParent);
 
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	size_t GetRawDataSize() override;
-	std::string GetSourceTypeName() override;
-
-	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	size_t GetRawDataSize() const override;
+	std::string GetSourceTypeName() const override;
 
 protected:
 	virtual void ParseRawData() override;
@@ -101,8 +94,8 @@ public:
 
 	[[nodiscard]] std::string GetBody(const std::string& prefix) const;
 
-	static size_t GetRawDataSize();
-	static std::string GetSourceTypeName();
+	size_t GetRawDataSize() const;
+	std::string GetSourceTypeName();
 };
 
 class ZCurveAnimation : public ZAnimation
@@ -121,7 +114,7 @@ protected:
 	///* 0x000E */ s16 unk_10;
 	int16_t unk_10;
 
-	ZSkeleton* skel;
+	uint8_t limbCount = 0;
 
 	std::vector<uint8_t> refIndexArr;
 	std::vector<TransformData> transformDataArr;
@@ -130,16 +123,16 @@ protected:
 public:
 	ZCurveAnimation();
 	ZCurveAnimation(ZFile* nParent);
-	~ZCurveAnimation();
+
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
 	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	                    const uint32_t nRawDataIndex) override;
 
-	void PreGenValues(const std::string& prefix);
-	size_t GetRawDataSize() override;
+	void DeclareReferences(const std::string& prefix) override;
+	size_t GetRawDataSize() const override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 
-	std::string GetSourceTypeName() override;
+	std::string GetSourceTypeName() const override;
 };
 // TransformUpdateIndex
