@@ -1,10 +1,10 @@
-# ZAPD extraction xml reference
+# ZAPD extraction XML reference
 
 This document aims to be a small reference of how to create a compatible xml file for ZAPD.
 
 ## Table of contents
 
-- [ZAPD extraction xml reference](#zapd-extraction-xml-reference)
+- [ZAPD extraction XML reference](#zapd-extraction-xml-reference)
   - [Table of contents](#table-of-contents)
   - [Basic XML](#basic-xml)
   - [Resources types](#resources-types)
@@ -27,6 +27,7 @@ This document aims to be a small reference of how to create a compatible xml fil
     - [Mtx](#mtx)
     - [Cutscene](#cutscene)
     - [Array](#array)
+    - [Path](#path)
 
 ## Basic XML
 
@@ -110,6 +111,7 @@ u64 gCraterSmokeConeTex[] = {
   - `Format`: Required. The format of the image. Valid values: `rgba32`, `rgb5a1`, `i4`, `i8`, `ia4`, `ia8`, `ia16`, `ci4` and `ci8`.
   - `Width`: Required. Width in pixels of the image.
   - `Height`: Required. Height in pixels of the image.
+  - `TlutOffset`: Optional. Specifies the tlut's offset used by this texture. This attribute is only valid if `Format` is either `ci4` or `ci8`, otherwise an exception would be thrown.
 
 The following is a list of the texture formats the Nintendo 64 supports, with their gfxdis names and ZAPD format names.
 
@@ -230,7 +232,7 @@ TODO. I'm hoping somebody else will do this.
 - Example:
 
 ```xml
-<CurveAnimation Name="gTreasureChestCurveAnim_4B60" SkelOffset="0x5EB8" Offset="0x4B60"/>
+<CurveAnimation Name="gEnBoxCurveAnim_4B60" SkelOffset="0x5EB8" Offset="0x4B60"/>
 ```
 
 - Attributes:
@@ -245,7 +247,7 @@ TODO. I'm hoping somebody else will do this.
 - Example:
 
 ```xml
-<Skeleton Name="gTreasureChestCurveSkel" Type="Curve" LimbType="Curve" Offset="0x5EB8"/>
+<Skeleton Name="gEnBoxCurveSkel" Type="Curve" LimbType="Curve" Offset="0x5EB8"/>
 ```
 
 - Attributes:
@@ -459,5 +461,22 @@ Currently, only [`Scalar`](#scalar), [`Vector`](#vector) and [`Vtx`](#vtx) suppo
 
   - `Name`: Required. How the variable will be named. By our convention it should be prefixed by `g`. The sufix is mandated by the element contained.
   - `Count`: Required. Amount of elements. Integer.
+
+-------------------------
+
+-------------------------
+
+### Path
+
+- Example:
+
+```xml
+<Path Name="gSpot09Path_002F60" Offset="0x2F60"/>
+```
+
+- Attributes:
+
+  - `Name`: Required. Suxffixed by `Path`.
+  - `NumPaths`: Optional. The amount of paths contained in the array. It must be a positive integer.
 
 -------------------------

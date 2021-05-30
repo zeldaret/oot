@@ -1,21 +1,22 @@
 #pragma once
 
-#include "../ZRoom.h"
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoom.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class SetAlternateHeaders : public ZRoomCommand
 {
 public:
-	SetAlternateHeaders(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
+	SetAlternateHeaders(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
-	virtual size_t GetRawDataSize() override;
-	virtual std::string GetCommandCName() override;
-	virtual RoomCommand GetRoomCommand() override;
+	void DeclareReferences(const std::string& prefix) override;
+	void ParseRawDataLate() override;
+	void DeclareReferencesLate(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	std::string GetCommandCName() const override;
 
 private:
-	int32_t segmentOffset;
 	std::vector<uint32_t> headers;
-	std::vector<uint8_t> _rawData;
-	int32_t _rawDataIndex;
 };
