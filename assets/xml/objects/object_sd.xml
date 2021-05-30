@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_sd" Segment="6">
-        <Skeleton Name="gEnHeishiSkel" Type="Standard" LimbType="Standard" Offset="0xBAC8"/>
+        <Skeleton Name="gEnHeishiSkel" Type="Normal" LimbType="Standard" Offset="0xBAC8"/>
         <Limb Name="gEnHeishiRootLimb" LimbType="Standard" Offset="0xB9C8"/>
         <Limb Name="gEnHeishiTorsoLimb" LimbType="Standard" Offset="0xB9D4"/>
         <Limb Name="gEnHeishiLeftThighLimb" LimbType="Standard" Offset="0xB9E0"/>
