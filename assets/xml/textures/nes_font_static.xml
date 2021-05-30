@@ -16,16 +16,16 @@
         <Texture Name="gMsgCharHyphenMinusTex" OutName="msg_char_hyphen_minus" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharFullStopTex" OutName="msg_char_full_stop" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharSolidusTex" OutName="msg_char_solidus" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDigitZeroTex" OutName="msg_char_digit_zero" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDigitOneTex" OutName="msg_char_digit_one" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDigitTwoTex" OutName="msg_char_digit_two" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDigitThreeTex" OutName="msg_char_digit_three" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDigitFourTex" OutName="msg_char_digit_four" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDigitFiveTex" OutName="msg_char_digit_five" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDigitSixTex" OutName="msg_char_digit_six" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDigitSevenTex" OutName="msg_char_digit_seven" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDigitEightTex" OutName="msg_char_digit_eight" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDigitNineTex" OutName="msg_char_digit_nine" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDigit0Tex" OutName="msg_char_digit_0" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDigit1Tex" OutName="msg_char_digit_1" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDigit2Tex" OutName="msg_char_digit_2" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDigit3Tex" OutName="msg_char_digit_3" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDigit4Tex" OutName="msg_char_digit_4" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDigit5Tex" OutName="msg_char_digit_5" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDigit6Tex" OutName="msg_char_digit_6" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDigit7Tex" OutName="msg_char_digit_7" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDigit8Tex" OutName="msg_char_digit_8" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDigit9Tex" OutName="msg_char_digit_9" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharColonTex" OutName="msg_char_colon" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharSemicolonTex" OutName="msg_char_semicolon" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharLessThanSignTex" OutName="msg_char_less_than_sign" Format="i4" Width="16" Height="16"/>
@@ -139,6 +139,6 @@
         <Texture Name="gMsgCharButtonCRightTex" OutName="msg_char_button_c_right" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharZTargetSignTex" OutName="msg_char_z_target_sign" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharControlStickTex" OutName="msg_char_control_stick" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharPlusControlPadTex" OutName="msg_char_plus_control_pad" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharControlPadTex" OutName="msg_char_plus_control_pad" Format="i4" Width="16" Height="16"/>
      </File>
 </Root>
