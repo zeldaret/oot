@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_haka_megane.h"
+#include "objects/object_hakach_objects/object_hakach_objects.h"
 
 #define FLAGS 0x000000B0
 
@@ -35,16 +36,25 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06001830, D_06001AB8, D_06004330, D_060044D0, D_06004780, D_06004940, D_06004B00, D_06004CC0;
-
 static CollisionHeader* sCollisionHeaders[] = {
-    &D_06001830, &D_06001AB8, NULL,        &D_06004330, &D_060044D0, NULL, &D_06004780,
-    &D_06004940, NULL,        &D_06004B00, NULL,        &D_06004CC0, NULL,
+    &gBotw1Col, &gBotw2Col, NULL,       0x06004330, 0x060044D0, NULL, 0x06004780,
+    0x06004940, NULL,       0x06004B00, NULL,       0x06004CC0, NULL,
 };
 
 static Gfx* sDLists[] = {
-    0x06001060, 0x06001920, 0x060003F0, 0x060040F0, 0x060043B0, 0x06001120, 0x060045A0,
-    0x060047F0, 0x060018F0, 0x060049B0, 0x06003CF0, 0x06004B70, 0x06002ED0,
+    gBotwFakeWallsAndFloorsDL,
+    gBotwThreeFakeFloorsDL,
+    gBotwHoleTrap2DL,
+    0x060040F0,
+    0x060043B0,
+    0x06001120,
+    0x060045A0,
+    0x060047F0,
+    0x060018F0,
+    0x060049B0,
+    0x06003CF0,
+    0x06004B70,
+    0x06002ED0,
 };
 
 extern Gfx D_06001250[];
@@ -126,6 +136,6 @@ void BgHakaMegane_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 0) {
-        Gfx_DrawDListXlu(globalCtx, D_06001250);
+        Gfx_DrawDListXlu(globalCtx, gBotwBloodSplatterDL);
     }
 }
