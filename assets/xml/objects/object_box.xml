@@ -19,7 +19,7 @@
         <DList Name="gTreasureChestBossKeyChestSideAndTopDL" Offset="0x1678"/>
         <Texture Name="gTreasureChestBossKeySideAndTopTex" OutName="boss_key_side_and_top" Format="rgb5a1" Width="32" Height="32" Offset="0x2F98"/>
 
-        <Skeleton Name="gTreasureChestSkel" Type="Standard" LimbType="Standard" Offset="0x47D8"/>
+        <Skeleton Name="gTreasureChestSkel" Type="Normal" LimbType="Standard" Offset="0x47D8"/>
         <Collision Name="gTreasureChestCol" Offset="0x5FC8"/>
 
         <!--Large Unaccounted-->
