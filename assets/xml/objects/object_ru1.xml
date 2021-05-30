@@ -33,7 +33,7 @@
         <DList Name="gRutoChildChestDL" Offset="0xCE18"/>
         <DList Name="gRutoChildRightUpperArmDL" Offset="0xD0B8"/>
         <DList Name="gRutoChildRightFinDL" Offset="0xD308"/>
-        <DList Name="gRutoChildDLRightHandDL" Offset="0xD5E0"/>
+        <DList Name="gRutoChildRightHandDL" Offset="0xD5E0"/>
         <DList Name="gRutoChildLeftUpperArmDL" Offset="0xD870"/>
         <DList Name="gRutoChildLeftFinDL" Offset="0xDAC0"/>
         <DList Name="gRutoChildLeftHandDL" Offset="0xDDA8"/>
