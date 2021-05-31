@@ -1112,7 +1112,8 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     func_80984D00(thisx, globalCtx);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_im_Skel_00F788, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_im_Skel_00F788, NULL, this->jointTable, this->morphTable,
+                       17);
     thisx->flags &= ~1;
 
     switch (this->actor.params) {

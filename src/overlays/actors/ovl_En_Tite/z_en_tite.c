@@ -190,7 +190,8 @@ void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->targetMode = 3;
     Actor_SetScale(thisx, 0.01f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &object_tite_Skel_003A20, &object_tite_Anim_0012E4, this->jointTable, this->morphTable, 25);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &object_tite_Skel_003A20, &object_tite_Anim_0012E4, this->jointTable,
+                   this->morphTable, 25);
     ActorShape_Init(&thisx->shape, -200.0f, ActorShadow_DrawCircle, 70.0f);
     this->flipState = TEKTITE_INITIAL;
     thisx->colChkInfo.damageTable = sDamageTable;
@@ -678,8 +679,8 @@ void EnTite_Recoil(EnTite* this, GlobalContext* globalCtx) {
 }
 
 void EnTite_SetupStunned(EnTite* this) {
-    Animation_Change(&this->skelAnime, &object_tite_Anim_0012E4, 0.0f, 0.0f, (f32)Animation_GetLastFrame(&object_tite_Anim_0012E4), ANIMMODE_LOOP,
-                     4.0f);
+    Animation_Change(&this->skelAnime, &object_tite_Anim_0012E4, 0.0f, 0.0f,
+                     (f32)Animation_GetLastFrame(&object_tite_Anim_0012E4), ANIMMODE_LOOP, 4.0f);
     this->action = TEKTITE_STUNNED;
     this->actor.speedXZ = -6.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;

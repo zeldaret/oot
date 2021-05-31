@@ -9,6 +9,8 @@
 #include "objects/object_zo/object_zo.h"
 #include "objects/object_ec/object_ec.h"
 #include "objects/object_ma2/object_ma2.h"
+#include "objects/object_ta/object_ta.h"
+#include "objects/object_ta/object_toryo.h"
 
 #define FLAGS 0x00000010
 
@@ -98,17 +100,11 @@ static s16 sAnimationObjects[] = {
 // Object_IN
 extern FlexSkeletonHeader D_06013B88;
 
-// Object_TA
-extern FlexSkeletonHeader D_0600B7B8;
-
 // Object_FU
 extern FlexSkeletonHeader D_06006C90;
 
 // Object_KM1, Object_KW1, Object_BJI, Objct_AHG, Object_BOB, Object_BBA, Object_ANE
 extern FlexSkeletonHeader D_060000F0;
-
-// Object_Toryo
-extern FlexSkeletonHeader D_06007150;
 
 // Object_Daiku
 extern FlexSkeletonHeader D_06007958;
@@ -395,7 +391,7 @@ void DemoEc_DrawIngo(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitTalon(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_0600B7B8);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_ta_Skel_00B7B8);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcTalonAnim, 0, 0.0f, false);
     func_8096D64C(this, globalCtx);
@@ -621,7 +617,7 @@ void DemoEc_DrawOldWoman(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitBossCarpenter(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06007150);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_toryo_Skel_007150);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcCarpenterAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);

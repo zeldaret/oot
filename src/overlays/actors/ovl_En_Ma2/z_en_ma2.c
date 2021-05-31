@@ -57,8 +57,10 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_D_80AA1678 D_80AA2858[] = {
-    { &object_ma2_Anim_0007D4, 1.0f, ANIMMODE_LOOP, 0.0f },   { &object_ma2_Anim_0007D4, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { &object_ma2_Anim_0093BC, 1.0f, ANIMMODE_LOOP, 0.0f },   { 0x06009EE0, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &object_ma2_Anim_0007D4, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &object_ma2_Anim_0007D4, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &object_ma2_Anim_0093BC, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { 0x06009EE0, 1.0f, ANIMMODE_LOOP, 0.0f },
     { 0x06009EE0, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 

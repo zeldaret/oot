@@ -138,7 +138,8 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     } else { // Egg
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
-        SkelAnime_Init(globalCtx, &this->skelanime, &object_gol_Skel_003B40, &object_gol_Anim_001548, this->jointTable, this->morphTable, 24);
+        SkelAnime_Init(globalCtx, &this->skelanime, &object_gol_Skel_003B40, &object_gol_Anim_001548, this->jointTable,
+                       this->morphTable, 24);
         Animation_PlayLoop(&this->skelanime, &object_gol_Anim_001548);
         this->actor.colChkInfo.health = 2;
 
@@ -180,8 +181,8 @@ void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupFlee(EnGoma* this) {
-    Animation_Change(&this->skelanime, &object_gol_Anim_003D78, 2.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_003D78), ANIMMODE_LOOP,
-                     -2.0f);
+    Animation_Change(&this->skelanime, &object_gol_Anim_003D78, 2.0f, 0.0f,
+                     Animation_GetLastFrame(&object_gol_Anim_003D78), ANIMMODE_LOOP, -2.0f);
     this->actionFunc = EnGoma_Flee;
     this->actionTimer = 20;
 
@@ -296,8 +297,8 @@ void EnGoma_Egg(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupHatch(EnGoma* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelanime, &object_gol_Anim_000544, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000544), ANIMMODE_ONCE,
-                     0.0f);
+    Animation_Change(&this->skelanime, &object_gol_Anim_000544, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_gol_Anim_000544), ANIMMODE_ONCE, 0.0f);
     this->actionFunc = EnGoma_Hatch;
     Actor_SetScale(&this->actor, 0.005f);
     this->gomaType = ENGOMA_NORMAL;
@@ -317,8 +318,8 @@ void EnGoma_Hatch(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupHurt(EnGoma* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelanime, &object_gol_Anim_000838, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000838), ANIMMODE_ONCE,
-                     -2.0f);
+    Animation_Change(&this->skelanime, &object_gol_Anim_000838, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_gol_Anim_000838), ANIMMODE_ONCE, -2.0f);
     this->actionFunc = EnGoma_Hurt;
 
     if ((s8)this->actor.colChkInfo.health <= 0) {
@@ -354,8 +355,8 @@ void EnGoma_Hurt(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupDie(EnGoma* this) {
-    Animation_Change(&this->skelanime, &object_gol_Anim_000B78, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000B78), ANIMMODE_ONCE,
-                     -2.0f);
+    Animation_Change(&this->skelanime, &object_gol_Anim_000B78, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_gol_Anim_000B78), ANIMMODE_ONCE, -2.0f);
     this->actionFunc = EnGoma_Die;
     this->actionTimer = 30;
 
@@ -390,8 +391,8 @@ void EnGoma_Die(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupDead(EnGoma* this) {
-    Animation_Change(&this->skelanime, &object_gol_Anim_000334, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000334), ANIMMODE_LOOP,
-                     -2.0f);
+    Animation_Change(&this->skelanime, &object_gol_Anim_000334, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_gol_Anim_000334), ANIMMODE_LOOP, -2.0f);
     this->actionFunc = EnGoma_Dead;
     this->actionTimer = 3;
 }
@@ -435,15 +436,15 @@ void EnGoma_SetupStand(EnGoma* this) {
 }
 
 void EnGoma_SetupChasePlayer(EnGoma* this) {
-    Animation_Change(&this->skelanime, &object_gol_Anim_003D78, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_003D78), ANIMMODE_LOOP,
-                     -5.0f);
+    Animation_Change(&this->skelanime, &object_gol_Anim_003D78, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_gol_Anim_003D78), ANIMMODE_LOOP, -5.0f);
     this->actionFunc = EnGoma_ChasePlayer;
     this->actionTimer = Rand_S16Offset(70, 110);
 }
 
 void EnGoma_SetupPrepareJump(EnGoma* this) {
-    Animation_Change(&this->skelanime, &object_gol_Anim_000E4C, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000E4C), ANIMMODE_ONCE,
-                     -5.0f);
+    Animation_Change(&this->skelanime, &object_gol_Anim_000E4C, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_gol_Anim_000E4C), ANIMMODE_ONCE, -5.0f);
     this->actionFunc = EnGoma_PrepareJump;
     this->actionTimer = 30;
 }
@@ -465,8 +466,8 @@ void EnGoma_PrepareJump(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupLand(EnGoma* this) {
-    Animation_Change(&this->skelanime, &object_gol_Anim_00017C, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_00017C), ANIMMODE_ONCE,
-                     0.0f);
+    Animation_Change(&this->skelanime, &object_gol_Anim_00017C, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_gol_Anim_00017C), ANIMMODE_ONCE, 0.0f);
     this->actionFunc = EnGoma_Land;
     this->actionTimer = 10;
 }
@@ -483,8 +484,8 @@ void EnGoma_Land(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupJump(EnGoma* this) {
-    Animation_Change(&this->skelanime, &object_gol_Anim_000544, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000544), ANIMMODE_ONCE,
-                     0.0f);
+    Animation_Change(&this->skelanime, &object_gol_Anim_000544, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_gol_Anim_000544), ANIMMODE_ONCE, 0.0f);
     this->actionFunc = EnGoma_Jump;
     this->actor.velocity.y = 8.0f;
 
