@@ -107,7 +107,7 @@ extern AnimationHeader D_06000AFC;
 extern Gfx D_0600EDE8[];
 extern AnimationHeader D_060014E4;
 extern AnimationHeader D_06001868;
-extern FlexSkeletonHeader D_0600F788;
+extern FlexSkeletonHeader object_im_Skel_00F788;
 extern AnimationHeader D_0600FB10;
 extern AnimationHeader D_060101C8;
 extern AnimationHeader D_06010EE0;
@@ -1112,7 +1112,7 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     func_80984D00(thisx, globalCtx);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600F788, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_im_Skel_00F788, NULL, this->jointTable, this->morphTable, 17);
     thisx->flags &= ~1;
 
     switch (this->actor.params) {

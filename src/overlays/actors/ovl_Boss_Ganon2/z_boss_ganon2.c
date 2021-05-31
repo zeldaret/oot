@@ -1,4 +1,5 @@
 #include "z_boss_ganon2.h"
+#include "objects/object_ganon/object_ganon.h"
 
 #define FLAGS 0x00000035
 
@@ -27,7 +28,6 @@ extern UNK_TYPE D_0600DFF0;
 extern UNK_TYPE D_0600E8EC;
 extern UNK_TYPE D_0600FFE4;
 extern UNK_TYPE D_06010380;
-extern UNK_TYPE D_060114E8;
 extern UNK_TYPE D_060147E0;
 extern UNK_TYPE D_06021A90;
 extern UNK_TYPE D_06025970;

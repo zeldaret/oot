@@ -1,4 +1,5 @@
 #include "z_boss_ganon.h"
+#include "objects/object_ganon/object_ganon.h"
 
 #define FLAGS 0x00000035
 
@@ -54,7 +55,6 @@ extern UNK_TYPE D_0600EA00;
 extern UNK_TYPE D_0600F19C;
 extern UNK_TYPE D_06010298;
 extern UNK_TYPE D_06010514;
-extern UNK_TYPE D_060114E8;
 
 /*
 const ActorInit Boss_Ganon_InitVars = {
