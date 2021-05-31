@@ -65,9 +65,9 @@ void ActorShadow_DrawCircle(Actor* actor, Lights* lights, GlobalContext* globalC
 }
 
 void ActorShadow_DrawWhiteCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
-    static Color_RGBA8 whiteCol = { 255, 255, 255, 255 };
+    static Color_RGBA8 white = { 255, 255, 255, 255 };
 
-    ActorShadow_Draw(actor, lights, globalCtx, gCircleShadowDL, &whiteCol);
+    ActorShadow_Draw(actor, lights, globalCtx, gCircleShadowDL, &white);
 }
 
 void ActorShadow_DrawHorse(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
@@ -234,7 +234,7 @@ static NaviColor sNaviColorList[] = {
     { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },     // ACTORCAT_BOSS,
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_DOOR,
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_CHEST
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_MAX
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // unknown extra entry (maybe a removed category?)
 };
 
 // unused
