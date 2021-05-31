@@ -5,6 +5,7 @@
  */
 
 #include "z_en_vali.h"
+#include "objects/object_vali/object_vali.h"
 
 #define FLAGS 0x00001015
 
@@ -22,22 +23,13 @@ void EnVali_Lurk(EnVali* this, GlobalContext* globalCtx);
 void EnVali_DropAppear(EnVali* this, GlobalContext* globalCtx);
 void EnVali_FloatIdle(EnVali* this, GlobalContext* globalCtx);
 void EnVali_Attacked(EnVali* this, GlobalContext* globalCtx);
-void EnVali_DamagedInvincible(EnVali* this, GlobalContext* globalCtx);
+void EnVali_Retaliate(EnVali* this, GlobalContext* globalCtx);
 void EnVali_MoveArmsDown(EnVali* this, GlobalContext* globalCtx);
 void EnVali_Burnt(EnVali* this, GlobalContext* globalCtx);
 void EnVali_DivideAndDie(EnVali* this, GlobalContext* globalCtx);
 void EnVali_Stunned(EnVali* this, GlobalContext* globalCtx);
 void EnVali_Frozen(EnVali* this, GlobalContext* globalCtx);
 void EnVali_ReturnToLurk(EnVali* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06000710; // Flap arms wide
-extern AnimationHeader D_06000854; // Swing arms up quickly
-extern AnimationHeader D_06000B34; // Fold arms down
-extern AnimationHeader D_060014AC; // Flap arms medium and slow
-extern Gfx D_06002610[];
-extern Gfx D_06002740[];
-extern Gfx D_060027D8[];
-extern SkeletonHeader D_06004848;
 
 const ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,
@@ -152,7 +144,7 @@ void EnVali_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06004848, &D_060014AC, this->jointTable, this->morphTable, EN_VALI_LIMB_MAX);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gBariSkel, &gBariLurkingAnim, this->jointTable, this->morphTable, EN_VALI_LIMB_MAX);
 
     Collider_InitQuad(globalCtx, &this->colliderQuad1);
     Collider_SetQuad(globalCtx, &this->colliderQuad1, &this->actor, &sQuadInit);
@@ -185,7 +177,7 @@ void EnVali_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26878.s")
 void EnVali_SetupLurk(EnVali* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_060014AC);
+    Animation_PlayLoop(&this->skelAnime, &gBariLurkingAnim);
     this->actor.draw = NULL;
     this->colliderCylinder.base.acFlags &= ~AC_ON;
     this->actionFunc = EnVali_Lurk;
@@ -201,7 +193,7 @@ void EnVali_SetupDropAppear(EnVali* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B268FC.s")
 void EnVali_SetupFloatIdle(EnVali* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06000710, -3.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gBariWaitingAnim, -3.0f);
     this->colliderQuad1.dim.quad[2] = this->colliderQuad1.dim.quad[3] = this->colliderQuad2.dim.quad[2] =
         this->colliderQuad2.dim.quad[3] = this->colliderQuad1.dim.quad[0] = this->colliderQuad1.dim.quad[1] =
             this->colliderQuad2.dim.quad[0] = this->colliderQuad2.dim.quad[1] = this->actor.world.pos;
@@ -229,17 +221,17 @@ void EnVali_SetupAttacked(EnVali* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26B4C.s")
-void EnVali_SetupDamagedInvincible(EnVali* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000854, -5.0f);
+void EnVali_SetupRetaliate(EnVali* this) {
+    Animation_MorphToPlayOnce(&this->skelAnime, &gBariRetaliatingAnim, -5.0f);
     Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
     this->actor.params = BARI_TYPE_NORMAL;
     this->colliderCylinder.base.acFlags &= ~AC_ON;
-    this->actionFunc = EnVali_DamagedInvincible;
+    this->actionFunc = EnVali_Retaliate;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26BBC.s")
 void EnVali_SetupMoveArmsDown(EnVali* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06000B34);
+    Animation_PlayOnce(&this->skelAnime, &gBariMovingArmsDownAnim);
     this->actionFunc = EnVali_MoveArmsDown;
 }
 
@@ -273,7 +265,7 @@ void EnVali_SetupDivideAndDie(EnVali* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26D54.s")
 void EnVali_SetupStunned(EnVali* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000710, 10.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gBariWaitingAnim, 10.0f);
     this->timer = 80;
     this->actor.velocity.y = 0.0f;
     Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 80);
@@ -294,7 +286,7 @@ void EnVali_SetupFrozen(EnVali* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26E40.s")
 void EnVali_SetupReturnToLurk(EnVali* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060014AC, 10.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gBariLurkingAnim, 10.0f);
     this->actor.flags |= 0x10;
     this->actor.flags &= ~1;
     this->actionFunc = EnVali_ReturnToLurk;
@@ -389,7 +381,7 @@ void EnVali_Attacked(EnVali* this, GlobalContext* globalCtx) {
         this->actor.flags |= 1;
         this->colliderCylinder.base.acFlags |= AC_ON;
         if (this->actor.params == BARI_TYPE_SWORD_DAMAGE) {
-            EnVali_SetupDamagedInvincible(this);
+            EnVali_SetupRetaliate(this);
         } else {
             this->actionFunc = EnVali_FloatIdle;
         }
@@ -401,7 +393,7 @@ void EnVali_Attacked(EnVali* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B273D0.s")
-void EnVali_DamagedInvincible(EnVali* this, GlobalContext* globalCtx) {
+void EnVali_Retaliate(EnVali* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health != 0) {
             EnVali_SetupMoveArmsDown(this);
@@ -554,7 +546,7 @@ void EnVali_UpdateDamage(EnVali* this, GlobalContext* globalCtx) {
                         this->actor.params = BARI_TYPE_SWORD_DAMAGE;
                         EnVali_SetupAttacked(this);
                     } else {
-                        EnVali_SetupDamagedInvincible(this);
+                        EnVali_SetupRetaliate(this);
                     }
                 } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_FIRE) {
                     EnVali_SetupBurnt(this);
@@ -565,7 +557,7 @@ void EnVali_UpdateDamage(EnVali* this, GlobalContext* globalCtx) {
                         this->slingshotReactionTimer = 20;
                     }
                 } else { // Only DMGEFF_NONE
-                    EnVali_SetupDamagedInvincible(this);
+                    EnVali_SetupRetaliate(this);
                 }
             }
         }
@@ -623,7 +615,7 @@ void func_80B27C1C(EnVali* this, f32 curFrame, Vec3f* arg2) {
         }
 
         arg2->y -= (0.2f * sinf(temp_v0_2 * (M_PI / 10)));
-    } else if (this->actionFunc == EnVali_DamagedInvincible) {
+    } else if (this->actionFunc == EnVali_Retaliate) {
         temp_f0 = sinf((M_PI / 10) * curFrame);
         arg2->y -= (0.24f * temp_f0);
         arg2->x -= (0.13f * temp_f0);
@@ -661,7 +653,7 @@ void func_80B27E38(EnVali* this, f32 curFrame, Vec3f* arg2) {
         }
 
         arg2->y -= (0.13f * sinf(temp_v0_2 * (M_PI / 10)));
-    } else if (this->actionFunc == EnVali_DamagedInvincible) {
+    } else if (this->actionFunc == EnVali_Retaliate) {
         temp_f0 = sinf((M_PI / 10) * curFrame);
         arg2->y -= (0.18f * temp_f0);
         arg2->x -= (0.1f * temp_f0);
@@ -696,7 +688,7 @@ s32 func_80B28054(EnVali* this, f32 curFrame) {
         } else {
             phi_f2 = 1.5f;
         }
-    } else if (this->actionFunc == EnVali_DamagedInvincible) {
+    } else if (this->actionFunc == EnVali_Retaliate) {
         phi_f2 = 1.0f - (sinf((M_PI / 10) * curFrame) * 0.35f);
     } else if (this->actionFunc == EnVali_MoveArmsDown) {
         phi_f2 = 1.0f - (cosf((M_PI / 50) * curFrame) * 0.35f);
@@ -727,7 +719,7 @@ s32 EnVali_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     } else {
         curFrame = this->skelAnime.curFrame;
 
-        if ((limbIndex == 9) || (limbIndex == 18)) {
+        if ((limbIndex == EN_VALI_LIMB_LEFT_ARM_BASE) || (limbIndex == EN_VALI_LIMB_RIGHT_ARM_BASE)) {
             if (func_80B28054(this, curFrame)) {
                 Matrix_Scale(this->unk_2F4, 1.0f, 1.0f, MTXMODE_APPLY);
             }
@@ -746,11 +738,11 @@ void EnVali_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     EnVali* this = THIS;
 
     if (this->actionFunc == EnVali_FloatIdle) {
-        if ((limbIndex == 11) || (limbIndex == 20)) {
+        if ((limbIndex == EN_VALI_LIMB_LEFT_FOREARM_BASE) || (limbIndex == EN_VALI_LIMB_RIGHT_FOREARM_BASE)) {
             Matrix_MultVec3f(&D_80B28970, &sp3C);
             Matrix_MultVec3f(&D_80B2897C, &sp30);
 
-            if (limbIndex == 11) {
+            if (limbIndex == EN_VALI_LIMB_LEFT_FOREARM_BASE) {
                 Collider_SetQuadVertices(&this->colliderQuad1, &sp30, &sp3C, &this->colliderQuad1.dim.quad[0],
                                          &this->colliderQuad1.dim.quad[1]);
             } else {
@@ -778,7 +770,7 @@ void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1436),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_06002610);
+    gSPDisplayList(POLY_XLU_DISP++, gBariInnerHoodDL);
     Matrix_Put(&mtx);
     Matrix_RotateY(-this->actor.shape.rot.y * (M_PI / 32768.0f), MTXMODE_APPLY);
 
@@ -787,17 +779,17 @@ void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1446),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_06002740);
+    gSPDisplayList(POLY_XLU_DISP++, gBariNucleusDL);
     Matrix_Translate((506.0f * cos) + (372.0f * sin), 1114.0f, (372.0f * cos) - (506.0f * sin), MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1455),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_06002740);
+    gSPDisplayList(POLY_XLU_DISP++, gBariNucleusDL);
     Matrix_Translate((-964.0f * cos) - (804.0f * sin), -108.0f, (-804.0f * cos) + (964.0f * sin), MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1463),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_06002740);
+    gSPDisplayList(POLY_XLU_DISP++, gBariNucleusDL);
     Matrix_Put(&mtx);
     sp68.z = 1.0f;
     sp68.y = 1.0f;
@@ -807,7 +799,7 @@ void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1471),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_060027D8);
+    gSPDisplayList(POLY_XLU_DISP++, gBariOuterHoodDL);
     Matrix_Put(&mtx);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_vali.c", 1477);
