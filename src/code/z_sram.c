@@ -558,8 +558,9 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
                 bzero(&gSaveContext.entranceIndex, sizeof(gSaveContext.entranceIndex));
                 bzero(&gSaveContext.linkAge, sizeof(gSaveContext.linkAge));
                 bzero(&gSaveContext.cutsceneIndex, sizeof(gSaveContext.cutsceneIndex));
-                //! @bug: The size here was probably not intended to be multiplied by 2
-                bzero(&gSaveContext.dayTime, sizeof(gSaveContext.dayTime) * 2);
+                // The size here is probably meant to be sizeof(gSaveContext.dayTime), but the devs just the size of 4
+                // for all of these.
+                bzero(&gSaveContext.dayTime, sizeof(s32));
                 bzero(&gSaveContext.nightFlag, sizeof(gSaveContext.nightFlag));
                 bzero(&gSaveContext.numDays, sizeof(gSaveContext.numDays));
                 bzero(&gSaveContext.unk_18, sizeof(gSaveContext.unk_18));
