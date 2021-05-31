@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ta.h"
+#include "objects/object_ta/object_ta.h"
 #include "vt.h"
 
 #define FLAGS 0x00000009
@@ -75,13 +76,6 @@ UNK_TYPE D_80B16E88[] = {
     0x06006EC0,
     0x060072C0,
 };
-
-extern AnimationHeader object_ta_Anim_00BF38;
-extern AnimationHeader object_ta_Anim_00C48C;
-extern AnimationHeader object_ta_Anim_00C858;
-extern AnimationHeader object_ta_Anim_00CD50;
-extern AnimationHeader object_ta_Anim_00CF28;
-extern AnimationHeader object_ta_Anim_00E3D8;
 
 void func_80B13AA0(EnTa* this, EnTaActionFunc arg1, EnTaUnkFunc arg2) {
     this->unk_25C = arg1;

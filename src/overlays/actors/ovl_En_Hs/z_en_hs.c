@@ -52,9 +52,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 40, 0, { 0, 0, 0 } },
 };
 
-extern AnimationHeader object_hs_Anim_000304;
-extern AnimationHeader object_hs_Anim_000528;
-
 void func_80A6E3A0(EnHs* this, EnHsActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
