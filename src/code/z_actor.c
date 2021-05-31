@@ -5,6 +5,9 @@
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
+static CollisionPoly* sCurCeilingPoly;
+static s32 sCurCeilingBgId;
+
 void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale) {
     shape->yOffset = yOffset;
     shape->shadowDraw = shadowDraw;
@@ -95,8 +98,6 @@ void ActorShadow_DrawFoot(GlobalContext* globalCtx, Light* light, MtxF* arg2, s3
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1693);
 }
 
-#ifdef NON_MATCHING
-// function is matching but breaks bss later on in the file
 void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
     f32 distToFloor = actor->world.pos.y - actor->floorHeight;
 
@@ -199,9 +200,6 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1831);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/ActorShadow_DrawFeet.s")
-#endif
 
 void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
                       Vec3f* rightFootPos) {
@@ -1141,9 +1139,6 @@ s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
     return true;
 }
 
-static CollisionPoly* sCurCeilingPoly;
-static s32 sCurCeilingBgId;
-
 s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3) {
     f32 floorHeightDiff;
     s32 floorBgId;
@@ -1889,13 +1884,13 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 200, alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
 
-            Matrix_RotateZ((f32)((globalCtx->gameplayFrames * 1500) & 0xFFFF) * M_PI / 32768.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(((globalCtx->gameplayFrames * 1500) & 0xFFFF) * M_PI / 32768.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
 
             Matrix_Pop();
-            Matrix_RotateZ((f32)(~((globalCtx->gameplayFrames * 1200) & 0xFFFF)) * M_PI / 32768.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(~((globalCtx->gameplayFrames * 1200) & 0xFFFF) * M_PI / 32768.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
