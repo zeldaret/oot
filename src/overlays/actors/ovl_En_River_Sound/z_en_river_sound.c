@@ -37,7 +37,7 @@ void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params >= RS_MAX) {
         func_800F4870(this->actor.params - RS_MAX);
         Actor_Kill(&this->actor);
-    } else if (this->actor.params == RS_UNK_247) {
+    } else if (this->actor.params == RS_UNK_F7) {
         func_800F6FB4(4);
         Actor_Kill(&this->actor);
     } else if (this->actor.params == RS_SARIAS_SONG) {
