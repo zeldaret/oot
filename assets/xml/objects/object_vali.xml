@@ -7,7 +7,7 @@
         <Animation Name="object_vali_Anim_0014AC" Offset="0x14AC"/>
         <DList Name="object_vali_DL_002610" Offset="0x2610"/>
         <DList Name="object_vali_DL_002740" Offset="0x2740"/>
-        <DList Name="object_vali_DL_0027D8" Offset="0x27D8"/>
+        <DList Name="gBariOuterHoodDL" Offset="0x27D8"/>
         <DList Name="object_vali_DL_002968" Offset="0x2968"/>
         <DList Name="object_vali_DL_002A28" Offset="0x2A28"/>
         <DList Name="object_vali_DL_002AE8" Offset="0x2AE8"/>
@@ -23,6 +23,6 @@
         <Texture Name="object_vali_Tex_003988" OutName="tex_00003988" Format="ia16" Width="16" Height="32" Offset="0x3988"/>
         <Texture Name="object_vali_Tex_003D88" OutName="tex_00003D88" Format="ia16" Width="8" Height="16" Offset="0x3D88"/>
         <Texture Name="object_vali_Tex_003E88" OutName="tex_00003E88" Format="ia16" Width="32" Height="32" Offset="0x3E88"/>
-        <Skeleton Name="gBariSkel" Type="Normalo" LimbType="Standard" Offset="0x4848"/>
+        <Skeleton Name="gBariSkel" Type="Normal" LimbType="Standard" Offset="0x4848"/>
     </File>
 </Root>

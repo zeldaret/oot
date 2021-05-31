@@ -21,8 +21,8 @@ void EnVali_SetupDropAppear(EnVali* this);
 void EnVali_Lurk(EnVali* this, GlobalContext* globalCtx);
 void EnVali_DropAppear(EnVali* this, GlobalContext* globalCtx);
 void EnVali_FloatIdle(EnVali* this, GlobalContext* globalCtx);
-void func_80B27318(EnVali* this, GlobalContext* globalCtx);
-void func_80B273D0(EnVali* this, GlobalContext* globalCtx);
+void EnVali_Attacked(EnVali* this, GlobalContext* globalCtx);
+void EnVali_DamagedInvincible(EnVali* this, GlobalContext* globalCtx);
 void EnVali_MoveArmsDown(EnVali* this, GlobalContext* globalCtx);
 void EnVali_Burnt(EnVali* this, GlobalContext* globalCtx);
 void EnVali_DivideAndDie(EnVali* this, GlobalContext* globalCtx);
@@ -152,7 +152,7 @@ void EnVali_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06004848, &D_060014AC, this->jointTable, this->morphTable, 29);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06004848, &D_060014AC, this->jointTable, this->morphTable, EN_VALI_LIMB_MAX);
 
     Collider_InitQuad(globalCtx, &this->colliderQuad1);
     Collider_SetQuad(globalCtx, &this->colliderQuad1, &this->actor, &sQuadInit);
@@ -167,7 +167,7 @@ void EnVali_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.flags &= ~1;
     this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &bgId,
                                                           &this->actor, &this->actor.world.pos);
-    this->actor.params = 0;
+    this->actor.params = BARI_TYPE_NORMAL;
 
     if (this->actor.floorHeight == BGCHECK_Y_MIN) {
         Actor_Kill(&this->actor);
@@ -218,20 +218,23 @@ void EnVali_SetupFloatIdle(EnVali* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26B18.s")
-void func_80B26B18(EnVali* this) {
-    this->unk_194 = 20;
+/**
+ *  Touched by an AT. Sword has special logic using params.
+ */
+void EnVali_SetupAttacked(EnVali* this) {
+    this->lightningTimer = 20;
     this->actor.flags &= ~1;
     this->colliderCylinder.base.acFlags &= ~AC_ON;
-    this->actionFunc = func_80B27318;
+    this->actionFunc = EnVali_Attacked;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26B4C.s")
-void func_80B26B4C(EnVali* this) {
+void EnVali_SetupDamagedInvincible(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000854, -5.0f);
     Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
-    this->actor.params = 0;
+    this->actor.params = BARI_TYPE_NORMAL;
     this->colliderCylinder.base.acFlags &= ~AC_ON;
-    this->actionFunc = func_80B273D0;
+    this->actionFunc = EnVali_DamagedInvincible;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B26BBC.s")
@@ -256,7 +259,7 @@ void EnVali_SetupDivideAndDie(EnVali* this, GlobalContext* globalCtx) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BILI, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, this->actor.world.rot.y, 0, 0);
 
-        this->actor.world.rot.y += 0x5555;
+        this->actor.world.rot.y += 0x10000 / 3;
     }
 
     Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
@@ -310,7 +313,7 @@ void EnVali_DischargeLightning(EnVali* this, GlobalContext* globalCtx) {
     for (i = 0; i < 4; i++) {
         cos = -Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM));
         sin = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM));
-        if (!((this->unk_194 + (i << 1)) % 4)) {
+        if (!((this->lightningTimer + (i << 1)) % 4)) {
             effectYaw = (s16)(s32)Rand_CenteredFloat(12288.0f) + (i * 0x4000) + 0x2000;
             effectPos.x = this->actor.world.pos.x + (Math_SinS(effectYaw) * 12.0f * cos);
             effectPos.y = this->actor.world.pos.y - (Math_CosS(effectYaw) * 12.0f) + 10.0f;
@@ -376,21 +379,21 @@ void EnVali_FloatIdle(EnVali* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27318.s")
-void func_80B27318(EnVali* this, GlobalContext* globalCtx) {
-    if (this->unk_194 != 0) {
-        this->unk_194--;
+void EnVali_Attacked(EnVali* this, GlobalContext* globalCtx) {
+    if (this->lightningTimer != 0) {
+        this->lightningTimer--;
     }
     EnVali_DischargeLightning(this, globalCtx);
 
-    if (this->unk_194 == 0) {
+    if (this->lightningTimer == 0) {
         this->actor.flags |= 1;
         this->colliderCylinder.base.acFlags |= AC_ON;
-        if (this->actor.params == 1) {
-            func_80B26B4C(this);
+        if (this->actor.params == BARI_TYPE_SWORD_DAMAGE) {
+            EnVali_SetupDamagedInvincible(this);
         } else {
             this->actionFunc = EnVali_FloatIdle;
         }
-    } else if ((this->unk_194 % 2) != 0) {
+    } else if ((this->lightningTimer % 2) != 0) {
         this->actor.world.pos.y += 1.0f;
     } else {
         this->actor.world.pos.y -= 1.0f;
@@ -398,7 +401,7 @@ void func_80B27318(EnVali* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B273D0.s")
-void func_80B273D0(EnVali* this, GlobalContext* globalCtx) {
+void EnVali_DamagedInvincible(EnVali* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health != 0) {
             EnVali_SetupMoveArmsDown(this);
@@ -485,7 +488,7 @@ void EnVali_Stunned(EnVali* this, GlobalContext* globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27710.s")
 void EnVali_Frozen(EnVali* this, GlobalContext* globalCtx) {
     Vec3f effectPos;
-    s32 temp_v0_2;
+    s32 temp_v0;
     s32 temp_v1;
 
     if (this->timer != 0) {
@@ -494,12 +497,12 @@ void EnVali_Frozen(EnVali* this, GlobalContext* globalCtx) {
     temp_v1 = this->timer - 20;
     this->actor.colorFilterTimer = 36;
     if (temp_v1 > 0) {
-        temp_v0_2 = temp_v1 >> 1;
+        temp_v0 = temp_v1 >> 1;
         if ((this->timer & 1) != 0) {
-            effectPos.y = this->actor.world.pos.y - 20.0f + (-temp_v0_2 * 5 + 40);
+            effectPos.y = this->actor.world.pos.y - 20.0f + (-temp_v0 * 5 + 40);
             // Cannot be %
-            effectPos.x = this->actor.world.pos.x + (((temp_v0_2 & 2) != 0) ? 12.0f : -12.0f);
-            effectPos.z = this->actor.world.pos.z + (((temp_v0_2 & 1) != 0) ? 12.0f : -12.0f);
+            effectPos.x = this->actor.world.pos.x + (((temp_v0 & 2) != 0) ? 12.0f : -12.0f);
+            effectPos.z = this->actor.world.pos.z + (((temp_v0 & 1) != 0) ? 12.0f : -12.0f);
 
             EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255,
                                            (Rand_ZeroOne() * 0.2f) + 1.3f);
@@ -548,10 +551,10 @@ void EnVali_UpdateDamage(EnVali* this, GlobalContext* globalCtx) {
                 if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SWORD) {
                     if (this->actionFunc != EnVali_Stunned) {
                         Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
-                        this->actor.params = 1;
-                        func_80B26B18(this);
+                        this->actor.params = BARI_TYPE_SWORD_DAMAGE;
+                        EnVali_SetupAttacked(this);
                     } else {
-                        func_80B26B4C(this);
+                        EnVali_SetupDamagedInvincible(this);
                     }
                 } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_FIRE) {
                     EnVali_SetupBurnt(this);
@@ -562,7 +565,7 @@ void EnVali_UpdateDamage(EnVali* this, GlobalContext* globalCtx) {
                         this->slingshotReactionTimer = 20;
                     }
                 } else { // Only DMGEFF_NONE
-                    func_80B26B4C(this);
+                    EnVali_SetupDamagedInvincible(this);
                 }
             }
         }
@@ -579,7 +582,7 @@ void EnVali_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->colliderQuad1.base.atFlags &= ~AT_HIT;
         this->colliderQuad2.base.atFlags &= ~AT_HIT;
         this->colliderCylinder.base.atFlags &= ~AT_HIT;
-        func_80B26B18(this);
+        EnVali_SetupAttacked(this);
     }
 
     EnVali_UpdateDamage(this, globalCtx);
@@ -603,7 +606,7 @@ void EnVali_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// Draw and functions used by Draw
+// Draw and associated functions
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27C1C.s")
 void func_80B27C1C(EnVali* this, f32 curFrame, Vec3f* arg2) {
@@ -612,15 +615,15 @@ void func_80B27C1C(EnVali* this, f32 curFrame, Vec3f* arg2) {
     f32 temp_f2;
     s32 temp_v0_2;
 
-    if (this->actionFunc == func_80B27318) {
-        temp_v0_2 = 20 - (this->unk_194 % 20);
+    if (this->actionFunc == EnVali_Attacked) {
+        temp_v0_2 = 20 - (this->lightningTimer % 20);
 
         if (temp_v0_2 >= 10) {
             temp_v0_2 -= 10;
         }
 
         arg2->y -= (0.2f * sinf(temp_v0_2 * (M_PI / 10)));
-    } else if (this->actionFunc == func_80B273D0) {
+    } else if (this->actionFunc == EnVali_DamagedInvincible) {
         temp_f0 = sinf((M_PI / 10) * curFrame);
         arg2->y -= (0.24f * temp_f0);
         arg2->x -= (0.13f * temp_f0);
@@ -650,15 +653,15 @@ void func_80B27E38(EnVali* this, f32 curFrame, Vec3f* arg2) {
     f32 temp_f2;
     s32 temp_v0_2;
 
-    if (this->actionFunc == func_80B27318) {
-        temp_v0_2 = 20 - (this->unk_194 % 20);
+    if (this->actionFunc == EnVali_Attacked) {
+        temp_v0_2 = 20 - (this->lightningTimer % 20);
 
         if (temp_v0_2 >= 10) {
             temp_v0_2 -= 10;
         }
 
         arg2->y -= (0.13f * sinf(temp_v0_2 * (M_PI / 10)));
-    } else if (this->actionFunc == func_80B273D0) {
+    } else if (this->actionFunc == EnVali_DamagedInvincible) {
         temp_f0 = sinf((M_PI / 10) * curFrame);
         arg2->y -= (0.18f * temp_f0);
         arg2->x -= (0.1f * temp_f0);
@@ -693,11 +696,11 @@ s32 func_80B28054(EnVali* this, f32 curFrame) {
         } else {
             phi_f2 = 1.5f;
         }
-    } else if (this->actionFunc == func_80B273D0) {
+    } else if (this->actionFunc == EnVali_DamagedInvincible) {
         phi_f2 = 1.0f - (sinf((M_PI / 10) * curFrame) * 0.35f);
     } else if (this->actionFunc == EnVali_MoveArmsDown) {
         phi_f2 = 1.0f - (cosf((M_PI / 50) * curFrame) * 0.35f);
-    } else if ((this->actionFunc == func_80B27318) || (this->actionFunc == EnVali_Frozen)) {
+    } else if ((this->actionFunc == EnVali_Attacked) || (this->actionFunc == EnVali_Frozen)) {
         phi_f2 = this->unk_2F4;
     } else {
         phi_f2 = 1.0f;
@@ -718,14 +721,14 @@ s32 EnVali_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     EnVali* this = THIS;
     f32 curFrame;
 
-    if ((limbIndex == 2) || (limbIndex == 28) || (limbIndex == 27)) {
+    if ((limbIndex == EN_VALI_LIMB_NUCLEUS) || (limbIndex == EN_VALI_LIMB_OUTER_HOOD) || (limbIndex == EN_VALI_LIMB_INNER_HOOD)) {
         *dList = NULL;
         return false;
     } else {
         curFrame = this->skelAnime.curFrame;
 
         if ((limbIndex == 9) || (limbIndex == 18)) {
-            if (func_80B28054(this, curFrame) != 0) {
+            if (func_80B28054(this, curFrame)) {
                 Matrix_Scale(this->unk_2F4, 1.0f, 1.0f, MTXMODE_APPLY);
             }
         }
@@ -833,7 +836,7 @@ void EnVali_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (127 - (globalCtx->gameplayFrames * 12)) % 128, 32, 32));
 
-    if ((this->unk_194 % 2) != 0) {
+    if ((this->lightningTimer % 2) != 0) {
         gSPSegment(POLY_XLU_DISP++, 0x09, D_80B28998);
     } else {
         gSPSegment(POLY_XLU_DISP++, 0x09, D_80B289A8);
