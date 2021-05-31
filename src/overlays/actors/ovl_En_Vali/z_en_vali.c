@@ -144,7 +144,8 @@ void EnVali_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gBariSkel, &gBariLurkingAnim, this->jointTable, this->morphTable, EN_VALI_LIMB_MAX);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gBariSkel, &gBariLurkingAnim, this->jointTable, this->morphTable,
+                   EN_VALI_LIMB_MAX);
 
     Collider_InitQuad(globalCtx, &this->colliderQuad1);
     Collider_SetQuad(globalCtx, &this->colliderQuad1, &this->actor, &sQuadInit);
@@ -603,8 +604,6 @@ void EnVali_Update(Actor* thisx, GlobalContext* globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27C1C.s")
 void func_80B27C1C(EnVali* this, f32 curFrame, Vec3f* arg2) {
     f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f2;
     s32 temp_v0_2;
 
     if (this->actionFunc == EnVali_Attacked) {
@@ -621,15 +620,15 @@ void func_80B27C1C(EnVali* this, f32 curFrame, Vec3f* arg2) {
         arg2->x -= (0.13f * temp_f0);
         arg2->z = arg2->x;
     } else if (this->actionFunc == EnVali_MoveArmsDown) {
-        temp_f0_2 = cosf((M_PI / 50) * curFrame);
-        arg2->y -= (0.24f * temp_f0_2);
-        arg2->x -= (0.13f * temp_f0_2);
+        temp_f0 = cosf((M_PI / 50) * curFrame);
+        arg2->y -= (0.24f * temp_f0);
+        arg2->x -= (0.13f * temp_f0);
         arg2->z = arg2->x;
     } else if (this->actionFunc == EnVali_Stunned) {
-        temp_f2 = sinf(this->timer * (M_PI / 10)) * 0.08f;
-        arg2->x += temp_f2;
-        arg2->y -= temp_f2;
-        arg2->z += temp_f2;
+        temp_f0 = sinf(this->timer * (M_PI / 10)) * 0.08f;
+        arg2->x += temp_f0;
+        arg2->y -= temp_f0;
+        arg2->z += temp_f0;
     } else {
         if (curFrame >= 40.0f) {
             curFrame -= 40.0f;
@@ -641,8 +640,6 @@ void func_80B27C1C(EnVali* this, f32 curFrame, Vec3f* arg2) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B27E38.s")
 void func_80B27E38(EnVali* this, f32 curFrame, Vec3f* arg2) {
     f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f2;
     s32 temp_v0_2;
 
     if (this->actionFunc == EnVali_Attacked) {
@@ -659,15 +656,15 @@ void func_80B27E38(EnVali* this, f32 curFrame, Vec3f* arg2) {
         arg2->x -= (0.1f * temp_f0);
         arg2->z = arg2->x;
     } else if (this->actionFunc == EnVali_MoveArmsDown) {
-        temp_f0_2 = cosf((M_PI / 50) * curFrame);
-        arg2->y -= (0.18f * temp_f0_2);
-        arg2->x -= (0.1f * temp_f0_2);
+        temp_f0 = cosf((M_PI / 50) * curFrame);
+        arg2->y -= (0.18f * temp_f0);
+        arg2->x -= (0.1f * temp_f0);
         arg2->z = arg2->x;
     } else if (this->actionFunc == EnVali_Stunned) {
-        temp_f2 = sinf(this->timer * (M_PI / 10)) * 0.08f;
-        arg2->x -= temp_f2;
-        arg2->y += temp_f2;
-        arg2->z -= temp_f2;
+        temp_f0 = sinf(this->timer * (M_PI / 10)) * 0.08f;
+        arg2->x -= temp_f0;
+        arg2->y += temp_f0;
+        arg2->z -= temp_f0;
     } else {
         if (curFrame >= 40.0f) {
             curFrame -= 40.0f;
@@ -677,30 +674,30 @@ void func_80B27E38(EnVali* this, f32 curFrame, Vec3f* arg2) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B28054.s")
-s32 func_80B28054(EnVali* this, f32 curFrame) {
-    f32 phi_f2;
+s32 EnVali_SetArmLength(EnVali* this, f32 curFrame) {
+    f32 targetArmScale;
 
     if (this->actionFunc == EnVali_FloatIdle) {
         if (curFrame <= 10.0f) {
-            phi_f2 = (curFrame * 0.05f) + 1.0f;
+            targetArmScale = (curFrame * 0.05f) + 1.0f;
         } else if (curFrame > 70.0f) {
-            phi_f2 = ((80.0f - curFrame) * 0.05f) + 1.0f;
+            targetArmScale = ((80.0f - curFrame) * 0.05f) + 1.0f;
         } else {
-            phi_f2 = 1.5f;
+            targetArmScale = 1.5f;
         }
     } else if (this->actionFunc == EnVali_Retaliate) {
-        phi_f2 = 1.0f - (sinf((M_PI / 10) * curFrame) * 0.35f);
+        targetArmScale = 1.0f - (sinf((M_PI / 10) * curFrame) * 0.35f);
     } else if (this->actionFunc == EnVali_MoveArmsDown) {
-        phi_f2 = 1.0f - (cosf((M_PI / 50) * curFrame) * 0.35f);
+        targetArmScale = 1.0f - (cosf((M_PI / 50) * curFrame) * 0.35f);
     } else if ((this->actionFunc == EnVali_Attacked) || (this->actionFunc == EnVali_Frozen)) {
-        phi_f2 = this->unk_2F4;
+        targetArmScale = this->armScale;
     } else {
-        phi_f2 = 1.0f;
+        targetArmScale = 1.0f;
     }
 
-    Math_StepToF(&this->unk_2F4, phi_f2, 0.1f);
+    Math_StepToF(&this->armScale, targetArmScale, 0.1f);
 
-    if (this->unk_2F4 == 1.0f) {
+    if (this->armScale == 1.0f) {
         return false;
     } else {
         return true;
@@ -713,15 +710,16 @@ s32 EnVali_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     EnVali* this = THIS;
     f32 curFrame;
 
-    if ((limbIndex == EN_VALI_LIMB_NUCLEUS) || (limbIndex == EN_VALI_LIMB_OUTER_HOOD) || (limbIndex == EN_VALI_LIMB_INNER_HOOD)) {
+    if ((limbIndex == EN_VALI_LIMB_NUCLEUS) || (limbIndex == EN_VALI_LIMB_OUTER_HOOD) ||
+        (limbIndex == EN_VALI_LIMB_INNER_HOOD)) {
         *dList = NULL;
         return false;
     } else {
         curFrame = this->skelAnime.curFrame;
 
         if ((limbIndex == EN_VALI_LIMB_LEFT_ARM_BASE) || (limbIndex == EN_VALI_LIMB_RIGHT_ARM_BASE)) {
-            if (func_80B28054(this, curFrame)) {
-                Matrix_Scale(this->unk_2F4, 1.0f, 1.0f, MTXMODE_APPLY);
+            if (EnVali_SetArmLength(this, curFrame)) {
+                Matrix_Scale(this->armScale, 1.0f, 1.0f, MTXMODE_APPLY);
             }
         }
 
@@ -754,19 +752,19 @@ void EnVali_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vali/func_ 80B28344.s")
-void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
+void EnVali_DrawBody(EnVali* this, GlobalContext* globalCtx) {
     MtxF mtx;
     f32 cos;
     f32 sin;
     f32 curFrame;
-    Vec3f sp68 = { 1.0f, 1.0f, 1.0f };
+    Vec3f scale = { 1.0f, 1.0f, 1.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_vali.c", 1428);
 
     Matrix_Get(&mtx);
     curFrame = this->skelAnime.curFrame;
-    func_80B27E38(this, curFrame, &sp68);
-    Matrix_Scale(sp68.x, sp68.y, sp68.z, MTXMODE_APPLY);
+    func_80B27E38(this, curFrame, &scale);
+    Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1436),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -791,11 +789,11 @@ void func_80B28344(EnVali* this, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gBariNucleusDL);
     Matrix_Put(&mtx);
-    sp68.z = 1.0f;
-    sp68.y = 1.0f;
-    sp68.x = 1.0f;
-    func_80B27C1C(this, curFrame, &sp68);
-    Matrix_Scale(sp68.x, sp68.y, sp68.z, MTXMODE_APPLY);
+    scale.z = 1.0f;
+    scale.y = 1.0f;
+    scale.x = 1.0f;
+    func_80B27C1C(this, curFrame, &scale);
+    Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vali.c", 1471),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -834,7 +832,7 @@ void EnVali_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_XLU_DISP++, 0x09, D_80B289A8);
     }
 
-    func_80B28344(this, globalCtx);
+    EnVali_DrawBody(this, globalCtx);
 
     POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                    EnVali_OverrideLimbDraw, EnVali_PostLimbDraw, this, POLY_XLU_DISP);
