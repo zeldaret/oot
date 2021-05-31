@@ -1821,9 +1821,9 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 osSyncPrintf("-------- DISPLAY Y=%f\n", yOffset);
             }
 
-            effectPos.x = curPos->x + Rand_CenteredFloat(6.0F);
+            effectPos.x = curPos->x + Rand_CenteredFloat(6.0f);
             effectPos.y = curPos->y + 80.0f + (6.0f * Rand_ZeroOne());
-            effectPos.z = curPos->z + Rand_CenteredFloat(6.0F);
+            effectPos.z = curPos->z + Rand_CenteredFloat(6.0f);
 
             EffectSsKiraKira_SpawnDispersed(globalCtx, &effectPos, &effectVel, &effectAccel, &effectPrimCol,
                                             &effectEnvCol, 1000, 16);
