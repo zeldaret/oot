@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_haka.h"
+#include "objects/object_hakach_objects/object_hakach_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -39,7 +40,6 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern CollisionHeader D_06000428;
-extern Gfx D_060001B0[];
 extern Gfx D_060002A8[];
 
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -159,7 +159,7 @@ void BgHaka_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 406),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_060001B0);
+    gSPDisplayList(POLY_OPA_DISP++, gBotwHoleTrap1DL);
     Matrix_Translate(0.0f, 0.0f, thisx->minVelocityY * 10.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 416),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
