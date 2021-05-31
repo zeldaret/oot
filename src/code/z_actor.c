@@ -133,7 +133,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1741);
 
-        POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 44);
+        POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 0x2C);
 
         actor->shape.feetFloorFlags = 0;
 
@@ -1872,7 +1872,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex) == globalCtx->roomCtx.curRoom.num)) {
             f32 scale = 0.025f * ratio;
 
-            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);
+            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
 
             Matrix_Translate(((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x),
                              ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
