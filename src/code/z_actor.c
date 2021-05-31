@@ -190,6 +190,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
             actor->shape.feetFloorFlags = 0;
         } else if (actor->shape.feetFloorFlags == 3) {
             f32 footDistY = actor->shape.feetPos[FOOT_LEFT].y - actor->shape.feetPos[FOOT_RIGHT].y;
+
             if ((floorHeight[0] + footDistY) < (floorHeight[1] - footDistY)) {
                 actor->shape.feetFloorFlags = 2;
             } else {
@@ -1816,9 +1817,9 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 osSyncPrintf("-------- DISPLAY Y=%f\n", yOffset);
             }
 
-            effectPos.x = curPos->x + Rand_CenteredFloat(6.0F);
+            effectPos.x = curPos->x + Rand_CenteredFloat(6.0f);
             effectPos.y = curPos->y + 80.0f + (6.0f * Rand_ZeroOne());
-            effectPos.z = curPos->z + Rand_CenteredFloat(6.0F);
+            effectPos.z = curPos->z + Rand_CenteredFloat(6.0f);
 
             EffectSsKiraKira_SpawnDispersed(globalCtx, &effectPos, &effectVel, &effectAccel, &effectPrimCol,
                                             &effectEnvCol, 1000, 16);
