@@ -47,6 +47,7 @@ graphs/
 *.mtl
 *.fbx
 !*_custom*
+.extracted-assets.json
 
 # Per-user configuration
 .python-version

@@ -4,11 +4,11 @@
 #include <assimp/scene.h>
 #include <stdint.h>
 #include <string>
-#include <tinyxml2.h>
 #include <vector>
 #include "../ZDisplayList.h"
 #include "../ZSkeleton.h"
 #include "HLFileIntermediette.h"
+#include "tinyxml2.h"
 
 /*
  * An intermediette format for models. Goes from FBX<-->Intermediette<-->Display List C Code.
@@ -156,12 +156,12 @@ public:
 class HLVerticesIntermediette : public HLIntermediette
 {
 public:
-	std::vector<Vertex> vertices;
+	std::vector<ZVtx> vertices;
 
 	HLVerticesIntermediette();
 
 	virtual void InitFromXML(tinyxml2::XMLElement* verticesElement);
-	void InitFromVertices(std::vector<Vertex> dispListVertices);
+	void InitFromVertices(std::vector<ZVtx> dispListVertices);
 	virtual std::string OutputCode(HLModelIntermediette* parent);
 	virtual std::string OutputOBJ();
 	virtual void OutputAssimp(aiScene* scene, std::vector<aiVector3D>* verts);

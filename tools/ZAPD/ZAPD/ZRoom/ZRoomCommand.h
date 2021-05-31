@@ -1,9 +1,12 @@
 #pragma once
 
-#include <tinyxml2.h>
+#include "tinyxml2.h"
 
 #include <string>
 #include <vector>
+
+#include "ZFile.h"
+#include "ZResource.h"
 
 class ZRoom;
 
@@ -38,7 +41,7 @@ enum class RoomCommand : uint8_t
 
 	// MM Commands
 	SetWorldMapVisited = 0x19,
-	SetAnimatedTextureList = 0x1A,
+	SetAnimatedMaterialList = 0x1A,
 	SetActorCutsceneList = 0x1B,
 	SetMinimapList = 0x1C,
 	Unused1D = 0x1D,
@@ -47,28 +50,39 @@ enum class RoomCommand : uint8_t
 	Error = 0xFF
 };
 
-class ZRoomCommand
+class ZRoomCommand : public ZResource
 {
 public:
-	RoomCommand cmdID;
 	int32_t cmdAddress;
 	uint32_t cmdIndex;
-	int32_t cmdSet;
 	uint32_t commandSet;
 
-	ZRoomCommand() = default;
-	ZRoomCommand(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
-	virtual ~ZRoomCommand();
-	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress);
-	virtual std::string GenerateSourceCodePass2(std::string roomName, uint32_t baseAddress);
-	virtual std::string GenerateSourceCodePass3(std::string roomName);
-	virtual RoomCommand GetRoomCommand();
-	virtual size_t GetRawDataSize();
-	virtual std::string GetCommandCName();
-	virtual std::string GenerateExterns();
-	virtual std::string Save();
-	virtual std::string PreGenSourceFiles();
+	ZRoomCommand(ZFile* nParent);
+	virtual ~ZRoomCommand() = default;
+
+	virtual void ExtractCommandFromRoom(ZRoom* nZRoom, uint32_t nRawDataIndex);
+
+	void ParseRawData() override;
+
+	virtual void ParseRawDataLate();
+	virtual void DeclareReferencesLate(const std::string& prefix);
+
+	virtual std::string GetBodySourceCode() const = 0;
+
+	ZResourceType GetResourceType() const override;
+
+	// Getters/Setters
+	virtual RoomCommand GetRoomCommand() const = 0;
+	size_t GetRawDataSize() const override;
+	virtual std::string GetCommandCName() const;
+
+	virtual std::string GetCommandHex() const;
 
 protected:
 	ZRoom* zRoom;
+
+	RoomCommand cmdID;
+	uint8_t cmdArg1;
+	segptr_t cmdArg2;
+	uint32_t segmentOffset;
 };

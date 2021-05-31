@@ -1,32 +1,36 @@
 #include "SetSkyboxSettings.h"
-#include "../../Globals.h"
-#include "../../StringHelper.h"
+#include "Globals.h"
+#include "StringHelper.h"
 
-using namespace std;
-
-SetSkyboxSettings::SetSkyboxSettings(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetSkyboxSettings::SetSkyboxSettings(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	unk1 = rawData[rawDataIndex + 0x01];
-	skyboxNumber = rawData[rawDataIndex + 0x04];
-	cloudsType = rawData[rawDataIndex + 0x05];
-	lightingSettingsControl = rawData[rawDataIndex + 0x06];
 }
 
-string SetSkyboxSettings::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
+void SetSkyboxSettings::ParseRawData()
 {
-	return StringHelper::Sprintf(
-		"%s 0x%02X, 0x00, 0x00, 0x%02X, 0x%02X, 0x%02X",
-		ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(), unk1, skyboxNumber,
-		cloudsType, lightingSettingsControl);
+	ZRoomCommand::ParseRawData();
+	unk1 = cmdArg1;
+	skyboxNumber = parent->GetRawData().at(rawDataIndex + 0x04);
+	cloudsType = parent->GetRawData().at(rawDataIndex + 0x05);
+	isIndoors = parent->GetRawData().at(rawDataIndex + 0x06);
 }
 
-string SetSkyboxSettings::GetCommandCName()
+std::string SetSkyboxSettings::GetBodySourceCode() const
+{
+	std::string indoors = StringHelper::BoolStr(isIndoors);
+	if (Globals::Instance->game == ZGame::MM_RETAIL)
+		return StringHelper::Sprintf("SCENE_CMD_SKYBOX_SETTINGS(0x%02X, %i, %i, %s)", unk1,
+		                             skyboxNumber, cloudsType, indoors.c_str());
+	return StringHelper::Sprintf("SCENE_CMD_SKYBOX_SETTINGS(%i, %i, %s)", skyboxNumber, cloudsType,
+	                             indoors.c_str());
+}
+
+std::string SetSkyboxSettings::GetCommandCName() const
 {
 	return "SCmdSkyboxSettings";
 }
 
-RoomCommand SetSkyboxSettings::GetRoomCommand()
+RoomCommand SetSkyboxSettings::GetRoomCommand() const
 {
 	return RoomCommand::SetSkyboxSettings;
 }

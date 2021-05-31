@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include <memory>
+#include "ZRoom/ZRoomCommand.h"
 
 // TODO move into header and add all types
 class AnitmatedTextureParams
 {
 public:
-	virtual ~AnitmatedTextureParams();
 	virtual std::string GenerateSourceCode(ZRoom* zRoom, uint32_t baseAddress) = 0;
 	virtual size_t GetParamsSize() = 0;
 };
@@ -14,7 +14,7 @@ public:
 class ScrollingTexture : public AnitmatedTextureParams
 {
 public:
-	ScrollingTexture(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
+	ScrollingTexture(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 	std::string GenerateSourceCode(ZRoom* zRoom, uint32_t baseAddress) override;
 	size_t GetParamsSize() override;
 
@@ -24,10 +24,10 @@ public:
 	uint8_t height;
 };
 
-class FlashingTexturePrimColor
+class F3DPrimColor
 {
 public:
-	FlashingTexturePrimColor(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
+	F3DPrimColor(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 
 	uint8_t r;
 	uint8_t g;
@@ -39,7 +39,7 @@ public:
 class FlashingTextureEnvColor
 {
 public:
-	FlashingTextureEnvColor(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
+	FlashingTextureEnvColor(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 
 	uint8_t r;
 	uint8_t g;
@@ -50,29 +50,37 @@ public:
 class FlashingTexture : public AnitmatedTextureParams
 {
 public:
-	FlashingTexture(std::vector<uint8_t> rawData, uint32_t rawDataIndex, int32_t type);
+	FlashingTexture(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex, int32_t type);
 	std::string GenerateSourceCode(ZRoom* zRoom, uint32_t baseAddress) override;
 	size_t GetParamsSize() override;
 
 	uint16_t cycleLength;
 	uint16_t numKeyFrames;
+
+	segptr_t primColorSegmentAddr;
+	segptr_t envColorSegmentAddr;
+	segptr_t keyFrameSegmentAddr;
+
 	uint32_t primColorSegmentOffset;
 	uint32_t envColorSegmentOffset;
 	uint32_t keyFrameSegmentOffset;
 
-	std::vector<FlashingTexturePrimColor> primColors;
+	std::vector<F3DPrimColor> primColors;
 	std::vector<FlashingTextureEnvColor> envColors;
 	std::vector<uint16_t> keyFrames;
 };
 
-class CyclingTextureParams : public AnitmatedTextureParams
+class AnimatedMatTexCycleParams : public AnitmatedTextureParams
 {
 public:
-	CyclingTextureParams(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
+	AnimatedMatTexCycleParams(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 	std::string GenerateSourceCode(ZRoom* zRoom, uint32_t baseAddress) override;
 	size_t GetParamsSize() override;
 
 	uint16_t cycleLength;
+
+	segptr_t textureSegmentOffsetsSegmentAddress;
+	segptr_t textureIndicesSegmentAddress;
 	uint32_t textureSegmentOffsetsSegmentOffset;
 	uint32_t textureIndicesSegmentOffset;
 
@@ -80,34 +88,32 @@ public:
 	std::vector<uint8_t> textureIndices;
 };
 
-class AnimatedTexture
+class AnimatedMaterial
 {
 public:
-	AnimatedTexture(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
-	virtual ~AnimatedTexture();
+	AnimatedMaterial(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 
 	int8_t segment;
 	int16_t type;
+	segptr_t segmentAddress;
 	uint32_t segmentOffset;
-	std::vector<AnitmatedTextureParams*> params;
+	std::vector<std::shared_ptr<AnitmatedTextureParams>> params;
 };
 
-class SetAnimatedTextureList : public ZRoomCommand
+class SetAnimatedMaterialList : public ZRoomCommand
 {
 public:
-	SetAnimatedTextureList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
-	~SetAnimatedTextureList();
+	SetAnimatedMaterialList(ZFile* nParent);
 
-	std::string GetSourceOutputCode(std::string prefix);
-	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
-	virtual RoomCommand GetRoomCommand() override;
-	virtual size_t GetRawDataSize() override;
-	virtual std::string GetCommandCName() override;
-	virtual std::string GenerateExterns() override;
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	size_t GetRawDataSize() const override;
+	std::string GetCommandCName() const override;
 
 private:
-	uint32_t segmentOffset;
-	std::vector<AnimatedTexture*> textures;
-	std::vector<uint8_t> _rawData;
-	int32_t _rawDataIndex;
+	std::vector<AnimatedMaterial> textures;
 };

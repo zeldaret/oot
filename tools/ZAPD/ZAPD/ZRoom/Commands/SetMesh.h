@@ -1,57 +1,22 @@
 #pragma once
 
-#include "../../ZDisplayList.h"
-#include "../ZRoomCommand.h"
+#include <memory>
 #include "ZBackground.h"
-
-class MeshHeaderBase
-{
-public:
-	int8_t headerType;  // 0x00
-};
-
-class MeshEntry2
-{
-public:
-	int16_t playerXMax, playerZMax;
-	int16_t playerXMin, playerZMin;
-
-	int32_t opaqueDListAddr;
-	int32_t translucentDListAddr;
-
-	ZDisplayList* opaqueDList;
-	ZDisplayList* translucentDList;
-};
-
-class MeshHeader2 : public MeshHeaderBase
-{
-public:
-	std::vector<MeshEntry2*> entries;
-	uint32_t dListStart;
-	uint32_t dListEnd;
-};
+#include "ZDisplayList.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class PolygonDlist
 {
-protected:
-	segptr_t opa = 0;  // Gfx*
-	segptr_t xlu = 0;  // Gfx*
-
-	std::vector<uint8_t> rawData;
-	uint32_t rawDataIndex;
-	ZFile* parent;
-	ZRoom* room;
-	std::string name;
-
-	void ParseRawData();
-	ZDisplayList* MakeDlist(segptr_t ptr, const std::string& prefix);
-
 public:
 	PolygonDlist() = default;
-	PolygonDlist(const std::string& prefix, const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
-	             ZFile* nParent, ZRoom* nRoom);
+	PolygonDlist(const std::string& prefix, const std::vector<uint8_t>& nRawData,
+	             uint32_t nRawDataIndex, ZFile* nParent, ZRoom* nRoom);
 
-	size_t GetRawDataSize();
+	void ParseRawData();
+	void DeclareReferences(const std::string& prefix);
+
+	size_t GetRawDataSize() const;
+	void SetPolyType(uint8_t nPolyType);
 
 	void DeclareVar(const std::string& prefix, const std::string& bodyStr);
 
@@ -62,8 +27,25 @@ public:
 	std::string GetSourceTypeName();
 	std::string GetName();
 
+protected:
+	int16_t x, y, z;  // polyType == 2
+	int16_t unk_06;   // polyType == 2
+
+	segptr_t opa = 0;  // Gfx*
+	segptr_t xlu = 0;  // Gfx*
+
+	uint8_t polyType;
+
 	ZDisplayList* opaDList = nullptr;  // Gfx*
 	ZDisplayList* xluDList = nullptr;  // Gfx*
+
+	std::vector<uint8_t> rawData;
+	uint32_t rawDataIndex;
+	ZFile* parent;
+	ZRoom* zRoom;
+	std::string name;
+
+	ZDisplayList* MakeDlist(segptr_t ptr, const std::string& prefix);
 };
 
 class BgImage
@@ -97,19 +79,51 @@ public:
 	BgImage(bool nIsSubStruct, const std::string& prefix, const std::vector<uint8_t>& nRawData,
 	        uint32_t nRawDataIndex, ZFile* nParent);
 
-	static size_t GetRawDataSize() ;
+	static size_t GetRawDataSize();
 
-	std::string GetBodySourceCode(bool arrayElement);
+	std::string GetBodySourceCode(bool arrayElement) const;
 
 	static std::string GetDefaultName(const std::string& prefix, uint32_t address);
 	static std::string GetSourceTypeName();
 	std::string GetName();
 };
 
-class PolygonType1
+class PolygonTypeBase
 {
+public:
+	PolygonTypeBase(ZFile* nParent, const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
+	                ZRoom* nRoom);
+
+	virtual void ParseRawData() = 0;
+	virtual void DeclareReferences(const std::string& prefix) = 0;
+
+	virtual std::string GetBodySourceCode() const = 0;
+	void DeclareVar(const std::string& prefix, const std::string& bodyStr);
+	void DeclareAndGenerateOutputCode(const std::string& prefix);
+
+	virtual std::string GetSourceTypeName() const;
+
+	std::string GetName() const;
+	void SetName(const std::string& newName);
+	virtual size_t GetRawDataSize() const = 0;
+
+	std::string GetDefaultName(const std::string& prefix) const;
+
 protected:
 	uint8_t type;
+
+	std::vector<PolygonDlist> polyDLists;
+
+	std::vector<uint8_t> rawData;
+	uint32_t rawDataIndex;
+	ZFile* parent;
+	ZRoom* zRoom;
+	std::string name;
+};
+
+class PolygonType1 : public PolygonTypeBase
+{
+protected:
 	uint8_t format;
 	segptr_t dlist;
 
@@ -121,49 +135,56 @@ protected:
 	segptr_t list;  // BgImage*
 	std::vector<BgImage> multiList;
 
-	std::vector<uint8_t> rawData;
-	uint32_t rawDataIndex;
-	ZFile* parent;
-	std::string name;
-
-	void ParseRawData();
-
 public:
-	PolygonType1(const std::string& prefix, const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
-	             ZFile* nParent, ZRoom* nRoom);
+	PolygonType1(ZFile* nParent, const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
+	             ZRoom* nRoom);
 
-	size_t GetRawDataSize() ;
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix) override;
 
-	void DeclareVar(const std::string& prefix, const std::string& bodyStr);
+	std::string GetBodySourceCode() const override;
 
-	std::string GetBodySourceCode();
-	void DeclareAndGenerateOutputCode();
+	std::string GetSourceTypeName() const override;
 
-	static std::string GetDefaultName(const std::string& prefix, uint32_t address);
-	std::string GetSourceTypeName();
-	std::string GetName();
+	size_t GetRawDataSize() const override;
+};
 
-	PolygonDlist polyGfxList;
+class PolygonType2 : public PolygonTypeBase
+{
+public:
+	PolygonType2(ZFile* nParent, const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
+	             ZRoom* nRoom);
+
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
+	size_t GetRawDataSize() const override;
+
+protected:
+	uint8_t num;
+	segptr_t start;
+	segptr_t end;
 };
 
 class SetMesh : public ZRoomCommand
 {
 public:
-	SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex, int32_t segAddressOffset);
-	~SetMesh();
+	SetMesh(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
-	virtual std::string GenerateExterns() override;
-	virtual std::string GetCommandCName() override;
-	virtual RoomCommand GetRoomCommand() override;
-	virtual size_t GetRawDataSize() override;
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	size_t GetRawDataSize() const override;
+	std::string GetCommandCName() const override;
 
 private:
-	MeshHeaderBase* meshHeader = nullptr;
-	uint32_t segmentOffset;
-	uint8_t data;
 	uint8_t meshHeaderType;
+	std::shared_ptr<PolygonTypeBase> polyType;
 
-	void GenDListDeclarations(std::vector<uint8_t> rawData, ZDisplayList* dList);
 	std::string GenDListExterns(ZDisplayList* dList);
 };
