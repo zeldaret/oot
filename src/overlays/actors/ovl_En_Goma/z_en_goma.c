@@ -1,4 +1,5 @@
 #include "z_en_goma.h"
+#include "objects/object_gol/object_gol.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
@@ -42,17 +43,6 @@ void EnGoma_SetupPrepareJump(EnGoma* this);
 void EnGoma_SetupLand(EnGoma* this);
 void EnGoma_SetupJump(EnGoma* this);
 void EnGoma_SetupStunned(EnGoma* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_0600017C;
-extern AnimationHeader D_06000334;
-extern AnimationHeader D_06000544;
-extern AnimationHeader D_06000838;
-extern AnimationHeader D_06000B78;
-extern AnimationHeader D_06000E4C;
-extern AnimationHeader D_06001548;
-extern Gfx D_06002A70[]; // Egg DL
-extern SkeletonHeader D_06003B40;
-extern AnimationHeader D_06003D78;
 
 const ActorInit En_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
@@ -148,8 +138,8 @@ void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     } else { // Egg
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
-        SkelAnime_Init(globalCtx, &this->skelanime, &D_06003B40, &D_06001548, this->jointTable, this->morphTable, 24);
-        Animation_PlayLoop(&this->skelanime, &D_06001548);
+        SkelAnime_Init(globalCtx, &this->skelanime, &object_gol_Skel_003B40, &object_gol_Anim_001548, this->jointTable, this->morphTable, 24);
+        Animation_PlayLoop(&this->skelanime, &object_gol_Anim_001548);
         this->actor.colChkInfo.health = 2;
 
         if (this->actor.params < 3) { // Spawned by boss
@@ -190,7 +180,7 @@ void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupFlee(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06003D78, 2.0f, 0.0f, Animation_GetLastFrame(&D_06003D78), ANIMMODE_LOOP,
+    Animation_Change(&this->skelanime, &object_gol_Anim_003D78, 2.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_003D78), ANIMMODE_LOOP,
                      -2.0f);
     this->actionFunc = EnGoma_Flee;
     this->actionTimer = 20;
@@ -306,7 +296,7 @@ void EnGoma_Egg(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupHatch(EnGoma* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelanime, &D_06000544, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000544), ANIMMODE_ONCE,
+    Animation_Change(&this->skelanime, &object_gol_Anim_000544, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000544), ANIMMODE_ONCE,
                      0.0f);
     this->actionFunc = EnGoma_Hatch;
     Actor_SetScale(&this->actor, 0.005f);
@@ -327,7 +317,7 @@ void EnGoma_Hatch(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupHurt(EnGoma* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelanime, &D_06000838, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000838), ANIMMODE_ONCE,
+    Animation_Change(&this->skelanime, &object_gol_Anim_000838, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000838), ANIMMODE_ONCE,
                      -2.0f);
     this->actionFunc = EnGoma_Hurt;
 
@@ -364,7 +354,7 @@ void EnGoma_Hurt(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupDie(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06000B78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B78), ANIMMODE_ONCE,
+    Animation_Change(&this->skelanime, &object_gol_Anim_000B78, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000B78), ANIMMODE_ONCE,
                      -2.0f);
     this->actionFunc = EnGoma_Die;
     this->actionTimer = 30;
@@ -400,7 +390,7 @@ void EnGoma_Die(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupDead(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06000334, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000334), ANIMMODE_LOOP,
+    Animation_Change(&this->skelanime, &object_gol_Anim_000334, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000334), ANIMMODE_LOOP,
                      -2.0f);
     this->actionFunc = EnGoma_Dead;
     this->actionTimer = 3;
@@ -437,22 +427,22 @@ void EnGoma_Dead(EnGoma* this, GlobalContext* globalCtx) {
 void EnGoma_SetupStand(EnGoma* this) {
     f32 lastFrame;
 
-    lastFrame = Animation_GetLastFrame(&D_06001548);
+    lastFrame = Animation_GetLastFrame(&object_gol_Anim_001548);
     this->actionTimer = Rand_S16Offset(10, 30);
-    Animation_Change(&this->skelanime, &D_06001548, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, -5.0f);
+    Animation_Change(&this->skelanime, &object_gol_Anim_001548, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, -5.0f);
     this->actionFunc = EnGoma_Stand;
     this->gomaType = ENGOMA_NORMAL;
 }
 
 void EnGoma_SetupChasePlayer(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06003D78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06003D78), ANIMMODE_LOOP,
+    Animation_Change(&this->skelanime, &object_gol_Anim_003D78, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_003D78), ANIMMODE_LOOP,
                      -5.0f);
     this->actionFunc = EnGoma_ChasePlayer;
     this->actionTimer = Rand_S16Offset(70, 110);
 }
 
 void EnGoma_SetupPrepareJump(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06000E4C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000E4C), ANIMMODE_ONCE,
+    Animation_Change(&this->skelanime, &object_gol_Anim_000E4C, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000E4C), ANIMMODE_ONCE,
                      -5.0f);
     this->actionFunc = EnGoma_PrepareJump;
     this->actionTimer = 30;
@@ -475,7 +465,7 @@ void EnGoma_PrepareJump(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupLand(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_0600017C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600017C), ANIMMODE_ONCE,
+    Animation_Change(&this->skelanime, &object_gol_Anim_00017C, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_00017C), ANIMMODE_ONCE,
                      0.0f);
     this->actionFunc = EnGoma_Land;
     this->actionTimer = 10;
@@ -493,7 +483,7 @@ void EnGoma_Land(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupJump(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06000544, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000544), ANIMMODE_ONCE,
+    Animation_Change(&this->skelanime, &object_gol_Anim_000544, 1.0f, 0.0f, Animation_GetLastFrame(&object_gol_Anim_000544), ANIMMODE_ONCE,
                      0.0f);
     this->actionFunc = EnGoma_Jump;
     this->actor.velocity.y = 8.0f;
@@ -557,7 +547,7 @@ void EnGoma_ChasePlayer(EnGoma* this, GlobalContext* globalCtx) {
 void EnGoma_SetupStunned(EnGoma* this, GlobalContext* globalCtx) {
     this->actionFunc = EnGoma_Stunned;
     this->stunTimer = 100;
-    Animation_MorphToLoop(&this->skelanime, &D_06001548, -5.0f);
+    Animation_MorphToLoop(&this->skelanime, &object_gol_Anim_001548, -5.0f);
     this->actionTimer = (s16)Rand_ZeroFloat(15.0f) + 3;
 
     if (this->actor.params < 6) {
@@ -825,7 +815,7 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateX(this->eggPitch, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 2101),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, D_06002A70);
+            gSPDisplayList(POLY_OPA_DISP++, object_gol_DL_002A70);
             Matrix_Pop();
             break;
 
