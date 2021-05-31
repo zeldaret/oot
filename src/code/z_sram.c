@@ -555,15 +555,14 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
             if (newChecksum != oldChecksum) {
                 // backup save didnt work, make new save
                 osSyncPrintf("ＥＲＲＯＲ！！！ ＝ %x(%d+3)\n", gSramSlotOffsets[slotNum + 3], slotNum);
-                bzero(&gSaveContext.entranceIndex, sizeof(gSaveContext.entranceIndex));
-                bzero(&gSaveContext.linkAge, sizeof(gSaveContext.linkAge));
-                bzero(&gSaveContext.cutsceneIndex, sizeof(gSaveContext.cutsceneIndex));
-                // The size here is probably meant to be sizeof(gSaveContext.dayTime), but the devs just the size of 4
-                // for all of these.
+                bzero(&gSaveContext.entranceIndex, sizeof(s32));
+                bzero(&gSaveContext.linkAge, sizeof(s32));
+                bzero(&gSaveContext.cutsceneIndex, sizeof(s32));
+                // note that gSaveContext.dayTime is not actually the sizeof(s32)
                 bzero(&gSaveContext.dayTime, sizeof(s32));
-                bzero(&gSaveContext.nightFlag, sizeof(gSaveContext.nightFlag));
-                bzero(&gSaveContext.numDays, sizeof(gSaveContext.numDays));
-                bzero(&gSaveContext.unk_18, sizeof(gSaveContext.unk_18));
+                bzero(&gSaveContext.nightFlag, sizeof(s32));
+                bzero(&gSaveContext.numDays, sizeof(s32));
+                bzero(&gSaveContext.unk_18, sizeof(s32));
 
                 if (!slotNum) {
                     Sram_InitDebugSave();
