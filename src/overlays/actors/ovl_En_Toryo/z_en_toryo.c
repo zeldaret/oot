@@ -5,7 +5,7 @@
  */
 
 #include "z_en_toryo.h"
-#include "objects/object_ta/object_toryo.h"
+#include "objects/object_toryo/object_toryo.h"
 
 #define FLAGS 0x00000009
 
