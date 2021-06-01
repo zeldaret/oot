@@ -52,9 +52,9 @@ typedef struct EnVali {
     /* 0x0246 */ Vec3s morphTable[EN_VALI_LIMB_MAX];
     /* 0x02F4 */ f32 armScale;
     /* 0x02F8 */ f32 floatHomeHeight; // Used as a centre for floating when visible (home is used for the lurk height)
-    /* 0x02FC */ ColliderQuad colliderQuad1;
-    /* 0x037C */ ColliderQuad colliderQuad2;
-    /* 0x03FC */ ColliderCylinder colliderCylinder;
+    /* 0x02FC */ ColliderQuad leftArmCollider;
+    /* 0x037C */ ColliderQuad rightArmCollider;
+    /* 0x03FC */ ColliderCylinder bodyCollider;
 } EnVali; // size = 0x0448
 
 extern const ActorInit En_Vali_InitVars;
