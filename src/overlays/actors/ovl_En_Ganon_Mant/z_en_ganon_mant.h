@@ -7,7 +7,7 @@
 struct EnGanonMant;
 
 typedef struct {
-    /* 0x000 */ Vec3f unk_0;        // 14C  points along dorf's collar, the "roots" of unK_C
+    /* 0x000 */ Vec3f rootPos;      // 14C  points along dorf's collar, the "roots" of unK_C
     /* 0x00C */ Vec3f unk_C[12];    // 158  points down the cape, the "skeleton"
     /* 0x090 */ Vec3f unk_90[12];   // 1E8  normal vector rotations, z is unused
     /* 0x120 */ Vec3f unk_120[12];  // 278  in the range [-5,5], approaches 0, is the difference between previous points

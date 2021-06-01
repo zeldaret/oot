@@ -16,11 +16,6 @@ void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonMant_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-typedef struct {
-    s16* unk_0;
-    s16 unk_4;
-} Struct_80A24D64; // size = 0x8
-
 const ActorInit En_Ganon_Mant_InitVars = {
     ACTOR_EN_GANON_MANT,
     ACTORCAT_BOSS,
@@ -45,6 +40,11 @@ s16 D_80A24D34[] = {
 s16 D_80A24D54[] = {
     0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
 };
+
+typedef struct {
+    s16* unk_0;
+    s16 unk_4;
+} Struct_80A24D64; // size = 0x8
 
 Struct_80A24D64 D_80A24D64[] = {
     { D_80A24D20, ARRAY_COUNT(D_80A24D20) },
@@ -101,14 +101,14 @@ void func_80A23D84(EnGanonMant* this) {
     s16 texIdx;
     f32 tx = Rand_ZeroFloat(32.0f);
     f32 ty = Rand_ZeroFloat(64.0f);
-    f32 temp_f0 = Rand_ZeroFloat(2 * M_PI);
-    f32 temp_f20 = sinf(temp_f0);
-    f32 temp_f22 = cosf(temp_f0);
+    f32 randAngle = Rand_ZeroFloat(2 * M_PI);
+    f32 randSin = sinf(randAngle);
+    f32 randCos = cosf(randAngle);
     Struct_80A24D64* coeffs = &D_80A24D64[(s16)Rand_ZeroFloat(3.99f)];
-    s16 len = coeffs->unk_4;
+    s16 count = coeffs->unk_4;
     s16* data = coeffs->unk_0;
 
-    for (i = 0; i < len; i++) {
+    for (i = 0; i < count; i++) {
         if ((0.0f <= tx && tx < 32.0f) && (0.0f <= ty && ty < 64.0f)) {
             for (txi = 0; txi <= data[i]; txi++) {
                 texIdx = 0;
@@ -121,8 +121,8 @@ void func_80A23D84(EnGanonMant* this) {
                 }
             }
         }
-        tx += temp_f20;
-        ty += temp_f22;
+        tx += randSin;
+        ty += randCos;
     }
 
     for (i = 0; i < 4; i++) {
@@ -132,7 +132,7 @@ void func_80A23D84(EnGanonMant* this) {
 
 #ifdef NON_MATCHING
 // Stack only
-void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4, Vec3f* arg5,
+void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* arg3, Vec3f* arg4, Vec3f* arg5,
                    Vec3f* arg6, s16 arg7) {
     f32 temp_1;
     f32 temp_2;
@@ -141,7 +141,7 @@ void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* arg2, Vec
     f32 temp_f22;
     f32 temp_f24;
     f32 temp_f26;
-    s16 phi_s4;
+    s16 i;
     f32 unk_16C8;
 
     f32 spAC;
@@ -156,29 +156,29 @@ void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* arg2, Vec
         spA0.z = -30.0f;
         Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&spA0, &sp94);
-        for (phi_s4 = 0; phi_s4 < 0xC; phi_s4++) {
-            (arg3 + phi_s4)->x += sp94.x;
-            (arg3 + phi_s4)->z += sp94.z;
+        for (i = 0; i < 0xC; i++) {
+            (arg3 + i)->x += sp94.x;
+            (arg3 + i)->z += sp94.z;
         }
         spAC = 6.5f;
     } else {
         spAC = 9.5f;
     }
 
-    for (phi_s4 = 0; phi_s4 < 12; phi_s4++, arg3++, arg6++, arg5++, arg4++) {
-        if (phi_s4 == 0) {
-            arg3->x = arg2->x;
-            arg3->y = arg2->y;
-            arg3->z = arg2->z;
+    for (i = 0; i < 12; i++, arg3++, arg6++, arg5++, arg4++) {
+        if (i == 0) {
+            arg3->x = root->x;
+            arg3->y = root->y;
+            arg3->z = root->z;
         } else {
             Math_ApproachZeroF(&arg6->x, 1.0f, 0.1f);
             Math_ApproachZeroF(&arg6->y, 1.0f, 0.1f);
             Math_ApproachZeroF(&arg6->z, 1.0f, 0.1f);
             spA0.x = 0;
-            spA0.z = (this->unk_16B0 + (sinf((arg7 * (2 * M_PI)) / 2.1f) * this->unk_16B4)) * D_80A24D84[phi_s4];
+            spA0.z = (this->unk_16B0 + (sinf((arg7 * (2 * M_PI)) / 2.1f) * this->unk_16B4)) * D_80A24D84[i];
             Matrix_RotateY(this->unk_16CC, MTXMODE_NEW);
             Matrix_MultVec3f(&spA0, &sp88);
-            spA0.x = cosf((arg7 * M_PI) / 11.0f) * this->unk_16B8 * D_80A24DD0[phi_s4];
+            spA0.x = cosf((arg7 * M_PI) / 11.0f) * this->unk_16B8 * D_80A24DD0[i];
             spA0.z = 0;
             Matrix_MultVec3f(&spA0, &sp7C);
             unk_16C8 = this->unk_16C8;
@@ -203,9 +203,9 @@ void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* arg2, Vec
             arg3->z = (arg3 - 1)->z + sp94.z;
 
             if (sqrtf(SQ(arg3->x - this->actor.world.pos.x) + SQ(arg3->z - this->actor.world.pos.z)) <
-                (D_80A24E18[phi_s4] * this->unk_16D0)) {
+                (D_80A24E18[i] * this->unk_16D0)) {
                 temp_f12 = Math_Atan2F(arg3->z - this->actor.world.pos.z, arg3->x - this->actor.world.pos.x);
-                spA0.z = this->unk_16D0 * D_80A24E18[phi_s4];
+                spA0.z = this->unk_16D0 * D_80A24E18[i];
                 Matrix_RotateY(temp_f12, MTXMODE_NEW);
                 Matrix_MultVec3f(&spA0, &sp94);
                 arg3->x = this->actor.world.pos.x + sp94.x;
@@ -247,7 +247,7 @@ void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* arg2, Vec
     arg5[11].x = arg5[10].x;
 }
 #else
-void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4, Vec3f* arg5,
+void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* arg3, Vec3f* arg4, Vec3f* arg5,
                    Vec3f* arg6, s16 arg7);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ganon_Mant/func_80A23FE0.s")
 #endif
@@ -342,17 +342,17 @@ void func_80A24884(GlobalContext* globalCtx, EnGanonMant* this) {
 
 void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGanonMant* this = THIS;
-    f32 temp_f20;
-    f32 temp_f20_2;
+    f32 xDiff;
+    f32 pitch;
     Vec3f spC0;
     Vec3f spB4;
-    f32 temp_f22;
+    f32 zDiff;
     f32 temp_f22_2;
-    f32 temp_f24;
-    f32 temp_f26;
+    f32 yDiff;
+    f32 yaw;
     Vec3f* phi_v0;
     Vec3f* phi_v1;
-    s16 phi_s0;
+    s16 i;
     Vec3f sp8C;
     s16 idx;
 
@@ -374,44 +374,46 @@ void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx) {
             phi_v1 = &this->unk_16E0;
         }
 
-        temp_f20 = phi_v1->x - phi_v0->x;
-        temp_f24 = phi_v1->y - phi_v0->y;
-        temp_f22 = phi_v1->z - phi_v0->z;
+        xDiff = phi_v1->x - phi_v0->x;
+        yDiff = phi_v1->y - phi_v0->y;
+        zDiff = phi_v1->z - phi_v0->z;
 
-        sp8C.x = phi_v0->x + (temp_f20 * 0.5f);
-        sp8C.y = phi_v0->y + (temp_f24 * 0.5f);
-        sp8C.z = phi_v0->z + (temp_f22 * 0.5f);
+        sp8C.x = phi_v0->x + (xDiff * 0.5f);
+        sp8C.y = phi_v0->y + (yDiff * 0.5f);
+        sp8C.z = phi_v0->z + (zDiff * 0.5f);
 
-        temp_f26 = Math_Atan2F(temp_f22, temp_f20);
-        temp_f20_2 = -Math_Atan2F(sqrtf(SQ(temp_f20) + SQ(temp_f22)), temp_f24);
-        temp_f22_2 = sqrtf(SQ(temp_f20) + SQ(temp_f24) + SQ(temp_f22)) * 0.5f;
+        yaw = Math_Atan2F(zDiff, xDiff);
+        pitch = -Math_Atan2F(sqrtf(SQ(xDiff) + SQ(zDiff)), yDiff);
+        temp_f22_2 = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff)) * 0.5f;
 
-        Matrix_RotateY(temp_f26, MTXMODE_NEW);
-        Matrix_RotateX(temp_f20_2, MTXMODE_APPLY);
-        this->unk_16CC = temp_f26 - M_PI / 2.0f;
+        Matrix_RotateY(yaw, MTXMODE_NEW);
+        Matrix_RotateX(pitch, MTXMODE_APPLY);
+        this->unk_16CC = yaw - M_PI / 2.0f;
 
-        for (phi_s0 = 0; phi_s0 < 12; phi_s0++) {
+        for (i = 0; i < 12; i++) {
             Matrix_Push();
-            spC0.x = sinf((phi_s0 * M_PI) / 11.0f) * temp_f22_2;
-            spC0.y = 0;
-            spC0.z = -cosf((phi_s0 * M_PI) / 11.0f) * temp_f22_2;
-            Matrix_MultVec3f(&spC0, &spB4);
-            this->unk_14C[phi_s0].unk_0.x = sp8C.x + spB4.x;
-            this->unk_14C[phi_s0].unk_0.y = sp8C.y + spB4.y;
-            this->unk_14C[phi_s0].unk_0.z = sp8C.z + spB4.z;
 
-            idx = phi_s0 + 1;
+            spC0.x = sinf((i * M_PI) / 11.0f) * temp_f22_2;
+            spC0.y = 0;
+            spC0.z = -cosf((i * M_PI) / 11.0f) * temp_f22_2;
+            Matrix_MultVec3f(&spC0, &spB4);
+            this->unk_14C[i].rootPos.x = sp8C.x + spB4.x;
+            this->unk_14C[i].rootPos.y = sp8C.y + spB4.y;
+            this->unk_14C[i].rootPos.z = sp8C.z + spB4.z;
+
+            idx = i + 1;
             if (idx >= 12) {
-                idx = phi_s0 - 1;
+                idx = i - 1;
             }
 
-            func_80A23FE0(globalCtx, this, &this->unk_14C[phi_s0].unk_0, this->unk_14C[phi_s0].unk_C,
-                          this->unk_14C[idx].unk_C, &this->unk_14C[phi_s0].unk_90[0], &this->unk_14C[phi_s0].unk_120[0],
-                          phi_s0);
-            Matrix_Pull();
+            func_80A23FE0(globalCtx, this, &this->unk_14C[i].rootPos, this->unk_14C[i].unk_C,
+                          this->unk_14C[idx].unk_C, &this->unk_14C[i].unk_90[0], &this->unk_14C[i].unk_120[0],
+                          i);
+            Matrix_Pop();
         }
         func_80A245A4(this);
         this->unk_1705 = 0;
     }
+
     func_80A24884(globalCtx, this);
 }
