@@ -120,20 +120,12 @@ public:
 class ZLimb : public ZResource
 {
 protected:
-	segptr_t segAddress;
 	ZLimbType type = ZLimbType::Standard;
-
-	int16_t transX, transY, transZ;
-	uint8_t childIndex, siblingIndex;
-	segptr_t dListPtr = 0;
-
-	std::vector<ZDisplayList> dLists;
-
-	segptr_t dList2Ptr = 0;  // LOD and Curve only
 
 	ZLimbSkinType skinSegmentType = ZLimbSkinType::SkinType_0;  // Skin only
 	segptr_t skinSegment = 0;                                   // Skin only
 	Struct_800A5E28 segmentStruct;                              // Skin only
+	segptr_t dList2Ptr;                                         // LOD and Curve Only
 
 	std::string GetLimbDListSourceOutputCode(const std::string& prefix,
 	                                         const std::string& limbPrefix, segptr_t dListPtr);
@@ -142,22 +134,30 @@ protected:
 	std::string GetSourceOutputCodeSkin_Type_4(const std::string& prefix);
 
 public:
-	ZLimb(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, int nRawDataIndex,
-	      ZFile* nParent);
+	segptr_t dListPtr = 0;
+	segptr_t farDListPtr = 0;  // LOD only
+	int16_t transX, transY, transZ;
+	uint8_t childIndex, siblingIndex;
+
+	ZLimb(ZFile* nParent);
 	ZLimb(ZLimbType limbType, const std::string& prefix, const std::vector<uint8_t>& nRawData,
-	      int nRawDataIndex, ZFile* nParent);
+	      uint32_t nRawDataIndex, ZFile* nParent);
+
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const uint32_t nRawDataIndex) override;
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
-	static ZLimb* FromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData,
-	                      int rawDataIndex, std::string nRelPath, ZFile* parent);
-	int GetRawDataSize() override;
+
+	size_t GetRawDataSize() const override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	std::string GetSourceTypeName() override;
-	ZResourceType GetResourceType() override;
+	std::string GetSourceTypeName() const override;
+	ZResourceType GetResourceType() const override;
 
 	ZLimbType GetLimbType();
+	void SetLimbType(ZLimbType value);
 	static const char* GetSourceTypeName(ZLimbType limbType);
 
 	uint32_t GetFileAddress();
+	void SetFileAddress(uint32_t nAddress);
 };

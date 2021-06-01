@@ -1,0 +1,16 @@
+<Root>
+    <File Name="object_warp1" Segment="6">
+        <Skeleton Name="gBlueWarpSkel" Type="Standard" LimbType="Standard" Offset="0x2CA8"/>
+        <Animation Name="gBlueWarpAnim" Offset="0x1374"/>
+        <DList Name="gBlueWarpLightBeamDL" Offset="0x01A0"/>
+        <DList Name="gBlueWarpDiamondDL" Offset="0x1750"/>
+        <DList Name="gBlueWarpTriangle1DL" Offset="0x1828"/>
+        <DList Name="gBlueWarpTriangle2DL" Offset="0x18B0"/>
+        <DList Name="gBlueWarpTriangle3DL" Offset="0x1938"/>
+        <DList Name="gBlueWarpTriangle4DL" Offset="0x19C0"/>
+        <DList Name="gBlueWarpTriangle5DL" Offset="0x1A48"/>
+        <DList Name="gBlueWarpTriangle6DL" Offset="0x1AD0"/>
+        <Texture Name="gBlueWarpLightBeamTex" OutName="light_beam" Format="i8" Width="64" Height="64" Offset="0x02C0"/>
+        <Texture Name="gBlueWarpDiamondAndTriangleTex" OutName="diamond_and_triangle" Format="i8" Width="64" Height="64" Offset="0x1B58"/>
+    </File>
+</Root>
