@@ -698,7 +698,7 @@ typedef struct {
 } ManyStruct_800E0E0C_2;
 
 typedef struct {
-    /* 0x00 */ s32 unk_00;
+    /* 0x00 */ u8* unk_00;
     /* 0x04 */ AudioBankSample* sample;
     /* 0x08 */ u8* unk_08;
     /* 0x0C */ s32 pad;

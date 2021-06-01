@@ -1465,7 +1465,61 @@ void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4198.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4590.s")
+s32 func_800E4590(s32 resetStatus) {
+    u32 sp4C;
+    AudioBankSample *temp_v0_3;
+    AudioStruct0D68 *temp_v1_2;
+    s32 temp_a0_2;
+    s32 temp_v0_2;
+    u32 temp_a0;
+    u32 temp_a0_3;
+    u32 temp_a2_2;
+    u32 temp_t0;
+    u8 *temp_s0;
+    AudioStruct0D68 *temp_a2;
+    AudioBankSample *temp_v0;
+    AudioStruct0D68 *temp_v1;
+
+    if (gAudioContext.unk_176C > 0) {
+        if (resetStatus != 0) {
+            osRecvMesg(&gAudioContext.unk_1E78, &sp4C, 0);
+            gAudioContext.unk_176C = 0;
+            return 0;
+        }
+        if (osRecvMesg(&gAudioContext.unk_1E78, &sp4C, 0) == -1) {
+            return 0;
+        }
+
+        sp4C >>= 0x18;
+
+        if (gAudioContext.unk_0D54[sp4C + 1].unk_10 == 0) {
+            if ((temp_v0_3->sampleAddr + temp_v0_3->size + temp_v0_3->bits2) == gAudioContext.unk_0D54[sp4C + 1].unk_00) {
+                temp_v0_3->bits2 = 0;
+                temp_v0_3->sampleAddr = temp_v0_3->loop;
+            }
+            gAudioContext.unk_0D54[sp4C + 1].unk_10 = 1;
+        }
+
+        while(gAudioContext.unk_176C > 0) {
+            if (gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_10 == 1) {
+                gAudioContext.unk_176C--;
+                continue;
+            } else {
+                temp_v0_3 = gAudioContext.unk_0D54[gAudioContext.unk_176C].sample;
+                if (&temp_v0_3->sampleAddr[temp_v0_3->size + temp_v0_3->bits2] != gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_00) {
+                    gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_10 = 1;
+                    gAudioContext.unk_176C--;
+                    continue;
+                } else {
+                    Audio_InitAsyncReq(temp_v0_3->sampleAddr, gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_08, temp_v0_3->size, temp_v0_3->bits2, (temp_a2_2 >> 0xC) + 1, &gAudioContext.unk_1E78, gAudioContext.unk_0D54[gAudioContext.unk_176C].pad);
+                    break;
+                }
+            }
+        }
+    }
+    return 1;
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4590.s")
 
 s32 func_800E4744(AudioBankSample* sample, s32 sampleCnt, AudioBankSample** sampleList) {
     s32 i;
