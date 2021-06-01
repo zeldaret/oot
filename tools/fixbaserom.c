@@ -34,7 +34,7 @@ int main(void) {
                    expectedMd5, md5);
         }
     } else {
-        currentFile = fopen("baserom_origina.n64", "rb");
+        currentFile = fopen("baserom_original.n64", "rb");
         if (currentFile == NULL) {
             currentFile = fopen("baserom_original.v64", "rb");
         }
@@ -47,6 +47,7 @@ int main(void) {
         }
         if (currentFile != NULL) {
             uint8_t firstByte = 0x00;
+
             if(fread_unlocked(&firstByte, sizeof(uint8_t), 1, currentFile) != 1){
                 fprintf(stderr, "Failed to read first byte of baserom_original.z64\n");
                 exit(1);
@@ -55,17 +56,19 @@ int main(void) {
             FILE* outFile = fopen("baserom.z64", "wb");
             if (firstByte == 0x40) { // Little Endian
                 uint32_t currentWord;
+
                 for (uint32_t i = 0; i < ROM_SIZE / 4; i++) {
                     if (fread_unlocked(&currentWord, sizeof(uint32_t), 1, currentFile) != 1) {
                         fprintf(stderr, "Failed to read data from rom file\n");
                     }
                     currentWord = __bswap_32(currentWord);
-                    if (fwrite_unlocked(&currentWord, sizeof(uint32_t), 1, outFile)) {
+                    if (fwrite_unlocked(&currentWord, sizeof(uint32_t), 1, outFile) != 1) {
                         fprintf(stderr, "Failed to write to new rom file.\n");
                     }
                 }
             } else if (firstByte == 0x37) { // Byte Swapped
                 uint16_t currentShort;
+
                 for (uint32_t i = 0; i < ROM_SIZE / 2; i++) {
                     if (fread_unlocked(&currentShort, sizeof(uint16_t), 1, currentFile) != 1) {
                         fprintf(stderr, "Failed to read data from rom file\n");
