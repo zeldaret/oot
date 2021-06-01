@@ -2,17 +2,6 @@
 #include "global.h"
 
 typedef struct {
-    u8 len;
-    u8 notesIdx[8];
-} OcarinaSongInfo;
-
-typedef struct {
-    u8 noteIdx;
-    u8 state;
-    u8 pos;
-} OcarinaStaff;
-
-typedef struct {
     f32 unk_00;
     f32 unk_04;
     s8 unk_08;
@@ -135,8 +124,6 @@ extern u32 D_80130F28;
 extern u8 D_80131F4C[];
 extern u8 D_80131F50;
 extern OcarinaSong sOcarinaSongs[];         // 80130F80
-extern OcarinaSongInfo sOcarinaSongNotes[]; // D_80131C00
-extern OcarinaSongInfo sOcarinaSongNotes[0xC];
 extern u32 sNotePlaybackTimer;
 extern u16 sPlaybackNotePos;
 extern u32 D_80131860;
@@ -220,7 +207,7 @@ s32 D_8016BA1C;
 u8 sCurOcarinaSong[8];
 u8 sOcarinaSongAppendPos;
 u8 sOcarinaHasStartedSong;
-u8 sOcarinaSongNotestartIdx;
+u8 gOcarinaSongNotestartIdx;
 u8 sOcarinaSongCnt;
 u16 sOcarinaAvailSongs;
 u8 D_8016BA2E;
@@ -323,7 +310,7 @@ void func_800ECB7C(u8 songIdx) {
     while (savedSongIdx < 8 && scarecrowSongIdx < 0x10) {
         noteIdx = sOcarinaSongs[songIdx].notes[scarecrowSongIdx++].noteIdx;
         if (noteIdx != 0xFF) {
-            sOcarinaSongNotes[0xC].notesIdx[savedSongIdx++] = sNoteValueIndexMap[noteIdx];
+            gOcarinaSongNotes[0xC].notesIdx[savedSongIdx++] = sNoteValueIndexMap[noteIdx];
         }
     }
 }
@@ -346,7 +333,7 @@ void func_800ECC04(u16 flg) {
 
     if (flg != 0xFFFF) {
         D_80130F3C = 0x80000000 + (u32)flg;
-        sOcarinaSongNotestartIdx = 0;
+        gOcarinaSongNotestartIdx = 0;
         sOcarinaSongCnt = 0xE;
         if (flg != 0xA000) {
             sOcarinaSongCnt--;
@@ -414,7 +401,7 @@ void func_800ECDF8(void) {
             inputChanged = 1;
         }
 
-        for(i = sOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
+        for(i = gOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
             sh = 1 << i;
             if (sOcarinaAvailSongs & sh) {
                 D_8016BA50[i] = D_8016BA70[i] + 0x12;
@@ -515,18 +502,18 @@ void func_800ED200(void) {
                 sCurOcarinaSong[sOcarinaSongAppendPos - 1] = sCurOcarinaBtnVal;
             }
 
-            for(i = sOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
+            for(i = gOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
                 if (sOcarinaAvailSongs & (u16)(1 << i)) {
-                    for(j = 0, k = 0; j < sOcarinaSongNotes[i].len && k == 0 && sOcarinaSongAppendPos >= sOcarinaSongNotes[i].len;) {
-                        temp_v0 = sCurOcarinaSong[(sOcarinaSongAppendPos - sOcarinaSongNotes[i].len) + j];
-                        if (temp_v0 == sOcarinaNoteValues[sOcarinaSongNotes[i].notesIdx[j]]) {
+                    for(j = 0, k = 0; j < gOcarinaSongNotes[i].len && k == 0 && sOcarinaSongAppendPos >= gOcarinaSongNotes[i].len;) {
+                        temp_v0 = sCurOcarinaSong[(sOcarinaSongAppendPos - gOcarinaSongNotes[i].len) + j];
+                        if (temp_v0 == sOcarinaNoteValues[gOcarinaSongNotes[i].notesIdx[j]]) {
                             j++;
                         } else {
                             k++;
                         }
                     }
 
-                    if (j == sOcarinaSongNotes[i].len) {
+                    if (j == gOcarinaSongNotes[i].len) {
                         D_80131878 = i + 1;
                         sOcarinaInpEnabled = 0;
                         D_80130F3C = 0;
@@ -821,10 +808,10 @@ void func_800EDD68(u8 arg0) {
             func_800ECB7C(0xD);
             
             for(i = 0; i < 0xC; i++) {
-                for(j = 0; j < 9 - sOcarinaSongNotes[i].len; j++) {
-                    for(k = 0; k < sOcarinaSongNotes[i].len && k + j < 8 && sOcarinaSongNotes[i].notesIdx[k] == sOcarinaSongNotes[0xC].notesIdx[k + j]; k++);
+                for(j = 0; j < 9 - gOcarinaSongNotes[i].len; j++) {
+                    for(k = 0; k < gOcarinaSongNotes[i].len && k + j < 8 && gOcarinaSongNotes[i].notesIdx[k] == gOcarinaSongNotes[0xC].notesIdx[k + j]; k++);
 
-                    if (k == sOcarinaSongNotes[i].len) {
+                    if (k == gOcarinaSongNotes[i].len) {
                         D_80131858 = 0xFF;
                         sOcarinaSongs[0xC].notes[1].volume = 0xFF;
                         return;
@@ -835,7 +822,7 @@ void func_800EDD68(u8 arg0) {
 
             i = 1;
             while(i < 8) {
-                if(sOcarinaSongNotes[0xC].notesIdx[0] != sOcarinaSongNotes[0xC].notesIdx[i]) {
+                if(gOcarinaSongNotes[0xC].notesIdx[0] != gOcarinaSongNotes[0xC].notesIdx[i]) {
                     i = 9;
                 } else {
                     i++;

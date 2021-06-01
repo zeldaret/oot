@@ -1,8 +1,8 @@
 <Root>
-    <File Name="hylia_labo_scene">
+    <File Name="hylia_labo_scene" Segment="2">
         <Scene Name="hylia_labo_scene"/>
     </File>
-    <File Name="hylia_labo_room_0">
-        <Room Name="hylia_labo_room_0"/>
+    <File Name="hylia_labo_room_0" Segment="3">
+        <Room Name="hylia_labo_room_0" Offset="0x0"/>
     </File>
 </Root>

@@ -1170,4 +1170,15 @@ typedef struct {
 #define Unk2C_B16(v) (((v & 0x0000FF00) >> 8))
 #define Unk2C_B24(v) (((v & 0x000000FF) >> 0))
 
+typedef struct {
+    u8 len;
+    u8 notesIdx[8];
+} OcarinaSongInfo;
+
+typedef struct {
+    u8 noteIdx;
+    u8 state;
+    u8 pos;
+} OcarinaStaff;
+
 #endif

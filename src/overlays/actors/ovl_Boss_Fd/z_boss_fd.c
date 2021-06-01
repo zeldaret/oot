@@ -260,10 +260,6 @@ static Vec3f sCeilingTargets[] = {
     { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f },
 };
 
-#ifdef NON_MATCHING
-// Somehow doesn't use rodata value D_808D1EB4 = 0.1f. It would occur after the 85.56f float
-// literal in case 6 of the boss intro switch statement but before the next switch statement.
-// All instructions match.
 void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     u8 sp1CF = false;
     u8 temp_rand;
@@ -280,7 +276,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     f32 temp_y;
     f32 temp_x;
     f32 temp_z;
-    s32 pad19C;
+    f32 temp;
 
     SkelAnime_Update(&this->skelAnimeHead);
     SkelAnime_Update(&this->skelAnimeRightArm);
@@ -483,7 +479,13 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->camData.atVel.y = 85.56f;
                     this->camData.atVel.z = 25.0f;
                 } else {
-                    Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.1 * 0.08f);
+                    // the following `temp` stuff is probably fake but is required to match
+                    // it's optimized to 1.0f because sp1CF is false at this point, but the 0.1f ends up in rodata
+                    temp = 0.1f;
+                    if (!sp1CF) {
+                        temp = 1.0f;
+                    }
+                    Math_ApproachF(&this->camData.shake, 2.0f, temp, 0.1 * 0.08f);
                     this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
                 }
                 if (this->timers[3] == 160) {
@@ -1022,17 +1024,6 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-static Vec3f D_808D19E0 = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_808D19EC = { 0.0f, 0.03f, 0.0f };
-
-static Vec3f D_808D19F8 = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_808D1A04 = { 0.0f, 0.0f, 0.0f };
-
-static Vec3f D_808D1A10 = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_808D1A1C = { 0.0f, 0.03f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Fd/BossFd_Fly.s")
-#endif
 
 void BossFd_Wait(BossFd* this, GlobalContext* globalCtx) {
     if (this->handoffSignal == FD2_SIGNAL_FLY) { // Set by BossFd2

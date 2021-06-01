@@ -15,8 +15,13 @@
 #define OS_VI_GAMMA_DITHER  0x04
 #define OS_VI_DIVOT         0x10
 #define OS_VI_DITHER_FILTER 0x10000
-#define OS_VI_UNK200        0x200
+#define OS_VI_UNK1          0x1
+#define OS_VI_UNK2          0x2
+#define OS_VI_UNK40         0x40
 #define OS_VI_UNK100        0x100
+#define OS_VI_UNK200        0x200
+#define OS_VI_UNK1000       0x1000
+#define OS_VI_UNK2000       0x2000
 
 typedef struct {
     /* 0x00 */ u32 ctrl;
@@ -95,5 +100,6 @@ typedef struct {
 #define OS_TV_PAL           0
 #define OS_TV_NTSC          1
 #define OS_TV_MPAL          2
+#define OS_VI_UNK28         28
 
 #endif

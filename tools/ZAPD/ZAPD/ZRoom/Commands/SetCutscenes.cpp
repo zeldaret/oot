@@ -1,89 +1,115 @@
 #include "SetCutscenes.h"
-#include "../../BitConverter.h"
-#include "../../StringHelper.h"
-#include "../../ZFile.h"
-#include "../ZRoom.h"
 
-using namespace std;
+#include "BitConverter.h"
+#include "Globals.h"
+#include "StringHelper.h"
+#include "ZFile.h"
+#include "ZRoom/ZRoom.h"
 
-SetCutscenes::SetCutscenes(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetCutscenes::SetCutscenes(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	segmentOffset = BitConverter::ToInt32BE(rawData, rawDataIndex + 4) & 0x00FFFFFF;
+}
 
-	string output = "";
+void SetCutscenes::ParseRawData()
+{
+	ZRoomCommand::ParseRawData();
+	std::string output = "";
 
-	cutscene = new ZCutscene(rawData, segmentOffset, 9999);
-
-	output += cutscene->GetSourceOutputCode(zRoom->GetName());
-
-	if (segmentOffset != 0)
+	numCutscenes = cmdArg1;
+	if (Globals::Instance->game == ZGame::OOT_RETAIL || Globals::Instance->game == ZGame::OOT_SW97)
 	{
-		Declaration* decl = zRoom->parent->GetDeclaration(segmentOffset);
+		ZCutscene* cutscene = new ZCutscene(parent);
+		cutscene->ExtractFromFile(parent->GetRawData(), segmentOffset);
+
+		auto decl = parent->GetDeclaration(segmentOffset);
 		if (decl == nullptr)
 		{
-			zRoom->parent->AddDeclarationArray(
-				segmentOffset, DeclarationAlignment::None, DeclarationPadding::Pad16,
-				cutscene->GetRawDataSize(), "s32",
-				StringHelper::Sprintf("%sCutsceneData0x%06X", zRoom->GetName().c_str(),
-			                          segmentOffset),
-				0, output);
+			cutscene->DeclareVar(zRoom->GetName().c_str(), "");
 		}
-		else if (decl->text == "")
+
+		cutscenes.push_back(cutscene);
+	}
+	else
+	{
+		int32_t currentPtr = segmentOffset;
+		std::string declaration = "";
+
+		for (uint8_t i = 0; i < numCutscenes; i++)
 		{
-			decl->text = output;
+			CutsceneEntry entry(parent->GetRawData(), currentPtr);
+			cutsceneEntries.push_back(entry);
+			currentPtr += 8;
+
+			declaration += StringHelper::Sprintf(
+				"    { %sCutsceneData0x%06X, 0x%04X, 0x%02X, 0x%02X },", zRoom->GetName().c_str(),
+				entry.segmentOffset, entry.exit, entry.entrance, entry.flag);
+
+			if (i < numCutscenes - 1)
+				declaration += "\n";
+
+			ZCutsceneMM* cutscene = new ZCutsceneMM(parent);
+			cutscene->ExtractFromFile(parent->GetRawData(), entry.segmentOffset);
+			cutscenes.push_back(cutscene);
+		}
+
+		parent->AddDeclarationArray(segmentOffset, DeclarationAlignment::Align4,
+		                            cutsceneEntries.size() * 8, "CutsceneEntry",
+		                            StringHelper::Sprintf("%sCutsceneEntryList_%06X",
+		                                                  zRoom->GetName().c_str(), segmentOffset),
+		                            cutsceneEntries.size(), declaration);
+	}
+
+	for (ZCutsceneBase* cutscene : cutscenes)
+	{
+		if (cutscene->getSegmentOffset() != 0)
+		{
+			Declaration* decl = parent->GetDeclaration(cutscene->getSegmentOffset());
+			if (decl == nullptr)
+			{
+				cutscene->GetSourceOutputCode(zRoom->GetName());
+			}
+			else if (decl->text == "")
+			{
+				decl->text = cutscene->GetBodySourceCode();
+			}
 		}
 	}
 }
 
 SetCutscenes::~SetCutscenes()
 {
-	if (cutscene != nullptr)
-	{
+	for (ZCutsceneBase* cutscene : cutscenes)
 		delete cutscene;
-		cutscene = nullptr;
-	}
 }
 
-string SetCutscenes::GenerateSourceCodePass1(string roomName, int baseAddress)
+std::string SetCutscenes::GetBodySourceCode() const
 {
-	string pass1 = ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress);
-	Declaration* decl = zRoom->parent->GetDeclaration(segmentOffset);
-	if (decl != nullptr)
-	{
-		return StringHelper::Sprintf("%s 0, (u32)%s", pass1.c_str(), decl->varName.c_str());
-	}
-	return StringHelper::Sprintf("%s 0, (u32)%sCutsceneData0x%06X", pass1.c_str(),
-	                             zRoom->GetName().c_str(), segmentOffset);
+	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+
+	if (Globals::Instance->game == ZGame::MM_RETAIL)
+		return StringHelper::Sprintf("SCENE_CMD_CUTSCENE_LIST(%i, %s)", numCutscenes,
+		                             listName.c_str());
+	return StringHelper::Sprintf("SCENE_CMD_CUTSCENE_DATA(%s)", listName.c_str());
 }
 
-int32_t SetCutscenes::GetRawDataSize()
+size_t SetCutscenes::GetRawDataSize() const
 {
-	return ZRoomCommand::GetRawDataSize() + (0);
+	return ZRoomCommand::GetRawDataSize();
 }
 
-string SetCutscenes::GenerateExterns()
-{
-	Declaration* decl = zRoom->parent->GetDeclaration(segmentOffset);
-	if (decl != nullptr && decl->varName != "")
-	{
-		return StringHelper::Sprintf("extern s32 %s[];\n", decl->varName.c_str());
-	}
-	return StringHelper::Sprintf("extern s32 %sCutsceneData0x%06X[];\n", zRoom->GetName().c_str(),
-	                             segmentOffset);
-}
-
-string SetCutscenes::GetCommandCName()
+std::string SetCutscenes::GetCommandCName() const
 {
 	return "SCmdCutsceneData";
 }
 
-RoomCommand SetCutscenes::GetRoomCommand()
+RoomCommand SetCutscenes::GetRoomCommand() const
 {
 	return RoomCommand::SetCutscenes;
 }
 
-string SetCutscenes::GetSourceOutputCode(std::string prefix)
+CutsceneEntry::CutsceneEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
+	: segmentOffset(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 0))),
+	  exit(BitConverter::ToInt16BE(rawData, rawDataIndex + 4)), entrance(rawData[rawDataIndex + 6]),
+	  flag(rawData[rawDataIndex + 7])
 {
-	return "";
 }

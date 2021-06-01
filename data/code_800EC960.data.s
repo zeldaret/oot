@@ -291,7 +291,7 @@ glabel D_80131BEC
 glabel sNoteValueIndexMap
     .incbin "baserom.z64", 0xBA8D90, 0x10
 
-glabel sOcarinaSongNotes
+glabel gOcarinaSongNotes
     .incbin "baserom.z64", 0xBA8DA0, 0x80
 
 glabel D_80131C80

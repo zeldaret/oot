@@ -1465,6 +1465,7 @@ void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4198.s")
 
+#ifdef NON_MATCHING
 s32 func_800E4590(s32 resetStatus) {
     u32 sp4C;
     AudioBankSample *temp_v0_3;
@@ -1519,7 +1520,9 @@ s32 func_800E4590(s32 resetStatus) {
     }
     return 1;
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4590.s")
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4590.s")
+#endif
 
 s32 func_800E4744(AudioBankSample* sample, s32 sampleCnt, AudioBankSample** sampleList) {
     s32 i;

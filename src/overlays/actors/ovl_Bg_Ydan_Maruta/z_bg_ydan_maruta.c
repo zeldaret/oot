@@ -86,14 +86,14 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     ColliderTrisElementInit* triInit;
 
-    Actor_ProcessInitChain(thisx, sInitChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     Collider_InitTris(globalCtx, &this->collider);
-    Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, this->elements);
+    Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInit, this->elements);
 
-    this->unk_168 = thisx->params & 0xFFFF;
-    thisx->params = (thisx->params >> 8) & 0xFF;
+    this->switchFlag = this->dyna.actor.params & 0xFFFF;
+    thisx->params = (thisx->params >> 8) & 0xFF; // thisx is required to match here
 
-    if (thisx->params == 0) {
+    if (this->dyna.actor.params == 0) {
         triInit = &sTrisElementsInit[0];
         this->actionFunc = func_808BEFF4;
     } else {
@@ -102,7 +102,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
         CollisionHeader_GetVirtual(&gDTFallingLadderCol, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
         thisx->home.pos.y += -280.0f;
-        if (Flags_GetSwitch(globalCtx, this->unk_168)) {
+        if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
             thisx->world.pos.y = thisx->home.pos.y;
             this->actionFunc = BgYdanMaruta_DoNothing;
         } else {
@@ -110,20 +110,20 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    sinRotY = Math_SinS(thisx->shape.rot.y);
-    cosRotY = Math_CosS(thisx->shape.rot.y);
+    sinRotY = Math_SinS(this->dyna.actor.shape.rot.y);
+    cosRotY = Math_CosS(this->dyna.actor.shape.rot.y);
 
     for (i = 0; i < 3; i++) {
-        sp4C[i].x = (triInit->dim.vtx[i].x * cosRotY) + thisx->world.pos.x;
-        sp4C[i].y = triInit->dim.vtx[i].y + thisx->world.pos.y;
-        sp4C[i].z = thisx->world.pos.z - (triInit->dim.vtx[i].x * sinRotY);
+        sp4C[i].x = (triInit->dim.vtx[i].x * cosRotY) + this->dyna.actor.world.pos.x;
+        sp4C[i].y = triInit->dim.vtx[i].y + this->dyna.actor.world.pos.y;
+        sp4C[i].z = this->dyna.actor.world.pos.z - (triInit->dim.vtx[i].x * sinRotY);
     }
 
     Collider_SetTrisVertices(&this->collider, 0, &sp4C[0], &sp4C[1], &sp4C[2]);
 
-    sp4C[1].x = (triInit->dim.vtx[2].x * cosRotY) + thisx->world.pos.x;
-    sp4C[1].y = triInit->dim.vtx[0].y + thisx->world.pos.y;
-    sp4C[1].z = thisx->world.pos.z - (triInit->dim.vtx[2].x * sinRotY);
+    sp4C[1].x = (triInit->dim.vtx[2].x * cosRotY) + this->dyna.actor.world.pos.x;
+    sp4C[1].y = triInit->dim.vtx[0].y + this->dyna.actor.world.pos.y;
+    sp4C[1].z = this->dyna.actor.world.pos.z - (triInit->dim.vtx[2].x * sinRotY);
 
     Collider_SetTrisVertices(&this->collider, 1, &sp4C[0], &sp4C[2], &sp4C[1]);
 }
@@ -149,7 +149,7 @@ void func_808BEFF4(BgYdanMaruta* this, GlobalContext* globalCtx) {
 void func_808BF078(BgYdanMaruta* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->unk_16A = 20;
-        Flags_SetSwitch(globalCtx, this->unk_168);
+        Flags_SetSwitch(globalCtx, this->switchFlag);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_808BF108;
         OnePointCutscene_Init(globalCtx, 3010, 50, &this->dyna.actor, MAIN_CAM);
