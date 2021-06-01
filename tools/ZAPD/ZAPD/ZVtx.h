@@ -17,18 +17,17 @@ public:
 
 	ZVtx(ZFile* nParent);
 
-	void ParseXML(tinyxml2::XMLElement* reader) override;
-	std::string GetSourceTypeName() override;
-	std::string GetSourceOutputCode(const std::string& prefix) override;
 	void ParseRawData() override;
-	size_t GetRawDataSize() override;
-	bool DoesSupportArray() override;
-	ZResourceType GetResourceType() override;
-	bool IsExternalResource() override;
-	virtual std::string GetExternalExtension() override;
+	std::string GetBodySourceCode() const override;
+	std::string GetSourceOutputCode(const std::string& prefix) override;
 
-	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	bool IsExternalResource() const override;
+	bool DoesSupportArray() const override;
+	std::string GetSourceTypeName() const override;
+	ZResourceType GetResourceType() const override;
+	std::string GetExternalExtension() const override;
+
+	size_t GetRawDataSize() const override;
 
 protected:
 };

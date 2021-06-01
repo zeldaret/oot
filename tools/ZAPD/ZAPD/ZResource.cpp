@@ -1,87 +1,123 @@
 #include "ZResource.h"
 
+#include <cassert>
 #include <regex>
 #include "StringHelper.h"
-
-using namespace std;
+#include "ZFile.h"
 
 ZResource::ZResource(ZFile* nParent)
 {
+	// assert(nParent != nullptr);
 	parent = nParent;
 	name = "";
 	outName = "";
-	relativePath = "";
 	sourceOutput = "";
-	rawData = vector<uint8_t>();
 	rawDataIndex = 0;
 	outputDeclaration = true;
+
+	RegisterRequiredAttribute("Name");
+	RegisterOptionalAttribute("OutName");
+	RegisterOptionalAttribute("Offset");
+	RegisterOptionalAttribute("Custom");
 }
 
 void ZResource::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                               const uint32_t nRawDataIndex, const std::string& nRelPath)
+                               const uint32_t nRawDataIndex)
 {
 	rawData = nRawData;
 	rawDataIndex = nRawDataIndex;
-	relativePath = nRelPath;
 
 	if (reader != nullptr)
 		ParseXML(reader);
 
 	ParseRawData();
+	CalcHash();
 }
 
-void ZResource::ExtractFromFile(const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex,
-                                const std::string& nRelPath)
+void ZResource::ExtractFromFile(const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex)
 {
 	rawData = nRawData;
 	rawDataIndex = nRawDataIndex;
-	relativePath = nRelPath;
 
 	ParseRawData();
+	CalcHash();
 }
 
 void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 {
 	if (reader != nullptr)
 	{
-		if (reader->Attribute("Name") != nullptr)
+		// If it is an inner node, then 'Name' isn't required
+		if (isInner)
 		{
-			name = reader->Attribute("Name");
-			static std::regex r("[a-zA-Z_]+[a-zA-Z0-9_]*",
-			                    std::regex::icase | std::regex::optimize);
-
-			if (!std::regex_match(name, r))
-			{
-				throw std::domain_error(
-					StringHelper::Sprintf("ZResource::ParseXML: Fatal error in '%s'.\n\t Resource "
-				                          "with invalid 'Name' attribute.\n",
-				                          name.c_str()));
-			}
+			registeredAttributes.at("Name").isRequired = false;
 		}
-		else
-			name = "";
 
-		if (reader->Attribute("OutName") != nullptr)
-			outName = reader->Attribute("OutName");
-		else
-			outName = name;
+		auto attrs = reader->FirstAttribute();
+		while (attrs != nullptr)
+		{
+			std::string attrName = attrs->Name();
+			bool attrDeclared = false;
 
-		if (reader->Attribute("Custom") != nullptr)
-			isCustomAsset = true;
-		else
-			isCustomAsset = false;
+			if (registeredAttributes.find(attrName) != registeredAttributes.end())
+			{
+				registeredAttributes[attrName].value = attrs->Value();
+				registeredAttributes[attrName].wasSet = true;
+				attrDeclared = true;
+			}
+
+			if (!attrDeclared)
+				fprintf(stderr,
+				        "ZResource::ParseXML: Warning while parsing '%s'.\n"
+				        "\t Unexpected '%s' attribute in resource '%s'.\n",
+				        parent->GetName().c_str(), attrName.c_str(), reader->Name());
+			attrs = attrs->Next();
+		}
 
 		if (!canHaveInner && !reader->NoChildren())
 		{
 			throw std::runtime_error(
-				StringHelper::Sprintf("ZResource::ParseXML: Fatal error in '%s'.\n\t Resource '%s' "
-			                          "with inner element/child detected.\n",
+				StringHelper::Sprintf("ZResource::ParseXML: Fatal error in '%s'.\n"
+			                          "\t Resource '%s' with inner element/child detected.\n",
 			                          name.c_str(), reader->Name()));
 		}
+
+		for (const auto& attr : registeredAttributes)
+		{
+			if (attr.second.isRequired && attr.second.value == "")
+				throw std::runtime_error(StringHelper::Sprintf(
+					"ZResource::ParseXML: Fatal error while parsing '%s'.\n"
+					"\t Missing required attribute '%s' in resource '%s'.\n"
+					"\t Aborting...",
+					parent->GetName().c_str(), attr.first.c_str(), reader->Name()));
+		}
+
+		name = registeredAttributes.at("Name").value;
+
+		static std::regex r("[a-zA-Z_]+[a-zA-Z0-9_]*", std::regex::icase | std::regex::optimize);
+
+		if (!isInner || (isInner && name != ""))
+		{
+			if (!std::regex_match(name, r))
+			{
+				throw std::domain_error(
+					StringHelper::Sprintf("ZResource::ParseXML: Fatal error in '%s'.\n"
+				                          "\t Resource with invalid 'Name' attribute.\n",
+				                          name.c_str()));
+			}
+		}
+
+		outName = registeredAttributes.at("OutName").value;
+		if (outName == "")
+			outName = name;
+
+		isCustomAsset = registeredAttributes["Custom"].wasSet;
+
+		declaredInXml = true;
 	}
 }
 
-void ZResource::Save(const std::string& outFolder)
+void ZResource::Save(const fs::path& outFolder)
 {
 }
 
@@ -89,64 +125,59 @@ void ZResource::PreGenSourceFiles()
 {
 }
 
-string ZResource::GetName()
+const std::string& ZResource::GetName() const
 {
 	return name;
 }
 
-std::string ZResource::GetOutName()
+const std::string& ZResource::GetOutName() const
 {
 	return outName;
 }
 
-void ZResource::SetOutName(std::string nName)
+void ZResource::SetOutName(const std::string& nName)
 {
 	outName = nName;
 }
 
-void ZResource::SetName(string nName)
+void ZResource::SetName(const std::string& nName)
 {
-	name = std::move(nName);
+	name = nName;
 }
 
-bool ZResource::IsExternalResource()
-{
-	return false;
-}
-
-bool ZResource::DoesSupportArray()
+bool ZResource::IsExternalResource() const
 {
 	return false;
 }
 
-std::string ZResource::GetExternalExtension()
+bool ZResource::DoesSupportArray() const
+{
+	return false;
+}
+
+std::string ZResource::GetExternalExtension() const
 {
 	return "";
 }
 
-string ZResource::GetRelativePath()
-{
-	return relativePath;
-}
-
-vector<uint8_t> ZResource::GetRawData()
+const std::vector<uint8_t>& ZResource::GetRawData() const
 {
 	return rawData;
 }
 
-void ZResource::SetRawData(std::vector<uint8_t> nData)
+void ZResource::SetRawData(const std::vector<uint8_t>& nData)
 {
 	rawData = nData;
 }
 
-uint32_t ZResource::GetRawDataIndex()
+bool ZResource::WasDeclaredInXml() const
 {
-	return rawDataIndex;
+	return declaredInXml;
 }
 
-size_t ZResource::GetRawDataSize()
+uint32_t ZResource::GetRawDataIndex() const
 {
-	return rawData.size();
+	return rawDataIndex;
 }
 
 void ZResource::SetRawDataIndex(uint32_t value)
@@ -154,12 +185,17 @@ void ZResource::SetRawDataIndex(uint32_t value)
 	rawDataIndex = value;
 }
 
-string ZResource::GetSourceOutputCode(const std::string& prefix)
+std::string ZResource::GetBodySourceCode() const
+{
+	return "ERROR";
+}
+
+std::string ZResource::GetSourceOutputCode(const std::string& prefix)
 {
 	return "";
 }
 
-string ZResource::GetSourceOutputHeader(const std::string& prefix)
+std::string ZResource::GetSourceOutputHeader(const std::string& prefix)
 {
 	return "";
 }
@@ -168,16 +204,20 @@ void ZResource::ParseRawData()
 {
 }
 
+void ZResource::DeclareReferences(const std::string& prefix)
+{
+}
+
 void ZResource::GenerateHLIntermediette(HLFileIntermediette& hlFile)
 {
 }
 
-std::string ZResource::GetSourceTypeName()
+std::string ZResource::GetSourceTypeName() const
 {
 	return "u8";
 }
 
-ZResourceType ZResource::GetResourceType()
+ZResourceType ZResource::GetResourceType() const
 {
 	return ZResourceType::Error;
 }
@@ -185,6 +225,27 @@ ZResourceType ZResource::GetResourceType()
 void ZResource::CalcHash()
 {
 	hash = 0;
+}
+
+void ZResource::SetInnerNode(bool inner)
+{
+	isInner = inner;
+}
+
+void ZResource::RegisterRequiredAttribute(const std::string& attr)
+{
+	ResourceAttribute resAtrr;
+	resAtrr.key = attr;
+	resAtrr.isRequired = true;
+	registeredAttributes[attr] = resAtrr;
+}
+
+void ZResource::RegisterOptionalAttribute(const std::string& attr, const std::string& defaultValue)
+{
+	ResourceAttribute resAtrr;
+	resAtrr.key = attr;
+	resAtrr.value = defaultValue;
+	registeredAttributes[attr] = resAtrr;
 }
 
 uint32_t Seg2Filespace(segptr_t segmentedAddress, uint32_t parentBaseAddress)
@@ -195,8 +256,4 @@ uint32_t Seg2Filespace(segptr_t segmentedAddress, uint32_t parentBaseAddress)
 		currentPtr -= GETSEGOFFSET(parentBaseAddress);
 
 	return currentPtr;
-}
-
-ZResource::~ZResource()
-{
 }

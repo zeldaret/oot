@@ -1,29 +1,30 @@
 #include "SetSpecialObjects.h"
-#include "../../BitConverter.h"
-#include "../../StringHelper.h"
+#include "BitConverter.h"
+#include "StringHelper.h"
 
-using namespace std;
-
-SetSpecialObjects::SetSpecialObjects(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetSpecialObjects::SetSpecialObjects(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	elfMessage = rawData[rawDataIndex + 0x01];
-	globalObject = BitConverter::ToInt16BE(rawData, rawDataIndex + 6);
 }
 
-string SetSpecialObjects::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
+void SetSpecialObjects::ParseRawData()
 {
-	return StringHelper::Sprintf(
-		"%s 0x%02X, 0x%04X", ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
-		elfMessage, globalObject);
+	ZRoomCommand::ParseRawData();
+	elfMessage = cmdArg1;
+	globalObject = BitConverter::ToUInt16BE(parent->GetRawData(), rawDataIndex + 0x06);
 }
 
-string SetSpecialObjects::GetCommandCName()
+std::string SetSpecialObjects::GetBodySourceCode() const
+{
+	return StringHelper::Sprintf("SCENE_CMD_SPECIAL_FILES(0x%02X, 0x%04X)", elfMessage,
+	                             globalObject);
+}
+
+std::string SetSpecialObjects::GetCommandCName() const
 {
 	return "SCmdSpecialFiles";
 }
 
-RoomCommand SetSpecialObjects::GetRoomCommand()
+RoomCommand SetSpecialObjects::GetRoomCommand() const
 {
 	return RoomCommand::SetSpecialObjects;
 }
