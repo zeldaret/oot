@@ -849,7 +849,7 @@ void EffectSsIcePiece_SpawnBurst(GlobalContext* globalCtx, Vec3f* refPos, f32 sc
         { 0.0f, 20.0f, 20.0f },
         { 17.320474f, 20.0f, -9.999695f },
         { -17.320474f, 20.0f, -9.999695f },
-    };
+    }; // 17.320474 is approximately 10 * sqrt(3)
     s32 i;
     Vec3f velocity;
     Vec3f pos;

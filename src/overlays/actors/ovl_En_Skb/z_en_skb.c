@@ -1,5 +1,6 @@
 #include "z_en_skb.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
+#include "objects/object_skb/object_skb.h"
 
 #define FLAGS 0x00000015
 
@@ -27,13 +28,6 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD968(EnSkb* this, GlobalContext* globalCtx);
-
-extern SkeletonHeader D_060041F8;
-extern AnimationHeader D_06001854;
-extern AnimationHeader D_060009DC;
-extern AnimationHeader D_06000D98;
-extern AnimationHeader D_060047E0;
-extern AnimationHeader D_06000460;
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
@@ -160,8 +154,8 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060041F8, &D_06001854, this->limbDrawTable,
-                   this->transitionDrawTable, 20);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlingAnim, this->jointTable,
+                   this->morphTable, 20);
     this->actor.naviEnemyId = 0x55;
 
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -206,7 +200,7 @@ void func_80AFCD60(EnSkb* this) {
 }
 
 void func_80AFCDF8(EnSkb* this) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &D_06001854, 1.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
     this->unk_280 = 0;
     this->actor.flags &= ~1;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
@@ -231,7 +225,8 @@ void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFCF48(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &D_06001854, -1.0f, Animation_GetLastFrame(&D_06001854), 0.0f, 2, -4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildUncurlingAnim, -1.0f,
+                     Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, 2, -4.0f);
     this->unk_280 = 0;
     this->unk_281 = 0;
     this->actor.flags &= ~1;
@@ -252,7 +247,8 @@ void func_80AFCFF0(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD0A4(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &D_060047E0, 0.96000004f, 0.0f, Animation_GetLastFrame(&D_060047E0), 0, -4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildWalkingAnim, 0.96000004f, 0.0f,
+                     Animation_GetLastFrame(&gStalchildWalkingAnim), 0, -4.0f);
     this->unk_280 = 4;
     this->unk_288 = 0;
     this->actor.speedXZ = this->actor.scale.y * 160.0f;
@@ -299,7 +295,8 @@ void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD33C(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &D_06000460, 0.6f, 0.0f, Animation_GetLastFrame(&D_06000460), 3, 4.0f);
+    Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, 0.6f, 0.0f,
+                     Animation_GetLastFrame(&gStalchildAttackingAnim), 3, 4.0f);
     this->collider.base.atFlags &= ~4;
     this->unk_280 = 3;
     this->actor.speedXZ = 0.0f;
@@ -325,7 +322,7 @@ void EnSkb_SetupAttack(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD47C(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &D_06000460, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f, 3, 0.0f);
+    Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f, 3, 0.0f);
     this->collider.base.atFlags &= ~4;
     this->unk_280 = 5;
     this->unk_281 = 0;
@@ -367,7 +364,7 @@ void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD644(EnSkb* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000D98, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDamagedAnim, -4.0f);
     if (this->actor.bgCheckFlags & 1) {
         this->actor.speedXZ = -4.0f;
     }
@@ -381,7 +378,7 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
     // this cast is likely not real, but allows for a match
     u8* new_var;
     new_var = &this->unk_283;
-    if ((this->unk_283 != 1) || func_8003305C(&this->actor, &this->unk_28C, globalCtx, 1)) {
+    if ((this->unk_283 != 1) || BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, 1)) {
         if ((*new_var) != 0) {
             this->unk_283 = (*new_var) | 2;
         }
@@ -402,7 +399,7 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060009DC, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDyingAnim, -4.0f);
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     if (this->actor.bgCheckFlags & 1) {
@@ -410,25 +407,24 @@ void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
     }
     this->unk_280 = 1;
     this->actor.flags &= ~1;
-    func_80032E24(&this->unk_28C, 18, globalCtx);
+    BodyBreak_Alloc(&this->bodyBreak, 18, globalCtx);
     this->unk_283 |= 4;
     EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_STALKID_DEAD, 1, 1, 0x28);
     EnSkb_SetupAction(this, func_80AFD880);
 }
 
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx) {
-    if (func_8003305C(&this->actor, &this->unk_28C, globalCtx, 1) != 0) {
+    if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, 1)) {
         if (this->actor.scale.x == 0.01f) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x10);
+        } else if (this->actor.scale.x <= 0.015f) {
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_BLUE);
         } else {
-            if (this->actor.scale.x <= 0.015f) {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_BLUE);
-            } else {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
-            }
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
         }
+
         this->unk_283 |= 8;
         Actor_Kill(&this->actor);
     }
@@ -483,7 +479,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                             ((this->actor.colChkInfo.damageEffect == 0xE) &&
                              ((player->swordAnimation >= 4 && player->swordAnimation <= 11) ||
                               (player->swordAnimation == 20 || player->swordAnimation == 21)))) {
-                            func_80032E24(&this->unk_28C, 2, globalCtx);
+                            BodyBreak_Alloc(&this->bodyBreak, 2, globalCtx);
                             this->unk_283 = 1;
                         }
                     }
@@ -538,23 +534,17 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-#ifdef NON_MATCHING
-// t1 needs to be skipped when storing the args for the second function call
 void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSkb* this = THIS;
 
     Collider_UpdateSpheres(limbIndex, &this->collider);
 
     if ((this->unk_283 ^ 1) == 0) {
-        func_80032F54(&this->unk_28C, limbIndex, 0xB, 0xC, 0x12, dList, -1);
-    } else if ((this->unk_283 | 4) == this->unk_283) {
-        func_80032F54(&this->unk_28C, limbIndex, 0, 0x12, 0x12, dList, -1);
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 11, 12, 18, dList, BODYBREAK_OBJECT_DEFAULT);
+    } else if ((this->unk_283 ^ (this->unk_283 | 4)) == 0) {
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 18, 18, dList, BODYBREAK_OBJECT_DEFAULT);
     }
 }
-#else
-void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_PostLimbDraw.s")
-#endif
 
 void EnSkb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSkb* this = THIS;

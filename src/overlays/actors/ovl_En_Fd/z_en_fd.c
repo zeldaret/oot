@@ -335,8 +335,8 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
     }
 
     // check to see if the line between `this` and `actor` does not intersect a collision poly
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &actor->world.pos, &colPoint, &colPoly, 1,
-                                0, 0, 1, &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &actor->world.pos, &colPoint, &colPoly,
+                                true, false, false, true, &bgId)) {
         return false;
     }
 
@@ -418,8 +418,8 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
     pos.y = this->actor.world.pos.y;
     pos.z += this->actor.world.pos.z;
 
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &pos, &colPoint, &poly, 1, 0, 0, 1,
-                                &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &pos, &colPoint, &poly, true, false, false,
+                                true, &bgId)) {
         *runDir = -*runDir;
         return true;
     }
@@ -769,7 +769,7 @@ void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Push();
     EnFd_DrawDots(this, globalCtx);
     EnFd_DrawFlames(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
         if (1) {}
         func_80093D84(globalCtx->state.gfxCtx);

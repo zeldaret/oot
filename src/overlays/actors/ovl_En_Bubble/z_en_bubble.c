@@ -163,14 +163,14 @@ u32 func_809CBFD4(EnBubble* this) {
 }
 
 // only called in an unused actionFunc
-u32 func_809CC020(EnBubble* this) {
-    this->expansionWidth += 0.083333336f;
-    this->expansionHeight += 0.083333336f;
+s32 func_809CC020(EnBubble* this) {
+    this->expansionWidth += 1.0f / 12.0f;
+    this->expansionHeight += 1.0f / 12.0f;
 
     if (DECR(this->explosionCountdown) != 0) {
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 void EnBubble_Vec3fNormalizedRelfect(Vec3f* vec1, Vec3f* vec2, Vec3f* ret) {
@@ -188,9 +188,8 @@ void EnBubble_Vec3fNormalizedRelfect(Vec3f* vec1, Vec3f* vec2, Vec3f* ret) {
 }
 
 void EnBubble_Vec3fNormalize(Vec3f* vec) {
-    f32 norm;
+    f32 norm = sqrt((vec->x * vec->x) + (vec->y * vec->y) + (vec->z * vec->z));
 
-    norm = sqrt((vec->x * vec->x) + (vec->y * vec->y) + (vec->z * vec->z));
     if (norm != 0.0f) {
         vec->x /= norm;
         vec->y /= norm;
@@ -237,7 +236,7 @@ void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
     sp6C.x += (sp54.x * 24.0f);
     sp6C.y += (sp54.y * 24.0f);
     sp6C.z += (sp54.z * 24.0f);
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp78, &sp6C, &sp84, &sp94, 1, 1, 1, 0, &bgId) != 0) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp78, &sp6C, &sp84, &sp94, true, true, true, false, &bgId)) {
         sp60.x = COLPOLY_GET_NORMAL(sp94->normal.x);
         sp60.y = COLPOLY_GET_NORMAL(sp94->normal.y);
         sp60.z = COLPOLY_GET_NORMAL(sp94->normal.z);
@@ -421,9 +420,9 @@ void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_800D1FD4(&globalCtx->mf_11DA0);
 
         Matrix_Scale(this->expansionWidth + 1.0f, this->expansionHeight + 1.0f, 1.0f, MTXMODE_APPLY);
-        Matrix_RotateZ(((f32)globalCtx->state.frames * 0.017453292f) * this->graphicRotSpeed, MTXMODE_APPLY);
+        Matrix_RotateZ(((f32)globalCtx->state.frames * (M_PI / 180.0f)) * this->graphicRotSpeed, MTXMODE_APPLY);
         Matrix_Scale(this->graphicEccentricity + 1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-        Matrix_RotateZ((-(f32)globalCtx->state.frames * 0.017453292f) * this->graphicRotSpeed, MTXMODE_APPLY);
+        Matrix_RotateZ((-(f32)globalCtx->state.frames * (M_PI / 180.0f)) * this->graphicRotSpeed, MTXMODE_APPLY);
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1220),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

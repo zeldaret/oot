@@ -425,7 +425,7 @@ void GetItem_DrawBlueFire(GlobalContext* globalCtx, s16 drawId) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 615),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[1]);
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 621);
 }
@@ -454,7 +454,7 @@ void GetItem_DrawPoes(GlobalContext* globalCtx, s16 drawId) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[3]);
     gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[2]);
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 663);
 }
@@ -482,7 +482,7 @@ void GetItem_DrawFairy(GlobalContext* globalCtx, s16 drawId) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 698),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, sDrawItemTable[drawId].dlists[2]);
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 704);
 }

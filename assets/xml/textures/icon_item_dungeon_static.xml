@@ -1,5 +1,5 @@
 <Root>
-    <File Name="icon_item_dungeon_static">
+    <File Name="icon_item_dungeon_static" Segment="12">
         <Texture Name="gDungeonMapBlankFloorButtonTex" OutName="dungeon_map_blank_floor_button" Format="ia8" Width="24" Height="16"/>
         <Texture Name="gDungeonMap1FButtonTex" OutName="dungeon_map_1f_button" Format="ia8" Width="24" Height="16"/>
         <Texture Name="gDungeonMap2FButtonTex" OutName="dungeon_map_2f_button" Format="ia8" Width="24" Height="16"/>

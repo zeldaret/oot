@@ -1,5 +1,5 @@
 <Root>
-    <File Name="icon_item_24_static">
+    <File Name="icon_item_24_static" Segment="9">
         <Texture Name="gForestMedallionIconTex" OutName="forest_medallion_icon" Format="rgba32" Width="24" Height="24"/>
         <Texture Name="gFireMedallionIconTex" OutName="fire_medallion_icon" Format="rgba32" Width="24" Height="24"/>
         <Texture Name="gWaterMedallionIconTex" OutName="water_medallion_icon" Format="rgba32" Width="24" Height="24"/>

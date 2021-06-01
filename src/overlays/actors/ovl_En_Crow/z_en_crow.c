@@ -1,4 +1,5 @@
 #include "z_en_crow.h"
+#include "objects/object_crow/object_crow.h"
 
 #define FLAGS 0x00005005
 
@@ -16,9 +17,6 @@ void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx);
 void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx);
 void EnCrow_TurnAway(EnCrow* this, GlobalContext* globalCtx);
 void EnCrow_Damaged(EnCrow* this, GlobalContext* globalCtx);
-
-extern FlexSkeletonHeader D_060010C0;
-extern AnimationHeader D_060000F0;
 
 static Vec3f sZeroVecAccel = { 0.0f, 0.0f, 0.0f };
 
@@ -113,7 +111,7 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnCrow* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060010C0, &D_060000F0, this->jointTable, this->morphTable, 9);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGuaySkel, &gGuayFlyAnim, this->jointTable, this->morphTable, 9);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
@@ -152,7 +150,7 @@ void EnCrow_SetupDamaged(EnCrow* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ *= Math_CosS(this->actor.world.rot.x);
     this->actor.velocity.y = 0.0f;
-    Animation_Change(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
+    Animation_Change(&this->skelAnime, &gGuayFlyAnim, 0.4f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     scale = this->actor.scale.x * 100.0f;
     this->actor.world.pos.y += 20.0f * scale;
     this->actor.bgCheckFlags &= ~1;
@@ -216,7 +214,7 @@ void EnCrow_SetupRespawn(EnCrow* this) {
         this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
     }
 
-    Animation_PlayLoop(&this->skelAnime, &D_060000F0);
+    Animation_PlayLoop(&this->skelAnime, &gGuayFlyAnim);
     Math_Vec3f_Copy(&this->actor.world.pos, &this->actor.home.pos);
     this->actor.shape.rot.x = 0;
     this->actor.shape.rot.z = 0;

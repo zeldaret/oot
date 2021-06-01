@@ -81,7 +81,7 @@ void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
         // "There is no model bank! !! (Medi Goron)"
         osSyncPrintf("モデル バンクが無いよ！！（中ゴロン）\n");
         osSyncPrintf(VT_RST);
-        __assert("0", "../z_en_gm.c", 145);
+        ASSERT(0, "0", "../z_en_gm.c", 145);
     }
 
     this->updateFunc = func_80A3D838;
@@ -304,13 +304,13 @@ void func_80A3E090(EnGm* this) {
     this->collider.dim.pos.x = vec2.x;
     this->collider.dim.pos.y = vec2.y;
     this->collider.dim.pos.z = vec2.z;
-    Matrix_Pull();
+    Matrix_Pop();
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 4300.0f, MTXMODE_APPLY);
     Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &this->talkPos);
-    Matrix_Pull();
+    Matrix_Pop();
     Matrix_Translate(0.0f, 0.0f, 3800.0f, MTXMODE_APPLY);
     Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;

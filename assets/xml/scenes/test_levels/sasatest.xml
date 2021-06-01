@@ -1,9 +1,8 @@
 <Root>
-    <File Name="sasatest_scene">
+    <File Name="sasatest_scene" Segment="2">
         <Scene Name="sasatest_scene"/>
     </File>
-    <File Name="sasatest_room_0">
-        <Room Name="sasatest_room_0">
-        </Room>
+    <File Name="sasatest_room_0" Segment="3">
+        <Room Name="sasatest_room_0" Offset="0x0"/>
     </File>
 </Root>

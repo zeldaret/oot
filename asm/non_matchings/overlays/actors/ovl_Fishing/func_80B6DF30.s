@@ -768,7 +768,7 @@ glabel func_80B6DF30
 /* 04FB4 80B6E954 AE0F02C0 */  sw      $t7, 0x02C0($s0)           ## 000002C0
 /* 04FB8 80B6E958 AC580000 */  sw      $t8, 0x0000($v0)           ## 00000000
 /* 04FBC 80B6E95C 8FB90028 */  lw      $t9, 0x0028($sp)           
-/* 04FC0 80B6E960 0C034221 */  jal     Matrix_Pull              
+/* 04FC0 80B6E960 0C034221 */  jal     Matrix_Pop              
 /* 04FC4 80B6E964 AC590004 */  sw      $t9, 0x0004($v0)           ## 00000004
 /* 04FC8 80B6E968 44806000 */  mtc1    $zero, $f12                ## $f12 = 0.00
 /* 04FCC 80B6E96C 3C0643FA */  lui     $a2, 0x43FA                ## $a2 = 43FA0000

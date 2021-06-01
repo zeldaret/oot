@@ -137,7 +137,7 @@ void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
     Vec3f startPos;
     Vec3f endPos;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = csCtx->npcActions[func_8097C870(this)];
         if (npcAction != NULL) {
             temp_ret = func_8006F93C(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
@@ -157,8 +157,9 @@ void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
 
 void func_8097CC08(DemoGo* this) {
     f32 something = this->unk_19C;
+
     if (something < 8.0f) {
-        this->actor.speedXZ = (((kREG(15) * 0.01f) + 1.2f) * 0.125f) * something;
+        this->actor.speedXZ = (((kREG(15) * 0.01f) + 1.2f) / 8.0f) * something;
     } else {
         this->actor.speedXZ = (kREG(15) * 0.01f) + 1.2f;
     }
@@ -176,7 +177,7 @@ void func_8097CCE0(DemoGo* this, GlobalContext* globalCtx) {
     s32 newRotY;
     s32 thisRotY;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = globalCtx->csCtx.npcActions[func_8097C870(this)];
         if (npcAction != NULL) {
             thisRotY = thisx->world.rot.y;
@@ -202,7 +203,7 @@ s32 func_8097CDB0(DemoGo* this, GlobalContext* globalCtx, u16 npcAction) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
     s32 actionIdx = func_8097C870(this);
 
-    if ((csCtx->state != 0) && (csCtx->npcActions[actionIdx] != NULL) &&
+    if ((csCtx->state != CS_STATE_IDLE) && (csCtx->npcActions[actionIdx] != NULL) &&
         (csCtx->npcActions[actionIdx]->action == npcAction)) {
         return 1;
     }
@@ -226,7 +227,7 @@ void func_8097CE78(DemoGo* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
     CsCmdActorAction* npcAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = csCtx->npcActions[func_8097C870(this)];
         if (npcAction != NULL && csCtx->frames >= npcAction->endFrame) {
             func_8097CA78(this, globalCtx);

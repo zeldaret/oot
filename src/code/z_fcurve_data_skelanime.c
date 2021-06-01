@@ -21,9 +21,7 @@ s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, SkelCurv
 
     skelCurve->transforms = ZeldaArena_MallocDebug(sizeof(*skelCurve->transforms) * skelCurve->limbCount,
                                                    "../z_fcurve_data_skelanime.c", 125);
-    if (skelCurve->transforms == NULL) {
-        __assert("this->now_joint != NULL", "../z_fcurve_data_skelanime.c", 127);
-    }
+    ASSERT(skelCurve->transforms != NULL, "this->now_joint != NULL", "../z_fcurve_data_skelanime.c", 127);
     do {
         skelCurve->animCurFrame = 0.0f;
     } while (0);
@@ -165,7 +163,7 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
         SkelCurve_DrawLimb(globalCtx, limb->firstChildIdx, skelCurve, overrideLimbDraw, postLimbDraw, lod, data);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     if (limb->nextLimbIdx != LIMB_DONE) {
         SkelCurve_DrawLimb(globalCtx, limb->nextLimbIdx, skelCurve, overrideLimbDraw, postLimbDraw, lod, data);

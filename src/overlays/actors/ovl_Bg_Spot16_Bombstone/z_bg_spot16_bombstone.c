@@ -1,4 +1,5 @@
 #include "z_bg_spot16_bombstone.h"
+#include "objects/object_spot16_obj/object_spot16_obj.h"
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
@@ -184,7 +185,7 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     func_808B4D04(this, globalCtx);
     this->sinRotation = Math_SinS(this->actor.shape.rot.y);
     this->cosRotation = Math_CosS(this->actor.shape.rot.y);
-    this->unk_150 = D_06000C20;
+    this->dList = gDodongosCavernRock3DL;
 
     func_808B5934(this);
     return true;
@@ -220,7 +221,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
     actor->shape.rot.y = D_808B5DD8[actor->params][8];
     actor->shape.rot.z = D_808B5DD8[actor->params][9];
 
-    this->unk_150 = D_060009E0;
+    this->dList = D_060009E0;
     this->bombiwaBankIndex = Object_GetIndex(&globalctx->objectCtx, OBJECT_BOMBIWA);
 
     if (this->bombiwaBankIndex < 0) {
@@ -297,8 +298,6 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     Vec3f* actorPosition = &this->actor.world.pos;
 
     if (1) {}
-
-    // for(;this->unk_158 < ARRAY_COUNTU(D_808B5EB0); this->unk_158++)
 
     while (true) {
         if ((u32)this->unk_158 >= ARRAY_COUNTU(D_808B5EB0) || this->unk_154 < D_808B5EB0[this->unk_158][0]) {
@@ -415,7 +414,7 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
             currentBomb = sPlayerBomb;
             if (currentBomb->timer > 0) {
                 sTimer = currentBomb->timer + 20;
-                func_800800F8(globalCtx, 0x1054, sTimer, NULL, 0);
+                OnePointCutscene_Init(globalCtx, 4180, sTimer, NULL, MAIN_CAM);
             }
         }
     } else if (player->stateFlags1 & 0x800) {
@@ -445,7 +444,7 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
         func_808B561C(this, globalCtx);
 
-        func_800800F8(globalCtx, 0x1054, 0x32, NULL, 0);
+        OnePointCutscene_Init(globalCtx, 4180, 50, NULL, MAIN_CAM);
 
         Flags_SetSwitch(globalCtx, this->switchFlag);
         gSaveContext.eventChkInf[2] |= 8;
@@ -547,11 +546,11 @@ void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actor.params == 0xFF) {
         // The boulder is intact
-        gSPDisplayList(POLY_OPA_DISP++, this->unk_150);
+        gSPDisplayList(POLY_OPA_DISP++, this->dList);
     } else {
         // The boulder is debris
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->bombiwaBankIndex].segment);
-        gSPDisplayList(POLY_OPA_DISP++, this->unk_150);
+        gSPDisplayList(POLY_OPA_DISP++, this->dList);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1274);

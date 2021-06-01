@@ -6,6 +6,7 @@
 
 #include "z_bg_spot08_bakudankabe.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0x00400000
 
@@ -31,7 +32,6 @@ const ActorInit Bg_Spot08_Bakudankabe_InitVars = {
     (ActorFunc)BgSpot08Bakudankabe_Draw,
 };
 
-extern Gfx D_0500A880[];
 extern CollisionHeader D_060039D4;
 extern Gfx D_06003898[];
 
@@ -128,7 +128,7 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
         temp1 = (Rand_ZeroOne() - 0.5f) * 440.0f;
         temp2 = (Rand_ZeroOne() - 0.5f) * 20.0f;
         burstDepthY.x = this->dyna.actor.world.pos.x + temp2 * sinY + (temp1 * cosY);
-        burstDepthY.y = (this->dyna.actor.world.pos.y + 20.0f) + (i * 5.4166665f);
+        burstDepthY.y = (this->dyna.actor.world.pos.y + 20.0f) + (i * (65.0f / 12.0f));
         burstDepthY.z = this->dyna.actor.world.pos.z + temp2 * cosY - (temp1 * sinY);
 
         burstDepthX.y = (Rand_ZeroOne() - 0.2f) * 12.0f;
@@ -149,7 +149,7 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E,
-                             4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
+                             4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
     }
 
     for (i = 0; i < ARRAY_COUNT(D_808B08AC); i++) {

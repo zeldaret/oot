@@ -21,7 +21,7 @@
         <Texture Name="gHUDCarrotTex" OutName="hud_carrot" Format="rgba32" Width="16" Height="16"/>
         <Texture Name="gHUDExitMarkerTex" OutName="hud_exit_marker" Format="rgb5a1" Width="8" Height="8"/>
         <Texture Name="gHUDTreasureMarkerTex" OutName="hud_treasure_marker" Format="rgb5a1" Width="8" Height="8"/>
-        <Texture Name="gHUDArrowMinigameScore" OutName="hud_arrow_minigame_score" Format="rgb5a1" Width="24" Height="16"/>
+        <Texture Name="gHUDArrowMinigameScoreTex" OutName="hud_arrow_minigame_score" Format="rgb5a1" Width="24" Height="16"/>
         <Texture Name="gHUDBossMarkerTex" OutName="hud_boss_marker" Format="ia8" Width="8" Height="8"/>
         <Texture Name="gHUDButtonATex" OutName="hud_button_a" Format="ia8" Width="16" Height="16"/>
         <Texture Name="gHUDButtonCDownTex" OutName="hud_button_c_down" Format="ia8" Width="16" Height="16"/>
@@ -52,7 +52,7 @@
         <Texture Name="gHUDAmmo7Tex" OutName="hud_ammo_7" Format="ia8" Width="8" Height="8"/>
         <Texture Name="gHUDAmmo8Tex" OutName="hud_ammo_8" Format="ia8" Width="8" Height="8"/>
         <Texture Name="gHUDAmmo9Tex" OutName="hud_ammo_9" Format="ia8" Width="8" Height="8"/>
-        <Texture Name="gHUDUnusedAmmoHalf" OutName="hud_unused_ammo_half" Format="ia8" Width="16" Height="8"/>
+        <Texture Name="gHUDUnusedAmmoHalfTex" OutName="hud_unused_ammo_half" Format="ia8" Width="16" Height="8"/>
         <Texture Name="gHUDMagicBarEndTex" OutName="hud_magic_bar_end" Format="ia8" Width="8" Height="16"/>
         <Texture Name="gHUDMagicBarMidTex" OutName="hud_magic_bar_mid" Format="ia8" Width="24" Height="16"/>
         <Texture Name="gHUDMagicBarFillTex" OutName="hud_magic_bar_fill" Format="ia8" Width="8" Height="8"/>

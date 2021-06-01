@@ -6,6 +6,7 @@
 
 #include "z_en_ishi.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #include "vt.h"
 
@@ -28,13 +29,6 @@ void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_SpawnDustSmall(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx);
-
-extern Gfx D_0500A3B8[]; // Large gray rock
-extern Gfx D_0500A5E8[]; // Large gray rock fragments
-extern Gfx D_0500A880[]; // Small gray rock
-
-typedef void (*EnIshiEffectSpawnFunc)(struct EnIshi*, GlobalContext*);
-typedef void (*EnIshiDrawFunc)(struct EnIshi*, GlobalContext*);
 
 static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
@@ -95,9 +89,16 @@ static ColliderCylinderInit sCylinderInits[] = {
             OC2_TYPE_2,
             COLSHAPE_CYLINDER,
         },
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x4FC1FFF6, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 55, 70, 0, { 0, 0, 0 } },
-    }
+    },
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
@@ -164,7 +165,7 @@ void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx) {
             phi_v0 = 33;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 30, 5, 0, scales[i], 3, 10, 40,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
     }
 }
 
@@ -210,7 +211,7 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
             phi_v1 = -320;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, phi_v1, phi_v0, 30, 5, 0, scales[i], 5,
-                             2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
+                             2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDL);
     }
 }
 
@@ -310,7 +311,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 type = this->actor.params & 1;
 
     Actor_ProcessInitChain(&this->actor, sInitChains[type]);
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         this->actor.uncullZoneForward += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
@@ -368,10 +369,11 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistToPlayer < 400.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (this->actor.xzDistToPlayer < 90.0f) {
+                // GI_NONE in these cases allows the player to lift the actor
                 if (type == ROCK_LARGE) {
-                    func_8002F434(&this->actor, globalCtx, 0, 80.0f, 20.0f);
+                    func_8002F434(&this->actor, globalCtx, GI_NONE, 80.0f, 20.0f);
                 } else {
-                    func_8002F434(&this->actor, globalCtx, 0, 50.0f, 10.0f);
+                    func_8002F434(&this->actor, globalCtx, GI_NONE, 50.0f, 10.0f);
                 }
             }
         }
@@ -475,7 +477,7 @@ void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIshi_DrawSmall(EnIshi* this, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_0500A880);
+    Gfx_DrawDListOpa(globalCtx, gFieldKakeraDL);
 }
 
 void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
@@ -485,7 +487,7 @@ void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1055),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
-    gSPDisplayList(POLY_OPA_DISP++, D_0500A3B8);
+    gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1062);
 }

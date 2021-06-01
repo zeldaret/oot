@@ -5,6 +5,7 @@
  */
 
 #include "z_item_b_heart.h"
+#include "objects/object_gi_hearts/object_gi_hearts.h"
 
 #define FLAGS 0x00000000
 
@@ -16,9 +17,6 @@ void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx);
 void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx);
-
-extern Gfx D_06001290[];
-extern Gfx D_06001470[];
 
 const ActorInit Item_B_Heart_InitVars = {
     ACTOR_ITEM_B_HEART,
@@ -67,11 +65,11 @@ void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx) {
-    f32 temp;
+    f32 yOffset;
 
-    this->unk_164 += 1;
-    temp = ((Math_SinS(this->unk_164 * 1548) * 5.0f) + 20.0f);
-    Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y + temp, 0.1f, this->unk_158);
+    this->unk_164++;
+    yOffset = (Math_SinS(this->unk_164 * 0x60C) * 5.0f) + 20.0f;
+    Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y + yOffset, 0.1f, this->unk_158);
     Math_ApproachF(&this->unk_158, 2.0f, 1.0f, 0.1f);
     this->actor.shape.rot.y += 0x400;
 
@@ -82,7 +80,7 @@ void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx) {
 void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ItemBHeart* this = THIS;
     Actor* actorIt;
-    u8 flag = 0;
+    u8 flag = false;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 506);
 
@@ -90,25 +88,24 @@ void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     while (actorIt != NULL) {
         if ((actorIt->id == ACTOR_DOOR_WARP1) && (actorIt->projectedPos.z > this->actor.projectedPos.z)) {
-            flag = 1;
+            flag = true;
             break;
-        } else {
-            actorIt = actorIt->next;
         }
+        actorIt = actorIt->next;
     }
 
     if (flag) {
         func_80093D84(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 551),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06001290);
-        gSPDisplayList(POLY_XLU_DISP++, D_06001470);
+        gSPDisplayList(POLY_XLU_DISP++, gGiHeartBorderDL);
+        gSPDisplayList(POLY_XLU_DISP++, gGiHeartContainerDL);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 557),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06001290);
-        gSPDisplayList(POLY_OPA_DISP++, D_06001470);
+        gSPDisplayList(POLY_OPA_DISP++, gGiHeartBorderDL);
+        gSPDisplayList(POLY_OPA_DISP++, gGiHeartContainerDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 561);

@@ -1,9 +1,12 @@
 #pragma once
 
-#include <tinyxml2.h>
+#include "tinyxml2.h"
 
-#include <vector>
 #include <string>
+#include <vector>
+
+#include "ZFile.h"
+#include "ZResource.h"
 
 class ZRoom;
 
@@ -11,7 +14,7 @@ enum class RoomCommand : uint8_t
 {
 	SetStartPositionList = 0x00,
 	SetActorList = 0x01,
-	SetCameraSomething = 0x02,
+	SetCsCamera = 0x02,
 	SetCollisionHeader = 0x03,
 	SetRoomList = 0x04,
 	SetWind = 0x05,
@@ -36,30 +39,50 @@ enum class RoomCommand : uint8_t
 	SetAlternateHeaders = 0x18,
 	SetCameraSettings = 0x19,
 
+	// MM Commands
+	SetWorldMapVisited = 0x19,
+	SetAnimatedMaterialList = 0x1A,
+	SetActorCutsceneList = 0x1B,
+	SetMinimapList = 0x1C,
+	Unused1D = 0x1D,
+	SetMinimapChests = 0x1E,
+
 	Error = 0xFF
 };
 
-class ZRoomCommand
+class ZRoomCommand : public ZResource
 {
 public:
-	RoomCommand cmdID;
 	int32_t cmdAddress;
-	int32_t cmdIndex;
-	int32_t cmdSet;
+	uint32_t cmdIndex;
 	uint32_t commandSet;
 
-	ZRoomCommand(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	ZRoomCommand(ZFile* nParent);
+	virtual ~ZRoomCommand() = default;
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GenerateSourceCodePass2(std::string roomName, int baseAddress);
-	virtual std::string GenerateSourceCodePass3(std::string roomName);
-	virtual RoomCommand GetRoomCommand();
-	virtual int32_t GetRawDataSize();
-	virtual std::string GetCommandCName();
-	virtual std::string GenerateExterns();
-	virtual std::string Save();
-	virtual std::string PreGenSourceFiles();
+	virtual void ExtractCommandFromRoom(ZRoom* nZRoom, uint32_t nRawDataIndex);
+
+	void ParseRawData() override;
+
+	virtual void ParseRawDataLate();
+	virtual void DeclareReferencesLate(const std::string& prefix);
+
+	virtual std::string GetBodySourceCode() const = 0;
+
+	ZResourceType GetResourceType() const override;
+
+	// Getters/Setters
+	virtual RoomCommand GetRoomCommand() const = 0;
+	size_t GetRawDataSize() const override;
+	virtual std::string GetCommandCName() const;
+
+	virtual std::string GetCommandHex() const;
 
 protected:
 	ZRoom* zRoom;
+
+	RoomCommand cmdID;
+	uint8_t cmdArg1;
+	segptr_t cmdArg2;
+	uint32_t segmentOffset;
 };

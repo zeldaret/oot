@@ -377,7 +377,7 @@ glabel L80959578
 /* 0A424 809596E4 8FA60048 */  lw      $a2, 0x0048($sp)
 /* 0A428 809596E8 0C0189CD */  jal     Collider_SetQuadVertices
 /* 0A42C 809596EC AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 0A430 809596F0 0C034221 */  jal     Matrix_Pull
+/* 0A430 809596F0 0C034221 */  jal     Matrix_Pop
 /* 0A434 809596F4 00000000 */  nop
 /* 0A438 809596F8 8E180024 */  lw      $t8, 0x0024($s0)           ## 00000024
 /* 0A43C 809596FC 27AF00BC */  addiu   $t7, $sp, 0x00BC           ## $t7 = FFFFFFEC

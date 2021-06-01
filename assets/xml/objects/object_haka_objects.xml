@@ -1,0 +1,85 @@
+<Root>
+    <File Name="object_haka_objects" Segment="6">
+        <DList Name="object_haka_objects_DL_000040" Offset="0x40"/>
+        <Blob Name="object_haka_objects_Blob_0000D0" Size="0x80" Offset="0xD0"/>
+        <DList Name="object_haka_objects_DL_001120" Offset="0x1120"/>
+        <DList Name="object_haka_objects_DL_0018F0" Offset="0x18F0"/>
+        <DList Name="object_haka_objects_DL_002ED0" Offset="0x2ED0"/>
+        <DList Name="object_haka_objects_DL_003CF0" Offset="0x3CF0"/>
+        <DList Name="object_haka_objects_DL_0040F0" Offset="0x40F0"/>
+        <Blob Name="object_haka_objects_Blob_0042A8" Size="0xB8" Offset="0x42A8"/>
+        <DList Name="object_haka_objects_DL_0043B0" Offset="0x43B0"/>
+        <Blob Name="object_haka_objects_Blob_004448" Size="0xB8" Offset="0x4448"/>
+        <DList Name="object_haka_objects_DL_0045A0" Offset="0x45A0"/>
+        <Blob Name="object_haka_objects_Blob_004688" Size="0x128" Offset="0x4688"/>
+        <DList Name="object_haka_objects_DL_0047F0" Offset="0x47F0"/>
+        <Blob Name="object_haka_objects_Blob_0048C0" Size="0xB0" Offset="0x48C0"/>
+        <DList Name="object_haka_objects_DL_0049B0" Offset="0x49B0"/>
+        <Blob Name="object_haka_objects_Blob_004A80" Size="0xB0" Offset="0x4A80"/>
+        <DList Name="object_haka_objects_DL_004B70" Offset="0x4B70"/>
+        <Blob Name="object_haka_objects_Blob_004C40" Size="0xB0" Offset="0x4C40"/>
+        <DList Name="object_haka_objects_DL_005000" Offset="0x5000"/>
+        <Blob Name="object_haka_objects_Blob_005130" Size="0x230" Offset="0x5130"/>
+        <DList Name="object_haka_objects_DL_005A70" Offset="0x5A70"/>
+        <DList Name="object_haka_objects_DL_005CE0" Offset="0x5CE0"/>
+        <Blob Name="object_haka_objects_Blob_005DB8" Size="0xA8" Offset="0x5DB8"/>
+        <DList Name="object_haka_objects_DL_0064E0" Offset="0x64E0"/>
+        <Blob Name="object_haka_objects_Blob_0067C8" Size="0x7D8" Offset="0x67C8"/>
+        <DList Name="object_haka_objects_DL_0072C0" Offset="0x72C0"/>
+        <DList Name="object_haka_objects_DL_007610" Offset="0x7610"/>
+        <DList Name="object_haka_objects_DL_007EF0" Offset="0x7EF0"/>
+        <Blob Name="object_haka_objects_Blob_008148" Size="0xB8" Offset="0x8148"/>
+        <DList Name="object_haka_objects_DL_008A20" Offset="0x8A20"/>
+        <Blob Name="object_haka_objects_Blob_008C90" Size="0xB0" Offset="0x8C90"/>
+        <DList Name="object_haka_objects_DL_008EB0" Offset="0x8EB0"/>
+        <Blob Name="object_haka_objects_Blob_009038" Size="0x168" Offset="0x9038"/>
+        <DList Name="object_haka_objects_DL_009860" Offset="0x9860"/>
+        <Blob Name="object_haka_objects_Blob_009AC0" Size="0x240" Offset="0x9AC0"/>
+        <DList Name="object_haka_objects_DL_00A1A0" Offset="0xA1A0"/>
+        <Blob Name="object_haka_objects_Blob_00A460" Size="0x3C0" Offset="0xA460"/>
+        <DList Name="object_haka_objects_DL_00A860" Offset="0xA860"/>
+        <Blob Name="object_haka_objects_Blob_00A8F0" Size="0x80" Offset="0xA8F0"/>
+        <DList Name="object_haka_objects_DL_00BF20" Offset="0xBF20"/>
+        <DList Name="object_haka_objects_DL_00D330" Offset="0xD330"/>
+        <Blob Name="object_haka_objects_Blob_00DA88" Size="0x9B8" Offset="0xDA88"/>
+        <DList Name="object_haka_objects_DL_00E910" Offset="0xE910"/>
+        <Blob Name="object_haka_objects_Blob_00EA40" Size="0x370" Offset="0xEA40"/>
+        <DList Name="object_haka_objects_DL_00F1B0" Offset="0xF1B0"/>
+        <DList Name="object_haka_objects_DL_00FE40" Offset="0xFE40"/>
+        <Blob Name="object_haka_objects_Blob_010168" Size="0x788" Offset="0x10168"/>
+        <DList Name="object_haka_objects_DL_010A10" Offset="0x10A10"/>
+        <DList Name="object_haka_objects_DL_010C10" Offset="0x10C10"/>
+        <Blob Name="object_haka_objects_Blob_010CF0" Size="0x150" Offset="0x10CF0"/>
+        <DList Name="object_haka_objects_DL_012270" Offset="0x12270"/>
+        <Blob Name="object_haka_objects_Blob_012AA0" Size="0x750" Offset="0x12AA0"/>
+        <Texture Name="object_haka_objects_Tex_0131F0" OutName="tex_000131F0" Format="ia8" Width="32" Height="32" Offset="0x131F0"/>
+        <Texture Name="object_haka_objects_Tex_0135F0" OutName="tex_000135F0" Format="rgb5a1" Width="32" Height="32" Offset="0x135F0"/>
+        <Texture Name="object_haka_objects_Tex_013DF0" OutName="tex_00013DF0" Format="rgb5a1" Width="32" Height="32" Offset="0x13DF0"/>
+        <Texture Name="object_haka_objects_Tex_0145F0" OutName="tex_000145F0" Format="rgb5a1" Width="32" Height="64" Offset="0x145F0"/>
+        <Texture Name="object_haka_objects_Tex_0155F0" OutName="tex_000155F0" Format="rgb5a1" Width="32" Height="64" Offset="0x155F0"/>
+        <Texture Name="object_haka_objects_Tex_0165F0" OutName="tex_000165F0" Format="rgb5a1" Width="32" Height="8" Offset="0x165F0"/>
+        <Texture Name="object_haka_objects_Tex_0167F0" OutName="tex_000167F0" Format="rgb5a1" Width="32" Height="16" Offset="0x167F0"/>
+        <Texture Name="object_haka_objects_Tex_016BF0" OutName="tex_00016BF0" Format="i4" Width="32" Height="32" Offset="0x16BF0"/>
+        <Texture Name="object_haka_objects_Tex_016DF0" OutName="tex_00016DF0" Format="i4" Width="32" Height="32" Offset="0x16DF0"/>
+        <Texture Name="object_haka_objects_Tex_016FF0" OutName="tex_00016FF0" Format="i4" Width="32" Height="32" Offset="0x16FF0"/>
+        <Texture Name="object_haka_objects_Tex_0171F0" OutName="tex_000171F0" Format="i4" Width="32" Height="32" Offset="0x171F0"/>
+        <Texture Name="object_haka_objects_Tex_0173F0" OutName="tex_000173F0" Format="i4" Width="32" Height="32" Offset="0x173F0"/>
+        <Texture Name="object_haka_objects_Tex_0175F0" OutName="tex_000175F0" Format="i4" Width="32" Height="32" Offset="0x175F0"/>
+        <Texture Name="object_haka_objects_Tex_0177F0" OutName="tex_000177F0" Format="rgb5a1" Width="32" Height="32" Offset="0x177F0"/>
+        <Texture Name="object_haka_objects_Tex_017FF0" OutName="tex_00017FF0" Format="rgb5a1" Width="32" Height="32" Offset="0x17FF0"/>
+        <Texture Name="object_haka_objects_Tex_0187F0" OutName="tex_000187F0" Format="rgb5a1" Width="16" Height="64" Offset="0x187F0"/>
+        <Texture Name="object_haka_objects_Tex_018FF0" OutName="tex_00018FF0" Format="rgb5a1" Width="32" Height="32" Offset="0x18FF0"/>
+        <Texture Name="object_haka_objects_Tex_0197F0" OutName="tex_000197F0" Format="i4" Width="16" Height="16" Offset="0x197F0"/>
+        <Texture Name="object_haka_objects_Tex_019870" OutName="tex_00019870" Format="rgb5a1" Width="32" Height="32" Offset="0x19870"/>
+        <Texture Name="object_haka_objects_Tex_01A070" OutName="tex_0001A070" Format="rgb5a1" Width="16" Height="32" Offset="0x1A070"/>
+        <Texture Name="object_haka_objects_Tex_01A470" OutName="tex_0001A470" Format="i4" Width="32" Height="32" Offset="0x1A470"/>
+        <Texture Name="object_haka_objects_Tex_01A670" OutName="tex_0001A670" Format="rgb5a1" Width="32" Height="32" Offset="0x1A670"/>
+        <Texture Name="object_haka_objects_Tex_01AE70" OutName="tex_0001AE70" Format="ia4" Width="64" Height="32" Offset="0x1AE70"/>
+        <Texture Name="object_haka_objects_Tex_01B270" OutName="tex_0001B270" Format="rgb5a1" Width="64" Height="16" Offset="0x1B270"/>
+        <Texture Name="object_haka_objects_Tex_01BA70" OutName="tex_0001BA70" Format="rgb5a1" Width="64" Height="16" Offset="0x1BA70"/>
+        <Texture Name="object_haka_objects_Tex_01C270" OutName="tex_0001C270" Format="i4" Width="32" Height="32" Offset="0x1C270"/>
+        <Texture Name="object_haka_objects_Tex_01C470" OutName="tex_0001C470" Format="i4" Width="32" Height="32" Offset="0x1C470"/>
+        <Texture Name="object_haka_objects_Tex_01C670" OutName="tex_0001C670" Format="rgb5a1" Width="32" Height="33" Offset="0x1C670"/>
+        <Texture Name="object_haka_objects_Tex_01CEB0" OutName="tex_0001CEB0" Format="i4" Width="64" Height="64" Offset="0x1CEB0"/>
+    </File>
+</Root>

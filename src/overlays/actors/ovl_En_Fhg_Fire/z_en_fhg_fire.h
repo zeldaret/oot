@@ -6,37 +6,64 @@
 
 struct EnFhgFire;
 
-typedef void (*EnFhgFireActionFunc)(struct EnFhgFire*, GlobalContext *globalCtx);
+typedef void (*EnFhgFireUpdateFunc)(struct EnFhgFire*, GlobalContext*);
+
+typedef enum {
+    /*   1 */ FHGFIRE_LIGHTNING_STRIKE = 1,
+    /*  35 */ FHGFIRE_LIGHTNING_SHOCK = 35,
+    /*  36 */ FHGFIRE_LIGHTNING_BURST,
+    /*  38 */ FHGFIRE_SPEAR_LIGHT = 38,
+    /*  39 */ FHGFIRE_WARP_EMERGE,
+    /*  40 */ FHGFIRE_WARP_RETREAT,
+    /*  41 */ FHGFIRE_WARP_DEATH,
+    /*  50 */ FHGFIRE_ENERGY_BALL = 50,
+    /* 100 */ FHGFIRE_LIGHTNING_TRAIL = 100
+} FhgFireParam;
+
+typedef enum {
+    /* 0 */ FHGFIRE_LIGHT_GREEN,
+    /* 1 */ FHGFIRE_LIGHT_BLUE,
+    /* 2 */ FHGFIRE_LIGHT_REFLECT
+} FhgLightMode;
+
+typedef enum {
+    /*  0 */ FHGFIRE_TIMER,
+    /*  1 */ FHGFIRE_FX_TIMER,
+    /*  2 */ FHGFIRE_US_2,
+    /*  3 */ FHGFIRE_VARIANCE_TIMER,
+    /*  4 */ FHGFIRE_FIRE_MODE,
+    /*  5 */ FHGFIRE_RETURN_COUNT,
+    /*  6 */ FHGFIRE_KILL_TIMER,
+    /*  7 */ FHGFIRE_SHORT_COUNT
+} FhgFireS16Var;
+
+typedef enum {
+    /*  0 */ FHGFIRE_ALPHA,
+    /*  1 */ FHGFIRE_UF_1,
+    /*  2 */ FHGFIRE_UF_2,
+    /*  3 */ FHGFIRE_SCALE,
+    /*  4 */ FHGFIRE_UF_4,
+    /*  5 */ FHGFIRE_WARP_TEX_1_X,
+    /*  6 */ FHGFIRE_WARP_TEX_1_Y,
+    /*  7 */ FHGFIRE_WARP_TEX_2_X,
+    /*  8 */ FHGFIRE_WARP_TEX_2_Y,
+    /*  9 */ FHGFIRE_WARP_TEX_SPEED,
+    /* 10 */ FHGFIRE_WARP_ALPHA,
+    /* 11 */ FHGFIRE_BURST_SCALE,
+    /* 15 */ FHGFIRE_FLOAT_COUNT = 15
+} FhgFireF32Var;
 
 typedef struct EnFhgFire {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ EnFhgFireActionFunc actionFunc;
-    /* 0x0150 */ Vec3s unk_150; // rotation
-    /* 0x0156 */ s16 unk_156;
-    /* 0x0158 */ s16 fireMode;
-    /* 0x015a */ s16 unk_15A;
-    /* 0x015C */ s16 unk_15C;
-    /* 0x015E */ char unk_15E[0x02];
-    /* 0x0160 */ f32 unk_160;
-    /* 0x0164 */ char unk_164[0x08];
-    /* 0x016C */ f32 scale;
-    /* 0x0170 */ char unk_170[0x04];
-    /* 0x0174 */ f32 unk_174;
-    /* 0x0178 */ f32 unk_178;
-    /* 0x017C */ f32 unk_17C;
-    /* 0x0180 */ f32 unk_180;
-    /* 0x0184 */ f32 unk_184;
-    /* 0x0188 */ f32 unk_188;
-    /* 0x018C */ f32 unk_18C;
-    /* 0x0190 */ char unk_190[0x0C];
+    /* 0x014C */ EnFhgFireUpdateFunc updateFunc;
+    /* 0x0150 */ s16 work[FHGFIRE_SHORT_COUNT];
+    /* 0x0160 */ f32 fwork[FHGFIRE_FLOAT_COUNT];
     /* 0x019C */ LightNode* lightNode;
     /* 0x01A0 */ LightInfo lightInfo;
-    /* 0x01AE */ char unk_1AE[2];
     /* 0x01B0 */ ColliderCylinder collider;
-    /* 0x01FC */ u8 unk_1FC;
-    /* 0x01FD */ char unk_1FD;
-    /* 0x01FE */ s16 unk_1FE;
-    /* 0x0200 */ f32 unk_200;
+    /* 0x01FC */ u8 lensFlareOn;
+    /* 0x01FE */ s16 lensFlareTimer;
+    /* 0x0200 */ f32 lensFlareScale;
 } EnFhgFire; // size = 0x0204
 
 extern const ActorInit En_Fhg_Fire_InitVars;

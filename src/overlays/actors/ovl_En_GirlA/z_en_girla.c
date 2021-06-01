@@ -291,7 +291,7 @@ void func_80A3A8D0(EnGirlA* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
         osSyncPrintf(VT_RST);
-        __assert("0", "../z_en_girlA.c", 1421);
+        ASSERT(0, "0", "../z_en_girlA.c", 1421);
         return;
     }
 
@@ -302,7 +302,7 @@ void func_80A3A8D0(EnGirlA* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("バンクが無いよ！！(%s)\n", D_80A3C590[params]);
         osSyncPrintf(VT_RST);
-        __assert("0", "../z_en_girlA.c", 1434);
+        ASSERT(0, "0", "../z_en_girlA.c", 1434);
         return;
     }
 
@@ -1012,7 +1012,7 @@ void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags) {
 void func_80A3C4D4(Actor* thisx, GlobalContext* globalCtx) {
     EnGirlA* this = THIS;
 
-    Matrix_RotateY(((this->unk_1B8 * 360.0f) / 65536.0f) * 0.017453292f, MTXMODE_APPLY);
+    Matrix_RotateY(((this->unk_1B8 * 360.0f) / 65536.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
     if (this->unk_1D0 != NULL) {
         this->unk_1D0(thisx, globalCtx, 0);
     }

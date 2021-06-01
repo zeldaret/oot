@@ -40,9 +40,8 @@ void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* ske
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     limbCount = skin->skeletonHeader->limbCount;
     skin->avbTbl = ZeldaArena_MallocDebug(limbCount * sizeof(SkinAvb), "../z_skin_awb.c", 212);
-    if (skin->avbTbl == NULL) {
-        __assert("pskin_awb->avb_tbl != NULL", "../z_skin_awb.c", 214);
-    }
+
+    ASSERT(skin->avbTbl != NULL, "pskin_awb->avb_tbl != NULL", "../z_skin_awb.c", 214);
     for (i = 0; i < limbCount; i++) {
         SkinAvb* avbEntry = &skin->avbTbl[i];
         SkinLimb* limb = SEGMENTED_TO_VIRTUAL(skeleton[i]);
@@ -57,13 +56,9 @@ void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* ske
 
             avbEntry->unk_0 = 0;
             avbEntry->buf[0] = ZeldaArena_MallocDebug(temp_s1->unk_0 * sizeof(Vtx), "../z_skin_awb.c", 235);
-            if (avbEntry->buf[0] == 0) {
-                __assert("psavb->buf[0] != NULL", "../z_skin_awb.c", 237);
-            }
+            ASSERT(avbEntry->buf[0] != NULL, "psavb->buf[0] != NULL", "../z_skin_awb.c", 237);
             avbEntry->buf[1] = ZeldaArena_MallocDebug(temp_s1->unk_0 * sizeof(Vtx), "../z_skin_awb.c", 240);
-            if (avbEntry->buf[1] == 0) {
-                __assert("psavb->buf[1] != NULL", "../z_skin_awb.c", 242);
-            }
+            ASSERT(avbEntry->buf[1] != NULL, "psavb->buf[1] != NULL", "../z_skin_awb.c", 242);
             func_800A6460(globalCtx, skin, i);
         }
         if (1) {}
@@ -72,8 +67,9 @@ void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* ske
 }
 
 void func_800A6888(GlobalContext* globalCtx, PSkinAwb* arg1) {
-    s32 i;
     if (arg1->avbTbl != NULL) {
+        s32 i;
+
         for (i = 0; i < arg1->avbCount; i++) {
             if (arg1->avbTbl[i].buf[0] != 0) {
                 ZeldaArena_FreeDebug(arg1->avbTbl[i].buf[0], "../z_skin_awb.c", 276);
@@ -123,12 +119,9 @@ s32 func_800A698C(PSkinAwb* skin, SkinLimb** skeleton, MtxF* mf, u8 parentIndex,
     return false;
 }
 
-#ifdef NON_MATCHING
-// Matches except for an `addiu s0, s0, 0`, which obviously does nothing.
-// Likely some indexing optimization I can't figure out.
 s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
     s32 i;
-    u32 zero = 0;
+    s32 pad;
     f32 yRot;
     f32 xRot;
     f32 zRot;
@@ -146,11 +139,11 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
 
     if (arg3 != 0) {
 
-        xTransl = jointRot[-1].x;
-        yTransl = jointRot[-1].y;
-        zTransl = jointRot[-1].z;
-
-        jointRot += zero;
+        jointRot--;
+        xTransl = jointRot[0].x;
+        yTransl = jointRot[0].y;
+        zTransl = jointRot[0].z;
+        jointRot++;
 
         if (arg3 == 0x23) {
             EnfHG* horse = (EnfHG*)actor;
@@ -186,6 +179,3 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_awb/func_800A6AC4.s")
-#endif
