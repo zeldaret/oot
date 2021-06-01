@@ -19,9 +19,12 @@ void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
     if (D_80133408 == 0 || temp_s0 == 2) {
         arg2 &= 0x7F;
         if (arg2 == 0x7F) {
-            Audio_QueueCmdS32(0x85000000 | ((u8)seqIdx << 16) | (seqId << 8), ((fadeTimer >> 3) * 0x3C * gAudioContext.gAudioBufferParameters.updatesPerFrame) & 0xFFFF);
+            Audio_QueueCmdS32(0x85000000 | ((u8)seqIdx << 16) | (seqId << 8),
+                              ((fadeTimer >> 3) * 0x3C * gAudioContext.gAudioBufferParameters.updatesPerFrame) &
+                                  0xFFFF);
         } else {
-            Audio_QueueCmdS32(0x82000000 | ((u8)seqIdx << 16) | (seqId << 8), (fadeTimer * (u16) gAudioContext.gAudioBufferParameters.updatesPerFrame) / 4);
+            Audio_QueueCmdS32(0x82000000 | ((u8)seqIdx << 16) | (seqId << 8),
+                              (fadeTimer * (u16)gAudioContext.gAudioBufferParameters.updatesPerFrame) / 4);
         }
 
         D_8016E750[temp_s0].unk_256 = D_8016E750[temp_s0].unk_254 = (arg2 << 8) | seqId;
@@ -34,7 +37,7 @@ void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
         D_8016E750[temp_s0].unk_18 = 0;
         D_8016E750[temp_s0].unk_14 = 0;
 
-        for(i = 0; i < 0x10; i++) {
+        for (i = 0; i < 0x10; i++) {
             D_8016E750[temp_s0].unk_50[i].unk_00 = 1.0f;
             D_8016E750[temp_s0].unk_50[i].unk_0C = 0;
             D_8016E750[temp_s0].unk_50[i].unk_10 = 1.0f;
@@ -51,7 +54,8 @@ void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer);
 #endif
 
 void func_800F9474(u8 arg0, u16 arg1) {
-    Audio_QueueCmdS32(0x83000000 | ((u8)arg0 << 16), (arg1 * (u16)gAudioContext.gAudioBufferParameters.updatesPerFrame) / 4);
+    Audio_QueueCmdS32(0x83000000 | ((u8)arg0 << 16),
+                      (arg1 * (u16)gAudioContext.gAudioBufferParameters.updatesPerFrame) / 4);
     D_8016E750[arg0].unk_254 = 0xFFFF;
 }
 
@@ -121,7 +125,8 @@ void func_800FA18C(u8 arg0, u8 arg1) {
         }
     }
 }
-#define Audio_SetVolScaleNow(seqIdx, volFadeTimer, volScale) Audio_ProcessSeqCmd(0x40000000 | ((u8)seqIdx << 0x18) | ((u8)volFadeTimer << 0x10) | ((u8)(volScale * 127.0f)));
+#define Audio_SetVolScaleNow(seqIdx, volFadeTimer, volScale) \
+    Audio_ProcessSeqCmd(0x40000000 | ((u8)seqIdx << 0x18) | ((u8)volFadeTimer << 0x10) | ((u8)(volScale * 127.0f)));
 
 void Audio_SetVolScale(u8 seqIdx, u8 scaleIdx, u8 targetVol, u8 volFadeTimer) {
     f32 volScale;
@@ -179,11 +184,11 @@ void func_800FA3DC(void) {
     u8 temp_t3;
     u8 temp_v0_9;
     u8 temp_v1_4;
-    unk_D_8016E750 *temp_s0_4;
-    unk_D_8016E750 *temp_s0_5;
-    unk_D_8016E750 *temp_s2;
-    void *temp_v0_7;
-    void *temp_v0_8;
+    unk_D_8016E750* temp_s0_4;
+    unk_D_8016E750* temp_s0_5;
+    unk_D_8016E750* temp_s2;
+    void* temp_v0_7;
+    void* temp_v0_8;
     s32 phi_s3;
     f32 phi_f0;
     f32 phi_f6;
@@ -201,10 +206,10 @@ void func_800FA3DC(void) {
     u8 j;
     u8 k;
 
-    for(i = 0; i < 4; i++) {
+    for (i = 0; i < 4; i++) {
         temp_s2 = &D_8016E750[i];
         if (temp_s2->unk_260 != 0) {
-            switch(func_800E5E20(&sp70)) {
+            switch (func_800E5E20(&sp70)) {
                 case 1:
                 case 2:
                 case 3:
@@ -216,7 +221,7 @@ void func_800FA3DC(void) {
         }
 
         if (temp_s2->fadeVolUpdate) {
-            for(j = 0, phi_f0 = 1.0f; j < 4; j++) {
+            for (j = 0, phi_f0 = 1.0f; j < 4; j++) {
                 phi_f0 *= (D_8016E750[i].volScales[j] / 127.0f);
             }
 
@@ -224,10 +229,10 @@ void func_800FA3DC(void) {
             temp_s2->fadeVolUpdate = 0;
         }
 
-        if(temp_s2->unk_0C != 0) {
+        if (temp_s2->unk_0C != 0) {
             temp_s2->unk_0C--;
-            
-            if(temp_s2->unk_0C != 0) {
+
+            if (temp_s2->unk_0C != 0) {
                 temp_s2->volCur = temp_s2->volCur - temp_s2->unk_08;
             } else {
                 temp_s2->volCur = temp_s2->volTarget;
@@ -246,7 +251,7 @@ void func_800FA3DC(void) {
             if (gAudioContext.seqPlayers[i].enabled) {
                 temp_v0_4 = (temp_s2->unk_14 & 0xF000) >> 0xC;
                 temp_lo = gAudioContext.seqPlayers[i].tempo / 0x30;
-                switch(temp_v0_4) {
+                switch (temp_v0_4) {
                     case 1:
                         phi_a2 += temp_lo;
                         break;
@@ -266,9 +271,8 @@ void func_800FA3DC(void) {
                             phi_a2 = temp_v0_5 & 0xFFFF;
                         }
                         break;
-
                 }
-                
+
                 if (phi_a2 >= 0x12D) {
                     phi_a2 = 0x12C;
                 }
@@ -296,7 +300,7 @@ void func_800FA3DC(void) {
         }
 
         if (temp_s2->unk_252 != 0) {
-            for(k = 0; k < 0x10; k++) {
+            for (k = 0; k < 0x10; k++) {
                 if (D_8016E750[i].unk_50[k].unk_0C != 0) {
                     D_8016E750[i].unk_50[k].unk_0C--;
                     if (D_8016E750[i].unk_50[k].unk_0C != 0) {
@@ -310,7 +314,7 @@ void func_800FA3DC(void) {
             }
         }
         if (temp_s2->unk_250 != 0) {
-            for(k = 0; k < 0x10; k++) {
+            for (k = 0; k < 0x10; k++) {
                 if (D_8016E750[i].unk_50[k].unk_1C != 0) {
                     D_8016E750[i].unk_50[k].unk_1C--;
                     if (D_8016E750[i].unk_50[k].unk_1C != 0) {
@@ -319,7 +323,8 @@ void func_800FA3DC(void) {
                         D_8016E750[i].unk_50[k].unk_10 = D_8016E750[i].unk_50[k].unk_14;
                         temp_s2->unk_250 ^= (1 << k);
                     }
-                    Audio_QueueCmdF32(0x04000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8), D_8016E750[i].unk_50[k].unk_10);
+                    Audio_QueueCmdF32(0x04000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8),
+                                      D_8016E750[i].unk_50[k].unk_10);
                 }
             }
         }
@@ -333,17 +338,17 @@ void func_800FA3DC(void) {
             if (temp_s2->unk_4C != 0) {
                 temp_s2->unk_4C--;
             } else if (!gAudioContext.seqPlayers[i].enabled) {
-                for(j = 0; j < temp_s2->unk_4D; j++) {
-                    //temp_a0 = (temp_v0_10 & 0x00F00000) >> 20;
-                    //temp_s1 = (temp_v0_10 & 0x000F0000) >> 16;
-                    //temp_s0_3 = (temp_v0_10 & 0xFF00) >> 8;
-                    //temp_a3_3 = (temp_v0_10 & 0xFF) >> 0;
+                for (j = 0; j < temp_s2->unk_4D; j++) {
+                    // temp_a0 = (temp_v0_10 & 0x00F00000) >> 20;
+                    // temp_s1 = (temp_v0_10 & 0x000F0000) >> 16;
+                    // temp_s0_3 = (temp_v0_10 & 0xFF00) >> 8;
+                    // temp_a3_3 = (temp_v0_10 & 0xFF) >> 0;
                     temp_v0_10 = D_8016E750[i].unk_2C[j];
                     temp_a0 = Unk2C_B8(temp_v0_10);
                     temp_s1 = Unk2C_B12(temp_v0_10);
                     temp_s0_3 = Unk2C_B16(temp_v0_10);
                     temp_a3_3 = Unk2C_B24(temp_v0_10);
-                    switch(temp_a0){
+                    switch (temp_a0) {
                         case 0:
                             Audio_SetVolScale(temp_s1, 1, 0x7F, temp_a3_3);
                             break;

@@ -1,12 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
-    LOAD_STATUS_WAITING,
-    LOAD_STATUS_START,
-    LOAD_STATUS_LOADING,
-    LOAD_STATUS_DONE
-} SyncLoadStatus;
+typedef enum { LOAD_STATUS_WAITING, LOAD_STATUS_START, LOAD_STATUS_LOADING, LOAD_STATUS_DONE } SyncLoadStatus;
 
 #define RELOC(v, base) (reloc = (void*)((u32)v + (u32)base))
 
@@ -27,13 +22,13 @@ void* func_800E27A4(s32 tableType, s32 id);
 void* Audio_GetLoadTable(s32 tableType);
 void Audio_DMAFastCopy(u32 devAddr, u8* addr, u32 size, s32 handleType);
 void func_800E2BCC(u32 devAddr, u8* addr, u32 size, s32 handleType);
-s32 Audio_DMA(OSIoMesg* mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size,
-                  OSMesgQueue* reqQueue, s32 handleType, const char* dmaFuncType);
+s32 Audio_DMA(OSIoMesg* mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size, OSMesgQueue* reqQueue,
+              s32 handleType, const char* dmaFuncType);
 void* Audio_AsyncLoadInner(s32 tableType, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue* retQueue);
 AsyncLoadReq* func_800E3A44(s32 arg0, s32 devAddr, void* ramAddr, s32 size, s32 arg4, s32 nChunks,
                             OSMesgQueue* retQueue, s32 retMsg);
 AsyncLoadReq* Audio_InitAsyncReq(s32 devAddr, void* ramAddr, s32 size, s32 arg3, s32 nChunks, OSMesgQueue* retQueue,
-                            s32 retMsg);
+                                 s32 retMsg);
 void func_800E3FB4(AsyncLoadReq* req, u32 size);
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3);
 u8* func_800E22C4(s32 seqId);
@@ -660,19 +655,19 @@ void* Audio_GetLoadTable(s32 tableType) {
 #define BASE_OFFSET(x, off) (void*)((u32)(x) + (u32)(off))
 
 #ifdef NON_MATCHING
-void func_800E283C(s32 arg0, unk_ldr *arg1, RelocInfo *arg2) {
+void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2) {
     s32 sp50;
     s32 temp_v1_3;
     s32 temp_s5;
     s32 temp_a3;
-    void *reloc;
+    void* reloc;
     s32 i;
-    Drum *drum;
-    AudioBankSound *sfx;
-    Instrument *inst;
-    Instrument **end;
-    Instrument **instIt;
-    Drum **drums;
+    Drum* drum;
+    AudioBankSound* sfx;
+    Instrument* inst;
+    Instrument** end;
+    Instrument** instIt;
+    Drum** drums;
 
     temp_a3 = gAudioContext.gCtlEntries[arg0].numDrums;
     sp50 = gAudioContext.gCtlEntries[arg0].numInstruments;
@@ -680,10 +675,10 @@ void func_800E283C(s32 arg0, unk_ldr *arg1, RelocInfo *arg2) {
 
     drums = arg1->drums;
     if ((drums != NULL) && (temp_a3 != 0)) {
-        if(1) {
+        if (1) {
             arg1->drums = RELOC(drums, arg1);
         }
-        for(i = 0; i < temp_a3; i++) {
+        for (i = 0; i < temp_a3; i++) {
             reloc = arg1->drums[i];
             if (reloc != NULL) {
                 arg1->drums[i] = drum = RELOC(reloc, arg1);
@@ -698,10 +693,10 @@ void func_800E283C(s32 arg0, unk_ldr *arg1, RelocInfo *arg2) {
     }
 
     if ((arg1->sfx != NULL) && (temp_s5 != 0)) {
-        if(1) {
+        if (1) {
             arg1->sfx = RELOC(arg1->sfx, arg1);
         }
-        for(i = 0; i < temp_s5; i++) {
+        for (i = 0; i < temp_s5; i++) {
             sfx = &arg1->sfx[i];
             if ((sfx != NULL) && (sfx->sample != NULL)) {
                 Audio_SampleReloc(sfx, arg1, arg2);
@@ -714,14 +709,14 @@ void func_800E283C(s32 arg0, unk_ldr *arg1, RelocInfo *arg2) {
     }
 
     temp_v1_3 = sp50 + 1;
-    if(temp_v1_3 > 1) {
+    if (temp_v1_3 > 1) {
         instIt = arg1->instruments;
         end = instIt + temp_v1_3 - 2;
         do {
             if (*instIt != NULL) {
                 inst = *instIt;
                 *instIt = RELOC(inst, arg1);
-                if(0){}
+                if (0) {}
                 inst = *instIt;
                 if (!inst->loaded) {
                     if (inst->normalRangeLo != 0) {
@@ -737,7 +732,7 @@ void func_800E283C(s32 arg0, unk_ldr *arg1, RelocInfo *arg2) {
                 }
             }
             instIt++;
-        } while(instIt <= end);
+        } while (instIt <= end);
     }
 
     gAudioContext.gCtlEntries[arg0].drums = arg1->drums;
@@ -778,8 +773,8 @@ void func_800E2BCC(u32 devAddr, u8* addr, u32 size, s32 handleType) {
 
 s32 (*sDmaHandler)(OSPiHandle* handle, OSIoMesg* mb, s32 direction) = osEPiStartDma;
 
-s32 Audio_DMA(OSIoMesg* mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size,
-                  OSMesgQueue* reqQueue, s32 handleType, const char* dmaFuncType) {
+s32 Audio_DMA(OSIoMesg* mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size, OSMesgQueue* reqQueue,
+              s32 handleType, const char* dmaFuncType) {
     OSPiHandle* handle;
 
     if (gAudioContext.resetTimer > 0x10) {
@@ -1266,7 +1261,7 @@ AsyncLoadReq* func_800E3A44(s32 arg0, s32 devAddr, void* ramAddr, s32 size, s32 
 }
 
 AsyncLoadReq* Audio_InitAsyncReq(s32 devAddr, void* ramAddr, s32 size, s32 arg3, s32 nChunks, OSMesgQueue* retQueue,
-                            s32 retMsg) {
+                                 s32 retMsg) {
     AsyncLoadReq* loadReq;
     s32 i;
 
@@ -1313,7 +1308,7 @@ void Audio_ProcessAsyncLoads(s32 resetStatus) {
     if (gAudioContext.resetTimer == 1) {
         return;
     }
-    
+
     if (gAudioContext.curAsyncReq == NULL) {
         if (resetStatus != 0) {
             do {
@@ -1434,11 +1429,11 @@ void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3) {
 
 void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
     AudioBankSample* sample;
-    void *reloc;
+    void* reloc;
 
     if ((u32)sound->sample <= 0x80000000) {
         sample = sound->sample = RELOC(sound->sample, arg1);
-        if(sample->size != 0 && sample->unk_bits25 != 1) {
+        if (sample->size != 0 && sample->unk_bits25 != 1) {
             sample->loop = RELOC(sample->loop, arg1);
             sample->book = RELOC(sample->book, arg1);
             switch (sample->bits2) {
@@ -1468,18 +1463,18 @@ void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
 #ifdef NON_MATCHING
 s32 func_800E4590(s32 resetStatus) {
     u32 sp4C;
-    AudioBankSample *temp_v0_3;
-    AudioStruct0D68 *temp_v1_2;
+    AudioBankSample* temp_v0_3;
+    AudioStruct0D68* temp_v1_2;
     s32 temp_a0_2;
     s32 temp_v0_2;
     u32 temp_a0;
     u32 temp_a0_3;
     u32 temp_a2_2;
     u32 temp_t0;
-    u8 *temp_s0;
-    AudioStruct0D68 *temp_a2;
-    AudioBankSample *temp_v0;
-    AudioStruct0D68 *temp_v1;
+    u8* temp_s0;
+    AudioStruct0D68* temp_a2;
+    AudioBankSample* temp_v0;
+    AudioStruct0D68* temp_v1;
 
     if (gAudioContext.unk_176C > 0) {
         if (resetStatus != 0) {
@@ -1494,25 +1489,29 @@ s32 func_800E4590(s32 resetStatus) {
         sp4C >>= 0x18;
 
         if (gAudioContext.unk_0D54[sp4C + 1].unk_10 == 0) {
-            if ((temp_v0_3->sampleAddr + temp_v0_3->size + temp_v0_3->bits2) == gAudioContext.unk_0D54[sp4C + 1].unk_00) {
+            if ((temp_v0_3->sampleAddr + temp_v0_3->size + temp_v0_3->bits2) ==
+                gAudioContext.unk_0D54[sp4C + 1].unk_00) {
                 temp_v0_3->bits2 = 0;
                 temp_v0_3->sampleAddr = temp_v0_3->loop;
             }
             gAudioContext.unk_0D54[sp4C + 1].unk_10 = 1;
         }
 
-        while(gAudioContext.unk_176C > 0) {
+        while (gAudioContext.unk_176C > 0) {
             if (gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_10 == 1) {
                 gAudioContext.unk_176C--;
                 continue;
             } else {
                 temp_v0_3 = gAudioContext.unk_0D54[gAudioContext.unk_176C].sample;
-                if (&temp_v0_3->sampleAddr[temp_v0_3->size + temp_v0_3->bits2] != gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_00) {
+                if (&temp_v0_3->sampleAddr[temp_v0_3->size + temp_v0_3->bits2] !=
+                    gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_00) {
                     gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_10 = 1;
                     gAudioContext.unk_176C--;
                     continue;
                 } else {
-                    Audio_InitAsyncReq(temp_v0_3->sampleAddr, gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_08, temp_v0_3->size, temp_v0_3->bits2, (temp_a2_2 >> 0xC) + 1, &gAudioContext.unk_1E78, gAudioContext.unk_0D54[gAudioContext.unk_176C].pad);
+                    Audio_InitAsyncReq(temp_v0_3->sampleAddr, gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_08,
+                                       temp_v0_3->size, temp_v0_3->bits2, (temp_a2_2 >> 0xC) + 1,
+                                       &gAudioContext.unk_1E78, gAudioContext.unk_0D54[gAudioContext.unk_176C].pad);
                     break;
                 }
             }

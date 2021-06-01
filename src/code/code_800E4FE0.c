@@ -372,9 +372,11 @@ void Audio_InitMesgQueuesInternal(void) {
     gAudioContext.taskStartQueueP = &gAudioContext.taskStartQueue;
     gAudioContext.cmdProcQueueP = &gAudioContext.cmdProcQueue;
     gAudioContext.audioResetQueueP = &gAudioContext.audioResetQueue;
-    osCreateMesgQueue(gAudioContext.taskStartQueueP, gAudioContext.taskStartMsgs, ARRAY_COUNT(gAudioContext.taskStartMsgs));
+    osCreateMesgQueue(gAudioContext.taskStartQueueP, gAudioContext.taskStartMsgs,
+                      ARRAY_COUNT(gAudioContext.taskStartMsgs));
     osCreateMesgQueue(gAudioContext.cmdProcQueueP, gAudioContext.cmdProcMsgs, ARRAY_COUNT(gAudioContext.cmdProcMsgs));
-    osCreateMesgQueue(gAudioContext.audioResetQueueP, gAudioContext.audioResetMesgs, ARRAY_COUNT(gAudioContext.audioResetMesgs));
+    osCreateMesgQueue(gAudioContext.audioResetQueueP, gAudioContext.audioResetMesgs,
+                      ARRAY_COUNT(gAudioContext.audioResetMesgs));
 }
 
 void Audio_QueueCmd(u32 opArgs, void** data) {
@@ -418,9 +420,9 @@ s32 Audio_ScheduleProcessCmds(void) {
         D_801304E8 = (u8)((gAudioContext.cmdWrPos - gAudioContext.cmdRdPos) + 0x100);
     }
 
-    ret = osSendMesg(gAudioContext.cmdProcQueueP,
-                   (void*)(((gAudioContext.cmdRdPos & 0xFF) << 8) | (gAudioContext.cmdWrPos & 0xFF)),
-                   OS_MESG_NOBLOCK);
+    ret =
+        osSendMesg(gAudioContext.cmdProcQueueP,
+                   (void*)(((gAudioContext.cmdRdPos & 0xFF) << 8) | (gAudioContext.cmdWrPos & 0xFF)), OS_MESG_NOBLOCK);
     if (ret != -1) {
         gAudioContext.cmdRdPos = gAudioContext.cmdWrPos;
         ret = 0;
@@ -535,7 +537,7 @@ s32 func_800E5EDC(void) {
 
 void func_800E5F34(void) {
     // probably a macro of some type?
-    s32 chk = -1; s32 sp28; do { } while (osRecvMesg(gAudioContext.audioResetQueueP, &sp28, 0) != chk); 
+    s32 chk = -1;s32 sp28;do { } while (osRecvMesg(gAudioContext.audioResetQueueP, &sp28, 0) != chk); 
 }
 
 s32 func_800E5F88(u32 resetPreloadID) {

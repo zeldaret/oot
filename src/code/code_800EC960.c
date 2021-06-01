@@ -123,7 +123,7 @@ extern s8 D_80130F34;
 extern u32 D_80130F28;
 extern u8 D_80131F4C[];
 extern u8 D_80131F50;
-extern OcarinaSong sOcarinaSongs[];         // 80130F80
+extern OcarinaSong sOcarinaSongs[]; // 80130F80
 extern u32 sNotePlaybackTimer;
 extern u16 sPlaybackNotePos;
 extern u32 D_80131860;
@@ -141,7 +141,6 @@ extern u8 sDisplayedNoteValue; // Note to display on screen?
 extern s32 D_80130F68;
 extern OcarinaNote* D_80131BE4;
 extern OcarinaSong* D_80131BEC;
-
 
 typedef struct {
     u8 unk_00;
@@ -243,7 +242,7 @@ void func_800EC960(u8 custom) {
 void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
 void Audio_GetOcaInput(void) {
     Input input[4];
-    Input *inputP = &input[0];
+    Input* inputP = &input[0];
     u32 sp18;
 
     sp18 = sCurOcarinaBtnPress;
@@ -386,8 +385,8 @@ void func_800ECDF8(void) {
     u16 pad2;
     s8 sp57 = 0;
     u8 i;
-    OcarinaNote *prevNote;
-    OcarinaNote *note;
+    OcarinaNote* prevNote;
+    OcarinaNote* note;
 
     func_800ECDBC();
 
@@ -401,18 +400,17 @@ void func_800ECDF8(void) {
             inputChanged = 1;
         }
 
-        for(i = gOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
+        for (i = gOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
             sh = 1 << i;
             if (sOcarinaAvailSongs & sh) {
                 D_8016BA50[i] = D_8016BA70[i] + 0x12;
                 if (inputChanged) {
-                    if ((D_8016BA50[i] >= D_8016BA70[i] - 0x12) && 
-                        (D_8016BA50[i] >= D_8016BA70[i]) && 
-                        (sOcarinaSongs[i].notes[sLearnSongPos[i]].unk_02 == 0) && 
+                    if ((D_8016BA50[i] >= D_8016BA70[i] - 0x12) && (D_8016BA50[i] >= D_8016BA70[i]) &&
+                        (sOcarinaSongs[i].notes[sLearnSongPos[i]].unk_02 == 0) &&
                         (sLearnSongLastBtn == sLearnSongExpectedNote[i])) {
-                            D_80131878 = i + 1;
-                            sOcarinaInpEnabled = 0;
-                            D_80130F3C = 0;
+                        D_80131878 = i + 1;
+                        sOcarinaInpEnabled = 0;
+                        D_80130F3C = 0;
                     }
                 } else if (D_8016BA50[i] >= (D_8016BA70[i] - 0x12)) {
                     if (sLearnSongLastBtn != 0xFF) {
@@ -429,11 +427,12 @@ void func_800ECDF8(void) {
                     note = &sOcarinaSongs[i].notes[++sLearnSongPos[i]];
                     D_8016BA70[i] = prevNote->unk_02;
                     sLearnSongExpectedNote[i] = prevNote->noteIdx;
-                    
+
                     if (sCurOcarinaBtnVal != sLearnSongExpectedNote[i]) {
                         sOcarinaAvailSongs ^= sh;
                     }
-                    for(;prevNote->noteIdx == note->noteIdx || (note->noteIdx == 0xFF && note->unk_02 != 0);sLearnSongPos[i]++) {
+                    for (; prevNote->noteIdx == note->noteIdx || (note->noteIdx == 0xFF && note->unk_02 != 0);
+                         sLearnSongPos[i]++) {
                         D_8016BA70[i] += note->unk_02;
                         note = &sOcarinaSongs[i].notes[sLearnSongPos[i] + 1];
                         prevNote = &sOcarinaSongs[i].notes[sLearnSongPos[i]];
@@ -480,7 +479,7 @@ void func_800ED200(void) {
     }
 
     func_800ECDBC();
-    
+
     if (sOcarinaHasStartedSong) {
         if ((sPrevOcarinaNoteVal != sCurOcarinaBtnVal) && (sCurOcarinaBtnVal != 0xFF)) {
             D_8016BA2E++;
@@ -489,22 +488,23 @@ void func_800ED200(void) {
             }
 
             if (sOcarinaSongAppendPos == 8) {
-                for(i = 0; i < 7; i++) {
+                for (i = 0; i < 7; i++) {
                     sCurOcarinaSong[i] = sCurOcarinaSong[i + 1];
                 }
             } else {
                 sOcarinaSongAppendPos++;
             }
-            
+
             if ((D_80130F2C < 0 ? -D_80130F2C : D_80130F2C) >= 0x15) {
                 sCurOcarinaSong[sOcarinaSongAppendPos - 1] = 0xFF;
             } else {
                 sCurOcarinaSong[sOcarinaSongAppendPos - 1] = sCurOcarinaBtnVal;
             }
 
-            for(i = gOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
+            for (i = gOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
                 if (sOcarinaAvailSongs & (u16)(1 << i)) {
-                    for(j = 0, k = 0; j < gOcarinaSongNotes[i].len && k == 0 && sOcarinaSongAppendPos >= gOcarinaSongNotes[i].len;) {
+                    for (j = 0, k = 0;
+                         j < gOcarinaSongNotes[i].len && k == 0 && sOcarinaSongAppendPos >= gOcarinaSongNotes[i].len;) {
                         temp_v0 = sCurOcarinaSong[(sOcarinaSongAppendPos - gOcarinaSongNotes[i].len) + j];
                         if (temp_v0 == sOcarinaNoteValues[gOcarinaSongNotes[i].notesIdx[j]]) {
                             j++;
@@ -531,10 +531,11 @@ void func_800ED458(s32 arg0) {
         D_80131880--;
         return;
     }
-    
-    if ((D_8016BA10 == 0) || ((sCurOcarinaBtnPress & sOcarinaAllowedBtnMask) != (0, D_8016BA10 & sOcarinaAllowedBtnMask))) {
+
+    if ((D_8016BA10 == 0) ||
+        ((sCurOcarinaBtnPress & sOcarinaAllowedBtnMask) != (0, D_8016BA10 & sOcarinaAllowedBtnMask))) {
         D_8016BA10 = 0;
-        if(1){}
+        if (1) {}
         sCurOcarinaBtnVal = 0xFF;
         sCurOcarinaBtnIdx = 0xFF;
         phi_v1_2 = (sCurOcarinaBtnPress & sOcarinaAllowedBtnMask) & (sPrevOcarinaBtnPress & sOcarinaAllowedBtnMask);
@@ -565,12 +566,12 @@ void func_800ED458(s32 arg0) {
             sCurOcarinaBtnVal = 0xE;
             sCurOcarinaBtnIdx = 4;
         }
-    
+
         if (sCurOcarinaBtnVal != 0xFF && sCurOcarinaBtnPress & 0x10 && D_80131858 != 2) {
             sCurOcarinaBtnIdx += 0x80;
             sCurOcarinaBtnVal++;
         }
-        
+
         if ((sCurOcarinaBtnVal != 0xFF) && (sCurOcarinaBtnPress & 0x2000) && (D_80131858 != 2)) {
             sCurOcarinaBtnIdx += 0x40;
             sCurOcarinaBtnVal--;
@@ -613,7 +614,7 @@ void func_800ED858(u8 arg0) {
         sPrevOcarinaBtnPress = 0;
         D_8016BA18 = 0;
         D_8016BA10 = 0xFFFF;
-        func_800ED458(0);   
+        func_800ED458(0);
         Audio_StopSfx(NA_SE_OC_OCARINA);
         func_800F7260(0);
         sPlaybackState = 0;
@@ -755,7 +756,7 @@ void func_800EDD68(u8 arg0) {
     u16 i2;
     u16 mad2;
     u8 mad;
-    OcarinaNote *note;
+    OcarinaNote* note;
     u8 j;
     u8 k;
     s32 t;
@@ -785,12 +786,12 @@ void func_800EDD68(u8 arg0) {
 
     i = sRecordSongPos;
     mad = 0xFF;
-    while(i != 0 && mad == 0xFF) {
+    while (i != 0 && mad == 0xFF) {
         i--;
         mad = song->notes[i].noteIdx;
     }
-    
-    if(1){}
+
+    if (1) {}
 
     if (sRecordSongPos != (i + 1)) {
         sRecordSongPos = i + 2;
@@ -798,31 +799,33 @@ void func_800EDD68(u8 arg0) {
     }
 
     song->notes[sRecordSongPos].unk_02 = 0;
-    
+
     if (D_80131858 == 2) {
         if (D_8016BA2E >= 8) {
-            for(i = 0; i < sRecordSongPos; i++) {
+            for (i = 0; i < sRecordSongPos; i++) {
                 song->notes[i] = song->notes[i + 1];
             }
 
             func_800ECB7C(0xD);
-            
-            for(i = 0; i < 0xC; i++) {
-                for(j = 0; j < 9 - gOcarinaSongNotes[i].len; j++) {
-                    for(k = 0; k < gOcarinaSongNotes[i].len && k + j < 8 && gOcarinaSongNotes[i].notesIdx[k] == gOcarinaSongNotes[0xC].notesIdx[k + j]; k++);
+
+            for (i = 0; i < 0xC; i++) {
+                for (j = 0; j < 9 - gOcarinaSongNotes[i].len; j++) {
+                    for (k = 0; k < gOcarinaSongNotes[i].len && k + j < 8 &&
+                                gOcarinaSongNotes[i].notesIdx[k] == gOcarinaSongNotes[0xC].notesIdx[k + j];
+                         k++)
+                        ;
 
                     if (k == gOcarinaSongNotes[i].len) {
                         D_80131858 = 0xFF;
                         sOcarinaSongs[0xC].notes[1].volume = 0xFF;
                         return;
                     }
-
                 }
             }
 
             i = 1;
-            while(i < 8) {
-                if(gOcarinaSongNotes[0xC].notesIdx[0] != gOcarinaSongNotes[0xC].notesIdx[i]) {
+            while (i < 8) {
+                if (gOcarinaSongNotes[0xC].notesIdx[0] != gOcarinaSongNotes[0xC].notesIdx[i]) {
                     i = 9;
                 } else {
                     i++;
@@ -835,7 +838,7 @@ void func_800EDD68(u8 arg0) {
                 return;
             }
 
-            for(i = 0; i < sRecordSongPos; i++) {
+            for (i = 0; i < sRecordSongPos; i++) {
                 sOcarinaSongs[0xC].notes[i] = sOcarinaSongs[0xD].notes[i];
             }
 
@@ -1057,7 +1060,6 @@ void func_800EE6F4(void) {
     func_800EE29C();
 }
 
-
 #ifdef NON_MATCHING
 // matches, but data needs to be migrated.
 void func_800EE824(void) {
@@ -1065,7 +1067,7 @@ void func_800EE824(void) {
     static u8 D_80131C84 = 1;
     static u16 D_80131C88 = 0x4B0;
 
-    switch(D_80131C80) {
+    switch (D_80131C80) {
         case 0:
             if (D_80131C88-- == 0) {
                 if (D_80131C84 < 7) {
@@ -1154,7 +1156,7 @@ extern u8 D_80131F68;
 extern u16 D_80131E14;
 void func_800F1BDC(void) {
     u16 phi_t1 = 1;
-    
+
     if (D_8016BAB0 & 4) {
         if (D_80131E20[D_80131CA4] >= 0x10) {
             phi_t1 = 0x10;
@@ -1187,8 +1189,8 @@ void func_800F1BDC(void) {
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_DLEFT)) {
         if (D_80131E08[D_80131CA4] >= phi_t1) {
-            if(1){
-            D_80131E08[D_80131CA4] -= phi_t1;
+            if (1) {
+                D_80131E08[D_80131CA4] -= phi_t1;
             }
         } else {
             D_80131E08[D_80131CA4] += D_80131E20[D_80131CA4] - phi_t1;
@@ -1220,14 +1222,15 @@ void func_800F1BDC(void) {
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
-        switch(D_80131CA4) {
+        switch (D_80131CA4) {
             case 0:
             case 1:
                 Audio_StartSeq(D_80131CA4, 0, D_80131E08[D_80131CA4]);
                 break;
             case 2:
             case 3:
-                Audio_PlaySoundGeneral(((D_80131E08[2] << 0xC) & 0xFFFF) + D_80131E08[3] + SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(((D_80131E08[2] << 0xC) & 0xFFFF) + D_80131E08[3] + SFX_FLAG, &D_801333D4, 4,
+                                       &D_801333E0, &D_801333E0, &D_801333E8);
                 break;
             case 4:
                 func_800F6700(D_80131E08[D_80131CA4]);
@@ -1251,11 +1254,11 @@ void func_800F1BDC(void) {
             case 10:
                 func_800F7260(D_80131E08[D_80131CA4] * 127);
                 break;
-            }
+        }
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_B)) {
-        switch(D_80131CA4) {
+        switch (D_80131CA4) {
             case 0:
             case 1:
                 Audio_SeqCmd1(D_80131CA4, 0);
@@ -1272,13 +1275,13 @@ void func_800F1BDC(void) {
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_CDOWN)) {
         if (D_80131CA4 == 0) {
-            if(1){}
+            if (1) {}
             func_800F595C(D_80131E08[D_80131CA4]);
         }
     }
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_CRIGHT)) {
         if (D_80131CA4 == 0) {
-            if(1){}
+            if (1) {}
             func_800F5ACC(D_80131E08[D_80131CA4]);
         }
     }
@@ -1442,7 +1445,8 @@ void func_800F2464(void) {
                 phi_v1 = 9;
             }
             D_8016E2E0[D_80131F04] = D_8016E2E0[phi_v1];
-            if(!D_80131F08);
+            if (!D_80131F08)
+                ;
             D_8016E2F8[D_80131F04] = D_8016E2F8[phi_v1];
         }
     } else {
@@ -1471,11 +1475,15 @@ void func_800F2464(void) {
             }
 
             if (D_80131F08 < 4) {
-                new_var = (u16) (((D_8016E2E0[D_80131F04] >> (((-D_80131F08) * 4) + 0xC)) + phi_t1) & 0xF);
-                D_8016E2E0[D_80131F04] = (u16) ((D_8016E2E0[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0xC)) ^ 0xFFFF)) + (new_var << (((-D_80131F08) * 4) + 0xC)));
+                new_var = (u16)(((D_8016E2E0[D_80131F04] >> (((-D_80131F08) * 4) + 0xC)) + phi_t1) & 0xF);
+                D_8016E2E0[D_80131F04] =
+                    (u16)((D_8016E2E0[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0xC)) ^ 0xFFFF)) +
+                          (new_var << (((-D_80131F08) * 4) + 0xC)));
             } else {
-                new_var = (u16) (((D_8016E2F8[D_80131F04] >> (((-D_80131F08) * 4) + 0x1C)) + phi_t1) & 0xF);
-                D_8016E2F8[D_80131F04] = (u16) ((D_8016E2F8[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0x1C)) ^ 0xFFFF)) + (new_var << (((-D_80131F08) * 4) + 0x1C)));
+                new_var = (u16)(((D_8016E2F8[D_80131F04] >> (((-D_80131F08) * 4) + 0x1C)) + phi_t1) & 0xF);
+                D_8016E2F8[D_80131F04] =
+                    (u16)((D_8016E2F8[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0x1C)) ^ 0xFFFF)) +
+                          (new_var << (((-D_80131F08) * 4) + 0x1C)));
             }
         }
 
@@ -1819,7 +1827,7 @@ void func_800F314C(s8 arg0) {
 }
 
 f32 func_800F3188(u8 bankIdx, u8 entryIdx) {
-    SoundBankEntry *bankEntry;
+    SoundBankEntry* bankEntry;
     f32 temp_f14;
     f32 temp_f2;
     f32 phi_f0;
@@ -1829,11 +1837,11 @@ f32 func_800F3188(u8 bankIdx, u8 entryIdx) {
     if (bankEntry->unk_26 & 0x2000) {
         return 1.0f;
     }
-    
+
     if (bankEntry->unk_1C > 10000.0f) {
         ret = 0.0f;
     } else {
-        switch(bankEntry->unk_26 & 3) {
+        switch (bankEntry->unk_26 & 3) {
             case 1:
                 phi_f0 = 666.6667f;
                 break;
@@ -1864,19 +1872,17 @@ f32 func_800F3188(u8 bankIdx, u8 entryIdx) {
 }
 
 s8 func_800F32F0(u8 arg0, u8 arg1, u8 arg2) {
-    SoundBankEntry *temp_a3;
-    SequenceChannel *temp_a1;
+    SoundBankEntry* temp_a3;
+    SequenceChannel* temp_a1;
     s32 phi_a1;
     s8 phi_v0 = 0;
     s32 phi_v1 = 0;
-    SequenceChannel *none = &gAudioContext.gSequenceChannelNone;
+    SequenceChannel* none = &gAudioContext.gSequenceChannelNone;
 
     temp_a3 = &gSoundBanks[arg0][arg1];
     if (!(temp_a3->unk_26 & 0x1000)) {
         if (temp_a3->unk_1C < 2500.0f) {
-            phi_v0 = *temp_a3->posZ > 0.0f ?
-                (temp_a3->unk_1C / 2500.0f) * 70.0f :
-                (temp_a3->unk_1C / 2500.0f) * 91.0f;
+            phi_v0 = *temp_a3->posZ > 0.0f ? (temp_a3->unk_1C / 2500.0f) * 70.0f : (temp_a3->unk_1C / 2500.0f) * 91.0f;
         } else {
             phi_v0 = 0x46;
         }
@@ -1894,7 +1900,7 @@ s8 func_800F32F0(u8 arg0, u8 arg1, u8 arg2) {
     if ((arg0 != 5) || !((temp_a3->unk_28 & 0x1FF) < 2)) {
         phi_a1 += D_80130614 + D_80130618 + D_80130610;
     }
-    
+
     if (phi_a1 >= 0x80) {
         phi_a1 = 0x7F;
     }
@@ -2382,7 +2388,7 @@ void func_800F4870(u8 arg0) {
         phi_s1 = 0x7F;
     }
 
-    for(i = 0; i < 16; i++) {
+    for (i = 0; i < 16; i++) {
         Audio_QueueCmdS8(_SHIFTL(0x07, 24, 8) | _SHIFTL(0x00, 16, 8) | _SHIFTL(i, 8, 8) | _SHIFTL(0, 0, 8), phi_s1);
     }
 
@@ -2397,7 +2403,7 @@ s32 func_800F491C(u8 arg0) {
     u8 phi_v0;
     u16 phi_v0_2;
 
-    SequenceChannel *none = &gAudioContext.gSequenceChannelNone;
+    SequenceChannel* none = &gAudioContext.gSequenceChannelNone;
     u8 i;
 
     if (D_8016B8B4 != arg0) {
@@ -2409,15 +2415,16 @@ s32 func_800F491C(u8 arg0) {
         }
 
         Audio_SeqCmd8(0, 4, 15, phi_v0);
-        for(i = 0; i < 0x10; i++) {
+        for (i = 0; i < 0x10; i++) {
             if (none != gAudioContext.seqPlayers[0].channels[i]) {
                 if ((u8)gAudioContext.seqPlayers[0].channels[i]->soundScriptIO[5] != 0xFF) {
-                    // this looks like some kind of macro? 
+                    // this looks like some kind of macro?
                     phi_v0_2 = ((u16)gAudioContext.seqPlayers[0].channels[i]->soundScriptIO[5] - arg0) + 0x7F;
-                    if(phi_v0_2 >= 0x80) {
+                    if (phi_v0_2 >= 0x80) {
                         phi_v0_2 = 0x7F;
                     }
-                    Audio_QueueCmdS8(_SHIFTL(5, 24, 8) | _SHIFTL(0, 16, 8) | _SHIFTL(i, 8, 8) | _SHIFTL(0, 0, 8), (u8)phi_v0_2);
+                    Audio_QueueCmdS8(_SHIFTL(5, 24, 8) | _SHIFTL(0, 16, 8) | _SHIFTL(i, 8, 8) | _SHIFTL(0, 0, 8),
+                                     (u8)phi_v0_2);
                 }
             }
         }
@@ -2469,17 +2476,17 @@ void func_800F4BF4(Vec3f* arg0, u16 arg1, s8 arg2) {
     Audio_PlaySoundGeneral(arg1, arg0, 4, &gNoteFrequencies[arg2 + 39], &D_801333E0, &D_801333E8);
 }
 
-void func_800F4C58(Vec3f *arg0, u16 sfxId, u8 arg2) {
+void func_800F4C58(Vec3f* arg0, u16 sfxId, u8 arg2) {
     u8 phi_s1 = 0;
     u8 i;
     u8 bank;
 
     bank = SFX_BANK_SHIFT(sfxId);
-    for(i = 0; i < bank; i++) {
+    for (i = 0; i < bank; i++) {
         phi_s1 += D_80130578[D_801333CC][i];
     }
 
-    for(i = 0; i < D_80130578[D_801333CC][bank]; i++) {
+    for (i = 0; i < D_80130578[D_801333CC][bank]; i++) {
         if ((D_8016E1B8[bank][i].unk_4 != 0xFF) && (sfxId == gSoundBanks[bank][D_8016E1B8[bank][i].unk_4].unk_28)) {
             Audio_QueueCmdS8(_SHIFTL(6, 24, 8) | _SHIFTL(2, 16, 8) | _SHIFTL(phi_s1, 8, 8) | _SHIFTL(6, 0, 8), arg2);
         }
@@ -2488,12 +2495,12 @@ void func_800F4C58(Vec3f *arg0, u16 sfxId, u8 arg2) {
     Audio_PlaySoundGeneral(sfxId, arg0, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-void func_800F4E30(Vec3f *arg0, f32 arg1) {
-    Vec3f *temp_v0;
+void func_800F4E30(Vec3f* arg0, f32 arg1) {
+    Vec3f* temp_v0;
     f32 temp_f0;
     f32 temp_f2;
     s32 temp_s0;
-    Vec3f *phi_v0;
+    Vec3f* phi_v0;
     f32 phi_f0;
     s32 phi_v0_2;
     f32 phi_f22;
@@ -2520,7 +2527,7 @@ void func_800F4E30(Vec3f *arg0, f32 arg1) {
     } else {
         phi_s4 = ((D_8013064C->x / 100.0f) * 64.0f) + 64.0f;
     }
-    
+
     if (D_80130650 > 400.0f) {
         phi_f22 = 0.1f;
     } else if (D_80130650 < 120.0f) {
@@ -2529,7 +2536,7 @@ void func_800F4E30(Vec3f *arg0, f32 arg1) {
         phi_f22 = ((1.0f - ((D_80130650 - 120.0f) / 280.0f)) * 0.9f) + 0.1f;
     }
 
-    for(i = 0; i < 0x10; i++) {
+    for (i = 0; i < 0x10; i++) {
         if (i != 9) {
             Audio_SeqCmd6(0, 2, i, (127.0f * phi_f22));
             Audio_QueueCmdS8(0x03000000 | ((u8)((u32)i) << 8), phi_s4);
@@ -2555,12 +2562,12 @@ void func_800F510C(s8 arg0) {
     u8 phi_v1;
     u8 phi_a2;
     u16 phi_a1;
-    u8 sp40[2] = {0, 3};
+    u8 sp40[2] = { 0, 3 };
     u8 i;
     u8 j;
 
     if ((func_800FA0B4(1) == 0xFFFF) && (func_800FA0B4(3) != 0x2F)) {
-        for(i = 0; i < 2; i++) {
+        for (i = 0; i < 2; i++) {
             if (i == 0) {
                 phi_v1 = arg0;
             } else {
@@ -2576,7 +2583,7 @@ void func_800F510C(s8 arg0) {
             }
 
             phi_a1 = 0;
-            for(j = 0; j < 0x10; j++) {
+            for (j = 0; j < 0x10; j++) {
                 if (gAudioContext.seqPlayers[sp40[i]].channels[j]->notePriority < phi_a2) {
                     phi_a1 += (1 << j);
                 }
@@ -2726,7 +2733,6 @@ void func_800F595C(u16 arg0) {
     }
 }
 
-
 void func_800F59E8(u16 arg0) {
     u8 arg0b = arg0 & 0xFF;
 
@@ -2798,7 +2804,6 @@ void func_800F5C2C(void) {
     D_80130628 = 0xFFFF;
 }
 
-
 void func_800F5C64(u16 arg0) {
     u16 sp26;
     s32 sp20;
@@ -2816,7 +2821,6 @@ void func_800F5C64(u16 arg0) {
     }
     D_8016B9F6 = arg0;
 }
-
 
 void func_800F5CF8(void) {
     u16 sp26;
@@ -2849,7 +2853,6 @@ void func_800F5CF8(void) {
         }
     }
 }
-
 
 void func_800F5E18(u8 seqIdx, u16 seqId, u8 fadeTimer, s8 arg3, s8 arg4) {
     Audio_SeqCmd7(seqIdx, arg3, arg4);
@@ -2971,8 +2974,8 @@ void func_800F6268(f32 arg0, u16 arg1) {
                 } else {
                     phi_v1 = ((arg0 - 200.0f) * 127.0f) / 1800.0f;
                 }
-                Audio_SeqCmd6(0,3,0, 0x7F - phi_v1);
-                Audio_SeqCmd6(0,3,1, 0x7F - phi_v1);
+                Audio_SeqCmd6(0, 3, 0, 0x7F - phi_v1);
+                Audio_SeqCmd6(0, 3, 1, 0x7F - phi_v1);
                 Audio_SeqCmd6(0, 3, 13, phi_v1);
                 if (D_8016B9D8[0] == 0) {
                     D_8016B9D8[0]++;
@@ -3132,20 +3135,20 @@ void func_800F6964(u16 arg0) {
 
     Audio_SeqCmd1(0, (arg0 * 3) / 2);
     Audio_SeqCmd1(1, (arg0 * 3) / 2);
-    for(i = 0; i < 0x10; i++) {
+    for (i = 0; i < 0x10; i++) {
         phi_v1 = 0;
-        switch(i) {
+        switch (i) {
             case 0xB:
             case 0xC:
-                if(D_80133414 == 0xA) {
+                if (D_80133414 == 0xA) {
                     phi_v1 = 1;
                 }
                 break;
             case 0xD:
                 phi_v1 = 1;
                 break;
-        }    
-        
+        }
+
         if (!phi_v1) {
             Audio_SeqCmd6(2, arg0 >> 1, i, 0);
         }
@@ -3252,7 +3255,7 @@ void func_800F6D58(u8 arg0, u8 arg1, u8 arg2) {
         t = arg0 & 0xF;
     }
 
-    for(i = t; i <= temp_a0; i++){
+    for (i = t; i <= temp_a0; i++) {
         Audio_SeqCmd8(0, arg1, i, arg2);
     }
 }
