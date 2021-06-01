@@ -34,12 +34,12 @@ int main(void) {
                    expectedMd5, md5);
         }
     } else {
-        currentFile = fopen("baserom_original.n64", "rb");
+        currentFile = fopen("baserom_original.z64", "rb");
         if (currentFile == NULL) {
             currentFile = fopen("baserom_original.v64", "rb");
         }
         if (currentFile == NULL) {
-            currentFile = fopen("baserom_original.z64", "rb");
+            currentFile = fopen("baserom_original.n64", "rb");
         }
         if (currentFile == NULL) {
             fprintf(stderr, "Could not find baserom_original.z64/n64/v64\n");

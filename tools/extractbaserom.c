@@ -15,6 +15,8 @@ typedef enum Addresses {
     /* 3 */ physicalEnd
 } Addresses;
 
+//Rom CRC's
+
 #define NTSC_10 0xEC7011B7
 #define NTSC_11 0xD43DA81F
 #define NTSC_12 0x693BA2AE
@@ -33,29 +35,32 @@ typedef enum Addresses {
 #define IQUE_TW 0x3D81FB3E
 #define IQUE_CN 0xB1E1E07B
 
-#define OFF_NTSC_10_RC 0x07430
-#define OFF_NTSC_10 0x07430
-#define OFF_NTSC_11 0x07430
-#define OFF_PAL_10 0x07950
-#define OFF_NTSC_12 0x07960
-#define OFF_PAL_11 0x07950
-#define OFF_JP_GC 0x07170
-#define OFF_JP_MQ 0x07170
-#define OFF_US_GC 0x07170
-#define OFF_US_MQ 0x07170
+//Rom DMA table start
+
+#define OFF_NTSC_10_RC 0x7430
+#define OFF_NTSC_10 0x7430
+#define OFF_NTSC_11 0x7430
+#define OFF_PAL_10 0x7950
+#define OFF_NTSC_12 0x7960
+#define OFF_PAL_11 0x7950
+#define OFF_JP_GC 0x7170
+#define OFF_JP_MQ 0x7170
+#define OFF_US_GC 0x7170
+#define OFF_US_MQ 0x7170
 #define OFF_PAL_GC_DBG1 0x12F70
 #define OFF_PAL_MQ_DBG 0x12F70
 #define OFF_PAL_GC_DBG2 0x12F70
-#define OFF_PAL_GC 0x07170
-#define OFF_PAL_MQ 0x07170
-#define OFF_JP_GC_CE 0x07170
-#define OFF_CN_IQUE 0x0B7A0
-#define OFF_TW_IQUE 0x0B240
+#define OFF_PAL_GC 0x7170
+#define OFF_PAL_MQ 0x7170
+#define OFF_JP_GC_CE 007170
+#define OFF_CN_IQUE 0xB7A0
+#define OFF_TW_IQUE 0xB240
 
 uint32_t dmaTableOffset;
 
 void getVersion(FILE* rom, FILE** fileList) {
     uint32_t romCRC;
+
     fseek(rom, 0x10, SEEK_SET);
 
     if (fread_unlocked(&romCRC, sizeof(uint32_t), 1, rom) != 1) {
@@ -268,7 +273,6 @@ int main(void) {
         }
 
         free(data);
-        memset(currentFile, 0, sizeof(currentFile));
     }
     fclose(rom);
     return 0;
