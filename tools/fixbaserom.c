@@ -19,10 +19,10 @@ int main(void) {
             fprintf(stderr,
                     "Could not verify MD5 sum of the existing baserom.  A rom was created but it might not be OK.  "
                     "Please verify it your self.\n");
-            return 0;
         }
         if (fgets(md5, 32, pipe) == NULL) {
             fprintf(stderr, "Could not get MD5 sum of baserom.z64");
+            exit(1);
         }
         pclose(pipe);
         if (strcmp(expectedMd5, md5) == 0) {
@@ -98,6 +98,7 @@ int main(void) {
             fclose(currentFile);
 
             FILE* pipe = popen("md5sum baserom.z64", "r");
+
             if (pipe == NULL) {
                 fprintf(stderr, "Could not verify MD5 sum of new baserom.  A rom was created but it might not be OK.  "
                                 "Please verify it your self.\n");

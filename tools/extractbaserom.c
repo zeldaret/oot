@@ -127,17 +127,17 @@ void getVersion(FILE* rom, FILE** fileList) {
             dmaTableOffset = OFF_PAL_MQ;
             break;
         case PAL_GC_DBG1:
-            printf("Detecte version GameCube Debug\n");
+            printf("Detected version GameCube Debug\n");
             *(fileList) = fopen("filelists/filelist_dbg.txt", "r");
             dmaTableOffset = OFF_PAL_GC_DBG1;
             break;
         case PAL_GC_DBG2:
-            printf("Detecte version GameCube Debug\n");
+            printf("Detected version GameCube Debug\n");
             *(fileList) = fopen("filelists/filelist_dbg.txt", "r");
             dmaTableOffset = OFF_PAL_GC_DBG2;
             break;
         case PAL_GC_MQ_DBG:
-            printf("Detecte version Master Quest GameCube Debug\n");
+            printf("Detected version Master Quest GameCube Debug\n");
             *(fileList) = fopen("filelists/filelist_dbg.txt", "r");
             dmaTableOffset = OFF_PAL_MQ_DBG;
             break;
@@ -173,7 +173,13 @@ int main(void) {
 
     getVersion(rom, &fileList);
 
+   if(system("mkdir -p baserom/") == -1){
+        fprintf(stderr, "Could not create baserom folder\n");
+        exit(1);
+   }
+
     char currentFile[35];
+
     for (uint32_t i = 0; fgets(currentFile, 35, fileList) != NULL; i++) {
         char outFileName[45] = "baserom/";
         void* data;

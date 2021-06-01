@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2 -D_DEFAULT_SOURCE
+CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2 -D_DEFAULT_SOURCE -DNDEBUG
 PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis extractbaserom fixbaserom
 ZAPD := ZAPD/ZAPD.out
 
