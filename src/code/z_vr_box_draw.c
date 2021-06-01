@@ -51,8 +51,8 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
         gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 2);
         gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 3);
 
-        if (skyboxId != 2) {
-            if (skyboxId <= 0x10 || skyboxId >= 0x19) {
+        if (skyboxId != SKYBOX_BAZAAR) {
+            if (skyboxId <= SKYBOX_HOUSE_KAKARIKO || skyboxId > SKYBOX_BOMBCHU_SHOP) {
                 gDPPipeSync(POLY_OPA_DISP++);
                 gDPLoadTLUT_pal256(POLY_OPA_DISP++, (u16*)skyboxCtx->staticSegments[2] + 256 * 2);
                 gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 4);
@@ -72,7 +72,7 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
         gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 4);
         gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 6);
         gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 8);
-        if (skyboxId == 5) {
+        if (skyboxId == SKYBOX_CUTSCENE_MAP) {
             gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 10);
         }
     }
