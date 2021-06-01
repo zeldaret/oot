@@ -196,7 +196,6 @@ build/undefined_syms.txt: undefined_syms.txt
 
 clean:
 	$(RM) -r $(ROM) $(ELF) build
-
 distclean: clean
 	$(RM) -r $(ASSET_BIN_DIRS)
 	$(RM) -r baserom/
@@ -204,8 +203,8 @@ distclean: clean
 
 setup:
 	$(MAKE) -C tools
-	python3 fixbaserom.py
-	tools/extract_baserom
+	tools/fixbaserom
+	tools/extractbaserom
 	python3 extract_assets.py
 
 resources: $(ASSET_FILES_OUT)

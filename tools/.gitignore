@@ -5,4 +5,5 @@ makeromfs
 elf2rom
 mkldscript
 vtxdis
-extract_baserom
+extractbaserom
+fixbaserom
