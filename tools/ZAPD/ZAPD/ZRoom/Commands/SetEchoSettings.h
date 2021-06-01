@@ -1,15 +1,18 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class SetEchoSettings : public ZRoomCommand
 {
 public:
-	SetEchoSettings(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
+	SetEchoSettings(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
-	virtual std::string GetCommandCName() override;
-	virtual RoomCommand GetRoomCommand() override;
+	void ParseRawData() override;
+
+	std::string GetBodySourceCode() const override;
+
+	std::string GetCommandCName() const override;
+	RoomCommand GetRoomCommand() const override;
 
 private:
 	uint8_t echo;

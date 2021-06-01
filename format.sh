@@ -25,4 +25,5 @@ echo "Running clang-tidy..."
 clang-tidy ${TIDY_OPTS} src/**/*.c -- ${COMPILER_OPTS} &> /dev/null
 echo "Adding missing final new lines..."
 find src/ -type f -name "*.c" -exec sed -i -e '$a\' {} \;
+find assets/xml/ -type f -name "*.xml" -exec sed -i -e '$a\' {} \;
 echo "Done formatting all files."
