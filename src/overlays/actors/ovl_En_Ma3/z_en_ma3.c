@@ -353,7 +353,7 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
     if ((limbIndex == 14) && (this->skelAnime.animation == &object_ma2_Anim_0093BC)) {
-        gSPDisplayList(POLY_OPA_DISP++, &object_ma2_DL_005420);
+        gSPDisplayList(POLY_OPA_DISP++, object_ma2_DL_005420);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 950);
