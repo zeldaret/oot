@@ -36,7 +36,7 @@ glabel func_8094687C
 /* 0DC34 80946904 24070004 */  addiu   $a3, $zero, 0x0004         ## $a3 = 00000004
 /* 0DC38 80946908 0C02A800 */  jal     func_800AA000              
 /* 0DC3C 8094690C E4240AFC */  swc1    $f4, 0x0AFC($at)           ## 00010AFC
-/* 0DC40 80946910 0C023C26 */  jal     func_8008F098              
+/* 0DC40 80946910 0C023C26 */  jal     Player_HasMirrorShieldEquipped              
 /* 0DC44 80946914 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 0DC48 80946918 10400062 */  beq     $v0, $zero, .L80946AA4     
 /* 0DC4C 8094691C 8FA4002C */  lw      $a0, 0x002C($sp)           

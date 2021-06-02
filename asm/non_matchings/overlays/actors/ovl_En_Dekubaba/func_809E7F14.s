@@ -20,7 +20,7 @@ glabel func_809E7F14
 /* 0276C 809E7F3C 46062202 */  mul.s   $f8, $f4, $f6              
 /* 02770 809E7F40 24840028 */  addiu   $a0, $a0, 0x0028           ## $a0 = 00000028
 /* 02774 809E7F44 44064000 */  mfc1    $a2, $f8                   
-/* 02778 809E7F48 0C01DE80 */  jal     Math_ApproxF
+/* 02778 809E7F48 0C01DE80 */  jal     Math_StepToF
               
 /* 0277C 809E7F4C 00000000 */  nop
 /* 02780 809E7F50 3C01809F */  lui     $at, %hi(D_809E91C0)       ## $at = 809F0000
@@ -33,7 +33,7 @@ glabel func_809E7F14
 /* 0279C 809E7F6C 46049002 */  mul.s   $f0, $f18, $f4             
 /* 027A0 809E7F70 44050000 */  mfc1    $a1, $f0                   
 /* 027A4 809E7F74 44060000 */  mfc1    $a2, $f0                   
-/* 027A8 809E7F78 0C01DE80 */  jal     Math_ApproxF
+/* 027A8 809E7F78 0C01DE80 */  jal     Math_StepToF
               
 /* 027AC 809E7F7C 00000000 */  nop
 /* 027B0 809E7F80 1040002E */  beq     $v0, $zero, .L809E803C     
@@ -123,7 +123,7 @@ glabel func_809E7F14
 /* 028E0 809E80B0 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 028E4 809E80B4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 028E8 809E80B8 AFAD0010 */  sw      $t5, 0x0010($sp)           
-/* 028EC 809E80BC 0C00A5E9 */  jal     func_800297A4              
+/* 028EC 809E80BC 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 028F0 809E80C0 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 028F4 809E80C4 8FBF0034 */  lw      $ra, 0x0034($sp)           
 /* 028F8 809E80C8 8FB0002C */  lw      $s0, 0x002C($sp)           

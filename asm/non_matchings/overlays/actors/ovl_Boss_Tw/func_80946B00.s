@@ -70,7 +70,7 @@ glabel func_80946B00
 /* 0DF2C 80946BFC AE09003C */  sw      $t1, 0x003C($s0)           ## 0000003C
 /* 0DF30 80946C00 8CCA0008 */  lw      $t2, 0x0008($a2)           ## 00000008
 /* 0DF34 80946C04 AE0A0040 */  sw      $t2, 0x0040($s0)           ## 00000040
-/* 0DF38 80946C08 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0DF38 80946C08 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 0DF3C 80946C0C AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 0DF40 80946C10 920B0565 */  lbu     $t3, 0x0565($s0)           ## 00000565

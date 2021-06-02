@@ -44,7 +44,7 @@ glabel func_80939250
 /* 00624 809392F4 A44C002E */  sh      $t4, 0x002E($v0)           ## 0001002E
 /* 00628 809392F8 87AD003A */  lh      $t5, 0x003A($sp)           
 /* 0062C 809392FC A44D002C */  sh      $t5, 0x002C($v0)           ## 0001002C
-/* 00630 80939300 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00630 80939300 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00634 80939304 AFA20018 */  sw      $v0, 0x0018($sp)           
 /* 00638 80939308 4600040D */  trunc.w.s $f16, $f0                  

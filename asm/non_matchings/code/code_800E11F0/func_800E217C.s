@@ -56,7 +56,7 @@ glabel func_800E217C
 /* B593E8 800E2248 10000016 */  b     .L800E22A4
 /* B593EC 800E224C 00001025 */   move  $v0, $zero
 .L800E2250:
-/* B593F0 800E2250 0C03B19A */  jal   func_800EC668
+/* B593F0 800E2250 0C03B19A */  jal   Audio_ResetSequencePlayer
 /* B593F4 800E2254 02802025 */   move  $a0, $s4
 /* B593F8 800E2258 8FAE0034 */  lw    $t6, 0x34($sp)
 /* B593FC 800E225C 24040001 */  li    $a0, 1
@@ -75,7 +75,7 @@ glabel func_800E217C
 /* B59430 800E2290 A2890000 */  sb    $t1, ($s4)
 /* B59434 800E2294 8FAA0030 */  lw    $t2, 0x30($sp)
 /* B59438 800E2298 02802025 */  move  $a0, $s4
-/* B5943C 800E229C 0C03B186 */  jal   func_800EC618
+/* B5943C 800E229C 0C03B186 */  jal   Audio_ProcessSequence
 /* B59440 800E22A0 A28A0007 */   sb    $t2, 7($s4)
 .L800E22A4:
 /* B59444 800E22A4 8FBF002C */  lw    $ra, 0x2c($sp)

@@ -9,8 +9,8 @@ glabel ObjBean_Destroy
 /* 01270 80B8FCF0 11C00006 */  beq     $t6, $zero, .L80B8FD0C     
 /* 01274 80B8FCF4 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 01278 80B8FCF8 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
-/* 0127C 80B8FCFC 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 0127C 80B8FCFC 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 01280 80B8FD00 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 01284 80B8FD04 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 01288 80B8FD08 90E201F7 */  lbu     $v0, 0x01F7($a3)           ## 000001F7

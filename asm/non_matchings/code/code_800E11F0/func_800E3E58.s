@@ -3,11 +3,11 @@ glabel func_800E3E58
 /* B5AFFC 800E3E5C AFBF001C */  sw    $ra, 0x1c($sp)
 /* B5B000 800E3E60 AFB00018 */  sw    $s0, 0x18($sp)
 /* B5B004 800E3E64 80820001 */  lb    $v0, 1($a0)
-/* B5B008 800E3E68 3C038017 */  lui   $v1, %hi(D_801719B8) # $v1, 0x8017
+/* B5B008 800E3E68 3C038017 */  lui   $v1, %hi(gAudioContext+0x2838) # $v1, 0x8017
 /* B5B00C 800E3E6C 00808025 */  move  $s0, $a0
 /* B5B010 800E3E70 28410002 */  slti  $at, $v0, 2
 /* B5B014 800E3E74 14200004 */  bnez  $at, .L800E3E88
-/* B5B018 800E3E78 8C6319B8 */   lw    $v1, %lo(D_801719B8)($v1)
+/* B5B018 800E3E78 8C6319B8 */   lw    $v1, %lo(gAudioContext+0x2838)($v1)
 /* B5B01C 800E3E7C 244EFFFF */  addiu $t6, $v0, -1
 /* B5B020 800E3E80 10000047 */  b     .L800E3FA0
 /* B5B024 800E3E84 A08E0001 */   sb    $t6, 1($a0)

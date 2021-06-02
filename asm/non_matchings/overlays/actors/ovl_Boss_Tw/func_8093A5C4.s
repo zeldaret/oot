@@ -46,24 +46,24 @@ glabel func_8093A5C4
 /* 01978 8093A648 27B40098 */  addiu   $s4, $sp, 0x0098           ## $s4 = FFFFFFE0
 /* 0197C 8093A64C 27B5008C */  addiu   $s5, $sp, 0x008C           ## $s5 = FFFFFFD4
 .L8093A650:
-/* 01980 8093A650 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 01980 8093A650 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 01984 8093A654 4600A306 */  mov.s   $f12, $f20                 
 /* 01988 8093A658 E7A00098 */  swc1    $f0, 0x0098($sp)           
-/* 0198C 8093A65C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0198C 8093A65C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 01990 8093A660 4600C306 */  mov.s   $f12, $f24                 
 /* 01994 8093A664 E7A0009C */  swc1    $f0, 0x009C($sp)           
-/* 01998 8093A668 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 01998 8093A668 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 0199C 8093A66C 4600A306 */  mov.s   $f12, $f20                 
 /* 019A0 8093A670 E7A000A0 */  swc1    $f0, 0x00A0($sp)           
 /* 019A4 8093A674 E7BA0090 */  swc1    $f26, 0x0090($sp)          
-/* 019A8 8093A678 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 019A8 8093A678 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 019AC 8093A67C 4600B306 */  mov.s   $f12, $f22                 
 /* 019B0 8093A680 E7A0008C */  swc1    $f0, 0x008C($sp)           
-/* 019B4 8093A684 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 019B4 8093A684 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 019B8 8093A688 4600B306 */  mov.s   $f12, $f22                 
 /* 019BC 8093A68C E7A00094 */  swc1    $f0, 0x0094($sp)           
@@ -73,7 +73,7 @@ glabel func_8093A5C4
 /* 019CC 8093A69C 8E4E0004 */  lw      $t6, 0x0004($s2)           ## 00000504
 /* 019D0 8093A6A0 AE2E0004 */  sw      $t6, 0x0004($s1)           ## FFFFFFF0
 /* 019D4 8093A6A4 8E4F0008 */  lw      $t7, 0x0008($s2)           ## 00000508
-/* 019D8 8093A6A8 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 019D8 8093A6A8 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 019DC 8093A6AC AE2F0008 */  sw      $t7, 0x0008($s1)           ## FFFFFFF4
 /* 019E0 8093A6B0 4600010D */  trunc.w.s $f4, $f0                   

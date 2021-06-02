@@ -86,7 +86,7 @@ glabel EnVali_Draw
 /* 02188 80B28838 3C0780B3 */  lui     $a3, %hi(func_80B281F0)    ## $a3 = 80B30000
 /* 0218C 80B2883C 24E781F0 */  addiu   $a3, $a3, %lo(func_80B281F0) ## $a3 = 80B281F0
 /* 02190 80B28840 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 02194 80B28844 0C0288A2 */  jal     SkelAnime_Draw2
+/* 02194 80B28844 0C0288A2 */  jal     SkelAnime_Draw
 /* 02198 80B28848 AFA90018 */  sw      $t1, 0x0018($sp)
 /* 0219C 80B2884C AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 /* 021A0 80B28850 3C0680B3 */  lui     $a2, %hi(D_80B28A40)       ## $a2 = 80B30000

@@ -45,17 +45,17 @@ glabel func_808FD27C
 /* 003B8 808FD2F8 E6000024 */  swc1    $f0, 0x0024($s0)           ## 00010024
 /* 003BC 808FD2FC E6040020 */  swc1    $f4, 0x0020($s0)           ## 00010020
 /* 003C0 808FD300 AE090018 */  sw      $t1, 0x0018($s0)           ## 00010018
-/* 003C4 808FD304 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 003C4 808FD304 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 003C8 808FD308 C42CDAA4 */  lwc1    $f12, %lo(D_8090DAA4)($at) 
 /* 003CC 808FD30C E6000040 */  swc1    $f0, 0x0040($s0)           ## 00010040
 /* 003D0 808FD310 3C018091 */  lui     $at, %hi(D_8090DAA8)       ## $at = 80910000
-/* 003D4 808FD314 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 003D4 808FD314 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 003D8 808FD318 C42CDAA8 */  lwc1    $f12, %lo(D_8090DAA8)($at) 
 /* 003DC 808FD31C E600003C */  swc1    $f0, 0x003C($s0)           ## 0001003C
 /* 003E0 808FD320 3C018091 */  lui     $at, %hi(D_8090DAAC)       ## $at = 80910000
-/* 003E4 808FD324 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 003E4 808FD324 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 003E8 808FD328 C42CDAAC */  lwc1    $f12, %lo(D_8090DAAC)($at) 
 /* 003EC 808FD32C E6000038 */  swc1    $f0, 0x0038($s0)           ## 00010038

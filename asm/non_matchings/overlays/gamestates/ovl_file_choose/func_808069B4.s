@@ -48,8 +48,8 @@ glabel func_808069B4
 .L80806A54:
 /* 02D14 80806A54 5420FFE0 */  bnel    $at, $zero, .L808069D8     
 /* 02D18 80806A58 00067040 */  sll     $t6, $a2,  1               
-/* 02D1C 80806A5C 3C0B8013 */  lui     $t3, %hi(D_8012A4E0)
-/* 02D20 80806A60 256BA4E0 */  addiu   $t3, %lo(D_8012A4E0)
+/* 02D1C 80806A5C 3C0B8013 */  lui     $t3, %hi(gSramSlotOffsets)
+/* 02D20 80806A60 256BA4E0 */  addiu   $t3, %lo(gSramSlotOffsets)
 /* 02D24 80806A64 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 02D28 80806A68 248501E0 */  addiu   $a1, $a0, 0x01E0           ## $a1 = 000001E0
 /* 02D2C 80806A6C 24110041 */  addiu   $s1, $zero, 0x0041         ## $s1 = 00000041

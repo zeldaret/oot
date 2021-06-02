@@ -1,7 +1,5 @@
-#include <global.h>
-#include <ultra64/hardware.h>
-#include <ultra64/controller.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
@@ -27,18 +25,15 @@ UCodeInfo D_8012D248[3] = {
 // clang-format on
 
 void Graph_FaultClient() {
-    void* nextFb;
-    void* newFb;
-
-    nextFb = osViGetNextFramebuffer();
-    newFb = ((u32)SysCfb_GetFbPtr(0) != (u32)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
+    void* nextFb = osViGetNextFramebuffer();
+    void* newFb = ((u32)SysCfb_GetFbPtr(0) != (u32)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
 
     osViSwapBuffer(newFb);
     Fault_WaitForInput();
     osViSwapBuffer(nextFb);
 }
 
-void Graph_DisassembleUCode(void* arg0) {
+void Graph_DisassembleUCode(Gfx* workBuf) {
     UCodeDisas disassembler;
 
     if (HREG(80) == 7 && HREG(81) != 0) {
@@ -46,7 +41,7 @@ void Graph_DisassembleUCode(void* arg0) {
         disassembler.enableLog = HREG(83);
         UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D230), D_8012D230);
         UCodeDisas_SetCurUCode(&disassembler, D_80155F50);
-        UCodeDisas_Disassemble(&disassembler, arg0);
+        UCodeDisas_Disassemble(&disassembler, workBuf);
         HREG(93) = disassembler.dlCnt;
         HREG(84) = disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
         HREG(85) = disassembler.vtxCnt;
@@ -73,21 +68,19 @@ void Graph_DisassembleUCode(void* arg0) {
     }
 }
 
-void Graph_UCodeFaultClient(void* arg0) {
+void Graph_UCodeFaultClient(Gfx* workBuf) {
     UCodeDisas disassembler;
 
     UCodeDisas_Init(&disassembler);
     disassembler.enableLog = true;
     UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D248), D_8012D248);
     UCodeDisas_SetCurUCode(&disassembler, D_80155F50);
-    UCodeDisas_Disassemble(&disassembler, arg0);
+    UCodeDisas_Disassemble(&disassembler, workBuf);
     UCodeDisas_Destroy(&disassembler);
 }
 
 void* Graph_InitTHGA(GraphicsContext* gfxCtx) {
-    GfxPool* pool;
-
-    pool = &gGfxPools[gfxCtx->gfxPoolIdx & 1];
+    GfxPool* pool = &gGfxPools[gfxCtx->gfxPoolIdx & 1];
 
     pool->headMagic = GFXPOOL_HEAD_MAGIC;
     pool->tailMagic = GFXPOOL_TAIL_MAGIC;
@@ -106,9 +99,8 @@ void* Graph_InitTHGA(GraphicsContext* gfxCtx) {
 }
 
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
-    void* gameStateInitFunc;
+    void* gameStateInitFunc = GameState_GetInit(gameState);
 
-    gameStateInitFunc = GameState_GetInit(gameState);
     if (gameStateInitFunc == TitleSetup_Init) {
         return &gGameStateOverlayTable[0];
     }
@@ -151,19 +143,16 @@ void Graph_Destroy(GraphicsContext* gfxCtx) {
 }
 
 void Graph_TaskSet00(GraphicsContext* gfxCtx) {
-    static u32 D_8012D260 = 0;
+    static Gfx* D_8012D260 = NULL;
     static s32 sGraphCfbInfoIdx = 0;
 
     OSTime time;
     OSTimer timer;
     OSMesg msg;
-    OSTask_t* task;
-    OSScTask* scTask;
+    OSTask_t* task = &gfxCtx->task.list.t;
+    OSScTask* scTask = &gfxCtx->task;
     CfbInfo* cfb;
     s32 pad1;
-
-    task = &gfxCtx->task.list.t;
-    scTask = &gfxCtx->task;
 
     D_8016A528 = osGetTime() - sGraphSetTaskTime - D_8016A558;
 
@@ -176,8 +165,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("RCPが帰ってきませんでした。"); // "RCP did not return."
         osSyncPrintf(VT_RST);
-        LogUtils_LogHexDump(&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
-        LogUtils_LogHexDump(&DPC_START_REG, 0x20);
+        LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
+        LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
         LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
 
         SREG(6) = -1;
@@ -222,7 +211,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->data_ptr = (u64*)gfxCtx->workBuffer;
 
     OPEN_DISPS(gfxCtx, "../graph.c", 828);
-    task->data_size = (u32)oGfxCtx->work.p - (u32)gfxCtx->workBuffer;
+    task->data_size = (u32)WORK_DISP - (u32)gfxCtx->workBuffer;
     CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
     { s32 pad2; } // Necessary to match stack usage
@@ -270,10 +259,10 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     OPEN_DISPS(gfxCtx, "../graph.c", 966);
 
-    gDPNoOpString(oGfxCtx->work.p++, "WORK_DISP 開始", 0);
-    gDPNoOpString(oGfxCtx->polyOpa.p++, "POLY_OPA_DISP 開始", 0);
-    gDPNoOpString(oGfxCtx->polyXlu.p++, "POLY_XLU_DISP 開始", 0);
-    gDPNoOpString(oGfxCtx->overlay.p++, "OVERLAY_DISP 開始", 0);
+    gDPNoOpString(WORK_DISP++, "WORK_DISP 開始", 0);
+    gDPNoOpString(POLY_OPA_DISP++, "POLY_OPA_DISP 開始", 0);
+    gDPNoOpString(POLY_XLU_DISP++, "POLY_XLU_DISP 開始", 0);
+    gDPNoOpString(OVERLAY_DISP++, "OVERLAY_DISP 開始", 0);
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 975);
 
@@ -282,21 +271,21 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     OPEN_DISPS(gfxCtx, "../graph.c", 987);
 
-    gDPNoOpString(oGfxCtx->work.p++, "WORK_DISP 終了", 0);
-    gDPNoOpString(oGfxCtx->polyOpa.p++, "POLY_OPA_DISP 終了", 0);
-    gDPNoOpString(oGfxCtx->polyXlu.p++, "POLY_XLU_DISP 終了", 0);
-    gDPNoOpString(oGfxCtx->overlay.p++, "OVERLAY_DISP 終了", 0);
+    gDPNoOpString(WORK_DISP++, "WORK_DISP 終了", 0);
+    gDPNoOpString(POLY_OPA_DISP++, "POLY_OPA_DISP 終了", 0);
+    gDPNoOpString(POLY_XLU_DISP++, "POLY_XLU_DISP 終了", 0);
+    gDPNoOpString(OVERLAY_DISP++, "OVERLAY_DISP 終了", 0);
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 996);
 
     OPEN_DISPS(gfxCtx, "../graph.c", 999);
 
-    gSPBranchList(oGfxCtx->work.p++, gfxCtx->polyOpaBuffer);
-    gSPBranchList(oGfxCtx->polyOpa.p++, gfxCtx->polyXluBuffer);
-    gSPBranchList(oGfxCtx->polyXlu.p++, gfxCtx->overlayBuffer);
-    gDPPipeSync(oGfxCtx->overlay.p++);
-    gDPFullSync(oGfxCtx->overlay.p++);
-    gSPEndDisplayList(oGfxCtx->overlay.p++);
+    gSPBranchList(WORK_DISP++, gfxCtx->polyOpaBuffer);
+    gSPBranchList(POLY_OPA_DISP++, gfxCtx->polyXluBuffer);
+    gSPBranchList(POLY_XLU_DISP++, gfxCtx->overlayBuffer);
+    gDPPipeSync(OVERLAY_DISP++);
+    gDPFullSync(OVERLAY_DISP++);
+    gSPEndDisplayList(OVERLAY_DISP++);
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 1028);
 
@@ -318,8 +307,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         }
 
         if (HREG(81) < 0) {
-            LogUtils_LogHexDump(&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
-            LogUtils_LogHexDump(&DPC_START_REG, 0x20);
+            LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
+            LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
         }
 
         if (HREG(81) < 0) {
@@ -392,8 +381,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         sGraphUpdateTime = time;
     }
 
-    if (D_8012DBC0 && CHECK_PAD(gameState->input[0].press, Z_TRIG) &&
-        CHECK_PAD(gameState->input[0].cur, L_TRIG | R_TRIG)) {
+    if (D_8012DBC0 && CHECK_BTN_ALL(gameState->input[0].press.button, BTN_Z) &&
+        CHECK_BTN_ALL(gameState->input[0].cur.button, BTN_L | BTN_R)) {
         gSaveContext.gameMode = 0;
         SET_NEXT_GAMESTATE(gameState, Select_Init, SelectContext);
         gameState->running = false;
@@ -523,7 +512,7 @@ void* Graph_DlistAlloc(Gfx** gfx, u32 size) {
 
     size = ((size + 7) & ~7),
 
-    ptr = *gfx + 1;
+    ptr = (u8*)(*gfx + 1);
 
     dst = (Gfx*)(ptr + size);
     gSPBranchList(*gfx, dst);

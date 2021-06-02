@@ -1,0 +1,71 @@
+extern MeshHeader0 _hakasitarelay_room_4_meshHeader_000000A0;
+extern MeshEntry0 _hakasitarelay_room_4_meshDListEntry_000000AC[1];
+extern Gfx _hakasitarelay_room_4_dlist_00001E60[];
+extern Gfx _hakasitarelay_room_4_dlist_000005B0[];
+extern Vtx_t _hakasitarelay_room_4_vertices_000000C0[32];
+extern Vtx_t _hakasitarelay_room_4_vertices_000002C0[32];
+extern Vtx_t _hakasitarelay_room_4_vertices_000004C0[7];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000530[8];
+extern Gfx _hakasitarelay_room_4_dlist_00001040[];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000730[32];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000930[9];
+extern Vtx_t _hakasitarelay_room_4_vertices_000009C0[15];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000AB0[8];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000B30[10];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000BD0[21];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000D20[8];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000DA0[8];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000E20[8];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000EA0[6];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000F00[8];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000F80[4];
+extern Vtx_t _hakasitarelay_room_4_vertices_00000FC0[8];
+extern u64 _hakasitarelay_room_4_tex_00002080[];
+extern u64 _hakasitarelay_room_4_tex_00003080[];
+extern u64 _hakasitarelay_room_4_tex_00003480[];
+extern u64 _hakasitarelay_room_4_tex_00003C80[];
+extern Gfx _hakasitarelay_room_4_dlist_00001C30[];
+extern Vtx_t _hakasitarelay_room_4_vertices_00001550[32];
+extern Vtx_t _hakasitarelay_room_4_vertices_00001750[32];
+extern Vtx_t _hakasitarelay_room_4_vertices_00001950[16];
+extern Vtx_t _hakasitarelay_room_4_vertices_00001A50[22];
+extern Vtx_t _hakasitarelay_room_4_vertices_00001BB0[8];
+extern u64 _hakasitarelay_room_4_tex_00001E80[];
+extern u64 _hakasitarelay_room_4_tex_00002880[];
+s16 _hakasitarelay_room_4_objectList_00000040[];
+extern ActorEntry _hakasitarelay_room_4_actorList_00000054[4];
+
+extern SCmdEchoSettings _hakasitarelay_room_4_set0000_cmd00;
+extern SCmdRoomBehavior _hakasitarelay_room_4_set0000_cmd01;
+extern SCmdSkyboxDisables _hakasitarelay_room_4_set0000_cmd02;
+extern SCmdTimeSettings _hakasitarelay_room_4_set0000_cmd03;
+extern SCmdMesh _hakasitarelay_room_4_set0000_cmd04;
+extern SCmdObjectList _hakasitarelay_room_4_set0000_cmd05;
+extern SCmdActorList _hakasitarelay_room_4_set0030_cmd06;
+extern SCmdEndMarker _hakasitarelay_room_4_set0000_cmd07;
+
+
+
+
+
+extern SCmdEchoSettings _hakasitarelay_room_4_set0000_cmd00;
+
+extern SCmdRoomBehavior _hakasitarelay_room_4_set0000_cmd01;
+
+extern SCmdSkyboxDisables _hakasitarelay_room_4_set0000_cmd02;
+
+extern SCmdTimeSettings _hakasitarelay_room_4_set0000_cmd03;
+
+extern SCmdMesh _hakasitarelay_room_4_set0000_cmd04;
+
+extern SCmdObjectList _hakasitarelay_room_4_set0000_cmd05;
+
+extern SCmdActorList _hakasitarelay_room_4_set0030_cmd06;
+
+extern SCmdEndMarker _hakasitarelay_room_4_set0000_cmd07;
+
+
+
+
+
+

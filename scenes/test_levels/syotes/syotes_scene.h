@@ -1,0 +1,42 @@
+extern RomFile _syotes_scene_roomList_00000060[];
+extern CollisionHeader _syotes_scene_collisionHeader_00001BD4;
+extern EntranceEntry _syotes_scene_entranceList_00000068[];
+extern ActorEntry _syotes_scene_startPositionList_00000050[];
+extern LightSettings _syotes_scene_lightSettings_0000006C[];
+
+extern SCmdSoundSettings _syotes_scene_set0000_cmd00;
+extern SCmdRoomList _syotes_scene_set0000_cmd01;
+extern SCmdMiscSettings _syotes_scene_set0000_cmd02;
+extern SCmdColHeader _syotes_scene_set0000_cmd03;
+extern SCmdEntranceList _syotes_scene_set0000_cmd04;
+extern SCmdSpecialFiles _syotes_scene_set0000_cmd05;
+extern SCmdSpawnList _syotes_scene_set0000_cmd06;
+extern SCmdSkyboxSettings _syotes_scene_set0000_cmd07;
+extern SCmdLightSettingList _syotes_scene_set0000_cmd08;
+extern SCmdEndMarker _syotes_scene_set0000_cmd09;
+
+
+
+
+
+extern SCmdSoundSettings _syotes_scene_set0000_cmd00;
+
+extern SCmdRoomList _syotes_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _syotes_scene_set0000_cmd02;
+
+extern SCmdColHeader _syotes_scene_set0000_cmd03;
+
+extern SCmdEntranceList _syotes_scene_set0000_cmd04;
+
+extern SCmdSpecialFiles _syotes_scene_set0000_cmd05;
+
+extern SCmdSpawnList _syotes_scene_set0000_cmd06;
+
+extern SCmdSkyboxSettings _syotes_scene_set0000_cmd07;
+
+extern SCmdLightSettingList _syotes_scene_set0000_cmd08;
+
+extern SCmdEndMarker _syotes_scene_set0000_cmd09;
+
+

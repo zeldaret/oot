@@ -17,9 +17,9 @@ glabel func_808DC9B4
 /* 06180 808DC9F0 2406017C */  addiu   $a2, $zero, 0x017C         ## $a2 = 0000017C
 /* 06184 808DC9F4 0C235C4B */  jal     func_808D712C
 /* 06188 808DC9F8 AFA20060 */  sw      $v0, 0x0060($sp)
-/* 0618C 808DC9FC 3C100600 */  lui     $s0, 0x0600                ## $s0 = 06000000
-/* 06190 808DCA00 26104884 */  addiu   $s0, $s0, 0x4884           ## $s0 = 06004884
-/* 06194 808DCA04 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 0618C 808DC9FC 3C100600 */  lui     $s0, %hi(D_06004884)                ## $s0 = 06000000
+/* 06190 808DCA00 26104884 */  addiu   $s0, $s0, %lo(D_06004884)           ## $s0 = 06004884
+/* 06194 808DCA04 0C028800 */  jal     Animation_GetLastFrame
 
 /* 06198 808DCA08 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06004884
 /* 0619C 808DCA0C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -28,7 +28,7 @@ glabel func_808DC9B4
 /* 061A8 808DCA18 468021A0 */  cvt.s.w $f6, $f4
 /* 061AC 808DCA1C 4406C000 */  mfc1    $a2, $f24
 /* 061B0 808DCA20 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06004884
-/* 061B4 808DCA24 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 061B4 808DCA24 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 061B8 808DCA28 E62601CC */  swc1    $f6, 0x01CC($s1)           ## 000001CC
 /* 061BC 808DCA2C 3C028090 */  lui     $v0, %hi(D_808F93C0)       ## $v0 = 80900000
 /* 061C0 808DCA30 244293C0 */  addiu   $v0, $v0, %lo(D_808F93C0)  ## $v0 = 808F93C0
@@ -65,11 +65,11 @@ glabel func_808DC9B4
 /* 0623C 808DCAAC 8C4A0000 */  lw      $t2, 0x0000($v0)           ## 808F93C0
 /* 06240 808DCAB0 E54616D0 */  swc1    $f6, 0x16D0($t2)           ## 000016D0
 .L808DCAB4:
-/* 06244 808DCAB4 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 06244 808DCAB4 0C00CFC8 */  jal     Rand_CenteredFloat
 
 /* 06248 808DCAB8 4600B306 */  mov.s   $f12, $f22
 /* 0624C 808DCABC 46000506 */  mov.s   $f20, $f0
-/* 06250 808DCAC0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 06250 808DCAC0 0C00CFC8 */  jal     Rand_CenteredFloat
 
 /* 06254 808DCAC4 4600B306 */  mov.s   $f12, $f22
 /* 06258 808DCAC8 C62801FC */  lwc1    $f8, 0x01FC($s1)           ## 000001FC

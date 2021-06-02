@@ -8,7 +8,7 @@ glabel func_80B8FEAC
 /* 01444 80B8FEC4 3C063C23 */  lui     $a2, 0x3C23                ## $a2 = 3C230000
 /* 01448 80B8FEC8 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3C23D70A
 /* 0144C 80B8FECC 34A5BA63 */  ori     $a1, $a1, 0xBA63           ## $a1 = 3E2ABA63
-/* 01450 80B8FED0 0C01DE80 */  jal     Math_ApproxF
+/* 01450 80B8FED0 0C01DE80 */  jal     Math_StepToF
               
 /* 01454 80B8FED4 24840054 */  addiu   $a0, $a0, 0x0054           ## $a0 = 00000054
 /* 01458 80B8FED8 30430001 */  andi    $v1, $v0, 0x0001           ## $v1 = 00000000
@@ -17,7 +17,7 @@ glabel func_80B8FEAC
 /* 01464 80B8FEE4 34C61C82 */  ori     $a2, $a2, 0x1C82           ## $a2 = 3A941C82
 /* 01468 80B8FEE8 34A531C4 */  ori     $a1, $a1, 0x31C4           ## $a1 = 3D1231C4
 /* 0146C 80B8FEEC AFA30024 */  sw      $v1, 0x0024($sp)           
-/* 01470 80B8FEF0 0C01DE80 */  jal     Math_ApproxF
+/* 01470 80B8FEF0 0C01DE80 */  jal     Math_StepToF
               
 /* 01474 80B8FEF4 26040050 */  addiu   $a0, $s0, 0x0050           ## $a0 = 00000050
 /* 01478 80B8FEF8 8FA30024 */  lw      $v1, 0x0024($sp)           

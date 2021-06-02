@@ -3,7 +3,7 @@ glabel func_800F41E0
 /* B6B384 800F41E4 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B6B388 800F41E8 AFA40020 */  sw    $a0, 0x20($sp)
 /* B6B38C 800F41EC AFA50024 */  sw    $a1, 0x24($sp)
-/* B6B390 800F41F0 0C0399F0 */  jal   func_800E67C0
+/* B6B390 800F41F0 0C0399F0 */  jal   Audio_NextRandom
 /* B6B394 800F41F4 AFA60028 */   sw    $a2, 0x28($sp)
 /* B6B398 800F41F8 93AF002B */  lbu   $t7, 0x2b($sp)
 /* B6B39C 800F41FC 97AE0026 */  lhu   $t6, 0x26($sp)

@@ -1,0 +1,60 @@
+extern RomFile _market_alley_n_scene_roomList_000000E8[];
+extern TransitionActorEntry _market_alley_n_scene_transitionActorList_000000B8[];
+extern CollisionHeader _market_alley_n_scene_collisionHeader_000012C0;
+extern EntranceEntry _market_alley_n_scene_entranceList_000000F0[];
+extern Vec3s _market_alley_n_scene_pathwayList_0000019C[];
+extern ActorEntry _market_alley_n_scene_startPositionList_00000068[];
+extern u16 _market_alley_n_scene_exitList_000000FC[];
+extern LightSettings _market_alley_n_scene_lightSettings_00000108[];
+
+extern SCmdSoundSettings _market_alley_n_scene_set0000_cmd00;
+extern SCmdRoomList _market_alley_n_scene_set0000_cmd01;
+extern SCmdTransiActorList _market_alley_n_scene_set0000_cmd02;
+extern SCmdMiscSettings _market_alley_n_scene_set0000_cmd03;
+extern SCmdColHeader _market_alley_n_scene_set0000_cmd04;
+extern SCmdEntranceList _market_alley_n_scene_set0000_cmd05;
+extern SCmdSpecialFiles _market_alley_n_scene_set0000_cmd06;
+extern SCmdPathList _market_alley_n_scene_set0038_cmd07;
+extern SCmdSpawnList _market_alley_n_scene_set0000_cmd08;
+extern SCmdSkyboxSettings _market_alley_n_scene_set0000_cmd09;
+extern SCmdExitList _market_alley_n_scene_set0000_cmd0A;
+extern SCmdLightSettingList _market_alley_n_scene_set0000_cmd0B;
+extern SCmdEndMarker _market_alley_n_scene_set0000_cmd0C;
+extern Vec3s _market_alley_n_scene_pathwayList_00000120[];
+extern Path _market_alley_n_scene_pathway_0000019C;
+
+
+
+
+
+extern SCmdSoundSettings _market_alley_n_scene_set0000_cmd00;
+
+extern SCmdRoomList _market_alley_n_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _market_alley_n_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _market_alley_n_scene_set0000_cmd03;
+
+extern SCmdColHeader _market_alley_n_scene_set0000_cmd04;
+
+extern SCmdEntranceList _market_alley_n_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _market_alley_n_scene_set0000_cmd06;
+
+extern SCmdPathList _market_alley_n_scene_set0038_cmd07;
+
+extern SCmdSpawnList _market_alley_n_scene_set0000_cmd08;
+
+extern SCmdSkyboxSettings _market_alley_n_scene_set0000_cmd09;
+
+extern SCmdExitList _market_alley_n_scene_set0000_cmd0A;
+
+extern SCmdLightSettingList _market_alley_n_scene_set0000_cmd0B;
+
+extern SCmdEndMarker _market_alley_n_scene_set0000_cmd0C;
+
+extern Vec3s _market_alley_n_scene_pathwayList_00000120[];
+
+extern Path _market_alley_n_scene_pathway_0000019C;
+
+

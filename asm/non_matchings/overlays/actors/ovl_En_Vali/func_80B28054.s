@@ -114,7 +114,7 @@ glabel func_80B28054
 /* 01AF4 80B281A4 44051000 */  mfc1    $a1, $f2                   
 /* 01AF8 80B281A8 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 01AFC 80B281AC 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
-/* 01B00 80B281B0 0C01DE80 */  jal     Math_ApproxF
+/* 01B00 80B281B0 0C01DE80 */  jal     Math_StepToF
               
 /* 01B04 80B281B4 248402F4 */  addiu   $a0, $a0, 0x02F4           ## $a0 = 000002F4
 /* 01B08 80B281B8 8FAB0018 */  lw      $t3, 0x0018($sp)           

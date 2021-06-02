@@ -4,8 +4,8 @@ glabel func_800F3054
 /* B6A1FC 800F305C 0C03EB4D */  jal   func_800FAD34
 /* B6A200 800F3060 00000000 */   nop   
 /* B6A204 800F3064 14400030 */  bnez  $v0, .L800F3128
-/* B6A208 800F3068 3C0E8017 */   lui   $t6, %hi(D_80171A1C) # $t6, 0x8017
-/* B6A20C 800F306C 8DCE1A1C */  lw    $t6, %lo(D_80171A1C)($t6)
+/* B6A208 800F3068 3C0E8017 */   lui   $t6, %hi(gAudioContext+0x289c) # $t6, 0x8017
+/* B6A20C 800F306C 8DCE1A1C */  lw    $t6, %lo(gAudioContext+0x289c)($t6)
 /* B6A210 800F3070 3C018017 */  lui   $at, %hi(D_8016BABC) # $at, 0x8017
 /* B6A214 800F3074 0C001A78 */  jal   osGetTime
 /* B6A218 800F3078 AC2EBABC */   sw    $t6, %lo(D_8016BABC)($at)
@@ -46,8 +46,8 @@ glabel func_800F3054
 /* B6A2A0 800F3100 00000000 */   nop   
 /* B6A2A4 800F3104 0C0396E0 */  jal   func_800E5B80
 /* B6A2A8 800F3108 00000000 */   nop   
-/* B6A2AC 800F310C 3C198017 */  lui   $t9, %hi(D_80171A1C) # $t9, 0x8017
-/* B6A2B0 800F3110 8F391A1C */  lw    $t9, %lo(D_80171A1C)($t9)
+/* B6A2AC 800F310C 3C198017 */  lui   $t9, %hi(gAudioContext+0x289c) # $t9, 0x8017
+/* B6A2B0 800F3110 8F391A1C */  lw    $t9, %lo(gAudioContext+0x289c)($t9)
 /* B6A2B4 800F3114 3C018017 */  lui   $at, %hi(D_8016BAC0) # $at, 0x8017
 /* B6A2B8 800F3118 0C001A78 */  jal   osGetTime
 /* B6A2BC 800F311C AC39BAC0 */   sw    $t9, %lo(D_8016BAC0)($at)

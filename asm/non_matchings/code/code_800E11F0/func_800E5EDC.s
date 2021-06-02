@@ -12,8 +12,8 @@ glabel func_800E5EDC
 /* B5D0A4 800E5F04 10000009 */  b     .L800E5F2C
 /* B5D0A8 800E5F08 00001025 */   move  $v0, $zero
 .L800E5F0C:
-/* B5D0AC 800E5F0C 3C0F8017 */  lui   $t7, %hi(D_80172699) # $t7, 0x8017
-/* B5D0B0 800E5F10 91EF2699 */  lbu   $t7, %lo(D_80172699)($t7)
+/* B5D0AC 800E5F0C 3C0F8017 */  lui   $t7, %hi(gAudioContext+0x3519) # $t7, 0x8017
+/* B5D0B0 800E5F10 91EF2699 */  lbu   $t7, %lo(gAudioContext+0x3519)($t7)
 /* B5D0B4 800E5F14 8FAE0018 */  lw    $t6, 0x18($sp)
 /* B5D0B8 800E5F18 24020001 */  li    $v0, 1
 /* B5D0BC 800E5F1C 11CF0003 */  beq   $t6, $t7, .L800E5F2C

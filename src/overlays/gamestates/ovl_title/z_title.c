@@ -4,9 +4,8 @@
  * Description: Displays the Nintendo Logo
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <alloca.h>
+#include "global.h"
+#include "alloca.h"
 
 extern Gfx D_01002720[];
 extern u8 D_01001800[];
@@ -41,30 +40,25 @@ void Title_Calc(TitleContext* this) {
 }
 
 void Title_SetupView(TitleContext* this, f32 x, f32 y, f32 z) {
-    View* view;
-    Vec3f v1;
-    Vec3f v2;
-    Vec3f v3;
+    View* view = &this->view;
+    Vec3f eye;
+    Vec3f lookAt;
+    Vec3f up;
 
-    view = &this->view;
-    v3.z = 0;
-    v3.x = 0;
-    v2.z = 0;
-    v2.y = 0;
-    v2.x = 0;
-    v1.x = x;
-    v1.y = y;
-    v1.z = z;
-    v3.y = 1.0;
+    eye.x = x;
+    eye.y = y;
+    eye.z = z;
+    up.x = up.z = 0.0f;
+    lookAt.x = lookAt.y = lookAt.z = 0.0f;
+    up.y = 1.0f;
 
     func_800AA460(view, 30.0f, 10.0f, 12800.0f);
-    func_800AA358(view, &v1, &v2, &v3);
+    func_800AA358(view, &eye, &lookAt, &up);
     func_800AAA50(view, 0xF);
 }
 
 void Title_Draw(TitleContext* this) {
     static s16 sTitleRotY = 0;
-    static u32 D_808009A4 = 0;
     static Lights1 sTitleLights = gdSPDefLights1(0x64, 0x64, 0x64, 0xFF, 0xFF, 0xFF, 0x45, 0x45, 0x45);
 
     u16 y;
@@ -88,34 +82,34 @@ void Title_Draw(TitleContext* this) {
     v2.z = 1119.0837;
 
     func_8002EABC(&v1, &v2, &v3, this->state.gfxCtx);
-    gSPSetLights1(oGfxCtx->polyOpa.p++, sTitleLights);
+    gSPSetLights1(POLY_OPA_DISP++, sTitleLights);
     Title_SetupView(this, 0, 150.0, 300.0);
     func_80093D18(this->state.gfxCtx);
     Matrix_Translate(-53.0, -5.0, 0, MTXMODE_NEW);
     Matrix_Scale(1.0, 1.0, 1.0, MTXMODE_APPLY);
     Matrix_RotateRPY(0, sTitleRotY, 0, MTXMODE_APPLY);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_title.c", 424), G_MTX_LOAD);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_01002720);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_title.c", 424), G_MTX_LOAD);
+    gSPDisplayList(POLY_OPA_DISP++, &D_01002720);
     func_800944C4(this->state.gfxCtx);
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
-    gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_2CYCLE);
-    gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_XLU_SURF2, G_RM_OPA_CI | CVG_DST_WRAP);
-    gDPSetCombineLERP(oGfxCtx->polyOpa.p++, TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, 0, 0, 0, TEXEL0, PRIMITIVE,
-                      ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 170, 255, 255, 255);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 128);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetCycleType(POLY_OPA_DISP++, G_CYC_2CYCLE);
+    gDPSetRenderMode(POLY_OPA_DISP++, G_RM_XLU_SURF2, G_RM_OPA_CI | CVG_DST_WRAP);
+    gDPSetCombineLERP(POLY_OPA_DISP++, TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, 0, 0, 0, TEXEL0, PRIMITIVE, ENVIRONMENT,
+                      COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 170, 255, 255, 255);
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 255, 128);
 
-    gDPLoadMultiBlock(oGfxCtx->polyOpa.p++, &D_01001800, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+    gDPLoadMultiBlock(POLY_OPA_DISP++, &D_01001800, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 2, 11);
 
     for (idx = 0, y = 94; idx < 16; idx++, y += 2) {
-        gDPLoadTextureBlock(oGfxCtx->polyOpa.p++, &D_01000000[0x180 * idx], G_IM_FMT_I, G_IM_SIZ_8b, 192, 2, 0,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, &D_01000000[0x180 * idx], G_IM_FMT_I, G_IM_SIZ_8b, 192, 2, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
-        gDPSetTileSize(oGfxCtx->polyOpa.p++, 1, this->uls, (this->ult & 0x7F) - idx * 4, 0, 0);
-        gSPTextureRectangle(oGfxCtx->polyOpa.p++, 388, y << 2, 1156, (y + 2) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
+        gDPSetTileSize(POLY_OPA_DISP++, 1, this->uls, (this->ult & 0x7F) - idx * 4, 0, 0);
+        gSPTextureRectangle(POLY_OPA_DISP++, 388, y << 2, 1156, (y + 2) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
     }
 
     func_8007672C(this->state.gfxCtx, 0, 0, 0, (s16)this->coverAlpha, 2);
@@ -125,23 +119,23 @@ void Title_Draw(TitleContext* this) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_title.c", 483);
 }
 
-void Title_Main(TitleContext* this) {
-    s32 pad;
+void Title_Main(GameState* thisx) {
+    TitleContext* this = (TitleContext*)thisx;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_title.c", 494);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0, NULL);
-    gSPSegment(oGfxCtx->polyOpa.p++, 1, this->staticSegment);
+    gSPSegment(POLY_OPA_DISP++, 0, NULL);
+    gSPSegment(POLY_OPA_DISP++, 1, this->staticSegment);
     func_80095248(this->state.gfxCtx, 0, 0, 0);
     Title_Calc(this);
     Title_Draw(this);
 
     if (D_8012DBC0) {
-        Gfx* gfx = oGfxCtx->polyOpa.p;
+        Gfx* gfx = POLY_OPA_DISP;
         s32 pad;
 
         Title_PrintBuildInfo(&gfx);
-        oGfxCtx->polyOpa.p = gfx;
+        POLY_OPA_DISP = gfx;
     }
 
     if (this->exit) {
@@ -155,19 +149,19 @@ void Title_Main(TitleContext* this) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_title.c", 541);
 }
 
-void Title_Destroy(TitleContext* this) {
-    func_800A9AD0(this, &this->sram);
+void Title_Destroy(GameState* thisx) {
+    TitleContext* this = (TitleContext*)thisx;
+
+    Sram_InitSram(&this->state, &this->sramCtx);
 }
 
-void Title_Init(TitleContext* this) {
+void Title_Init(GameState* thisx) {
     u32 size = (u32)_nintendo_rogo_staticSegmentRomEnd - (u32)_nintendo_rogo_staticSegmentRomStart;
-    s32 pad;
+    TitleContext* this = (TitleContext*)thisx;
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_title.c", 611);
     osSyncPrintf("z_title.c\n");
-    if (this->staticSegment == NULL) {
-        __assert("this->staticSegment != NULL", "../z_title.c", 614);
-    }
+    ASSERT(this->staticSegment != NULL, "this->staticSegment != NULL", "../z_title.c", 614);
     DmaMgr_SendRequest1(this->staticSegment, (u32)_nintendo_rogo_staticSegmentRomStart, size, "../z_title.c", 615);
     R_UPDATE_RATE = 1;
     Matrix_Init(&this->state);
@@ -176,7 +170,7 @@ void Title_Init(TitleContext* this) {
     this->state.destroy = Title_Destroy;
     this->exit = false;
     gSaveContext.fileNum = 0xFF;
-    func_800A9CD4(&this->state, &this->sram);
+    Sram_Alloc(&this->state, &this->sramCtx);
     this->ult = 0;
     this->unk_1D4 = 0x14;
     this->coverAlpha = 255;

@@ -33,12 +33,12 @@ glabel func_8088DC50
 /* 00E08 8088DCC8 24120004 */  addiu   $s2, $zero, 0x0004         ## $s2 = 00000004
 .L8088DCCC:
 /* 00E0C 8088DCCC 00102400 */  sll     $a0, $s0, 16               
-/* 00E10 8088DCD0 0C01DE1C */  jal     Math_Sins
+/* 00E10 8088DCD0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00E14 8088DCD4 00042403 */  sra     $a0, $a0, 16               
 /* 00E18 8088DCD8 00102400 */  sll     $a0, $s0, 16               
 /* 00E1C 8088DCDC 46000506 */  mov.s   $f20, $f0                  
-/* 00E20 8088DCE0 0C01DE0D */  jal     Math_Coss
+/* 00E20 8088DCE0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00E24 8088DCE4 00042403 */  sra     $a0, $a0, 16               
 /* 00E28 8088DCE8 27B30068 */  addiu   $s3, $sp, 0x0068           ## $s3 = FFFFFFA8
@@ -50,7 +50,7 @@ glabel func_8088DC50
 /* 00E40 8088DD00 86B807A0 */  lh      $t8, 0x07A0($s5)           ## 000007A0
 /* 00E44 8088DD04 0018C880 */  sll     $t9, $t8,  2               
 /* 00E48 8088DD08 02B94021 */  addu    $t0, $s5, $t9              
-/* 00E4C 8088DD0C 0C016A7D */  jal     func_8005A9F4              
+/* 00E4C 8088DD0C 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 00E50 8088DD10 8D040790 */  lw      $a0, 0x0790($t0)           ## 00000790
 /* 00E54 8088DD14 00501823 */  subu    $v1, $v0, $s0              
 /* 00E58 8088DD18 00031C00 */  sll     $v1, $v1, 16               

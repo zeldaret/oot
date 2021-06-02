@@ -11,7 +11,7 @@ glabel func_80862DBC
 /* 0378C 80862DDC A20E07C8 */  sb      $t6, 0x07C8($s0)           ## 000007C8
 /* 03790 80862DE0 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 03794 80862DE4 260407F0 */  addiu   $a0, $s0, 0x07F0           ## $a0 = 000007F0
-/* 03798 80862DE8 0C00CB89 */  jal     func_80032E24              
+/* 03798 80862DE8 0C00CB89 */  jal     BodyBreak_Alloc              
 /* 0379C 80862DEC 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C
 /* 037A0 80862DF0 820F0808 */  lb      $t7, 0x0808($s0)           ## 00000808
 /* 037A4 80862DF4 A6000014 */  sh      $zero, 0x0014($s0)         ## 00000014
@@ -34,7 +34,7 @@ glabel func_80862DBC
 /* 037E4 80862E34 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 037E8 80862E38 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 037EC 80862E3C 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 037F0 80862E40 0C00CDD2 */  jal     Actor_ChangeType
+/* 037F0 80862E40 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 037F4 80862E44 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 .L80862E48:

@@ -3,12 +3,12 @@ glabel func_809BE568
 /* 0190C 809BE56C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 01910 809BE570 00802825 */  or      $a1, $a0, $zero            ## $a1 = 00000000
 /* 01914 809BE574 848400B6 */  lh      $a0, 0x00B6($a0)           ## 000000B6
-/* 01918 809BE578 0C01DE1C */  jal     Math_Sins
+/* 01918 809BE578 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0191C 809BE57C AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 01920 809BE580 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 01924 809BE584 84A400B6 */  lh      $a0, 0x00B6($a1)           ## 000000B6
-/* 01928 809BE588 0C01DE0D */  jal     Math_Coss
+/* 01928 809BE588 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0192C 809BE58C E7A00018 */  swc1    $f0, 0x0018($sp)           
 /* 01930 809BE590 8FA50020 */  lw      $a1, 0x0020($sp)           

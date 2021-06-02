@@ -87,7 +87,7 @@ glabel func_80B6A22C
 /* 00998 80B6A338 44998000 */  mtc1    $t9, $f16                  ## $f16 = 0.00
 /* 0099C 80B6A33C 00000000 */  nop
 /* 009A0 80B6A340 468084A0 */  cvt.s.w $f18, $f16                 
-/* 009A4 80B6A344 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 009A4 80B6A344 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 009A8 80B6A348 E6120008 */  swc1    $f18, 0x0008($s0)          ## 80B7FF00
 /* 009AC 80B6A34C 4600010D */  trunc.w.s $f4, $f0                   
@@ -107,7 +107,7 @@ glabel func_80B6A22C
 /* 009E4 80B6A384 46080282 */  mul.s   $f10, $f0, $f8             
 /* 009E8 80B6A388 4600A306 */  mov.s   $f12, $f20                 
 /* 009EC 80B6A38C 46105480 */  add.s   $f18, $f10, $f16           
-/* 009F0 80B6A390 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 009F0 80B6A390 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 009F4 80B6A394 E6120024 */  swc1    $f18, 0x0024($s0)          ## 80B7FF1C
 /* 009F8 80B6A398 E6000014 */  swc1    $f0, 0x0014($s0)           ## 80B7FF0C
@@ -161,7 +161,7 @@ glabel func_80B6A22C
 /* 00AAC 80B6A44C 44818000 */  mtc1    $at, $f16                  ## $f16 = 0.50
 /* 00AB0 80B6A450 4600A306 */  mov.s   $f12, $f20                 
 /* 00AB4 80B6A454 46105480 */  add.s   $f18, $f10, $f16           
-/* 00AB8 80B6A458 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00AB8 80B6A458 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00ABC 80B6A45C E6120024 */  swc1    $f18, 0x0024($s0)          ## 80B7FF1C
 /* 00AC0 80B6A460 E6000010 */  swc1    $f0, 0x0010($s0)           ## 80B7FF08
@@ -186,7 +186,7 @@ glabel func_80B6A22C
 /* 00B04 80B6A4A4 4600A306 */  mov.s   $f12, $f20                 
 /* 00B08 80B6A4A8 46080282 */  mul.s   $f10, $f0, $f8             
 /* 00B0C 80B6A4AC 461C5400 */  add.s   $f16, $f10, $f28           
-/* 00B10 80B6A4B0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00B10 80B6A4B0 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00B14 80B6A4B4 E6100024 */  swc1    $f16, 0x0024($s0)          ## 80B7FF1C
 /* 00B18 80B6A4B8 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000

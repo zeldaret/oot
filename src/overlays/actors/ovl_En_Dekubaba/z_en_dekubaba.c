@@ -1,4 +1,5 @@
 #include "z_en_dekubaba.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000005
 
@@ -9,10 +10,18 @@ void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000208;
+extern UNK_TYPE D_060002B8;
+extern UNK_TYPE D_060010F0;
+extern UNK_TYPE D_06001330;
+extern UNK_TYPE D_06001828;
+extern UNK_TYPE D_06002A40;
+extern UNK_TYPE D_06003070;
+
 /*
 const ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_DEKUBABA,
     sizeof(EnDekubaba),
@@ -20,6 +29,99 @@ const ActorInit En_Dekubaba_InitVars = {
     (ActorFunc)EnDekubaba_Destroy,
     (ActorFunc)EnDekubaba_Update,
     (ActorFunc)EnDekubaba_Draw,
+};
+
+static ColliderJntSphElementInit D_809E8ECC[7] = {
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x08 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_HARD,
+            BUMP_ON,
+            OCELEM_ON,
+        },
+        { 1, { { 0, 100, 1000 }, 15 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 51, { { 0, 0, 1500 }, 8 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
+        { 52, { { 0, 0, 500 }, 8 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
+        { 53, { { 0, 0, 1500 }, 8 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
+        { 54, { { 0, 0, 500 }, 8 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
+        { 55, { { 0, 0, 1500 }, 8 }, 100 },
+    },
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
+        { 56, { { 0, 0, 500 }, 8 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_809E8FC8 = {
+    {
+        COLTYPE_HIT6,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    7,
+    D_809E8ECC,
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/EnDekubaba_Init.s")

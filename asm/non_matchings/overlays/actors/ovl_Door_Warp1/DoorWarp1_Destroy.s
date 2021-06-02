@@ -8,13 +8,13 @@ glabel DoorWarp1_Destroy
 /* 0019C 8099891C 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 001A0 80998920 8DC601C4 */  lw      $a2, 0x01C4($t6)           ## 000001C4
 /* 001A4 80998924 AFA7002C */  sw      $a3, 0x002C($sp)           
-/* 001A8 80998928 0C01E9F1 */  jal     Lights_Remove
+/* 001A8 80998928 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 001AC 8099892C AFA50018 */  sw      $a1, 0x0018($sp)           
 /* 001B0 80998930 8FAF0028 */  lw      $t7, 0x0028($sp)           
 /* 001B4 80998934 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 001B8 80998938 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 001BC 8099893C 0C01E9F1 */  jal     Lights_Remove
+/* 001BC 8099893C 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 001C0 80998940 8DE601D8 */  lw      $a2, 0x01D8($t7)           ## 000001D8
 /* 001C4 80998944 8FA7002C */  lw      $a3, 0x002C($sp)           

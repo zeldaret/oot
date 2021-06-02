@@ -1,7 +1,6 @@
-#include <global.h>
-#include <stdlib.h>
+#include "global.h"
 
-ldiv_t ldiv(long num, long denom) {
+ldiv_t ldiv(s32 num, s32 denom) {
     ldiv_t ret;
 
     ret.quot = num / denom;
@@ -14,7 +13,7 @@ ldiv_t ldiv(long num, long denom) {
     return ret;
 }
 
-lldiv_t lldiv(long long num, long long denom) {
+lldiv_t lldiv(s64 num, s64 denom) {
     lldiv_t ret;
 
     ret.quot = num / denom;

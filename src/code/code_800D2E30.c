@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void func_800D2E30(UnkRumbleStruct* arg0) {
     s32 i;
@@ -21,6 +20,7 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
         D_8012DBB0 = new_var->unk_105;
         return;
     }
+
     D_8012DBB0 = arg0->unk_105;
 
     if (arg0->unk_104 == 2) {
@@ -39,7 +39,6 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
     }
     if (arg0->unk_104 != 0) {
         for (i = 0; i < 0x40; i++) {
-
             if (arg0->unk_04[i] != 0) {
                 if (arg0->unk_44[i] > 0) {
                     arg0->unk_44[i]--;
@@ -57,12 +56,9 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
                 if (index == -1) {
                     index = i;
                     arg0->rumbleEnable[0] = (unk_a3 >= 0x100);
-                } else {
-
-                    if (arg0->unk_04[index] < arg0->unk_04[i]) {
-                        index = i;
-                        arg0->rumbleEnable[0] = (unk_a3 >= 0x100);
-                    }
+                } else if (arg0->unk_04[index] < arg0->unk_04[i]) {
+                    index = i;
+                    arg0->rumbleEnable[0] = (unk_a3 >= 0x100);
                 }
             }
         }

@@ -1,0 +1,13 @@
+<Root>
+    <File Name="spot12_scene" Segment="2">
+        <Cutscene Name="gSpot12Cs_006490" Offset="0x6490"/>
+
+        <Scene Name="spot12_scene" Offset="0x0"/>
+    </File>
+    <File Name="spot12_room_0" Segment="3">
+        <Room Name="spot12_room_0" Offset="0x0"/>
+    </File>
+    <File Name="spot12_room_1" Segment="3">
+        <Room Name="spot12_room_1" Offset="0x0"/>
+    </File>
+</Root>

@@ -81,7 +81,7 @@ glabel func_80B49688
 /* 056C4 80B49714 26040464 */  addiu   $a0, $s0, 0x0464           ## $a0 = 00000464
 /* 056C8 80B49718 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 056CC 80B4971C 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 056D0 80B49720 0C0189CD */  jal     func_80062734              
+/* 056D0 80B49720 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 056D4 80B49724 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 056D8 80B49728 3C0480B5 */  lui     $a0, %hi(D_80B4A2A4)       ## $a0 = 80B50000
 /* 056DC 80B4972C 2484A2A4 */  addiu   $a0, $a0, %lo(D_80B4A2A4)  ## $a0 = 80B4A2A4
@@ -132,7 +132,7 @@ glabel func_80B49688
 /* 05788 80B497D8 AFA70014 */  sw      $a3, 0x0014($sp)           
 /* 0578C 80B497DC 8FA50064 */  lw      $a1, 0x0064($sp)           
 /* 05790 80B497E0 2406002D */  addiu   $a2, $zero, 0x002D         ## $a2 = 0000002D
-/* 05794 80B497E4 0C00AF6C */  jal     func_8002BDB0              
+/* 05794 80B497E4 0C00AF6C */  jal     Actor_SetFeetPos              
 /* 05798 80B497E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B497EC:
 /* 0579C 80B497EC 8FA20064 */  lw      $v0, 0x0064($sp)           

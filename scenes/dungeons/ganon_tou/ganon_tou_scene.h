@@ -1,0 +1,114 @@
+extern RomFile _ganon_tou_scene_roomList_000000A0[];
+extern CollisionHeader _ganon_tou_scene_collisionHeader_00002610;
+extern EntranceEntry _ganon_tou_scene_entranceList_000000A8[];
+extern ActorEntry _ganon_tou_scene_startPositionList_00000070[];
+extern u16 _ganon_tou_scene_exitList_000000B0[];
+extern LightSettings _ganon_tou_scene_lightSettings_000000B8[];
+extern RomFile _ganon_tou_scene_roomList_00003210[];
+extern CollisionHeader _ganon_tou_scene_collisionHeader_00002610;
+extern EntranceEntry _ganon_tou_scene_entranceList_00003218[];
+extern ActorEntry _ganon_tou_scene_startPositionList_000031E0[];
+extern u16 _ganon_tou_scene_exitList_00003220[];
+extern LightSettings _ganon_tou_scene_lightSettings_00003228[];
+extern s32 _ganon_tou_scene_cutsceneData_00002640[];
+
+extern SCmdAltHeaders _ganon_tou_scene_set0000_cmd00;
+extern SCmdSoundSettings _ganon_tou_scene_set0000_cmd01;
+extern SCmdRoomList _ganon_tou_scene_set0000_cmd02;
+extern SCmdMiscSettings _ganon_tou_scene_set0000_cmd03;
+extern SCmdColHeader _ganon_tou_scene_set0000_cmd04;
+extern SCmdEntranceList _ganon_tou_scene_set0000_cmd05;
+extern SCmdSpecialFiles _ganon_tou_scene_set0000_cmd06;
+extern SCmdSpawnList _ganon_tou_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _ganon_tou_scene_set0000_cmd08;
+extern SCmdExitList _ganon_tou_scene_set0000_cmd09;
+extern SCmdLightSettingList _ganon_tou_scene_set0000_cmd0A;
+extern SCmdEndMarker _ganon_tou_scene_set0000_cmd0B;
+extern u32 _ganon_tou_scene_alternateHeaders_00000060[];
+extern SCmdSoundSettings _ganon_tou_scene_set3180_cmd00;
+extern SCmdRoomList _ganon_tou_scene_set3180_cmd01;
+extern SCmdMiscSettings _ganon_tou_scene_set3180_cmd02;
+extern SCmdColHeader _ganon_tou_scene_set3180_cmd03;
+extern SCmdEntranceList _ganon_tou_scene_set3180_cmd04;
+extern SCmdSpecialFiles _ganon_tou_scene_set3180_cmd05;
+extern SCmdSpawnList _ganon_tou_scene_set3180_cmd06;
+extern SCmdSkyboxSettings _ganon_tou_scene_set3180_cmd07;
+extern SCmdExitList _ganon_tou_scene_set3180_cmd08;
+extern SCmdLightSettingList _ganon_tou_scene_set3180_cmd09;
+extern SCmdCutsceneData _ganon_tou_scene_set3180_cmd0A;
+extern SCmdEndMarker _ganon_tou_scene_set3180_cmd0B;
+extern u64 _ganon_tou_scene_tex_00003280[];
+
+#define _ganon_tou_room_0_vertices_000056F0 ((u32)_ganon_tou_room_0_vertices_00005500 + 0x000001F0)
+#define _ganon_tou_room_0_vertices_000074C0 ((u32)_ganon_tou_room_0_vertices_000072D0 + 0x000001F0)
+#define _ganon_tou_room_0_vertices_00007DE0 ((u32)_ganon_tou_room_0_vertices_00007C00 + 0x000001E0)
+#define _ganon_tou_room_0_vertices_000003E0 ((u32)_ganon_tou_room_0_vertices_000001F0 + 0x000001F0)
+#define _ganon_tou_room_0_vertices_00000B58 ((u32)_ganon_tou_room_0_vertices_00000968 + 0x000001F0)
+#define _ganon_tou_room_0_vertices_00000FD8 ((u32)_ganon_tou_room_0_vertices_00000DF8 + 0x000001E0)
+#define _ganon_tou_room_0_vertices_000011C8 ((u32)_ganon_tou_room_0_vertices_00000DF8 + 0x000003D0)
+#define _ganon_tou_room_0_vertices_00001B78 ((u32)_ganon_tou_room_0_vertices_00001988 + 0x000001F0)
+#define _ganon_tou_room_0_vertices_000021E8 ((u32)_ganon_tou_room_0_vertices_00001FF8 + 0x000001F0)
+#define _ganon_tou_room_0_vertices_00002A50 ((u32)_ganon_tou_room_0_vertices_00002870 + 0x000001E0)
+#define _ganon_tou_room_0_vertices_000030C0 ((u32)_ganon_tou_room_0_vertices_00002EE0 + 0x000001E0)
+#define _ganon_tou_room_0_vertices_000032A0 ((u32)_ganon_tou_room_0_vertices_00002EE0 + 0x000003C0)
+#define _ganon_tou_room_0_vertices_00003480 ((u32)_ganon_tou_room_0_vertices_00002EE0 + 0x000005A0)
+#define _ganon_tou_room_0_vertices_000056F0 ((u32)_ganon_tou_room_0_vertices_00005500 + 0x000001F0)
+#define _ganon_tou_room_0_vertices_000074C0 ((u32)_ganon_tou_room_0_vertices_000072D0 + 0x000001F0)
+#define _ganon_tou_room_0_vertices_00007DE0 ((u32)_ganon_tou_room_0_vertices_00007C00 + 0x000001E0)
+
+
+
+
+extern SCmdAltHeaders _ganon_tou_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _ganon_tou_scene_set0000_cmd01;
+
+extern SCmdRoomList _ganon_tou_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _ganon_tou_scene_set0000_cmd03;
+
+extern SCmdColHeader _ganon_tou_scene_set0000_cmd04;
+
+extern SCmdEntranceList _ganon_tou_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _ganon_tou_scene_set0000_cmd06;
+
+extern SCmdSpawnList _ganon_tou_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _ganon_tou_scene_set0000_cmd08;
+
+extern SCmdExitList _ganon_tou_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _ganon_tou_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _ganon_tou_scene_set0000_cmd0B;
+
+extern u32 _ganon_tou_scene_alternateHeaders_00000060[];
+
+extern SCmdSoundSettings _ganon_tou_scene_set3180_cmd00;
+
+extern SCmdRoomList _ganon_tou_scene_set3180_cmd01;
+
+extern SCmdMiscSettings _ganon_tou_scene_set3180_cmd02;
+
+extern SCmdColHeader _ganon_tou_scene_set3180_cmd03;
+
+extern SCmdEntranceList _ganon_tou_scene_set3180_cmd04;
+
+extern SCmdSpecialFiles _ganon_tou_scene_set3180_cmd05;
+
+extern SCmdSpawnList _ganon_tou_scene_set3180_cmd06;
+
+extern SCmdSkyboxSettings _ganon_tou_scene_set3180_cmd07;
+
+extern SCmdExitList _ganon_tou_scene_set3180_cmd08;
+
+extern SCmdLightSettingList _ganon_tou_scene_set3180_cmd09;
+
+extern SCmdCutsceneData _ganon_tou_scene_set3180_cmd0A;
+
+extern SCmdEndMarker _ganon_tou_scene_set3180_cmd0B;
+
+extern u64 _ganon_tou_scene_tex_00003280[];
+
+

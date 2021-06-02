@@ -1,8 +1,0 @@
-<Root>
-    <File Name="hylia_labo_scene">
-        <Scene Name="hylia_labo_scene"/>
-    </File>
-    <File Name="hylia_labo_room_0">
-        <Room Name="hylia_labo_room_0"/>
-    </File>
-</Root>

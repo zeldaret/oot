@@ -1,8 +1,8 @@
 glabel func_800E283C
 /* B599DC 800E283C 27BDFF90 */  addiu $sp, $sp, -0x70
 /* B599E0 800E2840 00047080 */  sll   $t6, $a0, 2
-/* B599E4 800E2844 3C0F8017 */  lui   $t7, %hi(D_801719C4) # $t7, 0x8017
-/* B599E8 800E2848 8DEF19C4 */  lw    $t7, %lo(D_801719C4)($t7)
+/* B599E4 800E2844 3C0F8017 */  lui   $t7, %hi(gAudioContext+0x2844) # $t7, 0x8017
+/* B599E8 800E2848 8DEF19C4 */  lw    $t7, %lo(gAudioContext+0x2844)($t7)
 /* B599EC 800E284C 01C47021 */  addu  $t6, $t6, $a0
 /* B599F0 800E2850 000E7080 */  sll   $t6, $t6, 2
 /* B599F4 800E2854 AFBF0034 */  sw    $ra, 0x34($sp)
@@ -141,21 +141,21 @@ glabel func_800E283C
 /* B59BD0 800E2A30 5020FFE0 */  beql  $at, $zero, .L800E29B4
 /* B59BD4 800E2A34 8E420000 */   lw    $v0, ($s2)
 .L800E2A38:
-/* B59BD8 800E2A38 3C0E8017 */  lui   $t6, %hi(D_801719C4) # $t6, 0x8017
-/* B59BDC 800E2A3C 8DCE19C4 */  lw    $t6, %lo(D_801719C4)($t6)
+/* B59BD8 800E2A38 3C0E8017 */  lui   $t6, %hi(gAudioContext+0x2844) # $t6, 0x8017
+/* B59BDC 800E2A3C 8DCE19C4 */  lw    $t6, %lo(gAudioContext+0x2844)($t6)
 /* B59BE0 800E2A40 8FAF0044 */  lw    $t7, 0x44($sp)
 /* B59BE4 800E2A44 8E6D0000 */  lw    $t5, ($s3)
-/* B59BE8 800E2A48 3C088017 */  lui   $t0, %hi(D_801719C4) # $t0, 0x8017
+/* B59BE8 800E2A48 3C088017 */  lui   $t0, %hi(gAudioContext+0x2844) # $t0, 0x8017
 /* B59BEC 800E2A4C 01CFC021 */  addu  $t8, $t6, $t7
 /* B59BF0 800E2A50 AF0D000C */  sw    $t5, 0xc($t8)
 /* B59BF4 800E2A54 8FA90044 */  lw    $t1, 0x44($sp)
-/* B59BF8 800E2A58 8D0819C4 */  lw    $t0, %lo(D_801719C4)($t0)
+/* B59BF8 800E2A58 8D0819C4 */  lw    $t0, %lo(gAudioContext+0x2844)($t0)
 /* B59BFC 800E2A5C 8E790004 */  lw    $t9, 4($s3)
-/* B59C00 800E2A60 3C0C8017 */  lui   $t4, %hi(D_801719C4) # $t4, 0x8017
+/* B59C00 800E2A60 3C0C8017 */  lui   $t4, %hi(gAudioContext+0x2844) # $t4, 0x8017
 /* B59C04 800E2A64 01095021 */  addu  $t2, $t0, $t1
 /* B59C08 800E2A68 AD590010 */  sw    $t9, 0x10($t2)
 /* B59C0C 800E2A6C 8FAE0044 */  lw    $t6, 0x44($sp)
-/* B59C10 800E2A70 8D8C19C4 */  lw    $t4, %lo(D_801719C4)($t4)
+/* B59C10 800E2A70 8D8C19C4 */  lw    $t4, %lo(gAudioContext+0x2844)($t4)
 /* B59C14 800E2A74 266B0008 */  addiu $t3, $s3, 8
 /* B59C18 800E2A78 018E7821 */  addu  $t7, $t4, $t6
 /* B59C1C 800E2A7C ADEB0008 */  sw    $t3, 8($t7)

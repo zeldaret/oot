@@ -4,10 +4,10 @@ glabel func_80A00218
 /* 00280 80A00220 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00284 80A00224 AFBF001C */  sw      $ra, 0x001C($sp)
 /* 00288 80A00228 240E0019 */  addiu   $t6, $zero, 0x0019         ## $t6 = 00000019
-/* 0028C 80A0022C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 0028C 80A0022C 3C050600 */  lui     $a1, %hi(D_060012AC)                ## $a1 = 06000000
 /* 00290 80A00230 AC8E02A8 */  sw      $t6, 0x02A8($a0)           ## 000002A8
-/* 00294 80A00234 24A512AC */  addiu   $a1, $a1, 0x12AC           ## $a1 = 060012AC
-/* 00298 80A00238 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 00294 80A00234 24A512AC */  addiu   $a1, $a1, %lo(D_060012AC)           ## $a1 = 060012AC
+/* 00298 80A00238 0C0294BE */  jal     Animation_PlayLoop
 /* 0029C 80A0023C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 002A0 80A00240 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 002A4 80A00244 C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008
@@ -27,7 +27,7 @@ glabel func_80A00218
 /* 002DC 80A0027C E6040068 */  swc1    $f4, 0x0068($s0)           ## 00000068
 /* 002E0 80A00280 5440000C */  bnel    $v0, $zero, .L80A002B4
 /* 002E4 80A00284 8E190118 */  lw      $t9, 0x0118($s0)           ## 00000118
-/* 002E8 80A00288 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 002E8 80A00288 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 002EC 80A0028C 00000000 */  nop
 /* 002F0 80A00290 3C014780 */  lui     $at, 0x4780                ## $at = 47800000
@@ -50,7 +50,7 @@ glabel func_80A00218
 /* 0032C 80A002CC 1000000D */  beq     $zero, $zero, .L80A00304
 /* 00330 80A002D0 920C0298 */  lbu     $t4, 0x0298($s0)           ## 00000298
 .L80A002D4:
-/* 00334 80A002D4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00334 80A002D4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00338 80A002D8 00000000 */  nop
 /* 0033C 80A002DC 3C014780 */  lui     $at, 0x4780                ## $at = 47800000

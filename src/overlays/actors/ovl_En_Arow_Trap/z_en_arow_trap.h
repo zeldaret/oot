@@ -1,9 +1,9 @@
 #ifndef _Z_EN_AROW_TRAP_H_
 #define _Z_EN_AROW_TRAP_H_
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
+#include "ultra64.h"
+#include "global.h"
+#include "z64.h"
 
 struct EnArowTrap;
 

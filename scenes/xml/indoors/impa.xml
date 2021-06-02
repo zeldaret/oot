@@ -1,8 +1,0 @@
-<Root>
-    <File Name="impa_scene">
-        <Scene Name="impa_scene"/>
-    </File>
-    <File Name="impa_room_0">
-        <Room Name="impa_room_0"/>
-    </File>
-</Root>

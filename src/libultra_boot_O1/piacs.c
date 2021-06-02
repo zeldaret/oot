@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 u32 __osPiAccessQueueEnabled = 0;
 
@@ -22,5 +22,5 @@ void __osPiGetAccess(void) {
 }
 
 void __osPiRelAccess(void) {
-    osSendMesg(&__osPiAccessQueue, 0, OS_MESG_NOBLOCK);
+    osSendMesg(&__osPiAccessQueue, NULL, OS_MESG_NOBLOCK);
 }

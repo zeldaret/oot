@@ -9,7 +9,7 @@ glabel func_80B35C10
 /* 01F68 80B35C18 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01F6C 80B35C1C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 01F70 80B35C20 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 01F74 80B35C24 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01F74 80B35C24 0C02927F */  jal     SkelAnime_Update
               
 /* 01F78 80B35C28 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 01F7C 80B35C2C 1040002D */  beq     $v0, $zero, .L80B35CE4     
@@ -31,7 +31,7 @@ glabel func_80B35C10
 /* 01FBC 80B35C6C 00000000 */  nop
 /* 01FC0 80B35C70 4502000F */  bc1fl   .L80B35CB0                 
 /* 01FC4 80B35C74 8FAE0024 */  lw      $t6, 0x0024($sp)           
-/* 01FC8 80B35C78 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01FC8 80B35C78 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01FCC 80B35C7C 00000000 */  nop
 /* 01FD0 80B35C80 3C0180B3 */  lui     $at, %hi(D_80B37BB4)       ## $at = 80B30000

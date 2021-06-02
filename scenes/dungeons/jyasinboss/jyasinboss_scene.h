@@ -1,0 +1,210 @@
+extern RomFile _jyasinboss_scene_roomList_000000E0[];
+extern TransitionActorEntry _jyasinboss_scene_transitionActorList_000000B0[];
+extern CollisionHeader _jyasinboss_scene_collisionHeader_00002B80;
+extern EntranceEntry _jyasinboss_scene_entranceList_00000100[];
+extern ActorEntry _jyasinboss_scene_startPositionList_00000080[];
+extern u16 _jyasinboss_scene_exitList_00000108[];
+extern LightSettings _jyasinboss_scene_lightSettings_0000010C[];
+extern RomFile _jyasinboss_scene_roomList_00006870[];
+extern TransitionActorEntry _jyasinboss_scene_transitionActorList_00006840[];
+extern CollisionHeader _jyasinboss_scene_collisionHeader_00002B80;
+extern EntranceEntry _jyasinboss_scene_entranceList_00006890[];
+extern ActorEntry _jyasinboss_scene_startPositionList_00006820[];
+extern u16 _jyasinboss_scene_exitList_00006894[];
+extern LightSettings _jyasinboss_scene_lightSettings_00006898[];
+extern s32 _jyasinboss_scene_cutsceneData_00002BB0[];
+extern RomFile _jyasinboss_scene_roomList_00006A30[];
+extern TransitionActorEntry _jyasinboss_scene_transitionActorList_00006A00[];
+extern CollisionHeader _jyasinboss_scene_collisionHeader_00002B80;
+extern EntranceEntry _jyasinboss_scene_entranceList_00006A50[];
+extern ActorEntry _jyasinboss_scene_startPositionList_000069E0[];
+extern u16 _jyasinboss_scene_exitList_00006A54[];
+extern LightSettings _jyasinboss_scene_lightSettings_00006A58[];
+extern s32 _jyasinboss_scene_cutsceneData_00003F80[];
+extern RomFile _jyasinboss_scene_roomList_00006BE0[];
+extern TransitionActorEntry _jyasinboss_scene_transitionActorList_00006BB0[];
+extern CollisionHeader _jyasinboss_scene_collisionHeader_00002B80;
+extern EntranceEntry _jyasinboss_scene_entranceList_00006C00[];
+extern ActorEntry _jyasinboss_scene_startPositionList_00006BA0[];
+extern u16 _jyasinboss_scene_exitList_00006C04[];
+extern LightSettings _jyasinboss_scene_lightSettings_00006C08[];
+extern s32 _jyasinboss_scene_cutsceneData_00005850[];
+
+extern SCmdAltHeaders _jyasinboss_scene_set0000_cmd00;
+extern SCmdSoundSettings _jyasinboss_scene_set0000_cmd01;
+extern SCmdRoomList _jyasinboss_scene_set0000_cmd02;
+extern SCmdTransiActorList _jyasinboss_scene_set0000_cmd03;
+extern SCmdMiscSettings _jyasinboss_scene_set0000_cmd04;
+extern SCmdColHeader _jyasinboss_scene_set0000_cmd05;
+extern SCmdEntranceList _jyasinboss_scene_set0000_cmd06;
+extern SCmdSpecialFiles _jyasinboss_scene_set0000_cmd07;
+extern SCmdSpawnList _jyasinboss_scene_set0000_cmd08;
+extern SCmdSkyboxSettings _jyasinboss_scene_set0000_cmd09;
+extern SCmdExitList _jyasinboss_scene_set0000_cmd0A;
+extern SCmdLightSettingList _jyasinboss_scene_set0000_cmd0B;
+extern SCmdEndMarker _jyasinboss_scene_set0000_cmd0C;
+extern u32 _jyasinboss_scene_alternateHeaders_00000068[];
+extern SCmdSoundSettings _jyasinboss_scene_set67C0_cmd00;
+extern SCmdRoomList _jyasinboss_scene_set67C0_cmd01;
+extern SCmdTransiActorList _jyasinboss_scene_set67C0_cmd02;
+extern SCmdMiscSettings _jyasinboss_scene_set67C0_cmd03;
+extern SCmdColHeader _jyasinboss_scene_set67C0_cmd04;
+extern SCmdEntranceList _jyasinboss_scene_set67C0_cmd05;
+extern SCmdSpawnList _jyasinboss_scene_set67C0_cmd06;
+extern SCmdSkyboxSettings _jyasinboss_scene_set67C0_cmd07;
+extern SCmdExitList _jyasinboss_scene_set67C0_cmd08;
+extern SCmdLightSettingList _jyasinboss_scene_set67C0_cmd09;
+extern SCmdCutsceneData _jyasinboss_scene_set67C0_cmd0A;
+extern SCmdEndMarker _jyasinboss_scene_set67C0_cmd0B;
+extern SCmdSoundSettings _jyasinboss_scene_set6980_cmd00;
+extern SCmdRoomList _jyasinboss_scene_set6980_cmd01;
+extern SCmdTransiActorList _jyasinboss_scene_set6980_cmd02;
+extern SCmdMiscSettings _jyasinboss_scene_set6980_cmd03;
+extern SCmdColHeader _jyasinboss_scene_set6980_cmd04;
+extern SCmdEntranceList _jyasinboss_scene_set6980_cmd05;
+extern SCmdSpawnList _jyasinboss_scene_set6980_cmd06;
+extern SCmdSkyboxSettings _jyasinboss_scene_set6980_cmd07;
+extern SCmdExitList _jyasinboss_scene_set6980_cmd08;
+extern SCmdLightSettingList _jyasinboss_scene_set6980_cmd09;
+extern SCmdCutsceneData _jyasinboss_scene_set6980_cmd0A;
+extern SCmdEndMarker _jyasinboss_scene_set6980_cmd0B;
+extern SCmdSoundSettings _jyasinboss_scene_set6B40_cmd00;
+extern SCmdRoomList _jyasinboss_scene_set6B40_cmd01;
+extern SCmdTransiActorList _jyasinboss_scene_set6B40_cmd02;
+extern SCmdMiscSettings _jyasinboss_scene_set6B40_cmd03;
+extern SCmdColHeader _jyasinboss_scene_set6B40_cmd04;
+extern SCmdEntranceList _jyasinboss_scene_set6B40_cmd05;
+extern SCmdSpawnList _jyasinboss_scene_set6B40_cmd06;
+extern SCmdSkyboxSettings _jyasinboss_scene_set6B40_cmd07;
+extern SCmdExitList _jyasinboss_scene_set6B40_cmd08;
+extern SCmdLightSettingList _jyasinboss_scene_set6B40_cmd09;
+extern SCmdCutsceneData _jyasinboss_scene_set6B40_cmd0A;
+extern SCmdEndMarker _jyasinboss_scene_set6B40_cmd0B;
+extern u64 _jyasinboss_scene_tex_00006CF0[];
+extern u64 _jyasinboss_scene_tex_00007CF0[];
+
+#define _jyasinboss_room_1_vertices_000011A8 ((u32)_jyasinboss_room_1_vertices_00000FC8 + 0x000001E0)
+#define _jyasinboss_room_1_vertices_000011A8 ((u32)_jyasinboss_room_1_vertices_00000FC8 + 0x000001E0)
+#define _jyasinboss_room_1_vertices_000011A8 ((u32)_jyasinboss_room_1_vertices_00000FC8 + 0x000001E0)
+#define _jyasinboss_room_1_vertices_000011A8 ((u32)_jyasinboss_room_1_vertices_00000FC8 + 0x000001E0)
+#define _jyasinboss_room_2_vertices_00000390 ((u32)_jyasinboss_room_2_vertices_000001B0 + 0x000001E0)
+#define _jyasinboss_room_2_vertices_00001208 ((u32)_jyasinboss_room_2_vertices_00001018 + 0x000001F0)
+#define _jyasinboss_room_2_vertices_00000390 ((u32)_jyasinboss_room_2_vertices_000001B0 + 0x000001E0)
+#define _jyasinboss_room_2_vertices_00001208 ((u32)_jyasinboss_room_2_vertices_00001018 + 0x000001F0)
+#define _jyasinboss_room_2_vertices_00000390 ((u32)_jyasinboss_room_2_vertices_000001B0 + 0x000001E0)
+#define _jyasinboss_room_2_vertices_00001208 ((u32)_jyasinboss_room_2_vertices_00001018 + 0x000001F0)
+#define _jyasinboss_room_2_vertices_00000390 ((u32)_jyasinboss_room_2_vertices_000001B0 + 0x000001E0)
+#define _jyasinboss_room_2_vertices_00001208 ((u32)_jyasinboss_room_2_vertices_00001018 + 0x000001F0)
+#define _jyasinboss_room_3_vertices_00001290 ((u32)_jyasinboss_room_3_vertices_000010B0 + 0x000001E0)
+#define _jyasinboss_room_3_vertices_00001290 ((u32)_jyasinboss_room_3_vertices_000010B0 + 0x000001E0)
+#define _jyasinboss_room_3_vertices_00001290 ((u32)_jyasinboss_room_3_vertices_000010B0 + 0x000001E0)
+#define _jyasinboss_room_3_vertices_00001290 ((u32)_jyasinboss_room_3_vertices_000010B0 + 0x000001E0)
+
+
+
+
+extern SCmdAltHeaders _jyasinboss_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _jyasinboss_scene_set0000_cmd01;
+
+extern SCmdRoomList _jyasinboss_scene_set0000_cmd02;
+
+extern SCmdTransiActorList _jyasinboss_scene_set0000_cmd03;
+
+extern SCmdMiscSettings _jyasinboss_scene_set0000_cmd04;
+
+extern SCmdColHeader _jyasinboss_scene_set0000_cmd05;
+
+extern SCmdEntranceList _jyasinboss_scene_set0000_cmd06;
+
+extern SCmdSpecialFiles _jyasinboss_scene_set0000_cmd07;
+
+extern SCmdSpawnList _jyasinboss_scene_set0000_cmd08;
+
+extern SCmdSkyboxSettings _jyasinboss_scene_set0000_cmd09;
+
+extern SCmdExitList _jyasinboss_scene_set0000_cmd0A;
+
+extern SCmdLightSettingList _jyasinboss_scene_set0000_cmd0B;
+
+extern SCmdEndMarker _jyasinboss_scene_set0000_cmd0C;
+
+extern u32 _jyasinboss_scene_alternateHeaders_00000068[];
+
+extern SCmdSoundSettings _jyasinboss_scene_set67C0_cmd00;
+
+extern SCmdRoomList _jyasinboss_scene_set67C0_cmd01;
+
+extern SCmdTransiActorList _jyasinboss_scene_set67C0_cmd02;
+
+extern SCmdMiscSettings _jyasinboss_scene_set67C0_cmd03;
+
+extern SCmdColHeader _jyasinboss_scene_set67C0_cmd04;
+
+extern SCmdEntranceList _jyasinboss_scene_set67C0_cmd05;
+
+extern SCmdSpawnList _jyasinboss_scene_set67C0_cmd06;
+
+extern SCmdSkyboxSettings _jyasinboss_scene_set67C0_cmd07;
+
+extern SCmdExitList _jyasinboss_scene_set67C0_cmd08;
+
+extern SCmdLightSettingList _jyasinboss_scene_set67C0_cmd09;
+
+extern SCmdCutsceneData _jyasinboss_scene_set67C0_cmd0A;
+
+extern SCmdEndMarker _jyasinboss_scene_set67C0_cmd0B;
+
+extern SCmdSoundSettings _jyasinboss_scene_set6980_cmd00;
+
+extern SCmdRoomList _jyasinboss_scene_set6980_cmd01;
+
+extern SCmdTransiActorList _jyasinboss_scene_set6980_cmd02;
+
+extern SCmdMiscSettings _jyasinboss_scene_set6980_cmd03;
+
+extern SCmdColHeader _jyasinboss_scene_set6980_cmd04;
+
+extern SCmdEntranceList _jyasinboss_scene_set6980_cmd05;
+
+extern SCmdSpawnList _jyasinboss_scene_set6980_cmd06;
+
+extern SCmdSkyboxSettings _jyasinboss_scene_set6980_cmd07;
+
+extern SCmdExitList _jyasinboss_scene_set6980_cmd08;
+
+extern SCmdLightSettingList _jyasinboss_scene_set6980_cmd09;
+
+extern SCmdCutsceneData _jyasinboss_scene_set6980_cmd0A;
+
+extern SCmdEndMarker _jyasinboss_scene_set6980_cmd0B;
+
+extern SCmdSoundSettings _jyasinboss_scene_set6B40_cmd00;
+
+extern SCmdRoomList _jyasinboss_scene_set6B40_cmd01;
+
+extern SCmdTransiActorList _jyasinboss_scene_set6B40_cmd02;
+
+extern SCmdMiscSettings _jyasinboss_scene_set6B40_cmd03;
+
+extern SCmdColHeader _jyasinboss_scene_set6B40_cmd04;
+
+extern SCmdEntranceList _jyasinboss_scene_set6B40_cmd05;
+
+extern SCmdSpawnList _jyasinboss_scene_set6B40_cmd06;
+
+extern SCmdSkyboxSettings _jyasinboss_scene_set6B40_cmd07;
+
+extern SCmdExitList _jyasinboss_scene_set6B40_cmd08;
+
+extern SCmdLightSettingList _jyasinboss_scene_set6B40_cmd09;
+
+extern SCmdCutsceneData _jyasinboss_scene_set6B40_cmd0A;
+
+extern SCmdEndMarker _jyasinboss_scene_set6B40_cmd0B;
+
+extern u64 _jyasinboss_scene_tex_00006CF0[];
+
+extern u64 _jyasinboss_scene_tex_00007CF0[];
+
+

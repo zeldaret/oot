@@ -25,12 +25,12 @@ glabel func_80B36D3C
 /* 030E4 80B36D94 26240068 */  addiu   $a0, $s1, 0x0068           ## $a0 = 00000068
 /* 030E8 80B36D98 44050000 */  mfc1    $a1, $f0                   
 /* 030EC 80B36D9C 3C073F00 */  lui     $a3, 0x3F00                ## $a3 = 3F000000
-/* 030F0 80B36DA0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 030F0 80B36DA0 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 030F4 80B36DA4 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 030F8 80B36DA8 A6200300 */  sh      $zero, 0x0300($s1)         ## 00000300
 .L80B36DAC:
-/* 030FC 80B36DAC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 030FC 80B36DAC 0C02927F */  jal     SkelAnime_Update
               
 /* 03100 80B36DB0 26240188 */  addiu   $a0, $s1, 0x0188           ## $a0 = 00000188
 /* 03104 80B36DB4 10400010 */  beq     $v0, $zero, .L80B36DF8     
@@ -82,19 +82,19 @@ glabel func_80B36D3C
 /* 031A8 80B36E58 4481A000 */  mtc1    $at, $f20                  ## $f20 = 60.00
 /* 031AC 80B36E5C 27B30088 */  addiu   $s3, $sp, 0x0088           ## $s3 = FFFFFFF0
 .L80B36E60:
-/* 031B0 80B36E60 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 031B0 80B36E60 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 031B4 80B36E64 4600A306 */  mov.s   $f12, $f20                 
 /* 031B8 80B36E68 C6280024 */  lwc1    $f8, 0x0024($s1)           ## 00000024
 /* 031BC 80B36E6C 4600A306 */  mov.s   $f12, $f20                 
 /* 031C0 80B36E70 46080280 */  add.s   $f10, $f0, $f8             
-/* 031C4 80B36E74 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 031C4 80B36E74 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 031C8 80B36E78 E7AA0088 */  swc1    $f10, 0x0088($sp)          
 /* 031CC 80B36E7C C630002C */  lwc1    $f16, 0x002C($s1)          ## 0000002C
 /* 031D0 80B36E80 4600B306 */  mov.s   $f12, $f22                 
 /* 031D4 80B36E84 46100480 */  add.s   $f18, $f0, $f16            
-/* 031D8 80B36E88 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 031D8 80B36E88 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 031DC 80B36E8C E7B20090 */  swc1    $f18, 0x0090($sp)          
 /* 031E0 80B36E90 C6240028 */  lwc1    $f4, 0x0028($s1)           ## 00000028
@@ -125,7 +125,7 @@ glabel func_80B36D3C
 /* 03244 80B36EF4 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 03248 80B36EF8 02602825 */  or      $a1, $s3, $zero            ## $a1 = FFFFFFF0
 /* 0324C 80B36EFC 02403025 */  or      $a2, $s2, $zero            ## $a2 = FFFFFFE4
-/* 03250 80B36F00 0C00A9AE */  jal     func_8002A6B8              
+/* 03250 80B36F00 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 03254 80B36F04 02403825 */  or      $a3, $s2, $zero            ## $a3 = FFFFFFE4
 /* 03258 80B36F08 2610FFFF */  addiu   $s0, $s0, 0xFFFF           ## $s0 = FFFFFFFF
 /* 0325C 80B36F0C 0601FFD4 */  bgez    $s0, .L80B36E60            

@@ -22,7 +22,7 @@ glabel func_8080B1A8
               
 /* 074B8 8080B1F8 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 074BC 8080B1FC 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 074C0 8080B200 0C02A288 */  jal     func_800A8A20              
+/* 074C0 8080B200 0C02A288 */  jal     Sram_VerifyAndLoadAllSaves              
 /* 074C4 8080B204 248501E0 */  addiu   $a1, $a0, 0x01E0           ## $a1 = 000001E0
 /* 074C8 8080B208 3C048081 */  lui     $a0, %hi(D_80812D1C)       ## $a0 = 80810000
 /* 074CC 8080B20C 0C00084C */  jal     osSyncPrintf

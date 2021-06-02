@@ -19,7 +19,7 @@ glabel func_80073988
 /* AEAB6C 800739CC 24018000 */  li    $at, -32768
 /* AEAB70 800739D0 00412021 */  addu  $a0, $v0, $at
 /* AEAB74 800739D4 00042400 */  sll   $a0, $a0, 0x10
-/* AEAB78 800739D8 0C01DE0D */  jal   Math_Coss
+/* AEAB78 800739D8 0C01DE0D */  jal   Math_CosS
 /* AEAB7C 800739DC 00042403 */   sra   $a0, $a0, 0x10
 /* AEAB80 800739E0 27B80050 */  addiu $t8, $sp, 0x50
 /* AEAB84 800739E4 8F080000 */  lw    $t0, ($t8)

@@ -34,7 +34,7 @@ glabel func_80B35EE4
 /* 0229C 80B35F4C A6000300 */  sh      $zero, 0x0300($s0)         ## 00000300
 .L80B35F50:
 /* 022A0 80B35F50 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
-/* 022A4 80B35F54 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 022A4 80B35F54 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 022A8 80B35F58 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 022AC 80B35F5C 8FA4002C */  lw      $a0, 0x002C($sp)           
@@ -43,7 +43,7 @@ glabel func_80B35EE4
 /* 022B8 80B35F68 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 022BC 80B35F6C 5440005A */  bnel    $v0, $zero, .L80B360D8     
 /* 022C0 80B35F70 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 022C4 80B35F74 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 022C4 80B35F74 0C02927F */  jal     SkelAnime_Update
               
 /* 022C8 80B35F78 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 022CC 80B35F7C 50400056 */  beql    $v0, $zero, .L80B360D8     
@@ -111,7 +111,7 @@ glabel func_80B35EE4
 /* 023B8 80B36068 1000001B */  beq     $zero, $zero, .L80B360D8   
 /* 023BC 80B3606C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80B36070:
-/* 023C0 80B36070 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 023C0 80B36070 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 023C4 80B36074 00000000 */  nop
 /* 023C8 80B36078 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -123,7 +123,7 @@ glabel func_80B35EE4
 /* 023E0 80B36090 00000000 */  nop
 /* 023E4 80B36094 0C2CD157 */  jal     func_80B3455C              
 /* 023E8 80B36098 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 023EC 80B3609C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 023EC 80B3609C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 023F0 80B360A0 00000000 */  nop
 /* 023F4 80B360A4 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000

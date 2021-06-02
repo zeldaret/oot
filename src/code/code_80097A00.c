@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 // Bit Flag array in which gBitFlags[n] is literally (1 << n)
 u32 gBitFlags[] = {
@@ -31,11 +30,11 @@ u16 gUpgradeCapacities[][4] = {
     { 0, 20, 30, 40 },     // Deku Nut Upgrades
 };
 
-u32 D_8012723C[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 }; // Unused
-u32 D_8012724C[] = { 0, 8, 16, 24 };                                   // Unused
+u32 gGsFlagsMask[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };
+u32 gGsFlagsShift[] = { 0, 8, 16, 24 };
 
 // TODO: use symbols for these icon textures once textures are properly in C
-u32 gItemIcons[] = {
+void* gItemIcons[] = {
     0x08000000, 0x08001000, 0x08002000, 0x08003000, 0x08004000, 0x08005000, 0x08006000, 0x08007000, 0x08008000,
     0x08009000, 0x0800A000, 0x0800B000, 0x0800C000, 0x0800D000, 0x0800E000, 0x0800F000, 0x08010000, 0x08011000,
     0x08012000, 0x08013000, 0x08014000, 0x08015000, 0x08016000, 0x08017000, 0x08018000, 0x08019000, 0x0801A000,
@@ -75,9 +74,7 @@ void Inventory_ChangeEquipment(s16 equipment, u16 value) {
 u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
     Player* player = PLAYER;
     s32 pad;
-    u16 sp26;
-
-    sp26 = gSaveContext.equips.equipment & gEquipMasks[equipment];
+    u16 sp26 = gSaveContext.equips.equipment & gEquipMasks[equipment];
 
     // Translates to: "Erasing equipment item = %d  zzz=%d"
     osSyncPrintf("装備アイテム抹消 = %d  zzz=%d\n", equipment, sp26);
@@ -86,7 +83,7 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
         sp26 >>= gEquipShifts[equipment];
 
         gSaveContext.equips.equipment &= gEquipNegMasks[equipment];
-        gSaveContext.equipment ^= gBitFlags[sp26 - 1] << gEquipShifts[equipment];
+        gSaveContext.inventory.equipment ^= gBitFlags[sp26 - 1] << gEquipShifts[equipment];
 
         if (equipment == EQUIP_TUNIC) {
             gSaveContext.equips.equipment |= 0x0100;
@@ -97,14 +94,14 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
             gSaveContext.infTable[29] = 1;
         }
 
-        func_8008ECAC(globalCtx, player);
-        globalCtx->pauseCtx.unk_238 = 10;
+        Player_SetEquipmentData(globalCtx, player);
+        globalCtx->pauseCtx.cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 
     return sp26;
 }
 
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value) {
-    gSaveContext.upgrades &= gUpgradeNegMasks[upgrade];
-    gSaveContext.upgrades |= value << gUpgradeShifts[upgrade];
+    gSaveContext.inventory.upgrades &= gUpgradeNegMasks[upgrade];
+    gSaveContext.inventory.upgrades |= value << gUpgradeShifts[upgrade];
 }

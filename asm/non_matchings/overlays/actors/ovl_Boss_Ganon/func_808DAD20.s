@@ -22,7 +22,7 @@ glabel func_808DAD20
 /* 044C4 808DAD34 24900150 */  addiu   $s0, $a0, 0x0150           ## $s0 = 00000150
 /* 044C8 808DAD38 F7B40020 */  sdc1    $f20, 0x0020($sp)
 /* 044CC 808DAD3C AFA5008C */  sw      $a1, 0x008C($sp)
-/* 044D0 808DAD40 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 044D0 808DAD40 0C02927F */  jal     SkelAnime_Update
 
 /* 044D4 808DAD44 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000150
 /* 044D8 808DAD48 962E01C2 */  lhu     $t6, 0x01C2($s1)           ## 000001C2
@@ -41,7 +41,7 @@ glabel L808DAD6C
 /* 04508 808DAD78 00812021 */  addu    $a0, $a0, $at
 /* 0450C 808DAD7C 00042200 */  sll     $a0, $a0,  8
 /* 04510 808DAD80 00042400 */  sll     $a0, $a0, 16
-/* 04514 808DAD84 0C01DE1C */  jal     Math_Sins
+/* 04514 808DAD84 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 04518 808DAD88 00042403 */  sra     $a0, $a0, 16
 /* 0451C 808DAD8C 862401A2 */  lh      $a0, 0x01A2($s1)           ## 000001A2
@@ -52,7 +52,7 @@ glabel L808DAD6C
 /* 04530 808DADA0 00042200 */  sll     $a0, $a0,  8
 /* 04534 808DADA4 00042400 */  sll     $a0, $a0, 16
 /* 04538 808DADA8 46002502 */  mul.s   $f20, $f4, $f0
-/* 0453C 808DADAC 0C01DE0D */  jal     Math_Coss
+/* 0453C 808DADAC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 04540 808DADB0 00042403 */  sra     $a0, $a0, 16
 /* 04544 808DADB4 C62601D0 */  lwc1    $f6, 0x01D0($s1)           ## 000001D0
@@ -62,20 +62,20 @@ glabel L808DAD6C
 /* 04554 808DADC4 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3D4CCCCD
 /* 04558 808DADC8 26240024 */  addiu   $a0, $s1, 0x0024           ## $a0 = 00000024
 /* 0455C 808DADCC E7A80078 */  swc1    $f8, 0x0078($sp)
-/* 04560 808DADD0 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 04560 808DADD0 0C01E107 */  jal     Math_ApproachF
 
 /* 04564 808DADD4 8E2701C8 */  lw      $a3, 0x01C8($s1)           ## 000001C8
 /* 04568 808DADD8 3C063D4C */  lui     $a2, 0x3D4C                ## $a2 = 3D4C0000
 /* 0456C 808DADDC 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3D4CCCCD
 /* 04570 808DADE0 2624002C */  addiu   $a0, $s1, 0x002C           ## $a0 = 0000002C
 /* 04574 808DADE4 8FA50078 */  lw      $a1, 0x0078($sp)
-/* 04578 808DADE8 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 04578 808DADE8 0C01E107 */  jal     Math_ApproachF
 
 /* 0457C 808DADEC 8E2701C8 */  lw      $a3, 0x01C8($s1)           ## 000001C8
 /* 04580 808DADF0 262401D0 */  addiu   $a0, $s1, 0x01D0           ## $a0 = 000001D0
 /* 04584 808DADF4 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 04588 808DADF8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 0458C 808DADFC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0458C 808DADFC 0C01E107 */  jal     Math_ApproachF
 
 /* 04590 808DAE00 3C073FC0 */  lui     $a3, 0x3FC0                ## $a3 = 3FC00000
 /* 04594 808DAE04 862201B6 */  lh      $v0, 0x01B6($s1)           ## 000001B6
@@ -93,7 +93,7 @@ glabel L808DAD6C
 /* 045BC 808DAE2C 3C01437A */  lui     $at, 0x437A                ## $at = 437A0000
 /* 045C0 808DAE30 4481A000 */  mtc1    $at, $f20                  ## $f20 = 250.00
 /* 045C4 808DAE34 3C01808F */  lui     $at, %hi(D_808F7FC4)       ## $at = 808F0000
-/* 045C8 808DAE38 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 045C8 808DAE38 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 045CC 808DAE3C C42C7FC4 */  lwc1    $f12, %lo(D_808F7FC4)($at)
 /* 045D0 808DAE40 3C01808F */  lui     $at, %hi(D_808F7FC8)       ## $at = 808F0000
@@ -105,7 +105,7 @@ glabel L808DAD6C
 /* 045E8 808DAE58 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 045EC 808DAE5C 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 045F0 808DAE60 46125100 */  add.s   $f4, $f10, $f18
-/* 045F4 808DAE64 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 045F4 808DAE64 0C01E107 */  jal     Math_ApproachF
 
 /* 045F8 808DAE68 E6240258 */  swc1    $f4, 0x0258($s1)           ## 00000258
 /* 045FC 808DAE6C 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
@@ -120,7 +120,7 @@ glabel L808DAD6C
 /* 04618 808DAE88 3C063DCC */  lui     $a2, 0x3DCC                ## $a2 = 3DCC0000
 /* 0461C 808DAE8C 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 04620 808DAE90 26240028 */  addiu   $a0, $s1, 0x0028           ## $a0 = 00000028
-/* 04624 808DAE94 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 04624 808DAE94 0C01E107 */  jal     Math_ApproachF
 
 /* 04628 808DAE98 8E270060 */  lw      $a3, 0x0060($s1)           ## 00000060
 /* 0462C 808DAE9C 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -129,24 +129,24 @@ glabel L808DAD6C
 /* 04638 808DAEA8 3C0541A0 */  lui     $a1, 0x41A0                ## $a1 = 41A00000
 /* 0463C 808DAEAC 44060000 */  mfc1    $a2, $f0
 /* 04640 808DAEB0 44070000 */  mfc1    $a3, $f0
-/* 04644 808DAEB4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 04644 808DAEB4 0C01E107 */  jal     Math_ApproachF
 
 /* 04648 808DAEB8 00000000 */  nop
 /* 0464C 808DAEBC 862201B6 */  lh      $v0, 0x01B6($s1)           ## 000001B6
 /* 04650 808DAEC0 2401000E */  addiu   $at, $zero, 0x000E         ## $at = 0000000E
-/* 04654 808DAEC4 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 04654 808DAEC4 3C040600 */  lui     $a0, %hi(D_06002D2C)                ## $a0 = 06000000
 /* 04658 808DAEC8 1441000E */  bne     $v0, $at, .L808DAF04
 /* 0465C 808DAECC 00000000 */  nop
-/* 04660 808DAED0 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 04660 808DAED0 0C028800 */  jal     Animation_GetLastFrame
 
-/* 04664 808DAED4 24842D2C */  addiu   $a0, $a0, 0x2D2C           ## $a0 = 06002D2C
+/* 04664 808DAED4 24842D2C */  addiu   $a0, $a0, %lo(D_06002D2C)           ## $a0 = 06002D2C
 /* 04668 808DAED8 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
-/* 0466C 808DAEDC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 04670 808DAEE0 24A52D2C */  addiu   $a1, $a1, 0x2D2C           ## $a1 = 06002D2C
+/* 0466C 808DAEDC 3C050600 */  lui     $a1, %hi(D_06002D2C)                ## $a1 = 06000000
+/* 04670 808DAEE0 24A52D2C */  addiu   $a1, $a1, %lo(D_06002D2C)           ## $a1 = 06002D2C
 /* 04674 808DAEE4 46803220 */  cvt.s.w $f8, $f6
 /* 04678 808DAEE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000150
 /* 0467C 808DAEEC 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 04680 808DAEF0 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 04680 808DAEF0 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 04684 808DAEF4 E62801CC */  swc1    $f8, 0x01CC($s1)           ## 000001CC
 /* 04688 808DAEF8 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00
 /* 0468C 808DAEFC 862201B6 */  lh      $v0, 0x01B6($s1)           ## 000001B6
@@ -169,7 +169,7 @@ glabel L808DAF1C
 /* 046C8 808DAF38 A22801A0 */  sb      $t0, 0x01A0($s1)           ## 000001A0
 /* 046CC 808DAF3C 3C05C248 */  lui     $a1, 0xC248                ## $a1 = C2480000
 /* 046D0 808DAF40 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 046D4 808DAF44 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 046D4 808DAF44 0C01E107 */  jal     Math_ApproachF
 
 /* 046D8 808DAF48 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 046DC 808DAF4C C6240028 */  lwc1    $f4, 0x0028($s1)           ## 00000028
@@ -215,21 +215,21 @@ glabel L808DAF1C
 /* 04778 808DAFE8 AD8E0008 */  sw      $t6, 0x0008($t4)           ## FFFFFFE0
 /* 0477C 808DAFEC E7B20064 */  swc1    $f18, 0x0064($sp)
 .L808DAFF0:
-/* 04780 808DAFF0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 04780 808DAFF0 0C00CFC8 */  jal     Rand_CenteredFloat
 
 /* 04784 808DAFF4 4600A306 */  mov.s   $f12, $f20
 /* 04788 808DAFF8 3C014188 */  lui     $at, 0x4188                ## $at = 41880000
 /* 0478C 808DAFFC 44816000 */  mtc1    $at, $f12                  ## $f12 = 17.00
-/* 04790 808DB000 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 04790 808DB000 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 04794 808DB004 E7A0006C */  swc1    $f0, 0x006C($sp)
 /* 04798 808DB008 E7A00070 */  swc1    $f0, 0x0070($sp)
-/* 0479C 808DB00C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 0479C 808DB00C 0C00CFC8 */  jal     Rand_CenteredFloat
 
 /* 047A0 808DB010 4600A306 */  mov.s   $f12, $f20
 /* 047A4 808DB014 3C014396 */  lui     $at, 0x4396                ## $at = 43960000
 /* 047A8 808DB018 44816000 */  mtc1    $at, $f12                  ## $f12 = 300.00
-/* 047AC 808DB01C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 047AC 808DB01C 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 047B0 808DB020 E7A00074 */  swc1    $f0, 0x0074($sp)
 /* 047B4 808DB024 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000
@@ -260,17 +260,17 @@ glabel L808DB080
 /* 04814 808DB084 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
 /* 04818 808DB088 A23801A0 */  sb      $t8, 0x01A0($s1)           ## 000001A0
 /* 0481C 808DB08C 1720004B */  bne     $t9, $zero, .L808DB1BC
-/* 04820 808DB090 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 04824 808DB094 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 04820 808DB090 3C040600 */  lui     $a0, %hi(D_0600343C)                ## $a0 = 06000000
+/* 04824 808DB094 0C028800 */  jal     Animation_GetLastFrame
 
-/* 04828 808DB098 2484343C */  addiu   $a0, $a0, 0x343C           ## $a0 = 0600343C
+/* 04828 808DB098 2484343C */  addiu   $a0, $a0, %lo(D_0600343C)           ## $a0 = 0600343C
 /* 0482C 808DB09C 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00
-/* 04830 808DB0A0 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 04834 808DB0A4 24A5343C */  addiu   $a1, $a1, 0x343C           ## $a1 = 0600343C
+/* 04830 808DB0A0 3C050600 */  lui     $a1, %hi(D_0600343C)                ## $a1 = 06000000
+/* 04834 808DB0A4 24A5343C */  addiu   $a1, $a1, %lo(D_0600343C)           ## $a1 = 0600343C
 /* 04838 808DB0A8 468082A0 */  cvt.s.w $f10, $f16
 /* 0483C 808DB0AC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000001
 /* 04840 808DB0B0 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 04844 808DB0B4 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 04844 808DB0B4 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 04848 808DB0B8 E62A01CC */  swc1    $f10, 0x01CC($s1)          ## 000001CC
 /* 0484C 808DB0BC 44809000 */  mtc1    $zero, $f18                ## $f18 = 0.00
 /* 04850 808DB0C0 24080003 */  addiu   $t0, $zero, 0x0003         ## $t0 = 00000003
@@ -284,32 +284,32 @@ glabel L808DB0D8
 /* 0486C 808DB0DC 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 04870 808DB0E0 26240028 */  addiu   $a0, $s1, 0x0028           ## $a0 = 00000028
 /* 04874 808DB0E4 3C054316 */  lui     $a1, 0x4316                ## $a1 = 43160000
-/* 04878 808DB0E8 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 04878 808DB0E8 0C01E107 */  jal     Math_ApproachF
 
 /* 0487C 808DB0EC 8E270060 */  lw      $a3, 0x0060($s1)           ## 00000060
 /* 04880 808DB0F0 26240060 */  addiu   $a0, $s1, 0x0060           ## $a0 = 00000060
 /* 04884 808DB0F4 3C0541A0 */  lui     $a1, 0x41A0                ## $a1 = 41A00000
 /* 04888 808DB0F8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 0488C 808DB0FC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0488C 808DB0FC 0C01E107 */  jal     Math_ApproachF
 
 /* 04890 808DB100 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 04894 808DB104 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000001
-/* 04898 808DB108 0C0295B2 */  jal     func_800A56C8
+/* 04898 808DB108 0C0295B2 */  jal     Animation_OnFrame
 /* 0489C 808DB10C 8E2501CC */  lw      $a1, 0x01CC($s1)           ## 000001CC
 /* 048A0 808DB110 1040002A */  beq     $v0, $zero, .L808DB1BC
-/* 048A4 808DB114 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 048A8 808DB118 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 048A4 808DB114 3C040601 */  lui     $a0, %hi(D_06008A88)                ## $a0 = 06010000
+/* 048A8 808DB118 0C028800 */  jal     Animation_GetLastFrame
 
-/* 048AC 808DB11C 24848A88 */  addiu   $a0, $a0, 0x8A88           ## $a0 = 06008A88
+/* 048AC 808DB11C 24848A88 */  addiu   $a0, $a0, %lo(D_06008A88)           ## $a0 = 06008A88
 /* 048B0 808DB120 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
-/* 048B4 808DB124 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 048B8 808DB128 24A58A88 */  addiu   $a1, $a1, 0x8A88           ## $a1 = 06008A88
+/* 048B4 808DB124 3C050601 */  lui     $a1, %hi(D_06008A88)                ## $a1 = 06010000
+/* 048B8 808DB128 24A58A88 */  addiu   $a1, $a1, %lo(D_06008A88)           ## $a1 = 06008A88
 /* 048BC 808DB12C 468021A0 */  cvt.s.w $f6, $f4
 /* 048C0 808DB130 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000001
 /* 048C4 808DB134 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 048C8 808DB138 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 048C8 808DB138 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 048CC 808DB13C E62601CC */  swc1    $f6, 0x01CC($s1)           ## 000001CC
-/* 048D0 808DB140 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 048D0 808DB140 0C02927F */  jal     SkelAnime_Update
 
 /* 048D4 808DB144 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000001
 /* 048D8 808DB148 3C014190 */  lui     $at, 0x4190                ## $at = 41900000
@@ -329,17 +329,17 @@ glabel L808DB174
 /* 04908 808DB178 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = 3DCCCCCD
 /* 0490C 808DB17C 26240028 */  addiu   $a0, $s1, 0x0028           ## $a0 = 00000028
 /* 04910 808DB180 3C054316 */  lui     $a1, 0x4316                ## $a1 = 43160000
-/* 04914 808DB184 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 04914 808DB184 0C01E107 */  jal     Math_ApproachF
 
 /* 04918 808DB188 8E270060 */  lw      $a3, 0x0060($s1)           ## 00000060
 /* 0491C 808DB18C 26240060 */  addiu   $a0, $s1, 0x0060           ## $a0 = 00000060
 /* 04920 808DB190 3C0541A0 */  lui     $a1, 0x41A0                ## $a1 = 41A00000
 /* 04924 808DB194 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 04928 808DB198 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 04928 808DB198 0C01E107 */  jal     Math_ApproachF
 
 /* 0492C 808DB19C 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 04930 808DB1A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000001
-/* 04934 808DB1A4 0C0295B2 */  jal     func_800A56C8
+/* 04934 808DB1A4 0C0295B2 */  jal     Animation_OnFrame
 /* 04938 808DB1A8 8E2501CC */  lw      $a1, 0x01CC($s1)           ## 000001CC
 /* 0493C 808DB1AC 10400003 */  beq     $v0, $zero, .L808DB1BC
 /* 04940 808DB1B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

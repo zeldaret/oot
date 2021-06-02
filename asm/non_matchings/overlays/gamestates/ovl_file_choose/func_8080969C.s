@@ -41,7 +41,7 @@ glabel func_8080969C
 /* 059F4 80809734 0C00084C */  jal     osSyncPrintf
               
 /* 059F8 80809738 AFA20028 */  sw      $v0, 0x0028($sp)           
-/* 059FC 8080973C 0C02A6A7 */  jal     func_800A9A9C              
+/* 059FC 8080973C 0C02A6A7 */  jal     Sram_Write16Bytes              
 /* 05A00 80809740 8FA40028 */  lw      $a0, 0x0028($sp)           
 /* 05A04 80809744 3C048081 */  lui     $a0, %hi(D_80812BC0)       ## $a0 = 80810000
 /* 05A08 80809748 0C00084C */  jal     osSyncPrintf

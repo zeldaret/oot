@@ -9,7 +9,7 @@ glabel func_8091C4E0
 /* 009FC 8091C4FC AC8E0150 */  sw      $t6, 0x0150($a0)           ## 00000150
 /* 00A00 8091C500 A48F0158 */  sh      $t7, 0x0158($a0)           ## 00000158
 /* 00A04 8091C504 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
-/* 00A08 8091C508 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00A08 8091C508 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00A0C 8091C50C AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00A10 8091C510 4600010D */  trunc.w.s $f4, $f0                   

@@ -22,7 +22,7 @@ glabel func_80B8EB60
 /* 0011C 80B8EB9C 24E50078 */  addiu   $a1, $a3, 0x0078           ## $a1 = 00000078
 /* 00120 80B8EBA0 AFA70030 */  sw      $a3, 0x0030($sp)           
 /* 00124 80B8EBA4 AFAE0010 */  sw      $t6, 0x0010($sp)           
-/* 00128 80B8EBA8 0C00F269 */  jal     func_8003C9A4              
+/* 00128 80B8EBA8 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 0012C 80B8EBAC E7B0002C */  swc1    $f16, 0x002C($sp)          
 /* 00130 80B8EBB0 8FA70030 */  lw      $a3, 0x0030($sp)           
 /* 00134 80B8EBB4 E4E00080 */  swc1    $f0, 0x0080($a3)           ## 00000080

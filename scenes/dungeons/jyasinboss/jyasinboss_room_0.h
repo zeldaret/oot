@@ -1,0 +1,148 @@
+extern MeshHeader0 _jyasinboss_room_0_meshHeader_00000060;
+extern MeshEntry0 _jyasinboss_room_0_meshDListEntry_0000006C[1];
+extern Gfx _jyasinboss_room_0_dlist_000007B0[];
+extern Gfx _jyasinboss_room_0_dlist_00000380[];
+extern Vtx_t _jyasinboss_room_0_vertices_00000140[28];
+extern Vtx_t _jyasinboss_room_0_vertices_00000300[8];
+extern u64 _jyasinboss_room_0_tex_000007C8[];
+extern Gfx _jyasinboss_room_0_dlist_000006A0[];
+extern Vtx_t _jyasinboss_room_0_vertices_000004B0[23];
+extern Vtx_t _jyasinboss_room_0_vertices_00000620[8];
+extern u64 _jyasinboss_room_0_tex_000007C8[];
+s16 _jyasinboss_room_0_objectList_00000058[];
+extern MeshHeader0 _jyasinboss_room_0_meshHeader_00000060;
+extern MeshEntry0 _jyasinboss_room_0_meshDListEntry_0000006C[1];
+extern Gfx _jyasinboss_room_0_dlist_000007B0[];
+extern Gfx _jyasinboss_room_0_dlist_00000380[];
+extern Vtx_t _jyasinboss_room_0_vertices_00000140[28];
+extern Vtx_t _jyasinboss_room_0_vertices_00000300[8];
+extern u64 _jyasinboss_room_0_tex_000007C8[];
+extern Gfx _jyasinboss_room_0_dlist_000006A0[];
+extern Vtx_t _jyasinboss_room_0_vertices_000004B0[23];
+extern Vtx_t _jyasinboss_room_0_vertices_00000620[8];
+extern u64 _jyasinboss_room_0_tex_000007C8[];
+s16 _jyasinboss_room_0_objectList_000000B8[];
+extern MeshHeader0 _jyasinboss_room_0_meshHeader_00000060;
+extern MeshEntry0 _jyasinboss_room_0_meshDListEntry_0000006C[1];
+extern Gfx _jyasinboss_room_0_dlist_000007B0[];
+extern Gfx _jyasinboss_room_0_dlist_00000380[];
+extern Vtx_t _jyasinboss_room_0_vertices_00000140[28];
+extern Vtx_t _jyasinboss_room_0_vertices_00000300[8];
+extern u64 _jyasinboss_room_0_tex_000007C8[];
+extern Gfx _jyasinboss_room_0_dlist_000006A0[];
+extern Vtx_t _jyasinboss_room_0_vertices_000004B0[23];
+extern Vtx_t _jyasinboss_room_0_vertices_00000620[8];
+extern u64 _jyasinboss_room_0_tex_000007C8[];
+s16 _jyasinboss_room_0_objectList_000000F8[];
+extern MeshHeader0 _jyasinboss_room_0_meshHeader_00000060;
+extern MeshEntry0 _jyasinboss_room_0_meshDListEntry_0000006C[1];
+extern Gfx _jyasinboss_room_0_dlist_000007B0[];
+extern Gfx _jyasinboss_room_0_dlist_00000380[];
+extern Vtx_t _jyasinboss_room_0_vertices_00000140[28];
+extern Vtx_t _jyasinboss_room_0_vertices_00000300[8];
+extern u64 _jyasinboss_room_0_tex_000007C8[];
+extern Gfx _jyasinboss_room_0_dlist_000006A0[];
+extern Vtx_t _jyasinboss_room_0_vertices_000004B0[23];
+extern Vtx_t _jyasinboss_room_0_vertices_00000620[8];
+extern u64 _jyasinboss_room_0_tex_000007C8[];
+s16 _jyasinboss_room_0_objectList_00000138[];
+
+extern SCmdAltHeaders _jyasinboss_room_0_set0000_cmd00;
+extern SCmdEchoSettings _jyasinboss_room_0_set0000_cmd01;
+extern SCmdRoomBehavior _jyasinboss_room_0_set0000_cmd02;
+extern SCmdSkyboxDisables _jyasinboss_room_0_set0000_cmd03;
+extern SCmdTimeSettings _jyasinboss_room_0_set0000_cmd04;
+extern SCmdMesh _jyasinboss_room_0_set0000_cmd05;
+extern SCmdObjectList _jyasinboss_room_0_set0000_cmd06;
+extern SCmdEndMarker _jyasinboss_room_0_set0000_cmd07;
+extern u32 _jyasinboss_room_0_alternateHeaders_00000040[];
+extern SCmdEchoSettings _jyasinboss_room_0_set0080_cmd00;
+extern SCmdRoomBehavior _jyasinboss_room_0_set0080_cmd01;
+extern SCmdSkyboxDisables _jyasinboss_room_0_set0080_cmd02;
+extern SCmdTimeSettings _jyasinboss_room_0_set0080_cmd03;
+extern SCmdMesh _jyasinboss_room_0_set0080_cmd04;
+extern SCmdObjectList _jyasinboss_room_0_set0080_cmd05;
+extern SCmdEndMarker _jyasinboss_room_0_set0080_cmd06;
+extern SCmdEchoSettings _jyasinboss_room_0_set00C0_cmd00;
+extern SCmdRoomBehavior _jyasinboss_room_0_set00C0_cmd01;
+extern SCmdSkyboxDisables _jyasinboss_room_0_set00C0_cmd02;
+extern SCmdTimeSettings _jyasinboss_room_0_set00C0_cmd03;
+extern SCmdMesh _jyasinboss_room_0_set00C0_cmd04;
+extern SCmdObjectList _jyasinboss_room_0_set00C0_cmd05;
+extern SCmdEndMarker _jyasinboss_room_0_set00C0_cmd06;
+extern SCmdEchoSettings _jyasinboss_room_0_set0100_cmd00;
+extern SCmdRoomBehavior _jyasinboss_room_0_set0100_cmd01;
+extern SCmdSkyboxDisables _jyasinboss_room_0_set0100_cmd02;
+extern SCmdTimeSettings _jyasinboss_room_0_set0100_cmd03;
+extern SCmdMesh _jyasinboss_room_0_set0100_cmd04;
+extern SCmdObjectList _jyasinboss_room_0_set0100_cmd05;
+extern SCmdEndMarker _jyasinboss_room_0_set0100_cmd06;
+
+
+
+
+
+extern SCmdAltHeaders _jyasinboss_room_0_set0000_cmd00;
+
+extern SCmdEchoSettings _jyasinboss_room_0_set0000_cmd01;
+
+extern SCmdRoomBehavior _jyasinboss_room_0_set0000_cmd02;
+
+extern SCmdSkyboxDisables _jyasinboss_room_0_set0000_cmd03;
+
+extern SCmdTimeSettings _jyasinboss_room_0_set0000_cmd04;
+
+extern SCmdMesh _jyasinboss_room_0_set0000_cmd05;
+
+extern SCmdObjectList _jyasinboss_room_0_set0000_cmd06;
+
+extern SCmdEndMarker _jyasinboss_room_0_set0000_cmd07;
+
+extern u32 _jyasinboss_room_0_alternateHeaders_00000040[];
+
+extern SCmdEchoSettings _jyasinboss_room_0_set0080_cmd00;
+
+extern SCmdRoomBehavior _jyasinboss_room_0_set0080_cmd01;
+
+extern SCmdSkyboxDisables _jyasinboss_room_0_set0080_cmd02;
+
+extern SCmdTimeSettings _jyasinboss_room_0_set0080_cmd03;
+
+extern SCmdMesh _jyasinboss_room_0_set0080_cmd04;
+
+extern SCmdObjectList _jyasinboss_room_0_set0080_cmd05;
+
+extern SCmdEndMarker _jyasinboss_room_0_set0080_cmd06;
+
+extern SCmdEchoSettings _jyasinboss_room_0_set00C0_cmd00;
+
+extern SCmdRoomBehavior _jyasinboss_room_0_set00C0_cmd01;
+
+extern SCmdSkyboxDisables _jyasinboss_room_0_set00C0_cmd02;
+
+extern SCmdTimeSettings _jyasinboss_room_0_set00C0_cmd03;
+
+extern SCmdMesh _jyasinboss_room_0_set00C0_cmd04;
+
+extern SCmdObjectList _jyasinboss_room_0_set00C0_cmd05;
+
+extern SCmdEndMarker _jyasinboss_room_0_set00C0_cmd06;
+
+extern SCmdEchoSettings _jyasinboss_room_0_set0100_cmd00;
+
+extern SCmdRoomBehavior _jyasinboss_room_0_set0100_cmd01;
+
+extern SCmdSkyboxDisables _jyasinboss_room_0_set0100_cmd02;
+
+extern SCmdTimeSettings _jyasinboss_room_0_set0100_cmd03;
+
+extern SCmdMesh _jyasinboss_room_0_set0100_cmd04;
+
+extern SCmdObjectList _jyasinboss_room_0_set0100_cmd05;
+
+extern SCmdEndMarker _jyasinboss_room_0_set0100_cmd06;
+
+
+
+
+

@@ -1,8 +1,8 @@
 #ifndef _Z_BG_SPOT05_SOKO_H_
 #define _Z_BG_SPOT05_SOKO_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BgSpot05Soko;
 

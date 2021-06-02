@@ -10,7 +10,7 @@ glabel func_80B49C2C
 /* 05BFC 80B49C4C 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 05C00 80B49C50 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 05C04 80B49C54 AFA2001C */  sw      $v0, 0x001C($sp)           
-/* 05C08 80B49C58 0C00B69E */  jal     func_8002DA78              
+/* 05C08 80B49C58 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 05C0C 80B49C5C AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 05C10 80B49C60 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 05C14 80B49C64 3C06C100 */  lui     $a2, 0xC100                ## $a2 = C1000000

@@ -49,8 +49,8 @@ glabel func_800F4010
 /* B6B230 800F4090 10000007 */  b     .L800F40B0
 /* B6B234 800F4094 24020001 */   li    $v0, 1
 .L800F4098:
-/* B6B238 800F4098 3C028017 */  lui   $v0, %hi(D_80171AFC) # $v0, 0x8017
-/* B6B23C 800F409C 8C421AFC */  lw    $v0, %lo(D_80171AFC)($v0)
+/* B6B238 800F4098 3C028017 */  lui   $v0, %hi(gAudioContext+0x297c) # $v0, 0x8017
+/* B6B23C 800F409C 8C421AFC */  lw    $v0, %lo(gAudioContext+0x297c)($v0)
 /* B6B240 800F40A0 3C018015 */  lui   $at, %hi(D_8014A5F0)
 /* B6B244 800F40A4 C420A5F0 */  lwc1  $f0, %lo(D_8014A5F0)($at)
 /* B6B248 800F40A8 30420001 */  andi  $v0, $v0, 1

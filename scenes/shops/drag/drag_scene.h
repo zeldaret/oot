@@ -1,0 +1,46 @@
+extern RomFile _drag_scene_roomList_00000088[];
+extern CollisionHeader _drag_scene_collisionHeader_000003C0;
+extern EntranceEntry _drag_scene_entranceList_00000090[];
+extern ActorEntry _drag_scene_startPositionList_00000058[];
+extern u16 _drag_scene_exitList_00000098[];
+extern LightSettings _drag_scene_lightSettings_0000009C[];
+
+extern SCmdSoundSettings _drag_scene_set0000_cmd00;
+extern SCmdRoomList _drag_scene_set0000_cmd01;
+extern SCmdMiscSettings _drag_scene_set0000_cmd02;
+extern SCmdColHeader _drag_scene_set0000_cmd03;
+extern SCmdEntranceList _drag_scene_set0000_cmd04;
+extern SCmdSpecialFiles _drag_scene_set0000_cmd05;
+extern SCmdSpawnList _drag_scene_set0000_cmd06;
+extern SCmdSkyboxSettings _drag_scene_set0000_cmd07;
+extern SCmdExitList _drag_scene_set0000_cmd08;
+extern SCmdLightSettingList _drag_scene_set0000_cmd09;
+extern SCmdEndMarker _drag_scene_set0000_cmd0A;
+
+
+
+
+
+extern SCmdSoundSettings _drag_scene_set0000_cmd00;
+
+extern SCmdRoomList _drag_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _drag_scene_set0000_cmd02;
+
+extern SCmdColHeader _drag_scene_set0000_cmd03;
+
+extern SCmdEntranceList _drag_scene_set0000_cmd04;
+
+extern SCmdSpecialFiles _drag_scene_set0000_cmd05;
+
+extern SCmdSpawnList _drag_scene_set0000_cmd06;
+
+extern SCmdSkyboxSettings _drag_scene_set0000_cmd07;
+
+extern SCmdExitList _drag_scene_set0000_cmd08;
+
+extern SCmdLightSettingList _drag_scene_set0000_cmd09;
+
+extern SCmdEndMarker _drag_scene_set0000_cmd0A;
+
+

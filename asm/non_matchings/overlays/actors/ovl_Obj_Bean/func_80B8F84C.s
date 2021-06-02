@@ -10,7 +10,7 @@ glabel func_80B8F84C
 /* 00DD8 80B8F858 848E01C0 */  lh      $t6, 0x01C0($a0)           ## 000001C0
 /* 00DDC 80B8F85C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00DE0 80B8F860 25CFFFFF */  addiu   $t7, $t6, 0xFFFF           ## $t7 = FFFFFFFF
-/* 00DE4 80B8F864 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00DE4 80B8F864 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00DE8 80B8F868 A48F01C0 */  sh      $t7, 0x01C0($a0)           ## 000001C0
 /* 00DEC 80B8F86C 3C0180B9 */  lui     $at, %hi(D_80B91034)       ## $at = 80B90000
@@ -20,12 +20,12 @@ glabel func_80B8F84C
 /* 00DFC 80B8F87C 00000000 */  nop
 /* 00E00 80B8F880 45000008 */  bc1f    .L80B8F8A4                 
 /* 00E04 80B8F884 00000000 */  nop
-/* 00E08 80B8F888 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00E08 80B8F888 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00E0C 80B8F88C 240503E8 */  addiu   $a1, $zero, 0x03E8         ## $a1 = 000003E8
 /* 00E10 80B8F890 A60201C4 */  sh      $v0, 0x01C4($s0)           ## 000001C4
 /* 00E14 80B8F894 24042EE0 */  addiu   $a0, $zero, 0x2EE0         ## $a0 = 00002EE0
-/* 00E18 80B8F898 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00E18 80B8F898 0C01DF64 */  jal     Rand_S16Offset
               
 /* 00E1C 80B8F89C 24051F40 */  addiu   $a1, $zero, 0x1F40         ## $a1 = 00001F40
 /* 00E20 80B8F8A0 A60201CA */  sh      $v0, 0x01CA($s0)           ## 000001CA

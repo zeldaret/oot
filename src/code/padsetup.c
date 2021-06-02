@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 s32 PadSetup_Init(OSMesgQueue* mq, u8* outMask, OSContStatus* status) {
     s32 ret;
@@ -13,6 +13,7 @@ s32 PadSetup_Init(OSMesgQueue* mq, u8* outMask, OSContStatus* status) {
         if (osContStartQuery(mq) != 0) {
             return 1;
         }
+
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
         osContGetQuery(status);
 

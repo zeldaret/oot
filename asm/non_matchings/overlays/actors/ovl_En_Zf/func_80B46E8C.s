@@ -6,15 +6,15 @@ glabel func_80B46E8C
 /* 02E4C 80B46E9C AFB00028 */  sw      $s0, 0x0028($sp)
 /* 02E50 80B46EA0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 02E54 80B46EA4 AFBF002C */  sw      $ra, 0x002C($sp)
-/* 02E58 80B46EA8 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
+/* 02E58 80B46EA8 3C050601 */  lui     $a1, %hi(D_06009530)                ## $a1 = 06010000
 /* 02E5C 80B46EAC 240E0002 */  addiu   $t6, $zero, 0x0002         ## $t6 = 00000002
 /* 02E60 80B46EB0 AFAE0014 */  sw      $t6, 0x0014($sp)
-/* 02E64 80B46EB4 24A59530 */  addiu   $a1, $a1, 0x9530           ## $a1 = 06009530
+/* 02E64 80B46EB4 24A59530 */  addiu   $a1, $a1, %lo(D_06009530)           ## $a1 = 06009530
 /* 02E68 80B46EB8 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 02E6C 80B46EBC 3C06BF80 */  lui     $a2, 0xBF80                ## $a2 = BF800000
 /* 02E70 80B46EC0 3C074040 */  lui     $a3, 0x4040                ## $a3 = 40400000
 /* 02E74 80B46EC4 E7A60018 */  swc1    $f6, 0x0018($sp)
-/* 02E78 80B46EC8 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 02E78 80B46EC8 0C029468 */  jal     Animation_Change
 
 /* 02E7C 80B46ECC E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 02E80 80B46ED0 3C014170 */  lui     $at, 0x4170                ## $at = 41700000

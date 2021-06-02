@@ -4,7 +4,7 @@ glabel func_809BD7F0
 /* 00B98 809BD7F8 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 00B9C 809BD7FC 8CA41C44 */  lw      $a0, 0x1C44($a1)           ## 00001C44
 /* 00BA0 809BD800 AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 00BA4 809BD804 0C00B6B0 */  jal     func_8002DAC0              
+/* 00BA4 809BD804 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 00BA8 809BD808 24C50008 */  addiu   $a1, $a2, 0x0008           ## $a1 = 00000008
 /* 00BAC 809BD80C 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 00BB0 809BD810 808F0194 */  lb      $t7, 0x0194($a0)           ## 00000194

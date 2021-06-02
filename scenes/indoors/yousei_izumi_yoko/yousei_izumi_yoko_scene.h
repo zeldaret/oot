@@ -1,0 +1,244 @@
+extern RomFile _yousei_izumi_yoko_scene_roomList_000000A8[];
+extern CollisionHeader _yousei_izumi_yoko_scene_collisionHeader_000039A8;
+extern EntranceEntry _yousei_izumi_yoko_scene_entranceList_000000B0[];
+extern ActorEntry _yousei_izumi_yoko_scene_startPositionList_00000078[];
+extern u16 _yousei_izumi_yoko_scene_exitList_000000B8[];
+extern LightSettings _yousei_izumi_yoko_scene_lightSettings_000000BC[];
+extern RomFile _yousei_izumi_yoko_scene_roomList_00003A70[];
+extern CollisionHeader _yousei_izumi_yoko_scene_collisionHeader_000039A8;
+extern EntranceEntry _yousei_izumi_yoko_scene_entranceList_00003A78[];
+extern ActorEntry _yousei_izumi_yoko_scene_startPositionList_00003A40[];
+extern u16 _yousei_izumi_yoko_scene_exitList_00003A80[];
+extern LightSettings _yousei_izumi_yoko_scene_lightSettings_00003A84[];
+extern s32 _yousei_izumi_yoko_scene_cutsceneData_00000160[];
+extern RomFile _yousei_izumi_yoko_scene_roomList_00003BB0[];
+extern CollisionHeader _yousei_izumi_yoko_scene_collisionHeader_000039A8;
+extern EntranceEntry _yousei_izumi_yoko_scene_entranceList_00003BB8[];
+extern ActorEntry _yousei_izumi_yoko_scene_startPositionList_00003B80[];
+extern u16 _yousei_izumi_yoko_scene_exitList_00003BC0[];
+extern LightSettings _yousei_izumi_yoko_scene_lightSettings_00003BC4[];
+extern s32 _yousei_izumi_yoko_scene_cutsceneData_00001020[];
+extern RomFile _yousei_izumi_yoko_scene_roomList_00003CF0[];
+extern CollisionHeader _yousei_izumi_yoko_scene_collisionHeader_000039A8;
+extern EntranceEntry _yousei_izumi_yoko_scene_entranceList_00003CF8[];
+extern ActorEntry _yousei_izumi_yoko_scene_startPositionList_00003CC0[];
+extern u16 _yousei_izumi_yoko_scene_exitList_00003D00[];
+extern LightSettings _yousei_izumi_yoko_scene_lightSettings_00003D04[];
+extern s32 _yousei_izumi_yoko_scene_cutsceneData_00001F40[];
+
+extern SCmdAltHeaders _yousei_izumi_yoko_scene_set0000_cmd00;
+extern SCmdSoundSettings _yousei_izumi_yoko_scene_set0000_cmd01;
+extern SCmdRoomList _yousei_izumi_yoko_scene_set0000_cmd02;
+extern SCmdMiscSettings _yousei_izumi_yoko_scene_set0000_cmd03;
+extern SCmdColHeader _yousei_izumi_yoko_scene_set0000_cmd04;
+extern SCmdEntranceList _yousei_izumi_yoko_scene_set0000_cmd05;
+extern SCmdSpecialFiles _yousei_izumi_yoko_scene_set0000_cmd06;
+extern SCmdSpawnList _yousei_izumi_yoko_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _yousei_izumi_yoko_scene_set0000_cmd08;
+extern SCmdExitList _yousei_izumi_yoko_scene_set0000_cmd09;
+extern SCmdLightSettingList _yousei_izumi_yoko_scene_set0000_cmd0A;
+extern SCmdEndMarker _yousei_izumi_yoko_scene_set0000_cmd0B;
+extern u32 _yousei_izumi_yoko_scene_alternateHeaders_00000060[];
+extern SCmdSoundSettings _yousei_izumi_yoko_scene_set39E0_cmd00;
+extern SCmdRoomList _yousei_izumi_yoko_scene_set39E0_cmd01;
+extern SCmdMiscSettings _yousei_izumi_yoko_scene_set39E0_cmd02;
+extern SCmdColHeader _yousei_izumi_yoko_scene_set39E0_cmd03;
+extern SCmdEntranceList _yousei_izumi_yoko_scene_set39E0_cmd04;
+extern SCmdSpecialFiles _yousei_izumi_yoko_scene_set39E0_cmd05;
+extern SCmdSpawnList _yousei_izumi_yoko_scene_set39E0_cmd06;
+extern SCmdSkyboxSettings _yousei_izumi_yoko_scene_set39E0_cmd07;
+extern SCmdExitList _yousei_izumi_yoko_scene_set39E0_cmd08;
+extern SCmdLightSettingList _yousei_izumi_yoko_scene_set39E0_cmd09;
+extern SCmdCutsceneData _yousei_izumi_yoko_scene_set39E0_cmd0A;
+extern SCmdEndMarker _yousei_izumi_yoko_scene_set39E0_cmd0B;
+extern SCmdSoundSettings _yousei_izumi_yoko_scene_set3B20_cmd00;
+extern SCmdRoomList _yousei_izumi_yoko_scene_set3B20_cmd01;
+extern SCmdMiscSettings _yousei_izumi_yoko_scene_set3B20_cmd02;
+extern SCmdColHeader _yousei_izumi_yoko_scene_set3B20_cmd03;
+extern SCmdEntranceList _yousei_izumi_yoko_scene_set3B20_cmd04;
+extern SCmdSpecialFiles _yousei_izumi_yoko_scene_set3B20_cmd05;
+extern SCmdSpawnList _yousei_izumi_yoko_scene_set3B20_cmd06;
+extern SCmdSkyboxSettings _yousei_izumi_yoko_scene_set3B20_cmd07;
+extern SCmdExitList _yousei_izumi_yoko_scene_set3B20_cmd08;
+extern SCmdLightSettingList _yousei_izumi_yoko_scene_set3B20_cmd09;
+extern SCmdCutsceneData _yousei_izumi_yoko_scene_set3B20_cmd0A;
+extern SCmdEndMarker _yousei_izumi_yoko_scene_set3B20_cmd0B;
+extern SCmdSoundSettings _yousei_izumi_yoko_scene_set3C60_cmd00;
+extern SCmdRoomList _yousei_izumi_yoko_scene_set3C60_cmd01;
+extern SCmdMiscSettings _yousei_izumi_yoko_scene_set3C60_cmd02;
+extern SCmdColHeader _yousei_izumi_yoko_scene_set3C60_cmd03;
+extern SCmdEntranceList _yousei_izumi_yoko_scene_set3C60_cmd04;
+extern SCmdSpecialFiles _yousei_izumi_yoko_scene_set3C60_cmd05;
+extern SCmdSpawnList _yousei_izumi_yoko_scene_set3C60_cmd06;
+extern SCmdSkyboxSettings _yousei_izumi_yoko_scene_set3C60_cmd07;
+extern SCmdExitList _yousei_izumi_yoko_scene_set3C60_cmd08;
+extern SCmdLightSettingList _yousei_izumi_yoko_scene_set3C60_cmd09;
+extern SCmdCutsceneData _yousei_izumi_yoko_scene_set3C60_cmd0A;
+extern SCmdEndMarker _yousei_izumi_yoko_scene_set3C60_cmd0B;
+extern u64 _yousei_izumi_yoko_scene_tex_00003DA0[];
+extern u64 _yousei_izumi_yoko_scene_tex_000045A0[];
+extern u64 _yousei_izumi_yoko_scene_tex_00004DA0[];
+extern u64 _yousei_izumi_yoko_scene_tex_000055A0[];
+extern u64 _yousei_izumi_yoko_scene_tex_000065A0[];
+extern u64 _yousei_izumi_yoko_scene_tex_000075A0[];
+extern u64 _yousei_izumi_yoko_scene_tex_000085A0[];
+extern u64 _yousei_izumi_yoko_scene_tex_000095A0[];
+extern u64 _yousei_izumi_yoko_scene_tex_00009DA0[];
+extern u64 _yousei_izumi_yoko_scene_tex_0000ADA0[];
+extern u64 _yousei_izumi_yoko_scene_tex_0000B5A0[];
+extern u64 _yousei_izumi_yoko_scene_tex_0000BDA0[];
+extern u64 _yousei_izumi_yoko_scene_tex_0000C5A0[];
+
+#define _yousei_izumi_yoko_room_0_vertices_00000DD0 ((u32)_yousei_izumi_yoko_room_0_vertices_00000BF0 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00001A60 ((u32)_yousei_izumi_yoko_room_0_vertices_00001880 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00001C40 ((u32)_yousei_izumi_yoko_room_0_vertices_00001880 + 0x000003C0)
+#define _yousei_izumi_yoko_room_0_vertices_00002020 ((u32)_yousei_izumi_yoko_room_0_vertices_00001E40 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00002D80 ((u32)_yousei_izumi_yoko_room_0_vertices_00002BA0 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00003800 ((u32)_yousei_izumi_yoko_room_0_vertices_00003610 + 0x000001F0)
+#define _yousei_izumi_yoko_room_0_vertices_00000DD0 ((u32)_yousei_izumi_yoko_room_0_vertices_00000BF0 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00001A60 ((u32)_yousei_izumi_yoko_room_0_vertices_00001880 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00001C40 ((u32)_yousei_izumi_yoko_room_0_vertices_00001880 + 0x000003C0)
+#define _yousei_izumi_yoko_room_0_vertices_00002020 ((u32)_yousei_izumi_yoko_room_0_vertices_00001E40 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00002D80 ((u32)_yousei_izumi_yoko_room_0_vertices_00002BA0 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00003800 ((u32)_yousei_izumi_yoko_room_0_vertices_00003610 + 0x000001F0)
+#define _yousei_izumi_yoko_room_0_vertices_00000DD0 ((u32)_yousei_izumi_yoko_room_0_vertices_00000BF0 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00001A60 ((u32)_yousei_izumi_yoko_room_0_vertices_00001880 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00001C40 ((u32)_yousei_izumi_yoko_room_0_vertices_00001880 + 0x000003C0)
+#define _yousei_izumi_yoko_room_0_vertices_00002020 ((u32)_yousei_izumi_yoko_room_0_vertices_00001E40 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00002D80 ((u32)_yousei_izumi_yoko_room_0_vertices_00002BA0 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00003800 ((u32)_yousei_izumi_yoko_room_0_vertices_00003610 + 0x000001F0)
+#define _yousei_izumi_yoko_room_0_vertices_00000DD0 ((u32)_yousei_izumi_yoko_room_0_vertices_00000BF0 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00001A60 ((u32)_yousei_izumi_yoko_room_0_vertices_00001880 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00001C40 ((u32)_yousei_izumi_yoko_room_0_vertices_00001880 + 0x000003C0)
+#define _yousei_izumi_yoko_room_0_vertices_00002020 ((u32)_yousei_izumi_yoko_room_0_vertices_00001E40 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00002D80 ((u32)_yousei_izumi_yoko_room_0_vertices_00002BA0 + 0x000001E0)
+#define _yousei_izumi_yoko_room_0_vertices_00003800 ((u32)_yousei_izumi_yoko_room_0_vertices_00003610 + 0x000001F0)
+
+
+
+
+extern SCmdAltHeaders _yousei_izumi_yoko_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _yousei_izumi_yoko_scene_set0000_cmd01;
+
+extern SCmdRoomList _yousei_izumi_yoko_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _yousei_izumi_yoko_scene_set0000_cmd03;
+
+extern SCmdColHeader _yousei_izumi_yoko_scene_set0000_cmd04;
+
+extern SCmdEntranceList _yousei_izumi_yoko_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _yousei_izumi_yoko_scene_set0000_cmd06;
+
+extern SCmdSpawnList _yousei_izumi_yoko_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _yousei_izumi_yoko_scene_set0000_cmd08;
+
+extern SCmdExitList _yousei_izumi_yoko_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _yousei_izumi_yoko_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _yousei_izumi_yoko_scene_set0000_cmd0B;
+
+extern u32 _yousei_izumi_yoko_scene_alternateHeaders_00000060[];
+
+extern SCmdSoundSettings _yousei_izumi_yoko_scene_set39E0_cmd00;
+
+extern SCmdRoomList _yousei_izumi_yoko_scene_set39E0_cmd01;
+
+extern SCmdMiscSettings _yousei_izumi_yoko_scene_set39E0_cmd02;
+
+extern SCmdColHeader _yousei_izumi_yoko_scene_set39E0_cmd03;
+
+extern SCmdEntranceList _yousei_izumi_yoko_scene_set39E0_cmd04;
+
+extern SCmdSpecialFiles _yousei_izumi_yoko_scene_set39E0_cmd05;
+
+extern SCmdSpawnList _yousei_izumi_yoko_scene_set39E0_cmd06;
+
+extern SCmdSkyboxSettings _yousei_izumi_yoko_scene_set39E0_cmd07;
+
+extern SCmdExitList _yousei_izumi_yoko_scene_set39E0_cmd08;
+
+extern SCmdLightSettingList _yousei_izumi_yoko_scene_set39E0_cmd09;
+
+extern SCmdCutsceneData _yousei_izumi_yoko_scene_set39E0_cmd0A;
+
+extern SCmdEndMarker _yousei_izumi_yoko_scene_set39E0_cmd0B;
+
+extern SCmdSoundSettings _yousei_izumi_yoko_scene_set3B20_cmd00;
+
+extern SCmdRoomList _yousei_izumi_yoko_scene_set3B20_cmd01;
+
+extern SCmdMiscSettings _yousei_izumi_yoko_scene_set3B20_cmd02;
+
+extern SCmdColHeader _yousei_izumi_yoko_scene_set3B20_cmd03;
+
+extern SCmdEntranceList _yousei_izumi_yoko_scene_set3B20_cmd04;
+
+extern SCmdSpecialFiles _yousei_izumi_yoko_scene_set3B20_cmd05;
+
+extern SCmdSpawnList _yousei_izumi_yoko_scene_set3B20_cmd06;
+
+extern SCmdSkyboxSettings _yousei_izumi_yoko_scene_set3B20_cmd07;
+
+extern SCmdExitList _yousei_izumi_yoko_scene_set3B20_cmd08;
+
+extern SCmdLightSettingList _yousei_izumi_yoko_scene_set3B20_cmd09;
+
+extern SCmdCutsceneData _yousei_izumi_yoko_scene_set3B20_cmd0A;
+
+extern SCmdEndMarker _yousei_izumi_yoko_scene_set3B20_cmd0B;
+
+extern SCmdSoundSettings _yousei_izumi_yoko_scene_set3C60_cmd00;
+
+extern SCmdRoomList _yousei_izumi_yoko_scene_set3C60_cmd01;
+
+extern SCmdMiscSettings _yousei_izumi_yoko_scene_set3C60_cmd02;
+
+extern SCmdColHeader _yousei_izumi_yoko_scene_set3C60_cmd03;
+
+extern SCmdEntranceList _yousei_izumi_yoko_scene_set3C60_cmd04;
+
+extern SCmdSpecialFiles _yousei_izumi_yoko_scene_set3C60_cmd05;
+
+extern SCmdSpawnList _yousei_izumi_yoko_scene_set3C60_cmd06;
+
+extern SCmdSkyboxSettings _yousei_izumi_yoko_scene_set3C60_cmd07;
+
+extern SCmdExitList _yousei_izumi_yoko_scene_set3C60_cmd08;
+
+extern SCmdLightSettingList _yousei_izumi_yoko_scene_set3C60_cmd09;
+
+extern SCmdCutsceneData _yousei_izumi_yoko_scene_set3C60_cmd0A;
+
+extern SCmdEndMarker _yousei_izumi_yoko_scene_set3C60_cmd0B;
+
+extern u64 _yousei_izumi_yoko_scene_tex_00003DA0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_000045A0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_00004DA0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_000055A0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_000065A0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_000075A0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_000085A0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_000095A0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_00009DA0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_0000ADA0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_0000B5A0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_0000BDA0[];
+
+extern u64 _yousei_izumi_yoko_scene_tex_0000C5A0[];
+
+

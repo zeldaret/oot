@@ -101,7 +101,7 @@ glabel func_8093A940
 /* 01DF8 8093AAC8 15600012 */  bne     $t3, $zero, .L8093AB14     
 .L8093AACC:
 /* 01DFC 8093AACC 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 01E00 8093AAD0 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 01E00 8093AAD0 0C01DF64 */  jal     Rand_S16Offset
               
 /* 01E04 8093AAD4 240500C8 */  addiu   $a1, $zero, 0x00C8         ## $a1 = 000000C8
 /* 01E08 8093AAD8 02306021 */  addu    $t4, $s1, $s0              

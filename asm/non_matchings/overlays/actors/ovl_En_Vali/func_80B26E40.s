@@ -2,11 +2,11 @@ glabel func_80B26E40
 /* 00790 80B26E40 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00794 80B26E44 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 00798 80B26E48 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
-/* 0079C 80B26E4C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 007A0 80B26E50 24A514AC */  addiu   $a1, $a1, 0x14AC           ## $a1 = 060014AC
+/* 0079C 80B26E4C 3C050600 */  lui     $a1, %hi(D_060014AC)                ## $a1 = 06000000
+/* 007A0 80B26E50 24A514AC */  addiu   $a1, $a1, %lo(D_060014AC)           ## $a1 = 060014AC
 /* 007A4 80B26E54 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 007A8 80B26E58 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 007AC 80B26E5C 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 007AC 80B26E5C 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 007B0 80B26E60 3C064120 */  lui     $a2, 0x4120                ## $a2 = 41200000
 /* 007B4 80B26E64 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 007B8 80B26E68 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE

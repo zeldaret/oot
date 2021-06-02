@@ -52,7 +52,7 @@ glabel func_80B6C960
 /* 03084 80B6CA24 46083581 */  sub.s   $f22, $f6, $f8             
 /* 03088 80B6CA28 4600A386 */  mov.s   $f14, $f20                 
 /* 0308C 80B6CA2C 46049601 */  sub.s   $f24, $f18, $f4            
-/* 03090 80B6CA30 0C0341F5 */  jal     atan2f
+/* 03090 80B6CA30 0C0341F5 */  jal     Math_Atan2F
               
 /* 03094 80B6CA34 4600B306 */  mov.s   $f12, $f22                 
 /* 03098 80B6CA38 4614A282 */  mul.s   $f10, $f20, $f20           
@@ -60,7 +60,7 @@ glabel func_80B6C960
 /* 030A0 80B6CA40 4600C386 */  mov.s   $f14, $f24                 
 /* 030A4 80B6CA44 4616B402 */  mul.s   $f16, $f22, $f22           
 /* 030A8 80B6CA48 46105000 */  add.s   $f0, $f10, $f16            
-/* 030AC 80B6CA4C 0C0341F5 */  jal     atan2f
+/* 030AC 80B6CA4C 0C0341F5 */  jal     Math_Atan2F
               
 /* 030B0 80B6CA50 46000304 */  sqrt.s  $f12, $f0                  
 /* 030B4 80B6CA54 46000507 */  neg.s   $f20, $f0                  

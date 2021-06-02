@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80143BE8
     .asciz "PRESS B BUTTON"
     .balign 4

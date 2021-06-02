@@ -8,7 +8,7 @@ glabel func_809E8C0C
 /* 03454 809E8C24 14A10004 */  bne     $a1, $at, .L809E8C38       
 /* 03458 809E8C28 AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 0345C 809E8C2C 8FA50028 */  lw      $a1, 0x0028($sp)           
-/* 03460 809E8C30 0C018A29 */  jal     func_800628A4              
+/* 03460 809E8C30 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 03464 809E8C34 24A50238 */  addiu   $a1, $a1, 0x0238           ## $a1 = 00000238
 .L809E8C38:
 /* 03468 809E8C38 8FBF0014 */  lw      $ra, 0x0014($sp)           

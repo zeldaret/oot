@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 typedef struct {
     /* 0x00 */ s16 drawType; // indicates which draw function to use when displaying the object
@@ -17,12 +17,8 @@ static DebugDispObject_DrawFunc sDebugObjectDrawFuncTable[] = {
 };
 
 static DebugDispObjectInfo sDebugObjectInfoTable[] = {
-    { 0, 0x040035F0 }, // Circle
-    { 0, 0x040038F0 }, // Cross
-    { 0, 0x040036F0 }, // Ball
-    { 0, 0x040037F0 }, // Cursor
-    { 1, 0x040039F0 }, // Arrow
-    { 1, 0x04003C90 }, // Camera
+    { 0, gDebugCircleTex }, { 0, gDebugCrossTex }, { 0, gDebugBallTex },
+    { 0, gDebugCursorTex }, { 1, gDebugArrowDL },  { 1, gDebugCameraDL },
 };
 
 static Lights1 sDebugObjectLights = gdSPDefLights1(0x80, 0x80, 0x80, 0xFF, 0xFF, 0xFF, 0x49, 0x49, 0x49);
@@ -75,19 +71,19 @@ void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalCont
 
     func_80094678(globalCtx->state.gfxCtx);
 
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
 
     Matrix_Translate(dispObj->pos.x, dispObj->pos.y, dispObj->pos.z, MTXMODE_NEW);
     Matrix_Scale(dispObj->scale.x, dispObj->scale.y, dispObj->scale.z, MTXMODE_APPLY);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
     Matrix_RotateRPY(dispObj->rot.x, dispObj->rot.y, dispObj->rot.z, MTXMODE_APPLY);
 
-    gDPLoadTextureBlock(oGfxCtx->polyXlu.p++, texture, G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gDPLoadTextureBlock(POLY_XLU_DISP++, texture, G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_debug_display.c", 189),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_debug_display.c", 189),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_04004298);
+    gSPDisplayList(POLY_XLU_DISP++, &gDebugSpriteDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_debug_display.c", 192);
 }
@@ -97,16 +93,16 @@ void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext
 
     func_8009435C(globalCtx->state.gfxCtx);
 
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
 
-    gSPSetLights1(oGfxCtx->polyXlu.p++, sDebugObjectLights);
+    gSPSetLights1(POLY_XLU_DISP++, sDebugObjectLights);
 
     func_800D1694(dispObj->pos.x, dispObj->pos.y, dispObj->pos.z, &dispObj->rot);
     Matrix_Scale(dispObj->scale.x, dispObj->scale.y, dispObj->scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_debug_display.c", 228),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_debug_display.c", 228),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, dlist);
+    gSPDisplayList(POLY_XLU_DISP++, dlist);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_debug_display.c", 231);
 }

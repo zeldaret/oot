@@ -48,7 +48,7 @@ glabel func_80938DC4
 /* 001A8 80938E78 A46C002E */  sh      $t4, 0x002E($v1)           ## 0001002E
 /* 001AC 80938E7C 87AD0042 */  lh      $t5, 0x0042($sp)           
 /* 001B0 80938E80 A46D002C */  sh      $t5, 0x002C($v1)           ## 0001002C
-/* 001B4 80938E84 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 001B4 80938E84 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 001B8 80938E88 AFA30020 */  sw      $v1, 0x0020($sp)           
 /* 001BC 80938E8C 4600028D */  trunc.w.s $f10, $f0                  

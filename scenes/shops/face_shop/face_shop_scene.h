@@ -1,0 +1,43 @@
+extern RomFile _face_shop_scene_roomList_00000060[];
+extern CollisionHeader _face_shop_scene_collisionHeader_00000338;
+extern EntranceEntry _face_shop_scene_entranceList_00000068[];
+extern ActorEntry _face_shop_scene_startPositionList_00000050[];
+extern u16 _face_shop_scene_exitList_0000006C[];
+extern LightSettings _face_shop_scene_lightSettings_00000070[];
+
+extern SCmdSoundSettings _face_shop_scene_set0000_cmd00;
+extern SCmdRoomList _face_shop_scene_set0000_cmd01;
+extern SCmdMiscSettings _face_shop_scene_set0000_cmd02;
+extern SCmdColHeader _face_shop_scene_set0000_cmd03;
+extern SCmdEntranceList _face_shop_scene_set0000_cmd04;
+extern SCmdSpawnList _face_shop_scene_set0000_cmd05;
+extern SCmdSkyboxSettings _face_shop_scene_set0000_cmd06;
+extern SCmdExitList _face_shop_scene_set0000_cmd07;
+extern SCmdLightSettingList _face_shop_scene_set0000_cmd08;
+extern SCmdEndMarker _face_shop_scene_set0000_cmd09;
+
+
+
+
+
+extern SCmdSoundSettings _face_shop_scene_set0000_cmd00;
+
+extern SCmdRoomList _face_shop_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _face_shop_scene_set0000_cmd02;
+
+extern SCmdColHeader _face_shop_scene_set0000_cmd03;
+
+extern SCmdEntranceList _face_shop_scene_set0000_cmd04;
+
+extern SCmdSpawnList _face_shop_scene_set0000_cmd05;
+
+extern SCmdSkyboxSettings _face_shop_scene_set0000_cmd06;
+
+extern SCmdExitList _face_shop_scene_set0000_cmd07;
+
+extern SCmdLightSettingList _face_shop_scene_set0000_cmd08;
+
+extern SCmdEndMarker _face_shop_scene_set0000_cmd09;
+
+

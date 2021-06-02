@@ -7,10 +7,10 @@ glabel func_809BD318
 /* 006B8 809BD318 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 006BC 809BD31C AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 006C0 809BD320 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
-/* 006C4 809BD324 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 006C8 809BD328 24A514B8 */  addiu   $a1, $a1, 0x14B8           ## $a1 = 060014B8
+/* 006C4 809BD324 3C050600 */  lui     $a1, %hi(D_060014B8)                ## $a1 = 06000000
+/* 006C8 809BD328 24A514B8 */  addiu   $a1, $a1, %lo(D_060014B8)           ## $a1 = 060014B8
 /* 006CC 809BD32C AFA60018 */  sw      $a2, 0x0018($sp)
-/* 006D0 809BD330 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 006D0 809BD330 0C0294BE */  jal     Animation_PlayLoop
 /* 006D4 809BD334 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 006D8 809BD338 8FA60018 */  lw      $a2, 0x0018($sp)
 /* 006DC 809BD33C 3C01809C */  lui     $at, %hi(D_809BF534)       ## $at = 809C0000

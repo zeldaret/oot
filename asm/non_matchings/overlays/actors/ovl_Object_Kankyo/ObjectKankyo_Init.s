@@ -109,7 +109,7 @@ glabel L80BA2BA8
 /* 00114 80BA2BB4 E4C40198 */  swc1    $f4, 0x0198($a2)           ## 00000198
 /* 00118 80BA2BB8 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 0011C 80BA2BBC AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 00120 80BA2BC0 0C00CDD2 */  jal     Actor_ChangeType
+/* 00120 80BA2BC0 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00124 80BA2BC4 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 00128 80BA2BC8 8FA40018 */  lw      $a0, 0x0018($sp)           

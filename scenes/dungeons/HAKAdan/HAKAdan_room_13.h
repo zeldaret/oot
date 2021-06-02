@@ -1,0 +1,45 @@
+extern MeshHeader2 _HAKAdan_room_13_meshHeader_00000120;
+extern MeshEntry2 _HAKAdan_room_13_meshDListEntry_0000012C[2];
+extern Gfx _HAKAdan_room_13_dlist_000006E0[];
+extern Vtx_t _HAKAdan_room_13_vertices_000005A0[12];
+extern Vtx_t _HAKAdan_room_13_vertices_00000660[8];
+extern u64 _HAKAdan_room_13_tex_00000818[];
+extern Gfx _HAKAdan_room_13_dlist_00000450[];
+extern Vtx_t _HAKAdan_room_13_vertices_00000150[32];
+extern Vtx_t _HAKAdan_room_13_vertices_00000350[8];
+extern Vtx_t _HAKAdan_room_13_vertices_000003D0[8];
+s16 _HAKAdan_room_13_objectList_00000040[];
+extern ActorEntry _HAKAdan_room_13_actorList_0000004C[13];
+
+extern SCmdEchoSettings _HAKAdan_room_13_set0000_cmd00;
+extern SCmdRoomBehavior _HAKAdan_room_13_set0000_cmd01;
+extern SCmdSkyboxDisables _HAKAdan_room_13_set0000_cmd02;
+extern SCmdTimeSettings _HAKAdan_room_13_set0000_cmd03;
+extern SCmdMesh _HAKAdan_room_13_set0000_cmd04;
+extern SCmdObjectList _HAKAdan_room_13_set0000_cmd05;
+extern SCmdActorList _HAKAdan_room_13_set0030_cmd06;
+extern SCmdEndMarker _HAKAdan_room_13_set0000_cmd07;
+
+
+
+
+
+extern SCmdEchoSettings _HAKAdan_room_13_set0000_cmd00;
+
+extern SCmdRoomBehavior _HAKAdan_room_13_set0000_cmd01;
+
+extern SCmdSkyboxDisables _HAKAdan_room_13_set0000_cmd02;
+
+extern SCmdTimeSettings _HAKAdan_room_13_set0000_cmd03;
+
+extern SCmdMesh _HAKAdan_room_13_set0000_cmd04;
+
+extern SCmdObjectList _HAKAdan_room_13_set0000_cmd05;
+
+extern SCmdActorList _HAKAdan_room_13_set0030_cmd06;
+
+extern SCmdEndMarker _HAKAdan_room_13_set0000_cmd07;
+
+
+
+

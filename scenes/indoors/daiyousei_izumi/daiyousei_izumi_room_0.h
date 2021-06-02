@@ -1,0 +1,281 @@
+extern MeshHeader0 _daiyousei_izumi_room_0_meshHeader_000000C0;
+extern MeshEntry0 _daiyousei_izumi_room_0_meshDListEntry_000000CC[1];
+extern Gfx _daiyousei_izumi_room_0_dlist_00002BB8[];
+extern Gfx _daiyousei_izumi_room_0_dlist_00002280[];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000002E0[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000460[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000560[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000660[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000720[4];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000760[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000820[14];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000900[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000B00[6];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000B60[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000C20[34];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000E40[4];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000E80[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00001080[19];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000011B0[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000012B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000014B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000016B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000018B0[92];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00001E70[33];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002080[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002200[8];
+#define _daiyousei_izumi_room_0_vertices_00000E00 ((u32)_daiyousei_izumi_room_0_vertices_00000C20 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001A90 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001C70 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000003C0)
+#define _daiyousei_izumi_room_0_vertices_00002050 ((u32)_daiyousei_izumi_room_0_vertices_00001E70 + 0x000001E0)
+extern Gfx _daiyousei_izumi_room_0_dlist_000038F8[];
+extern Gfx _daiyousei_izumi_room_0_dlist_000034A0[];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002BD0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002DD0[22];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002F30[18];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003050[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003150[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000032D0[15];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000033C0[6];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003420[8];
+s16 _daiyousei_izumi_room_0_objectList_00000060[];
+extern ActorEntry _daiyousei_izumi_room_0_actorList_00000068[5];
+extern MeshHeader0 _daiyousei_izumi_room_0_meshHeader_000000C0;
+extern MeshEntry0 _daiyousei_izumi_room_0_meshDListEntry_000000CC[1];
+extern Gfx _daiyousei_izumi_room_0_dlist_00002BB8[];
+extern Gfx _daiyousei_izumi_room_0_dlist_00002280[];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000002E0[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000460[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000560[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000660[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000720[4];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000760[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000820[14];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000900[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000B00[6];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000B60[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000C20[34];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000E40[4];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000E80[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00001080[19];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000011B0[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000012B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000014B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000016B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000018B0[92];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00001E70[33];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002080[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002200[8];
+#define _daiyousei_izumi_room_0_vertices_00000E00 ((u32)_daiyousei_izumi_room_0_vertices_00000C20 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001A90 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001C70 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000003C0)
+#define _daiyousei_izumi_room_0_vertices_00002050 ((u32)_daiyousei_izumi_room_0_vertices_00001E70 + 0x000001E0)
+extern Gfx _daiyousei_izumi_room_0_dlist_000038F8[];
+extern Gfx _daiyousei_izumi_room_0_dlist_000034A0[];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002BD0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002DD0[22];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002F30[18];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003050[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003150[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000032D0[15];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000033C0[6];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003420[8];
+s16 _daiyousei_izumi_room_0_objectList_000001A0[];
+extern ActorEntry _daiyousei_izumi_room_0_actorList_000001A8[3];
+extern MeshHeader0 _daiyousei_izumi_room_0_meshHeader_000000C0;
+extern MeshEntry0 _daiyousei_izumi_room_0_meshDListEntry_000000CC[1];
+extern Gfx _daiyousei_izumi_room_0_dlist_00002BB8[];
+extern Gfx _daiyousei_izumi_room_0_dlist_00002280[];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000002E0[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000460[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000560[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000660[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000720[4];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000760[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000820[14];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000900[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000B00[6];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000B60[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000C20[34];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000E40[4];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000E80[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00001080[19];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000011B0[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000012B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000014B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000016B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000018B0[92];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00001E70[33];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002080[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002200[8];
+#define _daiyousei_izumi_room_0_vertices_00000E00 ((u32)_daiyousei_izumi_room_0_vertices_00000C20 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001A90 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001C70 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000003C0)
+#define _daiyousei_izumi_room_0_vertices_00002050 ((u32)_daiyousei_izumi_room_0_vertices_00001E70 + 0x000001E0)
+extern Gfx _daiyousei_izumi_room_0_dlist_000038F8[];
+extern Gfx _daiyousei_izumi_room_0_dlist_000034A0[];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002BD0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002DD0[22];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002F30[18];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003050[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003150[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000032D0[15];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000033C0[6];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003420[8];
+s16 _daiyousei_izumi_room_0_objectList_00000220[];
+extern ActorEntry _daiyousei_izumi_room_0_actorList_00000228[3];
+extern MeshHeader0 _daiyousei_izumi_room_0_meshHeader_000000C0;
+extern MeshEntry0 _daiyousei_izumi_room_0_meshDListEntry_000000CC[1];
+extern Gfx _daiyousei_izumi_room_0_dlist_00002BB8[];
+extern Gfx _daiyousei_izumi_room_0_dlist_00002280[];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000002E0[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000460[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000560[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000660[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000720[4];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000760[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000820[14];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000900[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000B00[6];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000B60[12];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000C20[34];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000E40[4];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00000E80[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00001080[19];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000011B0[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000012B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000014B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000016B0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000018B0[92];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00001E70[33];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002080[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002200[8];
+#define _daiyousei_izumi_room_0_vertices_00000E00 ((u32)_daiyousei_izumi_room_0_vertices_00000C20 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001A90 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001C70 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000003C0)
+#define _daiyousei_izumi_room_0_vertices_00002050 ((u32)_daiyousei_izumi_room_0_vertices_00001E70 + 0x000001E0)
+extern Gfx _daiyousei_izumi_room_0_dlist_000038F8[];
+extern Gfx _daiyousei_izumi_room_0_dlist_000034A0[];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002BD0[32];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002DD0[22];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00002F30[18];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003050[16];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003150[24];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000032D0[15];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_000033C0[6];
+extern Vtx_t _daiyousei_izumi_room_0_vertices_00003420[8];
+s16 _daiyousei_izumi_room_0_objectList_000002A0[];
+extern ActorEntry _daiyousei_izumi_room_0_actorList_000002A8[3];
+
+extern SCmdAltHeaders _daiyousei_izumi_room_0_set0000_cmd00;
+extern SCmdEchoSettings _daiyousei_izumi_room_0_set0000_cmd01;
+extern SCmdRoomBehavior _daiyousei_izumi_room_0_set0000_cmd02;
+extern SCmdSkyboxDisables _daiyousei_izumi_room_0_set0000_cmd03;
+extern SCmdTimeSettings _daiyousei_izumi_room_0_set0000_cmd04;
+extern SCmdMesh _daiyousei_izumi_room_0_set0000_cmd05;
+extern SCmdObjectList _daiyousei_izumi_room_0_set0000_cmd06;
+extern SCmdActorList _daiyousei_izumi_room_0_set0038_cmd07;
+extern SCmdEndMarker _daiyousei_izumi_room_0_set0000_cmd08;
+extern u32 _daiyousei_izumi_room_0_alternateHeaders_00000048[];
+extern SCmdEchoSettings _daiyousei_izumi_room_0_set0160_cmd00;
+extern SCmdRoomBehavior _daiyousei_izumi_room_0_set0160_cmd01;
+extern SCmdSkyboxDisables _daiyousei_izumi_room_0_set0160_cmd02;
+extern SCmdTimeSettings _daiyousei_izumi_room_0_set0160_cmd03;
+extern SCmdMesh _daiyousei_izumi_room_0_set0160_cmd04;
+extern SCmdObjectList _daiyousei_izumi_room_0_set0160_cmd05;
+extern SCmdActorList _daiyousei_izumi_room_0_set0190_cmd06;
+extern SCmdEndMarker _daiyousei_izumi_room_0_set0160_cmd07;
+extern SCmdEchoSettings _daiyousei_izumi_room_0_set01E0_cmd00;
+extern SCmdRoomBehavior _daiyousei_izumi_room_0_set01E0_cmd01;
+extern SCmdSkyboxDisables _daiyousei_izumi_room_0_set01E0_cmd02;
+extern SCmdTimeSettings _daiyousei_izumi_room_0_set01E0_cmd03;
+extern SCmdMesh _daiyousei_izumi_room_0_set01E0_cmd04;
+extern SCmdObjectList _daiyousei_izumi_room_0_set01E0_cmd05;
+extern SCmdActorList _daiyousei_izumi_room_0_set0210_cmd06;
+extern SCmdEndMarker _daiyousei_izumi_room_0_set01E0_cmd07;
+extern SCmdEchoSettings _daiyousei_izumi_room_0_set0260_cmd00;
+extern SCmdRoomBehavior _daiyousei_izumi_room_0_set0260_cmd01;
+extern SCmdSkyboxDisables _daiyousei_izumi_room_0_set0260_cmd02;
+extern SCmdTimeSettings _daiyousei_izumi_room_0_set0260_cmd03;
+extern SCmdMesh _daiyousei_izumi_room_0_set0260_cmd04;
+extern SCmdObjectList _daiyousei_izumi_room_0_set0260_cmd05;
+extern SCmdActorList _daiyousei_izumi_room_0_set0290_cmd06;
+extern SCmdEndMarker _daiyousei_izumi_room_0_set0260_cmd07;
+
+
+
+
+
+extern SCmdAltHeaders _daiyousei_izumi_room_0_set0000_cmd00;
+
+extern SCmdEchoSettings _daiyousei_izumi_room_0_set0000_cmd01;
+
+extern SCmdRoomBehavior _daiyousei_izumi_room_0_set0000_cmd02;
+
+extern SCmdSkyboxDisables _daiyousei_izumi_room_0_set0000_cmd03;
+
+extern SCmdTimeSettings _daiyousei_izumi_room_0_set0000_cmd04;
+
+extern SCmdMesh _daiyousei_izumi_room_0_set0000_cmd05;
+
+extern SCmdObjectList _daiyousei_izumi_room_0_set0000_cmd06;
+
+extern SCmdActorList _daiyousei_izumi_room_0_set0038_cmd07;
+
+extern SCmdEndMarker _daiyousei_izumi_room_0_set0000_cmd08;
+
+extern u32 _daiyousei_izumi_room_0_alternateHeaders_00000048[];
+
+extern SCmdEchoSettings _daiyousei_izumi_room_0_set0160_cmd00;
+
+extern SCmdRoomBehavior _daiyousei_izumi_room_0_set0160_cmd01;
+
+extern SCmdSkyboxDisables _daiyousei_izumi_room_0_set0160_cmd02;
+
+extern SCmdTimeSettings _daiyousei_izumi_room_0_set0160_cmd03;
+
+extern SCmdMesh _daiyousei_izumi_room_0_set0160_cmd04;
+
+extern SCmdObjectList _daiyousei_izumi_room_0_set0160_cmd05;
+
+extern SCmdActorList _daiyousei_izumi_room_0_set0190_cmd06;
+
+extern SCmdEndMarker _daiyousei_izumi_room_0_set0160_cmd07;
+
+extern SCmdEchoSettings _daiyousei_izumi_room_0_set01E0_cmd00;
+
+extern SCmdRoomBehavior _daiyousei_izumi_room_0_set01E0_cmd01;
+
+extern SCmdSkyboxDisables _daiyousei_izumi_room_0_set01E0_cmd02;
+
+extern SCmdTimeSettings _daiyousei_izumi_room_0_set01E0_cmd03;
+
+extern SCmdMesh _daiyousei_izumi_room_0_set01E0_cmd04;
+
+extern SCmdObjectList _daiyousei_izumi_room_0_set01E0_cmd05;
+
+extern SCmdActorList _daiyousei_izumi_room_0_set0210_cmd06;
+
+extern SCmdEndMarker _daiyousei_izumi_room_0_set01E0_cmd07;
+
+extern SCmdEchoSettings _daiyousei_izumi_room_0_set0260_cmd00;
+
+extern SCmdRoomBehavior _daiyousei_izumi_room_0_set0260_cmd01;
+
+extern SCmdSkyboxDisables _daiyousei_izumi_room_0_set0260_cmd02;
+
+extern SCmdTimeSettings _daiyousei_izumi_room_0_set0260_cmd03;
+
+extern SCmdMesh _daiyousei_izumi_room_0_set0260_cmd04;
+
+extern SCmdObjectList _daiyousei_izumi_room_0_set0260_cmd05;
+
+extern SCmdActorList _daiyousei_izumi_room_0_set0290_cmd06;
+
+extern SCmdEndMarker _daiyousei_izumi_room_0_set0260_cmd07;
+
+
+
+
+
+

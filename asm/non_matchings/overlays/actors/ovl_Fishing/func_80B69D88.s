@@ -68,7 +68,7 @@ glabel func_80B69D88
 /* 004E0 80B69E80 ACAF001C */  sw      $t7, 0x001C($a1)           ## 0000001C
 /* 004E4 80B69E84 8D180008 */  lw      $t8, 0x0008($t0)           ## FFFFFFF8
 /* 004E8 80B69E88 ACB80020 */  sw      $t8, 0x0020($a1)           ## 00000020
-/* 004EC 80B69E8C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 004EC 80B69E8C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 004F0 80B69E90 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 004F4 80B69E94 4600020D */  trunc.w.s $f8, $f0                   

@@ -6,7 +6,7 @@ glabel func_809BD2E4
 /* 00694 809BD2F4 24060010 */  addiu   $a2, $zero, 0x0010         ## $a2 = 00000010
 /* 00698 809BD2F8 10400003 */  beq     $v0, $zero, .L809BD308     
 /* 0069C 809BD2FC 24440032 */  addiu   $a0, $v0, 0x0032           ## $a0 = 00000032
-/* 006A0 809BD300 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 006A0 809BD300 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 006A4 809BD304 84E5019A */  lh      $a1, 0x019A($a3)           ## 0000019A
 .L809BD308:

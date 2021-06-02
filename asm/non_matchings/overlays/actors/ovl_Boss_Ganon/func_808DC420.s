@@ -14,17 +14,17 @@ glabel func_808DC420
 /* 05BDC 808DC44C 2406017C */  addiu   $a2, $zero, 0x017C         ## $a2 = 0000017C
 /* 05BE0 808DC450 0C235C4B */  jal     func_808D712C
 /* 05BE4 808DC454 AFA20024 */  sw      $v0, 0x0024($sp)
-/* 05BE8 808DC458 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 05BEC 808DC45C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 05BE8 808DC458 3C040601 */  lui     $a0, %hi(D_06009D5C)                ## $a0 = 06010000
+/* 05BEC 808DC45C 0C028800 */  jal     Animation_GetLastFrame
 
-/* 05BF0 808DC460 24849D5C */  addiu   $a0, $a0, 0x9D5C           ## $a0 = 06009D5C
+/* 05BF0 808DC460 24849D5C */  addiu   $a0, $a0, %lo(D_06009D5C)           ## $a0 = 06009D5C
 /* 05BF4 808DC464 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
-/* 05BF8 808DC468 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 05BFC 808DC46C 24A59D5C */  addiu   $a1, $a1, 0x9D5C           ## $a1 = 06009D5C
+/* 05BF8 808DC468 3C050601 */  lui     $a1, %hi(D_06009D5C)                ## $a1 = 06010000
+/* 05BFC 808DC46C 24A59D5C */  addiu   $a1, $a1, %lo(D_06009D5C)           ## $a1 = 06009D5C
 /* 05C00 808DC470 468021A0 */  cvt.s.w $f6, $f4
 /* 05C04 808DC474 26040150 */  addiu   $a0, $s0, 0x0150           ## $a0 = 00000150
 /* 05C08 808DC478 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 05C0C 808DC47C 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 05C0C 808DC47C 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 05C10 808DC480 E60601CC */  swc1    $f6, 0x01CC($s0)           ## 000001CC
 /* 05C14 808DC484 8FB80024 */  lw      $t8, 0x0024($sp)
 /* 05C18 808DC488 AE180194 */  sw      $t8, 0x0194($s0)           ## 00000194

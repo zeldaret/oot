@@ -1,8 +1,0 @@
-<Root>
-    <File Name="link_home_scene">
-        <Scene Name="link_home_scene"/>
-    </File>
-    <File Name="link_home_room_0">
-        <Room Name="link_home_room_0"/>
-    </File>
-</Root>

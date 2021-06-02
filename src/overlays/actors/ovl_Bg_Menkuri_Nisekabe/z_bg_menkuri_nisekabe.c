@@ -17,7 +17,7 @@ void BgMenkuriNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Menkuri_Nisekabe_InitVars = {
     ACTOR_BG_MENKURI_NISEKABE,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_MENKURI_OBJECTS,
     sizeof(BgMenkuriNisekabe),

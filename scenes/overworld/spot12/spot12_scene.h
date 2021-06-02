@@ -1,0 +1,350 @@
+extern RomFile _spot12_scene_roomList_000001B0[];
+extern TransitionActorEntry _spot12_scene_transitionActorList_000001A0[];
+extern CollisionHeader _spot12_scene_collisionHeader_00005030;
+extern EntranceEntry _spot12_scene_entranceList_000001C0[];
+extern ActorEntry _spot12_scene_startPositionList_00000080[];
+extern u16 _spot12_scene_exitList_000001E4[];
+extern LightSettings _spot12_scene_lightSettings_00000204[];
+extern RomFile _spot12_scene_roomList_00005B50[];
+extern TransitionActorEntry _spot12_scene_transitionActorList_00005B40[];
+extern CollisionHeader _spot12_scene_collisionHeader_00005030;
+extern EntranceEntry _spot12_scene_entranceList_00005B60[];
+extern ActorEntry _spot12_scene_startPositionList_00005A10[];
+extern u16 _spot12_scene_exitList_00005B88[];
+extern LightSettings _spot12_scene_lightSettings_00005BA8[];
+extern RomFile _spot12_scene_roomList_00005E50[];
+extern TransitionActorEntry _spot12_scene_transitionActorList_00005E40[];
+extern CollisionHeader _spot12_scene_collisionHeader_00005030;
+extern EntranceEntry _spot12_scene_entranceList_00005E60[];
+extern ActorEntry _spot12_scene_startPositionList_00005D10[];
+extern u16 _spot12_scene_exitList_00005E88[];
+extern LightSettings _spot12_scene_lightSettings_00005EA8[];
+extern RomFile _spot12_scene_roomList_00006128[];
+extern TransitionActorEntry _spot12_scene_transitionActorList_00006118[];
+extern CollisionHeader _spot12_scene_collisionHeader_00005030;
+extern EntranceEntry _spot12_scene_entranceList_00006138[];
+extern ActorEntry _spot12_scene_startPositionList_00006018[];
+extern u16 _spot12_scene_exitList_00006158[];
+extern LightSettings _spot12_scene_lightSettings_00006178[];
+extern s32 _spot12_scene_cutsceneData_00005060[];
+extern RomFile _spot12_scene_roomList_00006270[];
+extern TransitionActorEntry _spot12_scene_transitionActorList_00006260[];
+extern CollisionHeader _spot12_scene_collisionHeader_00005030;
+extern EntranceEntry _spot12_scene_entranceList_00006280[];
+extern ActorEntry _spot12_scene_startPositionList_00006240[];
+extern ActorEntry _spot12_scene_actorList_00006250[1];
+extern u16 _spot12_scene_exitList_00006284[];
+extern LightSettings _spot12_scene_lightSettings_000062A4[];
+extern s32 _spot12_scene_cutsceneData_00005450[];
+extern RomFile _spot12_scene_roomList_00006348[];
+extern TransitionActorEntry _spot12_scene_transitionActorList_00006338[];
+extern CollisionHeader _spot12_scene_collisionHeader_00005030;
+extern EntranceEntry _spot12_scene_entranceList_00006358[];
+extern ActorEntry _spot12_scene_startPositionList_00006328[];
+extern u16 _spot12_scene_exitList_0000635C[];
+extern LightSettings _spot12_scene_lightSettings_0000637C[];
+extern s32 _spot12_scene_cutsceneData_000055C0[];
+
+extern SCmdAltHeaders _spot12_scene_set0000_cmd00;
+extern SCmdSoundSettings _spot12_scene_set0000_cmd01;
+extern SCmdRoomList _spot12_scene_set0000_cmd02;
+extern SCmdTransiActorList _spot12_scene_set0000_cmd03;
+extern SCmdMiscSettings _spot12_scene_set0000_cmd04;
+extern SCmdColHeader _spot12_scene_set0000_cmd05;
+extern SCmdEntranceList _spot12_scene_set0000_cmd06;
+extern SCmdSpecialFiles _spot12_scene_set0000_cmd07;
+extern SCmdSpawnList _spot12_scene_set0000_cmd08;
+extern SCmdSkyboxSettings _spot12_scene_set0000_cmd09;
+extern SCmdExitList _spot12_scene_set0000_cmd0A;
+extern SCmdLightSettingList _spot12_scene_set0000_cmd0B;
+extern SCmdEndMarker _spot12_scene_set0000_cmd0C;
+extern u32 _spot12_scene_alternateHeaders_00000068[];
+extern SCmdSoundSettings _spot12_scene_set59B0_cmd00;
+extern SCmdRoomList _spot12_scene_set59B0_cmd01;
+extern SCmdTransiActorList _spot12_scene_set59B0_cmd02;
+extern SCmdMiscSettings _spot12_scene_set59B0_cmd03;
+extern SCmdColHeader _spot12_scene_set59B0_cmd04;
+extern SCmdEntranceList _spot12_scene_set59B0_cmd05;
+extern SCmdSpecialFiles _spot12_scene_set59B0_cmd06;
+extern SCmdSpawnList _spot12_scene_set59B0_cmd07;
+extern SCmdSkyboxSettings _spot12_scene_set59B0_cmd08;
+extern SCmdExitList _spot12_scene_set59B0_cmd09;
+extern SCmdLightSettingList _spot12_scene_set59B0_cmd0A;
+extern SCmdEndMarker _spot12_scene_set59B0_cmd0B;
+extern SCmdSoundSettings _spot12_scene_set5CB0_cmd00;
+extern SCmdRoomList _spot12_scene_set5CB0_cmd01;
+extern SCmdTransiActorList _spot12_scene_set5CB0_cmd02;
+extern SCmdMiscSettings _spot12_scene_set5CB0_cmd03;
+extern SCmdColHeader _spot12_scene_set5CB0_cmd04;
+extern SCmdEntranceList _spot12_scene_set5CB0_cmd05;
+extern SCmdSpecialFiles _spot12_scene_set5CB0_cmd06;
+extern SCmdSpawnList _spot12_scene_set5CB0_cmd07;
+extern SCmdSkyboxSettings _spot12_scene_set5CB0_cmd08;
+extern SCmdExitList _spot12_scene_set5CB0_cmd09;
+extern SCmdLightSettingList _spot12_scene_set5CB0_cmd0A;
+extern SCmdEndMarker _spot12_scene_set5CB0_cmd0B;
+extern SCmdSoundSettings _spot12_scene_set5FB0_cmd00;
+extern SCmdRoomList _spot12_scene_set5FB0_cmd01;
+extern SCmdTransiActorList _spot12_scene_set5FB0_cmd02;
+extern SCmdMiscSettings _spot12_scene_set5FB0_cmd03;
+extern SCmdColHeader _spot12_scene_set5FB0_cmd04;
+extern SCmdEntranceList _spot12_scene_set5FB0_cmd05;
+extern SCmdSpecialFiles _spot12_scene_set5FB0_cmd06;
+extern SCmdSpawnList _spot12_scene_set5FB0_cmd07;
+extern SCmdSkyboxSettings _spot12_scene_set5FB0_cmd08;
+extern SCmdExitList _spot12_scene_set5FB0_cmd09;
+extern SCmdLightSettingList _spot12_scene_set5FB0_cmd0A;
+extern SCmdCutsceneData _spot12_scene_set5FB0_cmd0B;
+extern SCmdEndMarker _spot12_scene_set5FB0_cmd0C;
+extern SCmdSoundSettings _spot12_scene_set61D0_cmd00;
+extern SCmdRoomList _spot12_scene_set61D0_cmd01;
+extern SCmdTransiActorList _spot12_scene_set61D0_cmd02;
+extern SCmdMiscSettings _spot12_scene_set61D0_cmd03;
+extern SCmdColHeader _spot12_scene_set61D0_cmd04;
+extern SCmdEntranceList _spot12_scene_set61D0_cmd05;
+extern SCmdSpecialFiles _spot12_scene_set61D0_cmd06;
+extern SCmdSpawnList _spot12_scene_set61D0_cmd07;
+extern SCmdActorList _spot12_scene_set6210_cmd08;
+extern SCmdSkyboxSettings _spot12_scene_set61D0_cmd09;
+extern SCmdExitList _spot12_scene_set61D0_cmd0A;
+extern SCmdLightSettingList _spot12_scene_set61D0_cmd0B;
+extern SCmdCutsceneData _spot12_scene_set61D0_cmd0C;
+extern SCmdEndMarker _spot12_scene_set61D0_cmd0D;
+extern SCmdSoundSettings _spot12_scene_set62C0_cmd00;
+extern SCmdRoomList _spot12_scene_set62C0_cmd01;
+extern SCmdTransiActorList _spot12_scene_set62C0_cmd02;
+extern SCmdMiscSettings _spot12_scene_set62C0_cmd03;
+extern SCmdColHeader _spot12_scene_set62C0_cmd04;
+extern SCmdEntranceList _spot12_scene_set62C0_cmd05;
+extern SCmdSpecialFiles _spot12_scene_set62C0_cmd06;
+extern SCmdSpawnList _spot12_scene_set62C0_cmd07;
+extern SCmdSkyboxSettings _spot12_scene_set62C0_cmd08;
+extern SCmdExitList _spot12_scene_set62C0_cmd09;
+extern SCmdLightSettingList _spot12_scene_set62C0_cmd0A;
+extern SCmdCutsceneData _spot12_scene_set62C0_cmd0B;
+extern SCmdEndMarker _spot12_scene_set62C0_cmd0C;
+extern u64 _spot12_scene_tex_00006650[];
+extern u64 _spot12_scene_tex_00006678[];
+extern u64 _spot12_scene_tex_00007678[];
+extern u64 _spot12_scene_tex_00008678[];
+extern u64 _spot12_scene_tex_00008E78[];
+extern u64 _spot12_scene_tex_0000A678[];
+extern u64 _spot12_scene_tex_0000B678[];
+extern u64 _spot12_scene_tex_0000BE78[];
+extern u64 _spot12_scene_tex_0000C678[];
+extern u64 _spot12_scene_tex_0000CE78[];
+extern u64 _spot12_scene_tex_0000D678[];
+extern u64 _spot12_scene_tex_0000DE78[];
+extern u64 _spot12_scene_tex_0000EE78[];
+
+#define _spot12_room_0_vertices_000021E0 ((u32)_spot12_room_0_vertices_00002000 + 0x000001E0)
+#define _spot12_room_0_vertices_000025A0 ((u32)_spot12_room_0_vertices_000023C0 + 0x000001E0)
+#define _spot12_room_0_vertices_00002D90 ((u32)_spot12_room_0_vertices_00002BA0 + 0x000001F0)
+#define _spot12_room_0_vertices_000021E0 ((u32)_spot12_room_0_vertices_00002000 + 0x000001E0)
+#define _spot12_room_0_vertices_000025A0 ((u32)_spot12_room_0_vertices_000023C0 + 0x000001E0)
+#define _spot12_room_0_vertices_00002D90 ((u32)_spot12_room_0_vertices_00002BA0 + 0x000001F0)
+#define _spot12_room_0_vertices_000021E0 ((u32)_spot12_room_0_vertices_00002000 + 0x000001E0)
+#define _spot12_room_0_vertices_000025A0 ((u32)_spot12_room_0_vertices_000023C0 + 0x000001E0)
+#define _spot12_room_0_vertices_00002D90 ((u32)_spot12_room_0_vertices_00002BA0 + 0x000001F0)
+#define _spot12_room_0_vertices_000021E0 ((u32)_spot12_room_0_vertices_00002000 + 0x000001E0)
+#define _spot12_room_0_vertices_000025A0 ((u32)_spot12_room_0_vertices_000023C0 + 0x000001E0)
+#define _spot12_room_0_vertices_00002D90 ((u32)_spot12_room_0_vertices_00002BA0 + 0x000001F0)
+#define _spot12_room_0_vertices_000021E0 ((u32)_spot12_room_0_vertices_00002000 + 0x000001E0)
+#define _spot12_room_0_vertices_000025A0 ((u32)_spot12_room_0_vertices_000023C0 + 0x000001E0)
+#define _spot12_room_0_vertices_00002D90 ((u32)_spot12_room_0_vertices_00002BA0 + 0x000001F0)
+#define _spot12_room_0_vertices_000021E0 ((u32)_spot12_room_0_vertices_00002000 + 0x000001E0)
+#define _spot12_room_0_vertices_000025A0 ((u32)_spot12_room_0_vertices_000023C0 + 0x000001E0)
+#define _spot12_room_0_vertices_00002D90 ((u32)_spot12_room_0_vertices_00002BA0 + 0x000001F0)
+#define _spot12_room_1_vertices_000024A8 ((u32)_spot12_room_1_vertices_000022B8 + 0x000001F0)
+#define _spot12_room_1_vertices_000024A8 ((u32)_spot12_room_1_vertices_000022B8 + 0x000001F0)
+#define _spot12_room_1_vertices_000024A8 ((u32)_spot12_room_1_vertices_000022B8 + 0x000001F0)
+#define _spot12_room_1_vertices_000024A8 ((u32)_spot12_room_1_vertices_000022B8 + 0x000001F0)
+#define _spot12_room_1_vertices_000024A8 ((u32)_spot12_room_1_vertices_000022B8 + 0x000001F0)
+#define _spot12_room_1_vertices_000024A8 ((u32)_spot12_room_1_vertices_000022B8 + 0x000001F0)
+
+
+
+
+extern SCmdAltHeaders _spot12_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _spot12_scene_set0000_cmd01;
+
+extern SCmdRoomList _spot12_scene_set0000_cmd02;
+
+extern SCmdTransiActorList _spot12_scene_set0000_cmd03;
+
+extern SCmdMiscSettings _spot12_scene_set0000_cmd04;
+
+extern SCmdColHeader _spot12_scene_set0000_cmd05;
+
+extern SCmdEntranceList _spot12_scene_set0000_cmd06;
+
+extern SCmdSpecialFiles _spot12_scene_set0000_cmd07;
+
+extern SCmdSpawnList _spot12_scene_set0000_cmd08;
+
+extern SCmdSkyboxSettings _spot12_scene_set0000_cmd09;
+
+extern SCmdExitList _spot12_scene_set0000_cmd0A;
+
+extern SCmdLightSettingList _spot12_scene_set0000_cmd0B;
+
+extern SCmdEndMarker _spot12_scene_set0000_cmd0C;
+
+extern u32 _spot12_scene_alternateHeaders_00000068[];
+
+extern SCmdSoundSettings _spot12_scene_set59B0_cmd00;
+
+extern SCmdRoomList _spot12_scene_set59B0_cmd01;
+
+extern SCmdTransiActorList _spot12_scene_set59B0_cmd02;
+
+extern SCmdMiscSettings _spot12_scene_set59B0_cmd03;
+
+extern SCmdColHeader _spot12_scene_set59B0_cmd04;
+
+extern SCmdEntranceList _spot12_scene_set59B0_cmd05;
+
+extern SCmdSpecialFiles _spot12_scene_set59B0_cmd06;
+
+extern SCmdSpawnList _spot12_scene_set59B0_cmd07;
+
+extern SCmdSkyboxSettings _spot12_scene_set59B0_cmd08;
+
+extern SCmdExitList _spot12_scene_set59B0_cmd09;
+
+extern SCmdLightSettingList _spot12_scene_set59B0_cmd0A;
+
+extern SCmdEndMarker _spot12_scene_set59B0_cmd0B;
+
+extern SCmdSoundSettings _spot12_scene_set5CB0_cmd00;
+
+extern SCmdRoomList _spot12_scene_set5CB0_cmd01;
+
+extern SCmdTransiActorList _spot12_scene_set5CB0_cmd02;
+
+extern SCmdMiscSettings _spot12_scene_set5CB0_cmd03;
+
+extern SCmdColHeader _spot12_scene_set5CB0_cmd04;
+
+extern SCmdEntranceList _spot12_scene_set5CB0_cmd05;
+
+extern SCmdSpecialFiles _spot12_scene_set5CB0_cmd06;
+
+extern SCmdSpawnList _spot12_scene_set5CB0_cmd07;
+
+extern SCmdSkyboxSettings _spot12_scene_set5CB0_cmd08;
+
+extern SCmdExitList _spot12_scene_set5CB0_cmd09;
+
+extern SCmdLightSettingList _spot12_scene_set5CB0_cmd0A;
+
+extern SCmdEndMarker _spot12_scene_set5CB0_cmd0B;
+
+extern SCmdSoundSettings _spot12_scene_set5FB0_cmd00;
+
+extern SCmdRoomList _spot12_scene_set5FB0_cmd01;
+
+extern SCmdTransiActorList _spot12_scene_set5FB0_cmd02;
+
+extern SCmdMiscSettings _spot12_scene_set5FB0_cmd03;
+
+extern SCmdColHeader _spot12_scene_set5FB0_cmd04;
+
+extern SCmdEntranceList _spot12_scene_set5FB0_cmd05;
+
+extern SCmdSpecialFiles _spot12_scene_set5FB0_cmd06;
+
+extern SCmdSpawnList _spot12_scene_set5FB0_cmd07;
+
+extern SCmdSkyboxSettings _spot12_scene_set5FB0_cmd08;
+
+extern SCmdExitList _spot12_scene_set5FB0_cmd09;
+
+extern SCmdLightSettingList _spot12_scene_set5FB0_cmd0A;
+
+extern SCmdCutsceneData _spot12_scene_set5FB0_cmd0B;
+
+extern SCmdEndMarker _spot12_scene_set5FB0_cmd0C;
+
+extern SCmdSoundSettings _spot12_scene_set61D0_cmd00;
+
+extern SCmdRoomList _spot12_scene_set61D0_cmd01;
+
+extern SCmdTransiActorList _spot12_scene_set61D0_cmd02;
+
+extern SCmdMiscSettings _spot12_scene_set61D0_cmd03;
+
+extern SCmdColHeader _spot12_scene_set61D0_cmd04;
+
+extern SCmdEntranceList _spot12_scene_set61D0_cmd05;
+
+extern SCmdSpecialFiles _spot12_scene_set61D0_cmd06;
+
+extern SCmdSpawnList _spot12_scene_set61D0_cmd07;
+
+extern SCmdActorList _spot12_scene_set6210_cmd08;
+
+extern SCmdSkyboxSettings _spot12_scene_set61D0_cmd09;
+
+extern SCmdExitList _spot12_scene_set61D0_cmd0A;
+
+extern SCmdLightSettingList _spot12_scene_set61D0_cmd0B;
+
+extern SCmdCutsceneData _spot12_scene_set61D0_cmd0C;
+
+extern SCmdEndMarker _spot12_scene_set61D0_cmd0D;
+
+extern SCmdSoundSettings _spot12_scene_set62C0_cmd00;
+
+extern SCmdRoomList _spot12_scene_set62C0_cmd01;
+
+extern SCmdTransiActorList _spot12_scene_set62C0_cmd02;
+
+extern SCmdMiscSettings _spot12_scene_set62C0_cmd03;
+
+extern SCmdColHeader _spot12_scene_set62C0_cmd04;
+
+extern SCmdEntranceList _spot12_scene_set62C0_cmd05;
+
+extern SCmdSpecialFiles _spot12_scene_set62C0_cmd06;
+
+extern SCmdSpawnList _spot12_scene_set62C0_cmd07;
+
+extern SCmdSkyboxSettings _spot12_scene_set62C0_cmd08;
+
+extern SCmdExitList _spot12_scene_set62C0_cmd09;
+
+extern SCmdLightSettingList _spot12_scene_set62C0_cmd0A;
+
+extern SCmdCutsceneData _spot12_scene_set62C0_cmd0B;
+
+extern SCmdEndMarker _spot12_scene_set62C0_cmd0C;
+
+extern u64 _spot12_scene_tex_00006650[];
+
+extern u64 _spot12_scene_tex_00006678[];
+
+extern u64 _spot12_scene_tex_00007678[];
+
+extern u64 _spot12_scene_tex_00008678[];
+
+extern u64 _spot12_scene_tex_00008E78[];
+
+extern u64 _spot12_scene_tex_0000A678[];
+
+extern u64 _spot12_scene_tex_0000B678[];
+
+extern u64 _spot12_scene_tex_0000BE78[];
+
+extern u64 _spot12_scene_tex_0000C678[];
+
+extern u64 _spot12_scene_tex_0000CE78[];
+
+extern u64 _spot12_scene_tex_0000D678[];
+
+extern u64 _spot12_scene_tex_0000DE78[];
+
+extern u64 _spot12_scene_tex_0000EE78[];
+
+

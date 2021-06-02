@@ -1,0 +1,64 @@
+extern RomFile _ydan_boss_scene_roomList_00000080[];
+extern TransitionActorEntry _ydan_boss_scene_transitionActorList_00000070[];
+extern CollisionHeader _ydan_boss_scene_collisionHeader_00000CFC;
+extern EntranceEntry _ydan_boss_scene_entranceList_00000090[];
+extern ActorEntry _ydan_boss_scene_startPositionList_00000060[];
+extern u16 _ydan_boss_scene_exitList_00000094[];
+extern LightSettings _ydan_boss_scene_lightSettings_00000098[];
+
+extern SCmdSoundSettings _ydan_boss_scene_set0000_cmd00;
+extern SCmdRoomList _ydan_boss_scene_set0000_cmd01;
+extern SCmdTransiActorList _ydan_boss_scene_set0000_cmd02;
+extern SCmdMiscSettings _ydan_boss_scene_set0000_cmd03;
+extern SCmdColHeader _ydan_boss_scene_set0000_cmd04;
+extern SCmdEntranceList _ydan_boss_scene_set0000_cmd05;
+extern SCmdSpecialFiles _ydan_boss_scene_set0000_cmd06;
+extern SCmdSpawnList _ydan_boss_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _ydan_boss_scene_set0000_cmd08;
+extern SCmdExitList _ydan_boss_scene_set0000_cmd09;
+extern SCmdLightSettingList _ydan_boss_scene_set0000_cmd0A;
+extern SCmdEndMarker _ydan_boss_scene_set0000_cmd0B;
+extern u64 _ydan_boss_scene_tex_00000D30[];
+extern u64 _ydan_boss_scene_tex_00000F38[];
+
+#define _ydan_boss_room_0_vertices_00000BF0 ((u32)_ydan_boss_room_0_vertices_00000A00 + 0x000001F0)
+#define _ydan_boss_room_0_vertices_00000FD0 ((u32)_ydan_boss_room_0_vertices_00000DF0 + 0x000001E0)
+#define _ydan_boss_room_1_vertices_00000AF0 ((u32)_ydan_boss_room_1_vertices_00000900 + 0x000001F0)
+#define _ydan_boss_room_1_vertices_00000DD0 ((u32)_ydan_boss_room_1_vertices_00000BF0 + 0x000001E0)
+#define _ydan_boss_room_1_vertices_000016F0 ((u32)_ydan_boss_room_1_vertices_00001510 + 0x000001E0)
+#define _ydan_boss_room_1_vertices_00002430 ((u32)_ydan_boss_room_1_vertices_00002240 + 0x000001F0)
+#define _ydan_boss_room_1_vertices_00002710 ((u32)_ydan_boss_room_1_vertices_00002530 + 0x000001E0)
+#define _ydan_boss_room_1_vertices_00002AF0 ((u32)_ydan_boss_room_1_vertices_00002910 + 0x000001E0)
+
+
+
+
+extern SCmdSoundSettings _ydan_boss_scene_set0000_cmd00;
+
+extern SCmdRoomList _ydan_boss_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _ydan_boss_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _ydan_boss_scene_set0000_cmd03;
+
+extern SCmdColHeader _ydan_boss_scene_set0000_cmd04;
+
+extern SCmdEntranceList _ydan_boss_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _ydan_boss_scene_set0000_cmd06;
+
+extern SCmdSpawnList _ydan_boss_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _ydan_boss_scene_set0000_cmd08;
+
+extern SCmdExitList _ydan_boss_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _ydan_boss_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _ydan_boss_scene_set0000_cmd0B;
+
+extern u64 _ydan_boss_scene_tex_00000D30[];
+
+extern u64 _ydan_boss_scene_tex_00000F38[];
+
+

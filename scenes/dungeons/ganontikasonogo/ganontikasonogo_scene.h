@@ -1,0 +1,81 @@
+extern RomFile _ganontikasonogo_scene_roomList_00000098[];
+extern TransitionActorEntry _ganontikasonogo_scene_transitionActorList_00000088[];
+extern CollisionHeader _ganontikasonogo_scene_collisionHeader_00002ACC;
+extern EntranceEntry _ganontikasonogo_scene_entranceList_000000A8[];
+extern Vec3s _ganontikasonogo_scene_pathwayList_00000184[];
+extern ActorEntry _ganontikasonogo_scene_startPositionList_00000068[];
+extern u16 _ganontikasonogo_scene_exitList_000000AC[];
+extern LightSettings _ganontikasonogo_scene_lightSettings_000000B0[];
+
+extern SCmdSoundSettings _ganontikasonogo_scene_set0000_cmd00;
+extern SCmdRoomList _ganontikasonogo_scene_set0000_cmd01;
+extern SCmdTransiActorList _ganontikasonogo_scene_set0000_cmd02;
+extern SCmdMiscSettings _ganontikasonogo_scene_set0000_cmd03;
+extern SCmdColHeader _ganontikasonogo_scene_set0000_cmd04;
+extern SCmdEntranceList _ganontikasonogo_scene_set0000_cmd05;
+extern SCmdSpecialFiles _ganontikasonogo_scene_set0000_cmd06;
+extern SCmdPathList _ganontikasonogo_scene_set0038_cmd07;
+extern SCmdSpawnList _ganontikasonogo_scene_set0000_cmd08;
+extern SCmdSkyboxSettings _ganontikasonogo_scene_set0000_cmd09;
+extern SCmdExitList _ganontikasonogo_scene_set0000_cmd0A;
+extern SCmdLightSettingList _ganontikasonogo_scene_set0000_cmd0B;
+extern SCmdEndMarker _ganontikasonogo_scene_set0000_cmd0C;
+extern Vec3s _ganontikasonogo_scene_pathwayList_00000134[];
+extern Path _ganontikasonogo_scene_pathway_00000184;
+extern u64 _ganontikasonogo_scene_tex_00002B00[];
+extern u64 _ganontikasonogo_scene_tex_00003B00[];
+
+#define _ganontikasonogo_room_0_vertices_000083F0 ((u32)_ganontikasonogo_room_0_vertices_00008200 + 0x000001F0)
+#define _ganontikasonogo_room_0_vertices_00008868 ((u32)_ganontikasonogo_room_0_vertices_00008688 + 0x000001E0)
+#define _ganontikasonogo_room_0_vertices_00008A48 ((u32)_ganontikasonogo_room_0_vertices_00008688 + 0x000003C0)
+#define _ganontikasonogo_room_0_vertices_00008C28 ((u32)_ganontikasonogo_room_0_vertices_00008688 + 0x000005A0)
+#define _ganontikasonogo_room_1_vertices_00000340 ((u32)_ganontikasonogo_room_1_vertices_00000150 + 0x000001F0)
+#define _ganontikasonogo_room_1_vertices_00000A10 ((u32)_ganontikasonogo_room_1_vertices_00000820 + 0x000001F0)
+#define _ganontikasonogo_room_1_vertices_000010E0 ((u32)_ganontikasonogo_room_1_vertices_00000EF0 + 0x000001F0)
+#define _ganontikasonogo_room_1_vertices_000017B0 ((u32)_ganontikasonogo_room_1_vertices_000015C0 + 0x000001F0)
+#define _ganontikasonogo_room_1_vertices_00001E70 ((u32)_ganontikasonogo_room_1_vertices_00001C90 + 0x000001E0)
+#define _ganontikasonogo_room_1_vertices_00002330 ((u32)_ganontikasonogo_room_1_vertices_00002150 + 0x000001E0)
+#define _ganontikasonogo_room_1_vertices_00002B10 ((u32)_ganontikasonogo_room_1_vertices_00002930 + 0x000001E0)
+#define _ganontikasonogo_room_1_vertices_00002FF0 ((u32)_ganontikasonogo_room_1_vertices_00002E10 + 0x000001E0)
+#define _ganontikasonogo_room_1_vertices_00003DA0 ((u32)_ganontikasonogo_room_1_vertices_00003BC0 + 0x000001E0)
+#define _ganontikasonogo_room_1_vertices_00003F80 ((u32)_ganontikasonogo_room_1_vertices_00003BC0 + 0x000003C0)
+#define _ganontikasonogo_room_1_vertices_00004160 ((u32)_ganontikasonogo_room_1_vertices_00003BC0 + 0x000005A0)
+
+
+
+
+extern SCmdSoundSettings _ganontikasonogo_scene_set0000_cmd00;
+
+extern SCmdRoomList _ganontikasonogo_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _ganontikasonogo_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _ganontikasonogo_scene_set0000_cmd03;
+
+extern SCmdColHeader _ganontikasonogo_scene_set0000_cmd04;
+
+extern SCmdEntranceList _ganontikasonogo_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _ganontikasonogo_scene_set0000_cmd06;
+
+extern SCmdPathList _ganontikasonogo_scene_set0038_cmd07;
+
+extern SCmdSpawnList _ganontikasonogo_scene_set0000_cmd08;
+
+extern SCmdSkyboxSettings _ganontikasonogo_scene_set0000_cmd09;
+
+extern SCmdExitList _ganontikasonogo_scene_set0000_cmd0A;
+
+extern SCmdLightSettingList _ganontikasonogo_scene_set0000_cmd0B;
+
+extern SCmdEndMarker _ganontikasonogo_scene_set0000_cmd0C;
+
+extern Vec3s _ganontikasonogo_scene_pathwayList_00000134[];
+
+extern Path _ganontikasonogo_scene_pathway_00000184;
+
+extern u64 _ganontikasonogo_scene_tex_00002B00[];
+
+extern u64 _ganontikasonogo_scene_tex_00003B00[];
+
+

@@ -1,11 +1,10 @@
-#include <global.h>
-#include <ultra64/hardware.h>
+#include "global.h"
 
 OSViContext vi[2] = { 0 };
 OSViContext* __osViCurr = &vi[0];
 OSViContext* __osViNext = &vi[1];
 
-void __osViInit() {
+void __osViInit(void) {
     bzero(vi, sizeof(vi));
     __osViCurr = &vi[0];
     __osViNext = &vi[1];

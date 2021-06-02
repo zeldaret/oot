@@ -198,7 +198,7 @@ glabel func_80A99864
 .L80A99B28:
 /* 02D78 80A99B28 020D1821 */  addu    $v1, $s0, $t5              
 /* 02D7C 80A99B2C 846402E4 */  lh      $a0, 0x02E4($v1)           ## 000002E4
-/* 02D80 80A99B30 0C01DE1C */  jal     Math_Sins
+/* 02D80 80A99B30 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02D84 80A99B34 AFA30028 */  sw      $v1, 0x0028($sp)           
 /* 02D88 80A99B38 8FA20060 */  lw      $v0, 0x0060($sp)           
@@ -215,7 +215,7 @@ glabel func_80A99864
 /* 02DB4 80A99B64 44183000 */  mfc1    $t8, $f6                   
 /* 02DB8 80A99B68 00000000 */  nop
 /* 02DBC 80A99B6C A4580002 */  sh      $t8, 0x0002($v0)           ## 00000002
-/* 02DC0 80A99B70 0C01DE0D */  jal     Math_Coss
+/* 02DC0 80A99B70 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02DC4 80A99B74 84640304 */  lh      $a0, 0x0304($v1)           ## 00000304
 /* 02DC8 80A99B78 8FA20060 */  lw      $v0, 0x0060($sp)           

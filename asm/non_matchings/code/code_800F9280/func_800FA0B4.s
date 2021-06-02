@@ -6,9 +6,9 @@ glabel func_800FA0B4
 /* B71264 800FA0C4 000E7080 */  sll   $t6, $t6, 2
 /* B71268 800FA0C8 01C47023 */  subu  $t6, $t6, $a0
 /* B7126C 800FA0CC 000E7140 */  sll   $t6, $t6, 5
-/* B71270 800FA0D0 3C0F8017 */  lui   $t7, %hi(D_801726B0)
+/* B71270 800FA0D0 3C0F8017 */  lui   $t7, %hi(gAudioContext+0x3530)
 /* B71274 800FA0D4 01EE7821 */  addu  $t7, $t7, $t6
-/* B71278 800FA0D8 8DEF26B0 */  lw    $t7, %lo(D_801726B0)($t7)
+/* B71278 800FA0D8 8DEF26B0 */  lw    $t7, %lo(gAudioContext+0x3530)($t7)
 /* B7127C 800FA0DC 0004C880 */  sll   $t9, $a0, 2
 /* B71280 800FA0E0 0324C821 */  addu  $t9, $t9, $a0
 /* B71284 800FA0E4 000FC7C2 */  srl   $t8, $t7, 0x1f

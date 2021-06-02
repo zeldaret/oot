@@ -1,0 +1,72 @@
+extern RomFile _HAKAdan_bs_scene_roomList_00000080[];
+extern TransitionActorEntry _HAKAdan_bs_scene_transitionActorList_00000070[];
+extern CollisionHeader _HAKAdan_bs_scene_collisionHeader_0000134C;
+extern EntranceEntry _HAKAdan_bs_scene_entranceList_00000090[];
+extern ActorEntry _HAKAdan_bs_scene_startPositionList_00000060[];
+extern u16 _HAKAdan_bs_scene_exitList_00000094[];
+extern LightSettings _HAKAdan_bs_scene_lightSettings_00000098[];
+
+extern SCmdSoundSettings _HAKAdan_bs_scene_set0000_cmd00;
+extern SCmdRoomList _HAKAdan_bs_scene_set0000_cmd01;
+extern SCmdTransiActorList _HAKAdan_bs_scene_set0000_cmd02;
+extern SCmdMiscSettings _HAKAdan_bs_scene_set0000_cmd03;
+extern SCmdColHeader _HAKAdan_bs_scene_set0000_cmd04;
+extern SCmdEntranceList _HAKAdan_bs_scene_set0000_cmd05;
+extern SCmdSpecialFiles _HAKAdan_bs_scene_set0000_cmd06;
+extern SCmdSpawnList _HAKAdan_bs_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _HAKAdan_bs_scene_set0000_cmd08;
+extern SCmdExitList _HAKAdan_bs_scene_set0000_cmd09;
+extern SCmdLightSettingList _HAKAdan_bs_scene_set0000_cmd0A;
+extern SCmdEndMarker _HAKAdan_bs_scene_set0000_cmd0B;
+extern u64 _HAKAdan_bs_scene_tex_00001380[];
+extern u64 _HAKAdan_bs_scene_tex_00001580[];
+extern u64 _HAKAdan_bs_scene_tex_00001780[];
+extern u64 _HAKAdan_bs_scene_tex_00001F80[];
+
+#define _HAKAdan_bs_room_0_vertices_000002B0 ((u32)_HAKAdan_bs_room_0_vertices_000000D0 + 0x000001E0)
+#define _HAKAdan_bs_room_0_vertices_00001178 ((u32)_HAKAdan_bs_room_0_vertices_00000F98 + 0x000001E0)
+#define _HAKAdan_bs_room_0_vertices_000013B8 ((u32)_HAKAdan_bs_room_0_vertices_000011D8 + 0x000001E0)
+#define _HAKAdan_bs_room_0_vertices_00001598 ((u32)_HAKAdan_bs_room_0_vertices_000011D8 + 0x000003C0)
+#define _HAKAdan_bs_room_0_vertices_00001788 ((u32)_HAKAdan_bs_room_0_vertices_000011D8 + 0x000005B0)
+#define _HAKAdan_bs_room_1_vertices_000009B0 ((u32)_HAKAdan_bs_room_1_vertices_000007C0 + 0x000001F0)
+#define _HAKAdan_bs_room_1_vertices_00001BD0 ((u32)_HAKAdan_bs_room_1_vertices_000019F0 + 0x000001E0)
+#define _HAKAdan_bs_room_1_vertices_00001EE0 ((u32)_HAKAdan_bs_room_1_vertices_00001CF0 + 0x000001F0)
+#define _HAKAdan_bs_room_1_vertices_000022D0 ((u32)_HAKAdan_bs_room_1_vertices_000020E0 + 0x000001F0)
+#define _HAKAdan_bs_room_1_vertices_00002A48 ((u32)_HAKAdan_bs_room_1_vertices_00002868 + 0x000001E0)
+
+
+
+
+extern SCmdSoundSettings _HAKAdan_bs_scene_set0000_cmd00;
+
+extern SCmdRoomList _HAKAdan_bs_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _HAKAdan_bs_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _HAKAdan_bs_scene_set0000_cmd03;
+
+extern SCmdColHeader _HAKAdan_bs_scene_set0000_cmd04;
+
+extern SCmdEntranceList _HAKAdan_bs_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _HAKAdan_bs_scene_set0000_cmd06;
+
+extern SCmdSpawnList _HAKAdan_bs_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _HAKAdan_bs_scene_set0000_cmd08;
+
+extern SCmdExitList _HAKAdan_bs_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _HAKAdan_bs_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _HAKAdan_bs_scene_set0000_cmd0B;
+
+extern u64 _HAKAdan_bs_scene_tex_00001380[];
+
+extern u64 _HAKAdan_bs_scene_tex_00001580[];
+
+extern u64 _HAKAdan_bs_scene_tex_00001780[];
+
+extern u64 _HAKAdan_bs_scene_tex_00001F80[];
+
+

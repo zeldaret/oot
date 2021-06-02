@@ -7,8 +7,8 @@ glabel BgGndFiremeiro_Destroy
 /* 000C8 80879588 8FB80018 */  lw      $t8, 0x0018($sp)           
 /* 000CC 8087958C 15E00003 */  bne     $t7, $zero, .L8087959C     
 /* 000D0 80879590 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 000D4 80879594 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 000D4 80879594 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 000D8 80879598 8F06014C */  lw      $a2, 0x014C($t8)           ## 0000014C
 .L8087959C:
 /* 000DC 8087959C 8FBF0014 */  lw      $ra, 0x0014($sp)           

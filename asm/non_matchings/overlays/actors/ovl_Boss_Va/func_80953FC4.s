@@ -50,7 +50,7 @@ glabel func_80953FC4
 /* 04DAC 8095406C 0C253E19 */  jal     func_8094F864              
 /* 04DB0 80954070 E7A60014 */  swc1    $f6, 0x0014($sp)           
 .L80954074:
-/* 04DB4 80954074 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04DB4 80954074 0C02927F */  jal     SkelAnime_Update
               
 /* 04DB8 80954078 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 04DBC 8095407C 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -61,10 +61,10 @@ glabel func_80953FC4
 /* 04DD0 80954090 44060000 */  mfc1    $a2, $f0                   
 /* 04DD4 80954094 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3D4CCCCD
 /* 04DD8 80954098 26040168 */  addiu   $a0, $s0, 0x0168           ## $a0 = 00000168
-/* 04DDC 8095409C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 04DDC 8095409C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 04DE0 809540A0 E7B00010 */  swc1    $f16, 0x0010($sp)          
-/* 04DE4 809540A4 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 04DE4 809540A4 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 04DE8 809540A8 00000000 */  nop
 /* 04DEC 809540AC 3C018096 */  lui     $at, %hi(D_8095C758)       ## $at = 80960000

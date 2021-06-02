@@ -27,7 +27,7 @@ glabel func_800E35E0
 /* B5A7D8 800E3638 10000008 */  b     .L800E365C
 /* B5A7DC 800E363C 8C430004 */   lw    $v1, 4($v0)
 .L800E3640:
-/* B5A7E0 800E3640 0C039D94 */  jal   Audio_GetUnkInstrument
+/* B5A7E0 800E3640 0C039D94 */  jal   Audio_GetSfx
 /* B5A7E4 800E3644 24C5FF00 */   addiu $a1, $a2, -0x100
 /* B5A7E8 800E3648 54400004 */  bnezl $v0, .L800E365C
 /* B5A7EC 800E364C 8C430000 */   lw    $v1, ($v0)

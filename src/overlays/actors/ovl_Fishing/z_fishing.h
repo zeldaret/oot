@@ -1,8 +1,8 @@
 #ifndef _Z_FISHING_H_
 #define _Z_FISHING_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct Fishing;
 

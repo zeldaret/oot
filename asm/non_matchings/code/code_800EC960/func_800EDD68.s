@@ -8,9 +8,9 @@ glabel func_800EDD68
 /* B64F20 800EDD80 AFA40020 */  sw    $a0, 0x20($sp)
 /* B64F24 800EDD84 15C10004 */  bne   $t6, $at, .L800EDD98
 /* B64F28 800EDD88 3C028013 */   lui   $v0, %hi(D_80131864) # $v0, 0x8013
-/* B64F2C 800EDD8C 3C048013 */  lui   $a0, %hi(D_80131BE4) # $a0, 0x8013
+/* B64F2C 800EDD8C 3C048013 */  lui   $a0, %hi(gScarecrowCustomSongPtr) # $a0, 0x8013
 /* B64F30 800EDD90 10000003 */  b     .L800EDDA0
-/* B64F34 800EDD94 8C841BE4 */   lw    $a0, %lo(D_80131BE4)($a0)
+/* B64F34 800EDD94 8C841BE4 */   lw    $a0, %lo(gScarecrowCustomSongPtr)($a0)
 .L800EDD98:
 /* B64F38 800EDD98 3C048013 */  lui   $a0, %hi(D_80131BEC) # $a0, 0x8013
 /* B64F3C 800EDD9C 8C841BEC */  lw    $a0, %lo(D_80131BEC)($a0)

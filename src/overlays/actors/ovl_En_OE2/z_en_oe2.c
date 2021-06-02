@@ -19,7 +19,7 @@ void EnOE2_DoNothing(EnOE2* this, GlobalContext* globalCtx);
 
 const ActorInit En_OE2_InitVars = {
     ACTOR_EN_OE2,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OE2,
     sizeof(EnOE2),

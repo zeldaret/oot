@@ -1,0 +1,60 @@
+extern RomFile _testroom_scene_roomList_000000D8[];
+extern TransitionActorEntry _testroom_scene_transitionActorList_00000068[];
+extern CollisionHeader _testroom_scene_collisionHeader_000021D4;
+extern EntranceEntry _testroom_scene_entranceList_00000100[];
+extern ActorEntry _testroom_scene_startPositionList_00000058[];
+extern LightSettings _testroom_scene_lightSettings_00000104[];
+
+extern SCmdSoundSettings _testroom_scene_set0000_cmd00;
+extern SCmdRoomList _testroom_scene_set0000_cmd01;
+extern SCmdTransiActorList _testroom_scene_set0000_cmd02;
+extern SCmdMiscSettings _testroom_scene_set0000_cmd03;
+extern SCmdColHeader _testroom_scene_set0000_cmd04;
+extern SCmdEntranceList _testroom_scene_set0000_cmd05;
+extern SCmdSpecialFiles _testroom_scene_set0000_cmd06;
+extern SCmdSpawnList _testroom_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _testroom_scene_set0000_cmd08;
+extern SCmdLightSettingList _testroom_scene_set0000_cmd09;
+extern SCmdEndMarker _testroom_scene_set0000_cmd0A;
+extern u64 _testroom_scene_tex_00002200[];
+extern u64 _testroom_scene_tex_00002A00[];
+extern u64 _testroom_scene_tex_00003A00[];
+
+#define _testroom_room_0_vertices_000005D0 ((u32)_testroom_room_0_vertices_000003E0 + 0x000001F0)
+#define _testroom_room_0_vertices_00000930 ((u32)_testroom_room_0_vertices_00000740 + 0x000001F0)
+#define _testroom_room_1_vertices_00000840 ((u32)_testroom_room_1_vertices_00000650 + 0x000001F0)
+#define _testroom_room_2_vertices_00000A20 ((u32)_testroom_room_2_vertices_00000830 + 0x000001F0)
+#define _testroom_room_2_vertices_00000C80 ((u32)_testroom_room_2_vertices_00000AA0 + 0x000001E0)
+
+
+
+
+extern SCmdSoundSettings _testroom_scene_set0000_cmd00;
+
+extern SCmdRoomList _testroom_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _testroom_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _testroom_scene_set0000_cmd03;
+
+extern SCmdColHeader _testroom_scene_set0000_cmd04;
+
+extern SCmdEntranceList _testroom_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _testroom_scene_set0000_cmd06;
+
+extern SCmdSpawnList _testroom_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _testroom_scene_set0000_cmd08;
+
+extern SCmdLightSettingList _testroom_scene_set0000_cmd09;
+
+extern SCmdEndMarker _testroom_scene_set0000_cmd0A;
+
+extern u64 _testroom_scene_tex_00002200[];
+
+extern u64 _testroom_scene_tex_00002A00[];
+
+extern u64 _testroom_scene_tex_00003A00[];
+
+

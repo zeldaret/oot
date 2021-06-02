@@ -199,7 +199,7 @@ glabel BossMo_Init
 /* 00884 8091C384 8FA50048 */  lw      $a1, 0x0048($sp)           
 /* 00888 8091C388 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0088C 8091C38C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00890 8091C390 0C00CDD2 */  jal     Actor_ChangeType
+/* 00890 8091C390 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00894 8091C394 24070009 */  addiu   $a3, $zero, 0x0009         ## $a3 = 00000009
 /* 00898 8091C398 1000003A */  beq     $zero, $zero, .L8091C484   

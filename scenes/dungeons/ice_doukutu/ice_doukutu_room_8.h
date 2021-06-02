@@ -1,0 +1,103 @@
+extern MeshHeader0 _ice_doukutu_room_8_meshHeader_000000E0;
+extern MeshEntry0 _ice_doukutu_room_8_meshDListEntry_000000EC[1];
+extern Gfx _ice_doukutu_room_8_dlist_000018F8[];
+extern Gfx _ice_doukutu_room_8_dlist_00000480[];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000140[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000340[12];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000400[8];
+extern Gfx _ice_doukutu_room_8_dlist_00001330[];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000600[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000800[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000A00[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000C00[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000E00[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00001000[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00001200[11];
+extern Vtx_t _ice_doukutu_room_8_vertices_000012B0[8];
+extern Gfx _ice_doukutu_room_8_dlist_00001810[];
+extern Vtx_t _ice_doukutu_room_8_vertices_00001690[16];
+extern Vtx_t _ice_doukutu_room_8_vertices_00001790[8];
+s16 _ice_doukutu_room_8_objectList_00000058[];
+extern ActorEntry _ice_doukutu_room_8_actorList_00000074[6];
+extern MeshHeader0 _ice_doukutu_room_8_meshHeader_000000E0;
+extern MeshEntry0 _ice_doukutu_room_8_meshDListEntry_000000EC[1];
+extern Gfx _ice_doukutu_room_8_dlist_000018F8[];
+extern Gfx _ice_doukutu_room_8_dlist_00000480[];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000140[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000340[12];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000400[8];
+extern Gfx _ice_doukutu_room_8_dlist_00001330[];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000600[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000800[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000A00[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000C00[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00000E00[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00001000[32];
+extern Vtx_t _ice_doukutu_room_8_vertices_00001200[11];
+extern Vtx_t _ice_doukutu_room_8_vertices_000012B0[8];
+extern Gfx _ice_doukutu_room_8_dlist_00001810[];
+extern Vtx_t _ice_doukutu_room_8_vertices_00001690[16];
+extern Vtx_t _ice_doukutu_room_8_vertices_00001790[8];
+s16 _ice_doukutu_room_8_objectList_00000138[];
+
+extern SCmdAltHeaders _ice_doukutu_room_8_set0000_cmd00;
+extern SCmdEchoSettings _ice_doukutu_room_8_set0000_cmd01;
+extern SCmdRoomBehavior _ice_doukutu_room_8_set0000_cmd02;
+extern SCmdSkyboxDisables _ice_doukutu_room_8_set0000_cmd03;
+extern SCmdTimeSettings _ice_doukutu_room_8_set0000_cmd04;
+extern SCmdMesh _ice_doukutu_room_8_set0000_cmd05;
+extern SCmdObjectList _ice_doukutu_room_8_set0000_cmd06;
+extern SCmdActorList _ice_doukutu_room_8_set0038_cmd07;
+extern SCmdEndMarker _ice_doukutu_room_8_set0000_cmd08;
+extern u32 _ice_doukutu_room_8_alternateHeaders_00000048[];
+extern SCmdEchoSettings _ice_doukutu_room_8_set0100_cmd00;
+extern SCmdRoomBehavior _ice_doukutu_room_8_set0100_cmd01;
+extern SCmdSkyboxDisables _ice_doukutu_room_8_set0100_cmd02;
+extern SCmdTimeSettings _ice_doukutu_room_8_set0100_cmd03;
+extern SCmdMesh _ice_doukutu_room_8_set0100_cmd04;
+extern SCmdObjectList _ice_doukutu_room_8_set0100_cmd05;
+extern SCmdEndMarker _ice_doukutu_room_8_set0100_cmd06;
+
+
+
+
+
+extern SCmdAltHeaders _ice_doukutu_room_8_set0000_cmd00;
+
+extern SCmdEchoSettings _ice_doukutu_room_8_set0000_cmd01;
+
+extern SCmdRoomBehavior _ice_doukutu_room_8_set0000_cmd02;
+
+extern SCmdSkyboxDisables _ice_doukutu_room_8_set0000_cmd03;
+
+extern SCmdTimeSettings _ice_doukutu_room_8_set0000_cmd04;
+
+extern SCmdMesh _ice_doukutu_room_8_set0000_cmd05;
+
+extern SCmdObjectList _ice_doukutu_room_8_set0000_cmd06;
+
+extern SCmdActorList _ice_doukutu_room_8_set0038_cmd07;
+
+extern SCmdEndMarker _ice_doukutu_room_8_set0000_cmd08;
+
+extern u32 _ice_doukutu_room_8_alternateHeaders_00000048[];
+
+extern SCmdEchoSettings _ice_doukutu_room_8_set0100_cmd00;
+
+extern SCmdRoomBehavior _ice_doukutu_room_8_set0100_cmd01;
+
+extern SCmdSkyboxDisables _ice_doukutu_room_8_set0100_cmd02;
+
+extern SCmdTimeSettings _ice_doukutu_room_8_set0100_cmd03;
+
+extern SCmdMesh _ice_doukutu_room_8_set0100_cmd04;
+
+extern SCmdObjectList _ice_doukutu_room_8_set0100_cmd05;
+
+extern SCmdEndMarker _ice_doukutu_room_8_set0100_cmd06;
+
+
+
+
+
+

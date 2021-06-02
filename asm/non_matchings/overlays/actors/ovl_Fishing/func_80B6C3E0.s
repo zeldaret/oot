@@ -165,7 +165,7 @@ glabel func_80B6C3E0
 /* 02C48 80B6C5E8 4614D202 */  mul.s   $f8, $f26, $f20            
 /* 02C4C 80B6C5EC 46044280 */  add.s   $f10, $f8, $f4             
 /* 02C50 80B6C5F0 44055000 */  mfc1    $a1, $f10                  
-/* 02C54 80B6C5F4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 02C54 80B6C5F4 0C01E107 */  jal     Math_ApproachF
               
 /* 02C58 80B6C5F8 00000000 */  nop
 /* 02C5C 80B6C5FC C7A60090 */  lwc1    $f6, 0x0090($sp)           
@@ -176,7 +176,7 @@ glabel func_80B6C3E0
 /* 02C70 80B6C610 26040004 */  addiu   $a0, $s0, 0x0004           ## $a0 = 00000004
 /* 02C74 80B6C614 46044280 */  add.s   $f10, $f8, $f4             
 /* 02C78 80B6C618 44055000 */  mfc1    $a1, $f10                  
-/* 02C7C 80B6C61C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 02C7C 80B6C61C 0C01E107 */  jal     Math_ApproachF
               
 /* 02C80 80B6C620 00000000 */  nop
 /* 02C84 80B6C624 C7A6008C */  lwc1    $f6, 0x008C($sp)           
@@ -187,7 +187,7 @@ glabel func_80B6C3E0
 /* 02C98 80B6C638 26040008 */  addiu   $a0, $s0, 0x0008           ## $a0 = 00000008
 /* 02C9C 80B6C63C 46044280 */  add.s   $f10, $f8, $f4             
 /* 02CA0 80B6C640 44055000 */  mfc1    $a1, $f10                  
-/* 02CA4 80B6C644 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 02CA4 80B6C644 0C01E107 */  jal     Math_ApproachF
               
 /* 02CA8 80B6C648 00000000 */  nop
 .L80B6C64C:
@@ -339,7 +339,7 @@ glabel func_80B6C3E0
 /* 02EC8 80B6C868 4600D386 */  mov.s   $f14, $f26                 
 /* 02ECC 80B6C86C 46044501 */  sub.s   $f20, $f8, $f4             
 /* 02ED0 80B6C870 46068601 */  sub.s   $f24, $f16, $f6            
-/* 02ED4 80B6C874 0C0341F5 */  jal     atan2f
+/* 02ED4 80B6C874 0C0341F5 */  jal     Math_Atan2F
               
 /* 02ED8 80B6C878 4600A306 */  mov.s   $f12, $f20                 
 /* 02EDC 80B6C87C 461AD282 */  mul.s   $f10, $f26, $f26           
@@ -347,7 +347,7 @@ glabel func_80B6C3E0
 /* 02EE4 80B6C884 4600C386 */  mov.s   $f14, $f24                 
 /* 02EE8 80B6C888 4614A182 */  mul.s   $f6, $f20, $f20            
 /* 02EEC 80B6C88C 46065000 */  add.s   $f0, $f10, $f6             
-/* 02EF0 80B6C890 0C0341F5 */  jal     atan2f
+/* 02EF0 80B6C890 0C0341F5 */  jal     Math_Atan2F
               
 /* 02EF4 80B6C894 46000304 */  sqrt.s  $f12, $f0                  
 /* 02EF8 80B6C898 8FB90104 */  lw      $t9, 0x0104($sp)           

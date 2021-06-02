@@ -22,7 +22,7 @@ glabel func_809E645C
 /* 00CD8 809E64A8 E4C400BC */  swc1    $f4, 0x00BC($a2)           ## 000000BC
 /* 00CDC 809E64AC E4C0006C */  swc1    $f0, 0x006C($a2)           ## 0000006C
 /* 00CE0 809E64B0 E4C00060 */  swc1    $f0, 0x0060($a2)           ## 00000060
-/* 00CE4 809E64B4 0C00CDD2 */  jal     Actor_ChangeType
+/* 00CE4 809E64B4 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00CE8 809E64B8 E4C600C4 */  swc1    $f6, 0x00C4($a2)           ## 000000C4
 /* 00CEC 809E64BC 8FA60018 */  lw      $a2, 0x0018($sp)           

@@ -1,5 +1,4 @@
-#include <global.h>
-#include <ultra64/hardware.h>
+#include "global.h"
 
 typedef struct {
     u32 ins_00; // lui     k0, 0x8000
@@ -81,5 +80,5 @@ void __osInitialize_common(void) {
     HW_REG(AI_BITRATE_REG, u32) = 0xf;
 }
 
-void __osInitialize_autodetect() {
+void __osInitialize_autodetect(void) {
 }

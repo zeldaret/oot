@@ -1,0 +1,46 @@
+extern RomFile _alley_shop_scene_roomList_00000068[];
+extern CollisionHeader _alley_shop_scene_collisionHeader_00000584;
+extern EntranceEntry _alley_shop_scene_entranceList_00000070[];
+extern ActorEntry _alley_shop_scene_startPositionList_00000058[];
+extern u16 _alley_shop_scene_exitList_00000074[];
+extern LightSettings _alley_shop_scene_lightSettings_00000078[];
+
+extern SCmdSoundSettings _alley_shop_scene_set0000_cmd00;
+extern SCmdRoomList _alley_shop_scene_set0000_cmd01;
+extern SCmdMiscSettings _alley_shop_scene_set0000_cmd02;
+extern SCmdColHeader _alley_shop_scene_set0000_cmd03;
+extern SCmdEntranceList _alley_shop_scene_set0000_cmd04;
+extern SCmdSpecialFiles _alley_shop_scene_set0000_cmd05;
+extern SCmdSpawnList _alley_shop_scene_set0000_cmd06;
+extern SCmdSkyboxSettings _alley_shop_scene_set0000_cmd07;
+extern SCmdExitList _alley_shop_scene_set0000_cmd08;
+extern SCmdLightSettingList _alley_shop_scene_set0000_cmd09;
+extern SCmdEndMarker _alley_shop_scene_set0000_cmd0A;
+
+
+
+
+
+extern SCmdSoundSettings _alley_shop_scene_set0000_cmd00;
+
+extern SCmdRoomList _alley_shop_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _alley_shop_scene_set0000_cmd02;
+
+extern SCmdColHeader _alley_shop_scene_set0000_cmd03;
+
+extern SCmdEntranceList _alley_shop_scene_set0000_cmd04;
+
+extern SCmdSpecialFiles _alley_shop_scene_set0000_cmd05;
+
+extern SCmdSpawnList _alley_shop_scene_set0000_cmd06;
+
+extern SCmdSkyboxSettings _alley_shop_scene_set0000_cmd07;
+
+extern SCmdExitList _alley_shop_scene_set0000_cmd08;
+
+extern SCmdLightSettingList _alley_shop_scene_set0000_cmd09;
+
+extern SCmdEndMarker _alley_shop_scene_set0000_cmd0A;
+
+

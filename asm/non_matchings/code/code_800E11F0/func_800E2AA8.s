@@ -17,12 +17,12 @@ glabel func_800E2AA8
 /* B59C84 800E2AE4 AFB3003C */  sw    $s3, 0x3c($sp)
 /* B59C88 800E2AE8 0C039A10 */  jal   func_800E6840
 /* B59C8C 800E2AEC 02002825 */   move  $a1, $s0
-/* B59C90 800E2AF0 3C168017 */  lui   $s6, %hi(D_80171784) # $s6, 0x8017
+/* B59C90 800E2AF0 3C168017 */  lui   $s6, %hi(gAudioContext+0x2604) # $s6, 0x8017
 /* B59C94 800E2AF4 3C148015 */  lui   $s4, %hi(D_8014942C) # $s4, 0x8015
-/* B59C98 800E2AF8 3C138017 */  lui   $s3, %hi(D_80171768) # $s3, 0x8017
-/* B59C9C 800E2AFC 26731768 */  addiu $s3, %lo(D_80171768) # addiu $s3, $s3, 0x1768
+/* B59C98 800E2AF8 3C138017 */  lui   $s3, %hi(gAudioContext+0x25e8) # $s3, 0x8017
+/* B59C9C 800E2AFC 26731768 */  addiu $s3, %lo(gAudioContext+0x25e8) # addiu $s3, $s3, 0x1768
 /* B59CA0 800E2B00 2694942C */  addiu $s4, %lo(D_8014942C) # addiu $s4, $s4, -0x6bd4
-/* B59CA4 800E2B04 26D61784 */  addiu $s6, %lo(D_80171784) # addiu $s6, $s6, 0x1784
+/* B59CA4 800E2B04 26D61784 */  addiu $s6, %lo(gAudioContext+0x2604) # addiu $s6, $s6, 0x1784
 /* B59CA8 800E2B08 2E010400 */  sltiu $at, $s0, 0x400
 /* B59CAC 800E2B0C 14200014 */  bnez  $at, .L800E2B60
 .L800E2B10:

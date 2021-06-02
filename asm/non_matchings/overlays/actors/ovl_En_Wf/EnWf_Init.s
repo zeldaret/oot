@@ -12,11 +12,11 @@ glabel EnWf_Init
 /* 0002C 80B33CDC 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00030 80B33CE0 3C0E80B3 */  lui     $t6, %hi(D_80B37A88)       ## $t6 = 80B30000
 /* 00034 80B33CE4 25CE7A88 */  addiu   $t6, $t6, %lo(D_80B37A88)  ## $t6 = 80B37A88
-/* 00038 80B33CE8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00038 80B33CE8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
 /* 0003C 80B33CEC 44050000 */  mfc1    $a1, $f0
 /* 00040 80B33CF0 44070000 */  mfc1    $a3, $f0
 /* 00044 80B33CF4 AE0E0098 */  sw      $t6, 0x0098($s0)           ## 00000098
-/* 00048 80B33CF8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00048 80B33CF8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0004C 80B33CFC 0C00AC78 */  jal     ActorShape_Init
 
 /* 00050 80B33D00 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
@@ -86,18 +86,18 @@ glabel EnWf_Init
 /* 00140 80B33DF0 26050188 */  addiu   $a1, $s0, 0x0188           ## $a1 = 00000188
 /* 00144 80B33DF4 17200015 */  bne     $t9, $zero, .L80B33E4C
 /* 00148 80B33DF8 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
-/* 0014C 80B33DFC 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 00150 80B33E00 3C070601 */  lui     $a3, 0x0601                ## $a3 = 06010000
+/* 0014C 80B33DFC 3C060601 */  lui     $a2, %hi(D_06009690)                ## $a2 = 06010000
+/* 00150 80B33E00 3C070601 */  lui     $a3, %hi(D_0600A4AC)                ## $a3 = 06010000
 /* 00154 80B33E04 260801CC */  addiu   $t0, $s0, 0x01CC           ## $t0 = 000001CC
 /* 00158 80B33E08 26090250 */  addiu   $t1, $s0, 0x0250           ## $t1 = 00000250
 /* 0015C 80B33E0C 240A0016 */  addiu   $t2, $zero, 0x0016         ## $t2 = 00000016
 /* 00160 80B33E10 AFAA0018 */  sw      $t2, 0x0018($sp)
 /* 00164 80B33E14 AFA90014 */  sw      $t1, 0x0014($sp)
 /* 00168 80B33E18 AFA80010 */  sw      $t0, 0x0010($sp)
-/* 0016C 80B33E1C 24E7A4AC */  addiu   $a3, $a3, 0xA4AC           ## $a3 = 0600A4AC
-/* 00170 80B33E20 24C69690 */  addiu   $a2, $a2, 0x9690           ## $a2 = 06009690
+/* 0016C 80B33E1C 24E7A4AC */  addiu   $a3, $a3, %lo(D_0600A4AC)           ## $a3 = 0600A4AC
+/* 00170 80B33E20 24C69690 */  addiu   $a2, $a2, %lo(D_06009690)           ## $a2 = 06009690
 /* 00174 80B33E24 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00178 80B33E28 0C0291BE */  jal     SkelAnime_InitSV
+/* 00178 80B33E28 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0017C 80B33E2C 26050188 */  addiu   $a1, $s0, 0x0188           ## $a1 = 00000188
 /* 00180 80B33E30 3C053BF5 */  lui     $a1, 0x3BF5                ## $a1 = 3BF50000
 /* 00184 80B33E34 34A5C28F */  ori     $a1, $a1, 0xC28F           ## $a1 = 3BF5C28F
@@ -108,15 +108,15 @@ glabel EnWf_Init
 /* 00194 80B33E44 10000017 */  beq     $zero, $zero, .L80B33EA4
 /* 00198 80B33E48 A20B0117 */  sb      $t3, 0x0117($s0)           ## 00000117
 .L80B33E4C:
-/* 0019C 80B33E4C 3C070601 */  lui     $a3, 0x0601                ## $a3 = 06010000
+/* 0019C 80B33E4C 3C070601 */  lui     $a3, %hi(D_0600A4AC)                ## $a3 = 06010000
 /* 001A0 80B33E50 260C01CC */  addiu   $t4, $s0, 0x01CC           ## $t4 = 000001CC
 /* 001A4 80B33E54 260D0250 */  addiu   $t5, $s0, 0x0250           ## $t5 = 00000250
 /* 001A8 80B33E58 240E0016 */  addiu   $t6, $zero, 0x0016         ## $t6 = 00000016
 /* 001AC 80B33E5C AFAE0018 */  sw      $t6, 0x0018($sp)
 /* 001B0 80B33E60 AFAD0014 */  sw      $t5, 0x0014($sp)
 /* 001B4 80B33E64 AFAC0010 */  sw      $t4, 0x0010($sp)
-/* 001B8 80B33E68 24E7A4AC */  addiu   $a3, $a3, 0xA4AC           ## $a3 = 0600A4AC
-/* 001BC 80B33E6C 0C0291BE */  jal     SkelAnime_InitSV
+/* 001B8 80B33E68 24E7A4AC */  addiu   $a3, $a3, %lo(D_0600A4AC)           ## $a3 = 0600A4AC
+/* 001BC 80B33E6C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 001C0 80B33E70 24C63BC0 */  addiu   $a2, $a2, 0x3BC0           ## $a2 = 00003BC0
 /* 001C4 80B33E74 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
 /* 001C8 80B33E78 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 3C23D70A

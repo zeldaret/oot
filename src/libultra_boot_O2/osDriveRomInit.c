@@ -1,9 +1,8 @@
-#include <global.h>
-#include <ultra64/hardware.h>
+#include "global.h"
 
 OSPiHandle __DriveRomHandle;
 
-OSPiHandle* osDriveRomInit() {
+OSPiHandle* osDriveRomInit(void) {
     register s32 status;
     register u32 a;
     register s32 prevInt;

@@ -1,4 +1,4 @@
-#include <z64.h>
+#include "z64.h"
 
 // 0x18000 bytes
 u64 gGfxSPTaskOutputBuffer[0x3000];

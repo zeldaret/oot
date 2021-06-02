@@ -1,0 +1,180 @@
+extern RomFile _hakaana_ouke_scene_roomList_000000B4[];
+extern TransitionActorEntry _hakaana_ouke_scene_transitionActorList_00000094[];
+extern CollisionHeader _hakaana_ouke_scene_collisionHeader_00002250;
+extern EntranceEntry _hakaana_ouke_scene_entranceList_000000CC[];
+extern ActorEntry _hakaana_ouke_scene_startPositionList_00000074[];
+extern u16 _hakaana_ouke_scene_exitList_000000D0[];
+extern LightSettings _hakaana_ouke_scene_lightSettings_000000D4[];
+extern RomFile _hakaana_ouke_scene_roomList_00002310[];
+extern TransitionActorEntry _hakaana_ouke_scene_transitionActorList_000022F0[];
+extern CollisionHeader _hakaana_ouke_scene_collisionHeader_00002250;
+extern EntranceEntry _hakaana_ouke_scene_entranceList_00002328[];
+extern ActorEntry _hakaana_ouke_scene_startPositionList_000022E0[];
+extern u16 _hakaana_ouke_scene_exitList_0000232C[];
+extern LightSettings _hakaana_ouke_scene_lightSettings_00002330[];
+extern s32 _hakaana_ouke_scene_cutsceneData_000024A0[];
+extern RomFile _hakaana_ouke_scene_roomList_00002420[];
+extern TransitionActorEntry _hakaana_ouke_scene_transitionActorList_00002400[];
+extern CollisionHeader _hakaana_ouke_scene_collisionHeader_00002250;
+extern EntranceEntry _hakaana_ouke_scene_entranceList_00002438[];
+extern ActorEntry _hakaana_ouke_scene_startPositionList_000023F0[];
+extern u16 _hakaana_ouke_scene_exitList_0000243C[];
+extern LightSettings _hakaana_ouke_scene_lightSettings_00002440[];
+extern s32 _hakaana_ouke_scene_cutsceneData_000028E0[];
+
+extern SCmdAltHeaders _hakaana_ouke_scene_set0000_cmd00;
+extern SCmdSoundSettings _hakaana_ouke_scene_set0000_cmd01;
+extern SCmdRoomList _hakaana_ouke_scene_set0000_cmd02;
+extern SCmdTransiActorList _hakaana_ouke_scene_set0000_cmd03;
+extern SCmdMiscSettings _hakaana_ouke_scene_set0000_cmd04;
+extern SCmdColHeader _hakaana_ouke_scene_set0000_cmd05;
+extern SCmdEntranceList _hakaana_ouke_scene_set0000_cmd06;
+extern SCmdSpawnList _hakaana_ouke_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _hakaana_ouke_scene_set0000_cmd08;
+extern SCmdExitList _hakaana_ouke_scene_set0000_cmd09;
+extern SCmdLightSettingList _hakaana_ouke_scene_set0000_cmd0A;
+extern SCmdEndMarker _hakaana_ouke_scene_set0000_cmd0B;
+extern u32 _hakaana_ouke_scene_alternateHeaders_00000060[];
+extern SCmdSoundSettings _hakaana_ouke_scene_set2280_cmd00;
+extern SCmdRoomList _hakaana_ouke_scene_set2280_cmd01;
+extern SCmdTransiActorList _hakaana_ouke_scene_set2280_cmd02;
+extern SCmdMiscSettings _hakaana_ouke_scene_set2280_cmd03;
+extern SCmdColHeader _hakaana_ouke_scene_set2280_cmd04;
+extern SCmdEntranceList _hakaana_ouke_scene_set2280_cmd05;
+extern SCmdSpawnList _hakaana_ouke_scene_set2280_cmd06;
+extern SCmdSkyboxSettings _hakaana_ouke_scene_set2280_cmd07;
+extern SCmdExitList _hakaana_ouke_scene_set2280_cmd08;
+extern SCmdLightSettingList _hakaana_ouke_scene_set2280_cmd09;
+extern SCmdCutsceneData _hakaana_ouke_scene_set2280_cmd0A;
+extern SCmdEndMarker _hakaana_ouke_scene_set2280_cmd0B;
+extern SCmdSoundSettings _hakaana_ouke_scene_set2390_cmd00;
+extern SCmdRoomList _hakaana_ouke_scene_set2390_cmd01;
+extern SCmdTransiActorList _hakaana_ouke_scene_set2390_cmd02;
+extern SCmdMiscSettings _hakaana_ouke_scene_set2390_cmd03;
+extern SCmdColHeader _hakaana_ouke_scene_set2390_cmd04;
+extern SCmdEntranceList _hakaana_ouke_scene_set2390_cmd05;
+extern SCmdSpawnList _hakaana_ouke_scene_set2390_cmd06;
+extern SCmdSkyboxSettings _hakaana_ouke_scene_set2390_cmd07;
+extern SCmdExitList _hakaana_ouke_scene_set2390_cmd08;
+extern SCmdLightSettingList _hakaana_ouke_scene_set2390_cmd09;
+extern SCmdCutsceneData _hakaana_ouke_scene_set2390_cmd0A;
+extern SCmdEndMarker _hakaana_ouke_scene_set2390_cmd0B;
+extern u64 _hakaana_ouke_scene_tex_00002AE0[];
+extern u64 _hakaana_ouke_scene_tex_00002EE0[];
+extern u64 _hakaana_ouke_scene_tex_000032E0[];
+extern u64 _hakaana_ouke_scene_tex_00003AE0[];
+extern u64 _hakaana_ouke_scene_tex_000042E0[];
+
+#define _hakaana_ouke_room_0_vertices_00000FA8 ((u32)_hakaana_ouke_room_0_vertices_00000DB8 + 0x000001F0)
+#define _hakaana_ouke_room_0_vertices_00001198 ((u32)_hakaana_ouke_room_0_vertices_00000DB8 + 0x000003E0)
+#define _hakaana_ouke_room_0_vertices_000022B8 ((u32)_hakaana_ouke_room_0_vertices_000020D8 + 0x000001E0)
+#define _hakaana_ouke_room_0_vertices_00002F48 ((u32)_hakaana_ouke_room_0_vertices_00002D68 + 0x000001E0)
+#define _hakaana_ouke_room_0_vertices_000034E8 ((u32)_hakaana_ouke_room_0_vertices_00003308 + 0x000001E0)
+#define _hakaana_ouke_room_0_vertices_00000FA8 ((u32)_hakaana_ouke_room_0_vertices_00000DB8 + 0x000001F0)
+#define _hakaana_ouke_room_0_vertices_00001198 ((u32)_hakaana_ouke_room_0_vertices_00000DB8 + 0x000003E0)
+#define _hakaana_ouke_room_0_vertices_000022B8 ((u32)_hakaana_ouke_room_0_vertices_000020D8 + 0x000001E0)
+#define _hakaana_ouke_room_0_vertices_00002F48 ((u32)_hakaana_ouke_room_0_vertices_00002D68 + 0x000001E0)
+#define _hakaana_ouke_room_0_vertices_000034E8 ((u32)_hakaana_ouke_room_0_vertices_00003308 + 0x000001E0)
+#define _hakaana_ouke_room_0_vertices_00000FA8 ((u32)_hakaana_ouke_room_0_vertices_00000DB8 + 0x000001F0)
+#define _hakaana_ouke_room_0_vertices_00001198 ((u32)_hakaana_ouke_room_0_vertices_00000DB8 + 0x000003E0)
+#define _hakaana_ouke_room_0_vertices_000022B8 ((u32)_hakaana_ouke_room_0_vertices_000020D8 + 0x000001E0)
+#define _hakaana_ouke_room_0_vertices_00002F48 ((u32)_hakaana_ouke_room_0_vertices_00002D68 + 0x000001E0)
+#define _hakaana_ouke_room_0_vertices_000034E8 ((u32)_hakaana_ouke_room_0_vertices_00003308 + 0x000001E0)
+#define _hakaana_ouke_room_1_vertices_00000330 ((u32)_hakaana_ouke_room_1_vertices_00000140 + 0x000001F0)
+#define _hakaana_ouke_room_1_vertices_00000510 ((u32)_hakaana_ouke_room_1_vertices_00000140 + 0x000003D0)
+#define _hakaana_ouke_room_1_vertices_00000330 ((u32)_hakaana_ouke_room_1_vertices_00000140 + 0x000001F0)
+#define _hakaana_ouke_room_1_vertices_00000510 ((u32)_hakaana_ouke_room_1_vertices_00000140 + 0x000003D0)
+#define _hakaana_ouke_room_1_vertices_00000330 ((u32)_hakaana_ouke_room_1_vertices_00000140 + 0x000001F0)
+#define _hakaana_ouke_room_1_vertices_00000510 ((u32)_hakaana_ouke_room_1_vertices_00000140 + 0x000003D0)
+#define _hakaana_ouke_room_2_vertices_00001958 ((u32)_hakaana_ouke_room_2_vertices_00001778 + 0x000001E0)
+#define _hakaana_ouke_room_2_vertices_00001958 ((u32)_hakaana_ouke_room_2_vertices_00001778 + 0x000001E0)
+#define _hakaana_ouke_room_2_vertices_00001958 ((u32)_hakaana_ouke_room_2_vertices_00001778 + 0x000001E0)
+
+
+
+
+extern SCmdAltHeaders _hakaana_ouke_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _hakaana_ouke_scene_set0000_cmd01;
+
+extern SCmdRoomList _hakaana_ouke_scene_set0000_cmd02;
+
+extern SCmdTransiActorList _hakaana_ouke_scene_set0000_cmd03;
+
+extern SCmdMiscSettings _hakaana_ouke_scene_set0000_cmd04;
+
+extern SCmdColHeader _hakaana_ouke_scene_set0000_cmd05;
+
+extern SCmdEntranceList _hakaana_ouke_scene_set0000_cmd06;
+
+extern SCmdSpawnList _hakaana_ouke_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _hakaana_ouke_scene_set0000_cmd08;
+
+extern SCmdExitList _hakaana_ouke_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _hakaana_ouke_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _hakaana_ouke_scene_set0000_cmd0B;
+
+extern u32 _hakaana_ouke_scene_alternateHeaders_00000060[];
+
+extern SCmdSoundSettings _hakaana_ouke_scene_set2280_cmd00;
+
+extern SCmdRoomList _hakaana_ouke_scene_set2280_cmd01;
+
+extern SCmdTransiActorList _hakaana_ouke_scene_set2280_cmd02;
+
+extern SCmdMiscSettings _hakaana_ouke_scene_set2280_cmd03;
+
+extern SCmdColHeader _hakaana_ouke_scene_set2280_cmd04;
+
+extern SCmdEntranceList _hakaana_ouke_scene_set2280_cmd05;
+
+extern SCmdSpawnList _hakaana_ouke_scene_set2280_cmd06;
+
+extern SCmdSkyboxSettings _hakaana_ouke_scene_set2280_cmd07;
+
+extern SCmdExitList _hakaana_ouke_scene_set2280_cmd08;
+
+extern SCmdLightSettingList _hakaana_ouke_scene_set2280_cmd09;
+
+extern SCmdCutsceneData _hakaana_ouke_scene_set2280_cmd0A;
+
+extern SCmdEndMarker _hakaana_ouke_scene_set2280_cmd0B;
+
+extern SCmdSoundSettings _hakaana_ouke_scene_set2390_cmd00;
+
+extern SCmdRoomList _hakaana_ouke_scene_set2390_cmd01;
+
+extern SCmdTransiActorList _hakaana_ouke_scene_set2390_cmd02;
+
+extern SCmdMiscSettings _hakaana_ouke_scene_set2390_cmd03;
+
+extern SCmdColHeader _hakaana_ouke_scene_set2390_cmd04;
+
+extern SCmdEntranceList _hakaana_ouke_scene_set2390_cmd05;
+
+extern SCmdSpawnList _hakaana_ouke_scene_set2390_cmd06;
+
+extern SCmdSkyboxSettings _hakaana_ouke_scene_set2390_cmd07;
+
+extern SCmdExitList _hakaana_ouke_scene_set2390_cmd08;
+
+extern SCmdLightSettingList _hakaana_ouke_scene_set2390_cmd09;
+
+extern SCmdCutsceneData _hakaana_ouke_scene_set2390_cmd0A;
+
+extern SCmdEndMarker _hakaana_ouke_scene_set2390_cmd0B;
+
+extern u64 _hakaana_ouke_scene_tex_00002AE0[];
+
+extern u64 _hakaana_ouke_scene_tex_00002EE0[];
+
+extern u64 _hakaana_ouke_scene_tex_000032E0[];
+
+extern u64 _hakaana_ouke_scene_tex_00003AE0[];
+
+extern u64 _hakaana_ouke_scene_tex_000042E0[];
+
+

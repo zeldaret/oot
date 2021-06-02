@@ -1,0 +1,239 @@
+extern RomFile _daiyousei_izumi_scene_roomList_000000A8[];
+extern CollisionHeader _daiyousei_izumi_scene_collisionHeader_000043A4;
+extern EntranceEntry _daiyousei_izumi_scene_entranceList_000000B0[];
+extern ActorEntry _daiyousei_izumi_scene_startPositionList_00000078[];
+extern u16 _daiyousei_izumi_scene_exitList_000000B8[];
+extern LightSettings _daiyousei_izumi_scene_lightSettings_000000BC[];
+extern RomFile _daiyousei_izumi_scene_roomList_00004530[];
+extern CollisionHeader _daiyousei_izumi_scene_collisionHeader_000043A4;
+extern EntranceEntry _daiyousei_izumi_scene_entranceList_00004538[];
+extern ActorEntry _daiyousei_izumi_scene_startPositionList_00004500[];
+extern u16 _daiyousei_izumi_scene_exitList_00004540[];
+extern LightSettings _daiyousei_izumi_scene_lightSettings_00004544[];
+extern s32 _daiyousei_izumi_scene_cutsceneData_00000130[];
+extern RomFile _daiyousei_izumi_scene_roomList_00004650[];
+extern CollisionHeader _daiyousei_izumi_scene_collisionHeader_000043A4;
+extern EntranceEntry _daiyousei_izumi_scene_entranceList_00004658[];
+extern ActorEntry _daiyousei_izumi_scene_startPositionList_00004620[];
+extern u16 _daiyousei_izumi_scene_exitList_00004660[];
+extern LightSettings _daiyousei_izumi_scene_lightSettings_00004664[];
+extern s32 _daiyousei_izumi_scene_cutsceneData_000013E0[];
+extern RomFile _daiyousei_izumi_scene_roomList_00004770[];
+extern CollisionHeader _daiyousei_izumi_scene_collisionHeader_000043A4;
+extern EntranceEntry _daiyousei_izumi_scene_entranceList_00004778[];
+extern ActorEntry _daiyousei_izumi_scene_startPositionList_00004740[];
+extern u16 _daiyousei_izumi_scene_exitList_00004780[];
+extern LightSettings _daiyousei_izumi_scene_lightSettings_00004784[];
+extern s32 _daiyousei_izumi_scene_cutsceneData_000025D0[];
+
+extern SCmdAltHeaders _daiyousei_izumi_scene_set0000_cmd00;
+extern SCmdSoundSettings _daiyousei_izumi_scene_set0000_cmd01;
+extern SCmdRoomList _daiyousei_izumi_scene_set0000_cmd02;
+extern SCmdMiscSettings _daiyousei_izumi_scene_set0000_cmd03;
+extern SCmdColHeader _daiyousei_izumi_scene_set0000_cmd04;
+extern SCmdEntranceList _daiyousei_izumi_scene_set0000_cmd05;
+extern SCmdSpecialFiles _daiyousei_izumi_scene_set0000_cmd06;
+extern SCmdSpawnList _daiyousei_izumi_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _daiyousei_izumi_scene_set0000_cmd08;
+extern SCmdExitList _daiyousei_izumi_scene_set0000_cmd09;
+extern SCmdLightSettingList _daiyousei_izumi_scene_set0000_cmd0A;
+extern SCmdEndMarker _daiyousei_izumi_scene_set0000_cmd0B;
+extern u32 _daiyousei_izumi_scene_alternateHeaders_00000060[];
+extern SCmdSoundSettings _daiyousei_izumi_scene_set44A0_cmd00;
+extern SCmdRoomList _daiyousei_izumi_scene_set44A0_cmd01;
+extern SCmdMiscSettings _daiyousei_izumi_scene_set44A0_cmd02;
+extern SCmdColHeader _daiyousei_izumi_scene_set44A0_cmd03;
+extern SCmdEntranceList _daiyousei_izumi_scene_set44A0_cmd04;
+extern SCmdSpecialFiles _daiyousei_izumi_scene_set44A0_cmd05;
+extern SCmdSpawnList _daiyousei_izumi_scene_set44A0_cmd06;
+extern SCmdSkyboxSettings _daiyousei_izumi_scene_set44A0_cmd07;
+extern SCmdExitList _daiyousei_izumi_scene_set44A0_cmd08;
+extern SCmdLightSettingList _daiyousei_izumi_scene_set44A0_cmd09;
+extern SCmdCutsceneData _daiyousei_izumi_scene_set44A0_cmd0A;
+extern SCmdEndMarker _daiyousei_izumi_scene_set44A0_cmd0B;
+extern SCmdSoundSettings _daiyousei_izumi_scene_set45C0_cmd00;
+extern SCmdRoomList _daiyousei_izumi_scene_set45C0_cmd01;
+extern SCmdMiscSettings _daiyousei_izumi_scene_set45C0_cmd02;
+extern SCmdColHeader _daiyousei_izumi_scene_set45C0_cmd03;
+extern SCmdEntranceList _daiyousei_izumi_scene_set45C0_cmd04;
+extern SCmdSpecialFiles _daiyousei_izumi_scene_set45C0_cmd05;
+extern SCmdSpawnList _daiyousei_izumi_scene_set45C0_cmd06;
+extern SCmdSkyboxSettings _daiyousei_izumi_scene_set45C0_cmd07;
+extern SCmdExitList _daiyousei_izumi_scene_set45C0_cmd08;
+extern SCmdLightSettingList _daiyousei_izumi_scene_set45C0_cmd09;
+extern SCmdCutsceneData _daiyousei_izumi_scene_set45C0_cmd0A;
+extern SCmdEndMarker _daiyousei_izumi_scene_set45C0_cmd0B;
+extern SCmdSoundSettings _daiyousei_izumi_scene_set46E0_cmd00;
+extern SCmdRoomList _daiyousei_izumi_scene_set46E0_cmd01;
+extern SCmdMiscSettings _daiyousei_izumi_scene_set46E0_cmd02;
+extern SCmdColHeader _daiyousei_izumi_scene_set46E0_cmd03;
+extern SCmdEntranceList _daiyousei_izumi_scene_set46E0_cmd04;
+extern SCmdSpecialFiles _daiyousei_izumi_scene_set46E0_cmd05;
+extern SCmdSpawnList _daiyousei_izumi_scene_set46E0_cmd06;
+extern SCmdSkyboxSettings _daiyousei_izumi_scene_set46E0_cmd07;
+extern SCmdExitList _daiyousei_izumi_scene_set46E0_cmd08;
+extern SCmdLightSettingList _daiyousei_izumi_scene_set46E0_cmd09;
+extern SCmdCutsceneData _daiyousei_izumi_scene_set46E0_cmd0A;
+extern SCmdEndMarker _daiyousei_izumi_scene_set46E0_cmd0B;
+extern u64 _daiyousei_izumi_scene_tex_00004800[];
+extern u64 _daiyousei_izumi_scene_tex_00005000[];
+extern u64 _daiyousei_izumi_scene_tex_00005800[];
+extern u64 _daiyousei_izumi_scene_tex_00006000[];
+extern u64 _daiyousei_izumi_scene_tex_00007000[];
+extern u64 _daiyousei_izumi_scene_tex_00008000[];
+extern u64 _daiyousei_izumi_scene_tex_00009000[];
+extern u64 _daiyousei_izumi_scene_tex_0000A000[];
+extern u64 _daiyousei_izumi_scene_tex_0000A800[];
+extern u64 _daiyousei_izumi_scene_tex_0000B000[];
+extern u64 _daiyousei_izumi_scene_tex_0000C000[];
+extern u64 _daiyousei_izumi_scene_tex_0000C800[];
+extern u64 _daiyousei_izumi_scene_tex_0000D000[];
+extern u64 _daiyousei_izumi_scene_tex_0000D800[];
+
+#define _daiyousei_izumi_room_0_vertices_00000E00 ((u32)_daiyousei_izumi_room_0_vertices_00000C20 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001A90 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001C70 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000003C0)
+#define _daiyousei_izumi_room_0_vertices_00002050 ((u32)_daiyousei_izumi_room_0_vertices_00001E70 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00000E00 ((u32)_daiyousei_izumi_room_0_vertices_00000C20 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001A90 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001C70 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000003C0)
+#define _daiyousei_izumi_room_0_vertices_00002050 ((u32)_daiyousei_izumi_room_0_vertices_00001E70 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00000E00 ((u32)_daiyousei_izumi_room_0_vertices_00000C20 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001A90 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001C70 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000003C0)
+#define _daiyousei_izumi_room_0_vertices_00002050 ((u32)_daiyousei_izumi_room_0_vertices_00001E70 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00000E00 ((u32)_daiyousei_izumi_room_0_vertices_00000C20 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001A90 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000001E0)
+#define _daiyousei_izumi_room_0_vertices_00001C70 ((u32)_daiyousei_izumi_room_0_vertices_000018B0 + 0x000003C0)
+#define _daiyousei_izumi_room_0_vertices_00002050 ((u32)_daiyousei_izumi_room_0_vertices_00001E70 + 0x000001E0)
+
+
+
+
+extern SCmdAltHeaders _daiyousei_izumi_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _daiyousei_izumi_scene_set0000_cmd01;
+
+extern SCmdRoomList _daiyousei_izumi_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _daiyousei_izumi_scene_set0000_cmd03;
+
+extern SCmdColHeader _daiyousei_izumi_scene_set0000_cmd04;
+
+extern SCmdEntranceList _daiyousei_izumi_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _daiyousei_izumi_scene_set0000_cmd06;
+
+extern SCmdSpawnList _daiyousei_izumi_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _daiyousei_izumi_scene_set0000_cmd08;
+
+extern SCmdExitList _daiyousei_izumi_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _daiyousei_izumi_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _daiyousei_izumi_scene_set0000_cmd0B;
+
+extern u32 _daiyousei_izumi_scene_alternateHeaders_00000060[];
+
+extern SCmdSoundSettings _daiyousei_izumi_scene_set44A0_cmd00;
+
+extern SCmdRoomList _daiyousei_izumi_scene_set44A0_cmd01;
+
+extern SCmdMiscSettings _daiyousei_izumi_scene_set44A0_cmd02;
+
+extern SCmdColHeader _daiyousei_izumi_scene_set44A0_cmd03;
+
+extern SCmdEntranceList _daiyousei_izumi_scene_set44A0_cmd04;
+
+extern SCmdSpecialFiles _daiyousei_izumi_scene_set44A0_cmd05;
+
+extern SCmdSpawnList _daiyousei_izumi_scene_set44A0_cmd06;
+
+extern SCmdSkyboxSettings _daiyousei_izumi_scene_set44A0_cmd07;
+
+extern SCmdExitList _daiyousei_izumi_scene_set44A0_cmd08;
+
+extern SCmdLightSettingList _daiyousei_izumi_scene_set44A0_cmd09;
+
+extern SCmdCutsceneData _daiyousei_izumi_scene_set44A0_cmd0A;
+
+extern SCmdEndMarker _daiyousei_izumi_scene_set44A0_cmd0B;
+
+extern SCmdSoundSettings _daiyousei_izumi_scene_set45C0_cmd00;
+
+extern SCmdRoomList _daiyousei_izumi_scene_set45C0_cmd01;
+
+extern SCmdMiscSettings _daiyousei_izumi_scene_set45C0_cmd02;
+
+extern SCmdColHeader _daiyousei_izumi_scene_set45C0_cmd03;
+
+extern SCmdEntranceList _daiyousei_izumi_scene_set45C0_cmd04;
+
+extern SCmdSpecialFiles _daiyousei_izumi_scene_set45C0_cmd05;
+
+extern SCmdSpawnList _daiyousei_izumi_scene_set45C0_cmd06;
+
+extern SCmdSkyboxSettings _daiyousei_izumi_scene_set45C0_cmd07;
+
+extern SCmdExitList _daiyousei_izumi_scene_set45C0_cmd08;
+
+extern SCmdLightSettingList _daiyousei_izumi_scene_set45C0_cmd09;
+
+extern SCmdCutsceneData _daiyousei_izumi_scene_set45C0_cmd0A;
+
+extern SCmdEndMarker _daiyousei_izumi_scene_set45C0_cmd0B;
+
+extern SCmdSoundSettings _daiyousei_izumi_scene_set46E0_cmd00;
+
+extern SCmdRoomList _daiyousei_izumi_scene_set46E0_cmd01;
+
+extern SCmdMiscSettings _daiyousei_izumi_scene_set46E0_cmd02;
+
+extern SCmdColHeader _daiyousei_izumi_scene_set46E0_cmd03;
+
+extern SCmdEntranceList _daiyousei_izumi_scene_set46E0_cmd04;
+
+extern SCmdSpecialFiles _daiyousei_izumi_scene_set46E0_cmd05;
+
+extern SCmdSpawnList _daiyousei_izumi_scene_set46E0_cmd06;
+
+extern SCmdSkyboxSettings _daiyousei_izumi_scene_set46E0_cmd07;
+
+extern SCmdExitList _daiyousei_izumi_scene_set46E0_cmd08;
+
+extern SCmdLightSettingList _daiyousei_izumi_scene_set46E0_cmd09;
+
+extern SCmdCutsceneData _daiyousei_izumi_scene_set46E0_cmd0A;
+
+extern SCmdEndMarker _daiyousei_izumi_scene_set46E0_cmd0B;
+
+extern u64 _daiyousei_izumi_scene_tex_00004800[];
+
+extern u64 _daiyousei_izumi_scene_tex_00005000[];
+
+extern u64 _daiyousei_izumi_scene_tex_00005800[];
+
+extern u64 _daiyousei_izumi_scene_tex_00006000[];
+
+extern u64 _daiyousei_izumi_scene_tex_00007000[];
+
+extern u64 _daiyousei_izumi_scene_tex_00008000[];
+
+extern u64 _daiyousei_izumi_scene_tex_00009000[];
+
+extern u64 _daiyousei_izumi_scene_tex_0000A000[];
+
+extern u64 _daiyousei_izumi_scene_tex_0000A800[];
+
+extern u64 _daiyousei_izumi_scene_tex_0000B000[];
+
+extern u64 _daiyousei_izumi_scene_tex_0000C000[];
+
+extern u64 _daiyousei_izumi_scene_tex_0000C800[];
+
+extern u64 _daiyousei_izumi_scene_tex_0000D000[];
+
+extern u64 _daiyousei_izumi_scene_tex_0000D800[];
+
+

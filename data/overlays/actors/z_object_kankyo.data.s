@@ -10,7 +10,7 @@
 .balign 16
 
 glabel D_80BA58E0
- .word 0x04029F30, 0x0402A530, 0x0402AB30, 0x0402B130, 0x0402B730, 0x0402BD30, 0x0402C330, 0x0402C930
+ .word gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex, gEffLightning5Tex, gEffLightning6Tex, gEffLightning7Tex, gEffLightning8Tex
 glabel D_80BA5900
  .word 0x060015E0, 0x060025E0, 0x060035E0, 0x060045E0, 0x060055E0, 0x060065E0, 0x060075E0, 0x060085E0
 glabel Object_Kankyo_InitVars

@@ -1,9 +1,9 @@
 #ifndef _Z_OBJ_ROOMTIMER_H_
 #define _Z_OBJ_ROOMTIMER_H_
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
+#include "ultra64.h"
+#include "global.h"
+#include "z64.h"
 
 struct ObjRoomtimer;
 

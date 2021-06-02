@@ -1,8 +1,8 @@
 #ifndef _Z_EN_GIRLA_H_
 #define _Z_EN_GIRLA_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnGirlA;
 
@@ -35,11 +35,11 @@ typedef struct EnGirlA {
     /* 0x01C4 */ void* unk_1C4;
     /* 0x01C8 */ s16 unk_1C8;
     /* 0x01CA */ s16 unk_1CA;
-    /* 0x01CC */ s16 unk_1CC;
+    /* 0x01CC */ s16 giDrawId;
     /* 0x01CE */ s16 unk_1CE;
     /* 0x01D0 */ EnGirlA3Func unk_1D0;
 } EnGirlA; // size = 0x01D4
 
-extern const ActorInit En_Girla_InitVars;
+extern const ActorInit En_GirlA_InitVars;
 
 #endif

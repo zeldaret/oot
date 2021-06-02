@@ -45,7 +45,7 @@ glabel func_80BA53CC
 /* 029C0 80BA5460 4405A000 */  mfc1    $a1, $f20                  
 .L80BA5464:
 /* 029C4 80BA5464 4406A000 */  mfc1    $a2, $f20                  
-/* 029C8 80BA5468 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 029C8 80BA5468 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 029CC 80BA546C 26040190 */  addiu   $a0, $s0, 0x0190           ## $a0 = 00000190
 /* 029D0 80BA5470 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000003

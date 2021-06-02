@@ -1,0 +1,83 @@
+extern RomFile _yousei_izumi_tate_scene_roomList_00000068[];
+extern CollisionHeader _yousei_izumi_tate_scene_collisionHeader_00001FDC;
+extern EntranceEntry _yousei_izumi_tate_scene_entranceList_00000070[];
+extern ActorEntry _yousei_izumi_tate_scene_startPositionList_00000058[];
+extern u16 _yousei_izumi_tate_scene_exitList_00000074[];
+extern LightSettings _yousei_izumi_tate_scene_lightSettings_00000078[];
+
+extern SCmdSoundSettings _yousei_izumi_tate_scene_set0000_cmd00;
+extern SCmdRoomList _yousei_izumi_tate_scene_set0000_cmd01;
+extern SCmdMiscSettings _yousei_izumi_tate_scene_set0000_cmd02;
+extern SCmdColHeader _yousei_izumi_tate_scene_set0000_cmd03;
+extern SCmdEntranceList _yousei_izumi_tate_scene_set0000_cmd04;
+extern SCmdSpecialFiles _yousei_izumi_tate_scene_set0000_cmd05;
+extern SCmdSpawnList _yousei_izumi_tate_scene_set0000_cmd06;
+extern SCmdSkyboxSettings _yousei_izumi_tate_scene_set0000_cmd07;
+extern SCmdExitList _yousei_izumi_tate_scene_set0000_cmd08;
+extern SCmdLightSettingList _yousei_izumi_tate_scene_set0000_cmd09;
+extern SCmdEndMarker _yousei_izumi_tate_scene_set0000_cmd0A;
+extern u64 _yousei_izumi_tate_scene_tex_00002010[];
+extern u64 _yousei_izumi_tate_scene_tex_00002810[];
+extern u64 _yousei_izumi_tate_scene_tex_00003810[];
+extern u64 _yousei_izumi_tate_scene_tex_00004810[];
+extern u64 _yousei_izumi_tate_scene_tex_00005010[];
+extern u64 _yousei_izumi_tate_scene_tex_00005810[];
+extern u64 _yousei_izumi_tate_scene_tex_00006010[];
+extern u64 _yousei_izumi_tate_scene_tex_00007010[];
+extern u64 _yousei_izumi_tate_scene_tex_00007810[];
+extern u64 _yousei_izumi_tate_scene_tex_00008010[];
+
+#define _yousei_izumi_tate_room_0_vertices_00000C10 ((u32)_yousei_izumi_tate_room_0_vertices_00000A30 + 0x000001E0)
+#define _yousei_izumi_tate_room_0_vertices_000010B0 ((u32)_yousei_izumi_tate_room_0_vertices_00000ED0 + 0x000001E0)
+#define _yousei_izumi_tate_room_0_vertices_00001B80 ((u32)_yousei_izumi_tate_room_0_vertices_000019A0 + 0x000001E0)
+#define _yousei_izumi_tate_room_0_vertices_00001EC0 ((u32)_yousei_izumi_tate_room_0_vertices_00001CE0 + 0x000001E0)
+#define _yousei_izumi_tate_room_0_vertices_000020A0 ((u32)_yousei_izumi_tate_room_0_vertices_00001CE0 + 0x000003C0)
+#define _yousei_izumi_tate_room_0_vertices_00002610 ((u32)_yousei_izumi_tate_room_0_vertices_00002430 + 0x000001E0)
+#define _yousei_izumi_tate_room_0_vertices_00003D50 ((u32)_yousei_izumi_tate_room_0_vertices_00003B70 + 0x000001E0)
+
+
+
+
+extern SCmdSoundSettings _yousei_izumi_tate_scene_set0000_cmd00;
+
+extern SCmdRoomList _yousei_izumi_tate_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _yousei_izumi_tate_scene_set0000_cmd02;
+
+extern SCmdColHeader _yousei_izumi_tate_scene_set0000_cmd03;
+
+extern SCmdEntranceList _yousei_izumi_tate_scene_set0000_cmd04;
+
+extern SCmdSpecialFiles _yousei_izumi_tate_scene_set0000_cmd05;
+
+extern SCmdSpawnList _yousei_izumi_tate_scene_set0000_cmd06;
+
+extern SCmdSkyboxSettings _yousei_izumi_tate_scene_set0000_cmd07;
+
+extern SCmdExitList _yousei_izumi_tate_scene_set0000_cmd08;
+
+extern SCmdLightSettingList _yousei_izumi_tate_scene_set0000_cmd09;
+
+extern SCmdEndMarker _yousei_izumi_tate_scene_set0000_cmd0A;
+
+extern u64 _yousei_izumi_tate_scene_tex_00002010[];
+
+extern u64 _yousei_izumi_tate_scene_tex_00002810[];
+
+extern u64 _yousei_izumi_tate_scene_tex_00003810[];
+
+extern u64 _yousei_izumi_tate_scene_tex_00004810[];
+
+extern u64 _yousei_izumi_tate_scene_tex_00005010[];
+
+extern u64 _yousei_izumi_tate_scene_tex_00005810[];
+
+extern u64 _yousei_izumi_tate_scene_tex_00006010[];
+
+extern u64 _yousei_izumi_tate_scene_tex_00007010[];
+
+extern u64 _yousei_izumi_tate_scene_tex_00007810[];
+
+extern u64 _yousei_izumi_tate_scene_tex_00008010[];
+
+

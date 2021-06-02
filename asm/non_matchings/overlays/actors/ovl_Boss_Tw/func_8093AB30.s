@@ -105,7 +105,7 @@ glabel func_8093AB30
 /* 01FE8 8093ACB8 00000000 */  nop
 /* 01FEC 8093ACBC 45020038 */  bc1fl   .L8093ADA0                 
 /* 01FF0 8093ACC0 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-/* 01FF4 8093ACC4 0C023C26 */  jal     func_8008F098              
+/* 01FF4 8093ACC4 0C023C26 */  jal     Player_HasMirrorShieldEquipped              
 /* 01FF8 8093ACC8 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 01FFC 8093ACCC 1040000D */  beq     $v0, $zero, .L8093AD04     
 /* 02000 8093ACD0 3C038095 */  lui     $v1, %hi(D_8094C86E)       ## $v1 = 80950000

@@ -1,6 +1,6 @@
 #include "z_oceff_spot.h"
 
-static u32 texture[] = {
+static u32 sTexture[] = {
     0x354D5AAC, 0xA5561C01, 0x124688B5, 0x74583231, 0x313D71D6, 0x9F5B3507, 0x104089AD, 0x748F440C, 0x408176AC,
     0xB4661301, 0x2261C0BE, 0x49392533, 0x2C497FC4, 0x80451D06, 0x2466BBD0, 0x9CB85411, 0x40A09DA3, 0xB37F210B,
     0x3D8AEAC7, 0x3F241930, 0x2F5591A7, 0x6441080F, 0x4191E8DB, 0xB7A76B18, 0x4094BAA0, 0x76532D22, 0x60BAFEE8,
@@ -32,7 +32,7 @@ static u32 texture[] = {
     0x422B6EE0, 0xBB85480B, 0x04256799, 0x716D6D21,
 };
 
-static Vtx vertices[] = {
+static Vtx sCylinderVtx[] = {
     VTX(35, 0, -35, 1280, 1024, 0xFF, 0xFF, 0xFF, 0x00),   VTX(35, 150, -35, 1280, 512, 0xFF, 0xFF, 0xFF, 0x7E),
     VTX(50, 150, 0, 1024, 512, 0xFF, 0xFF, 0xFF, 0x7E),    VTX(50, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0x00),
     VTX(35, 500, -35, 1280, 0, 0xFF, 0xFF, 0xFF, 0xFF),    VTX(50, 500, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -53,11 +53,11 @@ static Gfx sTextureDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(texture, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                         G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 0),
+    gsDPLoadTextureBlock(sTexture, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 1, 0),
     gsDPTileSync(),
-    gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 4, 0x0, 1, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 15,
-                G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 0),
+    gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 4, 0x0, 1, 0, G_TX_NOMIRROR | G_TX_WRAP, 5, 15, G_TX_NOMIRROR | G_TX_WRAP, 5,
+                0),
     gsDPSetTileSize(1, 0, 0, (31 << 2), (31 << 2)),
     gsDPSetCombineLERP(TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, TEXEL1, TEXEL0, ENVIRONMENT, TEXEL0, PRIMITIVE,
                        ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, SHADE, 0),
@@ -70,8 +70,8 @@ static Gfx sTextureDL[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx sCylinderDl[] = {
-    gsSPVertex(vertices, 27, 0),
+static Gfx sCylinderDL[] = {
+    gsSPVertex(sCylinderVtx, 27, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(1, 4, 5, 0, 1, 5, 2, 0),
     gsSP2Triangles(6, 7, 1, 0, 6, 1, 0, 0),

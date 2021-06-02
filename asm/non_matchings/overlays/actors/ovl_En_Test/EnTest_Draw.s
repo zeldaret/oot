@@ -24,7 +24,7 @@ glabel EnTest_Draw
 /* 04A4C 8086409C 8E05018C */  lw      $a1, 0x018C($s0)           ## 0000018C
 /* 04A50 808640A0 8E0601A8 */  lw      $a2, 0x01A8($s0)           ## 000001A8
 /* 04A54 808640A4 AFB00014 */  sw      $s0, 0x0014($sp)           
-/* 04A58 808640A8 0C028572 */  jal     SkelAnime_Draw
+/* 04A58 808640A8 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 04A5C 808640AC AFB90010 */  sw      $t9, 0x0010($sp)           
 .L808640B0:
@@ -63,7 +63,7 @@ glabel EnTest_Draw
 /* 04AE0 80864130 24C6014C */  addiu   $a2, $a2, 0x014C           ## $a2 = 0000014C
 /* 04AE4 80864134 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 04AE8 80864138 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 04AEC 8086413C 0C00A877 */  jal     func_8002A1DC              
+/* 04AEC 8086413C 0C00A877 */  jal     EffectSsEnIce_SpawnFlyingVec3s              
 /* 04AF0 80864140 E7A40028 */  swc1    $f4, 0x0028($sp)           
 .L80864144:
 /* 04AF4 80864144 8FBF003C */  lw      $ra, 0x003C($sp)           

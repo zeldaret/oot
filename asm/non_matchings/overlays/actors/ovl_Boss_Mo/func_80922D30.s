@@ -108,7 +108,7 @@ glabel func_80922D30
 /* 073A4 80922EA4 260614FC */  addiu   $a2, $s0, 0x14FC           ## $a2 = 000014FC
 /* 073A8 80922EA8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000014FC
 /* 073AC 80922EAC AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 073B0 80922EB0 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 073B0 80922EB0 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 073B4 80922EB4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 073B8 80922EB8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -143,7 +143,7 @@ glabel func_80922D30
 /* 07420 80922F20 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80922F24:
 /* 07424 80922F24 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 07428 80922F28 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0742C 80922F2C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80922F30:

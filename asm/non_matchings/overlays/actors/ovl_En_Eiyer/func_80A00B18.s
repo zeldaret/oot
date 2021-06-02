@@ -11,7 +11,7 @@ glabel func_80A00B18
 /* 00B80 80A00B20 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00B84 80A00B24 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00B88 80A00B28 AFA50044 */  sw      $a1, 0x0044($sp)           
-/* 00B8C 80A00B2C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00B8C 80A00B2C 0C02927F */  jal     SkelAnime_Update
               
 /* 00B90 80A00B30 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00B94 80A00B34 AFA2003C */  sw      $v0, 0x003C($sp)           
@@ -46,7 +46,7 @@ glabel func_80A00B18
 /* 00C00 80A00BA0 00000000 */  nop
 /* 00C04 80A00BA4 46080282 */  mul.s   $f10, $f0, $f8             
 /* 00C08 80A00BA8 E7AA0034 */  swc1    $f10, 0x0034($sp)          
-/* 00C0C 80A00BAC 0C01DE1C */  jal     Math_Sins
+/* 00C0C 80A00BAC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00C10 80A00BB0 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00C14 80A00BB4 C7B00034 */  lwc1    $f16, 0x0034($sp)          
@@ -54,7 +54,7 @@ glabel func_80A00B18
 /* 00C1C 80A00BBC 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00C20 80A00BC0 46100482 */  mul.s   $f18, $f0, $f16            
 /* 00C24 80A00BC4 46049180 */  add.s   $f6, $f18, $f4             
-/* 00C28 80A00BC8 0C01DE0D */  jal     Math_Coss
+/* 00C28 80A00BC8 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00C2C 80A00BCC E6060024 */  swc1    $f6, 0x0024($s0)           ## 00000024
 /* 00C30 80A00BD0 C7A80034 */  lwc1    $f8, 0x0034($sp)           
@@ -70,7 +70,7 @@ glabel func_80A00B18
 /* 00C54 80A00BF4 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 00C58 80A00BF8 46062200 */  add.s   $f8, $f4, $f6              
 /* 00C5C 80A00BFC 44054000 */  mfc1    $a1, $f8                   
-/* 00C60 80A00C00 0C01DE80 */  jal     Math_ApproxF
+/* 00C60 80A00C00 0C01DE80 */  jal     Math_StepToF
               
 /* 00C64 80A00C04 00000000 */  nop
 /* 00C68 80A00C08 3C0180A0 */  lui     $at, %hi(D_80A019FC)       ## $at = 80A00000
@@ -93,7 +93,7 @@ glabel func_80A00B18
 /* 00CA4 80A00C44 26190024 */  addiu   $t9, $s0, 0x0024           ## $t9 = 00000024
 /* 00CA8 80A00C48 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 00CAC 80A00C4C 27A60030 */  addiu   $a2, $sp, 0x0030           ## $a2 = FFFFFFF0
-/* 00CB0 80A00C50 0C00F269 */  jal     func_8003C9A4              
+/* 00CB0 80A00C50 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 00CB4 80A00C54 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
 /* 00CB8 80A00C58 E6000080 */  swc1    $f0, 0x0080($s0)           ## 00000080
 /* 00CBC 80A00C5C 8FBF0024 */  lw      $ra, 0x0024($sp)           

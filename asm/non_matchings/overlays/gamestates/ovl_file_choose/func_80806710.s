@@ -61,7 +61,7 @@ glabel func_80806710
 /* 02AB4 808067F4 55C0003B */  bnel    $t6, $zero, .L808068E4     
 /* 02AB8 808067F8 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 02ABC 808067FC AFA20020 */  sw      $v0, 0x0020($sp)           
-/* 02AC0 80806800 0C02A5B4 */  jal     func_800A96D0              
+/* 02AC0 80806800 0C02A5B4 */  jal     Sram_EraseSave              
 /* 02AC4 80806804 AFA40030 */  sw      $a0, 0x0030($sp)           
 /* 02AC8 80806808 8FA20020 */  lw      $v0, 0x0020($sp)           
 /* 02ACC 8080680C 8FA40030 */  lw      $a0, 0x0030($sp)           

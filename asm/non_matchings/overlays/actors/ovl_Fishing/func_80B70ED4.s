@@ -140,7 +140,7 @@ glabel func_80B70ED4
 /* 07714 80B710B4 A4C0017A */  sh      $zero, 0x017A($a2)         ## 0000017A
 /* 07718 80B710B8 44816000 */  mtc1    $at, $f12                  ## $f12 = 100.00
 /* 0771C 80B710BC E7A20024 */  swc1    $f2, 0x0024($sp)           
-/* 07720 80B710C0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 07720 80B710C0 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 07724 80B710C4 AFA60040 */  sw      $a2, 0x0040($sp)           
 /* 07728 80B710C8 4600020D */  trunc.w.s $f8, $f0                   
@@ -174,7 +174,7 @@ glabel func_80B70ED4
 /* 07790 80B71130 A4C0017A */  sh      $zero, 0x017A($a2)         ## 0000017A
 /* 07794 80B71134 44816000 */  mtc1    $at, $f12                  ## $f12 = 100.00
 /* 07798 80B71138 E7A20024 */  swc1    $f2, 0x0024($sp)           
-/* 0779C 80B7113C 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0779C 80B7113C 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 077A0 80B71140 AFA60040 */  sw      $a2, 0x0040($sp)           
 /* 077A4 80B71144 4600040D */  trunc.w.s $f16, $f0                  

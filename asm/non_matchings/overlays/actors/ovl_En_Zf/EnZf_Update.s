@@ -58,7 +58,7 @@ glabel EnZf_Update
 /* 052CC 80B4931C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 052D0 80B49320 3C0641C8 */  lui     $a2, 0x41C8                ## $a2 = 41C80000
 /* 052D4 80B49324 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
-/* 052D8 80B49328 0C00B92D */  jal     func_8002E4B4              
+/* 052D8 80B49328 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 052DC 80B4932C E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 052E0 80B49330 960A0088 */  lhu     $t2, 0x0088($s0)           ## 00000088
 /* 052E4 80B49334 240C0001 */  addiu   $t4, $zero, 0x0001         ## $t4 = 00000001
@@ -121,7 +121,7 @@ glabel EnZf_Update
 /* 053B0 80B49400 1420001E */  bne     $at, $zero, .L80B4947C     
 /* 053B4 80B49404 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 053B8 80B49408 240707D0 */  addiu   $a3, $zero, 0x07D0         ## $a3 = 000007D0
-/* 053BC 80B4940C 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 053BC 80B4940C 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 053C0 80B49410 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 053C4 80B49414 8E1903DC */  lw      $t9, 0x03DC($s0)           ## 000003DC
@@ -171,7 +171,7 @@ glabel EnZf_Update
 /* 05468 80B494B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0546C 80B494BC 15810024 */  bne     $t4, $at, .L80B49550       
 /* 05470 80B494C0 26050418 */  addiu   $a1, $s0, 0x0418           ## $a1 = 00000418
-/* 05474 80B494C4 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 05474 80B494C4 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 05478 80B494C8 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 0547C 80B494CC C6060080 */  lwc1    $f6, 0x0080($s0)           ## 00000080
@@ -188,7 +188,7 @@ glabel EnZf_Update
 /* 054A8 80B494F8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 054AC 80B494FC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 054B0 80B49500 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 054B4 80B49504 00812821 */  addu    $a1, $a0, $at              
 .L80B49508:
 /* 054B8 80B49508 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

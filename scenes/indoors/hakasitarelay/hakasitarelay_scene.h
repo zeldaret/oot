@@ -1,0 +1,91 @@
+extern RomFile _hakasitarelay_scene_roomList_00000100[];
+extern TransitionActorEntry _hakasitarelay_scene_transitionActorList_00000090[];
+extern CollisionHeader _hakasitarelay_scene_collisionHeader_0000C04C;
+extern EntranceEntry _hakasitarelay_scene_entranceList_00000138[];
+extern ActorEntry _hakasitarelay_scene_startPositionList_00000060[];
+extern u16 _hakasitarelay_scene_exitList_00000140[];
+extern LightSettings _hakasitarelay_scene_lightSettings_00000144[];
+
+extern SCmdSoundSettings _hakasitarelay_scene_set0000_cmd00;
+extern SCmdRoomList _hakasitarelay_scene_set0000_cmd01;
+extern SCmdTransiActorList _hakasitarelay_scene_set0000_cmd02;
+extern SCmdMiscSettings _hakasitarelay_scene_set0000_cmd03;
+extern SCmdColHeader _hakasitarelay_scene_set0000_cmd04;
+extern SCmdEntranceList _hakasitarelay_scene_set0000_cmd05;
+extern SCmdSpecialFiles _hakasitarelay_scene_set0000_cmd06;
+extern SCmdSpawnList _hakasitarelay_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _hakasitarelay_scene_set0000_cmd08;
+extern SCmdExitList _hakasitarelay_scene_set0000_cmd09;
+extern SCmdLightSettingList _hakasitarelay_scene_set0000_cmd0A;
+extern SCmdEndMarker _hakasitarelay_scene_set0000_cmd0B;
+extern u64 _hakasitarelay_scene_tex_0000C080[];
+extern u64 _hakasitarelay_scene_tex_0000D080[];
+extern u64 _hakasitarelay_scene_tex_0000D880[];
+
+#define _hakasitarelay_room_0_vertices_00002B60 ((u32)_hakasitarelay_room_0_vertices_00002970 + 0x000001F0)
+#define _hakasitarelay_room_0_vertices_00002D50 ((u32)_hakasitarelay_room_0_vertices_00002970 + 0x000003E0)
+#define _hakasitarelay_room_1_vertices_000004A0 ((u32)_hakasitarelay_room_1_vertices_000002C0 + 0x000001E0)
+#define _hakasitarelay_room_1_vertices_00000680 ((u32)_hakasitarelay_room_1_vertices_000002C0 + 0x000003C0)
+#define _hakasitarelay_room_1_vertices_00000E60 ((u32)_hakasitarelay_room_1_vertices_00000C80 + 0x000001E0)
+#define _hakasitarelay_room_1_vertices_00001E50 ((u32)_hakasitarelay_room_1_vertices_00001C60 + 0x000001F0)
+#define _hakasitarelay_room_1_vertices_000030B8 ((u32)_hakasitarelay_room_1_vertices_00002EC8 + 0x000001F0)
+#define _hakasitarelay_room_2_vertices_00000320 ((u32)_hakasitarelay_room_2_vertices_00000130 + 0x000001F0)
+#define _hakasitarelay_room_2_vertices_00000500 ((u32)_hakasitarelay_room_2_vertices_00000130 + 0x000003D0)
+#define _hakasitarelay_room_2_vertices_000006F0 ((u32)_hakasitarelay_room_2_vertices_00000130 + 0x000005C0)
+#define _hakasitarelay_room_2_vertices_000012F0 ((u32)_hakasitarelay_room_2_vertices_00001100 + 0x000001F0)
+#define _hakasitarelay_room_2_vertices_000014E0 ((u32)_hakasitarelay_room_2_vertices_00001100 + 0x000003E0)
+#define _hakasitarelay_room_2_vertices_000016D0 ((u32)_hakasitarelay_room_2_vertices_00001100 + 0x000005D0)
+#define _hakasitarelay_room_2_vertices_000022C0 ((u32)_hakasitarelay_room_2_vertices_000020D0 + 0x000001F0)
+#define _hakasitarelay_room_2_vertices_00003348 ((u32)_hakasitarelay_room_2_vertices_00003168 + 0x000001E0)
+#define _hakasitarelay_room_2_vertices_00003C48 ((u32)_hakasitarelay_room_2_vertices_00003A58 + 0x000001F0)
+#define _hakasitarelay_room_2_vertices_00003E38 ((u32)_hakasitarelay_room_2_vertices_00003A58 + 0x000003E0)
+#define _hakasitarelay_room_2_vertices_00004028 ((u32)_hakasitarelay_room_2_vertices_00003A58 + 0x000005D0)
+#define _hakasitarelay_room_2_vertices_00004218 ((u32)_hakasitarelay_room_2_vertices_00003A58 + 0x000007C0)
+#define _hakasitarelay_room_3_vertices_00000D30 ((u32)_hakasitarelay_room_3_vertices_00000B40 + 0x000001F0)
+#define _hakasitarelay_room_3_vertices_00001110 ((u32)_hakasitarelay_room_3_vertices_00000F30 + 0x000001E0)
+#define _hakasitarelay_room_3_vertices_000012F0 ((u32)_hakasitarelay_room_3_vertices_00000F30 + 0x000003C0)
+#define _hakasitarelay_room_3_vertices_000014E0 ((u32)_hakasitarelay_room_3_vertices_00000F30 + 0x000005B0)
+#define _hakasitarelay_room_3_vertices_00001AD0 ((u32)_hakasitarelay_room_3_vertices_000018E0 + 0x000001F0)
+#define _hakasitarelay_room_3_vertices_00002A30 ((u32)_hakasitarelay_room_3_vertices_00002850 + 0x000001E0)
+#define _hakasitarelay_room_3_vertices_00003F58 ((u32)_hakasitarelay_room_3_vertices_00003D78 + 0x000001E0)
+#define _hakasitarelay_room_3_vertices_00004348 ((u32)_hakasitarelay_room_3_vertices_00004158 + 0x000001F0)
+#define _hakasitarelay_room_3_vertices_00005150 ((u32)_hakasitarelay_room_3_vertices_00004F60 + 0x000001F0)
+#define _hakasitarelay_room_5_vertices_00000B00 ((u32)_hakasitarelay_room_5_vertices_00000910 + 0x000001F0)
+#define _hakasitarelay_room_5_vertices_00000DA0 ((u32)_hakasitarelay_room_5_vertices_00000BC0 + 0x000001E0)
+#define _hakasitarelay_room_6_vertices_00003208 ((u32)_hakasitarelay_room_6_vertices_00003018 + 0x000001F0)
+#define _hakasitarelay_room_6_vertices_00003F30 ((u32)_hakasitarelay_room_6_vertices_00003D50 + 0x000001E0)
+
+
+
+
+extern SCmdSoundSettings _hakasitarelay_scene_set0000_cmd00;
+
+extern SCmdRoomList _hakasitarelay_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _hakasitarelay_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _hakasitarelay_scene_set0000_cmd03;
+
+extern SCmdColHeader _hakasitarelay_scene_set0000_cmd04;
+
+extern SCmdEntranceList _hakasitarelay_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _hakasitarelay_scene_set0000_cmd06;
+
+extern SCmdSpawnList _hakasitarelay_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _hakasitarelay_scene_set0000_cmd08;
+
+extern SCmdExitList _hakasitarelay_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _hakasitarelay_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _hakasitarelay_scene_set0000_cmd0B;
+
+extern u64 _hakasitarelay_scene_tex_0000C080[];
+
+extern u64 _hakasitarelay_scene_tex_0000D080[];
+
+extern u64 _hakasitarelay_scene_tex_0000D880[];
+
+

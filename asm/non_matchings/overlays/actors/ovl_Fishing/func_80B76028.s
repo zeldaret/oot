@@ -27,7 +27,7 @@ glabel func_80B76028
 /* 0C6CC 80B7606C 45000015 */  bc1f    .L80B760C4                 
 /* 0C6D0 80B76070 00000000 */  nop
 /* 0C6D4 80B76074 AFA40028 */  sw      $a0, 0x0028($sp)           
-/* 0C6D8 80B76078 0C0341F5 */  jal     atan2f
+/* 0C6D8 80B76078 0C0341F5 */  jal     Math_Atan2F
               
 /* 0C6DC 80B7607C E7A2001C */  swc1    $f2, 0x001C($sp)           
 /* 0C6E0 80B76080 3C0180B8 */  lui     $at, %hi(D_80B7B778)       ## $at = 80B80000
@@ -45,7 +45,7 @@ glabel func_80B76028
 /* 0C710 80B760B0 460A4402 */  mul.s   $f16, $f8, $f10            
 /* 0C714 80B760B4 2444000C */  addiu   $a0, $v0, 0x000C           ## $a0 = 0000000C
 /* 0C718 80B760B8 44058000 */  mfc1    $a1, $f16                  
-/* 0C71C 80B760BC 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 0C71C 80B760BC 0C01E107 */  jal     Math_ApproachF
               
 /* 0C720 80B760C0 00000000 */  nop
 .L80B760C4:

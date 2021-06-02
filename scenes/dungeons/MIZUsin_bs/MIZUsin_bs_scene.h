@@ -1,0 +1,50 @@
+extern RomFile _MIZUsin_bs_scene_roomList_00000080[];
+extern TransitionActorEntry _MIZUsin_bs_scene_transitionActorList_00000070[];
+extern CollisionHeader _MIZUsin_bs_scene_collisionHeader_00001A34;
+extern EntranceEntry _MIZUsin_bs_scene_entranceList_00000090[];
+extern ActorEntry _MIZUsin_bs_scene_startPositionList_00000060[];
+extern u16 _MIZUsin_bs_scene_exitList_00000094[];
+extern LightSettings _MIZUsin_bs_scene_lightSettings_00000098[];
+
+extern SCmdSoundSettings _MIZUsin_bs_scene_set0000_cmd00;
+extern SCmdRoomList _MIZUsin_bs_scene_set0000_cmd01;
+extern SCmdTransiActorList _MIZUsin_bs_scene_set0000_cmd02;
+extern SCmdMiscSettings _MIZUsin_bs_scene_set0000_cmd03;
+extern SCmdColHeader _MIZUsin_bs_scene_set0000_cmd04;
+extern SCmdEntranceList _MIZUsin_bs_scene_set0000_cmd05;
+extern SCmdSpecialFiles _MIZUsin_bs_scene_set0000_cmd06;
+extern SCmdSpawnList _MIZUsin_bs_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _MIZUsin_bs_scene_set0000_cmd08;
+extern SCmdExitList _MIZUsin_bs_scene_set0000_cmd09;
+extern SCmdLightSettingList _MIZUsin_bs_scene_set0000_cmd0A;
+extern SCmdEndMarker _MIZUsin_bs_scene_set0000_cmd0B;
+
+
+
+
+
+extern SCmdSoundSettings _MIZUsin_bs_scene_set0000_cmd00;
+
+extern SCmdRoomList _MIZUsin_bs_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _MIZUsin_bs_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _MIZUsin_bs_scene_set0000_cmd03;
+
+extern SCmdColHeader _MIZUsin_bs_scene_set0000_cmd04;
+
+extern SCmdEntranceList _MIZUsin_bs_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _MIZUsin_bs_scene_set0000_cmd06;
+
+extern SCmdSpawnList _MIZUsin_bs_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _MIZUsin_bs_scene_set0000_cmd08;
+
+extern SCmdExitList _MIZUsin_bs_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _MIZUsin_bs_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _MIZUsin_bs_scene_set0000_cmd0B;
+
+

@@ -1,0 +1,43 @@
+extern MeshHeader2 _jyasinzou_room_11_meshHeader_00000040;
+extern MeshEntry2 _jyasinzou_room_11_meshDListEntry_0000004C[2];
+extern Gfx _jyasinzou_room_11_dlist_00000E40[];
+extern Vtx_t _jyasinzou_room_11_vertices_00000B80[4];
+extern Vtx_t _jyasinzou_room_11_vertices_00000BC0[28];
+extern Vtx_t _jyasinzou_room_11_vertices_00000D80[4];
+extern Vtx_t _jyasinzou_room_11_vertices_00000DC0[8];
+extern Gfx _jyasinzou_room_11_dlist_00000530[];
+extern Vtx_t _jyasinzou_room_11_vertices_000000D0[62];
+extern Vtx_t _jyasinzou_room_11_vertices_000004B0[8];
+extern u64 _jyasinzou_room_11_tex_00000780[];
+#define _jyasinzou_room_11_vertices_000002C0 ((u32)_jyasinzou_room_11_vertices_000000D0 + 0x000001F0)
+s16 _jyasinzou_room_11_objectList_00000038[];
+
+extern SCmdEchoSettings _jyasinzou_room_11_set0000_cmd00;
+extern SCmdRoomBehavior _jyasinzou_room_11_set0000_cmd01;
+extern SCmdSkyboxDisables _jyasinzou_room_11_set0000_cmd02;
+extern SCmdTimeSettings _jyasinzou_room_11_set0000_cmd03;
+extern SCmdMesh _jyasinzou_room_11_set0000_cmd04;
+extern SCmdObjectList _jyasinzou_room_11_set0000_cmd05;
+extern SCmdEndMarker _jyasinzou_room_11_set0000_cmd06;
+
+
+
+
+
+extern SCmdEchoSettings _jyasinzou_room_11_set0000_cmd00;
+
+extern SCmdRoomBehavior _jyasinzou_room_11_set0000_cmd01;
+
+extern SCmdSkyboxDisables _jyasinzou_room_11_set0000_cmd02;
+
+extern SCmdTimeSettings _jyasinzou_room_11_set0000_cmd03;
+
+extern SCmdMesh _jyasinzou_room_11_set0000_cmd04;
+
+extern SCmdObjectList _jyasinzou_room_11_set0000_cmd05;
+
+extern SCmdEndMarker _jyasinzou_room_11_set0000_cmd06;
+
+
+
+

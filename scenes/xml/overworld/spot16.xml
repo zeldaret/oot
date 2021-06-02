@@ -1,9 +1,0 @@
-<Root>
-    <File Name="spot16_scene">
-        <Scene Name="spot16_scene">
-        </Scene>
-    </File>
-    <File Name="spot16_room_0">
-        <Room Name="spot16_room_0"/>
-    </File>
-</Root>

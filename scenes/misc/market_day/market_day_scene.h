@@ -1,0 +1,60 @@
+extern RomFile _market_day_scene_roomList_00000178[];
+extern TransitionActorEntry _market_day_scene_transitionActorList_00000118[];
+extern CollisionHeader _market_day_scene_collisionHeader_00002640;
+extern EntranceEntry _market_day_scene_entranceList_00000180[];
+extern Vec3s _market_day_scene_pathwayList_00000330[];
+extern ActorEntry _market_day_scene_startPositionList_00000068[];
+extern u16 _market_day_scene_exitList_00000198[];
+extern LightSettings _market_day_scene_lightSettings_000001B0[];
+
+extern SCmdSoundSettings _market_day_scene_set0000_cmd00;
+extern SCmdRoomList _market_day_scene_set0000_cmd01;
+extern SCmdTransiActorList _market_day_scene_set0000_cmd02;
+extern SCmdMiscSettings _market_day_scene_set0000_cmd03;
+extern SCmdColHeader _market_day_scene_set0000_cmd04;
+extern SCmdEntranceList _market_day_scene_set0000_cmd05;
+extern SCmdSpecialFiles _market_day_scene_set0000_cmd06;
+extern SCmdPathList _market_day_scene_set0038_cmd07;
+extern SCmdSpawnList _market_day_scene_set0000_cmd08;
+extern SCmdSkyboxSettings _market_day_scene_set0000_cmd09;
+extern SCmdExitList _market_day_scene_set0000_cmd0A;
+extern SCmdLightSettingList _market_day_scene_set0000_cmd0B;
+extern SCmdEndMarker _market_day_scene_set0000_cmd0C;
+extern Vec3s _market_day_scene_pathwayList_0000024C[];
+extern Path _market_day_scene_pathway_00000330;
+
+
+
+
+
+extern SCmdSoundSettings _market_day_scene_set0000_cmd00;
+
+extern SCmdRoomList _market_day_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _market_day_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _market_day_scene_set0000_cmd03;
+
+extern SCmdColHeader _market_day_scene_set0000_cmd04;
+
+extern SCmdEntranceList _market_day_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _market_day_scene_set0000_cmd06;
+
+extern SCmdPathList _market_day_scene_set0038_cmd07;
+
+extern SCmdSpawnList _market_day_scene_set0000_cmd08;
+
+extern SCmdSkyboxSettings _market_day_scene_set0000_cmd09;
+
+extern SCmdExitList _market_day_scene_set0000_cmd0A;
+
+extern SCmdLightSettingList _market_day_scene_set0000_cmd0B;
+
+extern SCmdEndMarker _market_day_scene_set0000_cmd0C;
+
+extern Vec3s _market_day_scene_pathwayList_0000024C[];
+
+extern Path _market_day_scene_pathway_00000330;
+
+

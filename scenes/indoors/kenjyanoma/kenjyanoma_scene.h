@@ -1,0 +1,169 @@
+extern RomFile _kenjyanoma_scene_roomList_00000080[];
+extern CollisionHeader _kenjyanoma_scene_collisionHeader_0000359C;
+extern EntranceEntry _kenjyanoma_scene_entranceList_00000088[];
+extern ActorEntry _kenjyanoma_scene_startPositionList_00000070[];
+extern u16 _kenjyanoma_scene_exitList_0000008C[];
+extern LightSettings _kenjyanoma_scene_lightSettings_00000090[];
+extern RomFile _kenjyanoma_scene_roomList_00003638[];
+extern CollisionHeader _kenjyanoma_scene_collisionHeader_0000359C;
+extern EntranceEntry _kenjyanoma_scene_entranceList_00003640[];
+extern ActorEntry _kenjyanoma_scene_startPositionList_00003628[];
+extern u16 _kenjyanoma_scene_exitList_00003644[];
+extern LightSettings _kenjyanoma_scene_lightSettings_00003648[];
+extern s32 _kenjyanoma_scene_cutsceneData_00000120[];
+extern RomFile _kenjyanoma_scene_roomList_00003738[];
+extern CollisionHeader _kenjyanoma_scene_collisionHeader_0000359C;
+extern EntranceEntry _kenjyanoma_scene_entranceList_00003740[];
+extern ActorEntry _kenjyanoma_scene_startPositionList_00003728[];
+extern u16 _kenjyanoma_scene_exitList_00003744[];
+extern LightSettings _kenjyanoma_scene_lightSettings_00003748[];
+extern s32 _kenjyanoma_scene_cutsceneData_000012A0[];
+extern RomFile _kenjyanoma_scene_roomList_00003838[];
+extern CollisionHeader _kenjyanoma_scene_collisionHeader_0000359C;
+extern EntranceEntry _kenjyanoma_scene_entranceList_00003840[];
+extern ActorEntry _kenjyanoma_scene_startPositionList_00003828[];
+extern u16 _kenjyanoma_scene_exitList_00003844[];
+extern LightSettings _kenjyanoma_scene_lightSettings_00003848[];
+extern s32 _kenjyanoma_scene_cutsceneData_00001690[];
+
+extern SCmdAltHeaders _kenjyanoma_scene_set0000_cmd00;
+extern SCmdSoundSettings _kenjyanoma_scene_set0000_cmd01;
+extern SCmdRoomList _kenjyanoma_scene_set0000_cmd02;
+extern SCmdMiscSettings _kenjyanoma_scene_set0000_cmd03;
+extern SCmdColHeader _kenjyanoma_scene_set0000_cmd04;
+extern SCmdEntranceList _kenjyanoma_scene_set0000_cmd05;
+extern SCmdSpawnList _kenjyanoma_scene_set0000_cmd06;
+extern SCmdSkyboxSettings _kenjyanoma_scene_set0000_cmd07;
+extern SCmdExitList _kenjyanoma_scene_set0000_cmd08;
+extern SCmdLightSettingList _kenjyanoma_scene_set0000_cmd09;
+extern SCmdEndMarker _kenjyanoma_scene_set0000_cmd0A;
+extern u32 _kenjyanoma_scene_alternateHeaders_00000058[];
+extern SCmdSoundSettings _kenjyanoma_scene_set35D0_cmd00;
+extern SCmdRoomList _kenjyanoma_scene_set35D0_cmd01;
+extern SCmdMiscSettings _kenjyanoma_scene_set35D0_cmd02;
+extern SCmdColHeader _kenjyanoma_scene_set35D0_cmd03;
+extern SCmdEntranceList _kenjyanoma_scene_set35D0_cmd04;
+extern SCmdSpawnList _kenjyanoma_scene_set35D0_cmd05;
+extern SCmdSkyboxSettings _kenjyanoma_scene_set35D0_cmd06;
+extern SCmdExitList _kenjyanoma_scene_set35D0_cmd07;
+extern SCmdLightSettingList _kenjyanoma_scene_set35D0_cmd08;
+extern SCmdCutsceneData _kenjyanoma_scene_set35D0_cmd09;
+extern SCmdEndMarker _kenjyanoma_scene_set35D0_cmd0A;
+extern SCmdSoundSettings _kenjyanoma_scene_set36D0_cmd00;
+extern SCmdRoomList _kenjyanoma_scene_set36D0_cmd01;
+extern SCmdMiscSettings _kenjyanoma_scene_set36D0_cmd02;
+extern SCmdColHeader _kenjyanoma_scene_set36D0_cmd03;
+extern SCmdEntranceList _kenjyanoma_scene_set36D0_cmd04;
+extern SCmdSpawnList _kenjyanoma_scene_set36D0_cmd05;
+extern SCmdSkyboxSettings _kenjyanoma_scene_set36D0_cmd06;
+extern SCmdExitList _kenjyanoma_scene_set36D0_cmd07;
+extern SCmdLightSettingList _kenjyanoma_scene_set36D0_cmd08;
+extern SCmdCutsceneData _kenjyanoma_scene_set36D0_cmd09;
+extern SCmdEndMarker _kenjyanoma_scene_set36D0_cmd0A;
+extern SCmdSoundSettings _kenjyanoma_scene_set37D0_cmd00;
+extern SCmdRoomList _kenjyanoma_scene_set37D0_cmd01;
+extern SCmdMiscSettings _kenjyanoma_scene_set37D0_cmd02;
+extern SCmdColHeader _kenjyanoma_scene_set37D0_cmd03;
+extern SCmdEntranceList _kenjyanoma_scene_set37D0_cmd04;
+extern SCmdSpawnList _kenjyanoma_scene_set37D0_cmd05;
+extern SCmdSkyboxSettings _kenjyanoma_scene_set37D0_cmd06;
+extern SCmdExitList _kenjyanoma_scene_set37D0_cmd07;
+extern SCmdLightSettingList _kenjyanoma_scene_set37D0_cmd08;
+extern SCmdCutsceneData _kenjyanoma_scene_set37D0_cmd09;
+extern SCmdEndMarker _kenjyanoma_scene_set37D0_cmd0A;
+
+
+
+
+
+extern SCmdAltHeaders _kenjyanoma_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _kenjyanoma_scene_set0000_cmd01;
+
+extern SCmdRoomList _kenjyanoma_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _kenjyanoma_scene_set0000_cmd03;
+
+extern SCmdColHeader _kenjyanoma_scene_set0000_cmd04;
+
+extern SCmdEntranceList _kenjyanoma_scene_set0000_cmd05;
+
+extern SCmdSpawnList _kenjyanoma_scene_set0000_cmd06;
+
+extern SCmdSkyboxSettings _kenjyanoma_scene_set0000_cmd07;
+
+extern SCmdExitList _kenjyanoma_scene_set0000_cmd08;
+
+extern SCmdLightSettingList _kenjyanoma_scene_set0000_cmd09;
+
+extern SCmdEndMarker _kenjyanoma_scene_set0000_cmd0A;
+
+extern u32 _kenjyanoma_scene_alternateHeaders_00000058[];
+
+extern SCmdSoundSettings _kenjyanoma_scene_set35D0_cmd00;
+
+extern SCmdRoomList _kenjyanoma_scene_set35D0_cmd01;
+
+extern SCmdMiscSettings _kenjyanoma_scene_set35D0_cmd02;
+
+extern SCmdColHeader _kenjyanoma_scene_set35D0_cmd03;
+
+extern SCmdEntranceList _kenjyanoma_scene_set35D0_cmd04;
+
+extern SCmdSpawnList _kenjyanoma_scene_set35D0_cmd05;
+
+extern SCmdSkyboxSettings _kenjyanoma_scene_set35D0_cmd06;
+
+extern SCmdExitList _kenjyanoma_scene_set35D0_cmd07;
+
+extern SCmdLightSettingList _kenjyanoma_scene_set35D0_cmd08;
+
+extern SCmdCutsceneData _kenjyanoma_scene_set35D0_cmd09;
+
+extern SCmdEndMarker _kenjyanoma_scene_set35D0_cmd0A;
+
+extern SCmdSoundSettings _kenjyanoma_scene_set36D0_cmd00;
+
+extern SCmdRoomList _kenjyanoma_scene_set36D0_cmd01;
+
+extern SCmdMiscSettings _kenjyanoma_scene_set36D0_cmd02;
+
+extern SCmdColHeader _kenjyanoma_scene_set36D0_cmd03;
+
+extern SCmdEntranceList _kenjyanoma_scene_set36D0_cmd04;
+
+extern SCmdSpawnList _kenjyanoma_scene_set36D0_cmd05;
+
+extern SCmdSkyboxSettings _kenjyanoma_scene_set36D0_cmd06;
+
+extern SCmdExitList _kenjyanoma_scene_set36D0_cmd07;
+
+extern SCmdLightSettingList _kenjyanoma_scene_set36D0_cmd08;
+
+extern SCmdCutsceneData _kenjyanoma_scene_set36D0_cmd09;
+
+extern SCmdEndMarker _kenjyanoma_scene_set36D0_cmd0A;
+
+extern SCmdSoundSettings _kenjyanoma_scene_set37D0_cmd00;
+
+extern SCmdRoomList _kenjyanoma_scene_set37D0_cmd01;
+
+extern SCmdMiscSettings _kenjyanoma_scene_set37D0_cmd02;
+
+extern SCmdColHeader _kenjyanoma_scene_set37D0_cmd03;
+
+extern SCmdEntranceList _kenjyanoma_scene_set37D0_cmd04;
+
+extern SCmdSpawnList _kenjyanoma_scene_set37D0_cmd05;
+
+extern SCmdSkyboxSettings _kenjyanoma_scene_set37D0_cmd06;
+
+extern SCmdExitList _kenjyanoma_scene_set37D0_cmd07;
+
+extern SCmdLightSettingList _kenjyanoma_scene_set37D0_cmd08;
+
+extern SCmdCutsceneData _kenjyanoma_scene_set37D0_cmd09;
+
+extern SCmdEndMarker _kenjyanoma_scene_set37D0_cmd0A;
+
+

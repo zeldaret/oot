@@ -42,7 +42,7 @@ glabel func_80BA4CD4
 /* 022B4 80BA4D54 3C073E8F */  lui     $a3, 0x3E8F                ## $a3 = 3E8F0000
 /* 022B8 80BA4D58 34E75C29 */  ori     $a3, $a3, 0x5C29           ## $a3 = 3E8F5C29
 /* 022BC 80BA4D5C 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 022C0 80BA4D60 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 022C0 80BA4D60 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 022C4 80BA4D64 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 022C8 80BA4D68 8FBF0024 */  lw      $ra, 0x0024($sp)           

@@ -1,8 +1,0 @@
-<Root>
-    <File Name="ganon_boss_scene">
-        <Scene Name="ganon_boss_scene"/>
-    </File>
-    <File Name="ganon_boss_room_0">
-        <Room Name="ganon_boss_room_0"/>
-    </File>
-</Root>

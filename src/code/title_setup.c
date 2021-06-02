@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void TitleSetup_InitImpl(GameState* gameState) {
     // Zelda common data initalization

@@ -1,0 +1,641 @@
+extern RomFile _spot20_scene_roomList_0000017C[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_0000014C[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00000184[];
+extern Vec3s _spot20_scene_pathwayList_00000314[];
+extern ActorEntry _spot20_scene_startPositionList_0000009C[];
+extern u16 _spot20_scene_exitList_0000019C[];
+extern LightSettings _spot20_scene_lightSettings_000001AC[];
+extern RomFile _spot20_scene_roomList_00005090[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_00005060[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00005098[];
+extern ActorEntry _spot20_scene_startPositionList_00004FB0[];
+extern u16 _spot20_scene_exitList_000050B0[];
+extern LightSettings _spot20_scene_lightSettings_000050C0[];
+extern RomFile _spot20_scene_roomList_00004B90[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_00004B60[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00004B98[];
+extern ActorEntry _spot20_scene_startPositionList_00004AB0[];
+extern u16 _spot20_scene_exitList_00004BB0[];
+extern LightSettings _spot20_scene_lightSettings_00004BC0[];
+extern RomFile _spot20_scene_roomList_00004E10[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_00004DE0[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00004E18[];
+extern ActorEntry _spot20_scene_startPositionList_00004D30[];
+extern u16 _spot20_scene_exitList_00004E30[];
+extern LightSettings _spot20_scene_lightSettings_00004E40[];
+extern RomFile _spot20_scene_roomList_00005278[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_00005248[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00005280[];
+extern ActorEntry _spot20_scene_startPositionList_00005238[];
+extern u16 _spot20_scene_exitList_00005284[];
+extern LightSettings _spot20_scene_lightSettings_00005294[];
+extern s32 _spot20_scene_cutsceneData_00002980[];
+extern RomFile _spot20_scene_roomList_00005388[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_00005368[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00005390[];
+extern ActorEntry _spot20_scene_startPositionList_00005358[];
+extern u16 _spot20_scene_exitList_00005394[];
+extern LightSettings _spot20_scene_lightSettings_000053A0[];
+extern s32 _spot20_scene_cutsceneData_00002B40[];
+extern RomFile _spot20_scene_roomList_00005548[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_00005518[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00005550[];
+extern ActorEntry _spot20_scene_startPositionList_00005508[];
+extern LightSettings _spot20_scene_lightSettings_00005554[];
+extern s32 _spot20_scene_cutsceneData_00002F84[];
+extern RomFile _spot20_scene_roomList_00005668[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_00005638[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00005670[];
+extern ActorEntry _spot20_scene_startPositionList_00005628[];
+extern LightSettings _spot20_scene_lightSettings_00005674[];
+extern s32 _spot20_scene_cutsceneData_000031E4[];
+extern RomFile _spot20_scene_roomList_00005770[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_00005740[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00005778[];
+extern Vec3s _spot20_scene_pathwayList_00005844[];
+extern ActorEntry _spot20_scene_startPositionList_00005730[];
+extern LightSettings _spot20_scene_lightSettings_0000577C[];
+extern s32 _spot20_scene_cutsceneData_00003474[];
+extern RomFile _spot20_scene_roomList_000058F8[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_000058C8[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00005900[];
+extern ActorEntry _spot20_scene_startPositionList_000058B8[];
+extern LightSettings _spot20_scene_lightSettings_00005904[];
+extern s32 _spot20_scene_cutsceneData_00003764[];
+extern RomFile _spot20_scene_roomList_000059F8[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_000059C8[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00005A00[];
+extern ActorEntry _spot20_scene_startPositionList_000059B8[];
+extern LightSettings _spot20_scene_lightSettings_00005A04[];
+extern s32 _spot20_scene_cutsceneData_000039C4[];
+extern RomFile _spot20_scene_roomList_00005B78[];
+extern TransitionActorEntry _spot20_scene_transitionActorList_00005B48[];
+extern CollisionHeader _spot20_scene_collisionHeader_00002948;
+extern EntranceEntry _spot20_scene_entranceList_00005B80[];
+extern ActorEntry _spot20_scene_startPositionList_00005B38[];
+extern LightSettings _spot20_scene_lightSettings_00005B84[];
+extern s32 _spot20_scene_cutsceneData_000044B4[];
+
+extern SCmdAltHeaders _spot20_scene_set0000_cmd00;
+extern SCmdSoundSettings _spot20_scene_set0000_cmd01;
+extern SCmdRoomList _spot20_scene_set0000_cmd02;
+extern SCmdTransiActorList _spot20_scene_set0000_cmd03;
+extern SCmdMiscSettings _spot20_scene_set0000_cmd04;
+extern SCmdColHeader _spot20_scene_set0000_cmd05;
+extern SCmdEntranceList _spot20_scene_set0000_cmd06;
+extern SCmdSpecialFiles _spot20_scene_set0000_cmd07;
+extern SCmdPathList _spot20_scene_set0040_cmd08;
+extern SCmdSpawnList _spot20_scene_set0000_cmd09;
+extern SCmdSkyboxSettings _spot20_scene_set0000_cmd0A;
+extern SCmdExitList _spot20_scene_set0000_cmd0B;
+extern SCmdLightSettingList _spot20_scene_set0000_cmd0C;
+extern SCmdEndMarker _spot20_scene_set0000_cmd0D;
+extern u32 _spot20_scene_alternateHeaders_00000070[];
+extern Vec3s _spot20_scene_pathwayList_000002B4[];
+extern Path _spot20_scene_pathway_00000314;
+extern SCmdSoundSettings _spot20_scene_set4A50_cmd00;
+extern SCmdRoomList _spot20_scene_set4A50_cmd01;
+extern SCmdTransiActorList _spot20_scene_set4A50_cmd02;
+extern SCmdMiscSettings _spot20_scene_set4A50_cmd03;
+extern SCmdColHeader _spot20_scene_set4A50_cmd04;
+extern SCmdEntranceList _spot20_scene_set4A50_cmd05;
+extern SCmdSpecialFiles _spot20_scene_set4A50_cmd06;
+extern SCmdSpawnList _spot20_scene_set4A50_cmd07;
+extern SCmdSkyboxSettings _spot20_scene_set4A50_cmd08;
+extern SCmdExitList _spot20_scene_set4A50_cmd09;
+extern SCmdLightSettingList _spot20_scene_set4A50_cmd0A;
+extern SCmdEndMarker _spot20_scene_set4A50_cmd0B;
+extern SCmdSoundSettings _spot20_scene_set4CD0_cmd00;
+extern SCmdRoomList _spot20_scene_set4CD0_cmd01;
+extern SCmdTransiActorList _spot20_scene_set4CD0_cmd02;
+extern SCmdMiscSettings _spot20_scene_set4CD0_cmd03;
+extern SCmdColHeader _spot20_scene_set4CD0_cmd04;
+extern SCmdEntranceList _spot20_scene_set4CD0_cmd05;
+extern SCmdSpecialFiles _spot20_scene_set4CD0_cmd06;
+extern SCmdSpawnList _spot20_scene_set4CD0_cmd07;
+extern SCmdSkyboxSettings _spot20_scene_set4CD0_cmd08;
+extern SCmdExitList _spot20_scene_set4CD0_cmd09;
+extern SCmdLightSettingList _spot20_scene_set4CD0_cmd0A;
+extern SCmdEndMarker _spot20_scene_set4CD0_cmd0B;
+extern SCmdSoundSettings _spot20_scene_set4F50_cmd00;
+extern SCmdRoomList _spot20_scene_set4F50_cmd01;
+extern SCmdTransiActorList _spot20_scene_set4F50_cmd02;
+extern SCmdMiscSettings _spot20_scene_set4F50_cmd03;
+extern SCmdColHeader _spot20_scene_set4F50_cmd04;
+extern SCmdEntranceList _spot20_scene_set4F50_cmd05;
+extern SCmdSpecialFiles _spot20_scene_set4F50_cmd06;
+extern SCmdSpawnList _spot20_scene_set4F50_cmd07;
+extern SCmdSkyboxSettings _spot20_scene_set4F50_cmd08;
+extern SCmdExitList _spot20_scene_set4F50_cmd09;
+extern SCmdLightSettingList _spot20_scene_set4F50_cmd0A;
+extern SCmdEndMarker _spot20_scene_set4F50_cmd0B;
+extern SCmdSoundSettings _spot20_scene_set51D0_cmd00;
+extern SCmdRoomList _spot20_scene_set51D0_cmd01;
+extern SCmdTransiActorList _spot20_scene_set51D0_cmd02;
+extern SCmdMiscSettings _spot20_scene_set51D0_cmd03;
+extern SCmdColHeader _spot20_scene_set51D0_cmd04;
+extern SCmdEntranceList _spot20_scene_set51D0_cmd05;
+extern SCmdSpecialFiles _spot20_scene_set51D0_cmd06;
+extern SCmdSpawnList _spot20_scene_set51D0_cmd07;
+extern SCmdSkyboxSettings _spot20_scene_set51D0_cmd08;
+extern SCmdExitList _spot20_scene_set51D0_cmd09;
+extern SCmdLightSettingList _spot20_scene_set51D0_cmd0A;
+extern SCmdCutsceneData _spot20_scene_set51D0_cmd0B;
+extern SCmdEndMarker _spot20_scene_set51D0_cmd0C;
+extern SCmdSoundSettings _spot20_scene_set52F0_cmd00;
+extern SCmdRoomList _spot20_scene_set52F0_cmd01;
+extern SCmdTransiActorList _spot20_scene_set52F0_cmd02;
+extern SCmdMiscSettings _spot20_scene_set52F0_cmd03;
+extern SCmdColHeader _spot20_scene_set52F0_cmd04;
+extern SCmdEntranceList _spot20_scene_set52F0_cmd05;
+extern SCmdSpecialFiles _spot20_scene_set52F0_cmd06;
+extern SCmdSpawnList _spot20_scene_set52F0_cmd07;
+extern SCmdSkyboxSettings _spot20_scene_set52F0_cmd08;
+extern SCmdExitList _spot20_scene_set52F0_cmd09;
+extern SCmdLightSettingList _spot20_scene_set52F0_cmd0A;
+extern SCmdCutsceneData _spot20_scene_set52F0_cmd0B;
+extern SCmdEndMarker _spot20_scene_set52F0_cmd0C;
+extern SCmdSoundSettings _spot20_scene_set54B0_cmd00;
+extern SCmdRoomList _spot20_scene_set54B0_cmd01;
+extern SCmdTransiActorList _spot20_scene_set54B0_cmd02;
+extern SCmdMiscSettings _spot20_scene_set54B0_cmd03;
+extern SCmdColHeader _spot20_scene_set54B0_cmd04;
+extern SCmdEntranceList _spot20_scene_set54B0_cmd05;
+extern SCmdSpawnList _spot20_scene_set54B0_cmd06;
+extern SCmdSkyboxSettings _spot20_scene_set54B0_cmd07;
+extern SCmdLightSettingList _spot20_scene_set54B0_cmd08;
+extern SCmdCutsceneData _spot20_scene_set54B0_cmd09;
+extern SCmdEndMarker _spot20_scene_set54B0_cmd0A;
+extern SCmdSoundSettings _spot20_scene_set55D0_cmd00;
+extern SCmdRoomList _spot20_scene_set55D0_cmd01;
+extern SCmdTransiActorList _spot20_scene_set55D0_cmd02;
+extern SCmdMiscSettings _spot20_scene_set55D0_cmd03;
+extern SCmdColHeader _spot20_scene_set55D0_cmd04;
+extern SCmdEntranceList _spot20_scene_set55D0_cmd05;
+extern SCmdSpawnList _spot20_scene_set55D0_cmd06;
+extern SCmdSkyboxSettings _spot20_scene_set55D0_cmd07;
+extern SCmdLightSettingList _spot20_scene_set55D0_cmd08;
+extern SCmdCutsceneData _spot20_scene_set55D0_cmd09;
+extern SCmdEndMarker _spot20_scene_set55D0_cmd0A;
+extern SCmdSoundSettings _spot20_scene_set56D0_cmd00;
+extern SCmdRoomList _spot20_scene_set56D0_cmd01;
+extern SCmdTransiActorList _spot20_scene_set56D0_cmd02;
+extern SCmdMiscSettings _spot20_scene_set56D0_cmd03;
+extern SCmdColHeader _spot20_scene_set56D0_cmd04;
+extern SCmdEntranceList _spot20_scene_set56D0_cmd05;
+extern SCmdPathList _spot20_scene_set5700_cmd06;
+extern SCmdSpawnList _spot20_scene_set56D0_cmd07;
+extern SCmdSkyboxSettings _spot20_scene_set56D0_cmd08;
+extern SCmdLightSettingList _spot20_scene_set56D0_cmd09;
+extern SCmdCutsceneData _spot20_scene_set56D0_cmd0A;
+extern SCmdEndMarker _spot20_scene_set56D0_cmd0B;
+extern Vec3s _spot20_scene_pathwayList_0000580C[];
+extern Path _spot20_scene_pathway_00005844;
+extern SCmdSoundSettings _spot20_scene_set5860_cmd00;
+extern SCmdRoomList _spot20_scene_set5860_cmd01;
+extern SCmdTransiActorList _spot20_scene_set5860_cmd02;
+extern SCmdMiscSettings _spot20_scene_set5860_cmd03;
+extern SCmdColHeader _spot20_scene_set5860_cmd04;
+extern SCmdEntranceList _spot20_scene_set5860_cmd05;
+extern SCmdSpawnList _spot20_scene_set5860_cmd06;
+extern SCmdSkyboxSettings _spot20_scene_set5860_cmd07;
+extern SCmdLightSettingList _spot20_scene_set5860_cmd08;
+extern SCmdCutsceneData _spot20_scene_set5860_cmd09;
+extern SCmdEndMarker _spot20_scene_set5860_cmd0A;
+extern SCmdSoundSettings _spot20_scene_set5960_cmd00;
+extern SCmdRoomList _spot20_scene_set5960_cmd01;
+extern SCmdTransiActorList _spot20_scene_set5960_cmd02;
+extern SCmdMiscSettings _spot20_scene_set5960_cmd03;
+extern SCmdColHeader _spot20_scene_set5960_cmd04;
+extern SCmdEntranceList _spot20_scene_set5960_cmd05;
+extern SCmdSpawnList _spot20_scene_set5960_cmd06;
+extern SCmdSkyboxSettings _spot20_scene_set5960_cmd07;
+extern SCmdLightSettingList _spot20_scene_set5960_cmd08;
+extern SCmdCutsceneData _spot20_scene_set5960_cmd09;
+extern SCmdEndMarker _spot20_scene_set5960_cmd0A;
+extern SCmdSoundSettings _spot20_scene_set5AE0_cmd00;
+extern SCmdRoomList _spot20_scene_set5AE0_cmd01;
+extern SCmdTransiActorList _spot20_scene_set5AE0_cmd02;
+extern SCmdMiscSettings _spot20_scene_set5AE0_cmd03;
+extern SCmdColHeader _spot20_scene_set5AE0_cmd04;
+extern SCmdEntranceList _spot20_scene_set5AE0_cmd05;
+extern SCmdSpawnList _spot20_scene_set5AE0_cmd06;
+extern SCmdSkyboxSettings _spot20_scene_set5AE0_cmd07;
+extern SCmdLightSettingList _spot20_scene_set5AE0_cmd08;
+extern SCmdCutsceneData _spot20_scene_set5AE0_cmd09;
+extern SCmdEndMarker _spot20_scene_set5AE0_cmd0A;
+extern u64 _spot20_scene_tex_00005DB0[];
+extern u64 _spot20_scene_tex_00005FB8[];
+extern u64 _spot20_scene_tex_00005FE0[];
+extern u64 _spot20_scene_tex_000067E0[];
+extern u64 _spot20_scene_tex_000069E0[];
+extern u64 _spot20_scene_tex_000071E0[];
+extern u64 _spot20_scene_tex_000091E0[];
+extern u64 _spot20_scene_tex_000093E0[];
+extern u64 _spot20_scene_tex_00009BE0[];
+extern u64 _spot20_scene_tex_0000ABE0[];
+extern u64 _spot20_scene_tex_0000BBE0[];
+extern u64 _spot20_scene_tex_0000BDE0[];
+extern u64 _spot20_scene_tex_0000C1E0[];
+extern u64 _spot20_scene_tex_0000C9E0[];
+extern u64 _spot20_scene_tex_0000D1E0[];
+extern u64 _spot20_scene_tex_0000D9E0[];
+extern u64 _spot20_scene_tex_0000E1E0[];
+extern u64 _spot20_scene_tex_0000E9E0[];
+extern u64 _spot20_scene_tex_0000F1E0[];
+extern u64 _spot20_scene_tex_0000F9E0[];
+extern u64 _spot20_scene_tex_00010BE0[];
+extern u64 _spot20_scene_tex_00010E20[];
+
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+#define _spot20_room_0_vertices_000042A0 ((u32)_spot20_room_0_vertices_000040C0 + 0x000001E0)
+#define _spot20_room_0_vertices_00001EF8 ((u32)_spot20_room_0_vertices_00001D08 + 0x000001F0)
+#define _spot20_room_0_vertices_000060A0 ((u32)_spot20_room_0_vertices_00005EB0 + 0x000001F0)
+
+
+
+
+extern SCmdAltHeaders _spot20_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _spot20_scene_set0000_cmd01;
+
+extern SCmdRoomList _spot20_scene_set0000_cmd02;
+
+extern SCmdTransiActorList _spot20_scene_set0000_cmd03;
+
+extern SCmdMiscSettings _spot20_scene_set0000_cmd04;
+
+extern SCmdColHeader _spot20_scene_set0000_cmd05;
+
+extern SCmdEntranceList _spot20_scene_set0000_cmd06;
+
+extern SCmdSpecialFiles _spot20_scene_set0000_cmd07;
+
+extern SCmdPathList _spot20_scene_set0040_cmd08;
+
+extern SCmdSpawnList _spot20_scene_set0000_cmd09;
+
+extern SCmdSkyboxSettings _spot20_scene_set0000_cmd0A;
+
+extern SCmdExitList _spot20_scene_set0000_cmd0B;
+
+extern SCmdLightSettingList _spot20_scene_set0000_cmd0C;
+
+extern SCmdEndMarker _spot20_scene_set0000_cmd0D;
+
+extern u32 _spot20_scene_alternateHeaders_00000070[];
+
+extern Vec3s _spot20_scene_pathwayList_000002B4[];
+
+extern Path _spot20_scene_pathway_00000314;
+
+extern SCmdSoundSettings _spot20_scene_set4A50_cmd00;
+
+extern SCmdRoomList _spot20_scene_set4A50_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set4A50_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set4A50_cmd03;
+
+extern SCmdColHeader _spot20_scene_set4A50_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set4A50_cmd05;
+
+extern SCmdSpecialFiles _spot20_scene_set4A50_cmd06;
+
+extern SCmdSpawnList _spot20_scene_set4A50_cmd07;
+
+extern SCmdSkyboxSettings _spot20_scene_set4A50_cmd08;
+
+extern SCmdExitList _spot20_scene_set4A50_cmd09;
+
+extern SCmdLightSettingList _spot20_scene_set4A50_cmd0A;
+
+extern SCmdEndMarker _spot20_scene_set4A50_cmd0B;
+
+extern SCmdSoundSettings _spot20_scene_set4CD0_cmd00;
+
+extern SCmdRoomList _spot20_scene_set4CD0_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set4CD0_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set4CD0_cmd03;
+
+extern SCmdColHeader _spot20_scene_set4CD0_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set4CD0_cmd05;
+
+extern SCmdSpecialFiles _spot20_scene_set4CD0_cmd06;
+
+extern SCmdSpawnList _spot20_scene_set4CD0_cmd07;
+
+extern SCmdSkyboxSettings _spot20_scene_set4CD0_cmd08;
+
+extern SCmdExitList _spot20_scene_set4CD0_cmd09;
+
+extern SCmdLightSettingList _spot20_scene_set4CD0_cmd0A;
+
+extern SCmdEndMarker _spot20_scene_set4CD0_cmd0B;
+
+extern SCmdSoundSettings _spot20_scene_set4F50_cmd00;
+
+extern SCmdRoomList _spot20_scene_set4F50_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set4F50_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set4F50_cmd03;
+
+extern SCmdColHeader _spot20_scene_set4F50_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set4F50_cmd05;
+
+extern SCmdSpecialFiles _spot20_scene_set4F50_cmd06;
+
+extern SCmdSpawnList _spot20_scene_set4F50_cmd07;
+
+extern SCmdSkyboxSettings _spot20_scene_set4F50_cmd08;
+
+extern SCmdExitList _spot20_scene_set4F50_cmd09;
+
+extern SCmdLightSettingList _spot20_scene_set4F50_cmd0A;
+
+extern SCmdEndMarker _spot20_scene_set4F50_cmd0B;
+
+extern SCmdSoundSettings _spot20_scene_set51D0_cmd00;
+
+extern SCmdRoomList _spot20_scene_set51D0_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set51D0_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set51D0_cmd03;
+
+extern SCmdColHeader _spot20_scene_set51D0_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set51D0_cmd05;
+
+extern SCmdSpecialFiles _spot20_scene_set51D0_cmd06;
+
+extern SCmdSpawnList _spot20_scene_set51D0_cmd07;
+
+extern SCmdSkyboxSettings _spot20_scene_set51D0_cmd08;
+
+extern SCmdExitList _spot20_scene_set51D0_cmd09;
+
+extern SCmdLightSettingList _spot20_scene_set51D0_cmd0A;
+
+extern SCmdCutsceneData _spot20_scene_set51D0_cmd0B;
+
+extern SCmdEndMarker _spot20_scene_set51D0_cmd0C;
+
+extern SCmdSoundSettings _spot20_scene_set52F0_cmd00;
+
+extern SCmdRoomList _spot20_scene_set52F0_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set52F0_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set52F0_cmd03;
+
+extern SCmdColHeader _spot20_scene_set52F0_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set52F0_cmd05;
+
+extern SCmdSpecialFiles _spot20_scene_set52F0_cmd06;
+
+extern SCmdSpawnList _spot20_scene_set52F0_cmd07;
+
+extern SCmdSkyboxSettings _spot20_scene_set52F0_cmd08;
+
+extern SCmdExitList _spot20_scene_set52F0_cmd09;
+
+extern SCmdLightSettingList _spot20_scene_set52F0_cmd0A;
+
+extern SCmdCutsceneData _spot20_scene_set52F0_cmd0B;
+
+extern SCmdEndMarker _spot20_scene_set52F0_cmd0C;
+
+extern SCmdSoundSettings _spot20_scene_set54B0_cmd00;
+
+extern SCmdRoomList _spot20_scene_set54B0_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set54B0_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set54B0_cmd03;
+
+extern SCmdColHeader _spot20_scene_set54B0_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set54B0_cmd05;
+
+extern SCmdSpawnList _spot20_scene_set54B0_cmd06;
+
+extern SCmdSkyboxSettings _spot20_scene_set54B0_cmd07;
+
+extern SCmdLightSettingList _spot20_scene_set54B0_cmd08;
+
+extern SCmdCutsceneData _spot20_scene_set54B0_cmd09;
+
+extern SCmdEndMarker _spot20_scene_set54B0_cmd0A;
+
+extern SCmdSoundSettings _spot20_scene_set55D0_cmd00;
+
+extern SCmdRoomList _spot20_scene_set55D0_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set55D0_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set55D0_cmd03;
+
+extern SCmdColHeader _spot20_scene_set55D0_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set55D0_cmd05;
+
+extern SCmdSpawnList _spot20_scene_set55D0_cmd06;
+
+extern SCmdSkyboxSettings _spot20_scene_set55D0_cmd07;
+
+extern SCmdLightSettingList _spot20_scene_set55D0_cmd08;
+
+extern SCmdCutsceneData _spot20_scene_set55D0_cmd09;
+
+extern SCmdEndMarker _spot20_scene_set55D0_cmd0A;
+
+extern SCmdSoundSettings _spot20_scene_set56D0_cmd00;
+
+extern SCmdRoomList _spot20_scene_set56D0_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set56D0_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set56D0_cmd03;
+
+extern SCmdColHeader _spot20_scene_set56D0_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set56D0_cmd05;
+
+extern SCmdPathList _spot20_scene_set5700_cmd06;
+
+extern SCmdSpawnList _spot20_scene_set56D0_cmd07;
+
+extern SCmdSkyboxSettings _spot20_scene_set56D0_cmd08;
+
+extern SCmdLightSettingList _spot20_scene_set56D0_cmd09;
+
+extern SCmdCutsceneData _spot20_scene_set56D0_cmd0A;
+
+extern SCmdEndMarker _spot20_scene_set56D0_cmd0B;
+
+extern Vec3s _spot20_scene_pathwayList_0000580C[];
+
+extern Path _spot20_scene_pathway_00005844;
+
+extern SCmdSoundSettings _spot20_scene_set5860_cmd00;
+
+extern SCmdRoomList _spot20_scene_set5860_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set5860_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set5860_cmd03;
+
+extern SCmdColHeader _spot20_scene_set5860_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set5860_cmd05;
+
+extern SCmdSpawnList _spot20_scene_set5860_cmd06;
+
+extern SCmdSkyboxSettings _spot20_scene_set5860_cmd07;
+
+extern SCmdLightSettingList _spot20_scene_set5860_cmd08;
+
+extern SCmdCutsceneData _spot20_scene_set5860_cmd09;
+
+extern SCmdEndMarker _spot20_scene_set5860_cmd0A;
+
+extern SCmdSoundSettings _spot20_scene_set5960_cmd00;
+
+extern SCmdRoomList _spot20_scene_set5960_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set5960_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set5960_cmd03;
+
+extern SCmdColHeader _spot20_scene_set5960_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set5960_cmd05;
+
+extern SCmdSpawnList _spot20_scene_set5960_cmd06;
+
+extern SCmdSkyboxSettings _spot20_scene_set5960_cmd07;
+
+extern SCmdLightSettingList _spot20_scene_set5960_cmd08;
+
+extern SCmdCutsceneData _spot20_scene_set5960_cmd09;
+
+extern SCmdEndMarker _spot20_scene_set5960_cmd0A;
+
+extern SCmdSoundSettings _spot20_scene_set5AE0_cmd00;
+
+extern SCmdRoomList _spot20_scene_set5AE0_cmd01;
+
+extern SCmdTransiActorList _spot20_scene_set5AE0_cmd02;
+
+extern SCmdMiscSettings _spot20_scene_set5AE0_cmd03;
+
+extern SCmdColHeader _spot20_scene_set5AE0_cmd04;
+
+extern SCmdEntranceList _spot20_scene_set5AE0_cmd05;
+
+extern SCmdSpawnList _spot20_scene_set5AE0_cmd06;
+
+extern SCmdSkyboxSettings _spot20_scene_set5AE0_cmd07;
+
+extern SCmdLightSettingList _spot20_scene_set5AE0_cmd08;
+
+extern SCmdCutsceneData _spot20_scene_set5AE0_cmd09;
+
+extern SCmdEndMarker _spot20_scene_set5AE0_cmd0A;
+
+extern u64 _spot20_scene_tex_00005DB0[];
+
+extern u64 _spot20_scene_tex_00005FB8[];
+
+extern u64 _spot20_scene_tex_00005FE0[];
+
+extern u64 _spot20_scene_tex_000067E0[];
+
+extern u64 _spot20_scene_tex_000069E0[];
+
+extern u64 _spot20_scene_tex_000071E0[];
+
+extern u64 _spot20_scene_tex_000091E0[];
+
+extern u64 _spot20_scene_tex_000093E0[];
+
+extern u64 _spot20_scene_tex_00009BE0[];
+
+extern u64 _spot20_scene_tex_0000ABE0[];
+
+extern u64 _spot20_scene_tex_0000BBE0[];
+
+extern u64 _spot20_scene_tex_0000BDE0[];
+
+extern u64 _spot20_scene_tex_0000C1E0[];
+
+extern u64 _spot20_scene_tex_0000C9E0[];
+
+extern u64 _spot20_scene_tex_0000D1E0[];
+
+extern u64 _spot20_scene_tex_0000D9E0[];
+
+extern u64 _spot20_scene_tex_0000E1E0[];
+
+extern u64 _spot20_scene_tex_0000E9E0[];
+
+extern u64 _spot20_scene_tex_0000F1E0[];
+
+extern u64 _spot20_scene_tex_0000F9E0[];
+
+extern u64 _spot20_scene_tex_00010BE0[];
+
+extern u64 _spot20_scene_tex_00010E20[];
+
+

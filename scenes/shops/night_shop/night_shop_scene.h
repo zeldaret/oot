@@ -1,0 +1,46 @@
+extern RomFile _night_shop_scene_roomList_00000078[];
+extern CollisionHeader _night_shop_scene_collisionHeader_00000644;
+extern EntranceEntry _night_shop_scene_entranceList_00000080[];
+extern ActorEntry _night_shop_scene_startPositionList_00000058[];
+extern u16 _night_shop_scene_exitList_00000084[];
+extern LightSettings _night_shop_scene_lightSettings_00000088[];
+
+extern SCmdSoundSettings _night_shop_scene_set0000_cmd00;
+extern SCmdRoomList _night_shop_scene_set0000_cmd01;
+extern SCmdMiscSettings _night_shop_scene_set0000_cmd02;
+extern SCmdColHeader _night_shop_scene_set0000_cmd03;
+extern SCmdEntranceList _night_shop_scene_set0000_cmd04;
+extern SCmdSpecialFiles _night_shop_scene_set0000_cmd05;
+extern SCmdSpawnList _night_shop_scene_set0000_cmd06;
+extern SCmdSkyboxSettings _night_shop_scene_set0000_cmd07;
+extern SCmdExitList _night_shop_scene_set0000_cmd08;
+extern SCmdLightSettingList _night_shop_scene_set0000_cmd09;
+extern SCmdEndMarker _night_shop_scene_set0000_cmd0A;
+
+
+
+
+
+extern SCmdSoundSettings _night_shop_scene_set0000_cmd00;
+
+extern SCmdRoomList _night_shop_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _night_shop_scene_set0000_cmd02;
+
+extern SCmdColHeader _night_shop_scene_set0000_cmd03;
+
+extern SCmdEntranceList _night_shop_scene_set0000_cmd04;
+
+extern SCmdSpecialFiles _night_shop_scene_set0000_cmd05;
+
+extern SCmdSpawnList _night_shop_scene_set0000_cmd06;
+
+extern SCmdSkyboxSettings _night_shop_scene_set0000_cmd07;
+
+extern SCmdExitList _night_shop_scene_set0000_cmd08;
+
+extern SCmdLightSettingList _night_shop_scene_set0000_cmd09;
+
+extern SCmdEndMarker _night_shop_scene_set0000_cmd0A;
+
+

@@ -1,0 +1,46 @@
+extern RomFile _shrine_scene_roomList_00000078[];
+extern CollisionHeader _shrine_scene_collisionHeader_000014AC;
+extern EntranceEntry _shrine_scene_entranceList_00000080[];
+extern ActorEntry _shrine_scene_startPositionList_00000058[];
+extern u16 _shrine_scene_exitList_00000084[];
+extern LightSettings _shrine_scene_lightSettings_00000088[];
+
+extern SCmdSoundSettings _shrine_scene_set0000_cmd00;
+extern SCmdRoomList _shrine_scene_set0000_cmd01;
+extern SCmdMiscSettings _shrine_scene_set0000_cmd02;
+extern SCmdColHeader _shrine_scene_set0000_cmd03;
+extern SCmdEntranceList _shrine_scene_set0000_cmd04;
+extern SCmdSpecialFiles _shrine_scene_set0000_cmd05;
+extern SCmdSpawnList _shrine_scene_set0000_cmd06;
+extern SCmdSkyboxSettings _shrine_scene_set0000_cmd07;
+extern SCmdExitList _shrine_scene_set0000_cmd08;
+extern SCmdLightSettingList _shrine_scene_set0000_cmd09;
+extern SCmdEndMarker _shrine_scene_set0000_cmd0A;
+
+
+
+
+
+extern SCmdSoundSettings _shrine_scene_set0000_cmd00;
+
+extern SCmdRoomList _shrine_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _shrine_scene_set0000_cmd02;
+
+extern SCmdColHeader _shrine_scene_set0000_cmd03;
+
+extern SCmdEntranceList _shrine_scene_set0000_cmd04;
+
+extern SCmdSpecialFiles _shrine_scene_set0000_cmd05;
+
+extern SCmdSpawnList _shrine_scene_set0000_cmd06;
+
+extern SCmdSkyboxSettings _shrine_scene_set0000_cmd07;
+
+extern SCmdExitList _shrine_scene_set0000_cmd08;
+
+extern SCmdLightSettingList _shrine_scene_set0000_cmd09;
+
+extern SCmdEndMarker _shrine_scene_set0000_cmd0A;
+
+

@@ -49,8 +49,8 @@ glabel BossGanon_Draw
 /* 0A4F8 808E0D68 AE4202C0 */  sw      $v0, 0x02C0($s2)           ## 000002C0
 /* 0A4FC 808E0D6C 8E4302D0 */  lw      $v1, 0x02D0($s2)           ## 000002D0
 .L808E0D70:
-/* 0A500 808E0D70 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 0A504 808E0D74 24849A20 */  addiu   $a0, $a0, 0x9A20           ## $a0 = 06009A20
+/* 0A500 808E0D70 3C040601 */  lui     $a0, %hi(D_06009A20)                ## $a0 = 06010000
+/* 0A504 808E0D74 24849A20 */  addiu   $a0, $a0, %lo(D_06009A20)           ## $a0 = 06009A20
 /* 0A508 808E0D78 00045100 */  sll     $t2, $a0,  4
 /* 0A50C 808E0D7C 000A5F02 */  srl     $t3, $t2, 28
 /* 0A510 808E0D80 3C09DB06 */  lui     $t1, 0xDB06                ## $t1 = DB060000
@@ -79,7 +79,7 @@ glabel BossGanon_Draw
 /* 0A56C 808E0DDC AFA80014 */  sw      $t0, 0x0014($sp)
 /* 0A570 808E0DE0 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 0A574 808E0DE4 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 0A578 808E0DE8 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0A578 808E0DE8 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0A57C 808E0DEC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0A580 808E0DF0 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 0A584 808E0DF4 44814000 */  mtc1    $at, $f8                   ## $f8 = 30.00

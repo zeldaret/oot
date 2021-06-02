@@ -1,13 +1,14 @@
 #ifndef _Z_EFF_SS_G_RIPPLE_H_
 #define _Z_EFF_SS_G_RIPPLE_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3f velocity;
-    /* 0x18 */ Vec3f accel;
-} EffectSsGRippleInitParams; // size = 0x
+    /* 0x0C */ s16 radius;
+    /* 0x0E */ s16 radiusMax;
+    /* 0x10 */ s16 life;
+} EffectSsGRippleInitParams; // size = 0x14
 
 #endif

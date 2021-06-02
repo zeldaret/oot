@@ -1,0 +1,150 @@
+extern RomFile _sasatest_scene_roomList_00000074[];
+extern CollisionHeader _sasatest_scene_collisionHeader_00002838;
+extern EntranceEntry _sasatest_scene_entranceList_0000007C[];
+extern ActorEntry _sasatest_scene_startPositionList_00000064[];
+extern LightSettings _sasatest_scene_lightSettings_00000080[];
+extern RomFile _sasatest_scene_roomList_00002AB8[];
+extern CollisionHeader _sasatest_scene_collisionHeader_00002838;
+extern EntranceEntry _sasatest_scene_entranceList_00002AC0[];
+extern ActorEntry _sasatest_scene_startPositionList_00002AA8[];
+extern LightSettings _sasatest_scene_lightSettings_00002AC4[];
+extern RomFile _sasatest_scene_roomList_000028D0[];
+extern CollisionHeader _sasatest_scene_collisionHeader_00002838;
+extern EntranceEntry _sasatest_scene_entranceList_000028D8[];
+extern ActorEntry _sasatest_scene_startPositionList_000028C0[];
+extern LightSettings _sasatest_scene_lightSettings_000028DC[];
+extern RomFile _sasatest_scene_roomList_000029A0[];
+extern CollisionHeader _sasatest_scene_collisionHeader_00002838;
+extern EntranceEntry _sasatest_scene_entranceList_000029A8[];
+extern ActorEntry _sasatest_scene_startPositionList_00002990[];
+extern LightSettings _sasatest_scene_lightSettings_000029AC[];
+
+extern SCmdAltHeaders _sasatest_scene_set0000_cmd00;
+extern SCmdSoundSettings _sasatest_scene_set0000_cmd01;
+extern SCmdRoomList _sasatest_scene_set0000_cmd02;
+extern SCmdMiscSettings _sasatest_scene_set0000_cmd03;
+extern SCmdColHeader _sasatest_scene_set0000_cmd04;
+extern SCmdEntranceList _sasatest_scene_set0000_cmd05;
+extern SCmdSpecialFiles _sasatest_scene_set0000_cmd06;
+extern SCmdSpawnList _sasatest_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _sasatest_scene_set0000_cmd08;
+extern SCmdLightSettingList _sasatest_scene_set0000_cmd09;
+extern SCmdEndMarker _sasatest_scene_set0000_cmd0A;
+extern u32 _sasatest_scene_alternateHeaders_00000058[];
+extern SCmdSoundSettings _sasatest_scene_set2870_cmd00;
+extern SCmdRoomList _sasatest_scene_set2870_cmd01;
+extern SCmdMiscSettings _sasatest_scene_set2870_cmd02;
+extern SCmdColHeader _sasatest_scene_set2870_cmd03;
+extern SCmdEntranceList _sasatest_scene_set2870_cmd04;
+extern SCmdSpecialFiles _sasatest_scene_set2870_cmd05;
+extern SCmdSpawnList _sasatest_scene_set2870_cmd06;
+extern SCmdSkyboxSettings _sasatest_scene_set2870_cmd07;
+extern SCmdLightSettingList _sasatest_scene_set2870_cmd08;
+extern SCmdEndMarker _sasatest_scene_set2870_cmd09;
+extern SCmdSoundSettings _sasatest_scene_set2940_cmd00;
+extern SCmdRoomList _sasatest_scene_set2940_cmd01;
+extern SCmdMiscSettings _sasatest_scene_set2940_cmd02;
+extern SCmdColHeader _sasatest_scene_set2940_cmd03;
+extern SCmdEntranceList _sasatest_scene_set2940_cmd04;
+extern SCmdSpecialFiles _sasatest_scene_set2940_cmd05;
+extern SCmdSpawnList _sasatest_scene_set2940_cmd06;
+extern SCmdSkyboxSettings _sasatest_scene_set2940_cmd07;
+extern SCmdLightSettingList _sasatest_scene_set2940_cmd08;
+extern SCmdEndMarker _sasatest_scene_set2940_cmd09;
+extern SCmdSoundSettings _sasatest_scene_set2A60_cmd00;
+extern SCmdRoomList _sasatest_scene_set2A60_cmd01;
+extern SCmdMiscSettings _sasatest_scene_set2A60_cmd02;
+extern SCmdColHeader _sasatest_scene_set2A60_cmd03;
+extern SCmdEntranceList _sasatest_scene_set2A60_cmd04;
+extern SCmdSpawnList _sasatest_scene_set2A60_cmd05;
+extern SCmdSkyboxSettings _sasatest_scene_set2A60_cmd06;
+extern SCmdLightSettingList _sasatest_scene_set2A60_cmd07;
+extern SCmdEndMarker _sasatest_scene_set2A60_cmd08;
+
+
+
+
+
+extern SCmdAltHeaders _sasatest_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _sasatest_scene_set0000_cmd01;
+
+extern SCmdRoomList _sasatest_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _sasatest_scene_set0000_cmd03;
+
+extern SCmdColHeader _sasatest_scene_set0000_cmd04;
+
+extern SCmdEntranceList _sasatest_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _sasatest_scene_set0000_cmd06;
+
+extern SCmdSpawnList _sasatest_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _sasatest_scene_set0000_cmd08;
+
+extern SCmdLightSettingList _sasatest_scene_set0000_cmd09;
+
+extern SCmdEndMarker _sasatest_scene_set0000_cmd0A;
+
+extern u32 _sasatest_scene_alternateHeaders_00000058[];
+
+extern SCmdSoundSettings _sasatest_scene_set2870_cmd00;
+
+extern SCmdRoomList _sasatest_scene_set2870_cmd01;
+
+extern SCmdMiscSettings _sasatest_scene_set2870_cmd02;
+
+extern SCmdColHeader _sasatest_scene_set2870_cmd03;
+
+extern SCmdEntranceList _sasatest_scene_set2870_cmd04;
+
+extern SCmdSpecialFiles _sasatest_scene_set2870_cmd05;
+
+extern SCmdSpawnList _sasatest_scene_set2870_cmd06;
+
+extern SCmdSkyboxSettings _sasatest_scene_set2870_cmd07;
+
+extern SCmdLightSettingList _sasatest_scene_set2870_cmd08;
+
+extern SCmdEndMarker _sasatest_scene_set2870_cmd09;
+
+extern SCmdSoundSettings _sasatest_scene_set2940_cmd00;
+
+extern SCmdRoomList _sasatest_scene_set2940_cmd01;
+
+extern SCmdMiscSettings _sasatest_scene_set2940_cmd02;
+
+extern SCmdColHeader _sasatest_scene_set2940_cmd03;
+
+extern SCmdEntranceList _sasatest_scene_set2940_cmd04;
+
+extern SCmdSpecialFiles _sasatest_scene_set2940_cmd05;
+
+extern SCmdSpawnList _sasatest_scene_set2940_cmd06;
+
+extern SCmdSkyboxSettings _sasatest_scene_set2940_cmd07;
+
+extern SCmdLightSettingList _sasatest_scene_set2940_cmd08;
+
+extern SCmdEndMarker _sasatest_scene_set2940_cmd09;
+
+extern SCmdSoundSettings _sasatest_scene_set2A60_cmd00;
+
+extern SCmdRoomList _sasatest_scene_set2A60_cmd01;
+
+extern SCmdMiscSettings _sasatest_scene_set2A60_cmd02;
+
+extern SCmdColHeader _sasatest_scene_set2A60_cmd03;
+
+extern SCmdEntranceList _sasatest_scene_set2A60_cmd04;
+
+extern SCmdSpawnList _sasatest_scene_set2A60_cmd05;
+
+extern SCmdSkyboxSettings _sasatest_scene_set2A60_cmd06;
+
+extern SCmdLightSettingList _sasatest_scene_set2A60_cmd07;
+
+extern SCmdEndMarker _sasatest_scene_set2A60_cmd08;
+
+

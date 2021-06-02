@@ -16,7 +16,7 @@ void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_M_Fire1_InitVars = {
     ACTOR_EN_M_FIRE1,
-    ACTORTYPE_MISC,
+    ACTORCAT_MISC,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnMFire1),
@@ -27,9 +27,23 @@ const ActorInit En_M_Fire1_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000001, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
-    { 200, 200, 0, { 0 } }
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE_PLAYER,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000001, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_NONE,
+        OCELEM_NONE,
+    },
+    { 200, 200, 0, { 0 } },
 };
 
 void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -37,7 +51,7 @@ void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->actor.params < 0) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ITEMACTION);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ITEMACTION);
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -54,10 +68,10 @@ void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMFire1* this = THIS;
     s32 pad;
 
-    if (Math_ApproxF(&this->unk_198, 1.0f, 0.2f)) {
+    if (Math_StepToF(&this->timer, 1.0f, 0.2f)) {
         Actor_Kill(&this->actor);
     } else {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

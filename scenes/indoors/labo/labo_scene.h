@@ -1,0 +1,50 @@
+extern RomFile _labo_scene_roomList_00000090[];
+extern TransitionActorEntry _labo_scene_transitionActorList_00000080[];
+extern CollisionHeader _labo_scene_collisionHeader_00000EC4;
+extern EntranceEntry _labo_scene_entranceList_00000098[];
+extern ActorEntry _labo_scene_startPositionList_00000060[];
+extern u16 _labo_scene_exitList_0000009C[];
+extern LightSettings _labo_scene_lightSettings_000000A0[];
+
+extern SCmdSoundSettings _labo_scene_set0000_cmd00;
+extern SCmdRoomList _labo_scene_set0000_cmd01;
+extern SCmdTransiActorList _labo_scene_set0000_cmd02;
+extern SCmdMiscSettings _labo_scene_set0000_cmd03;
+extern SCmdColHeader _labo_scene_set0000_cmd04;
+extern SCmdEntranceList _labo_scene_set0000_cmd05;
+extern SCmdSpecialFiles _labo_scene_set0000_cmd06;
+extern SCmdSpawnList _labo_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _labo_scene_set0000_cmd08;
+extern SCmdExitList _labo_scene_set0000_cmd09;
+extern SCmdLightSettingList _labo_scene_set0000_cmd0A;
+extern SCmdEndMarker _labo_scene_set0000_cmd0B;
+
+
+
+
+
+extern SCmdSoundSettings _labo_scene_set0000_cmd00;
+
+extern SCmdRoomList _labo_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _labo_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _labo_scene_set0000_cmd03;
+
+extern SCmdColHeader _labo_scene_set0000_cmd04;
+
+extern SCmdEntranceList _labo_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _labo_scene_set0000_cmd06;
+
+extern SCmdSpawnList _labo_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _labo_scene_set0000_cmd08;
+
+extern SCmdExitList _labo_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _labo_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _labo_scene_set0000_cmd0B;
+
+

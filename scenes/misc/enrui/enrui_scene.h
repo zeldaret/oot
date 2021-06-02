@@ -1,0 +1,50 @@
+extern RomFile _enrui_scene_roomList_000000A0[];
+extern TransitionActorEntry _enrui_scene_transitionActorList_00000090[];
+extern CollisionHeader _enrui_scene_collisionHeader_000003B4;
+extern EntranceEntry _enrui_scene_entranceList_000000A8[];
+extern ActorEntry _enrui_scene_startPositionList_00000060[];
+extern u16 _enrui_scene_exitList_000000B0[];
+extern LightSettings _enrui_scene_lightSettings_000000B8[];
+
+extern SCmdSoundSettings _enrui_scene_set0000_cmd00;
+extern SCmdRoomList _enrui_scene_set0000_cmd01;
+extern SCmdTransiActorList _enrui_scene_set0000_cmd02;
+extern SCmdMiscSettings _enrui_scene_set0000_cmd03;
+extern SCmdColHeader _enrui_scene_set0000_cmd04;
+extern SCmdEntranceList _enrui_scene_set0000_cmd05;
+extern SCmdSpecialFiles _enrui_scene_set0000_cmd06;
+extern SCmdSpawnList _enrui_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _enrui_scene_set0000_cmd08;
+extern SCmdExitList _enrui_scene_set0000_cmd09;
+extern SCmdLightSettingList _enrui_scene_set0000_cmd0A;
+extern SCmdEndMarker _enrui_scene_set0000_cmd0B;
+
+
+
+
+
+extern SCmdSoundSettings _enrui_scene_set0000_cmd00;
+
+extern SCmdRoomList _enrui_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _enrui_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _enrui_scene_set0000_cmd03;
+
+extern SCmdColHeader _enrui_scene_set0000_cmd04;
+
+extern SCmdEntranceList _enrui_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _enrui_scene_set0000_cmd06;
+
+extern SCmdSpawnList _enrui_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _enrui_scene_set0000_cmd08;
+
+extern SCmdExitList _enrui_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _enrui_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _enrui_scene_set0000_cmd0B;
+
+

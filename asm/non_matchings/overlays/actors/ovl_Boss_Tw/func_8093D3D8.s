@@ -6,16 +6,16 @@ glabel func_8093D3D8
 /* 04718 8093D3E8 25CED444 */  addiu   $t6, $t6, %lo(func_8093D444) ## $t6 = 8093D444
 /* 0471C 8093D3EC 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
 /* 04720 8093D3F0 AC8E014C */  sw      $t6, 0x014C($a0)           ## 0000014C
-/* 04724 8093D3F4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 04728 8093D3F8 24A504A4 */  addiu   $a1, $a1, 0x04A4           ## $a1 = 060004A4
+/* 04724 8093D3F4 3C050600 */  lui     $a1, %hi(D_060004A4)                ## $a1 = 06000000
+/* 04728 8093D3F8 24A504A4 */  addiu   $a1, $a1, %lo(D_060004A4)           ## $a1 = 060004A4
 /* 0472C 8093D3FC AFA70018 */  sw      $a3, 0x0018($sp)
 /* 04730 8093D400 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
-/* 04734 8093D404 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 04734 8093D404 0C0294D3 */  jal     Animation_MorphToLoop
 /* 04738 8093D408 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 0473C 8093D40C 8FAF0018 */  lw      $t7, 0x0018($sp)
 /* 04740 8093D410 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 04744 8093D414 44816000 */  mtc1    $at, $f12                  ## $f12 = 20.00
-/* 04748 8093D418 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 04748 8093D418 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 0474C 8093D41C A1E005F8 */  sb      $zero, 0x05F8($t7)         ## 000005F8
 /* 04750 8093D420 4600010D */  trunc.w.s $f4, $f0

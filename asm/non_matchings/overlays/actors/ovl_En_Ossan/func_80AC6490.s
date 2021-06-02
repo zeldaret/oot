@@ -14,7 +14,7 @@ glabel func_80AC6490
 /* 0380C 80AC64AC 44050000 */  mfc1    $a1, $f0                   
 /* 03810 80AC64B0 44060000 */  mfc1    $a2, $f0                   
 /* 03814 80AC64B4 34E7999A */  ori     $a3, $a3, 0x999A           ## $a3 = 3E19999A
-/* 03818 80AC64B8 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 03818 80AC64B8 0C01E107 */  jal     Math_ApproachF
               
 /* 0381C 80AC64BC 248402D0 */  addiu   $a0, $a0, 0x02D0           ## $a0 = 000002D0
 /* 03820 80AC64C0 3C0180AD */  lui     $at, %hi(D_80AC9604)       ## $at = 80AD0000

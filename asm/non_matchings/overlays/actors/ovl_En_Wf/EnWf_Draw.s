@@ -98,7 +98,7 @@ glabel EnWf_Draw
 /* 03AD8 80B37788 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 03ADC 80B3778C AFB80014 */  sw      $t8, 0x0014($sp)
 /* 03AE0 80B37790 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 03AE4 80B37794 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 03AE4 80B37794 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 03AE8 80B37798 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 03AEC 80B3779C 860E02E4 */  lh      $t6, 0x02E4($s0)           ## 000002E4
 /* 03AF0 80B377A0 51C00018 */  beql    $t6, $zero, .L80B37804
@@ -123,7 +123,7 @@ glabel EnWf_Draw
 /* 03B3C 80B377EC 2407004B */  addiu   $a3, $zero, 0x004B         ## $a3 = 0000004B
 /* 03B40 80B377F0 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 03B44 80B377F4 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 03B48 80B377F8 0C00A953 */  jal     func_8002A54C
+/* 03B48 80B377F8 0C00A953 */  jal     EffectSsEnFire_SpawnVec3s
 /* 03B4C 80B377FC AFA20018 */  sw      $v0, 0x0018($sp)
 .L80B37800:
 /* 03B50 80B37800 8FAF005C */  lw      $t7, 0x005C($sp)

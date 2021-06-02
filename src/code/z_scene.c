@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 RomFile sNaviMsgFiles[];
 
@@ -10,17 +9,15 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
     objectCtx->status[objectCtx->num].id = objectId;
     size = gObjectTable[objectId].vromEnd - gObjectTable[objectId].vromStart;
 
-    osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectId, (f64)(size / 1024.0f),
-                 objectCtx->status[objectCtx->num].segment);
+    osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectId, size / 1024.0f, objectCtx->status[objectCtx->num].segment);
 
     osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (s32)objectCtx->status[objectCtx->num].segment + size,
                  objectCtx->spaceEnd);
 
-    if (!((objectCtx->num < OBJECT_EXCHANGE_BANK_MAX) &&
-          (((s32)objectCtx->status[objectCtx->num].segment + size) < (s32)objectCtx->spaceEnd))) {
-        __assert("this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
-                 "../z_scene.c", 142);
-    }
+    ASSERT(((objectCtx->num < OBJECT_EXCHANGE_BANK_MAX) &&
+            (((s32)objectCtx->status[objectCtx->num].segment + size) < (u32)objectCtx->spaceEnd)),
+           "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
+           "../z_scene.c", 142);
 
     DmaMgr_SendRequest1(objectCtx->status[objectCtx->num].segment, gObjectTable[objectId].vromStart, size,
                         "../z_scene.c", 145);
@@ -68,7 +65,7 @@ void Object_InitBank(GlobalContext* globalCtx, ObjectContext* objectCtx) {
 
     osSyncPrintf(VT_FGCOL(GREEN));
     // Translates to: "OBJECT EXCHANGE BANK DATA %8.3fKB"
-    osSyncPrintf("オブジェクト入れ替えバンク情報 %8.3fKB\n", (f64)(spaceSize / 1024.0f));
+    osSyncPrintf("オブジェクト入れ替えバンク情報 %8.3fKB\n", spaceSize / 1024.0f);
     osSyncPrintf(VT_RST);
 
     objectCtx->spaceStart = objectCtx->status[0].segment =
@@ -76,24 +73,22 @@ void Object_InitBank(GlobalContext* globalCtx, ObjectContext* objectCtx) {
     objectCtx->spaceEnd = (void*)((s32)objectCtx->spaceStart + spaceSize);
 
     objectCtx->mainKeepIndex = Object_Spawn(objectCtx, OBJECT_GAMEPLAY_KEEP);
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(objectCtx->status[objectCtx->mainKeepIndex].segment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(objectCtx->status[objectCtx->mainKeepIndex].segment);
 }
 
 void Object_UpdateBank(ObjectContext* objectCtx) {
     s32 i;
-    ObjectStatus* status;
+    ObjectStatus* status = &objectCtx->status[0];
     RomFile* objectFile;
     u32 size;
 
-    status = &objectCtx->status[0];
     for (i = 0; i < objectCtx->num; i++) {
         if (status->id < 0) {
             if (status->dmaRequest.vromAddr == 0) {
                 osCreateMesgQueue(&status->loadQueue, &status->loadMsg, 1);
                 objectFile = &gObjectTable[-status->id];
                 size = objectFile->vromEnd - objectFile->vromStart;
-                osSyncPrintf("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, (f64)(size / 1024.0f),
-                             status->segment);
+                osSyncPrintf("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, status->segment);
                 DmaMgr_SendRequest2(&status->dmaRequest, status->segment, objectFile->vromStart, size, 0,
                                     &status->loadQueue, NULL, "../z_scene.c", 266);
             } else if (!osRecvMesg(&status->loadQueue, NULL, OS_MESG_NOBLOCK)) {
@@ -132,7 +127,7 @@ void func_800981B8(ObjectContext* objectCtx) {
     for (i = 0; i < objectCtx->num; i++) {
         id = objectCtx->status[i].id;
         size = gObjectTable[id].vromEnd - gObjectTable[id].vromStart;
-        osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectCtx->status[i].id, (f64)(size / 1024.0f),
+        osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectCtx->status[i].id, size / 1024.0f,
                      objectCtx->status[i].segment);
         osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (s32)objectCtx->status[i].segment + size,
                      objectCtx->spaceEnd);
@@ -150,15 +145,12 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
     status->dmaRequest.vromAddr = 0;
 
     size = objectFile->vromEnd - objectFile->vromStart;
-    osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", bankIndex, objectId, (f64)(size / 1024.0f));
+    osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", bankIndex, objectId, size / 1024.0f);
 
-    if (1) { // Necessary to match
-        nextPtr = (void*)ALIGN16((s32)status->segment + size);
-    }
+    nextPtr = (void*)ALIGN16((s32)status->segment + size);
+    if (1) {} // Necessary to match
 
-    if (nextPtr >= objectCtx->spaceEnd) {
-        __assert("nextptr < this->endSegment", "../z_scene.c", 381);
-    }
+    ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
     // Translates to: "OBJECT EXCHANGE FREE SIZE=%08x"
     osSyncPrintf("オブジェクト入れ替え空きサイズ=%08x\n", (s32)objectCtx->spaceEnd - (s32)nextPtr);
@@ -169,7 +161,7 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
 s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
     u32 cmdCode;
 
-    while (1) {
+    while (true) {
         cmdCode = sceneCmd->base.code;
         osSyncPrintf("*** Scene_Word = { code=%d, data1=%02x, data2=%04x } ***\n", cmdCode, sceneCmd->base.data1,
                      sceneCmd->base.data2);
@@ -186,22 +178,16 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
             osSyncPrintf("code の値が異常です\n");
             osSyncPrintf(VT_RST);
         }
-
         sceneCmd++;
     }
-
     return 0;
 }
 
-// Scene Command 0x00: Link Spawn List
-#ifdef NON_MATCHING
-// regalloc differences
 void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
-    ActorEntry* linkEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
-                            globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
+    ActorEntry* linkEntry = globalCtx->linkActorEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
+                                                        globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
     s16 linkObjectId;
 
-    globalCtx->linkActorEntry = linkEntry;
     globalCtx->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
 
     linkObjectId = gLinkObjectIds[((void)0, gSaveContext.linkAge)];
@@ -209,10 +195,6 @@ void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
     gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
     Object_Spawn(&globalCtx->objectCtx, linkObjectId);
 }
-#else
-void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_scene/func_80098508.s")
-#endif
 
 // Scene Command 0x01: Actor List
 void func_800985DC(GlobalContext* globalCtx, SceneCmd* cmd) {
@@ -220,24 +202,22 @@ void func_800985DC(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->setupActorList = SEGMENTED_TO_VIRTUAL(cmd->actorList.segment);
 }
 
-// Scene Command 0x02: Cutscene Camera List
+// Scene Command 0x02: Unused 02
 void func_80098630(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->unk_11DFC = SEGMENTED_TO_VIRTUAL(cmd->csCameraList.segment);
+    globalCtx->unk_11DFC = SEGMENTED_TO_VIRTUAL(cmd->unused02.segment);
 }
 
 // Scene Command 0x03: Collision Header
 void func_80098674(GlobalContext* globalCtx, SceneCmd* cmd) {
-    CollisionHeader* colHeader;
+    CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(cmd->colHeader.segment);
 
-    colHeader = SEGMENTED_TO_VIRTUAL(cmd->colHeader.segment);
-
-    colHeader->vertexArray = SEGMENTED_TO_VIRTUAL(colHeader->vertexArray);
-    colHeader->polygonArray = SEGMENTED_TO_VIRTUAL(colHeader->polygonArray);
-    colHeader->polygonTypes = SEGMENTED_TO_VIRTUAL(colHeader->polygonTypes);
-    colHeader->cameraData = SEGMENTED_TO_VIRTUAL(colHeader->cameraData);
+    colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
+    colHeader->polyList = SEGMENTED_TO_VIRTUAL(colHeader->polyList);
+    colHeader->surfaceTypeList = SEGMENTED_TO_VIRTUAL(colHeader->surfaceTypeList);
+    colHeader->cameraDataList = SEGMENTED_TO_VIRTUAL(colHeader->cameraDataList);
     colHeader->waterBoxes = SEGMENTED_TO_VIRTUAL(colHeader->waterBoxes);
 
-    func_8003C078(&globalCtx->colCtx, globalCtx, colHeader);
+    BgCheck_Allocate(&globalCtx->colCtx, globalCtx, colHeader);
 }
 
 // Scene Command 0x04: Room List
@@ -255,7 +235,7 @@ void func_800987F8(GlobalContext* globalCtx, SceneCmd* cmd) {
 void func_8009883C(GlobalContext* globalCtx, SceneCmd* cmd) {
     if (cmd->specialFiles.keepObjectId != 0) {
         globalCtx->objectCtx.subKeepIndex = Object_Spawn(&globalCtx->objectCtx, cmd->specialFiles.keepObjectId);
-        gSegments[5] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+        gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
     }
 
     if (cmd->specialFiles.cUpElfMsgNum != 0) {
@@ -278,14 +258,15 @@ void func_80098958(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x0B: Object List
 void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
-    s32 i, j, k;
+    s32 i;
+    s32 j;
+    s32 k;
     ObjectStatus* status;
     ObjectStatus* status2;
     ObjectStatus* firstStatus;
-    s16* objectEntry;
+    s16* objectEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.segment);
     void* nextPtr;
 
-    objectEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.segment);
     k = 0;
     i = globalCtx->objectCtx.unk_09;
     firstStatus = &globalCtx->objectCtx.status[0];
@@ -310,9 +291,8 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
         status++;
     }
 
-    if (cmd->objectList.num > OBJECT_EXCHANGE_BANK_MAX) {
-        __assert("scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
-    }
+    ASSERT(cmd->objectList.num <= OBJECT_EXCHANGE_BANK_MAX, "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX",
+           "../z_scene.c", 705);
 
     if (1) {}
 
@@ -332,11 +312,10 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
 // Scene Command 0x0C: Light List
 void func_80098B74(GlobalContext* globalCtx, SceneCmd* cmd) {
     s32 i;
-    LightInfo* lightInfo;
+    LightInfo* lightInfo = SEGMENTED_TO_VIRTUAL(cmd->lightList.segment);
 
-    lightInfo = SEGMENTED_TO_VIRTUAL(cmd->lightList.segment);
     for (i = 0; i < cmd->lightList.num; i++) {
-        Lights_Insert(globalCtx, &globalCtx->lightCtx, lightInfo);
+        LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, lightInfo);
         lightInfo++;
     }
 }
@@ -381,7 +360,7 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
 
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
         gSaveContext.environmentTime = gSaveContext.dayTime =
-            ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / 0.021972656f;
+            ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / (360.0f / 0x4000);
     }
 
     if (cmd->timeSettings.unk_06 != 0xFF) {
@@ -395,11 +374,11 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     }
 
     dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.x = -(Math_Sins(dayTime - 0x8000) * 120.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.x = -(Math_SinS(dayTime - 0x8000) * 120.0f) * 25.0f;
     dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.y = (Math_Coss(dayTime - 0x8000) * 120.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.y = (Math_CosS(dayTime - 0x8000) * 120.0f) * 25.0f;
     dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.z = (Math_Coss(dayTime - 0x8000) * 20.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.z = (Math_CosS(dayTime - 0x8000) * 20.0f) * 25.0f;
 
     if (((globalCtx->envCtx.unk_02 == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == 0x0604)) {
@@ -538,7 +517,7 @@ RomFile sNaviMsgFiles[] = {
 
 s16 gLinkObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
 
-u32 gObjectTableSize = 402;
+u32 gObjectTableSize = ARRAY_COUNT(gObjectTable);
 
 RomFile gObjectTable[] = {
     ROM_FILE_UNSET,

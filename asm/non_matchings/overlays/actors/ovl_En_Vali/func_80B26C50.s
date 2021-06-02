@@ -40,7 +40,7 @@ glabel func_80B26C50
               
 /* 00630 80B26CE0 24070050 */  addiu   $a3, $zero, 0x0050         ## $a3 = 00000050
 /* 00634 80B26CE4 2404000A */  addiu   $a0, $zero, 0x000A         ## $a0 = 0000000A
-/* 00638 80B26CE8 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 00638 80B26CE8 0C01DF64 */  jal     Rand_S16Offset
               
 /* 0063C 80B26CEC 2405000A */  addiu   $a1, $zero, 0x000A         ## $a1 = 0000000A
 /* 00640 80B26CF0 9219040D */  lbu     $t9, 0x040D($s0)           ## 0000040D

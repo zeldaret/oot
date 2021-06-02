@@ -1,0 +1,181 @@
+extern RomFile _nakaniwa_scene_roomList_00000098[];
+extern CollisionHeader _nakaniwa_scene_collisionHeader_00001BC8;
+extern EntranceEntry _nakaniwa_scene_entranceList_000000A0[];
+extern ActorEntry _nakaniwa_scene_startPositionList_00000078[];
+extern u16 _nakaniwa_scene_exitList_000000A4[];
+extern LightSettings _nakaniwa_scene_lightSettings_000000A8[];
+extern RomFile _nakaniwa_scene_roomList_00003790[];
+extern CollisionHeader _nakaniwa_scene_collisionHeader_00001BC8;
+extern EntranceEntry _nakaniwa_scene_entranceList_00003798[];
+extern ActorEntry _nakaniwa_scene_startPositionList_00003780[];
+extern u16 _nakaniwa_scene_exitList_0000379C[];
+extern LightSettings _nakaniwa_scene_lightSettings_000037A0[];
+extern s32 _nakaniwa_scene_cutsceneData_00001C04[];
+extern RomFile _nakaniwa_scene_roomList_00003840[];
+extern CollisionHeader _nakaniwa_scene_collisionHeader_00001BC8;
+extern EntranceEntry _nakaniwa_scene_entranceList_00003848[];
+extern ActorEntry _nakaniwa_scene_startPositionList_00003830[];
+extern u16 _nakaniwa_scene_exitList_0000384C[];
+extern LightSettings _nakaniwa_scene_lightSettings_00003850[];
+extern s32 _nakaniwa_scene_cutsceneData_00002524[];
+extern RomFile _nakaniwa_scene_roomList_00003920[];
+extern CollisionHeader _nakaniwa_scene_collisionHeader_00001BC8;
+extern EntranceEntry _nakaniwa_scene_entranceList_00003928[];
+extern ActorEntry _nakaniwa_scene_startPositionList_00003910[];
+extern u16 _nakaniwa_scene_exitList_0000392C[];
+extern LightSettings _nakaniwa_scene_lightSettings_00003930[];
+extern s32 _nakaniwa_scene_cutsceneData_000034B0[];
+
+extern SCmdAltHeaders _nakaniwa_scene_set0000_cmd00;
+extern SCmdSoundSettings _nakaniwa_scene_set0000_cmd01;
+extern SCmdRoomList _nakaniwa_scene_set0000_cmd02;
+extern SCmdMiscSettings _nakaniwa_scene_set0000_cmd03;
+extern SCmdColHeader _nakaniwa_scene_set0000_cmd04;
+extern SCmdEntranceList _nakaniwa_scene_set0000_cmd05;
+extern SCmdSpecialFiles _nakaniwa_scene_set0000_cmd06;
+extern SCmdSpawnList _nakaniwa_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _nakaniwa_scene_set0000_cmd08;
+extern SCmdExitList _nakaniwa_scene_set0000_cmd09;
+extern SCmdLightSettingList _nakaniwa_scene_set0000_cmd0A;
+extern SCmdEndMarker _nakaniwa_scene_set0000_cmd0B;
+extern u32 _nakaniwa_scene_alternateHeaders_00000060[];
+extern SCmdSoundSettings _nakaniwa_scene_set3720_cmd00;
+extern SCmdRoomList _nakaniwa_scene_set3720_cmd01;
+extern SCmdMiscSettings _nakaniwa_scene_set3720_cmd02;
+extern SCmdColHeader _nakaniwa_scene_set3720_cmd03;
+extern SCmdEntranceList _nakaniwa_scene_set3720_cmd04;
+extern SCmdSpecialFiles _nakaniwa_scene_set3720_cmd05;
+extern SCmdSpawnList _nakaniwa_scene_set3720_cmd06;
+extern SCmdSkyboxSettings _nakaniwa_scene_set3720_cmd07;
+extern SCmdExitList _nakaniwa_scene_set3720_cmd08;
+extern SCmdLightSettingList _nakaniwa_scene_set3720_cmd09;
+extern SCmdCutsceneData _nakaniwa_scene_set3720_cmd0A;
+extern SCmdEndMarker _nakaniwa_scene_set3720_cmd0B;
+extern SCmdSoundSettings _nakaniwa_scene_set37D0_cmd00;
+extern SCmdRoomList _nakaniwa_scene_set37D0_cmd01;
+extern SCmdMiscSettings _nakaniwa_scene_set37D0_cmd02;
+extern SCmdColHeader _nakaniwa_scene_set37D0_cmd03;
+extern SCmdEntranceList _nakaniwa_scene_set37D0_cmd04;
+extern SCmdSpecialFiles _nakaniwa_scene_set37D0_cmd05;
+extern SCmdSpawnList _nakaniwa_scene_set37D0_cmd06;
+extern SCmdSkyboxSettings _nakaniwa_scene_set37D0_cmd07;
+extern SCmdExitList _nakaniwa_scene_set37D0_cmd08;
+extern SCmdLightSettingList _nakaniwa_scene_set37D0_cmd09;
+extern SCmdCutsceneData _nakaniwa_scene_set37D0_cmd0A;
+extern SCmdEndMarker _nakaniwa_scene_set37D0_cmd0B;
+extern SCmdSoundSettings _nakaniwa_scene_set38B0_cmd00;
+extern SCmdRoomList _nakaniwa_scene_set38B0_cmd01;
+extern SCmdMiscSettings _nakaniwa_scene_set38B0_cmd02;
+extern SCmdColHeader _nakaniwa_scene_set38B0_cmd03;
+extern SCmdEntranceList _nakaniwa_scene_set38B0_cmd04;
+extern SCmdSpecialFiles _nakaniwa_scene_set38B0_cmd05;
+extern SCmdSpawnList _nakaniwa_scene_set38B0_cmd06;
+extern SCmdSkyboxSettings _nakaniwa_scene_set38B0_cmd07;
+extern SCmdExitList _nakaniwa_scene_set38B0_cmd08;
+extern SCmdLightSettingList _nakaniwa_scene_set38B0_cmd09;
+extern SCmdCutsceneData _nakaniwa_scene_set38B0_cmd0A;
+extern SCmdEndMarker _nakaniwa_scene_set38B0_cmd0B;
+
+
+
+
+
+extern SCmdAltHeaders _nakaniwa_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _nakaniwa_scene_set0000_cmd01;
+
+extern SCmdRoomList _nakaniwa_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _nakaniwa_scene_set0000_cmd03;
+
+extern SCmdColHeader _nakaniwa_scene_set0000_cmd04;
+
+extern SCmdEntranceList _nakaniwa_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _nakaniwa_scene_set0000_cmd06;
+
+extern SCmdSpawnList _nakaniwa_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _nakaniwa_scene_set0000_cmd08;
+
+extern SCmdExitList _nakaniwa_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _nakaniwa_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _nakaniwa_scene_set0000_cmd0B;
+
+extern u32 _nakaniwa_scene_alternateHeaders_00000060[];
+
+extern SCmdSoundSettings _nakaniwa_scene_set3720_cmd00;
+
+extern SCmdRoomList _nakaniwa_scene_set3720_cmd01;
+
+extern SCmdMiscSettings _nakaniwa_scene_set3720_cmd02;
+
+extern SCmdColHeader _nakaniwa_scene_set3720_cmd03;
+
+extern SCmdEntranceList _nakaniwa_scene_set3720_cmd04;
+
+extern SCmdSpecialFiles _nakaniwa_scene_set3720_cmd05;
+
+extern SCmdSpawnList _nakaniwa_scene_set3720_cmd06;
+
+extern SCmdSkyboxSettings _nakaniwa_scene_set3720_cmd07;
+
+extern SCmdExitList _nakaniwa_scene_set3720_cmd08;
+
+extern SCmdLightSettingList _nakaniwa_scene_set3720_cmd09;
+
+extern SCmdCutsceneData _nakaniwa_scene_set3720_cmd0A;
+
+extern SCmdEndMarker _nakaniwa_scene_set3720_cmd0B;
+
+extern SCmdSoundSettings _nakaniwa_scene_set37D0_cmd00;
+
+extern SCmdRoomList _nakaniwa_scene_set37D0_cmd01;
+
+extern SCmdMiscSettings _nakaniwa_scene_set37D0_cmd02;
+
+extern SCmdColHeader _nakaniwa_scene_set37D0_cmd03;
+
+extern SCmdEntranceList _nakaniwa_scene_set37D0_cmd04;
+
+extern SCmdSpecialFiles _nakaniwa_scene_set37D0_cmd05;
+
+extern SCmdSpawnList _nakaniwa_scene_set37D0_cmd06;
+
+extern SCmdSkyboxSettings _nakaniwa_scene_set37D0_cmd07;
+
+extern SCmdExitList _nakaniwa_scene_set37D0_cmd08;
+
+extern SCmdLightSettingList _nakaniwa_scene_set37D0_cmd09;
+
+extern SCmdCutsceneData _nakaniwa_scene_set37D0_cmd0A;
+
+extern SCmdEndMarker _nakaniwa_scene_set37D0_cmd0B;
+
+extern SCmdSoundSettings _nakaniwa_scene_set38B0_cmd00;
+
+extern SCmdRoomList _nakaniwa_scene_set38B0_cmd01;
+
+extern SCmdMiscSettings _nakaniwa_scene_set38B0_cmd02;
+
+extern SCmdColHeader _nakaniwa_scene_set38B0_cmd03;
+
+extern SCmdEntranceList _nakaniwa_scene_set38B0_cmd04;
+
+extern SCmdSpecialFiles _nakaniwa_scene_set38B0_cmd05;
+
+extern SCmdSpawnList _nakaniwa_scene_set38B0_cmd06;
+
+extern SCmdSkyboxSettings _nakaniwa_scene_set38B0_cmd07;
+
+extern SCmdExitList _nakaniwa_scene_set38B0_cmd08;
+
+extern SCmdLightSettingList _nakaniwa_scene_set38B0_cmd09;
+
+extern SCmdCutsceneData _nakaniwa_scene_set38B0_cmd0A;
+
+extern SCmdEndMarker _nakaniwa_scene_set38B0_cmd0B;
+
+

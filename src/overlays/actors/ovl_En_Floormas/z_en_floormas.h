@@ -1,8 +1,8 @@
 #ifndef _Z_EN_FLOORMAS_H_
 #define _Z_EN_FLOORMAS_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef struct EnFloormas EnFloormas;
 
@@ -16,8 +16,8 @@ struct EnFloormas{
     /* 0x0196 */ s16 actionTarget;
     /* 0x0198 */ s16 zOffset;
     /* 0x019A */ s16 smActionTimer;
-    /* 0x019C */ Vec3s limbDrawTable[25];
-    /* 0x0232 */ Vec3s transitionDrawTable[25];
+    /* 0x019C */ Vec3s jointTable[25];
+    /* 0x0232 */ Vec3s morphTable[25];
     /* 0x02C8 */ ColliderCylinder collider;
 }; // size = 0x0314
 

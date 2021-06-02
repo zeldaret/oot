@@ -1,11 +1,11 @@
 /*
  * File: z_oceff_wipe.c
  * Overlay: ovl_Oceff_Wipe
- * Description: Zelda's Lullaby Effect
+ * Description: Zelda's Lullaby and Song of Time Ocarina Effect
  */
 
 #include "z_oceff_wipe.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x02000010
 
@@ -18,7 +18,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Oceff_Wipe_InitVars = {
     ACTOR_OCEFF_WIPE,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffWipe),
@@ -37,9 +37,10 @@ u8 sOceffWipeAlphaIndices[] = {
 
 void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
+
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
-    this->actor.posRot.pos = ACTIVE_CAM->eye;
+    this->actor.world.pos = ACTIVE_CAM->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE arg_data = %d\n" VT_RST, this->actor.params);
 }
 
@@ -48,14 +49,15 @@ void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     func_800876C8(globalCtx);
-    if (gSaveContext.nayrusLoveTimer) {
-        player->unk_692 |= 0x40;
+    if (gSaveContext.nayrusLoveTimer != 0) {
+        player->stateFlags3 |= 0x40;
     }
 }
 
 void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
-    this->actor.posRot.pos = ACTIVE_CAM->eye;
+
+    this->actor.world.pos = ACTIVE_CAM->eye;
     if (this->counter < 100) {
         this->counter++;
     } else {
@@ -71,16 +73,16 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u8 alphaTable[3];
     s32 i;
     Vec3f eye;
-    Vtx(*vtxPtr)[2];
+    Vtx* vtxPtr;
     Vec3f vec;
 
     eye = ACTIVE_CAM->eye;
-    func_8005AFB4(&vec, ACTIVE_CAM);
+    Camera_GetSkyboxOffset(&vec, ACTIVE_CAM);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
 
     if (this->counter < 32) {
-        z = Math_Sins(this->counter << 9) * 1400;
+        z = Math_SinS(this->counter << 9) * 1400;
     } else {
         z = 1400;
     }
@@ -96,9 +98,9 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     for (i = 0; i < 20; i++) {
-        vtxPtr = (Vtx(*)[2])vertices;
-        vtxPtr[i][0].v.cn[3] = alphaTable[((sOceffWipeAlphaIndices[i] & 0xF0) >> 4)];
-        vtxPtr[i][1].v.cn[3] = alphaTable[sOceffWipeAlphaIndices[i] & 0xF];
+        vtxPtr = sFrustumVtx;
+        vtxPtr[i * 2 + 0].v.cn[3] = alphaTable[((sOceffWipeAlphaIndices[i] & 0xF0) >> 4)];
+        vtxPtr[i * 2 + 1].v.cn[3] = alphaTable[sOceffWipeAlphaIndices[i] & 0xF];
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
@@ -108,21 +110,21 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800D1FD4(&globalCtx->mf_11DA0);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 375),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 375),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->actor.params) {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 170, 255, 255, 255);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 150, 255, 128);
+    if (this->actor.params != OCEFF_WIPE_ZL) {
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, 255);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 128);
     } else {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 200, 255);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 100, 0, 255, 128);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 200, 255);
+        gDPSetEnvColor(POLY_XLU_DISP++, 100, 0, 255, 128);
     }
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, sTextureDL);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 - scroll, scroll * (-2), 32, 32,
-                                                          1, 0 - scroll, scroll * (-2), 32, 32));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, sFrustrumDl);
+    gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 - scroll, scroll * (-2), 32, 32, 1,
+                                                     0 - scroll, scroll * (-2), 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 398);
 }
