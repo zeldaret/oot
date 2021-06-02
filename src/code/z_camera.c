@@ -6787,22 +6787,18 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
     }
     camera->globalCtx = D_8015BD7C = globalCtx;
     DbCamera_Init(&D_8015BD80, camera);
-    temp_a1 = D_8011D39C;
-    D_8011D39C++;
-    for (temp_a1 = D_8011D39C, D_8011D39C++; temp_a1 != 0; temp_a1 = D_8011D39C, D_8011D39C++) {
-        if (temp_a1 == 0) {
-            D_8011D39C++;
-        }
-        for (phi_v1_3 = 0; phi_v1_3 < 4; phi_v1_3++) {
-            temp_v0 = camera->globalCtx->cameraPtrs[phi_v1_3];
-            if (temp_v0 != NULL && temp_a1 == temp_v0->uid) {
-                break;
-            }
+    curUID = sNextUID;
+    sNextUID++;
+    while (curUID != 0) {
+        if (curUID == 0) {
+            sNextUID++;
         }
 
-        if (j == 4) {
-            break;
-        }
+        for (j = 0; j < NUM_CAMS; j++) {
+            camP = camera->globalCtx->cameraPtrs[j];
+            if (camP != NULL && curUID == camP->uid) {
+                break;
+            }
 
         curUID = sNextUID++;
     }
