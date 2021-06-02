@@ -6781,7 +6781,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
             PREG(i) = sPREGInit[i];
         }
 
-        DbCamera_Reset(camera, &D_8015BD80, &gGameInfo);
+        DbCamera_Reset(camera, &D_8015BD80);
         sInitRegs = false;
         PREG(88) = -1;
     }
@@ -7453,7 +7453,7 @@ Vec3s Camera_Update(Camera* camera) {
     // Debug cam update
     if (gDbgCamEnabled) {
         camera->globalCtx->view.fovy = D_8015BD80.fov;
-        DbgCamera_Update(&D_8015BD80, camera);
+        DbCamera_Update(&D_8015BD80, camera);
         func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.up);
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");

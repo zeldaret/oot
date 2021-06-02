@@ -35,7 +35,7 @@ typedef struct {
     /* 0x004C */ s16 roll;
     /* 0x004E */ char unk_4E[0x2];
     /* 0x0050 */ f32 unk_50;
-    /* 0x0054 */ char unk_54[0x60-0x54];
+    /* 0x0054 */ char unk_54[0x60 - 0x54];
     /* 0x0060 */ Vec3f unk_60;
     /* 0x006C */ Vec3f unk_6C;
     /* 0x0078 */ s16 unk_78;
@@ -92,9 +92,9 @@ const char* D_8012CF4C = "p";
 const char* D_8012CF50[] = { "e", "s", "l", "c" };
 
 const char* D_8012CF60[] = { "\x8Cﾒﾓﾘﾊﾟｯｸ" }; // Mempak
-const char* D_8012CF64 = "\x8Cｾｰﾌﾞ"; // Save
-const char* D_8012CF68 = "\x8Cﾛｰﾄﾞ"; // Load
-const char* D_8012CF6C = "\x8Cｸﾘｱ-"; // Clear
+const char* D_8012CF64 = "\x8Cｾｰﾌﾞ";          // Save
+const char* D_8012CF68 = "\x8Cﾛｰﾄﾞ";          // Load
+const char* D_8012CF6C = "\x8Cｸﾘｱ-";          // Clear
 const char* D_8012CF70 = "\x8Dｦﾇｶﾅｲﾃﾞﾈ";
 
 const char* D_8012CF74 = "FREE      BYTE";
@@ -136,17 +136,17 @@ char D_8012D114[] = "\x8Cﾌﾚ-ﾑ         ";
 char D_8012D128[] = "\x8Cﾄ-ﾀﾙ         ";
 char D_8012D13C[] = "\x8Cｷ-     /   ";
 
-#define ACTION_E        0
-#define ACTION_SAVE     1
-#define ACTION_LOAD     2
-#define ACTION_CLEAR    3
+#define ACTION_E 0
+#define ACTION_SAVE 1
+#define ACTION_LOAD 2
+#define ACTION_CLEAR 3
 
-#define MENU_INFO      0
-#define MENU_CALLBACK  1
-#define MENU_SUCCESS   2
-#define MENU_ERROR     9
+#define MENU_INFO 0
+#define MENU_CALLBACK 1
+#define MENU_SUCCESS 2
+#define MENU_ERROR 9
 
-#define DEMO_CTRL_MENU(actionIdx, menuIdx) (actionIdx*100+menuIdx)
+#define DEMO_CTRL_MENU(actionIdx, menuIdx) (actionIdx * 100 + menuIdx)
 
 s32 DbCamera_SaveCallback(char* c);
 s32 DbCamera_LoadCallback(char* c);
@@ -200,22 +200,21 @@ Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
     sinNegRoll = Math_Sins(-roll);
     cosNegRoll = Math_Coss(-roll);
 
-    sp9C.x = 
-        (-sinPitch * sinYaw * (((1.0f - SQ(cosPitch * sinYaw)) * cosNegRoll) + SQ(cosPitch * sinYaw))) +
-        (cosPitch * ((cosPitch * sinYaw * sinPitch * (1.0f - cosNegRoll)) - cosPitch * cosYaw * sinNegRoll)) +
-        (-sinPitch * cosYaw * ((cosPitch * cosYaw * cosPitch * sinYaw * (1.0f - cosNegRoll)) + (sinPitch * sinNegRoll)));
-	
-    sp9C.y = 
+    sp9C.x = (-sinPitch * sinYaw * (((1.0f - SQ(cosPitch * sinYaw)) * cosNegRoll) + SQ(cosPitch * sinYaw))) +
+             (cosPitch * ((cosPitch * sinYaw * sinPitch * (1.0f - cosNegRoll)) - cosPitch * cosYaw * sinNegRoll)) +
+             (-sinPitch * cosYaw *
+              ((cosPitch * cosYaw * cosPitch * sinYaw * (1.0f - cosNegRoll)) + (sinPitch * sinNegRoll)));
+
+    sp9C.y =
         (-sinPitch * sinYaw * (cosPitch * sinYaw * sinPitch * (1.0f - cosNegRoll) + cosPitch * cosYaw * sinNegRoll)) +
         (cosPitch * (((1.0f - SQ(cosPitch * sinYaw)) * cosNegRoll) + SQ(cosPitch * sinYaw))) +
         (-sinPitch * cosYaw * ((sinPitch * cosPitch * cosYaw * (1.0f - cosNegRoll)) - cosPitch * sinYaw * sinNegRoll));
 
     sp9C.z =
-        (-sinPitch * sinYaw * ((cosPitch * cosYaw * cosPitch * sinYaw * (1.0f - cosNegRoll)) - sinPitch * sinNegRoll)) + 
+        (-sinPitch * sinYaw * ((cosPitch * cosYaw * cosPitch * sinYaw * (1.0f - cosNegRoll)) - sinPitch * sinNegRoll)) +
         (cosPitch * ((sinPitch * cosPitch * cosYaw * (1.0f - cosNegRoll)) + (cosPitch * sinYaw * sinNegRoll))) +
         (-sinPitch * cosYaw * (((1.0f - SQ(cosPitch * cosYaw)) * cosNegRoll) + SQ(cosPitch * cosYaw)));
-    
-    
+
     *arg0 = sp9C;
     return arg0;
     /*
@@ -264,21 +263,21 @@ Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
     sp3C = (cosPitchCosYaw * cosPitchSinYaw) * temp_f18;
     sp38 = sinPitch * sinNegRoll;
 
-    sp9C.x = 
+    sp9C.x =
         (negSinPitchSinYaw * (tmp0)) +
         (cosPitch * (sp48 - cosPitchCosYawSinRoll)) +
         (negSinPitchCosYaw * (sp3C + sp38));
-    
+
     temp_f10 = (sinPitch * cosPitchCosYaw) * temp_f18;
     sp54 = cosPitchSinYaw * sinNegRoll;
 
-    sp9C.y = 
+    sp9C.y =
         (negSinPitchSinYaw * (sp48 + cosPitchCosYawSinRoll)) +
         (cosPitch * ((tmp0))) +
         (negSinPitchCosYaw * (temp_f10 - sp54));
 
     sp9C.z =
-        (negSinPitchSinYaw * (sp3C - sp38)) + 
+        (negSinPitchSinYaw * (sp3C - sp38)) +
         (cosPitch * (temp_f10 + sp54)) +
         (negSinPitchCosYaw * (((1.0f - SQ(cosPitchCosYaw)) * cosNegRoll) + SQ(cosPitchCosYaw)));
 
@@ -299,7 +298,6 @@ char* DbCamera_SetTextValue(s16 value, char* str, u8 endIdx) {
     strIter = str + (s32)endIdx - 1;
     str[endIdx] = '\0';
 
-
     if (value >= 0) {
         sign = ' ';
     } else {
@@ -308,14 +306,15 @@ char* DbCamera_SetTextValue(s16 value, char* str, u8 endIdx) {
     }
 
     do {
-        *strIter-- = (value % 10) + '0'; value /= 10;
+        *strIter-- = (value % 10) + '0';
+        value /= 10;
     } while (value != 0);
-    
+
     if (sign == '-') {
         *strIter-- = sign;
     }
 
-    while(strIter >= str) {
+    while (strIter >= str) {
         *str++ = ' ';
     }
 
@@ -371,8 +370,8 @@ void func_800B404C(PosRot* posRot, Vec3s* vec, Vec3f* out) {
 }
 
 s32 func_800B4088(DbCamera* dbCamera, Camera* cam) {
-    CutsceneCameraPoint *position;
-    CutsceneCameraPoint *lookAt;
+    CutsceneCameraPoint* position;
+    CutsceneCameraPoint* lookAt;
     s32 i;
 
     position = &dbCamera->sub.position[dbCamera->sub.unkIdx];
@@ -402,8 +401,7 @@ s32 func_800B4088(DbCamera* dbCamera, Camera* cam) {
     return dbCamera->sub.unkIdx;
 }
 
-s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr)
-{
+s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr) {
     CutsceneCameraPoint* position = &dbCamera->sub.position[idx];
     CutsceneCameraPoint* lookAt = &dbCamera->sub.lookAt[idx];
 
@@ -411,8 +409,7 @@ s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr)
 
         DbCamera_Vec3SToF2(&position->pos, &dbCamera->eye);
         DbCamera_Vec3SToF2(&lookAt->pos, &dbCamera->at);
-    }
-    else {
+    } else {
 
         func_800B404C(&cameraPtr->playerPosRot, &lookAt->pos, &dbCamera->at);
         func_800B404C(&cameraPtr->playerPosRot, &position->pos, &dbCamera->eye);
@@ -429,14 +426,12 @@ s32 func_800B42C0(DbCamera* dbCamera, Camera* cameraPtr) {
     CutsceneCameraPoint* position = &dbCamera->sub.position[dbCamera->sub.unkIdx];
     CutsceneCameraPoint* lookAt = &dbCamera->sub.lookAt[dbCamera->sub.unkIdx];
 
-    position->continueFlag = 
-    lookAt->continueFlag = 0;
+    position->continueFlag = lookAt->continueFlag = 0;
 
     if (dbCamera->sub.mode != 1) {
         DbCamera_Vec3FToS(&dbCamera->eye, &position->pos);
         DbCamera_Vec3FToS(&dbCamera->at, &lookAt->pos);
-    }
-    else {
+    } else {
         func_800B3F94(&cameraPtr->playerPosRot, &dbCamera->at, &lookAt->pos);
         func_800B3F94(&cameraPtr->playerPosRot, &dbCamera->eye, &position->pos);
     }
@@ -477,7 +472,7 @@ s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
 void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
     s32 i;
 
-    if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CRIGHT)) {
+    if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_CRIGHT)) {
         sDbCameraAnim.keyframe = 0;
         sDbCameraAnim.unk_0A = 1;
         sDbCameraAnim.curFrame = 0.0f;
@@ -501,10 +496,11 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
         return;
     }
 
-    if (!func_800BB2B4(&sDbCameraAnim.positionPos, &sDbCameraAnim.roll, &sDbCameraAnim.fov, dbCamera->sub.position, &sDbCameraAnim.keyframe, &sDbCameraAnim.curFrame) && 
-        !func_800BB2B4(&sDbCameraAnim.lookAtPos, &sDbCameraAnim.roll, &sDbCameraAnim.fov,  dbCamera->sub.lookAt, &sDbCameraAnim.keyframe, &sDbCameraAnim.curFrame) && 
-        sDbCameraAnim.unk_0A == 1
-        ) {
+    if (!func_800BB2B4(&sDbCameraAnim.positionPos, &sDbCameraAnim.roll, &sDbCameraAnim.fov, dbCamera->sub.position,
+                       &sDbCameraAnim.keyframe, &sDbCameraAnim.curFrame) &&
+        !func_800BB2B4(&sDbCameraAnim.lookAtPos, &sDbCameraAnim.roll, &sDbCameraAnim.fov, dbCamera->sub.lookAt,
+                       &sDbCameraAnim.keyframe, &sDbCameraAnim.curFrame) &&
+        sDbCameraAnim.unk_0A == 1) {
         Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         sDbCameraAnim.unk_04++;
 
@@ -516,8 +512,7 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
         if (dbCamera->sub.mode != 1) {
             DbCamera_CopyVec3f(&sDbCameraAnim.positionPos, &dbCamera->eye);
             DbCamera_CopyVec3f(&sDbCameraAnim.lookAtPos, &dbCamera->at);
-        }
-        else {
+        } else {
             func_800B3FF4(&cam->playerPosRot, &sDbCameraAnim.lookAtPos, &dbCamera->at);
             func_800B3FF4(&cam->playerPosRot, &sDbCameraAnim.positionPos, &dbCamera->eye);
         }
@@ -557,23 +552,20 @@ void DbCamera_PrintPoints(const char* name, s16 count, CutsceneCameraPoint* poin
     osSyncPrintf("@@@};\n@@@\n");
 }
 
-void DbCamera_PrintF32Bytes(f32 value)
-{
+void DbCamera_PrintF32Bytes(f32 value) {
     f32 b = value;
     char* a = (char*)&b;
     osSyncPrintf("\n@@@%d,%d,%d,%d,", a[0], a[1], a[2], a[3]);
 }
 
-void DbCamera_PrintU16Bytes(u16 value)
-{
+void DbCamera_PrintU16Bytes(u16 value) {
     u16 pad;
     u16 b = value;
     char* a = (char*)&b;
     osSyncPrintf("\n@@@%d,%d,", a[0], a[1]);
 }
 
-void DbCamera_PrintS16Bytes(s16 value)
-{
+void DbCamera_PrintS16Bytes(s16 value) {
     u16 pad;
     s16 b = value;
     char* a = (char*)&b;
@@ -668,7 +660,7 @@ void DbCamera_Init(DbCamera* dbCamera, Camera* cameraPtr) {
     dbCamera->unk_6C.z = 0;
 }
 
-s32 func_800B4DE4(DbCamera *this, Camera *cam) {
+s32 DbgCamera_Enable(DbCamera* this, Camera* cam) {
     this->at = cam->at;
     this->eye = cam->eye;
     this->unk_1C = cam->up;
@@ -690,15 +682,14 @@ s32 func_800B4DE4(DbCamera *this, Camera *cam) {
 s32 DbCamera_GetFirstAvailableLetter() {
     s32 i;
     for (i = 0; i < ARRAY_COUNT(sDbCameraLetters); i++) {
-        switch (sDbCameraLetters[i])
-        {
+        switch (sDbCameraLetters[i]) {
             case 'O':
                 break;
             default:
                 return 'A' + i;
         }
     }
-    
+
     return '?';
 }
 
@@ -760,7 +751,7 @@ s32 DbCamera_CalcMempakAllocSize() {
     s32 i;
 
     sDbCameraMempakAllocSize = 0;
-    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
+    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
         if (sDbCameraCuts[i].letter != '?') {
             sDbCameraMempakAllocSize += ALIGN32(sDbCameraCuts[i].nPoints * sizeof(CutsceneCameraPoint)) * 2;
         }
@@ -779,7 +770,7 @@ s32 DbCamera_LoadCallback(char* c) {
     s32 size;
     s32 off;
 
-    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
+    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
         if (sDbCameraCuts[i].letter != '?') {
             DbCamera_ResetCut(i, true);
             sDbCameraLetters[i] = 'X';
@@ -791,7 +782,7 @@ s32 DbCamera_LoadCallback(char* c) {
     }
 
     off = sizeof(sDbCameraCuts);
-    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
+    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
         if (sDbCameraCuts[i].letter != '?') {
             size = sDbCameraCuts[i].nPoints * sizeof(CutsceneCameraPoint);
 
@@ -833,7 +824,7 @@ s32 DbCamera_SaveCallback(char* c) {
     s32 i;
 
     ret = Mempak_GetFileSize(2, *c);
-    freeSize =  Mempak_GetFreeBytes(2);
+    freeSize = Mempak_GetFreeBytes(2);
 
     if (sDbCameraMempakAllocSize < (freeSize + ret)) {
         if (!Mempak_Alloc(2, c, sDbCameraMempakAllocSize)) {
@@ -846,7 +837,7 @@ s32 DbCamera_SaveCallback(char* c) {
         }
 
         off = sizeof(sDbCameraCuts);
-        for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
+        for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
             if (sDbCameraCuts[i].letter != '?') {
                 size = sDbCameraCuts[i].nPoints * sizeof(CutsceneCameraPoint);
 
@@ -857,8 +848,9 @@ s32 DbCamera_SaveCallback(char* c) {
                 off += ALIGN32(size);
 
                 ret = Mempak_Write(2, *c, sDbCameraCuts[i].position, off, ALIGN32(size));
-                if (!ret)
+                if (!ret) {
                     break;
+                }
 
                 off += ALIGN32(size);
             }
@@ -867,8 +859,7 @@ s32 DbCamera_SaveCallback(char* c) {
 
         if (ret) {
             return *c;
-        }
-        else {
+        } else {
             Mempak_DeleteFile(2, *c);
             return false;
         }
@@ -884,24 +875,24 @@ s32 DbCamera_ClearCallback(char* c) {
 void DbCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorId) {
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
-        str[i*2+1] = sDbCameraCuts[i].letter;
-        str[i*2+0] = '-';
+    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+        str[i * 2 + 1] = sDbCameraCuts[i].letter;
+        str[i * 2 + 0] = '-';
     }
 
-    str[0x14] = str[i*2+1] = '\0';
+    str[0x14] = str[i * 2 + 1] = '\0';
     func_8006376C(x, y, colorId, str);
-    str[0x14] = str[i*2+0] = '-';
-    func_8006376C(x+0x14, y, colorId, str+0x14);
+    str[0x14] = str[i * 2 + 0] = '-';
+    func_8006376C(x + 0x14, y, colorId, str + 0x14);
 }
 
 void DbCamera_PrintAllCuts(Camera* cam) {
     s32 i;
-    
+
     Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     osSyncPrintf("@@@\n@@@\n@@@/* ****** spline point data ** start here ***** */\n@@@\n");
 
-    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
+    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
         DbCameraCut* cut = &sDbCameraCuts[i];
         if (cut->nPoints != 0) {
             if (i != 0) {
@@ -925,7 +916,7 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
 
     while (sDbCameraCuts[D_8016110C].letter == '?') {
         D_8016110C++;
-        if (D_8016110C >= ARRAY_COUNT(sDbCameraCuts)-1) {
+        if (D_8016110C >= ARRAY_COUNT(sDbCameraCuts) - 1) {
             sDbCameraAnim.curFrame = 0.0f;
             sDbCameraAnim.unk_04 = 0;
             sDbCameraAnim.keyframe = 0;
@@ -935,14 +926,15 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
         }
     }
 
-    if (!func_800BB2B4(&sDbCameraAnim.positionPos, &sDbCameraAnim.roll, &sDbCameraAnim.fov, sDbCameraCuts[D_8016110C].position, &sDbCameraAnim.keyframe, &sDbCameraAnim.curFrame) && 
-        !func_800BB2B4(&sDbCameraAnim.lookAtPos, &sDbCameraAnim.roll, &sDbCameraAnim.fov,  sDbCameraCuts[D_8016110C].lookAt, &sDbCameraAnim.keyframe, &sDbCameraAnim.curFrame)
-        ) {
-        
+    if (!func_800BB2B4(&sDbCameraAnim.positionPos, &sDbCameraAnim.roll, &sDbCameraAnim.fov,
+                       sDbCameraCuts[D_8016110C].position, &sDbCameraAnim.keyframe, &sDbCameraAnim.curFrame) &&
+        !func_800BB2B4(&sDbCameraAnim.lookAtPos, &sDbCameraAnim.roll, &sDbCameraAnim.fov,
+                       sDbCameraCuts[D_8016110C].lookAt, &sDbCameraAnim.keyframe, &sDbCameraAnim.curFrame)) {
+
         D_8012D13C[7] = ((sDbCameraAnim.keyframe + 1) / 10) + '0';
         D_8012D13C[8] = ((sDbCameraAnim.keyframe + 1) % 10) + '0';
-        D_8012D13C[10] = ((sDbCameraCuts[D_8016110C].nPoints-5) / 10) + '0';
-        D_8012D13C[11] = ((sDbCameraCuts[D_8016110C].nPoints-5) % 10) + '0';
+        D_8012D13C[10] = ((sDbCameraCuts[D_8016110C].nPoints - 5) / 10) + '0';
+        D_8012D13C[11] = ((sDbCameraCuts[D_8016110C].nPoints - 5) % 10) + '0';
         DbCamera_SetTextValue(sDbCameraAnim.unk_04, D_8012D114 + 10, 4);
         func_8006376C(0xF, 0x16, 3, D_8012D114);
         DbCamera_SetTextValue(sDbCameraAnim.unk_0C, D_8012D128 + 10, 4);
@@ -964,8 +956,7 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
         if (sDbCameraCuts[D_8016110C].mode != 1) {
             DbCamera_CopyVec3f(&sDbCameraAnim.positionPos, &dbCamera->eye);
             DbCamera_CopyVec3f(&sDbCameraAnim.lookAtPos, &dbCamera->at);
-        }
-        else {
+        } else {
             func_800B3FF4(&cam->playerPosRot, &sDbCameraAnim.lookAtPos, &dbCamera->at);
             func_800B3FF4(&cam->playerPosRot, &sDbCameraAnim.positionPos, &dbCamera->eye);
         }
@@ -979,7 +970,7 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
         sDbCameraAnim.keyframe = 0;
         sDbCameraAnim.curFrame = 0.0f;
         sDbCameraAnim.unk_04 = 0;
-        if (D_8016110C == ARRAY_COUNT(sDbCameraCuts)-1) {
+        if (D_8016110C == ARRAY_COUNT(sDbCameraCuts) - 1) {
             D_8016110C = 0;
             sDbCameraAnim.curFrame = 0.0f;
             sDbCameraAnim.keyframe = 0;
@@ -1010,7 +1001,9 @@ void DbCamera_Reset(Camera* cam, DbCamera* dbCam) {
 }
 
 #ifdef NON_MATCHING
-u32 sDbCameraColors[] = { 4, 4, 4, 7, 4, 4, };
+u32 sDbCameraColors[] = {
+    4, 4, 4, 7, 4, 4,
+};
 s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
 
     static s32 mempakFileSize = 0; //  D_8012D170
@@ -1020,9 +1013,9 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
     s32 idx1; // 0xA0
     s32 idx2; // s0
 
-    char sp74[(ARRAY_COUNT(sDbCameraCuts)-1+4) * 2]; // 0x74
-    DbCameraCut sp64; // 0x64
-    VecSph sp5C; // 0x5C
+    char sp74[(ARRAY_COUNT(sDbCameraCuts) - 1 + 4) * 2];                                                  // 0x74
+    DbCameraCut sp64;                                                                                     // 0x64
+    VecSph sp5C;                                                                                          // 0x5C
     s32 (*callbacks[])(char*) = { DbCamera_SaveCallback, DbCamera_LoadCallback, DbCamera_ClearCallback }; // 0x50
 
     func_8006376C(0xE, 5, 0, D_8012CF44); // DEMO CONTROL
@@ -1030,493 +1023,487 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
     idx1 = sDbCameraCurFileIdx >> 1;
     idx2 = sDbCameraLastFileIdx >> 1;
 
+    switch (dbCamera->sub.demoCtrlActionIdx) {
+        case ACTION_SAVE:  // 1
+        case ACTION_LOAD:  // 2
+        case ACTION_CLEAR: // 3
+            switch (dbCamera->sub.demoCtrlMenu) {
 
-    switch (dbCamera->sub.demoCtrlActionIdx)
-    {
-    case ACTION_SAVE: // 1
-    case ACTION_LOAD: // 2
-    case ACTION_CLEAR: // 3
-        switch (dbCamera->sub.demoCtrlMenu)
-        {
-        
-        // 5c0c
-        // 100(0x64) | 200(0xC8) | 300(0x12C)
-        case DEMO_CTRL_MENU(ACTION_SAVE, MENU_INFO):
-        case DEMO_CTRL_MENU(ACTION_LOAD, MENU_INFO):
-        case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_INFO):
-        {
-            if ((1 << sDbCameraCurFileIdx) & sDbCameraMempakFiles) {
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DLEFT) || CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DRIGHT)) {
-                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    dbCamera->sub.demoCtrlToggleSwitch ^= 1;
-                }
-                D_8012CEE0[41][9] = sDbCameraCurFileIdx + 'A';
-                func_8006376C(0xA, 7, 5, D_8012CEE0[41]);
-                func_8006376C(0x10, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
-                func_8006376C(0x14, 7, 5, D_8012CF88[0]);
-                
-                func_8006376C(0x11, 8, dbCamera->sub.demoCtrlToggleSwitch ? 4 : 7, D_8012CF94);
-                func_8006376C(0x15, 8, dbCamera->sub.demoCtrlToggleSwitch ? 7 : 4, D_8012CF98);
+                // 5c0c
+                // 100(0x64) | 200(0xC8) | 300(0x12C)
+                case DEMO_CTRL_MENU(ACTION_SAVE, MENU_INFO):
+                case DEMO_CTRL_MENU(ACTION_LOAD, MENU_INFO):
+                case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_INFO): {
+                    if ((1 << sDbCameraCurFileIdx) & sDbCameraMempakFiles) {
+                        if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DLEFT) ||
+                            CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DRIGHT)) {
+                            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            dbCamera->sub.demoCtrlToggleSwitch ^= 1;
+                        }
+                        D_8012CEE0[41][9] = sDbCameraCurFileIdx + 'A';
+                        func_8006376C(0xA, 7, 5, D_8012CEE0[41]);
+                        func_8006376C(0x10, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
+                        func_8006376C(0x14, 7, 5, D_8012CF88[0]);
 
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_A)) {
-                    if (dbCamera->sub.demoCtrlToggleSwitch == 0) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                        dbCamera->sub.demoCtrlMenu++;
+                        func_8006376C(0x11, 8, dbCamera->sub.demoCtrlToggleSwitch ? 4 : 7, D_8012CF94);
+                        func_8006376C(0x15, 8, dbCamera->sub.demoCtrlToggleSwitch ? 7 : 4, D_8012CF98);
+
+                        if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_A)) {
+                            if (dbCamera->sub.demoCtrlToggleSwitch == 0) {
+                                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                       &D_801333E8);
+                                dbCamera->sub.demoCtrlMenu++;
+                            } else {
+                                Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                       &D_801333E8);
+                                dbCamera->sub.demoCtrlMenu = 0;
+                            }
+                        }
+                    } else {
+                        if (dbCamera->sub.demoCtrlMenu == 100) {
+                            dbCamera->sub.demoCtrlMenu++;
+                        } else {
+                            dbCamera->sub.demoCtrlToggleSwitch ^= 1;
+                            D_8012CF84[9] = sDbCameraCurFileIdx + 'A';
+                            func_8006376C(0xD, 7, 5, D_8012CF88[-1]); // todo: find something better
+                            func_8006376C(0x12, 7, 5, D_8012CF80);
+                            func_8006376C(0xD, 9, dbCamera->sub.demoCtrlToggleSwitch ? 1 : 6, "PRESS B BUTTON");
+                        }
                     }
-                    else {
+                    if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_B)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         dbCamera->sub.demoCtrlMenu = 0;
                     }
+                    return 1;
                 }
-            }
-            else {
-                if (dbCamera->sub.demoCtrlMenu == 100) {
-                    dbCamera->sub.demoCtrlMenu++;
+
+                // 5ee4
+                // 101(0x65) | 201(0xC9) | 301(0x12D)
+                case DEMO_CTRL_MENU(ACTION_SAVE, MENU_CALLBACK):
+                case DEMO_CTRL_MENU(ACTION_LOAD, MENU_CALLBACK):
+                case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_CALLBACK): {
+                    D_8012CEE0[41][9] = sDbCameraCurFileIdx + 'A';
+                    func_8006376C(0xC, 7, 5, D_8012CEE0[41]);
+                    func_8006376C(0x12, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
+                    func_8006376C(0x16, 7, 5, D_8012CF9C[0]);
+
+                    if (callbacks[dbCamera->sub.demoCtrlActionIdx - 1](&D_8012CF84[9])) {
+                        dbCamera->sub.demoCtrlMenu++;
+                        return 1;
+                    } else {
+                        dbCamera->sub.demoCtrlMenu += 8;
+                        return 1;
+                    }
                 }
-                else {
+
+                // 5f9c
+                // 102(0x66) | 202(0xCA) | 302(0x12E)
+                case DEMO_CTRL_MENU(ACTION_SAVE, MENU_SUCCESS):
+                case DEMO_CTRL_MENU(ACTION_LOAD, MENU_SUCCESS):
+                case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_SUCCESS): {
                     dbCamera->sub.demoCtrlToggleSwitch ^= 1;
-                    D_8012CF84[9] = sDbCameraCurFileIdx + 'A';
-                    func_8006376C(0xD, 7, 5, D_8012CF88[-1]); // todo: find something better
-                    func_8006376C(0x12, 7, 5, D_8012CF80);
-                    func_8006376C(0xD, 9, dbCamera->sub.demoCtrlToggleSwitch ? 1 : 6, "PRESS B BUTTON");
+                    D_8012CEE0[41][9] = sDbCameraCurFileIdx + 'A';
+                    func_8006376C(0xD, 7, 5, D_8012CEE0[41]);
+                    func_8006376C(0x13, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlMenu / 100]);
+                    func_8006376C(0x17, 7, 5, D_8012CFA4);
+                    func_8006376C(0xD, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? 1 : 6, "PRESS B BUTTON");
+
+                    if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_A) ||
+                        CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_B)) {
+                        Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        if (dbCamera->sub.demoCtrlMenu == DEMO_CTRL_MENU(ACTION_LOAD, MENU_SUCCESS)) {
+                            dbCamera->sub.demoCtrlActionIdx = ACTION_E;
+                        }
+                        dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
+                        return 1;
+                    }
+                    break;
+                }
+
+                // 60c0
+                // 109(0x6D) | 209(0xD1) | 309(0x135)
+                case DEMO_CTRL_MENU(ACTION_SAVE, MENU_ERROR):
+                case DEMO_CTRL_MENU(ACTION_LOAD, MENU_ERROR):
+                case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_ERROR): {
+                    dbCamera->sub.demoCtrlToggleSwitch ^= 1;
+                    D_8012CEE0[41][9] = sDbCameraCurFileIdx + 'A';
+                    func_8006376C(0xD, 7, 5, D_8012CEE0[(dbCamera->sub.demoCtrlMenu / 100) + 32]);
+                    func_8006376C(0x11, 7, 5, D_8012CFAC);
+                    func_8006376C(0x17, 7, 5, D_8012CFA4);
+                    func_8006376C(0xD, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? 1 : 6, "PRESS B BUTTON");
+
+                    if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_A) ||
+                        CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_B)) {
+                        Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        dbCamera->sub.demoCtrlMenu -= 9;
+                    }
+                    return 1;
+                }
+
+                case 1:
+                    goto block_1;
+
+                // 61d8
+                default: {
+                    if (Mempak_Init(2)) {
+                        sDbCameraMempakFiles = Mempak_FindFile(2, 'A', 'E');
+                        dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_CALLBACK);
+                        DbCamera_CalcMempakAllocSize();
+                        if ((1 << sDbCameraCurFileIdx) & sDbCameraMempakFiles) {
+                            mempakFileSize = Mempak_GetFileSize(2, sDbCameraCurFileIdx + 'A');
+                            dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
+                        } else {
+                            mempakFileSize = 0;
+                            dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
+                        }
+                    block_1:
+                        idx2 = 1;
+                        for (i = 0; i < 5; i++) {
+                            sp74[i * 2 + 1] = (sDbCameraMempakFiles & idx2) ? i + 'A' : '?';
+                            sp74[i * 2 + 0] = '-';
+
+                            idx2 <<= 1;
+                        }
+                        sp74[i * 2 + 0] = '-';
+                        sp74[i * 2 + 1] = '\0';
+
+                        if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DRIGHT)) {
+                            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            if (sDbCameraCurFileIdx >= 4) {
+                                sDbCameraCurFileIdx = 0;
+                            } else {
+                                sDbCameraCurFileIdx++;
+                            }
+
+                            if ((1 << sDbCameraCurFileIdx) & sDbCameraMempakFiles) {
+                                mempakFileSize = Mempak_GetFileSize(2, sDbCameraCurFileIdx + 'A');
+                                dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
+                            } else {
+                                mempakFileSize = 0;
+                                dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
+                            }
+                        }
+                        if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DLEFT)) {
+                            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            if (sDbCameraCurFileIdx <= 0) {
+                                sDbCameraCurFileIdx = 4;
+                            } else {
+                                sDbCameraCurFileIdx--;
+                            }
+
+                            if ((1 << sDbCameraCurFileIdx) & sDbCameraMempakFiles) {
+                                mempakFileSize = Mempak_GetFileSize(2, sDbCameraCurFileIdx + 'A');
+                                dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
+                            } else {
+                                mempakFileSize = 0;
+                                dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
+                            }
+                        }
+                        // 6440 diff: regalloc
+                        func_8006376C(0xE, 7, 5, D_8012CF50[dbCamera->sub.demoCtrlActionIdx]);
+                        func_8006376C(0xF, 7, 4, sp74);
+
+                        func_8006376C((sDbCameraCurFileIdx * 2) + 0x10, 7, 7, "_"); // cursor
+                        DbCamera_SetTextValue(DbCamera_GetMempakAllocSize(), sp74, 6);
+                        func_8006376C(0xD, 9, 6, D_8012CF78); // NEED      BYTE
+                        func_8006376C(0x11, 9, 4, sp74);
+                        DbCamera_SetTextValue(Mempak_GetFreeBytes(2), sp74, 6);
+                        func_8006376C(0xD, 0xA, 6, D_8012CF74); // FREE      BYTE
+                        func_8006376C(0x11, 0xA, 4, sp74);
+                        if (mempakFileSize != 0) { // diff: regalloc (comes from 6440?)
+                            DbCamera_SetTextValue(mempakFileSize, sp74, 6);
+                            func_8006376C(0xD, 0xB, 7, D_8012CFA8);
+                            func_8006376C(0x11, 0xB, 4, sp74);
+                        }
+                        // diff: regalloc
+                        idx1 = (dbCamera->sub.demoCtrlActionIdx + 2);
+                        func_8006376C(0xF, 0x16, 1, D_8012CF7C);
+                        func_8006376C(0x12, 0x17, sDbCameraColors[idx1], D_8012CF64);
+                        func_8006376C(0x12, 0x18, sDbCameraColors[idx1 - 1], D_8012CF68);
+                        func_8006376C(0x12, 0x19, sDbCameraColors[idx1 - 2], D_8012CF6C);
+                        func_8006376C(0xE, dbCamera->sub.demoCtrlActionIdx + 0x16, 7, D_8012CF0C); // current selection
+                        func_8006376C(0xD, 0x1A, 5, D_8012CF60[0]);
+                        func_8006376C(0x14, 0x1A, 5, D_8012CF70);
+
+                        // diff: regalloc
+                        if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DUP)) {
+                            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx - 1) % 4u;
+                        }
+                        if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DDOWN)) {
+                            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx + 1) % 4u;
+                        }
+
+                        if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_A)) {
+                            Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            dbCamera->sub.demoCtrlToggleSwitch = 0;
+                            dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(dbCamera->sub.demoCtrlActionIdx, MENU_INFO);
+                        }
+                        if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_B)) {
+                            Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            dbCamera->sub.demoCtrlActionIdx = ACTION_E;
+                        }
+                        return 1;
+                    } else {
+                        func_8006376C(0xC, 0x1A, 4, D_8012CF60[0]);
+                        func_8006376C(0x13, 0x1A, 4, D_8012CF80);
+                        if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_B) ||
+                            CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DUP) ||
+                            CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DDOWN)) {
+
+                            Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            dbCamera->sub.demoCtrlActionIdx = ACTION_E;
+                        }
+                        return 2;
+                    }
+                    break;
                 }
             }
-            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B)) {
-                Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                dbCamera->sub.demoCtrlMenu = 0;
-            }
-            return 1;
-        }
-    
-        // 5ee4
-        // 101(0x65) | 201(0xC9) | 301(0x12D)
-        case DEMO_CTRL_MENU(ACTION_SAVE, MENU_CALLBACK):
-        case DEMO_CTRL_MENU(ACTION_LOAD, MENU_CALLBACK):
-        case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_CALLBACK):
-        {
-            D_8012CEE0[41][9] = sDbCameraCurFileIdx + 'A';
-            func_8006376C(0xC, 7, 5, D_8012CEE0[41]);
-            func_8006376C(0x12, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
-            func_8006376C(0x16, 7, 5, D_8012CF9C[0]);
-            
-            if (callbacks[dbCamera->sub.demoCtrlActionIdx - 1](&D_8012CF84[9])) {
-                dbCamera->sub.demoCtrlMenu++;
-                return 1;
-            }
-            else {
-                dbCamera->sub.demoCtrlMenu += 8;
-                return 1;
-            }
-        }
+            break;
 
-        // 5f9c
-        // 102(0x66) | 202(0xCA) | 302(0x12E)
-        case DEMO_CTRL_MENU(ACTION_SAVE, MENU_SUCCESS):
-        case DEMO_CTRL_MENU(ACTION_LOAD, MENU_SUCCESS):
-        case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_SUCCESS):
-        {
-            dbCamera->sub.demoCtrlToggleSwitch ^= 1;
-            D_8012CEE0[41][9] = sDbCameraCurFileIdx + 'A';
-            func_8006376C(0xD, 7, 5, D_8012CEE0[41]);
-            func_8006376C(0x13, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlMenu / 100]);
-            func_8006376C(0x17, 7, 5, D_8012CFA4);
-            func_8006376C(0xD, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? 1 : 6, "PRESS B BUTTON");
-
-            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_A) || CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B)) {
-                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                if (dbCamera->sub.demoCtrlMenu == DEMO_CTRL_MENU(ACTION_LOAD, MENU_SUCCESS)) {
-                    dbCamera->sub.demoCtrlActionIdx = ACTION_E;
-                }
+        // 6840
+        default: {
+            // diff: regalloc
+            if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DUP)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
-                return 1;
-            }
-            break;
-        }
-
-        // 60c0
-        // 109(0x6D) | 209(0xD1) | 309(0x135)
-        case DEMO_CTRL_MENU(ACTION_SAVE, MENU_ERROR):
-        case DEMO_CTRL_MENU(ACTION_LOAD, MENU_ERROR):
-        case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_ERROR):
-        {
-            dbCamera->sub.demoCtrlToggleSwitch ^= 1;
-            D_8012CEE0[41][9] = sDbCameraCurFileIdx + 'A';
-            func_8006376C(0xD, 7, 5, D_8012CEE0[(dbCamera->sub.demoCtrlMenu / 100) + 32]);
-            func_8006376C(0x11, 7, 5, D_8012CFAC);
-            func_8006376C(0x17, 7, 5, D_8012CFA4);
-            func_8006376C(0xD, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? 1 : 6, "PRESS B BUTTON");
-
-            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_A) || CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B)) {
-                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                dbCamera->sub.demoCtrlMenu -= 9;
-            }
-            return 1;
-        }
-
-        case 1: goto block_1;
-
-        // 61d8
-        default:
-        {   
-            if (Mempak_Init(2)) {
-                sDbCameraMempakFiles = Mempak_FindFile(2, 'A', 'E');
-                dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_CALLBACK);
-                DbCamera_CalcMempakAllocSize();
-                if ((1 << sDbCameraCurFileIdx) & sDbCameraMempakFiles) {
-                    mempakFileSize = Mempak_GetFileSize(2, sDbCameraCurFileIdx + 'A');
-                    dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
-                } else {
-                    mempakFileSize = 0;
-                    dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
-                }
-block_1:
-                idx2 = 1;
-                for (i = 0; i < 5; i++) {
-                    sp74[i*2+1] = (sDbCameraMempakFiles & idx2) ? i + 'A' : '?';
-                    sp74[i*2+0] = '-';
-
-                    idx2 <<= 1;
-                }
-                sp74[i*2+0] = '-';
-                sp74[i*2+1] = '\0';
-
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DRIGHT)) {
-                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    if (sDbCameraCurFileIdx >= 4) {
-                        sDbCameraCurFileIdx = 0;
-                    }
-                    else {
-                        sDbCameraCurFileIdx++;
-                    }
-
-                    if ((1 << sDbCameraCurFileIdx) & sDbCameraMempakFiles) {
-                        mempakFileSize = Mempak_GetFileSize(2, sDbCameraCurFileIdx + 'A');
-                        dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
-                    }
-                    else {
-                        mempakFileSize = 0;
-                        dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
-                    }
-                }
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DLEFT)) {
-                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    if (sDbCameraCurFileIdx <= 0) {
-                        sDbCameraCurFileIdx = 4;
-                    }
-                    else {
-                        sDbCameraCurFileIdx--;
-                    }
-
-                    if ((1 << sDbCameraCurFileIdx) & sDbCameraMempakFiles) {
-                        mempakFileSize = Mempak_GetFileSize(2, sDbCameraCurFileIdx + 'A');
-                        dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
-                    }
-                    else {
-                        mempakFileSize = 0;
-                        dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
-                    }
-                }
-                // 6440 diff: regalloc
-                func_8006376C(0xE, 7, 5, D_8012CF50[dbCamera->sub.demoCtrlActionIdx]);
-                func_8006376C(0xF, 7, 4, sp74);
-
-                func_8006376C((sDbCameraCurFileIdx * 2) + 0x10, 7, 7, "_"); // cursor
-                DbCamera_SetTextValue(DbCamera_GetMempakAllocSize(), sp74, 6);
-                func_8006376C(0xD, 9, 6, D_8012CF78); // NEED      BYTE
-                func_8006376C(0x11, 9, 4, sp74);
-                DbCamera_SetTextValue(Mempak_GetFreeBytes(2), sp74, 6);
-                func_8006376C(0xD, 0xA, 6, D_8012CF74); // FREE      BYTE
-                func_8006376C(0x11, 0xA, 4, sp74);
-                if (mempakFileSize != 0) { // diff: regalloc (comes from 6440?)
-                    DbCamera_SetTextValue(mempakFileSize, sp74, 6);
-                    func_8006376C(0xD, 0xB, 7, D_8012CFA8);
-                    func_8006376C(0x11, 0xB, 4, sp74);
-                }
-                // diff: regalloc
-                idx1 = (dbCamera->sub.demoCtrlActionIdx + 2);
-                func_8006376C(0xF, 0x16, 1, D_8012CF7C);
-                func_8006376C(0x12, 0x17, sDbCameraColors[idx1], D_8012CF64);
-                func_8006376C(0x12, 0x18, sDbCameraColors[idx1-1], D_8012CF68);
-                func_8006376C(0x12, 0x19, sDbCameraColors[idx1-2], D_8012CF6C);
-                func_8006376C(0xE, dbCamera->sub.demoCtrlActionIdx + 0x16, 7, D_8012CF0C); // current selection
-                func_8006376C(0xD, 0x1A, 5, D_8012CF60[0]);
-                func_8006376C(0x14, 0x1A, 5, D_8012CF70);
-
-                // diff: regalloc
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DUP)) {
-                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx - 1) % 4u;
-                }
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DDOWN)) {
-                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx + 1) % 4u;
-                }
-
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_A)) {
-                    Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    dbCamera->sub.demoCtrlToggleSwitch = 0;
-                    dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(dbCamera->sub.demoCtrlActionIdx, MENU_INFO);
-                }
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B)) {
-                    Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    dbCamera->sub.demoCtrlActionIdx = ACTION_E;
-                }
-                return 1;
-            }
-            else {
-                func_8006376C(0xC, 0x1A, 4, D_8012CF60[0]);
-                func_8006376C(0x13, 0x1A, 4, D_8012CF80);
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B) ||
-                    CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DUP) || 
-                    CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DDOWN)) {
-                    
-                    Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    dbCamera->sub.demoCtrlActionIdx = ACTION_E;
-                }
-                return 2;
-            }
-            break;
-        }
-        }
-        break;
-    
-    // 6840
-    default:
-    {
-        // diff: regalloc
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DUP)) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
-            dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx - 1) % 4u;
-            sDbCameraCurFileIdx = 0;
-        }
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DDOWN)) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
-            dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx + 1) % 4u;
-            sDbCameraCurFileIdx = 0;
-        }
-
-        DbCamera_DrawSlotLetters(sp74, 7, 5, 4);
-
-        if (sDbCameraAnim.unk_0A != 0) {
-            func_8006376C(4, 7, 5, D_8012CF4C);
-            func_8006376C(D_8016110C * 2 + 6, 7, 7, ">");
-
-            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CUP)) {
-                if (D_8016110C > 0) {
-                    D_8016110C--;
-                }
-
-                sDbCameraAnim.curFrame = 0.0f;
-                sDbCameraAnim.keyframe = 0;
-                sDbCameraAnim.unk_04 = 0;
-            }
-            else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CDOWN)) {
-                if (D_8016110C < 14) {
-                    D_8016110C++;
-                }
-
-                sDbCameraAnim.curFrame = 0.0f;
-                sDbCameraAnim.keyframe = 0;
-                sDbCameraAnim.unk_04 = 0;
-            }
-            else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CLEFT)) {
-                sDbCameraAnim.unk_0A = 0;
-                Interface_ChangeAlpha(2);
-                ShrinkWindow_SetVal(0);
-                D_8016110C = 0;
-                return 2;
-            }
-
-            if (func_800B91B0(cam, dbCamera) == 0) {
-                Interface_ChangeAlpha(2);
-                ShrinkWindow_SetVal(0);
-                Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            }
-            OLib_Vec3fDiffToVecSphGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
-            func_800B3BD4(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw, (dbCamera->unk_50 * 182.04167f) + 0.5f);
-            return 2;
-        }
-
-
-        // 6ae4
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[1].press, BTN_CRIGHT)) {
-            // diff: reordering
-            D_8015FCC8 = 0;
-            gSaveContext.cutsceneIndex = 0xFFFD;
-            gSaveContext.cutsceneTrigger = 1;
-            sDbCameraAnim.curFrame = 0.0f;
-            sDbCameraAnim.keyframe = 0;
-            sDbCameraAnim.unk_04 = 0;
-            sDbCameraAnim.unk_0A = 1;
-            sDbCameraAnim.unk_0C = 0;
-            D_8016110C = 0;
-            Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        }
-
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_L)) {
-            if (sp74[sDbCameraCurFileIdx] == '?') {
-                sDbCameraLastFileIdx = -1;
-                D_801612EA = '*';
-            }
-            else {
-                sDbCameraLastFileIdx = sDbCameraCurFileIdx;
-                D_801612EA = sDbCameraCuts[idx1].letter;
-            }
-        }
-        // 6b90 diff: sDbCameraGlobalContext->state.input[2].cur loaded twice
-        // and then sDbCameraGlobalContext is only loaded once
-        else if (!CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, BTN_L)) {
-            if (sDbCameraLastFileIdx != -1) {
-                switch (sp74[sDbCameraCurFileIdx]) {
-                    case '?':
-                        Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                        sDbCameraCuts[idx1] = sDbCameraCuts[idx2];
-                        sp74[sDbCameraCurFileIdx] = '?'; // useless
-                        DbCamera_ResetCut(idx2, false);
-                        break; // diff: missing sDbCameraGlobalContext
-                    case '-':
-                        Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-
-                        sp64 = sDbCameraCuts[idx2];
-                        if (sDbCameraLastFileIdx < sDbCameraCurFileIdx) {
-                            // rotate right
-                            for (i = idx2; i < idx1 - 1 && i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
-                                sDbCameraCuts[i] = sDbCameraCuts[i+1];
-                            }
-                            sDbCameraCuts[idx1-1] = sp64;
-                        }
-                        else if (sDbCameraCurFileIdx < sDbCameraLastFileIdx) {
-                            // rotate left
-                            for (i = idx2; idx1 < i && i > 0; i--) {
-                                sDbCameraCuts[i] = sDbCameraCuts[i-1];
-                            }
-                            sDbCameraCuts[idx1] = sp64;
-                        }
-
-                        for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
-                            sp74[i*2+1] = sDbCameraCuts[i].letter;
-                        }
-                        break; // diff: missing sDbCameraGlobalContext
-                    default:
-                        Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                        break;
-                }
-                sDbCameraLastFileIdx = -1;
-            }
-        }
-
-        // 6f40
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_A)) {
-            if (sp74[sDbCameraCurFileIdx] == '?') {
-                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                sp74[sDbCameraCurFileIdx] = DbCamera_InitCut(idx1, &dbCamera->sub);
-                if (sp74[sDbCameraCurFileIdx] == '?') {
-                    func_8006376C(0xF, 0x18, 7, D_8012CF48);
-                }
-            }
-        }
-
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B)) {
-            if (sp74[sDbCameraCurFileIdx] != '?' && sp74[sDbCameraCurFileIdx] != '-') {
-                Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                sp74[sDbCameraCurFileIdx] = '?';
-                DbCamera_ResetCut(idx1, true);
-            }
-        }
-
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_R)) {
-            if (sp74[sDbCameraCurFileIdx] != '?' && sp74[sDbCameraCurFileIdx] != '-') {
-                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-
-                for (i = 0; i < sDbCameraCuts[idx1].nPoints; i++) {
-                    dbCamera->sub.lookAt[i] = sDbCameraCuts[idx1].lookAt[i];
-                }
-                // why use another loop for that...
-                for (i = 0; i < sDbCameraCuts[idx1].nPoints; i++) {
-                    dbCamera->sub.position[i] = sDbCameraCuts[idx1].position[i];
-                }
-
-                dbCamera->sub.mode = sDbCameraCuts[idx1].mode;
-                dbCamera->sub.nFrames = sDbCameraCuts[idx1].nFrames;
-                dbCamera->sub.nPoints = sDbCameraCuts[idx1].nPoints;
-                dbCamera->sub.unkIdx = 0;
-                func_800B41DC(dbCamera, dbCamera->sub.unkIdx, cam);
-                sp74[sDbCameraCurFileIdx] = '?';
-                DbCamera_ResetCut(idx1, true);
-                dbCamera->unk_00 = 1;
-            }
-        }
-
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DRIGHT)) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            if (sDbCameraCurFileIdx == 0x1E) {
+                dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx - 1) % 4u;
                 sDbCameraCurFileIdx = 0;
             }
-            else {
-                sDbCameraCurFileIdx++;
+            if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DDOWN)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
+                dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx + 1) % 4u;
+                sDbCameraCurFileIdx = 0;
             }
-        }
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DLEFT)) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            if (sDbCameraCurFileIdx == 0) {
-                // diff: reordering (0x1E is loaded before sDbCameraGlobalContext)
-                sDbCameraCurFileIdx = 0x1E;
-            }
-            else {
-                sDbCameraCurFileIdx--;
-            }
-        }
 
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, BTN_L) && CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CRIGHT)) {
-            for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
-                osSyncPrintf("###%2d:(%c) (%d %d) %d %d %d\n", i, sDbCameraCuts[i].letter, sDbCameraCuts[i].position, sDbCameraCuts[i].lookAt, sDbCameraCuts[i].nFrames, sDbCameraCuts[i].nPoints, sDbCameraCuts[i].mode);
+            DbCamera_DrawSlotLetters(sp74, 7, 5, 4);
+
+            if (sDbCameraAnim.unk_0A != 0) {
+                func_8006376C(4, 7, 5, D_8012CF4C);
+                func_8006376C(D_8016110C * 2 + 6, 7, 7, ">");
+
+                if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_CUP)) {
+                    if (D_8016110C > 0) {
+                        D_8016110C--;
+                    }
+
+                    sDbCameraAnim.curFrame = 0.0f;
+                    sDbCameraAnim.keyframe = 0;
+                    sDbCameraAnim.unk_04 = 0;
+                } else if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_CDOWN)) {
+                    if (D_8016110C < 14) {
+                        D_8016110C++;
+                    }
+
+                    sDbCameraAnim.curFrame = 0.0f;
+                    sDbCameraAnim.keyframe = 0;
+                    sDbCameraAnim.unk_04 = 0;
+                } else if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_CLEFT)) {
+                    sDbCameraAnim.unk_0A = 0;
+                    Interface_ChangeAlpha(2);
+                    ShrinkWindow_SetVal(0);
+                    D_8016110C = 0;
+                    return 2;
+                }
+
+                if (func_800B91B0(cam, dbCamera) == 0) {
+                    Interface_ChangeAlpha(2);
+                    ShrinkWindow_SetVal(0);
+                    Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                }
+                OLib_Vec3fDiffToVecSphGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
+                func_800B3BD4(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw, (dbCamera->unk_50 * 182.04167f) + 0.5f);
+                return 2;
             }
-            DbCamera_PrintAllCuts(cam);
-        }
-        else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, BTN_L) && CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CLEFT)) {
-            Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
-                if (sDbCameraCuts[i].nPoints != 0) {
-                    osSyncPrintf("\n@@@ /* CUT [%d]\t*/", i);
-                    DbCamera_PrintCutBytes(&sDbCameraCuts[i]);
+
+            // 6ae4
+            if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[1].press.button, BTN_CRIGHT)) {
+                // diff: reordering
+                D_8015FCC8 = 0;
+                gSaveContext.cutsceneIndex = 0xFFFD;
+                gSaveContext.cutsceneTrigger = 1;
+                sDbCameraAnim.curFrame = 0.0f;
+                sDbCameraAnim.keyframe = 0;
+                sDbCameraAnim.unk_04 = 0;
+                sDbCameraAnim.unk_0A = 1;
+                sDbCameraAnim.unk_0C = 0;
+                D_8016110C = 0;
+                Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+
+            if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_L)) {
+                if (sp74[sDbCameraCurFileIdx] == '?') {
+                    sDbCameraLastFileIdx = -1;
+                    D_801612EA = '*';
+                } else {
+                    sDbCameraLastFileIdx = sDbCameraCurFileIdx;
+                    D_801612EA = sDbCameraCuts[idx1].letter;
                 }
             }
-        }
-        else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CRIGHT)) {
-            sDbCameraAnim.curFrame = 0.0f;
-            sDbCameraAnim.keyframe = 0;
-            sDbCameraAnim.unk_04 = 0.0f;
-            sDbCameraAnim.unk_0A = 1;
-            sDbCameraAnim.unk_0C = 0;
-            Interface_ChangeAlpha(50);
-            ShrinkWindow_SetVal(0x20);
-            D_8016110C = 0;
-            Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        }
-        
-        func_8006376C(4, 7, 5, D_8012CF50[0]);
-        sp74[1] = 0;
-        if (sDbCameraLastFileIdx != -1) {
-            sp74[0] = D_801612EA;
-            func_8006376C(sDbCameraLastFileIdx + 5, 7, 2, sp74);
-        }
-        else {
-            sp74[0] =  '_';
-        }
-        func_8006376C(sDbCameraCurFileIdx + 5, 7, 7, sp74);
+            // 6b90 diff: sDbCameraGlobalContext->state.input[2].cur loaded twice
+            // and then sDbCameraGlobalContext is only loaded once
+            else if (!CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].cur.button, BTN_L)) {
+                if (sDbCameraLastFileIdx != -1) {
+                    switch (sp74[sDbCameraCurFileIdx]) {
+                        case '?':
+                            Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            sDbCameraCuts[idx1] = sDbCameraCuts[idx2];
+                            sp74[sDbCameraCurFileIdx] = '?'; // useless
+                            DbCamera_ResetCut(idx2, false);
+                            break; // diff: missing sDbCameraGlobalContext
+                        case '-':
+                            Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
 
-        break;
-    }
-    
+                            sp64 = sDbCameraCuts[idx2];
+                            if (sDbCameraLastFileIdx < sDbCameraCurFileIdx) {
+                                // rotate right
+                                for (i = idx2; i < idx1 - 1 && i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+                                    sDbCameraCuts[i] = sDbCameraCuts[i + 1];
+                                }
+                                sDbCameraCuts[idx1 - 1] = sp64;
+                            } else if (sDbCameraCurFileIdx < sDbCameraLastFileIdx) {
+                                // rotate left
+                                for (i = idx2; idx1 < i && i > 0; i--) {
+                                    sDbCameraCuts[i] = sDbCameraCuts[i - 1];
+                                }
+                                sDbCameraCuts[idx1] = sp64;
+                            }
+
+                            for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+                                sp74[i * 2 + 1] = sDbCameraCuts[i].letter;
+                            }
+                            break; // diff: missing sDbCameraGlobalContext
+                        default:
+                            Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            break;
+                    }
+                    sDbCameraLastFileIdx = -1;
+                }
+            }
+
+            // 6f40
+            if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_A)) {
+                if (sp74[sDbCameraCurFileIdx] == '?') {
+                    Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    sp74[sDbCameraCurFileIdx] = DbCamera_InitCut(idx1, &dbCamera->sub);
+                    if (sp74[sDbCameraCurFileIdx] == '?') {
+                        func_8006376C(0xF, 0x18, 7, D_8012CF48);
+                    }
+                }
+            }
+
+            if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_B)) {
+                if (sp74[sDbCameraCurFileIdx] != '?' && sp74[sDbCameraCurFileIdx] != '-') {
+                    Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    sp74[sDbCameraCurFileIdx] = '?';
+                    DbCamera_ResetCut(idx1, true);
+                }
+            }
+
+            if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_R)) {
+                if (sp74[sDbCameraCurFileIdx] != '?' && sp74[sDbCameraCurFileIdx] != '-') {
+                    Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+
+                    for (i = 0; i < sDbCameraCuts[idx1].nPoints; i++) {
+                        dbCamera->sub.lookAt[i] = sDbCameraCuts[idx1].lookAt[i];
+                    }
+                    // why use another loop for that...
+                    for (i = 0; i < sDbCameraCuts[idx1].nPoints; i++) {
+                        dbCamera->sub.position[i] = sDbCameraCuts[idx1].position[i];
+                    }
+
+                    dbCamera->sub.mode = sDbCameraCuts[idx1].mode;
+                    dbCamera->sub.nFrames = sDbCameraCuts[idx1].nFrames;
+                    dbCamera->sub.nPoints = sDbCameraCuts[idx1].nPoints;
+                    dbCamera->sub.unkIdx = 0;
+                    func_800B41DC(dbCamera, dbCamera->sub.unkIdx, cam);
+                    sp74[sDbCameraCurFileIdx] = '?';
+                    DbCamera_ResetCut(idx1, true);
+                    dbCamera->unk_00 = 1;
+                }
+            }
+
+            if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DRIGHT)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                if (sDbCameraCurFileIdx == 0x1E) {
+                    sDbCameraCurFileIdx = 0;
+                } else {
+                    sDbCameraCurFileIdx++;
+                }
+            }
+            if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_DLEFT)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                if (sDbCameraCurFileIdx == 0) {
+                    // diff: reordering (0x1E is loaded before sDbCameraGlobalContext)
+                    sDbCameraCurFileIdx = 0x1E;
+                } else {
+                    sDbCameraCurFileIdx--;
+                }
+            }
+
+            if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].cur.button, BTN_L) &&
+                CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_CRIGHT)) {
+                for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+                    osSyncPrintf("###%2d:(%c) (%d %d) %d %d %d\n", i, sDbCameraCuts[i].letter,
+                                 sDbCameraCuts[i].position, sDbCameraCuts[i].lookAt, sDbCameraCuts[i].nFrames,
+                                 sDbCameraCuts[i].nPoints, sDbCameraCuts[i].mode);
+                }
+                DbCamera_PrintAllCuts(cam);
+            } else if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].cur.button, BTN_L) &&
+                       CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_CLEFT)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+                    if (sDbCameraCuts[i].nPoints != 0) {
+                        osSyncPrintf("\n@@@ /* CUT [%d]\t*/", i);
+                        DbCamera_PrintCutBytes(&sDbCameraCuts[i]);
+                    }
+                }
+            } else if (CHECK_BTN_ALL(sDbCameraGlobalContext->state.input[2].press.button, BTN_CRIGHT)) {
+                sDbCameraAnim.curFrame = 0.0f;
+                sDbCameraAnim.keyframe = 0;
+                sDbCameraAnim.unk_04 = 0.0f;
+                sDbCameraAnim.unk_0A = 1;
+                sDbCameraAnim.unk_0C = 0;
+                Interface_ChangeAlpha(50);
+                ShrinkWindow_SetVal(0x20);
+                D_8016110C = 0;
+                Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+
+            func_8006376C(4, 7, 5, D_8012CF50[0]);
+            sp74[1] = 0;
+            if (sDbCameraLastFileIdx != -1) {
+                sp74[0] = D_801612EA;
+                func_8006376C(sDbCameraLastFileIdx + 5, 7, 2, sp74);
+            } else {
+                sp74[0] = '_';
+            }
+            func_8006376C(sDbCameraCurFileIdx + 5, 7, 7, sp74);
+
+            break;
+        }
     }
 
     return 1;
 }
 #else
 s32 (*D_8012D14C[])(char*) = { DbCamera_SaveCallback, DbCamera_LoadCallback, DbCamera_ClearCallback };
-u32 sDbCameraColors[] = { 4, 4, 4, 7, 4, 4, };
+u32 sDbCameraColors[] = {
+    4, 4, 4, 7, 4, 4,
+};
 u32 D_8012D170 = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/DbCamera_UpdateDemoControl.s")
 #endif

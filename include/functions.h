@@ -1465,7 +1465,7 @@ void ShrinkWindow_Update(s32 updateRate);
 // ? DbCamera_PrintS16Bytes(?);
 // ? DbCamera_PrintCutBytes(?);
 // ? DbCamera_Init(?);
-// ? func_800B4DE4(?);
+// ? DbgCamera_Enable(?);
 // ? DbCamera_Update(?);
 // ? DbCamera_GetFirstAvailableLetter(?);
 // ? DbCamera_InitCut(?);
