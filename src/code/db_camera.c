@@ -181,7 +181,7 @@ Vec3f* DbCamera_AddVecSph(Vec3f* out, Vec3f* in, VecSph* sph) {
     return out;
 }
 
-// annoying
+// similar to Camera_CalcUpFromPitchYawRoll
 #ifdef NON_MATCHING
 Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
 
@@ -193,12 +193,12 @@ Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
     f32 cosNegRoll;
     Vec3f sp9C;
 
-    sinPitch = Math_Sins(pitch);
-    cosPitch = Math_Coss(pitch);
-    sinYaw = Math_Sins(yaw);
-    cosYaw = Math_Coss(yaw);
-    sinNegRoll = Math_Sins(-roll);
-    cosNegRoll = Math_Coss(-roll);
+    sinPitch = Math_SinS(pitch);
+    cosPitch = Math_CosS(pitch);
+    sinYaw = Math_SinS(yaw);
+    cosYaw = Math_CosS(yaw);
+    sinNegRoll = Math_SinS(-roll);
+    cosNegRoll = Math_CosS(-roll);
 
     sp9C.x = (-sinPitch * sinYaw * (((1.0f - SQ(cosPitch * sinYaw)) * cosNegRoll) + SQ(cosPitch * sinYaw))) +
              (cosPitch * ((cosPitch * sinYaw * sinPitch * (1.0f - cosNegRoll)) - cosPitch * cosYaw * sinNegRoll)) +
@@ -306,8 +306,11 @@ char* DbCamera_SetTextValue(s16 value, char* str, u8 endIdx) {
     }
 
     do {
-        *strIter-- = (value % 10) + '0';
-        value /= 10;
+
+        // clang-format off
+        *strIter-- = (value % 10) + '0'; value /= 10;
+        // clang-format on
+
     } while (value != 0);
 
     if (sign == '-') {
