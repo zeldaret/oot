@@ -477,7 +477,7 @@ s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
 void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
     s32 i;
 
-    if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, R_CBUTTONS)) {
+    if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CRIGHT)) {
         sDbCameraAnim.keyframe = 0;
         sDbCameraAnim.unk_0A = 1;
         sDbCameraAnim.curFrame = 0.0f;
@@ -671,7 +671,7 @@ void DbCamera_Init(DbCamera* dbCamera, Camera* cameraPtr) {
 s32 func_800B4DE4(DbCamera *this, Camera *cam) {
     this->at = cam->at;
     this->eye = cam->eye;
-    this->unk_1C = cam->unk_68;
+    this->unk_1C = cam->up;
     this->fov = cam->fov;
     this->roll = 0;
     this->sub.nPoints = 1;
@@ -1046,7 +1046,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
         case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_INFO):
         {
             if ((1 << sDbCameraCurFileIdx) & sDbCameraMempakFiles) {
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, L_JPAD) || CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, R_JPAD)) {
+                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DLEFT) || CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DRIGHT)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     dbCamera->sub.demoCtrlToggleSwitch ^= 1;
                 }
@@ -1058,7 +1058,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 func_8006376C(0x11, 8, dbCamera->sub.demoCtrlToggleSwitch ? 4 : 7, D_8012CF94);
                 func_8006376C(0x15, 8, dbCamera->sub.demoCtrlToggleSwitch ? 7 : 4, D_8012CF98);
 
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, A_BUTTON)) {
+                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_A)) {
                     if (dbCamera->sub.demoCtrlToggleSwitch == 0) {
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         dbCamera->sub.demoCtrlMenu++;
@@ -1081,7 +1081,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     func_8006376C(0xD, 9, dbCamera->sub.demoCtrlToggleSwitch ? 1 : 6, "PRESS B BUTTON");
                 }
             }
-            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, B_BUTTON)) {
+            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 dbCamera->sub.demoCtrlMenu = 0;
             }
@@ -1122,7 +1122,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
             func_8006376C(0x17, 7, 5, D_8012CFA4);
             func_8006376C(0xD, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? 1 : 6, "PRESS B BUTTON");
 
-            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, A_BUTTON) || CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, B_BUTTON)) {
+            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_A) || CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 if (dbCamera->sub.demoCtrlMenu == DEMO_CTRL_MENU(ACTION_LOAD, MENU_SUCCESS)) {
                     dbCamera->sub.demoCtrlActionIdx = ACTION_E;
@@ -1146,7 +1146,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
             func_8006376C(0x17, 7, 5, D_8012CFA4);
             func_8006376C(0xD, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? 1 : 6, "PRESS B BUTTON");
 
-            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, A_BUTTON) || CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, B_BUTTON)) {
+            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_A) || CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 dbCamera->sub.demoCtrlMenu -= 9;
             }
@@ -1180,7 +1180,7 @@ block_1:
                 sp74[i*2+0] = '-';
                 sp74[i*2+1] = '\0';
 
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, R_JPAD)) {
+                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DRIGHT)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     if (sDbCameraCurFileIdx >= 4) {
                         sDbCameraCurFileIdx = 0;
@@ -1198,7 +1198,7 @@ block_1:
                         dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
                     }
                 }
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, L_JPAD)) {
+                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DLEFT)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     if (sDbCameraCurFileIdx <= 0) {
                         sDbCameraCurFileIdx = 4;
@@ -1243,21 +1243,21 @@ block_1:
                 func_8006376C(0x14, 0x1A, 5, D_8012CF70);
 
                 // diff: regalloc
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, U_JPAD)) {
+                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DUP)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx - 1) % 4u;
                 }
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, D_JPAD)) {
+                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DDOWN)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx + 1) % 4u;
                 }
 
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, A_BUTTON)) {
+                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_A)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     dbCamera->sub.demoCtrlToggleSwitch = 0;
                     dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(dbCamera->sub.demoCtrlActionIdx, MENU_INFO);
                 }
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, B_BUTTON)) {
+                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B)) {
                     Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     dbCamera->sub.demoCtrlActionIdx = ACTION_E;
                 }
@@ -1266,9 +1266,9 @@ block_1:
             else {
                 func_8006376C(0xC, 0x1A, 4, D_8012CF60[0]);
                 func_8006376C(0x13, 0x1A, 4, D_8012CF80);
-                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, B_BUTTON) ||
-                    CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, U_JPAD) || 
-                    CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, D_JPAD)) {
+                if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B) ||
+                    CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DUP) || 
+                    CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DDOWN)) {
                     
                     Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     dbCamera->sub.demoCtrlActionIdx = ACTION_E;
@@ -1284,13 +1284,13 @@ block_1:
     default:
     {
         // diff: regalloc
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, U_JPAD)) {
+        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DUP)) {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
             dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx - 1) % 4u;
             sDbCameraCurFileIdx = 0;
         }
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, D_JPAD)) {
+        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DDOWN)) {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
             dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx + 1) % 4u;
@@ -1303,7 +1303,7 @@ block_1:
             func_8006376C(4, 7, 5, D_8012CF4C);
             func_8006376C(D_8016110C * 2 + 6, 7, 7, ">");
 
-            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, U_CBUTTONS)) {
+            if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CUP)) {
                 if (D_8016110C > 0) {
                     D_8016110C--;
                 }
@@ -1312,7 +1312,7 @@ block_1:
                 sDbCameraAnim.keyframe = 0;
                 sDbCameraAnim.unk_04 = 0;
             }
-            else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, D_CBUTTONS)) {
+            else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CDOWN)) {
                 if (D_8016110C < 14) {
                     D_8016110C++;
                 }
@@ -1321,7 +1321,7 @@ block_1:
                 sDbCameraAnim.keyframe = 0;
                 sDbCameraAnim.unk_04 = 0;
             }
-            else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, L_CBUTTONS)) {
+            else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CLEFT)) {
                 sDbCameraAnim.unk_0A = 0;
                 Interface_ChangeAlpha(2);
                 ShrinkWindow_SetVal(0);
@@ -1341,7 +1341,7 @@ block_1:
 
 
         // 6ae4
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[1].press, R_CBUTTONS)) {
+        if (CHECK_PAD(sDbCameraGlobalContext->state.input[1].press, BTN_CRIGHT)) {
             // diff: reordering
             D_8015FCC8 = 0;
             gSaveContext.cutsceneIndex = 0xFFFD;
@@ -1355,7 +1355,7 @@ block_1:
             Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
 
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, L_TRIG)) {
+        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_L)) {
             if (sp74[sDbCameraCurFileIdx] == '?') {
                 sDbCameraLastFileIdx = -1;
                 D_801612EA = '*';
@@ -1367,7 +1367,7 @@ block_1:
         }
         // 6b90 diff: sDbCameraGlobalContext->state.input[2].cur loaded twice
         // and then sDbCameraGlobalContext is only loaded once
-        else if (!CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, L_TRIG)) {
+        else if (!CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, BTN_L)) {
             if (sDbCameraLastFileIdx != -1) {
                 switch (sp74[sDbCameraCurFileIdx]) {
                     case '?':
@@ -1408,7 +1408,7 @@ block_1:
         }
 
         // 6f40
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, A_BUTTON)) {
+        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_A)) {
             if (sp74[sDbCameraCurFileIdx] == '?') {
                 Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 sp74[sDbCameraCurFileIdx] = DbCamera_InitCut(idx1, &dbCamera->sub);
@@ -1418,7 +1418,7 @@ block_1:
             }
         }
 
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, B_BUTTON)) {
+        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_B)) {
             if (sp74[sDbCameraCurFileIdx] != '?' && sp74[sDbCameraCurFileIdx] != '-') {
                 Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 sp74[sDbCameraCurFileIdx] = '?';
@@ -1426,7 +1426,7 @@ block_1:
             }
         }
 
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, R_TRIG)) {
+        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_R)) {
             if (sp74[sDbCameraCurFileIdx] != '?' && sp74[sDbCameraCurFileIdx] != '-') {
                 Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
@@ -1449,7 +1449,7 @@ block_1:
             }
         }
 
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, R_JPAD)) {
+        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DRIGHT)) {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             if (sDbCameraCurFileIdx == 0x1E) {
                 sDbCameraCurFileIdx = 0;
@@ -1458,7 +1458,7 @@ block_1:
                 sDbCameraCurFileIdx++;
             }
         }
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, L_JPAD)) {
+        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_DLEFT)) {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             if (sDbCameraCurFileIdx == 0) {
                 // diff: reordering (0x1E is loaded before sDbCameraGlobalContext)
@@ -1469,13 +1469,13 @@ block_1:
             }
         }
 
-        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, L_TRIG) && CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, R_CBUTTONS)) {
+        if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, BTN_L) && CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CRIGHT)) {
             for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
                 osSyncPrintf("###%2d:(%c) (%d %d) %d %d %d\n", i, sDbCameraCuts[i].letter, sDbCameraCuts[i].position, sDbCameraCuts[i].lookAt, sDbCameraCuts[i].nFrames, sDbCameraCuts[i].nPoints, sDbCameraCuts[i].mode);
             }
             DbCamera_PrintAllCuts(cam);
         }
-        else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, L_TRIG) && CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, L_CBUTTONS)) {
+        else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].cur, BTN_L) && CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CLEFT)) {
             Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             for (i = 0; i < ARRAY_COUNT(sDbCameraCuts)-1; i++) {
                 if (sDbCameraCuts[i].nPoints != 0) {
@@ -1484,7 +1484,7 @@ block_1:
                 }
             }
         }
-        else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, R_CBUTTONS)) {
+        else if (CHECK_PAD(sDbCameraGlobalContext->state.input[2].press, BTN_CRIGHT)) {
             sDbCameraAnim.curFrame = 0.0f;
             sDbCameraAnim.keyframe = 0;
             sDbCameraAnim.unk_04 = 0.0f;
