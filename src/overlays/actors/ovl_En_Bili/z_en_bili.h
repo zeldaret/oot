@@ -8,6 +8,15 @@ struct EnBili;
 
 typedef void (*EnBiliActionFunc)(struct EnBili*, GlobalContext*);
 
+typedef enum {
+    /* 0 */ EN_BILI_LIMB_NONE,
+    /* 1 */ EN_BILI_LIMB_ROOT,
+    /* 2 */ EN_BILI_LIMB_INNER_MEMBRANE,
+    /* 3 */ EN_BILI_LIMB_OUTER_MEMBRANE,
+    /* 4 */ EN_BILI_LIMB_ORALARMS,
+    /* 5 */ EN_BILI_LIMB_MAX
+} EnBiliLimb;
+
 typedef struct EnBili {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
@@ -15,8 +24,8 @@ typedef struct EnBili {
     /* 0x0194 */ u8 oralArmsTexIndex;
     /* 0x0195 */ u8 playFlySound;
     /* 0x0196 */ s16 timer;
-    /* 0x0198 */ Vec3s jointTable[5];
-    /* 0x01B6 */ Vec3s morphTable[5];
+    /* 0x0198 */ Vec3s jointTable[EN_BILI_LIMB_MAX];
+    /* 0x01B6 */ Vec3s morphTable[EN_BILI_LIMB_MAX];
     /* 0x01D4 */ ColliderCylinder collider;
 } EnBili; // size = 0x0220
 
@@ -27,13 +36,5 @@ typedef enum {
     /*  0 */ EN_BILI_TYPE_VALI_SPAWNED,
     /*  1 */ EN_BILI_TYPE_DYING
 } EnBiliType;
-
-typedef enum {
-    /* 0 */ EN_BILI_LIMB_NONE,
-    /* 1 */ EN_BILI_LIMB_1,
-    /* 2 */ EN_BILI_LIMB_BELL,
-    /* 3 */ EN_BILI_LIMB_STOMACH,
-    /* 4 */ EN_BILI_LIMB_ORALARMS
-} EnBiliLimb;
 
 #endif

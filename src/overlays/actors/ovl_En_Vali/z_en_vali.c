@@ -207,7 +207,7 @@ void EnVali_SetupFloatIdle(EnVali* this) {
 }
 
 /**
- *  Touched by an AT. Sword has special logic using params.
+ * Used for both touching player/player's shield and being hit with sword. What to do next is determined by params.
  */
 void EnVali_SetupAttacked(EnVali* this) {
     this->lightningTimer = 20;

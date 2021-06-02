@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bili.h"
+#include "objects/object_bl/object_bl.h"
 
 #define FLAGS 0x00005005
 
@@ -112,18 +113,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_STOP),
 };
 
-extern AnimationHeader D_06000024;
-extern AnimationHeader D_06000064;
-extern AnimationHeader D_060000A4;
-extern SkeletonHeader D_06005848;
-
 void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBili* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005848, &D_060000A4, this->jointTable, this->morphTable, 5);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gBiriSkel, &gBiriDefaultAnim, this->jointTable, this->morphTable, EN_BILI_LIMB_MAX);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -160,7 +156,7 @@ void EnBili_SetupFloatIdle(EnBili* this) {
  * Separates the Biri spawned by a dying EnVali.
  */
 void EnBili_SetupSpawnedFlyApart(EnBili* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_060000A4);
+    Animation_PlayLoop(&this->skelAnime, &gBiriDefaultAnim);
     this->timer = 25;
     this->actor.velocity.y = 6.0f;
     this->actor.gravity = -0.3f;
@@ -173,7 +169,7 @@ void EnBili_SetupSpawnedFlyApart(EnBili* this) {
  * Used for both touching player/player's shield and being hit with sword. What to do next is determined by params.
  */
 void EnBili_SetupDischargeLightning(EnBili* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06000024);
+    Animation_PlayLoop(&this->skelAnime, &gBiriDischargeLightningAnim);
     this->timer = 10;
     this->actionFunc = EnBili_DischargeLightning;
     this->actor.speedXZ = 0.0f;
@@ -181,7 +177,7 @@ void EnBili_SetupDischargeLightning(EnBili* this) {
 }
 
 void EnBili_SetupClimb(EnBili* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06000064);
+    Animation_PlayOnce(&this->skelAnime, &gBiriClimbAnim);
     this->collider.base.atFlags &= ~AT_ON;
     this->actionFunc = EnBili_Climb;
     this->actor.speedXZ = 0.0f;
@@ -194,7 +190,7 @@ void EnBili_SetupApproachPlayer(EnBili* this) {
 }
 
 void EnBili_SetupSetNewHomeHeight(EnBili* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_060000A4);
+    Animation_PlayLoop(&this->skelAnime, &gBiriDefaultAnim);
     this->timer = 96;
     this->actor.speedXZ = 0.9f;
     this->collider.base.atFlags |= AT_ON;
@@ -203,8 +199,8 @@ void EnBili_SetupSetNewHomeHeight(EnBili* this) {
 }
 
 void EnBili_SetupRecoil(EnBili* this) {
-    if (this->skelAnime.animation != &D_060000A4) {
-        Animation_PlayLoop(&this->skelAnime, &D_060000A4);
+    if (this->skelAnime.animation != &gBiriDefaultAnim) {
+        Animation_PlayLoop(&this->skelAnime, &gBiriDefaultAnim);
     }
 
     this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->collider.base.ac->prevPos) + 0x8000;
@@ -218,7 +214,7 @@ void EnBili_SetupRecoil(EnBili* this) {
  */
 void EnBili_SetupBurnt(EnBili* this) {
     if (this->actionFunc == EnBili_Climb) {
-        Animation_PlayLoop(&this->skelAnime, &D_060000A4);
+        Animation_PlayLoop(&this->skelAnime, &gBiriDefaultAnim);
     }
 
     this->timer = 20;
@@ -293,13 +289,13 @@ void EnBili_UpdateOralArmsIndex(EnBili* this) {
         temp = 3 - curFrame;
         this->oralArmsTexIndex = (ABS(temp) + 5) % 8;
     } else if (this->actionFunc == EnBili_Climb) {
-        if (curFrame < 10) {
+        if (curFrame <= 9) {
             temp = curFrame >> 1;
             this->oralArmsTexIndex = CLAMP_MAX(temp, 3);
-        } else if (curFrame < 19) {
+        } else if (curFrame <= 18) {
             temp = 17 - curFrame;
             this->oralArmsTexIndex = CLAMP_MIN(temp, 0) >> 1;
-        } else if (curFrame < 37) {
+        } else if (curFrame <= 36) {
             this->oralArmsTexIndex = ((36 - curFrame) / 3) + 2;
         } else {
             this->oralArmsTexIndex = (40 - curFrame) >> 1;
@@ -548,7 +544,7 @@ void EnBili_UpdateDamage(EnBili* this, GlobalContext* globalCtx) {
     if ((this->actor.colChkInfo.health != 0) && (this->collider.base.acFlags & AC_HIT)) {
         this->collider.base.acFlags &= ~AC_HIT;
         func_80035650(&this->actor, &this->collider.info, 1);
-        
+
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_DEAD);
@@ -636,7 +632,7 @@ void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-// Draw associated functions
+// Draw and associated functions
 
 void EnBili_PulseLimb3(EnBili* this, f32 frame, Vec3f* arg2) {
     f32 cos;
@@ -656,9 +652,10 @@ void EnBili_PulseLimb3(EnBili* this, f32 frame, Vec3f* arg2) {
             arg2->y = (0.31f * cos) + 1.0f;
             arg2->x = 1.0f - (0.4f * cos);
         }
+
         arg2->z = arg2->x;
     } else if (this->actionFunc == EnBili_Stunned) {
-        sin = sinf(this->timer * (M_PI * 0.1f)) * 0.08f;
+        sin = sinf((M_PI * 0.1f) * this->timer) * 0.08f;
         arg2->x -= sin;
         arg2->y += sin;
         arg2->z -= sin;
@@ -687,7 +684,7 @@ void EnBili_PulseLimb2(EnBili* this, f32 frame, Vec3f* arg2) {
         }
         arg2->z = arg2->x;
     } else if (this->actionFunc == EnBili_Stunned) {
-        sin = sinf(this->timer * (M_PI * 0.1f)) * 0.08f;
+        sin = sinf((M_PI * 0.1f) * this->timer) * 0.08f;
         arg2->x += sin;
         arg2->y -= sin;
         arg2->z += sin;
@@ -723,9 +720,9 @@ s32 EnBili_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     Vec3f limbScale = { 1.0f, 1.0f, 1.0f };
     f32 curFrame = this->skelAnime.curFrame;
 
-    if (limbIndex == EN_BILI_LIMB_STOMACH) {
+    if (limbIndex == EN_BILI_LIMB_OUTER_MEMBRANE) {
         EnBili_PulseLimb3(this, curFrame, &limbScale);
-    } else if (limbIndex == EN_BILI_LIMB_BELL) {
+    } else if (limbIndex == EN_BILI_LIMB_INNER_MEMBRANE) {
         EnBili_PulseLimb2(this, curFrame, &limbScale);
     } else if (limbIndex == EN_BILI_LIMB_ORALARMS) {
         EnBili_PulseLimb4(this, curFrame, &limbScale);
@@ -736,8 +733,8 @@ s32 EnBili_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     return false;
 }
 
-static u64* sOralArmsTextures[] = {
-    0x06000E08, 0x06001708, 0x06002008, 0x06002908, 0x06003208, 0x06003B08, 0x06004408, 0x06004D08,
+static void* sOralArmsTextures[] = {
+    gBiriOralArms0Tex, gBiriOralArms1Tex, gBiriOralArms2Tex, gBiriOralArms3Tex, gBiriOralArms4Tex, gBiriOralArms5Tex, gBiriOralArms6Tex, gBiriOralArms7Tex,
 };
 
 static Gfx D_809C16F0[] = {
