@@ -6799,6 +6799,11 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
             if (camP != NULL && curUID == camP->uid) {
                 break;
             }
+        }
+
+        if (j == 4) {
+            break;
+        }
 
         curUID = sNextUID++;
     }
