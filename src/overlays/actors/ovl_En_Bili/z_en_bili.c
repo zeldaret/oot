@@ -119,7 +119,8 @@ void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
     this->actor.shape.shadowAlpha = 155;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gBiriSkel, &gBiriDefaultAnim, this->jointTable, this->morphTable, EN_BILI_LIMB_MAX);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gBiriSkel, &gBiriDefaultAnim, this->jointTable, this->morphTable,
+                   EN_BILI_LIMB_MAX);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -734,7 +735,8 @@ s32 EnBili_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 static void* sOralArmsTextures[] = {
-    gBiriOralArms0Tex, gBiriOralArms1Tex, gBiriOralArms2Tex, gBiriOralArms3Tex, gBiriOralArms4Tex, gBiriOralArms5Tex, gBiriOralArms6Tex, gBiriOralArms7Tex,
+    gBiriOralArms0Tex, gBiriOralArms1Tex, gBiriOralArms2Tex, gBiriOralArms3Tex,
+    gBiriOralArms4Tex, gBiriOralArms5Tex, gBiriOralArms6Tex, gBiriOralArms7Tex,
 };
 
 static Gfx D_809C16F0[] = {
