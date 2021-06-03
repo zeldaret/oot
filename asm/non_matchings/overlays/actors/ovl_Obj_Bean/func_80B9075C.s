@@ -14,7 +14,7 @@ glabel func_80B9075C
 /* 01D0C 80B9078C 0C2E3BD1 */  jal     func_80B8EF44
 /* 01D10 80B90790 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01D14 80B90794 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01D18 80B90798 0C2E3BE0 */  jal     func_80B8EF80
+/* 01D18 80B90798 0C2E3BE0 */  jal     ObjBean_SetupPath
 /* 01D1C 80B9079C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01D20 80B907A0 0C2E4221 */  jal     func_80B90884
 /* 01D24 80B907A4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

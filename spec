@@ -3234,7 +3234,6 @@ endseg
 beginseg
     name "ovl_Obj_Bean"
     include "build/src/overlays/actors/ovl_Obj_Bean/z_obj_bean.o"
-    include "build/data/overlays/actors/z_obj_bean.data.o"
     include "build/data/overlays/actors/z_obj_bean.reloc.o"
 endseg
 

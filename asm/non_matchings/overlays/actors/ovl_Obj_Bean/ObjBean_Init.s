@@ -132,7 +132,7 @@ glabel ObjBean_Init
 /* 01134 80B8FBB4 0C2E3BD1 */  jal     func_80B8EF44              
 /* 01138 80B8FBB8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0113C 80B8FBBC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01140 80B8FBC0 0C2E3BE0 */  jal     func_80B8EF80              
+/* 01140 80B8FBC0 0C2E3BE0 */  jal     ObjBean_SetupPath              
 /* 01144 80B8FBC4 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 01148 80B8FBC8 0C2E3BBF */  jal     func_80B8EEFC              
 /* 0114C 80B8FBCC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

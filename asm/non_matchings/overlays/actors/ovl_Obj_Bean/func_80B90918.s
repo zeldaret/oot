@@ -10,7 +10,7 @@ glabel func_80B90918
 /* 01EB8 80B90938 0C2E3BD1 */  jal     func_80B8EF44              
 /* 01EBC 80B9093C 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 01EC0 80B90940 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01EC4 80B90944 0C2E3BE0 */  jal     func_80B8EF80              
+/* 01EC4 80B90944 0C2E3BE0 */  jal     ObjBean_SetupPath              
 /* 01EC8 80B90948 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 01ECC 80B9094C 0C2E3BBF */  jal     func_80B8EEFC              
 /* 01ED0 80B90950 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

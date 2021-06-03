@@ -1,4 +1,4 @@
-glabel func_80B8EF80
+glabel ObjBean_SetupPath
 /* 00500 80B8EF80 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00504 80B8EF84 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00508 80B8EF88 848F001C */  lh      $t7, 0x001C($a0)           ## 0000001C
