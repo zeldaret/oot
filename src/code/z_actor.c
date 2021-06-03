@@ -108,7 +108,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
 
         actor->shape.shadowScale *= 0.3f;
         alphaRatio = (distToFloor - 20.0f) * 0.02f;
-        actor->shape.shadowAlpha = (f32)actor->shape.shadowAlpha * ((alphaRatio > 1.0f) ? 1.0f : alphaRatio);
+        actor->shape.shadowAlpha = (f32)actor->shape.shadowAlpha * CLAMP_MAX(alphaRatio, 1.0f);
         ActorShadow_DrawCircle(actor, lights, globalCtx);
         actor->shape.shadowScale = shadowScale;
         actor->shape.shadowAlpha = shadowAlpha;
