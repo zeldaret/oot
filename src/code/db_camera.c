@@ -184,7 +184,6 @@ Vec3f* DbCamera_AddVecSph(Vec3f* out, Vec3f* in, VecSph* sph) {
 // similar to Camera_CalcUpFromPitchYawRoll
 #ifdef NON_MATCHING
 Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
-
     f32 sinPitch;
     f32 cosPitch;
     f32 sinYaw;
@@ -217,73 +216,6 @@ Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
 
     *arg0 = sp9C;
     return arg0;
-    /*
-    f32 sinYaw;
-    f32 cosYaw;
-    f32 sinNegRoll;
-    Vec3f sp9C;
-    f32 sp54;
-    //f32 sp50;
-    f32 sp48;
-    f32 cosPitchCosYawSinRoll;
-    f32 sp3C;
-    f32 sp38;
-    Vec3f* temp_t9;
-    f32 cosNegRoll;
-    f32 temp_f10;
-    f32 cosPitchCosYaw;
-    f32 negSinPitchSinYaw;
-    f32 negSinPitchCosYaw;
-    f32 temp_f18;
-    f32 cosPitch;
-    f32 sinPitch;
-    f32 cosPitchSinYaw;
-    f32 negSinPitch;
-    f32 tmp0;
-    //f32 tmp1;
-
-    sinPitch = Math_Sins(pitch);
-    cosPitch = Math_Coss(pitch);
-    sinYaw = Math_Sins(yaw);
-    cosYaw = Math_Coss(yaw);
-    //negSinPitch = -sinPitch;
-    sinNegRoll = Math_Sins(-roll);
-    cosNegRoll = Math_Coss(-roll);
-
-    negSinPitchSinYaw = (-sinPitch * sinYaw);
-    temp_f18 = 1.0f - cosNegRoll;
-    cosPitchSinYaw = cosPitch * sinYaw;
-    //sp50 = SQ(cosPitchSinYaw);
-    sp48 = (cosPitchSinYaw * sinPitch) * temp_f18;
-    cosPitchCosYaw = cosPitch * cosYaw;
-    tmp0 = ((1.0f - SQ(cosPitchSinYaw)) * cosNegRoll) + SQ(cosPitchSinYaw);
-    //tmp1 = ((1.0f - SQ(cosPitchCosYaw)) * cosNegRoll) + SQ(cosPitchCosYaw);
-    cosPitchCosYawSinRoll = cosPitchCosYaw * sinNegRoll;
-    negSinPitchCosYaw = -sinPitch * cosYaw;
-    sp3C = (cosPitchCosYaw * cosPitchSinYaw) * temp_f18;
-    sp38 = sinPitch * sinNegRoll;
-
-    sp9C.x =
-        (negSinPitchSinYaw * (tmp0)) +
-        (cosPitch * (sp48 - cosPitchCosYawSinRoll)) +
-        (negSinPitchCosYaw * (sp3C + sp38));
-
-    temp_f10 = (sinPitch * cosPitchCosYaw) * temp_f18;
-    sp54 = cosPitchSinYaw * sinNegRoll;
-
-    sp9C.y =
-        (negSinPitchSinYaw * (sp48 + cosPitchCosYawSinRoll)) +
-        (cosPitch * ((tmp0))) +
-        (negSinPitchCosYaw * (temp_f10 - sp54));
-
-    sp9C.z =
-        (negSinPitchSinYaw * (sp3C - sp38)) +
-        (cosPitch * (temp_f10 + sp54)) +
-        (negSinPitchCosYaw * (((1.0f - SQ(cosPitchCosYaw)) * cosNegRoll) + SQ(cosPitchCosYaw)));
-
-    *arg0 = sp9C;
-    return arg0;
-    */
 }
 
 #else
@@ -409,11 +341,9 @@ s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr) {
     CutsceneCameraPoint* lookAt = &dbCamera->sub.lookAt[idx];
 
     if (dbCamera->sub.mode != 1) {
-
         DbCamera_Vec3SToF2(&position->pos, &dbCamera->eye);
         DbCamera_Vec3SToF2(&lookAt->pos, &dbCamera->at);
     } else {
-
         func_800B404C(&cameraPtr->playerPosRot, &lookAt->pos, &dbCamera->at);
         func_800B404C(&cameraPtr->playerPosRot, &position->pos, &dbCamera->eye);
     }
@@ -1008,7 +938,6 @@ u32 sDbCameraColors[] = {
     4, 4, 4, 7, 4, 4,
 };
 s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
-
     static s32 mempakFileSize = 0; //  D_8012D170
     static s32 sDbCameraMempakFiles;
 
