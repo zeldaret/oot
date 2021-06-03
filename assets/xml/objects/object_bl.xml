@@ -1,11 +1,16 @@
 <Root>
     <File Name="object_bl" Segment="6">
+        <!-- Biri Animations -->
         <Animation Name="gBiriDischargeLightningAnim" Offset="0x24"/>
         <Animation Name="gBiriClimbAnim" Offset="0x64"/>
         <Animation Name="gBiriDefaultAnim" Offset="0xA4"/><!-- Used in various states, not just as an idle -->
+
+        <!-- Biri DLists -->
         <DList Name="gBiriOralArmsDL" Offset="0x3B0"/>
         <DList Name="gBiriInnerMembraneDL" Offset="0x448"/>
         <DList Name="gBiriOuterMembraneDL" Offset="0x530"/>
+
+        <!-- Biri Textures -->
         <Texture Name="gBiriOuterMembraneTex" OutName="biri_outer_membrane" Format="ia16" Width="16" Height="64" Offset="0x608"/>
         <Texture Name="gBiriOralArms0Tex" OutName="biri_oral_arms_0" Format="ia8" Width="48" Height="48" Offset="0xE08"/>
         <Texture Name="gBiriOralArms1Tex" OutName="biri_oral_arms_1" Format="ia8" Width="48" Height="48" Offset="0x1708"/>
@@ -16,6 +21,8 @@
         <Texture Name="gBiriOralArms6Tex" OutName="biri_oral_arms_6" Format="ia8" Width="48" Height="48" Offset="0x4408"/>
         <Texture Name="gBiriOralArms7Tex" OutName="biri_oral_arms_7" Format="ia8" Width="48" Height="48" Offset="0x4D08"/>
         <Texture Name="gBiriInnerMembraneTex" OutName="biri_inner_membrane" Format="ia16" Width="16" Height="16" Offset="0x5608"/>
+
+        <!-- Biri Limbs and Skeleton -->
         <Limb Name="gBiriRootLimb" Type="Standard" Offset="0x5808"/>
         <Limb Name="gBiriInnerMembraneLimb" Type="Standard" Offset="0x5814"/>
         <Limb Name="gBiriOuterMembraneLimb" Type="Standard" Offset="0x5820"/>
