@@ -25,14 +25,22 @@ void func_80B90884(ObjBean* this);
 void func_80B90158(ObjBean* this, GlobalContext* globalCtx);
 void func_80B90110(ObjBean* this);
 void func_80B9024C(ObjBean* this);
+void func_80B90290(ObjBean* this, GlobalContext* globalCtx);
+void func_80B90314(ObjBean* this, GlobalContext* globalCtx);
+void func_80B902D4(ObjBean* this);
+void func_80B90400(ObjBean* this, GlobalContext* globalCtx);
+void func_80B903C4(ObjBean* this);
+void func_80B8F9E0(ObjBean* this);
 
+void func_80B8F964(ObjBean* this);
+void func_80B8FA20(ObjBean* this);
 extern UNK_TYPE D_06000090;
 extern UNK_TYPE D_060001B0;
 extern UNK_TYPE D_060003F0;
 extern CollisionHeader D_060005DC;
 extern UNK_TYPE D_06000650;
 
-
+ObjBean* D_80B90E30 = NULL;
 
 const ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,
@@ -46,7 +54,7 @@ const ActorInit Obj_Bean_InitVars = {
     (ActorFunc)ObjBean_Draw,
 };
 
-static ColliderCylinderInit sCylinderInit = {
+ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
         AT_NONE,
@@ -71,7 +79,21 @@ typedef struct {
     f32 accel;
 } BeenSpeedInfo;
 
+BeenSpeedInfo D_80B90E80[] = {
+    { 3.0f, 0.3f },
+    { 10.0f, 0.5f },
+    { 30.0f, 0.5f },
+    { 3.0f, 0.3f },
+}; // Speeds?
 
+Gfx* D_80B90EA0[] = { gCuttableShrubStalkDL, gCuttableShrubTipDL };
+
+InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1600, ICHAIN_STOP),
+};
 
 void ObjBean_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
     ObjBean* this = THIS;
@@ -161,13 +183,6 @@ void ObjBean_SetupPath(ObjBean* this, GlobalContext* globalCtx) {
     Math_Vec3s_ToVec3f(&this->pathPoints, SEGMENTED_TO_VIRTUAL(path->points));
 }
 
-BeenSpeedInfo D_80B90E80[] = {
-    { 3.0f, 0.3f },
-    { 10.0f, 0.5f },
-    { 30.0f, 0.5f },
-    { 3.0f, 0.3f },
-}; // Speeds?
-
 #ifdef NON_MATCHING
 // Regalloc near mag > speed.
 // f12 vs f2 regs
@@ -226,11 +241,20 @@ void func_80B8EFF4(ObjBean* this, GlobalContext* globalCtx) { // Fly/follow path
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8F298.s")
 
-static Gfx* D_80B90EA0[] = { gCuttableShrubStalkDL, gCuttableShrubTipDL };
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8F324.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8F59C.s")
+void func_80B8F59C(ObjBean* this) {
+    f32 temp_f2;
+    
+    Math_StepToS(&this->unk_1C2, this->unk_1C4, this->unk_1C6);
+    Math_StepToS(&this->unk_1C8, this->unk_1CA, this->unk_1CC);
+    this->unk_1CE += this->unk_1C8;
+    this->unk_1D0 = (s16)(s32)(6372.0f - (Math_SinS(this->unk_1CE) * (f32)this->unk_1C2));
+    this->dyna.actor.scale.y = Math_SinS(this->unk_1D0) * 0.17434467f;
+    temp_f2 = Math_CosS(this->unk_1D0) * 0.12207746f;
+    this->dyna.actor.scale.z = temp_f2;
+    this->dyna.actor.scale.x = temp_f2;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8F65C.s")
 
@@ -248,21 +272,46 @@ static Gfx* D_80B90EA0[] = { gCuttableShrubStalkDL, gCuttableShrubTipDL };
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8F8E4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8F94C.s")
+void func_80B8F94C(ObjBean* this) {
+    this->unkFunc = func_80B8F964;
+    this->unk_1D0 = 0x33E9;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8F964.s")
+void func_80B8F964(ObjBean* this) {
+    f32 temp_f2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8F9E0.s")
+    this->unk_1D0 -= 0x960;
+    this->dyna.actor.scale.y = (f32)(Math_SinS(this->unk_1D0) * 0.17434467f);
+    temp_f2 = Math_CosS(this->unk_1D0) * 0.12207746f;
+    this->dyna.actor.scale.z = temp_f2;
+    this->dyna.actor.scale.x = temp_f2;
+    if (this->unk_1D0 < 0x18E4) {
+        func_80B8F9E0(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8FA20.s")
+void func_80B8F9E0(ObjBean* this) {
+    this->unkFunc = &func_80B8FA20;
+    this->unk_1C2 = 0xBB8;
+    this->unk_1C4 = 0;
+    this->unk_1C6 = 0xC8;
+    this->unk_1C8 = 0x3E80;
+    this->unk_1CA = 0x1F4;
+    this->unk_1CC = 0;
+    this->unk_1C0 = 0x10;
+}
 
+void func_80B8FA20(ObjBean* this) {
+    this->unk_1C0--;
+    if (this->unk_1C0 == 6) {
+        this->unk_1CC = 0x7D0;
+    }
+    func_80B8F59C(this);
+    if (this->unk_1C2 <= 0) {
+        func_80B8F65C(this);
+    }
+}
 
-static InitChainEntry sInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 1600, ICHAIN_STOP),
-};
 void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 path;
     s32 linkAge;
@@ -347,10 +396,9 @@ void func_80B90110(ObjBean* this) {
 }
 
 // Water bean?
-ObjBean* D_80B90E30 = NULL;
 #ifdef NON_MATCHING
 void func_80B90158(ObjBean* this, GlobalContext* globalCtx) {
-    this->unkFunc(this, globalCtx);
+    this->unkFunc(this);
     if (((this->unk_1F7 & 0x40) == 0) && Flags_GetEnv(globalCtx, 5) && (D_80B90E30 == NULL) &&
         (this->dyna.actor.xzDistToPlayer < 50.0f)) {
         func_80B9024C(this);
@@ -363,21 +411,74 @@ void func_80B90158(ObjBean* this, GlobalContext* globalCtx) {
         D_80B90E30 = NULL;
     }
 }
-#else 
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B90158.s")
-#endif 
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B9024C.s")
+void func_80B9024C(ObjBean* this) {
+    this->actionFunc = func_80B90290;
+    func_80B8EF28(this, 3);
+    func_80B8F80C(this);
+    this->unk_1B4 = 50;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B90290.s")
+void func_80B90290(ObjBean* this, GlobalContext* globalCtx) {
+    this->unkFunc(this);
+    if (this->unk_1B4 <= 0) {
+        func_80B902D4(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B902D4.s")
+void func_80B902D4(ObjBean* this) {
+    this->actionFunc = func_80B90314;
+    func_80B8EF28(this, 0xB);
+    this->unk_1D4 = 0.0f;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B90314.s")
+void func_80B90314(ObjBean* this, GlobalContext* globalCtx) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B903C4.s")
+    this->unkFunc(this);
+    this->unk_1D4 += 0.001f;
+    this->dyna.actor.shape.rot.y = this->dyna.actor.home.rot.y + (s16)(this->unk_1D4 * 700000.0f);
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + this->unk_1D4 * 800.0f;
+    if (this->unk_1D4 >= 0.1f) {
+        func_80B903C4(this);
+    }
+    func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_TALLER - SFX_FLAG);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B90400.s")
+void func_80B903C4(ObjBean* this) {
+    this->actionFunc = func_80B90400;
+    func_80B8EF28(this, 0xB);
+    this->unk_1B4 = 0x3C;
+}
+
+void func_80B90400(ObjBean* this, GlobalContext* globalCtx) {
+    s32 i;
+    Vec3f itemDropPos;
+
+    this->unkFunc(this);
+    if (this->unk_1B4 == 0x28) {
+        func_80B8F94C(this);
+        return;
+    }
+    if (this->unk_1B4 == 0x1E) {
+        if ((this->unk_1F7 & 0x40) == 0) {
+            itemDropPos.x = this->dyna.actor.world.pos.x;
+            itemDropPos.y = this->dyna.actor.world.pos.y - 25.0f;
+            itemDropPos.z = this->dyna.actor.world.pos.z;
+            for (i = 0; i < 3; i++) {
+                Item_DropCollectible(globalCtx, &itemDropPos, ITEM00_FLEXIBLE);
+            }
+            this->unk_1F7 |= 0x40;
+            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
+            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            return;
+        }
+    } else if (this->unk_1B4 <= 0) {
+        func_80B90510(this);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B90510.s")
 
