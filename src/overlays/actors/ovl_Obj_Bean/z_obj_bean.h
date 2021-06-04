@@ -31,13 +31,13 @@ typedef struct ObjBean {
     /* 0x01D4 */ f32 unk_1D4;
     /* 0x01D8 */ Vec3f pathPoints;
     /* 0x01E4 */ f32 unk_1E4;
-    /* 0x01E8 */ f32 unk_1E8;
-    /* 0x01EC */ f32 unk_1EC;
+    /* 0x01E8 */ f32 posOffsetX;
+    /* 0x01EC */ f32 posOffsetZ;
     /* 0x01F0 */ s16 pathCount;
     /* 0x01F2 */ s16 unk_1F2;
     /* 0x01F4 */ s16 unk_1F4;
     /* 0x01F6 */ u8 unk_1F6;
-    /* 0x01F7 */ u8 drawFlags;
+    /* 0x01F7 */ u8 stateFlags;
 } ObjBean; // size = 0x01F8
 
 extern const ActorInit Obj_Bean_InitVars;
