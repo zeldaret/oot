@@ -6,7 +6,7 @@ glabel D_80B9107C
     .float 0.1
 
 .text
-glabel func_80B90D04
+glabel ObjBean_DrawBeanstalk
 /* 02284 80B90D04 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 02288 80B90D08 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0228C 80B90D0C AFA5001C */  sw      $a1, 0x001C($sp)           

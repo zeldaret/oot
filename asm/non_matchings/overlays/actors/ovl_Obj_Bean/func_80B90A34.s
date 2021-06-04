@@ -3,7 +3,7 @@ glabel func_80B90A34
 /* 01FB8 80B90A38 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 01FBC 80B90A3C AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 01FC0 80B90A40 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 01FC4 80B90A44 0C2E3CA6 */  jal     func_80B8F298              
+/* 01FC4 80B90A44 0C2E3CA6 */  jal     ObjBean_CheckForHorseTrample              
 /* 01FC8 80B90A48 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 01FCC 80B90A4C AFA20024 */  sw      $v0, 0x0024($sp)           
 /* 01FD0 80B90A50 0C2E3B89 */  jal     func_80B8EE24              

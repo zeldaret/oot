@@ -3,7 +3,7 @@ glabel D_80B91024
     .float 0.1
 
 .text
-glabel func_80B8F324
+glabel ObjBean_Break
 /* 008A4 80B8F324 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 008A8 80B8F328 F7BE0070 */  sdc1    $f30, 0x0070($sp)          
 /* 008AC 80B8F32C 3C0180B9 */  lui     $at, %hi(D_80B91024)       ## $at = 80B90000
@@ -26,7 +26,7 @@ glabel func_80B8F324
 /* 008F0 80B8F370 AFB40088 */  sw      $s4, 0x0088($sp)           
 /* 008F4 80B8F374 AFB1007C */  sw      $s1, 0x007C($sp)           
 /* 008F8 80B8F378 AFB00078 */  sw      $s0, 0x0078($sp)           
-/* 008FC 80B8F37C 3C1E80B9 */  lui     $s8, %hi(D_80B90EA0)       ## $s8 = 80B90000
+/* 008FC 80B8F37C 3C1E80B9 */  lui     $s8, %hi(sBreakDlists)       ## $s8 = 80B90000
 /* 00900 80B8F380 4481B000 */  mtc1    $at, $f22                  ## $f22 = 3.50
 /* 00904 80B8F384 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00908 80B8F388 00A0B025 */  or      $s6, $a1, $zero            ## $s6 = 00000000
@@ -35,7 +35,7 @@ glabel func_80B8F324
 /* 00914 80B8F394 AFB20080 */  sw      $s2, 0x0080($sp)           
 /* 00918 80B8F398 F7B40048 */  sdc1    $f20, 0x0048($sp)          
 /* 0091C 80B8F39C 00008825 */  or      $s1, $zero, $zero          ## $s1 = 00000000
-/* 00920 80B8F3A0 27DE0EA0 */  addiu   $s8, $s8, %lo(D_80B90EA0)  ## $s8 = 80B90EA0
+/* 00920 80B8F3A0 27DE0EA0 */  addiu   $s8, $s8, %lo(sBreakDlists)  ## $s8 = 80B90EA0
 /* 00924 80B8F3A4 0000A025 */  or      $s4, $zero, $zero          ## $s4 = 00000000
 /* 00928 80B8F3A8 27B500C4 */  addiu   $s5, $sp, 0x00C4           ## $s5 = FFFFFFF4
 /* 0092C 80B8F3AC 27B700B8 */  addiu   $s7, $sp, 0x00B8           ## $s7 = FFFFFFE8

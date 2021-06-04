@@ -79,7 +79,7 @@ glabel ObjBean_Update
 /* 02134 80B90BB4 AE0A00C0 */  sw      $t2, 0x00C0($s0)           ## 000000C0
 /* 02138 80B90BB8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0213C 80B90BBC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 02140 80B90BC0 0C2E3CA6 */  jal     func_80B8F298              
+/* 02140 80B90BC0 0C2E3CA6 */  jal     ObjBean_CheckForHorseTrample              
 /* 02144 80B90BC4 E61000C4 */  swc1    $f16, 0x00C4($s0)          ## 000000C4
 /* 02148 80B90BC8 10400015 */  beq     $v0, $zero, .L80B90C20     
 /* 0214C 80B90BCC 3C0480B9 */  lui     $a0, %hi(D_80B90FD0)       ## $a0 = 80B90000
@@ -95,7 +95,7 @@ glabel ObjBean_Update
               
 /* 0216C 80B90BEC 24840FF4 */  addiu   $a0, $a0, %lo(D_80B90FF4)  ## $a0 = 80B90FF4
 /* 02170 80B90BF0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 02174 80B90BF4 0C2E3CC9 */  jal     func_80B8F324              
+/* 02174 80B90BF4 0C2E3CC9 */  jal     ObjBean_Break              
 /* 02178 80B90BF8 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 0217C 80B90BFC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02180 80B90C00 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810

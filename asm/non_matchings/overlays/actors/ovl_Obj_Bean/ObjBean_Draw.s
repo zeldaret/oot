@@ -30,7 +30,7 @@ glabel ObjBean_Draw
 /* 02370 80B90DF0 13000006 */  beq     $t8, $zero, .L80B90E0C     
 /* 02374 80B90DF4 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 02378 80B90DF8 8FA5001C */  lw      $a1, 0x001C($sp)           
-/* 0237C 80B90DFC 0C2E431F */  jal     func_80B90C7C              
+/* 0237C 80B90DFC 0C2E431F */  jal     ObjBean_DrawSoftSoilSpot              
 /* 02380 80B90E00 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 02384 80B90E04 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 02388 80B90E08 90C201F7 */  lbu     $v0, 0x01F7($a2)           ## 000001F7
@@ -38,7 +38,7 @@ glabel ObjBean_Draw
 /* 0238C 80B90E0C 30590008 */  andi    $t9, $v0, 0x0008           ## $t9 = 00000000
 /* 02390 80B90E10 13200003 */  beq     $t9, $zero, .L80B90E20     
 /* 02394 80B90E14 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
-/* 02398 80B90E18 0C2E4341 */  jal     func_80B90D04              
+/* 02398 80B90E18 0C2E4341 */  jal     ObjBean_DrawBeanstalk              
 /* 0239C 80B90E1C 8FA5001C */  lw      $a1, 0x001C($sp)           
 .L80B90E20:
 /* 023A0 80B90E20 8FBF0014 */  lw      $ra, 0x0014($sp)           

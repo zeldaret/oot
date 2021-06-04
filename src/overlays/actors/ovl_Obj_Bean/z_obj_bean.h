@@ -37,7 +37,7 @@ typedef struct ObjBean {
     /* 0x01F2 */ s16 unk_1F2;
     /* 0x01F4 */ s16 unk_1F4;
     /* 0x01F6 */ u8 unk_1F6;
-    /* 0x01F7 */ u8 unk_1F7;
+    /* 0x01F7 */ u8 drawFlags;
 } ObjBean; // size = 0x01F8
 
 extern const ActorInit Obj_Bean_InitVars;

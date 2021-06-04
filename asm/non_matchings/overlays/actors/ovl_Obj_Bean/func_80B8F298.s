@@ -3,7 +3,7 @@ glabel D_80B91020
     .float 10000.0
 
 .text
-glabel func_80B8F298
+glabel ObjBean_CheckForHorseTrample
 /* 00818 80B8F298 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0081C 80B8F29C AFBF002C */  sw      $ra, 0x002C($sp)           
 /* 00820 80B8F2A0 AFB20028 */  sw      $s2, 0x0028($sp)           

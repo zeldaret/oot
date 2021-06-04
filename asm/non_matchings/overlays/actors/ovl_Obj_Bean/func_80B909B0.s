@@ -1,7 +1,7 @@
 glabel func_80B909B0
 /* 01F30 80B909B0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01F34 80B909B4 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 01F38 80B909B8 0C2E3CA6 */  jal     func_80B8F298              
+/* 01F38 80B909B8 0C2E3CA6 */  jal     ObjBean_CheckForHorseTrample              
 /* 01F3C 80B909BC AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 01F40 80B909C0 10400004 */  beq     $v0, $zero, .L80B909D4     
 /* 01F44 80B909C4 8FA40018 */  lw      $a0, 0x0018($sp)           
