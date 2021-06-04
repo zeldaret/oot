@@ -1,27 +1,27 @@
 #include "SetEchoSettings.h"
-#include "../../StringHelper.h"
+#include "StringHelper.h"
 
-using namespace std;
-
-SetEchoSettings::SetEchoSettings(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetEchoSettings::SetEchoSettings(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	echo = rawData[rawDataIndex + 0x07];
 }
 
-string SetEchoSettings::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
+void SetEchoSettings::ParseRawData()
 {
-	return StringHelper::Sprintf(
-		"%s 0, { 0 }, 0x%02X", ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
-		echo);
+	ZRoomCommand::ParseRawData();
+	echo = parent->GetRawData().at(rawDataIndex + 0x07);
 }
 
-string SetEchoSettings::GetCommandCName()
+std::string SetEchoSettings::GetBodySourceCode() const
+{
+	return StringHelper::Sprintf("SCENE_CMD_ECHO_SETTINGS(%i)", echo);
+}
+
+std::string SetEchoSettings::GetCommandCName() const
 {
 	return "SCmdEchoSettings";
 }
 
-RoomCommand SetEchoSettings::GetRoomCommand()
+RoomCommand SetEchoSettings::GetRoomCommand() const
 {
 	return RoomCommand::SetEchoSettings;
 }

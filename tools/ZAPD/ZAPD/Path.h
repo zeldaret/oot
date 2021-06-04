@@ -46,8 +46,8 @@ public:
 		return output;
 	};
 
-	static std::string GetDirectoryName(const std::string& path)
+	static std::string GetDirectoryName(const fs::path& path)
 	{
-		return fs::path(path).parent_path().u8string();
+		return path.parent_path().u8string();
 	};
 };

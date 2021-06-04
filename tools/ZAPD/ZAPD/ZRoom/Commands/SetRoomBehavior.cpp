@@ -1,30 +1,49 @@
 #include "SetRoomBehavior.h"
-#include "../../BitConverter.h"
-#include "../../StringHelper.h"
+#include "BitConverter.h"
+#include "Globals.h"
+#include "StringHelper.h"
 
-using namespace std;
-
-SetRoomBehavior::SetRoomBehavior(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetRoomBehavior::SetRoomBehavior(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	gameplayFlags = rawData[rawDataIndex + 0x01];
-	gameplayFlags2 = BitConverter::ToInt32BE(rawData, rawDataIndex + 0x04);
 }
 
-string SetRoomBehavior::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
+void SetRoomBehavior::ParseRawData()
 {
-	return StringHelper::Sprintf(
-		"%s 0x%02X, 0x%08X", ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
-		gameplayFlags, gameplayFlags2);
-	;
+	ZRoomCommand::ParseRawData();
+	gameplayFlags = cmdArg1;
+	gameplayFlags2 = BitConverter::ToInt32BE(parent->GetRawData(), rawDataIndex + 0x04);
+
+	currRoomUnk2 = gameplayFlags2 & 0xFF;
+
+	currRoomUnk5 = showInvisActors = (gameplayFlags2 >> 8) & 1;
+
+	msgCtxUnk = (gameplayFlags2 >> 10) & 1;
+
+	enablePosLights = (gameplayFlags2 >> 11) & 1;
+	kankyoContextUnkE2 = (gameplayFlags2 >> 12) & 1;
 }
 
-string SetRoomBehavior::GetCommandCName()
+std::string SetRoomBehavior::GetBodySourceCode() const
+{
+	if (Globals::Instance->game == ZGame::MM_RETAIL)
+	{
+		std::string enableLights = StringHelper::BoolStr(enablePosLights);
+		return StringHelper::Sprintf("SCENE_CMD_ROOM_BEHAVIOR(0x%02X, 0x%02X, %i, %i, %s, %i)",
+		                             gameplayFlags, currRoomUnk2, currRoomUnk5, msgCtxUnk,
+		                             enableLights.c_str(), kankyoContextUnkE2);
+	}
+	std::string showInvisible = StringHelper::BoolStr(showInvisActors);
+	std::string disableWarps = StringHelper::BoolStr(msgCtxUnk);
+	return StringHelper::Sprintf("SCENE_CMD_ROOM_BEHAVIOR(0x%02X, 0x%02X, %s, %s)", gameplayFlags,
+	                             currRoomUnk2, showInvisible.c_str(), disableWarps.c_str());
+}
+
+std::string SetRoomBehavior::GetCommandCName() const
 {
 	return "SCmdRoomBehavior";
 }
 
-RoomCommand SetRoomBehavior::GetRoomCommand()
+RoomCommand SetRoomBehavior::GetRoomCommand() const
 {
 	return RoomCommand::SetRoomBehavior;
 }

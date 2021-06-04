@@ -14,18 +14,12 @@ def SignalHandler(sig, frame):
     mainAbort.set()
     # Don't exit immediately to update the extracted assets file.
 
-def Extract(xmlPath, outputPath, outputSourcePath):
-    ExtractFile(xmlPath, outputPath, outputSourcePath, 1, 0)
-
-def ExtractScene(xmlPath, outputPath, outputSourcePath):
-    ExtractFile(xmlPath, outputPath, outputSourcePath, 1, 1)
-
-def ExtractFile(xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix):
+def ExtractFile(xmlPath, outputPath, outputSourcePath):
     if globalAbort.is_set():
         # Don't extract if another file wasn't extracted properly.
         return
 
-    execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf %i -ifp %i -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix)
+    execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath)
     if globalUnaccounted:
         execStr += " -wu"
 
@@ -45,10 +39,6 @@ def ExtractFunc(fullPath):
     outPath = os.path.join("assets", *pathList[2:], objectName)
     outSourcePath = outPath
 
-    isScene = fullPath.startswith("assets/xml/scenes/")
-    if isScene:
-        objectName += "_scene"
-
     if not globalForce:
         if fullPath in globalExtractedAssetsTracker:
             timestamp = globalExtractedAssetsTracker[fullPath]["timestamp"]
@@ -59,10 +49,7 @@ def ExtractFunc(fullPath):
 
     currentTimeStamp = int(time.time())
 
-    if isScene:
-        ExtractScene(fullPath, outPath, outSourcePath)
-    else:
-        Extract(fullPath, outPath, outSourcePath)
+    ExtractFile(fullPath, outPath, outSourcePath)
 
     if not globalAbort.is_set():
         # Only update timestamp on succesful extractions
@@ -96,7 +83,7 @@ def main():
 
     extractedAssetsTracker = manager.dict()
     if os.path.exists(EXTRACTED_ASSETS_NAMEFILE):
-        with open(EXTRACTED_ASSETS_NAMEFILE) as f:
+        with open(EXTRACTED_ASSETS_NAMEFILE, encoding='utf-8') as f:
             extractedAssetsTracker.update(json.load(f, object_hook=manager.dict))
 
     asset_path = args.single
