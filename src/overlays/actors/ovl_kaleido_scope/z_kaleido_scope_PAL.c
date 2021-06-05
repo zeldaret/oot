@@ -288,7 +288,7 @@ void KaleidoScope_OverridePalIndexCI4(u8* texture, s32 size, s32 targetIndex, s3
         return;
     }
 
-    for (i = 0; i < size; i++) {        
+    for (i = 0; i < size; i++) {
         s32 index1;
         s32 index2;
 

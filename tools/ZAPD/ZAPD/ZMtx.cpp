@@ -14,7 +14,7 @@ ZMtx::ZMtx(const std::string& prefix, const std::vector<uint8_t>& nRawData, uint
 	: ZResource(nParent)
 {
 	name = GetDefaultName(prefix.c_str(), rawDataIndex);
-	ExtractFromFile(nRawData, nRawDataIndex, "");
+	ExtractFromFile(nRawData, nRawDataIndex);
 	DeclareVar("", "");
 }
 
@@ -28,18 +28,18 @@ void ZMtx::ParseRawData()
 }
 
 void ZMtx::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                          uint32_t nRawDataIndex, const std::string& nRelPath)
+                          uint32_t nRawDataIndex)
 {
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
+	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
 	DeclareVar("", "");
 }
 
-size_t ZMtx::GetRawDataSize()
+size_t ZMtx::GetRawDataSize() const
 {
 	return 64;
 }
 
-void ZMtx::DeclareVar(const std::string& prefix, const std::string& bodyStr)
+void ZMtx::DeclareVar(const std::string& prefix, const std::string& bodyStr) const
 {
 	std::string auxName = name;
 
@@ -86,12 +86,12 @@ std::string ZMtx::GetDefaultName(const std::string& prefix, uint32_t address)
 	return StringHelper::Sprintf("%sMtx_%06X", prefix.c_str(), address);
 }
 
-std::string ZMtx::GetSourceTypeName()
+std::string ZMtx::GetSourceTypeName() const
 {
 	return "Mtx";
 }
 
-ZResourceType ZMtx::GetResourceType()
+ZResourceType ZMtx::GetResourceType() const
 {
 	return ZResourceType::Mtx;
 }

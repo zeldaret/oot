@@ -1,4 +1,5 @@
 #include "z_en_heishi4.h"
+#include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
 #define FLAGS 0x00000009
@@ -56,12 +57,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 33, 40, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeader D_0600BAC8;
-extern AnimationHeader D_0600C444;
-extern AnimationHeader D_06005C30;
-extern AnimationHeader D_0600C6C8;
-extern AnimationHeader D_0600C374;
-
 void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi4* this = THIS;
 
@@ -73,11 +68,13 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->type == HEISHI4_AT_MARKET_DYING) {
         this->height = 30.0f;
         ActorShape_Init(&thisx->shape, 0.0f, NULL, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_0600C444, this->jointTable, this->morphTable, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiDyingGuardAnim_00C444, this->jointTable,
+                       this->morphTable, 17);
     } else {
         this->height = 60.0f;
         ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTable, this->morphTable, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable,
+                       this->morphTable, 17);
     }
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -113,9 +110,9 @@ void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A56328(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_GetLastFrame(&D_06005C30);
+    f32 frames = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A563BC;
 }
 
@@ -168,9 +165,9 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56544(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_GetLastFrame(&D_06005C30);
+    f32 frames = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
@@ -224,8 +221,9 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
     this->unk_284 = 0;
     if (gSaveContext.eventChkInf[8] & 1) {
         if (!(gSaveContext.infTable[6] & 0x1000)) {
-            f32 frames = Animation_GetLastFrame(&D_0600C444);
-            Animation_Change(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
+            f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardAnim_00C444);
+            Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardAnim_00C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,
+                             -10.0f);
             this->actor.textId = 0x7007;
             this->unk_282 = 5;
             this->unk_284 = 1;
@@ -258,9 +256,9 @@ void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_GetLastFrame(&D_0600C6C8);
+    f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardTalkAnim);
 
-    Animation_Change(&this->skelAnime, &D_0600C6C8, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardTalkAnim, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A56994;
 }
 
@@ -278,9 +276,9 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_GetLastFrame(&D_0600C374);
+    f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardDieAnim);
     this->unk_288 = frames;
-    Animation_Change(&this->skelAnime, &D_0600C374, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardDieAnim, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A56ACC;
 }
 

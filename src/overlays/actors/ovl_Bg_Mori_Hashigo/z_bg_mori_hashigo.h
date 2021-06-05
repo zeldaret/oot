@@ -18,6 +18,11 @@ typedef struct BgMoriHashigo {
     /* 0x01CC */ s8 moriTexObjIndex;
 } BgMoriHashigo; // size = 0x01D0
 
+typedef enum {
+    /* -1 */ HASHIGO_CLASP = -1,
+    /*  0  */ HASHIGO_LADDER
+} HasigoType;
+
 extern const ActorInit Bg_Mori_Hashigo_InitVars;
 
 #endif

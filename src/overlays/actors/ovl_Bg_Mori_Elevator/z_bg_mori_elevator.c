@@ -1,4 +1,5 @@
 #include "z_bg_mori_elevator.h"
+#include "objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -38,9 +39,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
-
-extern CollisionHeader D_060035F8;
-extern Gfx D_06002AD0[];
 
 f32 func_808A1800(f32* pValue, f32 target, f32 scale, f32 maxStep, f32 minStep) {
     f32 var = (target - *pValue) * scale;
@@ -105,7 +103,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->dyna.actor.room = -1;
                 Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
                 DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-                CollisionHeader_GetVirtual(&D_060035F8, &colHeader);
+                CollisionHeader_GetVirtual(&gMoriElevatorCol, &colHeader);
                 this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 BgMoriElevator_SetupWaitAfterInit(this);
                 break;
@@ -261,7 +259,7 @@ void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 580),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06002AD0);
+    gSPDisplayList(POLY_OPA_DISP++, gMoriElevatorDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 584);
 }

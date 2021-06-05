@@ -183,7 +183,8 @@ clean:
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
-	$(RM) -r build/assets	
+	$(RM) -r build/assets
+	$(RM) -r .extracted-assets.json
 
 distclean: clean assetclean
 	$(RM) -r baserom/
