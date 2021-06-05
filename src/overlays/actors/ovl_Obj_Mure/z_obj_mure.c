@@ -64,7 +64,6 @@ ObjMureActionFunc D_80B99A98[] =
     { 0x00000000, 0x00000000, 0x80B995A4, 0x80B995A4, 0x80B997CC, 0x00000000 };
 
 
-// almost matching
 // one branch instruction missing
 #ifdef NON_MATCHING
 s32 func_80B98AA0(Actor *thisx, s32 globalCtx) {
@@ -85,8 +84,6 @@ s32 func_80B98AA0(Actor *thisx, s32 globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98AA0.s")
 #endif
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98B1C.s")
-// matching
 s32 func_80B98B1C(Actor *thisx, s32 globalCtx) {
     if (func_80B98AA0(thisx, globalCtx) == 0) {
         return 0;
@@ -95,7 +92,7 @@ s32 func_80B98B1C(Actor *thisx, s32 globalCtx) {
 } 
 
 // almost matching
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
 void ObjMure_Init(Actor *thisx, GlobalContext *globalCtx) {
     ObjMure* this = THIS;
 
@@ -129,14 +126,10 @@ void ObjMure_Init(Actor *thisx, GlobalContext *globalCtx) {
 #endif
 
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/ObjMure_Destroy.s")
-// matching
 void ObjMure_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98C88.s")
-// matching
 // gets the number of spawned actors? or something else
 s32 func_80B98C88(ObjMure *this) {
     if (this->chNum == 0) {
@@ -145,8 +138,6 @@ s32 func_80B98C88(ObjMure *this) {
     return (s32) this->chNum;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98CB4.s")
-// matching
 // ObjMure_SetActorPos
 void func_80B98CB4(PosRot* this, PosRot* arg1, s32 ptn, s32 arg3) {
     if (ptn >= 4) {
@@ -155,8 +146,7 @@ void func_80B98CB4(PosRot* this, PosRot* arg1, s32 ptn, s32 arg3) {
     this->pos = arg1->pos;
 }
 
-// spawn children
-// almost matching (1 instruction, stack/regalloc)
+// 1 instruction, stack/regalloc
 // ObjMure_SpawnActors
 #ifdef NON_MATCHING
 void func_80B98D18(ObjMure* this, GlobalContext* globalCtx) {
@@ -229,8 +219,6 @@ void func_80B98F38(ObjMure* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98F38.s")
 #endif
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B990BC.s")
-// matching
 void func_80B990BC(ObjMure* this, GlobalContext* globalCtx) {
     switch (this->svNum) {
         case 0:
@@ -242,8 +230,6 @@ void func_80B990BC(ObjMure* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B9910C.s")
-// matching
 // ObjMure_CleanupAndDie
 void func_80B9910C(ObjMure* this, GlobalContext* globalCtx) {
     s32 temp_v0;
@@ -276,14 +262,10 @@ void func_80B9910C(ObjMure* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B99204.s")
-// matching
 void func_80B99204(ObjMure* this, GlobalContext* globalCtx) {
     func_80B9910C(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B99224.s")
-// matching
 void func_80B99224(ObjMure* this, GlobalContext* globalCtx) {
     s32 temp_v0;
     s32 i;
@@ -308,14 +290,10 @@ void func_80B99224(ObjMure* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B992E4.s")
-// matching
 void func_80B992E4(ObjMure *this, GlobalContext *globalCtx) {
     this->actionFunc = func_80B992F8;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B992F8.s")
-// matching
 void func_80B992F8(ObjMure *this, GlobalContext *globalCtx) {
     if (fabsf(this->actor.projectedPos.z) < D_80B99A50[this->type]) {
         this->actionFunc = func_80B99950;
@@ -324,8 +302,6 @@ void func_80B992F8(ObjMure *this, GlobalContext *globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B99358.s")
-// matching 
 void func_80B99358(ObjMure* this, f32 arg1) {
     s32 temp_f16;
     s32 temp_v0;
@@ -371,7 +347,7 @@ void func_80B9942C(ObjMure* this, s32 arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B9942C.s")
 #endif
 
-// almost matching, stack/regalloc
+// stack/regalloc
 #ifdef NON_MATCHING
 void func_80B995A4(ObjMure* this, GlobalContext* GlobalContext) {
     if (this->unk_1A4 <= 0) {
@@ -409,7 +385,7 @@ void func_80B995A4(ObjMure* this, GlobalContext* GlobalContext) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B995A4.s")
 #endif
 
-// almost matching (stack diff)
+// stack diff
 #ifdef NON_MATCHING
 void func_80B997CC(ObjMure* this, GlobalContext* globalCtx) {
     s32 temp_v0;
@@ -444,8 +420,6 @@ void func_80B997CC(ObjMure* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B997CC.s")
 #endif
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B99950.s")
-// matching
 void func_80B99950(ObjMure *this, GlobalContext *globalCtx) {
     func_80B99224(this, globalCtx);
     if ((D_80B99A50[this->type] + 40.0f) <= fabsf(this->actor.projectedPos.z)) {
@@ -459,8 +433,6 @@ void func_80B99950(ObjMure *this, GlobalContext *globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/ObjMure_Update.s")
-// matching
 void ObjMure_Update(Actor *thisx, GlobalContext *globalCtx) {
     ObjMure* this = THIS;
 
