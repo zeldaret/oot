@@ -695,7 +695,7 @@ void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B90158.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/ObjBean_WaitForWater.s")
 #endif
 
 void ObjBean_SetupGrowWaterPhase1(ObjBean* this) {
