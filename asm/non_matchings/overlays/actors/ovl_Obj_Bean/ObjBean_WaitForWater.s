@@ -1,4 +1,4 @@
-glabel ObjBean_WaitForWater
+glabel func_80B90158
 /* 016D8 80B90158 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 016DC 80B9015C AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 016E0 80B90160 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
