@@ -64,6 +64,4 @@ typedef enum {
     /* 1 */ BARI_TYPE_SWORD_DAMAGE
 } EnValiType;
 
-
-
 #endif

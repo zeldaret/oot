@@ -349,7 +349,7 @@ void EnVali_FloatIdle(EnVali* this, GlobalContext* globalCtx) {
 
     curFrame = ((curFrame > 40) ? (80 - curFrame) : curFrame);
 
-    this->actor.shape.rot.y += (s16)(s32)((curFrame + 4) * 0.4f * 182.04445f);
+    this->actor.shape.rot.y += (s16)((curFrame + 4) * 0.4f * ( 0x10000 / 360.0f ));
     if (this->actor.xzDistToPlayer > 250.0f) {
         EnVali_SetupReturnToLurk(this);
     }
@@ -585,16 +585,16 @@ void EnVali_PulseOutside(EnVali* this, f32 curFrame, Vec3f* scale) {
             scalePhase -= 10;
         }
 
-        scale->y -= (0.2f * sinf((M_PI / 10) * scalePhase));
+        scale->y -= 0.2f * sinf((M_PI / 10) * scalePhase);
     } else if (this->actionFunc == EnVali_Retaliate) {
         scaleChange = sinf((M_PI / 10) * curFrame);
-        scale->y -= (0.24f * scaleChange);
-        scale->x -= (0.13f * scaleChange);
+        scale->y -= 0.24f * scaleChange;
+        scale->x -= 0.13f * scaleChange;
         scale->z = scale->x;
     } else if (this->actionFunc == EnVali_MoveArmsDown) {
         scaleChange = cosf((M_PI / 50) * curFrame);
-        scale->y -= (0.24f * scaleChange);
-        scale->x -= (0.13f * scaleChange);
+        scale->y -= 0.24f * scaleChange;
+        scale->x -= 0.13f * scaleChange;
         scale->z = scale->x;
     } else if (this->actionFunc == EnVali_Stunned) {
         scaleChange = sinf((M_PI / 10) * this->timer) * 0.08f;
@@ -606,7 +606,7 @@ void EnVali_PulseOutside(EnVali* this, f32 curFrame, Vec3f* scale) {
             curFrame -= 40.0f;
         }
 
-        scale->y -= (0.2f * sinf((M_PI / 40) * curFrame));
+        scale->y -= 0.2f * sinf((M_PI / 40) * curFrame);
     }
 }
 
@@ -620,16 +620,16 @@ void EnVali_PulseInsides(EnVali* this, f32 curFrame, Vec3f* scale) {
             scalePhase -= 10;
         }
 
-        scale->y -= (0.13f * sinf((M_PI / 10) * scalePhase));
+        scale->y -= 0.13f * sinf((M_PI / 10) * scalePhase);
     } else if (this->actionFunc == EnVali_Retaliate) {
         scaleChange = sinf((M_PI / 10) * curFrame);
-        scale->y -= (0.18f * scaleChange);
-        scale->x -= (0.1f * scaleChange);
+        scale->y -= 0.18f * scaleChange;
+        scale->x -= 0.1f * scaleChange;
         scale->z = scale->x;
     } else if (this->actionFunc == EnVali_MoveArmsDown) {
         scaleChange = cosf((M_PI / 50) * curFrame);
-        scale->y -= (0.18f * scaleChange);
-        scale->x -= (0.1f * scaleChange);
+        scale->y -= 0.18f * scaleChange;
+        scale->x -= 0.1f * scaleChange;
         scale->z = scale->x;
     } else if (this->actionFunc == EnVali_Stunned) {
         scaleChange = sinf((M_PI / 10) * this->timer) * 0.08f;
@@ -641,7 +641,7 @@ void EnVali_PulseInsides(EnVali* this, f32 curFrame, Vec3f* scale) {
             curFrame -= 40.0f;
         }
 
-        scale->y -= (0.13f * sinf((M_PI / 40) * curFrame));
+        scale->y -= 0.13f * sinf((M_PI / 40) * curFrame);
     }
 }
 
@@ -650,16 +650,16 @@ s32 EnVali_SetArmLength(EnVali* this, f32 curFrame) {
 
     if (this->actionFunc == EnVali_FloatIdle) {
         if (curFrame <= 10.0f) {
-            targetArmScale = (curFrame * 0.05f) + 1.0f;
+            targetArmScale = curFrame * 0.05f + 1.0f;
         } else if (curFrame > 70.0f) {
-            targetArmScale = ((80.0f - curFrame) * 0.05f) + 1.0f;
+            targetArmScale = (80.0f - curFrame) * 0.05f + 1.0f;
         } else {
             targetArmScale = 1.5f;
         }
     } else if (this->actionFunc == EnVali_Retaliate) {
-        targetArmScale = 1.0f - (sinf((M_PI / 10) * curFrame) * 0.35f);
+        targetArmScale = 1.0f - sinf((M_PI / 10) * curFrame) * 0.35f;
     } else if (this->actionFunc == EnVali_MoveArmsDown) {
-        targetArmScale = 1.0f - (cosf((M_PI / 50) * curFrame) * 0.35f);
+        targetArmScale = 1.0f - cosf((M_PI / 50) * curFrame) * 0.35f;
     } else if ((this->actionFunc == EnVali_Attacked) || (this->actionFunc == EnVali_Frozen)) {
         targetArmScale = this->armScale;
     } else {
