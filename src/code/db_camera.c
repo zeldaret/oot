@@ -152,21 +152,21 @@ s32 DbCamera_SaveCallback(char* c);
 s32 DbCamera_LoadCallback(char* c);
 s32 DbCamera_ClearCallback(char* c);
 
-static GlobalContext* globalCtx;
-static s32 mempakFiles;
-static DbCamera* dbCamPtr;
+static GlobalContext* sGlobalCtx;
+static s32 sMempakFiles;
+static DbCamera* sDbCamPtr;
 static s16 D_8016110C;
-static DbCameraAnim dbCamAnim;
+static DbCameraAnim sDbCamAnim;
 static s32 D_80161140;
 static s32 D_80161144;
-static s16 curFileIdx;
-static s16 lastFileIdx; // holds the file index of the slot to move
+static s16 sCurFileIdx;
+static s16 sLastFileIdx; // holds the file index of the slot to move
 // is the size correct? todo: add ALIGN32 for sizeof in Mempak functions, replace 0xF with sizeof()
-static DbCameraCut dbCameraCuts[16];
+static DbCameraCut sDbCameraCuts[16];
 static char D_80161250[0x80];
-static char letters[26];
+static char sLetters[26];
 static char D_801612EA;
-static s32 allocSize;
+static s32 sAllocSize;
 
 Vec3f* DbCamera_AddVecSph(Vec3f* out, Vec3f* in, VecSph* sph) {
     Vec3f ret;
@@ -405,11 +405,11 @@ s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
 void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
     s32 i;
 
-    if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_CRIGHT)) {
-        dbCamAnim.keyframe = 0;
-        dbCamAnim.unk_0A = 1;
-        dbCamAnim.curFrame = 0.0f;
-        dbCamAnim.unk_04 = 0;
+    if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_CRIGHT)) {
+        sDbCamAnim.keyframe = 0;
+        sDbCamAnim.unk_0A = 1;
+        sDbCamAnim.curFrame = 0.0f;
+        sDbCamAnim.unk_04 = 0;
 
         for (i = 0; i < (dbCamera->sub.nPoints - 2); i++) {
             dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = 0;
@@ -419,9 +419,9 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
     }
 
     if (dbCamera->sub.nPoints < 6) {
-        if (dbCamAnim.unk_0A != 0) {
+        if (sDbCamAnim.unk_0A != 0) {
             Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            dbCamAnim.unk_0A = (u16)0;
+            sDbCamAnim.unk_0A = (u16)0;
         }
         func_8006376C(0x11, 0x17, 3, D_8012CEE0[0]);
         func_8006376C(0x12, 0x18, 3, D_8012CEE4);
@@ -429,35 +429,35 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
         return;
     }
 
-    if (!func_800BB2B4(&dbCamAnim.positionPos, &dbCamAnim.roll, &dbCamAnim.fov, dbCamera->sub.position,
-                       &dbCamAnim.keyframe, &dbCamAnim.curFrame) &&
-        !func_800BB2B4(&dbCamAnim.lookAtPos, &dbCamAnim.roll, &dbCamAnim.fov, dbCamera->sub.lookAt,
-                       &dbCamAnim.keyframe, &dbCamAnim.curFrame) &&
-        dbCamAnim.unk_0A == 1) {
+    if (!func_800BB2B4(&sDbCamAnim.positionPos, &sDbCamAnim.roll, &sDbCamAnim.fov, dbCamera->sub.position,
+                       &sDbCamAnim.keyframe, &sDbCamAnim.curFrame) &&
+        !func_800BB2B4(&sDbCamAnim.lookAtPos, &sDbCamAnim.roll, &sDbCamAnim.fov, dbCamera->sub.lookAt,
+                       &sDbCamAnim.keyframe, &sDbCamAnim.curFrame) &&
+        sDbCamAnim.unk_0A == 1) {
         Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        dbCamAnim.unk_04++;
+        sDbCamAnim.unk_04++;
 
-        if (dbCamera->sub.nFrames > 0 && dbCamera->sub.nFrames < dbCamAnim.unk_04) {
-            dbCamAnim.unk_0A = (u16)0;
+        if (dbCamera->sub.nFrames > 0 && dbCamera->sub.nFrames < sDbCamAnim.unk_04) {
+            sDbCamAnim.unk_0A = (u16)0;
             func_8006376C(0xF, 0x1A, 1, D_8012CEEC);
         }
 
         if (dbCamera->sub.mode != 1) {
-            DbCamera_CopyVec3f(&dbCamAnim.positionPos, &dbCamera->eye);
-            DbCamera_CopyVec3f(&dbCamAnim.lookAtPos, &dbCamera->at);
+            DbCamera_CopyVec3f(&sDbCamAnim.positionPos, &dbCamera->eye);
+            DbCamera_CopyVec3f(&sDbCamAnim.lookAtPos, &dbCamera->at);
         } else {
-            func_800B3FF4(&cam->playerPosRot, &dbCamAnim.lookAtPos, &dbCamera->at);
-            func_800B3FF4(&cam->playerPosRot, &dbCamAnim.positionPos, &dbCamera->eye);
+            func_800B3FF4(&cam->playerPosRot, &sDbCamAnim.lookAtPos, &dbCamera->at);
+            func_800B3FF4(&cam->playerPosRot, &sDbCamAnim.positionPos, &dbCamera->eye);
         }
 
-        dbCamera->fov = dbCamAnim.fov;
-        dbCamera->roll = dbCamAnim.roll;
-        dbCamera->unk_50 = dbCamAnim.roll * 1.40625f;
+        dbCamera->fov = sDbCamAnim.fov;
+        dbCamera->roll = sDbCamAnim.roll;
+        dbCamera->unk_50 = sDbCamAnim.roll * 1.40625f;
 
-        DbCamera_SetTextValue(dbCamAnim.unk_04, D_8012CFB4 + 8, 4);
+        DbCamera_SetTextValue(sDbCamAnim.unk_04, D_8012CFB4 + 8, 4);
         func_8006376C(0x10, 0x17, 3, D_8012CFB4);
-        D_8012CFC4[5] = ((dbCamAnim.keyframe + 1) / 10) + '0';
-        D_8012CFC4[6] = ((dbCamAnim.keyframe + 1) % 10) + '0';
+        D_8012CFC4[5] = ((sDbCamAnim.keyframe + 1) / 10) + '0';
+        D_8012CFC4[6] = ((sDbCamAnim.keyframe + 1) % 10) + '0';
         D_8012CFC4[8] = ((dbCamera->sub.nPoints - 5) / 10) + '0';
         D_8012CFC4[9] = ((dbCamera->sub.nPoints - 5) % 10) + '0';
         func_8006376C(0x10, 0x18, 3, D_8012CFC4);
@@ -465,7 +465,7 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
         return;
     }
 
-    dbCamAnim.unk_0A = 0;
+    sDbCamAnim.unk_0A = 0;
     func_8006376C(0xF, 0x1A, 1, D_8012CEEC);
 }
 
@@ -576,7 +576,7 @@ void DbCamera_Init(DbCamera* dbCamera, Camera* cameraPtr) {
     dbCamera->sub.unk_104A = dbCamera->sub.unk_104E;
     dbCamera->fov = 0.0f;
     dbCamera->unk_50 = 0.0f;
-    globalCtx = cameraPtr->globalCtx;
+    sGlobalCtx = cameraPtr->globalCtx;
     dbCamera->sub.mode = 0;
     dbCamera->sub.nFrames = -1;
     dbCamera->sub.nPoints = 1;
@@ -614,8 +614,8 @@ s32 DbgCamera_Enable(DbCamera* this, Camera* cam) {
 
 s32 DbCamera_GetFirstAvailableLetter() {
     s32 i;
-    for (i = 0; i < ARRAY_COUNT(letters); i++) {
-        switch (letters[i]) {
+    for (i = 0; i < ARRAY_COUNT(sLetters); i++) {
+        switch (sLetters[i]) {
             case 'O':
                 break;
             default:
@@ -629,73 +629,73 @@ s32 DbCamera_GetFirstAvailableLetter() {
 char DbCamera_InitCut(s32 idx, DbCameraSub* sub) {
     s32 i;
 
-    dbCameraCuts[idx].unk_01 = 0x61;
-    dbCameraCuts[idx].letter = DbCamera_GetFirstAvailableLetter();
-    D_80161250[0x3F + dbCameraCuts[idx].letter] = 'O';
+    sDbCameraCuts[idx].unk_01 = 0x61;
+    sDbCameraCuts[idx].letter = DbCamera_GetFirstAvailableLetter();
+    D_80161250[0x3F + sDbCameraCuts[idx].letter] = 'O';
 
     i = sub->nPoints * sizeof(CutsceneCameraPoint);
-    dbCameraCuts[idx].lookAt = DebugArena_MallocDebug(i, "../db_camera.c", 2748);
-    if (dbCameraCuts[idx].lookAt == NULL) {
+    sDbCameraCuts[idx].lookAt = DebugArena_MallocDebug(i, "../db_camera.c", 2748);
+    if (sDbCameraCuts[idx].lookAt == NULL) {
         // Debug camera memory allocation failure
         osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2751);
         return '?';
     }
 
-    dbCameraCuts[idx].position = DebugArena_MallocDebug(i, "../db_camera.c", 2754);
-    if (dbCameraCuts[idx].position == NULL) {
+    sDbCameraCuts[idx].position = DebugArena_MallocDebug(i, "../db_camera.c", 2754);
+    if (sDbCameraCuts[idx].position == NULL) {
         // Debug camera memory allocation failure
         osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2757);
-        DebugArena_FreeDebug(dbCameraCuts[idx].lookAt, "../db_camera.c", 2758);
-        dbCameraCuts[idx].lookAt = NULL;
+        DebugArena_FreeDebug(sDbCameraCuts[idx].lookAt, "../db_camera.c", 2758);
+        sDbCameraCuts[idx].lookAt = NULL;
         return '?';
     }
 
-    dbCameraCuts[idx].mode = sub->mode;
-    dbCameraCuts[idx].nFrames = sub->nFrames;
-    dbCameraCuts[idx].nPoints = sub->nPoints;
+    sDbCameraCuts[idx].mode = sub->mode;
+    sDbCameraCuts[idx].nFrames = sub->nFrames;
+    sDbCameraCuts[idx].nPoints = sub->nPoints;
 
     for (i = 0; i < sub->nPoints; i++) {
-        dbCameraCuts[idx].lookAt[i] = sub->lookAt[i];
-        dbCameraCuts[idx].position[i] = sub->position[i];
+        sDbCameraCuts[idx].lookAt[i] = sub->lookAt[i];
+        sDbCameraCuts[idx].position[i] = sub->position[i];
     }
 
-    return dbCameraCuts[idx].letter;
+    return sDbCameraCuts[idx].letter;
 }
 
 void DbCamera_ResetCut(s32 idx, s32 shouldFree) {
-    if (dbCameraCuts[idx].letter != '?') {
-        D_80161250[0x3F + dbCameraCuts[idx].letter] = 'X';
+    if (sDbCameraCuts[idx].letter != '?') {
+        D_80161250[0x3F + sDbCameraCuts[idx].letter] = 'X';
     }
 
     if (shouldFree) {
-        DebugArena_FreeDebug(dbCameraCuts[idx].lookAt, "../db_camera.c", 2784);
-        DebugArena_FreeDebug(dbCameraCuts[idx].position, "../db_camera.c", 2785);
+        DebugArena_FreeDebug(sDbCameraCuts[idx].lookAt, "../db_camera.c", 2784);
+        DebugArena_FreeDebug(sDbCameraCuts[idx].position, "../db_camera.c", 2785);
     }
 
-    dbCameraCuts[idx].letter = '?';
-    dbCameraCuts[idx].lookAt = NULL;
-    dbCameraCuts[idx].position = NULL;
-    dbCameraCuts[idx].mode = 0;
-    dbCameraCuts[idx].nFrames = 0;
-    dbCameraCuts[idx].nPoints = 0;
+    sDbCameraCuts[idx].letter = '?';
+    sDbCameraCuts[idx].lookAt = NULL;
+    sDbCameraCuts[idx].position = NULL;
+    sDbCameraCuts[idx].mode = 0;
+    sDbCameraCuts[idx].nFrames = 0;
+    sDbCameraCuts[idx].nPoints = 0;
 }
 
 s32 DbCamera_CalcMempakAllocSize() {
     s32 i;
 
-    allocSize = 0;
-    for (i = 0; i < ARRAY_COUNT(dbCameraCuts) - 1; i++) {
-        if (dbCameraCuts[i].letter != '?') {
-            allocSize += ALIGN32(dbCameraCuts[i].nPoints * sizeof(CutsceneCameraPoint)) * 2;
+    sAllocSize = 0;
+    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+        if (sDbCameraCuts[i].letter != '?') {
+            sAllocSize += ALIGN32(sDbCameraCuts[i].nPoints * sizeof(CutsceneCameraPoint)) * 2;
         }
     }
-    allocSize += 0x100;
-    allocSize = ALIGN256(allocSize);
-    return allocSize;
+    sAllocSize += 0x100;
+    sAllocSize = ALIGN256(sAllocSize);
+    return sAllocSize;
 }
 
 s32 DbCamera_GetMempakAllocSize(void) {
-    return allocSize;
+    return sAllocSize;
 }
 
 s32 DbCamera_LoadCallback(char* c) {
@@ -703,45 +703,45 @@ s32 DbCamera_LoadCallback(char* c) {
     s32 size;
     s32 off;
 
-    for (i = 0; i < ARRAY_COUNT(dbCameraCuts) - 1; i++) {
-        if (dbCameraCuts[i].letter != '?') {
+    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+        if (sDbCameraCuts[i].letter != '?') {
             DbCamera_ResetCut(i, true);
-            letters[i] = 'X';
+            sLetters[i] = 'X';
         }
     }
 
-    if (!Mempak_Read(2, *c, dbCameraCuts, 0, sizeof(dbCameraCuts))) {
+    if (!Mempak_Read(2, *c, sDbCameraCuts, 0, sizeof(sDbCameraCuts))) {
         return false;
     }
 
-    off = sizeof(dbCameraCuts);
-    for (i = 0; i < ARRAY_COUNT(dbCameraCuts) - 1; i++) {
-        if (dbCameraCuts[i].letter != '?') {
-            size = dbCameraCuts[i].nPoints * sizeof(CutsceneCameraPoint);
+    off = sizeof(sDbCameraCuts);
+    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+        if (sDbCameraCuts[i].letter != '?') {
+            size = sDbCameraCuts[i].nPoints * sizeof(CutsceneCameraPoint);
 
-            dbCameraCuts[i].lookAt = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2844);
-            if (dbCameraCuts[i].lookAt == NULL) {
+            sDbCameraCuts[i].lookAt = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2844);
+            if (sDbCameraCuts[i].lookAt == NULL) {
                 // Debug camera memory allocation failure
                 osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2847);
                 return false;
             }
-            if (!Mempak_Read(2, *c, dbCameraCuts[i].lookAt, off, ALIGN32(size))) {
+            if (!Mempak_Read(2, *c, sDbCameraCuts[i].lookAt, off, ALIGN32(size))) {
                 return false;
             }
             off += ALIGN32(size);
 
-            dbCameraCuts[i].position = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2855);
-            if (dbCameraCuts[i].position == NULL) {
+            sDbCameraCuts[i].position = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2855);
+            if (sDbCameraCuts[i].position == NULL) {
                 // Debug camera memory allocation failure
                 osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2858);
                 return false;
             }
-            if (!Mempak_Read(2, *c, dbCameraCuts[i].position, off, ALIGN32(size))) {
+            if (!Mempak_Read(2, *c, sDbCameraCuts[i].position, off, ALIGN32(size))) {
                 return false;
             }
             off += ALIGN32(size);
 
-            D_80161250[0x3F + dbCameraCuts[i].letter] = 'O';
+            D_80161250[0x3F + sDbCameraCuts[i].letter] = 'O';
         }
     }
 
@@ -759,28 +759,28 @@ s32 DbCamera_SaveCallback(char* c) {
     ret = Mempak_GetFileSize(2, *c);
     freeSize = Mempak_GetFreeBytes(2);
 
-    if (allocSize < (freeSize + ret)) {
-        if (!Mempak_Alloc(2, c, allocSize)) {
+    if (sAllocSize < (freeSize + ret)) {
+        if (!Mempak_Alloc(2, c, sAllocSize)) {
             return false;
         }
 
-        if (!Mempak_Write(2, *c, dbCameraCuts, 0, sizeof(dbCameraCuts))) {
+        if (!Mempak_Write(2, *c, sDbCameraCuts, 0, sizeof(sDbCameraCuts))) {
             Mempak_DeleteFile(2, *c);
             return false;
         }
 
-        off = sizeof(dbCameraCuts);
-        for (i = 0; i < ARRAY_COUNT(dbCameraCuts) - 1; i++) {
-            if (dbCameraCuts[i].letter != '?') {
-                size = dbCameraCuts[i].nPoints * sizeof(CutsceneCameraPoint);
+        off = sizeof(sDbCameraCuts);
+        for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+            if (sDbCameraCuts[i].letter != '?') {
+                size = sDbCameraCuts[i].nPoints * sizeof(CutsceneCameraPoint);
 
-                ret = Mempak_Write(2, *c, dbCameraCuts[i].lookAt, off, ALIGN32(size));
+                ret = Mempak_Write(2, *c, sDbCameraCuts[i].lookAt, off, ALIGN32(size));
                 if (!ret) {
                     break;
                 }
                 off += ALIGN32(size);
 
-                ret = Mempak_Write(2, *c, dbCameraCuts[i].position, off, ALIGN32(size));
+                ret = Mempak_Write(2, *c, sDbCameraCuts[i].position, off, ALIGN32(size));
                 if (!ret) {
                     break;
                 }
@@ -808,8 +808,8 @@ s32 DbCamera_ClearCallback(char* c) {
 void DbCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorId) {
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(dbCameraCuts) - 1; i++) {
-        str[i * 2 + 1] = dbCameraCuts[i].letter;
+    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+        str[i * 2 + 1] = sDbCameraCuts[i].letter;
         str[i * 2 + 0] = '-';
     }
 
@@ -825,8 +825,8 @@ void DbCamera_PrintAllCuts(Camera* cam) {
     Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     osSyncPrintf("@@@\n@@@\n@@@/* ****** spline point data ** start here ***** */\n@@@\n");
 
-    for (i = 0; i < ARRAY_COUNT(dbCameraCuts) - 1; i++) {
-        DbCameraCut* cut = &dbCameraCuts[i];
+    for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+        DbCameraCut* cut = &sDbCameraCuts[i];
         if (cut->nPoints != 0) {
             if (i != 0) {
                 osSyncPrintf("@@@\n@@@/* ** %d ** */\n@@@\n", i);
@@ -847,67 +847,67 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
     s32 pointCount;
     s32 curPoint;
 
-    while (dbCameraCuts[D_8016110C].letter == '?') {
+    while (sDbCameraCuts[D_8016110C].letter == '?') {
         D_8016110C++;
-        if (D_8016110C >= ARRAY_COUNT(dbCameraCuts) - 1) {
-            dbCamAnim.curFrame = 0.0f;
-            dbCamAnim.unk_04 = 0;
-            dbCamAnim.keyframe = 0;
-            dbCamAnim.unk_0A = 0;
+        if (D_8016110C >= ARRAY_COUNT(sDbCameraCuts) - 1) {
+            sDbCamAnim.curFrame = 0.0f;
+            sDbCamAnim.unk_04 = 0;
+            sDbCamAnim.keyframe = 0;
+            sDbCamAnim.unk_0A = 0;
             D_8016110C = 0;
             return 0;
         }
     }
 
-    if (!func_800BB2B4(&dbCamAnim.positionPos, &dbCamAnim.roll, &dbCamAnim.fov,
-                       dbCameraCuts[D_8016110C].position, &dbCamAnim.keyframe, &dbCamAnim.curFrame) &&
-        !func_800BB2B4(&dbCamAnim.lookAtPos, &dbCamAnim.roll, &dbCamAnim.fov,
-                       dbCameraCuts[D_8016110C].lookAt, &dbCamAnim.keyframe, &dbCamAnim.curFrame)) {
+    if (!func_800BB2B4(&sDbCamAnim.positionPos, &sDbCamAnim.roll, &sDbCamAnim.fov, sDbCameraCuts[D_8016110C].position,
+                       &sDbCamAnim.keyframe, &sDbCamAnim.curFrame) &&
+        !func_800BB2B4(&sDbCamAnim.lookAtPos, &sDbCamAnim.roll, &sDbCamAnim.fov, sDbCameraCuts[D_8016110C].lookAt,
+                       &sDbCamAnim.keyframe, &sDbCamAnim.curFrame)) {
 
-        D_8012D13C[7] = ((dbCamAnim.keyframe + 1) / 10) + '0';
-        D_8012D13C[8] = ((dbCamAnim.keyframe + 1) % 10) + '0';
-        D_8012D13C[10] = ((dbCameraCuts[D_8016110C].nPoints - 5) / 10) + '0';
-        D_8012D13C[11] = ((dbCameraCuts[D_8016110C].nPoints - 5) % 10) + '0';
-        DbCamera_SetTextValue(dbCamAnim.unk_04, D_8012D114 + 10, 4);
+        D_8012D13C[7] = ((sDbCamAnim.keyframe + 1) / 10) + '0';
+        D_8012D13C[8] = ((sDbCamAnim.keyframe + 1) % 10) + '0';
+        D_8012D13C[10] = ((sDbCameraCuts[D_8016110C].nPoints - 5) / 10) + '0';
+        D_8012D13C[11] = ((sDbCameraCuts[D_8016110C].nPoints - 5) % 10) + '0';
+        DbCamera_SetTextValue(sDbCamAnim.unk_04, D_8012D114 + 10, 4);
         func_8006376C(0xF, 0x16, 3, D_8012D114);
-        DbCamera_SetTextValue(dbCamAnim.unk_0C, D_8012D128 + 10, 4);
+        DbCamera_SetTextValue(sDbCamAnim.unk_0C, D_8012D128 + 10, 4);
         func_8006376C(0xF, 0x17, 3, D_8012D128);
         func_8006376C(0xF, 0x18, 3, D_8012D13C);
         func_8006376C(0x10, 0x1A, 1, D_8012CEF0);
 
-        dbCamAnim.unk_04++;
-        dbCamAnim.unk_0C++;
+        sDbCamAnim.unk_04++;
+        sDbCamAnim.unk_0C++;
 
-        if (dbCameraCuts[D_8016110C].nFrames > 0 && dbCameraCuts[D_8016110C].nFrames < dbCamAnim.unk_04) {
+        if (sDbCameraCuts[D_8016110C].nFrames > 0 && sDbCameraCuts[D_8016110C].nFrames < sDbCamAnim.unk_04) {
             D_8016110C++;
-            dbCamAnim.curFrame = 0.0f;
-            dbCamAnim.unk_04 = 0;
-            dbCamAnim.keyframe = 0;
+            sDbCamAnim.curFrame = 0.0f;
+            sDbCamAnim.unk_04 = 0;
+            sDbCamAnim.keyframe = 0;
             return D_8016110C | 0x8000;
         }
 
-        if (dbCameraCuts[D_8016110C].mode != 1) {
-            DbCamera_CopyVec3f(&dbCamAnim.positionPos, &dbCamera->eye);
-            DbCamera_CopyVec3f(&dbCamAnim.lookAtPos, &dbCamera->at);
+        if (sDbCameraCuts[D_8016110C].mode != 1) {
+            DbCamera_CopyVec3f(&sDbCamAnim.positionPos, &dbCamera->eye);
+            DbCamera_CopyVec3f(&sDbCamAnim.lookAtPos, &dbCamera->at);
         } else {
-            func_800B3FF4(&cam->playerPosRot, &dbCamAnim.lookAtPos, &dbCamera->at);
-            func_800B3FF4(&cam->playerPosRot, &dbCamAnim.positionPos, &dbCamera->eye);
+            func_800B3FF4(&cam->playerPosRot, &sDbCamAnim.lookAtPos, &dbCamera->at);
+            func_800B3FF4(&cam->playerPosRot, &sDbCamAnim.positionPos, &dbCamera->eye);
         }
 
-        dbCamera->fov = dbCamAnim.fov;
-        dbCamera->roll = dbCamAnim.roll;
-        dbCamera->unk_50 = dbCamAnim.roll * 1.40625f;
+        dbCamera->fov = sDbCamAnim.fov;
+        dbCamera->roll = sDbCamAnim.roll;
+        dbCamera->unk_50 = sDbCamAnim.roll * 1.40625f;
 
     } else {
         D_8016110C++;
-        dbCamAnim.keyframe = 0;
-        dbCamAnim.curFrame = 0.0f;
-        dbCamAnim.unk_04 = 0;
-        if (D_8016110C == ARRAY_COUNT(dbCameraCuts) - 1) {
+        sDbCamAnim.keyframe = 0;
+        sDbCamAnim.curFrame = 0.0f;
+        sDbCamAnim.unk_04 = 0;
+        if (D_8016110C == ARRAY_COUNT(sDbCameraCuts) - 1) {
             D_8016110C = 0;
-            dbCamAnim.curFrame = 0.0f;
-            dbCamAnim.keyframe = 0;
-            dbCamAnim.unk_0A = 0;
+            sDbCamAnim.curFrame = 0.0f;
+            sDbCamAnim.keyframe = 0;
+            sDbCamAnim.unk_0A = 0;
             return -1;
         }
     }
@@ -919,18 +919,18 @@ void DbCamera_Reset(Camera* cam, DbCamera* dbCam) {
     s32 i;
 
     D_801612EA = '*';
-    for (i = 0; i < ARRAY_COUNT(letters); i++) {
-        letters[i] = 'X';
+    for (i = 0; i < ARRAY_COUNT(sLetters); i++) {
+        sLetters[i] = 'X';
     }
 
     for (i = 0; i < 0xF; i++) {
         DbCamera_ResetCut(i, false);
     }
-    dbCamPtr = dbCam;
+    sDbCamPtr = dbCam;
     D_8016110C = 0;
-    curFileIdx = 0;
-    lastFileIdx = -1;
-    dbCamAnim.unk_0A = 0;
+    sCurFileIdx = 0;
+    sLastFileIdx = -1;
+    sDbCamAnim.unk_0A = 0;
 }
 
 #ifdef NON_MATCHING
@@ -938,22 +938,22 @@ u32 sDbCameraColors[] = {
     4, 4, 4, 7, 4, 4,
 };
 s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
-    static s32 mempakFileSize = 0; //  D_8012D170
-    static s32 mempakFiles;
+    static s32 sMempakFilesize = 0; //  D_8012D170
+    static s32 sMempakFiles;
 
     s32 i;
     s32 idx1; // 0xA0
     s32 idx2; // s0
 
-    char sp74[(ARRAY_COUNT(dbCameraCuts) - 1 + 4) * 2];                                                  // 0x74
+    char sp74[(ARRAY_COUNT(sDbCameraCuts) - 1 + 4) * 2];                                                  // 0x74
     DbCameraCut sp64;                                                                                     // 0x64
     VecSph sp5C;                                                                                          // 0x5C
     s32 (*callbacks[])(char*) = { DbCamera_SaveCallback, DbCamera_LoadCallback, DbCamera_ClearCallback }; // 0x50
 
     func_8006376C(0xE, 5, 0, D_8012CF44); // DEMO CONTROL
 
-    idx1 = curFileIdx >> 1;
-    idx2 = lastFileIdx >> 1;
+    idx1 = sCurFileIdx >> 1;
+    idx2 = sLastFileIdx >> 1;
 
     switch (dbCamera->sub.demoCtrlActionIdx) {
         case ACTION_SAVE:  // 1
@@ -966,14 +966,14 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_SAVE, MENU_INFO):
                 case DEMO_CTRL_MENU(ACTION_LOAD, MENU_INFO):
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_INFO): {
-                    if ((1 << curFileIdx) & mempakFiles) {
-                        if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DLEFT) ||
-                            CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DRIGHT)) {
+                    if ((1 << sCurFileIdx) & sMempakFiles) {
+                        if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DLEFT) ||
+                            CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DRIGHT)) {
                             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
                             dbCamera->sub.demoCtrlToggleSwitch ^= 1;
                         }
-                        D_8012CEE0[41][9] = curFileIdx + 'A';
+                        D_8012CEE0[41][9] = sCurFileIdx + 'A';
                         func_8006376C(0xA, 7, 5, D_8012CEE0[41]);
                         func_8006376C(0x10, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
                         func_8006376C(0x14, 7, 5, D_8012CF88[0]);
@@ -981,7 +981,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         func_8006376C(0x11, 8, dbCamera->sub.demoCtrlToggleSwitch ? 4 : 7, D_8012CF94);
                         func_8006376C(0x15, 8, dbCamera->sub.demoCtrlToggleSwitch ? 7 : 4, D_8012CF98);
 
-                        if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_A)) {
+                        if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_A)) {
                             if (dbCamera->sub.demoCtrlToggleSwitch == 0) {
                                 Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                        &D_801333E8);
@@ -997,13 +997,13 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                             dbCamera->sub.demoCtrlMenu++;
                         } else {
                             dbCamera->sub.demoCtrlToggleSwitch ^= 1;
-                            D_8012CF84[9] = curFileIdx + 'A';
+                            D_8012CF84[9] = sCurFileIdx + 'A';
                             func_8006376C(0xD, 7, 5, D_8012CF88[-1]); // todo: find something better
                             func_8006376C(0x12, 7, 5, D_8012CF80);
                             func_8006376C(0xD, 9, dbCamera->sub.demoCtrlToggleSwitch ? 1 : 6, "PRESS B BUTTON");
                         }
                     }
-                    if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_B)) {
+                    if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_B)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         dbCamera->sub.demoCtrlMenu = 0;
                     }
@@ -1015,7 +1015,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_SAVE, MENU_CALLBACK):
                 case DEMO_CTRL_MENU(ACTION_LOAD, MENU_CALLBACK):
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_CALLBACK): {
-                    D_8012CEE0[41][9] = curFileIdx + 'A';
+                    D_8012CEE0[41][9] = sCurFileIdx + 'A';
                     func_8006376C(0xC, 7, 5, D_8012CEE0[41]);
                     func_8006376C(0x12, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
                     func_8006376C(0x16, 7, 5, D_8012CF9C[0]);
@@ -1035,14 +1035,14 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_LOAD, MENU_SUCCESS):
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_SUCCESS): {
                     dbCamera->sub.demoCtrlToggleSwitch ^= 1;
-                    D_8012CEE0[41][9] = curFileIdx + 'A';
+                    D_8012CEE0[41][9] = sCurFileIdx + 'A';
                     func_8006376C(0xD, 7, 5, D_8012CEE0[41]);
                     func_8006376C(0x13, 7, 5, D_8012CF60[dbCamera->sub.demoCtrlMenu / 100]);
                     func_8006376C(0x17, 7, 5, D_8012CFA4);
                     func_8006376C(0xD, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? 1 : 6, "PRESS B BUTTON");
 
-                    if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_A) ||
-                        CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_B)) {
+                    if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_A) ||
+                        CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_B)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         if (dbCamera->sub.demoCtrlMenu == DEMO_CTRL_MENU(ACTION_LOAD, MENU_SUCCESS)) {
                             dbCamera->sub.demoCtrlActionIdx = ACTION_E;
@@ -1059,14 +1059,14 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_LOAD, MENU_ERROR):
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_ERROR): {
                     dbCamera->sub.demoCtrlToggleSwitch ^= 1;
-                    D_8012CEE0[41][9] = curFileIdx + 'A';
+                    D_8012CEE0[41][9] = sCurFileIdx + 'A';
                     func_8006376C(0xD, 7, 5, D_8012CEE0[(dbCamera->sub.demoCtrlMenu / 100) + 32]);
                     func_8006376C(0x11, 7, 5, D_8012CFAC);
                     func_8006376C(0x17, 7, 5, D_8012CFA4);
                     func_8006376C(0xD, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? 1 : 6, "PRESS B BUTTON");
 
-                    if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_A) ||
-                        CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_B)) {
+                    if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_A) ||
+                        CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_B)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         dbCamera->sub.demoCtrlMenu -= 9;
                     }
@@ -1079,20 +1079,20 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 // 61d8
                 default: {
                     if (Mempak_Init(2)) {
-                        mempakFiles = Mempak_FindFile(2, 'A', 'E');
+                        sMempakFiles = Mempak_FindFile(2, 'A', 'E');
                         dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_CALLBACK);
-                        DbCamera_CalcMempakAllocSize();
-                        if ((1 << curFileIdx) & mempakFiles) {
-                            mempakFileSize = Mempak_GetFileSize(2, curFileIdx + 'A');
+                        DbCamera_CalcMempaksAllocSize();
+                        if ((1 << sCurFileIdx) & sMempakFiles) {
+                            sMempakFilesize = Mempak_GetFileSize(2, sCurFileIdx + 'A');
                             dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                         } else {
-                            mempakFileSize = 0;
+                            sMempakFilesize = 0;
                             dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
                         }
                     block_1:
                         idx2 = 1;
                         for (i = 0; i < 5; i++) {
-                            sp74[i * 2 + 1] = (mempakFiles & idx2) ? i + 'A' : '?';
+                            sp74[i * 2 + 1] = (sMempakFiles & idx2) ? i + 'A' : '?';
                             sp74[i * 2 + 0] = '-';
 
                             idx2 <<= 1;
@@ -1100,37 +1100,37 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         sp74[i * 2 + 0] = '-';
                         sp74[i * 2 + 1] = '\0';
 
-                        if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DRIGHT)) {
+                        if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DRIGHT)) {
                             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
-                            if (curFileIdx >= 4) {
-                                curFileIdx = 0;
+                            if (sCurFileIdx >= 4) {
+                                sCurFileIdx = 0;
                             } else {
-                                curFileIdx++;
+                                sCurFileIdx++;
                             }
 
-                            if ((1 << curFileIdx) & mempakFiles) {
-                                mempakFileSize = Mempak_GetFileSize(2, curFileIdx + 'A');
+                            if ((1 << sCurFileIdx) & sMempakFiles) {
+                                sMempakFilesize = Mempak_GetFileSize(2, sCurFileIdx + 'A');
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                             } else {
-                                mempakFileSize = 0;
+                                sMempakFilesize = 0;
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
                             }
                         }
-                        if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DLEFT)) {
+                        if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DLEFT)) {
                             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
-                            if (curFileIdx <= 0) {
-                                curFileIdx = 4;
+                            if (sCurFileIdx <= 0) {
+                                sCurFileIdx = 4;
                             } else {
-                                curFileIdx--;
+                                sCurFileIdx--;
                             }
 
-                            if ((1 << curFileIdx) & mempakFiles) {
-                                mempakFileSize = Mempak_GetFileSize(2, curFileIdx + 'A');
+                            if ((1 << sCurFileIdx) & sMempakFiles) {
+                                sMempakFilesize = Mempak_GetFileSize(2, sCurFileIdx + 'A');
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
                             } else {
-                                mempakFileSize = 0;
+                                sMempakFilesize = 0;
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
                             }
                         }
@@ -1138,15 +1138,15 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         func_8006376C(0xE, 7, 5, D_8012CF50[dbCamera->sub.demoCtrlActionIdx]);
                         func_8006376C(0xF, 7, 4, sp74);
 
-                        func_8006376C((curFileIdx * 2) + 0x10, 7, 7, "_"); // cursor
-                        DbCamera_SetTextValue(DbCamera_GetMempakAllocSize(), sp74, 6);
+                        func_8006376C((sCurFileIdx * 2) + 0x10, 7, 7, "_"); // cursor
+                        DbCamera_SetTextValue(DbCamera_GetMempaksAllocSize(), sp74, 6);
                         func_8006376C(0xD, 9, 6, D_8012CF78); // NEED      BYTE
                         func_8006376C(0x11, 9, 4, sp74);
                         DbCamera_SetTextValue(Mempak_GetFreeBytes(2), sp74, 6);
                         func_8006376C(0xD, 0xA, 6, D_8012CF74); // FREE      BYTE
                         func_8006376C(0x11, 0xA, 4, sp74);
-                        if (mempakFileSize != 0) { // diff: regalloc (comes from 6440?)
-                            DbCamera_SetTextValue(mempakFileSize, sp74, 6);
+                        if (sMempakFilesize != 0) { // diff: regalloc (comes from 6440?)
+                            DbCamera_SetTextValue(sMempakFilesize, sp74, 6);
                             func_8006376C(0xD, 0xB, 7, D_8012CFA8);
                             func_8006376C(0x11, 0xB, 4, sp74);
                         }
@@ -1161,24 +1161,24 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         func_8006376C(0x14, 0x1A, 5, D_8012CF70);
 
                         // diff: regalloc
-                        if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DUP)) {
+                        if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DUP)) {
                             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
                             dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx - 1) % 4u;
                         }
-                        if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DDOWN)) {
+                        if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DDOWN)) {
                             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
                             dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx + 1) % 4u;
                         }
 
-                        if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_A)) {
+                        if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_A)) {
                             Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
                             dbCamera->sub.demoCtrlToggleSwitch = 0;
                             dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(dbCamera->sub.demoCtrlActionIdx, MENU_INFO);
                         }
-                        if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_B)) {
+                        if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_B)) {
                             Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
                             dbCamera->sub.demoCtrlActionIdx = ACTION_E;
@@ -1187,9 +1187,9 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     } else {
                         func_8006376C(0xC, 0x1A, 4, D_8012CF60[0]);
                         func_8006376C(0x13, 0x1A, 4, D_8012CF80);
-                        if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_B) ||
-                            CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DUP) ||
-                            CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DDOWN)) {
+                        if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_B) ||
+                            CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DUP) ||
+                            CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DDOWN)) {
 
                             Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
@@ -1205,43 +1205,43 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
         // 6840
         default: {
             // diff: regalloc
-            if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DUP)) {
+            if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DUP)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
                 dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx - 1) % 4u;
-                curFileIdx = 0;
+                sCurFileIdx = 0;
             }
-            if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DDOWN)) {
+            if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DDOWN)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
                 dbCamera->sub.demoCtrlActionIdx = (dbCamera->sub.demoCtrlActionIdx + 1) % 4u;
-                curFileIdx = 0;
+                sCurFileIdx = 0;
             }
 
-            DbCamera_DrawSlotLetters(sp74, 7, 5, 4);
+            DbCamera_DrawSlotsLetters(sp74, 7, 5, 4);
 
-            if (dbCamAnim.unk_0A != 0) {
+            if (sDbCamAnim.unk_0A != 0) {
                 func_8006376C(4, 7, 5, D_8012CF4C);
                 func_8006376C(D_8016110C * 2 + 6, 7, 7, ">");
 
-                if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_CUP)) {
+                if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_CUP)) {
                     if (D_8016110C > 0) {
                         D_8016110C--;
                     }
 
-                    dbCamAnim.curFrame = 0.0f;
-                    dbCamAnim.keyframe = 0;
-                    dbCamAnim.unk_04 = 0;
-                } else if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_CDOWN)) {
+                    sDbCamAnim.curFrame = 0.0f;
+                    sDbCamAnim.keyframe = 0;
+                    sDbCamAnim.unk_04 = 0;
+                } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_CDOWN)) {
                     if (D_8016110C < 14) {
                         D_8016110C++;
                     }
 
-                    dbCamAnim.curFrame = 0.0f;
-                    dbCamAnim.keyframe = 0;
-                    dbCamAnim.unk_04 = 0;
-                } else if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_CLEFT)) {
-                    dbCamAnim.unk_0A = 0;
+                    sDbCamAnim.curFrame = 0.0f;
+                    sDbCamAnim.keyframe = 0;
+                    sDbCamAnim.unk_04 = 0;
+                } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_CLEFT)) {
+                    sDbCamAnim.unk_0A = 0;
                     Interface_ChangeAlpha(2);
                     ShrinkWindow_SetVal(0);
                     D_8016110C = 0;
@@ -1259,156 +1259,156 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
             }
 
             // 6ae4
-            if (CHECK_BTN_ALL(globalCtx->state.input[1].press.button, BTN_CRIGHT)) {
+            if (CHECK_BTN_ALL(sGlobalCtx->state.input[1].press.button, BTN_CRIGHT)) {
                 // diff: reordering
                 D_8015FCC8 = 0;
                 gSaveContext.cutsceneIndex = 0xFFFD;
                 gSaveContext.cutsceneTrigger = 1;
-                dbCamAnim.curFrame = 0.0f;
-                dbCamAnim.keyframe = 0;
-                dbCamAnim.unk_04 = 0;
-                dbCamAnim.unk_0A = 1;
-                dbCamAnim.unk_0C = 0;
+                sDbCamAnim.curFrame = 0.0f;
+                sDbCamAnim.keyframe = 0;
+                sDbCamAnim.unk_04 = 0;
+                sDbCamAnim.unk_0A = 1;
+                sDbCamAnim.unk_0C = 0;
                 D_8016110C = 0;
                 Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
 
-            if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_L)) {
-                if (sp74[curFileIdx] == '?') {
-                    lastFileIdx = -1;
+            if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_L)) {
+                if (sp74[sCurFileIdx] == '?') {
+                    sLastFileIdx = -1;
                     D_801612EA = '*';
                 } else {
-                    lastFileIdx = curFileIdx;
-                    D_801612EA = dbCameraCuts[idx1].letter;
+                    sLastFileIdx = sCurFileIdx;
+                    D_801612EA = sDbCameraCuts[idx1].letter;
                 }
             }
-            // 6b90 diff: globalCtx->state.input[2].cur loaded twice
-            // and then globalCtx is only loaded once
-            else if (!CHECK_BTN_ALL(globalCtx->state.input[2].cur.button, BTN_L)) {
-                if (lastFileIdx != -1) {
-                    switch (sp74[curFileIdx]) {
+            // 6b90 diff: sGlobalCtx->state.input[2].cur loaded twice
+            // and then sGlobalCtx is only loaded once
+            else if (!CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_L)) {
+                if (sLastFileIdx != -1) {
+                    switch (sp74[sCurFileIdx]) {
                         case '?':
                             Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
-                            dbCameraCuts[idx1] = dbCameraCuts[idx2];
-                            sp74[curFileIdx] = '?'; // useless
+                            sDbCameraCuts[idx1] = sDbCameraCuts[idx2];
+                            sp74[sCurFileIdx] = '?'; // useless
                             DbCamera_ResetCut(idx2, false);
-                            break; // diff: missing globalCtx
+                            break; // diff: missing sGlobalCtx
                         case '-':
                             Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
 
-                            sp64 = dbCameraCuts[idx2];
-                            if (lastFileIdx < curFileIdx) {
+                            sp64 = sDbCameraCuts[idx2];
+                            if (sLastFileIdx < sCurFileIdx) {
                                 // rotate right
-                                for (i = idx2; i < idx1 - 1 && i < ARRAY_COUNT(dbCameraCuts) - 1; i++) {
-                                    dbCameraCuts[i] = dbCameraCuts[i + 1];
+                                for (i = idx2; i < idx1 - 1 && i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+                                    sDbCameraCuts[i] = sDbCameraCuts[i + 1];
                                 }
-                                dbCameraCuts[idx1 - 1] = sp64;
-                            } else if (curFileIdx < lastFileIdx) {
+                                sDbCameraCuts[idx1 - 1] = sp64;
+                            } else if (sCurFileIdx < sLastFileIdx) {
                                 // rotate left
                                 for (i = idx2; idx1 < i && i > 0; i--) {
-                                    dbCameraCuts[i] = dbCameraCuts[i - 1];
+                                    sDbCameraCuts[i] = sDbCameraCuts[i - 1];
                                 }
-                                dbCameraCuts[idx1] = sp64;
+                                sDbCameraCuts[idx1] = sp64;
                             }
 
-                            for (i = 0; i < ARRAY_COUNT(dbCameraCuts) - 1; i++) {
-                                sp74[i * 2 + 1] = dbCameraCuts[i].letter;
+                            for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+                                sp74[i * 2 + 1] = sDbCameraCuts[i].letter;
                             }
-                            break; // diff: missing globalCtx
+                            break; // diff: missing sGlobalCtx
                         default:
                             Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
                             break;
                     }
-                    lastFileIdx = -1;
+                    sLastFileIdx = -1;
                 }
             }
 
             // 6f40
-            if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_A)) {
-                if (sp74[curFileIdx] == '?') {
+            if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_A)) {
+                if (sp74[sCurFileIdx] == '?') {
                     Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    sp74[curFileIdx] = DbCamera_InitCut(idx1, &dbCamera->sub);
-                    if (sp74[curFileIdx] == '?') {
+                    sp74[sCurFileIdx] = DbCamera_InitCut(idx1, &dbCamera->sub);
+                    if (sp74[sCurFileIdx] == '?') {
                         func_8006376C(0xF, 0x18, 7, D_8012CF48);
                     }
                 }
             }
 
-            if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_B)) {
-                if (sp74[curFileIdx] != '?' && sp74[curFileIdx] != '-') {
+            if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_B)) {
+                if (sp74[sCurFileIdx] != '?' && sp74[sCurFileIdx] != '-') {
                     Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    sp74[curFileIdx] = '?';
+                    sp74[sCurFileIdx] = '?';
                     DbCamera_ResetCut(idx1, true);
                 }
             }
 
-            if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_R)) {
-                if (sp74[curFileIdx] != '?' && sp74[curFileIdx] != '-') {
+            if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_R)) {
+                if (sp74[sCurFileIdx] != '?' && sp74[sCurFileIdx] != '-') {
                     Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
-                    for (i = 0; i < dbCameraCuts[idx1].nPoints; i++) {
-                        dbCamera->sub.lookAt[i] = dbCameraCuts[idx1].lookAt[i];
+                    for (i = 0; i < sDbCameraCuts[idx1].nPoints; i++) {
+                        dbCamera->sub.lookAt[i] = sDbCameraCuts[idx1].lookAt[i];
                     }
                     // why use another loop for that...
-                    for (i = 0; i < dbCameraCuts[idx1].nPoints; i++) {
-                        dbCamera->sub.position[i] = dbCameraCuts[idx1].position[i];
+                    for (i = 0; i < sDbCameraCuts[idx1].nPoints; i++) {
+                        dbCamera->sub.position[i] = sDbCameraCuts[idx1].position[i];
                     }
 
-                    dbCamera->sub.mode = dbCameraCuts[idx1].mode;
-                    dbCamera->sub.nFrames = dbCameraCuts[idx1].nFrames;
-                    dbCamera->sub.nPoints = dbCameraCuts[idx1].nPoints;
+                    dbCamera->sub.mode = sDbCameraCuts[idx1].mode;
+                    dbCamera->sub.nFrames = sDbCameraCuts[idx1].nFrames;
+                    dbCamera->sub.nPoints = sDbCameraCuts[idx1].nPoints;
                     dbCamera->sub.unkIdx = 0;
                     func_800B41DC(dbCamera, dbCamera->sub.unkIdx, cam);
-                    sp74[curFileIdx] = '?';
+                    sp74[sCurFileIdx] = '?';
                     DbCamera_ResetCut(idx1, true);
                     dbCamera->unk_00 = 1;
                 }
             }
 
-            if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DRIGHT)) {
+            if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DRIGHT)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                if (curFileIdx == 0x1E) {
-                    curFileIdx = 0;
+                if (sCurFileIdx == 0x1E) {
+                    sCurFileIdx = 0;
                 } else {
-                    curFileIdx++;
+                    sCurFileIdx++;
                 }
             }
-            if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_DLEFT)) {
+            if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DLEFT)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                if (curFileIdx == 0) {
-                    // diff: reordering (0x1E is loaded before globalCtx)
-                    curFileIdx = 0x1E;
+                if (sCurFileIdx == 0) {
+                    // diff: reordering (0x1E is loaded before sGlobalCtx)
+                    sCurFileIdx = 0x1E;
                 } else {
-                    curFileIdx--;
+                    sCurFileIdx--;
                 }
             }
 
-            if (CHECK_BTN_ALL(globalCtx->state.input[2].cur.button, BTN_L) &&
-                CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_CRIGHT)) {
-                for (i = 0; i < ARRAY_COUNT(dbCameraCuts) - 1; i++) {
-                    osSyncPrintf("###%2d:(%c) (%d %d) %d %d %d\n", i, dbCameraCuts[i].letter,
-                                 dbCameraCuts[i].position, dbCameraCuts[i].lookAt, dbCameraCuts[i].nFrames,
-                                 dbCameraCuts[i].nPoints, dbCameraCuts[i].mode);
+            if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_L) &&
+                CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_CRIGHT)) {
+                for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+                    osSyncPrintf("###%2d:(%c) (%d %d) %d %d %d\n", i, sDbCameraCuts[i].letter,
+                                 sDbCameraCuts[i].position, sDbCameraCuts[i].lookAt, sDbCameraCuts[i].nFrames,
+                                 sDbCameraCuts[i].nPoints, sDbCameraCuts[i].mode);
                 }
                 DbCamera_PrintAllCuts(cam);
-            } else if (CHECK_BTN_ALL(globalCtx->state.input[2].cur.button, BTN_L) &&
-                       CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_CLEFT)) {
+            } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_L) &&
+                       CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_CLEFT)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                for (i = 0; i < ARRAY_COUNT(dbCameraCuts) - 1; i++) {
-                    if (dbCameraCuts[i].nPoints != 0) {
+                for (i = 0; i < ARRAY_COUNT(sDbCameraCuts) - 1; i++) {
+                    if (sDbCameraCuts[i].nPoints != 0) {
                         osSyncPrintf("\n@@@ /* CUT [%d]\t*/", i);
-                        DbCamera_PrintCutBytes(&dbCameraCuts[i]);
+                        DbCamera_PrintCutBytes(&sDbCameraCuts[i]);
                     }
                 }
-            } else if (CHECK_BTN_ALL(globalCtx->state.input[2].press.button, BTN_CRIGHT)) {
-                dbCamAnim.curFrame = 0.0f;
-                dbCamAnim.keyframe = 0;
-                dbCamAnim.unk_04 = 0.0f;
-                dbCamAnim.unk_0A = 1;
-                dbCamAnim.unk_0C = 0;
+            } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_CRIGHT)) {
+                sDbCamAnim.curFrame = 0.0f;
+                sDbCamAnim.keyframe = 0;
+                sDbCamAnim.unk_04 = 0.0f;
+                sDbCamAnim.unk_0A = 1;
+                sDbCamAnim.unk_0C = 0;
                 Interface_ChangeAlpha(50);
                 ShrinkWindow_SetVal(0x20);
                 D_8016110C = 0;
@@ -1417,13 +1417,13 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
 
             func_8006376C(4, 7, 5, D_8012CF50[0]);
             sp74[1] = 0;
-            if (lastFileIdx != -1) {
+            if (sLastFileIdx != -1) {
                 sp74[0] = D_801612EA;
-                func_8006376C(lastFileIdx + 5, 7, 2, sp74);
+                func_8006376C(sLastFileIdx + 5, 7, 2, sp74);
             } else {
                 sp74[0] = '_';
             }
-            func_8006376C(curFileIdx + 5, 7, 7, sp74);
+            func_8006376C(sCurFileIdx + 5, 7, 7, sp74);
 
             break;
         }
@@ -1441,13 +1441,13 @@ u32 D_8012D170 = 0;
 #endif
 
 void func_800BB03C(Camera* cam) {
-    func_800B91B0(cam, dbCamPtr);
+    func_800B91B0(cam, sDbCamPtr);
 }
 
 void func_800BB060() {
-    dbCamAnim.unk_0A = 0;
+    sDbCamAnim.unk_0A = 0;
 }
 
 s32 func_800BB06C() {
-    return dbCamPtr->unk_00 == 2 && dbCamAnim.unk_0A != 0;
+    return sDbCamPtr->unk_00 == 2 && sDbCamAnim.unk_0A != 0;
 }
