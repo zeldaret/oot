@@ -37,15 +37,15 @@ void ObjBean_SetupShakeLeaves(ObjBean* this);
 void ObjBean_ShakeLeaves(ObjBean* this);
 void ObjBean_SetupWaitForBean(ObjBean* this);
 void ObjBean_WaitForBean(ObjBean* this, GlobalContext* globalCtx);
-void ObjBean_PlantPhase1(ObjBean* this, GlobalContext* globalCtx);
-void ObjBean_SetupPlantPhase1(ObjBean* this);
-void ObjBean_SetupPlantPhase2(ObjBean* this);
-void ObjBean_PlantPhase2(ObjBean* this, GlobalContext* globalCtx);
+void func_80B8FE3C(ObjBean* this, GlobalContext* globalCtx);
+void func_80B8FE00(ObjBean* this);
+void func_80B8FE6C(ObjBean* this);
+void func_80B8FEAC(ObjBean* this, GlobalContext* globalCtx);
 void func_80B8FF50(ObjBean* this);
 void ObjBean_SetupGrowWaterPhase4(ObjBean* this);
 void func_80B8FF8C(ObjBean* this, GlobalContext* globalCtx);
-void ObjBean_PlantPhase3(ObjBean* this, GlobalContext* globalCtx);
-void ObjBean_SetupPlantPhase3(ObjBean* this);
+void func_80B90050(ObjBean* this, GlobalContext* globalCtx);
+void func_80B90010(ObjBean* this);
 void func_80B908EC(ObjBean* this);
 void func_80B90918(ObjBean* this, GlobalContext* globalCtx);
 void func_80B90970(ObjBean* this);
@@ -151,15 +151,16 @@ void ObjBean_InitDynaPoly(ObjBean* this, GlobalContext* globalCtx, CollisionHead
                           DynaPolyMoveFlag moveFlag) {
     s32 pad;
     CollisionHeader* colHeader;
-    s32 bgId;
+    s32 pad2;
 
     colHeader = NULL;
+
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->dyna.bgId = bgId;
-    if (bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_bean.c", 0x176,
+
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
+        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_bean.c", 374,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
 }
@@ -183,9 +184,9 @@ void func_80B8EBC8(ObjBean* this) {
 void ObjBean_UpdatePosition(ObjBean* this) {
     f32 temp_f20;
 
-    this->unk_1B6.x += 182;
-    this->unk_1B6.y += 251;
-    this->unk_1B6.z += 100;
+    this->unk_1B6.x += 0xB6;
+    this->unk_1B6.y += 0xFB;
+    this->unk_1B6.z += 0x64;
 
     Math_StepToF(&this->unk_1E4, 2.0f, 0.1f);
     temp_f20 = Math_SinS(this->unk_1B6.x * 3);
@@ -200,7 +201,7 @@ void ObjBean_UpdatePosition(ObjBean* this) {
     this->dyna.actor.scale.y = ((Math_CosS(((this->unk_1B6.z * 10))) * 0.2f) + 1.0f) * 0.1f;
     temp_f20 = Math_SinS(this->unk_1B6.x * 3);
     this->dyna.actor.shape.rot.y =
-        ((Math_SinS((s16)(this->unk_1B6.z * 2)) * 2100.0f) + ((f32)this->dyna.actor.home.rot.y + (temp_f20 * 1000.0f)));
+        (Math_SinS((s16)(this->unk_1B6.z * 2)) * 2100.0f) + ((f32)this->dyna.actor.home.rot.y + (temp_f20 * 1000.0f));
 }
 
 void func_80B8EDF4(ObjBean* this) {
@@ -289,7 +290,7 @@ void ObjBean_FollowPath(ObjBean* this, GlobalContext* globalCtx) { // Fly/follow
         sp4C = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->nextPointIndex];
         Math_Vec3s_DiffToVec3f(&sp40, nextPathPoint, currentPoint);
         Math_Vec3s_DiffToVec3f(&sp34, sp4C, nextPathPoint);
-        if (Math3D_CosOut(&sp40, &sp34, &sp30) != 0) {
+        if (Math3D_CosOut(&sp40, &sp34, &sp30)) {
             this->dyna.actor.speedXZ = 0.0f;
         } else {
             this->dyna.actor.speedXZ *= (sp30 + 1.0f) * 0.5f;
@@ -331,7 +332,7 @@ void ObjBean_Break(ObjBean* this, GlobalContext* globalCtx) {
 
     angle = 0;
     for (i = 0; i < 36; i++) {
-        angle += 20000;
+        angle += 0x4E20;
         temp_f20 = Rand_ZeroOne() * 60.0f;
 
         pos.x = (Math_SinS(angle) * temp_f20) + this->dyna.actor.world.pos.x;
@@ -371,16 +372,15 @@ void ObjBean_UpdateLeaves(ObjBean* this) {
     this->leafRotFactor = (s16)(s32)(6372.0f - (Math_SinS(this->unk_1CE) * (f32)this->unk_1C2));
     this->dyna.actor.scale.y = Math_SinS(this->leafRotFactor) * 0.17434467f;
     this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_CosS(this->leafRotFactor) * 0.12207746f;
-    ;
 }
 
 void ObjBean_SetupLeavesStill(ObjBean* this) {
     this->transformFunc = ObjBean_LeavesStill;
     this->unk_1C0 = Rand_S16Offset(12, 40);
-    this->unk_1C4 = Rand_S16Offset(200, 400);
-    this->unk_1C6 = 20;
-    this->unk_1CA = Rand_S16Offset(100, 800);
-    this->unk_1CC = 20;
+    this->unk_1C4 = Rand_S16Offset(0xC8, 0x190);
+    this->unk_1C6 = 0x14;
+    this->unk_1CA = Rand_S16Offset(0x64, 0x320);
+    this->unk_1CC = 0x14;
 }
 
 void ObjBean_LeavesStill(ObjBean* this) {
@@ -394,19 +394,19 @@ void ObjBean_LeavesStill(ObjBean* this) {
 void ObjBean_SetupShakeLeaves(ObjBean* this) {
     this->transformFunc = ObjBean_ShakeLeaves;
     this->unk_1C0 = Rand_S16Offset(30, 4);
-    this->unk_1C4 = Rand_S16Offset(2000, 1000);
-    this->unk_1C6 = 200;
-    this->unk_1CA = Rand_S16Offset(14000, 6000);
-    this->unk_1CC = 4000;
-    this->leafRotFactor = 6372;
+    this->unk_1C4 = Rand_S16Offset(0x7D0, 0x3E8);
+    this->unk_1C6 = 0xC8;
+    this->unk_1CA = Rand_S16Offset(0x36B0, 0x1770);
+    this->unk_1CC = 0xFA0;
+    this->leafRotFactor = 0x18E4;
 }
 
 void ObjBean_ShakeLeaves(ObjBean* this) {
     this->unk_1C0 += -1;
     if (this->unk_1C0 == 14) {
-        this->unk_1C4 = Rand_S16Offset(200, 400);
-        this->unk_1CA = Rand_S16Offset(100, 500);
-        this->unk_1CC = 2000;
+        this->unk_1C4 = Rand_S16Offset(0xC8, 0x190);
+        this->unk_1CA = Rand_S16Offset(0x64, 0x1F4);
+        this->unk_1CC = 0x7D0;
     }
     ObjBean_UpdateLeaves(this);
     if (this->unk_1C0 < 0) {
@@ -416,12 +416,12 @@ void ObjBean_ShakeLeaves(ObjBean* this) {
 
 void ObjBean_SetupShakeLeavesFast(ObjBean* this) {
     this->transformFunc = ObjBean_ShakeLeavesFast;
-    this->unk_1C0 = 40;
-    this->unk_1C4 = 3000;
-    this->unk_1C6 = 300;
-    this->unk_1CA = 15000;
-    this->unk_1CC = 4000;
-    this->leafRotFactor = 6372;
+    this->unk_1C0 = 0x28;
+    this->unk_1C4 = 0xBB8;
+    this->unk_1C6 = 0x12C;
+    this->unk_1CA = 0x3A98;
+    this->unk_1CC = 0xFA0;
+    this->leafRotFactor = 0x18E4;
 }
 
 void ObjBean_ShakeLeavesFast(ObjBean* this) {
@@ -562,7 +562,7 @@ void ObjBean_SetupWaitForBean(ObjBean* this) {
 void ObjBean_WaitForBean(ObjBean* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->dyna.actor, globalCtx)) {
         if (func_8002F368(globalCtx) == EXCH_ITEM_BEAN) {
-            ObjBean_SetupPlantPhase1(this);
+            func_80B8FE00(this);
             Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         }
     } else {
@@ -570,27 +570,27 @@ void ObjBean_WaitForBean(ObjBean* this, GlobalContext* globalCtx) {
     }
 }
 
-void ObjBean_SetupPlantPhase1(ObjBean* this) {
-    this->actionFunc = ObjBean_PlantPhase1;
+void func_80B8FE00(ObjBean* this) {
+    this->actionFunc = func_80B8FE3C;
     ObjBean_SetDrawMode(this, DRAW_LEAVES);
     this->timer = 60;
 }
 
 // Link is looking at the soft soil
-void ObjBean_PlantPhase1(ObjBean* this, GlobalContext* globalCtx) {
+void func_80B8FE3C(ObjBean* this, GlobalContext* globalCtx) {
     if (this->timer <= 0) {
-        ObjBean_SetupPlantPhase2(this);
+        func_80B8FE6C(this);
     }
 }
 
-void ObjBean_SetupPlantPhase2(ObjBean* this) {
-    this->actionFunc = ObjBean_PlantPhase2;
+void func_80B8FE6C(ObjBean* this) {
+    this->actionFunc = func_80B8FEAC;
     ObjBean_SetDrawMode(this, DRAW_LEAVES | DRAW_SOIL);
     Actor_SetScale(&this->dyna.actor, 0.01f);
 }
 
 // The leaves are visable and growing
-void ObjBean_PlantPhase2(ObjBean* this, GlobalContext* globalCtx) {
+void func_80B8FEAC(ObjBean* this, GlobalContext* globalCtx) {
     s32 temp_v1;
 
     temp_v1 = Math_StepToF(&this->dyna.actor.scale.y, 0.16672663f, 0.01f) & 1;
@@ -617,21 +617,20 @@ void func_80B8FF8C(ObjBean* this, GlobalContext* globalCtx) {
     this->unk_1B6.x -= 0x960;
     this->dyna.actor.scale.y = Math_SinS(this->unk_1B6.x) * 0.17434467f;
     this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_CosS(this->unk_1B6.x) * 0.12207746f;
-    ;
     if (this->unk_1B6.x < 0x18E4) {
-        ObjBean_SetupPlantPhase3(this);
+        func_80B90010(this);
     }
 }
 
-void ObjBean_SetupPlantPhase3(ObjBean* this) {
-    this->actionFunc = ObjBean_PlantPhase3;
+void func_80B90010(ObjBean* this) {
+    this->actionFunc = func_80B90050;
     ObjBean_SetDrawMode(this, DRAW_LEAVES | DRAW_SOIL);
     this->unk_1B6.x = 0;
     this->unk_1B6.y = 0xBB8;
 }
 
 // Control is returned to the player and the leaves start to flatten out
-void ObjBean_PlantPhase3(ObjBean* this, GlobalContext* globalCtx) {
+void func_80B90050(ObjBean* this, GlobalContext* globalCtx) {
     s16 temp_a0;
     f32 temp_f2;
 
@@ -664,7 +663,7 @@ void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
         this->dyna.actor.flags |= 0x10;
         return;
     }
-    if ((D_80B90E30 == this) && (Flags_GetEnv(globalCtx, 5) == 0)) {
+    if ((D_80B90E30 == this) && (!Flags_GetEnv(globalCtx, 5))) {
         D_80B90E30 = NULL;
     }
 }
@@ -875,7 +874,7 @@ void func_80B909B0(ObjBean* this, GlobalContext* globalCtx) {
 void func_80B909F8(ObjBean* this) {
     this->actionFunc = func_80B90A34;
     ObjBean_SetDrawMode(this, DRAW_PLANT);
-    this->timer = 0x1E;
+    this->timer = 30;
 }
 
 void func_80B90A34(ObjBean* this, GlobalContext* globalCtx) {
@@ -940,7 +939,7 @@ void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx) {
 void ObjBean_DrawSoftSoilSpot(ObjBean* this, GlobalContext* globalContext) {
     Matrix_Translate(this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateY(this->dyna.actor.home.rot.y * (M_PI / 32768), MTXMODE_APPLY);
+    Matrix_RotateY(this->dyna.actor.home.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
     Gfx_DrawDListOpa(globalContext, D_06000650);
 }
@@ -948,7 +947,7 @@ void ObjBean_DrawSoftSoilSpot(ObjBean* this, GlobalContext* globalContext) {
 void ObjBean_DrawBeanstalk(ObjBean* this, GlobalContext* globalCtx) {
     Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
+    Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_Scale(0.1f, this->stalkSizeMultiplier, 0.1f, MTXMODE_APPLY);
     Gfx_DrawDListOpa(globalCtx, D_060001B0);
 }
