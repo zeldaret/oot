@@ -2476,6 +2476,10 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
         actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
+            //! @bug Stale Reference Manipulation.  Under very specific circumstances an actor can be culled and held by
+            //! the player.  Because of this its room is never set to -1 causing it to be deallocated during a room
+            //! change.  Even though it is unloaded the pointer maintained by the player is never cleared.  This allows
+            //! something else to load in its place and data to be written to unintended places.
             if ((actor->room >= 0) && (actor->room != globalCtx->roomCtx.curRoom.num) &&
                 (actor->room != globalCtx->roomCtx.prevRoom.num)) {
                 if (!actor->isDrawn) {
