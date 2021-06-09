@@ -29,21 +29,21 @@
         <Texture Name="object_fu_Tex_005EE0" OutName="tex_00005EE0" Format="ci8" Width="8" Height="8" Offset="0x5EE0"/>
         <Blob Name="object_fu_Blob_005F20" Size="0xC00" Offset="0x5F20"/>
         <Texture Name="object_fu_Tex_006B20" OutName="tex_00006B20" Format="ci8" Width="8" Height="16" Offset="0x6B20"/>
-        <Limb Name="object_fu_Limb_006BA0" LimbType="Standard" Offset="0x6BA0"/>
-        <Limb Name="object_fu_Limb_006BAC" LimbType="Standard" Offset="0x6BAC"/>
-        <Limb Name="object_fu_Limb_006BB8" LimbType="Standard" Offset="0x6BB8"/>
-        <Limb Name="object_fu_Limb_006BC4" LimbType="Standard" Offset="0x6BC4"/>
-        <Limb Name="object_fu_Limb_006BD0" LimbType="Standard" Offset="0x6BD0"/>
-        <Limb Name="object_fu_Limb_006BDC" LimbType="Standard" Offset="0x6BDC"/>
-        <Limb Name="object_fu_Limb_006BE8" LimbType="Standard" Offset="0x6BE8"/>
-        <Limb Name="object_fu_Limb_006BF4" LimbType="Standard" Offset="0x6BF4"/>
-        <Limb Name="object_fu_Limb_006C00" LimbType="Standard" Offset="0x6C00"/>
-        <Limb Name="object_fu_Limb_006C0C" LimbType="Standard" Offset="0x6C0C"/>
-        <Limb Name="object_fu_Limb_006C18" LimbType="Standard" Offset="0x6C18"/>
-        <Limb Name="object_fu_Limb_006C24" LimbType="Standard" Offset="0x6C24"/>
-        <Limb Name="object_fu_Limb_006C30" LimbType="Standard" Offset="0x6C30"/>
-        <Limb Name="object_fu_Limb_006C3C" LimbType="Standard" Offset="0x6C3C"/>
-        <Limb Name="object_fu_Limb_006C48" LimbType="Standard" Offset="0x6C48"/>
-        <Skeleton Name="object_fu_Skel_006C90" Type="Flex" LimbType="Standard" Offset="0x6C90"/>
+        <Skeleton Name="gWindmillManSkel" Type="Flex" LimbType="Standard" Offset="0x6C90"/>
+        <Limb Name="gWindmillManTorsoLimb" LimbType="Standard" Offset="0x6BA0"/>
+        <Limb Name="gWindmillManLeftThighLimb" LimbType="Standard" Offset="0x6BAC"/>
+        <Limb Name="gWindmillManLeftLegLimb" LimbType="Standard" Offset="0x6BB8"/>
+        <Limb Name="gWindmillManLeftFootLimb" LimbType="Standard" Offset="0x6BC4"/>
+        <Limb Name="gWindmillManRightThighLimb" LimbType="Standard" Offset="0x6BD0"/>
+        <Limb Name="gWindmillManRightLegLimb" LimbType="Standard" Offset="0x6BDC"/>
+        <Limb Name="gWindmillManRightFootLimb" LimbType="Standard" Offset="0x6BE8"/>
+        <Limb Name="gWindmillManChestAndMusicBoxPipeLimb" LimbType="Standard" Offset="0x6BF4"/>
+        <Limb Name="gWindmillManLeftArmAndMusicBoxLimb" LimbType="Standard" Offset="0x6C00"/>
+        <Limb Name="gWindmillManLimb_006C0C" LimbType="Standard" Offset="0x6C0C"/> <!--A random triangle near the right side of the music box-->
+        <Limb Name="gWindmillManRightShoulderLimb" LimbType="Standard" Offset="0x6C18"/>
+        <Limb Name="gWindmillManRightArmLimb" LimbType="Standard" Offset="0x6C24"/>
+        <Limb Name="gWindmillManRightHandAndCrankLimb" LimbType="Standard" Offset="0x6C30"/>
+        <Limb Name="gWindmillManHeadLimb" LimbType="Standard" Offset="0x6C3C"/>
+        <Limb Name="gWindmillManHornLimb" LimbType="Standard" Offset="0x6C48"/>
     </File>
 </Root>
