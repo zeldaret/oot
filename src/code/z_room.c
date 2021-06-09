@@ -613,7 +613,7 @@ void Room_Draw(GlobalContext* globalCtx, Room* room, u32 flags) {
 void func_80097534(GlobalContext* globalCtx, RoomContext* roomCtx) {
     roomCtx->prevRoom.num = -1;
     roomCtx->prevRoom.segment = NULL;
-    func_80031B14(globalCtx, &globalCtx->actorCtx);
+    Actor_ChangeRoom(globalCtx, &globalCtx->actorCtx);
     Actor_SpawnTransitionActors(globalCtx, &globalCtx->actorCtx);
     Map_InitRoomData(globalCtx, roomCtx->curRoom.num);
     if (!((globalCtx->sceneNum >= SCENE_SPOT00) && (globalCtx->sceneNum <= SCENE_SPOT20))) {

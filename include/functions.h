@@ -463,7 +463,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx);
 s32 func_800314D4(GlobalContext* globalCtx, Actor* actorB, Vec3f* arg2, f32 arg3);
 void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx);
 void func_80031A28(GlobalContext* globalCtx, ActorContext* actorCtx);
-void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx);
+void Actor_ChangeRoom(GlobalContext* globalCtx, ActorContext* actorCtx);
 void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx);
 Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId, f32 posX, f32 posY, f32 posZ,
                    s16 rotX, s16 rotY, s16 rotZ, s16 params);
