@@ -11,9 +11,9 @@ typedef void (*EnBiliActionFunc)(struct EnBili*, GlobalContext*);
 typedef enum {
     /* 0 */ EN_BILI_LIMB_NONE,
     /* 1 */ EN_BILI_LIMB_ROOT,
-    /* 2 */ EN_BILI_LIMB_INNER_MEMBRANE,
-    /* 3 */ EN_BILI_LIMB_OUTER_MEMBRANE,
-    /* 4 */ EN_BILI_LIMB_ORALARMS,
+    /* 2 */ EN_BILI_LIMB_INNER_HOOD,
+    /* 3 */ EN_BILI_LIMB_OUTER_HOOD,
+    /* 4 */ EN_BILI_LIMB_TENTACLES,
     /* 5 */ EN_BILI_LIMB_MAX
 } EnBiliLimb;
 
@@ -21,7 +21,7 @@ typedef struct EnBili {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnBiliActionFunc actionFunc;
-    /* 0x0194 */ u8 oralArmsTexIndex;
+    /* 0x0194 */ u8 tentaclesTexIndex;
     /* 0x0195 */ u8 playFlySound;
     /* 0x0196 */ s16 timer;
     /* 0x0198 */ Vec3s jointTable[EN_BILI_LIMB_MAX];

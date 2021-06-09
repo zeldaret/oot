@@ -294,7 +294,7 @@ void EnVali_DischargeLightning(EnVali* this, GlobalContext* globalCtx) {
         cos = -Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM));
         sin = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM));
         if (!((this->lightningTimer + (i << 1)) % 4)) {
-            effectYaw = (s16)(s32)Rand_CenteredFloat(12288.0f) + (i * 0x4000) + 0x2000;
+            effectYaw = (s16)Rand_CenteredFloat(12288.0f) + (i * 0x4000) + 0x2000;
             effectPos.x = this->actor.world.pos.x + (Math_SinS(effectYaw) * 12.0f * cos);
             effectPos.y = this->actor.world.pos.y - (Math_CosS(effectYaw) * 12.0f) + 10.0f;
             effectPos.z = this->actor.world.pos.z + (Math_SinS(effectYaw) * 12.0f * sin);
@@ -337,7 +337,7 @@ void EnVali_FloatIdle(EnVali* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->floatHomeHeight, this->actor.floorHeight + 40.0f, 1.2f);
     this->actor.world.pos.y = this->floatHomeHeight - (sinf(curFrame * M_PI * 0.0125f) * 8.0f);
 
-    if (!!this->slingshotReactionTimer) {
+    if (this->slingshotReactionTimer) { // Cannot be "!= 0"
         this->actor.shape.rot.y += 0x800;
 
         if (((this->slingshotReactionTimer % 6) == 0) && (curFrame > 15) && (curFrame <= 55)) {
@@ -472,11 +472,11 @@ void EnVali_Frozen(EnVali* this, GlobalContext* globalCtx) {
     if (temp_v1 > 0) {
         temp_v0 = temp_v1 >> 1;
 
-        if ((this->timer & 1) != 0) {
+        if ((this->timer % 2) != 0) {
             effectPos.y = this->actor.world.pos.y - 20.0f + (-temp_v0 * 5 + 40);
             // Cannot be %
-            effectPos.x = this->actor.world.pos.x + (((temp_v0 & 2) != 0) ? 12.0f : -12.0f);
-            effectPos.z = this->actor.world.pos.z + (((temp_v0 & 1) != 0) ? 12.0f : -12.0f);
+            effectPos.x = this->actor.world.pos.x + ((temp_v0 & 2) ? 12.0f : -12.0f);
+            effectPos.z = this->actor.world.pos.z + ((temp_v0 & 1) ? 12.0f : -12.0f);
 
             EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255,
                                            (Rand_ZeroOne() * 0.2f) + 1.3f);
@@ -533,7 +533,7 @@ void EnVali_UpdateDamage(EnVali* this, GlobalContext* globalCtx) {
                 if (this->slingshotReactionTimer == 0) {
                     this->slingshotReactionTimer = 20;
                 }
-            } else { // Only DMGEFF_NONE
+            } else {
                 EnVali_SetupRetaliate(this);
             }
         }
