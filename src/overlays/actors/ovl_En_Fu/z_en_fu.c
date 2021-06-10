@@ -84,12 +84,31 @@ typedef enum {
     /* 0x01 */ FU_FACE_MAD
 } EnFuFace;
 
+typedef enum {
+    /* 0 */ FU_TORSO_LIMB,
+    /* 1 */ FU_LEFT_THIGH_LIMB,
+    /* 2 */ FU_LEFT_LEG_LIMB,
+    /* 3 */ FU_LEFT_FOOT_LIMB,
+    /* 4 */ FU_RIGHT_THIGH_LIMB,
+    /* 5 */ FU_RIGHT_LEG_LIMB,
+    /* 6 */ FU_RIGHT_FOOT_LIMB,
+    /* 7 */ FU_CHEST_MUSIC_BOX_LIMB,
+    /* 8 */ FU_LEFT_ARM_MUSIC_BOX_LIMB,
+    /* 9 */ FU_UNK_LIMB,
+    /* A */ FU_RIGHT_SHOULDER_LIMB,
+    /* B */ FU_RIGHT_ARM_LIMB,
+    /* C */ FU_RIGHT_HAND_AND_CRANK_LIMB,
+    /* D */ FU_HEAD_LIMB,
+    /* E */ FU_HORN_LIMB
+} EnFuLimb;
+
 void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnFu* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &gWindmillManSkel, &gWindmillManPlayStillAnim, this->jointTable, this->morphTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &gWindmillManSkel, &gWindmillManPlayStillAnim, this->jointTable,
+                       this->morphTable, 16);
     Animation_PlayLoop(&this->skelanime, &gWindmillManPlayStillAnim);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -137,8 +156,8 @@ void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
         this->actionFunc = EnFu_WaitChild;
 
         if (this->skelanime.animation == &gWindmillManPlayAndMoveHeadAnim) {
-            Animation_Change(&this->skelanime, &gWindmillManPlayStillAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gWindmillManPlayStillAnim),
-                             ANIMMODE_ONCE, -4.0f);
+            Animation_Change(&this->skelanime, &gWindmillManPlayStillAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gWindmillManPlayStillAnim), ANIMMODE_ONCE, -4.0f);
         }
     }
 }
@@ -156,8 +175,8 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
-            Animation_Change(&this->skelanime, &gWindmillManPlayAndMoveHeadAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gWindmillManPlayAndMoveHeadAnim),
-                             ANIMMODE_ONCE, -4.0f);
+            Animation_Change(&this->skelanime, &gWindmillManPlayAndMoveHeadAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gWindmillManPlayAndMoveHeadAnim), ANIMMODE_ONCE, -4.0f);
         }
     }
 }
@@ -276,15 +295,15 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     EnFu* this = THIS;
     s32 pad1;
 
-    if (limbIndex == 10) {
+    if (limbIndex == FU_RIGHT_SHOULDER_LIMB) {
         return false;
     }
     switch (limbIndex) {
-        case 14:
+        case FU_HORN_LIMB:
             rot->x += this->lookAngleOffset.y;
             rot->z += this->lookAngleOffset.x;
             break;
-        case 8:
+        case FU_LEFT_ARM_MUSIC_BOX_LIMB:
             break;
     }
 
@@ -292,7 +311,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         return false;
     }
 
-    if (limbIndex == 8) {
+    if (limbIndex == FU_LEFT_ARM_MUSIC_BOX_LIMB) {
         rot->y += (Math_SinS((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
         rot->z += (Math_CosS((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
     }
@@ -302,7 +321,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnFu* this = THIS;
 
-    if (limbIndex == 14) {
+    if (limbIndex == FU_HORN_LIMB) {
         Matrix_MultVec3f(&sMtxSrc, &this->actor.focus.pos);
     }
 }
