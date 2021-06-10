@@ -723,8 +723,8 @@ Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointT
  * Unpacks frame data for the animation at the given frame into frameTable
  * Used by the legacy animation format
  */
-s32 SkelAnime_GetFrameData2(AnimationHeader2* animation, s32 frame, Vec3s* frameTable) {
-    AnimationHeader2* animHeader = SEGMENTED_TO_VIRTUAL(animation);
+s32 SkelAnime_GetFrameDataLegacy(LegacyAnimationHeader* animation, s32 frame, Vec3s* frameTable) {
+    LegacyAnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
     s32 limbCount = animHeader->limbCount;
     JointKey* key = SEGMENTED_TO_VIRTUAL(animHeader->jointKey);
     s16* frameData = SEGMENTED_TO_VIRTUAL(animHeader->frameData);
@@ -785,8 +785,8 @@ ret:
 /**
  * Used by legacy animation format
  */
-s16 Animation_GetLimbCount2(AnimationHeader2* animation) {
-    AnimationHeader2* animHeader = SEGMENTED_TO_VIRTUAL(animation);
+s16 Animation_GetLimbCountLegacy(LegacyAnimationHeader* animation) {
+    LegacyAnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
 
     return animHeader->limbCount;
 }
@@ -794,8 +794,8 @@ s16 Animation_GetLimbCount2(AnimationHeader2* animation) {
 /**
  * Used by legacy animation format
  */
-s16 Animation_GetLength2(AnimationHeader2* animation) {
-    AnimationHeader2* animHeader = SEGMENTED_TO_VIRTUAL(animation);
+s16 Animation_GetLengthLegacy(LegacyAnimationHeader* animation) {
+    LegacyAnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
 
     return animHeader->frameCount;
 }
@@ -803,8 +803,8 @@ s16 Animation_GetLength2(AnimationHeader2* animation) {
 /**
  * Used by legacy animation format
  */
-s16 Animation_GetLastFrame2(AnimationHeader2* animation) {
-    AnimationHeader2* animHeader = SEGMENTED_TO_VIRTUAL(animation);
+s16 Animation_GetLastFrameLegacy(LegacyAnimationHeader* animation) {
+    LegacyAnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
 
     return animHeader->frameCount - 1;
 }

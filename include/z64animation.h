@@ -96,8 +96,8 @@ typedef struct {
     /* 0x04 */ s16 yMax;
     /* 0x06 */ s16 y;
     /* 0x08 */ s16 zMax;
-    /* 0x10 */ s16 z;
-} JointKey; // size = 0x12
+    /* 0x0A */ s16 z;
+} JointKey; // size = 0x0C
 
 // Unused
 typedef struct {
@@ -105,7 +105,7 @@ typedef struct {
     /* 0x02 */ s16 limbCount;
     /* 0x04 */ s16* frameData;
     /* 0x08 */ JointKey* jointKey;
-} AnimationHeader2; // size = 0xC
+} LegacyAnimationHeader; // size = 0xC
 
 typedef s32 (*OverrideLimbDrawOpa)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                    void*);
@@ -312,5 +312,13 @@ typedef struct {
 
 typedef void (*SkinCallback)(struct Actor*, struct GlobalContext*, PSkinAwb*);
 typedef s32 (*SkinCallback2)(struct Actor*, struct GlobalContext*, s32, PSkinAwb*);
+
+typedef struct LegacyLimb {
+    /* 0x000 */ Gfx* dList;
+    /* 0x004 */ Vec3f trans;
+    /* 0x010 */ Vec3s rot;
+    /* 0x018 */ struct LegacyLimb* sibling;
+    /* 0x01C */ struct LegacyLimb* child;
+} LegacyLimb; // size = 0x20
 
 #endif
