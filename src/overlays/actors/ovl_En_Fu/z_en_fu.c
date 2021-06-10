@@ -67,16 +67,6 @@ static Vec3f sMtxSrc = {
     0.0f,
 };
 
-static void* sEyesSegments[] = {
-    gWindmillManEyeClosedTex,
-    gWindmillManEyeAngryTex,
-};
-
-static void* sMouthSegments[] = {
-    gWindMillManMouthOpenTex,
-    gWindMillManMouthAngryTex,
-};
-
 extern CutsceneData D_0200E080[];
 
 typedef enum {
@@ -256,7 +246,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
         func_8010B680(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
         this->behaviorFlags |= FU_WAIT;
-    } else if (func_8002F194(&this->actor, globalCtx) != 0) {
+    } else if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
         if (this->actor.xzDistToPlayer < 100.0f) {
@@ -293,7 +283,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnFu* this = THIS;
-    s32 pad1;
+    s32 pad;
 
     if (limbIndex == FU_RIGHT_SHOULDER_LIMB) {
         return false;
@@ -327,6 +317,8 @@ void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* sEyesSegments[] = { gWindmillManEyeClosedTex, gWindmillManEyeAngryTex };
+    static void* sMouthSegments[] = { gWindMillManMouthOpenTex, gWindMillManMouthAngryTex };
     s32 pad;
     EnFu* this = THIS;
 
