@@ -15,14 +15,14 @@
 
         <Texture Name="gBirdFaceTex" OutName="face" Format="rgb5a1" Width="32" Height="32" Offset="0x500"/>
         <Texture Name="gBirdTailTex" OutName="tail" Format="rgb5a1" Width="16" Height="32" Offset="0xD00"/>
-        <Texture Name="gBirdWingTex" OutName="tex_00001100" Format="rgb5a1" Width="64" Height="32" Offset="0x1100"/>
-        <Limb Name="object_bird_Limb_002100" LimbType="Standard" Offset="0x2100"/>
-        <Limb Name="object_bird_Limb_00210C" LimbType="Standard" Offset="0x210C"/>
-        <Limb Name="object_bird_Limb_002118" LimbType="Standard" Offset="0x2118"/>
-        <Limb Name="object_bird_Limb_002124" LimbType="Standard" Offset="0x2124"/>
+        <Texture Name="gBirdWingTex" OutName="wing" Format="rgb5a1" Width="64" Height="32" Offset="0x1100"/>
+        <Limb Name="gBirdLimb_002100" LimbType="Standard" Offset="0x2100"/>
+        <Limb Name="gBirdLimb_00210C" LimbType="Standard" Offset="0x210C"/>
+        <Limb Name="gBirdLimb_002118" LimbType="Standard" Offset="0x2118"/>
+        <Limb Name="gBirdLimb_002124" LimbType="Standard" Offset="0x2124"/>
         <Limb Name="gBirdLeftWingLimb" LimbType="Standard" Offset="0x2130"/>
-        <Limb Name="object_bird_Limb_00213C" LimbType="Standard" Offset="0x213C"/>
-        <Limb Name="object_bird_Limb_002148" LimbType="Standard" Offset="0x2148"/>
+        <Limb Name="gBirdLimb_00213C" LimbType="Standard" Offset="0x213C"/>
+        <Limb Name="gBirdLimb_002148" LimbType="Standard" Offset="0x2148"/>
         <Limb Name="gBirdRightWingLimb" LimbType="Standard" Offset="0x2154"/>
         <Limb Name="gBirdBodyLimb" LimbType="Standard" Offset="0x2160"/>
         <Skeleton Name="gBirdSkel" Type="Normal" LimbType="Standard" Offset="0x2190"/>
