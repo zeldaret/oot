@@ -5,6 +5,7 @@
  */
 
 #include "z_en_fu.h"
+#include "objects/object_fu/object_fu.h"
 
 #define FLAGS 0x02000019
 
@@ -66,19 +67,16 @@ static Vec3f sMtxSrc = {
     0.0f,
 };
 
-static UNK_PTR sEyesSegments[] = {
-    0x06005F20,
-    0x06006320,
+static void* sEyesSegments[] = {
+    gWindmillManEyeClosedTex,
+    gWindmillManEyeAngryTex,
 };
 
-static UNK_PTR sMouthSegments[] = {
-    0x06006720,
-    0x06006920,
+static void* sMouthSegments[] = {
+    gWindMillManMouthOpenTex,
+    gWindMillManMouthAngryTex,
 };
 
-extern AnimationHeader D_0600057C;
-extern AnimationHeader D_06000B04;
-extern FlexSkeletonHeader D_06006C90;
 extern CutsceneData D_0200E080[];
 
 typedef enum {
@@ -91,8 +89,8 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFu* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->jointTable, this->morphTable, 16);
-    Animation_PlayLoop(&this->skelanime, &D_06000B04);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &gWindmillManSkel, &gWindmillManPlayStillAnim, this->jointTable, this->morphTable, 16);
+    Animation_PlayLoop(&this->skelanime, &gWindmillManPlayStillAnim);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -138,8 +136,8 @@ void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
         this->behaviorFlags &= ~FU_WAIT;
         this->actionFunc = EnFu_WaitChild;
 
-        if (this->skelanime.animation == &D_0600057C) {
-            Animation_Change(&this->skelanime, &D_06000B04, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B04),
+        if (this->skelanime.animation == &gWindmillManPlayAndMoveHeadAnim) {
+            Animation_Change(&this->skelanime, &gWindmillManPlayStillAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gWindmillManPlayStillAnim),
                              ANIMMODE_ONCE, -4.0f);
         }
     }
@@ -158,7 +156,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
-            Animation_Change(&this->skelanime, &D_0600057C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600057C),
+            Animation_Change(&this->skelanime, &gWindmillManPlayAndMoveHeadAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gWindmillManPlayAndMoveHeadAnim),
                              ANIMMODE_ONCE, -4.0f);
         }
     }

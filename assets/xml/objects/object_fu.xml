@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_fu" Segment="6">
-        <Animation Name="object_fu_Anim_00057C" Offset="0x57C"/>
-        <Animation Name="object_fu_Anim_000B04" Offset="0xB04"/>
+        <Animation Name="gWindmillManPlayAndMoveHeadAnim" Offset="0x57C"/>
+        <Animation Name="gWindmillManPlayStillAnim" Offset="0xB04"/>
         <DList Name="gWindmillManHornDL" Offset="0x3130"/>
         <DList Name="gWindmillManChestAndMusicBoxPipeDL" Offset="0x3320"/>
         <DList Name="gWindmillManHeadDL" Offset="0x36A0"/>
