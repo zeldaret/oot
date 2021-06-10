@@ -273,30 +273,30 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
             if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
                 switch (this->fountainType) {
                     case FAIRY_SPELL_FARORES_WIND:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gGreatFairyFaroresWindCs);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_SPELL_DINS_FIRE:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gGreatFairyDinsFireCs);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDinsFireCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_SPELL_NAYRUS_LOVE:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gGreatFairyNayrusLoveCs);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyNayrusLoveCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
             } else {
                 switch (this->fountainType) {
                     case FAIRY_UPGRADE_MAGIC:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gGreatFairyMagicCs);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_UPGRADE_DOUBLE_MAGIC:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gGreatFairyDoubleMagicCs);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_UPGRADE_HALF_DAMAGE:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gGreatFairyDoubleDefenceCs);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenceCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
