@@ -205,13 +205,13 @@ typedef struct {
     /* 0x0008 */ s16* copyValues;
     /* 0x000C */ s16 unk_0C;
     /* 0x000E */ s16 unk_10;
-} TransformUpdateIndex; // size 0x10
+} TransformUpdateIndex; // size = 0x10
 
 typedef struct {
     /* 0x0000 */ u8 firstChildIdx;
     /* 0x0001 */ u8 nextLimbIdx;
     /* 0x0004 */ Gfx* dList[2];
-} SkelCurveLimb; // size >= 0x8
+} SkelCurveLimb; // size = 0xC
 
 typedef struct {
     /* 0x0000 */ SkelCurveLimb** limbs;
@@ -295,7 +295,7 @@ typedef struct {
     /* 0x002 */ u16 unk_2;
     /* 0x004 */ Struct_800A598C* unk_4;
     /* 0x008 */ Gfx* unk_8;
-} Struct_800A5E28;
+} Struct_800A5E28; // size = 0xC
 
 typedef struct {
     /* 0x000 */ u8 unk_0;
