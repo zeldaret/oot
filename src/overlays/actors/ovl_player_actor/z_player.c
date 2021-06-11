@@ -10315,7 +10315,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
     gSPSegment(POLY_XLU_DISP++, 0x0C, cullDList);
 
     Player_DrawImpl(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, lod,
-                  this->currentTunic, this->currentWalk, this->actor.shape.face, overrideLimbDraw, func_80090D20,
+                  this->currentTunic, this->currentWalk, this->actor.shape.face, overrideLimbDraw, Player_PostLimbDraw,
                   this);
 
     if ((overrideLimbDraw == func_80090014) && (this->currentMask != PLAYER_MASK_NONE)) {

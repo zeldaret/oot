@@ -653,12 +653,12 @@ static void* sMouthTextures[] = {
 };
 
 void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
-                   s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
-                   void* data) {
+                     s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
+                     void* data) {
     static Color_RGB8 tunicColors[] = {
         { 30, 105, 27 }, // Kokiri Tunic
-        { 100, 20, 0 }, // Goron Tunic
-        { 0, 60, 100 }, // Zora Tunic
+        { 100, 20, 0 },  // Goron Tunic
+        { 0, 60, 100 },  // Zora Tunic
     };
     Color_RGB8* color;
     s32 eyeIndex = (jointTable[22].x & 0xF) - 1;
@@ -728,7 +728,7 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot,
+void Player_FeetIK(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot,
                    s32 thighLimbIndex, s32 shinLimbIndex, s32 footLimbIndex) {
     static Vec3f D_80126038[] = { { 1304.0f, 0.0f, 0.0f }, { 695.0f, 0.0f, 0.0f } };
     static f32 D_80126050[] = { 1265.0f, 826.0f };
@@ -879,10 +879,10 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
                 Matrix_RotateZ(this->unk_6C0 * (M_PI / 0x8000), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
-            func_8008F87C(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN,
+            Player_FeetIK(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN,
                           PLAYER_LIMB_L_FOOT);
         } else if (limbIndex == PLAYER_LIMB_R_THIGH) {
-            func_8008F87C(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_R_THIGH, PLAYER_LIMB_R_SHIN,
+            Player_FeetIK(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_R_THIGH, PLAYER_LIMB_R_SHIN,
                           PLAYER_LIMB_R_FOOT);
             return false;
         } else {
@@ -977,8 +977,8 @@ s32 func_80090440(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return false;
 }
 
-u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip,
-                 Vec3f* newBase) {
+u8 Player_SetSwordCollision(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip,
+                            Vec3f* newBase) {
     if (weaponInfo->active == 0) {
         if (collider != NULL) {
             Collider_ResetQuadAT(globalCtx, &collider->base);
@@ -1006,7 +1006,7 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
     }
 }
 
-void func_80090604(GlobalContext* globalCtx, Player* this, ColliderQuad* collider, Vec3f* quadSrc) {
+void Player_SetShieldCollision(GlobalContext* globalCtx, Player* this, ColliderQuad* collider, Vec3f* quadSrc) {
     static u8 shieldColTypes[PLAYER_SHIELD_MAX] = {
         COLTYPE_METAL,
         COLTYPE_WOOD,
@@ -1030,31 +1030,29 @@ void func_80090604(GlobalContext* globalCtx, Player* this, ColliderQuad* collide
     }
 }
 
-static Vec3f D_80126080 = { 5000.0f, 400.0f, 0.0f };
-static Vec3f D_8012608C = { 5000.0f, -400.0f, 1000.0f };
-static Vec3f D_80126098 = { 5000.0f, 1400.0f, -1000.0f };
+static Vec3f sSwordTipPos1 = { 5000.0f, 400.0f, 0.0f };
+static Vec3f sSwordTipPos2 = { 5000.0f, -400.0f, 1000.0f };
+static Vec3f sSwordTipPos3 = { 5000.0f, 1400.0f, -1000.0f };
+static Vec3f sSwordBasePos1 = { 0.0f, 400.0f, 0.0f };
+static Vec3f sSwordBasePos2 = { 0.0f, 1400.0f, -1000.0f };
+static Vec3f sSwordBasePos3 = { 0.0f, -400.0f, 1000.0f };
 
-void func_800906D4(GlobalContext* globalCtx, Player* this, Vec3f* newTipPos) {
-    static Vec3f D_801260A4[3] = {
-        { 0.0f, 400.0f, 0.0f },
-        { 0.0f, 1400.0f, -1000.0f },
-        { 0.0f, -400.0f, 1000.0f },
-    };
+void Player_SetSwordAttack(GlobalContext* globalCtx, Player* this, Vec3f* newTipPos) {
     Vec3f newBasePos[3];
 
-    Matrix_MultVec3f(&D_801260A4[0], &newBasePos[0]);
-    Matrix_MultVec3f(&D_801260A4[1], &newBasePos[1]);
-    Matrix_MultVec3f(&D_801260A4[2], &newBasePos[2]);
+    Matrix_MultVec3f(&sSwordBasePos1, &newBasePos[0]);
+    Matrix_MultVec3f(&sSwordBasePos2, &newBasePos[1]);
+    Matrix_MultVec3f(&sSwordBasePos3, &newBasePos[2]);
 
-    if (func_80090480(globalCtx, NULL, &this->swordInfo[0], &newTipPos[0], &newBasePos[0]) &&
+    if (Player_SetSwordCollision(globalCtx, NULL, &this->swordInfo[0], &newTipPos[0], &newBasePos[0]) &&
         !(this->stateFlags1 & 0x400000)) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->swordEffectIndex), &this->swordInfo[0].tip,
                               &this->swordInfo[0].base);
     }
 
     if ((this->swordState > 0) && ((this->swordAnimation < 0x18) || (this->stateFlags2 & 0x20000))) {
-        func_80090480(globalCtx, &this->swordQuads[0], &this->swordInfo[1], &newTipPos[1], &newBasePos[1]);
-        func_80090480(globalCtx, &this->swordQuads[1], &this->swordInfo[2], &newTipPos[2], &newBasePos[2]);
+        Player_SetSwordCollision(globalCtx, &this->swordQuads[0], &this->swordInfo[1], &newTipPos[1], &newBasePos[1]);
+        Player_SetSwordCollision(globalCtx, &this->swordQuads[1], &this->swordInfo[2], &newTipPos[2], &newBasePos[2]);
     }
 }
 
@@ -1085,24 +1083,24 @@ void Player_DrawGetItem(GlobalContext* globalCtx, Player* this) {
     }
 }
 
-void func_80090A28(Player* this, Vec3f* vecs) {
-    D_8012608C.x = D_80126080.x;
+void Player_GetSwordTip(Player* this, Vec3f* swordTip) {
+    sSwordTipPos2.x = sSwordTipPos1.x;
 
     if (this->unk_845 >= 3) {
         this->unk_845 += 1;
-        D_8012608C.x *= 1.0f + ((9 - this->unk_845) * 0.1f);
+        sSwordTipPos2.x *= 1.0f + ((9 - this->unk_845) * 0.1f);
     }
 
-    D_8012608C.x += 1200.0f;
-    D_80126098.x = D_8012608C.x;
+    sSwordTipPos2.x += 1200.0f;
+    sSwordTipPos3.x = sSwordTipPos2.x;
 
-    Matrix_MultVec3f(&D_80126080, &vecs[0]);
-    Matrix_MultVec3f(&D_8012608C, &vecs[1]);
-    Matrix_MultVec3f(&D_80126098, &vecs[2]);
+    Matrix_MultVec3f(&sSwordTipPos1, &swordTip[0]);
+    Matrix_MultVec3f(&sSwordTipPos2, &swordTip[1]);
+    Matrix_MultVec3f(&sSwordTipPos3, &swordTip[2]);
 }
 
 void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
-    static Vec3f D_801260C8 = { -500.0f, -100.0f, 0.0f };
+    static Vec3f posOffset = { -500.0f, -100.0f, 0.0f };
     CollisionPoly* sp9C;
     s32 bgId;
     Vec3f sp8C;
@@ -1112,10 +1110,10 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
     f32 sp64;
     f32 sp60;
 
-    D_801260C8.z = 0.0f;
-    Matrix_MultVec3f(&D_801260C8, &sp8C);
-    D_801260C8.z = arg2;
-    Matrix_MultVec3f(&D_801260C8, &sp80);
+    posOffset.z = 0.0f;
+    Matrix_MultVec3f(&posOffset, &sp8C);
+    posOffset.z = arg2;
+    Matrix_MultVec3f(&posOffset, &sp80);
 
     if (1) {}
 
@@ -1143,10 +1141,10 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
 typedef struct {
     /* 0x00 */ void* dList;
     /* 0x04 */ Vec3f pos;
-} BowStringData; // size = 0x10
+} BowStringInfo; // size = 0x10
 
-void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f D_801260D4 = { 1100.0f, -700.0f, 0.0f };
+void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    static Vec3f eye = { 1100.0f, -700.0f, 0.0f };
     Player* this = (Player*)thisx;
 
     if (*dList != NULL) {
@@ -1154,23 +1152,23 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
-        MtxF sp14C;
+        MtxF matrix;
         Actor* hookedActor;
 
         Math_Vec3f_Copy(&this->leftHandPos, D_80160000);
 
         if (this->itemActionParam == PLAYER_AP_STICK) {
-            Vec3f sp124[3];
+            Vec3f swordTip[3];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2633);
 
             if (this->actor.scale.y >= 0.0f) {
-                D_80126080.x = this->unk_85C * 5000.0f;
-                func_80090A28(this, sp124);
+                sSwordTipPos1.x = this->unk_85C * 5000.0f;
+                Player_GetSwordTip(this, swordTip);
                 if (this->swordState != 0) {
-                    func_800906D4(globalCtx, this, sp124);
+                    Player_SetSwordAttack(globalCtx, this, swordTip);
                 } else {
-                    Math_Vec3f_Copy(&this->swordInfo[0].tip, &sp124[0]);
+                    Math_Vec3f_Copy(&this->swordInfo[0].tip, &swordTip[0]);
                 }
             }
 
@@ -1184,34 +1182,34 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2656);
         } else if ((this->actor.scale.y >= 0.0f) && (this->swordState != 0)) {
-            static f32 sSwordLengths[] = {
+            static f32 swordLengths[] = {
                 0.0f, 4000.0f, 3000.0f, 5500.0f, 0.0f, 2500.0f,
             };
-            Vec3f spE4[3];
+            Vec3f swordTip[3];
 
             if (Player_HoldsBrokenKnife(this)) {
-                D_80126080.x = 1500.0f;
+                sSwordTipPos1.x = 1500.0f;
             } else {
-                D_80126080.x = sSwordLengths[Player_GetSwordHeld(this)];
+                sSwordTipPos1.x = swordLengths[Player_GetSwordHeld(this)];
             }
 
-            func_80090A28(this, spE4);
-            func_800906D4(globalCtx, this, spE4);
+            Player_GetSwordTip(this, swordTip);
+            Player_SetSwordAttack(globalCtx, this, swordTip);
         } else if ((*dList != NULL) && (this->leftHandType == 7)) {
-            static Gfx* sBottleDLists[] = { 0x0602AD58, gLinkChildBottleDL };
-            static Color_RGB8 sBottleColors[] = {
+            static Gfx* bottleDLists[] = { 0x0602AD58, gLinkChildBottleDL };
+            static Color_RGB8 bottleColors[] = {
                 { 255, 255, 255 }, { 80, 80, 255 },   { 255, 100, 255 }, { 0, 0, 255 }, { 255, 0, 255 },
                 { 255, 0, 255 },   { 200, 200, 100 }, { 255, 0, 0 },     { 0, 0, 255 }, { 0, 255, 0 },
                 { 255, 255, 255 }, { 255, 255, 255 }, { 80, 80, 255 },
             };
-            Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemActionParam)];
+            Color_RGB8* bottleColor = &bottleColors[Player_ActionToBottle(this, this->itemActionParam)];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2710);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2712),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetEnvColor(POLY_XLU_DISP++, bottleColor->r, bottleColor->g, bottleColor->b, 0);
-            gSPDisplayList(POLY_XLU_DISP++, sBottleDLists[((void)0, gSaveContext.linkAge)]);
+            gSPDisplayList(POLY_XLU_DISP++, bottleDLists[((void)0, gSaveContext.linkAge)]);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2717);
         }
@@ -1219,21 +1217,21 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         if (this->actor.scale.y >= 0.0f) {
             if (!Player_IsHoldingHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & 0x200) {
-                    static Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
+                    static Vec3f hookActorPos = { 398.0f, 1419.0f, 244.0f };
 
-                    Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
+                    Matrix_MultVec3f(&hookActorPos, &hookedActor->world.pos);
                     Matrix_RotateRPY(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
-                    Matrix_Get(&sp14C);
-                    func_800D20CC(&sp14C, &hookedActor->world.rot, 0);
+                    Matrix_Get(&matrix);
+                    func_800D20CC(&matrix, &hookedActor->world.rot, 0);
                     hookedActor->shape.rot = hookedActor->world.rot;
                 } else if (this->stateFlags1 & 0x800) {
-                    Vec3s spB8;
+                    Vec3s leftHandAngle;
 
-                    Matrix_Get(&sp14C);
-                    func_800D20CC(&sp14C, &spB8, 0);
+                    Matrix_Get(&matrix);
+                    func_800D20CC(&matrix, &leftHandAngle, 0);
 
                     if (hookedActor->flags & 0x20000) {
-                        hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
+                        hookedActor->world.rot.x = hookedActor->shape.rot.x = leftHandAngle.x - this->unk_3BC.x;
                     } else {
                         hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
                     }
@@ -1249,23 +1247,23 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         if (this->rightHandType == 0xFF) {
             Matrix_Get(&this->shieldMf);
         } else if ((this->rightHandType == 11) || (this->rightHandType == 12)) {
-            static BowStringData sBowStringData[] = {
+            static BowStringInfo bowStringInfo[] = {
                 { 0x0602B108, { 0.0f, -360.4f, 0.0f } },  // bow
                 { 0x060221A8, { 606.0f, 236.0f, 0.0f } }, // slingshot
             };
-            BowStringData* stringData = &sBowStringData[gSaveContext.linkAge];
+            BowStringInfo* bowStringInfoPtr = &bowStringInfo[gSaveContext.linkAge];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2783);
 
             Matrix_Push();
-            Matrix_Translate(stringData->pos.x, stringData->pos.y, stringData->pos.z, MTXMODE_APPLY);
+            Matrix_Translate(bowStringInfoPtr->pos.x, bowStringInfoPtr->pos.y, bowStringInfoPtr->pos.z, MTXMODE_APPLY);
 
             if ((this->stateFlags1 & 0x200) && (this->unk_860 >= 0) && (this->unk_834 <= 10)) {
-                Vec3f sp90;
+                Vec3f bowPos;
                 f32 distXYZ;
 
-                Matrix_MultVec3f(&sZeroVec, &sp90);
-                distXYZ = Math_Vec3f_DistXYZ(D_80160000, &sp90);
+                Matrix_MultVec3f(&sZeroVec, &bowPos);
+                distXYZ = Math_Vec3f_DistXYZ(D_80160000, &bowPos);
 
                 this->unk_858 = distXYZ - 3.0f;
                 if (distXYZ < 3.0f) {
@@ -1288,13 +1286,13 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2804),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, stringData->dList);
+            gSPDisplayList(POLY_XLU_DISP++, bowStringInfoPtr->dList);
 
             Matrix_Pop();
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2809);
         } else if ((this->actor.scale.y >= 0.0f) && (this->rightHandType == 10)) {
-            static Vec3f D_80126154[] = {
+            static Vec3f shieldQuadVertices[] = {
                 { -4500.0f, -3000.0f, -600.0f },
                 { 1500.0f, -3000.0f, -600.0f },
                 { -4500.0f, 3000.0f, -600.0f },
@@ -1302,22 +1300,22 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             };
 
             Matrix_Get(&this->shieldMf);
-            func_80090604(globalCtx, this, &this->shieldQuad, D_80126154);
+            Player_SetShieldCollision(globalCtx, this, &this->shieldQuad, shieldQuadVertices);
         }
 
         if (this->actor.scale.y >= 0.0f) {
             if ((this->heldItemActionParam == PLAYER_AP_HOOKSHOT) ||
                 (this->heldItemActionParam == PLAYER_AP_LONGSHOT)) {
-                static Vec3f D_80126184 = { 100.0f, 1500.0f, 0.0f };
+                static Vec3f hookshotHandPos = { 100.0f, 1500.0f, 0.0f };
 
-                Matrix_MultVec3f(&D_80126184, &this->unk_3C8);
+                Matrix_MultVec3f(&hookshotHandPos, &this->unk_3C8);
 
                 if (heldActor != NULL) {
-                    static Vec3f D_80126190 = { 100.0f, 1640.0f, 0.0f };
+                    static Vec3f hookshotHookPos = { 100.0f, 1640.0f, 0.0f };
                     MtxF sp44;
                     s32 pad;
 
-                    Matrix_MultVec3f(&D_80126190, &heldActor->world.pos);
+                    Matrix_MultVec3f(&hookshotHookPos, &heldActor->world.pos);
                     Matrix_RotateRPY(0, -0x4000, -0x4000, MTXMODE_APPLY);
                     Matrix_Get(&sp44);
                     func_800D20CC(&sp44, &heldActor->world.rot, 0);
@@ -1348,32 +1346,32 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     } else if (this->actor.scale.y >= 0.0f) {
         if (limbIndex == PLAYER_LIMB_SHEATH) {
             if ((this->rightHandType != 10) && (this->rightHandType != 0xFF)) {
-                static Vec3f D_8012619C[] = {
+                static Vec3f shieldCarryPos[] = {
                     { -3000.0f, -3000.0f, -900.0f },
                     { 3000.0f, -3000.0f, -900.0f },
                     { -3000.0f, 3000.0f, -900.0f },
                     { 3000.0f, 3000.0f, -900.0f },
                 };
-                static Vec3f D_801261CC = { 630.0f, 100.0f, -30.0f };
-                static Vec3s D_801261D8 = { 0, 0, 0x7FFF };
+                static Vec3f shieldCarryOffset = { 630.0f, 100.0f, -30.0f };
+                static Vec3s shieldCarryRot = { 0, 0, 0x7FFF };
 
                 if (Player_IsChildWithHylianShield(this)) {
-                    func_80090604(globalCtx, this, &this->shieldQuad, D_8012619C);
+                    Player_SetShieldCollision(globalCtx, this, &this->shieldQuad, shieldCarryPos);
                 }
 
-                Matrix_JointPosition(&D_801261CC, &D_801261D8);
+                Matrix_JointPosition(&shieldCarryOffset, &shieldCarryRot);
                 Matrix_Get(&this->shieldMf);
             }
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
-            Matrix_MultVec3f(&D_801260D4, &this->actor.focus.pos);
+            Matrix_MultVec3f(&eye, &this->actor.focus.pos);
         } else {
-            static Vec3f D_801261E0[] = {
+            static Vec3f footPos[] = {
                 { 200.0f, 300.0f, 0.0f },
                 { 200.0f, 200.0f, 0.0f },
             };
-            Vec3f* vec = &D_801261E0[((void)0, gSaveContext.linkAge)];
+            Vec3f* footPosPtr = &footPos[((void)0, gSaveContext.linkAge)];
 
-            Actor_SetFeetPos(&this->actor, limbIndex, PLAYER_LIMB_L_FOOT, vec, PLAYER_LIMB_R_FOOT, vec);
+            Actor_SetFeetPos(&this->actor, limbIndex, PLAYER_LIMB_L_FOOT, footPosPtr, PLAYER_LIMB_R_FOOT, footPosPtr);
         }
     }
 }
@@ -1535,7 +1533,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
     Player_DrawImpl(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots, 0,
-                  func_80091880, NULL, &sp12C);
+                    func_80091880, NULL, &sp12C);
 
     gSPEndDisplayList(POLY_OPA_DISP++);
     gSPEndDisplayList(POLY_XLU_DISP++);
