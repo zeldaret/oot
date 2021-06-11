@@ -120,7 +120,6 @@ public:
 class ZLimb : public ZResource
 {
 protected:
-	segptr_t segAddress;
 	ZLimbType type = ZLimbType::Standard;
 
 	ZLimbSkinType skinSegmentType = ZLimbSkinType::SkinType_0;  // Skin only
@@ -135,27 +134,25 @@ protected:
 	std::string GetSourceOutputCodeSkin_Type_4(const std::string& prefix);
 
 public:
-	ZDisplayList* dList;
 	segptr_t dListPtr = 0;
 	segptr_t farDListPtr = 0;  // LOD only
 	int16_t transX, transY, transZ;
 	uint8_t childIndex, siblingIndex;
-	std::vector<ZDisplayList*> dLists;
-	std::vector<ZLimb*> children;
 
 	ZLimb(ZFile* nParent);
 	ZLimb(ZLimbType limbType, const std::string& prefix, const std::vector<uint8_t>& nRawData,
 	      uint32_t nRawDataIndex, ZFile* nParent);
-	~ZLimb();
+
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const uint32_t nRawDataIndex) override;
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
-	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
-	size_t GetRawDataSize() override;
+
+	size_t GetRawDataSize() const override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
-	std::string GetSourceTypeName() override;
-	ZResourceType GetResourceType() override;
+	std::string GetSourceTypeName() const override;
+	ZResourceType GetResourceType() const override;
 
 	ZLimbType GetLimbType();
 	void SetLimbType(ZLimbType value);

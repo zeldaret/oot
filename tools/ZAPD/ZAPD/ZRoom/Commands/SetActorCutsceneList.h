@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class ActorCutsceneEntry
 {
-public:
+protected:
 	int16_t priority;
 	int16_t length;
 	int16_t unk4;
@@ -16,23 +16,27 @@ public:
 	uint8_t unkE;
 	uint8_t letterboxSize;
 
-	ActorCutsceneEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
+public:
+	ActorCutsceneEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
+
+	std::string GetBodySourceCode() const;
+	std::string GetSourceTypeName() const;
 };
 
 class SetActorCutsceneList : public ZRoomCommand
 {
 public:
-	SetActorCutsceneList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
-	~SetActorCutsceneList();
+	SetActorCutsceneList(ZFile* nParent);
 
-	std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
-	std::string GenerateSourceCodePass2(std::string roomName, uint32_t baseAddress) override;
-	std::string GetCommandCName() override;
-	std::string GenerateExterns() override;
-	RoomCommand GetRoomCommand() override;
-	size_t GetRawDataSize() override;
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
+	std::string GetCommandCName() const override;
+	RoomCommand GetRoomCommand() const override;
+	size_t GetRawDataSize() const override;
 
 private:
-	std::vector<ActorCutsceneEntry*> cutscenes;
-	uint32_t segmentOffset;
+	std::vector<ActorCutsceneEntry> cutscenes;
 };
