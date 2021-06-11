@@ -390,7 +390,7 @@ void Player_SetModelGroup(Player* this, s32 modelGroup) {
     Player_SetModels(this, modelGroup);
 }
 
-void func_8008EC70(Player* this) {
+void Player_UnsetItemAction(Player* this) {
     this->itemActionParam = this->heldItemActionParam;
     Player_SetModelGroup(this, Player_ActionToModelGroup(this, this->heldItemActionParam));
     this->unk_6AD = 0;

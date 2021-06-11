@@ -131,7 +131,7 @@
         <Texture Name="gLinkChildBeltClaspTex" OutName="link_child_belt_clasp" Format="ci8" Width="32" Height="16" Offset="0x6880"/>
         <Texture Name="gLinkChildFairyOcarinaTex" OutName="link_child_fairy_ocarina" Format="rgb5a1" Width="32" Height="16" Offset="0x6E08"/>
         <Texture Name="gLinkChildDekuShieldBackTex" OutName="link_child_deku_shield_back" Format="rgb5a1" Height="32" Width="32" Offset="0x7688"/>
-        <Texture Name="gLinkChildDekuShieldFrontTex" OutName="link_child_deku_shield_front" Format="rgb5a1" Height="32" Width="64" Offset="0x7E88"/>
+        <Texture Name="gLinkChildDekuShieldFrontTex" OutName="link_child_deku_shield_front" Format="rgb5a1" Height="64" Width="32" Offset="0x7E88"/>
         <Texture Name="gLinkChildHylianShieldBackTex" OutName="link_child_hylian_shield_back" Format="rgb5a1" Height="32" Width="16" Offset="0x8E88"/>
         <Texture Name="gLinkChildSlingshotTex" OutName="link_child_slingshot" Format="rgb5a1" Width="16" Height="32" Offset="0x9288"/>
         <Texture Name="gLinkChildSlingshotSeedTex" OutName="link_child_slingshot_seed" Format="rgb5a1" Width="32" Height="32" Offset="0x9688"/>
@@ -173,9 +173,12 @@
         <Texture Name="gLinkChildBunnyHoodEyeTex" OutName="link_child_bunny_hood_eye" Format="rgb5a1" Width="16" Height="16" Offset="0x2BA28"/>
         <Texture Name="gLinkChildBunnyHoodTex" OutName="link_child_bunny_hood" Format="rgb5a1" Width="16" Height="32" Offset="0x2BC28"/>
         <Texture Name="gLinkChildBunnyHoodEarTex" OutName="link_child_bunny_hood_ear" Format="rgb5a1" Width="16" Height="32" Offset="0x2C028"/>
+
+        <Texture Name="gLinkChildUnusedSwordSheathTex" OutName="link_child_unused_sword_sheath" Format="ci8" Width="16" Height="16" Offset="0x5900"/>
         
         <!--TLUTs-->
         <Texture Name="gLinkChildSkinTLUT" OutName="link_child_skin_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x5500"/>
+        <Texture Name="gLinkChildUnusedSwordSheathTLUT" OutName="link_child_unused_sword_sheath_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x5700"/>
         <Texture Name="gLinkChildHandTLUT" OutName="link_child_hand_tlut" Format="rgb5a1" Width="17" Height="4" Offset="0x9E88"/>
         <Texture Name="gLinkChildSwordsTLUT" OutName="link_child_swords_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x9F10"/> <!--For both the kokiri sword sheath and master sword-->
         <Texture Name="gLinkChildSwordTLUT" OutName="link_child_sword_tlut" Format="rgb5a1" Width="27" Height="4" Offset="0xA118"/>

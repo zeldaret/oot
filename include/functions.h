@@ -1064,7 +1064,7 @@ s32 Player_ActionToModelGroup(Player* player, s32 actionParam);
 void Player_SetModelsForHoldingShield(Player* player);
 void Player_SetModels(Player* player, s32 modelGroup);
 void Player_SetModelGroup(Player* player, s32 modelGroup);
-void func_8008EC70(Player* player);
+void Player_UnsetItemAction(Player* player);
 void Player_SetEquipmentData(GlobalContext* globalCtx, Player* player);
 void Player_UpdateBottleHeld(GlobalContext* globalCtx, Player* player, s32 item, s32 actionParam);
 void Player_UnsetTargetting(Player* player);

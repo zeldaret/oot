@@ -2119,7 +2119,7 @@ void func_80834894(Player* this) {
     func_80833638(this, func_80834C74);
 
     if (this->itemActionParam < 0) {
-        func_8008EC70(this);
+        Player_UnsetItemAction(this);
     }
 
     Animation_Reverse(&this->skelAnime2);
@@ -2624,7 +2624,7 @@ s32 func_80835C58(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s3
     this->func_674 = func;
 
     if ((this->itemActionParam != this->heldItemActionParam) && (!(flags & 1) || !(this->stateFlags1 & 0x400000))) {
-        func_8008EC70(this);
+        Player_UnsetItemAction(this);
     }
 
     if (!(flags & 1) && (!(this->stateFlags1 & 0x800))) {
@@ -7655,7 +7655,7 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
                     func_80832F54(globalCtx, this, 4);
                 } else {
                     if (this->itemActionParam < 0) {
-                        func_8008EC70(this);
+                        Player_UnsetItemAction(this);
                     }
                     func_8083A098(this, D_80853B24[this->modelAnimType], globalCtx);
                 }
