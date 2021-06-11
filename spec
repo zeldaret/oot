@@ -708,8 +708,7 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Firemeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Firemeiro/z_bg_gnd_firemeiro.o"
-    include "build/data/overlays/actors/z_bg_gnd_firemeiro.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_firemeiro.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Firemeiro/ovl_Bg_Gnd_Firemeiro_reloc.o"
 endseg
 
 beginseg
