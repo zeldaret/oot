@@ -1837,25 +1837,6 @@ D_06009620 = 0x06009620;
 D_0500A3B8 = 0x0500A3B8;
 D_0500A5E8 = 0x0500A5E8;
 
-// z_en_mag
-gZeldaTitleScreenLogoTex = 0x06000000;
-gNintendoCopyright2002Tex = 0x06019000;
-gNintendoCopyright2003Tex = 0x06019A00;
-gMasterQuestSubTitleTex = 0x0601A400;
-gTitleLogoFlameEffectTex = 0x06024800;
-gTitleLogoTheLegendOfTex = 0x06024C00;
-gTitleLogoOcarinaOfTimeTex = 0x06024E40;
-gTitleEffectMask0 = 0x06020000;
-gTitleEffectMask1 = 0x06020800;
-gTitleEffectMask2 = 0x06021000;
-gTitleEffectMask3 = 0x06021800;
-gTitleEffectMask4 = 0x06022000;
-gTitleEffectMask5 = 0x06022800;
-gTitleEffectMask6 = 0x06023000;
-gTitleEffectMask7 = 0x06023800;
-gTitleEffectMask8 = 0x06024000;
-gTitleLogoFlameEffectTex = 0x06024800;
-gTitleLogoTheLegendOfTex = 0x06024C00;
-gTitleLogoOcarinaOfTimeTex = 0x6024E40;
+
 
 
