@@ -1,5 +1,7 @@
 <Root>
     <File Name="object_human" Segment="6">
+        <!-- Facial textures -->
+
         <Texture Name="object_human_Tex_000000" OutName="object_human_Tex_000000" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x0"/>
         <Texture Name="object_human_Tex_000400" OutName="object_human_Tex_000400" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x400"/>
         <Texture Name="object_human_Tex_000800" OutName="object_human_Tex_000800" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x800"/>
@@ -42,19 +44,22 @@
         <Texture Name="object_human_Tex_007200" OutName="object_human_Tex_007200" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x7200"/>
         <Texture Name="object_human_Tex_007600" OutName="object_human_Tex_007600" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x7600"/>
 
-        <LegacyAnimation Name="gHumanAnim_008354" Offset="0x8354"/>
-        <LegacyAnimation Name="gHumanAnim_008784" Offset="0x8784"/>
+        <LegacyAnimation Name="gHumanLookingBackAnim" Offset="0x8354"/>
+        <LegacyAnimation Name="gHumanLookingBackStartsAnim" Offset="0x8784"/>
+
         <LegacyAnimation Name="gHumanAnim_008CE0" Offset="0x8CE0"/>
-        <LegacyAnimation Name="gHumanAnim_00990C" Offset="0x990C"/>
-        <LegacyAnimation Name="gHumanAnim_009C2C" Offset="0x9C2C"/>
-        <LegacyAnimation Name="gHumanAnim_00A044" Offset="0xA044"/>
-        <LegacyAnimation Name="gHumanAnim_00A8B4" Offset="0xA8B4"/>
-        <LegacyAnimation Name="gHumanAnim_00AF30" Offset="0xAF30"/>
+        <LegacyAnimation Name="gHumanLookingAroundAnim" Offset="0x990C"/>
+
+        <LegacyAnimation Name="gHumanLookingBackEndsAnim" Offset="0x9C2C"/>
+
+        <LegacyAnimation Name="gHumanThinkingStopsAnim" Offset="0xA044"/>
+        <LegacyAnimation Name="gHumanThinkingStartsAnim" Offset="0xA8B4"/>
+        <LegacyAnimation Name="gHumanThinkingAnim" Offset="0xAF30"/>
 
         <DList Name="object_human_DL_00AF40" Offset="0xAF40" />
         <DList Name="object_human_DL_00B040" Offset="0xB040" />
         <DList Name="object_human_DL_00B050" Offset="0xB050" />
-        
+
         <DList Name="object_human_DL_00B1A8" Offset="0xB1A8" />
         <DList Name="object_human_DL_00B288" Offset="0xB288" />
         <DList Name="object_human_DL_00B298" Offset="0xB298" />
@@ -120,7 +125,7 @@
         <DList Name="object_human_DL_00E480" Offset="0xE480" />
         <DList Name="object_human_DL_00E490" Offset="0xE490" />
 
-        <LegacyAnimation Name="gHumanAnim_011A9C" Offset="0x11A9C"/>
+        <LegacyAnimation Name="gHumanIdleAnim" Offset="0x11A9C"/>
 
         <Limb Name="object_human_Limb_011AA8" Type="Legacy" Offset="0x11AA8"/>
         <Limb Name="object_human_Limb_011AC8" Type="Legacy" Offset="0x11AC8"/>
@@ -164,10 +169,10 @@
         <Limb Name="object_human_Limb_011F88" Type="Legacy" Offset="0x11F88"/>
         <Limb Name="object_human_Limb_011FA8" Type="Legacy" Offset="0x11FA8"/>
 
-        <LimbTable Name="gHumanLimbTable_011FC8" LimbType="Legacy" Count="41" Offset="0x11FC8"/>
+        <LimbTable Name="gHumanLimbTable" LimbType="Legacy" Count="41" Offset="0x11FC8"/>
 
-        <LegacyAnimation Name="gHumanAnim_01291C" Offset="0x1291C"/>
-        <LegacyAnimation Name="gHumanAnim_012D18" Offset="0x12D18"/>
-        <LegacyAnimation Name="gHumanAnim_01316C" Offset="0x1316C"/>
+        <LegacyAnimation Name="gHumanWalkingAnim" Offset="0x1291C"/>
+        <LegacyAnimation Name="gHumanWalkingEndsAnim" Offset="0x12D18"/>
+        <LegacyAnimation Name="gHumanWalkingStartsAnim" Offset="0x1316C"/>
     </File>
 </Root>
