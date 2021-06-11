@@ -317,7 +317,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->flags &= ~8;
         }
     } else {
-        if (player->currentBoots == PLAYER_BOOTS_IRON) {
+        if (player->currentWalk == PLAYER_WALK_IRON) {
             this->flags |= 8;
         } else if (player->stateFlags2 & 0x400) {
             swimFlag = player->actor.yDistToWater;

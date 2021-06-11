@@ -1316,7 +1316,7 @@ void func_808327C4(Player* this, u16 sfxId) {
 void func_808327F8(Player* this, f32 arg1) {
     s32 sfxId;
 
-    if (this->currentBoots == PLAYER_BOOTS_IRON) {
+    if (this->currentWalk == PLAYER_WALK_IRON) {
         sfxId = NA_SE_PL_WALK_HEAVYBOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_WALK_GROUND);
@@ -1328,7 +1328,7 @@ void func_808327F8(Player* this, f32 arg1) {
 void func_80832854(Player* this) {
     s32 sfxId;
 
-    if (this->currentBoots == PLAYER_BOOTS_IRON) {
+    if (this->currentWalk == PLAYER_WALK_IRON) {
         sfxId = NA_SE_PL_JUMP_HEAVYBOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_JUMP);
@@ -1340,7 +1340,7 @@ void func_80832854(Player* this) {
 void func_808328A0(Player* this) {
     s32 sfxId;
 
-    if (this->currentBoots == PLAYER_BOOTS_IRON) {
+    if (this->currentWalk == PLAYER_WALK_IRON) {
         sfxId = NA_SE_PL_LAND_HEAVYBOOTS;
     } else {
         sfxId = func_808327A4(this, NA_SE_PL_LAND);
@@ -1558,7 +1558,7 @@ void func_8083328C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
 }
 
 s32 func_808332B8(Player* this) {
-    return (this->stateFlags1 & 0x8000000) && (this->currentBoots != PLAYER_BOOTS_IRON);
+    return (this->stateFlags1 & 0x8000000) && (this->currentWalk != PLAYER_WALK_IRON);
 }
 
 s32 func_808332E4(Player* this) {
@@ -1600,7 +1600,7 @@ void func_808333FC(Player* this, s32 arg1) {
 LinkAnimationHeader* func_80833438(Player* this) {
     if (this->unk_890 != 0) {
         return D_8085395C[this->modelAnimType];
-    } else if (!(this->stateFlags1 & 0x28000000) && (this->currentBoots == PLAYER_BOOTS_IRON)) {
+    } else if (!(this->stateFlags1 & 0x28000000) && (this->currentWalk == PLAYER_WALK_IRON)) {
         return D_80853974[this->modelAnimType];
     } else {
         return D_80853944[this->modelAnimType];
@@ -3797,7 +3797,7 @@ s32 func_80838A14(Player* this, GlobalContext* globalCtx) {
                 if ((this->unk_88C < 2) || (this->wallHeight > this->ageProperties->unk_10)) {
                     return 0;
                 }
-            } else if ((this->currentBoots != PLAYER_BOOTS_IRON) || (this->unk_88C > 2)) {
+            } else if ((this->currentWalk != PLAYER_WALK_IRON) || (this->unk_88C > 2)) {
                 return 0;
             }
         } else if (!(this->actor.bgCheckFlags & 1) ||
@@ -5282,7 +5282,7 @@ s32 func_8083C910(GlobalContext* globalCtx, Player* this, f32 arg2) {
             this->stateFlags1 |= 0x28000000;
             this->unk_850 = 20;
             this->linearVelocity = 2.0f;
-            Player_SetBootData(globalCtx, this);
+            Player_SetWalkInfo(globalCtx, this);
             return 0;
         }
     }
@@ -5431,13 +5431,13 @@ void func_8083D0A8(GlobalContext* globalCtx, Player* this, f32 arg2) {
         func_8002F7DC(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
     }
 
-    Player_SetBootData(globalCtx, this);
+    Player_SetWalkInfo(globalCtx, this);
 }
 
 s32 func_8083D12C(GlobalContext* globalCtx, Player* this, Input* arg2) {
     if (!(this->stateFlags1 & 0x400) && !(this->stateFlags2 & 0x400)) {
         if ((arg2 == NULL) || (CHECK_BTN_ALL(arg2->press.button, BTN_A) && (ABS(this->unk_6C2) < 12000) &&
-                               (this->currentBoots != PLAYER_BOOTS_IRON))) {
+                               (this->currentWalk != PLAYER_WALK_IRON))) {
 
             func_80835C58(globalCtx, this, func_8084DC48, 0);
             func_80832264(globalCtx, this, &gPlayerAnim_003308);
@@ -5493,10 +5493,10 @@ void func_8083D330(GlobalContext* globalCtx, Player* this) {
 }
 
 void func_8083D36C(GlobalContext* globalCtx, Player* this) {
-    if ((this->currentBoots != PLAYER_BOOTS_IRON) || !(this->actor.bgCheckFlags & 1)) {
+    if ((this->currentWalk != PLAYER_WALK_IRON) || !(this->actor.bgCheckFlags & 1)) {
         func_80832564(globalCtx, this);
 
-        if ((this->currentBoots != PLAYER_BOOTS_IRON) && (this->stateFlags2 & 0x400)) {
+        if ((this->currentWalk != PLAYER_WALK_IRON) && (this->stateFlags2 & 0x400)) {
             this->stateFlags2 &= ~0x400;
             func_8083D12C(globalCtx, this, 0);
             this->unk_84F = 1;
@@ -5524,7 +5524,7 @@ void func_8083D36C(GlobalContext* globalCtx, Player* this) {
     this->stateFlags1 &= ~0xC0000;
     this->unk_854 = 0.0f;
 
-    Player_SetBootData(globalCtx, this);
+    Player_SetWalkInfo(globalCtx, this);
 }
 
 void func_8083D53C(GlobalContext* globalCtx, Player* this) {
@@ -5541,7 +5541,7 @@ void func_8083D53C(GlobalContext* globalCtx, Player* this) {
     if ((func_80845668 != this->func_674) && (func_8084BDFC != this->func_674)) {
         if (this->ageProperties->unk_2C < this->actor.yDistToWater) {
             if (!(this->stateFlags1 & 0x8000000) ||
-                (!((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & 1)) &&
+                (!((this->currentWalk == PLAYER_WALK_IRON) && (this->actor.bgCheckFlags & 1)) &&
                  (func_8084E30C != this->func_674) && (func_8084E368 != this->func_674) &&
                  (func_8084D610 != this->func_674) && (func_8084D84C != this->func_674) &&
                  (func_8084DAB4 != this->func_674) && (func_8084DC48 != this->func_674) &&
@@ -5550,7 +5550,7 @@ void func_8083D53C(GlobalContext* globalCtx, Player* this) {
                 return;
             }
         } else if ((this->stateFlags1 & 0x8000000) && (this->actor.yDistToWater < this->ageProperties->unk_24)) {
-            if ((this->skelAnime.moveFlags == 0) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
+            if ((this->skelAnime.moveFlags == 0) && (this->currentWalk != PLAYER_WALK_IRON)) {
                 func_8083CD54(globalCtx, this, this->actor.shape.rot.y);
             }
             func_8083D0A8(globalCtx, this, this->actor.velocity.y);
@@ -5578,24 +5578,24 @@ void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
             } else {
                 temp2 = 1300.0f;
             }
-            if (this->currentBoots == PLAYER_BOOTS_HOVER) {
+            if (this->currentWalk == PLAYER_WALK_HOVER) {
                 temp1 += temp1;
-            } else if (this->currentBoots == PLAYER_BOOTS_IRON) {
+            } else if (this->currentWalk == PLAYER_WALK_IRON) {
                 temp1 *= 0.3f;
             }
         } else {
             temp2 = 20000.0f;
-            if (this->currentBoots != PLAYER_BOOTS_HOVER) {
+            if (this->currentWalk != PLAYER_WALK_HOVER) {
                 temp1 += temp1;
-            } else if ((D_808535E4 == 7) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
+            } else if ((D_808535E4 == 7) || (this->currentWalk == PLAYER_WALK_IRON)) {
                 temp1 = 0;
             }
         }
 
-        if (this->currentBoots != PLAYER_BOOTS_HOVER) {
+        if (this->currentWalk != PLAYER_WALK_HOVER) {
             temp3 = (temp2 - this->unk_6C4) * 0.02f;
             temp3 = CLAMP(temp3, 0.0f, 300.0f);
-            if (this->currentBoots == PLAYER_BOOTS_IRON) {
+            if (this->currentWalk == PLAYER_WALK_IRON) {
                 temp3 += temp3;
             }
         }
@@ -5890,7 +5890,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                     func_808323B4(globalCtx, this);
                     func_8083AE40(this, giEntry->objectId);
 
-                    if (!(this->stateFlags2 & 0x400) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
+                    if (!(this->stateFlags2 & 0x400) || (this->currentWalk == PLAYER_WALK_IRON)) {
                         func_80836898(globalCtx, this, func_8083A434);
                         func_808322D0(globalCtx, this, &gPlayerAnim_002788);
                         func_80835EA4(globalCtx, 9);
@@ -6010,7 +6010,7 @@ s32 func_8083EB44(Player* this, GlobalContext* globalCtx) {
 
 s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
     if (this->wallHeight >= 79.0f) {
-        if (!(this->stateFlags1 & 0x8000000) || (this->currentBoots == PLAYER_BOOTS_IRON) ||
+        if (!(this->stateFlags1 & 0x8000000) || (this->currentWalk == PLAYER_WALK_IRON) ||
             (this->actor.yDistToWater < this->ageProperties->unk_2C)) {
             s32 sp8C = (arg2 & 8) ? 2 : 0;
 
@@ -6521,7 +6521,7 @@ void func_8084029C(Player* this, f32 arg1) {
 
     if (1) {}
 
-    if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & 1) && (this->hoverBootsTimer != 0)) {
+    if ((this->currentWalk == PLAYER_WALK_HOVER) && !(this->actor.bgCheckFlags & 1) && (this->hoverBootsTimer != 0)) {
         func_8002F8F0(&this->actor, NA_SE_PL_HOBBERBOOTS_LV - SFX_FLAG);
     } else if (func_8084021C(this->unk_868, arg1, 29.0f, 10.0f) || func_8084021C(this->unk_868, arg1, 29.0f, 24.0f)) {
         func_808327F8(this, this->linearVelocity);
@@ -9060,7 +9060,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     func_80835F44(globalCtx, this, ITEM_NONE);
     Player_SetEquipmentData(globalCtx, this);
-    this->prevBoots = this->currentBoots;
+    this->prevBoots = this->currentWalk;
     Player_InitCommon(this, globalCtx, gPlayerSkelHeaders[((void)0, gSaveContext.linkAge)]);
     this->giObjectSegment = (void*)(((u32)ZeldaArena_MallocDebug(0x3008, "../z_player.c", 17175) + 8) & ~0xF);
 
@@ -9326,13 +9326,13 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
 s32 func_80847A78(Player* this) {
     s32 cond;
 
-    if ((this->currentBoots == PLAYER_BOOTS_HOVER) && (this->hoverBootsTimer != 0)) {
+    if ((this->currentWalk == PLAYER_WALK_HOVER) && (this->hoverBootsTimer != 0)) {
         this->hoverBootsTimer--;
     } else {
         this->hoverBootsTimer = 0;
     }
 
-    cond = (this->currentBoots == PLAYER_BOOTS_HOVER) &&
+    cond = (this->currentWalk == PLAYER_WALK_HOVER) &&
            ((this->actor.yDistToWater >= 0.0f) || (func_80838144(D_808535E4) >= 0) || func_8083816C(D_808535E4));
 
     if (cond && (this->actor.bgCheckFlags & 1) && (this->hoverBootsTimer != 0)) {
@@ -9445,7 +9445,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         if (D_808535F4 != 0) {
             D_808535F8 = SurfaceType_IsConveyor(&globalCtx->colCtx, spC0, this->actor.floorBgId);
             if (((D_808535F8 == 0) && (this->actor.yDistToWater > 20.0f) &&
-                 (this->currentBoots != PLAYER_BOOTS_IRON)) ||
+                 (this->currentWalk != PLAYER_WALK_IRON)) ||
                 ((D_808535F8 != 0) && (this->actor.bgCheckFlags & 1))) {
                 D_808535FC = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, spC0, this->actor.floorBgId) << 10;
             } else {
@@ -9923,8 +9923,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         f32 temp_f0;
         f32 phi_f12;
 
-        if (this->currentBoots != this->prevBoots) {
-            if (this->currentBoots == PLAYER_BOOTS_IRON) {
+        if (this->currentWalk != this->prevBoots) {
+            if (this->currentWalk == PLAYER_WALK_IRON) {
                 if (this->stateFlags1 & 0x8000000) {
                     func_80832340(globalCtx, this);
                     if (this->ageProperties->unk_2C < this->actor.yDistToWater) {
@@ -9933,14 +9933,14 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 }
             } else {
                 if (this->stateFlags1 & 0x8000000) {
-                    if ((this->prevBoots == PLAYER_BOOTS_IRON) || (this->actor.bgCheckFlags & 1)) {
+                    if ((this->prevBoots == PLAYER_WALK_IRON) || (this->actor.bgCheckFlags & 1)) {
                         func_8083D36C(globalCtx, this);
                         this->stateFlags2 &= ~0x400;
                     }
                 }
             }
 
-            this->prevBoots = this->currentBoots;
+            this->prevBoots = this->currentWalk;
         }
 
         if ((this->actor.parent == NULL) && (this->stateFlags1 & 0x800000)) {
@@ -9974,8 +9974,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         }
 
         if (!(this->skelAnime.moveFlags & 0x80)) {
-            if (((this->actor.bgCheckFlags & 1) && (D_808535E4 == 5) && (this->currentBoots != PLAYER_BOOTS_IRON)) ||
-                ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->stateFlags1 & 0x28000000))) {
+            if (((this->actor.bgCheckFlags & 1) && (D_808535E4 == 5) && (this->currentWalk != PLAYER_WALK_IRON)) ||
+                ((this->currentWalk == PLAYER_WALK_HOVER) && !(this->stateFlags1 & 0x28000000))) {
                 f32 sp70 = this->linearVelocity;
                 s16 sp6E = this->currentYaw;
                 s16 yawDiff = this->actor.world.rot.y - sp6E;
@@ -10047,7 +10047,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->windSpeed = 0.0f;
         }
 
-        if ((D_808535F4 != 0) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
+        if ((D_808535F4 != 0) && (this->currentWalk != PLAYER_WALK_IRON)) {
             f32 sp48;
 
             D_808535F4--;
@@ -10315,7 +10315,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
     gSPSegment(POLY_XLU_DISP++, 0x0C, cullDList);
 
     func_8008F470(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, lod,
-                  this->currentTunic, this->currentBoots, this->actor.shape.face, overrideLimbDraw, func_80090D20,
+                  this->currentTunic, this->currentWalk, this->actor.shape.face, overrideLimbDraw, func_80090D20,
                   this);
 
     if ((overrideLimbDraw == func_80090014) && (this->currentMask != PLAYER_MASK_NONE)) {
@@ -10342,7 +10342,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
         gSPDisplayList(POLY_OPA_DISP++, sMaskDlists[this->currentMask - 1]);
     }
 
-    if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & 1) &&
+    if ((this->currentWalk == PLAYER_WALK_HOVER) && !(this->actor.bgCheckFlags & 1) &&
         !(this->stateFlags1 & 0x800000) && (this->hoverBootsTimer != 0)) {
         s32 sp5C;
         s32 hoverBootsTimer = this->hoverBootsTimer;
@@ -10567,7 +10567,7 @@ void func_8084B000(Player* this) {
         }
         phi_f18 = -0.1f - phi_f16;
     } else {
-        if (!(this->stateFlags1 & 0x80) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
+        if (!(this->stateFlags1 & 0x80) && (this->currentWalk == PLAYER_WALK_IRON) &&
             (this->actor.velocity.y >= -3.0f)) {
             phi_f18 = -0.2f;
         } else {
@@ -11557,7 +11557,7 @@ void func_8084D610(Player* this, GlobalContext* globalCtx) {
             this->unk_6AD = 0;
         }
 
-        if (this->currentBoots == PLAYER_BOOTS_IRON) {
+        if (this->currentWalk == PLAYER_WALK_IRON) {
             sp34 = 0.0f;
             sp32 = this->actor.shape.rot.y;
 
@@ -11613,7 +11613,7 @@ void func_8084D84C(Player* this, GlobalContext* globalCtx) {
         func_80837268(this, &sp34, &sp32, 0.0f, globalCtx);
 
         temp = this->actor.shape.rot.y - sp32;
-        if ((sp34 == 0.0f) || (ABS(temp) > 0x6000) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
+        if ((sp34 == 0.0f) || (ABS(temp) > 0x6000) || (this->currentWalk == PLAYER_WALK_IRON)) {
             func_80838F18(globalCtx, this);
         } else if (func_80833C04(this)) {
             func_8084D5CC(globalCtx, this);
@@ -11700,7 +11700,7 @@ void func_8084DC48(Player* this, GlobalContext* globalCtx) {
     func_80836670(this, globalCtx);
 
     if (!func_8083B040(this, globalCtx)) {
-        if (this->currentBoots == PLAYER_BOOTS_IRON) {
+        if (this->currentWalk == PLAYER_WALK_IRON) {
             func_80838F18(globalCtx, this);
             return;
         }

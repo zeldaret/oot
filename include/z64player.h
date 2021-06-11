@@ -21,15 +21,14 @@ typedef enum {
 } PlayerTunic;
 
 typedef enum {
-    /* 0x00 */ PLAYER_BOOTS_NORMAL,
-    /* 0x01 */ PLAYER_BOOTS_IRON,
-    /* 0x02 */ PLAYER_BOOTS_HOVER,
-    /* Values below are only relevant when setting regs in Player_SetBootData */
-    /* 0x03 */ PLAYER_BOOTS_INDOOR,
-    /* 0x04 */ PLAYER_BOOTS_IRON_UNDERWATER,
-    /* 0x05 */ PLAYER_BOOTS_NORMAL_CHILD,
-    /* 0x06 */ PLAYER_BOOTS_MAX
-} PlayerBoots;
+    /* 0x00 */ PLAYER_WALK_NORMAL,
+    /* 0x01 */ PLAYER_WALK_IRON,
+    /* 0x02 */ PLAYER_WALK_HOVER,
+    /* 0x03 */ PLAYER_WALK_INDOOR,
+    /* 0x04 */ PLAYER_WALK_IRON_UNDERWATER,
+    /* 0x05 */ PLAYER_WALK_NORMAL_CHILD,
+    /* 0x06 */ PLAYER_WALK_MAX
+} PlayerWalk;
 
 typedef enum {
     /* 0x00 */ PLAYER_STR_NONE,
@@ -211,11 +210,11 @@ typedef struct Player {
     /* 0x014C */ s8         currentTunic; // current tunic from `PlayerTunic`
     /* 0x014D */ s8         currentSword; // current sword Item ID
     /* 0x014E */ s8         currentShield; // current shield from `PlayerShield`
-    /* 0x014F */ s8         currentBoots; // current boots from `PlayerBoots`
+    /* 0x014F */ s8         currentWalk; // current walk type from `PlayerWalk`
     /* 0x0150 */ s8         heldItemButton; // Button index for the item currently used
     /* 0x0151 */ s8         heldItemActionParam; // Action param for the item currently used
     /* 0x0152 */ u8         heldItemId; // Item id for the item currently used
-    /* 0x0153 */ s8         prevBoots; // previous boots from `PlayerBoots`
+    /* 0x0153 */ s8         prevBoots; // previous type type from `PlayerWalk`
     /* 0x0154 */ s8         itemActionParam; // the difference between this and heldItemActionParam is unclear
     /* 0x0155 */ char       unk_155[0x003];
     /* 0x0158 */ u8         modelGroup;

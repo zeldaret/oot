@@ -1055,7 +1055,7 @@ f32 Path_OrientAndGetDistSq(Actor* actor, Path* path, s16 waypoint, s16* yaw);
 void Path_CopyLastPoint(Path* path, Vec3f* dest);
 void FrameAdvance_Init(FrameAdvanceContext* frameAdvCtx);
 s32 FrameAdvance_Update(FrameAdvanceContext* frameAdvCtx, Input* input);
-void Player_SetBootData(GlobalContext* globalCtx, Player* player);
+void Player_SetWalkInfo(GlobalContext* globalCtx, Player* player);
 s32 Player_InBlockingCsMode(GlobalContext* globalCtx, Player* player);
 s32 Player_InCsMode(GlobalContext* globalCtx);
 s32 func_8008E9C4(Player* player);

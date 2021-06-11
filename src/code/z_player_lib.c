@@ -3,6 +3,26 @@
 #include "objects/object_link_child/object_link_child.h"
 
 typedef struct {
+    /* 0x00 */ s16 walkSpeedMax;
+    /* 0x02 */ s16 sideWalkAnimSpeedBase;
+    /* 0x04 */ s16 sideWalkAnimSpeed;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ s16 walkAnimSpeedBase;
+    /* 0x0A */ s16 walkAnimSpeed;
+    /* 0x0C */ s16 runAnimSpeedBase;
+    /* 0x0E */ s16 runAnimSpeed;
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ s16 runSpeedMax;
+    /* 0x14 */ s16 gravity;
+    /* 0x16 */ s16 unk_16; // jump related
+    /* 0x18 */ s16 highJumpSpeedMin; // minimum speed to trigger a high jump
+    /* 0x1A */ s16 highJumpSpeed;
+    /* 0x1C */ s16 highJumpSpeedBase;
+    /* 0x1E */ s16 smallJumpSpeed;
+    /* 0x20 */ s16 unk_20;
+} PlayerWalkInfo;
+
+typedef struct {
     /* 0x00 */ u8 flag;
     /* 0x02 */ u16 textId;
 } TextTriggerEntry; // size = 0x04
@@ -12,24 +32,30 @@ typedef struct {
     /* 0x04 */ Vec3f pos;
 } BowStringData; // size = 0x10
 
+static Vec3f* D_80160000;
+static s32 sDListsLodOffset;
+static Vec3f sGetItemRefPos;
+static s32 sLeftHandType;
+static s32 sRightHandType;
+
 FlexSkeletonHeader* gPlayerSkelHeaders[] = { 0x060377F4, &gLinkChildSkel };
 
-s16 sBootData[PLAYER_BOOTS_MAX][17] = {
-    { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 },
-    { 200, 1000, 300, 700, 550, 270, 1000, 0, 800, 300, -160, 600, 590, 750, 125, 200, 130 },
-    { 200, 1000, 300, 700, 550, 270, 600, 600, 800, 550, -100, 600, 540, 270, 25, 0, 130 },
-    { 200, 1000, 300, 700, 380, 400, 0, 300, 800, 500, -100, 600, 590, 750, 125, 200, 130 },
-    { 80, 800, 150, 700, 480, 270, 600, 50, 800, 550, -40, 400, 540, 270, 25, 0, 80 },
-    { 200, 1000, 300, 800, 500, 400, 800, 400, 800, 550, -100, 600, 540, 750, 125, 400, 200 },
+static PlayerWalkInfo sWalkInfo[PLAYER_WALK_MAX] = {
+    { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 }, // Normal (adult)
+    { 200, 1000, 300, 700, 550, 270, 1000, 0, 800, 300, -160, 600, 590, 750, 125, 200, 130 },  // Iron
+    { 200, 1000, 300, 700, 550, 270, 600, 600, 800, 550, -100, 600, 540, 270, 25, 0, 130 },    // Hover
+    { 200, 1000, 300, 700, 380, 400, 0, 300, 800, 500, -100, 600, 590, 750, 125, 200, 130 },   // Indoor
+    { 80, 800, 150, 700, 480, 270, 600, 50, 800, 550, -40, 400, 540, 270, 25, 0, 80 },         // Iron underwater
+    { 200, 1000, 300, 800, 500, 400, 800, 400, 800, 550, -100, 600, 540, 750, 125, 400, 200 }, // Normal (child)
 };
 
 // Used to map action params to model groups
-u8 sActionModelGroups[] = {
+static u8 sActionModelGroups[] = {
     3,  15, 10, 2,  2,  5,  10, 11, 6,  6, 6, 6, 6, 6, 6, 6, 9, 9, 7, 7, 8, 3, 3, 6, 3, 3, 3, 3, 12, 13, 14, 14, 14, 14,
     14, 14, 14, 14, 14, 14, 14, 14, 14, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  3,  3,  3,  3,
 };
 
-TextTriggerEntry sTextTriggers[] = {
+static TextTriggerEntry sTextTriggers[] = {
     { 1, 0x3040 },
     { 2, 0x401D },
     { 0, 0x0000 },
@@ -231,7 +257,7 @@ Gfx* D_80125F38[] = {
 };
 
 // Indexed by model types (left hand, right hand, sheath or waist)
-Gfx** sPlayerDListGroups[] = {
+static Gfx** sPlayerDListGroups[] = {
     D_80125E08, D_80125E18, D_80125E38, D_80125E28, D_80125DE8, D_80125EE8, D_80125EF8,
     D_80125F08, D_80125E48, D_80125E58, D_80125CE8, D_80125E68, D_80125EA8, D_80125EB8,
     D_80125EC8, D_80125ED8, D_80125E78, D_80125E88, D_80125D28, D_80125D88, D_80125E98,
@@ -247,50 +273,44 @@ Gfx gCullFrontDList[] = {
     gsSPEndDisplayList(),
 };
 
-Vec3f* D_80160000;
-s32 sDListsLodOffset;
-Vec3f sGetItemRefPos;
-s32 D_80160014;
-s32 D_80160018;
-
-void Player_SetBootData(GlobalContext* globalCtx, Player* this) {
-    s32 currentBoots;
-    s16* bootRegs;
+void Player_SetWalkInfo(GlobalContext* globalCtx, Player* this) {
+    s32 currentWalk;
+    PlayerWalkInfo* walkInfo;
 
     REG(27) = 2000;
     REG(48) = 370;
 
-    currentBoots = this->currentBoots;
-    if (currentBoots == PLAYER_BOOTS_NORMAL) {
+    currentWalk = this->currentWalk;
+    if (currentWalk == PLAYER_WALK_NORMAL) {
         if (LINK_IS_CHILD) {
-            currentBoots = PLAYER_BOOTS_NORMAL_CHILD;
+            currentWalk = PLAYER_WALK_NORMAL_CHILD;
         }
-    } else if (currentBoots == PLAYER_BOOTS_IRON) {
+    } else if (currentWalk == PLAYER_WALK_IRON) {
         if (this->stateFlags1 & 0x8000000) {
-            currentBoots = PLAYER_BOOTS_IRON_UNDERWATER;
+            currentWalk = PLAYER_WALK_IRON_UNDERWATER;
         }
         REG(27) = 500;
         REG(48) = 100;
     }
 
-    bootRegs = sBootData[currentBoots];
-    REG(19) = bootRegs[0];
-    REG(30) = bootRegs[1];
-    REG(32) = bootRegs[2];
-    REG(34) = bootRegs[3];
-    REG(35) = bootRegs[4];
-    REG(36) = bootRegs[5];
-    REG(37) = bootRegs[6];
-    REG(38) = bootRegs[7];
-    REG(43) = bootRegs[8];
-    REG(45) = bootRegs[9];
-    REG(68) = bootRegs[10];
-    REG(69) = bootRegs[11];
-    IREG(66) = bootRegs[12];
-    IREG(67) = bootRegs[13];
-    IREG(68) = bootRegs[14];
-    IREG(69) = bootRegs[15];
-    MREG(95) = bootRegs[16];
+    walkInfo = &sWalkInfo[currentWalk];
+    REG(19) = walkInfo->walkSpeedMax;
+    REG(30) = walkInfo->sideWalkAnimSpeedBase;
+    REG(32) = walkInfo->sideWalkAnimSpeed;
+    REG(34) = walkInfo->unk_06;
+    REG(35) = walkInfo->walkAnimSpeedBase;
+    REG(36) = walkInfo->walkAnimSpeed;
+    REG(37) = walkInfo->runAnimSpeedBase;
+    REG(38) = walkInfo->runAnimSpeed;
+    REG(43) = walkInfo->unk_10;
+    REG(45) = walkInfo->runSpeedMax;
+    REG(68) = walkInfo->gravity;
+    REG(69) = walkInfo->unk_16;
+    IREG(66) = walkInfo->highJumpSpeedMin;
+    IREG(67) = walkInfo->highJumpSpeed;
+    IREG(68) = walkInfo->highJumpSpeedBase;
+    IREG(69) = walkInfo->smallJumpSpeed;
+    MREG(95) = walkInfo->unk_20;
 
     if (globalCtx->roomCtx.curRoom.unk_03 == 2) {
         REG(45) = 500;
@@ -384,10 +404,10 @@ void Player_SetEquipmentData(GlobalContext* globalCtx, Player* this) {
     if (this->csMode != 0x56) {
         this->currentShield = CUR_EQUIP_VALUE(EQUIP_SHIELD);
         this->currentTunic = CUR_EQUIP_VALUE(EQUIP_TUNIC) - 1;
-        this->currentBoots = CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1;
+        this->currentWalk = CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1;
         this->currentSword = B_BTN_ITEM;
         Player_SetModelGroup(this, Player_ActionToModelGroup(this, this->heldItemActionParam));
-        Player_SetBootData(globalCtx, this);
+        Player_SetWalkInfo(globalCtx, this);
     }
 }
 
@@ -587,8 +607,8 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
     if (globalCtx->roomCtx.curRoom.unk_02 == 3) { // Room is hot
         var = 0;
     } else if ((this->unk_840 > 80) &&
-               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->unk_840 >= 300))) { // Deep underwater
-        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & 1)) ? 1 : 3;
+               ((this->currentWalk == PLAYER_WALK_IRON) || (this->unk_840 >= 300))) { // Deep underwater
+        var = ((this->currentWalk == PLAYER_WALK_IRON) && (this->actor.bgCheckFlags & 1)) ? 1 : 3;
     } else if (this->stateFlags1 & 0x8000000) { // Swimming
         var = 2;
     } else {
@@ -603,7 +623,7 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
 
         if ((triggerEntry->flag != 0) && !(gSaveContext.textTriggerFlags & triggerEntry->flag) &&
             (((var == 0) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
-             (((var == 1) || (var == 3)) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
+             (((var == 1) || (var == 3)) && (this->currentWalk == PLAYER_WALK_IRON) &&
               (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
             func_8010B680(globalCtx, triggerEntry->textId, NULL);
             gSaveContext.textTriggerFlags |= triggerEntry->flag;
@@ -613,47 +633,37 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
     return var + 1;
 }
 
-u8 sEyeMouthIndexes[][2] = {
+static u8 sEyeMouthIndexes[][2] = {
     { 0, 0 }, { 1, 0 }, { 2, 0 }, { 0, 0 }, { 1, 0 }, { 2, 0 }, { 4, 0 }, { 5, 1 },
     { 7, 2 }, { 0, 2 }, { 3, 0 }, { 4, 0 }, { 2, 2 }, { 1, 1 }, { 0, 2 }, { 0, 0 },
 };
 
 /**
- * Link's eye and mouth textures are placed at the exact same place in adult and child Link's respective object files.
- * This allows the array to only contain the symbols for one file and have it apply to both. This is a problem for
- * shiftability, and changes will need to be made in the code to account for this in a modding scenario. The symbols
- * from adult Link's object are used here.
+ * Link's eye and mouth textures are placed at the exact same place in adult and child Link's respective object
+ * files. This allows the array to only contain the symbols for one file and have it apply to both. This is a
+ * problem for shiftability, and changes will need to be made in the code to account for this in a modding scenario.
+ * The symbols from adult Link's object are used here.
  */
-void* sEyeTextures[] = {
+
+static void* sEyeTextures[] = {
     0x06000000, 0x06000800, 0x06001000, 0x06001800, 0x06002000, 0x06002800, 0x06003000, 0x06003800,
 };
 
-void* sMouthTextures[] = {
+static void* sMouthTextures[] = {
     0x06004000,
     0x06004400,
     0x06004800,
     0x06004C00,
 };
 
-Color_RGB8 sTunicColors[] = {
-    { 30, 105, 27 },
-    { 100, 20, 0 },
-    { 0, 60, 100 },
-};
-
-Color_RGB8 sGauntletColors[] = {
-    { 255, 255, 255 },
-    { 254, 207, 15 },
-};
-
-Gfx* sBootDListGroups[][2] = {
-    { 0x06025918, 0x06025A60 },
-    { 0x06025BA8, 0x06025DB0 },
-};
-
 void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
                    s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
                    void* data) {
+    static Color_RGB8 sTunicColors[] = {
+        { 30, 105, 27 },
+        { 100, 20, 0 },
+        { 0, 60, 100 },
+    };
     Color_RGB8* color;
     s32 eyeIndex = (jointTable[22].x & 0xF) - 1;
     s32 mouthIndex = (jointTable[22].x >> 4) - 1;
@@ -684,6 +694,11 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
             if (strengthUpgrade >= PLAYER_STR_SILVER_G) {
+                static Color_RGB8 sGauntletColors[] = {
+                    { 255, 255, 255 },
+                    { 254, 207, 15 },
+                };
+
                 gDPPipeSync(POLY_OPA_DISP++);
 
                 color = &sGauntletColors[strengthUpgrade - PLAYER_STR_SILVER_G];
@@ -691,12 +706,17 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
 
                 gSPDisplayList(POLY_OPA_DISP++, D_06025218);
                 gSPDisplayList(POLY_OPA_DISP++, D_06025598);
-                gSPDisplayList(POLY_OPA_DISP++, (D_80160014 == 0) ? D_060252D8 : D_06025438);
-                gSPDisplayList(POLY_OPA_DISP++, (D_80160018 == 8) ? D_06025658 : D_060257B8);
+                gSPDisplayList(POLY_OPA_DISP++, (sLeftHandType == 0) ? D_060252D8 : D_06025438);
+                gSPDisplayList(POLY_OPA_DISP++, (sRightHandType == 8) ? D_06025658 : D_060257B8);
             }
 
             if (boots != 0) {
+                static Gfx* sBootDListGroups[][2] = {
+                    { 0x06025918, 0x06025A60 },
+                    { 0x06025BA8, 0x06025DB0 },
+                };
                 Gfx** bootDLists = sBootDListGroups[boots - 1];
+
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[0]);
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[1]);
             }
@@ -710,22 +730,16 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 1803);
 }
 
-Vec3f D_8012602C = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_80126038[] = {
-    { 1304.0f, 0.0f, 0.0f },
-    { 695.0f, 0.0f, 0.0f },
-};
-
-f32 D_80126050[] = { 1265.0f, 826.0f };
-f32 D_80126058[] = { SQ(13.04f), SQ(6.95f) };
-f32 D_80126060[] = { 10.019104f, -19.925102f };
-f32 D_80126068[] = { 5.0f, 3.0f };
-
-Vec3f D_80126070 = { 0.0f, -300.0f, 0.0f };
+static Vec3f D_8012602C = { 0.0f, 0.0f, 0.0f };
 
 void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot,
                    s32 thighLimbIndex, s32 shinLimbIndex, s32 footLimbIndex) {
+    static Vec3f D_80126038[] = { { 1304.0f, 0.0f, 0.0f }, { 695.0f, 0.0f, 0.0f } };
+    static f32 D_80126050[] = { 1265.0f, 826.0f };
+    static f32 D_80126058[] = { SQ(13.04f), SQ(6.95f) };
+    static f32 D_80126060[] = { 10.019104f, -19.925102f };
+    static f32 D_80126068[] = { 5.0f, 3.0f };
+    static Vec3f D_80126070 = { 0.0f, -300.0f, 0.0f };
     Vec3f spA4;
     Vec3f sp98;
     Vec3f footprintPos;
@@ -821,8 +835,8 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     Player* this = (Player*)thisx;
 
     if (limbIndex == PLAYER_LIMB_ROOT) {
-        D_80160014 = this->leftHandType;
-        D_80160018 = this->rightHandType;
+        sLeftHandType = this->leftHandType;
+        sRightHandType = this->rightHandType;
         D_80160000 = &this->swordInfo[2].base;
 
         if (LINK_IS_CHILD) {
@@ -890,25 +904,25 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (limbIndex == PLAYER_LIMB_L_HAND) {
             Gfx** dLists = this->leftHandDLists;
 
-            if ((D_80160014 == 4) && (gSaveContext.swordHealth <= 0.0f)) {
+            if ((sLeftHandType == 4) && (gSaveContext.swordHealth <= 0.0f)) {
                 dLists += 4;
-            } else if ((D_80160014 == 6) && (this->stateFlags1 & 0x2000000)) {
+            } else if ((sLeftHandType == 6) && (this->stateFlags1 & 0x2000000)) {
                 dLists = &D_80125E08[gSaveContext.linkAge];
-                D_80160014 = 0;
+                sLeftHandType = 0;
             } else if ((this->leftHandType == 0) && (this->actor.speedXZ > 2.0f) && !(this->stateFlags1 & 0x8000000)) {
                 dLists = &D_80125E18[gSaveContext.linkAge];
-                D_80160014 = 1;
+                sLeftHandType = 1;
             }
 
             *dList = dLists[sDListsLodOffset];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
             Gfx** dLists = this->rightHandDLists;
 
-            if (D_80160018 == 10) {
+            if (sRightHandType == 10) {
                 dLists += this->currentShield * 4;
             } else if ((this->rightHandType == 8) && (this->actor.speedXZ > 2.0f) && !(this->stateFlags1 & 0x8000000)) {
                 dLists = &D_80125E58[gSaveContext.linkAge];
-                D_80160018 = 9;
+                sRightHandType = 9;
             }
 
             *dList = dLists[sDListsLodOffset];
@@ -1020,17 +1034,16 @@ void func_80090604(GlobalContext* globalCtx, Player* this, ColliderQuad* collide
     }
 }
 
-Vec3f D_80126080 = { 5000.0f, 400.0f, 0.0f };
-Vec3f D_8012608C = { 5000.0f, -400.0f, 1000.0f };
-Vec3f D_80126098 = { 5000.0f, 1400.0f, -1000.0f };
-
-Vec3f D_801260A4[3] = {
-    { 0.0f, 400.0f, 0.0f },
-    { 0.0f, 1400.0f, -1000.0f },
-    { 0.0f, -400.0f, 1000.0f },
-};
+static Vec3f D_80126080 = { 5000.0f, 400.0f, 0.0f };
+static Vec3f D_8012608C = { 5000.0f, -400.0f, 1000.0f };
+static Vec3f D_80126098 = { 5000.0f, 1400.0f, -1000.0f };
 
 void func_800906D4(GlobalContext* globalCtx, Player* this, Vec3f* newTipPos) {
+    static Vec3f D_801260A4[3] = {
+        { 0.0f, 400.0f, 0.0f },
+        { 0.0f, 1400.0f, -1000.0f },
+        { 0.0f, -400.0f, 1000.0f },
+    };
     Vec3f newBasePos[3];
 
     Matrix_MultVec3f(&D_801260A4[0], &newBasePos[0]);
@@ -1070,7 +1083,7 @@ void Player_DrawGetItemImpl(GlobalContext* globalCtx, Player* this, Vec3f* refPo
 }
 
 void Player_DrawGetItem(GlobalContext* globalCtx, Player* this) {
-    if (!this->giObjectLoading || !osRecvMesg(&this->giObjectLoadQueue, NULL, OS_MESG_NOBLOCK)) {
+    if (!(this->giObjectLoading) || !(osRecvMesg(&this->giObjectLoadQueue, NULL, OS_MESG_NOBLOCK))) {
         this->giObjectLoading = false;
         Player_DrawGetItemImpl(globalCtx, this, &sGetItemRefPos, ABS(this->unk_862));
     }
@@ -1131,53 +1144,8 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
     }
 }
 
-Vec3f D_801260D4 = { 1100.0f, -700.0f, 0.0f };
-
-f32 sSwordLengths[] = {
-    0.0f, 4000.0f, 3000.0f, 5500.0f, 0.0f, 2500.0f,
-};
-
-Gfx* sBottleDLists[] = { 0x0602AD58, gLinkChildBottleDL };
-
-Color_RGB8 sBottleColors[] = {
-    { 255, 255, 255 }, { 80, 80, 255 },   { 255, 100, 255 }, { 0, 0, 255 }, { 255, 0, 255 },
-    { 255, 0, 255 },   { 200, 200, 100 }, { 255, 0, 0 },     { 0, 0, 255 }, { 0, 255, 0 },
-    { 255, 255, 255 }, { 255, 255, 255 }, { 80, 80, 255 },
-};
-
-Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
-
-BowStringData sBowStringData[] = {
-    { 0x0602B108, { 0.0f, -360.4f, 0.0f } },  // bow
-    { 0x060221A8, { 606.0f, 236.0f, 0.0f } }, // slingshot
-};
-
-Vec3f D_80126154[] = {
-    { -4500.0f, -3000.0f, -600.0f },
-    { 1500.0f, -3000.0f, -600.0f },
-    { -4500.0f, 3000.0f, -600.0f },
-    { 1500.0f, 3000.0f, -600.0f },
-};
-
-Vec3f D_80126184 = { 100.0f, 1500.0f, 0.0f };
-Vec3f D_80126190 = { 100.0f, 1640.0f, 0.0f };
-
-Vec3f D_8012619C[] = {
-    { -3000.0f, -3000.0f, -900.0f },
-    { 3000.0f, -3000.0f, -900.0f },
-    { -3000.0f, 3000.0f, -900.0f },
-    { 3000.0f, 3000.0f, -900.0f },
-};
-
-Vec3f D_801261CC = { 630.0f, 100.0f, -30.0f };
-Vec3s D_801261D8 = { 0, 0, 0x7FFF };
-
-Vec3f D_801261E0[] = {
-    { 200.0f, 300.0f, 0.0f },
-    { 200.0f, 200.0f, 0.0f },
-};
-
 void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    static Vec3f D_801260D4 = { 1100.0f, -700.0f, 0.0f };
     Player* this = (Player*)thisx;
 
     if (*dList != NULL) {
@@ -1215,6 +1183,9 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2656);
         } else if ((this->actor.scale.y >= 0.0f) && (this->swordState != 0)) {
+            static f32 sSwordLengths[] = {
+                0.0f, 4000.0f, 3000.0f, 5500.0f, 0.0f, 2500.0f,
+            };
             Vec3f spE4[3];
 
             if (Player_HoldsBrokenKnife(this)) {
@@ -1226,6 +1197,12 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             func_80090A28(this, spE4);
             func_800906D4(globalCtx, this, spE4);
         } else if ((*dList != NULL) && (this->leftHandType == 7)) {
+            static Gfx* sBottleDLists[] = { 0x0602AD58, gLinkChildBottleDL };
+            static Color_RGB8 sBottleColors[] = {
+                { 255, 255, 255 }, { 80, 80, 255 },   { 255, 100, 255 }, { 0, 0, 255 }, { 255, 0, 255 },
+                { 255, 0, 255 },   { 200, 200, 100 }, { 255, 0, 0 },     { 0, 0, 255 }, { 0, 255, 0 },
+                { 255, 255, 255 }, { 255, 255, 255 }, { 80, 80, 255 },
+            };
             Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemActionParam)];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2710);
@@ -1241,6 +1218,8 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         if (this->actor.scale.y >= 0.0f) {
             if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & 0x200) {
+                    static Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
+
                     Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
                     Matrix_RotateRPY(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
                     Matrix_Get(&sp14C);
@@ -1269,6 +1248,10 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         if (this->rightHandType == 0xFF) {
             Matrix_Get(&this->shieldMf);
         } else if ((this->rightHandType == 11) || (this->rightHandType == 12)) {
+            static BowStringData sBowStringData[] = {
+                { 0x0602B108, { 0.0f, -360.4f, 0.0f } },  // bow
+                { 0x060221A8, { 606.0f, 236.0f, 0.0f } }, // slingshot
+            };
             BowStringData* stringData = &sBowStringData[gSaveContext.linkAge];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2783);
@@ -1310,6 +1293,13 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2809);
         } else if ((this->actor.scale.y >= 0.0f) && (this->rightHandType == 10)) {
+            static Vec3f D_80126154[] = {
+                { -4500.0f, -3000.0f, -600.0f },
+                { 1500.0f, -3000.0f, -600.0f },
+                { -4500.0f, 3000.0f, -600.0f },
+                { 1500.0f, 3000.0f, -600.0f },
+            };
+
             Matrix_Get(&this->shieldMf);
             func_80090604(globalCtx, this, &this->shieldQuad, D_80126154);
         }
@@ -1317,9 +1307,12 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         if (this->actor.scale.y >= 0.0f) {
             if ((this->heldItemActionParam == PLAYER_AP_HOOKSHOT) ||
                 (this->heldItemActionParam == PLAYER_AP_LONGSHOT)) {
+                static Vec3f D_80126184 = { 100.0f, 1500.0f, 0.0f };
+
                 Matrix_MultVec3f(&D_80126184, &this->unk_3C8);
 
                 if (heldActor != NULL) {
+                    static Vec3f D_80126190 = { 100.0f, 1640.0f, 0.0f };
                     MtxF sp44;
                     s32 pad;
 
@@ -1354,6 +1347,15 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     } else if (this->actor.scale.y >= 0.0f) {
         if (limbIndex == PLAYER_LIMB_SHEATH) {
             if ((this->rightHandType != 10) && (this->rightHandType != 0xFF)) {
+                static Vec3f D_8012619C[] = {
+                    { -3000.0f, -3000.0f, -900.0f },
+                    { 3000.0f, -3000.0f, -900.0f },
+                    { -3000.0f, 3000.0f, -900.0f },
+                    { 3000.0f, 3000.0f, -900.0f },
+                };
+                static Vec3f D_801261CC = { 630.0f, 100.0f, -30.0f };
+                static Vec3s D_801261D8 = { 0, 0, 0x7FFF };
+
                 if (Player_IsChildWithHylianShield(this)) {
                     func_80090604(globalCtx, this, &this->shieldQuad, D_8012619C);
                 }
@@ -1364,6 +1366,10 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
             Matrix_MultVec3f(&D_801260D4, &this->actor.focus.pos);
         } else {
+            static Vec3f D_801261E0[] = {
+                { 200.0f, 300.0f, 0.0f },
+                { 200.0f, 200.0f, 0.0f },
+            };
             Vec3f* vec = &D_801261E0[((void)0, gSaveContext.linkAge)];
 
             Actor_SetFeetPos(&this->actor, limbIndex, PLAYER_LIMB_L_FOOT, vec, PLAYER_LIMB_R_FOOT, vec);
@@ -1410,13 +1416,13 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         type = gPlayerModelTypes[modelGroup][1];
-        D_80160014 = type;
+        sLeftHandType = type;
         if ((type == 4) && (gSaveContext.swordHealth <= 0.0f)) {
             dListOffset = 4;
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
         type = gPlayerModelTypes[modelGroup][2];
-        D_80160018 = type;
+        sRightHandType = type;
         if (type == 10) {
             dListOffset = ptr[1] * 4;
         }
