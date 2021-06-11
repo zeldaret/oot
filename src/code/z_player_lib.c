@@ -2,6 +2,14 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_link_child/object_link_child.h"
 
+static Vec3f* D_80160000;
+static s32 sDListsLodOffset;
+static Vec3f sGetItemRefPos;
+static s32 sLeftHandType;
+static s32 sRightHandType;
+
+FlexSkeletonHeader* gPlayerSkelHeaders[] = { 0x060377F4, &gLinkChildSkel };
+
 typedef struct {
     /* 0x00 */ s16 walkSpeedMax;
     /* 0x02 */ s16 sideWalkAnimSpeedBase;
@@ -20,25 +28,7 @@ typedef struct {
     /* 0x1C */ s16 highJumpSpeedBase;
     /* 0x1E */ s16 smallJumpSpeed;
     /* 0x20 */ s16 unk_20;
-} PlayerWalkInfo;
-
-typedef struct {
-    /* 0x00 */ u8 flag;
-    /* 0x02 */ u16 textId;
-} TextTriggerEntry; // size = 0x04
-
-typedef struct {
-    /* 0x00 */ void* dList;
-    /* 0x04 */ Vec3f pos;
-} BowStringData; // size = 0x10
-
-static Vec3f* D_80160000;
-static s32 sDListsLodOffset;
-static Vec3f sGetItemRefPos;
-static s32 sLeftHandType;
-static s32 sRightHandType;
-
-FlexSkeletonHeader* gPlayerSkelHeaders[] = { 0x060377F4, &gLinkChildSkel };
+} PlayerWalkInfo; // size = 0x22
 
 // Info about how the player should walk, run, and jump under various conditions
 static PlayerWalkInfo sWalkInfo[PLAYER_WALK_MAX] = {
@@ -50,11 +40,90 @@ static PlayerWalkInfo sWalkInfo[PLAYER_WALK_MAX] = {
     { 200, 1000, 300, 800, 500, 400, 800, 400, 800, 550, -100, 600, 540, 750, 125, 400, 200 }, // Normal (child)
 };
 
+void Player_SetWalkInfo(GlobalContext* globalCtx, Player* this) {
+    s32 currentWalk;
+    PlayerWalkInfo* walkInfo;
+
+    REG(27) = 2000;
+    REG(48) = 370;
+
+    currentWalk = this->currentWalk;
+    if (currentWalk == PLAYER_WALK_NORMAL) {
+        if (LINK_IS_CHILD) {
+            currentWalk = PLAYER_WALK_NORMAL_CHILD;
+        }
+    } else if (currentWalk == PLAYER_WALK_IRON) {
+        if (this->stateFlags1 & 0x8000000) {
+            currentWalk = PLAYER_WALK_IRON_UNDERWATER;
+        }
+        REG(27) = 500;
+        REG(48) = 100;
+    }
+
+    walkInfo = &sWalkInfo[currentWalk];
+    REG(19) = walkInfo->walkSpeedMax;
+    REG(30) = walkInfo->sideWalkAnimSpeedBase;
+    REG(32) = walkInfo->sideWalkAnimSpeed;
+    REG(34) = walkInfo->unk_06;
+    REG(35) = walkInfo->walkAnimSpeedBase;
+    REG(36) = walkInfo->walkAnimSpeed;
+    REG(37) = walkInfo->runAnimSpeedBase;
+    REG(38) = walkInfo->runAnimSpeed;
+    REG(43) = walkInfo->unk_10;
+    REG(45) = walkInfo->runSpeedMax;
+    REG(68) = walkInfo->gravity;
+    REG(69) = walkInfo->unk_16;
+    IREG(66) = walkInfo->highJumpSpeedMin;
+    IREG(67) = walkInfo->highJumpSpeed;
+    IREG(68) = walkInfo->highJumpSpeedBase;
+    IREG(69) = walkInfo->smallJumpSpeed;
+    MREG(95) = walkInfo->unk_20;
+
+    if (globalCtx->roomCtx.curRoom.unk_03 == 2) {
+        REG(45) = 500;
+    }
+}
+
+s32 Player_InBlockingCsMode(GlobalContext* globalCtx, Player* this) {
+    return (this->stateFlags1 & 0x20000080) || (this->csMode != 0) || (globalCtx->sceneLoadFlag == 0x14) ||
+           (this->stateFlags1 & 1) || (this->stateFlags3 & 0x80) ||
+           ((gSaveContext.unk_13F0 != 0) && (Player_ActionToMagicSpell(this, this->itemActionParam) >= 0));
+}
+
+s32 Player_InCsMode(GlobalContext* globalCtx) {
+    Player* this = PLAYER;
+
+    return Player_InBlockingCsMode(globalCtx, this) || (this->unk_6AD == 4);
+}
+
+s32 Player_IsTargetting(Player* this) {
+    return (this->stateFlags1 & 0x10);
+}
+
+s32 Player_IsChildWithHylianShield(Player* this) {
+    return LINK_IS_CHILD && (this->currentShield == PLAYER_SHIELD_HYLIAN);
+}
+
 // Used to map action params to model groups
 static u8 sActionModelGroups[] = {
     3,  15, 10, 2,  2,  5,  10, 11, 6,  6, 6, 6, 6, 6, 6, 6, 9, 9, 7, 7, 8, 3, 3, 6, 3, 3, 3, 3, 12, 13, 14, 14, 14, 14,
     14, 14, 14, 14, 14, 14, 14, 14, 14, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  3,  3,  3,  3,
 };
+
+s32 Player_ActionToModelGroup(Player* this, s32 actionParam) {
+    s32 modelGroup = sActionModelGroups[actionParam];
+
+    if ((modelGroup == 2) && Player_IsChildWithHylianShield(this)) {
+        return 1;
+    } else {
+        return modelGroup;
+    }
+}
+
+typedef struct {
+    /* 0x00 */ u8 flag;
+    /* 0x02 */ u16 textId;
+} TextTriggerEntry; // size = 0x04
 
 static TextTriggerEntry sTextTriggers[] = {
     { 1, 0x3040 },
@@ -274,80 +343,6 @@ Gfx gCullFrontDList[] = {
     gsSPEndDisplayList(),
 };
 
-void Player_SetWalkInfo(GlobalContext* globalCtx, Player* this) {
-    s32 currentWalk;
-    PlayerWalkInfo* walkInfo;
-
-    REG(27) = 2000;
-    REG(48) = 370;
-
-    currentWalk = this->currentWalk;
-    if (currentWalk == PLAYER_WALK_NORMAL) {
-        if (LINK_IS_CHILD) {
-            currentWalk = PLAYER_WALK_NORMAL_CHILD;
-        }
-    } else if (currentWalk == PLAYER_WALK_IRON) {
-        if (this->stateFlags1 & 0x8000000) {
-            currentWalk = PLAYER_WALK_IRON_UNDERWATER;
-        }
-        REG(27) = 500;
-        REG(48) = 100;
-    }
-
-    walkInfo = &sWalkInfo[currentWalk];
-    REG(19) = walkInfo->walkSpeedMax;
-    REG(30) = walkInfo->sideWalkAnimSpeedBase;
-    REG(32) = walkInfo->sideWalkAnimSpeed;
-    REG(34) = walkInfo->unk_06;
-    REG(35) = walkInfo->walkAnimSpeedBase;
-    REG(36) = walkInfo->walkAnimSpeed;
-    REG(37) = walkInfo->runAnimSpeedBase;
-    REG(38) = walkInfo->runAnimSpeed;
-    REG(43) = walkInfo->unk_10;
-    REG(45) = walkInfo->runSpeedMax;
-    REG(68) = walkInfo->gravity;
-    REG(69) = walkInfo->unk_16;
-    IREG(66) = walkInfo->highJumpSpeedMin;
-    IREG(67) = walkInfo->highJumpSpeed;
-    IREG(68) = walkInfo->highJumpSpeedBase;
-    IREG(69) = walkInfo->smallJumpSpeed;
-    MREG(95) = walkInfo->unk_20;
-
-    if (globalCtx->roomCtx.curRoom.unk_03 == 2) {
-        REG(45) = 500;
-    }
-}
-
-s32 Player_InBlockingCsMode(GlobalContext* globalCtx, Player* this) {
-    return (this->stateFlags1 & 0x20000080) || (this->csMode != 0) || (globalCtx->sceneLoadFlag == 0x14) ||
-           (this->stateFlags1 & 1) || (this->stateFlags3 & 0x80) ||
-           ((gSaveContext.unk_13F0 != 0) && (Player_ActionToMagicSpell(this, this->itemActionParam) >= 0));
-}
-
-s32 Player_InCsMode(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
-
-    return Player_InBlockingCsMode(globalCtx, this) || (this->unk_6AD == 4);
-}
-
-s32 func_8008E9C4(Player* this) {
-    return (this->stateFlags1 & 0x10);
-}
-
-s32 Player_IsChildWithHylianShield(Player* this) {
-    return LINK_IS_CHILD && (this->currentShield == PLAYER_SHIELD_HYLIAN);
-}
-
-s32 Player_ActionToModelGroup(Player* this, s32 actionParam) {
-    s32 modelGroup = sActionModelGroups[actionParam];
-
-    if ((modelGroup == 2) && Player_IsChildWithHylianShield(this)) {
-        return 1;
-    } else {
-        return modelGroup;
-    }
-}
-
 void Player_SetModelsForHoldingShield(Player* this) {
     if ((this->stateFlags1 & 0x400000) &&
         ((this->itemActionParam < 0) || (this->itemActionParam == this->heldItemActionParam))) {
@@ -423,12 +418,12 @@ void Player_UpdateBottleHeld(GlobalContext* globalCtx, Player* this, s32 item, s
     this->itemActionParam = actionParam;
 }
 
-void func_8008EDF0(Player* this) {
+void Player_UnsetTargetting(Player* this) {
     this->unk_664 = NULL;
     this->stateFlags2 &= ~0x2000;
 }
 
-void func_8008EE08(Player* this) {
+void Player_InitTargetting(Player* this) {
     if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8A00000) ||
         (!(this->stateFlags1 & 0xC0000) && ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
         this->stateFlags1 &= ~0x400F8000;
@@ -436,13 +431,13 @@ void func_8008EE08(Player* this) {
         this->stateFlags1 |= 0x80000;
     }
 
-    func_8008EDF0(this);
+    Player_UnsetTargetting(this);
 }
 
-void func_8008EEAC(GlobalContext* globalCtx, Actor* actor) {
+void Player_SetTargetting(GlobalContext* globalCtx, Actor* actor) {
     Player* this = PLAYER;
 
-    func_8008EE08(this);
+    Player_InitTargetting(this);
     this->unk_664 = actor;
     this->unk_684 = actor;
     this->stateFlags1 |= 0x10000;
@@ -450,7 +445,7 @@ void func_8008EEAC(GlobalContext* globalCtx, Actor* actor) {
     Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), 2);
 }
 
-s32 func_8008EF30(GlobalContext* globalCtx) {
+s32 Player_IsRidingHorse(GlobalContext* globalCtx) {
     Player* this = PLAYER;
 
     return (this->stateFlags1 & 0x800000);
@@ -461,14 +456,14 @@ s32 func_8008EF44(GlobalContext* globalCtx, s32 ammo) {
     return 1;
 }
 
-s32 Player_IsBurningStickInRange(GlobalContext* globalCtx, Vec3f* pos, f32 xzRange, f32 yRange) {
+s32 Player_IsBurningStickInRange(GlobalContext* globalCtx, Vec3f* pos, f32 radius, f32 height) {
     Player* this = PLAYER;
     Vec3f diff;
     s32 pad;
 
     if ((this->heldItemActionParam == PLAYER_AP_STICK) && (this->unk_860 != 0)) {
         Math_Vec3f_Diff(&this->swordInfo[0].tip, pos, &diff);
-        return ((SQ(diff.x) + SQ(diff.z)) <= SQ(xzRange)) && (0.0f <= diff.y) && (diff.y <= yRange);
+        return ((SQ(diff.x) + SQ(diff.z)) <= SQ(radius)) && (0.0f <= diff.y) && (diff.y <= height);
     } else {
         return false;
     }
@@ -522,12 +517,12 @@ s32 Player_ActionToMagicSpell(Player* this, s32 actionParam) {
     }
 }
 
-s32 Player_HoldsHookshot(Player* this) {
+s32 Player_IsHoldingHookshot(Player* this) {
     return (this->heldItemActionParam == PLAYER_AP_HOOKSHOT) || (this->heldItemActionParam == PLAYER_AP_LONGSHOT);
 }
 
-s32 func_8008F128(Player* this) {
-    return Player_HoldsHookshot(this) && (this->heldActor == NULL);
+s32 Player_IsShootingHookshot(Player* this) {
+    return Player_IsHoldingHookshot(this) && (this->heldActor == NULL);
 }
 
 s32 Player_ActionToSword(s32 actionParam) {
@@ -657,13 +652,13 @@ static void* sMouthTextures[] = {
     0x06004C00,
 };
 
-void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
+void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
                    s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
                    void* data) {
-    static Color_RGB8 sTunicColors[] = {
-        { 30, 105, 27 },
-        { 100, 20, 0 },
-        { 0, 60, 100 },
+    static Color_RGB8 tunicColors[] = {
+        { 30, 105, 27 }, // Kokiri Tunic
+        { 100, 20, 0 }, // Goron Tunic
+        { 0, 60, 100 }, // Zora Tunic
     };
     Color_RGB8* color;
     s32 eyeIndex = (jointTable[22].x & 0xF) - 1;
@@ -683,7 +678,7 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[mouthIndex]));
 
-    color = &sTunicColors[tunic];
+    color = &tunicColors[tunic];
     gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
 
     sDListsLodOffset = lod * 2;
@@ -731,7 +726,7 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 1803);
 }
 
-static Vec3f D_8012602C = { 0.0f, 0.0f, 0.0f };
+static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot,
                    s32 thighLimbIndex, s32 shinLimbIndex, s32 footLimbIndex) {
@@ -773,10 +768,10 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
 
         Matrix_Push();
         Matrix_JointPosition(pos, rot);
-        Matrix_MultVec3f(&D_8012602C, &spA4);
+        Matrix_MultVec3f(&sZeroVec, &spA4);
         Matrix_JointPosition(&D_80126038[(void)0, gSaveContext.linkAge], &skelAnime->jointTable[shinLimbIndex]);
         Matrix_Translate(D_80126050[(void)0, gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_MultVec3f(&D_8012602C, &sp98);
+        Matrix_MultVec3f(&sZeroVec, &sp98);
         Matrix_MultVec3f(&D_80126070, &footprintPos);
         Matrix_Pop();
 
@@ -965,7 +960,7 @@ s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         } else if (limbIndex == PLAYER_LIMB_R_FOREARM) {
             *dList = D_80125F30[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-            *dList = Player_HoldsHookshot(this) ? D_0602A738 : D_80125F38[(void)0, gSaveContext.linkAge];
+            *dList = Player_IsHoldingHookshot(this) ? D_0602A738 : D_80125F38[(void)0, gSaveContext.linkAge];
         } else {
             *dList = NULL;
         }
@@ -1145,12 +1140,17 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
     }
 }
 
+typedef struct {
+    /* 0x00 */ void* dList;
+    /* 0x04 */ Vec3f pos;
+} BowStringData; // size = 0x10
+
 void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_801260D4 = { 1100.0f, -700.0f, 0.0f };
     Player* this = (Player*)thisx;
 
     if (*dList != NULL) {
-        Matrix_MultVec3f(&D_8012602C, D_80160000);
+        Matrix_MultVec3f(&sZeroVec, D_80160000);
     }
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
@@ -1217,7 +1217,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         }
 
         if (this->actor.scale.y >= 0.0f) {
-            if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
+            if (!Player_IsHoldingHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & 0x200) {
                     static Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
 
@@ -1264,7 +1264,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 Vec3f sp90;
                 f32 distXYZ;
 
-                Matrix_MultVec3f(&D_8012602C, &sp90);
+                Matrix_MultVec3f(&sZeroVec, &sp90);
                 distXYZ = Math_Vec3f_DistXYZ(D_80160000, &sp90);
 
                 this->unk_858 = distXYZ - 3.0f;
@@ -1402,9 +1402,8 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     return size + 0x8800 + 0x90;
 }
 
-u8 D_801261F8[] = { 2, 2, 5 };
-
 s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
+    static u8 D_801261F8[] = { 2, 2, 5 };
     u8* ptr = arg;
     u8 modelGroup = D_801261F8[ptr[0] - 1];
     s32 type;
@@ -1535,7 +1534,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
-    func_8008F470(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots, 0,
+    Player_DrawImpl(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots, 0,
                   func_80091880, NULL, &sp12C);
 
     gSPEndDisplayList(POLY_OPA_DISP++);

@@ -244,7 +244,7 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x7D0, 0);
         SkelAnime_Update(&this->skelAnime);
         if (this->actor.params != ENDH_START_ATTACK_BOMB) {
-            func_8008EEAC(globalCtx, &this->actor);
+            Player_SetTargetting(globalCtx, &this->actor);
         }
     }
 }

@@ -2109,7 +2109,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
     if ((actor != NULL) && (actor->update == NULL)) {
         actor = NULL;
-        func_8008EDF0(player);
+        Player_UnsetTargetting(player);
     }
 
     if ((actor == NULL) || (player->unk_66C < 5)) {
@@ -2834,7 +2834,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
     }
 
     if ((player != NULL) && (actor == player->unk_664)) {
-        func_8008EDF0(player);
+        Player_UnsetTargetting(player);
         Camera_ChangeMode(Gameplay_GetCamera(globalCtx, Gameplay_GetActiveCamId(globalCtx)), 0);
     }
 

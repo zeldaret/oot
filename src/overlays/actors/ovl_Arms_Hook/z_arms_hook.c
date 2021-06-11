@@ -123,7 +123,7 @@ void ArmsHook_DetachHookFromActor(ArmsHook* this) {
 s32 ArmsHook_CheckForCancel(ArmsHook* this) {
     Player* player = (Player*)this->actor.parent;
 
-    if (Player_HoldsHookshot(player)) {
+    if (Player_IsHoldingHookshot(player)) {
         if ((player->itemActionParam != player->heldItemActionParam) || ((player->actor.flags & 0x100)) ||
             ((player->stateFlags1 & 0x4000080))) {
             this->timer = 0;
@@ -163,7 +163,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     f32 velocity;
     s32 pad1;
 
-    if ((this->actor.parent == NULL) || (!Player_HoldsHookshot(player))) {
+    if ((this->actor.parent == NULL) || (!Player_IsHoldingHookshot(player))) {
         ArmsHook_DetachHookFromActor(this);
         Actor_Kill(&this->actor);
         return;
