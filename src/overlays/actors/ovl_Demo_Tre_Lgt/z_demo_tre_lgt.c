@@ -1,5 +1,6 @@
 #include "z_demo_tre_lgt.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
+#include "objects/object_box/object_box.h"
 
 #define FLAGS 0x00000010
 
@@ -14,8 +15,6 @@ void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx);
 void func_80993754(DemoTreLgt* this);
 void func_8099375C(DemoTreLgt* this, GlobalContext* globalCtx);
 void func_809937B4(DemoTreLgt* this, GlobalContext* globalCtx, f32 currentFrame);
-
-extern SkelCurveLimbList D_06005EB8;
 
 typedef struct {
     /* 0x00 */ f32 startFrame;
@@ -41,7 +40,7 @@ const ActorInit Demo_Tre_Lgt_InitVars = {
     (ActorFunc)DemoTreLgt_Draw,
 };
 
-static TransformUpdateIndex* sTransformUpdIdx[] = { 0x06004B60, 0x06004F70 };
+static TransformUpdateIndex* sTransformUpdIdx[] = { &gTreasureChestCurveAnim_4B60, &gTreasureChestCurveAnim_4F70 };
 
 static DemoTreLgtActionFunc sActionFuncs[] = {
     func_8099375C,
@@ -51,7 +50,8 @@ static DemoTreLgtActionFunc sActionFuncs[] = {
 void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoTreLgt* this = THIS;
 
-    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &D_06005EB8, sTransformUpdIdx[0])) {
+    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTreasureChestCurveSkel, sTransformUpdIdx[0])) {
+        // Demo_Tre_Lgt_Actor_ct (); Construct failed
         osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
     }
 

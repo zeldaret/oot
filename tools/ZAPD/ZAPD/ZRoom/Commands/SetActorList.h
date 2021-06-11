@@ -1,10 +1,20 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class ActorSpawnEntry
 {
 public:
+	ActorSpawnEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
+
+	std::string GetBodySourceCode() const;
+
+	std::string GetSourceTypeName() const;
+	int32_t GetRawDataSize() const;
+
+	uint16_t GetActorId() const;
+
+protected:
 	uint16_t actorNum;
 	int16_t posX;
 	int16_t posY;
@@ -13,29 +23,25 @@ public:
 	int16_t rotY;
 	int16_t rotZ;
 	uint16_t initVar;
-
-	ActorSpawnEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
 };
 
 class SetActorList : public ZRoomCommand
 {
 public:
-	SetActorList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
-	~SetActorList();
+	SetActorList(ZFile* nParent);
 
-	std::string GetSourceOutputCode(std::string prefix);
-	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
-	virtual std::string GenerateSourceCodePass2(std::string roomName, uint32_t baseAddress) override;
-	virtual RoomCommand GetRoomCommand() override;
-	virtual size_t GetRawDataSize() override;
-	virtual std::string GetCommandCName() override;
-	virtual std::string GenerateExterns() override;
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix) override;
 
-private:
-	size_t GetActorListArraySize();
-	int32_t numActors;
-	std::vector<ActorSpawnEntry*> actors;
-	uint32_t segmentOffset;
-	std::vector<uint8_t> _rawData;
-	uint32_t _rawDataIndex;
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	size_t GetRawDataSize() const override;
+	std::string GetCommandCName() const override;
+
+protected:
+	size_t GetActorListArraySize() const;
+
+	uint8_t numActors;
+	std::vector<ActorSpawnEntry> actors;
 };

@@ -1,25 +1,25 @@
 #include "SetRoomList.h"
-#include "../../BitConverter.h"
-#include "../../Globals.h"
-#include "../../StringHelper.h"
-#include "../../ZFile.h"
-#include "../ZRoom.h"
 
-using namespace std;
+#include "BitConverter.h"
+#include "Globals.h"
+#include "StringHelper.h"
+#include "ZFile.h"
+#include "ZRoom/ZRoom.h"
 
-SetRoomList::SetRoomList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetRoomList::SetRoomList(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	int32_t numRooms = rawData[rawDataIndex + 1];
-	segmentOffset = BitConverter::ToInt32BE(rawData, rawDataIndex + 4) & 0x00FFFFFF;
+}
 
-	rooms = vector<RoomEntry*>();
+void SetRoomList::ParseRawData()
+{
+	ZRoomCommand::ParseRawData();
+	int numRooms = cmdArg1;
 
 	int32_t currentPtr = segmentOffset;
 
 	for (int32_t i = 0; i < numRooms; i++)
 	{
-		RoomEntry* entry = new RoomEntry(rawData, currentPtr);
+		RoomEntry entry(parent->GetRawData(), currentPtr);
 		rooms.push_back(entry);
 
 		currentPtr += 8;
@@ -28,44 +28,32 @@ SetRoomList::SetRoomList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t r
 	zRoom->roomCount = numRooms;
 }
 
-SetRoomList::~SetRoomList()
+void SetRoomList::DeclareReferences(const std::string& prefix)
 {
-	for (RoomEntry* entry : rooms)
-		delete entry;
+	parent->AddDeclarationArray(
+		segmentOffset, DeclarationAlignment::None, rooms.size() * 8, "RomFile",
+		StringHelper::Sprintf("%sRoomList0x%06X", prefix.c_str(), segmentOffset), 0, "");
 }
 
-string SetRoomList::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
+std::string SetRoomList::GetBodySourceCode() const
 {
-	return StringHelper::Sprintf(
-		"%s 0x%02X, (u32)&%sRoomList0x%06X",
-		ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(), rooms.size(),
-		zRoom->GetName().c_str(), segmentOffset);
+	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	return StringHelper::Sprintf("SCENE_CMD_ROOM_LIST(%i, %s)", rooms.size(), listName.c_str());
 }
 
-string SetRoomList::GenerateSourceCodePass2(string roomName, uint32_t baseAddress)
-{
-	return "";
-}
-
-string SetRoomList::GenerateExterns()
-{
-	return StringHelper::Sprintf("extern RomFile %sRoomList0x%06X[];\n", zRoom->GetName().c_str(),
-	                             segmentOffset);
-}
-
-string SetRoomList::GetCommandCName()
+std::string SetRoomList::GetCommandCName() const
 {
 	return "SCmdRoomList";
 }
 
-RoomCommand SetRoomList::GetRoomCommand()
+RoomCommand SetRoomList::GetRoomCommand() const
 {
 	return RoomCommand::SetRoomList;
 }
 
-std::string SetRoomList::PreGenSourceFiles()
+void SetRoomList::PreGenSourceFiles()
 {
-	string declaration = "";
+	std::string declaration = "";
 
 	for (ZFile* file : Globals::Instance->files)
 	{
@@ -73,34 +61,27 @@ std::string SetRoomList::PreGenSourceFiles()
 		{
 			if (res->GetResourceType() == ZResourceType::Room && res != zRoom)
 			{
-				string roomName = res->GetName();
-				declaration += StringHelper::Sprintf(
-					"    { (u32)_%sSegmentRomStart, (u32)_%sSegmentRomEnd },\n", roomName.c_str(),
-					roomName.c_str());
+				std::string roomName = res->GetName();
+				declaration +=
+					StringHelper::Sprintf("\t{ (u32)_%sSegmentRomStart, (u32)_%sSegmentRomEnd },\n",
+				                          roomName.c_str(), roomName.c_str());
 			}
 		}
 	}
 
-	zRoom->parent->AddDeclarationArray(
+	parent->AddDeclarationArray(
 		segmentOffset, DeclarationAlignment::None, rooms.size() * 8, "RomFile",
 		StringHelper::Sprintf("%sRoomList0x%06X", zRoom->GetName().c_str(), segmentOffset), 0,
 		declaration);
-
-	return std::string();
 }
 
-std::string SetRoomList::Save()
-{
-	return std::string();
-}
-
-RoomEntry::RoomEntry(int32_t nVAS, int32_t nVAE)
+RoomEntry::RoomEntry(uint32_t nVAS, uint32_t nVAE)
 {
 	virtualAddressStart = nVAS;
 	virtualAddressEnd = nVAE;
 }
 
-RoomEntry::RoomEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex)
+RoomEntry::RoomEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
 	: RoomEntry(BitConverter::ToInt32BE(rawData, rawDataIndex + 0),
                 BitConverter::ToInt32BE(rawData, rawDataIndex + 4))
 {

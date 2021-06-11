@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_yabusame_point" Segment="6">
+        <Blob Name="object_yabusame_point_Blob_000000" Size="0xD80" Offset="0x0"/>
+        <DList Name="object_yabusame_point_DL_000DC0" Offset="0xDC0"/>
+    </File>
+</Root>

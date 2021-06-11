@@ -304,8 +304,6 @@ void EffectBlure_UpdateFlags(EffectBlureElement* elem) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc and saved register usage differences
 void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3s* vec1, Vec3s* vec2,
                                    Color_RGBA8* color1, Color_RGBA8* color2) {
     Vec3s sp30;
@@ -350,11 +348,12 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
 
             vec1->x = (sp30.x * 0.5f * mode4Param * ratio) + elem->p1.x;
             vec1->y = (sp30.y * 0.5f * mode4Param * ratio) + elem->p1.y;
+            if (1) {} // Necessary to match
             vec1->z = (sp30.z * 0.5f * mode4Param * ratio) + elem->p1.z;
 
-            vec2->x = elem->p2.x - (sp30.x * 0.5f * mode4Param * ratio);
-            vec2->y = elem->p2.y - (sp30.y * 0.5f * mode4Param * ratio);
-            vec2->z = elem->p2.z - (sp30.z * 0.5f * mode4Param * ratio);
+            vec2->x = -(sp30.x * 0.5f * mode4Param * ratio) + elem->p2.x;
+            vec2->y = -(sp30.y * 0.5f * mode4Param * ratio) + elem->p2.y;
+            vec2->z = -(sp30.z * 0.5f * mode4Param * ratio) + elem->p2.z;
             break;
 
         case 0:
@@ -367,10 +366,12 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             vec2->z = elem->p2.z;
             break;
     }
+
     sp30 = sp30; // Optimized out but seems necessary to match stack usage
 
     if (this->flags & 0x10) {
-        color1->r = color1->g = color1->b = color1->a = color2->r = color2->g = color2->b = color2->a = 255;
+        color1->r = color1->g = color1->b = color1->a = 255;
+        color2->r = color2->g = color2->b = color2->a = 255;
     } else {
         color1->r = func_80027E84(this->p1StartColor.r, this->p1EndColor.r, ratio);
         color1->g = func_80027E84(this->p1StartColor.g, this->p1EndColor.g, ratio);
@@ -382,11 +383,6 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
         color2->a = func_80027E84(this->p2StartColor.a, this->p2EndColor.a, ratio);
     }
 }
-#else
-void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3s* vec1, Vec3s* vec2,
-                                   Color_RGBA8* color1, Color_RGBA8* color2);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_eff_blure/EffectBlure_GetComputedValues.s")
-#endif
 
 void EffectBlure_SetupSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 809);
@@ -853,7 +849,6 @@ Vtx_t D_801157CC[] = {
     VTX_T(0, 0, 0, 2048, 0, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-#ifdef NON_MATCHING
 void EffectBlure_DrawSimple(EffectBlure* this2, GraphicsContext* gfxCtx) {
     EffectBlure* this = this2;
     Vtx* vtx;
@@ -861,18 +856,16 @@ void EffectBlure_DrawSimple(EffectBlure* this2, GraphicsContext* gfxCtx) {
     EffectBlureElement* elem;
     s32 vtxCount;
     s32 i;
-    s32 j1;
-    s32 j2;
-    s32 j3;
+    s32 j;
     Vec3s sp74;
     Vec3s sp6C;
     f32 ratio;
     Color_RGBA8 sp64;
     Color_RGBA8 sp60;
 
-    vtxCount = this->numElements * 4;
-
     if (this->numElements >= 2) {
+        vtxCount = this->numElements * 4;
+
         vtx = Graph_Alloc(gfxCtx, vtxCount * sizeof(Vtx));
         if (vtx == NULL) {
             // Translates to: "Vertices cannot be secured. Forced termination"
@@ -881,78 +874,74 @@ void EffectBlure_DrawSimple(EffectBlure* this2, GraphicsContext* gfxCtx) {
         }
 
         vtxIter = vtx;
-        vtxIter[0].v = D_8011578C[0];
-        vtxIter[1].v = D_8011578C[1];
-        vtxIter[2].v = D_8011578C[2];
-        vtxIter[3].v = D_8011578C[3];
-        vtxIter += 4;
+        for (i = 0; i < 4; i++) {
+            vtxIter->v = D_8011578C[i];
+            vtxIter++;
+        }
 
         if (this->numElements >= 2) {
-            for (elem = &this->elements[0]; elem < this->elements + this->numElements - 2; elem++, vtxIter += 4) {
-                vtxIter[0].v = D_801157CC[0];
-                vtxIter[1].v = D_801157CC[1];
-                vtxIter[2].v = D_801157CC[2];
-                vtxIter[3].v = D_801157CC[3];
+            for (elem = this->elements; elem < this->elements + this->numElements - 2; elem++) {
+                for (i = 0; i < 4; i++) {
+                    vtxIter->v = D_801157CC[i];
+                    vtxIter++;
+                }
             }
         }
 
-        for (j1 = -2, j2 = -1, i = 0; i < this->numElements; j1 += 4, j2 += 4, i++) {
-
+        for (i = 0; i < this->numElements; i++) {
             elem = &this->elements[i];
 
             ratio = (f32)elem->timer / (f32)this->elemDuration;
             EffectBlure_GetComputedValues(this, i, ratio, &sp74, &sp6C, &sp64, &sp60);
-            j3 = j1;
-            if (j3 >= 0) {
-                vtx[j3].v.ob[0] = sp74.x;
-                vtx[j3].v.ob[1] = sp74.y;
-                vtx[j3].v.ob[2] = sp74.z;
-                vtx[j3].v.cn[0] = sp64.r;
-                vtx[j3].v.cn[1] = sp64.g;
-                vtx[j3].v.cn[2] = sp64.b;
-                vtx[j3].v.cn[3] = sp64.a;
+
+            j = i * 4 - 2;
+            if (j >= 0) {
+                vtx[j].v.ob[0] = sp74.x;
+                vtx[j].v.ob[1] = sp74.y;
+                vtx[j].v.ob[2] = sp74.z;
+                vtx[j].v.cn[0] = sp64.r;
+                vtx[j].v.cn[1] = sp64.g;
+                vtx[j].v.cn[2] = sp64.b;
+                vtx[j].v.cn[3] = sp64.a;
             }
 
-            j3 = j2;
-            if (j3 >= 0) {
-                vtx[j3].v.ob[0] = sp6C.x;
-                vtx[j3].v.ob[1] = sp6C.y;
-                vtx[j3].v.ob[2] = sp6C.z;
-                vtx[j3].v.cn[0] = sp60.r;
-                vtx[j3].v.cn[1] = sp60.g;
-                vtx[j3].v.cn[2] = sp60.b;
-                vtx[j3].v.cn[3] = sp60.a;
+            j++;
+            if (j >= 0) {
+                vtx[j].v.ob[0] = sp6C.x;
+                vtx[j].v.ob[1] = sp6C.y;
+                vtx[j].v.ob[2] = sp6C.z;
+                vtx[j].v.cn[0] = sp60.r;
+                vtx[j].v.cn[1] = sp60.g;
+                vtx[j].v.cn[2] = sp60.b;
+                vtx[j].v.cn[3] = sp60.a;
             }
 
-            j3++;
-            if (vtxCount >= j3) {
-                vtx[j3].v.ob[0] = sp74.x;
-                vtx[j3].v.ob[1] = sp74.y;
-                vtx[j3].v.ob[2] = sp74.z;
-                vtx[j3].v.cn[0] = sp64.r;
-                vtx[j3].v.cn[1] = sp64.g;
-                vtx[j3].v.cn[2] = sp64.b;
-                vtx[j3].v.cn[3] = sp64.a;
+            j++;
+            if (vtxCount >= j) {
+                vtx[j].v.ob[0] = sp74.x;
+                vtx[j].v.ob[1] = sp74.y;
+                vtx[j].v.ob[2] = sp74.z;
+                vtx[j].v.cn[0] = sp64.r;
+                vtx[j].v.cn[1] = sp64.g;
+                vtx[j].v.cn[2] = sp64.b;
+                vtx[j].v.cn[3] = sp64.a;
             }
 
-            j3++;
-            if (vtxCount >= j3) {
-                vtx[j3].v.ob[0] = sp6C.x;
-                vtx[j3].v.ob[1] = sp6C.y;
-                vtx[j3].v.ob[2] = sp6C.z;
-                vtx[j3].v.cn[0] = sp60.r;
-                vtx[j3].v.cn[1] = sp60.g;
-                vtx[j3].v.cn[2] = sp60.b;
-                vtx[j3].v.cn[3] = sp60.a;
+            j++;
+            if (vtxCount >= j) {
+                vtx[j].v.ob[0] = sp6C.x;
+                vtx[j].v.ob[1] = sp6C.y;
+                vtx[j].v.ob[2] = sp6C.z;
+                vtx[j].v.cn[0] = sp60.r;
+                vtx[j].v.cn[1] = sp60.g;
+                vtx[j].v.cn[2] = sp60.b;
+                vtx[j].v.cn[3] = sp60.a;
             }
         }
 
         EffectBlure_DrawSimpleVertices(gfxCtx, this, vtx);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_eff_blure/EffectBlure_DrawSimple.s")
-#endif
 
 void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
     EffectBlure* this = (EffectBlure*)thisx;
