@@ -14,7 +14,7 @@ typedef struct {
     /* 0x10 */ s16 unk_10;
     /* 0x12 */ s16 runSpeedMax;
     /* 0x14 */ s16 gravity;
-    /* 0x16 */ s16 unk_16; // jump related
+    /* 0x16 */ s16 unk_16;           // jump related
     /* 0x18 */ s16 highJumpSpeedMin; // minimum speed to trigger a high jump
     /* 0x1A */ s16 highJumpSpeed;
     /* 0x1C */ s16 highJumpSpeedBase;
@@ -40,6 +40,7 @@ static s32 sRightHandType;
 
 FlexSkeletonHeader* gPlayerSkelHeaders[] = { 0x060377F4, &gLinkChildSkel };
 
+// Info about how the player should walk, run, and jump under various conditions
 static PlayerWalkInfo sWalkInfo[PLAYER_WALK_MAX] = {
     { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 }, // Normal (adult)
     { 200, 1000, 300, 700, 550, 270, 1000, 0, 800, 300, -160, 600, 590, 750, 125, 200, 130 },  // Iron
