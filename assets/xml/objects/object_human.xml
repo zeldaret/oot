@@ -1,0 +1,173 @@
+<Root>
+    <File Name="object_human" Segment="6">
+        <Texture Name="object_human_Tex_000000" OutName="object_human_Tex_000000" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x0"/>
+        <Texture Name="object_human_Tex_000400" OutName="object_human_Tex_000400" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x400"/>
+        <Texture Name="object_human_Tex_000800" OutName="object_human_Tex_000800" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x800"/>
+        <Texture Name="object_human_Tex_000C00" OutName="object_human_Tex_000C00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0xC00"/>
+        <Texture Name="object_human_Tex_001000" OutName="object_human_Tex_001000" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x1000"/>
+        <Texture Name="object_human_Tex_001400" OutName="object_human_Tex_001400" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x1400"/>
+        <Texture Name="object_human_Tex_001800" OutName="object_human_Tex_001800" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x1800"/>
+        <Texture Name="object_human_Tex_001C00" OutName="object_human_Tex_001C00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x1C00"/>
+        <Texture Name="object_human_Tex_002000" OutName="object_human_Tex_002000" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x2000"/>
+
+
+        <Texture Name="object_human_Tex_002400" OutName="object_human_Tex_002400" Format="ci8" Width="32" Height="16" TlutOffset="0x7A00" Offset="0x2400"/>
+        <Texture Name="object_human_Tex_002600" OutName="object_human_Tex_002600" Format="ci8" Width="32" Height="16" TlutOffset="0x7A00" Offset="0x2600"/>
+        <Texture Name="object_human_Tex_002800" OutName="object_human_Tex_002800" Format="ci8" Width="32" Height="16" TlutOffset="0x7A00" Offset="0x2800"/>
+
+        <Texture Name="object_human_Tex_002A00" OutName="object_human_Tex_002A00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x2A00"/>
+        <Texture Name="object_human_Tex_002E00" OutName="object_human_Tex_002E00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x2E00"/>
+        <Texture Name="object_human_Tex_003200" OutName="object_human_Tex_003200" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x3200"/>
+        <Texture Name="object_human_Tex_003600" OutName="object_human_Tex_003600" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x3600"/>
+        <Texture Name="object_human_Tex_003A00" OutName="object_human_Tex_003A00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x3A00"/>
+        <Texture Name="object_human_Tex_003E00" OutName="object_human_Tex_003E00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x3E00"/>
+        <Texture Name="object_human_Tex_004200" OutName="object_human_Tex_004200" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x4200"/>
+        <Texture Name="object_human_Tex_004600" OutName="object_human_Tex_004600" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x4600"/>
+        <Texture Name="object_human_Tex_004A00" OutName="object_human_Tex_004A00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x4A00"/>
+
+        <Texture Name="object_human_Tex_004E00" OutName="object_human_Tex_004E00" Format="ci8" Width="32" Height="16" TlutOffset="0x7A00" Offset="0x4E00"/>
+        <Texture Name="object_human_Tex_005000" OutName="object_human_Tex_005000" Format="ci8" Width="32" Height="16" TlutOffset="0x7A00" Offset="0x5000"/>
+        <Texture Name="object_human_Tex_005200" OutName="object_human_Tex_005200" Format="ci8" Width="32" Height="16" TlutOffset="0x7A00" Offset="0x5200"/>
+
+        <Texture Name="object_human_Tex_005400" OutName="object_human_Tex_005400" Format="ci8" Width="16" Height="16" TlutOffset="0x7A00" Offset="0x5400"/>
+        <Texture Name="object_human_Tex_005500" OutName="object_human_Tex_005500" Format="ci8" Width="16" Height="16" TlutOffset="0x7A00" Offset="0x5500"/>
+
+        <Texture Name="object_human_Tex_005600" OutName="object_human_Tex_005600" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x5600"/>
+        <Texture Name="object_human_Tex_005A00" OutName="object_human_Tex_005A00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x5A00"/>
+        <Texture Name="object_human_Tex_005E00" OutName="object_human_Tex_005E00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x5E00"/>
+        <Texture Name="object_human_Tex_006200" OutName="object_human_Tex_006200" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6200"/>
+        <Texture Name="object_human_Tex_006600" OutName="object_human_Tex_006600" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6600"/>
+        <Texture Name="object_human_Tex_006A00" OutName="object_human_Tex_006A00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6A00"/>
+        <Texture Name="object_human_Tex_006E00" OutName="object_human_Tex_006E00" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x6E00"/>
+        <Texture Name="object_human_Tex_007200" OutName="object_human_Tex_007200" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x7200"/>
+        <Texture Name="object_human_Tex_007600" OutName="object_human_Tex_007600" Format="ci8" Width="32" Height="32" TlutOffset="0x7A00" Offset="0x7600"/>
+
+        <LegacyAnimation Name="gHumanAnim_008354" Offset="0x8354"/>
+        <LegacyAnimation Name="gHumanAnim_008784" Offset="0x8784"/>
+        <LegacyAnimation Name="gHumanAnim_008CE0" Offset="0x8CE0"/>
+        <LegacyAnimation Name="gHumanAnim_00990C" Offset="0x990C"/>
+        <LegacyAnimation Name="gHumanAnim_009C2C" Offset="0x9C2C"/>
+        <LegacyAnimation Name="gHumanAnim_00A044" Offset="0xA044"/>
+        <LegacyAnimation Name="gHumanAnim_00A8B4" Offset="0xA8B4"/>
+        <LegacyAnimation Name="gHumanAnim_00AF30" Offset="0xAF30"/>
+
+        <DList Name="object_human_DL_00AF40" Offset="0xAF40" />
+        <DList Name="object_human_DL_00B040" Offset="0xB040" />
+        <DList Name="object_human_DL_00B050" Offset="0xB050" />
+        
+        <DList Name="object_human_DL_00B1A8" Offset="0xB1A8" />
+        <DList Name="object_human_DL_00B288" Offset="0xB288" />
+        <DList Name="object_human_DL_00B298" Offset="0xB298" />
+
+        <!-- Foot? Shoe? -->
+        <DList Name="object_human_DL_00B3B0" Offset="0xB3B0" />
+        <DList Name="object_human_DL_00B488" Offset="0xB488" />
+        <DList Name="object_human_DL_00B498" Offset="0xB498" />
+
+        <!-- Left hand -->
+        <DList Name="object_human_DL_00B610" Offset="0xB610" />
+        <DList Name="object_human_DL_00B750" Offset="0xB750" />
+        <DList Name="object_human_DL_00B760" Offset="0xB760" />
+
+        <DList Name="object_human_DL_00B918" Offset="0xB918" />
+        <DList Name="object_human_DL_00B9E0" Offset="0xB9E0" />
+        <DList Name="object_human_DL_00B9F0" Offset="0xB9F0" />
+
+        <DList Name="object_human_DL_00BAF8" Offset="0xBAF8" />
+        <DList Name="object_human_DL_00BBF8" Offset="0xBBF8" />
+        <DList Name="object_human_DL_00BC08" Offset="0xBC08" />
+
+        <DList Name="object_human_DL_00BD40" Offset="0xBD40" />
+        <DList Name="object_human_DL_00BE20" Offset="0xBE20" />
+        <DList Name="object_human_DL_00BE30" Offset="0xBE30" />
+
+        <!-- Foot? Shoe? -->
+        <DList Name="object_human_DL_00BF38" Offset="0xBF38" />
+        <DList Name="object_human_DL_00C010" Offset="0xC010" />
+        <DList Name="object_human_DL_00C020" Offset="0xC020" />
+
+        <!-- Right hand -->
+        <DList Name="object_human_DL_00C178" Offset="0xC178" />
+        <DList Name="object_human_DL_00C2B8" Offset="0xC2B8" />
+        <DList Name="object_human_DL_00C2C8" Offset="0xC2C8" />
+        
+        <DList Name="object_human_DL_00C450" Offset="0xC450" />
+        <DList Name="object_human_DL_00C518" Offset="0xC518" />
+        <DList Name="object_human_DL_00C528" Offset="0xC528" />
+
+        <!-- Torso -->
+        <DList Name="object_human_DL_00C620" Offset="0xC620" />
+        <DList Name="object_human_DL_00C8B0" Offset="0xC8B0" />
+        <DList Name="object_human_DL_00C8C0" Offset="0xC8C0" />
+
+        <!-- Hair? -->
+        <DList Name="object_human_DL_00CCF8" Offset="0xCCF8" />
+        <DList Name="object_human_DL_00CDC8" Offset="0xCDC8" />
+        <DList Name="object_human_DL_00CDD8" Offset="0xCDD8" />
+
+        <!-- Doesn't work in Z64Utils -->
+        <DList Name="object_human_DL_00CED0" Offset="0xCED0" />
+        <DList Name="object_human_DL_00D500" Offset="0xD500" />
+        <DList Name="object_human_DL_00D510" Offset="0xD510" />
+
+        <!-- Upper half of the dress? idk -->
+        <DList Name="object_human_DL_00E0B8" Offset="0xE0B8" />
+        <DList Name="object_human_DL_00E218" Offset="0xE218" />
+        <DList Name="object_human_DL_00E228" Offset="0xE228" />
+
+        <!-- Lower half of the dress -->
+        <DList Name="object_human_DL_00E3A0" Offset="0xE3A0" />
+        <DList Name="object_human_DL_00E480" Offset="0xE480" />
+        <DList Name="object_human_DL_00E490" Offset="0xE490" />
+
+        <LegacyAnimation Name="gHumanAnim_011A9C" Offset="0x11A9C"/>
+
+        <Limb Name="object_human_Limb_011AA8" Type="Legacy" Offset="0x11AA8"/>
+        <Limb Name="object_human_Limb_011AC8" Type="Legacy" Offset="0x11AC8"/>
+        <Limb Name="object_human_Limb_011AE8" Type="Legacy" Offset="0x11AE8"/>
+        <Limb Name="object_human_Limb_011B08" Type="Legacy" Offset="0x11B08"/>
+        <Limb Name="object_human_Limb_011B28" Type="Legacy" Offset="0x11B28"/>
+        <Limb Name="object_human_Limb_011B48" Type="Legacy" Offset="0x11B48"/>
+        <Limb Name="object_human_Limb_011B68" Type="Legacy" Offset="0x11B68"/>
+        <Limb Name="object_human_Limb_011B88" Type="Legacy" Offset="0x11B88"/>
+        <Limb Name="object_human_Limb_011BA8" Type="Legacy" Offset="0x11BA8"/>
+        <Limb Name="object_human_Limb_011BC8" Type="Legacy" Offset="0x11BC8"/>
+        <Limb Name="object_human_Limb_011BE8" Type="Legacy" Offset="0x11BE8"/>
+        <Limb Name="object_human_Limb_011C08" Type="Legacy" Offset="0x11C08"/>
+        <Limb Name="object_human_Limb_011C28" Type="Legacy" Offset="0x11C28"/>
+        <Limb Name="object_human_Limb_011C48" Type="Legacy" Offset="0x11C48"/>
+        <Limb Name="object_human_Limb_011C68" Type="Legacy" Offset="0x11C68"/>
+        <Limb Name="object_human_Limb_011C88" Type="Legacy" Offset="0x11C88"/>
+        <Limb Name="object_human_Limb_011CA8" Type="Legacy" Offset="0x11CA8"/>
+        <Limb Name="object_human_Limb_011CC8" Type="Legacy" Offset="0x11CC8"/>
+        <Limb Name="object_human_Limb_011CE8" Type="Legacy" Offset="0x11CE8"/>
+        <Limb Name="object_human_Limb_011D08" Type="Legacy" Offset="0x11D08"/>
+        <Limb Name="object_human_Limb_011D28" Type="Legacy" Offset="0x11D28"/>
+        <Limb Name="object_human_Limb_011D48" Type="Legacy" Offset="0x11D48"/>
+        <Limb Name="object_human_Limb_011D68" Type="Legacy" Offset="0x11D68"/>
+        <Limb Name="object_human_Limb_011D88" Type="Legacy" Offset="0x11D88"/>
+        <Limb Name="object_human_Limb_011DA8" Type="Legacy" Offset="0x11DA8"/>
+        <Limb Name="object_human_Limb_011DC8" Type="Legacy" Offset="0x11DC8"/>
+        <Limb Name="object_human_Limb_011DE8" Type="Legacy" Offset="0x11DE8"/>
+        <Limb Name="object_human_Limb_011E08" Type="Legacy" Offset="0x11E08"/>
+        <Limb Name="object_human_Limb_011E28" Type="Legacy" Offset="0x11E28"/>
+        <Limb Name="object_human_Limb_011E48" Type="Legacy" Offset="0x11E48"/>
+        <Limb Name="object_human_Limb_011E68" Type="Legacy" Offset="0x11E68"/>
+        <Limb Name="object_human_Limb_011E88" Type="Legacy" Offset="0x11E88"/>
+        <Limb Name="object_human_Limb_011EA8" Type="Legacy" Offset="0x11EA8"/>
+        <Limb Name="object_human_Limb_011EC8" Type="Legacy" Offset="0x11EC8"/>
+        <Limb Name="object_human_Limb_011EE8" Type="Legacy" Offset="0x11EE8"/>
+        <Limb Name="object_human_Limb_011F08" Type="Legacy" Offset="0x11F08"/>
+        <Limb Name="object_human_Limb_011F28" Type="Legacy" Offset="0x11F28"/>
+        <Limb Name="object_human_Limb_011F48" Type="Legacy" Offset="0x11F48"/>
+        <Limb Name="object_human_Limb_011F68" Type="Legacy" Offset="0x11F68"/>
+        <Limb Name="object_human_Limb_011F88" Type="Legacy" Offset="0x11F88"/>
+        <Limb Name="object_human_Limb_011FA8" Type="Legacy" Offset="0x11FA8"/>
+
+        <LimbTable Name="gHumanLimbTable_011FC8" LimbType="Legacy" Count="41" Offset="0x11FC8"/>
+
+        <LegacyAnimation Name="gHumanAnim_01291C" Offset="0x1291C"/>
+        <LegacyAnimation Name="gHumanAnim_012D18" Offset="0x12D18"/>
+        <LegacyAnimation Name="gHumanAnim_01316C" Offset="0x1316C"/>
+    </File>
+</Root>
