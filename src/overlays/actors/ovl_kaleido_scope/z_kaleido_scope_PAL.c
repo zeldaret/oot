@@ -2523,7 +2523,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             pauseCtx->playerSegment = (void*)(((u32)globalCtx->objectCtx.spaceStart + 0x30) & ~0x3F);
 
-            size1 = func_80091738(globalCtx, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
+            size1 = Player_LoadPauseSegmentData(globalCtx, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
             osSyncPrintf("プレイヤー size1＝%x\n", size1);
 
             pauseCtx->iconItemSegment = (void*)(((u32)pauseCtx->playerSegment + size1 + 0xF) & ~0xF);

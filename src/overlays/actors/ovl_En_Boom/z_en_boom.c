@@ -264,7 +264,7 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&sMultVec1, &vec1);
     Matrix_MultVec3f(&sMultVec2, &vec2);
 
-    if (Player_SetSwordCollision(globalCtx, &this->collider, &this->boomerangInfo, &vec1, &vec2) != 0) {
+    if (Player_SetQuadWeaponCollision(globalCtx, &this->collider, &this->boomerangInfo, &vec1, &vec2) != 0) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &vec1, &vec2);
     }
 

@@ -2,7 +2,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_link_child/object_link_child.h"
 
-static Vec3f* D_80160000;
+static Vec3f* sPartsPosPtr; // pointer to positions parts of the player
 static s32 sDListsLodOffset;
 static Vec3f sGetItemRefPos;
 static s32 sLeftHandType;
@@ -685,7 +685,8 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
 
     SkelAnime_DrawFlexLod(globalCtx, skeleton, jointTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
 
-    if ((overrideLimbDraw != func_800902F0) && (overrideLimbDraw != func_80090440) && (gSaveContext.gameMode != 3)) {
+    if ((overrideLimbDraw != Player_OverrideLimbDraw2) && (overrideLimbDraw != Player_OverrideLimbDraw3) &&
+        (gSaveContext.gameMode != 3)) {
         if (LINK_IS_ADULT) {
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
@@ -741,14 +742,14 @@ void Player_FeetIK(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
     Vec3f footprintPos;
     CollisionPoly* sp88;
     s32 sp84;
-    f32 sp80;
+    f32 posB;
     f32 sp7C;
     f32 sp78;
-    f32 sp74;
+    f32 aimProjectedPos;
     f32 sp70;
     f32 sp6C;
-    f32 sp68;
-    f32 sp64;
+    f32 screenPos;
+    f32 w;
     f32 sp60;
     f32 sp5C;
     f32 sp58;
@@ -764,7 +765,7 @@ void Player_FeetIK(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
 
         sp7C = D_80126058[(void)0, gSaveContext.linkAge];
         sp78 = D_80126060[(void)0, gSaveContext.linkAge];
-        sp74 = D_80126068[(void)0, gSaveContext.linkAge] - this->unk_6C4;
+        aimProjectedPos = D_80126068[(void)0, gSaveContext.linkAge] - this->unk_6C4;
 
         Matrix_Push();
         Matrix_JointPosition(pos, rot);
@@ -777,26 +778,27 @@ void Player_FeetIK(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
 
         footprintPos.y += 15.0f;
 
-        sp80 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp88, &sp84, &this->actor, &footprintPos) + sp74;
+        posB = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp88, &sp84, &this->actor, &footprintPos) +
+               aimProjectedPos;
 
-        if (sp98.y < sp80) {
+        if (sp98.y < posB) {
             sp70 = sp98.x - spA4.x;
             sp6C = sp98.y - spA4.y;
-            sp68 = sp98.z - spA4.z;
+            screenPos = sp98.z - spA4.z;
 
-            sp64 = sqrtf(SQ(sp70) + SQ(sp6C) + SQ(sp68));
-            sp60 = (SQ(sp64) + sp78) / (2.0f * sp64);
+            w = sqrtf(SQ(sp70) + SQ(sp6C) + SQ(screenPos));
+            sp60 = (SQ(w) + sp78) / (2.0f * w);
 
             sp58 = sp7C - SQ(sp60);
             sp58 = (sp7C < SQ(sp60)) ? 0.0f : sqrtf(sp58);
 
             sp54 = Math_FAtan2F(sp58, sp60);
 
-            sp6C = sp80 - spA4.y;
+            sp6C = posB - spA4.y;
 
-            sp64 = sqrtf(SQ(sp70) + SQ(sp6C) + SQ(sp68));
-            sp60 = (SQ(sp64) + sp78) / (2.0f * sp64);
-            sp5C = sp64 - sp60;
+            w = sqrtf(SQ(sp70) + SQ(sp6C) + SQ(screenPos));
+            sp60 = (SQ(w) + sp78) / (2.0f * w);
+            sp5C = w - sp60;
 
             sp58 = sp7C - SQ(sp60);
             sp58 = (sp7C < SQ(sp60)) ? 0.0f : sqrtf(sp58);
@@ -820,20 +822,21 @@ void Player_FeetIK(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
             temp3 = func_80041D4C(&globalCtx->colCtx, sp88, sp84);
 
             if ((temp3 >= 2) && (temp3 < 4) && !SurfaceType_IsWallDamage(&globalCtx->colCtx, sp88, sp84)) {
-                footprintPos.y = sp80;
+                footprintPos.y = posB;
                 EffectSsGFire_Spawn(globalCtx, &footprintPos);
             }
         }
     }
 }
 
-s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 Player_OverrideLimbDrawImpl(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                void* thisx) {
     Player* this = (Player*)thisx;
 
     if (limbIndex == PLAYER_LIMB_ROOT) {
         sLeftHandType = this->leftHandType;
         sRightHandType = this->rightHandType;
-        D_80160000 = &this->swordInfo[2].base;
+        sPartsPosPtr = &this->swordInfo[2].base;
 
         if (LINK_IS_CHILD) {
             if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 1)) {
@@ -857,7 +860,7 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
     } else {
         if (*dList != NULL) {
-            D_80160000++;
+            sPartsPosPtr++;
         }
 
         if (limbIndex == PLAYER_LIMB_HEAD) {
@@ -893,10 +896,11 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return false;
 }
 
-s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 Player_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                             void* thisx) {
     Player* this = (Player*)thisx;
 
-    if (!func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, thisx)) {
+    if (!Player_OverrideLimbDrawImpl(globalCtx, limbIndex, dList, pos, rot, thisx)) {
         if (limbIndex == PLAYER_LIMB_L_HAND) {
             Gfx** dLists = this->leftHandDLists;
 
@@ -945,10 +949,11 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return false;
 }
 
-s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 Player_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                             void* thisx) {
     Player* this = (Player*)thisx;
 
-    if (!func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, thisx)) {
+    if (!Player_OverrideLimbDrawImpl(globalCtx, limbIndex, dList, pos, rot, thisx)) {
         if (this->unk_6AD != 2) {
             *dList = NULL;
         } else if (limbIndex == PLAYER_LIMB_L_FOREARM) {
@@ -969,31 +974,32 @@ s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return false;
 }
 
-s32 func_80090440(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    if (!func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, thisx)) {
+s32 Player_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                             void* thisx) {
+    if (!Player_OverrideLimbDrawImpl(globalCtx, limbIndex, dList, pos, rot, thisx)) {
         *dList = NULL;
     }
 
     return false;
 }
 
-u8 Player_SetSwordCollision(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip,
-                            Vec3f* newBase) {
-    if (weaponInfo->active == 0) {
+u8 Player_SetQuadWeaponCollision(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* weaponInfo,
+                                 Vec3f* newTip, Vec3f* newBase) {
+    if (weaponInfo->active == false) {
         if (collider != NULL) {
             Collider_ResetQuadAT(globalCtx, &collider->base);
         }
         Math_Vec3f_Copy(&weaponInfo->tip, newTip);
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
-        weaponInfo->active = 1;
-        return 1;
+        weaponInfo->active = true;
+        return true;
     } else if ((weaponInfo->tip.x == newTip->x) && (weaponInfo->tip.y == newTip->y) &&
                (weaponInfo->tip.z == newTip->z) && (weaponInfo->base.x == newBase->x) &&
                (weaponInfo->base.y == newBase->y) && (weaponInfo->base.z == newBase->z)) {
         if (collider != NULL) {
             Collider_ResetQuadAT(globalCtx, &collider->base);
         }
-        return 0;
+        return false;
     } else {
         if (collider != NULL) {
             Collider_SetQuadVertices(collider, newBase, newTip, &weaponInfo->base, &weaponInfo->tip);
@@ -1002,7 +1008,7 @@ u8 Player_SetSwordCollision(GlobalContext* globalCtx, ColliderQuad* collider, We
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
         Math_Vec3f_Copy(&weaponInfo->tip, newTip);
         weaponInfo->active = 1;
-        return 1;
+        return true;
     }
 }
 
@@ -1044,15 +1050,17 @@ void Player_SetSwordAttack(GlobalContext* globalCtx, Player* this, Vec3f* newTip
     Matrix_MultVec3f(&sSwordBasePos2, &newBasePos[1]);
     Matrix_MultVec3f(&sSwordBasePos3, &newBasePos[2]);
 
-    if (Player_SetSwordCollision(globalCtx, NULL, &this->swordInfo[0], &newTipPos[0], &newBasePos[0]) &&
+    if (Player_SetQuadWeaponCollision(globalCtx, NULL, &this->swordInfo[0], &newTipPos[0], &newBasePos[0]) &&
         !(this->stateFlags1 & 0x400000)) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->swordEffectIndex), &this->swordInfo[0].tip,
                               &this->swordInfo[0].base);
     }
 
     if ((this->swordState > 0) && ((this->swordAnimation < 0x18) || (this->stateFlags2 & 0x20000))) {
-        Player_SetSwordCollision(globalCtx, &this->swordQuads[0], &this->swordInfo[1], &newTipPos[1], &newBasePos[1]);
-        Player_SetSwordCollision(globalCtx, &this->swordQuads[1], &this->swordInfo[2], &newTipPos[2], &newBasePos[2]);
+        Player_SetQuadWeaponCollision(globalCtx, &this->swordQuads[0], &this->swordInfo[1], &newTipPos[1],
+                                      &newBasePos[1]);
+        Player_SetQuadWeaponCollision(globalCtx, &this->swordQuads[1], &this->swordInfo[2], &newTipPos[2],
+                                      &newBasePos[2]);
     }
 }
 
@@ -1099,35 +1107,36 @@ void Player_GetSwordTip(Player* this, Vec3f* swordTip) {
     Matrix_MultVec3f(&sSwordTipPos3, &swordTip[2]);
 }
 
-void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
+void Player_DrawHookshotPointer(GlobalContext* globalCtx, Player* this, f32 arg2) {
     static Vec3f posOffset = { -500.0f, -100.0f, 0.0f };
-    CollisionPoly* sp9C;
+    CollisionPoly* polygon;
     s32 bgId;
-    Vec3f sp8C;
-    Vec3f sp80;
-    Vec3f sp74;
-    Vec3f sp68;
-    f32 sp64;
-    f32 sp60;
+    Vec3f posA;
+    Vec3f posB;
+    Vec3f aimProjectedPos; // position that the hookshot is aimed towards
 
     posOffset.z = 0.0f;
-    Matrix_MultVec3f(&posOffset, &sp8C);
+    Matrix_MultVec3f(&posOffset, &posA);
     posOffset.z = arg2;
-    Matrix_MultVec3f(&posOffset, &sp80);
+    Matrix_MultVec3f(&posOffset, &posB);
 
     if (1) {}
 
-    if (BgCheck_AnyLineTest3(&globalCtx->colCtx, &sp8C, &sp80, &sp74, &sp9C, 1, 1, 1, 1, &bgId)) {
+    if (BgCheck_AnyLineTest3(&globalCtx->colCtx, &posA, &posB, &aimProjectedPos, &polygon, 1, 1, 1, 1, &bgId)) {
+        Vec3f screenPos;
+        f32 w;
+        f32 scale;
+
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2572);
 
         OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x07);
 
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp74, &sp68, &sp64);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &aimProjectedPos, &screenPos, &w);
 
-        sp60 = (sp64 < 200.0f) ? 0.08f : (sp64 / 200.0f) * 0.08f;
+        scale = (w < 200.0f) ? 0.08f : (w / 200.0f) * 0.08f;
 
-        Matrix_Translate(sp74.x, sp74.y, sp74.z, MTXMODE_NEW);
-        Matrix_Scale(sp60, sp60, sp60, MTXMODE_APPLY);
+        Matrix_Translate(aimProjectedPos.x, aimProjectedPos.y, aimProjectedPos.z, MTXMODE_NEW);
+        Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2587),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1148,14 +1157,14 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     Player* this = (Player*)thisx;
 
     if (*dList != NULL) {
-        Matrix_MultVec3f(&sZeroVec, D_80160000);
+        Matrix_MultVec3f(&sZeroVec, sPartsPosPtr);
     }
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         MtxF matrix;
         Actor* hookedActor;
 
-        Math_Vec3f_Copy(&this->leftHandPos, D_80160000);
+        Math_Vec3f_Copy(&this->leftHandPos, sPartsPosPtr);
 
         if (this->itemActionParam == PLAYER_AP_STICK) {
             Vec3f swordTip[3];
@@ -1263,7 +1272,7 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
                 f32 distXYZ;
 
                 Matrix_MultVec3f(&sZeroVec, &bowPos);
-                distXYZ = Math_Vec3f_DistXYZ(D_80160000, &bowPos);
+                distXYZ = Math_Vec3f_DistXYZ(sPartsPosPtr, &bowPos);
 
                 this->unk_858 = distXYZ - 3.0f;
                 if (distXYZ < 3.0f) {
@@ -1323,8 +1332,8 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 
                     if (func_8002DD78(this) != 0) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
-                        func_80090AFC(globalCtx, this,
-                                      (this->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 38600.0f : 77600.0f);
+                        Player_DrawHookshotPointer(
+                            globalCtx, this, (this->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 38600.0f : 77600.0f);
                     }
                 }
             }
@@ -1376,9 +1385,13 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     }
 }
 
-u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
+/**
+ * Handles loading data into the player segment in the pause menu.
+ * Returns the size of the data copied.
+ */
+size_t Player_LoadPauseSegmentData(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     s16 linkObjectId = gLinkObjectIds[(void)0, gSaveContext.linkAge];
-    u32 size;
+    size_t size;
     void* ptr;
 
     size = gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart;
@@ -1400,7 +1413,8 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     return size + 0x8800 + 0x90;
 }
 
-s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
+s32 Player_PauseOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                 void* arg) {
     static u8 D_801261F8[] = { 2, 2, 5 };
     u8* ptr = arg;
     u8 modelGroup = D_801261F8[ptr[0] - 1];
@@ -1441,9 +1455,9 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot,
-                   f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height, Vec3f* eye, Vec3f* at,
-                   f32 fovy, void* img1, void* img2) {
+void Player_PauseDrawImpl(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* skelAnime, Vec3f* pos,
+                          Vec3s* rot, f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height,
+                          Vec3f* eye, Vec3f* at, f32 fovy, void* img1, void* img2) {
     static Vp viewport = { 128, 224, 511, 0, 128, 224, 511, 0 };
     static Lights1 lights1 = gdSPDefLights1(80, 80, 80, 255, 255, 255, 84, 84, 172);
     static Vec3f lightDir = { 89.8f, 0.0f, 89.8f };
@@ -1533,7 +1547,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
     Player_DrawImpl(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots, 0,
-                    func_80091880, NULL, &sp12C);
+                    Player_PauseOverrideLimbDraw, NULL, &sp12C);
 
     gSPEndDisplayList(POLY_OPA_DISP++);
     gSPEndDisplayList(POLY_XLU_DISP++);
@@ -1544,8 +1558,11 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 3288);
 }
 
-void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
-                   s32 sword, s32 tunic, s32 shield, s32 boots) {
+/**
+ * Draws the player in the equip screen on the pause menu.
+ */
+void Player_PauseDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
+                      s32 sword, s32 tunic, s32 shield, s32 boots) {
     static Vec3f eye = { 0.0f, 0.0f, -400.0f };
     static Vec3f at = { 0.0f, 0.0f, 0.0f };
     Vec3s* destTable;
@@ -1577,7 +1594,7 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, 
         *destTable++ = *srcTable++;
     }
 
-    func_80091A24(globalCtx, segment + 0x3800, segment + 0x8800, skelAnime, pos, rot, scale, sword, tunic, shield,
-                  boots, 64, 112, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFrameBuffer,
-                  globalCtx->state.gfxCtx->curFrameBuffer + 0x1C00);
+    Player_PauseDrawImpl(globalCtx, segment + 0x3800, segment + 0x8800, skelAnime, pos, rot, scale, sword, tunic,
+                         shield, boots, 64, 112, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFrameBuffer,
+                         globalCtx->state.gfxCtx->curFrameBuffer + 0x1C00);
 }

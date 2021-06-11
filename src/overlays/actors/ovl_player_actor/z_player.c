@@ -10318,7 +10318,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
                   this->currentTunic, this->currentWalk, this->actor.shape.face, overrideLimbDraw, Player_PostLimbDraw,
                   this);
 
-    if ((overrideLimbDraw == func_80090014) && (this->currentMask != PLAYER_MASK_NONE)) {
+    if ((overrideLimbDraw == Player_OverrideLimbDraw1) && (this->currentMask != PLAYER_MASK_NONE)) {
         Mtx* sp70 = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Mtx));
 
         if (this->currentMask == PLAYER_MASK_BUNNY) {
@@ -10390,7 +10390,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19346);
 
     if (!(this->stateFlags2 & 0x20000000)) {
-        OverrideLimbDrawOpa overrideLimbDraw = func_80090014;
+        OverrideLimbDrawOpa overrideLimbDraw = Player_OverrideLimbDraw1;
         s32 lod;
         s32 pad;
 
@@ -10417,11 +10417,11 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->actor.focus.pos, &sp7C);
             if (sp7C.z < -4.0f) {
-                overrideLimbDraw = func_800902F0;
+                overrideLimbDraw = Player_OverrideLimbDraw2;
             }
         } else if (this->stateFlags2 & 0x40000) {
             if (this->actor.projectedPos.z < 0.0f) {
-                overrideLimbDraw = func_80090440;
+                overrideLimbDraw = Player_OverrideLimbDraw3;
             }
         }
 

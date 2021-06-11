@@ -432,7 +432,7 @@ void func_809B4800(EnArrow* this, GlobalContext* globalCtx) {
             addBlureVertex = this->actor.params <= ARROW_LIGHT;
 
             if (this->hitActor == NULL) {
-                addBlureVertex &= Player_SetSwordCollision(globalCtx, &this->collider, &this->weaponInfo, &sp44, &sp38);
+                addBlureVertex &= Player_SetQuadWeaponCollision(globalCtx, &this->collider, &this->weaponInfo, &sp44, &sp38);
             } else {
                 if (addBlureVertex) {
                     if ((sp44.x == this->weaponInfo.tip.x) && (sp44.y == this->weaponInfo.tip.y) &&
