@@ -202,7 +202,6 @@ extern s16 gSpoilingItems[3];
 extern s16 gSpoilingItemReverts[3];
 extern FlexSkeletonHeader* gPlayerSkelHeaders[2];
 extern u8 gPlayerModelTypes[][5];
-extern Gfx* D_80125D68[];
 extern Gfx* gPlayerLeftHandAndGiantsKnifeDLists[];
 extern Gfx* gPlayerLeftHandDLists[];
 extern Gfx* gPlayerLeftFistDLists[];
