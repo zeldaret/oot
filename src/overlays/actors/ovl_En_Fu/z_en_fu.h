@@ -23,4 +23,24 @@ typedef struct EnFu {
 
 extern const ActorInit En_Fu_InitVars;
 
+typedef enum {
+    /* 0 */ FU_ROOT_LIMB,
+    /* 1 */ FU_TORSO_LIMB,
+    /* 2 */ FU_LEFT_THIGH_LIMB,
+    /* 3 */ FU_LEFT_LEG_LIMB,
+    /* 4 */ FU_LEFT_FOOT_LIMB,
+    /* 5 */ FU_RIGHT_THIGH_LIMB,
+    /* 6 */ FU_RIGHT_LEG_LIMB,
+    /* 7 */ FU_RIGHT_FOOT_LIMB,
+    /* 8 */ FU_CHEST_MUSIC_BOX_LIMB,
+    /* 9 */ FU_LEFT_ARM_MUSIC_BOX_LIMB,
+    /* A */ FU_UNK_LIMB,
+    /* B */ FU_RIGHT_SHOULDER_LIMB,
+    /* C */ FU_RIGHT_ARM_LIMB,
+    /* D */ FU_RIGHT_HAND_AND_CRANK_LIMB,
+    /* E */ FU_HEAD_LIMB,
+    /* F */ FU_HORN_LIMB,
+    /* 10 */ FU_LIMB_MAX
+} EnFuLimb;
+
 #endif
