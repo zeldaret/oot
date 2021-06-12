@@ -29,10 +29,10 @@ typedef struct {
     /* 0x1C */ s16 highJumpSpeedBase;
     /* 0x1E */ s16 smallJumpSpeed;
     /* 0x20 */ s16 unk_20;
-} PlayerMovementBehaviorInfo; // size = 0x22
+} PlayerMovementBehavior; // size = 0x22
 
 // Info about how the player should walk, run, and jump under various conditions
-static PlayerMovementBehaviorInfo sMovementInfo[PLAYER_BOOTS_MAX] = {
+static PlayerMovementBehavior sMovementInfo[PLAYER_BOOTS_MAX] = {
     { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 }, // Normal (adult)
     { 200, 1000, 300, 700, 550, 270, 1000, 0, 800, 300, -160, 600, 590, 750, 125, 200, 130 },  // Iron
     { 200, 1000, 300, 700, 550, 270, 600, 600, 800, 550, -100, 600, 540, 270, 25, 0, 130 },    // Hover
@@ -41,9 +41,9 @@ static PlayerMovementBehaviorInfo sMovementInfo[PLAYER_BOOTS_MAX] = {
     { 200, 1000, 300, 800, 500, 400, 800, 400, 800, 550, -100, 600, 540, 750, 125, 400, 200 }, // Normal (child)
 };
 
-void Player_SetMovementBehaviorInfo(GlobalContext* globalCtx, Player* this) {
+void Player_SetMovementBehavior(GlobalContext* globalCtx, Player* this) {
     s32 currentBoots;
-    PlayerMovementBehaviorInfo* entry;
+    PlayerMovementBehavior* entry;
 
     REG(27) = 2000;
     REG(48) = 370;
@@ -456,7 +456,7 @@ void Player_SetEquipmentData(GlobalContext* globalCtx, Player* this) {
         this->currentBoots = CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1;
         this->currentSword = B_BTN_ITEM;
         Player_SetModelGroup(this, Player_ActionToModelGroup(this, this->heldItemActionParam));
-        Player_SetMovementBehaviorInfo(globalCtx, this);
+        Player_SetMovementBehavior(globalCtx, this);
     }
 }
 

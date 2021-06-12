@@ -5283,7 +5283,7 @@ s32 func_8083C910(GlobalContext* globalCtx, Player* this, f32 arg2) {
             this->stateFlags1 |= 0x28000000;
             this->unk_850 = 20;
             this->linearVelocity = 2.0f;
-            Player_SetMovementBehaviorInfo(globalCtx, this);
+            Player_SetMovementBehavior(globalCtx, this);
             return 0;
         }
     }
@@ -5432,7 +5432,7 @@ void func_8083D0A8(GlobalContext* globalCtx, Player* this, f32 arg2) {
         func_8002F7DC(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
     }
 
-    Player_SetMovementBehaviorInfo(globalCtx, this);
+    Player_SetMovementBehavior(globalCtx, this);
 }
 
 s32 func_8083D12C(GlobalContext* globalCtx, Player* this, Input* arg2) {
@@ -5525,7 +5525,7 @@ void func_8083D36C(GlobalContext* globalCtx, Player* this) {
     this->stateFlags1 &= ~0xC0000;
     this->unk_854 = 0.0f;
 
-    Player_SetMovementBehaviorInfo(globalCtx, this);
+    Player_SetMovementBehavior(globalCtx, this);
 }
 
 void func_8083D53C(GlobalContext* globalCtx, Player* this) {

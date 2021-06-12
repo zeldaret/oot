@@ -24,7 +24,7 @@ typedef enum {
     /* 0x00 */ PLAYER_BOOTS_KOKIRI,
     /* 0x01 */ PLAYER_BOOTS_IRON,
     /* 0x02 */ PLAYER_BOOTS_HOVER,
-    // These entries are not real boots, and are only used in the context of `Player_SetMovementBehaviorInfo`.
+    // These entries are not real boots, and are only used in the context of `Player_SetMovementBehavior`.
     /* 0x03 */ PLAYER_BOOTS_EX_INDOOR,
     /* 0x04 */ PLAYER_BOOTS_EX_IRON_UNDERWATER,
     /* 0x05 */ PLAYER_BOOTS_EX_KOKIRI_CHILD,
