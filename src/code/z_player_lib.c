@@ -29,10 +29,10 @@ typedef struct {
     /* 0x1C */ s16 highJumpSpeedBase;
     /* 0x1E */ s16 smallJumpSpeed;
     /* 0x20 */ s16 unk_20;
-} PlayerWalkInfo; // size = 0x22
+} PlayerMovementBehaviorInfo; // size = 0x22
 
 // Info about how the player should walk, run, and jump under various conditions
-static PlayerWalkInfo sWalkInfo[PLAYER_WALK_MAX] = {
+static PlayerMovementBehaviorInfo sMovementInfo[PLAYER_BOOTS_MAX] = {
     { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 }, // Normal (adult)
     { 200, 1000, 300, 700, 550, 270, 1000, 0, 800, 300, -160, 600, 590, 750, 125, 200, 130 },  // Iron
     { 200, 1000, 300, 700, 550, 270, 600, 600, 800, 550, -100, 600, 540, 270, 25, 0, 130 },    // Hover
@@ -41,44 +41,44 @@ static PlayerWalkInfo sWalkInfo[PLAYER_WALK_MAX] = {
     { 200, 1000, 300, 800, 500, 400, 800, 400, 800, 550, -100, 600, 540, 750, 125, 400, 200 }, // Normal (child)
 };
 
-void Player_SetWalkInfo(GlobalContext* globalCtx, Player* this) {
-    s32 currentWalk;
-    PlayerWalkInfo* walkInfo;
+void Player_SetMovementBehaviorInfo(GlobalContext* globalCtx, Player* this) {
+    s32 currentBoots;
+    PlayerMovementBehaviorInfo* entry;
 
     REG(27) = 2000;
     REG(48) = 370;
 
-    currentWalk = this->currentWalk;
-    if (currentWalk == PLAYER_WALK_NORMAL) {
+    currentBoots = this->currentBoots;
+    if (currentBoots == PLAYER_BOOTS_KOKIRI) {
         if (LINK_IS_CHILD) {
-            currentWalk = PLAYER_WALK_NORMAL_CHILD;
+            currentBoots = PLAYER_BOOTS_EX_KOKIRI_CHILD;
         }
-    } else if (currentWalk == PLAYER_WALK_IRON) {
+    } else if (currentBoots == PLAYER_BOOTS_IRON) {
         if (this->stateFlags1 & 0x8000000) {
-            currentWalk = PLAYER_WALK_IRON_UNDERWATER;
+            currentBoots = PLAYER_BOOTS_EX_IRON_UNDERWATER;
         }
         REG(27) = 500;
         REG(48) = 100;
     }
 
-    walkInfo = &sWalkInfo[currentWalk];
-    REG(19) = walkInfo->walkSpeedMax;
-    REG(30) = walkInfo->sideWalkAnimSpeedBase;
-    REG(32) = walkInfo->sideWalkAnimSpeed;
-    REG(34) = walkInfo->unk_06;
-    REG(35) = walkInfo->walkAnimSpeedBase;
-    REG(36) = walkInfo->walkAnimSpeed;
-    REG(37) = walkInfo->runAnimSpeedBase;
-    REG(38) = walkInfo->runAnimSpeed;
-    REG(43) = walkInfo->unk_10;
-    REG(45) = walkInfo->runSpeedMax;
-    REG(68) = walkInfo->gravity;
-    REG(69) = walkInfo->unk_16;
-    IREG(66) = walkInfo->highJumpSpeedMin;
-    IREG(67) = walkInfo->highJumpSpeed;
-    IREG(68) = walkInfo->highJumpSpeedBase;
-    IREG(69) = walkInfo->smallJumpSpeed;
-    MREG(95) = walkInfo->unk_20;
+    entry = &sMovementInfo[currentBoots];
+    REG(19) = entry->walkSpeedMax;
+    REG(30) = entry->sideWalkAnimSpeedBase;
+    REG(32) = entry->sideWalkAnimSpeed;
+    REG(34) = entry->unk_06;
+    REG(35) = entry->walkAnimSpeedBase;
+    REG(36) = entry->walkAnimSpeed;
+    REG(37) = entry->runAnimSpeedBase;
+    REG(38) = entry->runAnimSpeed;
+    REG(43) = entry->unk_10;
+    REG(45) = entry->runSpeedMax;
+    REG(68) = entry->gravity;
+    REG(69) = entry->unk_16;
+    IREG(66) = entry->highJumpSpeedMin;
+    IREG(67) = entry->highJumpSpeed;
+    IREG(68) = entry->highJumpSpeedBase;
+    IREG(69) = entry->smallJumpSpeed;
+    MREG(95) = entry->unk_20;
 
     if (globalCtx->roomCtx.curRoom.unk_03 == 2) {
         REG(45) = 500;
@@ -453,10 +453,10 @@ void Player_SetEquipmentData(GlobalContext* globalCtx, Player* this) {
     if (this->csMode != 0x56) {
         this->currentShield = CUR_EQUIP_VALUE(EQUIP_SHIELD);
         this->currentTunic = CUR_EQUIP_VALUE(EQUIP_TUNIC) - 1;
-        this->currentWalk = CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1;
+        this->currentBoots = CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1;
         this->currentSword = B_BTN_ITEM;
         Player_SetModelGroup(this, Player_ActionToModelGroup(this, this->heldItemActionParam));
-        Player_SetWalkInfo(globalCtx, this);
+        Player_SetMovementBehaviorInfo(globalCtx, this);
     }
 }
 
@@ -656,8 +656,8 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
     if (globalCtx->roomCtx.curRoom.unk_02 == 3) { // Room is hot
         var = 0;
     } else if ((this->unk_840 > 80) &&
-               ((this->currentWalk == PLAYER_WALK_IRON) || (this->unk_840 >= 300))) { // Deep underwater
-        var = ((this->currentWalk == PLAYER_WALK_IRON) && (this->actor.bgCheckFlags & 1)) ? 1 : 3;
+               ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->unk_840 >= 300))) { // Deep underwater
+        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & 1)) ? 1 : 3;
     } else if (this->stateFlags1 & 0x8000000) { // Swimming
         var = 2;
     } else {
@@ -672,7 +672,7 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
 
         if ((triggerEntry->flag != 0) && !(gSaveContext.textTriggerFlags & triggerEntry->flag) &&
             (((var == 0) && (this->currentTunic != PLAYER_TUNIC_GORON)) ||
-             (((var == 1) || (var == 3)) && (this->currentWalk == PLAYER_WALK_IRON) &&
+             (((var == 1) || (var == 3)) && (this->currentBoots == PLAYER_BOOTS_IRON) &&
               (this->currentTunic != PLAYER_TUNIC_ZORA)))) {
             func_8010B680(globalCtx, triggerEntry->textId, NULL);
             gSaveContext.textTriggerFlags |= triggerEntry->flag;
