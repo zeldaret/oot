@@ -74,21 +74,23 @@ typedef enum {
 } EnFuFace;
 
 typedef enum {
-    /* 0 */ FU_TORSO_LIMB,
-    /* 1 */ FU_LEFT_THIGH_LIMB,
-    /* 2 */ FU_LEFT_LEG_LIMB,
-    /* 3 */ FU_LEFT_FOOT_LIMB,
-    /* 4 */ FU_RIGHT_THIGH_LIMB,
-    /* 5 */ FU_RIGHT_LEG_LIMB,
-    /* 6 */ FU_RIGHT_FOOT_LIMB,
-    /* 7 */ FU_CHEST_MUSIC_BOX_LIMB,
-    /* 8 */ FU_LEFT_ARM_MUSIC_BOX_LIMB,
-    /* 9 */ FU_UNK_LIMB,
-    /* A */ FU_RIGHT_SHOULDER_LIMB,
-    /* B */ FU_RIGHT_ARM_LIMB,
-    /* C */ FU_RIGHT_HAND_AND_CRANK_LIMB,
-    /* D */ FU_HEAD_LIMB,
-    /* E */ FU_HORN_LIMB
+    /* 0 */ FU_ROOT_LIMB,
+    /* 1 */ FU_TORSO_LIMB,
+    /* 2 */ FU_LEFT_THIGH_LIMB,
+    /* 3 */ FU_LEFT_LEG_LIMB,
+    /* 4 */ FU_LEFT_FOOT_LIMB,
+    /* 5 */ FU_RIGHT_THIGH_LIMB,
+    /* 6 */ FU_RIGHT_LEG_LIMB,
+    /* 7 */ FU_RIGHT_FOOT_LIMB,
+    /* 8 */ FU_CHEST_MUSIC_BOX_LIMB,
+    /* 9 */ FU_LEFT_ARM_MUSIC_BOX_LIMB,
+    /* A */ FU_UNK_LIMB,
+    /* B */ FU_RIGHT_SHOULDER_LIMB,
+    /* C */ FU_RIGHT_ARM_LIMB,
+    /* D */ FU_RIGHT_HAND_AND_CRANK_LIMB,
+    /* E */ FU_HEAD_LIMB,
+    /* F */ FU_HORN_LIMB,
+    /* 10 */ FU_LIMB_MAX
 } EnFuLimb;
 
 void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -97,7 +99,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelanime, &gWindmillManSkel, &gWindmillManPlayStillAnim, this->jointTable,
-                       this->morphTable, 16);
+                       this->morphTable, FU_LIMB_MAX);
     Animation_PlayLoop(&this->skelanime, &gWindmillManPlayStillAnim);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -284,15 +286,15 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     EnFu* this = THIS;
     s32 pad;
 
-    if (limbIndex == FU_RIGHT_SHOULDER_LIMB) {
+    if (limbIndex == FU_UNK_LIMB) {
         return false;
     }
     switch (limbIndex) {
-        case FU_HORN_LIMB:
+        case FU_HEAD_LIMB:
             rot->x += this->lookAngleOffset.y;
             rot->z += this->lookAngleOffset.x;
             break;
-        case FU_LEFT_ARM_MUSIC_BOX_LIMB:
+        case FU_CHEST_MUSIC_BOX_LIMB:
             break;
     }
 
@@ -300,7 +302,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         return false;
     }
 
-    if (limbIndex == FU_LEFT_ARM_MUSIC_BOX_LIMB) {
+    if (limbIndex == FU_CHEST_MUSIC_BOX_LIMB) {
         rot->y += (Math_SinS((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
         rot->z += (Math_CosS((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
     }
@@ -310,7 +312,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnFu* this = THIS;
 
-    if (limbIndex == FU_HORN_LIMB) {
+    if (limbIndex == FU_HEAD_LIMB) {
         Matrix_MultVec3f(&sMtxSrc, &this->actor.focus.pos);
     }
 }
