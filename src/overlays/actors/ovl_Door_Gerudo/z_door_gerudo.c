@@ -45,7 +45,7 @@ void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    CollisionHeader_GetVirtual(&gDoorGerudoCol, &colHeader);
+    CollisionHeader_GetVirtual(&gGerudoCellDoorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
@@ -153,7 +153,7 @@ void DoorGerudo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 365),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, gDoorGerudoDL);
+    gSPDisplayList(POLY_OPA_DISP++, gGerudoCellDoorDL);
 
     if (this->unk_166 != 0) {
         Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
