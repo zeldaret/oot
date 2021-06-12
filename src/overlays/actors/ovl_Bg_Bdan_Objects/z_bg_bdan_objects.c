@@ -70,10 +70,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Gfx* D_8086CDA0[] = {
-    gBdanObjectsDL5,
-    gBdanObjectsDL1,
-    gBdanObjectsDL0,
-    gBdanObjectsDL2,
+    object_bdan_objects_DL_08618,
+    object_bdan_objects_DL_04BE8,
+    object_bdan_objects_DL_038E8,
+    object_bdan_objects_DL_05200,
 };
 
 s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
@@ -458,7 +458,7 @@ void BgBdanObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 2) {
-        Gfx_DrawDListXlu(globalCtx, gBdanObjectsDL0);
+        Gfx_DrawDListXlu(globalCtx, object_bdan_objects_DL_038E8);
     } else {
         Gfx_DrawDListOpa(globalCtx, D_8086CDA0[thisx->params]);
     }
