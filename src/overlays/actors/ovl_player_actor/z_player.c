@@ -4924,8 +4924,9 @@ s32 func_8083B998(Player* this, GlobalContext* globalCtx) {
     if ((this->unk_664 != NULL) &&
         (((this->unk_664->flags & 0x40001) == 0x40001) || (this->unk_664->naviEnemyId != 0xFF))) {
         this->stateFlags2 |= 0x200000;
-    } else if ((this->naviTextId == 0) && !Player_IsTargetting(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
-               (YREG(15) != 0x10) && (YREG(15) != 0x20) && !func_8083B8F4(this, globalCtx)) {
+    } else if ((this->naviTextId == 0) && !Player_IsTargetting(this) &&
+               CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && (YREG(15) != 0x10) && (YREG(15) != 0x20) &&
+               !func_8083B8F4(this, globalCtx)) {
         func_80078884(NA_SE_SY_ERROR);
     }
 
@@ -9444,8 +9445,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         D_808535F4 = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, spC0, this->actor.floorBgId);
         if (D_808535F4 != 0) {
             D_808535F8 = SurfaceType_IsConveyor(&globalCtx->colCtx, spC0, this->actor.floorBgId);
-            if (((D_808535F8 == 0) && (this->actor.yDistToWater > 20.0f) &&
-                 (this->currentWalk != PLAYER_WALK_IRON)) ||
+            if (((D_808535F8 == 0) && (this->actor.yDistToWater > 20.0f) && (this->currentWalk != PLAYER_WALK_IRON)) ||
                 ((D_808535F8 != 0) && (this->actor.bgCheckFlags & 1))) {
                 D_808535FC = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, spC0, this->actor.floorBgId) << 10;
             } else {
@@ -10315,8 +10315,8 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
     gSPSegment(POLY_XLU_DISP++, 0x0C, cullDList);
 
     Player_DrawImpl(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, lod,
-                  this->currentTunic, this->currentWalk, this->actor.shape.face, overrideLimbDraw, Player_PostLimbDraw,
-                  this);
+                    this->currentTunic, this->currentWalk, this->actor.shape.face, overrideLimbDraw,
+                    Player_PostLimbDraw, this);
 
     if ((overrideLimbDraw == Player_OverrideLimbDraw1) && (this->currentMask != PLAYER_MASK_NONE)) {
         Mtx* sp70 = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Mtx));
@@ -14033,8 +14033,8 @@ s32 Player_StartFishing(GlobalContext* globalCtx) {
 }
 
 s32 func_80852F38(GlobalContext* globalCtx, Player* this) {
-    if (!Player_InBlockingCsMode(globalCtx, this) && (this->invincibilityTimer >= 0) && !Player_IsShootingHookshot(this) &&
-        !(this->stateFlags3 & 0x80)) {
+    if (!Player_InBlockingCsMode(globalCtx, this) && (this->invincibilityTimer >= 0) &&
+        !Player_IsShootingHookshot(this) && !(this->stateFlags3 & 0x80)) {
         func_80832564(globalCtx, this);
         func_80835C58(globalCtx, this, func_8084F308, 0);
         func_80832264(globalCtx, this, &gPlayerAnim_003120);
