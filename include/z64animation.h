@@ -54,6 +54,14 @@ typedef struct {
     /* 0x0C */ void* segment; // Segment address of data. Currently unclear what.
 } SkinLimb; // size = 0x10
 
+typedef struct LegacyLimb {
+    /* 0x000 */ Gfx* dList;
+    /* 0x004 */ Vec3f trans;
+    /* 0x010 */ Vec3s rot;
+    /* 0x018 */ struct LegacyLimb* sibling;
+    /* 0x01C */ struct LegacyLimb* child;
+} LegacyLimb; // size = 0x20
+
 // Model has limbs with only rigid meshes
 typedef struct {
     /* 0x00 */ void** segment;
@@ -312,13 +320,5 @@ typedef struct {
 
 typedef void (*SkinCallback)(struct Actor*, struct GlobalContext*, PSkinAwb*);
 typedef s32 (*SkinCallback2)(struct Actor*, struct GlobalContext*, s32, PSkinAwb*);
-
-typedef struct LegacyLimb {
-    /* 0x000 */ Gfx* dList;
-    /* 0x004 */ Vec3f trans;
-    /* 0x010 */ Vec3s rot;
-    /* 0x018 */ struct LegacyLimb* sibling;
-    /* 0x01C */ struct LegacyLimb* child;
-} LegacyLimb; // size = 0x20
 
 #endif

@@ -739,7 +739,7 @@ s32 SkelAnime_GetFrameDataLegacy(LegacyAnimationHeader* animation, s32 frame, Ve
     frameTable++;
     key++;
 
-    for(i = 1; i <= limbCount; i++, key++, frameTable++) {
+    for (i = 1; i <= limbCount; i++, key++, frameTable++) {
         frameTable->x = frame < key->xMax ? dynamicData[key->x] : staticData[key->x];
         frameTable->y = frame < key->yMax ? dynamicData[key->y] : staticData[key->y];
         frameTable->z = frame < key->zMax ? dynamicData[key->z] : staticData[key->z];
