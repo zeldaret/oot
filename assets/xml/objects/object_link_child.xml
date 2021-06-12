@@ -72,8 +72,8 @@
         
         <!--Body Parts not used in Limbs-->
         <DList Name="gLinkChildLeftFistNearDL" Offset="0x13E18"/>
-        <DList Name="gLinkChildRightHandClosedNearDL" Offset="0x14320"/>
-        <DList Name="gLinkChildRightHandClosedFarDL" Offset="0x16620"/>
+        <DList Name="gLinkChildRightFistNearDL" Offset="0x14320"/>
+        <DList Name="gLinkChildRightFistFarDL" Offset="0x16620"/>
         <DList Name="gLinkChildLeftFistFarDL" Offset="0x163C0"/>
         <DList Name="gLinkChildLeftFistAndKokiriSwordNearDL" Offset="0x13F38"/>
         <DList Name="gLinkChildLeftFistAndKokiriSwordFarDL" Offset="0x17630"/>
@@ -97,10 +97,10 @@
         <DList Name="gLinkChildRightHandHoldingFairyOcarinaFarDL" Offset="0x17AF0"/>
         <DList Name="gLinkChildRightHandHoldingFairySlingshotNearDL" Offset="0x15DF0"/>
         <DList Name="gLinkChildRightHandHoldingFairySlingshotFarDL" Offset="0x17D38"/>
-        <DList Name="gLinkChildLeftHandUpNearDL" Offset="0x15FD0"/>
-        <DList Name="gLinkChildLeftHandUpFarDL" Offset="0x17F00"/>
+        <DList Name="gLinkChildBottleHandNearDL" Offset="0x15FD0"/>
+        <DList Name="gLinkChildBottleHandFarDL" Offset="0x17F00"/>
 
-        <DList Name="gLinkChildRightArmStretchedSlingshotDL" Offset="0x18048"/>
+        <DList Name="gLinkChildFPSRightHandAndFairySlingshotDL" Offset="0x18048"/>
         <DList Name="gLinkChildBottleDL" Offset="0x18478"/>
         <DList Name="gLinkChildDL_18580" Offset="0x18580"/>
         <DList Name="gLinkChildBottle2DL" Offset="0x18648"/>
