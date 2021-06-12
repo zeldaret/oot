@@ -41,7 +41,7 @@ void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&gObjBowlCol2, &colHeader);
+    CollisionHeader_GetVirtual(&gBowlingDefaultCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     osSyncPrintf("\n\n");

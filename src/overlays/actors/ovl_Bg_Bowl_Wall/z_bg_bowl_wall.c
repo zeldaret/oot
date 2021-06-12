@@ -55,9 +55,9 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
     if (this->dyna.actor.params == 0) {
-        CollisionHeader_GetVirtual(&gObjBowlCol0, &colHeader);
+        CollisionHeader_GetVirtual(&gBowlingFirstAndFinalRoundCol, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&gObjBowlCol1, &colHeader);
+        CollisionHeader_GetVirtual(&gBowlingSecondRoundCol, &colHeader);
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -213,9 +213,9 @@ void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->dyna.actor.params == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, gObjBowlDL0);
+        gSPDisplayList(POLY_OPA_DISP++, gBowlingRound1WallDL);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, gObjBowlDL1);
+        gSPDisplayList(POLY_OPA_DISP++, gBowlingRound2WallDL);
     }
 
     CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_bg_bowl_wall.c", 464);
