@@ -74,7 +74,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    CollisionHeader_GetVirtual(&gDdanObjectsCol2, &colHeader);
+    CollisionHeader_GetVirtual(&gDodongosCavernFallingStairsCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
@@ -185,5 +185,5 @@ void BgDdanKd_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gDdanObjectsDL4);
+    Gfx_DrawDListOpa(globalCtx, gDodongosCavernFallingStairsDL);
 }

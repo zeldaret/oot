@@ -59,7 +59,7 @@ void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&gDdanObjectsCol1, &colHeader);
+    CollisionHeader_GetVirtual(&gDodongosCavernRisingPlatformCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->idleTimer = IDLE_FRAMES;
     this->state = STATE_GO_BOTTOM;
@@ -177,5 +177,5 @@ void BgDdanJd_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanJd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gDdanObjectsDL3);
+    Gfx_DrawDListOpa(globalCtx, gDodongosCavernRisingPlatformDL);
 }

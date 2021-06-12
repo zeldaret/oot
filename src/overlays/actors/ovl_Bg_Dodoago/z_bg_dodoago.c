@@ -114,7 +114,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&gDdanObjectsCol0, &colHeader);
+    CollisionHeader_GetVirtual(&gDodongosCavernLargeDodongoMouthCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
 
@@ -303,7 +303,7 @@ void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 677),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, gDdanObjectsDL2);
+        gSPDisplayList(POLY_OPA_DISP++, gDodongosCavernLargeDodongoMouthDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 681);
