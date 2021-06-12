@@ -515,15 +515,15 @@ void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params & 0xFF) {
         case YELLOW_HEAVY:
         case YELLOW:
-            func_8086DF58(this, globalCtx, object_bdan_objects_DL_061A0);
+            func_8086DF58(this, globalCtx, gJabuObjectsDL_061A0);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            func_8086DF58(this, globalCtx, object_bdan_objects_DL_061A0);
+            func_8086DF58(this, globalCtx, gJabuObjectsDL_061A0);
             Collider_UpdateSpheres(0, &this->collider);
             Matrix_MultVec3f(&D_8086E0E0, &this->dyna.actor.focus.pos);
             break;
         case BLUE:
-            func_8086DF58(this, globalCtx, object_bdan_objects_DL_05A20);
+            func_8086DF58(this, globalCtx, gJabuObjectsDL_05A20);
     }
 }
