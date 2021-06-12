@@ -13,6 +13,7 @@ typedef struct EnBigokuta {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnBigokutaActionFunc actionFunc;
     /* 0x0194 */ s8 unk_194;
+    /* 0x0195 */ u8 unk_195;
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;

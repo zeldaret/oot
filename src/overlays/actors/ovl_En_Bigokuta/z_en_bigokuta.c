@@ -10,14 +10,18 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_809BD318(EnBigokuta* this);
+void func_809BD3E0(EnBigokuta* this);
 void func_809BD84C(EnBigokuta* this, GlobalContext* globalCtx);
 void func_809BD8DC(EnBigokuta* this, GlobalContext* globalCtx);
+void func_809BDAE8(EnBigokuta* this, GlobalContext* globalCtx);
+void func_809BDB90(EnBigokuta* this, GlobalContext* globalCtx);
+void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06000444;
 extern UNK_TYPE D_06000A74;
-extern UNK_TYPE D_06000D1C;
+extern AnimationHeader D_06000D1C;
 extern AnimationHeader D_060014B8;
-extern UNK_TYPE D_06001CA4;
+extern AnimationHeader D_06001CA4;
 extern FlexSkeletonHeader D_06006BC0;
 
 s32 D_809BF3A0 = 0xFFFFFFFF;
@@ -182,7 +186,17 @@ void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/EnBigokuta_Destroy.s")
 
+void func_809BCE3C(EnBigokuta* this);
+#ifdef NON_MATCHING
+// t9 vs t0 swap
+void func_809BCE3C(EnBigokuta* this) {
+    this->actor.world.rot.y = this->actor.shape.rot.y + ((-this->unk_194) * 0x4000);
+    this->actor.world.pos.x = (Math_SinS(this->actor.world.rot.y) * 263.0f) + this->actor.home.pos.x;
+    this->actor.world.pos.z = (Math_CosS(this->actor.world.rot.y) * 263.0f) + this->actor.home.pos.z;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BCE3C.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BCEBC.s")
 
@@ -206,11 +220,28 @@ void func_809BD370(EnBigokuta* this) {
     this->actionFunc = func_809BD8DC;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD3AC.s")
+void func_809BD3AC(EnBigokuta* this) {
+    this->actor.world.pos.x = this->actor.home.pos.x + 263.0f;
+    this->unk_196 = 10;
+    this->actionFunc = func_809BDAE8;
+    this->actor.world.pos.y = this->actor.home.pos.y;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD3E0.s")
+void func_809BD3E0(EnBigokuta* this) {
+    this->unk_196 = (u16)0x28;
+    this->actionFunc = func_809BDB90;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD3F8.s")
+void func_809BD3F8(EnBigokuta* this) {
+    Animation_MorphToLoop(&this->skelAnime, &D_06001CA4, -5.0f);
+    this->unk_196 = 350;
+    this->unk_198 = 80;
+    this->unk_19A = this->unk_194 * -0x200;
+    func_809BCE3C(this);
+    this->cylinder[0].base.atFlags |= 1;
+    this->collider.base.acFlags |= 1;
+    this->actionFunc = func_809BDC08;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD47C.s")
 
@@ -278,11 +309,108 @@ void func_809BD8DC(EnBigokuta* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BDAE8.s")
+void func_809BDAE8(EnBigokuta* this, GlobalContext* globalCtx) {
+    if (Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y + 0x4000, 0x400) != 0) {
+        if (this->unk_196 != 0) {
+            this->unk_196 = this->unk_196 - 1;
+        }
+        if (this->unk_196 == 0) {
+            func_809BCE3C(this);
+            this->actor.home.pos.y = this->actor.world.pos.y;
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
+            this->actor.params = 2;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
+            func_809BD3E0(this);
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BDB90.s")
+void func_809BDB90(EnBigokuta* this, GlobalContext* globalCtx) {
+    SkelAnime_Update(&this->skelAnime);
+    if (this->unk_196 != 0) {
+        this->unk_196--;
+    }
+    if (this->unk_196 == 0) {
+        if (this->actor.params == 3) {
+            func_800F5ACC(0x38U);
+        }
+        func_809BD3F8(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BDC08.s")
+void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx) {
+    Player* player;
+    s16 phi_v0;
+    s16 pad;
+    s16 phi_v1;
+    Vec3f sp28;
+
+    player = PLAYER;
+    SkelAnime_Update(&this->skelAnime);
+    if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
+    }
+
+    if (this->unk_196 < 0) {
+        this->actor.shape.rot.y += this->unk_194 * 0x200;
+        func_809BCE3C(this);
+        this->unk_196++;
+        if (this->unk_196 == 0) {
+            this->unk_196 = 0x15E;
+        }
+        func_809BCF68(this, globalCtx);
+        return;
+    }
+
+    phi_v1 = (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) - 180.0f) * 0.53333336f;
+    func_8002DBD0(&this->actor, &sp28, &player->actor.world.pos);
+    if (fabsf(sp28.x) > 263.0f || ((sp28.z > 0.0f) && !func_8002E084(&this->actor, 0x1B00) && !func_8002DFC8(&this->actor, 0x2000, globalCtx))) {
+            phi_v1 -= 0x80;
+            if (this->unk_196 != 0) {
+                this->unk_196--;
+            }
+        }
+
+    if ((this->actor.xzDistToPlayer < 250.0f) && (func_8002E084(&this->actor, 0x6000) == 0)) {
+        if (this->unk_198 != 0) {
+            this->unk_198--;
+        }
+        if (this->actor.xzDistToPlayer < 180.0f) {
+            phi_v1 += 0x20;
+        }
+    } else {
+        this->unk_198 = 0x50;
+    }
+    if (this->actor.colChkInfo.health == 1) {
+        phi_v1 = (phi_v1 + 0x130) * 1.1f;
+    } else {
+        phi_v1 += 0x130;
+    }
+    this->actor.shape.rot.y += phi_v1 * this->unk_194;
+    func_809BCE3C(this);
+    func_809BCF68(this, globalCtx);
+    if (this->unk_198 == 0) {
+        func_809BD768(this);
+        return;
+    }
+    if (this->unk_196 == 0) {
+        func_809BD4A4(this);
+        return;
+    }
+    if (this->unk_195 != 0) {
+        phi_v0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+        if (phi_v0 < 0) {
+            phi_v0 = -phi_v0;
+        }
+        if ((phi_v0 < 0x4100) && (phi_v0 >= 0x3F01)) {
+            if (Rand_ZeroOne() < 0.6f) {
+                this->unk_196 = 0;
+                func_809BD4A4(this);
+            }
+            this->unk_195 = 0;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BDF34.s")
 
