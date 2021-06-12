@@ -869,9 +869,9 @@ s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 static u64* sEyeTextures[] = {
-    &gGreatFairyOpenEyeTex, // Open
-    &gGreatFairyHalfOpenEyeTex, // Half
-    &gGreatFairyClosedEyeTex, // Closed
+    &gGreatFairyEyeOpenTex, // Open
+    &gGreatFairyEyeHalfTex, // Half
+    &gGreatFairyEyeClosedTex, // Closed
 };
 
 static u64* sMouthTextures[] = {

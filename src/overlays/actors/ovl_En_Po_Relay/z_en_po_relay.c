@@ -82,7 +82,7 @@ static Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
 
 static u64* sEyesSegments[] = {
     gDampeEyeOpenTex,
-    gDampeEyeHalfOpenTex,
+    gDampeEyeHalfTex,
     gDampeEyeClosedTex,
 };
 

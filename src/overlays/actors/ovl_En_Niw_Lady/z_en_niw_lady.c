@@ -568,7 +568,7 @@ s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u8* D_80ABB408[] = { gObjAneEyeOpenTex, gObjAneEyeHalfOpenTex, gObjAneEyeClosedTex };
+    static u8* D_80ABB408[] = { gObjAneEyeOpenTex, gObjAneEyeHalfTex, gObjAneEyeClosedTex };
     EnNiwLady* this = THIS;
     s32 pad;
 

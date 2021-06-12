@@ -58,7 +58,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
 
 static UNK_PTR D_80AF410C[] = {
     &gAdultRutoEyeOpenTex,
-    &gAdultRutoEyeHalfOpenTex,
+    &gAdultRutoEyeHalfTex,
     &gAdultRutoEyeClosedTex,
 };
 
