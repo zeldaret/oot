@@ -2038,7 +2038,7 @@ endseg
 beginseg
     name "ovl_En_Dekubaba"
     include "build/src/overlays/actors/ovl_En_Dekubaba/z_en_dekubaba.o"
-    include "build/data/overlays/actors/z_en_dekubaba.data.o"
+    //include "build/data/overlays/actors/z_en_dekubaba.data.o"
     include "build/data/overlays/actors/z_en_dekubaba.reloc.o"
 endseg
 
