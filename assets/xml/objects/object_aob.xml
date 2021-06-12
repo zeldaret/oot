@@ -1,6 +1,14 @@
 <Root>
     <File Name="object_aob" Segment="6">
-        <Skeleton Name="gObjAobSkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
-        <Texture Name="gObjAobTex_05C8" OutName="obj_aob_5C8" Format="rgb5a1" Width="32" Height="32" Offset="0x5C8"/>
+        <!-- Dog Lady Skeleton -->
+        <Skeleton Name="gDogLadySkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
+
+        <!-- Dog Lady Limbs -->
+        <Limb Name="gDogLadyRootLimb" Type="Standard" Offset="0x0"/>
+        
+        <!-- Dog Lady Eye Textures -->
+        <Texture Name="gDogLadyEyeOpenTex" OutName="dog_lady_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x05C8"/>
+        <Texture Name="gDogLadyEyeHalfTex" OutName="dog_lady_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x0DC8"/>
+        <Texture Name="gDogLadyEyeClosedTex" OutName="dog_lady_eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x15C8"/>
     </File>
 </Root>

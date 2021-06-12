@@ -77,7 +77,7 @@ typedef struct {
 } EnHyUnknownStruct1; // size = 0xC
 
 static EnHyUnknownStruct1 D_80A71F50[] = {
-    { OBJECT_AOB, sObjAobSkelLimbDL_003C88, D_80A71EF8 }, { OBJECT_BOB, 0x06003B78, D_80A71F40 },
+    { OBJECT_AOB, sDogLadySkelLimbDL_003C88, D_80A71EF8 }, { OBJECT_BOB, 0x06003B78, D_80A71F40 },
     { OBJECT_BOJ, 0x060026F0, D_80A71F30 }, { OBJECT_BOJ, 0x060052E0, NULL },
     { OBJECT_BOJ, 0x06005528, NULL },       { OBJECT_BOJ, 0x06005738, NULL },
     { OBJECT_BOJ, 0x060059B0, NULL },       { OBJECT_AHG, 0x060030F0, D_80A71F08 },
@@ -93,7 +93,7 @@ typedef struct {
 } EnHyUnknownStruct2; // size = 0x8
 
 static EnHyUnknownStruct2 D_80A72010[] = {
-    { OBJECT_AOB, &gObjAobSkel }, { OBJECT_BOB, 0x060000F0 }, { OBJECT_BOJ, 0x060000F0 }, { OBJECT_AHG, 0x060000F0 },
+    { OBJECT_AOB, &gDogLadySkel }, { OBJECT_BOB, 0x060000F0 }, { OBJECT_BOJ, 0x060000F0 }, { OBJECT_AHG, 0x060000F0 },
     { OBJECT_BBA, 0x060000F0 }, { OBJECT_CNE, 0x060000F0 }, { OBJECT_BJI, 0x060000F0 }, { OBJECT_COB, 0x060021F8 },
 };
 
