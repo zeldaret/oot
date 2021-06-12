@@ -382,7 +382,7 @@ static Gfx** sPlayerDListGroups[] = {
     gPlayerSwordAndSheathDLists,
     gPlayerSheathDLists,
     gPlayerShieldSwordAndSheathDLists,
-    gPlayerLeftHandAndSwordDLists,
+    gPlayerShieldAndSheathDLists,
     gPlayerWaistDLists,
 };
 
