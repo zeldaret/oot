@@ -164,18 +164,18 @@ void DemoIk_Type1Init(DemoIk* this, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 0:
-            skeleton = &gIkSkel3;
-            animation = &gIkAnim3;
+            skeleton = &gIronKnuckleSkel_C90;
+            animation = &gIronKnuckleAnim3;
             phi_f0 = 30.0f;
             break;
         case 1:
-            skeleton = &gIkSkel1;
-            animation = &gIkAnim1;
+            skeleton = &gIronKnuckleSkel_660;
+            animation = &gIronKnuckleAnim1;
             phi_f0 = 10.0f;
             break;
         default:
-            skeleton = &gIkSkel0;
-            animation = &gIkAnim0;
+            skeleton = &gIronKnuckleSkel_380;
+            animation = &gIronKnuckleAnim0;
             phi_f0 = 20.0f;
             // No break is required for matching
     }
@@ -267,12 +267,12 @@ void DemoIk_Type1PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
             case 0:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 390),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL0);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL0);
                 break;
             case 2:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 396),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL2);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL2);
                 break;
         }
     }
@@ -302,20 +302,20 @@ void DemoIk_Type2Init(DemoIk* this, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 3:
-            skeleton = &gIkSkel6;
-            animation = &gIkAnim19;
+            skeleton = &gIronKnuckleSkel_1EB40;
+            animation = &gIronKnuckleAnim19;
             break;
         case 4:
-            skeleton = &gIkSkel7;
-            animation = &gIkAnim20;
+            skeleton = &gIronKnuckleSkel_1EE60;
+            animation = &gIronKnuckleAnim20;
             break;
         case 5:
-            skeleton = &gIkSkel4;
-            animation = &gIkAnim4;
+            skeleton = &gIronKnuckleSkel_F30;
+            animation = &gIronKnuckleAnim4;
             break;
         default:
-            skeleton = &gIkSkel2;
-            animation = &gIkAnim2;
+            skeleton = &gIronKnuckleSkel_900;
+            animation = &gIronKnuckleAnim2;
     }
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
@@ -425,22 +425,22 @@ void DemoIk_Type2PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
             case 3:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 274),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL3);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL3);
                 break;
             case 4:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 280),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL4);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL4);
                 break;
             case 5:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 286),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL0);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL0);
                 break;
             default:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 292),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL1);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL1);
                 break;
         }
     }

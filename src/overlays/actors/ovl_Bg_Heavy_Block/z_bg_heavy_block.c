@@ -79,7 +79,7 @@ void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     this->dyna.actor.flags |= 0x20030;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&gHeavyObjectCol, &colHeader);
+    CollisionHeader_GetVirtual(&gGoldGauntletsBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
@@ -505,7 +505,7 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 931),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, gHeavyObjectDL0);
+    gSPDisplayList(POLY_OPA_DISP++, gGoldGauntletsBlockDL_13C0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 935);
 }
@@ -514,11 +514,11 @@ void BgHeavyBlock_DrawPiece(Actor* thisx, GlobalContext* globalCtx) {
     switch (thisx->params & 0xFF) {
         case HEAVYBLOCK_BIG_PIECE:
             Matrix_Translate(50.0f, -260.0f, -20.0f, MTXMODE_APPLY);
-            Gfx_DrawDListOpa(globalCtx, gHeavyObjectDL1);
+            Gfx_DrawDListOpa(globalCtx, gGoldGauntletsBlockDL_18A0);
             break;
         case HEAVYBLOCK_SMALL_PIECE:
             Matrix_Translate(45.0f, -280.0f, -5.0f, MTXMODE_APPLY);
-            Gfx_DrawDListOpa(globalCtx, gHeavyObjectDL2);
+            Gfx_DrawDListOpa(globalCtx, gGoldGauntletsBlockDL_1A30);
             break;
     }
 }

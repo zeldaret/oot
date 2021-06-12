@@ -271,7 +271,7 @@ Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
 }
 
 void func_80A74714(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIkAnim16);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleAnim16);
     f32 frame;
 
     if (this->actor.params >= 2) {
@@ -280,7 +280,7 @@ void func_80A74714(EnIk* this) {
         frame = 0.0f;
     }
 
-    Animation_Change(&this->skelAnime, &gIkAnim16, 0.0f, frame, frames, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim16, 0.0f, frame, frames, ANIMMODE_ONCE, 0.0f);
     this->unk_2F8 = 3;
     this->actor.speedXZ = 0.0f;
     EnIk_SetupAction(this, func_80A747C0);
@@ -307,12 +307,12 @@ void func_80A747C0(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7489C(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIkAnim17);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleAnim17);
 
     this->actor.flags |= 5;
     this->unk_2F8 = 4;
     this->actor.speedXZ = 0.0f;
-    Animation_Change(&this->skelAnime, &gIkAnim17, 0.0f, 0.0f, frames, ANIMMODE_LOOP, 4.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim17, 0.0f, 0.0f, frames, ANIMMODE_LOOP, 4.0f);
     EnIk_SetupAction(this, func_80A7492C);
 }
 
@@ -339,11 +339,11 @@ void func_80A7492C(EnIk* this, GlobalContext* globalCtx) {
 void func_80A74AAC(EnIk* this) {
     this->unk_2F8 = 5;
     if (this->unk_2FB == 0) {
-        Animation_Change(&this->skelAnime, &gIkAnim18, 1.0f, 0.0f, Animation_GetLastFrame(&gIkAnim18), ANIMMODE_LOOP,
+        Animation_Change(&this->skelAnime, &gIronKnuckleAnim18, 1.0f, 0.0f, Animation_GetLastFrame(&gIronKnuckleAnim18), ANIMMODE_LOOP,
                          -4.0f);
         this->actor.speedXZ = 0.9f;
     } else {
-        Animation_Change(&this->skelAnime, &gIkAnim14, 1.0f, 0.0f, Animation_GetLastFrame(&gIkAnim14), ANIMMODE_LOOP,
+        Animation_Change(&this->skelAnime, &gIronKnuckleAnim14, 1.0f, 0.0f, Animation_GetLastFrame(&gIronKnuckleAnim14), ANIMMODE_LOOP,
                          -4.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DASH);
         this->actor.speedXZ = 2.5f;
@@ -411,12 +411,12 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A74E2C(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIkAnim5);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleAnim5);
 
     this->unk_2FF = 1;
     this->unk_2F8 = 6;
     this->actor.speedXZ = 0.0f;
-    Animation_Change(&this->skelAnime, &gIkAnim5, 1.5f, 0.0f, frames, ANIMMODE_ONCE, -4.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim5, 1.5f, 0.0f, frames, ANIMMODE_ONCE, -4.0f);
     EnIk_SetupAction(this, func_80A74EBC);
 }
 
@@ -451,13 +451,13 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7506C(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIkAnim7);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleAnim7);
 
     this->unk_2FE = 0;
     this->unk_2F9 = (s8)frames;
     this->unk_2F8 = 7;
     this->unk_2FF = this->unk_2FE;
-    Animation_Change(&this->skelAnime, &gIkAnim7, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -4.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim7, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -4.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_PULLOUT);
     EnIk_SetupAction(this, func_80A7510C);
 }
@@ -469,21 +469,21 @@ void func_80A7510C(EnIk* this, GlobalContext* globalCtx) {
         if (this->unk_2F8 == 8) {
             func_80A7489C(this);
         } else {
-            frames = Animation_GetLastFrame(&gIkAnim6);
+            frames = Animation_GetLastFrame(&gIronKnuckleAnim6);
             this->unk_2F8 = 8;
-            Animation_Change(&this->skelAnime, &gIkAnim6, 1.5f, 0.0f, frames, ANIMMODE_ONCE_INTERP, -4.0f);
+            Animation_Change(&this->skelAnime, &gIronKnuckleAnim6, 1.5f, 0.0f, frames, ANIMMODE_ONCE_INTERP, -4.0f);
         }
     }
 }
 
 void func_80A751C8(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIkAnim8);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleAnim8);
 
     this->unk_2FF = 2;
     this->unk_300 = 0;
     this->unk_2F8 = 6;
     this->actor.speedXZ = 0.0f;
-    Animation_Change(&this->skelAnime, &gIkAnim8, 0.0f, 0.0f, frames, ANIMMODE_ONCE_INTERP, -6.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim8, 0.0f, 0.0f, frames, ANIMMODE_ONCE_INTERP, -6.0f);
     this->unk_2FC = 0;
     EnIk_SetupAction(this, func_80A75260);
 }
@@ -517,11 +517,11 @@ void func_80A75260(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A753D0(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIkAnim9);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleAnim9);
 
     this->unk_2FF = this->unk_2FE = 0;
     this->unk_2F8 = 8;
-    Animation_Change(&this->skelAnime, &gIkAnim9, 1.5f, 0.0f, frames, ANIMMODE_ONCE_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim9, 1.5f, 0.0f, frames, ANIMMODE_ONCE_INTERP, -4.0f);
     EnIk_SetupAction(this, func_80A7545C);
 }
 
@@ -533,12 +533,12 @@ void func_80A7545C(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A754A0(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIkAnim8);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleAnim8);
 
     this->unk_2F8 = 1;
     this->unk_2FF = 3;
     this->actor.speedXZ = 0.0f;
-    Animation_Change(&this->skelAnime, &gIkAnim8, 0.5f, 13.0f, frames, ANIMMODE_ONCE_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim8, 0.5f, 13.0f, frames, ANIMMODE_ONCE_INTERP, -4.0f);
     EnIk_SetupAction(this, func_80A75530);
 }
 
@@ -560,12 +560,12 @@ void func_80A75530(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A755F0(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIkAnim11);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleAnim11);
 
     this->unk_2FE = 0;
     this->unk_2F8 = 9;
     this->actor.speedXZ = 0.0f;
-    Animation_Change(&this->skelAnime, &gIkAnim11, 1.0f, 0.0f, frames, ANIMMODE_ONCE_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim11, 1.0f, 0.0f, frames, ANIMMODE_ONCE_INTERP, -4.0f);
     EnIk_SetupAction(this, func_80A7567C);
 }
 
@@ -593,11 +593,11 @@ void func_80A75790(EnIk* this) {
     this->unk_2F8 = 0;
     yawDiff = yaw - this->actor.shape.rot.y;
     if (ABS(yawDiff) <= 0x4000) {
-        Animation_Change(&this->skelAnime, &gIkAnim13, 1.0f, 0.0f, Animation_GetLastFrame(&gIkAnim13), ANIMMODE_ONCE,
+        Animation_Change(&this->skelAnime, &gIronKnuckleAnim13, 1.0f, 0.0f, Animation_GetLastFrame(&gIronKnuckleAnim13), ANIMMODE_ONCE,
                          -4.0f);
         this->actor.speedXZ = -6.0f;
     } else {
-        Animation_Change(&this->skelAnime, &gIkAnim10, 1.0f, 0.0f, Animation_GetLastFrame(&gIkAnim10), ANIMMODE_ONCE,
+        Animation_Change(&this->skelAnime, &gIronKnuckleAnim10, 1.0f, 0.0f, Animation_GetLastFrame(&gIronKnuckleAnim10), ANIMMODE_ONCE,
                          -4.0f);
         this->actor.speedXZ = 6.0f;
     }
@@ -621,12 +621,12 @@ void func_80A758B0(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7598C(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIkAnim12);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleAnim12);
 
     this->unk_2FE = 0;
     this->unk_2F8 = 2;
     this->actor.speedXZ = 0.0f;
-    Animation_Change(&this->skelAnime, &gIkAnim12, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -4.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim12, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -4.0f);
     this->unk_2F9 = 0x18;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DEAD);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
@@ -673,7 +673,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         return;
     }
     if (this->shieldCollider.base.acFlags & AC_BOUNCED) {
-        temp_f0 = Animation_GetLastFrame(&gIkAnim11) - 2.0f;
+        temp_f0 = Animation_GetLastFrame(&gIronKnuckleAnim11) - 2.0f;
         if (this->skelAnime.curFrame < temp_f0) {
             this->skelAnime.curFrame = temp_f0;
         }
@@ -811,11 +811,11 @@ s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
     if (limbIndex == 12) {
         if (this->actor.params != 0) {
-            *dList = gIkDL7;
+            *dList = gIronKnuckleDL7;
         }
     } else if (limbIndex == 13) {
         if (this->actor.params != 0) {
-            *dList = gIkDL8;
+            *dList = gIronKnuckleDL8;
         }
     } else if ((limbIndex == 26) || (limbIndex == 27)) {
         if ((this->unk_2FA & 1)) {
@@ -865,9 +865,9 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1217),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->actor.params != 0) {
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL9);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL9);
         } else {
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL5);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL5);
         }
     } else if (limbIndex == 17) {
         s32 i;
@@ -903,25 +903,25 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         case 22:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1270),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL2);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL2);
             break;
         case 24:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1275),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL6);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL6);
             break;
         case 26:
             if (!(this->unk_2FA & 1)) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1281),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL0);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL0);
             }
             break;
         case 27:
             if (!(this->unk_2FA & 1)) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1288),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL1);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL1);
             }
             break;
     }
@@ -1071,7 +1071,7 @@ void func_80A77148(EnIk* this) {
 }
 
 void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &gIkAnim15, 1.0f, 0.0f, Animation_GetLastFrame(&gIkAnim15), ANIMMODE_ONCE,
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim15, 1.0f, 0.0f, Animation_GetLastFrame(&gIronKnuckleAnim15), ANIMMODE_ONCE,
                      0.0f);
     func_80A770C0(this, globalCtx, 4);
     this->action = 1;
@@ -1080,7 +1080,7 @@ void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A771E4(EnIk* this) {
-    Animation_Change(&this->skelAnime, &gIkAnim15, 1.0f, 0.0f, Animation_GetLastFrame(&gIkAnim15), ANIMMODE_ONCE,
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim15, 1.0f, 0.0f, Animation_GetLastFrame(&gIronKnuckleAnim15), ANIMMODE_ONCE,
                      0.0f);
     this->action = 2;
     this->drawMode = 1;
@@ -1110,10 +1110,10 @@ void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
 
 void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frames = Animation_GetLastFrame(&gIkAnim21);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleAnim21);
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gIkSkel8, NULL, this->jointTable, this->morphTable, 30);
-    Animation_Change(&this->skelAnime, &gIkAnim21, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gIronKnuckleSkel_205C0, NULL, this->jointTable, this->morphTable, 30);
+    Animation_Change(&this->skelAnime, &gIronKnuckleAnim21, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
     this->action = 3;
     this->drawMode = 2;
     func_80A770C0(this, globalCtx, 4);
@@ -1174,18 +1174,18 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
             if (EnIk_curFrame(&this->actor) < 30.0f) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 267),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL5);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL5);
             }
         } break;
         case 22:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 274),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL2);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL2);
             break;
         case 24:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 280),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL6);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL6);
             break;
         case 26: {
             EnIk* this = THIS;
@@ -1194,7 +1194,7 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 288),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL0);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL0);
             }
         } break;
         case 27: {
@@ -1204,7 +1204,7 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 297),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIkDL1);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL1);
             }
         } break;
     }
@@ -1335,27 +1335,27 @@ void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         case 12:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 575),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL5);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL5);
             break;
         case 22:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 581),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL2);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL2);
             break;
         case 24:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 587),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL6);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL6);
             break;
         case 26:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 593),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL0);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL0);
             break;
         case 27:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 599),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gIkDL1);
+            gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL1);
             break;
     }
 
@@ -1443,7 +1443,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gIkSkel5, &gIkAnim15, this->jointTable, this->morphTable,
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gIronKnuckleSkel_1E178, &gIronKnuckleAnim15, this->jointTable, this->morphTable,
                            30);
         func_80A74398(&this->actor, globalCtx);
         func_80A780D0(this, globalCtx);
