@@ -44,11 +44,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
 };
 
-CollisionHeader* D_80B940DC[] = { &gObjDHsblockCol1, &gObjDHsblockCol1, &gObjDHsblockCol0 };
+CollisionHeader* D_80B940DC[] = { &gHookshotTargetCol, &gHookshotTargetCol, &gHookshotPostCol };
 
 static Color_RGB8 sFireTempleColor = { 165, 125, 55 };
 
-static Gfx* sDLists[] = { gObjDHsblockDL0, gObjDHsblockDL0, gObjDHsblockDL1 };
+static Gfx* sDLists[] = { gHookshotPostDL, gHookshotPostDL, gHookshotTargetDL };
 
 void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
