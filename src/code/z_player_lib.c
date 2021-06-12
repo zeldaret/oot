@@ -745,14 +745,14 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
             if (strengthUpgrade >= PLAYER_STR_SILVER_G) {
-                static Color_RGB8 sGauntletColors[] = {
+                static Color_RGB8 gauntletColors[] = {
                     { 255, 255, 255 },
                     { 254, 207, 15 },
                 };
 
                 gDPPipeSync(POLY_OPA_DISP++);
 
-                color = &sGauntletColors[strengthUpgrade - PLAYER_STR_SILVER_G];
+                color = &gauntletColors[strengthUpgrade - PLAYER_STR_SILVER_G];
                 gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
 
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultLeftSilverAndGoldenGauntletForearmDL);
