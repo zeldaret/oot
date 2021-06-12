@@ -97,7 +97,7 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDyExtra* this = THIS;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Vtx* vertices = SEGMENTED_TO_VIRTUAL(gDyObjVtx_001BFB0);
+    Vtx* vertices = SEGMENTED_TO_VIRTUAL(gGreatFairyVtx_001BFB0);
     s32 i;
     u8 unk[3];
 
@@ -123,7 +123,7 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
                     primColors[this->type].b, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b, 128);
-    gSPDisplayList(POLY_XLU_DISP++, gDyObjDL_01C160);
+    gSPDisplayList(POLY_XLU_DISP++, gGreatFairyDL_01C160);
 
     CLOSE_DISPS(gfxCtx, "../z_en_dy_extra.c", 325);
 }
