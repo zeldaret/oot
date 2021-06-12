@@ -110,8 +110,8 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 72.0f);
     switch (this->actor.params) {
         case 0:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCowSkel0, NULL, this->jointTable, this->morphTable, 6);
-            Animation_PlayLoop(&this->skelAnime, &gCowAnim0);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCowBodySkel, NULL, this->jointTable, this->morphTable, 6);
+            Animation_PlayLoop(&this->skelAnime, &gCowBodyChewAnim);
             Collider_InitCylinder(globalCtx, &this->colliders[0]);
             Collider_SetCylinder(globalCtx, &this->colliders[0], &this->actor, &sCylinderInit);
             Collider_InitCylinder(globalCtx, &this->colliders[1]);
@@ -136,8 +136,8 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             DREG(53) = 0;
             break;
         case 1:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCowSkel1, NULL, this->jointTable, this->morphTable, 6);
-            Animation_PlayLoop(&this->skelAnime, &gCowAnim2);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCowTailSkel, NULL, this->jointTable, this->morphTable, 6);
+            Animation_PlayLoop(&this->skelAnime, &gCowTailIdleAnim);
             this->actor.update = func_809DFE98;
             this->actor.draw = func_809E0070;
             this->actionFunc = func_809DFA84;
@@ -165,13 +165,13 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
         this->unk_278 -= 1;
     } else {
         this->unk_278 = Rand_ZeroFloat(500.0f) + 40.0f;
-        Animation_Change(&this->skelAnime, &gCowAnim0, 1.0f, this->skelAnime.curFrame,
-                         Animation_GetLastFrame(&gCowAnim0), ANIMMODE_ONCE, 1.0f);
+        Animation_Change(&this->skelAnime, &gCowBodyChewAnim, 1.0f, this->skelAnime.curFrame,
+                         Animation_GetLastFrame(&gCowBodyChewAnim), ANIMMODE_ONCE, 1.0f);
     }
 
     if ((this->actor.xzDistToPlayer < 150.0f) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
-        if (this->skelAnime.animation == &gCowAnim0) {
+        if (this->skelAnime.animation == &gCowBodyChewAnim) {
             this->unk_278 = 0;
         }
     }
@@ -281,14 +281,14 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
         this->unk_278--;
     } else {
         this->unk_278 = Rand_ZeroFloat(200.0f) + 40.0f;
-        Animation_Change(&this->skelAnime, &gCowAnim2, 1.0f, this->skelAnime.curFrame,
-                         Animation_GetLastFrame(&gCowAnim2), ANIMMODE_ONCE, 1.0f);
+        Animation_Change(&this->skelAnime, &gCowTailIdleAnim, 1.0f, this->skelAnime.curFrame,
+                         Animation_GetLastFrame(&gCowTailIdleAnim), ANIMMODE_ONCE, 1.0f);
     }
 
     if ((this->actor.xzDistToPlayer < 150.0f) &&
         (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
-        if (this->skelAnime.animation == &gCowAnim2) {
+        if (this->skelAnime.animation == &gCowTailIdleAnim) {
             this->unk_278 = 0;
         }
     }
@@ -307,12 +307,12 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(thisx);
     Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 4);
     if (SkelAnime_Update(&this->skelAnime) != 0) {
-        if (this->skelAnime.animation == &gCowAnim0) {
+        if (this->skelAnime.animation == &gCowBodyChewAnim) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);
-            Animation_Change(&this->skelAnime, &gCowAnim1, 1.0f, 0.0f, Animation_GetLastFrame(&gCowAnim1),
+            Animation_Change(&this->skelAnime, &gCowBodyMoveHeadAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCowBodyMoveHeadAnim),
                              ANIMMODE_ONCE, 1.0f);
         } else {
-            Animation_Change(&this->skelAnime, &gCowAnim0, 1.0f, 0.0f, Animation_GetLastFrame(&gCowAnim0),
+            Animation_Change(&this->skelAnime, &gCowBodyChewAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCowBodyChewAnim),
                              ANIMMODE_LOOP, 1.0f);
         }
     }
@@ -347,11 +347,11 @@ void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
-        if (this->skelAnime.animation == &gCowAnim2) {
-            Animation_Change(&this->skelAnime, &gCowAnim3, 1.0f, 0.0f, Animation_GetLastFrame(&gCowAnim3),
+        if (this->skelAnime.animation == &gCowTailIdleAnim) {
+            Animation_Change(&this->skelAnime, &gCowTailSwishAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCowTailSwishAnim),
                              ANIMMODE_ONCE, 1.0f);
         } else {
-            Animation_Change(&this->skelAnime, &gCowAnim2, 1.0f, 0.0f, Animation_GetLastFrame(&gCowAnim2),
+            Animation_Change(&this->skelAnime, &gCowTailIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCowTailIdleAnim),
                              ANIMMODE_LOOP, 1.0f);
         }
     }
