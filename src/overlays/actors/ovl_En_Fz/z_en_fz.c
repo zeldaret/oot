@@ -707,9 +707,9 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* displayLists[] = {
-        gFreezardDL0, // Body fully intact           (5 or 6 health)
-        gFreezardDL1, // Top right horn chipped off  (from Freezards perspective)   (3 or 4 health)
-        gFreezardDL2, // Entire head chipped off     (1 or 2 health)
+        gFreezardIntactDL, // Body fully intact           (5 or 6 health)
+        gFreezardTopRightHornChippedDL, // Top right horn chipped off  (from Freezards perspective)   (3 or 4 health)
+        gFreezardHeadChippedDL, // Entire head chipped off     (1 or 2 health)
     };
     EnFz* this = THIS;
     s32 pad;
@@ -870,7 +870,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             gDPPipeSync(POLY_XLU_DISP++);
 
             if (!texLoaded) {
-                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardDL3));
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardDL_30A0));
                 texLoaded++;
             }
 
@@ -883,7 +883,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             Matrix_Scale(iceSmoke->xyScale, iceSmoke->xyScale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_fz.c", 1424),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardDL4));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardDL_3158));
         }
 
         iceSmoke++;

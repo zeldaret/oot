@@ -56,7 +56,7 @@ const ActorInit Demo_Geff_InitVars = {
     (ActorFunc)DemoGeff_Draw,
 };
 
-extern Gfx gDemoGeffDL[];
+extern Gfx gGanonRubbleDL[];
 
 void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -173,7 +173,7 @@ void func_80978308(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
 void func_80978344(DemoGeff* this, GlobalContext* globalCtx) {
-    func_80977EA8(globalCtx, gDemoGeffDL);
+    func_80977EA8(globalCtx, gGanonRubbleDL);
 }
 
 void func_80978370(DemoGeff* this, GlobalContext* globalCtx) {

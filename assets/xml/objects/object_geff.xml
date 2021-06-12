@@ -1,5 +1,7 @@
 <Root>
     <File Name="object_geff" Segment="6">
-        <DList Name="gDemoGeffDL" Offset="0xEA0"/>
+        <Texture Name="gGanonRubble1Tex" OutName="rubble_1" Format="rgb5a1" Width="32" Height="32" Offset="0x0"/>
+        <Texture Name="gGanonRubble2Tex" OutName="rubble_2" Format="i8" Width="32" Height="32" Offset="0x800"/>
+        <DList Name="gGanonRubbleDL" Offset="0xEA0"/>
     </File>
 </Root>

@@ -222,5 +222,5 @@ void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaGoroiwa* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, gObjGoroiwaDL);
+    Gfx_DrawDListOpa(globalCtx, gRollingRockDL);
 }
