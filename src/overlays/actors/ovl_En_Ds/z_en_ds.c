@@ -34,8 +34,8 @@ void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDsSkel, &gDsAnim, this->jointTable, this->morphTable, 6);
-    Animation_PlayOnce(&this->skelAnime, &gDsAnim);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gPotionShopLadySkel, &gPotionShopLadyAnim, this->jointTable, this->morphTable, 6);
+    Animation_PlayOnce(&this->skelAnime, &gPotionShopLadyAnim);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
