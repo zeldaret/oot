@@ -194,18 +194,12 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOVABLE };
 
-extern AnimationHeader gFwAnim0;
-extern AnimationHeader gFwAnim1;
-extern AnimationHeader gFwAnim2;
-extern AnimationHeader gFwAnim3;
-extern AnimationHeader gFwAnim4;
-
 static struct_80034EC0_Entry sAnimations[] = {
-    { &gFwAnim0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
-    { &gFwAnim1, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
-    { &gFwAnim2, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
-    { &gFwAnim3, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
-    { &gFwAnim4, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
+    { &gFlareDancerCastingFireAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
+    { &gFlareDancerBackflipAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
+    { &gFlareDancerGettingUpAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
+    { &gFlareDancerChasingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gFlareDancerTwirlAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
 };
 
 s32 EnFd_SpawnCore(EnFd* this, GlobalContext* globalCtx) {
@@ -451,7 +445,7 @@ void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
 void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFd* this = THIS;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFwSkel0, NULL, this->jointTable, this->morphTable, 27);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFlareDancerSkel, NULL, this->jointTable, this->morphTable, 27);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 32.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
@@ -889,7 +883,7 @@ void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx) {
         if (eff->type == FD_EFFECT_FLAME) {
             if (!firstDone) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
-                gSPDisplayList(POLY_XLU_DISP++, gFwDL0);
+                gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
                 firstDone = true;
             }
@@ -902,7 +896,7 @@ void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             idx = eff->timer * (8.0f / eff->initialTimer);
             gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(D_80A0E0F8[idx]));
-            gSPDisplayList(POLY_XLU_DISP++, gFwDL1);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 2020);
@@ -922,7 +916,7 @@ void EnFd_DrawDots(EnFd* this, GlobalContext* globalCtx) {
         if (eff->type == FD_EFFECT_DOT) {
             if (!firstDone) {
                 func_80093D84(globalCtx->state.gfxCtx);
-                gSPDisplayList(POLY_XLU_DISP++, gFwDL2);
+                gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_79F8);
                 firstDone = true;
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b,
@@ -934,7 +928,7 @@ void EnFd_DrawDots(EnFd* this, GlobalContext* globalCtx) {
             Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fd.c", 2064),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gFwDL3);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerTriangleParticleDL);
         }
     }
 

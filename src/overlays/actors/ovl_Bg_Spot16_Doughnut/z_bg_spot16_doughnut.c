@@ -42,8 +42,8 @@ static s16 sScales[] = {
     0, 0, 70, 210, 300,
 };
 
-extern Gfx gEfcDoughnutDL0[];
-extern Gfx gEfcDoughnutDL1[];
+extern Gfx gDeathMountainCloudCircleFieryDL[];
+extern Gfx gDeathMountainCloudCircleNormalDL[];
 
 void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Doughnut* this = THIS;
@@ -139,11 +139,11 @@ void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx) {
             POLY_XLU_DISP++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * (-1), 0, 16, 32, 1, scroll, scroll * (-2), 16, 32));
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, this->envColorAlpha);
-        gSPDisplayList(POLY_XLU_DISP++, gEfcDoughnutDL0);
+        gSPDisplayList(POLY_XLU_DISP++, gDeathMountainCloudCircleFieryDL);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->envColorAlpha);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
-        gSPDisplayList(POLY_XLU_DISP++, gEfcDoughnutDL1);
+        gSPDisplayList(POLY_XLU_DISP++, gDeathMountainCloudCircleNormalDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 238);
@@ -161,7 +161,7 @@ void BgSpot16Doughnut_DrawExpanding(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->envColorAlpha);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
-    gSPDisplayList(POLY_XLU_DISP++, gEfcDoughnutDL1);
+    gSPDisplayList(POLY_XLU_DISP++, gDeathMountainCloudCircleNormalDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 256);
 }

@@ -1,7 +1,8 @@
 <Root>
     <File Name="object_efc_doughnut" Segment="6">
-        <Texture Name="gEfcDoughnutTex0" OutName="efc_doughnut_tex_0" Format="ia8" Width="16" Height="32" Offset="0x0"/>
-        <DList Name="gEfcDoughnutDL0" Offset="0x660"/>
-        <DList Name="gEfcDoughnutDL1" Offset="0xFC0"/>
+        <Texture Name="gDeathMountainCloudFireTex" OutName="cloud_fire" Format="ia8" Width="16" Height="32" Offset="0x0"/>
+        <Texture Name="gDeathMountainCloudNormalTex" OutName="cloud_normal" Format="ia16" Width="32" Height="32" Offset="0x780"/>
+        <DList Name="gDeathMountainCloudCircleFieryDL" Offset="0x660"/>
+        <DList Name="gDeathMountainCloudCircleNormalDL" Offset="0xFC0"/>
     </File>
 </Root>
