@@ -69,11 +69,9 @@ extern Gfx D_060003F0[];
 extern CollisionHeader D_060005DC;
 extern Gfx D_06000650[];
 
-#define DRAW_CLEAR ~0xF
 
-#define DRAW_NOTHING 0
-#define DRAW_SOIL (1 << 1)
 #define DRAW_LEAVES (1 << 0)
+#define DRAW_SOIL (1 << 1)
 #define DRAW_PLANT (1 << 2)
 #define DRAW_STALK (1 << 3)
 
@@ -212,7 +210,7 @@ void func_80B8EDF4(ObjBean* this) {
 
 void func_80B8EE24(ObjBean* this) {
     this->unk_1B6.x += 0x384;
-    if (this->unk_1B6.x >= 0x6000) {
+    if (this->unk_1B6.x > 0x5FFF) {
         this->unk_1B6.x = 0x5FFF;
     }
     this->unk_1B6.y += 0x258;
@@ -235,7 +233,7 @@ void ObjBean_Move(ObjBean* this) {
 }
 
 void ObjBean_SetDrawMode(ObjBean* this, u8 drawFlag) {
-    this->stateFlags &= DRAW_CLEAR;
+    this->stateFlags &= ~(DRAW_LEAVES | DRAW_PLANT | DRAW_STALK | DRAW_SOIL);
     this->stateFlags |= drawFlag;
 }
 
@@ -253,7 +251,7 @@ void ObjBean_SetupPath(ObjBean* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // Regalloc near speed > mag.
 // f12 vs f2 regs
-void ObjBean_FollowPath(ObjBean* this, GlobalContext* globalCtx) { // Fly/follow path?
+void ObjBean_FollowPath(ObjBean* this, GlobalContext* globalCtx) {
     Path* path;
     Vec3f acell;
     Vec3f pathPointsFloat;
@@ -369,7 +367,7 @@ void ObjBean_UpdateLeaves(ObjBean* this) {
     Math_StepToS(&this->unk_1C2, this->unk_1C4, this->unk_1C6);
     Math_StepToS(&this->unk_1C8, this->unk_1CA, this->unk_1CC);
     this->unk_1CE += this->unk_1C8;
-    this->leafRotFactor = (s16)(s32)(6372.0f - (Math_SinS(this->unk_1CE) * (f32)this->unk_1C2));
+    this->leafRotFactor = 6372.0f - Math_SinS(this->unk_1CE) * (f32)this->unk_1C2;
     this->dyna.actor.scale.y = Math_SinS(this->leafRotFactor) * 0.17434467f;
     this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_CosS(this->leafRotFactor) * 0.12207746f;
 }
@@ -442,7 +440,7 @@ void ObjBean_SetupGrow(ObjBean* this) {
 
 void ObjBean_Grow(ObjBean* this) {
     Math_StepToS(&this->leafRotFactor, 0x33E9, 0x168);
-    this->dyna.actor.scale.y = (f32)(Math_SinS(this->leafRotFactor) * 0.17434467f);
+    this->dyna.actor.scale.y = Math_SinS(this->leafRotFactor) * 0.17434467f;
     this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_CosS(this->leafRotFactor) * 0.12207746f;
     ;
 }
@@ -454,7 +452,7 @@ void ObjBean_SetupFlattenLeaves(ObjBean* this) {
 
 void ObjBean_FlattenLeaves(ObjBean* this) {
     this->leafRotFactor -= 0x960;
-    this->dyna.actor.scale.y = (f32)(Math_SinS(this->leafRotFactor) * 0.17434467f);
+    this->dyna.actor.scale.y = Math_SinS(this->leafRotFactor) * 0.17434467f;
     this->dyna.actor.scale.x = this->dyna.actor.scale.z = Math_CosS(this->leafRotFactor) * 0.12207746f;
 
     if (this->leafRotFactor < 0x18E4) {
@@ -533,7 +531,6 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         ObjBean_SetupWaitForBean(this); // Soft soil spot
     }
-    // this->dyna.actor.shape.rot.z = 0;
     this->dyna.actor.world.rot.z = this->dyna.actor.home.rot.z = this->dyna.actor.shape.rot.z = 0;
     // Magic bean tree lift
     osSyncPrintf("(魔法の豆の木リフト)(arg_data 0x%04x)\n", this->dyna.actor.params);
@@ -663,7 +660,7 @@ void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
         this->dyna.actor.flags |= 0x10;
         return;
     }
-    if ((D_80B90E30 == this) && (!Flags_GetEnv(globalCtx, 5))) {
+    if ((D_80B90E30 == this) && !Flags_GetEnv(globalCtx, 5)) {
         D_80B90E30 = NULL;
     }
 }
@@ -844,7 +841,7 @@ void ObjBean_WaitForStepOff(ObjBean* this, GlobalContext* globalCtx) {
 
 void func_80B908EC(ObjBean* this) {
     this->actionFunc = func_80B90918;
-    ObjBean_SetDrawMode(this, DRAW_NOTHING);
+    ObjBean_SetDrawMode(this, 0);
 }
 
 void func_80B90918(ObjBean* this, GlobalContext* globalCtx) {
@@ -858,7 +855,7 @@ void func_80B90918(ObjBean* this, GlobalContext* globalCtx) {
 
 void func_80B90970(ObjBean* this) {
     this->actionFunc = func_80B909B0;
-    ObjBean_SetDrawMode(this, DRAW_NOTHING);
+    ObjBean_SetDrawMode(this, 0);
     this->timer = 100;
     func_80B8EDF4(this);
 }
@@ -927,7 +924,7 @@ void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.shape.shadowDraw = NULL;
     }
     Actor_SetFocus(&this->dyna.actor, 6.0f);
-    if ((this->stateFlags & DYNAPOLY_SET)) {
+    if (this->stateFlags & DYNAPOLY_SET) {
         if (func_8004356C(&this->dyna)) {
             this->stateFlags |= PLAYER_ON_TOP;
         } else {
@@ -936,12 +933,12 @@ void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void ObjBean_DrawSoftSoilSpot(ObjBean* this, GlobalContext* globalContext) {
+void ObjBean_DrawSoftSoilSpot(ObjBean* this, GlobalContext* globalCtx) {
     Matrix_Translate(this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z,
                      MTXMODE_NEW);
     Matrix_RotateY(this->dyna.actor.home.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
-    Gfx_DrawDListOpa(globalContext, D_06000650);
+    Gfx_DrawDListOpa(globalCtx, D_06000650);
 }
 
 void ObjBean_DrawBeanstalk(ObjBean* this, GlobalContext* globalCtx) {

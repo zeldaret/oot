@@ -3234,7 +3234,7 @@ beginseg
     include "build/src/overlays/actors/ovl_Obj_Bean/ovl_Obj_Bean_reloc.o"
 #else
     include "build/data/overlays/actors/z_obj_bean.reloc.o"
-    #endif
+#endif
 endseg
 
 beginseg
