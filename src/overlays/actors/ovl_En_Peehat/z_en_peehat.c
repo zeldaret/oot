@@ -194,7 +194,7 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     Actor_SetScale(thisx, 36.0f * 0.001f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gPeehatSkel, &gPeehatAnim3, this->jointTable, this->morphTable, 24);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gPeehatSkel, &gPeehatRisingAnim, this->jointTable, this->morphTable, 24);
     ActorShape_Init(&this->actor.shape, 100.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->unk2D4 = 0;
@@ -309,7 +309,7 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
-    Animation_Change(&this->skelAnime, &gPeehatAnim3, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatAnim3), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim), 2, 0.0f);
     this->seekPlayerTimer = 600;
     this->unk2D4 = 0;
     this->unk2FA = 0;
@@ -346,7 +346,7 @@ void EnPeehat_Ground_StateGround(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Flying_SetStateGround(EnPeehat* this) {
-    Animation_Change(&this->skelAnime, &gPeehatAnim3, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatAnim3), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim), 2, 0.0f);
     this->seekPlayerTimer = 400;
     this->unk2D4 = 0;
     this->unk2FA = 0; // @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
@@ -375,7 +375,7 @@ void EnPeehat_Flying_StateGrounded(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Flying_SetStateFly(EnPeehat* this) {
-    Animation_PlayLoop(&this->skelAnime, &gPeehatAnim1);
+    Animation_PlayLoop(&this->skelAnime, &gPeehatFlyingAnim);
     this->state = PEAHAT_STATE_FLY;
     EnPeehat_SetupAction(this, EnPeehat_Flying_StateFly);
 }
@@ -403,9 +403,9 @@ void EnPeehat_Flying_StateFly(EnPeehat* this, GlobalContext* globalCtx) {
 void EnPeehat_Ground_SetStateRise(EnPeehat* this) {
     f32 lastFrame;
 
-    lastFrame = Animation_GetLastFrame(&gPeehatAnim3);
+    lastFrame = Animation_GetLastFrame(&gPeehatRisingAnim);
     if (this->state != PEAHAT_STATE_STUNNED) {
-        Animation_Change(&this->skelAnime, &gPeehatAnim3, 0.0f, 3.0f, lastFrame, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, lastFrame, 2, 0.0f);
     }
     this->state = PEAHAT_STATE_8;
     this->animTimer = lastFrame;
@@ -444,9 +444,9 @@ void EnPeehat_Ground_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
 void EnPeehat_Flying_SetStateRise(EnPeehat* this) {
     f32 lastFrame;
 
-    lastFrame = Animation_GetLastFrame(&gPeehatAnim3);
+    lastFrame = Animation_GetLastFrame(&gPeehatRisingAnim);
     if (this->state != PEAHAT_STATE_STUNNED) {
-        Animation_Change(&this->skelAnime, &gPeehatAnim3, 0.0f, 3.0f, lastFrame, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, lastFrame, 2, 0.0f);
     }
     this->state = PEAHAT_STATE_9;
     this->animTimer = lastFrame;
@@ -484,7 +484,7 @@ void EnPeehat_Flying_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Ground_SetStateSeekPlayer(EnPeehat* this) {
-    Animation_PlayLoop(&this->skelAnime, &gPeehatAnim1);
+    Animation_PlayLoop(&this->skelAnime, &gPeehatFlyingAnim);
     this->state = PEAHAT_STATE_SEEK_PLAYER;
     this->unk2E0 = 0.0f;
     EnPeehat_SetupAction(this, EnPeehat_Ground_StateSeekPlayer);
@@ -520,7 +520,7 @@ void EnPeehat_Ground_StateSeekPlayer(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Larva_SetStateSeekPlayer(EnPeehat* this) {
-    Animation_PlayLoop(&this->skelAnime, &gPeehatAnim1);
+    Animation_PlayLoop(&this->skelAnime, &gPeehatFlyingAnim);
     this->state = PEAHAT_STATE_SEEK_PLAYER;
     this->unk2D4 = 0;
     EnPeehat_SetupAction(this, EnPeehat_Larva_StateSeekPlayer);
@@ -592,7 +592,7 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, GlobalContext* globalCtx) {
 
 void EnPeehat_Ground_SetStateLanding(EnPeehat* this) {
     this->state = PEAHAT_STATE_LANDING;
-    Animation_PlayOnce(&this->skelAnime, &gPeehatAnim0);
+    Animation_PlayOnce(&this->skelAnime, &gPeehatLandingAnim);
     EnPeehat_SetupAction(this, EnPeehat_Ground_StateLanding);
 }
 
@@ -618,7 +618,7 @@ void EnPeehat_Ground_StateLanding(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Flying_SetStateLanding(EnPeehat* this) {
-    Animation_PlayOnce(&this->skelAnime, &gPeehatAnim0);
+    Animation_PlayOnce(&this->skelAnime, &gPeehatLandingAnim);
     this->state = PEAHAT_STATE_LANDING;
     EnPeehat_SetupAction(this, EnPeehat_Flying_StateLanding);
 }
@@ -645,7 +645,7 @@ void EnPeehat_Flying_StateLanding(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Ground_SetStateHover(EnPeehat* this) {
-    Animation_PlayLoop(&this->skelAnime, &gPeehatAnim1);
+    Animation_PlayLoop(&this->skelAnime, &gPeehatFlyingAnim);
     this->actor.speedXZ = Rand_ZeroOne() * 0.5f + 2.5f;
     this->unk2D4 = Rand_ZeroOne() * 10 + 10;
     this->state = PEAHAT_STATE_15;
@@ -732,7 +732,7 @@ void EnPeehat_Ground_StateReturnHome(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_SetStateAttackRecoil(EnPeehat* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &gPeehatAnim2, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gPeehatRecoilAnim, -4.0f);
     this->state = PEAHAT_STATE_ATTACK_RECOIL;
     this->actor.speedXZ = -9.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -803,7 +803,7 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, GlobalContext* globalCtx) {
     if (this->isStateDieFirstUpdate) {
         this->unk2D4--;
         if (this->unk2D4 <= 0 || this->actor.colChkInfo.health == 0) {
-            Animation_MorphToPlayOnce(&this->skelAnime, &gPeehatAnim2, -4.0f);
+            Animation_MorphToPlayOnce(&this->skelAnime, &gPeehatRecoilAnim, -4.0f);
             this->bladeRotVel = 4000;
             this->unk2D4 = 14;
             this->actor.speedXZ = 0;
@@ -849,7 +849,7 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_SetStateExplode(EnPeehat* this) {
-    Animation_PlayLoop(&this->skelAnime, &gPeehatAnim1);
+    Animation_PlayLoop(&this->skelAnime, &gPeehatFlyingAnim);
     this->state = PEAHAT_STATE_EXPLODE;
     this->animTimer = 5;
     this->unk2E0 = 0.0f;
