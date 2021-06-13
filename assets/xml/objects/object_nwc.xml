@@ -1,12 +1,15 @@
 <Root>
     <File Name="object_nwc" Segment="6">
-        <DList Name="gObjNwcDL0" Offset="0x840"/>
-        <DList Name="gObjNwcDL1" Offset="0x8B0"/>
-        <DList Name="gObjNwcDL2" Offset="0xBF0"/>
-        <DList Name="gObjNwcDL3" Offset="0xC68"/>
-        <DList Name="gObjNwcDL4" Offset="0xC88"/>
-        <DList Name="gObjNwcDL5" Offset="0xCE0"/>
-        <DList Name="gObjNwcDL6" Offset="0xD10"/>
-        <DList Name="gObjNwcDL7" Offset="0xD50"/>
+        <Texture Name="gCuccoChickBodyTex" OutName="body" Format="rgb5a1" Width="32" Height="32" Offset="0x0"/>
+        <Texture Name="gCuccoChickEyeTex" OutName="eye" Format="rgb5a1" Width="16" Height="16" Offset="0x8E0"/>
+        <Texture Name="gCuccoChickBeakTex" OutName="beak" Format="rgb5a1" Width="4" Height="4" Offset="0xAE0"/>
+        <DList Name="gCuccoChickSetupBodyDL" Offset="0x840"/>
+        <DList Name="gCuccoChickBodyDL" Offset="0x8B0"/>
+        <DList Name="gCuccoChickSetupEyeDL" Offset="0xBF0"/>
+        <DList Name="gCuccoChickEyesDL" Offset="0xC68"/>
+        <DList Name="gCuccoChickSetupBeakDL" Offset="0xC88"/>
+        <DList Name="gCuccoChickBeakDL" Offset="0xCE0"/>
+        <DList Name="gCuccoChickSetupShadowDL" Offset="0xD10"/>
+        <DList Name="gCuccoChickShadowDL" Offset="0xD50"/>
     </File>
 </Root>
