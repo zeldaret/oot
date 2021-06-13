@@ -384,7 +384,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         0x19, 0x1B, 0x0E, 0x1C, 0x1C, 0x1C, 0x1D, 0x0A, 0x1B, 0x1D,
     };
     static u64* effectMaskTextures[] = {
-        gTitleEffectMask0, gTitleEffectMask1, gTitleEffectMask2, gTitleEffectMask3, gTitleEffectMask4, gTitleEffectMask5, gTitleEffectMask6, gTitleEffectMask7, gTitleEffectMask8,
+        gTitleEffectMask00Tex, gTitleEffectMask01Tex, gTitleEffectMask02Tex, gTitleEffectMask10Tex, gTitleEffectMask11Tex, gTitleEffectMask12Tex, gTitleEffectMask20Tex, gTitleEffectMask21Tex, gTitleEffectMask22Tex,
     };
     EnMag* this = THIS;
     Font* font = &this->font;
@@ -414,7 +414,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     if ((s16)this->effectPrimLodFrac != 0) {
         for (k = 0, i = 0, rectTop = 0; i < 3; i++, rectTop += 64) {
             for (j = 0, rectLeft = 56; j < 3; j++, k++, rectLeft += 64) {
-                EnMag_DrawEffectTextures(&gfx, effectMaskTextures[k], gTitleLogoFlameEffectTex, 64, 64, 32, 32, rectLeft, rectTop, 64,
+                EnMag_DrawEffectTextures(&gfx, effectMaskTextures[k], gTitleFlameEffectTex, 64, 64, 32, 32, rectLeft, rectTop, 64,
                                          64, 1024, 1024, 1, 1, k, this);
             }
         }
@@ -423,7 +423,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->mainAlpha);
 
     if ((s16)this->mainAlpha != 0) {
-        EnMag_DrawImageRGBA32(&gfx, 152, 100, (u8 *)gZeldaTitleScreenLogoTex, 160, 160);
+        EnMag_DrawImageRGBA32(&gfx, 152, 100, (u8 *)gTitleZeldaShieldLogoMQTex, 160, 160);
     }
 
     func_8009457C(&gfx);
@@ -443,20 +443,20 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     gDPSetEnvColor(gfx++, 0, 0, 100, 255);
 
     if ((s16)this->mainAlpha != 0) {
-        EnMag_DrawTextureI8(&gfx, gTitleLogoTheLegendOfTex, 72, 8, 146, 73, 72, 8, 1024, 1024);
-        EnMag_DrawTextureI8(&gfx, gTitleLogoOcarinaOfTimeTex, 96, 8, 144, 127, 96, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, gTitleTheLegendOfTextTex, 72, 8, 146, 73, 72, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, gTitleOcarinaOfTimeTMTextTex, 96, 8, 144, 127, 96, 8, 1024, 1024);
 
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, 100, 150, 255, (s16)this->mainAlpha);
         gDPSetEnvColor(gfx++, 20, 80, 160, 255);
 
-        EnMag_DrawTextureI8(&gfx, gTitleLogoTheLegendOfTex, 72, 8, 145, 72, 72, 8, 1024, 1024);
-        EnMag_DrawTextureI8(&gfx, gTitleLogoOcarinaOfTimeTex, 96, 8, 143, 126, 96, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, gTitleTheLegendOfTextTex, 72, 8, 145, 72, 72, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, gTitleOcarinaOfTimeTMTextTex, 96, 8, 143, 126, 96, 8, 1024, 1024);
 
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->subAlpha);
 
-        EnMag_DrawImageRGBA32(&gfx, 174, 145, (u8 *)gMasterQuestSubTitleTex, 128, 32);
+        EnMag_DrawImageRGBA32(&gfx, 174, 145, (u8 *)gTitleMasterQuestSubtitleTex, 128, 32);
     }
 
     func_8009457C(&gfx);
@@ -468,7 +468,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
                     (s16)this->copyrightAlpha);
 
     if ((s16)this->copyrightAlpha != 0) {
-        gDPLoadTextureBlock(gfx++, gNintendoCopyright2003Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 160, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+        gDPLoadTextureBlock(gfx++, gTitleCopyright19982003Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 160, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
         gSPTextureRectangle(gfx++, 312, 792, 952, 856, G_TX_RENDERTILE, 0, 0, 1024, 1024);
