@@ -1159,8 +1159,10 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 s32 sp80;
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
-                    if (globalCtx->skyboxId && (globalCtx->skyboxId != SKYBOX_UNSET_1D) && !globalCtx->envCtx.skyDisabled) {
-                        if ((globalCtx->skyboxId == SKYBOX_CLEAR_SKY) || (globalCtx->skyboxId == SKYBOX_CUTSCENE_MAP)) {
+                    if (globalCtx->skyboxId && (globalCtx->skyboxId != SKYBOX_UNSET_1D) &&
+                        !globalCtx->envCtx.skyDisabled) {
+                        if ((globalCtx->skyboxId == SKYBOX_NORMAL_SKY) ||
+                            (globalCtx->skyboxId == SKYBOX_CUTSCENE_MAP)) {
                             func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
                             SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
                                             globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,

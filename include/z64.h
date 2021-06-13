@@ -289,7 +289,7 @@ typedef struct {
 
 typedef enum {
     /* 0x00 */ SKYBOX_NONE,
-    /* 0x01 */ SKYBOX_CLEAR_SKY,
+    /* 0x01 */ SKYBOX_NORMAL_SKY,
     /* 0x02 */ SKYBOX_BAZAAR,
     /* 0x03 */ SKYBOX_OVERCAST_SUNSET,
     /* 0x04 */ SKYBOX_MARKET_ADULT,
@@ -321,7 +321,7 @@ typedef enum {
 typedef struct {
     /* 0x000 */ char unk_00[0x128];
     /* 0x128 */ void* staticSegments[3];
-    /* 0x134 */ Gfx* dpList;
+    /* 0x134 */ Gfx* dlistBuf;
     /* 0x138 */ Gfx* unk_138;
     /* 0x13C */ void* roomVtx;
     /* 0x140 */ s16  unk_140;
