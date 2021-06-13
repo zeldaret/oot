@@ -28,7 +28,6 @@ const ActorInit Bg_Menkuri_Eye_InitVars = {
     (ActorFunc)BgMenkuriEye_Draw,
 };
 
-extern Gfx gGTGEyeStatueEyeDL[];
 static s32 D_8089C1A0;
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {

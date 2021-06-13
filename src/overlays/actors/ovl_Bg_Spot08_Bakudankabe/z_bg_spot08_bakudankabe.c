@@ -33,8 +33,6 @@ const ActorInit Bg_Spot08_Bakudankabe_InitVars = {
     (ActorFunc)BgSpot08Bakudankabe_Draw,
 };
 
-extern Gfx D_0500A880[];
-
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
