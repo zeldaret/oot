@@ -1,5 +1,14 @@
 <Root>
     <File Name="object_masterkokirihead" Segment="6">
-        <DList Name="gMasterKokiriHeadDL" Offset="0x2820"/>
+        <DList Name="gKokiriShopkeeperHeadDL" Offset="0x2820"/>
+        <Texture Name="gKokiriShopkeeperTLUT" OutName="tlut" Format="rgb5a1" Width="248" Height="1" Offset="0x0"/>
+        <Texture Name="gKokiriShopkeeperEyeHalfTex" OutName="eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x1F0"/>
+        <Texture Name="gKokiriShopkeeperEyeOpenTex" OutName="eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0xB30"/>
+        <Texture Name="gKokiriShopkeeperHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x1330"/>
+        <Texture Name="gKokiriShopkeeperNoseTex" OutName="nose" Format="ci8" Width="8" Height="8" Offset="0x1430"/>
+        <Texture Name="gKokiriShopkeeperEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x1470"/>
+        <Texture Name="gKokiriShopkeeperEyeDefaultTex" OutName="eye_default" Format="rgb5a1" Width="32" Height="32" Offset="0x1570"/>
+        <Texture Name="gKokiriShopkeeperHatTex" OutName="hat" Format="ci8" Width="8" Height="8" Offset="0x1D70"/>
+        <Texture Name="gKokiriShopkeeperMouthAndNoseTex" OutName="mouth_and_nose" Format="ci8" Width="32" Height="32" Offset="0x1DB0"/>
     </File>
 </Root>
