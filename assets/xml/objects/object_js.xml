@@ -48,5 +48,8 @@
         <!-- Carpet Merchant Animations -->
         <Animation Name="gCarpetMerchantSlappingKneeAnim" Offset="0x45C"/>
         <Animation Name="gCarpetMerchantIdleAnim" Offset="0x18C"/>
+
+        <!-- Carpet Merchant Collision -->
+        <Collision Name="gCarpetMerchantCol" Offset="0x5EF8"/>
     </File>
 </Root>
