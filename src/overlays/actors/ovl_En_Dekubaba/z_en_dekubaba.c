@@ -489,77 +489,74 @@ void func_809E64F4(EnDekubaba* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E65A0.s")
-// void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
-//     Player* player = PLAYER;
-//     f32 sp5C;
-//     f32 sp58;
-//     f32 temp_f18;
-//     f32 phi_f12;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E65A0.s")
+void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    f32 phi_f12;
+    f32 sp5C;
+    f32 sp58;
+    f32 temp_f18;
 
-//     if (this->unk_1C6 != 0) {
-//         this->unk_1C6--;
-//     }
+    if (this->unk_1C6 != 0) {
+        this->unk_1C6--;
+    }
 
-//     SkelAnime_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
-//     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-//         this->unk_230 * 0.01f * (0.5f + (((15 - this->unk_1C6) * 0.5f) / 15.0f));
+    this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
+        this->unk_230 * 0.01f * (0.5f + (((0xF - this->unk_1C6) * 0.5f) / 15.0f));
+    Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
 
-//     Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
+    sp5C = (sinf(CLAMP_MAX((0xF - this->unk_1C6) * 0.06666667f, 0.7f) * 3.1415927f) * 32.0f) + 14.0f;
 
-//     sp5C = (sinf(CLAMP_MAX((15 - this->unk_1C6) * 0.06666667f, 0.7f) * 3.1415927f) * 32.0f) + 14.0f;
+    if (this->actor.shape.rot.x < -0x38E3) {
+        phi_f12 = 0.0f;
+    } else if (this->actor.shape.rot.x < -0x238E) {
+        Math_ScaledStepToS(&this->unk_1CA[0], -0x5555, 0x38E);
+        phi_f12 = Math_CosS(this->unk_1CA[0]) * 20.0f;
+    } else if (this->actor.shape.rot.x < -0xE38) {
+        Math_ScaledStepToS(&this->unk_1CA[0], -0xAAA, 0x38E);
+        Math_ScaledStepToS(&this->unk_1CA[1], -0x5555, 0x38E);
+        Math_ScaledStepToS(&this->unk_1CA[2], -0x5555, 0x222);
 
-//     if (this->actor.shape.rot.x < -0x38E3) {
-//         phi_f12 = 0.0f;
-//     } else if (this->actor.shape.rot.x < -0x238E) {
-//         Math_ScaledStepToS(&this->unk_1CA, -0x5555, 0x38E);
-//         phi_f12 = Math_CosS(this->unk_1CA) * 20.0f;
-//     } else if (this->actor.shape.rot.x < -0xE38) {
-//         Math_ScaledStepToS(&this->unk_1CA, -0xAAA, 0x38E);
-//         Math_ScaledStepToS(&this->unk_1CC, -0x5555, 0x38E);
-//         Math_ScaledStepToS(&this->unk_1CE, -0x5555, 0x222);
+        phi_f12 = (20.0f * (Math_CosS(this->unk_1CA[0]) + Math_CosS(this->unk_1CA[1]))) +
+                  (((sp5C - (20.0f * (-Math_SinS(this->unk_1CA[0]) - Math_SinS(this->unk_1CA[1])))) *
+                    Math_CosS(this->unk_1CA[2])) /
+                   -Math_SinS(this->unk_1CA[2]));
+    } else {
+        Math_ScaledStepToS(&this->unk_1CA[0], -0xAAA, 0x38E);
+        Math_ScaledStepToS(&this->unk_1CA[1], -0x31C7, 0x222);
+        Math_ScaledStepToS(&this->unk_1CA[2], -0x5555, 0x222);
 
-//         phi_f12 =
-//             (20.0f * (Math_CosS(this->unk_1CA) + Math_CosS(this->unk_1CC))) +
-//             (((sp5C - (20.0f * ((-Math_SinS(this->unk_1CA)) - Math_SinS(this->unk_1CC)))) * Math_CosS(this->unk_1CE))
-//             /
-//              (-Math_SinS(this->unk_1CE)));
-//     } else {
-//         Math_ScaledStepToS(&this->unk_1CA, -0xAAA, 0x38E);
-//         Math_ScaledStepToS(&this->unk_1CC, -0x31C7, 0x222);
-//         Math_ScaledStepToS(&this->unk_1CE, -0x5555, 0x222);
+        phi_f12 = (20.0f * (Math_CosS(this->unk_1CA[0]) + Math_CosS(this->unk_1CA[1]))) +
+                  (((sp5C - (20.0f * (-Math_SinS(this->unk_1CA[0]) - Math_SinS(this->unk_1CA[1])))) *
+                    Math_CosS(this->unk_1CA[2])) /
+                   -Math_SinS(this->unk_1CA[2]));
+    }
 
-//         phi_f12 =
-//             (20.0f * (Math_CosS(this->unk_1CA) + Math_CosS(this->unk_1CC))) +
-//             (((sp5C - (20.0f * ((-Math_SinS(this->unk_1CA)) - Math_SinS(this->unk_1CC)))) * Math_CosS(this->unk_1CE))
-//             /
-//              (-Math_SinS(this->unk_1CE)));
-//     }
+    if (this->unk_1C6 < 0xA) {
+        Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2,
+                       0xE38);
+    if (temp_f18) {} // One way of fake-matching
+    }
 
-//     if (this->unk_1C6 < 10) {
-//         Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2,
-//                        0xE38);
-//     }
+    this->actor.world.pos.y = this->actor.home.pos.y + (sp5C * this->unk_230);
+    sp58 = Math_SinS(this->actor.shape.rot.y) * (phi_f12 * this->unk_230);
+    temp_f18 = Math_CosS(this->actor.shape.rot.y) * (phi_f12 * this->unk_230);
+    this->actor.world.pos.x = this->actor.home.pos.x + sp58;
+    this->actor.world.pos.z = this->actor.home.pos.z + temp_f18;
 
-//     this->actor.world.pos.y = this->actor.home.pos.y + (sp5C * this->unk_230);
-//     sp58 = Math_SinS(this->actor.shape.rot.y) * (phi_f12 * this->unk_230);
-//     temp_f18 = Math_CosS(this->actor.shape.rot.y) * (phi_f12 * this->unk_230);
-//     this->actor.world.pos.x = this->actor.home.pos.x + sp58;
-//     if (1) {}
-//     this->actor.world.pos.z = this->actor.home.pos.z + temp_f18;
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
+                             this->unk_230 * 5.0f, 1, -1, 0xA, NULL);
 
-//     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-//                              this->unk_230 * 5.0f, 1, -1, 10, NULL);
-
-//     if (this->unk_1C6 == 0) {
-//         if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 240.0f * this->unk_230) {
-//             func_809E5F9C(this);
-//         } else {
-//             func_809E5E58(this);
-//         }
-//     }
-// }
+    if (this->unk_1C6 == 0) {
+        if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < (240.0f * this->unk_230)) {
+            func_809E5F9C(this);
+        } else {
+            func_809E5E58(this);
+        }
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E6A04.s")
 void func_809E6A04(EnDekubaba* this, GlobalContext* globalCtx) {
@@ -577,7 +574,7 @@ void func_809E6A04(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
         this->unk_230 * 0.01f * (0.5f + this->unk_1C6 * 0.033333335f);
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
-    
+
     sp58 = (sinf(CLAMP_MAX(this->unk_1C6 * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
@@ -591,19 +588,20 @@ void func_809E6A04(EnDekubaba* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->unk_1CA[2], -0x4000, 0x333);
 
         horizontalScale = (20.0f * (Math_CosS(this->unk_1CA[0]) + Math_CosS(this->unk_1CA[1]))) +
-                  (((sp58 - (20.0f * (-Math_SinS(this->unk_1CA[0]) - Math_SinS(this->unk_1CA[1])))) *
-                    Math_CosS(this->unk_1CA[2])) /
-                   -Math_SinS(this->unk_1CA[2]));
+                          (((sp58 - (20.0f * (-Math_SinS(this->unk_1CA[0]) - Math_SinS(this->unk_1CA[1])))) *
+                            Math_CosS(this->unk_1CA[2])) /
+                           -Math_SinS(this->unk_1CA[2]));
     } else {
         Math_ScaledStepToS(&this->unk_1CA[0], -0x5555, 0x555);
         Math_ScaledStepToS(&this->unk_1CA[1], -0x5555, 0x333);
         Math_ScaledStepToS(&this->unk_1CA[2], -0x4000, 0x333);
 
         horizontalScale = (20.0f * (Math_CosS(this->unk_1CA[0]) + Math_CosS(this->unk_1CA[1]))) +
-                  (((sp58 - (20.0f * (-Math_SinS(this->unk_1CA[0]) - Math_SinS(this->unk_1CA[1])))) *
-                    Math_CosS(this->unk_1CA[2])) /
-                   -Math_SinS(this->unk_1CA[2]));
+                          (((sp58 - (20.0f * (-Math_SinS(this->unk_1CA[0]) - Math_SinS(this->unk_1CA[1])))) *
+                            Math_CosS(this->unk_1CA[2])) /
+                           -Math_SinS(this->unk_1CA[2]));
     }
+
     this->actor.world.pos.y = this->actor.home.pos.y + (sp58 * this->unk_230);
     xShift = Math_SinS(this->actor.shape.rot.y) * (horizontalScale * this->unk_230);
     zShift = Math_CosS(this->actor.shape.rot.y) * (horizontalScale * this->unk_230);
