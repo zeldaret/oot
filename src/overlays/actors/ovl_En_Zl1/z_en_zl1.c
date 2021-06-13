@@ -59,8 +59,8 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-static u64* D_80B4E61C[] = { gZl1EyeTex0, gZl1EyeTex4, gZl1EyeTex5, gZl1EyeTex4 };
-static u64* D_80B4E62C[] = { gZl1EyeTex1 };
+static void* D_80B4E61C[] = { gZl1EyeTex0, gZl1EyeTex4, gZl1EyeTex5, gZl1EyeTex4 };
+static void* D_80B4E62C[] = { gZl1EyeTex1 };
 
 void func_80B4AB40(void) {
 }

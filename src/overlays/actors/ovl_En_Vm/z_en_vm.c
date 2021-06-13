@@ -123,7 +123,7 @@ static Vec3f D_80B2EB70 = { -500.0f, 0.0f, 0.0f };
 
 static Vec3f D_80B2EB7C = { 0.4f, 0.4f, 0.4f };
 
-static u64* D_80B2EB88[] = {
+static void* D_80B2EB88[] = {
     gEffEnemyDeathFlame1Tex, gEffEnemyDeathFlame2Tex,  gEffEnemyDeathFlame3Tex, gEffEnemyDeathFlame4Tex,
     gEffEnemyDeathFlame5Tex, gEffEnemyDeathFlame6Tex,  gEffEnemyDeathFlame7Tex, gEffEnemyDeathFlame8Tex,
     gEffEnemyDeathFlame9Tex, gEffEnemyDeathFlame10Tex,

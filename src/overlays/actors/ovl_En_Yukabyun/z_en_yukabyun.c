@@ -57,7 +57,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 16, ICHAIN_STOP),
 };
 
-static u64* D_80B43F64[] = { gYukabyunTopTex, gYukabyunBottomTex };
+static void* D_80B43F64[] = { gYukabyunTopTex, gYukabyunBottomTex };
 
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnYukabyun* this = THIS;
