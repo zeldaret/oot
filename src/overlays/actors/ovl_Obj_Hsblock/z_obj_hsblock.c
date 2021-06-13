@@ -44,7 +44,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
 };
 
-CollisionHeader* D_80B940DC[] = { &gHookshotTargetCol, &gHookshotTargetCol, &gHookshotPostCol };
+static CollisionHeader* sCollisionHeaders[] = { &gHookshotTargetCol, &gHookshotTargetCol, &gHookshotPostCol };
 
 static Color_RGB8 sFireTempleColor = { 165, 125, 55 };
 
@@ -79,7 +79,7 @@ void func_80B93BF0(ObjHsblock* this, GlobalContext* globalCtx) {
 void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjHsblock* this = THIS;
 
-    func_80B93B68(this, globalCtx, D_80B940DC[thisx->params & 3], DPM_UNK);
+    func_80B93B68(this, globalCtx, sCollisionHeaders[thisx->params & 3], DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80B93BF0(this, globalCtx);
 

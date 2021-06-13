@@ -2649,7 +2649,7 @@ void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
     CLOSE_DISPS(gfxCtx, "../z_parameter.c", 2829);
 }
 
-u64* sCUpLabelTextures[] = { gHUDNaviENGTex, gHUDNaviENGTex, gHUDNaviENGTex };
+void* sCUpLabelTextures[] = { gHUDNaviENGTex, gHUDNaviENGTex, gHUDNaviENGTex };
 
 s16 sStartButtonLeftPos[] = { 132, 130, 130 };
 
