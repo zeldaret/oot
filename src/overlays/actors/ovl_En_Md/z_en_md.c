@@ -822,7 +822,7 @@ void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyesSegments[] = {
         &gMidoEyeOpen,
-        &gMidoEyeHalfOpen,
+        &gMidoEyeHalf,
         &gMidoEyeClosed,
     };
     EnMd* this = THIS;
