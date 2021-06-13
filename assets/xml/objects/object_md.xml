@@ -1,20 +1,81 @@
 <Root>
     <File Name="object_md" Segment="6">
-        <Animation Name="gMidoAnim0" Offset="0x2C8"/>
-        <Animation Name="gMidoAnim1" Offset="0x8510"/>
-        <Animation Name="gMidoAnim2" Offset="0x8738"/>
-        <Animation Name="gMidoAnim3" Offset="0x8E84"/>
-        <Animation Name="gMidoAnim4" Offset="0x8FC0"/>
-        <Animation Name="gMidoAnim5" Offset="0x917C"/>
-        <Animation Name="gMidoAnim6" Offset="0x92B0"/>
-        <Animation Name="gMidoAnim7" Offset="0x95BC"/>
-        <Animation Name="gMidoAnim8" Offset="0x97F0"/>
-        <Animation Name="gMidoAnim9" Offset="0x9B1C"/>
-        <Animation Name="gMidoAnim10" Offset="0x9E68"/>
-        <Animation Name="gMidoAnim11" Offset="0xA138"/>
+        <!-- Mido Skeleton -->
         <Skeleton Name="gMidoSkel" Type="Flex" LimbType="Standard" Offset="0x7FB8"/>
-        <Texture Name="gMidoEyeOpen" OutName="mido_eye_open" Format="ci8" Width="32" Height="32" Offset="0x4FF0"/>
-        <Texture Name="gMidoEyeHalf" OutName="mido_eye_half" Format="ci8" Width="32" Height="32" Offset="0x5930"/>
-        <Texture Name="gMidoEyeClosed" OutName="mido_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x5D30"/>
+
+        <!-- Mido Limbs -->
+        <Limb Name="gMidoRootLimb" Type="Standard" Offset="0x7EB8"/>
+        <Limb Name="gMidoWaistLimb" Type="Standard" Offset="0x7EC4"/>
+        <Limb Name="gMidoLeftThighLimb" Type="Standard" Offset="0x7ED0"/>
+        <Limb Name="gMidoLeftLegLimb" Type="Standard" Offset="0x7EDC"/>
+        <Limb Name="gMidoLeftFootLimb" Type="Standard" Offset="0x7EE8"/>
+        <Limb Name="gMidoRightThighLimb" Type="Standard" Offset="0x7EF4"/>
+        <Limb Name="gMidoRightLegLimb" Type="Standard" Offset="0x7F00"/>
+        <Limb Name="gMidoRightFootLimb" Type="Standard" Offset="0x7F0C"/>
+        <Limb Name="gMidoTorsoLimb" Type="Standard" Offset="0x7F18"/>
+        <Limb Name="gMidoLeftUpperArmLimb" Type="Standard" Offset="0x7F24"/>
+        <Limb Name="gMidoLeftForearmLimb" Type="Standard" Offset="0x7F30"/>
+        <Limb Name="gMidoLeftHandLimb" Type="Standard" Offset="0x7F3C"/>
+        <Limb Name="gMidoRightUpperArmLimb" Type="Standard" Offset="0x7F48"/>
+        <Limb Name="gMidoRightForearmLimb" Type="Standard" Offset="0x7F54"/>
+        <Limb Name="gMidoRightHandLimb" Type="Standard" Offset="0x7F60"/>
+        <Limb Name="gMidoHeadLimb" Type="Standard" Offset="0x7F6C"/>
+
+        <!-- Mido Limb DisplayLists -->
+        <DList Name="gMidoWaistDL" Offset="0x4218"/>
+        <DList Name="gMidoLeftThighDL" Offset="0x47D0"/>
+        <DList Name="gMidoLeftLegDL" Offset="0x4978"/>
+        <DList Name="gMidoLeftFootDL" Offset="0x4B10"/>
+        <DList Name="gMidoRightThighDL" Offset="0x4350"/>
+        <DList Name="gMidoRightLegDL" Offset="0x44F8"/>
+        <DList Name="gMidoRightFootDL" Offset="0x4698"/>
+        <DList Name="gMidoTorsoDL" Offset="0x32D0"/>
+        <DList Name="gMidoLeftUpperArmDL" Offset="0x3CA8"/>
+        <DList Name="gMidoLeftForearmDL" Offset="0x3DE0"/>
+        <DList Name="gMidoLeftHandDL" Offset="0x3F18"/>
+        <DList Name="gMidoRightUpperArmDL" Offset="0x3740"/>
+        <DList Name="gMidoRightForearmDL" Offset="0x3878"/>
+        <DList Name="gMidoRightHandDL" Offset="0x39B0"/>
+        <DList Name="gMidoHeadDL" Offset="0x7380"/>
+
+        <!-- Mido Palettes -->
+        <Texture Name="gMido1TLUT" OutName="tlut_1" Format="rgb5a1" Width="256" Height="1" Offset="0x02E0"/>
+        <Texture Name="gMido2TLUT" OutName="tlut_2" Format="rgb5a1" Width="188" Height="1" Offset="0x4C48"/>
+        <Texture Name="gMido3TLUT" OutName="tlut_3" Format="rgb5a1" Width="248" Height="1" Offset="0x4DC0"/>
+
+        <!-- Mido Eye Textures -->
+        <Texture Name="gMidoEyeOpenTex" OutName="mido_eye_open" Format="ci8" Width="32" Height="32" Offset="0x4FF0"/>
+        <Texture Name="gMidoEyeHalfTex" OutName="mido_eye_half" Format="ci8" Width="32" Height="32" Offset="0x5930"/>
+        <Texture Name="gMidoEyeClosedTex" OutName="mido_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x5D30"/>
+        <Texture Name="gMidoEyeAngryTex" OutName="mido_eye_angry" Format="ci8" Width="32" Height="32" Offset="0x6130"/>
+        <Texture Name="gMidoEyeLookingUpTex" OutName="mido_eye_looking_up" Format="rgb5a1" Width="32" Height="32" Offset="0x520"/>
+
+        <!-- Mido DisplayList Textures -->
+        <Texture Name="gMidoGradientTex" OutName="gradient" Format="ci8" Width="8" Height="8" Offset="0x4E0"/>
+        <Texture Name="gMidoTex_D20" OutName="tex_D20" Format="rgb5a1" Width="8" Height="8" Offset="0xD20"/>
+        <Texture Name="gMidoTex_DA0" OutName="tex_DA0" Format="ci8" Width="32" Height="4" Offset="0xDA0"/>
+        <Texture Name="gMidoHairCurlTex" OutName="hair_curl" Format="ci8" Width="32" Height="32" Offset="0xE20"/>
+        <Texture Name="gMidoTex_1220" OutName="tex_1220" Format="ci8" Width="8" Height="8" Offset="0x1220"/>
+        <Texture Name="gMidoTex_1260" OutName="tex_1260" Format="ci8" Width="8" Height="8" Offset="0x1260"/>
+        <Texture Name="gMidoBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="8" Height="8" Offset="0x12A0"/>
+        <Texture Name="gMidoTex_1220" OutName="tex_1220" Format="ci8" Width="8" Height="8" Offset="0x1220"/>
+        <Texture Name="gMidoClothesTex" OutName="clothes" Format="ci8" Width="8" Height="8" Offset="0x12E0"/>
+        <Texture Name="gMidoUndershirtTex" OutName="undershirt" Format="i8" Width="8" Height="8" Offset="0x1320"/>
+        <Texture Name="gMidoShoeTex" OutName="shoe" Format="ci8" Width="8" Height="8" Offset="0x1360"/>
+        <Texture Name="gMidoAnkleTex" OutName="ankle" Format="ci8" Width="8" Height="8" Offset="0x13A0"/>
+        <Texture Name="gMidoPantsTex" OutName="pants" Format="rgb5a1" Width="16" Height="16" Offset="0x13E0"/>
+        <!-- Mido Animations -->
+        <Animation Name="gMidoHandsOnHipsIdleAnim" Offset="0x02C8"/>
+        <Animation Name="gMidoSlamAnim" Offset="0x8510"/>
+        <Animation Name="gMidoAngryHeadTurnAnim" Offset="0x8738"/>
+        <Animation Name="gMidoAnnoyedPointedHeadIdle1Anim" Offset="0x8E84"/>
+        <Animation Name="gMidoHandsOnHipsTransitionAnim" Offset="0x8FC0"/>
+        <Animation Name="gMidoRaiseHand1Anim" Offset="0x917C"/>
+        <Animation Name="gMidoAnim_92B0" Offset="0x92B0"/>
+        <Animation Name="gMidoRaiseHand2Anim" Offset="0x95BC"/>
+        <Animation Name="gMidoAnnoyedPointedHeadIdle2Anim" Offset="0x97F0"/>
+        <Animation Name="gMidoPutHandDownAnim" Offset="0x9B1C"/>
+        <Animation Name="gMidoHaltAnim" Offset="0x9E68"/>
+        <Animation Name="gMidoWalkingAnim" Offset="0xA138"/>
     </File>
 </Root>

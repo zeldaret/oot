@@ -58,13 +58,13 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { &gMidoAnim0, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },  { &gMidoAnim0, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gMidoAnim5, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { &gMidoAnim10, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { &gMidoAnim9, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { &gMidoAnim3, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { &gMidoAnim8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { &gMidoAnim6, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { &gMidoAnim11, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { &gMidoAnim4, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { &gMidoAnim0, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &gMidoAnim1, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { &gMidoAnim7, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { &gMidoAnim2, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },  { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gMidoRaiseHand1Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { &gMidoHaltAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoPutHandDownAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { &gMidoAnnoyedPointedHeadIdle1Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnnoyedPointedHeadIdle2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { &gMidoAnim_92B0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoWalkingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { &gMidoHandsOnHipsTransitionAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoHandsOnHipsIdleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &gMidoSlamAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoRaiseHand2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { &gMidoAngryHeadTurnAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
 };
 
 void func_80AAA250(EnMd* this) {
@@ -317,7 +317,7 @@ void func_80AAAA24(EnMd* this) {
                 }
                 break;
         }
-    } else if (this->skelAnime.animation != &gMidoAnim0) {
+    } else if (this->skelAnime.animation != &gMidoHandsOnHipsIdleAnim) {
         func_80034EC0(&this->skelAnime, sAnimations, 10);
         func_80AAA92C(this, 0);
     }
@@ -645,7 +645,7 @@ void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animation == &gMidoAnim0) {
+    if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     } else if ((this->unk_1E0.unk_00 == 0) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
@@ -655,7 +655,7 @@ void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAB8F8(EnMd* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animation == &gMidoAnim0) {
+    if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
     func_80AAA93C(this);
@@ -707,7 +707,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->skelAnime.animation == &gMidoAnim0) {
+    if (this->skelAnime.animation == &gMidoHandsOnHipsIdleAnim) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
 
@@ -821,9 +821,9 @@ void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyesSegments[] = {
-        &gMidoEyeOpen,
-        &gMidoEyeHalf,
-        &gMidoEyeClosed,
+        &gMidoEyeOpenTex,
+        &gMidoEyeHalfTex,
+        &gMidoEyeClosedTex,
     };
     EnMd* this = THIS;
 
