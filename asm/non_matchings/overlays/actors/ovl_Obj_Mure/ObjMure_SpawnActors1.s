@@ -16,7 +16,7 @@ glabel D_80B99D28
     .balign 4
 
 .text
-glabel func_80B98F38
+glabel ObjMure_SpawnActors1
 /* 00498 80B98F38 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 0049C 80B98F3C AFBF0054 */  sw      $ra, 0x0054($sp)           
 /* 004A0 80B98F40 AFB40040 */  sw      $s4, 0x0040($sp)           
@@ -29,7 +29,7 @@ glabel func_80B98F38
 /* 004BC 80B98F5C AFB50044 */  sw      $s5, 0x0044($sp)           
 /* 004C0 80B98F60 AFB3003C */  sw      $s3, 0x003C($sp)           
 /* 004C4 80B98F64 AFB20038 */  sw      $s2, 0x0038($sp)           
-/* 004C8 80B98F68 0C2E6322 */  jal     func_80B98C88              
+/* 004C8 80B98F68 0C2E6322 */  jal     ObjMure_GetMaxChildSpawns              
 /* 004CC 80B98F6C AFB10034 */  sw      $s1, 0x0034($sp)           
 /* 004D0 80B98F70 0040A825 */  or      $s5, $v0, $zero            ## $s5 = 00000000
 /* 004D4 80B98F74 18400045 */  blez    $v0, .L80B9908C            
@@ -54,7 +54,7 @@ glabel func_80B98F38
 /* 00514 80B98FB4 27A4007C */  addiu   $a0, $sp, 0x007C           ## $a0 = FFFFFFEC
 /* 00518 80B98FB8 02E02825 */  or      $a1, $s7, $zero            ## $a1 = 00000024
 /* 0051C 80B98FBC 86060152 */  lh      $a2, 0x0152($s0)           ## 00000152
-/* 00520 80B98FC0 0C2E632D */  jal     func_80B98CB4              
+/* 00520 80B98FC0 0C2E632D */  jal     ObjMure_GetSpawnPos              
 /* 00524 80B98FC4 02203825 */  or      $a3, $s1, $zero            ## $a3 = 00000000
 /* 00528 80B98FC8 86020156 */  lh      $v0, 0x0156($s0)           ## 00000156
 /* 0052C 80B98FCC 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
@@ -67,17 +67,17 @@ glabel func_80B98F38
 /* 00548 80B98FE8 00021840 */  sll     $v1, $v0,  1               
 .L80B98FEC:
 /* 0054C 80B98FEC 00021840 */  sll     $v1, $v0,  1               
-/* 00550 80B98FF0 3C0880BA */  lui     $t0, %hi(D_80B99A80)       ## $t0 = 80BA0000
+/* 00550 80B98FF0 3C0880BA */  lui     $t0, %hi(sSpawnParams)       ## $t0 = 80BA0000
 /* 00554 80B98FF4 01034021 */  addu    $t0, $t0, $v1              
-/* 00558 80B98FF8 85089A80 */  lh      $t0, %lo(D_80B99A80)($t0)  
+/* 00558 80B98FF8 85089A80 */  lh      $t0, %lo(sSpawnParams)($t0)  
 .L80B98FFC:
 /* 0055C 80B98FFC C7A60084 */  lwc1    $f6, 0x0084($sp)           
 /* 00560 80B99000 E7A40010 */  swc1    $f4, 0x0010($sp)           
-/* 00564 80B99004 3C0680BA */  lui     $a2, %hi(D_80B99A74)       ## $a2 = 80BA0000
+/* 00564 80B99004 3C0680BA */  lui     $a2, %hi(sSpawnActorIds)       ## $a2 = 80BA0000
 /* 00568 80B99008 E7A60014 */  swc1    $f6, 0x0014($sp)           
 /* 0056C 80B9900C 860F0030 */  lh      $t7, 0x0030($s0)           ## 00000030
 /* 00570 80B99010 00C33021 */  addu    $a2, $a2, $v1              
-/* 00574 80B99014 84C69A74 */  lh      $a2, %lo(D_80B99A74)($a2)  
+/* 00574 80B99014 84C69A74 */  lh      $a2, %lo(sSpawnActorIds)($a2)  
 /* 00578 80B99018 AFAF0018 */  sw      $t7, 0x0018($sp)           
 /* 0057C 80B9901C 86180032 */  lh      $t8, 0x0032($s0)           ## 00000032
 /* 00580 80B99020 02802825 */  or      $a1, $s4, $zero            ## $a1 = 00000000
