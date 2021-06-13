@@ -106,7 +106,7 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     colHeader = NULL;
-    CollisionHeader_GetVirtual(&gZgCol, &colHeader);
+    CollisionHeader_GetVirtual(&gTowerCollapseBarsCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((func_808C0CC8(this) == 8) || (func_808C0CC8(this) == 9)) {
         this->dyna.actor.scale.x = this->dyna.actor.scale.x * 1.3f;
@@ -129,7 +129,7 @@ void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
     func_80093D18(localGfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, gZgDL);
+    gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseBarsDL);
 
     CLOSE_DISPS(localGfxCtx, "../z_bg_zg.c", 320);
 }
