@@ -100,7 +100,7 @@ void ObjKibako2_Break(ObjKibako2* this, GlobalContext* globalCtx) {
             phi_s0 = 0x20;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -200, phi_s0, 28, 2, 0, (Rand_ZeroOne() * 30.0f) + 5.0f,
-                             0, 0, 70, KAKERA_COLOR_NONE, OBJECT_KIBAKO2, gKibako2DL1);
+                             0, 0, 70, KAKERA_COLOR_NONE, OBJECT_KIBAKO2, gLargeCrateFragmentDL);
     }
     func_80033480(globalCtx, thisPos, 90.0f, 6, 100, 160, 1);
 }
@@ -125,7 +125,7 @@ void ObjKibako2_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ObjKibako2_InitCollider(thisx, globalCtx);
-    CollisionHeader_GetVirtual(&gKibako2Col, &colHeader);
+    CollisionHeader_GetVirtual(&gLargeCrateCol, &colHeader);
     bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->collectibleFlag = this->dyna.actor.home.rot.z & 0x3F;
     this->dyna.bgId = bgId;
@@ -177,5 +177,5 @@ void ObjKibako2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjKibako2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gKibako2DL0);
+    Gfx_DrawDListOpa(globalCtx, gLargeCrateDL);
 }
