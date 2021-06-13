@@ -5115,7 +5115,7 @@ endseg
 beginseg
     name "object_ik"
     romalign 0x1000
-    include "build/assets/objects/object_ik/object_ik.o"
+    include "build/baserom/object_ik.o"
     number 6
 endseg
 

@@ -1,5 +1,4 @@
 #include "z_demo_ik.h"
-#include "objects/object_ik/object_ik.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -24,6 +23,26 @@ void DemoIk_Type2Action2(DemoIk* this, GlobalContext* globalCtx);
 void DemoIk_DrawNothing(DemoIk* this, GlobalContext* globalCtx);
 void DemoIk_Type1Draw(DemoIk* this, GlobalContext* globalCtx);
 void DemoIk_Type2Draw(DemoIk* this, GlobalContext* globalCtx);
+
+extern AnimationHeader D_0600035C;
+extern SkeletonHeader D_06000380;
+extern AnimationHeader D_06000634;
+extern SkeletonHeader D_06000660;
+extern AnimationHeader D_060008DC;
+extern AnimationHeader D_06000C6C;
+extern SkeletonHeader D_06000C90;
+extern AnimationHeader D_06000F0C;
+extern Gfx D_06016BE0[];
+extern Gfx D_06016CD8[];
+extern Gfx D_06016F88[];
+extern Gfx D_06017028[];
+extern Gfx D_06017170[];
+extern FlexSkeletonHeader D_0601EE60;
+extern FlexSkeletonHeader D_06000F30;
+extern AnimationHeader D_0601EB14;
+extern FlexSkeletonHeader D_0601EB40;
+extern AnimationHeader D_0601EE34;
+extern FlexSkeletonHeader D_06000900;
 
 void DemoIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -164,18 +183,18 @@ void DemoIk_Type1Init(DemoIk* this, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 0:
-            skeleton = &gIronKnuckleSkel_C90;
-            animation = &gIronKnuckleAnim3;
+            skeleton = &D_06000C90;
+            animation = &D_06000C6C;
             phi_f0 = 30.0f;
             break;
         case 1:
-            skeleton = &gIronKnuckleSkel_660;
-            animation = &gIronKnuckleAnim1;
+            skeleton = &D_06000660;
+            animation = &D_06000634;
             phi_f0 = 10.0f;
             break;
         default:
-            skeleton = &gIronKnuckleSkel_380;
-            animation = &gIronKnuckleAnim0;
+            skeleton = &D_06000380;
+            animation = &D_0600035C;
             phi_f0 = 20.0f;
             // No break is required for matching
     }
@@ -267,12 +286,12 @@ void DemoIk_Type1PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
             case 0:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 390),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL0);
+                gSPDisplayList(POLY_XLU_DISP++, D_06016BE0);
                 break;
             case 2:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 396),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL2);
+                gSPDisplayList(POLY_XLU_DISP++, D_06016F88);
                 break;
         }
     }
@@ -302,20 +321,20 @@ void DemoIk_Type2Init(DemoIk* this, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case 3:
-            skeleton = &gIronKnuckleSkel_1EB40;
-            animation = &gIronKnuckleAnim19;
+            skeleton = &D_0601EB40;
+            animation = &D_0601EB14;
             break;
         case 4:
-            skeleton = &gIronKnuckleSkel_1EE60;
-            animation = &gIronKnuckleAnim20;
+            skeleton = &D_0601EE60;
+            animation = &D_0601EE34;
             break;
         case 5:
-            skeleton = &gIronKnuckleSkel_F30;
-            animation = &gIronKnuckleAnim4;
+            skeleton = &D_06000F30;
+            animation = &D_06000F0C;
             break;
         default:
-            skeleton = &gIronKnuckleSkel_900;
-            animation = &gIronKnuckleAnim2;
+            skeleton = &D_06000900;
+            animation = &D_060008DC;
     }
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, skeleton, NULL, this->jointTable, this->morphTable, 2);
@@ -425,22 +444,22 @@ void DemoIk_Type2PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
             case 3:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 274),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL3);
+                gSPDisplayList(POLY_XLU_DISP++, D_06017028);
                 break;
             case 4:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 280),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL4);
+                gSPDisplayList(POLY_XLU_DISP++, D_06017170);
                 break;
             case 5:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 286),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL0);
+                gSPDisplayList(POLY_XLU_DISP++, D_06016BE0);
                 break;
             default:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 292),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleDL1);
+                gSPDisplayList(POLY_XLU_DISP++, D_06016CD8);
                 break;
         }
     }
