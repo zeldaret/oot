@@ -56,7 +56,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 30, 100, 0, { 0 } },
 };
 
-static void* D_80AF410C[] = {
+static void* sEyeTextures[] = {
     &gAdultRutoEyeOpenTex,
     &gAdultRutoEyeHalfTex,
     &gAdultRutoEyeClosedTex,
@@ -468,7 +468,7 @@ void func_80AF31C8(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->unk_2A4;
-    UNK_PTR addr = D_80AF410C[temp];
+    UNK_PTR addr = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
@@ -796,7 +796,7 @@ void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->unk_2A4;
-    UNK_PTR addr = D_80AF410C[temp];
+    UNK_PTR addr = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);

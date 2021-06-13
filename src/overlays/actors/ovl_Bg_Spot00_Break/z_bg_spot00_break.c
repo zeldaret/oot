@@ -44,9 +44,9 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
     if (this->dyna.actor.params == 1) {
-        CollisionHeader_GetVirtual(&gSpot00BreakCol1, &colHeader);
+        CollisionHeader_GetVirtual(&gBarbedWireFenceCol, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&gSpot00BreakCol0, &colHeader);
+        CollisionHeader_GetVirtual(&gBrokenDrawbridgeCol, &colHeader);
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -69,8 +69,8 @@ void BgSpot00Break_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot00Break* this = THIS;
 
     if (this->dyna.actor.params == 1) {
-        Gfx_DrawDListOpa(globalCtx, gSpot00BreakDL1);
+        Gfx_DrawDListOpa(globalCtx, gBarbedWireFenceDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, gSpot00BreakDL0);
+        Gfx_DrawDListOpa(globalCtx, gBrokenDrawbridgeDL);
     }
 }
