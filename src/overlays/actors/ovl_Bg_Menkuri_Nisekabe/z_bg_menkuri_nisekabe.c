@@ -28,7 +28,7 @@ const ActorInit Bg_Menkuri_Nisekabe_InitVars = {
     (ActorFunc)BgMenkuriNisekabe_Draw,
 };
 
-static Gfx* sDLists[] = { gMenkuriObjectsDL0, gMenkuriObjectsDL1 };
+static Gfx* sDLists[] = { gGTGFakeWallDL, gGTGFakeCeilingDL };
 
 void BgMenkuriNisekabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriNisekabe* this = THIS;

@@ -58,12 +58,12 @@
         <Texture Name="gMidoTex_1220" OutName="tex_1220" Format="ci8" Width="8" Height="8" Offset="0x1220"/>
         <Texture Name="gMidoTex_1260" OutName="tex_1260" Format="ci8" Width="8" Height="8" Offset="0x1260"/>
         <Texture Name="gMidoBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="8" Height="8" Offset="0x12A0"/>
-        <Texture Name="gMidoTex_1220" OutName="tex_1220" Format="ci8" Width="8" Height="8" Offset="0x1220"/>
         <Texture Name="gMidoClothesTex" OutName="clothes" Format="ci8" Width="8" Height="8" Offset="0x12E0"/>
         <Texture Name="gMidoUndershirtTex" OutName="undershirt" Format="i8" Width="8" Height="8" Offset="0x1320"/>
         <Texture Name="gMidoShoeTex" OutName="shoe" Format="ci8" Width="8" Height="8" Offset="0x1360"/>
         <Texture Name="gMidoAnkleTex" OutName="ankle" Format="ci8" Width="8" Height="8" Offset="0x13A0"/>
         <Texture Name="gMidoPantsTex" OutName="pants" Format="rgb5a1" Width="16" Height="16" Offset="0x13E0"/>
+
         <!-- Mido Animations -->
         <Animation Name="gMidoHandsOnHipsIdleAnim" Offset="0x02C8"/>
         <Animation Name="gMidoSlamAnim" Offset="0x8510"/>

@@ -32,8 +32,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern Gfx gMenkuriObjectsDL3[];
-extern CollisionHeader gMenkuriObjectsCol;
+extern Gfx gGTGRotatingRingPlatformDL[];
+extern CollisionHeader gGTGRotatingRingPlatformCol;
 
 void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriKaiten* this = THIS;
@@ -42,7 +42,7 @@ void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK3);
-    CollisionHeader_GetVirtual(&gMenkuriObjectsCol, &colHeader);
+    CollisionHeader_GetVirtual(&gGTGRotatingRingPlatformCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
@@ -62,5 +62,5 @@ void BgMenkuriKaiten_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMenkuriKaiten_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gMenkuriObjectsDL3);
+    Gfx_DrawDListOpa(globalCtx, gGTGRotatingRingPlatformDL);
 }
