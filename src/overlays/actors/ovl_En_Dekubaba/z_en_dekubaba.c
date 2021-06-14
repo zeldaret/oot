@@ -634,9 +634,9 @@ void func_809E6ED4(EnDekubaba* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
         if (this->actor.params == 1) {
-            Audio_PlayActorSound2(&this->actor, 0x385C);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_MOUTH);
         } else {
-            Audio_PlayActorSound2(&this->actor, 0x3860);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
         }
     }
 
@@ -685,9 +685,9 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         if (Animation_OnFrame(&this->skelAnime, 1.0f) != 0) {
             if (this->actor.params == 1) {
-                Audio_PlayActorSound2(&this->actor, 0x385D);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_ATTACK);
             } else {
-                Audio_PlayActorSound2(&this->actor, 0x3861);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_ATTACK);
             }
         }
 
@@ -720,9 +720,9 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
 
         if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
             if (this->actor.params == 1) {
-                Audio_PlayActorSound2(&this->actor, 0x385C);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_MOUTH);
             } else {
-                Audio_PlayActorSound2(&this->actor, 0x3860);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
             }
         }
     }
@@ -825,7 +825,7 @@ void func_809E7458(EnDekubaba* this, GlobalContext* globalCtx) {
         this->timer++;
 
         if (this->timer == 10) {
-            Audio_PlayActorSound2(&this->actor, 0x3863);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_SCRAPE);
         }
 
         if (this->timer >= 12) {
@@ -968,7 +968,7 @@ void func_809E7BB0(EnDekubaba* this, GlobalContext* globalCtx) {
         }
 
         if (this->actor.bgCheckFlags & 2) {
-            Audio_PlayActorSound2(&this->actor, 0x387B);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
             this->timer = 1;
         }
     } else if (this->timer == 1) {
@@ -1105,16 +1105,16 @@ void func_809E8140(EnDekubaba* this, GlobalContext* globalCtx) {
 
     if (this->actor.colChkInfo.health != 0) {
         if (this->timer == 2) {
-            Audio_PlayActorSound2(&this->actor, 0x389E);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
         } else {
-            Audio_PlayActorSound2(&this->actor, 0x385E);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_DAMAGE);
         }
     } else {
         func_80032C7C(globalCtx, &this->actor);
         if (this->actor.params == 1) {
-            Audio_PlayActorSound2(&this->actor, 0x385F);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_DEAD);
         } else {
-            Audio_PlayActorSound2(&this->actor, 0x3862);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
         }
     }
 }
