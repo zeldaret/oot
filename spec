@@ -3009,8 +3009,7 @@ endseg
 beginseg
     name "ovl_En_Vali"
     include "build/src/overlays/actors/ovl_En_Vali/z_en_vali.o"
-    include "build/data/overlays/actors/z_en_vali.data.o"
-    include "build/data/overlays/actors/z_en_vali.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Vali/ovl_En_Vali_reloc.o"
 endseg
 
 beginseg
