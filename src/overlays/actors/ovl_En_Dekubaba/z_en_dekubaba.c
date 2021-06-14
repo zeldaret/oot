@@ -267,8 +267,9 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.naviEnemyId = 7;
         this->actor.targetMode = 1;
     }
+
     func_809E5ABC(this);
-    this->unk_1C6 = 0;
+    this->timer = 0;
     this->unk_234 = 0;
     this->unk_170 = this->actor.home.pos;
 }
@@ -303,9 +304,9 @@ void func_809E5ABC(EnDekubaba* this) {
 
     Actor_SetScale(&this->actor, this->unk_230 * 0.01f * 0.5f);
 
-    this->collider.base.colType = 0xC;
+    this->collider.base.colType = COLTYPE_HARD;
     this->collider.base.acFlags |= 4;
-    this->unk_1C6 = 0x2D;
+    this->timer = 45;
 
     for (i = 1; i < 7; i++) {
         element = &this->collider.elements[i];
@@ -324,13 +325,13 @@ void func_809E5D28(EnDekubaba* this) {
     Animation_Change(&this->skelAnime, &D_060002B8, Animation_GetLastFrame(&D_060002B8) * 0.06666667f, 0.0f,
                      Animation_GetLastFrame(&D_060002B8), 2, 0.0f);
 
-    this->unk_1C6 = 0xF;
+    this->timer = 15;
 
     for (i = 2; i < 7; i++) {
         this->collider.elements[i].info.ocElemFlags |= 1;
     }
 
-    this->collider.base.colType = 6;
+    this->collider.base.colType = COLTYPE_HIT6;
     this->collider.base.acFlags &= ~4;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DUMMY482);
     this->actionFunc = func_809E65A0;
@@ -342,7 +343,7 @@ void func_809E5E58(EnDekubaba* this) {
 
     Animation_Change(&this->skelAnime, &D_060002B8, -1.5f, Animation_GetLastFrame(&D_060002B8), 0.0f, 2, -3.0f);
 
-    this->unk_1C6 = 0xF;
+    this->timer = 15;
 
     for (i = 2; i < 7; i++) {
         this->collider.elements[i].info.ocElemFlags &= ~1;
@@ -353,14 +354,14 @@ void func_809E5E58(EnDekubaba* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E5F44.s")
 void func_809E5F44(EnDekubaba* this) {
-    this->unk_1C6 = Animation_GetLastFrame(&D_060002B8) * 2;
+    this->timer = Animation_GetLastFrame(&D_060002B8) * 2;
     Animation_MorphToLoop(&this->skelAnime, &D_060002B8, -3.0f);
     this->actionFunc = func_809E6ED4;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E5F9C.s")
 void func_809E5F9C(EnDekubaba* this) {
-    this->unk_1C6 = 8;
+    this->timer = 8;
     this->skelAnime.playSpeed = 0.0f;
     this->actionFunc = func_809E738C;
 }
@@ -368,20 +369,20 @@ void func_809E5F9C(EnDekubaba* this) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E5FBC.s")
 void func_809E5FBC(EnDekubaba* this) {
     Animation_PlayOnce(&this->skelAnime, &D_06000208);
-    this->unk_1C6 = 0;
+    this->timer = 0;
     this->actionFunc = func_809E7104;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E6000.s")
 void func_809E6000(EnDekubaba* this) {
     Animation_Change(&this->skelAnime, &D_06000208, 1.0f, 15.0f, Animation_GetLastFrame(&D_06000208), 2, -3.0f);
-    this->unk_1C6 = 0;
+    this->timer = 0;
     this->actionFunc = func_809E7458;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E6078.s")
 void func_809E6078(EnDekubaba* this) {
-    this->unk_1C6 = 9;
+    this->timer = 9;
     this->collider.base.acFlags |= 1;
     this->skelAnime.playSpeed = -1.0f;
     this->actionFunc = func_809E77E4;
@@ -390,7 +391,7 @@ void func_809E6078(EnDekubaba* this) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E60A8.s")
 void func_809E60A8(EnDekubaba* this, s32 arg1) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000208, -5.0f);
-    this->unk_1C6 = arg1;
+    this->timer = arg1;
     this->collider.base.acFlags &= ~1;
     Actor_SetScale(&this->actor, this->unk_230 * 0.01f);
 
@@ -405,7 +406,7 @@ void func_809E60A8(EnDekubaba* this, s32 arg1) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E6170.s")
 void func_809E6170(EnDekubaba* this) {
-    this->unk_1C6 = 0;
+    this->timer = 0;
     this->skelAnime.playSpeed = 0.0f;
     this->actor.gravity = -0.8f;
     this->actor.velocity.y = 4.0f;
@@ -431,12 +432,12 @@ void func_809E6264(EnDekubaba* this) {
         this->collider.elements[i].info.bumperFlags |= 1;
     }
 
-    if (this->unk_1C6 == 1) {
+    if (this->timer == 1) {
         Animation_Change(&this->skelAnime, &D_060002B8, 4.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), 0, -3.0f);
-        this->unk_1C6 = 0x28;
+        this->timer = 40;
     } else {
         Animation_Change(&this->skelAnime, &D_060002B8, 0.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), 0, -3.0f);
-        this->unk_1C6 = 0x3C;
+        this->timer = 60;
     }
 
     this->actor.world.pos.x = this->actor.home.pos.x;
@@ -467,21 +468,21 @@ void func_809E645C(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.shape.shadowScale = 3.0f;
     Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_MISC);
     this->actor.flags &= ~0x20;
-    this->unk_1C6 = 0xC8;
+    this->timer = 200;
     this->actionFunc = func_809E80D8;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E64F4.s")
 void func_809E64F4(EnDekubaba* this, GlobalContext* globalCtx) {
-    if (this->unk_1C6 != 0) {
-        this->unk_1C6--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.z = this->actor.home.pos.z;
     this->actor.world.pos.y = this->actor.home.pos.y + (14.0f * this->unk_230);
 
-    if ((this->unk_1C6 == 0) && (this->actor.xzDistToPlayer < 200.0f * this->unk_230) &&
+    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f * this->unk_230) &&
         (fabsf(this->actor.yDistToPlayer) < 30.0f * this->unk_230)) {
         func_809E5D28(this);
     }
@@ -495,17 +496,17 @@ void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
     f32 sp58;
     f32 temp_f18;
 
-    if (this->unk_1C6 != 0) {
-        this->unk_1C6--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     SkelAnime_Update(&this->skelAnime);
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-        this->unk_230 * 0.01f * (0.5f + (((0xF - this->unk_1C6) * 0.5f) / 15.0f));
+        this->unk_230 * 0.01f * (0.5f + (((15 - this->timer) * 0.5f) / 15.0f));
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
 
-    sp5C = (sinf(CLAMP_MAX((0xF - this->unk_1C6) * 0.06666667f, 0.7f) * 3.1415927f) * 32.0f) + 14.0f;
+    sp5C = (sinf(CLAMP_MAX((15 - this->timer) * 0.06666667f, 0.7f) * M_PI) * 32.0f) + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
         phi_f12 = 0.0f;
@@ -532,7 +533,7 @@ void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
                    -Math_SinS(this->unk_1CA[2]));
     }
 
-    if (this->unk_1C6 < 0xA) {
+    if (this->timer < 10) {
         Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2,
                        0xE38);
         if (temp_f18) {} // One way of fake-matching
@@ -547,7 +548,7 @@ void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
                              this->unk_230 * 5.0f, 1, -1, 0xA, NULL);
 
-    if (this->unk_1C6 == 0) {
+    if (this->timer == 0) {
         if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < (240.0f * this->unk_230)) {
             func_809E5F9C(this);
         } else {
@@ -563,17 +564,17 @@ void func_809E6A04(EnDekubaba* this, GlobalContext* globalCtx) {
     f32 xShift;
     f32 zShift;
 
-    if (this->unk_1C6 != 0) {
-        this->unk_1C6--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     SkelAnime_Update(&this->skelAnime);
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-        this->unk_230 * 0.01f * (0.5f + this->unk_1C6 * 0.033333335f);
+        this->unk_230 * 0.01f * (0.5f + this->timer * 0.033333335f);
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
 
-    sp58 = (sinf(CLAMP_MAX(this->unk_1C6 * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
+    sp58 = (sinf(CLAMP_MAX(this->timer * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
         horizontalScale = 0.0f;
@@ -609,7 +610,7 @@ void func_809E6A04(EnDekubaba* this, GlobalContext* globalCtx) {
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
                              this->unk_230 * 5.0f, 1, -1, 0xA, NULL);
 
-    if (this->unk_1C6 == 0) {
+    if (this->timer == 0) {
         func_809E5ABC(this);
     }
 }
@@ -639,23 +640,23 @@ void func_809E6ED4(EnDekubaba* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->unk_1C6 != 0) {
-        this->unk_1C6--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2,
-                   (this->unk_1C6 % 5) * 0x222);
+                   (this->timer % 5) * 0x222);
 
-    if (this->unk_1C6 < 0xA) {
+    if (this->timer < 10) {
         this->unk_1CA[0] += 0x16C;
         this->unk_1CA[1] += 0x16C;
         this->unk_1CA[2] += 0xB6;
         this->actor.shape.rot.x += 0x222;
-    } else if (this->unk_1C6 < 0x14) {
+    } else if (this->timer < 20) {
         this->unk_1CA[0] += -0x16C;
         this->unk_1CA[1] += 0x111;
         this->actor.shape.rot.x += 0x16C;
-    } else if (this->unk_1C6 < 0x1E) {
+    } else if (this->timer < 30) {
         this->unk_1CA[1] += -0x111;
         this->actor.shape.rot.x += -0xB6;
     } else {
@@ -668,7 +669,7 @@ void func_809E6ED4(EnDekubaba* this, GlobalContext* globalCtx) {
 
     if (240.0f * this->unk_230 < Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos)) {
         func_809E5E58(this);
-    } else if ((this->unk_1C6 == 0) || (this->actor.xzDistToPlayer < 80.0f * this->unk_230)) {
+    } else if ((this->timer == 0) || (this->actor.xzDistToPlayer < 80.0f * this->unk_230)) {
         func_809E5F9C(this);
     }
 }
@@ -681,7 +682,7 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_1C6 == 0) {
+    if (this->timer == 0) {
         if (Animation_OnFrame(&this->skelAnime, 1.0f) != 0) {
             if (this->actor.params == 1) {
                 Audio_PlayActorSound2(&this->actor, 0x385D);
@@ -705,15 +706,15 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
 
             func_8002829C(globalCtx, &this->actor.world.pos, &velocity, &D_809E8EA0, &D_809E9024, &D_809E9028, 1,
                           this->unk_230 * 100.0f);
-            this->unk_1C6 = 1;
+            this->timer = 1;
             this->collider.base.acFlags |= 1;
         }
-    } else if (this->unk_1C6 >= 0xB) {
+    } else if (this->timer > 10) {
         func_809E6000(this);
     } else {
-        this->unk_1C6++;
+        this->timer++;
 
-        if ((this->unk_1C6 >= 4) && !func_8002E084(&this->actor, 0x16C)) {
+        if ((this->timer >= 4) && !func_8002E084(&this->actor, 0x16C)) {
             Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xF, 0x71C);
         }
 
@@ -733,8 +734,8 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
 void func_809E738C(EnDekubaba* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->unk_1C6 != 0) {
-        this->unk_1C6--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
     Math_SmoothStepToS(&this->actor.shape.rot.x, 0x1800, 2, 0xE38, 0x71C);
@@ -742,7 +743,7 @@ void func_809E738C(EnDekubaba* this, GlobalContext* globalCtx) {
     Math_ScaledStepToS(&this->unk_1CA[0], 0xAAA, 0x444);
     Math_ScaledStepToS(&this->unk_1CA[1], -0x4718, 0x888);
     Math_ScaledStepToS(&this->unk_1CA[2], -0x6AA4, 0x888);
-    if (this->unk_1C6 == 0) {
+    if (this->timer == 0) {
         func_809E5FBC(this);
     }
     func_809E6DCC(this);
@@ -757,7 +758,7 @@ void func_809E7458(EnDekubaba* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_1C6 == 0) {
+    if (this->timer == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x93E, 0x38E);
         Math_ScaledStepToS(this->unk_1CA, -0x888, 0x16C);
         Math_ScaledStepToS(&this->unk_1CA[1], -0x888, 0x16C);
@@ -773,47 +774,47 @@ void func_809E7458(EnDekubaba* this, GlobalContext* globalCtx) {
                 dustPos.z += zIncr;
             }
 
-            this->unk_1C6 = 1;
+            this->timer = 1;
         }
-    } else if (this->unk_1C6 == 0xB) {
+    } else if (this->timer == 11) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x93E, 0x200);
         Math_ScaledStepToS(&this->unk_1CA[0], -0xAAA, 0x200);
         Math_ScaledStepToS(&this->unk_1CA[2], -0x5C71, 0x200);
 
         if (Math_ScaledStepToS(&this->unk_1CA[1], 0x238C, 0x200)) {
-            this->unk_1C6 = 0xC;
+            this->timer = 12;
         }
-    } else if (this->unk_1C6 == 0x12) {
-        Math_ScaledStepToS((s16*)&this->actor.shape, 0x2AA8, 0xAAA);
+    } else if (this->timer == 18) {
+        Math_ScaledStepToS(&this->actor.shape.rot.x, 0x2AA8, 0xAAA);
 
         if (Math_ScaledStepToS(this->unk_1CA, 0x1554, 0x5B0)) {
-            this->unk_1C6 = 0x19;
+            this->timer = 25;
         }
 
         Math_ScaledStepToS(&this->unk_1CA[1], -0x38E3, 0xAAA);
         Math_ScaledStepToS(&this->unk_1CA[2], -0x5C71, 0x2D8);
-    } else if (this->unk_1C6 == 0x19) {
+    } else if (this->timer == 25) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x5550, 0xAAA);
 
         if (Math_ScaledStepToS(this->unk_1CA, -0x6388, 0x93E)) {
-            this->unk_1C6 = 0x1A;
+            this->timer = 26;
         }
 
         Math_ScaledStepToS(&this->unk_1CA[1], -0x3FFC, 0x4FA);
         Math_ScaledStepToS(&this->unk_1CA[2], -0x238C, 0x444);
-    } else if (this->unk_1C6 == 0x1A) {
+    } else if (this->timer == 26) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x93E);
 
         if (Math_ScaledStepToS(this->unk_1CA, -0x1555, 0x71C)) {
-            this->unk_1C6 = 0x1B;
+            this->timer = 27;
         }
 
         Math_ScaledStepToS(&this->unk_1CA[1], -0x38E3, 0x2D8);
         Math_ScaledStepToS(&this->unk_1CA[2], -0x5C71, 0x5B0);
-    } else if (this->unk_1C6 >= 0x1B) {
-        this->unk_1C6++;
+    } else if (this->timer >= 27) {
+        this->timer++;
 
-        if (this->unk_1C6 >= 0x1F) {
+        if (this->timer > 30) {
             if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
                 func_809E5F9C(this);
             } else {
@@ -821,13 +822,13 @@ void func_809E7458(EnDekubaba* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        this->unk_1C6++;
+        this->timer++;
 
-        if (this->unk_1C6 == 0xA) {
+        if (this->timer == 10) {
             Audio_PlayActorSound2(&this->actor, 0x3863);
         }
 
-        if (this->unk_1C6 >= 0xC) {
+        if (this->timer >= 12) {
             Math_ScaledStepToS(&this->unk_1CA[2], -0x5C71, 0x88);
         }
     }
@@ -840,21 +841,21 @@ void func_809E77E4(EnDekubaba* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_1C6 >= 9) {
+    if (this->timer > 8) {
         anyStepsDone = Math_SmoothStepToS(&this->actor.shape.rot.x, 0x1800, 1, 0x11C6, 0x71C);
         anyStepsDone |= Math_SmoothStepToS(this->unk_1CA, -0x1555, 1, 0xAAA, 0x71C);
         anyStepsDone |= Math_SmoothStepToS(&this->unk_1CA[1], -0x38E3, 1, 0xE38, 0x71C);
         anyStepsDone |= Math_SmoothStepToS(&this->unk_1CA[2], -0x5C71, 1, 0x11C6, 0x71C);
 
         if (!anyStepsDone) {
-            this->unk_1C6 = 8;
+            this->timer = 8;
         }
     } else {
-        if (this->unk_1C6 != 0) {
-            this->unk_1C6--;
+        if (this->timer != 0) {
+            this->timer--;
         }
 
-        if (this->unk_1C6 == 0) {
+        if (this->timer == 0) {
             func_809E5F44(this);
         }
     }
@@ -877,7 +878,7 @@ void func_809E78DC(EnDekubaba* this, GlobalContext* globalCtx) {
             func_809E61E0(this);
         } else {
             this->collider.base.acFlags |= 1;
-            if (this->unk_1C6 == 0) {
+            if (this->timer == 0) {
                 if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
                     func_809E5F9C(this);
                 } else {
@@ -895,11 +896,11 @@ void func_809E78DC(EnDekubaba* this, GlobalContext* globalCtx) {
 void func_809E79EC(EnDekubaba* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->unk_1C6 != 0) {
-        this->unk_1C6--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
-    if (this->unk_1C6 == 0) {
+    if (this->timer == 0) {
         func_809E5A38(this);
 
         if (this->actor.xzDistToPlayer < (80.0f * this->unk_230)) {
@@ -948,7 +949,7 @@ void func_809E7BB0(EnDekubaba* this, GlobalContext* globalCtx) {
 
     Math_StepToF(&this->actor.speedXZ, 0.0f, this->unk_230 * 0.1f);
 
-    if (this->unk_1C6 == 0) {
+    if (this->timer == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
         Math_ScaledStepToS(&this->unk_1CA[0], 0x4800, 0x71C);
         Math_ScaledStepToS(&this->unk_1CA[1], 0x4800, 0x71C);
@@ -968,9 +969,9 @@ void func_809E7BB0(EnDekubaba* this, GlobalContext* globalCtx) {
 
         if (this->actor.bgCheckFlags & 2) {
             Audio_PlayActorSound2(&this->actor, 0x387B);
-            this->unk_1C6 = 1;
+            this->timer = 1;
         }
-    } else if (this->unk_1C6 == 1) {
+    } else if (this->timer == 1) {
         sp78 = this->actor.world.pos;
 
         temp_f24 = Math_SinS(this->actor.shape.rot.x) * 20.0f;
@@ -1020,11 +1021,11 @@ void func_809E7F14(EnDekubaba* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E80D8.s")
 void func_809E80D8(EnDekubaba* this, GlobalContext* globalCtx) {
-    if (this->unk_1C6 != 0) {
-        this->unk_1C6--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
-    if (Actor_HasParent(&this->actor, globalCtx) || (this->unk_1C6 == 0)) {
+    if (Actor_HasParent(&this->actor, globalCtx) || (this->timer == 0)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -1032,108 +1033,7 @@ void func_809E80D8(EnDekubaba* this, GlobalContext* globalCtx) {
     func_8002F554(&this->actor, globalCtx, 7);
 }
 
-// void func_809E8140(EnDekubaba* this, GlobalContext* globalCtx);
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E8140.s")
-// void func_809E8140(EnDekubaba* this, GlobalContext* globalCtx) {
-//     Vec3f* sp38;
-//     s32 sp34;
-//     s32 temp_s0;
-//     s32 temp_s0_2;
-//     // u8 temp_a0;
-//     // u8 temp_v0;
-//     // u8 temp_v0_2;
-//     // u8 temp_v0_3;
-//     // void (*temp_v1)(struct EnDekubaba*, GlobalContext*);
-//     // void (*temp_v1_2)(struct EnDekubaba*, GlobalContext*);
-//     // s32 phi_s0;
-//     s32 phi_s0_2;
-
-//     // temp_v0 = this->collider.base.acFlags;
-//     if (this->collider.base.acFlags & 2) {
-//         this->collider.base.acFlags &= ~2;
-//         func_8003573C(&this->actor, &this->collider, 1);
-//         if (this->collider.base.colType != 0xC) {
-//             // temp_v0_2 = this->actor.colChkInfo.damageEffect;
-//             if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
-//                 // temp_v1 = this->actionFunc;
-//                 // temp_a0 = this->actor.colChkInfo.health;
-//                 temp_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
-//                 if (this->actionFunc != func_809E79EC) {
-//                     if ((this->actor.colChkInfo.damageEffect == 0xE) || (this->actor.colChkInfo.damageEffect == 1)) {
-//                         // phi_s0 = temp_s0;
-//                         if (this->actor.colChkInfo.damageEffect == 0xE) {
-//                             temp_s0 = this->actor.colChkInfo.health;
-//                         }
-//                         func_809E60A8(this, 2);
-//                     } else if (this->actionFunc == func_809E7458) {
-//                         // phi_s0 = temp_s0;
-//                         if (temp_s0 <= 0) {
-//                             temp_s0 = 1;
-//                         }
-//                         func_809E60A8(this, 1);
-//                     } else {
-//                         func_809E60A8(this, 0);
-//                         // phi_s0 = temp_s0;
-//                     }
-
-//                 } else if ((this->actor.colChkInfo.damageEffect == 0xE) || (this->actor.colChkInfo.damageEffect ==
-//                 0xF)) {
-//                     if (temp_s0 > 0) {
-//                         func_809E63EC(this);
-//                         // phi_s0 = temp_s0;
-//                     } else {
-//                         func_809E6170(this);
-//                         // phi_s0 = temp_s0;
-//                     }
-//                     // goto block_22;
-//                 } else if (this->actor.colChkInfo.damageEffect != 1) {
-//                     func_809E60A8(this, 0);
-//                     // phi_s0 = temp_s0;
-//                     // goto block_22;
-//                 }
-//             // block_22:
-//                 if (temp_s0 < 0) {
-//                     this->actor.colChkInfo.health = 0;
-//                 } else {
-//                     this->actor.colChkInfo.health = temp_s0;
-//                 }
-//                 if (this->actor.colChkInfo.damageEffect == 2) {
-//                     sp38 = &this->actor.world.pos;
-//                     sp34 = /* (s16)(s32) */ (this->unk_230 * 70.0f);
-
-//                     for (phi_s0_2 = 0; phi_s0_2 < 4; phi_s0_2++) {
-//                         EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, sp38, sp34, 0, 0, phi_s0_2);
-//                     }
-//                 }
-//             }
-//         }
-//     } else if (((globalCtx->actorCtx.unk_02 != 0) && (this->collider.base.colType != 0xC)) &&
-//                ((this->actionFunc != func_809E79EC) && (this->actionFunc != func_809E78DC)) &&
-//                (this->actor.colChkInfo.health != 0)) {
-//         this->actor.colChkInfo.health--;
-//         this->actor.dropFlag = 0;
-//         func_809E60A8(this, 1);
-//         // goto block_35;
-//     } else {
-//         return;
-//     }
-
-//     // block_35:
-//     if (this->actor.colChkInfo.health != 0) {
-//         if (this->unk_1C6 == 2) {
-//             Audio_PlayActorSound2(&this->actor, 0x389E);
-//         } else {
-//             Audio_PlayActorSound2(&this->actor, 0x385E);
-//         }
-//     } else {
-//         func_80032C7C(globalCtx, &this->actor);
-//         if (this->actor.params == 1) {
-//             Audio_PlayActorSound2(&this->actor, 0x385F);
-//         } else {
-//             Audio_PlayActorSound2(&this->actor, 0x3862);
-//         }
-//     }
-// }
 void func_809E8140(EnDekubaba* this, GlobalContext* globalCtx) {
     Vec3f* sp38;
     f32 sp34;
@@ -1143,7 +1043,7 @@ void func_809E8140(EnDekubaba* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~2;
         func_8003573C(&this->actor, &this->collider, 1);
 
-        if ((this->collider.base.colType != 0xC) &&
+        if ((this->collider.base.colType != COLTYPE_HARD) &&
             ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0))) {
 
             phi_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
@@ -1193,7 +1093,7 @@ void func_809E8140(EnDekubaba* this, GlobalContext* globalCtx) {
         } else {
             return;
         }
-    } else if ((globalCtx->actorCtx.unk_02 != 0) && (this->collider.base.colType != 0xC) &&
+    } else if ((globalCtx->actorCtx.unk_02 != 0) && (this->collider.base.colType != COLTYPE_HARD) &&
                (this->actionFunc != func_809E79EC) && (this->actionFunc != func_809E78DC) &&
                (this->actor.colChkInfo.health != 0)) {
         this->actor.colChkInfo.health--;
@@ -1204,7 +1104,7 @@ void func_809E8140(EnDekubaba* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.colChkInfo.health != 0) {
-        if (this->unk_1C6 == 2) {
+        if (this->timer == 2) {
             Audio_PlayActorSound2(&this->actor, 0x389E);
         } else {
             Audio_PlayActorSound2(&this->actor, 0x385E);
@@ -1257,16 +1157,16 @@ void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E858C.s")
 void func_809E858C(EnDekubaba* this, GlobalContext* globalCtx) {
-    f32 sp44;
+    f32 horizontalScale;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2445);
 
-    sp44 = this->unk_230 * 0.01f;
+    horizontalScale = this->unk_230 * 0.01f;
 
     Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y + (-6.0f * this->unk_230), this->actor.home.pos.z,
                      MTXMODE_NEW);
     Matrix_RotateRPY(this->unk_1CA[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
-    Matrix_Scale(sp44, sp44, sp44, MTXMODE_APPLY);
+    Matrix_Scale(horizontalScale, horizontalScale, horizontalScale, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2461),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_06001330);
@@ -1280,71 +1180,73 @@ static Gfx* D_809E902C[] = { D_06001330, D_06001628, D_06001828 };
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E86B8.s")
 void func_809E86B8(EnDekubaba* this, GlobalContext* globalCtx) {
-    MtxF spB0;
-    s32 phi_s2;
-    f32 temp_f20_2;
+    MtxF mtx;
+    s32 i;
+    f32 horizontalStepSize;
     f32 spA4;
-    f32 temp_f20;
-    s32 sp9C;
+    f32 scale;
+    s32 stalkSections;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0x9B7);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2487);
 
     if (this->actionFunc == func_809E7BB0) {
-        sp9C = 2;
+        stalkSections = 2;
     } else {
-        sp9C = 3;
+        stalkSections = 3;
     }
 
-    temp_f20 = this->unk_230 * 0.01f;
+    scale = this->unk_230 * 0.01f;
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_Scale(temp_f20, temp_f20, temp_f20, MTXMODE_APPLY);
-    Matrix_Get(&spB0);
+    Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+    Matrix_Get(&mtx);
     if (this->actor.colorFilterTimer != 0) {
         spA4 = this->unk_230 * 20.0f;
         this->unk_164.x = this->actor.world.pos.x;
-        this->unk_164.y = this->actor.world.pos.y - this->unk_230 * 20.0f;
+        this->unk_164.y = this->actor.world.pos.y - spA4;
         this->unk_164.z = this->actor.world.pos.z;
     }
 
-    for (phi_s2 = 0; phi_s2 < sp9C; phi_s2++) {
-        spB0.wy += 20.0f * Math_SinS(this->unk_1CA[phi_s2]) * this->unk_230;
-        temp_f20_2 = 20.0f * Math_CosS(this->unk_1CA[phi_s2]) * this->unk_230;
-        spB0.wx -= temp_f20_2 * Math_SinS(this->actor.shape.rot.y);
-        spB0.wz -= temp_f20_2 * Math_CosS(this->actor.shape.rot.y);
+    for (i = 0; i < stalkSections; i++) {
+        mtx.wy += 20.0f * Math_SinS(this->unk_1CA[i]) * this->unk_230;
+        horizontalStepSize = 20.0f * Math_CosS(this->unk_1CA[i]) * this->unk_230;
+        mtx.wx -= horizontalStepSize * Math_SinS(this->actor.shape.rot.y);
+        mtx.wz -= horizontalStepSize * Math_CosS(this->actor.shape.rot.y);
 
-        Matrix_Put(&spB0);
-        Matrix_RotateRPY(this->unk_1CA[phi_s2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0x9E5),
+        Matrix_Put(&mtx);
+        Matrix_RotateRPY(this->unk_1CA[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2533),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPDisplayList(POLY_OPA_DISP++, D_809E902C[phi_s2]);
+        gSPDisplayList(POLY_OPA_DISP++, D_809E902C[i]);
 
-        Collider_UpdateSpheres(0x33 + 2 * phi_s2, &this->collider);
-        Collider_UpdateSpheres(0x34 + 2 * phi_s2, &this->collider);
-        if (phi_s2 == 0) {
+        Collider_UpdateSpheres(0x33 + 2 * i, &this->collider);
+        Collider_UpdateSpheres(0x34 + 2 * i, &this->collider);
+
+        if (i == 0) {
             if (this->actionFunc != func_809E7A88) {
-                this->actor.focus.pos.x = spB0.wx;
-                this->actor.focus.pos.y = spB0.wy;
-                this->actor.focus.pos.z = spB0.wz;
+                this->actor.focus.pos.x = mtx.wx;
+                this->actor.focus.pos.y = mtx.wy;
+                this->actor.focus.pos.z = mtx.wz;
             } else {
                 this->actor.focus.pos.x = this->actor.home.pos.x;
                 this->actor.focus.pos.y = this->actor.home.pos.y + (40.0f * this->unk_230);
                 this->actor.focus.pos.z = this->actor.home.pos.z;
             }
         }
-        if ((phi_s2 < 2) && (this->actor.colorFilterTimer != 0)) {
-            this->unk_14C[phi_s2].x = spB0.wx;
-            this->unk_14C[phi_s2].y = spB0.wy - spA4;
-            this->unk_14C[phi_s2].z = spB0.wz;
+
+        if ((i < 2) && (this->actor.colorFilterTimer != 0)) {
+            this->unk_14C[i].x = mtx.wx;
+            this->unk_14C[i].y = mtx.wy - spA4;
+            this->unk_14C[i].z = mtx.wz;
         }
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0xA09);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2569);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E89E4.s")
 void func_809E89E4(EnDekubaba* this, GlobalContext* globalCtx) {
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0xA13);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2579);
 
     Matrix_RotateRPY(this->unk_1CA[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2586),
@@ -1358,23 +1260,23 @@ void func_809E89E4(EnDekubaba* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E8AD8.s")
 void func_809E8AD8(EnDekubaba* this, GlobalContext* globalCtx) {
-    MtxF sp50;
-    f32 temp_f12;
+    MtxF mtx;
+    f32 horizontalScale;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0xA84);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2692);
     func_80094044(globalCtx->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0x00, 0x00, 0x00, 0xFF);
 
-    func_80038A28(this->unk_234, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &sp50);
-    Matrix_Mult(&sp50, MTXMODE_NEW);
+    func_80038A28(this->unk_234, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &mtx);
+    Matrix_Mult(&mtx, MTXMODE_NEW);
 
-    temp_f12 = this->unk_230 * 0.15f;
-    Matrix_Scale(temp_f12, 1.0f, temp_f12, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0xA96),
+    horizontalScale = this->unk_230 * 0.15f;
+    Matrix_Scale(horizontalScale, 1.0f, horizontalScale, MTXMODE_APPLY);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2710),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0xA9B);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2715);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E8C0C.s")
@@ -1389,7 +1291,7 @@ void func_809E8C0C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/EnDekubaba_Draw.s")
 void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDekubaba* this = THIS;
-    f32 sp50;
+    f32 scale;
 
     if (1) {}
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2752);
@@ -1404,10 +1306,10 @@ void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_809E86B8(this, globalCtx);
         }
 
-        sp50 = this->unk_230 * 0.01f;
+        scale = this->unk_230 * 0.01f;
         Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
         Matrix_RotateY(this->actor.home.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
-        Matrix_Scale(sp50, sp50, sp50, MTXMODE_APPLY);
+        Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, D_060010F0);
@@ -1419,7 +1321,7 @@ void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_234 != 0) {
             func_809E8AD8(this, globalCtx);
         }
-    } else if ((this->unk_1C6 > 40) || (this->unk_1C6 & 1)) {
+    } else if ((this->timer > 40) || (this->timer & 1)) {
         Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2797),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

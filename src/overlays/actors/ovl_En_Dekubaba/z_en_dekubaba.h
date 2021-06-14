@@ -16,12 +16,10 @@ typedef struct EnDekubaba {
     /* 0x0170 */ Vec3f unk_170;
     /* 0x017C */ SkelAnime skelAnime;
     /* 0x01C0 */ EnDekubabaActionFunc actionFunc;
-    /* 0x01C4 */ char unk_1C4[0x2];
-    /* 0x01C6 */ s16 unk_1C6;
+    /* 0x01C4 */ char unk_1C4[0x2]; // unused
+    /* 0x01C6 */ s16 timer;
     /* 0x01C8 */ s16 unk_1C8;
     /* 0x01CA */ s16 unk_1CA[3];
-    // /* 0x01CC */ s16 unk_1CC;
-    // /* 0x01CE */ s16 unk_1CE;
     /* 0x01D0 */ Vec3s jointTable[8];
     /* 0x0200 */ Vec3s morphTable[8];
     /* 0x0230 */ f32 unk_230;
