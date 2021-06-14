@@ -282,24 +282,24 @@ void EnVali_SetupReturnToLurk(EnVali* this) {
 }
 
 void EnVali_DischargeLightning(EnVali* this, GlobalContext* globalCtx) {
-    static Color_RGBA8 effectPrimColor = { 255, 255, 255, 255 };
-    static Color_RGBA8 effectEnvColor = { 200, 255, 255, 255 };
-    Vec3f effectPos;
+    static Color_RGBA8 primColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 envColor = { 200, 255, 255, 255 };
+    Vec3f pos;
     s32 i;
     f32 cos;
     f32 sin;
-    s16 effectYaw;
+    s16 yaw;
 
     for (i = 0; i < 4; i++) {
         cos = -Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM));
         sin = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM));
         if (!((this->lightningTimer + (i << 1)) % 4)) {
-            effectYaw = (s16)Rand_CenteredFloat(12288.0f) + (i * 0x4000) + 0x2000;
-            effectPos.x = this->actor.world.pos.x + (Math_SinS(effectYaw) * 12.0f * cos);
-            effectPos.y = this->actor.world.pos.y - (Math_CosS(effectYaw) * 12.0f) + 10.0f;
-            effectPos.z = this->actor.world.pos.z + (Math_SinS(effectYaw) * 12.0f * sin);
+            yaw = (s16)Rand_CenteredFloat(12288.0f) + (i * 0x4000) + 0x2000;
+            pos.x = this->actor.world.pos.x + (Math_SinS(yaw) * 12.0f * cos);
+            pos.y = this->actor.world.pos.y - (Math_CosS(yaw) * 12.0f) + 10.0f;
+            pos.z = this->actor.world.pos.z + (Math_SinS(yaw) * 12.0f * sin);
 
-            EffectSsLightning_Spawn(globalCtx, &effectPos, &effectPrimColor, &effectEnvColor, 17, effectYaw, 6, 2);
+            EffectSsLightning_Spawn(globalCtx, &pos, &primColor, &envColor, 17, yaw, 6, 2);
         }
     }
 
@@ -337,7 +337,7 @@ void EnVali_FloatIdle(EnVali* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->floatHomeHeight, this->actor.floorHeight + 40.0f, 1.2f);
     this->actor.world.pos.y = this->floatHomeHeight - (sinf(curFrame * M_PI * 0.0125f) * 8.0f);
 
-    if (this->slingshotReactionTimer) { // Cannot be "!= 0"
+    if (this->slingshotReactionTimer) {
         this->actor.shape.rot.y += 0x800;
 
         if (((this->slingshotReactionTimer % 6) == 0) && (curFrame > 15) && (curFrame <= 55)) {
@@ -404,10 +404,10 @@ void EnVali_Burnt(EnVali* this, GlobalContext* globalCtx) {
 }
 
 void EnVali_DivideAndDie(EnVali* this, GlobalContext* globalCtx) {
-    static Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
-    static Vec3f effectAccel = { 0.0f, 0.0f, 0.0f };
-    s16 effectScale;
-    Vec3f effectPos;
+    static Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    s16 scale;
+    Vec3f pos;
     s32 i;
 
     if (this->timer != 0) {
@@ -415,17 +415,17 @@ void EnVali_DivideAndDie(EnVali* this, GlobalContext* globalCtx) {
     }
 
     for (i = 0; i < 2; i++) {
-        effectPos.x = this->actor.world.pos.x + Rand_CenteredFloat(20.0f);
-        effectPos.y = this->actor.world.pos.y + Rand_CenteredFloat(8.0f);
-        effectPos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
-        effectVelocity.y = (Rand_ZeroOne() + 1.0f);
-        effectScale = Rand_S16Offset(40, 40);
+        pos.x = this->actor.world.pos.x + Rand_CenteredFloat(20.0f);
+        pos.y = this->actor.world.pos.y + Rand_CenteredFloat(8.0f);
+        pos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
+        velocity.y = (Rand_ZeroOne() + 1.0f);
+        scale = Rand_S16Offset(40, 40);
 
         if (Rand_ZeroOne() < 0.7f) {
-            EffectSsDtBubble_SpawnColorProfile(globalCtx, &effectPos, &effectVelocity, &effectAccel, effectScale, 25, 2,
+            EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, scale, 25, 2,
                                                1);
         } else {
-            EffectSsDtBubble_SpawnColorProfile(globalCtx, &effectPos, &effectVelocity, &effectAccel, effectScale, 25, 0,
+            EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, scale, 25, 0,
                                                1);
         }
     }
@@ -458,7 +458,7 @@ void EnVali_Stunned(EnVali* this, GlobalContext* globalCtx) {
 }
 
 void EnVali_Frozen(EnVali* this, GlobalContext* globalCtx) {
-    Vec3f effectPos;
+    Vec3f pos;
     s32 temp_v0;
     s32 temp_v1;
 
@@ -473,12 +473,11 @@ void EnVali_Frozen(EnVali* this, GlobalContext* globalCtx) {
         temp_v0 = temp_v1 >> 1;
 
         if ((this->timer % 2) != 0) {
-            effectPos.y = this->actor.world.pos.y - 20.0f + (-temp_v0 * 5 + 40);
-            // Cannot be %
-            effectPos.x = this->actor.world.pos.x + ((temp_v0 & 2) ? 12.0f : -12.0f);
-            effectPos.z = this->actor.world.pos.z + ((temp_v0 & 1) ? 12.0f : -12.0f);
+            pos.y = this->actor.world.pos.y - 20.0f + (-temp_v0 * 5 + 40);
+            pos.x = this->actor.world.pos.x + ((temp_v0 & 2) ? 12.0f : -12.0f);
+            pos.z = this->actor.world.pos.z + ((temp_v0 & 1) ? 12.0f : -12.0f);
 
-            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255,
+            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255,
                                            (Rand_ZeroOne() * 0.2f) + 1.3f);
         }
     } else if (this->timer == 0) {
