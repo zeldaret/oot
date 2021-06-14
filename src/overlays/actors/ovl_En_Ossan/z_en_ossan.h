@@ -11,7 +11,7 @@ struct EnOssan;
 typedef void (*EnOssanActionFunc)(struct EnOssan*, GlobalContext*);
 typedef void (*EnOssanTalkOwnerFunc)(GlobalContext*);
 typedef void (*EnOssanInitFunc)(struct EnOssan*, GlobalContext*);
-typedef s16 (*EnOssanGetGirlAParams)(s16);
+typedef s16 (*EnOssanGetGirlAParamsFunc)(s16);
 typedef void (*EnOssanStateFunc)(struct EnOssan*, GlobalContext*, Player*);
 
 typedef struct {
@@ -22,16 +22,15 @@ typedef struct {
 } EnvColor;
 
 typedef struct {
-
-    /* 0x0254 */ EnvColor stickColor;
-    /* 0x0264 */ f32 stickTexX;
-    /* 0x0268 */ f32 stickTexY;
-    /* 0x026C */ EnvColor arrowColor;
-    /* 0x027C */ f32 arrowTexX;
-    /* 0x0280 */ f32 arrowTexY;
-    /* 0x0284 */ f32 z;
-    /* 0x0288 */ s32 isEnabled;
-} StickDirectionPrompt;
+    /* 0x00 */ EnvColor stickColor;
+    /* 0x10 */ f32 stickTexX;
+    /* 0x14 */ f32 stickTexY;
+    /* 0x18 */ EnvColor arrowColor;
+    /* 0x28 */ f32 arrowTexX;
+    /* 0x2C */ f32 arrowTexY;
+    /* 0x30 */ f32 z;
+    /* 0x34 */ s32 isEnabled;
+} StickDirectionPrompt; // size = 0x38
 
 #define ColChanMix(c1, c2, m) (c1 - (s32)(c2 * m)) & 0xFF
 
@@ -102,44 +101,44 @@ typedef enum {
 } OssanType;
 
 typedef enum {
-    /* 00 */ ENOSSAN_STATE_IDLE,
-    /* 01 */ ENOSSAN_STATE_START_CONVERSATION,
-    /* 02 */ ENOSSAN_STATE_FACING_SHOPKEEPER,
-    /* 03 */ ENOSSAN_STATE_TALKING_TO_SHOPKEEPER,
-    /* 04 */ ENOSSAN_STATE_LOOK_SHELF_LEFT,
-    /* 05 */ ENOSSAN_STATE_LOOK_SHELF_RIGHT,
-    /* 06 */ ENOSSAN_STATE_BROWSE_LEFT_SHELF,
-    /* 07 */ ENOSSAN_STATE_BROWSE_RIGHT_SHELF,
-    /* 08 */ ENOSSAN_STATE_LOOK_SHOPKEEPER, // From looking at shelf
-    /* 09 */ ENOSSAN_STATE_SELECT_ITEM,     // Select most items
-    /* 10 */ ENOSSAN_STATE_SELECT_ITEM_MILK_BOTTLE,
-    /* 11 */ ENOSSAN_STATE_SELECT_ITEM_WEIRD_EGG,
-    /* 12 */ ENOSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED, // Handles two unfinished shop items
-    /* 13 */ ENOSSAN_STATE_SELECT_ITEM_BOMBS,
-    /* 14 */ ENOSSAN_STATE_CANT_GET_ITEM,
-    /* 15 */ ENOSSAN_STATE_GIVE_ITEM_FANFARE, // Give Item, hold it up with fanfare
-    /* 16 */ ENOSSAN_STATE_ITEM_PURCHASED,
-    /* 17 */ ENOSSAN_STATE_CONTINUE_SHOPPING_PROMPT,
-    /* 18 */ ENOSSAN_STATE_GIVE_LON_LON_MILK,
-    /* 19 */ ENOSSAN_STATE_DISPLAY_ONLY_BOMB_DIALOG,          // Turn to shopkeeper, talk about fake bombs
-    /* 20 */ ENOSSAN_STATE_WAIT_FOR_DISPLAY_ONLY_BOMB_DIALOG, // Can't Get Goron City Bombs
-    /* 21 */ ENOSSAN_STATE_21,                                // Unused
-    /* 22 */ ENOSSAN_STATE_22,                                // Follows ENOSSAN_STATE_21
-    /* 23 */ ENOSSAN_STATE_QUICK_BUY,
-    /* 24 */ ENOSSAN_STATE_SELECT_ITEM_MASK,
-    /* 25 */ ENOSSAN_STATE_LEND_MASK_OF_TRUTH, // First time all masks are sold
-    /* 26 */ ENOSSAN_STATE_DISCOUNT_DIALOG     // Hylian Shield Discount
-} EnOssan_State;
+    /* 00 */ OSSAN_STATE_IDLE,
+    /* 01 */ OSSAN_STATE_START_CONVERSATION,
+    /* 02 */ OSSAN_STATE_FACING_SHOPKEEPER,
+    /* 03 */ OSSAN_STATE_TALKING_TO_SHOPKEEPER,
+    /* 04 */ OSSAN_STATE_LOOK_SHELF_LEFT,
+    /* 05 */ OSSAN_STATE_LOOK_SHELF_RIGHT,
+    /* 06 */ OSSAN_STATE_BROWSE_LEFT_SHELF,
+    /* 07 */ OSSAN_STATE_BROWSE_RIGHT_SHELF,
+    /* 08 */ OSSAN_STATE_LOOK_SHOPKEEPER, // From looking at shelf
+    /* 09 */ OSSAN_STATE_SELECT_ITEM,     // Select most items
+    /* 10 */ OSSAN_STATE_SELECT_ITEM_MILK_BOTTLE,
+    /* 11 */ OSSAN_STATE_SELECT_ITEM_WEIRD_EGG,
+    /* 12 */ OSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED, // Handles two unfinished shop items
+    /* 13 */ OSSAN_STATE_SELECT_ITEM_BOMBS,
+    /* 14 */ OSSAN_STATE_CANT_GET_ITEM,
+    /* 15 */ OSSAN_STATE_GIVE_ITEM_FANFARE, // Give Item, hold it up with fanfare
+    /* 16 */ OSSAN_STATE_ITEM_PURCHASED,
+    /* 17 */ OSSAN_STATE_CONTINUE_SHOPPING_PROMPT,
+    /* 18 */ OSSAN_STATE_GIVE_LON_LON_MILK,
+    /* 19 */ OSSAN_STATE_DISPLAY_ONLY_BOMB_DIALOG,          // Turn to shopkeeper, talk about fake bombs
+    /* 20 */ OSSAN_STATE_WAIT_FOR_DISPLAY_ONLY_BOMB_DIALOG, // Can't Get Goron City Bombs
+    /* 21 */ OSSAN_STATE_21,                                // Unused
+    /* 22 */ OSSAN_STATE_22,                                // Follows OSSAN_STATE_21
+    /* 23 */ OSSAN_STATE_QUICK_BUY,
+    /* 24 */ OSSAN_STATE_SELECT_ITEM_MASK,
+    /* 25 */ OSSAN_STATE_LEND_MASK_OF_TRUTH, // First time all masks are sold
+    /* 26 */ OSSAN_STATE_DISCOUNT_DIALOG     // Hylian Shield Discount
+} EnOssanState;
 
 typedef enum {
-    ENOSSAN_HAPPY_STATE_REQUEST_PAYMENT_KEATON_MASK,
-    ENOSSAN_HAPPY_STATE_REQUEST_PAYMENT_SPOOKY_MASK,
-    ENOSSAN_HAPPY_STATE_REQUEST_PAYMENT_SKULL_MASK,
-    ENOSSAN_HAPPY_STATE_REQUEST_PAYMENT_BUNNY_HOOD,
-    ENOSSAN_HAPPY_STATE_BORROWED_FIRST_MASK,
-    ENOSSAN_HAPPY_STATE_ANGRY,          // Give me my money man!
-    ENOSSAN_HAPPY_STATE_ALL_MASKS_SOLD, // All masks have been sold
-    ENOSSAN_HAPPY_STATE_NONE = 8        // No Action / Payment received!
-} EnOssan_HappyMaskState;
+    OSSAN_HAPPY_STATE_REQUEST_PAYMENT_KEATON_MASK,
+    OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SPOOKY_MASK,
+    OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SKULL_MASK,
+    OSSAN_HAPPY_STATE_REQUEST_PAYMENT_BUNNY_HOOD,
+    OSSAN_HAPPY_STATE_BORROWED_FIRST_MASK,
+    OSSAN_HAPPY_STATE_ANGRY,          // Give me my money man!
+    OSSAN_HAPPY_STATE_ALL_MASKS_SOLD, // All masks have been sold
+    OSSAN_HAPPY_STATE_NONE = 8        // No Action / Payment received!
+} EnOssanHappyMaskState;
 
 #endif
