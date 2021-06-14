@@ -70,17 +70,17 @@ extern CollisionHeader D_060005DC;
 extern Gfx D_06000650[];
 
 
-#define DRAW_LEAVES (1 << 0)
-#define DRAW_SOIL (1 << 1)
-#define DRAW_PLANT (1 << 2)
-#define DRAW_STALK (1 << 3)
+#define BEAN_STATE_DRAW_LEAVES (1 << 0)
+#define BEAN_STATE_DRAW_SOIL (1 << 1)
+#define BEAN_STATE_DRAW_PLANT (1 << 2)
+#define BEAN_STATE_DRAW_STALK (1 << 3)
 
-#define COLLIDER_SET (1 << 4)
-#define DYNAPOLY_SET (1 << 5)
+#define BEAN_STATE_COLLIDER_SET (1 << 4)
+#define BEAN_STATE_DYNAPOLY_SET (1 << 5)
 
-#define BEEN_WATERED (1 << 6)
+#define BEAN_STATE_BEEN_WATERED (1 << 6)
 
-#define PLAYER_ON_TOP (1 << 7)
+#define BEAN_STATE_PLAYER_ON_TOP (1 << 7)
 
 static ObjBean* D_80B90E30 = NULL;
 
@@ -233,7 +233,7 @@ void ObjBean_Move(ObjBean* this) {
 }
 
 void ObjBean_SetDrawMode(ObjBean* this, u8 drawFlag) {
-    this->stateFlags &= ~(DRAW_LEAVES | DRAW_PLANT | DRAW_STALK | DRAW_SOIL);
+    this->stateFlags &= ~(BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_PLANT | BEAN_STATE_DRAW_STALK | BEAN_STATE_DRAW_SOIL);
     this->stateFlags |= drawFlag;
 }
 
@@ -515,9 +515,9 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
             ObjBean_SetupWaitForPlayer(this);
 
             ObjBean_InitDynaPoly(this, globalCtx, &D_060005DC, DPM_UNK3);
-            this->stateFlags |= DYNAPOLY_SET;
+            this->stateFlags |= BEAN_STATE_DYNAPOLY_SET;
             ObjBean_InitCollider(&this->dyna.actor, globalCtx); // Must take an Actor*
-            this->stateFlags |= COLLIDER_SET;
+            this->stateFlags |= BEAN_STATE_COLLIDER_SET;
 
             ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 8.8f);
             ObjBean_FindFloor(this, globalCtx);
@@ -539,10 +539,10 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjBean* this = THIS;
 
-    if (this->stateFlags & DYNAPOLY_SET) {
+    if (this->stateFlags & BEAN_STATE_DYNAPOLY_SET) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
-    if (this->stateFlags & COLLIDER_SET) {
+    if (this->stateFlags & BEAN_STATE_COLLIDER_SET) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
     if (D_80B90E30 == this) {
@@ -552,7 +552,7 @@ void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjBean_SetupWaitForBean(ObjBean* this) {
     this->actionFunc = ObjBean_WaitForBean;
-    ObjBean_SetDrawMode(this, DRAW_LEAVES);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES);
     this->dyna.actor.textId = 0x2F;
 }
 
@@ -569,7 +569,7 @@ void ObjBean_WaitForBean(ObjBean* this, GlobalContext* globalCtx) {
 
 void func_80B8FE00(ObjBean* this) {
     this->actionFunc = func_80B8FE3C;
-    ObjBean_SetDrawMode(this, DRAW_LEAVES);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES);
     this->timer = 60;
 }
 
@@ -582,7 +582,7 @@ void func_80B8FE3C(ObjBean* this, GlobalContext* globalCtx) {
 
 void func_80B8FE6C(ObjBean* this) {
     this->actionFunc = func_80B8FEAC;
-    ObjBean_SetDrawMode(this, DRAW_LEAVES | DRAW_SOIL);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_SOIL);
     Actor_SetScale(&this->dyna.actor, 0.01f);
 }
 
@@ -606,7 +606,7 @@ void func_80B8FEAC(ObjBean* this, GlobalContext* globalCtx) {
 
 void func_80B8FF50(ObjBean* this) {
     this->actionFunc = func_80B8FF8C;
-    ObjBean_SetDrawMode(this, DRAW_LEAVES | DRAW_SOIL);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_SOIL);
     this->unk_1B6.x = 0x33E9;
 }
 
@@ -621,7 +621,7 @@ void func_80B8FF8C(ObjBean* this, GlobalContext* globalCtx) {
 
 void func_80B90010(ObjBean* this) {
     this->actionFunc = func_80B90050;
-    ObjBean_SetDrawMode(this, DRAW_LEAVES | DRAW_SOIL);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_SOIL);
     this->unk_1B6.x = 0;
     this->unk_1B6.y = 0xBB8;
 }
@@ -644,7 +644,7 @@ void func_80B90050(ObjBean* this, GlobalContext* globalCtx) {
 
 void ObjBean_SetupWaitForWater(ObjBean* this) {
     this->actionFunc = ObjBean_WaitForWater;
-    ObjBean_SetDrawMode(this, DRAW_LEAVES | DRAW_SOIL);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_SOIL);
     Actor_SetScale(&this->dyna.actor, 0.1f);
     ObjBean_SetupLeavesStill(this);
 }
@@ -652,7 +652,7 @@ void ObjBean_SetupWaitForWater(ObjBean* this) {
 #ifdef NON_MATCHING
 void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
     this->transformFunc(this);
-    if (!(this->stateFlags & BEEN_WATERED) && Flags_GetEnv(globalCtx, 5) && (D_80B90E30 == NULL) &&
+    if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED) && Flags_GetEnv(globalCtx, 5) && (D_80B90E30 == NULL) &&
         (this->dyna.actor.xzDistToPlayer < 50.0f)) {
         ObjBean_SetupGrowWaterPhase1(this);
         D_80B90E30 = this;
@@ -670,7 +670,7 @@ void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
 
 void ObjBean_SetupGrowWaterPhase1(ObjBean* this) {
     this->actionFunc = ObjBean_GrowWaterPhase1;
-    ObjBean_SetDrawMode(this, DRAW_LEAVES | DRAW_SOIL);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_SOIL);
     ObjBean_SetupShakeLeavesFast(this);
     this->timer = 50;
 }
@@ -685,7 +685,7 @@ void ObjBean_GrowWaterPhase1(ObjBean* this, GlobalContext* globalCtx) {
 
 void ObjBean_SetupGrowWaterPhase2(ObjBean* this) {
     this->actionFunc = ObjBean_GrowWaterPhase2;
-    ObjBean_SetDrawMode(this, DRAW_SOIL | DRAW_LEAVES | DRAW_STALK);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_SOIL | BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_STALK);
     this->stalkSizeMultiplier = 0.0f;
 }
 
@@ -703,7 +703,7 @@ void ObjBean_GrowWaterPhase2(ObjBean* this, GlobalContext* globalCtx) {
 
 void ObjBean_SetupGrowWaterPhase3(ObjBean* this) {
     this->actionFunc = ObjBean_GrowWaterPhase3;
-    ObjBean_SetDrawMode(this, DRAW_SOIL | DRAW_LEAVES | DRAW_STALK);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_SOIL | BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_STALK);
     this->timer = 60;
 }
 
@@ -716,14 +716,14 @@ void ObjBean_GrowWaterPhase3(ObjBean* this, GlobalContext* globalCtx) {
     if (this->timer == 40) {
         ObjBean_SetupFlattenLeaves(this);
     } else if (this->timer == 30) {
-        if (!(this->stateFlags & BEEN_WATERED)) {
+        if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED)) {
             itemDropPos.x = this->dyna.actor.world.pos.x;
             itemDropPos.y = this->dyna.actor.world.pos.y - 25.0f;
             itemDropPos.z = this->dyna.actor.world.pos.z;
             for (i = 0; i < 3; i++) {
                 Item_DropCollectible(globalCtx, &itemDropPos, ITEM00_FLEXIBLE);
             }
-            this->stateFlags |= BEEN_WATERED;
+            this->stateFlags |= BEAN_STATE_BEEN_WATERED;
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         }
@@ -734,7 +734,7 @@ void ObjBean_GrowWaterPhase3(ObjBean* this, GlobalContext* globalCtx) {
 
 void ObjBean_SetupGrowWaterPhase4(ObjBean* this) {
     this->actionFunc = ObjBean_GrowWaterPhase4;
-    ObjBean_SetDrawMode(this, DRAW_SOIL | DRAW_LEAVES | DRAW_STALK);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_SOIL | BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_STALK);
     ObjBean_SetupGrow(this);
 }
 
@@ -753,7 +753,7 @@ void ObjBean_GrowWaterPhase4(ObjBean* this, GlobalContext* globalCtx) {
 
 void ObjBean_SetupGrowWaterPhase5(ObjBean* this) {
     this->actionFunc = ObjBean_GrowWaterPhase5;
-    ObjBean_SetDrawMode(this, DRAW_LEAVES | DRAW_SOIL);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_SOIL);
     this->timer = 30;
 }
 
@@ -767,7 +767,7 @@ void ObjBean_GrowWaterPhase5(ObjBean* this, GlobalContext* globalCtx) {
 
 void ObjBean_SetupWaitForPlayer(ObjBean* this) {
     this->actionFunc = ObjBean_WaitForPlayer;
-    ObjBean_SetDrawMode(this, DRAW_PLANT);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_PLANT);
 }
 
 void ObjBean_WaitForPlayer(ObjBean* this, GlobalContext* globalCtx) {
@@ -784,7 +784,7 @@ void ObjBean_WaitForPlayer(ObjBean* this, GlobalContext* globalCtx) {
 
 void ObjBean_SetupFly(ObjBean* this) {
     this->actionFunc = ObjBean_Fly;
-    ObjBean_SetDrawMode(this, DRAW_PLANT);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_PLANT);
     this->dyna.actor.speedXZ = 0.0f;
     this->dyna.actor.flags |= 0x10; // Never stop updating
 }
@@ -814,7 +814,7 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
         } else {
             Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_UFOBEAN);
         }
-    } else if (this->stateFlags & PLAYER_ON_TOP) {
+    } else if (this->stateFlags & BEAN_STATE_PLAYER_ON_TOP) {
         camera = globalCtx->cameraPtrs[MAIN_CAM];
 
         if ((camera->setting == CAM_SET_LIFTBEAN) || (camera->setting == CAM_SET_UFOBEAN)) {
@@ -827,7 +827,7 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
 
 void ObjBean_SetupWaitForStepOff(ObjBean* this) {
     this->actionFunc = ObjBean_WaitForStepOff;
-    ObjBean_SetDrawMode(this, DRAW_PLANT);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_PLANT);
 }
 
 void ObjBean_WaitForStepOff(ObjBean* this, GlobalContext* globalCtx) {
@@ -870,7 +870,7 @@ void func_80B909B0(ObjBean* this, GlobalContext* globalCtx) {
 
 void func_80B909F8(ObjBean* this) {
     this->actionFunc = func_80B90A34;
-    ObjBean_SetDrawMode(this, DRAW_PLANT);
+    ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_PLANT);
     this->timer = 30;
 }
 
@@ -898,7 +898,7 @@ void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    if (this->stateFlags & DRAW_PLANT) {
+    if (this->stateFlags & BEAN_STATE_DRAW_PLANT) {
         ObjBean_Move(this);
         if (this->dyna.actor.xzDistToPlayer < 150.0f) {
             this->collider.dim.radius = this->dyna.actor.scale.x * 640.0f + 0.5f;
@@ -924,11 +924,11 @@ void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.shape.shadowDraw = NULL;
     }
     Actor_SetFocus(&this->dyna.actor, 6.0f);
-    if (this->stateFlags & DYNAPOLY_SET) {
+    if (this->stateFlags & BEAN_STATE_DYNAPOLY_SET) {
         if (func_8004356C(&this->dyna)) {
-            this->stateFlags |= PLAYER_ON_TOP;
+            this->stateFlags |= BEAN_STATE_PLAYER_ON_TOP;
         } else {
-            this->stateFlags &= ~PLAYER_ON_TOP;
+            this->stateFlags &= ~BEAN_STATE_PLAYER_ON_TOP;
         }
     }
 }
@@ -952,16 +952,16 @@ void ObjBean_DrawBeanstalk(ObjBean* this, GlobalContext* globalCtx) {
 void ObjBean_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ObjBean* this = THIS;
 
-    if (this->stateFlags & DRAW_SOIL) {
+    if (this->stateFlags & BEAN_STATE_DRAW_SOIL) {
         Gfx_DrawDListOpa(globalCtx, D_06000090);
     }
-    if (this->stateFlags & DRAW_PLANT) {
+    if (this->stateFlags & BEAN_STATE_DRAW_PLANT) {
         Gfx_DrawDListOpa(globalCtx, D_060003F0);
     }
-    if (this->stateFlags & DRAW_LEAVES) {
+    if (this->stateFlags & BEAN_STATE_DRAW_LEAVES) {
         ObjBean_DrawSoftSoilSpot(this, globalCtx);
     }
-    if (this->stateFlags & DRAW_STALK) {
+    if (this->stateFlags & BEAN_STATE_DRAW_STALK) {
         ObjBean_DrawBeanstalk(this, globalCtx);
     }
 }
