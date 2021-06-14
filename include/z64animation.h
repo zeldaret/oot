@@ -54,6 +54,14 @@ typedef struct {
     /* 0x0C */ void* segment; // Segment address of data. Currently unclear what.
 } SkinLimb; // size = 0x10
 
+typedef struct LegacyLimb {
+    /* 0x000 */ Gfx* dList;
+    /* 0x004 */ Vec3f trans;
+    /* 0x010 */ Vec3s rot;
+    /* 0x018 */ struct LegacyLimb* sibling;
+    /* 0x01C */ struct LegacyLimb* child;
+} LegacyLimb; // size = 0x20
+
 // Model has limbs with only rigid meshes
 typedef struct {
     /* 0x00 */ void** segment;
@@ -96,8 +104,8 @@ typedef struct {
     /* 0x04 */ s16 yMax;
     /* 0x06 */ s16 y;
     /* 0x08 */ s16 zMax;
-    /* 0x10 */ s16 z;
-} JointKey; // size = 0x12
+    /* 0x0A */ s16 z;
+} JointKey; // size = 0x0C
 
 // Unused
 typedef struct {
@@ -105,7 +113,7 @@ typedef struct {
     /* 0x02 */ s16 limbCount;
     /* 0x04 */ s16* frameData;
     /* 0x08 */ JointKey* jointKey;
-} AnimationHeader2; // size = 0xC
+} LegacyAnimationHeader; // size = 0xC
 
 typedef s32 (*OverrideLimbDrawOpa)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                    void*);
@@ -205,13 +213,13 @@ typedef struct {
     /* 0x0008 */ s16* copyValues;
     /* 0x000C */ s16 unk_0C;
     /* 0x000E */ s16 unk_10;
-} TransformUpdateIndex; // size 0x10
+} TransformUpdateIndex; // size = 0x10
 
 typedef struct {
     /* 0x0000 */ u8 firstChildIdx;
     /* 0x0001 */ u8 nextLimbIdx;
     /* 0x0004 */ Gfx* dList[2];
-} SkelCurveLimb; // size >= 0x8
+} SkelCurveLimb; // size = 0xC
 
 typedef struct {
     /* 0x0000 */ SkelCurveLimb** limbs;
@@ -295,7 +303,7 @@ typedef struct {
     /* 0x002 */ u16 unk_2;
     /* 0x004 */ Struct_800A598C* unk_4;
     /* 0x008 */ Gfx* unk_8;
-} Struct_800A5E28;
+} Struct_800A5E28; // size = 0xC
 
 typedef struct {
     /* 0x000 */ u8 unk_0;

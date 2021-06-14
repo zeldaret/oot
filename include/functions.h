@@ -1209,9 +1209,10 @@ void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
                            OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg);
 s16 Animation_GetLength(void* animation);
 s16 Animation_GetLastFrame(void* animation);
-s16 Animation_GetLimbCount2(AnimationHeader2* animation);
-s16 Animation_GetLength2(AnimationHeader2* animation);
-s16 Animation_GetLastFrame2(AnimationHeader2* animation);
+s32 SkelAnime_GetFrameDataLegacy(LegacyAnimationHeader* animation, s32 frame, Vec3s* frameTable);
+s16 Animation_GetLimbCountLegacy(LegacyAnimationHeader* animation);
+s16 Animation_GetLengthLegacy(LegacyAnimationHeader* animation);
+s16 Animation_GetLastFrameLegacy(LegacyAnimationHeader* animation);
 Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw,
                     PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
 Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount,
