@@ -7,9 +7,7 @@
 struct ObjBean;
 
 typedef void (*ObjBeanActionFunc)(struct ObjBean*, GlobalContext*);
-
 typedef void (*ObjBeanTransformFunc)(struct ObjBean*);
-
 
 typedef struct ObjBean {
     /* 0x0000 */ DynaPolyActor dyna;

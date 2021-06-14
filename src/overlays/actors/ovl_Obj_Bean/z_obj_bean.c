@@ -29,7 +29,6 @@ void ObjBean_SetupGrowWaterPhase2(ObjBean* this);
 void ObjBean_GrowWaterPhase3(ObjBean* this, GlobalContext* globalCtx);
 void ObjBean_SetupGrowWaterPhase3(ObjBean* this);
 void ObjBean_SetupGrown(ObjBean* this);
-
 void ObjBean_FlattenLeaves(ObjBean* this);
 void ObjBean_Grown(ObjBean* this);
 void ObjBean_LeavesStill(ObjBean* this);
@@ -69,17 +68,13 @@ extern Gfx D_060003F0[];
 extern CollisionHeader D_060005DC;
 extern Gfx D_06000650[];
 
-
 #define BEAN_STATE_DRAW_LEAVES (1 << 0)
 #define BEAN_STATE_DRAW_SOIL (1 << 1)
 #define BEAN_STATE_DRAW_PLANT (1 << 2)
 #define BEAN_STATE_DRAW_STALK (1 << 3)
-
 #define BEAN_STATE_COLLIDER_SET (1 << 4)
 #define BEAN_STATE_DYNAPOLY_SET (1 << 5)
-
 #define BEAN_STATE_BEEN_WATERED (1 << 6)
-
 #define BEAN_STATE_PLAYER_ON_TOP (1 << 7)
 
 static ObjBean* D_80B90E30 = NULL;
@@ -488,7 +483,7 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjBean* this = THIS;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    if (LINK_AGE_IN_YEARS == YEARS_ADULT) { // Flying bean
+    if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
         if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) || (mREG(1) == 1)) {
             path = (this->dyna.actor.params >> 8) & 0x1F;
             if (path == 0x1F) {
@@ -516,7 +511,7 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             ObjBean_InitDynaPoly(this, globalCtx, &D_060005DC, DPM_UNK3);
             this->stateFlags |= BEAN_STATE_DYNAPOLY_SET;
-            ObjBean_InitCollider(&this->dyna.actor, globalCtx); // Must take an Actor*
+            ObjBean_InitCollider(&this->dyna.actor, globalCtx);
             this->stateFlags |= BEAN_STATE_COLLIDER_SET;
 
             ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 8.8f);
@@ -529,7 +524,7 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if ((Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) != 0) || (mREG(1) == 1)) {
         ObjBean_SetupWaitForWater(this);
     } else {
-        ObjBean_SetupWaitForBean(this); // Soft soil spot
+        ObjBean_SetupWaitForBean(this);
     }
     this->dyna.actor.world.rot.z = this->dyna.actor.home.rot.z = this->dyna.actor.shape.rot.z = 0;
     // Magic bean tree lift
@@ -650,6 +645,7 @@ void ObjBean_SetupWaitForWater(ObjBean* this) {
 }
 
 #ifdef NON_MATCHING
+//D_80B90E30 isn't being loaded properly
 void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
     this->transformFunc(this);
     if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED) && Flags_GetEnv(globalCtx, 5) && (D_80B90E30 == NULL) &&
@@ -793,7 +789,7 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
     Camera* camera;
 
     ObjBean_FollowPath(this, globalCtx);
-    if (this->currentPointIndex == this->pathCount) { // Finish flight
+    if (this->currentPointIndex == this->pathCount) {
         ObjBean_SetupPathCount(this, globalCtx);
         ObjBean_SetupPath(this, globalCtx);
         ObjBean_SetupWaitForStepOff(this);
@@ -831,8 +827,6 @@ void ObjBean_SetupWaitForStepOff(ObjBean* this) {
 }
 
 void ObjBean_WaitForStepOff(ObjBean* this, GlobalContext* globalCtx) {
-    // If player is still standing on the bean after its done flying on a path wait for them to step off before moving
-    // again.
     if (!func_80043590(&this->dyna)) {
         ObjBean_SetupWaitForPlayer(this);
     }
