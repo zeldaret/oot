@@ -36,7 +36,7 @@ extern AnimationHeader D_06000208;
 extern AnimationHeader D_060002B8;
 extern Gfx D_060010F0[]; // leaf base
 extern Gfx D_06001330[]; // mid third of stem
-// extern Gfx D_06001628[]; // lower third of stem
+extern Gfx D_06001628[]; // lower third of stem
 extern Gfx D_06001828[]; // upper third of stem
 extern SkeletonHeader D_06002A40;
 extern Gfx D_06003070[]; // deku stick drop
@@ -226,8 +226,6 @@ static InitChainEntry D_809E9020[] = {
 
 static Color_RGBA8 D_809E9024 = { 105, 255, 105, 255 };
 static Color_RGBA8 D_809E9028 = { 150, 250, 150, 0 };
-
-static Gfx* D_809E902C[] = { 0x06001330, 0x06001628, 0x06001828 };
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/EnDekubaba_Init.s")
 void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -537,7 +535,7 @@ void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
     if (this->unk_1C6 < 0xA) {
         Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2,
                        0xE38);
-    if (temp_f18) {} // One way of fake-matching
+        if (temp_f18) {} // One way of fake-matching
     }
 
     this->actor.world.pos.y = this->actor.home.pos.y + (sp5C * this->unk_230);
@@ -1278,93 +1276,71 @@ void func_809E858C(EnDekubaba* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2468);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E86B8.s")
-// void func_809E86B8(EnDekubaba *this, GlobalContext *globalCtx) {
-//     // f32 spE8;
-//     // f32 spE4;
-//     Vec3f spE0;
-//     MtxF spB0;
-//     f32 spA4;
-//     s32 sp9C;
-//     // Gfx *sp88;
-//     // ColliderJntSph *temp_fp;
-//     // Gfx *temp_v0;
-//     // Gfx *temp_v0_2;
-//     // GraphicsContext *temp_a1;
-//     // GraphicsContext *temp_s4;
-//     f32 temp_f20;
-//     f32 temp_f20_2;
-//     f32 temp_f26;
-//     // s32 temp_s2;
-//     // void *temp_v0_3;
-//     // EnDekubaba *phi_s3;
-//     // u32 *phi_s5;
-//     // s32 phi_s6;
-//     // s32 phi_s7;
-//     // s32 phi_s2;
+static Gfx* D_809E902C[] = { D_06001330, D_06001628, D_06001828 };
 
-//     s32 i;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E86B8.s")
+void func_809E86B8(EnDekubaba* this, GlobalContext* globalCtx) {
+    MtxF spB0;
+    s32 phi_s2;
+    f32 temp_f20_2;
+    f32 spA4;
+    f32 temp_f20;
+    s32 sp9C;
 
-//     // if (1) {}
-//     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0x9B7);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0x9B7);
 
-//     if (this->actionFunc == func_809E7BB0) {
-//         sp9C = 2;
-//     } else {
-//         sp9C = 3;
-//     }
+    if (this->actionFunc == func_809E7BB0) {
+        sp9C = 2;
+    } else {
+        sp9C = 3;
+    }
 
-//     temp_f20 = this->unk_230 * 0.01f;
+    temp_f20 = this->unk_230 * 0.01f;
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
+    Matrix_Scale(temp_f20, temp_f20, temp_f20, MTXMODE_APPLY);
+    Matrix_Get(&spB0);
+    if (this->actor.colorFilterTimer != 0) {
+        spA4 = this->unk_230 * 20.0f;
+        this->unk_164.x = this->actor.world.pos.x;
+        this->unk_164.y = this->actor.world.pos.y - this->unk_230 * 20.0f;
+        this->unk_164.z = this->actor.world.pos.z;
+    }
 
-//     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-//     Matrix_Scale(temp_f20, temp_f20, temp_f20, MTXMODE_APPLY);
-//     Matrix_Get(&spB0);
+    for (phi_s2 = 0; phi_s2 < sp9C; phi_s2++) {
+        spB0.wy += 20.0f * Math_SinS(this->unk_1CA[phi_s2]) * this->unk_230;
+        temp_f20_2 = 20.0f * Math_CosS(this->unk_1CA[phi_s2]) * this->unk_230;
+        spB0.wx -= temp_f20_2 * Math_SinS(this->actor.shape.rot.y);
+        spB0.wz -= temp_f20_2 * Math_CosS(this->actor.shape.rot.y);
 
-//     if (this->actor.colorFilterTimer != 0) {
-//         temp_f26 = this->unk_230 * 20.0f;
-//         this->unk_164.x = this->actor.world.pos.x;
-//         this->unk_164.z = this->actor.world.pos.z;
-//         this->unk_164.y = (this->actor.world.pos.y - temp_f26);
-//         spA4 = temp_f26;
-//     }
+        Matrix_Put(&spB0);
+        Matrix_RotateRPY(this->unk_1CA[phi_s2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0x9E5),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-//     for (i = 0; i < sp9C; i++) {
-//         spE0.y += 20.0f * Math_SinS(this->unk_1CA[i]) * this->unk_230;
-//         temp_f20_2 = Math_CosS(this->unk_1CA[i]) * 20.0f * this->unk_230;
-//         spE0.x -= temp_f20_2 * Math_SinS(this->actor.shape.rot.y);
-//         spE0.z -= temp_f20_2 * Math_CosS(this->actor.shape.rot.y);
+        gSPDisplayList(POLY_OPA_DISP++, D_809E902C[phi_s2]);
 
-//         Matrix_Put(&spB0);
-//         Matrix_RotateRPY(this->unk_1CA[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+        Collider_UpdateSpheres(0x33 + 2 * phi_s2, &this->collider);
+        Collider_UpdateSpheres(0x34 + 2 * phi_s2, &this->collider);
+        if (phi_s2 == 0) {
+            if (this->actionFunc != func_809E7A88) {
+                this->actor.focus.pos.x = spB0.wx;
+                this->actor.focus.pos.y = spB0.wy;
+                this->actor.focus.pos.z = spB0.wz;
+            } else {
+                this->actor.focus.pos.x = this->actor.home.pos.x;
+                this->actor.focus.pos.y = this->actor.home.pos.y + (40.0f * this->unk_230);
+                this->actor.focus.pos.z = this->actor.home.pos.z;
+            }
+        }
+        if ((phi_s2 < 2) && (this->actor.colorFilterTimer != 0)) {
+            this->unk_14C[phi_s2].x = spB0.wx;
+            this->unk_14C[phi_s2].y = spB0.wy - spA4;
+            this->unk_14C[phi_s2].z = spB0.wz;
+        }
+    }
 
-//         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0x9E5),
-//                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-//         gSPDisplayList(POLY_OPA_DISP++, D_809E902C[i]);
-
-//         Collider_UpdateSpheres(0x33 + 2 * i, &this->collider);
-//         Collider_UpdateSpheres(0x34 + 2 * i, &this->collider);
-
-//         if (i == 0) {
-//             if (this->actionFunc != func_809E7A88) {
-//                 this->actor.focus.pos.x = spE0.x;
-//                 this->actor.focus.pos.y = spE0.y;
-//                 this->actor.focus.pos.z = spE0.z;
-//             } else {
-//                 this->actor.focus.pos.x = this->actor.home.pos.x;
-//                 this->actor.focus.pos.y = this->actor.home.pos.y + (40.0f * this->unk_230);
-//                 this->actor.focus.pos.z = this->actor.home.pos.z;
-//             }
-//         }
-
-//         if ((i < 2) && (this->actor.colorFilterTimer != 0)) {
-//             this->unk_14C[i].x = spE0.x;
-//             this->unk_14C[i].y = spE0.y - spA4;
-//             this->unk_14C[i].z = spE0.z;
-//         }
-//     }
-
-//     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0xA09);
-// }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 0xA09);
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_809E89E4.s")
 void func_809E89E4(EnDekubaba* this, GlobalContext* globalCtx) {
