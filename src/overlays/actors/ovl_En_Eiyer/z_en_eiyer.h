@@ -12,7 +12,7 @@ typedef struct EnEiyer {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelanime;
     /* 0x0190 */ EnEiyerActionFunc actionFunc;
-    /* 0x0194 */ s16 actionTimer;
+    /* 0x0194 */ s16 timer;
     /* 0x0196 */ s16 targetYaw;
     /* 0x0198 */ Vec3s jointTable[19];
     /* 0x020A */ Vec3s morphTable[19];
