@@ -277,19 +277,19 @@ s32 func_80078E84(GlobalContext* globalCtx) {
 }
 
 u64* sHeartTextures[] = {
-    gHUDHeartFullTex,         gHUDHeartQuarterTex,      gHUDHeartQuarterTex,      gHUDHeartQuarterTex,
-    gHUDHeartQuarterTex,      gHUDHeartQuarterTex,      gHUDHeartHalfTex,         gHUDHeartHalfTex,
-    gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartThreeQuarterTex,
-    gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex,
+    gHeartFullTex,         gHeartQuarterTex,      gHeartQuarterTex,      gHeartQuarterTex,
+    gHeartQuarterTex,      gHeartQuarterTex,      gHeartHalfTex,         gHeartHalfTex,
+    gHeartHalfTex,         gHeartHalfTex,         gHeartHalfTex,         gHeartThreeQuarterTex,
+    gHeartThreeQuarterTex, gHeartThreeQuarterTex, gHeartThreeQuarterTex, gHeartThreeQuarterTex,
 };
 
 u64* sHeartDDTextures[] = {
-    gHUDDefenseHeartFullTex,         gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,
-    gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,
-    gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,
-    gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,         gHUDDefenseHeartThreeQuarterTex,
-    gHUDDefenseHeartThreeQuarterTex, gHUDDefenseHeartThreeQuarterTex, gHUDDefenseHeartThreeQuarterTex,
-    gHUDDefenseHeartThreeQuarterTex,
+    gDefenseHeartFullTex,         gDefenseHeartQuarterTex,      gDefenseHeartQuarterTex,
+    gDefenseHeartQuarterTex,      gDefenseHeartQuarterTex,      gDefenseHeartQuarterTex,
+    gDefenseHeartHalfTex,         gDefenseHeartHalfTex,         gDefenseHeartHalfTex,
+    gDefenseHeartHalfTex,         gDefenseHeartHalfTex,         gDefenseHeartThreeQuarterTex,
+    gDefenseHeartThreeQuarterTex, gDefenseHeartThreeQuarterTex, gDefenseHeartThreeQuarterTex,
+    gDefenseHeartThreeQuarterTex,
 };
 
 void HealthMeter_Draw(GlobalContext* globalCtx) {
@@ -367,11 +367,11 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
             }
 
             if (i < fullHeartCount) {
-                heartBgImg = gHUDHeartFullTex;
+                heartBgImg = gHeartFullTex;
             } else if (i == fullHeartCount) {
                 heartBgImg = sHeartTextures[curHeartFraction];
             } else {
-                heartBgImg = gHUDHeartEmptyTex;
+                heartBgImg = gHeartEmptyTex;
             }
         } else {
             if (i < fullHeartCount) {
@@ -410,11 +410,11 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
             }
 
             if (i < fullHeartCount) {
-                heartBgImg = gHUDDefenseHeartFullTex;
+                heartBgImg = gDefenseHeartFullTex;
             } else if (i == fullHeartCount) {
                 heartBgImg = sHeartDDTextures[curHeartFraction];
             } else {
-                heartBgImg = gHUDDefenseHeartEmptyTex;
+                heartBgImg = gDefenseHeartEmptyTex;
             }
         }
 

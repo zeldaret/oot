@@ -162,11 +162,11 @@ void* gItemIcons[] = {
     gHeartPieceIcon1Tex,
     gHeartPieceIcon2Tex,
     gHeartPieceIcon3Tex,
-    gHUDButtonCUpTex,
-    gHUDButtonCDownTex,
-    gHUDButtonCLeftTex,
-    gHUDButtonCRightTex,
-    gHUDButtonATex,
+    gOcarinaCUpTex,
+    gOcarinaCDownTex,
+    gOcarinaCLeftTex,
+    gOcarinaCRightTex,
+    gOcarinaATex,
 };
 
 // Used to map item IDs to inventory slots

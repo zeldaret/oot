@@ -458,9 +458,9 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
                              (gSaveContext.infTable[26] & gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
 
-                            gDPLoadTextureBlock(OVERLAY_DISP++, gHUDExitMarkerTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
-                                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                                                G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                            gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b,
+                                                8, 8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                                                G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                             gSPTextureRectangle(OVERLAY_DISP++,
                                                 gMapData->owEntranceIconPosX[sEntranceIconMapIndex] << 2,
@@ -472,8 +472,8 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     }
 
                     if ((globalCtx->sceneNum == SCENE_SPOT08) && (gSaveContext.infTable[26] & gBitFlags[9])) {
-                        gDPLoadTextureBlock(OVERLAY_DISP++, gHUDExitMarkerTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
-                                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                        gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8,
+                                            8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                         gSPTextureRectangle(OVERLAY_DISP++, 1080, 616, 1112, 648, G_TX_RENDERTILE, 0, 0, 1 << 10,
