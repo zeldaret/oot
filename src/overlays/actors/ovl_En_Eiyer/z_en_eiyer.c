@@ -555,12 +555,7 @@ void EnEiyer_Die(EnEiyer *this, GlobalContext *globalCtx) {
 }
 
 void EnEiyer_Dead(EnEiyer *this, GlobalContext *globalCtx) {
-    if ((s16)(this->actor.shape.shadowAlpha - 5) < 0) {
-        this->actor.shape.shadowAlpha = 0;
-    } else {
-        this->actor.shape.shadowAlpha = (s16)(this->actor.shape.shadowAlpha - 5);
-    }
-
+    this->actor.shape.shadowAlpha = CLAMP_MIN((s16)(this->actor.shape.shadowAlpha - 5), 0);
     this->actor.world.pos.y -= 2.0f;
     if (this->actor.shape.shadowAlpha == 0) {
         Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 80);
