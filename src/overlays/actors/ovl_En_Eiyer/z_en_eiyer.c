@@ -129,8 +129,8 @@ void EnEiyer_Init(Actor *thisx, GlobalContext *globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 600.0f, ActorShadow_DrawCircle, 65.0f);
     SkelAnime_Init(globalCtx, &this->skelanime, &D_06003410, &D_060012AC, this->jointTable, this->morphTable, 19);
-    Collider_InitCylinder(globalCtx, &this->colCyl);
-    Collider_SetCylinder(globalCtx, &this->colCyl, &this->actor, &sColCylInit);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColCylInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
     if (this->actor.params < 3) {
@@ -175,7 +175,7 @@ void EnEiyer_Init(Actor *thisx, GlobalContext *globalCtx) {
 
 void EnEiyer_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     EnEiyer *this = THIS;
-    Collider_DestroyCylinder(globalCtx, &this->colCyl);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnEiyer_RotateAroundHome(EnEiyer *this) {
@@ -185,7 +185,7 @@ void EnEiyer_RotateAroundHome(EnEiyer *this) {
 }
 
 void EnEiyer_SetupAppearFromGround(EnEiyer *this) {
-    this->colCyl.info.bumper.dmgFlags = 0x19;
+    this->collider.info.bumper.dmgFlags = 0x19;
     Animation_PlayLoop(&this->skelanime, &D_060012AC);
 
     this->actor.world.pos.x = this->actor.home.pos.x;
@@ -205,8 +205,8 @@ void EnEiyer_SetupAppearFromGround(EnEiyer *this) {
         this->actor.world.rot.y = this->actor.shape.rot.y = Rand_ZeroOne() * 0x10000;
     }
 
-    this->colCyl.base.atFlags &= ~AT_ON;
-    this->colCyl.base.acFlags &= ~AC_ON;
+    this->collider.base.atFlags &= ~AT_ON;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actor.flags &= ~0x1001;
     this->actor.shape.shadowScale = 0.0f;
     this->actor.shape.yOffset = 0.0f;
@@ -220,7 +220,7 @@ void EnEiyer_SetupUnderground(EnEiyer *this) {
     } else {
         this->actionFunc = EnEiyer_CircleUnderground;
     }
-    this->colCyl.base.acFlags |= AC_ON;
+    this->collider.base.acFlags |= AC_ON;
     this->actor.flags &= ~0x10;
     this->actor.flags |= 1;
 }
@@ -234,11 +234,11 @@ void EnEiyer_SetupInactive(EnEiyer *this) {
 void EnEiyer_SetupAmbush(EnEiyer *this, GlobalContext *globalCtx) {
     this->actor.speedXZ = 0.0f;
     Animation_PlayOnce(&this->skelanime, &D_06000704);
-    this->colCyl.info.bumper.dmgFlags = ~0x00300000;
+    this->collider.info.bumper.dmgFlags = ~0x00300000;
     this->basePos = this->actor.world.pos;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.flags |= 0x1000;
-    this->colCyl.base.acFlags &= ~AC_ON;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actor.shape.shadowScale = 65.0f;
     this->actor.shape.yOffset = 600.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
@@ -263,18 +263,18 @@ void EnEiyer_SetupDiveAttack(EnEiyer *this, GlobalContext *globalCtx) {
 
     this->actor.velocity.y = 0.0f;
     this->basePos.y = player->actor.world.pos.y + 15.0f;
-    this->colCyl.base.atFlags |= AT_ON;
-    this->colCyl.base.atFlags &= ~AT_HIT;
+    this->collider.base.atFlags |= AT_ON;
+    this->collider.base.atFlags &= ~AT_HIT;
     this->actionFunc = EnEiyer_DiveAttack;
 }
 
 void EnEiyer_SetupLand(EnEiyer *this) {
     Animation_MorphToPlayOnce(&this->skelanime, &D_060004C4, -3.0f);
-    this->colCyl.base.atFlags &= ~AT_ON;
+    this->collider.base.atFlags &= ~AT_ON;
     this->actor.flags |= 0x10;
     this->actionTimer = -1;
     this->actor.gravity = 0.0f;
-    this->colCyl.dim.height = sColCylInit.dim.height;
+    this->collider.dim.height = sColCylInit.dim.height;
     this->actionFunc = EnEiyer_Land;
 }
 
@@ -286,22 +286,22 @@ void EnEiyer_SetupHurt(EnEiyer *this) {
     this->actor.velocity.y = 0.0f;
     this->actor.speedXZ = 5.0f;
     Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, 40);
-    this->colCyl.base.acFlags &= ~AC_ON;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnEiyer_Hurt;
 }
 
 void EnEiyer_SetupDie(EnEiyer *this) {
     this->actionTimer = 20;
     Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, 40);
-    if (this->colCyl.info.bumper.dmgFlags != 0x19) {
+    if (this->collider.info.bumper.dmgFlags != 0x19) {
         this->actor.speedXZ = 6.0f;
         Animation_MorphToLoop(&this->skelanime, &D_06000FC0, -3.0f);
     } else {
         this->actor.speedXZ -= 6.0f;
     }
-    this->colCyl.info.bumper.dmgFlags = ~0x00300000;
-    this->colCyl.base.atFlags &= ~AT_ON;
-    this->colCyl.base.acFlags &= ~AC_ON;
+    this->collider.info.bumper.dmgFlags = ~0x00300000;
+    this->collider.base.atFlags &= ~AT_ON;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnEiyer_Die;
 }
 
@@ -318,9 +318,9 @@ void EnEiyer_SetupStunned(EnEiyer *this) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
-    this->colCyl.dim.height = sColCylInit.dim.height + 8;
+    this->collider.dim.height = sColCylInit.dim.height + 8;
     Actor_SetColorFilter(&this->actor, 0, 200, 0, 80);
-    this->colCyl.base.atFlags &= ~AT_ON;
+    this->collider.base.atFlags &= ~AT_ON;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = EnEiyer_Stunned;
 }
@@ -333,8 +333,8 @@ void EnEiyer_AppearFromGround(EnEiyer *this, GlobalContext *globalCtx) {
 }
 
 void EnEiyer_CheckPlayerCollision(EnEiyer *this, GlobalContext *globalCtx) {
-    if (this->colCyl.base.ocFlags2 & OC2_HIT_PLAYER) {
-        this->colCyl.base.ocFlags2 &= ~OC2_HIT_PLAYER;
+    if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
+        this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
         EnEiyer_SetupAmbush(this, globalCtx);
     }
 }
@@ -398,7 +398,7 @@ void EnEiyer_Ambush(EnEiyer *this, GlobalContext *globalCtx) {
     }
 
     if (animFinished) {
-        this->colCyl.base.acFlags |= AC_ON;
+        this->collider.base.acFlags |= AC_ON;
         EnEiyer_SetupGlide(this);
     } else {
         this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
@@ -474,8 +474,8 @@ void EnEiyer_DiveAttack(EnEiyer *this, GlobalContext *globalCtx) {
         EnEiyer_SetupLand(this);
     }
 
-    if (this->colCyl.base.atFlags & AT_HIT) {
-        this->colCyl.base.atFlags &= ~(AT_ON | AT_HIT);
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~(AT_ON | AT_HIT);
     }
 
     func_8002F974(&this->actor, NA_SE_EN_EIER_FLY - SFX_FLAG);
@@ -528,7 +528,7 @@ void EnEiyer_Hurt(EnEiyer *this, GlobalContext *globalCtx) {
     if (this->actionTimer == 0) {
         this->actor.shape.rot.x = 0;
         this->actor.shape.rot.z = 0;
-        this->colCyl.base.acFlags |= AC_ON;
+        this->collider.base.acFlags |= AC_ON;
         EnEiyer_SetupGlide(this);
     }
     this->actor.world.rot.x = -this->actor.shape.rot.x;
@@ -587,15 +587,15 @@ void EnEiyer_Stunned(EnEiyer *this, GlobalContext *globalCtx) {
     if (this->actionTimer == 0) {
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
-        this->colCyl.dim.height = sColCylInit.dim.height;
+        this->collider.dim.height = sColCylInit.dim.height;
         EnEiyer_SetupGlide(this);
     }
 }
 
 void EnEiyer_UpdateDamage(EnEiyer *this, GlobalContext *globalCtx) {
-    if (this->colCyl.base.acFlags & AC_HIT) {
-        this->colCyl.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->colCyl.info, 1);
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        func_80035650(&this->actor, &this->collider.info, 1);
 
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
@@ -605,7 +605,7 @@ void EnEiyer_UpdateDamage(EnEiyer *this, GlobalContext *globalCtx) {
             }
 
             // If in the ground, one hit kill
-            if (this->colCyl.info.bumper.dmgFlags == 0x19) {
+            if (this->collider.info.bumper.dmgFlags == 0x19) {
                 if (this->actor.colChkInfo.damage == 0) {
                     EnEiyer_SetupAmbush(this, globalCtx);
                 } else {
@@ -619,7 +619,7 @@ void EnEiyer_UpdateDamage(EnEiyer *this, GlobalContext *globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_DAMAGE);
                 EnEiyer_SetupHurt(this);
             } else {
-                this->colCyl.dim.height = sColCylInit.dim.height;
+                this->collider.dim.height = sColCylInit.dim.height;
                 EnEiyer_SetupDie(this);
             }
         }
@@ -655,15 +655,15 @@ void EnEiyer_Update(Actor *thisx, GlobalContext *globalCtx) {
 
     // only the main Eiyer can ambush the player
     if (this->actor.params == 0 || this->actor.params == 0xA) {
-        Collider_UpdateCylinder(&this->actor, &this->colCyl);
-        if (this->colCyl.base.atFlags & AT_ON) {
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colCyl.base);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        if (this->collider.base.atFlags & AT_ON) {
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
-        if (this->colCyl.base.acFlags & AC_ON) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCyl.base);
+        if (this->collider.base.acFlags & AC_ON) {
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnEiyer_Ambush) {
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colCyl.base);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 
@@ -681,7 +681,7 @@ s32 EnEiyer_OverrideLimbDraw(GlobalContext *globalCtx, s32 limbIndex, Gfx **dLis
         pos->z += 2500.0f;
     }
 
-    if (this->colCyl.info.bumper.dmgFlags == 0x19 && limbIndex != 9 && limbIndex != 10) {
+    if (this->collider.info.bumper.dmgFlags == 0x19 && limbIndex != 9 && limbIndex != 10) {
         *dList = NULL;
     }
     return 0;

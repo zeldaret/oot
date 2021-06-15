@@ -17,7 +17,7 @@ typedef struct EnEiyer {
     /* 0x0198 */ Vec3s jointTable[19];
     /* 0x020A */ Vec3s morphTable[19];
     /* 0x027C */ Vec3f basePos;
-    /* 0x0288 */ ColliderCylinder colCyl;
+    /* 0x0288 */ ColliderCylinder collider;
 } EnEiyer; // size = 0x02D4
 
 extern const ActorInit En_Eiyer_InitVars;
