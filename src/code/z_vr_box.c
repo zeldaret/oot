@@ -650,7 +650,7 @@ void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxI
 
         if (skyboxCtx->unk_140 != 0) {
             skyboxCtx->dlistBuf = GameState_Alloc(&globalCtx->state, 1200 * sizeof(Gfx), "../z_vr_box.c", 1636);
-            ASSERT(skyboxCtx->dlistBuf != NULL, "vr_box->dlistBuf != NULL", "../z_vr_box.c", 1637);
+            ASSERT(skyboxCtx->dlistBuf != NULL, "vr_box->dpList != NULL", "../z_vr_box.c", 1637);
 
             skyboxCtx->roomVtx = GameState_Alloc(&globalCtx->state, 256 * sizeof(Vtx), "../z_vr_box.c", 1639);
             ASSERT(skyboxCtx->roomVtx != NULL, "vr_box->roomVtx != NULL", "../z_vr_box.c", 1640);
@@ -658,7 +658,7 @@ void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxI
             func_800AEFC8(skyboxCtx, skyboxId);
         } else {
             skyboxCtx->dlistBuf = GameState_Alloc(&globalCtx->state, 1800 * sizeof(Gfx), "../z_vr_box.c", 1643);
-            ASSERT(skyboxCtx->dlistBuf != NULL, "vr_box->dlistBuf != NULL", "../z_vr_box.c", 1644);
+            ASSERT(skyboxCtx->dlistBuf != NULL, "vr_box->dpList != NULL", "../z_vr_box.c", 1644);
 
             if (skyboxId == SKYBOX_CUTSCENE_MAP) {
                 skyboxCtx->roomVtx = GameState_Alloc(&globalCtx->state, 192 * sizeof(Vtx), "../z_vr_box.c", 1648);
