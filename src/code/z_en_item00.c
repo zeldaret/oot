@@ -1,7 +1,7 @@
 #include "global.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
-#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #define FLAGS 0x00000000
 
@@ -29,19 +29,297 @@ const ActorInit En_Item00_InitVars = {
     (ActorFunc)EnItem00_Draw,
 };
 
-// TODO: Define this section of .data here and rename the symbols
-extern ColliderCylinderInit D_801154E0; // rename to sCylinderInit when data is moved
-extern InitChainEntry D_8011550C[];     // rename to sInitChain when data is moved
-extern Color_RGBA8 D_80115510;
-extern Color_RGBA8 D_80115514;
-extern Vec3f D_80115518;
-extern Vec3f D_80115524;
-extern u32 D_80115530[];
-extern u32 D_80115544[];
-extern u8 D_80115574[];
-extern u8 D_80115664[];
+static ColliderCylinderInit sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000010, 0x00, 0x00 },
+        TOUCH_NONE | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { 10, 30, 0, { 0, 0, 0 } },
+};
 
-// Internal Actor Functions
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_STOP),
+};
+
+static Color_RGBA8 sEffectPrimColor = { 255, 255, 127, 0 };
+static Color_RGBA8 sEffectEnvColor = { 255, 255, 255, 0 };
+static Vec3f sEffectPos = { 0.0f, 0.1f, 0.0f };
+static Vec3f sEffectAccel = { 0.0f, 0.01f, 0.0f };
+
+static void* sRupeeTex[] = {
+    gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
+};
+
+static void* sItemDropTex[] = {
+    gDropRecoveryHeartTex, gDropBombTex,       gDropArrows1Tex,   gDropArrows2Tex,
+    gDropArrows3Tex,       gDropBombTex,       gDropDekuNutTex,   gDropDekuStickTex,
+    gDropMagicLargeTex,    gDropMagicSmallTex, gDropDekuSeedsTex, gDropKeySmallTex,
+};
+
+static u8 sItemDropIds[] = {
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_BLUE,
+    0xFF,
+    0xFF,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    0xFF,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_FLEXIBLE,
+    ITEM00_SEEDS,
+    ITEM00_SEEDS,
+    0xFF,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_HEART,
+    0xFF,
+    ITEM00_HEART,
+    0xFF,
+    ITEM00_FLEXIBLE,
+    0xFF,
+    ITEM00_BOMBS_A,
+    0xFF,
+    ITEM00_SEEDS,
+    0xFF,
+    0xFF,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_MAGIC_SMALL,
+    0xFF,
+    ITEM00_HEART,
+    0xFF,
+    0xFF,
+    ITEM00_HEART,
+    0xFF,
+    ITEM00_SEEDS,
+    ITEM00_SEEDS,
+    0xFF,
+    ITEM00_BOMBS_A,
+    0xFF,
+    ITEM00_FLEXIBLE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_NUTS,
+    0xFF,
+    ITEM00_SEEDS,
+    ITEM00_SEEDS,
+    ITEM00_NUTS,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_SEEDS,
+    0xFF,
+    ITEM00_FLEXIBLE,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_SEEDS,
+    ITEM00_BOMBS_A,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_BOMBS_A,
+    0xFF,
+    0xFF,
+    ITEM00_HEART,
+    0xFF,
+    0xFF,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    0xFF,
+    0xFF,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_RUPEE_GREEN,
+    0xFF,
+    ITEM00_RUPEE_BLUE,
+    0xFF,
+    0xFF,
+    ITEM00_HEART,
+    0xFF,
+    0xFF,
+    ITEM00_HEART,
+    ITEM00_FLEXIBLE,
+    ITEM00_SEEDS,
+    ITEM00_SEEDS,
+    0xFF,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_RUPEE_BLUE,
+    0xFF,
+    ITEM00_RUPEE_GREEN,
+    0xFF,
+    ITEM00_HEART,
+    0xFF,
+    0xFF,
+    ITEM00_BOMBS_A,
+    ITEM00_ARROWS_SMALL,
+    0xFF,
+    ITEM00_ARROWS_MEDIUM,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_FLEXIBLE,
+    0xFF,
+    ITEM00_MAGIC_LARGE,
+    ITEM00_RUPEE_GREEN,
+    0xFF,
+    ITEM00_RUPEE_BLUE,
+    0xFF,
+    ITEM00_RUPEE_GREEN,
+    ITEM00_HEART,
+    ITEM00_FLEXIBLE,
+    ITEM00_BOMBS_A,
+    ITEM00_ARROWS_SMALL,
+    0xFF,
+    0xFF,
+    0xFF,
+    ITEM00_MAGIC_SMALL,
+    0xFF,
+    0xFF,
+    ITEM00_MAGIC_LARGE,
+    ITEM00_ARROWS_LARGE,
+    ITEM00_ARROWS_MEDIUM,
+    ITEM00_ARROWS_MEDIUM,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_FLEXIBLE,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_MEDIUM,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_SMALL,
+    ITEM00_ARROWS_MEDIUM,
+    ITEM00_ARROWS_LARGE,
+    ITEM00_ARROWS_LARGE,
+    ITEM00_MAGIC_LARGE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_LARGE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_LARGE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_LARGE,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_SMALL,
+    ITEM00_MAGIC_LARGE,
+    ITEM00_BOMBS_A,
+    0xFF,
+    ITEM00_BOMBS_A,
+    0xFF,
+    ITEM00_BOMBS_A,
+    ITEM00_FLEXIBLE,
+    ITEM00_BOMBS_A,
+    ITEM00_BOMBS_A,
+    ITEM00_BOMBS_A,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    ITEM00_BOMBS_A,
+    0xFF,
+    ITEM00_BOMBS_A,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_BLUE,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_RED,
+    ITEM00_RUPEE_RED,
+    ITEM00_SEEDS,
+    0xFF,
+    ITEM00_NUTS,
+    0xFF,
+    ITEM00_STICK,
+    0xFF,
+    0xFF,
+    ITEM00_SEEDS,
+    0xFF,
+    0xFF,
+    0xFF,
+    ITEM00_NUTS,
+    0xFF,
+    ITEM00_NUTS,
+    ITEM00_HEART,
+    ITEM00_SEEDS,
+    ITEM00_HEART,
+    0xFF,
+    ITEM00_SEEDS,
+    0xFF,
+    ITEM00_HEART,
+    0xFF,
+    0xFF,
+    ITEM00_HEART,
+    ITEM00_HEART,
+    0xFF,
+    0xFF,
+    ITEM00_HEART,
+    0xFF,
+    ITEM00_HEART,
+    ITEM00_SEEDS,
+    ITEM00_FLEXIBLE,
+};
+
+static u8 sDropQuantities[] = {
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+    1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 1, 3, 1, 3, 1, 1, 1, 3, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 0, 0, 0, 0,
+};
 
 void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -66,9 +344,9 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    Actor_ProcessInitChain(&this->actor, D_8011550C);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_801154E0);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
     this->unk_158 = 1;
 
@@ -179,7 +457,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_156 = 0;
     ActorShape_Init(&this->actor.shape, sp34, ActorShadow_DrawCircle, sp30);
-    this->actor.shape.shadowAlpha = 0xB4;
+    this->actor.shape.shadowAlpha = 180;
     this->actor.focus.pos = this->actor.world.pos;
     this->unk_152 = 0;
 
@@ -332,7 +610,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.world.pos.x + Rand_CenteredFloat(10.0f);
         pos.y = this->actor.world.pos.y + Rand_CenteredFloat(10.0f);
         pos.z = this->actor.world.pos.z + Rand_CenteredFloat(10.0f);
-        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectPos, &sEffectAccel, &sEffectPrimColor, &sEffectEnvColor);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -342,7 +620,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
             this->actor.velocity.y = 0.0f;
         } else {
             this->actor.velocity.y = originalVelocity * -0.8f;
-            this->actor.bgCheckFlags = this->actor.bgCheckFlags & 0xFFFE;
+            this->actor.bgCheckFlags &= ~1;
         }
     }
 }
@@ -350,7 +628,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
 void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f pos;
-    s32 var1;
+    s32 rotOffset;
 
     this->unk_15A++;
 
@@ -378,8 +656,8 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.velocity.y <= 2.0f) {
-        var1 = (u16)this->actor.shape.rot.z + 10000;
-        if (var1 < 65535) {
+        rotOffset = (u16)this->actor.shape.rot.z + 10000;
+        if (rotOffset < 65535) {
             this->actor.shape.rot.z += 10000;
         } else {
             this->actor.shape.rot.z = -1;
@@ -390,7 +668,7 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.world.pos.x + (Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.y = this->actor.world.pos.y + (Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.z = this->actor.world.pos.z + (Rand_ZeroOne() - 0.5f) * 10.0f;
-        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectPos, &sEffectAccel, &sEffectPrimColor, &sEffectEnvColor);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -434,7 +712,7 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
 }
 
 extern s32 D_80157D90;
-extern u32 D_80157D90_; // these must be defined separately for EnItem00_Update to match
+extern u32 D_80157D90_; // these must be defined separately for EnItem00_Update to match.
 extern s16 D_80157D94;
 
 void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -745,7 +1023,7 @@ void func_8001EF30(EnItem00* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1562),
               G_MTX_MODELVIEW | G_MTX_LOAD);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115530[iconNb]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[iconNb]));
 
     gSPDisplayList(POLY_OPA_DISP++, &gRupeeDL);
 
@@ -770,7 +1048,7 @@ void func_8001F080(EnItem00* this, GlobalContext* globalCtx) {
 
     POLY_OPA_DISP = func_800946E4(POLY_OPA_DISP);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115544[iconNb]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sItemDropTex[iconNb]));
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1607),
               G_MTX_MODELVIEW | G_MTX_LOAD);
@@ -971,10 +1249,10 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
         if (fromActor->dropFlag & 0x20) {
             dropId = ITEM00_RUPEE_PURPLE;
         } else {
-            dropId = D_80115574[params + dropTableIndex];
+            dropId = sItemDropIds[params + dropTableIndex];
         }
     } else {
-        dropId = D_80115574[params + dropTableIndex];
+        dropId = sItemDropIds[params + dropTableIndex];
     }
 
     if (dropId == ITEM00_FLEXIBLE) {
@@ -996,24 +1274,23 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_LARGE;
-        } else if ((gSaveContext.magicLevel != 0) &&
-                   (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) { // Half magic or less
+        } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_SMALL;
-        } else if (LINK_IS_CHILD && (AMMO(ITEM_SLINGSHOT) < 6)) { // Child and less then 6 deku seeds
+        } else if (LINK_IS_CHILD && (AMMO(ITEM_SLINGSHOT) < 6)) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_SEEDS;
-        } else if (LINK_IS_ADULT && (AMMO(ITEM_BOW) < 6)) { // Adult and less than 6 arrows
+        } else if (LINK_IS_ADULT && (AMMO(ITEM_BOW) < 6)) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_ARROWS_MEDIUM;
-        } else if (AMMO(ITEM_BOMB) < 6) { // Less than 6 bombs
+        } else if (AMMO(ITEM_BOMB) < 6) {
             params = 0xD * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_BOMBS_A;
-        } else if (gSaveContext.rupees < 11) { // Less than 11 Rupees
+        } else if (gSaveContext.rupees < 11) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_RUPEE_RED;
@@ -1023,7 +1300,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
     }
 
     if (dropId != 0xFF) {
-        dropQuantity = D_80115664[params + dropTableIndex];
+        dropQuantity = sDropQuantities[params + dropTableIndex];
         while (dropQuantity > 0) {
             if (!param8000) {
                 dropId = func_8001F404(dropId);
