@@ -460,7 +460,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_156 = 0;
     ActorShape_Init(&this->actor.shape, sp34, ActorShadow_DrawCircle, sp30);
-    this->actor.shape.shadowAlpha = 0xB4;
+    this->actor.shape.shadowAlpha = 180;
     this->actor.focus.pos = this->actor.world.pos;
     this->unk_152 = 0;
 
@@ -560,21 +560,19 @@ void EnItem00_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
     if ((this->actor.params <= ITEM00_RUPEE_RED) || ((this->actor.params == ITEM00_HEART) && (this->unk_15A < 0)) ||
         (this->actor.params == ITEM00_HEART_PIECE)) {
-        this->actor.shape.rot.y += 0x3C0;
+        this->actor.shape.rot.y += 960;
     } else {
         if ((this->actor.params >= ITEM00_SHIELD_DEKU) && (this->actor.params != ITEM00_BOMBS_SPECIAL)) {
             if (this->unk_15A == -1) {
-                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x - 0x4000, 0x0002, 0x0BB8,
-                                        0x05DC)) {
+                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x - 0x4000, 2, 3000, 1500)) {
                     this->unk_15A = -2;
                 }
             } else {
-                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x - 0x4000, 0x0002, 0x0BB8,
-                                        0x05DC)) {
+                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x - 0x4000, 2, 3000, 1500)) {
                     this->unk_15A = -1;
                 }
             }
-            Math_SmoothStepToS(&this->actor.world.rot.x, 0x0000, 0x0002, 0x09C4, 0x01F4);
+            Math_SmoothStepToS(&this->actor.world.rot.x, 0, 2, 2500, 500);
         }
     }
 
@@ -608,7 +606,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     if (this->actor.params <= ITEM00_RUPEE_RED) {
-        this->actor.shape.rot.y += 0x03C0;
+        this->actor.shape.rot.y += 960;
     }
 
     if (globalCtx->gameplayFrames & 1) {
@@ -625,7 +623,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
             this->actor.velocity.y = 0.0f;
         } else {
             this->actor.velocity.y = originalVelocity * -0.8f;
-            this->actor.bgCheckFlags = this->actor.bgCheckFlags & 0xFFFE;
+            this->actor.bgCheckFlags &= ~1;
         }
     }
 }
@@ -633,7 +631,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
 void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f pos;
-    s32 var1;
+    s32 rotOffset;
 
     this->unk_15A++;
 
@@ -653,19 +651,19 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params <= ITEM00_RUPEE_RED) {
-        this->actor.shape.rot.y += 0x03C0;
+        this->actor.shape.rot.y += 960;
     } else if ((this->actor.params >= ITEM00_SHIELD_DEKU) && (this->actor.params != ITEM00_BOMBS_SPECIAL)) {
-        this->actor.world.rot.x -= 0x02BC;
-        this->actor.shape.rot.y += 0x0190;
+        this->actor.world.rot.x -= 700;
+        this->actor.shape.rot.y += 400;
         this->actor.shape.rot.x = this->actor.world.rot.x - 0x4000;
     }
 
     if (this->actor.velocity.y <= 2.0f) {
-        var1 = (u16)this->actor.shape.rot.z + 0x2710;
-        if (var1 < 0xFFFF) {
-            this->actor.shape.rot.z += 0x2710;
+        rotOffset = (u16)this->actor.shape.rot.z + 10000;
+        if (rotOffset < 65535) {
+            this->actor.shape.rot.z += 10000;
         } else {
-            this->actor.shape.rot.z = -0x0001;
+            this->actor.shape.rot.z = -1;
         }
     }
 
@@ -678,7 +676,7 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 0x0003) {
         EnItem00_SetupAction(this, func_8001DFC8);
-        this->actor.shape.rot.z = 0x0000;
+        this->actor.shape.rot.z = 0;
         this->actor.velocity.y = 0.0f;
         this->actor.speedXZ = 0.0f;
     }
@@ -704,9 +702,9 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
     this->actor.world.pos = player->actor.world.pos;
 
     if (this->actor.params <= ITEM00_RUPEE_RED) {
-        this->actor.shape.rot.y += 0x03C0;
+        this->actor.shape.rot.y += 960  ;
     } else if (this->actor.params == ITEM00_HEART) {
-        this->actor.shape.rot.y = 0x0000;
+        this->actor.shape.rot.y = 0;
     }
 
     this->actor.world.pos.y += 40.0f + Math_SinS(this->unk_15A * 15000) * (this->unk_15A * 0.3f);
