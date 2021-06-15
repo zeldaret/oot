@@ -122,7 +122,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
 
-    func_808B3960(this, globalCtx, &gSpot15ObjCol0, DPM_UNK);
+    func_808B3960(this, globalCtx, &gLonLonMilkCrateCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_808B3A34(this);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
@@ -365,5 +365,5 @@ void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gSpot15ObjDL0);
+    Gfx_DrawDListOpa(globalCtx, gLonLonMilkCrateDL);
 }
