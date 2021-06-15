@@ -129,9 +129,9 @@ typedef struct {
 } DnsAnimInfo; // size = 0xC
 
 DnsAnimInfo D_809F0538[] = {
-    { &gShopnutsAnim5, 0x00, 0.0f },
-    { &gShopnutsAnim7, 0x02, 0.0f },
-    { &gShopnutsAnim3, 0x02, 0.0f },
+    { &gBusinessScrubNervousIdleAnim, 0x00, 0.0f },
+    { &gBusinessScrubAnim_4404, 0x02, 0.0f },
+    { &gBusinessScrubNervousTransitionAnim, 0x02, 0.0f },
 };
 
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -151,7 +151,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", D_809F0424[this->actor.params],
                  this->actor.params);
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gShopnutsSkel, &gShopnutsAnim3, this->jointTable, this->morphTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim, this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 35.0f);
@@ -435,7 +435,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_SetupBurrow(EnDns* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&gShopnutsAnim7);
+    f32 frameCount = Animation_GetLastFrame(&gBusinessScrubAnim_4404);
 
     if (this->skelAnime.curFrame == frameCount) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
