@@ -83,7 +83,7 @@ void BgSpot01Idomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - frames % 128, frames & 0x7F, 32, 32, 1, frames % 128,
                                 frames & 0x7F, 32, 32));
 
-    gSPDisplayList(POLY_XLU_DISP++, gObjSpot01ObjectsDL2);
+    gSPDisplayList(POLY_XLU_DISP++, gKakarikoWellWaterDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot01_idomizu.c", 244);
 }
