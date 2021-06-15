@@ -1,8 +1,10 @@
 <Root>
     <File Name="object_spot04_objects" Segment="6">
-        <Texture Name="gDekuTreeMouthTex_000" OutName="tex_000" Format="rgb5a1" Width="32" Height="16" Offset="0x0"/>
-        <Texture Name="gDekuTreeMouthTex_400" OutName="tex_400" Format="rgb5a1" Width="32" Height="16" Offset="0x400"/>
-        <DList Name="gDekuTreeMouthDL" Offset="0x9D0"/>
-        <Collision Name="gDekuTreeMouthCol" Offset="0xE94"/>
+        <Texture Name="gDekuTreeMouthTex_0000" OutName="tex_0000" Format="rgb5a1" Width="32" Height="16" Offset="0x0000"/>
+        <Texture Name="gDekuTreeMouthTex_0400" OutName="tex_0400" Format="rgb5a1" Width="32" Height="16" Offset="0x0400"/>
+        <Texture Name="gDekuTreeUnusedMouthTex_0EC0" OutName="tex_0EC0" Format="rgb5a1" Width="32" Height="16" Offset="0x0EC0"/>
+        <Texture Name="gDekuTreeUnusedMouthTex_12C0" OutName="tex_12C0" Format="rgb5a1" Width="32" Height="16" Offset="0x12C0"/>
+        <DList Name="gDekuTreeMouthDL" Offset="0x09D0"/>
+        <Collision Name="gDekuTreeMouthCol" Offset="0x0E94"/>
     </File>
 </Root>
