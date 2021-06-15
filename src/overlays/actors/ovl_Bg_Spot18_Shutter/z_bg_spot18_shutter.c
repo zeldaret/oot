@@ -73,7 +73,7 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    CollisionHeader_GetVirtual(&gSpot18ObjCol1, &colHeader);
+    CollisionHeader_GetVirtual(&gGoronCityDoorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
@@ -137,5 +137,5 @@ void BgSpot18Shutter_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Shutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gSpot18ObjDL1);
+    Gfx_DrawDListOpa(globalCtx, gGoronCityDoorDL);
 }

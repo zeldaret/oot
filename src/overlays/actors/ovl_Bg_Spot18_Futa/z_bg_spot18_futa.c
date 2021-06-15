@@ -41,7 +41,7 @@ void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&gSpot18ObjCol0, &colHeader);
+    CollisionHeader_GetVirtual(&gGoronCityVaseLidCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
@@ -69,5 +69,5 @@ void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Futa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gSpot18ObjDL0);
+    Gfx_DrawDListOpa(globalCtx, gGoronCityVaseLidDL);
 }

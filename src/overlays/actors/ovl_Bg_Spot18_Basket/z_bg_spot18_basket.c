@@ -137,7 +137,7 @@ void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK3);
     func_808B7710(&this->dyna.actor, globalCtx);
-    CollisionHeader_GetVirtual(&gSpot18ObjCol2, &colHeader);
+    CollisionHeader_GetVirtual(&gGoronCityVaseCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
@@ -450,5 +450,5 @@ void BgSpot18Basket_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_UpdateSpheres(0, &this->colliderJntSph);
     Collider_UpdateSpheres(1, &this->colliderJntSph);
-    Gfx_DrawDListOpa(globalCtx, gSpot18ObjDL2);
+    Gfx_DrawDListOpa(globalCtx, gGoronCityVaseDL);
 }

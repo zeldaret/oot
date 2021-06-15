@@ -52,8 +52,8 @@ static f32 D_808B90F4[] = {
 };
 
 static CollisionHeader* D_808B90FC[] = {
-    &gSpot18ObjCol4,
-    &gSpot18ObjCol3,
+    &gGoronCityStatueCol,
+    &gGoronCityStatueSpearCol,
 };
 
 static u32 D_808B9104[] = {
@@ -86,8 +86,8 @@ static BgSpot18ObjInitFunc D_808B913C[] = {
 };
 
 static Gfx(*sDlists[]) = {
-    gSpot18ObjDL4,
-    gSpot18ObjDL3,
+    gGoronCityStatueDL,
+    gGoronCityStatueSpearDL,
 };
 
 s32 func_808B8910(BgSpot18Obj* this, GlobalContext* globalCtx) {
