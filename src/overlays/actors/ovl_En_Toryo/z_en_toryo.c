@@ -96,7 +96,7 @@ typedef struct {
     f32 transitionRate;
 } EnToryoAnimation;
 
-static EnToryoAnimation sEnToryoAnimation = { 0x06000E50, 1.0f, 0, 0 };
+static EnToryoAnimation sEnToryoAnimation = { object_toryo_Anim_000E50, 1.0f, 0, 0 };
 
 static Vec3f sMultVec = { 800.0f, 1000.0f, 0.0f };
 
