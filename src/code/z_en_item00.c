@@ -715,7 +715,7 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
 }
 
 extern s32 D_80157D90;
-extern u32 D_80157D90_; // these must be defined separately for EnItem00_Update to match
+extern u32 D_80157D90_; // these must be defined separately for EnItem00_Update to match.
 extern s16 D_80157D94;
 
 void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
