@@ -1,32 +1,32 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class RoomEntry
 {
 public:
+	RoomEntry(uint32_t nVAS, uint32_t nVAE);
+	RoomEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
+
+protected:
 	int32_t virtualAddressStart;
 	int32_t virtualAddressEnd;
-
-	RoomEntry(int32_t nVAS, int32_t nVAE);
-	RoomEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
 };
 
 class SetRoomList : public ZRoomCommand
 {
 public:
-	SetRoomList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
-	~SetRoomList();
+	SetRoomList(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
-	virtual std::string GenerateSourceCodePass2(std::string roomName, uint32_t baseAddress) override;
-	virtual std::string GetCommandCName() override;
-	virtual std::string GenerateExterns() override;
-	virtual RoomCommand GetRoomCommand() override;
-	virtual std::string PreGenSourceFiles() override;
-	virtual std::string Save() override;
+	void ParseRawData() override;
+	virtual void DeclareReferences(const std::string& prefix);
+
+	std::string GetBodySourceCode() const override;
+	void PreGenSourceFiles() override;
+
+	RoomCommand GetRoomCommand() const override;
+	std::string GetCommandCName() const override;
 
 private:
-	std::vector<RoomEntry*> rooms;
-	uint32_t segmentOffset;
+	std::vector<RoomEntry> rooms;
 };

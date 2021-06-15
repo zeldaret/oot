@@ -4,16 +4,15 @@
 #include "../Path.h"
 #include "../StringHelper.h"
 
-using namespace std;
 using namespace ELFIO;
 
 ZOverlay::ZOverlay()
 {
 	name = "";
-	entries = vector<RelocationEntry*>();
+	entries = std::vector<RelocationEntry*>();
 }
 
-ZOverlay::ZOverlay(string nName) : ZOverlay()
+ZOverlay::ZOverlay(std::string nName) : ZOverlay()
 {
 	name = nName;
 }
@@ -26,26 +25,27 @@ ZOverlay::~ZOverlay()
 	entries.clear();
 }
 
-ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
+ZOverlay* ZOverlay::FromBuild(std::string buildPath, std::string cfgFolderPath)
 {
-	string cfgText = File::ReadAllText(cfgFolderPath + "/overlay.cfg");
-	vector<string> cfgLines = StringHelper::Split(cfgText, "\n");
+	std::string cfgText = File::ReadAllText(cfgFolderPath + "/overlay.cfg");
+	std::vector<std::string> cfgLines = StringHelper::Split(cfgText, "\n");
 
 	ZOverlay* ovl = new ZOverlay(StringHelper::Strip(cfgLines[0], "\r"));
 
-	vector<string> relSections = {".rel.text", ".rel.data", ".rel.rodata"};
-	vector<string> sections = {".text", ".data", ".rodata"};
+	std::vector<std::string> relSections = {".rel.text", ".rel.data", ".rel.rodata"};
+	std::vector<std::string> sections = {".text", ".data", ".rodata"};
 
 	int32_t sectionOffs[5] = {0};
-	vector<RelocationEntry*> textRelocs;
-	vector<RelocationEntry*> dataRelocs;
-	vector<RelocationEntry*> rodataRelocs;
+	std::vector<RelocationEntry*> textRelocs;
+	std::vector<RelocationEntry*> dataRelocs;
+	std::vector<RelocationEntry*> rodataRelocs;
 
 	// get the elf files
-	vector<elfio*> readers;
+	std::vector<elfio*> readers;
 	for (size_t i = 1; i < cfgLines.size(); i++)
 	{
-		string elfPath = buildPath + "/" + cfgLines[i].substr(0, cfgLines[i].size() - 2) + ".o";
+		std::string elfPath =
+			buildPath + "/" + cfgLines[i].substr(0, cfgLines[i].size() - 2) + ".o";
 		elfio* reader = new elfio();
 
 		if (!reader->load(elfPath))
@@ -88,7 +88,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 						relocs.get_entry(j, offset, symbol, type, addend);
 					}
 
-					string curSymName;
+					std::string curSymName;
 					Elf_Half curSymShndx = SHN_UNDEF;
 					{
 						symbol_section_accessor symbols(
@@ -124,7 +124,7 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 							{
 								Elf_Half shndx = SHN_UNDEF;
 								Elf64_Addr value;
-								string name;
+								std::string name;
 								Elf_Xword size;
 								unsigned char bind;
 								unsigned char type;
@@ -189,9 +189,9 @@ ZOverlay* ZOverlay::FromBuild(string buildPath, string cfgFolderPath)
 	return ovl;
 }
 
-string ZOverlay::GetSourceOutputCode(const std::string& prefix)
+std::string ZOverlay::GetSourceOutputCode(const std::string& prefix)
 {
-	string output = "";
+	std::string output = "";
 
 	output += ".section .ovl\n";
 
@@ -220,7 +220,7 @@ string ZOverlay::GetSourceOutputCode(const std::string& prefix)
 	return output;
 }
 
-SectionType ZOverlay::GetSectionTypeFromStr(string sectionName)
+SectionType ZOverlay::GetSectionTypeFromStr(std::string sectionName)
 {
 	if (sectionName == ".rel.text" || sectionName == ".text")
 		return SectionType::Text;

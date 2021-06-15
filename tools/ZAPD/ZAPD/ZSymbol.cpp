@@ -6,58 +6,63 @@ REGISTER_ZFILENODE(Symbol, ZSymbol);
 
 ZSymbol::ZSymbol(ZFile* nParent) : ZResource(nParent)
 {
+	RegisterOptionalAttribute("Type");
+	RegisterOptionalAttribute("TypeSize");
+	RegisterOptionalAttribute("Count");
 }
 
 void ZSymbol::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                             const uint32_t nRawDataIndex, const std::string& nRelPath)
+                             const uint32_t nRawDataIndex)
 {
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
+	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
 }
 
 void ZSymbol::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZResource::ParseXML(reader);
 
-	const char* typeXml = reader->Attribute("Type");
+	std::string typeXml = registeredAttributes.at("Type").value;
 
-	if (typeXml == nullptr)
+	if (typeXml == "")
 	{
 		fprintf(stderr,
-		        "ZSymbol::ParseXML: Warning in '%s'.\n\t Missing 'Type' attribute in xml. "
-		        "Defaulting to 'void*'.\n",
+		        "ZSymbol::ParseXML: Warning in '%s'.\n"
+		        "\t Missing 'Type' attribute in xml.\n"
+		        "\t Defaulting to 'void*'.\n",
 		        name.c_str());
 		type = "void*";
 	}
 	else
 	{
-		type = std::string(typeXml);
+		type = typeXml;
 	}
 
-	const char* typeSizeXml = reader->Attribute("TypeSize");
-	if (typeSizeXml == nullptr)
+	std::string typeSizeXml = registeredAttributes.at("TypeSize").value;
+	if (typeSizeXml == "")
 	{
 		fprintf(stderr,
-		        "ZSymbol::ParseXML: Warning in '%s'.\n\t Missing 'TypeSize' attribute in xml. "
-		        "Defaulting to '4'.\n",
+		        "ZSymbol::ParseXML: Warning in '%s'.\n"
+		        "\t Missing 'TypeSize' attribute in xml.\n"
+		        "\t Defaulting to '4'.\n",
 		        name.c_str());
 		typeSize = 4;  // Size of a word.
 	}
 	else
 	{
-		typeSize = std::strtoul(typeSizeXml, nullptr, 0);
+		typeSize = StringHelper::StrToL(typeSizeXml, 0);
 	}
 
-	const char* countXml = reader->Attribute("Count");
-	if (countXml != nullptr)
+	if (registeredAttributes.at("Count").wasSet)
 	{
 		isArray = true;
 
-		if (!std::string(countXml).empty())
-			count = std::strtoul(countXml, nullptr, 0);
+		std::string countXml = registeredAttributes.at("Count").value;
+		if (countXml != "")
+			count = StringHelper::StrToL(countXml, 0);
 	}
 }
 
-size_t ZSymbol::GetRawDataSize()
+size_t ZSymbol::GetRawDataSize() const
 {
 	if (isArray)
 		return count * typeSize;
@@ -80,12 +85,12 @@ std::string ZSymbol::GetSourceOutputHeader(const std::string& prefix)
 	return StringHelper::Sprintf("extern %s %s%s;\n", type.c_str(), prefix.c_str(), name.c_str());
 }
 
-std::string ZSymbol::GetSourceTypeName()
+std::string ZSymbol::GetSourceTypeName() const
 {
 	return type;
 }
 
-ZResourceType ZSymbol::GetResourceType()
+ZResourceType ZSymbol::GetResourceType() const
 {
 	return ZResourceType::Symbol;
 }

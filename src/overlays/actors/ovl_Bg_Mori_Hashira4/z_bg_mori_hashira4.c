@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mori_hashira4.h"
+#include "objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -21,9 +22,6 @@ void BgMoriHashira4_SetupPillarsRotate(BgMoriHashira4* this);
 void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, GlobalContext* globalCtx);
 void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx);
 void BgMoriHashira4_GateOpen(BgMoriHashira4* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_06001AF8;
-extern CollisionHeader D_060089E0;
 
 const ActorInit Bg_Mori_Hashira4_InitVars = {
     ACTOR_BG_MORI_HASHIRA4,
@@ -44,7 +42,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-static Gfx* sDisplayLists[] = { 0x06001300, 0x06008840 };
+static Gfx* sDisplayLists[] = { gMoriHashiraPlatformsDL, gMoriHashiraGateDL };
 
 static s16 sUnkTimer; // seems to be unused
 
@@ -78,9 +76,9 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.params &= 0xFF;
 
     if (this->dyna.actor.params == 0) {
-        BgMoriHashira4_InitDynaPoly(this, globalCtx, &D_06001AF8, DPM_UNK3);
+        BgMoriHashira4_InitDynaPoly(this, globalCtx, &gMoriHashira1Col, DPM_UNK3);
     } else {
-        BgMoriHashira4_InitDynaPoly(this, globalCtx, &D_060089E0, DPM_UNK);
+        BgMoriHashira4_InitDynaPoly(this, globalCtx, &gMoriHashira2Col, DPM_UNK);
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
