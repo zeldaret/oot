@@ -215,7 +215,7 @@ void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->dyna.actor.draw = NULL;
         }
         DynaPolyActor_Init(&this->dyna, 0);
-        CollisionHeader_GetVirtual(&gTimeblockCol, &collisionHeader);
+        CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &collisionHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, collisionHeader);
     } else {
         ObjWarp2block_SetInactive(this);
@@ -314,7 +314,7 @@ void ObjWarp2block_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 588),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sp44->r, sp44->g, sp44->b, 255);
-    gSPDisplayList(POLY_OPA_DISP++, gTimeblockDL);
+    gSPDisplayList(POLY_OPA_DISP++, gSongOfTimeBlockDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 594);
 }
