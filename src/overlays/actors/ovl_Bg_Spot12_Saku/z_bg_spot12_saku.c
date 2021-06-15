@@ -59,7 +59,7 @@ void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, CollisionHeader
 void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Saku* this = THIS;
 
-    func_808B3420(this, globalCtx, &gSpot12ObjCol1, DPM_UNK);
+    func_808B3420(this, globalCtx, &gGerudoFortressGTGShutterCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_808B3714(this);
@@ -133,5 +133,5 @@ void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gSpot12ObjDL1);
+    Gfx_DrawDListOpa(globalCtx, gGerudoFortressGTGShutterDL);
 }

@@ -62,7 +62,7 @@ void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, GlobalContext* globalCtx, Col
 void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Gate* this = THIS;
 
-    BgSpot12Gate_InitDynaPoly(this, globalCtx, &gSpot12ObjCol0, DPM_UNK);
+    BgSpot12Gate_InitDynaPoly(this, globalCtx, &gGerudoFortressWastelandGateCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
@@ -141,5 +141,5 @@ void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Gate_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gSpot12ObjDL0);
+    Gfx_DrawDListOpa(globalCtx, gGerudoFortressWastelandGateDL);
 }
