@@ -75,7 +75,7 @@ static ColliderCylinderInit sColCylInit = {
     { 27, 17, -10, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0x2, 0x2d, 0xf, 0x64 };
+static CollisionCheckInfoInit sColChkInfoInit = { 2, 45, 15, 100 };
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
@@ -128,7 +128,7 @@ void EnEiyer_Init(Actor *thisx, GlobalContext *globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 600.0f, ActorShadow_DrawCircle, 65.0f);
-    SkelAnime_Init(globalCtx, &this->skelanime, &D_06003410, &D_060012AC, this->jointTable, this->morphTable, 0x13);
+    SkelAnime_Init(globalCtx, &this->skelanime, &D_06003410, &D_060012AC, this->jointTable, this->morphTable, 19);
     Collider_InitCylinder(globalCtx, &this->colCyl);
     Collider_SetCylinder(globalCtx, &this->colCyl, &this->actor, &sColCylInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -147,7 +147,9 @@ void EnEiyer_Init(Actor *thisx, GlobalContext *globalCtx) {
             s32 clonesSpawned;
             
             for (clonesSpawned = 0; clonesSpawned != 3; clonesSpawned++) {
-                if (child == NULL) break;
+                if (child == NULL) {
+                    break;
+                }
                 child = child->child;
             }
 
@@ -664,6 +666,7 @@ void EnEiyer_Update(Actor *thisx, GlobalContext *globalCtx) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colCyl.base);
         }
     }
+
     if (this->actor.flags & 1) {
         this->actor.focus.pos.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y) * 12.5f;
@@ -671,8 +674,9 @@ void EnEiyer_Update(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-s32 EnEiyer_OverrideLimbDraw(struct GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, void *thisx, Gfx **gfx) {
+s32 EnEiyer_OverrideLimbDraw(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, void *thisx, Gfx **gfx) {
     EnEiyer *this = THIS;
+
     if (limbIndex == 1) {
         pos->z += 2500.0f;
     }
@@ -689,7 +693,6 @@ void EnEiyer_Draw(Actor *thisx, GlobalContext *globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_eiyer.c", 1494);
     if (this->actionFunc != EnEiyer_Dead) {
         func_80093D18(globalCtx->state.gfxCtx);
-        
 
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
