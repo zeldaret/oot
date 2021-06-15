@@ -2713,7 +2713,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                    G_TX_NOLOD, G_TX_NOLOD);
 
-            dxdy = (f32)(1 << 10) / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            dxdy = (1 << 10) / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             width = 48.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             height = 16.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             gSPTextureRectangle(
@@ -2996,6 +2996,7 @@ void func_8008A994(InterfaceContext* interfaceCtx) {
 }
 
 #ifdef NON_MATCHING
+// mostly regalloc and minor ordering differences
 void Interface_Draw(GlobalContext* globalCtx) {
     static s16 magicArrowEffectsR[] = { 255, 100, 255 };
     static s16 magicArrowEffectsG[] = { 0, 100, 255 };
@@ -3180,7 +3181,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                    G_TX_NOLOD, G_TX_NOLOD);
 
-            R_B_LABEL_DD = (f32)(1 << 10) / (WREG(37 + gSaveContext.language) / 100.0f);
+            R_B_LABEL_DD = (1 << 10) / (WREG(37 + gSaveContext.language) / 100.0f);
             gSPTextureRectangle(OVERLAY_DISP++, R_B_LABEL_X(gSaveContext.language) << 2,
                                 R_B_LABEL_Y(gSaveContext.language) << 2, (R_B_LABEL_X(gSaveContext.language) + 48) << 2,
                                 (R_B_LABEL_Y(gSaveContext.language) + 16) << 2, G_TX_RENDERTILE, 0, 0, R_B_LABEL_DD,

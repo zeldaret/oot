@@ -2,18 +2,7 @@
 #define _Z64INTERFACE_H_
 
 /**
- * Button HUD Colors
- */
-#define A_BUTTON_R 0   // 90 on N64
-#define A_BUTTON_G 200 // 90 on N64
-#define A_BUTTON_B 50  // 255 on N64
-
-#define B_BUTTON_R 255 // 0 on N64
-#define B_BUTTON_G 30  // 150 on N64
-#define B_BUTTON_B 30  // 0 on N64
-
-/**
- * Button HUD Positions
+ * Button HUD Positions (Upper Left)
  */
 #define A_BUTTON_X 186
 #define A_BUTTON_Y 9
