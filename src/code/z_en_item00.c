@@ -54,12 +54,9 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Color_RGBA8 sEffectPrimColor = { 255, 255, 127, 0 };
-
 static Color_RGBA8 sEffectEnvColor = { 255, 255, 255, 0 };
-
 static Vec3f sEffectPos = { 0.0f, 0.1f, 0.0f };
-
-static Vec3f sEffectAcell = { 0.0f, 0.01f, 0.0f };
+static Vec3f sEffectAccel = { 0.0f, 0.01f, 0.0f };
 
 static void* sRupeeTex[] = {
     gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
@@ -613,7 +610,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.world.pos.x + Rand_CenteredFloat(10.0f);
         pos.y = this->actor.world.pos.y + Rand_CenteredFloat(10.0f);
         pos.z = this->actor.world.pos.z + Rand_CenteredFloat(10.0f);
-        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectPos, &sEffectAcell, &sEffectPrimColor, &sEffectEnvColor);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectPos, &sEffectAccel, &sEffectPrimColor, &sEffectEnvColor);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -671,7 +668,7 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.world.pos.x + (Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.y = this->actor.world.pos.y + (Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.z = this->actor.world.pos.z + (Rand_ZeroOne() - 0.5f) * 10.0f;
-        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectPos, &sEffectAcell, &sEffectPrimColor, &sEffectEnvColor);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectPos, &sEffectAccel, &sEffectPrimColor, &sEffectEnvColor);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -702,7 +699,7 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
     this->actor.world.pos = player->actor.world.pos;
 
     if (this->actor.params <= ITEM00_RUPEE_RED) {
-        this->actor.shape.rot.y += 960  ;
+        this->actor.shape.rot.y += 960;
     } else if (this->actor.params == ITEM00_HEART) {
         this->actor.shape.rot.y = 0;
     }
@@ -919,7 +916,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_15A = 15;
     this->unk_154 = 35;
-    this->actor.shape.rot.z = 0x0000;
+    this->actor.shape.rot.z = 0;
     this->actor.speedXZ = 0;
     this->actor.velocity.y = 0;
     this->actor.gravity = 0;
