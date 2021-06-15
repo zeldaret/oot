@@ -4,26 +4,6 @@
 #include "z64.h"
 #include "segment_symbols.h"
 
-extern u8 D_02000000[];
-extern u8 D_02000400[];
-extern u8 D_02000500[];
-extern u8 D_02000900[];
-extern u8 D_02000A00[][0x400];
-extern u8 D_02001E00[];
-extern u8 D_02001F00[];
-extern u8 D_02002FC0[];
-extern u8 D_02002000[];
-extern u8 D_02002100[];
-extern u8 D_02002500[];
-extern u8 D_02002580[];
-extern u8 D_02002600[];
-extern u8 D_02002900[];
-//extern ? D_02002E40;
-extern u8 D_02003040[][0x80];
-extern u8 D_020035C0[][0x40];
-extern u8 D_020038C0[];
-extern u8 D_02003940[];
-extern u8 D_02003AC0[];
 extern u32 D_0300AA48;
 extern u32 D_03012B20;
 extern Gfx D_06025218[];
@@ -36,7 +16,6 @@ extern Gfx D_0602A738[];
 extern Gfx D_0602CB48[];
 //extern ? D_070380D4;
 //extern ? D_0703811C;
-extern u8 D_080895C0[];
 
 //extern ? D_80000004;
 //extern ? D_80000008;
