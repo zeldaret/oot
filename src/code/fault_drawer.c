@@ -69,8 +69,8 @@ FaultDrawer sFaultDrawerDefault = {
     NULL, // inputCallback
 };
 
-FaultDrawer sFaultDrawerStruct;
 char D_8016B6C0[0x20];
+FaultDrawer sFaultDrawerStruct;
 
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled) {
     sFaultDrawerStruct.osSyncPrintfEnabled = enabled;
