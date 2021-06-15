@@ -1,6 +1,8 @@
 <Root>
     <File Name="object_spot04_objects" Segment="6">
-        <DList Name="gBgTreemouthDL" Offset="0x9D0"/>
-        <Collision Name="gBgTreemouthCol" Offset="0xE94"/>
+        <Texture Name="gDekuTreeMouthTex_000" OutName="tex_000" Format="rgb5a1" Width="32" Height="16" Offset="0x0"/>
+        <Texture Name="gDekuTreeMouthTex_400" OutName="tex_400" Format="rgb5a1" Width="32" Height="16" Offset="0x400"/>
+        <DList Name="gDekuTreeMouthDL" Offset="0x9D0"/>
+        <Collision Name="gDekuTreeMouthCol" Offset="0xE94"/>
     </File>
 </Root>
