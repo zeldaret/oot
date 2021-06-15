@@ -237,7 +237,7 @@ void func_80AF2978(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF2994(EnRu2* this, GlobalContext* globalCtx) {
-    func_80AF28E8(this, &gAdultRutoAnim1, 0, 0.0f, 0);
+    func_80AF28E8(this, &gAdultRutoIdleAnim, 0, 0.0f, 0);
     this->actor.shape.yOffset = -10000.0f;
 }
 
@@ -299,7 +299,7 @@ void func_80AF2B94(EnRu2* this) {
 }
 
 void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
-    AnimationHeader* animation = &gAdultRutoAnim2;
+    AnimationHeader* animation = &gAdultRutoRaisingArmsUpAnim;
     CsCmdActorAction* csCmdNPCAction;
 
     if (globalCtx->csCtx.state != CS_STATE_IDLE) {
@@ -375,7 +375,7 @@ void func_80AF2DEC(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF2E1C(EnRu2* this, GlobalContext* globalCtx) {
-    func_80AF28E8(this, &gAdultRutoAnim0, 2, 0.0f, 0);
+    func_80AF28E8(this, &gAdultRutoCrossingArmsAnim, 2, 0.0f, 0);
     this->action = 7;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -487,7 +487,7 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF3394(EnRu2* this, GlobalContext* globalCtx) {
-    func_80AF28E8(this, &gAdultRutoAnim4, 0, 0.0f, 0);
+    func_80AF28E8(this, &gAdultRutoIdleHandsOnHipsAnim, 0, 0.0f, 0);
     this->action = 10;
     this->drawConfig = 0;
     this->actor.shape.shadowAlpha = 0;
@@ -525,13 +525,13 @@ void func_80AF34A4(EnRu2* this) {
 }
 
 void func_80AF34F0(EnRu2* this) {
-    func_80AF28E8(this, &gAdultRutoAnim3, 2, 0.0f, 0);
+    func_80AF28E8(this, &gAdultRutoHeadTurnDownLeftAnim, 2, 0.0f, 0);
     this->action = 13;
 }
 
 void func_80AF3530(EnRu2* this, UNK_TYPE arg1) {
     if (arg1 != 0) {
-        func_80AF28E8(this, &gAdultRutoAnim5, 0, 0.0f, 0);
+        func_80AF28E8(this, &gAdultRutoLookingDownLeftAnim, 0, 0.0f, 0);
     }
 }
 
@@ -601,7 +601,7 @@ void func_80AF3744(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF3718(this, globalCtx)) {
         Actor_Kill(&this->actor);
     } else {
-        func_80AF28E8(this, &gAdultRutoAnim1, 0, 0.0f, 0);
+        func_80AF28E8(this, &gAdultRutoIdleAnim, 0, 0.0f, 0);
         this->action = 14;
         this->drawConfig = 1;
     }
@@ -693,7 +693,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF3ADC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C4 += 1.0f;
     if (this->unk_2C4 > kREG(5) + 100.0f) {
-        func_80AF28E8(this, &gAdultRutoAnim6, 0, -12.0f, 0);
+        func_80AF28E8(this, &gAdultRutoSwimmingUpAnim, 0, -12.0f, 0);
         this->action = 19;
         func_80AF36EC(this, globalCtx);
     }
