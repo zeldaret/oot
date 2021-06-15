@@ -1,4 +1,5 @@
 #include "ZArray.h"
+#include <cassert>
 #include "Globals.h"
 #include "StringHelper.h"
 #include "ZFile.h"
@@ -8,49 +9,57 @@ REGISTER_ZFILENODE(Array, ZArray);
 ZArray::ZArray(ZFile* nParent) : ZResource(nParent)
 {
 	canHaveInner = true;
+	RegisterRequiredAttribute("Count");
 }
 
 ZArray::~ZArray()
 {
-	delete testFile;
+	for (auto res : resList)
+		delete res;
 }
 
 void ZArray::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZResource::ParseXML(reader);
 
-	arrayCnt = reader->IntAttribute("Count", 0);
-	testFile = new ZFile(ZFileMode::Extract, reader, Globals::Instance->baseRomPath, "",
-	                     parent->GetName(), "ZArray subfile", true);
+	arrayCnt = StringHelper::StrToL(registeredAttributes.at("Count").value, 0);
+	// TODO: do a better check.
+	assert(arrayCnt > 0);
+
+	tinyxml2::XMLElement* child = reader->FirstChildElement();
+	if (child == nullptr)
+		throw std::runtime_error(
+			StringHelper::Sprintf("Error! Array needs at least one sub-element.\n"));
+
+	childName = child->Name();
+
+	auto nodeMap = ZFile::GetNodeMap();
+	size_t childIndex = rawDataIndex;
+	for (size_t i = 0; i < arrayCnt; i++)
+	{
+		ZResource* res = nodeMap->at(childName)(parent);
+		if (!res->DoesSupportArray())
+		{
+			throw std::runtime_error(StringHelper::Sprintf(
+				"Error! Resource %s does not support being wrapped in an array!\n",
+				childName.c_str()));
+		}
+		res->parent = parent;
+		res->SetInnerNode(true);
+		res->ExtractFromXML(child, rawData, childIndex);
+
+		childIndex += res->GetRawDataSize();
+		resList.push_back(res);
+	}
 }
 
-// TODO: This is a bit hacky, but until we refactor how ZFile parses the XML, it'll have to do.
 std::string ZArray::GetSourceOutputCode(const std::string& prefix)
 {
 	std::string output = "";
 
-	if (testFile->resources.size() <= 0)
-		throw std::runtime_error(
-			StringHelper::Sprintf("Error! Array needs at least one sub-element.\n"));
-
-	ZResource* res = testFile->resources[0];
-	size_t resSize = res->GetRawDataSize();
-
-	if (!res->DoesSupportArray())
-	{
-		throw std::runtime_error(StringHelper::Sprintf(
-			"Error! Resource %s does not support being wrapped in an array!\n",
-			res->GetName().c_str()));
-	}
-
 	for (size_t i = 0; i < arrayCnt; i++)
 	{
-		size_t childIndex = rawDataIndex + (i * resSize);
-		res->SetRawDataIndex(childIndex);
-		res->ParseRawData();
-		std::string test = res->GetSourceOutputCode("");
-		// output += "   { " + testFile->declarations[childIndex]->text + " }";
-		output += testFile->declarations[childIndex]->text;
+		output += resList.at(i)->GetBodySourceCode();
 
 		if (i < arrayCnt - 1)
 			output += ",\n";
@@ -58,21 +67,20 @@ std::string ZArray::GetSourceOutputCode(const std::string& prefix)
 
 	if (parent != nullptr)
 		parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::None, GetRawDataSize(),
-		                            res->GetSourceTypeName(), name, arrayCnt, output);
+		                            resList.at(0)->GetSourceTypeName(), name, arrayCnt, output);
 
 	return "";
 }
 
-size_t ZArray::GetRawDataSize()
+size_t ZArray::GetRawDataSize() const
 {
-	return arrayCnt * testFile->resources[0]->GetRawDataSize();
+	size_t size = 0;
+	for (auto res : resList)
+		size += res->GetRawDataSize();
+	return size;
 }
 
-void ZArray::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                            const uint32_t nRawDataIndex, const std::string& nRelPath)
+ZResourceType ZArray::GetResourceType() const
 {
-	rawData = nRawData;
-	rawDataIndex = nRawDataIndex;
-	ParseXML(reader);
-	// arr->ParseRawData();
+	return ZResourceType::Array;
 }

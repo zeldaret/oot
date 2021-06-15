@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Globals.h"
-#include "../StringHelper.h"
-
 #include <string>
+
+#include "Globals.h"
+#include "StringHelper.h"
 
 class ZNames
 {

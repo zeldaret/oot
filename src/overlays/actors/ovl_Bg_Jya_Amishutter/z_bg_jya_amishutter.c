@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_jya_amishutter.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -15,8 +16,8 @@ void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaAmishutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808933BC(BgJyaAmishutter* this);
-void func_808933CC(BgJyaAmishutter* this);
+void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this);
+void BgJyaAmishutter_WaitForPlayer(BgJyaAmishutter* this);
 void func_80893428(BgJyaAmishutter* this);
 void func_80893438(BgJyaAmishutter* this);
 void func_808934B0(BgJyaAmishutter* this);
@@ -43,13 +44,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_0600C4C8;
-extern Gfx D_0600C0A0[];
-
-void func_808932C0(BgJyaAmishutter* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
-    s16 pad1;
+void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                                  DynaPolyMoveFlag flag) {
+    s32 pad1;
     CollisionHeader* colHeader = NULL;
-    s16 pad2;
+    s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
@@ -63,9 +62,9 @@ void func_808932C0(BgJyaAmishutter* this, GlobalContext* globalCtx, CollisionHea
 void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaAmishutter* this = THIS;
 
-    func_808932C0(this, globalCtx, &D_0600C4C8, DPM_UNK);
+    BgJyaAmishutter_InitDynaPoly(this, globalCtx, &gAmishutterCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    func_808933BC(this);
+    BgJyaAmishutter_SetupWaitForPlayer(this);
 }
 
 void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -74,15 +73,13 @@ void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808933BC(BgJyaAmishutter* this) {
-    this->actionFunc = func_808933CC;
+void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this) {
+    this->actionFunc = BgJyaAmishutter_WaitForPlayer;
 }
 
-void func_808933CC(BgJyaAmishutter* this) {
-    if (this->dyna.actor.xzDistToPlayer < 60.0f) {
-        if (fabsf(this->dyna.actor.yDistToPlayer) < 30.0f) {
-            func_80893428(this);
-        }
+void BgJyaAmishutter_WaitForPlayer(BgJyaAmishutter* this) {
+    if ((this->dyna.actor.xzDistToPlayer < 60.0f) && (fabsf(this->dyna.actor.yDistToPlayer) < 30.0f)) {
+        func_80893428(this);
     }
 }
 
@@ -115,7 +112,7 @@ void func_808934FC(BgJyaAmishutter* this) {
 
 void func_8089350C(BgJyaAmishutter* this) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.0f)) {
-        func_808933BC(this);
+        BgJyaAmishutter_SetupWaitForPlayer(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
@@ -129,5 +126,5 @@ void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaAmishutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_0600C0A0);
+    Gfx_DrawDListOpa(globalCtx, gAmishutterDL);
 }

@@ -33,5 +33,5 @@ glabel D_80157580
 glabel D_801579A0
     .incbin "baserom.z64", 0xBCEB40, 0x390
 
-glabel D_80157D30
+glabel gJpegUCodeData
     .incbin "baserom.z64", 0xBCEED0, 0x60

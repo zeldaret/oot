@@ -5,8 +5,6 @@
 #include "Globals.h"
 #include "StringHelper.h"
 
-using namespace std;
-
 REGISTER_ZFILENODE(Collision, ZCollisionHeader);
 
 ZCollisionHeader::ZCollisionHeader(ZFile* nParent) : ZResource(nParent)
@@ -19,18 +17,6 @@ ZCollisionHeader::~ZCollisionHeader()
 		delete waterBox;
 
 	delete camData;
-}
-
-ZResourceType ZCollisionHeader::GetResourceType()
-{
-	return ZResourceType::CollisionHeader;
-}
-
-void ZCollisionHeader::ExtractFromXML(tinyxml2::XMLElement* reader,
-                                      const std::vector<uint8_t>& nRawData,
-                                      const uint32_t nRawDataIndex, const std::string& nRelPath)
-{
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
 }
 
 void ZCollisionHeader::ParseRawData()
@@ -91,7 +77,7 @@ void ZCollisionHeader::ParseRawData()
 			rawData,
 			waterBoxSegmentOffset + (i * (Globals::Instance->game == ZGame::OOT_SW97 ? 12 : 16))));
 
-	string declaration = "";
+	std::string declaration = "";
 
 	if (waterBoxes.size() > 0)
 	{
@@ -197,9 +183,19 @@ void ZCollisionHeader::ParseRawData()
 		name.c_str(), polyTypeDefSegmentOffset, name.c_str(), camDataSegmentOffset, numWaterBoxes,
 		waterBoxStr);
 
-	parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, DeclarationPadding::Pad16, 44,
-	                       "CollisionHeader",
+	parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, DeclarationPadding::Pad16,
+	                       GetRawDataSize(), "CollisionHeader",
 	                       StringHelper::Sprintf("%s", name.c_str(), rawDataIndex), declaration);
+}
+
+ZResourceType ZCollisionHeader::GetResourceType() const
+{
+	return ZResourceType::CollisionHeader;
+}
+
+size_t ZCollisionHeader::GetRawDataSize() const
+{
+	return 44;
 }
 
 PolygonEntry::PolygonEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
@@ -245,7 +241,7 @@ CameraDataList::CameraDataList(ZFile* parent, const std::string& prefix,
                                const std::vector<uint8_t>& rawData, uint32_t rawDataIndex,
                                uint32_t polyTypeDefSegmentOffset, uint32_t polygonTypesCnt)
 {
-	string declaration = "";
+	std::string declaration = "";
 
 	// Parse CameraDataEntries
 	int32_t numElements = (polyTypeDefSegmentOffset - rawDataIndex) / 8;
@@ -286,7 +282,7 @@ CameraDataList::CameraDataList(ZFile* parent, const std::string& prefix,
 			        index);
 		}
 		else
-			sprintf(camSegLine, "0x%08X", entries[i]->cameraPosDataSeg);
+			sprintf(camSegLine, "NULL");
 
 		declaration +=
 			StringHelper::Sprintf("    { 0x%04X, %i, %s },", entries[i]->cameraSType,

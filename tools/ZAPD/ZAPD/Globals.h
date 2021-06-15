@@ -7,7 +7,7 @@
 #include "ZRoom/ZRoom.h"
 #include "ZTexture.h"
 
-enum VerbosityLevel
+enum class VerbosityLevel
 {
 	VERBOSITY_SILENT,
 	VERBOSITY_INFO,
@@ -42,9 +42,9 @@ public:
 
 	bool genSourceFile;  // Used for extraction
 	bool useExternalResources;
-	bool testMode;           // Enables certain experimental features
-	bool profile;            // Measure performance of certain operations
-	bool includeFilePrefix;  // Include the file prefix in symbols
+	bool testMode;  // Enables certain experimental features
+	bool outputCrc = false;
+	bool profile;  // Measure performance of certain operations
 	bool useLegacyZDList;
 	VerbosityLevel verbosity;  // ZAPD outputs additional information
 	ZFileMode fileMode;
@@ -66,7 +66,7 @@ public:
 	void ReadConfigFile(const std::string& configFilePath);
 	void ReadTexturePool(const std::string& texturePoolXmlPath);
 	void GenSymbolMap(const std::string& symbolMapPath);
-	void AddSegment(int32_t segment);
+	void AddSegment(int32_t segment, ZFile* file);
 	bool HasSegment(int32_t segment);
 };
 
