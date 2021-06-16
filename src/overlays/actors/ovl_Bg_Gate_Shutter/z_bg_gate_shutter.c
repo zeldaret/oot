@@ -40,7 +40,7 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&gBgGateShutterCol, &colHeader);
+    CollisionHeader_GetVirtual(&gKakarikoGuardGateCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
@@ -131,7 +131,7 @@ void BgGateShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, gBgGateShutterDL);
+    gSPDisplayList(POLY_OPA_DISP++, gKakarikoGuardGateDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
 }
