@@ -60,8 +60,8 @@ Gfx* VisMono_DrawTexture(VisMono* this, Gfx* gfx) {
                    G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
         gDPSetTileSize(gfx++, 1, (1 << 2), 0, ((SCREEN_WIDTH * 2) << 2), (2 << 2));
 
-        gSPTextureRectangle(gfx++, 0, (y) << 2, (SCREEN_WIDTH << 2), (y + height) << 2, G_TX_RENDERTILE, 2 << 5, 0,
-                            (2 << 10), (1 << 10));
+        gSPTextureRectangle(gfx++, 0, y << 2, (SCREEN_WIDTH << 2), (y + height) << 2, G_TX_RENDERTILE, 2 << 5, 0,
+                            2 << 10, 1 << 10);
         tex += SCREEN_WIDTH * height;
     }
 
