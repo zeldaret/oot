@@ -397,8 +397,8 @@ void EnEiyer_Ambush(EnEiyer* this, GlobalContext* globalCtx) {
     curFrame = this->skelanime.curFrame;
 
     if (this->skelanime.curFrame < 12.0f) {
-        this->actor.world.pos.y = ((1.0f - cosf((.996f * M_PI / 12.0f) * curFrame)) * 40.0f) + this->actor.home.pos.y;
-        xzOffset = sinf((.996f * M_PI / 12.0f) * curFrame) * -40.0f;
+        this->actor.world.pos.y = ((1.0f - cosf((0.996f * M_PI / 12.0f) * curFrame)) * 40.0f) + this->actor.home.pos.y;
+        xzOffset = sinf((0.996f * M_PI / 12.0f) * curFrame) * -40.0f;
         this->actor.world.pos.x = (Math_SinS(this->actor.shape.rot.y) * xzOffset) + this->basePos.x;
         this->actor.world.pos.z = (Math_CosS(this->actor.shape.rot.y) * xzOffset) + this->basePos.z;
     } else {

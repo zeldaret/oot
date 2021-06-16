@@ -6,7 +6,7 @@
 
 struct EnEiyer;
 
-typedef void (*EnEiyerActionFunc)(struct EnEiyer *, GlobalContext*);
+typedef void (*EnEiyerActionFunc)(struct EnEiyer*, GlobalContext*);
 
 typedef struct EnEiyer {
     /* 0x0000 */ Actor actor;
