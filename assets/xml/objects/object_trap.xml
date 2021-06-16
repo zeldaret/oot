@@ -1,5 +1,8 @@
 <Root>
     <File Name="object_trap" Segment="6">
-        <DList Name="gObjTrapDL" Offset="0x1400"/>
+        <Texture Name="gUnkObjTrapTex_1BD8" OutName="tex_1BD8" Format="rgb5a1" Width="32" Height="32" Offset="0x1BD8"/>
+        <DList Name="gSlidingBladeTrapDL" Offset="0x1400"/>
+        <DList Name="gUnkObjTrapDL_1630" Offset="0x1630"/>
+        <DList Name="gUnusedSpikeDL" Offset="0x1710"/>
     </File>
 </Root>
