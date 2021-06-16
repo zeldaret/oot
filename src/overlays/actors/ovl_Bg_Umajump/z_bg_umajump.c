@@ -39,7 +39,7 @@ void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&gObjUmajumpCol, &colHeader);
+    CollisionHeader_GetVirtual(&gJumpableHorseFenceCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.actor.params == 1) {
@@ -61,5 +61,5 @@ void BgUmaJump_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgUmaJump_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gObjUmajumpDL);
+    Gfx_DrawDListOpa(globalCtx, gJumpableHorseFenceDL);
 }

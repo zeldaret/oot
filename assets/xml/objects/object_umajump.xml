@@ -1,6 +1,8 @@
 <Root>
     <File Name="object_umajump" Segment="6">
-        <DList Name="gObjUmajumpDL" Offset="0x1220"/>
-        <Collision Name="gObjUmajumpCol" Offset="0x1438"/>
+        <Texture Name="gJumpableHorseFenceBrickTex" OutName="brick" Format="rgb5a1" Width="16" Height="64" Offset="0x0"/>
+        <Texture Name="gJumpableHorseFenceMetalBarTex" OutName="metal_bar" Format="rgb5a1" Width="16" Height="64" Offset="0x800"/>
+        <DList Name="gJumpableHorseFenceDL" Offset="0x1220"/>
+        <Collision Name="gJumpableHorseFenceCol" Offset="0x1438"/>
     </File>
 </Root>
