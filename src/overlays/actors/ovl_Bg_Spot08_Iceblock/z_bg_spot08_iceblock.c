@@ -291,10 +291,10 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->dyna.actor.params & 0x200) {
         case 0:
-            colHeader = &gSpot08ObjCol1;
+            colHeader = &gZorasFountainIcebergCol;
             break;
         case 0x200:
-            colHeader = &gSpot08ObjCol0;
+            colHeader = &gZorasFountainIceRampCol;
             break;
     }
 
@@ -436,10 +436,10 @@ void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->dyna.actor.params & 0x200) {
         case 0:
-            dList = gSpot08ObjDL1;
+            dList = gZorasFountainIcebergDL;
             break;
         case 0x200:
-            dList = gSpot08ObjDL0;
+            dList = gZorasFountainIceRampDL;
             break;
     }
 

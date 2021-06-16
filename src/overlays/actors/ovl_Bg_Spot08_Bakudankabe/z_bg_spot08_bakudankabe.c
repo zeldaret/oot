@@ -169,7 +169,7 @@ void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     func_808B02D0(this, globalCtx);
-    CollisionHeader_GetVirtual(&gSpot08ObjCol2, &colHeader);
+    CollisionHeader_GetVirtual(&gZorasFountainBombableWallCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
@@ -201,5 +201,5 @@ void BgSpot08Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateSpheres(0, &this->collider);
     Collider_UpdateSpheres(1, &this->collider);
     Collider_UpdateSpheres(2, &this->collider);
-    Gfx_DrawDListOpa(globalCtx, gSpot08ObjDL2);
+    Gfx_DrawDListOpa(globalCtx, gZorasFountainBombableWallDL);
 }
