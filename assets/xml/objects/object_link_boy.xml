@@ -117,7 +117,7 @@
         
         <!--Far DLists-->
         <DList Name="gLinkAdultHylianShieldSheathAndSwordFarDL" Offset="0x25FB8"/>
-        <DList Name="gLinkAdultHylianAndShieldSheathFarDL" Offset="0x262B8"/>
+        <DList Name="gLinkAdultHylianShieldAndSheathFarDL" Offset="0x262B8"/>
         <DList Name="gLinkAdultMirrorShieldSwordAndSheathFarDL" Offset="0x264F0"/>
         <DList Name="gLinkAdultMirrorShieldAndSheathFarDL" Offset="0x26910"/>
         <DList Name="gLinkAdultLeftHandFarDL" Offset="0x26C58"/>

@@ -92,7 +92,7 @@
         <DList Name="gLinkChildSheathNearDL" Offset="0x15408"/>
         <DList Name="gLinkChildSheathFarDL" Offset="0x17500"/>
         <DList Name="gLinkChildRightHandAndOOTNearDL" Offset="0x15958"/>
-        <DList Name="gLinkChildRightHandHoldingOOTFarDL" Offset="0x178A0"/>
+        <DList Name="gLinkChildRightHandAndOOTFarDL" Offset="0x178A0"/>
         <DList Name="gLinkChildRightHandHoldingFairyOcarinaNearDL" Offset="0x15BA8"/>
         <DList Name="gLinkChildRightHandHoldingFairyOcarinaFarDL" Offset="0x17AF0"/>
         <DList Name="gLinkChildRightHandHoldingFairySlingshotNearDL" Offset="0x15DF0"/>

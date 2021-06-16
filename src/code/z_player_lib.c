@@ -194,7 +194,7 @@ static Gfx* sPlayerShieldAndSheathDLists[] = {
     gLinkChildDekuShieldAndSheathFarDL,
     gLinkAdultHylianShieldAndSheathNearDL,
     gLinkChildHylianShieldAndSheathNearDL,
-    gLinkAdultHylianAndShieldSheathFarDL,
+    gLinkAdultHylianShieldAndSheathFarDL,
     gLinkChildHylianShieldAndSheathFarDL,
     gLinkAdultMirrorShieldAndSheathNearDL,
     gLinkChildSheathNearDL,
@@ -305,7 +305,7 @@ static Gfx* sPlayerRightHandAndOOTDLists[] = {
     gLinkAdultRightHandAndOOTNearDL,
     gLinkChildRightHandAndOOTNearDL,
     gLinkAdultRightHandAndOOTFarDL,
-    gLinkChildRightHandHoldingOOTFarDL,
+    gLinkChildRightHandAndOOTFarDL,
 };
 
 static Gfx* sPlayerRightHandAndHookshotDLists[] = {
