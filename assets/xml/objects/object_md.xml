@@ -54,7 +54,7 @@
         <Texture Name="gMidoGradientTex" OutName="gradient" Format="ci8" Width="8" Height="8" Offset="0x4E0"/>
         <Texture Name="gMidoTex_D20" OutName="tex_D20" Format="rgb5a1" Width="8" Height="8" Offset="0xD20"/>
         <Texture Name="gMidoTex_DA0" OutName="tex_DA0" Format="ci8" Width="32" Height="4" Offset="0xDA0"/>
-        <Texture Name="gMidoHairCurlTex" OutName="hair_curl" Format="ci8" Width="32" Height="32" Offset="0xE20"/>
+        <Texture Name="gMidoHairCurl1Tex" OutName="hair_curl_1" Format="ci8" Width="32" Height="32" Offset="0xE20"/>
         <Texture Name="gMidoTex_1220" OutName="tex_1220" Format="ci8" Width="8" Height="8" Offset="0x1220"/>
         <Texture Name="gMidoTex_1260" OutName="tex_1260" Format="ci8" Width="8" Height="8" Offset="0x1260"/>
         <Texture Name="gMidoBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="8" Height="8" Offset="0x12A0"/>
@@ -63,6 +63,12 @@
         <Texture Name="gMidoShoeTex" OutName="shoe" Format="ci8" Width="8" Height="8" Offset="0x1360"/>
         <Texture Name="gMidoAnkleTex" OutName="ankle" Format="ci8" Width="8" Height="8" Offset="0x13A0"/>
         <Texture Name="gMidoPantsTex" OutName="pants" Format="rgb5a1" Width="16" Height="16" Offset="0x13E0"/>
+        <Texture Name="gMidoTex_4FB0" OutName="tex_4FB0" Format="ci8" Width="8" Height="8" Offset="0x4FB0"/>
+        <Texture Name="gMidoTex_53F0" OutName="tex_53F0" Format="ci8" Width="8" Height="8" Offset="0x53F0"/>
+        <Texture Name="gMidoTex_5430" OutName="tex_5430" Format="ci8" Width="8" Height="8" Offset="0x5430"/>
+        <Texture Name="gMidoHairCurl2Tex" OutName="hair_curl_2" Format="ci8" Width="32" Height="32" Offset="0x5470"/>
+        <Texture Name="gMidoTex_5870" OutName="tex_5870" Format="ci8" Width="8" Height="16" Offset="0x5870"/>
+        <Texture Name="gMidoTex_58F0" OutName="tex_58F0" Format="ci8" Width="8" Height="8" Offset="0x58F0"/>
 
         <!-- Mido Animations -->
         <Animation Name="gMidoHandsOnHipsIdleAnim" Offset="0x02C8"/>
