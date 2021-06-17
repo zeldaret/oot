@@ -283,7 +283,6 @@ beginseg
     after "dmadata"
     include "build/src/code/z_en_a_keep.o"
     include "build/src/code/z_en_item00.o"
-    include "build/data/z_en_item00.data.o"
     include "build/data/z_en_item00.bss.o"
     include "build/src/code/z_eff_blure.o"
     include "build/src/code/z_eff_shield_particle.o"
@@ -405,7 +404,6 @@ beginseg
     include "build/src/code/fault.o"
     include "build/data/fault.bss.o"
     include "build/src/code/fault_drawer.o"
-    include "build/data/fault_drawer.bss.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
     include "build/src/code/code_800DACC0.o"
@@ -2140,8 +2138,7 @@ endseg
 beginseg
     name "ovl_En_Eiyer"
     include "build/src/overlays/actors/ovl_En_Eiyer/z_en_eiyer.o"
-    include "build/data/overlays/actors/z_en_eiyer.data.o"
-    include "build/data/overlays/actors/z_en_eiyer.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Eiyer/ovl_En_Eiyer_reloc.o"
 endseg
 
 beginseg

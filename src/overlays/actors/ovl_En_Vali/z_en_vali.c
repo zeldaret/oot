@@ -349,7 +349,7 @@ void EnVali_FloatIdle(EnVali* this, GlobalContext* globalCtx) {
 
     curFrame = ((curFrame > 40) ? (80 - curFrame) : curFrame);
 
-    this->actor.shape.rot.y += (s16)((curFrame + 4) * 0.4f * ( 0x10000 / 360.0f ));
+    this->actor.shape.rot.y += (s16)((curFrame + 4) * 0.4f * (0x10000 / 360.0f));
     if (this->actor.xzDistToPlayer > 250.0f) {
         EnVali_SetupReturnToLurk(this);
     }
@@ -422,11 +422,9 @@ void EnVali_DivideAndDie(EnVali* this, GlobalContext* globalCtx) {
         scale = Rand_S16Offset(40, 40);
 
         if (Rand_ZeroOne() < 0.7f) {
-            EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, scale, 25, 2,
-                                               1);
+            EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, scale, 25, 2, 1);
         } else {
-            EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, scale, 25, 0,
-                                               1);
+            EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, scale, 25, 0, 1);
         }
     }
 

@@ -1,4 +1,5 @@
 #include "z_kaleido_scope.h"
+#include "textures/parameter_static/parameter_static.h"
 
 typedef struct {
     /* 0x00 */ void* texture;
@@ -13,8 +14,8 @@ typedef struct {
 } PauseMapMarkInfo; // size = 0x24
 
 static PauseMapMarkInfo sMapMarkInfoTable[] = {
-    { D_02002580, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1024, 1024 }, // Chest Icon
-    { D_02002900, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1024, 1024 },    // Boss Skull Icon
+    { gMapChestIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1 << 10, 1 << 10 },
+    { gMapBossIconTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1 << 10, 1 << 10 },
 };
 
 static const u32 sBaseImageSizes[] = { 0, 1, 2, 3 };
