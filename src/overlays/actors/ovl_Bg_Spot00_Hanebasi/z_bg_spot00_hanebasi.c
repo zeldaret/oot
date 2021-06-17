@@ -58,9 +58,9 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, 1);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
-        CollisionHeader_GetVirtual(&gBgSpot00HanebasiDrawbridgeCol, &colHeader);
+        CollisionHeader_GetVirtual(&gHyruleFieldCastleDrawbridgeCol, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&gBgSpot00HanebasiChainsCol, &colHeader);
+        CollisionHeader_GetVirtual(&gHyruleFieldCastleDrawbridgeChainsCol, &colHeader);
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -307,7 +307,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (thisx->params == DT_DRAWBRIDGE) {
-        gSPDisplayList(POLY_OPA_DISP++, gBgSpot00HanebasiBridgeDL);
+        gSPDisplayList(POLY_OPA_DISP++, gHyruleFieldCastleDrawbridgeDL);
 
         Matrix_MultVec3f(&basePos, &newPos);
         thisx->child->world.pos.x = newPos.x;
@@ -328,7 +328,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, gBgSpot00HanebasiChainsDL);
+        gSPDisplayList(POLY_OPA_DISP++, gHyruleFieldCastleDrawbridgeChainsDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 733);
