@@ -98,20 +98,20 @@ static EnHyUnknownStruct2 D_80A72010[] = {
 };
 
 static struct_80034EC0_Entry D_80A72050[] = {
-    { &gObjOsAnim6, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim2, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { &gObjOsAnim32, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim12, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { &gObjOsAnim18, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim28, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { &gObjOsAnim20, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim16, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
-    { &gObjOsAnim18, 1.0f, 0.0f, -1.0f, 0x00, -10.0f }, { &gObjOsAnim33, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { &gObjOsAnim14, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim1, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { &gObjOsAnim0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim26, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { &gObjOsAnim27, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim23, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { &gObjOsAnim24, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim24, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &gObjOsAnim21, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim22, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { &gObjOsAnim29, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim15, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { &gObjOsAnim34, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim25, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &gObjOsAnim9, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },  { &gObjOsAnim8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { &gObjOsAnim7, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gObjOsAnim_092C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_0228, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_4CF4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_16EC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_265C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_42AC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_28DC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_2160, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
+    { &gObjOsAnim_265C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f }, { &gObjOsAnim_4E90, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_1E7C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_0170, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_00B4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_3D84, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_41F8, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_300C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_31B0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_31B0, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gObjOsAnim_2D0C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_2DC0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_4408, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_1F18, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_4F28, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_33B4, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gObjOsAnim_12E8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },  { &gObjOsAnim_0FE4, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gObjOsAnim_0BFC, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
 };
 
 typedef struct {
@@ -426,7 +426,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F1:
                 case 0x70F2:
                 case 0x70F3:
-                    if (this->skelAnime.animation != &gObjOsAnim25) {
+                    if (this->skelAnime.animation != &gObjOsAnim_33B4) {
                         func_80034EC0(&this->skelAnime, D_80A72050, 23);
                         func_800F5C64(0x922);
                     }
@@ -808,14 +808,14 @@ void func_80A70E34(EnHy* this, GlobalContext* globalCtx) {
 
 void func_80A710F8(EnHy* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
-        if (this->skelAnime.animation != &gObjOsAnim7) {
+        if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
             func_80034EC0(&this->skelAnime, D_80A72050, 26);
         }
     } else if (gSaveContext.eventInf[3] & 1) {
-        if (this->skelAnime.animation != &gObjOsAnim8) {
+        if (this->skelAnime.animation != &gObjOsAnim_0FE4) {
             func_80034EC0(&this->skelAnime, D_80A72050, 25);
         }
-    } else if (this->skelAnime.animation != &gObjOsAnim9) {
+    } else if (this->skelAnime.animation != &gObjOsAnim_12E8) {
         func_80034EC0(&this->skelAnime, D_80A72050, 24);
     }
 }
@@ -857,11 +857,11 @@ void func_80A7134C(EnHy* this, GlobalContext* globalCtx) {
     s16 yaw;
     f32 distSq;
 
-    if ((this->skelAnime.animation == &gObjOsAnim16) && (this->unk_1E8.unk_00 != 0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.unk_00 != 0)) {
         func_80034EC0(&this->skelAnime, D_80A72050, 8);
     }
 
-    if ((this->skelAnime.animation == &gObjOsAnim18) && (this->unk_1E8.unk_00 == 0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.unk_00 == 0)) {
         func_80034EC0(&this->skelAnime, D_80A72050, 7);
     }
 
