@@ -67,8 +67,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
-extern AnimationHeader D_0600A630;
-
 void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNiwLady* this = THIS;
@@ -142,8 +140,8 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
                 Animation_Change(&this->skelAnime, &gObjOsAnim3, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 100:
-                frames = Animation_GetLastFrame(&D_0600A630);
-                Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
+                frames = Animation_GetLastFrame(&gObjOsAnim64);
+                Animation_Change(&this->skelAnime, &gObjOsAnim64, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 this->unk_276 = 0;
                 break;
         }
@@ -172,8 +170,8 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         switch (this->unk_278) {
             case 0:
                 if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
-                    frames = Animation_GetLastFrame(&D_0600A630);
-                    Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
+                    frames = Animation_GetLastFrame(&gObjOsAnim64);
+                    Animation_Change(&this->skelAnime, &gObjOsAnim64, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 } else {
                     frames = Animation_GetLastFrame(&gObjOsAnim4);
                     Animation_Change(&this->skelAnime, &gObjOsAnim4, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
