@@ -170,7 +170,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx) {
 
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot00_sceneCutsceneData0x00F870);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldaSongOfTimeCs);
         gSaveContext.cutsceneTrigger = 1;
     }
 }
