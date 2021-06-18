@@ -1,52 +1,6 @@
 #include "global.h"
 #include "textures/parameter_static/parameter_static.h"
 
-/**
- * These are the colors for the hearts in the interface. The prim color is the red color of the heart
- * for the base hearts, while the prim color for the double defense hearts is the white outline. The
- * env color for the base hearts is the purple-ish outline, while the env color for the double defense
- * hearts is the red color of the hearts.
- */
-
-#define HEARTS_PRIM_R 255
-#define HEARTS_PRIM_G 70
-#define HEARTS_PRIM_B 50
-
-#define HEARTS_ENV_R 50
-#define HEARTS_ENV_G 40
-#define HEARTS_ENV_B 60
-
-#define HEARTS_DD_PRIM_R 255
-#define HEARTS_DD_PRIM_G 255
-#define HEARTS_DD_PRIM_B 255
-
-#define HEARTS_DD_ENV_R 200
-#define HEARTS_DD_ENV_G 0
-#define HEARTS_DD_ENV_B 0
-
-/**
- * The burn and drown colors listed here are unused. Prerelease footage of the game confirms that at one
- * point in development the orange color was to be used while taking damage from hot environments.
- * Based on this, we can assume that the blue heart color was to be used while drowning.
- * In the final game these environments only have a timer and do not damage you continuously.
- */
-
-#define HEARTS_BURN_PRIM_R 255
-#define HEARTS_BURN_PRIM_G 190
-#define HEARTS_BURN_PRIM_B 0
-
-#define HEARTS_BURN_ENV_R 255
-#define HEARTS_BURN_ENV_G 0
-#define HEARTS_BURN_ENV_B 0
-
-#define HEARTS_DROWN_PRIM_R 100
-#define HEARTS_DROWN_PRIM_G 100
-#define HEARTS_DROWN_PRIM_B 255
-
-#define HEARTS_DROWN_ENV_R 0
-#define HEARTS_DROWN_ENV_G 0
-#define HEARTS_DROWN_ENV_B 255
-
 static s16 sHeartsPrimColors[3][3] = {
     { HEARTS_PRIM_R, HEARTS_PRIM_G, HEARTS_PRIM_B },
     { HEARTS_BURN_PRIM_R, HEARTS_BURN_PRIM_G, HEARTS_BURN_PRIM_B },    // unused
@@ -323,19 +277,19 @@ s32 func_80078E84(GlobalContext* globalCtx) {
 }
 
 u64* sHeartTextures[] = {
-    gHUDHeartFullTex,         gHUDHeartQuarterTex,      gHUDHeartQuarterTex,      gHUDHeartQuarterTex,
-    gHUDHeartQuarterTex,      gHUDHeartQuarterTex,      gHUDHeartHalfTex,         gHUDHeartHalfTex,
-    gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartThreeQuarterTex,
-    gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex,
+    gHeartFullTex,         gHeartQuarterTex,      gHeartQuarterTex,      gHeartQuarterTex,
+    gHeartQuarterTex,      gHeartQuarterTex,      gHeartHalfTex,         gHeartHalfTex,
+    gHeartHalfTex,         gHeartHalfTex,         gHeartHalfTex,         gHeartThreeQuarterTex,
+    gHeartThreeQuarterTex, gHeartThreeQuarterTex, gHeartThreeQuarterTex, gHeartThreeQuarterTex,
 };
 
 u64* sHeartDDTextures[] = {
-    gHUDDefenseHeartFullTex,         gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,
-    gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,
-    gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,
-    gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,         gHUDDefenseHeartThreeQuarterTex,
-    gHUDDefenseHeartThreeQuarterTex, gHUDDefenseHeartThreeQuarterTex, gHUDDefenseHeartThreeQuarterTex,
-    gHUDDefenseHeartThreeQuarterTex,
+    gDefenseHeartFullTex,         gDefenseHeartQuarterTex,      gDefenseHeartQuarterTex,
+    gDefenseHeartQuarterTex,      gDefenseHeartQuarterTex,      gDefenseHeartQuarterTex,
+    gDefenseHeartHalfTex,         gDefenseHeartHalfTex,         gDefenseHeartHalfTex,
+    gDefenseHeartHalfTex,         gDefenseHeartHalfTex,         gDefenseHeartThreeQuarterTex,
+    gDefenseHeartThreeQuarterTex, gDefenseHeartThreeQuarterTex, gDefenseHeartThreeQuarterTex,
+    gDefenseHeartThreeQuarterTex,
 };
 
 void HealthMeter_Draw(GlobalContext* globalCtx) {
@@ -413,11 +367,11 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
             }
 
             if (i < fullHeartCount) {
-                heartBgImg = gHUDHeartFullTex;
+                heartBgImg = gHeartFullTex;
             } else if (i == fullHeartCount) {
                 heartBgImg = sHeartTextures[curHeartFraction];
             } else {
-                heartBgImg = gHUDHeartEmptyTex;
+                heartBgImg = gHeartEmptyTex;
             }
         } else {
             if (i < fullHeartCount) {
@@ -456,11 +410,11 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
             }
 
             if (i < fullHeartCount) {
-                heartBgImg = gHUDDefenseHeartFullTex;
+                heartBgImg = gDefenseHeartFullTex;
             } else if (i == fullHeartCount) {
                 heartBgImg = sHeartDDTextures[curHeartFraction];
             } else {
-                heartBgImg = gHUDDefenseHeartEmptyTex;
+                heartBgImg = gDefenseHeartEmptyTex;
             }
         }
 
@@ -492,7 +446,7 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
             temp2 = 30.0f + offsetX;
             temp4 = 1.0f;
             temp4 /= 0.68f;
-            temp4 *= 1024.0f;
+            temp4 *= 1 << 10;
             temp1 = 8.0f;
             temp1 *= 0.68f;
             gSPTextureRectangle(OVERLAY_DISP++, (s32)((temp2 - temp1) * 4), (s32)((temp3 - temp1) * 4),

@@ -82,13 +82,12 @@ s32 func_8089DC30(GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // Codegen OK, Stack Issues
-void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     BgMizuMovebg* this = THIS;
-    WaterBox* waterBoxes;
-    CollisionHeader* colHeader;
-
-    waterBoxes = globalCtx->colCtx.colHeader->waterBoxes;
-    colHeader = NULL;
+    WaterBox* waterBoxes = globalCtx->colCtx.colHeader->waterBoxes;
+    CollisionHeader* colHeader = NULL;
+    Vec3f sp48;
 
     Actor_ProcessInitChain(&this->dyna.actor, D_8089EB90);
     this->homeY = this->dyna.actor.world.pos.y;
@@ -147,23 +146,22 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_8089E650;
             break;
     }
+
     switch (MOVEBG_TYPE(this->dyna.actor.params)) {
         case 3:
         case 4:
         case 5:
-        case 6: {
-            Actor* actor;
-            Vec3f sp48;
+        case 6:
             Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 32768), MTXMODE_NEW);
             Matrix_MultVec3f(&D_8089EBA0, &sp48);
-            actor = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_OBJ_HSBLOCK,
-                                       this->dyna.actor.world.pos.x + sp48.x, this->dyna.actor.world.pos.y + sp48.y,
-                                       this->dyna.actor.world.pos.z + sp48.z, this->dyna.actor.world.rot.x,
-                                       this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, 2);
-            if (actor == NULL) {
+
+            if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_OBJ_HSBLOCK,
+                                   this->dyna.actor.world.pos.x + sp48.x, this->dyna.actor.world.pos.y + sp48.y,
+                                   this->dyna.actor.world.pos.z + sp48.z, this->dyna.actor.world.rot.x,
+                                   this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, 2) == NULL) {
                 Actor_Kill(&this->dyna.actor);
             }
-        }
+            break;
     }
 }
 #else
@@ -187,6 +185,7 @@ void BgMizuMovebg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
             if (this->sfxFlags & 1) {
                 D_8089EE40 &= ~1;
             }
+            break;
     }
 }
 
@@ -237,28 +236,31 @@ void func_8089E198(BgMizuMovebg* this, GlobalContext* globalCtx) {
     this->scrollAlpha4 = this->scrollAlpha3;
 }
 
-#ifdef NON_MATCHING
 void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
-    WaterBox* waterBoxes;
+    WaterBox* waterBoxes = globalCtx->colCtx.colHeader->waterBoxes;
     f32 phi_f0;
+    s32 type;
     Vec3f sp28;
 
-    waterBoxes = globalCtx->colCtx.colHeader->waterBoxes;
     func_8089E198(this, globalCtx);
-    switch (MOVEBG_TYPE(this->dyna.actor.params)) {
+
+    type = MOVEBG_TYPE(this->dyna.actor.params);
+    switch (type) {
         case 0:
         case 2:
-            if (waterBoxes[2].ySurface + 15.0f < this->homeY - 700.0f) {
+            phi_f0 = waterBoxes[2].ySurface + 15.0f;
+            if (phi_f0 < this->homeY - 700.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 700.0f;
             } else {
-                this->dyna.actor.world.pos.y = waterBoxes[2].ySurface + 15.0f;
+                this->dyna.actor.world.pos.y = phi_f0;
             }
             break;
         case 1:
-            if (waterBoxes[2].ySurface + 15.0f < this->homeY - 710.0f) {
+            phi_f0 = waterBoxes[2].ySurface + 15.0f;
+            if (phi_f0 < this->homeY - 710.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 710.0f;
             } else {
-                this->dyna.actor.world.pos.y = waterBoxes[2].ySurface + 15.0f;
+                this->dyna.actor.world.pos.y = phi_f0;
             }
             break;
         case 3:
@@ -296,7 +298,9 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
             }
             break;
     }
-    switch (MOVEBG_TYPE(this->dyna.actor.params)) {
+
+    type = MOVEBG_TYPE(this->dyna.actor.params);
+    switch (type) {
         case 3:
         case 4:
         case 5:
@@ -309,11 +313,9 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
                 this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + sp28.z;
                 this->dyna.actor.child->flags &= ~1;
             }
+            break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mizu_Movebg/func_8089E318.s")
-#endif
 
 void func_8089E650(BgMizuMovebg* this, GlobalContext* globalCtx) {
     Vec3f waypoint;

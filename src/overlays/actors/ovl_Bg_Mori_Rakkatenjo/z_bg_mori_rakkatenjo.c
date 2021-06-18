@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mori_rakkatenjo.h"
+#include "objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0x00000030
 
@@ -25,9 +26,6 @@ void BgMoriRakkatenjo_SetupRest(BgMoriRakkatenjo* this);
 void BgMoriRakkatenjo_Rest(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_SetupRise(BgMoriRakkatenjo* this);
 void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_060087AC;
-extern Gfx D_06007690[];
 
 static s16 sCamSetting = 0;
 
@@ -75,7 +73,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    CollisionHeader_GetVirtual(&D_060087AC, &colHeader);
+    CollisionHeader_GetVirtual(&gMoriRakkatenjoCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     BgMoriRakkatenjo_SetupWaitForMoriTex(this);
     sCamSetting = 0;
@@ -233,7 +231,7 @@ void BgMoriRakkatenjo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_06007690);
+    gSPDisplayList(POLY_OPA_DISP++, gMoriRakkatenjoDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 506);
 }

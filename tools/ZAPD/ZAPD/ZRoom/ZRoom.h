@@ -1,13 +1,20 @@
 #pragma once
 
-#include <tinyxml2.h>
-#include "../ZResource.h"
-#include "ZRoomCommand.h"
-#include "ZTexture.h"
-
 #include <map>
 #include <string>
 #include <vector>
+
+#include "ZResource.h"
+#include "ZRoomCommand.h"
+#include "tinyxml2.h"
+
+struct CommandSet
+{
+	uint32_t address;
+	uint32_t commandCount;  // Only used if explicitly specified in the XML
+
+	CommandSet(uint32_t nAddress, uint32_t nCommandCount = UINT32_MAX);
+};
 
 class ZRoom : public ZResource
 {
@@ -21,7 +28,6 @@ protected:
 
 public:
 	ZRoom* scene;
-	std::map<int32_t, ZTexture*> textures;
 	std::vector<CommandSet> commandSets;
 	int32_t roomCount;  // Only valid for scenes
 
@@ -31,22 +37,14 @@ public:
 	virtual ~ZRoom();
 
 	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex, const std::string& nRelPath) override;
+	                    uint32_t nRawDataIndex) override;
+
 	void ParseCommands(std::vector<ZRoomCommand*>& commandList, CommandSet commandSet);
-	size_t GetDeclarationSizeFromNeighbor(int32_t declarationAddress);
+	size_t GetDeclarationSizeFromNeighbor(uint32_t declarationAddress);
 	size_t GetCommandSizeFromNeighbor(ZRoomCommand* cmd);
 	ZRoomCommand* FindCommandOfType(RoomCommand cmdType);
-	size_t GetRawDataSize() override;
-	virtual ZResourceType GetResourceType() override;
-	virtual void Save(const std::string& outFolder) override;
-	virtual void PreGenSourceFiles() override;
-};
 
-struct CommandSet
-{
-	int32_t address;
-	uint32_t commandCount;  // Only used if explicitly specified in the XML
-
-	CommandSet(int32_t nAddress);
-	CommandSet(int32_t nAddress, uint32_t nCommandCount);
+	size_t GetRawDataSize() const override;
+	ZResourceType GetResourceType() const override;
+	void PreGenSourceFiles() override;
 };

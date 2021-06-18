@@ -21,6 +21,7 @@
 #include "z64math.h"
 #include "z64map_mark.h"
 #include "z64transition.h"
+#include "z64interface.h"
 #include "bgm.h"
 #include "sfx.h"
 #include "color.h"
@@ -1654,7 +1655,7 @@ typedef struct {
     /* 0x320 */ JpegQuantizationTable qTableV;
     /* 0x3A0 */ u8 codesLengths[0x110];
     /* 0x4B0 */ u16 codes[0x108];
-    /* 0x6C0 */ u16 unk_6C0[4][0x180];
+    /* 0x6C0 */ u16 data[4][0x180];
 } JpegWork; // size = 0x12C0
 
 typedef struct {

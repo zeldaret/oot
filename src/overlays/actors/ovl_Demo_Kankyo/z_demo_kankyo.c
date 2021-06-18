@@ -443,7 +443,7 @@ void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 if (globalCtx->sceneNum == SCENE_TOKINOMA) {
                     if (!Flags_GetEnv(globalCtx, 1)) {
                         break;
-                    } else if (!Actor_IsFacingPlayerAndNearby(&this->actor, 300.0f, 0x7530)) {
+                    } else if (!Actor_IsFacingAndNearPlayer(&this->actor, 300.0f, 0x7530)) {
                         break;
                     } else {
                         if (LINK_IS_CHILD) {

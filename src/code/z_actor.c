@@ -743,7 +743,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                             G_TX_NOLOD);
 
         gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1, G_TX_RENDERTILE,
-                            0, 0, 1024, 1024);
+                            0, 0, 1 << 10, 1 << 10);
 
         spC8 = titleCtx->height - spC8;
 
@@ -753,7 +753,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                                 G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(OVERLAY_DISP++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 + (spC8 * 4) - 1,
-                                G_TX_RENDERTILE, 0, 0, 1024, 1024);
+                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2880);
@@ -1129,7 +1129,7 @@ s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 maxAngle) {
  * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  * The minimum distance that qualifies as "nearby" is specified by `range`.
  */
-s32 Actor_IsFacingPlayerAndNearby(Actor* actor, f32 range, s16 maxAngle) {
+s32 Actor_IsFacingAndNearPlayer(Actor* actor, f32 range, s16 maxAngle) {
     s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
     if (ABS(yawDiff) < maxAngle) {
@@ -1148,7 +1148,7 @@ s32 Actor_IsFacingPlayerAndNearby(Actor* actor, f32 range, s16 maxAngle) {
  * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  * The minimum distance that qualifies as "nearby" is specified by `range`.
  */
-s32 Actor_ActorAIsFacingActorBAndNearby(Actor* actorA, Actor* actorB, f32 range, s16 maxAngle) {
+s32 Actor_ActorAIsFacingAndNearActorB(Actor* actorA, Actor* actorB, f32 range, s16 maxAngle) {
     if (Actor_WorldDistXYZToActor(actorA, actorB) < range) {
         s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 

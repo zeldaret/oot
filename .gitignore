@@ -36,6 +36,7 @@ tools/asmsplitter/asm/*
 tools/asmsplitter/c/*
 ctx.c
 tools/*dSYM/
+graphs/
 
 # Assets
 *.png
@@ -46,6 +47,7 @@ tools/*dSYM/
 *.mtl
 *.fbx
 !*_custom*
+.extracted-assets.json
 
 # Per-user configuration
 .python-version

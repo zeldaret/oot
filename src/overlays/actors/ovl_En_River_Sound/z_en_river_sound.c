@@ -30,18 +30,18 @@ const ActorInit En_River_Sound_InitVars = {
 void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnRiverSound* this = THIS;
 
-    this->unk_14C = 0;
+    this->playSound = 0;
     this->pathIndex = (this->actor.params >> 8) & 0xFF;
     this->actor.params = this->actor.params & 0xFF;
 
-    if (this->actor.params >= 248) {
-        func_800F4870(this->actor.params - 248);
+    if (this->actor.params >= RS_MAX) {
+        func_800F4870(this->actor.params - RS_MAX);
         Actor_Kill(&this->actor);
-    } else if (this->actor.params == 247) {
+    } else if (this->actor.params == RS_UNK_F7) {
         func_800F6FB4(4);
         Actor_Kill(&this->actor);
-    } else if (this->actor.params == 12) {
-        if (!CHECK_QUEST_ITEM(QUEST_SONG_LULLABY) || CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
+    } else if (this->actor.params == RS_SARIAS_SONG) {
+        if ((!CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) || (CHECK_QUEST_ITEM(QUEST_SONG_SARIA))) {
             Actor_Kill(&this->actor);
         }
     }
@@ -50,54 +50,50 @@ void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnRiverSound* this = THIS;
 
-    if (this->actor.params == 12) {
+    if (this->actor.params == RS_SARIAS_SONG) {
         func_800F50EC(&this->actor.projectedPos);
-    } else if (this->actor.params == 13) {
+    } else if (this->actor.params == RS_UNK_13) {
         func_800F5504();
     }
 }
 
-#ifdef NON_MATCHING
-// If anyone wants to try and figure this shit out, be my guest. I'm done.
 s32 func_80AE6A54(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
-    Vec3f sp2C;
-    Vec3f sp20;
-    Vec3f sp14;
-    f32 f;
-    f32 g;
-    f32 h;
+    Vec3f vec[3];
+    f32 temp;
 
-    sp20.x = arg0->x - arg2->x;
-    sp20.y = arg0->y - arg2->y;
-    sp20.z = arg0->z - arg2->z;
+    vec[0].x = arg0->x - arg2->x;
+    vec[0].y = arg0->y - arg2->y;
+    vec[0].z = arg0->z - arg2->z;
 
-    sp14.x = arg1->x - arg2->x;
-    sp14.y = arg1->y - arg2->y;
-    sp14.z = arg1->z - arg2->z;
+    vec[1].x = arg1->x - arg2->x;
+    vec[1].y = arg1->y - arg2->y;
+    vec[1].z = arg1->z - arg2->z;
 
-    sp2C.x = sp14.x - sp20.x;
-    sp2C.y = sp14.y - sp20.y;
-    sp2C.z = sp14.z - sp20.z;
+    vec[2].x = vec[1].x - vec[0].x;
+    vec[2].y = vec[1].y - vec[0].y;
+    vec[2].z = vec[1].z - vec[0].z;
 
-    f = sp20.z * sp2C.z + (sp2C.x * sp20.x + sp2C.y * sp20.y);
-    g = sp14.z * sp2C.z + (sp2C.x * sp14.x + sp2C.y * sp14.y);
-    h = sp2C.z * sp2C.z + (sp2C.x * sp2C.x + sp2C.y * sp2C.y);
+    temp = DOTXYZ(vec[2], vec[0]);
 
-    if (g * f < 0) {
-        arg3->x = sp2C.x * (-f / h) + arg0->x;
-        arg3->y = sp2C.y * (-f / h) + arg0->y;
-        arg3->z = sp2C.z * (-f / h) + arg0->z;
+    if ((DOTXYZ(vec[2], vec[1]) * temp) < 0.0f) {
+        temp = -temp / (SQ(vec[2].x) + SQ(vec[2].y) + SQ(vec[2].z));
 
-        return 1;
-    } else {
-        return 0;
+        arg3->x = (vec[2].x * temp) + arg0->x;
+        arg3->y = (vec[2].y * temp) + arg0->y;
+        arg3->z = (vec[2].z * temp) + arg0->z;
+
+        return true;
     }
-}
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_River_Sound/func_80AE6A54.s")
-#endif
 
-s32 func_80AE6BC0(Vec3s* points, s32 numPoints, Vec3f* pos, Vec3f* res) {
+    return false;
+}
+
+/**
+ * Writes the position along the river path to `soundPos` based on the `hearPos`, which is usually the position of the
+ * player.
+ * Returns true if the distance between the `hearPos` and `soundPos` is less than 10000, false if not.
+ */
+s32 EnRiverSound_GetSoundPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f* soundPos) {
     s32 i;
     s32 pointIdx;
     s32 sp78[2] = { 0, 0 };
@@ -109,21 +105,21 @@ s32 func_80AE6BC0(Vec3s* points, s32 numPoints, Vec3f* pos, Vec3f* res) {
     Vec3s* point;
 
     for (i = 0; i < numPoints; i++) {
-        f32 d;
+        f32 dist;
 
         vec.x = points[i].x;
         vec.y = points[i].y;
         vec.z = points[i].z;
-        d = Math_Vec3f_DistXYZ(pos, &vec);
+        dist = Math_Vec3f_DistXYZ(hearPos, &vec);
 
-        if (d < pointDist) {
-            pointDist = d;
+        if (dist < pointDist) {
+            pointDist = dist;
             pointIdx = i;
         }
     }
 
     if (pointDist >= 10000.0f) {
-        return 0;
+        return false;
     }
 
     point = &points[pointIdx];
@@ -135,37 +131,37 @@ s32 func_80AE6BC0(Vec3s* points, s32 numPoints, Vec3f* pos, Vec3f* res) {
         vec.x = point[-1].x;
         vec.y = point[-1].y;
         vec.z = point[-1].z;
-        sp78[0] = func_80AE6A54(&vec, &pointLoc, pos, &sp54);
+        sp78[0] = func_80AE6A54(&vec, &pointLoc, hearPos, &sp54);
     }
 
     if (pointIdx + 1 != numPoints) {
         vec.x = point[1].x;
         vec.y = point[1].y;
         vec.z = point[1].z;
-        sp78[1] = func_80AE6A54(&pointLoc, &vec, pos, &sp60);
+        sp78[1] = func_80AE6A54(&pointLoc, &vec, hearPos, &sp60);
     }
 
     if (sp78[0] && sp78[1]) {
-        if (!func_80AE6A54(&sp54, &sp60, pos, res)) {
-            res->x = (sp54.x + sp60.x) * 0.5f;
-            res->y = (sp54.y + sp60.y) * 0.5f;
-            res->z = (sp54.z + sp60.z) * 0.5f;
+        if (!func_80AE6A54(&sp54, &sp60, hearPos, soundPos)) {
+            soundPos->x = (sp54.x + sp60.x) * 0.5f;
+            soundPos->y = (sp54.y + sp60.y) * 0.5f;
+            soundPos->z = (sp54.z + sp60.z) * 0.5f;
         }
     } else if (sp78[0]) {
-        res->x = sp54.x;
-        res->y = sp54.y;
-        res->z = sp54.z;
+        soundPos->x = sp54.x;
+        soundPos->y = sp54.y;
+        soundPos->z = sp54.z;
     } else if (sp78[1]) {
-        res->x = sp60.x;
-        res->y = sp60.y;
-        res->z = sp60.z;
+        soundPos->x = sp60.x;
+        soundPos->y = sp60.y;
+        soundPos->z = sp60.z;
     } else {
-        res->x = pointLoc.x;
-        res->y = pointLoc.y;
-        res->z = pointLoc.z;
+        soundPos->x = pointLoc.x;
+        soundPos->y = pointLoc.y;
+        soundPos->z = pointLoc.z;
     }
 
-    return 1;
+    return true;
 }
 
 void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -175,32 +171,33 @@ void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRiverSound* this = THIS;
     s32 sp34;
 
-    if (thisx->params == 0 || thisx->params == 4 || thisx->params == 5) {
+    if ((thisx->params == RS_UNK_0) || (thisx->params == RS_UNK_4) || (thisx->params == RS_UNK_5)) {
         path = &globalCtx->setupPathList[this->pathIndex];
         pos = &thisx->world.pos;
 
-        if (func_80AE6BC0(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
+        if (EnRiverSound_GetSoundPos(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
             if (BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp34, thisx, pos) !=
                 BGCHECK_Y_MIN) {
-                this->unk_14D = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, thisx->floorPoly, sp34);
+                // Get the sound volume pitch based on the speed of the river current under the actor
+                this->soundPitchIndex = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, thisx->floorPoly, sp34);
             } else {
-                this->unk_14D = 0;
+                this->soundPitchIndex = 0;
             }
 
-            if (this->unk_14D == 0) {
-                if (thisx->params == 4) {
-                    this->unk_14D = 0;
-                } else if (thisx->params == 0) {
-                    this->unk_14D = 1;
+            if (this->soundPitchIndex == 0) {
+                if (thisx->params == RS_UNK_4) {
+                    this->soundPitchIndex = 0;
+                } else if (thisx->params == RS_UNK_0) {
+                    this->soundPitchIndex = 1;
                 } else {
-                    this->unk_14D = 2;
+                    this->soundPitchIndex = 2;
                 }
             } else {
-                this->unk_14D--;
-                this->unk_14D = CLAMP_MAX(this->unk_14D, 2);
+                this->soundPitchIndex--;
+                this->soundPitchIndex = CLAMP_MAX(this->soundPitchIndex, 2);
             }
         }
-    } else if (thisx->params == 13 || thisx->params == 19) {
+    } else if ((thisx->params == RS_UNK_13) || (thisx->params == RS_UNK_19)) {
         func_8002DBD0(&player->actor, &thisx->home.pos, &thisx->world.pos);
     } else if (globalCtx->sceneNum == SCENE_DDAN_BOSS && Flags_GetClear(globalCtx, thisx->room)) {
         Actor_Kill(thisx);
@@ -208,9 +205,7 @@ void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnRiverSound* this = THIS;
-
-    static s16 D_80AE71F8[] = {
+    static s16 soundEffects[] = {
         0,
         NA_SE_EV_WATER_WALL - SFX_FLAG,
         NA_SE_EV_MAGMA_LEVEL - SFX_FLAG,
@@ -234,24 +229,26 @@ void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
         NA_SE_EV_TORCH - SFX_FLAG,
         NA_SE_EV_COW_CRY_LV - SFX_FLAG,
     };
-    static f32 D_80AE7224[] = { 0.7f, 1.0f, 1.4f };
+    static f32 soundPitch[] = { 0.7f, 1.0f, 1.4f };
+    EnRiverSound* this = THIS;
 
-    if (this->unk_14C == 0) {
-        this->unk_14C = 1;
-    } else if (this->actor.params == 0 || this->actor.params == 4 || this->actor.params == 5) {
-        func_800F4634(&this->actor.projectedPos, D_80AE7224[this->unk_14D]);
-    } else if (this->actor.params == 11) {
+    if (!(this->playSound)) {
+        this->playSound = true;
+    } else if ((this->actor.params == RS_UNK_0) || (this->actor.params == RS_UNK_4) ||
+               (this->actor.params == RS_UNK_5)) {
+        func_800F4634(&this->actor.projectedPos, soundPitch[this->soundPitchIndex]);
+    } else if (this->actor.params == RS_UNK_11) {
         func_800F4A54(90);
-    } else if (this->actor.params == 12) {
+    } else if (this->actor.params == RS_SARIAS_SONG) {
         func_800F4E30(&this->actor.projectedPos, this->actor.xzDistToPlayer);
-    } else if (this->actor.params == 13) {
+    } else if (this->actor.params == RS_UNK_13) {
         func_800F52A0(&this->actor.home.pos, 62, 1000);
-    } else if (this->actor.params == 19) {
+    } else if (this->actor.params == RS_UNK_19) {
         func_800F52A0(&this->actor.home.pos, 40, 800);
-    } else if (this->actor.params == 14 || this->actor.params == 16 || this->actor.params == 17 ||
-               this->actor.params == 18) {
-        func_800788CC(D_80AE71F8[this->actor.params]);
+    } else if ((this->actor.params == RS_SANDSTORM) || (this->actor.params == RS_CHAMBER_OF_SAGES_1) ||
+               (this->actor.params == RS_CHAMBER_OF_SAGES_2) || (this->actor.params == RS_RUMBLING)) {
+        func_800788CC(soundEffects[this->actor.params]);
     } else {
-        Audio_PlayActorSound2(&this->actor, D_80AE71F8[this->actor.params]);
+        Audio_PlayActorSound2(&this->actor, soundEffects[this->actor.params]);
     }
 }

@@ -5,6 +5,14 @@
  */
 
 #include "z_bg_mjin.h"
+#include "objects/object_mjin/object_mjin.h"
+#include "objects/object_mjin_wind/object_mjin_wind.h"
+#include "objects/object_mjin_soul/object_mjin_soul.h"
+#include "objects/object_mjin_dark/object_mjin_dark.h"
+#include "objects/object_mjin_ice/object_mjin_ice.h"
+#include "objects/object_mjin_flame/object_mjin_flame.h"
+#include "objects/object_mjin_flash/object_mjin_flash.h"
+#include "objects/object_mjin_oka/object_mjin_oka.h"
 
 #define FLAGS 0x00000010
 
@@ -16,7 +24,7 @@ void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808A0850(BgMjin* this, GlobalContext* globalCtx);
-void func_808A0920(BgMjin* this, GlobalContext* globalCtx);
+void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mjin_InitVars = {
     ACTOR_BG_MJIN,
@@ -31,10 +39,6 @@ const ActorInit Bg_Mjin_InitVars = {
 };
 
 extern UNK_TYPE D_06000000;
-extern Gfx D_06000140[];
-extern Gfx D_06000330[];
-extern CollisionHeader D_06000330_;
-extern CollisionHeader D_06000658;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
@@ -80,15 +84,15 @@ void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
         this->dyna.actor.objBankIndex = this->objBankIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);
-        collision = this->dyna.actor.params != 0 ? &D_06000658 : &D_06000330_;
+        collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
         CollisionHeader_GetVirtual(collision, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-        BgMjin_SetupAction(this, func_808A0920);
+        BgMjin_SetupAction(this, BgMjin_DoNothing);
         this->dyna.actor.draw = BgMjin_Draw;
     }
 }
 
-void func_808A0920(BgMjin* this, GlobalContext* globalCtx) {
+void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx) {
 }
 
 void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -104,15 +108,17 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
 
     if (thisx->params != 0) {
+        // thisx is required
         s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
         if (objBankIndex >= 0) {
             gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
         }
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
-        dlist = D_06000330;
+        dlist = gWarpPadBaseDL;
     } else {
-        dlist = D_06000140;
+        dlist = gOcarinaWarpPadDL;
     }
+
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 285),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
