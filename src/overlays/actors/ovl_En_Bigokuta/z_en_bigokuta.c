@@ -16,6 +16,13 @@ void func_809BD8DC(EnBigokuta* this, GlobalContext* globalCtx);
 void func_809BDAE8(EnBigokuta* this, GlobalContext* globalCtx);
 void func_809BDB90(EnBigokuta* this, GlobalContext* globalCtx);
 void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx);
+void func_809BE3E4(EnBigokuta* this, GlobalContext* globalCtx);
+void func_809BE4A4(EnBigokuta* this, GlobalContext* globalCtx);
+void func_809BE518(EnBigokuta* this, GlobalContext* globalCtx);
+void func_809BCF68(EnBigokuta* this, GlobalContext* globalCtx);
+void func_809BDFC8(EnBigokuta* this, GlobalContext* globalCtx);
+void func_809BE26C(EnBigokuta* this, GlobalContext* globalCtx);
+void func_809BE180(EnBigokuta* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06000444;
 extern UNK_TYPE D_06000A74;
@@ -149,8 +156,8 @@ InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 89, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 33, ICHAIN_STOP),
 };*/
-s32 D_809BF488[] = { 0xB04C07D0, 0x801F0002, 0xB06CFFFF, 0x89170059, 0x48500021,
-                     0xFFFFFFFF, 0x969696FF, 0x00000000, 0x00000000, 0x00000000 };
+s32 D_809BF488[] = { 0xB04C07D0, 0x801F0002, 0xB06CFFFF, 0x89170059, 0x48500021 };
+s32 data[] = { 0xFFFFFFFF, 0x969696FF, 0x00000000, 0x00000000, 0x00000000 };
 
 void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBigokuta* this = THIS;
@@ -184,7 +191,14 @@ void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/EnBigokuta_Destroy.s")
+void EnBigokuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnBigokuta* this = THIS;
+    s32 i;
+    Collider_DestroyJntSph(globalCtx, &this->collider);
+    for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
+        Collider_DestroyCylinder(globalCtx, &this->cylinder[i]);
+    }
+}
 
 void func_809BCE3C(EnBigokuta* this);
 #ifdef NON_MATCHING
@@ -200,7 +214,42 @@ void func_809BCE3C(EnBigokuta* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BCEBC.s")
 
+// TODO check this when this file is done
+#ifdef NON_MATCHING
+void func_809BCF68(EnBigokuta* this, GlobalContext* globalCtx) {
+    Vec3f effectPos;
+    s16 temp_a0;
+
+    if ((globalCtx->gameplayFrames & 1) != 0) {
+        temp_a0 = ((Rand_S16Offset(0x1200, 0xC00) + this->actor.shape.rot.y) - (this->unk_194 * 0xA00));
+    } else {
+        temp_a0 = this->actor.shape.rot.y - this->unk_194 * 0xA00 - Rand_S16Offset(0x1200, 0xC00);
+    }
+    if (func_809BE4A4 != this->actionFunc) {
+        if ((this->actionFunc == func_809BE3E4) || ((globalCtx->gameplayFrames & 2) != 0)) {
+            effectPos.x = this->actor.world.pos.x - (Math_SinS(temp_a0) * 80.0f);
+            effectPos.z = this->actor.world.pos.z - (Math_CosS(temp_a0) * 80.0f);
+            effectPos.y = this->actor.home.pos.y + 1.0f;
+            EffectSsGRipple_Spawn(globalCtx, &effectPos, 100, 500, 0);
+        } else {
+            effectPos.x = this->actor.world.pos.x - (Math_SinS(temp_a0) * 120.0f);
+            effectPos.z = this->actor.world.pos.z - (Math_CosS(temp_a0) * 120.0f);
+            effectPos.y = this->actor.home.pos.y + 5.0f;
+        }
+    } else {
+        effectPos.x = this->actor.world.pos.x - (Math_SinS(temp_a0) * 50.0f);
+        effectPos.z = this->actor.world.pos.z - (Math_CosS(temp_a0) * 50.0f);
+        effectPos.y = this->actor.home.pos.y + 1.0f;
+        EffectSsGRipple_Spawn(globalCtx, &effectPos, 100, 500, 0);
+    }
+    EffectSsGSplash_Spawn(globalCtx, &effectPos, NULL, NULL, 1, 800);
+    if (func_809BE4A4 != this->actionFunc) {
+        func_8002F974(&this->actor, NA_SE_EN_DAIOCTA_SPLASH - SFX_FLAG);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BCF68.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD1C8.s")
 
@@ -245,8 +294,15 @@ void func_809BD3F8(EnBigokuta* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD47C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD4A4.s")
-
+void func_809BD4A4(EnBigokuta* this) {
+    Animation_MorphToLoop(&this->skelAnime, &D_060014B8, -5.0f);
+    this->unk_195 = 1;
+    this->actor.world.rot.x = this->actor.shape.rot.y + 0x8000;
+    this->unk_19A = this->unk_194 << 9;
+    this->collider.base.acFlags &= ~1;
+    this->cylinder[0].base.atFlags |= 1;
+    this->actionFunc = func_809BDFC8;
+}
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD524.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD5E0.s")
@@ -255,9 +311,22 @@ void func_809BD3F8(EnBigokuta* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD6B8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD768.s")
+void func_809BD768(EnBigokuta* this) {
+    this->unk_194 = (Rand_ZeroOne() < 0.5f) ? -1 : 1;
+    this->unk_19A = 0;
+    this->actor.flags &= ~1;
+    this->cylinder[0].base.atFlags &= ~1;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_SINK);
+    this->actionFunc = func_809BE4A4;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD7F0.s")
+void func_809BD7F0(EnBigokuta* this, GlobalContext* globalCtx) {
+
+    this->actor.world.rot.y = Actor_WorldYawTowardPoint(globalCtx->actorCtx.actorLists[2].head, &this->actor.home.pos);
+    this->actor.shape.rot.y = this->actor.world.rot.y + (this->unk_194 << 0xE);
+    func_809BCE3C(this);
+    this->actionFunc = func_809BE518;
+}
 
 void func_809BD84C(EnBigokuta* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
@@ -364,12 +433,13 @@ void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx) {
 
     phi_v1 = (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) - 180.0f) * 0.53333336f;
     func_8002DBD0(&this->actor, &sp28, &player->actor.world.pos);
-    if (fabsf(sp28.x) > 263.0f || ((sp28.z > 0.0f) && !func_8002E084(&this->actor, 0x1B00) && !func_8002DFC8(&this->actor, 0x2000, globalCtx))) {
-            phi_v1 -= 0x80;
-            if (this->unk_196 != 0) {
-                this->unk_196--;
-            }
+    if (fabsf(sp28.x) > 263.0f ||
+        ((sp28.z > 0.0f) && !func_8002E084(&this->actor, 0x1B00) && !func_8002DFC8(&this->actor, 0x2000, globalCtx))) {
+        phi_v1 -= 0x80;
+        if (this->unk_196 != 0) {
+            this->unk_196--;
         }
+    }
 
     if ((this->actor.xzDistToPlayer < 250.0f) && (func_8002E084(&this->actor, 0x6000) == 0)) {
         if (this->unk_198 != 0) {
@@ -414,8 +484,19 @@ void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BDF34.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BDFC8.s")
-
+void func_809BDFC8(EnBigokuta* this, GlobalContext* globalCtx) {
+    SkelAnime_Update(&this->skelAnime);
+    if (this->unk_196 != 0) {
+        this->unk_196--;
+    }
+    if (this->unk_196 == 20) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_VOICE);
+    }
+    if ((this->unk_196 == 0) && (Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.x, 0x800) != 0)) {
+        this->unk_194 = -this->unk_194;
+        func_809BD3F8(this);
+    }
+}
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BE058.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BE180.s")
@@ -424,10 +505,21 @@ void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BE3E4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BE4A4.s")
+void func_809BE4A4(EnBigokuta* this, GlobalContext* globalCtx) {
+    this->actor.world.pos.y -= 10.0f;
+    this->actor.shape.rot.y += 0x2000;
+    if (this->actor.world.pos.y < (this->actor.home.pos.y + -200.0f)) {
+        func_809BD7F0(this, globalCtx);
+    }
+    func_809BCF68(this, globalCtx);
+}
+void func_809BE518(EnBigokuta* this, GlobalContext* globalCtx) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BE518.s")
-
+    if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 10.0f) != 0) {
+        this->actor.flags |= 1;
+        func_809BD3F8(this);
+    }
+}
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BE568.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BE798.s")
@@ -436,6 +528,84 @@ void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/EnBigokuta_Update.s")
 
+s32 func_809BEBBC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BEBBC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/EnBigokuta_Draw.s")
+/*void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnBigokuta* this = THIS;
+    f32 rotX;
+    f32 rotY;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bigokuta.c", 0x7E1);
+
+    if ((&func_809BE26C != this->actionFunc) || (this->unk_196 != 0) || (this->unk_198 != 0)) {
+        func_80093D18(globalCtx->state.gfxCtx);
+        gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280);
+        gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 254);
+
+        if ((this->unk_196 & 1) != 0) {
+            if ((this->actionFunc != func_809BE180) || (this->unk_196 < 8)) {
+                if ((this->actionFunc == func_809BE26C) && (this->unk_196 >= 0xA)) {
+                block_8:
+                    rotX = Rand_ZeroOne() * 6.2831855f;
+                    rotY = Rand_ZeroOne() * 6.2831855f;
+
+                    Matrix_RotateY(rotY, (u8)1U);
+                    Matrix_RotateX(rotX, (u8)1U);
+                    Matrix_Scale(0.78999996f, 1.3f, 0.78999996f, (u8)1U);
+                    Matrix_RotateX(-rotX, (u8)1U);
+                    Matrix_RotateY(-rotY, (u8)1U);
+                }
+            } else {
+                goto block_8;
+            }
+        }
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              (s32)this->skelAnime.dListCount, func_809BEBBC, NULL, this);
+    } else {
+        func_80093D84(globalCtx->state.gfxCtx);
+        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->actor.scale.y * 7727.273f);
+        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                                           (s32)this->skelAnime.dListCount, NULL, NULL, NULL, this);
+    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bigokuta.c", 0x81C);
+}*/
+
+void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnBigokuta* this = THIS;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bigokuta.c", 0x7E1);
+
+    if ((this->actionFunc != func_809BE26C) || (this->unk_196 != 0) || (this->unk_198 != 0)) {
+        func_80093D18(globalCtx->state.gfxCtx);
+        gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+        gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
+        if ((this->unk_196 & 1) != 0) {
+            if (((this->actionFunc == func_809BE180) && (this->unk_196 >= 8)) ||
+                ((this->actionFunc == func_809BE26C) && (this->unk_196 >= 0xA))) {
+                f32 rotX;
+                f32 rotY;
+
+                rotX = Rand_ZeroOne() * (M_PI * 2.0f); // 6.2831855f;
+                rotY = Rand_ZeroOne() * (M_PI * 2.0f); // 6.2831855f;
+
+                Matrix_RotateY(rotY, MTXMODE_APPLY);
+                Matrix_RotateX(rotX, MTXMODE_APPLY);
+                Matrix_Scale(0.78999996f, 1.3f, 0.78999996f, MTXMODE_APPLY);
+                Matrix_RotateX(-rotX, MTXMODE_APPLY);
+                Matrix_RotateY(-rotY, MTXMODE_APPLY);
+            }
+        }
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              this->skelAnime.dListCount, func_809BEBBC, NULL, (void*)this);
+    } else {
+        func_80093D84(globalCtx->state.gfxCtx);
+        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, (this->actor.scale.y * 7727.273f));
+        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                                           this->skelAnime.dListCount, NULL, NULL, NULL, this);
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bigokuta.c", 0x81C);
+}
