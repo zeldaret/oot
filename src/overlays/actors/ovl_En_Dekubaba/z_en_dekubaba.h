@@ -11,9 +11,7 @@ typedef void (*EnDekubabaActionFunc)(struct EnDekubaba*, GlobalContext*);
 
 typedef struct EnDekubaba {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ Vec3f unk_14C[2];
-    /* 0x0164 */ Vec3f unk_164;
-    /* 0x0170 */ Vec3f unk_170;
+    /* 0x014C */ Vec3f bodyPartsPos[4];
     /* 0x017C */ SkelAnime skelAnime;
     /* 0x01C0 */ EnDekubabaActionFunc actionFunc;
     /* 0x01C4 */ char unk_1C4[0x2]; // unused
@@ -23,7 +21,7 @@ typedef struct EnDekubaba {
     /* 0x01D0 */ Vec3s jointTable[8];
     /* 0x0200 */ Vec3s morphTable[8];
     /* 0x0230 */ f32 unk_230;
-    /* 0x0234 */ CollisionPoly* unk_234;
+    /* 0x0234 */ CollisionPoly* boundFloor;
     /* 0x0238 */ ColliderJntSph collider;
     /* 0x0258 */ ColliderJntSphElement colliderElements[7];
 } EnDekubaba; // size = 0x0418
