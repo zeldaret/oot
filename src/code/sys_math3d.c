@@ -415,7 +415,7 @@ f32 Math3D_Dist1D(f32 a, f32 b) {
  * Returns the distance squared between (`x0`,`y0`) and (`x1`,`x2`)
  */
 f32 Math3D_Dist2DSq(f32 x0, f32 y0, f32 x1, f32 y1) {
-    Math3D_Dist1DSq(x0 - x1, y0 - y1);
+    return Math3D_Dist1DSq(x0 - x1, y0 - y1);
 }
 
 /**
