@@ -16,48 +16,80 @@
 
 void Fishing_Init(Actor* thisx, GlobalContext* globalCtx);
 void Fishing_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void Fishing_Update(Actor* thisx, GlobalContext* globalCtx);
-void func_80B7825C(Actor* thisx, GlobalContext* globalCtx);
-void Fishing_Draw(Actor* thisx, GlobalContext* globalCtx);
-void func_80B7A278(Actor* thisx, GlobalContext* globalCtx);
+void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx);
+void Fishing_UpdateMan(Actor* thisx, GlobalContext* globalCtx);
+void Fishing_DrawFish(Actor* thisx, GlobalContext* globalCtx);
+void Fishing_DrawMan(Actor* thisx, GlobalContext* globalCtx);
 
 typedef struct {
     /* 0x00 */ u8 unk_00;
-    /* 0x02 */ Vec3s unk_02;
-} struct_80B7A8D8; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ u8 unk_00;
-    /* 0x02 */ Vec3s unk_02;
+    /* 0x02 */ Vec3s pos;
     /* 0x08 */ u8 unk_08;
     /* 0x0C */ f32 unk_0C;
-} struct_80B7AD40; // size = 0x10
+} FishingFishInit; // size = 0x10
+
+#define EFFECT_COUNT 130
 
 typedef struct {
-    /* 0x00 */ Vec3f unk_00;
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ f32 unk_18;
-    /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ f32 unk_20;
-    /* 0x24 */ f32 unk_24;
-    /* 0x28 */ s16 unk_28;
-    /* 0x2C */ f32 unk_2C;
-    /* 0x30 */ u8 unk_30;
-    /* 0x32 */ s16 unk_32;
-    /* 0x34 */ u8 unk_34;
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ Vec3f vel;
+    /* 0x18 */ Vec3f accel;
+    /* 0x24 */ u8 type;
+    /* 0x25 */ u8 timer;
+    /* 0x26 */ char unk_26[0x04];
+    /* 0x2A */ s16 alpha;
+    /* 0x2C */ s16 unk_2C;
+    /* 0x2E */ s16 unk_2E;
+    /* 0x30 */ f32 unk_30;
+    /* 0x34 */ f32 unk_34;
     /* 0x38 */ f32 unk_38;
-} struct_80B7FEF8; // size = 0x3C
+    /* 0x3C */ f32 unk_3C;
+} FishingEffect; // size = 0x40
+
+#define POND_PROP_COUNT 140
+
+typedef enum {
+    /* 0x00 */ FS_PROP_NONE,
+    /* 0x01 */ FS_PROP_REED,
+    /* 0x02 */ FS_PROP_LILY_PAD,
+    /* 0x03 */ FS_PROP_ROCK,
+    /* 0x04 */ FS_PROP_WOOD_POST,
+    /* 0x23 */ FS_PROP_INIT_STOP = 35
+} FishingPropType;
 
 typedef struct {
-    /* 0x00 */ u8 unk_00;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ Vec3f unk_04;
+    /* 0x00 */ u8 type;
+    /* 0x02 */ Vec3s pos;
+} FishingPropInit; // size = 0x08
+
+typedef struct {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ f32 rotX;
+    /* 0x10 */ f32 rotY;
+    /* 0x14 */ f32 reedAngle;
+    /* 0x18 */ Vec3f projectedPos;
+    /* 0x24 */ f32 scale;
+    /* 0x28 */ s16 lilyPadAngle;
+    /* 0x2C */ f32 lilyPadOffset;
+    /* 0x30 */ u8 type;
+    /* 0x32 */ s16 timer;
+    /* 0x34 */ u8 shouldDraw;
+    /* 0x38 */ f32 drawDistance;
+} FishingProp; // size = 0x3C
+
+typedef enum {
+    /* 0x00 */ FS_POOL_FISH_NONE,
+    /* 0x01 */ FS_POOL_FISH_NORMAL
+} FishingPoolFishType;
+
+#define POOL_FISH_COUNT 60
+
+typedef struct {
+    /* 0x00 */ u8 type;
+    /* 0x02 */ s16 timer;
+    /* 0x04 */ Vec3f pos;
     /* 0x10 */ Vec3f unk_10;
-    /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ f32 unk_20;
-    /* 0x24 */ f32 unk_24;
+    /* 0x1C */ Vec3f projectedPos;
     /* 0x28 */ f32 unk_28;
     /* 0x2C */ f32 unk_2C;
     /* 0x30 */ f32 unk_30;
@@ -67,24 +99,8 @@ typedef struct {
     /* 0x3E */ s16 unk_3E;
     /* 0x40 */ s16 unk_40;
     /* 0x42 */ s16 unk_42;
-    /* 0x44 */ u8 unk_44;
-} struct_80B81FC8; // size = 0x48
-
-typedef struct {
-    /* 0x00 */ Vec3f unk_00;
-    /* 0x0C */ Vec3f unk_0C;
-    /* 0x18 */ Vec3f unk_18;
-    /* 0x24 */ u8 unk_24;
-    /* 0x25 */ u8 unk_25;
-    /* 0x26 */ char unk_26[0x04];
-    /* 0x2A */ s16 unk_2A;
-    /* 0x2C */ s16 unk_2C;
-    /* 0x2E */ s16 unk_2E;
-    /* 0x30 */ f32 unk_30;
-    /* 0x34 */ f32 unk_34;
-    /* 0x38 */ f32 unk_38;
-    /* 0x3C */ f32 unk_3C;
-} struct_80B830B8; // size = 0x40
+    /* 0x44 */ u8 shouldDraw;
+} FishingPoolFish; // size = 0x48
 
 const ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
@@ -94,8 +110,8 @@ const ActorInit Fishing_InitVars = {
     sizeof(Fishing),
     (ActorFunc)Fishing_Init,
     (ActorFunc)Fishing_Destroy,
-    (ActorFunc)Fishing_Update,
-    (ActorFunc)Fishing_Draw,
+    (ActorFunc)Fishing_UpdateFish,
+    (ActorFunc)Fishing_DrawFish,
 };
 
 static f32 D_80B7A650 = 0.0f;
@@ -147,7 +163,7 @@ static u8 D_80B7A6CC = 0;
 static u8 D_80B7A6D0 = 0;
 static u8 D_80B7A6D4 = 0;
 
-static ColliderJntSphElementInit D_80B7A6D8[12] = {
+static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
         {
             ELEMTYPE_UNK0,
@@ -282,7 +298,7 @@ static ColliderJntSphElementInit D_80B7A6D8[12] = {
     },
 };
 
-static ColliderJntSphInit D_80B7A888 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_NONE,
         AT_TYPE_ENEMY,
@@ -292,12 +308,12 @@ static ColliderJntSphInit D_80B7A888 = {
         COLSHAPE_JNTSPH,
     },
     12,
-    D_80B7A6D8,
+    sJntSphElementsInit,
 };
 
 static f32 D_80B7A898 = 0.0f;
 
-static Vec3f D_80B7A89C = { 0.0f, 0.0f, 0.0f };
+static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 static Vec3f D_80B7A8A8 = { 0.0f, 0.0f, 2000.0f };
 
 static Fishing* D_80B7E070;
@@ -314,7 +330,7 @@ static u8 D_80B7E082;
 static u16 D_80B7E084;
 static u16 D_80B7E086;
 static s8 D_80B7E088;
-static Vec3f D_80B7E090;
+static Vec3f sFishingManHeadPos;
 static Vec3s D_80B7E09C;
 static u8 D_80B7E0A2;
 static s16 D_80B7E0A4;
@@ -361,7 +377,7 @@ static f32 D_80B7FDA0[2];
 static u8 D_80B7FDA8;
 static Vec3f D_80B7FDB0[20];
 static s16 D_80B7FEA0;
-static f32 D_80B7FEA4;
+static f32 sProjectedW;
 static Vec3f D_80B7FEA8;
 static Vec3f D_80B7FEB8;
 static s16 D_80B7FEC4;
@@ -370,39 +386,40 @@ static f32 D_80B7FECC;
 static f32 D_80B7FED0;
 static Vec3f D_80B7FED8;
 static f32 D_80B7FEE4;
-static s32 D_80B7FEE8;
-static s32 D_80B7FEEC;
-static s32 D_80B7FEF0;
-static struct_80B7FEF8 D_80B7FEF8[140];
-static struct_80B81FC8 D_80B81FC8[60];
+static s32 sRandSeed0;
+static s32 sRandSeed1;
+static s32 sRandSeed2;
+static FishingProp sPondProps[POND_PROP_COUNT];
+static FishingPoolFish sPoolFishes[POOL_FISH_COUNT];
 static f32 D_80B830A8;
 static f32 D_80B830AC;
 static f32 D_80B830B0;
-static struct_80B830B8 D_80B830B8[130];
-static Vec3f D_80B85138;
+static FishingEffect sFishingEffects[EFFECT_COUNT];
+static Vec3f sStreamSoundProjectedPos;
 
-void func_80B699A0(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 arg3) {
+void Fishing_SetColliderElement(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 scale) {
     collider->elements[index].dim.worldSphere.center.x = pos->x;
     collider->elements[index].dim.worldSphere.center.y = pos->y;
     collider->elements[index].dim.worldSphere.center.z = pos->z;
     collider->elements[index].dim.worldSphere.radius =
-        collider->elements[index].dim.modelSphere.radius * collider->elements[index].dim.scale * arg3 * 1.6f;
+        collider->elements[index].dim.modelSphere.radius * collider->elements[index].dim.scale * scale * 1.6f;
 }
 
-void func_80B69A44(s32 arg0, s32 arg1, s32 arg2) {
-    D_80B7FEE8 = arg0;
-    D_80B7FEEC = arg1;
-    D_80B7FEF0 = arg2;
+void Fishing_SeedRand(s32 seed0, s32 seed1, s32 seed2) {
+    sRandSeed0 = seed0;
+    sRandSeed1 = seed1;
+    sRandSeed2 = seed2;
 }
 
-f32 func_80B69A60(void) {
+f32 Fishing_RandZeroOne(void) {
     f32 phi_f2;
 
-    D_80B7FEE8 = (D_80B7FEE8 * 171) % 30269;
-    D_80B7FEEC = (D_80B7FEEC * 172) % 30307;
-    D_80B7FEF0 = (D_80B7FEF0 * 170) % 30323;
+    // Wichmann-Hill algorithm
+    sRandSeed0 = (sRandSeed0 * 171) % 30269;
+    sRandSeed1 = (sRandSeed1 * 172) % 30307;
+    sRandSeed2 = (sRandSeed2 * 170) % 30323;
 
-    phi_f2 = (D_80B7FEE8 / 30269.0f) + (D_80B7FEEC / 30307.0f) + (D_80B7FEF0 / 30323.0f);
+    phi_f2 = (sRandSeed0 / 30269.0f) + (sRandSeed1 / 30307.0f) + (sRandSeed2 / 30323.0f);
     while (phi_f2 >= 1.0f) {
         phi_f2 -= 1.0f;
     }
@@ -410,124 +427,124 @@ f32 func_80B69A60(void) {
     return fabsf(phi_f2);
 }
 
-s16 func_80B69B84(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
-    s16 phi_t0;
-    s16 phi_v0;
+s16 Fishing_SmoothStepToS(s16* pValue, s16 target, s16 scale, s16 step) {
+    s16 stepSize;
+    s16 diff;
 
-    phi_v0 = arg1 - *arg0;
-    phi_t0 = phi_v0 / arg2;
+    diff = target - *pValue;
+    stepSize = diff / scale;
 
-    if (phi_t0 > arg3) {
-        phi_t0 = arg3;
+    if (stepSize > step) {
+        stepSize = step;
     }
 
-    if (phi_t0 < -arg3) {
-        phi_t0 = -arg3;
+    if (stepSize < -step) {
+        stepSize = -step;
     }
 
-    *arg0 += phi_t0;
+    *pValue += stepSize;
 
-    return phi_t0;
+    return stepSize;
 }
 
-void func_80B69C2C(Vec3f* arg0, struct_80B830B8* effects, Vec3f* arg2, f32 arg3, f32 arg4, s16 arg5, s16 arg6) {
+void func_80B69C2C(Vec3f* projectedPos, FishingEffect* effect, Vec3f* arg2, f32 arg3, f32 arg4, s16 arg5, s16 arg6) {
     s16 i;
 
-    if ((arg0 == NULL) || (!(arg0->z > 500.0f) && !(arg0->z < 0.0f))) {
+    if ((projectedPos == NULL) || (!(projectedPos->z > 500.0f) && !(projectedPos->z < 0.0f))) {
         for (i = 0; i < arg6; i++) {
-            if (effects->unk_24 == 0) {
-                effects->unk_24 = 1;
-                effects->unk_00 = *arg2;
-                effects->unk_0C = D_80B7A89C;
-                effects->unk_18 = D_80B7A89C;
-                effects->unk_30 = arg3 * 0.0025f;
-                effects->unk_34 = arg4 * 0.0025f;
+            if (effect->type == 0) {
+                effect->type = 1;
+                effect->pos = *arg2;
+                effect->vel = sZeroVec;
+                effect->accel = sZeroVec;
+                effect->unk_30 = arg3 * 0.0025f;
+                effect->unk_34 = arg4 * 0.0025f;
 
                 if (arg3 > 300.0f) {
-                    effects->unk_2A = 0;
-                    effects->unk_2E = arg5;
-                    effects->unk_2C = 0;
-                    effects->unk_38 = (effects->unk_34 - effects->unk_30) * 0.05f;
+                    effect->alpha = 0;
+                    effect->unk_2E = arg5;
+                    effect->unk_2C = 0;
+                    effect->unk_38 = (effect->unk_34 - effect->unk_30) * 0.05f;
                 } else {
-                    effects->unk_2A = arg5;
-                    effects->unk_2C = 1;
-                    effects->unk_38 = (effects->unk_34 - effects->unk_30) * 0.1f;
+                    effect->alpha = arg5;
+                    effect->unk_2C = 1;
+                    effect->unk_38 = (effect->unk_34 - effect->unk_30) * 0.1f;
                 }
                 break;
             }
 
-            effects++;
+            effect++;
         }
     }
 }
 
-void func_80B69D88(Vec3f* arg0, struct_80B830B8* effects, Vec3f* arg2, Vec3f* arg3, f32 arg4) {
+void func_80B69D88(Vec3f* projectedPos, FishingEffect* effect, Vec3f* arg2, Vec3f* arg3, f32 arg4) {
     s16 i;
     Vec3f sp20 = { 0.0f, -1.0f, 0.0f };
 
-    if ((arg0 == NULL) || (!(arg0->z > 500.0f) && !(arg0->z < 0.0f))) {
+    if ((projectedPos == NULL) || (!(projectedPos->z > 500.0f) && !(projectedPos->z < 0.0f))) {
         for (i = 0; i < 100; i++) {
-            if ((effects->unk_24 == 0) || (effects->unk_24 == 5) || (effects->unk_24 == 7) || (effects->unk_24 == 8)) {
-                effects->unk_24 = 2;
-                effects->unk_00 = *arg2;
-                effects->unk_0C = *arg3;
-                effects->unk_18 = sp20;
-                effects->unk_2A = 100 + (s16)Rand_ZeroFloat(100.0f);
-                effects->unk_30 = arg4;
+            if ((effect->type == 0) || (effect->type == 5) || (effect->type == 7) || (effect->type == 8)) {
+                effect->type = 2;
+                effect->pos = *arg2;
+                effect->vel = *arg3;
+                effect->accel = sp20;
+                effect->alpha = 100 + (s16)Rand_ZeroFloat(100.0f);
+                effect->unk_30 = arg4;
                 break;
             }
 
-            effects++;
+            effect++;
         }
     }
 }
 
-void func_80B69ED0(Vec3f* arg0, struct_80B830B8* effects, Vec3f* arg2, f32 arg3) {
+void func_80B69ED0(Vec3f* projectedPos, FishingEffect* effect, Vec3f* arg2, f32 arg3) {
     s16 i;
     Vec3f sp20 = { 0.0f, 0.05f, 0.0f };
 
-    if ((arg0 == NULL) || (!(arg0->z > 500.0f) && !(arg0->z < 0.0f))) {
+    if ((projectedPos == NULL) || (!(projectedPos->z > 500.0f) && !(projectedPos->z < 0.0f))) {
         for (i = 0; i < 90; i++) {
-            if (effects->unk_24 == 0) {
-                effects->unk_24 = 3;
-                effects->unk_00 = *arg2;
-                effects->unk_0C = D_80B7A89C;
-                effects->unk_18 = sp20;
-                effects->unk_2A = 0xFF;
-                effects->unk_25 = (s16)Rand_ZeroFloat(100.0f);
-                effects->unk_30 = arg3;
-                effects->unk_34 = 2.0f * arg3;
+            if (effect->type == 0) {
+                effect->type = 3;
+                effect->pos = *arg2;
+                effect->vel = sZeroVec;
+                effect->accel = sp20;
+                effect->alpha = 255;
+                effect->timer = (s16)Rand_ZeroFloat(100.0f);
+                effect->unk_30 = arg3;
+                effect->unk_34 = 2.0f * arg3;
                 break;
             }
 
-            effects++;
+            effect++;
         }
     }
 }
 
-void func_80B6A008(Vec3f* arg0, struct_80B830B8* effects, Vec3f* arg2, f32 arg3, u8 arg4) {
+void func_80B6A008(Vec3f* projectedPos, FishingEffect* effect, Vec3f* arg2, f32 arg3, u8 arg4) {
     s16 i;
     Vec3f sp20 = { 0.0f, 1.0f, 0.0f };
 
-    if ((arg0 == NULL) || (!(arg0->z > 500.0f) && !(arg0->z < 0.0f))) {
+    if ((projectedPos == NULL) || (!(projectedPos->z > 500.0f) && !(projectedPos->z < 0.0f))) {
         for (i = 0; i < 90; i++) {
-            if (effects->unk_24 == 0) {
-                effects->unk_24 = 4;
-                effects->unk_00 = *arg2;
-                effects->unk_0C = sp20;
-                effects->unk_18 = D_80B7A89C;
-                effects->unk_25 = (s16)Rand_ZeroFloat(100.0f);
-                effects->unk_30 = arg3;
-                effects->unk_2C = arg4;
+            if (effect->type == 0) {
+                effect->type = 4;
+                effect->pos = *arg2;
+                effect->vel = sp20;
+                effect->accel = sZeroVec;
+                effect->timer = (s16)Rand_ZeroFloat(100.0f);
+                effect->unk_30 = arg3;
+                effect->unk_2C = arg4;
                 break;
             }
 
-            effects++;
+            effect++;
         }
     }
 }
 
-void func_80B6A138(struct_80B830B8* effects, Vec3f* arg1, Vec3f* arg2) {
+void func_80B6A138(FishingEffect* effect, Vec3f* arg1, Vec3f* arg2) {
     s16 i;
     Vec3f sp18;
 
@@ -535,122 +552,227 @@ void func_80B6A138(struct_80B830B8* effects, Vec3f* arg1, Vec3f* arg2) {
     sp18.y = 0.0f;
     sp18.z = 300.0f;
 
-    effects += 30;
+    effect += 30;
 
-    for (i = 30; i < 130; i++) {
-        if (effects->unk_24 == 0) {
-            effects->unk_24 = 5;
-            effects->unk_00 = *arg1;
-            effects->unk_18 = D_80B7A89C;
-            effects->unk_34 = arg2->x;
-            effects->unk_38 = arg2->y;
-            effects->unk_3C = arg2->z;
+    for (i = 30; i < EFFECT_COUNT; i++) {
+        if (effect->type == 0) {
+            effect->type = 5;
+            effect->pos = *arg1;
+            effect->accel = sZeroVec;
+            effect->unk_34 = arg2->x;
+            effect->unk_38 = arg2->y;
+            effect->unk_3C = arg2->z;
             Matrix_RotateY(arg2->y, MTXMODE_NEW);
             Matrix_RotateX(arg2->x, MTXMODE_APPLY);
-            Matrix_MultVec3f(&sp18, &effects->unk_0C);
+            Matrix_MultVec3f(&sp18, &effect->vel);
             break;
         }
 
-        effects++;
+        effect++;
     }
 }
 
-static struct_80B7A8D8 D_80B7A8D8[] = {
-    { 3, { 529, -53, -498 } },  { 3, { 461, -66, -480 } },  { 3, { 398, -73, -474 } },  { 3, { -226, -52, -691 } },
-    { 3, { -300, -41, -710 } }, { 3, { -333, -50, -643 } }, { 3, { -387, -46, -632 } }, { 3, { -484, -43, -596 } },
-    { 3, { -409, -57, -560 } }, { 4, { 444, -87, -322 } },  { 4, { 447, -91, -274 } },  { 4, { 395, -109, -189 } },
-    { 1, { 617, -29, 646 } },   { 1, { 698, -26, 584 } },   { 1, { 711, -29, 501 } },   { 1, { 757, -28, 457 } },
-    { 1, { 812, -29, 341 } },   { 1, { 856, -30, 235 } },   { 1, { 847, -31, 83 } },    { 1, { 900, -26, 119 } },
-    { 2, { 861, -22, 137 } },   { 2, { 836, -22, 150 } },   { 2, { 829, -22, 200 } },   { 2, { 788, -22, 232 } },
-    { 2, { 803, -22, 319 } },   { 2, { 756, -22, 348 } },   { 2, { 731, -22, 377 } },   { 2, { 700, -22, 392 } },
-    { 2, { 706, -22, 351 } },   { 2, { 677, -22, 286 } },   { 2, { 691, -22, 250 } },   { 2, { 744, -22, 290 } },
-    { 2, { 766, -22, 201 } },   { 2, { 781, -22, 128 } },   { 2, { 817, -22, 46 } },    { 2, { 857, -22, -50 } },
-    { 2, { 724, -22, 110 } },   { 2, { 723, -22, 145 } },   { 2, { 728, -22, 202 } },   { 2, { 721, -22, 237 } },
-    { 2, { 698, -22, 312 } },   { 2, { 660, -22, 349 } },   { 2, { 662, -22, 388 } },   { 2, { 667, -22, 432 } },
-    { 2, { 732, -22, 429 } },   { 2, { 606, -22, 366 } },   { 2, { 604, -22, 286 } },   { 2, { 620, -22, 217 } },
-    { 2, { 663, -22, 159 } },   { 2, { 682, -22, 73 } },    { 2, { 777, -22, 83 } },    { 2, { 766, -22, 158 } },
-    { 1, { 1073, 0, -876 } },   { 1, { 970, 0, -853 } },    { 1, { 896, 0, -886 } },    { 1, { 646, -27, -651 } },
-    { 1, { 597, -29, -657 } },  { 1, { 547, -32, -651 } },  { 1, { 690, -29, -546 } },  { 1, { 720, -29, -490 } },
-    { 1, { -756, -30, -409 } }, { 1, { -688, -34, -458 } }, { 1, { -613, -34, -581 } }, { 2, { -593, -22, -479 } },
-    { 2, { -602, -22, -421 } }, { 2, { -664, -22, -371 } }, { 2, { -708, -22, -316 } }, { 2, { -718, -22, -237 } },
-    { 1, { -807, -36, -183 } }, { 1, { -856, -29, -259 } }, { 2, { -814, -22, -317 } }, { 2, { -759, -22, -384 } },
-    { 2, { -718, -22, -441 } }, { 2, { -474, -22, -567 } }, { 2, { -519, -22, -517 } }, { 2, { -539, -22, -487 } },
-    { 2, { -575, -22, -442 } }, { 2, { -594, -22, -525 } }, { 2, { -669, -22, -514 } }, { 2, { -653, -22, -456 } },
-    { 1, { -663, -28, -606 } }, { 1, { -708, -26, -567 } }, { 1, { -739, -27, -506 } }, { 1, { -752, -28, -464 } },
-    { 1, { -709, -29, -513 } }, { 2, { -544, -22, -436 } }, { 2, { -559, -22, -397 } }, { 2, { -616, -22, -353 } },
-    { 2, { -712, -22, -368 } }, { 2, { -678, -22, -403 } }, { 2, { -664, -22, -273 } }, { 2, { -630, -22, -276 } },
-    { 2, { -579, -22, -311 } }, { 2, { -588, -22, -351 } }, { 2, { -555, -22, -534 } }, { 2, { -547, -22, -567 } },
-    { 2, { -592, -22, -571 } }, { 2, { -541, -22, -610 } }, { 2, { -476, -22, -629 } }, { 2, { -439, -22, -598 } },
-    { 2, { -412, -22, -550 } }, { 2, { -411, -22, -606 } }, { 2, { -370, -22, -634 } }, { 2, { -352, -22, -662 } },
-    { 2, { -413, -22, -641 } }, { 2, { -488, -22, -666 } }, { 2, { -578, -22, -656 } }, { 2, { -560, -22, -640 } },
-    { 2, { -531, -22, -654 } }, { 2, { -451, -22, -669 } }, { 2, { -439, -22, -699 } }, { 2, { -482, -22, -719 } },
-    { 2, { -524, -22, -720 } }, { 2, { -569, -22, -714 } }, { 1, { -520, -27, -727 } }, { 1, { -572, -28, -686 } },
-    { 1, { -588, -32, -631 } }, { 1, { -622, -34, -571 } }, { 1, { -628, -36, -510 } }, { 1, { -655, -36, -466 } },
-    { 1, { -655, -41, -393 } }, { 1, { -661, -47, -328 } }, { 1, { -723, -40, -287 } }, { 1, { -756, -33, -349 } },
-    { 1, { -755, -43, -210 } }, { 2, { -770, -22, -281 } }, { 2, { -750, -22, -313 } }, { 2, { -736, -22, -341 } },
-    { 2, { -620, -22, -418 } }, { 2, { -601, -22, -371 } }, { 2, { -635, -22, -383 } }, { 2, { -627, -22, -311 } },
-    { 2, { -665, -22, -327 } }, { 2, { -524, -22, -537 } }, { 2, { -514, -22, -579 } }, { 2, { -512, -22, -623 } },
-    { 2, { -576, -22, -582 } }, { 2, { -600, -22, -608 } }, { 2, { -657, -22, -531 } }, { 2, { -641, -22, -547 } },
-    { 35, { 0, 0, 0 } },
+static FishingPropInit sPondPropInits[] = {
+    { FS_PROP_ROCK, { 529, -53, -498 } },
+    { FS_PROP_ROCK, { 461, -66, -480 } },
+    { FS_PROP_ROCK, { 398, -73, -474 } },
+    { FS_PROP_ROCK, { -226, -52, -691 } },
+    { FS_PROP_ROCK, { -300, -41, -710 } },
+    { FS_PROP_ROCK, { -333, -50, -643 } },
+    { FS_PROP_ROCK, { -387, -46, -632 } },
+    { FS_PROP_ROCK, { -484, -43, -596 } },
+    { FS_PROP_ROCK, { -409, -57, -560 } },
+    { FS_PROP_WOOD_POST, { 444, -87, -322 } },
+    { FS_PROP_WOOD_POST, { 447, -91, -274 } },
+    { FS_PROP_WOOD_POST, { 395, -109, -189 } },
+    { FS_PROP_REED, { 617, -29, 646 } },
+    { FS_PROP_REED, { 698, -26, 584 } },
+    { FS_PROP_REED, { 711, -29, 501 } },
+    { FS_PROP_REED, { 757, -28, 457 } },
+    { FS_PROP_REED, { 812, -29, 341 } },
+    { FS_PROP_REED, { 856, -30, 235 } },
+    { FS_PROP_REED, { 847, -31, 83 } },
+    { FS_PROP_REED, { 900, -26, 119 } },
+    { FS_PROP_LILY_PAD, { 861, -22, 137 } },
+    { FS_PROP_LILY_PAD, { 836, -22, 150 } },
+    { FS_PROP_LILY_PAD, { 829, -22, 200 } },
+    { FS_PROP_LILY_PAD, { 788, -22, 232 } },
+    { FS_PROP_LILY_PAD, { 803, -22, 319 } },
+    { FS_PROP_LILY_PAD, { 756, -22, 348 } },
+    { FS_PROP_LILY_PAD, { 731, -22, 377 } },
+    { FS_PROP_LILY_PAD, { 700, -22, 392 } },
+    { FS_PROP_LILY_PAD, { 706, -22, 351 } },
+    { FS_PROP_LILY_PAD, { 677, -22, 286 } },
+    { FS_PROP_LILY_PAD, { 691, -22, 250 } },
+    { FS_PROP_LILY_PAD, { 744, -22, 290 } },
+    { FS_PROP_LILY_PAD, { 766, -22, 201 } },
+    { FS_PROP_LILY_PAD, { 781, -22, 128 } },
+    { FS_PROP_LILY_PAD, { 817, -22, 46 } },
+    { FS_PROP_LILY_PAD, { 857, -22, -50 } },
+    { FS_PROP_LILY_PAD, { 724, -22, 110 } },
+    { FS_PROP_LILY_PAD, { 723, -22, 145 } },
+    { FS_PROP_LILY_PAD, { 728, -22, 202 } },
+    { FS_PROP_LILY_PAD, { 721, -22, 237 } },
+    { FS_PROP_LILY_PAD, { 698, -22, 312 } },
+    { FS_PROP_LILY_PAD, { 660, -22, 349 } },
+    { FS_PROP_LILY_PAD, { 662, -22, 388 } },
+    { FS_PROP_LILY_PAD, { 667, -22, 432 } },
+    { FS_PROP_LILY_PAD, { 732, -22, 429 } },
+    { FS_PROP_LILY_PAD, { 606, -22, 366 } },
+    { FS_PROP_LILY_PAD, { 604, -22, 286 } },
+    { FS_PROP_LILY_PAD, { 620, -22, 217 } },
+    { FS_PROP_LILY_PAD, { 663, -22, 159 } },
+    { FS_PROP_LILY_PAD, { 682, -22, 73 } },
+    { FS_PROP_LILY_PAD, { 777, -22, 83 } },
+    { FS_PROP_LILY_PAD, { 766, -22, 158 } },
+    { FS_PROP_REED, { 1073, 0, -876 } },
+    { FS_PROP_REED, { 970, 0, -853 } },
+    { FS_PROP_REED, { 896, 0, -886 } },
+    { FS_PROP_REED, { 646, -27, -651 } },
+    { FS_PROP_REED, { 597, -29, -657 } },
+    { FS_PROP_REED, { 547, -32, -651 } },
+    { FS_PROP_REED, { 690, -29, -546 } },
+    { FS_PROP_REED, { 720, -29, -490 } },
+    { FS_PROP_REED, { -756, -30, -409 } },
+    { FS_PROP_REED, { -688, -34, -458 } },
+    { FS_PROP_REED, { -613, -34, -581 } },
+    { FS_PROP_LILY_PAD, { -593, -22, -479 } },
+    { FS_PROP_LILY_PAD, { -602, -22, -421 } },
+    { FS_PROP_LILY_PAD, { -664, -22, -371 } },
+    { FS_PROP_LILY_PAD, { -708, -22, -316 } },
+    { FS_PROP_LILY_PAD, { -718, -22, -237 } },
+    { FS_PROP_REED, { -807, -36, -183 } },
+    { FS_PROP_REED, { -856, -29, -259 } },
+    { FS_PROP_LILY_PAD, { -814, -22, -317 } },
+    { FS_PROP_LILY_PAD, { -759, -22, -384 } },
+    { FS_PROP_LILY_PAD, { -718, -22, -441 } },
+    { FS_PROP_LILY_PAD, { -474, -22, -567 } },
+    { FS_PROP_LILY_PAD, { -519, -22, -517 } },
+    { FS_PROP_LILY_PAD, { -539, -22, -487 } },
+    { FS_PROP_LILY_PAD, { -575, -22, -442 } },
+    { FS_PROP_LILY_PAD, { -594, -22, -525 } },
+    { FS_PROP_LILY_PAD, { -669, -22, -514 } },
+    { FS_PROP_LILY_PAD, { -653, -22, -456 } },
+    { FS_PROP_REED, { -663, -28, -606 } },
+    { FS_PROP_REED, { -708, -26, -567 } },
+    { FS_PROP_REED, { -739, -27, -506 } },
+    { FS_PROP_REED, { -752, -28, -464 } },
+    { FS_PROP_REED, { -709, -29, -513 } },
+    { FS_PROP_LILY_PAD, { -544, -22, -436 } },
+    { FS_PROP_LILY_PAD, { -559, -22, -397 } },
+    { FS_PROP_LILY_PAD, { -616, -22, -353 } },
+    { FS_PROP_LILY_PAD, { -712, -22, -368 } },
+    { FS_PROP_LILY_PAD, { -678, -22, -403 } },
+    { FS_PROP_LILY_PAD, { -664, -22, -273 } },
+    { FS_PROP_LILY_PAD, { -630, -22, -276 } },
+    { FS_PROP_LILY_PAD, { -579, -22, -311 } },
+    { FS_PROP_LILY_PAD, { -588, -22, -351 } },
+    { FS_PROP_LILY_PAD, { -555, -22, -534 } },
+    { FS_PROP_LILY_PAD, { -547, -22, -567 } },
+    { FS_PROP_LILY_PAD, { -592, -22, -571 } },
+    { FS_PROP_LILY_PAD, { -541, -22, -610 } },
+    { FS_PROP_LILY_PAD, { -476, -22, -629 } },
+    { FS_PROP_LILY_PAD, { -439, -22, -598 } },
+    { FS_PROP_LILY_PAD, { -412, -22, -550 } },
+    { FS_PROP_LILY_PAD, { -411, -22, -606 } },
+    { FS_PROP_LILY_PAD, { -370, -22, -634 } },
+    { FS_PROP_LILY_PAD, { -352, -22, -662 } },
+    { FS_PROP_LILY_PAD, { -413, -22, -641 } },
+    { FS_PROP_LILY_PAD, { -488, -22, -666 } },
+    { FS_PROP_LILY_PAD, { -578, -22, -656 } },
+    { FS_PROP_LILY_PAD, { -560, -22, -640 } },
+    { FS_PROP_LILY_PAD, { -531, -22, -654 } },
+    { FS_PROP_LILY_PAD, { -451, -22, -669 } },
+    { FS_PROP_LILY_PAD, { -439, -22, -699 } },
+    { FS_PROP_LILY_PAD, { -482, -22, -719 } },
+    { FS_PROP_LILY_PAD, { -524, -22, -720 } },
+    { FS_PROP_LILY_PAD, { -569, -22, -714 } },
+    { FS_PROP_REED, { -520, -27, -727 } },
+    { FS_PROP_REED, { -572, -28, -686 } },
+    { FS_PROP_REED, { -588, -32, -631 } },
+    { FS_PROP_REED, { -622, -34, -571 } },
+    { FS_PROP_REED, { -628, -36, -510 } },
+    { FS_PROP_REED, { -655, -36, -466 } },
+    { FS_PROP_REED, { -655, -41, -393 } },
+    { FS_PROP_REED, { -661, -47, -328 } },
+    { FS_PROP_REED, { -723, -40, -287 } },
+    { FS_PROP_REED, { -756, -33, -349 } },
+    { FS_PROP_REED, { -755, -43, -210 } },
+    { FS_PROP_LILY_PAD, { -770, -22, -281 } },
+    { FS_PROP_LILY_PAD, { -750, -22, -313 } },
+    { FS_PROP_LILY_PAD, { -736, -22, -341 } },
+    { FS_PROP_LILY_PAD, { -620, -22, -418 } },
+    { FS_PROP_LILY_PAD, { -601, -22, -371 } },
+    { FS_PROP_LILY_PAD, { -635, -22, -383 } },
+    { FS_PROP_LILY_PAD, { -627, -22, -311 } },
+    { FS_PROP_LILY_PAD, { -665, -22, -327 } },
+    { FS_PROP_LILY_PAD, { -524, -22, -537 } },
+    { FS_PROP_LILY_PAD, { -514, -22, -579 } },
+    { FS_PROP_LILY_PAD, { -512, -22, -623 } },
+    { FS_PROP_LILY_PAD, { -576, -22, -582 } },
+    { FS_PROP_LILY_PAD, { -600, -22, -608 } },
+    { FS_PROP_LILY_PAD, { -657, -22, -531 } },
+    { FS_PROP_LILY_PAD, { -641, -22, -547 } },
+    { FS_PROP_INIT_STOP, { 0 } },
 };
 
-void func_80B6A22C(Fishing* this, GlobalContext* globalCtx) {
-    struct_80B7FEF8* phi_s0 = &D_80B7FEF8[0];
+void Fishing_InitPondProps(Fishing* this, GlobalContext* globalCtx) {
+    FishingProp* prop = &sPondProps[0];
     Vec3f sp80;
     s16 i;
 
-    func_80B69A44(1, 29100, 9786);
+    Fishing_SeedRand(1, 29100, 9786);
 
-    for (i = 0; i < 140; i++) {
-        if (D_80B7A8D8[i].unk_00 == 35) {
+    for (i = 0; i < POND_PROP_COUNT; i++) {
+        if (sPondPropInits[i].type == FS_PROP_INIT_STOP) {
             break;
         }
 
-        phi_s0->unk_30 = D_80B7A8D8[i].unk_00;
-        phi_s0->unk_00.x = D_80B7A8D8[i].unk_02.x;
-        phi_s0->unk_00.y = D_80B7A8D8[i].unk_02.y;
-        phi_s0->unk_00.z = D_80B7A8D8[i].unk_02.z;
-        phi_s0->unk_0C = 0.0f;
-        phi_s0->unk_14 = 0.0f;
+        prop->type = sPondPropInits[i].type;
+        prop->pos.x = sPondPropInits[i].pos.x;
+        prop->pos.y = sPondPropInits[i].pos.y;
+        prop->pos.z = sPondPropInits[i].pos.z;
+        prop->rotX = 0.0f;
+        prop->reedAngle = 0.0f;
 
-        phi_s0->unk_32 = Rand_ZeroFloat(100.0f);
-        phi_s0->unk_38 = 800.0f;
+        prop->timer = Rand_ZeroFloat(100.0f);
+        prop->drawDistance = 800.0f;
 
-        if (phi_s0->unk_30 == 1) {
-            phi_s0->unk_24 = (func_80B69A60() * 0.25f) + 0.75f;
-            phi_s0->unk_14 = Rand_ZeroFloat(6.2831855f);
+        if (prop->type == FS_PROP_REED) {
+            prop->scale = (Fishing_RandZeroOne() * 0.25f) + 0.75f;
+            prop->reedAngle = Rand_ZeroFloat(2 * M_PI);
             if (D_80B7E075 == 1) {
-                phi_s0->unk_24 *= 0.6f;
+                prop->scale *= 0.6f;
             }
-            phi_s0->unk_38 = 1200.0f;
-        } else if (phi_s0->unk_30 == 4) {
-            phi_s0->unk_24 = 0.08f;
-            phi_s0->unk_38 = 1200.0f;
-            sp80 = phi_s0->unk_00;
+            prop->drawDistance = 1200.0f;
+        } else if (prop->type == FS_PROP_WOOD_POST) {
+            prop->scale = 0.08f;
+            prop->drawDistance = 1200.0f;
+            sp80 = prop->pos;
             sp80.y += 50.0f;
-            func_80B699A0(i, &D_80B7E070->collider, &sp80, phi_s0->unk_24 * 3.5f);
-        } else if (phi_s0->unk_30 == 2) {
-            phi_s0->unk_24 = (func_80B69A60() * 0.3f) + 0.5f;
-            phi_s0->unk_10 = Rand_ZeroFloat(6.2831855f);
+            Fishing_SetColliderElement(i, &D_80B7E070->collider, &sp80, prop->scale * 3.5f);
+        } else if (prop->type == FS_PROP_LILY_PAD) {
+            prop->scale = (Fishing_RandZeroOne() * 0.3f) + 0.5f;
+            prop->rotY = Rand_ZeroFloat(2 * M_PI);
             if (D_80B7E075 == 1) {
                 if ((i & 3) != 0) {
-                    phi_s0->unk_24 *= 0.6f;
+                    prop->scale *= 0.6f;
                 } else {
-                    phi_s0->unk_30 = 0;
+                    prop->type = 0;
                 }
             }
         } else {
-            phi_s0->unk_24 = (func_80B69A60() * 0.1f) + 0.3f;
-            phi_s0->unk_10 = Rand_ZeroFloat(6.2831855f);
-            phi_s0->unk_38 = 1000.0f;
-            func_80B699A0(i, &D_80B7E070->collider, &phi_s0->unk_00, phi_s0->unk_24);
+            prop->scale = (Fishing_RandZeroOne() * 0.1f) + 0.3f;
+            prop->rotY = Rand_ZeroFloat(2 * M_PI);
+            prop->drawDistance = 1000.0f;
+            Fishing_SetColliderElement(i, &D_80B7E070->collider, &prop->pos, prop->scale);
         }
 
-        phi_s0++;
+        prop++;
     }
 }
 
-static struct_80B7AD40 D_80B7AD40[] = {
+static FishingFishInit sFishInits[] = {
     { 0, { 666, -45, 354 }, 38, 0.1f },    { 0, { 681, -45, 240 }, 36, 0.1f },   { 0, { 670, -45, 90 }, 41, 0.05f },
     { 0, { 615, -45, -450 }, 35, 0.2f },   { 0, { 500, -45, -420 }, 39, 0.1f },  { 0, { 420, -45, -550 }, 44, 0.05f },
     { 0, { -264, -45, -640 }, 40, 0.1f },  { 0, { -470, -45, -540 }, 34, 0.2f }, { 0, { -557, -45, -430 }, 54, 0.01f },
@@ -659,7 +781,7 @@ static struct_80B7AD40 D_80B7AD40[] = {
     { 1, { -561, -35, -547 }, 45, 0.0f },  { 1, { 667, -35, 317 }, 43, 0.0f },
 };
 
-static InitChainEntry D_80B7AE50[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -670,7 +792,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
     u16 fishCount;
     s16 i;
 
-    Actor_ProcessInitChain(&this->actor, D_80B7AE50);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
 
     if (KREG(5) != 0) {
@@ -683,15 +805,15 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         D_80B7E074 = 0;
         D_80B7E070 = this;
         Collider_InitJntSph(globalCtx, &D_80B7E070->collider);
-        Collider_SetJntSph(globalCtx, &D_80B7E070->collider, &this->actor, &D_80B7A888, D_80B7E070->colliderElements);
+        Collider_SetJntSph(globalCtx, &D_80B7E070->collider, &this->actor, &sJntSphInit, D_80B7E070->colliderElements);
 
         thisx->params = 1;
 
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fish_Skel_0085F8, &object_fish_Anim_00453C, NULL, NULL, 0);
-        Animation_MorphToLoop(&this->skelAnime, &object_fish_Anim_00453C, 0.0f);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFishingManSkel, &gFishingManAnim, NULL, NULL, 0);
+        Animation_MorphToLoop(&this->skelAnime, &gFishingManAnim, 0.0f);
 
-        thisx->update = func_80B7825C;
-        thisx->draw = func_80B7A278;
+        thisx->update = Fishing_UpdateMan;
+        thisx->draw = Fishing_DrawMan;
 
         thisx->shape.rot.y = -0x6000;
         thisx->world.pos.x = 160.0f;
@@ -715,7 +837,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         D_80B7A684 = 20;
-        globalCtx->specialEffects = D_80B830B8;
+        globalCtx->specialEffects = sFishingEffects;
         D_8011FB40 = 1;
         D_80B7E0AC = 0;
         D_80B7E0A6 = 10;
@@ -756,51 +878,50 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
             D_80B7E077 = 0;
         }
 
-        for (i = 0; i < 130; i++) {
-            D_80B830B8[i].unk_24 = 0;
+        for (i = 0; i < EFFECT_COUNT; i++) {
+            sFishingEffects[i].type = 0;
         }
 
-        for (i = 0; i < 140; i++) {
-            D_80B7FEF8[i].unk_30 = 0;
+        for (i = 0; i < POND_PROP_COUNT; i++) {
+            sPondProps[i].type = FS_PROP_NONE;
         }
 
         D_80B830A8 = 0.7f;
         D_80B830AC = 2.3f;
         D_80B830B0 = 4.6f;
 
-        for (i = 0; i < 60; i++) {
-            struct_80B81FC8* phi_s0 = &D_80B81FC8[i];
+        for (i = 0; i < POOL_FISH_COUNT; i++) {
+            FishingPoolFish* fish = &sPoolFishes[i];
 
-            phi_s0->unk_00 = 1;
+            fish->type = FS_POOL_FISH_NORMAL;
 
             if (i <= 20) {
-                phi_s0->unk_10.x = phi_s0->unk_04.x = sinf(D_80B830A8) * 720.0f;
-                phi_s0->unk_10.z = phi_s0->unk_04.z = cosf(D_80B830A8) * 720.0f;
+                fish->unk_10.x = fish->pos.x = sinf(D_80B830A8) * 720.0f;
+                fish->unk_10.z = fish->pos.z = cosf(D_80B830A8) * 720.0f;
             } else if (i <= 40) {
-                phi_s0->unk_10.x = phi_s0->unk_04.x = sinf(D_80B830AC) * 720.0f;
-                phi_s0->unk_10.z = phi_s0->unk_04.z = cosf(D_80B830AC) * 720.0f;
+                fish->unk_10.x = fish->pos.x = sinf(D_80B830AC) * 720.0f;
+                fish->unk_10.z = fish->pos.z = cosf(D_80B830AC) * 720.0f;
             } else {
-                phi_s0->unk_10.x = phi_s0->unk_04.x = sinf(D_80B830B0) * 720.0f;
-                phi_s0->unk_10.z = phi_s0->unk_04.z = cosf(D_80B830B0) * 720.0f;
+                fish->unk_10.x = fish->pos.x = sinf(D_80B830B0) * 720.0f;
+                fish->unk_10.z = fish->pos.z = cosf(D_80B830B0) * 720.0f;
             }
 
-            phi_s0->unk_04.y = -35.0f;
-            phi_s0->unk_10.y = -35.0f;
+            fish->unk_10.y = fish->pos.y = -35.0f;
 
-            phi_s0->unk_02 = Rand_ZeroFloat(100.0f);
+            fish->timer = Rand_ZeroFloat(100.0f);
 
-            phi_s0->unk_3C = 0;
-            phi_s0->unk_3E = 0;
-            phi_s0->unk_40 = 0;
+            fish->unk_3C = 0;
+            fish->unk_3E = 0;
+            fish->unk_40 = 0;
 
             if (D_80B7E075 != 1) {
                 if (((i >= 15) && (i < 20)) || ((i >= 35) && (i < 40)) || ((i >= 55) && (i < 60))) {
-                    phi_s0->unk_00 = 0;
+                    fish->type = FS_POOL_FISH_NONE;
                 }
             }
         }
 
-        func_80B6A22C(this, globalCtx);
+        Fishing_InitPondProps(this, globalCtx);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_KANBAN, 53.0f, -17.0f, 982.0f, 0, 0,
                            0, ENKANBAN_FISHING);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_FISHING, 0.0f, 0.0f, 0.0f, 0, 0, 0, 200);
@@ -816,16 +937,16 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         for (i = 0; i < fishCount; i++) {
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_FISHING, D_80B7AD40[i].unk_02.x, D_80B7AD40[i].unk_02.y,
-                        D_80B7AD40[i].unk_02.z, 0, Rand_ZeroFloat(65536.0f), 0, 100 + i);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_FISHING, sFishInits[i].pos.x, sFishInits[i].pos.y,
+                        sFishInits[i].pos.z, 0, Rand_ZeroFloat(65536.0f), 0, 100 + i);
         }
     } else {
         if ((thisx->params < 115) || (thisx->params == 200)) {
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fish_Skel_0029C0, &object_fish_Anim_00007C, NULL, NULL, 0);
-            Animation_MorphToLoop(&this->skelAnime, &object_fish_Anim_00007C, 0.0f);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFishingFishSkel, &gFishingFishAnim, NULL, NULL, 0);
+            Animation_MorphToLoop(&this->skelAnime, &gFishingFishAnim, 0.0f);
         } else {
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fish_Skel_011058, &object_fish_Anim_00CFE0, NULL, NULL, 0);
-            Animation_MorphToLoop(&this->skelAnime, &object_fish_Anim_00CFE0, 0.0f);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFishingLoachSkel, &gFishingLoachAnim, NULL, NULL, 0);
+            Animation_MorphToLoop(&this->skelAnime, &gFishingLoachAnim, 0.0f);
         }
 
         SkelAnime_Update(&this->skelAnime);
@@ -842,9 +963,9 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->unk_158 = 10;
         this->unk_15A = 10;
 
-        this->unk_150 = D_80B7AD40[thisx->params - 100].unk_00;
-        this->unk_1A8 = D_80B7AD40[thisx->params - 100].unk_0C;
-        this->unk_1AC = D_80B7AD40[thisx->params - 100].unk_08;
+        this->unk_150 = sFishInits[thisx->params - 100].unk_00;
+        this->unk_1A8 = sFishInits[thisx->params - 100].unk_0C;
+        this->unk_1AC = sFishInits[thisx->params - 100].unk_08;
 
         this->unk_1AC += Rand_ZeroFloat(4.99999f);
 
@@ -875,159 +996,159 @@ void Fishing_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-void func_80B6AF28(struct_80B830B8* effects, GlobalContext* globalCtx) {
+void Fishing_UpdateEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     f32 spB4;
     s16 i;
 
-    for (i = 0; i < 130; i++) {
-        if (effects->unk_24) {
-            effects->unk_25++;
-            effects->unk_00.x += effects->unk_0C.x;
-            effects->unk_00.y += effects->unk_0C.y;
-            effects->unk_00.z += effects->unk_0C.z;
-            effects->unk_0C.y += effects->unk_18.y;
+    for (i = 0; i < EFFECT_COUNT; i++) {
+        if (effect->type) {
+            effect->timer++;
+            effect->pos.x += effect->vel.x;
+            effect->pos.y += effect->vel.y;
+            effect->pos.z += effect->vel.z;
+            effect->vel.y += effect->accel.y;
 
-            if (effects->unk_24 == 1) {
-                Math_ApproachF(&effects->unk_30, effects->unk_34, 0.2f, effects->unk_38);
+            if (effect->type == 1) {
+                Math_ApproachF(&effect->unk_30, effect->unk_34, 0.2f, effect->unk_38);
 
-                if (effects->unk_2C == 0) {
-                    effects->unk_2A += 20;
+                if (effect->unk_2C == 0) {
+                    effect->alpha += 20;
 
-                    if (effects->unk_2A >= effects->unk_2E) {
-                        effects->unk_2A = effects->unk_2E;
-                        effects->unk_2C++;
+                    if (effect->alpha >= effect->unk_2E) {
+                        effect->alpha = effect->unk_2E;
+                        effect->unk_2C++;
                     }
                 } else {
-                    effects->unk_2A -= 8;
+                    effect->alpha -= 8;
 
-                    if (effects->unk_2A <= 0) {
-                        effects->unk_24 = 0;
+                    if (effect->alpha <= 0) {
+                        effect->type = 0;
                     }
                 }
-            } else if (effects->unk_24 == 3) {
-                Math_ApproachF(&effects->unk_30, effects->unk_34, 0.1f, 0.1f);
-                effects->unk_2A -= 10;
+            } else if (effect->type == 3) {
+                Math_ApproachF(&effect->unk_30, effect->unk_34, 0.1f, 0.1f);
+                effect->alpha -= 10;
 
-                if (effects->unk_00.y > (globalCtx->colCtx.colHeader->waterBoxes->ySurface - 5.0f)) {
-                    effects->unk_18.y = 0.0f;
-                    effects->unk_0C.y = 0.0f;
-                    effects->unk_2A -= 5;
+                if (effect->pos.y > (globalCtx->colCtx.colHeader->waterBoxes->ySurface - 5.0f)) {
+                    effect->accel.y = 0.0f;
+                    effect->vel.y = 0.0f;
+                    effect->alpha -= 5;
                 }
 
-                if (effects->unk_2A <= 0) {
-                    effects->unk_24 = 0;
+                if (effect->alpha <= 0) {
+                    effect->type = 0;
                 }
-            } else if (effects->unk_24 == 4) {
-                if (effects->unk_2C == 0) {
+            } else if (effect->type == 4) {
+                if (effect->unk_2C == 0) {
                     spB4 = globalCtx->colCtx.colHeader->waterBoxes->ySurface;
                 } else {
                     spB4 = 69.0f;
                 }
 
-                if (effects->unk_00.y >= spB4) {
-                    effects->unk_24 = 0;
+                if (effect->pos.y >= spB4) {
+                    effect->type = 0;
 
                     if (Rand_ZeroOne() < 0.3f) {
-                        Vec3f spA4 = effects->unk_00;
+                        Vec3f spA4 = effect->pos;
                         spA4.y = spB4;
                         func_80B69C2C(NULL, globalCtx->specialEffects, &spA4, 20.0f, 60.0f, 150, 90);
                     }
                 }
-            } else if (effects->unk_24 == 2) {
-                if (effects->unk_0C.y < -20.0f) {
-                    effects->unk_0C.y = -20.0f;
-                    effects->unk_18.y = 0.0f;
+            } else if (effect->type == 2) {
+                if (effect->vel.y < -20.0f) {
+                    effect->vel.y = -20.0f;
+                    effect->accel.y = 0.0f;
                 }
 
-                if (effects->unk_00.y <= globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
-                    effects->unk_24 = 0;
+                if (effect->pos.y <= globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
+                    effect->type = 0;
                     if (Rand_ZeroOne() < 0.5f) {
-                        Vec3f sp98 = effects->unk_00;
+                        Vec3f sp98 = effect->pos;
                         sp98.y = globalCtx->colCtx.colHeader->waterBoxes->ySurface;
                         func_80B69C2C(NULL, globalCtx->specialEffects, &sp98, 40.0f, 110.0f, 150, 90);
                     }
                 }
-            } else if (effects->unk_24 == 5) {
-                if (effects->unk_00.y < globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
-                    f32 temp1 = SQ(effects->unk_00.x) + SQ(effects->unk_00.z);
+            } else if (effect->type == 5) {
+                if (effect->pos.y < globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
+                    f32 temp1 = SQ(effect->pos.x) + SQ(effect->pos.z);
 
                     if (temp1 > SQ(920.0f)) {
-                        effects->unk_00.y =
+                        effect->pos.y =
                             globalCtx->colCtx.colHeader->waterBoxes->ySurface + ((sqrtf(temp1) - 920.0f) * 0.11f);
-                        effects->unk_25 = KREG(17) + 2;
-                        effects->unk_24 = 8;
-                        effects->unk_30 = (KREG(18) + 30) * 0.001f;
+                        effect->timer = KREG(17) + 2;
+                        effect->type = 8;
+                        effect->unk_30 = (KREG(18) + 30) * 0.001f;
                     } else {
-                        effects->unk_00.y = globalCtx->colCtx.colHeader->waterBoxes->ySurface + 3.0f;
-                        effects->unk_25 = 0;
+                        effect->pos.y = globalCtx->colCtx.colHeader->waterBoxes->ySurface + 3.0f;
+                        effect->timer = 0;
                         if (Rand_ZeroOne() < 0.75f) {
-                            effects->unk_24 = 7;
-                            effects->unk_0C = D_80B7A89C;
-                            effects->unk_30 = (KREG(18) + 30) * 0.001f;
+                            effect->type = 7;
+                            effect->vel = sZeroVec;
+                            effect->unk_30 = (KREG(18) + 30) * 0.001f;
                         } else {
-                            effects->unk_24 = 0;
+                            effect->type = 0;
                         }
                     }
 
-                    effects->unk_0C = D_80B7A89C;
+                    effect->vel = sZeroVec;
                 }
-            } else if (effects->unk_24 >= 7) {
-                effects->unk_30 += (KREG(18) + 30) * 0.001f;
+            } else if (effect->type >= 7) {
+                effect->unk_30 += (KREG(18) + 30) * 0.001f;
 
-                if (effects->unk_25 >= 6) {
-                    effects->unk_24 = 0;
+                if (effect->timer >= 6) {
+                    effect->type = 0;
                 }
-            } else if (effects->unk_24 == 6) {
+            } else if (effect->type == 6) {
                 f32 temp1;
                 f32 temp2;
 
-                effects->unk_30 = 0.010000001f;
+                effect->unk_30 = 0.010000001f;
 
                 Math_ApproachS(&D_80B7E09C.y, 0, 20, 100);
                 Math_ApproachS(&D_80B7E09C.x, 0, 20, 100);
                 Math_ApproachS(&D_80B7E09C.z, -0x4000, 20, 100);
 
-                temp1 = SQ(effects->unk_00.x) + SQ(effects->unk_00.z);
+                temp1 = SQ(effect->pos.x) + SQ(effect->pos.z);
                 temp2 = globalCtx->colCtx.colHeader->waterBoxes->ySurface + ((sqrtf(temp1) - 920.0f) * 0.147f);
 
-                if (effects->unk_00.y > (temp2 - 10.0f)) {
-                    effects->unk_00.y -= 0.1f;
+                if (effect->pos.y > (temp2 - 10.0f)) {
+                    effect->pos.y -= 0.1f;
                 }
 
-                if ((effects->unk_25 & 0xF) == 0) {
-                    Vec3f sp80 = effects->unk_00;
+                if ((effect->timer & 0xF) == 0) {
+                    Vec3f sp80 = effect->pos;
                     sp80.y = globalCtx->colCtx.colHeader->waterBoxes->ySurface;
                     func_80B69C2C(NULL, globalCtx->specialEffects, &sp80, 30.0f, 300.0f, 150, 90);
                 }
 
-                if (effects->unk_2C >= 0) {
-                    effects->unk_2C++;
+                if (effect->unk_2C >= 0) {
+                    effect->unk_2C++;
                 }
 
-                if (effects->unk_2C == 30) {
+                if (effect->unk_2C == 30) {
                     func_8010B680(globalCtx, 0x40B3, NULL);
                 }
 
-                if ((effects->unk_2C >= 100) && (func_8010BDBC(&globalCtx->msgCtx) == 5)) {
+                if ((effect->unk_2C >= 100) && (func_8010BDBC(&globalCtx->msgCtx) == 5)) {
                     if ((func_80106BC8(globalCtx) != 0) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
                         func_80106CCC(globalCtx);
                         Rupees_ChangeBy(-50);
-                        effects->unk_2C = -1;
+                        effect->unk_2C = -1;
                     }
                 }
             }
         }
 
-        effects++;
+        effect++;
     }
 }
 
-void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
+void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     u8 flag = 0;
     f32 rotY;
     s16 i;
     s32 pad;
-    struct_80B830B8* sp124 = effects;
+    FishingEffect* firstEffect = effect;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 2271);
 
@@ -1036,82 +1157,82 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
     gDPPipeSync(POLY_XLU_DISP++);
 
     for (i = 0; i < 100; i++) {
-        if (effects->unk_24 == 1) {
+        if (effect->type == 1) {
             if (flag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_008610);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                 flag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effects->unk_2A);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
 
-            Matrix_Translate(effects->unk_00.x, effects->unk_00.y, effects->unk_00.z, MTXMODE_NEW);
-            Matrix_Scale(effects->unk_30, 1.0f, effects->unk_30, MTXMODE_APPLY);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+            Matrix_Scale(effect->unk_30, 1.0f, effect->unk_30, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2305),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_008678);
         }
-        effects++;
+        effect++;
     }
 
-    effects = sp124;
+    effect = firstEffect;
     flag = 0;
     for (i = 0; i < 100; i++) {
-        if (effects->unk_24 == 2) {
+        if (effect->type == 2) {
             if (flag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003610);
                 gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
                 flag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effects->unk_2A);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->alpha);
 
-            Matrix_Translate(effects->unk_00.x, effects->unk_00.y, effects->unk_00.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(effects->unk_30, effects->unk_30, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2346),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003680);
         }
-        effects++;
+        effect++;
     }
 
-    effects = sp124;
+    effect = firstEffect;
     flag = 0;
     for (i = 0; i < 100; i++) {
-        if (effects->unk_24 == 3) {
+        if (effect->type == 3) {
             if (flag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0088C0);
                 gDPSetEnvColor(POLY_OPA_DISP++, 40, 90, 80, 128);
                 flag++;
             }
 
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 40, 90, 80, effects->unk_2A);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 40, 90, 80, effect->alpha);
 
             gSPSegment(POLY_OPA_DISP++, 0x08,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, effects->unk_25 + (i * 3),
-                                        (effects->unk_25 + (i * 3)) * 5, 32, 64, 1, 0, 0, 32, 32));
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, effect->timer + (i * 3),
+                                        (effect->timer + (i * 3)) * 5, 32, 64, 1, 0, 0, 32, 32));
 
-            Matrix_Translate(effects->unk_00.x, effects->unk_00.y, effects->unk_00.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(effects->unk_30, effects->unk_30, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2394),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_008970);
         }
-        effects++;
+        effect++;
     }
 
-    effects = sp124;
+    effect = firstEffect;
     flag = 0;
     for (i = 0; i < 100; i++) {
-        if (effects->unk_24 == 4) {
+        if (effect->type == 4) {
             if (flag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003460);
                 gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
@@ -1119,22 +1240,22 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            Matrix_Translate(effects->unk_00.x, effects->unk_00.y, effects->unk_00.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(effects->unk_30, effects->unk_30, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2423),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_0034C0);
         }
-        effects++;
+        effect++;
     }
 
-    effects = sp124 + 30;
+    effect = firstEffect + 30;
     flag = 0;
-    for (i = 30; i < 130; i++) {
-        if (effects->unk_24 == 5) {
+    for (i = 30; i < EFFECT_COUNT; i++) {
+        if (effect->type == 5) {
             if (flag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
                 gDPSetCombineMode(POLY_XLU_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
@@ -1142,10 +1263,10 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            Matrix_Translate(effects->unk_00.x, effects->unk_00.y, effects->unk_00.z, MTXMODE_NEW);
-            Matrix_RotateY(effects->unk_38, MTXMODE_APPLY);
-            Matrix_RotateX(effects->unk_34, MTXMODE_APPLY);
-            Matrix_RotateZ(effects->unk_3C, MTXMODE_APPLY);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+            Matrix_RotateY(effect->unk_38, MTXMODE_APPLY);
+            Matrix_RotateX(effect->unk_34, MTXMODE_APPLY);
+            Matrix_RotateZ(effect->unk_3C, MTXMODE_APPLY);
             Matrix_Scale(0.002f, 1.0f, 0.1f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2467),
@@ -1153,15 +1274,15 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
 
             gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003760);
         }
-        effects++;
+        effect++;
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    effects = sp124 + 30;
+    effect = firstEffect + 30;
     flag = 0;
-    for (i = 30; i < 130; i++) {
-        if (effects->unk_24 == 7) {
+    for (i = 30; i < EFFECT_COUNT; i++) {
+        if (effect->type == 7) {
             if (flag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_008610);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
@@ -1169,21 +1290,21 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            Matrix_Translate(effects->unk_00.x, effects->unk_00.y, effects->unk_00.z, MTXMODE_NEW);
-            Matrix_Scale(effects->unk_30, 1.0f, effects->unk_30, MTXMODE_APPLY);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+            Matrix_Scale(effect->unk_30, 1.0f, effect->unk_30, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2504),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_008678);
         }
-        effects++;
+        effect++;
     }
 
-    effects = sp124 + 30;
+    effect = firstEffect + 30;
     flag = 0;
-    for (i = 30; i < 130; i++) {
-        if (effects->unk_24 == 8) {
+    for (i = 30; i < EFFECT_COUNT; i++) {
+        if (effect->type == 8) {
             if (flag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_0039A8);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, KREG(19) + 80);
@@ -1196,32 +1317,32 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
                 rotY = M_PI;
             }
 
-            Matrix_Translate(effects->unk_00.x, effects->unk_00.y, effects->unk_00.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_RotateY(rotY, MTXMODE_APPLY);
-            Matrix_Scale(effects->unk_30, effects->unk_30, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2541),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003A18);
         }
-        effects++;
+        effect++;
     }
 
-    effects = sp124;
-    if (effects->unk_24 == 6) {
-        Matrix_Translate(effects->unk_00.x, effects->unk_00.y, effects->unk_00.z, MTXMODE_NEW);
+    effect = firstEffect;
+    if (effect->type == 6) {
+        Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
         Matrix_RotateY((D_80B7E09C.y * M_PI) / 32768, MTXMODE_APPLY);
         Matrix_RotateX((D_80B7E09C.x * M_PI) / 32768, MTXMODE_APPLY);
         Matrix_RotateZ((D_80B7E09C.z * M_PI) / 32768, MTXMODE_APPLY);
-        Matrix_Scale(effects->unk_30, effects->unk_30, effects->unk_30, MTXMODE_APPLY);
+        Matrix_Scale(effect->unk_30, effect->unk_30, effect->unk_30, MTXMODE_APPLY);
         Matrix_Translate(-1250.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2560),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0074C8);
+        gSPDisplayList(POLY_OPA_DISP++, gFishingManHatDL);
     }
 
     Matrix_Pop();
@@ -1229,7 +1350,7 @@ void func_80B6B674(struct_80B830B8* effects, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 2565);
 }
 
-void func_80B6C134(GlobalContext* globalCtx) {
+void Fishing_DrawStreamSplash(GlobalContext* globalCtx) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 2572);
@@ -1245,7 +1366,7 @@ void func_80B6C134(GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2598),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_fish_DL_003230));
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFishingStreamSplashDL));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 2613);
 }
@@ -1261,7 +1382,7 @@ s32 func_80B6C2EC(Vec3f* vec) {
     return false;
 }
 
-void func_80B6C3E0(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4) {
+void func_80B6C3E0(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* pos, Vec3f* rot, Vec3f* arg4) {
     s16 i;
     s16 k;
     f32 dx;
@@ -1289,7 +1410,7 @@ void func_80B6C3E0(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 
     if (D_80B7A6A4 != 0) {
         spA4 = *arg1;
-        sp98 = arg2[0xC7];
+        sp98 = pos[0xC7];
 
         sp94 = sp98.x - spA4.x;
         sp90 = sp98.y - spA4.y;
@@ -1308,22 +1429,22 @@ void func_80B6C3E0(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 
     for (i = 0; i < 0xC8; i++) {
         if (i <= temp_s2) {
-            arg2[i] = *arg1;
+            pos[i] = *arg1;
         } else if (D_80B7A6A4 != 0) {
             temp_f20 = (f32)(i - temp_s2) / (f32)(0xC9 - temp_s2);
-            Math_ApproachF(&arg2[i].x, (sp94 * temp_f20) + spA4.x, 1.0f, 20.0f);
-            Math_ApproachF(&arg2[i].y, (sp90 * temp_f20) + spA4.y, 1.0f, 20.0f);
-            Math_ApproachF(&arg2[i].z, (sp8C * temp_f20) + spA4.z, 1.0f, 20.0f);
+            Math_ApproachF(&pos[i].x, (sp94 * temp_f20) + spA4.x, 1.0f, 20.0f);
+            Math_ApproachF(&pos[i].y, (sp90 * temp_f20) + spA4.y, 1.0f, 20.0f);
+            Math_ApproachF(&pos[i].z, (sp8C * temp_f20) + spA4.z, 1.0f, 20.0f);
         }
     }
 
     for (i = temp_s2 + 1, k = 0; i < 0xC8; i++, k++) {
         temp_f18 = 2.0f * D_80B7E148;
 
-        dx = (arg2 + i)->x - (arg2 + i - 1)->x;
-        spD8 = (arg2 + i)->y;
+        dx = (pos + i)->x - (pos + i - 1)->x;
+        spD8 = (pos + i)->y;
 
-        temp_f14 = SQ((arg2 + i)->x) + SQ((arg2 + i)->z);
+        temp_f14 = SQ((pos + i)->x) + SQ((pos + i)->z);
 
         if (temp_f14 > SQ(920.0f)) {
             phi_f12 = ((sqrtf(temp_f14) - 920.0f) * 0.11f) + globalCtx->colCtx.colHeader->waterBoxes->ySurface;
@@ -1361,31 +1482,31 @@ void func_80B6C3E0(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
             }
         }
 
-        if (func_80B6C2EC(&arg2[i])) {
+        if (func_80B6C2EC(&pos[i])) {
             spD8 = 42.0f;
         }
 
-        dy = spD8 - (arg2 + i - 1)->y;
-        dz = (arg2 + i)->z - (arg2 + i - 1)->z;
+        dy = spD8 - (pos + i - 1)->y;
+        dz = (pos + i)->z - (pos + i - 1)->z;
 
         ry = Math_Atan2F(dz, dx);
         dxz = sqrtf(SQ(dx) + SQ(dz));
         rx = -Math_Atan2F(dxz, dy);
 
-        (arg3 + i - 1)->y = ry;
-        (arg3 + i - 1)->x = rx;
+        (rot + i - 1)->y = ry;
+        (rot + i - 1)->x = rx;
 
         Matrix_RotateY(ry, MTXMODE_NEW);
         Matrix_RotateX(rx, MTXMODE_APPLY);
         Matrix_MultVec3f(&spC0, &spB4);
 
-        (arg2 + i)->x = (arg2 + i - 1)->x + spB4.x;
-        (arg2 + i)->y = (arg2 + i - 1)->y + spB4.y;
-        (arg2 + i)->z = (arg2 + i - 1)->z + spB4.z;
+        (pos + i)->x = (pos + i - 1)->x + spB4.x;
+        (pos + i)->y = (pos + i - 1)->y + spB4.y;
+        (pos + i)->z = (pos + i - 1)->z + spB4.z;
     }
 }
 
-void func_80B6C960(Vec3f* arg0) {
+void func_80B6C960(Vec3f* pos) {
     s16 i;
     f32 dx;
     f32 dy;
@@ -1400,9 +1521,9 @@ void func_80B6C960(Vec3f* arg0) {
     sp70.z = 5.0f;
 
     for (i = 0xC6; i > min; i--) {
-        dx = (arg0 + i)->x - (arg0 + i + 1)->x;
-        dy = (arg0 + i)->y - (arg0 + i + 1)->y;
-        dz = (arg0 + i)->z - (arg0 + i + 1)->z;
+        dx = (pos + i)->x - (pos + i + 1)->x;
+        dy = (pos + i)->y - (pos + i + 1)->y;
+        dz = (pos + i)->z - (pos + i + 1)->z;
 
         ry = Math_Atan2F(dz, dx);
         dxz = sqrtf(SQ(dx) + SQ(dz));
@@ -1412,13 +1533,13 @@ void func_80B6C960(Vec3f* arg0) {
         Matrix_RotateX(rx, MTXMODE_APPLY);
         Matrix_MultVec3f(&sp70, &sp64);
 
-        (arg0 + i)->x = (arg0 + i + 1)->x + sp64.x;
-        (arg0 + i)->y = (arg0 + i + 1)->y + sp64.y;
-        (arg0 + i)->z = (arg0 + i + 1)->z + sp64.z;
+        (pos + i)->x = (pos + i + 1)->x + sp64.x;
+        (pos + i)->y = (pos + i + 1)->y + sp64.y;
+        (pos + i)->z = (pos + i + 1)->z + sp64.z;
     }
 }
 
-void func_80B6CAF8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, u8 arg3) {
+void Fishing_DrawLureHook(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, u8 arg3) {
     f32 dx;
     f32 dy;
     f32 dz;
@@ -1435,17 +1556,17 @@ void func_80B6CAF8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, u8 arg3) 
     Matrix_Push();
 
     if ((D_80B7A694 == 3) &&
-        ((globalCtx->colCtx.colHeader->waterBoxes->ySurface < arg1->y) || ((D_80B7A68C != 0) && arg3))) {
+        ((globalCtx->colCtx.colHeader->waterBoxes->ySurface < pos->y) || ((D_80B7A68C != 0) && arg3))) {
         phi_f0 = 0.0f;
-    } else if (arg1->y < globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
+    } else if (pos->y < globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
         phi_f0 = -1.0f;
     } else {
         phi_f0 = -3.0f;
     }
 
-    dx = arg2->x - arg1->x;
-    dy = arg2->y - arg1->y + phi_f0;
-    dz = arg2->z - arg1->z;
+    dx = arg2->x - pos->x;
+    dy = arg2->y - pos->y + phi_f0;
+    dz = arg2->z - pos->z;
 
     ry = Math_Atan2F(dz, dx);
     dxz = sqrtf(SQ(dx) + SQ(dz));
@@ -1455,11 +1576,11 @@ void func_80B6CAF8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, u8 arg3) 
     Matrix_RotateX(rx, MTXMODE_APPLY);
     Matrix_MultVec3f(&spA0, &sp94);
 
-    arg2->x = arg1->x + sp94.x;
-    arg2->y = arg1->y + sp94.y;
-    arg2->z = arg1->z + sp94.z;
+    arg2->x = pos->x + sp94.x;
+    arg2->y = pos->y + sp94.y;
+    arg2->z = pos->z + sp94.z;
 
-    Matrix_Translate(arg1->x, arg1->y, arg1->z, MTXMODE_NEW);
+    Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_NEW);
 
     if ((player->actor.speedXZ == 0.0f) && (D_80B7E138 == 0.0f)) {
         Math_ApproachF(&D_80B7FDA0[arg3], ry, 0.1f, 0.3f);
@@ -1474,13 +1595,13 @@ void func_80B6CAF8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, u8 arg3) 
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3029),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_012160);
+    gSPDisplayList(POLY_OPA_DISP++, gFishingLureHookDL);
 
     Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3034),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_012160);
+    gSPDisplayList(POLY_OPA_DISP++, gFishingLureHookDL);
 
     if ((arg3 == 1) && (D_80B7A68C != 0)) {
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
@@ -1488,20 +1609,20 @@ void func_80B6CAF8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, u8 arg3) 
         Matrix_Push();
 
         if (D_80B7A690 != 0) {
-            struct_80B830B8* sp68 = globalCtx->specialEffects;
-            MtxF sp28;
+            FishingEffect* effect = globalCtx->specialEffects;
+            MtxF mf;
 
-            Matrix_MultVec3f(&D_80B7A89C, &sp68->unk_00);
-            Matrix_Get(&sp28);
-            func_800D20CC(&sp28, &D_80B7E09C, 0);
+            Matrix_MultVec3f(&sZeroVec, &effect->pos);
+            Matrix_Get(&mf);
+            func_800D20CC(&mf, &D_80B7E09C, 0);
 
             D_80B7A690 = 0;
             D_80B7A68C = 0;
 
-            sp68->unk_24 = 6;
-            sp68->unk_2C = 0;
-            sp68->unk_0C = D_80B7A89C;
-            sp68->unk_18 = D_80B7A89C;
+            effect->type = 6;
+            effect->unk_2C = 0;
+            effect->vel = sZeroVec;
+            effect->accel = sZeroVec;
         }
 
         Matrix_Pop();
@@ -1510,7 +1631,7 @@ void func_80B6CAF8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, u8 arg3) 
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3085),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0074C8);
+        gSPDisplayList(POLY_OPA_DISP++, gFishingManHatDL);
     }
 
     Matrix_Pop();
@@ -1518,7 +1639,7 @@ void func_80B6CAF8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, u8 arg3) 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 3098);
 }
 
-void func_80B6D054(GlobalContext* globalCtx) {
+void Fishing_UpdateSinkingLure(GlobalContext* globalCtx) {
     s16 i;
     f32 dx;
     f32 dy;
@@ -1588,18 +1709,18 @@ static f32 D_80B7AE88[] = {
     0.9f, 0.85f, 0.8f, 0.7f, 0.8f, 1.0f, 1.2f, 1.1f, 1.0f, 0.8f,
 };
 
-void func_80B6D354(GlobalContext* globalCtx) {
+void Fishing_DrawSinkingLure(GlobalContext* globalCtx) {
     s16 i;
     f32 scale;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 3209);
 
-    func_80B6D054(globalCtx);
+    Fishing_UpdateSinkingLure(globalCtx);
 
     if (D_80B7E0B8.y < globalCtx->colCtx.colHeader->waterBoxes->ySurface) {
         func_80093D18(globalCtx->state.gfxCtx);
 
-        gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_00B950);
+        gSPDisplayList(POLY_OPA_DISP++, gFishingSinkingLureSegmentSetupDL);
 
         for (i = 19; i >= 0; i--) {
             if ((i + D_80B7FEA0) < 20) {
@@ -1610,13 +1731,13 @@ void func_80B6D354(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3239),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_00B9C0);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingSinkingLureSegmentVtxDL);
             }
         }
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
 
-        gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_00B950);
+        gSPDisplayList(POLY_XLU_DISP++, gFishingSinkingLureSegmentSetupDL);
 
         for (i = 19; i >= 0; i--) {
             if ((i + D_80B7FEA0) < 20) {
@@ -1627,7 +1748,7 @@ void func_80B6D354(GlobalContext* globalCtx) {
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3265),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_00B9C0);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingSinkingLureSegmentVtxDL);
             }
         }
     }
@@ -1635,7 +1756,7 @@ void func_80B6D354(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 3271);
 }
 
-void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
+void Fishing_DrawLure(GlobalContext* globalCtx, Vec3f* pos, Vec3f* rot) {
     Vec3f spDC;
     Vec3f spD0;
     Vec3f spC4;
@@ -1651,10 +1772,10 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
     Matrix_Push();
 
     if (D_80B7A6D4 != 0) {
-        Vec3f sp8C = D_80B7E0B8;
+        Vec3f posTemp = D_80B7E0B8;
         D_80B7E0B8 = D_80B7FED8;
-        func_80B6D354(globalCtx);
-        D_80B7E0B8 = sp8C;
+        Fishing_DrawSinkingLure(globalCtx);
+        D_80B7E0B8 = posTemp;
     }
 
     if ((D_80B7A694 == 4) || (D_80B7A694 == 5)) {
@@ -1688,11 +1809,12 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
         Matrix_Translate(0.0f, 0.0f, D_80B7E108, MTXMODE_APPLY);
         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
         Matrix_RotateY(M_PI / 2, MTXMODE_APPLY);
+
         func_80093D18(globalCtx->state.gfxCtx);
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3369),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0121F0);
+        gSPDisplayList(POLY_OPA_DISP++, gFishingLureFloatDL);
 
         spDC.x = -850.0f;
         spDC.y = 0.0f;
@@ -1702,12 +1824,12 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
         spDC.x = 500.0f;
         spDC.z = -300.0f;
         Matrix_MultVec3f(&spDC, &spB8);
-        func_80B6CAF8(globalCtx, &spB8, &D_80B7FD88[0], 0);
+        Fishing_DrawLureHook(globalCtx, &spB8, &D_80B7FD88[0], 0);
 
         spDC.x = 2100.0f;
         spDC.z = -50.0f;
         Matrix_MultVec3f(&spDC, &spC4);
-        func_80B6CAF8(globalCtx, &spC4, &D_80B7FD88[1], 1);
+        Fishing_DrawLureHook(globalCtx, &spC4, &D_80B7FD88[1], 1);
     }
 
     POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
@@ -1741,7 +1863,6 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3444),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_003710);
-
     } else {
         for (i = spB4; i < 0xC7; i++) {
             if ((i == 0xC5) && (D_80B7E0B6 == 0) && (D_80B7A694 == 3)) {
@@ -1752,9 +1873,9 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
                 f32 sp48;
                 f32 sp44;
 
-                sp4C = D_80B7E0C8.x - (arg1 + i)->x;
-                sp48 = D_80B7E0C8.y - (arg1 + i)->y;
-                sp44 = D_80B7E0C8.z - (arg1 + i)->z;
+                sp4C = D_80B7E0C8.x - (pos + i)->x;
+                sp48 = D_80B7E0C8.y - (pos + i)->y;
+                sp44 = D_80B7E0C8.z - (pos + i)->z;
 
                 sp54 = Math_FAtan2F(sp4C, sp44);
                 sp50 = sqrtf(SQ(sp4C) + SQ(sp44));
@@ -1762,7 +1883,7 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
 
                 sp50 = sqrtf(SQ(sp4C) + SQ(sp48) + SQ(sp44)) * 0.001f;
 
-                Matrix_Translate((arg1 + i)->x, (arg1 + i)->y, (arg1 + i)->z, MTXMODE_NEW);
+                Matrix_Translate((pos + i)->x, (pos + i)->y, (pos + i)->z, MTXMODE_NEW);
                 Matrix_RotateY(sp54, MTXMODE_APPLY);
                 Matrix_RotateX(sp58, MTXMODE_APPLY);
                 Matrix_Scale(D_80B7E14C, 1.0f, sp50, MTXMODE_APPLY);
@@ -1773,9 +1894,9 @@ void func_80B6D688(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
                 break;
             }
 
-            Matrix_Translate((arg1 + i)->x, (arg1 + i)->y, (arg1 + i)->z, MTXMODE_NEW);
-            Matrix_RotateY((arg2 + i)->y, MTXMODE_APPLY);
-            Matrix_RotateX((arg2 + i)->x, MTXMODE_APPLY);
+            Matrix_Translate((pos + i)->x, (pos + i)->y, (pos + i)->z, MTXMODE_NEW);
+            Matrix_RotateY((rot + i)->y, MTXMODE_APPLY);
+            Matrix_RotateX((rot + i)->x, MTXMODE_APPLY);
             Matrix_Scale(D_80B7E14C, 1.0f, 0.005f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3492),
@@ -1803,7 +1924,7 @@ static f32 D_80B7AF30[22] = {
 
 static Vec3f D_80B7AF88 = { 0.0f, 0.0f, 0.0f };
 
-void func_80B6DF30(GlobalContext* globalCtx) {
+void Fishing_DrawRod(GlobalContext* globalCtx) {
     s16 i;
     f32 spC8;
     f32 spC4;
@@ -1882,7 +2003,7 @@ void func_80B6DF30(GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0113D0);
+    gSPDisplayList(POLY_OPA_DISP++, gFishingRodSetupDL);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 0, 255);
 
@@ -1920,17 +2041,17 @@ void func_80B6DF30(GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         if (i < 5) {
-            gDPLoadTextureBlock(POLY_OPA_DISP++, object_fish_Tex_011170, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
+            gDPLoadTextureBlock(POLY_OPA_DISP++, gFishingRodSegmentBlackTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 3, G_TX_NOLOD, G_TX_NOLOD);
         } else if ((i < 8) || ((i & 1) == 0)) {
-            gDPLoadTextureBlock(POLY_OPA_DISP++, object_fish_Tex_011270, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
+            gDPLoadTextureBlock(POLY_OPA_DISP++, gFishingRodSegmentWhiteTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 3, G_TX_NOLOD, G_TX_NOLOD);
         } else {
-            gDPLoadTextureBlock(POLY_OPA_DISP++, object_fish_Tex_011070, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
+            gDPLoadTextureBlock(POLY_OPA_DISP++, gFishingRodSegmentStripTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 3, G_TX_NOLOD, G_TX_NOLOD);
         }
 
-        gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_011410);
+        gSPDisplayList(POLY_OPA_DISP++, gFishingRodSegmentDL);
 
         Matrix_Pop();
         Matrix_Translate(0.0f, 0.0f, 500.0f, MTXMODE_APPLY);
@@ -1945,7 +2066,7 @@ void func_80B6DF30(GlobalContext* globalCtx) {
 
 static Vec3f D_80B7AF94 = { 0.0f, 0.0f, 0.0f };
 
-void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
+void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
     f32 spE4;
     f32 spE0;
     s16 phi_v0;
@@ -2032,7 +2153,7 @@ void func_80B6E9E0(Fishing* this, GlobalContext* globalCtx) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &D_80B7E0B8, &D_80B7AF94, &D_80B7FEA4);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &D_80B7E0B8, &D_80B7AF94, &sProjectedW);
 
     if (D_80B7A694 == 0) {
         Math_ApproachF(&D_80B7E108, -800.0f, 1.0f, 20.0f);
@@ -2617,7 +2738,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
                     this->unk_15E = 0;
                     this->unk_17A[0] = 0;
                     this->unk_17A[2] = (s16)Rand_ZeroFloat(100.0f) + 100;
-                    this->unk_1A8 = D_80B7AD40[this->actor.params - 100].unk_0C;
+                    this->unk_1A8 = sFishInits[this->actor.params - 100].unk_0C;
                     this->unk_1B0 = 0.0f;
                 }
 
@@ -2626,7 +2747,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
                     this->unk_15E = 0;
                     this->unk_17A[0] = 0;
                     this->unk_17A[2] = (s16)Rand_ZeroFloat(100.0f) + 100;
-                    this->unk_1A8 = D_80B7AD40[this->actor.params - 100].unk_0C;
+                    this->unk_1A8 = sFishInits[this->actor.params - 100].unk_0C;
                     this->unk_1B0 = 0.0f;
                 }
             }
@@ -2680,7 +2801,7 @@ void func_80B71278(Fishing* this, u8 arg1) {
     Audio_PlayActorSound2(&this->actor, sfxId);
 }
 
-void func_80B71438(Fishing* this, GlobalContext* globalCtx) {
+void Fishing_HandleAquariumDialog(Fishing* this, GlobalContext* globalCtx) {
     if (D_80B7E075 == 1) {
         if ((HIGH_SCORE(HS_FISHING) & 0x7F) != 0) {
             if (HIGH_SCORE(HS_FISHING) & 0x80) {
@@ -2723,7 +2844,7 @@ void func_80B71438(Fishing* this, GlobalContext* globalCtx) {
     }
 }
 
-void Fishing_Update(Actor* thisx, GlobalContext* globalCtx2) {
+void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
     s16 sp136;
     s16 sp134 = 10;
     f32 sp130;
@@ -2871,7 +2992,7 @@ void Fishing_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     switch (this->unk_158) {
         case 100:
-            func_80B71438(this, globalCtx);
+            Fishing_HandleAquariumDialog(this, globalCtx);
 
             this->actor.uncullZoneForward = 500.0f;
             this->actor.uncullZoneScale = 300.0f;
@@ -3801,11 +3922,12 @@ void Fishing_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     SkelAnime_Free(&this->skelAnime, globalCtx);
 
                     if (this->unk_150 == 0) {
-                        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fish_Skel_0029C0, &object_fish_Anim_00007C, 0, 0, 0);
-                        Animation_MorphToLoop(&this->skelAnime, &object_fish_Anim_00007C, 0.0f);
+                        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFishingFishSkel, &gFishingFishAnim, 0, 0, 0);
+                        Animation_MorphToLoop(&this->skelAnime, &gFishingFishAnim, 0.0f);
                     } else {
-                        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fish_Skel_011058, &object_fish_Anim_00CFE0, 0, 0, 0);
-                        Animation_MorphToLoop(&this->skelAnime, &object_fish_Anim_00CFE0, 0.0f);
+                        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFishingLoachSkel, &gFishingLoachAnim, 0, 0,
+                                           0);
+                        Animation_MorphToLoop(&this->skelAnime, &gFishingLoachAnim, 0.0f);
                     }
                 }
 
@@ -3823,13 +3945,13 @@ void Fishing_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->unk_1B0 = 12288.0f;
 
             if (this->actor.params < 104) {
-                this->unk_1B4 = D_80B81FC8[this->actor.params - 100].unk_04;
+                this->unk_1B4 = sPoolFishes[this->actor.params - 100].pos;
                 D_80B7A898 = 1;
             } else if (this->actor.params < 108) {
-                this->unk_1B4 = D_80B81FC8[this->actor.params - 84].unk_04;
+                this->unk_1B4 = sPoolFishes[this->actor.params - 84].pos;
                 D_80B7A898 = 2;
             } else {
-                this->unk_1B4 = D_80B81FC8[this->actor.params - 68].unk_04;
+                this->unk_1B4 = sPoolFishes[this->actor.params - 68].pos;
                 D_80B7A898 = 3;
             }
 
@@ -3859,7 +3981,7 @@ void Fishing_Update(Actor* thisx, GlobalContext* globalCtx2) {
             break;
     }
 
-    Math_ApproachS(&this->unk_172, (Math_SinS(this->unk_15C << 0xC) * 5000.0f) + 5000.0f, 2, 0x7D0);
+    Math_ApproachS(&this->unk_172, (Math_SinS(this->unk_15C * 0x1000) * 5000.0f) + 5000.0f, 2, 0x7D0);
 
     if (this->unk_158 != 6) {
         if (globalCtx->colCtx.colHeader->waterBoxes->ySurface < this->actor.world.pos.y) {
@@ -3883,7 +4005,7 @@ void Fishing_Update(Actor* thisx, GlobalContext* globalCtx2) {
             spF4 = spF0 = spFA = 4;
             spF2 = spEE = 0x2000;
 
-            spF6 = func_80B69B84(&this->actor.world.rot.y, spFC, sp134, this->unk_1B0) * 3.0f;
+            spF6 = Fishing_SmoothStepToS(&this->actor.world.rot.y, spFC, sp134, this->unk_1B0) * 3.0f;
             Math_ApproachS(&this->actor.world.rot.x, spFE, sp134, this->unk_1B0 * 0.5f);
 
             if (spF6 > 0x1F40) {
@@ -4042,7 +4164,8 @@ void Fishing_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-s32 func_80B75BAC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 Fishing_FishOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                 void* thisx) {
     Fishing* this = THIS;
 
     if (limbIndex == 0xD) {
@@ -4064,7 +4187,7 @@ s32 func_80B75BAC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80B75CE0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void Fishing_FishPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Fishing* this = THIS;
 
     if (limbIndex == 0xD) {
@@ -4072,7 +4195,8 @@ void func_80B75CE0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-s32 func_80B75D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 Fishing_LoachOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                  void* thisx) {
     Fishing* this = THIS;
 
     if (limbIndex == 3) {
@@ -4086,9 +4210,8 @@ s32 func_80B75D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-static Vec3f D_80B7AFAC = { 500.0f, 500.0f, 0.0f };
-
-void func_80B75DA4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void Fishing_LoachPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    static Vec3f D_80B7AFAC = { 500.0f, 500.0f, 0.0f };
     Fishing* this = THIS;
 
     if (limbIndex == 0xB) {
@@ -4096,7 +4219,7 @@ void func_80B75DA4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-void Fishing_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void Fishing_DrawFish(Actor* thisx, GlobalContext* globalCtx) {
     Fishing* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
@@ -4112,7 +4235,7 @@ void Fishing_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, 0.0f, this->unk_16C * 10.0f * 0.01f, MTXMODE_APPLY);
 
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, func_80B75BAC, func_80B75CE0, this);
+                              this->skelAnime.dListCount, Fishing_FishOverrideLimbDraw, Fishing_FishPostLimbDraw, this);
     } else {
         Matrix_Translate(0.0f, 0.0f, 3000.0f, MTXMODE_APPLY);
         Matrix_RotateY(this->unk_16C * (M_PI / 32768), MTXMODE_APPLY);
@@ -4120,97 +4243,98 @@ void Fishing_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateY(-(M_PI / 2), MTXMODE_APPLY);
 
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, func_80B75D20, func_80B75DA4, this);
+                              this->skelAnime.dListCount, Fishing_LoachOverrideLimbDraw, Fishing_LoachPostLimbDraw,
+                              this);
     }
 }
 
-void func_80B76028(struct_80B7FEF8* arg0, Vec3f* arg1) {
-    f32 dx = arg0->unk_00.x - arg1->x;
-    f32 dz = arg0->unk_00.z - arg1->z;
-    f32 sp1C;
+void Fishing_HandleReedContact(FishingProp* prop, Vec3f* entityPos) {
+    f32 dx = prop->pos.x - entityPos->x;
+    f32 dz = prop->pos.z - entityPos->z;
+    f32 distXZ = sqrtf(SQ(dx) + SQ(dz));
 
-    sp1C = sqrtf(SQ(dx) + SQ(dz));
-    if (sp1C <= 20.0f) {
-        arg0->unk_10 = Math_Atan2F(dz, dx);
-        Math_ApproachF(&arg0->unk_0C, (20.0f - sp1C) * 0.03f, 0.2f, 0.2f);
+    if (distXZ <= 20.0f) {
+        prop->rotY = Math_Atan2F(dz, dx);
+
+        Math_ApproachF(&prop->rotX, (20.0f - distXZ) * 0.03f, 0.2f, 0.2f);
     }
 }
 
-void func_80B760D4(struct_80B7FEF8* arg0, Vec3f* arg1, u8 arg2) {
-    f32 dx = arg0->unk_00.x - arg1->x;
-    f32 dz = arg0->unk_00.z - arg1->z;
-    f32 sp1C;
+void Fishing_HandleLilyPadContact(FishingProp* prop, Vec3f* entityPos, u8 fishTimer) {
+    f32 dx = prop->pos.x - entityPos->x;
+    f32 dz = prop->pos.z - entityPos->z;
+    f32 distXZ = sqrtf(SQ(dx) + SQ(dz));
 
-    sp1C = sqrtf(SQ(dx) + SQ(dz));
-    if (sp1C <= 40.0f) {
-        Math_ApproachS(&arg0->unk_28, Math_Atan2S(dz, dx), 10, 0x300);
+    if (distXZ <= 40.0f) {
+        Math_ApproachS(&prop->lilyPadAngle, Math_Atan2S(dz, dx), 10, 0x300);
     }
 
-    if (arg2 && (sp1C <= 60.0f)) {
-        f32 phi_f0 = 1.0f;
+    if (fishTimer && (distXZ <= 60.0f)) {
+        f32 heightTarget = 1.0f;
 
-        if (arg2 >= 0x15) {
-            phi_f0 = 1.5f;
+        if (fishTimer >= 21) {
+            heightTarget = 1.5f;
         }
 
-        Math_ApproachF(&arg0->unk_2C, phi_f0, 0.1f, 0.2f);
+        Math_ApproachF(&prop->lilyPadOffset, heightTarget, 0.1f, 0.2f);
     }
 }
 
-void func_80B761B8(GlobalContext* globalCtx) {
-    struct_80B7FEF8* phi_s1 = &D_80B7FEF8[0];
+void Fishing_UpdatePondProps(GlobalContext* globalCtx) {
+    FishingProp* prop = &sPondProps[0];
     Player* player = PLAYER;
     Actor* actor;
     s16 i;
 
-    for (i = 0; i < 140; i++) {
-        if (phi_s1->unk_30 != 0) {
-            phi_s1->unk_34 = 0;
-            phi_s1->unk_32++;
+    for (i = 0; i < POND_PROP_COUNT; i++) {
+        if (prop->type != FS_PROP_NONE) {
+            prop->shouldDraw = false;
+            prop->timer++;
 
-            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &phi_s1->unk_00, &phi_s1->unk_18, &D_80B7FEA4);
+            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &prop->pos, &prop->projectedPos, &sProjectedW);
 
-            if ((phi_s1->unk_20 < phi_s1->unk_38) && (fabsf(phi_s1->unk_18) < (100.0f + phi_s1->unk_20))) {
-                phi_s1->unk_34 = 1;
+            if ((prop->projectedPos.z < prop->drawDistance) &&
+                (fabsf(prop->projectedPos.x) < (100.0f + prop->projectedPos.z))) {
+                prop->shouldDraw = true;
             }
 
-            if ((phi_s1->unk_20 < 500.0f) && (fabsf(phi_s1->unk_18) < (100.0f + phi_s1->unk_20))) {
-                if (phi_s1->unk_30 == 1) {
-                    func_80B76028(phi_s1, &player->actor.world.pos);
+            if ((prop->projectedPos.z < 500.0f) && (fabsf(prop->projectedPos.x) < (100.0f + prop->projectedPos.z))) {
+                if (prop->type == FS_PROP_REED) {
+                    Fishing_HandleReedContact(prop, &player->actor.world.pos);
 
                     actor = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
                     while (actor != NULL) {
                         if (!((actor->id == ACTOR_FISHING) && (actor->params >= 100))) {
                             actor = actor->next;
                         } else {
-                            func_80B76028(phi_s1, &actor->world.pos);
+                            Fishing_HandleReedContact(prop, &actor->world.pos);
                             actor = actor->next;
                         }
                     }
 
-                    Math_ApproachZeroF(&phi_s1->unk_0C, 0.05f, 0.05f);
-                } else if (phi_s1->unk_30 == 2) {
-                    func_80B760D4(phi_s1, &player->actor.world.pos, 0);
+                    Math_ApproachZeroF(&prop->rotX, 0.05f, 0.05f);
+                } else if (prop->type == FS_PROP_LILY_PAD) {
+                    Fishing_HandleLilyPadContact(prop, &player->actor.world.pos, 0);
 
                     actor = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
                     while (actor != NULL) {
                         if (!((actor->id == ACTOR_FISHING) && (actor->params >= 100))) {
                             actor = actor->next;
                         } else {
-                            func_80B760D4(phi_s1, &actor->world.pos, ((Fishing*)actor)->unk_151);
+                            Fishing_HandleLilyPadContact(prop, &actor->world.pos, ((Fishing*)actor)->unk_151);
                             actor = actor->next;
                         }
                     }
 
-                    Math_ApproachS(&phi_s1->unk_28, 0, 20, 80);
-                    phi_s1->unk_00.y = (Math_SinS(phi_s1->unk_32 * 0x1000) * phi_s1->unk_2C) +
-                                       (globalCtx->colCtx.colHeader->waterBoxes->ySurface + 2.0f);
-                    Math_ApproachZeroF(&phi_s1->unk_2C, 0.1f, 0.02f);
+                    Math_ApproachS(&prop->lilyPadAngle, 0, 20, 80);
+                    prop->pos.y = (Math_SinS(prop->timer * 0x1000) * prop->lilyPadOffset) +
+                                  (globalCtx->colCtx.colHeader->waterBoxes->ySurface + 2.0f);
+                    Math_ApproachZeroF(&prop->lilyPadOffset, 0.1f, 0.02f);
                 }
             }
         }
 
-        phi_s1++;
+        prop++;
     }
 
     if (D_80B7FEC4 == 0) {
@@ -4218,106 +4342,107 @@ void func_80B761B8(GlobalContext* globalCtx) {
     }
 }
 
-void func_80B76474(GlobalContext* globalCtx) {
-    u8 phi_s5 = 0;
-    struct_80B7FEF8* phi_s0 = &D_80B7FEF8[0];
-    s16 phi_s3;
+void Fishing_DrawPondProps(GlobalContext* globalCtx) {
+    u8 flag = 0;
+    FishingProp* prop = &sPondProps[0];
+    s16 i;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 7704);
 
     Matrix_Push();
 
-    for (phi_s3 = 0; phi_s3 < 140; phi_s3++) {
-        if (phi_s0->unk_30 == 1) {
-            if (phi_s5 == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_014030);
-                phi_s5++;
+    for (i = 0; i < POND_PROP_COUNT; i++) {
+        if (prop->type == FS_PROP_REED) {
+            if (flag == 0) {
+                gSPDisplayList(POLY_XLU_DISP++, gFishingReedSetupDL);
+                flag++;
             }
 
-            if (phi_s0->unk_34 != 0) {
-                Matrix_Translate(phi_s0->unk_00.x, phi_s0->unk_00.y, phi_s0->unk_00.z, MTXMODE_NEW);
-                Matrix_Scale(phi_s0->unk_24, phi_s0->unk_24, phi_s0->unk_24, MTXMODE_APPLY);
-                Matrix_RotateY(phi_s0->unk_10, MTXMODE_APPLY);
-                Matrix_RotateX(phi_s0->unk_0C, MTXMODE_APPLY);
-                Matrix_RotateY(phi_s0->unk_14, MTXMODE_APPLY);
+            if (prop->shouldDraw) {
+                Matrix_Translate(prop->pos.x, prop->pos.y, prop->pos.z, MTXMODE_NEW);
+                Matrix_Scale(prop->scale, prop->scale, prop->scale, MTXMODE_APPLY);
+                Matrix_RotateY(prop->rotY, MTXMODE_APPLY);
+                Matrix_RotateX(prop->rotX, MTXMODE_APPLY);
+                Matrix_RotateY(prop->reedAngle, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7726),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_0140B0);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingReedVtxDL);
             }
         }
 
-        phi_s0++;
+        prop++;
     }
 
-    phi_s0 = &D_80B7FEF8[0];
-    phi_s5 = 0;
-    for (phi_s3 = 0; phi_s3 < 140; phi_s3++) {
-        if (phi_s0->unk_30 == 4) {
-            if (phi_s5 == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_013F50);
-                phi_s5++;
+    prop = &sPondProps[0];
+    flag = 0;
+    for (i = 0; i < POND_PROP_COUNT; i++) {
+        if (prop->type == FS_PROP_WOOD_POST) {
+            if (flag == 0) {
+                gSPDisplayList(POLY_OPA_DISP++, gFishingWoodPostSetupDL);
+                flag++;
             }
-            if (phi_s0->unk_34 != 0) {
-                Matrix_Translate(phi_s0->unk_00.x, phi_s0->unk_00.y, phi_s0->unk_00.z, MTXMODE_NEW);
-                Matrix_Scale(phi_s0->unk_24, phi_s0->unk_24, phi_s0->unk_24, MTXMODE_APPLY);
+
+            if (prop->shouldDraw) {
+                Matrix_Translate(prop->pos.x, prop->pos.y, prop->pos.z, MTXMODE_NEW);
+                Matrix_Scale(prop->scale, prop->scale, prop->scale, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7748),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_013FD0);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingWoodPostVtxDL);
             }
         }
 
-        phi_s0++;
+        prop++;
     }
 
-    phi_s0 = &D_80B7FEF8[0];
-    phi_s5 = 0;
-    for (phi_s3 = 0; phi_s3 < 140; phi_s3++) {
-        if (phi_s0->unk_30 == 2) {
-            if (phi_s5 == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_013330);
-                phi_s5++;
+    prop = &sPondProps[0];
+    flag = 0;
+    for (i = 0; i < POND_PROP_COUNT; i++) {
+        if (prop->type == FS_PROP_LILY_PAD) {
+            if (flag == 0) {
+                gSPDisplayList(POLY_XLU_DISP++, gFishingLilyPadSetupDL);
+                flag++;
             }
 
-            if (phi_s0->unk_34 != 0) {
-                Matrix_Translate(phi_s0->unk_00.x, phi_s0->unk_00.y, phi_s0->unk_00.z, MTXMODE_NEW);
-                Matrix_Scale(phi_s0->unk_24, 1.0f, phi_s0->unk_24, MTXMODE_APPLY);
-                Matrix_RotateY(phi_s0->unk_28 * (M_PI / 32768), MTXMODE_APPLY);
+            if (prop->shouldDraw) {
+                Matrix_Translate(prop->pos.x, prop->pos.y, prop->pos.z, MTXMODE_NEW);
+                Matrix_Scale(prop->scale, 1.0f, prop->scale, MTXMODE_APPLY);
+                Matrix_RotateY(prop->lilyPadAngle * (M_PI / 32768), MTXMODE_APPLY);
                 Matrix_Translate(0.0f, 0.0f, 20.0f, MTXMODE_APPLY);
-                Matrix_RotateY(phi_s0->unk_10, MTXMODE_APPLY);
+                Matrix_RotateY(prop->rotY, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7774),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_0133B0);
+                gSPDisplayList(POLY_XLU_DISP++, gFishingLilyPadVtxDL);
             }
         }
 
-        phi_s0++;
+        prop++;
     }
 
-    phi_s0 = &D_80B7FEF8[0];
-    phi_s5 = 0;
-    for (phi_s3 = 0; phi_s3 < 140; phi_s3++) {
-        if (phi_s0->unk_30 == 3) {
-            if (phi_s5 == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_013590);
-                phi_s5++;
+    prop = &sPondProps[0];
+    flag = 0;
+    for (i = 0; i < POND_PROP_COUNT; i++) {
+        if (prop->type == FS_PROP_ROCK) {
+            if (flag == 0) {
+                gSPDisplayList(POLY_OPA_DISP++, gFishingRockSetupDL);
+                flag++;
             }
 
-            if (phi_s0->unk_34 != 0) {
-                Matrix_Translate(phi_s0->unk_00.x, phi_s0->unk_00.y, phi_s0->unk_00.z, MTXMODE_NEW);
-                Matrix_Scale(phi_s0->unk_24, phi_s0->unk_24, phi_s0->unk_24, MTXMODE_APPLY);
-                Matrix_RotateY(phi_s0->unk_10, MTXMODE_APPLY);
+            if (prop->shouldDraw) {
+                Matrix_Translate(prop->pos.x, prop->pos.y, prop->pos.z, MTXMODE_NEW);
+                Matrix_Scale(prop->scale, prop->scale, prop->scale, MTXMODE_APPLY);
+                Matrix_RotateY(prop->rotY, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 7798),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_013610);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingRockVtxDL);
             }
         }
 
-        phi_s0++;
+        prop++;
     }
 
     Matrix_Pop();
@@ -4325,12 +4450,10 @@ void func_80B76474(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 7805);
 }
 
-static u16 D_80B7AFB8[] = { 0x4096, 0x408D, 0x408E, 0x408F, 0x4094, 0x4095 };
-
-void func_80B768FC(GlobalContext* globalCtx) {
+void Fishing_UpdatePoolFishes(GlobalContext* globalCtx) {
     s16 spFE = 0;
     Player* player = PLAYER;
-    struct_80B81FC8* phi_s0 = &D_80B81FC8[0];
+    FishingPoolFish* fish = &sPoolFishes[0];
     f32 spF0;
     f32 temp_f22;
     f32 spE8;
@@ -4364,7 +4487,7 @@ void func_80B768FC(GlobalContext* globalCtx) {
 
     if ((SQ(temp_f20) + SQ(temp_f22)) < 2500.0f) {
         D_80B830A8 += 0.3f;
-        spFE = 1;
+        spFE |= 1;
     } else if (D_80B7A898 != 0.0f) {
         D_80B830A8 += 0.05f;
         spAC[0].y = globalCtx->colCtx.colHeader->waterBoxes->ySurface - 5.0f;
@@ -4412,22 +4535,22 @@ void func_80B768FC(GlobalContext* globalCtx) {
         spD8 = 1.0f;
     }
 
-    for (phi_s6 = 0; phi_s6 < 0x3C; phi_s6++) {
-        if (phi_s0->unk_00 != 0) {
-            phi_s0->unk_02++;
+    for (phi_s6 = 0; phi_s6 < POOL_FISH_COUNT; phi_s6++) {
+        if (fish->type != FS_POOL_FISH_NONE) {
+            fish->timer++;
 
-            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &phi_s0->unk_04, &phi_s0->unk_1C, &D_80B7FEA4);
+            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &fish->pos, &fish->projectedPos, &sProjectedW);
 
-            if ((phi_s0->unk_24 < 400.0f) && (fabsf(phi_s0->unk_1C) < (100.0f + phi_s0->unk_24))) {
-                phi_s0->unk_44 = 1;
+            if ((fish->projectedPos.z < 400.0f) && (fabsf(fish->projectedPos.x) < (100.0f + fish->projectedPos.z))) {
+                fish->shouldDraw = true;
             } else {
-                phi_s0->unk_44 = 0;
+                fish->shouldDraw = false;
             }
 
-            if (phi_s6 < 0x15) {
+            if (phi_s6 <= 20) {
                 phi_s2_2 = 0;
                 phi_s3 = 1;
-            } else if (phi_s6 < 0x29) {
+            } else if (phi_s6 <= 40) {
                 phi_s2_2 = 1;
                 phi_s3 = 2;
             } else {
@@ -4435,121 +4558,121 @@ void func_80B768FC(GlobalContext* globalCtx) {
                 phi_s3 = 4;
             }
 
-            temp_f20_4 = phi_s0->unk_10.x - phi_s0->unk_04.x;
-            spF0 = phi_s0->unk_10.y - phi_s0->unk_04.y;
-            temp_f22_4 = phi_s0->unk_10.z - phi_s0->unk_04.z;
+            temp_f20_4 = fish->unk_10.x - fish->pos.x;
+            spF0 = fish->unk_10.y - fish->pos.y;
+            temp_f22_4 = fish->unk_10.z - fish->pos.z;
             spD4 = Math_Atan2S(temp_f22_4, temp_f20_4);
             spE8 = sqrtf(SQ(temp_f20_4) + SQ(temp_f22_4));
             spD6 = Math_Atan2S(spE8, spF0);
 
-            if ((spE8 < 10.0f) || (((phi_s0->unk_02 & 31) == 0) && (Rand_ZeroOne() > 0.5f))) {
-                phi_s0->unk_10.y = spAC[phi_s2_2].y + Rand_CenteredFloat(10.0f);
+            if ((spE8 < 10.0f) || (((fish->timer & 31) == 0) && (Rand_ZeroOne() > 0.5f))) {
+                fish->unk_10.y = spAC[phi_s2_2].y + Rand_CenteredFloat(10.0f);
 
                 if (D_80B7A898 != 0.0f) {
-                    phi_s0->unk_10.x = spAC[phi_s2_2].x + Rand_CenteredFloat(200.0f);
-                    phi_s0->unk_10.z = spAC[phi_s2_2].z + Rand_CenteredFloat(200.0f);
+                    fish->unk_10.x = spAC[phi_s2_2].x + Rand_CenteredFloat(200.0f);
+                    fish->unk_10.z = spAC[phi_s2_2].z + Rand_CenteredFloat(200.0f);
                 } else {
-                    phi_s0->unk_10.x = spAC[phi_s2_2].x + Rand_CenteredFloat(100.0f);
-                    phi_s0->unk_10.z = spAC[phi_s2_2].z + Rand_CenteredFloat(100.0f);
+                    fish->unk_10.x = spAC[phi_s2_2].x + Rand_CenteredFloat(100.0f);
+                    fish->unk_10.z = spAC[phi_s2_2].z + Rand_CenteredFloat(100.0f);
                 }
 
-                spA0 = phi_s0->unk_04;
+                spA0 = fish->pos;
                 spA0.y = globalCtx->colCtx.colHeader->waterBoxes->ySurface;
-                func_80B69C2C(&phi_s0->unk_1C, globalCtx->specialEffects, &spA0, 20.0f, Rand_ZeroFloat(50.0f) + 100.0f,
-                              150, 90);
+                func_80B69C2C(&fish->projectedPos, globalCtx->specialEffects, &spA0, 20.0f,
+                              Rand_ZeroFloat(50.0f) + 100.0f, 150, 90);
 
-                if (phi_s0->unk_28 < 1.5f) {
-                    phi_s0->unk_28 = 1.5f;
+                if (fish->unk_28 < 1.5f) {
+                    fish->unk_28 = 1.5f;
                 }
 
-                phi_s0->unk_34 = 1.5f;
-                phi_s0->unk_38 = 1.0f;
+                fish->unk_34 = 1.5f;
+                fish->unk_38 = 1.0f;
             }
 
-            phi_a1 = func_80B69B84(&phi_s0->unk_3E, spD4, 5, 0x4000) * 3.0f;
+            phi_a1 = Fishing_SmoothStepToS(&fish->unk_3E, spD4, 5, 0x4000) * 3.0f;
             if (phi_a1 > 0x1F40) {
                 phi_a1 = 0x1F40;
             } else if (phi_a1 < -0x1F40) {
                 phi_a1 = -0x1F40;
             }
 
-            Math_ApproachS(&phi_s0->unk_42, phi_a1, 3, 0x1388);
+            Math_ApproachS(&fish->unk_42, phi_a1, 3, 0x1388);
 
-            spE0 = phi_s0->unk_42 * -0.0001f;
-            Math_ApproachS(&phi_s0->unk_3C, spD6, 5, 0x4000);
+            spE0 = fish->unk_42 * -0.0001f;
+            Math_ApproachS(&fish->unk_3C, spD6, 5, 0x4000);
 
-            if ((spFE & phi_s3) != 0) {
-                phi_s0->unk_38 = 1.0f;
-                phi_s0->unk_28 = 6.0f;
-                phi_s0->unk_34 = 2.0f;
+            if (spFE & phi_s3) {
+                fish->unk_38 = 1.0f;
+                fish->unk_28 = 6.0f;
+                fish->unk_34 = 2.0f;
             }
 
             if (D_80B7A898 != 0.0f) {
-                phi_s0->unk_38 = 1.0f;
-                phi_s0->unk_28 = 4.0f;
-                phi_s0->unk_34 = 2.0f;
+                fish->unk_38 = 1.0f;
+                fish->unk_28 = 4.0f;
+                fish->unk_34 = 2.0f;
             }
 
-            Math_ApproachF(&phi_s0->unk_28, 0.75f, 1.0f, 0.05f);
+            Math_ApproachF(&fish->unk_28, 0.75f, 1.0f, 0.05f);
 
-            temp_f20 = phi_s0->unk_28 * spD8;
-            temp_f22 = Math_CosS(phi_s0->unk_3C) * temp_f20;
+            temp_f20 = fish->unk_28 * spD8;
+            temp_f22 = Math_CosS(fish->unk_3C) * temp_f20;
 
-            phi_s0->unk_04.x += temp_f22 * Math_SinS(phi_s0->unk_3E);
-            phi_s0->unk_04.y += temp_f20 * Math_SinS(phi_s0->unk_3C);
-            phi_s0->unk_04.z += temp_f22 * Math_CosS(phi_s0->unk_3E);
+            fish->pos.x += temp_f22 * Math_SinS(fish->unk_3E);
+            fish->pos.y += temp_f20 * Math_SinS(fish->unk_3C);
+            fish->pos.z += temp_f22 * Math_CosS(fish->unk_3E);
 
-            if (phi_s0->unk_44 != 0) {
-                Math_ApproachF(&phi_s0->unk_34, 1.0f, 1.0f, 0.1f);
-                Math_ApproachF(&phi_s0->unk_38, 0.4f, 1.0f, 0.04f);
-                phi_s0->unk_30 += phi_s0->unk_34;
-                phi_s0->unk_2C = (cosf(phi_s0->unk_30) * phi_s0->unk_38) + spE0;
+            if (fish->shouldDraw) {
+                Math_ApproachF(&fish->unk_34, 1.0f, 1.0f, 0.1f);
+                Math_ApproachF(&fish->unk_38, 0.4f, 1.0f, 0.04f);
+                fish->unk_30 += fish->unk_34;
+                fish->unk_2C = (cosf(fish->unk_30) * fish->unk_38) + spE0;
             }
         }
 
-        phi_s0++;
+        fish++;
     }
 
     D_80B7A898 = 0.0f;
 }
 
-void func_80B771CC(GlobalContext* globalCtx) {
-    u8 phi_s5 = 0;
-    struct_80B81FC8* phi_s1 = &D_80B81FC8[0];
-    f32 phi_f20;
-    s16 phi_s4;
+void Fishing_DrawPoolFishes(GlobalContext* globalCtx) {
+    u8 flag = 0;
+    FishingPoolFish* fish = &sPoolFishes[0];
+    f32 scale;
+    s16 i;
     s32 pad;
 
     if (D_80B7E075 == 1) {
-        phi_f20 = 0.003325f;
+        scale = 0.003325f;
     } else {
-        phi_f20 = 0.00475f;
+        scale = 0.00475f;
     }
 
     if (1) {}
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 8048);
 
-    for (phi_s4 = 0; phi_s4 < 60; phi_s4++) {
-        if (phi_s1->unk_00 != 0) {
-            if (phi_s5 == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_00C220);
+    for (i = 0; i < POOL_FISH_COUNT; i++) {
+        if (fish->type != FS_POOL_FISH_NONE) {
+            if (flag == 0) {
+                gSPDisplayList(POLY_OPA_DISP++, gFishingPoolFishSetupDL);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
-                phi_s5++;
+                flag++;
             }
 
-            if (phi_s1->unk_44 != 0) {
-                Matrix_Translate(phi_s1->unk_04.x, phi_s1->unk_04.y, phi_s1->unk_04.z, MTXMODE_NEW);
-                Matrix_RotateY(((f32)phi_s1->unk_3E * M_PI) / 32768.0f, MTXMODE_APPLY);
-                Matrix_RotateX((-(f32)phi_s1->unk_3C * M_PI) / 32768.0f, MTXMODE_APPLY);
-                Matrix_Scale(phi_s1->unk_2C * phi_f20, phi_f20, phi_f20, MTXMODE_APPLY);
+            if (fish->shouldDraw) {
+                Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
+                Matrix_RotateY(((f32)fish->unk_3E * M_PI) / 32768.0f, MTXMODE_APPLY);
+                Matrix_RotateX((-(f32)fish->unk_3C * M_PI) / 32768.0f, MTXMODE_APPLY);
+                Matrix_Scale(fish->unk_2C * scale, scale, scale, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 8093),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_00C298);
+                gSPDisplayList(POLY_OPA_DISP++, gFishingPoolFishVtxDL);
             }
         }
-        phi_s1++;
+        fish++;
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 8099);
@@ -4563,8 +4686,10 @@ void func_80B771CC(GlobalContext* globalCtx) {
     }
 }
 
-void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
-    s32 sp34;
+static u16 D_80B7AFB8[] = { 0x4096, 0x408D, 0x408E, 0x408F, 0x4094, 0x4095 };
+
+void Fishing_HandleManDialog(Fishing* this, GlobalContext* globalCtx) {
+    s32 getItemId;
     f32 temp;
 
     switch (this->unk_15C) {
@@ -4782,7 +4907,7 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
                         HIGH_SCORE(HS_FISHING) &= 0xFFFFFF00;
                         HIGH_SCORE(HS_FISHING) |= (s32)D_80B7E078 & 0x7F;
 
-                        temp = ((HIGH_SCORE(HS_FISHING) & 0x7F000000) >> 0x18);
+                        temp = (HIGH_SCORE(HS_FISHING) & 0x7F000000) >> 0x18;
                         if (temp < D_80B7E078) {
                             HIGH_SCORE(HS_FISHING) &= 0xFFFFFF;
                             HIGH_SCORE(HS_FISHING) |= ((s32)D_80B7E078 & 0x7F) << 0x18;
@@ -4809,35 +4934,35 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
                     }
 
                     if (D_80B7E078 >= 60.0f) {
-                        sp34 = GI_RUPEE_PURPLE;
+                        getItemId = GI_RUPEE_PURPLE;
                     } else if (D_80B7E078 >= 50.0f) {
-                        sp34 = GI_RUPEE_RED;
+                        getItemId = GI_RUPEE_RED;
                     } else if (D_80B7E078 >= 40.0f) {
-                        sp34 = GI_RUPEE_BLUE;
+                        getItemId = GI_RUPEE_BLUE;
                     } else {
-                        sp34 = GI_RUPEE_GREEN;
+                        getItemId = GI_RUPEE_GREEN;
                     }
 
                     if (D_80B7E075 == 1) {
                         if ((D_80B7E078 >= 50.0f) && !(HIGH_SCORE(HS_FISHING) & 0x400)) {
                             HIGH_SCORE(HS_FISHING) |= 0x400;
-                            sp34 = GI_HEART_PIECE;
+                            getItemId = GI_HEART_PIECE;
                             D_80B7A66C = (u8)Rand_ZeroFloat(3.999f) + 1;
                         }
                     } else {
                         if ((D_80B7E078 >= 60.0f) && !(HIGH_SCORE(HS_FISHING) & 0x800)) {
                             HIGH_SCORE(HS_FISHING) |= 0x800;
-                            sp34 = GI_SCALE_GOLD;
+                            getItemId = GI_SCALE_GOLD;
                             D_80B7A66C = (u8)Rand_ZeroFloat(3.999f) + 1;
                         }
                     }
                 } else {
-                    sp34 = GI_RUPEE_PURPLE;
+                    getItemId = GI_RUPEE_PURPLE;
                     D_80B7A670 = 0.0f;
                 }
 
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, globalCtx, sp34, 2000.0f, 1000.0f);
+                func_8002F434(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
                 this->unk_15C = 23;
             }
             break;
@@ -4908,7 +5033,7 @@ void func_80B77404(Fishing* this, GlobalContext* globalCtx) {
 
 static s16 D_80B7AFC4[] = { 0, 1, 2, 2, 1 };
 
-static Vec3f D_80B7AFD0 = { 670.0f, 0.0f, -600.0f };
+static Vec3f sStreamSoundPos = { 670.0f, 0.0f, -600.0f };
 
 static Vec3s D_80B7AFDC[] = {
     { -364, -30, -269 },
@@ -4917,7 +5042,7 @@ static Vec3s D_80B7AFDC[] = {
     { 553, -48, -508 },
 };
 
-void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
+void Fishing_UpdateMan(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     Fishing* this = THIS;
     Vec3f sp114;
@@ -4956,7 +5081,7 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
         phi_a1 = 0;
     }
 
-    if (phi_a1 >= 0x2711) {
+    if (phi_a1 > 0x2710) {
         phi_a1 = 0x2710;
     } else if (phi_a1 < -0x2710) {
         phi_a1 = -0x2710;
@@ -4979,9 +5104,9 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if ((D_80B7A68C == 0) && (D_80B7E0B6 != 2) && (D_80B7A694 > 0) && (D_80B7A688 == 1) && (D_80B7A684 == 0)) {
-        f32 dx = D_80B7E090.x - D_80B7E0B8.x;
-        f32 dy = D_80B7E090.y - D_80B7E0B8.y;
-        f32 dz = D_80B7E090.z - D_80B7E0B8.z;
+        f32 dx = sFishingManHeadPos.x - D_80B7E0B8.x;
+        f32 dy = sFishingManHeadPos.y - D_80B7E0B8.y;
+        f32 dz = sFishingManHeadPos.z - D_80B7E0B8.z;
 
         if ((sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 25.0f) || (KREG(77) > 0)) {
             KREG(77) = 0;
@@ -5009,18 +5134,18 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    func_80B77404(this, globalCtx);
+    Fishing_HandleManDialog(this, globalCtx);
 
     D_80B7E14C = 0.0015f;
     D_80B7A680++;
 
     if ((D_80B7E0AC != 0) && D_80B7A674) {
-        func_80B6E9E0(this, globalCtx);
+        Fishing_UpdateLure(this, globalCtx);
     }
 
-    func_80B6AF28(globalCtx->specialEffects, globalCtx);
-    func_80B761B8(globalCtx);
-    func_80B768FC(globalCtx);
+    Fishing_UpdateEffects(globalCtx->specialEffects, globalCtx);
+    Fishing_UpdatePondProps(globalCtx);
+    Fishing_UpdatePoolFishes(globalCtx);
 
     if ((D_80B7E0AC != 0) && (D_80B7A6CC == 0) && (player->actor.world.pos.z > 1360.0f) &&
         (fabsf(player->actor.world.pos.x) < 25.0f)) {
@@ -5488,7 +5613,7 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
             sp64.z = Rand_CenteredFloat(700.0f) + globalCtx->view.eye.z;
 
             if (sp64.z < 1160.0f) {
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp64, &sp4C, &D_80B7FEA4);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp64, &sp4C, &sProjectedW);
 
                 if (sp4C.z < 0.0f) {
                     sp76--;
@@ -5499,9 +5624,9 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &D_80B7AFD0, &D_80B85138, &D_80B7FEA4);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sStreamSoundPos, &sStreamSoundProjectedPos, &sProjectedW);
 
-    func_80078914(&D_80B85138, NA_SE_EV_WATER_WALL - SFX_FLAG);
+    func_80078914(&sStreamSoundProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
 
     gSaveContext.minigameScore = (SQ((f32)D_80B7A678) * 0.0036f) + 0.5f;
 
@@ -5513,40 +5638,41 @@ void func_80B7825C(Actor* thisx, GlobalContext* globalCtx2) {
     osSyncPrintf("HI_SCORE = %x\n", HIGH_SCORE(HS_FISHING));
 }
 
-s32 func_80B7A10C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 Fishing_ManOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                void* thisx) {
     Fishing* this = THIS;
 
-    if (limbIndex == 8) {
+    if (limbIndex == 8) { // Head
         rot->x -= this->unk_164;
     }
 
     return 0;
 }
 
-void func_80B7A140(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    if (limbIndex == 8) {
+void Fishing_ManPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    if (limbIndex == 8) { // Head
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 9134);
-        Matrix_MultVec3f(&D_80B7A89C, &D_80B7E090);
+        Matrix_MultVec3f(&sZeroVec, &sFishingManHeadPos);
 
         if (D_80B7A688 == 1) {
-            gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(object_fish_DL_0074C8));
+            gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gFishingManHatDL));
         } else if (D_80B7A688 == 2) {
-            gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(object_fish_DL_007350));
+            gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gFishingManHairDL));
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 9142);
     }
 }
 
-static void* D_80B7AFF4[] = {
-    0x06009250,
-    0x06009650,
-    0x06009A50,
+static void* sFishingManEyeTexs[] = {
+    gFishingManEyeOpenTex,
+    gFishingManEyeHalfTex,
+    gFishingManEyeClosedTex,
 };
 
-void func_80B7A278(Actor* thisx, GlobalContext* globalCtx) {
-    Fishing* this = THIS;
+void Fishing_DrawMan(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
+    Fishing* this = THIS;
     Input* input = &globalCtx->state.input[0];
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 9156);
@@ -5556,16 +5682,16 @@ void func_80B7A278(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.projectedPos.z < 1500.0f) &&
         (fabsf(this->actor.projectedPos.x) < (100.0f + this->actor.projectedPos.z))) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B7AFF4[this->unk_160]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFishingManEyeTexs[this->unk_160]));
 
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, func_80B7A10C, func_80B7A140, this);
+                              this->skelAnime.dListCount, Fishing_ManOverrideLimbDraw, Fishing_ManPostLimbDraw, this);
     }
 
-    func_80B76474(globalCtx);
-    func_80B6B674(globalCtx->specialEffects, globalCtx);
-    func_80B771CC(globalCtx);
-    func_80B6C134(globalCtx);
+    Fishing_DrawPondProps(globalCtx);
+    Fishing_DrawEffects(globalCtx->specialEffects, globalCtx);
+    Fishing_DrawPoolFishes(globalCtx);
+    Fishing_DrawStreamSplash(globalCtx);
 
     if (D_80B7E0A6 != 0) {
         D_80B7E0A6--;
@@ -5586,10 +5712,10 @@ void func_80B7A278(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((D_80B7E0AC != 0) && D_80B7A674) {
-        func_80B6DF30(globalCtx);
+        Fishing_DrawRod(globalCtx);
         func_80B6C960(D_80B7E168);
         func_80B6C3E0(globalCtx, &D_80B7E158, D_80B7E168, D_80B7EAC8, D_80B7F428);
-        func_80B6D688(globalCtx, D_80B7E168, D_80B7EAC8);
+        Fishing_DrawLure(globalCtx, D_80B7E168, D_80B7EAC8);
 
         D_80B7A6C4 = input->rel.stick_x;
         D_80B7A6C8 = input->rel.stick_y;
@@ -5605,11 +5731,11 @@ void func_80B7A278(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 9298),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, object_fish_DL_0153D0);
-    gSPDisplayList(POLY_XLU_DISP++, object_fish_DL_015470);
+    gSPDisplayList(POLY_OPA_DISP++, gFishingAquariumBottomDL);
+    gSPDisplayList(POLY_XLU_DISP++, gFishingAquariumContainerDL);
 
     if ((D_80B7E0AC != 0) && (D_80B7E0B6 == 2)) {
-        func_80B6D354(globalCtx);
+        Fishing_DrawSinkingLure(globalCtx);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 9305);
