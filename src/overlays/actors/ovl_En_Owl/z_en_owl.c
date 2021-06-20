@@ -6,6 +6,7 @@
 
 #include "z_en_owl.h"
 #include "scenes/overworld/spot06/spot06_scene.h"
+#include "scenes/overworld/spot16/spot16_scene.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
@@ -13,8 +14,6 @@
 #define THIS ((EnOwl*)thisx)
 
 extern AnimationHeader D_0600C1C4;
-extern CsCmdActorAction D_0201E6A0;
-extern CsCmdActorAction D_0201B0C0;
 extern AnimationHeader D_06001168;
 extern FlexSkeletonHeader D_0600C0E8;
 extern FlexSkeletonHeader D_060100B0;
@@ -951,7 +950,7 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
                     break;
                 case 8:
                 case 9:
-                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_0201E6A0);
+                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDmtOwlCs);
                     this->actor.draw = NULL;
                     break;
                 default:
