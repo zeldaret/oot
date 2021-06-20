@@ -26,8 +26,6 @@ void BgBreakwall_WaitForObject(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_Wait(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_LavaCoverMove(BgBreakwall* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_02014F80;
-
 const ActorInit Bg_Breakwall_InitVars = {
     ACTOR_BG_BREAKWALL,
     ACTORCAT_BG,
