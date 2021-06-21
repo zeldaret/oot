@@ -47,7 +47,7 @@ typedef struct Fishing {
     /* 0x01AC */ f32 unk_1AC;
     /* 0x01B0 */ f32 unk_1B0;
     /* 0x01B4 */ Vec3f unk_1B4;
-    /* 0x01C0 */ Vec3f unk_1C0;
+    /* 0x01C0 */ Vec3f fishMouthPos;
     /* 0x01CC */ s16 unk_1CC[3];
     /* 0x01D2 */ u8 unk_1D2;
     /* 0x01D3 */ u8 unk_1D3;

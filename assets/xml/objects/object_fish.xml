@@ -45,74 +45,74 @@
         <Texture Name="gFishingStreamSplashTile2Tex" OutName="fishing_stream_splash_tile_2" Format="i4" Width="16" Height="16" Offset="0x30E0"/>
         <DList Name="gFishingStreamSplashDL" Offset="0x3230"/>
 
-        <Texture Name="object_fish_Tex_003320" OutName="tex_00003320" Format="ia8" Width="16" Height="16" Offset="0x3320"/>
-        <DList Name="object_fish_DL_003460" Offset="0x3460"/>
-        <DList Name="object_fish_DL_0034C0" Offset="0x34C0"/>
+        <Texture Name="gFishingBubbleTex" OutName="fishing_bubble" Format="ia8" Width="16" Height="16" Offset="0x3320"/>
+        <DList Name="gFishingBubbleSetupDL" Offset="0x3460"/>
+        <DList Name="gFishingBubbleVtxDL" Offset="0x34C0"/>
 
-        <Texture Name="object_fish_Tex_0034E0" OutName="tex_000034E0" Format="i8" Width="16" Height="16" Offset="0x34E0"/>
-        <DList Name="object_fish_DL_003610" Offset="0x3610"/>
-        <DList Name="object_fish_DL_003680" Offset="0x3680"/>
+        <Texture Name="gFishingDustSplashTex" OutName="fishing_dust_splash" Format="i8" Width="16" Height="16" Offset="0x34E0"/>
+        <DList Name="gFishingDustSplashSetupDL" Offset="0x3610"/>
+        <DList Name="gFishingDustSplashVtxDL" Offset="0x3680"/>
 
-        <DList Name="object_fish_DL_0036E0" Offset="0x36E0"/>
-        <DList Name="object_fish_DL_003710" Offset="0x3710"/>
+        <DList Name="gFishingUnusedSetupDL" Offset="0x36E0"/>
+        <DList Name="gFishingLineVtxDL" Offset="0x3710"/>
 
-        <DList Name="object_fish_DL_003760" Offset="0x3760"/>
+        <DList Name="gFishingRainDropVtxDL" Offset="0x3760"/>
 
-        <Texture Name="object_fish_Tex_003778" OutName="tex_00003778" Format="rgb5a1" Width="16" Height="16" Offset="0x3778"/>
-        <DList Name="object_fish_DL_0039A8" Offset="0x39A8"/>
-        <DList Name="object_fish_DL_003A18" Offset="0x3A18"/>
+        <Texture Name="gFishingRainSplashTex" OutName="fishing_rain_splash" Format="rgb5a1" Width="16" Height="16" Offset="0x3778"/>
+        <DList Name="gFishingRainSplashSetupDL" Offset="0x39A8"/>
+        <DList Name="gFishingRainSplashVtxDL" Offset="0x3A18"/>
 
-        <Animation Name="gFishingManAnim" Offset="0x453C"/>
-        <DList Name="gFishingManDL_006F60" Offset="0x6F60"/>
-        <DList Name="gFishingManHairDL" Offset="0x7350"/>
-        <DList Name="gFishingManHatDL" Offset="0x74C8"/>
-        <DList Name="gFishingManDL_0076B8" Offset="0x76B8"/>
-        <DList Name="gFishingManDL_007CF8" Offset="0x7CF8"/>
-        <DList Name="gFishingManDL_007E48" Offset="0x7E48"/>
-        <DList Name="gFishingManDL_007F78" Offset="0x7F78"/>
-        <DList Name="gFishingManDL_008138" Offset="0x8138"/>
-        <DList Name="gFishingManDL_008288" Offset="0x8288"/>
-        <DList Name="gFishingManDL_0083B8" Offset="0x83B8"/>
-        <Limb Name="gFishingManLimb_008578" LimbType="Standard" Offset="0x8578"/>
-        <Limb Name="gFishingManLimb_008584" LimbType="Standard" Offset="0x8584"/>
-        <Limb Name="gFishingManLimb_008590" LimbType="Standard" Offset="0x8590"/>
-        <Limb Name="gFishingManLimb_00859C" LimbType="Standard" Offset="0x859C"/>
-        <Limb Name="gFishingManLimb_0085A8" LimbType="Standard" Offset="0x85A8"/>
-        <Limb Name="gFishingManLimb_0085B4" LimbType="Standard" Offset="0x85B4"/>
-        <Limb Name="gFishingManLimb_0085C0" LimbType="Standard" Offset="0x85C0"/>
-        <Limb Name="gFishingManLimb_0085CC" LimbType="Standard" Offset="0x85CC"/>
-        <Skeleton Name="gFishingManSkel" Type="Flex" LimbType="Standard" Offset="0x85F8"/>
+        <Animation Name="gFishingOwnerAnim" Offset="0x453C"/>
+        <DList Name="gFishingOwnerDL_006F60" Offset="0x6F60"/>
+        <DList Name="gFishingOwnerHairDL" Offset="0x7350"/>
+        <DList Name="gFishingOwnerHatDL" Offset="0x74C8"/>
+        <DList Name="gFishingOwnerDL_0076B8" Offset="0x76B8"/>
+        <DList Name="gFishingOwnerDL_007CF8" Offset="0x7CF8"/>
+        <DList Name="gFishingOwnerDL_007E48" Offset="0x7E48"/>
+        <DList Name="gFishingOwnerDL_007F78" Offset="0x7F78"/>
+        <DList Name="gFishingOwnerDL_008138" Offset="0x8138"/>
+        <DList Name="gFishingOwnerDL_008288" Offset="0x8288"/>
+        <DList Name="gFishingOwnerDL_0083B8" Offset="0x83B8"/>
+        <Limb Name="gFishingOwnerLimb_008578" LimbType="Standard" Offset="0x8578"/>
+        <Limb Name="gFishingOwnerLimb_008584" LimbType="Standard" Offset="0x8584"/>
+        <Limb Name="gFishingOwnerLimb_008590" LimbType="Standard" Offset="0x8590"/>
+        <Limb Name="gFishingOwnerLimb_00859C" LimbType="Standard" Offset="0x859C"/>
+        <Limb Name="gFishingOwnerLimb_0085A8" LimbType="Standard" Offset="0x85A8"/>
+        <Limb Name="gFishingOwnerLimb_0085B4" LimbType="Standard" Offset="0x85B4"/>
+        <Limb Name="gFishingOwnerLimb_0085C0" LimbType="Standard" Offset="0x85C0"/>
+        <Limb Name="gFishingOwnerLimb_0085CC" LimbType="Standard" Offset="0x85CC"/>
+        <Skeleton Name="gFishingOwnerSkel" Type="Flex" LimbType="Standard" Offset="0x85F8"/>
 
-        <DList Name="object_fish_DL_008610" Offset="0x8610"/>
-        <DList Name="object_fish_DL_008678" Offset="0x8678"/>
+        <DList Name="gFishingRippleSetupDL" Offset="0x8610"/>
+        <DList Name="gFishingRippleVtxDL" Offset="0x8678"/>
 
-        <Texture Name="object_fish_Tex_008690" OutName="tex_00008690" Format="i4" Width="32" Height="32" Offset="0x8690"/>
-        <DList Name="object_fish_DL_0088C0" Offset="0x88C0"/>
-        <DList Name="object_fish_DL_008970" Offset="0x8970"/>
+        <Texture Name="gFishingWaterDustTex" OutName="fishing_water_dust" Format="i4" Width="32" Height="32" Offset="0x8690"/>
+        <DList Name="gFishingWaterDustSetupDL" Offset="0x88C0"/>
+        <DList Name="gFishingWaterDustVtxDL" Offset="0x8970"/>
 
-        <Texture Name="gFishingManTLUT" OutName="fishing_man_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x8990"/>
-        <Texture Name="gFishingManSkinTex" OutName="fishing_man_skin" Format="ci8" Width="8" Height="8" Offset="0x8B90"/>
-        <Texture Name="gFishingManHairFullTex" OutName="fishing_man_hair_full" Format="ci8" Width="16" Height="16" Offset="0x8BD0"/>
-        <Texture Name="gFishingManHairPartialTex" OutName="fishing_man_hair_partial" Format="ci8" Width="16" Height="16" Offset="0x8CD0"/>
-        <Texture Name="gFishingManHearTex" OutName="fishing_man_hear" Format="ci8" Width="8" Height="8" Offset="0x8DD0"/>
-        <Texture Name="gFishingManMouthTex" OutName="fishing_man_mouth" Format="ci8" Width="32" Height="32" Offset="0x8E10"/>
-        <Texture Name="gFishingManNostrilTex" OutName="fishing_man_nostril" Format="ci8" Width="8" Height="8" Offset="0x9210"/>
-        <Texture Name="gFishingManEyeOpenTex" OutName="fishing_man_eye_open" Format="ci8" Width="32" Height="32" Offset="0x9250"/>
-        <Texture Name="gFishingManEyeHalfTex" OutName="fishing_man_eye_half" Format="ci8" Width="32" Height="32" Offset="0x9650"/>
-        <Texture Name="gFishingManEyeClosedTex" OutName="fishing_man_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x9A50"/>
-        <Texture Name="gFishingManHatTex" OutName="fishing_man_hat" Format="ci8" Width="64" Height="32" Offset="0x9E50"/>
-        <Texture Name="gFishingManShirtTex" OutName="fishing_man_shirt" Format="ci8" Width="8" Height="8" Offset="0xA650"/>
-        <Texture Name="gFishingManFingersTex" OutName="fishing_man_fingers" Format="ci8" Width="16" Height="16" Offset="0xA690"/>
-        <Texture Name="gFishingManCollarTex" OutName="fishing_man_collar" Format="ci8" Width="8" Height="16" Offset="0xA790"/>
-        <Texture Name="gFishingManVestTex" OutName="fishing_man_vest" Format="ci8" Width="16" Height="16" Offset="0xA810"/>
+        <Texture Name="gFishingOwnerTLUT" OutName="fishing_owner_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x8990"/>
+        <Texture Name="gFishingOwnerSkinTex" OutName="fishing_owner_skin" Format="ci8" Width="8" Height="8" Offset="0x8B90"/>
+        <Texture Name="gFishingOwnerHairFullTex" OutName="fishing_owner_hair_full" Format="ci8" Width="16" Height="16" Offset="0x8BD0"/>
+        <Texture Name="gFishingOwnerHairPartialTex" OutName="fishing_owner_hair_partial" Format="ci8" Width="16" Height="16" Offset="0x8CD0"/>
+        <Texture Name="gFishingOwnerHearTex" OutName="fishing_owner_hear" Format="ci8" Width="8" Height="8" Offset="0x8DD0"/>
+        <Texture Name="gFishingOwnerMouthTex" OutName="fishing_owner_mouth" Format="ci8" Width="32" Height="32" Offset="0x8E10"/>
+        <Texture Name="gFishingOwnerNostrilTex" OutName="fishing_owner_nostril" Format="ci8" Width="8" Height="8" Offset="0x9210"/>
+        <Texture Name="gFishingOwnerEyeOpenTex" OutName="fishing_owner_eye_open" Format="ci8" Width="32" Height="32" Offset="0x9250"/>
+        <Texture Name="gFishingOwnerEyeHalfTex" OutName="fishing_owner_eye_half" Format="ci8" Width="32" Height="32" Offset="0x9650"/>
+        <Texture Name="gFishingOwnerEyeClosedTex" OutName="fishing_owner_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x9A50"/>
+        <Texture Name="gFishingOwnerHatTex" OutName="fishing_owner_hat" Format="ci8" Width="64" Height="32" Offset="0x9E50"/>
+        <Texture Name="gFishingOwnerShirtTex" OutName="fishing_owner_shirt" Format="ci8" Width="8" Height="8" Offset="0xA650"/>
+        <Texture Name="gFishingOwnerFingersTex" OutName="fishing_owner_fingers" Format="ci8" Width="16" Height="16" Offset="0xA690"/>
+        <Texture Name="gFishingOwnerCollarTex" OutName="fishing_owner_collar" Format="ci8" Width="8" Height="16" Offset="0xA790"/>
+        <Texture Name="gFishingOwnerVestTex" OutName="fishing_owner_vest" Format="ci8" Width="16" Height="16" Offset="0xA810"/>
 
         <Texture Name="gFishingSinkingLureSegmentTex" OutName="fishing_sinking_lure_segment" Format="ia8" Width="64" Height="64" Offset="0xA910"/>
         <DList Name="gFishingSinkingLureSegmentSetupDL" Offset="0xB950"/>
         <DList Name="gFishingSinkingLureSegmentVtxDL" Offset="0xB9C0"/>
 
-        <Texture Name="gFishingPoolFishTex" OutName="fishing_pool_fish" Format="rgb5a1" Width="64" Height="16" Offset="0xB9E0"/>
-        <DList Name="gFishingPoolFishSetupDL" Offset="0xC220"/>
-        <DList Name="gFishingPoolFishVtxDL" Offset="0xC298"/>
+        <Texture Name="gFishingGroupFishTex" OutName="fishing_group_fish" Format="rgb5a1" Width="64" Height="16" Offset="0xB9E0"/>
+        <DList Name="gFishingGroupFishSetupDL" Offset="0xC220"/>
+        <DList Name="gFishingGroupFishVtxDL" Offset="0xC298"/>
 
         <DList Name="gFishingUnusedRockDL" Offset="0xC650"/>
         <Texture Name="gFishingUnusedRockTex" OutName="fishing_unused_rock" Format="rgb5a1" Width="32" Height="32" Offset="0xC780"/>
