@@ -1028,7 +1028,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xC2:
                         offset = (u16)parameters[0];
-                        channel->dynTable = &player->seqData[offset];
+                        channel->dynTable = (void*)&player->seqData[offset];
                         break;
                     case 0xC5:
                         if (scriptState->value != -1) {
@@ -1036,7 +1036,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             data = (*channel->dynTable)[scriptState->value];
                             offset = (u16)((data[0] << 8) + data[1]);
 
-                            channel->dynTable = &player->seqData[offset];
+                            channel->dynTable = (void*)&player->seqData[offset];
                         }
                         break;
                     case 0xEB:
@@ -1108,7 +1108,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xDA:
                         offset = (u16)parameters[0];
-                        channel->adsr.envelope = &player->seqData[offset];
+                        channel->adsr.envelope = (AdsrEnvelope*)&player->seqData[offset];
                         break;
                     case 0xD9:
                         command = (u8)parameters[0];
@@ -1462,8 +1462,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* seqChannel);
 #endif
 
 #ifdef NON_MATCHING
-// regalloc, redundant branch, and extra cast. The large number of pads suggests cases may have their own temp
-// variables.
+// Regalloc. The large number of pads suggests cases may have their own temp variables.
 void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     u8 command;
     u8 commandLow;
@@ -1477,7 +1476,7 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     s32 pad1;
     s32 pad2;
     s32 pad3;
-    s32 pad4;
+    s32 dummy;
 
     if (!seqPlayer->enabled) {
         return;
@@ -1535,9 +1534,19 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                 switch (command) {
                     case 0xF1:
                         Audio_NotePoolClear(&seqPlayer->notePool);
-                        Audio_NotePoolFill(&seqPlayer->notePool, Audio_M64ReadU8(seqScript));
+                        command = Audio_M64ReadU8(seqScript);
+                        Audio_NotePoolFill(&seqPlayer->notePool, command);
+                        // Fake-match: the asm has two breaks in a row here,
+                        // which the compiler normally optimizes out.
+                        dummy = -1;
+                        if (dummy < 0) {
+                            dummy = 0;
+                        }
+                        if (dummy > 1) {
+                            dummy = 1;
+                        }
+                        if (dummy) {}
                         break;
-                        break; // This second break appears in the ASM, but the compiler currently optimizes it out.
                     case 0xF0:
                         Audio_NotePoolClear(&seqPlayer->notePool);
                         break;
@@ -1561,17 +1570,17 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         break;
                     case 0xDA:
                         command = Audio_M64ReadU8(seqScript);
-                        offset = Audio_M64ReadS16(seqScript);
+                        temp = Audio_M64ReadS16(seqScript);
                         switch (command) {
                             case 0:
                             case 1:
                                 if (seqPlayer->state != 2) {
-                                    seqPlayer->fadeTimerUnkEu = offset;
+                                    seqPlayer->fadeTimerUnkEu = temp;
                                     seqPlayer->state = command;
                                 }
                                 break;
                             case 2:
-                                seqPlayer->fadeTimer = offset;
+                                seqPlayer->fadeTimer = temp;
                                 seqPlayer->state = command;
                                 seqPlayer->fadeVelocity = (0 - seqPlayer->fadeVolume) / (s32)seqPlayer->fadeTimer;
                                 break;
@@ -1601,8 +1610,8 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         seqPlayer->fadeVolumeScale = (s8)Audio_M64ReadU8(seqScript) / 127.0f;
                         break;
                     case 0xD7:
-                        tempS = Audio_M64ReadS16(seqScript);
-                        Audio_SequencePlayerInitChannels(seqPlayer, tempS);
+                        temp = Audio_M64ReadS16(seqScript);
+                        Audio_SequencePlayerInitChannels(seqPlayer, temp);
                         break;
                     case 0xD6:
                         Audio_M64ReadS16(seqScript);
@@ -1629,28 +1638,28 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0xD0:
                         seqPlayer->noteAllocPolicy = Audio_M64ReadU8(seqScript);
                         break;
-                    case 0xCE: {
+                    case 0xCE:
                         command = Audio_M64ReadU8(seqScript);
-                        // t register shift here
                         if (command == 0) {
-                            seqScript->value = gAudioContext.gAudioRandom / 4;
+                            seqScript->value = (gAudioContext.gAudioRandom >> 2) & 0xff;
                         } else {
-                            seqScript->value = (gAudioContext.gAudioRandom / 4) % command;
+                            seqScript->value = (gAudioContext.gAudioRandom >> 2) % command;
                         }
-                    } break;
+                        break;
                     case 0xCD: {
-                        temp = Audio_M64ReadS16(seqScript);
+                        offset = Audio_M64ReadS16(seqScript);
 
                         if ((seqScript->value != -1) && (seqScript->depth != 3)) {
                             // a/v registers are wrong here. may need to mess with temps
-                            data = &seqPlayer->seqData[temp + seqScript->value * 2]; // should go in v0
+                            data = seqPlayer->seqData + (u32)(offset + seqScript->value * 2);
                             seqScript->stack[seqScript->depth] = seqScript->pc;
-
                             seqScript->depth++;
-                            offset = (data[0] << 8) + data[1];
-                            seqScript->pc = &seqPlayer->seqData[offset];
+
+                            temp = (data[0] << 8) + data[1];
+                            seqScript->pc = &seqPlayer->seqData[temp];
                         }
-                    } break;
+                        break;
+                    }
                     case 0xCC:
                         seqScript->value = Audio_M64ReadU8(seqScript);
                         break;
@@ -1662,9 +1671,9 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         break;
                     case 0xC7:
                         command = Audio_M64ReadU8(seqScript);
-                        offset = Audio_M64ReadS16(seqScript);
-                        data = &seqPlayer->seqData[offset];
-                        data[0] = (u8)seqScript->value + command;
+                        temp = Audio_M64ReadS16(seqScript);
+                        data = &seqPlayer->seqData[temp];
+                        *data = (u8)seqScript->value + command;
                         break;
                     case 0xC6:
                         seqPlayer->unk_0b2 = true;
@@ -1724,10 +1733,11 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         func_800E390C(command, &seqPlayer->seqData[temp], &seqPlayer->unk_158[commandLow]);
                         break;
                     case 0x60: {
-                        command = Audio_M64ReadU8(seqScript); // This shouldn't be cast to u8 when saved
+                        command = Audio_M64ReadU8(seqScript);
+                        value = command;
                         temp = Audio_M64ReadU8(seqScript);
 
-                        func_800E4EEC(command, temp, &seqPlayer->unk_158[commandLow]);
+                        func_800E4EEC(value, temp, &seqPlayer->unk_158[commandLow]);
                         break;
                     }
                 }

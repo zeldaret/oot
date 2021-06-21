@@ -6970,55 +6970,43 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     return camera->status;
 }
 
-#ifdef NON_MATCHING
-// Lots of saved register problems. Probably equivalent, but not certain.
 void Camera_PrintSettings(Camera* camera) {
     char sp58[8];
     char sp50[8];
     char sp48[8];
-    char* phi_v1;
-    char* phi_t0;
-    s32 phi_a1;
+    s32 i;
 
-    if ((OREG(0) & 1) && (camera->thisIdx == camera->globalCtx->activeCamera) && !gDbgCamEnabled) {
-        phi_a1 = 0;
-        phi_v1 = sp58;
-        phi_t0 = sp48;
-        for (; phi_v1 < sp58 + NUM_CAMS; phi_v1++, phi_t0++, phi_a1++) {
-            if (camera->globalCtx->cameraPtrs[phi_a1] == NULL) {
-                *phi_v1 = '-';
-                *phi_t0 = ' ';
+    if ((OREG(0) & 1) && (camera->globalCtx->activeCamera == camera->thisIdx) && !gDbgCamEnabled) {
+        for (i = 0; i < NUM_CAMS; i++) {
+            if (camera->globalCtx->cameraPtrs[i] == NULL) {
+                sp58[i] = '-';
+                sp48[i] = ' ';
             } else {
-                switch (camera->globalCtx->cameraPtrs[phi_a1]->status) {
+                switch (camera->globalCtx->cameraPtrs[i]->status) {
                     case 0:
-                        *phi_v1 = 'c';
-                        *phi_t0 = ' ';
+                        sp58[i] = 'c';
                         break;
                     case 1:
-                        *phi_v1 = 'w';
-                        *phi_t0 = ' ';
+                        sp58[i] = 'w';
                         break;
                     case 3:
-                        *phi_v1 = 's';
-                        *phi_t0 = ' ';
+                        sp58[i] = 's';
                         break;
                     case 7:
-                        *phi_v1 = 'a';
-                        *phi_t0 = ' ';
+                        sp58[i] = 'a';
                         break;
                     case 0x100:
-                        *phi_v1 = 'd';
-                        *phi_t0 = ' ';
+                        sp58[i] = 'd';
                         break;
                     default:
-                        *phi_v1 = '*';
-                        *phi_t0 = ' ';
+                        sp58[i] = '*';
                         break;
                 }
             }
+            sp48[i] = ' ';
         }
-        *phi_v1 = '\0';
-        *phi_t0 = '\0';
+        sp58[i] = '\0';
+        sp48[i] = '\0';
 
         sp48[camera->globalCtx->activeCamera] = 'a';
         func_8006376C(3, 0x16, 5, sp58);
@@ -7031,27 +7019,23 @@ void Camera_PrintSettings(Camera* camera) {
         func_8006376C(5, 0x19, 4,
                       sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
 
-        phi_a1 = 0;
+        i = 0;
         if (camera->camDataIdx < 0) {
-            sp50[phi_a1++] = '-';
+            sp50[i++] = '-';
         }
         if (camera->camDataIdx / 0xA != 0) {
-            sp50[phi_a1++] = phi_a1 / 0xA + '0';
+            sp50[i++] = i / 0xA + '0';
         }
-        sp50[phi_a1++] = phi_a1 % 10 + '0';
-        sp50[phi_a1++] = ' ';
-        sp50[phi_a1++] = ' ';
-        sp50[phi_a1++] = ' ';
-        sp50[phi_a1++] = ' ';
-        sp50[phi_a1] = '\0';
+        sp50[i++] = i % 10 + '0';
+        sp50[i++] = ' ';
+        sp50[i++] = ' ';
+        sp50[i++] = ' ';
+        sp50[i++] = ' ';
+        sp50[i] = '\0';
         func_8006376C(3, 26, 5, "I:");
         func_8006376C(5, 26, 4, sp50);
     }
 }
-#else
-void Camera_PrintSettings(Camera* camera);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_PrintSettings.s")
-#endif
 
 s32 Camera_CheckWater(Camera* camera) {
     f32 waterY;

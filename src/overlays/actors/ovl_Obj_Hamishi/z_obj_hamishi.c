@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_hamishi.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -14,9 +15,6 @@ void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjHamishi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjHamishi_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern Gfx D_0500A3B8[];
-extern Gfx D_0500A5E8[];
 
 const ActorInit Obj_Hamishi_InitVars = {
     ACTOR_OBJ_HAMISHI,
@@ -131,7 +129,7 @@ void ObjHamishi_Break(ObjHamishi* this, GlobalContext* globalCtx) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, gravity, phi_v0, 30, 5, 0,
-                             sEffectScales[i], 3, 0, 70, 1, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
+                             sEffectScales[i], 3, 0, 70, 1, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDL);
     }
 
     func_80033480(globalCtx, &this->actor.world.pos, 140.0f, 6, 180, 90, 1);
@@ -205,7 +203,7 @@ void ObjHamishi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_hamishi.c", 404),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 170, 130, 255);
-    gSPDisplayList(POLY_OPA_DISP++, D_0500A3B8);
+    gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_hamishi.c", 411);
 }

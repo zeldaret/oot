@@ -1,0 +1,9 @@
+<Root>
+    <File Name="object_shop_dungen" Segment="6">
+        <DList Name="object_shop_dungen_DL_000B80" Offset="0xB80"/>
+        <Texture Name="object_shop_dungen_Tex_000DE0" OutName="tex_00000DE0" Format="rgb5a1" Width="4" Height="4" Offset="0xDE0"/>
+        <Blob Name="object_shop_dungen_Blob_000E00" Size="0x1008" Offset="0xE00"/>
+        <DList Name="object_shop_dungen_DL_0027E8" Offset="0x27E8"/>
+        <Texture Name="object_shop_dungen_Tex_002A20" OutName="tex_00002A20" Format="rgb5a1" Width="64" Height="32" Offset="0x2A20"/>
+    </File>
+</Root>

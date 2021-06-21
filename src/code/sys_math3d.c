@@ -1,8 +1,8 @@
 #include "global.h"
 #include "vt.h"
 
-s32 Math3D_LineSegMakePerpLineSeg(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
-                                  Vec3f* lineAIntersect, Vec3f* lineBIntersect);
+s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
+                                      Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);
 s32 Math3D_TriLineIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA,
                             Vec3f* linePointB, Vec3f* intersect, s32 fromFront);
 s32 Math3D_PlaneVsPlaneNewLine(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB,
@@ -36,7 +36,7 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
     planeIntersectSeg.b.z = (planeIntersectLine.dir.z * 100.0f) + planeIntersectLine.point.z;
 
     // closestPoint is a point on planeIntersect, sp34 is a point on linePointA, linePointB
-    if (!Math3D_LineSegMakePerpLineSeg(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB, closestPoint,
+    if (!Math3D_LineVsLineClosestTwoPoints(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB, closestPoint,
                                        &sp34)) {
         return false;
     }
@@ -44,73 +44,71 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
 }
 
 /**
- * Creates a line segment which is perpendicular to the line segments `lineAPointA`->`lineAPointB` and
- * `lineBPointA`->`lineBPointB`
+ * Finds the two points on lines A and B where the lines are closest together.
  */
-#ifdef NON_MATCHING
-// Lots of regalloc, but is functionally equivilent, some reordering.
-s32 Math3D_LineSegMakePerpLineSeg(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
-                                  Vec3f* lineAIntersect, Vec3f* lineBIntersect) {
-    f32 sp5C;
-    f32 sp50;
-    f32 sp4C;
-    f32 sp30;
-    f32 temp_f0_4;
-    f32 temp_f18;
-    Vec3f lineADiff;
-    Vec3f lineBDiff;
-    Vec3f lineABPointADiff;
-    f32 t;
-    f32 t2;
-    f32 tempf1;
-    f32 tempf2;
-    f32 tempf3;
-    f32 tempf4;
-    f32 tempf5;
+s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
+                                      Vec3f* lineAClosestToB, Vec3f* lineBClosestToA) {
+    f32 sqMag;
+    f32 scaleB;
+    f32 lineAx;
+    f32 lineAy;
+    f32 lineAz;
+    f32 lineBx;
+    f32 lineBy;
+    f32 lineBz;
+    f32 compAAlongB;
+    f32 compBAAlongB;
+    Vec3f lineAPerpB;
+    Vec3f lineBAPerpB;
+    f32 tA;
+    f32 tB;
 
-    lineADiff.x = lineAPointB->x - lineAPointA->x;
-    lineADiff.y = lineAPointB->y - lineAPointA->y;
-    lineADiff.z = lineAPointB->z - lineAPointA->z;
-    lineBDiff.x = lineBPointB->x - lineBPointA->x;
-    lineBDiff.y = lineBPointB->y - lineBPointA->y;
-    lineBDiff.z = lineBPointB->z - lineBPointA->z;
+    lineAx = lineAPointB->x - lineAPointA->x;
+    lineAy = lineAPointB->y - lineAPointA->y;
+    lineAz = lineAPointB->z - lineAPointA->z;
 
-    if (IS_ZERO(SQXYZ(lineBDiff))) {
+    lineBx = lineBPointB->x - lineBPointA->x;
+    lineBy = lineBPointB->y - lineBPointA->y;
+    lineBz = lineBPointB->z - lineBPointA->z;
+
+    sqMag = SQ(lineBx) + SQ(lineBy) + SQ(lineBz);
+    if (IS_ZERO(sqMag)) {
         return false;
     }
-    tempf1 = 1.0f / SQXYZ(lineBDiff);
-    sp5C = DOTXYZ(lineADiff, lineBDiff) * tempf1;
 
-    lineABPointADiff.x = lineAPointA->x - lineBPointA->x;
-    lineABPointADiff.y = lineAPointA->y - lineBPointA->y;
-    lineABPointADiff.z = lineAPointA->z - lineBPointA->z;
+    scaleB = 1.0f / sqMag;
 
-    // most reordering is here.
-    temp_f18 = DOTXYZ(lineABPointADiff, lineBDiff) * tempf1;
+    compAAlongB = ((lineAx * lineBx) + (lineAy * lineBy) + (lineAz * lineBz)) * scaleB;
 
-    sp4C = lineADiff.x - (lineBDiff.x * sp5C);
-    sp50 = lineADiff.y - (lineBDiff.y * sp5C);
-    sp30 = lineADiff.z - (lineBDiff.z * sp5C);
-    if (IS_ZERO(SQ(sp4C) + SQ(sp50) + SQ(sp30))) {
+    compBAAlongB = ((lineBx * (lineAPointA->x - lineBPointA->x)) +
+                    (lineBy * (lineAPointA->y - lineBPointA->y)) +
+                    (lineBz * (lineAPointA->z - lineBPointA->z))) * scaleB;
+
+    lineAPerpB.x = lineAx - (lineBx * compAAlongB);
+    lineAPerpB.y = lineAy - (lineBy * compAAlongB);
+    lineAPerpB.z = lineAz - (lineBz * compAAlongB);
+
+    sqMag = SQXYZ(lineAPerpB);
+    if (IS_ZERO(sqMag)) {
         return false;
     }
-    t = SQ(sp4C) + SQ(sp50) + SQ(sp30);
-    temp_f0_4 = -((sp4C * (lineABPointADiff.x - (lineBDiff.x * temp_f18))) +
-                  (sp50 * (lineABPointADiff.y - (lineBDiff.y * temp_f18))) +
-                  (sp30 * (lineABPointADiff.z - (lineBDiff.z * temp_f18)))) /
-                t;
-    lineAIntersect->x = (lineADiff.x * temp_f0_4) + lineAPointA->x;
-    lineAIntersect->y = (lineADiff.y * temp_f0_4) + lineAPointA->y;
-    lineAIntersect->z = (lineADiff.z * temp_f0_4) + lineAPointA->z;
 
-    lineBIntersect->x = (lineBDiff.x * ((sp5C * temp_f0_4) + temp_f18)) + lineBPointA->x;
-    lineBIntersect->y = (lineBDiff.y * ((sp5C * temp_f0_4) + temp_f18)) + lineBPointA->y;
-    lineBIntersect->z = (lineBDiff.z * ((sp5C * temp_f0_4) + temp_f18)) + lineBPointA->z;
+    lineBAPerpB.x = (lineAPointA->x - lineBPointA->x) - (lineBx * compBAAlongB);
+    lineBAPerpB.y = (lineAPointA->y - lineBPointA->y) - (lineBy * compBAAlongB);
+    lineBAPerpB.z = (lineAPointA->z - lineBPointA->z) - (lineBz * compBAAlongB);
+
+    tA = -DOTXYZ(lineAPerpB, lineBAPerpB) / sqMag;
+    lineAClosestToB->x = (lineAx * tA) + lineAPointA->x;
+    lineAClosestToB->y = (lineAy * tA) + lineAPointA->y;
+    lineAClosestToB->z = (lineAz * tA) + lineAPointA->z;
+
+    tB = (compAAlongB * tA) + compBAAlongB;
+    lineBClosestToA->x = (lineBx * tB) + lineBPointA->x;
+    lineBClosestToA->y = (lineBy * tB) + lineBPointA->y;
+    lineBClosestToA->z = (lineBz * tB) + lineBPointA->z;
+
     return true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/Math3D_LineSegMakePerpLineSeg.s")
-#endif
 
 /**
  * Determines the closest point on the line `line` to `pos`, by forming a line perpendicular from
@@ -417,7 +415,7 @@ f32 Math3D_Dist1D(f32 a, f32 b) {
  * Returns the distance squared between (`x0`,`y0`) and (`x1`,`x2`)
  */
 f32 Math3D_Dist2DSq(f32 x0, f32 y0, f32 x1, f32 y1) {
-    Math3D_Dist1DSq(x0 - x1, y0 - y1);
+    return Math3D_Dist1DSq(x0 - x1, y0 - y1);
 }
 
 /**

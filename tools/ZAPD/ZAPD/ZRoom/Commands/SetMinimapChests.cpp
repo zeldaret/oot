@@ -1,101 +1,85 @@
 #include "SetMinimapChests.h"
-#include "../../BitConverter.h"
-#include "../../Globals.h"
-#include "../../StringHelper.h"
-#include "../../ZFile.h"
-#include "../ZRoom.h"
 
-using namespace std;
+#include "BitConverter.h"
+#include "Globals.h"
+#include "StringHelper.h"
+#include "ZFile.h"
+#include "ZRoom/ZRoom.h"
 
-SetMinimapChests::SetMinimapChests(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetMinimapChests::SetMinimapChests(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	int32_t numChests = rawData[rawDataIndex + 1];
-	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
+}
+
+void SetMinimapChests::ParseRawData()
+{
+	ZRoomCommand::ParseRawData();
+	int numChests = cmdArg1;
 
 	int32_t currentPtr = segmentOffset;
 
 	for (int32_t i = 0; i < numChests; i++)
 	{
-		MinimapChest* chest = new MinimapChest(rawData, currentPtr);
+		MinimapChest chest(parent->GetRawData(), currentPtr);
 		chests.push_back(chest);
 
 		currentPtr += 10;
 	}
 }
 
-SetMinimapChests::~SetMinimapChests()
+void SetMinimapChests::DeclareReferences(const std::string& prefix)
 {
-	for (MinimapChest* chest : chests)
-		delete chest;
-}
+	std::string declaration = "";
 
-string SetMinimapChests::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
-{
-	return std::string();
-}
-
-string SetMinimapChests::GenerateSourceCodePass2(string roomName, uint32_t baseAddress)
-{
-	string sourceOutput = "";
-
-	sourceOutput +=
-		StringHelper::Sprintf("%s 0x%02X, (u32)%sMinimapChests0x%06X };",
-	                          ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
-	                          chests.size(), roomName.c_str(), segmentOffset);
-
+	size_t index = 0;
+	for (const auto& chest : chests)
 	{
-		string declaration = "";
+		declaration += StringHelper::Sprintf("    { %s },", chest.GetBodySourceCode().c_str());
 
-		size_t index = 0;
-		for (MinimapChest* chest : chests)
-		{
-			declaration += StringHelper::Sprintf("    { 0x%04X, 0x%04X, 0x%04X, 0x%04X, 0x%04X },",
-			                                     chest->unk0, chest->unk2, chest->unk4, chest->unk6,
-			                                     chest->unk8);
+		if (index < chests.size() - 1)
+			declaration += "\n";
 
-			if (index < chests.size() - 1)
-				declaration += "\n";
-
-			index++;
-		}
-
-		zRoom->parent->AddDeclarationArray(
-			segmentOffset, DeclarationAlignment::None, DeclarationPadding::None, chests.size() * 10,
-			"MinimapChest",
-			StringHelper::Sprintf("%sMinimapChests0x%06X", roomName.c_str(), segmentOffset),
-			chests.size(), declaration);
+		index++;
 	}
 
-	return sourceOutput;
+	parent->AddDeclarationArray(
+		segmentOffset, DeclarationAlignment::None, chests.size() * 10, "MinimapChest",
+		StringHelper::Sprintf("%sMinimapChests0x%06X", prefix.c_str(), segmentOffset),
+		chests.size(), declaration);
 }
 
-string SetMinimapChests::GenerateExterns()
+std::string SetMinimapChests::GetBodySourceCode() const
 {
-	return StringHelper::Sprintf("extern MinimapChest %sMinimapChests0x%06X[%i];\n",
-	                             zRoom->GetName().c_str(), segmentOffset, chests.size());
+	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	return StringHelper::Sprintf("SCENE_CMD_MINIMAP_COMPASS_ICON_INFO(0x%02X, %s)", chests.size(),
+	                             listName.c_str());
 }
 
-string SetMinimapChests::GetCommandCName()
+std::string SetMinimapChests::GetCommandCName() const
 {
 	return "SCmdMinimapChests";
 }
 
-RoomCommand SetMinimapChests::GetRoomCommand()
+RoomCommand SetMinimapChests::GetRoomCommand() const
 {
 	return RoomCommand::SetMinimapChests;
 }
 
-size_t SetMinimapChests::GetRawDataSize()
+size_t SetMinimapChests::GetRawDataSize() const
 {
 	return ZRoomCommand::GetRawDataSize() + (chests.size() * 10);
 }
 
-MinimapChest::MinimapChest(std::vector<uint8_t> rawData, uint32_t rawDataIndex)
+MinimapChest::MinimapChest(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
 	: unk0(BitConverter::ToUInt16BE(rawData, rawDataIndex + 0)),
 	  unk2(BitConverter::ToUInt16BE(rawData, rawDataIndex + 2)),
 	  unk4(BitConverter::ToUInt16BE(rawData, rawDataIndex + 4)),
 	  unk6(BitConverter::ToUInt16BE(rawData, rawDataIndex + 6)),
 	  unk8(BitConverter::ToUInt16BE(rawData, rawDataIndex + 8))
 {
+}
+
+std::string MinimapChest::GetBodySourceCode() const
+{
+	return StringHelper::Sprintf("0x%04X, 0x%04X, 0x%04X, 0x%04X, 0x%04X", unk0, unk2, unk4, unk6,
+	                             unk8);
 }

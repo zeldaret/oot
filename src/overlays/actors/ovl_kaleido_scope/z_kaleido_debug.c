@@ -1,4 +1,5 @@
 #include "z_kaleido_scope.h"
+#include "textures/parameter_static/parameter_static.h"
 
 // Positions of each input section in the editor
 static u16 sSectionPositions[][2] = {
@@ -81,11 +82,11 @@ void KaleidoScope_DrawDebugEditorText(Gfx** gfxp) {
 void KaleidoScope_DrawDigit(GlobalContext* globalCtx, s32 digit, s32 rectLeft, s32 rectTop) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 208);
 
-    gDPLoadTextureBlock(POLY_OPA_DISP++, D_02003040[digit], G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gCounterDigit0Tex + (8 * 16 * digit)), G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
     gSPTextureRectangle(POLY_OPA_DISP++, rectLeft << 2, rectTop << 2, (rectLeft + 8) << 2, (rectTop + 16) << 2,
-                        G_TX_RENDERTILE, 0, 0, 1024, 1024);
+                        G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 220);
 }

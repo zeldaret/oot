@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mori_bigst.h"
+#include "objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -27,9 +28,6 @@ void BgMoriBigst_Landing(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_StalfosPairFight(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_SetupDone(BgMoriBigst* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_0600221C;
-extern Gfx D_06001E50[];
 
 const ActorInit Bg_Mori_Bigst_InitVars = {
     ACTOR_BG_MORI_BIGST,
@@ -78,7 +76,7 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
                  Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F),
                  Flags_GetTempClear(globalCtx, this->dyna.actor.room), Flags_GetClear(globalCtx, this->dyna.actor.room),
                  PLAYER->actor.world.pos.y);
-    BgMoriBigst_InitDynapoly(this, globalCtx, &D_0600221C, DPM_UNK);
+    BgMoriBigst_InitDynapoly(this, globalCtx, &gMoriBigstCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
@@ -254,6 +252,6 @@ void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 548),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_06001E50);
+    gSPDisplayList(POLY_OPA_DISP++, gMoriBigstDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 553);
 }

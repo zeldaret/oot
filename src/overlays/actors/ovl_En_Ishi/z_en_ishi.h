@@ -12,6 +12,8 @@ typedef enum {
 struct EnIshi;
 
 typedef void (*EnIshiActionFunc)(struct EnIshi*, GlobalContext*);
+typedef void (*EnIshiEffectSpawnFunc)(struct EnIshi*, GlobalContext*);
+typedef void (*EnIshiDrawFunc)(struct EnIshi*, GlobalContext*);
 
 typedef struct EnIshi {
     /* 0x0000 */ Actor actor;

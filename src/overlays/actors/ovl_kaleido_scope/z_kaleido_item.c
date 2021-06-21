@@ -1,4 +1,5 @@
 #include "z_kaleido_scope.h"
+#include "textures/parameter_static/parameter_static.h"
 
 u8 gAmmoItems[] = {
     ITEM_STICK,   ITEM_NUT,  ITEM_BOMB, ITEM_BOW,  ITEM_NONE, ITEM_NONE, ITEM_SLINGSHOT, ITEM_NONE,
@@ -49,7 +50,7 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
     if (i != 0) {
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(sAmmoVtxOffset[item] + 27) * 4], 4, 0);
 
-        gDPLoadTextureBlock(POLY_OPA_DISP++, D_020035C0[i], G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gAmmoDigit0Tex + (8 * 8 * i)), G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
@@ -58,8 +59,9 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
 
     gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(sAmmoVtxOffset[item] + 28) * 4], 4, 0);
 
-    gDPLoadTextureBlock(POLY_OPA_DISP++, D_020035C0[ammo], G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gAmmoDigit0Tex + (8 * 8 * ammo)), G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
 
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
@@ -75,11 +77,10 @@ void KaleidoScope_SetItemCursorVtx(PauseContext* pauseCtx) {
     KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_ITEM] * 4, pauseCtx->itemVtx);
 }
 
-static s16 sMagicArrowEffectsR[] = { 255, 100, 255 };
-static s16 sMagicArrowEffectsG[] = { 0, 100, 255 };
-static s16 sMagicArrowEffectsB[] = { 0, 255, 100 };
-
 void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
+    static s16 magicArrowEffectsR[] = { 255, 100, 255 };
+    static s16 magicArrowEffectsG[] = { 0, 100, 255 };
+    static s16 magicArrowEffectsB[] = { 0, 255, 100 };
     Input* input = &globalCtx->state.input[0];
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     u16 i;
@@ -416,7 +417,7 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
     for (i = 0, j = 24 * 4; i < 3; i++, j += 4) {
         if (gSaveContext.equips.buttonItems[i + 1] != ITEM_NONE) {
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[j], 4, 0);
-            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_02000A00[1], 32, 32, 0);
+            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, gEquippedItemOutlineTex, 32, 32, 0);
         }
     }
 
@@ -430,9 +431,9 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
             if ((pauseCtx->unk_1E4 == 0) && (pauseCtx->pageIndex == PAUSE_ITEM) && (pauseCtx->cursorSpecialPos == 0)) {
                 if ((gSlotAgeReqs[i] == 9) || (gSlotAgeReqs[i] == ((void)0, gSaveContext.linkAge))) {
                     if ((sEquipState == 2) && (i == 3)) {
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sMagicArrowEffectsR[pauseCtx->equipTargetItem - 0xBF],
-                                        sMagicArrowEffectsG[pauseCtx->equipTargetItem - 0xBF],
-                                        sMagicArrowEffectsB[pauseCtx->equipTargetItem - 0xBF], pauseCtx->alpha);
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, magicArrowEffectsR[pauseCtx->equipTargetItem - 0xBF],
+                                        magicArrowEffectsG[pauseCtx->equipTargetItem - 0xBF],
+                                        magicArrowEffectsB[pauseCtx->equipTargetItem - 0xBF], pauseCtx->alpha);
 
                         pauseCtx->itemVtx[j + 0].v.ob[0] = pauseCtx->itemVtx[j + 2].v.ob[0] =
                             pauseCtx->itemVtx[j + 0].v.ob[0] - 2;
