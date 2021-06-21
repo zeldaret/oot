@@ -285,7 +285,7 @@ Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
         if ((prop == actor) || (prop->id != ACTOR_BG_JYA_IRONOBJ)) {
             prop = prop->next;
             continue;
-        } else if (func_8002E1A8(actor, prop, 80.0f, 0x2710)) {
+        } else if (Actor_ActorAIsFacingAndNearActorB(actor, prop, 80.0f, 0x2710)) {
             return prop;
         }
 
@@ -711,7 +711,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     }
     sp38 = this->actor.world.pos;
     sp38.y += 50.0f;
-    func_80035650(&this->actor, &this->bodyCollider.info, 1);
+    Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 1);
     temp_v0_3 = this->actor.colChkInfo.damageEffect;
     this->unk_2FD = temp_v0_3 & 0xFF;
     this->bodyCollider.base.acFlags &= ~AC_HIT;
@@ -745,7 +745,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
 
     if (this->actor.colChkInfo.health == 0) {
         func_80A7598C(this);
-        func_80032C7C(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
         return;
     }
     Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x7D0, 0);

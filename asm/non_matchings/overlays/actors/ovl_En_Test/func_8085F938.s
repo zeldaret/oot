@@ -84,13 +84,13 @@ glabel L8085FA00
 /* 003E0 8085FA30 00000000 */  nop
 /* 003E4 8085FA34 4500000F */  bc1f    .L8085FA74                 
 /* 003E8 8085FA38 00000000 */  nop
-/* 003EC 8085FA3C 0C00B821 */  jal     func_8002E084              
+/* 003EC 8085FA3C 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 003F0 8085FA40 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 003F4 8085FA44 1040000B */  beq     $v0, $zero, .L8085FA74     
 /* 003F8 8085FA48 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 003FC 8085FA4C 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00400 8085FA50 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
-/* 00404 8085FA54 0C00CEA1 */  jal     func_80033A84              
+/* 00404 8085FA54 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 00408 8085FA58 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 0040C 8085FA5C 10400005 */  beq     $v0, $zero, .L8085FA74     
 /* 00410 8085FA60 8FA60018 */  lw      $a2, 0x0018($sp)           

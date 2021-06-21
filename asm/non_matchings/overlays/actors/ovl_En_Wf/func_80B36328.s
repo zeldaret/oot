@@ -99,7 +99,7 @@ glabel func_80B36328
 /* 027D8 80B36488 01CF3023 */  subu    $a2, $t6, $t7              
 /* 027DC 80B3648C 00063400 */  sll     $a2, $a2, 16               
 /* 027E0 80B36490 00063403 */  sra     $a2, $a2, 16               
-/* 027E4 80B36494 0C00CEAE */  jal     func_80033AB8              
+/* 027E4 80B36494 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 027E8 80B36498 A7A6002C */  sh      $a2, 0x002C($sp)           
 /* 027EC 80B3649C 14400013 */  bne     $v0, $zero, .L80B364EC     
 /* 027F0 80B364A0 87A6002C */  lh      $a2, 0x002C($sp)           

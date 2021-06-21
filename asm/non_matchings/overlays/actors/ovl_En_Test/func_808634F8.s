@@ -44,7 +44,7 @@ glabel func_808634F8
 /* 03F48 80863598 860E008A */  lh      $t6, 0x008A($s0)           ## 0000008A
 /* 03F4C 8086359C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 03F50 808635A0 A20D07DC */  sb      $t5, 0x07DC($s0)           ## 000007DC
-/* 03F54 808635A4 0C00D594 */  jal     func_80035650              
+/* 03F54 808635A4 0C00D594 */  jal     Actor_SetDropFlag              
 /* 03F58 808635A8 A60E0032 */  sh      $t6, 0x0032($s0)           ## 00000032
 /* 03F5C 808635AC 260400E4 */  addiu   $a0, $s0, 0x00E4           ## $a0 = 000000E4
 /* 03F60 808635B0 0C03E291 */  jal     func_800F8A44              
@@ -70,7 +70,7 @@ glabel func_808634F8
 /* 03FA8 808635F8 10000022 */  beq     $zero, $zero, .L80863684   
 /* 03FAC 808635FC 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80863600:
-/* 03FB0 80863600 0C00B821 */  jal     func_8002E084              
+/* 03FB0 80863600 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 03FB4 80863604 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 03FB8 80863608 10400010 */  beq     $v0, $zero, .L8086364C     
 /* 03FBC 8086360C 00000000 */  nop
@@ -79,7 +79,7 @@ glabel func_808634F8
 /* 03FC4 80863614 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03FC8 80863618 14400008 */  bne     $v0, $zero, .L8086363C     
 /* 03FCC 8086361C 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 03FD0 80863620 0C00CB1F */  jal     func_80032C7C              
+/* 03FD0 80863620 0C00CB1F */  jal     Enemy_StartFinishingBlow              
 /* 03FD4 80863624 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03FD8 80863628 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03FDC 8086362C 0C218BEA */  jal     func_80862FA8              
@@ -100,7 +100,7 @@ glabel func_808634F8
 /* 0400C 8086365C 0C218C3C */  jal     func_808630F0              
 /* 04010 80863660 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 04014 80863664 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 04018 80863668 0C00CB1F */  jal     func_80032C7C              
+/* 04018 80863668 0C00CB1F */  jal     Enemy_StartFinishingBlow              
 /* 0401C 8086366C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 04020 80863670 10000004 */  beq     $zero, $zero, .L80863684   
 /* 04024 80863674 8FBF001C */  lw      $ra, 0x001C($sp)           
