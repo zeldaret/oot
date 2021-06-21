@@ -1,7 +1,7 @@
 /*
  * File: z_fishing.c
  * Overlay: ovl_Fishing
- * Description: Fishing Pond man and Fish
+ * Description: Fishing Pond Elements (Owner, Fish, Props, Effects...)
  */
 
 #include "z_fishing.h"
@@ -4719,7 +4719,7 @@ void Fishing_DrawGroupFishes(GlobalContext* globalCtx) {
 
 static u16 D_80B7AFB8[] = { 0x4096, 0x408D, 0x408E, 0x408F, 0x4094, 0x4095 };
 
-void Fishing_HandleManDialog(Fishing* this, GlobalContext* globalCtx) {
+void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
     switch (this->unk_15C) {
         case 0:
             if (D_80B7E0AC == 0) {
@@ -5175,7 +5175,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    Fishing_HandleManDialog(this, globalCtx);
+    Fishing_HandleOwnerDialog(this, globalCtx);
 
     D_80B7E14C = 0.0015f;
     D_80B7A680++;
