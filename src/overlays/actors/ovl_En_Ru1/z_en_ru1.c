@@ -241,9 +241,9 @@ void func_80AEAECC(EnRu1* this, GlobalContext* globalCtx) {
 
 s32 EnRu1_IsCsStateIdle(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == CS_STATE_IDLE) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 CsCmdActorAction* func_80AEAF58(GlobalContext* globalCtx, s32 npcActionIdx) {
@@ -260,18 +260,18 @@ s32 func_80AEAFA0(GlobalContext* globalCtx, u16 action, s32 npcActionIdx) {
     CsCmdActorAction* csCmdNPCAction = func_80AEAF58(globalCtx, npcActionIdx);
 
     if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == action)) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 s32 func_80AEAFE0(GlobalContext* globalCtx, u16 action, s32 npcActionIdx) {
     CsCmdActorAction* csCmdNPCAction = func_80AEAF58(globalCtx, npcActionIdx);
 
     if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action != action)) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 s32 func_80AEB020(EnRu1* this, GlobalContext* globalCtx) {
@@ -283,13 +283,13 @@ s32 func_80AEB020(EnRu1* this, GlobalContext* globalCtx) {
             someEnRu1 = (EnRu1*)actorIt;
             if (someEnRu1 != this) {
                 if ((someEnRu1->action == 31) || (someEnRu1->action == 32) || (someEnRu1->action == 24)) {
-                    return 1;
+                    return true;
                 }
             }
         }
         actorIt = actorIt->next;
     }
-    return 0;
+    return false;
 }
 
 BgBdanObjects* EnRu1_FindSwitch(GlobalContext* globalCtx) {
@@ -666,7 +666,6 @@ void func_80AEBF60(EnRu1* this, GlobalContext* globalCtx) {
         func_80AEB7D0(this);
         this->action = 5;
         this->unk_364 = this->actor.world.pos;
-        return;
     } else {
         func_80AEBA0C(this, globalCtx);
     }
@@ -767,9 +766,8 @@ void func_80AEC320(EnRu1* this, GlobalContext* globalCtx) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 7;
         EnRu1_SetMouthIndex(this, 1);
-        return;
     }
-    if ((gSaveContext.infTable[20] & 0x80) && (!(gSaveContext.infTable[20] & 1)) &&
+    else if ((gSaveContext.infTable[20] & 0x80) && (!(gSaveContext.infTable[20] & 1)) &&
         (!(gSaveContext.infTable[20] & 0x20))) {
         if (!func_80AEB020(this, globalCtx)) {
             func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
@@ -826,13 +824,14 @@ s32 func_80AEC5FC(EnRu1* this, GlobalContext* globalCtx) {
     f32 playerPosZ = player->actor.world.pos.z;
 
     if ((playerPosZ - thisPosZ <= 265.0f) && (player->actor.world.pos.y >= this->actor.world.pos.y)) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void func_80AEC650(EnRu1* this) {
     s32 pad[2];
+
     if (this->unk_280 == 0) {
         if ((Animation_OnFrame(&this->skelAnime, 2.0f)) || (Animation_OnFrame(&this->skelAnime, 7.0f))) {
             func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
@@ -1064,17 +1063,17 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(shapeRotY, temp_f16, 0x14, 0x1838, 0x64);
             player->actor.world.rot.y = *shapeRotY;
         } else {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 s32 func_80AED084(EnRu1* this, UNK_TYPE arg1) {
     if (this->blueWarp != NULL && this->blueWarp->unk_1EC == arg1) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void func_80AED0B0(EnRu1* this, UNK_TYPE arg1) {
@@ -1226,7 +1225,7 @@ s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
 
     if (this->roomNum2 != curRoomNum) {
         Actor_Kill(&this->actor);
-        return 0;
+        return false;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
                (this->actor.yDistToWater > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
@@ -1234,7 +1233,7 @@ s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
         this->alpha = 0xFF;
         this->unk_2A4 = 0.0f;
     }
-    return 1;
+    return true;
 }
 
 void func_80AED6DC(EnRu1* this, GlobalContext* globalCtx) {
@@ -1271,7 +1270,7 @@ void func_80AED738(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AED83C(EnRu1* this) {
-    s32 pad2[2];
+    s32 pad[2];
     Vec3s* tempPtr;
     Vec3s* tempPtr2;
 
@@ -1508,9 +1507,9 @@ s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x404C;
             func_8002F2F4(&this->actor, globalCtx);
         }
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
@@ -1548,10 +1547,10 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
             this->drawConfig = 0;
             this->unk_28C = (BgBdanObjects*)dynaPolyActor;
             this->actor.shape.shadowAlpha = 0;
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void func_80AEE488(EnRu1* this, GlobalContext* globalCtx) {
@@ -1611,10 +1610,10 @@ s32 func_80AEE6D0(EnRu1* this, GlobalContext* globalCtx) {
             gSaveContext.cutsceneTrigger = 1;
         }
         this->roomNum3 = curRoomNum;
-        return 1;
+        return true;
     }
     this->roomNum3 = curRoomNum;
-    return 0;
+    return false;
 }
 
 void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
@@ -1677,9 +1676,9 @@ s32 func_80AEEAC8(EnRu1* this, GlobalContext* globalCtx) {
         func_8002F580(&this->actor, globalCtx);
         this->action = 27;
         func_80AEADD8(this);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void func_80AEEB24(EnRu1* this, GlobalContext* globalCtx) {
@@ -1818,9 +1817,9 @@ s32 func_80AEF0BC(EnRu1* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.msgMode = 0x37;
         this->action = 26;
         this->actor.flags &= ~0x9;
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void func_80AEF170(EnRu1* this, GlobalContext* globalCtx, s32 cond) {
@@ -2117,7 +2116,7 @@ void func_80AEFCE8(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
     if ((gSaveContext.eventChkInf[3] & 0x80) && (LINK_IS_NOT_ADULT)) {
-        func_80AEB264(this, &D_060097B8, 0, 0, 0);
+        func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->actor.flags &= ~0x10;
         this->action = 44;
         this->drawConfig = 1;
@@ -2134,17 +2133,17 @@ s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x402C;
         }
         func_8002F2F4(&this->actor, globalCtx);
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 s32 func_80AEFE38(EnRu1* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         this->actor.flags &= ~0x9;
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void func_80AEFE84(EnRu1* this, GlobalContext* globalCtx, s32 cond) {
