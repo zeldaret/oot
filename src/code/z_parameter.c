@@ -3146,7 +3146,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         Minimap_Draw(globalCtx);
 
         if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
-            func_8002C124(&globalCtx->actorCtx.targetCtx, globalCtx); // Draw Z-Target
+            Target_Draw(&globalCtx->actorCtx.targetCtx, globalCtx); // Draw Z-Target
         }
 
         func_80094520(globalCtx->state.gfxCtx);

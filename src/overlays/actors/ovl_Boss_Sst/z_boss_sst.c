@@ -2923,7 +2923,7 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_sst.c", 6941);
 
-    SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->actor.focus.pos, &this->center);
+    SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->projectionMatrix, &this->actor.focus.pos, &this->center);
     BossSst_DrawEffect(&this->actor, globalCtx);
 }
 
@@ -3127,7 +3127,7 @@ void BossSst_UpdateEffect(Actor* thisx, GlobalContext* globalCtx) {
             effect = &this->effects[0];
 
             if (this->actor.params == BONGO_HEAD) {
-                SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->actor.focus.pos, &this->center);
+                SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->projectionMatrix, &this->actor.focus.pos, &this->center);
                 BossSst_HeadSfx(this, NA_SE_EN_SHADEST_LAST - SFX_FLAG);
             }
             while (effect->status != -1) {

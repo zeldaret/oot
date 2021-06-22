@@ -390,9 +390,9 @@ void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_16C > 0.0f) {
         if (this->type == 0) {
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &D_8088BF60, &this->unk_170);
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->projectionMatrix, &D_8088BF60, &this->unk_170);
         } else {
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->dyna.actor.home.pos, &this->unk_170);
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->projectionMatrix, &this->dyna.actor.home.pos, &this->unk_170);
         }
 
         func_80078914(&this->unk_170, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);

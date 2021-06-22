@@ -355,7 +355,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
 void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
                       Vec3f* rightFootPos);
 void func_8002BE04(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32* arg3);
-void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx);
+void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx);
 s32 Flags_GetSwitch(GlobalContext* globalCtx, s32 flag);
 void Flags_SetSwitch(GlobalContext* globalCtx, s32 flag);
 void Flags_UnsetSwitch(GlobalContext* globalCtx, s32 flag);

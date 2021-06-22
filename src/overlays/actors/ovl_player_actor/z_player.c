@@ -10415,7 +10415,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_6AD != 0) {
             Vec3f sp7C;
 
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->actor.focus.pos, &sp7C);
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->projectionMatrix, &this->actor.focus.pos, &sp7C);
             if (sp7C.z < -4.0f) {
                 overrideLimbDraw = func_800902F0;
             }

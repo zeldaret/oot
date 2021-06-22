@@ -18,14 +18,13 @@ void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw,
 }
 
 void ActorShadow_Draw(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gfx* dlist, Color_RGBA8* color) {
-    f32 temp1;
-    f32 temp2;
-    MtxF sp60;
-
     if (actor->floorPoly != NULL) {
-        temp1 = actor->world.pos.y - actor->floorHeight;
+        f32 distToFloor = actor->world.pos.y - actor->floorHeight;
 
-        if (temp1 >= -50.0f && temp1 < 500.0f) {
+        if ((distToFloor >= -50.0f) && (distToFloor < 500.0f)) {
+            f32 shadowScale;
+            MtxF floorMatrix;
+
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1553);
 
             POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 0x2C);
@@ -33,25 +32,25 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gf
             gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
                               COMBINED);
 
-            temp1 = (temp1 < 0.0f) ? 0.0f : ((temp1 > 150.0f) ? 150.0f : temp1);
-            temp2 = 1.0f - (temp1 * (1.0f / 350));
+            distToFloor = (distToFloor < 0.0f) ? 0.0f : ((distToFloor > 150.0f) ? 150.0f : distToFloor);
+            shadowScale = 1.0f - (distToFloor * (1.0f / 350));
 
             if (color != NULL) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, color->r, color->g, color->b,
-                                (u32)(actor->shape.shadowAlpha * temp2) & 0xFF);
+                                (u32)(actor->shape.shadowAlpha * shadowScale) & 0xFF);
             } else {
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (u32)(actor->shape.shadowAlpha * temp2) & 0xFF);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (u32)(actor->shape.shadowAlpha * shadowScale) & 0xFF);
             }
 
-            func_80038A28(actor->floorPoly, actor->world.pos.x, actor->floorHeight, actor->world.pos.z, &sp60);
-            Matrix_Put(&sp60);
+            func_80038A28(actor->floorPoly, actor->world.pos.x, actor->floorHeight, actor->world.pos.z, &floorMatrix);
+            Matrix_Put(&floorMatrix);
 
             if (dlist != gCircleShadowDL) {
                 Matrix_RotateY(actor->shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
             }
 
-            temp2 = (1.0f - (temp1 * (1.0f / 350))) * actor->shape.shadowScale;
-            Matrix_Scale(actor->scale.x * temp2, 1.0f, actor->scale.z * temp2, MTXMODE_APPLY);
+            shadowScale = (1.0f - (distToFloor * (1.0f / 350))) * actor->shape.shadowScale;
+            Matrix_Scale(actor->scale.x * shadowScale, 1.0f, actor->scale.z * shadowScale, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 1588),
                       G_MTX_MODELVIEW | G_MTX_LOAD);
@@ -78,7 +77,7 @@ void ActorShadow_DrawHorse(Actor* actor, Lights* lights, GlobalContext* globalCt
 
 void ActorShadow_DrawFoot(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6) {
     s32 pad1;
-    f32 sp58;
+    f32 shadowAngleY;
     s32 pad2[2];
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1661);
@@ -86,11 +85,11 @@ void ActorShadow_DrawFoot(GlobalContext* globalCtx, Light* light, MtxF* arg2, s3
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0,
                     (u32)(((arg3 * 0.00005f) > 1.0f ? 1.0f : (arg3 * 0.00005f)) * arg4) & 0xFF);
 
-    sp58 = Math_FAtan2F(light->l.dir[0], light->l.dir[2]);
+    shadowAngleY = Math_FAtan2F(light->l.dir[0], light->l.dir[2]);
     arg6 *= (4.5f - (light->l.dir[1] * 0.035f));
     arg6 = (arg6 < 1.0f) ? 1.0f : arg6;
     Matrix_Put(arg2);
-    Matrix_RotateY(sp58, MTXMODE_APPLY);
+    Matrix_RotateY(shadowAngleY, MTXMODE_APPLY);
     Matrix_Scale(arg5, 1.0f, arg5 * arg6, MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 1687),
@@ -213,17 +212,24 @@ void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* lef
     }
 }
 
-void func_8002BE04(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32* arg3) {
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, arg1, arg2, arg3);
-    *arg3 = (*arg3 < 1.0f) ? 1.0f : (1.0f / *arg3);
+void func_8002BE04(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->projectionMatrix, src, xyzDest, wDest);
+    *wDest = (*wDest < 1.0f) ? 1.0f : (1.0f / *wDest);
+}
+
+void Target_SetPos(TargetContext* targetCtx, s32 targetIndex, f32 x, f32 y, f32 z) {
+    targetCtx->arr_50[targetIndex].pos.x = x;
+    targetCtx->arr_50[targetIndex].pos.y = y;
+    targetCtx->arr_50[targetIndex].pos.z = z;
+    targetCtx->arr_50[targetIndex].unk_0C = targetCtx->unk_44;
 }
 
 typedef struct {
     /* 0x00 */ Color_RGBA8 inner;
     /* 0x04 */ Color_RGBA8 outer;
-} NaviColor; // size = 0x8
+} TargetColor; // size = 0x8
 
-static NaviColor sNaviColorList[] = {
+static TargetColor sTargetColorList[] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH,
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_BG,
     { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     // ACTORCAT_PLAYER,
@@ -239,32 +245,20 @@ static NaviColor sNaviColorList[] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // unknown extra entry (maybe a removed category?)
 };
 
-// unused
-static Gfx D_80115FF0[] = {
-    gsSPEndDisplayList(),
-};
-
-void func_8002BE64(TargetContext* targetCtx, s32 index, f32 arg2, f32 arg3, f32 arg4) {
-    targetCtx->arr_50[index].pos.x = arg2;
-    targetCtx->arr_50[index].pos.y = arg3;
-    targetCtx->arr_50[index].pos.z = arg4;
-    targetCtx->arr_50[index].unk_0C = targetCtx->unk_44;
-}
-
 void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, GlobalContext* globalCtx) {
     TargetContextEntry* entry;
-    NaviColor* naviColor;
+    TargetColor* naviColor;
     s32 i;
 
     Math_Vec3f_Copy(&targetCtx->targetCenterPos, &globalCtx->view.eye);
     targetCtx->unk_44 = 500.0f;
     targetCtx->unk_48 = 0x100;
 
-    naviColor = &sNaviColorList[actorCategory];
+    naviColor = &sTargetColorList[actorCategory];
 
     entry = &targetCtx->arr_50[0];
     for (i = 0; i < ARRAY_COUNT(targetCtx->arr_50); i++) {
-        func_8002BE64(targetCtx, i, 0.0f, 0.0f, 0.0f);
+        Target_SetPos(targetCtx, i, 0.0f, 0.0f, 0.0f);
         entry->color.r = naviColor->inner.r;
         entry->color.g = naviColor->inner.g;
         entry->color.b = naviColor->inner.b;
@@ -273,7 +267,7 @@ void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, GlobalContext* g
 }
 
 void func_8002BF60(TargetContext* targetCtx, Actor* actor, s32 actorCategory, GlobalContext* globalCtx) {
-    NaviColor* naviColor = &sNaviColorList[actorCategory];
+    TargetColor* naviColor = &sTargetColorList[actorCategory];
     targetCtx->naviRefPos.x = actor->focus.pos.x;
     targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
     targetCtx->naviRefPos.z = actor->focus.pos.z;
@@ -299,85 +293,85 @@ void func_8002C0C0(TargetContext* targetCtx, Actor* actor, GlobalContext* global
     func_8002BE98(targetCtx, actor->category, globalCtx);
 }
 
-void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
+static Gfx sUnusedEmptyDL[] = {
+    gsSPEndDisplayList(),
+};
+
+void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
     Actor* actor = targetCtx->targetedActor;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2029);
 
     if (targetCtx->unk_48 != 0) {
         TargetContextEntry* entry;
-        Player* player;
-        s16 spCE;
-        f32 temp1;
-        Vec3f spBC;
-        s32 spB8;
-        f32 spB4;
-        s32 spB0;
-        s32 spAC;
-        f32 var1;
-        f32 var2;
+        Player* player = PLAYER;
+        s16 alpha = 255;
+        s32 pad;
+        Vec3f targetPos;
+        s32 blurNum;
+        f32 w;
         s32 i;
+        s32 j;
+        f32 translateRatio;
+        f32 xScale;
 
-        player = PLAYER;
-
-        spCE = 0xFF;
-        var1 = 1.0f;
+        translateRatio = 1.0f;
 
         if (targetCtx->unk_4B != 0) {
-            spB8 = 1;
+            blurNum = 1;
         } else {
-            spB8 = 3;
+            blurNum = 3;
         }
 
         if (actor != NULL) {
             Math_Vec3f_Copy(&targetCtx->targetCenterPos, &actor->focus.pos);
-            var1 = (500.0f - targetCtx->unk_44) / 420.0f;
+            translateRatio = (500.0f - targetCtx->unk_44) / 420.0f;
         } else {
             targetCtx->unk_48 -= 120;
             if (targetCtx->unk_48 < 0) {
                 targetCtx->unk_48 = 0;
             }
-            spCE = targetCtx->unk_48;
+            alpha = targetCtx->unk_48;
         }
 
-        func_8002BE04(globalCtx, &targetCtx->targetCenterPos, &spBC, &spB4);
+        func_8002BE04(globalCtx, &targetCtx->targetCenterPos, &targetPos, &w);
 
-        spBC.x = (160 * (spBC.x * spB4)) * var1;
-        spBC.x = CLAMP(spBC.x, -320.0f, 320.0f);
-
-        spBC.y = (120 * (spBC.y * spB4)) * var1;
-        spBC.y = CLAMP(spBC.y, -240.0f, 240.0f);
-
-        spBC.z = spBC.z * var1;
+        targetPos.x = (160 * (targetPos.x * w)) * translateRatio;
+        targetPos.x = CLAMP(targetPos.x, -320.0f, 320.0f);
+        targetPos.y = (120 * (targetPos.y * w)) * translateRatio;
+        targetPos.y = CLAMP(targetPos.y, -240.0f, 240.0f);
+        targetPos.z = targetPos.z * translateRatio;
 
         targetCtx->unk_4C--;
         if (targetCtx->unk_4C < 0) {
             targetCtx->unk_4C = 2;
         }
 
-        func_8002BE64(targetCtx, targetCtx->unk_4C, spBC.x, spBC.y, spBC.z);
+        Target_SetPos(targetCtx, targetCtx->unk_4C, targetPos.x, targetPos.y, targetPos.z);
 
         if ((!(player->stateFlags1 & 0x40)) || (actor != player->unk_664)) {
             OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x39);
 
-            for (spB0 = 0, spAC = targetCtx->unk_4C; spB0 < spB8; spB0++, spAC = (spAC + 1) % 3) {
-                entry = &targetCtx->arr_50[spAC];
+            for (i = 0, j = targetCtx->unk_4C; i < blurNum; i++, j = (j + 1) % 3) {
+                entry = &targetCtx->arr_50[j];
 
                 if (entry->unk_0C < 500.0f) {
+                    s32 k;
+
                     if (entry->unk_0C <= 120.0f) {
-                        var2 = 0.15f;
+                        xScale = 0.15f;
                     } else {
-                        var2 = ((entry->unk_0C - 120.0f) * 0.001f) + 0.15f;
+                        xScale = ((entry->unk_0C - 120.0f) * 0.001f) + 0.15f;
                     }
 
                     Matrix_Translate(entry->pos.x, entry->pos.y, 0.0f, MTXMODE_NEW);
-                    Matrix_Scale(var2, 0.15f, 1.0f, MTXMODE_APPLY);
+                    Matrix_Scale(xScale, 0.15f, 1.0f, MTXMODE_APPLY);
 
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->color.r, entry->color.g, entry->color.b, (u8)spCE);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->color.r, entry->color.g, entry->color.b, (u8)alpha);
 
                     Matrix_RotateZ((targetCtx->unk_4B & 0x7F) * (M_PI / 64), MTXMODE_APPLY);
 
-                    for (i = 0; i < 4; i++) {
+                    for (k = 0; k < 4; k++) {
                         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
                         Matrix_Push();
                         Matrix_Translate(entry->unk_0C, entry->unk_0C, 0.0f, MTXMODE_APPLY);
@@ -388,17 +382,15 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
                     }
                 }
 
-                spCE -= 0xFF / 3;
-                if (spCE < 0) {
-                    spCE = 0;
-                }
+                alpha -= 255 / 3;
+                alpha = CLAMP_MIN(alpha, 0);
             }
         }
     }
 
     actor = targetCtx->unk_94;
     if ((actor != NULL) && !(actor->flags & 0x8000000)) {
-        NaviColor* naviColor = &sNaviColorList[actor->category];
+        TargetColor* color = &sTargetColorList[actor->category];
 
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x7);
 
@@ -407,7 +399,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         Matrix_RotateY((f32)((u16)(globalCtx->gameplayFrames * 3000)) * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, color->inner.r, color->inner.g, color->inner.b, 255);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 2153),
                   G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, &gZTargetArrowDL);
@@ -711,22 +703,22 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     s32 unk1;
     s32 spC0;
     s32 sp38;
-    s32 spB8;
+    s32 blurNum;
     s32 spB4;
-    s32 spB0;
+    s32 i;
 
     if (titleCtx->alpha != 0) {
         spCC = titleCtx->width;
         spC8 = titleCtx->height;
         spC0 = (titleCtx->x * 4) - (spCC * 2);
-        spB8 = (titleCtx->y * 4) - (spC8 * 2);
+        blurNum = (titleCtx->y * 4) - (spC8 * 2);
         sp38 = spCC * 2;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2824);
 
-        spB0 = spCC * spC8 * gSaveContext.language;
+        i = spCC * spC8 * gSaveContext.language;
         spC8 = (spCC * spC8 > 0x1000) ? 0x1000 / spCC : spC8;
-        spB4 = spB8 + (spC8 * 4);
+        spB4 = blurNum + (spC8 * 4);
 
         if (1) {} // Necessary to match
 
@@ -735,17 +727,17 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
                         (u8)titleCtx->alpha);
 
-        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + spB0, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8, 0,
+        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + i, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1, G_TX_RENDERTILE,
-                            0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(OVERLAY_DISP++, spC0, blurNum, ((sp38 * 2) + spC0) - 4, blurNum + (spC8 * 4) - 1,
+                            G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
         spC8 = titleCtx->height - spC8;
 
         if (spC8 > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + spB0 + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC,
+            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + i + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC,
                                 spC8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                 G_TX_NOLOD, G_TX_NOLOD);
 
@@ -1534,9 +1526,9 @@ s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2) {
 }
 
 s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
-    f32 var1 = 50.0f + actor->colChkInfo.cylRadius;
+    f32 translateRatio = 50.0f + actor->colChkInfo.cylRadius;
 
-    return func_8002F2CC(actor, globalCtx, var1);
+    return func_8002F2CC(actor, globalCtx, translateRatio);
 }
 
 u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
@@ -1964,7 +1956,7 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
 
     ActorOverlayTable_Init();
     Matrix_MtxFCopy(&globalCtx->mf_11DA0, &gMtxFClear);
-    Matrix_MtxFCopy(&globalCtx->mf_11D60, &gMtxFClear);
+    Matrix_MtxFCopy(&globalCtx->projectionMatrix, &gMtxFClear);
 
     overlayEntry = &gActorOverlayTable[0];
     for (i = 0; i < ARRAY_COUNT(gActorOverlayTable); i++) {
@@ -2371,7 +2363,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
             HREG(66) = i;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &actor->world.pos, &actor->projectedPos,
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->projectionMatrix, &actor->world.pos, &actor->projectedPos,
                                              &actor->projectedW);
             }
 
@@ -3175,7 +3167,7 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
     s16 scale;
-    u32 var2;
+    u32 xScale;
     s32 i;
 
     for (i = arg3; i >= 0; i--) {
@@ -3184,9 +3176,9 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
         pos.z = arg1->z + ((Rand_ZeroOne() - 0.5f) * arg2);
 
         scale = (s16)((Rand_ZeroOne() * arg4) * 0.2f) + arg4;
-        var2 = arg6;
+        xScale = arg6;
 
-        if (var2 != 0) {
+        if (xScale != 0) {
             func_800286CC(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
         } else {
             func_8002865C(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
@@ -3942,13 +3934,14 @@ Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, 
 
 s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5) {
     Player* player = PLAYER;
-    s16 var1;
-    s16 var2;
+    s16 translateRatio;
+    s16 xScale;
 
-    var1 = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
-    var2 = actor->yawTowardsPlayer - arg5;
+    translateRatio = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
+    xScale = actor->yawTowardsPlayer - arg5;
 
-    if ((actor->xzDistToPlayer <= range) && (player->swordState != 0) && (arg4 >= ABS(var1)) && (arg3 >= ABS(var2))) {
+    if ((actor->xzDistToPlayer <= range) && (player->swordState != 0) && (arg4 >= ABS(translateRatio)) &&
+        (arg3 >= ABS(xScale))) {
         return true;
     } else {
         return false;

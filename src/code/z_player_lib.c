@@ -1115,7 +1115,7 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
 
         OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x07);
 
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp74, &sp68, &sp64);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->projectionMatrix, &sp74, &sp68, &sp64);
 
         sp60 = (sp64 < 200.0f) ? 0.08f : (sp64 / 200.0f) * 0.08f;
 

@@ -1084,10 +1084,10 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         func_800AAA50(&globalCtx->view, 15);
 
         Matrix_MtxToMtxF(&globalCtx->view.viewing, &globalCtx->mf_11DA0);
-        Matrix_MtxToMtxF(&globalCtx->view.projection, &globalCtx->mf_11D60);
-        Matrix_Mult(&globalCtx->mf_11D60, MTXMODE_NEW);
+        Matrix_MtxToMtxF(&globalCtx->view.projection, &globalCtx->projectionMatrix);
+        Matrix_Mult(&globalCtx->projectionMatrix, MTXMODE_NEW);
         Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-        Matrix_Get(&globalCtx->mf_11D60);
+        Matrix_Get(&globalCtx->projectionMatrix);
         globalCtx->mf_11DA0.mf[3][2] = 0.0f;
         globalCtx->mf_11DA0.mf[3][1] = 0.0f;
         globalCtx->mf_11DA0.mf[3][0] = 0.0f;
@@ -1480,11 +1480,11 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
 void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
     f32 temp;
 
-    Matrix_Mult(&globalCtx->mf_11D60, MTXMODE_NEW);
+    Matrix_Mult(&globalCtx->projectionMatrix, MTXMODE_NEW);
     Matrix_MultVec3f(src, dest);
 
-    temp = globalCtx->mf_11D60.ww +
-           (globalCtx->mf_11D60.xw * src->x + globalCtx->mf_11D60.yw * src->y + globalCtx->mf_11D60.zw * src->z);
+    temp = globalCtx->projectionMatrix.ww +
+           (globalCtx->projectionMatrix.xw * src->x + globalCtx->projectionMatrix.yw * src->y + globalCtx->projectionMatrix.zw * src->z);
 
     dest->x = 160.0f + ((dest->x / temp) * 160.0f);
     dest->y = 120.0f - ((dest->y / temp) * 120.0f);
