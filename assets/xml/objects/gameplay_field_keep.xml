@@ -21,7 +21,7 @@
         <DList Name="gButterflyDL_002580" Offset="0x2580"/>
         <DList Name="gButterflyDL_002620" Offset="0x2620"/>
         <Texture Name="gButterflyWingTex" OutName="butterfly_wing" Format="rgb5a1" Width="32" Height="64" Offset="0x2680"/>
-        <Skeleton Name="gButterflySkel" Type="Standard" LimbType="Standard" Offset="0x36F0"/>
+        <Skeleton Name="gButterflySkel" Type="Normal" LimbType="Standard" Offset="0x36F0"/>
         <Animation Name="gButterflyAnim" Offset="0x2470"/>
         <Texture Name="gBgBombwallTLUT" OutName="bombwall_palette" Format="rgb5a1" Width="4" Height="4" Offset="0x3700"/>
         <Texture Name="gBgBombwallNormalTex" OutName="bombwall_normal" Format="ci4" Width="32" Height="64" Offset="0x3720"/>
@@ -32,7 +32,7 @@
         <Texture Name="gFieldDoor1Tex" OutName="field_door1" Format="i8" Width="32" Height="128" Offset="0x04F50"/>
         <Texture Name="gFieldDoorKnobTopHalfTex" OutName="field_door_knob_upper" Format="rgb5a1" Width="16" Height="16" Offset="0x4B50"/>
         <Texture Name="gFieldDoorKnobTex" OutName="field_door_knob" Format="rgb5a1" Width="16" Height="16" Offset="0x4D50"/>
-        <Skeleton Name="gFieldUnusedFishSkel" Type="Standard" LimbType="Standard" Offset="0x088F8"/>
+        <Skeleton Name="gFieldUnusedFishSkel" Type="Normal" LimbType="Standard" Offset="0x088F8"/>
         <Animation Name="gFieldUnusedFishAnim" Offset="0x5FF0"/>
         <DList Name="gFieldUnusedFishDL" Offset="0x6000"/>
         <DList Name="gFieldSkelUnusedFishDL_0061E8" Offset="0x61E8"/>

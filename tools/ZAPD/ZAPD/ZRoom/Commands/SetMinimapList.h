@@ -1,36 +1,40 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class MinimapEntry
 {
 public:
+	MinimapEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
+
+	std::string GetBodySourceCode() const;
+
+protected:
 	uint16_t unk0;
 	uint16_t unk2;
 	uint16_t unk4;
 	uint16_t unk6;
 	uint16_t unk8;
-
-	MinimapEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex);
 };
 
 class SetMinimapList : public ZRoomCommand
 {
 public:
-	SetMinimapList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
-	~SetMinimapList();
+	SetMinimapList(ZFile* nParent);
 
-	std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
-	std::string GenerateSourceCodePass2(std::string roomName, uint32_t baseAddress) override;
-	std::string GetCommandCName() override;
-	std::string GenerateExterns() override;
-	RoomCommand GetRoomCommand() override;
-	size_t GetRawDataSize() override;
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	size_t GetRawDataSize() const override;
+	std::string GetCommandCName() const override;
 
 private:
-	std::vector<MinimapEntry*> minimaps;
-	uint32_t segmentOffset;
+	std::vector<MinimapEntry> minimaps;
 
+	segptr_t listSegmentAddr;
 	uint32_t listSegmentOffset;
 	uint32_t unk4;
 };

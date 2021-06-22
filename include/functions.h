@@ -372,10 +372,10 @@ void Flags_SetTempClear(GlobalContext* globalCtx, s32 flag);
 void Flags_UnsetTempClear(GlobalContext* globalCtx, s32 flag);
 s32 Flags_GetCollectible(GlobalContext* globalCtx, s32 flag);
 void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag);
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
-                            s16 y, u8 width, u8 height);
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
-                             s32 y, s32 width, s32 height, s32 delay);
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x, s16 y, u8 width,
+                            u8 height);
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x, s32 y,
+                             s32 width, s32 height, s32 delay);
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx);
 void Actor_Kill(Actor* actor);
 void Actor_SetFocus(Actor* actor, f32 offset);
@@ -412,11 +412,14 @@ s32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 csMode);
 s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 arg2);
 void func_8002DF90(DynaPolyActor* dynaActor);
 void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2);
-s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx);
-s32 func_8002E084(Actor* actor, s16 arg1);
-s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2);
-s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3);
-void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+s32 Player_IsFacingActor(Actor* actor, s16 angle, GlobalContext* globalCtx);
+s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 angle);
+s32 Actor_IsFacingPlayer(Actor* actor, s16 angle);
+s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 angle);
+s32 Actor_IsFacingAndNearPlayer(Actor* actor, f32 range, s16 angle);
+s32 Actor_ActorAIsFacingAndNearActorB(Actor* actorA, Actor* actorB, f32 range, s16 angle);
+void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallCheckHeight, f32 wallCheckRadius,
+                             f32 ceilingCheckHeight, s32 flags);
 Hilite* func_8002EABC(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx);
 Hilite* func_8002EB44(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx);
 void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag);
@@ -474,23 +477,23 @@ Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, GlobalCo
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalCtx);
 Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** actorPtr, Player* player);
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory);
-void func_80032C7C(GlobalContext* globalCtx, Actor* actor);
+void Enemy_StartFinishingBlow(GlobalContext* globalCtx, Actor* actor);
 s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3);
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, GlobalContext* globalCtx);
-void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count,
-                   Gfx** dList, s16 objectId);
+void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
+                       s16 objectId);
 s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type);
-void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
-                   s16 arg7, u8 arg8);
+void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
+                          s16 arg7, u8 arg8);
 void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
-Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2);
+Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius);
 void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorCategory);
 void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 textIdLower);
 s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3);
-s32 func_80033A84(GlobalContext* globalCtx, Actor* actor);
-s32 func_80033AB8(GlobalContext* globalCtx, Actor* actor);
+s32 Actor_IsTargeted(GlobalContext* globalCtx, Actor* actor);
+s32 Actor_OtherIsTargeted(GlobalContext* globalCtx, Actor* actor);
 f32 func_80033AEC(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
 void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx);
 void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2);
@@ -523,8 +526,8 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1);
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider);
 u8 Actor_ApplyDamage(Actor* actor);
-void func_80035650(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
-void func_8003573C(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
+void Actor_SetDropFlag(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
+void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
 Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
                      GlobalContext* globalCtx, s16 params, s32 arg8);
@@ -546,8 +549,9 @@ f32 CollisionPoly_GetPointDistanceFromPlane(CollisionPoly* poly, Vec3f* point);
 void CollisionPoly_GetVerticesByBgId(CollisionPoly* poly, s32 bgId, CollisionContext* colCtx, Vec3f* dest);
 s32 BgCheck_CheckStaticCeiling(StaticLookup* lookup, u16 xpFlags, CollisionContext* colCtx, f32* outY, Vec3f* pos,
                                f32 checkHeight, CollisionPoly** outPoly);
-s32 BgCheck_CheckLineAgainstSSList(SSList* headNodeId, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
-                  Vec3f* outPos, CollisionPoly** outPoly, f32* outDistSq, f32 chkDist, s32 bccFlags);
+s32 BgCheck_CheckLineAgainstSSList(SSList* headNodeId, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2,
+                                   Vec3f* posA, Vec3f* posB, Vec3f* outPos, CollisionPoly** outPoly, f32* outDistSq,
+                                   f32 chkDist, s32 bccFlags);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* arg2);
 void BgCheck_Allocate(CollisionContext* colCtx, GlobalContext* globalCtx, CollisionHeader* colHeader);
 s32 BgCheck_PosInStaticBoundingBox(CollisionContext* colCtx, Vec3f* pos);
@@ -581,7 +585,8 @@ s32 BgCheck_AnyCheckCeiling(CollisionContext* colCtx, f32* outY, Vec3f* pos, f32
 s32 BgCheck_EntityCheckCeiling(CollisionContext* colCtx, f32* arg1, Vec3f* arg2, f32 arg3, CollisionPoly** outPoly,
                                s32* outBgId, Actor* actor);
 s32 BgCheck_CheckLineImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
-                         Vec3f* posResult, CollisionPoly** outPoly, s32* bgId, Actor* actor, f32 chkDist, u32 bccFlags);
+                          Vec3f* posResult, CollisionPoly** outPoly, s32* bgId, Actor* actor, f32 chkDist,
+                          u32 bccFlags);
 s32 BgCheck_CameraLineTest1(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
                             CollisionPoly** outPoly, s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
 s32 BgCheck_CameraLineTest2(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
@@ -626,7 +631,8 @@ s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32*
 s32 BgCheck_CheckDynaCeiling(CollisionContext* colCtx, u16 xpFlags, f32* outY, Vec3f* pos, f32 chkDist,
                              CollisionPoly** outPoly, s32* outBgId, Actor* actor);
 s32 BgCheck_CheckLineAgainstDyna(CollisionContext* colCtx, u16 xpFlags, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
-                  CollisionPoly** outPoly, f32* distSq, s32* outBgId, Actor* actor, f32 chkDist, s32 bccFlags);
+                                 CollisionPoly** outPoly, f32* distSq, s32* outBgId, Actor* actor, f32 chkDist,
+                                 s32 bccFlags);
 s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, s32* outBgId,
                                Vec3f* center, f32 radius, Actor* actor, u16 bciFlags);
 void CollisionHeader_GetVirtual(void* colHeader, CollisionHeader** dest);
@@ -857,11 +863,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player);
 void func_8006D684(GlobalContext* globalCtx, Player* player);
 void func_8006DC68(GlobalContext* globalCtx, Player* player);
 void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
-u32 Jpeg_ScheduleDecoderTask(JpegContext* ctx);
-void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y);
-u16 Jpeg_GetU16(u8* ptr);
-void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx);
-s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize);
+s32 Jpeg_Decode(void* data, void* zbuffer, void* workBuff, u32 workSize);
 void KaleidoSetup_Update(GlobalContext* globalCtx);
 void KaleidoSetup_Init(GlobalContext* globalCtx);
 void KaleidoSetup_Destroy(GlobalContext* globalCtx);
@@ -1169,8 +1171,8 @@ void func_80094D28(Gfx** gfxp);
 Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height);
 Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
-Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, 
-                        u32 x2, u32 y2, s32 width2, s32 height2);
+Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
+                      u32 y2, s32 width2, s32 height2);
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
 Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
@@ -1210,9 +1212,10 @@ void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
                            OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg);
 s16 Animation_GetLength(void* animation);
 s16 Animation_GetLastFrame(void* animation);
-s16 Animation_GetLimbCount2(AnimationHeader2* animation);
-s16 Animation_GetLength2(AnimationHeader2* animation);
-s16 Animation_GetLastFrame2(AnimationHeader2* animation);
+s32 SkelAnime_GetFrameDataLegacy(LegacyAnimationHeader* animation, s32 frame, Vec3s* frameTable);
+s16 Animation_GetLimbCountLegacy(LegacyAnimationHeader* animation);
+s16 Animation_GetLengthLegacy(LegacyAnimationHeader* animation);
+s16 Animation_GetLastFrameLegacy(LegacyAnimationHeader* animation);
 Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw,
                     PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
 Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount,
@@ -1367,17 +1370,15 @@ s32 func_800AB560(View* view);
 s32 func_800AB944(View* view);
 s32 func_800AB9EC(View* view, s32 arg1, Gfx** p);
 s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ);
-void ViMode_LogPrint(OSViMode *viMode);
-void ViMode_Configure(ViMode *viMode, u32 mode, u32 type,
-                    u32 unk_70, u32 unk_74, u32 unk_78, u32 unk_7C,
-                    s32 width, s32 height,
-                    s32 unk_left, s32 unk_right, s32 unk_top, s32 unk_bottom);
-void ViMode_Save(ViMode *viMode);
-void ViMode_Load(ViMode *viMode);
-void ViMode_Init(ViMode *viMode);
-void ViMode_Destroy(ViMode *viMode);
-void ViMode_ConfigureFeatures(ViMode *viMode, s32 viFeatures);
-void ViMode_Update(ViMode *viMode, Input *input);
+void ViMode_LogPrint(OSViMode* viMode);
+void ViMode_Configure(ViMode* viMode, s32 mode, s32 type, s32 unk_70, s32 unk_74, s32 unk_78, s32 unk_7C, s32 width,
+                      s32 height, s32 unk_left, s32 unk_right, s32 unk_top, s32 unk_bottom);
+void ViMode_Save(ViMode* viMode);
+void ViMode_Load(ViMode* viMode);
+void ViMode_Init(ViMode* viMode);
+void ViMode_Destroy(ViMode* viMode);
+void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures);
+void ViMode_Update(ViMode* viMode, Input* input);
 void func_800ACE70(struct_801664F0* this);
 void func_800ACE90(struct_801664F0* this);
 void func_800ACE98(struct_801664F0* this, Gfx** gfxp);

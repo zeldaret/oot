@@ -230,22 +230,21 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
     }
 }
 
-#ifdef NON_MATCHING
-// the time diff isn't correct, workBuff->data is kept in a temp register instead of being stored in the stack and
-// regalloc differences
-s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
+s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     s32 y;
     s32 x;
     u32 j;
     u32 i;
-    JpegContext ctx;             // 0x208
-    JpegHuffmanTable hTables[4]; // 0xB8
-    JpegDecoder decoder;         // 0x9C
-    JpegDecoderState state;      // 0x88
-    u16(*src)[0x180];
-    OSTime diff; // 0x78
-    OSTime time; // 0x70
-    OSTime time2;
+    JpegContext ctx;
+    JpegHuffmanTable hTables[4];
+    JpegDecoder decoder;
+    JpegDecoderState state;
+    JpegWork* workBuff;
+    OSTime diff;
+    OSTime time;
+    OSTime curTime;
+
+    workBuff = work;
 
     time = osGetTime();
     // (?) I guess MB_SIZE=0x180, PROC_OF_MBS=5 which means data is not a part of JpegWork
@@ -255,56 +254,52 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     osCreateMesgQueue(&ctx.mq, &ctx.msg, 1);
     MsgEvent_SendNullTask();
 
-    time2 = osGetTime();
-    diff = time2 - time;
-    if (1) {}
+    curTime = osGetTime();
+    diff = curTime - time;
+    time = curTime;
     // Wait for synchronization of fifo buffer
     osSyncPrintf("*** fifoバッファの同期待ち time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     ctx.workBuf = workBuff;
     Jpeg_ParseMarkers(data, &ctx);
 
-    time = osGetTime();
-    diff = time - time2;
-    if (1) {}
+    curTime = osGetTime();
+    diff = curTime - time;
+    time = curTime;
     // Check markers for each segment
     osSyncPrintf("*** 各セグメントのマーカーのチェック time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     switch (ctx.dqtCount) {
-        case 1: {
+        case 1:
             JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTableY, 3);
             break;
-        }
-        case 2: {
+        case 2:
             JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTableY, 1);
             JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTableU, 1);
             JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTableV, 1);
             break;
-        }
-        case 3: {
+        case 3:
             JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTableY, 1);
             JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTableU, 1);
             JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[2], &workBuff->qTableV, 1);
             break;
-        }
         default:
             return -1;
     }
 
-    time2 = osGetTime();
-    diff = time2 - time;
-    if (1) {}
+    curTime = osGetTime();
+    diff = curTime - time;
+    time = curTime;
     // Create quantization table
     osSyncPrintf("*** 量子化テーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     switch (ctx.dhtCount) {
-        case 1: {
+        case 1:
             if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], workBuff->codesLengths, workBuff->codes, 4)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
             break;
-        }
-        case 4: {
+        case 4:
             if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], workBuff->codesLengths, workBuff->codes, 1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
@@ -318,29 +313,26 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
             break;
-        }
         default:
             return -1;
     }
 
-    time = osGetTime();
-    diff = time - time2;
-    if (1) {}
+    curTime = osGetTime();
+    diff = curTime - time;
+    time = curTime;
     // Huffman table creation
     osSyncPrintf("*** ハフマンテーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
+    decoder.imageData = ctx.imageData;
+    decoder.mode = ctx.mode;
     decoder.unk_05 = 2;
     decoder.hTablePtrs[0] = &hTables[0];
     decoder.hTablePtrs[1] = &hTables[1];
     decoder.hTablePtrs[2] = &hTables[2];
     decoder.hTablePtrs[3] = &hTables[3];
-    if (1) {}
     decoder.unk_18 = 0;
-    decoder.imageData = ctx.imageData;
-    decoder.mode = ctx.mode;
 
-    y = 0;
-    x = 0;
+    x = y = 0;
     for (i = 0; i < 300; i += 4) {
         if (JpegDecoder_Decode(&decoder, (u16*)workBuff->data, 4, i != 0, &state)) {
             osSyncPrintf(VT_FGCOL(RED));
@@ -350,9 +342,8 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
             Jpeg_ScheduleDecoderTask(&ctx);
             osInvalDCache(&workBuff->data, sizeof(workBuff->data[0]));
 
-            src = workBuff->data;
             for (j = 0; j < ARRAY_COUNT(workBuff->data); j++) {
-                Jpeg_CopyToZbuffer(src[j], zbuffer, x, y);
+                Jpeg_CopyToZbuffer(workBuff->data[j], zbuffer, x, y);
                 x++;
 
                 if (x >= 20) {
@@ -363,14 +354,11 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
         }
     }
 
-    time2 = osGetTime();
-    diff = time2 - time;
-    if (1) {}
+    curTime = osGetTime();
+    diff = curTime - time;
+    time = curTime;
     // Unfold & draw
     osSyncPrintf("*** 展開 & 描画 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_jpeg/Jpeg_Decode.s")
-#endif

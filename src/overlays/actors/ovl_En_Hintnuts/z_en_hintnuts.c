@@ -462,7 +462,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx) {
 void EnHintnuts_ColliderCheck(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
         if (this->collider.base.ac->id != ACTOR_EN_NUTSBALL) {
             EnHintnuts_SetupBurrow(this);
         } else {

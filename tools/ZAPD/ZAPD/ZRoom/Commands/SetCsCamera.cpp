@@ -1,87 +1,64 @@
 #include "SetCsCamera.h"
-#include "../../BitConverter.h"
-#include "../../StringHelper.h"
-#include "../../ZFile.h"
-#include "../ZRoom.h"
 
-using namespace std;
+#include "BitConverter.h"
+#include "StringHelper.h"
+#include "ZFile.h"
+#include "ZRoom/ZRoom.h"
 
-SetCsCamera::SetCsCamera(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetCsCamera::SetCsCamera(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	_rawData = rawData;
-	_rawDataIndex = rawDataIndex;
+}
 
-	segmentOffset = 0;
-
-	int32_t numCameras = rawData[rawDataIndex + 1];
-	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
+void SetCsCamera::ParseRawData()
+{
+	ZRoomCommand::ParseRawData();
+	int numCameras = cmdArg1;
 
 	uint32_t currentPtr = segmentOffset;
 	int32_t numPoints = 0;
 
 	for (int32_t i = 0; i < numCameras; i++)
 	{
-		CsCameraEntry* entry = new CsCameraEntry(_rawData, currentPtr);
+		CsCameraEntry entry(parent->GetRawData(), currentPtr);
+		numPoints += entry.GetNumPoints();
 
+		currentPtr += entry.GetRawDataSize();
 		cameras.push_back(entry);
-		numPoints += entry->numPoints;
-
-		currentPtr += 8;
 	}
 
 	if (numPoints > 0)
 	{
-		uint32_t currentPtr = cameras[0]->segmentOffset;
+		uint32_t currentPtr = cameras.at(0).GetSegmentOffset();
 
 		for (int32_t i = 0; i < numPoints; i++)
 		{
-			int16_t x = BitConverter::ToInt16BE(rawData, currentPtr + 0);
-			int16_t y = BitConverter::ToInt16BE(rawData, currentPtr + 2);
-			int16_t z = BitConverter::ToInt16BE(rawData, currentPtr + 4);
-			Vec3s p = {x, y, z};
-			points.push_back(p);
-			currentPtr += 6;
+			ZVector vec(parent);
+			vec.SetRawData(parent->GetRawData());
+			vec.SetRawDataIndex(currentPtr);
+			vec.SetScalarType(ZScalarType::ZSCALAR_S16);
+			vec.SetDimensions(3);
+			vec.ParseRawData();
+
+			currentPtr += vec.GetRawDataSize();
+			points.push_back(vec);
 		}
 	}
 
 	if (segmentOffset != 0)
-		zRoom->parent->AddDeclarationPlaceholder(segmentOffset);
+		parent->AddDeclarationPlaceholder(segmentOffset);
 }
 
-SetCsCamera::~SetCsCamera()
+void SetCsCamera::DeclareReferences(const std::string& prefix)
 {
-	for (CsCameraEntry* entry : cameras)
-		delete entry;
-}
-
-string SetCsCamera::GetSourceOutputCode(std::string prefix)
-{
-	return "";
-}
-
-string SetCsCamera::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
-{
-	return "";
-}
-
-string SetCsCamera::GenerateSourceCodePass2(string roomName, uint32_t baseAddress)
-{
-	string sourceOutput = "";
-
-	sourceOutput +=
-		StringHelper::Sprintf("%s %i, (u32)&%sCsCameraList0x%06X };",
-	                          ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
-	                          cameras.size(), roomName.c_str(), segmentOffset);
-
 	if (points.size() > 0)
 	{
-		string declaration = "";
+		std::string declaration = "";
 		size_t index = 0;
-		for (Vec3s point : points)
+		for (auto& point : points)
 		{
-			declaration += StringHelper::Sprintf("	{ %i, %i, %i }, //0x%06X", point.x, point.y,
-			                                     point.z, cameras[0]->segmentOffset + (index * 6));
+			declaration +=
+				StringHelper::Sprintf("\t%s, //0x%06X", point.GetBodySourceCode().c_str(),
+			                          cameras.at(0).segmentOffset + (index * 6));
 
 			if (index < points.size() - 1)
 				declaration += "\n";
@@ -89,65 +66,97 @@ string SetCsCamera::GenerateSourceCodePass2(string roomName, uint32_t baseAddres
 			index++;
 		}
 
-		zRoom->parent->AddDeclarationArray(cameras[0]->segmentOffset, DeclarationAlignment::None,
-		                                   DeclarationPadding::None, points.size() * 6, "Vec3s",
-		                                   StringHelper::Sprintf("%sCsCameraPoints0x%06X",
-		                                                         roomName.c_str(),
-		                                                         cameras[0]->segmentOffset),
-		                                   points.size(), declaration);
+		uint32_t segOffset = cameras.at(0).GetSegmentOffset();
+
+		parent->AddDeclarationArray(
+			segOffset, DeclarationAlignment::Align4, points.size() * points.at(0).GetRawDataSize(),
+			points.at(0).GetSourceTypeName().c_str(),
+			StringHelper::Sprintf("%sCsCameraPoints_%06X", prefix.c_str(), segOffset),
+			points.size(), declaration);
 	}
 
+	if (!cameras.empty())
 	{
-		string declaration = "";
+		std::string camPointsName = parent->GetDeclarationName(cameras.at(0).GetSegmentOffset());
+		std::string declaration = "";
 
 		size_t index = 0;
 		size_t pointsIndex = 0;
-		for (CsCameraEntry* entry : cameras)
+		for (const auto& entry : cameras)
 		{
-			declaration += StringHelper::Sprintf("    %i, %i, (u32)&%sCsCameraPoints0x%06X[%i],",
-			                                     entry->type, entry->numPoints, roomName.c_str(),
-			                                     cameras[0]->segmentOffset, pointsIndex);
+			declaration +=
+				StringHelper::Sprintf("\t{ %i, %i, &%s[%i] },", entry.type, entry.numPoints,
+			                          camPointsName.c_str(), pointsIndex);
 
 			if (index < cameras.size() - 1)
 				declaration += "\n";
 
 			index++;
-			pointsIndex += entry->numPoints;
+			pointsIndex += entry.GetNumPoints();
 		}
 
-		zRoom->parent->AddDeclarationArray(
+		const auto& entry = cameras.front();
+		std::string camTypename = entry.GetSourceTypeName();
+
+		parent->AddDeclarationArray(
 			segmentOffset, DeclarationAlignment::Align4, DeclarationPadding::Pad16,
-			cameras.size() * 8, "CsCameraEntry",
-			StringHelper::Sprintf("%sCsCameraList0x%06X", roomName.c_str(), segmentOffset),
+			cameras.size() * entry.GetRawDataSize(), camTypename,
+			StringHelper::Sprintf("%s%s_%06X", prefix.c_str(), camTypename.c_str(), segmentOffset),
 			cameras.size(), declaration);
 	}
-
-	return sourceOutput;
 }
 
-size_t SetCsCamera::GetRawDataSize()
+std::string SetCsCamera::GetBodySourceCode() const
+{
+	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	return StringHelper::Sprintf("SCENE_CMD_ACTOR_CUTSCENE_CAM_LIST(%i, %s)", cameras.size(),
+	                             listName.c_str());
+}
+
+size_t SetCsCamera::GetRawDataSize() const
 {
 	return ZRoomCommand::GetRawDataSize() + (cameras.size() * 8) + (points.size() * 6);
 }
 
-string SetCsCamera::GenerateExterns()
-{
-	return "";
-}
-
-string SetCsCamera::GetCommandCName()
+std::string SetCsCamera::GetCommandCName() const
 {
 	return "SCmdCsCameraList";
 }
 
-RoomCommand SetCsCamera::GetRoomCommand()
+RoomCommand SetCsCamera::GetRoomCommand() const
 {
 	return RoomCommand::SetCsCamera;
 }
 
-CsCameraEntry::CsCameraEntry(std::vector<uint8_t> rawData, uint32_t rawDataIndex)
+CsCameraEntry::CsCameraEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
 	: baseOffset(rawDataIndex), type(BitConverter::ToInt16BE(rawData, rawDataIndex + 0)),
-	  numPoints(BitConverter::ToInt16BE(rawData, rawDataIndex + 2)),
-	  segmentOffset(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4)))
+	  numPoints(BitConverter::ToInt16BE(rawData, rawDataIndex + 2))
 {
+	camAddress = BitConverter::ToInt32BE(rawData, rawDataIndex + 4);
+	segmentOffset = GETSEGOFFSET(camAddress);
+}
+
+std::string CsCameraEntry::GetSourceTypeName() const
+{
+	return "CsCameraEntry";
+}
+
+int32_t CsCameraEntry::GetRawDataSize() const
+{
+	return 8;
+}
+
+int16_t CsCameraEntry::GetNumPoints() const
+{
+	return numPoints;
+}
+
+segptr_t CsCameraEntry::GetCamAddress() const
+{
+	return camAddress;
+}
+
+uint32_t CsCameraEntry::GetSegmentOffset() const
+{
+	return segmentOffset;
 }

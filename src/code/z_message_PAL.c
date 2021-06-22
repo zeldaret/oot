@@ -1,4 +1,5 @@
 #include "global.h"
+#include "textures/parameter_static/parameter_static.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801069B0.s")
 

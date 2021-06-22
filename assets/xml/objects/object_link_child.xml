@@ -174,7 +174,7 @@
         <Texture Name="gLinkChildBunnyHoodTex" OutName="link_child_bunny_hood" Format="rgb5a1" Width="16" Height="32" Offset="0x2BC28"/>
         <Texture Name="gLinkChildBunnyHoodEarTex" OutName="link_child_bunny_hood_ear" Format="rgb5a1" Width="16" Height="32" Offset="0x2C028"/>
         
-        <!--TLUTettes-->
+        <!--TLUTs-->
         <Texture Name="gLinkChildSkinTLUT" OutName="link_child_skin_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x5500"/>
         <Texture Name="gLinkChildHandTLUT" OutName="link_child_hand_tlut" Format="rgb5a1" Width="17" Height="4" Offset="0x9E88"/>
         <Texture Name="gLinkChildSwordsTLUT" OutName="link_child_swords_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x9F10"/> <!--For both the kokiri sword sheath and master sword-->

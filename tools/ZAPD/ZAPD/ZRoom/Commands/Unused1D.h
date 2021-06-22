@@ -1,15 +1,14 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class Unused1D : public ZRoomCommand
 {
 public:
-	Unused1D(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex);
+	Unused1D(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, uint32_t baseAddress) override;
-	virtual std::string GetCommandCName() override;
-	virtual RoomCommand GetRoomCommand() override;
+	std::string GetBodySourceCode() const override;
 
-private:
+	RoomCommand GetRoomCommand() const override;
+	std::string GetCommandCName() const override;
 };

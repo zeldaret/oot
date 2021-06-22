@@ -55,12 +55,13 @@ For macOS, use homebrew to install the following dependencies:
 * make
 * python3
 * md5sha1sum
+* libpng
 
 You can install them with the following commands:
 
 ```bash
 brew update
-brew install coreutils make python3 md5sha1sum
+brew install coreutils make python3 md5sha1sum libpng
 ```
 
 You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).
@@ -80,12 +81,13 @@ The build process has the following package requirements:
 * build-essential
 * binutils-mips-linux-gnu
 * python3
+* libpng-dev
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu python3
+sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-dev
 ```
 
 #### 2. Clone the repository
@@ -142,7 +144,6 @@ This means that the built ROM isn't the same as the base one, so something went 
 
 Both of these have the disadvantage that the ordering of the terminal output is scrambled, so for debugging it is best to stick to one thread (i.e. not pass `-j` or `-jN`).
 
-
 ### Cygwin
 
 If you want to use Cygwin, you will need to:
@@ -156,6 +157,7 @@ Once mips-linux-binutils is installed you will need to install the following pac
 * libiconv
 * dos2unix
 * python3
+* libpng-devel
 
 Then you can continue from step [step 2](#2-clone-the-repository) of the Linux instructions.
 

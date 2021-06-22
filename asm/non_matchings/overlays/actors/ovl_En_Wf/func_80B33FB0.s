@@ -230,7 +230,7 @@ glabel func_80B33FB0
 /* 00648 80B342F8 45000018 */  bc1f    .L80B3435C                 
 /* 0064C 80B342FC 00031C03 */  sra     $v1, $v1, 16               
 /* 00650 80B34300 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00654 80B34304 0C00CEAE */  jal     func_80033AB8              
+/* 00654 80B34304 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 00658 80B34308 A7A3002E */  sh      $v1, 0x002E($sp)           
 /* 0065C 80B3430C 14400013 */  bne     $v0, $zero, .L80B3435C     
 /* 00660 80B34310 87A3002E */  lh      $v1, 0x002E($sp)           
