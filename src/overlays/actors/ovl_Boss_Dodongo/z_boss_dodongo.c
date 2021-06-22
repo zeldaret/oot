@@ -692,9 +692,9 @@ void BossDodongo_Walk(BossDodongo* this, GlobalContext* globalCtx) {
     } else if (this->unk_1BC != 2) {
         if (((s32)this->skelAnime.curFrame == 1) || ((s32)this->skelAnime.curFrame == 31)) {
             if ((s32)this->skelAnime.curFrame == 1) {
-                func_80033260(globalCtx, &this->actor, &this->unk_410, 25.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
+                Actor_SpawnFloorDust(globalCtx, &this->actor, &this->unk_410, 25.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
             } else {
-                func_80033260(globalCtx, &this->actor, &this->unk_404, 25.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
+                Actor_SpawnFloorDust(globalCtx, &this->actor, &this->unk_404, 25.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
             }
 
             if (this->unk_1BC != 0) {
@@ -789,7 +789,7 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
             }
 
             if (!(this->unk_19E & 1)) {
-                func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA, 0);
+                Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA, 0);
             }
         }
     }
@@ -1257,7 +1257,7 @@ void BossDodongo_UpdateDamage(BossDodongo* this, GlobalContext* globalCtx) {
 
     if ((this->health <= 0) && (this->actionFunc != BossDodongo_DeathCutscene)) {
         BossDodongo_SetupDeathCutscene(this);
-        func_80032C7C(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
         return;
     }
 
@@ -1421,7 +1421,8 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                     Camera_AddQuake(&globalCtx->mainCamera, 2, 1, 8);
                 }
                 if (!(this->unk_19E & 1)) {
-                    func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA, 0);
+                    Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA,
+                                         0);
                 }
                 tempSin = cornerPos->x - this->actor.world.pos.x;
                 tempCos = cornerPos->z - this->actor.world.pos.z;
@@ -1545,7 +1546,8 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             } else {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_ROLL - SFX_FLAG);
                 if (!(this->unk_19E & 1)) {
-                    func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA, 0);
+                    Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA,
+                                         0);
                 }
             }
             Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.2f, 0.1f, 0.0f);

@@ -272,7 +272,7 @@ void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
 
     if (this->bodyCollider.base.acFlags & AC_HIT) {
         EnKarebaba_SetupDying(this);
-        func_80032C7C(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
     } else if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) > 240.0f) {
         EnKarebaba_SetupRetract(this);
     } else if (this->actor.params == 0) {
@@ -315,7 +315,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
 
     if (this->bodyCollider.base.acFlags & AC_HIT) {
         EnKarebaba_SetupDying(this);
-        func_80032C7C(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
     } else if (this->actor.params == 0) {
         EnKarebaba_SetupUpright(this);
     }

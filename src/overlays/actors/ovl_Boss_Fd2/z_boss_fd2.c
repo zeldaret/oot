@@ -886,7 +886,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 this->work[FD2_INVINC_TIMER] = 30000;
                 Audio_SetBGM(0x100100FF);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DEAD);
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
             } else if (damage) {
                 BossFd2_SetupDamaged(this, globalCtx);
                 this->work[FD2_DAMAGE_FLASH_TIMER] = 10;
