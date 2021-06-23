@@ -202,29 +202,29 @@ typedef struct {
     /* 0x00 */ Vec3f    pos;
     /* 0x0C */ f32      radius;
     /* 0x10 */ Color_RGB8 color;
-} TargetInfo; // size = 0x14
+} TargetTriangle; // size = 0x14
 
 typedef struct {
-    /* 0x00 */ Vec3f    targetPos;
-    /* 0x0C */ Vec3f    targetProjectedPos;
+    /* 0x00 */ Vec3f targetPos;
+    /* 0x0C */ Vec3f targetProjectedPos;
     /* 0x18 */ Color_RGBAf naviCenterColor;
     /* 0x28 */ Color_RGBAf naviOuterColor;
-    /* 0x38 */ Actor*   arrowPointedActor;
-    /* 0x3C */ Actor*   targetedActor; // actor being locked on
-    /* 0x40 */ f32      translateRatio;
-    /* 0x44 */ f32      targetRadius;
-    /* 0x48 */ s16      targetTimer; // timer used for setting the alpha of the target blur
-    /* 0x4A */ u8       arrowActorCat; // category of the actor pointed to by the target arrow
-    /* 0x4B */ u8       unk_4B;
-    /* 0x4C */ s8       targetBlurCount;
-    /* 0x50 */ TargetInfo targetInfo[TARGET_BLUR_MAX];
-    /* 0x8C */ Actor*   targetRequestActor; // an actor can set this to request to become the targeted actor
-    /* 0x90 */ Actor*   enemyBgmActor; // actor which the enemy BGM radiates from
-    /* 0x94 */ Actor*   arrowPointedDrawActor; // set to `arrowPointedActor` when the target arrow should draw, otherwise NULL
+    /* 0x38 */ Actor* arrowPointedActor;
+    /* 0x3C */ Actor* targetedActor; // actor being locked on to
+    /* 0x40 */ f32 translateRatio;
+    /* 0x44 */ f32 targetRadius;
+    /* 0x48 */ s16 targetTimer;  // timer used for setting the alpha of the target blur
+    /* 0x4A */ u8 arrowActorCat; // category of the actor pointed to by the target arrow
+    /* 0x4B */ u8 unk_4B;
+    /* 0x4C */ s8 targetTriangleCount;
+    /* 0x50 */ TargetTriangle targetTriangle[TARGET_BLUR_MAX];  // info defining the triangles used for the blur effect when locking on
+    /* 0x8C */ Actor* targetRequestActor; // an actor can set this to request to become the targeted actor
+    /* 0x90 */ Actor* enemyBgmActor;      // actor which the enemy BGM radiates from
+    /* 0x94 */ Actor* arrowPointedDrawActor; // set to `arrowPointedActor` when the target arrow should draw, otherwise NULL
 } TargetContext; // size = 0x98
 
 typedef struct {
-    /* 0x00 */ void*      texture;
+    /* 0x00 */ void*    texture;
     /* 0x04 */ s16      x;
     /* 0x06 */ s16      y;
     /* 0x08 */ u8       width;

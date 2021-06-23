@@ -218,13 +218,14 @@ void Math_GetProjectionPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest,
 }
 
 void Target_SetPos(TargetContext* targetCtx, s32 targetIndex, f32 x, f32 y, f32 z) {
-    targetCtx->targetInfo[targetIndex].pos.x = x;
-    targetCtx->targetInfo[targetIndex].pos.y = y;
-    targetCtx->targetInfo[targetIndex].pos.z = z;
-    targetCtx->targetInfo[targetIndex].radius = targetCtx->targetRadius;
+    targetCtx->targetTriangle[targetIndex].pos.x = x;
+    targetCtx->targetTriangle[targetIndex].pos.y = y;
+    targetCtx->targetTriangle[targetIndex].pos.z = z;
+    targetCtx->targetTriangle[targetIndex].radius = targetCtx->targetRadius;
 }
 
 // Used for both the Z Target and Navi when targetting
+// The second color is used only for Navi
 static Color_RGBA8 sNaviTargetColorList[][2] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH,
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_BG,
@@ -242,7 +243,7 @@ static Color_RGBA8 sNaviTargetColorList[][2] = {
 };
 
 void Target_InitBlurData(TargetContext* targetCtx, s32 actorCategory, GlobalContext* globalCtx) {
-    TargetInfo* entry;
+    TargetTriangle* entry;
     Color_RGBA8* targetColor;
     s32 i;
 
@@ -252,8 +253,8 @@ void Target_InitBlurData(TargetContext* targetCtx, s32 actorCategory, GlobalCont
 
     targetColor = &sNaviTargetColorList[actorCategory][0];
 
-    entry = &targetCtx->targetInfo[0];
-    for (i = 0; i < ARRAY_COUNT(targetCtx->targetInfo); i++) {
+    for (entry = &targetCtx->targetTriangle[0], i = 0; i < ARRAY_COUNT(targetCtx->targetTriangle); i++) {
+        // Set all of the targetTriangle entries to the same color and position
         Target_SetPos(targetCtx, i, 0.0f, 0.0f, 0.0f);
         entry->color.r = targetColor->r;
         entry->color.g = targetColor->g;
@@ -283,7 +284,7 @@ void Target_Init(TargetContext* targetCtx, Actor* actor, GlobalContext* globalCt
     targetCtx->targetRequestActor = NULL;
     targetCtx->enemyBgmActor = NULL;
     targetCtx->unk_4B = 0;
-    targetCtx->targetBlurCount = 0;
+    targetCtx->targetTriangleCount = 0;
     Target_InitData(targetCtx, actor, actor->category, globalCtx);
     Target_InitBlurData(targetCtx, actor->category, globalCtx);
 }
@@ -298,7 +299,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2029);
 
     if (targetCtx->targetTimer != 0) {
-        TargetInfo* entry;
+        TargetTriangle* entry;
         Player* player = PLAYER;
         s16 alpha = 255;
         s32 pad;
@@ -337,18 +338,18 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
         targetPos.y = CLAMP(targetPos.y, -240.0f, 240.0f);
         targetPos.z = targetPos.z * translateRatio;
 
-        targetCtx->targetBlurCount--;
-        if (targetCtx->targetBlurCount < 0) {
-            targetCtx->targetBlurCount = 2;
+        targetCtx->targetTriangleCount--;
+        if (targetCtx->targetTriangleCount < 0) {
+            targetCtx->targetTriangleCount = 2;
         }
 
-        Target_SetPos(targetCtx, targetCtx->targetBlurCount, targetPos.x, targetPos.y, targetPos.z);
+        Target_SetPos(targetCtx, targetCtx->targetTriangleCount, targetPos.x, targetPos.y, targetPos.z);
 
         if ((!(player->stateFlags1 & 0x40)) || (actor != player->unk_664)) {
             OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x39);
 
-            for (i = 0, j = targetCtx->targetBlurCount; i < blurNum; i++, j = (j + 1) % TARGET_BLUR_MAX) {
-                entry = &targetCtx->targetInfo[j];
+            for (i = 0, j = targetCtx->targetTriangleCount; i < blurNum; i++, j = (j + 1) % TARGET_BLUR_MAX) {
+                entry = &targetCtx->targetTriangle[j];
 
                 if (entry->radius < 500.0f) {
                     s32 k;
@@ -366,7 +367,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
                     Matrix_RotateZ((targetCtx->unk_4B & 0x7F) * (M_PI / 64), MTXMODE_APPLY);
 
-                    for (k = 0; k < 4; k++) {
+                    for (k = 0; k < TARGET_BLUR_MAX + 1; k++) {
                         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
                         Matrix_Push();
                         Matrix_Translate(entry->radius, entry->radius, 0.0f, MTXMODE_APPLY);
@@ -405,7 +406,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
 void Target_Update(TargetContext* targetCtx, Player* player, Actor* actorArg, GlobalContext* globalCtx) {
     s32 pad;
-    Actor* naviTarget = NULL; // Actor that Navi is currently targetting
+    Actor* targetFocusActor = NULL; // Actor that Navi is currently targetting
     s32 actorCategory;
     Vec3f cameraPos;
     f32 cameraW;
@@ -413,46 +414,47 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
     if ((player->unk_664 != NULL) && (player->unk_84B[player->unk_846] == 2)) {
         targetCtx->arrowPointedDrawActor = NULL;
     } else {
-        func_80032AF0(globalCtx, &globalCtx->actorCtx, &naviTarget, player);
-        targetCtx->arrowPointedDrawActor = naviTarget;
+        func_80032AF0(globalCtx, &globalCtx->actorCtx, &targetFocusActor, player);
+        targetCtx->arrowPointedDrawActor = targetFocusActor;
     }
 
     // Determine the actor for Navi to target
     if (targetCtx->targetRequestActor != NULL) {
-        naviTarget = targetCtx->targetRequestActor;
+        targetFocusActor = targetCtx->targetRequestActor;
         targetCtx->targetRequestActor = NULL;
     } else if (actorArg != NULL) {
-        naviTarget = actorArg;
+        targetFocusActor = actorArg;
     }
 
-    if (naviTarget != NULL) {
-        actorCategory = naviTarget->category;
+    if (targetFocusActor != NULL) {
+        actorCategory = targetFocusActor->category;
     } else {
         actorCategory = player->actor.category;
     }
 
-    if ((naviTarget != targetCtx->arrowPointedActor) || (actorCategory != targetCtx->arrowActorCat)) {
-        targetCtx->arrowPointedActor = naviTarget;
+    if ((targetFocusActor != targetCtx->arrowPointedActor) || (actorCategory != targetCtx->arrowActorCat)) {
+        targetCtx->arrowPointedActor = targetFocusActor;
         targetCtx->arrowActorCat = actorCategory;
         targetCtx->translateRatio = 1.0f;
     }
 
-    if (naviTarget == NULL) {
-        naviTarget = &player->actor;
+    if (targetFocusActor == NULL) {
+        targetFocusActor = &player->actor;
     }
 
     if (Math_StepToF(&targetCtx->translateRatio, 0.0f, 0.25f) == 0) {
         f32 translateRatio = 0.25f / targetCtx->translateRatio;
-        f32 deltaX = naviTarget->world.pos.x - targetCtx->targetPos.x;
+        f32 deltaX = targetFocusActor->world.pos.x - targetCtx->targetPos.x;
         f32 deltaY =
-            (naviTarget->world.pos.y + (naviTarget->targetArrowOffset * naviTarget->scale.y)) - targetCtx->targetPos.y;
-        f32 deltaZ = naviTarget->world.pos.z - targetCtx->targetPos.z;
+            (targetFocusActor->world.pos.y + (targetFocusActor->targetArrowOffset * targetFocusActor->scale.y)) -
+            targetCtx->targetPos.y;
+        f32 deltaZ = targetFocusActor->world.pos.z - targetCtx->targetPos.z;
 
         targetCtx->targetPos.x += deltaX * translateRatio;
         targetCtx->targetPos.y += deltaY * translateRatio;
         targetCtx->targetPos.z += deltaZ * translateRatio;
     } else {
-        Target_InitData(targetCtx, naviTarget, actorCategory, globalCtx);
+        Target_InitData(targetCtx, targetFocusActor, actorCategory, globalCtx);
     }
 
     if ((actorArg != NULL) && (targetCtx->unk_4B == 0)) {
