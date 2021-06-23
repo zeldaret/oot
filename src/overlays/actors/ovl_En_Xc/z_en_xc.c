@@ -589,11 +589,11 @@ void EnXc_CalcXZAccel(EnXc* this) {
         *speedXZ = (kREG(2) * 0.01f) + 1.2f;
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 }
 
 void func_80B3D644(EnXc* this) {
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 }
 
 void EnXc_CalcXZSpeed(EnXc* this) {
@@ -605,7 +605,7 @@ void EnXc_CalcXZSpeed(EnXc* this) {
     } else {
         *speedXZ = 0.0f;
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 }
 
 void func_80B3D6F0(EnXc* this) {
@@ -613,7 +613,7 @@ void func_80B3D6F0(EnXc* this) {
 }
 
 void func_80B3D710(EnXc* this) {
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 }
 
 void func_80B3D730(EnXc* this) {

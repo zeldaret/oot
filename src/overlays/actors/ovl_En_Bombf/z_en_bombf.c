@@ -339,7 +339,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (thisx->params == BOMBFLOWER_BODY) {
-        Actor_MoveForward(thisx);
+        Actor_MoveForwardXZ(thisx);
     }
 
     if (thisx->gravity != 0.0f) {
@@ -362,7 +362,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 thisx->world.rot.y = ((thisx->wallYaw - thisx->world.rot.y) + thisx->wallYaw) - 0x8000;
             }
             Audio_PlayActorSound2(thisx, NA_SE_EV_BOMB_BOUND);
-            Actor_MoveForward(thisx);
+            Actor_MoveForwardXZ(thisx);
             DREG(6) = 1;
             Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 0.0f, 0x1F);
             DREG(6) = 0;

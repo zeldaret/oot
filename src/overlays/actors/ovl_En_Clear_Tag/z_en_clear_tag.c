@@ -240,9 +240,9 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->state = CLEAR_TAG_STATE_LASER;
         this->timers[CLEAR_TAG_TIMER_LASER_DEATH] = 70;
         this->actor.speedXZ = 35.0f;
-        func_8002D908(&this->actor);
+        Actor_SetMovementSpeedXYZ(&this->actor);
         for (j = 0; j <= 0; j++) {
-            func_8002D7EC(&this->actor);
+            Actor_Move(&this->actor);
         }
         this->actor.scale.x = 0.4f;
         this->actor.scale.y = 0.4f;
@@ -250,7 +250,7 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.speedXZ = 70.0f;
         this->actor.shape.rot.x = -this->actor.shape.rot.x;
 
-        func_8002D908(&this->actor);
+        Actor_SetMovementSpeedXYZ(&this->actor);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sLaserCylinderInit);
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
     } else { // Initialize the Arwing.
@@ -477,7 +477,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->actor.shape.rot.x = -this->actor.shape.rot.x;
 
                 // Update the Arwing's velocity.
-                func_8002D908(&this->actor);
+                Actor_SetMovementSpeedXYZ(&this->actor);
                 this->actor.velocity.x += this->acceleration.x;
                 this->actor.velocity.y += this->acceleration.y;
                 this->actor.velocity.z += this->acceleration.z;
@@ -499,7 +499,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     this->crashingTimer--;
                 }
 
-                func_8002D7EC(&this->actor);
+                Actor_Move(&this->actor);
 
                 Actor_SetFocus(&this->actor, 0.0f);
 
@@ -544,7 +544,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 break;
 
             case CLEAR_TAG_STATE_LASER:
-                func_8002D7EC(&this->actor);
+                Actor_Move(&this->actor);
 
                 // Check if the laser has hit a target.
                 if (this->collider.base.atFlags & AT_HIT) {

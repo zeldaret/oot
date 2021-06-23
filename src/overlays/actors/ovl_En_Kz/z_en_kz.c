@@ -457,7 +457,7 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelanime);
     EnKz_UpdateEyes(this);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     if (this->actionFunc != EnKz_StartTimer) {
         func_80A9CB18(this, globalCtx);
     }

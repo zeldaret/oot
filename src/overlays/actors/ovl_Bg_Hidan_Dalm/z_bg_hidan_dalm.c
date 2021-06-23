@@ -182,7 +182,7 @@ void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanDalm* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForwardXZ(&this->dyna.actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 15.0f, 32.0f, 5);
 }
 

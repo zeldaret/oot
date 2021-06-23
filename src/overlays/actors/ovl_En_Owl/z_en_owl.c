@@ -1111,7 +1111,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actor.draw != NULL) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
     }
 
     if (this->actionFlags & 2) {

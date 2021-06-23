@@ -194,13 +194,13 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, GlobalContext* globalCtx) {
         if (this->actor.speedXZ < 0.1f) {
             this->actor.speedXZ = 5.0f;
         }
-        func_8002D868(&this->actor);
+        Actor_SetMovementSpeedXZ(&this->actor);
     }
 }
 
 void EnFdFire_Disappear(EnFdFire* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.6f, 9.0f, 0.0f);
-    func_8002D868(&this->actor);
+    Actor_SetMovementSpeedXZ(&this->actor);
     Math_SmoothStepToF(&this->scale, 0.0f, 0.3f, 0.1f, 0.0f);
     this->actor.shape.shadowScale = 20.0f;
     this->actor.shape.shadowScale *= (this->scale / 3.0f);
@@ -219,7 +219,7 @@ void EnFdFire_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    func_8002D7EC(&this->actor);
+    Actor_Move(&this->actor);
     this->actionFunc(this, globalCtx);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 12.0f, 10.0f, 0.0f, 5);
 

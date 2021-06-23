@@ -181,7 +181,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += (s16)this->yRotVel;
     this->actor.velocity.y += -1.0f;
     this->actor.gravity = -1.0f;
-    func_8002D7EC(&this->actor);
+    Actor_Move(&this->actor);
     if (this->actor.params >= 200) {
         EnVbBall_UpdateBones(this, globalCtx2);
     } else {

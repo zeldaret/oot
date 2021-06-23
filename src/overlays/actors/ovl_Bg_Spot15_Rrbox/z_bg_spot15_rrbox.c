@@ -322,7 +322,7 @@ void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
     }
 
-    Actor_MoveForward(actor);
+    Actor_MoveForwardXZ(actor);
 
     if (actor->world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
         // Lon Lon wooden crate fell too much

@@ -133,9 +133,9 @@ glabel func_8093A2AC
 /* 017AC 8093A47C 0C01E107 */  jal     Math_ApproachF
               
 /* 017B0 8093A480 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
-/* 017B4 8093A484 0C00B642 */  jal     func_8002D908              
+/* 017B4 8093A484 0C00B642 */  jal     Actor_SetMovementSpeedXYZ              
 /* 017B8 8093A488 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 017BC 8093A48C 0C00B5FB */  jal     func_8002D7EC              
+/* 017BC 8093A48C 0C00B5FB */  jal     Actor_Move              
 /* 017C0 8093A490 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 017C4 8093A494 86090178 */  lh      $t1, 0x0178($s0)           ## 00000178
 /* 017C8 8093A498 C7A60028 */  lwc1    $f6, 0x0028($sp)           

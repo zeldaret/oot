@@ -361,7 +361,7 @@ void EnFw_Update(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->actor.flags & 0x2000) != 0x2000) {
         // not attached to hookshot.
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 20.0f, 0.0f, 5);
         this->actionFunc(this, globalCtx);
         if (this->damageTimer == 0 && this->explosionTimer == 0 && this->actionFunc == EnFw_Run) {

@@ -1046,7 +1046,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if (this->actionFunc != EnFloormas_GrabLink) {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveForwardXZ(&this->actor);
         }
 
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->actor.scale.x * 3000.0f, 0.0f, 0x1D);

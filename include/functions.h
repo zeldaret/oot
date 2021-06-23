@@ -376,16 +376,16 @@ void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx
                             u8 height);
 void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x, s32 y,
                              s32 width, s32 height, s32 delay);
-s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx);
+s32 TitleCard_Disable(GlobalContext* globalCtx, TitleCardContext* titleCtx);
 void Actor_Kill(Actor* actor);
 void Actor_SetFocus(Actor* actor, f32 offset);
 void Actor_SetScale(Actor* actor, f32 scale);
 void Actor_SetObjectDependency(GlobalContext* globalCtx, Actor* actor);
-s16 func_8002D7EC(Actor* actor);
-void func_8002D868(Actor* actor);
-void Actor_MoveForward(Actor* actor);
-void func_8002D908(Actor* actor);
-void func_8002D97C(Actor* actor);
+s16 Actor_Move(Actor* actor);
+void Actor_SetMovementSpeedXZ(Actor* actor);
+void Actor_MoveForwardXZ(Actor* actor);
+void Actor_SetMovementSpeedXYZ(Actor* actor);
+void Actor_MoveForwardXYZ(Actor* actor);
 void func_8002D9A4(Actor* actor, f32 arg1);
 s16 Actor_WorldYawTowardActor(Actor* actorA, Actor* actorB);
 s16 Actor_WorldYawTowardPoint(Actor* actor, Vec3f* refPoint);

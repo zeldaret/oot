@@ -976,7 +976,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     thisx->shape.shadowScale = 15.0f;
     this->actionFunc(this, globalCtx);
     Actor_SetFocus(&this->actor, this->unk_304);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 
     if (this->actionFunc != func_80AB6EB4 && this->actionFunc != func_80AB6450 && globalCtx->sceneNum != SCENE_SPOT03) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 31);

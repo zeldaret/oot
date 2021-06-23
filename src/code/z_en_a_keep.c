@@ -316,7 +316,7 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnAObj* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForwardXZ(&this->dyna.actor);
 
     if (this->dyna.actor.gravity != 0.0f) {
         if (this->dyna.actor.params != A_OBJ_KNOB) {

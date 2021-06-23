@@ -46,7 +46,7 @@ glabel EnZf_Update
 .L80B492F8:
 /* 052A8 80B492F8 55000004 */  bnel    $t0, $zero, .L80B4930C     
 /* 052AC 80B492FC 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
-/* 052B0 80B49300 0C00B638 */  jal     Actor_MoveForward
+/* 052B0 80B49300 0C00B638 */  jal     Actor_MoveForwardXZ
               
 /* 052B4 80B49304 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 052B8 80B49308 3C014270 */  lui     $at, 0x4270                ## $at = 42700000

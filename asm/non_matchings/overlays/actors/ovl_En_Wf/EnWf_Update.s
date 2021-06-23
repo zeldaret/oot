@@ -15,7 +15,7 @@ glabel EnWf_Update
 /* 03578 80B37228 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 0357C 80B3722C 51C10016 */  beql    $t6, $at, .L80B37288       
 /* 03580 80B37230 96180088 */  lhu     $t8, 0x0088($s0)           ## 00000088
-/* 03584 80B37234 0C00B638 */  jal     Actor_MoveForward
+/* 03584 80B37234 0C00B638 */  jal     Actor_MoveForwardXZ
               
 /* 03588 80B37238 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0358C 80B3723C 3C014270 */  lui     $at, 0x4270                ## $at = 42700000

@@ -1914,7 +1914,7 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
     if (!this->doNotMoveThisFrame) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
     } else {
         this->doNotMoveThisFrame = false;
     }

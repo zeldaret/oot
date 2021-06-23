@@ -575,7 +575,7 @@ void EnFr_UpdateActive(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Update(&this->skelAnime);
         SkelAnime_Update(&this->skelAnimeButterfly);
         EnFr_ButterflyPath(this, globalCtx);
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
     }
 }
 

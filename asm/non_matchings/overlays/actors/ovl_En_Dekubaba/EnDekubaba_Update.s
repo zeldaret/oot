@@ -25,7 +25,7 @@ glabel EnDekubaba_Update
 /* 02C78 809E8448 27187BB0 */  addiu   $t8, $t8, %lo(func_809E7BB0) ## $t8 = 809E7BB0
 /* 02C7C 809E844C 17020015 */  bne     $t8, $v0, .L809E84A4       
 /* 02C80 809E8450 3C03809F */  lui     $v1, %hi(func_809E80D8)    ## $v1 = 809F0000
-/* 02C84 809E8454 0C00B638 */  jal     Actor_MoveForward
+/* 02C84 809E8454 0C00B638 */  jal     Actor_MoveForwardXZ
               
 /* 02C88 809E8458 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02C8C 809E845C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

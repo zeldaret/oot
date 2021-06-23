@@ -18,7 +18,7 @@ glabel EnTest_Update
 /* 04060 808636B0 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 04064 808636B4 51C100A7 */  beql    $t6, $at, .L80863954
 /* 04068 808636B8 26050810 */  addiu   $a1, $s0, 0x0810           ## $a1 = 00000810
-/* 0406C 808636BC 0C00B638 */  jal     Actor_MoveForward
+/* 0406C 808636BC 0C00B638 */  jal     Actor_MoveForwardXZ
 
 /* 04070 808636C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 04074 808636C4 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

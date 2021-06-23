@@ -1042,7 +1042,7 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGo_UpdateShadow(this);
 
     if (this->unk_1E0.unk_00 == 0) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
     }
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);

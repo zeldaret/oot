@@ -762,7 +762,7 @@ void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx) {
         this->actor.gravity = 0.0f;
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 }
 
 void BossGanondrof_SetupBlock(BossGanondrof* this, GlobalContext* globalCtx) {
@@ -848,8 +848,8 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
                     Math_FAtan2F(vecToLink.y, sqrtf(SQ(vecToLink.x) + SQ(vecToLink.z))) * (0x8000 / M_PI);
             }
 
-            func_8002D908(thisx);
-            func_8002D7EC(thisx);
+            Actor_SetMovementSpeedXYZ(thisx);
+            Actor_Move(thisx);
             Math_ApproachF(&thisx->speedXZ, 10.0f, 1.0f, 0.5f);
             if ((sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) || (thisx->xyzDistToPlayerSq < SQ(100.0f))) {
                 this->work[GND_ACTION_STATE] = CHARGE_FINISH;
@@ -858,7 +858,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             break;
         case CHARGE_FINISH:
             thisx->gravity = 0.2f;
-            Actor_MoveForward(thisx);
+            Actor_MoveForwardXZ(thisx);
             osSyncPrintf("YP %f @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n", thisx->world.pos.y);
             if (thisx->world.pos.y < 5.0f) {
                 thisx->world.pos.y = 5.0f;

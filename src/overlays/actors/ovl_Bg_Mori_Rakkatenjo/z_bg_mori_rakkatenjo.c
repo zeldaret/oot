@@ -150,7 +150,7 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s32 quake;
 
-    Actor_MoveForward(thisx);
+    Actor_MoveForwardXZ(thisx);
     if ((thisx->velocity.y < 0.0f) && (thisx->world.pos.y <= 403.0f)) {
         if (this->bounceCount >= ARRAY_COUNT(bounceVel)) {
             BgMoriRakkatenjo_SetupRest(this);

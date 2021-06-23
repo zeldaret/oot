@@ -662,7 +662,7 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, 5);
 

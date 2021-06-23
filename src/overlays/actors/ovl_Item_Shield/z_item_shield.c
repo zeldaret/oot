@@ -100,7 +100,7 @@ void ItemShield_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B86AC8(ItemShield* this, GlobalContext* globalCtx) {
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     if (Actor_HasParent(&this->actor, globalCtx)) {
         Actor_Kill(&this->actor);
         return;
@@ -150,7 +150,7 @@ void func_80B86CA8(ItemShield* this, GlobalContext* globalCtx) {
     s32 i;
     s32 temp;
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
     this->actor.shape.yOffset = ABS(Math_SinS(this->actor.shape.rot.x)) * 1500.0f;
 

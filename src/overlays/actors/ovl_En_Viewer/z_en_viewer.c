@@ -302,7 +302,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
     }
 
     EnViewer_GetCutsceneNextPos(this, globalCtx);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     animationEnded = SkelAnime_Update(&this->skin.skelAnime);
     if (params == 3 || params == 4) {
         if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL) {

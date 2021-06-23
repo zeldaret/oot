@@ -535,7 +535,7 @@ void EnAm_MoveToHome(EnAm* this, GlobalContext* globalCtx) {
     // turn away from a wall if touching one
     if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 8)) {
         this->dyna.actor.world.rot.y = this->dyna.actor.wallYaw;
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveForwardXZ(&this->dyna.actor);
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -643,7 +643,7 @@ void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx) {
         if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 8)) {
             this->dyna.actor.world.rot.y =
                 (this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw;
-            Actor_MoveForward(&this->dyna.actor);
+            Actor_MoveForwardXZ(&this->dyna.actor);
             this->dyna.actor.bgCheckFlags &= ~8;
         }
 
@@ -887,7 +887,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveForwardXZ(&this->dyna.actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 28.0f, 80.0f, 0x1D);
     }
 

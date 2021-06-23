@@ -758,7 +758,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         } else {
             sp3A = 1;
-            Actor_MoveForward(&this->actor);
+            Actor_MoveForwardXZ(&this->actor);
         }
 
         if (sp3A || D_80157D94) {

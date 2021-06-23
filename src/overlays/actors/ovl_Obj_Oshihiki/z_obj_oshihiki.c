@@ -500,7 +500,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
     DynaPolyActor* dynaPolyActor;
 
     this->stateFlags |= PUSHBLOCK_ON_ACTOR;
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForwardXZ(&this->dyna.actor);
 
     if (ObjOshihiki_CheckFloor(this, globalCtx)) {
         bgId = this->floorBgIds[this->highestFloor];
@@ -614,7 +614,7 @@ void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;
     }
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForwardXZ(&this->dyna.actor);
     if (ObjOshihiki_CheckGround(this, globalCtx)) {
         if (this->floorBgIds[this->highestFloor] == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, globalCtx);

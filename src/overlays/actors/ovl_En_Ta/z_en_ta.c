@@ -412,7 +412,7 @@ void func_80B14818(EnTa* this, GlobalContext* globalCtx) {
     if (this->actor.speedXZ < 6.0f) {
         this->actor.speedXZ += 0.4f;
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 }
 
 void func_80B14898(EnTa* this, GlobalContext* globalCtx) {
@@ -1156,7 +1156,7 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->unk_260(this);
     this->unk_25C(this, globalCtx);

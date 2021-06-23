@@ -111,7 +111,7 @@ glabel func_8094A398
 /* 11848 8094A518 0C01E107 */  jal     Math_ApproachF
               
 /* 1184C 8094A51C 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
-/* 11850 8094A520 0C00B642 */  jal     func_8002D908              
+/* 11850 8094A520 0C00B642 */  jal     Actor_SetMovementSpeedXYZ              
 /* 11854 8094A524 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 11858 8094A528 C600005C */  lwc1    $f0, 0x005C($s0)           ## 0000005C
 /* 1185C 8094A52C 3C013FC0 */  lui     $at, 0x3FC0                ## $at = 3FC00000

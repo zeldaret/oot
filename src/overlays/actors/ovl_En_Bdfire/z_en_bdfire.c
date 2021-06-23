@@ -194,7 +194,7 @@ void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_156++;
     this->actionFunc(this, globalCtx);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 }
 
 void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {

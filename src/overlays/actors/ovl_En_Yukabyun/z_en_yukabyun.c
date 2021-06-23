@@ -132,7 +132,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->actionfunc(this, globalCtx);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 
     if (!(this->actionfunc == func_80B43A94 || this->actionfunc == EnYukabyun_Break)) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f, 5);

@@ -36,7 +36,7 @@ glabel func_80AC73B4
 /* 04798 80AC7438 0320F809 */  jalr    $ra, $t9                   
 /* 0479C 80AC743C 00000000 */  nop
 .L80AC7440:
-/* 047A0 80AC7440 0C00B638 */  jal     Actor_MoveForward
+/* 047A0 80AC7440 0C00B638 */  jal     Actor_MoveForwardXZ
               
 /* 047A4 80AC7444 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 047A8 80AC7448 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

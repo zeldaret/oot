@@ -218,18 +218,13 @@ void func_8002BE04(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest, f32* wD
 }
 
 void Target_SetPos(TargetContext* targetCtx, s32 targetIndex, f32 x, f32 y, f32 z) {
-    targetCtx->arr_50[targetIndex].pos.x = x;
-    targetCtx->arr_50[targetIndex].pos.y = y;
-    targetCtx->arr_50[targetIndex].pos.z = z;
-    targetCtx->arr_50[targetIndex].unk_0C = targetCtx->unk_44;
+    targetCtx->targetInfo[targetIndex].pos.x = x;
+    targetCtx->targetInfo[targetIndex].pos.y = y;
+    targetCtx->targetInfo[targetIndex].pos.z = z;
+    targetCtx->targetInfo[targetIndex].radius = targetCtx->targetRadius;
 }
 
-typedef struct {
-    /* 0x00 */ Color_RGBA8 inner;
-    /* 0x04 */ Color_RGBA8 outer;
-} TargetColor; // size = 0x8
-
-static TargetColor sTargetColorList[] = {
+static Color_RGBA8 sTargetColorList[][2] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH,
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_BG,
     { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     // ACTORCAT_PLAYER,
@@ -242,55 +237,54 @@ static TargetColor sTargetColorList[] = {
     { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },     // ACTORCAT_BOSS,
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_DOOR,
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_CHEST
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // unknown extra entry (maybe a removed category?)
+    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // unused
 };
 
-void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, GlobalContext* globalCtx) {
-    TargetContextEntry* entry;
-    TargetColor* naviColor;
+void Target_InitBlurData(TargetContext* targetCtx, s32 actorCategory, GlobalContext* globalCtx) {
+    TargetInfo* entry;
+    Color_RGBA8* targetColor;
     s32 i;
 
-    Math_Vec3f_Copy(&targetCtx->targetCenterPos, &globalCtx->view.eye);
-    targetCtx->unk_44 = 500.0f;
-    targetCtx->unk_48 = 0x100;
+    Math_Vec3f_Copy(&targetCtx->targetProjectedPos, &globalCtx->view.eye);
+    targetCtx->targetRadius = 500.0f;
+    targetCtx->targetTimer = 256;
 
-    naviColor = &sTargetColorList[actorCategory];
+    targetColor = &sTargetColorList[actorCategory][0];
 
-    entry = &targetCtx->arr_50[0];
-    for (i = 0; i < ARRAY_COUNT(targetCtx->arr_50); i++) {
+    entry = &targetCtx->targetInfo[0];
+    for (i = 0; i < ARRAY_COUNT(targetCtx->targetInfo); i++) {
         Target_SetPos(targetCtx, i, 0.0f, 0.0f, 0.0f);
-        entry->color.r = naviColor->inner.r;
-        entry->color.g = naviColor->inner.g;
-        entry->color.b = naviColor->inner.b;
+        entry->color.r = targetColor->r;
+        entry->color.g = targetColor->g;
+        entry->color.b = targetColor->b;
         entry++;
     }
 }
 
-void func_8002BF60(TargetContext* targetCtx, Actor* actor, s32 actorCategory, GlobalContext* globalCtx) {
-    TargetColor* naviColor = &sTargetColorList[actorCategory];
-    targetCtx->naviRefPos.x = actor->focus.pos.x;
-    targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
-    targetCtx->naviRefPos.z = actor->focus.pos.z;
-    targetCtx->naviInner.r = naviColor->inner.r;
-    targetCtx->naviInner.g = naviColor->inner.g;
-    targetCtx->naviInner.b = naviColor->inner.b;
-    targetCtx->naviInner.a = naviColor->inner.a;
-    targetCtx->naviOuter.r = naviColor->outer.r;
-    targetCtx->naviOuter.g = naviColor->outer.g;
-    targetCtx->naviOuter.b = naviColor->outer.b;
-    targetCtx->naviOuter.a = naviColor->outer.a;
+void Target_InitData(TargetContext* targetCtx, Actor* actor, s32 actorCategory, GlobalContext* globalCtx) {
+    targetCtx->targetPos.x = actor->focus.pos.x;
+    targetCtx->targetPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
+    targetCtx->targetPos.z = actor->focus.pos.z;
+    targetCtx->naviCenterColor.r = sTargetColorList[actorCategory][0].r;
+    targetCtx->naviCenterColor.g = sTargetColorList[actorCategory][0].g;
+    targetCtx->naviCenterColor.b = sTargetColorList[actorCategory][0].b;
+    targetCtx->naviCenterColor.a = sTargetColorList[actorCategory][0].a;
+    targetCtx->naviOuterColor.r = sTargetColorList[actorCategory][1].r;
+    targetCtx->naviOuterColor.g = sTargetColorList[actorCategory][1].g;
+    targetCtx->naviOuterColor.b = sTargetColorList[actorCategory][1].b;
+    targetCtx->naviOuterColor.a = sTargetColorList[actorCategory][1].a;
 }
 
-void func_8002C0C0(TargetContext* targetCtx, Actor* actor, GlobalContext* globalCtx) {
+void Target_Init(TargetContext* targetCtx, Actor* actor, GlobalContext* globalCtx) {
     targetCtx->arrowPointedActor = NULL;
     targetCtx->targetedActor = NULL;
-    targetCtx->unk_40 = 0.0f;
-    targetCtx->unk_8C = NULL;
-    targetCtx->unk_90 = NULL;
+    targetCtx->translateRatio = 0.0f;
+    targetCtx->targetRequestActor = NULL;
+    targetCtx->enemyBgmActor = NULL;
     targetCtx->unk_4B = 0;
-    targetCtx->unk_4C = 0;
-    func_8002BF60(targetCtx, actor, actor->category, globalCtx);
-    func_8002BE98(targetCtx, actor->category, globalCtx);
+    targetCtx->targetBlurCount = 0;
+    Target_InitData(targetCtx, actor, actor->category, globalCtx);
+    Target_InitBlurData(targetCtx, actor->category, globalCtx);
 }
 
 static Gfx sUnusedEmptyDL[] = {
@@ -302,8 +296,8 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2029);
 
-    if (targetCtx->unk_48 != 0) {
-        TargetContextEntry* entry;
+    if (targetCtx->targetTimer != 0) {
+        TargetInfo* entry;
         Player* player = PLAYER;
         s16 alpha = 255;
         s32 pad;
@@ -324,17 +318,17 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
         }
 
         if (actor != NULL) {
-            Math_Vec3f_Copy(&targetCtx->targetCenterPos, &actor->focus.pos);
-            translateRatio = (500.0f - targetCtx->unk_44) / 420.0f;
+            Math_Vec3f_Copy(&targetCtx->targetProjectedPos, &actor->focus.pos);
+            translateRatio = (500.0f - targetCtx->targetRadius) / 420.0f;
         } else {
-            targetCtx->unk_48 -= 120;
-            if (targetCtx->unk_48 < 0) {
-                targetCtx->unk_48 = 0;
+            targetCtx->targetTimer -= 120;
+            if (targetCtx->targetTimer < 0) {
+                targetCtx->targetTimer = 0;
             }
-            alpha = targetCtx->unk_48;
+            alpha = targetCtx->targetTimer;
         }
 
-        func_8002BE04(globalCtx, &targetCtx->targetCenterPos, &targetPos, &w);
+        func_8002BE04(globalCtx, &targetCtx->targetProjectedPos, &targetPos, &w);
 
         targetPos.x = (160 * (targetPos.x * w)) * translateRatio;
         targetPos.x = CLAMP(targetPos.x, -320.0f, 320.0f);
@@ -342,26 +336,26 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
         targetPos.y = CLAMP(targetPos.y, -240.0f, 240.0f);
         targetPos.z = targetPos.z * translateRatio;
 
-        targetCtx->unk_4C--;
-        if (targetCtx->unk_4C < 0) {
-            targetCtx->unk_4C = 2;
+        targetCtx->targetBlurCount--;
+        if (targetCtx->targetBlurCount < 0) {
+            targetCtx->targetBlurCount = 2;
         }
 
-        Target_SetPos(targetCtx, targetCtx->unk_4C, targetPos.x, targetPos.y, targetPos.z);
+        Target_SetPos(targetCtx, targetCtx->targetBlurCount, targetPos.x, targetPos.y, targetPos.z);
 
         if ((!(player->stateFlags1 & 0x40)) || (actor != player->unk_664)) {
             OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x39);
 
-            for (i = 0, j = targetCtx->unk_4C; i < blurNum; i++, j = (j + 1) % 3) {
-                entry = &targetCtx->arr_50[j];
+            for (i = 0, j = targetCtx->targetBlurCount; i < blurNum; i++, j = (j + 1) % 3) {
+                entry = &targetCtx->targetInfo[j];
 
-                if (entry->unk_0C < 500.0f) {
+                if (entry->radius < 500.0f) {
                     s32 k;
 
-                    if (entry->unk_0C <= 120.0f) {
+                    if (entry->radius <= 120.0f) {
                         xScale = 0.15f;
                     } else {
-                        xScale = ((entry->unk_0C - 120.0f) * 0.001f) + 0.15f;
+                        xScale = ((entry->radius - 120.0f) * 0.001f) + 0.15f;
                     }
 
                     Matrix_Translate(entry->pos.x, entry->pos.y, 0.0f, MTXMODE_NEW);
@@ -374,7 +368,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
                     for (k = 0; k < 4; k++) {
                         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
                         Matrix_Push();
-                        Matrix_Translate(entry->unk_0C, entry->unk_0C, 0.0f, MTXMODE_APPLY);
+                        Matrix_Translate(entry->radius, entry->radius, 0.0f, MTXMODE_APPLY);
                         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 2116),
                                   G_MTX_MODELVIEW | G_MTX_LOAD);
                         gSPDisplayList(OVERLAY_DISP++, gZTargetLockOnTriangleDL);
@@ -388,9 +382,9 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
         }
     }
 
-    actor = targetCtx->unk_94;
+    actor = targetCtx->targetSecondaryActor;
     if ((actor != NULL) && !(actor->flags & 0x8000000)) {
-        TargetColor* color = &sTargetColorList[actor->category];
+        Color_RGBA8* color = &sTargetColorList[actor->category][0];
 
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x7);
 
@@ -399,7 +393,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
         Matrix_RotateY((f32)((u16)(globalCtx->gameplayFrames * 3000)) * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, color->inner.r, color->inner.g, color->inner.b, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, color->r, color->g, color->b, 255);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 2153),
                   G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, &gZTargetArrowDL);
@@ -408,101 +402,96 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2158);
 }
 
-void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, GlobalContext* globalCtx) {
+void Target_Update(TargetContext* targetCtx, Player* player, Actor* actorArg, GlobalContext* globalCtx) {
     s32 pad;
-    Actor* unkActor;
+    Actor* naviTarget = NULL; // Actor that Navi is currently targetting
     s32 actorCategory;
-    Vec3f sp50;
-    f32 sp4C;
-    f32 temp1;
-    f32 temp2;
-    f32 temp3;
-    f32 temp4;
-    f32 temp5;
-    f32 temp6;
-    s32 lockOnSfxId;
-
-    unkActor = NULL;
+    Vec3f cameraPos;
+    f32 cameraW;
 
     if ((player->unk_664 != NULL) && (player->unk_84B[player->unk_846] == 2)) {
-        targetCtx->unk_94 = NULL;
+        targetCtx->targetSecondaryActor = NULL;
     } else {
-        func_80032AF0(globalCtx, &globalCtx->actorCtx, &unkActor, player);
-        targetCtx->unk_94 = unkActor;
+        func_80032AF0(globalCtx, &globalCtx->actorCtx, &naviTarget, player);
+        targetCtx->targetSecondaryActor = naviTarget;
     }
 
-    if (targetCtx->unk_8C != NULL) {
-        unkActor = targetCtx->unk_8C;
-        targetCtx->unk_8C = NULL;
+
+    // Determine the actor for Navi to target
+    if (targetCtx->targetRequestActor != NULL) {
+        naviTarget = targetCtx->targetRequestActor;
+        targetCtx->targetRequestActor = NULL;
     } else if (actorArg != NULL) {
-        unkActor = actorArg;
+        naviTarget = actorArg;
     }
 
-    if (unkActor != NULL) {
-        actorCategory = unkActor->category;
+    if (naviTarget != NULL) {
+        actorCategory = naviTarget->category;
     } else {
         actorCategory = player->actor.category;
     }
 
-    if ((unkActor != targetCtx->arrowPointedActor) || (actorCategory != targetCtx->activeCategory)) {
-        targetCtx->arrowPointedActor = unkActor;
-        targetCtx->activeCategory = actorCategory;
-        targetCtx->unk_40 = 1.0f;
+    if ((naviTarget != targetCtx->arrowPointedActor) || (actorCategory != targetCtx->arrowActorCat)) {
+        targetCtx->arrowPointedActor = naviTarget;
+        targetCtx->arrowActorCat = actorCategory;
+        targetCtx->translateRatio = 1.0f;
     }
 
-    if (unkActor == NULL) {
-        unkActor = &player->actor;
+    if (naviTarget == NULL) {
+        naviTarget = &player->actor;
     }
 
-    if (Math_StepToF(&targetCtx->unk_40, 0.0f, 0.25f) == 0) {
-        temp1 = 0.25f / targetCtx->unk_40;
-        temp2 = unkActor->world.pos.x - targetCtx->naviRefPos.x;
-        temp3 = (unkActor->world.pos.y + (unkActor->targetArrowOffset * unkActor->scale.y)) - targetCtx->naviRefPos.y;
-        temp4 = unkActor->world.pos.z - targetCtx->naviRefPos.z;
-        targetCtx->naviRefPos.x += temp2 * temp1;
-        targetCtx->naviRefPos.y += temp3 * temp1;
-        targetCtx->naviRefPos.z += temp4 * temp1;
+    if (Math_StepToF(&targetCtx->translateRatio, 0.0f, 0.25f) == 0) {
+        f32 translateRatio = 0.25f / targetCtx->translateRatio;
+        f32 deltaX = naviTarget->world.pos.x - targetCtx->targetPos.x;
+        f32 deltaY = (naviTarget->world.pos.y + (naviTarget->targetArrowOffset * naviTarget->scale.y)) -
+                     targetCtx->targetPos.y;
+        f32 deltaZ = naviTarget->world.pos.z - targetCtx->targetPos.z;
+
+        targetCtx->targetPos.x += deltaX * translateRatio;
+        targetCtx->targetPos.y += deltaY * translateRatio;
+        targetCtx->targetPos.z += deltaZ * translateRatio;
     } else {
-        func_8002BF60(targetCtx, unkActor, actorCategory, globalCtx);
+        Target_InitData(targetCtx, naviTarget, actorCategory, globalCtx);
     }
 
     if ((actorArg != NULL) && (targetCtx->unk_4B == 0)) {
-        func_8002BE04(globalCtx, &actorArg->focus.pos, &sp50, &sp4C);
-        if (((sp50.z <= 0.0f) || (1.0f <= fabsf(sp50.x * sp4C))) || (1.0f <= fabsf(sp50.y * sp4C))) {
+        func_8002BE04(globalCtx, &actorArg->focus.pos, &cameraPos, &cameraW);
+        if (((cameraPos.z <= 0.0f) || (1.0f <= fabsf(cameraPos.x * cameraW))) ||
+            (1.0f <= fabsf(cameraPos.y * cameraW))) {
             actorArg = NULL;
         }
     }
 
     if (actorArg != NULL) {
         if (actorArg != targetCtx->targetedActor) {
-            func_8002BE98(targetCtx, actorArg->category, globalCtx);
+            Target_InitBlurData(targetCtx, actorArg->category, globalCtx);
             targetCtx->targetedActor = actorArg;
 
             if (actorArg->id == ACTOR_EN_BOOM) {
-                targetCtx->unk_48 = 0;
+                targetCtx->targetTimer = 0;
             }
 
-            lockOnSfxId = ((actorArg->flags & 5) == 5) ? NA_SE_SY_LOCK_ON : NA_SE_SY_LOCK_ON_HUMAN;
-            func_80078884(lockOnSfxId);
+            func_80078884(((actorArg->flags & 5) == 5) ? NA_SE_SY_LOCK_ON : NA_SE_SY_LOCK_ON_HUMAN);
         }
 
-        targetCtx->targetCenterPos.x = actorArg->world.pos.x;
-        targetCtx->targetCenterPos.y = actorArg->world.pos.y - (actorArg->shape.yOffset * actorArg->scale.y);
-        targetCtx->targetCenterPos.z = actorArg->world.pos.z;
+        targetCtx->targetProjectedPos.x = actorArg->world.pos.x;
+        targetCtx->targetProjectedPos.y = actorArg->world.pos.y - (actorArg->shape.yOffset * actorArg->scale.y);
+        targetCtx->targetProjectedPos.z = actorArg->world.pos.z;
 
         if (targetCtx->unk_4B == 0) {
-            temp5 = (500.0f - targetCtx->unk_44) * 3.0f;
-            temp6 = (temp5 < 30.0f) ? 30.0f : ((100.0f < temp5) ? 100.0f : temp5);
-            if (Math_StepToF(&targetCtx->unk_44, 80.0f, temp6) != 0) {
+            f32 accel = (500.0f - targetCtx->targetRadius) * 3.0f;
+            if (Math_StepToF(&targetCtx->targetRadius, 80.0f,
+                             (accel < 30.0f) ? 30.0f : ((100.0f < accel) ? 100.0f : accel)) != 0) {
                 targetCtx->unk_4B++;
             }
         } else {
             targetCtx->unk_4B = (targetCtx->unk_4B + 3) | 0x80;
-            targetCtx->unk_44 = 120.0f;
+            targetCtx->targetRadius = 120.0f;
         }
     } else {
         targetCtx->targetedActor = NULL;
-        Math_StepToF(&targetCtx->unk_44, 500.0f, 80.0f);
+        Math_StepToF(&targetCtx->targetRadius, 500.0f, 80.0f);
     }
 }
 
@@ -652,7 +641,7 @@ void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag) {
     }
 }
 
-void func_8002CDE4(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
+void TitleCard_Init(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     titleCtx->durationTimer = titleCtx->delayTimer = titleCtx->intensity = titleCtx->alpha = 0;
 }
 
@@ -698,27 +687,21 @@ void TitleCard_Update(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
 }
 
 void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    s32 spCC;
-    s32 spC8;
-    s32 unk1;
-    s32 spC0;
-    s32 sp38;
-    s32 blurNum;
-    s32 spB4;
-    s32 i;
-
     if (titleCtx->alpha != 0) {
-        spCC = titleCtx->width;
-        spC8 = titleCtx->height;
-        spC0 = (titleCtx->x * 4) - (spCC * 2);
-        blurNum = (titleCtx->y * 4) - (spC8 * 2);
-        sp38 = spCC * 2;
+        s32 width = titleCtx->width;
+        s32 height = titleCtx->height;
+        s32 width2 = width << 1;
+        s32 x1 = (titleCtx->x * 4) - (width << 1);
+        s32 x2 = ((width2 << 1) + x1) - 4;
+        s32 y1 = (titleCtx->y * 4) - (height << 1);
+        s32 y2;
+        s32 offset;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2824);
 
-        i = spCC * spC8 * gSaveContext.language;
-        spC8 = (spCC * spC8 > 0x1000) ? 0x1000 / spCC : spC8;
-        spB4 = blurNum + (spC8 * 4);
+        offset = width * height * gSaveContext.language;
+        height = (width * height > 0x1000) ? 0x1000 / width : height;
+        y2 = y1 + (height << 2);
 
         if (1) {} // Necessary to match
 
@@ -727,29 +710,29 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
                         (u8)titleCtx->alpha);
 
-        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + i, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8, 0,
+        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + offset, G_IM_FMT_IA, G_IM_SIZ_8b, width, height, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, spC0, blurNum, ((sp38 * 2) + spC0) - 4, blurNum + (spC8 * 4) - 1,
-                            G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(OVERLAY_DISP++, x1, y1, x2, y1 + (height << 2) - 1, G_TX_RENDERTILE, 0, 0, 1 << 10,
+                            1 << 10);
 
-        spC8 = titleCtx->height - spC8;
+        height = titleCtx->height - height;
 
-        if (spC8 > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + i + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC,
-                                spC8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                                G_TX_NOLOD, G_TX_NOLOD);
+        if (height > 0) {
+            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + offset + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b,
+                                width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                                G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(OVERLAY_DISP++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 + (spC8 * 4) - 1,
-                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            gSPTextureRectangle(OVERLAY_DISP++, x1, y2, x2, y2 + (height << 2) - 1, G_TX_RENDERTILE, 0, 0, 1 << 10,
+                                1 << 10);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2880);
     }
 }
 
-s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
+s32 TitleCard_Disable(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     if ((globalCtx->actorCtx.titleCtx.delayTimer != 0) || (globalCtx->actorCtx.titleCtx.alpha != 0)) {
         titleCtx->durationTimer = 0;
         titleCtx->delayTimer = 0;
@@ -836,7 +819,7 @@ void Actor_Destroy(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-s16 func_8002D7EC(Actor* actor) {
+s16 Actor_Move(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
 
     actor->world.pos.x += (actor->velocity.x * speedRate) + actor->colChkInfo.displacement.x;
@@ -844,7 +827,7 @@ s16 func_8002D7EC(Actor* actor) {
     actor->world.pos.z += (actor->velocity.z * speedRate) + actor->colChkInfo.displacement.z;
 }
 
-void func_8002D868(Actor* actor) {
+void Actor_SetMovementSpeedXZ(Actor* actor) {
     actor->velocity.x = Math_SinS(actor->world.rot.y) * actor->speedXZ;
     actor->velocity.z = Math_CosS(actor->world.rot.y) * actor->speedXZ;
 
@@ -854,22 +837,22 @@ void func_8002D868(Actor* actor) {
     }
 }
 
-void Actor_MoveForward(Actor* actor) {
-    func_8002D868(actor);
-    func_8002D7EC(actor);
+void Actor_MoveForwardXZ(Actor* actor) {
+    Actor_SetMovementSpeedXZ(actor);
+    Actor_Move(actor);
 }
 
-void func_8002D908(Actor* actor) {
-    f32 sp24 = Math_CosS(actor->world.rot.x) * actor->speedXZ;
+void Actor_SetMovementSpeedXYZ(Actor* actor) {
+    f32 speedXY = Math_CosS(actor->world.rot.x) * actor->speedXZ;
 
-    actor->velocity.x = Math_SinS(actor->world.rot.y) * sp24;
+    actor->velocity.x = Math_SinS(actor->world.rot.y) * speedXY;
     actor->velocity.y = Math_SinS(actor->world.rot.x) * actor->speedXZ;
-    actor->velocity.z = Math_CosS(actor->world.rot.y) * sp24;
+    actor->velocity.z = Math_CosS(actor->world.rot.y) * speedXY;
 }
 
-void func_8002D97C(Actor* actor) {
-    func_8002D908(actor);
-    func_8002D7EC(actor);
+void Actor_MoveForwardXYZ(Actor* actor) {
+    Actor_SetMovementSpeedXYZ(actor);
+    Actor_Move(actor);
 }
 
 void func_8002D9A4(Actor* actor, f32 arg1) {
@@ -877,13 +860,14 @@ void func_8002D9A4(Actor* actor, f32 arg1) {
     actor->velocity.y = -Math_SinS(actor->world.rot.x) * arg1;
 }
 
-void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
-    Vec3f sp1C;
+// unused
+void Actor_MoveToAnimPos(Actor* actor, SkelAnime* skelAnime) {
+    Vec3f pos;
 
-    SkelAnime_UpdateTranslation(skelAnime, &sp1C, actor->shape.rot.y);
-    actor->world.pos.x += sp1C.x * actor->scale.x;
-    actor->world.pos.y += sp1C.y * actor->scale.y;
-    actor->world.pos.z += sp1C.z * actor->scale.z;
+    SkelAnime_UpdateTranslation(skelAnime, &pos, actor->shape.rot.y);
+    actor->world.pos.x += pos.x * actor->scale.x;
+    actor->world.pos.y += pos.y * actor->scale.y;
+    actor->world.pos.z += pos.z * actor->scale.z;
 }
 
 s16 Actor_WorldYawTowardActor(Actor* actorA, Actor* actorB) {
@@ -926,7 +910,7 @@ f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint) {
     return Math_Vec3f_DistXZ(&actor->world.pos, refPoint);
 }
 
-void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2) {
+void func_8002DBD0(Actor* actor, Vec3f* distance, Vec3f* arg2) {
     f32 cosRot2Y;
     f32 sinRot2Y;
     f32 deltaX;
@@ -937,9 +921,9 @@ void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2) {
     deltaX = arg2->x - actor->world.pos.x;
     deltaZ = arg2->z - actor->world.pos.z;
 
-    result->x = (deltaX * cosRot2Y) - (deltaZ * sinRot2Y);
-    result->z = (deltaX * sinRot2Y) + (deltaZ * cosRot2Y);
-    result->y = arg2->y - actor->world.pos.y;
+    distance->x = (deltaX * cosRot2Y) - (deltaZ * sinRot2Y);
+    distance->z = (deltaX * sinRot2Y) + (deltaZ * cosRot2Y);
+    distance->y = arg2->y - actor->world.pos.y;
 }
 
 f32 Actor_HeightDiff(Actor* actorA, Actor* actorB) {
@@ -1970,12 +1954,12 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     actorCtx->flags.clear = savedSceneFlags->clear;
     actorCtx->flags.collect = savedSceneFlags->collect;
 
-    func_8002CDE4(globalCtx, &actorCtx->titleCtx);
+    TitleCard_Init(globalCtx, &actorCtx->titleCtx);
 
     actorCtx->absoluteSpace = NULL;
 
     Actor_SpawnEntry(actorCtx, actorEntry, globalCtx);
-    func_8002C0C0(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, globalCtx);
+    Target_Init(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, globalCtx);
     func_8002FA60(globalCtx);
 }
 
@@ -2120,7 +2104,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
         }
     }
 
-    func_8002C7BC(&actorCtx->targetCtx, player, actor, globalCtx);
+    Target_Update(&actorCtx->targetCtx, player, actor, globalCtx);
     TitleCard_Update(globalCtx, &actorCtx->titleCtx);
     DynaPoly_UpdateBgActorTransforms(globalCtx, &globalCtx->colCtx.dyna);
 }
@@ -2841,12 +2825,12 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
         actorCtx->targetCtx.arrowPointedActor = NULL;
     }
 
-    if (actor == actorCtx->targetCtx.unk_8C) {
-        actorCtx->targetCtx.unk_8C = NULL;
+    if (actor == actorCtx->targetCtx.targetRequestActor) {
+        actorCtx->targetCtx.targetRequestActor = NULL;
     }
 
-    if (actor == actorCtx->targetCtx.unk_90) {
-        actorCtx->targetCtx.unk_90 = NULL;
+    if (actor == actorCtx->targetCtx.enemyBgmActor) {
+        actorCtx->targetCtx.enemyBgmActor = NULL;
     }
 
     func_800F89E8(&actor->projectedPos);
@@ -2902,7 +2886,7 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
         if ((actor->update != NULL) && ((Player*)actor != player) && ((actor->flags & 1) == 1)) {
             if ((actorCategory == ACTORCAT_ENEMY) && ((actor->flags & 5) == 5) &&
                 (actor->xyzDistToPlayerSq < 250000.0f) && (actor->xyzDistToPlayerSq < D_8015BBF4)) {
-                actorCtx->targetCtx.unk_90 = actor;
+                actorCtx->targetCtx.enemyBgmActor = actor;
                 D_8015BBF4 = actor->xyzDistToPlayerSq;
             }
 
@@ -2944,7 +2928,7 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
     if (!Player_InCsMode(globalCtx)) {
         entry = &D_801160A0[0];
 
-        actorCtx->targetCtx.unk_90 = NULL;
+        actorCtx->targetCtx.enemyBgmActor = NULL;
         D_8015BBFC = player->actor.shape.rot.y;
 
         for (i = 0; i < 3; i++) {
@@ -3622,7 +3606,7 @@ typedef struct {
     /* 0x06 */ s16 unk_06;
     /* 0x08 */ s16 unk_08;
     /* 0x0A */ s16 unk_0A;
-    /* 0x0C */ u8 unk_0C;
+    /* 0x0C */ u8 radius;
 } struct_80116130_0; // size = 0x10
 
 typedef struct {
@@ -3758,11 +3742,11 @@ void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3)
             sp38.unk_0A = 0;
             sp38.unk_08 = 0;
         case 2:
-            sp38.unk_0C = 0;
+            sp38.radius = 0;
     }
 
     func_800344BC(actor, arg1, sp38.unk_00, sp38.unk_04, sp38.unk_02, sp38.unk_06, sp38.unk_0A, sp38.unk_08,
-                  sp38.unk_0C);
+                  sp38.radius);
 }
 
 Gfx* func_80034B28(GraphicsContext* gfxCtx) {
@@ -3879,7 +3863,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
             if (Actor_HasParent(actor, globalCtx)) {
                 actor->params = 1;
             } else if (!(actor->bgCheckFlags & 1)) {
-                Actor_MoveForward(actor);
+                Actor_MoveForwardXZ(actor);
                 Math_SmoothStepToF(&actor->speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
             } else if ((actor->bgCheckFlags & 2) && (actor->velocity.y < -4.0f)) {
                 ret = 1;

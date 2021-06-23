@@ -342,7 +342,7 @@ glabel BossMo_Update
 /* 078F8 809233F8 0C01E1EF */  jal     Math_ApproachS
               
 /* 078FC 809233FC 240700C8 */  addiu   $a3, $zero, 0x00C8         ## $a3 = 000000C8
-/* 07900 80923400 0C00B638 */  jal     Actor_MoveForward
+/* 07900 80923400 0C00B638 */  jal     Actor_MoveForwardXZ
               
 /* 07904 80923404 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 07908 80923408 4480A000 */  mtc1    $zero, $f20                ## $f20 = 0.00

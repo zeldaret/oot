@@ -224,7 +224,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->jumpTimer--;
     }
     this->actionFunc(this, globalCtx);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 100.0f, 100.0f, 200.0f, 0x1C);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

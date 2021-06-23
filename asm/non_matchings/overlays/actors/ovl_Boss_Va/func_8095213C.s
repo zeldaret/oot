@@ -250,7 +250,7 @@ glabel func_8095213C
 /* 031B4 80952474 00000000 */  nop
 /* 031B8 80952478 E6720068 */  swc1    $f18, 0x0068($s3)          ## 00000068
 .L8095247C:
-/* 031BC 8095247C 0C00B638 */  jal     Actor_MoveForward
+/* 031BC 8095247C 0C00B638 */  jal     Actor_MoveForwardXZ
               
 /* 031C0 80952480 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 031C4 80952484 0C02927F */  jal     SkelAnime_Update

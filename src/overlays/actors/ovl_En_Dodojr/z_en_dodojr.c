@@ -434,7 +434,7 @@ void func_809F74C4(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F758C(EnDodojr* this, GlobalContext* globalCtx) {
-    func_8002D868(&this->actor);
+    Actor_SetMovementSpeedXZ(&this->actor);
     func_809F6730(this, globalCtx, &this->actor.world.pos);
 
     if (DECR(this->timer4) == 0) {
@@ -491,7 +491,7 @@ void func_809F773C(EnDodojr* this, GlobalContext* globalCtx) {
 void func_809F77AC(EnDodojr* this, GlobalContext* globalCtx) {
     this->rootScale = 1.2f;
     this->rootScale *= ((f32)this->actor.colorFilterTimer / 8);
-    func_8002D868(&this->actor);
+    Actor_SetMovementSpeedXZ(&this->actor);
 
     if (func_809F68B0(this, globalCtx) != 0) {
         this->timer3 = 60;
@@ -506,7 +506,7 @@ void func_809F784C(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F786C(EnDodojr* this, GlobalContext* globalCtx) {
-    func_8002D868(&this->actor);
+    Actor_SetMovementSpeedXZ(&this->actor);
 
     if (func_809F68B0(this, globalCtx) != 0) {
         func_809F6AC4(this);
@@ -539,7 +539,7 @@ void func_809F78EC(EnDodojr* this, GlobalContext* globalCtx) {
 
 void func_809F799C(EnDodojr* this, GlobalContext* globalCtx) {
     this->actor.flags |= 0x1000000;
-    func_8002D868(&this->actor);
+    Actor_SetMovementSpeedXZ(&this->actor);
 
     if (func_809F68B0(this, globalCtx) != 0) {
         func_809F6994(this);
@@ -563,7 +563,7 @@ void func_809F7A00(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F7AB8(EnDodojr* this, GlobalContext* globalCtx) {
-    func_8002D868(&this->actor);
+    Actor_SetMovementSpeedXZ(&this->actor);
     Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
     this->actor.world.rot.x = this->actor.shape.rot.x;
 
@@ -613,7 +613,7 @@ void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDodojr* this = THIS;
 
     SkelAnime_Update(&this->skelAnime);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     func_809F70E8(this, globalCtx);
 
     if (this->actionFunc != func_809F73AC) {

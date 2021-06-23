@@ -793,7 +793,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->actionFunc(this, globalCtx);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     switch (this->type) {
         case 6:
             break;

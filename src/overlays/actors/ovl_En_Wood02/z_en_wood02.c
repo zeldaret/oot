@@ -384,7 +384,7 @@ void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx2) {
         this->unk_14C++;
         Math_ApproachF(&this->actor.velocity.x, 0.0f, 1.0f, 5 * 0.01f);
         Math_ApproachF(&this->actor.velocity.z, 0.0f, 1.0f, 5 * 0.01f);
-        func_8002D7EC(&this->actor);
+        Actor_Move(&this->actor);
         this->actor.shape.rot.z = Math_SinS(3000 * this->unk_14C) * 0x4000;
         this->unk_14E[0]--;
 

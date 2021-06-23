@@ -649,9 +649,9 @@ void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (this->actor.world.rot.x == 0 || this->actionFunc == EnEiyer_Stunned) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
     } else {
-        func_8002D97C(&this->actor);
+        Actor_MoveForwardXYZ(&this->actor);
     }
 
     if (this->actionFunc == EnEiyer_Glide || this->actionFunc == EnEiyer_DiveAttack ||

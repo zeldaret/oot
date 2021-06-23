@@ -420,7 +420,7 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->actionFunc(this, globalCtx);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     if (this->isSolid != 0) {

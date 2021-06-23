@@ -740,7 +740,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (this->actor.update != NULL) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
         if (this->unk_314 & 0x100) {
             if (this->unk_314 & 1) {
                 if (this->actor.bgCheckFlags & 1) {

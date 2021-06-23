@@ -336,7 +336,7 @@ void EnExItem_ExitChest(EnExItem* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 }
 
 void EnExItem_FairyMagic(EnExItem* this, GlobalContext* globalCtx) {

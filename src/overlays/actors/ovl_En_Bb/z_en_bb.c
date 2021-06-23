@@ -1237,7 +1237,7 @@ void EnBb_Update(Actor* thisx, GlobalContext* globalCtx2) {
         this->actionFunc(this, globalCtx);
         if ((this->actor.params <= ENBB_BLUE) && (this->actor.speedXZ >= -6.0f) &&
             ((this->actor.flags & 0x8000) == 0)) {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveForwardXZ(&this->actor);
         }
         if (this->moveMode == BBMOVE_NORMAL) {
             if ((this->actor.world.pos.y - 20.0f) <= this->actor.floorHeight) {

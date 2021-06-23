@@ -397,7 +397,7 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     this->actionFunc(this, globalCtx);
-    func_8002D97C(&this->actor);
+    Actor_MoveForwardXYZ(&this->actor);
 
     this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
     this->collider.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y;

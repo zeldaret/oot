@@ -621,9 +621,9 @@ void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
         }
         if (this->actionFunc == EnBili_Recoil) {
-            func_8002D97C(&this->actor);
+            Actor_MoveForwardXYZ(&this->actor);
         } else {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveForwardXZ(&this->actor);
         }
 
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, this->collider.dim.radius, this->collider.dim.height, 7);

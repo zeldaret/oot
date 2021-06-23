@@ -650,7 +650,7 @@ glabel func_80952858
 /* 03E88 80953148 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
 .L8095314C:
 /* 03E8C 8095314C AFA6003C */  sw      $a2, 0x003C($sp)           
-/* 03E90 80953150 0C00B638 */  jal     Actor_MoveForward
+/* 03E90 80953150 0C00B638 */  jal     Actor_MoveForwardXZ
               
 /* 03E94 80953154 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03E98 80953158 8FA6003C */  lw      $a2, 0x003C($sp)           

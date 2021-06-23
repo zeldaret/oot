@@ -429,7 +429,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             f32 tempYDistToWater;
             u8 onGround;
 
-            Actor_MoveForward(&this->actor);
+            Actor_MoveForwardXZ(&this->actor);
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 50.0f, 5);
 
             tempX = this->actor.world.pos.x;
@@ -601,7 +601,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 if (this->actor.bgCheckFlags & 1) {
                     this->actor.speedXZ = 0.0f;
                 }
-                Actor_MoveForward(&this->actor);
+                Actor_MoveForwardXZ(&this->actor);
                 if (this->actor.speedXZ != 0.0f) {
                     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 5);
                     if (this->actor.bgCheckFlags & 8) {

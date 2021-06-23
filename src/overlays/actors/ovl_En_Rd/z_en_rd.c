@@ -817,7 +817,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         this->actionFunc(this, globalCtx);
         if (this->unk_31B != 8 && this->actor.speedXZ != 0.0f) {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveForwardXZ(&this->actor);
         }
 
         if ((this->actor.shape.rot.x == 0) && (this->unk_31B != 8) && (this->actor.speedXZ != 0.0f)) {

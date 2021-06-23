@@ -209,9 +209,9 @@ glabel func_8093EE10
 /* 0640C 8093F0DC 0C01E1EF */  jal     Math_ApproachS
               
 /* 06410 8093F0E0 00073C03 */  sra     $a3, $a3, 16               
-/* 06414 8093F0E4 0C00B642 */  jal     func_8002D908              
+/* 06414 8093F0E4 0C00B642 */  jal     Actor_SetMovementSpeedXYZ              
 /* 06418 8093F0E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0641C 8093F0EC 0C00B5FB */  jal     func_8002D7EC              
+/* 0641C 8093F0EC 0C00B5FB */  jal     Actor_Move              
 /* 06420 8093F0F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 06424 8093F0F4 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 06428 8093F0F8 8FB00018 */  lw      $s0, 0x0018($sp)           

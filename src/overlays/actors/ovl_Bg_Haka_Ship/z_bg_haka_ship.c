@@ -196,7 +196,7 @@ void BgHakaShip_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     if (this->dyna.actor.params == 0) {
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveForwardXZ(&this->dyna.actor);
     }
 }
 

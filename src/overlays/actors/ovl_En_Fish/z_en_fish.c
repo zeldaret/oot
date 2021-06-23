@@ -690,7 +690,7 @@ void EnFish_OrdinaryUpdate(EnFish* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actionFunc == NULL) || (this->actionFunc(this, globalCtx), (this->actor.update != NULL))) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
 
         if (this->unk_250 != 0) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 17.5f, 4.0f, 0.0f, this->unk_250);
@@ -729,7 +729,7 @@ void EnFish_RespawningUpdate(EnFish* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actionFunc == NULL) || (this->actionFunc(this, globalCtx), (this->actor.update != NULL))) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
 
         if (this->respawnTimer == 20) {
             this->actor.draw = EnFish_Draw;

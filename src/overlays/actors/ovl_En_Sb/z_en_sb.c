@@ -465,7 +465,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         Actor_SetFocus(&this->actor, 20.0f);
         Actor_SetScale(&this->actor, 0.006f);
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
         this->actionFunc(this, globalCtx);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 5);
         EnSb_UpdateDamage(this, globalCtx);

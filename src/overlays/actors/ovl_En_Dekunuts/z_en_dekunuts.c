@@ -476,7 +476,7 @@ void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params != DEKUNUTS_FLOWER) {
         EnDekunuts_ColliderCheck(this, globalCtx);
         this->actionFunc(this, globalCtx);
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
                                 0x1D);
         Collider_UpdateCylinder(&this->actor, &this->collider);

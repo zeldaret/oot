@@ -252,7 +252,7 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     Math_StepToF(&this->dyna.actor.speedXZ, 1.2f, 0.1f);
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForwardXZ(&this->dyna.actor);
     func_808B8DDC(this, globalCtx);
 
     if (Math3D_Dist2DSq(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.x,

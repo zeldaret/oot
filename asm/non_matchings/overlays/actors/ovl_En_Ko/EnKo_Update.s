@@ -46,7 +46,7 @@ glabel EnKo_Update
 .L80A997A8:
 /* 029F8 80A997A8 15A00003 */  bne     $t5, $zero, .L80A997B8     
 /* 029FC 80A997AC 00000000 */  nop
-/* 02A00 80A997B0 0C00B638 */  jal     Actor_MoveForward
+/* 02A00 80A997B0 0C00B638 */  jal     Actor_MoveForwardXZ
               
 /* 02A04 80A997B4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80A997B8:

@@ -193,7 +193,7 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, globalCtx);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     EnPoDesert_UpdateSpeedModifier(this);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
     Actor_SetFocus(&this->actor, 42.0f);

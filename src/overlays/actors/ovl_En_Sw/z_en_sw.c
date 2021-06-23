@@ -641,7 +641,7 @@ void func_80B0D878(EnSw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B0DB00(EnSw* this, GlobalContext* globalCtx) {
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     this->actor.shape.rot.x += 0x1000;
     this->actor.shape.rot.z += 0x1000;
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f, 5);

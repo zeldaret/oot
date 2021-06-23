@@ -334,7 +334,7 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     if (this->actionFunc == func_8088B79C) {
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveForwardXZ(&this->dyna.actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
     }
 

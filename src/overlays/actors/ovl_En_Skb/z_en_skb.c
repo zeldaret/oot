@@ -495,7 +495,7 @@ void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     func_80AFD968(this, globalCtx);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 60.0f, 0x1D);
     this->actionFunc(this, globalCtx);
     this->actor.focus.pos = this->actor.world.pos;

@@ -145,7 +145,7 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == func_80ABBB34)) {
         this->actionFunc(this, globalCtx);
 
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10, sCylinderInit.dim.radius, sCylinderInit.dim.height, 5);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 

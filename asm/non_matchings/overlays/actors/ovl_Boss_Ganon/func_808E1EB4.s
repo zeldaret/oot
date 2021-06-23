@@ -62,9 +62,9 @@ glabel func_808E1EB4
 /* 0B6E0 808E1F50 2A010005 */  slti    $at, $s0, 0x0005           
 /* 0B6E4 808E1F54 5420FFF6 */  bnel    $at, $zero, .L808E1F30     
 /* 0B6E8 808E1F58 00107040 */  sll     $t6, $s0,  1               
-/* 0B6EC 808E1F5C 0C00B642 */  jal     func_8002D908              
+/* 0B6EC 808E1F5C 0C00B642 */  jal     Actor_SetMovementSpeedXYZ              
 /* 0B6F0 808E1F60 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0B6F4 808E1F64 0C00B5FB */  jal     func_8002D7EC              
+/* 0B6F4 808E1F64 0C00B5FB */  jal     Actor_Move              
 /* 0B6F8 808E1F68 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0B6FC 808E1F6C 863801A6 */  lh      $t8, 0x01A6($s1)           ## 000001A6
 /* 0B700 808E1F70 27080001 */  addiu   $t0, $t8, 0x0001           ## $t0 = 00000001

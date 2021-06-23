@@ -836,7 +836,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnSsh_Damaged(this);
     } else {
         SkelAnime_Update(&this->skelAnime);
-        func_8002D7EC(&this->actor);
+        Actor_Move(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
         this->actionFunc(this, globalCtx);
     }

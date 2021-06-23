@@ -858,7 +858,7 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     this->heightOffset = this->scale * 7500.0f;
     Actor_SetFocus(&this->actor, this->heightOffset);
     this->actor.focus.pos.y = this->heightOffset;

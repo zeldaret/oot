@@ -133,9 +133,9 @@ glabel func_809453EC
 /* 0C8B0 80945580 1700000B */  bne     $t8, $zero, .L809455B0     
 /* 0C8B4 80945584 26220024 */  addiu   $v0, $s1, 0x0024           ## $v0 = 00000024
 /* 0C8B8 80945588 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0C8BC 8094558C 0C00B642 */  jal     func_8002D908              
+/* 0C8BC 8094558C 0C00B642 */  jal     Actor_SetMovementSpeedXYZ              
 /* 0C8C0 80945590 AFA20040 */  sw      $v0, 0x0040($sp)           
-/* 0C8C4 80945594 0C00B5FB */  jal     func_8002D7EC              
+/* 0C8C4 80945594 0C00B5FB */  jal     Actor_Move              
 /* 0C8C8 80945598 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0C8CC 8094559C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0C8D0 809455A0 0C00BE0A */  jal     Audio_PlayActorSound2

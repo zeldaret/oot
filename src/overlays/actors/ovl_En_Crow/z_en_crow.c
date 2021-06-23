@@ -442,10 +442,10 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != EnCrow_Respawn) {
         if (this->actor.colChkInfo.health != 0) {
             height = 20.0f * scale;
-            func_8002D97C(&this->actor);
+            Actor_MoveForwardXYZ(&this->actor);
         } else {
             height = 0.0f;
-            Actor_MoveForward(&this->actor);
+            Actor_MoveForwardXZ(&this->actor);
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 12.0f * scale, 25.0f * scale, 50.0f * scale, 7);
     } else {

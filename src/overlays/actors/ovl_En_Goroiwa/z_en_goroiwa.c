@@ -292,7 +292,7 @@ s32 func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     Vec3s* nextPointPos;
 
     Math_StepToF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
-    func_8002D868(&this->actor);
+    Actor_SetMovementSpeedXZ(&this->actor);
     path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     result = Math_StepToF(&this->actor.world.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x)) & 1;

@@ -928,7 +928,7 @@ void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80A705A4(this);
 
         if (this->unk_1E8.unk_00 == 0) {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveForwardXZ(&this->actor);
         }
 
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);

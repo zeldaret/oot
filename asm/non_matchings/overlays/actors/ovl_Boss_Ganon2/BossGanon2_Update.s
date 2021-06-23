@@ -153,7 +153,7 @@ glabel BossGanon2_Update
 /* 059F4 80902934 244DFFFF */  addiu   $t5, $v0, 0xFFFF           ## $t5 = FFFFFFFF
 /* 059F8 80902938 A62D0392 */  sh      $t5, 0x0392($s1)           ## 00000392
 .L8090293C:
-/* 059FC 8090293C 0C00B638 */  jal     Actor_MoveForward
+/* 059FC 8090293C 0C00B638 */  jal     Actor_MoveForwardXZ
               
 /* 05A00 80902940 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 05A04 80902944 8A2F0030 */  lwl     $t7, 0x0030($s1)           ## 00000030

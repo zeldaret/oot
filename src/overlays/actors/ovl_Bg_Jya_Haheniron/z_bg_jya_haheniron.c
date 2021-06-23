@@ -151,7 +151,7 @@ void BgJyaHaheniron_SetupChairCrumble(BgJyaHaheniron* this) {
 void BgJyaHaheniron_ChairCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     Vec3f vec;
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
     if ((this->actor.bgCheckFlags & 9) || ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.at != NULL) &&
                                            (this->collider.base.at->category == ACTORCAT_PLAYER))) {
@@ -175,7 +175,7 @@ void BgJyaHaheniron_SetupPillarCrumble(BgJyaHaheniron* this) {
 
 void BgJyaHaheniron_PillarCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     if (this->timer >= 8) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
     } else if (this->timer >= 17) {
         BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.world.pos, D_808987A0);
         Actor_Kill(&this->actor);

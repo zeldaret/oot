@@ -610,7 +610,7 @@ void EnPoField_SoulIdle(EnPoField* this, GlobalContext* globalCtx) {
     } else if (this->actionTimer == 0) {
         EnPoField_SetupWaitForSpawn(this, globalCtx);
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 4);
 }
 
@@ -856,7 +856,7 @@ void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoField_UpdateFlame(this, globalCtx);
     if (this->actionFunc == EnPoField_Flee || this->actionFunc == EnPoField_Damage ||
         this->actionFunc == EnPoField_Appear) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
     }
     if (this->actionFunc != EnPoField_WaitForSpawn) {
         Actor_SetFocus(&this->actor, 42.0f);

@@ -1106,7 +1106,7 @@ void EnGo2_RollForward(EnGo2* this) {
     }
 
     if (this->actionFunc != EnGo2_ContinueRolling) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
     }
 
     this->actor.speedXZ = speedXZ;
@@ -1914,7 +1914,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 if (!(this->animTimer % 8)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
                 }
-                Actor_MoveForward(&this->actor);
+                Actor_MoveForwardXZ(&this->actor);
             } else {
                 this->animTimer = 0;
                 this->actor.speedXZ = 0.0f;

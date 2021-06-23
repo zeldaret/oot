@@ -725,7 +725,7 @@ void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
     this->animFunc(this);
     this->actionFunc(this, globalCtx);

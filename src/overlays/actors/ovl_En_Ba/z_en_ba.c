@@ -216,7 +216,7 @@ void EnBa_FallAsBlob(EnBa* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     } else {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 28.0f, 80.0f, 5);
     }
 }

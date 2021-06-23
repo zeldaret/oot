@@ -126,12 +126,12 @@ void func_80889C18(BgHidanKousi* this, GlobalContext* globalCtx) {
         this->dyna.actor.speedXZ = 2.0f;
         BgHidanKousi_SetupAction(this, func_80889C90);
     }
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForwardXZ(&this->dyna.actor);
     func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
 }
 
 void func_80889C90(BgHidanKousi* this, GlobalContext* globalCtx) {
-    func_8002D7EC(&this->dyna.actor);
+    Actor_Move(&this->dyna.actor);
     if (D_80889E40[this->dyna.actor.params & 0xFF] <
         Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &this->dyna.actor.world.pos)) {
         func_80889ACC(this);

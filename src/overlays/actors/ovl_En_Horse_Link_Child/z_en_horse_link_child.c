@@ -556,7 +556,7 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     sActionFuncs[this->action](this, globalCtx);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
 
     if ((globalCtx->sceneNum == SCENE_SPOT20) && (this->actor.world.pos.z < -2400.0f)) {

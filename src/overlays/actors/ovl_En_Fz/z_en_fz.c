@@ -698,7 +698,7 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Math_StepToF(&this->actor.speedXZ, this->speedXZ, 0.2f);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 
     if (this->updateBgInfo) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 5);

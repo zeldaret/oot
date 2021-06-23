@@ -334,9 +334,9 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
 
     if (this->actionFunc == func_809B5670) {
-        func_8002D97C(&this->actor);
+        Actor_MoveForwardXYZ(&this->actor);
     } else {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
     }
 
     if (this->actor.floorHeight <= BGCHECK_Y_MIN) {

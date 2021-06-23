@@ -8,7 +8,7 @@ glabel func_80B96840
 /* 00774 80B96844 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00778 80B96848 AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 0077C 80B9684C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00780 80B96850 0C00B638 */  jal     Actor_MoveForward
+/* 00780 80B96850 0C00B638 */  jal     Actor_MoveForwardXZ
               
 /* 00784 80B96854 AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 00788 80B96858 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC

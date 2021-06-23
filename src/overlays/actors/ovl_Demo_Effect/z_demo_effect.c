@@ -939,7 +939,7 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalC
 void DemoEffect_UpdateCreationFireball(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* effect;
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     this->actor.speedXZ = this->actor.speedXZ + (this->actor.gravity * 0.5f);
 
     if (this->fireBall.timer != 0) {

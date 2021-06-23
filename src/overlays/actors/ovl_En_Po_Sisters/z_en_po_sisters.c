@@ -1189,7 +1189,7 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_199 & 8) {
             func_80ADA35C(this, globalCtx);
         }
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
 
         if (this->unk_199 & 0x10) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f, 5);

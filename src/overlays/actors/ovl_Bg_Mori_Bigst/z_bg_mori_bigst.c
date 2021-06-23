@@ -158,7 +158,7 @@ void BgMoriBigst_SetupFall(BgMoriBigst* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForwardXZ(&this->dyna.actor);
     if (this->dyna.actor.world.pos.y <= this->dyna.actor.home.pos.y) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         BgMoriBigst_SetupLanding(this, globalCtx);

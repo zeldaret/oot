@@ -1361,7 +1361,7 @@ void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80AA94D8(this, globalCtx);
     if (thisx->colChkInfo.damageEffect != 5) {
         this->actionFunc(this, globalCtx);
-        Actor_MoveForward(thisx);
+        Actor_MoveForwardXZ(thisx);
         Actor_UpdateBgCheckInfo(globalCtx, thisx, 40.0f, 40.0f, 70.0f, 0x1D);
         Actor_SetFocus(thisx, thisx->scale.x * 4500.0f);
         Collider_UpdateCylinder(thisx, &this->collider1);

@@ -504,14 +504,14 @@ void func_80A02C98(EnElf* this, Vec3f* targetPos, f32 arg2) {
     func_80A02BD8(this, targetPos, arg2);
     Math_StepToF(&this->actor.velocity.x, xVelTarget, 1.5f);
     Math_StepToF(&this->actor.velocity.z, zVelTarget, 1.5f);
-    func_8002D7EC(&this->actor);
+    Actor_Move(&this->actor);
 }
 
 void func_80A02E30(EnElf* this, Vec3f* targetPos) {
     func_80A02BD8(this, targetPos, 0.2f);
     this->actor.velocity.x = (targetPos->x + this->unk_28C.x) - this->actor.world.pos.x;
     this->actor.velocity.z = (targetPos->z + this->unk_28C.z) - this->actor.world.pos.z;
-    func_8002D7EC(&this->actor);
+    Actor_Move(&this->actor);
     this->actor.world.pos.x = targetPos->x + this->unk_28C.x;
     this->actor.world.pos.z = targetPos->z + this->unk_28C.z;
 }
@@ -519,7 +519,7 @@ void func_80A02E30(EnElf* this, Vec3f* targetPos) {
 void func_80A02EC0(EnElf* this, Vec3f* targetPos) {
     func_80A02BD8(this, targetPos, 0.2f);
     this->actor.velocity.x = this->actor.velocity.z = 0.0f;
-    func_8002D7EC(&this->actor);
+    Actor_Move(&this->actor);
     this->actor.world.pos.x = targetPos->x + this->unk_28C.x;
     this->actor.world.pos.z = targetPos->z + this->unk_28C.z;
 }
@@ -566,7 +566,7 @@ void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToS(&this->unk_2BC, targetYaw, 10, this->unk_2AC, 0x20);
     this->actor.world.rot.y = this->unk_2BC;
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 }
 
 void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
@@ -594,7 +594,7 @@ void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
 
     Math_StepToF(&this->actor.velocity.x, xVelTarget, 5.0f);
     Math_StepToF(&this->actor.velocity.z, zVelTarget, 5.0f);
-    func_8002D7EC(&this->actor);
+    Actor_Move(&this->actor);
 }
 
 void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
@@ -934,7 +934,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 break;
             default:
                 func_80A029A8(this, 1);
-                nextPos = globalCtx->actorCtx.targetCtx.naviRefPos;
+                nextPos = globalCtx->actorCtx.targetCtx.targetPos;
                 nextPos.y += (1500.0f * this->actor.scale.y);
                 arrowPointedActor = globalCtx->actorCtx.targetCtx.arrowPointedActor;
 
@@ -1004,7 +1004,7 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
     f32 transitionRate;
     u16 targetSound;
 
-    if (globalCtx->actorCtx.targetCtx.unk_40 != 0.0f) {
+    if (globalCtx->actorCtx.targetCtx.translateRatio != 0.0f) {
         this->unk_2C6 = 0;
         this->unk_29C = 1.0f;
 
@@ -1015,18 +1015,18 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
     } else {
         if (this->unk_2C6 == 0) {
             if ((arrowPointedActor == NULL) ||
-                (Math_Vec3f_DistXYZ(&this->actor.world.pos, &globalCtx->actorCtx.targetCtx.naviRefPos) < 50.0f)) {
+                (Math_Vec3f_DistXYZ(&this->actor.world.pos, &globalCtx->actorCtx.targetCtx.targetPos) < 50.0f)) {
                 this->unk_2C6 = 1;
             }
         } else if (this->unk_29C != 0.0f) {
             if (Math_StepToF(&this->unk_29C, 0.0f, 0.25f) != 0) {
-                this->innerColor = globalCtx->actorCtx.targetCtx.naviInner;
-                this->outerColor = globalCtx->actorCtx.targetCtx.naviOuter;
+                this->innerColor = globalCtx->actorCtx.targetCtx.naviCenterColor;
+                this->outerColor = globalCtx->actorCtx.targetCtx.naviOuterColor;
             } else {
                 transitionRate = 0.25f / this->unk_29C;
-                EnElf_ChangeColor(&this->innerColor, &globalCtx->actorCtx.targetCtx.naviInner, &this->innerColor,
+                EnElf_ChangeColor(&this->innerColor, &globalCtx->actorCtx.targetCtx.naviCenterColor, &this->innerColor,
                                   transitionRate);
-                EnElf_ChangeColor(&this->outerColor, &globalCtx->actorCtx.targetCtx.naviOuter, &this->outerColor,
+                EnElf_ChangeColor(&this->outerColor, &globalCtx->actorCtx.targetCtx.naviOuterColor, &this->outerColor,
                                   transitionRate);
             }
         }
@@ -1213,18 +1213,18 @@ void func_80A04D90(EnElf* this, GlobalContext* globalCtx) {
 void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     Vec3f headCopy;
     Player* player = PLAYER;
-    Vec3f naviRefPos;
+    Vec3f targetPos;
 
     if (this->fairyFlags & 0x10) {
-        naviRefPos = globalCtx->actorCtx.targetCtx.naviRefPos;
+        targetPos = globalCtx->actorCtx.targetCtx.targetPos;
 
         if ((player->unk_664 == NULL) || (&player->actor == player->unk_664) || (&this->actor == player->unk_664)) {
-            naviRefPos.x = player->bodyPartsPos[7].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
-            naviRefPos.y = player->bodyPartsPos[7].y + 5.0f;
-            naviRefPos.z = player->bodyPartsPos[7].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
+            targetPos.x = player->bodyPartsPos[7].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
+            targetPos.y = player->bodyPartsPos[7].y + 5.0f;
+            targetPos.z = player->bodyPartsPos[7].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
         }
 
-        this->actor.focus.pos = naviRefPos;
+        this->actor.focus.pos = targetPos;
         this->fairyFlags &= ~0x10;
     }
 

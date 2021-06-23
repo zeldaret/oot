@@ -67,7 +67,7 @@ void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx) {
                                    : ((this->dyna.actor.speedXZ > 1.0f) ? 1.0f : this->dyna.actor.speedXZ);
     Math_StepToF(&this->dyna.actor.speedXZ, 0.0f, 0.2f);
     this->dyna.actor.world.rot.y = this->dyna.unk_158;
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveForwardXZ(&this->dyna.actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 40.0f, 40.0f, 0x1D);
 }
 

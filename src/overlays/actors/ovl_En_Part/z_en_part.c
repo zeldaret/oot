@@ -248,7 +248,7 @@ void EnPart_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnPart* this = THIS;
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
 
     if ((this->actor.params > 4 && this->actor.params < 9) || this->actor.params < 0) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 5);

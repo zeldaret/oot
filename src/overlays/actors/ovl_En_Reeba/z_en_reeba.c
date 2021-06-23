@@ -604,7 +604,7 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
         this->unk_276--;
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
 
     if (this->collider.base.atFlags & AT_BOUNCED) {

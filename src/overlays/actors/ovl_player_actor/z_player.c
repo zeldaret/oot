@@ -2769,7 +2769,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                 (actionParam >= PLAYER_AP_BOTTLE_FISH)) {
                 if (!func_8008E9C4(this) ||
                     ((actionParam >= PLAYER_AP_BOTTLE_POTION_RED) && (actionParam <= PLAYER_AP_BOTTLE_FAIRY))) {
-                    func_8002D53C(globalCtx, &globalCtx->actorCtx.titleCtx);
+                    TitleCard_Disable(globalCtx, &globalCtx->actorCtx.titleCtx);
                     this->unk_6AD = 4;
                     this->itemActionParam = actionParam;
                 }
@@ -3004,7 +3004,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
 
                 if ((actorToTarget != NULL) && !(actorToTarget->flags & 0x8000000)) {
                     if ((actorToTarget == this->unk_664) && (this->actor.category == ACTORCAT_PLAYER)) {
-                        actorToTarget = globalCtx->actorCtx.targetCtx.unk_94;
+                        actorToTarget = globalCtx->actorCtx.targetCtx.targetSecondaryActor;
                     }
 
                     if (actorToTarget != this->unk_664) {
@@ -5871,7 +5871,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
     Actor* interactedActor;
 
     if (iREG(67) || (((interactedActor = this->interactRangeActor) != NULL) &&
-                     func_8002D53C(globalCtx, &globalCtx->actorCtx.titleCtx))) {
+                     TitleCard_Disable(globalCtx, &globalCtx->actorCtx.titleCtx))) {
         if (iREG(67) || (this->getItemId > GI_NONE)) {
             if (iREG(67)) {
                 this->getItemId = iREG(68);
@@ -9688,9 +9688,9 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
             sp27 = 2;
         }
 
-        if (globalCtx->actorCtx.targetCtx.unk_90 != NULL) {
+        if (globalCtx->actorCtx.targetCtx.enemyBgmActor != NULL) {
             sp27 = 1;
-            func_800F6114(sqrtf(globalCtx->actorCtx.targetCtx.unk_90->xyzDistToPlayerSq));
+            func_800F6114(sqrtf(globalCtx->actorCtx.targetCtx.enemyBgmActor->xyzDistToPlayerSq));
         }
 
         if (globalCtx->sceneNum != SCENE_TURIBORI) {
@@ -9915,7 +9915,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
     if (this->stateFlags2 & 0x8000) {
         if (!(this->actor.bgCheckFlags & 1)) {
             func_80832210(this);
-            Actor_MoveForward(&this->actor);
+            Actor_MoveForwardXZ(&this->actor);
         }
 
         func_80847BA0(globalCtx, this);
@@ -10007,7 +10007,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 this->actor.world.rot.y = this->currentYaw;
             }
 
-            func_8002D868(&this->actor);
+            Actor_SetMovementSpeedXZ(&this->actor);
 
             if ((this->windSpeed != 0.0f) && !Player_InCsMode(globalCtx) && !(this->stateFlags1 & 0x206000) &&
                 (func_80845668 != this->func_674) && (func_808507F4 != this->func_674)) {
@@ -10015,7 +10015,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 this->actor.velocity.z += this->windSpeed * Math_CosS(this->windDirection);
             }
 
-            func_8002D7EC(&this->actor);
+            Actor_Move(&this->actor);
             func_80847BA0(globalCtx, this);
         } else {
             D_808535E4 = 0;

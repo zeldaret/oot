@@ -673,7 +673,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else if (this->actionFunc != EnFd_WaitForCore) {
         EnFd_ColliderCheck(this, globalCtx);
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     EnFd_Fade(this, globalCtx);
     this->actionFunc(this, globalCtx);

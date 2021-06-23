@@ -203,7 +203,7 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(&this->actor);
     } else {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveForwardXZ(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
         if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 28.0f)) {
             this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
@@ -237,7 +237,7 @@ void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
         } else {
             ObjKibako_SetupThrown(this);
             ObjKibako_ApplyGravity(this);
-            func_8002D7EC(&this->actor);
+            Actor_Move(&this->actor);
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
     }
@@ -266,7 +266,7 @@ void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         ObjKibako_ApplyGravity(this);
-        func_8002D7EC(&this->actor);
+        Actor_Move(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
