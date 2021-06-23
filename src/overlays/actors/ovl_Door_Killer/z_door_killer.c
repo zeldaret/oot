@@ -431,7 +431,7 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
             this->actionFunc = DoorKiller_Die;
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
         }
-    } else if (Actor_GetCollidedExplosiveFromCollider(globalCtx, &this->colliderJntSph.base) != NULL) {
+    } else if (Actor_GetCollidedExplosive(globalCtx, &this->colliderJntSph.base) != NULL) {
         // AC sphere: die if hit by explosive
         DoorKiller_SpawnRubble(&this->actor, globalCtx);
         this->actionFunc = DoorKiller_Die;

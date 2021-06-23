@@ -488,7 +488,7 @@ void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f
                           s16 arg7, u8 arg8);
 void Actor_SpawnFlyingDust(GlobalContext* globalCtx, Vec3f* posArg, f32 range, s32 count, s16 scaleArg, s16 scaleStep,
                            u8 flag);
-Actor* Actor_GetCollidedExplosiveFromCollider(GlobalContext* globalCtx, Collider* collider);
+Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* Actor_FindExplosionNearby(GlobalContext* globalCtx, Actor* actor);
 Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius);
 void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorCategory);

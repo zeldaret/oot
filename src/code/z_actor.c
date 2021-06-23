@@ -3200,7 +3200,7 @@ void Actor_SpawnFlyingDust(GlobalContext* globalCtx, Vec3f* posArg, f32 range, s
  * Checks if a collider exploded from an explosive actor.
  * Returns a pointer to the explosive, or NULL if no explosive actor is found.
  */
-Actor* Actor_GetCollidedExplosiveFromCollider(GlobalContext* globalCtx, Collider* collider) {
+Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) {
     if ((collider->acFlags & AC_HIT) && (collider->ac->category == ACTORCAT_EXPLOSIVE)) {
         collider->acFlags &= ~AC_HIT;
         return collider->ac;

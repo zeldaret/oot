@@ -98,7 +98,7 @@ void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
     Actor* explosive;
 
-    explosive = Actor_GetCollidedExplosiveFromCollider(globalCtx, &this->collider.base);
+    explosive = Actor_GetCollidedExplosive(globalCtx, &this->collider.base);
     if (explosive != NULL) {
         osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
         explosive->params = 2;

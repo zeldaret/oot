@@ -105,7 +105,7 @@ void DemoGj_InitCylinder(DemoGj* this, GlobalContext* globalCtx, ColliderCylinde
 }
 
 s32 DemoGj_HitByExplosion(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* cylinder) {
-    if (Actor_GetCollidedExplosiveFromCollider(globalCtx, &cylinder->base) != NULL) {
+    if (Actor_GetCollidedExplosive(globalCtx, &cylinder->base) != NULL) {
         return true;
     }
     return false;

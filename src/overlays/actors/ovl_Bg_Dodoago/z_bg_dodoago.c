@@ -147,7 +147,7 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
-    Actor* explosive = Actor_GetCollidedExplosiveFromCollider(globalCtx, &this->colliders[0].base);
+    Actor* explosive = Actor_GetCollidedExplosive(globalCtx, &this->colliders[0].base);
 
     if (explosive != NULL) {
         this->unk_164 =
