@@ -3629,35 +3629,36 @@ s32 Actor_Talk(GlobalContext* globalCtx, Actor* actor, NpcInfo* npcInfo, f32 arg
 }
 
 typedef struct {
-    /* 0x00 */ s16 unk_00;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ s16 unk_0A;
-    /* 0x0C */ u8 radius;
-} struct_80116130_0; // size = 0x10
+    /* 0x00 */ s16 neckAngleRangeY; // range of movement on the y axis
+    /* 0x02 */ s16 neckAngleMinX;
+    /* 0x04 */ s16 neckAngleMaxX;
+    /* 0x06 */ s16 waistAngleRangeY; // range of movement on the y axis
+    /* 0x08 */ s16 waistAngleMinX;
+    /* 0x0A */ s16 waistAngleMaxX;
+    /* 0x0C */ u8 waistCanRotate;
+} NpcTurnInfo; // size = 0x10
 
+// Defines how an NPC sees objects and rotates itself towards them
 typedef struct {
-    /* 0x00 */ struct_80116130_0 sub_00;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ s16 unk_14;
-} struct_80116130; // size = 0x18
+    /* 0x00 */ NpcTurnInfo npcTurnInfo;
+    /* 0x10 */ f32 sightDist; // distance that the NPC can see towards (for rotating waist and neck towards things)
+    /* 0x14 */ s16 sightAngleRange; // angle range in which the NPC can see towards
+} NpcSightInfo; // size = 0x18
 
-static struct_80116130 D_80116130[] = {
-    { { 0x2AA8, 0xF1C8, 0x18E2, 0x1554, 0x0000, 0x0000, 1 }, 170.0f, 0x3FFC },
-    { { 0x2AA8, 0xEAAC, 0x1554, 0x1554, 0xF8E4, 0x0E38, 1 }, 170.0f, 0x3FFC },
-    { { 0x31C4, 0xE390, 0x0E38, 0x0E38, 0xF1C8, 0x071C, 1 }, 170.0f, 0x3FFC },
-    { { 0x1554, 0xF1C8, 0x0000, 0x071C, 0xF8E4, 0x0000, 1 }, 170.0f, 0x3FFC },
-    { { 0x2AA8, 0xF8E4, 0x071C, 0x0E38, 0xD558, 0x2AA8, 1 }, 170.0f, 0x3FFC },
-    { { 0x0000, 0xE390, 0x2AA8, 0x3FFC, 0xF1C8, 0x0E38, 1 }, 170.0f, 0x3FFC },
-    { { 0x2AA8, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
-    { { 0x2AA8, 0xF1C8, 0x0000, 0x0E38, 0x0000, 0x1C70, 1 }, 0.0f, 0x0000 },
-    { { 0x2AA8, 0xF1C8, 0xF1C8, 0x0000, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
-    { { 0x071C, 0xF1C8, 0x0E38, 0x1C70, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
-    { { 0x0E38, 0xF1C8, 0x0000, 0x1C70, 0x0000, 0x0E38, 1 }, 0.0f, 0x0000 },
-    { { 0x2AA8, 0xE390, 0x1C70, 0x0E38, 0xF1C8, 0x0E38, 1 }, 0.0f, 0x0000 },
-    { { 0x18E2, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
+static NpcSightInfo sNpcSightInfo[] = {
+    { { 0x2AA8, 0xF1C8, 0x18E2, 0x1554, 0x0000, 0x0000, true }, 170.0f, 0x3FFC },
+    { { 0x2AA8, 0xEAAC, 0x1554, 0x1554, 0xF8E4, 0x0E38, true }, 170.0f, 0x3FFC },
+    { { 0x31C4, 0xE390, 0x0E38, 0x0E38, 0xF1C8, 0x071C, true }, 170.0f, 0x3FFC },
+    { { 0x1554, 0xF1C8, 0x0000, 0x071C, 0xF8E4, 0x0000, true }, 170.0f, 0x3FFC },
+    { { 0x2AA8, 0xF8E4, 0x071C, 0x0E38, 0xD558, 0x2AA8, true }, 170.0f, 0x3FFC },
+    { { 0x0000, 0xE390, 0x2AA8, 0x3FFC, 0xF1C8, 0x0E38, true }, 170.0f, 0x3FFC },
+    { { 0x2AA8, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, true }, 0.0f, 0x0000 },
+    { { 0x2AA8, 0xF1C8, 0x0000, 0x0E38, 0x0000, 0x1C70, true }, 0.0f, 0x0000 },
+    { { 0x2AA8, 0xF1C8, 0xF1C8, 0x0000, 0x0000, 0x0000, true }, 0.0f, 0x0000 },
+    { { 0x071C, 0xF1C8, 0x0E38, 0x1C70, 0x0000, 0x0000, true }, 0.0f, 0x0000 },
+    { { 0x0E38, 0xF1C8, 0x0000, 0x1C70, 0x0000, 0x0E38, true }, 0.0f, 0x0000 },
+    { { 0x2AA8, 0xE390, 0x1C70, 0x0E38, 0xF1C8, 0x0E38, true }, 0.0f, 0x0000 },
+    { { 0x18E2, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, true }, 0.0f, 0x0000 },
 };
 
 void func_800344BC(Actor* actor, NpcInfo* npcInfo, s16 arg2, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7,
@@ -3705,7 +3706,7 @@ void func_800344BC(Actor* actor, NpcInfo* npcInfo, s16 arg2, s16 arg3, s16 arg4,
 }
 
 s16 func_800347E8(s16 arg0) {
-    return D_80116130[arg0].unk_14;
+    return sNpcSightInfo[arg0].sightAngleRange;
 }
 
 s16 func_80034810(Actor* actor, NpcInfo* npcInfo, f32 arg2, s16 arg3, s16 arg4) {
@@ -3755,27 +3756,27 @@ s16 func_80034810(Actor* actor, NpcInfo* npcInfo, f32 arg2, s16 arg3, s16 arg4) 
 }
 
 void func_80034A14(Actor* actor, NpcInfo* npcInfo, s16 arg2, s16 arg3) {
-    struct_80116130_0 sp38;
+    NpcTurnInfo turnInfo;
 
-    npcInfo->eyeState = func_80034810(actor, npcInfo, D_80116130[arg2].unk_10, D_80116130[arg2].unk_14, arg3);
+    npcInfo->eyeState = func_80034810(actor, npcInfo, sNpcSightInfo[arg2].sightDist, sNpcSightInfo[arg2].sightAngleRange, arg3);
 
-    sp38 = D_80116130[arg2].sub_00;
+    turnInfo = sNpcSightInfo[arg2].npcTurnInfo;
 
     switch (npcInfo->eyeState) {
         case 1:
-            sp38.unk_00 = 0;
-            sp38.unk_04 = 0;
-            sp38.unk_02 = 0;
+            turnInfo.neckAngleRangeY = 0;
+            turnInfo.neckAngleMaxX = 0;
+            turnInfo.neckAngleMinX = 0;
         case 3:
-            sp38.unk_06 = 0;
-            sp38.unk_0A = 0;
-            sp38.unk_08 = 0;
+            turnInfo.waistAngleRangeY = 0;
+            turnInfo.waistAngleMaxX = 0;
+            turnInfo.waistAngleMinX = 0;
         case 2:
-            sp38.radius = 0;
+            turnInfo.waistCanRotate = 0;
     }
 
-    func_800344BC(actor, npcInfo, sp38.unk_00, sp38.unk_04, sp38.unk_02, sp38.unk_06, sp38.unk_0A, sp38.unk_08,
-                  sp38.radius);
+    func_800344BC(actor, npcInfo, turnInfo.neckAngleRangeY, turnInfo.neckAngleMaxX, turnInfo.neckAngleMinX,
+                  turnInfo.waistAngleRangeY, turnInfo.waistAngleMaxX, turnInfo.waistAngleMinX, turnInfo.waistCanRotate);
 }
 
 Gfx* func_80034B28(GraphicsContext* gfxCtx) {
