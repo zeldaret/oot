@@ -217,13 +217,6 @@ void Math_GetProjectionPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest,
     *wDest = (*wDest < 1.0f) ? 1.0f : (1.0f / *wDest);
 }
 
-void Target_SetPos(TargetContext* targetCtx, s32 targetIndex, f32 x, f32 y, f32 z) {
-    targetCtx->targetTriangle[targetIndex].pos.x = x;
-    targetCtx->targetTriangle[targetIndex].pos.y = y;
-    targetCtx->targetTriangle[targetIndex].pos.z = z;
-    targetCtx->targetTriangle[targetIndex].radius = targetCtx->targetRadius;
-}
-
 // Used for both the Z Target and Navi when targetting
 // The second color is used only for Navi
 static Color_RGBA8 sNaviTargetColorList[][2] = {
@@ -242,7 +235,22 @@ static Color_RGBA8 sNaviTargetColorList[][2] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // unused
 };
 
-void Target_InitBlurData(TargetContext* targetCtx, s32 actorCategory, GlobalContext* globalCtx) {
+/**
+ * Sets the position of a target triangle used for the blur effect when locking on to an object and when the triangles
+ * surround the object.
+ */
+void Target_SetTrianglePos(TargetContext* targetCtx, s32 index, f32 x, f32 y, f32 z) {
+    targetCtx->targetTriangle[index].pos.x = x;
+    targetCtx->targetTriangle[index].pos.y = y;
+    targetCtx->targetTriangle[index].pos.z = z;
+    targetCtx->targetTriangle[index].radius = targetCtx->targetRadius;
+}
+
+/**
+ * Initializes the target triangles used for the blur effect when locking on to an object and when the triangles
+ * surround the object.
+ */
+void Target_InitTriangleData(TargetContext* targetCtx, s32 actorCategory, GlobalContext* globalCtx) {
     TargetTriangle* entry;
     Color_RGBA8* targetColor;
     s32 i;
@@ -256,7 +264,7 @@ void Target_InitBlurData(TargetContext* targetCtx, s32 actorCategory, GlobalCont
 
     for (i = 0; i < ARRAY_COUNT(targetCtx->targetTriangle); i++) {
         // Set all of the targetTriangle entries to the same color and position
-        Target_SetPos(targetCtx, i, 0.0f, 0.0f, 0.0f);
+        Target_SetTrianglePos(targetCtx, i, 0.0f, 0.0f, 0.0f);
         entry->color.r = targetColor->r;
         entry->color.g = targetColor->g;
         entry->color.b = targetColor->b;
@@ -287,7 +295,7 @@ void Target_Init(TargetContext* targetCtx, Actor* actor, GlobalContext* globalCt
     targetCtx->unk_4B = 0;
     targetCtx->targetTriangleCount = 0;
     Target_InitData(targetCtx, actor, actor->category, globalCtx);
-    Target_InitBlurData(targetCtx, actor->category, globalCtx);
+    Target_InitTriangleData(targetCtx, actor->category, globalCtx);
 }
 
 static Gfx sUnusedEmptyDL[] = {
@@ -344,7 +352,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
             targetCtx->targetTriangleCount = 2;
         }
 
-        Target_SetPos(targetCtx, targetCtx->targetTriangleCount, targetPos.x, targetPos.y, targetPos.z);
+        Target_SetTrianglePos(targetCtx, targetCtx->targetTriangleCount, targetPos.x, targetPos.y, targetPos.z);
 
         if ((!(player->stateFlags1 & 0x40)) || (actor != player->unk_664)) {
             OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x39);
@@ -468,7 +476,7 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
 
     if (actorArg != NULL) {
         if (actorArg != targetCtx->targetedActor) {
-            Target_InitBlurData(targetCtx, actorArg->category, globalCtx);
+            Target_InitTriangleData(targetCtx, actorArg->category, globalCtx);
             targetCtx->targetedActor = actorArg;
 
             if (actorArg->id == ACTOR_EN_BOOM) {
@@ -2246,6 +2254,9 @@ void Gfx_DrawLensOfTruthOverlay(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6183);
 }
 
+/**
+ * Draws invisible actors and the Lens of Truth screen overlay.
+ */
 void Actor_DrawWithLensOfTruth(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
     GraphicsContext* gfxCtx;
@@ -2444,7 +2455,7 @@ void Actor_DrawContext(GlobalContext* globalCtx, ActorContext* actorCtx) {
 }
 
 /**
- * Kills all actors in ActorContext whose object dependency is not loaded
+ * Kills all actors in ActorContext whose object dependency is not loaded.
  */
 void Actor_KillIfObjectIsNotLoaded(GlobalContext* globalCtx, ActorContext* actorCtx) {
     Actor* actor;
@@ -2476,7 +2487,7 @@ void Actor_FreezeAllEnemies(GlobalContext* globalCtx, ActorContext* actorCtx, s3
 }
 
 /**
- * Kills all actors in other rooms (besides the previous room)
+ * Kills all actors in other rooms (besides the previous room).
  */
 void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
     Actor* actor;
@@ -3519,7 +3530,7 @@ static DoorLockInfo sDoorLockInfo[] = {
     { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, gDoorChainsDL, gDoorLockDL },
 };
 
-void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 frame, s32 type) {
+void Gfx_DrawDoorLock(GlobalContext* globalCtx, s32 frame, s32 type) {
     DoorLockInfo* entry = &sDoorLockInfo[type];
     s32 i;
     MtxF mtx;
