@@ -178,11 +178,11 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         EnGm_SetTextID(this);
         this->actionFunc = func_80A3DC44;
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = func_80A3DBF4;
     } else if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_8002F2CC(&this->actor, globalCtx, 415.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 415.0f);
     }
 }
 
@@ -203,7 +203,7 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
     dx = this->talkPos.x - player->actor.world.pos.x;
     dz = this->talkPos.z - player->actor.world.pos.z;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         switch (func_80A3D7C8()) {
             case 0:
                 gSaveContext.infTable[11] |= 1;
@@ -222,7 +222,7 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
     }
     if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_8002F2CC(&this->actor, globalCtx, 415.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 415.0f);
     }
 }
 
@@ -246,7 +246,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
                     func_8010B720(globalCtx, 0xC8);
                     this->actionFunc = func_80A3DD7C;
                 } else {
-                    func_8002F434(&this->actor, globalCtx, GI_SWORD_KNIFE, 415.0f, 10.0f);
+                    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_SWORD_KNIFE, 415.0f, 10.0f);
                     this->actionFunc = func_80A3DF00;
                 }
                 break;
@@ -263,7 +263,7 @@ void func_80A3DF00(EnGm* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = func_80A3DF60;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_SWORD_KNIFE, 415.0f, 10.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_SWORD_KNIFE, 415.0f, 10.0f);
     }
 }
 

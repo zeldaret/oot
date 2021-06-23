@@ -89,7 +89,7 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
-    if (func_8002F194(&this->actor, globalCtx) && this->dialogState != 6) {
+    if (Actor_IsTalking(&this->actor, globalCtx) && this->dialogState != 6) {
         if (!this->unk_214) {
             this->actionFunc = func_80B17934;
         } else {
@@ -123,7 +123,7 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
                     this->actor.flags |= 1;
                     this->unk_218 = 1;
                 }
-                func_8002F2CC(&this->actor, globalCtx, 100.0f);
+                Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
             }
         }
     }
@@ -138,7 +138,7 @@ void func_80B17934(EnTakaraMan* this, GlobalContext* globalCtx) {
                     Rupees_ChangeBy(-10);
                     this->unk_214 = 1;
                     this->actor.parent = NULL;
-                    func_8002F434(&this->actor, globalCtx, GI_DOOR_KEY, 2000.0f, 1000.0f);
+                    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_DOOR_KEY, 2000.0f, 1000.0f);
                     this->actionFunc = func_80B17A6C;
                 } else {
                     func_80106CCC(globalCtx);
@@ -163,7 +163,7 @@ void func_80B17A6C(EnTakaraMan* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_80B17AC4;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_DOOR_KEY, 2000.0f, 1000.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_DOOR_KEY, 2000.0f, 1000.0f);
     }
 }
 

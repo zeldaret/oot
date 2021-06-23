@@ -60,7 +60,7 @@ void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx) {
         Flags_SetCollectible(globalCtx, 0x1F);
         Actor_Kill(&this->actor);
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_HEART_CONTAINER_2, 30.0f, 40.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_HEART_CONTAINER_2, 30.0f, 40.0f);
     }
 }
 

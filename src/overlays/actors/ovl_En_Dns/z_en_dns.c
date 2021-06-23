@@ -326,7 +326,7 @@ void EnDns_SetupWait(EnDns* this, GlobalContext* globalCtx) {
 void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 2000, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnDns_Talk;
     } else {
         if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
@@ -335,7 +335,7 @@ void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
             this->actor.flags &= ~0x10000;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
-            func_8002F2F4(&this->actor, globalCtx);
+            Actor_RequestToTalk(&this->actor, globalCtx);
         }
     }
 }
@@ -374,18 +374,18 @@ void EnDns_Talk(EnDns* this, GlobalContext* globalCtx) {
 void func_809EFDD0(EnDns* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0x9) {
         if (CUR_UPG_VALUE(UPG_STICKS) < 2) {
-            func_8002F434(&this->actor, globalCtx, GI_STICK_UPGRADE_20, 130.0f, 100.0f);
+            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_STICK_UPGRADE_20, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, globalCtx, GI_STICK_UPGRADE_30, 130.0f, 100.0f);
+            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
     } else if (this->actor.params == 0xA) {
         if (CUR_UPG_VALUE(UPG_NUTS) < 2) {
-            func_8002F434(&this->actor, globalCtx, GI_NUT_UPGRADE_30, 130.0f, 100.0f);
+            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_NUT_UPGRADE_30, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, globalCtx, GI_NUT_UPGRADE_40, 130.0f, 100.0f);
+            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_NUT_UPGRADE_40, 130.0f, 100.0f);
         }
     } else {
-        func_8002F434(&this->actor, globalCtx, this->dnsItemEntry->getItemId, 130.0f, 100.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->dnsItemEntry->getItemId, 130.0f, 100.0f);
     }
 }
 

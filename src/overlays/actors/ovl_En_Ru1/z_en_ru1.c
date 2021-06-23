@@ -1496,17 +1496,17 @@ void func_80AEE050(EnRu1* this) {
 }
 
 s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
-    if (!func_8002F194(&this->actor, globalCtx)) {
+    if (!Actor_IsTalking(&this->actor, globalCtx)) {
         this->actor.flags |= 9;
         if ((gSaveContext.infTable[20] & 8)) {
             this->actor.textId = 0x404E;
-            func_8002F2F4(&this->actor, globalCtx);
+            Actor_RequestToTalk(&this->actor, globalCtx);
         } else if (gSaveContext.infTable[20] & 4) {
             this->actor.textId = 0x404D;
-            func_8002F2F4(&this->actor, globalCtx);
+            Actor_RequestToTalk(&this->actor, globalCtx);
         } else {
             this->actor.textId = 0x404C;
-            func_8002F2F4(&this->actor, globalCtx);
+            Actor_RequestToTalk(&this->actor, globalCtx);
         }
         return 0;
     }
@@ -2127,13 +2127,13 @@ void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
-    if (!func_8002F194(&this->actor, globalCtx)) {
+    if (!Actor_IsTalking(&this->actor, globalCtx)) {
         this->actor.flags |= 9;
         this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1F);
         if (this->actor.textId == 0) {
             this->actor.textId = 0x402C;
         }
-        func_8002F2F4(&this->actor, globalCtx);
+        Actor_RequestToTalk(&this->actor, globalCtx);
         return 0;
     }
     return 1;

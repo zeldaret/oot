@@ -91,7 +91,7 @@ glabel L80B7743C
 /* 0DB2C 80B774CC A58B010E */  sh      $t3, 0x010E($t4)           ## 0000010E
 .L80B774D0:
 /* 0DB30 80B774D0 8FA40038 */  lw      $a0, 0x0038($sp)           
-/* 0DB34 80B774D4 0C00BC65 */  jal     func_8002F194              
+/* 0DB34 80B774D4 0C00BC65 */  jal     Actor_IsTalking              
 /* 0DB38 80B774D8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0DB3C 80B774DC 3C068016 */  lui     $a2, %hi(gSaveContext)
 /* 0DB40 80B774E0 24C6E660 */  addiu   $a2, %lo(gSaveContext)
@@ -123,7 +123,7 @@ glabel L80B7743C
 .L80B77540:
 /* 0DBA0 80B77540 8FA40038 */  lw      $a0, 0x0038($sp)           
 /* 0DBA4 80B77544 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0DBA8 80B77548 0C00BCB3 */  jal     func_8002F2CC              
+/* 0DBA8 80B77548 0C00BCB3 */  jal     Actor_RequestToTalkInRange              
 /* 0DBAC 80B7754C 3C0642C8 */  lui     $a2, 0x42C8                ## $a2 = 42C80000
 /* 0DBB0 80B77550 1000033E */  beq     $zero, $zero, .L80B7824C   
 /* 0DBB4 80B77554 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -893,7 +893,7 @@ glabel L80B77C74
 /* 0E6A4 80B78044 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 0E6A8 80B78048 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0E6AC 80B7804C 3C0744FA */  lui     $a3, 0x44FA                ## $a3 = 44FA0000
-/* 0E6B0 80B78050 0C00BD0D */  jal     func_8002F434              
+/* 0E6B0 80B78050 0C00BD0D */  jal     Actor_GiveItemToPlayerInRange              
 /* 0E6B4 80B78054 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 0E6B8 80B78058 8FA90038 */  lw      $t1, 0x0038($sp)           
 /* 0E6BC 80B7805C 240B0017 */  addiu   $t3, $zero, 0x0017         ## $t3 = 00000017
@@ -1002,7 +1002,7 @@ glabel L80B7819C
 /* 0E830 80B781D0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0E834 80B781D4 24060038 */  addiu   $a2, $zero, 0x0038         ## $a2 = 00000038
 /* 0E838 80B781D8 3C0744FA */  lui     $a3, 0x44FA                ## $a3 = 44FA0000
-/* 0E83C 80B781DC 0C00BD0D */  jal     func_8002F434              
+/* 0E83C 80B781DC 0C00BD0D */  jal     Actor_GiveItemToPlayerInRange              
 /* 0E840 80B781E0 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 0E844 80B781E4 10000019 */  beq     $zero, $zero, .L80B7824C   
 /* 0E848 80B781E8 8FBF0024 */  lw      $ra, 0x0024($sp)           

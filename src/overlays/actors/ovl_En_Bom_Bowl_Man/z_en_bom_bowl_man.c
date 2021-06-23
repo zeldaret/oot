@@ -101,13 +101,13 @@ void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnBomBowMan_TalkAsleep;
     } else {
         yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
         if (!(this->actor.xzDistToPlayer > 120.0f) && (yawDiff < 0x4300)) {
-            func_8002F2CC(&this->actor, globalCtx, 120.0f);
+            Actor_RequestToTalkInRange(&this->actor, globalCtx, 120.0f);
         }
     }
 }
@@ -180,10 +180,10 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
 void EnBomBowMan_WaitNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnBomBowMan_TalkNotBeatenDC;
     } else {
-        func_8002F2CC(&this->actor, globalCtx, 120.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 120.0f);
     }
 }
 
@@ -269,7 +269,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = EnBomBowlMan_HandlePlayChoice;
     } else {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_IsTalking(&this->actor, globalCtx)) {
             if (this->minigamePlayStatus == 0) {
                 this->actionFunc = EnBomBowlMan_HandlePlayChoice;
             } else {
@@ -279,7 +279,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
             if (!(this->actor.xzDistToPlayer > 120.0f) && (yawDiff < 0x4300)) {
-                func_8002F2CC(&this->actor, globalCtx, 120.0f);
+                Actor_RequestToTalkInRange(&this->actor, globalCtx, 120.0f);
             }
         }
     }

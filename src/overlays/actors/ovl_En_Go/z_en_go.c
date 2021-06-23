@@ -237,7 +237,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                     unkState = 0;
                     break;
                 case 0x3036:
-                    func_8002F434(thisx, globalCtx, GI_TUNIC_GORON, xzRange, yRange);
+                    Actor_GiveItemToPlayerInRange(thisx, globalCtx, GI_TUNIC_GORON, xzRange, yRange);
                     gSaveContext.infTable[16] |= 0x2000; // EnGo exclusive flag
                     unkState = 2;
                     break;
@@ -348,10 +348,10 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     if (arg2->unk_00) {
         arg2->unk_00 = unkFunc2(globalCtx, &this->actor);
         return false;
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         arg2->unk_00 = 1;
         return true;
-    } else if (!func_8002F2CC(&this->actor, globalCtx, arg3)) {
+    } else if (!Actor_RequestToTalkInRange(&this->actor, globalCtx, arg3)) {
         return false;
     } else {
         this->actor.textId = getTextId(globalCtx, &this->actor);
@@ -605,7 +605,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
-                if (func_8002F368(globalCtx) == EXCH_ITEM_SWORD_BROKEN) {
+                if (Actor_GetItemExchangePlayer(globalCtx) == EXCH_ITEM_SWORD_BROKEN) {
                     if (gSaveContext.infTable[11] & 0x10) {
                         this->actor.textId = 0x3055;
                     } else {
@@ -618,7 +618,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
             }
 
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
-                if (func_8002F368(globalCtx) == EXCH_ITEM_EYEDROPS) {
+                if (Actor_GetItemExchangePlayer(globalCtx) == EXCH_ITEM_EYEDROPS) {
                     this->actor.textId = 0x3059;
                 } else {
                     this->actor.textId = 0x3058;
@@ -982,7 +982,7 @@ void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
 
         yDist = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzDist = this->actor.xzDistToPlayer + 1.0f;
-        func_8002F434(&this->actor, globalCtx, getItemId, xzDist, yDist);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, getItemId, xzDist, yDist);
     }
 }
 

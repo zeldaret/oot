@@ -210,7 +210,7 @@ void func_809DF6BC(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF730(EnCow* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = func_809DF96C;
     }
@@ -221,7 +221,7 @@ void func_809DF778(EnCow* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = func_809DF730;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
     }
 }
 
@@ -230,7 +230,7 @@ void func_809DF7D8(EnCow* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10000;
         func_80106CCC(globalCtx);
         this->actionFunc = func_809DF778;
-        func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
     }
 }
 
@@ -247,11 +247,11 @@ void func_809DF870(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF8FC(EnCow* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = func_809DF870;
     } else {
         this->actor.flags |= 0x10000;
-        func_8002F2CC(&this->actor, globalCtx, 170.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 170.0f);
         this->actor.textId = 0x2006;
     }
     func_809DF494(this, globalCtx);
@@ -269,7 +269,7 @@ void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
                     DREG(53) = 0;
                     this->actionFunc = func_809DF8FC;
                     this->actor.flags |= 0x10000;
-                    func_8002F2CC(&this->actor, globalCtx, 170.0f);
+                    Actor_RequestToTalkInRange(&this->actor, globalCtx, 170.0f);
                     this->actor.textId = 0x2006;
                 } else {
                     this->unk_276 |= 4;

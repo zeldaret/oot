@@ -1192,7 +1192,7 @@ void EnNb_SetupIdleCrawlspace(EnNb* this, s32 animFinished) {
 }
 
 void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->action = NB_IN_DIALOG;
     } else {
         this->actor.flags |= 9;
@@ -1203,7 +1203,7 @@ void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x6024;
         }
 
-        func_8002F2F4(&this->actor, globalCtx);
+        Actor_RequestToTalk(&this->actor, globalCtx);
     }
 }
 
@@ -1284,7 +1284,7 @@ void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, s32 animFinished) {
 }
 
 void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->action = NB_ACTION_30;
     } else {
         this->actor.flags |= 9;
@@ -1294,7 +1294,7 @@ void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x6026;
         }
 
-        func_8002F2F4(&this->actor, globalCtx);
+        Actor_RequestToTalk(&this->actor, globalCtx);
     }
 }
 

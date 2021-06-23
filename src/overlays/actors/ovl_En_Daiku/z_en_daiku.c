@@ -268,12 +268,12 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
 
     if (this->talkState == ENDAIKU_STATE_TALKING) {
         this->talkState = EnDaiku_UpdateTalking(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->talkState = ENDAIKU_STATE_TALKING;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);
+        Actor_GetDisplayPos(globalCtx, &this->actor, &sp2E, &sp2C);
         if (sp2E >= 0 && sp2E <= 320 && sp2C >= 0 && sp2C <= 240 && this->talkState == ENDAIKU_STATE_CAN_TALK &&
-            func_8002F2CC(&this->actor, globalCtx, 100.0f) == 1) {
+            Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f) == 1) {
             if (globalCtx->sceneNum == SCENE_GERUDOWAY) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
                     freedCount = 0;

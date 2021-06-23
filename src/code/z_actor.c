@@ -212,7 +212,7 @@ void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* lef
     }
 }
 
-void func_8002BE04(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
+void Matrix_GetProjectionPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->projectionMatrix, src, xyzDest, wDest);
     *wDest = (*wDest < 1.0f) ? 1.0f : (1.0f / *wDest);
 }
@@ -314,7 +314,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
         if (targetCtx->unk_4B != 0) {
             blurNum = 1;
         } else {
-            blurNum = 3;
+            blurNum = TARGET_BLUR_MAX;
         }
 
         if (actor != NULL) {
@@ -328,7 +328,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
             alpha = targetCtx->targetTimer;
         }
 
-        func_8002BE04(globalCtx, &targetCtx->targetProjectedPos, &targetPos, &w);
+        Matrix_GetProjectionPos(globalCtx, &targetCtx->targetProjectedPos, &targetPos, &w);
 
         targetPos.x = (160 * (targetPos.x * w)) * translateRatio;
         targetPos.x = CLAMP(targetPos.x, -320.0f, 320.0f);
@@ -346,7 +346,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
         if ((!(player->stateFlags1 & 0x40)) || (actor != player->unk_664)) {
             OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x39);
 
-            for (i = 0, j = targetCtx->targetBlurCount; i < blurNum; i++, j = (j + 1) % 3) {
+            for (i = 0, j = targetCtx->targetBlurCount; i < blurNum; i++, j = (j + 1) % TARGET_BLUR_MAX) {
                 entry = &targetCtx->targetInfo[j];
 
                 if (entry->radius < 500.0f) {
@@ -376,13 +376,13 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
                     }
                 }
 
-                alpha -= 255 / 3;
+                alpha -= 255 / TARGET_BLUR_MAX;
                 alpha = CLAMP_MIN(alpha, 0);
             }
         }
     }
 
-    actor = targetCtx->targetSecondaryActor;
+    actor = targetCtx->arrowPointedDrawActor;
     if ((actor != NULL) && !(actor->flags & 0x8000000)) {
         Color_RGBA8* color = &sTargetColorList[actor->category][0];
 
@@ -410,12 +410,11 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
     f32 cameraW;
 
     if ((player->unk_664 != NULL) && (player->unk_84B[player->unk_846] == 2)) {
-        targetCtx->targetSecondaryActor = NULL;
+        targetCtx->arrowPointedDrawActor = NULL;
     } else {
         func_80032AF0(globalCtx, &globalCtx->actorCtx, &naviTarget, player);
-        targetCtx->targetSecondaryActor = naviTarget;
+        targetCtx->arrowPointedDrawActor = naviTarget;
     }
-
 
     // Determine the actor for Navi to target
     if (targetCtx->targetRequestActor != NULL) {
@@ -444,8 +443,8 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
     if (Math_StepToF(&targetCtx->translateRatio, 0.0f, 0.25f) == 0) {
         f32 translateRatio = 0.25f / targetCtx->translateRatio;
         f32 deltaX = naviTarget->world.pos.x - targetCtx->targetPos.x;
-        f32 deltaY = (naviTarget->world.pos.y + (naviTarget->targetArrowOffset * naviTarget->scale.y)) -
-                     targetCtx->targetPos.y;
+        f32 deltaY =
+            (naviTarget->world.pos.y + (naviTarget->targetArrowOffset * naviTarget->scale.y)) - targetCtx->targetPos.y;
         f32 deltaZ = naviTarget->world.pos.z - targetCtx->targetPos.z;
 
         targetCtx->targetPos.x += deltaX * translateRatio;
@@ -456,7 +455,7 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
     }
 
     if ((actorArg != NULL) && (targetCtx->unk_4B == 0)) {
-        func_8002BE04(globalCtx, &actorArg->focus.pos, &cameraPos, &cameraW);
+        Matrix_GetProjectionPos(globalCtx, &actorArg->focus.pos, &cameraPos, &cameraW);
         if (((cameraPos.z <= 0.0f) || (1.0f <= fabsf(cameraPos.x * cameraW))) ||
             (1.0f <= fabsf(cameraPos.y * cameraW))) {
             actorArg = NULL;
@@ -1442,17 +1441,17 @@ typedef struct {
 #define TARGET_RANGE(range, leash) \
     { SQ(range), (f32)range / leash }
 
-TargetRangeParams D_80115FF8[] = {
+static TargetRangeParams sTargetRanges[] = {
     TARGET_RANGE(70, 140),   TARGET_RANGE(170, 255),    TARGET_RANGE(280, 5600),      TARGET_RANGE(350, 525),
     TARGET_RANGE(700, 1050), TARGET_RANGE(1000, 1500),  TARGET_RANGE(100, 105.36842), TARGET_RANGE(140, 163.33333),
     TARGET_RANGE(240, 576),  TARGET_RANGE(280, 280000),
 };
 
-u32 func_8002F090(Actor* actor, f32 arg1) {
-    return arg1 < D_80115FF8[actor->targetMode].rangeSq;
+u32 func_8002F090(Actor* actor, f32 range) {
+    return range < sTargetRanges[actor->targetMode].rangeSq;
 }
 
-s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
+s32 Player_IsWithinActorTargetRange(Actor* actor, Player* player, s32 flag) {
     if ((actor->update == NULL) || !(actor->flags & 1)) {
         return true;
     }
@@ -1468,13 +1467,13 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
             dist = actor->xyzDistToPlayerSq;
         }
 
-        return !func_8002F090(actor, D_80115FF8[actor->targetMode].leashScale * dist);
+        return !func_8002F090(actor, sTargetRanges[actor->targetMode].leashScale * dist);
     }
 
     return false;
 }
 
-u32 func_8002F194(Actor* actor, GlobalContext* globalCtx) {
+u32 Actor_IsTalking(Actor* actor, GlobalContext* globalCtx) {
     if (actor->flags & 0x100) {
         actor->flags &= ~0x100;
         return true;
@@ -1505,17 +1504,17 @@ s32 func_8002F298(Actor* actor, GlobalContext* globalCtx, f32 arg2, u32 exchange
     return func_8002F1C4(actor, globalCtx, arg2, arg2, exchangeItemId);
 }
 
-s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2) {
-    return func_8002F298(actor, globalCtx, arg2, EXCH_ITEM_NONE);
+s32 Actor_RequestToTalkInRange(Actor* actor, GlobalContext* globalCtx, f32 radius) {
+    return func_8002F298(actor, globalCtx, radius, EXCH_ITEM_NONE);
 }
 
-s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
-    f32 translateRatio = 50.0f + actor->colChkInfo.cylRadius;
+s32 Actor_RequestToTalk(Actor* actor, GlobalContext* globalCtx) {
+    f32 radius = 50.0f + actor->colChkInfo.cylRadius;
 
-    return func_8002F2CC(actor, globalCtx, translateRatio);
+    return Actor_RequestToTalkInRange(actor, globalCtx, radius);
 }
 
-u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
+u32 Actor_IsDoneTalking(Actor* actor, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         return true;
     } else {
@@ -1523,19 +1522,22 @@ u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-s8 func_8002F368(GlobalContext* globalCtx) {
+s8 Actor_GetItemExchangePlayer(GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     return player->exchangeItemId;
 }
 
-void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* arg2, s16* arg3) {
-    Vec3f sp1C;
-    f32 sp18;
+/**
+ * Get position of the actor on the screen
+ */
+void Actor_GetDisplayPos(GlobalContext* globalCtx, Actor* actor, s16* displayX, s16* displayY) {
+    Vec3f pos;
+    f32 w;
 
-    func_8002BE04(globalCtx, &actor->focus.pos, &sp1C, &sp18);
-    *arg2 = sp1C.x * sp18 * 160.0f + 160.0f;
-    *arg3 = sp1C.y * sp18 * -120.0f + 120.0f;
+    Matrix_GetProjectionPos(globalCtx, &actor->focus.pos, &pos, &w);
+    *displayX = pos.x * w * 160.0f + 160.0f;
+    *displayY = pos.y * w * -120.0f + 120.0f;
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
@@ -1546,7 +1548,7 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
+s32 Actor_GiveItemToPlayerInRange(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = PLAYER;
 
     if (!(player->stateFlags1 & 0x3C7080) && Player_GetExplosiveHeld(player) < 0) {
@@ -1570,12 +1572,12 @@ s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzR
     return false;
 }
 
-void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
-    func_8002F434(actor, globalCtx, getItemId, 50.0f, 10.0f);
+void Actor_GiveItemToPlayer(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
+    Actor_GiveItemToPlayerInRange(actor, globalCtx, getItemId, 50.0f, 10.0f);
 }
 
 void func_8002F580(Actor* actor, GlobalContext* globalCtx) {
-    func_8002F554(actor, globalCtx, GI_NONE);
+    Actor_GiveItemToPlayer(actor, globalCtx, GI_NONE);
 }
 
 u32 Actor_HasNoParent(Actor* actor, GlobalContext* globalCtx) {
@@ -2859,7 +2861,7 @@ s32 func_80032880(GlobalContext* globalCtx, Actor* actor) {
     s16 sp1E;
     s16 sp1C;
 
-    func_8002F374(globalCtx, actor, &sp1E, &sp1C);
+    Actor_GetDisplayPos(globalCtx, actor, &sp1E, &sp1C);
 
     return (sp1E > -20) && (sp1E < 340) && (sp1C > -160) && (sp1C < 400);
 }
@@ -3574,7 +3576,7 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, c
     s16 sp26;
     s16 sp24;
 
-    if (func_8002F194(actor, globalCtx)) {
+    if (Actor_IsTalking(actor, globalCtx)) {
         *arg2 = 1;
         return true;
     }
@@ -3584,13 +3586,13 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, c
         return false;
     }
 
-    func_8002F374(globalCtx, actor, &sp26, &sp24);
+    Actor_GetDisplayPos(globalCtx, actor, &sp26, &sp24);
 
     if ((sp26 < 0) || (sp26 > SCREEN_WIDTH) || (sp24 < 0) || (sp24 > SCREEN_HEIGHT)) {
         return false;
     }
 
-    if (!func_8002F2CC(actor, globalCtx, arg3)) {
+    if (!Actor_RequestToTalkInRange(actor, globalCtx, arg3)) {
         return false;
     }
 
@@ -5371,7 +5373,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
     s16 sp2A;
     s16 abs_var;
 
-    if (func_8002F194(actor, globalCtx)) {
+    if (Actor_IsTalking(actor, globalCtx)) {
         *arg3 = 1;
         return true;
     }
@@ -5383,7 +5385,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
         return false;
     }
 
-    func_8002F374(globalCtx, actor, &sp2C, &sp2A);
+    Actor_GetDisplayPos(globalCtx, actor, &sp2C, &sp2A);
 
     if (0) {} // Necessary to match
 
@@ -5403,11 +5405,11 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
     }
 
     if (actor->xyzDistToPlayerSq <= SQ(80.0f)) {
-        if (func_8002F2CC(actor, globalCtx, 80.0f)) {
+        if (Actor_RequestToTalkInRange(actor, globalCtx, 80.0f)) {
             actor->textId = func_80037C30(globalCtx, arg2);
         }
     } else {
-        if (func_8002F2F4(actor, globalCtx)) {
+        if (Actor_RequestToTalk(actor, globalCtx)) {
             actor->textId = func_80037C30(globalCtx, arg2);
         }
     }

@@ -763,7 +763,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
     if (this->unk_198 != 0) {
         this->unk_198--;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         if (this->actor.params >= EN_POH_SHARP) {
             func_80ADE9BC(this);
         } else {
@@ -778,7 +778,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
     }
     if (this->colliderCyl.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= 0x10000;
-        func_8002F2F4(&this->actor, globalCtx);
+        Actor_RequestToTalk(&this->actor, globalCtx);
     } else {
         this->actor.flags &= ~0x10000;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
@@ -828,7 +828,7 @@ void EnPoh_TalkRegular(EnPoh* this, GlobalContext* globalCtx) {
             }
             func_8010B720(globalCtx, this->actor.textId);
         }
-    } else if (func_8002F334(&this->actor, globalCtx) != 0) {
+    } else if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
         func_80ADE950(this, 0);
     }
 }
@@ -853,7 +853,7 @@ void EnPoh_TalkComposer(EnPoh* this, GlobalContext* globalCtx) {
                 func_80ADE950(this, 1);
             }
         }
-    } else if (func_8002F334(&this->actor, globalCtx) != 0) {
+    } else if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
         if (this->actor.textId == 0x5000) {
             Flags_SetSwitch(globalCtx, 9);
         }

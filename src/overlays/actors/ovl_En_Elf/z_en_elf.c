@@ -661,7 +661,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
 
         if (!(this->fairyFlags & FAIRY_FLAG_BIG)) {
             // GI_MAX in this case allows the player to catch the actor in a bottle
-            func_8002F434(&this->actor, globalCtx, GI_MAX, 80.0f, 60.0f);
+            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_MAX, 80.0f, 60.0f);
         }
     }
 }
@@ -1354,7 +1354,7 @@ void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
                     break;
             }
         }
-    } else if (func_8002F334(thisx, globalCtx)) {
+    } else if (Actor_IsDoneTalking(thisx, globalCtx)) {
         this->actor.update = func_80A053F0;
         func_80A01C38(this, 0);
         this->fairyFlags &= ~0x20;
@@ -1384,7 +1384,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags |= 0x10000;
     }
 
-    if (func_8002F194(thisx, globalCtx)) {
+    if (Actor_IsTalking(thisx, globalCtx)) {
         func_800F4524(&D_801333D4, NA_SE_VO_SK_LAUGH, 0x20);
         thisx->focus.pos = thisx->world.pos;
 

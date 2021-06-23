@@ -17,7 +17,7 @@ glabel func_80A99504
 /* 0278C 80A9953C 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 02790 80A99540 24060021 */  addiu   $a2, $zero, 0x0021         ## $a2 = 00000021
 /* 02794 80A99544 3C0742F0 */  lui     $a3, 0x42F0                ## $a3 = 42F00000
-/* 02798 80A99548 0C00BD0D */  jal     func_8002F434              
+/* 02798 80A99548 0C00BD0D */  jal     Actor_GiveItemToPlayerInRange              
 /* 0279C 80A9954C E7A40010 */  swc1    $f4, 0x0010($sp)           
 .L80A99550:
 /* 027A0 80A99550 8FBF001C */  lw      $ra, 0x001C($sp)           

@@ -28,7 +28,7 @@ glabel func_80AC37A8
 /* 00B44 80AC37E4 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 00B48 80AC37E8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B4C 80AC37EC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00B50 80AC37F0 0C00BC65 */  jal     func_8002F194              
+/* 00B50 80AC37F0 0C00BC65 */  jal     Actor_IsTalking              
 /* 00B54 80AC37F4 A5E004D2 */  sh      $zero, 0x04D2($t7)         ## 801604D2
 /* 00B58 80AC37F8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00B5C 80AC37FC 8FA30024 */  lw      $v1, 0x0024($sp)           

@@ -336,7 +336,7 @@ void Lights_GlowCheck(GlobalContext* globalCtx) {
             pos.x = params->x;
             pos.y = params->y;
             pos.z = params->z;
-            func_8002BE04(globalCtx, &pos, &multDest, &wDest);
+            Matrix_GetProjectionPos(globalCtx, &pos, &multDest, &wDest);
             params->drawGlow = false;
             wX = multDest.x * wDest;
             wY = multDest.y * wDest;

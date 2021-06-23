@@ -51,7 +51,7 @@ glabel func_80B71438
 /* 07B44 80B714E4 37190001 */  ori     $t9, $t8, 0x0001           ## $t9 = 00000001
 /* 07B48 80B714E8 AC990004 */  sw      $t9, 0x0004($a0)           ## 00000004
 /* 07B4C 80B714EC AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 07B50 80B714F0 0C00BC65 */  jal     func_8002F194              
+/* 07B50 80B714F0 0C00BC65 */  jal     Actor_IsTalking              
 /* 07B54 80B714F4 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 07B58 80B714F8 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 07B5C 80B714FC 10400028 */  beq     $v0, $zero, .L80B715A0     
@@ -99,7 +99,7 @@ glabel func_80B71438
 /* 07BF8 80B71598 10000012 */  beq     $zero, $zero, .L80B715E4   
 /* 07BFC 80B7159C A08A01D3 */  sb      $t2, 0x01D3($a0)           ## 000001D3
 .L80B715A0:
-/* 07C00 80B715A0 0C00BCBD */  jal     func_8002F2F4              
+/* 07C00 80B715A0 0C00BCBD */  jal     Actor_RequestToTalk              
 /* 07C04 80B715A4 00000000 */  nop
 /* 07C08 80B715A8 1000000F */  beq     $zero, $zero, .L80B715E8   
 /* 07C0C 80B715AC 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -111,7 +111,7 @@ glabel func_80B71438
 /* 07C20 80B715C0 10000008 */  beq     $zero, $zero, .L80B715E4   
 /* 07C24 80B715C4 AC8D0004 */  sw      $t5, 0x0004($a0)           ## 00000004
 .L80B715C8:
-/* 07C28 80B715C8 0C00BCCD */  jal     func_8002F334              
+/* 07C28 80B715C8 0C00BCCD */  jal     Actor_IsDoneTalking              
 /* 07C2C 80B715CC AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 07C30 80B715D0 10400004 */  beq     $v0, $zero, .L80B715E4     
 /* 07C34 80B715D4 8FA40018 */  lw      $a0, 0x0018($sp)           

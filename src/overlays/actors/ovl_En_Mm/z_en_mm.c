@@ -298,7 +298,7 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
     } else if (this->unk_1E0 == 1) {
         this->unk_1E0 = func_80AADAA0(this, globalCtx);
     } else {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_IsTalking(&this->actor, globalCtx)) {
             this->unk_1E0 = 1;
 
             if (this->curAnimIndex != 5) {
@@ -308,11 +308,11 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+            Actor_GetDisplayPos(globalCtx, &this->actor, &sp26, &sp24);
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
             if ((sp26 >= 0) && (sp26 <= 0x140) && (sp24 >= 0) && (sp24 <= 0xF0) && (yawDiff <= 17152.0f) &&
-                (this->unk_1E0 != 3) && func_8002F2CC(&this->actor, globalCtx, 100.0f)) {
+                (this->unk_1E0 != 3) && Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f)) {
                 this->actor.textId = EnMm_GetTextId(this, globalCtx);
             }
         }

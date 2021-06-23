@@ -150,13 +150,13 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
     func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
 
     if (this->unk_1E6 != 0) {
-        if (func_8002F334(&this->actor, globalCtx)) {
+        if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
             this->unk_1E6 = 0;
         }
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->unk_1E6 = 1;
     } else if (this->actor.world.pos.y <= player->actor.world.pos.y) {
-        func_8002F2F4(&this->actor, globalCtx);
+        Actor_RequestToTalk(&this->actor, globalCtx);
     }
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -173,7 +173,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     Vec3f playerPos = { -398.0f, 84.0f, 0.0f };
     s16 rotDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         Animation_Change(&this->skelAnime, &D_06010B38, 1.0f, 0.0f, Animation_GetLastFrame(&D_06010B38),
                          ANIMMODE_ONCE_INTERP, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
@@ -198,7 +198,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         if (1) {} // necessary to match
         rotDiff = ABS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
         if ((rotDiff < 0x238E) && !(player->actor.world.pos.y < this->actor.world.pos.y)) {
-            func_8002F2F4(&this->actor, globalCtx);
+            Actor_RequestToTalk(&this->actor, globalCtx);
         }
     }
 }
@@ -502,7 +502,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
                 this->actor.textId = 0xFFFF;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
-                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
+                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
                 globalCtx->msgCtx.msgMode = 0x36;
                 globalCtx->msgCtx.unk_E3E7 = 4;
                 this->unk_1E2++;
@@ -517,7 +517,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
                 this->actor.parent = NULL;
                 this->unk_1E2++;
             } else {
-                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
+                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
             }
             break;
         case 3:
@@ -532,20 +532,20 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             if (player->actor.world.pos.y < this->actor.world.pos.y) {
                 break;
             } else {
-                if (func_8002F194(&this->actor, globalCtx)) {
+                if (Actor_IsTalking(&this->actor, globalCtx)) {
                     this->unk_1E2++;
                 } else {
-                    func_8002F2F4(&this->actor, globalCtx);
+                    Actor_RequestToTalk(&this->actor, globalCtx);
                 }
             }
             break;
         case 5:
-            if (func_8002F334(&this->actor, globalCtx)) {
+            if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
                 this->unk_1E2--;
             }
             break;
         case 6:
-            if (func_8002F334(&this->actor, globalCtx)) {
+            if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Interface_ChangeAlpha(50);
                 this->actor.flags &= ~0x100;

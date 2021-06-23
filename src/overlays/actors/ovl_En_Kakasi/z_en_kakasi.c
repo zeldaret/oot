@@ -203,7 +203,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
     SkelAnime_Update(&this->skelanime);
     this->camId = SUBCAM_NONE;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (this->unk_196 == 5) {
             this->actionFunc = func_80A8F9C8;
         } else {
@@ -231,7 +231,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
                         player->stateFlags2 |= 0x800000;
                     }
                 }
-                func_8002F2CC(&this->actor, globalCtx, 100.0f);
+                Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
             }
         }
     }

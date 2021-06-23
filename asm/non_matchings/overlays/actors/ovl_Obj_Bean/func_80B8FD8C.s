@@ -2,11 +2,11 @@ glabel func_80B8FD8C
 /* 0130C 80B8FD8C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01310 80B8FD90 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 01314 80B8FD94 AFA40018 */  sw      $a0, 0x0018($sp)           
-/* 01318 80B8FD98 0C00BC65 */  jal     func_8002F194              
+/* 01318 80B8FD98 0C00BC65 */  jal     Actor_IsTalking              
 /* 0131C 80B8FD9C AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 01320 80B8FDA0 1040000F */  beq     $v0, $zero, .L80B8FDE0     
 /* 01324 80B8FDA4 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 01328 80B8FDA8 0C00BCDA */  jal     func_8002F368              
+/* 01328 80B8FDA8 0C00BCDA */  jal     Actor_GetItemExchangePlayer              
 /* 0132C 80B8FDAC 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 01330 80B8FDB0 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 01334 80B8FDB4 5441000F */  bnel    $v0, $at, .L80B8FDF4       

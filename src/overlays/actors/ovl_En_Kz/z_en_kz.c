@@ -192,7 +192,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
     f32 xzDistToPlayer;
     f32 yaw;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         *arg2 = 1;
         return 1;
     }
@@ -211,14 +211,14 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
 
     this->actor.flags |= 1;
 
-    func_8002F374(globalCtx, &this->actor, &sp32, &sp30);
+    Actor_GetDisplayPos(globalCtx, &this->actor, &sp32, &sp30);
     if (!((sp32 >= -30) && (sp32 < 361) && (sp30 >= -10) && (sp30 < 241))) {
         return 0;
     }
 
     xzDistToPlayer = this->actor.xzDistToPlayer;
     this->actor.xzDistToPlayer = Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos);
-    if (func_8002F2CC(&this->actor, globalCtx, unkf) == 0) {
+    if (Actor_RequestToTalkInRange(&this->actor, globalCtx, unkf) == 0) {
         this->actor.xzDistToPlayer = xzDistToPlayer;
         return 0;
     }
@@ -233,7 +233,7 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
 
     if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0)) {
         if ((this->actor.textId == 0x401A) && !(gSaveContext.eventChkInf[3] & 8)) {
-            if (func_8002F368(globalCtx) == EXCH_ITEM_LETTER_RUTO) {
+            if (Actor_GetItemExchangePlayer(globalCtx) == EXCH_ITEM_LETTER_RUTO) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
             } else {
@@ -245,7 +245,7 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
 
         if (LINK_IS_ADULT) {
             if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) &&
-                (func_8002F368(globalCtx) == EXCH_ITEM_PRESCRIPTION)) {
+                (Actor_GetItemExchangePlayer(globalCtx) == EXCH_ITEM_PRESCRIPTION)) {
                 this->actor.textId = 0x4014;
                 this->sfxPlayed = false;
                 player->actor.textId = this->actor.textId;
@@ -431,7 +431,7 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
         getItemId = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
         yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzRange = this->actor.xzDistToPlayer + 1.0f;
-        func_8002F434(&this->actor, globalCtx, getItemId, xzRange, yRange);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, getItemId, xzRange, yRange);
     }
 }
 

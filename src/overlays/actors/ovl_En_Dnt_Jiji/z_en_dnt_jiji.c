@@ -236,10 +236,10 @@ void EnDntJiji_Cower(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if (frame >= this->endFrame) {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_IsTalking(&this->actor, globalCtx)) {
             this->actionFunc = EnDntJiji_SetupTalk;
         } else {
-            func_8002F2CC(&this->actor, globalCtx, 100.0f);
+            Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
         }
     }
 }
@@ -258,7 +258,7 @@ void EnDntJiji_Talk(EnDntJiji* this, GlobalContext* globalCtx) {
         func_80106CCC(globalCtx);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.parent = NULL;
-        func_8002F434(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
         this->actionFunc = EnDntJiji_SetupGivePrize;
     }
 }
@@ -268,7 +268,7 @@ void EnDntJiji_SetupGivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnDntJiji_GivePrize;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
     }
 }
 

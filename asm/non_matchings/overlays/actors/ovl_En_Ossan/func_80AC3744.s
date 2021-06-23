@@ -7,7 +7,7 @@ glabel func_80AC3744
 /* 00AB8 80AC3758 27A7001C */  addiu   $a3, $sp, 0x001C           ## $a3 = FFFFFFFC
 /* 00ABC 80AC375C 000FC080 */  sll     $t8, $t7,  2               
 /* 00AC0 80AC3760 00B8C821 */  addu    $t9, $a1, $t8              
-/* 00AC4 80AC3764 0C00BCDD */  jal     func_8002F374              
+/* 00AC4 80AC3764 0C00BCDD */  jal     Actor_GetDisplayPos              
 /* 00AC8 80AC3768 8F250200 */  lw      $a1, 0x0200($t9)           ## 00000200
 /* 00ACC 80AC376C 87A8001E */  lh      $t0, 0x001E($sp)           
 /* 00AD0 80AC3770 8FA20024 */  lw      $v0, 0x0024($sp)           

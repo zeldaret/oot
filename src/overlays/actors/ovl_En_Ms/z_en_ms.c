@@ -109,10 +109,10 @@ void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     EnMs_SetOfferText(this, globalCtx);
 
-    if (func_8002F194(&this->actor, globalCtx)) { // if talk is initiated
+    if (Actor_IsTalking(&this->actor, globalCtx)) { // if talk is initiated
         this->actionFunc = EnMs_Talk;
     } else if ((this->actor.xzDistToPlayer < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
-        func_8002F2CC(&this->actor, globalCtx, 90.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 90.0f);
     }
 }
 
@@ -131,7 +131,7 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
                     func_8010B720(globalCtx, 0x4069); // not enough rupees text
                     return;
                 }
-                func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
+                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
                 this->actionFunc = EnMs_Sell;
                 return;
             case 1: // no
@@ -148,7 +148,7 @@ void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnMs_TalkAfterPurchase;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
     }
 }
 

@@ -737,7 +737,7 @@ void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
     } else if (globalCtx->msgCtx.unk_E3EE == 3) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->actor.textId = 0x1067;
-        func_8002F2CC(&this->actor, globalCtx, this->collider.dim.radius + 30.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, this->collider.dim.radius + 30.0f);
 
         this->actionFunc = func_80AAB948;
         globalCtx->msgCtx.unk_E3EE = 4;

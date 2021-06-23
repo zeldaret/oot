@@ -243,7 +243,7 @@ void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
     if (this->unk_284 != 0) {
         SkelAnime_Update(&this->skelAnime);
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         if (this->unk_284 == 0) {
             this->actionFunc = func_80A5673C;
 
@@ -251,7 +251,7 @@ void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
             this->actionFunc = func_80A56900;
         }
     } else {
-        func_8002F2CC(&this->actor, globalCtx, 100.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
     }
 }
 
@@ -326,7 +326,7 @@ void func_80A56B40(EnHeishi4* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
             this->unk_284 = 1;
             this->actionFunc = func_80A563BC;
@@ -337,7 +337,7 @@ void func_80A56B40(EnHeishi4* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    func_8002F2F4(&this->actor, globalCtx);
+    Actor_RequestToTalk(&this->actor, globalCtx);
 }
 
 void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {

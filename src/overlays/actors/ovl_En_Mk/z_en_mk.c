@@ -86,7 +86,7 @@ void EnMk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AACA40(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         this->actor.flags &= 0xFFFEFFFF;
         this->actionFunc = EnMk_Wait;
     }
@@ -101,19 +101,19 @@ void func_80AACA94(EnMk* this, GlobalContext* globalCtx) {
         func_80088AA0(240);
         gSaveContext.eventInf[1] &= ~1;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
     }
 }
 
 void func_80AACB14(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACA94;
-        func_8002F434(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
     }
 }
 
 void func_80AACB6C(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACB14;
     }
 
@@ -202,14 +202,14 @@ void func_80AACFA0(EnMk* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80AACA40;
         gSaveContext.itemGetInf[1] |= 1;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
 }
 
 void func_80AAD014(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80AACFA0;
-        func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
 
     this->flags |= 1;
@@ -221,8 +221,8 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 playerExchangeItem;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
-        playerExchangeItem = func_8002F368(globalCtx);
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+        playerExchangeItem = Actor_GetItemExchangePlayer(globalCtx);
 
         if (this->actor.textId != 0x4018) {
             player->actor.textId = this->actor.textId;

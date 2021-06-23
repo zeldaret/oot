@@ -192,13 +192,13 @@ void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, GlobalContext* globalC
 
     if (this->talkState == 2) {
         this->talkState = EnDaikuKakariko_GetTalkState(this, globalCtx);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->talkState = 2;
     } else {
-        func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
+        Actor_GetDisplayPos(globalCtx, &this->actor, &sp26, &sp24);
 
         if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
-            (func_8002F2CC(&this->actor, globalCtx, 100.0f) == 1)) {
+            (Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f) == 1)) {
             this->actor.textId = Text_GetFaceReaction(globalCtx, maskReactionSets[this->actor.params & 3]);
 
             if (this->actor.textId == 0) {

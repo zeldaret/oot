@@ -425,13 +425,13 @@ s32 EnZl4_CsWaitForPlayer(EnZl4* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 absYawDiff;
 
-    if (!func_8002F194(&this->actor, globalCtx)) {
+    if (!Actor_IsTalking(&this->actor, globalCtx)) {
         yawDiff = (f32)this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
         if ((playerx->world.pos.y != this->actor.world.pos.y) || (absYawDiff >= 0x3FFC)) {
             return false;
         } else {
-            func_8002F2CC(&this->actor, globalCtx, this->collider.dim.radius + 60.0f);
+            Actor_RequestToTalkInRange(&this->actor, globalCtx, this->collider.dim.radius + 60.0f);
             return false;
         }
     }
@@ -1101,7 +1101,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 Camera_ChangeSetting(ACTIVE_CAM, 1);
                 this->talkState = 7;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
-                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
+                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
                               fabsf(this->actor.yDistToPlayer) + 1.0f);
                 globalCtx->msgCtx.unk_E3E7 = 4;
                 globalCtx->msgCtx.msgMode = 0x36;
@@ -1112,7 +1112,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
                 this->talkState++;
             } else {
-                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
+                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
                               fabsf(this->actor.yDistToPlayer) + 1.0f);
             }
             // no break here is required for matching

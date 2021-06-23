@@ -251,7 +251,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
         phi_s1 = 10;
         this->unk_26E = 11;
     }
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         osSyncPrintf("\n\n");
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん選択\t ☆☆☆☆ %d\n" VT_RST, phi_s1);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n" VT_RST, this->unk_26C);
@@ -294,7 +294,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        func_8002F2CC(&this->actor, globalCtx, 100.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
     }
 }
 
@@ -308,13 +308,13 @@ void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx) {
         if (!(gSaveContext.itemGetInf[0] & 0x1000)) {
             this->actor.parent = NULL;
             this->getItemId = GI_BOTTLE;
-            func_8002F434(&this->actor, globalCtx, GI_BOTTLE, 100.0f, 50.0f);
+            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_BOTTLE, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
             return;
         }
         if (this->unk_26C == 1) {
             this->getItemId = GI_RUPEE_PURPLE;
-            func_8002F434(&this->actor, globalCtx, GI_RUPEE_PURPLE, 100.0f, 50.0f);
+            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_RUPEE_PURPLE, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
         }
         this->actionFunc = func_80ABA244;
@@ -362,8 +362,8 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
         this->unk_26E = 11;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
-        playerExchangeItemId = func_8002F368(globalCtx);
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+        playerExchangeItemId = Actor_GetItemExchangePlayer(globalCtx);
         if ((playerExchangeItemId == 6) && (gSaveContext.eventChkInf[6] & 0x400)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             player->actor.textId = sTradeItemTextIds[5];
@@ -389,7 +389,7 @@ void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx) {
             case 0:
                 func_80106CCC(globalCtx);
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, globalCtx, GI_POCKET_EGG, 200.0f, 100.0f);
+                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_POCKET_EGG, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
                 break;
             case 1:
@@ -417,7 +417,7 @@ void func_80ABAB08(EnNiwLady* this, GlobalContext* globalCtx) {
             case 0:
                 func_80106CCC(globalCtx);
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, globalCtx, GI_COJIRO, 200.0f, 100.0f);
+                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_COJIRO, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
                 break;
             case 1:
@@ -443,7 +443,7 @@ void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx) {
         if (LINK_IS_ADULT) {
             getItemId = !(gSaveContext.itemGetInf[2] & 0x1000) ? GI_POCKET_EGG : GI_COJIRO;
         }
-        func_8002F434(&this->actor, globalCtx, getItemId, 200.0f, 100.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, getItemId, 200.0f, 100.0f);
     }
 }
 
@@ -480,12 +480,12 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
         this->unk_26E = 8;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         this->unk_274 = 1;
         this->unk_26E = this->unk_27A + 9;
         this->actionFunc = func_80ABAD38;
     } else {
-        func_8002F2CC(&this->actor, globalCtx, 100.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
     }
 }
 

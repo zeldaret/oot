@@ -90,7 +90,7 @@ glabel func_80A9877C
 /* 01B20 80A988D0 A60E010E */  sh      $t6, 0x010E($s0)           ## 0000010E
 /* 01B24 80A988D4 A618010E */  sh      $t8, 0x010E($s0)           ## 0000010E
 .L80A988D8:
-/* 01B28 80A988D8 0C00BCDA */  jal     func_8002F368
+/* 01B28 80A988D8 0C00BCDA */  jal     Actor_GetItemExchangePlayer
 /* 01B2C 80A988DC 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 01B30 80A988E0 24010009 */  addiu   $at, $zero, 0x0009         ## $at = 00000009
 /* 01B34 80A988E4 1441000B */  bne     $v0, $at, .L80A98914

@@ -170,7 +170,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx) {
 }
 
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_0200F870);
         gSaveContext.cutsceneTrigger = 1;
     }
@@ -183,7 +183,7 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
         this->actionFunc = ItemOcarina_StartSoTCutscene;
         this->actor.draw = NULL;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_OCARINA_OOT, 30.0f, 50.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_OCARINA_OOT, 30.0f, 50.0f);
 
         if ((globalCtx->gameplayFrames & 13) == 0) {
             EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);

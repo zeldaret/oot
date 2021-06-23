@@ -117,8 +117,8 @@ void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFunc actionFunc) {
     s16 yawDiff;
 
-    // func_8002F194 returns 1 if actor flags & 0x100 is set and unsets it
-    if (func_8002F194(&this->actor, globalCtx)) {
+    // Actor_IsTalking returns 1 if actor flags & 0x100 is set and unsets it
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return true;
     }
@@ -126,7 +126,7 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistToPlayer < 100.0f)) {
-        func_8002F2CC(&this->actor, globalCtx, 100.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
     } else {
         this->behaviorFlags |= FU_RESET_LOOK_ANGLE;
     }
@@ -134,7 +134,7 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
 }
 
 void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
         this->behaviorFlags &= ~FU_WAIT;
         this->actionFunc = EnFu_WaitChild;
 
@@ -174,7 +174,7 @@ void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
 
 void func_80A1DBA0(EnFu* this, GlobalContext* globalCtx) {
     // if dialog state is 2 set action to WaitAdult
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnFu_WaitAdult;
     }
 }
@@ -239,12 +239,12 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
         func_8010B680(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
         this->behaviorFlags |= FU_WAIT;
-    } else if (func_8002F194(&this->actor, globalCtx) != 0) {
+    } else if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
         if (this->actor.xzDistToPlayer < 100.0f) {
             this->actor.textId = 0x5034;
-            func_8002F2CC(&this->actor, globalCtx, 100.0f);
+            Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
             player->stateFlags2 |= 0x800000;
         }
     }

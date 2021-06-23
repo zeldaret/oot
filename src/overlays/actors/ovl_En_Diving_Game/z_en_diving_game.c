@@ -185,7 +185,7 @@ void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
 void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->state != ENDIVINGGAME_STATE_PLAYING || !EnDivingGame_HasMinigameFinished(this, globalCtx)) {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_IsTalking(&this->actor, globalCtx)) {
             if (this->unk_292 != 6) {
                 switch (this->state) {
                     case ENDIVINGGAME_STATE_NOTPLAYING:
@@ -226,7 +226,7 @@ void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
                         break;
                 }
             }
-            func_8002F2CC(&this->actor, globalCtx, 80.0f);
+            Actor_RequestToTalkInRange(&this->actor, globalCtx, 80.0f);
         }
     }
 }
@@ -453,7 +453,7 @@ void func_809EEA00(EnDivingGame* this, GlobalContext* globalCtx) {
     if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx))) {
         func_80106CCC(globalCtx);
         this->actor.parent = NULL;
-        func_8002F434(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
         this->actionFunc = func_809EEA90;
     }
 }
@@ -463,7 +463,7 @@ void func_809EEA90(EnDivingGame* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_809EEAF8;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
     }
 }
 

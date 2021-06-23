@@ -266,7 +266,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
     s32 timer;
     f32 distCheck;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (this->actor.params == 0xFFF) {
             this->actionFlags |= 0x40;
             timer = -100;
@@ -293,7 +293,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
 }
 
 s32 func_80ACA558(EnOwl* this, GlobalContext* globalCtx, u16 textId) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         return true;
     } else {
         this->actor.textId = textId;
@@ -348,7 +348,7 @@ void func_80ACA71C(EnOwl* this) {
 void func_80ACA76C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         Audio_SetBGM(0x110000FF);
         func_80ACA62C(this, globalCtx);
         this->actor.flags &= ~0x10000;
@@ -358,7 +358,7 @@ void func_80ACA76C(EnOwl* this, GlobalContext* globalCtx) {
 void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         Audio_SetBGM(0x110000FF);
         if ((this->unk_3EE & 0x3F) == 0) {
             func_80ACA62C(this, globalCtx);
@@ -558,7 +558,7 @@ void EnOwl_WaitLakeHylia(EnOwl* this, GlobalContext* globalCtx) {
 void func_80ACB03C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         Audio_SetBGM(0x110000FF);
         func_80ACA62C(this, globalCtx);
         this->actor.flags &= ~0x10000;
@@ -587,7 +587,7 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         Audio_SetBGM(0x110000FF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
@@ -607,7 +607,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         Audio_SetBGM(0x110000FF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
@@ -615,7 +615,7 @@ void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACB274(EnOwl* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         Audio_SetBGM(0x110000FF);
         this->actionFunc = EnOwl_WaitDeathMountainShortcut;
     }

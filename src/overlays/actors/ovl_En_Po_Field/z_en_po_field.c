@@ -648,7 +648,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         EnPoField_SetupInteractWithSoul(this);
         return;
     }
@@ -660,7 +660,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
     }
     if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= 0x10000;
-        func_8002F2F4(&this->actor, globalCtx);
+        Actor_RequestToTalk(&this->actor, globalCtx);
     } else {
         this->actor.flags &= ~0x10000;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -718,7 +718,7 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
             func_8010B720(globalCtx, this->actor.textId);
             return;
         }
-    } else if (func_8002F334(&this->actor, globalCtx) != 0) {
+    } else if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
         EnPoField_SetupSoulDisappear(this);
     }
 }

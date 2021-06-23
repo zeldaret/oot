@@ -176,13 +176,13 @@ void EnMm2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80AAF224(EnMm2* this, GlobalContext* globalCtx, EnMm2ActionFunc actionFunc) {
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return 1;
     }
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(yawDiff) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
-        func_8002F2CC(&this->actor, globalCtx, 100.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
     }
     return 0;
 }
@@ -244,7 +244,7 @@ void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
             return;
     }
 
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x607F) {
             func_80088AA0(0);
             this->actionFunc = func_80AAF57C;

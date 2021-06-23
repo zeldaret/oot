@@ -54,7 +54,7 @@ void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
         this->actionFunc = EnDs_Wait;
         this->actor.flags &= ~0x10000;
     }
@@ -70,16 +70,16 @@ void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
         this->actionFunc = EnDs_Talk;
     } else {
         this->actor.flags |= 0x10000;
-        func_8002F2CC(&this->actor, globalCtx, 1000.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 1000.0f);
     }
 }
 
 void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
         this->actor.flags &= ~0x100;
@@ -93,7 +93,7 @@ void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
         this->actionFunc = EnDs_DisplayOddPotionText;
         gSaveContext.timer2State = 0;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
     }
 }
 
@@ -101,7 +101,7 @@ void EnDs_TalkAfterBrewOddPotion(EnDs* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->actionFunc = EnDs_GiveOddPotion;
-        func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
     }
 }
 
@@ -173,7 +173,7 @@ void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_Talk;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
     }
 }
 
@@ -192,7 +192,7 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
                         this->actor.flags &= ~0x10000;
-                        func_8002F434(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
+                        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
                 }
@@ -208,8 +208,8 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
-        if (func_8002F368(globalCtx) == EXCH_ITEM_ODD_MUSHROOM) {
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+        if (Actor_GetItemExchangePlayer(globalCtx) == EXCH_ITEM_ODD_MUSHROOM) {
             Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             player->actor.textId = 0x504A;
             this->actionFunc = EnDs_OfferOddPotion;

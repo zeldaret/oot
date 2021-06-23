@@ -210,7 +210,7 @@ void EnSth_LookAtPlayer(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         if (this->actor.params == 0) {
             EnSth_SetupAction(this, EnSth_ParentRewardObtainedWait);
         } else {
@@ -221,12 +221,12 @@ void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_ParentRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         this->actor.textId = 0x23;
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, globalCtx, 100.0f);
+            Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, globalCtx);
@@ -250,7 +250,7 @@ void EnSth_GivePlayerItem(EnSth* this, GlobalContext* globalCtx) {
             break;
     }
 
-    func_8002F434(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
+    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
 }
 
 void EnSth_GiveReward(EnSth* this, GlobalContext* globalCtx) {
@@ -274,7 +274,7 @@ void EnSth_RewardUnobtainedTalk(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
@@ -283,14 +283,14 @@ void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x21;
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, globalCtx, 100.0f);
+            Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, globalCtx);
 }
 
 void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.inventory.gsTokens < 50) {
@@ -299,7 +299,7 @@ void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x1F;
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, globalCtx, 100.0f);
+            Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, globalCtx);

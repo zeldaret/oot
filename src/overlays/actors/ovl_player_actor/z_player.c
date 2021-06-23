@@ -3004,7 +3004,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
 
                 if ((actorToTarget != NULL) && !(actorToTarget->flags & 0x8000000)) {
                     if ((actorToTarget == this->unk_664) && (this->actor.category == ACTORCAT_PLAYER)) {
-                        actorToTarget = globalCtx->actorCtx.targetCtx.targetSecondaryActor;
+                        actorToTarget = globalCtx->actorCtx.targetCtx.arrowPointedDrawActor;
                     }
 
                     if (actorToTarget != this->unk_664) {
@@ -3030,7 +3030,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
 
             if (this->unk_664 != NULL) {
                 if ((this->actor.category == ACTORCAT_PLAYER) && (this->unk_664 != this->unk_684) &&
-                    func_8002F0C8(this->unk_664, this, sp1C)) {
+                    Player_IsWithinActorTargetRange(this->unk_664, this, sp1C)) {
                     func_8008EDF0(this);
                     this->stateFlags1 |= 0x40000000;
                 } else if (this->unk_664 != NULL) {

@@ -261,7 +261,7 @@ s32 func_80A6F790(EnHy* this, GlobalContext* globalCtx) {
 
 void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
     this->unk_260 = getItemId;
-    func_8002F434(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
+    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
                   fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
@@ -574,7 +574,7 @@ void func_80A70834(EnHy* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x7F) == 5) {
         if (!Inventory_HasSpecificBottle(ITEM_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BUG) &&
             !Inventory_HasSpecificBottle(ITEM_FISH)) {
-            switch (func_8002F368(globalCtx)) {
+            switch (Actor_GetItemExchangePlayer(globalCtx)) {
                 case EXCH_ITEM_POE:
                 case EXCH_ITEM_BIG_POE:
                 case EXCH_ITEM_LETTER_RUTO:
@@ -587,7 +587,7 @@ void func_80A70834(EnHy* this, GlobalContext* globalCtx) {
                     break;
             }
         } else {
-            switch (func_8002F368(globalCtx)) {
+            switch (Actor_GetItemExchangePlayer(globalCtx)) {
                 case EXCH_ITEM_BLUE_FIRE:
                     this->actor.textId = 0x70F0;
                     break;
@@ -895,7 +895,7 @@ void func_80A714C4(EnHy* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_80A71530;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->unk_260, this->actor.xzDistToPlayer + 1.0f,
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->unk_260, this->actor.xzDistToPlayer + 1.0f,
                       fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }

@@ -297,7 +297,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
     s16 sp30;
 
     if (this->unk_1E4 == 3) {
-        func_8002F194(&this->actor, globalCtx);
+        Actor_IsTalking(&this->actor, globalCtx);
         func_8010B720(globalCtx, this->actor.textId);
         this->unk_1E4 = 1;
     }
@@ -321,14 +321,14 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
             this->actor.parent = NULL;
             this->unk_1E4 = 5;
         } else {
-            func_8002F434(&this->actor, globalCtx, GI_SWORD_BROKEN, 100.0f, 10.0f);
+            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_SWORD_BROKEN, 100.0f, 10.0f);
         }
         return;
     }
 
     if (this->unk_1E4 == 0) {
-        if (func_8002F194(&this->actor, globalCtx) != 0) {
-            this->unk_1E0 = func_8002F368(globalCtx);
+        if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+            this->unk_1E0 = Actor_GetItemExchangePlayer(globalCtx);
             if (this->unk_1E0 != 0) {
                 player->actor.textId = func_80B20634(this, globalCtx);
                 this->actor.textId = player->actor.textId;
@@ -337,7 +337,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
             return;
         }
 
-        func_8002F374(globalCtx, &this->actor, &sp32, &sp30);
+        Actor_GetDisplayPos(globalCtx, &this->actor, &sp32, &sp30);
         if ((sp32 >= 0) && (sp32 < 0x141) && (sp30 >= 0) && (sp30 < 0xF1)) {
             this->actor.textId = func_80B206A0(this, globalCtx);
             func_8002F298(&this->actor, globalCtx, 100.0f, 10);

@@ -288,7 +288,7 @@ s32 EnGo2_SpawnDust(EnGo2* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 
 
 void EnGo2_GetItem(EnGo2* this, GlobalContext* globalCtx, s32 getItemId) {
     this->getItemId = getItemId;
-    func_8002F434(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
+    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
                   fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
@@ -600,7 +600,7 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
         case 3:
             switch (this->actor.textId) {
                 case 0x305E:
-                    if (func_8002F368(globalCtx) != EXCH_ITEM_CLAIM_CHECK) {
+                    if (Actor_GetItemExchangePlayer(globalCtx) != EXCH_ITEM_CLAIM_CHECK) {
                         break;
                     }
                 case 0x3059:
@@ -814,13 +814,13 @@ s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.ocFlags2 & 1) == 0)) {
         return false;
     } else {
-        if (func_8002F194(&this->actor, globalCtx)) {
+        if (Actor_IsTalking(&this->actor, globalCtx)) {
             this->unk_194.unk_00 = 1;
             return true;
         } else if (this->unk_194.unk_00 != 0) {
             this->unk_194.unk_00 = EnGo2_GetState(globalCtx, &this->actor);
             return false;
-        } else if (func_8002F2CC(&this->actor, globalCtx, this->unk_218)) {
+        } else if (Actor_RequestToTalkInRange(&this->actor, globalCtx, this->unk_218)) {
             this->actor.textId = EnGo2_GetTextId(globalCtx, &this->actor);
         }
         return false;
@@ -1018,7 +1018,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if (gSaveContext.bgsFlag) {
-            if (func_8002F368(globalCtx) == EXCH_ITEM_CLAIM_CHECK) {
+            if (Actor_GetItemExchangePlayer(globalCtx) == EXCH_ITEM_CLAIM_CHECK) {
                 this->actor.textId = 0x3003;
             } else {
                 this->actor.textId = 0x305E;
@@ -1026,7 +1026,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
             player->actor.textId = this->actor.textId;
 
         } else if (!gSaveContext.bgsFlag && (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK)) {
-            if (func_8002F368(globalCtx) == EXCH_ITEM_CLAIM_CHECK) {
+            if (Actor_GetItemExchangePlayer(globalCtx) == EXCH_ITEM_CLAIM_CHECK) {
                 if (func_800775CC() >= 3) {
                     textId = 0x305E;
                 } else {
@@ -1045,7 +1045,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
 
         } else if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_PRESCRIPTION) &&
                    (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_CLAIM_CHECK)) {
-            if (func_8002F368(globalCtx) == EXCH_ITEM_EYEDROPS) {
+            if (Actor_GetItemExchangePlayer(globalCtx) == EXCH_ITEM_EYEDROPS) {
                 this->actor.textId = 0x3059;
             } else {
                 this->actor.textId = 0x3058;
@@ -1056,7 +1056,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
             player->actor.textId = this->actor.textId;
 
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_SWORD_BROKEN) {
-            if (func_8002F368(globalCtx) == EXCH_ITEM_SWORD_BROKEN) {
+            if (Actor_GetItemExchangePlayer(globalCtx) == EXCH_ITEM_SWORD_BROKEN) {
                 if (gSaveContext.infTable[11] & 0x10) {
                     textId = 0x3055;
                 } else {
@@ -1772,7 +1772,7 @@ void EnGo2_SetupGetItem(EnGo2* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnGo2_SetGetItem;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->getItemId, this->actor.xzDistToPlayer + 1.0f,
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->getItemId, this->actor.xzDistToPlayer + 1.0f,
                       fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }

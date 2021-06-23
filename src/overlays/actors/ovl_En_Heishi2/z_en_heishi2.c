@@ -407,8 +407,8 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x200E; // "The road is closed beyond this point! Can't you read..."
     }
     this->unk_300 = 6;
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
-        exchangeItemId = func_8002F368(globalCtx);
+    if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
+        exchangeItemId = Actor_GetItemExchangePlayer(globalCtx);
         if (exchangeItemId == EXCH_ITEM_LETTER_ZELDA) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             player->actor.textId = 0x2010; // "Oh, this is...this is surely Princess Zelda's handwriting!"
@@ -716,7 +716,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (this->type == 2) {
             if (this->unk_30E == 1) {
                 this->actionFunc = func_80A5344C;
@@ -747,7 +747,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
         ((yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)),
           !(this->actor.xzDistToPlayer > 120.0f)) &&
          (yawDiff < 0x4300))) {
-        func_8002F2F4(&this->actor, globalCtx);
+        Actor_RequestToTalk(&this->actor, globalCtx);
     }
 }
 

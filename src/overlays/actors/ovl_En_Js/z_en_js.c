@@ -84,7 +84,7 @@ void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         return 1;
     } else {
         this->actor.textId = textId;
@@ -92,7 +92,7 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
 
         if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistToPlayer < 100.0f) {
             this->unk_284 |= 1;
-            func_8002F2CC(&this->actor, globalCtx, 100.0f);
+            Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
         }
         return 0;
     }
@@ -105,22 +105,22 @@ void func_80A89008(EnJs* this) {
 }
 
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         func_80A89008(this);
         this->actor.flags &= ~0x10000;
     }
 }
 
 void func_80A890C0(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         En_Js_SetupAction(this, func_80A89078);
     } else {
-        func_8002F2CC(&this->actor, globalCtx, 1000.0f);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 1000.0f);
     }
 }
 
 void func_80A8910C(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         this->actor.textId = 0x6078;
         En_Js_SetupAction(this, func_80A890C0);
         this->actor.flags |= 0x10000;
@@ -132,7 +132,7 @@ void func_80A89160(EnJs* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         En_Js_SetupAction(this, func_80A8910C);
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_BOMBCHUS_10, 10000.0f, 50.0f);
+        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_BOMBCHUS_10, 10000.0f, 50.0f);
     }
 }
 

@@ -104,18 +104,18 @@ void EnAni_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnAni_SetText(EnAni* this, GlobalContext* globalCtx, u16 textId) {
     this->actor.textId = textId;
     this->unk_2A8 |= 1;
-    func_8002F2CC(&this->actor, globalCtx, 100.0f);
+    Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
     return 0;
 }
 
 void func_809B04F0(EnAni* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         EnAni_SetupAction(this, func_809B064C);
     }
 }
 
 void func_809B0524(EnAni* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         EnAni_SetupAction(this, func_809B07F8);
     }
 }
@@ -131,14 +131,14 @@ void func_809B0558(EnAni* this, GlobalContext* globalCtx) {
         gSaveContext.itemGetInf[1] |= 0x20;
         return;
     }
-    func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
+    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
 }
 
 void func_809B05F0(EnAni* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         EnAni_SetupAction(this, func_809B0558);
     }
-    func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
+    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
 }
 
 void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
@@ -157,7 +157,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
     }
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x5056) { // "To get a good view..."
             EnAni_SetupAction(this, func_809B04F0);
         } else if (this->actor.textId == 0x5055) { // "...I'll give you this as a memento."
@@ -183,7 +183,7 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
     u16 textId;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x5056) { // "To get a good view..."
             EnAni_SetupAction(this, func_809B0524);
         } else if (this->actor.textId == 0x5055) { // "...I'll give you this as a memento."
