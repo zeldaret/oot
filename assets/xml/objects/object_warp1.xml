@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_warp1" Segment="6">
-        <Skeleton Name="gBlueWarpSkel" Type="Standard" LimbType="Standard" Offset="0x2CA8"/>
+        <Skeleton Name="gBlueWarpSkel" Type="Normal" LimbType="Standard" Offset="0x2CA8"/>
         <Animation Name="gBlueWarpAnim" Offset="0x1374"/>
         <DList Name="gBlueWarpLightBeamDL" Offset="0x01A0"/>
         <DList Name="gBlueWarpDiamondDL" Offset="0x1750"/>
