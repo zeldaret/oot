@@ -343,13 +343,13 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
     return unkState;
 }
 
-s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3,
+s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, NpcInfo* npcInfo, f32 arg3,
                   u16 (*getTextId)(GlobalContext*, Actor*), s16 (*unkFunc2)(GlobalContext*, Actor*)) {
-    if (arg2->unk_00) {
-        arg2->unk_00 = unkFunc2(globalCtx, &this->actor);
+    if (npcInfo->talkState) {
+        npcInfo->talkState = unkFunc2(globalCtx, &this->actor);
         return false;
     } else if (Actor_IsTalking(&this->actor, globalCtx)) {
-        arg2->unk_00 = 1;
+        npcInfo->talkState = 1;
         return true;
     } else if (!Actor_RequestToTalkInRange(&this->actor, globalCtx, arg3)) {
         return false;
@@ -413,9 +413,9 @@ void func_80A3F060(EnGo* this, GlobalContext* globalCtx) {
         unkVal = 1;
     }
 
-    this->unk_1E0.unk_18 = player->actor.world.pos;
-    this->unk_1E0.unk_14 = EnGo_GetGoronSize(this);
-    func_80034A14(&this->actor, &this->unk_1E0, 4, unkVal);
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.unk_14 = EnGo_GetGoronSize(this);
+    func_80034A14(&this->actor, &this->npcInfo, 4, unkVal);
 }
 
 void func_80A3F0E4(EnGo* this) {
@@ -554,7 +554,7 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
 s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
     if ((this->actor.bgCheckFlags & 1) == 0 || this->actor.velocity.y > 0.0f) {
         return false;
-    } else if (this->unk_1E0.unk_00 != 0) {
+    } else if (this->npcInfo.talkState != 0) {
         return true;
     } else if (DECR(this->unk_21C)) {
         if ((this->unk_21C & 1)) {
@@ -597,9 +597,9 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 
         if ((this->actor.params & 0xF0) == 0x90) {
             isUnkCondition =
-                func_80A3ED24(globalCtx, this, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
+                func_80A3ED24(globalCtx, this, &this->npcInfo, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
         } else {
-            isUnkCondition = func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, float1, EnGo_GetTextID,
+            isUnkCondition = Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, float1, EnGo_GetTextID,
                                            EnGo_SetFlagsGetStates);
         }
 
@@ -653,7 +653,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     EnGo_ChangeAnimation(this, 0);
     this->actor.targetMode = 6;
-    this->unk_1E0.unk_00 = 0;
+    this->npcInfo.talkState = 0;
     this->actor.gravity = -1.0f;
 
     switch (this->actor.params & 0xF0) {
@@ -866,26 +866,26 @@ void func_80A405CC(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
-    if (((this->actor.params & 0xF0) == 0x90) && (this->unk_1E0.unk_00 == 2)) {
+    if (((this->actor.params & 0xF0) == 0x90) && (this->npcInfo.talkState == 2)) {
         if (gSaveContext.bgsFlag) {
-            this->unk_1E0.unk_00 = 0;
+            this->npcInfo.talkState = 0;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
                 EnGo_ChangeAnimation(this, 2);
                 this->unk_21E = 100;
-                this->unk_1E0.unk_00 = 0;
+                this->npcInfo.talkState = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 globalCtx->msgCtx.msgMode = 0x37;
                 gSaveContext.timer2State = 0;
                 OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
             } else {
-                this->unk_1E0.unk_00 = 0;
+                this->npcInfo.talkState = 0;
                 EnGo_SetupAction(this, EnGo_GetItem);
                 func_80106CCC(globalCtx);
                 EnGo_GetItem(this, globalCtx);
             }
         }
-    } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.unk_00 == 2)) {
+    } else if (((this->actor.params & 0xF0) == 0) && (this->npcInfo.talkState == 2)) {
         EnGo_SetupAction(this, EnGo_GetItem);
         globalCtx->msgCtx.unk_E3E7 = 4;
         globalCtx->msgCtx.msgMode = 0x36;
@@ -958,7 +958,7 @@ void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
     s32 getItemId;
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
-        this->unk_1E0.unk_00 = 2;
+        this->npcInfo.talkState = 2;
         this->actor.parent = NULL;
         EnGo_SetupAction(this, func_80A40C78);
     } else {
@@ -987,21 +987,21 @@ void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
-    if (this->unk_1E0.unk_00 == 3) {
+    if (this->npcInfo.talkState == 3) {
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
         if ((this->actor.params & 0xF0) != 0x90) {
-            this->unk_1E0.unk_00 = 0;
+            this->npcInfo.talkState = 0;
         } else if (this->unk_20C) {
-            this->unk_1E0.unk_00 = 0;
+            this->npcInfo.talkState = 0;
             gSaveContext.bgsFlag = true;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) {
             this->actor.textId = 0x3058;
             func_8010B720(globalCtx, this->actor.textId);
-            this->unk_1E0.unk_00 = 1;
+            this->npcInfo.talkState = 1;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
             this->actor.textId = 0x305C;
             func_8010B720(globalCtx, this->actor.textId);
-            this->unk_1E0.unk_00 = 1;
+            this->npcInfo.talkState = 1;
             func_800775D8();
         }
     }
@@ -1011,13 +1011,13 @@ void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_21E) == 0) {
         this->actor.textId = 0x305A;
         func_8010B720(globalCtx, this->actor.textId);
-        this->unk_1E0.unk_00 = 1;
+        this->npcInfo.talkState = 1;
         EnGo_SetupAction(this, func_80A40DCC);
     }
 }
 
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
-    if (this->unk_1E0.unk_00 == 2) {
+    if (this->npcInfo.talkState == 2) {
         EnGo_ChangeAnimation(this, 1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&D_06004930);
         func_80106CCC(globalCtx);
@@ -1041,7 +1041,7 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnGo_UpdateShadow(this);
 
-    if (this->unk_1E0.unk_00 == 0) {
+    if (this->npcInfo.talkState == 0) {
         Actor_MoveForwardXZ(&this->actor);
     }
 
@@ -1096,7 +1096,7 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
 
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec1 = this->unk_1E0.unk_08;
+        vec1 = this->npcInfo.neckAngle;
         float1 = (vec1.y / (f32)0x8000) * M_PI;
         Matrix_RotateX(float1, MTXMODE_APPLY);
         float1 = (vec1.x / (f32)0x8000) * M_PI;
@@ -1105,7 +1105,7 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
     }
 
     if (limb == 10) {
-        vec1 = this->unk_1E0.unk_0E;
+        vec1 = this->npcInfo.WaistAngle;
         float1 = (vec1.y / (f32)0x8000) * M_PI;
         Matrix_RotateY(float1, MTXMODE_APPLY);
         float1 = (vec1.x / (f32)0x8000) * M_PI;

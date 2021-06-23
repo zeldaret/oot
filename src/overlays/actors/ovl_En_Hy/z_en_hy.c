@@ -618,7 +618,7 @@ void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
         case 7:
         case 9:
         case 10:
-            phi_a3 = (this->unk_1E8.unk_00 == 0) ? 1 : 2;
+            phi_a3 = (this->npcInfo.talkState == 0) ? 1 : 2;
             break;
         case 12:
             phi_a3 = 1;
@@ -629,24 +629,24 @@ void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
             break;
         case 0:
         case 18:
-            phi_a3 = (this->unk_1E8.unk_00 == 0) ? 2 : 4;
+            phi_a3 = (this->npcInfo.talkState == 0) ? 2 : 4;
             break;
         default:
             phi_a3 = 2;
             break;
     }
 
-    this->unk_1E8.unk_18 = player->actor.world.pos;
+    this->npcInfo.lookAtPos = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
-        this->unk_1E8.unk_14 = D_80A724A8[this->actor.params & 0x7F].unk_8;
+        this->npcInfo.unk_14 = D_80A724A8[this->actor.params & 0x7F].unk_8;
     } else {
-        this->unk_1E8.unk_14 = D_80A724A8[this->actor.params & 0x7F].unk_4;
+        this->npcInfo.unk_14 = D_80A724A8[this->actor.params & 0x7F].unk_4;
     }
 
-    func_80034A14(&this->actor, &this->unk_1E8, D_80A724A8[this->actor.params & 0x7F].unk_0, phi_a3);
+    func_80034A14(&this->actor, &this->npcInfo, D_80A724A8[this->actor.params & 0x7F].unk_0, phi_a3);
 
-    if (func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, this->unk_25C, func_80A6F810, func_80A70058)) {
+    if (Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->unk_25C, func_80A6F810, func_80A70058)) {
         func_80A70834(this, globalCtx);
     }
 }
@@ -811,7 +811,7 @@ void func_80A70E34(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void func_80A710F8(EnHy* this, GlobalContext* globalCtx) {
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->npcInfo.talkState != 0) {
         if (this->skelAnime.animation != &D_06000BFC) {
             func_80034EC0(&this->skelAnime, D_80A72050, 26);
         }
@@ -861,11 +861,11 @@ void func_80A7134C(EnHy* this, GlobalContext* globalCtx) {
     s16 yaw;
     f32 distSq;
 
-    if ((this->skelAnime.animation == &D_06002160) && (this->unk_1E8.unk_00 != 0)) {
+    if ((this->skelAnime.animation == &D_06002160) && (this->npcInfo.talkState != 0)) {
         func_80034EC0(&this->skelAnime, D_80A72050, 8);
     }
 
-    if ((this->skelAnime.animation == &D_0600265C) && (this->unk_1E8.unk_00 == 0)) {
+    if ((this->skelAnime.animation == &D_0600265C) && (this->npcInfo.talkState == 0)) {
         func_80034EC0(&this->skelAnime, D_80A72050, 7);
     }
 
@@ -927,7 +927,7 @@ void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Update(&this->skelAnime);
         func_80A705A4(this);
 
-        if (this->unk_1E8.unk_00 == 0) {
+        if (this->npcInfo.talkState == 0) {
             Actor_MoveForwardXZ(&this->actor);
         }
 
@@ -966,14 +966,14 @@ s32 func_80A716B8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp48 = this->unk_1E8.unk_08;
+        sp48 = this->npcInfo.neckAngle;
         Matrix_RotateX((sp48.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((sp48.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        sp48 = this->unk_1E8.unk_0E;
+        sp48 = this->npcInfo.WaistAngle;
         Matrix_RotateX((-sp48.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((sp48.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
     }

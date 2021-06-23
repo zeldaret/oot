@@ -62,7 +62,7 @@ glabel func_80A9877C
 /* 01AB0 80A98860 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 01AB4 80A98864 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 01AB8 80A98868 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 01ABC 80A9886C 0C00D0F3 */  jal     func_800343CC
+/* 01ABC 80A9886C 0C00D0F3 */  jal     Actor_Talk
 /* 01AC0 80A98870 260601E8 */  addiu   $a2, $s0, 0x01E8           ## $a2 = 000001E8
 /* 01AC4 80A98874 5040002B */  beql    $v0, $zero, .L80A98924
 /* 01AC8 80A98878 8FBF0024 */  lw      $ra, 0x0024($sp)

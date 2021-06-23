@@ -276,7 +276,7 @@ void func_80AAA93C(EnMd* this) {
 }
 
 void func_80AAAA24(EnMd* this) {
-    if (this->unk_1E0.unk_00 != 0) {
+    if (this->npcInfo.talkState != 0) {
         switch (this->actor.textId) {
             case 0x102F:
                 if ((this->unk_208 == 0) && (this->unk_20B != 1)) {
@@ -508,7 +508,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
         temp2 = 0;
     }
 
-    if (this->unk_1E0.unk_00 != 0) {
+    if (this->npcInfo.talkState != 0) {
         temp = 4;
     }
 
@@ -522,18 +522,18 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     }
 
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) {
-        this->unk_1E0.unk_18 = globalCtx->view.eye;
-        this->unk_1E0.unk_14 = 40.0f;
+        this->npcInfo.lookAtPos = globalCtx->view.eye;
+        this->npcInfo.unk_14 = 40.0f;
         temp = 2;
     } else {
-        this->unk_1E0.unk_18 = player->actor.world.pos;
-        this->unk_1E0.unk_14 = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
+        this->npcInfo.lookAtPos = player->actor.world.pos;
+        this->npcInfo.unk_14 = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
     }
 
-    func_80034A14(&this->actor, &this->unk_1E0, 2, temp);
+    func_80034A14(&this->actor, &this->npcInfo, 2, temp);
     if (this->actionFunc != func_80AABC10) {
         if (temp2) {
-            func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 30.0f,
+            Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f,
                           EnMd_GetText, func_80AAAF04);
         }
     }
@@ -649,7 +649,7 @@ void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animation == &D_060002C8) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
-    } else if ((this->unk_1E0.unk_00 == 0) && (this->unk_20B != 7)) {
+    } else if ((this->npcInfo.talkState == 0) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
     }
 
@@ -671,7 +671,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
 
     func_80AAAA24(this);
 
-    if (this->unk_1E0.unk_00 == 0) {
+    if (this->npcInfo.talkState == 0) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
 
@@ -687,7 +687,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = CLAMP(temp, 1.0f, 3.0f);
     }
 
-    if (this->unk_1E0.unk_00 == 2) {
+    if (this->npcInfo.talkState == 2) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.eventChkInf[1] & 0x1000) &&
             (globalCtx->sceneNum == SCENE_SPOT04)) {
             globalCtx->msgCtx.msgMode = 0x37;
@@ -703,7 +703,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         func_80AAA92C(this, 3);
         func_80AAA93C(this);
         this->waypoint = 1;
-        this->unk_1E0.unk_00 = 0;
+        this->npcInfo.talkState = 0;
         this->actionFunc = func_80AABD0C;
         this->actor.speedXZ = 1.5f;
         return;
@@ -713,7 +713,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
 
-    if ((this->unk_1E0.unk_00 == 0) && (globalCtx->sceneNum == SCENE_SPOT10)) {
+    if ((this->npcInfo.talkState == 0) && (globalCtx->sceneNum == SCENE_SPOT10)) {
         if (player->stateFlags2 & 0x1000000) {
             player->stateFlags2 |= 0x2000000;
             player->unk_6A8 = &this->actor;
@@ -793,13 +793,13 @@ s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     if (limbIndex == 16) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->unk_1E0.unk_08;
+        vec = this->npcInfo.neckAngle;
         Matrix_RotateX((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 9) {
-        vec = this->unk_1E0.unk_0E;
+        vec = this->npcInfo.WaistAngle;
         Matrix_RotateX((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateY((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
     }

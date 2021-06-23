@@ -1275,10 +1275,10 @@ void func_80AED83C(EnRu1* this) {
     Vec3s* tempPtr;
     Vec3s* tempPtr2;
 
-    tempPtr = &this->unk_374.unk_08;
+    tempPtr = &this->npcInfo.neckAngle;
     Math_SmoothStepToS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
     Math_SmoothStepToS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
-    tempPtr2 = &this->unk_374.unk_0E;
+    tempPtr2 = &this->npcInfo.WaistAngle;
     Math_SmoothStepToS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
     Math_SmoothStepToS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
 }
@@ -1286,7 +1286,7 @@ void func_80AED83C(EnRu1* this) {
 void func_80AED8DC(EnRu1* this) {
     s32 temp_hi;
     s16* unk_2AC = &this->unk_2AC;
-    s16* someY = &this->unk_374.unk_08.y;
+    s16* someY = &this->npcInfo.neckAngle.y;
     s16* unk_29E = &this->unk_29E;
     s32 pad[2];
 
@@ -1786,20 +1786,20 @@ void func_80AEEF68(EnRu1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 something;
 
-    this->unk_374.unk_18 = player->actor.world.pos;
-    this->unk_374.unk_14 = kREG(16) - 3.0f;
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.unk_14 = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
-    func_80034A14(&this->actor, &this->unk_374, something, 2);
+    func_80034A14(&this->actor, &this->npcInfo, something, 2);
 }
 
 void func_80AEEFEC(EnRu1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 something;
 
-    this->unk_374.unk_18 = player->actor.world.pos;
-    this->unk_374.unk_14 = kREG(16) - 3.0f;
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.unk_14 = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
-    func_80034A14(&this->actor, &this->unk_374, something, 4);
+    func_80034A14(&this->actor, &this->npcInfo, something, 4);
     this->actor.world.rot.y = this->actor.shape.rot.y;
 }
 
@@ -2259,8 +2259,8 @@ void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AF0278(EnRu1* this, GlobalContext* globalCtx, s32 limbIndex, Vec3s* rot) {
-    Vec3s* vec1 = &this->unk_374.unk_0E;
-    Vec3s* vec2 = &this->unk_374.unk_08;
+    Vec3s* vec1 = &this->npcInfo.WaistAngle;
+    Vec3s* vec2 = &this->npcInfo.neckAngle;
 
     switch (limbIndex) {
         case RUTO_CHILD_LEFT_UPPER_ARM:

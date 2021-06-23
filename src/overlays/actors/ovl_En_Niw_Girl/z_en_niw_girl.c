@@ -205,13 +205,13 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_280 = 30.0f;
     Actor_SetFocus(&this->actor, 30.0f);
     if (tempActionFunc == this->actionFunc) {
-        this->unk_2D4.unk_18 = player->actor.world.pos;
+        this->npcInfo.lookAtPos = player->actor.world.pos;
         if (LINK_IS_CHILD) {
-            this->unk_2D4.unk_18.y = player->actor.world.pos.y - 10.0f;
+            this->npcInfo.lookAtPos.y = player->actor.world.pos.y - 10.0f;
         }
-        func_80034A14(&this->actor, &this->unk_2D4, 2, 4);
-        this->unk_260 = this->unk_2D4.unk_08;
-        this->unk_266 = this->unk_2D4.unk_0E;
+        func_80034A14(&this->actor, &this->npcInfo, 2, 4);
+        this->unk_260 = this->npcInfo.neckAngle;
+        this->unk_266 = this->npcInfo.WaistAngle;
     } else {
         Math_SmoothStepToS(&this->unk_266.y, 0, 5, 3000, 0);
         Math_SmoothStepToS(&this->unk_260.y, 0, 5, 3000, 0);

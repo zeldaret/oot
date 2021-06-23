@@ -178,8 +178,8 @@ void func_80984D74(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80984DB8(DemoIm* this) {
     s32 pad[2];
-    Vec3s* vec1 = &this->unk_2D4.unk_08;
-    Vec3s* vec2 = &this->unk_2D4.unk_0E;
+    Vec3s* vec1 = &this->npcInfo.neckAngle;
+    Vec3s* vec2 = &this->npcInfo.WaistAngle;
 
     Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
@@ -193,29 +193,29 @@ void func_80984E58(DemoIm* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 phi_a3;
 
-    this->unk_2D4.unk_18 = player->actor.world.pos;
-    this->unk_2D4.unk_14 = kREG(16) + 4.0f;
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.unk_14 = kREG(16) + 4.0f;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     phi_a3 = (ABS(yawDiff) < 0x18E3) ? 2 : 1;
-    func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, phi_a3);
+    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, phi_a3);
 }
 
 void func_80984F10(DemoIm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_2D4.unk_18 = player->actor.world.pos;
-    this->unk_2D4.unk_14 = kREG(16) + 12.0f;
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.unk_14 = kREG(16) + 12.0f;
 
-    func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, 2);
+    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
 }
 
 void func_80984F94(DemoIm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_2D4.unk_18 = player->actor.world.pos;
-    this->unk_2D4.unk_14 = kREG(16) + 4.0f;
-    func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, 4);
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.unk_14 = kREG(16) + 4.0f;
+    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 4);
 }
 
 void func_80985018(DemoIm* this, GlobalContext* globalCtx) {
@@ -1145,8 +1145,8 @@ s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     s32* unk_2D0 = &this->unk_2D0;
 
     if (this->unk_280 != 0) {
-        Vec3s* unk_2D4_unk_0E = &this->unk_2D4.unk_0E;
-        Vec3s* unk_2D4_unk_08 = &this->unk_2D4.unk_08;
+        Vec3s* unk_2D4_unk_0E = &this->npcInfo.WaistAngle;
+        Vec3s* unk_2D4_unk_08 = &this->npcInfo.neckAngle;
 
         switch (limbIndex) {
             case 9:

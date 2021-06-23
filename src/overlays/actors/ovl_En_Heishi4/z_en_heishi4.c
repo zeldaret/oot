@@ -350,13 +350,13 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     thisx->world.pos.z = this->pos.z;
     Actor_SetFocus(thisx, this->height);
     if (this->type != HEISHI4_AT_MARKET_DYING) {
-        this->unk_28C.unk_18 = player->actor.world.pos;
+        this->npcInfo.lookAtPos = player->actor.world.pos;
         if (LINK_IS_CHILD) {
-            this->unk_28C.unk_18.y = (player->actor.world.pos.y - 10.0f);
+            this->npcInfo.lookAtPos.y = (player->actor.world.pos.y - 10.0f);
         }
-        func_80034A14(thisx, &this->unk_28C, 2, 4);
-        this->unk_260 = this->unk_28C.unk_08;
-        this->unk_266 = this->unk_28C.unk_0E;
+        func_80034A14(thisx, &this->npcInfo, 2, 4);
+        this->unk_260 = this->npcInfo.neckAngle;
+        this->unk_266 = this->npcInfo.WaistAngle;
     }
     this->unk_27E += 1;
     this->actionFunc(this, globalCtx);

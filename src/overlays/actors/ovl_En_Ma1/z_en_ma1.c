@@ -225,21 +225,21 @@ void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if ((this->unk_1E8.unk_00 == 0) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
+    if ((this->npcInfo.talkState == 0) && (this->skelAnime.animation == &gMalonChildSingAnim)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
     }
 
-    this->unk_1E8.unk_18 = player->actor.world.pos;
-    this->unk_1E8.unk_18.y -= -10.0f;
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.lookAtPos.y -= -10.0f;
 
-    func_80034A14(&this->actor, &this->unk_1E8, 0, phi_a3);
+    func_80034A14(&this->actor, &this->npcInfo, 0, phi_a3);
 }
 
 void func_80AA0B74(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
-        if (this->unk_1E8.unk_00 == 0) {
+        if (this->npcInfo.talkState == 0) {
             if (this->unk_1E0 != 0) {
                 this->unk_1E0 = 0;
                 func_800F6584(0);
@@ -271,7 +271,7 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
-    this->unk_1E8.unk_00 = 0;
+    this->npcInfo.talkState = 0;
 
     if ((!(gSaveContext.eventChkInf[1] & 0x10)) || (CHECK_QUEST_ITEM(QUEST_SONG_EPONA))) {
         this->actionFunc = func_80AA0D88;
@@ -290,7 +290,7 @@ void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->npcInfo.talkState != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
             EnMa1_ChangeAnimation(this, 1);
         }
@@ -303,7 +303,7 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
     if ((globalCtx->sceneNum == SCENE_SPOT15) && (gSaveContext.eventChkInf[1] & 0x10)) {
         Actor_Kill(&this->actor);
     } else if ((!(gSaveContext.eventChkInf[1] & 0x10)) || (CHECK_QUEST_ITEM(QUEST_SONG_EPONA))) {
-        if (this->unk_1E8.unk_00 == 2) {
+        if (this->npcInfo.talkState == 2) {
             this->actionFunc = func_80AA0EA0;
             globalCtx->msgCtx.unk_E3E7 = 4;
             globalCtx->msgCtx.msgMode = 0x36;
@@ -321,8 +321,8 @@ void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx) {
-    if (this->unk_1E8.unk_00 == 3) {
-        this->unk_1E8.unk_00 = 0;
+    if (this->npcInfo.talkState == 3) {
+        this->npcInfo.talkState = 0;
         this->actionFunc = func_80AA0D88;
         gSaveContext.eventChkInf[1] |= 4;
         globalCtx->msgCtx.msgMode = 0x36;
@@ -332,7 +332,7 @@ void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->npcInfo.talkState != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
             EnMa1_ChangeAnimation(this, 1);
         }
@@ -348,7 +348,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
             func_8010B680(globalCtx, this->actor.textId, NULL);
-            this->unk_1E8.unk_00 = 1;
+            this->npcInfo.talkState = 1;
             this->actor.flags |= 0x10000;
             this->actionFunc = func_80AA106C;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
@@ -359,7 +359,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
 
 void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     PLAYER->stateFlags2 |= 0x800000;
-    if (this->unk_1E8.unk_00 == 2) {
+    if (this->npcInfo.talkState == 2) {
         func_800ED858(2);
         func_8010BD58(globalCtx, 9);
         this->actor.flags &= ~0x10000;
@@ -399,7 +399,7 @@ void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMa1_UpdateEyes(this);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != EnMa1_DoNothing) {
-        func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, (f32)this->collider.dim.radius + 30.0f,
+        Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, (f32)this->collider.dim.radius + 30.0f,
                       EnMa1_GetText, func_80AA0778);
     }
     func_80AA0B74(this);
@@ -415,13 +415,13 @@ s32 EnMa1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     }
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->unk_1E8.unk_08;
+        vec = this->npcInfo.neckAngle;
         Matrix_RotateX((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
-        vec = this->unk_1E8.unk_0E;
+        vec = this->npcInfo.WaistAngle;
         Matrix_RotateX((-vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((-vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }

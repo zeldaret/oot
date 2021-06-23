@@ -152,8 +152,8 @@ void func_80B536B4(EnZl3* this) {
 
 void func_80B536C4(EnZl3* this) {
     s32 pad[2];
-    Vec3s* vec1 = &this->unk_3F8.unk_08;
-    Vec3s* vec2 = &this->unk_3F8.unk_0E;
+    Vec3s* vec1 = &this->npcInfo.neckAngle;
+    Vec3s* vec2 = &this->npcInfo.WaistAngle;
 
     Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
@@ -164,9 +164,9 @@ void func_80B536C4(EnZl3* this) {
 void func_80B53764(EnZl3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_3F8.unk_18 = player->actor.world.pos;
-    this->unk_3F8.unk_14 = kREG(16) - 16.0f;
-    func_80034A14(&this->actor, &this->unk_3F8, kREG(17) + 0xC, 2);
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.unk_14 = kREG(16) - 16.0f;
+    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
 }
 
 s32 func_80B537E8(EnZl3* this) {
@@ -605,8 +605,8 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     Mtx* sp78;
     MtxF sp38;
     Vec3s sp30;
-    Vec3s* unk_3F8_unk_08 = &this->unk_3F8.unk_08;
-    Vec3s* unk_3F8_unk_0E = &this->unk_3F8.unk_0E;
+    Vec3s* unk_3F8_unk_08 = &this->npcInfo.neckAngle;
+    Vec3s* unk_3F8_unk_0E = &this->npcInfo.WaistAngle;
 
     if (limbIndex == 14) {
         sp78 = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
@@ -1972,18 +1972,18 @@ void func_80B57D60(EnZl3* this, GlobalContext* globalCtx) {
 s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad;
     s16* sp32 = &this->actor.shape.rot.y;
-    struct_80034A14_arg1* unk_3F8 = &this->unk_3F8;
+    NpcInfo* npcInfo = &this->npcInfo;
     Player* player = PLAYER;
     s32 unk_314 = this->unk_314;
     s16 temp_v0 = func_80B57104(this, unk_314);
     s32 pad2;
     s16 phi_v1;
 
-    unk_3F8->unk_18.y = player->actor.world.pos.y;
-    unk_3F8->unk_18.x = (Math_SinS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.x;
-    unk_3F8->unk_18.z = (Math_CosS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.z;
-    unk_3F8->unk_14 = kREG(16) - 16.0f;
-    func_80034A14(&this->actor, unk_3F8, kREG(17) + 0xC, 4);
+    npcInfo->lookAtPos.y = player->actor.world.pos.y;
+    npcInfo->lookAtPos.x = (Math_SinS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.x;
+    npcInfo->lookAtPos.z = (Math_CosS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.z;
+    npcInfo->unk_14 = kREG(16) - 16.0f;
+    func_80034A14(&this->actor, npcInfo, kREG(17) + 0xC, 4);
 
     phi_v1 = ABS(temp_v0 - *sp32);
     if (phi_v1 <= 0x320) {
@@ -2450,7 +2450,7 @@ s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     if (limbIndex == 14) {
         Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
         EnZl3* this = THIS;
-        Vec3s* vec = &this->unk_3F8.unk_08;
+        Vec3s* vec = &this->npcInfo.neckAngle;
 
         gSPSegment(gfx[0]++, 0x0C, mtx);
 

@@ -513,11 +513,11 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
     this->actionFunc(this, globalCtx);
     Actor_SetFocus(&this->actor, 80.0f);
-    this->unk_324.unk_18 = player->actor.world.pos;
-    this->unk_324.unk_18.y = player->actor.world.pos.y;
-    func_80034A14(&this->actor, &this->unk_324, 2, 4);
-    this->vec_284 = this->unk_324.unk_08;
-    this->vec_28A = this->unk_324.unk_0E;
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.lookAtPos.y = player->actor.world.pos.y;
+    func_80034A14(&this->actor, &this->npcInfo, 2, 4);
+    this->vec_284 = this->npcInfo.neckAngle;
+    this->vec_28A = this->npcInfo.WaistAngle;
     if ((globalCtx->gameplayFrames % 16) == 0) {
         pos = this->actor.world.pos;
         pos.y += 20.0f;

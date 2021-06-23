@@ -66,7 +66,7 @@ glabel EnTg_Update
 /* 0037C 80B186DC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00380 80B186E0 260601E0 */  addiu   $a2, $s0, 0x01E0           ## $a2 = 000001E0
 /* 00384 80B186E4 44070000 */  mfc1    $a3, $f0                   
-/* 00388 80B186E8 0C00D0F3 */  jal     func_800343CC              
+/* 00388 80B186E8 0C00D0F3 */  jal     Actor_Talk              
 /* 0038C 80B186EC 00000000 */  nop
 /* 00390 80B186F0 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 00394 80B186F4 8FB0001C */  lw      $s0, 0x001C($sp)           

@@ -34,7 +34,7 @@ typedef struct EnIn {
     /* 0x02FC */ f32 unk_2FC;
     /* 0x0300 */ f32 unk_300;
     /* 0x0304 */ f32 unk_304;
-    /* 0x0308 */ struct_80034A14_arg1 unk_308;
+    /* 0x0308 */ NpcInfo npcInfo;
     /* 0x0330 */ Vec3s unk_330[20];
 } EnIn; // size = 0x03A8
 

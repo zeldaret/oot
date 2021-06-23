@@ -307,8 +307,8 @@ void EnZl4_SetMove(EnZl4* this, GlobalContext* globalCtx) {
 void func_80B5BB78(EnZl4* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_1E0.unk_18 = player->actor.world.pos;
-    func_80034A14(&this->actor, &this->unk_1E0, 2, 2);
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    func_80034A14(&this->actor, &this->npcInfo, 2, 2);
 }
 
 void EnZl4_GetActionStartPos(CsCmdActorAction* action, Vec3f* vec) {
@@ -1187,15 +1187,15 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
             }
             break;
     }
-    this->unk_1E0.unk_18 = player->actor.world.pos;
-    func_80034A14(&this->actor, &this->unk_1E0, 2, (this->csState == ZL4_CS_WINDOW) ? 2 : 1);
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    func_80034A14(&this->actor, &this->npcInfo, 2, (this->csState == ZL4_CS_WINDOW) ? 2 : 1);
     if (EnZl4_InMovingAnim(this)) {
         EnZl4_SetMove(this, globalCtx);
     }
 }
 
 void EnZl4_Idle(EnZl4* this, GlobalContext* globalCtx) {
-    func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 60.0f, EnZl4_GetText,
+    Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 60.0f, EnZl4_GetText,
                   func_80B5B9B0);
     func_80B5BB78(this, globalCtx);
 }
@@ -1255,14 +1255,14 @@ s32 EnZl4_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     Vec3s sp1C;
 
     if (limbIndex == 17) {
-        sp1C = this->unk_1E0.unk_08;
+        sp1C = this->npcInfo.neckAngle;
         Matrix_Translate(900.0f, 0.0f, 0.0f, 1);
         Matrix_RotateX((sp1C.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((sp1C.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-900.0f, 0.0f, 0.0f, 1);
     }
     if (limbIndex == 10) {
-        sp1C = this->unk_1E0.unk_0E;
+        sp1C = this->npcInfo.WaistAngle;
         Matrix_RotateY((sp1C.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_RotateX((sp1C.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
     }

@@ -152,17 +152,17 @@ void EnNb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_300.unk_18 = player->actor.world.pos;
-    this->unk_300.unk_14 = kREG(16) + 9.0f;
-    func_80034A14(&this->actor, &this->unk_300, kREG(17) + 0xC, 2);
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.unk_14 = kREG(16) + 9.0f;
+    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
 }
 
 void func_80AB1040(EnNb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_300.unk_18 = player->actor.world.pos;
-    this->unk_300.unk_14 = kREG(16) + 9.0f;
-    func_80034A14(&this->actor, &this->unk_300, kREG(17) + 0xC, 4);
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.unk_14 = kREG(16) + 9.0f;
+    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 4);
 }
 
 void func_80AB10C4(EnNb* this) {
@@ -170,10 +170,10 @@ void func_80AB10C4(EnNb* this) {
     Vec3s* tempPtr;
     Vec3s* tempPtr2;
 
-    tempPtr = &this->unk_300.unk_08;
+    tempPtr = &this->npcInfo.neckAngle;
     Math_SmoothStepToS(&tempPtr->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&tempPtr->y, 0, 20, 6200, 100);
-    tempPtr2 = &this->unk_300.unk_0E;
+    tempPtr2 = &this->npcInfo.WaistAngle;
     Math_SmoothStepToS(&tempPtr2->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&tempPtr2->y, 0, 20, 6200, 100);
 }
@@ -1451,17 +1451,17 @@ void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnNb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNb* this = THIS;
-    struct_80034A14_arg1* unk_300 = &this->unk_300;
+    NpcInfo* npcInfo = &this->npcInfo;
     s32 ret = false;
 
     if (this->headTurnFlag != 0) {
         if (limbIndex == NB_LIMB_TORSO) {
-            rot->x += unk_300->unk_0E.y;
-            rot->y -= unk_300->unk_0E.x;
+            rot->x += npcInfo->WaistAngle.y;
+            rot->y -= npcInfo->WaistAngle.x;
             ret = false;
         } else if (limbIndex == NB_LIMB_HEAD) {
-            rot->x += unk_300->unk_08.y;
-            rot->z += unk_300->unk_08.x;
+            rot->x += npcInfo->neckAngle.y;
+            rot->z += npcInfo->neckAngle.x;
             ret = false;
         }
     }

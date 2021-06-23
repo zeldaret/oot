@@ -192,8 +192,8 @@ s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
 
 void func_80AF57D8(EnSa* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum != SCENE_SPOT05 ||
-        ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 || this->unk_1E0.unk_00 != 0) {
-        func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 30.0f, func_80AF55E0,
+        ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 || this->npcInfo.talkState != 0) {
+        Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f, func_80AF55E0,
                       func_80AF56F4);
     }
 }
@@ -389,9 +389,9 @@ void func_80AF5F34(EnSa* this, GlobalContext* globalCtx) {
         this->skelAnime.animation == &gSariaOcarinaToMouthAnim) {
         phi_a3 = 1;
     }
-    this->unk_1E0.unk_18 = player->actor.world.pos;
-    this->unk_1E0.unk_14 = 4.0f;
-    func_80034A14(&this->actor, &this->unk_1E0, 2, phi_a3);
+    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.unk_14 = 4.0f;
+    func_80034A14(&this->actor, &this->npcInfo, 2, phi_a3);
 }
 
 s32 func_80AF603C(EnSa* this) {
@@ -399,7 +399,7 @@ s32 func_80AF603C(EnSa* this) {
         this->skelAnime.animation != &gSariaOcarinaToMouthAnim) {
         return 0;
     }
-    if (this->unk_1E0.unk_00 != 0) {
+    if (this->npcInfo.talkState != 0) {
         return 0;
     }
     this->unk_20E = 0;
@@ -490,7 +490,7 @@ void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
 
     this->actor.targetMode = 6;
-    this->unk_1E0.unk_00 = 0;
+    this->npcInfo.talkState = 0;
     this->alpha = 255;
     this->unk_21A = this->actor.shape.rot;
 
@@ -506,7 +506,7 @@ void EnSa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AF6448(EnSa* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT04) {
-        if (this->unk_1E0.unk_00 != 0) {
+        if (this->npcInfo.talkState != 0) {
             switch (this->actor.textId) {
                 case 0x1002:
                     if (this->unk_208 == 0 && this->unk_20B != 1) {
@@ -574,14 +574,14 @@ void func_80AF6448(EnSa* this, GlobalContext* globalCtx) {
             EnSa_ChangeAnim(this, 6);
         }
     }
-    if (this->unk_1E0.unk_00 != 0 && globalCtx->sceneNum == SCENE_SPOT05) {
+    if (this->npcInfo.talkState != 0 && globalCtx->sceneNum == SCENE_SPOT05) {
         Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 1.0f, 0.0f, 10.0f, ANIMMODE_ONCE, -10.0f);
         this->actionFunc = func_80AF67D0;
     }
 }
 
 void func_80AF67D0(EnSa* this, GlobalContext* globalCtx) {
-    if (this->unk_1E0.unk_00 == 0) {
+    if (this->npcInfo.talkState == 0) {
         Animation_Change(&this->skelAnime, &gSariaStopPlayingOcarinaAnim, 0.0f, 10.0f, 0.0f, ANIMMODE_ONCE, -10.0f);
         this->actionFunc = func_80AF6448;
     }
@@ -733,14 +733,14 @@ s32 EnSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     if (limbIndex == 16) {
         Matrix_Translate(900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp18 = this->unk_1E0.unk_08;
+        sp18 = this->npcInfo.neckAngle;
         Matrix_RotateX(BINANG_TO_RAD(sp18.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD(sp18.x), MTXMODE_APPLY);
         Matrix_Translate(-900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 9) {
-        sp18 = this->unk_1E0.unk_0E;
+        sp18 = this->npcInfo.WaistAngle;
         Matrix_RotateY(BINANG_TO_RAD(sp18.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD(sp18.x), MTXMODE_APPLY);
     }

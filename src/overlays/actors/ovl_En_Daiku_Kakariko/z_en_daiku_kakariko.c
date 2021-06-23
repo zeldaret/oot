@@ -434,9 +434,9 @@ void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    this->npcInfo.unk_18.x = player->actor.focus.pos.x;
-    this->npcInfo.unk_18.y = player->actor.focus.pos.y;
-    this->npcInfo.unk_18.z = player->actor.focus.pos.z;
+    this->npcInfo.lookAtPos.x = player->actor.focus.pos.x;
+    this->npcInfo.lookAtPos.y = player->actor.focus.pos.y;
+    this->npcInfo.lookAtPos.z = player->actor.focus.pos.z;
 
     if (this->flags & 0x100) {
         this->neckAngleTarget.x = 5900;
@@ -458,13 +458,13 @@ s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
 
     switch (limbIndex) {
         case 8:
-            angle = this->npcInfo.unk_0E;
+            angle = this->npcInfo.WaistAngle;
             Matrix_RotateX(-(angle.y * (M_PI / 32768.0f)), MTXMODE_APPLY);
             Matrix_RotateZ(-(angle.x * (M_PI / 32768.0f)), MTXMODE_APPLY);
             break;
         case 15:
             Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            angle = this->npcInfo.unk_08;
+            angle = this->npcInfo.neckAngle;
 
             if (this->flags & 0x1000) {
                 osSyncPrintf("<%d>\n", this->neckAngle.x);

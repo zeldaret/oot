@@ -69,7 +69,7 @@ typedef struct EnGo2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnGo2ActionFunc actionFunc;
-    /* 0x0194 */ struct_80034A14_arg1 unk_194;  
+    /* 0x0194 */ NpcInfo npcInfo;  
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x0208 */ Path* path;
     /* 0x020C */ u8 unk_20C; // counter for GORON_CITY_LINK animation

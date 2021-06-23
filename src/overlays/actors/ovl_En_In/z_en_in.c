@@ -308,13 +308,13 @@ void func_80A795C8(EnIn* this, GlobalContext* globalCtx) {
         phi_a3 = 4;
     }
     if (this->actionFunc == func_80A7B024) {
-        this->unk_308.unk_18 = globalCtx->view.eye;
-        this->unk_308.unk_14 = 60.0f;
+        this->npcInfo.lookAtPos = globalCtx->view.eye;
+        this->npcInfo.unk_14 = 60.0f;
     } else {
-        this->unk_308.unk_18 = player->actor.world.pos;
-        this->unk_308.unk_14 = 16.0f;
+        this->npcInfo.lookAtPos = player->actor.world.pos;
+        this->npcInfo.unk_14 = 16.0f;
     }
-    func_80034A14(&this->actor, &this->unk_308, 1, phi_a3);
+    func_80034A14(&this->actor, &this->npcInfo, 1, phi_a3);
 }
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, GlobalContext* globalCtx) {
@@ -444,10 +444,10 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     sp3C.z = sp48.z + 40.0f;
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &sp48, &sp3C);
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &sp3C);
-    this->unk_308.unk_08 = zeroVec;
-    this->unk_308.unk_0E = zeroVec;
+    this->npcInfo.neckAngle = zeroVec;
+    this->npcInfo.WaistAngle = zeroVec;
     func_8010B680(globalCtx, 0x2025, NULL);
-    this->unk_308.unk_00 = 1;
+    this->npcInfo.talkState = 1;
     player->actor.world.pos = this->actor.world.pos;
     player->actor.world.pos.x += 100.0f * Math_SinS(this->actor.shape.rot.y);
     player->actor.world.pos.z += 100.0f * Math_CosS(this->actor.shape.rot.y);
@@ -506,7 +506,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
         }
         Actor_SetScale(&this->actor, 0.01f);
         this->actor.targetMode = 6;
-        this->unk_308.unk_00 = 0;
+        this->npcInfo.talkState = 0;
         this->actionFunc = func_80A7A4BC;
 
         switch (func_80A79830(this, globalCtx)) {
@@ -622,7 +622,7 @@ void func_80A7A4BC(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
-    if (this->unk_308.unk_00 == 2) {
+    if (this->npcInfo.talkState == 2) {
         func_80A79BAC(this, globalCtx, 1, 0x20);
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0001;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
@@ -630,7 +630,7 @@ void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
         func_800775F0(0x40);
         globalCtx->msgCtx.unk_E3E7 = 0;
         globalCtx->msgCtx.msgMode = 0x36;
-        this->unk_308.unk_00 = 0;
+        this->npcInfo.talkState = 0;
     }
 }
 
@@ -647,12 +647,12 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
         func_80A79C78(this, globalCtx);
         this->actionFunc = func_80A7B024;
         gSaveContext.timer1State = 0;
-    } else if (this->unk_308.unk_00 == 2) {
+    } else if (this->npcInfo.talkState == 2) {
         if (globalCtx->msgCtx.choiceIndex == 0) {
             if (gSaveContext.rupees < 50) {
                 globalCtx->msgCtx.unk_E3E7 = 4;
                 globalCtx->msgCtx.msgMode = 0x36;
-                this->unk_308.unk_00 = 0;
+                this->npcInfo.talkState = 0;
                 return;
             }
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x10) | (((EnHorse*)PLAYER->rideActor)->type << 4);
@@ -675,20 +675,20 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.unk_E3E7 = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         globalCtx->msgCtx.msgMode = 0x36;
-        this->unk_308.unk_00 = 0;
+        this->npcInfo.talkState = 0;
     }
 }
 
 void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
-    if (this->unk_308.unk_00 == 0) {
+    if (this->npcInfo.talkState == 0) {
         this->actor.flags |= 0x10000;
-    } else if (this->unk_308.unk_00 == 2) {
+    } else if (this->npcInfo.talkState == 2) {
         Rupees_ChangeBy(-50);
         this->actor.flags &= ~0x10000;
         func_80A796EC(this, 3);
         this->actionFunc = func_80A7A848;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x0F) | 7;
-        this->unk_308.unk_00 = 0;
+        this->npcInfo.talkState = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x20;
         if (!(gSaveContext.eventInf[0] & 0x40)) {
             globalCtx->msgCtx.unk_E3E7 = 4;
@@ -698,7 +698,7 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
-    if (this->unk_308.unk_00 == 2) {
+    if (this->npcInfo.talkState == 2) {
         if ((globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees < 50) || globalCtx->msgCtx.choiceIndex == 1) {
             gSaveContext.eventInf[0] &= ~0xF;
             this->actionFunc = func_80A7A4C8;
@@ -709,14 +709,14 @@ void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
             globalCtx->msgCtx.unk_E3E7 = 0;
             globalCtx->msgCtx.msgMode = 0x36;
         }
-        this->unk_308.unk_00 = 0;
+        this->npcInfo.talkState = 0;
         gSaveContext.eventInf[0] &= ~0x20;
         gSaveContext.eventInf[0] &= ~0x40;
     }
 }
 
 void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
-    if (this->unk_308.unk_00 == 0) {
+    if (this->npcInfo.talkState == 0) {
         this->actor.flags |= 0x10000;
         return;
     }
@@ -726,14 +726,14 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_VO_IN_LOST);
         }
     }
-    if (this->unk_308.unk_00 == 2) {
+    if (this->npcInfo.talkState == 2) {
         this->actor.flags &= ~0x10000;
         func_80A79BAC(this, globalCtx, 2, 0x26);
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0002;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         globalCtx->msgCtx.unk_E3E7 = 0;
         globalCtx->msgCtx.msgMode = 0x36;
-        this->unk_308.unk_00 = 0;
+        this->npcInfo.talkState = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x40;
     }
 }
@@ -769,7 +769,7 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &sp30, &sp24);
     this->actor.textId = 0x203B;
     func_8010B680(globalCtx, this->actor.textId, NULL);
-    this->unk_308.unk_00 = 1;
+    this->npcInfo.talkState = 1;
     this->unk_1FC = 0;
     globalCtx->csCtx.frames = 0;
     ShrinkWindow_SetVal(0x20);
@@ -794,16 +794,16 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if (this->unk_308.unk_00 != 0) {
-        if (this->unk_308.unk_00 == 2) {
+    if (this->npcInfo.talkState != 0) {
+        if (this->npcInfo.talkState == 2) {
             if (this->actor.textId == 0x203B) {
                 this->actor.textId = 0x203C;
                 func_8010B680(globalCtx, this->actor.textId, NULL);
-                this->unk_308.unk_00 = 1;
+                this->npcInfo.talkState = 1;
                 func_80A796EC(this, 3);
             } else {
                 globalCtx->msgCtx.msgMode = 0x36;
-                this->unk_308.unk_00 = 0;
+                this->npcInfo.talkState = 0;
             }
         }
     } else {
@@ -855,10 +855,10 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
         globalCtx->sceneLoadFlag = 0x14;
         globalCtx->fadeTransition = 5;
         this->actionFunc = func_80A7B018;
-    } else if (this->unk_308.unk_00 == 2) {
+    } else if (this->npcInfo.talkState == 2) {
         globalCtx->msgCtx.unk_E3E7 = 4;
         globalCtx->msgCtx.msgMode = 0x36;
-        this->unk_308.unk_00 = 0;
+        this->npcInfo.talkState = 0;
     }
 }
 
@@ -872,7 +872,7 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
-    if (this->unk_308.unk_00 == 2) {
+    if (this->npcInfo.talkState == 2) {
         if (1) {}
         if (!(gSaveContext.eventChkInf[1] & 0x800) && (gSaveContext.infTable[10] & 0x800)) {
             gSaveContext.eventChkInf[1] |= 0x800;
@@ -883,7 +883,7 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         globalCtx->msgCtx.unk_E3E7 = 4;
         globalCtx->msgCtx.msgMode = 0x36;
-        this->unk_308.unk_00 = 0;
+        this->npcInfo.talkState = 0;
     }
 }
 
@@ -909,13 +909,13 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, globalCtx);
-        if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->unk_308.unk_00 == 0) {
+        if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->npcInfo.talkState == 0) {
             if (Actor_IsTalking(&this->actor, globalCtx)) {}
         } else {
-            func_800343CC(globalCtx, &this->actor, &this->unk_308.unk_00,
+            Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState,
                           ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,
                           func_80A79500);
-            if (this->unk_308.unk_00 != 0) {
+            if (this->npcInfo.talkState != 0) {
                 this->unk_1FA = this->unk_1F8;
                 this->unk_1F8 = func_8010BDBC(&globalCtx->msgCtx);
             }
@@ -935,13 +935,13 @@ s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
     if (limbIndex == 16) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp2C = this->unk_308.unk_08;
+        sp2C = this->npcInfo.neckAngle;
         Matrix_RotateZ(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 9) {
-        sp2C = this->unk_308.unk_0E;
+        sp2C = this->npcInfo.WaistAngle;
         Matrix_RotateX(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
     }

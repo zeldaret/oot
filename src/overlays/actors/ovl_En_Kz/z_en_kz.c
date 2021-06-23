@@ -231,7 +231,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
 void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0)) {
+    if (func_80A9C95C(globalCtx, this, &this->npcInfo.talkState, 340.0f, EnKz_GetText, func_80A9C6C0)) {
         if ((this->actor.textId == 0x401A) && !(gSaveContext.eventChkInf[3] & 8)) {
             if (Actor_GetItemExchangePlayer(globalCtx) == EXCH_ITEM_LETTER_RUTO) {
                 this->actor.textId = 0x401B;
@@ -323,7 +323,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.01);
     this->actor.targetMode = 3;
-    this->unk_1E0.unk_00 = 0;
+    this->npcInfo.talkState = 0;
     func_80034EC0(&this->skelanime, sAnimations, 0);
 
     if (gSaveContext.eventChkInf[3] & 8) {
@@ -349,9 +349,9 @@ void EnKz_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKz_PreMweepWait(EnKz* this, GlobalContext* globalCtx) {
-    if (this->unk_1E0.unk_00 == 2) {
+    if (this->npcInfo.talkState == 2) {
         func_80034EC0(&this->skelanime, sAnimations, 2);
-        this->unk_1E0.unk_00 = 0;
+        this->npcInfo.talkState = 0;
         this->actionFunc = EnKz_SetupMweep;
     } else {
         func_80034F54(globalCtx, this->unk_2A6, this->unk_2BE, 12);
@@ -410,7 +410,7 @@ void EnKz_StopMweep(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_Wait(EnKz* this, GlobalContext* globalCtx) {
-    if (this->unk_1E0.unk_00 == 2) {
+    if (this->npcInfo.talkState == 2) {
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, globalCtx);
     } else {
@@ -425,7 +425,7 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
-        this->unk_1E0.unk_00 = 1;
+        this->npcInfo.talkState = 1;
         this->actionFunc = EnKz_StartTimer;
     } else {
         getItemId = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
@@ -441,7 +441,7 @@ void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx) {
             func_80088AA0(180); // start timer2 with 3 minutes
             gSaveContext.eventInf[1] &= ~1;
         }
-        this->unk_1E0.unk_00 = 0;
+        this->npcInfo.talkState = 0;
         this->actionFunc = EnKz_Wait;
     }
 }

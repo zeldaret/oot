@@ -398,9 +398,9 @@ void EnCs_Talk(EnCs* this, GlobalContext* globalCtx) {
     }
 
     this->flag |= 1;
-    this->npcInfo.unk_18.x = player->actor.focus.pos.x;
-    this->npcInfo.unk_18.y = player->actor.focus.pos.y;
-    this->npcInfo.unk_18.z = player->actor.focus.pos.z;
+    this->npcInfo.lookAtPos.x = player->actor.focus.pos.x;
+    this->npcInfo.lookAtPos.y = player->actor.focus.pos.y;
+    this->npcInfo.lookAtPos.z = player->actor.focus.pos.z;
     func_80034A14(&this->actor, &this->npcInfo, 0, 4);
 
     if (this->talkState == 0) {
@@ -489,12 +489,12 @@ s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (this->flag & 1) {
         switch (limbIndex) {
             case 8:
-                rot->x += this->npcInfo.unk_0E.y;
-                rot->y -= this->npcInfo.unk_0E.x;
+                rot->x += this->npcInfo.WaistAngle.y;
+                rot->y -= this->npcInfo.WaistAngle.x;
                 break;
             case 15:
-                rot->x += this->npcInfo.unk_08.y;
-                rot->z += this->npcInfo.unk_08.x;
+                rot->x += this->npcInfo.neckAngle.y;
+                rot->z += this->npcInfo.neckAngle.x;
                 break;
         }
     }

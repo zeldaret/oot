@@ -161,13 +161,13 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     func_80A5046C(this);
     this->actionFunc(this, globalCtx);
 
-    this->unk_2A0.unk_18 = player->actor.world.pos;
+    this->npcInfo.lookAtPos = player->actor.world.pos;
     if (LINK_IS_ADULT) {
-        this->unk_2A0.unk_14 = 10.0f;
+        this->npcInfo.unk_14 = 10.0f;
     } else {
-        this->unk_2A0.unk_14 = 20.0f;
+        this->npcInfo.unk_14 = 20.0f;
     }
-    func_80034A14(&this->actor, &this->unk_2A0, 6, 2);
+    func_80034A14(&this->actor, &this->npcInfo, 6, 2);
 
     func_80034F54(globalCtx, this->unk_2CC, this->unk_2EC, 16);
 
@@ -200,14 +200,14 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     if (limbIndex == 15) {
         *dList = D_060059B0;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp3C = this->unk_2A0.unk_08;
+        sp3C = this->npcInfo.neckAngle;
         Matrix_RotateX((sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((sp3C.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        sp3C = this->unk_2A0.unk_0E;
+        sp3C = this->npcInfo.WaistAngle;
         Matrix_RotateX((-sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((sp3C.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }

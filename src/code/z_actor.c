@@ -1283,7 +1283,8 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
     }
 }
 
-Gfx* Gfx_DrawHiliteReflection(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx, Gfx* gfx, Hilite** hilite) {
+Gfx* Gfx_DrawHiliteReflection(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx, Gfx* gfx,
+                              Hilite** hilite) {
     static Mtx D_8015BBA8;
     LookAt* lookAt;
     f32 correctedEyeX;
@@ -3522,7 +3523,7 @@ void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 frame, s32 type) {
     f32 zAngle = entry->initZAngle;
     f32 sin;
     f32 cos;
-    f32 zAngleAdd;    
+    f32 zAngleAdd;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8265);
 
@@ -3597,18 +3598,18 @@ Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx) {
     return Gfx_DrawHiliteReflectionXlu(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 }
 
-s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, callback1_800343CC unkFunc1,
-                  callback2_800343CC unkFunc2) {
+s32 Actor_Talk(GlobalContext* globalCtx, Actor* actor, NpcInfo* npcInfo, f32 arg3, callback1_800343CC unkFunc1,
+               callback2_800343CC unkFunc2) {
     s16 sp26;
     s16 sp24;
 
     if (Actor_IsTalking(actor, globalCtx)) {
-        *arg2 = 1;
+        npcInfo->talkState = 1;
         return true;
     }
 
-    if (*arg2 != 0) {
-        *arg2 = unkFunc2(globalCtx, actor);
+    if (npcInfo->talkState != 0) {
+        npcInfo->talkState = unkFunc2(globalCtx, actor);
         return false;
     }
 
@@ -3659,7 +3660,7 @@ static struct_80116130 D_80116130[] = {
     { { 0x18E2, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
 };
 
-void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7,
+void func_800344BC(Actor* actor, NpcInfo* npcInfo, s16 arg2, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7,
                    u8 arg8) {
     s16 sp46;
     s16 sp44;
@@ -3669,45 +3670,45 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     Vec3f sp30;
 
     sp30.x = actor->world.pos.x;
-    sp30.y = actor->world.pos.y + arg1->unk_14;
+    sp30.y = actor->world.pos.y + npcInfo->unk_14;
     sp30.z = actor->world.pos.z;
 
-    sp46 = Math_Vec3f_Pitch(&sp30, &arg1->unk_18);
-    sp44 = Math_Vec3f_Yaw(&sp30, &arg1->unk_18);
-    sp40 = Math_Vec3f_Yaw(&actor->world.pos, &arg1->unk_18) - actor->shape.rot.y;
+    sp46 = Math_Vec3f_Pitch(&sp30, &npcInfo->lookAtPos);
+    sp44 = Math_Vec3f_Yaw(&sp30, &npcInfo->lookAtPos);
+    sp40 = Math_Vec3f_Yaw(&actor->world.pos, &npcInfo->lookAtPos) - actor->shape.rot.y;
 
     temp1 = CLAMP(sp40, -arg2, arg2);
-    Math_SmoothStepToS(&arg1->unk_08.y, temp1, 6, 2000, 1);
+    Math_SmoothStepToS(&npcInfo->neckAngle.y, temp1, 6, 2000, 1);
 
     temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    arg1->unk_08.y = CLAMP(arg1->unk_08.y, -temp1, temp1);
+    npcInfo->neckAngle.y = CLAMP(npcInfo->neckAngle.y, -temp1, temp1);
 
-    sp40 -= arg1->unk_08.y;
+    sp40 -= npcInfo->neckAngle.y;
 
     temp1 = CLAMP(sp40, -arg5, arg5);
-    Math_SmoothStepToS(&arg1->unk_0E.y, temp1, 6, 2000, 1);
+    Math_SmoothStepToS(&npcInfo->WaistAngle.y, temp1, 6, 2000, 1);
 
     temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -temp1, temp1);
+    npcInfo->WaistAngle.y = CLAMP(npcInfo->WaistAngle.y, -temp1, temp1);
 
     if (arg8) {
         Math_SmoothStepToS(&actor->shape.rot.y, sp44, 6, 2000, 1);
     }
 
     temp1 = CLAMP(sp46, arg4, (s16)(u16)arg3);
-    Math_SmoothStepToS(&arg1->unk_08.x, temp1, 6, 2000, 1);
+    Math_SmoothStepToS(&npcInfo->neckAngle.x, temp1, 6, 2000, 1);
 
-    temp2 = sp46 - arg1->unk_08.x;
+    temp2 = sp46 - npcInfo->neckAngle.x;
 
     temp1 = CLAMP(temp2, arg7, arg6);
-    Math_SmoothStepToS(&arg1->unk_0E.x, temp1, 6, 2000, 1);
+    Math_SmoothStepToS(&npcInfo->WaistAngle.x, temp1, 6, 2000, 1);
 }
 
 s16 func_800347E8(s16 arg0) {
     return D_80116130[arg0].unk_14;
 }
 
-s16 func_80034810(Actor* actor, struct_80034A14_arg1* arg1, f32 arg2, s16 arg3, s16 arg4) {
+s16 func_80034810(Actor* actor, NpcInfo* npcInfo, f32 arg2, s16 arg3, s16 arg4) {
     s32 pad;
     s16 var;
     s16 abs_var;
@@ -3716,51 +3717,51 @@ s16 func_80034810(Actor* actor, struct_80034A14_arg1* arg1, f32 arg2, s16 arg3, 
         return arg4;
     }
 
-    if (arg1->unk_00 != 0) {
+    if (npcInfo->talkState != 0) {
         return 4;
     }
 
-    if (arg2 < Math_Vec3f_DistXYZ(&actor->world.pos, &arg1->unk_18)) {
-        arg1->unk_04 = 0;
-        arg1->unk_06 = 0;
+    if (arg2 < Math_Vec3f_DistXYZ(&actor->world.pos, &npcInfo->lookAtPos)) {
+        npcInfo->eyeTimer = 0;
+        npcInfo->eyeCount = 0;
         return 1;
     }
 
-    var = Math_Vec3f_Yaw(&actor->world.pos, &arg1->unk_18);
+    var = Math_Vec3f_Yaw(&actor->world.pos, &npcInfo->lookAtPos);
     abs_var = ABS((s16)((f32)var - actor->shape.rot.y));
     if (arg3 >= abs_var) {
-        arg1->unk_04 = 0;
-        arg1->unk_06 = 0;
+        npcInfo->eyeTimer = 0;
+        npcInfo->eyeCount = 0;
         return 2;
     }
 
-    if (DECR(arg1->unk_04) != 0) {
-        return arg1->unk_02;
+    if (DECR(npcInfo->eyeTimer) != 0) {
+        return npcInfo->eyeState;
     }
 
-    switch (arg1->unk_06) {
+    switch (npcInfo->eyeCount) {
         case 0:
         case 2:
-            arg1->unk_04 = Rand_S16Offset(30, 30);
-            arg1->unk_06++;
+            npcInfo->eyeTimer = Rand_S16Offset(30, 30);
+            npcInfo->eyeCount++;
             return 1;
         case 1:
-            arg1->unk_04 = Rand_S16Offset(10, 10);
-            arg1->unk_06++;
+            npcInfo->eyeTimer = Rand_S16Offset(10, 10);
+            npcInfo->eyeCount++;
             return 3;
     }
 
     return 4;
 }
 
-void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3) {
+void func_80034A14(Actor* actor, NpcInfo* npcInfo, s16 arg2, s16 arg3) {
     struct_80116130_0 sp38;
 
-    arg1->unk_02 = func_80034810(actor, arg1, D_80116130[arg2].unk_10, D_80116130[arg2].unk_14, arg3);
+    npcInfo->eyeState = func_80034810(actor, npcInfo, D_80116130[arg2].unk_10, D_80116130[arg2].unk_14, arg3);
 
     sp38 = D_80116130[arg2].sub_00;
 
-    switch (arg1->unk_02) {
+    switch (npcInfo->eyeState) {
         case 1:
             sp38.unk_00 = 0;
             sp38.unk_04 = 0;
@@ -3773,7 +3774,7 @@ void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3)
             sp38.radius = 0;
     }
 
-    func_800344BC(actor, arg1, sp38.unk_00, sp38.unk_04, sp38.unk_02, sp38.unk_06, sp38.unk_0A, sp38.unk_08,
+    func_800344BC(actor, npcInfo, sp38.unk_00, sp38.unk_04, sp38.unk_02, sp38.unk_06, sp38.unk_0A, sp38.unk_08,
                   sp38.radius);
 }
 

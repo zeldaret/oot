@@ -40,7 +40,7 @@ EnGo2
 (this->actor.params & 0xFC00) >> 0xA - Gorons in Fire Temple
 this->actor.params & 0x1F
 
-Gorons only move when this->unk_194.unk_00 == 0
+Gorons only move when this->npcInfo.talkState == 0
 */
 
 void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -809,16 +809,16 @@ s16 EnGo2_GetState(GlobalContext* globalCtx, Actor* thisx) {
 
 s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
-        return func_800343CC(globalCtx, &this->actor, &this->unk_194.unk_00, this->unk_218, EnGo2_GetTextId,
+        return Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->unk_218, EnGo2_GetTextId,
                              EnGo2_GetState);
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.ocFlags2 & 1) == 0)) {
         return false;
     } else {
         if (Actor_IsTalking(&this->actor, globalCtx)) {
-            this->unk_194.unk_00 = 1;
+            this->npcInfo.talkState = 1;
             return true;
-        } else if (this->unk_194.unk_00 != 0) {
-            this->unk_194.unk_00 = EnGo2_GetState(globalCtx, &this->actor);
+        } else if (this->npcInfo.talkState != 0) {
+            this->npcInfo.talkState = EnGo2_GetState(globalCtx, &this->actor);
             return false;
         } else if (Actor_RequestToTalkInRange(&this->actor, globalCtx, this->unk_218)) {
             this->actor.textId = EnGo2_GetTextId(globalCtx, &this->actor);
@@ -1079,10 +1079,10 @@ void func_80A45288(EnGo2* this, GlobalContext* globalCtx) {
     s32 linkAge;
 
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
-        this->unk_194.unk_18 = player->actor.world.pos;
+        this->npcInfo.lookAtPos = player->actor.world.pos;
         linkAge = gSaveContext.linkAge;
-        this->unk_194.unk_14 = D_80A482D8[this->actor.params & 0x1F][linkAge];
-        func_80034A14(&this->actor, &this->unk_194, 4, this->unk_26E);
+        this->npcInfo.unk_14 = D_80A482D8[this->actor.params & 0x1F][linkAge];
+        func_80034A14(&this->actor, &this->npcInfo, 4, this->unk_26E);
     }
     if ((this->actionFunc != EnGo2_SetGetItem) && (this->isAwake == true)) {
         if (func_80A44790(this, globalCtx)) {
@@ -1101,7 +1101,7 @@ void func_80A45360(EnGo2* this, f32* alpha) {
 void EnGo2_RollForward(EnGo2* this) {
     f32 speedXZ = this->actor.speedXZ;
 
-    if (this->unk_194.unk_00 != 0) {
+    if (this->npcInfo.talkState != 0) {
         this->actor.speedXZ = 0.0f;
     }
 
@@ -1175,7 +1175,7 @@ void EnGo2_DefaultWakingUp(EnGo2* this) {
         this->unk_26E = 1;
     }
 
-    if (this->unk_194.unk_00 != 0) {
+    if (this->npcInfo.talkState != 0) {
         this->unk_26E = 4;
     }
 
@@ -1188,7 +1188,7 @@ void EnGo2_WakingUp(EnGo2* this) {
 
     xyzDist = SQ(xyzDist);
     this->unk_26E = 1;
-    if ((this->actor.xyzDistToPlayerSq <= xyzDist) || (this->unk_194.unk_00 != 0)) {
+    if ((this->actor.xyzDistToPlayerSq <= xyzDist) || (this->npcInfo.talkState != 0)) {
         this->unk_26E = 4;
     }
 
@@ -1196,7 +1196,7 @@ void EnGo2_WakingUp(EnGo2* this) {
 }
 
 void EnGo2_BiggoronWakingUp(EnGo2* this) {
-    if (EnGo2_IsWakingUp(this) || this->unk_194.unk_00 != 0) {
+    if (EnGo2_IsWakingUp(this) || this->npcInfo.talkState != 0) {
         this->unk_26E = 2;
         this->isAwake = true;
     } else {
@@ -1379,12 +1379,12 @@ s32 EnGo2_IsFreeingGoronInFire(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
-    if ((this->actor.params & 0x1F) != GORON_DMT_BOMB_FLOWER || this->unk_194.unk_00 != 2) {
+    if ((this->actor.params & 0x1F) != GORON_DMT_BOMB_FLOWER || this->npcInfo.talkState != 2) {
         return false;
     }
 
     func_80034EC0(&this->skelAnime, sAnimations, 3);
-    this->unk_194.unk_00 = 0;
+    this->npcInfo.talkState = 0;
     this->isAwake = false;
     this->unk_26E = 1;
     this->actionFunc = EnGo2_GoronDmtBombFlowerAnimation;
@@ -1392,17 +1392,17 @@ s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
 }
 
 s32 EnGo2_IsGoronRollingBig(EnGo2* this, GlobalContext* globalCtx) {
-    if ((this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG || (this->unk_194.unk_00 != 2)) {
+    if ((this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG || (this->npcInfo.talkState != 2)) {
         return false;
     }
-    this->unk_194.unk_00 = 0;
+    this->npcInfo.talkState = 0;
     EnGo2_RollingAnimation(this, globalCtx);
     this->actionFunc = EnGo2_GoronRollingBigContinueRolling;
     return true;
 }
 
 s32 EnGo2_IsGoronFireGeneric(EnGo2* this) {
-    if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC || this->unk_194.unk_00 == 0) {
+    if ((this->actor.params & 0x1F) != GORON_FIRE_GENERIC || this->npcInfo.talkState == 0) {
         return false;
     }
     this->actionFunc = EnGo2_GoronFireGenericAction;
@@ -1418,7 +1418,7 @@ s32 EnGo2_IsGoronLinkReversing(EnGo2* this) {
 }
 
 s32 EnGo2_IsRolling(EnGo2* this) {
-    if (this->unk_194.unk_00 == 0 || this->actor.speedXZ < 1.0f) {
+    if (this->npcInfo.talkState == 0 || this->actor.speedXZ < 1.0f) {
         return false;
     }
     if (EnGo2_IsRollingOnGround(this, 2, 20.0 / 3.0f, 0)) {
@@ -1486,7 +1486,7 @@ void EnGo2_GoronFireClearCamera(EnGo2* this, GlobalContext* globalCtx) {
 
 void EnGo2_BiggoronAnimation(EnGo2* this) {
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS &&
-        (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->unk_194.unk_00 == 0) {
+        (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->npcInfo.talkState == 0) {
         if (DECR(this->animTimer) == 0) {
             this->animTimer = Rand_S16Offset(30, 30);
             func_800F4524(&D_801333D4, NA_SE_EN_GOLON_EYE_BIG, 60);
@@ -1779,7 +1779,7 @@ void EnGo2_SetupGetItem(EnGo2* this, GlobalContext* globalCtx) {
 
 void EnGo2_SetGetItem(EnGo2* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
-        this->unk_194.unk_00 = 0;
+        this->npcInfo.talkState = 0;
         switch (this->getItemId) {
             case GI_CLAIM_CHECK:
                 func_800775D8();
@@ -1895,8 +1895,8 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 this->animTimer = 60;
                 this->actor.gravity = 0.0f;
                 this->actor.speedXZ = 2.0f;
-                this->unk_194.unk_08 = D_80A4854C;
-                this->unk_194.unk_0E = D_80A4854C;
+                this->npcInfo.neckAngle = D_80A4854C;
+                this->npcInfo.WaistAngle = D_80A4854C;
                 this->goronState++;
                 this->goronState++;
                 player->actor.world.rot.y = this->actor.world.rot.y;
@@ -1959,7 +1959,7 @@ void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGo2_RollForward(this);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, (f32)this->collider.dim.height * 0.5f,
                             (f32)this->collider.dim.radius * 0.6f, 0.0f, 5);
-    if (this->unk_194.unk_00 == 0) {
+    if (this->npcInfo.talkState == 0) {
         func_80A44AB0(this, globalCtx);
     }
     this->actionFunc(this, globalCtx);
@@ -2009,7 +2009,7 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
 
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec1 = this->unk_194.unk_08;
+        vec1 = this->npcInfo.neckAngle;
         float1 = (vec1.y / (f32)0x8000) * M_PI;
         Matrix_RotateX(float1, MTXMODE_APPLY);
         float1 = (vec1.x / (f32)0x8000) * M_PI;
@@ -2017,7 +2017,7 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limb == 10) {
-        vec1 = this->unk_194.unk_0E;
+        vec1 = this->npcInfo.WaistAngle;
         float1 = (vec1.y / (f32)0x8000) * M_PI;
         Matrix_RotateY(float1, MTXMODE_APPLY);
         float1 = (vec1.x / (f32)0x8000) * M_PI;

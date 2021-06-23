@@ -41,7 +41,7 @@ typedef struct EnGo {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnGoActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ struct_80034A14_arg1 unk_1E0;
+    /* 0x01E0 */ NpcInfo npcInfo;
     /* 0x0208 */ char unk_208[0x4];
     /* 0x020c */ s16 unk_20C;
     /* 0x020e */ s16 unk_20E;

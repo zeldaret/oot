@@ -367,20 +367,20 @@ void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if ((this->stateFlags & 8)) {
-        this->unk_1EC.unk_18.x = player->actor.focus.pos.x;
-        this->unk_1EC.unk_18.y = player->actor.focus.pos.y;
-        this->unk_1EC.unk_18.z = player->actor.focus.pos.z;
+        this->npcInfo.lookAtPos.x = player->actor.focus.pos.x;
+        this->npcInfo.lookAtPos.y = player->actor.focus.pos.y;
+        this->npcInfo.lookAtPos.z = player->actor.focus.pos.z;
 
         if ((this->stateFlags & 0x10)) {
-            func_80034A14(thisx, &this->unk_1EC, 0, 4);
+            func_80034A14(thisx, &this->npcInfo, 0, 4);
             return;
         }
 
         rot = thisx->yawTowardsPlayer - thisx->shape.rot.y;
         if ((rot < 14563.0f) && (rot > -14563.0f)) {
-            func_80034A14(thisx, &this->unk_1EC, 0, 2);
+            func_80034A14(thisx, &this->npcInfo, 0, 2);
         } else {
-            func_80034A14(thisx, &this->unk_1EC, 0, 1);
+            func_80034A14(thisx, &this->npcInfo, 0, 1);
         }
     }
 }
@@ -400,12 +400,12 @@ s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     if ((this->stateFlags & 8)) {
         switch (limbIndex) {
             case 8:
-                rot->x += this->unk_1EC.unk_0E.y;
-                rot->y -= this->unk_1EC.unk_0E.x;
+                rot->x += this->npcInfo.WaistAngle.y;
+                rot->y -= this->npcInfo.WaistAngle.x;
                 break;
             case 15:
-                rot->x += this->unk_1EC.unk_08.y;
-                rot->z += this->unk_1EC.unk_08.x;
+                rot->x += this->npcInfo.neckAngle.y;
+                rot->z += this->npcInfo.neckAngle.x;
                 break;
         }
     }

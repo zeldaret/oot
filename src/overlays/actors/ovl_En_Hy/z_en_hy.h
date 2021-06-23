@@ -19,7 +19,7 @@ typedef struct EnHy {
     /* 0x0198 */ s8 unk_198;
     /* 0x0199 */ s8 unk_199;
     /* 0x019C */ ColliderCylinder collider;
-    /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;
+    /* 0x01E8 */ NpcInfo npcInfo;
     /* 0x0210 */ Path* path;
     /* 0x0214 */ s8 unk_214;
     /* 0x0215 */ s8 unk_215;

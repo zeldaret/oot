@@ -27,7 +27,7 @@ typedef struct DemoIm {
     /* 0x0280 */ s32 unk_280;
     /* 0x0284 */ ColliderCylinder collider;
     /* 0x02D0 */ s32 unk_2D0;
-    /* 0x02D4 */ struct_80034A14_arg1 unk_2D4;
+    /* 0x02D4 */ NpcInfo npcInfo;
 } DemoIm; // size = 0x02FC
 
 extern const ActorInit Demo_Im_InitVars;
