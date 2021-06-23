@@ -89,6 +89,33 @@ animdict ={
     "func_80033260": "Actor_SpawnFloorDust",
     "func_80032C7C": "Enemy_StartFinishingBlow",
     "actorCtx.unk_00": "actorCtx.freezeFlashTimer",
+    # Added in Zel's z_actor.c docs
+    "func_8002F374": "Actor_GetProjectionPos",
+    "func_8002D908": "Actor_SetMovementSpeedXYZ",
+    "func_8002D7EC": "Actor_Move",
+    "Actor_MoveForward": "Actor_MoveForwardXZ",
+    "func_8002EABC": "Gfx_DrawHiliteReflectionOpa",
+    "func_8002EB44": "Gfx_DrawHiliteReflectionXlu",
+    "func_8002ED80": "Actor_DrawHiliteReflectionXlu",
+    "func_80033C30": "Gfx_DrawCircleShadow",
+    "func_80034A14": "Npc_TurnTowardsFocus",
+    "func_800343CC": "Actor_Talk",
+    "func_8002F368": "Actor_GetItemExchangePlayer",
+    "func_8002F194": "Actor_IsTalking",
+    "func_8002F2CC": "Actor_RequestToTalkInRange",
+    "func_8002F298": "Actor_RequestToTalkAndExchangeItem",
+    "func_8002EBCC": "Actor_DrawHiliteReflectionOpa",
+    "func_8002F334": "Actor_IsDoneTalking",
+    "func_80033480": "Actor_SpawnFlyingDust",
+    "func_8002D97C": "Actor_MoveForwardXYZ",
+    "func_8002F1C4": "Actor_RequestToTalkAndExchangeItemInRange",
+    "func_8002F2F4": "Actor_RequestToTalk",
+    "func_80033684": "Actor_FindExplosionNearby",
+    "func_800347E8": "Npc_GetSightAngleRange",
+    "func_80034DD4": "Npc_GetFadeOutAlpha",
+    "globalCtx->mf_11D60": "globalCtx->projectionMatrix",
+    #####
+
 }
 
 def replace_anim(file):
