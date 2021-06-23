@@ -3983,27 +3983,27 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
     }
 }
 
-void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
-    Color_RGBA8 color1;
-    Color_RGBA8 color2;
+void func_8003555C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
+    Color_RGBA8 prim;
+    Color_RGBA8 env;
 
-    color1.r = 200;
-    color1.g = 160;
-    color1.b = 120;
+    prim.r = 200;
+    prim.g = 160;
+    prim.b = 120;
 
-    color2.r = 130;
-    color2.g = 90;
-    color2.b = 50;
+    env.r = 130;
+    env.g = 90;
+    env.b = 50;
 
-    //! @bug color1 and color2 alpha components not set before being passed on
-    EffectSsKiraKira_SpawnSmall(globalCtx, arg1, arg2, arg3, &color1, &color2);
+    //! @bug prim and env alpha components not set before being passed on
+    EffectSsKiraKira_SpawnSmall(globalCtx, pos, velocity, accel, &prim, &env);
 }
 
-void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1) {
-    static Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
-    static Vec3f D_80116274 = { 0.0f, -0.2f, 0.0f };
+void func_800355B8(GlobalContext* globalCtx, Vec3f* pos) {
+    static Vec3f velocity = { 0.0f, -1.5f, 0.0f };
+    static Vec3f accel = { 0.0f, -0.2f, 0.0f };
 
-    func_8003555C(globalCtx, arg1, &D_80116268, &D_80116274);
+    func_8003555C(globalCtx, pos, &velocity, &accel);
 }
 
 Gfx D_80116280[] = {
@@ -4112,7 +4112,7 @@ void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3) {
  * Spawns En_Part (Dissipating Flames) actor as a child of the given actor.
  */
 Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
-                     GlobalContext* globalCtx, s16 params, s32 arg8) {
+                     GlobalContext* globalCtx, s16 params, Gfx* dList) {
     EnPart* spawnedEnPart;
 
     spawnedEnPart =
@@ -4121,7 +4121,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speedXZ = arg3[0];
-        spawnedEnPart->displayList = arg8;
+        spawnedEnPart->displayList = dList;
         spawnedEnPart->action = 2;
         spawnedEnPart->timer = timer;
         spawnedEnPart->rotZ = arg3[1];
