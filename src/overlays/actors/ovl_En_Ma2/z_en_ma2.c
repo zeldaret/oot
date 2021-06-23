@@ -331,7 +331,7 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80AA1AE4(this, globalCtx);
     if (this->actionFunc != func_80AA20E4) {
         Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, (f32)this->collider.dim.radius + 30.0f,
-                      func_80AA19A0, func_80AA1A38);
+                   func_80AA19A0, func_80AA1A38);
     }
 }
 

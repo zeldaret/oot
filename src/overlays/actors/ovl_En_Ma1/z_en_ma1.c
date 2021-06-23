@@ -400,7 +400,7 @@ void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != EnMa1_DoNothing) {
         Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, (f32)this->collider.dim.radius + 30.0f,
-                      EnMa1_GetText, func_80AA0778);
+                   EnMa1_GetText, func_80AA0778);
     }
     func_80AA0B74(this);
     func_80AA0AF4(this, globalCtx);

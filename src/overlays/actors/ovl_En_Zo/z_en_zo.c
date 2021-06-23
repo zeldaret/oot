@@ -546,7 +546,8 @@ void EnZo_SetAnimation(EnZo* this) {
         animId = 6;
     }
 
-    if (this->npcInfo.talkState != 0 && this->actor.textId == 0x4007 && this->skelAnime.animation != &gZoraOpenArmsAnim) {
+    if (this->npcInfo.talkState != 0 && this->actor.textId == 0x4007 &&
+        this->skelAnime.animation != &gZoraOpenArmsAnim) {
         animId = 7;
     }
 

@@ -913,8 +913,8 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (Actor_IsTalking(&this->actor, globalCtx)) {}
         } else {
             Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState,
-                          ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,
-                          func_80A79500);
+                       ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius, func_80A79168,
+                       func_80A79500);
             if (this->npcInfo.talkState != 0) {
                 this->unk_1FA = this->unk_1F8;
                 this->unk_1F8 = func_8010BDBC(&globalCtx->msgCtx);

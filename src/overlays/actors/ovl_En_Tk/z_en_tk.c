@@ -531,7 +531,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
         }
 
         Actor_Talk(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
-                      func_80B1C5A0);
+                   func_80B1C5A0);
     } else if (EnTk_CheckFacingPlayer(this)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
@@ -539,7 +539,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
 
         this->actionCountdown = 0;
         Actor_Talk(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
-                      func_80B1C5A0);
+                   func_80B1C5A0);
     } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;

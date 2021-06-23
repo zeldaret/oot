@@ -600,7 +600,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
                 func_80A3ED24(globalCtx, this, &this->npcInfo, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
         } else {
             isUnkCondition = Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, float1, EnGo_GetTextID,
-                                           EnGo_SetFlagsGetStates);
+                                        EnGo_SetFlagsGetStates);
         }
 
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {

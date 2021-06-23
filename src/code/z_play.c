@@ -1484,7 +1484,8 @@ void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
     Matrix_MultVec3f(src, dest);
 
     temp = globalCtx->projectionMatrix.ww +
-           (globalCtx->projectionMatrix.xw * src->x + globalCtx->projectionMatrix.yw * src->y + globalCtx->projectionMatrix.zw * src->z);
+           (globalCtx->projectionMatrix.xw * src->x + globalCtx->projectionMatrix.yw * src->y +
+            globalCtx->projectionMatrix.zw * src->z);
 
     dest->x = 160.0f + ((dest->x / temp) * 160.0f);
     dest->y = 120.0f - ((dest->y / temp) * 120.0f);

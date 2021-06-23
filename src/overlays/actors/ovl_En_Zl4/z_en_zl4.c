@@ -1196,7 +1196,7 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
 
 void EnZl4_Idle(EnZl4* this, GlobalContext* globalCtx) {
     Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 60.0f, EnZl4_GetText,
-                  func_80B5B9B0);
+               func_80B5B9B0);
     func_80B5BB78(this, globalCtx);
 }
 

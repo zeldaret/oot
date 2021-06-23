@@ -552,7 +552,7 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != func_809FE4A4) {
         Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 116.0f, func_809FDC38,
-                      func_809FDCDC);
+                   func_809FDCDC);
     }
     this->actionFunc(this, globalCtx);
 }

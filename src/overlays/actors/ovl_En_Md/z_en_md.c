@@ -534,7 +534,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     if (this->actionFunc != func_80AABC10) {
         if (temp2) {
             Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f,
-                          EnMd_GetText, func_80AAAF04);
+                       EnMd_GetText, func_80AAAF04);
         }
     }
 }

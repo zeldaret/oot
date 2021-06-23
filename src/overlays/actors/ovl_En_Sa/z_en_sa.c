@@ -194,7 +194,7 @@ void func_80AF57D8(EnSa* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum != SCENE_SPOT05 ||
         ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 || this->npcInfo.talkState != 0) {
         Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f, func_80AF55E0,
-                      func_80AF56F4);
+                   func_80AF56F4);
     }
 }
 

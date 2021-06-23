@@ -173,7 +173,7 @@ void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     talkDist = this->collider.dim.radius + 30.0f;
     Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, talkDist, EnMu_GetFaceReaction,
-                  EnMu_CheckDialogState);
+               EnMu_CheckDialogState);
 
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 60.0f;

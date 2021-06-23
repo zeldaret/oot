@@ -810,7 +810,7 @@ s16 EnGo2_GetState(GlobalContext* globalCtx, Actor* thisx) {
 s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
         return Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->unk_218, EnGo2_GetTextId,
-                             EnGo2_GetState);
+                          EnGo2_GetState);
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.ocFlags2 & 1) == 0)) {
         return false;
     } else {
