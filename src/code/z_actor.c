@@ -252,8 +252,9 @@ void Target_InitBlurData(TargetContext* targetCtx, s32 actorCategory, GlobalCont
     targetCtx->targetTimer = 256;
 
     targetColor = &sNaviTargetColorList[actorCategory][0];
+    entry = &targetCtx->targetTriangle[0];
 
-    for (entry = &targetCtx->targetTriangle[0], i = 0; i < ARRAY_COUNT(targetCtx->targetTriangle); i++) {
+    for (i = 0; i < ARRAY_COUNT(targetCtx->targetTriangle); i++) {
         // Set all of the targetTriangle entries to the same color and position
         Target_SetPos(targetCtx, i, 0.0f, 0.0f, 0.0f);
         entry->color.r = targetColor->r;
