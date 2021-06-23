@@ -495,14 +495,14 @@ void EnZo_Blink(EnZo* this) {
 void EnZo_Dialog(EnZo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.focusPos = player->actor.world.pos;
     if (this->actionFunc == EnZo_Standing) {
         // Look down at link if young, look up if old
-        this->npcInfo.unk_14 = LINK_IS_CHILD ? 10.0f : -10.0f;
+        this->npcInfo.eyeHeight = LINK_IS_CHILD ? 10.0f : -10.0f;
     } else {
-        this->npcInfo.lookAtPos.y = this->actor.world.pos.y;
+        this->npcInfo.focusPos.y = this->actor.world.pos.y;
     }
-    func_80034A14(&this->actor, &this->npcInfo, 11, this->unk_64C);
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 11, this->unk_64C);
     if (this->canSpeak == true) {
         Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->dialogRadius, func_80B61024, func_80B61298);
     }

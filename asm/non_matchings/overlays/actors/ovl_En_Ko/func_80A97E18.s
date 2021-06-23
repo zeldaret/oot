@@ -34,7 +34,7 @@ glabel func_80A97E18
 /* 010DC 80A97E8C 00000000 */  nop
 /* 010E0 80A97E90 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 .L80A97E94:
-/* 010E4 80A97E94 0C00D285 */  jal     func_80034A14              
+/* 010E4 80A97E94 0C00D285 */  jal     Npc_TurnTowardsFocus              
 /* 010E8 80A97E98 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
 /* 010EC 80A97E9C 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 010F0 80A97EA0 8FB00018 */  lw      $s0, 0x0018($sp)           

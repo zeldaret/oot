@@ -308,13 +308,13 @@ void func_80A795C8(EnIn* this, GlobalContext* globalCtx) {
         phi_a3 = 4;
     }
     if (this->actionFunc == func_80A7B024) {
-        this->npcInfo.lookAtPos = globalCtx->view.eye;
-        this->npcInfo.unk_14 = 60.0f;
+        this->npcInfo.focusPos = globalCtx->view.eye;
+        this->npcInfo.eyeHeight = 60.0f;
     } else {
-        this->npcInfo.lookAtPos = player->actor.world.pos;
-        this->npcInfo.unk_14 = 16.0f;
+        this->npcInfo.focusPos = player->actor.world.pos;
+        this->npcInfo.eyeHeight = 16.0f;
     }
-    func_80034A14(&this->actor, &this->npcInfo, 1, phi_a3);
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 1, phi_a3);
 }
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, GlobalContext* globalCtx) {

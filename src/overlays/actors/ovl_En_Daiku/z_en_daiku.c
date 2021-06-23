@@ -580,14 +580,14 @@ void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (this->stateFlags & ENDAIKU_STATEFLAG_1) {
-        this->npcInfo.lookAtPos.x = player->actor.focus.pos.x;
-        this->npcInfo.lookAtPos.y = player->actor.focus.pos.y;
-        this->npcInfo.lookAtPos.z = player->actor.focus.pos.z;
+        this->npcInfo.focusPos.x = player->actor.focus.pos.x;
+        this->npcInfo.focusPos.y = player->actor.focus.pos.y;
+        this->npcInfo.focusPos.z = player->actor.focus.pos.z;
 
         if (this->stateFlags & ENDAIKU_STATEFLAG_2) {
-            func_80034A14(&this->actor, &this->npcInfo, 0, 4);
+            Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 0, 4);
         } else {
-            func_80034A14(&this->actor, &this->npcInfo, 0, 2);
+            Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 0, 2);
         }
     }
 }

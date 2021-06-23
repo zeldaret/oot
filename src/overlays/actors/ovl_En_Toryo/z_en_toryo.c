@@ -367,20 +367,20 @@ void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if ((this->stateFlags & 8)) {
-        this->npcInfo.lookAtPos.x = player->actor.focus.pos.x;
-        this->npcInfo.lookAtPos.y = player->actor.focus.pos.y;
-        this->npcInfo.lookAtPos.z = player->actor.focus.pos.z;
+        this->npcInfo.focusPos.x = player->actor.focus.pos.x;
+        this->npcInfo.focusPos.y = player->actor.focus.pos.y;
+        this->npcInfo.focusPos.z = player->actor.focus.pos.z;
 
         if ((this->stateFlags & 0x10)) {
-            func_80034A14(thisx, &this->npcInfo, 0, 4);
+            Npc_TurnTowardsFocus(thisx, &this->npcInfo, 0, 4);
             return;
         }
 
         rot = thisx->yawTowardsPlayer - thisx->shape.rot.y;
         if ((rot < 14563.0f) && (rot > -14563.0f)) {
-            func_80034A14(thisx, &this->npcInfo, 0, 2);
+            Npc_TurnTowardsFocus(thisx, &this->npcInfo, 0, 2);
         } else {
-            func_80034A14(thisx, &this->npcInfo, 0, 1);
+            Npc_TurnTowardsFocus(thisx, &this->npcInfo, 0, 1);
         }
     }
 }

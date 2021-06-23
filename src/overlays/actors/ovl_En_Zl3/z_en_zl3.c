@@ -164,9 +164,9 @@ void func_80B536C4(EnZl3* this) {
 void func_80B53764(EnZl3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) - 16.0f;
-    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = kREG(16) - 16.0f;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
 }
 
 s32 func_80B537E8(EnZl3* this) {
@@ -1979,11 +1979,11 @@ s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad2;
     s16 phi_v1;
 
-    npcInfo->lookAtPos.y = player->actor.world.pos.y;
-    npcInfo->lookAtPos.x = (Math_SinS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.x;
-    npcInfo->lookAtPos.z = (Math_CosS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.z;
-    npcInfo->unk_14 = kREG(16) - 16.0f;
-    func_80034A14(&this->actor, npcInfo, kREG(17) + 0xC, 4);
+    npcInfo->focusPos.y = player->actor.world.pos.y;
+    npcInfo->focusPos.x = (Math_SinS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.x;
+    npcInfo->focusPos.z = (Math_CosS(temp_v0) * this->actor.xzDistToPlayer) + this->actor.world.pos.z;
+    npcInfo->eyeHeight = kREG(16) - 16.0f;
+    Npc_TurnTowardsFocus(&this->actor, npcInfo, kREG(17) + 0xC, 4);
 
     phi_v1 = ABS(temp_v0 - *sp32);
     if (phi_v1 <= 0x320) {

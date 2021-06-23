@@ -434,18 +434,18 @@ void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    this->npcInfo.lookAtPos.x = player->actor.focus.pos.x;
-    this->npcInfo.lookAtPos.y = player->actor.focus.pos.y;
-    this->npcInfo.lookAtPos.z = player->actor.focus.pos.z;
+    this->npcInfo.focusPos.x = player->actor.focus.pos.x;
+    this->npcInfo.focusPos.y = player->actor.focus.pos.y;
+    this->npcInfo.focusPos.z = player->actor.focus.pos.z;
 
     if (this->flags & 0x100) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        func_80034A14(&this->actor, &this->npcInfo, 0, 2);
+        Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 0, 2);
     } else if (this->flags & 0x200) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        func_80034A14(&this->actor, &this->npcInfo, 0, 4);
+        Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 0, 4);
     }
 
     Math_SmoothStepToS(&this->neckAngle.x, this->neckAngleTarget.x, 1, 1820, 0);

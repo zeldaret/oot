@@ -79,9 +79,9 @@ void EnXc_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnXc_CalculateHeadTurn(EnXc* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) - 3.0f;
-    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = kREG(16) - 3.0f;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
 }
 
 void EnXc_SetEyePattern(EnXc* this) {

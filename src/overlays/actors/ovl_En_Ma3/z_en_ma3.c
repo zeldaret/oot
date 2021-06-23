@@ -201,9 +201,9 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
         phi_a3 = 0;
     }
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = 0.0f;
-    func_80034A14(&this->actor, &this->npcInfo, 0, phi_a3);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = 0.0f;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 0, phi_a3);
 }
 
 s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {

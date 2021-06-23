@@ -636,15 +636,15 @@ void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
             break;
     }
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.focusPos = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
-        this->npcInfo.unk_14 = D_80A724A8[this->actor.params & 0x7F].unk_8;
+        this->npcInfo.eyeHeight = D_80A724A8[this->actor.params & 0x7F].unk_8;
     } else {
-        this->npcInfo.unk_14 = D_80A724A8[this->actor.params & 0x7F].unk_4;
+        this->npcInfo.eyeHeight = D_80A724A8[this->actor.params & 0x7F].unk_4;
     }
 
-    func_80034A14(&this->actor, &this->npcInfo, D_80A724A8[this->actor.params & 0x7F].unk_0, phi_a3);
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, D_80A724A8[this->actor.params & 0x7F].unk_0, phi_a3);
 
     if (Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->unk_25C, func_80A6F810, func_80A70058)) {
         func_80A70834(this, globalCtx);

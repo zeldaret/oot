@@ -92,7 +92,7 @@ typedef struct EnGo2 {
     /* 0x0224 */ s16 blinkTimer; 
     /* 0x0226 */ s16 unk_226[18]; // Remains unknown
     /* 0x024A */ s16 unk_24A[18]; // Remains unknown
-    /* 0x026E */ u16 unk_26E; // Remains unknown = 1, 2, or 4: used in func_80034A14
+    /* 0x026E */ u16 unk_26E; // Remains unknown = 1, 2, or 4: used in Npc_TurnTowardsFocus
     /* 0x0270 */ EnGoEffect dustEffects[10];
     /* 0x04A0 */ Vec3f eye;
     /* 0x04AC */ Vec3f at;

@@ -1786,20 +1786,20 @@ void func_80AEEF68(EnRu1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 something;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) - 3.0f;
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
-    func_80034A14(&this->actor, &this->npcInfo, something, 2);
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, something, 2);
 }
 
 void func_80AEEFEC(EnRu1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 something;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) - 3.0f;
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
-    func_80034A14(&this->actor, &this->npcInfo, something, 4);
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, something, 4);
     this->actor.world.rot.y = this->actor.shape.rot.y;
 }
 

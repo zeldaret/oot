@@ -510,13 +510,13 @@ Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx);
 Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx);
 s32 Actor_Talk(GlobalContext* globalCtx, Actor* actor, NpcInfo* npcInfo, f32 arg3, u16 (*unkFunc1)(GlobalContext*, Actor*),
                   s16 (*unkFunc2)(GlobalContext*, Actor*));
-s16 func_800347E8(s16 arg0);
-void func_80034A14(Actor* actor, NpcInfo* npcInfo, s16 arg2, s16 arg3);
+s16 Npc_GetSightAngleRange(s16 index);
+void Npc_TurnTowardsFocus(Actor* actor, NpcInfo* npcInfo, s16 index, s16 arg3);
 void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
-s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3);
+s16 Npc_GetFadeOutAlpha(Actor* actor, GlobalContext* globalCtx, s16 alpha, f32 range);
 void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* animations, s32 index);
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, GlobalContext* globalCtx);

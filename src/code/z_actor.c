@@ -3600,8 +3600,8 @@ Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx) {
 
 s32 Actor_Talk(GlobalContext* globalCtx, Actor* actor, NpcInfo* npcInfo, f32 arg3, callback1_800343CC unkFunc1,
                callback2_800343CC unkFunc2) {
-    s16 sp26;
-    s16 sp24;
+    s16 screenX;
+    s16 screenY;
 
     if (Actor_IsTalking(actor, globalCtx)) {
         npcInfo->talkState = 1;
@@ -3613,12 +3613,14 @@ s32 Actor_Talk(GlobalContext* globalCtx, Actor* actor, NpcInfo* npcInfo, f32 arg
         return false;
     }
 
-    Actor_GetProjectionPos(globalCtx, actor, &sp26, &sp24);
+    Actor_GetProjectionPos(globalCtx, actor, &screenX, &screenY);
 
-    if ((sp26 < 0) || (sp26 > SCREEN_WIDTH) || (sp24 < 0) || (sp24 > SCREEN_HEIGHT)) {
+    // Check if actor is on screen
+    if ((screenX < 0) || (screenX > SCREEN_WIDTH) || (screenY < 0) || (screenY > SCREEN_HEIGHT)) {
         return false;
     }
 
+    // Check if the request to talk failed
     if (!Actor_RequestToTalkInRange(actor, globalCtx, arg3)) {
         return false;
     }
@@ -3643,7 +3645,7 @@ typedef struct {
     /* 0x00 */ NpcTurnInfo npcTurnInfo;
     /* 0x10 */ f32 sightDist; // distance that the NPC can see towards (for rotating waist and neck towards things)
     /* 0x14 */ s16 sightAngleRange; // angle range in which the NPC can see towards
-} NpcSightInfo; // size = 0x18
+} NpcSightInfo;                     // size = 0x18
 
 static NpcSightInfo sNpcSightInfo[] = {
     { { 0x2AA8, 0xF1C8, 0x18E2, 0x1554, 0x0000, 0x0000, true }, 170.0f, 0x3FFC },
@@ -3661,55 +3663,55 @@ static NpcSightInfo sNpcSightInfo[] = {
     { { 0x18E2, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, true }, 0.0f, 0x0000 },
 };
 
-void func_800344BC(Actor* actor, NpcInfo* npcInfo, s16 arg2, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7,
-                   u8 arg8) {
-    s16 sp46;
-    s16 sp44;
-    s16 temp2;
-    s16 sp40;
-    s16 temp1;
-    Vec3f sp30;
+void Npc_TurnTowardsFocusImpl(Actor* actor, NpcInfo* npcInfo, s16 neckAngleRangeY, s16 neckAngleMaxX, s16 neckAngleMinX,
+                              s16 waistAngleRangeY, s16 waistAngleMaxX, s16 waistAngleMinX, u8 waistCanRotate) {
+    s16 xAngle1;
+    s16 yAngle1;
+    s16 xAngle2;
+    s16 yAngle2;
+    s16 offset;
+    Vec3f lookAtPos;
 
-    sp30.x = actor->world.pos.x;
-    sp30.y = actor->world.pos.y + npcInfo->unk_14;
-    sp30.z = actor->world.pos.z;
+    lookAtPos.x = actor->world.pos.x;
+    lookAtPos.y = actor->world.pos.y + npcInfo->eyeHeight;
+    lookAtPos.z = actor->world.pos.z;
 
-    sp46 = Math_Vec3f_Pitch(&sp30, &npcInfo->lookAtPos);
-    sp44 = Math_Vec3f_Yaw(&sp30, &npcInfo->lookAtPos);
-    sp40 = Math_Vec3f_Yaw(&actor->world.pos, &npcInfo->lookAtPos) - actor->shape.rot.y;
+    xAngle1 = Math_Vec3f_Pitch(&lookAtPos, &npcInfo->focusPos);
+    yAngle1 = Math_Vec3f_Yaw(&lookAtPos, &npcInfo->focusPos);
+    yAngle2 = Math_Vec3f_Yaw(&actor->world.pos, &npcInfo->focusPos) - actor->shape.rot.y;
 
-    temp1 = CLAMP(sp40, -arg2, arg2);
-    Math_SmoothStepToS(&npcInfo->neckAngle.y, temp1, 6, 2000, 1);
+    offset = CLAMP(yAngle2, -neckAngleRangeY, neckAngleRangeY);
+    Math_SmoothStepToS(&npcInfo->neckAngle.y, offset, 6, 2000, 1);
 
-    temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    npcInfo->neckAngle.y = CLAMP(npcInfo->neckAngle.y, -temp1, temp1);
+    offset = (ABS(yAngle2) >= 0x8000) ? 0 : ABS(yAngle2);
+    npcInfo->neckAngle.y = CLAMP(npcInfo->neckAngle.y, -offset, offset);
 
-    sp40 -= npcInfo->neckAngle.y;
+    yAngle2 -= npcInfo->neckAngle.y;
 
-    temp1 = CLAMP(sp40, -arg5, arg5);
-    Math_SmoothStepToS(&npcInfo->WaistAngle.y, temp1, 6, 2000, 1);
+    offset = CLAMP(yAngle2, -waistAngleRangeY, waistAngleRangeY);
+    Math_SmoothStepToS(&npcInfo->WaistAngle.y, offset, 6, 2000, 1);
 
-    temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    npcInfo->WaistAngle.y = CLAMP(npcInfo->WaistAngle.y, -temp1, temp1);
+    offset = (ABS(yAngle2) >= 0x8000) ? 0 : ABS(yAngle2);
+    npcInfo->WaistAngle.y = CLAMP(npcInfo->WaistAngle.y, -offset, offset);
 
-    if (arg8) {
-        Math_SmoothStepToS(&actor->shape.rot.y, sp44, 6, 2000, 1);
+    if (waistCanRotate) {
+        Math_SmoothStepToS(&actor->shape.rot.y, yAngle1, 6, 2000, 1);
     }
 
-    temp1 = CLAMP(sp46, arg4, (s16)(u16)arg3);
-    Math_SmoothStepToS(&npcInfo->neckAngle.x, temp1, 6, 2000, 1);
+    offset = CLAMP(xAngle1, neckAngleMinX, (s16)(u16)neckAngleMaxX);
+    Math_SmoothStepToS(&npcInfo->neckAngle.x, offset, 6, 2000, 1);
 
-    temp2 = sp46 - npcInfo->neckAngle.x;
+    xAngle2 = xAngle1 - npcInfo->neckAngle.x;
 
-    temp1 = CLAMP(temp2, arg7, arg6);
-    Math_SmoothStepToS(&npcInfo->WaistAngle.x, temp1, 6, 2000, 1);
+    offset = CLAMP(xAngle2, waistAngleMinX, waistAngleMaxX);
+    Math_SmoothStepToS(&npcInfo->WaistAngle.x, offset, 6, 2000, 1);
 }
 
-s16 func_800347E8(s16 arg0) {
-    return sNpcSightInfo[arg0].sightAngleRange;
+s16 Npc_GetSightAngleRange(s16 index) {
+    return sNpcSightInfo[index].sightAngleRange;
 }
 
-s16 func_80034810(Actor* actor, NpcInfo* npcInfo, f32 arg2, s16 arg3, s16 arg4) {
+s16 Npc_GetTurnState(Actor* actor, NpcInfo* npcInfo, f32 arg2, s16 arg3, s16 arg4) {
     s32 pad;
     s16 var;
     s16 abs_var;
@@ -3722,47 +3724,48 @@ s16 func_80034810(Actor* actor, NpcInfo* npcInfo, f32 arg2, s16 arg3, s16 arg4) 
         return 4;
     }
 
-    if (arg2 < Math_Vec3f_DistXYZ(&actor->world.pos, &npcInfo->lookAtPos)) {
-        npcInfo->eyeTimer = 0;
-        npcInfo->eyeCount = 0;
+    if (arg2 < Math_Vec3f_DistXYZ(&actor->world.pos, &npcInfo->focusPos)) {
+        npcInfo->turnTimer = 0;
+        npcInfo->unk_06 = 0;
         return 1;
     }
 
-    var = Math_Vec3f_Yaw(&actor->world.pos, &npcInfo->lookAtPos);
+    var = Math_Vec3f_Yaw(&actor->world.pos, &npcInfo->focusPos);
     abs_var = ABS((s16)((f32)var - actor->shape.rot.y));
     if (arg3 >= abs_var) {
-        npcInfo->eyeTimer = 0;
-        npcInfo->eyeCount = 0;
+        npcInfo->turnTimer = 0;
+        npcInfo->unk_06 = 0;
         return 2;
     }
 
-    if (DECR(npcInfo->eyeTimer) != 0) {
-        return npcInfo->eyeState;
+    if (DECR(npcInfo->turnTimer) != 0) {
+        return npcInfo->turnState;
     }
 
-    switch (npcInfo->eyeCount) {
+    switch (npcInfo->unk_06) {
         case 0:
         case 2:
-            npcInfo->eyeTimer = Rand_S16Offset(30, 30);
-            npcInfo->eyeCount++;
+            npcInfo->turnTimer = Rand_S16Offset(30, 30);
+            npcInfo->unk_06++;
             return 1;
         case 1:
-            npcInfo->eyeTimer = Rand_S16Offset(10, 10);
-            npcInfo->eyeCount++;
+            npcInfo->turnTimer = Rand_S16Offset(10, 10);
+            npcInfo->unk_06++;
             return 3;
     }
 
     return 4;
 }
 
-void func_80034A14(Actor* actor, NpcInfo* npcInfo, s16 arg2, s16 arg3) {
+void Npc_TurnTowardsFocus(Actor* actor, NpcInfo* npcInfo, s16 index, s16 arg3) {
     NpcTurnInfo turnInfo;
 
-    npcInfo->eyeState = func_80034810(actor, npcInfo, sNpcSightInfo[arg2].sightDist, sNpcSightInfo[arg2].sightAngleRange, arg3);
+    npcInfo->turnState =
+        Npc_GetTurnState(actor, npcInfo, sNpcSightInfo[index].sightDist, sNpcSightInfo[index].sightAngleRange, arg3);
 
-    turnInfo = sNpcSightInfo[arg2].npcTurnInfo;
+    turnInfo = sNpcSightInfo[index].npcTurnInfo;
 
-    switch (npcInfo->eyeState) {
+    switch (npcInfo->turnState) {
         case 1:
             turnInfo.neckAngleRangeY = 0;
             turnInfo.neckAngleMaxX = 0;
@@ -3775,8 +3778,9 @@ void func_80034A14(Actor* actor, NpcInfo* npcInfo, s16 arg2, s16 arg3) {
             turnInfo.waistCanRotate = 0;
     }
 
-    func_800344BC(actor, npcInfo, turnInfo.neckAngleRangeY, turnInfo.neckAngleMaxX, turnInfo.neckAngleMinX,
-                  turnInfo.waistAngleRangeY, turnInfo.waistAngleMaxX, turnInfo.waistAngleMinX, turnInfo.waistCanRotate);
+    Npc_TurnTowardsFocusImpl(actor, npcInfo, turnInfo.neckAngleRangeY, turnInfo.neckAngleMaxX, turnInfo.neckAngleMinX,
+                             turnInfo.waistAngleRangeY, turnInfo.waistAngleMaxX, turnInfo.waistAngleMinX,
+                             turnInfo.waistCanRotate);
 }
 
 Gfx* func_80034B28(GraphicsContext* gfxCtx) {
@@ -3836,25 +3840,28 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8904);
 }
 
-s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
+/**
+ * Used for Kokiris who fade out at a given range.
+ */
+s16 Npc_GetFadeOutAlpha(Actor* actor, GlobalContext* globalCtx, s16 alpha, f32 range) {
     Player* player = PLAYER;
-    f32 var;
+    f32 dist;
 
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) {
-        var = Math_Vec3f_DistXYZ(&actor->world.pos, &globalCtx->view.eye) * 0.25f;
+        dist = Math_Vec3f_DistXYZ(&actor->world.pos, &globalCtx->view.eye) * 0.25f;
     } else {
-        var = Math_Vec3f_DistXYZ(&actor->world.pos, &player->actor.world.pos);
+        dist = Math_Vec3f_DistXYZ(&actor->world.pos, &player->actor.world.pos);
     }
 
-    if (arg3 < var) {
+    if (range < dist) {
         actor->flags &= ~1;
-        Math_SmoothStepToS(&arg2, 0, 6, 0x14, 1);
+        Math_SmoothStepToS(&alpha, 0, 6, 20, 1);
     } else {
         actor->flags |= 1;
-        Math_SmoothStepToS(&arg2, 0xFF, 6, 0x14, 1);
+        Math_SmoothStepToS(&alpha, 255, 6, 20, 1);
     }
 
-    return arg2;
+    return alpha;
 }
 
 void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* animations, s32 index) {

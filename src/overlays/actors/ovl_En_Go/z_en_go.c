@@ -413,9 +413,9 @@ void func_80A3F060(EnGo* this, GlobalContext* globalCtx) {
         unkVal = 1;
     }
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = EnGo_GetGoronSize(this);
-    func_80034A14(&this->actor, &this->npcInfo, 4, unkVal);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = EnGo_GetGoronSize(this);
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 4, unkVal);
 }
 
 void func_80A3F0E4(EnGo* this) {

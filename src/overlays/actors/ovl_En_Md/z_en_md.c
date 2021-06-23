@@ -501,7 +501,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
         yawDiff = (f32)this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
 
-        temp = (absYawDiff <= func_800347E8(2)) ? 2 : 1;
+        temp = (absYawDiff <= Npc_GetSightAngleRange(2)) ? 2 : 1;
         temp2 = 1;
     } else {
         temp = 1;
@@ -522,15 +522,15 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     }
 
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) {
-        this->npcInfo.lookAtPos = globalCtx->view.eye;
-        this->npcInfo.unk_14 = 40.0f;
+        this->npcInfo.focusPos = globalCtx->view.eye;
+        this->npcInfo.eyeHeight = 40.0f;
         temp = 2;
     } else {
-        this->npcInfo.lookAtPos = player->actor.world.pos;
-        this->npcInfo.unk_14 = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
+        this->npcInfo.focusPos = player->actor.world.pos;
+        this->npcInfo.eyeHeight = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
     }
 
-    func_80034A14(&this->actor, &this->npcInfo, 2, temp);
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 2, temp);
     if (this->actionFunc != func_80AABC10) {
         if (temp2) {
             Actor_Talk(globalCtx, &this->actor, &this->npcInfo.talkState, this->collider.dim.radius + 30.0f,
@@ -595,7 +595,7 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
                 (globalCtx->sceneNum == SCENE_SPOT04))
                    ? 100.0f
                    : 400.0f;
-        this->alpha = func_80034DD4(&this->actor, globalCtx, this->alpha, temp);
+        this->alpha = Npc_GetFadeOutAlpha(&this->actor, globalCtx, this->alpha, temp);
         this->actor.shape.shadowAlpha = this->alpha;
     } else {
         this->alpha = 255;

@@ -307,8 +307,8 @@ void EnZl4_SetMove(EnZl4* this, GlobalContext* globalCtx) {
 void func_80B5BB78(EnZl4* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    func_80034A14(&this->actor, &this->npcInfo, 2, 2);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 2, 2);
 }
 
 void EnZl4_GetActionStartPos(CsCmdActorAction* action, Vec3f* vec) {
@@ -1187,8 +1187,8 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
             }
             break;
     }
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    func_80034A14(&this->actor, &this->npcInfo, 2, (this->csState == ZL4_CS_WINDOW) ? 2 : 1);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 2, (this->csState == ZL4_CS_WINDOW) ? 2 : 1);
     if (EnZl4_InMovingAnim(this)) {
         EnZl4_SetMove(this, globalCtx);
     }

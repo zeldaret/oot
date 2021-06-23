@@ -389,9 +389,9 @@ void func_80AF5F34(EnSa* this, GlobalContext* globalCtx) {
         this->skelAnime.animation == &gSariaOcarinaToMouthAnim) {
         phi_a3 = 1;
     }
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = 4.0f;
-    func_80034A14(&this->actor, &this->npcInfo, 2, phi_a3);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = 4.0f;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 2, phi_a3);
 }
 
 s32 func_80AF603C(EnSa* this) {
@@ -700,7 +700,7 @@ void EnSa_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actionFunc != func_80AF68E4) {
-        this->alpha = func_80034DD4(&this->actor, globalCtx, this->alpha, 400.0f);
+        this->alpha = Npc_GetFadeOutAlpha(&this->actor, globalCtx, this->alpha, 400.0f);
     } else {
         this->alpha = 255;
     }

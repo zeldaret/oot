@@ -1079,10 +1079,10 @@ void func_80A45288(EnGo2* this, GlobalContext* globalCtx) {
     s32 linkAge;
 
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
-        this->npcInfo.lookAtPos = player->actor.world.pos;
+        this->npcInfo.focusPos = player->actor.world.pos;
         linkAge = gSaveContext.linkAge;
-        this->npcInfo.unk_14 = D_80A482D8[this->actor.params & 0x1F][linkAge];
-        func_80034A14(&this->actor, &this->npcInfo, 4, this->unk_26E);
+        this->npcInfo.eyeHeight = D_80A482D8[this->actor.params & 0x1F][linkAge];
+        Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 4, this->unk_26E);
     }
     if ((this->actionFunc != EnGo2_SetGetItem) && (this->isAwake == true)) {
         if (func_80A44790(this, globalCtx)) {

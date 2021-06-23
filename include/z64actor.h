@@ -160,15 +160,15 @@ typedef struct Actor {
 } Actor; // size = 0x14C
 
 typedef struct {
-    /* 0x00 */ s16 talkState;
-    /* 0x02 */ s16 eyeState;
-    /* 0x04 */ s16 eyeTimer;
-    /* 0x06 */ s16 eyeCount; // number of eye textures?
+    /* 0x00 */ s16   talkState;
+    /* 0x02 */ s16   turnState;
+    /* 0x04 */ s16   turnTimer;
+    /* 0x06 */ s16   unk_06; // related to turning
     /* 0x08 */ Vec3s neckAngle;
     /* 0x0E */ Vec3s WaistAngle;
-    /* 0x14 */ f32 unk_14; // eye related
-    /* 0x18 */ Vec3f lookAtPos; // position that the NPC is looking at
-    /* 0x24 */ s16 unk_24;
+    /* 0x14 */ f32   eyeHeight; // height of the NPC's eyes for use with `focusPos`
+    /* 0x18 */ Vec3f focusPos; // position that the NPC is looking at
+    /* 0x24 */ s16   unk_24;
 } NpcInfo; // size = 0x28
 
 typedef enum {

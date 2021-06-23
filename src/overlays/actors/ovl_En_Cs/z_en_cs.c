@@ -398,10 +398,10 @@ void EnCs_Talk(EnCs* this, GlobalContext* globalCtx) {
     }
 
     this->flag |= 1;
-    this->npcInfo.lookAtPos.x = player->actor.focus.pos.x;
-    this->npcInfo.lookAtPos.y = player->actor.focus.pos.y;
-    this->npcInfo.lookAtPos.z = player->actor.focus.pos.z;
-    func_80034A14(&this->actor, &this->npcInfo, 0, 4);
+    this->npcInfo.focusPos.x = player->actor.focus.pos.x;
+    this->npcInfo.focusPos.y = player->actor.focus.pos.y;
+    this->npcInfo.focusPos.z = player->actor.focus.pos.z;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 0, 4);
 
     if (this->talkState == 0) {
         EnCs_SetAnimFromIndex(this, 0, &this->currentAnimIndex);

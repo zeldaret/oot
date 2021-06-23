@@ -12,7 +12,7 @@ glabel func_80A97F20
 /* 01198 80A97F48 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 0119C 80A97F4C 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
 /* 011A0 80A97F50 24070004 */  addiu   $a3, $zero, 0x0004         ## $a3 = 00000004
-/* 011A4 80A97F54 0C00D285 */  jal     func_80034A14              
+/* 011A4 80A97F54 0C00D285 */  jal     Npc_TurnTowardsFocus              
 /* 011A8 80A97F58 248501E8 */  addiu   $a1, $a0, 0x01E8           ## $a1 = 000001E8
 /* 011AC 80A97F5C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 011B0 80A97F60 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

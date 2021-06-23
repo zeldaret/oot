@@ -156,9 +156,9 @@ void func_809FDE24(EnDu* this, GlobalContext* globalCtx) {
     if (this->actionFunc == func_809FE890) {
         phi_a3 = 1;
     }
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = 10.0f;
-    func_80034A14(&this->actor, &this->npcInfo, 3, phi_a3);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = 10.0f;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 3, phi_a3);
 }
 
 void func_809FDE9C(EnDu* this) {

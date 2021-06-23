@@ -161,13 +161,13 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     func_80A5046C(this);
     this->actionFunc(this, globalCtx);
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.focusPos = player->actor.world.pos;
     if (LINK_IS_ADULT) {
-        this->npcInfo.unk_14 = 10.0f;
+        this->npcInfo.eyeHeight = 10.0f;
     } else {
-        this->npcInfo.unk_14 = 20.0f;
+        this->npcInfo.eyeHeight = 20.0f;
     }
-    func_80034A14(&this->actor, &this->npcInfo, 6, 2);
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 6, 2);
 
     func_80034F54(globalCtx, this->unk_2CC, this->unk_2EC, 16);
 

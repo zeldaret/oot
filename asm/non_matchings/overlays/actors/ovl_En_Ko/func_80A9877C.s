@@ -31,7 +31,7 @@ glabel func_80A9877C
 /* 01A3C 80A987EC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01A40 80A987F0 260501E8 */  addiu   $a1, $s0, 0x01E8           ## $a1 = 000001E8
 /* 01A44 80A987F4 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
-/* 01A48 80A987F8 0C00D285 */  jal     func_80034A14
+/* 01A48 80A987F8 0C00D285 */  jal     Npc_TurnTowardsFocus
 /* 01A4C 80A987FC 24070002 */  addiu   $a3, $zero, 0x0002         ## $a3 = 00000002
 /* 01A50 80A98800 10000011 */  beq     $zero, $zero, .L80A98848
 /* 01A54 80A98804 00000000 */  nop

@@ -152,17 +152,17 @@ void EnNb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AB0FBC(EnNb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) + 9.0f;
-    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = kREG(16) + 9.0f;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
 }
 
 void func_80AB1040(EnNb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) + 9.0f;
-    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 4);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = kREG(16) + 9.0f;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, kREG(17) + 0xC, 4);
 }
 
 void func_80AB10C4(EnNb* this) {

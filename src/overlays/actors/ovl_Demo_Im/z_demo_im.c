@@ -193,29 +193,29 @@ void func_80984E58(DemoIm* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 phi_a3;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) + 4.0f;
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = kREG(16) + 4.0f;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     phi_a3 = (ABS(yawDiff) < 0x18E3) ? 2 : 1;
-    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, phi_a3);
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, kREG(17) + 0xC, phi_a3);
 }
 
 void func_80984F10(DemoIm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) + 12.0f;
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = kREG(16) + 12.0f;
 
-    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
 }
 
 void func_80984F94(DemoIm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->npcInfo.lookAtPos = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) + 4.0f;
-    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 4);
+    this->npcInfo.focusPos = player->actor.world.pos;
+    this->npcInfo.eyeHeight = kREG(16) + 4.0f;
+    Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, kREG(17) + 0xC, 4);
 }
 
 void func_80985018(DemoIm* this, GlobalContext* globalCtx) {

@@ -495,11 +495,11 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     Actor_SetFocus(thisx, 60.0f);
-    this->npcInfo.lookAtPos = player->actor.world.pos;
+    this->npcInfo.focusPos = player->actor.world.pos;
     if (LINK_IS_CHILD) {
-        this->npcInfo.lookAtPos.y = player->actor.world.pos.y - 10.0f;
+        this->npcInfo.focusPos.y = player->actor.world.pos.y - 10.0f;
     }
-    func_80034A14(thisx, &this->npcInfo, 2, 4);
+    Npc_TurnTowardsFocus(thisx, &this->npcInfo, 2, 4);
     this->unk_254 = this->npcInfo.neckAngle;
     this->unk_25A = this->npcInfo.WaistAngle;
     if (this->unk_276 == 0) {
