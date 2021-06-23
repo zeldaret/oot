@@ -123,7 +123,7 @@ void func_8097CA30(DemoGo* this, GlobalContext* globalCtx) {
 void func_8097CA78(DemoGo* this, GlobalContext* globalCtx) {
     s16 pad;
     Vec3f vec = this->actor.world.pos;
-    func_80033480(globalCtx, &vec, kREG(11) + 100.0f, kREG(12) + 0xA, kREG(13) + 0x12C, kREG(14), 0);
+    Actor_SpawnFlyingDust(globalCtx, &vec, kREG(11) + 100.0f, kREG(12) + 0xA, kREG(13) + 0x12C, kREG(14), 0);
     func_8097C9B8(this);
 }
 

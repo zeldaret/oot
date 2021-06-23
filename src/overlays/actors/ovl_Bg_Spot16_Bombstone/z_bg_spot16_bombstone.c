@@ -287,7 +287,7 @@ void BgSpot16Bombstone_SpawnDust(BgSpot16Bombstone* this, GlobalContext* globalC
     world.y = this->actor.world.pos.y + 50.0f;
     world.z = this->actor.world.pos.z;
 
-    func_80033480(globalCtx, &world, scaleX1, 2, scaleX2, 0xA0, 1);
+    Actor_SpawnFlyingDust(globalCtx, &world, scaleX1, 2, scaleX2, 0xA0, 1);
 }
 
 void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {

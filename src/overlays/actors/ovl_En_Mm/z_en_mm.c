@@ -308,7 +308,7 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            Actor_GetDisplayPos(globalCtx, &this->actor, &sp26, &sp24);
+            Actor_GetProjectionPos(globalCtx, &this->actor, &sp26, &sp24);
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
             if ((sp26 >= 0) && (sp26 <= 0x140) && (sp24 >= 0) && (sp24 <= 0xF0) && (yawDiff <= 17152.0f) &&
@@ -470,7 +470,7 @@ void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
             dustPos.z = this->actor.world.pos.z;
 
             if (gSaveContext.gameMode != 3) {
-                func_80033480(globalCtx, &dustPos, 50.0f, 2, 350, 20, 0);
+                Actor_SpawnFlyingDust(globalCtx, &dustPos, 50.0f, 2, 350, 20, 0);
             }
 
             if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {

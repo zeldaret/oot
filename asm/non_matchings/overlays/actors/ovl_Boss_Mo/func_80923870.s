@@ -295,7 +295,7 @@ glabel func_80923870
 /* 08128 80923C28 26440D70 */  addiu   $a0, $s2, 0x0D70           ## $a0 = 00000D70
 /* 0812C 80923C2C 26C500E0 */  addiu   $a1, $s6, 0x00E0           ## $a1 = 000000E0
 /* 08130 80923C30 27A60110 */  addiu   $a2, $sp, 0x0110           ## $a2 = FFFFFFE0
-/* 08134 80923C34 0C00BAD1 */  jal     func_8002EB44              
+/* 08134 80923C34 0C00BAD1 */  jal     Gfx_DrawHiliteReflectionXlu              
 /* 08138 80923C38 8EC70000 */  lw      $a3, 0x0000($s6)           ## 00000000
 .L80923C3C:
 /* 0813C 80923C3C 16200009 */  bne     $s1, $zero, .L80923C64     

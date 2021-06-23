@@ -1010,7 +1010,7 @@ void EnSw_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->actor.colChkInfo.health != 0) {
             Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         }
-        func_8002EBCC(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
     } else if (this->actionFunc == func_80B0E728) {
         func_80B0EDB8(globalCtx, &sp30, 0x14, 0x1E);
     }

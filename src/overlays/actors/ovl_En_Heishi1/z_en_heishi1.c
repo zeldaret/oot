@@ -498,7 +498,7 @@ void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi1_OverrideLimbDraw, NULL,
                       this);
-    func_80033C30(&this->actor.world.pos, &matrixScale, 0xFF, globalCtx);
+    Gfx_DrawCircleShadow(&this->actor.world.pos, &matrixScale, 255, globalCtx);
 
     if ((this->path == BREG(1)) && (BREG(0) != 0)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y + 100.0f, this->actor.world.pos.z,

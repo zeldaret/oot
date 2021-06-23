@@ -228,7 +228,7 @@ void EnIshi_SpawnDustSmall(EnIshi* this, GlobalContext* globalCtx) {
         pos.y += 2.0f * this->actor.velocity.y;
         pos.z -= 2.0f * this->actor.velocity.z;
     }
-    func_80033480(globalCtx, &pos, 60.0f, 3, 0x50, 0x3C, 1);
+    Actor_SpawnFlyingDust(globalCtx, &pos, 60.0f, 3, 0x50, 0x3C, 1);
 }
 
 void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx) {
@@ -244,7 +244,7 @@ void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx) {
         pos.y += 2.0f * this->actor.velocity.y;
         pos.z -= 2.0f * this->actor.velocity.z;
     }
-    func_80033480(globalCtx, &pos, 140.0f, 0xA, 0xB4, 0x5A, 1);
+    Actor_SpawnFlyingDust(globalCtx, &pos, 140.0f, 0xA, 0xB4, 0x5A, 1);
 }
 
 void EnIshi_DropCollectible(EnIshi* this, GlobalContext* globalCtx) {
@@ -371,9 +371,9 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
             if (this->actor.xzDistToPlayer < 90.0f) {
                 // GI_NONE in these cases allows the player to lift the actor
                 if (type == ROCK_LARGE) {
-                    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_NONE, 80.0f, 20.0f);
+                    func_8002F434(&this->actor, globalCtx, GI_NONE, 80.0f, 20.0f);
                 } else {
-                    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_NONE, 50.0f, 10.0f);
+                    func_8002F434(&this->actor, globalCtx, GI_NONE, 50.0f, 10.0f);
                 }
             }
         }

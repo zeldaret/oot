@@ -1707,13 +1707,13 @@ void DemoEffect_DrawJewel(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2599),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             func_80093D84(globalCtx->state.gfxCtx);
-            func_8002ED80(&this->actor, globalCtx, 0);
+            Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
                             this->primXluColor[2], 255);
             gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
             gSPDisplayList(POLY_XLU_DISP++, this->jewelDisplayList);
             func_80093D18(globalCtx->state.gfxCtx);
-            func_8002EBCC(&this->actor, globalCtx, 0);
+            Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 128, this->primOpaColor[0], this->primOpaColor[1],
                             this->primOpaColor[2], 255);
             gDPSetEnvColor(POLY_OPA_DISP++, this->envOpaColor[0], this->envOpaColor[1], this->envOpaColor[2], 255);
@@ -1832,7 +1832,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gGoldenGoddessAuraDL);
         func_80093D18(globalCtx->state.gfxCtx);
-        func_8002EBCC(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
         Matrix_Pop();
 
         this->godLgt.rotation++;
@@ -1995,7 +1995,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             if (this->triforceSpot.triforceSpotOpacity < 250) {
-                func_8002ED80(&this->actor, globalCtx, 0);
+                Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
                 func_80093D84(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
                 Matrix_RotateY(this->triforceSpot.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
@@ -2007,7 +2007,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
                 gDPSetEnvColor(POLY_XLU_DISP++, 170, 140, 0, 255);
                 gSPDisplayList(POLY_XLU_DISP++, gTriforceDL);
             } else {
-                func_8002EBCC(&this->actor, globalCtx, 0);
+                Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
                 func_80093D18(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(POLY_OPA_DISP++, G_RM_PASS, G_RM_AA_ZB_OPA_SURF2);
                 Matrix_RotateY(this->triforceSpot.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
@@ -2035,8 +2035,8 @@ void DemoEffect_DrawGetItem(Actor* thisx, GlobalContext* globalCtx) {
             this->getItem.isLoaded = 1;
             return;
         }
-        func_8002EBCC(thisx, globalCtx, 0);
-        func_8002ED80(thisx, globalCtx, 0);
+        Actor_DrawHiliteReflectionOpa(thisx, globalCtx, 0);
+        Actor_DrawHiliteReflectionXlu(thisx, globalCtx, 0);
         GetItem_Draw(globalCtx, this->getItem.drawId);
     }
 }

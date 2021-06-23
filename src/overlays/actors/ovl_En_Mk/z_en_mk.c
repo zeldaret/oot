@@ -101,14 +101,14 @@ void func_80AACA94(EnMk* this, GlobalContext* globalCtx) {
         func_80088AA0(240);
         gSaveContext.eventInf[1] &= ~1;
     } else {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
     }
 }
 
 void func_80AACB14(EnMk* this, GlobalContext* globalCtx) {
     if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACA94;
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
     }
 }
 
@@ -202,14 +202,14 @@ void func_80AACFA0(EnMk* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80AACA40;
         gSaveContext.itemGetInf[1] |= 1;
     } else {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
 }
 
 void func_80AAD014(EnMk* this, GlobalContext* globalCtx) {
     if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80AACFA0;
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
 
     this->flags |= 1;
@@ -279,7 +279,7 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
         angle = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
         if ((ABS(angle) < 0x2151) && (this->actor.xzDistToPlayer < 100.0f)) {
-            func_8002F298(&this->actor, globalCtx, 100.0f, EXCH_ITEM_FROG);
+            Actor_RequestToTalkAndExchangeItem(&this->actor, globalCtx, 100.0f, EXCH_ITEM_FROG);
             this->flags |= 1;
         }
     }

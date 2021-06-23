@@ -102,11 +102,11 @@ void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
                              4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
     }
     Math_Vec3f_Sum(&thisx->world.pos, &D_808B272C, &burstDepthY);
-    func_80033480(globalCtx, &burstDepthY, 70, 4, 110, 160, 1);
+    Actor_SpawnFlyingDust(globalCtx, &burstDepthY, 70, 4, 110, 160, 1);
     burstDepthY.y += 40;
-    func_80033480(globalCtx, &burstDepthY, 70, 5, 110, 160, 1);
+    Actor_SpawnFlyingDust(globalCtx, &burstDepthY, 70, 5, 110, 160, 1);
     burstDepthY.y += 40;
-    func_80033480(globalCtx, &burstDepthY, 70, 4, 110, 160, 1);
+    Actor_SpawnFlyingDust(globalCtx, &burstDepthY, 70, 4, 110, 160, 1);
 }
 
 void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {

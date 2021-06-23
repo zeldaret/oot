@@ -502,7 +502,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
                 this->actor.textId = 0xFFFF;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
-                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
+                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
                 globalCtx->msgCtx.msgMode = 0x36;
                 globalCtx->msgCtx.unk_E3E7 = 4;
                 this->unk_1E2++;
@@ -517,7 +517,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
                 this->actor.parent = NULL;
                 this->unk_1E2++;
             } else {
-                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
+                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
             }
             break;
         case 3:

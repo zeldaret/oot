@@ -299,7 +299,7 @@ void func_80A2F83C(EnGb* this, GlobalContext* globalCtx) {
         return;
     }
     if (this->dyna.actor.xzDistToPlayer < 100.0f) {
-        func_8002F298(&this->dyna.actor, globalCtx, 100.0f, EXCH_ITEM_POE);
+        Actor_RequestToTalkAndExchangeItem(&this->dyna.actor, globalCtx, 100.0f, EXCH_ITEM_POE);
     }
 }
 
@@ -352,7 +352,7 @@ void func_80A2FA50(EnGb* this, GlobalContext* globalCtx) {
 
 void func_80A2FB40(EnGb* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
-        Actor_GiveItemToPlayerInRange(&this->dyna.actor, globalCtx, GI_BOTTLE, 100.0f, 10.0f);
+        func_8002F434(&this->dyna.actor, globalCtx, GI_BOTTLE, 100.0f, 10.0f);
         this->actionFunc = func_80A2FBB0;
     }
 }
@@ -362,7 +362,7 @@ void func_80A2FBB0(EnGb* this, GlobalContext* globalCtx) {
         this->dyna.actor.parent = NULL;
         this->actionFunc = func_80A2FC0C;
     } else {
-        Actor_GiveItemToPlayerInRange(&this->dyna.actor, globalCtx, GI_BOTTLE, 100.0f, 10.0f);
+        func_8002F434(&this->dyna.actor, globalCtx, GI_BOTTLE, 100.0f, 10.0f);
     }
 }
 

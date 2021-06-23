@@ -78,7 +78,7 @@ glabel func_80AC5EF0
 /* 03350 80AC5FF0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 03354 80AC5FF4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03358 80AC5FF8 3C0642C8 */  lui     $a2, 0x42C8                ## $a2 = 42C80000
-/* 0335C 80AC5FFC 0C00BCA6 */  jal     func_8002F298              
+/* 0335C 80AC5FFC 0C00BCA6 */  jal     Actor_RequestToTalkAndExchangeItem              
 /* 03360 80AC6000 2407FFFF */  addiu   $a3, $zero, 0xFFFF         ## $a3 = FFFFFFFF
 /* 03364 80AC6004 10000033 */  beq     $zero, $zero, .L80AC60D4   
 /* 03368 80AC6008 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -132,7 +132,7 @@ glabel func_80AC5EF0
 /* 0341C 80AC60BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 03420 80AC60C0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03424 80AC60C4 3C0642C8 */  lui     $a2, 0x42C8                ## $a2 = 42C80000
-/* 03428 80AC60C8 0C00BCA6 */  jal     func_8002F298              
+/* 03428 80AC60C8 0C00BCA6 */  jal     Actor_RequestToTalkAndExchangeItem              
 /* 0342C 80AC60CC 2407FFFF */  addiu   $a3, $zero, 0xFFFF         ## $a3 = FFFFFFFF
 .L80AC60D0:
 /* 03430 80AC60D0 8FBF001C */  lw      $ra, 0x001C($sp)           

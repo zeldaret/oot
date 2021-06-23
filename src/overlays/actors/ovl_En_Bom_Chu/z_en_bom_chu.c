@@ -460,7 +460,7 @@ void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_chu.c", 921);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    func_8002EBCC(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
 
     if (this->timer >= 40) {
         timerMod = this->timer % 20;

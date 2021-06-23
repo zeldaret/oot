@@ -137,17 +137,17 @@ void BgDdanJd_MoveEffects(BgDdanJd* this, GlobalContext* globalCtx) {
     if (globalCtx->gameplayFrames & 1) {
         dustPos.x = this->dyna.actor.world.pos.x + 65.0f;
         dustPos.z = Rand_CenteredFloat(110.0f) + this->dyna.actor.world.pos.z;
-        func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
+        Actor_SpawnFlyingDust(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
         dustPos.x = this->dyna.actor.world.pos.x - 65.0f;
         dustPos.z = Rand_CenteredFloat(110.0f) + this->dyna.actor.world.pos.z;
-        func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
+        Actor_SpawnFlyingDust(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
     } else {
         dustPos.x = Rand_CenteredFloat(110.0f) + this->dyna.actor.world.pos.x;
         dustPos.z = this->dyna.actor.world.pos.z + 65.0f;
-        func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
+        Actor_SpawnFlyingDust(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
         dustPos.x = Rand_CenteredFloat(110.0f) + this->dyna.actor.world.pos.x;
         dustPos.z = this->dyna.actor.world.pos.z - 65.0f;
-        func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
+        Actor_SpawnFlyingDust(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
     }
     if (this->ySpeed == SHORTCUT_Y_SPEED) {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);

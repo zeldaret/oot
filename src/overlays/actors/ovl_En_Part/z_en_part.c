@@ -204,7 +204,7 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
             this->timer = 1;
         }
 
-        func_80033480(globalCtx, &this->actor.world.pos, 0.0f, 1, 300, 150, 1);
+        Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 0.0f, 1, 300, 150, 1);
         velocity.x = Rand_CenteredFloat(16.0f);
         EffectSsHahen_Spawn(globalCtx, &this->actor.world.pos, &velocity, &accel, 20,
                             (s32)((Rand_ZeroOne() * 5.0f + 12.0f) * 2), -1, 10, NULL);
@@ -289,7 +289,7 @@ void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
-    func_8002EBCC(thisx, globalCtx, 0);
+    Actor_DrawHiliteReflectionOpa(thisx, globalCtx, 0);
 
     if (thisx->params == 5) {
         gSPSegment(POLY_OPA_DISP++, 0x08, func_80ACEAC0(globalCtx->state.gfxCtx, 245, 255, 205, 30, 35, 0));

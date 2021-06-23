@@ -138,7 +138,7 @@ glabel func_80B96160
 /* 00284 80B96354 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 00288 80B96358 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 0028C 80B9635C 3C0642F0 */  lui     $a2, 0x42F0                ## $a2 = 42F00000
-/* 00290 80B96360 0C00CD20 */  jal     func_80033480              
+/* 00290 80B96360 0C00CD20 */  jal     Actor_SpawnFlyingDust              
 /* 00294 80B96364 2407000C */  addiu   $a3, $zero, 0x000C         ## $a3 = 0000000C
 /* 00298 80B96368 1000000E */  beq     $zero, $zero, .L80B963A4   
 /* 0029C 80B9636C 8FBF0094 */  lw      $ra, 0x0094($sp)           
@@ -153,7 +153,7 @@ glabel func_80B96160
 /* 002BC 80B9638C AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 002C0 80B96390 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000024
 /* 002C4 80B96394 3C064270 */  lui     $a2, 0x4270                ## $a2 = 42700000
-/* 002C8 80B96398 0C00CD20 */  jal     func_80033480              
+/* 002C8 80B96398 0C00CD20 */  jal     Actor_SpawnFlyingDust              
 /* 002CC 80B9639C 24070008 */  addiu   $a3, $zero, 0x0008         ## $a3 = 00000008
 .L80B963A0:
 /* 002D0 80B963A0 8FBF0094 */  lw      $ra, 0x0094($sp)           

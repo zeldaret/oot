@@ -126,7 +126,7 @@ void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
     } else {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->getItemId, 30.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, this->getItemId, 30.0f, 50.0f);
     }
 }
 
@@ -139,7 +139,7 @@ void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         if (0) {} // Necessary to match
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->getItemId, 30.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, this->getItemId, 30.0f, 50.0f);
         if ((globalCtx->gameplayFrames & 0xD) == 0) {
             EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);
         }
@@ -204,8 +204,8 @@ void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx) {
 void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx) {
     ItemEtcetera* this = THIS;
     if (globalCtx->actorCtx.unk_03 != 0) {
-        func_8002EBCC(&this->actor, globalCtx, 0);
-        func_8002ED80(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
         GetItem_Draw(globalCtx, this->giDrawId);
     }
 }
@@ -213,7 +213,7 @@ void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx) {
 void ItemEtcetera_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ItemEtcetera* this = THIS;
 
-    func_8002EBCC(&this->actor, globalCtx, 0);
-    func_8002ED80(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
     GetItem_Draw(globalCtx, this->giDrawId);
 }

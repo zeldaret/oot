@@ -1004,7 +1004,7 @@ void EnFr_Deactivate(EnFr* this, GlobalContext* globalCtx) {
         this->actionFunc = EnFr_Idle;
     } else {
         this->actionFunc = EnFr_GiveReward;
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->reward, 30.0f, 100.0f);
+        func_8002F434(&this->actor, globalCtx, this->reward, 30.0f, 100.0f);
     }
 }
 
@@ -1013,7 +1013,7 @@ void EnFr_GiveReward(EnFr* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnFr_SetIdle;
     } else {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->reward, 30.0f, 100.0f);
+        func_8002F434(&this->actor, globalCtx, this->reward, 30.0f, 100.0f);
     }
 }
 

@@ -177,7 +177,7 @@ Actor* EnTorch2_GetAttackItem(GlobalContext* globalCtx, Player* this) {
     if (rangedItem != NULL) {
         return rangedItem;
     } else {
-        return func_80033684(globalCtx, &this->actor);
+        return Actor_FindExplosionNearby(globalCtx, &this->actor);
     }
 }
 
@@ -792,16 +792,16 @@ void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     if (sAlpha == 255) {
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 0, 0, sAlpha);
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
-        func_8002EBCC(&this->actor, globalCtx, 0);
-        func_8002ED80(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
         POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, EnTorch2_OverrideLimbDraw, EnTorch2_PostLimbDraw,
                                            this, POLY_OPA_DISP);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, sAlpha);
         gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
-        func_8002EBCC(&this->actor, globalCtx, 0);
-        func_8002ED80(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
         POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, EnTorch2_OverrideLimbDraw, EnTorch2_PostLimbDraw,
                                            this, POLY_XLU_DISP);

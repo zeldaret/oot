@@ -126,7 +126,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.world.pos.y - 10.0f;
     pos.z = this->actor.world.pos.z;
-    func_80033480(globalCtx, &pos, 40.0f, 6, 70, 60, 1);
+    Actor_SpawnFlyingDust(globalCtx, &pos, 40.0f, 6, 70, 60, 1);
 }
 
 void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {

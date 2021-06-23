@@ -98,7 +98,7 @@ glabel func_809060E8
 /* 09294 809061D4 00000000 */  nop
 /* 09298 809061D8 468084A0 */  cvt.s.w $f18, $f16                 
 /* 0929C 809061DC E7B200A8 */  swc1    $f18, 0x00A8($sp)          
-/* 092A0 809061E0 0C00BAAF */  jal     func_8002EABC              
+/* 092A0 809061E0 0C00BAAF */  jal     Gfx_DrawHiliteReflectionOpa              
 /* 092A4 809061E4 8EA70000 */  lw      $a3, 0x0000($s5)           ## 00000000
 /* 092A8 809061E8 C62C0004 */  lwc1    $f12, 0x0004($s1)          ## 00000004
 /* 092AC 809061EC C62E0008 */  lwc1    $f14, 0x0008($s1)          ## 00000008

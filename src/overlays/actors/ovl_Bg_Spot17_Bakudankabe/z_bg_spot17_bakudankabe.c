@@ -85,11 +85,11 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
                              4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
     }
     Math_Vec3f_Copy(&burstDepthY, &this->dyna.actor.world.pos);
-    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 110, 160, 1);
+    Actor_SpawnFlyingDust(globalCtx, &burstDepthY, 60.0f, 4, 110, 160, 1);
     burstDepthY.y += 40.0f;
-    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 120, 160, 1);
+    Actor_SpawnFlyingDust(globalCtx, &burstDepthY, 60.0f, 4, 120, 160, 1);
     burstDepthY.y += 40.0f;
-    func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 110, 160, 1);
+    Actor_SpawnFlyingDust(globalCtx, &burstDepthY, 60.0f, 4, 110, 160, 1);
 }
 
 void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -115,7 +115,7 @@ void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
-    if (this->dyna.actor.xzDistToPlayer < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != NULL) {
+    if (this->dyna.actor.xzDistToPlayer < 650.0f && Actor_FindExplosionNearby(globalCtx, &this->dyna.actor) != NULL) {
         func_808B6BC0(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);

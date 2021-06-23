@@ -380,7 +380,7 @@ void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
     Vec3f pos = this->actor.world.pos;
 
     pos.y += kREG(5);
-    func_80033480(globalCtx, &pos, kREG(1) + 100.0f, kREG(2) + 10, kREG(3) + 300, kREG(4), 0);
+    Actor_SpawnFlyingDust(globalCtx, &pos, kREG(1) + 100.0f, kREG(2) + 10, kREG(3) + 300, kREG(4), 0);
     DemoDu_CsPlaySfx_GoronLanding(this);
 }
 

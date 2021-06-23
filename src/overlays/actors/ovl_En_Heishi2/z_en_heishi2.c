@@ -421,7 +421,7 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
         yawDiffTemp = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
         if (!(120.0f < this->actor.xzDistToPlayer) && (yawDiff < 0x4300)) {
-            func_8002F298(&this->actor, globalCtx, 100.0f, EXCH_ITEM_LETTER_ZELDA);
+            Actor_RequestToTalkAndExchangeItem(&this->actor, globalCtx, 100.0f, EXCH_ITEM_LETTER_ZELDA);
         }
     }
 }

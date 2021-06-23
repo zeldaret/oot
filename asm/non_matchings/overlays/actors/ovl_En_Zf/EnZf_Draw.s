@@ -28,7 +28,7 @@ glabel EnZf_Draw
 /* 058B8 80B49908 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 058BC 80B4990C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 058C0 80B49910 8FA50084 */  lw      $a1, 0x0084($sp)
-/* 058C4 80B49914 0C00BAF3 */  jal     func_8002EBCC
+/* 058C4 80B49914 0C00BAF3 */  jal     Actor_DrawHiliteReflectionOpa
 /* 058C8 80B49918 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 058CC 80B4991C 3C0480B5 */  lui     $a0, %hi(D_80B4A2F8)       ## $a0 = 80B50000
 /* 058D0 80B49920 3C0FD700 */  lui     $t7, 0xD700                ## $t7 = D7000000

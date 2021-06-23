@@ -630,7 +630,7 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
             sp58.z = this->dyna.actor.world.pos.z;
             sp4C.y = 1.0f;
             sp4C.x = sp4C.z = (sp48 * 0.3f) + 0.4f;
-            func_80033C30(&sp58, &sp4C, (u8)(155.0f + sp48 * 100.0f), globalCtx);
+            Gfx_DrawCircleShadow(&sp58, &sp4C, (u8)(155.0f + sp48 * 100.0f), globalCtx);
         }
     }
 }

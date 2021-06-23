@@ -262,7 +262,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
         if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &this->unk_1E8, &sp78, &poly, true, true, true, true,
                                     &bgId) &&
-            !func_8002F9EC(globalCtx, &this->actor, poly, bgId, &sp78)) {
+            !Actor_JabuJabuWallCollide(globalCtx, &this->actor, poly, bgId, &sp78)) {
             sp5C = COLPOLY_GET_NORMAL(poly->normal.x);
             sp58 = COLPOLY_GET_NORMAL(poly->normal.z);
             Math_Vec3f_Copy(&this->actor.world.pos, &sp78);

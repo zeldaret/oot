@@ -227,8 +227,8 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             s16 sp7E;
             s16 sp7C;
 
-            Actor_GetDisplayPos(globalCtx, &player->actor, &sp82, &sp7E);
-            Actor_GetDisplayPos(globalCtx, actor, &sp80, &sp7C);
+            Actor_GetProjectionPos(globalCtx, &player->actor, &sp82, &sp7E);
+            Actor_GetProjectionPos(globalCtx, actor, &sp80, &sp7C);
             if ((sp82 > 0) && (sp82 < 320) && (sp7E > 0) && (sp7E < 240) && (sp80 > 0) && (sp80 < 320) && (sp7C > 0) &&
                 (sp7C < 240) &&
                 !OnePointCutscene_BgCheckLineTest(&globalCtx->colCtx, &actor->focus.pos, &player->actor.focus.pos)) {

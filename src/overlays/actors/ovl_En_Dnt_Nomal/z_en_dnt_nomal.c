@@ -869,7 +869,7 @@ void EnDntNomal_DrawStageScrub(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_OPA_DISP++, gDntStageFlowerDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1817);
     if (this->actionFunc == EnDntNomal_StageCelebrate) {
-        func_80033C30(&this->actor.world.pos, &dustScale, 255, globalCtx);
+        Gfx_DrawCircleShadow(&this->actor.world.pos, &dustScale, 255, globalCtx);
     }
 }
 

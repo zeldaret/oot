@@ -170,7 +170,7 @@ void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx2->state.gfxCtx);
 
-    func_8002EBCC(&this->actor, globalCtx2, 0);
+    Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx2, 0);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TexScroll(globalCtx2->state.gfxCtx, 0, -(globalCtx2->gameplayFrames % 0x80), 32, 32));

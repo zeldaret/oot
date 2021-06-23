@@ -438,7 +438,7 @@ void EnPeehat_Ground_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
         if (this->actor.world.pos.y - this->actor.floorHeight < 80.0f) {
             Vec3f pos = this->actor.world.pos;
             pos.y = this->actor.floorHeight;
-            func_80033480(globalCtx, &pos, 90.0f, 1, 0x96, 100, 1);
+            Actor_SpawnFlyingDust(globalCtx, &pos, 90.0f, 1, 0x96, 100, 1);
         }
     }
     EnPeehat_SpawnDust(globalCtx, this, &this->actor.world.pos, 75.0f, 2, 1.05f, 2.0f);
@@ -480,7 +480,7 @@ void EnPeehat_Flying_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
         if (this->actor.world.pos.y - this->actor.floorHeight < 80.0f) {
             Vec3f pos = this->actor.world.pos;
             pos.y = this->actor.floorHeight;
-            func_80033480(globalCtx, &pos, 90.0f, 1, 0x96, 100, 1);
+            Actor_SpawnFlyingDust(globalCtx, &pos, 90.0f, 1, 0x96, 100, 1);
         }
     }
     EnPeehat_SpawnDust(globalCtx, this, &this->actor.world.pos, 75.0f, 2, 1.05f, 2.0f);
@@ -614,7 +614,7 @@ void EnPeehat_Ground_StateLanding(EnPeehat* this, GlobalContext* globalCtx) {
         if (this->actor.world.pos.y - this->actor.floorHeight < 60.0f) {
             Vec3f pos = this->actor.world.pos;
             pos.y = this->actor.floorHeight;
-            func_80033480(globalCtx, &pos, 80.0f, 1, 150, 100, 1);
+            Actor_SpawnFlyingDust(globalCtx, &pos, 80.0f, 1, 150, 100, 1);
             EnPeehat_SpawnDust(globalCtx, this, &pos, 75.0f, 2, 1.05f, 2.0f);
         }
     }
@@ -641,7 +641,7 @@ void EnPeehat_Flying_StateLanding(EnPeehat* this, GlobalContext* globalCtx) {
         if (this->actor.world.pos.y - this->actor.floorHeight < 60.0f) {
             Vec3f pos = this->actor.world.pos;
             pos.y = this->actor.floorHeight;
-            func_80033480(globalCtx, &pos, 80.0f, 1, 150, 100, 1);
+            Actor_SpawnFlyingDust(globalCtx, &pos, 80.0f, 1, 150, 100, 1);
             EnPeehat_SpawnDust(globalCtx, this, &pos, 75.0f, 2, 1.05f, 2.0f);
         }
     }
@@ -832,7 +832,7 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, GlobalContext* globalCtx) {
             this->actor.world.pos.y - this->actor.floorHeight < 59.0f) {
             Vec3f pos = this->actor.world.pos;
             pos.y = this->actor.floorHeight;
-            func_80033480(globalCtx, &pos, 80.0f, 1, 150, 100, 1);
+            Actor_SpawnFlyingDust(globalCtx, &pos, 80.0f, 1, 150, 100, 1);
             EnPeehat_SpawnDust(globalCtx, this, &pos, 75.0f, 2, 1.05f, 2.0f);
         }
         if (this->actor.speedXZ < 0) {
@@ -993,7 +993,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &thisx->world.pos, posB, &posResult, &poly, true, true,
                                             false, true, &bgId) == true) {
-                    func_80033480(globalCtx, &posResult, 0.0f, 1, 300, 150, 1);
+                    Actor_SpawnFlyingDust(globalCtx, &posResult, 0.0f, 1, 300, 150, 1);
                     EnPeehat_SpawnDust(globalCtx, this, &posResult, 0.0f, 3, 1.05f, 1.5f);
                 }
             }

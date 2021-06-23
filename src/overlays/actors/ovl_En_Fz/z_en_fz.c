@@ -729,7 +729,7 @@ void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->isActive) {
-        func_8002ED80(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
         func_80093D84(globalCtx->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, globalCtx->state.frames & 0x7F, 32, 32, 1, 0,

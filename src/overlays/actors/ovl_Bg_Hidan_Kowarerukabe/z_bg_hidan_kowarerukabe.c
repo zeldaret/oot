@@ -154,13 +154,13 @@ void BgHidanKowarerukabe_SpawnDust(BgHidanKowarerukabe* this, GlobalContext* glo
     pos = this->dyna.actor.world.pos;
     pos.y += 10.0f;
 
-    func_80033480(globalCtx, &pos, 0.0f, 0, 600, 300, 1);
+    Actor_SpawnFlyingDust(globalCtx, &pos, 0.0f, 0, 600, 300, 1);
 
     pos.x = ((Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.world.pos.x;
     pos.y = (Rand_ZeroOne() * 100.0f) + this->dyna.actor.world.pos.y;
     pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + this->dyna.actor.world.pos.z;
 
-    func_80033480(globalCtx, &pos, 100.0f, 4, 200, 250, 1);
+    Actor_SpawnFlyingDust(globalCtx, &pos, 100.0f, 4, 200, 250, 1);
 }
 
 void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
@@ -305,7 +305,7 @@ void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKowarerukabe* this = THIS;
     s32 pad;
 
-    if (Actor_GetCollidedExplosive(globalCtx, &this->collider.base) != NULL) {
+    if (Actor_GetCollidedExplosiveFromCollider(globalCtx, &this->collider.base) != NULL) {
         BgHidanKowarerukabe_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
 

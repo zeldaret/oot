@@ -506,8 +506,8 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     effectPos.x = thisPos->x;
     effectPos.y = thisPos->y + colliderHeightOffset[temp_v0];
     effectPos.z = thisPos->z;
-    func_80033480(globalCtx, &effectPos, 80.0f, 5, 70, 110, 1);
-    func_80033480(globalCtx, &effectPos, 90.0f, 5, 110, 160, 1);
+    Actor_SpawnFlyingDust(globalCtx, &effectPos, 80.0f, 5, 70, 110, 1);
+    Actor_SpawnFlyingDust(globalCtx, &effectPos, 90.0f, 5, 110, 160, 1);
 }
 
 static InitChainEntry sInitChain[] = {

@@ -916,7 +916,7 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, EnRd_OverrideLimbDraw, EnRd_PostLimbDraw, this,
                                            POLY_OPA_DISP);
-        func_80033C30(&thisPos, &D_80AE4958, 255, globalCtx);
+        Gfx_DrawCircleShadow(&thisPos, &D_80AE4958, 255, globalCtx);
         if (this->unk_31A != 0) {
             thisx->colorFilterTimer++;
             this->unk_31A--;
@@ -933,7 +933,7 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                this->skelAnime.dListCount, EnRd_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
-        func_80033C30(&thisPos, &D_80AE4958, this->unk_314, globalCtx);
+        Gfx_DrawCircleShadow(&thisPos, &D_80AE4958, this->unk_314, globalCtx);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rd.c", 1735);

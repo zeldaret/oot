@@ -1524,7 +1524,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
 
     POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP++, 0, 0, 0, 0, 997, 1000);
 
-    func_8002EABC(pos, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
+    Gfx_DrawHiliteReflectionOpa(pos, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 

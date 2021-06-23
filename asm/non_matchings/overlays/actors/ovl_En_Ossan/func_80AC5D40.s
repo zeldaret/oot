@@ -21,7 +21,7 @@ glabel func_80AC5D40
 /* 030E8 80AC5D88 44070000 */  mfc1    $a3, $f0                   
 /* 030EC 80AC5D8C 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 030F0 80AC5D90 8D0601A4 */  lw      $a2, 0x01A4($t0)           ## 000001A4
-/* 030F4 80AC5D94 0C00BD0D */  jal     Actor_GiveItemToPlayerInRange              
+/* 030F4 80AC5D94 0C00BD0D */  jal     func_8002F434              
 /* 030F8 80AC5D98 E7A00010 */  swc1    $f0, 0x0010($sp)           
 .L80AC5D9C:
 /* 030FC 80AC5D9C 8FBF001C */  lw      $ra, 0x001C($sp)           

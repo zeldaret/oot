@@ -366,7 +366,7 @@ void func_80B14634(EnTa* this, GlobalContext* globalCtx) {
         }
     } else {
         this->actor.textId = 0x702A;
-        func_8002F298(&this->actor, globalCtx, 100.0f, 3);
+        Actor_RequestToTalkAndExchangeItem(&this->actor, globalCtx, 100.0f, 3);
     }
 }
 
@@ -399,7 +399,7 @@ void func_80B14754(EnTa* this, GlobalContext* globalCtx) {
         }
     } else {
         this->actor.textId = 0x5015;
-        func_8002F298(&this->actor, globalCtx, 100.0f, 6);
+        Actor_RequestToTalkAndExchangeItem(&this->actor, globalCtx, 100.0f, 6);
     }
 }
 
@@ -416,7 +416,7 @@ void func_80B14818(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14898(EnTa* this, GlobalContext* globalCtx) {
-    func_80033480(globalCtx, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
+    Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
     func_80B14818(this, globalCtx);
 
     if (this->unk_2CC == 0) {
@@ -435,7 +435,7 @@ void func_80B1490C(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B1496C(EnTa* this, GlobalContext* globalCtx) {
-    func_80033480(globalCtx, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
+    Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
     func_80B14818(this, globalCtx);
 
     if (this->unk_2CC == 0) {
@@ -455,7 +455,7 @@ void func_80B149F4(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14A54(EnTa* this, GlobalContext* globalCtx) {
-    func_80033480(globalCtx, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
+    Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 50.0f, 2, 250, 20, 1);
     func_80B14818(this, globalCtx);
 
     if (this->unk_2CC == 20) {
@@ -887,9 +887,9 @@ void func_80B15E80(EnTa* this, GlobalContext* globalCtx) {
         }
         this->unk_2E0 &= ~0x2;
     } else if (this->unk_2E0 & 2) {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
     } else {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_MILK_BOTTLE, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, GI_MILK_BOTTLE, 10000.0f, 50.0f);
     }
     this->unk_2E0 |= 1;
 }
@@ -899,7 +899,7 @@ void func_80B15F54(EnTa* this, GlobalContext* globalCtx) {
         func_80106CCC(globalCtx);
         this->unk_2E0 &= ~0x2;
         func_80B13AA0(this, func_80B15E80, func_80B16938);
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_MILK_BOTTLE, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, GI_MILK_BOTTLE, 10000.0f, 50.0f);
     }
 }
 
@@ -920,7 +920,7 @@ void func_80B15FE8(EnTa* this, GlobalContext* globalCtx) {
                         this->unk_2E0 |= 2;
                         func_80B13AA0(this, func_80B15E80, func_80B16938);
                         Rupees_ChangeBy(-30);
-                        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
+                        func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
                         break;
                 }
                 break;
@@ -1013,7 +1013,7 @@ void func_80B1642C(EnTa* this, GlobalContext* globalCtx) {
             func_80106CCC(globalCtx);
             this->unk_2E0 |= 2;
             func_80B13AA0(this, func_80B15E80, func_80B16938);
-            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
+            func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
         } else {
             func_8010B720(globalCtx, 0x208A);
             func_80B13AA0(this, func_80B15E28, func_80B16938);

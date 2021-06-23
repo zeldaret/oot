@@ -360,7 +360,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
         if (this->actionTimer != 0) {
             if (-12000.0f < this->actor.shape.yOffset) {
                 this->actor.shape.yOffset -= 1000.0f;
-                func_80033480(globalCtx, &vec, 7.0f, 1, 0x5A, 0x14, 1);
+                Actor_SpawnFlyingDust(globalCtx, &vec, 7.0f, 1, 0x5A, 0x14, 1);
             } else {
                 this->actionTimer--;
 
@@ -370,7 +370,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
             }
         } else {
             this->actor.shape.yOffset += 500.0f;
-            func_80033480(globalCtx, &vec, 7.0f, 1, 0x5A, 0x14, 1);
+            Actor_SpawnFlyingDust(globalCtx, &vec, 7.0f, 1, 0x5A, 0x14, 1);
 
             if (this->actor.shape.yOffset == 0.0f) {
                 EnDha_SetupWait(this);

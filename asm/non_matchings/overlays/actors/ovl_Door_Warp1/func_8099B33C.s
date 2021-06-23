@@ -73,7 +73,7 @@ glabel func_8099B33C
 /* 02CA4 8099B424 27A5005C */  addiu   $a1, $sp, 0x005C           ## $a1 = FFFFFFEC
 /* 02CA8 8099B428 00A03025 */  or      $a2, $a1, $zero            ## $a2 = FFFFFFEC
 /* 02CAC 8099B42C 26440024 */  addiu   $a0, $s2, 0x0024           ## $a0 = 00000024
-/* 02CB0 8099B430 0C00BAD1 */  jal     func_8002EB44
+/* 02CB0 8099B430 0C00BAD1 */  jal     Gfx_DrawHiliteReflectionXlu
 /* 02CB4 8099B434 8E270000 */  lw      $a3, 0x0000($s1)           ## 00000000
 /* 02CB8 8099B438 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 02CBC 8099B43C 3C08FA00 */  lui     $t0, 0xFA00                ## $t0 = FA000000

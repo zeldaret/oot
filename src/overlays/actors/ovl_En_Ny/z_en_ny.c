@@ -527,7 +527,7 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ny.c", 837);
     Collider_UpdateSpheres(0, &this->collider);
-    func_8002ED80(&this->actor, globalCtx, 1);
+    Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 1);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ny.c", 845),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -541,7 +541,7 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_XLU_DISP++, gEnNyRockBodyDL);
     if (this->unk_1E0 > 0.25f) {
         Matrix_Scale(this->unk_1E0, this->unk_1E0, this->unk_1E0, MTXMODE_APPLY);
-        func_8002EBCC(&this->actor, globalCtx, 1);
+        Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 1);
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ny.c", 868),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

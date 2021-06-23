@@ -148,8 +148,8 @@ void EnSi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSi* this = THIS;
 
     if (this->actionFunc != func_80AFB950) {
-        func_8002ED80(&this->actor, globalCtx, 0);
-        func_8002EBCC(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
         GetItem_Draw(globalCtx, GID_SKULL_TOKEN_2);
     }
 }

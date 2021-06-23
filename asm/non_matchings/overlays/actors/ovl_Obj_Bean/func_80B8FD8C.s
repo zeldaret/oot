@@ -24,7 +24,7 @@ glabel func_80B8FD8C
 .L80B8FDE0:
 /* 01360 80B8FDE0 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 01364 80B8FDE4 3C064220 */  lui     $a2, 0x4220                ## $a2 = 42200000
-/* 01368 80B8FDE8 0C00BCA6 */  jal     func_8002F298              
+/* 01368 80B8FDE8 0C00BCA6 */  jal     Actor_RequestToTalkAndExchangeItem              
 /* 0136C 80B8FDEC 24070004 */  addiu   $a3, $zero, 0x0004         ## $a3 = 00000004
 /* 01370 80B8FDF0 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B8FDF4:

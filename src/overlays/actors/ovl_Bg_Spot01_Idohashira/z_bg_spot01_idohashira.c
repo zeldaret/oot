@@ -115,7 +115,7 @@ void func_808AAE6C(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     Vec3f sp30 = this->dyna.actor.world.pos;
 
     sp30.y += kREG(15);
-    func_80033480(globalCtx, &sp30, kREG(11) + 350.0f, kREG(12) + 5, kREG(13) + 0x7D0, kREG(14) + 0x320, 0);
+    Actor_SpawnFlyingDust(globalCtx, &sp30, kREG(11) + 350.0f, kREG(12) + 5, kREG(13) + 0x7D0, kREG(14) + 0x320, 0);
     func_808AAD3C(globalCtx, &sp30, 5);
     BgSpot01Idohashira_PlayBreakSfx2(this, globalCtx);
 }
@@ -130,13 +130,13 @@ void func_808AAF34(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
         src.y = kREG(21) + 200.0f;
         src.z = 0.0f;
         Matrix_MultVec3f(&src, &dest);
-        func_80033480(globalCtx, &dest, kREG(16) + 80.0f, kREG(17) + 10, kREG(18) + 1000, kREG(19), 0);
+        Actor_SpawnFlyingDust(globalCtx, &dest, kREG(16) + 80.0f, kREG(17) + 10, kREG(18) + 1000, kREG(19), 0);
         func_808AAD3C(globalCtx, &dest, 3);
         src.x = -(kREG(20) + 1300.0f);
         src.y = kREG(21) + 200.0f;
         src.z = 0.0f;
         Matrix_MultVec3f(&src, &dest);
-        func_80033480(globalCtx, &dest, kREG(16) + 80.0f, kREG(17) + 10, kREG(18) + 1000, kREG(19), 0);
+        Actor_SpawnFlyingDust(globalCtx, &dest, kREG(16) + 80.0f, kREG(17) + 10, kREG(18) + 1000, kREG(19), 0);
         func_808AAD3C(globalCtx, &dest, 3);
         this->unk_170 = 0;
         BgSpot01Idohashira_PlayBreakSfx1(this);

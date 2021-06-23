@@ -8,7 +8,7 @@ glabel EnTest_Draw
 /* 04A10 80864060 8CA40000 */  lw      $a0, 0x0000($a1)           ## 00000000
 /* 04A14 80864064 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 04A18 80864068 8FA50044 */  lw      $a1, 0x0044($sp)           
-/* 04A1C 8086406C 0C00BAF3 */  jal     func_8002EBCC              
+/* 04A1C 8086406C 0C00BAF3 */  jal     Actor_DrawHiliteReflectionOpa              
 /* 04A20 80864070 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 04A24 80864074 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C
 /* 04A28 80864078 3C078086 */  lui     $a3, %hi(func_80863AB8)    ## $a3 = 80860000

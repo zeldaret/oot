@@ -468,7 +468,7 @@ void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80AB6BF8;
     } else {
         // GI_NONE in this case allows the player to lift the actor
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_NONE, 25.0f, 10.0f);
+        func_8002F434(&this->actor, globalCtx, GI_NONE, 25.0f, 10.0f);
         func_80AB5BF8(this, globalCtx, 1);
     }
 }
@@ -1145,7 +1145,7 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
                           EnNiw_OverrideLimbDraw, NULL, this);
 
     if (this->actionFunc == func_80AB6450) {
-        func_80033C30(&this->actor.world.pos, &scale, 255, globalCtx);
+        Gfx_DrawCircleShadow(&this->actor.world.pos, &scale, 255, globalCtx);
     }
 
     EnNiw_FeatherDraw(this, globalCtx);

@@ -121,7 +121,7 @@ void EnTuboTrap_SpawnEffectsOnLand(EnTuboTrap* this, GlobalContext* globalCtx) {
                              OBJECT_GAMEPLAY_DANGEON_KEEP, gPotFragmentDL);
     }
 
-    func_80033480(globalCtx, actorPos, 30.0f, 4, 20, 50, 0);
+    Actor_SpawnFlyingDust(globalCtx, actorPos, 30.0f, 4, 20, 50, 0);
 }
 
 void EnTuboTrap_SpawnEffectsInWater(EnTuboTrap* this, GlobalContext* globalCtx) {

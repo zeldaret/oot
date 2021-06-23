@@ -450,7 +450,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe2_SetActionAfterTalk;
     } else {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -459,7 +459,7 @@ void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
         func_80106CCC(globalCtx);
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnGe2_WaitTillCardGiven;
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -470,7 +470,7 @@ void EnGe2_ForceTalk(EnGe2* this, GlobalContext* globalCtx) {
     } else {
         this->actor.textId = 0x6004;
         this->actor.flags |= 0x10000;
-        func_8002F1C4(&this->actor, globalCtx, 300.0f, 300.0f, 0);
+        Actor_RequestToTalkAndExchangeItemInRange(&this->actor, globalCtx, 300.0f, 300.0f, 0);
     }
     EnGe2_LookAtPlayer(this, globalCtx);
 }
@@ -656,7 +656,7 @@ void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
-    func_8002EBCC(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGe2_OverrideLimbDraw, EnGe2_PostLimbDraw, this);
 

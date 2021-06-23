@@ -220,7 +220,7 @@ void func_809F5A6C(Actor *thisx, GlobalContext *globalCtx) {
     temp_v0_5->words.w0 = 0xDE000000;
     Graph_CloseDisps(&sp48, globalCtx->state.gfxCtx, (const char *) "../z_en_dnt_nomal.c", 0x719);
     if (&func_809F49A4 == thisx->unk214) {
-        func_80033C30((Vec3f *) &thisx->world, (Vec3f *) &sp60, (u8)0xFFU, globalCtx);
+        Gfx_DrawCircleShadow((Vec3f *) &thisx->world, (Vec3f *) &sp60, (u8)0xFFU, globalCtx);
     }
 }
 ```
@@ -387,7 +387,7 @@ void func_809F5A6C(Actor *thisx, GlobalContext *globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1817);
 
     if (&func_809F49A4 == this->unk214) {
-        func_80033C30((Vec3f *) &this.actor->world, (Vec3f *) &sp60, (u8)0xFFU, globalCtx);
+        Gfx_DrawCircleShadow((Vec3f *) &this.actor->world, (Vec3f *) &sp60, (u8)0xFFU, globalCtx);
     }
 }
 ```

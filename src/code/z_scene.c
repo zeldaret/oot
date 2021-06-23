@@ -280,7 +280,7 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
                 status2++;
             }
             globalCtx->objectCtx.num = i;
-            func_80031A28(globalCtx, &globalCtx->actorCtx);
+            Actor_KillIfObjectIsNotLoaded(globalCtx, &globalCtx->actorCtx);
 
             continue;
         }

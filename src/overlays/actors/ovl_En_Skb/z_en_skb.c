@@ -134,7 +134,7 @@ void EnSkb_SpawnDebris(GlobalContext* globalCtx, EnSkb* this, Vec3f* spawnPos) {
     vel.y += (Rand_ZeroOne() - 0.5f) * 4.0f;
     scale = (Rand_ZeroOne() * 5.0f) + 12.0f;
     EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, 2, scale * 0.8f, -1, 10, 0);
-    func_80033480(globalCtx, &pos, 10.0f, 1, 150, 0, 1);
+    Actor_SpawnFlyingDust(globalCtx, &pos, 10.0f, 1, 150, 0, 1);
 }
 
 static InitChainEntry sInitChain[] = {

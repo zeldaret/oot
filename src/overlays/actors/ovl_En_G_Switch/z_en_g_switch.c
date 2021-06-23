@@ -403,7 +403,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
             EffectSsKakera_Spawn(globalCtx, &pos, &vel, thisPos, -240, phi_s0, 10, 10, 0, scale, 0, 0x20, 60,
                                  KAKERA_COLOR_NONE, OBJECT_TSUBO, D_06001960);
         }
-        func_80033480(globalCtx, thisPos, 30.0f, 4, 20, 50, 0);
+        Actor_SpawnFlyingDust(globalCtx, thisPos, 30.0f, 4, 20, 50, 0);
         Audio_PlaySoundAtPosition(globalCtx, thisPos, 40, NA_SE_EV_POT_BROKEN);
         EnGSwitch_Break(this, globalCtx);
         this->killTimer = 50;
@@ -478,7 +478,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
     if (!this->broken) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 951);
         func_80093D18(globalCtx->state.gfxCtx);
-        func_8002EBCC(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 957),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[this->colorIdx]));

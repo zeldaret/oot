@@ -196,14 +196,14 @@ void func_8086EB5C(BgBombwall* this, GlobalContext* globalCtx) {
         sp88.z = ((D_8086F010[i].z * cos) - (sin * D_8086F010[i].x)) + pos->z;
         rand = ((s16)(Rand_ZeroOne() * 120.0f)) + 0x14;
         rand2 = ((s16)(Rand_ZeroOne() * 240.0f)) + 0x14;
-        func_80033480(globalCtx, &sp88, 50.0f, 2, rand, rand2, 1);
+        Actor_SpawnFlyingDust(globalCtx, &sp88, 50.0f, 2, rand, rand2, 1);
     }
 
     sp88.x = pos->x;
     new_var = pos->y + 90.0f;
     sp88.y = pos->y + 90.0f;
     sp88.z = pos->z + 15.0f;
-    func_80033480(globalCtx, &sp88, 40.0f, 4, 0xA, 0x32, 1);
+    Actor_SpawnFlyingDust(globalCtx, &sp88, 40.0f, 4, 0xA, 0x32, 1);
 }
 
 void func_8086ED50(BgBombwall* this, GlobalContext* globalCtx) {

@@ -145,7 +145,7 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
                              (Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 60, KAKERA_COLOR_NONE,
                              OBJECT_GAMEPLAY_DANGEON_KEEP, gSmallWoodenBoxFragmentDL);
     }
-    func_80033480(globalCtx, &this->actor.world.pos, 40.0f, 3, 50, 140, 1);
+    Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 40.0f, 3, 50, 140, 1);
 }
 
 void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {

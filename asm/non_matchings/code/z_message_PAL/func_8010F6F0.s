@@ -251,13 +251,13 @@ glabel L8010F8F8
 /* B86B2C 8010F98C 84D90B24 */   lh    $t9, 0xb24($a2)
 /* B86B30 8010F990 8C851C44 */  lw    $a1, 0x1c44($a0)
 /* B86B34 8010F994 AFA80024 */  sw    $t0, 0x24($sp)
-/* B86B38 8010F998 0C00BCDD */  jal   Actor_GetDisplayPos
+/* B86B38 8010F998 0C00BCDD */  jal   Actor_GetProjectionPos
 /* B86B3C 8010F99C 27A60044 */   addiu $a2, $sp, 0x44
 /* B86B40 8010F9A0 8FA80024 */  lw    $t0, 0x24($sp)
 /* B86B44 8010F9A4 8FA40058 */  lw    $a0, 0x58($sp)
 /* B86B48 8010F9A8 27A60044 */  addiu $a2, $sp, 0x44
 /* B86B4C 8010F9AC 27A7003E */  addiu $a3, $sp, 0x3e
-/* B86B50 8010F9B0 0C00BCDD */  jal   Actor_GetDisplayPos
+/* B86B50 8010F9B0 0C00BCDD */  jal   Actor_GetProjectionPos
 /* B86B54 8010F9B4 8D056408 */   lw    $a1, 0x6408($t0)
 /* B86B58 8010F9B8 87A2003E */  lh    $v0, 0x3e($sp)
 /* B86B5C 8010F9BC 87A70040 */  lh    $a3, 0x40($sp)

@@ -174,7 +174,7 @@ void Gameplay_Destroy(GameState* thisx) {
         Player_SetEquipmentData(globalCtx, player);
     }
 
-    func_80031C3C(&globalCtx->actorCtx, globalCtx);
+    Actor_DestroyContext(&globalCtx->actorCtx, globalCtx);
     func_80110990(globalCtx);
     KaleidoScopeCall_Destroy(globalCtx);
     KaleidoManager_Destroy();
@@ -366,7 +366,7 @@ void Gameplay_Init(GameState* thisx) {
                  (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc)); // "Zelda Heap"
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
-    func_800304DC(globalCtx, &globalCtx->actorCtx, globalCtx->linkActorEntry);
+    Actor_InitContext(globalCtx, &globalCtx->actorCtx, globalCtx->linkActorEntry);
 
     while (!func_800973FC(globalCtx, &globalCtx->roomCtx)) {
         ; // Empty Loop
@@ -851,7 +851,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     }
 
                     if (globalCtx->unk_11DE9 == 0) {
-                        Actor_UpdateAll(globalCtx, &globalCtx->actorCtx);
+                        Actor_UpdateContext(globalCtx, &globalCtx->actorCtx);
                     }
 
                     if (1 && HREG(63)) {
@@ -1227,7 +1227,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(85) != 0)) {
-                    func_800315AC(globalCtx, &globalCtx->actorCtx);
+                    Actor_DrawContext(globalCtx, &globalCtx->actorCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(86) != 0)) {

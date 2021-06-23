@@ -316,7 +316,7 @@ void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AA0EFC;
     } else {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_WEIRD_EGG, 120.0f, 10.0f);
+        func_8002F434(&this->actor, globalCtx, GI_WEIRD_EGG, 120.0f, 10.0f);
     }
 }
 

@@ -151,9 +151,9 @@ typedef struct Actor {
     /* 0x11C */ struct Actor* child; // Usage is actor specific. Set if actor is spawned via `Actor_SpawnAsChild`
     /* 0x120 */ struct Actor* prev; // Previous actor of this category
     /* 0x124 */ struct Actor* next; // Next actor of this category
-    /* 0x128 */ ActorFunc init; // Initialization Routine. Called by `Actor_Init` or `Actor_UpdateAll`
+    /* 0x128 */ ActorFunc init; // Initialization Routine. Called by `Actor_Init` or `Actor_UpdateContext`
     /* 0x12C */ ActorFunc destroy; // Destruction Routine. Called by `Actor_Destroy`
-    /* 0x130 */ ActorFunc update; // Update Routine. Called by `Actor_UpdateAll`
+    /* 0x130 */ ActorFunc update; // Update Routine. Called by `Actor_UpdateContext`
     /* 0x134 */ ActorFunc draw; // Draw Routine. Called by `Actor_Draw`
     /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
     /* 0x13C */ char dbgPad[0x10]; // Padding that only exists in the debug rom

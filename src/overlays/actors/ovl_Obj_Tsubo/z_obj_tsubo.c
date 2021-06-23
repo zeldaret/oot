@@ -187,7 +187,7 @@ void ObjTsubo_AirBreak(ObjTsubo* this, GlobalContext* globalCtx) {
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 60, KAKERA_COLOR_NONE,
                              sObjectIds[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
     }
-    func_80033480(globalCtx, &this->actor.world.pos, 30.0f, 4, 20, 50, 1);
+    Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 30.0f, 4, 20, 50, 1);
 }
 
 void ObjTsubo_WaterBreak(ObjTsubo* this, GlobalContext* globalCtx) {
@@ -267,7 +267,7 @@ void ObjTsubo_Idle(ObjTsubo* this, GlobalContext* globalCtx) {
             phi_v1 = ABS(temp_v0);
             if (phi_v1 >= 0x5556) {
                 // GI_NONE in this case allows the player to lift the actor
-                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_NONE, 30.0f, 30.0f);
+                func_8002F434(&this->actor, globalCtx, GI_NONE, 30.0f, 30.0f);
             }
         }
     }

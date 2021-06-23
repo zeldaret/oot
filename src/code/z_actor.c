@@ -212,7 +212,7 @@ void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* lef
     }
 }
 
-void Matrix_GetProjectionPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
+void Math_GetProjectionPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->projectionMatrix, src, xyzDest, wDest);
     *wDest = (*wDest < 1.0f) ? 1.0f : (1.0f / *wDest);
 }
@@ -224,7 +224,8 @@ void Target_SetPos(TargetContext* targetCtx, s32 targetIndex, f32 x, f32 y, f32 
     targetCtx->targetInfo[targetIndex].radius = targetCtx->targetRadius;
 }
 
-static Color_RGBA8 sTargetColorList[][2] = {
+// Used for both the Z Target and Navi when targetting
+static Color_RGBA8 sNaviTargetColorList[][2] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH,
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_BG,
     { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     // ACTORCAT_PLAYER,
@@ -249,7 +250,7 @@ void Target_InitBlurData(TargetContext* targetCtx, s32 actorCategory, GlobalCont
     targetCtx->targetRadius = 500.0f;
     targetCtx->targetTimer = 256;
 
-    targetColor = &sTargetColorList[actorCategory][0];
+    targetColor = &sNaviTargetColorList[actorCategory][0];
 
     entry = &targetCtx->targetInfo[0];
     for (i = 0; i < ARRAY_COUNT(targetCtx->targetInfo); i++) {
@@ -265,14 +266,14 @@ void Target_InitData(TargetContext* targetCtx, Actor* actor, s32 actorCategory, 
     targetCtx->targetPos.x = actor->focus.pos.x;
     targetCtx->targetPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
     targetCtx->targetPos.z = actor->focus.pos.z;
-    targetCtx->naviCenterColor.r = sTargetColorList[actorCategory][0].r;
-    targetCtx->naviCenterColor.g = sTargetColorList[actorCategory][0].g;
-    targetCtx->naviCenterColor.b = sTargetColorList[actorCategory][0].b;
-    targetCtx->naviCenterColor.a = sTargetColorList[actorCategory][0].a;
-    targetCtx->naviOuterColor.r = sTargetColorList[actorCategory][1].r;
-    targetCtx->naviOuterColor.g = sTargetColorList[actorCategory][1].g;
-    targetCtx->naviOuterColor.b = sTargetColorList[actorCategory][1].b;
-    targetCtx->naviOuterColor.a = sTargetColorList[actorCategory][1].a;
+    targetCtx->naviCenterColor.r = sNaviTargetColorList[actorCategory][0].r;
+    targetCtx->naviCenterColor.g = sNaviTargetColorList[actorCategory][0].g;
+    targetCtx->naviCenterColor.b = sNaviTargetColorList[actorCategory][0].b;
+    targetCtx->naviCenterColor.a = sNaviTargetColorList[actorCategory][0].a;
+    targetCtx->naviOuterColor.r = sNaviTargetColorList[actorCategory][1].r;
+    targetCtx->naviOuterColor.g = sNaviTargetColorList[actorCategory][1].g;
+    targetCtx->naviOuterColor.b = sNaviTargetColorList[actorCategory][1].b;
+    targetCtx->naviOuterColor.a = sNaviTargetColorList[actorCategory][1].a;
 }
 
 void Target_Init(TargetContext* targetCtx, Actor* actor, GlobalContext* globalCtx) {
@@ -328,7 +329,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
             alpha = targetCtx->targetTimer;
         }
 
-        Matrix_GetProjectionPos(globalCtx, &targetCtx->targetProjectedPos, &targetPos, &w);
+        Math_GetProjectionPos(globalCtx, &targetCtx->targetProjectedPos, &targetPos, &w);
 
         targetPos.x = (160 * (targetPos.x * w)) * translateRatio;
         targetPos.x = CLAMP(targetPos.x, -320.0f, 320.0f);
@@ -384,7 +385,7 @@ void Target_Draw(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
     actor = targetCtx->arrowPointedDrawActor;
     if ((actor != NULL) && !(actor->flags & 0x8000000)) {
-        Color_RGBA8* color = &sTargetColorList[actor->category][0];
+        Color_RGBA8* color = &sNaviTargetColorList[actor->category][0];
 
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x7);
 
@@ -455,7 +456,7 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
     }
 
     if ((actorArg != NULL) && (targetCtx->unk_4B == 0)) {
-        Matrix_GetProjectionPos(globalCtx, &actorArg->focus.pos, &cameraPos, &cameraW);
+        Math_GetProjectionPos(globalCtx, &actorArg->focus.pos, &cameraPos, &cameraW);
         if (((cameraPos.z <= 0.0f) || (1.0f <= fabsf(cameraPos.x * cameraW))) ||
             (1.0f <= fabsf(cameraPos.y * cameraW))) {
             actorArg = NULL;
@@ -1282,7 +1283,7 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
     }
 }
 
-Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx, Gfx* gfx, Hilite** hilite) {
+Gfx* Gfx_DrawHiliteReflection(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx, Gfx* gfx, Hilite** hilite) {
     static Mtx D_8015BBA8;
     LookAt* lookAt;
     f32 correctedEyeX;
@@ -1309,31 +1310,31 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
     return gfx;
 }
 
-Hilite* func_8002EABC(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx) {
+Hilite* Gfx_DrawHiliteReflectionOpa(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx) {
     Hilite* hilite;
 
     OPEN_DISPS(gfxCtx, "../z_actor.c", 4306);
 
-    POLY_OPA_DISP = func_8002E830(object, eye, lightDir, gfxCtx, POLY_OPA_DISP, &hilite);
+    POLY_OPA_DISP = Gfx_DrawHiliteReflection(object, eye, lightDir, gfxCtx, POLY_OPA_DISP, &hilite);
 
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 4313);
 
     return hilite;
 }
 
-Hilite* func_8002EB44(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx) {
+Hilite* Gfx_DrawHiliteReflectionXlu(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx) {
     Hilite* hilite;
 
     OPEN_DISPS(gfxCtx, "../z_actor.c", 4332);
 
-    POLY_XLU_DISP = func_8002E830(object, eye, lightDir, gfxCtx, POLY_XLU_DISP, &hilite);
+    POLY_XLU_DISP = Gfx_DrawHiliteReflection(object, eye, lightDir, gfxCtx, POLY_XLU_DISP, &hilite);
 
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 4339);
 
     return hilite;
 }
 
-void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag) {
+void Actor_DrawHiliteReflectionOpa(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     Hilite* hilite;
     Vec3f lightDir;
     Gfx* displayListHead;
@@ -1348,7 +1349,7 @@ void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag) {
                      globalCtx->view.eye.y, globalCtx->view.eye.z);
     }
 
-    hilite = func_8002EABC(&actor->world.pos, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
+    hilite = Gfx_DrawHiliteReflectionOpa(&actor->world.pos, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 
     if (flag != 0) {
         displayList = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Gfx));
@@ -1364,7 +1365,7 @@ void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     }
 }
 
-void func_8002ED80(Actor* actor, GlobalContext* globalCtx, s32 flag) {
+void Actor_DrawHiliteReflectionXlu(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     Hilite* hilite;
     Vec3f lightDir;
     Gfx* displayListHead;
@@ -1374,7 +1375,7 @@ void func_8002ED80(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     lightDir.y = globalCtx->envCtx.unk_2B;
     lightDir.z = globalCtx->envCtx.unk_2C;
 
-    hilite = func_8002EB44(&actor->world.pos, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
+    hilite = Gfx_DrawHiliteReflectionXlu(&actor->world.pos, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 
     if (flag != 0) {
         displayList = Graph_Alloc(globalCtx->state.gfxCtx, 2 * sizeof(Gfx));
@@ -1451,7 +1452,7 @@ u32 func_8002F090(Actor* actor, f32 range) {
     return range < sTargetRanges[actor->targetMode].rangeSq;
 }
 
-s32 Player_IsWithinActorTargetRange(Actor* actor, Player* player, s32 flag) {
+s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
     if ((actor->update == NULL) || !(actor->flags & 1)) {
         return true;
     }
@@ -1482,14 +1483,15 @@ u32 Actor_IsTalking(Actor* actor, GlobalContext* globalCtx) {
     return false;
 }
 
-s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u32 exchangeItemId) {
+s32 Actor_RequestToTalkAndExchangeItemInRange(Actor* actor, GlobalContext* globalCtx, f32 radius, f32 height,
+                                              u32 exchangeItemId) {
     Player* player = PLAYER;
 
     // This is convoluted but it seems like it must be a single if statement to match
     if ((player->actor.flags & 0x100) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(globalCtx)) ||
         (!actor->isTargeted &&
-         ((arg3 < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
-          (arg2 < actor->xzDistToPlayer)))) {
+         ((height < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
+          (radius < actor->xzDistToPlayer)))) {
         return false;
     }
 
@@ -1500,12 +1502,12 @@ s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u3
     return true;
 }
 
-s32 func_8002F298(Actor* actor, GlobalContext* globalCtx, f32 arg2, u32 exchangeItemId) {
-    return func_8002F1C4(actor, globalCtx, arg2, arg2, exchangeItemId);
+s32 Actor_RequestToTalkAndExchangeItem(Actor* actor, GlobalContext* globalCtx, f32 range, u32 exchangeItemId) {
+    return Actor_RequestToTalkAndExchangeItemInRange(actor, globalCtx, range, range, exchangeItemId);
 }
 
 s32 Actor_RequestToTalkInRange(Actor* actor, GlobalContext* globalCtx, f32 radius) {
-    return func_8002F298(actor, globalCtx, radius, EXCH_ITEM_NONE);
+    return Actor_RequestToTalkAndExchangeItem(actor, globalCtx, radius, EXCH_ITEM_NONE);
 }
 
 s32 Actor_RequestToTalk(Actor* actor, GlobalContext* globalCtx) {
@@ -1531,13 +1533,13 @@ s8 Actor_GetItemExchangePlayer(GlobalContext* globalCtx) {
 /**
  * Get position of the actor on the screen
  */
-void Actor_GetDisplayPos(GlobalContext* globalCtx, Actor* actor, s16* displayX, s16* displayY) {
+void Actor_GetProjectionPos(GlobalContext* globalCtx, Actor* actor, s16* screenX, s16* screenY) {
     Vec3f pos;
     f32 w;
 
-    Matrix_GetProjectionPos(globalCtx, &actor->focus.pos, &pos, &w);
-    *displayX = pos.x * w * 160.0f + 160.0f;
-    *displayY = pos.y * w * -120.0f + 120.0f;
+    Math_GetProjectionPos(globalCtx, &actor->focus.pos, &pos, &w);
+    *screenX = pos.x * w * 160.0f + 160.0f;
+    *screenY = pos.y * w * -120.0f + 120.0f;
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
@@ -1548,7 +1550,8 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-s32 Actor_GiveItemToPlayerInRange(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
+// Related to carrying an actor as well as giving the player an item?
+s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = PLAYER;
 
     if (!(player->stateFlags1 & 0x3C7080) && Player_GetExplosiveHeld(player) < 0) {
@@ -1572,12 +1575,12 @@ s32 Actor_GiveItemToPlayerInRange(Actor* actor, GlobalContext* globalCtx, s32 ge
     return false;
 }
 
-void Actor_GiveItemToPlayer(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
-    Actor_GiveItemToPlayerInRange(actor, globalCtx, getItemId, 50.0f, 10.0f);
+void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
+    func_8002F434(actor, globalCtx, getItemId, 50.0f, 10.0f);
 }
 
 void func_8002F580(Actor* actor, GlobalContext* globalCtx) {
-    Actor_GiveItemToPlayer(actor, globalCtx, GI_NONE);
+    func_8002F554(actor, globalCtx, GI_NONE);
 }
 
 u32 Actor_HasNoParent(Actor* actor, GlobalContext* globalCtx) {
@@ -1591,6 +1594,7 @@ u32 Actor_HasNoParent(Actor* actor, GlobalContext* globalCtx) {
 void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx) {
     Actor* parent = actorA->parent;
 
+    // Actor is being carried by the player
     if (parent->id == ACTOR_PLAYER) {
         Player* player = (Player*)parent;
 
@@ -1726,7 +1730,7 @@ void func_8002F994(Actor* actor, s32 arg1) {
 }
 
 // Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true
-s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
+s32 Actor_JabuJabuWallCollide(GlobalContext* globalCtx, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
     if (func_80041D4C(&globalCtx->colCtx, poly, bgId) == 8) {
         globalCtx->unk_11D30[0] = 1;
         CollisionCheck_BlueBlood(globalCtx, NULL, pos);
@@ -1737,13 +1741,13 @@ s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* poly, s
     return false;
 }
 
-// Local data used for Farore's Wind light (stored in BSS, possibly a struct?)
+// Local data used for Farore's Wind light
 static LightInfo D_8015BC00;
 static LightNode* D_8015BC10;
 static s32 D_8015BC14;
 static f32 D_8015BC18;
 
-void func_8002FA60(GlobalContext* globalCtx) {
+void Actor_InitFaroresWindPointer(GlobalContext* globalCtx) {
     Vec3f lightPos;
 
     if (gSaveContext.fw.set) {
@@ -1775,7 +1779,7 @@ void func_8002FA60(GlobalContext* globalCtx) {
     D_8015BC18 = 0.0f;
 }
 
-void func_8002FBAC(GlobalContext* globalCtx) {
+void Actor_DrawFaroresWindPointer(GlobalContext* globalCtx) {
     s32 lightRadius = -1;
     s32 params;
 
@@ -1919,19 +1923,18 @@ void func_8002FBAC(GlobalContext* globalCtx) {
     }
 }
 
-void func_80030488(GlobalContext* globalCtx) {
+void Actor_DestroyFaroresWindPointer(GlobalContext* globalCtx) {
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, D_8015BC10);
 }
 
-void func_800304B0(GlobalContext* globalCtx) {
+void Player_UnsetLensOfTruth(GlobalContext* globalCtx) {
     if (globalCtx->actorCtx.unk_03 != 0) {
         globalCtx->actorCtx.unk_03 = 0;
         func_800876C8(globalCtx);
     }
 }
 
-// Actor_InitContext
-void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry* actorEntry) {
+void Actor_InitContext(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry* actorEntry) {
     ActorOverlay* overlayEntry;
     SavedSceneFlags* savedSceneFlags;
     s32 i;
@@ -1962,14 +1965,25 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
 
     Actor_SpawnEntry(actorCtx, actorEntry, globalCtx);
     Target_Init(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, globalCtx);
-    func_8002FA60(globalCtx);
+    Actor_InitFaroresWindPointer(globalCtx);
 }
 
-void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
-    static u32 D_80116068[] = {
-        0x100000C0, 0x100000C0, 0x00000000, 0x100004C0, 0x00000080, 0x300000C0,
-        0x10000080, 0x00000000, 0x300000C0, 0x100004C0, 0x00000000, 0x100000C0,
-    };
+static u32 D_80116068[] = {
+    0x100000C0, // ACTORCAT_SWITCH
+    0x100000C0, // ACTORCAT_BG
+    0x00000000, // ACTORCAT_PLAYER
+    0x100004C0, // ACTORCAT_EXPLOSIVE
+    0x00000080, // ACTORCAT_NPC
+    0x300000C0, // ACTORCAT_ENEMY
+    0x10000080, // ACTORCAT_PROP
+    0x00000000, // ACTORCAT_ITEMACTION
+    0x300000C0, // ACTORCAT_MISC
+    0x100004C0, // ACTORCAT_BOSS
+    0x00000000, // ACTORCAT_DOOR
+    0x100000C0, // ACTORCAT_CHEST
+};
+
+void Actor_UpdateContext(GlobalContext* globalCtx, ActorContext* actorCtx) {
     Actor* refActor;
     Actor* actor;
     Player* player;
@@ -2215,7 +2229,7 @@ void func_80030ED8(Actor* actor) {
     }
 }
 
-void func_80030FA8(GraphicsContext* gfxCtx) {
+void Gfx_DrawLensOfTruthOverlay(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6161);
 
     gDPLoadTextureBlock(POLY_XLU_DISP++, gLensOfTruthMaskTex, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0,
@@ -2228,7 +2242,7 @@ void func_80030FA8(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6183);
 }
 
-void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invisibleActors) {
+void Actor_DrawWithLensOfTruth(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
     GraphicsContext* gfxCtx;
     s32 i;
@@ -2263,7 +2277,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
 
     gDPSetPrimDepth(POLY_XLU_DISP++, 0, 0);
 
-    func_80030FA8(gfxCtx);
+    Gfx_DrawLensOfTruthOverlay(gfxCtx);
 
     // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY START"
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", nbInvisibleActors);
@@ -2291,7 +2305,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 0, 0, 255);
 
-        func_80030FA8(gfxCtx);
+        Gfx_DrawLensOfTruthOverlay(gfxCtx);
 
         // Translates to: "BLUE SPECTACLES (EXTERIOR)"
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 1);
@@ -2323,7 +2337,7 @@ s32 func_800314D4(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3)
     return false;
 }
 
-void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
+void Actor_DrawContext(GlobalContext* globalCtx, ActorContext* actorCtx) {
     s32 invisibleActorCounter;
     Actor* invisibleActors[INVISIBLE_ACTOR_MAX];
     ActorListEntry* actorListEntry;
@@ -2401,14 +2415,14 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
     if ((HREG(64) != 1) || (HREG(72) != 0)) {
         if (globalCtx->actorCtx.unk_03 != 0) {
-            func_8003115C(globalCtx, invisibleActorCounter, invisibleActors);
+            Actor_DrawWithLensOfTruth(globalCtx, invisibleActorCounter, invisibleActors);
             if ((globalCtx->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(globalCtx)) {
-                func_800304B0(globalCtx);
+                Player_UnsetLensOfTruth(globalCtx);
             }
         }
     }
 
-    func_8002FBAC(globalCtx);
+    Actor_DrawFaroresWindPointer(globalCtx);
 
     if (IREG(32) == 0) {
         Lights_DrawGlow(globalCtx);
@@ -2425,7 +2439,10 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 6563);
 }
 
-void func_80031A28(GlobalContext* globalCtx, ActorContext* actorCtx) {
+/**
+ * Kills all actors in ActorContext whose object dependency is not loaded
+ */
+void Actor_KillIfObjectIsNotLoaded(GlobalContext* globalCtx, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
 
@@ -2454,6 +2471,9 @@ void Actor_FreezeAllEnemies(GlobalContext* globalCtx, ActorContext* actorCtx, s3
     }
 }
 
+/**
+ * Kills all actors in other rooms (besides the previous room)
+ */
 void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
@@ -2482,8 +2502,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
     globalCtx->msgCtx.unk_E3F4 = 0;
 }
 
-// Actor_CleanupContext
-void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
+void Actor_DestroyContext(ActorContext* actorCtx, GlobalContext* globalCtx) {
     Actor* actor;
     s32 i;
 
@@ -2506,7 +2525,7 @@ void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
     }
 
     Gameplay_SaveSceneFlags(globalCtx);
-    func_80030488(globalCtx);
+    Actor_DestroyFaroresWindPointer(globalCtx);
     ActorOverlayTable_Cleanup();
 }
 
@@ -2857,13 +2876,17 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
     return newHead;
 }
 
-s32 func_80032880(GlobalContext* globalCtx, Actor* actor) {
-    s16 sp1E;
-    s16 sp1C;
+/**
+ * Checks if an actor's projected position is within the range of the display.
+ * Used for Z Targetting.
+ */
+s32 Actor_IsWithinScreenRange(GlobalContext* globalCtx, Actor* actor) {
+    s16 screenX;
+    s16 screenY;
 
-    Actor_GetDisplayPos(globalCtx, actor, &sp1E, &sp1C);
+    Actor_GetProjectionPos(globalCtx, actor, &screenX, &screenY);
 
-    return (sp1E > -20) && (sp1E < 340) && (sp1C > -160) && (sp1C < 400);
+    return (screenX > -20) && (screenX < SCREEN_WIDTH + 20) && (screenY > -160) && (screenY < SCREEN_HEIGHT + 160);
 }
 
 static Actor* D_8015BBE8;
@@ -2894,7 +2917,7 @@ void func_800328D4(GlobalContext* globalCtx, ActorContext* actorCtx, Player* pla
 
             if (actor != sp84) {
                 var = func_8002EFC0(actor, player, D_8015BBFC);
-                if ((var < D_8015BBF0) && func_8002F090(actor, var) && func_80032880(globalCtx, actor) &&
+                if ((var < D_8015BBF0) && func_8002F090(actor, var) && Actor_IsWithinScreenRange(globalCtx, actor) &&
                     (!BgCheck_CameraLineTest1(&globalCtx->colCtx, &player->actor.focus.pos, &actor->focus.pos, &sp70,
                                               &sp80, 1, 1, 1, 1, &sp7C) ||
                      SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, sp80, sp7C))) {
@@ -3148,23 +3171,23 @@ void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f
     }
 }
 
-void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 scaleStep, u8 arg6) {
+void Actor_SpawnFlyingDust(GlobalContext* globalCtx, Vec3f* posArg, f32 range, s32 count, s16 scaleArg, s16 scaleStep,
+                           u8 flag) {
     Vec3f pos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
-    s16 scale;
-    u32 xScale;
     s32 i;
+    s16 scale;
+    s32 pad;
 
-    for (i = arg3; i >= 0; i--) {
-        pos.x = arg1->x + ((Rand_ZeroOne() - 0.5f) * arg2);
-        pos.y = arg1->y + ((Rand_ZeroOne() - 0.5f) * arg2);
-        pos.z = arg1->z + ((Rand_ZeroOne() - 0.5f) * arg2);
+    for (i = count; i >= 0; i--) {
+        pos.x = posArg->x + ((Rand_ZeroOne() - 0.5f) * range);
+        pos.y = posArg->y + ((Rand_ZeroOne() - 0.5f) * range);
+        pos.z = posArg->z + ((Rand_ZeroOne() - 0.5f) * range);
 
-        scale = (s16)((Rand_ZeroOne() * arg4) * 0.2f) + arg4;
-        xScale = arg6;
+        scale = (s16)((Rand_ZeroOne() * scaleArg) * 0.2f) + scaleArg;
 
-        if (xScale != 0) {
+        if (flag) {
             func_800286CC(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
         } else {
             func_8002865C(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
@@ -3172,7 +3195,11 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
     }
 }
 
-Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) {
+/**
+ * Checks if a collider exploded from an explosive actor.
+ * Returns a pointer to the explosive, or NULL if no explosive actor is found.
+ */
+Actor* Actor_GetCollidedExplosiveFromCollider(GlobalContext* globalCtx, Collider* collider) {
     if ((collider->acFlags & AC_HIT) && (collider->ac->category == ACTORCAT_EXPLOSIVE)) {
         collider->acFlags &= ~AC_HIT;
         return collider->ac;
@@ -3181,17 +3208,20 @@ Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) 
     return NULL;
 }
 
-Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor) {
-    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
+/**
+ * Returns a pointer to a nearby exploding actor to an actor, or NULL if none are found.
+ */
+Actor* Actor_FindExplosionNearby(GlobalContext* globalCtx, Actor* actor) {
+    Actor* explosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
-    while (actor != NULL) {
-        if ((actor == explosiveActor) || (actor->params != 1)) {
-            actor = actor->next;
+    while (explosive != NULL) {
+        if ((explosive == actor) || (explosive->params != 1)) {
+            explosive = explosive->next;
         } else {
-            if (Actor_WorldDistXYZToActor(explosiveActor, actor) <= (actor->shape.rot.z * 10) + 80.0f) {
-                return actor;
+            if (Actor_WorldDistXYZToActor(actor, explosive) <= (explosive->shape.rot.z * 10) + 80.0f) {
+                return explosive;
             } else {
-                actor = actor->next;
+                explosive = explosive->next;
             }
         }
     }
@@ -3218,9 +3248,7 @@ void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Acto
 Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius) {
     Actor* actor;
     Vec3f spA8;
-    f32 deltaX;
-    f32 deltaY;
-    f32 deltaZ;
+    Vec3f delta;
     Vec3f sp90;
     Vec3f sp84;
 
@@ -3237,13 +3265,13 @@ Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 r
                 (((ArmsHook*)actor)->timer == 0)) {
                 actor = actor->next;
             } else {
-                deltaX = Math_SinS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
-                deltaY = actor->velocity.y + (actor->gravity * 10.0f);
-                deltaZ = Math_CosS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
+                delta.x = Math_SinS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
+                delta.y = actor->velocity.y + (actor->gravity * 10.0f);
+                delta.z = Math_CosS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
 
-                spA8.x = actor->world.pos.x + deltaX;
-                spA8.y = actor->world.pos.y + deltaY;
-                spA8.z = actor->world.pos.z + deltaZ;
+                spA8.x = actor->world.pos.x + delta.x;
+                spA8.y = actor->world.pos.y + delta.y;
+                spA8.z = actor->world.pos.z + delta.z;
 
                 if (CollisionCheck_CylSideVsLineSeg(refActor->colChkInfo.cylRadius, refActor->colChkInfo.cylHeight,
                                                     0.0f, &refActor->world.pos, &actor->world.pos, &spA8, &sp90,
@@ -3390,7 +3418,7 @@ s32 Actor_OtherIsTargeted(GlobalContext* globalCtx, Actor* actor) {
 f32 func_80033AEC(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     f32 ret = 0.0f;
 
-    if (arg4 <= Math_Vec3f_DistXYZ(arg0, arg1)) {
+    if (Math_Vec3f_DistXYZ(arg0, arg1) >= arg4) {
         ret = Math_SmoothStepToF(&arg1->x, arg0->x, arg2, arg3, 0.0f);
         ret += Math_SmoothStepToF(&arg1->y, arg0->y, arg2, arg3, 0.0f);
         ret += Math_SmoothStepToF(&arg1->z, arg0->z, arg2, arg3, 0.0f);
@@ -3403,11 +3431,11 @@ f32 func_80033AEC(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, f32 ar
     return ret;
 }
 
-void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx) {
-    MtxF sp60;
-    f32 var;
-    Vec3f sp50;
-    CollisionPoly* sp4C;
+void Gfx_DrawCircleShadow(Vec3f* pos, Vec3f* scale, u8 alpha, GlobalContext* globalCtx) {
+    MtxF floorMatrix;
+    f32 yPos;
+    Vec3f raycastPos;
+    CollisionPoly* floorPoly;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8120);
 
@@ -3417,20 +3445,20 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, alpha);
 
-    sp50.x = arg0->x;
-    sp50.y = arg0->y + 1.0f;
-    sp50.z = arg0->z;
+    raycastPos.x = pos->x;
+    raycastPos.y = pos->y + 1.0f;
+    raycastPos.z = pos->z;
 
-    var = BgCheck_EntityRaycastFloor2(globalCtx, &globalCtx->colCtx, &sp4C, &sp50);
+    yPos = BgCheck_EntityRaycastFloor2(globalCtx, &globalCtx->colCtx, &floorPoly, &raycastPos);
 
-    if (sp4C != NULL) {
-        func_80038A28(sp4C, arg0->x, var, arg0->z, &sp60);
-        Matrix_Put(&sp60);
+    if (floorPoly != NULL) {
+        func_80038A28(floorPoly, pos->x, yPos, pos->z, &floorMatrix);
+        Matrix_Put(&floorMatrix);
     } else {
-        Matrix_Translate(arg0->x, arg0->y, arg0->z, MTXMODE_NEW);
+        Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_NEW);
     }
 
-    Matrix_Scale(arg1->x, 1.0f, arg1->z, MTXMODE_APPLY);
+    Matrix_Scale(scale->x, 1.0f, scale->z, MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 8149),
               G_MTX_MODELVIEW | G_MTX_LOAD);
@@ -3440,17 +3468,17 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 }
 
 void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
-    s16 var = Quake_Add(&globalCtx->mainCamera, 3);
-    Quake_SetSpeed(var, 20000);
-    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
-    Quake_SetCountdown(var, arg2);
+    s16 index = Quake_Add(&globalCtx->mainCamera, 3);
+    Quake_SetSpeed(index, 20000);
+    Quake_SetQuakeValues(index, arg1, 0, 0, 0);
+    Quake_SetCountdown(index, arg2);
 }
 
 void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3) {
-    s16 var = Quake_Add(&globalCtx->mainCamera, 3);
-    Quake_SetSpeed(var, arg3);
-    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
-    Quake_SetCountdown(var, arg2);
+    s16 index = Quake_Add(&globalCtx->mainCamera, 3);
+    Quake_SetSpeed(index, arg3);
+    Quake_SetQuakeValues(index, arg1, 0, 0, 0);
+    Quake_SetCountdown(index, arg2);
 }
 
 void func_80033E88(Actor* actor, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
@@ -3481,22 +3509,20 @@ typedef struct {
     /* 0x18 */ Gfx* doorLockDl;
 } DoorLockInfo; // size = 0x1C
 
+static DoorLockInfo sDoorLockInfo[] = {
+    { 0.54f, 6000.0f, 5000.0f, 1.0f, 0.0f, gDoorChainsDL, gDoorLockDL },
+    { 0.644f, 12000.0f, 8000.0f, 1.0f, 0.0f, object_bdoor_DL_001530, object_bdoor_DL_001400 },
+    { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, gDoorChainsDL, gDoorLockDL },
+};
+
 void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 frame, s32 type) {
-    static DoorLockInfo doorLockInfo[] = {
-        { 0.54f, 6000.0f, 5000.0f, 1.0f, 0.0f, gDoorChainsDL, gDoorLockDL },
-        { 0.644f, 12000.0f, 8000.0f, 1.0f, 0.0f, object_bdoor_DL_001530, object_bdoor_DL_001400 },
-        { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, gDoorChainsDL, gDoorLockDL },
-    };
-    DoorLockInfo* entry;
+    DoorLockInfo* entry = &sDoorLockInfo[type];
     s32 i;
     MtxF mtx;
-    f32 zAngle;
+    f32 zAngle = entry->initZAngle;
     f32 sin;
     f32 cos;
-    f32 zAngleAdd;
-
-    entry = &doorLockInfo[type];
-    zAngle = entry->initZAngle;
+    f32 zAngleAdd;    
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8265);
 
@@ -3538,8 +3564,8 @@ void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 frame, s32 type) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8319);
 }
 
-void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1) {
-    CollisionCheck_SpawnShieldParticlesMetal(globalCtx, arg1);
+void func_8003424C(GlobalContext* globalCtx, Vec3f* pos) {
+    CollisionCheck_SpawnShieldParticlesMetal(globalCtx, pos);
 }
 
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration) {
@@ -3558,7 +3584,7 @@ Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx) {
     lightDir.y = globalCtx->envCtx.unk_2B;
     lightDir.z = globalCtx->envCtx.unk_2C;
 
-    return func_8002EABC(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
+    return Gfx_DrawHiliteReflectionOpa(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 }
 
 Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx) {
@@ -3568,7 +3594,7 @@ Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx) {
     lightDir.y = globalCtx->envCtx.unk_2B;
     lightDir.z = globalCtx->envCtx.unk_2C;
 
-    return func_8002EB44(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
+    return Gfx_DrawHiliteReflectionXlu(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 }
 
 s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, callback1_800343CC unkFunc1,
@@ -3586,7 +3612,7 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, c
         return false;
     }
 
-    Actor_GetDisplayPos(globalCtx, actor, &sp26, &sp24);
+    Actor_GetProjectionPos(globalCtx, actor, &sp26, &sp24);
 
     if ((sp26 < 0) || (sp26 > SCREEN_WIDTH) || (sp24 < 0) || (sp24 > SCREEN_HEIGHT)) {
         return false;
@@ -5385,7 +5411,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
         return false;
     }
 
-    Actor_GetDisplayPos(globalCtx, actor, &sp2C, &sp2A);
+    Actor_GetProjectionPos(globalCtx, actor, &sp2C, &sp2A);
 
     if (0) {} // Necessary to match
 

@@ -218,7 +218,7 @@ void EnIceHono_CapturableFlame(EnIceHono* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
     } else if (EnIceHono_InBottleRange(this, globalCtx)) {
         // GI_MAX in this case allows the player to catch the actor in a bottle
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_MAX, 60.0f, 100.0f);
+        func_8002F434(&this->actor, globalCtx, GI_MAX, 60.0f, 100.0f);
     }
 
     if (this->actor.xzDistToPlayer < 200.0f) {

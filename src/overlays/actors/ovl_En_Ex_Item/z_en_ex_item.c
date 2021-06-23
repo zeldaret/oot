@@ -137,7 +137,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
             case EXITEM_BOMB_BAG_COUNTER:
                 onCounter = true;
             case EXITEM_BOMB_BAG_BOWLING:
-                this->unk_17C = func_8002EBCC;
+                this->unk_17C = Actor_DrawHiliteReflectionOpa;
                 this->giDrawId = GID_BOMB_BAG_30;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
@@ -152,7 +152,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
             case EXITEM_HEART_PIECE_COUNTER:
                 onCounter = true;
             case EXITEM_HEART_PIECE_BOWLING:
-                this->unk_17C = func_8002ED80;
+                this->unk_17C = Actor_DrawHiliteReflectionXlu;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
@@ -167,7 +167,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
             case EXITEM_BOMBCHUS_COUNTER:
                 onCounter = true;
             case EXITEM_BOMBCHUS_BOWLING:
-                this->unk_17C = func_8002EBCC;
+                this->unk_17C = Actor_DrawHiliteReflectionOpa;
                 this->giDrawId = GID_BOMBCHU;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
@@ -180,7 +180,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 break;
             case EXITEM_BOMBS_BOWLING:
             case EXITEM_BOMBS_COUNTER:
-                this->unk_17C = func_8002EBCC;
+                this->unk_17C = Actor_DrawHiliteReflectionOpa;
                 this->giDrawId = GID_BOMB;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
@@ -195,8 +195,8 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 break;
             case EXITEM_PURPLE_RUPEE_BOWLING:
             case EXITEM_PURPLE_RUPEE_COUNTER:
-                this->unk_17C = func_8002EBCC;
-                this->unk_180 = func_8002ED80;
+                this->unk_17C = Actor_DrawHiliteReflectionOpa;
+                this->unk_180 = Actor_DrawHiliteReflectionXlu;
                 this->giDrawId = GID_RUPEE_PURPLE;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
@@ -214,8 +214,8 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
             case EXITEM_RED_RUPEE_CHEST:
             case EXITEM_13:
             case EXITEM_14:
-                this->unk_17C = func_8002EBCC;
-                this->unk_180 = func_8002ED80;
+                this->unk_17C = Actor_DrawHiliteReflectionOpa;
+                this->unk_180 = Actor_DrawHiliteReflectionXlu;
                 this->timer = 7;
                 this->scale = 0.5f;
                 this->unkFloat = 0.5f;
@@ -243,7 +243,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 this->actionFunc = EnExItem_FairyMagic;
                 break;
             case EXITEM_BULLET_BAG:
-                this->unk_17C = func_8002EBCC;
+                this->unk_17C = Actor_DrawHiliteReflectionOpa;
                 this->giDrawId = GID_BULLET_BAG;
                 this->scale = 0.1f;
                 this->timer = 80;
@@ -392,7 +392,7 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
         } else {
             getItemId = GI_BULLET_BAG_50;
         }
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
+        func_8002F434(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
         this->actionFunc = EnExItem_TargetPrizeGive;
     }
 }
@@ -405,7 +405,7 @@ void EnExItem_TargetPrizeGive(EnExItem* this, GlobalContext* globalCtx) {
     } else {
         getItemId = (CUR_UPG_VALUE(UPG_BULLET_BAG) == 2) ? GI_BULLET_BAG_50 : GI_BULLET_BAG_40;
 
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
+        func_8002F434(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
     }
 }
 
@@ -480,19 +480,19 @@ void EnExItem_DrawItems(EnExItem* this, GlobalContext* globalCtx) {
         this->unk_17C(&this->actor, globalCtx, 0);
     }
     if (this) {}
-    func_8002ED80(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
     GetItem_Draw(globalCtx, this->giDrawId);
 }
 
 void EnExItem_DrawHeartPiece(EnExItem* this, GlobalContext* globalCtx) {
-    func_8002ED80(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
     GetItem_Draw(globalCtx, GID_HEART_PIECE);
 }
 
 void EnExItem_DrawMagic(EnExItem* this, GlobalContext* globalCtx, s16 magicIndex) {
     static s16 sgiDrawIds[] = { GID_DINS_FIRE, GID_FARORES_WIND, GID_NAYRUS_LOVE };
 
-    func_8002ED80(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
     GetItem_Draw(globalCtx, sgiDrawIds[magicIndex]);
 }
 

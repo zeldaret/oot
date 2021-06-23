@@ -131,7 +131,7 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
                     func_8010B720(globalCtx, 0x4069); // not enough rupees text
                     return;
                 }
-                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
+                func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
                 this->actionFunc = EnMs_Sell;
                 return;
             case 1: // no
@@ -148,7 +148,7 @@ void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnMs_TalkAfterPurchase;
     } else {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
+        func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
     }
 }
 

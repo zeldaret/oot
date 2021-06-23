@@ -410,10 +410,10 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
     // Create ripples on water surface where tektite feet landed
     if (this->actor.bgCheckFlags & 2) {
         if (!(this->actor.bgCheckFlags & 0x20)) {
-            func_80033480(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
         }
     }
     // if landed, kill XY speed and play appropriate sounds
@@ -526,10 +526,10 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 0x42) {
         if (!(this->actor.bgCheckFlags & 0x40)) {
-            func_80033480(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_TEKU_LAND_WATER);
@@ -650,10 +650,10 @@ void EnTite_Recoil(EnTite* this, GlobalContext* globalCtx) {
     // play sound and generate ripples
     if (this->actor.bgCheckFlags & 0x42) {
         if (!(this->actor.bgCheckFlags & 0x40)) {
-            func_80033480(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
             this->actor.bgCheckFlags &= ~0x40;
@@ -719,10 +719,10 @@ void EnTite_Stunned(EnTite* this, GlobalContext* globalCtx) {
     // Play sounds and spawn dirt effects upon landing
     if (this->actor.bgCheckFlags & 0x42) {
         if (!(this->actor.bgCheckFlags & 0x40)) {
-            func_80033480(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
-            func_80033480(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
+            Actor_SpawnFlyingDust(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
             this->actor.bgCheckFlags &= ~0x40;
@@ -843,10 +843,10 @@ void EnTite_FlipUpright(EnTite* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     //! @bug flying tektite: the following condition is never met and tektite stays stuck in this action forever
     if (this->actor.bgCheckFlags & 2) {
-        func_80033480(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
-        func_80033480(globalCtx, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
-        func_80033480(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
-        func_80033480(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
+        Actor_SpawnFlyingDust(globalCtx, &this->frontLeftFootPos, 1.0f, 2, 80, 15, 1);
+        Actor_SpawnFlyingDust(globalCtx, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
+        Actor_SpawnFlyingDust(globalCtx, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
+        Actor_SpawnFlyingDust(globalCtx, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
         this->actor.shape.yOffset = 0.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);

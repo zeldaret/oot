@@ -2722,7 +2722,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
             if (actionParam == PLAYER_AP_LENS) {
                 if (func_80087708(globalCtx, 0, 3)) {
                     if (globalCtx->actorCtx.unk_03 != 0) {
-                        func_800304B0(globalCtx);
+                        Player_UnsetLensOfTruth(globalCtx);
                     } else {
                         globalCtx->actorCtx.unk_03 = 1;
                     }
@@ -3030,7 +3030,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
 
             if (this->unk_664 != NULL) {
                 if ((this->actor.category == ACTORCAT_PLAYER) && (this->unk_664 != this->unk_684) &&
-                    Player_IsWithinActorTargetRange(this->unk_664, this, sp1C)) {
+                    func_8002F0C8(this->unk_664, this, sp1C)) {
                     func_8008EDF0(this);
                     this->stateFlags1 |= 0x40000000;
                 } else if (this->unk_664 != NULL) {
@@ -4156,7 +4156,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                                         .sides[(doorDirection > 0) ? 0 : 1]
                                         .effects;
 
-                    func_800304B0(globalCtx);
+                    Player_UnsetLensOfTruth(globalCtx);
                 }
             } else {
                 // This actor can be either EnDoor or DoorKiller.
@@ -4209,7 +4209,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
 
                 if (this->doorType != PLAYER_DOORTYPE_FAKE) {
                     this->stateFlags1 |= 0x20000000;
-                    func_800304B0(globalCtx);
+                    Player_UnsetLensOfTruth(globalCtx);
 
                     if (((doorActor->params >> 7) & 7) == 3) {
                         sp4C.x = doorActor->world.pos.x - (sp6C * sp74);
@@ -5787,7 +5787,7 @@ s32 func_8083E0FC(Player* this, GlobalContext* globalCtx) {
         func_80832F54(globalCtx, this, 0x9B);
         this->actor.parent = this->rideActor;
         func_80832224(this);
-        func_800304B0(globalCtx);
+        Player_UnsetLensOfTruth(globalCtx);
         return 1;
     }
 
@@ -7516,7 +7516,7 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
                                                 false, false, true, &sp74) &&
                         !SurfaceType_IsIgnoredByEntities(&globalCtx->colCtx, sp78, sp74) &&
                         (func_80041D4C(&globalCtx->colCtx, sp78, sp74) != 6) &&
-                        (func_8002F9EC(globalCtx, &this->actor, sp78, sp74, &sp5C) == 0)) {
+                        (Actor_JabuJabuWallCollide(globalCtx, &this->actor, sp78, sp74, &sp5C) == 0)) {
 
                         if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
                             func_80832630(globalCtx);
@@ -10409,8 +10409,8 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0, 4000 - (s32)(Math_CosS(this->unk_88F * 256) * 2000.0f));
         }
 
-        func_8002EBCC(&this->actor, globalCtx, 0);
-        func_8002ED80(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
+        Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
 
         if (this->unk_6AD != 0) {
             Vec3f sp7C;

@@ -160,7 +160,7 @@ void func_80A6E740(EnHs* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         func_80A6E3A0(this, func_80A6E630);
     } else {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, globalCtx, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
     }
 
     this->unk_2A8 |= 1;
@@ -171,7 +171,7 @@ void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 func_80A6E3A0(this, func_80A6E740);
-                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
+                func_8002F434(&this->actor, globalCtx, GI_ODD_MUSHROOM, 10000.0f, 50.0f);
                 break;
             case 1:
                 func_8010B720(globalCtx, 0x10B4);
@@ -226,7 +226,7 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         this->actor.textId = 0x10B1;
         if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToPlayer < 100.0f)) {
-            func_8002F298(&this->actor, globalCtx, 100.0f, 7);
+            Actor_RequestToTalkAndExchangeItem(&this->actor, globalCtx, 100.0f, 7);
         }
     }
 }

@@ -147,7 +147,7 @@ void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
-    Actor* explosive = Actor_GetCollidedExplosive(globalCtx, &this->colliders[0].base);
+    Actor* explosive = Actor_GetCollidedExplosiveFromCollider(globalCtx, &this->colliders[0].base);
 
     if (explosive != NULL) {
         this->unk_164 =
@@ -223,7 +223,7 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
             currentPos.x = D_808725CC[i].x + this->dyna.actor.world.pos.x;
             currentPos.y = D_808725CC[i].y + this->dyna.actor.world.pos.y;
             currentPos.z = D_808725CC[i].z + this->dyna.actor.world.pos.z;
-            func_80033480(globalCtx, &currentPos, 2.0f, 3, 0xC8, 0x4B, 1);
+            Actor_SpawnFlyingDust(globalCtx, &currentPos, 2.0f, 3, 0xC8, 0x4B, 1);
         }
     }
 

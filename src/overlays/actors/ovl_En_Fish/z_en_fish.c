@@ -713,7 +713,7 @@ void EnFish_OrdinaryUpdate(EnFish* this, GlobalContext* globalCtx) {
             EnFish_BeginRespawn(this);
         } else if (EnFish_InBottleRange(this, globalCtx)) {
             // GI_MAX in this case allows the player to catch the actor in a bottle
-            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_MAX, 80.0f, 20.0f);
+            func_8002F434(&this->actor, globalCtx, GI_MAX, 80.0f, 20.0f);
         }
     }
 }

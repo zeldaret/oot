@@ -119,14 +119,14 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -400, arg5, 10, 2, 0, scale, 1, 0, 80, KAKERA_COLOR_NONE,
                              OBJECT_BOMBIWA, dlist);
     }
-    func_80033480(globalCtx, &this->actor.world.pos, 60.0f, 8, 100, 160, 1);
+    Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 60.0f, 8, 100, 160, 1);
 }
 
 void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjBombiwa* this = THIS;
     s32 pad;
 
-    if ((func_80033684(globalCtx, &this->actor) != NULL) ||
+    if ((Actor_FindExplosionNearby(globalCtx, &this->actor) != NULL) ||
         ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000040))) {
         ObjBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);

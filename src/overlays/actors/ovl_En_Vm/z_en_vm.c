@@ -395,7 +395,7 @@ void EnVm_Die(EnVm* this, GlobalContext* globalCtx) {
 void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
     EnBom* bomb;
 
-    if (Actor_GetCollidedExplosive(globalCtx, &this->colliderCylinder.base) != NULL) {
+    if (Actor_GetCollidedExplosiveFromCollider(globalCtx, &this->colliderCylinder.base) != NULL) {
         this->actor.colChkInfo.health--;
         osSyncPrintf("hp down %d\n", this->actor.colChkInfo.health);
     } else {
@@ -430,7 +430,7 @@ void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_260 == 4) {
         EffectSsDeadDs_SpawnStationary(globalCtx, &this->beamPos3, 20, -1, 255, 20);
-        func_80033480(globalCtx, &this->beamPos3, 6.0f, 1, 120, 20, 1);
+        Actor_SpawnFlyingDust(globalCtx, &this->beamPos3, 6.0f, 1, 120, 20, 1);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_LAZER_GND - SFX_FLAG);
     }
 
@@ -531,7 +531,7 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnVm_OverrideLimbDraw,
                       EnVm_PostLimbDraw, this);
     actorPos = this->actor.world.pos;
-    func_80033C30(&actorPos, &D_80B2EB7C, 255, globalCtx);
+    Gfx_DrawCircleShadow(&actorPos, &D_80B2EB7C, 255, globalCtx);
 
     if (this->unk_260 >= 3) {
         Matrix_Translate(this->beamPos3.x, this->beamPos3.y + 10.0f, this->beamPos3.z, MTXMODE_NEW);

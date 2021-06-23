@@ -893,7 +893,7 @@ glabel L80B77C74
 /* 0E6A4 80B78044 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 0E6A8 80B78048 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0E6AC 80B7804C 3C0744FA */  lui     $a3, 0x44FA                ## $a3 = 44FA0000
-/* 0E6B0 80B78050 0C00BD0D */  jal     Actor_GiveItemToPlayerInRange              
+/* 0E6B0 80B78050 0C00BD0D */  jal     func_8002F434              
 /* 0E6B4 80B78054 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 0E6B8 80B78058 8FA90038 */  lw      $t1, 0x0038($sp)           
 /* 0E6BC 80B7805C 240B0017 */  addiu   $t3, $zero, 0x0017         ## $t3 = 00000017
@@ -1002,7 +1002,7 @@ glabel L80B7819C
 /* 0E830 80B781D0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0E834 80B781D4 24060038 */  addiu   $a2, $zero, 0x0038         ## $a2 = 00000038
 /* 0E838 80B781D8 3C0744FA */  lui     $a3, 0x44FA                ## $a3 = 44FA0000
-/* 0E83C 80B781DC 0C00BD0D */  jal     Actor_GiveItemToPlayerInRange              
+/* 0E83C 80B781DC 0C00BD0D */  jal     func_8002F434              
 /* 0E840 80B781E0 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 0E844 80B781E4 10000019 */  beq     $zero, $zero, .L80B7824C   
 /* 0E848 80B781E8 8FBF0024 */  lw      $ra, 0x0024($sp)           

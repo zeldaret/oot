@@ -195,7 +195,7 @@ void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, GlobalContext* globalC
     } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->talkState = 2;
     } else {
-        Actor_GetDisplayPos(globalCtx, &this->actor, &sp26, &sp24);
+        Actor_GetProjectionPos(globalCtx, &this->actor, &sp26, &sp24);
 
         if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
             (Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f) == 1)) {

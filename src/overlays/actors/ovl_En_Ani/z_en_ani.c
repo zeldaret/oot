@@ -131,14 +131,14 @@ void func_809B0558(EnAni* this, GlobalContext* globalCtx) {
         gSaveContext.itemGetInf[1] |= 0x20;
         return;
     }
-    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
+    func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
 }
 
 void func_809B05F0(EnAni* this, GlobalContext* globalCtx) {
     if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
         EnAni_SetupAction(this, func_809B0558);
     }
-    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
+    func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
 }
 
 void func_809B064C(EnAni* this, GlobalContext* globalCtx) {

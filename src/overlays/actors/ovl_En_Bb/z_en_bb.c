@@ -831,7 +831,7 @@ void EnBb_Red(EnBb* this, GlobalContext* globalCtx) {
                 this->actor.bgCheckFlags &= ~1;
             }
             this->actor.shape.rot.y = this->actor.world.rot.y;
-            if (Actor_GetCollidedExplosive(globalCtx, &this->collider.base) != NULL) {
+            if (Actor_GetCollidedExplosiveFromCollider(globalCtx, &this->collider.base) != NULL) {
                 EnBb_SetupDown(this);
             }
             break;
@@ -1040,7 +1040,7 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.world.pos.y, nextPos.y, 1.0f, this->bobPhase * 0.75f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.z, nextPos.z, 1.0f, this->bobPhase * 0.75f, 0.0f);
     this->bobPhase += 0.1f + this->bobSpeedMod;
-    if (Actor_GetCollidedExplosive(globalCtx, &this->collider.base) || (--this->vFlameTimer == 0)) {
+    if (Actor_GetCollidedExplosiveFromCollider(globalCtx, &this->collider.base) || (--this->vFlameTimer == 0)) {
         this->actionState++;
         this->timer = (Rand_ZeroOne() * 30.0f) + 60.0f;
         if (this->vFlameTimer != 0) {
@@ -1296,7 +1296,7 @@ void EnBb_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if (this->fireIceTimer != 0) {
                 this->actor.colorFilterTimer++;
                 //! @bug:
-                //! The purpose of this is to counteract Actor_UpdateAll decrementing colorFilterTimer. However,
+                //! The purpose of this is to counteract Actor_UpdateContext decrementing colorFilterTimer. However,
                 //! the above bugs mean unk_2A8 can be nonzero without damage effects ever having been set.
                 //! This routine will then increment colorFilterTimer, and on the next frame Actor_Draw will try
                 //! to draw the unset colorFilterParams. This causes a divide-by-zero error, crashing the game.

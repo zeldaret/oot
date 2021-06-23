@@ -105,7 +105,7 @@ void ObjKibako2_Break(ObjKibako2* this, GlobalContext* globalCtx) {
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -200, phi_s0, 28, 2, 0, (Rand_ZeroOne() * 30.0f) + 5.0f,
                              0, 0, 70, KAKERA_COLOR_NONE, OBJECT_KIBAKO2, D_06001000);
     }
-    func_80033480(globalCtx, thisPos, 90.0f, 6, 100, 160, 1);
+    Actor_SpawnFlyingDust(globalCtx, thisPos, 90.0f, 6, 100, 160, 1);
 }
 
 void ObjKibako2_SpawnCollectible(ObjKibako2* this, GlobalContext* globalCtx) {
@@ -149,7 +149,7 @@ void ObjKibako2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjKibako2_Idle(ObjKibako2* this, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & AC_HIT) || (this->dyna.actor.home.rot.z != 0) ||
-        func_80033684(globalCtx, &this->dyna.actor) != NULL) {
+        Actor_FindExplosionNearby(globalCtx, &this->dyna.actor) != NULL) {
         ObjKibako2_Break(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         this->dyna.actor.flags |= 0x10;

@@ -159,7 +159,7 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
     pos.x = this->dyna.actor.world.pos.x;
     pos.y = this->dyna.actor.world.pos.y + 70.0f;
     pos.z = this->dyna.actor.world.pos.z;
-    func_80033480(globalCtx, &pos, 100.0f, 0xA, 0x64, 0xA0, 1);
+    Actor_SpawnFlyingDust(globalCtx, &pos, 100.0f, 0xA, 0x64, 0xA0, 1);
 }
 
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {

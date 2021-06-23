@@ -406,7 +406,7 @@ void BgIceShelter_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         case 1:
         case 2:
         case 4:
-            func_8002ED80(&this->dyna.actor, globalCtx, 0);
+            Actor_DrawHiliteReflectionXlu(&this->dyna.actor, globalCtx, 0);
             break;
     }
 

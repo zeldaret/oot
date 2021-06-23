@@ -390,6 +390,6 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    func_8002EBCC(thisx, globalCtx, 1);
+    Actor_DrawHiliteReflectionOpa(thisx, globalCtx, 1);
     Gfx_DrawDListOpa(globalCtx, D_06001400);
 }

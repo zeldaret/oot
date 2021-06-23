@@ -489,7 +489,7 @@ void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f* offset;
     s16 fireDecr;
 
-    func_8002EBCC(&this->actor, globalCtx, 1);
+    Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 1);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, EnSb_PostLimbDraw, this);
     if (this->fire != 0) {

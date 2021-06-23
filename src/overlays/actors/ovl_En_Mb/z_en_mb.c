@@ -810,7 +810,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_LAND);
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
             EffectSsBlast_SpawnWhiteShockwave(globalCtx, &sp74, &sp68, &sp68);
-            func_80033480(globalCtx, &sp74, 2.0f, 3, 0x12C, 0xB4, 1);
+            Actor_SpawnFlyingDust(globalCtx, &sp74, 2.0f, 3, 0x12C, 0xB4, 1);
             Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
             func_800358DC(&this->actor, &sp74, &this->actor.world.rot, sp5C, 20, sp54, globalCtx, -1, 0);
             func_80AA6DA4(this);

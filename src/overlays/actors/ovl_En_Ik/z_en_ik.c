@@ -1243,7 +1243,7 @@ void func_80A77844(EnIk* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 322);
 
-    func_8002EBCC(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
     func_80093D18(gfxCtx);
     func_80093D84(gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80A761B0(gfxCtx, 245, 225, 155, 30, 30, 0));
@@ -1397,7 +1397,7 @@ void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 630);
 
-    func_8002EBCC(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
     func_80093D18(gfxCtx);
     func_80093D84(gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80A761B0(gfxCtx, 245, 225, 155, 30, 30, 0));

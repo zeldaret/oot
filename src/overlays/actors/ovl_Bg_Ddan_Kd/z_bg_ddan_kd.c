@@ -98,7 +98,7 @@ void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
     Actor* explosive;
 
-    explosive = Actor_GetCollidedExplosive(globalCtx, &this->collider.base);
+    explosive = Actor_GetCollidedExplosiveFromCollider(globalCtx, &this->collider.base);
     if (explosive != NULL) {
         osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
         explosive->params = 2;
@@ -154,8 +154,8 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             sp5C.y = this->dyna.actor.floorHeight + 20.0f + Rand_ZeroOne();
             sp50.y = this->dyna.actor.floorHeight + 20.0f + Rand_ZeroOne();
 
-            func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
-            func_80033480(globalCtx, &sp50, 20.0f, 1, sp4C * 135.0f, 60, 1);
+            Actor_SpawnFlyingDust(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
+            Actor_SpawnFlyingDust(globalCtx, &sp50, 20.0f, 1, sp4C * 135.0f, 60, 1);
 
             D_808718FC.x = Rand_CenteredFloat(3.0f);
             D_808718FC.z = Rand_CenteredFloat(3.0f);
@@ -168,7 +168,7 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             sp5C.x += (Rand_ZeroOne() - 0.5f) * 160.0f;
             sp5C.y = Rand_ZeroOne() * 3.0f + (this->dyna.actor.floorHeight + 20.0f);
 
-            func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
+            Actor_SpawnFlyingDust(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
         }
         Camera_AddQuake(&globalCtx->mainCamera, 0, sp4C * 0.6f, 3);

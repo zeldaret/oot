@@ -211,7 +211,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
 
     this->actor.flags |= 1;
 
-    Actor_GetDisplayPos(globalCtx, &this->actor, &sp32, &sp30);
+    Actor_GetProjectionPos(globalCtx, &this->actor, &sp32, &sp30);
     if (!((sp32 >= -30) && (sp32 < 361) && (sp30 >= -10) && (sp30 < 241))) {
         return 0;
     }
@@ -431,7 +431,7 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
         getItemId = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
         yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzRange = this->actor.xzDistToPlayer + 1.0f;
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, getItemId, xzRange, yRange);
+        func_8002F434(&this->actor, globalCtx, getItemId, xzRange, yRange);
     }
 }
 

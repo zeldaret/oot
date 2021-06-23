@@ -81,7 +81,7 @@ void Title_Draw(TitleContext* this) {
     v1.z = 0;
     v2.z = 1119.0837;
 
-    func_8002EABC(&v1, &v2, &v3, this->state.gfxCtx);
+    Gfx_DrawHiliteReflectionOpa(&v1, &v2, &v3, this->state.gfxCtx);
     gSPSetLights1(POLY_OPA_DISP++, sTitleLights);
     Title_SetupView(this, 0, 150.0, 300.0);
     func_80093D18(this->state.gfxCtx);

@@ -23,7 +23,7 @@ glabel func_809E80D8
 /* 02950 809E8120 10000004 */  beq     $zero, $zero, .L809E8134   
 /* 02954 809E8124 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L809E8128:
-/* 02958 809E8128 0C00BD55 */  jal     Actor_GiveItemToPlayer              
+/* 02958 809E8128 0C00BD55 */  jal     func_8002F554              
 /* 0295C 809E812C 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 02960 809E8130 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L809E8134:

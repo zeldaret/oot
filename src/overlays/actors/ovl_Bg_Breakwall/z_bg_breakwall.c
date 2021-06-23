@@ -178,7 +178,7 @@ Actor* BgBreakwall_SpawnFragments(GlobalContext* globalCtx, BgBreakwall* this, V
                                 actorRotList[k].x, actorRotList[k].y + angle1, actorRotList[k].z, 0x000B);
 
                 if ((j & 1) == 0) {
-                    func_80033480(globalCtx, &actorPos, velocity * 200.0f, 1, 650, 150, 1);
+                    Actor_SpawnFlyingDust(globalCtx, &actorPos, velocity * 200.0f, 1, 650, 150, 1);
                 }
 
                 if (actor != NULL) {

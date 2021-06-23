@@ -54,7 +54,7 @@ void ItemInbox_Update(Actor* thisx, GlobalContext* globalCtx) {
 void ItemInbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ItemInbox* this = THIS;
 
-    func_8002EBCC(&this->actor, globalCtx, 0);
-    func_8002ED80(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionOpa(&this->actor, globalCtx, 0);
+    Actor_DrawHiliteReflectionXlu(&this->actor, globalCtx, 0);
     GetItem_Draw(globalCtx, this->actor.params & 0xFF);
 }

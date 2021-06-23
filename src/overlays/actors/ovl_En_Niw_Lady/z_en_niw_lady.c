@@ -308,13 +308,13 @@ void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx) {
         if (!(gSaveContext.itemGetInf[0] & 0x1000)) {
             this->actor.parent = NULL;
             this->getItemId = GI_BOTTLE;
-            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_BOTTLE, 100.0f, 50.0f);
+            func_8002F434(&this->actor, globalCtx, GI_BOTTLE, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
             return;
         }
         if (this->unk_26C == 1) {
             this->getItemId = GI_RUPEE_PURPLE;
-            Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_RUPEE_PURPLE, 100.0f, 50.0f);
+            func_8002F434(&this->actor, globalCtx, GI_RUPEE_PURPLE, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
         }
         this->actionFunc = func_80ABA244;
@@ -379,7 +379,7 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
             this->actionFunc = !this->unk_273 ? func_80ABA778 : func_80ABA9B8;
         }
     } else {
-        func_8002F298(&this->actor, globalCtx, 50.0f, 6);
+        Actor_RequestToTalkAndExchangeItem(&this->actor, globalCtx, 50.0f, 6);
     }
 }
 
@@ -389,7 +389,7 @@ void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx) {
             case 0:
                 func_80106CCC(globalCtx);
                 this->actor.parent = NULL;
-                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_POCKET_EGG, 200.0f, 100.0f);
+                func_8002F434(&this->actor, globalCtx, GI_POCKET_EGG, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
                 break;
             case 1:
@@ -417,7 +417,7 @@ void func_80ABAB08(EnNiwLady* this, GlobalContext* globalCtx) {
             case 0:
                 func_80106CCC(globalCtx);
                 this->actor.parent = NULL;
-                Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_COJIRO, 200.0f, 100.0f);
+                func_8002F434(&this->actor, globalCtx, GI_COJIRO, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
                 break;
             case 1:
@@ -443,7 +443,7 @@ void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx) {
         if (LINK_IS_ADULT) {
             getItemId = !(gSaveContext.itemGetInf[2] & 0x1000) ? GI_POCKET_EGG : GI_COJIRO;
         }
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, getItemId, 200.0f, 100.0f);
+        func_8002F434(&this->actor, globalCtx, getItemId, 200.0f, 100.0f);
     }
 }
 

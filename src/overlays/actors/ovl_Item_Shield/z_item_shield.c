@@ -105,7 +105,7 @@ void func_80B86AC8(ItemShield* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_SHIELD_DEKU, 30.0f, 50.0f);
+    func_8002F434(&this->actor, globalCtx, GI_SHIELD_DEKU, 30.0f, 50.0f);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
     if (this->actor.bgCheckFlags & 1) {
         this->timer--;
@@ -127,7 +127,7 @@ void func_80B86BC8(ItemShield* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, GI_SHIELD_DEKU, 30.0f, 50.0f);
+    func_8002F434(&this->actor, globalCtx, GI_SHIELD_DEKU, 30.0f, 50.0f);
     if (this->collider.base.acFlags & AC_HIT) {
         ItemShield_SetupAction(this, func_80B86AC8);
         this->actor.velocity.y = 4.0f;

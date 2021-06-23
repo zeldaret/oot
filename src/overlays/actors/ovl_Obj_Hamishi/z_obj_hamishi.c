@@ -132,8 +132,8 @@ void ObjHamishi_Break(ObjHamishi* this, GlobalContext* globalCtx) {
                              sEffectScales[i], 3, 0, 70, 1, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDL);
     }
 
-    func_80033480(globalCtx, &this->actor.world.pos, 140.0f, 6, 180, 90, 1);
-    func_80033480(globalCtx, &this->actor.world.pos, 140.0f, 12, 80, 90, 1);
+    Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 140.0f, 6, 180, 90, 1);
+    Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 140.0f, 12, 80, 90, 1);
 }
 
 void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {

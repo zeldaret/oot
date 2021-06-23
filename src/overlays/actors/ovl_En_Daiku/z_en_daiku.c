@@ -271,7 +271,7 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
     } else if (Actor_IsTalking(&this->actor, globalCtx)) {
         this->talkState = ENDAIKU_STATE_TALKING;
     } else {
-        Actor_GetDisplayPos(globalCtx, &this->actor, &sp2E, &sp2C);
+        Actor_GetProjectionPos(globalCtx, &this->actor, &sp2E, &sp2C);
         if (sp2E >= 0 && sp2E <= 320 && sp2C >= 0 && sp2C <= 240 && this->talkState == ENDAIKU_STATE_CAN_TALK &&
             Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f) == 1) {
             if (globalCtx->sceneNum == SCENE_GERUDOWAY) {

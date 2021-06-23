@@ -205,7 +205,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 // If the boomerang collides with something and its is a Jabu Object actor with params equal to 0, then
                 // set collided to 0 so that the boomerang will go through the wall.
                 // Otherwise play a clank sound and keep collided set to bounce back.
-                if (func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
+                if (Actor_JabuJabuWallCollide(globalCtx, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
                     (hitDynaID != BGCHECK_SCENE &&
                      ((hitActor = DynaPoly_GetActor(&globalCtx->colCtx, hitDynaID)) != NULL) &&
                      hitActor->actor.id == ACTOR_BG_BDAN_OBJECTS && hitActor->actor.params == 0)) {

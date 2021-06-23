@@ -245,7 +245,7 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
 
         this->talkState = 1;
     } else {
-        Actor_GetDisplayPos(globalCtx, &this->actor, &sp2A, &sp28);
+        Actor_GetProjectionPos(globalCtx, &this->actor, &sp2A, &sp28);
 
         if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) &&
             (Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f))) {

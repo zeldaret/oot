@@ -258,7 +258,7 @@ void EnDntJiji_Talk(EnDntJiji* this, GlobalContext* globalCtx) {
         func_80106CCC(globalCtx);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.parent = NULL;
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
+        func_8002F434(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
         this->actionFunc = EnDntJiji_SetupGivePrize;
     }
 }
@@ -268,7 +268,7 @@ void EnDntJiji_SetupGivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnDntJiji_GivePrize;
     } else {
-        Actor_GiveItemToPlayerInRange(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
+        func_8002F434(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
     }
 }
 

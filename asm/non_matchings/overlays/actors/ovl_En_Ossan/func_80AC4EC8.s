@@ -31,7 +31,7 @@ glabel func_80AC4EC8
 /* 02270 80AC4F10 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02274 80AC4F14 8D0601A4 */  lw      $a2, 0x01A4($t0)           ## 000001A4
 /* 02278 80AC4F18 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0227C 80AC4F1C 0C00BD0D */  jal     Actor_GiveItemToPlayerInRange              
+/* 0227C 80AC4F1C 0C00BD0D */  jal     func_8002F434              
 /* 02280 80AC4F20 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 02284 80AC4F24 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02288 80AC4F28 8FA2002C */  lw      $v0, 0x002C($sp)           

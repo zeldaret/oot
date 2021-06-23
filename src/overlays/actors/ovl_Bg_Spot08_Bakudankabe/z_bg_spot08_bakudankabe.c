@@ -156,7 +156,7 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
         burstDepthY.x = this->dyna.actor.world.pos.x + D_808B08AC[i].z * sinY + D_808B08AC[i].x * cosY;
         burstDepthY.y = this->dyna.actor.world.pos.y + D_808B08AC[i].y;
         burstDepthY.z = this->dyna.actor.world.pos.z + D_808B08AC[i].z * cosY - (D_808B08AC[i].x * sinY);
-        func_80033480(globalCtx, &burstDepthY, 120.0f, 4, 0x78, 0xA0, 1);
+        Actor_SpawnFlyingDust(globalCtx, &burstDepthY, 120.0f, 4, 0x78, 0xA0, 1);
     }
 }
 

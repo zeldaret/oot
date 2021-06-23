@@ -133,7 +133,7 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -300, arg5, arg6, arg7, 0, scale, 1, 15, 80,
                              KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gBombiwaEffectDL);
     }
-    func_80033480(globalCtx, &this->actor.world.pos, 100.0f, 8, 100, 160, 0);
+    Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 100.0f, 8, 100, 160, 0);
 }
 
 void BgJyaBombchuiwa_SetupWaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
@@ -170,7 +170,7 @@ void BgJyaBombchuiwa_CleanUpAfterExplosion(BgJyaBombchuiwa* this, GlobalContext*
 void func_808949B8(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     this->timer++;
     if (this->timer & 4) {
-        func_80033480(globalCtx, &this->actor.world.pos, 60.0f, 3, 100, 100, 0);
+        Actor_SpawnFlyingDust(globalCtx, &this->actor.world.pos, 60.0f, 3, 100, 100, 0);
     }
     if (Math_StepToF(&this->lightRayIntensity, 1.0f, 0.028)) {
         BgJyaBombchuiwa_SpawnLightRay(this, globalCtx);
