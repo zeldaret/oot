@@ -124,4 +124,9 @@
         <Texture Name="gGravekeepersHutTitleCardGerTex" OutName="gravekeepsers_hut_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gGravekeepersHutTitleCardFraTex" OutName="gravekeepsers_hut_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_26">
+        <Texture Name="gLakesideLaboratoryTitleCardEngTex" OutName="lakeside_laboratory_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gLakesideLaboratoryTitleCardGerTex" OutName="lakeside_laboratory_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gLakesideLaboratoryTitleCardFraTex" OutName="lakeside_laboratory_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
