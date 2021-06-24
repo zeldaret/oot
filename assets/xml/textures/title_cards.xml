@@ -129,4 +129,9 @@
         <Texture Name="gLakesideLaboratoryTitleCardGerTex" OutName="lakeside_laboratory_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gLakesideLaboratoryTitleCardFraTex" OutName="lakeside_laboratory_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_27">
+        <Texture Name="gHyruleFieldTitleCardEngTex" OutName="hyrule_field_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gHyruleFieldTitleCardGerTex" OutName="hyrule_field_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gHyruleFieldTitleCardFraTex" OutName="hyrule_field_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
