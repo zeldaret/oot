@@ -34,4 +34,9 @@
         <Texture Name="gJabuJabuTitleCardGerTex" OutName="jabu_jabu_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gJabuJabuTitleCardFraTex" OutName="jabu_jabu_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_08">
+        <Texture Name="gDodongosCavernTitleCardEngTex" OutName="dodongos_cavern_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gDodongosCavernTitleCardGerTex" OutName="dodongos_cavern_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gDodongosCavernTitleCardFraTex" OutName="dodongos_cavern_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
