@@ -149,4 +149,9 @@
         <Texture Name="gZorasRiverTitleCardGerTex" OutName="zoras_river_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gZorasRiverTitleCardFraTex" OutName="zoras_river_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_31">
+        <Texture Name="gKokiriForestTitleCardEngTex" OutName="kokiri_firest_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gKokiriForestTitleCardGerTex" OutName="kokiri_firest_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gKokiriForestTitleCardFraTex" OutName="kokiri_firest_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
