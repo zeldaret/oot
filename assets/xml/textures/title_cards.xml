@@ -140,8 +140,13 @@
         <Texture Name="gKakarikoVillageTitleCardFraTex" OutName="kakariko_village_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
     <File Name="g_pn_29">
-        <Texture Name="gGraveYardTitleCardEngTex" OutName="graveyard_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
-        <Texture Name="gGraveYardTitleCardGerTex" OutName="graveyard_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
-        <Texture Name="gGraveYardTitleCardFraTex" OutName="graveyard_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+        <Texture Name="gGraveyardTitleCardEngTex" OutName="graveyard_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gGraveyardTitleCardGerTex" OutName="graveyard_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gGraveyardTitleCardFraTex" OutName="graveyard_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_30">
+        <Texture Name="gZorasRiverTitleCardEngTex" OutName="zoras_river_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gZorasRiverTitleCardGerTex" OutName="zoras_river_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gZorasRiverTitleCardFraTex" OutName="zoras_river_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
 </Root>
