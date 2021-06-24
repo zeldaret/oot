@@ -169,4 +169,9 @@
         <Texture Name="gZorasFountainTitleCardGerTex" OutName="zoras_fountain_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gZorasFountainTitleCardFraTex" OutName="zoras_fountain_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_35">
+        <Texture Name="gGerudoValleyTitleCardEngTex" OutName="gerudo_valley_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gGerudoValleyTitleCardGerTex" OutName="gerudo_valley_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gGerudoValleyTitleCardFraTex" OutName="gerudo_valley_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
