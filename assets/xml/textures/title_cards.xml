@@ -154,4 +154,9 @@
         <Texture Name="gKokiriForestTitleCardGerTex" OutName="kokiri_firest_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gKokiriForestTitleCardFraTex" OutName="kokiri_firest_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_32">
+        <Texture Name="gLakeHyliaTitleCardEngTex" OutName="lake_hylia_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gLakeHyliaTitleCardGerTex" OutName="lake_hylia_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gLakeHyliaTitleCardFraTex" OutName="lake_hylia_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
