@@ -74,4 +74,9 @@
         <Texture Name="gShootingGalleryTitleCardGerTex" OutName="shooting_gallery_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gShootingGalleryTitleCardFraTex" OutName="shooting_gallery_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_16">
+        <Texture Name="gTempleOfTimeTitleCardEngTex" OutName="temple_of_time_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gTempleOfTimeTitleCardGerTex" OutName="temple_of_time_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gTempleOfTimeTitleCardFraTex" OutName="temple_of_time_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
