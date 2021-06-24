@@ -179,4 +179,109 @@
         <Texture Name="gLostWoodsTitleCardGerTex" OutName="lost_woods_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gLostWoodsTitleCardFraTex" OutName="lost_woods_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_37">
+        <Texture Name="gHauntedWastelandTitleCardEngTex" OutName="haunted_wasteland_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gHauntedWastelandTitleCardGerTex" OutName="haunted_wasteland_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gHauntedWastelandTitleCardFraTex" OutName="haunted_wasteland_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_38">
+        <Texture Name="gHyruleCastleTitleCardEngTex" OutName="hyrule_castle_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gHyruleCastleTitleCardGerTex" OutName="hyrule_castle_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gHyruleCastleTitleCardFraTex" OutName="hyrule_castle_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_39">
+        <Texture Name="gDeathMountainTrailTitleCardEngTex" OutName="death_mountain_trail_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gDeathMountainTrailTitleCardGerTex" OutName="death_mountain_trail_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gDeathMountainTrailTitleCardFraTex" OutName="death_mountain_trail_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_40">
+        <Texture Name="gDeathMountainCraterTitleCardEngTex" OutName="death_mountain_crater_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gDeathMountainCraterTitleCardGerTex" OutName="death_mountain_crater_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gDeathMountainCraterTitleCardFraTex" OutName="death_mountain_crater_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_41">
+        <Texture Name="gGoronCityTitleCardEngTex" OutName="goron_city_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gGoronCityTitleCardGerTex" OutName="goron_city_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gGoronCityTitleCardFraTex" OutName="goron_city_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_42">
+        <Texture Name="gLonLonRanchTitleCardEngTex" OutName="lon_lon_ranch_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gLonLonRanchTitleCardGerTex" OutName="lon_lon_ranch_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gLonLonRanchTitleCardFraTex" OutName="lon_lon_ranch_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_43">
+        <Texture Name="gGanonsCastleTitleCardEngTex" OutName="ganons_castle_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gGanonsCastleTitleCardGerTex" OutName="ganons_castle_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gGanonsCastleTitleCardFraTex" OutName="ganons_castle_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_44">
+        <Texture Name="gRoyalFamilysTumbTitleCardEngTex" OutName="royal_familys_tumb_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gRoyalFamilysTumbTitleCardGerTex" OutName="royal_familys_tumb_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gRoyalFamilysTumbTitleCardFraTex" OutName="royal_familys_tumb_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_45">
+        <Texture Name="gFairysFountainTitleCardEngTex" OutName="fairys_fountain_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gFairysFountainTitleCardGerTex" OutName="fairys_fountain_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gFairysFountainTitleCardFraTex" OutName="fairys_fountain_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_46">
+        <Texture Name="gFishingPondTitleCardEngTex" OutName="fishing_pond_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gFishingPondTitleCardGerTex" OutName="fishing_pond_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gFishingPondTitleCardFraTex" OutName="fishing_pond_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_47">
+        <Texture Name="gBombchuBowlingAlleyCardEngTex" OutName="bombchu_bowling_alley_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gBombchuBowlingAlleyCardGerTex" OutName="bombchu_bowling_alley_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gBombchuBowlingAlleyCardFraTex" OutName="bombchu_bowling_alley_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_48">
+        <Texture Name="gStableTitleCardEngTex" OutName="stable_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gStableTitleCardGerTex" OutName="stable_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gStableTitleCardFraTex" OutName="stable_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_49">
+        <Texture Name="gThievesHideoutTitleCardEngTex" OutName="thieves_hideout_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gThievesHideoutTitleCardGerTex" OutName="thieves_hideout_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gThievesHideoutTitleCardFraTex" OutName="thieves_hideout_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_50">
+        <Texture Name="gHappyMaskShopTitleCardEngTex" OutName="happy_mask_shop_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gHappyMaskShopTitleCardGerTex" OutName="happy_mask_shop_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gHappyMaskShopTitleCardFraTex" OutName="happy_mask_shop_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_51">
+        <Texture Name="gTreasureBoxShopTitleCardEngTex" OutName="treasure_box_shop_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gTreasureBoxShopTitleCardGerTex" OutName="treasure_box_shop_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gTreasureBoxShopTitleCardFraTex" OutName="treasure_box_shop_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_52">
+        <Texture Name="gSacredForestMeadowTitleCardEngTex" OutName="sacred_forest_meadow_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gSacredForestMeadowTitleCardGerTex" OutName="sacred_forest_meadow_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gSacredForestMeadowTitleCardFraTex" OutName="sacred_forest_meadow_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_53">
+        <Texture Name="gGerudosFortressTitleCardEngTex" OutName="gerudos_fortress_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gGerudosFortressTitleCardGerTex" OutName="gerudos_fortress_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gGerudosFortressTitleCardFraTex" OutName="gerudos_fortress_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_54">
+        <Texture Name="gBottomOfTheWellTitleCardEngTex" OutName="bottom_of_the_well_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gBottomOfTheWellTitleCardGerTex" OutName="bottom_of_the_well_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gBottomOfTheWellTitleCardFraTex" OutName="bottom_of_the_well_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_55">
+        <Texture Name="gDesertColossusTitleCardEngTex" OutName="desert_colossus_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gDesertColossusTitleCardGerTex" OutName="desert_colossus_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gDesertColossusTitleCardFraTex" OutName="desert_colossus_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_56">
+        <Texture Name="gBombchuShopTitleCardEngTex" OutName="bombchu_shop_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gBombchuShopTitleCardGerTex" OutName="bombchu_shop_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gBombchuShopTitleCardFraTex" OutName="bombchu_shop_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_57">
+        <Texture Name="gQuestionMarkTitleCardEngTex" OutName="question_mark_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gQuestionMarkTitleCardGerTex" OutName="question_mark_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gQuestionMarkTitleCardFraTex" OutName="question_mark_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>

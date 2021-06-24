@@ -6249,127 +6249,127 @@ endseg
 beginseg
     name "g_pn_37"
     romalign 0x1000
-    include "build/baserom/g_pn_37.o"
+    include "build/assets/textures/title_cards/g_pn_37.o"
 endseg
 
 beginseg
     name "g_pn_38"
     romalign 0x1000
-    include "build/baserom/g_pn_38.o"
+    include "build/assets/textures/title_cards/g_pn_38.o"
 endseg
 
 beginseg
     name "g_pn_39"
     romalign 0x1000
-    include "build/baserom/g_pn_39.o"
+    include "build/assets/textures/title_cards/g_pn_39.o"
 endseg
 
 beginseg
     name "g_pn_40"
     romalign 0x1000
-    include "build/baserom/g_pn_40.o"
+    include "build/assets/textures/title_cards/g_pn_40.o"
 endseg
 
 beginseg
     name "g_pn_41"
     romalign 0x1000
-    include "build/baserom/g_pn_41.o"
+    include "build/assets/textures/title_cards/g_pn_41.o"
 endseg
 
 beginseg
     name "g_pn_42"
     romalign 0x1000
-    include "build/baserom/g_pn_42.o"
+    include "build/assets/textures/title_cards/g_pn_42.o"
 endseg
 
 beginseg
     name "g_pn_43"
     romalign 0x1000
-    include "build/baserom/g_pn_43.o"
+    include "build/assets/textures/title_cards/g_pn_43.o"
 endseg
 
 beginseg
     name "g_pn_44"
     romalign 0x1000
-    include "build/baserom/g_pn_44.o"
+    include "build/assets/textures/title_cards/g_pn_44.o"
 endseg
 
 beginseg
     name "g_pn_45"
     romalign 0x1000
-    include "build/baserom/g_pn_45.o"
+    include "build/assets/textures/title_cards/g_pn_45.o"
 endseg
 
 beginseg
     name "g_pn_46"
     romalign 0x1000
-    include "build/baserom/g_pn_46.o"
+    include "build/assets/textures/title_cards/g_pn_46.o"
 endseg
 
 beginseg
     name "g_pn_47"
     romalign 0x1000
-    include "build/baserom/g_pn_47.o"
+    include "build/assets/textures/title_cards/g_pn_47.o"
 endseg
 
 beginseg
     name "g_pn_48"
     romalign 0x1000
-    include "build/baserom/g_pn_48.o"
+    include "build/assets/textures/title_cards/g_pn_48.o"
 endseg
 
 beginseg
     name "g_pn_49"
     romalign 0x1000
-    include "build/baserom/g_pn_49.o"
+    include "build/assets/textures/title_cards/g_pn_49.o"
 endseg
 
 beginseg
     name "g_pn_50"
     romalign 0x1000
-    include "build/baserom/g_pn_50.o"
+    include "build/assets/textures/title_cards/g_pn_50.o"
 endseg
 
 beginseg
     name "g_pn_51"
     romalign 0x1000
-    include "build/baserom/g_pn_51.o"
+    include "build/assets/textures/title_cards/g_pn_51.o"
 endseg
 
 beginseg
     name "g_pn_52"
     romalign 0x1000
-    include "build/baserom/g_pn_52.o"
+    include "build/assets/textures/title_cards/g_pn_52.o"
 endseg
 
 beginseg
     name "g_pn_53"
     romalign 0x1000
-    include "build/baserom/g_pn_53.o"
+    include "build/assets/textures/title_cards/g_pn_53.o"
 endseg
 
 beginseg
     name "g_pn_54"
     romalign 0x1000
-    include "build/baserom/g_pn_54.o"
+    include "build/assets/textures/title_cards/g_pn_54.o"
 endseg
 
 beginseg
     name "g_pn_55"
     romalign 0x1000
-    include "build/baserom/g_pn_55.o"
+    include "build/assets/textures/title_cards/g_pn_55.o"
 endseg
 
 beginseg
     name "g_pn_56"
     romalign 0x1000
-    include "build/baserom/g_pn_56.o"
+    include "build/assets/textures/title_cards/g_pn_56.o"
 endseg
 
 beginseg
     name "g_pn_57"
     romalign 0x1000
-    include "build/baserom/g_pn_57.o"
+    include "build/assets/textures/title_cards/g_pn_57.o"
 endseg
 
 beginseg
