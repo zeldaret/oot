@@ -85,8 +85,13 @@
         <Texture Name="gMarketTitleCardFraTex" OutName="market_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
     <File Name="g_pn_18">
-        <Texture Name="gBackAlleyCardEngTex" OutName="back_alley_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
-        <Texture Name="gBackAlleyCardGerTex" OutName="back_alley_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
-        <Texture Name="gBackAlleyCardFraTex" OutName="back_alley_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+        <Texture Name="gBackAlleyTitleCardEngTex" OutName="back_alley_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gBackAlleyTitleCardGerTex" OutName="back_alley_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gBackAlleyTitleCardFraTex" OutName="back_alley_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_19">
+        <Texture Name="gKokiriShopTitleCardEngTex" OutName="kokiri_shop_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gKokiriShopTitleCardGerTex" OutName="kokiri_shop_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gKokiriShopTitleCardFraTex" OutName="kokiri_shop_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
 </Root>
