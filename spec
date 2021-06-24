@@ -6051,7 +6051,7 @@ endseg
 beginseg
     name "g_pn_04"
     romalign 0x1000
-    include "build/baserom/g_pn_04.o"
+    include "build/assets/textures/title_cards/g_pn_04.o"
 endseg
 
 beginseg
