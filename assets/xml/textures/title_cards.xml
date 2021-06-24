@@ -1,0 +1,12 @@
+<Root>
+    <File Name="g_pn_01">
+        <Texture Name="gForestTempleTitleCardEngTex" OutName="forest_temple_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+         <Texture Name="gForestTempleTitleCardGerTex" OutName="forest_temple_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+          <Texture Name="gForestTempleTitleCardFraTex" OutName="forest_temple_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_02">
+        <Texture Name="gShadowTempleTitleCardEngTex" OutName="shadow_temple_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gShadowTempleTitleCardGerTex" OutName="shadow_temple_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gShadowTempleTitleCardFraTex" OutName="shadow_temple_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+</Root>

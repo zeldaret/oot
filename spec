@@ -6033,13 +6033,13 @@ endseg
 beginseg
     name "g_pn_01"
     romalign 0x1000
-    include "build/baserom/g_pn_01.o"
+    include "build/assets/textures/title_cards/g_pn_01.o"
 endseg
 
 beginseg
     name "g_pn_02"
     romalign 0x1000
-    include "build/baserom/g_pn_02.o"
+    include "build/assets/textures/title_cards/g_pn_02.o"
 endseg
 
 beginseg
