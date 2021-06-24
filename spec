@@ -6165,13 +6165,13 @@ endseg
 beginseg
     name "g_pn_23"
     romalign 0x1000
-    include "build/baserom/g_pn_23.o"
+    include "build/assets/textures/title_cards/g_pn_23.o"
 endseg
 
 beginseg
     name "g_pn_24"
     romalign 0x1000
-    include "build/baserom/g_pn_24.o"
+    include "build/assets/textures/title_cards/g_pn_24.o"
 endseg
 
 beginseg
