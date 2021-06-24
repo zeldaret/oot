@@ -54,4 +54,9 @@
         <Texture Name="gGerudoTrainingGroundTitleCardGerTex" OutName="gerudo_training_ground_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gGerudoTrainingGroundTitleCardFraTex" OutName="gerudo_training_ground_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_12">
+        <Texture Name="gCastleCourtyardGroundTitleCardEngTex" OutName="castle_courtyard_ground_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gCastleCourtyardGroundTitleCardGerTex" OutName="castle_courtyard_ground_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gCastleCourtyardGroundTitleCardFraTex" OutName="castle_courtyard_ground_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
