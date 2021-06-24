@@ -39,4 +39,9 @@
         <Texture Name="gDodongosCavernTitleCardGerTex" OutName="dodongos_cavern_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gDodongosCavernTitleCardFraTex" OutName="dodongos_cavern_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_09">
+        <Texture Name="gInsideGanonsCastleTitleCardEngTex" OutName="inside_ganons_castle_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gInsideGanonsCastleTitleCardGerTex" OutName="inside_ganons_castle_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gInsideGanonsCastleTitleCardFraTex" OutName="inside_ganons_castle_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
