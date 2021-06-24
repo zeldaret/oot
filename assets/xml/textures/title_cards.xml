@@ -44,4 +44,14 @@
         <Texture Name="gInsideGanonsCastleTitleCardGerTex" OutName="inside_ganons_castle_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gInsideGanonsCastleTitleCardFraTex" OutName="inside_ganons_castle_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_10">
+        <Texture Name="gIceCavernTitleCardEngTex" OutName="ice_cavern_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gIceCavernTitleCardGerTex" OutName="ice_cavern_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gIceCavernTitleCardFraTex" OutName="ice_cavern_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
+    <File Name="g_pn_11">
+        <Texture Name="gGerudoTrainingGroundTitleCardEngTex" OutName="gerudo_training_ground_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gGerudoTrainingGroundTitleCardGerTex" OutName="gerudo_training_ground_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gGerudoTrainingGroundTitleCardFraTex" OutName="gerudo_training_ground_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
