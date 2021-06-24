@@ -69,4 +69,9 @@
         <Texture Name="gChamberOfTheSagesTitleCardGerTex" OutName="chamber_of_the_sages_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gChamberOfTheSagesTitleCardFraTex" OutName="chamber_of_the_sages_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_15">
+        <Texture Name="gShootingGalleryTitleCardEngTex" OutName="shooting_gallery_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gShootingGalleryTitleCardGerTex" OutName="shooting_gallery_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gShootingGalleryTitleCardFraTex" OutName="shooting_gallery_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>

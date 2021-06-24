@@ -6117,7 +6117,7 @@ endseg
 beginseg
     name "g_pn_15"
     romalign 0x1000
-    include "build/baserom/g_pn_15.o"
+    include "build/assets/textures/title_cards/g_pn_15.o"
 endseg
 
 beginseg
