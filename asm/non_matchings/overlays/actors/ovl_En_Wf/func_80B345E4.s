@@ -109,7 +109,7 @@ glabel func_80B345E4
 /* 00AA8 80B34758 2728FFFF */  addiu   $t0, $t9, 0xFFFF           ## $t0 = FFFFFFFF
 /* 00AAC 80B3475C 15000022 */  bne     $t0, $zero, .L80B347E8     
 /* 00AB0 80B34760 AE0802E8 */  sw      $t0, 0x02E8($s0)           ## 000002E8
-/* 00AB4 80B34764 0C00B821 */  jal     func_8002E084              
+/* 00AB4 80B34764 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 00AB8 80B34768 24051555 */  addiu   $a1, $zero, 0x1555         ## $a1 = 00001555
 /* 00ABC 80B3476C 10400012 */  beq     $v0, $zero, .L80B347B8     
 /* 00AC0 80B34770 00000000 */  nop

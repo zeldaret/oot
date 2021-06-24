@@ -154,7 +154,7 @@ glabel func_80860C24
 /* 017D8 80860E28 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 .L80860E2C:
 /* 017DC 80860E2C 2405071C */  addiu   $a1, $zero, 0x071C         ## $a1 = 0000071C
-/* 017E0 80860E30 0C00B821 */  jal     func_8002E084              
+/* 017E0 80860E30 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 017E4 80860E34 AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 017E8 80860E38 1040001D */  beq     $v0, $zero, .L80860EB0     
 /* 017EC 80860E3C 8FA60028 */  lw      $a2, 0x0028($sp)           
