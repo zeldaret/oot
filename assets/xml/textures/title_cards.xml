@@ -24,4 +24,9 @@
         <Texture Name="gSpiritTempleTitleCardGerTex" OutName="spirit_temple_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gSpiritTempleTitleCardFraTex" OutName="spirit_temple_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_06">
+        <Texture Name="gDekuTreeTitleCardEngTex" OutName="deku_tree_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gDekuTreeTitleCardGerTex" OutName="deku_tree_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gDekuTreeTitleCardFraTex" OutName="deku_tree_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
