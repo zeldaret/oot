@@ -19,4 +19,9 @@
         <Texture Name="gWaterTempleTitleCardGerTex" OutName="water_temple_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
         <Texture Name="gWaterTempleTitleCardFraTex" OutName="water_temple_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
     </File>
+    <File Name="g_pn_05">
+        <Texture Name="gSpiritTempleTitleCardEngTex" OutName="spirit_temple_titlecard_english" Format="ia8" Width="144" Height="24" Offset="0x0"/>
+        <Texture Name="gSpiritTempleTitleCardGerTex" OutName="spirit_temple_titlecard_german" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+        <Texture Name="gSpiritTempleTitleCardFraTex" OutName="spirit_temple_titlecard_french" Format="ia8" Width="144" Height="24" Offset="0x1B00"/>
+    </File>
 </Root>
