@@ -55,7 +55,6 @@
         <Texture Name="gTitleStaticThereIsNoEmptyFileENGTex" OutName="title_static_there_is_no_empty_file_eng" Format="ia8" Width="128" Height="16" Offset="0x1E480"/>
         <Texture Name="gTitleStaticThisIsAnEmptyFileENGTex" OutName="title_static_this_is_an_empty_file_eng" Format="ia8" Width="128" Height="16" Offset="0x1EC80"/>
         <Texture Name="gTitleStaticThisFileIsInUseENGTex" OutName="title_static_this_file_is_in_use_eng" Format="ia8" Width="128" Height="16" Offset="0x1F480"/>
-        <Texture Name="gTitleStaticNoFileToCopyGERTex" OutName="title_static_no_file_to_copy_ger" Format="title_static_this_file_is_in_use_eng" Format="ia8" Width="128" Height="16" Offset="0x1F480"/>
         <Texture Name="gTitleStaticNoFileToCopyGERTex" OutName="title_static_no_file_to_copy_ger" Format="ia8" Width="128" Height="16" Offset="0x1FC80"/>
         <Texture Name="gTitleStaticNoFileToEraseGERTex" OutName="title_static_no_file_to_erase_ger" Format="ia8" Width="128" Height="16" Offset="0x20480"/>
         <Texture Name="gTitleStaticThereIsNoEmptyFileGERTex" OutName="title_static_there_is_no_empty_file_ger" Format="ia8" Width="128" Height="16" Offset="0x20C80"/>
