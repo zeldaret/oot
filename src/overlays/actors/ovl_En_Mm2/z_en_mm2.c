@@ -244,7 +244,7 @@ void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
             return;
     }
 
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x607F) {
             func_80088AA0(0);
             this->actionFunc = func_80AAF57C;

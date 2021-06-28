@@ -422,7 +422,7 @@ void EnGe2_LookAtPlayer(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void EnGe2_SetActionAfterTalk(EnGe2* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
 
         switch (this->actor.params & 0xFF) {
             case GE2_TYPE_PATROLLING:

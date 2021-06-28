@@ -91,7 +91,7 @@ s32 func_80A6F0B4(EnHs2* this, GlobalContext* globalCtx, u16 textId, EnHs2Action
 }
 
 void func_80A6F164(EnHs2* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actionFunc = func_80A6F1A4;
     }
     this->unk_2A8 |= 0x1;

@@ -134,7 +134,7 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
 }
 
 void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx) != 0) {
         this->behaviorFlags &= ~FU_WAIT;
         this->actionFunc = EnFu_WaitChild;
 
@@ -174,7 +174,7 @@ void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
 
 void func_80A1DBA0(EnFu* this, GlobalContext* globalCtx) {
     // if dialog state is 2 set action to WaitAdult
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnFu_WaitAdult;
     }
 }

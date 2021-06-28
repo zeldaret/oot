@@ -679,7 +679,7 @@ void EnSsh_Wait(EnSsh* this, GlobalContext* globalCtx) {
 
 void EnSsh_Talk(EnSsh* this, GlobalContext* globalCtx) {
     EnSsh_Bob(this, globalCtx);
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnSsh_Idle;
     }
 }

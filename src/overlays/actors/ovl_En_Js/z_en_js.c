@@ -105,7 +105,7 @@ void func_80A89008(EnJs* this) {
 }
 
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80A89008(this);
         this->actor.flags &= ~0x10000;
     }
@@ -120,7 +120,7 @@ void func_80A890C0(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A8910C(EnJs* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actor.textId = 0x6078;
         En_Js_SetupAction(this, func_80A890C0);
         this->actor.flags |= 0x10000;

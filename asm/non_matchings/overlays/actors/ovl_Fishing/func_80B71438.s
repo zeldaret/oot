@@ -111,7 +111,7 @@ glabel func_80B71438
 /* 07C20 80B715C0 10000008 */  beq     $zero, $zero, .L80B715E4   
 /* 07C24 80B715C4 AC8D0004 */  sw      $t5, 0x0004($a0)           ## 00000004
 .L80B715C8:
-/* 07C28 80B715C8 0C00BCCD */  jal     Actor_IsDoneTalking              
+/* 07C28 80B715C8 0C00BCCD */  jal     Actor_HasFinishedTalking              
 /* 07C2C 80B715CC AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 07C30 80B715D0 10400004 */  beq     $v0, $zero, .L80B715E4     
 /* 07C34 80B715D4 8FA40018 */  lw      $a0, 0x0018($sp)           

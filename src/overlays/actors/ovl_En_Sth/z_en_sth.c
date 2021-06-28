@@ -210,7 +210,7 @@ void EnSth_LookAtPlayer(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         if (this->actor.params == 0) {
             EnSth_SetupAction(this, EnSth_ParentRewardObtainedWait);
         } else {

@@ -193,7 +193,7 @@ void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8001D204(EnAObj* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->dyna.actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->dyna.actor, globalCtx)) {
         func_8001D234(this, this->dyna.actor.params);
     }
 }

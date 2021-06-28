@@ -109,13 +109,13 @@ s32 EnAni_SetText(EnAni* this, GlobalContext* globalCtx, u16 textId) {
 }
 
 void func_809B04F0(EnAni* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         EnAni_SetupAction(this, func_809B064C);
     }
 }
 
 void func_809B0524(EnAni* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         EnAni_SetupAction(this, func_809B07F8);
     }
 }
@@ -135,7 +135,7 @@ void func_809B0558(EnAni* this, GlobalContext* globalCtx) {
 }
 
 void func_809B05F0(EnAni* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         EnAni_SetupAction(this, func_809B0558);
     }
     func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);

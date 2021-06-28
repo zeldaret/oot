@@ -283,13 +283,13 @@ s32 func_80B142F4(EnTa* this, GlobalContext* globalCtx, u16 textId) {
 }
 
 void func_80B14398(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80B13AA0(this, func_80B14754, func_80B167FC);
     }
 }
 
 void func_80B143D4(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80B13AA0(this, func_80B146F8, func_80B167FC);
     }
 }
@@ -305,7 +305,7 @@ void func_80B14410(EnTa* this) {
 }
 
 void func_80B1448C(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80B14410(this);
     }
     func_80B14248(this);
@@ -313,7 +313,7 @@ void func_80B1448C(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B144D8(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80B14410(this);
         this->unk_2B6 = 1;
         this->unk_2B0 = func_80B16700;
@@ -340,7 +340,7 @@ void func_80B14570(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B145F8(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80B13AA0(this, func_80B14634, func_80B167FC);
     }
 }
@@ -499,7 +499,7 @@ void func_80B14C18(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14C60(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80B13AA0(this, func_80B14CAC, func_80B167C0);
     }
     this->unk_2E0 |= 1;
@@ -518,7 +518,7 @@ void func_80B14CAC(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14D4C(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80B13AA0(this, func_80B14D98, func_80B167C0);
     }
     this->unk_2E0 |= 1;
@@ -871,7 +871,7 @@ void func_80B15D90(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B15E28(EnTa* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80B14F20(this, func_80B16504);
         func_80B13AAC(this, globalCtx);
     }

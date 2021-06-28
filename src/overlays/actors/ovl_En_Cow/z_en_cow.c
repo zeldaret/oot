@@ -210,7 +210,7 @@ void func_809DF6BC(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF730(EnCow* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = func_809DF96C;
     }

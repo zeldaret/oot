@@ -170,7 +170,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx) {
 }
 
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_0200F870);
         gSaveContext.cutsceneTrigger = 1;
     }

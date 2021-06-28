@@ -434,7 +434,7 @@ s32 Actor_RequestToTalkAndExchangeItemInRange(Actor* actor, GlobalContext* globa
 s32 Actor_RequestToTalkAndExchangeItem(Actor* actor, GlobalContext* globalCtx, f32 range, u32 exchangeItemId);
 s32 Actor_RequestToTalkInRange(Actor* actor, GlobalContext* globalCtx, f32 radius);
 s32 Actor_RequestToTalk(Actor* actor, GlobalContext* globalCtx);
-u32 Actor_IsDoneTalking(Actor* actor, GlobalContext* globalCtx);
+s32 Actor_HasFinishedTalking(Actor* actor, GlobalContext* globalCtx);
 s8 Actor_GetItemExchangePlayer(GlobalContext* globalCtx);
 void Actor_GetProjectionPos(GlobalContext* globalCtx, Actor* actor, s16* screenX, s16* screenY);
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx);
@@ -489,7 +489,7 @@ void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f
 void Actor_SpawnFlyingDust(GlobalContext* globalCtx, Vec3f* posArg, f32 range, s32 count, s16 scaleArg, s16 scaleStep,
                            u8 flag);
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
-Actor* Actor_FindExplosionNearby(GlobalContext* globalCtx, Actor* actor);
+Actor* Actor_FindNearbyExplosion(GlobalContext* globalCtx, Actor* actor);
 Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius);
 void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorCategory);
 void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 textIdLower);

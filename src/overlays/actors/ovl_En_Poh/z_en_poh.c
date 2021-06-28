@@ -828,7 +828,7 @@ void EnPoh_TalkRegular(EnPoh* this, GlobalContext* globalCtx) {
             }
             func_8010B720(globalCtx, this->actor.textId);
         }
-    } else if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
+    } else if (Actor_HasFinishedTalking(&this->actor, globalCtx) != 0) {
         func_80ADE950(this, 0);
     }
 }
@@ -853,7 +853,7 @@ void EnPoh_TalkComposer(EnPoh* this, GlobalContext* globalCtx) {
                 func_80ADE950(this, 1);
             }
         }
-    } else if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
+    } else if (Actor_HasFinishedTalking(&this->actor, globalCtx) != 0) {
         if (this->actor.textId == 0x5000) {
             Flags_SetSwitch(globalCtx, 9);
         }

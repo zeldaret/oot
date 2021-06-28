@@ -268,7 +268,7 @@ void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_ChooseActionFromTextId(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         switch (this->actor.textId) {
             case 0x6001:
                 this->actionFunc = EnGe1_SetNormalText;
@@ -385,7 +385,7 @@ void EnGe1_OfferOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_RefuseOpenNoCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_CheckForCard_GTGGuard;
         EnGe1_SetAnimationIdle(this);
     }
@@ -460,7 +460,7 @@ void EnGe1_CheckGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_Talk_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_GetReaction_GateGuard;
         EnGe1_SetAnimationIdle(this);
     }
@@ -486,7 +486,7 @@ void EnGe1_GetReaction_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
 // Archery functions
 
 void EnGe1_SetupWait_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_Wait_Archery;
         EnGe1_SetAnimationIdle(this);
     }
@@ -523,7 +523,7 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
     s32 getItemId;
 
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnGe1_WaitTillItemGiven_Archery;
     }
@@ -660,7 +660,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_TalkNoHorse_Archery(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_Wait_Archery;
         EnGe1_SetAnimationIdle(this);
     }

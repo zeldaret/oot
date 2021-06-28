@@ -236,7 +236,7 @@ void EnDoor_WaitForCheck(EnDoor* this, GlobalContext* globalCtx) {
 }
 
 void EnDoor_Check(EnDoor* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnDoor_WaitForCheck;
     }
 }

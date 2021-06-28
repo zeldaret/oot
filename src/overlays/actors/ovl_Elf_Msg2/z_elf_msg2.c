@@ -136,7 +136,7 @@ s32 ElfMsg2_GetMessageId(ElfMsg2* this) {
 void ElfMsg2_WaitForTextClose(ElfMsg2* this, GlobalContext* globalCtx) {
     s32 switchFlag;
 
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         if (this->actor.world.rot.z != 1) {
             Actor_Kill(&this->actor);
             switchFlag = (this->actor.params >> 8) & 0x3F;

@@ -54,7 +54,7 @@ void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx) != 0) {
         this->actionFunc = EnDs_Wait;
         this->actor.flags &= ~0x10000;
     }
@@ -79,7 +79,7 @@ void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx) != 0) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
         this->actor.flags &= ~0x100;

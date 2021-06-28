@@ -175,7 +175,7 @@ void EnPoRelay_Idle(EnPoRelay* this, GlobalContext* globalCtx) {
 
 void EnPoRelay_Talk(EnPoRelay* this, GlobalContext* globalCtx) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
-    if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx) != 0) {
         Actor_SetTextWithPrefix(globalCtx, &this->actor, 0x2F);
         this->textId = this->actor.textId;
         EnPoRelay_SetupRace(this);
@@ -281,7 +281,7 @@ void EnPoRelay_Talk2(EnPoRelay* this, GlobalContext* globalCtx) {
             this->textId = this->actor.textId;
             func_8010B720(globalCtx, this->actor.textId);
         }
-    } else if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
+    } else if (Actor_HasFinishedTalking(&this->actor, globalCtx) != 0) {
         gSaveContext.timer1State = 0;
         this->actionTimer = 0;
         this->actionFunc = EnPoRelay_DisappearAndReward;

@@ -177,7 +177,7 @@ Actor* EnTorch2_GetAttackItem(GlobalContext* globalCtx, Player* this) {
     if (rangedItem != NULL) {
         return rangedItem;
     } else {
-        return Actor_FindExplosionNearby(globalCtx, &this->actor);
+        return Actor_FindNearbyExplosion(globalCtx, &this->actor);
     }
 }
 

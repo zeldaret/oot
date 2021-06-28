@@ -718,7 +718,7 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
             func_8010B720(globalCtx, this->actor.textId);
             return;
         }
-    } else if (Actor_IsDoneTalking(&this->actor, globalCtx) != 0) {
+    } else if (Actor_HasFinishedTalking(&this->actor, globalCtx) != 0) {
         EnPoField_SetupSoulDisappear(this);
     }
 }

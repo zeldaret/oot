@@ -126,7 +126,7 @@ void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjBombiwa* this = THIS;
     s32 pad;
 
-    if ((Actor_FindExplosionNearby(globalCtx, &this->actor) != NULL) ||
+    if ((Actor_FindNearbyExplosion(globalCtx, &this->actor) != NULL) ||
         ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000040))) {
         ObjBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);

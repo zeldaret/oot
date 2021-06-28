@@ -246,7 +246,7 @@ void EnKanban_Message(EnKanban* this, GlobalContext* globalCtx) {
             this->msgTimer--;
         }
     } else {
-        if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+        if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
             this->msgFlag = false;
             this->msgTimer = 20;
         }

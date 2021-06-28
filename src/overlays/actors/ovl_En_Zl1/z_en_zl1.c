@@ -150,7 +150,7 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
     func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
 
     if (this->unk_1E6 != 0) {
-        if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+        if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
             this->unk_1E6 = 0;
         }
     } else if (Actor_IsTalking(&this->actor, globalCtx)) {
@@ -540,12 +540,12 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+            if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
                 this->unk_1E2--;
             }
             break;
         case 6:
-            if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+            if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Interface_ChangeAlpha(50);
                 this->actor.flags &= ~0x100;

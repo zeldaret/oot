@@ -126,7 +126,7 @@ void EnGe3_LookAtPlayer(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void EnGe3_Wait(EnGe3* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->actionFunc = EnGe3_WaitLookAtPlayer;
         this->actor.update = EnGe3_UpdateWhenNotTalking;
         this->actor.flags &= ~0x10000;

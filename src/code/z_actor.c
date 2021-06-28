@@ -1460,7 +1460,7 @@ static TargetRangeParams sTargetRanges[] = {
     TARGET_RANGE(240, 576),  TARGET_RANGE(280, 280000),
 };
 
-u32 func_8002F090(Actor* actor, f32 range) {
+s32 func_8002F090(Actor* actor, f32 range) {
     return range < sTargetRanges[actor->targetMode].rangeSq;
 }
 
@@ -1528,7 +1528,7 @@ s32 Actor_RequestToTalk(Actor* actor, GlobalContext* globalCtx) {
     return Actor_RequestToTalkInRange(actor, globalCtx, radius);
 }
 
-u32 Actor_IsDoneTalking(Actor* actor, GlobalContext* globalCtx) {
+s32 Actor_HasFinishedTalking(Actor* actor, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         return true;
     } else {
@@ -3226,7 +3226,7 @@ Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) 
 /**
  * Returns a pointer to a nearby exploding actor to an actor, or NULL if none are found.
  */
-Actor* Actor_FindExplosionNearby(GlobalContext* globalCtx, Actor* actor) {
+Actor* Actor_FindNearbyExplosion(GlobalContext* globalCtx, Actor* actor) {
     Actor* explosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
     while (explosive != NULL) {
@@ -4130,7 +4130,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
     }
 
     return NULL;
-}
+} 
 
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
     f32 sp44;

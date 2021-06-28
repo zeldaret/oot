@@ -1354,7 +1354,7 @@ void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
                     break;
             }
         }
-    } else if (Actor_IsDoneTalking(thisx, globalCtx)) {
+    } else if (Actor_HasFinishedTalking(thisx, globalCtx)) {
         this->actor.update = func_80A053F0;
         func_80A01C38(this, 0);
         this->fairyFlags &= ~0x20;

@@ -122,7 +122,7 @@ s32 func_80A6E53C(EnHs* this, GlobalContext* globalCtx, u16 textId, EnHsActionFu
 }
 
 void func_80A6E5EC(EnHs* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80A6E3A0(this, func_80A6E6B0);
     }
 
@@ -144,13 +144,13 @@ void func_80A6E6B0(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E6D8(EnHs* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80A6E3A0(this, func_80A6E9AC);
     }
 }
 
 void func_80A6E70C(EnHs* this, GlobalContext* globalCtx) {
-    if (Actor_IsDoneTalking(&this->actor, globalCtx)) {
+    if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         func_80A6E3A0(this, func_80A6E9AC);
     }
 }
