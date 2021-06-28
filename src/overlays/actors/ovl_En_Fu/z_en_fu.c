@@ -266,15 +266,15 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     EnFu* this = THIS;
     s32 pad;
 
-    if (limbIndex == FU_UNK_LIMB) {
+    if (limbIndex == FU_LIMB_UNK) {
         return false;
     }
     switch (limbIndex) {
-        case FU_HEAD_LIMB:
+        case FU_LIMB_HEAD:
             rot->x += this->lookAngleOffset.y;
             rot->z += this->lookAngleOffset.x;
             break;
-        case FU_CHEST_MUSIC_BOX_LIMB:
+        case FU_LIMB_CHEST_MUSIC_BOX:
             break;
     }
 
@@ -282,7 +282,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         return false;
     }
 
-    if (limbIndex == FU_CHEST_MUSIC_BOX_LIMB) {
+    if (limbIndex == FU_LIMB_CHEST_MUSIC_BOX) {
         rot->y += (Math_SinS((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
         rot->z += (Math_CosS((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
     }
@@ -292,7 +292,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnFu* this = THIS;
 
-    if (limbIndex == FU_HEAD_LIMB) {
+    if (limbIndex == FU_LIMB_HEAD) {
         Matrix_MultVec3f(&sMtxSrc, &this->actor.focus.pos);
     }
 }
