@@ -1,4 +1,5 @@
 <Root>
+    <!-- These dont actually go into Segment 0 but its needed to prevent an error from ZAPD -->
     <File Name="g_pn_01" Segment="0">
         <Texture Name="gForestTempleTitleCardENGTex" OutName="forest_temple_eng" Format="ia8" Width="144" Height="24" Offset="0x0"/>
         <Texture Name="gForestTempleTitleCardGERTex" OutName="forest_temple_ger" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
