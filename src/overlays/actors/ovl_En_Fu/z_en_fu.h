@@ -9,23 +9,23 @@ struct EnFu;
 typedef void (*EnFuActionFunc)(struct EnFu*, GlobalContext*);
 
 typedef enum {
-    /* 0 */ FU_ROOT_LIMB,
-    /* 1 */ FU_TORSO_LIMB,
-    /* 2 */ FU_LEFT_THIGH_LIMB,
-    /* 3 */ FU_LEFT_LEG_LIMB,
-    /* 4 */ FU_LEFT_FOOT_LIMB,
-    /* 5 */ FU_RIGHT_THIGH_LIMB,
-    /* 6 */ FU_RIGHT_LEG_LIMB,
-    /* 7 */ FU_RIGHT_FOOT_LIMB,
-    /* 8 */ FU_CHEST_MUSIC_BOX_LIMB,
-    /* 9 */ FU_LEFT_ARM_MUSIC_BOX_LIMB,
-    /* A */ FU_UNK_LIMB,
-    /* B */ FU_RIGHT_SHOULDER_LIMB,
-    /* C */ FU_RIGHT_ARM_LIMB,
-    /* D */ FU_RIGHT_HAND_AND_CRANK_LIMB,
-    /* E */ FU_HEAD_LIMB,
-    /* F */ FU_HORN_LIMB,
-    /* 10 */ FU_LIMB_MAX
+    /* 0x00 */ FU_ROOT_LIMB,
+    /* 0x01 */ FU_TORSO_LIMB,
+    /* 0x02 */ FU_LEFT_THIGH_LIMB,
+    /* 0x03 */ FU_LEFT_LEG_LIMB,
+    /* 0x04 */ FU_LEFT_FOOT_LIMB,
+    /* 0x05 */ FU_RIGHT_THIGH_LIMB,
+    /* 0x06 */ FU_RIGHT_LEG_LIMB,
+    /* 0x07 */ FU_RIGHT_FOOT_LIMB,
+    /* 0x08 */ FU_CHEST_MUSIC_BOX_LIMB,
+    /* 0x09 */ FU_LEFT_ARM_MUSIC_BOX_LIMB,
+    /* 0x0A */ FU_UNK_LIMB,
+    /* 0x0B */ FU_RIGHT_SHOULDER_LIMB,
+    /* 0x0C */ FU_RIGHT_ARM_LIMB,
+    /* 0x0D */ FU_RIGHT_HAND_AND_CRANK_LIMB,
+    /* 0x0E */ FU_HEAD_LIMB,
+    /* 0x0F */ FU_HORN_LIMB,
+    /* 0x10 */ FU_LIMB_MAX
 } EnFuLimb;
 
 typedef struct EnFu {

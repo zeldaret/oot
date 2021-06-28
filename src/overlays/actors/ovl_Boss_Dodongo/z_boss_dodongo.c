@@ -231,7 +231,7 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->items);
 
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) { // KD is dead
-        temp_s1_3 = SEGMENTED_TO_VIRTUAL(ddan_boss_room_1Tex_0021D8);
+        temp_s1_3 = SEGMENTED_TO_VIRTUAL(gDodongosCavernBossLavaFloorTex);
         temp_s2 = SEGMENTED_TO_VIRTUAL(sLavaFloorRockTex);
 
         Actor_Kill(&this->actor);
@@ -1021,7 +1021,7 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
         }
 
-        func_808C1554(ddan_boss_room_1Tex_0021D8, sLavaFloorLavaTex, this->unk_19E, this->unk_224);
+        func_808C1554(gDodongosCavernBossLavaFloorTex, sLavaFloorLavaTex, this->unk_19E, this->unk_224);
     }
 
     if (this->unk_1C6 != 0) {
