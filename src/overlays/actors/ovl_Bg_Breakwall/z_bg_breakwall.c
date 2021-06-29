@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_breakwall.h"
+#include "scenes/dungeons/ddan/ddan_scene.h"
 
 #define FLAGS 0x00000010
 
@@ -24,8 +25,6 @@ void BgBreakwall_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgBreakwall_WaitForObject(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_Wait(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_LavaCoverMove(BgBreakwall* this, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_02014F80;
 
 const ActorInit Bg_Breakwall_InitVars = {
     ACTOR_BG_BREAKWALL,
@@ -252,7 +251,7 @@ void BgBreakwall_Wait(BgBreakwall* this, GlobalContext* globalCtx) {
 
         if ((wallType == BWALL_DC_ENTRANCE) && (!(Flags_GetEventChkInf(0xB0)))) {
             Flags_SetEventChkInf(0xB0);
-            Cutscene_SetSegment(globalCtx, &D_02014F80);
+            Cutscene_SetSegment(globalCtx, gDcOpeningCs);
             gSaveContext.cutsceneTrigger = 1;
             Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             func_8002DF54(globalCtx, NULL, 0x31);

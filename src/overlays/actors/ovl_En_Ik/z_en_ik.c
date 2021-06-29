@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ik.h"
-
+#include "scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -53,7 +53,6 @@ void func_80A77EDC(EnIk* this, GlobalContext* globalCtx);
 void func_80A78160(EnIk* this, GlobalContext* globalCtx);
 void func_80A781CC(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_02003F80;
 extern AnimationHeader D_06001C28;
 extern AnimationHeader D_06002538;
 extern AnimationHeader D_060029FC;
@@ -1451,7 +1450,7 @@ void func_80A781CC(Actor* thisx, GlobalContext* globalCtx) {
     if (!Gameplay_InCsMode(globalCtx)) {
         this->actor.update = EnIk_Update;
         this->actor.draw = EnIk_Draw;
-        Cutscene_SetSegment(globalCtx, &D_02003F80);
+        Cutscene_SetSegment(globalCtx, gNabooruKnuckleDefeatCs);
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
         gSaveContext.eventChkInf[3] |= 0x1000;
