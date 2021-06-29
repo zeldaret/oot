@@ -2876,7 +2876,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
     f32 sp12C;
     f32 sp128;
     f32 sp124;
-    f32 sp120;
+    f32 multiplier;
     f32 sp11C;
     f32 sp118;
     Vec3f sp10C;
@@ -2892,7 +2892,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
     s16 spEE;
     Fishing* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
-    Player* spE0 = PLAYER;
+    Player* player = PLAYER;
     Input* input = &globalCtx->state.input[0];
     f32 spD8;
     f32 phi_f0;
@@ -2911,12 +2911,12 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.uncullZoneScale = 50.0f;
 
     if (this->unk_150 == 0) {
-        sp118 = (spE0->actor.speedXZ * 0.15f) + 0.25f;
+        sp118 = (player->actor.speedXZ * 0.15f) + 0.25f;
     } else {
-        sp118 = (spE0->actor.speedXZ * 0.3f) + 0.25f;
+        sp118 = (player->actor.speedXZ * 0.3f) + 0.25f;
     }
 
-    if ((D_80B7E0B0 != 0) || (sCameraId != 0) || ((spE0->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
+    if ((D_80B7E0B0 != 0) || (sCameraId != 0) || ((player->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
         this->actor.flags &= ~1;
     } else {
         this->actor.flags |= 1;
@@ -3188,7 +3188,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_194 = 4000.0f;
                 Math_ApproachF(&this->unk_1B0, 4096.0f, 1.0f, 256.0f);
 
-                if ((globalCtx->gameplayFrames & 0x1F) == 0) {
+                if ((globalCtx->gameplayFrames % 32) == 0) {
                     this->unk_1B4.x = Rand_CenteredFloat(600.0f);
                     this->unk_1B4.z = Rand_CenteredFloat(600.0f);
                     this->unk_1B4.y = -120.0f;
@@ -3346,30 +3346,30 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             }
 
             if (this->unk_1AC >= 60.0f) {
-                sp120 = 0.3f;
+                multiplier = 0.3f;
             } else if (this->unk_1AC >= 45.0f) {
-                sp120 = 0.6f;
+                multiplier = 0.6f;
             } else {
-                sp120 = 1.0f;
+                multiplier = 1.0f;
             }
 
             if ((gSaveContext.dayTime >= 0xB555) && (gSaveContext.dayTime <= 0xCAAA)) {
-                sp120 *= 1.75f;
+                multiplier *= 1.75f;
             } else if ((gSaveContext.dayTime >= 0x3555) && (gSaveContext.dayTime <= 0x4AAA)) {
-                sp120 *= 1.5f;
+                multiplier *= 1.5f;
             } else if (D_80B7E076 != 0) {
-                sp120 *= 1.5f;
+                multiplier *= 1.5f;
             } else if ((u8)D_80B7A650 != 0) {
-                sp120 *= 3.0f;
+                multiplier *= 3.0f;
             }
 
-            sp11C = 0.03f * sp120;
+            sp11C = 0.03f * multiplier;
             if (D_80B7E0B6 == 2) {
                 sp11C *= 5.0f;
             }
 
             if (((this->unk_17A[0] == 1) || (Rand_ZeroOne() < sp11C)) &&
-                ((Rand_ZeroOne() < (this->unk_1A8 * sp120)) || ((this->unk_150 + 1) == KREG(69)))) {
+                ((Rand_ZeroOne() < (this->unk_1A8 * multiplier)) || ((this->unk_150 + 1) == KREG(69)))) {
                 if (this->unk_150 == 0) {
                     this->unk_158 = 3;
                     this->unk_190 = 1.2f;
@@ -3410,7 +3410,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             this->unk_151 = 6;
             sp134 = 2;
 
-            if ((((s16)spE0->actor.world.pos.x + D_80B7E118) & 1) != 0) {
+            if ((((s16)player->actor.world.pos.x + D_80B7E118) & 1) != 0) {
                 sp10C.x = 30.0f;
             } else {
                 sp10C.x = -30.0f;
@@ -3565,7 +3565,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
 
             Math_ApproachS(&this->unk_170, 0x2AF8, 4, 0xBB8);
             sFishingHookedFish = this;
-            Math_ApproachS(&spE0->actor.shape.rot.y, this->actor.yawTowardsPlayer + 0x8000, 5, 0x500);
+            Math_ApproachS(&player->actor.shape.rot.y, this->actor.yawTowardsPlayer + 0x8000, 5, 0x500);
 
             if (D_80B7E124 == 0) {
                 if ((D_80B7FEA0 < 20) && ((D_80B7E0AE & 3) == 0)) {
@@ -3814,7 +3814,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             } else if (this->actor.xzDistToPlayer < (KREG(59) + 50.0f)) {
                 this->unk_158 = 6;
                 this->unk_17A[0] = 100;
-                spE0->unk_860 = 3;
+                player->unk_860 = 3;
                 func_800A9F6C(0.0f, 1, 3, 1);
                 D_80B7E084++;
                 func_80064520(globalCtx, &globalCtx->csCtx);
@@ -3846,14 +3846,14 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 sp10C.y = 10.0f;
                 sp10C.z = 50.0f;
             }
-            Matrix_RotateY((spE0->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+            Matrix_RotateY((player->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
             Matrix_MultVec3f(&sp10C, &sCameraEye);
 
-            sCameraEye.x += spE0->actor.world.pos.x;
-            sCameraEye.y += spE0->actor.world.pos.y;
-            sCameraEye.z += spE0->actor.world.pos.z;
+            sCameraEye.x += player->actor.world.pos.x;
+            sCameraEye.y += player->actor.world.pos.y;
+            sCameraEye.z += player->actor.world.pos.z;
 
-            sCameraAt = spE0->actor.world.pos;
+            sCameraAt = player->actor.world.pos;
             if (sLinkAge != 1) {
                 sCameraAt.y += 40.0f;
             } else {
@@ -3883,16 +3883,16 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             }
 
             this->unk_160 = -0x4000;
-            this->actor.shape.rot.y = spE0->actor.shape.rot.y + 0x5000;
+            this->actor.shape.rot.y = player->actor.shape.rot.y + 0x5000;
             this->actor.shape.rot.x = this->actor.shape.rot.z = this->unk_162 = this->unk_164 = this->unk_16E = 0;
 
             sp10C.x = 4.0f;
             sp10C.y = -10.0f;
             sp10C.z = 5.0f;
             Matrix_MultVec3f(&sp10C, &sp100);
-            Math_ApproachF(&this->actor.world.pos.x, spE0->bodyPartsPos[15].x + sp100.x, 1.0f, 6.0f);
-            Math_ApproachF(&this->actor.world.pos.y, spE0->bodyPartsPos[15].y + sp100.y, 1.0f, 6.0f);
-            Math_ApproachF(&this->actor.world.pos.z, spE0->bodyPartsPos[15].z + sp100.z, 1.0f, 6.0f);
+            Math_ApproachF(&this->actor.world.pos.x, player->bodyPartsPos[15].x + sp100.x, 1.0f, 6.0f);
+            Math_ApproachF(&this->actor.world.pos.y, player->bodyPartsPos[15].y + sp100.y, 1.0f, 6.0f);
+            Math_ApproachF(&this->actor.world.pos.z, player->bodyPartsPos[15].z + sp100.z, 1.0f, 6.0f);
 
             D_80B7E144 = 188.0f;
 
@@ -5130,7 +5130,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
     Math_ApproachS(&this->unk_164, headRotTarget, 3, 0x1388);
 
-    if (((globalCtx->gameplayFrames & 0x1F) == 0) && (Rand_ZeroOne() < 0.3f)) {
+    if (((globalCtx->gameplayFrames % 32) == 0) && (Rand_ZeroOne() < 0.3f)) {
         this->unk_162 = 4;
     }
 
@@ -5529,7 +5529,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
     if ((player->actor.floorHeight < (WATER_SURFACE_Y(globalCtx) - 3.0f)) &&
         (player->actor.world.pos.y < (player->actor.floorHeight + 3.0f)) && (player->actor.speedXZ > 1.0f) &&
-        ((globalCtx->gameplayFrames & 1) == 0)) {
+        ((globalCtx->gameplayFrames % 2) == 0)) {
         Vec3f pos;
 
         pos.x = Rand_CenteredFloat(20.0f) + player->actor.world.pos.x;
@@ -5540,7 +5540,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
     if ((player->actor.floorHeight < WATER_SURFACE_Y(globalCtx)) &&
         (player->actor.floorHeight > (WATER_SURFACE_Y(globalCtx) - 10.0f)) && (player->actor.speedXZ >= 4.0f) &&
-        ((globalCtx->gameplayFrames & 3) == 0)) {
+        ((globalCtx->gameplayFrames % 4) == 0)) {
         s16 i;
 
         for (i = 0; i < 10; i++) {
