@@ -819,7 +819,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
     u16 fishCount;
     s16 i;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
 
     if (KREG(5) != 0) {
@@ -832,8 +832,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         D_80B7E074 = 0;
         sFishingMain = this;
         Collider_InitJntSph(globalCtx, &sFishingMain->collider);
-        Collider_SetJntSph(globalCtx, &sFishingMain->collider, &this->actor, &sJntSphInit,
-                           sFishingMain->colliderElements);
+        Collider_SetJntSph(globalCtx, &sFishingMain->collider, thisx, &sJntSphInit, sFishingMain->colliderElements);
 
         thisx->params = 1;
 
@@ -848,7 +847,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         thisx->world.pos.y = -2.0f;
         thisx->world.pos.z = 1208.0f;
 
-        Actor_SetScale(&this->actor, 0.011f);
+        Actor_SetScale(thisx, 0.011f);
 
         thisx->focus.pos = thisx->world.pos;
         thisx->focus.pos.y += 75.0f;
@@ -950,8 +949,8 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         Fishing_InitPondProps(this, globalCtx);
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_KANBAN, 53.0f, -17.0f, 982.0f, 0, 0,
-                           0, ENKANBAN_FISHING);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_KANBAN, 53.0f, -17.0f, 982.0f, 0, 0, 0,
+                           ENKANBAN_FISHING);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_FISHING, 0.0f, 0.0f, 0.0f, 0, 0, 0, 200);
 
         if ((KREG(1) == 1) || ((D_80B7E07D & 3) == 3)) {
@@ -981,32 +980,31 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         if (thisx->params == 200) {
             this->unk_158 = 100;
-            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
             thisx->targetMode = 0;
             thisx->flags |= 9;
             this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-            return;
-        }
+        } else {
+            this->unk_158 = 10;
+            this->unk_15A = 10;
 
-        this->unk_158 = 10;
-        this->unk_15A = 10;
+            this->unk_150 = sFishInits[thisx->params - 100].unk_00;
+            this->unk_1A8 = sFishInits[thisx->params - 100].unk_0C;
+            this->unk_1AC = sFishInits[thisx->params - 100].unk_08;
 
-        this->unk_150 = sFishInits[thisx->params - 100].unk_00;
-        this->unk_1A8 = sFishInits[thisx->params - 100].unk_0C;
-        this->unk_1AC = sFishInits[thisx->params - 100].unk_08;
+            this->unk_1AC += Rand_ZeroFloat(4.99999f);
 
-        this->unk_1AC += Rand_ZeroFloat(4.99999f);
+            if ((this->unk_1AC >= 65.0f) && (Rand_ZeroOne() < 0.05f)) {
+                this->unk_1AC += Rand_ZeroFloat(7.99999f);
+            }
 
-        if ((this->unk_1AC >= 65.0f) && (Rand_ZeroOne() < 0.05f)) {
-            this->unk_1AC += Rand_ZeroFloat(7.99999f);
-        }
+            if (KREG(6) != 0) {
+                this->unk_1AC = KREG(6) + 80.0f;
+            }
 
-        if (KREG(6) != 0) {
-            this->unk_1AC = KREG(6) + 80.0f;
-        }
-
-        if (sLinkAge == 1) {
-            this->unk_1AC *= 0.73f;
+            if (sLinkAge == 1) {
+                this->unk_1AC *= 0.73f;
+            }
         }
     }
 }
