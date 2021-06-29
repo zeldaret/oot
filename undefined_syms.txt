@@ -738,7 +738,7 @@ D_060042AC = 0x060042AC;
 D_060059B0 = 0x060059B0;
 
 // z_en_goroiwa
-D_060006B0 = 0x060006B0;
+gRollingRockDL = 0x060006B0;
 
 
 // z_en_bombf

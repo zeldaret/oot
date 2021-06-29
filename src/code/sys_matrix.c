@@ -680,7 +680,7 @@ void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf) {
     dest->z = mf->wz + (mf->xz * src->x + mf->yz * src->y + mf->zz * src->z);
 }
 
-void Matrix_Reverse(MtxF* mf) {
+void Matrix_Transpose(MtxF* mf) {
     f32 temp;
 
     temp = mf->xy;
@@ -739,7 +739,11 @@ void func_800D1FD4(MtxF* mf) {
     cmf->zz = mf->zz * temp3;
 }
 
-void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
+/**
+ * Gets the rotation the specified matrix represents, using Euler ZXY (most likely).
+ * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
+ */
+void Matrix_MtxFToRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
     f32 temp;
     f32 temp2;
     f32 temp3;
@@ -748,17 +752,17 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
     temp = mf->zx;
     temp *= temp;
     temp += SQ(mf->zz);
-    vec->x = Math_FAtan2F(-mf->zy, sqrtf(temp)) * (32768 / M_PI);
+    rotDest->x = Math_FAtan2F(-mf->zy, sqrtf(temp)) * (0x8000 / M_PI);
 
-    if ((vec->x == 0x4000) || (vec->x == -0x4000)) {
-        vec->z = 0;
+    if ((rotDest->x == 0x4000) || (rotDest->x == -0x4000)) {
+        rotDest->z = 0;
 
-        vec->y = Math_FAtan2F(-mf->xz, mf->xx) * (32768 / M_PI);
+        rotDest->y = Math_FAtan2F(-mf->xz, mf->xx) * (0x8000 / M_PI);
     } else {
-        vec->y = Math_FAtan2F(mf->zx, mf->zz) * (32768 / M_PI);
+        rotDest->y = Math_FAtan2F(mf->zx, mf->zz) * (0x8000 / M_PI);
 
         if (!flag) {
-            vec->z = Math_FAtan2F(mf->xy, mf->yy) * (32768 / M_PI);
+            rotDest->z = Math_FAtan2F(mf->xy, mf->yy) * (0x8000 / M_PI);
         } else {
             temp = mf->xx;
             temp2 = mf->xz;
@@ -768,6 +772,7 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
             temp += SQ(temp2);
             temp2 = mf->xy;
             temp += SQ(temp2);
+            /* temp = xx^2+xz^2+xy^2 == 1 for a rotation matrix */
             temp = sqrtf(temp);
             temp = temp2 / temp;
 
@@ -776,10 +781,13 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
             temp2 += SQ(temp3);
             temp3 = mf->yy;
             temp2 += SQ(temp3);
+            /* temp2 = yx^2+yz^2+yy^2 == 1 for a rotation matrix */
             temp2 = sqrtf(temp2);
             temp2 = temp3 / temp2;
 
-            vec->z = Math_FAtan2F(temp, temp2) * (32768 / M_PI);
+            /* for a rotation matrix, temp == xy and temp2 == yy
+             * which is the same as in the !flag branch */
+            rotDest->z = Math_FAtan2F(temp, temp2) * (0x8000 / M_PI);
         }
     }
 }
@@ -829,7 +837,11 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
     }
 }
 
-void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
+/*
+ * Rotate the matrix by `f` radians around a unit vector `vec`.
+ * NB: vec is assumed to be a unit vector.
+ */
+void Matrix_RotateAxis(f32 f, Vec3f* vec, u8 mode) {
     MtxF* cmf;
     f32 sin;
     f32 cos;

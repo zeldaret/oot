@@ -316,7 +316,7 @@ glabel func_80B6CAF8
 /* 03580 80B6CF20 3C0580B8 */  lui     $a1, %hi(D_80B7E09C)       ## $a1 = 80B80000
 /* 03584 80B6CF24 24A5E09C */  addiu   $a1, $a1, %lo(D_80B7E09C)  ## $a1 = 80B7E09C
 /* 03588 80B6CF28 27A40028 */  addiu   $a0, $sp, 0x0028           ## $a0 = FFFFFF60
-/* 0358C 80B6CF2C 0C034833 */  jal     func_800D20CC              
+/* 0358C 80B6CF2C 0C034833 */  jal     Matrix_MtxFToRotS              
 /* 03590 80B6CF30 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 03594 80B6CF34 3C0180B8 */  lui     $at, %hi(D_80B7A690)       ## $at = 80B80000
 /* 03598 80B6CF38 8FA70068 */  lw      $a3, 0x0068($sp)           
