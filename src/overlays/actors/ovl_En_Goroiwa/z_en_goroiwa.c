@@ -608,7 +608,8 @@ void EnGoroiwa_Roll(EnGoroiwa* this, GlobalContext* globalCtx) {
         }
     } else if (moveFuncs[(this->actor.params >> 10) & 1](this, globalCtx)) {
         loopMode = (this->actor.params >> 8) & 3;
-        if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK && (this->nextWaypoint == 0 || this->nextWaypoint == this->endWaypoint)) {
+        if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK &&
+            (this->nextWaypoint == 0 || this->nextWaypoint == this->endWaypoint)) {
             EnGoroiwa_SpawnFragments(this, globalCtx);
         }
         EnGoroiwa_NextWaypoint(this, globalCtx);
