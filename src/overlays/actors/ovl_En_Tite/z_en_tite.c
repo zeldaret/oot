@@ -878,7 +878,7 @@ void EnTite_CheckDamage(Actor* thisx, GlobalContext* globalCtx) {
                 if (thisx->colChkInfo.health == 0) {
                     EnTite_SetupDeathCry(this);
                 } else {
-                    // Flip tektite back up if it's on it's back
+                    // Flip tektite back up if it's on its back
                     Audio_PlayActorSound2(thisx, NA_SE_EN_TEKU_DAMAGE);
                     if (this->flipState != TEKTITE_FLIPPED) {
                         EnTite_SetupRecoil(this);
