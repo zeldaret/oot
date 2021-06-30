@@ -34,7 +34,6 @@ const u32 sFaultDrawerFont[] = {
     0x05546F50, 0x00A99800, 0x02222080, 0x02001888,
 };
 
-// data
 FaultDrawer sFaultDrawerDefault = {
     (u16*)0x803DA800,                   // fb
     SCREEN_WIDTH,                       // w
@@ -70,9 +69,8 @@ FaultDrawer sFaultDrawerDefault = {
     NULL, // inputCallback
 };
 
-// bss
-extern FaultDrawer sFaultDrawerStruct;
-extern char D_8016B6C0[0x20]; // ? unused
+FaultDrawer sFaultDrawerStruct;
+char D_8016B6C0[0x20];
 
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled) {
     sFaultDrawerStruct.osSyncPrintfEnabled = enabled;

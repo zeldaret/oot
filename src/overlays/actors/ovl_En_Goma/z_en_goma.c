@@ -333,7 +333,7 @@ void EnGoma_SetupHurt(EnGoma* this, GlobalContext* globalCtx) {
 
     if ((s8)this->actor.colChkInfo.health <= 0) {
         this->actionTimer = 5;
-        func_80032C7C(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
     } else {
         this->actionTimer = 10;
     }

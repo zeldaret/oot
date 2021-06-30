@@ -283,7 +283,6 @@ beginseg
     after "dmadata"
     include "build/src/code/z_en_a_keep.o"
     include "build/src/code/z_en_item00.o"
-    include "build/data/z_en_item00.data.o"
     include "build/data/z_en_item00.bss.o"
     include "build/src/code/z_eff_blure.o"
     include "build/src/code/z_eff_shield_particle.o"
@@ -405,7 +404,6 @@ beginseg
     include "build/src/code/fault.o"
     include "build/data/fault.bss.o"
     include "build/src/code/fault_drawer.o"
-    include "build/data/fault_drawer.bss.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
     include "build/src/code/code_800DACC0.o"
@@ -708,8 +706,7 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Firemeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Firemeiro/z_bg_gnd_firemeiro.o"
-    include "build/data/overlays/actors/z_bg_gnd_firemeiro.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_firemeiro.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Firemeiro/ovl_Bg_Gnd_Firemeiro_reloc.o"
 endseg
 
 beginseg
@@ -2025,11 +2022,7 @@ endseg
 beginseg
     name "ovl_En_Daiku"
     include "build/src/overlays/actors/ovl_En_Daiku/z_en_daiku.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Daiku/ovl_En_Daiku_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_daiku.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2144,8 +2137,7 @@ endseg
 beginseg
     name "ovl_En_Eiyer"
     include "build/src/overlays/actors/ovl_En_Eiyer/z_en_eiyer.o"
-    include "build/data/overlays/actors/z_en_eiyer.data.o"
-    include "build/data/overlays/actors/z_en_eiyer.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Eiyer/ovl_En_Eiyer_reloc.o"
 endseg
 
 beginseg
@@ -3013,8 +3005,7 @@ endseg
 beginseg
     name "ovl_En_Vali"
     include "build/src/overlays/actors/ovl_En_Vali/z_en_vali.o"
-    include "build/data/overlays/actors/z_en_vali.data.o"
-    include "build/data/overlays/actors/z_en_vali.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Vali/ovl_En_Vali_reloc.o"
 endseg
 
 beginseg
@@ -3233,8 +3224,11 @@ endseg
 beginseg
     name "ovl_Obj_Bean"
     include "build/src/overlays/actors/ovl_Obj_Bean/z_obj_bean.o"
-    include "build/data/overlays/actors/z_obj_bean.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Obj_Bean/ovl_Obj_Bean_reloc.o"
+#else
     include "build/data/overlays/actors/z_obj_bean.reloc.o"
+#endif
 endseg
 
 beginseg

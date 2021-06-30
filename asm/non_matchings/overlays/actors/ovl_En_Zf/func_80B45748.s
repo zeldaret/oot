@@ -180,7 +180,7 @@ glabel func_80B45748
 .L80B459A4:
 /* 01954 80B459A4 AFB8002C */  sw      $t8, 0x002C($sp)           
 /* 01958 80B459A8 8FA4005C */  lw      $a0, 0x005C($sp)           
-/* 0195C 80B459AC 0C00CEAE */  jal     func_80033AB8              
+/* 0195C 80B459AC 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 01960 80B459B0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01964 80B459B4 10400005 */  beq     $v0, $zero, .L80B459CC     
 /* 01968 80B459B8 8FA4002C */  lw      $a0, 0x002C($sp)           
@@ -306,7 +306,7 @@ glabel func_80B45748
 /* 01B14 80B45B64 860A03FE */  lh      $t2, 0x03FE($s0)           ## 000003FE
 /* 01B18 80B45B68 552A0052 */  bnel    $t1, $t2, .L80B45CB4       
 /* 01B1C 80B45B6C 860C001C */  lh      $t4, 0x001C($s0)           ## 0000001C
-/* 01B20 80B45B70 0C00B821 */  jal     func_8002E084              
+/* 01B20 80B45B70 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 01B24 80B45B74 240511C7 */  addiu   $a1, $zero, 0x11C7         ## $a1 = 000011C7
 /* 01B28 80B45B78 14400012 */  bne     $v0, $zero, .L80B45BC4     
 /* 01B2C 80B45B7C 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
@@ -419,11 +419,11 @@ glabel func_80B45748
 /* 01CAC 80B45CFC 00000000 */  nop
 /* 01CB0 80B45D00 4502001D */  bc1fl   .L80B45D78                 
 /* 01CB4 80B45D04 8FAD005C */  lw      $t5, 0x005C($sp)           
-/* 01CB8 80B45D08 0C00B821 */  jal     func_8002E084              
+/* 01CB8 80B45D08 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 01CBC 80B45D0C 2405071C */  addiu   $a1, $zero, 0x071C         ## $a1 = 0000071C
 /* 01CC0 80B45D10 10400018 */  beq     $v0, $zero, .L80B45D74     
 /* 01CC4 80B45D14 8FA4005C */  lw      $a0, 0x005C($sp)           
-/* 01CC8 80B45D18 0C00CEA1 */  jal     func_80033A84              
+/* 01CC8 80B45D18 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 01CCC 80B45D1C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01CD0 80B45D20 10400010 */  beq     $v0, $zero, .L80B45D64     
 /* 01CD4 80B45D24 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

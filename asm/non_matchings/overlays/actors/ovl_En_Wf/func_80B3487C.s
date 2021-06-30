@@ -33,7 +33,7 @@ glabel func_80B3487C
 /* 00C1C 80B348CC 860F00B6 */  lh      $t7, 0x00B6($s0)           ## 000000B6
 /* 00C20 80B348D0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00C24 80B348D4 A60F0032 */  sh      $t7, 0x0032($s0)           ## 00000032
-/* 00C28 80B348D8 0C00CEAE */  jal     func_80033AB8              
+/* 00C28 80B348D8 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 00C2C 80B348DC 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 00C30 80B348E0 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
 /* 00C34 80B348E4 10400004 */  beq     $v0, $zero, .L80B348F8     
@@ -170,7 +170,7 @@ glabel func_80B3487C
 /* 00E08 80B34AB8 46000107 */  neg.s   $f4, $f0                   
 /* 00E0C 80B34ABC E7A4003C */  swc1    $f4, 0x003C($sp)           
 .L80B34AC0:
-/* 00E10 80B34AC0 0C00B821 */  jal     func_8002E084              
+/* 00E10 80B34AC0 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 00E14 80B34AC4 240511C7 */  addiu   $a1, $zero, 0x11C7         ## $a1 = 000011C7
 /* 00E18 80B34AC8 14400012 */  bne     $v0, $zero, .L80B34B14     
 /* 00E1C 80B34ACC 3C0142B4 */  lui     $at, 0x42B4                ## $at = 42B40000
@@ -210,7 +210,7 @@ glabel func_80B3487C
 /* 00E98 80B34B48 03191823 */  subu    $v1, $t8, $t9              
 /* 00E9C 80B34B4C 00031C00 */  sll     $v1, $v1, 16               
 /* 00EA0 80B34B50 00031C03 */  sra     $v1, $v1, 16               
-/* 00EA4 80B34B54 0C00CEAE */  jal     func_80033AB8              
+/* 00EA4 80B34B54 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 00EA8 80B34B58 A7A30042 */  sh      $v1, 0x0042($sp)           
 /* 00EAC 80B34B5C 1440001C */  bne     $v0, $zero, .L80B34BD0     
 /* 00EB0 80B34B60 87A30042 */  lh      $v1, 0x0042($sp)           
@@ -247,7 +247,7 @@ glabel func_80B3487C
 .L80B34BD0:
 /* 00F20 80B34BD0 8FA40064 */  lw      $a0, 0x0064($sp)           
 .L80B34BD4:
-/* 00F24 80B34BD4 0C00CEAE */  jal     func_80033AB8              
+/* 00F24 80B34BD4 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 00F28 80B34BD8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00F2C 80B34BDC 1040000E */  beq     $v0, $zero, .L80B34C18     
 /* 00F30 80B34BE0 00000000 */  nop
@@ -320,7 +320,7 @@ glabel func_80B3487C
 /* 01024 80B34CD4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01028 80B34CD8 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
 /* 0102C 80B34CDC 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
-/* 01030 80B34CE0 0C00CC98 */  jal     func_80033260              
+/* 01030 80B34CE0 0C00CC98 */  jal     Actor_SpawnFloorDust              
 /* 01034 80B34CE4 E7A80014 */  swc1    $f8, 0x0014($sp)           
 .L80B34CE8:
 /* 01038 80B34CE8 8FBF0034 */  lw      $ra, 0x0034($sp)           
