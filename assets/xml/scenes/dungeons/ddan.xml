@@ -1,5 +1,6 @@
 <Root>
     <File Name="ddan_scene" Segment="2">
+        <Cutscene Name="gDcOpeningCs" Offset="0x14F80"/>
         <Scene Name="ddan_scene" Offset="0x0"/>
     </File>
     <File Name="ddan_room_0" Segment="3">
