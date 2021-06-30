@@ -1,5 +1,7 @@
 #include "z_en_dekubaba.h"
+#include "objects/object_dekubaba/object_dekubaba.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS 0x00000005
 
@@ -32,14 +34,14 @@ void func_809E86B8(EnDekubaba* this, GlobalContext* globalCtx);
 void func_809E89E4(EnDekubaba* this, GlobalContext* globalCtx);
 void func_809E8AD8(EnDekubaba* this, GlobalContext* globalCtx);
 
-extern AnimationHeader D_06000208;
-extern AnimationHeader D_060002B8;
-extern Gfx D_060010F0[]; // leaf base
-extern Gfx D_06001330[]; // mid third of stem
-extern Gfx D_06001628[]; // lower third of stem
-extern Gfx D_06001828[]; // upper third of stem
-extern SkeletonHeader D_06002A40;
-extern Gfx D_06003070[]; // deku stick drop
+// extern AnimationHeader gDekuBabaHesitantChompAnim;
+// extern AnimationHeader gDekuBabaFastChompAnim;
+// extern Gfx gDekuBabaBaseLeavesDL[]; // leaf base
+// extern Gfx gDekuBabaStemTop[]; // mid third of stem
+// extern Gfx gDekuBabaStemMiddle[]; // lower third of stem
+// extern Gfx gDekuBabaStemBase[]; // upper third of stem
+// extern SkeletonHeader gDekuBabaSkel;
+// extern Gfx gDekuBabaStickDropDL[]; // deku stick drop
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
@@ -232,7 +234,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 22.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002A40, &D_060002B8, this->jointTable, this->morphTable, 8);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gDekuBabaSkel, &gDekuBabaFastChompAnim, this->jointTable, this->morphTable, 8);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
@@ -322,8 +324,8 @@ void func_809E5ABC(EnDekubaba* this) {
 void func_809E5D28(EnDekubaba* this) {
     s32 i;
 
-    Animation_Change(&this->skelAnime, &D_060002B8, Animation_GetLastFrame(&D_060002B8) * 0.06666667f, 0.0f,
-                     Animation_GetLastFrame(&D_060002B8), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, Animation_GetLastFrame(&gDekuBabaFastChompAnim) * 0.06666667f, 0.0f,
+                     Animation_GetLastFrame(&gDekuBabaFastChompAnim), 2, 0.0f);
 
     this->timer = 15;
 
@@ -341,7 +343,7 @@ void func_809E5D28(EnDekubaba* this) {
 void func_809E5E58(EnDekubaba* this) {
     s32 i;
 
-    Animation_Change(&this->skelAnime, &D_060002B8, -1.5f, Animation_GetLastFrame(&D_060002B8), 0.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, -1.5f, Animation_GetLastFrame(&gDekuBabaFastChompAnim), 0.0f, 2, -3.0f);
 
     this->timer = 15;
 
@@ -354,8 +356,8 @@ void func_809E5E58(EnDekubaba* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E5F44.s")
 void func_809E5F44(EnDekubaba* this) {
-    this->timer = Animation_GetLastFrame(&D_060002B8) * 2;
-    Animation_MorphToLoop(&this->skelAnime, &D_060002B8, -3.0f);
+    this->timer = Animation_GetLastFrame(&gDekuBabaFastChompAnim) * 2;
+    Animation_MorphToLoop(&this->skelAnime, &gDekuBabaFastChompAnim, -3.0f);
     this->actionFunc = func_809E6ED4;
 }
 
@@ -368,14 +370,14 @@ void func_809E5F9C(EnDekubaba* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E5FBC.s")
 void func_809E5FBC(EnDekubaba* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06000208);
+    Animation_PlayOnce(&this->skelAnime, &gDekuBabaHesitantChompAnim);
     this->timer = 0;
     this->actionFunc = func_809E7104;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E6000.s")
 void func_809E6000(EnDekubaba* this) {
-    Animation_Change(&this->skelAnime, &D_06000208, 1.0f, 15.0f, Animation_GetLastFrame(&D_06000208), 2, -3.0f);
+    Animation_Change(&this->skelAnime, &gDekuBabaHesitantChompAnim, 1.0f, 15.0f, Animation_GetLastFrame(&gDekuBabaHesitantChompAnim), 2, -3.0f);
     this->timer = 0;
     this->actionFunc = func_809E7458;
 }
@@ -390,7 +392,7 @@ void func_809E6078(EnDekubaba* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E60A8.s")
 void func_809E60A8(EnDekubaba* this, s32 arg1) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000208, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gDekuBabaHesitantChompAnim, -5.0f);
     this->timer = arg1;
     this->collider.base.acFlags &= ~1;
     Actor_SetScale(&this->actor, this->unk_230 * 0.01f);
@@ -419,7 +421,7 @@ void func_809E6170(EnDekubaba* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E61E0.s")
 void func_809E61E0(EnDekubaba* this) {
-    Animation_Change(&this->skelAnime, &D_060002B8, -1.5f, Animation_GetLastFrame(&D_060002B8), 0.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, -1.5f, Animation_GetLastFrame(&gDekuBabaFastChompAnim), 0.0f, 2, -3.0f);
     this->collider.base.acFlags &= ~1;
     this->actionFunc = func_809E7F14;
 }
@@ -433,10 +435,10 @@ void func_809E6264(EnDekubaba* this) {
     }
 
     if (this->timer == 1) {
-        Animation_Change(&this->skelAnime, &D_060002B8, 4.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), 0, -3.0f);
+        Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, 4.0f, 0.0f, Animation_GetLastFrame(&gDekuBabaFastChompAnim), 0, -3.0f);
         this->timer = 40;
     } else {
-        Animation_Change(&this->skelAnime, &D_060002B8, 0.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), 0, -3.0f);
+        Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, 0.0f, 0.0f, Animation_GetLastFrame(&gDekuBabaFastChompAnim), 0, -3.0f);
         this->timer = 60;
     }
 
@@ -546,7 +548,7 @@ void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.world.pos.z = this->actor.home.pos.z + temp_f18;
 
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-                             this->unk_230 * 5.0f, 1, -1, 0xA, NULL);
+                             this->unk_230 * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
     if (this->timer == 0) {
         if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < (240.0f * this->unk_230)) {
@@ -608,7 +610,7 @@ void func_809E6A04(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.world.pos.z = this->actor.home.pos.z + zShift;
 
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-                             this->unk_230 * 5.0f, 1, -1, 0xA, NULL);
+                             this->unk_230 * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 0xA, NULL);
 
     if (this->timer == 0) {
         func_809E5ABC(this);
@@ -701,7 +703,7 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
         allStepsDone &= Math_ScaledStepToS(&this->unk_1CA[2], -0xE38, curFrame10 + 0xE38);
 
         if (allStepsDone) {
-            Animation_PlayLoopSetSpeed(&this->skelAnime, &D_060002B8, 4.0f);
+            Animation_PlayLoopSetSpeed(&this->skelAnime, &gDekuBabaFastChompAnim, 4.0f);
             velocity.x = Math_SinS(this->actor.shape.rot.y) * 5.0f;
             velocity.y = 0.0f;
             velocity.z = Math_CosS(this->actor.shape.rot.y) * 5.0f;
@@ -923,7 +925,7 @@ void func_809E7A88(EnDekubaba* this, GlobalContext* globalCtx) {
     Math_ScaledStepToS(&this->unk_1CA[1], this->unk_1CA[2], 0x71C);
 
     if (Math_ScaledStepToS(&this->unk_1CA[2], this->unk_1C8, 0x71C)) {
-        this->unk_1C8 = -16384.0f - (this->unk_1C8 + 0x4000) * 0.8f;
+        this->unk_1C8 = -0x4000 - (this->unk_1C8 + 0x4000) * 0.8f;
     }
     temp_v0 = this->unk_1C8 + 0x4000;
     phi_v1 = ABS(temp_v0);
@@ -956,7 +958,7 @@ void func_809E7BB0(EnDekubaba* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->unk_1CA[1], 0x4800, 0x71C);
 
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-                                 this->unk_230 * 5.0f, 1, -1, 10, NULL);
+                                 this->unk_230 * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
         if ((this->actor.scale.x > 0.005f) && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
             this->actor.scale.z = 0.0f;
@@ -965,7 +967,7 @@ void func_809E7BB0(EnDekubaba* this, GlobalContext* globalCtx) {
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= -6;
             EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-                                     this->unk_230 * 5.0f, 15, -1, 10, NULL);
+                                     this->unk_230 * 5.0f, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         }
 
         if (this->actor.bgCheckFlags & 2) {
@@ -1017,7 +1019,7 @@ void func_809E7F14(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
     this->actor.shape.rot.z += 0x1C70;
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-                             this->unk_230 * 5.0f, 1, -1, 10, NULL);
+                             this->unk_230 * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E80D8.s")
@@ -1170,30 +1172,30 @@ void func_809E858C(EnDekubaba* this, GlobalContext* globalCtx) {
     Matrix_Scale(horizontalScale, horizontalScale, horizontalScale, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2461),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06001330);
+    gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemTop);
 
     Actor_SetFocus(&this->actor, 0.0f);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2468);
 }
 
-static Gfx* D_809E902C[] = { D_06001330, D_06001628, D_06001828 };
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E86B8.s")
 void func_809E86B8(EnDekubaba* this, GlobalContext* globalCtx) {
+    static Gfx* stemDLists[] = { gDekuBabaStemTop, gDekuBabaStemMiddle, gDekuBabaStemBase };
     MtxF mtx;
     s32 i;
     f32 horizontalStepSize;
     f32 spA4;
     f32 scale;
-    s32 stalkSections;
+    s32 stemSections;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2487);
 
     if (this->actionFunc == func_809E7BB0) {
-        stalkSections = 2;
+        stemSections = 2;
     } else {
-        stalkSections = 3;
+        stemSections = 3;
     }
 
     scale = this->unk_230 * 0.01f;
@@ -1207,7 +1209,7 @@ void func_809E86B8(EnDekubaba* this, GlobalContext* globalCtx) {
         this->bodyPartsPos[2].z = this->actor.world.pos.z;
     }
 
-    for (i = 0; i < stalkSections; i++) {
+    for (i = 0; i < stemSections; i++) {
         mtx.wy += 20.0f * Math_SinS(this->unk_1CA[i]) * this->unk_230;
         horizontalStepSize = 20.0f * Math_CosS(this->unk_1CA[i]) * this->unk_230;
         mtx.wx -= horizontalStepSize * Math_SinS(this->actor.shape.rot.y);
@@ -1218,7 +1220,7 @@ void func_809E86B8(EnDekubaba* this, GlobalContext* globalCtx) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2533),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPDisplayList(POLY_OPA_DISP++, D_809E902C[i]);
+        gSPDisplayList(POLY_OPA_DISP++, stemDLists[i]);
 
         Collider_UpdateSpheres(0x33 + 2 * i, &this->collider);
         Collider_UpdateSpheres(0x34 + 2 * i, &this->collider);
@@ -1236,6 +1238,7 @@ void func_809E86B8(EnDekubaba* this, GlobalContext* globalCtx) {
         }
 
         if ((i < 2) && (this->actor.colorFilterTimer != 0)) {
+            // checking colorFilterTimer ensures that spA4 has been initialized earlier, so not a bug
             this->bodyPartsPos[i].x = mtx.wx;
             this->bodyPartsPos[i].y = mtx.wy - spA4;
             this->bodyPartsPos[i].z = mtx.wz;
@@ -1252,7 +1255,7 @@ void func_809E89E4(EnDekubaba* this, GlobalContext* globalCtx) {
     Matrix_RotateRPY(this->unk_1CA[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2586),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06001828);
+    gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBase);
 
     Collider_UpdateSpheres(0x37, &this->collider);
     Collider_UpdateSpheres(0x38, &this->collider);
@@ -1314,7 +1317,7 @@ void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_060010F0);
+        gSPDisplayList(POLY_OPA_DISP++, gDekuBabaBaseLeavesDL);
 
         if (this->actionFunc == func_809E7BB0) {
             func_809E89E4(this, globalCtx);
@@ -1327,7 +1330,7 @@ void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2797),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06003070);
+        gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStickDropDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2804);
