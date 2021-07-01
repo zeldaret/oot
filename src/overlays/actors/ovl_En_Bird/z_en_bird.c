@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bird.h"
+#include "objects/object_bird/object_bird.h"
 
 #define FLAGS 0x00000000
 
@@ -36,9 +37,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 5600, ICHAIN_STOP),
 };
 
-extern AnimationHeader D_0600006C;
-extern SkeletonHeader D_06002190;
-
 void EnBird_SetupAction(EnBird* this, EnBirdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -48,7 +46,7 @@ void EnBird_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, NULL, NULL, 0);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gBirdSkel, &gBirdFlyAnim, NULL, NULL, 0);
     ActorShape_Init(&this->actor.shape, 5500, ActorShadow_DrawCircle, 4);
     this->unk_194 = 0;
     this->unk_198 = 0;
@@ -68,9 +66,9 @@ void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809C1CAC(EnBird* this, s16 params) {
-    f32 frameCount = Animation_GetLastFrame(&D_0600006C);
+    f32 frameCount = Animation_GetLastFrame(&gBirdFlyAnim);
     f32 playbackSpeed = this->unk_19C ? 0.0f : 1.0f;
-    AnimationHeader* anim = &D_0600006C;
+    AnimationHeader* anim = &gBirdFlyAnim;
 
     this->unk_198 = Rand_S16Offset(5, 0x23);
     Animation_Change(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);

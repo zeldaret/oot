@@ -349,7 +349,7 @@ void EnVali_FloatIdle(EnVali* this, GlobalContext* globalCtx) {
 
     curFrame = ((curFrame > 40) ? (80 - curFrame) : curFrame);
 
-    this->actor.shape.rot.y += (s16)((curFrame + 4) * 0.4f * ( 0x10000 / 360.0f ));
+    this->actor.shape.rot.y += (s16)((curFrame + 4) * 0.4f * (0x10000 / 360.0f));
     if (this->actor.xzDistToPlayer > 250.0f) {
         EnVali_SetupReturnToLurk(this);
     }
@@ -422,11 +422,9 @@ void EnVali_DivideAndDie(EnVali* this, GlobalContext* globalCtx) {
         scale = Rand_S16Offset(40, 40);
 
         if (Rand_ZeroOne() < 0.7f) {
-            EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, scale, 25, 2,
-                                               1);
+            EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, scale, 25, 2, 1);
         } else {
-            EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, scale, 25, 0,
-                                               1);
+            EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, scale, 25, 0, 1);
         }
     }
 
@@ -500,12 +498,12 @@ void EnVali_ReturnToLurk(EnVali* this, GlobalContext* globalCtx) {
 void EnVali_UpdateDamage(EnVali* this, GlobalContext* globalCtx) {
     if (this->bodyCollider.base.acFlags & AC_HIT) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->bodyCollider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 1);
 
         if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DEAD);
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 this->actor.flags &= ~1;
             } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
                        (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {

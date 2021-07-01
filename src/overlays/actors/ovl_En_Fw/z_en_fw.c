@@ -150,7 +150,7 @@ s32 EnFw_CheckCollider(EnFw* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (Actor_ApplyDamage(&this->actor) <= 0) {
             if (this->actor.parent->colChkInfo.health <= 8) {
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 this->actor.parent->colChkInfo.health = 0;
             } else {
                 this->actor.parent->colChkInfo.health -= 8;
