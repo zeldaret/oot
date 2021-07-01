@@ -135,7 +135,7 @@ glabel func_80B355BC
 /* 01AC0 80B35770 AFB80018 */  sw      $t8, 0x0018($sp)           
 /* 01AC4 80B35774 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 01AC8 80B35778 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 01ACC 80B3577C 0C00CC98 */  jal     Actor_SpawnFloorDust              
+/* 01ACC 80B3577C 0C00CC98 */  jal     Actor_SpawnFloorDustRing              
 /* 01AD0 80B35780 E7AA0014 */  swc1    $f10, 0x0014($sp)          
 /* 01AD4 80B35784 8E0902E8 */  lw      $t1, 0x02E8($s0)           ## 000002E8
 /* 01AD8 80B35788 252AFFFF */  addiu   $t2, $t1, 0xFFFF           ## $t2 = FFFFFFFF

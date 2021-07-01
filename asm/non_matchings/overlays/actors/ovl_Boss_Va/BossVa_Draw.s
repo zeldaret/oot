@@ -415,7 +415,7 @@ glabel L80959578
 /* 0A4B8 80959778 92060114 */  lbu     $a2, 0x0114($s0)           ## 00000114
 /* 0A4BC 8095977C 30E700FF */  andi    $a3, $a3, 0x00FF           ## $a3 = 00000000
 /* 0A4C0 80959780 00073C00 */  sll     $a3, $a3, 16
-/* 0A4C4 80959784 0C009A18 */  jal     func_80026860
+/* 0A4C4 80959784 0C009A18 */  jal     EffectSsDead_SetCloseFogColorXlu
 /* 0A4C8 80959788 00073C03 */  sra     $a3, $a3, 16
 glabel L8095978C
 .L8095978C:

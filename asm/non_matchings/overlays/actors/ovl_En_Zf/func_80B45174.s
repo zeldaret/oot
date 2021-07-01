@@ -105,7 +105,7 @@ glabel func_80B45174
 /* 01294 80B452E4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01298 80B452E8 260604F0 */  addiu   $a2, $s0, 0x04F0           ## $a2 = 000004F0
 /* 0129C 80B452EC 3C074040 */  lui     $a3, 0x4040                ## $a3 = 40400000
-/* 012A0 80B452F0 0C00CC98 */  jal     Actor_SpawnFloorDust
+/* 012A0 80B452F0 0C00CC98 */  jal     Actor_SpawnFloorDustRing
 /* 012A4 80B452F4 E7A80014 */  swc1    $f8, 0x0014($sp)
 /* 012A8 80B452F8 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 012AC 80B452FC 44815000 */  mtc1    $at, $f10                  ## $f10 = 2.00
@@ -118,7 +118,7 @@ glabel func_80B45174
 /* 012C8 80B45318 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 012CC 80B4531C AFA0001C */  sw      $zero, 0x001C($sp)
 /* 012D0 80B45320 AFA00020 */  sw      $zero, 0x0020($sp)
-/* 012D4 80B45324 0C00CC98 */  jal     Actor_SpawnFloorDust
+/* 012D4 80B45324 0C00CC98 */  jal     Actor_SpawnFloorDustRing
 /* 012D8 80B45328 E7AA0014 */  swc1    $f10, 0x0014($sp)
 .L80B4532C:
 /* 012DC 80B4532C 0C02927F */  jal     SkelAnime_Update

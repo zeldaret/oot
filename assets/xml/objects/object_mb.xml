@@ -1,30 +1,30 @@
 <Root>
     <File Name="object_mb" Segment="6">
-        <Skeleton Name="gEnMbSkel_008F38" Type="Flex" LimbType="Standard" Offset="0x8F38"/>
-        <Skeleton Name="gEnMbSkel_014190" Type="Flex" LimbType="Standard" Offset="0x14190"/>
-        <Animation Name="gEnMbFallForwardAnim" Offset="0x6A4"/><!--Unused-->
-        <Animation Name="gEnMbAnim_00095C" Offset="0x95C"/><!--Unused-->
-        <Animation Name="gEnMbAnim_001000" Offset="0x1000"/><!--Unused-->
-        <Animation Name="gEnMbFallBackAnim" Offset="0x16B4"/>
-        <Animation Name="gEnMbAnim_001950" Offset="0x1950"/>
-        <Animation Name="gEnMbStandStillAnim" Offset="0x28E0"/>
-        <Animation Name="gEnMbReadyAttackAnim" Offset="0x2C10"/>
-        <Animation Name="gEnMbChargePlayerAnim" Offset="0x2F10"/>
-        <Animation Name="gEnMbLookLeftAndRightAnim" Offset="0x41A8"/>
-        <Animation Name="gEnMbResumePatrolAnim" Offset="0x9280"/>
-        <Animation Name ="gEnMbAnim_009450" Offset="0x9450"/> <!--Unused -->
-        <Animation Name="gEnMbWalkAnim" Offset="0x9FC0"/>
-        <Animation Name="gEnMbUnusedGrabSpearAnim" Offset="0xA410"/>
-        <Animation Name="gEnMbUnusedGrabSpear2Anim" Offset="0xA80C"/>
-        <Animation Name="gEnMbAnim_00ABE0" Offset="0xABE0"/>
-        <Animation Name="gEnMbAnim_00B4BC" Offset="0xB4BC"/>
-        <Animation Name="gEnMbAnim_00BE58" Offset="0xBE58"/>
-        <Animation Name="gEnMbAnim_00C44C" Offset="0xC44C"/>
-        <Animation Name="gEnMbAnim_00CF1C" Offset="0xCF1C"/>
-        <Animation Name="gEnMbAnim_00D380" Offset="0xD380"/>
-        <Animation Name="gEnMbAnim_00D5D4" Offset="0xD5D4"/>
-        <Animation Name="gEnMbAnim_00E18C" Offset="0xE18C"/>
-        <Animation Name="gEnMbAnim_00EBE4" Offset="0xEBE4"/>
+        <Skeleton Name="gEnMbSpearSkel" Type="Flex" LimbType="Standard" Offset="0x8F38"/>
+        <Skeleton Name="gEnMbClubSkel" Type="Flex" LimbType="Standard" Offset="0x14190"/>
+        <Animation Name="gEnMbSpearFallFaceDownAnim" Offset="0x6A4"/><!--Unused-->
+        <Animation Name="gEnMbSpearDamagedFromBehindAnim" Offset="0x95C"/>
+        <Animation Name="gEnMbSpearDamagedUngrabSpearAnim" Offset="0x1000"/><!--Unused-->
+        <Animation Name="gEnMbSpearFallOnItsBackAnim" Offset="0x16B4"/>
+        <Animation Name="gEnMbSpearDamagedFromFrontAnim" Offset="0x1950"/>
+        <Animation Name="gEnMbSpearStandStillAnim" Offset="0x28E0"/>
+        <Animation Name="gEnMbSpearPrepareChargeAnim" Offset="0x2C10"/>
+        <Animation Name="gEnMbSpearChargeAnim" Offset="0x2F10"/>
+        <Animation Name="gEnMbSpearLookLeftAndRightAnim" Offset="0x41A8"/>
+        <Animation Name="gEnMbSpearSlowDownAnim" Offset="0x9280"/>
+        <Animation Name="gEnMbSpearLookLeftAnim" Offset="0x9450"/><!--Unused -->
+        <Animation Name="gEnMbSpearWalkAnim" Offset="0x9FC0"/>
+        <Animation Name="gEnMbSpearUngrabSpearAnim" Offset="0xA410"/><!--Unused -->
+        <Animation Name="gEnMbSpearGrabSpearAnim" Offset="0xA80C"/><!--Unused -->
+        <Animation Name="gEnMbClubStrikeDownAnim" Offset="0xABE0"/>
+        <Animation Name="gEnMbClubLiftClubAnim" Offset="0xB4BC"/>
+        <Animation Name="gEnMbClubFallOnItsBackAnim" Offset="0xBE58"/>
+        <Animation Name="gEnMbClubDamagedKneelAnim" Offset="0xC44C"/>
+        <Animation Name="gEnMbClubStandStillClubUpAnim" Offset="0xCF1C"/><!--Unused -->
+        <Animation Name="gEnMbClubKneelingAnim" Offset="0xD380"/><!--Unused -->
+        <Animation Name="gEnMbClubBeatenKneelingAnim" Offset="0xD5D4"/>
+        <Animation Name="gEnMbClubStandUpAnim" Offset="0xE18C"/>
+        <Animation Name="gEnMbClubStandStillClubDownAnim" Offset="0xEBE4"/>
         <DList Name="gEnMbDL_006930" Offset="0x06930"/>
         <DList Name="gEnMbDL_006A18" Offset="0x06A18"/>
         <DList Name="gEnMbDL_006B20" Offset="0x06B20"/>

@@ -184,10 +184,10 @@ void EffectSpark_Destroy(void* thisx);
 s32 EffectSpark_Update(void* thisx);
 void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx);
 void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
-void func_80026400(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
+void EffectSsDead_SetCloseFogColorOpa(GlobalContext* globalCtx, Color_RGBA8* color, s16 timeLeft, s16 timeTotal);
 void func_80026608(GlobalContext* globalCtx);
 void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
-void func_80026860(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
+void EffectSsDead_SetCloseFogColorXlu(GlobalContext* globalCtx, Color_RGBA8* color, s16 timeLeft, s16 timeTotal);
 void func_80026A6C(GlobalContext* globalCtx);
 GlobalContext* Effect_GetGlobalCtx(void);
 void* Effect_GetByIndex(s32 index);
@@ -483,15 +483,15 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, GlobalContext* globalCtx);
 void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
                        s16 objectId);
 s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type);
-void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
-                          s16 arg7, u8 arg8);
+void Actor_SpawnFloorDustRing(GlobalContext* globalCtx, Actor* actor, Vec3f* posXZ, f32 radius, s32 amountMinusOne, f32 randAccelWeight,
+                              s16 scale, s16 scaleStep, u8 useLighting);
 void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
 Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius);
 void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorCategory);
 void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 textIdLower);
-s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3);
+s16 Actor_TestFloorInDirection(Actor* actor, GlobalContext* globalCtx, f32 distance, s16 angle);
 s32 Actor_IsTargeted(GlobalContext* globalCtx, Actor* actor);
 s32 Actor_OtherIsTargeted(GlobalContext* globalCtx, Actor* actor);
 f32 func_80033AEC(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
