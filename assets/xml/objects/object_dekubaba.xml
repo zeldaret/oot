@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_dekubaba" Segment="6">
         <!-- Deku Baba animations -->
-        <Animation Name="gDekuBabaHesitantChompAnim" Offset="0x208"/>
+        <Animation Name="gDekuBabaPauseChompAnim" Offset="0x208"/>
         <Animation Name="gDekuBabaFastChompAnim" Offset="0x2B8"/>
 
         <!-- Deku Baba body DLists (not all are limb DLists) -->

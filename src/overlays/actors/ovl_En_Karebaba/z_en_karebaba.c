@@ -91,14 +91,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 9, ICHAIN_STOP),
 };
 
-// extern SkeletonHeader gDekuBabaSkel;
-// extern AnimationHeader gDekuBabaFastChompAnim;
-// extern Gfx gDekuBabaStickDropDL[]; // deku stick drop
-// extern Gfx gDekuBabaBaseLeavesDL[]; // leaf base
-// extern Gfx gDekuBabaStemBase[]; // upper third of stem
-// extern Gfx gDekuBabaStemTop[]; // mid third of stem
-// extern Gfx gDekuBabaStemMiddle[]; // lower third of stem
-
 void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKarebaba* this = THIS;
 
@@ -448,7 +440,7 @@ void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnKarebaba_DrawCenterShadow(EnKarebaba* this, GlobalContext* globalCtx) {
+void EnKarebaba_DrawBaseShadow(EnKarebaba* this, GlobalContext* globalCtx) {
     MtxF mf;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1013);
@@ -472,7 +464,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     EnKarebaba* this = THIS;
     s32 i;
-    s32 numDLists;
+    s32 stemSections;
     f32 scale;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1056);
@@ -501,12 +493,12 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateRPY(this->actor.shape.rot.x, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
 
         if (this->actionFunc == EnKarebaba_Dying) {
-            numDLists = 2;
+            stemSections = 2;
         } else {
-            numDLists = 3;
+            stemSections = 3;
         }
 
-        for (i = 0; i < numDLists; i++) {
+        for (i = 0; i < stemSections; i++) {
             Matrix_Translate(0.0f, 0.0f, -2000.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1116),
                       G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
@@ -545,6 +537,6 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1163);
 
     if (this->boundFloor != NULL) {
-        EnKarebaba_DrawCenterShadow(this, globalCtx);
+        EnKarebaba_DrawBaseShadow(this, globalCtx);
     }
 }

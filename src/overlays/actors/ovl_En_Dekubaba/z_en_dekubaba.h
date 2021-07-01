@@ -8,6 +8,10 @@ struct EnDekubaba;
 
 typedef void (*EnDekubabaActionFunc)(struct EnDekubaba*, GlobalContext*);
 
+typedef enum {
+    /* 0 */ DEKUBABA_NORMAL,
+    /* 1 */ DEKUBABA_BIG
+} DekuBabaType;
 
 typedef struct EnDekubaba {
     /* 0x0000 */ Actor actor;
