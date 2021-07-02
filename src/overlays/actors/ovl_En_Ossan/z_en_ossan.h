@@ -15,17 +15,16 @@ typedef s16 (*EnOssanGetGirlAParamsFunc)(s16);
 typedef void (*EnOssanStateFunc)(struct EnOssan*, GlobalContext*, Player*);
 
 typedef struct {
-    u32 r;
-    u32 g;
-    u32 b;
-    u32 a;
-} EnvColor;
-
-typedef struct {
-    /* 0x00 */ EnvColor stickColor;
+    /* 0x00 */ u32 stickColorR;
+    /* 0x04 */ u32 stickColorG;
+    /* 0x08 */ u32 stickColorB;
+    /* 0x0C */ u32 stickColorA;
     /* 0x10 */ f32 stickTexX;
     /* 0x14 */ f32 stickTexY;
-    /* 0x18 */ EnvColor arrowColor;
+    /* 0x18 */ u32 arrowColorR;
+    /* 0x1C */ u32 arrowColorG;
+    /* 0x20 */ u32 arrowColorB;
+    /* 0x24 */ u32 arrowColorA;
     /* 0x28 */ f32 arrowTexX;
     /* 0x2C */ f32 arrowTexY;
     /* 0x30 */ f32 z;
@@ -66,7 +65,10 @@ typedef struct EnOssan {
     /* 0x0230 */ f32 cursorX;
     /* 0x0234 */ f32 cursorY;
     /* 0x0238 */ f32 cursorZ;
-    /* 0x023C */ EnvColor cursorColor;
+    /* 0x023C */ u32 cursorColorR;
+    /* 0x0240 */ u32 cursorColorG;
+    /* 0x0244 */ u32 cursorColorB;
+    /* 0x0248 */ u32 cursorColorA;
     /* 0x024C */ f32 cursorAnimTween;
     /* 0x0250 */ u8 cursorAnimState;
     /* 0x0251 */ u8 drawCursor;
