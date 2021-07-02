@@ -66,23 +66,20 @@ typedef struct EnOssan {
     /* 0x0230 */ f32 cursorX;
     /* 0x0234 */ f32 cursorY;
     /* 0x0238 */ f32 cursorZ;
-
     /* 0x023C */ EnvColor cursorColor;
     /* 0x024C */ f32 cursorAnimTween;
     /* 0x0250 */ u8 cursorAnimState;
     /* 0x0251 */ u8 drawCursor;
     /* 0x0252 */ u8 cursorIndex;
-
     /* 0x0254 */ StickDirectionPrompt stickRightPrompt;
     /* 0x028C */ StickDirectionPrompt stickLeftPrompt;
-
     /* 0x02C4 */ f32 arrowAnimTween;
     /* 0x02C4 */ f32 stickAnimTween;
     /* 0x02CC */ u8 arrowAnimState;
     /* 0x02CD */ u8 stickAnimState;
     /* 0x02D0 */ f32 shopItemSelectedTween;
     /* 0x02D4 */ f32 cameraFaceAngle; // stored in degrees
-} EnOssan;                            // size = 0x02D8
+} EnOssan; // size = 0x02D8
 
 extern const ActorInit En_Ossan_InitVars;
 

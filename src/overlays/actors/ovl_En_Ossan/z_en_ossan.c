@@ -327,6 +327,42 @@ static EnOssanInitFunc sInitFuncs[] = {
     EnOssan_InitBazaarShopkeeper, EnOssan_InitHappyMaskShopkeeper,
 };
 
+static Vec3f sShopkeeperPositionOffsets[] = {
+    { 0.0f, 0.0f, 33.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f },
+    { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 36.0f },
+    { 0.0f, 0.0f, 15.0f }, { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 26.0f },
+};
+
+static EnOssanStateFunc sStateFunc[] = {
+    EnOssan_State_Idle,
+    EnOssan_State_StartConversation,
+    EnOssan_State_FacingShopkeeper,
+    EnOssan_State_TalkingToShopkeeper,
+    EnOssan_State_LookToLeftShelf,
+    EnOssan_State_LookToRightShelf,
+    EnOssan_State_BrowseLeftShelf,
+    EnOssan_State_BrowseRightShelf,
+    EnOssan_State_LookFromShelfToShopkeeper,
+    EnOssan_State_ItemSelected,
+    EnOssan_State_SelectMilkBottle,
+    EnOssan_State_SelectWeirdEgg,
+    EnOssan_State_SelectUnimplementedItem,
+    EnOssan_State_SelectBombs,
+    EnOssan_State_CantGetItem,
+    EnOssan_State_GiveItemWithFanfare,
+    EnOssan_State_ItemPurchased,
+    EnOssan_State_ContinueShoppingPrompt,
+    EnOssan_State_GiveLonLonMilk,
+    EnOssan_State_DisplayOnlyBombDialog,
+    EnOssan_State_WaitForDisplayOnlyBombDialog,
+    EnOssan_State_21,
+    EnOssan_State_22,
+    EnOssan_State_QuickBuyDialog,
+    EnOssan_State_SelectMaskItem,
+    EnOssan_State_LendMaskOfTruth,
+    EnOssan_State_GiveDiscountDialog,
+};
+
 void EnOssan_SetupAction(EnOssan* this, EnOssanActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -869,7 +905,6 @@ void EnOssan_State_StartConversation(EnOssan* this, GlobalContext* globalCtx, Pl
 
         switch (this->happyMaskShopState) {
             case OSSAN_HAPPY_STATE_ALL_MASKS_SOLD:
-                // I will lend you the Mask of Truth
                 func_8010B720(globalCtx, 0x70AA);
                 this->stateFlag = OSSAN_STATE_LEND_MASK_OF_TRUTH;
                 return;
@@ -1930,10 +1965,10 @@ void EnOssan_Blink(EnOssan* this) {
         this->eyeTextureIdx = 0;
         this->blinkTimer = (s32)(Rand_ZeroOne() * 60.0f) + 20;
         this->blinkFunc = EnOssan_WaitForBlink;
-        return;
+    } else {
+        this->eyeTextureIdx = eyeTextureIdxTemp;
+        this->blinkTimer = 1;
     }
-    this->eyeTextureIdx = eyeTextureIdxTemp;
-    this->blinkTimer = 1;
 }
 
 s32 EnOssan_AreShopkeeperObjectsLoaded(EnOssan* this, GlobalContext* globalCtx) {
@@ -2064,11 +2099,6 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
 }
 
 void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx) {
-    static Vec3f sShopkeeperPositionOffsets[] = {
-        { 0.0f, 0.0f, 33.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f },
-        { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 36.0f },
-        { 0.0f, 0.0f, 15.0f }, { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 26.0f },
-    };
     ShopItem* items;
 
     if (EnOssan_AreShopkeeperObjectsLoaded(this, globalCtx)) {
@@ -2167,35 +2197,6 @@ void EnOssan_Obj3ToSeg6(EnOssan* this, GlobalContext* globalCtx) {
 }
 
 void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx) {
-    static EnOssanStateFunc stateFunc[] = {
-        EnOssan_State_Idle,
-        EnOssan_State_StartConversation,
-        EnOssan_State_FacingShopkeeper,
-        EnOssan_State_TalkingToShopkeeper,
-        EnOssan_State_LookToLeftShelf,
-        EnOssan_State_LookToRightShelf,
-        EnOssan_State_BrowseLeftShelf,
-        EnOssan_State_BrowseRightShelf,
-        EnOssan_State_LookFromShelfToShopkeeper,
-        EnOssan_State_ItemSelected,
-        EnOssan_State_SelectMilkBottle,
-        EnOssan_State_SelectWeirdEgg,
-        EnOssan_State_SelectUnimplementedItem,
-        EnOssan_State_SelectBombs,
-        EnOssan_State_CantGetItem,
-        EnOssan_State_GiveItemWithFanfare,
-        EnOssan_State_ItemPurchased,
-        EnOssan_State_ContinueShoppingPrompt,
-        EnOssan_State_GiveLonLonMilk,
-        EnOssan_State_DisplayOnlyBombDialog,
-        EnOssan_State_WaitForDisplayOnlyBombDialog,
-        EnOssan_State_21,
-        EnOssan_State_22,
-        EnOssan_State_QuickBuyDialog,
-        EnOssan_State_SelectMaskItem,
-        EnOssan_State_LendMaskOfTruth,
-        EnOssan_State_GiveDiscountDialog,
-    };
     Player* player = PLAYER;
 
     this->blinkFunc(this);
@@ -2206,7 +2207,7 @@ void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx) {
     Math_StepToS(&this->headRot, this->headTargetRot, 0x190);
 
     if (player != NULL) {
-        stateFunc[this->stateFlag](this, globalCtx, player);
+        sStateFunc[this->stateFlag](this, globalCtx, player);
     }
 
     Actor_MoveForward(&this->actor);
