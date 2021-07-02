@@ -7,9 +7,22 @@
 #include "z_en_mb.h"
 #include "objects/object_mb/object_mb.h"
 
+/*
+ * This actor can have three behaviors:
+ * - "Spear Guard" (variable -1): uses a spear, walks around home point, charges player if too close
+ * - "Club" (variable 0): uses a club, stands still and smashes its club on the ground when the player approaches
+ * - "Spear Patrol" (variable 0xPP00 PP=pathId): uses a spear, patrols following a path, charges
+ */
+
 #define FLAGS 0x00000015
 
 #define THIS ((EnMb*)thisx)
+
+typedef enum {
+    /* -1 */ ENMB_TYPE_SPEAR_GUARD = -1,
+    /*  0 */ ENMB_TYPE_CLUB,
+    /*  1 */ ENMB_TYPE_SPEAR_PATROL
+} EnMbType;
 
 #define ENMB_ATTACK_NONE 0
 #define ENMB_ATTACK_SPEAR 1
@@ -17,6 +30,7 @@
 #define ENMB_ATTACK_CLUB_MIDDLE 2
 #define ENMB_ATTACK_CLUB_LEFT 3
 
+/* Spear and Club moblins use a different skeleton but the limbs are organized the same */
 typedef enum {
     /*  1 */ ENMB_LIMB_ROOT = 1,
     /*  3 */ ENMB_LIMB_WAIST = 3,
@@ -261,7 +275,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetQuad(globalCtx, &this->attackCollider, &this->actor, &sAttackColliderInit);
 
     switch (this->actor.params) {
-        case -1: /* Spear Guard */
+        case ENMB_TYPE_SPEAR_GUARD:
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gEnMbSpearSkel, &gEnMbSpearStandStillAnim,
                                this->jointTable, this->morphTable, 28);
             this->actor.colChkInfo.health = 2;
@@ -270,7 +284,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->playerDetectionRange = 1750.0f;
             EnMb_SetupSpearGuardLookAround(this);
             break;
-        case 0: /* Club */
+        case ENMB_TYPE_CLUB:
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gEnMbClubSkel, &gEnMbClubStandStillClubDownAnim,
                                this->jointTable, this->morphTable, 28);
 
@@ -305,7 +319,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             Actor_SetScale(&this->actor, 0.014f);
             this->path = (thisx->params & 0xFF00) >> 8;
-            this->actor.params = 1;
+            this->actor.params = ENMB_TYPE_SPEAR_PATROL;
             this->waypoint = 0;
             this->actor.colChkInfo.health = 1;
             this->actor.colChkInfo.mass = MASS_HEAVY;
@@ -473,7 +487,7 @@ void EnMb_SetupSpearPrepareAndCharge(EnMb* this) {
     this->actor.speedXZ = 0.0f;
     this->timer3 = (s16)frameCount + 6;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_AT);
-    if (this->actor.params == -1) {
+    if (this->actor.params == ENMB_TYPE_SPEAR_GUARD) {
         EnMb_SetupAction(this, EnMb_SpearGuardPrepareAndCharge);
     } else {
         EnMb_SetupAction(this, EnMb_SpearPatrolPrepareAndCharge);
@@ -578,7 +592,7 @@ void EnMb_SetupStunned(EnMb* this) {
     if (this->damageEffect == ENMB_DMGEFF_STUN_ICE) {
         this->iceEffectTimer = 40;
     } else {
-        if (this->actor.params != 0) {
+        if (this->actor.params != ENMB_TYPE_CLUB) {
             Animation_PlayOnceSetSpeed(&this->skelAnime, &gEnMbSpearDamagedFromFrontAnim, 0.0f);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -598,7 +612,7 @@ void EnMb_Stunned(EnMb* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.colorFilterTimer == 0) {
-        if (this->actor.params == 0) {
+        if (this->actor.params == ENMB_TYPE_CLUB) {
             if (this->actor.colChkInfo.health == 0) {
                 EnMb_SetupClubDead(this);
             } else if (this->state == ENMB_STATE_CLUB_KNEELING) {
@@ -680,7 +694,7 @@ void EnMb_SpearEndChargeQuick(EnMb* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
             }
         } else {
-            if (this->actor.params < 0) {
+            if (this->actor.params <= ENMB_TYPE_SPEAR_GUARD) {
                 EnMb_SetupSpearGuardWalk(this);
                 this->timer1 = this->timer2 = this->timer3 = 80;
             } else {
@@ -1250,7 +1264,7 @@ void EnMb_SetupSpearDamaged(EnMb* this) {
 void EnMb_SpearDamaged(EnMb* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (this->actor.params < 0) {
+        if (this->actor.params <= ENMB_TYPE_SPEAR_GUARD) {
             EnMb_SetupSpearGuardLookAround(this);
         } else {
             EnMb_SetupSpearPatrolImmediateCharge(this);
@@ -1321,7 +1335,7 @@ void EnMb_SpearUpdateAttackCollider(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f quadModel3 = { -1000.0f, 1500.0f, 4500.0f };
     EnMb* this = THIS;
 
-    if (this->actor.params > 0) {
+    if (this->actor.params >= ENMB_TYPE_SPEAR_PATROL) {
         quadModel0.x += 2000.0f;
         quadModel0.z = -4000.0f;
         quadModel1.z = -4000.0f;
@@ -1384,7 +1398,7 @@ void EnMb_CheckColliding(EnMb* this, GlobalContext* globalCtx) {
             } else {
                 Actor_ApplyDamage(&this->actor);
                 Actor_SetColorFilter(&this->actor, 0x4000, 0xFA, 0, 0xC);
-                if (this->actor.params == 0) {
+                if (this->actor.params == ENMB_TYPE_CLUB) {
                     if (this->actor.colChkInfo.health == 0) {
                         EnMb_SetupClubDead(this);
                     } else if (this->state != ENMB_STATE_CLUB_KNEELING) {
@@ -1418,7 +1432,7 @@ void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->hitbox.dim.pos.z += Math_CosS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
         }
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->hitbox.base);
-        if (this->state >= ENMB_STATE_STUNNED && (thisx->params == 0 || this->state != ENMB_STATE_ATTACK)) {
+        if (this->state >= ENMB_STATE_STUNNED && (thisx->params == ENMB_TYPE_CLUB || this->state != ENMB_STATE_ATTACK)) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->hitbox.base);
         }
         if (this->state >= ENMB_STATE_IDLE) {
@@ -1439,7 +1453,7 @@ void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnMb* this = THIS;
     Vec3f bodyPartPos;
 
-    if (this->actor.params == 0) {
+    if (this->actor.params == ENMB_TYPE_CLUB) {
         if (limbIndex == ENMB_LIMB_LHAND) {
             Matrix_MultVec3f(&effSpawnPosModel, &this->effSpawnPos);
             if (this->attack > ENMB_ATTACK_NONE) {
@@ -1513,7 +1527,7 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, EnMb_PostLimbDraw, thisx);
 
-    if (thisx->params != 0) {
+    if (thisx->params != ENMB_TYPE_CLUB) {
         if (this->attack > ENMB_ATTACK_NONE) {
             EnMb_SpearUpdateAttackCollider(thisx, globalCtx);
         }
@@ -1534,7 +1548,7 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         if ((this->iceEffectTimer % 4) == 0) {
             scale = 2.5f;
-            if (thisx->params == 0) {
+            if (thisx->params == ENMB_TYPE_CLUB) {
                 scale = 4.0f;
             }
             bodyPartIdx = this->iceEffectTimer >> 2;
