@@ -86,9 +86,13 @@ animdict ={
     "func_80035650": "Actor_SetDropFlag",
     "func_8003573C": "Actor_SetDropFlagJntSph",
     "func_80033780": "Actor_GetProjectileActor",
-    "func_80033260": "Actor_SpawnFloorDust",
+    "func_80033260": "Actor_SpawnFloorDustRing",
+    "Actor_SpawnFloorDust": "Actor_SpawnFloorDustRing",
     "func_80032C7C": "Enemy_StartFinishingBlow",
     "actorCtx.unk_00": "actorCtx.freezeFlashTimer",
+    "func_80026400": "EffectSsDead_SetCloseFogColorOpa",
+    "func_80026860": "EffectSsDead_SetCloseFogColorXlu",
+    "func_800339B8": "Actor_TestFloorInDirection",
 }
 
 def replace_anim(file):
