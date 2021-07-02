@@ -316,7 +316,7 @@ s32 func_800B4088(DbCamera* dbCamera, Camera* cam) {
     lookAt->continueFlag = position->continueFlag;
     position->nextPointFrame = 0;
     lookAt->nextPointFrame = 30;
-    lookAt->cameraRoll = position->cameraRoll = dbCamera->roll * 1.40625f;
+    lookAt->cameraRoll = position->cameraRoll = dbCamera->roll * (360.0f / 256.0f);
     lookAt->viewAngle = position->viewAngle = dbCamera->fov;
 
     if (dbCamera->sub.mode != 1) {
@@ -349,7 +349,7 @@ s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr) {
     }
 
     dbCamera->roll = lookAt->cameraRoll;
-    dbCamera->unk_50 = dbCamera->roll * 1.40625f;
+    dbCamera->unk_50 = dbCamera->roll * (360.0f / 256.0f);
     dbCamera->fov = lookAt->viewAngle;
     return idx;
 }
@@ -397,7 +397,7 @@ s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
     sph.r = 250.0f;
     DbCamera_AddVecSph(&dbCamera->eye, &dbCamera->at, &sph);
     dbCamera->roll = lookAt->cameraRoll;
-    dbCamera->unk_50 = dbCamera->roll * 1.40625f;
+    dbCamera->unk_50 = dbCamera->roll * (360.0f / 256.0f);
     dbCamera->fov = lookAt->viewAngle;
     return idx;
 }
@@ -452,7 +452,7 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
 
         dbCamera->fov = sDbCamAnim.fov;
         dbCamera->roll = sDbCamAnim.roll;
-        dbCamera->unk_50 = sDbCamAnim.roll * 1.40625f;
+        dbCamera->unk_50 = sDbCamAnim.roll * (360.0f / 256.0f);
 
         DbCamera_SetTextValue(sDbCamAnim.unk_04, D_8012CFB4 + 8, 4);
         func_8006376C(0x10, 0x17, 3, D_8012CFB4);
@@ -896,7 +896,7 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
 
         dbCamera->fov = sDbCamAnim.fov;
         dbCamera->roll = sDbCamAnim.roll;
-        dbCamera->unk_50 = sDbCamAnim.roll * 1.40625f;
+        dbCamera->unk_50 = sDbCamAnim.roll * (360.0f / 256.0f);
 
     } else {
         D_8016110C++;
@@ -1254,7 +1254,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
                 OLib_Vec3fDiffToVecSphGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
-                func_800B3BD4(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw, (dbCamera->unk_50 * 182.04167f) + 0.5f);
+                func_800B3BD4(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw, DEGF_TO_BINANG(dbCamera->unk_50));
                 return 2;
             }
 
