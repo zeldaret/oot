@@ -293,7 +293,7 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
         this->invincibilityTimer = 30;
         this->actor.flags &= ~1;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
-        func_80032C7C(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
         return true;
     } else if (DECR(this->attackTimer) == 0 && this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
@@ -666,7 +666,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.flags &= ~1;
             this->invincibilityTimer = 30;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
-            func_80032C7C(globalCtx, &this->actor);
+            Enemy_StartFinishingBlow(globalCtx, &this->actor);
         } else {
             this->actor.flags &= ~0x2000;
         }

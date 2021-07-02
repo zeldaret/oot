@@ -498,12 +498,12 @@ void EnVali_ReturnToLurk(EnVali* this, GlobalContext* globalCtx) {
 void EnVali_UpdateDamage(EnVali* this, GlobalContext* globalCtx) {
     if (this->bodyCollider.base.acFlags & AC_HIT) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->bodyCollider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 1);
 
         if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DEAD);
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 this->actor.flags &= ~1;
             } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
                        (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {

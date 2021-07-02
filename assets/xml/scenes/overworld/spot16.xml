@@ -1,5 +1,6 @@
 <Root>
     <File Name="spot16_scene" Segment="2">
+        <Cutscene Name="gDmtOwlCs" Offset="0x1E6A0"/>
         <Scene Name="spot16_scene" Offset="0x0"/>
     </File>
     <File Name="spot16_room_0" Segment="3">

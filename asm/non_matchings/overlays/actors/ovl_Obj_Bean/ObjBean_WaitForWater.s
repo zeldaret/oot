@@ -1,4 +1,4 @@
-glabel func_80B90158
+glabel ObjBean_WaitForWater
 /* 016D8 80B90158 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 016DC 80B9015C AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 016E0 80B90160 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
@@ -28,7 +28,7 @@ glabel func_80B90158
 /* 01740 80B901C0 00000000 */  nop
 /* 01744 80B901C4 45000010 */  bc1f    .L80B90208                 
 /* 01748 80B901C8 00000000 */  nop
-/* 0174C 80B901CC 0C2E4093 */  jal     func_80B9024C              
+/* 0174C 80B901CC 0C2E4093 */  jal     ObjBean_SetupGrowWaterPhase1              
 /* 01750 80B901D0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01754 80B901D4 3C0380B9 */  lui     $v1, %hi(D_80B90E30)       ## $v1 = 80B90000
 /* 01758 80B901D8 24630E30 */  addiu   $v1, $v1, %lo(D_80B90E30)  ## $v1 = 80B90E30

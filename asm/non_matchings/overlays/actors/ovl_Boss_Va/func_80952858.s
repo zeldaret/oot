@@ -153,7 +153,7 @@ glabel func_80952858
 /* 0378C 80952A4C 0C254CD7 */  jal     func_8095335C              
 /* 03790 80952A50 8FA5005C */  lw      $a1, 0x005C($sp)           
 /* 03794 80952A54 8FA4005C */  lw      $a0, 0x005C($sp)           
-/* 03798 80952A58 0C00CB1F */  jal     func_80032C7C              
+/* 03798 80952A58 0C00CB1F */  jal     Enemy_StartFinishingBlow              
 /* 0379C 80952A5C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 037A0 80952A60 1000023A */  beq     $zero, $zero, .L8095334C   
 /* 037A4 80952A64 8FBF0034 */  lw      $ra, 0x0034($sp)           

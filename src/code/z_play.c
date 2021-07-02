@@ -805,9 +805,10 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 func_800AA178(1);
 
-                if (globalCtx->actorCtx.unk_00 && (globalCtx->actorCtx.unk_00-- < 5)) {
-                    osSyncPrintf("FINISH=%d\n", globalCtx->actorCtx.unk_00);
-                    if ((globalCtx->actorCtx.unk_00 > 0) && ((globalCtx->actorCtx.unk_00 % 2) != 0)) {
+                if (globalCtx->actorCtx.freezeFlashTimer && (globalCtx->actorCtx.freezeFlashTimer-- < 5)) {
+                    osSyncPrintf("FINISH=%d\n", globalCtx->actorCtx.freezeFlashTimer);
+                    if ((globalCtx->actorCtx.freezeFlashTimer > 0) &&
+                        ((globalCtx->actorCtx.freezeFlashTimer % 2) != 0)) {
                         globalCtx->envCtx.unk_E1 = 1;
                         globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0x96;
                         globalCtx->envCtx.unk_E2[3] = 0x50;

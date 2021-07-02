@@ -1063,54 +1063,79 @@ void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2) {
     dynaActor->unk_158 = arg2;
 }
 
-s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx) {
+/**
+ * Chcek if the player is facing the specified actor.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ */
+s32 Player_IsFacingActor(Actor* actor, s16 maxAngle, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 var = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
+    s16 yawDiff = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
 
-    if (ABS(var) < arg1) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E020(Actor* actorA, Actor* actorB, s16 arg2) {
-    s16 var = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
+/**
+ * Chcek if `actorB` is facing `actorA`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ *
+ * This function is unused in the original game.
+ */
+s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 maxAngle) {
+    s16 yawDiff = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
 
-    if (ABS(var) < arg2) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E084(Actor* actor, s16 arg1) {
-    s16 var = actor->yawTowardsPlayer - actor->shape.rot.y;
+/**
+ * Chcek if the specified actor is facing the player.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ */
+s32 Actor_IsFacingPlayer(Actor* actor, s16 maxAngle) {
+    s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(var) < arg1) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E0D0(Actor* actorA, Actor* actorB, s16 arg2) {
-    s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
+/**
+ * Chcek if `actorA` is facing `actorB`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ *
+ * This function is unused in the original game.
+ */
+s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 maxAngle) {
+    s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-    if (ABS(var) < arg2) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
-    s16 var = actor->yawTowardsPlayer - actor->shape.rot.y;
+/**
+ * Chcek if the specified actor is facing the player and is nearby.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ * The minimum distance that qualifies as "nearby" is specified by `range`.
+ */
+s32 Actor_IsFacingAndNearPlayer(Actor* actor, f32 range, s16 maxAngle) {
+    s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(var) < arg2) {
+    if (ABS(yawDiff) < maxAngle) {
         f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer));
 
-        if (xyzDistanceFromLink < arg1) {
+        if (xyzDistanceFromLink < range) {
             return true;
         }
     }
@@ -1118,11 +1143,16 @@ s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
     return false;
 }
 
-s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3) {
-    if (Actor_WorldDistXYZToActor(actorA, actorB) < arg2) {
-        s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
+/**
+ * Chcek if `actorA` is facing `actorB` and is nearby.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ * The minimum distance that qualifies as "nearby" is specified by `range`.
+ */
+s32 Actor_ActorAIsFacingAndNearActorB(Actor* actorA, Actor* actorB, f32 range, s16 maxAngle) {
+    if (Actor_WorldDistXYZToActor(actorA, actorB) < range) {
+        s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-        if (ABS(var) < arg3) {
+        if (ABS(yawDiff) < maxAngle) {
             return true;
         }
     }
@@ -1204,7 +1234,8 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
     return true;
 }
 
-void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
+void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallCheckHeight, f32 wallCheckRadius,
+                             f32 ceilingCheckHeight, s32 flags) {
     f32 sp74;
     s32 pad;
     Vec3f sp64;
@@ -1221,11 +1252,13 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
         func_800433A4(&globalCtx->colCtx, actor->floorBgId, actor);
     }
 
-    if (arg5 & 1) {
-        if ((!(arg5 & 0x80) && BgCheck_EntitySphVsWall3(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos,
-                                                        arg3, &actor->wallPoly, &bgId, actor, arg2)) ||
-            ((arg5 & 0x80) && BgCheck_EntitySphVsWall4(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos,
-                                                       arg3, &actor->wallPoly, &bgId, actor, arg2))) {
+    if (flags & 1) {
+        if ((!(flags & 0x80) &&
+             BgCheck_EntitySphVsWall3(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
+                                      &actor->wallPoly, &bgId, actor, wallCheckHeight)) ||
+            ((flags & 0x80) &&
+             BgCheck_EntitySphVsWall4(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
+                                      &actor->wallPoly, &bgId, actor, wallCheckHeight))) {
             wallPoly = actor->wallPoly;
             Math_Vec3f_Copy(&actor->world.pos, &sp64);
             actor->wallYaw = Math_Atan2S(wallPoly->normal.z, wallPoly->normal.x);
@@ -1239,10 +1272,10 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
     sp64.x = actor->world.pos.x;
     sp64.z = actor->world.pos.z;
 
-    if (arg5 & 2) {
+    if (flags & 2) {
         sp64.y = actor->prevPos.y + 10.0f;
-        if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (arg4 + sp74) - 10.0f, &sCurCeilingPoly,
-                                       &sCurCeilingBgId, actor)) {
+        if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (ceilingCheckHeight + sp74) - 10.0f,
+                                       &sCurCeilingPoly, &sCurCeilingBgId, actor)) {
             actor->bgCheckFlags |= 0x10;
             actor->world.pos.y = (sp58 + sp74) - 10.0f;
         } else {
@@ -1250,9 +1283,9 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
         }
     }
 
-    if (arg5 & 4) {
+    if (flags & 4) {
         sp64.y = actor->prevPos.y;
-        func_8002E2AC(globalCtx, actor, &sp64, arg5);
+        func_8002E2AC(globalCtx, actor, &sp64, flags);
         waterBoxYSurface = actor->world.pos.y;
         if (WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, actor->world.pos.x, actor->world.pos.z,
                                  &waterBoxYSurface, &waterBox)) {
@@ -1262,7 +1295,7 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
             } else {
                 if (!(actor->bgCheckFlags & 0x20)) {
                     actor->bgCheckFlags |= 0x40;
-                    if (!(arg5 & 0x40)) {
+                    if (!(flags & 0x40)) {
                         ripplePos.x = actor->world.pos.x;
                         ripplePos.y = waterBoxYSurface;
                         ripplePos.z = actor->world.pos.z;
@@ -2987,8 +3020,12 @@ Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory) {
     return NULL;
 }
 
-void func_80032C7C(GlobalContext* globalCtx, Actor* actor) {
-    globalCtx->actorCtx.unk_00 = 5;
+/**
+ * Play the death sound effect and flash the screen white for 4 frames.
+ * While the screen flashes, the game freezes.
+ */
+void Enemy_StartFinishingBlow(GlobalContext* globalCtx, Actor* actor) {
+    globalCtx->actorCtx.freezeFlashTimer = 5;
     Audio_PlaySoundAtPosition(globalCtx, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
 
@@ -3064,7 +3101,7 @@ void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s3
                        s16 objectId) {
     GlobalContext* globalCtx = Effect_GetGlobalCtx();
 
-    if ((globalCtx->actorCtx.unk_00 == 0) && (bodyBreak->val > 0)) {
+    if ((globalCtx->actorCtx.freezeFlashTimer == 0) && (bodyBreak->val > 0)) {
         if ((limbIndex >= minLimbIndex) && (limbIndex <= maxLimbIndex) && (*dList != NULL)) {
             bodyBreak->dLists[bodyBreak->val] = *dList;
             Matrix_Get(&bodyBreak->matrices[bodyBreak->val]);
@@ -3130,8 +3167,8 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* glob
     return true;
 }
 
-void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 scale,
-                   s16 scaleStep, u8 arg8) {
+void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 randAccelWeight,
+                          s16 scale, s16 scaleStep, u8 arg8) {
     Vec3f pos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
@@ -3145,8 +3182,8 @@ void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3
     for (i = arg4; i >= 0; i--) {
         pos.x = (Math_SinF(var) * arg3) + arg2->x;
         pos.z = (Math_CosF(var) * arg3) + arg2->z;
-        accel.x = (Rand_ZeroOne() - 0.5f) * arg5;
-        accel.z = (Rand_ZeroOne() - 0.5f) * arg5;
+        accel.x = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
+        accel.z = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
 
         if (scale == 0) {
             func_8002857C(globalCtx, &pos, &velocity, &accel);
@@ -3220,44 +3257,47 @@ void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Acto
     Actor_AddToCategory(actorCtx, actor, actorCategory);
 }
 
-typedef struct {
-    /* 0x000 */ Actor actor;
-    /* 0x14C */ char unk_14C[0xC4];
-    /* 0x210 */ s16 unk_210;
-} Actor_80033780;
-
-Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
-    Actor_80033780* itemActor;
+/**
+ * Checks if a hookshot or arrow actor is going to collide with the cylinder denoted by the
+ * actor's `cylRadius` and `cylHeight`.
+ * The check is only peformed if the projectile actor is within the provided sphere radius.
+ *
+ * Returns the actor if there will be collision, NULL otherwise.
+ */
+Actor* Actor_GetProjectileActor(GlobalContext* globalCtx, Actor* refActor, f32 radius) {
+    Actor* actor;
     Vec3f spA8;
     f32 deltaX;
     f32 deltaY;
     f32 deltaZ;
     Vec3f sp90;
     Vec3f sp84;
-    Actor* actor;
 
     actor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     while (actor != NULL) {
         if (((actor->id != ACTOR_ARMS_HOOK) && (actor->id != ACTOR_EN_ARROW)) || (actor == refActor)) {
             actor = actor->next;
         } else {
-            itemActor = (Actor_80033780*)actor;
-            if ((arg2 < Math_Vec3f_DistXYZ(&refActor->world.pos, &itemActor->actor.world.pos)) ||
-                (itemActor->unk_210 == 0)) {
+            //! @bug The projectile actor gets unsafely casted to a hookshot to check its timer, even though
+            //  it can also be an arrow.
+            //  Luckily, the field at the same offset in the arrow actor is the x component of a vector
+            //  which will rarely ever be 0. So its very unlikely for this bug to cause an issue.
+            if ((Math_Vec3f_DistXYZ(&refActor->world.pos, &actor->world.pos) > radius) ||
+                (((ArmsHook*)actor)->timer == 0)) {
                 actor = actor->next;
             } else {
-                deltaX = Math_SinS(itemActor->actor.world.rot.y) * (itemActor->actor.speedXZ * 10.0f);
-                deltaY = itemActor->actor.velocity.y + (itemActor->actor.gravity * 10.0f);
-                deltaZ = Math_CosS(itemActor->actor.world.rot.y) * (itemActor->actor.speedXZ * 10.0f);
+                deltaX = Math_SinS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
+                deltaY = actor->velocity.y + (actor->gravity * 10.0f);
+                deltaZ = Math_CosS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
 
-                spA8.x = itemActor->actor.world.pos.x + deltaX;
-                spA8.y = itemActor->actor.world.pos.y + deltaY;
-                spA8.z = itemActor->actor.world.pos.z + deltaZ;
+                spA8.x = actor->world.pos.x + deltaX;
+                spA8.y = actor->world.pos.y + deltaY;
+                spA8.z = actor->world.pos.z + deltaZ;
 
                 if (CollisionCheck_CylSideVsLineSeg(refActor->colChkInfo.cylRadius, refActor->colChkInfo.cylHeight,
-                                                    0.0f, &refActor->world.pos, &itemActor->actor.world.pos, &spA8,
-                                                    &sp90, &sp84)) {
-                    return &itemActor->actor;
+                                                    0.0f, &refActor->world.pos, &actor->world.pos, &spA8, &sp90,
+                                                    &sp84)) {
+                    return actor;
                 } else {
                     actor = actor->next;
                 }
@@ -3370,7 +3410,10 @@ s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3) {
     return ret;
 }
 
-s32 func_80033A84(GlobalContext* globalCtx, Actor* actor) {
+/**
+ * Returns true if the player is targeting the provided actor
+ */
+s32 Actor_IsTargeted(GlobalContext* globalCtx, Actor* actor) {
     Player* player = PLAYER;
 
     if ((player->stateFlags1 & 0x10) && actor->isTargeted) {
@@ -3380,7 +3423,10 @@ s32 func_80033A84(GlobalContext* globalCtx, Actor* actor) {
     }
 }
 
-s32 func_80033AB8(GlobalContext* globalCtx, Actor* actor) {
+/**
+ * Returns true if the player is targeting an actor other than the provided actor
+ */
+s32 Actor_OtherIsTargeted(GlobalContext* globalCtx, Actor* actor) {
     Player* player = PLAYER;
 
     if ((player->stateFlags1 & 0x10) && !actor->isTargeted) {
@@ -3987,7 +4033,7 @@ u8 Actor_ApplyDamage(Actor* actor) {
     return actor->colChkInfo.health;
 }
 
-void func_80035650(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
+void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     if (colInfo->acHitInfo == NULL) {
         actor->dropFlag = 0x00;
     } else if (freezeFlag && (colInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
@@ -4015,7 +4061,7 @@ void func_80035650(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     }
 }
 
-void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
+void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
     ColliderInfo* curColInfo;
     s32 flag;
     s32 i;
