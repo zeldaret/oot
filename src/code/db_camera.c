@@ -34,7 +34,7 @@ typedef struct {
     /* 0x0048 */ f32 fov;
     /* 0x004C */ s16 roll;
     /* 0x004E */ char unk_4E[0x2];
-    /* 0x0050 */ f32 unk_50;
+    /* 0x0050 */ f32 rollDegrees;
     /* 0x0054 */ char unk_54[0x60 - 0x54];
     /* 0x0060 */ Vec3f unk_60;
     /* 0x006C */ Vec3f unk_6C;
@@ -349,7 +349,7 @@ s16 func_800B41DC(DbCamera* dbCamera, s16 idx, Camera* cameraPtr) {
     }
 
     dbCamera->roll = lookAt->cameraRoll;
-    dbCamera->unk_50 = dbCamera->roll * (360.0f / 256.0f);
+    dbCamera->rollDegrees = dbCamera->roll * (360.0f / 256.0f);
     dbCamera->fov = lookAt->viewAngle;
     return idx;
 }
@@ -397,7 +397,7 @@ s32 func_800B4370(DbCamera* dbCamera, s16 idx, Camera* cam) {
     sph.r = 250.0f;
     DbCamera_AddVecSph(&dbCamera->eye, &dbCamera->at, &sph);
     dbCamera->roll = lookAt->cameraRoll;
-    dbCamera->unk_50 = dbCamera->roll * (360.0f / 256.0f);
+    dbCamera->rollDegrees = dbCamera->roll * (360.0f / 256.0f);
     dbCamera->fov = lookAt->viewAngle;
     return idx;
 }
@@ -452,7 +452,7 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
 
         dbCamera->fov = sDbCamAnim.fov;
         dbCamera->roll = sDbCamAnim.roll;
-        dbCamera->unk_50 = sDbCamAnim.roll * (360.0f / 256.0f);
+        dbCamera->rollDegrees = sDbCamAnim.roll * (360.0f / 256.0f);
 
         DbCamera_SetTextValue(sDbCamAnim.unk_04, D_8012CFB4 + 8, 4);
         func_8006376C(0x10, 0x17, 3, D_8012CFB4);
@@ -575,7 +575,7 @@ void DbCamera_Init(DbCamera* dbCamera, Camera* cameraPtr) {
     dbCamera->sub.unk_104C = dbCamera->sub.unk_104E;
     dbCamera->sub.unk_104A = dbCamera->sub.unk_104E;
     dbCamera->fov = 0.0f;
-    dbCamera->unk_50 = 0.0f;
+    dbCamera->rollDegrees = 0.0f;
     sGlobalCtx = cameraPtr->globalCtx;
     dbCamera->sub.mode = 0;
     dbCamera->sub.nFrames = -1;
@@ -606,7 +606,7 @@ s32 DbgCamera_Enable(DbCamera* this, Camera* cam) {
     this->sub.unk_0C = 1;
     this->unk_78 = 0;
     this->unk_7A = 0;
-    this->unk_50 = 0.0f;
+    this->rollDegrees = 0.0f;
     return func_800B4088(this, cam);
 }
 
@@ -896,7 +896,7 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
 
         dbCamera->fov = sDbCamAnim.fov;
         dbCamera->roll = sDbCamAnim.roll;
-        dbCamera->unk_50 = sDbCamAnim.roll * (360.0f / 256.0f);
+        dbCamera->rollDegrees = sDbCamAnim.roll * (360.0f / 256.0f);
 
     } else {
         D_8016110C++;
@@ -1254,7 +1254,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
                 OLib_Vec3fDiffToVecSphGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
-                func_800B3BD4(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw, DEGF_TO_BINANG(dbCamera->unk_50));
+                func_800B3BD4(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw, DEGF_TO_BINANG(dbCamera->rollDegrees));
                 return 2;
             }
 
