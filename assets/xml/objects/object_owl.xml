@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_owl" Segment="6">
-        <!-- Default Owl Skeleton -->
-        <Skeleton Name="gDefaultOwlSkeleton" Type="Flex" LimbType="Standard" Offset="0xC0E8"/>
+        <!-- Flying Owl Skeleton -->
+        <Skeleton Name="gOwlFlyingSkel" Type="Flex" LimbType="Standard" Offset="0xC0E8"/>
 
         <!-- Default Owl Limbs -->
         <Limb Name="gOwlRootLimb" Type="Standard" Offset="0xBFA8"/>
@@ -49,12 +49,15 @@
 
         <!-- Owl Animations -->
         <Animation Name="gOwlTakeoffAnim" Offset="0x1168"/>
-        <Animation Name="gOwlFlyAnim_15CC" Offset="0x15CC"/>
-        <Animation Name="gOwlFlyingInDistanceAnim" Offset="0xC1C4"/>
-        <Animation Name="gOwlFlyAnim_C684" Offset="0xC684"/>
-        <Animation Name="gOwlWaitAnim" Offset="0xC8A0"/>
+        <Animation Name="gOwlFlyAnim" Offset="0x15CC"/>
+        <Animation Name="gOwlGlideAnim" Offset="0xC1C4"/>
+        <Animation Name="gOwlUnfoldWingsAnim" Offset="0xC684"/>
+        <Animation Name="gOwlPerchAnim" Offset="0xC8A0"/>
         
-        <Skeleton Name="gObjOwlSkel1" Type="Flex" LimbType="Standard" Offset="0x100B0"/>        
+        <!-- Owl Perching Skeleton -->
+        <Skeleton Name="gOwlPerchingSkel" Type="Flex" LimbType="Standard" Offset="0x100B0"/>  
+
+        <!-- Eye Textures -->      
         <Texture Name="gObjOwlEyeOpenTex" OutName="owl_eye_open" Format="ci8" Width="32" Height="32" Offset="0x89A8"/>
         <Texture Name="gObjOwlEyeHalfTex" OutName="owl_eye_half" Format="ci8" Width="32" Height="32" Offset="0x8DA8"/>
         <Texture Name="gObjOwlEyeClosedTex" OutName="owl_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x91A8"/>

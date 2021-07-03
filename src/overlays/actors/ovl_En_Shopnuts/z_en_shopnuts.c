@@ -93,7 +93,7 @@ void EnShopnuts_SetupWait(EnShopnuts* this) {
 }
 
 void EnShopnuts_SetupLookAround(EnShopnuts* this) {
-    Animation_PlayLoop(&this->skelAnime, &gBusinessScrubAnim_BA0);
+    Animation_PlayLoop(&this->skelAnime, &gBusinessScrubLookAroundAnim);
     this->animFlagAndTimer = 2;
     this->actionFunc = EnShopnuts_LookAround;
 }

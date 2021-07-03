@@ -85,7 +85,7 @@
         <DList Name="gFlareDancerTriangleParticleDL" Offset="0x7A78"/>
 
         <!-- Flare Dancer DisplayList Textures -->
-        <Texture Name="gFlareDancerTex_10D0" OutName="tex_10D0" Format="rgb5a1" Width="4" Height="4" Offset="0x10D0"/>
+        <Texture Name="gFlareDancerBlueFlameTex" OutName="blue_flame" Format="rgb5a1" Width="4" Height="4" Offset="0x10D0"/>
         <Texture Name="gFlareDancerFireTex" OutName="fire" Format="i8" Width="32" Height="64" Offset="0x10F0"/>
         <Texture Name="gFlareDancerFirePatternTex" OutName="fire_pattern" Format="i8" Width="32" Height="64" Offset="0x18F0"/>
         <Texture Name="gFlareDancerFuseTex" OutName="fuse" Format="rgb5a1" Width="16" Height="32" Offset="0x20F0"/>

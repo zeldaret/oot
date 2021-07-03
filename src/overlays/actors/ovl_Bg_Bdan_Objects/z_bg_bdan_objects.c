@@ -69,11 +69,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_STOP),
 };
 
-static Gfx* D_8086CDA0[] = {
-    gJabuObjectsDL_08618,
-    gJabuObjectsDL_04BE8,
-    gJabuObjectsDL_038E8,
-    gJabuObjectsDL_05200,
+static Gfx* sDLists[] = {
+    gJabuObjectsLargeRotatingSpikePlatformDL,
+    gJabuElevatorPlatformDL,
+    gJabuWaterDL,
+    gJabuFallingPlatformDL,
 };
 
 s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
@@ -122,7 +122,7 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     if (thisx->params == 0) {
-        CollisionHeader_GetVirtual(&gBdanObjectsCol3, &colHeader);
+        CollisionHeader_GetVirtual(&gJabuBigOctoPlatformCol, &colHeader);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
         thisx->world.pos.y += -79.0f;
@@ -147,12 +147,12 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         if (thisx->params == 1) {
-            CollisionHeader_GetVirtual(&gBdanObjectsCol0, &colHeader);
+            CollisionHeader_GetVirtual(&gJabuElevatorCol, &colHeader);
             this->timer = 512;
             this->unk_168 = 0;
             this->actionFunc = func_8086C874;
         } else {
-            CollisionHeader_GetVirtual(&gBdanObjectsCol1, &colHeader);
+            CollisionHeader_GetVirtual(&gJabuLoweringPlatformCol, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->unk_168)) {
                 this->actionFunc = BgBdanObjects_DoNothing;
                 thisx->world.pos.y = thisx->home.pos.y - 400.0f;
@@ -458,8 +458,8 @@ void BgBdanObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 2) {
-        Gfx_DrawDListXlu(globalCtx, gJabuObjectsDL_038E8);
+        Gfx_DrawDListXlu(globalCtx, gJabuWaterDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_8086CDA0[thisx->params]);
+        Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);
     }
 }

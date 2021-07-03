@@ -44,18 +44,18 @@
         <DList Name="gJabuObjectsDL_02570" Offset="0x2570"/>
         <DList Name="gJabuObjectsDL_02BD0" Offset="0x2BD0"/>
         <DList Name="gJabuObjectsDL_03230" Offset="0x3230"/>
-        <DList Name="gJabuObjectsDL_038E8" Offset="0x38E8"/>
-        <DList Name="gJabuObjectsDL_04BE8" Offset="0x4BE8"/>
-        <DList Name="gJabuObjectsDL_05200" Offset="0x5200"/>
-        <DList Name="gJabuObjectsDL_05A20" Offset="0x5A20"/>
-        <DList Name="gJabuObjectsDL_061A0" Offset="0x61A0"/>
-        <DList Name="gJabuObjectsDL_06460" Offset="0x6460"/>
-        <DList Name="gJabuObjectsDL_08618" Offset="0x8618"/>
+        <DList Name="gJabuWaterDL" Offset="0x38E8"/>
+        <DList Name="gJabuElevatorPlatformDL" Offset="0x4BE8"/>
+        <DList Name="gJabuFallingPlatformDL" Offset="0x5200"/>
+        <DList Name="gJabuBlueFloorSwitchDL" Offset="0x5A20"/>
+        <DList Name="gJabuYellowFloorSwitchDL" Offset="0x61A0"/>
+        <DList Name="gJabuWebDoorDL" Offset="0x6460"/>
+        <DList Name="gJabuObjectsLargeRotatingSpikePlatformDL" Offset="0x8618"/>
 
         <!-- Collision -->
-        <Collision Name="gBdanObjectsCol0" Offset="0x5048"/>
-        <Collision Name="gBdanObjectsCol1" Offset="0x5580"/>
-        <Collision Name="gBdanObjectsCol2" Offset="0x5CF8"/>
-        <Collision Name="gBdanObjectsCol3" Offset="0x8CE0"/>
+        <Collision Name="gJabuElevatorCol" Offset="0x5048"/>
+        <Collision Name="gJabuLoweringPlatformCol" Offset="0x5580"/>
+        <Collision Name="gJabuFloorSwitchCol" Offset="0x5CF8"/>
+        <Collision Name="gJabuBigOctoPlatformCol" Offset="0x8CE0"/>
     </File>
 </Root>

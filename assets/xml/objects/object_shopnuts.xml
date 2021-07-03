@@ -58,7 +58,7 @@
         <Animation Name="gBusinessScrubAnim_39C" Offset="0x39C"/>
         <Animation Name="gBusinessScrubRotateAnim" Offset="0x764"/>
         <Animation Name="gBusinessScrubNervousTransitionAnim" Offset="0x9A0"/>
-        <Animation Name="gBusinessScrubAnim_BA0" Offset="0xBA0"/>
+        <Animation Name="gBusinessScrubLookAroundAnim" Offset="0xBA0"/>
         <Animation Name="gBusinessScrubNervousIdleAnim" Offset="0x1108"/>
         <Animation Name="gBusinessScrubAnim_139C" Offset="0x139C"/>
         <Animation Name="gBusinessScrubAnim_4404" Offset="0x4404"/>

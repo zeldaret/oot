@@ -870,7 +870,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             gDPPipeSync(POLY_XLU_DISP++);
 
             if (!texLoaded) {
-                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardDL_30A0));
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardSteamStartDL));
                 texLoaded++;
             }
 
@@ -883,7 +883,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             Matrix_Scale(iceSmoke->xyScale, iceSmoke->xyScale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_fz.c", 1424),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardDL_3158));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardSteamDL));
         }
 
         iceSmoke++;

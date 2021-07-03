@@ -1006,7 +1006,7 @@ void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
     for (i = 0; i < 200; i++, particle++) {
         if (particle->alive == 1) {
             if (phi_s3 == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyDL_005860));
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleAppearDL));
                 gDPPipeSync(POLY_XLU_DISP++);
 
                 phi_s3++;
@@ -1023,7 +1023,7 @@ void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gGreatFairyDL_0058D8));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gGreatFairyParticleAliveDL));
         }
     }
 

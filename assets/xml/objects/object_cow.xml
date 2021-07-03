@@ -44,7 +44,7 @@
         <Texture Name="gCowTLUT" OutName="cow_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x2880"/>
 
         <!-- Cow DisplayList Textures -->
-        <Texture Name="gCowTex_2A80" OutName="cow_2A80" Format="ci8" Width="16" Height="16" Offset="0x2A80"/>
+        <Texture Name="gCowUdderTex" OutName="cow_udder" Format="ci8" Width="16" Height="16" Offset="0x2A80"/>
         <Texture Name="gCowNoseRingTex" OutName="cow_nose_ring" Format="ci8" Width="8" Height="8" Offset="0x2B80"/>
         <Texture Name="gCowNoseTex" OutName="cow_nose" Format="ci8" Width="16" Height="16" Offset="0x2BC0"/>
         <Texture Name="gCowSpottedPatternTex" OutName="cow_spotted_pattern" Format="i8" Width="64" Height="64" Offset="0x2CC0"/>
