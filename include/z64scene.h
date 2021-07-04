@@ -419,7 +419,7 @@ typedef enum {
     /* 0x6E */ SCENE_ID_MAX
 } SceneID;
 
-// SceneTableEntry commands
+// Scene commands
 
 typedef enum {
     /* 0x00 */ SCENE_CMD_ID_SPAWN_LIST,
