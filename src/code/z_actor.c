@@ -1757,7 +1757,7 @@ void func_8002F994(Actor* actor, s32 arg1) {
 // Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true
 s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
     if (func_80041D4C(&globalCtx->colCtx, poly, bgId) == 8) {
-        globalCtx->unk_11D30[0] = 1;
+        globalCtx->roomCtx.unk_74[0] = 1;
         CollisionCheck_BlueBlood(globalCtx, NULL, pos);
         Audio_PlayActorSound2(actor, NA_SE_IT_WALL_HIT_BUYO);
         return true;
@@ -2819,13 +2819,13 @@ Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, GlobalContext* 
 
 void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCtx) {
     TransitionActorEntry* transitionActor;
-    u8 nbTransitionActors;
+    u8 numTransitionActors;
     s32 i;
 
-    transitionActor = globalCtx->transitionActorList;
-    nbTransitionActors = globalCtx->nbTransitionActors;
+    transitionActor = globalCtx->doorCtx.actorList;
+    numTransitionActors = globalCtx->doorCtx.numActors;
 
-    for (i = 0; i < nbTransitionActors; i++) {
+    for (i = 0; i < numTransitionActors; i++) {
         if (transitionActor->id >= 0) {
             if (((transitionActor->sides[0].room >= 0) &&
                  ((transitionActor->sides[0].room == globalCtx->roomCtx.curRoom.num) ||
@@ -2838,7 +2838,7 @@ void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCt
                             (i << 0xA) + transitionActor->params);
 
                 transitionActor->id = -transitionActor->id;
-                nbTransitionActors = globalCtx->nbTransitionActors;
+                numTransitionActors = globalCtx->doorCtx.numActors;
             }
         }
         transitionActor++;

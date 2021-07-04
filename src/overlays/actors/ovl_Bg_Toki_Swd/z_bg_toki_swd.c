@@ -80,7 +80,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.sceneSetupIndex == 5) {
-        globalCtx->unk_11D30[0] = 0xFF;
+        globalCtx->roomCtx.unk_74[0] = 0xFF;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -122,10 +122,10 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
         }
     }
     if (gSaveContext.sceneSetupIndex == 5) {
-        if (globalCtx->unk_11D30[0] > 0) {
-            globalCtx->unk_11D30[0]--;
+        if (globalCtx->roomCtx.unk_74[0] > 0) {
+            globalCtx->roomCtx.unk_74[0]--;
         } else {
-            globalCtx->unk_11D30[0] = 0;
+            globalCtx->roomCtx.unk_74[0] = 0;
         }
     }
 }
@@ -149,8 +149,8 @@ void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
 }
 
 void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx) {
-    if (Flags_GetEnv(globalCtx, 1) && (globalCtx->unk_11D30[0] < 0xFF)) {
-        globalCtx->unk_11D30[0] += 5;
+    if (Flags_GetEnv(globalCtx, 1) && (globalCtx->roomCtx.unk_74[0] < 0xFF)) {
+        globalCtx->roomCtx.unk_74[0] += 5;
     }
 }
 

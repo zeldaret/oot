@@ -723,6 +723,7 @@ typedef struct {
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
+    /* 0x74 */ s16 unk_74[2];
 } RoomContext; // size = 0x74
 
 typedef struct {
@@ -907,6 +908,11 @@ typedef struct {
     /* 0x03 */ u8 byte3;
 } ElfMessage; // size = 0x4
 
+typedef struct {
+    /* 0x00 */ u8 numActors;
+    /* 0x04 */ TransitionActorEntry* actorList;
+} DoorContext;
+
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext {
     /* 0x00000 */ GameState state;
@@ -938,9 +944,7 @@ typedef struct GlobalContext {
     /* 0x10B20 */ AnimationContext animationCtx;
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
-    /* 0x11D30 */ s16 unk_11D30[2];
-    /* 0x11D34 */ u8 nbTransitionActors;
-    /* 0x11D38 */ TransitionActorEntry* transitionActorList;
+    /* 0x11D34 */ DoorContext doorCtx;
     /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
     /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);

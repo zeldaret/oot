@@ -1448,7 +1448,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     globalCtx->nbSetupActors = 0;
     Object_InitBank(globalCtx, &globalCtx->objectCtx);
     LightContext_Init(globalCtx, &globalCtx->lightCtx);
-    func_80098CBC(globalCtx, &globalCtx->nbTransitionActors);
+    func_80098CBC(globalCtx, &globalCtx->doorCtx.numActors);
     func_80096FD4(globalCtx, &globalCtx->roomCtx.curRoom);
     YREG(15) = 0;
     gSaveContext.worldMapArea = 0;
@@ -1785,7 +1785,7 @@ s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {
         return 0;
     }
 
-    transitionActor = &globalCtx->transitionActorList[(u16)actor->params >> 10];
+    transitionActor = &globalCtx->doorCtx.actorList[(u16)actor->params >> 10];
     frontRoom = transitionActor->sides[0].room;
 
     if (frontRoom == transitionActor->sides[1].room) {
