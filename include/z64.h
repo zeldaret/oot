@@ -795,7 +795,7 @@ typedef struct {
     /* 0x40 */ s32 lry;
     /* 0x44 */ ListAlloc alloc;
     /* 0x4C */ u32 unk_4C;
-} PreRenderContext; // size = 0x50
+} PreRender; // size = 0x50
 
 typedef struct {
     union {
@@ -1012,7 +1012,7 @@ typedef struct GlobalContext {
     /* 0x11E5E */ u8 fadeTransition;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
     /* 0x120FC */ u16 envFlags[20];
-    /* 0x12124 */ PreRenderContext preRenderCtx;
+    /* 0x12124 */ PreRender pauseBgPreRender;
     /* 0x12174 */ char unk_12174[0x53];
     /* 0x121C7 */ s8 unk_121C7;
     /* 0x121C8 */ TransitionContext transitionCtx;
