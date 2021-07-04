@@ -659,8 +659,8 @@ void EnOssan_EndInteraction(GlobalContext* globalCtx, EnOssan* this) {
     func_800BC490(globalCtx, 1);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
-    this->stickRightPrompt.isEnabled = false;
     this->stickLeftPrompt.isEnabled = false;
+    this->stickRightPrompt.isEnabled = false;
     EnOssan_UpdateCameraDirection(this, globalCtx, 0.0f);
     this->actor.textId = EnOssan_SetupHelloDialog(this);
     this->stateFlag = OSSAN_STATE_IDLE;
@@ -714,8 +714,8 @@ void EnOssan_StartShopping(GlobalContext* globalCtx, EnOssan* this) {
     }
 
     Interface_SetDoAction(globalCtx, 6);
-    this->stickLeftPrompt.isEnabled = true;
     this->stickRightPrompt.isEnabled = true;
+    this->stickLeftPrompt.isEnabled = true;
     EnOssan_UpdateCameraDirection(this, globalCtx, 0.0f);
 }
 
@@ -723,8 +723,8 @@ void EnOssan_ChooseTalkToOwner(GlobalContext* globalCtx, EnOssan* this) {
     this->stateFlag = OSSAN_STATE_TALKING_TO_SHOPKEEPER;
     sShopkeeperTalkOwner[this->actor.params](globalCtx);
     Interface_SetDoAction(globalCtx, 6);
-    this->stickRightPrompt.isEnabled = false;
     this->stickLeftPrompt.isEnabled = false;
+    this->stickRightPrompt.isEnabled = false;
 }
 
 void EnOssan_SetLookToShopkeeperFromShelf(GlobalContext* globalCtx, EnOssan* this) {
@@ -963,7 +963,7 @@ void EnOssan_State_FacingShopkeeper(EnOssan* this, GlobalContext* globalCtx, Pla
                 this->cursorIndex = nextIndex;
                 this->stateFlag = OSSAN_STATE_LOOK_SHELF_LEFT;
                 Interface_SetDoAction(globalCtx, 6);
-                this->stickRightPrompt.isEnabled = false;
+                this->stickLeftPrompt.isEnabled = false;
                 func_80078884(NA_SE_SY_CURSOR);
             }
         } else if (this->stickAccumX > 0) {
@@ -972,7 +972,7 @@ void EnOssan_State_FacingShopkeeper(EnOssan* this, GlobalContext* globalCtx, Pla
                 this->cursorIndex = nextIndex;
                 this->stateFlag = OSSAN_STATE_LOOK_SHELF_RIGHT;
                 Interface_SetDoAction(globalCtx, 6);
-                this->stickLeftPrompt.isEnabled = false;
+                this->stickRightPrompt.isEnabled = false;
                 func_80078884(NA_SE_SY_CURSOR);
             }
         }
@@ -1118,8 +1118,8 @@ s32 EnOssan_HasPlayerSelectedItem(GlobalContext* globalCtx, EnOssan* this, Input
         if (selectedItem->actor.params != SI_SOLD_OUT && selectedItem->isInvisible == 0) {
             this->tempStateFlag = this->stateFlag;
             func_8010B720(globalCtx, this->shelfSlots[this->cursorIndex]->itemBuyPromptTextId);
-            this->stickRightPrompt.isEnabled = false;
             this->stickLeftPrompt.isEnabled = false;
+            this->stickRightPrompt.isEnabled = false;
             switch (selectedItem->actor.params) {
                 case SI_KEATON_MASK:
                 case SI_SPOOKY_MASK:
@@ -1188,7 +1188,7 @@ void EnOssan_State_BrowseLeftShelf(EnOssan* this, GlobalContext* globalCtx, Play
         return;
     }
     this->drawCursor = 0xFF;
-    this->stickLeftPrompt.isEnabled = true;
+    this->stickRightPrompt.isEnabled = true;
     EnOssan_UpdateCursorPos(globalCtx, this);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) &&
         !EnOssan_HasPlayerSelectedItem(globalCtx, this, &globalCtx->state.input[0])) {
@@ -1247,7 +1247,7 @@ void EnOssan_State_BrowseRightShelf(EnOssan* this, GlobalContext* globalCtx, Pla
         return;
     }
     this->drawCursor = 0xFF;
-    this->stickRightPrompt.isEnabled = true;
+    this->stickLeftPrompt.isEnabled = true;
     EnOssan_UpdateCursorPos(globalCtx, this);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) &&
         !EnOssan_HasPlayerSelectedItem(globalCtx, this, &globalCtx->state.input[0])) {
@@ -1465,8 +1465,8 @@ void EnOssan_BuyGoronCityBombs(GlobalContext* globalCtx, EnOssan* this) {
             if (gSaveContext.infTable[15] & 0x1000) {
                 EnOssan_SetStateCantGetItem(globalCtx, this, 0x302E);
             } else {
-                this->stickRightPrompt.isEnabled = false;
                 this->stickLeftPrompt.isEnabled = false;
+                this->stickRightPrompt.isEnabled = false;
                 this->drawCursor = 0;
                 this->stateFlag = OSSAN_STATE_DISPLAY_ONLY_BOMB_DIALOG;
             }
@@ -1922,23 +1922,23 @@ void EnOssan_UpdateStickDirectionPromptAnim(EnOssan* this) {
     }
 
     this->stickAnimTween = stickAnimTween;
-    this->stickRightPrompt.arrowColorR = (u8)(255 - ((s32)(155.0f * arrowAnimTween)));
-    this->stickRightPrompt.arrowColorG = (u8)(new_var2 - (s32)(155.0f * arrowAnimTween));
+    this->stickLeftPrompt.arrowColorR = (u8)(255 - ((s32)(155.0f * arrowAnimTween)));
+    this->stickLeftPrompt.arrowColorG = (u8)(new_var2 - (s32)(155.0f * arrowAnimTween));
     new_var3 = (155.0f * arrowAnimTween);
-    this->stickRightPrompt.arrowColorB = (u8)(0 - ((s32)((-100.0f) * arrowAnimTween)));
-    this->stickRightPrompt.arrowColorA = (u8)(200 - ((s32)(50.0f * arrowAnimTween)));
-    this->stickLeftPrompt.arrowColorR = (u8)(new_var2 - (s32)new_var3);
-    this->stickLeftPrompt.arrowColorG = (u8)(255 - (s32)new_var3);
     this->stickLeftPrompt.arrowColorB = (u8)(0 - ((s32)((-100.0f) * arrowAnimTween)));
     this->stickLeftPrompt.arrowColorA = (u8)(200 - ((s32)(50.0f * arrowAnimTween)));
-    this->stickLeftPrompt.arrowTexX = 290.0f;
-    this->stickRightPrompt.arrowTexX = 33.0f;
-    this->stickLeftPrompt.stickTexX = 274.0f;
-    this->stickRightPrompt.stickTexX = 49.0f;
-    this->stickLeftPrompt.stickTexX += (8.0f * stickAnimTween);
-    this->stickRightPrompt.stickTexX -= (8.0f * stickAnimTween);
-    this->stickRightPrompt.arrowTexY = this->stickLeftPrompt.arrowTexY = 91.0f;
-    this->stickRightPrompt.stickTexY = this->stickLeftPrompt.stickTexY = 95.0f;
+    this->stickRightPrompt.arrowColorR = (u8)(new_var2 - (s32)new_var3);
+    this->stickRightPrompt.arrowColorG = (u8)(255 - (s32)new_var3);
+    this->stickRightPrompt.arrowColorB = (u8)(0 - ((s32)((-100.0f) * arrowAnimTween)));
+    this->stickRightPrompt.arrowColorA = (u8)(200 - ((s32)(50.0f * arrowAnimTween)));
+    this->stickRightPrompt.arrowTexX = 290.0f;
+    this->stickLeftPrompt.arrowTexX = 33.0f;
+    this->stickRightPrompt.stickTexX = 274.0f;
+    this->stickLeftPrompt.stickTexX = 49.0f;
+    this->stickRightPrompt.stickTexX += (8.0f * stickAnimTween);
+    this->stickLeftPrompt.stickTexX -= (8.0f * stickAnimTween);
+    this->stickLeftPrompt.arrowTexY = this->stickRightPrompt.arrowTexY = 91.0f;
+    this->stickLeftPrompt.stickTexY = this->stickRightPrompt.stickTexY = 95.0f;
 }
 
 void EnOssan_WaitForBlink(EnOssan* this) {
@@ -2146,35 +2146,35 @@ void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx) {
         this->drawCursor = 0;
         this->happyMaskShopkeeperEyeIdx = 0;
 
-        this->stickRightPrompt.stickColorR = 200;
-        this->stickRightPrompt.stickColorG = 200;
-        this->stickRightPrompt.stickColorB = 200;
-        this->stickRightPrompt.stickColorA = 180;
-        this->stickRightPrompt.stickTexX = 49;
-        this->stickRightPrompt.stickTexY = 95;
-        this->stickRightPrompt.arrowColorR = 255;
-        this->stickRightPrompt.arrowColorG = 255;
-        this->stickRightPrompt.arrowColorB = 0;
-        this->stickRightPrompt.arrowColorA = 200;
-        this->stickRightPrompt.arrowTexX = 33;
-        this->stickRightPrompt.arrowTexY = 91;
-        this->stickRightPrompt.z = 1;
-        this->stickRightPrompt.isEnabled = false;
-
         this->stickLeftPrompt.stickColorR = 200;
         this->stickLeftPrompt.stickColorG = 200;
         this->stickLeftPrompt.stickColorB = 200;
         this->stickLeftPrompt.stickColorA = 180;
-        this->stickLeftPrompt.stickTexX = 274;
+        this->stickLeftPrompt.stickTexX = 49;
         this->stickLeftPrompt.stickTexY = 95;
         this->stickLeftPrompt.arrowColorR = 255;
         this->stickLeftPrompt.arrowColorG = 255;
         this->stickLeftPrompt.arrowColorB = 0;
         this->stickLeftPrompt.arrowColorA = 200;
-        this->stickLeftPrompt.arrowTexX = 290;
+        this->stickLeftPrompt.arrowTexX = 33;
         this->stickLeftPrompt.arrowTexY = 91;
         this->stickLeftPrompt.z = 1;
         this->stickLeftPrompt.isEnabled = false;
+
+        this->stickRightPrompt.stickColorR = 200;
+        this->stickRightPrompt.stickColorG = 200;
+        this->stickRightPrompt.stickColorB = 200;
+        this->stickRightPrompt.stickColorA = 180;
+        this->stickRightPrompt.stickTexX = 274;
+        this->stickRightPrompt.stickTexY = 95;
+        this->stickRightPrompt.arrowColorR = 255;
+        this->stickRightPrompt.arrowColorG = 255;
+        this->stickRightPrompt.arrowColorB = 0;
+        this->stickRightPrompt.arrowColorA = 200;
+        this->stickRightPrompt.arrowTexX = 290;
+        this->stickRightPrompt.arrowTexY = 91;
+        this->stickRightPrompt.z = 1;
+        this->stickRightPrompt.isEnabled = false;
 
         this->arrowAnimState = 0;
         this->stickAnimState = 0;
@@ -2291,11 +2291,11 @@ void EnOssan_DrawTextRec(GlobalContext* globalCtx, s32 r, s32 g, s32 b, s32 a, f
 }
 
 void EnOssan_DrawStickDirectionPrompts(GlobalContext* globalCtx, EnOssan* this) {
-    s32 drawStickRightPrompt = this->stickRightPrompt.isEnabled;
     s32 drawStickLeftPrompt = this->stickLeftPrompt.isEnabled;
+    s32 drawStickRightPrompt = this->stickRightPrompt.isEnabled;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4252);
-    if (drawStickRightPrompt || drawStickLeftPrompt) {
+    if (drawStickLeftPrompt || drawStickRightPrompt) {
         func_80094520(globalCtx->state.gfxCtx);
         gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, &gArrowCursorTex);
@@ -2307,17 +2307,17 @@ void EnOssan_DrawStickDirectionPrompts(GlobalContext* globalCtx, EnOssan* this) 
         gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
                    G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
         gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 15 * 4, 23 * 4);
-        if (drawStickRightPrompt) {
-            EnOssan_DrawTextRec(globalCtx, this->stickRightPrompt.arrowColorR, this->stickRightPrompt.arrowColorG,
-                                this->stickRightPrompt.arrowColorB, this->stickRightPrompt.arrowColorA,
-                                this->stickRightPrompt.arrowTexX, this->stickRightPrompt.arrowTexY,
-                                this->stickRightPrompt.z, 0, 0, -1.0f, 1.0f);
-        }
         if (drawStickLeftPrompt) {
             EnOssan_DrawTextRec(globalCtx, this->stickLeftPrompt.arrowColorR, this->stickLeftPrompt.arrowColorG,
                                 this->stickLeftPrompt.arrowColorB, this->stickLeftPrompt.arrowColorA,
                                 this->stickLeftPrompt.arrowTexX, this->stickLeftPrompt.arrowTexY,
-                                this->stickLeftPrompt.z, 0, 0, 1.0f, 1.0f);
+                                this->stickLeftPrompt.z, 0, 0, -1.0f, 1.0f);
+        }
+        if (drawStickRightPrompt) {
+            EnOssan_DrawTextRec(globalCtx, this->stickRightPrompt.arrowColorR, this->stickRightPrompt.arrowColorG,
+                                this->stickRightPrompt.arrowColorB, this->stickRightPrompt.arrowColorA,
+                                this->stickRightPrompt.arrowTexX, this->stickRightPrompt.arrowTexY,
+                                this->stickRightPrompt.z, 0, 0, 1.0f, 1.0f);
         }
         gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, &gControlStickTex);
         gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -2328,17 +2328,17 @@ void EnOssan_DrawStickDirectionPrompts(GlobalContext* globalCtx, EnOssan* this) 
         gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
                    G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
         gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 15 * 4, 15 * 4);
-        if (drawStickRightPrompt) {
-            EnOssan_DrawTextRec(globalCtx, this->stickRightPrompt.stickColorR, this->stickRightPrompt.stickColorG,
-                                this->stickRightPrompt.stickColorB, this->stickRightPrompt.stickColorA,
-                                this->stickRightPrompt.stickTexX, this->stickRightPrompt.stickTexY,
-                                this->stickRightPrompt.z, 0, 0, -1.0f, 1.0f);
-        }
         if (drawStickLeftPrompt) {
             EnOssan_DrawTextRec(globalCtx, this->stickLeftPrompt.stickColorR, this->stickLeftPrompt.stickColorG,
                                 this->stickLeftPrompt.stickColorB, this->stickLeftPrompt.stickColorA,
                                 this->stickLeftPrompt.stickTexX, this->stickLeftPrompt.stickTexY,
-                                this->stickLeftPrompt.z, 0, 0, 1.0f, 1.0f);
+                                this->stickLeftPrompt.z, 0, 0, -1.0f, 1.0f);
+        }
+        if (drawStickRightPrompt) {
+            EnOssan_DrawTextRec(globalCtx, this->stickRightPrompt.stickColorR, this->stickRightPrompt.stickColorG,
+                                this->stickRightPrompt.stickColorB, this->stickRightPrompt.stickColorA,
+                                this->stickRightPrompt.stickTexX, this->stickRightPrompt.stickTexY,
+                                this->stickRightPrompt.z, 0, 0, 1.0f, 1.0f);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4300);
