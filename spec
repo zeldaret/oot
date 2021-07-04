@@ -6034,399 +6034,342 @@ beginseg
     name "g_pn_01"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_01.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_02"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_02.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_03"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_03.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_04"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_04.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_05"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_05.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_06"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_06.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_07"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_07.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_08"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_08.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_09"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_09.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_10"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_10.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_11"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_11.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_12"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_12.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_13"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_13.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_14"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_14.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_15"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_15.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_16"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_16.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_17"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_17.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_18"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_18.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_19"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_19.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_20"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_20.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_21"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_21.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_22"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_22.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_23"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_23.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_24"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_24.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_25"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_25.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_26"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_26.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_27"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_27.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_28"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_28.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_29"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_29.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_30"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_30.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_31"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_31.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_32"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_32.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_33"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_33.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_34"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_34.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_35"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_35.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_36"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_36.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_37"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_37.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_38"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_38.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_39"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_39.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_40"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_40.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_41"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_41.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_42"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_42.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_43"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_43.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_44"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_44.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_45"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_45.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_46"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_46.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_47"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_47.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_48"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_48.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_49"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_49.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_50"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_50.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_51"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_51.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_52"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_52.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_53"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_53.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_54"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_54.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_55"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_55.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_56"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_56.o"
-    number 0
 endseg
 
 beginseg
     name "g_pn_57"
     romalign 0x1000
     include "build/assets/textures/place_title_cards/g_pn_57.o"
-    number 0
 endseg
 
 beginseg
