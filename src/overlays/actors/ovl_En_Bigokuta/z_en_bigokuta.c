@@ -11,6 +11,7 @@ void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_809BD318(EnBigokuta* this);
 void func_809BD3E0(EnBigokuta* this);
+void func_809BDF34(EnBigokuta* this, GlobalContext* globalCtx);
 void func_809BD84C(EnBigokuta* this, GlobalContext* globalCtx);
 void func_809BD8DC(EnBigokuta* this, GlobalContext* globalCtx);
 void func_809BDAE8(EnBigokuta* this, GlobalContext* globalCtx);
@@ -33,9 +34,9 @@ extern AnimationHeader D_060014B8;
 extern AnimationHeader D_06001CA4;
 extern FlexSkeletonHeader D_06006BC0;
 
-Color_RGBA8 effectPrimColor = { 255, 255, 255, 255 };
-Color_RGBA8 effectEnvColor = { 100, 255, 255, 255 };
-Vec3f effPosAcell = { 0.0f, 0.0f, 0.0f };
+static Color_RGBA8 effectPrimColor = { 255, 255, 255, 255 };
+static Color_RGBA8 effectEnvColor = { 100, 255, 255, 255 };
+static Vec3f effPosAcell = { 0.0f, 0.0f, 0.0f };
 
 const ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,
@@ -113,9 +114,9 @@ static ColliderCylinderInit D_809BF408[] = {
       { 50, 100, 0, { -30, 0, 12 } } },
 };
 
-CollisionCheckInfoInit D_809BF460[] = { 0x04, 0x0082, 0x0078, 0xC8 };
+static CollisionCheckInfoInit D_809BF460[] = { 0x04, 0x0082, 0x0078, 0xC8 };
 
-DamageTable D_809BF468 = {
+static DamageTable D_809BF468 = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0x0),
     /* Slingshot     */ DMG_ENTRY(0, 0x0),
@@ -149,23 +150,22 @@ DamageTable D_809BF468 = {
     /* Hammer jump   */ DMG_ENTRY(0, 0x0),
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
-/*
-TODO this doesn't match for whatever reason
-InitChainEntry sInitChain[] = {
+
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 89, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 33, ICHAIN_STOP),
-};*/
-s32 D_809BF488[] = { 0xB04C07D0, 0x801F0002, 0xB06CFFFF, 0x89170059, 0x48500021 };
-s32 data[] = { 0xFFFFFFFF, 0x969696FF, 0x00000000, 0x00000000, 0x00000000 };
+};
+
+static s32 data[] = { 0xFFFFFFFF, 0x969696FF, 0x00000000, 0x00000000, 0x00000000 };
 
 void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBigokuta* this = THIS;
     s32 i;
 
-    Actor_ProcessInitChain(&this->actor, (InitChainEntry*)D_809BF488);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006BC0, &D_060014B8, this->jointTable, this->morphTable, 20);
 
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -202,22 +202,27 @@ void EnBigokuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_809BCE3C(EnBigokuta* this);
-#ifdef NON_MATCHING
-// t9 vs t0 swap
 void func_809BCE3C(EnBigokuta* this) {
-    this->actor.world.rot.y = this->actor.shape.rot.y + ((-this->unk_194) * 0x4000);
-    this->actor.world.pos.x = (Math_SinS(this->actor.world.rot.y) * 263.0f) + this->actor.home.pos.x;
-    this->actor.world.pos.z = (Math_CosS(this->actor.world.rot.y) * 263.0f) + this->actor.home.pos.z;
+    this->actor.world.rot.y = this->actor.shape.rot.y + this->unk_194 * -0x4000;
+    this->actor.world.pos.x = Math_SinS(this->actor.world.rot.y) * 263.0f + this->actor.home.pos.x;
+    this->actor.world.pos.z = Math_CosS(this->actor.world.rot.y) * 263.0f + this->actor.home.pos.z;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BCE3C.s")
-#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BCEBC.s")
+void func_809BCEBC(EnBigokuta* this, GlobalContext* globalCtx) {
+    Vec3f pos;
+    f32 yDistFromHome;
 
-// TODO check this when this file is done
-#ifdef NON_MATCHING
+    yDistFromHome = this->actor.world.pos.y - this->actor.home.pos.y;
+
+    pos.x = this->actor.world.pos.x;
+    pos.y = this->actor.home.pos.y + 3.0f;
+    pos.z = this->actor.world.pos.z;
+
+    if (((globalCtx->gameplayFrames % 7) == 0) && (yDistFromHome <= 0.0f) && (yDistFromHome > -100.0f)) {
+        EffectSsGRipple_Spawn(globalCtx, &pos, 800, 1300, 0);
+    }
+}
+
 void func_809BCF68(EnBigokuta* this, GlobalContext* globalCtx) {
     Vec3f effectPos;
     s16 temp_a0;
@@ -227,7 +232,7 @@ void func_809BCF68(EnBigokuta* this, GlobalContext* globalCtx) {
     } else {
         temp_a0 = this->actor.shape.rot.y - this->unk_194 * 0xA00 - Rand_S16Offset(0x1200, 0xC00);
     }
-    if (func_809BE4A4 != this->actionFunc) {
+    if (this->actionFunc != func_809BE4A4) {
         if ((this->actionFunc == func_809BE3E4) || ((globalCtx->gameplayFrames & 2) != 0)) {
             effectPos.x = this->actor.world.pos.x - (Math_SinS(temp_a0) * 80.0f);
             effectPos.z = this->actor.world.pos.z - (Math_CosS(temp_a0) * 80.0f);
@@ -245,13 +250,10 @@ void func_809BCF68(EnBigokuta* this, GlobalContext* globalCtx) {
         EffectSsGRipple_Spawn(globalCtx, &effectPos, 100, 500, 0);
     }
     EffectSsGSplash_Spawn(globalCtx, &effectPos, NULL, NULL, 1, 800);
-    if (func_809BE4A4 != this->actionFunc) {
+    if (this->actionFunc != func_809BE4A4) {
         func_8002F974(&this->actor, NA_SE_EN_DAIOCTA_SPLASH - SFX_FLAG);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BCF68.s")
-#endif
 
 void func_809BD1C8(EnBigokuta* this, GlobalContext* globalCtx) {
     s32 i;
@@ -270,8 +272,8 @@ void func_809BD1C8(EnBigokuta* this, GlobalContext* globalCtx) {
     func_80033E88(&this->actor, globalCtx, 0xA, 8);
 }
 
-void func_809BD2E4(EnBigokuta *this) {
-    Actor *parent = this->actor.parent;
+void func_809BD2E4(EnBigokuta* this) {
+    Actor* parent = this->actor.parent;
     if (parent != NULL) {
         Math_ScaledStepToS(&parent->world.rot.y, this->unk_19A, 0x10);
     }
@@ -314,7 +316,12 @@ void func_809BD3F8(EnBigokuta* this) {
     this->actionFunc = func_809BDC08;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BD47C.s")
+void func_809BD47C(EnBigokuta* this) {
+    this->unk_196 = 0x10;
+    this->collider.base.acFlags &= ~1;
+    this->actor.colorFilterTimer = 0;
+    this->actionFunc = func_809BDF34;
+}
 
 void func_809BD4A4(EnBigokuta* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_060014B8, -5.0f);
@@ -326,7 +333,7 @@ void func_809BD4A4(EnBigokuta* this) {
     this->actionFunc = func_809BDFC8;
 }
 
-void func_809BD524(EnBigokuta *this) {
+void func_809BD524(EnBigokuta* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000D1C, -5.0f);
     this->unk_196 = 0x50;
     this->unk_19A = 0;
@@ -343,8 +350,8 @@ void func_809BD524(EnBigokuta *this) {
     this->actionFunc = func_809BE058;
 }
 
-void func_809BD5E0(EnBigokuta *this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, (AnimationHeader *) &D_06000444, -5.0f);
+void func_809BD5E0(EnBigokuta* this) {
+    Animation_MorphToPlayOnce(&this->skelAnime, (AnimationHeader*)&D_06000444, -5.0f);
     this->unk_196 = 24;
     this->unk_19A = 0;
     this->cylinder[0].base.atFlags &= ~1;
@@ -506,15 +513,15 @@ void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx) {
 
     phi_v1 = (Actor_WorldDistXZToPoint(&player->actor, &this->actor.home.pos) - 180.0f) * 0.53333336f;
     func_8002DBD0(&this->actor, &sp28, &player->actor.world.pos);
-    if (fabsf(sp28.x) > 263.0f ||
-        ((sp28.z > 0.0f) && !func_8002E084(&this->actor, 0x1B00) && !func_8002DFC8(&this->actor, 0x2000, globalCtx))) {
+    if (fabsf(sp28.x) > 263.0f || ((sp28.z > 0.0f) && !Actor_IsFacingPlayer(&this->actor, 0x1B00) &&
+                                   !Player_IsFacingActor(&this->actor, 0x2000, globalCtx))) {
         phi_v1 -= 0x80;
         if (this->unk_196 != 0) {
             this->unk_196--;
         }
     }
 
-    if ((this->actor.xzDistToPlayer < 250.0f) && (func_8002E084(&this->actor, 0x6000) == 0)) {
+    if ((this->actor.xzDistToPlayer < 250.0f) && (Actor_IsFacingPlayer(&this->actor, 0x6000) == 0)) {
         if (this->unk_198 != 0) {
             this->unk_198--;
         }
@@ -555,7 +562,17 @@ void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BDF34.s")
+void func_809BDF34(EnBigokuta* this, GlobalContext* globalCtx) {
+    SkelAnime_Update(&this->skelAnime);
+    if (this->unk_196 != 0) {
+        this->unk_196 = this->unk_196 - 1;
+    }
+    this->actor.world.pos.y = (sinf(this->unk_196 * 0.19634955f) * 100.0f) + this->actor.home.pos.y;
+    if ((this->unk_196) == 0) {
+        func_809BD1C8(this, globalCtx);
+        func_809BD3F8(this);
+    }
+}
 
 void func_809BDFC8(EnBigokuta* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
@@ -688,6 +705,10 @@ void func_809BE518(EnBigokuta* this, GlobalContext* globalCtx) {
         func_809BD3F8(this);
     }
 }
+
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BE568.s")
+
+/*
 void func_809BE568(EnBigokuta *this) {
     f32 sin;
     ColliderCylinderInit *temp_v0;
@@ -704,13 +725,16 @@ void func_809BE568(EnBigokuta *this) {
     s16 phi_t7_2;
     EnBigokuta *phi_v1_2;
 
-    
+
     sin = Math_SinS(this->actor.shape.rot.y);
     cos = Math_CosS(this->actor.shape.rot.y);
 
-    this->collider.elements->dim.worldSphere.center.x = (this->collider.elements->dim.modelSphere.center.z * sin) + (this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
-    this->collider.elements->dim.worldSphere.center.z = (this->actor.world.pos.z + (this->collider.elements->dim.modelSphere.center.z * cos)) - (this->collider.elements->dim.modelSphere.center.x * sin);
-    this->collider.elements->dim.worldSphere.center.y = this->collider.elements->dim.modelSphere.center.y + this->actor.world.pos.y;
+    this->collider.elements->dim.worldSphere.center.x = (this->collider.elements->dim.modelSphere.center.z * sin) +
+(this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
+    this->collider.elements->dim.worldSphere.center.z = (this->actor.world.pos.z +
+(this->collider.elements->dim.modelSphere.center.z * cos)) - (this->collider.elements->dim.modelSphere.center.x * sin);
+    this->collider.elements->dim.worldSphere.center.y = this->collider.elements->dim.modelSphere.center.y +
+this->actor.world.pos.y;
 
     temp_v0 = &D_809BF408[1];
     yPos = D_809BF408[0].dim.pos.y;
@@ -722,8 +746,9 @@ void func_809BE568(EnBigokuta *this) {
     phi_v1_2 = this;
     if (temp_v0 != D_809BF460) {
 loop_1:
-        this->cylinder[i].dim.pos.x = ((D_809BF408[i].dim.pos.x * cos) + (this->actor.world.pos.x + ((f32) yPos * sin)));
-        this->cylinder[i].dim.pos.z = ((this->actor.world.pos.z + ((f32) D_809BF408[i].dim.pos.z * cos)) - ((f32) temp_v0_2->unk-32 * sin));
+        this->cylinder[i].dim.pos.x = ((D_809BF408[i].dim.pos.x * cos) + (this->actor.world.pos.x + ((f32) yPos *
+sin))); this->cylinder[i].dim.pos.z = ((this->actor.world.pos.z + ((f32) D_809BF408[i].dim.pos.z * cos)) - ((f32)
+temp_v0_2->unk-32 * sin));
 
         this->element.dim.limb - this->actor.world.pos.y
         if (temp_v0_2 != D_809BF460) {
@@ -732,10 +757,10 @@ loop_1:
     }
     temp_v1_2 = phi_v1_2 + 0x4C;
     temp_v1_2->unk2E6 = (s16) (s32) (((f32) phi_v0_2->unk-6 * cos) + (this->actor.world.pos.x + ((f32) yPos * sin)));
-    temp_v1_2->unk2EA = (s16) (s32) ((this->actor.world.pos.z + ((f32) phi_v0_2->unk-2 * cos)) - ((f32) phi_v0_2->unk-6 * sin));
-    temp_v1_2->unk2E8 = (s16) (s32) this->actor.world.pos.y;
+    temp_v1_2->unk2EA = (s16) (s32) ((this->actor.world.pos.z + ((f32) phi_v0_2->unk-2 * cos)) - ((f32) phi_v0_2->unk-6
+* sin)); temp_v1_2->unk2E8 = (s16) (s32) this->actor.world.pos.y;
 }
-
+*/
 void func_809BE798(EnBigokuta* this, GlobalContext* globalCtx) {
     s16 effectRot;
     s16 yawDiff;
@@ -782,10 +807,10 @@ void func_809BE8DC(EnBigokuta* this, GlobalContext* globalCtx) {
         } else if (this->actor.colChkInfo.damageEffect == 0xF) {
             func_809BD47C(this);
         } else {
-            if (!func_8002E084(&this->actor, 0x4000)) {
+            if (!Actor_IsFacingPlayer(&this->actor, 0x4000)) {
                 if (Actor_ApplyDamage(&this->actor) == 0) { // Dead
                     Audio_PlayActorSound2((Actor*)this, NA_SE_EN_DAIOCTA_DEAD);
-                    func_80032C7C(globalCtx, (Actor*)this);
+                    Enemy_StartFinishingBlow(globalCtx, (Actor*)this);
                 } else {
                     Audio_PlayActorSound2((Actor*)this, NA_SE_EN_DAIOCTA_DAMAGE);
                 }
@@ -842,21 +867,22 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 func_809BEBBC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 func_809BEBBC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     f32 temp_f0;
     EnBigokuta* this = THIS;
     u32 temp_f10;
-    f32 temp_f14;
+    //  f32 temp_f14;
 
     s32 temp_hi;
 
     if (limbIndex == 0xF) {
-        if ((func_809BE058 == this->actionFunc) || (func_809BE180 == this->actionFunc)) {
+        if ((this->actionFunc == func_809BE058) || (this->actionFunc == func_809BE180)) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bigokuta.c", 0x77A);
 
-            if (func_809BE058 == this->actionFunc) {
-                temp_hi = (s32)this->unk_196 % 0xC;
+            if (this->actionFunc == func_809BE058) {
+                temp_hi = this->unk_196 % 0xC;
                 if (temp_hi >= 8) {
                     temp_f0 = (0xC - temp_hi) * 0.3926991f;
                 } else {
@@ -885,17 +911,15 @@ s32 func_809BEBBC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         gDPSetEnvColor(POLY_OPA_DISP++, temp_f10, temp_f10, temp_f10, temp_f10);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bigokuta.c", 0x7B4);
-    } else if ((limbIndex == 0x11) && (func_809BE26C == this->actionFunc)) {
+    } else if ((limbIndex == 0x11) && (this->actionFunc == func_809BE26C)) {
         if (this->unk_198 < 5) {
-            Matrix_Scale(((f32)this->unk_198 * 0.2f * 0.25f) + 1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale((this->unk_198 * 0.2f * 0.25f) + 1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         } else if (this->unk_198 < 8) {
-            temp_f0 = this->unk_198 - 5;
-            temp_f0 = ((f32)temp_f0) * 0.083333336f;
-            temp_f14 = 1.0f + temp_f0;
-            Matrix_Scale(1.25f - temp_f0, temp_f14, temp_f14, MTXMODE_APPLY);
+            temp_f0 = (this->unk_198 - 5) * 0.083333336f;
+            Matrix_Scale(1.25f - temp_f0, 1.0f + temp_f0, 1.0f + temp_f0, MTXMODE_APPLY);
         } else {
-            temp_f14 = 1.25f - ((f32)(this->unk_198 - 8) * 0.125f);
-            Matrix_Scale(1.0f, temp_f14, temp_f14, MTXMODE_APPLY);
+            Matrix_Scale(1.0f, 1.25f - ((this->unk_198 - 8) * 0.125f), 1.25f - ((this->unk_198 - 8) * 0.125f),
+                         MTXMODE_APPLY);
         }
     }
     return 0;
@@ -904,6 +928,7 @@ s32 func_809BEBBC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BEBBC.s")
 #endif
 
+#undef NON_MATCHING
 void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBigokuta* this = THIS;
 

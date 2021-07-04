@@ -77,7 +77,7 @@ animdict ={
     "func_80061ED4":"CollisionCheck_SetInfo",
     "func_80061EFC":"CollisionCheck_SetInfo2",
     "func_80061EB0":"CollisionCheck_SetInfoNoDamageTable",
-    "func_8002E084": "Actor_IsFacingPlayer",
+    "Actor_IsFacingPlayer": "Actor_IsFacingPlayer",
     "func_8002E0D0": "Actor_ActorAIsFacingActorB",
     "func_8002E12C": "Actor_IsFacingAndNearPlayer",
     "func_8002E1A8": "Actor_ActorAIsFacingAndNearActorB",
@@ -87,7 +87,7 @@ animdict ={
     "func_8003573C": "Actor_SetDropFlagJntSph",
     "func_80033780": "Actor_GetProjectileActor",
     "func_80033260": "Actor_SpawnFloorDust",
-    "func_80032C7C": "Enemy_StartFinishingBlow",
+    "Enemy_StartFinishingBlow": "Enemy_StartFinishingBlow",
     "actorCtx.unk_00": "actorCtx.freezeFlashTimer",
 }
 
