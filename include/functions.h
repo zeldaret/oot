@@ -428,7 +428,6 @@ PosRot* Actor_GetFocus(PosRot* arg0, Actor* actor);
 PosRot* Actor_GetWorld(PosRot* arg0, Actor* actor);
 PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor);
 s32 func_8002F0C8(Actor* actor, Player* player, s32 arg2);
-<<<<<<< HEAD
 u32 Actor_IsTalking(Actor* actor, GlobalContext* globalCtx);
 s32 Actor_RequestToTalkAndExchangeItemInRange(Actor* actor, GlobalContext* globalCtx, f32 radius, f32 height,
                                               u32 exchangeItemId);
@@ -438,16 +437,6 @@ s32 Actor_RequestToTalk(Actor* actor, GlobalContext* globalCtx);
 s32 Actor_HasFinishedTalking(Actor* actor, GlobalContext* globalCtx);
 s8 Actor_GetItemExchangePlayer(GlobalContext* globalCtx);
 void Actor_GetProjectionPos(GlobalContext* globalCtx, Actor* actor, s16* screenX, s16* screenY);
-=======
-u32 func_8002F194(Actor* actor, GlobalContext* globalCtx);
-s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u32 arg4);
-s32 func_8002F298(Actor* actor, GlobalContext* globalCtx, f32 arg2, u32 arg3);
-s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2);
-s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx);
-u32 func_8002F334(Actor* actor, GlobalContext* globalCtx);
-s8 func_8002F368(GlobalContext* globalCtx);
-void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y);
->>>>>>> upstream/master
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx);
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange);
 void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId);

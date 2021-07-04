@@ -155,151 +155,48 @@ typedef struct {
     /* 0x1C */ void (*buyEventFunc)(GlobalContext*, EnGirlA*);
 } ShopItemEntry; // size = 0x20
 
-<<<<<<< HEAD
-static ShopItemEntry D_80A3C674[] = {
-    { OBJECT_GI_NUTS, GID_NUTS, Actor_DrawHiliteReflectionXlu, 0x000F, 0x0005, 0x00B2, 0x007F, GI_NUTS_5_2,
-      func_80A3ABF8, func_80A3B714, func_80A3BB6C },
-    { OBJECT_GI_ARROW, GID_ARROWS_MEDIUM, Actor_DrawHiliteReflectionOpa, 0x003C, 0x001E, 0x00C1, 0x009B,
-      GI_ARROWS_MEDIUM, func_80A3AAA8, func_80A3B634, func_80A3BB6C },
-    { OBJECT_GI_ARROW, GID_ARROWS_LARGE, Actor_DrawHiliteReflectionOpa, 0x005A, 0x0032, 0x00B0, 0x007D, GI_ARROWS_LARGE,
-      func_80A3AAA8, func_80A3B634, func_80A3BB6C },
-    { OBJECT_GI_BOMB_1, GID_BOMB, Actor_DrawHiliteReflectionOpa, 0x0019, 0x0005, 0x00A3, 0x008B, GI_BOMBS_5,
-      func_80A3AB58, func_80A3B678, func_80A3BB6C },
-    { OBJECT_GI_NUTS, GID_NUTS, Actor_DrawHiliteReflectionXlu, 0x001E, 0x000A, 0x00A2, 0x0087, GI_NUTS_10,
-      func_80A3ABF8, func_80A3B714, func_80A3BB6C },
-    { OBJECT_GI_STICK, GID_STICK, NULL, 0x000A, 0x0001, 0x00A1, 0x0088, GI_STICKS_1, func_80A3ACAC, func_80A3B780,
-      func_80A3BB6C },
-    { OBJECT_GI_BOMB_1, GID_BOMB, Actor_DrawHiliteReflectionOpa, 0x0032, 0x000A, 0x00B1, 0x007C, GI_BOMBS_10,
-      func_80A3AB58, func_80A3B678, func_80A3BB6C },
-    { OBJECT_GI_FISH, GID_FISH, Actor_DrawHiliteReflectionXlu, 0x00C8, 0x0001, 0x00B3, 0x007E, GI_FISH, func_80A3AD60,
-      NULL, func_80A3BB6C },
-    { OBJECT_GI_LIQUID, GID_POTION_RED, Actor_DrawHiliteReflectionOpa, 0x001E, 0x0001, 0x00A5, 0x008E, GI_POTION_RED,
-      func_80A3ADD4, func_80A3BA40, func_80A3BB6C },
-    { OBJECT_GI_LIQUID, GID_POTION_GREEN, Actor_DrawHiliteReflectionOpa, 0x001E, 0x0001, 0x00A6, 0x008F,
-      GI_POTION_GREEN, func_80A3AE48, func_80A3BA40, func_80A3BB6C },
-    { OBJECT_GI_LIQUID, GID_POTION_BLUE, Actor_DrawHiliteReflectionOpa, 0x003C, 0x0001, 0x00A7, 0x0090, GI_POTION_BLUE,
-      func_80A3AEBC, func_80A3BA40, func_80A3BB6C },
-    { OBJECT_GI_LONGSWORD, GID_SWORD_BGS, Actor_DrawHiliteReflectionOpa, 0x03E8, 0x0001, 0x00A8, 0x0091, GI_SWORD_KNIFE,
-      func_80A3AF30, func_80A3B7BC, func_80A3BB6C },
-    { OBJECT_GI_SHIELD_2, GID_SHIELD_HYLIAN, Actor_DrawHiliteReflectionOpa, 0x0050, 0x0001, 0x00A9, 0x0092,
-      GI_SHIELD_HYLIAN, func_80A3AFC4, func_80A3B800, func_80A3BB6C },
-    { OBJECT_GI_SHIELD_1, GID_SHIELD_DEKU, Actor_DrawHiliteReflectionOpa, 0x0028, 0x0001, 0x009F, 0x0089,
-      GI_SHIELD_DEKU, func_80A3B040, func_80A3B83C, func_80A3BB6C },
-    { OBJECT_GI_CLOTHES, GID_TUNIC_GORON, NULL, 0x00C8, 0x0001, 0x00AA, 0x0093, GI_TUNIC_GORON, func_80A3B0BC,
-      func_80A3B878, func_80A3BC0C },
-    { OBJECT_GI_CLOTHES, GID_TUNIC_ZORA, NULL, 0x012C, 0x0001, 0x00AB, 0x0094, GI_TUNIC_ZORA, func_80A3B160,
-      func_80A3B8B4, func_80A3BC3C },
-    { OBJECT_GI_HEART, GID_HEART, NULL, 0x000A, 0x0010, 0x00AC, 0x0095, GI_HEART, func_80A3B204, func_80A3B8F0,
-      func_80A3BB6C },
-    { OBJECT_GI_MILK, GID_MILK, func_80A3C498, 0x0064, 0x0001, 0x00AD, 0x0097, GI_MILK_BOTTLE, func_80A3B250,
-      func_80A3B92C, func_80A3BB6C },
-    { OBJECT_GI_EGG, GID_EGG, Actor_DrawHiliteReflectionOpa, 0x0064, 0x0001, 0x00AE, 0x0099, GI_WEIRD_EGG,
-      func_80A3B2AC, func_80A3B968, func_80A3BB6C },
-    { OBJECT_GI_MILK, GID_MILK, func_80A3C498, 0x2710, 0x0001, 0x00B4, 0x0085, GI_NONE, func_80A3B308, func_80A3B9A4,
-      func_80A3BB6C },
-    { OBJECT_GI_EGG, GID_EGG, Actor_DrawHiliteReflectionOpa, 0x2710, 0x0001, 0x00B5, 0x0085, GI_NONE, func_80A3B318,
-      func_80A3B9D4, func_80A3BB6C },
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10,
-      func_80A3B328, NULL, func_80A3BC6C },
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20,
-      func_80A3B328, NULL, func_80A3BC6C },
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20,
-      func_80A3B328, NULL, func_80A3BC6C },
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10,
-      func_80A3B328, NULL, func_80A3BC6C },
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10,
-      func_80A3B328, NULL, func_80A3BC6C },
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20,
-      func_80A3B328, NULL, func_80A3BC6C },
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 0x00B4, 0x0014, 0x0061, 0x002A, GI_BOMBCHUS_20,
-      func_80A3B328, NULL, func_80A3BC6C },
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10,
-      func_80A3B328, NULL, func_80A3BC6C },
-    { OBJECT_GI_SEED, GID_SEEDS, Actor_DrawHiliteReflectionOpa, 0x001E, 0x001E, 0x00DF, 0x00DE, GI_SEEDS_30,
-      func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { OBJECT_GI_KI_TAN_MASK, GID_MASK_KEATON, Actor_DrawHiliteReflectionOpa, 0x0000, 0x0001, 0x70B2, 0x70BE,
-      GI_MASK_KEATON, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { OBJECT_GI_REDEAD_MASK, GID_MASK_SPOOKY, Actor_DrawHiliteReflectionOpa, 0x0000, 0x0001, 0x70B1, 0x70BD,
-      GI_MASK_SPOOKY, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { OBJECT_GI_SKJ_MASK, GID_MASK_SKULL, Actor_DrawHiliteReflectionOpa, 0x0000, 0x0001, 0x70B0, 0x70BC, GI_MASK_SKULL,
-      func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { OBJECT_GI_RABIT_MASK, GID_MASK_BUNNY, Actor_DrawHiliteReflectionOpa, 0x0000, 0x0001, 0x70B3, 0x70BF,
-      GI_MASK_BUNNY, func_80A3B3A8, func_80A3BA04, func_80A3BB6C },
-    { OBJECT_GI_TRUTH_MASK, GID_MASK_TRUTH, func_80A3C498, 0x0000, 0x0001, 0x70AF, 0x70C3, GI_MASK_TRUTH, func_80A3B3A8,
-      func_80A3BA04, func_80A3BB6C },
-    { OBJECT_GI_ZORAMASK, GID_MASK_ZORA, NULL, 0x0000, 0x0001, 0x70B9, 0x70C1, GI_MASK_ZORA, func_80A3B3A8,
-      func_80A3BA04, func_80A3BB6C },
-    { OBJECT_GI_GOLONMASK, GID_MASK_GORON, NULL, 0x0000, 0x0001, 0x70B8, 0x70C0, GI_MASK_GORON, func_80A3B3A8,
-      func_80A3BA04, func_80A3BB6C },
-    { OBJECT_GI_GERUDOMASK, GID_MASK_GERUDO, NULL, 0x0000, 0x0001, 0x70BA, 0x70C2, GI_MASK_GERUDO, func_80A3B3A8,
-      func_80A3BA04, func_80A3BB6C },
-    { OBJECT_GI_SOLDOUT, GID_SOLDOUT, Actor_DrawHiliteReflectionOpa, 0x0000, 0x0000, 0x00BD, 0x70C2, GI_MASK_GERUDO,
-      func_80A3B454, NULL, NULL },
-    { OBJECT_GI_FIRE, GID_BLUE_FIRE, Actor_DrawHiliteReflectionOpa, 0x012C, 0x0001, 0x00B9, 0x00B8, GI_BLUE_FIRE,
-      func_80A3B464, func_80A3BA40, func_80A3BB6C },
-    { OBJECT_GI_INSECT, GID_BUG, func_80A3C498, 0x0032, 0x0001, 0x00BB, 0x00BA, GI_BUGS, func_80A3B4D8, func_80A3BA40,
-      func_80A3BB6C },
-    { OBJECT_GI_GHOST, GID_BIG_POE, func_80A3C498, 0x0032, 0x0001, 0x506F, 0x5070, GI_BIG_POE, func_80A3B54C,
-      func_80A3BA40, func_80A3BB6C },
-    { OBJECT_GI_GHOST, GID_POE, func_80A3C498, 0x001E, 0x0001, 0x506D, 0x506E, GI_POE, func_80A3B54C, func_80A3BA40,
-      func_80A3BB6C },
-    { OBJECT_GI_SOUL, GID_FAIRY, func_80A3C498, 0x0032, 0x0001, 0x00B7, 0x00B6, GI_FAIRY, func_80A3B5C0, func_80A3BA40,
-      func_80A3BB6C },
-    { OBJECT_GI_ARROW, GID_ARROWS_SMALL, Actor_DrawHiliteReflectionOpa, 0x0014, 0x000A, 0x00A0, 0x008A, GI_ARROWS_SMALL,
-      func_80A3AAA8, func_80A3B634, func_80A3BB6C },
-    { OBJECT_GI_BOMB_1, GID_BOMB, Actor_DrawHiliteReflectionOpa, 0x0050, 0x0014, 0x001C, 0x0006, GI_BOMBS_20,
-      func_80A3AB58, func_80A3B678, func_80A3BB6C },
-    { OBJECT_GI_BOMB_1, GID_BOMB, Actor_DrawHiliteReflectionOpa, 0x0078, 0x001E, 0x001D, 0x001E, GI_BOMBS_30,
-      func_80A3AB58, func_80A3B678, func_80A3BB6C },
-    { OBJECT_GI_BOMB_1, GID_BOMB, Actor_DrawHiliteReflectionOpa, 0x0023, 0x0005, 0x00CB, 0x00CA, GI_BOMBS_5,
-      func_80A3AB58, func_80A3B678, func_80A3BB6C },
-    { OBJECT_GI_LIQUID, GID_POTION_RED, Actor_DrawHiliteReflectionOpa, 0x0028, 0x0001, 0x0064, 0x0062, GI_POTION_RED,
-      func_80A3ADD4, func_80A3BA40, func_80A3BB6C },
-    { OBJECT_GI_LIQUID, GID_POTION_RED, Actor_DrawHiliteReflectionOpa, 0x0032, 0x0001, 0x0065, 0x0063, GI_POTION_RED,
-      func_80A3ADD4, func_80A3BA40, func_80A3BB6C },
-=======
-static ShopItemEntry shopItemEntries[] = {
+static ShopItemEntry sShopItemEntries[] = {
     // SI_DEKU_NUTS_5
-    { OBJECT_GI_NUTS, GID_NUTS, func_8002ED80, 15, 5, 0x00B2, 0x007F, GI_NUTS_5_2, EnGirlA_CanBuy_DekuNuts,
+    { OBJECT_GI_NUTS, GID_NUTS, Actor_DrawHiliteReflectionXlu, 15, 5, 0x00B2, 0x007F, GI_NUTS_5_2, EnGirlA_CanBuy_DekuNuts,
       EnGirlA_ItemGive_DekuNuts, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_ARROWS_30 */
-    { OBJECT_GI_ARROW, GID_ARROWS_MEDIUM, func_8002EBCC, 60, 30, 0x00C1, 0x009B, GI_ARROWS_MEDIUM,
+    { OBJECT_GI_ARROW, GID_ARROWS_MEDIUM, Actor_DrawHiliteReflectionOpa, 60, 30, 0x00C1, 0x009B, GI_ARROWS_MEDIUM,
       EnGirlA_CanBuy_Arrows, EnGirlA_ItemGive_Arrows, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_ARROWS_50 */
-    { OBJECT_GI_ARROW, GID_ARROWS_LARGE, func_8002EBCC, 90, 50, 0x00B0, 0x007D, GI_ARROWS_LARGE, EnGirlA_CanBuy_Arrows,
+    { OBJECT_GI_ARROW, GID_ARROWS_LARGE, Actor_DrawHiliteReflectionOpa, 90, 50, 0x00B0, 0x007D, GI_ARROWS_LARGE, EnGirlA_CanBuy_Arrows,
       EnGirlA_ItemGive_Arrows, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_BOMBS_5_R25 */
-    { OBJECT_GI_BOMB_1, GID_BOMB, func_8002EBCC, 25, 5, 0x00A3, 0x008B, GI_BOMBS_5, EnGirlA_CanBuy_Bombs,
+    { OBJECT_GI_BOMB_1, GID_BOMB, Actor_DrawHiliteReflectionOpa, 25, 5, 0x00A3, 0x008B, GI_BOMBS_5, EnGirlA_CanBuy_Bombs,
       EnGirlA_ItemGive_Bombs, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_DEKU_NUTS_10 */
-    { OBJECT_GI_NUTS, GID_NUTS, func_8002ED80, 30, 10, 0x00A2, 0x0087, GI_NUTS_10, EnGirlA_CanBuy_DekuNuts,
+    { OBJECT_GI_NUTS, GID_NUTS, Actor_DrawHiliteReflectionXlu, 30, 10, 0x00A2, 0x0087, GI_NUTS_10, EnGirlA_CanBuy_DekuNuts,
       EnGirlA_ItemGive_DekuNuts, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_DEKU_STICK */
     { OBJECT_GI_STICK, GID_STICK, NULL, 10, 1, 0x00A1, 0x0088, GI_STICKS_1, EnGirlA_CanBuy_DekuSticks,
       EnGirlA_ItemGive_DekuSticks, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_BOMBS_10 */
-    { OBJECT_GI_BOMB_1, GID_BOMB, func_8002EBCC, 50, 10, 0x00B1, 0x007C, GI_BOMBS_10, EnGirlA_CanBuy_Bombs,
+    { OBJECT_GI_BOMB_1, GID_BOMB, Actor_DrawHiliteReflectionOpa, 50, 10, 0x00B1, 0x007C, GI_BOMBS_10, EnGirlA_CanBuy_Bombs,
       EnGirlA_ItemGive_Bombs, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_FISH */
-    { OBJECT_GI_FISH, GID_FISH, func_8002ED80, 200, 1, 0x00B3, 0x007E, GI_FISH, EnGirlA_CanBuy_Fish, NULL,
+    { OBJECT_GI_FISH, GID_FISH, Actor_DrawHiliteReflectionXlu, 200, 1, 0x00B3, 0x007E, GI_FISH, EnGirlA_CanBuy_Fish, NULL,
       EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_RED_POTION_R30 */
-    { OBJECT_GI_LIQUID, GID_POTION_RED, func_8002EBCC, 30, 1, 0x00A5, 0x008E, GI_POTION_RED, EnGirlA_CanBuy_RedPotion,
+    { OBJECT_GI_LIQUID, GID_POTION_RED, Actor_DrawHiliteReflectionOpa, 30, 1, 0x00A5, 0x008E, GI_POTION_RED, EnGirlA_CanBuy_RedPotion,
       EnGirlA_ItemGive_BottledItem, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_GREEN_POTION */
-    { OBJECT_GI_LIQUID, GID_POTION_GREEN, func_8002EBCC, 30, 1, 0x00A6, 0x008F, GI_POTION_GREEN,
+    { OBJECT_GI_LIQUID, GID_POTION_GREEN, Actor_DrawHiliteReflectionOpa, 30, 1, 0x00A6, 0x008F, GI_POTION_GREEN,
       EnGirlA_CanBuy_GreenPotion, EnGirlA_ItemGive_BottledItem, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_BLUE_POTION */
-    { OBJECT_GI_LIQUID, GID_POTION_BLUE, func_8002EBCC, 60, 1, 0x00A7, 0x0090, GI_POTION_BLUE,
+    { OBJECT_GI_LIQUID, GID_POTION_BLUE, Actor_DrawHiliteReflectionOpa, 60, 1, 0x00A7, 0x0090, GI_POTION_BLUE,
       EnGirlA_CanBuy_BluePotion, EnGirlA_ItemGive_BottledItem, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_LONGSWORD */
-    { OBJECT_GI_LONGSWORD, GID_SWORD_BGS, func_8002EBCC, 1000, 1, 0x00A8, 0x0091, GI_SWORD_KNIFE,
+    { OBJECT_GI_LONGSWORD, GID_SWORD_BGS, Actor_DrawHiliteReflectionOpa, 1000, 1, 0x00A8, 0x0091, GI_SWORD_KNIFE,
       EnGirlA_CanBuy_Longsword, EnGirlA_ItemGive_Longsword, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_HYLIAN_SHIELD */
-    { OBJECT_GI_SHIELD_2, GID_SHIELD_HYLIAN, func_8002EBCC, 80, 1, 0x00A9, 0x0092, GI_SHIELD_HYLIAN,
+    { OBJECT_GI_SHIELD_2, GID_SHIELD_HYLIAN, Actor_DrawHiliteReflectionOpa, 80, 1, 0x00A9, 0x0092, GI_SHIELD_HYLIAN,
       EnGirlA_CanBuy_HylianShield, EnGirlA_ItemGive_HylianShield, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_DEKU_SHIELD */
-    { OBJECT_GI_SHIELD_1, GID_SHIELD_DEKU, func_8002EBCC, 40, 1, 0x009F, 0x0089, GI_SHIELD_DEKU,
+    { OBJECT_GI_SHIELD_1, GID_SHIELD_DEKU, Actor_DrawHiliteReflectionOpa, 40, 1, 0x009F, 0x0089, GI_SHIELD_DEKU,
       EnGirlA_CanBuy_DekuShield, EnGirlA_ItemGive_DekuShield, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_GORON_TUNIC */
     { OBJECT_GI_CLOTHES, GID_TUNIC_GORON, NULL, 200, 1, 0x00AA, 0x0093, GI_TUNIC_GORON, EnGirlA_CanBuy_GoronTunic,
@@ -314,52 +211,52 @@ static ShopItemEntry shopItemEntries[] = {
     { OBJECT_GI_MILK, GID_MILK, func_80A3C498, 100, 1, 0x00AD, 0x0097, GI_MILK_BOTTLE, EnGirlA_CanBuy_MilkBottle,
       EnGirlA_ItemGive_MilkBottle, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_WEIRD_EGG */
-    { OBJECT_GI_EGG, GID_EGG, func_8002EBCC, 100, 1, 0x00AE, 0x0099, GI_WEIRD_EGG, EnGirlA_CanBuy_WeirdEgg,
+    { OBJECT_GI_EGG, GID_EGG, Actor_DrawHiliteReflectionOpa, 100, 1, 0x00AE, 0x0099, GI_WEIRD_EGG, EnGirlA_CanBuy_WeirdEgg,
       EnGirlA_ItemGive_WeirdEgg, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_19 */
     { OBJECT_GI_MILK, GID_MILK, func_80A3C498, 10000, 1, 0x00B4, 0x0085, GI_NONE, EnGirlA_CanBuy_Unk19,
       EnGirlA_ItemGive_Unk19, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_20 */
-    { OBJECT_GI_EGG, GID_EGG, func_8002EBCC, 10000, 1, 0x00B5, 0x0085, GI_NONE, EnGirlA_CanBuy_Unk20,
+    { OBJECT_GI_EGG, GID_EGG, Actor_DrawHiliteReflectionOpa, 10000, 1, 0x00B5, 0x0085, GI_NONE, EnGirlA_CanBuy_Unk20,
       EnGirlA_ItemGive_Unk20, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_BOMBCHU_10_1 */
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, func_8002EBCC, 100, 10, 0x00BC, 0x008C, GI_BOMBCHUS_10, EnGirlA_CanBuy_Bombchus,
+    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 100, 10, 0x00BC, 0x008C, GI_BOMBCHUS_10, EnGirlA_CanBuy_Bombchus,
       NULL, EnGirlA_BuyEvent_ObtainBombchuPack },
     /* SI_BOMBCHU_20_1 */
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, func_8002EBCC, 180, 20, 0x0061, 0x002A, GI_BOMBCHUS_20, EnGirlA_CanBuy_Bombchus,
+    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 180, 20, 0x0061, 0x002A, GI_BOMBCHUS_20, EnGirlA_CanBuy_Bombchus,
       NULL, EnGirlA_BuyEvent_ObtainBombchuPack },
     /* SI_BOMBCHU_20_2 */
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, func_8002EBCC, 180, 20, 0x0061, 0x002A, GI_BOMBCHUS_20, EnGirlA_CanBuy_Bombchus,
+    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 180, 20, 0x0061, 0x002A, GI_BOMBCHUS_20, EnGirlA_CanBuy_Bombchus,
       NULL, EnGirlA_BuyEvent_ObtainBombchuPack },
     /* SI_BOMBCHU_10_2 */
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, func_8002EBCC, 100, 10, 0x00BC, 0x008C, GI_BOMBCHUS_10, EnGirlA_CanBuy_Bombchus,
+    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 100, 10, 0x00BC, 0x008C, GI_BOMBCHUS_10, EnGirlA_CanBuy_Bombchus,
       NULL, EnGirlA_BuyEvent_ObtainBombchuPack },
     /* SI_BOMBCHU_10_3 */
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, func_8002EBCC, 100, 10, 0x00BC, 0x008C, GI_BOMBCHUS_10, EnGirlA_CanBuy_Bombchus,
+    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 100, 10, 0x00BC, 0x008C, GI_BOMBCHUS_10, EnGirlA_CanBuy_Bombchus,
       NULL, EnGirlA_BuyEvent_ObtainBombchuPack },
     /* SI_BOMBCHU_20_3 */
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, func_8002EBCC, 180, 20, 0x0061, 0x002A, GI_BOMBCHUS_20, EnGirlA_CanBuy_Bombchus,
+    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 180, 20, 0x0061, 0x002A, GI_BOMBCHUS_20, EnGirlA_CanBuy_Bombchus,
       NULL, EnGirlA_BuyEvent_ObtainBombchuPack },
     /* SI_BOMBCHU_20_4 */
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, func_8002EBCC, 180, 20, 0x0061, 0x002A, GI_BOMBCHUS_20, EnGirlA_CanBuy_Bombchus,
+    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 180, 20, 0x0061, 0x002A, GI_BOMBCHUS_20, EnGirlA_CanBuy_Bombchus,
       NULL, EnGirlA_BuyEvent_ObtainBombchuPack },
     /* SI_BOMBCHU_10_4 */
-    { OBJECT_GI_BOMB_2, GID_BOMBCHU, func_8002EBCC, 100, 10, 0x00BC, 0x008C, GI_BOMBCHUS_10, EnGirlA_CanBuy_Bombchus,
+    { OBJECT_GI_BOMB_2, GID_BOMBCHU, Actor_DrawHiliteReflectionOpa, 100, 10, 0x00BC, 0x008C, GI_BOMBCHUS_10, EnGirlA_CanBuy_Bombchus,
       NULL, EnGirlA_BuyEvent_ObtainBombchuPack },
     /* SI_DEKU_SEEDS_30 */
-    { OBJECT_GI_SEED, GID_SEEDS, func_8002EBCC, 30, 30, 0x00DF, 0x00DE, GI_SEEDS_30, EnGirlA_CanBuy_DekuSeeds,
+    { OBJECT_GI_SEED, GID_SEEDS, Actor_DrawHiliteReflectionOpa, 30, 30, 0x00DF, 0x00DE, GI_SEEDS_30, EnGirlA_CanBuy_DekuSeeds,
       EnGirlA_ItemGive_DekuSeeds, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_KEATON_MASK */
-    { OBJECT_GI_KI_TAN_MASK, GID_MASK_KEATON, func_8002EBCC, 0, 1, 0x70B2, 0x70BE, GI_MASK_KEATON,
+    { OBJECT_GI_KI_TAN_MASK, GID_MASK_KEATON, Actor_DrawHiliteReflectionOpa, 0, 1, 0x70B2, 0x70BE, GI_MASK_KEATON,
       EnGirlA_CanBuy_DekuSeeds, EnGirlA_ItemGive_DekuSeeds, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_SPOOKY_MASK */
-    { OBJECT_GI_REDEAD_MASK, GID_MASK_SPOOKY, func_8002EBCC, 0, 1, 0x70B1, 0x70BD, GI_MASK_SPOOKY,
+    { OBJECT_GI_REDEAD_MASK, GID_MASK_SPOOKY, Actor_DrawHiliteReflectionOpa, 0, 1, 0x70B1, 0x70BD, GI_MASK_SPOOKY,
       EnGirlA_CanBuy_DekuSeeds, EnGirlA_ItemGive_DekuSeeds, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_SKULL_MASK */
-    { OBJECT_GI_SKJ_MASK, GID_MASK_SKULL, func_8002EBCC, 0, 1, 0x70B0, 0x70BC, GI_MASK_SKULL, EnGirlA_CanBuy_DekuSeeds,
+    { OBJECT_GI_SKJ_MASK, GID_MASK_SKULL, Actor_DrawHiliteReflectionOpa, 0, 1, 0x70B0, 0x70BC, GI_MASK_SKULL, EnGirlA_CanBuy_DekuSeeds,
       EnGirlA_ItemGive_DekuSeeds, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_BUNNY_HOOD */
-    { OBJECT_GI_RABIT_MASK, GID_MASK_BUNNY, func_8002EBCC, 0, 1, 0x70B3, 0x70BF, GI_MASK_BUNNY,
+    { OBJECT_GI_RABIT_MASK, GID_MASK_BUNNY, Actor_DrawHiliteReflectionOpa, 0, 1, 0x70B3, 0x70BF, GI_MASK_BUNNY,
       EnGirlA_CanBuy_DekuSeeds, EnGirlA_ItemGive_DekuSeeds, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_MASK_OF_TRUTH */
     { OBJECT_GI_TRUTH_MASK, GID_MASK_TRUTH, func_80A3C498, 0, 1, 0x70AF, 0x70C3, GI_MASK_TRUTH,
@@ -374,10 +271,10 @@ static ShopItemEntry shopItemEntries[] = {
     { OBJECT_GI_GERUDOMASK, GID_MASK_GERUDO, NULL, 0, 1, 0x70BA, 0x70C2, GI_MASK_GERUDO, EnGirlA_CanBuy_DekuSeeds,
       EnGirlA_ItemGive_DekuSeeds, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_SOLD_OUT */
-    { OBJECT_GI_SOLDOUT, GID_SOLDOUT, func_8002EBCC, 0, 0, 0x00BD, 0x70C2, GI_MASK_GERUDO, EnGirlA_CanBuy_SoldOut, NULL,
+    { OBJECT_GI_SOLDOUT, GID_SOLDOUT, Actor_DrawHiliteReflectionOpa, 0, 0, 0x00BD, 0x70C2, GI_MASK_GERUDO, EnGirlA_CanBuy_SoldOut, NULL,
       NULL },
     /* SI_BLUE_FIRE */
-    { OBJECT_GI_FIRE, GID_BLUE_FIRE, func_8002EBCC, 300, 1, 0x00B9, 0x00B8, GI_BLUE_FIRE, EnGirlA_CanBuy_BlueFire,
+    { OBJECT_GI_FIRE, GID_BLUE_FIRE, Actor_DrawHiliteReflectionOpa, 300, 1, 0x00B9, 0x00B8, GI_BLUE_FIRE, EnGirlA_CanBuy_BlueFire,
       EnGirlA_ItemGive_BottledItem, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_BUGS */
     { OBJECT_GI_INSECT, GID_BUG, func_80A3C498, 50, 1, 0x00BB, 0x00BA, GI_BUGS, EnGirlA_CanBuy_Bugs,
@@ -392,24 +289,23 @@ static ShopItemEntry shopItemEntries[] = {
     { OBJECT_GI_SOUL, GID_FAIRY, func_80A3C498, 50, 1, 0x00B7, 0x00B6, GI_FAIRY, EnGirlA_CanBuy_Fairy,
       EnGirlA_ItemGive_BottledItem, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_ARROWS_10 */
-    { OBJECT_GI_ARROW, GID_ARROWS_SMALL, func_8002EBCC, 20, 10, 0x00A0, 0x008A, GI_ARROWS_SMALL, EnGirlA_CanBuy_Arrows,
+    { OBJECT_GI_ARROW, GID_ARROWS_SMALL, Actor_DrawHiliteReflectionOpa, 20, 10, 0x00A0, 0x008A, GI_ARROWS_SMALL, EnGirlA_CanBuy_Arrows,
       EnGirlA_ItemGive_Arrows, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_BOMBS_20 */
-    { OBJECT_GI_BOMB_1, GID_BOMB, func_8002EBCC, 80, 20, 0x001C, 0x0006, GI_BOMBS_20, EnGirlA_CanBuy_Bombs,
+    { OBJECT_GI_BOMB_1, GID_BOMB, Actor_DrawHiliteReflectionOpa, 80, 20, 0x001C, 0x0006, GI_BOMBS_20, EnGirlA_CanBuy_Bombs,
       EnGirlA_ItemGive_Bombs, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_BOMBS_30 */
-    { OBJECT_GI_BOMB_1, GID_BOMB, func_8002EBCC, 120, 30, 0x001D, 0x001E, GI_BOMBS_30, EnGirlA_CanBuy_Bombs,
+    { OBJECT_GI_BOMB_1, GID_BOMB, Actor_DrawHiliteReflectionOpa, 120, 30, 0x001D, 0x001E, GI_BOMBS_30, EnGirlA_CanBuy_Bombs,
       EnGirlA_ItemGive_Bombs, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_BOMBS_5_R35 */
-    { OBJECT_GI_BOMB_1, GID_BOMB, func_8002EBCC, 35, 5, 0x00CB, 0x00CA, GI_BOMBS_5, EnGirlA_CanBuy_Bombs,
+    { OBJECT_GI_BOMB_1, GID_BOMB, Actor_DrawHiliteReflectionOpa, 35, 5, 0x00CB, 0x00CA, GI_BOMBS_5, EnGirlA_CanBuy_Bombs,
       EnGirlA_ItemGive_Bombs, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_RED_POTION_R40 */
-    { OBJECT_GI_LIQUID, GID_POTION_RED, func_8002EBCC, 40, 1, 0x0064, 0x0062, GI_POTION_RED, EnGirlA_CanBuy_RedPotion,
+    { OBJECT_GI_LIQUID, GID_POTION_RED, Actor_DrawHiliteReflectionOpa, 40, 1, 0x0064, 0x0062, GI_POTION_RED, EnGirlA_CanBuy_RedPotion,
       EnGirlA_ItemGive_BottledItem, EnGirlA_BuyEvent_ShieldDiscount },
     /* SI_RED_POTION_R50 */
-    { OBJECT_GI_LIQUID, GID_POTION_RED, func_8002EBCC, 50, 1, 0x0065, 0x0063, GI_POTION_RED, EnGirlA_CanBuy_RedPotion,
+    { OBJECT_GI_LIQUID, GID_POTION_RED, Actor_DrawHiliteReflectionOpa, 50, 1, 0x0065, 0x0063, GI_POTION_RED, EnGirlA_CanBuy_RedPotion,
       EnGirlA_ItemGive_BottledItem, EnGirlA_BuyEvent_ShieldDiscount }
->>>>>>> upstream/master
 };
 
 // Defines the Hylian Shield discount amount
@@ -493,7 +389,7 @@ void EnGirlA_InitItem(EnGirlA* this, GlobalContext* globalCtx) {
         return;
     }
 
-    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, shopItemEntries[params].objID);
+    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sShopItemEntries[params].objID);
 
     if (this->objBankIndex < 0) {
         Actor_Kill(&this->actor);
@@ -998,7 +894,7 @@ void EnGirlA_Noop(EnGirlA* this, GlobalContext* globalCtx) {
 }
 
 void EnGirlA_SetItemDescription(GlobalContext* globalCtx, EnGirlA* this) {
-    ShopItemEntry* tmp = &shopItemEntries[this->actor.params];
+    ShopItemEntry* tmp = &sShopItemEntries[this->actor.params];
     s32 params = this->actor.params;
     s32 maskId;
     s32 isMaskFreeToBorrow;
@@ -1058,7 +954,7 @@ void EnGirlA_UpdateStockedItem(GlobalContext* globalCtx, EnGirlA* this) {
 
     if (EnGirlA_TryChangeShopItem(this)) {
         EnGirlA_InitItem(this, globalCtx);
-        itemEntry = &shopItemEntries[this->actor.params];
+        itemEntry = &sShopItemEntries[this->actor.params];
         this->actor.textId = itemEntry->itemDescTextId;
     } else {
         this->isInvisible = false;
@@ -1083,7 +979,7 @@ s32 EnGirlA_TrySetMaskItemDescription(EnGirlA* this, GlobalContext* globalCtx) {
 
 void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
-    ShopItemEntry* itemEntry = &shopItemEntries[params];
+    ShopItemEntry* itemEntry = &sShopItemEntries[params];
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         this->actor.flags &= ~0x10;

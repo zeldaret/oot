@@ -1542,7 +1542,6 @@ s8 Actor_GetItemExchangePlayer(GlobalContext* globalCtx) {
     return player->exchangeItemId;
 }
 
-<<<<<<< HEAD
 /**
  * Get position of the actor on the screen
  */
@@ -1553,15 +1552,6 @@ void Actor_GetProjectionPos(GlobalContext* globalCtx, Actor* actor, s16* screenX
     Math_GetProjectionPos(globalCtx, &actor->focus.pos, &pos, &w);
     *screenX = pos.x * w * 160.0f + 160.0f;
     *screenY = pos.y * w * -120.0f + 120.0f;
-=======
-void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
-    Vec3f sp1C;
-    f32 sp18;
-
-    func_8002BE04(globalCtx, &actor->focus.pos, &sp1C, &sp18);
-    *x = sp1C.x * sp18 * 160.0f + 160.0f;
-    *y = sp1C.y * sp18 * -120.0f + 120.0f;
->>>>>>> upstream/master
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
