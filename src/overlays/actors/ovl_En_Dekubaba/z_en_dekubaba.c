@@ -283,7 +283,7 @@ void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E5A38.s")
-void func_809E5A38(EnDekubaba* this) {
+void EnDekubaba_DisableHitboxes(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < 7; i++) {
@@ -301,7 +301,7 @@ void EnDekubaba_SetupWait(EnDekubaba* this) {
 
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.z = this->actor.home.pos.z;
-    this->actor.world.pos.y = this->actor.home.pos.y + (14.0f * this->unk_230);
+    this->actor.world.pos.y = this->actor.home.pos.y + 14.0f * this->unk_230;
 
     Actor_SetScale(&this->actor, this->unk_230 * 0.01f * 0.5f);
 
@@ -324,7 +324,7 @@ void func_809E5D28(EnDekubaba* this) {
     s32 i;
 
     Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim,
-                     Animation_GetLastFrame(&gDekuBabaFastChompAnim) * 0.06666667f, 0.0f,
+                     Animation_GetLastFrame(&gDekuBabaFastChompAnim) * ( 1.0f / 15 ), 0.0f,
                      Animation_GetLastFrame(&gDekuBabaFastChompAnim), 2, 0.0f);
 
     this->timer = 15;
@@ -459,7 +459,7 @@ void func_809E63EC(EnDekubaba* this) {
     this->unk_1CA[2] = -0x5000;
     this->unk_1CA[1] = -0x4800;
 
-    func_809E5A38(this);
+    EnDekubaba_DisableHitboxes(this);
     Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 35);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = func_809E7A88;
@@ -489,7 +489,7 @@ void EnDekubaba_Wait(EnDekubaba* this, GlobalContext* globalCtx) {
 
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.z = this->actor.home.pos.z;
-    this->actor.world.pos.y = this->actor.home.pos.y + (14.0f * this->unk_230);
+    this->actor.world.pos.y = this->actor.home.pos.y + 14.0f * this->unk_230;
 
     if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f * this->unk_230) &&
         (fabsf(this->actor.yDistToPlayer) < 30.0f * this->unk_230)) {
@@ -515,7 +515,7 @@ void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
         this->unk_230 * 0.01f * (0.5f + (((15 - this->timer) * 0.5f) / 15.0f));
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
 
-    sp5C = (sinf(CLAMP_MAX((15 - this->timer) * 0.06666667f, 0.7f) * M_PI) * 32.0f) + 14.0f;
+    sp5C = (sinf(CLAMP_MAX((15 - this->timer) * ( 1.0f / 15 ), 0.7f) * M_PI) * 32.0f) + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
         phi_f12 = 0.0f;
@@ -580,7 +580,7 @@ void EnDekubaba_Retract(EnDekubaba* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-        this->unk_230 * 0.01f * (0.5f + this->timer * 0.033333335f);
+        this->unk_230 * 0.01f * (0.5f + this->timer * ( 1.0f / 30 ));
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
 
     sp58 = (sinf(CLAMP_MAX(this->timer * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
@@ -725,7 +725,7 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
     } else {
         this->timer++;
 
-        if ((this->timer >= 4) && !func_8002E084(&this->actor, 0x16C)) {
+        if ((this->timer >= 4) && !Actor_IsFacingPlayer(&this->actor, 0x16C)) {
             Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xF, 0x71C);
         }
 
@@ -913,7 +913,7 @@ void func_809E79EC(EnDekubaba* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 0) {
-        func_809E5A38(this);
+        EnDekubaba_DisableHitboxes(this);
 
         if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
             func_809E5F9C(this);
@@ -1053,7 +1053,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, GlobalContext* globalCtx) {
 
     if ((this->collider.base.acFlags & AC_HIT)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_8003573C(&this->actor, &this->collider, 1);
+        Actor_SetDropFlagJntSph(&this->actor, &this->collider, 1);
 
         if ((this->collider.base.colType != COLTYPE_HARD) &&
             ((this->actor.colChkInfo.damageEffect != DEKUBABA_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0))) {
@@ -1118,7 +1118,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_DAMAGE);
         }
     } else {
-        func_80032C7C(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
         if (this->actor.params == DEKUBABA_BIG) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_DEAD);
         } else {
