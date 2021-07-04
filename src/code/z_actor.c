@@ -1560,13 +1560,13 @@ s8 func_8002F368(GlobalContext* globalCtx) {
     return player->exchangeItemId;
 }
 
-void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* arg2, s16* arg3) {
+void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
     Vec3f sp1C;
     f32 sp18;
 
     func_8002BE04(globalCtx, &actor->focus.pos, &sp1C, &sp18);
-    *arg2 = sp1C.x * sp18 * 160.0f + 160.0f;
-    *arg3 = sp1C.y * sp18 * -120.0f + 120.0f;
+    *x = sp1C.x * sp18 * 160.0f + 160.0f;
+    *y = sp1C.y * sp18 * -120.0f + 120.0f;
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
