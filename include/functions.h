@@ -435,7 +435,7 @@ s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2);
 s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx);
 u32 func_8002F334(Actor* actor, GlobalContext* globalCtx);
 s8 func_8002F368(GlobalContext* globalCtx);
-void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* arg2, s16* arg3);
+void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y);
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx);
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange);
 void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId);
