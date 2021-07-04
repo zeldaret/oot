@@ -3162,9 +3162,7 @@ endseg
 beginseg
     name "ovl_Fishing"
     include "build/src/overlays/actors/ovl_Fishing/z_fishing.o"
-    include "build/data/overlays/actors/z_fishing.data.o"
-    include "build/data/overlays/actors/z_fishing.bss.o"
-    include "build/data/overlays/actors/z_fishing.reloc.o"
+    include "build/src/overlays/actors/ovl_Fishing/ovl_Fishing_reloc.o"
 endseg
 
 beginseg

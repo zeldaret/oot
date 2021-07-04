@@ -8,6 +8,7 @@
 #include "vt.h"
 #include "objects/object_zo/object_zo.h"
 #include "objects/object_ec/object_ec.h"
+#include "objects/object_fish/object_fish.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 
 #define FLAGS 0x00000010
@@ -116,9 +117,6 @@ extern FlexSkeletonHeader D_06007958;
 // Object_GE1
 extern FlexSkeletonHeader D_06000330;
 
-// Object_ZO
-extern FlexSkeletonHeader D_0600BFA8;
-
 // Object_KZ
 extern FlexSkeletonHeader D_060086D0;
 
@@ -133,9 +131,6 @@ extern FlexSkeletonHeader D_06004258;
 
 // Object_OS
 extern FlexSkeletonHeader D_06004658;
-
-// Object_Fish
-extern FlexSkeletonHeader D_060085F8;
 
 // Object_RS
 extern FlexSkeletonHeader D_06004868;
@@ -166,7 +161,6 @@ extern Gfx D_06005880[];
 extern Gfx D_06009198[];
 extern Gfx D_06009430[];
 extern Gfx D_06009690[];
-extern Gfx D_060074C8[];
 
 void DemoEc_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoEc* this = THIS;
@@ -1044,9 +1038,9 @@ void DemoEc_DrawMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_DrawSkeleton(this, globalCtx, &D_060035D8, NULL, NULL, NULL);
 }
 
-void DemoEc_InitFishingMan(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_InitFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060085F8);
+    DemoEc_InitSkelAnime(this, globalCtx, &gFishingOwnerSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -1055,28 +1049,32 @@ void DemoEc_InitFishingMan(DemoEc* this, GlobalContext* globalCtx) {
     this->drawConfig = EC_DRAW_FISHING_MAN;
 }
 
-void DemoEc_UpdateFishingMan(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_UpdateFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UpdateSkelAnime(this);
     func_8096D594(this, globalCtx);
     DemoEc_UpdateEyes(this);
     DemoEc_UpdateBgFlags(this, globalCtx);
 }
 
-void DemoEc_FishingManPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
-                                   Gfx** gfx) {
+void DemoEc_FishingOwnerPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
+                                     Gfx** gfx) {
     DemoEc* this = THIS;
 
     if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & 0x1000)) {
-        gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(D_060074C8));
+        gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(gFishingOwnerHatDL));
     }
 }
 
-void DemoEc_DrawFishingMan(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x06009250, 0x06009650, 0x06009A50 };
+void DemoEc_DrawFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
+    static void* eyeTextures[] = {
+        gFishingOwnerEyeOpenTex,
+        gFishingOwnerEyeHalfTex,
+        gFishingOwnerEyeClosedTex,
+    };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, NULL, NULL, DemoEc_FishingManPostLimbDraw);
+    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, NULL, NULL, DemoEc_FishingOwnerPostLimbDraw);
 }
 
 void DemoEc_InitBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
@@ -1096,6 +1094,7 @@ void DempEc_UpdateBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UpdateEyes(this);
     DemoEc_UpdateBgFlags(this, globalCtx);
 }
+
 void DemoEc_DrawBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { 0x06003968, 0x06003D68, 0x06004168 };
     s32 eyeTexIndex = this->eyeTexIndex;
@@ -1210,7 +1209,7 @@ static DemoEcInitFunc sInitFuncs[] = {
     DemoEc_InitCuccoLady,
     DemoEc_InitPotionShopOwner,
     DemoEc_InitMaskShopOwner,
-    DemoEc_InitFishingMan,
+    DemoEc_InitFishingOwner,
     DemoEc_InitBombchuShopOwner,
     DemoEc_InitGorons,
     DemoEc_InitGorons,
@@ -1290,7 +1289,7 @@ static DemoEcUpdateFunc sUpdateFuncs[] = {
     DemoEc_UpdateCuccoLady,
     DemoEc_UpdatePotionShopOwner,
     DemoEc_UpdateMaskShopOwner,
-    DemoEc_UpdateFishingMan,
+    DemoEc_UpdateFishingOwner,
     DempEc_UpdateBombchuShopOwner,
     DemoEc_UpdateGorons,
     DemoEc_UpdateMalon,
@@ -1325,7 +1324,7 @@ static DemoEcDrawFunc sDrawFuncs[] = {
     DemoEc_DrawKingZora,        DemoEc_DrawMido,
     DemoEc_DrawCucco,           DemoEc_DrawCuccoLady,
     DemoEc_DrawPotionShopOwner, DemoEc_DrawMaskShopOwner,
-    DemoEc_DrawFishingMan,      DemoEc_DrawBombchuShopOwner,
+    DemoEc_DrawFishingOwner,    DemoEc_DrawBombchuShopOwner,
     DemoEc_DrawGorons,          DemoEc_DrawMalon,
 };
 
