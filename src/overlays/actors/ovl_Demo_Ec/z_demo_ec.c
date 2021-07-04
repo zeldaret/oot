@@ -8,6 +8,7 @@
 #include "vt.h"
 #include "objects/object_zo/object_zo.h"
 #include "objects/object_ec/object_ec.h"
+#include "objects/object_ma2/object_ma2.h"
 
 #define FLAGS 0x00000010
 
@@ -142,12 +143,8 @@ extern FlexSkeletonHeader D_06004868;
 // Object_OF1D_MAP
 extern FlexSkeletonHeader D_0600FEF0;
 
-// Object_MA2
-extern FlexSkeletonHeader D_06008D90;
-
 // animations from other objects
 extern AnimationHeader D_060002B8;
-extern AnimationHeader D_06009EE0; // Object MA2
 extern AnimationHeader D_06004390;
 extern AnimationHeader D_060076C0;
 extern AnimationHeader D_06005F20;
@@ -1160,9 +1157,9 @@ void DemoEc_DrawGorons(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitMalon(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06008D90);
+    DemoEc_InitSkelAnime(this, globalCtx, &gMalonAdultSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06009EE0, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gMalonAdultSingAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_MALON;

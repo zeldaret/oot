@@ -1,6 +1,5 @@
 <Root>
     <File Name="object_ma2" Segment="6">
-        <Animation Name="object_ma2_Anim_0007D4" Offset="0x7D4"/>
         <Texture Name="object_ma2_TLUT_0007F0" OutName="tlut_000007F0" Format="rgb5a1" Width="16" Height="16" Offset="0x7F0"/>
         <Texture Name="object_ma2_Tex_0009F0" OutName="tex_000009F0" Format="rgb5a1" Width="16" Height="16" Offset="0x9F0"/>
         <Texture Name="object_ma2_Tex_000BF0" OutName="tex_00000BF0" Format="ci8" Width="16" Height="16" Offset="0xBF0"/>
@@ -59,8 +58,9 @@
         <Limb Name="gMalonAdultRightArmLimb" LimbType="Standard" Offset="0x8D24"/>
         <Limb Name="gMalonAdultRightHandLimb" LimbType="Standard" Offset="0x8D30"/>
         <Limb Name="gMalonAdultHeadLimb" LimbType="Standard" Offset="0x8D3C"/>
-        <Animation Name="object_ma2_Anim_0092F0" Offset="0x92F0"/>
-        <Animation Name="object_ma2_Anim_0093BC" Offset="0x93BC"/>
-        <Blob Name="object_ma2_Blob_0093CC" Size="0xB24" Offset="0x93CC"/>
+        <Animation Name="gMalonAdultIdleAnim" Offset="0x7D4"/>
+        <Animation Name="gMalonAdultHandsFromFaceToSideAnim" Offset="0x92F0"/> <!-- Unused -->
+        <Animation Name="gMalonAdultStandStillAnim" Offset="0x93BC"/>
+        <Animation Name="gMalonAdultSingAnim" Offset="0x9EE0"/>
     </File>
 </Root>

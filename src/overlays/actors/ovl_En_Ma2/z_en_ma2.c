@@ -57,9 +57,9 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_D_80AA1678 D_80AA2858[] = {
-    { 0x060007D4, 1.0f, ANIMMODE_LOOP, 0.0f },   { 0x060007D4, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x060093BC, 1.0f, ANIMMODE_LOOP, 0.0f },   { 0x06009EE0, 1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06009EE0, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },       { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gMalonAdultStandStillAnim, 1.0f, ANIMMODE_LOOP, 0.0f }, { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
 static Vec3f D_80AA28A8 = { 900.0f, 0.0f, 0.0f };
@@ -77,9 +77,6 @@ static UNK_PTR D_80AA28C0[] = {
 };
 
 extern Gfx D_06005420[];
-extern FlexSkeletonHeader D_06008D90;
-extern AnimationHeader D_060093BC;
-extern AnimationHeader D_06009EE0;
 
 u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 23);
@@ -137,7 +134,7 @@ void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &D_06009EE0)) {
+    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &gMalonAdultSingAnim)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -174,7 +171,7 @@ u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA1C68(EnMa2* this) {
-    if (this->skelAnime.animation != &D_06009EE0) {
+    if (this->skelAnime.animation != &gMalonAdultSingAnim) {
         return 0;
     }
     if (this->unk_1E0.unk_00 != 0) {
@@ -206,7 +203,7 @@ void func_80AA1D44(EnMa2* this, s32 idx) {
 }
 
 void func_80AA1DB4(EnMa2* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animation == &D_06009EE0) {
+    if (this->skelAnime.animation == &gMalonAdultSingAnim) {
         if (this->unk_1E0.unk_00 == 0) {
             if (this->unk_20A != 0) {
                 func_800F6584(0);
@@ -355,7 +352,8 @@ s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         Matrix_RotateY((-vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateX((-vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
-    if ((limbIndex == MALON_ADULT_CHEST_AND_NECK_LIMB) || (limbIndex == MALON_ADULT_LEFT_SHOULDER_LIMB) || (limbIndex == MALON_ADULT_RIGHT_SHOULDER_LIMB)) {
+    if ((limbIndex == MALON_ADULT_CHEST_AND_NECK_LIMB) || (limbIndex == MALON_ADULT_LEFT_SHOULDER_LIMB) ||
+        (limbIndex == MALON_ADULT_RIGHT_SHOULDER_LIMB)) {
         rot->y += Math_SinS(this->unk_212[limbIndex].y) * 200.0f;
         rot->z += Math_CosS(this->unk_212[limbIndex].z) * 200.0f;
     }
@@ -371,7 +369,7 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if (limbIndex == MALON_ADULT_HEAD_LIMB) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
-    if ((limbIndex == MALON_ADULT_LEFT_HAND_LIMB) && (this->skelAnime.animation == &D_060093BC)) {
+    if ((limbIndex == MALON_ADULT_LEFT_HAND_LIMB) && (this->skelAnime.animation == &gMalonAdultStandStillAnim)) {
         gSPDisplayList(POLY_OPA_DISP++, D_06005420);
     }
 
