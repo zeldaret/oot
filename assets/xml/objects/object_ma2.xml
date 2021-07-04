@@ -39,25 +39,26 @@
         <DList Name="object_ma2_DL_008A08" Offset="0x8A08"/>
         <DList Name="object_ma2_DL_008A60" Offset="0x8A60"/>
         <DList Name="object_ma2_DL_008B50" Offset="0x8B50"/>
-        <Limb Name="object_ma2_Limb_008C70" LimbType="Standard" Offset="0x8C70"/>
-        <Limb Name="object_ma2_Limb_008C7C" LimbType="Standard" Offset="0x8C7C"/>
-        <Limb Name="object_ma2_Limb_008C88" LimbType="Standard" Offset="0x8C88"/>
-        <Limb Name="object_ma2_Limb_008C94" LimbType="Standard" Offset="0x8C94"/>
-        <Limb Name="object_ma2_Limb_008CA0" LimbType="Standard" Offset="0x8CA0"/>
-        <Limb Name="object_ma2_Limb_008CAC" LimbType="Standard" Offset="0x8CAC"/>
-        <Limb Name="object_ma2_Limb_008CB8" LimbType="Standard" Offset="0x8CB8"/>
-        <Limb Name="object_ma2_Limb_008CC4" LimbType="Standard" Offset="0x8CC4"/>
-        <Limb Name="object_ma2_Limb_008CD0" LimbType="Standard" Offset="0x8CD0"/>
-        <Limb Name="object_ma2_Limb_008CDC" LimbType="Standard" Offset="0x8CDC"/>
-        <Limb Name="object_ma2_Limb_008CE8" LimbType="Standard" Offset="0x8CE8"/>
-        <Limb Name="object_ma2_Limb_008CF4" LimbType="Standard" Offset="0x8CF4"/>
-        <Limb Name="object_ma2_Limb_008D00" LimbType="Standard" Offset="0x8D00"/>
-        <Limb Name="object_ma2_Limb_008D0C" LimbType="Standard" Offset="0x8D0C"/>
-        <Limb Name="object_ma2_Limb_008D18" LimbType="Standard" Offset="0x8D18"/>
-        <Limb Name="object_ma2_Limb_008D24" LimbType="Standard" Offset="0x8D24"/>
-        <Limb Name="object_ma2_Limb_008D30" LimbType="Standard" Offset="0x8D30"/>
-        <Limb Name="object_ma2_Limb_008D3C" LimbType="Standard" Offset="0x8D3C"/>
-        <Skeleton Name="object_ma2_Skel_008D90" Type="Flex" LimbType="Standard" Offset="0x8D90"/>
+
+        <Skeleton Name="gMalonAdultSkel" Type="Flex" LimbType="Standard" Offset="0x8D90"/>
+        <Limb Name="gMalonAdultRootLimb" LimbType="Standard" Offset="0x8C70"/>
+        <Limb Name="gMalonAdultLowerControlLimb" LimbType="Standard" Offset="0x8C7C"/>
+        <Limb Name="gMalonAdultLeftThighLimb" LimbType="Standard" Offset="0x8C88"/>
+        <Limb Name="gMalonAdultLeftLegLimb" LimbType="Standard" Offset="0x8C94"/>
+        <Limb Name="gMalonAdultLeftFootLimb" LimbType="Standard" Offset="0x8CA0"/>
+        <Limb Name="gMalonAdultRightThighLimb" LimbType="Standard" Offset="0x8CAC"/>
+        <Limb Name="gMalonAdultRightLegLimb" LimbType="Standard" Offset="0x8CB8"/>
+        <Limb Name="gMalonAdultRightFootLimb" LimbType="Standard" Offset="0x8CC4"/>
+        <Limb Name="gMalonAdultTorsoLimb" LimbType="Standard" Offset="0x8CD0"/>
+        <Limb Name="gMalonAdultDressLimb" LimbType="Standard" Offset="0x8CDC"/>
+        <Limb Name="gMalonAdultChestAndNeckLimb" LimbType="Standard" Offset="0x8CE8"/>
+        <Limb Name="gMalonAdultLeftShoulderLimb" LimbType="Standard" Offset="0x8CF4"/>
+        <Limb Name="gMalonAdultLeftArmLimb" LimbType="Standard" Offset="0x8D00"/>
+        <Limb Name="gMalonAdultLeftHandLimb" LimbType="Standard" Offset="0x8D0C"/>
+        <Limb Name="gMalonAdultRightShoulderLimb" LimbType="Standard" Offset="0x8D18"/>
+        <Limb Name="gMalonAdultRightArmLimb" LimbType="Standard" Offset="0x8D24"/>
+        <Limb Name="gMalonAdultRightHandLimb" LimbType="Standard" Offset="0x8D30"/>
+        <Limb Name="gMalonAdultHeadLimb" LimbType="Standard" Offset="0x8D3C"/>
         <Animation Name="object_ma2_Anim_0092F0" Offset="0x92F0"/>
         <Animation Name="object_ma2_Anim_0093BC" Offset="0x93BC"/>
         <Blob Name="object_ma2_Blob_0093CC" Size="0xB24" Offset="0x93CC"/>
