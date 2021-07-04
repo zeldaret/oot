@@ -748,7 +748,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_16E != 0) {
             Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
             Gfx_DrawDoorLock(globalCtx, this->unk_16E,
-                               (this->doorType == SHUTTER_BOSS) ? 1 : ((this->unk_16C == 6) ? 2 : 0));
+                             (this->doorType == SHUTTER_BOSS) ? 1 : ((this->unk_16C == 6) ? 2 : 0));
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2135);

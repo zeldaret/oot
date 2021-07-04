@@ -4130,7 +4130,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
     }
 
     return NULL;
-} 
+}
 
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
     f32 sp44;
