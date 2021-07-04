@@ -198,7 +198,7 @@ void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x01: Actor List
 void func_800985DC(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->nbSetupActors = cmd->actorList.num;
+    globalCtx->numSetupActors = cmd->actorList.num;
     globalCtx->setupActorList = SEGMENTED_TO_VIRTUAL(cmd->actorList.segment);
 }
 
@@ -222,7 +222,7 @@ void func_80098674(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x04: Room List
 void func_800987A4(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->nbRooms = cmd->roomList.num;
+    globalCtx->numRooms = cmd->roomList.num;
     globalCtx->roomList = SEGMENTED_TO_VIRTUAL(cmd->roomList.segment);
 }
 
@@ -337,7 +337,7 @@ void Door_Init(GameState* state, DoorContext* doorCtx) {
 
 // Scene Command 0x0F: Light Setting List
 void func_80098CC8(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->envCtx.nbLightSettings = cmd->lightSettingList.num;
+    globalCtx->envCtx.numLightSettings = cmd->lightSettingList.num;
     globalCtx->envCtx.lightSettingsList = SEGMENTED_TO_VIRTUAL(cmd->lightSettingList.segment);
 }
 

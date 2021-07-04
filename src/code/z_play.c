@@ -1445,7 +1445,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     globalCtx->setupExitList = NULL;
     globalCtx->cUpElfMsgs = NULL;
     globalCtx->setupPathList = NULL;
-    globalCtx->nbSetupActors = 0;
+    globalCtx->numSetupActors = 0;
     Object_InitBank(globalCtx, &globalCtx->objectCtx);
     LightContext_Init(globalCtx, &globalCtx->lightCtx);
     Door_Init(&globalCtx->state, &globalCtx->doorCtx);

@@ -2037,12 +2037,12 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     sp74 = NULL;
     unkFlag = 0;
 
-    if (globalCtx->nbSetupActors != 0) {
+    if (globalCtx->numSetupActors != 0) {
         actorEntry = &globalCtx->setupActorList[0];
-        for (i = 0; i < globalCtx->nbSetupActors; i++) {
+        for (i = 0; i < globalCtx->numSetupActors; i++) {
             Actor_SpawnEntry(&globalCtx->actorCtx, actorEntry++, globalCtx);
         }
-        globalCtx->nbSetupActors = 0;
+        globalCtx->numSetupActors = 0;
     }
 
     if (actorCtx->unk_02 != 0) {
