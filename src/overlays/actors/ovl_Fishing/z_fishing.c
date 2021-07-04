@@ -2176,7 +2176,7 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sLurePos, &D_80B7AF94, &sProjectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->projectionMatrix, &sLurePos, &D_80B7AF94, &sProjectedW);
 
     if (D_80B7A694 == 0) {
         Math_ApproachF(&D_80B7E108, -800.0f, 1.0f, 20.0f);
@@ -4328,7 +4328,7 @@ void Fishing_UpdatePondProps(GlobalContext* globalCtx) {
             prop->shouldDraw = false;
             prop->timer++;
 
-            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &prop->pos, &prop->projectedPos, &sProjectedW);
+            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->projectionMatrix, &prop->pos, &prop->projectedPos, &sProjectedW);
 
             if ((prop->projectedPos.z < prop->drawDistance) &&
                 (fabsf(prop->projectedPos.x) < (100.0f + prop->projectedPos.z))) {
@@ -4576,7 +4576,7 @@ void Fishing_UpdateGroupFishes(GlobalContext* globalCtx) {
         if (fish->type != FS_GROUP_FISH_NONE) {
             fish->timer++;
 
-            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &fish->pos, &fish->projectedPos, &sProjectedW);
+            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->projectionMatrix, &fish->pos, &fish->projectedPos, &sProjectedW);
 
             if ((fish->projectedPos.z < 400.0f) && (fabsf(fish->projectedPos.x) < (100.0f + fish->projectedPos.z))) {
                 fish->shouldDraw = true;
@@ -5653,7 +5653,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             pos.z = Rand_CenteredFloat(700.0f) + globalCtx->view.eye.z;
 
             if (pos.z < 1160.0f) {
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &projectedPos, &sProjectedW);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->projectionMatrix, &pos, &projectedPos, &sProjectedW);
 
                 if (projectedPos.z < 0.0f) {
                     i--;
@@ -5664,7 +5664,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sStreamSoundPos, &sStreamSoundProjectedPos, &sProjectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->projectionMatrix, &sStreamSoundPos, &sStreamSoundProjectedPos,
+                                 &sProjectedW);
 
     func_80078914(&sStreamSoundProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
 
