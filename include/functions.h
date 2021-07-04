@@ -466,7 +466,7 @@ void Actor_InitContext(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEn
 void Actor_UpdateContext(GlobalContext* globalCtx, ActorContext* actorCtx);
 s32 func_800314D4(GlobalContext* globalCtx, Actor* actorB, Vec3f* arg2, f32 arg3);
 void Actor_DrawContext(GlobalContext* globalCtx, ActorContext* actorCtx);
-void Actor_KillIfObjectIsNotLoaded(GlobalContext* globalCtx, ActorContext* actorCtx);
+void Actor_KillAllIfObjectMissing(GlobalContext* globalCtx, ActorContext* actorCtx);
 void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx);
 void Actor_DestroyContext(ActorContext* actorCtx, GlobalContext* globalCtx);
 Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId, f32 posX, f32 posY, f32 posZ,

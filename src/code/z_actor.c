@@ -2457,7 +2457,7 @@ void Actor_DrawContext(GlobalContext* globalCtx, ActorContext* actorCtx) {
 /**
  * Kills all actors in ActorContext whose object dependency is not loaded.
  */
-void Actor_KillIfObjectIsNotLoaded(GlobalContext* globalCtx, ActorContext* actorCtx) {
+void Actor_KillAllIfObjectMissing(GlobalContext* globalCtx, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
 
