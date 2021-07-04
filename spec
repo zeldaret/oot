@@ -2708,8 +2708,7 @@ endseg
 beginseg
     name "ovl_En_Ossan"
     include "build/src/overlays/actors/ovl_En_Ossan/z_en_ossan.o"
-    include "build/data/overlays/actors/z_en_ossan.data.o"
-    include "build/data/overlays/actors/z_en_ossan.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ossan/ovl_En_Ossan_reloc.o"
 endseg
 
 beginseg
@@ -4017,7 +4016,8 @@ endseg
 beginseg
     name "object_ossan"
     romalign 0x1000
-    include "build/baserom/object_ossan.o"
+    include "build/assets/objects/object_ossan/object_ossan.o"
+    number 6
 endseg
 
 beginseg
@@ -4687,7 +4687,8 @@ endseg
 beginseg
     name "object_oF1d_map"
     romalign 0x1000
-    include "build/baserom/object_oF1d_map.o"
+    include "build/assets/objects/object_oF1d_map/object_oF1d_map.o"
+    number 6
 endseg
 
 beginseg
