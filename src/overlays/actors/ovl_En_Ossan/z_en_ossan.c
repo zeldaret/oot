@@ -641,7 +641,7 @@ void EnOssan_UpdateCursorPos(GlobalContext* globalCtx, EnOssan* this) {
     s16 x;
     s16 y;
 
-    func_8002F374(globalCtx, &this->shelfSlots[this->cursorIndex]->actor, &x, &y);
+    Actor_GetProjectionPos(globalCtx, &this->shelfSlots[this->cursorIndex]->actor, &x, &y);
     this->cursorX = x;
     this->cursorY = y;
 }
@@ -652,7 +652,7 @@ void EnOssan_EndInteraction(GlobalContext* globalCtx, EnOssan* this) {
     // "End of conversation!"
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d]:★★★ 会話終了！！ ★★★" VT_RST "\n", "../z_en_oB1.c", 1337);
     YREG(31) = 0;
-    func_8002F194(&this->actor, globalCtx);
+    Actor_IsTalking(&this->actor, globalCtx);
     globalCtx->msgCtx.msgMode = 0x36;
     globalCtx->msgCtx.unk_E3E7 = 4;
     player->stateFlags2 &= ~0x20000000;
@@ -736,14 +736,14 @@ void EnOssan_SetLookToShopkeeperFromShelf(GlobalContext* globalCtx, EnOssan* thi
 void EnOssan_State_Idle(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     this->headTargetRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_IsTalking(&this->actor, globalCtx)) {
         // "Start conversation!!"
         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 会話開始！！ ★★★" VT_RST "\n");
         player->stateFlags2 |= 0x20000000;
         func_800BC590(globalCtx);
         EnOssan_SetStateStartShopping(globalCtx, this, false);
     } else if (this->actor.xzDistToPlayer < 100.0f) {
-        func_8002F2CC(&this->actor, globalCtx, 100);
+        Actor_RequestToTalkInRange(&this->actor, globalCtx, 100);
     }
 }
 
@@ -1702,7 +1702,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCt
                         func_800BC490(globalCtx, 2);
                         func_8010B680(globalCtx, this->actor.textId, &this->actor);
                         EnOssan_SetStateStartShopping(globalCtx, this, true);
-                        func_8002F298(&this->actor, globalCtx, 100.0f, -1);
+                        Actor_RequestToTalkAndExchangeItem(&this->actor, globalCtx, 100.0f, -1);
                         break;
                     case 1:
                     default:
@@ -1721,7 +1721,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCt
         func_800BC490(globalCtx, 2);
         func_8010B680(globalCtx, this->actor.textId, &this->actor);
         EnOssan_SetStateStartShopping(globalCtx, this, true);
-        func_8002F298(&this->actor, globalCtx, 100.0f, -1);
+        Actor_RequestToTalkAndExchangeItem(&this->actor, globalCtx, 100.0f, -1);
     }
 }
 
@@ -2210,7 +2210,7 @@ void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx) {
         sStateFunc[this->stateFlag](this, globalCtx, player);
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveForwardXZ(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 26.0f, 10.0f, 0.0f, 5);
     Actor_SetFocus(&this->actor, 90.0f);
     Actor_SetScale(&this->actor, sShopkeeperScale[this->actor.params]);

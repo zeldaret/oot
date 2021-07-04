@@ -2851,17 +2851,17 @@ void Fishing_HandleAquariumDialog(Fishing* this, GlobalContext* globalCtx) {
         if (this->unk_1D4 == 0) {
             this->actor.flags |= 1;
 
-            if (func_8002F194(&this->actor, globalCtx)) {
+            if (Actor_IsTalking(&this->actor, globalCtx)) {
                 D_80B7A678 = D_80B7E078;
                 this->unk_1D3 = 1;
             } else {
-                func_8002F2F4(&this->actor, globalCtx);
+                Actor_RequestToTalk(&this->actor, globalCtx);
             }
         } else {
             this->unk_1D4--;
             this->actor.flags &= ~1;
         }
-    } else if (func_8002F334(&this->actor, globalCtx)) {
+    } else if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
         this->unk_1D3 = 0;
         this->unk_1D4 = 20;
     }
@@ -4056,10 +4056,10 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 Math_ApproachS(&this->unk_16E, spF6, 3, 0xBB8);
             }
 
-            func_8002D908(&this->actor);
+            Actor_SetMovementSpeedXYZ(&this->actor);
         }
 
-        func_8002D7EC(&this->actor);
+        Actor_Move(&this->actor);
 
         this->actor.world.pos.y += (this->unk_184 * 1.5f);
 
@@ -4736,7 +4736,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x4097;
             }
 
-            if (func_8002F194(&this->actor, globalCtx) != 0) {
+            if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
                 if (D_80B7E0AC == 0) {
                     this->unk_15C = 1;
                     if (sLinkAge != 1) {
@@ -4748,7 +4748,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                     this->unk_15C = 10;
                 }
             } else {
-                func_8002F2CC(&this->actor, globalCtx, 100.0f);
+                Actor_RequestToTalkInRange(&this->actor, globalCtx, 100.0f);
             }
             break;
 
