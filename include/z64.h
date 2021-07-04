@@ -580,7 +580,7 @@ typedef struct {
     /* 0xAA */ s16      unk_AA;
     /* 0xAC */ s16      unk_AC;
     /* 0xB0 */ f32      unk_B0;
-    /* 0xB4 */ u8       nbLightSettings;
+    /* 0xB4 */ u8       numLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
     /* 0xBC */ u8       unk_BC;
     /* 0xBD */ u8       unk_BD;
@@ -962,8 +962,8 @@ typedef struct GlobalContext {
     /* 0x11DE8 */ u8 linkAgeOnLoad;
     /* 0x11DE9 */ u8 unk_11DE9;
     /* 0x11DEA */ u8 curSpawn;
-    /* 0x11DEB */ u8 nbSetupActors;
-    /* 0x11DEC */ u8 nbRooms;
+    /* 0x11DEB */ u8 numSetupActors;
+    /* 0x11DEC */ u8 numRooms;
     /* 0x11DF0 */ RomFile* roomList;
     /* 0x11DF4 */ ActorEntry* linkActorEntry;
     /* 0x11DF8 */ ActorEntry* setupActorList;
