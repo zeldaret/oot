@@ -68,7 +68,7 @@ typedef enum {
     /* 0x02 */ FS_PROP_LILY_PAD,
     /* 0x03 */ FS_PROP_ROCK,
     /* 0x04 */ FS_PROP_WOOD_POST,
-    /* 0x23 */ FS_PROP_INIT_STOP = 35
+    /* 0x23 */ FS_PROP_INIT_STOP = 0x23
 } FishingPropType;
 
 typedef struct {
@@ -599,7 +599,7 @@ void Fishing_SpawnRainDrop(FishingEffect* effect, Vec3f* pos, Vec3f* rot) {
     }
 }
 
-static FishingPropInit sPondPropInits[] = {
+static FishingPropInit sPondPropInits[POND_PROP_COUNT + 1] = {
     { FS_PROP_ROCK, { 529, -53, -498 } },
     { FS_PROP_ROCK, { 461, -66, -480 } },
     { FS_PROP_ROCK, { 398, -73, -474 } },
@@ -782,10 +782,10 @@ void Fishing_InitPondProps(Fishing* this, GlobalContext* globalCtx) {
             prop->scale = (Fishing_RandZeroOne() * 0.3f) + 0.5f;
             prop->rotY = Rand_ZeroFloat(2 * M_PI);
             if (sLinkAge == 1) {
-                if ((i & 3) != 0) {
+                if ((i % 4) != 0) {
                     prop->scale *= 0.6f;
                 } else {
-                    prop->type = 0;
+                    prop->type = FS_PROP_NONE;
                 }
             }
         } else {
@@ -906,7 +906,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         for (i = 0; i < EFFECT_COUNT; i++) {
-            sFishingEffects[i].type = 0;
+            sFishingEffects[i].type = FS_EFF_NONE;
         }
 
         for (i = 0; i < POND_PROP_COUNT; i++) {
@@ -965,7 +965,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         for (i = 0; i < fishCount; i++) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_FISHING, sFishInits[i].pos.x, sFishInits[i].pos.y,
-                        sFishInits[i].pos.z, 0, Rand_ZeroFloat(65536.0f), 0, 100 + i);
+                        sFishInits[i].pos.z, 0, Rand_ZeroFloat(0x10000), 0, 100 + i);
         }
     } else {
         if ((thisx->params < 115) || (thisx->params == 200)) {
@@ -1140,7 +1140,7 @@ void Fishing_UpdateEffects(FishingEffect* effect, GlobalContext* globalCtx) {
                     effect->pos.y -= 0.1f;
                 }
 
-                if ((effect->timer & 0xF) == 0) {
+                if ((effect->timer % 16) == 0) {
                     Vec3f pos = effect->pos;
                     pos.y = WATER_SURFACE_Y(globalCtx);
                     Fishing_SpawnRipple(NULL, globalCtx->specialEffects, &pos, 30.0f, 300.0f, 150, 90);
@@ -2066,7 +2066,7 @@ void Fishing_DrawRod(GlobalContext* globalCtx) {
         if (i < 5) {
             gDPLoadTextureBlock(POLY_OPA_DISP++, gFishingRodSegmentBlackTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 3, G_TX_NOLOD, G_TX_NOLOD);
-        } else if ((i < 8) || ((i & 1) == 0)) {
+        } else if ((i < 8) || ((i % 2) == 0)) {
             gDPLoadTextureBlock(POLY_OPA_DISP++, gFishingRodSegmentWhiteTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 8, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 4, 3, G_TX_NOLOD, G_TX_NOLOD);
         } else {
@@ -2407,9 +2407,9 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
 
                     if (D_80B7E150 == 0) {
                         if (fabsf(input->rel.stick_x) > 30.0f) {
-                            sp70 = fabsf((input->rel.stick_x - D_80B7A6C4) * 0.016666668f);
+                            sp70 = fabsf((input->rel.stick_x - D_80B7A6C4) * (1.0f / 60.0f));
                         } else if (fabsf(input->rel.stick_y) > 30.0f) {
-                            sp70 = fabsf((input->rel.stick_y - D_80B7A6C8) * 0.016666668f);
+                            sp70 = fabsf((input->rel.stick_y - D_80B7A6C8) * (1.0f / 60.0f));
                         }
                     }
 
@@ -2746,7 +2746,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
     sp24 = SQ(sp34.x) + SQ(sp34.y) + SQ(sp34.z);
 
     if ((D_80B7A694 == 3) && (this->unk_1A2 == 0) && (D_80B7A68C == 0)) {
-        Matrix_RotateY(((0 - this->actor.shape.rot.y) / 32768.0f) * M_PI, MTXMODE_NEW);
+        Matrix_RotateY((-this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&sp34, &sp28);
 
         if ((sp28.z > 0.0f) || (this->unk_1AC < 40.0f)) {
@@ -4602,7 +4602,7 @@ void Fishing_UpdateGroupFishes(GlobalContext* globalCtx) {
             dist = sqrtf(SQ(dx) + SQ(dz));
             spD6 = Math_Atan2S(dist, dy);
 
-            if ((dist < 10.0f) || (((fish->timer & 31) == 0) && (Rand_ZeroOne() > 0.5f))) {
+            if ((dist < 10.0f) || (((fish->timer % 32) == 0) && (Rand_ZeroOne() > 0.5f))) {
                 fish->unk_10.y = basePos[groupIndex].y + Rand_CenteredFloat(10.0f);
 
                 if (D_80B7A898 != 0.0f) {
