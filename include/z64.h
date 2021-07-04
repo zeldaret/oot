@@ -288,10 +288,41 @@ typedef struct {
     /* 0x10 */ Vec3f relativePos;
 } SoundSource; // size = 0x1C
 
+typedef enum {
+    /* 0x00 */ SKYBOX_NONE,
+    /* 0x01 */ SKYBOX_NORMAL_SKY,
+    /* 0x02 */ SKYBOX_BAZAAR,
+    /* 0x03 */ SKYBOX_OVERCAST_SUNSET,
+    /* 0x04 */ SKYBOX_MARKET_ADULT,
+    /* 0x05 */ SKYBOX_CUTSCENE_MAP,
+    /* 0x06 */ SKYBOX_HOUSE_LINK,
+    /* 0x09 */ SKYBOX_MARKET_CHILD_DAY = 9,
+    /* 0x0A */ SKYBOX_MARKET_CHILD_NIGHT,
+    /* 0x0B */ SKYBOX_HAPPY_MASK_SHOP,
+    /* 0x0C */ SKYBOX_HOUSE_KNOW_IT_ALL_BROTHERS,
+    /* 0x0E */ SKYBOX_HOUSE_OF_TWINS = 14,
+    /* 0x0F */ SKYBOX_STABLES,
+    /* 0x10 */ SKYBOX_HOUSE_KAKARIKO,
+    /* 0x11 */ SKYBOX_KOKIRI_SHOP,
+    /* 0x13 */ SKYBOX_GORON_SHOP = 19,
+    /* 0x14 */ SKYBOX_ZORA_SHOP,
+    /* 0x16 */ SKYBOX_POTION_SHOP_KAKARIKO = 22,
+    /* 0x17 */ SKYBOX_POTION_SHOP_MARKET,
+    /* 0x18 */ SKYBOX_BOMBCHU_SHOP,
+    /* 0x1A */ SKYBOX_HOUSE_RICHARD = 26,
+    /* 0x1B */ SKYBOX_HOUSE_IMPA,
+    /* 0x1C */ SKYBOX_TENT,
+    /* 0x1D */ SKYBOX_UNSET_1D,
+    /* 0x20 */ SKYBOX_HOUSE_MIDO = 32,
+    /* 0x21 */ SKYBOX_HOUSE_SARIA,
+    /* 0x22 */ SKYBOX_HOUSE_ALLEY,
+    /* 0x27 */ SKYBOX_UNSET_27 = 39
+} SkyboxId;
+
 typedef struct {
     /* 0x000 */ char unk_00[0x128];
     /* 0x128 */ void* staticSegments[3];
-    /* 0x134 */ Gfx* dpList;
+    /* 0x134 */ Gfx* dListBuf;
     /* 0x138 */ Gfx* unk_138;
     /* 0x13C */ void* roomVtx;
     /* 0x140 */ s16  unk_140;
@@ -549,7 +580,9 @@ typedef struct {
     /* 0x00 */ char     unk_00[0x02];
     /* 0x02 */ u16      unk_02;
     /* 0x04 */ Vec3f    unk_04;
-    /* 0x10 */ char     unk_10[0x03];
+    /* 0x10 */ u8       unk_10;
+    /* 0x11 */ u8       unk_11;
+    /* 0x12 */ char     unk_12[0x1];
     /* 0x13 */ u8       unk_13;
     /* 0x14 */ char     unk_14[0x01];
     /* 0x15 */ u8       skyDisabled;
