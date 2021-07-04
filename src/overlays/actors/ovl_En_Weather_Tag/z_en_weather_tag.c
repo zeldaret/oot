@@ -137,7 +137,7 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
         if ((globalCtx->envCtx.unk_1E != 0) || !D_8011FB3C ||
-            (globalCtx->skyboxId != 1 && globalCtx->envCtx.unk_1F == globalCtx->envCtx.unk_20)) {
+            (globalCtx->skyboxId != SKYBOX_NORMAL_SKY && globalCtx->envCtx.unk_1F == globalCtx->envCtx.unk_20)) {
             D_8011FB38 = 1;
             if (globalCtx->envCtx.gloomySkyEvent == 0 &&
                 (globalCtx->envCtx.unk_1E != 0 || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
@@ -177,7 +177,7 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 100.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
         if (globalCtx->envCtx.unk_1E != 0 || !D_8011FB3C ||
-            (globalCtx->skyboxId != 1 && globalCtx->envCtx.unk_1F == globalCtx->envCtx.unk_20)) {
+            (globalCtx->skyboxId != SKYBOX_NORMAL_SKY && globalCtx->envCtx.unk_1F == globalCtx->envCtx.unk_20)) {
             D_8011FB38 = 1;
             if ((globalCtx->envCtx.gloomySkyEvent == 0) &&
                 (globalCtx->envCtx.unk_1E != 0 || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {

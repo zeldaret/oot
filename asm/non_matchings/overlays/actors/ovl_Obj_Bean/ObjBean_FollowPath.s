@@ -1,12 +1,12 @@
-glabel func_80B8EFF4
+glabel ObjBean_FollowPath
 /* 00574 80B8EFF4 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00578 80B8EFF8 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 0057C 80B8EFFC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00580 80B8F000 AFBF001C */  sw      $ra, 0x001C($sp)
 /* 00584 80B8F004 AFA5007C */  sw      $a1, 0x007C($sp)
 /* 00588 80B8F008 920E01F6 */  lbu     $t6, 0x01F6($s0)           ## 000001F6
-/* 0058C 80B8F00C 3C1880B9 */  lui     $t8, %hi(D_80B90E80)       ## $t8 = 80B90000
-/* 00590 80B8F010 27180E80 */  addiu   $t8, $t8, %lo(D_80B90E80)  ## $t8 = 80B90E80
+/* 0058C 80B8F00C 3C1880B9 */  lui     $t8, %hi(sBeanSpeeds)       ## $t8 = 80B90000
+/* 00590 80B8F010 27180E80 */  addiu   $t8, $t8, %lo(sBeanSpeeds)  ## $t8 = 80B90E80
 /* 00594 80B8F014 000E78C0 */  sll     $t7, $t6,  3
 /* 00598 80B8F018 01F81021 */  addu    $v0, $t7, $t8
 /* 0059C 80B8F01C 8C450000 */  lw      $a1, 0x0000($v0)           ## 00000000

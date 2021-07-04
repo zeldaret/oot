@@ -16,7 +16,8 @@
         <Texture Name="object_os_Tex_003358" OutName="tex_00003358" Format="ci8" Width="8" Height="8" Offset="0x3358"/>
         <Texture Name="object_os_Tex_003398" OutName="tex_00003398" Format="ci8" Width="8" Height="8" Offset="0x3398"/>
         <Texture Name="object_os_Tex_0033D8" OutName="tex_000033D8" Format="ci8" Width="32" Height="16" Offset="0x33D8"/>
-        <Blob Name="object_os_Blob_0035D8" Size="0x800" Offset="0x35D8"/>
+        <Texture Name="gOsEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x35D8"/>
+        <Texture Name="gOsEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x39D8"/>
         <Texture Name="object_os_Tex_003DD8" OutName="tex_00003DD8" Format="ci8" Width="16" Height="16" Offset="0x3DD8"/>
         <Texture Name="object_os_Tex_003ED8" OutName="tex_00003ED8" Format="ci8" Width="16" Height="32" Offset="0x3ED8"/>
         <Texture Name="object_os_Tex_0040D8" OutName="tex_000040D8" Format="ci8" Width="32" Height="32" Offset="0x40D8"/>

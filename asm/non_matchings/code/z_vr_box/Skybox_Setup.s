@@ -889,9 +889,6 @@ glabel D_80142BF0
     .asciz "../z_vr_box.c"
     .balign 4
 
-glabel D_80142C00
-    .asciz "\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\nＴＹＰＥ＝%d\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\n"
-
 .late_rodata
 glabel jtbl_80142DC0
     .word L800AF25C
@@ -959,7 +956,7 @@ glabel D_80142E78
     .float 0.8
 
 .text
-glabel func_800AF218
+glabel Skybox_Setup
 /* B263B8 800AF218 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* B263BC 800AF21C AFA60050 */  sw    $a2, 0x50($sp)
 /* B263C0 800AF220 00063400 */  sll   $a2, $a2, 0x10
