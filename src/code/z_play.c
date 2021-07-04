@@ -1448,7 +1448,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     globalCtx->nbSetupActors = 0;
     Object_InitBank(globalCtx, &globalCtx->objectCtx);
     LightContext_Init(globalCtx, &globalCtx->lightCtx);
-    func_80098CBC(globalCtx, &globalCtx->doorCtx.numActors);
+    Door_Init(&globalCtx->state, &globalCtx->doorCtx);
     func_80096FD4(globalCtx, &globalCtx->roomCtx.curRoom);
     YREG(15) = 0;
     gSaveContext.worldMapArea = 0;

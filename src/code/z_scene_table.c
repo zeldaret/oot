@@ -1941,8 +1941,8 @@ void func_8009E0B8(GlobalContext* globalCtx) {
     gSPEndDisplayList(displayListHead);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (s16)(-globalCtx->roomCtx.unk_74[0] * 0.02f), 32, 16, 1, 0,
-                                (s16)(-globalCtx->roomCtx.unk_74[0] * 0.02f), 32, 16));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (s16)(-globalCtx->roomCtx.unk_74[0] * 0.02f), 32, 16, 1,
+                                0, (s16)(-globalCtx->roomCtx.unk_74[0] * 0.02f), 32, 16));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7044);
 }

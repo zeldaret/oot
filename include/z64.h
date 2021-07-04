@@ -296,7 +296,9 @@ typedef struct {
     /* 0x13C */ void* roomVtx;
     /* 0x140 */ s16  unk_140;
     /* 0x144 */ Vec3f rot;
-} SkyboxContext; // size = 0x150
+    /* 0x14A */ Vec3f eye;
+    /* 0x15C */ s16 angle;
+} SkyboxContext; // size = 0x15E
 
 typedef enum {
     MESSAGE_ICON_TRIANGLE,
@@ -935,7 +937,6 @@ typedef struct GlobalContext {
     /* 0x01DB4 */ SoundSource soundSources[16];
     /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
-    /* 0x020C8 */ char unk_20C8[0x10];
     /* 0x020D8 */ MessageContext msgCtx; // "message"
     /* 0x104F0 */ InterfaceContext interfaceCtx; // "parameter"
     /* 0x10760 */ PauseContext pauseCtx;
@@ -1011,7 +1012,6 @@ typedef struct {
     /* 0x001E0 */ SramContext sramCtx;
     /* 0x001E4 */ char unk_1E4[0x4];
     /* 0x001E8 */ SkyboxContext skyboxCtx;
-    /* 0x00338 */ char unk_338[0x10];
     /* 0x00348 */ MessageContext msgCtx;
     /* 0x0E760 */ char kanfont[0xE188];
     /* 0x1C8E8 */ EnvironmentContext envCtx;

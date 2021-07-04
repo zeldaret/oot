@@ -4233,9 +4233,8 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
             }
 
             if ((this->doorType != PLAYER_DOORTYPE_FAKE) && (doorActor->category == ACTORCAT_DOOR)) {
-                frontRoom = globalCtx->doorCtx.actorList[(u16)doorActor->params >> 10]
-                                .sides[(doorDirection > 0) ? 0 : 1]
-                                .room;
+                frontRoom =
+                    globalCtx->doorCtx.actorList[(u16)doorActor->params >> 10].sides[(doorDirection > 0) ? 0 : 1].room;
 
                 if ((frontRoom >= 0) && (frontRoom != globalCtx->roomCtx.curRoom.num)) {
                     func_8009728C(globalCtx, &globalCtx->roomCtx, frontRoom);

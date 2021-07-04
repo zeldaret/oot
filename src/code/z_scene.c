@@ -331,8 +331,8 @@ void func_80098C68(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->doorCtx.actorList = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.segment);
 }
 
-void func_80098CBC(GlobalContext* globalCtx, u8* numTransitionActors) {
-    *numTransitionActors = 0;
+void Door_Init(GameState* state, DoorContext* doorCtx) {
+    doorCtx->numActors = 0;
 }
 
 // Scene Command 0x0F: Light Setting List

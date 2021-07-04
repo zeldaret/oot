@@ -364,8 +364,8 @@ void EnEiyer_WanderUnderground(EnEiyer* this, GlobalContext* globalCtx) {
     if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) > 100.0f) {
         this->targetYaw = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos) + 0x8000;
     } else if (this->targetYaw == this->actor.world.rot.y && Rand_ZeroOne() > 0.99f) {
-        this->targetYaw = this->actor.world.rot.y +
-                         (Rand_ZeroOne() < 0.5f ? -1 : 1) * (Rand_ZeroOne() * 0x2000 + 0x2000);
+        this->targetYaw =
+            this->actor.world.rot.y + (Rand_ZeroOne() < 0.5f ? -1 : 1) * (Rand_ZeroOne() * 0x2000 + 0x2000);
     }
 
     Math_ScaledStepToS(&this->actor.world.rot.y, this->targetYaw, 0xB6);
