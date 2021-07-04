@@ -1457,7 +1457,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
 }
 
 void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
-    Scene* scene = &gSceneTable[sceneNum];
+    SceneTableEntry* scene = &gSceneTable[sceneNum];
 
     scene->unk_13 = 0;
     globalCtx->loadedScene = scene;

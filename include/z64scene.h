@@ -15,7 +15,7 @@ typedef struct {
     /* 0x11 */ u8  config;
     /* 0x12 */ u8  unk_12;
     /* 0x13 */ u8  unk_13;
-} Scene; // size = 0x14
+} SceneTableEntry; // size = 0x14
 
 typedef struct {
     /* 0x00 */ u8  code;
@@ -419,7 +419,7 @@ typedef enum {
     /* 0x6E */ SCENE_ID_MAX
 } SceneID;
 
-// Scene commands
+// SceneTableEntry commands
 
 typedef enum {
     /* 0x00 */ SCENE_CMD_ID_SPAWN_LIST,

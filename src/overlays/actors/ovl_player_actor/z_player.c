@@ -9034,7 +9034,7 @@ static Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
 void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Player* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
-    Scene* scene = globalCtx->loadedScene;
+    SceneTableEntry* scene = globalCtx->loadedScene;
     u32 titleFileSize;
     s32 initMode;
     s32 sp50;

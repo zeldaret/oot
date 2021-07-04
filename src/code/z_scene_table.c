@@ -796,7 +796,7 @@ EntranceInfo gEntranceTable[] = {
 #define UNTITLED_SCENE(name, unk_10, config, unk_12) \
     { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd, 0, 0, unk_10, config, unk_12, 0 }
 
-Scene gSceneTable[] = {
+SceneTableEntry gSceneTable[] = {
     TITLED_SCENE(ydan_scene, g_pn_06, 1, 19, 2),
     TITLED_SCENE(ddan_scene, g_pn_08, 1, 20, 3),
     TITLED_SCENE(bdan_scene, g_pn_07, 1, 21, 4),
