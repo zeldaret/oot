@@ -56,12 +56,6 @@ static u16 sSfxIds[] = {
     NA_SE_IT_ROLLING_CUT_LV1,
 };
 
-extern Gfx D_04012570[];
-extern Gfx D_04012690[];
-extern Gfx D_04012AF0[];
-extern Gfx D_04012C10[];
-extern Gfx D_04013610[];
-
 // Setup action
 void func_80A9EFE0(EnMThunder* this, EnMThunderActionFunc actionFunc) {
     this->actionFunc = actionFunc;
