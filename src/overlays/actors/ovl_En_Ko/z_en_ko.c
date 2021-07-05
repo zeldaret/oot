@@ -59,9 +59,9 @@ typedef struct {
     void** unk_8;
 } struct_80A9A158;
 
-struct_80A9A158 D_80A9A158[] = { { 0x00FC, 0x06001890, NULL },
-                                 { 0x00FD, 0x06002C10, D_80A9A148 },
-                                 { 0x013D, 0x06002940, D_80A9A138 } };
+struct_80A9A158 D_80A9A158[] = { { OBJECT_KM1, 0x06001890, NULL },
+                                 { OBJECT_KW1, 0x06002C10, D_80A9A148 },
+                                 { OBJECT_FA, 0x06002940, D_80A9A138 } };
 
 typedef struct {
     s16 objectId;
@@ -1179,55 +1179,45 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
 }
 
-#ifdef NON_MATCHING
 s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** arg6) {
     EnKo* this = THIS;
-    s16 sp40;
-    s16 sp42;
     void** temp_a1;
+    Vec3s sp40;
+    u8 test;
     void* temp_a2;
-    struct_80A9A158* temp_v0;
-    void* temp_v1;
-    void* temp_v1_2;
 
     if (limbIndex == 0xF) {
         gSPSegment((*arg6)++, 0x06, globalCtx->objectCtx.status[this->unk_194].segment);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_194].segment);
 
-        temp_v0 = &D_80A9A158[D_80A9A500[this->actor.params & 0xFF].unk_0];
-        *dList = temp_v0->gfx;
-        if (temp_v0->unk_8 != 0) {
-            temp_v1_2 = *arg6;
-            temp_a2 = temp_v0->unk_8[this->unk_216];
-            gSPSegment(arg6++, 0x0A, SEGMENTED_TO_VIRTUAL(temp_a2));
+        test = D_80A9A500[this->actor.params & 0xFF].unk_0;
+        *dList = D_80A9A158[test].gfx;
+        if (D_80A9A158[test].unk_8 != NULL) {
+
+            temp_a2 = D_80A9A158[test].unk_8[this->unk_216];
+            gSPSegment((*arg6)++, 0x0A, SEGMENTED_TO_VIRTUAL(temp_a2));
         }
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_196].segment);
     }
     if (limbIndex == 8) {
-        sp40 = this->unk_1E8.unk_0E.x;
-        sp42 = this->unk_1E8.unk_0E.z;
-        Matrix_RotateX((sp40 / 32768.0f) * 3.1415927f, 1U);
-        Matrix_RotateZ((sp42 / 32768.0f) * 3.1415927f, 1U);
+        sp40 = this->unk_1E8.unk_0E;
+        Matrix_RotateX((-sp40.y / 32768.0f) * 3.1415927f, 1U);
+        Matrix_RotateZ((sp40.x / 32768.0f) * 3.1415927f, 1U);
     }
     if (limbIndex == 0xF) {
-        Matrix_Translate(1200.0f, 0.0f, 0.0f, (u8)1U);
-        sp40 = this->unk_1E8.unk_08.x;
-        sp42 = this->unk_1E8.unk_08.z;
-        Matrix_RotateX((sp40 / 32768.0f) * 3.1415927f, (u8)1U);
-        Matrix_RotateZ((sp42 / 32768.0f) * 3.1415927f, (u8)1U);
-        Matrix_Translate(-1200.0f, 0.0f, 0.0f, (u8)1U);
+        Matrix_Translate(1200.0f, 0.0f, 0.0f, 1);
+        sp40 = this->unk_1E8.unk_08;
+        Matrix_RotateX((sp40.y / 32768.0f) * 3.1415927f, 1);
+        Matrix_RotateZ((sp40.x / 32768.0f) * 3.1415927f, 1);
+        Matrix_Translate(-1200.0f, 0.0f, 0.0f, 1);
     }
     if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 0xC)) {
-        // sp28 = thisx + (limbIndex * 2);
-        rot->y = rot->y + (Math_SinS(this->unk_2E4[limbIndex]) * 200.0f);
-        rot->z = rot->z + (Math_CosS(this->unk_304[limbIndex]) * 200.0f);
+        rot->y += Math_SinS(this->unk_2E4[limbIndex]) * 200.0f;
+        rot->z += Math_CosS(this->unk_304[limbIndex]) * 200.0f;
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A99864.s")
-#endif
 
 // Post limb draw
 void func_80A99BC4(GlobalContext* globalCtx2, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
