@@ -16,7 +16,7 @@ typedef struct EnKo {
     /* 0x0194 */ s8 unk_194;
     /* 0x0195 */ s8 unk_195;
     /* 0x0196 */ s8 unk_196;
-    /* 0x0197 */ s8 objectBankIndex;
+    /* 0x0197 */ s8 osAnimeBankIndex;
     /* 0x0198 */ ColliderCylinder collider;
     /* 0x01E4 */ Path* path;
     /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;
@@ -31,8 +31,6 @@ typedef struct EnKo {
     /* 0x0284 */ Vec3s transitionDrawTable[16];
     /* 0x02E4 */ s16 unk_2E4[16];
     /* 0x0304 */ s16 unk_304[16];
-    
-    ///* 0x0198 */ char unk_198[0x18C];
 } EnKo; // size = 0x0324
 
 extern const ActorInit En_Ko_InitVars;

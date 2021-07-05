@@ -42,16 +42,30 @@ const ActorInit En_Ko_InitVars = {
     (ActorFunc)EnKo_Draw,
 };
 
-ColliderCylinderInit D_80A9A100 = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+static ColliderCylinderInit sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80A9A12C = { 0, 0, 0, 0, 0xFF };
+CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-void* D_80A9A138[] = { 0x06000240, 0x06000D40, 0x06001140, 0x00000000 };
-void* D_80A9A148[] = { 0x06000F4C, 0x06001A0C, 0x06001E0C, 0x00000000 };
+static void* D_80A9A138[] = { 0x06000240, 0x06000D40, 0x06001140, NULL };
+static void* D_80A9A148[] = { 0x06000F4C, 0x06001A0C, 0x06001E0C, NULL };
 
 typedef struct {
     s16 objectId;
@@ -134,58 +148,53 @@ struct_80A9A590 D_80A9A590[] = { { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6
                                  { 6, 30.0f, 180.0f } };
 
 s32 func_80A96DB0(EnKo* this, GlobalContext* globalCtx) {
-    u8 temp_t0;
-    u8 temp_t1;
-    s16 temp_a1;
+    u8 unk_0 = D_80A9A500[this->actor.params & 0xFF].unk_0;
+    u8 unk_1 = D_80A9A500[this->actor.params & 0xFF].unk_1;
+    u8 unk_6 = D_80A9A500[this->actor.params & 0xFF].unk_6;
 
-    temp_a1 = D_80A9A17C[D_80A9A500[this->actor.params & 0xFF].unk_6].objectId;
-    temp_a1 = D_80A9A500[this->actor.params & 0xFF].unk_6;
-    temp_t0 = D_80A9A500[this->actor.params & 0xFF].unk_0;
-    temp_t1 = D_80A9A500[this->actor.params & 0xFF].unk_1;
-    this->unk_196 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A17C[temp_a1].objectId);
+    this->unk_196 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A17C[unk_6].objectId);
     if (this->unk_196 < 0) {
-        return 0;
+        return false;
     }
 
-    this->unk_195 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A17C[temp_t1].objectId);
+    this->unk_195 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A17C[unk_1].objectId);
     if (this->unk_195 < 0) {
-        return 0;
+        return false;
     }
 
-    this->unk_194 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A158[temp_t0].objectId);
+    this->unk_194 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A158[unk_0].objectId);
     if (this->unk_194 < 0) {
-        return 0;
+        return false;
     }
-
-    return 1;
+    return true;
 }
 
 s32 func_80A96EC4(EnKo* this, GlobalContext* globalCtx) {
     if (!Object_IsLoaded(&globalCtx->objectCtx, this->unk_196)) {
-        return 0;
+        return false;
     }
     if (!Object_IsLoaded(&globalCtx->objectCtx, this->unk_195)) {
-        return 0;
+        return false;
     }
     if (!Object_IsLoaded(&globalCtx->objectCtx, this->unk_194)) {
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
-s32 func_80A96F48(EnKo* this, GlobalContext* globalCtx) {
-    this->objectBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
-    if (this->objectBankIndex < 0) {
-        return 0;
+s32 EnKo_IsOsAnimeAvailable(EnKo* this, GlobalContext* globalCtx) {
+    this->osAnimeBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
+    if (this->osAnimeBankIndex < 0) {
+        return false;
     }
-    return 1;
+    return true;
 }
 
 s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objectBankIndex)) {
-        return 0;
+    if (!Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex)) {
+        return false;
     }
-    return 1;
+    return true;
 }
 
 u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
@@ -194,7 +203,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x10DA;
             }
-            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x10D9;
             }
             return ((gSaveContext.infTable[11] & 0x80) != 0) ? 0x10D8 : 0x10D7;
@@ -202,7 +211,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1025;
             }
-            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1042;
             }
             return 0x1004;
@@ -210,7 +219,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1023;
             }
-            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1043;
             }
             if (gSaveContext.infTable[1] & 0x4000) {
@@ -226,7 +235,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1021;
             }
-            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1044;
             }
             if (gSaveContext.infTable[2] & 4) {
@@ -237,7 +246,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1097;
             }
-            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1042;
             }
             if (gSaveContext.infTable[2] & 0x10) {
@@ -248,7 +257,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x10B0;
             }
-            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1043;
             }
             if (gSaveContext.infTable[2] & 0x40) {
@@ -259,7 +268,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x10B5;
             }
-            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1043;
             }
             if (gSaveContext.infTable[2] & 0x100) {
@@ -271,12 +280,12 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
         case 8:
             return 0x1038;
         case 9:
-            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x104B;
             }
             return 0x103C;
         case 10:
-            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
+            if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x104C;
             }
             return 0x103D;
@@ -294,74 +303,74 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
             player->exchangeItemId = EXCH_ITEM_ODD_POTION;
             return 0x10B9;
         case 0:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1072;
             }
-            if ((gSaveContext.infTable[4] & 2) != 0) {
+            if (gSaveContext.infTable[4] & 2) {
                 return 0x1056;
             }
             return 0x1055;
         case 1:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1073;
             }
             return 0x105A;
         case 2:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1074;
             }
-            if ((gSaveContext.infTable[4] & 0x80) != 0) {
+            if (gSaveContext.infTable[4] & 0x80) {
                 return 0x105E;
             }
             return 0x105D;
         case 3:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1075;
             }
             return 0x105B;
         case 4:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1076;
             }
             return 0x105F;
         case 5:
             return 0x1057;
         case 6:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1077;
             }
-            if ((gSaveContext.infTable[5] & 2) != 0) {
+            if (gSaveContext.infTable[5] & 2) {
                 return 0x1059;
             }
             return 0x1058;
         case 7:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1079;
             }
             return 0x104E;
         case 8:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107A;
             }
-            if ((gSaveContext.infTable[5] & 0x200) != 0) {
+            if (gSaveContext.infTable[5] & 0x200) {
                 return 0x1050;
             }
             return 0x104F;
         case 9:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107B;
             }
             return 0x1051;
         case 10:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107C;
             }
             return 0x1052;
         case 11:
-            if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+            if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107C;
             }
-            if ((gSaveContext.infTable[6] & 2) != 0) {
+            if (gSaveContext.infTable[6] & 2) {
                 return 0x1054;
             }
             return 0x1053;
@@ -379,17 +388,17 @@ u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
         || (thisx->params & 0xFF) == 4
         || (thisx->params & 0xFF) == 7
         || (thisx->params & 0xFF) == 8
-        || (thisx->params & 0xFF) == 0xB) {
+        || (thisx->params & 0xFF) == 11) {
         faceReaction = Text_GetFaceReaction(globalCtx, 0x13);
     }
     if ((thisx->params & 0xFF) == 1 
         || (thisx->params & 0xFF) == 5 
         || (thisx->params & 0xFF) == 6 
         || (thisx->params & 0xFF) == 9
-        || (thisx->params & 0xFF) == 0xA) {
+        || (thisx->params & 0xFF) == 10) {
         faceReaction = Text_GetFaceReaction(globalCtx, 0x14);
     }
-    if ((thisx->params & 0xFF) == 0xC) {
+    if ((thisx->params & 0xFF) == 12) {
         faceReaction = Text_GetFaceReaction(globalCtx, 0x12);
     }
     if (faceReaction != 0) {
@@ -450,7 +459,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
             case 0x10B7:
             case 0x10B8:
                 if (THIS->unk_210 == 0) {
-                    Audio_PlaySoundGeneral(0x4807, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     THIS->unk_210 = 1;
                 }
             }
@@ -492,17 +501,17 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
 
 s32 func_80A97B38(EnKo* this) {
     s32 rv;
-    if (gSaveContext.linkAge != 0) {
-        if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+    if (LINK_IS_CHILD) {
+        if (gSaveContext.eventChkInf[4] & 1) {
             return 2;
         }
-        if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
             return 1;
         }
         return 0;
     }
 
-    if ((gBitFlags[0] & gSaveContext.inventory.questItems) != 0) {
+    if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
         rv = 4;
     } else {
         rv = 3;
@@ -520,7 +529,7 @@ f32 func_80A97BC0(EnKo* this) {
                               { 0.0f, 0.0f, 0.0f, -20.0f, -20.0f } };
     s32 iVar3;
 
-    if ((gSaveContext.linkAge == 0) && ((this->actor.params & 0xFF) == 0xC)) {
+    if (LINK_IS_ADULT && (this->actor.params & 0xFF) == 12) {
         return -20.0f;
     }
     iVar3 = func_80A97B38(this);
@@ -528,29 +537,29 @@ f32 func_80A97BC0(EnKo* this) {
     return D_80A9A62C[this->actor.params & 0xFF][iVar3];
 }
 
-u8 func_80A97C7C(EnKo* arg0) {
+u8 func_80A97C7C(EnKo* this) {
     u8 D_80A9A730[13][5] = { { 1, 1, 1, 0, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 0, 1 }, { 1, 1, 1, 0, 1 },
                              { 1, 1, 1, 0, 1 }, { 0, 0, 0, 0, 0 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 0, 1 },
                              { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 1, 1, 1, 1, 1 }, { 0, 0, 0, 0, 0 },
                              { 1, 1, 1, 1, 1 } };
 
-    return D_80A9A730[arg0->actor.params & 0xFF][func_80A97B38(arg0)];
+    return D_80A9A730[this->actor.params & 0xFF][func_80A97B38(this)];
 }
 
-s32 func_80A97D00(EnKo* this) {
+s32 EnKo_IsWithinTalkAngle(EnKo* this) {
     s16 yawDiff;
     s16 yawDiffAbs;
-    s32 rv;
+    s32 result;
 
-    yawDiff = (s32)(this->actor.yawTowardsPlayer - (f32)this->actor.shape.rot.y);
+    yawDiff = this->actor.yawTowardsPlayer - (f32)this->actor.shape.rot.y;
     yawDiffAbs = ABS(yawDiff);
 
     if (yawDiffAbs < 0x3FFC) {
-        rv = 1;
+        result = true;
     } else {
-        rv = 0;
+        result = false;
     }
-    return rv;
+    return result;
 }
 
 s32 func_80A97D68(EnKo* this, GlobalContext* globalCtx) {
@@ -568,41 +577,36 @@ s32 func_80A97D68(EnKo* this, GlobalContext* globalCtx) {
         arg3 = 1;
     }
     func_80034A14(&this->actor, &this->unk_1E8, 2, arg3);
-    return func_80A97D00(this);
+    return EnKo_IsWithinTalkAngle(this);
 }
 
 s32 func_80A97E18(EnKo* this, GlobalContext* globalCtx) {
-    s16 phi_a3;
+    s16 arg3;
 
-    func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 0x10);
-    if (func_80A97D00(this) == 1) {
-        phi_a3 = 2;
+    func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
+    if (EnKo_IsWithinTalkAngle(this) == true) {
+        arg3 = 2;
     } else {
-        phi_a3 = 1;
+        arg3 = 1;
     }
     if (this->unk_1E8.unk_00 != 0) {
-        phi_a3 = 4;
+        arg3 = 4;
     } else if (this->unk_21C < this->actor.xzDistToPlayer) {
-        phi_a3 = 1;
+        arg3 = 1;
     }
-    func_80034A14(&this->actor, &this->unk_1E8, 2, phi_a3);
+    func_80034A14(&this->actor, &this->unk_1E8, 2, arg3);
     return 1;
 }
 
 s32 func_80A97EB0(EnKo* this, GlobalContext* globalCtx) {
-    s32 sp20;
-    s32 temp_v0;
-    s16 phi_a3;
+    s16 arg3;
+    s32 result;
 
     func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
-    temp_v0 = func_80A97D00(this);
-    if (temp_v0 == 1) {
-        phi_a3 = (u16)2;
-    } else {
-        phi_a3 = (u16)1;
-    }
-    func_80034A14(&this->actor, &this->unk_1E8, 2, phi_a3);
-    return temp_v0;
+    result = EnKo_IsWithinTalkAngle(this);
+    arg3 = (result == true) ? 2 : 1;
+    func_80034A14(&this->actor, &this->unk_1E8, 2, arg3);
+    return result;
 }
 
 s32 func_80A97F20(EnKo* this, GlobalContext* globalCtx) {
@@ -627,33 +631,29 @@ s32 func_80A97F70(EnKo* this, GlobalContext* globalCtx) {
         phi_a3 = 1;
     }
     func_80034A14(&this->actor, &this->unk_1E8, 5, phi_a3);
-    return func_80A97D00(this);
+    return EnKo_IsWithinTalkAngle(this);
 }
 
 s32 func_80A98034(EnKo* this, GlobalContext* globalCtx) {
-    s16 phi_a3;
-    s32 temp_v0;
+    s16 arg3;
+    s32 result;
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &D_06008F6C) == false) {
             func_80034EC0(&this->skelAnime, D_80A9A18C, 0x1D);
         }
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
-        temp_v0 = func_80A97D00(this);
-        if (temp_v0 == 1) {
-            phi_a3 = 2;
-        } else {
-            phi_a3 = 1;
-        }
+        result = EnKo_IsWithinTalkAngle(this);
+        arg3 = (result == true) ? 2 : 1;
     } else {
         if ((this->skelAnime.animation == &D_0600879C) == false) {
             func_80034EC0(&this->skelAnime, D_80A9A18C, 0x1F);
         }
-        phi_a3 = 1;
-        temp_v0 = func_80A97D00(this);
+        arg3 = 1;
+        result = EnKo_IsWithinTalkAngle(this);
     }
-    func_80034A14(&this->actor, &this->unk_1E8, 5, phi_a3);
-    return temp_v0;
+    func_80034A14(&this->actor, &this->unk_1E8, 5, arg3);
+    return result;
 }
 
 // Same as func_80A97F20
@@ -675,7 +675,7 @@ s32 func_80A98174(EnKo* this, GlobalContext* globalCtx) {
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
     }
     func_80034A14(&this->actor, &this->unk_1E8, 2, (this->skelAnime.playSpeed == 0.0f) ? 2 : 1);
-    return func_80A97D00(this);
+    return EnKo_IsWithinTalkAngle(this);
 }
 
 s32 func_80A98254(EnKo* this, GlobalContext* globalCtx) {
@@ -839,7 +839,7 @@ void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
         this->unk_1E8.unk_18 = globalCtx->view.eye;
         this->unk_1E8.unk_14 = 40.0f;
         if ((this->actor.params & 0xFF) != 0) {
-            func_80034A14(&this->actor, &this->unk_1E8, (u16)2, (u16)2);
+            func_80034A14(&this->actor, &this->unk_1E8, 2, 2);
         }
     } else {
         this->unk_1E8.unk_18 = player->actor.world.pos;
@@ -848,10 +848,9 @@ void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    if ((func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, this->unk_21C, func_80A97610, func_80A97738) !=
-         0) &&
-        ((this->actor.params & 0xFF) == 0xC) && (globalCtx->sceneNum == 0x5B)) {
-        this->actor.textId = gSaveContext.inventory.items[gItemSlots[0x2D]] >= 0x32 ? 0x10B9 : 0x10DF;
+    if (func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, this->unk_21C, func_80A97610, func_80A97738) &&
+        (this->actor.params & 0xFF) == 12 && globalCtx->sceneNum == SCENE_SPOT10) {
+        this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
         if (func_8002F368(globalCtx) == 9) {
             this->actor.textId = (gSaveContext.infTable[11] & 0x1000) ? 0x10B8 : 0x10B7;
@@ -864,71 +863,71 @@ void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
 s32 func_80A98934(EnKo* this, GlobalContext* globalCtx) {
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT04:
-            if (((this->actor.params & 0xFF) >= 7) && ((this->actor.params & 0xFF) != 0xC)) {
-                return 0;
+            if ((this->actor.params & 0xFF) >= 7 && (this->actor.params & 0xFF) != 12) {
+                return false;
             }
-            if (((gBitFlags[0] & gSaveContext.inventory.questItems) == 0) && LINK_IS_ADULT) {
-                return 0;
+            if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST) && LINK_IS_ADULT) {
+                return false;
             }
-            return 1;
+            return true;
         case SCENE_KOKIRI_HOME:
-            if (((this->actor.params & 0xFF) != 7) && ((this->actor.params & 0xFF) != 8) &&
-                ((this->actor.params & 0xFF) != 0xB)) {
-                return 0;
+            if ((this->actor.params & 0xFF) != 7 && (this->actor.params & 0xFF) != 8 &&
+                (this->actor.params & 0xFF) != 11) {
+                return false;
             } else {
-                return 1;
+                return true;
             }
         case SCENE_KOKIRI_HOME3:
-            if (LINK_IS_ADULT && ((gBitFlags[0] & gSaveContext.inventory.questItems) == 0)) {
-                if (((this->actor.params & 0xFF) != 1) && ((this->actor.params & 0xFF) != 9)) {
-                    return 0;
+            if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
+                if ((this->actor.params & 0xFF) != 1 && (this->actor.params & 0xFF) != 9) {
+                    return false;
                 } else {
-                    return 1;
+                    return true;
                 }
             }
             if ((this->actor.params & 0xFF) != 9) {
-                return 0;
+                return false;
             } else {
-                return 1;
+                return true;
             }
         case SCENE_KOKIRI_HOME4:
-            if (LINK_IS_ADULT && ((gBitFlags[0] & gSaveContext.inventory.questItems) == 0)) {
-                if (((this->actor.params & 0xFF) != 0) && ((this->actor.params & 0xFF) != 4)) {
-                    return 0;
+            if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
+                if ((this->actor.params & 0xFF) != 0 && (this->actor.params & 0xFF) != 4) {
+                    return false;
                 } else {
-                    return 1;
+                    return true;
                 }
             } else {
-                return 0;
+                return false;
             }
         case SCENE_KOKIRI_HOME5:
-            if (LINK_IS_ADULT && ((gBitFlags[0] & gSaveContext.inventory.questItems) == 0)) {
+            if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if ((this->actor.params & 0xFF) != 6) {
-                    return 0;
+                    return false;
                 } else {
-                    return 1;
+                    return true;
                 }
             } else {
-                return 0;
+                return false;
             }
 
         case SCENE_KOKIRI_SHOP:
-            if (LINK_IS_ADULT && ((gBitFlags[0] & gSaveContext.inventory.questItems) == 0)) {
-                if (((this->actor.params & 0xFF) != 5) && ((this->actor.params & 0xFF) != 0xA)) {
-                    return 0;
+            if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
+                if ((this->actor.params & 0xFF) != 5 && (this->actor.params & 0xFF) != 10) {
+                    return false;
                 } else {
-                    return 1;
+                    return true;
                 }
-            } else if ((this->actor.params & 0xFF) != 0xA) {
-                return 0;
+            } else if ((this->actor.params & 0xFF) != 10) {
+                return false;
             } else {
-                return 1;
+                return true;
             }
 
         case SCENE_SPOT10:
-            return (gSaveContext.inventory.items[gItemSlots[0x2D]] == ITEM_ODD_POTION) ? 1 : 0;
+            return (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_ODD_POTION) ? true : false;
         default:
-            return 0;
+            return false;
     }
 }
 
@@ -940,33 +939,29 @@ void func_80A98C18(EnKo* this) {
         phi_v1 = D_80A9A500[this->actor.params & 0xFF].unk_0;
         this->unk_216++;
         temp_v1 = D_80A9A158[phi_v1].unk_8;
-        if ((temp_v1 != NULL) && (temp_v1[this->unk_216] == NULL)) {
+        if (temp_v1 != NULL && temp_v1[this->unk_216] == NULL) {
             this->unk_214 = Rand_S16Offset(30, 30);
             this->unk_216 = 0;
         }
     }
 }
 
-// Seems fake
-s32 func_80A98CD8(EnKo* this) {
-    s32 type;
+void func_80A98CD8(EnKo* this) {
+    s32 type = this->actor.params & 0xFF;
     struct_80A9A590* temp_v1;
 
-    temp_v1 = &D_80A9A590[this->actor.params & 0xFF];
+    temp_v1 = &D_80A9A590[type];
     this->actor.targetMode = temp_v1->unk_0;
-    type = this->actor.params & 0xFF;
-    if (1) {}
     this->unk_21C = temp_v1->unk_4;
-    this->unk_21C = this->unk_21C + this->collider.dim.radius;
+    this->unk_21C += this->collider.dim.radius;
     this->unk_218 = temp_v1->unk_8;
-    return type;
 }
 
 s32 func_80A98D2C(EnKo* this) {
     if (LINK_IS_ADULT) {
-        return (gBitFlags[0] & gSaveContext.inventory.questItems) ? 4 : 3;
+        return (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) ? 4 : 3;
     }
-    if (gBitFlags[18] & gSaveContext.inventory.questItems) {
+    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         return (gSaveContext.eventChkInf[4] & 1) ? 2 : 1;
     }
     return 0;
@@ -974,7 +969,6 @@ s32 func_80A98D2C(EnKo* this) {
 
 void func_80A98DB4(EnKo* this, GlobalContext* globalCtx) {
     f32 dist;
-    f32 phi_f0;
 
     if ((globalCtx->sceneNum != SCENE_SPOT10) && (globalCtx->sceneNum != SCENE_SPOT04)) {
         this->unk_220 = 255.0f;
@@ -982,20 +976,22 @@ void func_80A98DB4(EnKo* this, GlobalContext* globalCtx) {
     }
     if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
         dist = Math_Vec3f_DistXYZ(&this->actor.world.pos, &globalCtx->view.eye) * 0.25f;
-    } else {
+    }
+    else {
         dist = this->actor.xzDistToPlayer;
     }
 
     Math_SmoothStepToF(&this->unk_220, (this->unk_218 < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
     if (this->unk_220 < 10.0f) {
         this->actor.flags = this->actor.flags & ~1;
-        return;
     }
-    this->actor.flags = this->actor.flags | 1;
+    else {
+        this->actor.flags = this->actor.flags | 1;
+    }
 }
 
 s32 func_80A98ECC(EnKo* this, GlobalContext* globalCtx) {
-    if ((globalCtx->sceneNum == 0x5B) && ((this->actor.params & 0xFF) == 0xC)) {
+    if (globalCtx->sceneNum == SCENE_SPOT10 && (this->actor.params & 0xFF) == 12) {
         return func_80A97E18(this, globalCtx);
     }
     switch (func_80A97B38(this)) {
@@ -1015,11 +1011,10 @@ s32 func_80A98ECC(EnKo* this, GlobalContext* globalCtx) {
 void EnKo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKo* this = THIS;
 
-    if (((thisx->params & 0xFF) >= 0xD) || (func_80A96F48(this, globalCtx) == 0) ||
-        (func_80A96DB0(this, globalCtx) == 0)) {
+    if ((thisx->params & 0xFF) >= 13 || !EnKo_IsOsAnimeAvailable(this, globalCtx) || !func_80A96DB0(this, globalCtx)) {
         Actor_Kill(thisx);
     }
-    if (func_80A98934(this, globalCtx) == 0) {
+    if (!func_80A98934(this, globalCtx)) {
         Actor_Kill(thisx);
     }
     this->actionFunc = func_80A99048;
@@ -1031,21 +1026,21 @@ void EnKo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
-    if ((func_80A96F94(this, globalCtx) != 0) && (func_80A96EC4(this, globalCtx) != 0)) {
+    if (func_80A96F94(this, globalCtx) && func_80A96EC4(this, globalCtx)) {
         this->actor.flags &= ~0x10;
         this->actor.objBankIndex = this->unk_196;
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, D_80A9A17C[D_80A9A500[this->actor.params & 0xFF].unk_6].unk_4,
                            NULL, this->limbDrawTable, this->transitionDrawTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A9A100);
-        CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80A9A12C);
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+        CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         if ((this->actor.params & 0xFF) == 7) {
             // Angle Z
             osSyncPrintf(VT_BGCOL(BLUE) "  アングルＺ->(%d)\n" VT_RST, this->actor.shape.rot.z);
-            if ((LINK_IS_ADULT) && ((gBitFlags[0] & gSaveContext.inventory.questItems) == 0)) {
+            if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (this->actor.shape.rot.z != 1) {
                     Actor_Kill(&this->actor);
                     return;
@@ -1067,8 +1062,8 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
         if ((this->actor.params & 0xFF) == 3) {
-            if ((gBitFlags[18] & gSaveContext.inventory.questItems) == 0) {
-                this->collider.dim.height = this->collider.dim.height + 0xC8;
+            if (!CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
+                this->collider.dim.height = this->collider.dim.height + 200;
                 this->actionFunc = func_80A995CC;
                 return;
             }
@@ -1079,10 +1074,10 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
-    if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8.unk_00 != 0) && (this->actor.textId == 0x10B9)) {
+    if ((this->actor.params & 0xFF) == 12 && this->unk_1E8.unk_00 != 0 && this->actor.textId == 0x10B9) {
         func_80034EC0(&this->skelAnime, D_80A9A18C, 7);
         this->actionFunc = func_80A99438;
-    } else if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8.unk_00 == 2)) {
+    } else if ((this->actor.params & 0xFF) == 12 && this->unk_1E8.unk_00 == 2) {
         this->actionFunc = func_80A99504;
         globalCtx->msgCtx.unk_E3E7 = 4;
         globalCtx->msgCtx.msgMode = 0x36;
@@ -1090,12 +1085,12 @@ void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A99438(EnKo* this, GlobalContext* globalCtx) {
-    if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8.unk_00 == 2)) {
+    if ((this->actor.params & 0xFF) == 12 && this->unk_1E8.unk_00 == 2) {
         func_80034EC0(&this->skelAnime, D_80A9A18C, 6);
         this->actionFunc = func_80A99504;
         globalCtx->msgCtx.unk_E3E7 = 4;
         globalCtx->msgCtx.msgMode = 0x36;
-    } else if ((this->unk_1E8.unk_00 == 0) || (this->actor.textId != 0x10B9)) {
+    } else if (this->unk_1E8.unk_00 == 0 || this->actor.textId != 0x10B9) {
         func_80034EC0(&this->skelAnime, D_80A9A18C, 6);
         this->actionFunc = func_80A99384;
     }
@@ -1132,7 +1127,7 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
     this->actor.world.pos.z += 80.0f * Math_CosS(homeYawToPlayer);
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-    if ((this->unk_1E8.unk_00 == 0) || !this->actor.isTargeted) {
+    if (this->unk_1E8.unk_00 == 0 || !this->actor.isTargeted) {
         temp_f2 = fabsf((f32)this->actor.yawTowardsPlayer - homeYawToPlayer) * 0.001f * 3.0f;
         if (temp_f2 < 1.0f) {
             this->skelAnime.playSpeed = 1.0f;
@@ -1155,7 +1150,7 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != func_80A99048) {
         if ((s32)this->unk_220 != 0) {
-            gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectBankIndex].segment);
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
             SkelAnime_Update(&this->skelAnime);
             func_80A98DB4(this, globalCtx);
             func_80A98C18(this);
@@ -1166,7 +1161,7 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 == 0) {
         Actor_MoveForward(&this->actor);
     }
-    if (func_80A97C7C(this) != 0) {
+    if (func_80A97C7C(this)) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
         this->actor.gravity = -1.0f;
     } else {
@@ -1180,15 +1175,15 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                  Gfx** arg6) {
+                  Gfx** gfx) {
     EnKo* this = THIS;
-    void** temp_a1;
+    void* temp_a2;
     Vec3s sp40;
     u8 test;
-    void* temp_a2;
+    s32 pad;
 
     if (limbIndex == 15) {
-        gSPSegment((*arg6)++, 0x06, globalCtx->objectCtx.status[this->unk_194].segment);
+        gSPSegment((*gfx)++, 0x06, globalCtx->objectCtx.status[this->unk_194].segment);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_194].segment);
 
         test = D_80A9A500[this->actor.params & 0xFF].unk_0;
@@ -1196,7 +1191,7 @@ s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (D_80A9A158[test].unk_8 != NULL) {
 
             temp_a2 = D_80A9A158[test].unk_8[this->unk_216];
-            gSPSegment((*arg6)++, 0x0A, SEGMENTED_TO_VIRTUAL(temp_a2));
+            gSPSegment((*gfx)++, 0x0A, SEGMENTED_TO_VIRTUAL(temp_a2));
         }
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_196].segment);
     }
@@ -1212,7 +1207,7 @@ s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateZ(BINANG_TO_RAD(sp40.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12)) {
+    if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
         rot->y += Math_SinS(this->unk_2E4[limbIndex]) * 200.0f;
         rot->z += Math_CosS(this->unk_304[limbIndex]) * 200.0f;
     }
@@ -1227,7 +1222,7 @@ void func_80A99BC4(GlobalContext* globalCtx2, s32 limbIndex, Gfx** dList, Vec3s*
 
     if (limbIndex == 7) {
         gSPSegment((*gfx)++, 0x06, globalCtx->objectCtx.status[this->unk_195].segment);
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->unk_195].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_195].segment);
     }
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80A9A774, &this->actor.focus.pos);
