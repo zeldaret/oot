@@ -926,7 +926,7 @@ s32 func_80A98934(EnKo* this, GlobalContext* globalCtx) {
             }
 
         case SCENE_SPOT10:
-            return (gSaveContext.inventory.items[gItemSlots[0x2D]] == 0x31) ? 1 : 0;
+            return (gSaveContext.inventory.items[gItemSlots[0x2D]] == ITEM_ODD_POTION) ? 1 : 0;
         default:
             return 0;
     }
@@ -1187,7 +1187,7 @@ s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     u8 test;
     void* temp_a2;
 
-    if (limbIndex == 0xF) {
+    if (limbIndex == 15) {
         gSPSegment((*arg6)++, 0x06, globalCtx->objectCtx.status[this->unk_194].segment);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_194].segment);
 
@@ -1202,17 +1202,17 @@ s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     }
     if (limbIndex == 8) {
         sp40 = this->unk_1E8.unk_0E;
-        Matrix_RotateX((-sp40.y / 32768.0f) * 3.1415927f, 1U);
-        Matrix_RotateZ((sp40.x / 32768.0f) * 3.1415927f, 1U);
+        Matrix_RotateX(BINANG_TO_RAD(-sp40.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD(sp40.x), MTXMODE_APPLY);
     }
-    if (limbIndex == 0xF) {
-        Matrix_Translate(1200.0f, 0.0f, 0.0f, 1);
+    if (limbIndex == 15) {
+        Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp40 = this->unk_1E8.unk_08;
-        Matrix_RotateX((sp40.y / 32768.0f) * 3.1415927f, 1);
-        Matrix_RotateZ((sp40.x / 32768.0f) * 3.1415927f, 1);
-        Matrix_Translate(-1200.0f, 0.0f, 0.0f, 1);
+        Matrix_RotateX(BINANG_TO_RAD(sp40.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD(sp40.x), MTXMODE_APPLY);
+        Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 0xC)) {
+    if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12)) {
         rot->y += Math_SinS(this->unk_2E4[limbIndex]) * 200.0f;
         rot->z += Math_CosS(this->unk_304[limbIndex]) * 200.0f;
     }
@@ -1236,60 +1236,32 @@ void func_80A99BC4(GlobalContext* globalCtx2, s32 limbIndex, Gfx** dList, Vec3s*
 
 // AllocColorDList?
 Gfx* func_80A99C94(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
-    Gfx* dList;
+    Gfx* dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
-    // dListHead = dList;
     gDPSetEnvColor(dList, r, g, b, a);
     gSPEndDisplayList(dList + 1);
     return dList;
 }
 
-// Type Conversion issues
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/EnKo_Draw.s")
-/*void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKo* this = THIS;
-    Color_RGBA8 color1;
-    Color_RGBA8 color2;
-    //GraphicsContext* gfxCtx;
+    Color_RGBA8 color1 = D_80A9A500[this->actor.params & 0xFF].color1;
+    Color_RGBA8 color2 = D_80A9A500[this->actor.params & 0xFF].color2;
 
-    color1 = D_80A9A500[thisx->params & 0xFF].color1;
-    color2 = D_80A9A500[thisx->params & 0xFF].color2;
-    thisx->shape.unk_14 = this->unk_220;
-    //gfxCtx = globalCtx->state.gfxCtx;
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ko.c", 0x82F);
-    //temp_f0 = this->unk_220;
-    //temp_v0 = (s16)(s32)temp_f0;
-    if ((s16)this->unk_220 == 0xFF) {
-        // temp_v0_2 = temp_s1->polyOpa.p;
-        // temp_s1->polyOpa.p = temp_v0_2 + 8;
-        // temp_v0_2->words.w0 = 0xDB060020;
-        // sp44 = temp_v0_2;
-        // sp44->words.w1 = func_80A99C94(globalCtx->state.gfxCtx, sp60, sp61, sp62, 0xFF);
-        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, color1.r, color1.g, color1.b, 0xFF));
-        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, color2.r, color2.g, color2.b, 0xFF));
-        // temp_v0_3 = temp_s1->polyOpa.p;
-        // temp_s1->polyOpa.p = temp_v0_3 + 8;
-        // temp_v0_3->words.w0 = 0xDB060024;
-        // sp40 = temp_v0_3;
-        // sp40->words.w1 = func_80A99C94(globalCtx->state.gfxCtx, sp5C, sp5D, sp5E, 0xFF);
-        // func_80034BA0(globalCtx, (SkelAnime*)(thisx + 0x14C), &func_80A99864, &func_80A99BC4, thisx,
-        //              (s32)thisx->unk220);
-        func_80034BA0(globalCtx, &this->skelAnime, &func_80A99864, &func_80A99BC4, thisx, this->unk_220);
-    } else if ((s16)this->unk_220 != 0) {
-        //sp63 = (u8)(u32)temp_f0;
-        //sp5F = (u8)(u32)this->unk_220;
-        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, color1.r, color1.g, color1.b,
-(u8)(u32)this->unk_220));
-        // temp_v0_4 = temp_s1->polyXlu.p;
-        // temp_s1->polyXlu.p = temp_v0_4 + 8;
-        // temp_v0_4->words.w0 = 0xDB060020;
-        // sp3C = temp_v0_4;
-        // sp3C->words.w1 = func_80A99C94(globalCtx->state.gfxCtx, sp60, sp61, sp62, (?32) sp63);
-        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, color2.r, color2.g, color2.b,
-(u8)(u32)this->unk_220)); func_80034CC4(globalCtx, &this->skelAnime, &func_80A99864, &func_80A99BC4, thisx,
-(s32)this->unk_220);
+    this->actor.shape.shadowAlpha = this->unk_220;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ko.c", 2095);
+    if ((s16)this->unk_220 == 255) {
+        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, color1.r, color1.g, color1.b, 255));
+        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, color2.r, color2.g, color2.b, 255));
+        func_80034BA0(globalCtx, &this->skelAnime, func_80A99864, func_80A99BC4, &this->actor, this->unk_220);
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ko.c", 0x858);
+    else if ((s16)this->unk_220 != 0) {
+        color1.a = this->unk_220;
+        color2.a = this->unk_220;
+        gSPSegment(POLY_XLU_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, color1.r, color1.g, color1.b, color1.a));
+        gSPSegment(POLY_XLU_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, color2.r, color2.g, color2.b, color2.a));
+        func_80034CC4(globalCtx, &this->skelAnime, func_80A99864, func_80A99BC4, &this->actor, this->unk_220);
+    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ko.c", 2136);
 }
-*/
