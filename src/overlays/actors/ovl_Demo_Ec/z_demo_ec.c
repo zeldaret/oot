@@ -9,6 +9,8 @@
 #include "objects/object_zo/object_zo.h"
 #include "objects/object_ec/object_ec.h"
 #include "objects/object_ma2/object_ma2.h"
+#include "objects/object_ge1/object_ge1.h"
+#include "objects/object_fu/object_fu.h"
 
 #define FLAGS 0x00000010
 
@@ -101,9 +103,6 @@ extern FlexSkeletonHeader D_06013B88;
 // Object_TA
 extern FlexSkeletonHeader D_0600B7B8;
 
-// Object_FU
-extern FlexSkeletonHeader D_06006C90;
-
 // Object_KM1, Object_KW1, Object_BJI, Objct_AHG, Object_BOB, Object_BBA, Object_ANE
 extern FlexSkeletonHeader D_060000F0;
 
@@ -112,9 +111,6 @@ extern FlexSkeletonHeader D_06007150;
 
 // Object_Daiku
 extern FlexSkeletonHeader D_06007958;
-
-// Object_GE1
-extern FlexSkeletonHeader D_06000330;
 
 // Object_ZO
 extern FlexSkeletonHeader D_0600BFA8;
@@ -415,7 +411,7 @@ void DemoEc_DrawTalon(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06006C90);
+    DemoEc_InitSkelAnime(this, globalCtx, &gWindmillManSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcWindmillManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -714,7 +710,7 @@ void DemoEc_DrawCarpenter(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitGerudo(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06000330);
+    DemoEc_InitSkelAnime(this, globalCtx, &gGerudoWhiteSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcGerudoAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
