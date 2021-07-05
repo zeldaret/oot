@@ -80,8 +80,6 @@ static UNK_PTR D_80AA38B0[] = {
     0x06003070,
 };
 
-extern Gfx D_06005420[];
-
 u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = PLAYER;
     s16* timer1ValuePtr; // weirdness with this necessary to match
@@ -352,7 +350,7 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
     if ((limbIndex == MALON_ADULT_LEFT_HAND_LIMB) && (this->skelAnime.animation == &gMalonAdultStandStillAnim)) {
-        gSPDisplayList(POLY_OPA_DISP++, &D_06005420);
+        gSPDisplayList(POLY_OPA_DISP++, gMalonAdultBasketDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 950);

@@ -64,19 +64,17 @@ static struct_D_80AA1678 D_80AA2858[] = {
 
 static Vec3f D_80AA28A8 = { 900.0f, 0.0f, 0.0f };
 
-static UNK_PTR D_80AA28B4[] = {
-    0x06002970,
-    0x06003570,
-    0x06003770,
+static void* sMouthTextures[] = {
+    gMalonAdultMouthNeutralTex,
+    gMalonAdultMouthSadTex,
+    gMalonAdultMouthHappyTex,
 };
 
-static UNK_PTR D_80AA28C0[] = {
-    0x06002570,
-    0x06002C70,
-    0x06003070,
+static void* sEyeTextures[] = {
+    gMalonAdultEyeOpenTex,
+    gMalonAdultEyeHalfTex,
+    gMalonAdultEyeClosedTex,
 };
-
-extern Gfx D_06005420[];
 
 u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 23);
@@ -370,7 +368,7 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
     if ((limbIndex == MALON_ADULT_LEFT_HAND_LIMB) && (this->skelAnime.animation == &gMalonAdultStandStillAnim)) {
-        gSPDisplayList(POLY_OPA_DISP++, D_06005420);
+        gSPDisplayList(POLY_OPA_DISP++, gMalonAdultBasketDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 927);
@@ -389,8 +387,8 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA28B4[this->unk_210]));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA28C0[this->unk_20E]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->unk_210]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->unk_20E]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, this);
