@@ -10,6 +10,6 @@
 .balign 16
 
 glabel __osSetCompare
-/* 007B00 80006F00 40845800 */  mtc0  $a0, $11
-/* 007B04 80006F04 03E00008 */  jr    $ra
-/* 007B08 80006F08 00000000 */   nop   
+    mtc0    $a0, Compare
+    jr      $ra
+     nop

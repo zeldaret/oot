@@ -1,7 +1,7 @@
 #include "global.h"
 #include "ultra64/internal.h"
 
-void __osGetHWIntrRoutine(s32 idx, OSMesgQueue** outQueue, OSMesg* outMsg) {
-    *outQueue = __osHwIntTable[idx].queue;
-    *outMsg = __osHwIntTable[idx].msg;
+void __osGetHWIntrRoutine(OSHWIntr intr, s32 (**callbackOut)(void), void** spOut) {
+    *callbackOut = __osHwIntTable[intr].callback;
+    *spOut = __osHwIntTable[intr].sp;
 }

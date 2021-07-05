@@ -17,12 +17,6 @@ extern Gfx D_0602CB48[];
 //extern ? D_070380D4;
 //extern ? D_0703811C;
 
-//extern ? D_80000004;
-//extern ? D_80000008;
-//extern ? D_8000000C;
-//extern ? D_80000010;
-//extern ? D_80000020;
-
 extern u32 osTvType;
 extern u32 osRomBase;
 extern u32 osResetType;

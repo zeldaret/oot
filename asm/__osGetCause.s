@@ -10,6 +10,6 @@
 .balign 16
 
 glabel __osGetCause
-/* 008790 80007B90 40026800 */  mfc0  $v0, $13
-/* 008794 80007B94 03E00008 */  jr    $ra
-/* 008798 80007B98 00000000 */   nop   
+    mfc0    $v0, Cause
+    jr      $ra
+     nop

@@ -85,7 +85,6 @@ void __osExceptionPreamble();
 void __osEnqueueAndYield(OSThread**);
 void __osEnqueueThread(OSThread**, OSThread*);
 OSThread* __osPopThread(OSThread**);
-// ? __osNop(?);
 void __osDispatchThread();
 void __osCleanupThread(void);
 void __osDequeueThread(OSThread** queue, OSThread* thread);
@@ -161,8 +160,8 @@ OSViContext* __osViGetCurrentContext(void);
 void osStartThread(OSThread* thread);
 void osViSetYScale(f32 scale);
 void osViSetXScale(f32 value);
-void __osSetHWIntrRoutine(s32 idx, OSMesgQueue* queue, OSMesg msg);
-void __osGetHWIntrRoutine(s32 idx, OSMesgQueue** outQueue, OSMesg* outMsg);
+void __osSetHWIntrRoutine(OSHWIntr intr, s32 (*callback)(void), void* sp);
+void __osGetHWIntrRoutine(OSHWIntr intr, s32 (**callbackOut)(void), void** spOut);
 void __osSetWatchLo(u32);
 
 EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);

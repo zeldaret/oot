@@ -1,109 +1,114 @@
 .include    "macro.inc"
 
+# assembler directives
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section    .data
 
-glabel      qNaN0x3FFFFF
-    .word       0x7FBFFFFF
+.balign 16
 
-glabel      qNaN0x10000
-    .word       0x7F810000
+glabel qNaN0x3FFFFF
+    .word 0x7FBFFFFF
 
-glabel      sNaN0x3FFFFF
-    .word       0x7FFFFFFF
+glabel qNaN0x10000
+    .word 0x7F810000
 
+glabel sNaN0x3FFFFF
+    .word 0x7FFFFFFF
 
 .section    .text
 
-glabel      floorf
+.balign 16
+
+glabel floorf
     floor.w.s   $f12, $f12
     cvt.s.w     $f0, $f12
     jr          $ra
 
-glabel      floor
+glabel floor
     floor.w.d   $f12, $f12
     cvt.d.w     $f0, $f12
     jr          $ra
 
-glabel      lfloorf
+glabel lfloorf
     floor.w.s   $f4, $f12
     mfc1        $v0, $f4
     nop
     jr          $ra
 
-glabel      lfloor
+glabel lfloor
     floor.w.d   $f4, $f12
     mfc1        $v0, $f4
     nop
     jr          $ra
 
-glabel      ceilf
+glabel ceilf
     ceil.w.s    $f12, $f12
     cvt.s.w     $f0, $f12
     jr          $ra
 
-glabel      ceil
+glabel ceil
     ceil.w.d    $f12, $f12
     cvt.d.w     $f0, $f12
     jr          $ra
 
-glabel      lceilf
+glabel lceilf
     ceil.w.s    $f4, $f12
     mfc1        $v0, $f4
     nop
     jr          $ra
 
-glabel      lceil
+glabel lceil
     ceil.w.d    $f4, $f12
     mfc1        $v0, $f4
     nop
     jr          $ra
 
-glabel      truncf
+glabel truncf
     trunc.w.s   $f12, $f12
     cvt.s.w     $f0, $f12
     jr          $ra
 
-glabel      trunc
+glabel trunc
     trunc.w.d   $f12, $f12
     cvt.d.w     $f0, $f12
     jr          $ra
 
-glabel      ltruncf
+glabel ltruncf
     trunc.w.s   $f4, $f12
     mfc1        $v0, $f4
     nop
     jr          $ra
 
-glabel      ltrunc
+glabel ltrunc
     trunc.w.d   $f4, $f12
     mfc1        $v0, $f4
     nop
     jr          $ra
 
-glabel      nearbyintf
+glabel nearbyintf
     round.w.s   $f12, $f12
     cvt.s.w     $f0, $f12
     jr          $ra
 
-glabel      nearbyint
+glabel nearbyint
     round.w.d   $f12, $f12
     cvt.d.w     $f0, $f12
     jr          $ra
 
-glabel      lnearbyintf
+glabel lnearbyintf
     round.w.s   $f4, $f12
     mfc1        $v0, $f4
     nop
     jr          $ra
 
-glabel      lnearbyint
+glabel lnearbyint
     round.w.d   $f4, $f12
     mfc1        $v0, $f4
     nop
     jr          $ra
 
-glabel      roundf
+glabel roundf
     li.s        $f4, 0.5
     nop
     add.s       $f0, $f12, $f4
@@ -111,7 +116,7 @@ glabel      roundf
     cvt.s.w     $f0, $f0
     jr          $ra
 
-glabel      round
+glabel round
     li.d        $f4, 0.5
     nop
     add.d       $f0, $f12, $f4
@@ -119,7 +124,7 @@ glabel      round
     cvt.d.w     $f0, $f0
     jr          $ra
 
-glabel      lroundf
+glabel lroundf
     li.s        $f4, 0.5
     nop
     add.s       $f0, $f12, $f4
@@ -128,7 +133,7 @@ glabel      lroundf
     nop
     jr          $ra
 
-glabel      lround
+glabel lround
     li.d        $f4, 0.5
     nop
     add.d       $f0, $f12, $f4

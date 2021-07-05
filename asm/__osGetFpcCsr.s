@@ -10,6 +10,6 @@
 .balign 16
 
 glabel __osGetFpcCsr
-/* 008680 80007A80 4442F800 */  cfc1  $v0, $31
-/* 008684 80007A84 03E00008 */  jr    $ra
-/* 008688 80007A88 00000000 */   nop   
+    cfc1    $v0, FpCsr
+    jr      $ra
+     nop

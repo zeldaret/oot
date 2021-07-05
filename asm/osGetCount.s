@@ -10,6 +10,6 @@
 .balign 16
   
 glabel osGetCount
-/* 007AA0 80006EA0 40024800 */  mfc0  $v0, $9
-/* 007AA4 80006EA4 03E00008 */  jr    $ra
-/* 007AA8 80006EA8 00000000 */   nop   
+    mfc0    $v0, Count
+    jr      $ra
+     nop

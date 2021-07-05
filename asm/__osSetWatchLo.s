@@ -10,7 +10,7 @@
 .balign 16
 
 glabel __osSetWatchLo
-/* 009F10 80009310 40849000 */  mtc0  $a0, $18
-/* 009F14 80009314 00000000 */  nop   
-/* 009F18 80009318 03E00008 */  jr    $ra
-/* 009F1C 8000931C 00000000 */   nop   
+    mtc0    $a0, WatchLo
+    nop
+    jr      $ra
+     nop

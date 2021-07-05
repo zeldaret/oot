@@ -1,11 +1,11 @@
 #include "global.h"
 #include "ultra64/internal.h"
 
-void __osSetHWIntrRoutine(s32 idx, OSMesgQueue* queue, OSMesg msg) {
+void __osSetHWIntrRoutine(OSHWIntr intr, s32 (*callback)(void), void* sp) {
     register s32 prevInt = __osDisableInt();
 
-    __osHwIntTable[idx].queue = queue;
-    __osHwIntTable[idx].msg = msg;
+    __osHwIntTable[intr].callback = callback;
+    __osHwIntTable[intr].sp = sp;
 
     __osRestoreInt(prevInt);
 }
