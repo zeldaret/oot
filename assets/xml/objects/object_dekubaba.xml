@@ -8,9 +8,9 @@
         <DList Name="gDekuBabaLowerJawDL" Offset="0x580"/>
         <DList Name="gDekuBabaUpperJawDL" Offset="0xB68"/>
         <DList Name="gDekuBabaBaseLeavesDL" Offset="0x10F0"/>
-        <DList Name="gDekuBabaStemTop" Offset="0x1330"/>
-        <DList Name="gDekuBabaStemMiddle" Offset="0x1628"/>
-        <DList Name="gDekuBabaStemBase" Offset="0x1828"/>
+        <DList Name="gDekuBabaStemTopDL" Offset="0x1330"/>
+        <DList Name="gDekuBabaStemMiddleDL" Offset="0x1628"/>
+        <DList Name="gDekuBabaStemBaseDL" Offset="0x1828"/>
 
         <!-- Deku Baba body textures -->
         <Texture Name="gDekuBabaJawOuterTex" OutName="deku_baba_jaw_outer" Format="rgb5a1" Width="16" Height="32" Offset="0x18D0"/>

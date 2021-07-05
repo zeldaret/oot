@@ -451,7 +451,7 @@ void EnDekubaba_SetupSway(EnDekubaba* this) {
 
 void EnDekubaba_SetupDeadStickDrop(EnDekubaba* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.03f);
-    this->actor.shape.rot.x += -0x4000;
+    this->actor.shape.rot.x -= 0x4000;
     this->actor.shape.yOffset = 1000.0f;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -650,14 +650,14 @@ void EnDekubaba_DecideLunge(EnDekubaba* this, GlobalContext* globalCtx) {
         this->stemSectionAngle[2] += 0xB6;
         this->actor.shape.rot.x += 0x222;
     } else if (this->timer < 20) {
-        this->stemSectionAngle[0] += -0x16C;
+        this->stemSectionAngle[0] -= 0x16C;
         this->stemSectionAngle[1] += 0x111;
         this->actor.shape.rot.x += 0x16C;
     } else if (this->timer < 30) {
-        this->stemSectionAngle[1] += -0x111;
-        this->actor.shape.rot.x += -0xB6;
+        this->stemSectionAngle[1] -= 0x111;
+        this->actor.shape.rot.x -= 0xB6;
     } else {
-        this->stemSectionAngle[1] += -0xB6;
+        this->stemSectionAngle[1] -= 0xB6;
         this->stemSectionAngle[2] += 0xB6;
         this->actor.shape.rot.x -= 0x16C;
     }
@@ -1162,7 +1162,7 @@ void EnDekubaba_DrawStemRetracted(EnDekubaba* this, GlobalContext* globalCtx) {
     Matrix_Scale(horizontalScale, horizontalScale, horizontalScale, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2461),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemTop);
+    gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemTopDL);
 
     Actor_SetFocus(&this->actor, 0.0f);
 
@@ -1170,7 +1170,7 @@ void EnDekubaba_DrawStemRetracted(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
-    static Gfx* stemDLists[] = { gDekuBabaStemTop, gDekuBabaStemMiddle, gDekuBabaStemBase };
+    static Gfx* stemDLists[] = { gDekuBabaStemTopDL, gDekuBabaStemMiddleDL, gDekuBabaStemBaseDL };
     MtxF mtx;
     s32 i;
     f32 horizontalStepSize;
@@ -1242,7 +1242,7 @@ void EnDekubaba_DrawStemBasePruned(EnDekubaba* this, GlobalContext* globalCtx) {
     Matrix_RotateRPY(this->stemSectionAngle[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2586),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBase);
+    gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBaseDL);
 
     Collider_UpdateSpheres(55, &this->collider);
     Collider_UpdateSpheres(56, &this->collider);
@@ -1251,7 +1251,6 @@ void EnDekubaba_DrawStemBasePruned(EnDekubaba* this, GlobalContext* globalCtx) {
 
 void EnDekubaba_DrawBaseShadow(EnDekubaba* this, GlobalContext* globalCtx) {
     MtxF mtx;
-    // s32 pad;
     f32 horizontalScale;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2692);

@@ -460,7 +460,7 @@ void EnKarebaba_DrawBaseShadow(EnKarebaba* this, GlobalContext* globalCtx) {
 
 void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Color_RGBA8 black = { 0, 0, 0, 0 };
-    static Gfx* stemDLists[] = { gDekuBabaStemTop, gDekuBabaStemMiddle, gDekuBabaStemBase };
+    static Gfx* stemDLists[] = { gDekuBabaStemTopDL, gDekuBabaStemMiddleDL, gDekuBabaStemBaseDL };
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     EnKarebaba* this = THIS;
     s32 i;
@@ -529,7 +529,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateRPY(-0x4000, (s16)(this->actor.shape.rot.y - this->actor.home.rot.y), 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1155),
                   G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBase);
+        gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBaseDL);
     }
 
     func_80026608(globalCtx);
