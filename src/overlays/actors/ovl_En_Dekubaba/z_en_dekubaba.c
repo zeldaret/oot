@@ -234,7 +234,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
     if (this->actor.params == DEKUBABA_BIG) {
-        this->unk_230 = 2.5f;
+        this->size = 2.5f;
 
         for (i = 0; i < sJntSphInit.count; i++) {
             this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius =
@@ -245,7 +245,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
         // (Of course they reckoned without each age being able to use the other's items, so Stick and Master Sword
         // jumpslash can give the Stick drop as adult, and neither will as child.)
         if (LINK_IS_CHILD) {
-            sBigDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE);
+            sBigDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE); // DMG_JUMP_MASTER
         }
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sBigDekuBabaDamageTable, &sColChkInfoInit);
@@ -253,14 +253,14 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.naviEnemyId = 8; // Big Deku Baba
         this->actor.targetMode = 2;
     } else {
-        this->unk_230 = 1.0f;
+        this->size = 1.0f;
 
         for (i = 0; i < sJntSphInit.count; i++) {
             this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
         }
 
         if (LINK_IS_CHILD) {
-            sDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE);
+            sDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE); // DMG_JUMP_MASTER
         }
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDekuBabaDamageTable, &sColChkInfoInit);
@@ -297,9 +297,9 @@ void EnDekubaba_SetupWait(EnDekubaba* this) {
 
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.z = this->actor.home.pos.z;
-    this->actor.world.pos.y = this->actor.home.pos.y + 14.0f * this->unk_230;
+    this->actor.world.pos.y = this->actor.home.pos.y + 14.0f * this->size;
 
-    Actor_SetScale(&this->actor, this->unk_230 * 0.01f * 0.5f);
+    Actor_SetScale(&this->actor, this->size * 0.01f * 0.5f);
 
     this->collider.base.colType = COLTYPE_HARD;
     this->collider.base.acFlags |= AC_HARD;
@@ -385,7 +385,7 @@ void EnDekubaba_SetupHit(EnDekubaba* this, s32 arg1) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gDekuBabaPauseChompAnim, -5.0f);
     this->timer = arg1;
     this->collider.base.acFlags &= ~AC_ON;
-    Actor_SetScale(&this->actor, this->unk_230 * 0.01f);
+    Actor_SetScale(&this->actor, this->size * 0.01f);
 
     if (arg1 == 2) {
         Actor_SetColorFilter(&this->actor, 0, 155, 0, 62);
@@ -403,7 +403,7 @@ void EnDekubaba_SetupPrunedSomersault(EnDekubaba* this) {
     this->actor.velocity.y = 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.speedXZ = this->unk_230 * 3.0f;
+    this->actor.speedXZ = this->size * 3.0f;
     this->actor.flags |= 0x30;
     this->actionFunc = EnDekubaba_PrunedSomersault;
 }
@@ -433,7 +433,7 @@ void EnDekubaba_SetupStunnedVertical(EnDekubaba* this) {
     }
 
     this->actor.world.pos.x = this->actor.home.pos.x;
-    this->actor.world.pos.y = this->actor.home.pos.y + (60.0f * this->unk_230);
+    this->actor.world.pos.y = this->actor.home.pos.y + (60.0f * this->size);
     this->actor.world.pos.z = this->actor.home.pos.z;
     this->actionFunc = EnDekubaba_StunnedVertical;
 }
@@ -471,10 +471,10 @@ void EnDekubaba_Wait(EnDekubaba* this, GlobalContext* globalCtx) {
 
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.z = this->actor.home.pos.z;
-    this->actor.world.pos.y = this->actor.home.pos.y + 14.0f * this->unk_230;
+    this->actor.world.pos.y = this->actor.home.pos.y + 14.0f * this->size;
 
-    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f * this->unk_230) &&
-        (fabsf(this->actor.yDistToPlayer) < 30.0f * this->unk_230)) {
+    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f * this->size) &&
+        (fabsf(this->actor.yDistToPlayer) < 30.0f * this->size)) {
         EnDekubaba_SetupGrow(this);
     }
 }
@@ -493,7 +493,7 @@ void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-        this->unk_230 * 0.01f * (0.5f + (((15 - this->timer) * 0.5f) / 15.0f));
+        this->size * 0.01f * (0.5f + (((15 - this->timer) * 0.5f) / 15.0f));
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
 
     headDistVertical = (sinf(CLAMP_MAX((15 - this->timer) * (1.0f / 15), 0.7f) * M_PI) * 32.0f) + 14.0f;
@@ -533,17 +533,17 @@ void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
         if (headShiftZ) {} // One way of fake-matching
     }
 
-    this->actor.world.pos.y = this->actor.home.pos.y + (headDistVertical * this->unk_230);
-    headShiftX = Math_SinS(this->actor.shape.rot.y) * (headDistHorizontal * this->unk_230);
-    headShiftZ = Math_CosS(this->actor.shape.rot.y) * (headDistHorizontal * this->unk_230);
+    this->actor.world.pos.y = this->actor.home.pos.y + (headDistVertical * this->size);
+    headShiftX = Math_SinS(this->actor.shape.rot.y) * (headDistHorizontal * this->size);
+    headShiftZ = Math_CosS(this->actor.shape.rot.y) * (headDistHorizontal * this->size);
     this->actor.world.pos.x = this->actor.home.pos.x + headShiftX;
     this->actor.world.pos.z = this->actor.home.pos.z + headShiftZ;
 
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-                             this->unk_230 * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f,
+                             this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
     if (this->timer == 0) {
-        if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 240.0f * this->unk_230) {
+        if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 240.0f * this->size) {
             EnDekubaba_SetupPrepareLunge(this);
         } else {
             EnDekubaba_SetupRetract(this);
@@ -564,7 +564,7 @@ void EnDekubaba_Retract(EnDekubaba* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-        this->unk_230 * 0.01f * (0.5f + this->timer * (1.0f / 30));
+        this->size * 0.01f * (0.5f + this->timer * (1.0f / 30));
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
 
     headShiftX = (sinf(CLAMP_MAX(this->timer * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
@@ -596,14 +596,14 @@ void EnDekubaba_Retract(EnDekubaba* this, GlobalContext* globalCtx) {
              -Math_SinS(this->stemSectionAngle[2]));
     }
 
-    this->actor.world.pos.y = this->actor.home.pos.y + (headShiftX * this->unk_230);
-    xShift = Math_SinS(this->actor.shape.rot.y) * (horizontalScale * this->unk_230);
-    zShift = Math_CosS(this->actor.shape.rot.y) * (horizontalScale * this->unk_230);
+    this->actor.world.pos.y = this->actor.home.pos.y + (headShiftX * this->size);
+    xShift = Math_SinS(this->actor.shape.rot.y) * (horizontalScale * this->size);
+    zShift = Math_CosS(this->actor.shape.rot.y) * (horizontalScale * this->size);
     this->actor.world.pos.x = this->actor.home.pos.x + xShift;
     this->actor.world.pos.z = this->actor.home.pos.z + zShift;
 
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-                             this->unk_230 * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 0xA, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f,
+                             this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 0xA, NULL);
 
     if (this->timer == 0) {
         EnDekubaba_SetupWait(this);
@@ -616,13 +616,13 @@ void EnDekubaba_UpdateHeadPosition(EnDekubaba* this) {
                               20.0f;
 
     this->actor.world.pos.x =
-        this->actor.home.pos.x + Math_SinS(this->actor.shape.rot.y) * (horizontalHeadShift * this->unk_230);
+        this->actor.home.pos.x + Math_SinS(this->actor.shape.rot.y) * (horizontalHeadShift * this->size);
     this->actor.world.pos.y =
         this->actor.home.pos.y - (Math_SinS(this->stemSectionAngle[0]) + Math_SinS(this->stemSectionAngle[1]) +
                                   Math_SinS(this->stemSectionAngle[2])) *
-                                     20.0f * this->unk_230;
+                                     20.0f * this->size;
     this->actor.world.pos.z =
-        this->actor.home.pos.z + Math_CosS(this->actor.shape.rot.y) * (horizontalHeadShift * this->unk_230);
+        this->actor.home.pos.z + Math_CosS(this->actor.shape.rot.y) * (horizontalHeadShift * this->size);
 }
 
 void EnDekubaba_DecideLunge(EnDekubaba* this, GlobalContext* globalCtx) {
@@ -664,9 +664,9 @@ void EnDekubaba_DecideLunge(EnDekubaba* this, GlobalContext* globalCtx) {
 
     EnDekubaba_UpdateHeadPosition(this);
 
-    if (240.0f * this->unk_230 < Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos)) {
+    if (240.0f * this->size < Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos)) {
         EnDekubaba_SetupRetract(this);
-    } else if ((this->timer == 0) || (this->actor.xzDistToPlayer < 80.0f * this->unk_230)) {
+    } else if ((this->timer == 0) || (this->actor.xzDistToPlayer < 80.0f * this->size)) {
         EnDekubaba_SetupPrepareLunge(this);
     }
 }
@@ -703,7 +703,7 @@ void EnDekubaba_Lunge(EnDekubaba* this, GlobalContext* globalCtx) {
             velocity.z = Math_CosS(this->actor.shape.rot.y) * 5.0f;
 
             func_8002829C(globalCtx, &this->actor.world.pos, &velocity, &sZeroVec, &primColor, &envColor, 1,
-                          this->unk_230 * 100.0f);
+                          this->size * 100.0f);
             this->timer = 1;
             this->collider.base.acFlags |= AC_ON;
         }
@@ -761,12 +761,12 @@ void EnDekubaba_PullBack(EnDekubaba* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->stemSectionAngle[0], -0x888, 0x16C);
         Math_ScaledStepToS(&this->stemSectionAngle[1], -0x888, 0x16C);
         if (Math_ScaledStepToS(&this->stemSectionAngle[2], -0x888, 0x16C)) {
-            xIncr = Math_SinS(this->actor.shape.rot.y) * 30.0f * this->unk_230;
-            zIncr = Math_CosS(this->actor.shape.rot.y) * 30.0f * this->unk_230;
+            xIncr = Math_SinS(this->actor.shape.rot.y) * 30.0f * this->size;
+            zIncr = Math_CosS(this->actor.shape.rot.y) * 30.0f * this->size;
             dustPos = this->actor.home.pos;
 
             for (i = 0; i < 3; i++) {
-                func_800286CC(globalCtx, &dustPos, &sZeroVec, &sZeroVec, this->unk_230 * 500.0f, this->unk_230 * 50.0f);
+                func_800286CC(globalCtx, &dustPos, &sZeroVec, &sZeroVec, this->size * 500.0f, this->size * 50.0f);
                 dustPos.x += xIncr;
                 dustPos.z += zIncr;
             }
@@ -812,7 +812,7 @@ void EnDekubaba_PullBack(EnDekubaba* this, GlobalContext* globalCtx) {
         this->timer++;
 
         if (this->timer > 30) {
-            if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
+            if (this->actor.xzDistToPlayer < 80.0f * this->size) {
                 EnDekubaba_SetupPrepareLunge(this);
             } else {
                 EnDekubaba_SetupDecideLunge(this);
@@ -879,7 +879,7 @@ void EnDekubaba_Hit(EnDekubaba* this, GlobalContext* globalCtx) {
         } else {
             this->collider.base.acFlags |= AC_ON;
             if (this->timer == 0) {
-                if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
+                if (this->actor.xzDistToPlayer < 80.0f * this->size) {
                     EnDekubaba_SetupPrepareLunge(this);
                 } else {
                     EnDekubaba_SetupRecover(this);
@@ -903,7 +903,7 @@ void EnDekubaba_StunnedVertical(EnDekubaba* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         EnDekubaba_DisableHitboxes(this);
 
-        if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
+        if (this->actor.xzDistToPlayer < 80.0f * this->size) {
             EnDekubaba_SetupPrepareLunge(this);
         } else {
             EnDekubaba_SetupRecover(this);
@@ -929,7 +929,7 @@ void EnDekubaba_Sway(EnDekubaba* this, GlobalContext* globalCtx) {
 
     if (ABS(angleToVertical) < 0x100) {
         this->collider.base.acFlags |= AC_ON;
-        if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
+        if (this->actor.xzDistToPlayer < 80.0f * this->size) {
             EnDekubaba_SetupPrepareLunge(this);
         } else {
             EnDekubaba_SetupRecover(this);
@@ -946,22 +946,22 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx) {
     f32 deltaZ;
     f32 deltaY;
 
-    Math_StepToF(&this->actor.speedXZ, 0.0f, this->unk_230 * 0.1f);
+    Math_StepToF(&this->actor.speedXZ, 0.0f, this->size * 0.1f);
 
     if (this->timer == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
         Math_ScaledStepToS(&this->stemSectionAngle[0], 0x4800, 0x71C);
         Math_ScaledStepToS(&this->stemSectionAngle[1], 0x4800, 0x71C);
 
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-                                 this->unk_230 * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->size * 3.0f, 0, this->size * 12.0f,
+                                 this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
         if ((this->actor.scale.x > 0.005f) && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= -6;
-            EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-                                     this->unk_230 * 5.0f, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
+            EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->size * 3.0f, 0, this->size * 12.0f,
+                                     this->size * 5.0f, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         }
 
         if (this->actor.bgCheckFlags & 2) {
@@ -982,8 +982,7 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx) {
             dustPos.z += deltaZ;
         }
 
-        func_800286CC(globalCtx, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->unk_230 * 500.0f,
-                      this->unk_230 * 100.0f);
+        func_800286CC(globalCtx, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->size * 500.0f, this->size * 100.0f);
         EnDekubaba_SetupDeadStickDrop(this, globalCtx);
     }
 }
@@ -992,11 +991,10 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx) {
  * Die and drop Deku Nuts (Stick drop is handled elsewhere)
  */
 void EnDekubaba_ShrinkDie(EnDekubaba* this, GlobalContext* globalCtx) {
-    Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, this->unk_230 * 5.0f);
+    Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, this->size * 5.0f);
 
-    if (Math_StepToF(&this->actor.scale.x, this->unk_230 * 0.1f * 0.01f, this->unk_230 * 0.1f * 0.01f)) {
-        func_800286CC(globalCtx, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->unk_230 * 500.0f,
-                      this->unk_230 * 100.0f);
+    if (Math_StepToF(&this->actor.scale.x, this->size * 0.1f * 0.01f, this->size * 0.1f * 0.01f)) {
+        func_800286CC(globalCtx, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->size * 500.0f, this->size * 100.0f);
         if (this->actor.dropFlag == 0) {
             Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_NUTS);
 
@@ -1012,8 +1010,8 @@ void EnDekubaba_ShrinkDie(EnDekubaba* this, GlobalContext* globalCtx) {
 
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
     this->actor.shape.rot.z += 0x1C70;
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
-                             this->unk_230 * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f,
+                             this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 }
 
 void EnDekubaba_DeadStickDrop(EnDekubaba* this, GlobalContext* globalCtx) {
@@ -1079,7 +1077,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, GlobalContext* globalCtx) {
 
             if (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_FIRE) {
                 firePos = &this->actor.world.pos;
-                fireScale = (this->unk_230 * 70.0f);
+                fireScale = (this->size * 70.0f);
 
                 for (phi_s0 = 0; phi_s0 < 4; phi_s0++) {
                     EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, firePos, fireScale, 0, 0, phi_s0);
@@ -1128,7 +1126,7 @@ void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc == EnDekubaba_PrunedSomersault) {
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->unk_230 * 15.0f, 10.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->size * 15.0f, 10.0f, 5);
     } else if (this->actionFunc != EnDekubaba_DeadStickDrop) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
         if (this->boundFloor == NULL) {
@@ -1156,9 +1154,9 @@ void EnDekubaba_DrawStemRetracted(EnDekubaba* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2445);
 
-    horizontalScale = this->unk_230 * 0.01f;
+    horizontalScale = this->size * 0.01f;
 
-    Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y + (-6.0f * this->unk_230), this->actor.home.pos.z,
+    Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y + (-6.0f * this->size), this->actor.home.pos.z,
                      MTXMODE_NEW);
     Matrix_RotateRPY(this->stemSectionAngle[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     Matrix_Scale(horizontalScale, horizontalScale, horizontalScale, MTXMODE_APPLY);
@@ -1188,20 +1186,20 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
         stemSections = 3;
     }
 
-    scale = this->unk_230 * 0.01f;
+    scale = this->size * 0.01f;
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_Get(&mtx);
     if (this->actor.colorFilterTimer != 0) {
-        spA4 = this->unk_230 * 20.0f;
+        spA4 = this->size * 20.0f;
         this->bodyPartsPos[2].x = this->actor.world.pos.x;
         this->bodyPartsPos[2].y = this->actor.world.pos.y - spA4;
         this->bodyPartsPos[2].z = this->actor.world.pos.z;
     }
 
     for (i = 0; i < stemSections; i++) {
-        mtx.wy += 20.0f * Math_SinS(this->stemSectionAngle[i]) * this->unk_230;
-        horizontalStepSize = 20.0f * Math_CosS(this->stemSectionAngle[i]) * this->unk_230;
+        mtx.wy += 20.0f * Math_SinS(this->stemSectionAngle[i]) * this->size;
+        horizontalStepSize = 20.0f * Math_CosS(this->stemSectionAngle[i]) * this->size;
         mtx.wx -= horizontalStepSize * Math_SinS(this->actor.shape.rot.y);
         mtx.wz -= horizontalStepSize * Math_CosS(this->actor.shape.rot.y);
 
@@ -1222,7 +1220,7 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
                 this->actor.focus.pos.z = mtx.wz;
             } else {
                 this->actor.focus.pos.x = this->actor.home.pos.x;
-                this->actor.focus.pos.y = this->actor.home.pos.y + (40.0f * this->unk_230);
+                this->actor.focus.pos.y = this->actor.home.pos.y + (40.0f * this->size);
                 this->actor.focus.pos.z = this->actor.home.pos.z;
             }
         }
@@ -1264,7 +1262,7 @@ void EnDekubaba_DrawBaseShadow(EnDekubaba* this, GlobalContext* globalCtx) {
     func_80038A28(this->boundFloor, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &mtx);
     Matrix_Mult(&mtx, MTXMODE_NEW);
 
-    horizontalScale = this->unk_230 * 0.15f;
+    horizontalScale = this->size * 0.15f;
     Matrix_Scale(horizontalScale, 1.0f, horizontalScale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2710),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1298,7 +1296,7 @@ void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
             EnDekubaba_DrawStemExtended(this, globalCtx);
         }
 
-        scale = this->unk_230 * 0.01f;
+        scale = this->size * 0.01f;
         Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
         Matrix_RotateY(this->actor.home.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
