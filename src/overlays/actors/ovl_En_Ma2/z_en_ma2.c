@@ -15,7 +15,7 @@ s16 func_80AA1A38(GlobalContext* globalCtx, Actor* this);
 
 void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx);
 s32 func_80AA1C68(EnMa2* this);
-void func_80AA1CC0(EnMa2* this);
+void EnMa2_UpdateEyes(EnMa2* this);
 void func_80AA1DB4(EnMa2* this, GlobalContext* globalCtx);
 void func_80AA2018(EnMa2* this, GlobalContext* globalCtx);
 void func_80AA204C(EnMa2* this, GlobalContext* globalCtx);
@@ -56,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static struct_D_80AA1678 D_80AA2858[] = {
+static struct_D_80AA1678 sAnimationInfo[] = {
     { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },       { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &gMalonAdultStandStillAnim, 1.0f, ANIMMODE_LOOP, 0.0f }, { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -175,29 +175,29 @@ s32 func_80AA1C68(EnMa2* this) {
     if (this->unk_1E0.unk_00 != 0) {
         return 0;
     }
-    this->unk_20C = 0;
-    if (this->unk_20E != 2) {
+    this->blinkTimer = 0;
+    if (this->eyeIndex != 2) {
         return 0;
     }
-    this->unk_210 = 2;
+    this->mouthIndex = 2;
     return 1;
 }
 
-void func_80AA1CC0(EnMa2* this) {
-    if ((!func_80AA1C68(this)) && (DECR(this->unk_20C) == 0)) {
-        this->unk_20E += 1;
-        if (this->unk_20E >= 3) {
-            this->unk_20C = Rand_S16Offset(0x1E, 0x1E);
-            this->unk_20E = 0;
+void EnMa2_UpdateEyes(EnMa2* this) {
+    if ((!func_80AA1C68(this)) && (DECR(this->blinkTimer) == 0)) {
+        this->eyeIndex += 1;
+        if (this->eyeIndex >= 3) {
+            this->blinkTimer = Rand_S16Offset(0x1E, 0x1E);
+            this->eyeIndex = 0;
         }
     }
 }
 
 void func_80AA1D44(EnMa2* this, s32 idx) {
-    f32 frameCount = Animation_GetLastFrame(D_80AA2858[idx].animation);
+    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
 
-    Animation_Change(&this->skelAnime, D_80AA2858[idx].animation, 1.0f, 0.0f, frameCount, D_80AA2858[idx].mode,
-                     D_80AA2858[idx].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
+                     sAnimationInfo[idx].transitionRate);
 }
 
 void func_80AA1DB4(EnMa2* this, GlobalContext* globalCtx) {
@@ -321,7 +321,7 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
-    func_80AA1CC0(this);
+    EnMa2_UpdateEyes(this);
     this->actionFunc(this, globalCtx);
     func_80AA1DB4(this, globalCtx);
     func_80AA1AE4(this, globalCtx);
@@ -387,8 +387,8 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->unk_210]));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->unk_20E]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, this);
