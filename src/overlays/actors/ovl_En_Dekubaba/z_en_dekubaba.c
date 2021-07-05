@@ -13,18 +13,18 @@ void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDekubaba_SetupWait(EnDekubaba* this);
-void func_809E5D28(EnDekubaba* this);
+void EnDekubaba_SetupGrow(EnDekubaba* this);
 void EnDekubaba_Wait(EnDekubaba* this, GlobalContext* globalCtx);
-void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx);
+void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx);
 void EnDekubaba_Retract(EnDekubaba* this, GlobalContext* globalCtx);
-void func_809E6ED4(EnDekubaba* this, GlobalContext* globalCtx);
-void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx);
-void func_809E738C(EnDekubaba* this, GlobalContext* globalCtx);
-void func_809E7458(EnDekubaba* this, GlobalContext* globalCtx);
-void func_809E77E4(EnDekubaba* this, GlobalContext* globalCtx);
-void func_809E78DC(EnDekubaba* this, GlobalContext* globalCtx);
-void func_809E79EC(EnDekubaba* this, GlobalContext* globalCtx);
-void func_809E7A88(EnDekubaba* this, GlobalContext* globalCtx);
+void EnDekubaba_DecideLunge(EnDekubaba* this, GlobalContext* globalCtx);
+void EnDekubaba_Lunge(EnDekubaba* this, GlobalContext* globalCtx);
+void EnDekubaba_PrepareLunge(EnDekubaba* this, GlobalContext* globalCtx);
+void EnDekubaba_PullBack(EnDekubaba* this, GlobalContext* globalCtx);
+void EnDekubaba_Recover(EnDekubaba* this, GlobalContext* globalCtx);
+void EnDekubaba_Hit(EnDekubaba* this, GlobalContext* globalCtx);
+void EnDekubaba_StunnedVertical(EnDekubaba* this, GlobalContext* globalCtx);
+void EnDekubaba_Sway(EnDekubaba* this, GlobalContext* globalCtx);
 void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx);
 void EnDekubaba_ShrinkDie(EnDekubaba* this, GlobalContext* globalCtx);
 void EnDekubaba_DeadStickDrop(EnDekubaba* this, GlobalContext* globalCtx);
@@ -297,7 +297,7 @@ void EnDekubaba_SetupWait(EnDekubaba* this) {
     ColliderJntSphElement* element;
 
     this->actor.shape.rot.x = -0x4000;
-    this->unk_1CA[0] = this->unk_1CA[1] = this->unk_1CA[2] = this->actor.shape.rot.x;
+    this->stemSectionAngle[0] = this->stemSectionAngle[1] = this->stemSectionAngle[2] = this->actor.shape.rot.x;
 
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.z = this->actor.home.pos.z;
@@ -320,11 +320,11 @@ void EnDekubaba_SetupWait(EnDekubaba* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E5D28.s")
-void func_809E5D28(EnDekubaba* this) {
+void EnDekubaba_SetupGrow(EnDekubaba* this) {
     s32 i;
 
     Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim,
-                     Animation_GetLastFrame(&gDekuBabaFastChompAnim) * ( 1.0f / 15 ), 0.0f,
+                     Animation_GetLastFrame(&gDekuBabaFastChompAnim) * (1.0f / 15), 0.0f,
                      Animation_GetLastFrame(&gDekuBabaFastChompAnim), 2, 0.0f);
 
     this->timer = 15;
@@ -336,7 +336,7 @@ void func_809E5D28(EnDekubaba* this) {
     this->collider.base.colType = COLTYPE_HIT6;
     this->collider.base.acFlags &= ~AC_HARD;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DUMMY482);
-    this->actionFunc = func_809E65A0;
+    this->actionFunc = EnDekubaba_Grow;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E5E58.s")
@@ -356,44 +356,44 @@ void EnDekubaba_SetupRetract(EnDekubaba* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E5F44.s")
-void func_809E5F44(EnDekubaba* this) {
+void EnDekubaba_SetupDecideLunge(EnDekubaba* this) {
     this->timer = Animation_GetLastFrame(&gDekuBabaFastChompAnim) * 2;
     Animation_MorphToLoop(&this->skelAnime, &gDekuBabaFastChompAnim, -3.0f);
-    this->actionFunc = func_809E6ED4;
+    this->actionFunc = EnDekubaba_DecideLunge;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E5F9C.s")
-void func_809E5F9C(EnDekubaba* this) {
+void EnDekubaba_SetupPrepareLunge(EnDekubaba* this) {
     this->timer = 8;
     this->skelAnime.playSpeed = 0.0f;
-    this->actionFunc = func_809E738C;
+    this->actionFunc = EnDekubaba_PrepareLunge;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E5FBC.s")
-void func_809E5FBC(EnDekubaba* this) {
+void EnDekubaba_SetupLunge(EnDekubaba* this) {
     Animation_PlayOnce(&this->skelAnime, &gDekuBabaPauseChompAnim);
     this->timer = 0;
-    this->actionFunc = func_809E7104;
+    this->actionFunc = EnDekubaba_Lunge;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E6000.s")
-void func_809E6000(EnDekubaba* this) {
+void EnDekubaba_SetupPullBack(EnDekubaba* this) {
     Animation_Change(&this->skelAnime, &gDekuBabaPauseChompAnim, 1.0f, 15.0f,
                      Animation_GetLastFrame(&gDekuBabaPauseChompAnim), 2, -3.0f);
     this->timer = 0;
-    this->actionFunc = func_809E7458;
+    this->actionFunc = EnDekubaba_PullBack;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E6078.s")
-void func_809E6078(EnDekubaba* this) {
+void EnDekubaba_SetupRecover(EnDekubaba* this) {
     this->timer = 9;
     this->collider.base.acFlags |= AC_ON;
     this->skelAnime.playSpeed = -1.0f;
-    this->actionFunc = func_809E77E4;
+    this->actionFunc = EnDekubaba_Recover;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E60A8.s")
-void func_809E60A8(EnDekubaba* this, s32 arg1) {
+void EnDekubaba_SetupHit(EnDekubaba* this, s32 arg1) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gDekuBabaPauseChompAnim, -5.0f);
     this->timer = arg1;
     this->collider.base.acFlags &= ~AC_ON;
@@ -405,7 +405,7 @@ void func_809E60A8(EnDekubaba* this, s32 arg1) {
         Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 42);
     }
 
-    this->actionFunc = func_809E78DC;
+    this->actionFunc = EnDekubaba_Hit;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E6170.s")
@@ -430,7 +430,7 @@ void EnDekubaba_SetupShrinkDie(EnDekubaba* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E6264.s")
-void func_809E6264(EnDekubaba* this) {
+void EnDekubaba_SetupStunnedVertical(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < 7; i++) {
@@ -450,19 +450,19 @@ void func_809E6264(EnDekubaba* this) {
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.y = this->actor.home.pos.y + (60.0f * this->unk_230);
     this->actor.world.pos.z = this->actor.home.pos.z;
-    this->actionFunc = func_809E79EC;
+    this->actionFunc = EnDekubaba_StunnedVertical;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E63EC.s")
-void func_809E63EC(EnDekubaba* this) {
-    this->unk_1C8 = -0x6000;
-    this->unk_1CA[2] = -0x5000;
-    this->unk_1CA[1] = -0x4800;
+void EnDekubaba_SetupSway(EnDekubaba* this) {
+    this->targetSwayAngle = -0x6000;
+    this->stemSectionAngle[2] = -0x5000;
+    this->stemSectionAngle[1] = -0x4800;
 
     EnDekubaba_DisableHitboxes(this);
     Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 35);
     this->collider.base.acFlags &= ~AC_ON;
-    this->actionFunc = func_809E7A88;
+    this->actionFunc = EnDekubaba_Sway;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E645C.s")
@@ -493,17 +493,17 @@ void EnDekubaba_Wait(EnDekubaba* this, GlobalContext* globalCtx) {
 
     if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f * this->unk_230) &&
         (fabsf(this->actor.yDistToPlayer) < 30.0f * this->unk_230)) {
-        func_809E5D28(this);
+        EnDekubaba_SetupGrow(this);
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E65A0.s")
-void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
+void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 phi_f12;
-    f32 sp5C;
-    f32 sp58;
-    f32 temp_f18;
+    f32 headDistHorizontal;
+    f32 headDistVertical;
+    f32 headShiftX;
+    f32 headShiftZ;
 
     if (this->timer != 0) {
         this->timer--;
@@ -515,51 +515,55 @@ void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
         this->unk_230 * 0.01f * (0.5f + (((15 - this->timer) * 0.5f) / 15.0f));
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
 
-    sp5C = (sinf(CLAMP_MAX((15 - this->timer) * ( 1.0f / 15 ), 0.7f) * M_PI) * 32.0f) + 14.0f;
+    headDistVertical = (sinf(CLAMP_MAX((15 - this->timer) * (1.0f / 15), 0.7f) * M_PI) * 32.0f) + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
-        phi_f12 = 0.0f;
+        headDistHorizontal = 0.0f;
     } else if (this->actor.shape.rot.x < -0x238E) {
-        Math_ScaledStepToS(&this->unk_1CA[0], -0x5555, 0x38E);
-        phi_f12 = Math_CosS(this->unk_1CA[0]) * 20.0f;
+        Math_ScaledStepToS(&this->stemSectionAngle[0], -0x5555, 0x38E);
+        headDistHorizontal = Math_CosS(this->stemSectionAngle[0]) * 20.0f;
     } else if (this->actor.shape.rot.x < -0xE38) {
-        Math_ScaledStepToS(&this->unk_1CA[0], -0xAAA, 0x38E);
-        Math_ScaledStepToS(&this->unk_1CA[1], -0x5555, 0x38E);
-        Math_ScaledStepToS(&this->unk_1CA[2], -0x5555, 0x222);
+        Math_ScaledStepToS(&this->stemSectionAngle[0], -0xAAA, 0x38E);
+        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x5555, 0x38E);
+        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5555, 0x222);
 
-        phi_f12 = (20.0f * (Math_CosS(this->unk_1CA[0]) + Math_CosS(this->unk_1CA[1]))) +
-                  (((sp5C - (20.0f * (-Math_SinS(this->unk_1CA[0]) - Math_SinS(this->unk_1CA[1])))) *
-                    Math_CosS(this->unk_1CA[2])) /
-                   -Math_SinS(this->unk_1CA[2]));
+        headDistHorizontal =
+            (20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))) +
+            (((headDistVertical -
+               (20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))) *
+              Math_CosS(this->stemSectionAngle[2])) /
+             -Math_SinS(this->stemSectionAngle[2]));
     } else {
-        Math_ScaledStepToS(&this->unk_1CA[0], -0xAAA, 0x38E);
-        Math_ScaledStepToS(&this->unk_1CA[1], -0x31C7, 0x222);
-        Math_ScaledStepToS(&this->unk_1CA[2], -0x5555, 0x222);
+        Math_ScaledStepToS(&this->stemSectionAngle[0], -0xAAA, 0x38E);
+        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x31C7, 0x222);
+        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5555, 0x222);
 
-        phi_f12 = (20.0f * (Math_CosS(this->unk_1CA[0]) + Math_CosS(this->unk_1CA[1]))) +
-                  (((sp5C - (20.0f * (-Math_SinS(this->unk_1CA[0]) - Math_SinS(this->unk_1CA[1])))) *
-                    Math_CosS(this->unk_1CA[2])) /
-                   -Math_SinS(this->unk_1CA[2]));
+        headDistHorizontal =
+            (20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))) +
+            (((headDistVertical -
+               (20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))) *
+              Math_CosS(this->stemSectionAngle[2])) /
+             -Math_SinS(this->stemSectionAngle[2]));
     }
 
     if (this->timer < 10) {
         Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2,
                        0xE38);
-        if (temp_f18) {} // One way of fake-matching
+        if (headShiftZ) {} // One way of fake-matching
     }
 
-    this->actor.world.pos.y = this->actor.home.pos.y + (sp5C * this->unk_230);
-    sp58 = Math_SinS(this->actor.shape.rot.y) * (phi_f12 * this->unk_230);
-    temp_f18 = Math_CosS(this->actor.shape.rot.y) * (phi_f12 * this->unk_230);
-    this->actor.world.pos.x = this->actor.home.pos.x + sp58;
-    this->actor.world.pos.z = this->actor.home.pos.z + temp_f18;
+    this->actor.world.pos.y = this->actor.home.pos.y + (headDistVertical * this->unk_230);
+    headShiftX = Math_SinS(this->actor.shape.rot.y) * (headDistHorizontal * this->unk_230);
+    headShiftZ = Math_CosS(this->actor.shape.rot.y) * (headDistHorizontal * this->unk_230);
+    this->actor.world.pos.x = this->actor.home.pos.x + headShiftX;
+    this->actor.world.pos.z = this->actor.home.pos.z + headShiftZ;
 
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
                              this->unk_230 * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
     if (this->timer == 0) {
         if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 240.0f * this->unk_230) {
-            func_809E5F9C(this);
+            EnDekubaba_SetupPrepareLunge(this);
         } else {
             EnDekubaba_SetupRetract(this);
         }
@@ -569,7 +573,7 @@ void func_809E65A0(EnDekubaba* this, GlobalContext* globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E6A04.s")
 void EnDekubaba_Retract(EnDekubaba* this, GlobalContext* globalCtx) {
     f32 horizontalScale;
-    f32 sp58;
+    f32 headShiftX;
     f32 xShift;
     f32 zShift;
 
@@ -580,37 +584,39 @@ void EnDekubaba_Retract(EnDekubaba* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-        this->unk_230 * 0.01f * (0.5f + this->timer * ( 1.0f / 30 ));
+        this->unk_230 * 0.01f * (0.5f + this->timer * (1.0f / 30));
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
 
-    sp58 = (sinf(CLAMP_MAX(this->timer * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
+    headShiftX = (sinf(CLAMP_MAX(this->timer * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
         horizontalScale = 0.0f;
     } else if (this->actor.shape.rot.x < -0x238E) {
-        Math_ScaledStepToS(&this->unk_1CA[0], -0x4000, 0x555);
-        horizontalScale = Math_CosS(this->unk_1CA[0]) * 20.0f;
+        Math_ScaledStepToS(&this->stemSectionAngle[0], -0x4000, 0x555);
+        horizontalScale = Math_CosS(this->stemSectionAngle[0]) * 20.0f;
     } else if (this->actor.shape.rot.x < -0xE38) {
-        Math_ScaledStepToS(&this->unk_1CA[0], -0x5555, 0x555);
-        Math_ScaledStepToS(&this->unk_1CA[1], -0x4000, 0x555);
-        Math_ScaledStepToS(&this->unk_1CA[2], -0x4000, 0x333);
+        Math_ScaledStepToS(&this->stemSectionAngle[0], -0x5555, 0x555);
+        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x4000, 0x555);
+        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0x333);
 
-        horizontalScale = (20.0f * (Math_CosS(this->unk_1CA[0]) + Math_CosS(this->unk_1CA[1]))) +
-                          (((sp58 - (20.0f * (-Math_SinS(this->unk_1CA[0]) - Math_SinS(this->unk_1CA[1])))) *
-                            Math_CosS(this->unk_1CA[2])) /
-                           -Math_SinS(this->unk_1CA[2]));
+        horizontalScale =
+            (20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))) +
+            (((headShiftX - (20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))) *
+              Math_CosS(this->stemSectionAngle[2])) /
+             -Math_SinS(this->stemSectionAngle[2]));
     } else {
-        Math_ScaledStepToS(&this->unk_1CA[0], -0x5555, 0x555);
-        Math_ScaledStepToS(&this->unk_1CA[1], -0x5555, 0x333);
-        Math_ScaledStepToS(&this->unk_1CA[2], -0x4000, 0x333);
+        Math_ScaledStepToS(&this->stemSectionAngle[0], -0x5555, 0x555);
+        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x5555, 0x333);
+        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0x333);
 
-        horizontalScale = (20.0f * (Math_CosS(this->unk_1CA[0]) + Math_CosS(this->unk_1CA[1]))) +
-                          (((sp58 - (20.0f * (-Math_SinS(this->unk_1CA[0]) - Math_SinS(this->unk_1CA[1])))) *
-                            Math_CosS(this->unk_1CA[2])) /
-                           -Math_SinS(this->unk_1CA[2]));
+        horizontalScale =
+            (20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))) +
+            (((headShiftX - (20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))) *
+              Math_CosS(this->stemSectionAngle[2])) /
+             -Math_SinS(this->stemSectionAngle[2]));
     }
 
-    this->actor.world.pos.y = this->actor.home.pos.y + (sp58 * this->unk_230);
+    this->actor.world.pos.y = this->actor.home.pos.y + (headShiftX * this->unk_230);
     xShift = Math_SinS(this->actor.shape.rot.y) * (horizontalScale * this->unk_230);
     zShift = Math_CosS(this->actor.shape.rot.y) * (horizontalScale * this->unk_230);
     this->actor.world.pos.x = this->actor.home.pos.x + xShift;
@@ -625,19 +631,23 @@ void EnDekubaba_Retract(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E6DCC.s")
-void func_809E6DCC(EnDekubaba* this) {
-    f32 sp2C = (Math_CosS(this->unk_1CA[0]) + Math_CosS(this->unk_1CA[1]) + Math_CosS(this->unk_1CA[2])) * 20.0f;
+void EnDekubaba_UpdateHeadPosition(EnDekubaba* this) {
+    f32 horizontalHeadShift = (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]) +
+                               Math_CosS(this->stemSectionAngle[2])) *
+                              20.0f;
 
-    this->actor.world.pos.x = this->actor.home.pos.x + (Math_SinS(this->actor.shape.rot.y) * (sp2C * this->unk_230));
+    this->actor.world.pos.x =
+        this->actor.home.pos.x + Math_SinS(this->actor.shape.rot.y) * (horizontalHeadShift * this->unk_230);
     this->actor.world.pos.y =
-        this->actor.home.pos.y -
-        ((Math_SinS(this->unk_1CA[0]) + Math_SinS(this->unk_1CA[1]) + Math_SinS(this->unk_1CA[2])) * 20.0f *
-         this->unk_230);
-    this->actor.world.pos.z = this->actor.home.pos.z + (Math_CosS(this->actor.shape.rot.y) * (sp2C * this->unk_230));
+        this->actor.home.pos.y - (Math_SinS(this->stemSectionAngle[0]) + Math_SinS(this->stemSectionAngle[1]) +
+                                  Math_SinS(this->stemSectionAngle[2])) *
+                                     20.0f * this->unk_230;
+    this->actor.world.pos.z =
+        this->actor.home.pos.z + Math_CosS(this->actor.shape.rot.y) * (horizontalHeadShift * this->unk_230);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E6ED4.s")
-void func_809E6ED4(EnDekubaba* this, GlobalContext* globalCtx) {
+void EnDekubaba_DecideLunge(EnDekubaba* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     SkelAnime_Update(&this->skelAnime);
@@ -657,34 +667,34 @@ void func_809E6ED4(EnDekubaba* this, GlobalContext* globalCtx) {
                    (this->timer % 5) * 0x222);
 
     if (this->timer < 10) {
-        this->unk_1CA[0] += 0x16C;
-        this->unk_1CA[1] += 0x16C;
-        this->unk_1CA[2] += 0xB6;
+        this->stemSectionAngle[0] += 0x16C;
+        this->stemSectionAngle[1] += 0x16C;
+        this->stemSectionAngle[2] += 0xB6;
         this->actor.shape.rot.x += 0x222;
     } else if (this->timer < 20) {
-        this->unk_1CA[0] += -0x16C;
-        this->unk_1CA[1] += 0x111;
+        this->stemSectionAngle[0] += -0x16C;
+        this->stemSectionAngle[1] += 0x111;
         this->actor.shape.rot.x += 0x16C;
     } else if (this->timer < 30) {
-        this->unk_1CA[1] += -0x111;
+        this->stemSectionAngle[1] += -0x111;
         this->actor.shape.rot.x += -0xB6;
     } else {
-        this->unk_1CA[1] += -0xB6;
-        this->unk_1CA[2] += 0xB6;
+        this->stemSectionAngle[1] += -0xB6;
+        this->stemSectionAngle[2] += 0xB6;
         this->actor.shape.rot.x -= 0x16C;
     }
 
-    func_809E6DCC(this);
+    EnDekubaba_UpdateHeadPosition(this);
 
     if (240.0f * this->unk_230 < Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos)) {
         EnDekubaba_SetupRetract(this);
     } else if ((this->timer == 0) || (this->actor.xzDistToPlayer < 80.0f * this->unk_230)) {
-        func_809E5F9C(this);
+        EnDekubaba_SetupPrepareLunge(this);
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E7104.s")
-void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
+void EnDekubaba_Lunge(EnDekubaba* this, GlobalContext* globalCtx) {
     static Color_RGBA8 primColor = { 105, 255, 105, 255 };
     static Color_RGBA8 envColor = { 150, 250, 150, 0 };
     s32 allStepsDone;
@@ -694,7 +704,7 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->timer == 0) {
-        if (Animation_OnFrame(&this->skelAnime, 1.0f) != 0) {
+        if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
             if (this->actor.params == DEKUBABA_BIG) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_ATTACK);
             } else {
@@ -705,9 +715,9 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0, 0x222);
 
         curFrame10 = this->skelAnime.curFrame * 10.0f;
-        allStepsDone = Math_ScaledStepToS(&this->unk_1CA[0], -0xE38, curFrame10 + 0x38E) & 1;
-        allStepsDone &= Math_ScaledStepToS(&this->unk_1CA[1], -0xE38, curFrame10 + 0x71C);
-        allStepsDone &= Math_ScaledStepToS(&this->unk_1CA[2], -0xE38, curFrame10 + 0xE38);
+        allStepsDone = Math_ScaledStepToS(&this->stemSectionAngle[0], -0xE38, curFrame10 + 0x38E) & 1;
+        allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[1], -0xE38, curFrame10 + 0x71C);
+        allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[2], -0xE38, curFrame10 + 0xE38);
 
         if (allStepsDone) {
             Animation_PlayLoopSetSpeed(&this->skelAnime, &gDekuBabaFastChompAnim, 4.0f);
@@ -721,7 +731,7 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
             this->collider.base.acFlags |= AC_ON;
         }
     } else if (this->timer > 10) {
-        func_809E6000(this);
+        EnDekubaba_SetupPullBack(this);
     } else {
         this->timer++;
 
@@ -738,11 +748,11 @@ void func_809E7104(EnDekubaba* this, GlobalContext* globalCtx) {
         }
     }
 
-    func_809E6DCC(this);
+    EnDekubaba_UpdateHeadPosition(this);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E738C.s")
-void func_809E738C(EnDekubaba* this, GlobalContext* globalCtx) {
+void EnDekubaba_PrepareLunge(EnDekubaba* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->timer != 0) {
@@ -751,19 +761,19 @@ void func_809E738C(EnDekubaba* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.x, 0x1800, 2, 0xE38, 0x71C);
     Math_ApproachS(&this->actor.shape.rot.y, Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos), 2, 0xE38);
-    Math_ScaledStepToS(&this->unk_1CA[0], 0xAAA, 0x444);
-    Math_ScaledStepToS(&this->unk_1CA[1], -0x4718, 0x888);
-    Math_ScaledStepToS(&this->unk_1CA[2], -0x6AA4, 0x888);
+    Math_ScaledStepToS(&this->stemSectionAngle[0], 0xAAA, 0x444);
+    Math_ScaledStepToS(&this->stemSectionAngle[1], -0x4718, 0x888);
+    Math_ScaledStepToS(&this->stemSectionAngle[2], -0x6AA4, 0x888);
 
     if (this->timer == 0) {
-        func_809E5FBC(this);
+        EnDekubaba_SetupLunge(this);
     }
-    
-    func_809E6DCC(this);
+
+    EnDekubaba_UpdateHeadPosition(this);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E7458.s")
-void func_809E7458(EnDekubaba* this, GlobalContext* globalCtx) {
+void EnDekubaba_PullBack(EnDekubaba* this, GlobalContext* globalCtx) {
     Vec3f dustPos;
     f32 xIncr;
     f32 zIncr;
@@ -773,9 +783,9 @@ void func_809E7458(EnDekubaba* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x93E, 0x38E);
-        Math_ScaledStepToS(&this->unk_1CA[0], -0x888, 0x16C);
-        Math_ScaledStepToS(&this->unk_1CA[1], -0x888, 0x16C);
-        if (Math_ScaledStepToS(&this->unk_1CA[2], -0x888, 0x16C)) {
+        Math_ScaledStepToS(&this->stemSectionAngle[0], -0x888, 0x16C);
+        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x888, 0x16C);
+        if (Math_ScaledStepToS(&this->stemSectionAngle[2], -0x888, 0x16C)) {
             xIncr = Math_SinS(this->actor.shape.rot.y) * 30.0f * this->unk_230;
             zIncr = Math_CosS(this->actor.shape.rot.y) * 30.0f * this->unk_230;
             dustPos = this->actor.home.pos;
@@ -790,47 +800,47 @@ void func_809E7458(EnDekubaba* this, GlobalContext* globalCtx) {
         }
     } else if (this->timer == 11) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x93E, 0x200);
-        Math_ScaledStepToS(&this->unk_1CA[0], -0xAAA, 0x200);
-        Math_ScaledStepToS(&this->unk_1CA[2], -0x5C71, 0x200);
+        Math_ScaledStepToS(&this->stemSectionAngle[0], -0xAAA, 0x200);
+        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5C71, 0x200);
 
-        if (Math_ScaledStepToS(&this->unk_1CA[1], 0x238C, 0x200)) {
+        if (Math_ScaledStepToS(&this->stemSectionAngle[1], 0x238C, 0x200)) {
             this->timer = 12;
         }
     } else if (this->timer == 18) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x2AA8, 0xAAA);
 
-        if (Math_ScaledStepToS(&this->unk_1CA[0], 0x1554, 0x5B0)) {
+        if (Math_ScaledStepToS(&this->stemSectionAngle[0], 0x1554, 0x5B0)) {
             this->timer = 25;
         }
 
-        Math_ScaledStepToS(&this->unk_1CA[1], -0x38E3, 0xAAA);
-        Math_ScaledStepToS(&this->unk_1CA[2], -0x5C71, 0x2D8);
+        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x38E3, 0xAAA);
+        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5C71, 0x2D8);
     } else if (this->timer == 25) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x5550, 0xAAA);
 
-        if (Math_ScaledStepToS(&this->unk_1CA[0], -0x6388, 0x93E)) {
+        if (Math_ScaledStepToS(&this->stemSectionAngle[0], -0x6388, 0x93E)) {
             this->timer = 26;
         }
 
-        Math_ScaledStepToS(&this->unk_1CA[1], -0x3FFC, 0x4FA);
-        Math_ScaledStepToS(&this->unk_1CA[2], -0x238C, 0x444);
+        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x3FFC, 0x4FA);
+        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x238C, 0x444);
     } else if (this->timer == 26) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x93E);
 
-        if (Math_ScaledStepToS(&this->unk_1CA[0], -0x1555, 0x71C)) {
+        if (Math_ScaledStepToS(&this->stemSectionAngle[0], -0x1555, 0x71C)) {
             this->timer = 27;
         }
 
-        Math_ScaledStepToS(&this->unk_1CA[1], -0x38E3, 0x2D8);
-        Math_ScaledStepToS(&this->unk_1CA[2], -0x5C71, 0x5B0);
+        Math_ScaledStepToS(&this->stemSectionAngle[1], -0x38E3, 0x2D8);
+        Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5C71, 0x5B0);
     } else if (this->timer >= 27) {
         this->timer++;
 
         if (this->timer > 30) {
             if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
-                func_809E5F9C(this);
+                EnDekubaba_SetupPrepareLunge(this);
             } else {
-                func_809E5F44(this);
+                EnDekubaba_SetupDecideLunge(this);
             }
         }
     } else {
@@ -841,23 +851,24 @@ void func_809E7458(EnDekubaba* this, GlobalContext* globalCtx) {
         }
 
         if (this->timer >= 12) {
-            Math_ScaledStepToS(&this->unk_1CA[2], -0x5C71, 0x88);
+            Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5C71, 0x88);
         }
     }
-    func_809E6DCC(this);
+
+    EnDekubaba_UpdateHeadPosition(this);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E77E4.s")
-void func_809E77E4(EnDekubaba* this, GlobalContext* globalCtx) {
+void EnDekubaba_Recover(EnDekubaba* this, GlobalContext* globalCtx) {
     s32 anyStepsDone;
 
     SkelAnime_Update(&this->skelAnime);
 
     if (this->timer > 8) {
         anyStepsDone = Math_SmoothStepToS(&this->actor.shape.rot.x, 0x1800, 1, 0x11C6, 0x71C);
-        anyStepsDone |= Math_SmoothStepToS(&this->unk_1CA[0], -0x1555, 1, 0xAAA, 0x71C);
-        anyStepsDone |= Math_SmoothStepToS(&this->unk_1CA[1], -0x38E3, 1, 0xE38, 0x71C);
-        anyStepsDone |= Math_SmoothStepToS(&this->unk_1CA[2], -0x5C71, 1, 0x11C6, 0x71C);
+        anyStepsDone |= Math_SmoothStepToS(&this->stemSectionAngle[0], -0x1555, 1, 0xAAA, 0x71C);
+        anyStepsDone |= Math_SmoothStepToS(&this->stemSectionAngle[1], -0x38E3, 1, 0xE38, 0x71C);
+        anyStepsDone |= Math_SmoothStepToS(&this->stemSectionAngle[2], -0x5C71, 1, 0x11C6, 0x71C);
 
         if (!anyStepsDone) {
             this->timer = 8;
@@ -868,22 +879,26 @@ void func_809E77E4(EnDekubaba* this, GlobalContext* globalCtx) {
         }
 
         if (this->timer == 0) {
-            func_809E5F44(this);
+            EnDekubaba_SetupDecideLunge(this);
         }
     }
-    func_809E6DCC(this);
+
+    EnDekubaba_UpdateHeadPosition(this);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E78DC.s")
-void func_809E78DC(EnDekubaba* this, GlobalContext* globalCtx) {
+/**
+ * Hit by a weapon or hit something when lunging.
+ */
+void EnDekubaba_Hit(EnDekubaba* this, GlobalContext* globalCtx) {
     s32 allStepsDone;
 
     SkelAnime_Update(&this->skelAnime);
 
     allStepsDone = Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0xE38) & 1;
-    allStepsDone &= Math_ScaledStepToS(&this->unk_1CA[0], -0x4000, 0xE38);
-    allStepsDone &= Math_ScaledStepToS(&this->unk_1CA[1], -0x4000, 0xE38);
-    allStepsDone &= Math_ScaledStepToS(&this->unk_1CA[2], -0x4000, 0xE38);
+    allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[0], -0x4000, 0xE38);
+    allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[1], -0x4000, 0xE38);
+    allStepsDone &= Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0xE38);
 
     if (allStepsDone) {
         if (this->actor.colChkInfo.health == 0) {
@@ -892,20 +907,21 @@ void func_809E78DC(EnDekubaba* this, GlobalContext* globalCtx) {
             this->collider.base.acFlags |= AC_ON;
             if (this->timer == 0) {
                 if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
-                    func_809E5F9C(this);
+                    EnDekubaba_SetupPrepareLunge(this);
                 } else {
-                    func_809E6078(this);
+                    EnDekubaba_SetupRecover(this);
                 }
             } else {
-                func_809E6264(this);
+                EnDekubaba_SetupStunnedVertical(this);
             }
         }
     }
-    func_809E6DCC(this);
+
+    EnDekubaba_UpdateHeadPosition(this);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E79EC.s")
-void func_809E79EC(EnDekubaba* this, GlobalContext* globalCtx) {
+void EnDekubaba_StunnedVertical(EnDekubaba* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->timer != 0) {
@@ -916,54 +932,56 @@ void func_809E79EC(EnDekubaba* this, GlobalContext* globalCtx) {
         EnDekubaba_DisableHitboxes(this);
 
         if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
-            func_809E5F9C(this);
+            EnDekubaba_SetupPrepareLunge(this);
         } else {
-            func_809E6078(this);
+            EnDekubaba_SetupRecover(this);
         }
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E7A88.s")
-void func_809E7A88(EnDekubaba* this, GlobalContext* globalCtx) {
-    s16 temp_v0;
-    s32 phi_v1;
+/**
+ * Sway back and forth with decaying amplitude until close enough to vertical.
+ */
+void EnDekubaba_Sway(EnDekubaba* this, GlobalContext* globalCtx) {
+    s16 angleToVertical;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ScaledStepToS(&this->actor.shape.rot.x, this->unk_1CA[0], 0x71C);
-    Math_ScaledStepToS(&this->unk_1CA[0], this->unk_1CA[1], 0x71C);
-    Math_ScaledStepToS(&this->unk_1CA[1], this->unk_1CA[2], 0x71C);
+    Math_ScaledStepToS(&this->actor.shape.rot.x, this->stemSectionAngle[0], 0x71C);
+    Math_ScaledStepToS(&this->stemSectionAngle[0], this->stemSectionAngle[1], 0x71C);
+    Math_ScaledStepToS(&this->stemSectionAngle[1], this->stemSectionAngle[2], 0x71C);
 
-    if (Math_ScaledStepToS(&this->unk_1CA[2], this->unk_1C8, 0x71C)) {
-        this->unk_1C8 = -0x4000 - (this->unk_1C8 + 0x4000) * 0.8f;
+    if (Math_ScaledStepToS(&this->stemSectionAngle[2], this->targetSwayAngle, 0x71C)) {
+        this->targetSwayAngle = -0x4000 - (this->targetSwayAngle + 0x4000) * 0.8f;
     }
-    temp_v0 = this->unk_1C8 + 0x4000;
-    phi_v1 = ABS(temp_v0);
+    angleToVertical = this->targetSwayAngle + 0x4000;
 
-    if (phi_v1 < 0x100) {
+    if (ABS(angleToVertical) < 0x100) {
         this->collider.base.acFlags |= AC_ON;
         if (this->actor.xzDistToPlayer < 80.0f * this->unk_230) {
-            func_809E5F9C(this);
+            EnDekubaba_SetupPrepareLunge(this);
         } else {
-            func_809E6078(this);
+            EnDekubaba_SetupRecover(this);
         }
     }
-    func_809E6DCC(this);
+
+    EnDekubaba_UpdateHeadPosition(this);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekubaba/func_ 809E7BB0.s")
 void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx) {
     s32 i;
-    Vec3f sp78;
-    f32 temp_f20;
-    f32 temp_f22;
-    f32 temp_f24;
+    Vec3f dustPos;
+    f32 deltaX;
+    f32 deltaZ;
+    f32 deltaY;
 
     Math_StepToF(&this->actor.speedXZ, 0.0f, this->unk_230 * 0.1f);
 
     if (this->timer == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
-        Math_ScaledStepToS(&this->unk_1CA[0], 0x4800, 0x71C);
-        Math_ScaledStepToS(&this->unk_1CA[1], 0x4800, 0x71C);
+        Math_ScaledStepToS(&this->stemSectionAngle[0], 0x4800, 0x71C);
+        Math_ScaledStepToS(&this->stemSectionAngle[1], 0x4800, 0x71C);
 
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->unk_230 * 3.0f, 0, this->unk_230 * 12.0f,
                                  this->unk_230 * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
@@ -981,17 +999,17 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx) {
             this->timer = 1;
         }
     } else if (this->timer == 1) {
-        sp78 = this->actor.world.pos;
+        dustPos = this->actor.world.pos;
 
-        temp_f24 = 20.0f * Math_SinS(this->actor.shape.rot.x);
-        temp_f20 = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_SinS(this->actor.shape.rot.y);
-        temp_f22 = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y);
+        deltaY = 20.0f * Math_SinS(this->actor.shape.rot.x);
+        deltaX = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_SinS(this->actor.shape.rot.y);
+        deltaZ = -20.0f * Math_CosS(this->actor.shape.rot.x) * Math_CosS(this->actor.shape.rot.y);
 
         for (i = 0; i < 4; i++) {
-            func_800286CC(globalCtx, &sp78, &sZeroVec, &sZeroVec, 500, 50);
-            sp78.x += temp_f20;
-            sp78.y += temp_f24;
-            sp78.z += temp_f22;
+            func_800286CC(globalCtx, &dustPos, &sZeroVec, &sZeroVec, 500, 50);
+            dustPos.x += deltaX;
+            dustPos.y += deltaY;
+            dustPos.z += deltaZ;
         }
 
         func_800286CC(globalCtx, &this->actor.home.pos, &sZeroVec, &sZeroVec, this->unk_230 * 500.0f,
@@ -1060,30 +1078,32 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, GlobalContext* globalCtx) {
 
             phi_s0 = this->actor.colChkInfo.health - this->actor.colChkInfo.damage;
 
-            if (this->actionFunc != func_809E79EC) {
-                if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) || (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_DEKUNUT)) {
+            if (this->actionFunc != EnDekubaba_StunnedVertical) {
+                if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) ||
+                    (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_DEKUNUT)) {
                     if (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) {
                         phi_s0 = this->actor.colChkInfo.health;
                     }
 
-                    func_809E60A8(this, 2);
-                } else if (this->actionFunc == func_809E7458) {
+                    EnDekubaba_SetupHit(this, 2);
+                } else if (this->actionFunc == EnDekubaba_PullBack) {
                     if (phi_s0 <= 0) {
                         phi_s0 = 1;
                     }
 
-                    func_809E60A8(this, 1);
+                    EnDekubaba_SetupHit(this, 1);
                 } else {
-                    func_809E60A8(this, 0);
+                    EnDekubaba_SetupHit(this, 0);
                 }
-            } else if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) || (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_SWORD)) {
+            } else if ((this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_BOOMERANG) ||
+                       (this->actor.colChkInfo.damageEffect == DEKUBABA_DMGEFF_SWORD)) {
                 if (phi_s0 > 0) {
-                    func_809E63EC(this);
+                    EnDekubaba_SetupSway(this);
                 } else {
                     EnDekubaba_SetupPrunedSomersault(this);
                 }
             } else if (this->actor.colChkInfo.damageEffect != DEKUBABA_DMGEFF_DEKUNUT) {
-                func_809E60A8(this, 0);
+                EnDekubaba_SetupHit(this, 0);
             } else {
                 return;
             }
@@ -1102,11 +1122,11 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, GlobalContext* globalCtx) {
             return;
         }
     } else if ((globalCtx->actorCtx.unk_02 != 0) && (this->collider.base.colType != COLTYPE_HARD) &&
-               (this->actionFunc != func_809E79EC) && (this->actionFunc != func_809E78DC) &&
+               (this->actionFunc != EnDekubaba_StunnedVertical) && (this->actionFunc != EnDekubaba_Hit) &&
                (this->actor.colChkInfo.health != 0)) {
         this->actor.colChkInfo.health--;
-        this->actor.dropFlag = 0;
-        func_809E60A8(this, 1);
+        this->actor.dropFlag = 0x00;
+        EnDekubaba_SetupHit(this, 1);
     } else {
         return;
     }
@@ -1134,7 +1154,7 @@ void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        func_809E6078(this);
+        EnDekubaba_SetupRecover(this);
     }
 
     EnDekubaba_UpdateDamage(this, globalCtx);
@@ -1149,7 +1169,7 @@ void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->boundFloor = this->actor.floorPoly;
         }
     }
-    if (this->actionFunc == func_809E7104) {
+    if (this->actionFunc == EnDekubaba_Lunge) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         this->actor.flags |= 0x1000000;
     }
@@ -1175,7 +1195,7 @@ void EnDekubaba_DrawStemRetracted(EnDekubaba* this, GlobalContext* globalCtx) {
 
     Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y + (-6.0f * this->unk_230), this->actor.home.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateRPY(this->unk_1CA[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateRPY(this->stemSectionAngle[0], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     Matrix_Scale(horizontalScale, horizontalScale, horizontalScale, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2461),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1216,13 +1236,13 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
     }
 
     for (i = 0; i < stemSections; i++) {
-        mtx.wy += 20.0f * Math_SinS(this->unk_1CA[i]) * this->unk_230;
-        horizontalStepSize = 20.0f * Math_CosS(this->unk_1CA[i]) * this->unk_230;
+        mtx.wy += 20.0f * Math_SinS(this->stemSectionAngle[i]) * this->unk_230;
+        horizontalStepSize = 20.0f * Math_CosS(this->stemSectionAngle[i]) * this->unk_230;
         mtx.wx -= horizontalStepSize * Math_SinS(this->actor.shape.rot.y);
         mtx.wz -= horizontalStepSize * Math_CosS(this->actor.shape.rot.y);
 
         Matrix_Put(&mtx);
-        Matrix_RotateRPY(this->unk_1CA[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+        Matrix_RotateRPY(this->stemSectionAngle[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2533),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -1232,7 +1252,7 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
         Collider_UpdateSpheres(52 + 2 * i, &this->collider);
 
         if (i == 0) {
-            if (this->actionFunc != func_809E7A88) {
+            if (this->actionFunc != EnDekubaba_Sway) {
                 this->actor.focus.pos.x = mtx.wx;
                 this->actor.focus.pos.y = mtx.wy;
                 this->actor.focus.pos.z = mtx.wz;
@@ -1258,7 +1278,7 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
 void EnDekubaba_DrawStemBasePruned(EnDekubaba* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2579);
 
-    Matrix_RotateRPY(this->unk_1CA[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
+    Matrix_RotateRPY(this->stemSectionAngle[2], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2586),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gDekuBabaStemBase);
