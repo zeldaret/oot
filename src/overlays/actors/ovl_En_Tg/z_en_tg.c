@@ -40,9 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 64, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0, 0, 0, 0, 0xFF
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 0xFF };
 
 const ActorInit En_Tg_InitVars = {
     ACTOR_EN_TG,
@@ -85,7 +83,7 @@ u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx) {
     EnTg* this = THIS;
 
-    switch(func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 0:
         case 1:
         case 3:
@@ -97,7 +95,7 @@ s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx) {
         case 9:
             return 1;
         case 2:
-            switch(this->actor.textId) {
+            switch (this->actor.textId) {
                 case 0x5089:
                 case 0x508A:
                     this->unk_208++;
@@ -135,7 +133,7 @@ void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void EnTg_SpinIfNotTalking(EnTg *this, GlobalContext *globalCtx) {
+void EnTg_SpinIfNotTalking(EnTg* this, GlobalContext* globalCtx) {
     if (this->isTalking == 0) {
         this->actor.shape.rot.y += 0x800;
     }
@@ -149,7 +147,7 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     sp2C.x = this->actor.world.pos.x;
     sp2C.y = this->actor.world.pos.y;
-    sp2C.z = (s16) this->actor.world.pos.z + 3;
+    sp2C.z = (s16)this->actor.world.pos.z + 3;
     this->collider.dim.pos = sp2C;
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
@@ -159,12 +157,13 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_800343CC(globalCtx, &this->actor, &this->isTalking, temp, func_80B18360, func_80B183F8);
 }
 
-s32 EnTg_OverrideLimbDrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnTg_OverrideLimbDrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                             void* thisx) {
     return 0;
 }
 
-void EnTg_PostLimbDrawOpa(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, void *thisx) {
-    EnTg* this = (EnTg*) thisx;
+void EnTg_PostLimbDrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnTg* this = (EnTg*)thisx;
     Vec3f D_80B18968 = { 0.0, 800.0, 0.0 };
     if (limbIndex == 9) {
         Matrix_MultVec3f(&D_80B18968, &this->actor.focus.pos);
@@ -187,6 +186,7 @@ void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Translate(0.0f, 0.0f, -560.0f, MTXMODE_APPLY);
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80B18778(globalCtx->state.gfxCtx, 0, 0x32, 0xA0, 0));
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80B18778(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, EnTg_OverrideLimbDrawOpa, EnTg_PostLimbDrawOpa, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          EnTg_OverrideLimbDrawOpa, EnTg_PostLimbDrawOpa, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tg.c", 480);
 }
