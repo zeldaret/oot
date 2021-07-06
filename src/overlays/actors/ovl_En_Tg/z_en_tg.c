@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tg.h"
+#include "objects/object_mu/object_mu.h"
 
 #define FLAGS 0x00000009
 
@@ -16,9 +17,6 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnTg_SpinIfNotTalking(EnTg* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06005040;
-extern FlexSkeletonHeader D_0600AE40;
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -40,7 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 64, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 const ActorInit En_Tg_InitVars = {
     ACTOR_EN_TG,
@@ -116,7 +114,7 @@ void EnTg_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnTg* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600AE40, &D_06005040, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_mu_Skel_00AE40, &object_mu_Anim_005040, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -159,21 +157,21 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnTg_OverrideLimbDrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    return 0;
+    return false;
 }
 
 void EnTg_PostLimbDrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnTg* this = (EnTg*)thisx;
-    Vec3f D_80B18968 = { 0.0, 800.0, 0.0 };
+    Vec3f D_80B18968 = { 0.0f, 800.0f, 0.0f };
+
     if (limbIndex == 9) {
         Matrix_MultVec3f(&D_80B18968, &this->actor.focus.pos);
     }
 }
 
 Gfx* func_80B18778(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
-    Gfx* displayList;
+    Gfx* displayList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
 
-    displayList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
     gDPSetEnvColor(displayList, r, g, b, a);
     gSPEndDisplayList(displayList + 1);
     return displayList;
@@ -184,8 +182,8 @@ void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tg.c", 462);
     Matrix_Translate(0.0f, 0.0f, -560.0f, MTXMODE_APPLY);
-    gSPSegment(POLY_OPA_DISP++, 0x08, func_80B18778(globalCtx->state.gfxCtx, 0, 0x32, 0xA0, 0));
-    gSPSegment(POLY_OPA_DISP++, 0x09, func_80B18778(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x08, func_80B18778(globalCtx->state.gfxCtx, 0, 50, 160, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x09, func_80B18778(globalCtx->state.gfxCtx, 255, 255, 255, 0));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnTg_OverrideLimbDrawOpa, EnTg_PostLimbDrawOpa, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tg.c", 480);
