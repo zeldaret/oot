@@ -141,7 +141,12 @@ void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B185C0.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B185C0.s")
+void func_80B185C0(EnTg *this, GlobalContext *globalCtx) {
+    if (this->unk_1E0 == 0) {
+        this->actor.shape.rot.y += 0x800;
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Update.s")
 void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -168,6 +173,7 @@ s32 func_80B18704(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 void func_80B1871C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B1871C.s")
 
+Gfx* func_80B18778(GraphicsContext* gfxCtx, u8 arg1, u8 arg2, u8 arg3, u8 arg4);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18778.s")
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Draw.s")
