@@ -877,13 +877,13 @@ s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     return 0;
 }
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     0x06017930, // Open
     0x06018130, // Half
     0x06018930, // Closed
 };
 
-static u64* sMouthTextures[] = {
+static void* sMouthTextures[] = {
     0x06019130, // Closed
     0x0601A130, // Open
 };

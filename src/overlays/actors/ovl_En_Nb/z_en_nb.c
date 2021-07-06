@@ -78,7 +78,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gNabooruEyeOpenTex,
     gNabooruEyeHalfTex,
     gNabooruEyeClosedTex,

@@ -61,11 +61,11 @@ typedef enum {
     /* 4 */ SARIA_MOUTH_FROWNING
 } SariaMouthState;
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gSariaEyeOpenTex, gSariaEyeHalfTex, gSariaEyeClosedTex, gSariaEyeSuprisedTex, gSariaEyeSadTex,
 };
 
-static u64* sMouthTextures[] = {
+static void* sMouthTextures[] = {
     gSariaMouthClosed2Tex,     gSariaMouthSuprisedTex, gSariaMouthClosedTex,
     gSariaMouthSmilingOpenTex, gSariaMouthFrowningTex,
 };

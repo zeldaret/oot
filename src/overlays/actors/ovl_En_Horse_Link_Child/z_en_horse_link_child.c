@@ -548,7 +548,7 @@ static EnHorseLinkChildActionFunc sActionFuncs[] = {
     func_80A698F4, func_80A69C18, func_80A699FC, func_80A6A068, func_80A6A7D0, func_80A6A5A4,
 };
 
-static u64* sEyeTextures[] = { gChildEponaEyeOpenTex, gChildEponaEyeHalfTex, gChildEponaEyeCloseTex };
+static void* sEyeTextures[] = { gChildEponaEyeOpenTex, gChildEponaEyeHalfTex, gChildEponaEyeCloseTex };
 static u8 sEyeIndexOrder[] = { 0, 1, 2, 1 };
 
 void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {

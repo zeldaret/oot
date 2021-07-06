@@ -316,13 +316,12 @@ void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     }
 }
 
-static u64* sEyeTextures[] = {
-    0x06000408,
-    0x06001518,
-    0x06001D18,
-};
-
 void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* eyeTextures[] = {
+        0x06000408,
+        0x06001518,
+        0x06001D18,
+    };
     EnAni* this = THIS;
     s32 pad;
 

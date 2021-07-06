@@ -247,7 +247,7 @@ s32 EnNiwGirlOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 
 void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = { gNiwGirlEyeOpenTex, gNiwGirlEyeHalfTex, gNiwGirlEyeClosedTex };
+    static void* eyeTextures[] = { gNiwGirlEyeOpenTex, gNiwGirlEyeHalfTex, gNiwGirlEyeClosedTex };
     EnNiwGirl* this = THIS;
     s32 pad;
     Vec3f sp4C = sConstVec3f;

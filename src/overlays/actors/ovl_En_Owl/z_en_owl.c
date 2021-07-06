@@ -1320,7 +1320,7 @@ void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Ve
 }
 
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = { 0x060089A8, 0x06008DA8, 0x060091A8 };
+    static void* eyeTextures[] = { 0x060089A8, 0x06008DA8, 0x060091A8 };
     EnOwl* this = THIS;
     s32 pad;
 

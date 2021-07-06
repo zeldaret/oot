@@ -344,7 +344,7 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static u64* sVerticalFlamesTexs[] = {
+static void* sVerticalFlamesTexs[] = {
     gFireTempleBigVerticalFlame0Tex, gFireTempleBigVerticalFlame1Tex, gFireTempleBigVerticalFlame2Tex,
     gFireTempleBigVerticalFlame3Tex, gFireTempleBigVerticalFlame4Tex, gFireTempleBigVerticalFlame5Tex,
     gFireTempleBigVerticalFlame6Tex, gFireTempleBigVerticalFlame7Tex,
