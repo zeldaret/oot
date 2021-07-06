@@ -15,12 +15,12 @@ void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B185C0(EnTg* this, GlobalContext* globalCtx);
+void EnTg_SpinIfNotTalking(EnTg* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06005040;
 extern FlexSkeletonHeader D_0600AE40;
 
-static ColliderCylinderInit D_80B18910 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
         AT_NONE,
@@ -40,7 +40,7 @@ static ColliderCylinderInit D_80B18910 = {
     { 20, 64, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 D_80B1893C = {
+static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, 0xFF
 };
 
@@ -120,12 +120,12 @@ void EnTg_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600AE40, &D_06005040, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B18910);
-    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80B1893C);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     this->actor.targetMode = 6;
     Actor_SetScale(&this->actor, 0.01f);
     this->unk_208 = globalCtx->state.frames % 2;
-    this->actionFunc = func_80B185C0;
+    this->actionFunc = EnTg_SpinIfNotTalking;
 }
 
 void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -135,8 +135,8 @@ void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void func_80B185C0(EnTg *this, GlobalContext *globalCtx) {
-    if (this->unk_1E0 == 0) {
+void EnTg_SpinIfNotTalking(EnTg *this, GlobalContext *globalCtx) {
+    if (this->isTalking == 0) {
         this->actor.shape.rot.y += 0x800;
     }
 }
@@ -156,7 +156,7 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->actionFunc(this, globalCtx);
     temp = this->collider.dim.radius + 30.0f;
-    func_800343CC(globalCtx, &this->actor, &this->unk_1E0, temp, func_80B18360, func_80B183F8);
+    func_800343CC(globalCtx, &this->actor, &this->isTalking, temp, func_80B18360, func_80B183F8);
 }
 
 s32 EnTg_OverrideLimbDrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
