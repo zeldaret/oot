@@ -506,14 +506,14 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
         }
     }
 
-    if (globalCtx->doorCtx.numActors != 0) {
+    if (globalCtx->doorCtx.numTransitionActors; != 0) {
         s32 j;
         RomFile* roomList = globalCtx->roomList;
-        TransitionActorEntry* transitionActor = &globalCtx->doorCtx.actorList[0];
+        TransitionActorEntry* transitionActor = &globalCtx->doorCtx.transitionActorList[0];
 
         LOG_NUM("game_play->room_rom_address.num", globalCtx->numRooms, "../z_room.c", 912);
 
-        for (j = 0; j < globalCtx->doorCtx.numActors; j++) {
+        for (j = 0; j < globalCtx->doorCtx.numTransitionActors; j++) {
             s8 frontRoom = transitionActor->sides[0].room;
             s8 backRoom = transitionActor->sides[1].room;
             u32 frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;

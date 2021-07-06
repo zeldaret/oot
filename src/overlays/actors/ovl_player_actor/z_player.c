@@ -4152,7 +4152,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 }
 
                 if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
-                    this->unk_46A = globalCtx->doorCtx.actorList[(u16)doorShutter->dyna.actor.params >> 10]
+                    this->unk_46A = globalCtx->doorCtx.transitionActorList[(u16)doorShutter->dyna.actor.params >> 10]
                                         .sides[(doorDirection > 0) ? 0 : 1]
                                         .effects;
 
@@ -4224,7 +4224,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                         }
                     } else {
                         Camera_ChangeDoorCam(Gameplay_GetCamera(globalCtx, 0), doorActor,
-                                             globalCtx->doorCtx.actorList[(u16)doorActor->params >> 10]
+                                             globalCtx->doorCtx.transitionActorList[(u16)doorActor->params >> 10]
                                                  .sides[(doorDirection > 0) ? 0 : 1]
                                                  .effects,
                                              0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
@@ -4234,7 +4234,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
 
             if ((this->doorType != PLAYER_DOORTYPE_FAKE) && (doorActor->category == ACTORCAT_DOOR)) {
                 frontRoom =
-                    globalCtx->doorCtx.actorList[(u16)doorActor->params >> 10].sides[(doorDirection > 0) ? 0 : 1].room;
+                    globalCtx->doorCtx.transitionActorList[(u16)doorActor->params >> 10].sides[(doorDirection > 0) ? 0 : 1].room;
 
                 if ((frontRoom >= 0) && (frontRoom != globalCtx->roomCtx.curRoom.num)) {
                     func_8009728C(globalCtx, &globalCtx->roomCtx, frontRoom);

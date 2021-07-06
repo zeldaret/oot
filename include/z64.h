@@ -944,8 +944,8 @@ typedef struct {
 } ElfMessage; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ u8 numActors;
-    /* 0x04 */ TransitionActorEntry* actorList;
+    /* 0x00 */ u8 numTransitionActors;
+    /* 0x04 */ TransitionActorEntry* transitionActorList;
 } DoorContext;
 
 // Global Context (dbg ram start: 80212020)

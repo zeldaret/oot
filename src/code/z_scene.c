@@ -327,12 +327,12 @@ void func_80098C24(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x0E: Transition Actor List
 void func_80098C68(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->doorCtx.numActors = cmd->transiActorList.num;
-    globalCtx->doorCtx.actorList = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.segment);
+    globalCtx->doorCtx.numTransitionActors; = cmd->transiActorList.num;
+    globalCtx->doorCtx.transitionActorList = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.segment);
 }
 
-void Door_Init(GameState* state, DoorContext* doorCtx) {
-    doorCtx->numActors = 0;
+void Door_InitContext(GameState* state, DoorContext* doorCtx) {
+    doorCtx->numTransitionActors; = 0;
 }
 
 // Scene Command 0x0F: Light Setting List

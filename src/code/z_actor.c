@@ -2822,8 +2822,8 @@ void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCt
     u8 numTransitionActors;
     s32 i;
 
-    transitionActor = globalCtx->doorCtx.actorList;
-    numTransitionActors = globalCtx->doorCtx.numActors;
+    transitionActor = globalCtx->doorCtx.transitionActorList;
+    numTransitionActors = globalCtx->doorCtx.numTransitionActors;
 
     for (i = 0; i < numTransitionActors; i++) {
         if (transitionActor->id >= 0) {
@@ -2838,7 +2838,7 @@ void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCt
                             (i << 0xA) + transitionActor->params);
 
                 transitionActor->id = -transitionActor->id;
-                numTransitionActors = globalCtx->doorCtx.numActors;
+                numTransitionActors = globalCtx->doorCtx.numTransitionActors;
             }
         }
         transitionActor++;
