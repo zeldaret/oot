@@ -58,11 +58,13 @@ extern ColliderCylinderInit D_80B18910;
 extern CollisionCheckInfoInit2 D_80B1893C;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18360.s")
+u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B183F8.s")
+s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx);
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Init.s")
-void EnTg_Init(Actor* thisx, GlobalContext *globalCtx) {
+void EnTg_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnTg* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
@@ -86,7 +88,24 @@ void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B185C0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Update.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Update.s")
+void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnTg* this = THIS;
+    s32 pad;
+    f32 temp;
+    Vec3s sp2C;
+
+    sp2C.x = this->actor.world.pos.x;
+    sp2C.y = this->actor.world.pos.y;
+    sp2C.z = (s16) this->actor.world.pos.z + 3;
+    this->collider.dim.pos = sp2C;
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    SkelAnime_Update(&this->skelAnime);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    this->actionFunc(this, globalCtx);
+    temp = this->collider.dim.radius + 30.0f;
+    func_800343CC(globalCtx, &this->actor, &this->unk_1E0, temp, func_80B18360, func_80B183F8);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18704.s")
 
