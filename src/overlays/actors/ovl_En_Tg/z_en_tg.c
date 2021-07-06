@@ -162,10 +162,22 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_800343CC(globalCtx, &this->actor, &this->unk_1E0, temp, func_80B18360, func_80B183F8);
 }
 
+s32 func_80B18704(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void*);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18704.s")
 
+void func_80B1871C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B1871C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18778.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Draw.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Draw.s")
+void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnTg* this = THIS;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tg.c", 462);
+    Matrix_Translate(0.0f, 0.0f, -560.0f, MTXMODE_APPLY);
+    gSPSegment(POLY_OPA_DISP++, 0x08, func_80B18778(globalCtx->state.gfxCtx, 0, 0x32, 0xA0, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x09, func_80B18778(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0));
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, func_80B18704, func_80B1871C, this);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tg.c", 480);
+}
