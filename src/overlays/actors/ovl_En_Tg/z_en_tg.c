@@ -20,19 +20,6 @@ void func_80B185C0(EnTg* this, GlobalContext* globalCtx);
 extern AnimationHeader D_06005040;
 extern FlexSkeletonHeader D_0600AE40;
 
-/*
-const ActorInit En_Tg_InitVars = {
-    ACTOR_EN_TG,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MU,
-    sizeof(EnTg),
-    (ActorFunc)EnTg_Init,
-    (ActorFunc)EnTg_Destroy,
-    (ActorFunc)EnTg_Update,
-    (ActorFunc)EnTg_Draw,
-};
-
 static ColliderCylinderInit D_80B18910 = {
     {
         COLTYPE_NONE,
@@ -52,11 +39,28 @@ static ColliderCylinderInit D_80B18910 = {
     },
     { 20, 64, 0, { 0, 0, 0 } },
 };
-*/
 
-extern ColliderCylinderInit D_80B18910;
-extern CollisionCheckInfoInit2 D_80B1893C;
-extern Vec3f D_80B18968;
+static CollisionCheckInfoInit2 D_80B1893C = {
+    0, 0, 0, 0, 0xFF
+};
+
+const ActorInit En_Tg_InitVars = {
+    ACTOR_EN_TG,
+    ACTORCAT_NPC,
+    FLAGS,
+    OBJECT_MU,
+    sizeof(EnTg),
+    (ActorFunc)EnTg_Init,
+    (ActorFunc)EnTg_Destroy,
+    (ActorFunc)EnTg_Update,
+    (ActorFunc)EnTg_Draw,
+};
+
+static Vec3f D_80B18968 = {
+    0.0,
+    800.0,
+    0.0,
+};
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18360.s")
 u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx) {

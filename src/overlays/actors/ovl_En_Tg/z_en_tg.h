@@ -16,7 +16,6 @@ typedef struct EnTg {
     /* 0x01E0 */ s16 unk_1E0;
     /* 0x01E2 */ char unk_1E2[0x26];
     /* 0x0208 */ u8 unk_208;
-    /* 0x0209 */ char unk_209[0x03];
 } EnTg; // size = 0x020C
 
 extern const ActorInit En_Tg_InitVars;
