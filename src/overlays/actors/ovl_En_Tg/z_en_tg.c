@@ -173,8 +173,15 @@ s32 func_80B18704(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 void func_80B1871C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B1871C.s")
 
-Gfx* func_80B18778(GraphicsContext* gfxCtx, u8 arg1, u8 arg2, u8 arg3, u8 arg4);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18778.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18778.s")
+Gfx* func_80B18778(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
+    Gfx* displayList;
+
+    displayList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    gDPSetEnvColor(displayList, r, g, b, a);
+    gSPEndDisplayList(displayList + 1);
+    return displayList;
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Draw.s")
 void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx) {
