@@ -1,7 +1,7 @@
 /*
  * File: z_en_tg.c
  * Overlay: ovl_En_Tg
- * Description: Honey & Darling
+ * Description: Dancing Couple
  */
 
 #include "z_en_tg.h"
