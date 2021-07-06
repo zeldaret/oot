@@ -1,7 +1,7 @@
 <Root>
     <File Name="icon_item_field_static" Segment="12">
         <Texture Name="gWorldMapImageTex" OutName="world_map_image" Format="ci8" Width="216" Height="128"/>
-        <Texture Name="gWorldMapImagePaletteTex" OutName="world_map_image_palette" Format="rgb5a1" Width="16" Height="16"/>
+        <Texture Name="gWorldMapImageTLUT" OutName="world_map_image_tlut" Format="rgb5a1" Width="16" Height="16"/>
         <Texture Name="gWorldMapDotTex" OutName="world_map_dot" Format="ia8" Width="8" Height="8"/>
         <Texture Name="gWorldMapAreaBox1Tex" OutName="world_map_area_box_1" Format="ia4" Width="32" Height="19"/>
         <Texture Name="gWorldMapAreaBox2Tex" OutName="world_map_area_box_2" Format="ia4" Width="48" Height="38"/>
@@ -22,8 +22,8 @@
         <Texture Name="gWorldMapCloud8Tex" OutName="world_map_cloud_8" Format="i4" Width="32" Height="14"/>
         <Texture Name="gWorldMapCloud9Tex" OutName="world_map_cloud_9" Format="i4" Width="48" Height="27"/>
         <Texture Name="gWorldMapCloud10Tex" OutName="world_map_cloud_10" Format="i4" Width="32" Height="19"/>
-        <Texture Name="gWorldMapCloud11Tex" OutName="world_map_cloud_11" Format="i4" Width="32" Height="19"/>
-        <Texture Name="gWorldMapCloud12Tex" OutName="world_map_cloud_12" Format="i4" Width="32" Height="20"/>
+        <Texture Name="gWorldMapCloud11Tex" OutName="world_map_cloud_11" Format="i4" Width="32" Height="20"/>
+        <Texture Name="gWorldMapCloud12Tex" OutName="world_map_cloud_12" Format="i4" Width="32" Height="19"/>
         <Texture Name="gWorldMapCloud13Tex" OutName="world_map_cloud_13" Format="i4" Width="48" Height="22"/>
         <Texture Name="gWorldMapCloud14Tex" OutName="world_map_cloud_14" Format="i4" Width="32" Height="13"/>
         <Texture Name="gWorldMapCloud15Tex" OutName="world_map_cloud_15" Format="i4" Width="112" Height="72"/>

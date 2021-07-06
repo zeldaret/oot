@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mori_idomizu.h"
+#include "objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0x00000030
 
@@ -19,8 +20,6 @@ void BgMoriIdomizu_SetupWaitForMoriTex(BgMoriIdomizu* this);
 void BgMoriIdomizu_WaitForMoriTex(BgMoriIdomizu* this, GlobalContext* globalCtx);
 void BgMoriIdomizu_SetupMain(BgMoriIdomizu* this);
 void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx);
-
-extern Gfx D_060049D0[];
 
 static s16 sIsSpawned = false;
 
@@ -122,10 +121,10 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx) {
         this->targetWaterLevel = 184.0f;
     }
     if (switchFlagSet && !this->prevSwitchFlagSet) {
-        func_800800F8(globalCtx, 0xCA8, 0x46, thisx, 0);
+        OnePointCutscene_Init(globalCtx, 3240, 70, thisx, MAIN_CAM);
         this->drainTimer = 90;
     } else if (!switchFlagSet && this->prevSwitchFlagSet) {
-        func_800800F8(globalCtx, 0xCA8, 0x46, thisx, 0);
+        OnePointCutscene_Init(globalCtx, 3240, 70, thisx, MAIN_CAM);
         this->drainTimer = 90;
         thisx->world.pos.y = 0.0f;
     }
@@ -180,7 +179,7 @@ void BgMoriIdomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0x7F - (gameplayFrames & 0x7F), gameplayFrames % 0x80, 0x20,
                                 0x20, 1, gameplayFrames & 0x7F, gameplayFrames % 0x80, 0x20, 0x20));
 
-    gSPDisplayList(POLY_XLU_DISP++, D_060049D0);
+    gSPDisplayList(POLY_XLU_DISP++, gMoriIdomizuWaterDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_idomizu.c", 382);
 }

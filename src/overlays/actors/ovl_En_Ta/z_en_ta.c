@@ -481,7 +481,7 @@ void func_80B14AF4(EnTa* this, GlobalContext* globalCtx) {
 
 void func_80B14B6C(EnTa* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
-        func_800800F8(globalCtx, 0x104F, -0x63, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 4175, -99, &this->actor, MAIN_CAM);
         func_80B13AA0(this, func_80B14AF4, func_80B167C0);
         this->unk_2CC = 5;
         gSaveContext.eventChkInf[1] |= 0x10;
@@ -546,8 +546,8 @@ void func_80B14E28(EnTa* this, GlobalContext* globalCtx) {
 
     this->unk_2D0 = Gameplay_CreateSubCamera(globalCtx);
     this->unk_2D2 = globalCtx->activeCamera;
-    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D2, 1);
-    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D0, 7);
+    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D2, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D0, CAM_STAT_ACTIVE);
 
     b.x = 1053.0f;
     b.y = 11.0f;
@@ -561,7 +561,7 @@ void func_80B14E28(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14EDC(EnTa* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D2, 7);
+    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D2, CAM_STAT_ACTIVE);
     Gameplay_ClearCamera(globalCtx, this->unk_2D0);
 }
 

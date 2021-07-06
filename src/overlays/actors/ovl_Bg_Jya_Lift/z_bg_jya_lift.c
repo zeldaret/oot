@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_jya_lift.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0x00000010
 
@@ -44,12 +45,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_0600D7E8;
-extern Gfx D_0600CCE0[];
-
 void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
                             DynaPolyMoveFlag moveFlag) {
-    s32 pad1;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
@@ -59,8 +57,8 @@ void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, Collision
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
-    this->unk_16A = 0;
 
+    this->isSpawned = false;
     if (sIsSpawned) {
         Actor_Kill(thisx);
         return;
@@ -68,7 +66,7 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     // Goddess lift CT
     osSyncPrintf("女神リフト CT\n");
-    BgJyaLift_InitDynapoly(this, globalCtx, &D_0600D7E8, 0);
+    BgJyaLift_InitDynapoly(this, globalCtx, &gLiftCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F))) {
         BgJyaLift_SetFinalPosY(this);
@@ -77,13 +75,13 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     thisx->room = -1;
     sIsSpawned = true;
-    this->unk_16A = 1;
+    this->isSpawned = true;
 }
 
 void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
 
-    if (this->unk_16A != 0) {
+    if (this->isSpawned) {
 
         // Goddess Lift DT
         osSyncPrintf("女神リフト DT\n");
@@ -102,7 +100,7 @@ void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
         this->moveDelay++;
         if (this->moveDelay >= 20) {
-            func_800800F8(globalCtx, 0xD66, -0x63, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 3430, -99, &this->dyna.actor, MAIN_CAM);
             BgJyaLift_SetupMove(this);
         }
     }
@@ -143,10 +141,10 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
     }
     if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
-        Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_TEPPEN);
+        Camera_ChangeSetting(globalCtx2->cameraPtrs[MAIN_CAM], CAM_SET_TEPPEN);
     } else if (((this->dyna.unk_160) & 4) == 0 && ((this->unk_16B & 4)) &&
-               (globalCtx2->cameraPtrs[0]->setting == 0x3F)) {
-        Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_DUNGEON0);
+               (globalCtx2->cameraPtrs[MAIN_CAM]->setting == CAM_SET_TEPPEN)) {
+        Camera_ChangeSetting(globalCtx2->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
     }
     this->unk_16B = this->dyna.unk_160;
 
@@ -157,5 +155,5 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_0600CCE0);
+    Gfx_DrawDListOpa(globalCtx, gLiftDL);
 }

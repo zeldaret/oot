@@ -7,6 +7,7 @@
 #include "z_bg_spot11_bakudankabe.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_spot11_obj/object_spot11_obj.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -51,8 +52,6 @@ static ColliderCylinderInit sCylinderInit = {
 
 static Vec3f D_808B272C = { 2259.0f, 108.0f, -1550.0f };
 static Vec3f D_808B2738 = { 2259.0f, 108.0f, -1550.0f };
-
-extern Gfx D_0500A880[];
 
 void func_808B2180(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -100,7 +99,7 @@ void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
             rotationSpeed = 33;
         }
         EffectSsKakera_Spawn(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E,
-                             4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
+                             4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
     }
     Math_Vec3f_Sum(&thisx->world.pos, &D_808B272C, &burstDepthY);
     func_80033480(globalCtx, &burstDepthY, 70, 4, 110, 160, 1);

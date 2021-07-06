@@ -108,7 +108,7 @@ void func_80889ACC(BgHidanKousi* this) {
 void func_80889B5C(BgHidanKousi* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF)) {
         BgHidanKousi_SetupAction(this, func_80889BC0);
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         this->unk_168 = 0xC8;
     }
 }

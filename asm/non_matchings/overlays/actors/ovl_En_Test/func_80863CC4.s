@@ -71,7 +71,7 @@ glabel func_80863CC4
 /* 046B0 80863D00 2407003C */  addiu   $a3, $zero, 0x003C         ## $a3 = 0000003C
 /* 046B4 80863D04 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 046B8 80863D08 260407F0 */  addiu   $a0, $s0, 0x07F0           ## $a0 = 000007F0
-/* 046BC 80863D0C 0C00CBD5 */  jal     func_80032F54              
+/* 046BC 80863D0C 0C00CBD5 */  jal     BodyBreak_SetInfo              
 /* 046C0 80863D10 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 046C4 80863D14 8FA80084 */  lw      $t0, 0x0084($sp)           
 /* 046C8 80863D18 24010022 */  addiu   $at, $zero, 0x0022         ## $at = 00000022
@@ -214,7 +214,7 @@ glabel func_80863CC4
 /* 048D4 80863F24 27A60064 */  addiu   $a2, $sp, 0x0064           ## $a2 = FFFFFFE4
 /* 048D8 80863F28 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 048DC 80863F2C AFA00020 */  sw      $zero, 0x0020($sp)         
-/* 048E0 80863F30 0C00CC98 */  jal     func_80033260              
+/* 048E0 80863F30 0C00CC98 */  jal     Actor_SpawnFloorDust              
 /* 048E4 80863F34 E7A80014 */  swc1    $f8, 0x0014($sp)           
 .L80863F38:
 /* 048E8 80863F38 861907E0 */  lh      $t9, 0x07E0($s0)           ## 000007E0

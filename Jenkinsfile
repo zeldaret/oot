@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'oot'
+    }
 
     stages {
         stage('Check for unused asm') {
@@ -9,7 +11,6 @@ pipeline {
         }
         stage('Setup') {
             steps {
-                echo 'Setting up...'
                 sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom_original.z64'
                 sh 'make -j setup'
             }
@@ -37,9 +38,25 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh 'python3 progress.py csv >> /var/www/html/reports/progress.csv'
-                sh 'python3 progress.py csv -m >> /var/www/html/reports/progress_matching.csv'
-                sh 'python3 progress.py shield-json > /var/www/html/reports/progress_shield.json'
+                sh 'mkdir reports'
+                sh 'python3 progress.py csv >> reports/progress.csv'
+                sh 'python3 progress.py csv -m >> reports/progress_matching.csv'
+                sh 'python3 progress.py shield-json > reports/progress_shield.json'
+                stash includes: 'reports/*', name: 'reports'
+            }
+        }
+        stage('Update Progress') {
+            when {
+                branch 'master'
+            }
+            agent {
+                label 'master'
+            }
+            steps {
+                unstash 'reports'
+                sh 'cat reports/progress.csv >> /var/www/html/reports/progress.csv'
+                sh 'cat reports/progress_matching.csv >> /var/www/html/reports/progress_matching.csv'
+                sh 'cat reports/progress_shield.json > /var/www/html/reports/progress_shield.json'
             }
         }
     }

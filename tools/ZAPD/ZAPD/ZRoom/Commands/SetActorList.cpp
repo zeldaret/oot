@@ -1,151 +1,151 @@
 #include "SetActorList.h"
-#include "../../ZFile.h"
-#include "../ZRoom.h"
-#include "../ActorList.h"
-#include "../../BitConverter.h"
-#include "../../StringHelper.h"
-#include "../../Globals.h"
 
-using namespace std;
+#include "BitConverter.h"
+#include "Globals.h"
+#include "StringHelper.h"
+#include "ZFile.h"
+#include "ZRoom/ZNames.h"
+#include "ZRoom/ZRoom.h"
 
-SetActorList::SetActorList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex) : ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetActorList::SetActorList(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	numActors = rawData[rawDataIndex + 1];
-	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
-
-	_rawData = rawData;
-	_rawDataIndex = rawDataIndex;
-
-	if (segmentOffset != 0)
-		zRoom->parent->AddDeclarationPlaceholder(segmentOffset);
 }
 
-SetActorList::~SetActorList()
+void SetActorList::ParseRawData()
 {
-	for (ActorSpawnEntry* entry : actors)
-		delete entry;
+	ZRoomCommand::ParseRawData();
+	numActors = cmdArg1;
 
-	actors.clear();
-}
-
-string SetActorList::GetSourceOutputCode(std::string prefix)
-{
-	return "";
-}
-
-string SetActorList::GenerateSourceCodePass1(string roomName, int baseAddress)
-{
-	return "";
-}
-
-
-string SetActorList::GenerateSourceCodePass2(string roomName, int baseAddress)
-{
-	string sourceOutput = "";
-	int numActorsReal = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 16;
-	actors = vector<ActorSpawnEntry*>();
 	uint32_t currentPtr = segmentOffset;
 
-	for (int i = 0; i < numActorsReal; i++)
+	for (size_t i = 0; i < numActors; i++)
 	{
-		ActorSpawnEntry* entry = new ActorSpawnEntry(_rawData, currentPtr);
+		ActorSpawnEntry entry(parent->GetRawData(), currentPtr);
+
+		currentPtr += entry.GetRawDataSize();
 		actors.push_back(entry);
-
-		currentPtr += 16;
 	}
+}
 
-	sourceOutput += StringHelper::Sprintf("%s 0x%02X, (u32)%sActorList0x%06X };", ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(), numActors, roomName.c_str(), segmentOffset);
-
-	//zRoom->parent->AddDeclaration(segmentOffset, DeclarationAlignment::None, DeclarationPadding::None, GetRawDataSize(),
-		//"SCmdActorList", ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress), sourceOutput);
-
-	string declaration = "";
-
-	int index = 0;
-	for (ActorSpawnEntry* entry : actors)
+void SetActorList::DeclareReferences(const std::string& prefix)
+{
+	if (!actors.empty())
 	{
-		uint16_t actorNum = entry->actorNum;
+		std::string declaration = "";
 
-		// SW97 Actor 0x22 was removed, so we want to not output a working actor.
-		if (actorNum == 0x22 && Globals::Instance->game == ZGame::OOT_SW97)
-			declaration += StringHelper::Sprintf("\t//{ %s, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X", /*StringHelper::Sprintf("SW_REMOVED_0x%04X", actorNum).c_str()*/ "ACTOR_DUNGEON_KEEP", entry->posX, entry->posY, entry->posZ, entry->rotX, entry->rotY, entry->rotZ, (uint16_t)entry->initVar, segmentOffset + (index * 16));
-		else
+		size_t index = 0;
+		for (const auto& entry : actors)
 		{
-			// SW97 Actor 0x23 and above are shifted up by one because 0x22 was removed between SW97 and retail.
-			// We need to shift down by one
-			if (Globals::Instance->game == ZGame::OOT_SW97 && actorNum >= 0x23)
-				actorNum--;
-
-			if (actorNum < sizeof(ActorList) / sizeof(ActorList[0]))
-				declaration += StringHelper::Sprintf("\t{ %s, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X", ActorList[actorNum].c_str(), entry->posX, entry->posY, entry->posZ, entry->rotX, entry->rotY, entry->rotZ, (uint16_t)entry->initVar, segmentOffset + (index * 16));
-			else
-				declaration += StringHelper::Sprintf("\t{ 0x%04X, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X", actorNum, entry->posX, entry->posY, entry->posZ, entry->rotX, entry->rotY, entry->rotZ, (uint16_t)entry->initVar, segmentOffset + (index * 16));
+			declaration +=
+				StringHelper::Sprintf("\t{ %s }, // 0x%06X", entry.GetBodySourceCode().c_str(),
+			                          segmentOffset + (index * 16));
 
 			if (index < actors.size() - 1)
 				declaration += "\n";
+
+			index++;
 		}
 
-		index++;
+		const auto& entry = actors.front();
+
+		DeclarationPadding padding = DeclarationPadding::Pad16;
+		if (Globals::Instance->game == ZGame::MM_RETAIL)
+			padding = DeclarationPadding::None;
+
+		parent->AddDeclarationArray(
+			segmentOffset, DeclarationAlignment::Align4, padding,
+			actors.size() * entry.GetRawDataSize(), entry.GetSourceTypeName(),
+			StringHelper::Sprintf("%sActorList_%06X", prefix.c_str(), segmentOffset),
+			GetActorListArraySize(), declaration);
 	}
-
-	zRoom->parent->AddDeclarationArray(segmentOffset, DeclarationAlignment::None, DeclarationPadding::Pad16, actors.size() * 16,
-		"ActorEntry", StringHelper::Sprintf("%sActorList0x%06X", roomName.c_str(), segmentOffset), GetActorListArraySize(), declaration);
-
-	return sourceOutput;
 }
 
-int32_t SetActorList::GetRawDataSize()
+std::string SetActorList::GetBodySourceCode() const
 {
-	return ZRoomCommand::GetRawDataSize() + ((int)actors.size() * 16);
+	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	return StringHelper::Sprintf("SCENE_CMD_ACTOR_LIST(%i, %s)", numActors, listName.c_str());
 }
 
-int SetActorList::GetActorListArraySize()
+size_t SetActorList::GetRawDataSize() const
 {
-	int actorCount = 0;
+	return ZRoomCommand::GetRawDataSize() + ((int32_t)actors.size() * 16);
+}
+
+size_t SetActorList::GetActorListArraySize() const
+{
+	size_t actorCount = 0;
 
 	// Doing an else-if here so we only do the loop when the game is SW97.
-	// Actor 0x22 is removed from SW97, so we need to ensure that we don't increment the actor count for it.
+	// Actor 0x22 is removed from SW97, so we need to ensure that we don't increment the actor count
+	// for it.
 	if (Globals::Instance->game == ZGame::OOT_SW97)
 	{
 		actorCount = 0;
 
-		for (ActorSpawnEntry* entry : actors)
-			if (entry->actorNum != 0x22)
+		for (const auto& entry : actors)
+			if (entry.GetActorId() != 0x22)
 				actorCount++;
 	}
 	else
 	{
-		actorCount = (int)actors.size();
+		actorCount = actors.size();
 	}
 
 	return actorCount;
 }
 
-string SetActorList::GenerateExterns()
-{
-	return StringHelper::Sprintf("extern ActorEntry %sActorList0x%06X[%i];\n", zRoom->GetName().c_str(), segmentOffset, GetActorListArraySize());
-}
-
-string SetActorList::GetCommandCName()
+std::string SetActorList::GetCommandCName() const
 {
 	return "SCmdActorList";
 }
 
-RoomCommand SetActorList::GetRoomCommand()
+RoomCommand SetActorList::GetRoomCommand() const
 {
 	return RoomCommand::SetActorList;
 }
 
-ActorSpawnEntry::ActorSpawnEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+ActorSpawnEntry::ActorSpawnEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
 {
-	const uint8_t* data = rawData.data();
+	actorNum = BitConverter::ToInt16BE(rawData, rawDataIndex + 0);
+	posX = BitConverter::ToInt16BE(rawData, rawDataIndex + 2);
+	posY = BitConverter::ToInt16BE(rawData, rawDataIndex + 4);
+	posZ = BitConverter::ToInt16BE(rawData, rawDataIndex + 6);
+	rotX = BitConverter::ToInt16BE(rawData, rawDataIndex + 8);
+	rotY = BitConverter::ToInt16BE(rawData, rawDataIndex + 10);
+	rotZ = BitConverter::ToInt16BE(rawData, rawDataIndex + 12);
+	initVar = BitConverter::ToInt16BE(rawData, rawDataIndex + 14);
+}
 
-	actorNum = BitConverter::ToInt16BE(data, rawDataIndex + 0);
-	posX = BitConverter::ToInt16BE(data, rawDataIndex + 2);
-	posY = BitConverter::ToInt16BE(data, rawDataIndex + 4);
-	posZ = BitConverter::ToInt16BE(data, rawDataIndex + 6);
-	rotX = BitConverter::ToInt16BE(data, rawDataIndex + 8);
-	rotY = BitConverter::ToInt16BE(data, rawDataIndex + 10);
-	rotZ = BitConverter::ToInt16BE(data, rawDataIndex + 12);
-	initVar = BitConverter::ToInt16BE(data, rawDataIndex + 14);
+std::string ActorSpawnEntry::GetBodySourceCode() const
+{
+	std::string body = "\n";
+
+	body += "\t\t" + ZNames::GetActorName(actorNum) + ",\n";
+	body += StringHelper::Sprintf("\t\t{ %6i, %6i, %6i },\n", posX, posY, posZ);
+	if (Globals::Instance->game == ZGame::MM_RETAIL)
+		body += StringHelper::Sprintf("\t\t{ SPAWN_ROT_FLAGS(%i, 0x%04X), SPAWN_ROT_FLAGS(%i, "
+		                              "0x%04X), SPAWN_ROT_FLAGS(%i, 0x%04X)},\n",
+		                              (rotX >> 7) & 0b111111111, rotX & 0b1111111,
+		                              (rotY >> 7) & 0b111111111, rotY & 0b1111111,
+		                              (rotZ >> 7) & 0b111111111, rotZ & 0b1111111);
+	else
+		body += StringHelper::Sprintf("\t\t{ %6i, %6i, %6i },\n", rotX, rotY, rotZ);
+	body += StringHelper::Sprintf("\t\t0x%04X\n   ", initVar);
+
+	return body;
+}
+
+std::string ActorSpawnEntry::GetSourceTypeName() const
+{
+	return "ActorEntry";
+}
+
+int32_t ActorSpawnEntry::GetRawDataSize() const
+{
+	return 16;
+}
+
+uint16_t ActorSpawnEntry::GetActorId() const
+{
+	return actorNum;
 }

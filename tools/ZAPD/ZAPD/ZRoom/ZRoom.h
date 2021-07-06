@@ -1,51 +1,50 @@
 #pragma once
 
-#include "../ZResource.h"
-#include "ZRoomCommand.h"
-#include "ZTexture.h"
-#include <tinyxml2.h>
-
-#include <vector>
 #include <map>
 #include <string>
+#include <vector>
+
+#include "ZResource.h"
+#include "ZRoomCommand.h"
+#include "tinyxml2.h"
+
+struct CommandSet
+{
+	uint32_t address;
+	uint32_t commandCount;  // Only used if explicitly specified in the XML
+
+	CommandSet(uint32_t nAddress, uint32_t nCommandCount = UINT32_MAX);
+};
 
 class ZRoom : public ZResource
 {
 protected:
 	std::vector<ZRoomCommand*> commands;
 
-	std::string GetSourceOutputHeader(const std::string& prefix);
-	std::string GetSourceOutputCode(const std::string& prefix);
+	std::string GetSourceOutputHeader(const std::string& prefix) override;
+	std::string GetSourceOutputCode(const std::string& prefix) override;
 	void ProcessCommandSets();
 	void SyotesRoomHack();
 
-	ZRoom();
-	~ZRoom();
-
 public:
 	ZRoom* scene;
-	std::map<int32_t, ZTexture*> textures;
 	std::vector<CommandSet> commandSets;
+	int32_t roomCount;  // Only valid for scenes
 
 	std::string extDefines;
 
-	static ZRoom* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath, ZFile* nParent, ZRoom* nScene);
+	ZRoom(ZFile* nParent);
+	virtual ~ZRoom();
+
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    uint32_t nRawDataIndex) override;
+
 	void ParseCommands(std::vector<ZRoomCommand*>& commandList, CommandSet commandSet);
-	size_t GetDeclarationSizeFromNeighbor(int declarationAddress);
+	size_t GetDeclarationSizeFromNeighbor(uint32_t declarationAddress);
 	size_t GetCommandSizeFromNeighbor(ZRoomCommand* cmd);
 	ZRoomCommand* FindCommandOfType(RoomCommand cmdType);
-	std::vector<uint8_t> GetRawData();
-	int GetRawDataSize();
-	virtual ZResourceType GetResourceType();
-	virtual void Save(const std::string& outFolder);
-	virtual void PreGenSourceFiles();
-};
 
-struct CommandSet
-{
-	int32_t address;
-	int32_t commandCount; // Only used if explicitly specified in the XML
-
-	CommandSet(int32_t nAddress);
-	CommandSet(int32_t nAddress, int32_t nCommandCount);
+	size_t GetRawDataSize() const override;
+	ZResourceType GetResourceType() const override;
+	void PreGenSourceFiles() override;
 };

@@ -1,0 +1,76 @@
+<Root>
+    <File Name="object_im" Segment="6">
+        <Animation Name="object_im_Anim_000710" Offset="0x710"/>
+        <Animation Name="object_im_Anim_000AFC" Offset="0xAFC"/>
+        <Animation Name="object_im_Anim_0014E4" Offset="0x14E4"/>
+        <Animation Name="object_im_Anim_001868" Offset="0x1868"/>
+        <Texture Name="object_im_TLUT_001880" OutName="tlut_00001880" Format="rgb5a1" Width="16" Height="16" Offset="0x1880"/>
+        <Texture Name="object_im_Tex_001A80" OutName="tex_00001A80" Format="ci8" Width="8" Height="8" Offset="0x1A80"/>
+        <Texture Name="object_im_Tex_001AC0" OutName="tex_00001AC0" Format="ci8" Width="16" Height="32" Offset="0x1AC0"/>
+        <Texture Name="object_im_Tex_001CC0" OutName="tex_00001CC0" Format="ci8" Width="16" Height="16" Offset="0x1CC0"/>
+        <Texture Name="object_im_Tex_001DC0" OutName="tex_00001DC0" Format="ci8" Width="8" Height="8" Offset="0x1DC0"/>
+        <Texture Name="object_im_Tex_001E00" OutName="tex_00001E00" Format="ci8" Width="8" Height="16" Offset="0x1E00"/>
+        <Texture Name="object_im_Tex_001E80" OutName="tex_00001E80" Format="ci8" Width="8" Height="16" Offset="0x1E80"/>
+        <Texture Name="object_im_Tex_001F00" OutName="tex_00001F00" Format="ci8" Width="16" Height="32" Offset="0x1F00"/>
+        <Texture Name="object_im_Tex_002100" OutName="tex_00002100" Format="ci8" Width="16" Height="32" Offset="0x2100"/>
+        <Texture Name="object_im_Tex_002300" OutName="tex_00002300" Format="ci8" Width="16" Height="16" Offset="0x2300"/>
+        <Texture Name="object_im_Tex_002400" OutName="tex_00002400" Format="ci8" Width="8" Height="16" Offset="0x2400"/>
+        <Texture Name="object_im_Tex_002480" OutName="tex_00002480" Format="ci8" Width="32" Height="32" Offset="0x2480"/>
+        <Texture Name="object_im_Tex_002880" OutName="tex_00002880" Format="rgb5a1" Width="8" Height="16" Offset="0x2880"/>
+        <Texture Name="object_im_Tex_002980" OutName="tex_00002980" Format="rgb5a1" Width="16" Height="32" Offset="0x2980"/>
+        <Texture Name="object_im_Tex_002D80" OutName="tex_00002D80" Format="ci8" Width="8" Height="8" Offset="0x2D80"/>
+        <DList Name="object_im_DL_005040" Offset="0x5040"/>
+        <DList Name="object_im_DL_005D60" Offset="0x5D60"/>
+        <DList Name="object_im_DL_006048" Offset="0x6048"/>
+        <DList Name="object_im_DL_006200" Offset="0x6200"/>
+        <DList Name="object_im_DL_0064E8" Offset="0x64E8"/>
+        <DList Name="object_im_DL_006720" Offset="0x6720"/>
+        <DList Name="object_im_DL_006880" Offset="0x6880"/>
+        <DList Name="object_im_DL_0069E8" Offset="0x69E8"/>
+        <DList Name="object_im_DL_006BB8" Offset="0x6BB8"/>
+        <DList Name="object_im_DL_006D70" Offset="0x6D70"/>
+        <Texture Name="object_im_Tex_006F40" OutName="tex_00006F40" Format="rgb5a1" Width="16" Height="16" Offset="0x6F40"/>
+        <Texture Name="object_im_TLUT_007140" OutName="tlut_00007140" Format="rgb5a1" Width="16" Height="16" Offset="0x7140"/>
+        <Blob Name="object_im_Blob_007340" Size="0x2D0" Offset="0x7340"/>
+        <Texture Name="object_im_Tex_007610" OutName="tex_00007610" Format="ci8" Width="16" Height="16" Offset="0x7610"/>
+        <Texture Name="object_im_Tex_007710" OutName="tex_00007710" Format="ci8" Width="8" Height="8" Offset="0x7710"/>
+        <Texture Name="object_im_Tex_007750" OutName="tex_00007750" Format="rgb5a1" Width="8" Height="8" Offset="0x7750"/>
+        <Texture Name="object_im_Tex_0077D0" OutName="tex_000077D0" Format="rgb5a1" Width="16" Height="16" Offset="0x77D0"/>
+        <Texture Name="object_im_Tex_0079D0" OutName="tex_000079D0" Format="ci8" Width="8" Height="8" Offset="0x79D0"/>
+        <Texture Name="object_im_Tex_007A10" OutName="tex_00007A10" Format="rgb5a1" Width="8" Height="16" Offset="0x7A10"/>
+        <Texture Name="object_im_Tex_007B10" OutName="tex_00007B10" Format="ci8" Width="8" Height="8" Offset="0x7B10"/>
+        <Texture Name="object_im_Tex_007B50" OutName="tex_00007B50" Format="ci8" Width="16" Height="16" Offset="0x7B50"/>
+        <Texture Name="object_im_Tex_007C50" OutName="tex_00007C50" Format="ci8" Width="16" Height="16" Offset="0x7C50"/>
+        <Blob Name="object_im_Blob_007D50" Size="0x800" Offset="0x7D50"/>
+        <DList Name="object_im_DL_00BDC0" Offset="0xBDC0"/>
+        <DList Name="object_im_DL_00D0D8" Offset="0xD0D8"/>
+        <DList Name="object_im_DL_00DDB8" Offset="0xDDB8"/>
+        <DList Name="object_im_DL_00E0F0" Offset="0xE0F0"/>
+        <DList Name="object_im_DL_00E5D0" Offset="0xE5D0"/>
+        <DList Name="object_im_DL_00E908" Offset="0xE908"/>
+        <DList Name="object_im_DL_00EDE8" Offset="0xEDE8"/>
+        <Limb Name="object_im_Limb_00F688" LimbType="Standard" Offset="0xF688"/>
+        <Limb Name="object_im_Limb_00F694" LimbType="Standard" Offset="0xF694"/>
+        <Limb Name="object_im_Limb_00F6A0" LimbType="Standard" Offset="0xF6A0"/>
+        <Limb Name="object_im_Limb_00F6AC" LimbType="Standard" Offset="0xF6AC"/>
+        <Limb Name="object_im_Limb_00F6B8" LimbType="Standard" Offset="0xF6B8"/>
+        <Limb Name="object_im_Limb_00F6C4" LimbType="Standard" Offset="0xF6C4"/>
+        <Limb Name="object_im_Limb_00F6D0" LimbType="Standard" Offset="0xF6D0"/>
+        <Limb Name="object_im_Limb_00F6DC" LimbType="Standard" Offset="0xF6DC"/>
+        <Limb Name="object_im_Limb_00F6E8" LimbType="Standard" Offset="0xF6E8"/>
+        <Limb Name="object_im_Limb_00F6F4" LimbType="Standard" Offset="0xF6F4"/>
+        <Limb Name="object_im_Limb_00F700" LimbType="Standard" Offset="0xF700"/>
+        <Limb Name="object_im_Limb_00F70C" LimbType="Standard" Offset="0xF70C"/>
+        <Limb Name="object_im_Limb_00F718" LimbType="Standard" Offset="0xF718"/>
+        <Limb Name="object_im_Limb_00F724" LimbType="Standard" Offset="0xF724"/>
+        <Limb Name="object_im_Limb_00F730" LimbType="Standard" Offset="0xF730"/>
+        <Limb Name="object_im_Limb_00F73C" LimbType="Standard" Offset="0xF73C"/>
+        <Skeleton Name="object_im_Skel_00F788" Type="Flex" LimbType="Standard" Offset="0xF788"/>
+        <Animation Name="object_im_Anim_00FB10" Offset="0xFB10"/>
+        <Animation Name="object_im_Anim_0101C8" Offset="0x101C8"/>
+        <Animation Name="object_im_Anim_010EE0" Offset="0x10EE0"/>
+        <Animation Name="object_im_Anim_01182C" Offset="0x1182C"/>
+        <Animation Name="object_im_Anim_011C08" Offset="0x11C08"/>
+        <Animation Name="object_im_Anim_012218" Offset="0x12218"/>
+    </File>
+</Root>

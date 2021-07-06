@@ -1,4 +1,5 @@
 #include "z_en_fr.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "vt.h"
 
 #define FLAGS 0x02000019
@@ -51,8 +52,6 @@ void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx);
 
 extern FlexSkeletonHeader D_0600B498; // Frog
 extern AnimationHeader D_06001534;    // Frog
-extern SkeletonHeader D_050036F0;     // Butterfly
-extern AnimationHeader D_05002470;    // Butterfly
 extern AnimationHeader D_060007BC;    // Frog Jumping
 extern AnimationHeader D_060011C0;    // Frog Landing
 
@@ -161,8 +160,7 @@ static s16 sTimerFrogSong[] = {
     40, 20, 15, 12, 12,
 };
 
-// static InitChainEntry sInitChain[]
-InitChainEntry D_80A1D0BC[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -233,7 +231,8 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.destroy = NULL;
         this->actor.draw = NULL;
         this->actor.update = EnFr_UpdateIdle;
-        this->actor.flags = this->actor.flags &= ~0x11;
+        this->actor.flags &= ~0x11;
+        this->actor.flags &= ~0;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
         this->actor.textId = 0x40AC;
         this->actionFunc = EnFr_Idle;
@@ -243,7 +242,7 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Translation: The argument is wrong!!
             osSyncPrintf("%s[%d] : 引数が間違っている！！(%d)\n", "../z_en_fr.c", 370, this->actor.params);
             osSyncPrintf(VT_RST);
-            __assert("0", "../z_en_fr.c", 372);
+            ASSERT(0, "0", "../z_en_fr.c", 372);
         }
 
         this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
@@ -253,7 +252,7 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Translation: There is no bank!!
             osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_fr.c", 380);
             osSyncPrintf(VT_RST);
-            __assert("0", "../z_en_fr.c", 382);
+            ASSERT(0, "0", "../z_en_fr.c", 382);
         }
     }
 }
@@ -277,13 +276,13 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         frogIndex = this->actor.params - 1;
         sEnFrPointers.frogs[frogIndex] = this;
-        Actor_ProcessInitChain(&this->actor, D_80A1D0BC);
+        Actor_ProcessInitChain(&this->actor, sInitChain);
         // frog
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, this->jointTable, this->morphTable,
                            24);
         // butterfly
-        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, this->jointTableButterfly,
-                       this->morphTableButterfly, 8);
+        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim,
+                       this->jointTableButterfly, this->morphTableButterfly, 8);
         // When playing the song for the HP, the frog with the next note and the butterfly turns on its lightsource
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
@@ -605,7 +604,7 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
             globalCtx->msgCtx.unk_E3EE = 0;
         }
 
-        func_800800F8(globalCtx, 0x100E, ~0x62, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 4110, ~0x62, &this->actor, MAIN_CAM);
         globalCtx->msgCtx.msgMode = 0x37;
         player->actor.world.pos.x = this->actor.world.pos.x; // x = 990.0f
         player->actor.world.pos.y = this->actor.world.pos.y; // y = 205.0f

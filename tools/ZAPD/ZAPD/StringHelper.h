@@ -1,10 +1,11 @@
 #pragma once
 
-#include <string>
-#include <vector>
+#include <cstring>
 #include <numeric>
 #include <stdarg.h>
-#include <string.h>
+#include <string>
+#include <vector>
+#include <algorithm>
 
 class StringHelper
 {
@@ -43,6 +44,17 @@ public:
 		return s;
 	}
 
+	static std::string Replace(std::string str, const std::string& from, const std::string& to)
+	{
+		size_t start_pos = str.find(from);
+
+		if (start_pos == std::string::npos)
+			return str;
+
+		str.replace(start_pos, from.length(), to);
+		return str;
+	}
+
 	static bool StartsWith(const std::string& s, const std::string& input)
 	{
 		return s.rfind(input, 0) == 0;
@@ -55,14 +67,14 @@ public:
 
 	static bool EndsWith(const std::string& s, const std::string& input)
 	{
-		int inputLen = strlen(input.c_str());
+		size_t inputLen = strlen(input.c_str());
 		return s.rfind(input) == (s.size() - inputLen);
 	}
 
 	static std::string Sprintf(const char* format, ...)
 	{
 		char buffer[32768];
-		//char buffer[2048];
+		// char buffer[2048];
 		std::string output = "";
 		va_list va;
 
@@ -77,9 +89,20 @@ public:
 	static std::string Implode(std::vector<std::string>& elements, const char* const separator)
 	{
 		return std::accumulate(std::begin(elements), std::end(elements), std::string(),
-			[separator](std::string& ss, std::string& s)
-			{
-				return ss.empty() ? s : ss + separator + s;
-			});
+		                       [separator](std::string& ss, std::string& s) {
+								   return ss.empty() ? s : ss + separator + s;
+							   });
+	}
+
+	static int64_t StrToL(const std::string& str, int32_t base = 10)
+	{
+		return std::strtoull(str.c_str(), nullptr, base);
+	}
+
+	static std::string BoolStr(bool b) { return b ? "true" : "false"; }
+
+	static bool HasOnlyDigits(const std::string &str)
+	{
+		return std::all_of(str.begin(), str.end(), ::isdigit);
 	}
 };

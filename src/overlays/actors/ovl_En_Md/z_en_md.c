@@ -521,7 +521,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
         temp2 = 1;
     }
 
-    if ((globalCtx->csCtx.state != 0) || gDbgCamEnabled) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) {
         this->unk_1E0.unk_18 = globalCtx->view.eye;
         this->unk_1E0.unk_14 = 40.0f;
         temp = 2;

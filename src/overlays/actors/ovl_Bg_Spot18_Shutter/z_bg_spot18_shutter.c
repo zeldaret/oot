@@ -91,7 +91,7 @@ void func_808B95AC(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 void func_808B95B8(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         Actor_SetFocus(&this->dyna.actor, 70.0f);
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         this->actionFunc = func_808B9698;
     }
 }
@@ -103,7 +103,7 @@ void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
             this->actionFunc = func_808B9698;
         } else {
             this->actionFunc = func_808B971C;
-            func_800800F8(globalCtx, 0x107D, 0x8C, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 4221, 140, &this->dyna.actor, MAIN_CAM);
         }
     }
 }

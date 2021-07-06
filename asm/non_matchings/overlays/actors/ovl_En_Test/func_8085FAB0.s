@@ -158,14 +158,14 @@ glabel L8085FBE0
 /* 00660 8085FCB0 45000011 */  bc1f    .L8085FCF8                 
 /* 00664 8085FCB4 00000000 */  nop
 /* 00668 8085FCB8 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 0066C 8085FCBC 0C00B821 */  jal     func_8002E084              
+/* 0066C 8085FCBC 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 00670 8085FCC0 AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 00674 8085FCC4 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00678 8085FCC8 1040003D */  beq     $v0, $zero, .L8085FDC0     
 /* 0067C 8085FCCC 8FA70024 */  lw      $a3, 0x0024($sp)           
 /* 00680 8085FCD0 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 00684 8085FCD4 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
-/* 00688 8085FCD8 0C00CEA1 */  jal     func_80033A84              
+/* 00688 8085FCD8 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 0068C 8085FCDC AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00690 8085FCE0 14400037 */  bne     $v0, $zero, .L8085FDC0     
 /* 00694 8085FCE4 8FA60020 */  lw      $a2, 0x0020($sp)           

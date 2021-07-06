@@ -171,7 +171,7 @@ void ObjMure2_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjMure2* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         this->actor.uncullZoneForward += 1200.0f;
     }
     ObjMure2_SetupWait(this);
@@ -215,7 +215,7 @@ void func_80B9A6F8(ObjMure2* this, GlobalContext* globalCtx) {
 void ObjMure2_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjMure2* this = THIS;
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->unk_184 = 1.0f;
     } else {
         this->unk_184 = 4.0f;

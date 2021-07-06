@@ -92,7 +92,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-static Vec3f D_8086E0E0 = { 0, 140.0f, 0 };
+static Vec3f D_8086E0E0 = { 0.0f, 140.0f, 0.0f };
 
 void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
     s16 pad1;
@@ -125,7 +125,7 @@ void func_8086D0EC(BgBdanSwitch* this) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            this->unk_1D4 = ((Math_CosS(this->unk_1CC) * 0.5f) + 8.833334f) * 0.012f;
+            this->unk_1D4 = ((Math_CosS(this->unk_1CC) * 0.5f) + (53.000004f / 6.0f)) * 0.012f;
             this->unk_1D0 = ((Math_CosS(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
             this->dyna.actor.scale.y = this->unk_1C8 * 0.1f;
             break;
@@ -227,9 +227,9 @@ void func_8086D4B4(BgBdanSwitch* this, GlobalContext* globalCtx) {
         type = this->dyna.actor.params & 0xFF;
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
         if (type == BLUE || type == YELLOW_TALL_2) {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
+            OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
         } else {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
+            OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
         }
     }
 }
@@ -238,7 +238,7 @@ void func_8086D548(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
         Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
         if ((this->dyna.actor.params & 0xFF) == YELLOW_TALL_2) {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
+            OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
 }

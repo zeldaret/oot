@@ -93,7 +93,7 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     f32 scale;
     s32 colorIdx;
 
-    scale = this->rScale * 0.00390625f;
+    scale = this->rScale / 256.0f;
     colorIdx = this->rColorIdx;
 
     OPEN_DISPS(gfxCtx, "../z_eff_kakera.c", 241);
@@ -154,9 +154,9 @@ void func_809A9C10(EffectSs* this) {
     f32 temp_f20;
     f32 temp_f0;
 
-    temp_f18 = this->rReg5 * 0.0009765625f;
-    temp_f20 = this->rReg6 * 0.0009765625f;
-    temp_f14 = (this->rReg9 * 0.0009765625f) * 4.0f;
+    temp_f18 = this->rReg5 / 1024.0f;
+    temp_f20 = this->rReg6 / 1024.0f;
+    temp_f14 = (this->rReg9 / 1024.0f) * 4.0f;
 
     temp_f2 = this->velocity.x - func_809A9818(0.0f, temp_f14);
     temp_f16 = this->velocity.y - func_809A9818(0.0f, temp_f14);
@@ -286,7 +286,7 @@ s32 func_809A9FD8(EffectSs* this, Vec3f* diff, f32 dist) {
 
     temp_a1 = (this->rReg0 >> 7) & 0xF;
     temp_f0 = D_809AA588[temp_a1](dist, temp_a1);
-    temp_f0 = func_809A9818(temp_f0, (this->rReg9 * temp_f0) * 0.0009765625f);
+    temp_f0 = func_809A9818(temp_f0, (this->rReg9 * temp_f0) / 1024.0f);
 
     this->accel.x *= temp_f0;
     this->accel.y *= temp_f0;
@@ -300,7 +300,7 @@ s32 func_809A9FD8(EffectSs* this, Vec3f* diff, f32 dist) {
 }
 
 s32 func_809AA0B8(EffectSs* this, Vec3f* diff, f32 dist) {
-    this->accel.y += this->rGravity * 0.00390625f;
+    this->accel.y += this->rGravity / 256.0f;
 
     return 1;
 }

@@ -1,0 +1,59 @@
+<Root>
+    <File Name="object_mb" Segment="6">
+        <Skeleton Name="gEnMbSkel_008F38" Type="Flex" LimbType="Standard" Offset="0x8F38"/>
+        <Skeleton Name="gEnMbSkel_014190" Type="Flex" LimbType="Standard" Offset="0x14190"/>
+        <Animation Name="gEnMbFallForwardAnim" Offset="0x6A4"/><!--Unused-->
+        <Animation Name="gEnMbAnim_00095C" Offset="0x95C"/><!--Unused-->
+        <Animation Name="gEnMbAnim_001000" Offset="0x1000"/><!--Unused-->
+        <Animation Name="gEnMbFallBackAnim" Offset="0x16B4"/>
+        <Animation Name="gEnMbAnim_001950" Offset="0x1950"/>
+        <Animation Name="gEnMbStandStillAnim" Offset="0x28E0"/>
+        <Animation Name="gEnMbReadyAttackAnim" Offset="0x2C10"/>
+        <Animation Name="gEnMbChargePlayerAnim" Offset="0x2F10"/>
+        <Animation Name="gEnMbLookLeftAndRightAnim" Offset="0x41A8"/>
+        <Animation Name="gEnMbResumePatrolAnim" Offset="0x9280"/>
+        <Animation Name ="gEnMbAnim_009450" Offset="0x9450"/> <!--Unused -->
+        <Animation Name="gEnMbWalkAnim" Offset="0x9FC0"/>
+        <Animation Name="gEnMbUnusedGrabSpearAnim" Offset="0xA410"/>
+        <Animation Name="gEnMbUnusedGrabSpear2Anim" Offset="0xA80C"/>
+        <Animation Name="gEnMbAnim_00ABE0" Offset="0xABE0"/>
+        <Animation Name="gEnMbAnim_00B4BC" Offset="0xB4BC"/>
+        <Animation Name="gEnMbAnim_00BE58" Offset="0xBE58"/>
+        <Animation Name="gEnMbAnim_00C44C" Offset="0xC44C"/>
+        <Animation Name="gEnMbAnim_00CF1C" Offset="0xCF1C"/>
+        <Animation Name="gEnMbAnim_00D380" Offset="0xD380"/>
+        <Animation Name="gEnMbAnim_00D5D4" Offset="0xD5D4"/>
+        <Animation Name="gEnMbAnim_00E18C" Offset="0xE18C"/>
+        <Animation Name="gEnMbAnim_00EBE4" Offset="0xEBE4"/>
+        <DList Name="gEnMbDL_006930" Offset="0x06930"/>
+        <DList Name="gEnMbDL_006A18" Offset="0x06A18"/>
+        <DList Name="gEnMbDL_006B20" Offset="0x06B20"/>
+        <DList Name="gEnMbDL_006CD0" Offset="0x06CD0"/>
+        <DList Name="gEnMbDL_006DD8" Offset="0x06DD8"/>
+        <DList Name="gEnMbDL_006EE0" Offset="0x06EE0"/>
+        <DList Name="gEnMbDL_007090" Offset="0x07090"/>
+        <DList Name="gEnMbDL_007198" Offset="0x07198"/><!--Spear-->
+        <DList Name="gEnMbDL_0073F0" Offset="0x073F0"/>
+        <DList Name="gEnMbDL_007500" Offset="0x07500"/>
+        <DList Name="gEnMbDL_0076C8" Offset="0x076C8"/>
+        <DList Name="gEnMbDL_0077F8" Offset="0x077F8"/>
+        <DList Name="gEnMbDL_007AD0" Offset="0x07AD0"/>
+        <DList Name="gEnMbDL_007E70" Offset="0x07E70"/>
+        <Texture Name="gEnMbFaceTex" OutName="face" Format="rgb5a1" Width="16" Height="32" Offset="0x8528"/>
+        <DList Name="gEnMbDL_012580" Offset="0x12580"/>
+        <DList Name="gEnMbDL_012698" Offset="0x12698"/>
+        <DList Name="gEnMbDL_012868" Offset="0x12868"/>
+        <DList Name="gEnMbDL_012A18" Offset="0x12A18"/>
+        <DList Name="gEnMbDL_012B20" Offset="0x12B20"/>
+        <DList Name="gEnMbDL_012CF0" Offset="0x12CF0"/>
+        <DList Name="gEnMbDL_012EA0" Offset="0x12EA0"/>
+        <DList Name="gEnMbDL_012FA8" Offset="0x12FA8"/>
+        <DList Name="gEnMbDL_0130D8" Offset="0x130D8"/>
+        <DList Name="gEnMbDL_013228" Offset="0x13228"/>
+        <DList Name="gEnMbDL_013440" Offset="0x13440"/>
+        <DList Name="gEnMbDL_0136C8" Offset="0x136C8"/>
+        <DList Name="gEnMbDL_013818" Offset="0x13818"/>
+        <DList Name="gEnMbDL_013A30" Offset="0x13A30"/>
+        <DList Name="gEnMbDL_013DF0" Offset="0x13DF0"/>
+    </File>
+</Root>

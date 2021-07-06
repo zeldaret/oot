@@ -1,11 +1,11 @@
 <Root>
-    <File Name="ganontikasonogo_scene">
+    <File Name="ganontikasonogo_scene" Segment="2">
         <Scene Name="ganontikasonogo_scene"/>
     </File>
-    <File Name="ganontikasonogo_room_0">
-        <Room Name="ganontikasonogo_room_0"/>
+    <File Name="ganontikasonogo_room_0" Segment="3">
+        <Room Name="ganontikasonogo_room_0" Offset="0x0"/>
     </File>
-    <File Name="ganontikasonogo_room_1">
-        <Room Name="ganontikasonogo_room_1"/>
+    <File Name="ganontikasonogo_room_1" Segment="3">
+        <Room Name="ganontikasonogo_room_1" Offset="0x0"/>
     </File>
 </Root>

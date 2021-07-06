@@ -27,7 +27,7 @@
         <Texture Name="gDodongoToothTex" OutName="tooth" Format="rgb5a1" Width="8" Height="8" Offset="0x80B8"/>
 
         <!-- Dodongo Skeleton -->
-        <Skeleton Name="gDodongoSkel" Type="Standard" LimbType="Standard" Offset="0x8318"/>
+        <Skeleton Name="gDodongoSkel" Type="Normal" LimbType="Standard" Offset="0x8318"/>
 
         <!-- Fire Effect Textures -->
         <Texture Name="gDodongoFire0Tex" OutName="fire_0" Format="i4" Width="32" Height="32" Offset="0x90A0"/>

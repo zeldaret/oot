@@ -1,20 +1,21 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class SetExitList : public ZRoomCommand
 {
 public:
-	SetExitList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	SetExitList(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GenerateExterns();
-	virtual std::string GetCommandCName();
-	virtual RoomCommand GetRoomCommand();
+	void DeclareReferences(const std::string& prefix) override;
+	void ParseRawDataLate() override;
+	void DeclareReferencesLate(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	std::string GetCommandCName() const override;
 
 private:
 	std::vector<uint16_t> exits;
-	uint32_t segmentOffset;
-	std::vector<uint8_t> _rawData;
-	int32_t _rawDataIndex;
 };

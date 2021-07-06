@@ -293,7 +293,7 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
         this->invincibilityTimer = 30;
         this->actor.flags &= ~1;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
-        func_80032C7C(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
         return true;
     } else if (DECR(this->attackTimer) == 0 && this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
@@ -335,8 +335,8 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
     }
 
     // check to see if the line between `this` and `actor` does not intersect a collision poly
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &actor->world.pos, &colPoint, &colPoly, 1,
-                                0, 0, 1, &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &actor->world.pos, &colPoint, &colPoly,
+                                true, false, false, true, &bgId)) {
         return false;
     }
 
@@ -418,8 +418,8 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
     pos.y = this->actor.world.pos.y;
     pos.z += this->actor.world.pos.z;
 
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &pos, &colPoint, &poly, 1, 0, 0, 1,
-                                &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &pos, &colPoint, &poly, true, false, false,
+                                true, &bgId)) {
         *runDir = -*runDir;
         return true;
     }
@@ -666,7 +666,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.flags &= ~1;
             this->invincibilityTimer = 30;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
-            func_80032C7C(globalCtx, &this->actor);
+            Enemy_StartFinishingBlow(globalCtx, &this->actor);
         } else {
             this->actor.flags &= ~0x2000;
         }

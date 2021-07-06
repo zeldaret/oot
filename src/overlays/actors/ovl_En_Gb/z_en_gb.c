@@ -1,4 +1,11 @@
+/*
+ * File: z_en_gb.c
+ * Overlay: ovl_En_Gb
+ * Description: Poe Seller
+ */
+
 #include "z_en_gb.h"
+#include "objects/object_ps/object_ps.h"
 
 #define FLAGS 0x00000009
 
@@ -34,9 +41,9 @@ const ActorInit En_Gb_InitVars = {
 };
 
 static EnGbCagedSoulInfo sCagedSoulInfo[] = {
-    { { 255, 255, 170, 255 }, { 255, 200, 0, 255 }, 0x0600A870, -15 },
-    { { 255, 255, 170, 255 }, { 0, 150, 0, 255 }, 0x0600B070, -12 },
-    { { 255, 170, 255, 255 }, { 100, 0, 150, 255 }, 0x0600B870, -8 },
+    { { 255, 255, 170, 255 }, { 255, 200, 0, 255 }, gPoeSellerAngrySoulTex, -15 },
+    { { 255, 255, 170, 255 }, { 0, 150, 0, 255 }, gPoeSellerHappySoulTex, -12 },
+    { { 255, 170, 255, 255 }, { 100, 0, 150, 255 }, gPoeSellerSadSoulTex, -8 },
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -135,12 +142,6 @@ static Vec3f sBottlesPositions[] = {
     { -48.0f, 0.0f, 60.0f },
 };
 
-extern AnimationHeader D_0600049C;
-extern Gfx D_0600C0B0[];
-extern FlexSkeletonHeader D_0600C220;
-extern CollisionHeader D_0600C2D0;
-extern AnimationHeader D_0600C8EC;
-
 void func_80A2F180(EnGb* this) {
     if (gSaveContext.infTable[0xB] & 0x40) {
         this->textId = 0x70F5;
@@ -159,9 +160,10 @@ void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_0600C2D0, &colHeader);
+    CollisionHeader_GetVirtual(&gPoeSellerCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C220, &D_0600049C, this->jointTable, this->morphTable, 12);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gPoeSellerSkel, &gPoeSellerIdleAnim, this->jointTable,
+                       this->morphTable, 12);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
 
@@ -183,7 +185,7 @@ void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionTimer = (s16)Rand_ZeroFloat(100.0f) + 100;
 
     for (i = 0; i < ARRAY_COUNT(sCagedSoulPositions); i++) {
-        this->cagedSouls[i].unk_0 = (s32)Rand_ZeroFloat(30.0f) % 3;
+        this->cagedSouls[i].infoIdx = (s32)Rand_ZeroFloat(30.0f) % 3;
         this->cagedSouls[i].unk_14.x = this->cagedSouls[i].translation.x =
             sCagedSoulPositions[i].x + this->dyna.actor.world.pos.x;
         this->cagedSouls[i].unk_14.y = this->cagedSouls[i].translation.y =
@@ -262,8 +264,8 @@ s32 func_80A2F760(EnGb* this) {
 }
 
 void func_80A2F7C0(EnGb* this) {
-    Animation_Change(&this->skelAnime, &D_0600C8EC, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600C8EC), ANIMMODE_ONCE,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &gPoeSellerSwingStickAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gPoeSellerSwingStickAnim), ANIMMODE_ONCE, 0.0f);
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
     this->actionFunc = func_80A2FC70;
 }
@@ -373,8 +375,9 @@ void func_80A2FC0C(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void func_80A2FC70(EnGb* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.curFrame == Animation_GetLastFrame(&D_0600C8EC)) {
-        Animation_Change(&this->skelAnime, &D_0600049C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600049C), 0, 0.0f);
+    if (this->skelAnime.curFrame == Animation_GetLastFrame(&gPoeSellerSwingStickAnim)) {
+        Animation_Change(&this->skelAnime, &gPoeSellerIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gPoeSellerIdleAnim),
+                         0, 0.0f);
         this->actionFunc = func_80A2F83C;
     } else if (this->skelAnime.curFrame == 18.0f) {
         this->cagedSouls[1].unk_1 = 3;
@@ -520,12 +523,12 @@ void EnGb_DrawCagedSouls(EnGb* this, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     for (i = 0; i < 4; i++) {
-        s32 idx = this->cagedSouls[i].unk_0;
+        s32 idx = this->cagedSouls[i].infoIdx;
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
-                                    (u32)(sCagedSoulInfo[idx].unk_C * this->frameTimer) % 512, 32, 128));
-        gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sCagedSoulInfo[idx].unk_8));
+                                    (u32)(sCagedSoulInfo[idx].timerMultiplier * this->frameTimer) % 512, 32, 128));
+        gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sCagedSoulInfo[idx].texture));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, sCagedSoulInfo[idx].prim.r, sCagedSoulInfo[idx].prim.g,
                         sCagedSoulInfo[idx].prim.b, sCagedSoulInfo[idx].prim.a);
         gDPSetEnvColor(POLY_XLU_DISP++, sCagedSoulInfo[idx].env.r, sCagedSoulInfo[idx].env.g, sCagedSoulInfo[idx].env.b,
@@ -543,7 +546,7 @@ void EnGb_DrawCagedSouls(EnGb* this, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gb.c", 955),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_0600C0B0);
+        gSPDisplayList(POLY_XLU_DISP++, gPoeSellerCagedSoulDL);
 
         Matrix_Pop();
     }

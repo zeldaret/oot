@@ -1,8 +1,8 @@
 <Root>
-    <File Name="golon_scene">
+    <File Name="golon_scene" Segment="2">
         <Scene Name="golon_scene"/>
     </File>
-    <File Name="golon_room_0">
-        <Room Name="golon_room_0"/>
+    <File Name="golon_room_0" Segment="3">
+        <Room Name="golon_room_0" Offset="0x0"/>
     </File>
 </Root>
