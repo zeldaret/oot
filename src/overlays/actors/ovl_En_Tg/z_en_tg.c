@@ -83,10 +83,7 @@ u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx) {
     }
 }
 
-#ifndef NON_MATCHING
-s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B183F8.s")
-#else
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B183F8.s")
 s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx) {
     EnTg* this = THIS;
 
@@ -102,20 +99,22 @@ s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx) {
         case 9:
             return 1;
         case 2:
-            if ((this->actor.textId == 0x5089) || (this->actor.textId == 0x508A)) {
-                this->unk_208++;
-                return 0;
-            } else if ((this->actor.textId == 0x7025) || (this->actor.textId == 0x7026)) {
-                this->actor.params ^= 1;
-                this->unk_208++;
-                return 0;
-            } else {
-                return 0;
+            switch(this->actor.textId) {
+                case 0x5089:
+                case 0x508A:
+                    this->unk_208++;
+                    break;
+                case 0x7025:
+                case 0x7026:
+                    this->actor.params ^= 1;
+                    this->unk_208++;
+                    break;
             }
+            return 0;
+        default:
+            return 1;
     }
-    return 1;
 }
-#endif
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Init.s")
 void EnTg_Init(Actor* thisx, GlobalContext* globalCtx) {
