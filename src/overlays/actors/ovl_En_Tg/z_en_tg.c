@@ -57,8 +57,32 @@ static ColliderCylinderInit D_80B18910 = {
 extern ColliderCylinderInit D_80B18910;
 extern CollisionCheckInfoInit2 D_80B1893C;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18360.s")
-u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18360.s")
+u16 func_80B18360(GlobalContext *globalCtx, Actor *thisx) {
+    EnTg* this = THIS;
+    u16 temp;
+    u32 phi;
+
+    temp = Text_GetFaceReaction(globalCtx, 0x24);
+    if (temp != 0) {
+        return temp;
+    }
+    if (globalCtx->sceneNum == 0x52) {
+        if (this->unk_208 & 1) {
+            phi = 0x5089;
+        } else {
+            phi = 0x508A;
+        }
+        return phi;
+    } else {
+        if (this->unk_208 & 1) {
+            phi = 0x7025;
+        } else {
+            phi = 0x7026;
+        }
+        return phi;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B183F8.s")
 s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx);
