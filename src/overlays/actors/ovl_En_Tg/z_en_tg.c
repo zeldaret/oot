@@ -56,6 +56,7 @@ static ColliderCylinderInit D_80B18910 = {
 
 extern ColliderCylinderInit D_80B18910;
 extern CollisionCheckInfoInit2 D_80B1893C;
+extern Vec3f D_80B18968;
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18360.s")
 u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx) {
@@ -167,11 +168,19 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_800343CC(globalCtx, &this->actor, &this->unk_1E0, temp, func_80B18360, func_80B183F8);
 }
 
-s32 func_80B18704(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void*);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18704.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18704.s")
+s32 func_80B18704(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    return 0;
+}
 
-void func_80B1871C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B1871C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B1871C.s")
+void func_80B1871C(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, void *thisx) {
+    EnTg* this = (EnTg*) thisx;
+    Vec3f sp18 = D_80B18968;
+    if (limbIndex == 9) {
+        Matrix_MultVec3f(&sp18, &this->actor.focus.pos);
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18778.s")
 Gfx* func_80B18778(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
