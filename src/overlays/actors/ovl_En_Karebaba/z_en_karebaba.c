@@ -96,7 +96,8 @@ void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 22.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gDekuBabaSkel, &gDekuBabaFastChompAnim, this->jointTable, this->morphTable, 8);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gDekuBabaSkel, &gDekuBabaFastChompAnim, this->jointTable,
+                   this->morphTable, 8);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sBodyColliderInit);
     Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
@@ -145,8 +146,8 @@ void EnKarebaba_SetupIdle(EnKarebaba* this) {
 }
 
 void EnKarebaba_SetupAwaken(EnKarebaba* this) {
-    Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, 4.0f, 0.0f, Animation_GetLastFrame(&gDekuBabaFastChompAnim), ANIMMODE_LOOP,
-                     -3.0f);
+    Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, 4.0f, 0.0f,
+                     Animation_GetLastFrame(&gDekuBabaFastChompAnim), ANIMMODE_LOOP, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DUMMY482);
     this->actionFunc = EnKarebaba_Awaken;
 }
@@ -196,8 +197,8 @@ void EnKarebaba_SetupDeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_SetupRetract(EnKarebaba* this) {
-    Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, -3.0f, Animation_GetLastFrame(&gDekuBabaFastChompAnim), 0.0f, ANIMMODE_ONCE,
-                     -3.0f);
+    Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, -3.0f, Animation_GetLastFrame(&gDekuBabaFastChompAnim),
+                     0.0f, ANIMMODE_ONCE, -3.0f);
     EnKarebaba_ResetCollider(this);
     this->actionFunc = EnKarebaba_Retract;
 }

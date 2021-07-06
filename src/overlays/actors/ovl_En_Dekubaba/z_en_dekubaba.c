@@ -493,10 +493,10 @@ void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     this->actor.scale.x = this->actor.scale.y = this->actor.scale.z =
-        this->size * 0.01f * (0.5f + (((15 - this->timer) * 0.5f) / 15.0f));
+        this->size * 0.01f * (0.5f + (15 - this->timer) * 0.5f / 15.0f);
     Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1800, 0x800);
 
-    headDistVertical = (sinf(CLAMP_MAX((15 - this->timer) * (1.0f / 15), 0.7f) * M_PI) * 32.0f) + 14.0f;
+    headDistVertical = sinf(CLAMP_MAX((15 - this->timer) * (1.0f / 15), 0.7f) * M_PI) * 32.0f + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
         headDistHorizontal = 0.0f;
@@ -508,23 +508,19 @@ void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->stemSectionAngle[1], -0x5555, 0x38E);
         Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5555, 0x222);
 
-        headDistHorizontal =
-            (20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))) +
-            (((headDistVertical -
-               (20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))) *
-              Math_CosS(this->stemSectionAngle[2])) /
-             -Math_SinS(this->stemSectionAngle[2]));
+        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
+                             (headDistVertical -
+                              20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1]))) *
+                                 Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
     } else {
         Math_ScaledStepToS(&this->stemSectionAngle[0], -0xAAA, 0x38E);
         Math_ScaledStepToS(&this->stemSectionAngle[1], -0x31C7, 0x222);
         Math_ScaledStepToS(&this->stemSectionAngle[2], -0x5555, 0x222);
 
-        headDistHorizontal =
-            (20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))) +
-            (((headDistVertical -
-               (20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))) *
-              Math_CosS(this->stemSectionAngle[2])) /
-             -Math_SinS(this->stemSectionAngle[2]));
+        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
+                             (headDistVertical -
+                              20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1]))) *
+                                 Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
     }
 
     if (this->timer < 10) {
@@ -534,8 +530,8 @@ void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
     }
 
     this->actor.world.pos.y = this->actor.home.pos.y + (headDistVertical * this->size);
-    headShiftX = Math_SinS(this->actor.shape.rot.y) * (headDistHorizontal * this->size);
-    headShiftZ = Math_CosS(this->actor.shape.rot.y) * (headDistHorizontal * this->size);
+    headShiftX = headDistHorizontal * this->size * Math_SinS(this->actor.shape.rot.y);
+    headShiftZ = headDistHorizontal * this->size * Math_CosS(this->actor.shape.rot.y);
     this->actor.world.pos.x = this->actor.home.pos.x + headShiftX;
     this->actor.world.pos.z = this->actor.home.pos.z + headShiftZ;
 
@@ -552,8 +548,8 @@ void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_Retract(EnDekubaba* this, GlobalContext* globalCtx) {
-    f32 horizontalScale;
-    f32 headShiftX;
+    f32 headDistHorizontal;
+    f32 headDistVertical;
     f32 xShift;
     f32 zShift;
 
@@ -567,38 +563,36 @@ void EnDekubaba_Retract(EnDekubaba* this, GlobalContext* globalCtx) {
         this->size * 0.01f * (0.5f + this->timer * (1.0f / 30));
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x4000, 0x300);
 
-    headShiftX = (sinf(CLAMP_MAX(this->timer * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
+    headDistVertical = (sinf(CLAMP_MAX(this->timer * 0.033f, 0.7f) * M_PI) * 32.0f) + 14.0f;
 
     if (this->actor.shape.rot.x < -0x38E3) {
-        horizontalScale = 0.0f;
+        headDistHorizontal = 0.0f;
     } else if (this->actor.shape.rot.x < -0x238E) {
         Math_ScaledStepToS(&this->stemSectionAngle[0], -0x4000, 0x555);
-        horizontalScale = Math_CosS(this->stemSectionAngle[0]) * 20.0f;
+        headDistHorizontal = Math_CosS(this->stemSectionAngle[0]) * 20.0f;
     } else if (this->actor.shape.rot.x < -0xE38) {
         Math_ScaledStepToS(&this->stemSectionAngle[0], -0x5555, 0x555);
         Math_ScaledStepToS(&this->stemSectionAngle[1], -0x4000, 0x555);
         Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0x333);
 
-        horizontalScale =
-            (20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))) +
-            (((headShiftX - (20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))) *
-              Math_CosS(this->stemSectionAngle[2])) /
-             -Math_SinS(this->stemSectionAngle[2]));
+        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
+                             (headDistVertical -
+                              20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1]))) *
+                                 Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
     } else {
         Math_ScaledStepToS(&this->stemSectionAngle[0], -0x5555, 0x555);
         Math_ScaledStepToS(&this->stemSectionAngle[1], -0x5555, 0x333);
         Math_ScaledStepToS(&this->stemSectionAngle[2], -0x4000, 0x333);
 
-        horizontalScale =
-            (20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1]))) +
-            (((headShiftX - (20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1])))) *
-              Math_CosS(this->stemSectionAngle[2])) /
-             -Math_SinS(this->stemSectionAngle[2]));
+        headDistHorizontal = 20.0f * (Math_CosS(this->stemSectionAngle[0]) + Math_CosS(this->stemSectionAngle[1])) +
+                             (headDistVertical -
+                              20.0f * (-Math_SinS(this->stemSectionAngle[0]) - Math_SinS(this->stemSectionAngle[1]))) *
+                                 Math_CosS(this->stemSectionAngle[2]) / -Math_SinS(this->stemSectionAngle[2]);
     }
 
-    this->actor.world.pos.y = this->actor.home.pos.y + (headShiftX * this->size);
-    xShift = Math_SinS(this->actor.shape.rot.y) * (horizontalScale * this->size);
-    zShift = Math_CosS(this->actor.shape.rot.y) * (horizontalScale * this->size);
+    this->actor.world.pos.y = this->actor.home.pos.y + (headDistVertical * this->size);
+    xShift = headDistHorizontal * this->size * Math_SinS(this->actor.shape.rot.y);
+    zShift = headDistHorizontal * this->size * Math_CosS(this->actor.shape.rot.y);
     this->actor.world.pos.x = this->actor.home.pos.x + xShift;
     this->actor.world.pos.z = this->actor.home.pos.z + zShift;
 
@@ -1034,7 +1028,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, GlobalContext* globalCtx) {
     f32 fireScale;
     s32 phi_s0; // Used for both health and iterator
 
-    if ((this->collider.base.acFlags & AC_HIT)) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlagJntSph(&this->actor, &this->collider, 1);
 
@@ -1312,7 +1306,7 @@ void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         // Display solid until 40 frames left, then blink until killed.
-    } else if ((this->timer > 40) || (this->timer % 2 != 0)) {
+    } else if ((this->timer > 40) || ((this->timer % 2) != 0)) {
         Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2797),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
