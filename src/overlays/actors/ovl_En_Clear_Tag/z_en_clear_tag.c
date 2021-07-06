@@ -812,7 +812,7 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
                             effect->velocity.y *= -0.5f;
                             effect->timer = ((s16)Rand_ZeroFloat(20)) + 25;
                         } else {
-                            // The Debris effect is done bounding. Set its velocity and acceleration to 0.
+                            // The Debris effect is done bouncing. Set its velocity and acceleration to 0.
                             effect->velocity.x = effect->velocity.z = effect->acceleration.y = effect->velocity.y =
                                 0.0f;
                         }

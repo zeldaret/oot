@@ -250,7 +250,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sBigDekuBabaDamageTable, &sColChkInfoInit);
         this->actor.colChkInfo.health = 4;
-        this->actor.naviEnemyId = 8; // Big Deku Baba
+        this->actor.naviEnemyId = 0x08; // Big Deku Baba
         this->actor.targetMode = 2;
     } else {
         this->size = 1.0f;
@@ -264,7 +264,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDekuBabaDamageTable, &sColChkInfoInit);
-        this->actor.naviEnemyId = 7; // Deku Baba
+        this->actor.naviEnemyId = 0x07; // Deku Baba
         this->actor.targetMode = 1;
     }
 
@@ -283,7 +283,7 @@ void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDekubaba_DisableHitboxes(EnDekubaba* this) {
     s32 i;
 
-    for (i = 1; i < 7; i++) {
+    for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].info.bumperFlags &= ~BUMP_ON;
     }
 }
@@ -305,7 +305,7 @@ void EnDekubaba_SetupWait(EnDekubaba* this) {
     this->collider.base.acFlags |= AC_HARD;
     this->timer = 45;
 
-    for (i = 1; i < 7; i++) {
+    for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
         element = &this->collider.elements[i];
         element->dim.worldSphere.center.x = this->actor.world.pos.x;
         element->dim.worldSphere.center.y = (s16)this->actor.world.pos.y - 7;
@@ -320,11 +320,11 @@ void EnDekubaba_SetupGrow(EnDekubaba* this) {
 
     Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim,
                      Animation_GetLastFrame(&gDekuBabaFastChompAnim) * (1.0f / 15), 0.0f,
-                     Animation_GetLastFrame(&gDekuBabaFastChompAnim), 2, 0.0f);
+                     Animation_GetLastFrame(&gDekuBabaFastChompAnim), ANIMMODE_ONCE, 0.0f);
 
     this->timer = 15;
 
-    for (i = 2; i < 7; i++) {
+    for (i = 2; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].info.ocElemFlags |= OCELEM_ON;
     }
 
@@ -338,11 +338,11 @@ void EnDekubaba_SetupRetract(EnDekubaba* this) {
     s32 i;
 
     Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, -1.5f, Animation_GetLastFrame(&gDekuBabaFastChompAnim),
-                     0.0f, 2, -3.0f);
+                     0.0f, ANIMMODE_ONCE, -3.0f);
 
     this->timer = 15;
 
-    for (i = 2; i < 7; i++) {
+    for (i = 2; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].info.ocElemFlags &= ~OCELEM_ON;
     }
 
@@ -369,7 +369,7 @@ void EnDekubaba_SetupLunge(EnDekubaba* this) {
 
 void EnDekubaba_SetupPullBack(EnDekubaba* this) {
     Animation_Change(&this->skelAnime, &gDekuBabaPauseChompAnim, 1.0f, 15.0f,
-                     Animation_GetLastFrame(&gDekuBabaPauseChompAnim), 2, -3.0f);
+                     Animation_GetLastFrame(&gDekuBabaPauseChompAnim), ANIMMODE_ONCE, -3.0f);
     this->timer = 0;
     this->actionFunc = EnDekubaba_PullBack;
 }
@@ -410,7 +410,7 @@ void EnDekubaba_SetupPrunedSomersault(EnDekubaba* this) {
 
 void EnDekubaba_SetupShrinkDie(EnDekubaba* this) {
     Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, -1.5f, Animation_GetLastFrame(&gDekuBabaFastChompAnim),
-                     0.0f, 2, -3.0f);
+                     0.0f, ANIMMODE_ONCE, -3.0f);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnDekubaba_ShrinkDie;
 }
@@ -418,17 +418,17 @@ void EnDekubaba_SetupShrinkDie(EnDekubaba* this) {
 void EnDekubaba_SetupStunnedVertical(EnDekubaba* this) {
     s32 i;
 
-    for (i = 1; i < 7; i++) {
+    for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
         this->collider.elements[i].info.bumperFlags |= BUMP_ON;
     }
 
     if (this->timer == 1) {
         Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, 4.0f, 0.0f,
-                         Animation_GetLastFrame(&gDekuBabaFastChompAnim), 0, -3.0f);
+                         Animation_GetLastFrame(&gDekuBabaFastChompAnim), ANIMMODE_LOOP, -3.0f);
         this->timer = 40;
     } else {
         Animation_Change(&this->skelAnime, &gDekuBabaFastChompAnim, 0.0f, 0.0f,
-                         Animation_GetLastFrame(&gDekuBabaFastChompAnim), 0, -3.0f);
+                         Animation_GetLastFrame(&gDekuBabaFastChompAnim), ANIMMODE_LOOP, -3.0f);
         this->timer = 60;
     }
 
@@ -1024,7 +1024,7 @@ void EnDekubaba_DeadStickDrop(EnDekubaba* this, GlobalContext* globalCtx) {
         return;
     }
 
-    func_8002F554(&this->actor, globalCtx, 7);
+    func_8002F554(&this->actor, globalCtx, GI_STICKS_1);
 }
 
 // Update and associated functions
@@ -1312,7 +1312,7 @@ void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         // Display solid until 40 frames left, then blink until killed.
-    } else if ((this->timer > 40) || (this->timer & 1)) {
+    } else if ((this->timer > 40) || (this->timer % 2 != 0)) {
         Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2797),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
