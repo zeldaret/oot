@@ -57,7 +57,13 @@ static ColliderCylinderInit D_80B18910 = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Destroy.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Destroy.s")
+void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnTg* this = THIS;
+
+    SkelAnime_Free(&this->skelAnime, globalCtx);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B185C0.s")
 
