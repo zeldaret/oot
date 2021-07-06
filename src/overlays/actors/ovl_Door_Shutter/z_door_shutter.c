@@ -166,7 +166,8 @@ void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc
 }
 
 s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
-    TransitionActorEntry* transitionEntry = &globalCtx->doorCtx.transitionActorList[(u16)this->dyna.actor.params >> 0xA];
+    TransitionActorEntry* transitionEntry =
+        &globalCtx->doorCtx.transitionActorList[(u16)this->dyna.actor.params >> 0xA];
     s8 frontRoom = transitionEntry->sides[0].room;
     s32 doorType = this->doorType;
     ShutterObjectInfo* temp_t0 = &sObjectInfo[this->unk_16B];
@@ -531,8 +532,9 @@ void func_80997220(DoorShutter* this, GlobalContext* globalCtx) {
         Vec3f vec;
 
         func_8002DBD0(&this->dyna.actor, &vec, &player->actor.world.pos);
-        this->dyna.actor.room =
-            globalCtx->doorCtx.transitionActorList[(u16)this->dyna.actor.params >> 0xA].sides[(vec.z < 0.0f) ? 0 : 1].room;
+        this->dyna.actor.room = globalCtx->doorCtx.transitionActorList[(u16)this->dyna.actor.params >> 0xA]
+                                    .sides[(vec.z < 0.0f) ? 0 : 1]
+                                    .room;
         if (room != this->dyna.actor.room) {
             Room tempRoom = globalCtx->roomCtx.curRoom;
 

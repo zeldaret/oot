@@ -21,7 +21,7 @@ static s32 sUnused = 0;
 
 static void* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
 static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
-                                 gDaruniaMouthHappyTex };
+                                  gDaruniaMouthHappyTex };
 
 /**
  * Cs => Cutscene

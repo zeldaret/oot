@@ -1544,7 +1544,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
         { 3000.0f, 6000.0f, 1600.0f },
     };
     static void* eyeTextures[] = { gGerudoRedEyeOpenTex, gGerudoRedEyeHalfTex, gGerudoRedEyeShutTex,
-                                 gGerudoRedEyeHalfTex };
+                                   gGerudoRedEyeHalfTex };
     s32 pad;
     EnGeldB* this = THIS;
 
