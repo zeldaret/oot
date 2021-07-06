@@ -56,12 +56,6 @@ const ActorInit En_Tg_InitVars = {
     (ActorFunc)EnTg_Draw,
 };
 
-static Vec3f D_80B18968 = {
-    0.0,
-    800.0,
-    0.0,
-};
-
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18360.s")
 u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx) {
     EnTg* this = THIS;
@@ -180,9 +174,9 @@ s32 func_80B18704(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B1871C.s")
 void func_80B1871C(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, void *thisx) {
     EnTg* this = (EnTg*) thisx;
-    Vec3f sp18 = D_80B18968;
+    Vec3f D_80B18968 = { 0.0, 800.0, 0.0 };
     if (limbIndex == 9) {
-        Matrix_MultVec3f(&sp18, &this->actor.focus.pos);
+        Matrix_MultVec3f(&D_80B18968, &this->actor.focus.pos);
     }
 }
 
