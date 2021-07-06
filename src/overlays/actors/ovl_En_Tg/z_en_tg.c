@@ -54,7 +54,7 @@ const ActorInit En_Tg_InitVars = {
     (ActorFunc)EnTg_Draw,
 };
 
-u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx) {
+u16 EnTg_GetTextId(GlobalContext* globalCtx, Actor* thisx) {
     EnTg* this = THIS;
     u16 temp;
     u32 phi;
@@ -63,15 +63,15 @@ u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx) {
     if (temp != 0) {
         return temp;
     }
-    if (globalCtx->sceneNum == 0x52) {
-        if (this->unk_208 & 1) {
+    if (globalCtx->sceneNum == SCENE_SPOT01) {
+        if (this->timesSpokenTo % 2 != 0) {
             phi = 0x5089;
         } else {
             phi = 0x508A;
         }
         return phi;
     } else {
-        if (this->unk_208 & 1) {
+        if (this->timesSpokenTo % 2 != 0) {
             phi = 0x7025;
         } else {
             phi = 0x7026;
@@ -80,7 +80,7 @@ u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx) {
     }
 }
 
-s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx) {
+s16 EnTg_OnTextComplete(GlobalContext* globalCtx, Actor* thisx) {
     EnTg* this = THIS;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -98,12 +98,12 @@ s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx) {
             switch (this->actor.textId) {
                 case 0x5089:
                 case 0x508A:
-                    this->unk_208++;
+                    this->timesSpokenTo++;
                     break;
                 case 0x7025:
                 case 0x7026:
                     this->actor.params ^= 1;
-                    this->unk_208++;
+                    this->timesSpokenTo++;
                     break;
             }
             return 0;
@@ -122,7 +122,7 @@ void EnTg_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     this->actor.targetMode = 6;
     Actor_SetScale(&this->actor, 0.01f);
-    this->unk_208 = globalCtx->state.frames % 2;
+    this->timesSpokenTo = globalCtx->state.frames % 2;
     this->actionFunc = EnTg_SpinIfNotTalking;
 }
 
@@ -154,7 +154,7 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->actionFunc(this, globalCtx);
     temp = this->collider.dim.radius + 30.0f;
-    func_800343CC(globalCtx, &this->actor, &this->isTalking, temp, func_80B18360, func_80B183F8);
+    func_800343CC(globalCtx, &this->actor, &this->isTalking, temp, EnTg_GetTextId, EnTg_OnTextComplete);
 }
 
 s32 EnTg_OverrideLimbDrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
