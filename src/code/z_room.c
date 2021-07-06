@@ -506,7 +506,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
         }
     }
 
-    if (globalCtx->doorCtx.numTransitionActors; != 0) {
+    if (globalCtx->doorCtx.numTransitionActors != 0) {
         s32 j;
         RomFile* roomList = globalCtx->roomList;
         TransitionActorEntry* transitionActor = &globalCtx->doorCtx.transitionActorList[0];

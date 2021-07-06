@@ -327,7 +327,7 @@ void func_80098C24(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x0E: Transition Actor List
 void func_80098C68(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->doorCtx.numTransitionActors; = cmd->transiActorList.num;
+    globalCtx->doorCtx.numTransitionActors = cmd->transiActorList.num;
     globalCtx->doorCtx.transitionActorList = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.segment);
 }
 
