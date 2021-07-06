@@ -1,6 +1,6 @@
 <Root>
     <File Name="HIDAN_scene" Segment="2">
-        <Scene Name="HIDAN_scene"/>
+        <Scene Name="HIDAN_scene" Offset="0x0"/>
     </File>
     <File Name="HIDAN_room_0" Segment="3">
         <Room Name="HIDAN_room_0" Offset="0x0"/>
