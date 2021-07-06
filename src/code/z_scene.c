@@ -332,7 +332,7 @@ void func_80098C68(GlobalContext* globalCtx, SceneCmd* cmd) {
 }
 
 void Door_InitContext(GameState* state, DoorContext* doorCtx) {
-    doorCtx->numTransitionActors; = 0;
+    doorCtx->numTransitionActors = 0;
 }
 
 // Scene Command 0x0F: Light Setting List
