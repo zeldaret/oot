@@ -410,37 +410,19 @@ static UNK_PTR D_80907170[] = {
 
 static Vec3f D_8090717C = { 0.0f, -2000.0f, 0.0f };
 
-/* static */ UNK_TYPE D_80907188[] = {
-    0x00010002,
-    0x00030003,
-    0x00020001,
-};
+/* static */ s16 D_80907188[] = { 1, 2, 3, 3, 2, 1 };
 
-/* static */ UNK_TYPE D_80907194[] = {
-    0x00020003,
-    0x00040004,
-    0x00040003,
-    0x00020000,
-};
+/* static */ s16 D_80907194[] = { 2, 3, 4, 4, 4, 3, 2 };
 
-/* static */ UNK_TYPE D_809071A4[] = {
-    0x00020003,
-    0x00040004,
-    0x00040004,
-    0x00030002,
-};
+/* static */ s16 D_809071A4[] = { 2, 3, 4, 4, 4, 4, 3, 2 };
 
-/* static */ UNK_TYPE D_809071B4[] = {
-    0x00020004, 0x00050005, 0x00060006, 0x00060006, 0x00050005, 0x00040002,
-};
+/* static */ s16 D_809071B4[] = { 2, 4, 5, 5, 6, 6, 6, 6, 5, 5, 4, 2 };
 
-/* static */ UNK_TYPE D_809071CC[] = {
-    0x0001FFFF, 0x00010001, 0x00030004, 0x00010006, 0x00070002, 0x0009000A, 0x0002000C, 0x000D0000,
-};
+/* static */ s16 D_809071CC[] = { 1, -1, 1, 1, 3, 4, 1, 6, 7, 2, 9, 10, 2, 12, 13 };
 
-/* static */ UNK_TYPE D_809071EC[] = {
-    0x03020201, 0x03030103, 0x03010003, 0x01000300, 0x00000000, 0x00000000, 0x00000000,
-};
+/* static */ u8 D_809071EC[] = { 3, 2, 2, 1, 3, 3, 1, 3, 3, 1, 0, 3, 1, 0, 3 };
+
+static UNK_TYPE pad[2] = { 0 };
 
 #include "z_boss_ganon2_gfx.c"
 
@@ -3180,8 +3162,200 @@ void func_809060E8(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6185);
 }
 
+#ifdef NON_MATCHING
+void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
+    s16 sp86;
+    Vec3f sp70;
+    Vec3f sp64;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f12;
+    f32 temp_f2;
+    f32 temp_f2_2;
+    s16 *temp_a2;
+    s16 *temp_a2_2;
+    s16 *temp_a2_3;
+    s16 *temp_a2_4;
+    s16 temp_a0;
+    s16 temp_a0_2;
+    s16 temp_a3;
+    s16 temp_t0;
+    s16 temp_t2;
+    s16 temp_t2_2;
+    s16 temp_t2_3;
+    s16 temp_t2_4;
+    s16 temp_t2_5;
+    s16 temp_v0_2;
+    s16 temp_v0_3;
+    s16 temp_v0_4;
+    s16 temp_v0_5;
+    s16 temp_v0_6;
+    s16 temp_v0_7;
+    s16 temp_v1;
+    s16 temp_v1_2;
+    s16 temp_v1_3;
+    s16 temp_v1_4;
+    s16 temp_v1_5;
+    s16 temp_v1_6;
+    s16 temp_v1_7;
+    s16 temp_v1_8;
+    s32 temp_a0_3;
+    s32 temp_a0_4;
+    u8 temp_v0;
+    s16 i;
+    s16 phi_t2;
+    s16 phi_t2_2;
+    s16 phi_v1;
+    s16 phi_a1;
+    s32 phi_a0;
+    s16 phi_t2_3;
+    s16 phi_v1_2;
+    s16 phi_a1_2;
+    s32 phi_a0_2;
+    s16 phi_t2_4;
+    s16 phi_v1_3;
+    s16 phi_a1_3;
+    s32 phi_a0_3;
+    s16 phi_t2_5;
+    s16 phi_v1_4;
+    s16 phi_a1_4;
+    s32 phi_a0_4;
+    s16 phi_t2_6;
+
+    for (i = 0; i < 15; i++) {
+        if ((arg2 == 0.0f) || (temp_t2 = *(D_809071CC + (i * 2)), phi_t2 = temp_t2, phi_t2_6 = temp_t2, ((s32) temp_t2 >= 0))) {
+            if (arg2 > 0.0f) {
+                temp_f0 = this->unk_234[i].x;
+                temp_f2 = this->unk_234[i].y;
+                temp_f12 = this->unk_234[i].z;
+                sp70.x = (((this->unk_234[phi_t2].x - temp_f0) * arg2) + temp_f0) - this->actor.world.pos.x;
+                sp70.y = ((((this->unk_234[phi_t2].y - temp_f2) * arg2) + temp_f2) - this->actor.world.pos.y) + 76.0f + 30.0f + 30.0f + 100.0f;
+                sp70.z = (((this->unk_234[phi_t2].z - temp_f12) * arg2) + temp_f12) - this->actor.world.pos.z;
+            } else {
+                sp70.x = this->unk_234[i].x - this->actor.world.pos.x;
+                sp70.y = (this->unk_234[i].y - this->actor.world.pos.y) + 76.0f + 30.0f + 30.0f + 100.0f;
+                sp70.z = this->unk_234[i].z - this->actor.world.pos.z;
+            }
+            Matrix_MultVec3f(&sp70, &sp64);
+            temp_f0_2 = sp64.x * 0.2f;
+            temp_f2_2 = sp64.y * 0.2f;
+            temp_v0 = *(D_809071EC + i);
+            temp_a3 = (s16) (s32) (temp_f0_2 + 32.0f);
+            temp_t0 = (s16) (s32) temp_f2_2 << 6;
+            sp64.y = temp_f2_2;
+            sp64.x = temp_f0_2;
+            if (temp_v0 == 2) {
+                phi_t2_2 = 0;
+                phi_a1 = -0x180;
+                do {
+                    temp_a2 = D_809071B4 + (phi_t2_2 * 2);
+                    temp_a0 = *temp_a2;
+                    temp_t2_2 = phi_t2_2 + 1;
+                    temp_v1 = 0 - temp_a0;
+                    phi_v1 = temp_v1;
+                    phi_a0 = (s32) temp_a0;
+                    if ((s32) temp_v1 < (s32) temp_a0) {
+                        do {
+                            temp_v0_2 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
+                            temp_v1_2 = phi_v1 + 1;
+                            if (((s32) temp_v0_2 >= 0) && ((s32) temp_v0_2 < 0x1000)) {
+                                tex[temp_v0_2] = 0xFFU;
+                                phi_a0 = (s32) *temp_a2;
+                            }
+                            phi_v1 = temp_v1_2;
+                        } while (((s32) temp_v1_2 < phi_a0) != 0);
+                    }
+                    phi_t2_2 = temp_t2_2;
+                    phi_a1 = (s16) (phi_a1 + 0x40);
+                } while (((s32) temp_t2_2 < 0xC) != 0);
+                phi_t2_6 = temp_t2_2;
+            } else if (temp_v0 == 1) {
+                phi_t2_3 = 0;
+                phi_a1_2 = -0x100;
+                do {
+                    temp_a2_2 = D_809071A4 + (phi_t2_3 * 2);
+                    temp_a0_2 = *temp_a2_2;
+                    temp_t2_3 = phi_t2_3 + 1;
+                    temp_v1_3 = 0 - temp_a0_2;
+                    phi_v1_2 = temp_v1_3;
+                    phi_a0_2 = (s32) temp_a0_2;
+                    if ((s32) temp_v1_3 < (s32) temp_a0_2) {
+                        do {
+                            temp_v0_3 = temp_a3 + phi_v1_2 + temp_t0 + phi_a1_2;
+                            temp_v1_4 = phi_v1_2 + 1;
+                            if (((s32) temp_v0_3 >= 0) && ((s32) temp_v0_3 < 0x1000)) {
+                                tex[temp_v0_3] = 0xFFU;
+                                phi_a0_2 = (s32) *temp_a2_2;
+                            }
+                            phi_v1_2 = temp_v1_4;
+                        } while (((s32) temp_v1_4 < phi_a0_2) != 0);
+                    }
+                    phi_t2_3 = temp_t2_3;
+                    phi_a1_2 = (s16) (phi_a1_2 + 0x40);
+                } while (((s32) temp_t2_3 < 8) != 0);
+                phi_t2_6 = temp_t2_3;
+            } else if (temp_v0 == 0) {
+                phi_t2_4 = 0;
+                phi_a1_3 = -0xC0;
+                do {
+                    temp_a2_3 = D_80907194 + (phi_t2_4 * 2);
+                    temp_v0_4 = *temp_a2_3;
+                    temp_t2_4 = phi_t2_4 + 1;
+                    temp_v1_5 = 0 - temp_v0_4;
+                    temp_a0_3 = temp_v0_4 - 1;
+                    phi_v1_3 = temp_v1_5;
+                    phi_a0_3 = temp_a0_3;
+                    if ((s32) temp_v1_5 < temp_a0_3) {
+                        do {
+                            temp_v0_5 = temp_a3 + phi_v1_3 + temp_t0 + phi_a1_3;
+                            temp_v1_6 = phi_v1_3 + 1;
+                            if (((s32) temp_v0_5 >= 0) && ((s32) temp_v0_5 < 0x1000)) {
+                                tex[temp_v0_5] = 0xFFU;
+                                phi_a0_3 = *temp_a2_3 - 1;
+                            }
+                            phi_v1_3 = temp_v1_6;
+                        } while (((s32) temp_v1_6 < phi_a0_3) != 0);
+                    }
+                    phi_t2_4 = temp_t2_4;
+                    phi_a1_3 = (s16) (phi_a1_3 + 0x40);
+                } while (((s32) temp_t2_4 < 7) != 0);
+                phi_t2_6 = temp_t2_4;
+            } else {
+                phi_t2_5 = 0;
+                phi_a1_4 = -0x80;
+                do {
+                    temp_a2_4 = D_80907188 + (phi_t2_5 * 2);
+                    temp_v0_6 = *temp_a2_4;
+                    temp_t2_5 = phi_t2_5 + 1;
+                    temp_v1_7 = 0 - temp_v0_6;
+                    temp_a0_4 = temp_v0_6 - 1;
+                    phi_v1_4 = temp_v1_7;
+                    phi_a0_4 = temp_a0_4;
+                    if ((s32) temp_v1_7 < temp_a0_4) {
+                        do {
+                            temp_v0_7 = temp_a3 + phi_v1_4 + temp_t0 + phi_a1_4;
+                            temp_v1_8 = phi_v1_4 + 1;
+                            if (((s32) temp_v0_7 >= 0) && ((s32) temp_v0_7 < 0x1000)) {
+                                tex[temp_v0_7] = 0xFFU;
+                                phi_a0_4 = *temp_a2_4 - 1;
+                            }
+                            phi_v1_4 = temp_v1_8;
+                        } while (((s32) temp_v1_8 < phi_a0_4) != 0);
+                    }
+                    phi_t2_5 = temp_t2_5;
+                    phi_a1_4 = (s16) (phi_a1_4 + 0x40);
+                    phi_t2_6 = temp_t2_5;
+                } while (((s32) temp_t2_5 < 6) != 0);
+            }
+        }
+        phi_t2 = phi_t2_6;
+    }
+    sp86 = phi_t2_6;
+}
+#else
 void func_80906538(BossGanon2* this, u8* tex, f32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80906538.s")
+#endif
 
 void func_809069F8(u8* tex, BossGanon2* this, GlobalContext* globalCtx) {
     s16 i;
