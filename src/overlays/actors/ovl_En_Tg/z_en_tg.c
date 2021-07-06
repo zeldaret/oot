@@ -58,7 +58,7 @@ extern ColliderCylinderInit D_80B18910;
 extern CollisionCheckInfoInit2 D_80B1893C;
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18360.s")
-u16 func_80B18360(GlobalContext *globalCtx, Actor *thisx) {
+u16 func_80B18360(GlobalContext* globalCtx, Actor* thisx) {
     EnTg* this = THIS;
     u16 temp;
     u32 phi;
@@ -84,8 +84,39 @@ u16 func_80B18360(GlobalContext *globalCtx, Actor *thisx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B183F8.s")
+#ifndef NON_MATCHING
 s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B183F8.s")
+#else
+s16 func_80B183F8(GlobalContext* globalCtx, Actor* thisx) {
+    EnTg* this = THIS;
+
+    switch(func_8010BDBC(&globalCtx->msgCtx)) {
+        case 0:
+        case 1:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+            return 1;
+        case 2:
+            if ((this->actor.textId == 0x5089) || (this->actor.textId == 0x508A)) {
+                this->unk_208++;
+                return 0;
+            } else if ((this->actor.textId == 0x7025) || (this->actor.textId == 0x7026)) {
+                this->actor.params ^= 1;
+                this->unk_208++;
+                return 0;
+            } else {
+                return 0;
+            }
+    }
+    return 1;
+}
+#endif
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Init.s")
 void EnTg_Init(Actor* thisx, GlobalContext* globalCtx) {
