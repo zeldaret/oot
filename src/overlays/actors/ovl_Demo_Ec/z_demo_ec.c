@@ -9,6 +9,7 @@
 #include "objects/object_zo/object_zo.h"
 #include "objects/object_ec/object_ec.h"
 #include "objects/object_ma2/object_ma2.h"
+#include "objects/object_in/object_in.h"
 
 #define FLAGS 0x00000010
 
@@ -94,9 +95,6 @@ static s16 sAnimationObjects[] = {
 };
 
 // skeletons (all from other objects)
-
-// Object_IN
-extern FlexSkeletonHeader D_06013B88;
 
 // Object_TA
 extern FlexSkeletonHeader D_0600B7B8;
@@ -373,7 +371,7 @@ void DemoEc_SetNpcActionPosRot(DemoEc* this, GlobalContext* globalCtx, s32 actio
 
 void DemoEc_InitIngo(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06013B88);
+    DemoEc_InitSkelAnime(this, globalCtx, &gIngoSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcIngoAnim, 0, 0.0f, false);
     func_8096D64C(this, globalCtx);
