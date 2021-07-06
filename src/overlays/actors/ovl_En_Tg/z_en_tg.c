@@ -15,8 +15,10 @@ void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06005040;
-extern UNK_TYPE D_0600AE40;
+void func_80B185C0(EnTg* this, GlobalContext* globalCtx);
+
+extern AnimationHeader D_06005040;
+extern FlexSkeletonHeader D_0600AE40;
 
 /*
 const ActorInit En_Tg_InitVars = {
@@ -51,11 +53,28 @@ static ColliderCylinderInit D_80B18910 = {
     { 20, 64, 0, { 0, 0, 0 } },
 };
 */
+
+extern ColliderCylinderInit D_80B18910;
+extern CollisionCheckInfoInit2 D_80B1893C;
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18360.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B183F8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Init.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Init.s")
+void EnTg_Init(Actor* thisx, GlobalContext *globalCtx) {
+    EnTg* this = THIS;
+
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600AE40, &D_06005040, NULL, NULL, 0);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B18910);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80B1893C);
+    this->actor.targetMode = 6;
+    Actor_SetScale(&this->actor, 0.01f);
+    this->unk_208 = globalCtx->state.frames % 2;
+    this->actionFunc = func_80B185C0;
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/EnTg_Destroy.s")
 void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
