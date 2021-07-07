@@ -57,10 +57,12 @@ u16 EnTg_GetTextId(GlobalContext* globalCtx, Actor* thisx) {
     u16 temp;
     u32 phi;
 
+    // If the player is wearing a mask, return a special reaction text
     temp = Text_GetFaceReaction(globalCtx, 0x24);
     if (temp != 0) {
         return temp;
     }
+    // Use a different set of dialogue in Kakariko Village (Adult)
     if (globalCtx->sceneNum == SCENE_SPOT01) {
         if (this->timesSpokenTo % 2 != 0) {
             phi = 0x5089;
@@ -155,8 +157,7 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_800343CC(globalCtx, &this->actor, &this->isTalking, temp, EnTg_GetTextId, EnTg_OnTextComplete);
 }
 
-s32 EnTg_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                             void* thisx) {
+s32 EnTg_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     return false;
 }
 
@@ -165,6 +166,7 @@ void EnTg_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f targetOffset = { 0.0f, 800.0f, 0.0f };
 
     if (limbIndex == 9) {
+        // Place the target point at the guy's head instead of the center of the actor
         Matrix_MultVec3f(&targetOffset, &this->actor.focus.pos);
     }
 }
@@ -182,8 +184,13 @@ void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tg.c", 462);
     Matrix_Translate(0.0f, 0.0f, -560.0f, MTXMODE_APPLY);
+
+    // Set the guy's shoes and shirt to royal blue
     gSPSegment(POLY_OPA_DISP++, 0x08, EnTg_SetColor(globalCtx->state.gfxCtx, 0, 50, 160, 0));
+
+    // Set the girl's shirt to white
     gSPSegment(POLY_OPA_DISP++, 0x09, EnTg_SetColor(globalCtx->state.gfxCtx, 255, 255, 255, 0));
+
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnTg_OverrideLimbDraw, EnTg_PostLimbDraw, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tg.c", 480);
