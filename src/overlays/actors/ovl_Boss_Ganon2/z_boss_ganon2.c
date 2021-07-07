@@ -3164,193 +3164,79 @@ void func_809060E8(GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
-    s16 sp86;
-    Vec3f sp70;
-    Vec3f sp64;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f12;
-    f32 temp_f2;
-    f32 temp_f2_2;
-    s16 *temp_a2;
-    s16 *temp_a2_2;
-    s16 *temp_a2_3;
-    s16 *temp_a2_4;
-    s16 temp_a0;
-    s16 temp_a0_2;
-    s16 temp_a3;
     s16 temp_t0;
-    s16 temp_t2;
-    s16 temp_t2_2;
-    s16 temp_t2_3;
-    s16 temp_t2_4;
-    s16 temp_t2_5;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v0_5;
-    s16 temp_v0_6;
-    s16 temp_v0_7;
-    s16 temp_v1;
-    s16 temp_v1_2;
-    s16 temp_v1_3;
-    s16 temp_v1_4;
-    s16 temp_v1_5;
-    s16 temp_v1_6;
-    s16 temp_v1_7;
-    s16 temp_v1_8;
-    s32 temp_a0_3;
-    s32 temp_a0_4;
-    u8 temp_v0;
-    s16 i;
-    s16 phi_t2;
-    s16 phi_t2_2;
+    s16 temp_v0;
+    s16 temp_a3;
     s16 phi_v1;
     s16 phi_a1;
-    s32 phi_a0;
-    s16 phi_t2_3;
-    s16 phi_v1_2;
-    s16 phi_a1_2;
-    s32 phi_a0_2;
-    s16 phi_t2_4;
-    s16 phi_v1_3;
-    s16 phi_a1_3;
-    s32 phi_a0_3;
-    s16 phi_t2_5;
-    s16 phi_v1_4;
-    s16 phi_a1_4;
-    s32 phi_a0_4;
-    s16 phi_t2_6;
+    s16 i;
+    s16 j;
+    Vec3f lerp;
+    Vec3f sp70;
+    Vec3f sp64;
 
     for (i = 0; i < 15; i++) {
-        if ((arg2 == 0.0f) || (temp_t2 = *(D_809071CC + (i * 2)), phi_t2 = temp_t2, phi_t2_6 = temp_t2, ((s32) temp_t2 >= 0))) {
+        //! @bug j is not initialized if arg2 == 0.0f, causing undefined behavior.
+        if ((arg2 == 0.0f) || ((j = D_809071CC[i]) >= 0)) {
             if (arg2 > 0.0f) {
-                temp_f0 = this->unk_234[i].x;
-                temp_f2 = this->unk_234[i].y;
-                temp_f12 = this->unk_234[i].z;
-                sp70.x = (((this->unk_234[phi_t2].x - temp_f0) * arg2) + temp_f0) - this->actor.world.pos.x;
-                sp70.y = ((((this->unk_234[phi_t2].y - temp_f2) * arg2) + temp_f2) - this->actor.world.pos.y) + 76.0f + 30.0f + 30.0f + 100.0f;
-                sp70.z = (((this->unk_234[phi_t2].z - temp_f12) * arg2) + temp_f12) - this->actor.world.pos.z;
+                lerp.x = this->unk_234[i].x + (this->unk_234[j].x - this->unk_234[i].x) * arg2;
+                lerp.y = this->unk_234[i].y + (this->unk_234[j].y - this->unk_234[i].y) * arg2;
+                lerp.z = this->unk_234[i].z + (this->unk_234[j].z - this->unk_234[i].z) * arg2;
+
+                sp70.x = lerp.x - this->actor.world.pos.x;
+                sp70.y = lerp.y - this->actor.world.pos.y + 76.0f + 30.0f + 30.0f + 100.0f;
+                sp70.z = lerp.z - this->actor.world.pos.z;
             } else {
                 sp70.x = this->unk_234[i].x - this->actor.world.pos.x;
-                sp70.y = (this->unk_234[i].y - this->actor.world.pos.y) + 76.0f + 30.0f + 30.0f + 100.0f;
+                sp70.y = this->unk_234[i].y - this->actor.world.pos.y + 76.0f + 30.0f + 30.0f + 100.0f;
                 sp70.z = this->unk_234[i].z - this->actor.world.pos.z;
             }
+
             Matrix_MultVec3f(&sp70, &sp64);
-            temp_f0_2 = sp64.x * 0.2f;
-            temp_f2_2 = sp64.y * 0.2f;
-            temp_v0 = *(D_809071EC + i);
-            temp_a3 = (s16) (s32) (temp_f0_2 + 32.0f);
-            temp_t0 = (s16) (s32) temp_f2_2 << 6;
-            sp64.y = temp_f2_2;
-            sp64.x = temp_f0_2;
-            if (temp_v0 == 2) {
-                phi_t2_2 = 0;
-                phi_a1 = -0x180;
-                do {
-                    temp_a2 = D_809071B4 + (phi_t2_2 * 2);
-                    temp_a0 = *temp_a2;
-                    temp_t2_2 = phi_t2_2 + 1;
-                    temp_v1 = 0 - temp_a0;
-                    phi_v1 = temp_v1;
-                    phi_a0 = (s32) temp_a0;
-                    if ((s32) temp_v1 < (s32) temp_a0) {
-                        do {
-                            temp_v0_2 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
-                            temp_v1_2 = phi_v1 + 1;
-                            if (((s32) temp_v0_2 >= 0) && ((s32) temp_v0_2 < 0x1000)) {
-                                tex[temp_v0_2] = 0xFFU;
-                                phi_a0 = (s32) *temp_a2;
-                            }
-                            phi_v1 = temp_v1_2;
-                        } while (((s32) temp_v1_2 < phi_a0) != 0);
+            sp64.x *= 0.2f;
+            sp64.y *= 0.2f;
+            temp_a3 = sp64.x + 32.0f;
+            temp_t0 = (s16)sp64.y << 6;
+
+            if (D_809071EC[i] == 2) {
+                for (j = 0, phi_a1 = -0x180; j < 12; j++, phi_a1 += 0x40) {
+                    for (phi_v1 = -D_809071B4[j]; phi_v1 < D_809071B4[j]; phi_v1++) {
+                        temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
+                        if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
+                            tex[temp_v0] = 255;
+                        }
                     }
-                    phi_t2_2 = temp_t2_2;
-                    phi_a1 = (s16) (phi_a1 + 0x40);
-                } while (((s32) temp_t2_2 < 0xC) != 0);
-                phi_t2_6 = temp_t2_2;
-            } else if (temp_v0 == 1) {
-                phi_t2_3 = 0;
-                phi_a1_2 = -0x100;
-                do {
-                    temp_a2_2 = D_809071A4 + (phi_t2_3 * 2);
-                    temp_a0_2 = *temp_a2_2;
-                    temp_t2_3 = phi_t2_3 + 1;
-                    temp_v1_3 = 0 - temp_a0_2;
-                    phi_v1_2 = temp_v1_3;
-                    phi_a0_2 = (s32) temp_a0_2;
-                    if ((s32) temp_v1_3 < (s32) temp_a0_2) {
-                        do {
-                            temp_v0_3 = temp_a3 + phi_v1_2 + temp_t0 + phi_a1_2;
-                            temp_v1_4 = phi_v1_2 + 1;
-                            if (((s32) temp_v0_3 >= 0) && ((s32) temp_v0_3 < 0x1000)) {
-                                tex[temp_v0_3] = 0xFFU;
-                                phi_a0_2 = (s32) *temp_a2_2;
-                            }
-                            phi_v1_2 = temp_v1_4;
-                        } while (((s32) temp_v1_4 < phi_a0_2) != 0);
+                }
+            } else if (D_809071EC[i] == 1) {
+                for (j = 0, phi_a1 = -0x100; j < 8; j++, phi_a1 += 0x40) {
+                    for (phi_v1 = -D_809071A4[j]; phi_v1 < D_809071A4[j]; phi_v1++) {
+                        temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
+                        if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
+                            tex[temp_v0] = 255;
+                        }
                     }
-                    phi_t2_3 = temp_t2_3;
-                    phi_a1_2 = (s16) (phi_a1_2 + 0x40);
-                } while (((s32) temp_t2_3 < 8) != 0);
-                phi_t2_6 = temp_t2_3;
-            } else if (temp_v0 == 0) {
-                phi_t2_4 = 0;
-                phi_a1_3 = -0xC0;
-                do {
-                    temp_a2_3 = D_80907194 + (phi_t2_4 * 2);
-                    temp_v0_4 = *temp_a2_3;
-                    temp_t2_4 = phi_t2_4 + 1;
-                    temp_v1_5 = 0 - temp_v0_4;
-                    temp_a0_3 = temp_v0_4 - 1;
-                    phi_v1_3 = temp_v1_5;
-                    phi_a0_3 = temp_a0_3;
-                    if ((s32) temp_v1_5 < temp_a0_3) {
-                        do {
-                            temp_v0_5 = temp_a3 + phi_v1_3 + temp_t0 + phi_a1_3;
-                            temp_v1_6 = phi_v1_3 + 1;
-                            if (((s32) temp_v0_5 >= 0) && ((s32) temp_v0_5 < 0x1000)) {
-                                tex[temp_v0_5] = 0xFFU;
-                                phi_a0_3 = *temp_a2_3 - 1;
-                            }
-                            phi_v1_3 = temp_v1_6;
-                        } while (((s32) temp_v1_6 < phi_a0_3) != 0);
+                }
+            } else if (D_809071EC[i] == 0) {
+                for (j = 0, phi_a1 = -0xC0; j < 7; j++, phi_a1 += 0x40) {
+                    for (phi_v1 = -D_80907194[j]; phi_v1 < D_80907194[j] - 1; phi_v1++) {
+                        temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
+                        if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
+                            tex[temp_v0] = 255;
+                        }
                     }
-                    phi_t2_4 = temp_t2_4;
-                    phi_a1_3 = (s16) (phi_a1_3 + 0x40);
-                } while (((s32) temp_t2_4 < 7) != 0);
-                phi_t2_6 = temp_t2_4;
+                }
             } else {
-                phi_t2_5 = 0;
-                phi_a1_4 = -0x80;
-                do {
-                    temp_a2_4 = D_80907188 + (phi_t2_5 * 2);
-                    temp_v0_6 = *temp_a2_4;
-                    temp_t2_5 = phi_t2_5 + 1;
-                    temp_v1_7 = 0 - temp_v0_6;
-                    temp_a0_4 = temp_v0_6 - 1;
-                    phi_v1_4 = temp_v1_7;
-                    phi_a0_4 = temp_a0_4;
-                    if ((s32) temp_v1_7 < temp_a0_4) {
-                        do {
-                            temp_v0_7 = temp_a3 + phi_v1_4 + temp_t0 + phi_a1_4;
-                            temp_v1_8 = phi_v1_4 + 1;
-                            if (((s32) temp_v0_7 >= 0) && ((s32) temp_v0_7 < 0x1000)) {
-                                tex[temp_v0_7] = 0xFFU;
-                                phi_a0_4 = *temp_a2_4 - 1;
-                            }
-                            phi_v1_4 = temp_v1_8;
-                        } while (((s32) temp_v1_8 < phi_a0_4) != 0);
+                for (j = 0, phi_a1 = -0x80; j < 6; j++, phi_a1 += 0x40) {
+                    for (phi_v1 = -D_80907188[j]; phi_v1 < D_80907188[j] - 1; phi_v1++) {
+                        temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
+                        if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
+                            tex[temp_v0] = 255;
+                        }
                     }
-                    phi_t2_5 = temp_t2_5;
-                    phi_a1_4 = (s16) (phi_a1_4 + 0x40);
-                    phi_t2_6 = temp_t2_5;
-                } while (((s32) temp_t2_5 < 6) != 0);
+                }
             }
         }
-        phi_t2 = phi_t2_6;
     }
-    sp86 = phi_t2_6;
 }
 #else
 void func_80906538(BossGanon2* this, u8* tex, f32 arg2);
