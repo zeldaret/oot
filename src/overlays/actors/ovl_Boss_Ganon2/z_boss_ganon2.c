@@ -39,8 +39,8 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx);
 void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 void func_809060E8(GlobalContext* globalCtx);
-void func_809069F8(u8* tex, BossGanon2* this, GlobalContext* globalCtx);
-void func_80906AB0(u8* tex, BossGanon2* this, GlobalContext* globalCtx);
+void func_809069F8(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
+void func_80906AB0(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000BFC;
 extern Gfx D_06000EA0[];
@@ -2947,7 +2947,7 @@ void func_80905674(BossGanon2* this, GlobalContext* globalCtx) {
 }
 
 void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    u8* tex = Graph_Alloc(globalCtx->state.gfxCtx, 4096);
+    u8* shadowTexture = Graph_Alloc(globalCtx->state.gfxCtx, 4096);
     BossGanon2* this = THIS;
     s16 i;
 
@@ -2983,8 +2983,8 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                   this->skelAnime.dListCount, BossGanon2_OverrideLimbDraw, BossGanon2_PostLimbDraw,
                                   this);
             POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
-            func_809069F8(tex, this, globalCtx);
-            func_80906AB0(tex, this, globalCtx);
+            func_809069F8(shadowTexture, this, globalCtx);
+            func_80906AB0(shadowTexture, this, globalCtx);
             break;
     }
 
@@ -3162,7 +3162,7 @@ void func_809060E8(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6185);
 }
 
-void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
+void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
     s16 temp_t0;
     s16 temp_v0;
     s16 temp_a3;
@@ -3204,7 +3204,7 @@ void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
                     for (phi_v1 = -D_809071B4[j]; phi_v1 < D_809071B4[j]; phi_v1++) {
                         temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
                         if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
-                            tex[temp_v0] = 255;
+                            shadowTexture[temp_v0] = 255;
                         }
                     }
                 }
@@ -3213,7 +3213,7 @@ void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
                     for (phi_v1 = -D_809071A4[j]; phi_v1 < D_809071A4[j]; phi_v1++) {
                         temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
                         if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
-                            tex[temp_v0] = 255;
+                            shadowTexture[temp_v0] = 255;
                         }
                     }
                 }
@@ -3222,7 +3222,7 @@ void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
                     for (phi_v1 = -D_80907194[j]; phi_v1 < D_80907194[j] - 1; phi_v1++) {
                         temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
                         if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
-                            tex[temp_v0] = 255;
+                            shadowTexture[temp_v0] = 255;
                         }
                     }
                 }
@@ -3231,7 +3231,7 @@ void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
                     for (phi_v1 = -D_80907188[j]; phi_v1 < D_80907188[j] - 1; phi_v1++) {
                         temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
                         if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
-                            tex[temp_v0] = 255;
+                            shadowTexture[temp_v0] = 255;
                         }
                     }
                 }
@@ -3240,9 +3240,9 @@ void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
     }
 }
 
-void func_809069F8(u8* tex, BossGanon2* this, GlobalContext* globalCtx) {
+void func_809069F8(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx) {
     s16 i;
-    u32* p = (u32*)tex;
+    u32* p = (u32*)shadowTexture;
 
     for (i = 0; i < 1024; i++, p++) {
         *p = 0;
@@ -3251,11 +3251,11 @@ void func_809069F8(u8* tex, BossGanon2* this, GlobalContext* globalCtx) {
     Matrix_RotateX(1.0f, MTXMODE_NEW);
 
     for (i = 0; i < 6; i++) {
-        func_80906538(this, tex, i / 5.0f);
+        func_80906538(this, shadowTexture, i / 5.0f);
     }
 }
 
-void func_80906AB0(u8* tex, BossGanon2* this, GlobalContext* globalCtx) {
+void func_80906AB0(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 alpha;
@@ -3277,7 +3277,7 @@ void func_80906AB0(u8* tex, BossGanon2* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_80908310);
-    gDPSetTextureImage(POLY_OPA_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, tex);
+    gDPSetTextureImage(POLY_OPA_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, shadowTexture);
     gDPSetTile(POLY_OPA_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, 6,
                G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, 6, G_TX_NOLOD);
     gDPLoadSync(POLY_OPA_DISP++);
