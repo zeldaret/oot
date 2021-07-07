@@ -161,7 +161,7 @@ s32 EnTg_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnTg_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnTg* this = (EnTg*)thisx;
+    EnTg* this = THIS;
     Vec3f targetOffset = { 0.0f, 800.0f, 0.0f };
 
     if (limbIndex == 9) {
