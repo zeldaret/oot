@@ -3162,7 +3162,6 @@ void func_809060E8(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6185);
 }
 
-#ifdef NON_MATCHING
 void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
     s16 temp_t0;
     s16 temp_v0;
@@ -3170,8 +3169,10 @@ void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
     s16 phi_v1;
     s16 phi_a1;
     s16 i;
+    f32 lerpx;
     s16 j;
-    Vec3f lerp;
+    f32 lerpy;
+    f32 lerpz;
     Vec3f sp70;
     Vec3f sp64;
 
@@ -3179,13 +3180,13 @@ void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
         //! @bug j is not initialized if arg2 == 0.0f, causing undefined behavior.
         if ((arg2 == 0.0f) || ((j = D_809071CC[i]) >= 0)) {
             if (arg2 > 0.0f) {
-                lerp.x = this->unk_234[i].x + (this->unk_234[j].x - this->unk_234[i].x) * arg2;
-                lerp.y = this->unk_234[i].y + (this->unk_234[j].y - this->unk_234[i].y) * arg2;
-                lerp.z = this->unk_234[i].z + (this->unk_234[j].z - this->unk_234[i].z) * arg2;
+                lerpx = this->unk_234[i].x + (this->unk_234[j].x - this->unk_234[i].x) * arg2;
+                lerpy = this->unk_234[i].y + (this->unk_234[j].y - this->unk_234[i].y) * arg2;
+                lerpz = this->unk_234[i].z + (this->unk_234[j].z - this->unk_234[i].z) * arg2;
 
-                sp70.x = lerp.x - this->actor.world.pos.x;
-                sp70.y = lerp.y - this->actor.world.pos.y + 76.0f + 30.0f + 30.0f + 100.0f;
-                sp70.z = lerp.z - this->actor.world.pos.z;
+                sp70.x = lerpx - this->actor.world.pos.x;
+                sp70.y = lerpy - this->actor.world.pos.y + 76.0f + 30.0f + 30.0f + 100.0f;
+                sp70.z = lerpz - this->actor.world.pos.z;
             } else {
                 sp70.x = this->unk_234[i].x - this->actor.world.pos.x;
                 sp70.y = this->unk_234[i].y - this->actor.world.pos.y + 76.0f + 30.0f + 30.0f + 100.0f;
@@ -3238,10 +3239,6 @@ void func_80906538(BossGanon2* this, u8* tex, f32 arg2) {
         }
     }
 }
-#else
-void func_80906538(BossGanon2* this, u8* tex, f32 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80906538.s")
-#endif
 
 void func_809069F8(u8* tex, BossGanon2* this, GlobalContext* globalCtx) {
     s16 i;
