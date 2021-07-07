@@ -169,7 +169,7 @@ void EnTg_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     }
 }
 
-Gfx* func_80B18778(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
+Gfx* EnTg_SetColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
 
     gDPSetEnvColor(displayList, r, g, b, a);
@@ -182,8 +182,8 @@ void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tg.c", 462);
     Matrix_Translate(0.0f, 0.0f, -560.0f, MTXMODE_APPLY);
-    gSPSegment(POLY_OPA_DISP++, 0x08, func_80B18778(globalCtx->state.gfxCtx, 0, 50, 160, 0));
-    gSPSegment(POLY_OPA_DISP++, 0x09, func_80B18778(globalCtx->state.gfxCtx, 255, 255, 255, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x08, EnTg_SetColor(globalCtx->state.gfxCtx, 0, 50, 160, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x09, EnTg_SetColor(globalCtx->state.gfxCtx, 255, 255, 255, 0));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnTg_OverrideLimbDraw, EnTg_PostLimbDraw, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tg.c", 480);
