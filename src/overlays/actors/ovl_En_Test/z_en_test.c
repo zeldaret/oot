@@ -80,7 +80,7 @@ extern AnimationHeader D_06008604;
 extern AnimationHeader D_06009A90;
 extern AnimationHeader D_0600C438;
 
-static u8 D_80864510[] = {
+static u8 sJointCopyFlags[] = {
     0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -256,7 +256,7 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnTest_SetupWaitAbove(this);
     }
 
-    if (this->actor.params == 0) {
+    if (this->actor.params == STALFOS_INVISIBLE) {
         this->actor.flags |= 0x80;
     }
 }
@@ -314,9 +314,7 @@ void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
-    if (yawDiff < 0) {
-        yawDiff = -yawDiff;
-    }
+    yawDiff = ABS(yawDiff);
 
     if (yawDiff >= 0x61A8) {
         switch ((u32)(Rand_ZeroOne() * 10.0f)) {
@@ -344,7 +342,7 @@ void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
         }
     } else if (yawDiff <= 0x3E80) {
         if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x3E80) {
-            if (((globalCtx->gameplayFrames & 1) != 0) && (this->actor.params != STALFOS_CEILING)) {
+            if (((globalCtx->gameplayFrames % 2) != 0) && (this->actor.params != STALFOS_CEILING)) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 EnTest_SetupJumpBack(this);
                 return;
@@ -526,7 +524,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 prevFrame;
     s32 temp_f16;
-    f32 phi_f2_3;
+    f32 playSpeed;
     Player* player = PLAYER;
     f32 absPlaySpeed;
     s16 yawDiff;
@@ -559,11 +557,11 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
         if (ABS(this->actor.speedXZ) < 3.0f) {
             Animation_Change(&this->skelAnime_188, &D_060081B4, 0.0f, this->skelAnime_188.curFrame,
                              Animation_GetLastFrame(&D_060081B4), 0, -6.0f);
-            phi_f2_3 = this->actor.speedXZ * 10.0f;
+            playSpeed = this->actor.speedXZ * 10.0f;
         } else {
             Animation_Change(&this->skelAnime_188, &D_060026D4, 0.0f, this->skelAnime_188.curFrame,
                              Animation_GetLastFrame(&D_060026D4), 0, -4.0f);
-            phi_f2_3 = this->actor.speedXZ * 10.0f * 0.02f;
+            playSpeed = this->actor.speedXZ * 10.0f * 0.02f;
         }
 
         if (this->actor.speedXZ >= 0.0f) {
@@ -571,17 +569,11 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
                 this->unk_7DE++;
             }
 
-            if (phi_f2_3 > 2.5f) {
-                phi_f2_3 = 2.5f;
-            }
-
-            this->skelAnime_188.playSpeed = phi_f2_3;
+            playSpeed = CLAMP_MAX(playSpeed, 2.5f);
+            this->skelAnime_188.playSpeed = playSpeed;
         } else {
-            if (phi_f2_3 < -2.5f) {
-                phi_f2_3 = -2.5f;
-            }
-
-            this->skelAnime_188.playSpeed = phi_f2_3;
+            playSpeed = CLAMP_MIN(playSpeed, -2.5f);
+            this->skelAnime_188.playSpeed = playSpeed;
         }
 
         yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
@@ -614,7 +606,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
             }
         }
 
-        if ((this->timer & 0x1F) == 0) {
+        if ((this->timer % 32) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
             this->timer += (s16)(Rand_ZeroOne() * 5.0f);
         }
@@ -627,8 +619,8 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
                     return;
                 }
             } else if (player->heldItemActionParam != PLAYER_AP_NONE) {
-                if (this->actor.isTargeted != 0) {
-                    if ((globalCtx->gameplayFrames & 1) != 0) {
+                if (this->actor.isTargeted) {
+                    if ((globalCtx->gameplayFrames % 2) != 0) {
                         EnTest_SetupSidestepAgro(this, globalCtx);
                         return;
                     }
@@ -653,7 +645,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistToPlayer < 110.0f) {
             if (Rand_ZeroOne() > 0.2f) {
                 if (player->stateFlags1 & 0x10) {
-                    if (this->actor.isTargeted != 0) {
+                    if (this->actor.isTargeted) {
                         EnTest_SetupSlash1(this);
                     } else {
                         EnTest_SetupSidestepAgro(this, globalCtx);
@@ -701,19 +693,11 @@ void EnTest_SidestepFromIdle(EnTest* this, GlobalContext* globalCtx) {
 
         if (yawDiff > 0) {
             playSpeed = yawChange * 0.02f;
-
-            if (playSpeed > 1.0f) {
-                playSpeed = 1.0f;
-            }
-
+            playSpeed = CLAMP_MAX(playSpeed, 1.0f);
             this->skelAnime_188.playSpeed = playSpeed;
         } else {
             playSpeed = yawChange * 0.02f;
-
-            if (playSpeed < -1.0f) {
-                playSpeed = -1.0f;
-            }
-
+            playSpeed = CLAMP_MIN(playSpeed, -1.0f);
             this->skelAnime_188.playSpeed = playSpeed;
         }
 
@@ -851,15 +835,12 @@ void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx) {
             }
         }
 
-        if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+        if ((globalCtx->gameplayFrames & 95) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
         }
 
         yawDiff = playerYaw180 - this->actor.shape.rot.y;
-
-        if (yawDiff < 0) {
-            yawDiff = -yawDiff;
-        }
+        yawDiff = ABS(yawDiff);
 
         if ((yawDiff > 0x6800) || (this->timer == 0)) {
             EnTest_ChooseAction(this, globalCtx);
@@ -901,7 +882,7 @@ void EnTest_Slash1(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if (SkelAnime_Update(&this->skelAnime_188)) {
-        if (globalCtx->gameplayFrames & 1) {
+        if (globalCtx->gameplayFrames % 2) {
             EnTest_SetupSlash1End(this);
         } else {
             EnTest_SetupSlash2(this);
@@ -957,7 +938,7 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
                     if (this->actor.isTargeted) {
                         EnTest_SetupSlash1(this);
                     } else {
-                        if (globalCtx->gameplayFrames & 1) {
+                        if (globalCtx->gameplayFrames % 2) {
                             EnTest_SetupSidestepAgro(this, globalCtx);
                         } else {
                             EnTest_SetupJumpBack(this);
@@ -1151,7 +1132,7 @@ void EnTest_StopAndBlock(EnTest* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime_188);
 
     if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x3E80) &&
-        (this->actor.params != STALFOS_CEILING) && ((globalCtx->gameplayFrames & 1) != 0)) {
+        (this->actor.params != STALFOS_CEILING) && ((globalCtx->gameplayFrames % 2) != 0)) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         EnTest_SetupJumpBack(this);
     }
@@ -1435,7 +1416,7 @@ void EnTest_SidestepAgro(EnTest* this, GlobalContext* globalCtx) {
     temp_f16 = this->skelAnime_188.curFrame - ABS(this->skelAnime_188.playSpeed);
     absPlaySpeed = ABS(this->skelAnime_188.playSpeed);
 
-    if ((this->timer & 0x1F) == 0) {
+    if ((this->timer % 32) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
     }
     if ((s32)this->skelAnime_188.curFrame != prevFrame) {
@@ -1454,7 +1435,7 @@ void EnTest_SidestepAgro(EnTest* this, GlobalContext* globalCtx) {
                 EnTest_ChooseAction(this, globalCtx);
             }
         } else if (player->heldItemActionParam != PLAYER_AP_NONE) {
-            if ((globalCtx->gameplayFrames & 1) != 0) {
+            if ((globalCtx->gameplayFrames % 2) != 0) {
                 EnTest_SetupIdle(this);
             } else {
                 EnTest_SetupWalkAndBlock(this);
@@ -1548,7 +1529,7 @@ void func_80863044(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if ((s32)this->skelAnime_188.curFrame == 15) {
-        Audio_PlayActorSound2(&this->actor, 0x387A);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
     }
 }
 
@@ -1640,7 +1621,7 @@ void func_80863460(EnTest* this, GlobalContext* globalCtx) {
     this->unk_7D2 = CLAMP(this->unk_7D2, -0x382F, 0x382F);
 }
 
-void func_808634F8(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->shieldCollider.base.acFlags & 0x80) {
@@ -1695,7 +1676,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
     u32 floorProperty;
     s32 pad;
 
-    func_808634F8(this, globalCtx);
+    EnTest_UpdateDamage(this, globalCtx);
 
     if (this->actor.colChkInfo.damageEffect != 6) {
         Actor_MoveForward(&this->actor);
@@ -1730,14 +1711,14 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Animation_Change(&this->skelAnime_4A8, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2,
                                  2.0f);
                 AnimationContext_SetCopyTrue(globalCtx, this->skelAnime_188.limbCount, this->skelAnime_188.jointTable,
-                                             this->skelAnime_4A8.jointTable, D_80864510);
+                                             this->skelAnime_4A8.jointTable, sJointCopyFlags);
                 this->unk_7DE++;
                 break;
 
             case 2:
                 SkelAnime_Update(&this->skelAnime_4A8);
                 SkelAnime_CopyFrameTableTrue(&this->skelAnime_188, this->skelAnime_188.jointTable,
-                                             this->skelAnime_4A8.jointTable, D_80864510);
+                                             this->skelAnime_4A8.jointTable, sJointCopyFlags);
                 break;
 
             case 3:
@@ -1756,7 +1737,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
                                            this->skelAnime_4A8.jointTable, this->skelAnime_188.jointTable,
                                            1.0f - (this->skelAnime_4A8.morphWeight / oldWeight));
                 SkelAnime_CopyFrameTableTrue(&this->skelAnime_188, this->skelAnime_188.jointTable,
-                                             this->skelAnime_4A8.jointTable, D_80864510);
+                                             this->skelAnime_4A8.jointTable, sJointCopyFlags);
                 break;
         }
 
@@ -1796,7 +1777,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->actor.params == 0) {
+    if (this->actor.params == STALFOS_INVISIBLE) {
         if (globalCtx->actorCtx.unk_03 != 0) {
             this->actor.flags |= 0x81;
             this->actor.shape.shadowDraw = ActorShadow_DrawFeet;
@@ -1825,7 +1806,7 @@ s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_test.c", 3587);
     }
 
-    if ((this->actor.params == 0) && ((this->actor.flags & 0x80) != 0x80)) {
+    if ((this->actor.params == STALFOS_INVISIBLE) && ((this->actor.flags & 0x80) != 0x80)) {
         *dList = NULL;
     }
 
@@ -2011,7 +1992,7 @@ s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
         }
 
         if ((ABS(yawToProjectile) < 0x2000) || (ABS(yawToProjectile) > 0x6000)) {
-            directionFlag = globalCtx->gameplayFrames & 1;
+            directionFlag = globalCtx->gameplayFrames % 2;
 
             if (touchingWall && (wallYawDiff > 0x2000) && (wallYawDiff < 0x6000)) {
                 directionFlag = false;
@@ -2025,7 +2006,7 @@ s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
                 EnTest_SetupSidestepSetSpeed(this, -4.0f);
             }
         } else if (ABS(yawToProjectile) < 0x6000) {
-            directionFlag = globalCtx->gameplayFrames & 1;
+            directionFlag = globalCtx->gameplayFrames % 2;
 
             if (touchingWall && (ABS(wallYawDiff) > 0x6000)) {
                 directionFlag = false;

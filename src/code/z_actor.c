@@ -3387,6 +3387,7 @@ void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 baseTex
 
     actor->textId = prefix | baseTextId;
 }
+
 /**
  * Checks if a given actor will be standing on the ground after being translated
  * by the provided distance and angle.
