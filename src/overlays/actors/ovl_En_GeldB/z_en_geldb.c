@@ -443,7 +443,7 @@ void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             EnGeldB_SetupCircle(this);
         } else if (--this->timer == 0) {
-            if (Actor_YawInRangeWithPlayer(&this->actor, 30 * 0x10000 / 360)) {
+            if (Actor_IsFacingPlayer(&this->actor, 30 * 0x10000 / 360)) {
                 if ((210.0f > this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 150.0f) &&
                     (Rand_ZeroOne() < 0.3f)) {
                     if (Actor_OtherIsTargeted(globalCtx, &this->actor) || (Rand_ZeroOne() > 0.5f) ||
@@ -510,7 +510,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         playSpeed = ABS(this->skelAnime.playSpeed);
         prevKeyFrame = (s32)(this->skelAnime.curFrame - playSpeed);
         playSpeed = ABS(this->skelAnime.playSpeed); // yes it does this twice.
-        if (!Actor_YawInRangeWithPlayer(&this->actor, 0x11C7)) {
+        if (!Actor_IsFacingPlayer(&this->actor, 0x11C7)) {
             if (Rand_ZeroOne() > 0.5f) {
                 EnGeldB_SetupCircle(this);
             } else {
@@ -528,7 +528,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         }
         if (!EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
             if ((210.0f > this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 150.0f) &&
-                Actor_YawInRangeWithPlayer(&this->actor, 0x71C)) {
+                Actor_IsFacingPlayer(&this->actor, 0x71C)) {
                 if (Actor_IsTargeted(globalCtx, &this->actor)) {
                     if (Rand_ZeroOne() > 0.5f) {
                         EnGeldB_SetupRollForward(this);
@@ -572,7 +572,7 @@ void EnGeldB_RollForward(EnGeldB* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->invisible = false;
         this->actor.speedXZ = 0.0f;
-        if (!Actor_YawInRangeWithPlayer(&this->actor, 0x1554)) {
+        if (!Actor_IsFacingPlayer(&this->actor, 0x1554)) {
             EnGeldB_SetupReady(this);
             this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
             if (ABS(facingAngleToLink) < 0x38E0) {
@@ -614,7 +614,7 @@ void EnGeldB_Pivot(EnGeldB* this, GlobalContext* globalCtx) {
         }
         this->skelAnime.playSpeed = -playSpeed;
         SkelAnime_Update(&this->skelAnime);
-        if (Actor_YawInRangeWithPlayer(&this->actor, 30 * 0x10000 / 360)) {
+        if (Actor_IsFacingPlayer(&this->actor, 30 * 0x10000 / 360)) {
             if (Rand_ZeroOne() > 0.8f) {
                 EnGeldB_SetupCircle(this);
             } else {
@@ -858,7 +858,7 @@ void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
         this->swordCollider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
         EnGeldB_SetupRollBack(this);
     } else if (SkelAnime_Update(&this->skelAnime)) {
-        if (!Actor_YawInRangeWithPlayer(&this->actor, 0x1554)) {
+        if (!Actor_IsFacingPlayer(&this->actor, 0x1554)) {
             EnGeldB_SetupReady(this);
             this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
             if (angleToLink > 0x4000) {
@@ -934,7 +934,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
         this->swordState = -1;
     }
     if (SkelAnime_Update(&this->skelAnime) && (this->spinAttackState < 2)) {
-        if (!Actor_YawInRangeWithPlayer(&this->actor, 0x1554)) {
+        if (!Actor_IsFacingPlayer(&this->actor, 0x1554)) {
             EnGeldB_SetupReady(this);
             this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
             this->lookTimer = 46;
@@ -1275,7 +1275,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
                 s16 angleFacingPlayer2 = player2->actor.shape.rot.y - this->actor.shape.rot.y;
 
                 this->actor.world.rot.y = this->actor.shape.rot.y;
-                if ((this->actor.xzDistToPlayer <= 45.0f) && (!Actor_OtherIsTargeted(globalCtx, &this->actor)) &&
+                if ((this->actor.xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(globalCtx, &this->actor) &&
                     (!(globalCtx->gameplayFrames & 3) || (ABS(angleFacingPlayer2) < 0x38E0))) {
                     EnGeldB_SetupSlash(this);
                 } else if ((210.0f > this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 150.0f) &&
@@ -1380,7 +1380,7 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
                         }
                     }
                     EnGeldB_SetupDefeated(this);
-                    Actor_PlayDeathFx(globalCtx, &this->actor);
+                    Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 } else {
                     EnGeldB_SetupDamaged(this);
                 }

@@ -1,19 +1,21 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class SetObjectList : public ZRoomCommand
 {
 public:
-	SetObjectList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	SetObjectList(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GetCommandCName();
-	virtual RoomCommand GetRoomCommand();
-	virtual int32_t GetRawDataSize();
-	virtual std::string GenerateExterns();
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix);
+
+	std::string GetBodySourceCode() const override;
+
+	std::string GetCommandCName() const override;
+	RoomCommand GetRoomCommand() const override;
+	size_t GetRawDataSize() const override;
 
 private:
 	std::vector<uint16_t> objects;
-	uint32_t segmentOffset;
 };

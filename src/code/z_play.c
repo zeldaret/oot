@@ -18,9 +18,7 @@ void func_800BC450(GlobalContext* globalCtx) {
 }
 
 void func_800BC490(GlobalContext* globalCtx, s16 point) {
-    if (!(point == 1 || point == 2)) {
-        __assert("point == 1 || point == 2", "../z_play.c", 2160);
-    }
+    ASSERT(point == 1 || point == 2, "point == 1 || point == 2", "../z_play.c", 2160);
 
     globalCtx->unk_1242B = point;
 
@@ -151,7 +149,7 @@ void Gameplay_Destroy(GameState* thisx) {
     SREG(91) = 0;
     R_PAUSE_MENU_MODE = 0;
 
-    PreRender_Destroy(&globalCtx->preRenderCtx);
+    PreRender_Destroy(&globalCtx->pauseBgPreRender);
     Effect_DeleteAll(globalCtx);
     EffectSs_ClearAll(globalCtx);
     CollisionCheck_DestroyContext(globalCtx, &globalCtx->colChkCtx);
@@ -323,9 +321,9 @@ void Gameplay_Init(GameState* thisx) {
 
     SREG(91) = -1;
     R_PAUSE_MENU_MODE = 0;
-    PreRender_Init(&globalCtx->preRenderCtx);
-    PreRender_SetValuesSave(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0);
-    PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
+    PreRender_Init(&globalCtx->pauseBgPreRender);
+    PreRender_SetValuesSave(&globalCtx->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0);
+    PreRender_SetValues(&globalCtx->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
     gTrnsnUnkState = 0;
     globalCtx->transitionMode = 0;
     FrameAdvance_Init(&globalCtx->frameAdvCtx);
@@ -780,7 +778,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3551);
             }
 
-            sp80 = (globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0);
+            sp80 = (globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3555);
@@ -906,7 +904,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
             if (globalCtx->unk_1242B != 0) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
-                    if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
+                    if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
                         // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (Player_InCsMode(globalCtx)) {
@@ -931,7 +929,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3716);
             }
 
-            if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
+            if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
                 if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3721);
                 }
@@ -1034,7 +1032,7 @@ skip:
 }
 
 void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
-    if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
+    if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
         KaleidoScopeCall_Draw(globalCtx);
     }
 
@@ -1141,12 +1139,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             POLY_OPA_DISP = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
         } else {
-            PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer,
+            PreRender_SetValues(&globalCtx->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer,
                                 gZBuffer);
 
             if (R_PAUSE_MENU_MODE == 2) {
                 MsgEvent_SendNullTask();
-                PreRender_Calc(&globalCtx->preRenderCtx);
+                PreRender_Calc(&globalCtx->pauseBgPreRender);
                 R_PAUSE_MENU_MODE = 3;
             } else if (R_PAUSE_MENU_MODE >= 4) {
                 R_PAUSE_MENU_MODE = 0;
@@ -1155,15 +1153,17 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             if (R_PAUSE_MENU_MODE == 3) {
                 Gfx* sp84 = POLY_OPA_DISP;
 
-                func_800C24BC(&globalCtx->preRenderCtx, &sp84);
+                func_800C24BC(&globalCtx->pauseBgPreRender, &sp84);
                 POLY_OPA_DISP = sp84;
                 goto Gameplay_Draw_DrawOverlayElements;
             } else {
                 s32 sp80;
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
-                    if (globalCtx->skyboxId && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
-                        if ((globalCtx->skyboxId == 1) || (globalCtx->skyboxId == 5)) {
+                    if (globalCtx->skyboxId && (globalCtx->skyboxId != SKYBOX_UNSET_1D) &&
+                        !globalCtx->envCtx.skyDisabled) {
+                        if ((globalCtx->skyboxId == SKYBOX_NORMAL_SKY) ||
+                            (globalCtx->skyboxId == SKYBOX_CUTSCENE_MAP)) {
                             func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
                             SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
                                             globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
@@ -1271,12 +1271,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                     Gfx* sp70 = OVERLAY_DISP;
                     s32 pad[4];
 
-                    globalCtx->preRenderCtx.fbuf = gfxCtx->curFrameBuffer;
-                    globalCtx->preRenderCtx.fbufSave = (u16*)gZBuffer;
-                    func_800C1F20(&globalCtx->preRenderCtx, &sp70);
+                    globalCtx->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
+                    globalCtx->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
+                    func_800C1F20(&globalCtx->pauseBgPreRender, &sp70);
                     if (R_PAUSE_MENU_MODE == 1) {
-                        globalCtx->preRenderCtx.cvgSave = (u8*)gfxCtx->curFrameBuffer;
-                        func_800C20B4(&globalCtx->preRenderCtx, &sp70);
+                        globalCtx->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
+                        func_800C20B4(&globalCtx->pauseBgPreRender, &sp70);
                         R_PAUSE_MENU_MODE = 2;
                     } else {
                         gTrnsnUnkState = 2;
@@ -1298,7 +1298,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         Camera_Update(ACTIVE_CAM);
         func_800AB944(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
-        if (globalCtx->skyboxId && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
+        if (globalCtx->skyboxId && (globalCtx->skyboxId != SKYBOX_UNSET_1D) && !globalCtx->envCtx.skyDisabled) {
             SkyboxDraw_UpdateMatrix(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y,
                                     globalCtx->view.eye.z);
         }
@@ -1435,7 +1435,7 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
 }
 
 void Gameplay_InitSkybox(GlobalContext* globalCtx, s16 skyboxId) {
-    func_800B0E50(globalCtx, &globalCtx->skyboxCtx, skyboxId);
+    Skybox_Init(globalCtx, &globalCtx->skyboxCtx, skyboxId);
     func_8006F140(globalCtx, &globalCtx->envCtx, 0);
 }
 
@@ -1470,9 +1470,8 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
 
     globalCtx->sceneSegment = Gameplay_LoadFile(globalCtx, &scene->sceneFile);
     scene->unk_13 = 0;
-    if (globalCtx->sceneSegment == NULL) {
-        __assert("this->sceneSegment != NULL", "../z_play.c", 4960);
-    }
+    ASSERT(globalCtx->sceneSegment != NULL, "this->sceneSegment != NULL", "../z_play.c", 4960);
+
     gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     Gameplay_InitScene(globalCtx, spawn);

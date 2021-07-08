@@ -33,7 +33,7 @@ typedef struct EnTest {
     /* 0x07E4 */ s32 unk_7E4;
     /* 0x07E8 */ s32 timer;
     /* 0x07EC */ f32 unk_7EC;
-    /* 0x07F0 */ struct_80032E24 unk_7F0;
+    /* 0x07F0 */ BodyBreak bodyBreak;
     /* 0x0808 */ s8 atOn;
     /* 0x080C */ s32 effectIndex;
     /* 0x0810 */ ColliderCylinder collider;

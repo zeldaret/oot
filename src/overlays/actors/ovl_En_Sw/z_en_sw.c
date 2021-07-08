@@ -237,10 +237,7 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     // Check to see if this gold skull token has already been retrieved.
-    if (((gSaveContext.gsFlags[((thisx->params & 0x1F00) >> 8) >> 2] &
-          gGoldSkullFlgMask[((thisx->params & 0x1F00) >> 8) & 3]) >>
-         gGoldSkullFlgShift[((thisx->params & 0x1F00) >> 8) & 3]) &
-        (thisx->params & 0xFF)) {
+    if (GET_GS_FLAGS((thisx->params & 0x1F00) >> 8) & (thisx->params & 0xFF)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -341,7 +338,7 @@ s32 func_80B0C9F0(EnSw* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
                 return true;
             }
-            Actor_PlayDeathFx(globalCtx, &this->actor);
+            Enemy_StartFinishingBlow(globalCtx, &this->actor);
             if (((this->actor.params & 0xE000) >> 0xD) != 0) {
                 this->skelAnime.playSpeed = 8.0f;
                 if ((globalCtx->state.frames & 1) == 0) {

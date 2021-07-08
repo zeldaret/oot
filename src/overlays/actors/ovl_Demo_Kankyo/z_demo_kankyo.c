@@ -193,7 +193,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("bank_ID = %d\n", objBankIndex);
     if (objBankIndex < 0) {
-        __assert("0", "../z_demo_kankyo.c", 521);
+        ASSERT(0, "0", "../z_demo_kankyo.c", 521);
     } else {
         this->objBankIndex = objBankIndex;
     }
@@ -443,7 +443,7 @@ void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 if (globalCtx->sceneNum == SCENE_TOKINOMA) {
                     if (!Flags_GetEnv(globalCtx, 1)) {
                         break;
-                    } else if (!Actor_YawAndDistInRangeWithPlayer(&this->actor, 300.0f, 0x7530)) {
+                    } else if (!Actor_IsFacingAndNearPlayer(&this->actor, 300.0f, 0x7530)) {
                         break;
                     } else {
                         if (LINK_IS_CHILD) {

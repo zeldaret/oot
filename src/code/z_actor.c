@@ -743,7 +743,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                             G_TX_NOLOD);
 
         gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1, G_TX_RENDERTILE,
-                            0, 0, 1024, 1024);
+                            0, 0, 1 << 10, 1 << 10);
 
         spC8 = titleCtx->height - spC8;
 
@@ -753,7 +753,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                                 G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(OVERLAY_DISP++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 + (spC8 * 4) - 1,
-                                G_TX_RENDERTILE, 0, 0, 1024, 1024);
+                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2880);
@@ -1063,54 +1063,79 @@ void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2) {
     dynaActor->unk_158 = arg2;
 }
 
-s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx) {
+/**
+ * Chcek if the player is facing the specified actor.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ */
+s32 Player_IsFacingActor(Actor* actor, s16 maxAngle, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 var = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
+    s16 yawDiff = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
 
-    if (ABS(var) < arg1) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 func_8002E020(Actor* actorA, Actor* actorB, s16 arg2) {
-    s16 var = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
+/**
+ * Chcek if `actorB` is facing `actorA`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ *
+ * This function is unused in the original game.
+ */
+s32 Actor_ActorBIsFacingActorA(Actor* actorA, Actor* actorB, s16 maxAngle) {
+    s16 yawDiff = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
 
-    if (ABS(var) < arg2) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 Actor_YawInRangeWithPlayer(Actor* actor, s16 yaw) {
+/**
+ * Chcek if the specified actor is facing the player.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ */
+s32 Actor_IsFacingPlayer(Actor* actor, s16 maxAngle) {
     s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(yawDiff) < yaw) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 Actor_YawInRangeWithActor(Actor* actorA, Actor* actorB, s16 yaw) {
+/**
+ * Chcek if `actorA` is facing `actorB`.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ *
+ * This function is unused in the original game.
+ */
+s32 Actor_ActorAIsFacingActorB(Actor* actorA, Actor* actorB, s16 maxAngle) {
     s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-    if (ABS(yawDiff) < yaw) {
+    if (ABS(yawDiff) < maxAngle) {
         return true;
     }
 
     return false;
 }
 
-s32 Actor_YawAndDistInRangeWithPlayer(Actor* actor, f32 dist, s16 yaw) {
+/**
+ * Chcek if the specified actor is facing the player and is nearby.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ * The minimum distance that qualifies as "nearby" is specified by `range`.
+ */
+s32 Actor_IsFacingAndNearPlayer(Actor* actor, f32 range, s16 maxAngle) {
     s16 yawDiff = actor->yawTowardsPlayer - actor->shape.rot.y;
 
-    if (ABS(yawDiff) < yaw) {
+    if (ABS(yawDiff) < maxAngle) {
         f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer));
 
-        if (xyzDistanceFromLink < dist) {
+        if (xyzDistanceFromLink < range) {
             return true;
         }
     }
@@ -1118,11 +1143,16 @@ s32 Actor_YawAndDistInRangeWithPlayer(Actor* actor, f32 dist, s16 yaw) {
     return false;
 }
 
-s32 Actor_YawAndDistInRangeWithActor(Actor* actorA, Actor* actorB, f32 dist, s16 yaw) {
-    if (Actor_WorldDistXYZToActor(actorA, actorB) < dist) {
+/**
+ * Chcek if `actorA` is facing `actorB` and is nearby.
+ * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
+ * The minimum distance that qualifies as "nearby" is specified by `range`.
+ */
+s32 Actor_ActorAIsFacingAndNearActorB(Actor* actorA, Actor* actorB, f32 range, s16 maxAngle) {
+    if (Actor_WorldDistXYZToActor(actorA, actorB) < range) {
         s16 yawDiff = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
-        if (ABS(yawDiff) < yaw) {
+        if (ABS(yawDiff) < maxAngle) {
             return true;
         }
     }
@@ -1530,13 +1560,13 @@ s8 func_8002F368(GlobalContext* globalCtx) {
     return player->exchangeItemId;
 }
 
-void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* arg2, s16* arg3) {
+void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
     Vec3f sp1C;
     f32 sp18;
 
     func_8002BE04(globalCtx, &actor->focus.pos, &sp1C, &sp18);
-    *arg2 = sp1C.x * sp18 * 160.0f + 160.0f;
-    *arg3 = sp1C.y * sp18 * -120.0f + 120.0f;
+    *x = sp1C.x * sp18 * 160.0f + 160.0f;
+    *y = sp1C.y * sp18 * -120.0f + 120.0f;
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
@@ -2000,10 +2030,8 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     player = PLAYER;
 
     if (0) {
-        // This assert is optimized out but it exists due to its presence in rodata
-        if (gMaxActorId != ACTOR_ID_MAX) {
-            __assert("MaxProfile == ACTOR_DLF_MAX", "../z_actor.c", UNK_LINE);
-        }
+        // This ASSERT is optimized out but it exists due to its presence in rodata
+        ASSERT(gMaxActorId == ACTOR_ID_MAX, "MaxProfile == ACTOR_DLF_MAX", "../z_actor.c", UNK_LINE);
     }
 
     sp74 = NULL;
@@ -2393,9 +2421,8 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     if ((actor->flags & 0x80) &&
                         ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || (globalCtx->actorCtx.unk_03 != 0) ||
                          (actor->room != globalCtx->roomCtx.curRoom.num))) {
-                        if (invisibleActorCounter >= INVISIBLE_ACTOR_MAX) {
-                            __assert("invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
-                        }
+                        ASSERT(invisibleActorCounter < INVISIBLE_ACTOR_MAX,
+                               "invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
                         invisibleActors[invisibleActorCounter] = actor;
                         invisibleActorCounter++;
                     } else {
@@ -2635,10 +2662,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     u32 overlaySize;
 
     overlayEntry = &gActorOverlayTable[actorId];
-
-    if (actorId >= ACTOR_ID_MAX) {
-        __assert("profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
-    }
+    ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
 
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
     overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
@@ -2669,9 +2693,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
             }
         } else {
             if (overlayEntry->allocType & ALLOCTYPE_ABSOLUTE) {
-                if (overlaySize > AM_FIELD_SIZE) {
-                    __assert("actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
-                }
+                ASSERT(overlaySize <= AM_FIELD_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
 
                 if (actorCtx->absoluteSpace == NULL) {
                     // Translates to: "AMF: ABSOLUTE MAGIC FIELD"
@@ -2735,9 +2757,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
         return NULL;
     }
 
-    if (overlayEntry->nbLoaded >= 255) {
-        __assert("actor_dlftbl->clients < 255", "../z_actor.c", 7031);
-    }
+    ASSERT(overlayEntry->nbLoaded < 255, "actor_dlftbl->clients < 255", "../z_actor.c", 7031);
 
     overlayEntry->nbLoaded++;
 
@@ -2876,14 +2896,8 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
             osSyncPrintf("オーバーレイではありません\n");
         }
     } else {
-        if (overlayEntry->loadedRamAddr == NULL) {
-            __assert("actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
-        }
-
-        if (overlayEntry->nbLoaded <= 0) {
-            __assert("actor_dlftbl->clients > 0", "../z_actor.c", 7252);
-        }
-
+        ASSERT(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
+        ASSERT(overlayEntry->nbLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);
         overlayEntry->nbLoaded--;
         Actor_FreeOverlay(overlayEntry);
     }
@@ -3010,7 +3024,7 @@ Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory) {
  * Play the death sound effect and flash the screen white for 4 frames.
  * While the screen flashes, the game freezes.
  */
-void Actor_PlayDeathFx(GlobalContext* globalCtx, Actor* actor) {
+void Enemy_StartFinishingBlow(GlobalContext* globalCtx, Actor* actor) {
     globalCtx->actorCtx.freezeFlashTimer = 5;
     Audio_PlaySoundAtPosition(globalCtx, &actor->world.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
@@ -3044,110 +3058,117 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
     return arg0[0];
 }
 
-void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
-    u32 sp28;
-    u32 sp24;
-    u32 sp20;
+void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, GlobalContext* globalCtx) {
+    u32 matricesSize;
+    u32 dListsSize;
+    u32 objectIdsSize;
 
-    sp28 = (arg1 * sizeof(*arg0->unk_00)) + sizeof(*arg0->unk_00);
-    arg0->unk_00 = ZeldaArena_MallocDebug(sp28, "../z_actor.c", 7540);
-    if (arg0->unk_00 != NULL) {
-        sp24 = (arg1 * sizeof(*arg0->unk_0C)) + sizeof(*arg0->unk_0C);
-        arg0->unk_0C = ZeldaArena_MallocDebug(sp24, "../z_actor.c", 7543);
-        if (arg0->unk_0C != NULL) {
-            sp20 = (arg1 * sizeof(*arg0->unk_04)) + sizeof(*arg0->unk_04);
-            arg0->unk_04 = ZeldaArena_MallocDebug(sp20, "../z_actor.c", 7546);
-            if (arg0->unk_04 != NULL) {
-                Lib_MemSet((u8*)arg0->unk_00, sp28, 0);
-                Lib_MemSet((u8*)arg0->unk_0C, sp24, 0);
-                Lib_MemSet((u8*)arg0->unk_04, sp20, 0);
-                arg0->unk_10 = 1;
+    matricesSize = (count + 1) * sizeof(*bodyBreak->matrices);
+    bodyBreak->matrices = ZeldaArena_MallocDebug(matricesSize, "../z_actor.c", 7540);
+
+    if (bodyBreak->matrices != NULL) {
+        dListsSize = (count + 1) * sizeof(*bodyBreak->dLists);
+        bodyBreak->dLists = ZeldaArena_MallocDebug(dListsSize, "../z_actor.c", 7543);
+
+        if (bodyBreak->dLists != NULL) {
+            objectIdsSize = (count + 1) * sizeof(*bodyBreak->objectIds);
+            bodyBreak->objectIds = ZeldaArena_MallocDebug(objectIdsSize, "../z_actor.c", 7546);
+
+            if (bodyBreak->objectIds != NULL) {
+                Lib_MemSet((u8*)bodyBreak->matrices, matricesSize, 0);
+                Lib_MemSet((u8*)bodyBreak->dLists, dListsSize, 0);
+                Lib_MemSet((u8*)bodyBreak->objectIds, objectIdsSize, 0);
+                bodyBreak->val = 1;
                 return;
             }
         }
     }
 
-    if (arg0->unk_00 != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_00, "../z_actor.c", 7558);
+    if (bodyBreak->matrices != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7558);
     }
 
-    if (arg0->unk_0C != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_0C, "../z_actor.c", 7561);
+    if (bodyBreak->dLists != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7561);
     }
 
-    if (arg0->unk_04 != NULL) {
-        ZeldaArena_FreeDebug(arg0->unk_04, "../z_actor.c", 7564);
+    if (bodyBreak->objectIds != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7564);
     }
 }
 
-void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6) {
+void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
+                       s16 objectId) {
     GlobalContext* globalCtx = Effect_GetGlobalCtx();
 
-    if ((globalCtx->actorCtx.freezeFlashTimer == 0) && (arg0->unk_10 > 0)) {
-        if ((arg1 >= arg2) && (arg3 >= arg1) && (*dList != 0)) {
-            arg0->unk_0C[arg0->unk_10] = *dList;
-            Matrix_Get(&arg0->unk_00[arg0->unk_10]);
-            arg0->unk_04[arg0->unk_10] = arg6;
-            arg0->unk_10++;
+    if ((globalCtx->actorCtx.freezeFlashTimer == 0) && (bodyBreak->val > 0)) {
+        if ((limbIndex >= minLimbIndex) && (limbIndex <= maxLimbIndex) && (*dList != NULL)) {
+            bodyBreak->dLists[bodyBreak->val] = *dList;
+            Matrix_Get(&bodyBreak->matrices[bodyBreak->val]);
+            bodyBreak->objectIds[bodyBreak->val] = objectId;
+            bodyBreak->val++;
         }
 
-        if (arg1 != arg0->unk_14) {
-            arg0->unk_08++;
+        if (limbIndex != bodyBreak->prevLimbIndex) {
+            bodyBreak->count++;
         }
 
-        if ((u32)arg0->unk_08 >= arg4) {
-            arg0->unk_08 = arg0->unk_10 - 1;
-            arg0->unk_10 = -1;
+        if ((u32)bodyBreak->count >= count) {
+            bodyBreak->count = bodyBreak->val - 1;
+            bodyBreak->val = BODYBREAK_STATUS_READY;
         }
     }
 
-    arg0->unk_14 = arg1;
+    bodyBreak->prevLimbIndex = limbIndex;
 }
 
-s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx, s16 params) {
+s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type) {
     EnPart* spawnedEnPart;
     MtxF* mtx;
     s16 objBankIndex;
 
-    if (arg1->unk_10 != -1) {
+    if (bodyBreak->val != BODYBREAK_STATUS_READY) {
         return false;
     }
 
-    while (arg1->unk_08 > 0) {
-        Matrix_Put(&arg1->unk_00[arg1->unk_08]);
+    while (bodyBreak->count > 0) {
+        Matrix_Put(&bodyBreak->matrices[bodyBreak->count]);
         Matrix_Scale(1.0f / actor->scale.x, 1.0f / actor->scale.y, 1.0f / actor->scale.z, MTXMODE_APPLY);
-        Matrix_Get(&arg1->unk_00[arg1->unk_08]);
+        Matrix_Get(&bodyBreak->matrices[bodyBreak->count]);
 
-        if (1) { // Necessary to match
-            if (arg1->unk_04[arg1->unk_08] >= 0) {
-                objBankIndex = arg1->unk_04[arg1->unk_08];
+        if (1) {
+            if (bodyBreak->objectIds[bodyBreak->count] >= 0) {
+                objBankIndex = bodyBreak->objectIds[bodyBreak->count];
             } else {
                 objBankIndex = actor->objBankIndex;
             }
         }
 
-        mtx = &arg1->unk_00[arg1->unk_08];
+        mtx = &bodyBreak->matrices[bodyBreak->count];
+
         spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->wx,
-                                                    mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
+                                                    mtx->wy, mtx->wz, 0, 0, objBankIndex, type);
+
         if (spawnedEnPart != NULL) {
-            func_800D20CC(&arg1->unk_00[arg1->unk_08], &spawnedEnPart->actor.shape.rot, 0);
-            spawnedEnPart->displayList = arg1->unk_0C[arg1->unk_08];
+            func_800D20CC(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
+            spawnedEnPart->displayList = bodyBreak->dLists[bodyBreak->count];
             spawnedEnPart->actor.scale = actor->scale;
         }
 
-        arg1->unk_08--;
+        bodyBreak->count--;
     }
 
-    arg1->unk_10 = 0;
-    ZeldaArena_FreeDebug(arg1->unk_00, "../z_actor.c", 7678);
-    ZeldaArena_FreeDebug(arg1->unk_0C, "../z_actor.c", 7679);
-    ZeldaArena_FreeDebug(arg1->unk_04, "../z_actor.c", 7680);
+    bodyBreak->val = BODYBREAK_STATUS_FINISHED;
+
+    ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7678);
+    ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7679);
+    ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7680);
 
     return true;
 }
 
-void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 scale,
-                          s16 scaleStep, u8 arg8) {
+void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 randAccelWeight,
+                          s16 scale, s16 scaleStep, u8 arg8) {
     Vec3f pos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
@@ -3161,8 +3182,8 @@ void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f
     for (i = arg4; i >= 0; i--) {
         pos.x = (Math_SinF(var) * arg3) + arg2->x;
         pos.z = (Math_CosF(var) * arg3) + arg2->z;
-        accel.x = (Rand_ZeroOne() - 0.5f) * arg5;
-        accel.z = (Rand_ZeroOne() - 0.5f) * arg5;
+        accel.x = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
+        accel.z = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
 
         if (scale == 0) {
             func_8002857C(globalCtx, &pos, &velocity, &accel);

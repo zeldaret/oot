@@ -15,5 +15,5 @@ glabel D_801120C0
 glabel D_80113070
     .incbin "baserom.z64", 0xB8A210, 0x18C0
 
-glabel D_80114930
+glabel gJpegUCode
     .incbin "baserom.z64", 0xB8BAD0, 0xAF0
