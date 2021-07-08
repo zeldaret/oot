@@ -1,9 +1,18 @@
+/*
+ * File: z_en_ko.c
+ * Overlay: ovl_En_Ko
+ * Description: Kokiri children, and "Fado"
+ */
+
 #include "z_en_ko.h"
+#include "objects/object_fa/object_fa.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
 
 #define THIS ((EnKo*)thisx)
+#define ENKO_TYPE (this->actor.params & 0xFF)
+#define ENKO_PATH ((this->actor.params & 0xFF00) >> 8)
 
 void EnKo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -17,8 +26,8 @@ void func_80A99438(EnKo* this, GlobalContext* globalCtx);
 void func_80A99504(EnKo* this, GlobalContext* globalCtx);
 void func_80A99560(EnKo* this, GlobalContext* globalCtx);
 Gfx* func_80A99C94(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a);
-s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                  Gfx** arg6);
+s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+                          Gfx** arg6);
 u16 func_80A97610(GlobalContext*, Actor*);
 s16 func_80A97738(GlobalContext*, Actor*);
 f32 func_80A97BC0(EnKo* this);
@@ -64,47 +73,62 @@ static ColliderCylinderInit sCylinderInit = {
 
 CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static void* D_80A9A138[] = { 0x06000240, 0x06000D40, 0x06001140, NULL };
-static void* D_80A9A148[] = { 0x06000F4C, 0x06001A0C, 0x06001E0C, NULL };
+static void* sFa_eyes[] = { gFaEyeOpenTex, gFaEyeHalfTex, gFaEyeClosedTex, NULL };
+static void* sKw1_eyes[] = { 0x06000F4C, 0x06001A0C, 0x06001E0C, NULL };
 
 typedef struct {
     s16 objectId;
-    Gfx* gfx;
-    void** unk_8;
+    Gfx* dList;
+    void** eyeTextures;
 } struct_80A9A158;
 
 struct_80A9A158 D_80A9A158[] = { { OBJECT_KM1, 0x06001890, NULL },
-                                 { OBJECT_KW1, 0x06002C10, D_80A9A148 },
-                                 { OBJECT_FA, 0x06002940, D_80A9A138 } };
+                                 { OBJECT_KW1, 0x06002C10, sKw1_eyes },
+                                 { OBJECT_FA, gFaDL, sFa_eyes } };
 
 typedef struct {
     s16 objectId;
-    FlexSkeletonHeader* unk_4;
+    FlexSkeletonHeader* flexSkeletonHeader;
 } struct_80A9A17C;
 
-// Object IDS? OBJECT_KM1 / OBJECT_KW1
 struct_80A9A17C D_80A9A17C[2] = { { OBJECT_KM1, 0x060000F0 }, { OBJECT_KW1, 0x060000F0 } };
 
-struct_80034EC0_Entry D_80A9A18C[] = {
-    { 0x06008F6C, 1.0f, 2.0f, 14.0f, 4, 0.0f },   { 0x06008F6C, 0.0f, 1.0f, 1.0f, 4, 0.0f },
-    { 0x06009B64, 0.0f, 0.0f, 0.0f, 2, 0.0f },    { 0x06009B64, 0.0f, 1.0f, 1.0f, 2, 0.0f },
-    { 0x06009B64, 0.0f, 2.0f, 2.0f, 2, 0.0f },    { 0x060062DC, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x060062DC, 1.0f, 0.0f, -1.0f, 0, -10.0f }, { 0x06005808, 1.0f, 0.0f, -1.0f, 0, -10.0f },
-    { 0x06007830, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x06008178, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x060065E0, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x0600879C, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x06007FFC, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x060080B4, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x060091AC, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x06006F9C, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x06007064, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x06007120, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x06007F38, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x06007D94, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x06006EE0, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x060098EC, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x060090EC, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x0600982C, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x06009274, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x060099A4, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x06009028, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x06007E64, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { 0x06007454, 1.0f, 0.0f, -1.0f, 0, 0.0f },   { 0x06008F6C, 0.0f, 1.0f, 1.0f, 4, -8.0f },
-    { 0x06007D94, 1.0f, 0.0f, -1.0f, 0, -8.0f },  { 0x0600879C, 1.0f, 0.0f, -1.0f, 0, -8.0f },
-    { 0x06006A60, 1.0f, 0.0f, -1.0f, 0, -8.0f },  { 0x06007830, 1.0f, 0.0f, -1.0f, 0, -8.0f }
-};
-
+// os_anime table
+struct_80034EC0_Entry D_80A9A18C[] = { { 0x06008F6C, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
+                                       { 0x06008F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
+                                       { 0x06009B64, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f },
+                                       { 0x06009B64, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
+                                       { 0x06009B64, 0.0f, 2.0f, 2.0f, ANIMMODE_ONCE, 0.0f },
+                                       { 0x060062DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x060062DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+                                       { 0x06005808, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+                                       { 0x06007830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06008178, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x060065E0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x0600879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06007FFC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x060080B4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x060091AC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06006F9C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06007064, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06007120, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06007F38, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06007D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06006EE0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x060098EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x060090EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x0600982C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06009274, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x060099A4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06009028, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06007E64, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06007454, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+                                       { 0x06008F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, -8.0f },
+                                       { 0x06007D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+                                       { 0x0600879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+                                       { 0x06006A60, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+                                       { 0x06007830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f } };
+// os_anime_table_index
 u8 D_80A9A4BC[13][5] = { { 0x08, 0x09, 0x09, 0x0E, 0x0B }, { 0x02, 0x0C, 0x02, 0x0D, 0x0D },
                          { 0x0B, 0x0B, 0x0B, 0x0F, 0x09 }, { 0x00, 0x10, 0x10, 0x11, 0x12 },
                          { 0x13, 0x13, 0x14, 0x0A, 0x09 }, { 0x03, 0x03, 0x03, 0x03, 0x03 },
@@ -113,31 +137,37 @@ u8 D_80A9A4BC[13][5] = { { 0x08, 0x09, 0x09, 0x0E, 0x0B }, { 0x02, 0x0C, 0x02, 0
                          { 0x02, 0x02, 0x02, 0x02, 0x16 }, { 0x0E, 0x0E, 0x0E, 0x0E, 0x0E },
                          { 0x05, 0x05, 0x05, 0x05, 0x05 } };
 typedef struct {
-    u8 unk_0;
-    u8 unk_1;
-    Color_RGBA8 color1;
-    u8 unk_6;
-    Color_RGBA8 color2;
+    u8 headId;
+    u8 bodyId;
+    Color_RGBA8 tunicColor;
+    u8 legsId;
+    Color_RGBA8 bootsColor;
 } struct_80A9A500;
 
+//typedef emum {
+//    KO_DUDE,
+//    KO_GIRL,
+//    KO_FADO
+//} KokiriGender;
+
 struct_80A9A500 D_80A9A500[] = {
-    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-    { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-    { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-    { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-    { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-    { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-    { 0x02, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+    { 0, 0, { 0, 130, 70, 255 }, 0, { 110, 170, 20, 255 } },
+    { 1, 1, { 70, 190, 60, 255 }, 1, { 100, 30, 0, 255 } },
+    { 0, 0, { 0, 130, 70, 255 }, 0, { 110, 170, 20, 255 } },
+    { 0, 0, { 0, 130, 70, 255 }, 0, { 110, 170, 20, 255 } },
+    { 0, 0, { 0, 130, 70, 255 }, 0, { 110, 170, 20, 255 } },
+    { 1, 1, { 70, 190, 60, 255 }, 1, { 100, 30, 0, 255 } },
+    { 1, 1, { 70, 190, 60, 255 }, 1, { 100, 30, 0, 255 } },
+    { 0, 0, { 0, 130, 70, 255 }, 0, { 110, 170, 20, 255 } },
+    { 0, 0, { 0, 130, 70, 255 }, 0, { 110, 170, 20, 255 } },
+    { 1, 1, { 70, 190, 60, 255 }, 1, { 100, 30, 0, 255 } },
+    { 1, 1, { 70, 190, 60, 255 }, 1, { 100, 30, 0, 255 } },
+    { 0, 0, { 0, 130, 70, 255 }, 0, { 110, 170, 20, 255 } },
+    { 2, 1, { 70, 190, 60, 255 }, 1, { 100, 30, 0, 255 } },
 };
 
 typedef struct {
-    s8 unk_0;
+    s8 targetMode;
     f32 unk_4;
     f32 unk_8;
 } struct_80A9A590;
@@ -147,36 +177,36 @@ struct_80A9A590 D_80A9A590[] = { { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6
                                  { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f },
                                  { 6, 30.0f, 180.0f } };
 
-s32 func_80A96DB0(EnKo* this, GlobalContext* globalCtx) {
-    u8 unk_0 = D_80A9A500[this->actor.params & 0xFF].unk_0;
-    u8 unk_1 = D_80A9A500[this->actor.params & 0xFF].unk_1;
-    u8 unk_6 = D_80A9A500[this->actor.params & 0xFF].unk_6;
+s32 EnKo_AreObjectsAvailable(EnKo* this, GlobalContext* globalCtx) {
+    u8 headId = D_80A9A500[ENKO_TYPE].headId;
+    u8 bodyId = D_80A9A500[ENKO_TYPE].bodyId;
+    u8 legsId = D_80A9A500[ENKO_TYPE].legsId;
 
-    this->unk_196 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A17C[unk_6].objectId);
-    if (this->unk_196 < 0) {
+    this->legsObjectBankIdx = Object_GetIndex(&globalCtx->objectCtx, D_80A9A17C[legsId].objectId);
+    if (this->legsObjectBankIdx < 0) {
         return false;
     }
 
-    this->unk_195 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A17C[unk_1].objectId);
-    if (this->unk_195 < 0) {
+    this->bodyObjectBankIdx = Object_GetIndex(&globalCtx->objectCtx, D_80A9A17C[bodyId].objectId);
+    if (this->bodyObjectBankIdx < 0) {
         return false;
     }
 
-    this->unk_194 = Object_GetIndex(&globalCtx->objectCtx, D_80A9A158[unk_0].objectId);
-    if (this->unk_194 < 0) {
+    this->headObjectBankIdx = Object_GetIndex(&globalCtx->objectCtx, D_80A9A158[headId].objectId);
+    if (this->headObjectBankIdx < 0) {
         return false;
     }
     return true;
 }
 
-s32 func_80A96EC4(EnKo* this, GlobalContext* globalCtx) {
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->unk_196)) {
+s32 EnKo_AreObjectsLoaded(EnKo* this, GlobalContext* globalCtx) {
+    if (!Object_IsLoaded(&globalCtx->objectCtx, this->legsObjectBankIdx)) {
         return false;
     }
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->unk_195)) {
+    if (!Object_IsLoaded(&globalCtx->objectCtx, this->bodyObjectBankIdx)) {
         return false;
     }
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->unk_194)) {
+    if (!Object_IsLoaded(&globalCtx->objectCtx, this->headObjectBankIdx)) {
         return false;
     }
     return true;
@@ -190,7 +220,7 @@ s32 EnKo_IsOsAnimeAvailable(EnKo* this, GlobalContext* globalCtx) {
     return true;
 }
 
-s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
+s32 EnKo_IsOsAnimeLoaded(EnKo* this, GlobalContext* globalCtx) {
     if (!Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex)) {
         return false;
     }
@@ -198,8 +228,9 @@ s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
 }
 
 u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
-    switch (thisx->params & 0xFF) {
-        case 12:
+    EnKo* this = THIS;
+    switch (ENKO_TYPE) {
+        case ENKO_TYPE_CHILD_FADO:
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x10DA;
             }
@@ -207,7 +238,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x10D9;
             }
             return ((gSaveContext.infTable[11] & 0x80) != 0) ? 0x10D8 : 0x10D7;
-        case 0:
+        case ENKO_TYPE_CHILD_0:
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1025;
             }
@@ -215,7 +246,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x1042;
             }
             return 0x1004;
-        case 1:
+        case ENKO_TYPE_CHILD_1:
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1023;
             }
@@ -226,12 +257,12 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x1006;
             }
             return 0x1005;
-        case 2:
+        case ENKO_TYPE_CHILD_2:
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1022;
             }
             return 0x1007;
-        case 3:
+        case ENKO_TYPE_CHILD_3:
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1021;
             }
@@ -242,7 +273,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x1009;
             }
             return 0x1008;
-        case 4:
+        case ENKO_TYPE_CHILD_4:
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1097;
             }
@@ -253,7 +284,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x100B;
             }
             return 0x100A;
-        case 5:
+        case ENKO_TYPE_CHILD_5:
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x10B0;
             }
@@ -264,7 +295,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x100D;
             }
             return 0x100C;
-        case 6:
+        case ENKO_TYPE_CHILD_6:
             if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x10B5;
             }
@@ -275,21 +306,21 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x1019;
             }
             return 0x100E;
-        case 7:
+        case ENKO_TYPE_CHILD_7:
             return 0x1035;
-        case 8:
+        case ENKO_TYPE_CHILD_8:
             return 0x1038;
-        case 9:
+        case ENKO_TYPE_CHILD_9:
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x104B;
             }
             return 0x103C;
-        case 10:
+        case ENKO_TYPE_CHILD_10:
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x104C;
             }
             return 0x103D;
-        case 11:
+        case ENKO_TYPE_CHILD_11:
             return 0x103E;
     }
     return 0;
@@ -297,12 +328,13 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
 
 u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = PLAYER;
+    EnKo* this = THIS;
 
-    switch (thisx->params & 0xFF) {
-        case 12:
+    switch (ENKO_TYPE) {
+        case ENKO_TYPE_CHILD_FADO:
             player->exchangeItemId = EXCH_ITEM_ODD_POTION;
             return 0x10B9;
-        case 0:
+        case ENKO_TYPE_CHILD_0:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1072;
             }
@@ -310,12 +342,12 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x1056;
             }
             return 0x1055;
-        case 1:
+        case ENKO_TYPE_CHILD_1:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1073;
             }
             return 0x105A;
-        case 2:
+        case ENKO_TYPE_CHILD_2:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1074;
             }
@@ -323,19 +355,19 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x105E;
             }
             return 0x105D;
-        case 3:
+        case ENKO_TYPE_CHILD_3:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1075;
             }
             return 0x105B;
-        case 4:
+        case ENKO_TYPE_CHILD_4:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1076;
             }
             return 0x105F;
-        case 5:
+        case ENKO_TYPE_CHILD_5:
             return 0x1057;
-        case 6:
+        case ENKO_TYPE_CHILD_6:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1077;
             }
@@ -343,12 +375,12 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x1059;
             }
             return 0x1058;
-        case 7:
+        case ENKO_TYPE_CHILD_7:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1079;
             }
             return 0x104E;
-        case 8:
+        case ENKO_TYPE_CHILD_8:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107A;
             }
@@ -356,17 +388,17 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x1050;
             }
             return 0x104F;
-        case 9:
+        case ENKO_TYPE_CHILD_9:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107B;
             }
             return 0x1051;
-        case 10:
+        case ENKO_TYPE_CHILD_10:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107C;
             }
             return 0x1052;
-        case 11:
+        case ENKO_TYPE_CHILD_11:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107C;
             }
@@ -381,24 +413,18 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
 
 u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction;
+    EnKo* this = THIS;
 
-    if ((thisx->params & 0xFF) == 0
-        || (thisx->params & 0xFF) == 2
-        || (thisx->params & 0xFF) == 3 
-        || (thisx->params & 0xFF) == 4
-        || (thisx->params & 0xFF) == 7
-        || (thisx->params & 0xFF) == 8
-        || (thisx->params & 0xFF) == 11) {
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_0 || ENKO_TYPE == ENKO_TYPE_CHILD_2 || ENKO_TYPE == ENKO_TYPE_CHILD_3 ||
+        ENKO_TYPE == ENKO_TYPE_CHILD_4 || ENKO_TYPE == ENKO_TYPE_CHILD_7 || ENKO_TYPE == ENKO_TYPE_CHILD_8 ||
+        ENKO_TYPE == ENKO_TYPE_CHILD_11) {
         faceReaction = Text_GetFaceReaction(globalCtx, 0x13);
     }
-    if ((thisx->params & 0xFF) == 1 
-        || (thisx->params & 0xFF) == 5 
-        || (thisx->params & 0xFF) == 6 
-        || (thisx->params & 0xFF) == 9
-        || (thisx->params & 0xFF) == 10) {
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_1 || ENKO_TYPE == ENKO_TYPE_CHILD_5 || ENKO_TYPE == ENKO_TYPE_CHILD_6 ||
+        ENKO_TYPE == ENKO_TYPE_CHILD_9 || ENKO_TYPE == ENKO_TYPE_CHILD_10) {
         faceReaction = Text_GetFaceReaction(globalCtx, 0x14);
     }
-    if ((thisx->params & 0xFF) == 12) {
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
         faceReaction = Text_GetFaceReaction(globalCtx, 0x12);
     }
     if (faceReaction != 0) {
@@ -456,12 +482,13 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
             return 0;
         case 3:
             switch (this->actor.textId) {
-            case 0x10B7:
-            case 0x10B8:
-                if (THIS->unk_210 == 0) {
-                    Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    THIS->unk_210 = 1;
-                }
+                case 0x10B7:
+                case 0x10B8:
+                    if (this->unk_210 == 0) {
+                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                               &D_801333E8);
+                        this->unk_210 = 1;
+                    }
             }
             return 1;
         case 4:
@@ -472,9 +499,9 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                         func_8010B720(globalCtx, this->actor.textId);
                         break;
                     case 0x1038:
-                        this->actor.textId = (globalCtx->msgCtx.choiceIndex != 0) ?
-                            (globalCtx->msgCtx.choiceIndex == 1) ?
-                            0x103A : 0x103B : 0x1039;
+                        this->actor.textId = (globalCtx->msgCtx.choiceIndex != 0)
+                                                 ? (globalCtx->msgCtx.choiceIndex == 1) ? 0x103A : 0x103B
+                                                 : 0x1039;
                         func_8010B720(globalCtx, this->actor.textId);
                         break;
                     case 0x103E:
@@ -499,24 +526,25 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
     return 1;
 }
 
-s32 func_80A97B38(EnKo* this) {
-    s32 rv;
+s32 EnKo_GetForestQuestState(EnKo* this) {
+    s32 result;
     if (LINK_IS_CHILD) {
+        // Obtained Zelda's Letter
         if (gSaveContext.eventChkInf[4] & 1) {
-            return 2;
+            return ENKO_FQS_CHILD_SARIA;
         }
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-            return 1;
+            return ENKO_FQS_CHILD_STONE;
         }
-        return 0;
+        return ENKO_FQS_CHILD_START;
     }
 
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-        rv = 4;
+        result = ENKO_FQS_ADULT_SAVED;
     } else {
-        rv = 3;
+        result = ENKO_FQS_ADULT_ENEMY;
     }
-    return rv;
+    return result;
 }
 
 f32 func_80A97BC0(EnKo* this) {
@@ -527,14 +555,11 @@ f32 func_80A97BC0(EnKo* this) {
                               { -10.0f, -10.0f, -20.0f, -30.0f, -30.0f }, { -10.0f, -10.0f, -10.0f, -40.0f, -40.0f },
                               { 0.0f, 0.0f, 0.0f, -10.0f, -20.0f },       { -10.0f, -10.0f, -20.0f, -30.0f, -30.0f },
                               { 0.0f, 0.0f, 0.0f, -20.0f, -20.0f } };
-    s32 iVar3;
 
-    if (LINK_IS_ADULT && (this->actor.params & 0xFF) == 12) {
+    if (LINK_IS_ADULT && ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
         return -20.0f;
     }
-    iVar3 = func_80A97B38(this);
-
-    return D_80A9A62C[this->actor.params & 0xFF][iVar3];
+    return D_80A9A62C[ENKO_TYPE][EnKo_GetForestQuestState(this)];
 }
 
 u8 func_80A97C7C(EnKo* this) {
@@ -543,7 +568,7 @@ u8 func_80A97C7C(EnKo* this) {
                              { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 1, 1, 1, 1, 1 }, { 0, 0, 0, 0, 0 },
                              { 1, 1, 1, 1, 1 } };
 
-    return D_80A9A730[this->actor.params & 0xFF][func_80A97B38(this)];
+    return D_80A9A730[ENKO_TYPE][EnKo_GetForestQuestState(this)];
 }
 
 s32 EnKo_IsWithinTalkAngle(EnKo* this) {
@@ -616,21 +641,21 @@ s32 func_80A97F20(EnKo* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80A97F70(EnKo* this, GlobalContext* globalCtx) {
-    s16 phi_a3;
+    s16 arg3;
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &D_06008F6C) == false) {
             func_80034EC0(&this->skelAnime, D_80A9A18C, 0x1D);
         }
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
-        phi_a3 = 2;
+        arg3 = 2;
     } else {
         if ((this->skelAnime.animation == &D_06007D94) == false) {
             func_80034EC0(&this->skelAnime, D_80A9A18C, 0x1E);
         }
-        phi_a3 = 1;
+        arg3 = 1;
     }
-    func_80034A14(&this->actor, &this->unk_1E8, 5, phi_a3);
+    func_80034A14(&this->actor, &this->unk_1E8, 5, arg3);
     return EnKo_IsWithinTalkAngle(this);
 }
 
@@ -678,157 +703,157 @@ s32 func_80A98174(EnKo* this, GlobalContext* globalCtx) {
     return EnKo_IsWithinTalkAngle(this);
 }
 
-s32 func_80A98254(EnKo* this, GlobalContext* globalCtx) {
-    switch (this->actor.params & 0xFF) {
-        case 0:
+s32 EnKo_ChildStart(EnKo* this, GlobalContext* globalCtx) {
+    switch (ENKO_TYPE) {
+        case ENKO_TYPE_CHILD_0:
             return func_80A97D68(this, globalCtx);
-        case 1:
+        case ENKO_TYPE_CHILD_1:
             return func_80A97E18(this, globalCtx);
-        case 2:
+        case ENKO_TYPE_CHILD_2:
             return func_80A98034(this, globalCtx);
-        case 3:
+        case ENKO_TYPE_CHILD_3:
             return func_80A97E18(this, globalCtx);
-        case 4:
+        case ENKO_TYPE_CHILD_4:
             return func_80A97F70(this, globalCtx);
-        case 5:
+        case ENKO_TYPE_CHILD_5:
             return func_80A97EB0(this, globalCtx);
-        case 6:
+        case ENKO_TYPE_CHILD_6:
             return func_80A97F20(this, globalCtx);
-        case 7:
+        case ENKO_TYPE_CHILD_7:
             return func_80A97EB0(this, globalCtx);
-        case 8:
+        case ENKO_TYPE_CHILD_8:
             return func_80A97EB0(this, globalCtx);
-        case 9:
+        case ENKO_TYPE_CHILD_9:
             return func_80A97EB0(this, globalCtx);
-        case 10:
+        case ENKO_TYPE_CHILD_10:
             return func_80A97E18(this, globalCtx);
-        case 11:
+        case ENKO_TYPE_CHILD_11:
             return func_80A97EB0(this, globalCtx);
-        case 12:
+        case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, globalCtx);
     }
 }
 
-s32 func_80A9835C(EnKo* this, GlobalContext* globalCtx) {
-    switch (this->actor.params & 0xFF) {
-        case 0:
+s32 EnKo_ChildStone(EnKo* this, GlobalContext* globalCtx) {
+    switch (ENKO_TYPE) {
+        case ENKO_TYPE_CHILD_0:
             return func_80A98124(this, globalCtx);
-        case 1:
+        case ENKO_TYPE_CHILD_1:
             return func_80A98124(this, globalCtx);
-        case 2:
+        case ENKO_TYPE_CHILD_2:
             return func_80A98034(this, globalCtx);
-        case 3:
+        case ENKO_TYPE_CHILD_3:
             return func_80A97EB0(this, globalCtx);
-        case 4:
+        case ENKO_TYPE_CHILD_4:
             return func_80A97F70(this, globalCtx);
-        case 5:
+        case ENKO_TYPE_CHILD_5:
             return func_80A97EB0(this, globalCtx);
-        case 6:
+        case ENKO_TYPE_CHILD_6:
             return func_80A97F20(this, globalCtx);
-        case 7:
+        case ENKO_TYPE_CHILD_7:
             return func_80A97EB0(this, globalCtx);
-        case 8:
+        case ENKO_TYPE_CHILD_8:
             return func_80A97EB0(this, globalCtx);
-        case 9:
+        case ENKO_TYPE_CHILD_9:
             return func_80A97EB0(this, globalCtx);
-        case 10:
+        case ENKO_TYPE_CHILD_10:
             return func_80A97E18(this, globalCtx);
-        case 11:
+        case ENKO_TYPE_CHILD_11:
             return func_80A97EB0(this, globalCtx);
-        case 12:
+        case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, globalCtx);
     }
 }
 
-s32 func_80A98464(EnKo* this, GlobalContext* globalCtx) {
-    switch (this->actor.params & 0xFF) {
-        case 0:
+s32 EnKo_ChildSaria(EnKo* this, GlobalContext* globalCtx) {
+    switch (ENKO_TYPE) {
+        case ENKO_TYPE_CHILD_0:
             return func_80A98124(this, globalCtx);
-        case 1:
+        case ENKO_TYPE_CHILD_1:
             return func_80A98124(this, globalCtx);
-        case 2:
+        case ENKO_TYPE_CHILD_2:
             return func_80A98034(this, globalCtx);
-        case 3:
+        case ENKO_TYPE_CHILD_3:
             return func_80A97EB0(this, globalCtx);
-        case 4:
+        case ENKO_TYPE_CHILD_4:
             return func_80A98174(this, globalCtx);
-        case 5:
+        case ENKO_TYPE_CHILD_5:
             return func_80A97EB0(this, globalCtx);
-        case 6:
+        case ENKO_TYPE_CHILD_6:
             return func_80A97F20(this, globalCtx);
-        case 7:
+        case ENKO_TYPE_CHILD_7:
             return func_80A97EB0(this, globalCtx);
-        case 8:
+        case ENKO_TYPE_CHILD_8:
             return func_80A97EB0(this, globalCtx);
-        case 9:
+        case ENKO_TYPE_CHILD_9:
             return func_80A97EB0(this, globalCtx);
-        case 10:
+        case ENKO_TYPE_CHILD_10:
             return func_80A97E18(this, globalCtx);
-        case 11:
+        case ENKO_TYPE_CHILD_11:
             return func_80A97EB0(this, globalCtx);
-        case 12:
+        case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, globalCtx);
     }
 }
 
-s32 func_80A9856C(EnKo* this, GlobalContext* globalCtx) {
-    switch (this->actor.params & 0xFF) {
-        case 0:
+s32 EnKo_AdultEnemy(EnKo* this, GlobalContext* globalCtx) {
+    switch (ENKO_TYPE) {
+        case ENKO_TYPE_CHILD_0:
             return func_80A97EB0(this, globalCtx);
-        case 1:
+        case ENKO_TYPE_CHILD_1:
             return func_80A98124(this, globalCtx);
-        case 2:
+        case ENKO_TYPE_CHILD_2:
             return func_80A97EB0(this, globalCtx);
-        case 3:
+        case ENKO_TYPE_CHILD_3:
             return func_80A97EB0(this, globalCtx);
-        case 4:
+        case ENKO_TYPE_CHILD_4:
             return func_80A97EB0(this, globalCtx);
-        case 5:
+        case ENKO_TYPE_CHILD_5:
             return func_80A97EB0(this, globalCtx);
-        case 6:
+        case ENKO_TYPE_CHILD_6:
             return func_80A97F20(this, globalCtx);
-        case 7:
+        case ENKO_TYPE_CHILD_7:
             return func_80A97EB0(this, globalCtx);
-        case 8:
+        case ENKO_TYPE_CHILD_8:
             return func_80A97EB0(this, globalCtx);
-        case 9:
+        case ENKO_TYPE_CHILD_9:
             return func_80A97EB0(this, globalCtx);
-        case 10:
+        case ENKO_TYPE_CHILD_10:
             return func_80A97E18(this, globalCtx);
-        case 11:
+        case ENKO_TYPE_CHILD_11:
             return func_80A97EB0(this, globalCtx);
-        case 12:
+        case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, globalCtx);
     }
 }
 
-s32 func_80A98674(EnKo* this, GlobalContext* globalCtx) {
-    switch (this->actor.params & 0xFF) {
-        case 0:
+s32 EnKo_AdultSaved(EnKo* this, GlobalContext* globalCtx) {
+    switch (ENKO_TYPE) {
+        case ENKO_TYPE_CHILD_0:
             return func_80A98034(this, globalCtx);
-        case 1:
+        case ENKO_TYPE_CHILD_1:
             return func_80A97E18(this, globalCtx);
-        case 2:
+        case ENKO_TYPE_CHILD_2:
             return func_80A97E18(this, globalCtx);
-        case 3:
+        case ENKO_TYPE_CHILD_3:
             return func_80A97EB0(this, globalCtx);
-        case 4:
+        case ENKO_TYPE_CHILD_4:
             return func_80A97E18(this, globalCtx);
-        case 5:
+        case ENKO_TYPE_CHILD_5:
             return func_80A97EB0(this, globalCtx);
-        case 6:
+        case ENKO_TYPE_CHILD_6:
             return func_80A97F20(this, globalCtx);
-        case 7:
+        case ENKO_TYPE_CHILD_7:
             return func_80A97EB0(this, globalCtx);
-        case 8:
+        case ENKO_TYPE_CHILD_8:
             return func_80A97EB0(this, globalCtx);
-        case 9:
+        case ENKO_TYPE_CHILD_9:
             return func_80A97EB0(this, globalCtx);
-        case 10:
+        case ENKO_TYPE_CHILD_10:
             return func_80A97E18(this, globalCtx);
-        case 11:
+        case ENKO_TYPE_CHILD_11:
             return func_80A97EB0(this, globalCtx);
-        case 12:
+        case ENKO_TYPE_CHILD_FADO:
             return func_80A97E18(this, globalCtx);
     }
 }
@@ -838,7 +863,7 @@ void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
         this->unk_1E8.unk_18 = globalCtx->view.eye;
         this->unk_1E8.unk_14 = 40.0f;
-        if ((this->actor.params & 0xFF) != 0) {
+        if (ENKO_TYPE != ENKO_TYPE_CHILD_0) {
             func_80034A14(&this->actor, &this->unk_1E8, 2, 2);
         }
     } else {
@@ -849,10 +874,10 @@ void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
         }
     }
     if (func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, this->unk_21C, func_80A97610, func_80A97738) &&
-        (this->actor.params & 0xFF) == 12 && globalCtx->sceneNum == SCENE_SPOT10) {
+        ENKO_TYPE == ENKO_TYPE_CHILD_FADO && globalCtx->sceneNum == SCENE_SPOT10) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
-        if (func_8002F368(globalCtx) == 9) {
+        if (func_8002F368(globalCtx) == ENKO_TYPE_CHILD_9) {
             this->actor.textId = (gSaveContext.infTable[11] & 0x1000) ? 0x10B8 : 0x10B7;
             this->unk_210 = 0;
         }
@@ -860,10 +885,11 @@ void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_80A98934(EnKo* this, GlobalContext* globalCtx) {
+// Checks if the Kokiri should spawn based on quest progress
+s32 EnKo_CanSpawn(EnKo* this, GlobalContext* globalCtx) {
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT04:
-            if ((this->actor.params & 0xFF) >= 7 && (this->actor.params & 0xFF) != 12) {
+            if (ENKO_TYPE >= ENKO_TYPE_CHILD_7 && ENKO_TYPE != ENKO_TYPE_CHILD_FADO) {
                 return false;
             }
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST) && LINK_IS_ADULT) {
@@ -871,28 +897,28 @@ s32 func_80A98934(EnKo* this, GlobalContext* globalCtx) {
             }
             return true;
         case SCENE_KOKIRI_HOME:
-            if ((this->actor.params & 0xFF) != 7 && (this->actor.params & 0xFF) != 8 &&
-                (this->actor.params & 0xFF) != 11) {
+            if (ENKO_TYPE != ENKO_TYPE_CHILD_7 && ENKO_TYPE != ENKO_TYPE_CHILD_8 &&
+                ENKO_TYPE != ENKO_TYPE_CHILD_11) {
                 return false;
             } else {
                 return true;
             }
         case SCENE_KOKIRI_HOME3:
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-                if ((this->actor.params & 0xFF) != 1 && (this->actor.params & 0xFF) != 9) {
+                if (ENKO_TYPE != ENKO_TYPE_CHILD_1 && ENKO_TYPE != ENKO_TYPE_CHILD_9) {
                     return false;
                 } else {
                     return true;
                 }
             }
-            if ((this->actor.params & 0xFF) != 9) {
+            if (ENKO_TYPE != ENKO_TYPE_CHILD_9) {
                 return false;
             } else {
                 return true;
             }
         case SCENE_KOKIRI_HOME4:
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-                if ((this->actor.params & 0xFF) != 0 && (this->actor.params & 0xFF) != 4) {
+                if (ENKO_TYPE != ENKO_TYPE_CHILD_0 && ENKO_TYPE != ENKO_TYPE_CHILD_4) {
                     return false;
                 } else {
                     return true;
@@ -902,7 +928,7 @@ s32 func_80A98934(EnKo* this, GlobalContext* globalCtx) {
             }
         case SCENE_KOKIRI_HOME5:
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-                if ((this->actor.params & 0xFF) != 6) {
+                if (ENKO_TYPE != ENKO_TYPE_CHILD_6) {
                     return false;
                 } else {
                     return true;
@@ -913,12 +939,12 @@ s32 func_80A98934(EnKo* this, GlobalContext* globalCtx) {
 
         case SCENE_KOKIRI_SHOP:
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-                if ((this->actor.params & 0xFF) != 5 && (this->actor.params & 0xFF) != 10) {
+                if (ENKO_TYPE != ENKO_TYPE_CHILD_5 && ENKO_TYPE != ENKO_TYPE_CHILD_10) {
                     return false;
                 } else {
                     return true;
                 }
-            } else if ((this->actor.params & 0xFF) != 10) {
+            } else if (ENKO_TYPE != ENKO_TYPE_CHILD_10) {
                 return false;
             } else {
                 return true;
@@ -931,90 +957,88 @@ s32 func_80A98934(EnKo* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A98C18(EnKo* this) {
-    void** temp_v1;
-    s32 phi_v1;
+void EnKo_Blink(EnKo* this) {
+    void** eyeTextures;
+    s32 headId;
 
-    if (DECR(this->unk_214) == 0) {
-        phi_v1 = D_80A9A500[this->actor.params & 0xFF].unk_0;
-        this->unk_216++;
-        temp_v1 = D_80A9A158[phi_v1].unk_8;
-        if (temp_v1 != NULL && temp_v1[this->unk_216] == NULL) {
-            this->unk_214 = Rand_S16Offset(30, 30);
-            this->unk_216 = 0;
+    if (DECR(this->blinkTimer) == 0) {
+        headId = D_80A9A500[ENKO_TYPE].headId;
+        this->eyeTextureIndex++;
+        eyeTextures = D_80A9A158[headId].eyeTextures;
+        if (eyeTextures != NULL && eyeTextures[this->eyeTextureIndex] == NULL) {
+            this->blinkTimer = Rand_S16Offset(30, 30);
+            this->eyeTextureIndex = 0;
         }
     }
 }
 
 void func_80A98CD8(EnKo* this) {
-    s32 type = this->actor.params & 0xFF;
-    struct_80A9A590* temp_v1;
+    s32 type = ENKO_TYPE;
+    struct_80A9A590* temp_v1 = &D_80A9A590[type];
 
-    temp_v1 = &D_80A9A590[type];
-    this->actor.targetMode = temp_v1->unk_0;
+    this->actor.targetMode = temp_v1->targetMode;
     this->unk_21C = temp_v1->unk_4;
     this->unk_21C += this->collider.dim.radius;
     this->unk_218 = temp_v1->unk_8;
 }
 
-s32 func_80A98D2C(EnKo* this) {
+// Used to fetch actor animation?
+s32 EnKo_GetForestQuestState2(EnKo* this) {
     if (LINK_IS_ADULT) {
-        return (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) ? 4 : 3;
+        return (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) ? ENKO_FQS_ADULT_SAVED : ENKO_FQS_ADULT_ENEMY;
     }
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-        return (gSaveContext.eventChkInf[4] & 1) ? 2 : 1;
+        return (gSaveContext.eventChkInf[4] & 1) ? ENKO_FQS_CHILD_SARIA : ENKO_FQS_CHILD_STONE;
     }
-    return 0;
+    return ENKO_FQS_CHILD_START;
 }
 
 void func_80A98DB4(EnKo* this, GlobalContext* globalCtx) {
     f32 dist;
 
     if ((globalCtx->sceneNum != SCENE_SPOT10) && (globalCtx->sceneNum != SCENE_SPOT04)) {
-        this->unk_220 = 255.0f;
+        this->modelAlpha = 255.0f;
         return;
     }
     if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
         dist = Math_Vec3f_DistXYZ(&this->actor.world.pos, &globalCtx->view.eye) * 0.25f;
-    }
-    else {
+    } else {
         dist = this->actor.xzDistToPlayer;
     }
 
-    Math_SmoothStepToF(&this->unk_220, (this->unk_218 < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
-    if (this->unk_220 < 10.0f) {
+    Math_SmoothStepToF(&this->modelAlpha, (this->unk_218 < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
+    if (this->modelAlpha < 10.0f) {
         this->actor.flags = this->actor.flags & ~1;
-    }
-    else {
+    } else {
         this->actor.flags = this->actor.flags | 1;
     }
 }
 
 s32 func_80A98ECC(EnKo* this, GlobalContext* globalCtx) {
-    if (globalCtx->sceneNum == SCENE_SPOT10 && (this->actor.params & 0xFF) == 12) {
+    if (globalCtx->sceneNum == SCENE_SPOT10 && ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
         return func_80A97E18(this, globalCtx);
     }
-    switch (func_80A97B38(this)) {
-        case 0:
-            return func_80A98254(this, globalCtx);
-        case 1:
-            return func_80A9835C(this, globalCtx);
-        case 2:
-            return func_80A98464(this, globalCtx);
-        case 3:
-            return func_80A9856C(this, globalCtx);
-        case 4:
-            return func_80A98674(this, globalCtx);
+    switch (EnKo_GetForestQuestState(this)) {
+        case ENKO_FQS_CHILD_START:
+            return EnKo_ChildStart(this, globalCtx);
+        case ENKO_FQS_CHILD_STONE:
+            return EnKo_ChildStone(this, globalCtx);
+        case ENKO_FQS_CHILD_SARIA:
+            return EnKo_ChildSaria(this, globalCtx);
+        case ENKO_FQS_ADULT_ENEMY:
+            return EnKo_AdultEnemy(this, globalCtx);
+        case ENKO_FQS_ADULT_SAVED:
+            return EnKo_AdultSaved(this, globalCtx);
     }
 }
 
 void EnKo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKo* this = THIS;
 
-    if ((thisx->params & 0xFF) >= 13 || !EnKo_IsOsAnimeAvailable(this, globalCtx) || !func_80A96DB0(this, globalCtx)) {
+    if (ENKO_TYPE >= ENKO_TYPE_CHILD_MAX || !EnKo_IsOsAnimeAvailable(this, globalCtx) || !EnKo_AreObjectsAvailable(this, globalCtx)) {
         Actor_Kill(thisx);
     }
-    if (!func_80A98934(this, globalCtx)) {
+    if (!EnKo_CanSpawn(this, globalCtx)) {
         Actor_Kill(thisx);
     }
     this->actionFunc = func_80A99048;
@@ -1026,18 +1050,18 @@ void EnKo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
-    if (func_80A96F94(this, globalCtx) && func_80A96EC4(this, globalCtx)) {
+    if (EnKo_IsOsAnimeLoaded(this, globalCtx) && EnKo_AreObjectsLoaded(this, globalCtx)) {
         this->actor.flags &= ~0x10;
-        this->actor.objBankIndex = this->unk_196;
+        this->actor.objBankIndex = this->legsObjectBankIdx;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, D_80A9A17C[D_80A9A500[this->actor.params & 0xFF].unk_6].unk_4,
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, D_80A9A17C[D_80A9A500[ENKO_TYPE].legsId].flexSkeletonHeader,
                            NULL, this->limbDrawTable, this->transitionDrawTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        if ((this->actor.params & 0xFF) == 7) {
+        if (ENKO_TYPE == ENKO_TYPE_CHILD_7) {
             // Angle Z
             osSyncPrintf(VT_BGCOL(BLUE) "  アングルＺ->(%d)\n" VT_RST, this->actor.shape.rot.z);
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
@@ -1050,20 +1074,20 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
                 return;
             }
         }
-        if ((this->actor.params & 0xFF) == 5) {
+        if (ENKO_TYPE == ENKO_TYPE_CHILD_5) {
             this->collider.base.ocFlags1 |= 0x40;
         }
-        this->unk_212 = func_80A98D2C(this);
-        func_80034EC0(&this->skelAnime, D_80A9A18C, D_80A9A4BC[this->actor.params & 0xFF][this->unk_212]);
+        this->forestQuestState = EnKo_GetForestQuestState2(this);
+        func_80034EC0(&this->skelAnime, D_80A9A18C, D_80A9A4BC[ENKO_TYPE][this->forestQuestState]);
         Actor_SetScale(&this->actor, 0.01f);
         func_80A98CD8(this);
-        this->unk_220 = 0.0f;
-        this->path = Path_GetByIndex(globalCtx, (this->actor.params & 0xFF00) >> 8, 0xFF);
+        this->modelAlpha = 0.0f;
+        this->path = Path_GetByIndex(globalCtx, ENKO_PATH, 0xFF);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
-        if ((this->actor.params & 0xFF) == 3) {
+        if (ENKO_TYPE == ENKO_TYPE_CHILD_3) {
             if (!CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-                this->collider.dim.height = this->collider.dim.height + 200;
+                this->collider.dim.height += 200;
                 this->actionFunc = func_80A995CC;
                 return;
             }
@@ -1074,10 +1098,10 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
-    if ((this->actor.params & 0xFF) == 12 && this->unk_1E8.unk_00 != 0 && this->actor.textId == 0x10B9) {
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 != 0 && this->actor.textId == 0x10B9) {
         func_80034EC0(&this->skelAnime, D_80A9A18C, 7);
         this->actionFunc = func_80A99438;
-    } else if ((this->actor.params & 0xFF) == 12 && this->unk_1E8.unk_00 == 2) {
+    } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
         this->actionFunc = func_80A99504;
         globalCtx->msgCtx.unk_E3E7 = 4;
         globalCtx->msgCtx.msgMode = 0x36;
@@ -1085,7 +1109,7 @@ void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A99438(EnKo* this, GlobalContext* globalCtx) {
-    if ((this->actor.params & 0xFF) == 12 && this->unk_1E8.unk_00 == 2) {
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
         func_80034EC0(&this->skelAnime, D_80A9A18C, 6);
         this->actionFunc = func_80A99504;
         globalCtx->msgCtx.unk_E3E7 = 4;
@@ -1131,14 +1155,11 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
         temp_f2 = fabsf((f32)this->actor.yawTowardsPlayer - homeYawToPlayer) * 0.001f * 3.0f;
         if (temp_f2 < 1.0f) {
             this->skelAnime.playSpeed = 1.0f;
-        }
-        else {
+        } else {
             phi_f0 = CLAMP_MAX(temp_f2, 3.0f);
             this->skelAnime.playSpeed = phi_f0;
         }
-    }
-    else
-    {
+    } else {
         this->skelAnime.playSpeed = 1.0f;
     }
 }
@@ -1149,11 +1170,11 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->actionFunc != func_80A99048) {
-        if ((s32)this->unk_220 != 0) {
+        if ((s32)this->modelAlpha != 0) {
             gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
             SkelAnime_Update(&this->skelAnime);
             func_80A98DB4(this, globalCtx);
-            func_80A98C18(this);
+            EnKo_Blink(this);
         } else {
             func_80A98DB4(this, globalCtx);
         }
@@ -1174,26 +1195,25 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
 }
 
-s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                  Gfx** gfx) {
+s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+                          Gfx** gfx) {
     EnKo* this = THIS;
-    void* temp_a2;
+    void* eyeTexture;
     Vec3s sp40;
-    u8 test;
+    u8 headId;
     s32 pad;
 
     if (limbIndex == 15) {
-        gSPSegment((*gfx)++, 0x06, globalCtx->objectCtx.status[this->unk_194].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_194].segment);
+        gSPSegment((*gfx)++, 0x06, globalCtx->objectCtx.status[this->headObjectBankIdx].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->headObjectBankIdx].segment);
 
-        test = D_80A9A500[this->actor.params & 0xFF].unk_0;
-        *dList = D_80A9A158[test].gfx;
-        if (D_80A9A158[test].unk_8 != NULL) {
-
-            temp_a2 = D_80A9A158[test].unk_8[this->unk_216];
-            gSPSegment((*gfx)++, 0x0A, SEGMENTED_TO_VIRTUAL(temp_a2));
+        headId = D_80A9A500[ENKO_TYPE].headId;
+        *dList = D_80A9A158[headId].dList;
+        if (D_80A9A158[headId].eyeTextures != NULL) {
+            eyeTexture = D_80A9A158[headId].eyeTextures[this->eyeTextureIndex];
+            gSPSegment((*gfx)++, 0x0A, SEGMENTED_TO_VIRTUAL(eyeTexture));
         }
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_196].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->legsObjectBankIdx].segment);
     }
     if (limbIndex == 8) {
         sp40 = this->unk_1E8.unk_0E;
@@ -1215,14 +1235,14 @@ s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 // Post limb draw
-void func_80A99BC4(GlobalContext* globalCtx2, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
+void EnKo_PostLimbDraw(GlobalContext* globalCtx2, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     GlobalContext* globalCtx = globalCtx2;
     EnKo* this = THIS;
     Vec3f D_80A9A774 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 7) {
-        gSPSegment((*gfx)++, 0x06, globalCtx->objectCtx.status[this->unk_195].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_195].segment);
+        gSPSegment((*gfx)++, 0x06, globalCtx->objectCtx.status[this->bodyObjectBankIdx].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->bodyObjectBankIdx].segment);
     }
     if (limbIndex == 15) {
         Matrix_MultVec3f(&D_80A9A774, &this->actor.focus.pos);
@@ -1240,23 +1260,26 @@ Gfx* func_80A99C94(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 
 void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKo* this = THIS;
-    Color_RGBA8 color1 = D_80A9A500[this->actor.params & 0xFF].color1;
-    Color_RGBA8 color2 = D_80A9A500[this->actor.params & 0xFF].color2;
+    Color_RGBA8 tunicColor = D_80A9A500[ENKO_TYPE].tunicColor;
+    Color_RGBA8 bootsColor = D_80A9A500[ENKO_TYPE].bootsColor;
 
-    this->actor.shape.shadowAlpha = this->unk_220;
+    this->actor.shape.shadowAlpha = this->modelAlpha;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ko.c", 2095);
-    if ((s16)this->unk_220 == 255) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, color1.r, color1.g, color1.b, 255));
-        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, color2.r, color2.g, color2.b, 255));
-        func_80034BA0(globalCtx, &this->skelAnime, func_80A99864, func_80A99BC4, &this->actor, this->unk_220);
-    }
-    else if ((s16)this->unk_220 != 0) {
-        color1.a = this->unk_220;
-        color2.a = this->unk_220;
-        gSPSegment(POLY_XLU_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, color1.r, color1.g, color1.b, color1.a));
-        gSPSegment(POLY_XLU_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, color2.r, color2.g, color2.b, color2.a));
-        func_80034CC4(globalCtx, &this->skelAnime, func_80A99864, func_80A99BC4, &this->actor, this->unk_220);
+    if ((s16)this->modelAlpha == 255) {
+        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A99C94(globalCtx->state.gfxCtx, tunicColor.r, tunicColor.g, tunicColor.b, 255));
+        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A99C94(globalCtx->state.gfxCtx, bootsColor.r, bootsColor.g, bootsColor.b, 255));
+        func_80034BA0(globalCtx, &this->skelAnime, EnKo_OverrideLimbDraw, EnKo_PostLimbDraw, &this->actor,
+                      this->modelAlpha);
+    } else if ((s16)this->modelAlpha != 0) {
+        tunicColor.a = this->modelAlpha;
+        bootsColor.a = this->modelAlpha;
+        gSPSegment(POLY_XLU_DISP++, 0x08,
+                   func_80A99C94(globalCtx->state.gfxCtx, tunicColor.r, tunicColor.g, tunicColor.b, tunicColor.a));
+        gSPSegment(POLY_XLU_DISP++, 0x09,
+                   func_80A99C94(globalCtx->state.gfxCtx, bootsColor.r, bootsColor.g, bootsColor.b, bootsColor.a));
+        func_80034CC4(globalCtx, &this->skelAnime, EnKo_OverrideLimbDraw, EnKo_PostLimbDraw, &this->actor,
+                      this->modelAlpha);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ko.c", 2136);
 }

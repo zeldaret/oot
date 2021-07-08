@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_km1" Segment="6">
+        <Skeleton Name="object_km1_Skel_0000F0" Type="Flex" LimbType="Standard" Offset="0xF0" />
+      
+        <DList Name="object_km1_DL_001890" Offset="0x1890" />
+    </File>
+</Root>
