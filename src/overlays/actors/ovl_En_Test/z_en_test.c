@@ -81,10 +81,67 @@ extern AnimationHeader D_06009A90;
 extern AnimationHeader D_0600C438;
 
 static u8 sJointCopyFlags[] = {
-    0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    false, // STALFOS_LIMB_NONE
+    false, // STALFOS_LIMB_ROOT
+    false, // STALFOS_LIMB_UPPERBODY_ROOT
+    false, // STALFOS_LIMB_LUMBARVERTEBRA2_ROOT
+    true,  // STALFOS_LIMB_LUMBARVERTEBRA1_ROOT
+    true,  // STALFOS_LIMB_CERVICALVERTEBRA2_ROOT
+    true,  // STALFOS_LIMB_HEAD_ROOT
+    true,  // STALFOS_LIMB_7
+    true,  // STALFOS_LIMB_8
+    true,  // STALFOS_LIMB_JAW_ROOT
+    true,  // STALFOS_LIMB_JAW
+    true,  // STALFOS_LIMB_HEAD
+    true,  // STALFOS_LIMB_CERVICALVERTEBRA1
+    true,  // STALFOS_LIMB_CERVICALVERTEBRA2
+    true,  // STALFOS_LIMB_LUMBARVERTEBRA1
+    true,  // STALFOS_LIMB_RIBCAGE
+    true,  // STALFOS_LIMB_SHOULDER_R_ROOT
+    true,  // STALFOS_LIMB_SHOULDER_ARMOR_R_ROOT
+    true,  // STALFOS_LIMB_SHOULDER_ARMOR_R
+    true,  // STALFOS_LIMB_SHOULDER_L_ROOT
+    true,  // STALFOS_LIMB_SHOULDER_ARMOR_L_ROOT
+    true,  // STALFOS_LIMB_SHOULDER_ARMOR_L
+    true,  // STALFOS_LIMB_ARM_L_ROOT
+    true,  // STALFOS_LIMB_HUMERUS_L_ROOT
+    true,  // STALFOS_LIMB_FOREARM_L_ROOT
+    true,  // STALFOS_LIMB_HAND_L_ROOT
+    true,  // STALFOS_LIMB_HAND_L
+    true,  // STALFOS_LIMB_SHIELD
+    true,  // STALFOS_LIMB_FOREARM_L
+    true,  // STALFOS_LIMB_HUMERUS_L
+    true,  // STALFOS_LIMB_ARM_R_ROOT
+    true,  // STALFOS_LIMB_HUMERUS_R_ROOT
+    true,  // STALFOS_LIMB_FOREARM_R_ROOT
+    true,  // STALFOS_LIMB_HAND_R_ROOT
+    true,  // STALFOS_LIMB_SWORD
+    true,  // STALFOS_LIMB_HAND_R
+    true,  // STALFOS_LIMB_FOREARM_R
+    true,  // STALFOS_LIMB_HUMERUS_R
+    true,  // STALFOS_LIMB_LUMBARVERTEBRA2
+    false, // STALFOS_LIMB_LOWERBODY_ROOT
+    false, // STALFOS_LIMB_WAIST_ROOT
+    false, // STALFOS_LIMB_LEGS_ROOT
+    false, // STALFOS_LIMB_LEG_L_ROOT
+    false, // STALFOS_LIMB_FEMUR_L_ROOT
+    false, // STALFOS_LIMB_LOWERLEG_L_ROOT
+    false, // STALFOS_LIMB_ANKLE_L_ROOT
+    false, // STALFOS_LIMB_ANKLE_L
+    false, // STALFOS_LIMB_FOOT_L_ROOT
+    false, // STALFOS_LIMB_FOOT_L
+    false, // STALFOS_LIMB_LOWERLEG_L
+    false, // STALFOS_LIMB_FEMUR_L
+    false, // STALFOS_LIMB_LEG_R_ROOT
+    false, // STALFOS_LIMB_FEMUR_R_ROOT
+    false, // STALFOS_LIMB_LOWERLEG_R_ROOT
+    false, // STALFOS_LIMB_ANKLE_R_ROOT
+    false, // STALFOS_LIMB_ANKLE_R
+    false, // STALFOS_LIMB_FOOT_R_RROT
+    false, // STALFOS_LIMB_FOOT_R
+    false, // STALFOS_LIMB_LOWERLEG_R
+    false, // STALFOS_LIMB_FEMUR_R
+    false, // STALFOS_LIMB_WAIST
 };
 
 const ActorInit En_Test_InitVars = {
