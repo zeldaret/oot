@@ -8,46 +8,6 @@ struct EnTest;
 
 typedef void (*EnTestActionFunc)(struct EnTest*, GlobalContext*);
 
-typedef struct EnTest {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ Vec3s bodyPartsPos[10];
-    /* 0x0188 */ SkelAnime skelAnime_188;
-    /* 0x01CC */ Vec3s limbDrawTable_1CC[61];
-    /* 0x033A */ Vec3s transitionTbl_16E[61];
-    /* 0x04A8 */ SkelAnime skelAnime_4A8;
-    /* 0x04EC */ Vec3s limbDrawTable_4EC[61];
-    /* 0x065A */ Vec3s transitionTbl_65A[61];
-    /* 0x07C8 */ u8 unk_7C8;
-    /* 0x07CC */ EnTestActionFunc actionFunc;
-    /* 0x07D0 */ s16 unk_7D0;
-    /* 0x07D2 */ s16 unk_7D2;
-    /* 0x07D4 */ s16 unk_7D4;
-    /* 0x07D6 */ char unk_7D6[0x2];
-    /* 0x07D8 */ s16 unk_7D8;
-    /* 0x07DA */ char unk_7DA[0x2];
-    /* 0x07DC */ u8 unk_7DC;
-    /* 0x07DD */ char unk_7DD[0x1];
-    /* 0x07DE */ u8 unk_7DE;
-    /* 0x07E0 */ s16 iceTimer;
-    /* 0x07E2 */ u8 unk_7E2;
-    /* 0x07E4 */ s32 unk_7E4;
-    /* 0x07E8 */ s32 timer;
-    /* 0x07EC */ f32 unk_7EC;
-    /* 0x07F0 */ BodyBreak bodyBreak;
-    /* 0x0808 */ s8 atOn;
-    /* 0x080C */ s32 effectIndex;
-    /* 0x0810 */ ColliderCylinder collider;
-    /* 0x085C */ ColliderQuad swordCollider;
-    /* 0x08DC */ ColliderCylinder shieldCollider;
-} EnTest; // size = 0x0928
-
-typedef enum {
-    /* 0 */ STALFOS_INVISIBLE,
-    /* 1 */ STALFOS_1,
-    /* 2 */ STALFOS_2,
-    /* 3 */ STALFOS_CEILING
-} StalfosType;
-
 typedef enum {
     /* 0x00 */ STALFOS_LIMB_NONE,
     /* 0x01 */ STALFOS_LIMB_ROOT,
@@ -109,8 +69,45 @@ typedef enum {
     /* 0x39 */ STALFOS_LIMB_FOOT_R,
     /* 0x3A */ STALFOS_LIMB_LOWERLEG_R,
     /* 0x3B */ STALFOS_LIMB_FEMUR_R,
-    /* 0x3C */ STALFOS_LIMB_WAIST
+    /* 0x3C */ STALFOS_LIMB_WAIST,
+    /* 0x3D */ STALFOS_LIMB_MAX
 } StalfosLimb;
+
+typedef struct EnTest {
+    /* 0x000 */ Actor actor;
+    /* 0x14C */ Vec3s bodyPartsPos[10];
+    /* 0x188 */ SkelAnime skelAnime;
+    /* 0x1CC */ Vec3s jointTable[STALFOS_LIMB_MAX];
+    /* 0x33A */ Vec3s morphTable[STALFOS_LIMB_MAX];
+    /* 0x4A8 */ SkelAnime upperSkelanime;
+    /* 0x4EC */ Vec3s upperJointTable[STALFOS_LIMB_MAX];
+    /* 0x65A */ Vec3s upperMorphTable[STALFOS_LIMB_MAX];
+    /* 0x7C8 */ u8 unk_7C8;
+    /* 0x7CC */ EnTestActionFunc actionFunc;
+    /* 0x7D0 */ Vec3s headRot;
+    /* 0x7D6 */ Vec3s headRotOffset;
+    /* 0x7DC */ u8 unk_7DC;
+    /* 0x7DD */ char unk_7DD[0x1];
+    /* 0x7DE */ u8 unk_7DE;
+    /* 0x7E0 */ s16 iceTimer;
+    /* 0x7E2 */ u8 lastDamageEffect;
+    /* 0x7E4 */ s32 unk_7E4;
+    /* 0x7E8 */ s32 timer;
+    /* 0x7EC */ f32 unk_7EC;
+    /* 0x7F0 */ BodyBreak bodyBreak;
+    /* 0x808 */ s8 atOn;
+    /* 0x80C */ s32 effectIndex;
+    /* 0x810 */ ColliderCylinder collider;
+    /* 0x85C */ ColliderQuad swordCollider;
+    /* 0x8DC */ ColliderCylinder shieldCollider;
+} EnTest; // size = 0x928
+
+typedef enum {
+    /* 0 */ STALFOS_INVISIBLE,
+    /* 1 */ STALFOS_1,
+    /* 2 */ STALFOS_2,
+    /* 3 */ STALFOS_CEILING
+} StalfosType;
 
 extern const ActorInit En_Test_InitVars;
 

@@ -216,39 +216,48 @@ static ColliderQuadInit D_808645C8 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
+typedef enum {
+    /* 0x0 */ STALFOS_DMGEFF_NORMAL,
+    /* 0x1 */ STALFOS_DMGEFF_STUN,
+    /* 0x6 */ STALFOS_DMGEFF_FIREMAGIC = 6,
+    /* 0xD */ STALFOS_DMGEFF_SLING = 0xD,
+    /* 0xE */ STALFOS_DMGEFF_LIGHT,
+    /* 0xF */ STALFOS_DMGEFF_FREEZE
+} StalfosDamageEffect;
+
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x1),
-    /* Deku stick    */ DMG_ENTRY(2, 0x0),
-    /* Slingshot     */ DMG_ENTRY(1, 0xD),
-    /* Explosive     */ DMG_ENTRY(2, 0x0),
-    /* Boomerang     */ DMG_ENTRY(0, 0x1),
-    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
-    /* Hookshot      */ DMG_ENTRY(0, 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
-    /* Master sword  */ DMG_ENTRY(2, 0x0),
-    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
-    /* Fire arrow    */ DMG_ENTRY(2, 0x0),
-    /* Ice arrow     */ DMG_ENTRY(4, 0xF),
-    /* Light arrow   */ DMG_ENTRY(2, 0xE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
-    /* Fire magic    */ DMG_ENTRY(0, 0x6),
-    /* Ice magic     */ DMG_ENTRY(3, 0xF),
-    /* Light magic   */ DMG_ENTRY(0, 0xE),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
-    /* Giant spin    */ DMG_ENTRY(4, 0x0),
-    /* Master spin   */ DMG_ENTRY(2, 0x0),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
-    /* Giant jump    */ DMG_ENTRY(8, 0x0),
-    /* Master jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, STALFOS_DMGEFF_STUN),
+    /* Deku stick    */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Slingshot     */ DMG_ENTRY(1, STALFOS_DMGEFF_SLING),
+    /* Explosive     */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Boomerang     */ DMG_ENTRY(0, STALFOS_DMGEFF_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Hammer swing  */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Hookshot      */ DMG_ENTRY(0, STALFOS_DMGEFF_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, STALFOS_DMGEFF_NORMAL),
+    /* Master sword  */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Giant's Knife */ DMG_ENTRY(4, STALFOS_DMGEFF_NORMAL),
+    /* Fire arrow    */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Ice arrow     */ DMG_ENTRY(4, STALFOS_DMGEFF_FREEZE),
+    /* Light arrow   */ DMG_ENTRY(2, STALFOS_DMGEFF_LIGHT),
+    /* Unk arrow 1   */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Unk arrow 2   */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Unk arrow 3   */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Fire magic    */ DMG_ENTRY(0, STALFOS_DMGEFF_FIREMAGIC),
+    /* Ice magic     */ DMG_ENTRY(3, STALFOS_DMGEFF_FREEZE),
+    /* Light magic   */ DMG_ENTRY(0, STALFOS_DMGEFF_LIGHT),
+    /* Shield        */ DMG_ENTRY(0, STALFOS_DMGEFF_NORMAL),
+    /* Mirror Ray    */ DMG_ENTRY(0, STALFOS_DMGEFF_NORMAL),
+    /* Kokiri spin   */ DMG_ENTRY(1, STALFOS_DMGEFF_NORMAL),
+    /* Giant spin    */ DMG_ENTRY(4, STALFOS_DMGEFF_NORMAL),
+    /* Master spin   */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Kokiri jump   */ DMG_ENTRY(2, STALFOS_DMGEFF_NORMAL),
+    /* Giant jump    */ DMG_ENTRY(8, STALFOS_DMGEFF_NORMAL),
+    /* Master jump   */ DMG_ENTRY(4, STALFOS_DMGEFF_NORMAL),
+    /* Unknown 1     */ DMG_ENTRY(0, STALFOS_DMGEFF_NORMAL),
+    /* Unblockable   */ DMG_ENTRY(0, STALFOS_DMGEFF_NORMAL),
+    /* Hammer jump   */ DMG_ENTRY(4, STALFOS_DMGEFF_NORMAL),
+    /* Unknown 2     */ DMG_ENTRY(0, STALFOS_DMGEFF_NORMAL),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -267,10 +276,9 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    SkelAnime_Init(globalCtx, &this->skelAnime_188, &D_06007C28, &D_0600316C, this->limbDrawTable_1CC,
-                   this->transitionTbl_16E, 61);
-    SkelAnime_Init(globalCtx, &this->skelAnime_4A8, &D_06007C28, &D_0600316C, this->limbDrawTable_4EC,
-                   this->transitionTbl_65A, 61);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06007C28, &D_0600316C, this->jointTable, this->morphTable, 61);
+    SkelAnime_Init(globalCtx, &this->upperSkelanime, &D_06007C28, &D_0600316C, this->upperJointTable,
+                   this->upperMorphTable, 61);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
 
@@ -435,7 +443,7 @@ void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupWaitGround(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime_188, &D_0600316C);
+    Animation_PlayLoop(&this->skelAnime, &D_0600316C);
     this->unk_7C8 = 0;
     this->timer = 15;
     this->actor.scale.y = 0.0f;
@@ -445,7 +453,7 @@ void EnTest_SetupWaitGround(EnTest* this) {
 }
 
 void EnTest_WaitGround(EnTest* this, GlobalContext* globalCtx) {
-    SkelAnime_Update(&this->skelAnime_188);
+    SkelAnime_Update(&this->skelAnime);
 
     if ((this->timer == 0) && (ABS(this->actor.yDistToPlayer) < 150.0f)) {
         this->unk_7C8 = 3;
@@ -466,7 +474,7 @@ void EnTest_WaitGround(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupWaitAbove(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime_188, &D_0600316C);
+    Animation_PlayLoop(&this->skelAnime, &D_0600316C);
     this->unk_7C8 = 0;
     this->actor.world.pos.y = this->actor.home.pos.y + 150.0f;
     Actor_SetScale(&this->actor, 0.0f);
@@ -475,7 +483,7 @@ void EnTest_SetupWaitAbove(EnTest* this) {
 }
 
 void EnTest_WaitAbove(EnTest* this, GlobalContext* globalCtx) {
-    SkelAnime_Update(&this->skelAnime_188);
+    SkelAnime_Update(&this->skelAnime);
     this->actor.world.pos.y = this->actor.home.pos.y + 150.0f;
 
     if ((this->actor.xzDistToPlayer < 200.0f) && (ABS(this->actor.yDistToPlayer) < 450.0f)) {
@@ -487,7 +495,7 @@ void EnTest_WaitAbove(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupIdle(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime_188, &D_0600316C);
+    Animation_PlayLoop(&this->skelAnime, &D_0600316C);
     this->unk_7C8 = 0xA;
     this->timer = (Rand_ZeroOne() * 10.0f) + 5.0f;
     this->actor.speedXZ = 0.0f;
@@ -499,7 +507,7 @@ void EnTest_Idle(EnTest* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 yawDiff;
 
-    SkelAnime_Update(&this->skelAnime_188);
+    SkelAnime_Update(&this->skelAnime);
 
     if (!EnTest_ReactToProjectile(globalCtx, this)) {
         yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
@@ -547,11 +555,11 @@ void EnTest_Idle(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_Fall(EnTest* this, GlobalContext* globalCtx) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime_188, &D_0600C438, 0.0f);
-    SkelAnime_Update(&this->skelAnime_188);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &D_0600C438, 0.0f);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.world.pos.y <= this->actor.floorHeight) {
-        this->skelAnime_188.playSpeed = 1.0f;
+        this->skelAnime.playSpeed = 1.0f;
         this->unk_7C8 = 0xC;
         this->timer = this->unk_7E4 * 0.15f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
@@ -560,15 +568,15 @@ void EnTest_Fall(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_Land(EnTest* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnTest_SetupIdle(this);
         this->timer = (Rand_ZeroOne() * 10.0f) + 5.0f;
     }
 }
 
 void EnTest_SetupWalkAndBlock(EnTest* this) {
-    Animation_Change(&this->skelAnime_4A8, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2, 2.0f);
-    Animation_PlayLoop(&this->skelAnime_188, &D_060081B4);
+    Animation_Change(&this->upperSkelanime, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2, 2.0f);
+    Animation_PlayLoop(&this->skelAnime, &D_060081B4);
     this->timer = (s16)(Rand_ZeroOne() * 5.0f);
     this->unk_7C8 = 0xD;
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -612,11 +620,11 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
         }
 
         if (ABS(this->actor.speedXZ) < 3.0f) {
-            Animation_Change(&this->skelAnime_188, &D_060081B4, 0.0f, this->skelAnime_188.curFrame,
+            Animation_Change(&this->skelAnime, &D_060081B4, 0.0f, this->skelAnime.curFrame,
                              Animation_GetLastFrame(&D_060081B4), 0, -6.0f);
             playSpeed = this->actor.speedXZ * 10.0f;
         } else {
-            Animation_Change(&this->skelAnime_188, &D_060026D4, 0.0f, this->skelAnime_188.curFrame,
+            Animation_Change(&this->skelAnime, &D_060026D4, 0.0f, this->skelAnime.curFrame,
                              Animation_GetLastFrame(&D_060026D4), 0, -4.0f);
             playSpeed = this->actor.speedXZ * 10.0f * 0.02f;
         }
@@ -627,10 +635,10 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
             }
 
             playSpeed = CLAMP_MAX(playSpeed, 2.5f);
-            this->skelAnime_188.playSpeed = playSpeed;
+            this->skelAnime.playSpeed = playSpeed;
         } else {
             playSpeed = CLAMP_MIN(playSpeed, -2.5f);
-            this->skelAnime_188.playSpeed = playSpeed;
+            this->skelAnime.playSpeed = playSpeed;
         }
 
         yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
@@ -649,13 +657,13 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
             }
         }
 
-        prevFrame = this->skelAnime_188.curFrame;
-        SkelAnime_Update(&this->skelAnime_188);
+        prevFrame = this->skelAnime.curFrame;
+        SkelAnime_Update(&this->skelAnime);
 
-        temp_f16 = this->skelAnime_188.curFrame - ABS(this->skelAnime_188.playSpeed);
-        absPlaySpeed = ABS(this->skelAnime_188.playSpeed);
+        temp_f16 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
+        absPlaySpeed = ABS(this->skelAnime.playSpeed);
 
-        if ((s32)this->skelAnime_188.curFrame != prevFrame) {
+        if ((s32)this->skelAnime.curFrame != prevFrame) {
             temp_v0_2 = (s32)absPlaySpeed + prevFrame;
 
             if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
@@ -720,7 +728,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupSidestepFromIdle(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime_188, &D_0600E2B0);
+    Animation_PlayLoop(&this->skelAnime, &D_0600E2B0);
     this->unk_7C8 = 0xE;
     EnTest_SetupAction(this, EnTest_SidestepFromIdle);
 }
@@ -751,23 +759,23 @@ void EnTest_SidestepFromIdle(EnTest* this, GlobalContext* globalCtx) {
         if (yawDiff > 0) {
             playSpeed = yawChange * 0.02f;
             playSpeed = CLAMP_MAX(playSpeed, 1.0f);
-            this->skelAnime_188.playSpeed = playSpeed;
+            this->skelAnime.playSpeed = playSpeed;
         } else {
             playSpeed = yawChange * 0.02f;
             playSpeed = CLAMP_MIN(playSpeed, -1.0f);
-            this->skelAnime_188.playSpeed = playSpeed;
+            this->skelAnime.playSpeed = playSpeed;
         }
 
-        prevFrame = this->skelAnime_188.curFrame;
+        prevFrame = this->skelAnime.curFrame;
 
-        SkelAnime_Update(&this->skelAnime_188);
+        SkelAnime_Update(&this->skelAnime);
 
-        temp1 = this->skelAnime_188.curFrame - ABS(this->skelAnime_188.playSpeed);
-        absPlaySpeed = ABS(this->skelAnime_188.playSpeed);
+        temp1 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
+        absPlaySpeed = ABS(this->skelAnime.playSpeed);
 
         if (1) {}
 
-        if ((s32)this->skelAnime_188.curFrame != prevFrame) {
+        if ((s32)this->skelAnime.curFrame != prevFrame) {
             temp2 = (s32)absPlaySpeed + prevFrame;
 
             if (((temp2 > 2) && (temp1 <= 0)) || ((temp1 < 7) && (temp2 >= 9))) {
@@ -790,7 +798,7 @@ void EnTest_SidestepFromIdle(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupSidestepInactive(EnTest* this) {
-    Animation_PlayLoop(&this->skelAnime_188, &D_0600E2B0);
+    Animation_PlayLoop(&this->skelAnime, &D_0600E2B0);
     this->unk_7C8 = 0xF;
     this->actor.speedXZ = (Rand_ZeroOne() > 0.5f) ? -0.5f : 0.5f;
     this->timer = (s16)((Rand_ZeroOne() * 15.0f) + 25.0f);
@@ -877,14 +885,14 @@ void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx) {
             this->actor.world.pos.z += (Math_CosS(this->actor.shape.rot.y) * this->unk_7EC);
         }
 
-        this->skelAnime_188.playSpeed = this->actor.speedXZ * 0.5f;
-        prevFrame = this->skelAnime_188.curFrame;
-        SkelAnime_Update(&this->skelAnime_188);
+        this->skelAnime.playSpeed = this->actor.speedXZ * 0.5f;
+        prevFrame = this->skelAnime.curFrame;
+        SkelAnime_Update(&this->skelAnime);
 
-        temp_f16 = this->skelAnime_188.curFrame - ABS(this->skelAnime_188.playSpeed);
-        absPlaySpeed = ABS(this->skelAnime_188.playSpeed);
+        temp_f16 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
+        absPlaySpeed = ABS(this->skelAnime.playSpeed);
 
-        if ((s32)this->skelAnime_188.curFrame != prevFrame) {
+        if ((s32)this->skelAnime.curFrame != prevFrame) {
             temp_v0_2 = (s32)absPlaySpeed + prevFrame;
 
             if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
@@ -908,7 +916,7 @@ void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupSlash1(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime_188, &D_0600B00C);
+    Animation_PlayOnce(&this->skelAnime, &D_0600B00C);
     func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->swordCollider.base.atFlags &= ~4;
     this->unk_7C8 = 0x10;
@@ -924,21 +932,21 @@ void EnTest_SetupSlash1(EnTest* this) {
 void EnTest_Slash1(EnTest* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
 
-    if ((s32)this->skelAnime_188.curFrame < 4) {
+    if ((s32)this->skelAnime.curFrame < 4) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 0);
     }
 
-    if ((s32)this->skelAnime_188.curFrame == 7) {
+    if ((s32)this->skelAnime.curFrame == 7) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_SAKEBI);
     }
 
-    if ((this->skelAnime_188.curFrame > 7.0f) && (this->skelAnime_188.curFrame < 11.0f)) {
+    if ((this->skelAnime.curFrame > 7.0f) && (this->skelAnime.curFrame < 11.0f)) {
         this->atOn = 1;
     } else {
         this->atOn = 0;
     }
 
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (globalCtx->gameplayFrames % 2) {
             EnTest_SetupSlash1End(this);
         } else {
@@ -948,7 +956,7 @@ void EnTest_Slash1(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupSlash1End(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime_188, &D_0600B4E4);
+    Animation_PlayOnce(&this->skelAnime, &D_0600B4E4);
     this->unk_7C8 = 0x12;
     this->actor.speedXZ = 0.0f;
     EnTest_SetupAction(this, EnTest_Slash1End);
@@ -958,7 +966,7 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 yawDiff;
 
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->swordCollider.base.atFlags & 2) {
             this->swordCollider.base.atFlags &= ~2;
             if (this->actor.params != STALFOS_CEILING) {
@@ -1012,7 +1020,7 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupSlash2(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime_188, &D_0600BE4C);
+    Animation_PlayOnce(&this->skelAnime, &D_0600BE4C);
     this->swordCollider.base.atFlags &= ~4;
     this->unk_7C8 = 0x11;
     this->swordCollider.info.toucher.damage = 16;
@@ -1027,23 +1035,23 @@ void EnTest_SetupSlash2(EnTest* this) {
 void EnTest_Slash2(EnTest* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
 
-    if ((s32)this->skelAnime_188.curFrame == 2) {
+    if ((s32)this->skelAnime.curFrame == 2) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_SAKEBI);
     }
 
-    if ((this->skelAnime_188.curFrame > 1.0f) && (this->skelAnime_188.curFrame < 8.0f)) {
+    if ((this->skelAnime.curFrame > 1.0f) && (this->skelAnime.curFrame < 8.0f)) {
         this->atOn = 1;
     } else {
         this->atOn = 0;
     }
 
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         EnTest_SetupSlash1(this);
     }
 }
 
 void EnTest_SetupJumpBack(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime_188, &D_06001978);
+    Animation_PlayOnce(&this->skelAnime, &D_06001978);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->unk_7C8 = 0x14;
     this->timer = 5;
@@ -1069,7 +1077,7 @@ void EnTest_JumpBack(EnTest* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (!EnTest_ReactToProjectile(globalCtx, this)) {
             if (this->actor.xzDistToPlayer <= 100.0f) {
                 if (Actor_IsFacingPlayer(&this->actor, 0x1555)) {
@@ -1088,13 +1096,13 @@ void EnTest_JumpBack(EnTest* this, GlobalContext* globalCtx) {
             }
             this->actor.flags |= 1;
         }
-    } else if (this->skelAnime_188.curFrame == (this->skelAnime_188.endFrame - 4.0f)) {
+    } else if (this->skelAnime.curFrame == (this->skelAnime.endFrame - 4.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 }
 
 void EnTest_SetupJumpslash(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime_188, &D_0600A324);
+    Animation_PlayOnce(&this->skelAnime, &D_0600A324);
     func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->timer = 0;
     this->unk_7C8 = 0x17;
@@ -1112,9 +1120,9 @@ void EnTest_SetupJumpslash(EnTest* this) {
 }
 
 void EnTest_Jumpslash(EnTest* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer == 0) {
-            Animation_PlayOnce(&this->skelAnime_188, &D_0600A99C);
+            Animation_PlayOnce(&this->skelAnime, &D_0600A99C);
             this->timer = 1;
             this->atOn = 1;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_SAKEBI);
@@ -1125,7 +1133,7 @@ void EnTest_Jumpslash(EnTest* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->timer != 0) && (this->skelAnime_188.curFrame >= 5.0f)) {
+    if ((this->timer != 0) && (this->skelAnime.curFrame >= 5.0f)) {
         this->atOn = 0;
     }
 
@@ -1141,7 +1149,7 @@ void EnTest_Jumpslash(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupJumpUp(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime_188, &D_0600A324);
+    Animation_PlayOnce(&this->skelAnime, &D_0600A324);
     this->timer = 0;
     this->unk_7C8 = 4;
     this->actor.velocity.y = 14.0f;
@@ -1153,7 +1161,7 @@ void EnTest_SetupJumpUp(EnTest* this) {
 
 void EnTest_JumpUp(EnTest* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
-    SkelAnime_Update(&this->skelAnime_188);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.world.pos.y <= this->actor.floorHeight) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
@@ -1169,13 +1177,13 @@ void EnTest_JumpUp(EnTest* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         this->unk_7C8 = 0xC;
         this->timer = 4;
-        Animation_Change(&this->skelAnime_188, &D_0600C438, 0.0f, 0.0f, 0.0f, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_0600C438, 0.0f, 0.0f, 0.0f, 2, 0.0f);
         EnTest_SetupAction(this, EnTest_Land);
     }
 }
 
 void EnTest_SetupStopAndBlock(EnTest* this) {
-    Animation_Change(&this->skelAnime_188, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2, 2.0f);
+    Animation_Change(&this->skelAnime, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2, 2.0f);
     this->unk_7C8 = 0x15;
     this->actor.speedXZ = 0.0f;
     this->timer = (Rand_ZeroOne() * 10.0f) + 11.0f;
@@ -1186,7 +1194,7 @@ void EnTest_SetupStopAndBlock(EnTest* this) {
 
 void EnTest_StopAndBlock(EnTest* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-    SkelAnime_Update(&this->skelAnime_188);
+    SkelAnime_Update(&this->skelAnime);
 
     if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x3E80) &&
         (this->actor.params != STALFOS_CEILING) && ((globalCtx->gameplayFrames % 2) != 0)) {
@@ -1202,16 +1210,16 @@ void EnTest_StopAndBlock(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupIdleFromBlock(EnTest* this) {
-    Animation_MorphToLoop(&this->skelAnime_188, &D_0600316C, -4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_0600316C, -4.0f);
     this->unk_7C8 = 0x16;
     EnTest_SetupAction(this, EnTest_IdleFromBlock);
 }
 
 void EnTest_IdleFromBlock(EnTest* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
-    SkelAnime_Update(&this->skelAnime_188);
+    SkelAnime_Update(&this->skelAnime);
 
-    if (this->skelAnime_188.morphWeight == 0.0f) {
+    if (this->skelAnime.morphWeight == 0.0f) {
         this->actor.speedXZ = 0.0f;
         this->unk_7DE = 0;
 
@@ -1227,7 +1235,7 @@ void EnTest_IdleFromBlock(EnTest* this, GlobalContext* globalCtx) {
 
 // setup damaged
 void func_80862154(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime_188, &D_06008604);
+    Animation_PlayOnce(&this->skelAnime, &D_06008604);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 8;
     this->actor.speedXZ = -2.0f;
@@ -1241,7 +1249,7 @@ void func_808621D4(EnTest* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
 
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->actor.speedXZ = 0.0f;
 
         if ((this->actor.bgCheckFlags & 8) && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
@@ -1274,7 +1282,7 @@ void func_808621D4(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void func_80862398(EnTest* this) {
-    Animation_PlayOnce(&this->skelAnime_188, &D_06000444);
+    Animation_PlayOnce(&this->skelAnime, &D_06000444);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 9;
     this->actor.speedXZ = -2.0f;
@@ -1287,7 +1295,7 @@ void func_80862418(EnTest* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
 
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->actor.speedXZ = 0.0f;
 
         if (!EnTest_ReactToProjectile(globalCtx, this)) {
@@ -1318,18 +1326,18 @@ void EnTest_SetupStunned(EnTest* this) {
     this->unk_7C8 = 0xB;
     this->unk_7DE = 0;
     this->atOn = 0;
-    this->skelAnime_188.playSpeed = 0.0f;
+    this->skelAnime.playSpeed = 0.0f;
     this->actor.speedXZ = -4.0f;
 
-    if (this->unk_7E2 == 0xE) {
+    if (this->lastDamageEffect == STALFOS_DMGEFF_LIGHT) {
         Actor_SetColorFilter(&this->actor, -0x8000, 0x78, 0, 0x50);
     } else {
         Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
 
-        if (this->unk_7E2 == 0xF) {
+        if (this->lastDamageEffect == STALFOS_DMGEFF_FREEZE) {
             this->iceTimer = 36;
         } else {
-            Animation_PlayOnceSetSpeed(&this->skelAnime_188, &D_06008604, 0.0f);
+            Animation_PlayOnceSetSpeed(&this->skelAnime, &D_06008604, 0.0f);
         }
     }
 
@@ -1378,7 +1386,7 @@ void EnTest_SetupSidestepAgro(EnTest* this, GlobalContext* globalCtx) {
         return;
     }
 
-    Animation_MorphToLoop(&this->skelAnime_188, &D_0600E2B0, -2.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_0600E2B0, -2.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
     this->actor.speedXZ = (globalCtx->gameplayFrames & 1) ? -4.0f : 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
@@ -1466,17 +1474,17 @@ void EnTest_SidestepAgro(EnTest* this, GlobalContext* globalCtx) {
         this->actor.world.pos.z += (Math_CosS(this->actor.shape.rot.y) * this->unk_7EC);
     }
 
-    this->skelAnime_188.playSpeed = this->actor.speedXZ * 0.5f;
-    prevFrame = this->skelAnime_188.curFrame;
-    SkelAnime_Update(&this->skelAnime_188);
+    this->skelAnime.playSpeed = this->actor.speedXZ * 0.5f;
+    prevFrame = this->skelAnime.curFrame;
+    SkelAnime_Update(&this->skelAnime);
 
-    temp_f16 = this->skelAnime_188.curFrame - ABS(this->skelAnime_188.playSpeed);
-    absPlaySpeed = ABS(this->skelAnime_188.playSpeed);
+    temp_f16 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
+    absPlaySpeed = ABS(this->skelAnime.playSpeed);
 
     if ((this->timer % 32) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
     }
-    if ((s32)this->skelAnime_188.curFrame != prevFrame) {
+    if ((s32)this->skelAnime.curFrame != prevFrame) {
         temp_v0_2 = (s32)absPlaySpeed + prevFrame;
 
         if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
@@ -1562,7 +1570,7 @@ void func_80862E6C(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void func_80862FA8(EnTest* this, GlobalContext* globalCtx) {
-    Animation_PlayOnce(&this->skelAnime_188, &D_06001420);
+    Animation_PlayOnce(&this->skelAnime, &D_06001420);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7DE = 0;
     this->actor.flags &= ~1;
@@ -1578,20 +1586,20 @@ void func_80862FA8(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void func_80863044(EnTest* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->timer = (Rand_ZeroOne() * 10.0f) + 10.0f;
         this->unk_7C8 = 7;
         EnTest_SetupAction(this, func_808633E8);
         BodyBreak_Alloc(&this->bodyBreak, 60, globalCtx);
     }
 
-    if ((s32)this->skelAnime_188.curFrame == 15) {
+    if ((s32)this->skelAnime.curFrame == 15) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
     }
 }
 
 void func_808630F0(EnTest* this, GlobalContext* globalCtx) {
-    Animation_PlayOnce(&this->skelAnime_188, &D_06009A90);
+    Animation_PlayOnce(&this->skelAnime, &D_06009A90);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7C8 = 6;
     this->actor.colorFilterTimer = 0;
@@ -1607,30 +1615,30 @@ void func_808630F0(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void func_8086318C(EnTest* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->timer = (Rand_ZeroOne() * 10.0f) + 10.0f;
         this->unk_7C8 = 7;
         EnTest_SetupAction(this, func_808633E8);
         BodyBreak_Alloc(&this->bodyBreak, 60, globalCtx);
     }
 
-    if (((s32)this->skelAnime_188.curFrame == 10) || ((s32)this->skelAnime_188.curFrame == 25)) {
+    if (((s32)this->skelAnime.curFrame == 10) || ((s32)this->skelAnime.curFrame == 25)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
     }
 }
 
 void EnTest_SetupRecoil(EnTest* this) {
     this->atOn = 0;
-    this->skelAnime_188.moveFlags = 2;
+    this->skelAnime.moveFlags = 2;
     this->unk_7C8 = 0x13;
-    this->skelAnime_188.playSpeed = -1.0f;
-    this->skelAnime_188.startFrame = this->skelAnime_188.curFrame;
-    this->skelAnime_188.endFrame = 0.0f;
+    this->skelAnime.playSpeed = -1.0f;
+    this->skelAnime.startFrame = this->skelAnime.curFrame;
+    this->skelAnime.endFrame = 0.0f;
     EnTest_SetupAction(this, EnTest_Recoil);
 }
 
 void EnTest_Recoil(EnTest* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime_188)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (Rand_ZeroOne() > 0.7f) {
             EnTest_SetupIdle(this);
             this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
@@ -1643,7 +1651,7 @@ void EnTest_Recoil(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_Rise(EnTest* this, GlobalContext* globalCtx) {
-    SkelAnime_Update(&this->skelAnime_188);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.scale.y < 0.015f) {
         this->actor.scale.y += 0.002f;
@@ -1668,14 +1676,14 @@ void func_808633E8(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80863460(EnTest* this, GlobalContext* globalCtx) {
-    s16 temp = this->actor.yawTowardsPlayer;
+void EnTest_UpdateHeadRot(EnTest* this, GlobalContext* globalCtx) {
+    s16 lookAngle = this->actor.yawTowardsPlayer;
 
-    temp -= (s16)(this->unk_7D2 + this->actor.shape.rot.y);
+    lookAngle -= (s16)(this->headRot.y + this->actor.shape.rot.y);
 
-    this->unk_7D8 = CLAMP(temp, -0x7D0, 0x7D0);
-    this->unk_7D2 += this->unk_7D8;
-    this->unk_7D2 = CLAMP(this->unk_7D2, -0x382F, 0x382F);
+    this->headRotOffset.y = CLAMP(lookAngle, -0x7D0, 0x7D0);
+    this->headRot.y += this->headRotOffset.y;
+    this->headRot.y = CLAMP(this->headRot.y, -0x382F, 0x382F);
 }
 
 void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
@@ -1692,8 +1700,9 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
     } else if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= 0xFFFD;
 
-        if ((this->actor.colChkInfo.damageEffect != 0xD) && (this->actor.colChkInfo.damageEffect != 6)) {
-            this->unk_7E2 = this->actor.colChkInfo.damageEffect;
+        if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING) &&
+            (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC)) {
+            this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
             if (this->atOn > 0) {
                 this->atOn = 0;
             }
@@ -1702,8 +1711,9 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
             Actor_SetDropFlag(&this->actor, &this->collider.info, 0);
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
-            if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF) ||
-                (this->actor.colChkInfo.damageEffect == 0xE)) {
+            if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||
+                (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_FREEZE) ||
+                (this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_LIGHT)) {
                 if (this->unk_7C8 != 0xB) {
                     Actor_ApplyDamage(&this->actor);
                     EnTest_SetupStunned(this);
@@ -1735,7 +1745,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnTest_UpdateDamage(this, globalCtx);
 
-    if (this->actor.colChkInfo.damageEffect != 6) {
+    if (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC) {
         Actor_MoveForward(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 0x1D);
 
@@ -1765,44 +1775,44 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
                 break;
 
             case 1:
-                Animation_Change(&this->skelAnime_4A8, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2,
+                Animation_Change(&this->upperSkelanime, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2,
                                  2.0f);
-                AnimationContext_SetCopyTrue(globalCtx, this->skelAnime_188.limbCount, this->skelAnime_188.jointTable,
-                                             this->skelAnime_4A8.jointTable, sJointCopyFlags);
+                AnimationContext_SetCopyTrue(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTable,
+                                             this->upperSkelanime.jointTable, sJointCopyFlags);
                 this->unk_7DE++;
                 break;
 
             case 2:
-                SkelAnime_Update(&this->skelAnime_4A8);
-                SkelAnime_CopyFrameTableTrue(&this->skelAnime_188, this->skelAnime_188.jointTable,
-                                             this->skelAnime_4A8.jointTable, sJointCopyFlags);
+                SkelAnime_Update(&this->upperSkelanime);
+                SkelAnime_CopyFrameTableTrue(&this->skelAnime, this->skelAnime.jointTable,
+                                             this->upperSkelanime.jointTable, sJointCopyFlags);
                 break;
 
             case 3:
                 this->unk_7DE++;
-                this->skelAnime_4A8.morphWeight = 4.0f;
+                this->upperSkelanime.morphWeight = 4.0f;
                 // fallthrough
             case 4:
-                oldWeight = this->skelAnime_4A8.morphWeight;
-                this->skelAnime_4A8.morphWeight -= 1.0f;
+                oldWeight = this->upperSkelanime.morphWeight;
+                this->upperSkelanime.morphWeight -= 1.0f;
 
-                if (this->skelAnime_4A8.morphWeight <= 0.0f) {
+                if (this->upperSkelanime.morphWeight <= 0.0f) {
                     this->unk_7DE = 0;
                 }
 
-                SkelAnime_InterpFrameTable(this->skelAnime_188.limbCount, this->skelAnime_4A8.jointTable,
-                                           this->skelAnime_4A8.jointTable, this->skelAnime_188.jointTable,
-                                           1.0f - (this->skelAnime_4A8.morphWeight / oldWeight));
-                SkelAnime_CopyFrameTableTrue(&this->skelAnime_188, this->skelAnime_188.jointTable,
-                                             this->skelAnime_4A8.jointTable, sJointCopyFlags);
+                SkelAnime_InterpFrameTable(this->skelAnime.limbCount, this->upperSkelanime.jointTable,
+                                           this->upperSkelanime.jointTable, this->skelAnime.jointTable,
+                                           1.0f - (this->upperSkelanime.morphWeight / oldWeight));
+                SkelAnime_CopyFrameTableTrue(&this->skelAnime, this->skelAnime.jointTable,
+                                             this->upperSkelanime.jointTable, sJointCopyFlags);
                 break;
         }
 
         if ((this->actor.colorFilterTimer == 0) && (this->actor.colChkInfo.health != 0)) {
             if ((this->unk_7C8 != 0x10) && (this->unk_7C8 != 0x17)) {
-                func_80863460(this, globalCtx);
+                EnTest_UpdateHeadRot(this, globalCtx);
             } else {
-                Math_SmoothStepToS(&this->unk_7D2, 0, 1, 0x3E8, 0);
+                Math_SmoothStepToS(&this->headRot.y, 0, 1, 0x3E8, 0);
             }
         }
     }
@@ -1849,10 +1859,10 @@ s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     EnTest* this = THIS;
     s32 pad;
 
-    if (limbIndex == 6) {
-        rot->x += this->unk_7D2;
-        rot->y -= this->unk_7D0;
-        rot->z += this->unk_7D4;
+    if (limbIndex == STALFOS_LIMB_HEAD_ROOT) {
+        rot->x += this->headRot.y;
+        rot->y -= this->headRot.x;
+        rot->z += this->headRot.z;
     } else if (limbIndex == 11) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_test.c", 3582);
 
@@ -1870,7 +1880,7 @@ s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     return 0;
 }
 
-void func_80863CC4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f unused1 = { 1100.0f, -700.0f, 0.0f };
     static Vec3f D_80864658 = { 300.0f, 0.0f, 0.0f };
     static Vec3f D_80864664 = { 3400.0f, 0.0f, 0.0f };
@@ -1980,8 +1990,8 @@ void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_8002EBCC(&this->actor, globalCtx, 1);
 
     if ((thisx->params < 4) || (thisx->child == NULL)) {
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime_188.skeleton, this->skelAnime_188.jointTable,
-                          EnTest_OverrideLimbDraw, func_80863CC4, this);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnTest_OverrideLimbDraw,
+                          EnTest_PostLimbDraw, this);
     }
 
     if (this->iceTimer != 0) {
@@ -1998,7 +2008,7 @@ void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupSidestepSetSpeed(EnTest* this, f32 xzSpeed) {
-    Animation_MorphToLoop(&this->skelAnime_188, &D_0600E2B0, -2.0f);
+    Animation_MorphToLoop(&this->skelAnime, &D_0600E2B0, -2.0f);
     this->actor.speedXZ = xzSpeed;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = (Rand_ZeroOne() * 20.0f) + 15.0f;
