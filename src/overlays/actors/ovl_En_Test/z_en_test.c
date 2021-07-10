@@ -73,19 +73,19 @@ static u8 sJointCopyFlags[] = {
     false, // STALFOS_LIMB_NONE
     false, // STALFOS_LIMB_ROOT
     false, // STALFOS_LIMB_UPPERBODY_ROOT
-    false, // STALFOS_LIMB_LUMBARVERTEBRA2_ROOT
-    true,  // STALFOS_LIMB_LUMBARVERTEBRA1_ROOT
-    true,  // STALFOS_LIMB_CERVICALVERTEBRA2_ROOT
+    false, // STALFOS_LIMB_CORE_LOWER_ROOT
+    true,  // STALFOS_LIMB_CORE_UPPER_ROOT
+    true,  // STALFOS_LIMB_NECK_ROOT
     true,  // STALFOS_LIMB_HEAD_ROOT
     true,  // STALFOS_LIMB_7
     true,  // STALFOS_LIMB_8
     true,  // STALFOS_LIMB_JAW_ROOT
     true,  // STALFOS_LIMB_JAW
     true,  // STALFOS_LIMB_HEAD
-    true,  // STALFOS_LIMB_CERVICALVERTEBRA1
-    true,  // STALFOS_LIMB_CERVICALVERTEBRA2
-    true,  // STALFOS_LIMB_LUMBARVERTEBRA1
-    true,  // STALFOS_LIMB_RIBCAGE
+    true,  // STALFOS_LIMB_NECK_UPPER
+    true,  // STALFOS_LIMB_NECK_LOWER
+    true,  // STALFOS_LIMB_CORE_UPPER
+    true,  // STALFOS_LIMB_CHEST
     true,  // STALFOS_LIMB_SHOULDER_R_ROOT
     true,  // STALFOS_LIMB_SHOULDER_ARMOR_R_ROOT
     true,  // STALFOS_LIMB_SHOULDER_ARMOR_R
@@ -93,43 +93,43 @@ static u8 sJointCopyFlags[] = {
     true,  // STALFOS_LIMB_SHOULDER_ARMOR_L_ROOT
     true,  // STALFOS_LIMB_SHOULDER_ARMOR_L
     true,  // STALFOS_LIMB_ARM_L_ROOT
-    true,  // STALFOS_LIMB_HUMERUS_L_ROOT
+    true,  // STALFOS_LIMB_UPPERARM_L_ROOT
     true,  // STALFOS_LIMB_FOREARM_L_ROOT
     true,  // STALFOS_LIMB_HAND_L_ROOT
     true,  // STALFOS_LIMB_HAND_L
     true,  // STALFOS_LIMB_SHIELD
     true,  // STALFOS_LIMB_FOREARM_L
-    true,  // STALFOS_LIMB_HUMERUS_L
+    true,  // STALFOS_LIMB_UPPERARM_L
     true,  // STALFOS_LIMB_ARM_R_ROOT
-    true,  // STALFOS_LIMB_HUMERUS_R_ROOT
+    true,  // STALFOS_LIMB_UPPERARM_R_ROOT
     true,  // STALFOS_LIMB_FOREARM_R_ROOT
     true,  // STALFOS_LIMB_HAND_R_ROOT
     true,  // STALFOS_LIMB_SWORD
     true,  // STALFOS_LIMB_HAND_R
     true,  // STALFOS_LIMB_FOREARM_R
-    true,  // STALFOS_LIMB_HUMERUS_R
-    true,  // STALFOS_LIMB_LUMBARVERTEBRA2
+    true,  // STALFOS_LIMB_UPPERARM_R
+    true,  // STALFOS_LIMB_CORE_LOWER
     false, // STALFOS_LIMB_LOWERBODY_ROOT
     false, // STALFOS_LIMB_WAIST_ROOT
     false, // STALFOS_LIMB_LEGS_ROOT
     false, // STALFOS_LIMB_LEG_L_ROOT
-    false, // STALFOS_LIMB_FEMUR_L_ROOT
+    false, // STALFOS_LIMB_THIGH_L_ROOT
     false, // STALFOS_LIMB_LOWERLEG_L_ROOT
     false, // STALFOS_LIMB_ANKLE_L_ROOT
     false, // STALFOS_LIMB_ANKLE_L
     false, // STALFOS_LIMB_FOOT_L_ROOT
     false, // STALFOS_LIMB_FOOT_L
     false, // STALFOS_LIMB_LOWERLEG_L
-    false, // STALFOS_LIMB_FEMUR_L
+    false, // STALFOS_LIMB_THIGH_L
     false, // STALFOS_LIMB_LEG_R_ROOT
-    false, // STALFOS_LIMB_FEMUR_R_ROOT
+    false, // STALFOS_LIMB_THIGH_R_ROOT
     false, // STALFOS_LIMB_LOWERLEG_R_ROOT
     false, // STALFOS_LIMB_ANKLE_R_ROOT
     false, // STALFOS_LIMB_ANKLE_R
-    false, // STALFOS_LIMB_FOOT_R_RROT
+    false, // STALFOS_LIMB_FOOT_R_ROOT
     false, // STALFOS_LIMB_FOOT_R
     false, // STALFOS_LIMB_LOWERLEG_R
-    false, // STALFOS_LIMB_FEMUR_R
+    false, // STALFOS_LIMB_THIGH_R
     false, // STALFOS_LIMB_WAIST
 };
 
@@ -265,7 +265,8 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->jointTable, this->morphTable, 61);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->jointTable,
+                   this->morphTable, 61);
     SkelAnime_Init(globalCtx, &this->upperSkelanime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->upperJointTable,
                    this->upperMorphTable, 61);
 
@@ -564,7 +565,8 @@ void EnTest_Land(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupWalkAndBlock(EnTest* this) {
-    Animation_Change(&this->upperSkelanime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f, Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
+    Animation_Change(&this->upperSkelanime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f,
+                     Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
     Animation_PlayLoop(&this->skelAnime, &gStalfosSlowAdvanceAnim);
     this->timer = (s16)(Rand_ZeroOne() * 5.0f);
     this->unk_7C8 = 0xD;
@@ -907,7 +909,7 @@ void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx) {
 void EnTest_SetupSlash1(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosDownSlashAnim);
     func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
-    this->swordCollider.base.atFlags &= ~4;
+    this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x10;
     this->actor.speedXZ = 0.0f;
     EnTest_SetupAction(this, EnTest_Slash1);
@@ -956,8 +958,8 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (this->swordCollider.base.atFlags & 2) {
-            this->swordCollider.base.atFlags &= ~2;
+        if (this->swordCollider.base.atFlags & AT_HIT) {
+            this->swordCollider.base.atFlags &= ~AT_HIT;
             if (this->actor.params != STALFOS_CEILING) {
                 EnTest_SetupJumpBack(this);
                 return;
@@ -1010,7 +1012,7 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
 
 void EnTest_SetupSlash2(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosUpSlashAnim);
-    this->swordCollider.base.atFlags &= ~4;
+    this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x11;
     this->swordCollider.info.toucher.damage = 16;
     this->actor.speedXZ = 0.0f;
@@ -1099,7 +1101,7 @@ void EnTest_SetupJumpslash(EnTest* this) {
     this->actor.speedXZ = 8.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->swordCollider.base.atFlags &= ~4;
+    this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     EnTest_SetupAction(this, EnTest_Jumpslash);
     this->swordCollider.info.toucher.damage = 32;
 
@@ -1172,7 +1174,8 @@ void EnTest_JumpUp(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupStopAndBlock(EnTest* this) {
-    Animation_Change(&this->skelAnime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f, Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
+    Animation_Change(&this->skelAnime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f,
+                     Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
     this->unk_7C8 = 0x15;
     this->actor.speedXZ = 0.0f;
     this->timer = (Rand_ZeroOne() * 10.0f) + 11.0f;
@@ -1678,16 +1681,16 @@ void EnTest_UpdateHeadRot(EnTest* this, GlobalContext* globalCtx) {
 void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->shieldCollider.base.acFlags & 0x80) {
-        this->shieldCollider.base.acFlags &= 0xFF7F;
-        this->collider.base.acFlags &= 0xFFFD;
+    if (this->shieldCollider.base.acFlags & AC_BOUNCED) {
+        this->shieldCollider.base.acFlags &= ~AC_BOUNCED;
+        this->collider.base.acFlags &= ~AC_HIT;
 
         if (this->unk_7C8 >= 0xA) {
             this->actor.speedXZ = -4.0f;
             return;
         }
     } else if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= 0xFFFD;
+        this->collider.base.acFlags &= ~AC_HIT;
 
         if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING) &&
             (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC)) {
@@ -1764,8 +1767,8 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
                 break;
 
             case 1:
-                Animation_Change(&this->upperSkelanime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f, Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2,
-                                 2.0f);
+                Animation_Change(&this->upperSkelanime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f,
+                                 Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
                 AnimationContext_SetCopyTrue(globalCtx, this->skelAnime.limbCount, this->skelAnime.jointTable,
                                              this->upperSkelanime.jointTable, sJointCopyFlags);
                 this->unk_7DE++;
@@ -1825,10 +1828,10 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->swordState >= STALFOS_SWORD_ON) {
-        if (!(this->swordCollider.base.atFlags & 4)) {
+        if (!(this->swordCollider.base.atFlags & AT_BOUNCED)) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->swordCollider.base);
         } else {
-            this->swordCollider.base.atFlags &= ~4;
+            this->swordCollider.base.atFlags &= ~AT_BOUNCED;
             EnTest_SetupRecoil(this);
         }
     }
@@ -1866,7 +1869,7 @@ s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         *dList = NULL;
     }
 
-    return 0;
+    return false;
 }
 
 void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -2007,8 +2010,8 @@ void EnTest_SetupSidestepSetSpeed(EnTest* this, f32 xzSpeed) {
 }
 
 /**
- * Checks if a projectile actor is within 300 units and react accordingly.
- * Returns true if the projectile test passes and a new action is performed .
+ * Check if a projectile actor is within 300 units and react accordingly.
+ * Returns true if the projectile test passes and a new action is performed.
  */
 s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
     Actor* projectileActor;
@@ -2040,12 +2043,12 @@ s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
                 EnTest_SetupJumpUp(this);
             }
 
-            return 1;
+            return true;
         }
 
         if (Actor_IsTargeted(globalCtx, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
             EnTest_SetupJumpUp(this);
-            return 1;
+            return true;
         }
 
         if ((ABS(yawToProjectile) < 0x2000) || (ABS(yawToProjectile) > 0x6000)) {
@@ -2078,8 +2081,8 @@ s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
             }
         }
 
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
