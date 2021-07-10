@@ -62,6 +62,12 @@ void func_80862FA8(EnTest* this, GlobalContext* globalCtx);
 
 s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this);
 
+typedef enum {
+    /* -1 */ STALFOS_SWORD_NOBLUR = -1,
+    /*  0 */ STALFOS_SWORD_OFF,
+    /*  1 */ STALFOS_SWORD_ON
+} StalfosSwordState;
+
 extern SkeletonHeader D_06007C28;
 extern AnimationHeader D_0600316C; // ready stance
 extern AnimationHeader D_06001978; // jump back
@@ -941,9 +947,9 @@ void EnTest_Slash1(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if ((this->skelAnime.curFrame > 7.0f) && (this->skelAnime.curFrame < 11.0f)) {
-        this->atOn = 1;
+        this->swordState = STALFOS_SWORD_ON;
     } else {
-        this->atOn = 0;
+        this->swordState = STALFOS_SWORD_OFF;
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1040,9 +1046,9 @@ void EnTest_Slash2(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if ((this->skelAnime.curFrame > 1.0f) && (this->skelAnime.curFrame < 8.0f)) {
-        this->atOn = 1;
+        this->swordState = STALFOS_SWORD_ON;
     } else {
-        this->atOn = 0;
+        this->swordState = STALFOS_SWORD_OFF;
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1124,7 +1130,7 @@ void EnTest_Jumpslash(EnTest* this, GlobalContext* globalCtx) {
         if (this->timer == 0) {
             Animation_PlayOnce(&this->skelAnime, &D_0600A99C);
             this->timer = 1;
-            this->atOn = 1;
+            this->swordState = STALFOS_SWORD_ON;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_SAKEBI);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
         } else {
@@ -1134,7 +1140,7 @@ void EnTest_Jumpslash(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if ((this->timer != 0) && (this->skelAnime.curFrame >= 5.0f)) {
-        this->atOn = 0;
+        this->swordState = STALFOS_SWORD_OFF;
     }
 
     if (this->actor.world.pos.y <= this->actor.floorHeight) {
@@ -1325,7 +1331,7 @@ void func_80862418(EnTest* this, GlobalContext* globalCtx) {
 void EnTest_SetupStunned(EnTest* this) {
     this->unk_7C8 = 0xB;
     this->unk_7DE = 0;
-    this->atOn = 0;
+    this->swordState = STALFOS_SWORD_OFF;
     this->skelAnime.playSpeed = 0.0f;
     this->actor.speedXZ = -4.0f;
 
@@ -1520,9 +1526,9 @@ void func_80862DBC(EnTest* this, GlobalContext* globalCtx) {
     BodyBreak_Alloc(&this->bodyBreak, 60, globalCtx);
     this->actor.home.rot.x = 0;
 
-    if (this->atOn >= 0) {
+    if (this->swordState >= STALFOS_SWORD_OFF) {
         EffectBlure_AddSpace(Effect_GetByIndex(this->effectIndex));
-        this->atOn = -1;
+        this->swordState = STALFOS_SWORD_NOBLUR;
     }
 
     this->actor.flags &= ~1;
@@ -1628,7 +1634,7 @@ void func_8086318C(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupRecoil(EnTest* this) {
-    this->atOn = 0;
+    this->swordState = STALFOS_SWORD_OFF;
     this->skelAnime.moveFlags = 2;
     this->unk_7C8 = 0x13;
     this->skelAnime.playSpeed = -1.0f;
@@ -1703,8 +1709,8 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
         if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING) &&
             (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC)) {
             this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
-            if (this->atOn > 0) {
-                this->atOn = 0;
+            if (this->swordState >= STALFOS_SWORD_ON) {
+                this->swordState = STALFOS_SWORD_OFF;
             }
             this->unk_7DC = player->unk_845;
             this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -1835,7 +1841,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->atOn > 0) {
+    if (this->swordState >= STALFOS_SWORD_ON) {
         if (!(this->swordCollider.base.atFlags & 4)) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->swordCollider.base);
         } else {
@@ -1917,11 +1923,12 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
         Matrix_MultVec3f(&D_80864664, &sp70);
         Matrix_MultVec3f(&D_80864670, &sp64);
 
-        if ((this->atOn > 0) && ((this->actor.params != 0) || (globalCtx->actorCtx.unk_03 != 0))) {
+        if ((this->swordState >= STALFOS_SWORD_ON) &&
+            ((this->actor.params != 0) || (globalCtx->actorCtx.unk_03 != 0))) {
             EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &sp70, &sp64);
-        } else if (this->atOn >= 0) {
+        } else if (this->swordState >= STALFOS_SWORD_OFF) {
             EffectBlure_AddSpace(Effect_GetByIndex(this->effectIndex));
-            this->atOn = -1;
+            this->swordState = STALFOS_SWORD_NOBLUR;
         }
 
     } else if ((limbIndex == 27) && (this->unk_7DE != 0)) {
