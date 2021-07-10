@@ -1,12 +1,5 @@
 ﻿<Root>
     <File Name="object_sk2" Segment="6">
-        <Animation Name="object_sk2_Anim_000444" Offset="0x444" />
-        <Animation Name="object_sk2_Anim_001420" Offset="0x1420" />
-        <Animation Name="object_sk2_Anim_001978" Offset="0x1978" />
-        <Animation Name="object_sk2_Anim_001C20" Offset="0x1C20" />
-        <Animation Name="object_sk2_Anim_002188" Offset="0x2188" />
-        <Animation Name="object_sk2_Anim_0026D4" Offset="0x26D4" />
-        <Animation Name="object_sk2_Anim_00316C" Offset="0x316C" />
         <DList Name="gStalfosSkullDL" Offset="0x53D0" />
         <DList Name="gStalfosLumbarVertebra1DL" Offset="0x5720" />
         <DList Name="gStalfosRightHumerusDL" Offset="0x57B8" />
@@ -105,19 +98,28 @@
         <Limb Name="gStalfosRightFemurLimb" LimbType="Standard" Offset="0x7B20" />
         <Limb Name="gStalfosWaistLimb" LimbType="Standard" Offset="0x7B2C" />
         <Skeleton Name="gStalfosSkel" Type="Normal" LimbType="Standard" Offset="0x7C28" />
-        <Animation Name="object_sk2_Anim_0081B4" Offset="0x81B4" />
-        <Animation Name="object_sk2_Anim_008604" Offset="0x8604" />
-        <Animation Name="object_sk2_Anim_009A90" Offset="0x9A90" />
-        <Animation Name="object_sk2_Anim_009E50" Offset="0x9E50" />
-        <Animation Name="object_sk2_Anim_00A324" Offset="0xA324" />
-        <Animation Name="object_sk2_Anim_00A99C" Offset="0xA99C" />
-        <Animation Name="object_sk2_Anim_00B00C" Offset="0xB00C" />
-        <Animation Name="object_sk2_Anim_00B4E4" Offset="0xB4E4" />
-        <Animation Name="object_sk2_Anim_00BE4C" Offset="0xBE4C" />
-        <Animation Name="object_sk2_Anim_00C438" Offset="0xC438" />
-        <Animation Name="object_sk2_Anim_00C8A0" Offset="0xC8A0" />
-        <Animation Name="object_sk2_Anim_00DCF0" Offset="0xDCF0" />
-        <Animation Name="object_sk2_Anim_00E2B0" Offset="0xE2B0" />
-        <Animation Name="object_sk2_Anim_00E7E4" Offset="0xE7E4" />
+
+        <!-- Stalfos Animations -->
+        <Animation Name="gStalfosFlinchFromHitBehindAnim" Offset="0x444" />
+        <Animation Name="gStalfosFallOverBackwardsAnim" Offset="0x1420" />
+        <Animation Name="gStalfosJumpBackwardsAnim" Offset="0x1978" />
+        <Animation Name="gStalfosBlockWithShieldAnim" Offset="0x1C20" />
+        <Animation Name="object_sk2_Anim_002188" Offset="0x2188" /><!-- Unused -->
+        <Animation Name="gStalfosFastAdvanceAnim" Offset="0x26D4" />
+        <Animation Name="gStalfosMiddleGuardAnim" Offset="0x316C" />
+        <Animation Name="gStalfosSlowAdvanceAnim" Offset="0x81B4" />
+        <Animation Name="gStalfosFlinchFromHitFrontAnim" Offset="0x8604" />
+        <Animation Name="gStalfosFallOverForwardsAnim" Offset="0x9A90" />
+        <Animation Name="object_sk2_Anim_009E50" Offset="0x9E50" /><!-- Unused -->
+        <Animation Name="gStalfosJumpAnim" Offset="0xA324" />
+        <Animation Name="gStalfosJumpslashAnim" Offset="0xA99C" />
+        <Animation Name="gStalfosDownSlashAnim" Offset="0xB00C" />
+        <Animation Name="gStalfosRecoverFromDownSlashAnim" Offset="0xB4E4" />
+        <Animation Name="gStalfosUpSlashAnim" Offset="0xBE4C" />
+        <Animation Name="gStalfosLandFromLeapAnim" Offset="0xC438" />
+        <Animation Name="gStalfosLaughAnim" Offset="0xC8A0" /><!-- Unused -->
+        <Animation Name="gStalfosLookAroundAnim" Offset="0xDCF0" /><!-- Unused -->
+        <Animation Name="gStalfosSidestepAnim" Offset="0xE2B0" />
+        <Animation Name="object_sk2_Anim_00E7E4" Offset="0xE7E4" /><!-- Unused -->
     </File>
 </Root>
