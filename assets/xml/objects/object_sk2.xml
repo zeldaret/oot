@@ -1,5 +1,6 @@
 ﻿<Root>
     <File Name="object_sk2" Segment="6">
+        <!-- Stalfos DLists -->
         <DList Name="gStalfosSkullDL" Offset="0x53D0" />
         <DList Name="gStalfosLumbarVertebra1DL" Offset="0x5720" />
         <DList Name="gStalfosRightHumerusDL" Offset="0x57B8" />
@@ -24,6 +25,8 @@
         <DList Name="gStalfosLeftFemurDL" Offset="0x68E0" />
         <DList Name="gStalfosLeftHandDL" Offset="0x6988" />
         <DList Name="gStalfosSwordDL" Offset="0x6A48" />
+
+        <!-- Stalfos textures -->
         <Texture Name="gStalfosEyeSocketTex" OutName="stalfos_eye_socket" Format="rgb5a1" Width="16" Height="16" Offset="0x6BA8" />
         <Texture Name="gStalfosEyeTex" OutName="stalfos_eye" Format="rgb5a1" Width="8" Height="8" Offset="0x6DA8" />
         <Texture Name="gStalfosBoneGradientTex" OutName="stalfos_bone_gradient" Format="rgb5a1" Width="4" Height="4" Offset="0x6E28" />
@@ -37,6 +40,8 @@
         <Texture Name="gStalfosArmorBackTex" OutName="stalfos_armor_back" Format="rgb5a1" Width="8" Height="8" Offset="0x7748" />
         <Texture Name="gStalfosSwordBladeTex" OutName="stalfos_sword_blade" Format="rgb5a1" Width="4" Height="4" Offset="0x77C8" />
         <Texture Name="gStalfosTrousersTopTex" OutName="stalfos_trousers_top" Format="rgb5a1" Width="8" Height="8" Offset="0x77E8" />
+
+        <!-- Stalfos limbs and skeleton -->
         <Limb Name="gStalfosRootLimb" LimbType="Standard" Offset="0x7868" />
         <Limb Name="gStalfosUpperBodyRootLimb" LimbType="Standard" Offset="0x7874" />
         <Limb Name="gStalfosLumbarVertebra2RootLimb" LimbType="Standard" Offset="0x7880" />
