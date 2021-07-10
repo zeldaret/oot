@@ -7,7 +7,7 @@
         <DList Name="gStalfosLowerCoreDL" Offset="0x5890" />
         <DList Name="gStalfosRightThighDL" Offset="0x5970" />
         <DList Name="gStalfosRightHandDL" Offset="0x5A18" />
-        <DList Name="gStalfosRibcageDL" Offset="0x5AD8" />
+        <DList Name="gStalfosChestDL" Offset="0x5AD8" />
         <DList Name="gStalfosJawDL" Offset="0x5B90" />
         <DList Name="gStalfosUpperNeckDL" Offset="0x5C78" />
         <DList Name="gStalfosLowerNeckDL" Offset="0x5D08" />
@@ -56,7 +56,7 @@
         <Limb Name="gStalfosUpperNeckLimb" LimbType="Standard" Offset="0x78EC" />
         <Limb Name="gStalfosLowerNeckLimb" LimbType="Standard" Offset="0x78F8" />
         <Limb Name="gStalfosUpperCoreLimb" LimbType="Standard" Offset="0x7904" />
-        <Limb Name="gStalfosRibcageLimb" LimbType="Standard" Offset="0x7910" />
+        <Limb Name="gStalfosChestLimb" LimbType="Standard" Offset="0x7910" />
         <Limb Name="gStalfosRightShoulderRootLimb" LimbType="Standard" Offset="0x791C" />
         <Limb Name="gStalfosRightShoulderArmorRootLimb" LimbType="Standard" Offset="0x7928" />
         <Limb Name="gStalfosRightShoulderArmorLimb" LimbType="Standard" Offset="0x7934" />
