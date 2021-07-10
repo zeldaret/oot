@@ -103,10 +103,12 @@ typedef struct EnTest {
 } EnTest; // size = 0x928
 
 typedef enum {
-    /* 0 */ STALFOS_INVISIBLE,
-    /* 1 */ STALFOS_1,
-    /* 2 */ STALFOS_2,
-    /* 3 */ STALFOS_CEILING
+    /* 0 */ STALFOS_TYPE_INVISIBLE,
+    /* 1 */ STALFOS_TYPE_1,
+    /* 2 */ STALFOS_TYPE_2,
+    /* 3 */ STALFOS_TYPE_CEILING,
+    /* 4 */ STALFOS_TYPE_4,
+    /* 5 */ STALFOS_TYPE_5
 } StalfosType;
 
 extern const ActorInit En_Test_InitVars;

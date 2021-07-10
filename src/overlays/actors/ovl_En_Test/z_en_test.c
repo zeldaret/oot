@@ -305,13 +305,13 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &slashBlure);
 
-    if (this->actor.params != STALFOS_CEILING) {
+    if (this->actor.params != STALFOS_TYPE_CEILING) {
         EnTest_SetupWaitGround(this);
     } else {
         EnTest_SetupWaitAbove(this);
     }
 
-    if (this->actor.params == STALFOS_INVISIBLE) {
+    if (this->actor.params == STALFOS_TYPE_INVISIBLE) {
         this->actor.flags |= 0x80;
     }
 }
@@ -319,7 +319,7 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnTest* this = THIS;
 
-    if ((this->actor.params != 2) &&
+    if ((this->actor.params != STALFOS_TYPE_2) &&
         !Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f)) {
         func_800F5B58();
     }
@@ -389,7 +389,7 @@ void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
             case 2:
             case 4:
             case 9:
-                if (this->actor.params != STALFOS_CEILING) {
+                if (this->actor.params != STALFOS_TYPE_CEILING) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     EnTest_SetupJumpBack(this);
                 }
@@ -397,7 +397,7 @@ void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
         }
     } else if (yawDiff <= 0x3E80) {
         if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x3E80) {
-            if (((globalCtx->gameplayFrames % 2) != 0) && (this->actor.params != STALFOS_CEILING)) {
+            if (((globalCtx->gameplayFrames % 2) != 0) && (this->actor.params != STALFOS_TYPE_CEILING)) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 EnTest_SetupJumpBack(this);
                 return;
@@ -451,7 +451,7 @@ void EnTest_WaitGround(EnTest* this, GlobalContext* globalCtx) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
 
-        if (this->actor.params != 2) {
+        if (this->actor.params != STALFOS_TYPE_2) {
             func_800F5ACC(0x38);
         }
     } else {
@@ -527,7 +527,7 @@ void EnTest_Idle(EnTest* this, GlobalContext* globalCtx) {
                         EnTest_SetupSidestepAgro(this, globalCtx);
                     }
                 } else {
-                    if ((Rand_ZeroOne() > 0.3f)) {
+                    if (Rand_ZeroOne() > 0.3f) {
                         EnTest_SetupWalkAndBlock(this);
                     } else {
                         EnTest_SetupSidestepAgro(this, globalCtx);
@@ -605,7 +605,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
             this->actor.speedXZ = -5.0f;
         }
 
-        if ((this->actor.params == 3) &&
+        if ((this->actor.params == STALFOS_TYPE_CEILING) &&
             !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.world.rot.y)) {
             this->actor.speedXZ *= -1.0f;
         }
@@ -833,7 +833,7 @@ void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx) {
         }
 
         if ((this->actor.bgCheckFlags & 8) ||
-            ((this->actor.params == 3) &&
+            ((this->actor.params == STALFOS_TYPE_CEILING) &&
              !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.world.rot.y))) {
             if (this->actor.bgCheckFlags & 8) {
                 if (this->actor.speedXZ >= 0.0f) {
@@ -938,7 +938,7 @@ void EnTest_Slash1(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (globalCtx->gameplayFrames % 2) {
+        if ((globalCtx->gameplayFrames % 2) != 0) {
             EnTest_SetupSlash1End(this);
         } else {
             EnTest_SetupSlash2(this);
@@ -960,7 +960,7 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->swordCollider.base.atFlags & AT_HIT) {
             this->swordCollider.base.atFlags &= ~AT_HIT;
-            if (this->actor.params != STALFOS_CEILING) {
+            if (this->actor.params != STALFOS_TYPE_CEILING) {
                 EnTest_SetupJumpBack(this);
                 return;
             }
@@ -975,7 +975,7 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, &player->actor);
 
         if (Rand_ZeroOne() > 0.7f) {
-            if (this->actor.params != STALFOS_CEILING) {
+            if (this->actor.params != STALFOS_TYPE_CEILING) {
                 EnTest_SetupJumpBack(this);
                 return;
             }
@@ -986,7 +986,7 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
         if (ABS(yawDiff) <= 0x2710) {
             yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-            if ((ABS(yawDiff) > 0x3E80) && (this->actor.params != STALFOS_CEILING)) {
+            if ((ABS(yawDiff) > 0x3E80) && (this->actor.params != STALFOS_TYPE_CEILING)) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 EnTest_SetupJumpBack(this);
             } else {
@@ -994,7 +994,7 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
                     if (this->actor.isTargeted) {
                         EnTest_SetupSlash1(this);
                     } else {
-                        if (globalCtx->gameplayFrames % 2) {
+                        if ((globalCtx->gameplayFrames % 2) != 0) {
                             EnTest_SetupSidestepAgro(this, globalCtx);
                         } else {
                             EnTest_SetupJumpBack(this);
@@ -1052,7 +1052,7 @@ void EnTest_SetupJumpBack(EnTest* this) {
         this->unk_7DE = 3;
     }
 
-    if (this->actor.params != STALFOS_CEILING) {
+    if (this->actor.params != STALFOS_TYPE_CEILING) {
         this->actor.speedXZ = -11.0f;
     } else {
         this->actor.speedXZ = -7.0f;
@@ -1189,7 +1189,7 @@ void EnTest_StopAndBlock(EnTest* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x3E80) &&
-        (this->actor.params != STALFOS_CEILING) && ((globalCtx->gameplayFrames % 2) != 0)) {
+        (this->actor.params != STALFOS_TYPE_CEILING) && ((globalCtx->gameplayFrames % 2) != 0)) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         EnTest_SetupJumpBack(this);
     }
@@ -1261,7 +1261,7 @@ void func_808621D4(EnTest* this, GlobalContext* globalCtx) {
                                                (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
         } else {
-            if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_CEILING) &&
+            if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
                 (player->swordAnimation != 0x11)) {
                 EnTest_SetupJumpBack(this);
             } else {
@@ -1302,7 +1302,7 @@ void func_80862418(EnTest* this, GlobalContext* globalCtx) {
                                                (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
         } else {
-            if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_CEILING) &&
+            if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
                 (player->swordAnimation != 0x11)) {
                 EnTest_SetupJumpBack(this);
             } else {
@@ -1380,7 +1380,7 @@ void EnTest_SetupSidestepAgro(EnTest* this, GlobalContext* globalCtx) {
 
     Animation_MorphToLoop(&this->skelAnime, &gStalfosSidestepAnim, -2.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
-    this->actor.speedXZ = (globalCtx->gameplayFrames & 1) ? -4.0f : 4.0f;
+    this->actor.speedXZ = (globalCtx->gameplayFrames % 2) ? -4.0f : 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = (Rand_ZeroOne() * 20.0f) + 20.0f;
     this->unk_7C8 = 0x18;
@@ -1421,7 +1421,7 @@ void EnTest_SidestepAgro(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.bgCheckFlags & 8) ||
-        ((this->actor.params == 3) &&
+        ((this->actor.params == STALFOS_TYPE_CEILING) &&
          !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3FFF))) {
         if (this->actor.bgCheckFlags & 8) {
             if (this->actor.speedXZ >= 0.0f) {
@@ -1519,7 +1519,7 @@ void func_80862DBC(EnTest* this, GlobalContext* globalCtx) {
 
     this->actor.flags &= ~1;
 
-    if (this->actor.params == 5) {
+    if (this->actor.params == STALFOS_TYPE_5) {
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
     }
 
@@ -1539,7 +1539,7 @@ void func_80862E6C(EnTest* this, GlobalContext* globalCtx) {
         if (this->actor.home.rot.x == 0) {
             this->actor.colChkInfo.health = 10;
 
-            if (this->actor.params == 4) {
+            if (this->actor.params == STALFOS_TYPE_4) {
                 this->actor.params = -1;
             } else {
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
@@ -1548,7 +1548,7 @@ void func_80862E6C(EnTest* this, GlobalContext* globalCtx) {
             this->actor.child = NULL;
             this->actor.flags |= 1;
             EnTest_SetupJumpBack(this);
-        } else if ((this->actor.params == 5) &&
+        } else if ((this->actor.params == STALFOS_TYPE_5) &&
                    !Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f)) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xD0);
 
@@ -1569,7 +1569,7 @@ void func_80862FA8(EnTest* this, GlobalContext* globalCtx) {
     this->actor.colorFilterTimer = 0;
     this->actor.speedXZ = 0.0f;
 
-    if (this->actor.params < 4) {
+    if (this->actor.params <= STALFOS_TYPE_CEILING) {
         this->unk_7C8 = 5;
         EnTest_SetupAction(this, func_80863044);
     } else {
@@ -1598,7 +1598,7 @@ void func_808630F0(EnTest* this, GlobalContext* globalCtx) {
     this->unk_7DE = 0;
     this->actor.speedXZ = 0.0f;
 
-    if (this->actor.params < 4) {
+    if (this->actor.params <= STALFOS_TYPE_CEILING) {
         this->actor.flags &= ~1;
         EnTest_SetupAction(this, func_8086318C);
     } else {
@@ -1634,7 +1634,7 @@ void EnTest_Recoil(EnTest* this, GlobalContext* globalCtx) {
         if (Rand_ZeroOne() > 0.7f) {
             EnTest_SetupIdle(this);
             this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
-        } else if (((globalCtx->gameplayFrames & 1) != 0) && (this->actor.params != STALFOS_CEILING)) {
+        } else if (((globalCtx->gameplayFrames % 2) != 0) && (this->actor.params != STALFOS_TYPE_CEILING)) {
             EnTest_SetupJumpBack(this);
         } else {
             EnTest_SetupSidestepAgro(this, globalCtx);
@@ -1655,7 +1655,7 @@ void EnTest_Rise(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void func_808633E8(EnTest* this, GlobalContext* globalCtx) {
-    this->actor.params = 1;
+    this->actor.params = STALFOS_TYPE_1;
 
     if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, this->actor.params)) {
         Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xD0);
@@ -1741,7 +1741,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 0x1D);
 
-        if (this->actor.params == 1) {
+        if (this->actor.params == STALFOS_TYPE_1) {
             if (this->actor.world.pos.y <= this->actor.home.pos.y) {
                 this->actor.world.pos.y = this->actor.home.pos.y;
                 this->actor.velocity.y = 0.0f;
@@ -1836,7 +1836,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->actor.params == STALFOS_INVISIBLE) {
+    if (this->actor.params == STALFOS_TYPE_INVISIBLE) {
         if (globalCtx->actorCtx.unk_03 != 0) {
             this->actor.flags |= 0x81;
             this->actor.shape.shadowDraw = ActorShadow_DrawFeet;
@@ -1855,7 +1855,7 @@ s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         rot->x += this->headRot.y;
         rot->y -= this->headRot.x;
         rot->z += this->headRot.z;
-    } else if (limbIndex == 11) {
+    } else if (limbIndex == STALFOS_LIMB_HEAD) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_test.c", 3582);
 
         gDPPipeSync(POLY_OPA_DISP++);
@@ -1865,7 +1865,7 @@ s32 EnTest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_test.c", 3587);
     }
 
-    if ((this->actor.params == STALFOS_INVISIBLE) && ((this->actor.flags & 0x80) != 0x80)) {
+    if ((this->actor.params == STALFOS_TYPE_INVISIBLE) && ((this->actor.flags & 0x80) != 0x80)) {
         *dList = NULL;
     }
 
@@ -1896,7 +1896,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 
     BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 60, 60, dList, BODYBREAK_OBJECT_DEFAULT);
 
-    if (limbIndex == 34) {
+    if (limbIndex == STALFOS_LIMB_SWORD) {
         Matrix_MultVec3f(&D_8086467C, &this->swordCollider.dim.quad[1]);
         Matrix_MultVec3f(&D_80864688, &this->swordCollider.dim.quad[0]);
         Matrix_MultVec3f(&D_80864694, &this->swordCollider.dim.quad[3]);
@@ -1910,14 +1910,14 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
         Matrix_MultVec3f(&D_80864670, &sp64);
 
         if ((this->swordState >= STALFOS_SWORD_ON) &&
-            ((this->actor.params != 0) || (globalCtx->actorCtx.unk_03 != 0))) {
+            ((this->actor.params != STALFOS_TYPE_INVISIBLE) || (globalCtx->actorCtx.unk_03 != 0))) {
             EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &sp70, &sp64);
         } else if (this->swordState >= STALFOS_SWORD_OFF) {
             EffectBlure_AddSpace(Effect_GetByIndex(this->effectIndex));
             this->swordState = STALFOS_SWORD_NOBLUR;
         }
 
-    } else if ((limbIndex == 27) && (this->unk_7DE != 0)) {
+    } else if ((limbIndex == STALFOS_LIMB_SHIELD) && (this->unk_7DE != 0)) {
         Matrix_MultVec3f(&D_80864670, &sp64);
 
         this->shieldCollider.dim.pos.x = sp64.x;
@@ -1926,7 +1926,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     } else {
         Actor_SetFeetPos(&this->actor, limbIndex, 48, &D_80864658, 55, &D_80864658);
 
-        if ((limbIndex == 48) || (limbIndex == 55)) {
+        if ((limbIndex == STALFOS_LIMB_FOOT_L) || (limbIndex == STALFOS_LIMB_ANKLE_R)) {
             if ((this->unk_7C8 == 0x15) || (this->unk_7C8 == 0x16)) {
                 if (this->actor.speedXZ != 0.0f) {
                     Matrix_MultVec3f(&D_80864658, &sp64);
@@ -1938,31 +1938,31 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 
     if (this->iceTimer != 0) {
         switch (limbIndex) {
-            case 11:
+            case STALFOS_LIMB_HEAD:
                 bodyPart = 0;
                 break;
-            case 15:
+            case STALFOS_LIMB_CHEST:
                 bodyPart = 1;
                 break;
-            case 34:
+            case STALFOS_LIMB_SWORD:
                 bodyPart = 2;
                 break;
-            case 27:
+            case STALFOS_LIMB_SHIELD:
                 bodyPart = 3;
                 break;
-            case 37:
+            case STALFOS_LIMB_UPPERARM_R:
                 bodyPart = 4;
                 break;
-            case 29:
+            case STALFOS_LIMB_UPPERARM_L:
                 bodyPart = 5;
                 break;
-            case 60:
+            case STALFOS_LIMB_WAIST:
                 bodyPart = 6;
                 break;
-            case 48:
+            case STALFOS_LIMB_FOOT_L:
                 bodyPart = 7;
                 break;
-            case 57:
+            case STALFOS_LIMB_FOOT_R:
                 bodyPart = 8;
         }
 
@@ -1982,7 +1982,7 @@ void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 1);
 
-    if ((thisx->params < 4) || (thisx->child == NULL)) {
+    if ((thisx->params <= STALFOS_TYPE_CEILING) || (thisx->child == NULL)) {
         SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnTest_OverrideLimbDraw,
                           EnTest_PostLimbDraw, this);
     }
