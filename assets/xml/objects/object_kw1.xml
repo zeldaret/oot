@@ -2,21 +2,21 @@
     <File Name="object_kw1" Segment="6">
         <!-- The textures used by these limbs aren't 64-bit aligned -->
         
-        <Limb Name="object_kw1_Limb_000000" LimbType="Standard" Offset="0x0" />
-        <Limb Name="object_kw1_Limb_00000C" LimbType="Standard" Offset="0xC" />
-        <Limb Name="object_kw1_Limb_000018" LimbType="Standard" Offset="0x18" />
-        <Limb Name="object_kw1_Limb_000024" LimbType="Standard" Offset="0x24" />
-        <Limb Name="object_kw1_Limb_000030" LimbType="Standard" Offset="0x30" />
-        <Limb Name="object_kw1_Limb_00003C" LimbType="Standard" Offset="0x3C" />
-        <Limb Name="object_kw1_Limb_000048" LimbType="Standard" Offset="0x48" />
-        <Limb Name="object_kw1_Limb_000054" LimbType="Standard" Offset="0x54" />
-        <Limb Name="object_kw1_Limb_000060" LimbType="Standard" Offset="0x60" />
-        <Limb Name="object_kw1_Limb_00006C" LimbType="Standard" Offset="0x6C" />
-        <Limb Name="object_kw1_Limb_000078" LimbType="Standard" Offset="0x78" />
-        <Limb Name="object_kw1_Limb_000084" LimbType="Standard" Offset="0x84" />
-        <Limb Name="object_kw1_Limb_000090" LimbType="Standard" Offset="0x90" />
-        <Limb Name="object_kw1_Limb_00009C" LimbType="Standard" Offset="0x9C" />
-        <Limb Name="object_kw1_Limb_0000A8" LimbType="Standard" Offset="0xA8" />
+        <Limb Name="gKw1SkelLimb_000000" LimbType="Standard" Offset="0x0" />
+        <Limb Name="gKw1SkelLimb_00000C" LimbType="Standard" Offset="0xC" />
+        <Limb Name="gKw1SkelLimb_000018" LimbType="Standard" Offset="0x18" />
+        <Limb Name="gKw1SkelLimb_000024" LimbType="Standard" Offset="0x24" />
+        <Limb Name="gKw1SkelLimb_000030" LimbType="Standard" Offset="0x30" />
+        <Limb Name="gKw1SkelLimb_00003C" LimbType="Standard" Offset="0x3C" />
+        <Limb Name="gKw1SkelLimb_000048" LimbType="Standard" Offset="0x48" />
+        <Limb Name="gKw1SkelLimb_000054" LimbType="Standard" Offset="0x54" />
+        <Limb Name="gKw1SkelLimb_000060" LimbType="Standard" Offset="0x60" />
+        <Limb Name="gKw1SkelLimb_00006C" LimbType="Standard" Offset="0x6C" />
+        <Limb Name="gKw1SkelLimb_000078" LimbType="Standard" Offset="0x78" />
+        <Limb Name="gKw1SkelLimb_000084" LimbType="Standard" Offset="0x84" />
+        <Limb Name="gKw1SkelLimb_000090" LimbType="Standard" Offset="0x90" />
+        <Limb Name="gKw1SkelLimb_00009C" LimbType="Standard" Offset="0x9C" />
+        <Limb Name="gKw1SkelLimb_0000A8" LimbType="Standard" Offset="0xA8" />
 
         <Skeleton Name="gKw1Skel" Type="Flex" LimbType="Standard" Offset="0xF0" />
 
@@ -30,7 +30,7 @@
         <!-- Possibly a skin gradient texture -->
         <Texture Name="object_kw1_Tex_00047C" OutName="tex_00047C" Format="ci8" TlutOffset="0xFC" Width="8" Height="8" Offset="0x47C" />
         <Texture Name="gKw1UnusedEyeOpenTex" OutName="unused_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4BC"/>
-      
+        
         <Texture Name="gKw1HandTex" OutName="hand" Format="ci8" Width="8" Height="8" Offset="0xCBC" />
         <Texture Name="gKw1BeltBuckleTex" OutName="belt_buckle" Format="ci8" Width="8" Height="8" Offset="0xCFC" />
         
