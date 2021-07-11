@@ -97,7 +97,7 @@ typedef struct EnTest {
     /* 0x7F0 */ BodyBreak bodyBreak;
     /* 0x808 */ s8 swordState;
     /* 0x80C */ s32 effectIndex;
-    /* 0x810 */ ColliderCylinder collider;
+    /* 0x810 */ ColliderCylinder bodyCollider;
     /* 0x85C */ ColliderQuad swordCollider;
     /* 0x8DC */ ColliderCylinder shieldCollider;
 } EnTest; // size = 0x928

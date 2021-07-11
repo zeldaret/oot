@@ -145,7 +145,7 @@ const ActorInit En_Test_InitVars = {
     (ActorFunc)EnTest_Draw,
 };
 
-static ColliderCylinderInit D_80864570 = {
+static ColliderCylinderInit sBodyColliderInit = {
     {
         COLTYPE_HIT5,
         AT_NONE,
@@ -165,7 +165,7 @@ static ColliderCylinderInit D_80864570 = {
     { 25, 65, 0, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit D_8086459C = {
+static ColliderCylinderInit sShieldColliderInit = {
     {
         COLTYPE_METAL,
         AT_NONE,
@@ -185,7 +185,7 @@ static ColliderCylinderInit D_8086459C = {
     { 20, 70, -50, { 0, 0, 0 } },
 };
 
-static ColliderQuadInit D_808645C8 = {
+static ColliderQuadInit sSwordColliderInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -278,14 +278,14 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos.y += 45.0f;
     this->actor.colChkInfo.damageTable = &sDamageTable;
 
-    Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80864570);
+    Collider_InitCylinder(globalCtx, &this->bodyCollider);
+    Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sBodyColliderInit);
 
     Collider_InitCylinder(globalCtx, &this->shieldCollider);
-    Collider_SetCylinder(globalCtx, &this->shieldCollider, &this->actor, &D_8086459C);
+    Collider_SetCylinder(globalCtx, &this->shieldCollider, &this->actor, &sShieldColliderInit);
 
     Collider_InitQuad(globalCtx, &this->swordCollider);
-    Collider_SetQuad(globalCtx, &this->swordCollider, &this->actor, &D_808645C8);
+    Collider_SetQuad(globalCtx, &this->swordCollider, &this->actor, &sSwordColliderInit);
 
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 10;
@@ -326,7 +326,7 @@ void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     Effect_Delete(globalCtx, this->effectIndex);
     Collider_DestroyCylinder(globalCtx, &this->shieldCollider);
-    Collider_DestroyCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
     Collider_DestroyQuad(globalCtx, &this->swordCollider);
 }
 
@@ -1662,13 +1662,13 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
 
     if (this->shieldCollider.base.acFlags & AC_BOUNCED) {
         this->shieldCollider.base.acFlags &= ~AC_BOUNCED;
-        this->collider.base.acFlags &= ~AC_HIT;
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
 
         if (this->unk_7C8 >= 0xA) {
             this->actor.speedXZ = -4.0f;
         }
-    } else if (this->collider.base.acFlags & AC_HIT) {
-        this->collider.base.acFlags &= ~AC_HIT;
+    } else if (this->bodyCollider.base.acFlags & AC_HIT) {
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
 
         if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING) &&
             (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC)) {
@@ -1678,7 +1678,7 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
             }
             this->unk_7DC = player->unk_845;
             this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-            Actor_SetDropFlag(&this->actor, &this->collider.info, 0);
+            Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 0);
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
             if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||
@@ -1787,17 +1787,17 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Collider_UpdateCylinder(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
 
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 45.0f;
 
     if ((this->actor.colChkInfo.health > 0) || (this->actor.colorFilterTimer != 0)) {
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
 
         if ((this->unk_7C8 >= 0xA) &&
             ((this->actor.colorFilterTimer == 0) || (!(this->actor.colorFilterParams & 0x4000)))) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
         }
 
         if (this->unk_7DE != 0) {
