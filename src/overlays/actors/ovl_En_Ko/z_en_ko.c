@@ -129,7 +129,7 @@ static struct_80034EC0_Entry sOsAnimeTable[] = { //
     { 0x06006A60, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
     { 0x06007830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }
 };
-// os_anime_table_index
+
 static u8 sOsAnimeLookup[13][5] = {
     /* ENKO_TYPE_CHILD_0    */ { 0x08, 0x09, 0x09, 0x0E, 0x0B },
     /* ENKO_TYPE_CHILD_1    */ { 0x02, 0x0C, 0x02, 0x0D, 0x0D },
@@ -152,11 +152,11 @@ typedef struct {
     Color_RGBA8 tunicColor;
     u8 legsId;
     Color_RGBA8 bootsColor;
-} struct_80A9A500;
+} EnKoModelInfo;
 
 typedef enum { KO_DUDE, KO_GIRL, KO_FADO } KokiriGender;
 
-struct_80A9A500 D_80A9A500[] = {
+static EnKoModelInfo sModelInfo[] = {
     /* ENKO_TYPE_CHILD_0    */ { KO_DUDE, KO_DUDE, { 0, 130, 70, 255 }, KO_DUDE, { 110, 170, 20, 255 } },
     /* ENKO_TYPE_CHILD_1    */ { KO_GIRL, KO_GIRL, { 70, 190, 60, 255 }, KO_GIRL, { 100, 30, 0, 255 } },
     /* ENKO_TYPE_CHILD_2    */ { KO_DUDE, KO_DUDE, { 0, 130, 70, 255 }, KO_DUDE, { 110, 170, 20, 255 } },
@@ -174,11 +174,11 @@ struct_80A9A500 D_80A9A500[] = {
 
 typedef struct {
     s8 targetMode;
-    f32 unk_4;
-    f32 unk_8;
-} struct_80A9A590;
+    f32 lookDist; // extended by collider radius
+    f32 appearDist;
+} EnKoInteractInfo;
 
-struct_80A9A590 D_80A9A590[] = {
+static EnKoInteractInfo sInteractInfo[] = {
     /* ENKO_TYPE_CHILD_0    */ { 6, 30.0f, 180.0f },
     /* ENKO_TYPE_CHILD_1    */ { 6, 30.0f, 180.0f },
     /* ENKO_TYPE_CHILD_2    */ { 6, 30.0f, 180.0f },
@@ -195,9 +195,9 @@ struct_80A9A590 D_80A9A590[] = {
 };
 
 s32 EnKo_AreObjectsAvailable(EnKo* this, GlobalContext* globalCtx) {
-    u8 headId = D_80A9A500[ENKO_TYPE].headId;
-    u8 bodyId = D_80A9A500[ENKO_TYPE].bodyId;
-    u8 legsId = D_80A9A500[ENKO_TYPE].legsId;
+    u8 headId = sModelInfo[ENKO_TYPE].headId;
+    u8 bodyId = sModelInfo[ENKO_TYPE].bodyId;
+    u8 legsId = sModelInfo[ENKO_TYPE].legsId;
 
     this->legsObjectBankIdx = Object_GetIndex(&globalCtx->objectCtx, sSkeleton[legsId].objectId);
     if (this->legsObjectBankIdx < 0) {
@@ -648,7 +648,7 @@ s32 func_80A97E18(EnKo* this, GlobalContext* globalCtx) {
     }
     if (this->unk_1E8.unk_00 != 0) {
         arg3 = 4;
-    } else if (this->unk_21C < this->actor.xzDistToPlayer) {
+    } else if (this->lookDist < this->actor.xzDistToPlayer) {
         arg3 = 1;
     }
     func_80034A14(&this->actor, &this->unk_1E8, 2, arg3);
@@ -905,7 +905,7 @@ void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    if (func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, this->unk_21C, func_80A97610, func_80A97738) &&
+    if (func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, this->lookDist, func_80A97610, func_80A97738) &&
         ENKO_TYPE == ENKO_TYPE_CHILD_FADO && globalCtx->sceneNum == SCENE_SPOT10) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
@@ -993,7 +993,7 @@ void EnKo_Blink(EnKo* this) {
     s32 headId;
 
     if (DECR(this->blinkTimer) == 0) {
-        headId = D_80A9A500[ENKO_TYPE].headId;
+        headId = sModelInfo[ENKO_TYPE].headId;
         this->eyeTextureIndex++;
         eyeTextures = sHead[headId].eyeTextures;
         if (eyeTextures != NULL && eyeTextures[this->eyeTextureIndex] == NULL) {
@@ -1005,12 +1005,12 @@ void EnKo_Blink(EnKo* this) {
 
 void func_80A98CD8(EnKo* this) {
     s32 type = ENKO_TYPE;
-    struct_80A9A590* temp_v1 = &D_80A9A590[type];
+    EnKoInteractInfo* info = &sInteractInfo[type];
 
-    this->actor.targetMode = temp_v1->targetMode;
-    this->unk_21C = temp_v1->unk_4;
-    this->unk_21C += this->collider.dim.radius;
-    this->unk_218 = temp_v1->unk_8;
+    this->actor.targetMode = info->targetMode;
+    this->lookDist = info->lookDist;
+    this->lookDist += this->collider.dim.radius;
+    this->appearDist = info->appearDist;
 }
 
 // Used to fetch actor animation?
@@ -1037,11 +1037,11 @@ void func_80A98DB4(EnKo* this, GlobalContext* globalCtx) {
         dist = this->actor.xzDistToPlayer;
     }
 
-    Math_SmoothStepToF(&this->modelAlpha, (this->unk_218 < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
+    Math_SmoothStepToF(&this->modelAlpha, (this->appearDist < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
     if (this->modelAlpha < 10.0f) {
-        this->actor.flags = this->actor.flags & ~1;
+        this->actor.flags &= ~1;
     } else {
-        this->actor.flags = this->actor.flags | 1;
+        this->actor.flags |= 1;
     }
 }
 
@@ -1086,7 +1086,7 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         this->actor.objBankIndex = this->legsObjectBankIdx;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeleton[D_80A9A500[ENKO_TYPE].legsId].flexSkeletonHeader,
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader,
                            NULL, this->limbDrawTable, this->transitionDrawTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
@@ -1239,7 +1239,7 @@ s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         gSPSegment((*gfx)++, 0x06, globalCtx->objectCtx.status[this->headObjectBankIdx].segment);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->headObjectBankIdx].segment);
 
-        headId = D_80A9A500[ENKO_TYPE].headId;
+        headId = sModelInfo[ENKO_TYPE].headId;
         *dList = sHead[headId].dList;
         if (sHead[headId].eyeTextures != NULL) {
             eyeTexture = sHead[headId].eyeTextures[this->eyeTextureIndex];
@@ -1291,8 +1291,8 @@ Gfx* EnKo_SetEnvColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 
 void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKo* this = THIS;
-    Color_RGBA8 tunicColor = D_80A9A500[ENKO_TYPE].tunicColor;
-    Color_RGBA8 bootsColor = D_80A9A500[ENKO_TYPE].bootsColor;
+    Color_RGBA8 tunicColor = sModelInfo[ENKO_TYPE].tunicColor;
+    Color_RGBA8 bootsColor = sModelInfo[ENKO_TYPE].bootsColor;
 
     this->actor.shape.shadowAlpha = this->modelAlpha;
 

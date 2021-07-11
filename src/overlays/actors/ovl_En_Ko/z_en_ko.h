@@ -23,8 +23,8 @@ typedef struct EnKo {
     /* 0x0212 */ s16 forestQuestState;
     /* 0x0214 */ s16 blinkTimer;
     /* 0x0216 */ s16 eyeTextureIndex;
-    /* 0x0218 */ f32 unk_218;
-    /* 0x021C */ f32 unk_21C;
+    /* 0x0218 */ f32 appearDist;
+    /* 0x021C */ f32 lookDist; // distance to start looking at player
     /* 0x0220 */ f32 modelAlpha;
     /* 0x0224 */ Vec3s limbDrawTable[16];
     /* 0x0284 */ Vec3s transitionDrawTable[16];
@@ -40,7 +40,7 @@ typedef enum {
     ENKO_TYPE_CHILD_2,
     ENKO_TYPE_CHILD_3,
     ENKO_TYPE_CHILD_4,
-    ENKO_TYPE_CHILD_5,
+    ENKO_TYPE_CHILD_5, // Shop Awning
     ENKO_TYPE_CHILD_6,
     ENKO_TYPE_CHILD_7,
     ENKO_TYPE_CHILD_8,
