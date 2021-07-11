@@ -250,9 +250,9 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 27, ICHAIN_CONTINUE),      ICHAIN_F32(targetArrowOffset, 500, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x1B, ICHAIN_CONTINUE),    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE), ICHAIN_F32(scale.y, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 64036, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -1500, ICHAIN_STOP),
 };
 
 void EnTest_SetupAction(EnTest* this, EnTestActionFunc actionFunc) {
@@ -266,9 +266,9 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     SkelAnime_Init(globalCtx, &this->skelAnime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->jointTable,
-                   this->morphTable, 61);
+                   this->morphTable, STALFOS_LIMB_MAX);
     SkelAnime_Init(globalCtx, &this->upperSkelanime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->upperJointTable,
-                   this->upperMorphTable, 61);
+                   this->upperMorphTable, STALFOS_LIMB_MAX);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
 
@@ -400,10 +400,7 @@ void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
             if (((globalCtx->gameplayFrames % 2) != 0) && (this->actor.params != STALFOS_TYPE_CEILING)) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 EnTest_SetupJumpBack(this);
-                return;
-            }
-
-            if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 170.0f)) {
+            } else if ((this->actor.xzDistToPlayer < 220.0f) && (this->actor.xzDistToPlayer > 170.0f)) {
                 if (Actor_IsFacingPlayer(&this->actor, 0x71C) && !Actor_IsTargeted(globalCtx, &this->actor)) {
                     EnTest_SetupJumpslash(this);
                 }
@@ -837,9 +834,9 @@ void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx) {
              !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.world.rot.y))) {
             if (this->actor.bgCheckFlags & 8) {
                 if (this->actor.speedXZ >= 0.0f) {
-                    newYaw = (this->actor.shape.rot.y + 0x3FFF);
+                    newYaw = this->actor.shape.rot.y + 0x3FFF;
                 } else {
-                    newYaw = (this->actor.shape.rot.y - 0x3FFF);
+                    newYaw = this->actor.shape.rot.y - 0x3FFF;
                 }
 
                 newYaw = this->actor.wallYaw - newYaw;
@@ -872,8 +869,8 @@ void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx) {
         }
 
         if (this->unk_7EC != 0.0f) {
-            this->actor.world.pos.x += (Math_SinS(this->actor.shape.rot.y) * this->unk_7EC);
-            this->actor.world.pos.z += (Math_CosS(this->actor.shape.rot.y) * this->unk_7EC);
+            this->actor.world.pos.x += Math_SinS(this->actor.shape.rot.y) * this->unk_7EC;
+            this->actor.world.pos.z += Math_CosS(this->actor.shape.rot.y) * this->unk_7EC;
         }
 
         this->skelAnime.playSpeed = this->actor.speedXZ * 0.5f;
@@ -989,20 +986,16 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
             if ((ABS(yawDiff) > 0x3E80) && (this->actor.params != STALFOS_TYPE_CEILING)) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 EnTest_SetupJumpBack(this);
-            } else {
-                if (player->stateFlags1 & 0x10) {
-                    if (this->actor.isTargeted) {
-                        EnTest_SetupSlash1(this);
-                    } else {
-                        if ((globalCtx->gameplayFrames % 2) != 0) {
-                            EnTest_SetupSidestepAgro(this, globalCtx);
-                        } else {
-                            EnTest_SetupJumpBack(this);
-                        }
-                    }
-                } else {
+            } else if (player->stateFlags1 & 0x10) {
+                if (this->actor.isTargeted) {
                     EnTest_SetupSlash1(this);
+                } else if ((globalCtx->gameplayFrames % 2) != 0) {
+                    EnTest_SetupSidestepAgro(this, globalCtx);
+                } else {
+                    EnTest_SetupJumpBack(this);
                 }
+            } else {
+                EnTest_SetupSlash1(this);
             }
         } else {
             EnTest_SetupSidestepAgro(this, globalCtx);
@@ -1225,7 +1218,6 @@ void EnTest_IdleFromBlock(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-// setup damaged
 void func_80862154(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFlinchFromHitFrontAnim);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
@@ -1235,7 +1227,6 @@ void func_80862154(EnTest* this) {
     EnTest_SetupAction(this, func_808621D4);
 }
 
-// damage
 void func_808621D4(EnTest* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -1247,12 +1238,10 @@ void func_808621D4(EnTest* this, GlobalContext* globalCtx) {
         if ((this->actor.bgCheckFlags & 8) && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
                                                (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
+        } else if (!EnTest_ReactToProjectile(globalCtx, this)) {
+            EnTest_ChooseAction(this, globalCtx);
         } else {
-            if (!EnTest_ReactToProjectile(globalCtx, this)) {
-                EnTest_ChooseAction(this, globalCtx);
-            } else {
-                return;
-            }
+            return;
         }
     }
 
@@ -1260,13 +1249,11 @@ void func_808621D4(EnTest* this, GlobalContext* globalCtx) {
         if ((this->actor.bgCheckFlags & 8) && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
                                                (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
+        } else if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
+                   (player->swordAnimation != 0x11)) {
+            EnTest_SetupJumpBack(this);
         } else {
-            if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
-                (player->swordAnimation != 0x11)) {
-                EnTest_SetupJumpBack(this);
-            } else {
-                EnTest_SetupStopAndBlock(this);
-            }
+            EnTest_SetupStopAndBlock(this);
         }
 
         this->unk_7C8 = 8;
@@ -1301,13 +1288,11 @@ void func_80862418(EnTest* this, GlobalContext* globalCtx) {
         if ((this->actor.bgCheckFlags & 8) && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
                                                (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
+        } else if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
+                   (player->swordAnimation != 0x11)) {
+            EnTest_SetupJumpBack(this);
         } else {
-            if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
-                (player->swordAnimation != 0x11)) {
-                EnTest_SetupJumpBack(this);
-            } else {
-                EnTest_SetupStopAndBlock(this);
-            }
+            EnTest_SetupStopAndBlock(this);
         }
 
         this->unk_7C8 = 8;
@@ -1345,24 +1330,18 @@ void EnTest_Stunned(EnTest* this, GlobalContext* globalCtx) {
     if (this->actor.colorFilterTimer == 0) {
         if (this->actor.colChkInfo.health == 0) {
             func_80862FA8(this, globalCtx);
-            return;
-        }
-
-        if (player->swordState != 0) {
+        } else if (player->swordState != 0) {
             if ((this->actor.bgCheckFlags & 8) &&
                 ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
                  (this->actor.xzDistToPlayer < 80.0f))) {
                 EnTest_SetupJumpUp(this);
+            } else if ((Rand_ZeroOne() > 0.7f) && (player->swordAnimation != 0x11)) {
+                EnTest_SetupJumpBack(this);
             } else {
-                if ((Rand_ZeroOne() > 0.7f) && (player->swordAnimation != 0x11)) {
-                    EnTest_SetupJumpBack(this);
-                } else {
-                    EnTest_SetupStopAndBlock(this);
-                }
+                EnTest_SetupStopAndBlock(this);
             }
 
             this->unk_7C8 = 8;
-
         } else {
             this->actor.speedXZ = 0.0f;
             if (!EnTest_ReactToProjectile(globalCtx, this)) {
@@ -1380,7 +1359,7 @@ void EnTest_SetupSidestepAgro(EnTest* this, GlobalContext* globalCtx) {
 
     Animation_MorphToLoop(&this->skelAnime, &gStalfosSidestepAnim, -2.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
-    this->actor.speedXZ = (globalCtx->gameplayFrames % 2) ? -4.0f : 4.0f;
+    this->actor.speedXZ = ((globalCtx->gameplayFrames % 2) != 0) ? -4.0f : 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = (Rand_ZeroOne() * 20.0f) + 20.0f;
     this->unk_7C8 = 0x18;
@@ -1687,9 +1666,8 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
 
         if (this->unk_7C8 >= 0xA) {
             this->actor.speedXZ = -4.0f;
-            return;
         }
-    } else if (this->collider.base.acFlags & 2) {
+    } else if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
 
         if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING) &&
@@ -2056,7 +2034,7 @@ s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
 
             if (touchingWall && (wallYawDiff > 0x2000) && (wallYawDiff < 0x6000)) {
                 directionFlag = false;
-            } else if ((touchingWall != 0) && (wallYawDiff < -0x2000) && (wallYawDiff >= -0x5FFF)) {
+            } else if ((touchingWall != 0) && (wallYawDiff < -0x2000) && (wallYawDiff > -0x6000)) {
                 directionFlag = true;
             }
 
