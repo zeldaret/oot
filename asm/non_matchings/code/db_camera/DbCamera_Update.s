@@ -1363,7 +1363,7 @@ glabel DbCamera_Update
 /* B2D1DC 800B603C 44073000 */  mfc1  $a3, $f6
 /* B2D1E0 800B6040 00000000 */  nop
 /* B2D1E4 800B6044 00073C00 */  sll   $a3, $a3, 0x10
-/* B2D1E8 800B6048 0C02CEF5 */  jal   func_800B3BD4
+/* B2D1E8 800B6048 0C02CEF5 */  jal   DbCamera_CalcUpFromPitchYawRoll
 /* B2D1EC 800B604C 00073C03 */   sra   $a3, $a3, 0x10
 /* B2D1F0 800B6050 8EA20000 */  lw    $v0, ($s5)
 /* B2D1F4 800B6054 24010001 */  li    $at, 1

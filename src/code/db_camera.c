@@ -181,16 +181,29 @@ Vec3f* DbCamera_AddVecSph(Vec3f* out, Vec3f* in, VecSph* sph) {
     return out;
 }
 
-// similar to Camera_CalcUpFromPitchYawRoll
-#ifdef NON_MATCHING
-Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
+Vec3f* DbCamera_CalcUpFromPitchYawRoll(Vec3f* dest, s16 pitch, s16 yaw, s16 roll) {
     f32 sinPitch;
     f32 cosPitch;
     f32 sinYaw;
     f32 cosYaw;
     f32 sinNegRoll;
     f32 cosNegRoll;
-    Vec3f sp9C;
+    Vec3f spA4;
+    f32 sp54;
+    f32 sp4C;
+    f32 cosPitchCosYawSinRoll;
+    f32 negSinPitch;
+    f32 temp_f10_2;
+    f32 cosPitchcosYaw;
+    f32 temp_f14;
+    f32 negSinPitchSinYaw;
+    f32 negSinPitchCosYaw;
+    f32 cosPitchSinYaw;
+    f32 temp_f4_2;
+    f32 temp_f6;
+    f32 temp_f8;
+    f32 temp_f8_2;
+    f32 temp_f8_3;
 
     sinPitch = Math_SinS(pitch);
     cosPitch = Math_CosS(pitch);
@@ -198,30 +211,32 @@ Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll) {
     cosYaw = Math_CosS(yaw);
     sinNegRoll = Math_SinS(-roll);
     cosNegRoll = Math_CosS(-roll);
-
-    sp9C.x = (-sinPitch * sinYaw * (((1.0f - SQ(cosPitch * sinYaw)) * cosNegRoll) + SQ(cosPitch * sinYaw))) +
-             (cosPitch * ((cosPitch * sinYaw * sinPitch * (1.0f - cosNegRoll)) - cosPitch * cosYaw * sinNegRoll)) +
-             (-sinPitch * cosYaw *
-              ((cosPitch * cosYaw * cosPitch * sinYaw * (1.0f - cosNegRoll)) + (sinPitch * sinNegRoll)));
-
-    sp9C.y =
-        (-sinPitch * sinYaw * (cosPitch * sinYaw * sinPitch * (1.0f - cosNegRoll) + cosPitch * cosYaw * sinNegRoll)) +
-        (cosPitch * (((1.0f - SQ(cosPitch * sinYaw)) * cosNegRoll) + SQ(cosPitch * sinYaw))) +
-        (-sinPitch * cosYaw * ((sinPitch * cosPitch * cosYaw * (1.0f - cosNegRoll)) - cosPitch * sinYaw * sinNegRoll));
-
-    sp9C.z =
-        (-sinPitch * sinYaw * ((cosPitch * cosYaw * cosPitch * sinYaw * (1.0f - cosNegRoll)) - sinPitch * sinNegRoll)) +
-        (cosPitch * ((sinPitch * cosPitch * cosYaw * (1.0f - cosNegRoll)) + (cosPitch * sinYaw * sinNegRoll))) +
-        (-sinPitch * cosYaw * (((1.0f - SQ(cosPitch * cosYaw)) * cosNegRoll) + SQ(cosPitch * cosYaw)));
-
-    *arg0 = sp9C;
-    return arg0;
+    negSinPitch = -sinPitch;
+    negSinPitchSinYaw = negSinPitch * sinYaw;
+    negSinPitchCosYaw = negSinPitch * cosYaw;
+    temp_f14 = 1.0f - cosNegRoll;
+    cosPitchSinYaw = cosPitch * sinYaw;
+    sp54 = SQ(cosPitchSinYaw);
+    sp4C = (cosPitchSinYaw * sinPitch) * (0, temp_f14);
+    cosPitchcosYaw = cosPitch * cosYaw;
+    temp_f4_2 = ((1.0f - sp54) * cosNegRoll) + sp54;
+    cosPitchCosYawSinRoll = cosPitchcosYaw * sinNegRoll;
+    temp_f6 = (cosPitchcosYaw * cosPitchSinYaw) * (0, temp_f14);
+    temp_f10_2 = sinPitch * sinNegRoll;
+    spA4.x = ((negSinPitchSinYaw * temp_f4_2) + (cosPitch * (sp4C - cosPitchCosYawSinRoll))) +
+             (negSinPitchCosYaw * (temp_f6 + temp_f10_2));
+    sp54 = SQ(sinPitch);
+    temp_f4_2 = (sinPitch * cosPitchcosYaw) * (0, temp_f14);
+    temp_f8_3 = cosPitchSinYaw * sinNegRoll;
+    temp_f8 = sp4C + cosPitchCosYawSinRoll;
+    spA4.y = ((negSinPitchSinYaw * temp_f8) + (cosPitch * (((1.0f - sp54) * cosNegRoll) + sp54))) +
+             (negSinPitchCosYaw * (temp_f4_2 - temp_f8_3));
+    temp_f8_2 = temp_f6 - temp_f10_2;
+    spA4.z = ((negSinPitchSinYaw * temp_f8_2) + (cosPitch * (temp_f4_2 + temp_f8_3))) +
+             (negSinPitchCosYaw * (((1.0f - SQ(cosPitchcosYaw)) * cosNegRoll) + SQ(cosPitchcosYaw)));
+    *dest = spA4;
+    return dest;
 }
-
-#else
-Vec3f* func_800B3BD4(Vec3f* arg0, s16 pitch, s16 yaw, s16 roll);
-#pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3BD4.s")
-#endif
 
 char* DbCamera_SetTextValue(s16 value, char* str, u8 endIdx) {
     char* strIter;
@@ -944,6 +959,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
     s32 i;
     s32 idx1; // 0xA0
     s32 idx2; // s0
+    s16 idx3;
 
     char sp74[(ARRAY_COUNT(sDbCameraCuts) - 1 + 4) * 2];                                                  // 0x74
     DbCameraCut sp64;                                                                                     // 0x64
@@ -1006,8 +1022,9 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_B)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         dbCamera->sub.demoCtrlMenu = 0;
+                        return 1;
                     }
-                    return 1;
+                    goto block_2;
                 }
 
                 // 5ee4
@@ -1050,7 +1067,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_INFO);
                         return 1;
                     }
-                    break;
+                    goto block_2;
                 }
 
                 // 60c0
@@ -1070,7 +1087,8 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         dbCamera->sub.demoCtrlMenu -= 9;
                     }
-                    return 1;
+                    block_2:
+                        return 1;
                 }
 
                 case 1:
@@ -1081,7 +1099,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     if (Mempak_Init(2)) {
                         sMempakFiles = Mempak_FindFile(2, 'A', 'E');
                         dbCamera->sub.demoCtrlMenu = DEMO_CTRL_MENU(ACTION_E, MENU_CALLBACK);
-                        DbCamera_CalcMempaksAllocSize();
+                        DbCamera_CalcMempakAllocSize();
                         if ((1 << sCurFileIdx) & sMempakFiles) {
                             sMempakFilesize = Mempak_GetFileSize(2, sCurFileIdx + 'A');
                             dbCamera->sub.demoCtrlActionIdx = ACTION_LOAD;
@@ -1134,12 +1152,12 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                                 dbCamera->sub.demoCtrlActionIdx = ACTION_SAVE;
                             }
                         }
-                        // 6440 diff: regalloc
-                        func_8006376C(0xE, 7, 5, D_8012CF50[dbCamera->sub.demoCtrlActionIdx]);
+                        idx3 = dbCamera->sub.demoCtrlActionIdx;
+                        func_8006376C(0xE, 7, 5, D_8012CF50[idx3]);
                         func_8006376C(0xF, 7, 4, sp74);
 
                         func_8006376C((sCurFileIdx * 2) + 0x10, 7, 7, "_"); // cursor
-                        DbCamera_SetTextValue(DbCamera_GetMempaksAllocSize(), sp74, 6);
+                        DbCamera_SetTextValue(DbCamera_GetMempakAllocSize(), sp74, 6);
                         func_8006376C(0xD, 9, 6, D_8012CF78); // NEED      BYTE
                         func_8006376C(0x11, 9, 4, sp74);
                         DbCamera_SetTextValue(Mempak_GetFreeBytes(2), sp74, 6);
@@ -1182,8 +1200,9 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                             Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                    &D_801333E8);
                             dbCamera->sub.demoCtrlActionIdx = ACTION_E;
+                            return 1;
                         }
-                        return 1;
+                        goto block_2;
                     } else {
                         func_8006376C(0xC, 0x1A, 4, D_8012CF60[0]);
                         func_8006376C(0x13, 0x1A, 4, D_8012CF80);
@@ -1218,7 +1237,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 sCurFileIdx = 0;
             }
 
-            DbCamera_DrawSlotsLetters(sp74, 7, 5, 4);
+            DbCamera_DrawSlotLetters(sp74, 7, 5, 4);
 
             if (sDbCamAnim.unk_0A != 0) {
                 func_8006376C(4, 7, 5, D_8012CF4C);
@@ -1254,7 +1273,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
                 OLib_Vec3fDiffToVecSphGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
-                func_800B3BD4(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw, DEGF_TO_BINANG(dbCamera->rollDegrees));
+                DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw, DEGF_TO_BINANG(dbCamera->rollDegrees));
                 return 2;
             }
 
@@ -1281,6 +1300,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     sLastFileIdx = sCurFileIdx;
                     D_801612EA = sDbCameraCuts[idx1].letter;
                 }
+                if (1) {}
             }
             // 6b90 diff: sGlobalCtx->state.input[2].cur loaded twice
             // and then sGlobalCtx is only loaded once
@@ -1322,8 +1342,8 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                                                    &D_801333E8);
                             break;
                     }
-                    sLastFileIdx = -1;
                 }
+                sLastFileIdx = -1;
             }
 
             // 6f40
@@ -1378,12 +1398,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
             }
             if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_DLEFT)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                if (sCurFileIdx == 0) {
-                    // diff: reordering (0x1E is loaded before sGlobalCtx)
-                    sCurFileIdx = 0x1E;
-                } else {
-                    sCurFileIdx--;
-                }
+                sCurFileIdx = (sCurFileIdx == 0) ? 0x1E : sCurFileIdx - 1;
             }
 
             if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_L) &&
