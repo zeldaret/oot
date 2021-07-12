@@ -1445,7 +1445,7 @@ void ShrinkWindow_Init(void);
 void ShrinkWindow_Destroy(void);
 void ShrinkWindow_Update(s32 updateRate);
 // ? DbCamera_AddVecSph(?);
-// ? func_800B3BD4(?);
+// ? DbCamera_CalcUpFromPitchYawRoll(?);
 // ? DbCamera_SetTextValue(?);
 // ? DbCamera_Vec3SToF(?);
 // ? DbCamera_Vec3FToS(?);

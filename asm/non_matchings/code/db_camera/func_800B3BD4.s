@@ -1,4 +1,4 @@
-glabel func_800B3BD4
+glabel DbCamera_CalcUpFromPitchYawRoll
 /* B2AD74 800B3BD4 27BDFF40 */  addiu $sp, $sp, -0xc0
 /* B2AD78 800B3BD8 AFBF0024 */  sw    $ra, 0x24($sp)
 /* B2AD7C 800B3BDC AFA400C0 */  sw    $a0, 0xc0($sp)
