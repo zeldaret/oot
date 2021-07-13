@@ -142,9 +142,9 @@ build/src/code/code_801067F0.o: OPTFLAGS := -g
 
 build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
-build/src/libultra_code_O1/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
-build/src/libultra_code_O2/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
-build/src/libultra_code_O2_g3/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+build/src/libultra_code_O1/%.o: CC :=  $(CC_OLD)
+build/src/libultra_code_O2/%.o: CC := $(CC_OLD)
+build/src/libultra_code_O2_g3/%.o: CC :=  $(CC_OLD)
 
 build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/code/jpegdecoder.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
