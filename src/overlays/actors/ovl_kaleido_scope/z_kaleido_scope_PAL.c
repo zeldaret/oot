@@ -227,7 +227,7 @@ static void* sPromptChoiceTexs[][2] = {
 };
 
 static u8 D_808321A8[5];
-static PreRenderContext sPlayerPreRenderCtx;
+static PreRender sPlayerPreRender;
 static void* sPreRenderCvg;
 
 void KaleidoScope_SetupPlayerPreRender(GlobalContext* globalCtx) {
@@ -243,9 +243,9 @@ void KaleidoScope_SetupPlayerPreRender(GlobalContext* globalCtx) {
     gfx = Graph_GfxPlusOne(gfxRef);
     gSPDisplayList(WORK_DISP++, gfx);
 
-    PreRender_SetValues(&sPlayerPreRenderCtx, 64, 112, fbuf, NULL);
-    func_800C1F20(&sPlayerPreRenderCtx, &gfx);
-    func_800C20B4(&sPlayerPreRenderCtx, &gfx);
+    PreRender_SetValues(&sPlayerPreRender, 64, 112, fbuf, NULL);
+    func_800C1F20(&sPlayerPreRender, &gfx);
+    func_800C20B4(&sPlayerPreRender, &gfx);
 
     gSPEndDisplayList(gfx++);
     Graph_BranchDlist(gfxRef, gfx);
@@ -258,8 +258,8 @@ void KaleidoScope_SetupPlayerPreRender(GlobalContext* globalCtx) {
 
 void KaleidoScope_ProcessPlayerPreRender(void) {
     Sleep_Msec(50);
-    PreRender_Calc(&sPlayerPreRenderCtx);
-    PreRender_Destroy(&sPlayerPreRenderCtx);
+    PreRender_Calc(&sPlayerPreRender);
+    PreRender_Destroy(&sPlayerPreRender);
 }
 
 Gfx* KaleidoScope_QuadTextureIA4(Gfx* gfx, void* texture, s16 width, s16 height, u16 point) {
@@ -2636,8 +2636,8 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             sPreRenderCvg = (void*)(((u32)pauseCtx->nameSegment + 0x400 + 0xA00 + 0xF) & ~0xF);
 
-            PreRender_Init(&sPlayerPreRenderCtx);
-            PreRender_SetValuesSave(&sPlayerPreRenderCtx, 64, 112, pauseCtx->playerSegment, NULL, sPreRenderCvg);
+            PreRender_Init(&sPlayerPreRender);
+            PreRender_SetValuesSave(&sPlayerPreRender, 64, 112, pauseCtx->playerSegment, NULL, sPreRenderCvg);
 
             KaleidoScope_DrawPlayerWork(globalCtx);
             KaleidoScope_SetupPlayerPreRender(globalCtx);
