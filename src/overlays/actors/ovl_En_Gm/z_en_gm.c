@@ -5,6 +5,7 @@
  */
 
 #include "z_en_gm.h"
+#include "objects/object_oF1d_map/object_oF1d_map.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
@@ -26,8 +27,6 @@ void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DF00(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DF60(EnGm* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0600DE80[];
-extern FlexSkeletonHeader D_0600FEF0;
 extern AnimationHeader D_060002B8;
 
 const ActorInit En_Gm_InitVars = {
@@ -108,7 +107,7 @@ s32 func_80A3D7C8(void) {
 void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objGmBankIndex)) {
         this->actor.flags &= ~0x10;
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, this->jointTable, this->morphTable, 18);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
         Animation_Change(&this->skelAnime, &D_060002B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), ANIMMODE_LOOP,
                          0.0f);
@@ -319,7 +318,7 @@ void func_80A3E090(EnGm* this) {
 }
 
 void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR eyeTextures[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
+    static UNK_PTR eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     EnGm* this = THIS;
     s32 pad;
 
@@ -327,7 +326,7 @@ void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600DE80));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, &this->actor);
 

@@ -715,7 +715,7 @@ void EnBb_Down(EnBb* this, GlobalContext* globalCtx) {
             this->actor.velocity.y = 10.0f;
         }
         this->actor.bgCheckFlags &= ~1;
-        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 7.0f, 2, 2.0f, 0, 0, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 7.0f, 2, 2.0f, 0, 0, 0);
         Math_SmoothStepToS(&this->actor.world.rot.y, -this->actor.yawTowardsPlayer, 1, 0xBB8, 0);
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -1115,7 +1115,7 @@ void EnBb_Stunned(EnBb* this, GlobalContext* globalCtx) {
         } else {
             this->actor.velocity.y = 0.0f;
         }
-        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 7.0f, 2, 2.0f, 0, 0, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 7.0f, 2, 2.0f, 0, 0, 0);
     }
     if (this->actor.colorFilterTimer == 0) {
         this->actor.shape.yOffset = 200.0f;
@@ -1153,7 +1153,7 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->dmgEffect = this->actor.colChkInfo.damageEffect;
-        func_80035650(&this->actor, &this->collider.elements[0].info, 0);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, 0);
         switch (this->dmgEffect) {
             case 7:
                 this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;

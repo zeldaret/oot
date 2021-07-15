@@ -90,7 +90,7 @@
 #define R_B_LABEL_DD                WREG(0)
 #define R_OW_MINIMAP_X              WREG(29)
 #define R_OW_MINIMAP_Y              WREG(30)
-#define R_MINIMAP_TOGGLED           WREG(31)
+#define R_MINIMAP_DISABLED          WREG(31)
 #define R_B_LABEL_X(i)              WREG(40 + i)
 #define R_B_LABEL_Y(i)              WREG(43 + i)
 #define R_DGN_MINIMAP_X             WREG(68)

@@ -537,7 +537,7 @@ void func_80ADEC9C(EnPoh* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistToPlayer > 280.0f) {
         EnPoh_SetupIdle(this);
     } else if (this->unk_198 == 0 && this->actor.xzDistToPlayer < 140.0f &&
-               func_8002DFC8(&this->actor, 0x2AAA, globalCtx) == 0) {
+               !Player_IsFacingActor(&this->actor, 0x2AAA, globalCtx)) {
         EnPoh_SetupAttack(this);
     }
     if (this->lightColor.a == 255) {
@@ -866,7 +866,7 @@ void func_80AE032C(EnPoh* this, GlobalContext* globalCtx) {
         this->colliderCyl.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DEAD);
             } else {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DAMAGE);

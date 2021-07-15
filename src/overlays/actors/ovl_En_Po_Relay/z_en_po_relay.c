@@ -262,7 +262,7 @@ void EnPoRelay_EndRace(EnPoRelay* this, GlobalContext* globalCtx) {
     } else if (globalCtx->roomCtx.curRoom.num == 5) {
         Actor_Kill(&this->actor);
         gSaveContext.timer1State = 0;
-    } else if (func_8002E12C(&this->actor, 150.0f, 0x3000) != 0) {
+    } else if (Actor_IsFacingAndNearPlayer(&this->actor, 150.0f, 0x3000)) {
         this->actor.textId = this->textId;
         func_8002F2CC(&this->actor, globalCtx, 250.0f);
     }

@@ -643,7 +643,7 @@ void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.5f, 1.0f, 0.0f);
     if (this->actor.speedXZ > 1.0f) {
-        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
     }
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->unk_32A == 0) {
@@ -687,7 +687,7 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 1) {
         Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
         if (1.0f < this->actor.speedXZ) {
-            func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
+            Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
         }
         if (this->unk_32A != 0) {
             this->unk_32E--;
@@ -753,7 +753,7 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) {
     } else {
         this->actor.speedXZ = 10.0f;
         this->attackParams = 1;
-        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
         if ((currentFrame != (s32)this->skelAnime.curFrame) &&
             (((s32)this->skelAnime.curFrame == 2) || ((s32)this->skelAnime.curFrame == 6))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
@@ -846,7 +846,7 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
     } else {
         this->actor.speedXZ = 10.0f;
         this->attackParams = 1;
-        func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
         if (currentFrame != (s32)this->skelAnime.curFrame) {
             if (((s32)this->skelAnime.curFrame == 2 || (s32)this->skelAnime.curFrame == 6)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
@@ -913,7 +913,7 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
     sp50 = !func_800339B8(&this->actor, globalCtx, 110.0f, this->actor.world.rot.y);
     currentFrame = (s32)this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
-    func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
+    Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
     if (currentFrame != (s32)this->skelAnime.curFrame) {
         if (((s32)this->skelAnime.curFrame == 2) || ((s32)this->skelAnime.curFrame == 6)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
@@ -1043,7 +1043,7 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
         }
     } else if (((s32)this->skelAnime.curFrame == 15) || ((s32)this->skelAnime.curFrame == 22)) {
         func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
-        func_80033260(globalCtx, &this->actor, &effPosition, 50.0f, 0xA, 3.0f, 0x190, 0x3C, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &effPosition, 50.0f, 0xA, 3.0f, 0x190, 0x3C, 0);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
     }
@@ -1328,7 +1328,7 @@ void func_80AA94D8(EnMb* this, GlobalContext* globalCtx) {
             }
             this->unk_188 = this->actor.colChkInfo.damageEffect;
             this->attackParams = 0;
-            func_80035650(&this->actor, &this->collider1.info, 0);
+            Actor_SetDropFlag(&this->actor, &this->collider1.info, 0);
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 6)) {
                 if (this->unk_320 != 5) {
                     Actor_ApplyDamage(&this->actor);

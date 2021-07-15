@@ -58,7 +58,7 @@ glabel func_80949CE4
 /* 110E8 80949DB8 0C24FC42 */  jal     func_8093F108
 /* 110EC 80949DBC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 110F0 80949DC0 8FA4002C */  lw      $a0, 0x002C($sp)
-/* 110F4 80949DC4 0C00CB1F */  jal     func_80032C7C
+/* 110F4 80949DC4 0C00CB1F */  jal     Enemy_StartFinishingBlow
 /* 110F8 80949DC8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 110FC 80949DCC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 11100 80949DD0 0C00BE0A */  jal     Audio_PlayActorSound2
