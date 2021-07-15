@@ -1155,7 +1155,7 @@ void Fishing_UpdateEffects(FishingEffect* effect, GlobalContext* globalCtx) {
                 }
 
                 if ((effect->unk_2C >= 100) && (func_8010BDBC(&globalCtx->msgCtx) == 5)) {
-                    if ((func_80106BC8(globalCtx) != 0) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                    if ((Message_ShouldAdvance(globalCtx) != 0) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
                         func_80106CCC(globalCtx);
                         Rupees_ChangeBy(-50);
                         effect->unk_2C = -1;
@@ -2851,7 +2851,7 @@ void Fishing_HandleAquariumDialog(Fishing* this, GlobalContext* globalCtx) {
         if (this->unk_1D4 == 0) {
             this->actor.flags |= 1;
 
-            if (func_8002F194(&this->actor, globalCtx)) {
+            if (Actor_IsTalking(&this->actor, globalCtx)) {
                 D_80B7A678 = D_80B7E078;
                 this->unk_1D3 = 1;
             } else {
@@ -3898,7 +3898,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 switch (this->unk_1D5) {
                     case 0:
                         if ((func_8010BDBC(&globalCtx->msgCtx) == 4) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
-                            if (func_80106BC8(globalCtx) != 0) {
+                            if (Message_ShouldAdvance(globalCtx) != 0) {
                                 func_80106CCC(globalCtx);
                                 if (globalCtx->msgCtx.choiceIndex == 0) {
                                     if (D_80B7A670 == 0.0f) {
@@ -3929,7 +3929,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                         break;
                     case 1:
                         if ((func_8010BDBC(&globalCtx->msgCtx) == 4) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
-                            if (func_80106BC8(globalCtx) != 0) {
+                            if (Message_ShouldAdvance(globalCtx) != 0) {
                                 func_80106CCC(globalCtx);
                                 if (globalCtx->msgCtx.choiceIndex != 0) {
                                     f32 temp1 = D_80B7A670;
@@ -4736,7 +4736,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x4097;
             }
 
-            if (func_8002F194(&this->actor, globalCtx) != 0) {
+            if (Actor_IsTalking(&this->actor, globalCtx) != 0) {
                 if (D_80B7E0AC == 0) {
                     this->unk_15C = 1;
                     if (sLinkAge != 1) {
@@ -4753,7 +4753,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 1:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 func_80106CCC(globalCtx);
 
                 switch (globalCtx->msgCtx.choiceIndex) {
@@ -4781,7 +4781,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 2:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 func_80106CCC(globalCtx);
                 func_8010B720(globalCtx, 0x407F);
                 this->unk_15C = 4;
@@ -4789,7 +4789,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 3:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 func_80106CCC(globalCtx);
                 this->unk_15C = 0;
             }
@@ -4799,7 +4799,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 4:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 func_80106CCC(globalCtx);
 
                 switch (globalCtx->msgCtx.choiceIndex) {
@@ -4816,7 +4816,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 5:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 func_80106CCC(globalCtx);
 
                 globalCtx->interfaceCtx.unk_260 = 1;
@@ -4833,7 +4833,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
 
         case 10:
             if (D_80B7A68C != 0) {
-                if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
                     func_80106CCC(globalCtx);
 
                     switch (globalCtx->msgCtx.choiceIndex) {
@@ -4849,7 +4849,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                     }
                 }
             } else {
-                if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
                     func_80106CCC(globalCtx);
 
                     switch (globalCtx->msgCtx.choiceIndex) {
@@ -4922,7 +4922,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
 
         case 11:
             if (((func_8010BDBC(&globalCtx->msgCtx) == 5) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) &&
-                (func_80106BC8(globalCtx) != 0)) {
+                (Message_ShouldAdvance(globalCtx) != 0)) {
                 s32 getItemId;
 
                 func_80106CCC(globalCtx);
@@ -4998,14 +4998,14 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 20:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 func_80106CCC(globalCtx);
                 this->unk_15C = 0;
             }
             break;
 
         case 21:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 func_80106CCC(globalCtx);
 
                 switch (globalCtx->msgCtx.choiceIndex) {
@@ -5049,7 +5049,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
 
         case 24:
             D_80B7A674 = false;
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 if (D_80B7E07C == 0) {
                     this->unk_15C = 0;
                 } else {
@@ -5419,7 +5419,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         case 21:
-            if ((D_80B7A6D0 == 0) && (func_80106BC8(globalCtx) != 0)) {
+            if ((D_80B7A6D0 == 0) && (Message_ShouldAdvance(globalCtx) != 0)) {
                 D_80B7A6CC = 22;
                 D_80B7A6D0 = 40;
                 func_8002DF54(globalCtx, &this->actor, 0x1C);
@@ -5476,7 +5476,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
             if (D_80B7A6D0 == 0) {
                 if ((func_8010BDBC(&globalCtx->msgCtx) == 4) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
-                    if (func_80106BC8(globalCtx) != 0) {
+                    if (Message_ShouldAdvance(globalCtx) != 0) {
                         Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
                         func_80106CCC(globalCtx);

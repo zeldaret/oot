@@ -1910,7 +1910,7 @@ void Message_DrawTextBox(GlobalContext* globalCtx, Gfx** p) {
         gDPSetCombineLERP(gfx++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
                           0);
         gDPSetPrimColor(gfx++, 0, 0, 255, 100, 0, 255);
-        gDPLoadTextureBlock_4b(gfx++, gHUDTrebleClefTex, G_IM_FMT_I, 16, 32, 0, G_TX_MIRROR, G_TX_MIRROR, G_TX_NOMASK,
+        gDPLoadTextureBlock_4b(gfx++, gOcarinaTrebleClefTex, G_IM_FMT_I, 16, 32, 0, G_TX_MIRROR, G_TX_MIRROR, G_TX_NOMASK,
                                G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSPTextureRectangle(gfx++, VREG(7) << 2, VREG(8) << 2, (VREG(7) + 16) << 2, (VREG(8) + 32) << 2,
                             G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
