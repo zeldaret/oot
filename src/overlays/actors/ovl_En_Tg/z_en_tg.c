@@ -64,14 +64,14 @@ u16 EnTg_GetTextId(GlobalContext* globalCtx, Actor* thisx) {
     }
     // Use a different set of dialogue in Kakariko Village (Adult)
     if (globalCtx->sceneNum == SCENE_SPOT01) {
-        if (this->timesSpokenTo % 2 != 0) {
+        if (this->nextDialogue % 2 != 0) {
             phi = 0x5089;
         } else {
             phi = 0x508A;
         }
         return phi;
     } else {
-        if (this->timesSpokenTo % 2 != 0) {
+        if (this->nextDialogue % 2 != 0) {
             phi = 0x7025;
         } else {
             phi = 0x7026;
@@ -98,12 +98,12 @@ s16 EnTg_OnTextComplete(GlobalContext* globalCtx, Actor* thisx) {
             switch (this->actor.textId) {
                 case 0x5089:
                 case 0x508A:
-                    this->timesSpokenTo++;
+                    this->nextDialogue++;
                     break;
                 case 0x7025:
                 case 0x7026:
                     this->actor.params ^= 1;
-                    this->timesSpokenTo++;
+                    this->nextDialogue++;
                     break;
             }
             return 0;
@@ -122,7 +122,7 @@ void EnTg_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     this->actor.targetMode = 6;
     Actor_SetScale(&this->actor, 0.01f);
-    this->timesSpokenTo = globalCtx->state.frames % 2;
+    this->nextDialogue = globalCtx->state.frames % 2;
     this->actionFunc = EnTg_SpinIfNotTalking;
 }
 
@@ -134,7 +134,7 @@ void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTg_SpinIfNotTalking(EnTg* this, GlobalContext* globalCtx) {
-    if (this->isTalking == 0) {
+    if (!this->isTalking) {
         this->actor.shape.rot.y += 0x800;
     }
 }
