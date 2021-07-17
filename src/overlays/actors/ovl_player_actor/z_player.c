@@ -9208,7 +9208,8 @@ void func_80847298(Player* this) {
 
 static f32 D_80854784[] = { 120.0f, 240.0f, 360.0f };
 
-static u8 D_80854790[] = { 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C };
+static u8 sDiveDoActions[] = { DO_ACTION_1, DO_ACTION_2, DO_ACTION_3, DO_ACTION_4,
+                               DO_ACTION_5, DO_ACTION_6, DO_ACTION_7, DO_ACTION_8 };
 
 void func_808473D4(GlobalContext* globalCtx, Player* this) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) && (this->actor.category == ACTORCAT_PLAYER)) {
@@ -9217,71 +9218,71 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
         s32 sp24;
         s32 sp20 = this->unk_84B[this->unk_846];
         s32 sp1C = func_808332B8(this);
-        s32 doAction = 0xA;
+        s32 doAction = DO_ACTION_NAVI;
 
         if (!Player_InBlockingCsMode(globalCtx, this)) {
             if (this->stateFlags1 & 0x100000) {
-                doAction = 3;
+                doAction = DO_ACTION_RETURN;
             } else if ((this->heldItemActionParam == PLAYER_AP_FISHING_POLE) && (this->unk_860 != 0)) {
                 if (this->unk_860 == 2) {
-                    doAction = 0x14;
+                    doAction = DO_ACTION_REEL;
                 }
             } else if ((func_8084E3C4 != this->func_674) && !(this->stateFlags2 & 0x40000)) {
                 if ((this->doorType != PLAYER_DOORTYPE_NONE) &&
                     (!(this->stateFlags1 & 0x800) || ((heldActor != NULL) && (heldActor->id == ACTOR_EN_RU1)))) {
-                    doAction = 4;
+                    doAction = DO_ACTION_OPEN;
                 } else if ((!(this->stateFlags1 & 0x800) || (heldActor == NULL)) && (interactRangeActor != NULL) &&
                            ((!sp1C && (this->getItemId == GI_NONE)) ||
                             ((this->getItemId < 0) && !(this->stateFlags1 & 0x8000000)))) {
                     if (this->getItemId < 0) {
-                        doAction = 4;
+                        doAction = DO_ACTION_OPEN;
                     } else if ((interactRangeActor->id == ACTOR_BG_TOKI_SWD) && LINK_IS_ADULT) {
-                        doAction = 0xC;
+                        doAction = DO_ACTION_DROP;
                     } else {
-                        doAction = 0x11;
+                        doAction = DO_ACTION_GRAB;
                     }
                 } else if (!sp1C && (this->stateFlags2 & 1)) {
-                    doAction = 0x11;
+                    doAction = DO_ACTION_GRAB;
                 } else if ((this->stateFlags2 & 4) || (!(this->stateFlags1 & 0x800000) && (this->rideActor != NULL))) {
-                    doAction = 0xB;
+                    doAction = DO_ACTION_CLIMB;
                 } else if ((this->stateFlags1 & 0x800000) && !EN_HORSE_CHECK_4((EnHorse*)this->rideActor) &&
                            (func_8084D3E4 != this->func_674)) {
                     if ((this->stateFlags2 & 2) && (this->targetActor != NULL)) {
                         if (this->targetActor->category == ACTORCAT_NPC) {
-                            doAction = 0xF;
+                            doAction = DO_ACTION_SPEAK;
                         } else {
-                            doAction = 1;
+                            doAction = DO_ACTION_CHECK;
                         }
                     } else if (!func_8002DD78(this) && !(this->stateFlags1 & 0x100000)) {
-                        doAction = 8;
+                        doAction = DO_ACTION_FASTER;
                     }
                 } else if ((this->stateFlags2 & 2) && (this->targetActor != NULL)) {
                     if (this->targetActor->category == ACTORCAT_NPC) {
-                        doAction = 0xF;
+                        doAction = DO_ACTION_SPEAK;
                     } else {
-                        doAction = 1;
+                        doAction = DO_ACTION_CHECK;
                     }
                 } else if ((this->stateFlags1 & 0x202000) ||
                            ((this->stateFlags1 & 0x800000) && (this->stateFlags2 & 0x400000))) {
-                    doAction = 0xD;
+                    doAction = DO_ACTION_DOWN;
                 } else if (this->stateFlags2 & 0x10000) {
-                    doAction = 2;
+                    doAction = DO_ACTION_ENTER;
                 } else if ((this->stateFlags1 & 0x800) && (this->getItemId == GI_NONE) && (heldActor != NULL)) {
                     if ((this->actor.bgCheckFlags & 1) || (heldActor->id == ACTOR_EN_NIW)) {
                         if (func_8083EAF0(this, heldActor) == 0) {
-                            doAction = 0xC;
+                            doAction = DO_ACTION_DROP;
                         } else {
-                            doAction = 9;
+                            doAction = DO_ACTION_THROW;
                         }
                     }
                 } else if (!(this->stateFlags1 & 0x8000000) && func_8083A0D4(this) && (this->getItemId < GI_MAX)) {
-                    doAction = 0x11;
+                    doAction = DO_ACTION_GRAB;
                 } else if (this->stateFlags2 & 0x800) {
                     sp24 = (D_80854784[CUR_UPG_VALUE(UPG_SCALE)] - this->actor.yDistToWater) / 40.0f;
                     sp24 = CLAMP(sp24, 0, 7);
-                    doAction = D_80854790[sp24];
+                    doAction = sDiveDoActions[sp24];
                 } else if (sp1C && !(this->stateFlags2 & 0x400)) {
-                    doAction = 7;
+                    doAction = DO_ACTION_DIVE;
                 } else if (!sp1C && (!(this->stateFlags1 & 0x400000) || func_80833BCC(this) ||
                                      !Player_IsChildWithHylianShield(this))) {
                     if ((!(this->stateFlags1 & 0x4000) && (sp20 <= 0) &&
@@ -9289,22 +9290,22 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
                           ((D_808535E4 != 7) &&
                            (func_80833B2C(this) || ((globalCtx->roomCtx.curRoom.unk_03 != 2) &&
                                                     !(this->stateFlags1 & 0x400000) && (sp20 == 0))))))) {
-                        doAction = 0;
+                        doAction = DO_ACTION_ATTACK;
                     } else if ((globalCtx->roomCtx.curRoom.unk_03 != 2) && func_80833BCC(this) && (sp20 > 0)) {
-                        doAction = 5;
+                        doAction = DO_ACTION_JUMP;
                     } else if ((this->heldItemActionParam >= PLAYER_AP_SWORD_MASTER) ||
                                ((this->stateFlags2 & 0x100000) &&
                                 (globalCtx->actorCtx.targetCtx.arrowPointedActor == NULL))) {
-                        doAction = 0x13;
+                        doAction = DO_ACTION_PUTAWAY;
                     }
                 }
             }
         }
 
-        if (doAction != 0x13) {
+        if (doAction != DO_ACTION_PUTAWAY) {
             this->unk_837 = 20;
         } else if (this->unk_837 != 0) {
-            doAction = 0xA;
+            doAction = DO_ACTION_NAVI;
             this->unk_837--;
         }
 

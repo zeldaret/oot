@@ -227,7 +227,7 @@ void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
     func_8010B680(globalCtx, 0x702D, &this->actor);
-    Interface_SetDoAction(globalCtx, 0x12);
+    Interface_SetDoAction(globalCtx, DO_ACTION_STOP);
     this->actionFunc = EnHeishi1_MoveToLink;
 }
 

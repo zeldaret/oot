@@ -2341,7 +2341,7 @@ void func_808265BC(GlobalContext* globalCtx) {
         pauseCtx->unk_1E4 = 0;
         pauseCtx->state++;
         pauseCtx->alpha = 255;
-        Interface_LoadActionLabelB(globalCtx, 0xE);
+        Interface_LoadActionLabelB(globalCtx, DO_ACTION_SAVE);
     } else if (pauseCtx->unk_1EA == 64) {
         pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
         pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
@@ -2612,7 +2612,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             osSyncPrintf("サイズ＝%x\n", size2 + size1 + size0 + size);
             osSyncPrintf("item_name I_N_PT=%x\n", 0x800);
-            Interface_SetDoAction(globalCtx, 6);
+            Interface_SetDoAction(globalCtx, DO_ACTION_DECIDE);
             osSyncPrintf("サイズ＝%x\n", size2 + size1 + size0 + size + 0x800);
 
             if (((void)0, gSaveContext.worldMapArea) < 22) {
@@ -2901,7 +2901,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             switch (pauseCtx->unk_1E4) {
                 case 0:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-                        Interface_SetDoAction(globalCtx, 10);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
@@ -2943,7 +2943,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
                         func_800ED858(0);
-                        Interface_SetDoAction(globalCtx, 10);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
@@ -2993,7 +2993,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 case 8:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
                         func_800ED858(0);
-                        Interface_SetDoAction(globalCtx, 10);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
@@ -3038,7 +3038,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 case 1:
                     if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
                         if (pauseCtx->promptChoice != 0) {
-                            Interface_SetDoAction(globalCtx, 10);
+                            Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
                             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                                 gSaveContext.buttonStatus[3] = BTN_ENABLED;
                             gSaveContext.unk_13EA = 0;
@@ -3058,7 +3058,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_START) ||
                                CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        Interface_SetDoAction(globalCtx, 10);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
                         pauseCtx->unk_1EC = 2;
                         WREG(2) = -6240;
                         YREG(8) = pauseCtx->unk_204;
@@ -3073,7 +3073,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 case 4:
                     if (CHECK_BTN_ALL(input->press.button, BTN_B) || CHECK_BTN_ALL(input->press.button, BTN_A) ||
                         CHECK_BTN_ALL(input->press.button, BTN_START) || (--D_8082B25C == 0)) {
-                        Interface_SetDoAction(globalCtx, 10);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;

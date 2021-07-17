@@ -630,8 +630,7 @@ void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     gSaveContext.eventInf[0] &= ~0x100;
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
-    LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c",
-            1111);
+    LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
     this->actor.flags |= 0x10000;
 
     if (HIGH_SCORE(HS_HBA) < gSaveContext.minigameScore) {

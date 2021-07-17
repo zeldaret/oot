@@ -198,10 +198,10 @@ void func_80111070(void) {
     YREG(8) = 10;
     YREG(14) = 0;
     YREG(15) = 0;
-    YREG(16) = 0;
-    YREG(17) = 0;
-    YREG(22) = 50;
-    YREG(23) = 0;
+    R_MESSAGE_TEXTBOX_TEXWIDTH = 0;
+    R_MESSAGE_TEXTBOX_TEXHEIGHT = 0;
+    R_MESSAGE_TEXTBOX_WIDTH = 50;
+    R_MESSAGE_TEXTBOX_HEIGHT = 0;
     YREG(24) = -60;
     YREG(25) = 13;
     YREG(26) = 15;
@@ -397,7 +397,7 @@ void func_80111070(void) {
     XREG(57) = 80;
     XREG(58) = 80;
     XREG(59) = 12;
-    XREG(60) = 1;
+    R_TEXT_DROP_SHADOW_OFFSET = 1;
     XREG(61) = 3;
     XREG(62) = 0;
     XREG(63) = 100;
@@ -409,8 +409,8 @@ void func_80111070(void) {
     XREG(69) = 86;
     XREG(70) = -300;
     XREG(71) = 0;
-    XREG(72) = 54;
-    XREG(73) = 48;
+    R_MESSAGE_TEXTBOX_X_TARGET = 54;
+    R_MESSAGE_TEXTBOX_Y_TARGET = 48;
     XREG(74) = 128;
     XREG(75) = 64;
     XREG(76) = 2048;

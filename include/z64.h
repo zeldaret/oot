@@ -351,7 +351,13 @@ typedef struct {
 #define LANGUAGE_FRA 2
 #define LANGUAGE_MAX LANGUAGE_FRA
 
-#define FONT_CHAR_TEX_SIZE 128 // 16x16 I4 texture
+// TODO get these properties from the textures themselves
+#define FONT_CHAR_TEX_WIDTH  16
+#define FONT_CHAR_TEX_HEIGHT 16
+#define FONT_CHAR_TEX_SIZE ((16*16)/2) // 16x16 I4 texture
+
+// TODO get these properties from the textures themselves
+#define MESSAGE_STATIC_TEX_SIZE 0x1000
 
 typedef enum {
     /* 0x00 */ MSGMODE_UNK_00, // idle / do nothing
@@ -454,7 +460,7 @@ typedef struct {
     /* 0x0128 */ Font   font;
     /* 0xE2B0 */ void*  textboxSegment; // "fukidashiSegment"
     /* 0xE2B4 */ char   unk_E2B4[0x04];
-    /* 0xE2B8 */ OcarinaStaff* unk_E2B8; // original name : info
+    /* 0xE2B8 */ OcarinaStaff* ocarinaStaff; // original name : info
     /* 0xE2BC */ u8     unk_E2BC;
     /* 0xE2BD */ char   unk_E2BD[0x02];
     /* 0xE2BF */ u8     unk_E2BF;
@@ -516,6 +522,39 @@ typedef struct {
     /* 0xE410 */ u8     unk_E410;
     /* 0xE411 */ char   unk_E411[0x07];
 } MessageContext; // size = 0xE418
+
+typedef enum {
+    /* 0x00 */ DO_ACTION_ATTACK,
+    /* 0x01 */ DO_ACTION_CHECK,
+    /* 0x02 */ DO_ACTION_ENTER,
+    /* 0x03 */ DO_ACTION_RETURN,
+    /* 0x04 */ DO_ACTION_OPEN,
+    /* 0x05 */ DO_ACTION_JUMP,
+    /* 0x06 */ DO_ACTION_DECIDE,
+    /* 0x07 */ DO_ACTION_DIVE,
+    /* 0x08 */ DO_ACTION_FASTER,
+    /* 0x09 */ DO_ACTION_THROW,
+    /* 0x0A */ DO_ACTION_NAVI, // unused
+    /* 0x0B */ DO_ACTION_CLIMB,
+    /* 0x0C */ DO_ACTION_DROP,
+    /* 0x0D */ DO_ACTION_DOWN,
+    /* 0x0E */ DO_ACTION_SAVE,
+    /* 0x0F */ DO_ACTION_SPEAK,
+    /* 0x10 */ DO_ACTION_NEXT,
+    /* 0x11 */ DO_ACTION_GRAB,
+    /* 0x12 */ DO_ACTION_STOP,
+    /* 0x13 */ DO_ACTION_PUTAWAY,
+    /* 0x14 */ DO_ACTION_REEL,
+    /* 0x15 */ DO_ACTION_1,
+    /* 0x16 */ DO_ACTION_2,
+    /* 0x17 */ DO_ACTION_3,
+    /* 0x18 */ DO_ACTION_4,
+    /* 0x19 */ DO_ACTION_5,
+    /* 0x1A */ DO_ACTION_6,
+    /* 0x1B */ DO_ACTION_7,
+    /* 0x1C */ DO_ACTION_8,
+    /* 0x1D */ DO_ACTION_MAX
+} DoAction;
 
 typedef struct {
     /* 0x0000 */ View   view;

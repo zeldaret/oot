@@ -1565,8 +1565,8 @@ void func_8002F374(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
     f32 w;
 
     func_8002BE04(globalCtx, &actor->focus.pos, &projectedPos, &w);
-    *x = projectedPos.x * w * (SCREEN_WIDTH/2) + (SCREEN_WIDTH/2);
-    *y = projectedPos.y * w * -(SCREEN_HEIGHT/2) + (SCREEN_HEIGHT/2);
+    *x = projectedPos.x * w * (SCREEN_WIDTH / 2) + (SCREEN_WIDTH / 2);
+    *y = projectedPos.y * w * -(SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 2);
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {

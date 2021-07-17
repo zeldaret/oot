@@ -688,7 +688,7 @@ s32 EnOssan_TestCancelOption(EnOssan* this, GlobalContext* globalCtx, Input* con
 void EnOssan_SetStateStartShopping(GlobalContext* globalCtx, EnOssan* this, u8 skipHelloState) {
     YREG(31) = 1;
     this->headRot = this->headTargetRot = 0;
-    Interface_SetDoAction(globalCtx, 0x10);
+    Interface_SetDoAction(globalCtx, DO_ACTION_NEXT);
     EnOssan_UpdateCameraDirection(this, globalCtx, 0);
 
     if (!skipHelloState) {
@@ -713,7 +713,7 @@ void EnOssan_StartShopping(GlobalContext* globalCtx, EnOssan* this) {
         func_8010B720(globalCtx, 0x83);
     }
 
-    Interface_SetDoAction(globalCtx, 6);
+    Interface_SetDoAction(globalCtx, DO_ACTION_DECIDE);
     this->stickRightPrompt.isEnabled = true;
     this->stickLeftPrompt.isEnabled = true;
     EnOssan_UpdateCameraDirection(this, globalCtx, 0.0f);
@@ -722,7 +722,7 @@ void EnOssan_StartShopping(GlobalContext* globalCtx, EnOssan* this) {
 void EnOssan_ChooseTalkToOwner(GlobalContext* globalCtx, EnOssan* this) {
     this->stateFlag = OSSAN_STATE_TALKING_TO_SHOPKEEPER;
     sShopkeeperTalkOwner[this->actor.params](globalCtx);
-    Interface_SetDoAction(globalCtx, 6);
+    Interface_SetDoAction(globalCtx, DO_ACTION_DECIDE);
     this->stickLeftPrompt.isEnabled = false;
     this->stickRightPrompt.isEnabled = false;
 }
@@ -890,7 +890,8 @@ void EnOssan_State_StartConversation(EnOssan* this, GlobalContext* globalCtx, Pl
     u8 dialogState = func_8010BDBC(&globalCtx->msgCtx);
 
     if (this->actor.params == OSSAN_TYPE_MASK && dialogState == 4) {
-        if (!EnOssan_TestEndInteraction(this, globalCtx, &globalCtx->state.input[0]) && Message_ShouldAdvance(globalCtx)) {
+        if (!EnOssan_TestEndInteraction(this, globalCtx, &globalCtx->state.input[0]) &&
+            Message_ShouldAdvance(globalCtx)) {
             switch (globalCtx->msgCtx.choiceIndex) {
                 case 0:
                     EnOssan_StartShopping(globalCtx, this);
@@ -962,7 +963,7 @@ void EnOssan_State_FacingShopkeeper(EnOssan* this, GlobalContext* globalCtx, Pla
             if (nextIndex != CURSOR_INVALID) {
                 this->cursorIndex = nextIndex;
                 this->stateFlag = OSSAN_STATE_LOOK_SHELF_LEFT;
-                Interface_SetDoAction(globalCtx, 6);
+                Interface_SetDoAction(globalCtx, DO_ACTION_DECIDE);
                 this->stickLeftPrompt.isEnabled = false;
                 func_80078884(NA_SE_SY_CURSOR);
             }
@@ -971,7 +972,7 @@ void EnOssan_State_FacingShopkeeper(EnOssan* this, GlobalContext* globalCtx, Pla
             if (nextIndex != CURSOR_INVALID) {
                 this->cursorIndex = nextIndex;
                 this->stateFlag = OSSAN_STATE_LOOK_SHELF_RIGHT;
-                Interface_SetDoAction(globalCtx, 6);
+                Interface_SetDoAction(globalCtx, DO_ACTION_DECIDE);
                 this->stickRightPrompt.isEnabled = false;
                 func_80078884(NA_SE_SY_CURSOR);
             }

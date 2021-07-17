@@ -2805,7 +2805,7 @@ extern s16 gTatumsPerBeat;
 //extern ? D_8014B2FC;
 //extern ? D_8014B300;
 //extern ? D_8014B304;
-//extern ? D_8014B308;
+//extern ? sTextIsCredits;
 //extern ? D_8014B310;
 //extern ? D_8014B314;
 //extern ? D_8014B318;
