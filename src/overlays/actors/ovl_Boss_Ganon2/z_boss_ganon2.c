@@ -2581,8 +2581,317 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80905DA8(this, globalCtx);
 }
 
-void func_809034E4(Vec3f* arg0, Vec3f* arg1);
+#if NON_MATCHING
+void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
+    Vec3f sp2D0;
+    s16 sp2CA;
+    s16 sp2C8;
+    f32 sp2A0;
+    f32 sp294;
+    Vec3f sp18C[20];
+    Vec3f sp9C[20];
+    f32 sp98;
+    f32 sp94;
+    f32 sp88;
+    f32 sp84;
+    f32 sp74;
+    Vec3f* temp_s0;
+    Vec3f* temp_s0_2;
+    Vec3f* temp_s0_3;
+    Vec3f* temp_t5;
+    Vec3f* temp_t6_2;
+    Vec3f* temp_t9_2;
+    Vec3f* temp_v0_3;
+    Vec3f* temp_v1_2;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f0_3;
+    f32 temp_f0_4;
+    f32 temp_f0_5;
+    f32 temp_f0_6;
+    f32 temp_f10;
+    f32 temp_f12;
+    f32 temp_f12_2;
+    f32 temp_f12_3;
+    f32 temp_f12_4;
+    f32 temp_f14;
+    f32 temp_f14_2;
+    f32 temp_f16;
+    f32 temp_f16_2;
+    f32 temp_f18;
+    f32 temp_f18_2;
+    f32 temp_f20;
+    f32 temp_f20_2;
+    f32 temp_f20_3;
+    f32 temp_f20_4;
+    f32 temp_f20_5;
+    f32 temp_f20_6;
+    f32 temp_f22;
+    f32 temp_f22_2;
+    f32 temp_f22_3;
+    f32 temp_f22_4;
+    f32 temp_f22_5;
+    f32 temp_f22_6;
+    f32 temp_f24;
+    f32 temp_f24_2;
+    f32 temp_f24_3;
+    f32 temp_f24_4;
+    f32 temp_f26;
+    f32 temp_f26_2;
+    f32 temp_f26_3;
+    f32 temp_f26_4;
+    f32 temp_f28;
+    f32 temp_f28_2;
+    f32 temp_f28_3;
+    f32 temp_f28_4;
+    f32 temp_f2;
+    f32 temp_f2_2;
+    f32 temp_f30;
+    f32 temp_f30_2;
+    f32 temp_f4;
+    f32 temp_f6;
+    f32 temp_f6_2;
+    f32 temp_f6_3;
+    f32 temp_f8;
+    f32 temp_f8_2;
+    f32 temp_f8_3;
+    s16 temp_s1;
+    s16 temp_s1_2;
+    s16 temp_v0;
+    s16 temp_v0_4;
+    s16 temp_v0_5;
+    Vtx* temp_a1;
+    s32 temp_lo;
+    s32 temp_s4;
+    s32 temp_s4_2;
+    u8* temp_v1_3;
+    u8* temp_v1_4;
+    Vec3f* temp_a0;
+    Vec3f* temp_a0_2;
+    Vec3f* temp_t2;
+    Vec3f* temp_t8;
+    s16 i;
+    f32 phi_f22;
+    f32 phi_f20;
+    f32 phi_f24;
+    s32 phi_s4;
+    f32 phi_f12;
+    s32 phi_s3;
+    Vec3f* phi_s0;
+    f32 phi_f30;
+    s32 phi_s2;
+    f32 phi_f22_2;
+    f32 phi_f20_2;
+    f32 phi_f24_2;
+    s32 phi_s4_2;
+    f32 phi_f12_2;
+    s32 phi_s3_2;
+    Vec3f* phi_s0_2;
+    f32 phi_f30_2;
+    s32 phi_s2_2;
+    s16 phi_v0_2;
+    s32 phi_s2_3;
+    s32 phi_s2_4;
+    s32 phi_s2_5;
+    s32 phi_s2_6;
+
+    for (i = 0; i < 20; i++) {
+        sp18C[i] = *arg0;
+        sp9C[i] = *arg1;
+    }
+
+    D_809105D8[3] = D_809105D8[2];
+    D_809105D8[2] = D_809105D8[1];
+    D_809105D8[1] = D_809105D8[0];
+    D_809105D8[0] = *arg0;
+    sp2D0 = D_809105D8[0];
+    temp_f20 = D_809105D8[1].x - sp2D0.x;
+    temp_f22 = D_809105D8[1].z - sp2D0.z;
+    temp_f24 = D_809105D8[1].y - sp2D0.y;
+    temp_f26 = SQ(temp_f20);
+    sp2CA = Math_Atan2S(temp_f22, temp_f20);
+    temp_f28 = SQ(temp_f22);
+    temp_f12 = D_809105D8[2].x;
+    temp_f16 = D_809105D8[2].y;
+    temp_f2 = temp_f12 - D_809105D8[1].x;
+    temp_f20_2 = D_809105D8[2].z;
+    temp_f14 = temp_f16 - D_809105D8[1].y;
+    temp_f22_2 = D_809105D8[3].x - temp_f12;
+    temp_f18 = temp_f20_2 - D_809105D8[1].z;
+    sp2C8 = Math_Atan2S(sqrtf(temp_f26 + temp_f28), temp_f24);
+    temp_f30 = D_809105D8[3].y - temp_f16;
+    sp2A0 = D_809105D8[3].z - temp_f20_2;
+    temp_f0 = sqrtf(SQ(temp_f2) + SQ(temp_f14) + SQ(temp_f18));
+    sp88 = temp_f0;
+    sp94 = temp_f0;
+    temp_f0_2 = sqrtf(temp_f26 + SQ(temp_f24) + temp_f28);
+    sp84 = temp_f0_2;
+    sp98 = temp_f0_2;
+    temp_f12_2 = sqrtf(SQ(temp_f22_2) + SQ(temp_f30) + SQ(sp2A0)) + (sp98 + sp94);
+    phi_f12 = temp_f12_2;
+    if (temp_f12_2 <= 1.0f) {
+        phi_f12 = 1.0f;
+    }
+    sp294 = temp_f0 * 0.5f;
+    temp_f28_2 = phi_f12 * 0.083f;
+    phi_f22 = D_809105D8[1].z - sp2D0.z;
+    phi_f20 = D_809105D8[1].x - sp2D0.x;
+    phi_f24 = D_809105D8[1].y - sp2D0.y;
+    phi_s4 = 0;
+    phi_s3 = 1;
+    phi_s0 = &D_809105D8[1];
+    phi_f30 = temp_f0_2 * 0.5f;
+    phi_s2_3 = 1;
+loop_5:
+    temp_s1 = Math_Atan2S(phi_f22, phi_f20);
+    Math_ApproachS(&sp2C8, Math_Atan2S(sqrtf((phi_f20 * phi_f20) + (phi_f22 * phi_f22)), phi_f24), 1, 0x1000);
+    Math_ApproachS(&sp2CA, temp_s1, 1, 0x1000);
+    temp_f0_3 = Math_CosS(sp2C8);
+    sp18C[phi_s4] = sp2D0;
+    temp_f26_2 = temp_f0_3 * temp_f28_2;
+    temp_f10 = sp2D0.x + (temp_f26_2 * Math_SinS(sp2CA));
+    sp2D0.x = temp_f10;
+    temp_f6 = sp2D0.y + (temp_f28_2 * Math_SinS(sp2C8));
+    sp2D0.y = temp_f6;
+    temp_f8 = sp2D0.z + (temp_f26_2 * Math_CosS(sp2CA));
+    temp_s4 = (phi_s4 + 1) & 0xFF;
+    temp_f20_3 = phi_s0->x - temp_f10;
+    temp_f6_2 = temp_f6;
+    sp2D0.z = temp_f8;
+    temp_f24_2 = phi_s0->y - temp_f6_2;
+    temp_f22_3 = phi_s0->z - temp_f8;
+    if (phi_s3 < 3) {
+        phi_s2 = phi_s2_3;
+        if (sqrtf((temp_f20_3 * temp_f20_3) + (temp_f24_2 * temp_f24_2) + (temp_f22_3 * temp_f22_3)) <= phi_f30) {
+            phi_s2_4 = phi_s2_3 + 1;
+            phi_f30 = sp294;
+        block_10:
+            phi_s2 = phi_s2_4 & 0xFF;
+        }
+    } else {
+        phi_s2 = phi_s2_3;
+        if (sqrtf((temp_f20_3 * temp_f20_3) + (temp_f24_2 * temp_f24_2) + (temp_f22_3 * temp_f22_3)) <=
+            (temp_f28_2 + 1.0f)) {
+            phi_s2_4 = phi_s2_3 + 1;
+            goto block_10;
+        }
+    }
+    if ((temp_s4 >= 0x14) || (phi_s2 >= 4)) {
+
+    } else {
+        temp_s0 = &D_809105D8[phi_s2];
+        phi_f22 = temp_s0->z - sp2D0.z;
+        phi_f20 = temp_s0->x - sp2D0.x;
+        phi_f24 = temp_s0->y - sp2D0.y;
+        phi_s4 = temp_s4;
+        phi_s3 = phi_s2;
+        phi_s0 = temp_s0;
+        phi_s2_3 = phi_s2;
+        goto loop_5;
+    }
+    D_80910608[3] = D_80910608[2];
+    D_80910608[2] = D_80910608[1];
+    D_80910608[1] = D_80910608[0];
+    D_80910608[0] = *arg1;
+    sp2D0 = D_80910608[0];
+    temp_f20_4 = D_80910608[1].x - sp2D0.x;
+    temp_f24_3 = D_80910608[1].y - sp2D0.y;
+    temp_f22_4 = D_80910608[1].z - sp2D0.z;
+    temp_f26_3 = SQ(temp_f20_4);
+    sp2CA = Math_Atan2S(temp_f22_4, temp_f20_4);
+    temp_f28_3 = SQ(temp_f22_4);
+    temp_v0_4 = Math_Atan2S(sqrtf(temp_f26_3 + temp_f28_3), temp_f24_3);
+    temp_f20_5 = D_80910608[2].y;
+    temp_f16_2 = D_80910608[2].x;
+    temp_f14_2 = temp_f20_5 - D_80910608[1].y;
+    sp74 = D_80910608[2].z;
+    temp_f2_2 = temp_f16_2 - D_80910608[1].x;
+    temp_f22_5 = D_80910608[3].x - temp_f16_2;
+    temp_f18_2 = sp74 - D_80910608[1].z;
+    sp2C8 = temp_v0_4;
+    temp_f30_2 = D_80910608[3].y - temp_f20_5;
+    temp_f12_3 = D_80910608[3].z - sp74;
+    temp_f0_4 = sqrtf(SQ(temp_f2_2) + SQ(temp_f14_2) + SQ(temp_f18_2));
+    sp88 = temp_f0_4;
+    sp94 = temp_f0_4;
+    temp_f0_5 = sqrtf(temp_f26_3 + SQ(temp_f24_3) + temp_f28_3);
+    sp84 = temp_f0_5;
+    sp98 = temp_f0_5;
+    temp_f12_4 = sqrtf(SQ(temp_f22_5) + SQ(temp_f30_2) + SQ(temp_f12_3)) + (sp98 + sp94);
+    phi_f12_2 = temp_f12_4;
+    if (temp_f12_4 <= 1.0f) {
+        phi_f12_2 = 1.0f;
+    }
+    sp294 = temp_f0_4 * 0.5f;
+    temp_f28_4 = phi_f12_2 * 0.083f;
+    phi_f22_2 = D_80910608[1].z - sp2D0.z;
+    phi_f20_2 = D_80910608[1].x - sp2D0.x;
+    phi_f24_2 = D_80910608[1].y - sp2D0.y;
+    phi_s4_2 = 0;
+    phi_s3_2 = 1;
+    phi_s0_2 = &D_80910608[1];
+    phi_f30_2 = temp_f0_5 * 0.5f;
+    phi_s2_5 = 1;
+loop_18:
+    temp_s1_2 = Math_Atan2S(phi_f22_2, phi_f20_2);
+    Math_ApproachS(&sp2C8, Math_Atan2S(sqrtf((phi_f20_2 * phi_f20_2) + (phi_f22_2 * phi_f22_2)), phi_f24_2), 1, 0x1000);
+    Math_ApproachS(&sp2CA, temp_s1_2, 1, 0x1000);
+    temp_f0_6 = Math_CosS(sp2C8);
+    sp9C[phi_s4_2] = sp2D0;
+    temp_f26_4 = temp_f0_6 * temp_f28_4;
+    temp_f4 = sp2D0.x + (temp_f26_4 * Math_SinS(sp2CA));
+    sp2D0.x = temp_f4;
+    temp_f8_2 = sp2D0.y + (temp_f28_4 * Math_SinS(sp2C8));
+    sp2D0.y = temp_f8_2;
+    temp_f6_3 = sp2D0.z + (temp_f26_4 * Math_CosS(sp2CA));
+    temp_s4_2 = (phi_s4_2 + 1) & 0xFF;
+    temp_f20_6 = phi_s0_2->x - temp_f4;
+    temp_f8_3 = temp_f8_2;
+    sp2D0.z = temp_f6_3;
+    temp_f24_4 = phi_s0_2->y - temp_f8_3;
+    temp_f22_6 = phi_s0_2->z - temp_f6_3;
+    if (phi_s3_2 < 3) {
+        phi_s2_2 = phi_s2_5;
+        if (sqrtf(SQ(temp_f20_6) + SQ(temp_f24_4) + SQ(temp_f22_6)) <= phi_f30_2) {
+            phi_s2_6 = phi_s2_5 + 1;
+            phi_f30_2 = sp294;
+        block_23:
+            phi_s2_2 = phi_s2_6 & 0xFF;
+        }
+    } else {
+        phi_s2_2 = phi_s2_5;
+        if (sqrtf(SQ(temp_f20_6) + SQ(temp_f24_4) + SQ(temp_f22_6)) <= (temp_f28_4 + 1.0f)) {
+            phi_s2_6 = phi_s2_5 + 1;
+            goto block_23;
+        }
+    }
+    if ((temp_s4_2 < 0x14) && (phi_s2_2 < 4)) {
+        phi_f22_2 = D_80910608[phi_s2_2].z - sp2D0.z;
+        phi_f20_2 = D_80910608[phi_s2_2].x - sp2D0.x;
+        phi_f24_2 = D_80910608[phi_s2_2].y - sp2D0.y;
+        phi_s4_2 = temp_s4_2;
+        phi_s3_2 = phi_s2_2;
+        phi_s0_2 = &D_80910608[phi_s2_2];
+        phi_s2_5 = phi_s2_2;
+        goto loop_18;
+    }
+    temp_a1 = SEGMENTED_TO_VIRTUAL(D_80908960);
+    for (phi_v0_2 = 0; phi_v0_2 < 11; phi_v0_2++) {
+        if ((temp_s4 - phi_v0_2) > 0) {
+            temp_a1[D_80907084[phi_v0_2]].n.ob[0] = sp18C[temp_s4 - phi_v0_2 - 1].x;
+            temp_a1[D_80907084[phi_v0_2]].n.ob[1] = sp18C[temp_s4 - phi_v0_2 - 1].y;
+            temp_a1[D_80907084[phi_v0_2]].n.ob[2] = sp18C[temp_s4 - phi_v0_2 - 1].z;
+        }
+        if ((temp_s4_2 - phi_v0_2) > 0) {
+            temp_a1[D_80907090[phi_v0_2]].n.ob[0] = sp9C[temp_s4_2 - phi_v0_2 - 1].x;
+            temp_a1[D_80907090[phi_v0_2]].n.ob[1] = sp9C[temp_s4_2 - phi_v0_2 - 1].y;
+            temp_a1[D_80907090[phi_v0_2]].n.ob[2] = sp9C[temp_s4_2 - phi_v0_2 - 1].z;
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809034E4.s")
+#endif
 
 void func_80903F38(BossGanon2* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5083);
