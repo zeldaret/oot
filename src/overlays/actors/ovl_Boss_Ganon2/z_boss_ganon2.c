@@ -2581,7 +2581,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80905DA8(this, globalCtx);
 }
 
-#if NON_MATCHING
+#ifdef NON_MATCHING
 void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
     Vec3f sp2D0;
     s16 sp2CA;
