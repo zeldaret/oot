@@ -2047,7 +2047,7 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
     static void* sDoActionTextures[] = { gAttackDoActionENGTex, gCheckDoActionENGTex };
 
     if (action >= DO_ACTION_MAX) {
-        action = DO_ACTION_NAVI;
+        action = DO_ACTION_NONE;
     }
 
     if (gSaveContext.language != LANGUAGE_ENG) {
@@ -2058,8 +2058,8 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
         action += DO_ACTION_MAX;
     }
 
-    if ((action != DO_ACTION_NAVI) && (action != DO_ACTION_MAX + DO_ACTION_NAVI) &&
-        (action != 2 * DO_ACTION_MAX + DO_ACTION_NAVI)) {
+    if ((action != DO_ACTION_NONE) && (action != DO_ACTION_MAX + DO_ACTION_NONE) &&
+        (action != 2 * DO_ACTION_MAX + DO_ACTION_NONE)) {
         osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, OS_MESG_BLOCK);
         DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160,
                             interfaceCtx->doActionSegment + (loadOffset * DO_ACTION_TEX_SIZE),
@@ -4044,7 +4044,7 @@ void Interface_Update(GlobalContext* globalCtx) {
                 interfaceCtx->unk_1EE = interfaceCtx->unk_1F0;
                 action = interfaceCtx->unk_1EE;
                 if ((action == DO_ACTION_MAX) || (action == DO_ACTION_MAX + 1)) {
-                    action = DO_ACTION_NAVI;
+                    action = DO_ACTION_NONE;
                 }
                 Interface_LoadActionLabel(interfaceCtx, action, 0);
             }
@@ -4064,7 +4064,7 @@ void Interface_Update(GlobalContext* globalCtx) {
                 interfaceCtx->unk_1EE = interfaceCtx->unk_1F0;
                 action = interfaceCtx->unk_1EE;
                 if ((action == DO_ACTION_MAX) || (action == DO_ACTION_MAX + 1)) {
-                    action = DO_ACTION_NAVI;
+                    action = DO_ACTION_NONE;
                 }
                 Interface_LoadActionLabel(interfaceCtx, action, 0);
             }

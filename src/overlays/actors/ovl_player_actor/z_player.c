@@ -9218,7 +9218,7 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
         s32 sp24;
         s32 sp20 = this->unk_84B[this->unk_846];
         s32 sp1C = func_808332B8(this);
-        s32 doAction = DO_ACTION_NAVI;
+        s32 doAction = DO_ACTION_NONE;
 
         if (!Player_InBlockingCsMode(globalCtx, this)) {
             if (this->stateFlags1 & 0x100000) {
@@ -9305,7 +9305,7 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
         if (doAction != DO_ACTION_PUTAWAY) {
             this->unk_837 = 20;
         } else if (this->unk_837 != 0) {
-            doAction = DO_ACTION_NAVI;
+            doAction = DO_ACTION_NONE;
             this->unk_837--;
         }
 

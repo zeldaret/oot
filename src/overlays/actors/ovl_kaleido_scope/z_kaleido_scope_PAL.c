@@ -2901,7 +2901,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             switch (pauseCtx->unk_1E4) {
                 case 0:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-                        Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
@@ -2943,7 +2943,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
                         func_800ED858(0);
-                        Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
@@ -2993,7 +2993,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 case 8:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
                         func_800ED858(0);
-                        Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
@@ -3038,7 +3038,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 case 1:
                     if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
                         if (pauseCtx->promptChoice != 0) {
-                            Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
+                            Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                                 gSaveContext.buttonStatus[3] = BTN_ENABLED;
                             gSaveContext.unk_13EA = 0;
@@ -3058,7 +3058,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         }
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_START) ||
                                CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->unk_1EC = 2;
                         WREG(2) = -6240;
                         YREG(8) = pauseCtx->unk_204;
@@ -3073,7 +3073,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 case 4:
                     if (CHECK_BTN_ALL(input->press.button, BTN_B) || CHECK_BTN_ALL(input->press.button, BTN_A) ||
                         CHECK_BTN_ALL(input->press.button, BTN_START) || (--D_8082B25C == 0)) {
-                        Interface_SetDoAction(globalCtx, DO_ACTION_NAVI);
+                        Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
                         gSaveContext.unk_13EA = 0;
