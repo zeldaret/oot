@@ -3513,7 +3513,7 @@ void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
                     for (phi_v1 = -D_809071B4[j]; phi_v1 < D_809071B4[j]; phi_v1++) {
                         temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
                         if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
-                            shadowTexture[temp_v0] = 255;
+                            shadowTexture[temp_v0] = 0xFF;
                         }
                     }
                 }
@@ -3522,7 +3522,7 @@ void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
                     for (phi_v1 = -D_809071A4[j]; phi_v1 < D_809071A4[j]; phi_v1++) {
                         temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
                         if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
-                            shadowTexture[temp_v0] = 255;
+                            shadowTexture[temp_v0] = 0xFF;
                         }
                     }
                 }
@@ -3531,7 +3531,7 @@ void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
                     for (phi_v1 = -D_80907194[j]; phi_v1 < D_80907194[j] - 1; phi_v1++) {
                         temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
                         if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
-                            shadowTexture[temp_v0] = 255;
+                            shadowTexture[temp_v0] = 0xFF;
                         }
                     }
                 }
@@ -3540,7 +3540,7 @@ void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
                     for (phi_v1 = -D_80907188[j]; phi_v1 < D_80907188[j] - 1; phi_v1++) {
                         temp_v0 = temp_a3 + phi_v1 + temp_t0 + phi_a1;
                         if ((temp_v0 >= 0) && (temp_v0 < 0x1000)) {
-                            shadowTexture[temp_v0] = 255;
+                            shadowTexture[temp_v0] = 0xFF;
                         }
                     }
                 }
