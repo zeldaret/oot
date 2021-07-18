@@ -62,10 +62,11 @@ extern AnimationHeader D_0600FFE4;
 extern AnimationHeader D_06010380;
 extern FlexSkeletonHeader D_060114E8;
 extern AnimationHeader D_060147E0;
-extern UNK_TYPE D_0601E188[];
-extern UNK_TYPE D_0601E988[];
-extern UNK_TYPE D_0601EA08[];
-extern UNK_TYPE D_06021A90[];
+extern u64 D_0601E188[];
+extern u64 D_0601E988[];
+extern u64 D_0601EA08[];
+// Title card texture
+extern u64 D_06021A90[];
 extern FlexSkeletonHeader D_06025970;
 extern AnimationHeader D_06026510;
 extern AnimationHeader D_06026AF4;
@@ -359,41 +360,17 @@ static s8 D_809070CC[] = {
     0x00, 0xFF, 0xFF, 0x02, 0x0C, 0x0D, 0x0E, 0x09, 0x0A, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
 };
 
-static Vec3f D_809070FC = {
-    0.0f,
-    0.0f,
-    5000.0f,
-};
+static Vec3f D_809070FC = { 0.0f, 0.0f, 5000.0f };
 
-static Vec3f D_80907108 = {
-    0.0f,
-    2000.0f,
-    0.0f,
-};
+static Vec3f D_80907108 = { 0.0f, 2000.0f, 0.0f };
 
-static Vec3f D_80907114 = {
-    0.0f,
-    2000.0f,
-    0.0f,
-};
+static Vec3f D_80907114 = { 0.0f, 2000.0f, 0.0f };
 
-static Vec3f D_80907120 = {
-    0.0f,
-    0.0f,
-    17000.0f,
-};
+static Vec3f D_80907120 = { 0.0f, 0.0f, 17000.0f };
 
-static Vec3f D_8090712C = {
-    0.0f,
-    0.0f,
-    3000.0f,
-};
+static Vec3f D_8090712C = { 0.0f, 0.0f, 3000.0f };
 
-static Vec3f D_80907138 = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
+static Vec3f D_80907138 = { 0.0f, 0.0f, 0.0f };
 
 static s8 D_80907144[] = {
     0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0x05, 0xFF, 0x06, 0x07, 0x08, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -402,7 +379,7 @@ static s8 D_80907144[] = {
 
 static Vec3f D_80907164 = { 800.0f, 420.0f, 100.0f };
 
-static UNK_PTR D_80907170[] = {
+static void* sEyeTextures[] = {
     D_0601E188,
     D_0601E988,
     D_0601EA08,
@@ -423,7 +400,7 @@ static s16 D_809071CC[] = { 1, -1, 1, 1, 3, 4, 1, 6, 7, 2, 9, 10, 2, 12, 13 };
 static u8 D_809071EC[] = { 3, 2, 2, 1, 3, 3, 1, 3, 3, 1, 0, 3, 1, 0, 3 };
 
 // padding
-static UNK_TYPE D_809071FC[2] = { 0 };
+static u32 D_809071FC[2] = { 0 };
 
 #include "overlays/ovl_Boss_Ganon2/ovl_Boss_Ganon2.c"
 
@@ -433,6 +410,7 @@ static EnZl3* D_8090EB2C;
 
 static Actor* D_8090EB30;
 
+// unused
 static UNK_TYPE D_8090EB34;
 
 static BossGanon2Effect D_8090EB38[100];
@@ -443,6 +421,7 @@ static s32 D_809105CC;
 
 static s32 D_809105D0;
 
+// unused
 static UNK_TYPE D_809105DC;
 
 static Vec3f D_809105D8[4];
@@ -3142,7 +3121,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case 1:
         case 2:
             func_808FD108(this, globalCtx, OBJECT_GANON2, 1);
-            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80907170[this->unk_310]));
+            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->unk_310]));
             func_808FD080(0, &this->unk_444, &D_8090717C);
             func_808FD080(1, &this->unk_444, &D_8090717C);
             this->unk_218 = D_8090717C;
