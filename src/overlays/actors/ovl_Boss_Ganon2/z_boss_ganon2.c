@@ -2606,7 +2606,6 @@ void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
     Vec3f phi_f20;
     f32 phi_f30;
     s32 phi_s2;
-    s16 phi_v0_2;
 
     for (i = 0; i < 20; i++) {
         sp18C[i] = *arg0;
@@ -2742,16 +2741,16 @@ void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
     }
 
     temp_a1 = SEGMENTED_TO_VIRTUAL(D_80908960);
-    for (phi_v0_2 = 0; phi_v0_2 < 11; phi_v0_2++) {
-        if ((temp_s4 - phi_v0_2) > 0) {
-            temp_a1[D_80907084[phi_v0_2]].n.ob[0] = sp18C[temp_s4 - phi_v0_2 - 1].x;
-            temp_a1[D_80907084[phi_v0_2]].n.ob[1] = sp18C[temp_s4 - phi_v0_2 - 1].y;
-            temp_a1[D_80907084[phi_v0_2]].n.ob[2] = sp18C[temp_s4 - phi_v0_2 - 1].z;
+    for (i = 0; i < 11; i++) {
+        if ((temp_s4 - i) > 0) {
+            temp_a1[D_80907084[i]].n.ob[0] = sp18C[temp_s4 - i - 1].x;
+            temp_a1[D_80907084[i]].n.ob[1] = sp18C[temp_s4 - i - 1].y;
+            temp_a1[D_80907084[i]].n.ob[2] = sp18C[temp_s4 - i - 1].z;
         }
-        if ((temp_s4_2 - phi_v0_2) > 0) {
-            temp_a1[D_80907090[phi_v0_2]].n.ob[0] = sp9C[temp_s4_2 - phi_v0_2 - 1].x;
-            temp_a1[D_80907090[phi_v0_2]].n.ob[1] = sp9C[temp_s4_2 - phi_v0_2 - 1].y;
-            temp_a1[D_80907090[phi_v0_2]].n.ob[2] = sp9C[temp_s4_2 - phi_v0_2 - 1].z;
+        if ((temp_s4_2 - i) > 0) {
+            temp_a1[D_80907090[i]].n.ob[0] = sp9C[temp_s4_2 - i - 1].x;
+            temp_a1[D_80907090[i]].n.ob[1] = sp9C[temp_s4_2 - i - 1].y;
+            temp_a1[D_80907090[i]].n.ob[2] = sp9C[temp_s4_2 - i - 1].z;
         }
     }
 }
