@@ -1,6 +1,6 @@
 <Root>
     <File Name="jyasinzou_scene" Segment="2">
-        <Scene Name="jyasinzou_scene"/>
+        <Scene Name="jyasinzou_scene" Offset="0x0"/>
     </File>
     <File Name="jyasinzou_room_0" Segment="3">
         <Room Name="jyasinzou_room_0" Offset="0x0"/>

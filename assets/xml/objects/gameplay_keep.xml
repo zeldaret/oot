@@ -11,7 +11,7 @@
         <Texture Name="gLinkTunic3Tex" OutName="link_tunic_3" Format="i8" Width="16" Height="32" Offset="0x1D40"/>
         <Texture Name="gLinkTunic4Tex" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x1F40"/>    
         <Array Name="D_04002040" Count="24" Offset="0x2040">
-            <Vector Type="s16" Dimensions="3" />
+            <Vector Type="s16" Dimensions="3"/>
         </Array>
         <Array Name="D_040020D0" Count="24" Offset="0x20D0">
             <Vector Type="s16" Dimensions="3" />
