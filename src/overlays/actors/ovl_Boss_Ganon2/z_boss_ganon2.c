@@ -2650,9 +2650,9 @@ void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
         temp_f0_3 = Math_CosS(sp2C8);
         sp18C[temp_s4] = sp2D0;
         temp_f26 = temp_f0_3 * temp_f28;
-        sp2D0.x += (temp_f26 * Math_SinS(sp2CA));
-        sp2D0.y += (temp_f28 * Math_SinS(sp2C8));
-        sp2D0.z += (temp_f26 * Math_CosS(sp2CA));
+        sp2D0.x += temp_f26 * Math_SinS(sp2CA);
+        sp2D0.y += temp_f28 * Math_SinS(sp2C8);
+        sp2D0.z += temp_f26 * Math_CosS(sp2CA);
         phi_f20.x = D_809105D8[phi_s2].x - sp2D0.x;
         phi_f20.y = D_809105D8[phi_s2].y - sp2D0.y;
         phi_f20.z = D_809105D8[phi_s2].z - sp2D0.z;
@@ -2667,7 +2667,7 @@ void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
             }
         }
         temp_s4++;
-        if ((temp_s4 < 0x14) && (phi_s2 < 4)) {
+        if ((temp_s4 < 20) && (phi_s2 < 4)) {
             phi_f20.x = D_809105D8[phi_s2].x - sp2D0.x;
             phi_f20.y = D_809105D8[phi_s2].y - sp2D0.y;
             phi_f20.z = D_809105D8[phi_s2].z - sp2D0.z;
@@ -2714,9 +2714,9 @@ void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
         temp_f0_3 = Math_CosS(sp2C8);
         sp9C[temp_s4_2] = sp2D0;
         temp_f26 = temp_f0_3 * temp_f28;
-        sp2D0.x += (temp_f26 * Math_SinS(sp2CA));
-        sp2D0.y += (temp_f28 * Math_SinS(sp2C8));
-        sp2D0.z += (temp_f26 * Math_CosS(sp2CA));
+        sp2D0.x += temp_f26 * Math_SinS(sp2CA);
+        sp2D0.y += temp_f28 * Math_SinS(sp2C8);
+        sp2D0.z += temp_f26 * Math_CosS(sp2CA);
         phi_f20.x = D_80910608[phi_s2].x - sp2D0.x;
         phi_f20.y = D_80910608[phi_s2].y - sp2D0.y;
         phi_f20.z = D_80910608[phi_s2].z - sp2D0.z;
@@ -2731,7 +2731,7 @@ void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
             }
         }
         temp_s4_2++;
-        if ((temp_s4_2 < 0x14) && (phi_s2 < 4)) {
+        if ((temp_s4_2 < 20) && (phi_s2 < 4)) {
             phi_f20.x = D_80910608[phi_s2].x - sp2D0.x;
             phi_f20.y = D_80910608[phi_s2].y - sp2D0.y;
             phi_f20.z = D_80910608[phi_s2].z - sp2D0.z;
