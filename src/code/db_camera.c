@@ -434,7 +434,7 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
     if (dbCamera->sub.nPoints < 6) {
         if (sDbCamAnim.unk_0A != 0) {
             Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            sDbCamAnim.unk_0A = (u16)0;
+            sDbCamAnim.unk_0A = 0;
         }
         func_8006376C(0x11, 0x17, 3, D_8012CEE0[0]);
         func_8006376C(0x12, 0x18, 3, D_8012CEE4);
@@ -451,7 +451,7 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
         sDbCamAnim.unk_04++;
 
         if (dbCamera->sub.nFrames > 0 && dbCamera->sub.nFrames < sDbCamAnim.unk_04) {
-            sDbCamAnim.unk_0A = (u16)0;
+            sDbCamAnim.unk_0A = 0;
             func_8006376C(0xF, 0x1A, 1, D_8012CEEC);
         }
 
@@ -482,17 +482,17 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
     func_8006376C(0xF, 0x1A, 1, D_8012CEEC);
 }
 
-void DbCamera_PrintPoints(const char* name, s16 count, CutsceneCameraPoint* point) {
+void DbCamera_PrintPoints(const char* name, s16 count, CutsceneCameraPoint* points) {
     s32 i;
 
     osSyncPrintf("@@@static SplinedatZ  %s[] = {\n", name);
     for (i = 0; i < count; i++) {
         osSyncPrintf("@@@    /* key frame %2d */ {\n", i);
-        osSyncPrintf("@@@    /*     code     */ %d,\n", point[i].continueFlag);
-        osSyncPrintf("@@@    /*     z        */ %d,\n", point[i].cameraRoll);
-        osSyncPrintf("@@@    /*     T        */ %d,\n", point[i].nextPointFrame);
-        osSyncPrintf("@@@    /*     zoom     */ %f,\n", point[i].viewAngle);
-        osSyncPrintf("@@@    /*     pos      */ { %d, %d, %d }\n", point[i].pos.x, point[i].pos.y, point[i].pos.z);
+        osSyncPrintf("@@@    /*     code     */ %d,\n", points[i].continueFlag);
+        osSyncPrintf("@@@    /*     z        */ %d,\n", points[i].cameraRoll);
+        osSyncPrintf("@@@    /*     T        */ %d,\n", points[i].nextPointFrame);
+        osSyncPrintf("@@@    /*     zoom     */ %f,\n", points[i].viewAngle);
+        osSyncPrintf("@@@    /*     pos      */ { %d, %d, %d }\n", points[i].pos.x, points[i].pos.y, points[i].pos.z);
         osSyncPrintf("@@@    },\n");
     }
     osSyncPrintf("@@@};\n@@@\n");
@@ -1570,7 +1570,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/DbCamera_Update.s")
 #endif
 
-s32 DbCamera_GetFirstAvailableLetter() {
+s32 DbCamera_GetFirstAvailableLetter(void) {
     s32 i;
     for (i = 0; i < ARRAY_COUNT(sLetters); i++) {
         switch (sLetters[i]) {
@@ -1638,7 +1638,7 @@ void DbCamera_ResetCut(s32 idx, s32 shouldFree) {
     sDbCameraCuts[idx].nPoints = 0;
 }
 
-s32 DbCamera_CalcMempakAllocSize() {
+s32 DbCamera_CalcMempakAllocSize(void) {
     s32 i;
 
     sAllocSize = 0;
@@ -2403,10 +2403,10 @@ void func_800BB03C(Camera* cam) {
     func_800B91B0(cam, sDbCamPtr);
 }
 
-void func_800BB060() {
+void func_800BB060(void) {
     sDbCamAnim.unk_0A = 0;
 }
 
-s32 func_800BB06C() {
+s32 func_800BB06C(void) {
     return sDbCamPtr->unk_00 == 2 && sDbCamAnim.unk_0A != 0;
 }
