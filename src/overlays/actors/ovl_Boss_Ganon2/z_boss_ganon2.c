@@ -422,7 +422,8 @@ static s16 D_809071CC[] = { 1, -1, 1, 1, 3, 4, 1, 6, 7, 2, 9, 10, 2, 12, 13 };
 
 static u8 D_809071EC[] = { 3, 2, 2, 1, 3, 3, 1, 3, 3, 1, 0, 3, 1, 0, 3 };
 
-static UNK_TYPE pad[2] = { 0 };
+// padding
+static UNK_TYPE D_809071FC[2] = { 0 };
 
 #include "overlays/ovl_Boss_Ganon2/ovl_Boss_Ganon2.c"
 
