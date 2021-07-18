@@ -89,9 +89,9 @@ const ActorInit Boss_Ganon2_InitVars = {
 
 static Vec3f D_80906D60 = { 0.0f, 0.0f, 0.0f };
 
-/* static */ Vec3f D_80906D6C = { 0.0f, 0.0f, 500.0f };
+static Vec3f D_80906D6C = { 0.0f, 0.0f, 500.0f };
 
-/* static */ u8 D_80906D78 = 0;
+static u8 D_80906D78 = 0;
 
 static ColliderJntSphElementInit sJntSphItemsInit1[] = {
     {
@@ -343,9 +343,9 @@ static s16 D_80907074[] = { 0, 1, 2, 2, 1, 0 };
 
 static s16 D_80907080 = 0;
 
-/* static */ u8 D_80907084[] = { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
+static u8 D_80907084[] = { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
 
-/* static */ u8 D_80907090[] = { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 };
+static u8 D_80907090[] = { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 };
 
 static s8 D_8090709C[] = {
     0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0xFF, 0xFF, 0x05, 0xFF, 0x06, 0x07, 0xFF, 0xFF, 0x08, 0xFF,
@@ -410,17 +410,17 @@ static UNK_PTR D_80907170[] = {
 
 static Vec3f D_8090717C = { 0.0f, -2000.0f, 0.0f };
 
-/* static */ s16 D_80907188[] = { 1, 2, 3, 3, 2, 1 };
+static s16 D_80907188[] = { 1, 2, 3, 3, 2, 1 };
 
-/* static */ s16 D_80907194[] = { 2, 3, 4, 4, 4, 3, 2 };
+static s16 D_80907194[] = { 2, 3, 4, 4, 4, 3, 2 };
 
-/* static */ s16 D_809071A4[] = { 2, 3, 4, 4, 4, 4, 3, 2 };
+static s16 D_809071A4[] = { 2, 3, 4, 4, 4, 4, 3, 2 };
 
-/* static */ s16 D_809071B4[] = { 2, 4, 5, 5, 6, 6, 6, 6, 5, 5, 4, 2 };
+static s16 D_809071B4[] = { 2, 4, 5, 5, 6, 6, 6, 6, 5, 5, 4, 2 };
 
-/* static */ s16 D_809071CC[] = { 1, -1, 1, 1, 3, 4, 1, 6, 7, 2, 9, 10, 2, 12, 13 };
+static s16 D_809071CC[] = { 1, -1, 1, 1, 3, 4, 1, 6, 7, 2, 9, 10, 2, 12, 13 };
 
-/* static */ u8 D_809071EC[] = { 3, 2, 2, 1, 3, 3, 1, 3, 3, 1, 0, 3, 1, 0, 3 };
+static u8 D_809071EC[] = { 3, 2, 2, 1, 3, 3, 1, 3, 3, 1, 0, 3, 1, 0, 3 };
 
 static UNK_TYPE pad[2] = { 0 };
 
@@ -428,9 +428,9 @@ static UNK_TYPE pad[2] = { 0 };
 
 static Vec3f D_8090EB20;
 
-/* static */ EnZl3* D_8090EB2C;
+static EnZl3* D_8090EB2C;
 
-/* static */ Actor* D_8090EB30;
+static Actor* D_8090EB30;
 
 static UNK_TYPE D_8090EB34;
 
@@ -444,7 +444,7 @@ static s32 D_809105D0;
 
 static UNK_TYPE D_809105DC;
 
-/* static */ Vec3f D_809105D8[4];
+static Vec3f D_809105D8[4];
 
 static Vec3f D_80910608[4];
 
