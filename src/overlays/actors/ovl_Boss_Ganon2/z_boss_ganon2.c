@@ -55,10 +55,10 @@ extern UNK_TYPE D_0600A8E0;
 extern AnimationHeader D_060147E0;
 
 // object_ganon2
-extern u64 D_0601E188[]; // eye full open
-extern u64 D_0601E988[]; // eye half open
+extern u64 D_0601E188[]; // eye open
+extern u64 D_0601E988[]; // eye half closed
 extern u64 D_0601EA08[]; // eye closed
-extern u64 D_06021A90[]; // title card texture
+extern u64 D_06021A90[]; // title card
 
 const ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,
