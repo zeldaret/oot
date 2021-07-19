@@ -18,7 +18,6 @@ typedef struct BossGanon2 {
     /* 0x019E */ char unk_19E[0x4];
     /* 0x01A2 */ s16 unk_1A2[5];
     /* 0x01AC */ s16 unk_1AC;
-    /* 0x01AE */ char unk_1AE[0x2];
     /* 0x01B0 */ f32 unk_1B0;
     /* 0x01B4 */ f32 unk_1B4;
     /* 0x01B8 */ Vec3f unk_1B8;
@@ -43,16 +42,13 @@ typedef struct BossGanon2 {
     /* 0x0312 */ u8 unk_312;
     /* 0x0313 */ u8 unk_313;
     /* 0x0314 */ u8 unk_314;
-    /* 0x0315 */ char unk_315[0x1];
     /* 0x0316 */ s16 unk_316;
     /* 0x0318 */ s16 unk_318;
     /* 0x031A */ s16 unk_31A;
     /* 0x031C */ s16 unk_31C;
-    /* 0x031E */ char unk_31E[0x2];
     /* 0x0320 */ f32 unk_320;
     /* 0x0324 */ f32 unk_324;
     /* 0x0328 */ s16 unk_328;
-    /* 0x032A */ char unk_32A[0x2];
     /* 0x032C */ f32 unk_32C;
     /* 0x0330 */ s16 unk_330;
     /* 0x0332 */ s16 unk_332;
@@ -62,7 +58,6 @@ typedef struct BossGanon2 {
     /* 0x0337 */ u8 unk_337;
     /* 0x0338 */ u8 unk_338;
     /* 0x0339 */ s8 unk_339;
-    /* 0x033A */ char unk_33A[0x2];
     /* 0x033C */ f32 unk_33C;
     /* 0x0340 */ s16 unk_340;
     /* 0x0342 */ s16 unk_342;
