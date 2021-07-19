@@ -3330,7 +3330,7 @@ void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
             sp64.x *= 0.2f;
             sp64.y *= 0.2f;
             temp_a3 = sp64.x + 32.0f;
-            temp_t0 = (s16)sp64.y << 6;
+            temp_t0 = (s16)sp64.y * 64;
 
             if (D_809071EC[i] == 2) {
                 for (j = 0, phi_a1 = -0x180; j < 12; j++, phi_a1 += 0x40) {
