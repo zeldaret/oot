@@ -42,8 +42,8 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx);
 void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 void func_809060E8(GlobalContext* globalCtx);
-void BossGanon2_GenShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
-void BossGanon2_DrawShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
+void BossGanon2_GenShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
+void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 
 // object_geff
 extern Gfx D_06000EA0[];
@@ -3083,7 +3083,7 @@ void func_80905674(BossGanon2* this, GlobalContext* globalCtx) {
 }
 
 void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    u8* shadowTexture = Graph_Alloc(globalCtx->state.gfxCtx, 4096);
+    void* shadowTexture = Graph_Alloc(globalCtx->state.gfxCtx, 4096);
     BossGanon2* this = THIS;
     s16 i;
 
@@ -3373,9 +3373,9 @@ void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
     }
 }
 
-void BossGanon2_GenShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx) {
+void BossGanon2_GenShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx) {
     s16 i;
-    u32* p = (u32*)shadowTexture;
+    u32* p = shadowTexture;
 
     for (i = 0; i < 1024; i++, p++) {
         *p = 0;
@@ -3388,7 +3388,7 @@ void BossGanon2_GenShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalCont
     }
 }
 
-void BossGanon2_DrawShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx) {
+void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 alpha;
