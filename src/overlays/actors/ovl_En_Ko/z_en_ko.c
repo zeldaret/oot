@@ -461,32 +461,31 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
             switch (this->actor.textId) {
                 case 0x1005:
                     gSaveContext.infTable[1] |= 0x4000;
-                default:
-                    return 0;
+                    break;
                 case 0x1008:
                     gSaveContext.infTable[2] |= 0x4;
-                    return 0;
+                    break;
                 case 0x100A:
                     gSaveContext.infTable[2] |= 0x10;
-                    return 0;
+                    break;
                 case 0x100C:
                     gSaveContext.infTable[2] |= 0x40;
-                    return 0;
+                    break;
                 case 0x100E:
                     gSaveContext.infTable[2] |= 0x100;
-                    return 0;
+                    break;
                 case 0x104F:
                     gSaveContext.infTable[5] |= 0x200;
-                    return 0;
+                    break;
                 case 0x1053:
                     gSaveContext.infTable[6] |= 2;
-                    return 0;
+                    break;
                 case 0x1055:
                     gSaveContext.infTable[4] |= 2;
-                    return 0;
+                    break;
                 case 0x1058:
                     gSaveContext.infTable[5] |= 2;
-                    return 0;
+                    break;
                 case 0x105D:
                     gSaveContext.infTable[4] |= 0x80;
                     break;
