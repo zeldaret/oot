@@ -1362,7 +1362,7 @@ glabel L808FE63C
 /* 01930 808FE870 AC4C0058 */  sw      $t4, 0x0058($v0)           ## 00000058
 /* 01934 808FE874 A60D039C */  sh      $t5, 0x039C($s0)           ## 0000039C
 /* 01938 808FE878 AE000398 */  sw      $zero, 0x0398($s0)         ## 00000398
-/* 0193C 808FE87C 0C23F442 */  jal     func_808FD108
+/* 0193C 808FE87C 0C23F442 */  jal     BossGanon2_SetObjectSegment
 /* 01940 808FE880 A20E0337 */  sb      $t6, 0x0337($s0)           ## 00000337
 /* 01944 808FE884 8FA40050 */  lw      $a0, 0x0050($sp)
 /* 01948 808FE888 0C0295BC */  jal     SkelAnime_Free
@@ -1379,7 +1379,7 @@ glabel L808FE63C
 /* 01974 808FE8B4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01978 808FE8B8 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 0197C 808FE8BC 2406017E */  addiu   $a2, $zero, 0x017E         ## $a2 = 0000017E
-/* 01980 808FE8C0 0C23F442 */  jal     func_808FD108
+/* 01980 808FE8C0 0C23F442 */  jal     BossGanon2_SetObjectSegment
 /* 01984 808FE8C4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01988 808FE8C8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0198C 808FE8CC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
@@ -1734,7 +1734,7 @@ glabel L808FED50
 /* 01EA4 808FEDE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01EA8 808FEDE8 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 01EAC 808FEDEC 24060153 */  addiu   $a2, $zero, 0x0153         ## $a2 = 00000153
-/* 01EB0 808FEDF0 0C23F442 */  jal     func_808FD108
+/* 01EB0 808FEDF0 0C23F442 */  jal     BossGanon2_SetObjectSegment
 /* 01EB4 808FEDF4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01EB8 808FEDF8 3C020602 */  lui     $v0, %hi(D_06021A90)                ## $v0 = 06020000
 /* 01EBC 808FEDFC 24421A90 */  addiu   $v0, $v0, %lo(D_06021A90)           ## $v0 = 06021A90

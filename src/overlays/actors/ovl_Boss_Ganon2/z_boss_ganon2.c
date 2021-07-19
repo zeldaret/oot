@@ -39,7 +39,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx);
 void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 void func_809060E8(GlobalContext* globalCtx);
-void func_809069F8(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
+void BossGanon2_GenShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 void func_80906AB0(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000BFC;
@@ -413,13 +413,11 @@ static Actor* D_8090EB30;
 // unused
 static UNK_TYPE D_8090EB34;
 
-static BossGanon2Effect D_8090EB38[100];
+static BossGanon2Effect sParticles[100];
 
-static s32 D_809105C8;
-
-static s32 D_809105CC;
-
-static s32 D_809105D0;
+static s32 sSeed1;
+static s32 sSeed2;
+static s32 sSeed3;
 
 // unused
 static UNK_TYPE D_809105DC;
@@ -430,25 +428,25 @@ static Vec3f D_80910608[4];
 
 static s8 D_80910638;
 
-void func_808FCF40(s32 arg0, s32 arg1, s32 arg2) {
-    D_809105C8 = arg0;
-    D_809105CC = arg1;
-    D_809105D0 = arg2;
+void BossGanon2_InitRand(s32 seedInit0, s32 seedInit1, s32 seedInit2) {
+    sSeed1 = seedInit0;
+    sSeed2 = seedInit1;
+    sSeed3 = seedInit2;
 }
 
-f32 func_808FCF5C(void) {
-    f32 temp_f2;
+f32 BossGanon2_RandZeroOne(void) {
+    // Wichmann-Hill algorithm
+    f32 rand_float;
 
-    D_809105C8 = (D_809105C8 * 0xAB) % 0x763D;
-    D_809105CC = (D_809105CC * 0xAC) % 0x7663;
-    D_809105D0 = (D_809105D0 * 0xAA) % 0x7673;
-    temp_f2 = (D_809105C8 / 30269.0f) + (D_809105CC / 30307.0f) + (D_809105D0 / 30323.0f);
+    sSeed1 = (sSeed1 * 171) % 30269;
+    sSeed2 = (sSeed2 * 172) % 30307;
+    sSeed3 = (sSeed3 * 170) % 30323;
 
-    while (temp_f2 >= 1.0f) {
-        temp_f2 -= 1.0f;
+    rand_float = (sSeed1 / 30269.0f) + (sSeed2 / 30307.0f) + (sSeed3 / 30323.0f);
+    while (rand_float >= 1.0f) {
+        rand_float -= 1.0f;
     }
-
-    return fabsf(temp_f2);
+    return fabsf(rand_float);
 }
 
 void func_808FD080(s32 idx, ColliderJntSph* collider, Vec3f* arg2) {
@@ -460,7 +458,7 @@ void func_808FD080(s32 idx, ColliderJntSph* collider, Vec3f* arg2) {
         collider->elements[idx].dim.modelSphere.radius * collider->elements[idx].dim.scale;
 }
 
-void func_808FD108(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 arg3) {
+void BossGanon2_SetObjectSegment(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 arg3) {
     s32 pad;
     s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, objectId);
 
@@ -495,7 +493,7 @@ void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f
     BossGanon2Effect* effect = globalCtx->specialEffects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(D_8090EB38); i++, effect++) {
+    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
         if (effect->type == 0) {
             effect->type = 2;
             effect->position = *position;
@@ -517,10 +515,10 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s16 i;
 
-    globalCtx->specialEffects = D_8090EB38;
+    globalCtx->specialEffects = sParticles;
 
-    for (i = 0; i < ARRAY_COUNT(D_8090EB38); i++) {
-        D_8090EB38[i].type = 0;
+    for (i = 0; i < ARRAY_COUNT(sParticles); i++) {
+        sParticles[i].type = 0;
     }
 
     this->actor.colChkInfo.mass = 0xFF;
@@ -529,7 +527,7 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->unk_424, &this->actor, &sJntSphInit1, this->unk_464);
     Collider_InitJntSph(globalCtx, &this->unk_444);
     Collider_SetJntSph(globalCtx, &this->unk_444, &this->actor, &sJntSphInit2, this->unk_864);
-    func_808FD108(this, globalCtx, OBJECT_GANON, 0);
+    BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON, false);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060114E8, NULL, 0, 0, 0);
     func_808FD5C4(this, globalCtx);
     this->actor.naviEnemyId = 0x3E;
@@ -931,10 +929,10 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_39C = 0x11;
                 this->unk_398 = 0;
                 this->unk_337 = 2;
-                func_808FD108(this, globalCtx, 0x153, 0);
+                BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, false);
                 SkelAnime_Free(&this->skelAnime, globalCtx);
                 SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06025970, NULL, 0, 0, 0);
-                func_808FD108(this, globalCtx, 0x17E, 0);
+                BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON_ANIME3, false);
                 func_8002DF54(globalCtx, &this->actor, 0x54);
                 this->unk_314 = 3;
             }
@@ -1045,7 +1043,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_336 = 2;
             }
             if (this->unk_398 == 0x50) {
-                func_808FD108(this, globalCtx, OBJECT_GANON2, 0);
+                BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, false);
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(D_06021A90), 0xA0,
                                        0xB4, 0x80, 0x28);
             }
@@ -2336,9 +2334,9 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp44;
 
     if ((this->unk_337 == 0) || (this->unk_337 == 2)) {
-        func_808FD108(this, globalCtx, OBJECT_GANON_ANIME3, 0);
+        BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON_ANIME3, false);
     } else {
-        func_808FD108(this, globalCtx, OBJECT_GANON2, 0);
+        BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, false);
         Math_ApproachZeroF(&this->unk_30C, 1.0f, 0.5f);
     }
     func_808FFC84(this);
@@ -2809,8 +2807,8 @@ void func_80904340(BossGanon2* this, GlobalContext* globalCtx) {
         Math_ApproachF(&this->unk_32C, 0.13f, 1.0f, 0.065f);
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->unk_328);
-        func_808FCF40(this->unk_340 + 1, 0x71AC - this->unk_340, 0x263A);
-        rand = func_808FCF5C();
+        BossGanon2_InitRand(this->unk_340 + 1, 0x71AC - this->unk_340, 0x263A);
+        rand = BossGanon2_RandZeroOne();
         if (1) {}
 
         for (i = 0; i < 5; i++) {
@@ -2820,9 +2818,9 @@ void func_80904340(BossGanon2* this, GlobalContext* globalCtx) {
             Matrix_Translate(-200.0f + sin, 4786.0f, -200.0f + cos, MTXMODE_NEW);
             Matrix_Scale(this->unk_32C, this->unk_32C, this->unk_32C, MTXMODE_APPLY);
             Matrix_RotateY(angle, MTXMODE_APPLY);
-            Matrix_RotateZ((func_808FCF5C() - 0.5f) * 100.0f * 0.01f, MTXMODE_APPLY);
+            Matrix_RotateZ((BossGanon2_RandZeroOne() - 0.5f) * 100.0f * 0.01f, MTXMODE_APPLY);
 
-            if (func_808FCF5C() < 0.5f) {
+            if (BossGanon2_RandZeroOne() < 0.5f) {
                 Matrix_RotateY(M_PI, MTXMODE_APPLY);
             }
 
@@ -3112,7 +3110,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->unk_337) {
         case 0:
-            func_808FD108(this, globalCtx, OBJECT_GANON, 1);
+            BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON, true);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_0600A8E0));
             gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600A8E0));
             SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
@@ -3120,7 +3118,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case 1:
         case 2:
-            func_808FD108(this, globalCtx, OBJECT_GANON2, 1);
+            BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, true);
             gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->unk_310]));
             func_808FD080(0, &this->unk_444, &D_8090717C);
             func_808FD080(1, &this->unk_444, &D_8090717C);
@@ -3137,12 +3135,12 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                   this->skelAnime.dListCount, BossGanon2_OverrideLimbDraw, BossGanon2_PostLimbDraw,
                                   this);
             POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
-            func_809069F8(shadowTexture, this, globalCtx);
+            BossGanon2_GenShadowTexture(shadowTexture, this, globalCtx);
             func_80906AB0(shadowTexture, this, globalCtx);
             break;
     }
 
-    func_808FD108(this, globalCtx, OBJECT_GANON2, 1);
+    BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, true);
     func_80904340(this, globalCtx);
     func_80904108(this, globalCtx);
     func_80904D88(this, globalCtx);
@@ -3187,7 +3185,7 @@ void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
     player = PLAYER;
     effect = globalCtx->specialEffects;
 
-    for (i = 0; i < ARRAY_COUNT(D_8090EB38); i++, effect++) {
+    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
         if (effect->type != 0) {
             effect->position.x += effect->velocity.x;
             effect->position.y += effect->velocity.y;
@@ -3299,7 +3297,7 @@ void func_809060E8(GlobalContext* globalCtx) {
     for (i = 0; i < 100; i++, effect++) {
         if (effect->type == 2) {
             if (spCD == 0) {
-                func_808FD108(NULL, globalCtx, OBJECT_GEFF, MTXMODE_APPLY);
+                BossGanon2_SetObjectSegment(NULL, globalCtx, OBJECT_GEFF, true);
                 spCD++;
             }
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
@@ -3394,7 +3392,7 @@ void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
     }
 }
 
-void func_809069F8(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx) {
+void BossGanon2_GenShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx) {
     s16 i;
     u32* p = (u32*)shadowTexture;
 
