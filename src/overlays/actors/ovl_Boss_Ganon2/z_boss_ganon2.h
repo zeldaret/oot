@@ -40,9 +40,9 @@ typedef struct BossGanon2 {
     /* 0x0310 */ u8 unk_310;
     /* 0x0311 */ u8 unk_311;
     /* 0x0312 */ u8 unk_312;
-    /* 0x0313 */ u8 unk_313;
+    /* 0x0313 */ u8 lookOn;
     /* 0x0314 */ u8 unk_314;
-    /* 0x0316 */ s16 unk_316;
+    /* 0x0316 */ s16 noHitTime;
     /* 0x0318 */ s16 unk_318;
     /* 0x031A */ s16 unk_31A;
     /* 0x031C */ s16 unk_31C;
