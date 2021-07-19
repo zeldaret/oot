@@ -49,11 +49,14 @@ void BossGanon2_DrawShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalCon
 extern Gfx D_06000EA0[];
 // object_ganon
 extern Gfx D_0600A8E0[];
-// ?
+// object_ganon_anime3?
 extern AnimationHeader D_060147E0;
 // object_ganon2
+// full open
 extern u64 D_0601E188[];
+// half open
 extern u64 D_0601E988[];
+// closed
 extern u64 D_0601EA08[];
 // Title card texture
 extern u64 D_06021A90[];
