@@ -505,8 +505,8 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
         sParticles[i].type = 0;
     }
 
-    this->actor.colChkInfo.mass = 0xFF;
-    this->actor.colChkInfo.health = 0x1E;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
+    this->actor.colChkInfo.health = 30;
     Collider_InitJntSph(globalCtx, &this->unk_424);
     Collider_SetJntSph(globalCtx, &this->unk_424, &this->actor, &sJntSphInit1, this->unk_464);
     Collider_InitJntSph(globalCtx, &this->unk_444);
