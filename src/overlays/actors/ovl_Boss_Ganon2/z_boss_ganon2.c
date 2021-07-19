@@ -420,17 +420,17 @@ void BossGanon2_InitRand(s32 seedInit0, s32 seedInit1, s32 seedInit2) {
 
 f32 BossGanon2_RandZeroOne(void) {
     // Wichmann-Hill algorithm
-    f32 rand_float;
+    f32 randFloat;
 
     sSeed1 = (sSeed1 * 171) % 30269;
     sSeed2 = (sSeed2 * 172) % 30307;
     sSeed3 = (sSeed3 * 170) % 30323;
 
-    rand_float = (sSeed1 / 30269.0f) + (sSeed2 / 30307.0f) + (sSeed3 / 30323.0f);
-    while (rand_float >= 1.0f) {
-        rand_float -= 1.0f;
+    randFloat = (sSeed1 / 30269.0f) + (sSeed2 / 30307.0f) + (sSeed3 / 30323.0f);
+    while (randFloat >= 1.0f) {
+        randFloat -= 1.0f;
     }
-    return fabsf(rand_float);
+    return fabsf(randFloat);
 }
 
 void func_808FD080(s32 idx, ColliderJntSph* collider, Vec3f* arg2) {
