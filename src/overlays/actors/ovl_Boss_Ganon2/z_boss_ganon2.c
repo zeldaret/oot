@@ -1163,7 +1163,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0x1A) {
                 D_8090EB30 = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
                 while (D_8090EB30 != NULL) {
-                    if (D_8090EB30->id == 0x18) {
+                    if (D_8090EB30->id == ACTOR_EN_ELF) {
                         this->unk_3A4.x = D_8090EB30->world.pos.x - 30.0f;
                         this->unk_3A4.y = D_8090EB30->world.pos.y;
                         this->unk_3A4.z = D_8090EB30->world.pos.z;
