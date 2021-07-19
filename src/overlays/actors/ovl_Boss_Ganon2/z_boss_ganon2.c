@@ -40,7 +40,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 void func_809060E8(GlobalContext* globalCtx);
 void BossGanon2_GenShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
-void func_80906AB0(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
+void BossGanon2_DrawShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000BFC;
 extern Gfx D_06000EA0[];
@@ -3136,7 +3136,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                   this);
             POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
             BossGanon2_GenShadowTexture(shadowTexture, this, globalCtx);
-            func_80906AB0(shadowTexture, this, globalCtx);
+            BossGanon2_DrawShadowTexture(shadowTexture, this, globalCtx);
             break;
     }
 
@@ -3407,7 +3407,7 @@ void BossGanon2_GenShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalCont
     }
 }
 
-void func_80906AB0(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx) {
+void BossGanon2_DrawShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 alpha;
