@@ -47,16 +47,19 @@ void BossGanon2_DrawShadowTexture(u8* shadowTexture, BossGanon2* this, GlobalCon
 
 // object_geff
 extern Gfx D_06000EA0[];
-// object_ganon
-extern Gfx D_0600A8E0[];
-// object_ganon_anime3?
+
+// object_ganon?
+extern UNK_TYPE D_0600A8E0;
+
+// ?
 extern AnimationHeader D_060147E0;
+
 // object_ganon2
-// full open
+// eye full open
 extern u64 D_0601E188[];
-// half open
+// eye half open
 extern u64 D_0601E988[];
-// closed
+// eye closed
 extern u64 D_0601EA08[];
 // Title card texture
 extern u64 D_06021A90[];
@@ -3096,8 +3099,8 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->unk_337) {
         case 0:
             BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON, true);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_0600A8E0));
-            gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600A8E0));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_0600A8E0));
+            gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600A8E0));
             SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                   this->skelAnime.dListCount, NULL, BossGanon2_PostLimbDraw2, this);
             break;
