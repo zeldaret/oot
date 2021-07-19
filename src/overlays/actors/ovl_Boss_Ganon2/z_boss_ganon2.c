@@ -2844,7 +2844,7 @@ void func_8090464C(BossGanon2* this, GlobalContext* globalCtx) {
 s32 BossGanon2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
     s32 pad;
-    BossGanon2* this = thisx;
+    BossGanon2* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5355);
 
@@ -2875,7 +2875,7 @@ s32 BossGanon2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 void BossGanon2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s8 pad;
     s8 temp_v0;
-    BossGanon2* this = thisx;
+    BossGanon2* this = THIS;
     Vec3f sp4C;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5459);
@@ -3037,7 +3037,7 @@ void func_8090523C(BossGanon2* this, GlobalContext* globalCtx) {
 
 void BossGanon2_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s8 temp_v1 = D_80907144[limbIndex];
-    BossGanon2* this = thisx;
+    BossGanon2* this = THIS;
 
     if (temp_v1 >= 0) {
         Matrix_MultVec3f(&D_80906D60, &this->unk_234[temp_v1]);
