@@ -1458,7 +1458,7 @@ void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx) {
 
 void func_809000A0(BossGanon2* this, GlobalContext* globalCtx) {
     Animation_MorphToLoop(&this->skelAnime, &object_ganon2_Anim_026510, -2.0f);
-    this->unk_194 = Animation_GetLastFrame(&object_ganon2_Anim_026510.common);
+    this->unk_194 = Animation_GetLastFrame(&object_ganon2_Anim_026510);
     this->unk_1AC = 0;
     this->actionFunc = func_80900104;
 }
