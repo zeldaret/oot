@@ -406,7 +406,7 @@ static u32 D_809071FC[2] = { 0 };
 
 static Vec3f D_8090EB20;
 
-static EnZl3* D_8090EB2C;
+static EnZl3* sZelda;
 
 static Actor* D_8090EB30;
 
@@ -588,13 +588,13 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
                 Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, 7);
                 this->unk_39C = 1;
-                D_8090EB2C = (EnZl3*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ZL3,
-                                                        970.0f, 1086.0f, -200.0f, 0, 0, 0, 1);
-                D_8090EB2C->unk_3C8 = 0;
-                D_8090EB2C->actor.world.pos.x = 970.0f;
-                D_8090EB2C->actor.world.pos.y = 1086.0f;
-                D_8090EB2C->actor.world.pos.z = -214.0f;
-                D_8090EB2C->actor.shape.rot.y = -0x7000;
+                sZelda = (EnZl3*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ZL3, 970.0f,
+                                                    1086.0f, -200.0f, 0, 0, 0, 1);
+                sZelda->unk_3C8 = 0;
+                sZelda->actor.world.pos.x = 970.0f;
+                sZelda->actor.world.pos.y = 1086.0f;
+                sZelda->actor.world.pos.z = -214.0f;
+                sZelda->actor.shape.rot.y = -0x7000;
                 this->unk_3BC.x = 0.0f;
                 this->unk_3BC.y = 1.0f;
                 this->unk_3BC.z = 0.0f;
@@ -638,20 +638,20 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             player->actor.world.pos.x = 970.0f;
             player->actor.world.pos.y = 1086.0f;
             player->actor.world.pos.z = -166.0f;
-            D_8090EB2C->actor.world.pos.x = 974.0f;
-            D_8090EB2C->actor.world.pos.y = 1086.0f;
-            D_8090EB2C->actor.world.pos.z = -186.0f;
+            sZelda->actor.world.pos.x = 974.0f;
+            sZelda->actor.world.pos.y = 1086.0f;
+            sZelda->actor.world.pos.z = -186.0f;
             player->actor.shape.rot.y = -0x5000;
-            D_8090EB2C->actor.shape.rot.y = -0x5000;
+            sZelda->actor.shape.rot.y = -0x5000;
             if (this->unk_398 == 0x3C) {
                 func_8010B680(globalCtx, 0x70D4, NULL);
             }
             if (this->unk_398 == 0x28) {
-                D_8090EB2C->unk_3C8 = 1;
+                sZelda->unk_3C8 = 1;
                 func_8002DF54(globalCtx, &this->actor, 0x4E);
             }
             if (this->unk_398 == 0x55) {
-                D_8090EB2C->unk_3C8 = 2;
+                sZelda->unk_3C8 = 2;
                 func_8002DF54(globalCtx, &this->actor, 0x4F);
             }
             this->unk_3A4.x = 930.0f;
@@ -680,14 +680,14 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Audio_SetBGM(0x100000FF);
             }
             if (this->unk_398 == 0x14) {
-                D_8090EB2C->unk_3C8 = 3;
+                sZelda->unk_3C8 = 3;
                 func_8002DF54(globalCtx, &this->actor, 0x50);
             }
             if (this->unk_398 == 0x37) {
                 this->unk_39C = 4;
                 this->unk_398 = 0;
                 this->unk_410.x = 0.0f;
-                D_8090EB2C->unk_3C8 = 4;
+                sZelda->unk_3C8 = 4;
                 func_8002DF54(globalCtx, &this->actor, 0x50);
             }
             break;
@@ -726,11 +726,11 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             player->actor.world.pos.x = 490.0f;
             player->actor.world.pos.y = 1086.0f;
             player->actor.world.pos.z = -166.0f;
-            D_8090EB2C->actor.world.pos.x = 724.0f;
-            D_8090EB2C->actor.world.pos.y = 1086.0f;
-            D_8090EB2C->actor.world.pos.z = -186.0f;
+            sZelda->actor.world.pos.x = 724.0f;
+            sZelda->actor.world.pos.y = 1086.0f;
+            sZelda->actor.world.pos.z = -186.0f;
             player->actor.shape.rot.y = -0x4000;
-            D_8090EB2C->actor.shape.rot.y = -0x5000;
+            sZelda->actor.shape.rot.y = -0x5000;
             this->unk_3A4.x = 410.0f;
             this->unk_3A4.y = 1096.0f;
             this->unk_3A4.z = -110.0f;
@@ -749,7 +749,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_339 = 4;
             }
             if (this->unk_398 == 0x1E) {
-                D_8090EB2C->unk_3C8 = 5;
+                sZelda->unk_3C8 = 5;
                 func_8002DF54(globalCtx, &this->actor, 0x51);
             }
             if (this->unk_398 == 0x32) {
@@ -763,11 +763,11 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             player->actor.world.pos.x = 490.0f;
             player->actor.world.pos.y = 1086.0f;
             player->actor.world.pos.z = -166.0f;
-            D_8090EB2C->actor.world.pos.x = 724.0f;
-            D_8090EB2C->actor.world.pos.y = 1086.0f;
-            D_8090EB2C->actor.world.pos.z = -186.0f;
+            sZelda->actor.world.pos.x = 724.0f;
+            sZelda->actor.world.pos.y = 1086.0f;
+            sZelda->actor.world.pos.z = -186.0f;
             player->actor.shape.rot.y = -0x4000;
-            D_8090EB2C->actor.shape.rot.y = -0x5000;
+            sZelda->actor.shape.rot.y = -0x5000;
             this->unk_3A4.x = 450.0f;
             this->unk_3A4.y = 1121.0f;
             this->unk_3A4.z = -158.0f;
@@ -836,9 +836,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             player->actor.world.pos.y = 1086.0f;
             player->actor.world.pos.z = -266.0f;
             player->actor.shape.rot.y = -0x4000;
-            D_8090EB2C->actor.world.pos.x = 724.0f;
-            D_8090EB2C->actor.world.pos.y = 1086.0f;
-            D_8090EB2C->actor.world.pos.z = -186.0f;
+            sZelda->actor.world.pos.x = 724.0f;
+            sZelda->actor.world.pos.y = 1086.0f;
+            sZelda->actor.world.pos.z = -186.0f;
             this->unk_3A4.x = this->actor.world.pos.x + -10.0f;
             this->unk_3A4.y = this->actor.world.pos.y + 80.0f;
             this->unk_3A4.z = this->actor.world.pos.z + 50.0f;
@@ -1138,9 +1138,9 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0xA) {
                 temp_v0_3 = globalCtx->specialEffects;
                 temp_v0_3->unk_2E = 1;
-                temp_v0_3->position.x = D_8090EB2C->actor.world.pos.x + 50.0f + 10.0f;
-                temp_v0_3->position.y = D_8090EB2C->actor.world.pos.y + 350.0f;
-                temp_v0_3->position.z = D_8090EB2C->actor.world.pos.z - 25.0f;
+                temp_v0_3->position.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
+                temp_v0_3->position.y = sZelda->actor.world.pos.y + 350.0f;
+                temp_v0_3->position.z = sZelda->actor.world.pos.z - 25.0f;
                 temp_v0_3->velocity.x = 0.0f;
                 temp_v0_3->velocity.z = 0.0f;
                 temp_v0_3->velocity.y = -30.0f;
@@ -1150,15 +1150,15 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 break;
             }
         case 26:
-            this->unk_3A4.x = D_8090EB2C->actor.world.pos.x + 100.0f + 30.0f;
-            this->unk_3A4.y = D_8090EB2C->actor.world.pos.y + 10.0f;
-            this->unk_3A4.z = D_8090EB2C->actor.world.pos.z + 5.0f;
-            this->unk_3B0.x = D_8090EB2C->actor.world.pos.x;
-            this->unk_3B0.y = D_8090EB2C->actor.world.pos.y + 30.0f;
-            this->unk_3B0.z = D_8090EB2C->actor.world.pos.z - 20.0f;
+            this->unk_3A4.x = sZelda->actor.world.pos.x + 100.0f + 30.0f;
+            this->unk_3A4.y = sZelda->actor.world.pos.y + 10.0f;
+            this->unk_3A4.z = sZelda->actor.world.pos.z + 5.0f;
+            this->unk_3B0.x = sZelda->actor.world.pos.x;
+            this->unk_3B0.y = sZelda->actor.world.pos.y + 30.0f;
+            this->unk_3B0.z = sZelda->actor.world.pos.z - 20.0f;
             this->unk_3BC.z = -0.5f;
             if (this->unk_398 == 0xD) {
-                D_8090EB2C->unk_3C8 = 6;
+                sZelda->unk_3C8 = 6;
             }
             if (this->unk_398 == 0x32) {
                 this->unk_39C = 0x1B;
@@ -1246,7 +1246,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 func_808FFDB0(this, globalCtx);
                 this->unk_1A2[1] = 50;
                 this->actor.flags |= 1;
-                D_8090EB2C->unk_3C8 = 7;
+                sZelda->unk_3C8 = 7;
             }
             break;
     }
@@ -1694,12 +1694,12 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 2:
             this->unk_1A2[0] = 0x12C;
-            this->unk_3A4.x = D_8090EB2C->actor.world.pos.x - 100.0f;
-            this->unk_3A4.y = D_8090EB2C->actor.world.pos.y + 30.0f;
-            this->unk_3A4.z = (D_8090EB2C->actor.world.pos.z + 30.0f) - 60.0f;
-            this->unk_3B0.x = D_8090EB2C->actor.world.pos.x;
-            this->unk_3B0.y = D_8090EB2C->actor.world.pos.y + 30.0f;
-            this->unk_3B0.z = D_8090EB2C->actor.world.pos.z - 10.0f;
+            this->unk_3A4.x = sZelda->actor.world.pos.x - 100.0f;
+            this->unk_3A4.y = sZelda->actor.world.pos.y + 30.0f;
+            this->unk_3A4.z = (sZelda->actor.world.pos.z + 30.0f) - 60.0f;
+            this->unk_3B0.x = sZelda->actor.world.pos.x;
+            this->unk_3B0.y = sZelda->actor.world.pos.y + 30.0f;
+            this->unk_3B0.z = sZelda->actor.world.pos.z - 10.0f;
             Math_ApproachZeroF(&this->unk_324, 1.0f, 5.0f);
             Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.019607844f);
             if (this->unk_1A2[1] == 0x50) {
@@ -1727,8 +1727,8 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
             func_8002DF54(globalCtx, &this->actor, 0x60);
             this->unk_398 = 0;
         case 11:
-            player->actor.world.pos.x = D_8090EB2C->actor.world.pos.x + 50.0f + 10.0f;
-            player->actor.world.pos.z = D_8090EB2C->actor.world.pos.z - 25.0f;
+            player->actor.world.pos.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
+            player->actor.world.pos.z = sZelda->actor.world.pos.z - 25.0f;
             player->actor.shape.rot.y = -0x8000;
             this->unk_3A4.x = (player->actor.world.pos.x + 100.0f) - 80.0f;
             this->unk_3A4.y = (player->actor.world.pos.y + 60.0f) - 40.0f;
@@ -1853,7 +1853,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             func_8002DF54(globalCtx, &this->actor, 8);
             this->unk_39C = 1;
             this->unk_398 = 0;
-            D_8090EB2C->unk_3C8 = 9;
+            sZelda->unk_3C8 = 9;
             this->unk_31C = 0;
             this->unk_1A2[2] = 0;
             this->unk_336 = 0;
@@ -1893,9 +1893,9 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             player->actor.shape.rot.y = -0x4000;
             player->actor.world.pos.x = 200.0f;
             player->actor.world.pos.z = 30.0f;
-            D_8090EB2C->actor.world.pos.x = 340.0f;
-            D_8090EB2C->actor.world.pos.z = -250.0f;
-            D_8090EB2C->actor.world.rot.y = D_8090EB2C->actor.shape.rot.y = -0x2000;
+            sZelda->actor.world.pos.x = 340.0f;
+            sZelda->actor.world.pos.z = -250.0f;
+            sZelda->actor.world.rot.y = sZelda->actor.shape.rot.y = -0x2000;
             this->unk_3A4.x = 250;
             this->unk_3A4.y = 1150.0f;
             this->unk_3A4.z = 0.0f;
@@ -1914,9 +1914,9 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3A4.x = 250;
             this->unk_3A4.y = 1150.0f;
             this->unk_3A4.z = 0.0f;
-            Math_ApproachF(&this->unk_3B0.x, D_8090EB2C->actor.world.pos.x, 0.2f, 20.0f);
-            Math_ApproachF(&this->unk_3B0.y, D_8090EB2C->actor.world.pos.y + 50.0f, 0.2f, 10.0f);
-            Math_ApproachF(&this->unk_3B0.z, D_8090EB2C->actor.world.pos.z, 0.2f, 20.0f);
+            Math_ApproachF(&this->unk_3B0.x, sZelda->actor.world.pos.x, 0.2f, 20.0f);
+            Math_ApproachF(&this->unk_3B0.y, sZelda->actor.world.pos.y + 50.0f, 0.2f, 10.0f);
+            Math_ApproachF(&this->unk_3B0.z, sZelda->actor.world.pos.z, 0.2f, 20.0f);
             if (this->unk_398 == 0x32) {
                 this->unk_39C = 3;
                 this->unk_398 = 0;
@@ -1928,9 +1928,9 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3A4.x = 330.0f;
             this->unk_3A4.y = 1120.0f;
             this->unk_3A4.z = -150.0f;
-            this->unk_3B0.x = D_8090EB2C->actor.world.pos.x;
-            this->unk_3B0.y = D_8090EB2C->actor.world.pos.y + 40.0f;
-            this->unk_3B0.z = D_8090EB2C->actor.world.pos.z;
+            this->unk_3B0.x = sZelda->actor.world.pos.x;
+            this->unk_3B0.y = sZelda->actor.world.pos.y + 40.0f;
+            this->unk_3B0.z = sZelda->actor.world.pos.z;
             if (this->unk_398 == 0xA) {
                 func_8010B680(globalCtx, 0x70D8, NULL);
             }
@@ -1943,7 +1943,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 >= 0xB) {
                 Math_ApproachZeroF(&this->unk_37C, 1.0f, 10.0f);
                 if (this->unk_398 == 0x1E) {
-                    D_8090EB2C->unk_3C8 = 0xA;
+                    sZelda->unk_3C8 = 0xA;
                 }
                 this->unk_339 = 0x17;
                 Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
@@ -2117,7 +2117,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0x28) {
                 this->unk_39C = 9;
                 this->unk_398 = 0;
-                D_8090EB2C->unk_3C8 = 0xB;
+                sZelda->unk_3C8 = 0xB;
                 func_8010B680(globalCtx, 0x70D9, NULL);
                 this->unk_336 = 0;
                 globalCtx->envCtx.unk_D8 = 0.0f;
@@ -2128,9 +2128,9 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3A4.x = 330.0f;
             this->unk_3A4.y = 1120.0f;
             this->unk_3A4.z = -150.0f;
-            this->unk_3B0.x = D_8090EB2C->actor.world.pos.x;
-            this->unk_3B0.y = D_8090EB2C->actor.world.pos.y + 40.0f;
-            this->unk_3B0.z = D_8090EB2C->actor.world.pos.z;
+            this->unk_3B0.x = sZelda->actor.world.pos.x;
+            this->unk_3B0.y = sZelda->actor.world.pos.y + 40.0f;
+            this->unk_3B0.z = sZelda->actor.world.pos.z;
             if (this->unk_398 >= 0x3D) {
                 this->unk_39C = 0xA;
                 this->unk_398 = 0;
@@ -2145,26 +2145,26 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             if ((this->unk_398 >= 0x28) && (this->unk_398 < 0x6F)) {
                 Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.02f);
                 Math_ApproachF(&this->unk_384, 10.0f, 0.1f, 0.2f);
-                Audio_PlayActorSound2(&D_8090EB2C->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
+                Audio_PlayActorSound2(&sZelda->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
             } else {
                 Math_ApproachZeroF(&this->unk_384, 1.0f, 0.2f);
             }
             if (this->unk_398 >= 0x83) {
-                Math_ApproachF(&this->unk_3B0.y, (D_8090EB2C->actor.world.pos.y + 40.0f + 10.0f) - 20.0f, 0.1f,
+                Math_ApproachF(&this->unk_3B0.y, (sZelda->actor.world.pos.y + 40.0f + 10.0f) - 20.0f, 0.1f,
                                this->unk_410.x);
             } else {
-                Math_ApproachF(&this->unk_3B0.y, D_8090EB2C->actor.world.pos.y + 40.0f + 10.0f, 0.05f,
+                Math_ApproachF(&this->unk_3B0.y, sZelda->actor.world.pos.y + 40.0f + 10.0f, 0.05f,
                                this->unk_410.x * 0.25f);
             }
             Math_ApproachF(&this->unk_410.x, 1.0f, 1.0f, 0.01f);
             if (this->unk_398 == 0xA) {
-                D_8090EB2C->unk_3C8 = 0xC;
+                sZelda->unk_3C8 = 0xC;
             }
             if (this->unk_398 == 0x6E) {
-                D_8090EB2C->unk_3C8 = 0xD;
+                sZelda->unk_3C8 = 0xD;
             }
             if (this->unk_398 == 0x8C) {
-                Audio_PlayActorSound2(&D_8090EB2C->actor, NA_SE_EV_HUMAN_BOUND);
+                Audio_PlayActorSound2(&sZelda->actor, NA_SE_EV_HUMAN_BOUND);
             }
             if (this->unk_398 < 0xA0) {
                 break;
@@ -2219,7 +2219,7 @@ void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
                 }
 
                 func_8002F6D4(globalCtx, &this->actor, 15.0f, this->actor.yawTowardsPlayer + phi_v0_2, 2.0f, 0);
-                D_8090EB2C->unk_3C8 = 8;
+                sZelda->unk_3C8 = 8;
                 this->unk_316 = 0xA;
                 break;
             }
@@ -2238,7 +2238,7 @@ void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
 
             player->isBurning = true;
             func_8002F6D4(globalCtx, &this->actor, 10.0f, Math_Atan2S(temp_f12, temp_f2), 0.0f, 0x10);
-            D_8090EB2C->unk_3C8 = 8;
+            sZelda->unk_3C8 = 8;
         }
     }
 }
@@ -2997,8 +2997,8 @@ void func_80904FC8(BossGanon2* this, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 200);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 200, 0, 0);
         gSPDisplayList(POLY_XLU_DISP++, ovl_Boss_Ganon2_DL_00B308);
-        Matrix_Translate(D_8090EB2C->actor.world.pos.x, D_8090EB2C->actor.world.pos.y + 80.0f,
-                         D_8090EB2C->actor.world.pos.z, MTXMODE_NEW);
+        Matrix_Translate(sZelda->actor.world.pos.x, sZelda->actor.world.pos.y + 80.0f, sZelda->actor.world.pos.z,
+                         MTXMODE_NEW);
         func_800D1FD4(&globalCtx->mf_11DA0);
         Matrix_Scale(this->unk_384, this->unk_384, this->unk_384, MTXMODE_APPLY);
         Matrix_RotateZ(this->unk_388, MTXMODE_APPLY);
@@ -3084,8 +3084,8 @@ void func_80905674(BossGanon2* this, GlobalContext* globalCtx) {
                                     this->unk_19C * -8, 32, 32));
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, (s16)this->unk_37C);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 200, 0, 128);
-        Matrix_Translate(D_8090EB2C->actor.world.pos.x + 100.0f, D_8090EB2C->actor.world.pos.y + 35.0f + 7.0f,
-                         D_8090EB2C->actor.world.pos.z - 100.0f, MTXMODE_NEW);
+        Matrix_Translate(sZelda->actor.world.pos.x + 100.0f, sZelda->actor.world.pos.y + 35.0f + 7.0f,
+                         sZelda->actor.world.pos.z - 100.0f, MTXMODE_NEW);
         Matrix_RotateY(-M_PI / 4.0f, MTXMODE_APPLY);
         Matrix_Scale(0.040000003f, 0.040000003f, this->unk_380, MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
