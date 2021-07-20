@@ -2526,7 +2526,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (D_80906D78 != 0) {
         D_80906D78 = 0;
 
-        for (i2 = 0; i2 < 100; i2++) {
+        for (i2 = 0; i2 < ARRAY_COUNT(sParticles); i2++) {
             angle = Rand_ZeroFloat(2 * M_PI);
             sp44 = Rand_ZeroFloat(40.0f) + 10.0f;
             sp58 = this->actor.world.pos;
@@ -3275,7 +3275,7 @@ void func_809060E8(GlobalContext* globalCtx) {
 
     effect = effects;
 
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
         if (effect->type == 2) {
             if (spCD == 0) {
                 BossGanon2_SetObjectSegment(NULL, globalCtx, OBJECT_GEFF, true);
