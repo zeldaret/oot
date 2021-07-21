@@ -2956,7 +2956,6 @@ void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
     Vec3f sp64;
 
     for (i = 0; i < 15; i++) {
-        //! @bug j is not initialized if arg2 == 0.0f, causing undefined behavior.
         if ((arg2 == 0.0f) || ((j = D_809071CC[i]) >= 0)) {
             if (arg2 > 0.0f) {
                 lerpx = this->unk_234[i].x + (this->unk_234[j].x - this->unk_234[i].x) * arg2;
