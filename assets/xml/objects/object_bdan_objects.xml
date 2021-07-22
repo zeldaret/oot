@@ -1,20 +1,20 @@
 <Root>
     <File Name="object_bdan_objects" Segment="6">
         <!-- Textures -->
-        <Texture Name="gJabuObjectsTex_00140" OutName="jabu_objects_tex_00000140" Format="ci8" Width="32" Height="32" Offset="0x0140"/>
-        <Texture Name="gJabuObjectsTex_007A0" OutName="jabu_objects_tex_000007A0" Format="ci8" Width="32" Height="32" Offset="0x07A0"/>
-        <Texture Name="gJabuObjectsTex_00E00" OutName="jabu_objects_tex_00000E00" Format="ci8" Width="32" Height="32" Offset="0x0E00"/>
-        <Texture Name="gJabuObjectsTex_01460" OutName="jabu_objects_tex_00001460" Format="ci8" Width="32" Height="32" Offset="0x1460"/>
-        <Texture Name="gJabuObjectsTex_01AC0" OutName="jabu_objects_tex_00001AC0" Format="ci8" Width="32" Height="32" Offset="0x1AC0"/>
-        <Texture Name="gJabuObjectsTex_02120" OutName="jabu_objects_tex_00002120" Format="ci8" Width="32" Height="32" Offset="0x2120"/>
-        <Texture Name="gJabuObjectsTex_02780" OutName="jabu_objects_tex_00002780" Format="ci8" Width="32" Height="32" Offset="0x2780"/>
-        <Texture Name="gJabuObjectsTex_02DE0" OutName="jabu_objects_tex_00002DE0" Format="ci8" Width="32" Height="32" Offset="0x2DE0"/>
-        <Texture Name="gJabuObjectsTex_03498" OutName="jabu_objects_tex_00003498" Format="ci8" Width="32" Height="32" Offset="0x3498"/>
-        <Texture Name="gJabuObjectsTex_03BB8" OutName="jabu_objects_tex_00003BB8" Format="ci8" Width="32" Height="64" Offset="0x3BB8"/>
-        <Texture Name="gJabuObjectsTex_043B8" OutName="jabu_objects_tex_000043B8" Format="ci8" Width="32" Height="32" Offset="0x43B8"/>
-        <Texture Name="gJabuObjectsTex_06748" OutName="jabu_objects_tex_00006748" Format="ci8" Width="32" Height="32" Offset="0x6748"/>
-        <Texture Name="gJabuObjectsTex_06B48" OutName="jabu_objects_tex_00006B48" Format="ci8" Width="32" Height="64" Offset="0x6B48"/>
-        <Texture Name="gJabuObjectsTex_07348" OutName="jabu_objects_tex_00007348" Format="ci8" Width="32" Height="64" Offset="0x7348"/>
+        <Texture Name="gJabuObjectsTex_00140" OutName="jabu_objects_tex_00000140" Format="ci8" Width="32" Height="32" Offset="0x0140" TlutOffset="0x0000"/>
+        <Texture Name="gJabuObjectsTex_007A0" OutName="jabu_objects_tex_000007A0" Format="ci8" Width="32" Height="32" Offset="0x07A0" TlutOffset="0x0660"/>
+        <Texture Name="gJabuObjectsTex_00E00" OutName="jabu_objects_tex_00000E00" Format="ci8" Width="32" Height="32" Offset="0x0E00" TlutOffset="0x0CC0"/>
+        <Texture Name="gJabuObjectsTex_01460" OutName="jabu_objects_tex_00001460" Format="ci8" Width="32" Height="32" Offset="0x1460" TlutOffset="0x1320"/>
+        <Texture Name="gJabuObjectsTex_01AC0" OutName="jabu_objects_tex_00001AC0" Format="ci8" Width="32" Height="32" Offset="0x1AC0" TlutOffset="0x1980"/>
+        <Texture Name="gJabuObjectsTex_02120" OutName="jabu_objects_tex_00002120" Format="ci8" Width="32" Height="32" Offset="0x2120" TlutOffset="0x1FE0"/>
+        <Texture Name="gJabuObjectsTex_02780" OutName="jabu_objects_tex_00002780" Format="ci8" Width="32" Height="32" Offset="0x2780" TlutOffset="0x2640"/>
+        <Texture Name="gJabuObjectsTex_02DE0" OutName="jabu_objects_tex_00002DE0" Format="ci8" Width="32" Height="32" Offset="0x2DE0" TlutOffset="0x2CA0"/>
+        <Texture Name="gJabuObjectsTex_03498" OutName="jabu_objects_tex_00003498" Format="ci8" Width="32" Height="32" Offset="0x3498" TlutOffset="0x3300"/>
+        <Texture Name="gJabuObjectsTex_03BB8" OutName="jabu_objects_tex_00003BB8" Format="ci8" Width="32" Height="64" Offset="0x3BB8" TlutOffset="0x39B0"/>
+        <Texture Name="gJabuObjectsTex_043B8" OutName="jabu_objects_tex_000043B8" Format="ci8" Width="32" Height="32" Offset="0x43B8" TlutOffset="0x39B0"/>
+        <Texture Name="gJabuObjectsTex_06748" OutName="jabu_objects_tex_00006748" Format="ci8" Width="32" Height="32" Offset="0x6748" TlutOffset="0x6540"/>
+        <Texture Name="gJabuObjectsTex_06B48" OutName="jabu_objects_tex_00006B48" Format="ci8" Width="32" Height="64" Offset="0x6B48" TlutOffset="0x6540"/>
+        <Texture Name="gJabuObjectsTex_07348" OutName="jabu_objects_tex_00007348" Format="ci8" Width="32" Height="64" Offset="0x7348" TlutOffset="0x6540"/>
         <Texture Name="gJabuObjectsTex_08D10" OutName="jabu_objects_tex_00008D10" Format="rgb5a1" Width="32" Height="64" Offset="0x8D10"/>
         <Texture Name="gJabuObjectsTex_09D10" OutName="jabu_objects_tex_00009D10" Format="rgb5a1" Width="32" Height="32" Offset="0x9D10"/>
         <Texture Name="gJabuObjectsTex_0A510" OutName="jabu_objects_tex_0000A510" Format="rgb5a1" Width="32" Height="64" Offset="0xA510"/>

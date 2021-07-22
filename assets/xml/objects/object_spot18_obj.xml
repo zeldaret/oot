@@ -11,8 +11,8 @@
         <Texture Name="gGoronCityVaseTLUT" OutName="vase_tlut" Format="rgb5a1" Width="4" Height="4" Offset="0x560"/>
 
         <!-- Textures -->
-        <Texture Name="gGoronCityVaseTex_580" OutName="vase_580" Format="ci4" Width="64" Height="64" Offset="0x580"/>
-        <Texture Name="gGoronCityVaseTex_D80" OutName="vase_D80" Format="ci4" Width="32" Height="32" Offset="0xD80"/>
+        <Texture Name="gGoronCityVaseTex_580" OutName="vase_580" Format="ci4" Width="64" Height="64" Offset="0x580" TlutOffset="0x560"/>
+        <Texture Name="gGoronCityVaseTex_D80" OutName="vase_D80" Format="ci4" Width="32" Height="32" Offset="0xD80" TlutOffset="0x560"/>
         <Texture Name="gGoronCitySpearLeafTex" OutName="spear_leaf" Format="rgb5a1" Width="32" Height="64" Offset="0x3010"/>
         <Texture Name="gGoronCitySpearTipTex" OutName="spear_tip" Format="rgb5a1" Width="32" Height="32" Offset="0x4010"/>
         <Texture Name="gGoronCitySpearHandleTex" OutName="spear_handle" Format="rgb5a1" Width="32" Height="32" Offset="0x4810"/>

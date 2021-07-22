@@ -34,16 +34,16 @@
         <Texture Name="gCarpetMerchantTLUT" OutName="tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x4C20"/>
 
         <!-- Carpet Merchant DisplayList Textures -->
-        <Texture Name="gCarpetMerchantPantsTex" OutName="pants" Format="ci8" Width="8" Height="16" Offset="0x4E20"/>
-        <Texture Name="gCarpetMerchantHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x4EA0"/>
-        <Texture Name="gCarpetMerchantFootTex" OutName="foot" Format="ci8" Width="32" Height="16" Offset="0x4FA0"/>
-        <Texture Name="gCarpetMerchantSkinGradientTex" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x51A0"/>
-        <Texture Name="gCarpetMerchantFootSoleTex" OutName="foot_sole" Format="ci8" Width="32" Height="32" Offset="0x51E0"/>
-        <Texture Name="gCarpetMerchantHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0x55E0"/>
-        <Texture Name="gCarpetMerchantBraceletTex" OutName="bracelet" Format="ci8" Width="16" Height="32" Offset="0x56E0"/>
-        <Texture Name="gCarpetMerchantShirtTex" OutName="shirt" Format="ci8" Width="16" Height="32" Offset="0x58E0"/>
-        <Texture Name="gCarpetMerchantChestTex" OutName="chest" Format="ci8" Width="16" Height="32" Offset="0x5AE0"/>
-        <Texture Name="gCarpetMerchantHatTex" OutName="hat" Format="ci8" Width="16" Height="16" Offset="0x5CE0"/>
+        <Texture Name="gCarpetMerchantPantsTex" OutName="pants" Format="ci8" Width="8" Height="16" Offset="0x4E20" TlutOffset="0x4C20"/>
+        <Texture Name="gCarpetMerchantHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x4EA0" TlutOffset="0x4C20"/>
+        <Texture Name="gCarpetMerchantFootTex" OutName="foot" Format="ci8" Width="32" Height="16" Offset="0x4FA0" TlutOffset="0x4C20"/>
+        <Texture Name="gCarpetMerchantSkinGradientTex" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x51A0" TlutOffset="0x4C20"/>
+        <Texture Name="gCarpetMerchantFootSoleTex" OutName="foot_sole" Format="ci8" Width="32" Height="32" Offset="0x51E0" TlutOffset="0x4C20"/>
+        <Texture Name="gCarpetMerchantHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0x55E0" TlutOffset="0x4C20"/>
+        <Texture Name="gCarpetMerchantBraceletTex" OutName="bracelet" Format="ci8" Width="16" Height="32" Offset="0x56E0" TlutOffset="0x4C20"/>
+        <Texture Name="gCarpetMerchantShirtTex" OutName="shirt" Format="ci8" Width="16" Height="32" Offset="0x58E0" TlutOffset="0x4C20"/>
+        <Texture Name="gCarpetMerchantChestTex" OutName="chest" Format="ci8" Width="16" Height="32" Offset="0x5AE0" TlutOffset="0x4C20"/>
+        <Texture Name="gCarpetMerchantHatTex" OutName="hat" Format="ci8" Width="16" Height="16" Offset="0x5CE0" TlutOffset="0x4C20"/>
 
         <!-- Carpet Merchant Animations -->
         <Animation Name="gCarpetMerchantSlappingKneeAnim" Offset="0x45C"/>
