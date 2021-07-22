@@ -102,7 +102,6 @@ typedef struct {
 
 #define ACTOR_FLAG_NONE 0
 #define ACTOR_FLAG_0 (1 << 0)
-#define ACTOR_FLAG_1 (1 << 1)
 #define ACTOR_FLAG_2 (1 << 2)
 #define ACTOR_FLAG_3 (1 << 3)
 #define ACTOR_FLAG_4 (1 << 4)
@@ -130,9 +129,6 @@ typedef struct {
 #define ACTOR_FLAG_26 (1 << 26)
 #define ACTOR_FLAG_27 (1 << 27)
 #define ACTOR_FLAG_28 (1 << 28)
-#define ACTOR_FLAG_29 (1 << 29)
-#define ACTOR_FLAG_30 (1 << 30)
-#define ACTOR_FLAG_31 (u32)(1 << 31)
 
 #define ACTOR_FLAGS_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
