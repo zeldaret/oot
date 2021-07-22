@@ -7,7 +7,7 @@
 #include "z_en_gb.h"
 #include "objects/object_ps/object_ps.h"
 
-#define FLAGS 0x00000009
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
 
 #define THIS ((EnGb*)thisx)
 

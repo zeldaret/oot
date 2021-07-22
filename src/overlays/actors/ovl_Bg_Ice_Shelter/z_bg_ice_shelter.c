@@ -1,6 +1,6 @@
 #include "z_bg_ice_shelter.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgIceShelter*)thisx)
 

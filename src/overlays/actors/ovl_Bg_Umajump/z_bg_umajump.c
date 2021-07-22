@@ -6,7 +6,7 @@
 
 #include "z_bg_umajump.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgUmaJump*)thisx)
 
@@ -49,7 +49,7 @@ void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->dyna.actor);
             return;
         }
-        this->dyna.actor.flags |= 0x30;
+        this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     }
 }
 

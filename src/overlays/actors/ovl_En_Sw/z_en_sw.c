@@ -1,6 +1,6 @@
 #include "z_en_sw.h"
 
-#define FLAGS 0x00000015
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4
 
 #define THIS ((EnSw*)thisx)
 
@@ -289,7 +289,7 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.elements[0].info.toucher.damage *= 2;
             this->actor.naviEnemyId = 0x20;
             this->actor.colChkInfo.health *= 2;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             break;
         default:
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
@@ -356,7 +356,7 @@ s32 func_80B0C9F0(EnSw* this, GlobalContext* globalCtx) {
                 this->unk_38A = 2;
                 this->actor.shape.shadowScale = 16.0f;
                 this->actor.gravity = -1.0f;
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 this->actionFunc = func_80B0DB00;
             }
 

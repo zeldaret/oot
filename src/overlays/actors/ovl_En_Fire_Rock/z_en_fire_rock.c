@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((EnFireRock*)thisx)
 

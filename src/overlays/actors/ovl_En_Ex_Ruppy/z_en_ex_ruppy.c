@@ -3,7 +3,7 @@
 #include "../ovl_En_Diving_Game/z_en_diving_game.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnExRuppy*)thisx)
 
@@ -107,7 +107,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_15A = this->actor.world.rot.z;
             this->actor.world.rot.z = 0;
             this->timer = 30;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actionFunc = EnExRuppy_DropIntoWater;
             break;
 
@@ -125,7 +125,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n" VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actionFunc = EnExRuppy_WaitToBlowUp;
             break;
 
@@ -147,13 +147,13 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n" VT_RST);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = 700.0f;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
 
         case 4: // Progress markers in the shooting gallery
             this->actor.gravity = -3.0f;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             Actor_SetScale(&this->actor, 0.01f);
             this->actor.shape.shadowScale = 6.0f;
             this->actor.shape.yOffset = -700.0f;

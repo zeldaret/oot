@@ -11,7 +11,7 @@
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((EnGSwitch*)thisx)
 

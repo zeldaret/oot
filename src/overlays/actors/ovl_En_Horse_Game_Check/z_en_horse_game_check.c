@@ -7,7 +7,7 @@
 #include "z_en_horse_game_check.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnHorseGameCheckBase*)thisx)
 #define AT_FINISH_LINE(actor)                                                                                     \

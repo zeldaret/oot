@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_gla/object_gla.h"
 
-#define FLAGS 0x00000019
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
 
 #define THIS ((EnGe2*)thisx)
 
@@ -296,7 +296,7 @@ void EnGe2_KnockedOut(EnGe2* this, GlobalContext* globalCtx) {
     s32 effectAngle;
     Vec3f effectPos;
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     if (this->stateFlags & GE2_STATE_ANIMCOMPLETE) {
         effectAngle = (globalCtx->state.frames) * 0x2800;
         effectPos.x = this->actor.focus.pos.x + (Math_CosS(effectAngle) * 5.0f);
@@ -436,7 +436,7 @@ void EnGe2_SetActionAfterTalk(EnGe2* this, GlobalContext* globalCtx) {
                 break;
         }
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
     EnGe2_TurnToFacePlayer(this, globalCtx);
 }
@@ -457,7 +457,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, GlobalContext* globalCtx) {
 void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe2_WaitTillCardGiven;
         func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
     }
@@ -469,7 +469,7 @@ void EnGe2_ForceTalk(EnGe2* this, GlobalContext* globalCtx) {
         this->actionFunc = EnGe2_GiveCard;
     } else {
         this->actor.textId = 0x6004;
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F1C4(&this->actor, globalCtx, 300.0f, 300.0f, 0);
     }
     EnGe2_LookAtPlayer(this, globalCtx);

@@ -7,7 +7,7 @@
 #include "z_bg_jya_1flift.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((BgJya1flift*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_oceff_wipe2.h"
 #include "vt.h"
 
-#define FLAGS 0x02000010
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_25
 
 #define THIS ((OceffWipe2*)thisx)
 

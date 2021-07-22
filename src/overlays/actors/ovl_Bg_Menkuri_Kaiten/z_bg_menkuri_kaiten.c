@@ -6,7 +6,7 @@
 
 #include "z_bg_menkuri_kaiten.h"
 
-#define FLAGS 0x00000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((BgMenkuriKaiten*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_en_guest.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
 
 #define THIS ((EnGuest*)thisx)
 
@@ -87,7 +87,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex) != 0) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);

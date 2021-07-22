@@ -7,7 +7,7 @@
 #include "z_en_syateki_niw.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnSyatekiNiw*)thisx)
 
@@ -74,7 +74,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSyatekiNiw* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTable, this->morphTable, 16);
 

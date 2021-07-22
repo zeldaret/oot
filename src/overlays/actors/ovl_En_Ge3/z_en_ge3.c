@@ -7,7 +7,7 @@
 #include "z_en_ge3.h"
 #include "objects/object_geldb/object_geldb.h"
 
-#define FLAGS 0x00000019
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
 
 #define THIS ((EnGe3*)thisx)
 
@@ -129,7 +129,7 @@ void EnGe3_Wait(EnGe3* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
         this->actionFunc = EnGe3_WaitLookAtPlayer;
         this->actor.update = EnGe3_UpdateWhenNotTalking;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
     EnGe3_TurnToFacePlayer(this, globalCtx);
 }
@@ -150,7 +150,7 @@ void EnGe3_WaitTillCardGiven(EnGe3* this, GlobalContext* globalCtx) {
 void EnGe3_GiveCard(EnGe3* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe3_WaitTillCardGiven;
         func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
     }
@@ -165,7 +165,7 @@ void EnGe3_ForceTalk(EnGe3* this, GlobalContext* globalCtx) {
             this->unk_30C |= 4;
         }
         this->actor.textId = 0x6004;
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F1C4(&this->actor, globalCtx, 300.0f, 300.0f, 0);
     }
     EnGe3_LookAtPlayer(this, globalCtx);

@@ -6,7 +6,7 @@
 
 #include "z_en_hy.h"
 
-#define FLAGS 0x00000019
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
 
 #define THIS ((EnHy*)thisx)
 
@@ -754,7 +754,7 @@ void func_80A70E34(EnHy* this, GlobalContext* globalCtx) {
         func_80034EC0(&this->skelAnime, D_80A72050, D_80A722D8[this->actor.params & 0x7F].unk_B);
 
         if ((globalCtx->sceneNum == SCENE_MARKET_ALLEY) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) {
-            this->actor.flags &= ~0x10;
+            this->actor.flags &= ~ACTOR_FLAG_4;
             this->actor.uncullZoneScale = 0.0f;
         }
 

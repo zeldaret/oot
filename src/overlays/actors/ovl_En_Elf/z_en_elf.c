@@ -7,7 +7,7 @@
 #include "z_en_elf.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x02000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25
 
 #define THIS ((EnElf*)thisx)
 
@@ -1381,7 +1381,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else if (player->naviTextId < 0) {
         // trigger dialog instantly for negative message IDs
-        thisx->flags |= 0x10000;
+        thisx->flags |= ACTOR_FLAG_16;
     }
 
     if (func_8002F194(thisx, globalCtx)) {
@@ -1399,10 +1399,10 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         func_80A01C38(this, 3);
 
         if (this->elfMsg != NULL) {
-            this->elfMsg->actor.flags |= 0x100;
+            this->elfMsg->actor.flags |= ACTOR_FLAG_8;
         }
 
-        thisx->flags &= ~0x10000;
+        thisx->flags &= ~ACTOR_FLAG_16;
     } else {
         this->actionFunc(this, globalCtx);
         thisx->shape.rot.y = this->unk_2BC;

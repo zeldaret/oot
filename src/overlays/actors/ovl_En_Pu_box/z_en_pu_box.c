@@ -7,7 +7,7 @@
 #include "z_en_pu_box.h"
 #include "objects/object_pu_box/object_pu_box.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnPubox*)thisx)
 

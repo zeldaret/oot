@@ -6,7 +6,7 @@
 
 #include "z_bg_spot05_soko.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgSpot05Soko*)thisx)
 
@@ -65,7 +65,7 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(thisx);
         } else {
             this->actionFunc = func_808AE5B4;
-            thisx->flags |= 0x10;
+            thisx->flags |= ACTOR_FLAG_4;
         }
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);

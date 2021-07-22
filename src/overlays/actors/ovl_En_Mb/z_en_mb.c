@@ -7,7 +7,7 @@
 #include "z_en_mb.h"
 #include "objects/object_mb/object_mb.h"
 
-#define FLAGS 0x00000015
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4
 
 #define THIS ((EnMb*)thisx)
 
@@ -259,7 +259,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actor.world.pos.z = thisx->world.pos.z + 600.0f;
             }
             ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actor.naviEnemyId++;
             func_80AA6898(this);
             break;
@@ -274,7 +274,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.colChkInfo.mass = MASS_HEAVY;
             this->unk_360 = 350.0f;
             this->unk_364 = 1750.0f;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             func_80AA68FC(this, globalCtx);
             break;
     }
@@ -540,7 +540,7 @@ void func_80AA6E7C(EnMb* this) {
 void func_80AA6F04(EnMb* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbAnim_00BE58, -4.0f);
     this->unk_320 = 1;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->collider1.dim.height = 80;
     this->collider1.dim.radius = 95;
     this->unk_32A = 30;
@@ -1071,12 +1071,12 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
     playSpeedABS = ABS(this->skelAnime.playSpeed);
     if ((this->unk_32E == 0) && (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->unk_364)) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 750, 0);
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         if ((this->actor.xzDistToPlayer < 500.0f) && (yawDiff <= 0x1387)) {
             func_80AA6AC8(this);
         }
     } else {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         if ((this->unk_360 < Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos)) ||
             (this->soundTimer != 0)) {
             yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
@@ -1229,7 +1229,7 @@ void func_80AA8FC8(EnMb* this) {
     this->unk_32A = 30;
     this->unk_320 = 0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     EnMb_SetupAction(this, func_80AA90A0);
 }
 

@@ -1,6 +1,6 @@
 #include "z_boss_ganon.h"
 
-#define FLAGS 0x00000035
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((BossGanon*)thisx)
 

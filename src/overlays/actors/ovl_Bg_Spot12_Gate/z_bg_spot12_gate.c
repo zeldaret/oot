@@ -6,7 +6,7 @@
 
 #include "z_bg_spot12_gate.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgSpot12Gate*)thisx)
 

@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_nb/object_nb.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnNb*)thisx)
 
@@ -1109,7 +1109,7 @@ void EnNb_CrawlspaceSpawnCheck(EnNb* this, GlobalContext* globalCtx) {
         } else {
             EnNb_SetCurrentAnim(this, &gNabooruStandingHandsOnHipsAnim, 0, 0.0f, 0);
             this->headTurnFlag = 1;
-            this->actor.flags |= 9;
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
             this->actor.world.pos = this->finalPos;
             this->action = NB_IDLE_AFTER_TALK;
             this->drawMode = NB_DRAW_DEFAULT;
@@ -1186,7 +1186,7 @@ void EnNb_SetupIdleCrawlspace(EnNb* this, s32 animFinished) {
     if (animFinished) {
         EnNb_SetCurrentAnim(this, &gNabooruStandingHandsOnHipsAnim, 0, -8.0f, 0);
         this->headTurnFlag = 1;
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->action = NB_IDLE_CRAWLSPACE;
     }
 }
@@ -1195,7 +1195,7 @@ void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->action = NB_IN_DIALOG;
     } else {
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
 
         if (!(gSaveContext.infTable[22] & 0x1000)) {
             this->actor.textId = 0x601D;
@@ -1211,7 +1211,7 @@ void EnNb_SetupPathMovement(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetCurrentAnim(this, &gNabooruStandingToWalkingTransitionAnim, 2, -8.0f, 0);
     gSaveContext.eventChkInf[9] |= 0x10;
     this->action = NB_IN_PATH;
-    this->actor.flags &= ~9;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
 }
 
 void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
@@ -1231,7 +1231,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             }
             this->action = NB_IDLE_CRAWLSPACE;
         }
-        this->actor.flags &= ~9;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
     } else if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
         choiceIndex = globalCtx->msgCtx.choiceIndex;
 
@@ -1287,7 +1287,7 @@ void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->action = NB_ACTION_30;
     } else {
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->actor.textId = Text_GetFaceReaction(globalCtx, 0x23);
 
         if ((this->actor.textId) == 0) {
@@ -1301,7 +1301,7 @@ void func_80AB3B04(EnNb* this, GlobalContext* globalCtx) {
 void func_80AB3B7C(EnNb* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         this->action = NB_IDLE_AFTER_TALK;
-        this->actor.flags &= ~9;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
     }
 }
 

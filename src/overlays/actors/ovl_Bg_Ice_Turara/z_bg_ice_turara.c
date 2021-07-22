@@ -6,7 +6,7 @@
 
 #include "z_bg_ice_turara.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgIceTurara*)thisx)
 

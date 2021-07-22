@@ -7,7 +7,7 @@
 #include "z_en_ta.h"
 #include "vt.h"
 
-#define FLAGS 0x00000009
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
 
 #define THIS ((EnTa*)thisx)
 
@@ -203,7 +203,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                 } else {
                     if (gSaveContext.nightFlag == 0) {
-                        this->actor.flags |= 0x10;
+                        this->actor.flags |= ACTOR_FLAG_4;
                         this->unk_2C4[0] = this->unk_2C4[1] = this->unk_2C4[2] = 7;
                         this->unk_2B8[0] = (EnNiw*)Actor_Spawn(
                             &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
@@ -475,7 +475,7 @@ void func_80B14AF4(EnTa* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_CRY_1);
         func_80B13AA0(this, func_80B14A54, func_80B167C0);
         this->unk_2CC = 65;
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
     }
 }
 
@@ -637,7 +637,7 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
 void func_80B15260(EnTa* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->unk_25C = func_80B15100;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
@@ -742,7 +742,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             break;
                     }
                     this->unk_25C = func_80B15260;
-                    this->actor.flags |= 0x10000;
+                    this->actor.flags |= ACTOR_FLAG_16;
                     func_8002F2CC(&this->actor, globalCtx, 1000.0f);
                     return;
                 }
@@ -1064,9 +1064,9 @@ void func_80B16608(EnTa* this, GlobalContext* globalCtx) {
                 this->unk_25C = func_80B1642C;
                 break;
         }
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
     this->unk_2E0 |= 1;

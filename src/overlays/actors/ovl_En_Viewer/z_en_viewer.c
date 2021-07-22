@@ -11,7 +11,7 @@
 #include "objects/object_horse_zelda/object_horse_zelda.h"
 #include "objects/object_horse_ganon/object_horse_ganon.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnViewer*)thisx)
 
@@ -207,7 +207,7 @@ void func_80B2A570(EnViewer* this, GlobalContext* globalCtx) {
 
     if (!Object_IsLoaded(&globalCtx->objectCtx, objIndex) ||
         !Object_IsLoaded(&globalCtx->objectCtx, this->animObjBankIndex)) {
-        this->actor.flags &= ~0x40;
+        this->actor.flags &= ~ACTOR_FLAG_6;
         return;
     }
 

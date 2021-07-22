@@ -7,7 +7,7 @@
 #include "z_bg_spot09_obj.h"
 #include "objects/object_spot09_obj/object_spot09_obj.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgSpot09Obj*)thisx)
 

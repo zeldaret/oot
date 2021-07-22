@@ -7,7 +7,7 @@
 #include "z_en_dns.h"
 #include "vt.h"
 
-#define FLAGS 0x00000009
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
 
 #define THIS ((EnDns*)thisx)
 
@@ -330,9 +330,9 @@ void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
         this->actionFunc = EnDns_Talk;
     } else {
         if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
-            this->actor.flags |= 0x10000;
+            this->actor.flags |= ACTOR_FLAG_16;
         } else {
-            this->actor.flags &= ~0x10000;
+            this->actor.flags &= ~ACTOR_FLAG_16;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
             func_8002F2F4(&this->actor, globalCtx);
@@ -414,7 +414,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
             this->dnsItemEntry->setRupeesAndFlags(this);
             this->dropCollectible = 1;
             this->maintainCollider = 0;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             EnDns_Change(this, 1);
             this->actionFunc = EnDns_SetupBurrow;
         }
@@ -422,7 +422,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
         this->dnsItemEntry->setRupeesAndFlags(this);
         this->dropCollectible = 1;
         this->maintainCollider = 0;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_Change(this, 1);
         this->actionFunc = EnDns_SetupBurrow;
     }
@@ -431,7 +431,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
 void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
         this->maintainCollider = 0;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_Change(this, 1);
         this->actionFunc = EnDns_SetupBurrow;
     }

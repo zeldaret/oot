@@ -8,7 +8,7 @@
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
 
 #define THIS ((EnGm*)thisx)
 
@@ -106,7 +106,7 @@ s32 func_80A3D7C8(void) {
 
 void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objGmBankIndex)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
         Animation_Change(&this->skelAnime, &D_060002B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), ANIMMODE_LOOP,

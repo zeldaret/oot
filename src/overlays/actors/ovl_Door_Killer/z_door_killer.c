@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((DoorKiller*)thisx)
 

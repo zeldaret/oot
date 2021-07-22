@@ -6,7 +6,7 @@
 
 #include "z_en_si.h"
 
-#define FLAGS 0x00000201
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_9
 
 #define THIS ((EnSi*)thisx)
 
@@ -82,7 +82,7 @@ s32 func_80AFB748(EnSi* this, GlobalContext* globalCtx) {
 void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((this->actor.flags & 0x2000) == 0x2000) {
+    if (ACTOR_FLAGS_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         this->actionFunc = func_80AFB89C;
     } else {
         Math_SmoothStepToF(&this->actor.scale.x, 0.25f, 0.4f, 1.0f, 0.0f);
@@ -115,7 +115,7 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, this->actor.scale.x);
     this->actor.shape.rot.y += 0x400;
 
-    if ((this->actor.flags & 0x2000) != 0x2000) {
+    if (!ACTOR_FLAGS_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         Item_Give(globalCtx, ITEM_SKULL_TOKEN);
         player->actor.freezeTimer = 10;
         func_8010B680(globalCtx, 0xB4, 0);

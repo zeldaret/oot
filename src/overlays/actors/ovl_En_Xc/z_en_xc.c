@@ -13,7 +13,7 @@
 #include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnXc*)thisx)
 
@@ -2162,7 +2162,7 @@ void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->action = SHIEK_ACTION_IN_DIALOGUE;
     } else {
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         if (INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE) {
             this->actor.textId = 0x7010;
         } else {
@@ -2175,7 +2175,7 @@ void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
 void func_80B41798(EnXc* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         this->action = SHIEK_ACTION_BLOCK_PEDESTAL;
-        this->actor.flags &= ~9;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
     }
 }
 

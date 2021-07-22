@@ -7,7 +7,7 @@
 #include "z_en_kakasi3.h"
 #include "vt.h"
 
-#define FLAGS 0x02000009
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25
 
 #define THIS ((EnKakasi3*)thisx)
 
@@ -80,7 +80,7 @@ void EnKakasi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
-    this->actor.flags |= 0x400;
+    this->actor.flags |= ACTOR_FLAG_10;
     this->rot = this->actor.world.rot;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);

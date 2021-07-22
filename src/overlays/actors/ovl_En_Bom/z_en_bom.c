@@ -8,7 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((EnBom*)thisx)
 
@@ -171,7 +171,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
-        this->actor.flags |= 0x20;
+        this->actor.flags |= ACTOR_FLAG_5;
         func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
     }
 
@@ -320,7 +320,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
             thisx->params = BOMB_EXPLOSION;
             this->timer = 10;
-            thisx->flags |= 0x20;
+            thisx->flags |= ACTOR_FLAG_5;
             EnBom_SetupAction(this, EnBom_Explode);
         }
     }

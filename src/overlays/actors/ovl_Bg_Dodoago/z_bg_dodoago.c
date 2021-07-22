@@ -7,7 +7,7 @@
 #include "z_bg_dodoago.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgDodoago*)thisx)
 

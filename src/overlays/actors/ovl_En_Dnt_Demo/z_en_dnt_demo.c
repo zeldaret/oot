@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((EnDntDemo*)thisx)
 
@@ -100,7 +100,7 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
     }
     this->subCamera = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnDntDemo_Judge;
 }
 

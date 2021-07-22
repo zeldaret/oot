@@ -7,7 +7,7 @@
 #include "vt.h"
 #include "z_bg_gate_shutter.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgGateShutter*)thisx)
 

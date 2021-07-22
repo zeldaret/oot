@@ -6,7 +6,7 @@
 
 #include "z_en_ds.h"
 
-#define FLAGS 0x00000009
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
 
 #define THIS ((EnDs*)thisx)
 
@@ -46,7 +46,7 @@ void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = EnDs_Wait;
     this->actor.targetMode = 1;
     this->unk_1E8 = 0;
-    this->actor.flags &= ~0x1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_1E4 = 0.0f;
 }
 
@@ -56,7 +56,7 @@ void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx) != 0) {
         this->actionFunc = EnDs_Wait;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
     this->unk_1E8 |= 1;
 }
@@ -73,7 +73,7 @@ void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = EnDs_Talk;
     } else {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
 }
@@ -82,7 +82,7 @@ void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx) != 0) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
-        this->actor.flags &= ~0x100;
+        this->actor.flags &= ~ACTOR_FLAG_8;
         gSaveContext.itemGetInf[3] |= 1;
     }
 }
@@ -191,7 +191,7 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
                         return;
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
-                        this->actor.flags &= ~0x10000;
+                        this->actor.flags &= ~ACTOR_FLAG_16;
                         func_8002F434(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;

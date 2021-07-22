@@ -9,7 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_syokudai/object_syokudai.h"
 
-#define FLAGS 0x00000410
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_10
 
 #define THIS ((ObjSyokudai*)thisx)
 

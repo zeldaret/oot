@@ -8,7 +8,7 @@
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "global.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgGndSoulmeiro*)thisx)
 

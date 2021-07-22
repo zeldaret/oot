@@ -10,7 +10,7 @@
 #include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
-#define FLAGS 0x02000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25
 
 #define THIS ((BgDyYoseizo*)thisx)
 

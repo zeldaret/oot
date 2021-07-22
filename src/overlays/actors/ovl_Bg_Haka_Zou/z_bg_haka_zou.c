@@ -7,7 +7,7 @@
 #include "z_bg_haka_zou.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* 0x0 */ STA_GIANT_BIRD_STATUE,

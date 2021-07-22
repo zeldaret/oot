@@ -8,7 +8,7 @@
 #include "scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 #include "vt.h"
 
-#define FLAGS 0x02000010
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_25
 
 #define THIS ((EnOkarinaTag*)thisx)
 
@@ -49,7 +49,7 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     // "Ocarina tag outbreak"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_150 = (this->actor.params >> 0xA) & 0x3F;
     this->unk_152 = (this->actor.params >> 6) & 0xF;
     this->switchFlag = this->actor.params & 0x3F;
@@ -115,7 +115,7 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     player = PLAYER;
     this->unk_15A++;
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
         if ((this->unk_152 != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
             if (player->stateFlags2 & 0x1000000) {
@@ -191,7 +191,7 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     this->unk_15A++;
     if ((this->unk_152 != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
         } else if (((this->unk_150 != 4) || !(gSaveContext.eventChkInf[4] & 0x800)) &&
                    ((this->unk_150 != 6) || !(gSaveContext.eventChkInf[1] & 0x2000)) &&
                    (this->actor.xzDistToPlayer < (90.0f + this->unk_15C)) &&

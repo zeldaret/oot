@@ -8,7 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS 0x00800010
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_23
 
 #define THIS ((ObjTsubo*)thisx)
 
@@ -227,7 +227,7 @@ void ObjTsubo_WaitForObject(ObjTsubo* this, GlobalContext* globalCtx) {
         this->actor.draw = ObjTsubo_Draw;
         this->actor.objBankIndex = this->objTsuboBankIndex;
         ObjTsubo_SetupIdle(this);
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
@@ -277,7 +277,7 @@ void ObjTsubo_SetupLiftedUp(ObjTsubo* this) {
     this->actionFunc = ObjTsubo_LiftedUp;
     this->actor.room = -1;
     func_8002F7DC(&this->actor, NA_SE_PL_PULL_UP_POT);
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 }
 
 void ObjTsubo_LiftedUp(ObjTsubo* this, GlobalContext* globalCtx) {

@@ -6,7 +6,7 @@
 
 #include "z_en_bx.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnBx*)thisx)
 

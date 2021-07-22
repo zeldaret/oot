@@ -11,7 +11,7 @@
 #include "overlays/actors/ovl_Boss_Fd2/z_boss_fd2.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000035
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((BossFd*)thisx)
 
@@ -688,7 +688,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             }
             break;
         case BOSSFD_FLY_CHASE:
-            this->actor.flags |= 0x1000000;
+            this->actor.flags |= ACTOR_FLAG_24;
             temp_y = Math_SinS(this->work[BFD_MOVE_TIMER] * 2396.0f) * 30.0f + this->fwork[BFD_TARGET_Y_OFFSET];
             this->targetPosition.x = player->actor.world.pos.x;
             this->targetPosition.y = player->actor.world.pos.y + temp_y + 30.0f;
@@ -1271,9 +1271,9 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.world.pos.y < 90.0f) || (700.0f < this->actor.world.pos.y) || (this->actionFunc == BossFd_Wait)) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
     }
 }
 

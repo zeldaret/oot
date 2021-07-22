@@ -2,7 +2,7 @@
 #include "vt.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS 0x00000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((DemoGt*)thisx)
 

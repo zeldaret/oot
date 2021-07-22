@@ -8,7 +8,7 @@
 #include "objects/object_fu/object_fu.h"
 #include "scenes/indoors/hakasitarelay/hakasitarelay_scene.h"
 
-#define FLAGS 0x02000019
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25
 
 #define THIS ((EnFu*)thisx)
 
@@ -173,11 +173,11 @@ void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.unk_E3EE >= 4) {
         this->actionFunc = EnFu_WaitAdult;
         globalCtx->msgCtx.unk_E3EE = 4;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else if (globalCtx->msgCtx.unk_E3EE == 3) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_80A1DB60;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(globalCtx, ITEM_SONG_STORMS);

@@ -7,7 +7,7 @@
 #include "z_bg_gnd_nisekabe.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((BgGndNisekabe*)thisx)
 
@@ -42,9 +42,9 @@ void BgGndNisekabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgGndNisekabe* this = THIS;
 
     if (globalCtx->actorCtx.unk_03 != 0) {
-        this->actor.flags |= 0x80;
+        this->actor.flags |= ACTOR_FLAG_7;
     } else {
-        this->actor.flags &= ~0x80;
+        this->actor.flags &= ~ACTOR_FLAG_7;
     }
 }
 
@@ -57,7 +57,7 @@ void BgGndNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgGndNisekabe* this = THIS;
     u32 index = this->actor.params & 0xFF;
 
-    if ((this->actor.flags & 0x80) == 0x80) {
+    if (ACTOR_FLAGS_ALL(this->actor.flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(globalCtx, dLists[index]);
     } else {
         Gfx_DrawDListOpa(globalCtx, dLists[index]);

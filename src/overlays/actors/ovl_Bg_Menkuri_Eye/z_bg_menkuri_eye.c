@@ -6,7 +6,7 @@
 
 #include "z_bg_menkuri_eye.h"
 
-#define FLAGS 0x00000020
+#define FLAGS ACTOR_FLAG_5
 
 #define THIS ((BgMenkuriEye*)thisx)
 

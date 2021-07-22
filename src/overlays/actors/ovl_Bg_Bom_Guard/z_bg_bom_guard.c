@@ -8,7 +8,7 @@
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((BgBomGuard*)thisx)
 

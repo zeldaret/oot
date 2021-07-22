@@ -6,7 +6,7 @@
 
 #include "z_door_gerudo.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((DoorGerudo*)thisx)
 

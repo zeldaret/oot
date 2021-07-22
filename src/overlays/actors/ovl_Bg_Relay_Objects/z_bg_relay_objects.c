@@ -6,7 +6,7 @@
 
 #include "z_bg_relay_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((BgRelayObjects*)thisx)
 
@@ -68,7 +68,7 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         func_800F5718();
         thisx->room = -1;
-        thisx->flags |= 0x20;
+        thisx->flags |= ACTOR_FLAG_5;
         if (D_808A9508 & 2) {
             thisx->params = 0xFF;
             Actor_Kill(thisx);
@@ -160,7 +160,7 @@ void func_808A9234(BgRelayObjects* this, GlobalContext* globalCtx) {
             return;
         }
         Flags_UnsetSwitch(globalCtx, this->switchFlag);
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         if (globalCtx->roomCtx.curRoom.num == 4) {
             gSaveContext.timer1State = 0xF;
         }

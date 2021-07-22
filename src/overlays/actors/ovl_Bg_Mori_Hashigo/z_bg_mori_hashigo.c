@@ -7,7 +7,7 @@
 #include "z_bg_mori_hashigo.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgMoriHashigo*)thisx)
 
@@ -136,7 +136,7 @@ s32 BgMoriHashigo_SpawnLadder(BgMoriHashigo* this, GlobalContext* globalCtx) {
 
 s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChainClasp);
-    this->dyna.actor.flags |= 1;
+    this->dyna.actor.flags |= ACTOR_FLAG_0;
     Actor_SetFocus(&this->dyna.actor, 55.0f);
     BgMoriHashigo_InitCollider(this, globalCtx);
     if ((this->dyna.actor.params == HASHIGO_CLASP) && !BgMoriHashigo_SpawnLadder(this, globalCtx)) {

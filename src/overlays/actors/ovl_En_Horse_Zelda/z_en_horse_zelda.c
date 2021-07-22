@@ -7,7 +7,7 @@
 #include "z_en_horse_zelda.h"
 #include "objects/object_horse_zelda/object_horse_zelda.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnHorseZelda*)thisx)
 

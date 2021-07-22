@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x01000015
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_24
 
 #define THIS ((EnPeehat*)thisx)
 
@@ -230,7 +230,7 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->xzDistToRise = 2800.0f;
             this->xzDistMax = 1400.0f;
             EnPeehat_Flying_SetStateGround(this);
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             break;
         case PEAHAT_TYPE_LARVA:
             this->actor.scale.x = this->actor.scale.z = 0.006f;
@@ -325,7 +325,7 @@ void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
 
 void EnPeehat_Ground_StateGround(EnPeehat* this, GlobalContext* globalCtx) {
     if (gSaveContext.nightFlag == 0) {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         if (this->riseDelayTimer == 0) {
             if (this->actor.xzDistToPlayer < this->xzDistToRise) {
                 EnPeehat_Ground_SetStateRise(this);
@@ -335,7 +335,7 @@ void EnPeehat_Ground_StateGround(EnPeehat* this, GlobalContext* globalCtx) {
             this->riseDelayTimer--;
         }
     } else {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 50.0f, 0.0f);
         if (this->unk2D4 != 0) {
             this->unk2D4--;
@@ -984,7 +984,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colQuad.base);
         }
         // if PEAHAT_TYPE_GROUNDED
-        if (thisx->params < 0 && (thisx->flags & 0x40)) {
+        if (thisx->params < 0 && (thisx->flags & ACTOR_FLAG_6)) {
             for (i = 1; i >= 0; i--) {
                 Vec3f posResult;
                 CollisionPoly* poly = NULL;

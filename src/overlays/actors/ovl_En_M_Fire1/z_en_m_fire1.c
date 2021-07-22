@@ -6,7 +6,7 @@
 
 #include "z_en_m_fire1.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((EnMFire1*)thisx)
 

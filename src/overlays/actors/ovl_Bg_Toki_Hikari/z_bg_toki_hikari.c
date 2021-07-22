@@ -6,7 +6,7 @@
 
 #include "z_bg_toki_hikari.h"
 
-#define FLAGS 0x00000020
+#define FLAGS ACTOR_FLAG_5
 
 #define THIS ((BgTokiHikari*)thisx)
 

@@ -7,7 +7,7 @@
 #include "z_bg_mori_kaitenkabe.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgMoriKaitenkabe*)thisx)
 

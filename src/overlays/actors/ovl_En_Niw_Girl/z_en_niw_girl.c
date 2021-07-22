@@ -8,7 +8,7 @@
 #include "objects/object_gr/object_gr.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
 
 #define THIS ((EnNiwGirl*)thisx)
 
@@ -99,7 +99,7 @@ void EnNiwGirl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnNiwGirl_Jump(EnNiwGirl* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&gNiwGirlRunAnim);
     Animation_Change(&this->skelAnime, &gNiwGirlRunAnim, 1.0f, 0.0f, frameCount, 0, -10.0f);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = func_80AB9210;
 }
 
@@ -140,7 +140,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &gNiwGirlJumpAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gNiwGirlJumpAnim), 0,
                      -10.0f);
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actor.textId = 0x7000;
     if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
         this->actor.textId = 0x70EA;

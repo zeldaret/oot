@@ -9,7 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((EnExItem*)thisx)
 
@@ -53,7 +53,7 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnExItem* this = THIS;
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->type = this->actor.params & 0xFF;
     this->unusedParam = (this->actor.params >> 8) & 0xFF;
     osSyncPrintf("\n\n");

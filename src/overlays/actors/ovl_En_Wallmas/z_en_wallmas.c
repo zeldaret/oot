@@ -8,7 +8,7 @@
 #include "objects/object_wallmaster/object_wallmaster.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000015
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4
 
 #define THIS ((EnWallmas*)thisx)
 
@@ -154,8 +154,8 @@ void EnWallmas_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->actor.flags &= ~1;
-    this->actor.flags |= 0x20;
+    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_5;
     this->timer = 0x82;
     this->actor.velocity.y = 0.0f;
     this->actor.world.pos.y = player->actor.world.pos.y;
@@ -175,8 +175,8 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.world.pos.y = player->actor.world.pos.y + 300.0f;
     this->actor.world.rot.y = player->actor.shape.rot.y + 0x8000;
     this->actor.floorHeight = player->actor.floorHeight;
-    this->actor.flags |= 1;
-    this->actor.flags &= ~0x20;
+    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_5;
     this->actionFunc = EnWallmas_Drop;
 }
 
@@ -270,7 +270,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {
     this->timer = 0;
     this->actor.draw = NULL;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     if (this->actor.params == WMT_PROXIMITY) {
         this->actionFunc = EnWallmas_WaitForProximity;
     } else {
@@ -511,7 +511,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DEAD);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             } else {
                 if (this->actor.colChkInfo.damage != 0) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DAMAGE);

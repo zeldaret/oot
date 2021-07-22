@@ -11,7 +11,7 @@
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnfHG*)thisx)
 

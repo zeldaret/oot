@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((BgBowlWall*)thisx)
 

@@ -15,7 +15,7 @@
 #include "objects/object_jya_door/object_jya_door.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((DoorShutter*)thisx)
 

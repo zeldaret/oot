@@ -7,7 +7,7 @@
 #include "z_bg_haka_tubo.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((BgHakaTubo*)thisx)
 

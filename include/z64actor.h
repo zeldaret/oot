@@ -134,6 +134,8 @@ typedef struct {
 #define ACTOR_FLAG_30 (1 << 30)
 #define ACTOR_FLAG_31 (u32)(1 << 31)
 
+#define ACTOR_FLAGS_ALL(flags, mask) (((flags) & (mask)) == (mask))
+
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID
     /* 0x002 */ u8 category; // Actor category. Refer to the corresponding enum for values

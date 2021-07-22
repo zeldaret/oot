@@ -7,7 +7,7 @@
 #include "z_en_ganon_organ.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
-#define FLAGS 0x00000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((EnGanonOrgan*)thisx)
 
@@ -32,7 +32,7 @@ extern Gfx D_80A2CCA8[];
 extern Gfx D_80A2EAB0[];
 
 void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx) {
-    thisx->flags &= ~1;
+    thisx->flags &= ~ACTOR_FLAG_0;
 }
 
 void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx) {

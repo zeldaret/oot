@@ -6,7 +6,7 @@
 
 #include "z_bg_bdan_switch.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((BgBdanSwitch*)thisx)
 
@@ -165,7 +165,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
             func_8086D098(this, globalCtx);
-            this->dyna.actor.flags |= 1;
+            this->dyna.actor.flags |= ACTOR_FLAG_0;
             this->dyna.actor.targetMode = 4;
     }
 

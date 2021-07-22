@@ -6,7 +6,7 @@
 
 #include "z_en_scene_change.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((EnSceneChange*)thisx)
 

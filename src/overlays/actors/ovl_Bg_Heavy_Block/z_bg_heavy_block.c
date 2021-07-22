@@ -7,7 +7,7 @@
 #include "z_bg_heavy_block.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgHeavyBlock*)thisx)
 
@@ -81,7 +81,7 @@ void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
 void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
-    this->dyna.actor.flags |= 0x20030;
+    this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_17;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&D_0600169C, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -105,7 +105,7 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = BgHeavyBlock_MovePiece;
             BgHeavyBlock_InitPiece(this, 1.0f);
             this->timer = 120;
-            thisx->flags |= 0x10;
+            thisx->flags |= ACTOR_FLAG_4;
             this->unk_164.y = -50.0f;
             break;
         case HEAVYBLOCK_SMALL_PIECE:
@@ -113,7 +113,7 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = BgHeavyBlock_MovePiece;
             BgHeavyBlock_InitPiece(this, 2.0f);
             this->timer = 120;
-            thisx->flags |= 0x10;
+            thisx->flags |= ACTOR_FLAG_4;
             this->unk_164.y = -20.0f;
             break;
         case HEAVYBLOCK_BREAKABLE:
@@ -475,7 +475,7 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx) {
                 break;
         }
     } else {
-        this->dyna.actor.flags &= ~0x30;
+        this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
         this->actionFunc = BgHeavyBlock_DoNothing;
     }
 }

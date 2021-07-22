@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnBomChu*)thisx)
 
@@ -220,7 +220,7 @@ void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
 
         this->actor.speedXZ = 8.0f;
         func_809C5BA8(this, this->actor.floorPoly, globalCtx);
-        this->actor.flags |= 1; // make chu targetable
+        this->actor.flags |= ACTOR_FLAG_0; // make chu targetable
         func_8002F850(globalCtx, &this->actor);
         this->actionFunc = EnBomChu_Move;
     }

@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_ge1/object_ge1.h"
 
-#define FLAGS 0x00000009
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
 
 #define THIS ((EnGe1*)thisx)
 
@@ -524,7 +524,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
     s32 getItemId;
 
     if (func_8002F334(&this->actor, globalCtx)) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe1_WaitTillItemGiven_Archery;
     }
 
@@ -551,7 +551,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 200.0f);
     }
@@ -573,7 +573,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     Actor* horse;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
 
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
@@ -632,7 +632,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
     LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", gSaveContext.highScores[HS_HBA], "../z_en_ge1.c",
             1111);
-    this->actor.flags |= 0x10000;
+    this->actor.flags |= ACTOR_FLAG_16;
 
     if (gSaveContext.highScores[HS_HBA] < gSaveContext.minigameScore) {
         gSaveContext.highScores[HS_HBA] = gSaveContext.minigameScore;

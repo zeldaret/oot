@@ -1,6 +1,6 @@
 #include "z_en_bubble.h"
 
-#define FLAGS 0x00000001
+#define FLAGS ACTOR_FLAG_0
 
 #define THIS ((EnBubble*)thisx)
 
@@ -81,7 +81,7 @@ void EnBubble_SetDimensions(EnBubble* this, f32 dim) {
     f32 c;
     f32 d;
 
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     Actor_SetScale(&this->actor, 1.0f);
     this->actor.shape.yOffset = 16.0f;
     this->graphicRotSpeed = 16.0f;
@@ -150,7 +150,7 @@ s32 EnBubble_Explosion(EnBubble* this, GlobalContext* globalCtx) {
                                           &sEffectEnvColor, Rand_S16Offset(100, 50), 0x19, 0);
     }
     Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.world.pos, 0x50);
-    this->actor.flags &= ~0x1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     return Rand_S16Offset(90, 60);
 }
 

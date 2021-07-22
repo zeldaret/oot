@@ -6,7 +6,7 @@
 
 #include "z_en_js.h"
 
-#define FLAGS 0x00000009
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
 
 #define THIS ((EnJs*)thisx)
 
@@ -107,7 +107,7 @@ void func_80A89008(EnJs* this) {
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
         func_80A89008(this);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
@@ -123,7 +123,7 @@ void func_80A8910C(EnJs* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
         this->actor.textId = 0x6078;
         En_Js_SetupAction(this, func_80A890C0);
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
     }
 }
 

@@ -6,7 +6,7 @@
 
 #include "z_obj_dekujr.h"
 
-#define FLAGS 0x00000009
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3
 
 #define THIS ((ObjDekujr*)thisx)
 

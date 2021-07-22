@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((EnLight*)thisx)
 

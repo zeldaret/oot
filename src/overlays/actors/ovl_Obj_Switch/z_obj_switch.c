@@ -8,7 +8,7 @@
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((ObjSwitch*)thisx)
 
@@ -309,7 +309,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (type == OBJSWITCH_TYPE_CRYSTAL_TARGETABLE) {
-        this->dyna.actor.flags |= 1;
+        this->dyna.actor.flags |= ACTOR_FLAG_0;
         this->dyna.actor.targetMode = 4;
     }
 

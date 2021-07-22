@@ -8,7 +8,7 @@
 #include "objects/object_ru1/object_ru1.h"
 #include "vt.h"
 
-#define FLAGS 0x04000011
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26
 
 #define THIS ((EnRu1*)thisx)
 
@@ -1497,7 +1497,7 @@ void func_80AEE050(EnRu1* this) {
 
 s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
     if (!func_8002F194(&this->actor, globalCtx)) {
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         if ((gSaveContext.infTable[20] & 8)) {
             this->actor.textId = 0x404E;
             func_8002F2F4(&this->actor, globalCtx);
@@ -1817,7 +1817,7 @@ s32 func_80AEF0BC(EnRu1* this, GlobalContext* globalCtx) {
         Animation_Change(&this->skelAnime, &gRutoChildSitAnim, 1.0f, 0, frameCount, ANIMMODE_ONCE, -8.0f);
         globalCtx->msgCtx.msgMode = 0x37;
         this->action = 26;
-        this->actor.flags &= ~0x9;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
         return 1;
     }
     return 0;
@@ -1857,7 +1857,7 @@ void func_80AEF29C(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEF2AC(EnRu1* this, GlobalContext* globalCtx) {
     this->action = 24;
     this->drawConfig = 1;
-    this->actor.flags |= 9;
+    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
 }
 
 void func_80AEF2D0(EnRu1* this, GlobalContext* globalCtx) {
@@ -2014,7 +2014,7 @@ void func_80AEF890(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEF930(EnRu1* this, GlobalContext* globalCtx) {
     if (func_80AEB104(this) == 3) {
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->actor.textId = 0x4048;
         func_8010B720(globalCtx, this->actor.textId);
         func_80AEF4A8(this, globalCtx);
@@ -2100,7 +2100,7 @@ void func_80AEFC54(EnRu1* this, GlobalContext* globalCtx) {
         this->action = 41;
         this->unk_28C = EnRu1_FindSwitch(globalCtx);
         func_80AEB0EC(this, 1);
-        this->actor.flags &= ~0x9;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
     } else {
         Actor_Kill(&this->actor);
     }
@@ -2118,7 +2118,7 @@ void func_80AEFCE8(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
     if ((gSaveContext.eventChkInf[3] & 0x80) && (gSaveContext.linkAge == 1)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         this->action = 44;
         this->drawConfig = 1;
     } else {
@@ -2128,7 +2128,7 @@ void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
 
 s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
     if (!func_8002F194(&this->actor, globalCtx)) {
-        this->actor.flags |= 9;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1F);
         if (this->actor.textId == 0) {
             this->actor.textId = 0x402C;
@@ -2141,7 +2141,7 @@ s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
 
 s32 func_80AEFE38(EnRu1* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-        this->actor.flags &= ~0x9;
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
         return 1;
     }
     return 0;

@@ -1,7 +1,7 @@
 #include "z_boss_dodongo.h"
 #include "scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
 
-#define FLAGS 0x00000035
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((BossDodongo*)thisx)
 
@@ -246,7 +246,7 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -505,7 +505,7 @@ void BossDodongo_SetupWalk(BossDodongo* this) {
     this->unk_1AA = 0;
     this->actionFunc = BossDodongo_Walk;
     this->unk_1DA = 0;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->unk_1E4 = 0.0f;
 }
 
@@ -759,7 +759,7 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
     f32 sp4C;
     f32 sp48;
 
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_1DA == 10) {
@@ -1305,7 +1305,7 @@ void BossDodongo_SetupDeathCutscene(BossDodongo* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DEAD);
     this->unk_1DA = 0;
     this->csState = 0;
-    this->actor.flags &= ~5;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->unk_1BC = 1;
     Audio_SetBGM(0x100100FF);
 }

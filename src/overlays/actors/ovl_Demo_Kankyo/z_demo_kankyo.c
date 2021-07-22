@@ -2,7 +2,7 @@
 #include "z64cutscene_commands.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000030
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_5
 
 #define THIS ((DemoKankyo*)thisx)
 
@@ -256,7 +256,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
         case DEMOKANKYO_WARP_OUT:
         case DEMOKANKYO_WARP_IN:
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ITEMACTION);
-            this->actor.flags |= 0x2000000;
+            this->actor.flags |= ACTOR_FLAG_25;
             this->actor.room = -1;
             this->warpTimer = 35;
             this->sparkleCounter = 0;

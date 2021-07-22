@@ -7,7 +7,7 @@
 #include "z_bg_ydan_maruta.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgYdanMaruta*)thisx)
 

@@ -9,7 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((EnButte*)thisx)
 
@@ -350,7 +350,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
 
 void EnButte_SetupTransformIntoFairy(EnButte* this) {
     this->timer = 9;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->skelAnime.playSpeed = 1.0f;
     EnButte_ResetTransformationEffect();
     this->actionFunc = EnButte_TransformIntoFairy;

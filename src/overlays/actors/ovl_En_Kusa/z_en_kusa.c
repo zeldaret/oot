@@ -10,7 +10,7 @@
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00800010
+#define FLAGS ACTOR_FLAG_4 | ACTOR_FLAG_23
 
 #define THIS ((EnKusa*)thisx)
 
@@ -279,7 +279,7 @@ void func_80A9B7EC(EnKusa* this) {
 
 void func_80A9B810(EnKusa* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->kusaTexObjIndex)) {
-        if (this->actor.flags & 0x800) {
+        if (this->actor.flags & ACTOR_FLAG_11) {
             func_80A9BEAC(this);
         } else {
             func_80A9B89C(this);
@@ -287,13 +287,13 @@ void func_80A9B810(EnKusa* this, GlobalContext* globalCtx) {
 
         this->actor.draw = EnKusa_Draw;
         this->actor.objBankIndex = this->kusaTexObjIndex;
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
 void func_80A9B89C(EnKusa* this) {
     EnKusa_SetupAction(this, func_80A9B8D8);
-    this->actor.flags &= ~0x10;
+    this->actor.flags &= ~ACTOR_FLAG_4;
 }
 
 void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
@@ -318,7 +318,7 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
         }
 
         func_80A9BEAC(this);
-        this->actor.flags |= 0x800;
+        this->actor.flags |= ACTOR_FLAG_11;
     } else {
         if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 12.0f)) {
             this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
@@ -341,7 +341,7 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
 void EnKusa_SetupLiftedUp(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_LiftedUp);
     this->actor.room = -1;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 }
 
 void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx) {
@@ -459,7 +459,7 @@ void func_80A9C00C(EnKusa* this) {
     EnKusa_SetupAction(this, func_80A9C068);
     EnKusa_SetScale(this);
     this->actor.shape.rot = this->actor.home.rot;
-    this->actor.flags &= ~0x800;
+    this->actor.flags &= ~ACTOR_FLAG_11;
 }
 
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
@@ -483,7 +483,7 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    if (this->actor.flags & 0x800) {
+    if (this->actor.flags & ACTOR_FLAG_11) {
         this->actor.shape.yOffset = -6.25f;
     } else {
         this->actor.shape.yOffset = 0.0f;
@@ -494,7 +494,7 @@ void EnKusa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* dLists[] = { gFieldBushDL, 0x06000140, 0x06000140 };
     EnKusa* this = THIS;
 
-    if (this->actor.flags & 0x800) {
+    if (this->actor.flags & ACTOR_FLAG_11) {
         Gfx_DrawDListOpa(globalCtx, D_060002E0);
     } else {
         Gfx_DrawDListOpa(globalCtx, dLists[thisx->params & 3]);

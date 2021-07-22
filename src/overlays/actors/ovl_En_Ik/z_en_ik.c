@@ -8,7 +8,7 @@
 #include "scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((EnIk*)thisx)
 
@@ -215,7 +215,7 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
 
     thisx->update = func_80A75FA0;
     thisx->draw = func_80A76798;
-    thisx->flags |= 0x400;
+    thisx->flags |= ACTOR_FLAG_10;
 
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, thisx, &sCylinderInit);
@@ -325,7 +325,7 @@ void func_80A747C0(EnIk* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WAKEUP);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->actor.flags |= 5;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
         func_80A74AAC(this);
     }
 }
@@ -333,7 +333,7 @@ void func_80A747C0(EnIk* this, GlobalContext* globalCtx) {
 void func_80A7489C(EnIk* this) {
     f32 frames = Animation_GetLastFrame(&D_0600DD50);
 
-    this->actor.flags |= 5;
+    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
     this->unk_2F8 = 4;
     this->actor.speedXZ = 0.0f;
     Animation_Change(&this->skelAnime, &D_0600DD50, 0.0f, 0.0f, frames, ANIMMODE_LOOP, 4.0f);
@@ -1438,7 +1438,7 @@ void func_80A780D0(EnIk* this, GlobalContext* globalCtx) {
 void func_80A78160(EnIk* this, GlobalContext* globalCtx) {
     this->actor.update = func_80A75FA0;
     this->actor.draw = func_80A76798;
-    this->actor.flags |= 5;
+    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
     gSaveContext.eventChkInf[3] |= 0x800;
     Actor_SetScale(&this->actor, 0.012f);
     func_80A7489C(this);

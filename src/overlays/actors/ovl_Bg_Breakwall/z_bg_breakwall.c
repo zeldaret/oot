@@ -7,7 +7,7 @@
 #include "z_bg_breakwall.h"
 #include "scenes/dungeons/ddan/ddan_scene.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((BgBreakwall*)thisx)
 
@@ -208,7 +208,7 @@ void BgBreakwall_WaitForObject(BgBreakwall* this, GlobalContext* globalCtx) {
 
         this->dyna.actor.objBankIndex = this->bankIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->dyna.actor.draw = BgBreakwall_Draw;
         CollisionHeader_GetVirtual(sBombableWallInfo[wallType].colHeader, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);

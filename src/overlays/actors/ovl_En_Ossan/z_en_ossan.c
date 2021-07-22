@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/object_masterkokiri/object_masterkokiri.h"
 
-#define FLAGS 0x00000019
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4
 
 #define THIS ((EnOssan*)thisx)
 
@@ -2102,7 +2102,7 @@ void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx) {
     ShopItem* items;
 
     if (EnOssan_AreShopkeeperObjectsLoaded(this, globalCtx)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->objBankIndex1;
         Actor_SetObjectDependency(globalCtx, &this->actor);
 
@@ -2187,7 +2187,7 @@ void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx) {
         this->blinkTimer = 20;
         this->eyeTextureIdx = 0;
         this->blinkFunc = EnOssan_WaitForBlink;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         EnOssan_SetupAction(this, EnOssan_MainActionFunc);
     }
 }

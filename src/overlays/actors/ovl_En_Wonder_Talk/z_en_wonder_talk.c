@@ -7,7 +7,7 @@
 #include "z_en_wonder_talk.h"
 #include "vt.h"
 
-#define FLAGS 0x08000009
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27
 
 #define THIS ((EnWonderTalk*)thisx)
 
@@ -145,7 +145,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80B395F0;
             } else {
                 if (this->switchFlag >= 0) {
-                    this->actor.flags &= ~1;
+                    this->actor.flags &= ~ACTOR_FLAG_0;
                     Flags_SetSwitch(globalCtx, this->switchFlag);
                 }
                 this->actionFunc = func_80B391CC;
@@ -178,7 +178,7 @@ void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
     if (this->unk_156 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx)) {
             if (this->switchFlag >= 0) {
-                this->actor.flags &= -2;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 Flags_SetSwitch(globalCtx, this->switchFlag);
             }
             switch (this->unk_150) {

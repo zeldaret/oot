@@ -7,7 +7,7 @@
 #include "vt.h"
 #include "z_item_shield.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 #define THIS ((ItemShield*)thisx)
 

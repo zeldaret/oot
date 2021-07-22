@@ -7,7 +7,7 @@
 #include "z_bg_gjyo_bridge.h"
 #include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 
-#define FLAGS 0x00000000
+#define FLAGS ACTOR_FLAG_NONE
 
 #define THIS ((BgGjyoBridge*)thisx)
 

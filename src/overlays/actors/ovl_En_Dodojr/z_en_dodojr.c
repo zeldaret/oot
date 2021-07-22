@@ -7,7 +7,7 @@
 #include "z_en_dodojr.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS 0x00000005
+#define FLAGS ACTOR_FLAG_0 | ACTOR_FLAG_2
 
 #define THIS ((EnDodojr*)thisx)
 
@@ -83,7 +83,7 @@ void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(4), &sColChkInit);
 
     this->actor.naviEnemyId = 0xE;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 
     Actor_SetScale(&this->actor, 0.02f);
 
@@ -210,7 +210,7 @@ void func_809F6B38(EnDodojr* this) {
 
 void func_809F6BBC(EnDodojr* this) {
     this->actor.shape.shadowDraw = NULL;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.home.pos = this->actor.world.pos;
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = -0.8f;
@@ -322,7 +322,7 @@ s32 func_809F706C(EnDodojr* this) {
 
 void func_809F709C(EnDodojr* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_DEAD);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     func_809F6A20(this);
     this->actionFunc = func_809F7AB8;
 }
@@ -406,7 +406,7 @@ void func_809F73AC(EnDodojr* this, GlobalContext* globalCtx) {
             Animation_Change(&this->skelAnime, &D_06000860, 1.8f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -10.0f);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_UP);
             this->actor.world.pos.y -= 60.0f;
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             this->actor.world.rot.x -= 0x4000;
             this->actor.shape.rot.x = this->actor.world.rot.x;
             this->dustPos = this->actor.world.pos;
@@ -482,7 +482,7 @@ void func_809F768C(EnDodojr* this, GlobalContext* globalCtx) {
 void func_809F773C(EnDodojr* this, GlobalContext* globalCtx) {
     if (DECR(this->timer3) == 0) {
         func_809F64D0(this);
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         func_809F6A20(this);
         this->actionFunc = func_809F77AC;
     }
@@ -538,7 +538,7 @@ void func_809F78EC(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F799C(EnDodojr* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     func_8002D868(&this->actor);
 
     if (func_809F68B0(this, globalCtx) != 0) {
