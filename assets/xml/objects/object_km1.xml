@@ -28,7 +28,7 @@
         <Texture Name="gKm1TunicFringeTex" OutName="tunic_fringe" Format="rgb5a1" Width="16" Height ="16" Offset="0x3BC" />
         <Texture Name="gKm1UnusedHairTex" OutName="unused_hair" Format="ci8" TlutOffset="0xFC" Width="16" Height="32" Offset="0x5BC" />
         <Texture Name="gKm1Ear1Tex" OutName="ear1" Format="ci8" TlutOffset="0xFC" Width="8" Height="8" Offset="0x7BC"/>
-        <Texture Name="gKm1HandTex" OutName="hand" Format="ci8" Width="8" Height="8" Offset="0x7FC" />
+        <Texture Name="gKm1HandTex" OutName="hand" Format="ci8" TlutOffset="0xFC" Width="8" Height="8" Offset="0x7FC" />
         
         <Texture Name="gKm1TLUT_00083C" OutName="tlut_00083C" Format="rgb5a1" Width="96" Height="1" Offset="0x83C" />
         <Texture Name="gKm1Ear2Tex" OutName="ear2" Format="ci8" TlutOffset="0x83C" Width="8" Height="8" Offset="0x8FC"/>

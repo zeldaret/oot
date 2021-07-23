@@ -31,18 +31,18 @@
         <Texture Name="object_kw1_Tex_00047C" OutName="tex_00047C" Format="ci8" TlutOffset="0xFC" Width="8" Height="8" Offset="0x47C" />
         <Texture Name="gKw1UnusedEyeOpenTex" OutName="unused_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4BC"/>
         
-        <Texture Name="gKw1HandTex" OutName="hand" Format="ci8" Width="8" Height="8" Offset="0xCBC" />
-        <Texture Name="gKw1BeltBuckleTex" OutName="belt_buckle" Format="ci8" Width="8" Height="8" Offset="0xCFC" />
+        <Texture Name="gKw1HandTex" OutName="hand" Format="ci8" TlutOffset="0xFC" Width="8" Height="8" Offset="0xCBC" />
+        <Texture Name="gKw1BeltBuckleTex" OutName="belt_buckle" Format="ci8" TlutOffset="0xFC" Width="8" Height="8" Offset="0xCFC" />
         
         <Texture Name="object_kw1_TLUT_000D3C" OutName="tlut_00000D3C" Format="rgb5a1" Width="232" Height="1" Offset="0xD3C" />
-        <Texture Name="gKw1EarTex" OutName="ear" Format="ci8" Width="8" Height="8" Offset="0xF0C"/>
+        <Texture Name="gKw1EarTex" OutName="ear" Format="ci8" TlutOffset="0xD3C" Width="8" Height="8" Offset="0xF0C"/>
         <Texture Name="gKw1EyeOpenTex" OutName="eye_open" Format="ci8" TlutOffset="0xD3C" Width="32" Height="32" Offset="0xF4C"/>
         <Texture Name="gKw1EyeHalfTex" OutName="eye_half" Format="ci8" TlutOffset="0xD3C" Width="32" Height="32" Offset="0x1A0C"/>
         <Texture Name="gKw1EyeClosedTex" OutName="eye_closed" Format="ci8" TlutOffset="0xD3C" Width="32" Height="32" Offset="0x1E0C"/>
-        <Texture Name="gKw1HairTex" OutName="hair" Format="ci8" Width="16" Height="32" Offset="0x134C" />
+        <Texture Name="gKw1HairTex" OutName="hair" Format="ci8" TlutOffset="0xD3C" Width="16" Height="32" Offset="0x134C" />
         <Texture Name="gKw1Skin2Tex" OutName="skin2" Format="ci8" TlutOffset="0xD3C" Width="8" Height="8" Offset="0x154C" />
-        <Texture Name="gKw1HairlineTex" OutName="hairline" Format="ci8" Width="16" Height="8" Offset="0x158C" />
-        <Texture Name="gKw1MouthTex" OutName="mouth" Format="ci8" Width="32" Height="32" Offset="0x160C" />
+        <Texture Name="gKw1HairlineTex" OutName="hairline" Format="ci8" TlutOffset="0xD3C" Width="16" Height="8" Offset="0x158C" />
+        <Texture Name="gKw1MouthTex" OutName="mouth" Format="ci8" TlutOffset="0xD3C" Width="32" Height="32" Offset="0x160C" />
 
         <DList Name="object_kw1_DL_002C10" Offset="0x2C10" />
         <DList Name="object_kw1_DL_0053F8" Offset="0x53F8" />
