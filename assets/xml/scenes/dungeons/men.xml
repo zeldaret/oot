@@ -1,6 +1,6 @@
 <Root>
     <File Name="men_scene" Segment="2">
-        <Scene Name="men_scene"/>
+        <Scene Name="men_scene" Offset="0x0"/>
     </File>
     <File Name="men_room_0" Segment="3">
         <DList Name="gMenDL_008118" Offset="0x8118"/>

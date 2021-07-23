@@ -38,8 +38,8 @@ static u32 sLineBytesImageSizes[] = { 0, 1, 2, 2 };
 #define G_IM_SIZ_MARK_LINE_BYTES sLineBytesImageSizes[markInfo->imageSize]
 
 static MapMarkInfo sMapMarkInfoTable[] = {
-    { gHUDTreasureMarkerTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1024, 1024 }, // Chest Icon
-    { gHUDBossMarkerTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1024, 1024 },        // Boss Skull Icon
+    { gMapChestIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1 << 10, 1 << 10 }, // Chest Icon
+    { gMapBossIconTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1 << 10, 1 << 10 },     // Boss Skull Icon
 };
 
 static MapMarkDataOverlay sMapMarkDataOvl = {

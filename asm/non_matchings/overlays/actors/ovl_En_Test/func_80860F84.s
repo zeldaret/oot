@@ -153,7 +153,7 @@ glabel func_80860F84
 .L80861198:
 /* 01B48 80861198 8FA4004C */  lw      $a0, 0x004C($sp)           
 .L8086119C:
-/* 01B4C 8086119C 0C00CEAE */  jal     func_80033AB8              
+/* 01B4C 8086119C 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 01B50 808611A0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01B54 808611A4 10400004 */  beq     $v0, $zero, .L808611B8     
 /* 01B58 808611A8 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
