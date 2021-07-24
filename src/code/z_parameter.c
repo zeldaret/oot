@@ -3132,9 +3132,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
         }
 
         svar2 = rupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
-        svar4 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
+        svar5 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
 
-        for (svar1 = 0, svar3 = 42; svar1 < svar4; svar1++, svar2++, svar3 += 8) {
+        for (svar1 = 0, svar3 = 42; svar1 < svar5; svar1++, svar2++, svar3 += 8) {
             OVERLAY_DISP =
                 Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[svar2])), 8,
                               16, svar3, 206, 8, 16, 1 << 10, 1 << 10);
@@ -3324,7 +3324,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                         G_TX_NOLOD, G_TX_NOLOD);
 
                     // Draw 6 carrots
-                    for (svar1 = 1, svar4 = ZREG(14); svar1 < 7; svar1++, svar4 += 16) {
+                    for (svar1 = 1, svar5 = ZREG(14); svar1 < 7; svar1++, svar5 += 16) {
                         // Carrot Color (based on availability)
                         if ((interfaceCtx->numHorseBoosts == 0) || (interfaceCtx->numHorseBoosts < svar1)) {
                             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 150, 255, interfaceCtx->aAlpha);
@@ -3332,13 +3332,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->aAlpha);
                         }
 
-                        gSPTextureRectangle(OVERLAY_DISP++, svar4 << 2, ZREG(15) << 2, (svar4 + 16) << 2,
+                        gSPTextureRectangle(OVERLAY_DISP++, svar5 << 2, ZREG(15) << 2, (svar5 + 16) << 2,
                                             (ZREG(15) + 16) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
                     }
                 }
             } else {
                 // Score for the Horseback Archery
-                svar4 = WREG(32);
+                svar5 = WREG(32);
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
 
                 // Target Icon
@@ -3346,7 +3346,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                     G_TX_NOLOD, G_TX_NOLOD);
 
-                gSPTextureRectangle(OVERLAY_DISP++, (svar4 + 28) << 2, ZREG(15) << 2, (svar4 + 52) << 2,
+                gSPTextureRectangle(OVERLAY_DISP++, (svar5 + 28) << 2, ZREG(15) << 2, (svar5 + 52) << 2,
                                     (ZREG(15) + 16) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
                 // Score Counter
@@ -3354,14 +3354,14 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPSetCombineLERP(OVERLAY_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
                                   TEXEL0, 0, PRIMITIVE, 0);
 
-                svar4 = WREG(32) + (6 * 9);
+                svar5 = WREG(32) + 6 * 9;
 
                 for (svar1 = svar2 = 0; svar1 < 4; svar1++) {
                     if (sHBAScoreDigits[svar1] != 0 || (svar2 != 0) || (svar1 >= 3)) {
                         OVERLAY_DISP = Gfx_TextureI8(
-                            OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * sHBAScoreDigits[svar1])), 8, 16, svar4,
+                            OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * sHBAScoreDigits[svar1])), 8, 16, svar5,
                             (ZREG(15) - 2), digitWidth[0], VREG(42), VREG(43) << 1, VREG(43) << 1);
-                        svar4 += 9;
+                        svar5 += 9;
                         svar2++;
                     }
                 }
@@ -3619,7 +3619,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             break;
                         case 3:
                         case 9:
-                            osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n", svar4 = gSaveContext.timerX[1],
+                            osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n", svar5 = gSaveContext.timerX[1],
                                          svar2 = gSaveContext.timerY[1], gSaveContext.timer2Value);
                             svar1 = ((gSaveContext.timerX[1]) - 26) / D_8015FFE6;
                             gSaveContext.timerX[1] -= svar1;
@@ -3751,10 +3751,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPPipeSync(OVERLAY_DISP++);
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                 gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
-                svar4 = gSaveContext.timerX[svar6];
+                svar5 = gSaveContext.timerX[svar6];
                 svar2 = gSaveContext.timerY[svar6];
                 OVERLAY_DISP =
-                    Gfx_TextureIA8((OVERLAY_DISP), gClockIconTex, 16, 16, svar4,
+                    Gfx_TextureIA8((OVERLAY_DISP), gClockIconTex, 16, 16, svar5,
                                    (svar2 + 2), 16, 16, 1 << 10, 1 << 10);
 
                 // Timer Counter
@@ -3777,9 +3777,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                 for (svar1 = 0; svar1 < 5; svar1++) {
                     // clang-format off
-                    svar4 = gSaveContext.timerX[svar6]; OVERLAY_DISP =
+                    svar5 = gSaveContext.timerX[svar6]; OVERLAY_DISP =
                         Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
-                                      svar4 + timerDigitLeftPos[svar1],
+                                      svar5 + timerDigitLeftPos[svar1],
                                       svar2 = gSaveContext.timerY[svar6], digitWidth[svar1], VREG(42), VREG(43) << 1,
                                       VREG(43) << 1);
                     // clang-format on
