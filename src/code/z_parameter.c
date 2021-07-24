@@ -3019,12 +3019,12 @@ void Interface_Draw(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Player* player = PLAYER;
-    s16 pad;
-    s16 svar0;
     s16 svar1;
     s16 svar2;
     s16 svar3;
+    s16 svar4;
     s16 svar5;
+    s16 svar6;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 3405);
 
@@ -3082,18 +3082,18 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         interfaceCtx->counterDigits[3] -= 10;
                     }
 
-                    svar2 = 42;
+                    svar3 = 42;
 
                     if (interfaceCtx->counterDigits[2] != 0) {
                         OVERLAY_DISP = Gfx_TextureI8(
                             OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[2])), 8, 16,
-                            svar2, 190, 8, 16, 1 << 10, 1 << 10);
-                        svar2 += 8;
+                            svar3, 190, 8, 16, 1 << 10, 1 << 10);
+                        svar3 += 8;
                     }
 
                     OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP,
                                                  ((u8*)gCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[3])),
-                                                 8, 16, svar2, 190, 8, 16, 1 << 10, 1 << 10);
+                                                 8, 16, svar3, 190, 8, 16, 1 << 10, 1 << 10);
                 }
                 break;
             default:
@@ -3131,13 +3131,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
             interfaceCtx->counterDigits[2] -= 10;
         }
 
-        svar0 = rupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
-        svar1 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
+        svar2 = rupeeDigitsFirst[CUR_UPG_VALUE(UPG_WALLET)];
+        svar4 = rupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
 
-        for (svar3 = 0, svar2 = 42; svar3 < svar1; svar3++, svar0++, svar2 += 8) {
+        for (svar1 = 0, svar3 = 42; svar1 < svar4; svar1++, svar2++, svar3 += 8) {
             OVERLAY_DISP =
-                Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[svar0])), 8,
-                              16, svar2, 206, 8, 16, 1 << 10, 1 << 10);
+                Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[svar2])), 8,
+                              16, svar3, 206, 8, 16, 1 << 10, 1 << 10);
         }
 
         Interface_DrawMagicBar(globalCtx);
@@ -3259,7 +3259,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         gDPPipeSync(OVERLAY_DISP++);
 
         func_8008A994(interfaceCtx);
-        svar2 = 18;
+        svar3 = 18;
 
         if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 3)) {
             // Inventory Equip Effects
@@ -3268,14 +3268,14 @@ void Interface_Draw(GlobalContext* globalCtx) {
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
             gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
 
-            pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[svar2].v.ob[0] 
-                = (svar0 = pauseCtx->equipAnimX / 10);
+            pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[svar3].v.ob[0] 
+                = (svar2 = pauseCtx->equipAnimX / 10);
             pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] 
-                = (svar0 = pauseCtx->cursorVtx[16].v.ob[0] + gGameInfo->data[((svar2 * 6) * 16) + 90] / 10); // WREG(90)
+                = (svar2 = pauseCtx->cursorVtx[16].v.ob[0] + gGameInfo->data[((svar3 * 6) * 16) + 90] / 10); // WREG(90)
             pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] 
-                = (svar0 = pauseCtx->equipAnimY / 10);
-            pauseCtx->cursorVtx[svar2].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] 
-                = (svar0 = pauseCtx->cursorVtx[16].v.ob[1] - gGameInfo->data[((svar2 * 6) * 16) + 90] / 10); // WREG(90)
+                = (svar2 = pauseCtx->equipAnimY / 10);
+            pauseCtx->cursorVtx[svar3].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] 
+                = (svar2 = pauseCtx->cursorVtx[16].v.ob[1] - gGameInfo->data[((svar3 * 6) * 16) + 90] / 10); // WREG(90)
 
             if (pauseCtx->equipTargetItem < 0xBF) {
                 // Normal Equip (icon goes from the inventory slot to the C button when equipping it)
@@ -3287,20 +3287,20 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                     G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             } else {
                 // Magic Arrow Equip Effect
-                svar3 = pauseCtx->equipTargetItem - 0xBF;
-                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, magicArrowEffectsR[svar3], magicArrowEffectsG[svar3],
-                                magicArrowEffectsB[svar3], pauseCtx->equipAnimAlpha);
+                svar1 = pauseCtx->equipTargetItem - 0xBF;
+                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, magicArrowEffectsR[svar1], magicArrowEffectsG[svar1],
+                                magicArrowEffectsB[svar1], pauseCtx->equipAnimAlpha);
 
                 if ((pauseCtx->equipAnimAlpha > 0) && (pauseCtx->equipAnimAlpha < 255)) {
-                    svar3 = (pauseCtx->equipAnimAlpha / 8) / 2;
+                    svar1 = (pauseCtx->equipAnimAlpha / 8) / 2;
                     pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] =
-                        (svar0 = pauseCtx->cursorVtx[16].v.ob[0] - svar3);
+                        (svar2 = pauseCtx->cursorVtx[16].v.ob[0] - svar1);
                     pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] =
-                        (svar0 = pauseCtx->cursorVtx[16].v.ob[0] + svar3 * 2 + 32);
+                        (svar2 = pauseCtx->cursorVtx[16].v.ob[0] + svar1 * 2 + 32);
                     pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] =
-                        (svar0 = pauseCtx->cursorVtx[16].v.ob[1] + svar3);
+                        (svar2 = pauseCtx->cursorVtx[16].v.ob[1] + svar1);
                     pauseCtx->cursorVtx[18].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] =
-                        (svar0 = pauseCtx->cursorVtx[16].v.ob[1] - svar3 * 2 - 32);
+                        (svar2 = pauseCtx->cursorVtx[16].v.ob[1] - svar1 * 2 - 32);
                 }
 
                 gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[16], 4, 0);
@@ -3324,21 +3324,21 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                         G_TX_NOLOD, G_TX_NOLOD);
 
                     // Draw 6 carrots
-                    for (svar3 = 1, svar1 = ZREG(14); svar3 < 7; svar3++, svar1 += 16) {
+                    for (svar1 = 1, svar4 = ZREG(14); svar1 < 7; svar1++, svar4 += 16) {
                         // Carrot Color (based on availability)
-                        if ((interfaceCtx->numHorseBoosts == 0) || (interfaceCtx->numHorseBoosts < svar3)) {
+                        if ((interfaceCtx->numHorseBoosts == 0) || (interfaceCtx->numHorseBoosts < svar1)) {
                             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 150, 255, interfaceCtx->aAlpha);
                         } else {
                             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->aAlpha);
                         }
 
-                        gSPTextureRectangle(OVERLAY_DISP++, svar1 << 2, ZREG(15) << 2, (svar1 + 16) << 2,
+                        gSPTextureRectangle(OVERLAY_DISP++, svar4 << 2, ZREG(15) << 2, (svar4 + 16) << 2,
                                             (ZREG(15) + 16) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
                     }
                 }
             } else {
                 // Score for the Horseback Archery
-                svar1 = gGameInfo->data[((18 * 6) * 16) + 32];
+                svar4 = WREG(32);
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
 
                 // Target Icon
@@ -3346,7 +3346,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                     G_TX_NOLOD, G_TX_NOLOD);
 
-                gSPTextureRectangle(OVERLAY_DISP++, (svar1 + 28) << 2, ZREG(15) << 2, (svar1 + 52) << 2,
+                gSPTextureRectangle(OVERLAY_DISP++, (svar4 + 28) << 2, ZREG(15) << 2, (svar4 + 52) << 2,
                                     (ZREG(15) + 16) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
                 // Score Counter
@@ -3354,15 +3354,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPSetCombineLERP(OVERLAY_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
                                   TEXEL0, 0, PRIMITIVE, 0);
 
-                svar1 = gGameInfo->data[((18 * 6) * 16) + 32] + (6 * 9);
+                svar4 = WREG(32) + (6 * 9);
 
-                for (svar3 = svar0 = 0; svar3 < 4; svar3++) {
-                    if (sHBAScoreDigits[svar3] != 0 || (svar0 != 0) || (svar3 >= 3)) {
+                for (svar1 = svar2 = 0; svar1 < 4; svar1++) {
+                    if (sHBAScoreDigits[svar1] != 0 || (svar2 != 0) || (svar1 >= 3)) {
                         OVERLAY_DISP = Gfx_TextureI8(
-                            OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * sHBAScoreDigits[svar3])), 8, 16, svar1,
+                            OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * sHBAScoreDigits[svar1])), 8, 16, svar4,
                             (ZREG(15) - 2), digitWidth[0], VREG(42), VREG(43) << 1, VREG(43) << 1);
-                        svar1 += 9;
-                        svar0++;
+                        svar4 += 9;
+                        svar2++;
                     }
                 }
 
@@ -3391,17 +3391,17 @@ void Interface_Draw(GlobalContext* globalCtx) {
             }
 
             // Revert any spoiling trade quest items
-            for (svar3 = 0; svar3 < ARRAY_COUNT(gSpoilingItems); svar3++) {
-                if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar3]) {
+            for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
+                if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
                     gSaveContext.eventInf[0] &= 0x7F80;
                     osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[0]);
-                    globalCtx->nextEntranceIndex = spoilingItemEntrances[svar3];
-                    INV_CONTENT(gSpoilingItemReverts[svar3]) = gSpoilingItemReverts[svar3];
+                    globalCtx->nextEntranceIndex = spoilingItemEntrances[svar1];
+                    INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
 
-                    for (svar0 = 1; svar0 < 4; svar0++) {
-                        if (gSaveContext.equips.buttonItems[svar0] == gSpoilingItems[svar3]) {
-                            gSaveContext.equips.buttonItems[svar0] = gSpoilingItemReverts[svar3];
-                            Interface_LoadItemIcon1(globalCtx, svar0);
+                    for (svar2 = 1; svar2 < 4; svar2++) {
+                        if (gSaveContext.equips.buttonItems[svar2] == gSpoilingItems[svar1]) {
+                            gSaveContext.equips.buttonItems[svar2] = gSpoilingItemReverts[svar1];
+                            Interface_LoadItemIcon1(globalCtx, svar2);
                         }
                     }
                 }
@@ -3414,7 +3414,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
-            svar5 = 0;
+            svar6 = 0;
             switch (gSaveContext.timer1State) {
                 case 1:
                     D_8015FFE2 = 20;
@@ -3453,15 +3453,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     break;
                 case 3:
                 case 7:
-                    svar3 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
-                    gSaveContext.timerX[0] -= svar3;
+                    svar1 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
+                    gSaveContext.timerX[0] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        svar3 = ((gSaveContext.timerY[0]) - 54) / D_8015FFE2;
+                        svar1 = ((gSaveContext.timerY[0]) - 54) / D_8015FFE2;
                     } else {
-                        svar3 = ((gSaveContext.timerY[0]) - 46) / D_8015FFE2;
+                        svar1 = ((gSaveContext.timerY[0]) - 46) / D_8015FFE2;
                     }
-                    gSaveContext.timerY[0] -= svar3;
+                    gSaveContext.timerY[0] -= svar1;
 
                     D_8015FFE2--;
                     if (D_8015FFE2 == 0) {
@@ -3524,15 +3524,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     }
                     break;
                 case 13:
-                    svar3 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
-                    gSaveContext.timerX[0] -= svar3;
+                    svar1 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
+                    gSaveContext.timerX[0] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        svar3 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
                     } else {
-                        svar3 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
                     }
-                    gSaveContext.timerY[0] -= svar3;
+                    gSaveContext.timerY[0] -= svar1;
 
                     D_8015FFE2--;
                     if (D_8015FFE2 == 0) {
@@ -3591,7 +3591,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 case 15:
                     break;
                 default:
-                    svar5 = 1;
+                    svar6 = 1;
                     switch (gSaveContext.timer2State) {
                         case 1:
                         case 7:
@@ -3619,16 +3619,16 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             break;
                         case 3:
                         case 9:
-                            osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n", svar1 = gSaveContext.timerX[1],
-                                         svar0 = gSaveContext.timerY[1], gSaveContext.timer2Value);
-                            svar3 = ((gSaveContext.timerX[1]) - 26) / D_8015FFE6;
-                            gSaveContext.timerX[1] -= svar3;
+                            osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n", svar4 = gSaveContext.timerX[1],
+                                         svar2 = gSaveContext.timerY[1], gSaveContext.timer2Value);
+                            svar1 = ((gSaveContext.timerX[1]) - 26) / D_8015FFE6;
+                            gSaveContext.timerX[1] -= svar1;
                             if (gSaveContext.healthCapacity > 0xA0) {
-                                svar3 = ((gSaveContext.timerY[1]) - 54) / D_8015FFE6;
+                                svar1 = ((gSaveContext.timerY[1]) - 54) / D_8015FFE6;
                             } else {
-                                svar3 = ((gSaveContext.timerY[1]) - 46) / D_8015FFE6;
+                                svar1 = ((gSaveContext.timerY[1]) - 46) / D_8015FFE6;
                             }
-                            gSaveContext.timerY[1] -= svar3;
+                            gSaveContext.timerY[1] -= svar1;
 
                             D_8015FFE6--;
                             if (D_8015FFE6 == 0) {
@@ -3724,7 +3724,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
             if (((gSaveContext.timer1State != 0) && (gSaveContext.timer1State != 10)) ||
                 (gSaveContext.timer2State != 0)) {
-                timerDigits[0] = timerDigits[1] = svar0 = timerDigits[3] = 0;
+                timerDigits[0] = timerDigits[1] = svar2 = timerDigits[3] = 0;
                 timerDigits[2] = 10; // digit 10 is used as ':' (colon)
 
                 if (gSaveContext.timer1State != 0) {
@@ -3751,11 +3751,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPPipeSync(OVERLAY_DISP++);
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, 255);
                 gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
-                svar1 = gSaveContext.timerX[svar5];
-                svar0 = gSaveContext.timerY[svar5];
+                svar4 = gSaveContext.timerX[svar6];
+                svar2 = gSaveContext.timerY[svar6];
                 OVERLAY_DISP =
-                    Gfx_TextureIA8((OVERLAY_DISP), gClockIconTex, 16, 16, svar1,
-                                   (svar0 + 2), 16, 16, 1 << 10, 1 << 10);
+                    Gfx_TextureIA8((OVERLAY_DISP), gClockIconTex, 16, 16, svar4,
+                                   (svar2 + 2), 16, 16, 1 << 10, 1 << 10);
 
                 // Timer Counter
                 gDPPipeSync(OVERLAY_DISP++);
@@ -3775,12 +3775,12 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     }
                 }
 
-                for (svar3 = 0; svar3 < 5; svar3++) {
+                for (svar1 = 0; svar1 < 5; svar1++) {
                     // clang-format off
-                    svar1 = gSaveContext.timerX[svar5]; OVERLAY_DISP =
-                        Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * timerDigits[svar3])), 8, 16,
-                                      svar1 + timerDigitLeftPos[svar3],
-                                      svar0 = gSaveContext.timerY[svar5], digitWidth[svar3], VREG(42), VREG(43) << 1,
+                    svar4 = gSaveContext.timerX[svar6]; OVERLAY_DISP =
+                        Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
+                                      svar4 + timerDigitLeftPos[svar1],
+                                      svar2 = gSaveContext.timerY[svar6], digitWidth[svar1], VREG(42), VREG(43) << 1,
                                       VREG(43) << 1);
                     // clang-format on
                 }
