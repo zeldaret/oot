@@ -3268,14 +3268,14 @@ void Interface_Draw(GlobalContext* globalCtx) {
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
             gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
 
-            pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[svar3].v.ob[0] 
-                = (svar2 = pauseCtx->equipAnimX / 10);
-            pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] 
-                = (svar2 = pauseCtx->cursorVtx[16].v.ob[0] + gGameInfo->data[((svar3 * 6) * 16) + 90] / 10); // WREG(90)
-            pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] 
-                = (svar2 = pauseCtx->equipAnimY / 10);
-            pauseCtx->cursorVtx[svar3].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] 
-                = (svar2 = pauseCtx->cursorVtx[16].v.ob[1] - gGameInfo->data[((svar3 * 6) * 16) + 90] / 10); // WREG(90)
+            pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[svar3].v.ob[0] = svar2 = 
+                pauseCtx->equipAnimX / 10;
+            pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] = svar2 = 
+                pauseCtx->cursorVtx[16].v.ob[0] + gGameInfo->data[((svar3 * 6) * 16) + 90] / 10; // WREG(90)
+            pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] = svar2 = 
+                pauseCtx->equipAnimY / 10;
+            pauseCtx->cursorVtx[svar3].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] = svar2 = 
+                pauseCtx->cursorVtx[16].v.ob[1] - gGameInfo->data[((svar3 * 6) * 16) + 90] / 10; // WREG(90)
 
             if (pauseCtx->equipTargetItem < 0xBF) {
                 // Normal Equip (icon goes from the inventory slot to the C button when equipping it)
@@ -3293,14 +3293,14 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                 if ((pauseCtx->equipAnimAlpha > 0) && (pauseCtx->equipAnimAlpha < 255)) {
                     svar1 = (pauseCtx->equipAnimAlpha / 8) / 2;
-                    pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] =
-                        (svar2 = pauseCtx->cursorVtx[16].v.ob[0] - svar1);
-                    pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] =
-                        (svar2 = pauseCtx->cursorVtx[16].v.ob[0] + svar1 * 2 + 32);
-                    pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] =
-                        (svar2 = pauseCtx->cursorVtx[16].v.ob[1] + svar1);
-                    pauseCtx->cursorVtx[18].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] =
-                        (svar2 = pauseCtx->cursorVtx[16].v.ob[1] - svar1 * 2 - 32);
+                    pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] = svar2 = 
+                        pauseCtx->cursorVtx[16].v.ob[0] - svar1;
+                    pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] = svar2 = 
+                        pauseCtx->cursorVtx[16].v.ob[0] + svar1 * 2 + 32;
+                    pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] = svar2 = 
+                        pauseCtx->cursorVtx[16].v.ob[1] + svar1;
+                    pauseCtx->cursorVtx[18].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] = svar2 = 
+                        pauseCtx->cursorVtx[16].v.ob[1] - svar1 * 2 - 32;
                 }
 
                 gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[16], 4, 0);
@@ -3457,9 +3457,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     gSaveContext.timerX[0] -= svar1;
 
                     if (gSaveContext.healthCapacity > 0xA0) {
-                        svar1 = ((gSaveContext.timerY[0]) - 54) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
                     } else {
-                        svar1 = ((gSaveContext.timerY[0]) - 46) / D_8015FFE2;
+                        svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
                     }
                     gSaveContext.timerY[0] -= svar1;
 
@@ -3621,12 +3621,12 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         case 9:
                             osSyncPrintf("event_xp[1]=%d,  event_yp[1]=%d  TOTAL_EVENT_TM=%d\n", svar5 = gSaveContext.timerX[1],
                                          svar2 = gSaveContext.timerY[1], gSaveContext.timer2Value);
-                            svar1 = ((gSaveContext.timerX[1]) - 26) / D_8015FFE6;
+                            svar1 = (gSaveContext.timerX[1] - 26) / D_8015FFE6;
                             gSaveContext.timerX[1] -= svar1;
                             if (gSaveContext.healthCapacity > 0xA0) {
-                                svar1 = ((gSaveContext.timerY[1]) - 54) / D_8015FFE6;
+                                svar1 = (gSaveContext.timerY[1] - 54) / D_8015FFE6;
                             } else {
-                                svar1 = ((gSaveContext.timerY[1]) - 46) / D_8015FFE6;
+                                svar1 = (gSaveContext.timerY[1] - 46) / D_8015FFE6;
                             }
                             gSaveContext.timerY[1] -= svar1;
 
@@ -3754,8 +3754,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 svar5 = gSaveContext.timerX[svar6];
                 svar2 = gSaveContext.timerY[svar6];
                 OVERLAY_DISP =
-                    Gfx_TextureIA8((OVERLAY_DISP), gClockIconTex, 16, 16, svar5,
-                                   (svar2 + 2), 16, 16, 1 << 10, 1 << 10);
+                    Gfx_TextureIA8(OVERLAY_DISP, gClockIconTex, 16, 16, svar5,
+                                   svar2 + 2, 16, 16, 1 << 10, 1 << 10);
 
                 // Timer Counter
                 gDPPipeSync(OVERLAY_DISP++);
