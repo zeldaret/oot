@@ -3533,7 +3533,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     } else {
                         svar1 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
                     }
-                    gSaveContext.timerY[0] -= var1;
+                    gSaveContext.timerY[0] -= svar1;
 
                     D_8015FFE2--;
                     if (D_8015FFE2 == 0) {
