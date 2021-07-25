@@ -270,7 +270,7 @@ void EnDh_Walk(EnDh* this, GlobalContext* globalCtx) {
     }
     if (this->actor.xzDistToPlayer <= 100.0f) {
         this->actor.speedXZ = 0.0f;
-        if (func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
+        if (Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360)) {
             EnDh_SetupAttack(this);
         }
     } else if (--this->timer == 0) {
@@ -311,7 +311,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actionState++;
-    } else if ((this->actor.xzDistToPlayer > 100.0f) || !func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
+    } else if ((this->actor.xzDistToPlayer > 100.0f) || !Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360)) {
         Animation_Change(&this->skelAnime, &D_06004658, -1.0f, this->skelAnime.curFrame, 0.0f, ANIMMODE_ONCE, -4.0f);
         this->actionState = 4;
         this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_NONE; // also TOUCH_NONE
@@ -344,7 +344,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            if ((this->actor.xzDistToPlayer <= 100.0f) && (func_8002E084(&this->actor, 60 * 0x10000 / 360) != 0)) {
+            if ((this->actor.xzDistToPlayer <= 100.0f) && (Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360))) {
                 Animation_Change(&this->skelAnime, &D_06004658, 1.0f, 20.0f, Animation_GetLastFrame(&D_06004658),
                                  ANIMMODE_ONCE, -6.0f);
                 this->actionState = 0;
@@ -427,7 +427,7 @@ void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if (this->retreat) {
             EnDh_SetupRetreat(this, globalCtx);
-        } else if ((this->actor.xzDistToPlayer <= 105.0f) && func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
+        } else if ((this->actor.xzDistToPlayer <= 105.0f) && Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360)) {
             f32 frames = Animation_GetLastFrame(&D_06004658);
 
             EnDh_SetupAttack(this);

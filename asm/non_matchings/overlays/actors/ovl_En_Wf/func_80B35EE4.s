@@ -96,7 +96,7 @@ glabel func_80B35EE4
 /* 0237C 80B3602C 00000000 */  nop
 /* 02380 80B36030 4500000F */  bc1f    .L80B36070                 
 /* 02384 80B36034 00000000 */  nop
-/* 02388 80B36038 0C00CEAE */  jal     func_80033AB8              
+/* 02388 80B36038 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 0238C 80B3603C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02390 80B36040 1440000B */  bne     $v0, $zero, .L80B36070     
 /* 02394 80B36044 8FAA002C */  lw      $t2, 0x002C($sp)           
