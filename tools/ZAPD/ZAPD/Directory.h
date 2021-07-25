@@ -19,7 +19,7 @@ class Directory
 public:
 	static std::string GetCurrentDirectory() { return fs::current_path().u8string(); }
 
-	static bool Exists(const std::string& path) { return fs::exists(fs::path(path)); }
+	static bool Exists(const fs::path& path) { return fs::exists(path); }
 
 	static void CreateDirectory(const std::string& path)
 	{

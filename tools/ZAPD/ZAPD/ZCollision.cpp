@@ -21,26 +21,26 @@ ZCollisionHeader::~ZCollisionHeader()
 
 void ZCollisionHeader::ParseRawData()
 {
-	const uint8_t* data = rawData.data();
+	const auto& rawData = parent->GetRawData();
 
-	absMinX = BitConverter::ToInt16BE(data, rawDataIndex + 0);
-	absMinY = BitConverter::ToInt16BE(data, rawDataIndex + 2);
-	absMinZ = BitConverter::ToInt16BE(data, rawDataIndex + 4);
+	absMinX = BitConverter::ToInt16BE(rawData, rawDataIndex + 0);
+	absMinY = BitConverter::ToInt16BE(rawData, rawDataIndex + 2);
+	absMinZ = BitConverter::ToInt16BE(rawData, rawDataIndex + 4);
 
-	absMaxX = BitConverter::ToInt16BE(data, rawDataIndex + 6);
-	absMaxY = BitConverter::ToInt16BE(data, rawDataIndex + 8);
-	absMaxZ = BitConverter::ToInt16BE(data, rawDataIndex + 10);
+	absMaxX = BitConverter::ToInt16BE(rawData, rawDataIndex + 6);
+	absMaxY = BitConverter::ToInt16BE(rawData, rawDataIndex + 8);
+	absMaxZ = BitConverter::ToInt16BE(rawData, rawDataIndex + 10);
 
-	numVerts = BitConverter::ToUInt16BE(data, rawDataIndex + 12);
-	vtxAddress = BitConverter::ToInt32BE(data, rawDataIndex + 16);
+	numVerts = BitConverter::ToUInt16BE(rawData, rawDataIndex + 12);
+	vtxAddress = BitConverter::ToInt32BE(rawData, rawDataIndex + 16);
 
-	numPolygons = BitConverter::ToUInt16BE(data, rawDataIndex + 20);
-	polyAddress = BitConverter::ToInt32BE(data, rawDataIndex + 24);
-	polyTypeDefAddress = BitConverter::ToInt32BE(data, rawDataIndex + 28);
-	camDataAddress = BitConverter::ToInt32BE(data, rawDataIndex + 32);
+	numPolygons = BitConverter::ToUInt16BE(rawData, rawDataIndex + 20);
+	polyAddress = BitConverter::ToInt32BE(rawData, rawDataIndex + 24);
+	polyTypeDefAddress = BitConverter::ToInt32BE(rawData, rawDataIndex + 28);
+	camDataAddress = BitConverter::ToInt32BE(rawData, rawDataIndex + 32);
 
-	numWaterBoxes = BitConverter::ToUInt16BE(data, rawDataIndex + 36);
-	waterBoxAddress = BitConverter::ToInt32BE(data, rawDataIndex + 40);
+	numWaterBoxes = BitConverter::ToUInt16BE(rawData, rawDataIndex + 36);
+	waterBoxAddress = BitConverter::ToInt32BE(rawData, rawDataIndex + 40);
 
 	vtxSegmentOffset = Seg2Filespace(vtxAddress, parent->baseAddress);
 	polySegmentOffset = Seg2Filespace(polyAddress, parent->baseAddress);
@@ -66,7 +66,8 @@ void ZCollisionHeader::ParseRawData()
 	}
 
 	for (uint16_t i = 0; i < highestPolyType + 1; i++)
-		polygonTypes.push_back(BitConverter::ToUInt64BE(data, polyTypeDefSegmentOffset + (i * 8)));
+		polygonTypes.push_back(
+			BitConverter::ToUInt64BE(rawData, polyTypeDefSegmentOffset + (i * 8)));
 
 	if (camDataAddress != 0)
 		camData = new CameraDataList(parent, name, rawData, camDataSegmentOffset,

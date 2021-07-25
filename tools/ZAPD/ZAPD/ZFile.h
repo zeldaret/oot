@@ -33,21 +33,20 @@ public:
 	std::map<uint32_t, Declaration*> declarations;
 	std::string defines;
 	std::vector<ZResource*> resources;
-	int32_t segment;
+	uint32_t segment;
 	uint32_t baseAddress, rangeStart, rangeEnd;
 
-	ZFile(const fs::path& nOutPath, std::string nName);
+	ZFile(std::string nName);
 	ZFile(ZFileMode mode, tinyxml2::XMLElement* reader, const fs::path& nBasePath,
-	      const fs::path& nOutPath, std::string filename, const fs::path& nXmlFilePath,
-	      bool placeholderMode);
+	      std::string filename, const fs::path& nXmlFilePath, bool placeholderMode);
 	~ZFile();
 
 	std::string GetVarName(uint32_t address);
 	std::string GetName() const;
 	const fs::path& GetXmlFilePath() const;
 	const std::vector<uint8_t>& GetRawData() const;
-	void ExtractResources(fs::path outputDir);
-	void BuildSourceFile(fs::path outputDir);
+	void ExtractResources();
+	void BuildSourceFile();
 	void AddResource(ZResource* res);
 	ZResource* FindResource(uint32_t rawDataIndex);
 	std::vector<ZResource*> GetResourcesOfType(ZResourceType resType);
@@ -89,14 +88,16 @@ public:
 	void AddTextureResource(uint32_t offset, ZTexture* tex);
 	ZTexture* GetTextureResource(uint32_t offset) const;
 
+	fs::path GetSourceOutputFolderPath() const;
+
 	static std::map<std::string, ZResourceFactoryFunc*>* GetNodeMap();
 	static void RegisterNode(std::string nodeName, ZResourceFactoryFunc* nodeFunc);
 
 protected:
 	std::vector<uint8_t> rawData;
 	std::string name;
+	fs::path outName = "";
 	fs::path basePath;
-	fs::path outputPath;
 	fs::path xmlFilePath;
 	// Keep track of every texture of this ZFile.
 	// The pointers declared here are "borrowed" (somebody else is the owner),
