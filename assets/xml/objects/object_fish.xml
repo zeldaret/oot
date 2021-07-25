@@ -13,13 +13,13 @@
         <DList Name="gFishingFishDL_001260" Offset="0x1260"/>
         <DList Name="gFishingFishDL_001300" Offset="0x1300"/>
         <DList Name="gFishingFishDL_0013A0" Offset="0x13A0"/>
-        <Texture Name="gFishingFishTex_0014D0" OutName="fishing_fish_0014D0" Format="rgb5a1" Width="16" Height="16" Offset="0x14D0"/>
-        <Texture Name="gFishingFishTex_0016D0" OutName="fishing_fish_0016D0" Format="rgb5a1" Width="16" Height="16" Offset="0x16D0"/>
-        <Texture Name="gFishingFishTex_0018D0" OutName="fishing_fish_0018D0" Format="rgb5a1" Width="16" Height="16" Offset="0x18D0"/>
-        <Texture Name="gFishingFishTex_001AD0" OutName="fishing_fish_001AD0" Format="rgb5a1" Width="32" Height="32" Offset="0x1AD0"/>
-        <Texture Name="gFishingFishTex_0022D0" OutName="fishing_fish_0022D0" Format="rgb5a1" Width="16" Height="16" Offset="0x22D0"/>
-        <Texture Name="gFishingFishTex_0024D0" OutName="fishing_fish_0024D0" Format="rgb5a1" Width="16" Height="16" Offset="0x24D0"/>
-        <Texture Name="gFishingFishTex_0026D0" OutName="fishing_fish_0026D0" Format="rgb5a1" Width="16" Height="16" Offset="0x26D0"/>
+        <Texture Name="gFishingFishTex_0014D0" OutName="fishing_fish_0014D0" Format="rgba16" Width="16" Height="16" Offset="0x14D0"/>
+        <Texture Name="gFishingFishTex_0016D0" OutName="fishing_fish_0016D0" Format="rgba16" Width="16" Height="16" Offset="0x16D0"/>
+        <Texture Name="gFishingFishTex_0018D0" OutName="fishing_fish_0018D0" Format="rgba16" Width="16" Height="16" Offset="0x18D0"/>
+        <Texture Name="gFishingFishTex_001AD0" OutName="fishing_fish_001AD0" Format="rgba16" Width="32" Height="32" Offset="0x1AD0"/>
+        <Texture Name="gFishingFishTex_0022D0" OutName="fishing_fish_0022D0" Format="rgba16" Width="16" Height="16" Offset="0x22D0"/>
+        <Texture Name="gFishingFishTex_0024D0" OutName="fishing_fish_0024D0" Format="rgba16" Width="16" Height="16" Offset="0x24D0"/>
+        <Texture Name="gFishingFishTex_0026D0" OutName="fishing_fish_0026D0" Format="rgba16" Width="16" Height="16" Offset="0x26D0"/>
         <Limb Name="gFishingFishLimb_0028D0" LimbType="Standard" Offset="0x28D0"/>
         <Limb Name="gFishingFishLimb_0028DC" LimbType="Standard" Offset="0x28DC"/>
         <Limb Name="gFishingFishLimb_0028E8" LimbType="Standard" Offset="0x28E8"/>
@@ -37,8 +37,8 @@
         <Limb Name="gFishingFishLimb_002978" LimbType="Standard" Offset="0x2978"/>
         <Skeleton Name="gFishingFishSkel" Type="Flex" LimbType="Standard" Offset="0x29C0"/>
 
-        <Texture Name="gFishingOldLureHookTex" OutName="fishing_old_lure_hook" Format="rgb5a1" Width="8" Height="16" Offset="0x29D0"/>
-        <Texture Name="gFishingOldLureFloatTex" OutName="fishing_old_lure_float" Format="rgb5a1" Width="8" Height="8" Offset="0x2AD0"/>
+        <Texture Name="gFishingOldLureHookTex" OutName="fishing_old_lure_hook" Format="rgba16" Width="8" Height="16" Offset="0x29D0"/>
+        <Texture Name="gFishingOldLureFloatTex" OutName="fishing_old_lure_float" Format="rgba16" Width="8" Height="8" Offset="0x2AD0"/>
         <DList Name="gFishingOldLureDL" Offset="0x2BD0"/>
 
         <Texture Name="gFishingStreamSplashTile1Tex" OutName="fishing_stream_splash_tile_1" Format="i4" Width="32" Height="64" Offset="0x2CE0"/>
@@ -58,7 +58,7 @@
 
         <DList Name="gFishingRainDropVtxDL" Offset="0x3760"/>
 
-        <Texture Name="gFishingRainSplashTex" OutName="fishing_rain_splash" Format="rgb5a1" Width="16" Height="16" Offset="0x3778"/>
+        <Texture Name="gFishingRainSplashTex" OutName="fishing_rain_splash" Format="rgba16" Width="16" Height="16" Offset="0x3778"/>
         <DList Name="gFishingRainSplashSetupDL" Offset="0x39A8"/>
         <DList Name="gFishingRainSplashVtxDL" Offset="0x3A18"/>
 
@@ -90,7 +90,7 @@
         <DList Name="gFishingWaterDustSetupDL" Offset="0x88C0"/>
         <DList Name="gFishingWaterDustVtxDL" Offset="0x8970"/>
 
-        <Texture Name="gFishingOwnerTLUT" OutName="fishing_owner_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x8990"/>
+        <Texture Name="gFishingOwnerTLUT" OutName="fishing_owner_tlut" Format="rgba16" Width="16" Height="16" Offset="0x8990"/>
         <Texture Name="gFishingOwnerSkinTex" OutName="fishing_owner_skin" Format="ci8" Width="8" Height="8" Offset="0x8B90"/>
         <Texture Name="gFishingOwnerHairFullTex" OutName="fishing_owner_hair_full" Format="ci8" Width="16" Height="16" Offset="0x8BD0"/>
         <Texture Name="gFishingOwnerHairPartialTex" OutName="fishing_owner_hair_partial" Format="ci8" Width="16" Height="16" Offset="0x8CD0"/>
@@ -110,12 +110,12 @@
         <DList Name="gFishingSinkingLureSegmentSetupDL" Offset="0xB950"/>
         <DList Name="gFishingSinkingLureSegmentVtxDL" Offset="0xB9C0"/>
 
-        <Texture Name="gFishingGroupFishTex" OutName="fishing_group_fish" Format="rgb5a1" Width="64" Height="16" Offset="0xB9E0"/>
+        <Texture Name="gFishingGroupFishTex" OutName="fishing_group_fish" Format="rgba16" Width="64" Height="16" Offset="0xB9E0"/>
         <DList Name="gFishingGroupFishSetupDL" Offset="0xC220"/>
         <DList Name="gFishingGroupFishVtxDL" Offset="0xC298"/>
 
         <DList Name="gFishingUnusedRockDL" Offset="0xC650"/>
-        <Texture Name="gFishingUnusedRockTex" OutName="fishing_unused_rock" Format="rgb5a1" Width="32" Height="32" Offset="0xC780"/>
+        <Texture Name="gFishingUnusedRockTex" OutName="fishing_unused_rock" Format="rgba16" Width="32" Height="32" Offset="0xC780"/>
 
         <Animation Name="gFishingLoachAnim" Offset="0xCFE0"/>
         <DList Name="gFishingLoachDL_00DED0" Offset="0xDED0"/>
@@ -129,12 +129,12 @@
         <DList Name="gFishingLoachDL_00EB28" Offset="0xEB28"/>
         <DList Name="gFishingLoachDL_00EBC8" Offset="0xEBC8"/>
         <DList Name="gFishingLoachDL_00EC68" Offset="0xEC68"/>
-        <Texture Name="gFishingLoachTex_00ED28" OutName="fishing_loach_00ED28" Format="rgb5a1" Width="32" Height="32" Offset="0xED28"/>
-        <Texture Name="gFishingLoachTex_00F528" OutName="fishing_loach_00F528" Format="rgb5a1" Width="32" Height="32" Offset="0xF528"/>
-        <Texture Name="gFishingLoachTex_00FD28" OutName="fishing_loach_00FD28" Format="rgb5a1" Width="32" Height="32" Offset="0xFD28"/>
-        <Texture Name="gFishingLoachTex_010528" OutName="fishing_loach_010528" Format="rgb5a1" Width="32" Height="32" Offset="0x10528"/>
-        <Texture Name="gFishingLoachTex_010D28" OutName="fishing_loach_010D28" Format="rgb5a1" Width="8" Height="8" Offset="0x10D28"/>
-        <Texture Name="gFishingLoachTex_010DA8" OutName="fishing_loach_010DA8" Format="rgb5a1" Width="16" Height="16" Offset="0x10DA8"/>
+        <Texture Name="gFishingLoachTex_00ED28" OutName="fishing_loach_00ED28" Format="rgba16" Width="32" Height="32" Offset="0xED28"/>
+        <Texture Name="gFishingLoachTex_00F528" OutName="fishing_loach_00F528" Format="rgba16" Width="32" Height="32" Offset="0xF528"/>
+        <Texture Name="gFishingLoachTex_00FD28" OutName="fishing_loach_00FD28" Format="rgba16" Width="32" Height="32" Offset="0xFD28"/>
+        <Texture Name="gFishingLoachTex_010528" OutName="fishing_loach_010528" Format="rgba16" Width="32" Height="32" Offset="0x10528"/>
+        <Texture Name="gFishingLoachTex_010D28" OutName="fishing_loach_010D28" Format="rgba16" Width="8" Height="8" Offset="0x10D28"/>
+        <Texture Name="gFishingLoachTex_010DA8" OutName="fishing_loach_010DA8" Format="rgba16" Width="16" Height="16" Offset="0x10DA8"/>
         <Limb Name="gFishingLoachLimb_010FA8" LimbType="Standard" Offset="0x10FA8"/>
         <Limb Name="gFishingLoachLimb_010FB4" LimbType="Standard" Offset="0x10FB4"/>
         <Limb Name="gFishingLoachLimb_010FC0" LimbType="Standard" Offset="0x10FC0"/>
@@ -148,31 +148,31 @@
         <Limb Name="gFishingLoachLimb_011020" LimbType="Standard" Offset="0x11020"/>
         <Skeleton Name="gFishingLoachSkel" Type="Flex" LimbType="Standard" Offset="0x11058"/>
 
-        <Texture Name="gFishingRodSegmentStripTex" OutName="fishing_rod_segment_strip" Format="rgb5a1" Width="16" Height="8" Offset="0x11070"/>
-        <Texture Name="gFishingRodSegmentBlackTex" OutName="fishing_rod_segment_black" Format="rgb5a1" Width="16" Height="8" Offset="0x11170"/>
-        <Texture Name="gFishingRodSegmentWhiteTex" OutName="fishing_rod_segment_white" Format="rgb5a1" Width="16" Height="8" Offset="0x11270"/>
+        <Texture Name="gFishingRodSegmentStripTex" OutName="fishing_rod_segment_strip" Format="rgba16" Width="16" Height="8" Offset="0x11070"/>
+        <Texture Name="gFishingRodSegmentBlackTex" OutName="fishing_rod_segment_black" Format="rgba16" Width="16" Height="8" Offset="0x11170"/>
+        <Texture Name="gFishingRodSegmentWhiteTex" OutName="fishing_rod_segment_white" Format="rgba16" Width="16" Height="8" Offset="0x11270"/>
         <DList Name="gFishingRodSetupDL" Offset="0x113D0"/>
         <DList Name="gFishingRodSegmentDL" Offset="0x11410"/>
 
-        <Texture Name="gFishingLureHookTex" OutName="fishing_lure_hook" Format="rgb5a1" Width="32" Height="32" Offset="0x11440"/>
-        <Texture Name="gFishingLureFloatTex" OutName="fishing_lure_float" Format="rgb5a1" Width="32" Height="16" Offset="0x11C40"/>
+        <Texture Name="gFishingLureHookTex" OutName="fishing_lure_hook" Format="rgba16" Width="32" Height="32" Offset="0x11440"/>
+        <Texture Name="gFishingLureFloatTex" OutName="fishing_lure_float" Format="rgba16" Width="32" Height="16" Offset="0x11C40"/>
         <DList Name="gFishingLureHookDL" Offset="0x12160"/>
         <DList Name="gFishingLureFloatDL" Offset="0x121F0"/>
 
-        <Texture Name="gFishingLilyPadTex" OutName="fishing_lily_pad" Format="rgb5a1" Width="32" Height="32" Offset="0x122E0"/>
-        <Texture Name="gFishingRockTex" OutName="fishing_rock" Format="rgb5a1" Width="32" Height="32" Offset="0x12AE0"/>
+        <Texture Name="gFishingLilyPadTex" OutName="fishing_lily_pad" Format="rgba16" Width="32" Height="32" Offset="0x122E0"/>
+        <Texture Name="gFishingRockTex" OutName="fishing_rock" Format="rgba16" Width="32" Height="32" Offset="0x12AE0"/>
         <DList Name="gFishingLilyPadSetupDL" Offset="0x13330"/>
         <DList Name="gFishingLilyPadVtxDL" Offset="0x133B0"/>
         <DList Name="gFishingRockSetupDL" Offset="0x13590"/>
         <DList Name="gFishingRockVtxDL" Offset="0x13610"/>
-        <Texture Name="gFishingWoodPostTex" OutName="fishing_wood_post" Format="rgb5a1" Width="32" Height="32" Offset="0x13660"/>
+        <Texture Name="gFishingWoodPostTex" OutName="fishing_wood_post" Format="rgba16" Width="32" Height="32" Offset="0x13660"/>
         <DList Name="gFishingWoodPostSetupDL" Offset="0x13F50"/>
         <DList Name="gFishingWoodPostVtxDL" Offset="0x13FD0"/>
         <DList Name="gFishingReedSetupDL" Offset="0x14030"/>
         <DList Name="gFishingReedVtxDL" Offset="0x140B0"/>
 
-        <Texture Name="gFishingAquariumBottomTex" OutName="fishing_aquarium_bottom" Format="rgb5a1" Width="16" Height="16" Offset="0x140D0"/>
-        <Texture Name="gFishingAquariumWaterTex" OutName="fishing_aquarium_water" Format="rgb5a1" Width="32" Height="32" Offset="0x142D0"/>
+        <Texture Name="gFishingAquariumBottomTex" OutName="fishing_aquarium_bottom" Format="rgba16" Width="16" Height="16" Offset="0x140D0"/>
+        <Texture Name="gFishingAquariumWaterTex" OutName="fishing_aquarium_water" Format="rgba16" Width="32" Height="32" Offset="0x142D0"/>
         <Texture Name="gFishingAquariumGlassTex" OutName="fishing_aquarium_glass" Format="i8" Width="32" Height="32" Offset="0x14AD0"/>
         <DList Name="gFishingAquariumBottomDL" Offset="0x153D0"/>
         <DList Name="gFishingAquariumContainerDL" Offset="0x15470"/>

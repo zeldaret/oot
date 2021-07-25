@@ -58,9 +58,9 @@
         <DList Name="object_oA11_DL_000DD0" Offset="0xDD0" />
         <DList Name="object_oA11_DL_000EF0" Offset="0xEF0" />
         <DList Name="object_oA11_DL_000FD8" Offset="0xFD8" />
-        <Texture Name="object_oA11_Tex_001080" OutName="tex_00001080" Format="rgb5a1" Width="8" Height="8" Offset="0x1080" />
+        <Texture Name="object_oA11_Tex_001080" OutName="tex_00001080" Format="rgba16" Width="8" Height="8" Offset="0x1080" />
         <Texture Name="object_oA11_Tex_001100" OutName="tex_00001100" Format="i4" Width="16" Height="8" Offset="0x1100" />
-        <Texture Name="object_oA11_Tex_001140" OutName="tex_00001140" Format="rgb5a1" Width="16" Height="32" Offset="0x1140" />
-        <Texture Name="object_oA11_Tex_001540" OutName="tex_00001540" Format="rgb5a1" Width="8" Height="8" Offset="0x1540" />
+        <Texture Name="object_oA11_Tex_001140" OutName="tex_00001140" Format="rgba16" Width="16" Height="32" Offset="0x1140" />
+        <Texture Name="object_oA11_Tex_001540" OutName="tex_00001540" Format="rgba16" Width="8" Height="8" Offset="0x1540" />
     </File>
 </Root>

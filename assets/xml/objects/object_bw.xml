@@ -6,9 +6,9 @@
         <DList Name="object_bw_DL_000558" Offset="0x558"/>
         <DList Name="object_bw_DL_000680" Offset="0x680"/>
         <DList Name="object_bw_DL_001050" Offset="0x1050"/>
-        <Texture Name="object_bw_Tex_001240" OutName="tex_00001240" Format="rgb5a1" Width="16" Height="16" Offset="0x1240"/>
-        <Texture Name="object_bw_Tex_001440" OutName="tex_00001440" Format="rgb5a1" Width="16" Height="16" Offset="0x1440"/>
-        <Texture Name="object_bw_TLUT_001640" OutName="tlut_00001640" Format="rgb5a1" Width="16" Height="16" Offset="0x1640"/>
+        <Texture Name="object_bw_Tex_001240" OutName="tex_00001240" Format="rgba16" Width="16" Height="16" Offset="0x1240"/>
+        <Texture Name="object_bw_Tex_001440" OutName="tex_00001440" Format="rgba16" Width="16" Height="16" Offset="0x1440"/>
+        <Texture Name="object_bw_TLUT_001640" OutName="tlut_00001640" Format="rgba16" Width="16" Height="16" Offset="0x1640"/>
         <Texture Name="object_bw_Tex_001840" OutName="tex_00001840" Format="ci8" Width="32" Height="32" Offset="0x1840"/>
         <Texture Name="object_bw_Tex_001C40" OutName="tex_00001C40" Format="ci8" Width="32" Height="32" Offset="0x1C40"/>
         <Limb Name="object_bw_Limb_002040" LimbType="Standard" Offset="0x2040"/>

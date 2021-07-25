@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_mu" Segment="6">
         <Animation Name="object_mu_Anim_0003F4" Offset="0x3F4"/>
-        <Texture Name="object_mu_TLUT_000410" OutName="tlut_00000410" Format="rgb5a1" Width="16" Height="16" Offset="0x410"/>
+        <Texture Name="object_mu_TLUT_000410" OutName="tlut_00000410" Format="rgba16" Width="16" Height="16" Offset="0x410"/>
         <Texture Name="object_mu_Tex_000610" OutName="tex_00000610" Format="i8" Width="8" Height="8" Offset="0x610"/>
         <Texture Name="object_mu_Tex_000650" OutName="tex_00000650" Format="i8" Width="8" Height="8" Offset="0x650"/>
         <Texture Name="object_mu_Tex_000690" OutName="tex_00000690" Format="i8" Width="8" Height="8" Offset="0x690"/>
@@ -42,7 +42,7 @@
         <Limb Name="object_mu_Limb_004F28" LimbType="Standard" Offset="0x4F28"/>
         <Skeleton Name="object_mu_Skel_004F70" Type="Flex" LimbType="Standard" Offset="0x4F70"/>
         <Animation Name="object_mu_Anim_005040" Offset="0x5040"/>
-        <Texture Name="object_mu_TLUT_005050" OutName="tlut_00005050" Format="rgb5a1" Width="16" Height="16" Offset="0x5050"/>
+        <Texture Name="object_mu_TLUT_005050" OutName="tlut_00005050" Format="rgba16" Width="16" Height="16" Offset="0x5050"/>
         <Texture Name="object_mu_Tex_005250" OutName="tex_00005250" Format="i8" Width="16" Height="16" Offset="0x5250"/>
         <Texture Name="object_mu_Tex_005350" OutName="tex_00005350" Format="ci8" Width="16" Height="16" Offset="0x5350"/>
         <Texture Name="object_mu_Tex_005450" OutName="tex_00005450" Format="i8" Width="8" Height="8" Offset="0x5450"/>
