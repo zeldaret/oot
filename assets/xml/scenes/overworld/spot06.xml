@@ -1,10 +1,8 @@
 <Root>
     <File Name="spot06_scene" Segment="2">
-        <Cutscene Name="gSpot06Cs_007020" Offset="0x7020"/>
-        <Cutscene Name="gSpot06Cs_01B0C0" Offset="0x1B0C0"/>
-
+        <Cutscene Name="gFireArrowsCS" Offset="0x7020"/>
+        <Cutscene Name="gLakeHyliaOwlCs" Offset="0x1B0C0"/>
         <Path Name="gSpot06Path_00776C" Offset="0x776C"/>
-
         <Scene Name="spot06_scene" Offset="0x0"/>
     </File>
     <File Name="spot06_room_0" Segment="3">

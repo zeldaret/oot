@@ -77,18 +77,18 @@ animdict ={
     "func_80061ED4":"CollisionCheck_SetInfo",
     "func_80061EFC":"CollisionCheck_SetInfo2",
     "func_80061EB0":"CollisionCheck_SetInfoNoDamageTable",
-    # "func_8002E084": "Actor_YawInRangeWithPlayer",
-    # "func_8002E0D0": "Actor_YawInRangeWithActor",
-    # "func_8002E12C": "Actor_YawAndDistInRangeWithPlayer",
-    # "func_8002E1A8": "Actor_YawAndDistInRangeWithActor",
-    # "func_80033A84": "Actor_IsTargeted",
-    # "func_80033AB8": "Actor_OtherIsTargeted",
-    # "func_80035650": "Actor_SetDropFlag",
-    # "func_8003573C": "Actor_SetDropFlagJntSph",
-    # "func_80033780": "Actor_GetProjectileActor",
-    # "func_80033260": "Actor_SpawnFloorDust",
-    # "func_80032C7C": "Actor_PlayDeathFx",
-    # "actorCtx.unk_00": "actorCtx.freezeFlashTimer",
+    "func_8002E084": "Actor_IsFacingPlayer",
+    "func_8002E0D0": "Actor_ActorAIsFacingActorB",
+    "func_8002E12C": "Actor_IsFacingAndNearPlayer",
+    "func_8002E1A8": "Actor_ActorAIsFacingAndNearActorB",
+    "func_80033A84": "Actor_IsTargeted",
+    "func_80033AB8": "Actor_OtherIsTargeted",
+    "func_80035650": "Actor_SetDropFlag",
+    "func_8003573C": "Actor_SetDropFlagJntSph",
+    "func_80033780": "Actor_GetProjectileActor",
+    "func_80033260": "Actor_SpawnFloorDust",
+    "func_80032C7C": "Enemy_StartFinishingBlow",
+    "actorCtx.unk_00": "actorCtx.freezeFlashTimer",
 }
 
 def replace_anim(file):
@@ -126,7 +126,7 @@ def replace_anim_all(repo):
                 replace_anim(file)
     return 1
 
-parser = argparse.ArgumentParser(description='Update to the new animation names')
+parser = argparse.ArgumentParser(description='Apply function renames to a file')
 parser.add_argument('file', help="source file to be processed. use . to process the whole repo", default = None)
 
 if __name__ == "__main__":

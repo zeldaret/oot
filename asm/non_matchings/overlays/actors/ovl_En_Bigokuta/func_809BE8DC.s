@@ -37,7 +37,7 @@ glabel func_809BE8DC
 /* 01D00 809BE960 10000016 */  beq     $zero, $zero, .L809BE9BC   
 /* 01D04 809BE964 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L809BE968:
-/* 01D08 809BE968 0C00B821 */  jal     func_8002E084              
+/* 01D08 809BE968 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 01D0C 809BE96C 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 01D10 809BE970 54400012 */  bnel    $v0, $zero, .L809BE9BC     
 /* 01D14 809BE974 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -51,7 +51,7 @@ glabel func_809BE8DC
               
 /* 01D30 809BE990 24053909 */  addiu   $a1, $zero, 0x3909         ## $a1 = 00003909
 /* 01D34 809BE994 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 01D38 809BE998 0C00CB1F */  jal     func_80032C7C              
+/* 01D38 809BE998 0C00CB1F */  jal     Enemy_StartFinishingBlow              
 /* 01D3C 809BE99C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01D40 809BE9A0 10000003 */  beq     $zero, $zero, .L809BE9B0   
 /* 01D44 809BE9A4 00000000 */  nop

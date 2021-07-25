@@ -1,7 +1,7 @@
 <Root>
     <File Name="spot05_scene" Segment="2">
         <Cutscene Name="gMinuetCs" Offset="0x3F80"/>
-
+        <Path Name="gSpot05Path_0069D8" Offset="0x69D8"/>
         <Path Name="gSpot05Path_0069E0" Offset="0x69E0"/>
         <Path Name="gSpot05Path_0069E8" Offset="0x69E8"/>
         <Path Name="gSpot05Path_0069F0" Offset="0x69F0"/>
