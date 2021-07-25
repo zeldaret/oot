@@ -1877,7 +1877,7 @@ s8 func_800F32F0(u8 arg0, u8 arg1, u8 arg2) {
     s32 phi_a1;
     s8 phi_v0 = 0;
     s32 phi_v1 = 0;
-    SequenceChannel* none = &gAudioContext.gSequenceChannelNone;
+    SequenceChannel* none = &gAudioContext.sequenceChannelNone;
 
     temp_a3 = &gSoundBanks[arg0][arg1];
     if (!(temp_a3->unk_26 & 0x1000)) {
@@ -1963,7 +1963,7 @@ f32 func_800F35EC(u8 bankIdx, u8 entryIdx) {
     f32 freq = 1.0f;
 
     if (entry->unk_26 & 0x4000) {
-        freq = 1.0f - ((gAudioContext.gAudioRandom & 0xF) / 192.0f);
+        freq = 1.0f - ((gAudioContext.audioRandom & 0xF) / 192.0f);
     }
 
     switch (bankIdx) {
@@ -1987,7 +1987,7 @@ f32 func_800F35EC(u8 bankIdx, u8 entryIdx) {
 
     if (phi_v0 == 1) {
         if (!(entry->unk_26 & 0x800)) {
-            freq *= (1.0293 - ((gAudioContext.gAudioRandom & 0xF) / 144.0f));
+            freq *= (1.0293 - ((gAudioContext.audioRandom & 0xF) / 144.0f));
         }
     }
 
@@ -2239,7 +2239,7 @@ void func_800F4010(Vec3f* arg0, u16 arg1, f32 arg2) {
         sp24 = 1.0f;
     } else {
         phi_f0 = 1.1f;
-        phi_v0 = gAudioContext.gAudioRandom % 2;
+        phi_v0 = gAudioContext.audioRandom % 2;
     }
 
     if ((phi_f0 < arg2) && (phi_v0 != 0)) {
@@ -2403,7 +2403,7 @@ s32 func_800F491C(u8 arg0) {
     u8 phi_v0;
     u16 phi_v0_2;
 
-    SequenceChannel* none = &gAudioContext.gSequenceChannelNone;
+    SequenceChannel* none = &gAudioContext.sequenceChannelNone;
     u8 i;
 
     if (D_8016B8B4 != arg0) {

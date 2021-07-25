@@ -20,11 +20,11 @@ void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
         arg2 &= 0x7F;
         if (arg2 == 0x7F) {
             Audio_QueueCmdS32(0x85000000 | ((u8)seqIdx << 16) | (seqId << 8),
-                              ((fadeTimer >> 3) * 0x3C * gAudioContext.gAudioBufferParameters.updatesPerFrame) &
+                              ((fadeTimer >> 3) * 0x3C * gAudioContext.audioBufferParameters.updatesPerFrame) &
                                   0xFFFF);
         } else {
             Audio_QueueCmdS32(0x82000000 | ((u8)seqIdx << 16) | (seqId << 8),
-                              (fadeTimer * (u16)gAudioContext.gAudioBufferParameters.updatesPerFrame) / 4);
+                              (fadeTimer * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
         }
 
         D_8016E750[temp_s0].unk_256 = D_8016E750[temp_s0].unk_254 = (arg2 << 8) | seqId;
@@ -55,7 +55,7 @@ void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer);
 
 void func_800F9474(u8 arg0, u16 arg1) {
     Audio_QueueCmdS32(0x83000000 | ((u8)arg0 << 16),
-                      (arg1 * (u16)gAudioContext.gAudioBufferParameters.updatesPerFrame) / 4);
+                      (arg1 * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
     D_8016E750[arg0].unk_254 = 0xFFFF;
 }
 

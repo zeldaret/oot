@@ -82,12 +82,12 @@ void func_800E1618(s32 arg0) {
 
     gAudioContext.unk_288C = gAudioContext.unk_2874;
     gAudioContext.sampleDmaReqs =
-        Audio_Alloc(&gAudioContext.gNotesAndBuffersPool,
-                    (gAudioContext.gMaxSimultaneousNotes * 0x40) * gAudioContext.gAudioBufferParameters.presetUnk4);
-    t2 = gAudioContext.gMaxSimultaneousNotes * 3 * gAudioContext.gAudioBufferParameters.presetUnk4;
+        Audio_Alloc(&gAudioContext.notesAndBuffersPool,
+                    (gAudioContext.maxSimultaneousNotes * 0x40) * gAudioContext.audioBufferParameters.presetUnk4);
+    t2 = gAudioContext.maxSimultaneousNotes * 3 * gAudioContext.audioBufferParameters.presetUnk4;
     for (i = 0; i < t2; i++) {
         SampleDmaReq* temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];
-        temp_s0->ramAddr = func_800DE2B0(&gAudioContext.gNotesAndBuffersPool, gAudioContext.unk_288C);
+        temp_s0->ramAddr = func_800DE2B0(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
         if (temp_s0->ramAddr == NULL) {
             break;
         } else {
@@ -115,9 +115,9 @@ void func_800E1618(s32 arg0) {
     gAudioContext.unk_2624 = gAudioContext.sampleDmaReqCnt;
     gAudioContext.unk_288C = gAudioContext.unk_2878;
 
-    for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
         SampleDmaReq* temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];
-        temp_s0->ramAddr = func_800DE2B0(&gAudioContext.gNotesAndBuffersPool, gAudioContext.unk_288C);
+        temp_s0->ramAddr = func_800DE2B0(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
         if (temp_s0->ramAddr == NULL) {
             break;
         } else {
@@ -367,7 +367,7 @@ void func_800E1F7C(s32 arg0) {
 
 void func_800E202C(s32 arg0) {
     s32 i;
-    SoundMultiPool* pool = &gAudioContext.gBankLoadedPool;
+    SoundMultiPool* pool = &gAudioContext.bankLoadedPool;
     PersistentPool* persistent;
 
     if (arg0 == pool->temporary.entries[0].id) {
@@ -500,8 +500,8 @@ unk_ldr* func_800E2454(u32 arg0) {
     if (gAudioContext.bankLoadStatus[idx] == 1) {
         return NULL;
     }
-    unk02 = gAudioContext.gCtlEntries[idx].unk_02;
-    unk03 = gAudioContext.gCtlEntries[idx].unk_03;
+    unk02 = gAudioContext.ctlEntries[idx].unk_02;
+    unk03 = gAudioContext.ctlEntries[idx].unk_03;
 
     relocInfo.unk_00 = unk02;
     relocInfo.unk_04 = unk03;
@@ -669,9 +669,9 @@ void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2) {
     Instrument** instIt;
     Drum** drums;
 
-    temp_a3 = gAudioContext.gCtlEntries[arg0].numDrums;
-    sp50 = gAudioContext.gCtlEntries[arg0].numInstruments;
-    temp_s5 = gAudioContext.gCtlEntries[arg0].numSfx;
+    temp_a3 = gAudioContext.ctlEntries[arg0].numDrums;
+    sp50 = gAudioContext.ctlEntries[arg0].numInstruments;
+    temp_s5 = gAudioContext.ctlEntries[arg0].numSfx;
 
     drums = arg1->drums;
     if ((drums != NULL) && (temp_a3 != 0)) {
@@ -735,9 +735,9 @@ void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2) {
         } while (instIt <= end);
     }
 
-    gAudioContext.gCtlEntries[arg0].drums = arg1->drums;
-    gAudioContext.gCtlEntries[arg0].soundEffects = arg1->sfx;
-    gAudioContext.gCtlEntries[arg0].instruments = arg1->instruments;
+    gAudioContext.ctlEntries[arg0].drums = arg1->drums;
+    gAudioContext.ctlEntries[arg0].soundEffects = arg1->sfx;
+    gAudioContext.ctlEntries[arg0].instruments = arg1->instruments;
 }
 #else
 void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2);
@@ -930,7 +930,7 @@ void func_800E3028(u32 arg0) {
 
 // InitCtlTable
 void func_800E3034(s32 arg0) {
-    CtlEntry* ctlEnt = &gAudioContext.gCtlEntries[arg0];
+    CtlEntry* ctlEnt = &gAudioContext.ctlEntries[arg0];
     AudioBankTableEntry* tableEnt = &gAudioContext.audioBankTable->entries[arg0];
 
     ctlEnt->unk_02 = (tableEnt->unk_0A >> 8) & 0xFF;
@@ -965,16 +965,16 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
     switch (osTvType) {
         case OS_TV_PAL:
             gAudioContext.unk_2960 = 20.03042f;
-            gAudioContext.gRefreshRate = 50;
+            gAudioContext.refreshRate = 50;
             break;
         case OS_TV_MPAL:
             gAudioContext.unk_2960 = 16.546f;
-            gAudioContext.gRefreshRate = 60;
+            gAudioContext.refreshRate = 60;
             break;
         case OS_TV_NTSC:
         default:
             gAudioContext.unk_2960 = 16.713f;
-            gAudioContext.gRefreshRate = 60;
+            gAudioContext.refreshRate = 60;
     }
 
     Audio_InitMesgQueues();
@@ -986,7 +986,7 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
     gAudioContext.totalTaskCnt = 0;
     gAudioContext.rspTaskIdx = 0;
     gAudioContext.curAIBufIdx = 0;
-    gAudioContext.gSoundMode = 0;
+    gAudioContext.soundMode = 0;
     gAudioContext.currTask = NULL;
     gAudioContext.rspTask[0].task.t.data_size = 0;
     gAudioContext.rspTask[1].task.t.data_size = 0;
@@ -999,22 +999,22 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
     gAudioContext.cartHandle = osCartRomInit();
 
     if (heap == NULL) {
-        gAudioContext.gAudioHeap = gAudioHeap;
-        gAudioContext.gAudioHeapSize = D_8014A6C4.heap;
+        gAudioContext.audioHeap = gAudioHeap;
+        gAudioContext.audioHeapSize = D_8014A6C4.heap;
     } else {
         void** hp = &heap;
-        gAudioContext.gAudioHeap = *hp;
-        gAudioContext.gAudioHeapSize = heapSize;
+        gAudioContext.audioHeap = *hp;
+        gAudioContext.audioHeapSize = heapSize;
     }
 
-    for (i = 0; i < (s32)gAudioContext.gAudioHeapSize / 8; i++) {
-        ((u64*)gAudioContext.gAudioHeap)[i] = 0;
+    for (i = 0; i < (s32)gAudioContext.audioHeapSize / 8; i++) {
+        ((u64*)gAudioContext.audioHeap)[i] = 0;
     }
 
     Audio_InitMainPools(D_8014A6C4.mainPool);
 
     for (i = 0; i < 3; i++) {
-        gAudioContext.aiBuffers[i] = Audio_AllocZeroed(&gAudioContext.gAudioInitPool, AIBUF_LEN);
+        gAudioContext.aiBuffers[i] = Audio_AllocZeroed(&gAudioContext.audioInitPool, AIBUF_LEN);
     }
 
     gAudioContext.sequenceTable = &gSequenceTable;
@@ -1023,7 +1023,7 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
     gAudioContext.unk_283C = &D_80155340;
     gAudioContext.seqTabEntCnt = gAudioContext.sequenceTable->header.entryCnt;
 
-    gAudioContext.gAudioResetPresetIdToLoad = 0;
+    gAudioContext.audioResetPresetIdToLoad = 0;
     gAudioContext.resetStatus = 1;
 
     Audio_ResetStep();
@@ -1031,13 +1031,13 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
     Audio_InitAudioTable(gAudioContext.audioBankTable, _AudiobankSegmentRomStart, 0);
     Audio_InitAudioTable(gAudioContext.audioTable, _AudiotableSegmentRomStart, 0);
     sp24 = gAudioContext.audioBankTable->header.entryCnt;
-    gAudioContext.gCtlEntries = Audio_Alloc(&gAudioContext.gAudioInitPool, sp24 * sizeof(CtlEntry));
+    gAudioContext.ctlEntries = Audio_Alloc(&gAudioContext.audioInitPool, sp24 * sizeof(CtlEntry));
 
     for (i = 0; i < sp24; i++) {
         func_800E3034(i);
     }
 
-    if (temp_v0_3 = Audio_Alloc(&gAudioContext.gAudioInitPool, D_8014A6C4.initPool), temp_v0_3 == NULL) {
+    if (temp_v0_3 = Audio_Alloc(&gAudioContext.audioInitPool, D_8014A6C4.initPool), temp_v0_3 == NULL) {
 
         *((u32*)&D_8014A6C4.initPool) = 0;
     }
@@ -1356,8 +1356,8 @@ void Audio_AsyncReqDone(AsyncLoadReq* loadReq) {
             break;
         case BANK_TABLE:
             b2 = ASYNC_B2(retMsg);
-            t1 = gAudioContext.gCtlEntries[b2].unk_02;
-            t2 = gAudioContext.gCtlEntries[b2].unk_03;
+            t1 = gAudioContext.ctlEntries[b2].unk_02;
+            t2 = gAudioContext.ctlEntries[b2].unk_03;
             sp30.unk_00 = t1;
             sp30.unk_04 = t2;
             sp30.unk_08 = t1 != 0xFF ? func_800E2318(t1, &sp30.unk_10) : 0;
@@ -1546,8 +1546,8 @@ s32 func_800E478C(s32 bankId, AudioBankSample** sampleList) {
     s32 instrumentCnt;
     s32 sampleCnt = 0;
 
-    drumCnt = gAudioContext.gCtlEntries[bankId].numDrums;
-    instrumentCnt = gAudioContext.gCtlEntries[bankId].numInstruments;
+    drumCnt = gAudioContext.ctlEntries[bankId].numDrums;
+    instrumentCnt = gAudioContext.ctlEntries[bankId].numInstruments;
 
     for (i = 0; i < drumCnt; i++) {
         Drum* drum = Audio_GetDrum(bankId, i);
@@ -1596,8 +1596,8 @@ void func_800E4D94(void) {
         RelocInfo sp4C;
         if (gAudioContext.unk_2D60[i].poolIndex == 1) {
             temp_s2 = Audio_GetTableIndex(BANK_TABLE, gAudioContext.unk_2D60[i].id);
-            sp4C.unk_00 = gAudioContext.gCtlEntries[temp_s2].unk_02;
-            sp4C.unk_04 = gAudioContext.gCtlEntries[temp_s2].unk_03;
+            sp4C.unk_00 = gAudioContext.ctlEntries[temp_s2].unk_02;
+            sp4C.unk_04 = gAudioContext.ctlEntries[temp_s2].unk_03;
 
             if (sp4C.unk_00 != 0xFF) {
                 sp4C.unk_00 = Audio_GetTableIndex(AUDIO_TABLE, sp4C.unk_00);

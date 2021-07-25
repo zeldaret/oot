@@ -13,7 +13,7 @@
 
 #define TATUMS_PER_BEAT 48
 
-#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioContext.gSequenceChannelNone)
+#define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioContext.sequenceChannelNone)
 
 #define ADSR_STATE_DISABLED 0
 #define ADSR_STATE_INITIAL 1
@@ -184,7 +184,7 @@ typedef struct {
     /* 0x01 */ u8 pan;
     /*?0x02 */ u8 loaded;
     /* 0x04 */ AudioBankSound sound;
-    /* 0x14 */ AdsrEnvelope *envelope;
+    /* 0x14 */ AdsrEnvelope* envelope;
 } Drum; // size >= 0x14
 
 typedef struct {
@@ -247,7 +247,7 @@ typedef struct {
     /* 0x010 */ u16 delay;
     /* 0x012 */ u16 fadeTimer;
     /* 0x014 */ u16 fadeTimerUnkEu;
-    /* 0x016 */ char pad_16[0x2];
+    /* 0x016 */ char unk_16[0x2];
     /* 0x018 */ u8* seqData;
     /* 0x01C */ f32 fadeVolume;
     /* 0x020 */ f32 fadeVelocity;
@@ -300,8 +300,8 @@ typedef struct {
     /* 0x0C */ f32 fadeOutVel;
     /* 0x10 */ f32 current;
     /* 0x14 */ f32 target;
-    /*      */ char pad_18[4];
-    /* 0x1C */ AdsrEnvelope *envelope;
+    /* 0x18 */ char unk_18[4];
+    /* 0x1C */ AdsrEnvelope* envelope;
 } AdsrState;
 
 typedef struct {
@@ -425,7 +425,7 @@ typedef struct SequenceChannelLayer {
     /* 0x0E */ u16 portamentoTime;
     /* 0x10 */ s16 transposition; // #semitones added to play commands
                                   // (m64 instruction encoding only allows referring to the limited range
-                                  // 0..0x3f; this makes 0x40..0x7f accessible as well)
+                                  // 0..0x3F; this makes 0x40..0x7F accessible as well)
     /* 0x12 */ s16 shortNoteDefaultPlayPercentage;
     /* 0x14 */ s16 playPercentage;
     /* 0x18 */ AdsrSettings adsr;
@@ -552,7 +552,7 @@ typedef struct Note {
     /* 0x30 */ NotePlaybackState playbackState;
     /* 0x90 */ Portamento portamento;
     /* 0x9C */ VibratoState vibratoState;
-    /* 0xB8 */ char pad_B8[0x4];
+    /* 0xB8 */ char unk_B8[0x4];
     /* 0xBC */ u32 unk_BC;
     /* 0xC0 */ NoteSubEu noteSubEu;
 } Note; // size = 0xE0
@@ -577,9 +577,9 @@ typedef struct {
     /*?0x04 */ u8 unk_04;
     /* 0x05 */ u8 maxSimultaneousNotes;
     /* 0x06 */ u8 numSequencePlayers;
-    /* 0x07 */ u8 pad_07[2];
+    /* 0x07 */ u8 unk_07[0x2];
     /* 0x09 */ u8 numReverbs;
-    /* 0x0A */ u8 pad_0A[2];
+    /* 0x0A */ u8 unk_0A[0x2];
     /* 0x0C */ ReverbSettings* reverbSettings;
     /* 0x10 */ u16 unk_10;
     /* 0x12 */ u16 unk_12;
@@ -630,7 +630,7 @@ typedef struct {
     /* 0x00 */ s8 unk_00;
     /* 0x01 */ s8 unk_01;
     /* 0x02 */ s8 unk_02;
-    /* 0x03 */ char pad[0x5];
+    /* 0x03 */ char unk_03[0x5];
     /* 0x08 */ u8* unk_08;
     /* 0x0C */ void* unk_0C;
     /* 0x10 */ u32 size;
@@ -660,7 +660,7 @@ typedef struct
 {
     /* 0x000*/ PersistentPool persistent;
     /* 0x0D4*/ TemporaryPool temporary;
-    /* 0x100*/ u8 pad[0x10];
+    /* 0x100*/ u8 unk_100[0x10];
 } SoundMultiPool; // size = 0x110
 
 typedef struct {
@@ -716,7 +716,7 @@ typedef struct {
         };
     };
     union {
-        void* data; // data?
+        void* data;
         f32 asFloat;
         s32 asInt;
         u16 asUShort;
@@ -874,13 +874,13 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ char unk_0000;
-    /* 0x0001 */ s8 gNumSynthesisReverbs;
+    /* 0x0001 */ s8 numSynthesisReverbs;
     /* 0x0002 */ u16 unk_2;
     /* 0x0004 */ u16 unk_4;
     /* 0x0006 */ char unk_0006[0x0A];
     /* 0x0000 */ s32 unk_0x10;
-    /* 0x0014 */ NoteSubEu* gNoteSubsEu;
-    /* 0x0018 */ SynthesisReverb gSynthesisReverbs[4];
+    /* 0x0014 */ NoteSubEu* noteSubsEu;
+    /* 0x0018 */ SynthesisReverb synthesisReverbs[4];
     /* 0x0B38 */ char unk_0B38[0x30];
     /* 0x0B68 */ AudioBankSample* unk_B68[1]; // unknown size.
     /* 0x0B6C */ char unk_B6C[0x1E8];
@@ -928,17 +928,17 @@ typedef struct {
     /* 0x283C */ char* unk_283Cb;
     };
     /* 0x2840 */ u16 seqTabEntCnt; // channels used?
-    /* 0x2844 */ CtlEntry* gCtlEntries;
-    /* 0x2848 */ AudioBufferParameters gAudioBufferParameters;
+    /* 0x2844 */ CtlEntry* ctlEntries;
+    /* 0x2848 */ AudioBufferParameters audioBufferParameters;
     /* 0x2870 */ f32 unk_2870;
     /* 0x2874 */ s32 unk_2874;
     /* 0x2874 */ s32 unk_2878;
     /* 0x287C */ char unk_287C[0x10];
     /* 0x288C */ s32 unk_288C;
-    /* 0x2890 */ s32 gMaxAudioCmds;
-    /* 0x2894 */ s32 gMaxSimultaneousNotes; // (bad name)
-    /* 0x2898 */ s16 gTempoInternalToExternal;
-    /* 0x289A */ s8 gSoundMode;
+    /* 0x2890 */ s32 maxAudioCmds;
+    /* 0x2894 */ s32 maxSimultaneousNotes; // (bad name)
+    /* 0x2898 */ s16 tempoInternalToExternal;
+    /* 0x289A */ s8 soundMode;
     /* 0x289C */ s32 totalTaskCnt;
     /* 0x28A0 */ s32 sampleIoReqIdx;
     /* 0x28A4 */ s32 rspTaskIdx;
@@ -949,48 +949,48 @@ typedef struct {
     /* 0x28BC */ char unk_28BC[0x4];
     /* 0x28C0 */ AudioTask rspTask[2];
     /* 0x2960 */ f32 unk_2960;
-    /* 0x2964 */ s32 gRefreshRate;
+    /* 0x2964 */ s32 refreshRate;
     /* 0x2968 */ s16* aiBuffers[3];
     /* 0x2974 */ s16 aiBufLengths[3];
-    /* 0x297C */ u32 gAudioRandom;
-    /* 0x2980 */ s32 gAudioErrorFlags;
+    /* 0x297C */ u32 audioRandom;
+    /* 0x2980 */ s32 audioErrorFlags;
     /* 0x2984 */ volatile u32 resetTimer;
     /* 0x2988 */ char unk_2988[0x8];
-    /* 0x2990 */ SoundAllocPool gAudioSessionPool;
-    /* 0x29A0 */ SoundAllocPool gUnkPool;
-    /* 0x29B0 */ SoundAllocPool gAudioInitPool;
-    /* 0x29C0 */ SoundAllocPool gNotesAndBuffersPool;
+    /* 0x2990 */ SoundAllocPool audioSessionPool;
+    /* 0x29A0 */ SoundAllocPool unkPool;
+    /* 0x29B0 */ SoundAllocPool audioInitPool;
+    /* 0x29C0 */ SoundAllocPool notesAndBuffersPool;
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
-    /* 0x29F0 */ SoundAllocPool gSeqAndBankPool;
-    /* 0x2A00 */ SoundAllocPool gPersistentCommonPool;
-    /* 0x2A10 */ SoundAllocPool gTemporaryCommonPool;
-    /* 0x2A20 */ SoundMultiPool gSeqLoadedPool;
-    /* 0x2B30 */ SoundMultiPool gBankLoadedPool;
-    /* 0x2C40 */ SoundMultiPool gUnusedLoadedPool; // rename after we figure out what this is
+    /* 0x29F0 */ SoundAllocPool seqAndBankPool;
+    /* 0x2A00 */ SoundAllocPool persistentCommonPool;
+    /* 0x2A10 */ SoundAllocPool temporaryCommonPool;
+    /* 0x2A20 */ SoundMultiPool seqLoadedPool;
+    /* 0x2B30 */ SoundMultiPool bankLoadedPool;
+    /* 0x2C40 */ SoundMultiPool unusedLoadedPool; // rename after we figure out what this is
     /* 0x2D50 */ SoundAllocPool unk_2D50;
     /* 0x2D60 */ SeqOrBankEntry unk_2D60[32];
     /* 0x2EE0 */ UnkPool unk_2EE0;
     /* 0x3174 */ UnkPool unk_3174;
-    /* 0x3408 */ AudioPoolSplit4 sSessionPoolSplit;
-    /* 0x3418 */ AudioPoolSplit2 sSeqAndBankPoolSplit;
-    /* 0x3420 */ AudioPoolSplit3 sPersistentCommonPoolSplit;
-    /* 0x342C */ AudioPoolSplit3 sTemporaryCommonPoolSplit;
+    /* 0x3408 */ AudioPoolSplit4 sessionPoolSplit;
+    /* 0x3418 */ AudioPoolSplit2 seqAndBankPoolSplit;
+    /* 0x3420 */ AudioPoolSplit3 persistentCommonPoolSplit;
+    /* 0x342C */ AudioPoolSplit3 temporaryCommonPoolSplit;
     /* 0x3438 */ u8 audioTableLoadStatus[0x30];
     /* 0x3468 */ u8 bankLoadStatus[0x30];
     /* 0x3498 */ u8 seqLoadstatus[0x80];
     /* 0x3518 */ volatile u8 resetStatus;
-    /* 0x3519 */ u8 gAudioResetPresetIdToLoad;
-    /* 0x351C */ s32 gAudioResetFadeOutFramesLeft;
+    /* 0x3519 */ u8 audioResetPresetIdToLoad;
+    /* 0x351C */ s32 audioResetFadeOutFramesLeft;
     /* 0x3520 */ f32* unk_3520;
-    /* 0x3524 */ u8* gAudioHeap;
-    /* 0x3528 */ u32 gAudioHeapSize;
-    /* 0x352C */ Note* gNotes;
+    /* 0x3524 */ u8* audioHeap;
+    /* 0x3528 */ u32 audioHeapSize;
+    /* 0x352C */ Note* notes;
     /* 0x3530 */ SequencePlayer seqPlayers[4];
-    /* 0x3AB0 */ SequenceChannelLayer gSequenceLayers[64];
-    /* 0x5AB0 */ SequenceChannel gSequenceChannelNone;
-    /* 0x5B84 */ s32 gNoteSubEuOffset;
-    /* 0x5B88 */ AudioListItem gLayerFreeList;
-    /* 0x5B98 */ NotePool gNoteFreeLists; 
+    /* 0x3AB0 */ SequenceChannelLayer sequenceLayers[64];
+    /* 0x5AB0 */ SequenceChannel sequenceChannelNone;
+    /* 0x5B84 */ s32 noteSubEuOffset;
+    /* 0x5B88 */ AudioListItem layerFreeList;
+    /* 0x5B98 */ NotePool noteFreeLists; 
     /* 0x5BD8 */ u8 cmdWrPos;
     /* 0x5BD9 */ u8 cmdRdPos;
     /* 0x5BDA */ u8 cmdQueueFinished;

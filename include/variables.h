@@ -3349,7 +3349,7 @@ extern u8 D_8016E310[];
 extern unk_D_8016E750 D_8016E750[4];
 //extern ? D_8016EE8B;
 extern AudioContext gAudioContext; // at 0x8016f180
-extern NotePool gNoteFreeLists; // probably includes this and further members, too
+extern NotePool noteFreeLists; // probably includes this and further members, too
 //extern ? D_80174D28;
 //extern ? D_80174D38;
 //extern ? D_80174D48;
