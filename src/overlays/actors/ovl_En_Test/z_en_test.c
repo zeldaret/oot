@@ -19,19 +19,19 @@ void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_SetupWaitGround(EnTest* this);
 void EnTest_SetupWaitAbove(EnTest* this);
 void EnTest_SetupJumpBack(EnTest* this);
-void EnTest_SetupSlash1End(EnTest* this);
-void EnTest_SetupSlash2(EnTest* this);
+void EnTest_SetupSlashDownEnd(EnTest* this);
+void EnTest_SetupSlashUp(EnTest* this);
 void EnTest_SetupJumpslash(EnTest* this);
 void EnTest_SetupWalkAndBlock(EnTest* this);
-void EnTest_SetupSidestepInactive(EnTest* this);
-void EnTest_SetupSlash1(EnTest* this);
-void EnTest_SetupSidestepFromIdle(EnTest* this);
+void func_80860EC0(EnTest* this);
+void EnTest_SetupSlashDown(EnTest* this);
+void func_80860BDC(EnTest* this);
 void EnTest_SetupIdleFromBlock(EnTest* this);
 void EnTest_SetupRecoil(EnTest* this);
 void func_80862398(EnTest* this);
 void func_80862154(EnTest* this);
 void EnTest_SetupStopAndBlock(EnTest* this);
-void EnTest_SetupSidestepAggro(EnTest* this, GlobalContext* globalCtx);
+void func_808627C4(EnTest* this, GlobalContext* globalCtx);
 
 void EnTest_WaitGround(EnTest* this, GlobalContext* globalCtx);
 void EnTest_WaitAbove(EnTest* this, GlobalContext* globalCtx);
@@ -40,11 +40,11 @@ void EnTest_Land(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Rise(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Idle(EnTest* this, GlobalContext* globalCtx);
 void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx);
-void EnTest_SidestepFromIdle(EnTest* this, GlobalContext* globalCtx);
-void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx);
-void EnTest_Slash1(EnTest* this, GlobalContext* globalCtx);
-void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx);
-void EnTest_Slash2(EnTest* this, GlobalContext* globalCtx);
+void func_80860C24(EnTest* this, GlobalContext* globalCtx);
+void func_80860F84(EnTest* this, GlobalContext* globalCtx);
+void EnTest_SlashDown(EnTest* this, GlobalContext* globalCtx);
+void EnTest_SlashDownEnd(EnTest* this, GlobalContext* globalCtx);
+void EnTest_SlashUp(EnTest* this, GlobalContext* globalCtx);
 void EnTest_JumpBack(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Jumpslash(EnTest* this, GlobalContext* globalCtx);
 void EnTest_JumpUp(EnTest* this, GlobalContext* globalCtx);
@@ -53,7 +53,7 @@ void EnTest_IdleFromBlock(EnTest* this, GlobalContext* globalCtx);
 void func_808621D4(EnTest* this, GlobalContext* globalCtx);
 void func_80862418(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Stunned(EnTest* this, GlobalContext* globalCtx);
-void EnTest_SidestepAggro(EnTest* this, GlobalContext* globalCtx);
+void func_808628C8(EnTest* this, GlobalContext* globalCtx);
 void func_80862E6C(EnTest* this, GlobalContext* globalCtx);
 void func_80863044(EnTest* this, GlobalContext* globalCtx);
 void func_8086318C(EnTest* this, GlobalContext* globalCtx);
@@ -62,12 +62,6 @@ void func_808633E8(EnTest* this, GlobalContext* globalCtx);
 void func_80862FA8(EnTest* this, GlobalContext* globalCtx);
 
 s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this);
-
-typedef enum {
-    /* -1 */ STALFOS_SWORD_NOBLUR = -1,
-    /*  0 */ STALFOS_SWORD_OFF,
-    /*  1 */ STALFOS_SWORD_ON
-} StalfosSwordState;
 
 static u8 sJointCopyFlags[] = {
     false, // STALFOS_LIMB_NONE
@@ -334,7 +328,7 @@ void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
  * If EnTest_ChooseAction failed to pick a new action, this function will unconditionally pick
  * a new action as a last resort
  */
-void EnTest_ChooseBackupAction(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_ChooseRandomAction(EnTest* this, GlobalContext* globalCtx) {
     switch ((u32)(Rand_ZeroOne() * 10.0f)) {
         case 0:
         case 1:
@@ -353,7 +347,7 @@ void EnTest_ChooseBackupAction(EnTest* this, GlobalContext* globalCtx) {
         case 3:
         case 4:
         case 7:
-            EnTest_SetupSidestepAggro(this, globalCtx);
+            func_808627C4(this, globalCtx);
             break;
 
         case 2:
@@ -383,7 +377,7 @@ void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
             case 5:
             case 6:
             case 8:
-                EnTest_SetupSidestepAggro(this, globalCtx);
+                func_808627C4(this, globalCtx);
                 break;
 
             case 2:
@@ -412,20 +406,20 @@ void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
                 if (Rand_ZeroOne() > 0.2f) {
                     if (player->stateFlags1 & 0x10) {
                         if (this->actor.isTargeted) {
-                            EnTest_SetupSlash1(this);
+                            EnTest_SetupSlashDown(this);
                         } else {
-                            EnTest_SetupSidestepAggro(this, globalCtx);
+                            func_808627C4(this, globalCtx);
                         }
                     } else {
-                        EnTest_SetupSlash1(this);
+                        EnTest_SetupSlashDown(this);
                     }
                 }
             } else {
-                EnTest_ChooseBackupAction(this, globalCtx);
+                EnTest_ChooseRandomAction(this, globalCtx);
             }
         }
     } else {
-        EnTest_ChooseBackupAction(this, globalCtx);
+        EnTest_ChooseRandomAction(this, globalCtx);
     }
 }
 
@@ -506,7 +500,7 @@ void EnTest_Idle(EnTest* this, GlobalContext* globalCtx) {
                 if (Rand_ZeroOne() > 0.7f && player->swordAnimation != 0x11) {
                     EnTest_SetupJumpBack(this);
                 } else {
-                    EnTest_SetupSidestepAggro(this, globalCtx);
+                    func_808627C4(this, globalCtx);
                 }
                 return;
             }
@@ -521,18 +515,18 @@ void EnTest_Idle(EnTest* this, GlobalContext* globalCtx) {
                     if (Actor_IsTargeted(globalCtx, &this->actor)) {
                         EnTest_SetupJumpslash(this);
                     } else {
-                        EnTest_SetupSidestepAggro(this, globalCtx);
+                        func_808627C4(this, globalCtx);
                     }
                 } else {
                     if (Rand_ZeroOne() > 0.3f) {
                         EnTest_SetupWalkAndBlock(this);
                     } else {
-                        EnTest_SetupSidestepAggro(this, globalCtx);
+                        func_808627C4(this, globalCtx);
                     }
                 }
             } else {
                 if (Rand_ZeroOne() > 0.7f) {
-                    EnTest_SetupSidestepFromIdle(this);
+                    func_80860BDC(this);
                 } else {
                     EnTest_ChooseAction(this, globalCtx);
                 }
@@ -674,13 +668,13 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
             } else if (player->heldItemActionParam != PLAYER_AP_NONE) {
                 if (this->actor.isTargeted) {
                     if ((globalCtx->gameplayFrames % 2) != 0) {
-                        EnTest_SetupSidestepAggro(this, globalCtx);
+                        func_808627C4(this, globalCtx);
                         return;
                     }
 
                     EnTest_ChooseAction(this, globalCtx);
                 } else {
-                    EnTest_SetupSidestepInactive(this);
+                    func_80860EC0(this);
                 }
             }
         }
@@ -699,12 +693,12 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
             if (Rand_ZeroOne() > 0.2f) {
                 if (player->stateFlags1 & 0x10) {
                     if (this->actor.isTargeted) {
-                        EnTest_SetupSlash1(this);
+                        EnTest_SetupSlashDown(this);
                     } else {
-                        EnTest_SetupSidestepAggro(this, globalCtx);
+                        func_808627C4(this, globalCtx);
                     }
                 } else {
-                    EnTest_SetupSlash1(this);
+                    EnTest_SetupSlashDown(this);
                 }
             } else {
                 EnTest_SetupStopAndBlock(this);
@@ -715,13 +709,15 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTest_SetupSidestepFromIdle(EnTest* this) {
+// a variation of sidestep
+void func_80860BDC(EnTest* this) {
     Animation_PlayLoop(&this->skelAnime, &gStalfosSidestepAnim);
     this->unk_7C8 = 0xE;
-    EnTest_SetupAction(this, EnTest_SidestepFromIdle);
+    EnTest_SetupAction(this, func_80860C24);
 }
 
-void EnTest_SidestepFromIdle(EnTest* this, GlobalContext* globalCtx) {
+// a variation of sidestep
+void func_80860C24(EnTest* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 yawChange;
     f32 playSpeed;
@@ -736,10 +732,10 @@ void EnTest_SidestepFromIdle(EnTest* this, GlobalContext* globalCtx) {
 
         if (yawDiff > 0) {
             yawChange = (yawDiff / 42.0f) + 300.0f;
-            this->actor.shape.rot.y += (yawChange * 2);
+            this->actor.shape.rot.y += yawChange * 2;
         } else {
             yawChange = (yawDiff / 42.0f) - 300.0f;
-            this->actor.shape.rot.y += (yawChange * 2);
+            this->actor.shape.rot.y += yawChange * 2;
         }
 
         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -774,7 +770,7 @@ void EnTest_SidestepFromIdle(EnTest* this, GlobalContext* globalCtx) {
         if (Actor_IsFacingPlayer(&this->actor, 0x71C)) {
             if (Rand_ZeroOne() > 0.8f) {
                 if ((Rand_ZeroOne() > 0.7f)) {
-                    EnTest_SetupSidestepInactive(this);
+                    func_80860EC0(this);
                 } else {
                     EnTest_ChooseAction(this, globalCtx);
                 }
@@ -785,20 +781,19 @@ void EnTest_SidestepFromIdle(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTest_SetupSidestepInactive(EnTest* this) {
+// a variation of sidestep
+void func_80860EC0(EnTest* this) {
     Animation_PlayLoop(&this->skelAnime, &gStalfosSidestepAnim);
     this->unk_7C8 = 0xF;
     this->actor.speedXZ = (Rand_ZeroOne() > 0.5f) ? -0.5f : 0.5f;
     this->timer = (s16)((Rand_ZeroOne() * 15.0f) + 25.0f);
     this->unk_7EC = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    EnTest_SetupAction(this, EnTest_SidestepInactive);
+    EnTest_SetupAction(this, func_80860F84);
 }
 
-/**
- * Sidestep around the player while the other stalfos is Aggro
- */
-void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx) {
+// a variation of sidestep
+void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
     s16 playerYaw180;
     s32 pad;
     s32 prevFrame;
@@ -903,13 +898,13 @@ void EnTest_SidestepInactive(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTest_SetupSlash1(EnTest* this) {
+void EnTest_SetupSlashDown(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosDownSlashAnim);
     func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x10;
     this->actor.speedXZ = 0.0f;
-    EnTest_SetupAction(this, EnTest_Slash1);
+    EnTest_SetupAction(this, EnTest_SlashDown);
     this->swordCollider.info.toucher.damage = 16;
 
     if (this->unk_7DE != 0) {
@@ -917,7 +912,7 @@ void EnTest_SetupSlash1(EnTest* this) {
     }
 }
 
-void EnTest_Slash1(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_SlashDown(EnTest* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
 
     if ((s32)this->skelAnime.curFrame < 4) {
@@ -929,28 +924,28 @@ void EnTest_Slash1(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if ((this->skelAnime.curFrame > 7.0f) && (this->skelAnime.curFrame < 11.0f)) {
-        this->swordState = STALFOS_SWORD_ON;
+        this->swordState = 1;
     } else {
-        this->swordState = STALFOS_SWORD_OFF;
+        this->swordState = 0;
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if ((globalCtx->gameplayFrames % 2) != 0) {
-            EnTest_SetupSlash1End(this);
+            EnTest_SetupSlashDownEnd(this);
         } else {
-            EnTest_SetupSlash2(this);
+            EnTest_SetupSlashUp(this);
         }
     }
 }
 
-void EnTest_SetupSlash1End(EnTest* this) {
+void EnTest_SetupSlashDownEnd(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosRecoverFromDownSlashAnim);
     this->unk_7C8 = 0x12;
     this->actor.speedXZ = 0.0f;
-    EnTest_SetupAction(this, EnTest_Slash1End);
+    EnTest_SetupAction(this, EnTest_SlashDownEnd);
 }
 
-void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_SlashDownEnd(EnTest* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 yawDiff;
 
@@ -988,35 +983,35 @@ void EnTest_Slash1End(EnTest* this, GlobalContext* globalCtx) {
                 EnTest_SetupJumpBack(this);
             } else if (player->stateFlags1 & 0x10) {
                 if (this->actor.isTargeted) {
-                    EnTest_SetupSlash1(this);
+                    EnTest_SetupSlashDown(this);
                 } else if ((globalCtx->gameplayFrames % 2) != 0) {
-                    EnTest_SetupSidestepAggro(this, globalCtx);
+                    func_808627C4(this, globalCtx);
                 } else {
                     EnTest_SetupJumpBack(this);
                 }
             } else {
-                EnTest_SetupSlash1(this);
+                EnTest_SetupSlashDown(this);
             }
         } else {
-            EnTest_SetupSidestepAggro(this, globalCtx);
+            func_808627C4(this, globalCtx);
         }
     }
 }
 
-void EnTest_SetupSlash2(EnTest* this) {
+void EnTest_SetupSlashUp(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosUpSlashAnim);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x11;
     this->swordCollider.info.toucher.damage = 16;
     this->actor.speedXZ = 0.0f;
-    EnTest_SetupAction(this, EnTest_Slash2);
+    EnTest_SetupAction(this, EnTest_SlashUp);
 
     if (this->unk_7DE != 0) {
         this->unk_7DE = 3;
     }
 }
 
-void EnTest_Slash2(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_SlashUp(EnTest* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
 
     if ((s32)this->skelAnime.curFrame == 2) {
@@ -1024,13 +1019,13 @@ void EnTest_Slash2(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if ((this->skelAnime.curFrame > 1.0f) && (this->skelAnime.curFrame < 8.0f)) {
-        this->swordState = STALFOS_SWORD_ON;
+        this->swordState = 1;
     } else {
-        this->swordState = STALFOS_SWORD_OFF;
+        this->swordState = 0;
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        EnTest_SetupSlash1(this);
+        EnTest_SetupSlashDown(this);
     }
 }
 
@@ -1065,7 +1060,7 @@ void EnTest_JumpBack(EnTest* this, GlobalContext* globalCtx) {
         if (!EnTest_ReactToProjectile(globalCtx, this)) {
             if (this->actor.xzDistToPlayer <= 100.0f) {
                 if (Actor_IsFacingPlayer(&this->actor, 0x1555)) {
-                    EnTest_SetupSlash1(this);
+                    EnTest_SetupSlashDown(this);
                 } else {
                     EnTest_SetupIdle(this);
                     this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
@@ -1108,7 +1103,7 @@ void EnTest_Jumpslash(EnTest* this, GlobalContext* globalCtx) {
         if (this->timer == 0) {
             Animation_PlayOnce(&this->skelAnime, &gStalfosJumpslashAnim);
             this->timer = 1;
-            this->swordState = STALFOS_SWORD_ON;
+            this->swordState = 1;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_SAKEBI);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
         } else {
@@ -1118,7 +1113,7 @@ void EnTest_Jumpslash(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if ((this->timer != 0) && (this->skelAnime.curFrame >= 5.0f)) {
-        this->swordState = STALFOS_SWORD_OFF;
+        this->swordState = 0;
     }
 
     if (this->actor.world.pos.y <= this->actor.floorHeight) {
@@ -1212,7 +1207,7 @@ void EnTest_IdleFromBlock(EnTest* this, GlobalContext* globalCtx) {
             if (this->actor.xzDistToPlayer < 500.0f) {
                 EnTest_ChooseAction(this, globalCtx);
             } else {
-                EnTest_SetupSidestepAggro(this, globalCtx);
+                func_808627C4(this, globalCtx);
             }
         }
     }
@@ -1302,7 +1297,7 @@ void func_80862418(EnTest* this, GlobalContext* globalCtx) {
 void EnTest_SetupStunned(EnTest* this) {
     this->unk_7C8 = 0xB;
     this->unk_7DE = 0;
-    this->swordState = STALFOS_SWORD_OFF;
+    this->swordState = 0;
     this->skelAnime.playSpeed = 0.0f;
     this->actor.speedXZ = -4.0f;
 
@@ -1351,9 +1346,10 @@ void EnTest_Stunned(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTest_SetupSidestepAggro(EnTest* this, GlobalContext* globalCtx) {
+// a variation of sidestep
+void func_808627C4(EnTest* this, GlobalContext* globalCtx) {
     if (Actor_OtherIsTargeted(globalCtx, &this->actor)) {
-        EnTest_SetupSidestepInactive(this);
+        func_80860EC0(this);
         return;
     }
 
@@ -1363,11 +1359,12 @@ void EnTest_SetupSidestepAggro(EnTest* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = (Rand_ZeroOne() * 20.0f) + 20.0f;
     this->unk_7C8 = 0x18;
-    EnTest_SetupAction(this, EnTest_SidestepAggro);
+    EnTest_SetupAction(this, func_808628C8);
     this->unk_7EC = 0.0f;
 }
 
-void EnTest_SidestepAggro(EnTest* this, GlobalContext* globalCtx) {
+// a variation of sidestep
+void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
     s32 pad1;
@@ -1491,9 +1488,9 @@ void func_80862DBC(EnTest* this, GlobalContext* globalCtx) {
     BodyBreak_Alloc(&this->bodyBreak, 60, globalCtx);
     this->actor.home.rot.x = 0;
 
-    if (this->swordState >= STALFOS_SWORD_OFF) {
+    if (this->swordState >= 0) {
         EffectBlure_AddSpace(Effect_GetByIndex(this->effectIndex));
-        this->swordState = STALFOS_SWORD_NOBLUR;
+        this->swordState = -1;
     }
 
     this->actor.flags &= ~1;
@@ -1599,7 +1596,7 @@ void func_8086318C(EnTest* this, GlobalContext* globalCtx) {
 }
 
 void EnTest_SetupRecoil(EnTest* this) {
-    this->swordState = STALFOS_SWORD_OFF;
+    this->swordState = 0;
     this->skelAnime.moveFlags = 2;
     this->unk_7C8 = 0x13;
     this->skelAnime.playSpeed = -1.0f;
@@ -1616,7 +1613,7 @@ void EnTest_Recoil(EnTest* this, GlobalContext* globalCtx) {
         } else if (((globalCtx->gameplayFrames % 2) != 0) && (this->actor.params != STALFOS_TYPE_CEILING)) {
             EnTest_SetupJumpBack(this);
         } else {
-            EnTest_SetupSidestepAggro(this, globalCtx);
+            func_808627C4(this, globalCtx);
         }
     }
 }
@@ -1673,12 +1670,12 @@ void EnTest_UpdateDamage(EnTest* this, GlobalContext* globalCtx) {
         if ((this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_SLING) &&
             (this->actor.colChkInfo.damageEffect != STALFOS_DMGEFF_FIREMAGIC)) {
             this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
-            if (this->swordState >= STALFOS_SWORD_ON) {
-                this->swordState = STALFOS_SWORD_OFF;
+            if (this->swordState >= 1) {
+                this->swordState = 0;
             }
             this->unk_7DC = player->unk_845;
             this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-            Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 0);
+            Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, false);
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
 
             if ((this->actor.colChkInfo.damageEffect == STALFOS_DMGEFF_STUN) ||
@@ -1805,7 +1802,7 @@ void EnTest_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->swordState >= STALFOS_SWORD_ON) {
+    if (this->swordState >= 1) {
         if (!(this->swordCollider.base.atFlags & AT_BOUNCED)) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->swordCollider.base);
         } else {
@@ -1887,12 +1884,12 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
         Matrix_MultVec3f(&D_80864664, &sp70);
         Matrix_MultVec3f(&D_80864670, &sp64);
 
-        if ((this->swordState >= STALFOS_SWORD_ON) &&
+        if ((this->swordState >= 1) &&
             ((this->actor.params != STALFOS_TYPE_INVISIBLE) || (globalCtx->actorCtx.unk_03 != 0))) {
             EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &sp70, &sp64);
-        } else if (this->swordState >= STALFOS_SWORD_OFF) {
+        } else if (this->swordState >= 0) {
             EffectBlure_AddSpace(Effect_GetByIndex(this->effectIndex));
-            this->swordState = STALFOS_SWORD_NOBLUR;
+            this->swordState = -1;
         }
 
     } else if ((limbIndex == STALFOS_LIMB_SHIELD) && (this->unk_7DE != 0)) {
@@ -1902,7 +1899,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
         this->shieldCollider.dim.pos.y = sp64.y;
         this->shieldCollider.dim.pos.z = sp64.z;
     } else {
-        Actor_SetFeetPos(&this->actor, limbIndex, 48, &D_80864658, 55, &D_80864658);
+        Actor_SetFeetPos(&this->actor, limbIndex, STALFOS_LIMB_FOOT_L, &D_80864658, STALFOS_LIMB_ANKLE_R, &D_80864658);
 
         if ((limbIndex == STALFOS_LIMB_FOOT_L) || (limbIndex == STALFOS_LIMB_ANKLE_R)) {
             if ((this->unk_7C8 == 0x15) || (this->unk_7C8 == 0x16)) {
@@ -1978,13 +1975,14 @@ void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnTest_SetupSidestepSetSpeed(EnTest* this, f32 xzSpeed) {
+// a variation of sidestep
+void func_80864158(EnTest* this, f32 xzSpeed) {
     Animation_MorphToLoop(&this->skelAnime, &gStalfosSidestepAnim, -2.0f);
     this->actor.speedXZ = xzSpeed;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = (Rand_ZeroOne() * 20.0f) + 15.0f;
     this->unk_7C8 = 0x18;
-    EnTest_SetupAction(this, EnTest_SidestepAggro);
+    EnTest_SetupAction(this, func_808628C8);
 }
 
 /**
@@ -2034,14 +2032,14 @@ s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
 
             if (touchingWall && (wallYawDiff > 0x2000) && (wallYawDiff < 0x6000)) {
                 directionFlag = false;
-            } else if ((touchingWall != 0) && (wallYawDiff < -0x2000) && (wallYawDiff > -0x6000)) {
+            } else if (touchingWall && (wallYawDiff < -0x2000) && (wallYawDiff > -0x6000)) {
                 directionFlag = true;
             }
 
             if (directionFlag) {
-                EnTest_SetupSidestepSetSpeed(this, 4.0f);
+                func_80864158(this, 4.0f);
             } else {
-                EnTest_SetupSidestepSetSpeed(this, -4.0f);
+                func_80864158(this, -4.0f);
             }
         } else if (ABS(yawToProjectile) < 0x6000) {
             directionFlag = globalCtx->gameplayFrames % 2;
