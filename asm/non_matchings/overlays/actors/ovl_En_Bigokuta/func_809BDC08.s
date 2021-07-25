@@ -92,14 +92,14 @@ glabel func_809BDC08
 /* 010CC 809BDD2C 00000000 */  nop
 /* 010D0 809BDD30 45020014 */  bc1fl   .L809BDD84                 
 /* 010D4 809BDD34 3C01437A */  lui     $at, 0x437A                ## $at = 437A0000
-/* 010D8 809BDD38 0C00B821 */  jal     func_8002E084              
+/* 010D8 809BDD38 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 010DC 809BDD3C A7A30036 */  sh      $v1, 0x0036($sp)           
 /* 010E0 809BDD40 1440000F */  bne     $v0, $zero, .L809BDD80     
 /* 010E4 809BDD44 87A30036 */  lh      $v1, 0x0036($sp)           
 /* 010E8 809BDD48 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 010EC 809BDD4C 24052000 */  addiu   $a1, $zero, 0x2000         ## $a1 = 00002000
 /* 010F0 809BDD50 8FA60044 */  lw      $a2, 0x0044($sp)           
-/* 010F4 809BDD54 0C00B7F2 */  jal     func_8002DFC8              
+/* 010F4 809BDD54 0C00B7F2 */  jal     Player_IsFacingActor              
 /* 010F8 809BDD58 A7A30036 */  sh      $v1, 0x0036($sp)           
 /* 010FC 809BDD5C 14400008 */  bne     $v0, $zero, .L809BDD80     
 /* 01100 809BDD60 87A30036 */  lh      $v1, 0x0036($sp)           
@@ -122,7 +122,7 @@ glabel func_809BDC08
 /* 01138 809BDD98 00000000 */  nop
 /* 0113C 809BDD9C 45020015 */  bc1fl   .L809BDDF4                 
 /* 01140 809BDDA0 24190050 */  addiu   $t9, $zero, 0x0050         ## $t9 = 00000050
-/* 01144 809BDDA4 0C00B821 */  jal     func_8002E084              
+/* 01144 809BDDA4 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 01148 809BDDA8 A7A30036 */  sh      $v1, 0x0036($sp)           
 /* 0114C 809BDDAC 14400010 */  bne     $v0, $zero, .L809BDDF0     
 /* 01150 809BDDB0 87A30036 */  lh      $v1, 0x0036($sp)           

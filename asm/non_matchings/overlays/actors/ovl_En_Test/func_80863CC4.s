@@ -214,7 +214,7 @@ glabel func_80863CC4
 /* 048D4 80863F24 27A60064 */  addiu   $a2, $sp, 0x0064           ## $a2 = FFFFFFE4
 /* 048D8 80863F28 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 048DC 80863F2C AFA00020 */  sw      $zero, 0x0020($sp)         
-/* 048E0 80863F30 0C00CC98 */  jal     func_80033260              
+/* 048E0 80863F30 0C00CC98 */  jal     Actor_SpawnFloorDust              
 /* 048E4 80863F34 E7A80014 */  swc1    $f8, 0x0014($sp)           
 .L80863F38:
 /* 048E8 80863F38 861907E0 */  lh      $t9, 0x07E0($s0)           ## 000007E0

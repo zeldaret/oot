@@ -1258,7 +1258,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
 
                         if ((s8)this->actor.colChkInfo.health <= 0) {
                             BossGanondrof_SetupDeath(this, globalCtx);
-                            func_80032C7C(globalCtx, &this->actor);
+                            Enemy_StartFinishingBlow(globalCtx, &this->actor);
                             return;
                         }
                     }

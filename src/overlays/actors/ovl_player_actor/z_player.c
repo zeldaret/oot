@@ -1268,8 +1268,8 @@ s32 func_80832594(Player* this, s32 arg1, s32 arg2) {
 }
 
 void func_80832630(GlobalContext* globalCtx) {
-    if (globalCtx->actorCtx.unk_00 == 0) {
-        globalCtx->actorCtx.unk_00 = 1;
+    if (globalCtx->actorCtx.freezeFlashTimer == 0) {
+        globalCtx->actorCtx.freezeFlashTimer = 1;
     }
 }
 
