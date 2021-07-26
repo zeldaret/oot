@@ -867,7 +867,6 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 func_809BEBBC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 s32 func_809BEBBC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     f32 temp_f0;
