@@ -71,11 +71,11 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static void* sFa_eyes[] = { gFaEyeOpenTex, gFaEyeHalfTex, gFaEyeClosedTex, NULL };
-static void* sKw1_eyes[] = { /* gKw1EyeOpenTex */ 0x06000F4C, /* gKw1EyeHalfTex */ 0x06001A0C,
-                             /* gKw1EyeClosedTex */ 0x06001E0C, NULL };
+static void* sFaEyes[] = { gFaEyeOpenTex, gFaEyeHalfTex, gFaEyeClosedTex, NULL };
+static void* sKw1Eyes[] = { /* gKw1EyeOpenTex */ 0x06000F4C, /* gKw1EyeHalfTex */ 0x06001A0C,
+                            /* gKw1EyeClosedTex */ 0x06001E0C, NULL };
 
 typedef struct {
     s16 objectId;
@@ -83,17 +83,21 @@ typedef struct {
     void** eyeTextures;
 } EnKoHead;
 
-EnKoHead sHead[] = { { OBJECT_KM1, /* gKm1DL */ 0x06001890, NULL },
-                     { OBJECT_KW1, /* object_kw1_DL_002C10 */ 0x06002C10, sKw1_eyes },
-                     { OBJECT_FA, gFaDL, sFa_eyes } };
+static EnKoHead sHead[] = {
+    { OBJECT_KM1, /* gKm1DL */ 0x06001890, NULL },
+    { OBJECT_KW1, /* object_kw1_DL_002C10 */ 0x06002C10, sKw1Eyes },
+    { OBJECT_FA, gFaDL, sFaEyes },
+};
 
 typedef struct {
     s16 objectId;
     FlexSkeletonHeader* flexSkeletonHeader;
 } EnKoSkeleton;
 
-static EnKoSkeleton sSkeleton[2] = { { OBJECT_KM1, /* gKm1Skel */ 0x060000F0 },
-                                     { OBJECT_KW1, /* gKw1Skel */ 0x060000F0 } };
+static EnKoSkeleton sSkeleton[2] = {
+    { OBJECT_KM1, /* gKm1Skel */ 0x060000F0 },
+    { OBJECT_KW1, /* gKw1Skel */ 0x060000F0 },
+};
 
 static struct_80034EC0_Entry sOsAnimeTable[] = {
     { 0x06008F6C, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
@@ -156,21 +160,21 @@ typedef struct {
     Color_RGBA8 bootsColor;
 } EnKoModelInfo;
 
-typedef enum { KO_DUDE, KO_GIRL, KO_FADO } KokiriGender;
+typedef enum { KO_BOY, KO_GIRL, KO_FADO } KokiriGender;
 
 static EnKoModelInfo sModelInfo[] = {
-    /* ENKO_TYPE_CHILD_0    */ { KO_DUDE, KO_DUDE, { 0, 130, 70, 255 }, KO_DUDE, { 110, 170, 20, 255 } },
+    /* ENKO_TYPE_CHILD_0    */ { KO_BOY, KO_BOY, { 0, 130, 70, 255 }, KO_BOY, { 110, 170, 20, 255 } },
     /* ENKO_TYPE_CHILD_1    */ { KO_GIRL, KO_GIRL, { 70, 190, 60, 255 }, KO_GIRL, { 100, 30, 0, 255 } },
-    /* ENKO_TYPE_CHILD_2    */ { KO_DUDE, KO_DUDE, { 0, 130, 70, 255 }, KO_DUDE, { 110, 170, 20, 255 } },
-    /* ENKO_TYPE_CHILD_3    */ { KO_DUDE, KO_DUDE, { 0, 130, 70, 255 }, KO_DUDE, { 110, 170, 20, 255 } },
-    /* ENKO_TYPE_CHILD_4    */ { KO_DUDE, KO_DUDE, { 0, 130, 70, 255 }, KO_DUDE, { 110, 170, 20, 255 } },
+    /* ENKO_TYPE_CHILD_2    */ { KO_BOY, KO_BOY, { 0, 130, 70, 255 }, KO_BOY, { 110, 170, 20, 255 } },
+    /* ENKO_TYPE_CHILD_3    */ { KO_BOY, KO_BOY, { 0, 130, 70, 255 }, KO_BOY, { 110, 170, 20, 255 } },
+    /* ENKO_TYPE_CHILD_4    */ { KO_BOY, KO_BOY, { 0, 130, 70, 255 }, KO_BOY, { 110, 170, 20, 255 } },
     /* ENKO_TYPE_CHILD_5    */ { KO_GIRL, KO_GIRL, { 70, 190, 60, 255 }, KO_GIRL, { 100, 30, 0, 255 } },
     /* ENKO_TYPE_CHILD_6    */ { KO_GIRL, KO_GIRL, { 70, 190, 60, 255 }, KO_GIRL, { 100, 30, 0, 255 } },
-    /* ENKO_TYPE_CHILD_7    */ { KO_DUDE, KO_DUDE, { 0, 130, 70, 255 }, KO_DUDE, { 110, 170, 20, 255 } },
-    /* ENKO_TYPE_CHILD_8    */ { KO_DUDE, KO_DUDE, { 0, 130, 70, 255 }, KO_DUDE, { 110, 170, 20, 255 } },
+    /* ENKO_TYPE_CHILD_7    */ { KO_BOY, KO_BOY, { 0, 130, 70, 255 }, KO_BOY, { 110, 170, 20, 255 } },
+    /* ENKO_TYPE_CHILD_8    */ { KO_BOY, KO_BOY, { 0, 130, 70, 255 }, KO_BOY, { 110, 170, 20, 255 } },
     /* ENKO_TYPE_CHILD_9    */ { KO_GIRL, KO_GIRL, { 70, 190, 60, 255 }, KO_GIRL, { 100, 30, 0, 255 } },
     /* ENKO_TYPE_CHILD_10   */ { KO_GIRL, KO_GIRL, { 70, 190, 60, 255 }, KO_GIRL, { 100, 30, 0, 255 } },
-    /* ENKO_TYPE_CHILD_11   */ { KO_DUDE, KO_DUDE, { 0, 130, 70, 255 }, KO_DUDE, { 110, 170, 20, 255 } },
+    /* ENKO_TYPE_CHILD_11   */ { KO_BOY, KO_BOY, { 0, 130, 70, 255 }, KO_BOY, { 110, 170, 20, 255 } },
     /* ENKO_TYPE_CHILD_FADO */ { KO_FADO, KO_GIRL, { 70, 190, 60, 255 }, KO_GIRL, { 100, 30, 0, 255 } },
 };
 
@@ -1092,7 +1096,7 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->legsObjectBankIdx;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader,
-                           NULL, this->limbDrawTable, this->transitionDrawTable, 16);
+                           NULL, this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
         Collider_InitCylinder(globalCtx, &this->collider);
@@ -1268,10 +1272,9 @@ s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         rot->y += Math_SinS(this->unk_2E4[limbIndex]) * 200.0f;
         rot->z += Math_CosS(this->unk_304[limbIndex]) * 200.0f;
     }
-    return 0;
+    return false;
 }
 
-// Post limb draw
 void EnKo_PostLimbDraw(GlobalContext* globalCtx2, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     GlobalContext* globalCtx = globalCtx2;
     EnKo* this = THIS;
