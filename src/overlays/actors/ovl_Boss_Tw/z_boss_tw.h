@@ -8,65 +8,59 @@ struct BossTw;
 
 typedef void (*BossTW_ActionFunc)(struct BossTw* this, GlobalContext* globalCtx);
 
-#define CS_TIMER_1 0
-#define CS_TIMER_2 1
-#define TW_PLLR_IDX 2
-#define TAIL_IDX 3
-#define BLINK_IDX 4
-#define INVINC_TIMER 5
-#define FOG_TIMER 6
-#define CAN_SHOOT 7
-#define UNK_S8 8
-#define TW_BLINK_IDX 9
-#define YAW_TGT 10
-#define PLAYED_CHRG_SFX 11
-#define BURN_TMR 12
+enum Work {
+    /*  0 */ CS_TIMER_1,
+    /*  1 */ CS_TIMER_2,
+    /*  2 */ TW_PLLR_IDX,
+    /*  3 */ TAIL_IDX,
+    /*  4 */ BLINK_IDX,
+    /*  5 */ INVINC_TIMER,
+    /*  6 */ FOG_TIMER,
+    /*  7 */ CAN_SHOOT,
+    /*  8 */ UNK_S8,
+    /*  9 */ TW_BLINK_IDX,
+    /* 10 */ YAW_TGT,
+    /* 11 */ PLAYED_CHRG_SFX,
+    /* 12 */ BURN_TMR,
+    /* 12 */ WORK_MAX = BURN_TMR
+};
 
-#define OUTR_CRWN_TX_X1 0
-#define OUTR_CRWN_TX_X2 1
-
-#define INNR_CRWN_TX_X1 2
-#define INNR_CRWN_TX_X2 3
-
-#define OUTR_CRWN_TX_Y1 4
-#define OUTR_CRWN_TX_Y2 5
-
-#define INNR_CRWN_TX_Y1 6
-#define INNR_CRWN_TX_Y2 7
-
-#define ANIM_SW_TGT 8
-
-#define UNK_F9 9
-#define KM_GD_FLM_A 9
-
-#define UNK_F10 10
-#define TAIL_ALPHA 10
-#define KM_GD_SMOKE_A 10
-
-#define UNK_F11 11
-#define KM_GRND_CRTR_A 11
-
-#define UNK_F12 12
-#define KM_GD_FLM_SCL 12
-
-#define UNK_F13 13
-#define KM_GD_CRTR_SCL 13
-
-#define UNK_F14 14
-#define UNK_F15 15
-#define UNK_F16 16
-#define UNK_F17 17
-#define UNK_F18 18
-#define UNK_F19 19
-#define UNK_F20 20
-
+enum Fwork {
+    /*  0 */ OUTR_CRWN_TX_X1,
+    /*  1 */ OUTR_CRWN_TX_X2,
+    /*  2 */ INNR_CRWN_TX_X1,
+    /*  3 */ INNR_CRWN_TX_X2,
+    /*  4 */ OUTR_CRWN_TX_Y1,
+    /*  5 */ OUTR_CRWN_TX_Y2,
+    /*  6 */ INNR_CRWN_TX_Y1,
+    /*  7 */ INNR_CRWN_TX_Y2,
+    /*  8 */ ANIM_SW_TGT,
+    /*  9 */ UNK_F9,
+    /*  9 */ KM_GD_FLM_A = 9,
+    /* 10 */ UNK_F10 = 10,
+    /* 10 */ TAIL_ALPHA = 10,
+    /* 10 */ KM_GD_SMOKE_A = 10,
+    /* 14 */ UNK_F11 = 11,
+    /* 15 */ KM_GRND_CRTR_A = 11,
+    /* 16 */ UNK_F12 = 12,
+    /* 17 */ KM_GD_FLM_SCL = 12,
+    /* 18 */ UNK_F13 = 13,
+    /* 19 */ KM_GD_CRTR_SCL = 13,
+    /* 20 */ UNK_F14,
+    /* 21 */ UNK_F15,
+    /* 22 */ UNK_F16,
+    /* 23 */ UNK_F17,
+    /* 24 */ UNK_F18,
+    /* 25 */ UNK_F19,
+    /* 26 */ FWORK_MAX
+};
 typedef struct BossTw {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ BossTW_ActionFunc actionFunc;
-    /* 0x0150 */ s16 work[12];
-    /* 0x0168 */ char unused_168[0x10];
+    /* 0x0150 */ s16 work[WORK_MAX];
+    /* 0x0168 */ char unused_168[0x10]; // Likely unused Work variables
     /* 0x0178 */ s16 timers[5];
-    /* 0x0184 */ f32 workf[20];
+    /* 0x0184 */ f32 workf[FWORK_MAX];
     /* 0x01D4 */ f32 fogR;
     /* 0x01D8 */ f32 fogG;
     /* 0x01DC */ f32 fogB;
