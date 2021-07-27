@@ -14,7 +14,9 @@
         <Texture Name="object_ds2_Tex_002D98" OutName="tex_00002D98" Format="ci8" Width="8" Height="8" Offset="0x2D98"/>
         <Texture Name="object_ds2_Tex_002DD8" OutName="tex_00002DD8" Format="ci8" Width="16" Height="16" Offset="0x2DD8"/>
         <Texture Name="object_ds2_Tex_002ED8" OutName="tex_00002ED8" Format="ci8" Width="32" Height="16" Offset="0x2ED8"/>
-        <Blob Name="object_ds2_Blob_0030D8" Size="0xC00" Offset="0x30D8"/>
+        <Texture Name="gPotionShopkeeperEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x30D8"/>
+        <Texture Name="gPotionShopkeeperEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x34D8"/>
+        <Texture Name="gPotionShopkeeperEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x38D8"/>
         <Texture Name="object_ds2_Tex_003CD8" OutName="tex_00003CD8" Format="ci8" Width="16" Height="16" Offset="0x3CD8"/>
         <Texture Name="object_ds2_Tex_003DD8" OutName="tex_00003DD8" Format="ci8" Width="16" Height="16" Offset="0x3DD8"/>
         <Texture Name="object_ds2_Tex_003ED8" OutName="tex_00003ED8" Format="ci8" Width="16" Height="16" Offset="0x3ED8"/>
