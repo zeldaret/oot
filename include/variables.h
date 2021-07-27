@@ -380,8 +380,6 @@ extern s16 D_80130328[];
 //extern ? D_801304C0;
 extern s32 gAudioContextInitalized;
 //extern ? D_801304E8;
-//extern ? curCmdRdPos;
-//extern ? audRand;
 //extern ? D_80130500;
 extern f32 D_80130510;
 extern s32 D_80130514;
@@ -3327,8 +3325,7 @@ extern u8 D_8016E310[];
 //extern ? sAudioSeqCmds;
 extern unk_D_8016E750 D_8016E750[4];
 //extern ? D_8016EE8B;
-extern AudioContext gAudioContext; // at 0x8016f180
-extern NotePool noteFreeLists; // probably includes this and further members, too
+extern AudioContext gAudioContext; // at 0x8016F180
 //extern ? D_80174D28;
 //extern ? D_80174D38;
 //extern ? D_80174D48;

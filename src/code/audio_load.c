@@ -1301,6 +1301,7 @@ AsyncLoadReq* Audio_InitAsyncReq(s32 devAddr, void* ramAddr, s32 size, s32 arg3,
     osCreateMesgQueue(&loadReq->msgQueue, loadReq->msg, ARRAY_COUNT(loadReq->msg));
     return loadReq;
 }
+
 void Audio_ProcessAsyncLoads(s32 resetStatus) {
     AsyncLoadReq* loadReq;
     s32 i;
