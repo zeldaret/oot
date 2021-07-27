@@ -365,7 +365,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 004B0 80813CD0 00812021 */  addu    $a0, $a0, $at              
 /* 004B4 80813CD4 0C03B301 */  jal     func_800ECC04              
 /* 004B8 80813CD8 3084FFFF */  andi    $a0, $a0, 0xFFFF           ## $a0 = 00000000
-/* 004BC 80813CDC 0C03B8FE */  jal     func_800EE3F8              
+/* 004BC 80813CDC 0C03B8FE */  jal     Audio_OcaGetDisplayStaff              
 /* 004C0 80813CE0 00000000 */  nop
 /* 004C4 80813CE4 AE820194 */  sw      $v0, 0x0194($s4)           ## 00000194
 /* 004C8 80813CE8 A0400002 */  sb      $zero, 0x0002($v0)         ## 00000002
@@ -629,7 +629,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 00890 808140B0 0C03B64F */  jal     func_800ED93C              
 /* 00894 808140B4 00042603 */  sra     $a0, $a0, 24               
 /* 00898 808140B8 24180002 */  addiu   $t8, $zero, 0x0002         ## $t8 = 00000002
-/* 0089C 808140BC 0C03B8FE */  jal     func_800EE3F8              
+/* 0089C 808140BC 0C03B8FE */  jal     Audio_OcaGetDisplayStaff              
 /* 008A0 808140C0 A69801E4 */  sh      $t8, 0x01E4($s4)           ## 000001E4
 /* 008A4 808140C4 AE820194 */  sw      $v0, 0x0194($s4)           ## 00000194
 /* 008A8 808140C8 A0400002 */  sb      $zero, 0x0002($v0)         ## 00000002
@@ -1686,7 +1686,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 017F8 80815018 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 017FC 8081501C 544100B9 */  bnel    $v0, $at, .L80815304       
 /* 01800 80815020 28410004 */  slti    $at, $v0, 0x0004           
-/* 01804 80815024 0C03B8FE */  jal     func_800EE3F8              
+/* 01804 80815024 0C03B8FE */  jal     Audio_OcaGetDisplayStaff              
 /* 01808 80815028 A7A9021A */  sh      $t1, 0x021A($sp)           
 /* 0180C 8081502C 87A9021A */  lh      $t1, 0x021A($sp)           
 /* 01810 80815030 AE820194 */  sw      $v0, 0x0194($s4)           ## 00000194
@@ -1885,8 +1885,8 @@ glabel KaleidoScope_DrawQuestStatus
 /* 01AF8 80815318 00000000 */  nop
 .L8081531C:
 /* 01AFC 8081531C 86860264 */  lh      $a2, 0x0264($s4)           ## 00000264
-/* 01B00 80815320 3C0F8013 */  lui     $t7, %hi(D_80131C00)
-/* 01B04 80815324 25EF1C00 */  addiu   $t7, %lo(D_80131C00)
+/* 01B00 80815320 3C0F8013 */  lui     $t7, %hi(gOcarinaSongNotes)
+/* 01B04 80815324 25EF1C00 */  addiu   $t7, %lo(gOcarinaSongNotes)
 /* 01B08 80815328 0006C8C0 */  sll     $t9, $a2,  3               
 /* 01B0C 8081532C 0326C821 */  addu    $t9, $t9, $a2              
 /* 01B10 80815330 032FC021 */  addu    $t8, $t9, $t7              
@@ -2285,7 +2285,7 @@ glabel KaleidoScope_DrawQuestStatus
 /* 02100 80815920 00812021 */  addu    $a0, $a0, $at              
 /* 02104 80815924 0C03B301 */  jal     func_800ECC04              
 /* 02108 80815928 3084FFFF */  andi    $a0, $a0, 0xFFFF           ## $a0 = 00000000
-/* 0210C 8081592C 0C03B8FE */  jal     func_800EE3F8              
+/* 0210C 8081592C 0C03B8FE */  jal     Audio_OcaGetDisplayStaff              
 /* 02110 80815930 00000000 */  nop
 /* 02114 80815934 AE820194 */  sw      $v0, 0x0194($s4)           ## 00000194
 /* 02118 80815938 A0400002 */  sb      $zero, 0x0002($v0)         ## 00000002
