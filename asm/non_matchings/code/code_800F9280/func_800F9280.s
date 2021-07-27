@@ -38,7 +38,7 @@ glabel func_800F9280
 /* B704AC 800F930C AFA6002C */  sw    $a2, 0x2c($sp)
 /* B704B0 800F9310 00001012 */  mflo  $v0
 /* B704B4 800F9314 3045FFFF */  andi  $a1, $v0, 0xffff
-/* B704B8 800F9318 0C0396BF */  jal   func_800E5AFC
+/* B704B8 800F9318 0C0396BF */  jal   Audio_QueueCmdS32
 /* B704BC 800F931C 00000000 */   nop   
 /* B704C0 800F9320 8FA30028 */  lw    $v1, 0x28($sp)
 /* B704C4 800F9324 10000018 */  b     .L800F9388
@@ -64,7 +64,7 @@ glabel func_800F9280
 /* B70510 800F9370 24A10003 */  addiu $at, $a1, 3
 .L800F9374:
 /* B70514 800F9374 00012883 */  sra   $a1, $at, 2
-/* B70518 800F9378 0C0396BF */  jal   func_800E5AFC
+/* B70518 800F9378 0C0396BF */  jal   Audio_QueueCmdS32
 /* B7051C 800F937C 00000000 */   nop   
 /* B70520 800F9380 8FA30028 */  lw    $v1, 0x28($sp)
 /* B70524 800F9384 8FA7002C */  lw    $a3, 0x2c($sp)
@@ -92,7 +92,7 @@ glabel func_800F9280
 /* B70578 800F93D8 3C014100 */   lui   $at, 0x4100
 /* B7057C 800F93DC 44051000 */  mfc1  $a1, $f2
 /* B70580 800F93E0 00612025 */  or    $a0, $v1, $at
-/* B70584 800F93E4 0C0396B6 */  jal   func_800E5AD8
+/* B70584 800F93E4 0C0396B6 */  jal   Audio_QueueCmdF32
 /* B70588 800F93E8 AFA60024 */   sw    $a2, 0x24($sp)
 /* B7058C 800F93EC 3C013F80 */  li    $at, 0x3F800000 # 0.000000
 /* B70590 800F93F0 44810000 */  mtc1  $at, $f0
