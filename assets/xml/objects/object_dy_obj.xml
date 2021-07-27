@@ -78,15 +78,15 @@
         <Texture Name="gGreatFairyBetaGradient2Tex" OutName="beta_gradient_2" Format="rgb5a1" Width="32" Height="32" Offset="0x8EB0"/>
         <Texture Name="gGreatFairyBetaClothesTex" OutName="beta_clothes" Format="rgb5a1" Width="16" Height="16" Offset="0x96B0"/>
         <Texture Name="gGreatFairyFlowerTex" OutName="flower" Format="ia16" Width="32" Height="32" Offset="0x98B0"/>
-        <Texture Name="gGreatFairyBootPatternTex" OutName="boot_pattern" Format="ci8" Width="32" Height="64" Offset="0x167F0"/>
-        <Texture Name="gGreatFairyLeavesPattern1Tex" OutName="leaves_pattern_1" Format="ci8" Width="32" Height="32" Offset="0x16FF0"/>
-        <Texture Name="gGreatFairySkinGradient" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x173F0"/>
+        <Texture Name="gGreatFairyBootPatternTex" OutName="boot_pattern" Format="ci8" Width="32" Height="64" Offset="0x167F0" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyLeavesPattern1Tex" OutName="leaves_pattern_1" Format="ci8" Width="32" Height="32" Offset="0x16FF0" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairySkinGradient" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x173F0" TlutOffset="0x165F0"/>
         <Texture Name="gGreatFairyLeavesPattern2Tex" OutName="leaves_pattern_2" Format="rgb5a1" Width="32" Height="16" Offset="0x17430"/>
-        <Texture Name="gGreatFairyHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x17830"/>
-        <Texture Name="gGreatFairyEar1Tex" OutName="ear_1" Format="ci8" Width="8" Height="8" Offset="0x1B130"/>
-        <Texture Name="gGreatFairyEar2Tex" OutName="ear_2" Format="ci8" Width="8" Height="8" Offset="0x1B170"/>
-        <Texture Name="gGreatFairyBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="16" Height="16" Offset="0x1B1B0"/>
-        <Texture Name="gGreatFairyLeavesPattern3Tex" OutName="leaves_pattern_3" Format="ci8" Width="32" Height="32" Offset="0x1B2B0"/>
+        <Texture Name="gGreatFairyHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x17830" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyEar1Tex" OutName="ear_1" Format="ci8" Width="8" Height="8" Offset="0x1B130" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyEar2Tex" OutName="ear_2" Format="ci8" Width="8" Height="8" Offset="0x1B170" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="16" Height="16" Offset="0x1B1B0" TlutOffset="0x165F0"/>
+        <Texture Name="gGreatFairyLeavesPattern3Tex" OutName="leaves_pattern_3" Format="ci8" Width="32" Height="32" Offset="0x1B2B0" TlutOffset="0x165F0"/>
         <Texture Name="gGreatFairySpiralBeamPatternTex" OutName="spiral_beam_pattern" Format="i8" Width="16" Height="16" Offset="0x1B6B0"/>
         <Texture Name="gGreatFairySpiralBeamGradientTex" OutName="spiral_beam_gradient" Format="i8" Width="32" Height="64" Offset="0x1B7B0"/>
 

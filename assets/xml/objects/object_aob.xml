@@ -42,14 +42,14 @@
         <Texture Name="gDogLadyTLUT" OutName="tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x0108"/>
 
         <!-- Textures -->
-        <Texture Name="gDogLadyHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x0308"/>
-        <Texture Name="gDogLadySkinGradientTex" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x0408"/>
-        <Texture Name="gDogLadyEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x0448"/>
-        <Texture Name="gDogLadyLipGradientTex" OutName="lip_gradient" Format="ci8" Width="8" Height="8" Offset="0x0548"/>
-        <Texture Name="gDogLadyNostrilTex" OutName="nostril" Format="ci8" Width="8" Height="8" Offset="0x0588"/>
-        <Texture Name="gDogLadyBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="16" Height="16" Offset="0x1DC8"/>
-        <Texture Name="gDogLadyDressShoulderPatternTex" OutName="dress_shoulder_pattern" Format="ci8" Width="8" Height="8" Offset="0x1EC8"/>
-        <Texture Name="gDogLadyDressTex" OutName="dress" Format="ci8" Width="8" Height="8" Offset="0x1F08"/>
+        <Texture Name="gDogLadyHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x0308" TlutOffset="0x0108"/>
+        <Texture Name="gDogLadySkinGradientTex" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x0408" TlutOffset="0x0108"/>
+        <Texture Name="gDogLadyEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x0448" TlutOffset="0x0108"/>
+        <Texture Name="gDogLadyLipGradientTex" OutName="lip_gradient" Format="ci8" Width="8" Height="8" Offset="0x0548" TlutOffset="0x0108"/>
+        <Texture Name="gDogLadyNostrilTex" OutName="nostril" Format="ci8" Width="8" Height="8" Offset="0x0588" TlutOffset="0x0108"/>
+        <Texture Name="gDogLadyBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="16" Height="16" Offset="0x1DC8" TlutOffset="0x0108"/>
+        <Texture Name="gDogLadyDressShoulderPatternTex" OutName="dress_shoulder_pattern" Format="ci8" Width="8" Height="8" Offset="0x1EC8" TlutOffset="0x0108"/>
+        <Texture Name="gDogLadyDressTex" OutName="dress" Format="ci8" Width="8" Height="8" Offset="0x1F08" TlutOffset="0x0108"/>
 
         <!-- Dog Lady Eye Textures -->
         <Texture Name="gDogLadyEyeOpenTex" OutName="dog_lady_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x05C8"/>
