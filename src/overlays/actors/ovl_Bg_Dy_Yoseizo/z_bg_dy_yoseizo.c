@@ -92,13 +92,13 @@ void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         // Great Fairy Fountain
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, globalCtx->curSpawn);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim, this->jointTable, this->morphTable,
-                           28);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGreatFairySkel, &gGreatFairySittingTransitionAnim,
+                           this->jointTable, this->morphTable, 28);
     } else {
         // Stone/Jewel Fairy Fountain
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n" VT_RST, globalCtx->curSpawn);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim, this->jointTable, this->morphTable,
-                           28);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGreatFairySkel, &gGreatFairyLayingDownTransitionAnim,
+                           this->jointTable, this->morphTable, 28);
     }
     this->actionFunc = BgDyYoseizo_CheckMagicAcquired;
 }
@@ -319,7 +319,8 @@ void BgDyYoseizo_SetupSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* global
         Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
     } else {
         this->frameCount = Animation_GetLastFrame(&gGreatFairyLayingDownTransitionAnim);
-        Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
+        Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->frameCount, 2,
+                         -10.0f);
     }
 
     Audio_PlayActorSound2(&this->actor, NA_SE_VO_FR_LAUGH_0);
@@ -513,10 +514,12 @@ void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, GlobalContext* globalCt
 void BgDyYoseizo_SetupSpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->frameCount = Animation_GetLastFrame(&gGreatFairyJewelFountainSpinShrinkAnim);
-        Animation_Change(&this->skelAnime, &gGreatFairyJewelFountainSpinShrinkAnim, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
+        Animation_Change(&this->skelAnime, &gGreatFairyJewelFountainSpinShrinkAnim, 1.0f, 0.0f, this->frameCount, 2,
+                         -10.0f);
     } else {
         this->frameCount = Animation_GetLastFrame(&gGreatFairySpellFountainSpinShrinkAnim);
-        Animation_Change(&this->skelAnime, &gGreatFairySpellFountainSpinShrinkAnim, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
+        Animation_Change(&this->skelAnime, &gGreatFairySpellFountainSpinShrinkAnim, 1.0f, 0.0f, this->frameCount, 2,
+                         -10.0f);
     }
 
     this->vanishTimer = 5;
@@ -575,10 +578,12 @@ void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, GlobalContext* globalCt
 
             if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                 this->frameCount = Animation_GetLastFrame(&gGreatFairySittingTransitionAnim);
-                Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
+                Animation_Change(&this->skelAnime, &gGreatFairySittingTransitionAnim, 1.0f, 0.0f, this->frameCount, 2,
+                                 -10.0f);
             } else {
                 this->frameCount = Animation_GetLastFrame(&gGreatFairyLayingDownTransitionAnim);
-                Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
+                Animation_Change(&this->skelAnime, &gGreatFairyLayingDownTransitionAnim, 1.0f, 0.0f, this->frameCount,
+                                 2, -10.0f);
             }
 
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
@@ -619,7 +624,8 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
                 Animation_Change(&this->skelAnime, &gGreatFairySittingAnim, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
             } else {
                 this->frameCount = Animation_GetLastFrame(&gGreatFairyLayingSidewaysAnim);
-                Animation_Change(&this->skelAnime, &gGreatFairyLayingSidewaysAnim, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
+                Animation_Change(&this->skelAnime, &gGreatFairyLayingSidewaysAnim, 1.0f, 0.0f, this->frameCount, 0,
+                                 -10.0f);
             }
             this->animationChanged = true;
         }
@@ -629,7 +635,8 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
             this->finishedSpinGrow = this->animationChanged = false;
             if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                 this->frameCount = Animation_GetLastFrame(&gGreatFairyGivingUpgradeAnim);
-                Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
+                Animation_Change(&this->skelAnime, &gGreatFairyGivingUpgradeAnim, 1.0f, 0.0f, this->frameCount, 2,
+                                 -10.0f);
             } else {
                 this->frameCount = Animation_GetLastFrame(&gGreatFairyAnim_005810);
                 Animation_Change(&this->skelAnime, &gGreatFairyAnim_005810, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
@@ -871,14 +878,14 @@ s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 static void* sEyeTextures[] = {
-    &gGreatFairyEyeOpenTex, // Open
-    &gGreatFairyEyeHalfTex, // Half
+    &gGreatFairyEyeOpenTex,   // Open
+    &gGreatFairyEyeHalfTex,   // Half
     &gGreatFairyEyeClosedTex, // Closed
 };
 
 static void* sMouthTextures[] = {
     &gGreatFairyMouthClosedTex, // Closed
-    &gGreatFairyMouthOpenTex, // Open
+    &gGreatFairyMouthOpenTex,   // Open
 };
 
 void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {

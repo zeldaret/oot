@@ -707,9 +707,9 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* displayLists[] = {
-        gFreezardIntactDL, // Body fully intact           (5 or 6 health)
+        gFreezardIntactDL,              // Body fully intact           (5 or 6 health)
         gFreezardTopRightHornChippedDL, // Top right horn chipped off  (from Freezards perspective)   (3 or 4 health)
-        gFreezardHeadChippedDL, // Entire head chipped off     (1 or 2 health)
+        gFreezardHeadChippedDL,         // Entire head chipped off     (1 or 2 health)
     };
     EnFz* this = THIS;
     s32 pad;

@@ -59,7 +59,8 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-static void* D_80B4E61C[] = { gChildZelda1EyeOpenLookingUpRightTex, gChildZelda1EyeHalf2Tex, gChildZelda1EyeClosedTex, gChildZelda1EyeHalf2Tex };
+static void* D_80B4E61C[] = { gChildZelda1EyeOpenLookingUpRightTex, gChildZelda1EyeHalf2Tex, gChildZelda1EyeClosedTex,
+                              gChildZelda1EyeHalf2Tex };
 static void* D_80B4E62C[] = { gChildZelda1MouthNeutralTex };
 
 void func_80B4AB40(void) {
@@ -161,8 +162,8 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     s16 rotDiff;
 
     if (func_8002F194(&this->actor, globalCtx)) {
-        Animation_Change(&this->skelAnime, &gChildZelda1Anim_10B38, 1.0f, 0.0f, Animation_GetLastFrame(&gChildZelda1Anim_10B38),
-                         ANIMMODE_ONCE_INTERP, -10.0f);
+        Animation_Change(&this->skelAnime, &gChildZelda1Anim_10B38, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gChildZelda1Anim_10B38), ANIMMODE_ONCE_INTERP, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
         Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
         Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, CAM_STAT_ACTIVE);
@@ -345,8 +346,16 @@ void func_80B4B874(EnZl1* this, GlobalContext* globalCtx) {
 
 void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
     AnimationHeader* spB0[] = {
-        NULL, NULL, NULL, NULL, NULL,
-        NULL, NULL, &gChildZelda1Anim_12B04, &gChildZelda1Anim_12118, &gChildZelda1Anim_10B38,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        &gChildZelda1Anim_12B04,
+        &gChildZelda1Anim_12118,
+        &gChildZelda1Anim_10B38,
     };
     u8 spA4[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
@@ -418,8 +427,16 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
 
 void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
     AnimationHeader* sp90[] = {
-        NULL, NULL, NULL, NULL, NULL,
-        NULL, NULL, &gChildZelda1Anim_12B04, &gChildZelda1Anim_12118, &gChildZelda1Anim_10B38,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        &gChildZelda1Anim_12B04,
+        &gChildZelda1Anim_12118,
+        &gChildZelda1Anim_10B38,
     };
     u8 sp84[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,

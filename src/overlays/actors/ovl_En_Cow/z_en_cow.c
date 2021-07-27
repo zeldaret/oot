@@ -309,8 +309,8 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &gCowBodyChewAnim) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);
-            Animation_Change(&this->skelAnime, &gCowBodyMoveHeadAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCowBodyMoveHeadAnim),
-                             ANIMMODE_ONCE, 1.0f);
+            Animation_Change(&this->skelAnime, &gCowBodyMoveHeadAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gCowBodyMoveHeadAnim), ANIMMODE_ONCE, 1.0f);
         } else {
             Animation_Change(&this->skelAnime, &gCowBodyChewAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCowBodyChewAnim),
                              ANIMMODE_LOOP, 1.0f);
@@ -348,8 +348,8 @@ void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &gCowTailIdleAnim) {
-            Animation_Change(&this->skelAnime, &gCowTailSwishAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCowTailSwishAnim),
-                             ANIMMODE_ONCE, 1.0f);
+            Animation_Change(&this->skelAnime, &gCowTailSwishAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gCowTailSwishAnim), ANIMMODE_ONCE, 1.0f);
         } else {
             Animation_Change(&this->skelAnime, &gCowTailIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCowTailIdleAnim),
                              ANIMMODE_LOOP, 1.0f);

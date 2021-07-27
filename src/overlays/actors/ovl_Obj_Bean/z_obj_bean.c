@@ -9,7 +9,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-
 #define FLAGS 0x00400000
 
 #define THIS ((ObjBean*)thisx)
@@ -224,7 +223,8 @@ void ObjBean_Move(ObjBean* this) {
 }
 
 void ObjBean_SetDrawMode(ObjBean* this, u8 drawFlag) {
-    this->stateFlags &= ~(BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_PLANT | BEAN_STATE_DRAW_STALK | BEAN_STATE_DRAW_SOIL);
+    this->stateFlags &=
+        ~(BEAN_STATE_DRAW_LEAVES | BEAN_STATE_DRAW_PLANT | BEAN_STATE_DRAW_STALK | BEAN_STATE_DRAW_SOIL);
     this->stateFlags |= drawFlag;
 }
 
@@ -641,7 +641,7 @@ void ObjBean_SetupWaitForWater(ObjBean* this) {
 }
 
 #ifdef NON_MATCHING
-//D_80B90E30 isn't being loaded properly
+// D_80B90E30 isn't being loaded properly
 void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
     this->transformFunc(this);
     if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED) && Flags_GetEnv(globalCtx, 5) && (D_80B90E30 == NULL) &&

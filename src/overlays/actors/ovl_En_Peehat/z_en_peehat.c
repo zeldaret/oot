@@ -194,7 +194,8 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     Actor_SetScale(thisx, 36.0f * 0.001f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gPeehatSkel, &gPeehatRisingAnim, this->jointTable, this->morphTable, 24);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gPeehatSkel, &gPeehatRisingAnim, this->jointTable, this->morphTable,
+                   24);
     ActorShape_Init(&this->actor.shape, 100.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->unk2D4 = 0;
@@ -309,7 +310,8 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
-    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim), 2,
+                     0.0f);
     this->seekPlayerTimer = 600;
     this->unk2D4 = 0;
     this->unk2FA = 0;
@@ -346,7 +348,8 @@ void EnPeehat_Ground_StateGround(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Flying_SetStateGround(EnPeehat* this) {
-    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim), 2,
+                     0.0f);
     this->seekPlayerTimer = 400;
     this->unk2D4 = 0;
     this->unk2FA = 0; // @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns

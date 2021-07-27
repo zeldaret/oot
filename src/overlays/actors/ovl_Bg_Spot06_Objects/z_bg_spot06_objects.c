@@ -46,13 +46,13 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, GlobalContext* globalCtx);
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, GlobalContext* globalCtx);
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, GlobalContext* globalCtx);
 
-extern Gfx gLakeHyliaLowWaterDL[];           // Lake Hylia lowered water
-extern Gfx gLakeHyliaHighWaterDL[];           // Lake Hylia raised water
-extern Gfx gLakeHyliaWaterTempleGateDL[];           // Water Temple entrance gate
-extern CollisionHeader gLakeHyliaWaterTempleGateCol; // Water Temple entrance gate collision
-extern Gfx gLakeHyliaZoraShortcutIceblockDL[];           // Zora's Domain entrance block of ice
+extern Gfx gLakeHyliaLowWaterDL[];                        // Lake Hylia lowered water
+extern Gfx gLakeHyliaHighWaterDL[];                       // Lake Hylia raised water
+extern Gfx gLakeHyliaWaterTempleGateDL[];                 // Water Temple entrance gate
+extern CollisionHeader gLakeHyliaWaterTempleGateCol;      // Water Temple entrance gate collision
+extern Gfx gLakeHyliaZoraShortcutIceblockDL[];            // Zora's Domain entrance block of ice
 extern CollisionHeader gLakeHyliaZoraShortcutIceblockCol; // Zora's Domain entrance block of ice collision
-extern Gfx gLakeHyliaWaterTempleKeyDL[];           // Water Temple entrance lock
+extern Gfx gLakeHyliaWaterTempleKeyDL[];                  // Water Temple entrance lock
 
 const ActorInit Bg_Spot06_Objects_InitVars = {
     ACTOR_BG_SPOT06_OBJECTS,

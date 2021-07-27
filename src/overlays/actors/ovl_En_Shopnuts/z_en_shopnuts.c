@@ -63,7 +63,8 @@ void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubAnim_4574, this->jointTable, this->morphTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubAnim_4574, this->jointTable,
+                       this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);

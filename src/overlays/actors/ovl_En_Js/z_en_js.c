@@ -63,7 +63,8 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCarpetMerchantSkel, &gCarpetMerchantSlappingKneeAnim, this->jointTable, this->morphTable, 13);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCarpetMerchantSkel, &gCarpetMerchantSlappingKneeAnim,
+                       this->jointTable, this->morphTable, 13);
     Animation_PlayOnce(&this->skelAnime, &gCarpetMerchantSlappingKneeAnim);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -101,8 +102,8 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
 
 void func_80A89008(EnJs* this) {
     En_Js_SetupAction(this, func_80A89304);
-    Animation_Change(&this->skelAnime, &gCarpetMerchantSlappingKneeAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCarpetMerchantSlappingKneeAnim), ANIMMODE_ONCE,
-                     -4.0f);
+    Animation_Change(&this->skelAnime, &gCarpetMerchantSlappingKneeAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gCarpetMerchantSlappingKneeAnim), ANIMMODE_ONCE, -4.0f);
 }
 
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
@@ -158,8 +159,8 @@ void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
 
 void func_80A89294(EnJs* this) {
     En_Js_SetupAction(this, func_80A891C4);
-    Animation_Change(&this->skelAnime, &gCarpetMerchantIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCarpetMerchantIdleAnim), ANIMMODE_ONCE,
-                     -4.0f);
+    Animation_Change(&this->skelAnime, &gCarpetMerchantIdleAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gCarpetMerchantIdleAnim), ANIMMODE_ONCE, -4.0f);
 }
 
 void func_80A89304(EnJs* this, GlobalContext* globalCtx) {

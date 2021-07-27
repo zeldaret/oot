@@ -105,7 +105,8 @@ void EnWeiyer_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&this->actor.shape, 1000.0f, ActorShadow_DrawCircle, 65.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gStingerSkel, &gStingerIdleAnim, this->jointTable, this->morphTable, 19);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gStingerSkel, &gStingerIdleAnim, this->jointTable, this->morphTable,
+                   19);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);

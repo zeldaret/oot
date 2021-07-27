@@ -75,7 +75,8 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRoofManSkel, &gRoofManIdleAnim, this->jointTable, this->morphTable, 0x10);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRoofManSkel, &gRoofManIdleAnim, this->jointTable,
+                       this->morphTable, 0x10);
     Animation_PlayOnce(&this->skelAnime, &gRoofManIdleAnim);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -210,8 +211,8 @@ void func_809B0988(EnAni* this, GlobalContext* globalCtx) {
 
 void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.npcActions[0]->action == 4) {
-        Animation_Change(&this->skelAnime, &gRoofManGettingUpAfterKnockbackAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gRoofManGettingUpAfterKnockbackAnim), ANIMMODE_ONCE,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &gRoofManGettingUpAfterKnockbackAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gRoofManGettingUpAfterKnockbackAnim), ANIMMODE_ONCE, -4.0f);
         this->unk_2AA++;
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     }
@@ -228,8 +229,8 @@ void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
         this->skelAnime.curFrame = 0.0f;
     }
     if (globalCtx->csCtx.npcActions[0]->action == 2) {
-        Animation_Change(&this->skelAnime, &gRoofManKnockbackAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gRoofManKnockbackAnim), ANIMMODE_ONCE,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gRoofManKnockbackAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gRoofManKnockbackAnim), ANIMMODE_ONCE, 0.0f);
         this->actor.shape.shadowDraw = NULL;
         this->unk_2AA++;
     }

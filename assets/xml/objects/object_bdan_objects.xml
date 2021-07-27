@@ -36,14 +36,14 @@
         <Texture Name="gJabuObjects11TLUT" OutName="jabu_objects_11_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x6540"/>
 
         <!-- DLists -->
-        <DList Name="gJabuObjectsDL_00590" Offset="0x0590"/>
-        <DList Name="gJabuObjectsDL_00BF0" Offset="0x0BF0"/>
-        <DList Name="gJabuObjectsDL_01250" Offset="0x1250"/>
-        <DList Name="gJabuObjectsDL_018B0" Offset="0x18B0"/>
-        <DList Name="gJabuObjectsDL_01F10" Offset="0x1F10"/>
-        <DList Name="gJabuObjectsDL_02570" Offset="0x2570"/>
-        <DList Name="gJabuObjectsDL_02BD0" Offset="0x2BD0"/>
-        <DList Name="gJabuObjectsDL_03230" Offset="0x3230"/>
+        <DList Name="gJabuDoorSection1DL" Offset="0x0590"/>
+        <DList Name="gJabuDoorSection2DL" Offset="0x0BF0"/>
+        <DList Name="gJabuDoorSection3DL" Offset="0x1250"/>
+        <DList Name="gJabuDoorSection4DL" Offset="0x18B0"/>
+        <DList Name="gJabuDoorSection5DL" Offset="0x1F10"/>
+        <DList Name="gJabuDoorSection6DL" Offset="0x2570"/>
+        <DList Name="gJabuDoorSection7DL" Offset="0x2BD0"/>
+        <DList Name="gJabuDoorSection8DL" Offset="0x3230"/>
         <DList Name="gJabuWaterDL" Offset="0x38E8"/>
         <DList Name="gJabuElevatorPlatformDL" Offset="0x4BE8"/>
         <DList Name="gJabuFallingPlatformDL" Offset="0x5200"/>

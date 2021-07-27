@@ -186,7 +186,8 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
 void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = THIS;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFlareDancerCoreSkel, NULL, this->jointTable, this->morphTable, 11);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFlareDancerCoreSkel, NULL, this->jointTable, this->morphTable,
+                       11);
     func_80034EC0(&this->skelAnime, D_80A1FBA0, 0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
