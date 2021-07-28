@@ -54,11 +54,11 @@
         <DList Name="object_oA4_DL_00001288" Offset="0x1288"/>
         <DList Name="object_oA4_DL_000012E0" Offset="0x12E0"/>
         <DList Name="object_oA4_DL_00001340" Offset="0x1340"/>
-        <Texture Name="object_oA4_Tex_000013A8" OutName="tex_000013A8" Format="rgb5a1" Width="8" Height="16" Offset="0x13A8"/>
-        <Texture Name="object_oA4_Tex_000014A8" OutName="tex_000014A8" Format="rgb5a1" Width="8" Height="8" Offset="0x14A8"/>
-        <Texture Name="object_oA4_Tex_00001528" OutName="tex_00001528" Format="rgb5a1" Width="8" Height="8" Offset="0x1528"/>
-        <Texture Name="object_oA4_Tex_000015A8" OutName="tex_000015A8" Format="rgb5a1" Width="8" Height="8" Offset="0x15A8"/>
-        <Texture Name="object_oA4_Tex_00001628" OutName="tex_00001628" Format="rgb5a1" Width="8" Height="8" Offset="0x1628"/>
-        <Texture Name="object_oA4_Tex_000016A8" OutName="tex_000016A8" Format="rgb5a1" Width="8" Height="8" Offset="0x16A8"/>
+        <Texture Name="object_oA4_Tex_000013A8" OutName="tex_000013A8" Format="rgba16" Width="8" Height="16" Offset="0x13A8"/>
+        <Texture Name="object_oA4_Tex_000014A8" OutName="tex_000014A8" Format="rgba16" Width="8" Height="8" Offset="0x14A8"/>
+        <Texture Name="object_oA4_Tex_00001528" OutName="tex_00001528" Format="rgba16" Width="8" Height="8" Offset="0x1528"/>
+        <Texture Name="object_oA4_Tex_000015A8" OutName="tex_000015A8" Format="rgba16" Width="8" Height="8" Offset="0x15A8"/>
+        <Texture Name="object_oA4_Tex_00001628" OutName="tex_00001628" Format="rgba16" Width="8" Height="8" Offset="0x1628"/>
+        <Texture Name="object_oA4_Tex_000016A8" OutName="tex_000016A8" Format="rgba16" Width="8" Height="8" Offset="0x16A8"/>
     </File>
 </Root>

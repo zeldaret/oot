@@ -18,11 +18,11 @@
         <DList Name="object_gol_DL_002A70" Offset="0x2A70"/>
         <DList Name="object_gol_DL_002C10" Offset="0x2C10"/>
         <DList Name="object_gol_DL_002EB8" Offset="0x2EB8"/>
-        <Texture Name="object_gol_Tex_002FD0" OutName="tex_00002FD0" Format="rgb5a1" Width="16" Height="16" Offset="0x2FD0"/>
-        <Texture Name="object_gol_Tex_0031D0" OutName="tex_000031D0" Format="rgb5a1" Width="16" Height="16" Offset="0x31D0"/>
-        <Texture Name="object_gol_Tex_0033D0" OutName="tex_000033D0" Format="rgb5a1" Width="16" Height="16" Offset="0x33D0"/>
-        <Texture Name="object_gol_Tex_0035D0" OutName="tex_000035D0" Format="rgb5a1" Width="16" Height="16" Offset="0x35D0"/>
-        <Texture Name="object_gol_Tex_0037D0" OutName="tex_000037D0" Format="rgb5a1" Width="16" Height="16" Offset="0x37D0"/>
+        <Texture Name="object_gol_Tex_002FD0" OutName="tex_00002FD0" Format="rgba16" Width="16" Height="16" Offset="0x2FD0"/>
+        <Texture Name="object_gol_Tex_0031D0" OutName="tex_000031D0" Format="rgba16" Width="16" Height="16" Offset="0x31D0"/>
+        <Texture Name="object_gol_Tex_0033D0" OutName="tex_000033D0" Format="rgba16" Width="16" Height="16" Offset="0x33D0"/>
+        <Texture Name="object_gol_Tex_0035D0" OutName="tex_000035D0" Format="rgba16" Width="16" Height="16" Offset="0x35D0"/>
+        <Texture Name="object_gol_Tex_0037D0" OutName="tex_000037D0" Format="rgba16" Width="16" Height="16" Offset="0x37D0"/>
         <Limb Name="object_gol_Limb_0039D0" LimbType="Standard" Offset="0x39D0"/>
         <Limb Name="object_gol_Limb_0039DC" LimbType="Standard" Offset="0x39DC"/>
         <Limb Name="object_gol_Limb_0039E8" LimbType="Standard" Offset="0x39E8"/>

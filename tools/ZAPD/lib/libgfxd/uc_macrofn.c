@@ -1024,7 +1024,36 @@ UCFUNC int d_SP1Triangle(gfxd_macro_t *m, uint32_t hi, uint32_t lo)
 	}
 	return ret;
 }
-#elif defined(F3DEX_GBI) || defined(F3DEX_GBI_2)
+#elif defined(F3DEX_GBI)
+UCFUNC int d_SP1Triangle(gfxd_macro_t *m, uint32_t hi, uint32_t lo)
+{
+	m->id = gfxd_SP1Triangle;
+	int n0 = getfield(lo, 8, 16);
+	int n1 = getfield(lo, 8, 8);
+	int n2 = getfield(lo, 8, 0);
+	argi(m, 0, "v0", n0 / 2, gfxd_Vtx);
+	argi(m, 1, "v1", n1 / 2, gfxd_Vtx);
+	argi(m, 2, "v2", n2 / 2, gfxd_Vtx);
+	argi(m, 3, "flag", 0, gfxd_Vtxflag);
+	int ret = 0;
+	if (n0 % 2 != 0)
+	{
+		badarg(m, 0);
+		ret = -1;
+	}
+	if (n1 % 2 != 0)
+	{
+		badarg(m, 1);
+		ret = -1;
+	}
+	if (n2 % 2 != 0)
+	{
+		badarg(m, 2);
+		ret = -1;
+	}
+	return ret;
+}
+#elif defined(F3DEX_GBI_2)
 UCFUNC int d_SP1Triangle(gfxd_macro_t *m, uint32_t hi, uint32_t lo)
 {
 	m->id = gfxd_SP1Triangle;
@@ -1053,7 +1082,9 @@ UCFUNC int d_SP1Triangle(gfxd_macro_t *m, uint32_t hi, uint32_t lo)
 	}
 	return ret;
 }
+#endif
 
+#if defined(F3DEX_GBI) || defined(F3DEX_GBI_2)
 UCFUNC int d_SP1Quadrangle(gfxd_macro_t *m, uint32_t hi, uint32_t lo);
 UCFUNC int d_SP2Triangles(gfxd_macro_t *m, uint32_t hi, uint32_t lo)
 {
@@ -2015,10 +2046,6 @@ UCFUNC int c_DPLoadTLUT(gfxd_macro_t *m, int n_macro)
 	argu(m, 2, "dram", dram, gfxd_Tlut);
 	return 0;
 }
-
-#ifdef _MSC_VER
-#pragma warning(disable:4146)
-#endif
 
 #if defined(F3DEX_GBI) || defined(F3DEX_GBI_2)
 UCFUNC int d_BranchZ(gfxd_macro_t *m, uint32_t hi, uint32_t lo)
