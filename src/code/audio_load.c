@@ -162,10 +162,10 @@ s32 Audio_IsBankLoadComplete(s32 bankId) {
 
 s32 Audio_IsSeqLoadComplete(s32 seqId) {
     if (seqId == 0xFF) {
-        return 1;
-    } else if (gAudioContext.seqLoadstatus[seqId] >= 2) {
-        return 1;
-    } else if (gAudioContext.seqLoadstatus[Audio_GetTableIndex(SEQUENCE_TABLE, seqId)] >= 2) {
+        return true;
+    } else if (gAudioContext.seqLoadStatus[seqId] >= 2) {
+        return true;
+    } else if (gAudioContext.seqLoadStatus[Audio_GetTableIndex(SEQUENCE_TABLE, seqId)] >= 2) {
         return true;
     } else {
         return false;
@@ -191,8 +191,8 @@ void Audio_SetBankLoadStatus(s32 bankId, s32 status) {
 }
 
 void Audio_SetSeqLoadStatus(s32 seqId, s32 status) {
-    if ((seqId != 0xFF) && (gAudioContext.seqLoadstatus[seqId] != 5)) {
-        gAudioContext.seqLoadstatus[seqId] = status;
+    if ((seqId != 0xFF) && (gAudioContext.seqLoadStatus[seqId] != 5)) {
+        gAudioContext.seqLoadStatus[seqId] = status;
     }
 }
 
@@ -208,7 +208,7 @@ void func_800E1A78(s32 arg0, s32 arg1) {
     }
 }
 
-void Aduio_SetAudtabLoadstatus(s32 tabId, s32 status) {
+void Audio_SetAudtabLoadStatus(s32 tabId, s32 status) {
     if ((tabId != 0xFF) && (gAudioContext.audioTableLoadStatus[tabId] != 5)) {
         gAudioContext.audioTableLoadStatus[tabId] = status;
     }
@@ -451,7 +451,7 @@ u8* func_800E22C4(s32 seqId) {
     s32 pad;
     s32 sp20;
 
-    if (gAudioContext.seqLoadstatus[Audio_GetTableIndex(0, seqId)] == 1) {
+    if (gAudioContext.seqLoadStatus[Audio_GetTableIndex(0, seqId)] == 1) {
         return NULL;
     }
 
@@ -472,7 +472,7 @@ u32 func_800E2338(u32 arg0, u32* arg1, s32 arg2) {
     audioTable = Audio_GetLoadTable(2);
     if (temp_v0 = func_800E27A4(2, temp_s0), temp_v0 != NULL) {
         if (gAudioContext.audioTableLoadStatus[temp_s0] != 1) {
-            Aduio_SetAudtabLoadstatus(temp_s0, 2);
+            Audio_SetAudtabLoadStatus(temp_s0, 2);
         }
         *arg1 = 0;
         return temp_v0;
@@ -829,7 +829,7 @@ void* Audio_AsyncLoadInner(s32 tableType, s32 arg1, s32 arg2, s32 arg3, OSMesgQu
     sp34 = Audio_GetTableIndex(tableType, arg1);
     switch (tableType) {
         case SEQUENCE_TABLE:
-            if (gAudioContext.seqLoadstatus[sp34] == 1) {
+            if (gAudioContext.seqLoadStatus[sp34] == 1) {
                 return NULL;
             }
             break;

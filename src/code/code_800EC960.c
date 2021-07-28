@@ -533,7 +533,7 @@ void func_800ED458(s32 arg0) {
     }
 
     if ((D_8016BA10 == 0) ||
-        ((sCurOcarinaBtnPress & sOcarinaAllowedBtnMask) != (0, D_8016BA10 & sOcarinaAllowedBtnMask))) {
+        ((D_8016BA10 & sOcarinaAllowedBtnMask) != (sCurOcarinaBtnPress & sOcarinaAllowedBtnMask))) {
         D_8016BA10 = 0;
         if (1) {}
         sCurOcarinaBtnVal = 0xFF;
@@ -1445,8 +1445,7 @@ void func_800F2464(void) {
                 phi_v1 = 9;
             }
             D_8016E2E0[D_80131F04] = D_8016E2E0[phi_v1];
-            if (!D_80131F08)
-                ;
+            if (!D_80131F08) {}
             D_8016E2F8[D_80131F04] = D_8016E2F8[phi_v1];
         }
     } else {
@@ -1729,7 +1728,8 @@ void func_800F2E28(void) {
 
         if (CHECK_BTN_ANY(sDebugPadPress, BTN_Z)) {
             // change text color
-            D_80131CA8 = (u32)(++D_80131CA8) % 8;
+            D_80131CA8++;
+            D_80131CA8 &= 7;
         }
 
         switch (D_80131CA0) {
@@ -1884,7 +1884,7 @@ s8 func_800F32F0(u8 arg0, u8 arg1, u8 arg2) {
         if (temp_a3->unk_1C < 2500.0f) {
             phi_v0 = *temp_a3->posZ > 0.0f ? (temp_a3->unk_1C / 2500.0f) * 70.0f : (temp_a3->unk_1C / 2500.0f) * 91.0f;
         } else {
-            phi_v0 = 0x46;
+            phi_v0 = 70;
         }
     }
 
@@ -2016,12 +2016,12 @@ u8 func_800F37B8(f32 arg0, SoundBankEntry* arg1, s8 arg2) {
     f32 phi_f12;
 
     if (*arg1->posZ < arg0) {
-        phi_v0 = arg2 < 0x41 ? arg2 : 0x7F - arg2;
+        phi_v0 = arg2 < 65 ? arg2 : 0x7F - arg2;
 
-        if (phi_v0 < 0x1E) {
+        if (phi_v0 < 30) {
             phi_v1 = 0;
         } else {
-            phi_v1 = (((phi_v0 & 0xFFFF) * 0xA) - 0x12C) / 0x22;
+            phi_v1 = (((phi_v0 & 0xFFFF) * 10) - 300) / 34;
             if (phi_v1 != 0) {
                 phi_v1 = 0x10 - phi_v1;
             }
@@ -2065,7 +2065,7 @@ s8 func_800F3990(f32 arg0, u16 arg1) {
 
     if (arg0 >= 0.0f) {
         if (arg0 > 625.0f) {
-            ret = 0x7F;
+            ret = 127;
         } else {
             ret = (arg0 / 625.0f) * 126.0f;
         }
@@ -2112,7 +2112,7 @@ void func_800F3A08(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
             sp3B = func_800F3468(*temp_a3->posX, *temp_a3->posZ, temp_a3->unk_C);
             sp3C = func_800F35EC(bankIdx, entryIdx) * *temp_a3->unk_10;
             if (D_80130604 == 2) {
-                sp34 = D_801305C4[(temp_a3->unk_26 & 0x400) >> 0xA];
+                sp34 = D_801305C4[(temp_a3->unk_26 & 0x400) >> 10];
                 if (!(temp_a3->unk_26 & 0x800)) {
                     if (*temp_a3->posZ < sp34) {
                         sp3A = 0x10;
@@ -2574,12 +2574,12 @@ void func_800F510C(s8 arg0) {
                 phi_v1 = 0x7F - arg0;
             }
 
-            if (phi_v1 >= 0x65) {
-                phi_a2 = 0xB;
-            } else if (phi_v1 < 0x14) {
+            if (phi_v1 > 100) {
+                phi_a2 = 11;
+            } else if (phi_v1 < 20) {
                 phi_a2 = 2;
             } else {
-                phi_a2 = ((phi_v1 - 0x14) / 0xA) + 2;
+                phi_a2 = ((phi_v1 - 20) / 10) + 2;
             }
 
             phi_a1 = 0;
@@ -2806,7 +2806,7 @@ void func_800F5C2C(void) {
 
 void func_800F5C64(u16 arg0) {
     u16 sp26;
-    s32 sp20;
+    u32 sp20;
     u8* sp1C;
     u8* sp18;
 
@@ -3228,7 +3228,7 @@ void func_800F6C34(void) {
 typedef struct {
     u16 unk_00;
     u16 unk_02;
-    u8 unk_04[0x64];
+    u8 unk_04[100];
 } D_801306DC_s;
 
 extern D_801306DC_s D_801306DC[];
@@ -3300,8 +3300,8 @@ void func_800F6FB4(u8 arg0) {
 
     if ((D_8016E750[0].unk_254 == 0xFFFF) || ((D_80130658[((u8)D_8016E750[0].unk_254) & 0xFFFF] & 0x80) == 0)) {
         func_800F6E7C(D_801306DC[arg0].unk_00, D_801306DC[arg0].unk_02);
-        while ((D_801306DC[arg0].unk_04[i] != 0xFF) && (i < 0x64)) {
-            // Probably a fake match, using Audio_SeqCmd8 deosn't work.
+        while ((D_801306DC[arg0].unk_04[i] != 0xFF) && (i < 100)) {
+            // Probably a fake match, using Audio_SeqCmd8 doesn't work.
             b0 = D_801306DC[arg0].unk_04[i++];
             b1 = D_801306DC[arg0].unk_04[i++];
             b2 = D_801306DC[arg0].unk_04[i++];
