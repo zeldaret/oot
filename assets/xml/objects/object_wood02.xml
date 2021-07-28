@@ -4,13 +4,13 @@
         <DList Name="object_wood02_DL_000160" Offset="0x160"/>
         <DList Name="object_wood02_DL_000340" Offset="0x340"/>
         <DList Name="object_wood02_DL_000440" Offset="0x440"/>
-        <Texture Name="object_wood02_Tex_0004D0" OutName="tex_000004D0" Format="rgb5a1" Width="16" Height="16" Offset="0x4D0"/>
+        <Texture Name="object_wood02_Tex_0004D0" OutName="tex_000004D0" Format="rgba16" Width="16" Height="16" Offset="0x4D0"/>
         <DList Name="object_wood02_DL_000700" Offset="0x700"/>
-        <Texture Name="object_wood02_Tex_000790" OutName="tex_00000790" Format="rgb5a1" Width="32" Height="32" Offset="0x790"/>
+        <Texture Name="object_wood02_Tex_000790" OutName="tex_00000790" Format="rgba16" Width="32" Height="32" Offset="0x790"/>
         <Texture Name="object_wood02_Tex_000F90" OutName="tex_00000F90" Format="ia4" Width="32" Height="128" Offset="0xF90"/>
         <Texture Name="object_wood02_Tex_001790" OutName="tex_00001790" Format="ia8" Width="32" Height="128" Offset="0x1790"/>
         <Texture Name="object_wood02_Tex_002790" OutName="tex_00002790" Format="ia4" Width="32" Height="128" Offset="0x2790"/>
-        <Texture Name="object_wood02_Tex_002F90" OutName="tex_00002F90" Format="rgb5a1" Width="32" Height="32" Offset="0x2F90"/>
+        <Texture Name="object_wood02_Tex_002F90" OutName="tex_00002F90" Format="rgba16" Width="32" Height="32" Offset="0x2F90"/>
         <Texture Name="object_wood02_Tex_003790" OutName="tex_00003790" Format="ia8" Width="32" Height="128" Offset="0x3790"/>
         <Texture Name="object_wood02_Tex_004790" OutName="tex_00004790" Format="ia8" Width="32" Height="64" Offset="0x4790"/>
         <Texture Name="object_wood02_Tex_004F90" OutName="tex_00004F90" Format="ia8" Width="32" Height="128" Offset="0x4F90"/>

@@ -1,52 +1,52 @@
 #include "global.h"
 
 void func_800C3C80(AudioMgr* audioMgr) {
-    Sub_AudioMgr_18* sub = audioMgr->unk_70;
+    AudioTask* task;
 
-    if (audioMgr->unk_70->unk_40 != NULL) {
-        osSendMesg(sub->unk_40, NULL, OS_MESG_BLOCK);
+    task = audioMgr->rspTask;
+    if (audioMgr->rspTask->taskQueue != NULL) {
+        osSendMesg(task->taskQueue, NULL, OS_MESG_BLOCK);
     }
 }
 
 void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
-    Sub_AudioMgr_18* sub;
+    AudioTask* rspTask;
 
     if (SREG(20) > 0) {
-        audioMgr->unk_70 = NULL;
+        audioMgr->rspTask = NULL;
     }
-    if (audioMgr->unk_70 != NULL) {
-        audioMgr->unk_8 = NULL;
-        audioMgr->unk_10 = 2;
-        audioMgr->unk_14 = 0;
+    if (audioMgr->rspTask != NULL) {
+        audioMgr->audioTask.next = NULL;
+        audioMgr->audioTask.flags = 2;
+        audioMgr->audioTask.framebuffer = NULL;
 
-        audioMgr->unk_18.unk_0 = audioMgr->unk_70->unk_0;
-        audioMgr->unk_18.unk_40 = &audioMgr->unk_AC;
+        audioMgr->audioTask.list = audioMgr->rspTask->task;
+        audioMgr->audioTask.msgQ = &audioMgr->unk_AC;
 
-        audioMgr->unk_5C = NULL;
-        osSendMesg(&audioMgr->sched->cmdQ, &audioMgr->unk_8, OS_MESG_BLOCK);
+        audioMgr->audioTask.msg = NULL;
+        osSendMesg(&audioMgr->sched->cmdQ, &audioMgr->audioTask, OS_MESG_BLOCK);
         Sched_SendEntryMsg(audioMgr->sched);
     }
 
     D_8016A550 = osGetTime();
     if (SREG(20) >= 2) {
-        sub = NULL;
+        rspTask = NULL;
     } else {
-        sub = func_800E4FE0();
+        rspTask = func_800E4FE0();
     }
     D_8016A558 += osGetTime() - D_8016A550;
     D_8016A550 = 0;
-
-    if (audioMgr->unk_70 != NULL) {
+    if (audioMgr->rspTask != NULL) {
         osRecvMesg(&audioMgr->unk_AC, NULL, OS_MESG_BLOCK);
         func_800C3C80(audioMgr);
     }
-    audioMgr->unk_70 = sub;
+    audioMgr->rspTask = rspTask;
 }
 
 void AudioMgr_HandlePRENMI(AudioMgr* audioMgr) {
     // Audio manager received OS_SC_PRE_NMI_MSG
     osSyncPrintf("オーディオマネージャが OS_SC_PRE_NMI_MSG を受け取りました\n");
-    func_800F6C14();
+    Audio_PreNMI();
 }
 
 void AudioMgr_ThreadEntry(void* arg0) {
@@ -94,7 +94,7 @@ void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedCon
 
     audioMgr->sched = sched;
     audioMgr->irqMgr = irqMgr;
-    audioMgr->unk_70 = NULL;
+    audioMgr->rspTask = NULL;
 
     osCreateMesgQueue(&audioMgr->unk_AC, &audioMgr->unk_C4, 1);
     osCreateMesgQueue(&audioMgr->unk_74, &audioMgr->unk_8C, 8);

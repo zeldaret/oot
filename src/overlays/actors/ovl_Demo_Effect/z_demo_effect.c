@@ -712,7 +712,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
 
 /**
  * Update function for the Timewarp Actor that is used when Link pulls the Mastersword
- * It changes the Background Music and updates it's SkelCurve animation.
+ * It changes the Background Music and updates its SkelCurve animation.
  */
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* globalCtx) {
     if (Flags_GetEnv(globalCtx, 1)) {

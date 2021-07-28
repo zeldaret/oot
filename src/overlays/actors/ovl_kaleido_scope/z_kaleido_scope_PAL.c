@@ -227,7 +227,7 @@ static void* sPromptChoiceTexs[][2] = {
 };
 
 static u8 D_808321A8[5];
-static PreRenderContext sPlayerPreRenderCtx;
+static PreRender sPlayerPreRender;
 static void* sPreRenderCvg;
 
 void KaleidoScope_SetupPlayerPreRender(GlobalContext* globalCtx) {
@@ -243,9 +243,9 @@ void KaleidoScope_SetupPlayerPreRender(GlobalContext* globalCtx) {
     gfx = Graph_GfxPlusOne(gfxRef);
     gSPDisplayList(WORK_DISP++, gfx);
 
-    PreRender_SetValues(&sPlayerPreRenderCtx, 64, 112, fbuf, NULL);
-    func_800C1F20(&sPlayerPreRenderCtx, &gfx);
-    func_800C20B4(&sPlayerPreRenderCtx, &gfx);
+    PreRender_SetValues(&sPlayerPreRender, 64, 112, fbuf, NULL);
+    func_800C1F20(&sPlayerPreRender, &gfx);
+    func_800C20B4(&sPlayerPreRender, &gfx);
 
     gSPEndDisplayList(gfx++);
     Graph_BranchDlist(gfxRef, gfx);
@@ -258,8 +258,8 @@ void KaleidoScope_SetupPlayerPreRender(GlobalContext* globalCtx) {
 
 void KaleidoScope_ProcessPlayerPreRender(void) {
     Sleep_Msec(50);
-    PreRender_Calc(&sPlayerPreRenderCtx);
-    PreRender_Destroy(&sPlayerPreRenderCtx);
+    PreRender_Calc(&sPlayerPreRender);
+    PreRender_Destroy(&sPlayerPreRender);
 }
 
 Gfx* KaleidoScope_QuadTextureIA4(Gfx* gfx, void* texture, s16 width, s16 height, u16 point) {
@@ -2636,8 +2636,8 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             sPreRenderCvg = (void*)(((u32)pauseCtx->nameSegment + 0x400 + 0xA00 + 0xF) & ~0xF);
 
-            PreRender_Init(&sPlayerPreRenderCtx);
-            PreRender_SetValuesSave(&sPlayerPreRenderCtx, 64, 112, pauseCtx->playerSegment, NULL, sPreRenderCvg);
+            PreRender_Init(&sPlayerPreRender);
+            PreRender_SetValuesSave(&sPlayerPreRender, 64, 112, pauseCtx->playerSegment, NULL, sPreRenderCvg);
 
             KaleidoScope_DrawPlayerWork(globalCtx);
             KaleidoScope_SetupPlayerPreRender(globalCtx);
@@ -2924,8 +2924,8 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 2:
-                    pauseCtx->unk_194 = func_800EE3F8();
-                    if (pauseCtx->unk_194->unk_01 == 0) {
+                    pauseCtx->unk_194 = Audio_OcaGetDisplayStaff();
+                    if (pauseCtx->unk_194->state == 0) {
                         pauseCtx->unk_1E4 = 4;
                         func_800ED858(0);
                     }
@@ -2962,13 +2962,13 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         Interface_ChangeAlpha(50);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
-                    } else if (pauseCtx->unk_194->unk_01 == pauseCtx->unk_264) {
+                    } else if (pauseCtx->unk_194->state == pauseCtx->unk_264) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         D_8082B258 = 0;
                         D_8082B25C = 30;
                         pauseCtx->unk_1E4 = 6;
-                    } else if (pauseCtx->unk_194->unk_01 == 0xFF) {
+                    } else if (pauseCtx->unk_194->state == 0xFF) {
                         Audio_PlaySoundGeneral(NA_SE_SY_OCARINA_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         D_8082B258 = 4;
@@ -3383,7 +3383,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         gSaveContext.respawnFlag = -2;
                         gSaveContext.nextTransition = 2;
                         gSaveContext.health = 0x30;
-                        Audio_SetBGM(0xF000000A);
+                        Audio_QueueSeqCmd(0xF000000A);
                         gSaveContext.healthAccumulator = 0;
                         gSaveContext.unk_13F0 = 0;
                         gSaveContext.unk_13F2 = 0;

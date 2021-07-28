@@ -25,14 +25,14 @@
 
         <!-- 32-bit aligned textures. -->
         <!--
-        <Texture Name="object_kw1_TLUT_0000FC" OutName="tlut_000000FC" Format="rgb5a1" Width="16" Height="16" Offset="0xFC" />
+        <Texture Name="object_kw1_TLUT_0000FC" OutName="tlut_000000FC" Format="rgba16" Width="16" Height="16" Offset="0xFC" />
         <Texture Name="object_kw1_Tex_0002FC" OutName="tex_000002FC" Format="i8" Width="16" Height="16" Offset="0x2FC" />
         <Texture Name="object_kw1_Tex_0003FC" OutName="tex_000003FC" Format="ci8" Width="8" Height="8" Offset="0x3FC" />
         <Texture Name="object_kw1_Tex_00043C" OutName="tex_0000043C" Format="i8" Width="8" Height="8" Offset="0x43C" />
         <Blob Name="object_kw1_Blob_00047C" Size="0x840" Offset="0x47C" />
         <Texture Name="object_kw1_Tex_000CBC" OutName="tex_00000CBC" Format="ci8" Width="8" Height="8" Offset="0xCBC" />
         <Texture Name="object_kw1_Tex_000CFC" OutName="tex_00000CFC" Format="ci8" Width="8" Height="8" Offset="0xCFC" />
-        <Texture Name="object_kw1_TLUT_000D3C" OutName="tlut_00000D3C" Format="rgb5a1" Width="232" Height="1" Offset="0xD3C" />
+        <Texture Name="object_kw1_TLUT_000D3C" OutName="tlut_00000D3C" Format="rgba16" Width="232" Height="1" Offset="0xD3C" />
         <Blob Name="object_kw1_Blob_000F3C" Size="0x410" Offset="0xF3C" />
         <!Texture Name="object_kw1_Tex_00134C" OutName="tex_0000134C" Format="ci8" Width="16" Height="32" Offset="0x134C" />
         <Texture Name="object_kw1_Tex_00154C" OutName="tex_0000154C" Format="ci8" Width="8" Height="8" Offset="0x154C" />

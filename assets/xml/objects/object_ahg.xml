@@ -25,7 +25,7 @@
 
         <!-- 32-bit aligned textures. -->
         <!--
-        <Texture Name="object_ahg_TLUT_0000FC" OutName="tlut_000000FC" Format="rgb5a1" Width="16" Height="16" Offset="0xFC" />
+        <Texture Name="object_ahg_TLUT_0000FC" OutName="tlut_000000FC" Format="rgba16" Width="16" Height="16" Offset="0xFC" />
         <Texture Name="object_ahg_Tex_0002FC" OutName="tex_000002FC" Format="ci8" Width="16" Height="16" Offset="0x2FC" />
         <Texture Name="object_ahg_Tex_0003FC" OutName="tex_000003FC" Format="ci8" Width="16" Height="16" Offset="0x3FC" />
         <Texture Name="object_ahg_Tex_0004FC" OutName="tex_000004FC" Format="ci8" Width="8" Height="8" Offset="0x4FC" />
