@@ -534,10 +534,11 @@ s32 func_800E5EDC(void) {
 }
 
 void func_800E5F34(void) {
-    // probably a macro of some type?
-    s32 chk = -1;
-    s32 sp28;
-    do { } while (osRecvMesg(gAudioContext.audioResetQueueP, &sp28, 0) != chk); }
+    // macro?
+    // clang-format off
+    s32 chk = -1; s32 sp28; do { } while (osRecvMesg(gAudioContext.audioResetQueueP, &sp28, 0) != chk);
+    // clang-format on
+}
 
 s32 func_800E5F88(u32 resetPreloadID) {
     s32 resetStatus;
