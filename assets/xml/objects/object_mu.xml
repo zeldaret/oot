@@ -41,7 +41,7 @@
         <Limb Name="object_mu_Limb_004F1C" LimbType="Standard" Offset="0x4F1C"/>
         <Limb Name="object_mu_Limb_004F28" LimbType="Standard" Offset="0x4F28"/>
         <Skeleton Name="object_mu_Skel_004F70" Type="Flex" LimbType="Standard" Offset="0x4F70"/>
-        <Animation Name="object_mu_Anim_005040" Offset="0x5040"/>
+        <Animation Name="gDancingCoupleAnim" Offset="0x5040"/>
         <Texture Name="object_mu_TLUT_005050" OutName="tlut_00005050" Format="rgba16" Width="16" Height="16" Offset="0x5050"/>
         <Texture Name="object_mu_Tex_005250" OutName="tex_00005250" Format="i8" Width="16" Height="16" Offset="0x5250"/>
         <Texture Name="object_mu_Tex_005350" OutName="tex_00005350" Format="ci8" Width="16" Height="16" Offset="0x5350"/>
@@ -91,6 +91,6 @@
         <Limb Name="object_mu_Limb_00ADCC" LimbType="Standard" Offset="0xADCC"/>
         <Limb Name="object_mu_Limb_00ADD8" LimbType="Standard" Offset="0xADD8"/>
         <Limb Name="object_mu_Limb_00ADE4" LimbType="Standard" Offset="0xADE4"/>
-        <Skeleton Name="object_mu_Skel_00AE40" Type="Flex" LimbType="Standard" Offset="0xAE40"/>
+        <Skeleton Name="gDancingCoupleSkel" Type="Flex" LimbType="Standard" Offset="0xAE40"/>
     </File>
 </Root>
