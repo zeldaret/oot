@@ -17,7 +17,9 @@ This document aims to be a small reference of how to create a compatible xml fil
     - [Animation](#animation)
     - [PlayerAnimation](#playeranimation)
     - [CurveAnimation](#curveanimation)
+    - [LegacyAnimation](#legacyanimation)
     - [Skeleton](#skeleton)
+    - [LimbTable](#limbtable)
     - [Limb](#limb)
     - [Symbol](#symbol)
     - [Collision](#collision)
@@ -42,9 +44,9 @@ An example of an object xml:
         <Skeleton Name="gJabuJabuSkel" Type="Flex" LimbType="Standard" Offset="0xB9A8"/>
             
         <!-- Jabu Jabu eye textures -->
-        <Texture Name="gJabuJabuEyeOpenTex" OutName="jabu_jabu_eye_open" Format="rgb5a1" Width="16" Height="32" Offset="0x7698"/>
-        <Texture Name="gJabuJabuEyeHalfTex" OutName="jabu_jabu_eye_half" Format="rgb5a1" Width="16" Height="32" Offset="0x7A98"/>
-        <Texture Name="gJabuJabuEyeClosedTex" OutName="jabu_jabu_eye_closed" Format="rgb5a1" Width="16" Height="32" Offset="0x7E98"/>
+        <Texture Name="gJabuJabuEyeOpenTex" OutName="jabu_jabu_eye_open" Format="rgba16" Width="16" Height="32" Offset="0x7698"/>
+        <Texture Name="gJabuJabuEyeHalfTex" OutName="jabu_jabu_eye_half" Format="rgba16" Width="16" Height="32" Offset="0x7A98"/>
+        <Texture Name="gJabuJabuEyeClosedTex" OutName="jabu_jabu_eye_closed" Format="rgba16" Width="16" Height="32" Offset="0x7E98"/>
 
 
         <Collision Name="gJabuJabu1Col" Offset="0x0A1C"/>
@@ -78,6 +80,7 @@ It's worth noting that every tag expects a `Name="gNameOfTheAsset"`. This is wil
 - Attributes:
 
   - `Name`: Required. The name of the file in `baserom/` which will be extracted.
+  - `OutName`: Optional. The output name of the generated C source file. Defaults to the value passed to `Name`.
   - `Segment`: Required. This is the segment number of the current file. Expects a decimal number, usually 6 if it is an object, or 128 for overlays (It's kinda a whacky hack to get around of the `0x80` addresses).
   - `BaseAddress`: Optional. RAM address of the file. Expects a hex number (with `0x` prefix). Default value: `0`.
   - `RangeStart`: Optional. File offset where the extraction will begin. Hex. Default value: `0x000000000`.
@@ -108,7 +111,7 @@ u64 gCraterSmokeConeTex[] = {
 
   - `Name`: Required. Suxffixed by `Tex`, unless it is a palette, in that case it is suffixed by `TLUT`.
   - `OutName`: Required. The filename of the extracted `.png` file.
-  - `Format`: Required. The format of the image. Valid values: `rgba32`, `rgb5a1`, `i4`, `i8`, `ia4`, `ia8`, `ia16`, `ci4` and `ci8`.
+  - `Format`: Required. The format of the image. Valid values: `rgba32`, `rgba16`, `i4`, `i8`, `ia4`, `ia8`, `ia16`, `ci4` and `ci8`.
   - `Width`: Required. Width in pixels of the image.
   - `Height`: Required. Height in pixels of the image.
   - `TlutOffset`: Optional. Specifies the tlut's offset used by this texture. This attribute is only valid if `Format` is either `ci4` or `ci8`, otherwise an exception would be thrown.
@@ -123,7 +126,7 @@ The following is a list of the texture formats the Nintendo 64 supports, with th
 | 8-bit I                                         | `G_IM_FMT_I, G_IM_SIZ_8b`        | `i8`            |
 | 8-bit IA (4/4)                                  | `G_IM_FMT_IA, G_IM_SIZ_8b`       | `ia8`           |
 | 8-bit CI                                        | `G_IM_FMT_CI, G_IM_SIZ_8b`       | `ci8`           |
-| 16-bit red, green, blue, alpha (RGBA) (5/5/5/1) | `G_IM_FMT_RGBA, G_IM_SIZ_16b`    | `rgb5a1`        |
+| 16-bit red, green, blue, alpha (RGBA) (5/5/5/1) | `G_IM_FMT_RGBA, G_IM_SIZ_16b`    | `rgba16`        |
 | 16-bit IA (8/8)                                 | `G_IM_FMT_IA, G_IM_SIZ_16b`      | `ia16`          |
 | 16-bit YUV (Luminance, Blue-Y, Red-Y)           | `G_IM_FMT_YUV, G_IM_SIZ_16b`     | (not used)      |
 | 32-bit RGBA (8/8/8/8)                           | `G_IM_FMT_RGBA, G_IM_SIZ_32b`    | `rgba8`         |
@@ -242,6 +245,22 @@ TODO. I'm hoping somebody else will do this.
 
 -------------------------
 
+### LegacyAnimation
+
+Useful only for the unused `object_human`'s animation data.
+
+- Example:
+
+```xml
+<LegacyAnimation Name="gHumanAnim_011A9C" Offset="0x11A9C"/>
+```
+
+- Attributes:
+
+  - `Name`: Required. Suxffixed by `Anim`.
+
+-------------------------
+
 ### Skeleton
 
 - Example:
@@ -254,9 +273,25 @@ TODO. I'm hoping somebody else will do this.
 
   - `Name`: Required. Suxffixed by `Skel`.
   - `Type`: Required. Valid values: `Normal`, `Flex` and `Curve`.
-  - `LimbType`: Required. Valid values: `Standard`, `LOD`, `Skin` and `Curve`.
+  - `LimbType`: Required. Valid values: `Standard`, `LOD`, `Skin`, `Curve` and `Legacy`.
 
 ※ There are no restrictions in the `Type` and `LimbType` attributes besides the valid values, so any skeleton type can be combined with any limb type.
+
+-------------------------
+
+### LimbTable
+
+- Example:
+
+```xml
+<LimbTable Name="gHumanLimbTable_011FC8" LimbType="Legacy" Count="41" Offset="0x11FC8"/>
+```
+
+- Attributes:
+
+  - `Name`: Required. Suxffixed by `Skel`.
+  - `LimbType`: Required. Valid values: `Standard`, `LOD`, `Skin`, `Curve` and `Legacy`.
+  - `Count`: Required. Amount of limbs. Integer.
 
 -------------------------
 
@@ -271,7 +306,7 @@ TODO. I'm hoping somebody else will do this.
 - Attributes:
 
   - `Name`: Required. Suxffixed by `Limb`.
-  - `LimbType`: Required. Valid values: `Standard`, `LOD`, `Skin` and `Curve`.
+  - `LimbType`: Required. Valid values: `Standard`, `LOD`, `Skin`, `Curve` and `Legacy`.
 
 -------------------------
 
@@ -332,7 +367,7 @@ u64 pad34F8 = { 0 };
 - Attributes:
 
   - `Name`: Required. Suxffixed by ~~`TBD`~~.
-  - `Type`: Required. Valid values: `s8`, `u8`, `s16`, `u16`, `s32`, `u32`, `s64`, `u64`, `f32` and `f64`.
+  - `Type`: Required. Valid values: `s8`, `u8`, `x8`, `s16`, `u16`, `x16`, `s32`, `u32`, `x32`, `s64`, `u64`, `x64`, `f32` and `f64`.
 
 ※ Can be wrapped in an [`Array`](#array) tag.
 

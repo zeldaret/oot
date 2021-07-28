@@ -5,18 +5,19 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include "Directory.h"
 #include "StringHelper.h"
 
 class File
 {
 public:
-	static bool Exists(const std::string& filePath)
+	static bool Exists(const fs::path& filePath)
 	{
 		std::ifstream file(filePath, std::ios::in | std::ios::binary | std::ios::ate);
 		return file.good();
 	}
 
-	static std::vector<uint8_t> ReadAllBytes(const std::string& filePath)
+	static std::vector<uint8_t> ReadAllBytes(const fs::path& filePath)
 	{
 		std::ifstream file(filePath, std::ios::in | std::ios::binary | std::ios::ate);
 		int32_t fileSize = (int32_t)file.tellg();
@@ -29,7 +30,7 @@ public:
 		return result;
 	};
 
-	static std::string ReadAllText(const std::string& filePath)
+	static std::string ReadAllText(const fs::path& filePath)
 	{
 		std::ifstream file(filePath, std::ios::in | std::ios::binary | std::ios::ate);
 		int32_t fileSize = (int32_t)file.tellg();
@@ -43,7 +44,7 @@ public:
 		return str;
 	};
 
-	static std::vector<std::string> ReadAllLines(const std::string& filePath)
+	static std::vector<std::string> ReadAllLines(const fs::path& filePath)
 	{
 		std::string text = ReadAllText(filePath);
 		std::vector<std::string> lines = StringHelper::Split(text, "\n");
@@ -51,13 +52,13 @@ public:
 		return lines;
 	};
 
-	static void WriteAllBytes(const std::string& filePath, const std::vector<uint8_t>& data)
+	static void WriteAllBytes(const fs::path& filePath, const std::vector<uint8_t>& data)
 	{
 		std::ofstream file(filePath, std::ios::binary);
 		file.write((char*)data.data(), data.size());
 	};
 
-	static void WriteAllText(const std::string& filePath, const std::string& text)
+	static void WriteAllText(const fs::path& filePath, const std::string& text)
 	{
 		std::ofstream file(filePath, std::ios::out);
 		file.write(text.c_str(), text.size());
