@@ -5,12 +5,12 @@
 #ifndef _FILE_CHOOSE_H_
 #define _FILE_CHOOSE_H_
 
-#define NEWF_GET_Z(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + 0x1C])
-#define NEWF_GET_E(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + 0x1D])
-#define NEWF_GET_L(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + 0x1E])
-#define NEWF_GET_D(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + 0x1F])
-#define NEWF_GET_A(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + 0x20])
-#define NEWF_GET_Z2(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + 0x21])
+#define NEWF_GET_Z(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[0])])
+#define NEWF_GET_E(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[1])])
+#define NEWF_GET_L(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[2])])
+#define NEWF_GET_D(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[3])])
+#define NEWF_GET_A(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[4])])
+#define NEWF_GET_Z2(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[5])])
 
 #define SLOT_OCCUPIED(sramCtx, slotNum) \
     ((NEWF_GET_Z(sramCtx, slotNum) == 'Z') || \

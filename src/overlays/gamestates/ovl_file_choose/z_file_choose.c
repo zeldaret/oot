@@ -35,7 +35,36 @@ void FileChoose_SetupView(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ)
     func_800AAA50(&this->view, 0x7F);
 }
 
+#define gDPLoadTextureBlockCustom(pkt, timg, fmt, siz, width, height,   \
+        pal, cms, cmt, masks, maskt, shifts, shiftt)                    \
+{                                                                       \
+    gDPSetTextureImage(pkt, fmt, siz##_LOAD_BLOCK, 1, timg);            \
+    gDPSetTile(pkt, fmt, siz##_LOAD_BLOCK, 0, 0, G_TX_LOADTILE,         \
+        0 , cmt, maskt, shiftt, cms, masks, shifts);                    \
+    gDPLoadSync(pkt);                                                   \
+    gDPLoadBlock(pkt, G_TX_LOADTILE, 0, 0,                              \
+        (((width)*(height) + 1) >> 1) -1,                               \
+        CALC_DXT(width, 1));                                            \
+    gDPPipeSync(pkt);                                                   \
+    gDPSetTile(pkt, fmt, siz,                                           \
+        (((width) * 1)+7)>>3, 0,                                        \
+        G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks,           \
+        shifts);                                                        \
+    gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0,                          \
+        ((width)-1) << G_TEXTURE_IMAGE_FRAC,                            \
+        ((height)-1) << G_TEXTURE_IMAGE_FRAC);                          \
+}
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080AFD0.s")
+#if 0
+Gfx* func_8080AFD0(Gfx* gfx, void* timg, s16 arg2, s16 arg3, s16 arg4) {
+    gDPLoadTextureBlockCustom(gfx++, timg, G_IM_FMT_IA, G_IM_SIZ_16b, arg2, arg3, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+    gSP1Quadrangle(gfx++, arg4, arg4 + 2, arg4 + 3, arg4 + 2, 0);
+
+    return gfx;
+}
+#endif
 
 void FileChoose_InitModeUpdate(FileChooseContext* this) {
     if (this->menuMode == MENU_MODE_INIT) {
@@ -78,7 +107,29 @@ void FileChoose_FadeInMenuElements(FileChooseContext* this) {
         this->windowAlpha;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B394.s")
+/**
+ * Converts a numerical value to ones-tens-hundreds digits
+ */
+void func_8080B394(u16 value, s16* hundreds, s16* tens, s16* ones) {
+    *hundreds = 0;
+    *tens = 0;
+    *ones = value;
+
+    while (true) {
+        if ((*ones - 100) < 0) {
+            break;
+        }
+        (*hundreds)++;
+        *ones -= 100;
+    }
+    while (true) {
+        if ((*ones - 10) < 0) {
+            break;
+        }
+        (*tens)++;
+        *ones -= 10;
+    }
+}
 
 /**
  * Reduce the alpha of the black screen fill to create a fade in effect.
@@ -225,9 +276,16 @@ void FileChoose_UpdateMainMenu(FileChooseContext* thisx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE28.s")
+void func_8080BE28(FileChooseContext* thisx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE30.s")
+void func_8080BE30(FileChooseContext *this) {
+    XREG(73) += 2;
+    if (XREG(73) == 0xFE) {
+        this->configMode = this->nextConfigMode;
+        XREG(73) = 0;
+    }
+}
 
 /**
  * Rotate the window from the main menu to the name entry menu
@@ -265,8 +323,6 @@ void FileChoose_RotateFromOptions(FileChooseContext* this) {
     }
 }
 
-void FileChoose_FlashCursor(GameState* thisx);
-#ifdef NON_MATCHING
 void FileChoose_FlashCursor(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 alphaStep;
@@ -274,7 +330,8 @@ void FileChoose_FlashCursor(GameState* thisx) {
     Input* controller3 = &this->state.input[2];
 
     if (CHECK_BTN_ALL(controller3->press.button, BTN_DLEFT)) {
-        D_80000002 = sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_ENG;
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_ENG;
+        *((u8*)0x80000002) = LANGUAGE_PAL_ENG;
 
         SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
         osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
@@ -285,9 +342,9 @@ void FileChoose_FlashCursor(GameState* thisx) {
         osSyncPrintf("read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
                      sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                      sramCtx->readBuff[SRAM_HEADER_MAGIC]);
-
     } else if (CHECK_BTN_ALL(controller3->press.button, BTN_DUP)) {
-        D_80000002 = sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_GER;
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_GER;
+        *((u8*)0x80000002) = LANGUAGE_PAL_GER;
 
         SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
         osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
@@ -297,9 +354,9 @@ void FileChoose_FlashCursor(GameState* thisx) {
         osSyncPrintf("read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
                      sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                      sramCtx->readBuff[SRAM_HEADER_MAGIC]);
-
     } else if (CHECK_BTN_ALL(controller3->press.button, BTN_DRIGHT)) {
-        D_80000002 = sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_FR;
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_FR;
+        *((u8*)0x80000002) = LANGUAGE_PAL_FR;
 
         SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
         osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
@@ -328,9 +385,6 @@ void FileChoose_FlashCursor(GameState* thisx) {
         this->highlightFlashDir ^= 1;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/FileChoose_FlashCursor.s")
-#endif
 
 void FileChoose_ConfigModeUpdate(FileChooseContext* this) {
     gConfigModeUpdateFuncs[this->configMode](this);
