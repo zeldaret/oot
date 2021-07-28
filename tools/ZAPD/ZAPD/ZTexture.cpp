@@ -835,13 +835,13 @@ TextureType ZTexture::GetTextureTypeFromString(std::string str)
 		texType = TextureType::RGBA32bpp;
 	else if (str == "rgba16")
 		texType = TextureType::RGBA16bpp;
-	else if (str == "rgba16")
+	else if (str == "rgb5a1")
 	{
 		texType = TextureType::RGBA16bpp;
 #ifdef DEPRECATION_ON
 		fprintf(stderr,
 		        "ZTexture::GetTextureTypeFromString: Deprecation warning.\n"
-		        "\t The texture format 'rgba16' is currently deprecated, and will be removed in a future "
+		        "\t The texture format 'rgb5a1' is currently deprecated, and will be removed in a future "
 		        "version.\n"
 		        "\t Use the format 'rgba16' instead.\n");
 #endif
