@@ -2524,8 +2524,7 @@ endseg
 beginseg
     name "ovl_En_Ko"
     include "build/src/overlays/actors/ovl_En_Ko/z_en_ko.o"
-    include "build/data/overlays/actors/z_en_ko.data.o"
-    include "build/data/overlays/actors/z_en_ko.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ko/ovl_En_Ko_reloc.o"
 endseg
 
 beginseg
@@ -5011,12 +5010,15 @@ beginseg
     name "object_km1"
     romalign 0x1000
     include "build/baserom/object_km1.o"
+    //include "build/assets/objects/object_km1/object_km1.o"
+    number 6
 endseg
 
 beginseg
     name "object_kw1"
     romalign 0x1000
-    include "build/assets/objects/object_kw1/object_kw1.o"
+    include "build/baserom/object_kw1.o"
+    //include "build/assets/objects/object_kw1/object_kw1.o"
     number 6
 endseg
 
