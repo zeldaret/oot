@@ -36,6 +36,7 @@ enum class ZResourceType
 	Cutscene,
 	DisplayList,
 	Limb,
+	LimbTable,
 	Mtx,
 	Path,
 	Room,
@@ -69,9 +70,8 @@ public:
 	virtual ~ZResource() = default;
 
 	// Parsing from File
-	virtual void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                            uint32_t nRawDataIndex);
-	virtual void ExtractFromFile(const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex);
+	virtual void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex);
+	virtual void ExtractFromFile(uint32_t nRawDataIndex);
 
 	// Misc
 	virtual void ParseXML(tinyxml2::XMLElement* reader);
@@ -101,15 +101,12 @@ public:
 	virtual uint32_t GetRawDataIndex() const;
 	virtual void SetRawDataIndex(uint32_t value);
 	virtual size_t GetRawDataSize() const = 0;
-	virtual const std::vector<uint8_t>& GetRawData() const;
-	virtual void SetRawData(const std::vector<uint8_t>& nData);
 	void SetInnerNode(bool inner);
 	bool WasDeclaredInXml() const;
 
 protected:
 	std::string name;
 	std::string outName;
-	std::vector<uint8_t> rawData;
 	uint32_t rawDataIndex;
 	std::string sourceOutput;
 	bool isInner = false;  // Is this resource an inner node of another resource? inside of <Array>
