@@ -281,7 +281,7 @@ std::string FlashingTexture::GenerateSourceCode(ZRoom* zRoom, uint32_t baseAddre
 
 		zRoom->parent->AddDeclarationArray(
 			envColorSegmentOffset, DeclarationAlignment::Align4, envColors.size() * 4,
-			"Color_RGBA8",
+			"F3DEnvColor",
 			StringHelper::Sprintf("%sAnimatedMaterialEnvColors0x%06X", zRoom->GetName().c_str(),
 		                          envColorSegmentOffset),
 			envColors.size(), declaration);
