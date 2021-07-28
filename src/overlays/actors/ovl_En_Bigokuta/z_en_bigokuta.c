@@ -706,62 +706,27 @@ void func_809BE518(EnBigokuta* this, GlobalContext* globalCtx) {
         func_809BD3F8(this);
     }
 }
-void func_809BE568(EnBigokuta* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/func_809BE568.s")
 
-/*
 void func_809BE568(EnBigokuta *this) {
-    f32 sin;
-    ColliderCylinderInit *temp_v0;
-    EnBigokuta *temp_v1;
-    f32 cos;
     s32 i;
-    s16 yPos;
-    s16 temp_t7_2;
-    void *temp_v1_2;
-    ColliderCylinderInit *phi_v0;
-    s16 phi_t7;
-    EnBigokuta *phi_v1;
-    ColliderCylinderInit *phi_v0_2;
-    s16 phi_t7_2;
-    EnBigokuta *phi_v1_2;
+    f32 sin = Math_SinS(this->actor.shape.rot.y);
+    f32 cos = Math_CosS(this->actor.shape.rot.y);
 
+    this->collider.elements->dim.worldSphere.center.x = 
+        (this->collider.elements->dim.modelSphere.center.z * sin) + (this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
+    this->collider.elements->dim.worldSphere.center.z = 
+        (this->actor.world.pos.z + (this->collider.elements->dim.modelSphere.center.z * cos)) - (this->collider.elements->dim.modelSphere.center.x * sin);
+    this->collider.elements->dim.worldSphere.center.y = 
+        this->collider.elements->dim.modelSphere.center.y + this->actor.world.pos.y;
 
-    sin = Math_SinS(this->actor.shape.rot.y);
-    cos = Math_CosS(this->actor.shape.rot.y);
-
-    this->collider.elements->dim.worldSphere.center.x = (this->collider.elements->dim.modelSphere.center.z * sin) +
-(this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
-    this->collider.elements->dim.worldSphere.center.z = (this->actor.world.pos.z +
-(this->collider.elements->dim.modelSphere.center.z * cos)) - (this->collider.elements->dim.modelSphere.center.x * sin);
-    this->collider.elements->dim.worldSphere.center.y = this->collider.elements->dim.modelSphere.center.y +
-this->actor.world.pos.y;
-
-    temp_v0 = &D_809BF408[1];
-    yPos = D_809BF408[0].dim.pos.y;
-    phi_v0 = temp_v0;
-    phi_t7 = yPos;
-    phi_v1 = this;
-    phi_v0_2 = temp_v0;
-    phi_t7_2 = yPos;
-    phi_v1_2 = this;
-    if (temp_v0 != D_809BF460) {
-loop_1:
-        this->cylinder[i].dim.pos.x = ((D_809BF408[i].dim.pos.x * cos) + (this->actor.world.pos.x + ((f32) yPos *
-sin))); this->cylinder[i].dim.pos.z = ((this->actor.world.pos.z + ((f32) D_809BF408[i].dim.pos.z * cos)) - ((f32)
-temp_v0_2->unk-32 * sin));
-
-        this->element.dim.limb - this->actor.world.pos.y
-        if (temp_v0_2 != D_809BF460) {
-            goto loop_1;
-        }
+    for (i = 0; i < 2; i++)
+    {
+        this->cylinder[i].dim.pos.x = this->actor.world.pos.x + D_809BF408[i].dim.pos.z * sin + D_809BF408[i].dim.pos.x * cos;
+        this->cylinder[i].dim.pos.z = this->actor.world.pos.z + D_809BF408[i].dim.pos.z * cos - D_809BF408[i].dim.pos.x * sin;
+        this->cylinder[i].dim.pos.y = this->actor.world.pos.y;
     }
-    temp_v1_2 = phi_v1_2 + 0x4C;
-    temp_v1_2->unk2E6 = (s16) (s32) (((f32) phi_v0_2->unk-6 * cos) + (this->actor.world.pos.x + ((f32) yPos * sin)));
-    temp_v1_2->unk2EA = (s16) (s32) ((this->actor.world.pos.z + ((f32) phi_v0_2->unk-2 * cos)) - ((f32) phi_v0_2->unk-6
-* sin)); temp_v1_2->unk2E8 = (s16) (s32) this->actor.world.pos.y;
 }
-*/
+
 void func_809BE798(EnBigokuta* this, GlobalContext* globalCtx) {
     s16 effectRot;
     s16 yawDiff;
