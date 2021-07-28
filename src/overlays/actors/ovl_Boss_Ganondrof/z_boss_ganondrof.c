@@ -195,7 +195,7 @@ static u64* sLimbTex_rgb5a1_16x16[] = {
     gPhantomGanonLimbTex_00A400, gPhantomGanonLimbTex_00A600, gPhantomGanonLimbTex_00A880,
     gPhantomGanonLimbTex_00B780, gPhantomGanonLimbTex_00BA80, gPhantomGanonLimbTex_00BE80,
 };
-static u64* sLimbTex_rgb5a1_16x16[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
+static u64* sLimbTex_rgb5a1_16x32[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
 
 static u64* sMouthTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileTex };
 
@@ -257,8 +257,8 @@ void BossGanondrof_ClearPixels(u8* mask, s16 index) {
         BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x16[i]), mask, index);
     }
 
-    for (i = 0; i < ARRAY_COUNT(sLimbTex_rgb5a1_16x16); i++) {
-        BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x16[i]), mask, index);
+    for (i = 0; i < ARRAY_COUNT(sLimbTex_rgb5a1_16x32); i++) {
+        BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x32[i]), mask, index);
     }
 
     BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(gPhantomGanonLimbTex_00B380), mask, index);
