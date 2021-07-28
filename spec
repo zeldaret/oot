@@ -3479,7 +3479,8 @@ endseg
 beginseg
     name "object_human"
     romalign 0x1000
-    include "build/baserom/object_human.o"
+    include "build/assets/objects/object_human/object_human.o"
+    number 6
 endseg
 
 beginseg
