@@ -76,9 +76,9 @@
         <DList Name="gHumanForearmLeftWrapperWrapperDL" Offset="0xB298" />
 
         <!-- Foot? Shoe? -->
-        <DList Name="object_human_DL_00B3B0" Offset="0xB3B0" />
-        <DList Name="object_human_DL_00B488" Offset="0xB488" />
-        <DList Name="object_human_DL_00B498" Offset="0xB498" />
+        <DList Name="gHumanFootLeftDL" Offset="0xB3B0" />
+        <DList Name="gHumanFootLeftWrapperDL" Offset="0xB488" />
+        <DList Name="gHumanFootLeftWrapperWrapperDL" Offset="0xB498" />
 
         <!-- Left hand -->
         <DList Name="gHumanHandLeftDL" Offset="0xB610" />
@@ -86,9 +86,9 @@
         <DList Name="gHumanHandLeftWrapperWrapperDL" Offset="0xB760" />
 
         <!-- Leg -->
-        <DList Name="object_human_DL_00B918" Offset="0xB918" />
-        <DList Name="object_human_DL_00B9E0" Offset="0xB9E0" />
-        <DList Name="object_human_DL_00B9F0" Offset="0xB9F0" />
+        <DList Name="gHumanLegLeftDL" Offset="0xB918" />
+        <DList Name="gHumanLegLeftWrapperDL" Offset="0xB9E0" />
+        <DList Name="gHumanLegLeftWrapperWrapperDL" Offset="0xB9F0" />
 
         <!-- Arm -->
         <DList Name="gHumanArmRightDL" Offset="0xBAF8" />
@@ -101,9 +101,9 @@
         <DList Name="gHumanForearmRightWrapperWrapperDL" Offset="0xBE30" />
 
         <!-- Foot? Shoe? -->
-        <DList Name="object_human_DL_00BF38" Offset="0xBF38" />
-        <DList Name="object_human_DL_00C010" Offset="0xC010" />
-        <DList Name="object_human_DL_00C020" Offset="0xC020" />
+        <DList Name="gHumanFootRightDL" Offset="0xBF38" />
+        <DList Name="gHumanFootRightWrapperDL" Offset="0xC010" />
+        <DList Name="gHumanFootRightWrapperWrapperDL" Offset="0xC020" />
 
         <!-- Right hand -->
         <DList Name="gHumanHandRightDL" Offset="0xC178" />
