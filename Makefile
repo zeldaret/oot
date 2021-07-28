@@ -169,7 +169,7 @@ $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
-	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch  -Map build/z64.map -o $@
+	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 build/ldscript.txt: $(SPEC)
 	$(CPP) $(CPPFLAGS) $< > build/spec
