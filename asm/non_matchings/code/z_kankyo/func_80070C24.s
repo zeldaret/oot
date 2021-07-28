@@ -183,7 +183,7 @@ glabel func_80070C24
 /* AE7FD0 80070E30 57000025 */  bnezl $t8, .L80070EC8
 /* AE7FD4 80070E34 8DAF1360 */   lw    $t7, 0x1360($t5)
 /* AE7FD8 80070E38 AFAA007C */  sw    $t2, 0x7c($sp)
-/* AE7FDC 80070E3C 0C03034A */  jal   func_800C0D28
+/* AE7FDC 80070E3C 0C03034A */  jal   FrameAdvance_IsEnabled
 /* AE7FE0 80070E40 E7AE0088 */   swc1  $f14, 0x88($sp)
 /* AE7FE4 80070E44 3C0D8016 */  lui   $t5, %hi(gSaveContext) # $t5, 0x8016
 /* AE7FE8 80070E48 25ADE660 */  addiu $t5, %lo(gSaveContext) # addiu $t5, $t5, -0x19a0

@@ -888,7 +888,7 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, GlobalContext* globalCtx) {
         this->colJntSph.base.acFlags &= ~AC_HIT;
     } else if (this->colJntSph.base.acFlags & AC_HIT) {
         this->colJntSph.base.acFlags &= ~AC_HIT;
-        func_8003573C(&this->actor, &this->colJntSph, 1);
+        Actor_SetDropFlagJntSph(&this->actor, &this->colJntSph, 1);
         if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_NUT ||
             this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
             return;
@@ -1028,7 +1028,7 @@ s32 EnPeehat_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1959),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
-        Matrix_Pull();
+        Matrix_Pop();
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1963);
         return true;
     }
@@ -1062,7 +1062,7 @@ void EnPeehat_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1990),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
-        Matrix_Pull();
+        Matrix_Pop();
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1994);
     }
 }

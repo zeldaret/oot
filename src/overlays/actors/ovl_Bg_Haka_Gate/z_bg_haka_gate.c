@@ -274,7 +274,7 @@ void BgHakaGate_FloorOpen(BgHakaGate* this, GlobalContext* globalCtx) {
 
 void BgHakaGate_GateWait(BgHakaGate* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         this->actionFunc = BgHakaGate_GateOpen;
     }
 }

@@ -5,6 +5,7 @@
  */
 
 #include "z_mir_ray.h"
+#include "objects/object_mir_ray/object_mir_ray.h"
 
 #define FLAGS 0x00000030
 
@@ -111,9 +112,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
-
-extern Gfx D_060000B0[];
-extern Gfx D_06000C50[];
 
 void MirRay_SetupCollider(MirRay* this) {
     Vec3f colliderOffset;
@@ -266,16 +264,15 @@ void MirRay_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MirRay_SetIntensity(MirRay* this, GlobalContext* globalCtx) {
-    Vec3f sp4C;
+    f32 sp4C[3];
     f32 temp_f0;
     f32 temp_f0_2;
     f32 temp_f2_2;
-    MtxF* shieldMtx;
+    s32 pad;
     Player* player = PLAYER;
-    f32* new_var;
+    MtxF* shieldMtx = &player->shieldMf;
 
     this->reflectIntensity = 0.0f;
-    shieldMtx = &player->shieldMf;
 
     if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, shieldMtx->wx, shieldMtx->wy, shieldMtx->wz,
                               this->sourceEndRad, this->poolEndRad)) {
@@ -292,16 +289,14 @@ void MirRay_SetIntensity(MirRay* this, GlobalContext* globalCtx) {
         if (sMirRayData[this->actor.params].params & 1) {
             this->reflectIntensity = 1.0f;
         } else {
-            new_var = &sp4C.z; // permuter suggested this, does not match without
+            sp4C[0] = this->poolPt.x - this->sourcePt.x;
+            sp4C[1] = this->poolPt.y - this->sourcePt.y;
+            sp4C[2] = this->poolPt.z - this->sourcePt.z;
 
-            sp4C.x = this->poolPt.x - this->sourcePt.x;
-            sp4C.y = this->poolPt.y - this->sourcePt.y;
-            sp4C.z = this->poolPt.z - this->sourcePt.z;
-
-            temp_f2_2 = ((-shieldMtx->zx * sp4C.x) - (shieldMtx->zy * sp4C.y)) - (shieldMtx->zz * (*new_var));
+            temp_f2_2 = -shieldMtx->zx * sp4C[0] - shieldMtx->zy * sp4C[1] - shieldMtx->zz * sp4C[2];
 
             if (temp_f2_2 < 0.0f) {
-                temp_f0_2 = sqrtf(SQ(sp4C.x) + SQ(sp4C.y) + SQ(*new_var));
+                temp_f0_2 = sqrtf(SQ(sp4C[0]) + SQ(sp4C[1]) + SQ(sp4C[2]));
                 if ((temp_f0 != 0.0f) && (temp_f0_2 != 0.0f)) {
                     this->reflectIntensity = -temp_f2_2 / (temp_f0 * temp_f0_2);
                 }
@@ -505,7 +500,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_mir_ray.c", 972),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)(temp = this->reflectIntensity * 100.0f));
-            gSPDisplayList(POLY_XLU_DISP++, D_06000C50);
+            gSPDisplayList(POLY_XLU_DISP++, &gShieldBeamGlowDL);
             MirRay_SetupReflectionPolys(this, globalCtx, reflection);
             MirRay_RemoveSimilarReflections(reflection);
             MirRay_ReflectedBeam(this, globalCtx, reflection);
@@ -529,7 +524,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, reflection[0].opacity);
-                    gSPDisplayList(POLY_XLU_DISP++, D_060000B0);
+                    gSPDisplayList(POLY_XLU_DISP++, &gShieldBeamImageDL);
                 }
             }
 

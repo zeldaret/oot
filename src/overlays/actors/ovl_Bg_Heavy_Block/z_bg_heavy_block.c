@@ -321,19 +321,19 @@ void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
 void BgHeavyBlock_Wait(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 quakeIndex;
 
-    // if block has a parent link has lifted it, start onepointdemo (cutscene) and quake
+    // if block has a parent link has lifted it, start one point cutscene and quake
     if (Actor_HasParent(&this->dyna.actor, globalCtx)) {
         this->timer = 0;
 
         switch (this->dyna.actor.params & 0xFF) {
             case HEAVYBLOCK_BREAKABLE:
-                func_800800F8(globalCtx, 0xFB4, 0x10E, &this->dyna.actor, 0);
+                OnePointCutscene_Init(globalCtx, 4020, 270, &this->dyna.actor, MAIN_CAM);
                 break;
             case HEAVYBLOCK_UNBREAKABLE:
-                func_800800F8(globalCtx, 0xFB5, 0xDC, &this->dyna.actor, 0);
+                OnePointCutscene_Init(globalCtx, 4021, 220, &this->dyna.actor, MAIN_CAM);
                 break;
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
-                func_800800F8(globalCtx, 0xFB6, 0xD2, &this->dyna.actor, 0);
+                OnePointCutscene_Init(globalCtx, 4022, 210, &this->dyna.actor, MAIN_CAM);
                 break;
         }
 

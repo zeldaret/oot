@@ -7,13 +7,15 @@
 #include "z_bg_dy_yoseizo.h"
 #include "vt.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
+#include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
+#include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
 #define FLAGS 0x02000030
 
 #define THIS ((BgDyYoseizo*)thisx)
 
 typedef enum {
-    /* 0 */ FAIRY_UPGRADE_SPIN_ATTACK,
+    /* 0 */ FAIRY_UPGRADE_MAGIC,
     /* 1 */ FAIRY_UPGRADE_DOUBLE_MAGIC,
     /* 2 */ FAIRY_UPGRADE_HALF_DAMAGE
 } BgDyYoseizoRewardType;
@@ -65,12 +67,6 @@ const ActorInit Bg_Dy_Yoseizo_InitVars = {
     NULL,
 };
 
-extern CutsceneData D_02000130;
-extern CutsceneData D_02000160;
-extern CutsceneData D_02001020;
-extern CutsceneData D_020013E0;
-extern CutsceneData D_02001F40;
-extern CutsceneData D_020025D0;
 extern AnimationHeader D_0600092C; // Giving spell to spin-shrink, arms, leg, hair up
 extern AnimationHeader D_06001DF0; // Lounging
 extern AnimationHeader D_060031C0; // Upright to Lounging
@@ -191,7 +187,7 @@ void BgDyYoseizo_Bob(BgDyYoseizo* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.world.pos.y, this->targetHeight, 0.1f, 10.0f);
     Math_ApproachF(&this->bobOffset, 10.0f, 0.1f, 0.5f);
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->actor.velocity.y = Math_SinS(this->bobTimer);
     } else {
         this->actor.velocity.y = Math_SinS(this->bobTimer) * 0.4f;
@@ -202,7 +198,7 @@ void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx)
     if (Flags_GetSwitch(globalCtx, 0x38)) {
         globalCtx->msgCtx.unk_E3EE = 4;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            if (!gSaveContext.magicAcquired && (this->fountainType != FAIRY_UPGRADE_SPIN_ATTACK)) {
+            if (!gSaveContext.magicAcquired && (this->fountainType != FAIRY_UPGRADE_MAGIC)) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -245,7 +241,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
         }
     } else {
         switch (this->fountainType) {
-            case FAIRY_UPGRADE_SPIN_ATTACK:
+            case FAIRY_UPGRADE_MAGIC:
                 if (!gSaveContext.magicAcquired || BREG(2)) {
                     // Spin Attack speed UP
                     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
@@ -277,30 +273,30 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
             if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
                 switch (this->fountainType) {
                     case FAIRY_SPELL_FARORES_WIND:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02000160);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyFaroresWindCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_SPELL_DINS_FIRE:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02001020);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDinsFireCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_SPELL_NAYRUS_LOVE:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02001F40);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyNayrusLoveCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
             } else {
                 switch (this->fountainType) {
-                    case FAIRY_UPGRADE_SPIN_ATTACK:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02000130);
+                    case FAIRY_UPGRADE_MAGIC:
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_UPGRADE_DOUBLE_MAGIC:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_020013E0);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleMagicCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                     case FAIRY_UPGRADE_HALF_DAMAGE:
-                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_020025D0);
+                        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGreatFairyDoubleDefenceCs);
                         gSaveContext.cutsceneTrigger = 1;
                         break;
                 }
@@ -313,9 +309,9 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_BF = 2;
 
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-        func_800800F8(globalCtx, 0x219B, -99, NULL, 0);
+        OnePointCutscene_Init(globalCtx, 8603, -99, NULL, MAIN_CAM);
     } else {
-        func_800800F8(globalCtx, 0x219C, -99, NULL, 0);
+        OnePointCutscene_Init(globalCtx, 8604, -99, NULL, MAIN_CAM);
     };
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
@@ -578,7 +574,7 @@ void BgDyYoseizo_Vanish(BgDyYoseizo* this, GlobalContext* globalCtx) {
 }
 
 void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if ((globalCtx->csCtx.npcActions[0] != NULL) && (globalCtx->csCtx.npcActions[0]->action == 2)) {
             this->actor.draw = BgDyYoseizo_Draw;
             func_8002DF54(globalCtx, &this->actor, 1);
@@ -635,7 +631,7 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
             this->animationChanged = true;
         }
 
-        if ((globalCtx->csCtx.state != 0) &&
+        if ((globalCtx->csCtx.state != CS_STATE_IDLE) &&
             ((globalCtx->csCtx.npcActions[0] != NULL) && (globalCtx->csCtx.npcActions[0]->action == 3))) {
             this->finishedSpinGrow = this->animationChanged = false;
             if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
@@ -712,7 +708,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
         actionIndex = globalCtx->csCtx.npcActions[0]->action - 10;
 
         switch (actionIndex) {
-            case FAIRY_UPGRADE_SPIN_ATTACK:
+            case FAIRY_UPGRADE_MAGIC:
                 gSaveContext.magicAcquired = true;
                 gSaveContext.unk_13F6 = 0x30;
                 Interface_ChangeAlpha(9);
@@ -821,7 +817,7 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     this->actionFunc(this, globalCtx);
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         phi_v1 = 0;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             if ((globalCtx->csCtx.frames == 32) || (globalCtx->csCtx.frames == 291) ||
@@ -980,7 +976,7 @@ void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 sp94.x = sp94.y = sp94.z = 3.0f;
 
                 Matrix_MultVec3f(&sp94, &sp88);
-                Matrix_Pull();
+                Matrix_Pop();
                 particle->pos.x += sp88.x;
                 particle->pos.y += sp88.y;
                 particle->pos.z += sp88.z;

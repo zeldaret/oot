@@ -1,5 +1,15 @@
+/*
+ * File: z_demo_ec.c
+ * Overlay: ovl_Demo_Ec
+ * Description: Credits revelers in Lon Lon
+ */
+
 #include "z_demo_ec.h"
 #include "vt.h"
+#include "objects/object_zo/object_zo.h"
+#include "objects/object_ec/object_ec.h"
+#include "objects/object_fish/object_fish.h"
+#include "objects/object_oF1d_map/object_oF1d_map.h"
 
 #define FLAGS 0x00000010
 
@@ -84,53 +94,53 @@ static s16 sAnimationObjects[] = {
     OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_GM, OBJECT_MA2,
 };
 
-// skeletons
+// skeletons (all from other objects)
+
+// Object_IN
 extern FlexSkeletonHeader D_06013B88;
+
+// Object_TA
 extern FlexSkeletonHeader D_0600B7B8;
+
+// Object_FU
 extern FlexSkeletonHeader D_06006C90;
+
+// Object_KM1, Object_KW1, Object_BJI, Objct_AHG, Object_BOB, Object_BBA, Object_ANE
 extern FlexSkeletonHeader D_060000F0;
+
+// Object_Toryo
 extern FlexSkeletonHeader D_06007150;
+
+// Object_Daiku
 extern FlexSkeletonHeader D_06007958;
+
+// Object_GE1
 extern FlexSkeletonHeader D_06000330;
-extern FlexSkeletonHeader D_0600BFA8;
+
+// Object_KZ
 extern FlexSkeletonHeader D_060086D0;
+
+// Object_MD
 extern FlexSkeletonHeader D_06007FB8;
+
+// Object_Niw
 extern FlexSkeletonHeader D_06002530;
+
+// Object_DS2
 extern FlexSkeletonHeader D_06004258;
+
+// Object_OS
 extern FlexSkeletonHeader D_06004658;
-extern FlexSkeletonHeader D_060085F8;
+
+// Object_RS
 extern FlexSkeletonHeader D_06004868;
-extern FlexSkeletonHeader D_0600FEF0;
+
+// Object_MA2
 extern FlexSkeletonHeader D_06008D90;
 
-// animations
-extern AnimationHeader D_0600BD38;
-extern AnimationHeader D_060048F4;
-extern AnimationHeader D_0600196C;
-extern AnimationHeader D_06005670;
-extern AnimationHeader D_06005EA8;
-extern AnimationHeader D_0600164C;
-extern AnimationHeader D_0600164C;
-extern AnimationHeader D_0600513C;
-extern AnimationHeader D_06002254;
-extern AnimationHeader D_0600C918;
-extern AnimationHeader D_06006C40;
-extern AnimationHeader D_060095DC;
-extern AnimationHeader D_06009BB4;
-extern AnimationHeader D_0600A07C;
-extern AnimationHeader D_0600A474;
-extern AnimationHeader D_06000CD8;
-extern AnimationHeader D_0600AFE0;
-extern AnimationHeader D_0600AFE0;
-extern AnimationHeader D_06002FA0;
-extern AnimationHeader D_06003A98;
-extern AnimationHeader D_06002FA0;
+// animations from other objects
 extern AnimationHeader D_060002B8;
-extern AnimationHeader D_06009EE0;
-extern AnimationHeader D_06006930;
-extern AnimationHeader D_06006220;
-extern AnimationHeader D_06008D1C;
-extern AnimationHeader D_06009234;
+extern AnimationHeader D_06009EE0; // Object MA2
 extern AnimationHeader D_06004390;
 extern AnimationHeader D_060076C0;
 extern AnimationHeader D_06005F20;
@@ -141,7 +151,6 @@ extern u8 D_06007AC0[];
 extern u8 D_06006920[];
 extern u8 D_060004C8[];
 extern u8 D_060035D8[];
-extern u8 D_0600DE80[];
 extern u8 D_06003770[];
 
 // PostLimbDraw display lists
@@ -152,7 +161,6 @@ extern Gfx D_06005880[];
 extern Gfx D_06009198[];
 extern Gfx D_06009430[];
 extern Gfx D_06009690[];
-extern Gfx D_060074C8[];
 
 void DemoEc_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoEc* this = THIS;
@@ -338,7 +346,7 @@ void DemoEc_UseAnimationObject(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 CsCmdActorAction* DemoEc_GetNpcAction(GlobalContext* globalCtx, s32 actionIndex) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[actionIndex];
     } else {
         return NULL;
@@ -361,7 +369,7 @@ void DemoEc_InitIngo(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_06013B88);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_060048F4, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcIngoAnim, 0, 0.0f, false);
     func_8096D64C(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_INGO;
@@ -382,7 +390,7 @@ void DemoEc_InitTalon(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_0600B7B8);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600BD38, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcTalonAnim, 0, 0.0f, false);
     func_8096D64C(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_TALON;
@@ -403,7 +411,7 @@ void DemoEc_InitWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_06006C90);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600196C, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcWindmillManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_WINDMILL_MAN;
@@ -424,7 +432,7 @@ void DemoEc_InitKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06005670, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcKokiriAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_KOKIRI_BOY;
@@ -435,7 +443,7 @@ void DemoEc_InitDancingKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600513C, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcDancingKokiriAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_DANCING_KOKIRI_BOY;
@@ -463,7 +471,7 @@ void DemoEc_InitKokiriGirl(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06005670, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcKokiriAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_KOKIRI_GIRL;
@@ -474,7 +482,7 @@ void DemoEc_InitDancingKokiriGirl(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600513C, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcDancingKokiriAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_DANCING_KOKIRI_GIRL;
@@ -505,7 +513,7 @@ void DemoEc_InitOldMan(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06005EA8, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_OLD_MAN;
@@ -533,7 +541,7 @@ void DemoEc_InitBeardedMan(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06005EA8, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_BEARDED_MAN;
@@ -561,7 +569,7 @@ void DemoEc_InitWoman(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06005EA8, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_WOMAN;
@@ -587,7 +595,7 @@ void DemoEc_InitOldWoman(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06005EA8, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_OLD_WOMAN;
@@ -608,7 +616,7 @@ void DemoEc_InitBossCarpenter(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_06007150);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600164C, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcCarpenterAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_BOSS_CARPENTER;
@@ -629,7 +637,7 @@ void DemoEc_InitCarpenter(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_06007958);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600164C, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcCarpenterAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_CARPENTER;
@@ -702,7 +710,7 @@ void DemoEc_InitGerudo(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_06000330);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06002254, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcGerudoAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_GERUDO;
@@ -751,9 +759,9 @@ void DemoEc_DrawGerudo(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitDancingZora(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_0600BFA8);
+    DemoEc_InitSkelAnime(this, globalCtx, &gZoraSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600C918, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcDancingZoraAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_DANCING_ZORA;
@@ -768,7 +776,7 @@ void DemoEc_UpdateDancingZora(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawDancingZora(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x06003E40, 0x06004640, 0x06004E40 };
+    static void* eyeTextures[] = { gZoraEyeOpenTex, gZoraEyeHalfTex, gZoraEyeClosedTex };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
@@ -779,7 +787,7 @@ void DemoEc_InitKingZora(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060086D0);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06006C40, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcKingZoraAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_KING_ZORA;
@@ -799,13 +807,13 @@ void func_8096F1D4(DemoEc* this) {
 
 void func_8096F224(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06006930, 2, -8.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcAnim_006930, 2, -8.0f, false);
     this->updateMode = EC_UPDATE_17;
 }
 
 void func_8096F26C(DemoEc* this, s32 arg1) {
     if (arg1 != 0) {
-        DemoEc_ChangeAnimation(this, &D_06006220, 0, 0.0f, false);
+        DemoEc_ChangeAnimation(this, &gDemoEcAnim_006220, 0, 0.0f, false);
         this->updateMode = EC_UPDATE_18;
     }
 }
@@ -864,7 +872,7 @@ void DemoEc_InitMido(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_06007FB8);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_060095DC, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcMidoAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_MIDO;
@@ -874,13 +882,13 @@ void DemoEc_InitMido(DemoEc* this, GlobalContext* globalCtx) {
 
 void func_8096F4FC(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06008D1C, 2, -8.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcAnim_008D1C, 2, -8.0f, false);
     this->updateMode = EC_UPDATE_20;
 }
 
 void func_8096F544(DemoEc* this, s32 changeAnim) {
     if (changeAnim) {
-        DemoEc_ChangeAnimation(this, &D_06009234, 0, 0.0f, false);
+        DemoEc_ChangeAnimation(this, &gDemoEcAnim_009234, 0, 0.0f, false);
     }
 }
 
@@ -933,11 +941,11 @@ void DemoEc_InitCucco(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseAnimationObject(this, globalCtx);
 
     if (this->actor.params == 22) {
-        animation = &D_06009BB4;
+        animation = &gDemoEcJumpingCuccoAnim;
     } else if (this->actor.params == 23) {
-        animation = &D_0600A07C;
+        animation = &gDemoEcJumpingCucco2Anim;
     } else {
-        animation = &D_0600A474;
+        animation = &gDemoEcWalkingCuccoAnim;
     }
 
     DemoEc_ChangeAnimation(this, animation, 0, 0.0f, false);
@@ -961,7 +969,7 @@ void DemoEc_InitCuccoLady(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06000CD8, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcCuccoLadyAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_CUCCO_LADY;
@@ -987,7 +995,7 @@ void DemoEc_InitPotionShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_06004258);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600AFE0, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_POTION_SHOP_OWNER;
@@ -1013,7 +1021,7 @@ void DemoEc_InitMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_06004658);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600AFE0, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_MASK_SHOP_OWNER;
@@ -1030,46 +1038,50 @@ void DemoEc_DrawMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_DrawSkeleton(this, globalCtx, &D_060035D8, NULL, NULL, NULL);
 }
 
-void DemoEc_InitFishingMan(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_InitFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060085F8);
+    DemoEc_InitSkelAnime(this, globalCtx, &gFishingOwnerSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600AFE0, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_FISHING_MAN;
     this->drawConfig = EC_DRAW_FISHING_MAN;
 }
 
-void DemoEc_UpdateFishingMan(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_UpdateFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UpdateSkelAnime(this);
     func_8096D594(this, globalCtx);
     DemoEc_UpdateEyes(this);
     DemoEc_UpdateBgFlags(this, globalCtx);
 }
 
-void DemoEc_FishingManPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
-                                   Gfx** gfx) {
+void DemoEc_FishingOwnerPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
+                                     Gfx** gfx) {
     DemoEc* this = THIS;
 
     if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & 0x1000)) {
-        gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(D_060074C8));
+        gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(gFishingOwnerHatDL));
     }
 }
 
-void DemoEc_DrawFishingMan(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x06009250, 0x06009650, 0x06009A50 };
+void DemoEc_DrawFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
+    static void* eyeTextures[] = {
+        gFishingOwnerEyeOpenTex,
+        gFishingOwnerEyeHalfTex,
+        gFishingOwnerEyeClosedTex,
+    };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, NULL, NULL, DemoEc_FishingManPostLimbDraw);
+    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, NULL, NULL, DemoEc_FishingOwnerPostLimbDraw);
 }
 
 void DemoEc_InitBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_06004868);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_0600AFE0, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_BOMBCHU_SHOP_OWNER;
@@ -1082,6 +1094,7 @@ void DempEc_UpdateBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UpdateEyes(this);
     DemoEc_UpdateBgFlags(this, globalCtx);
 }
+
 void DemoEc_DrawBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { 0x06003968, 0x06003D68, 0x06004168 };
     s32 eyeTexIndex = this->eyeTexIndex;
@@ -1097,17 +1110,17 @@ void DemoEc_InitGorons(DemoEc* this, GlobalContext* globalCtx) {
     Vec3f* scale = &this->actor.scale;
 
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_0600FEF0);
+    DemoEc_InitSkelAnime(this, globalCtx, &gGoronSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
 
     if (this->actor.params == 30) {
-        animation = &D_06002FA0;
+        animation = &gDemoEcGoronAnim;
         goronScale = 1.0f;
     } else if (this->actor.params == 31) {
-        animation = &D_06003A98;
+        animation = &gDemoEcGoron2Anim;
         goronScale = 1.0f;
     } else if (this->actor.params == 32) {
-        animation = &D_06002FA0;
+        animation = &gDemoEcGoronAnim;
         goronScale = 15.0f;
     } else {
         goronScale = 5.0f;
@@ -1134,11 +1147,11 @@ void DemoEc_UpdateGorons(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawGorons(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
+    static void* eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &D_0600DE80, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &gGoronCsMouthNeutralTex, NULL, NULL);
 }
 
 void DemoEc_InitMalon(DemoEc* this, GlobalContext* globalCtx) {
@@ -1196,7 +1209,7 @@ static DemoEcInitFunc sInitFuncs[] = {
     DemoEc_InitCuccoLady,
     DemoEc_InitPotionShopOwner,
     DemoEc_InitMaskShopOwner,
-    DemoEc_InitFishingMan,
+    DemoEc_InitFishingOwner,
     DemoEc_InitBombchuShopOwner,
     DemoEc_InitGorons,
     DemoEc_InitGorons,
@@ -1276,7 +1289,7 @@ static DemoEcUpdateFunc sUpdateFuncs[] = {
     DemoEc_UpdateCuccoLady,
     DemoEc_UpdatePotionShopOwner,
     DemoEc_UpdateMaskShopOwner,
-    DemoEc_UpdateFishingMan,
+    DemoEc_UpdateFishingOwner,
     DempEc_UpdateBombchuShopOwner,
     DemoEc_UpdateGorons,
     DemoEc_UpdateMalon,
@@ -1311,7 +1324,7 @@ static DemoEcDrawFunc sDrawFuncs[] = {
     DemoEc_DrawKingZora,        DemoEc_DrawMido,
     DemoEc_DrawCucco,           DemoEc_DrawCuccoLady,
     DemoEc_DrawPotionShopOwner, DemoEc_DrawMaskShopOwner,
-    DemoEc_DrawFishingMan,      DemoEc_DrawBombchuShopOwner,
+    DemoEc_DrawFishingOwner,    DemoEc_DrawBombchuShopOwner,
     DemoEc_DrawGorons,          DemoEc_DrawMalon,
 };
 

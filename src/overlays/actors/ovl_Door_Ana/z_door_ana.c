@@ -5,6 +5,7 @@
  */
 
 #include "z_door_ana.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0x02000000
 
@@ -17,7 +18,7 @@ void DoorAna_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx);
 void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx);
-void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_GrabPlayer(DoorAna* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Ana_InitVars = {
     ACTOR_DOOR_ANA,
@@ -56,8 +57,6 @@ static s16 entrances[] = {
     0x036D, 0x003F, 0x0598, 0x059C, 0x05A0, 0x05A4, 0x05A8, 0x05AC,
     0x05B0, 0x05B4, 0x05B8, 0x05BC, 0x05C0, 0x05C4, 0x05FC,
 };
-
-extern Gfx D_05001390[];
 
 void DoorAna_SetupAction(DoorAna* this, DoorAnaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -140,7 +139,7 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
                 destinationIdx = this->actor.home.rot.z + 1;
             }
             globalCtx->nextEntranceIndex = entrances[destinationIdx];
-            DoorAna_SetupAction(this, DoorAna_GrabLink);
+            DoorAna_SetupAction(this, DoorAna_GrabPlayer);
         } else {
             if (!Player_InCsMode(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
                 this->actor.xzDistToPlayer <= 15.0f && -50.0f <= this->actor.yDistToPlayer &&
@@ -156,7 +155,7 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
 }
 
 // update function for after the player has triggered the grotto
-void DoorAna_GrabLink(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_GrabPlayer(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->actor.yDistToPlayer <= 0.0f && 15.0f < this->actor.xzDistToPlayer) {
@@ -180,7 +179,7 @@ void DoorAna_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_ana.c", 446),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_05001390);
+    gSPDisplayList(POLY_XLU_DISP++, gGrottoDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_ana.c", 449);
 }

@@ -790,7 +790,7 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     if (this->hasPlayer == 0x3F80) { // checks if 1.0f has been stored to hasPlayer's address
-        __assert("0", "../z_en_rr.c", 1355);
+        ASSERT(0, "0", "../z_en_rr.c", 1355);
     }
 
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f);
@@ -862,7 +862,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
                  (1.0f + this->bodySegs[RR_BASE].scaleMod.z) * this->bodySegs[RR_BASE].scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    Matrix_Pull();
+    Matrix_Pop();
     zeroVec.x = 0.0f;
     zeroVec.y = 0.0f;
     zeroVec.z = 0.0f;
@@ -875,7 +875,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
                      (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,
                      (1.0f + this->bodySegs[i].scaleMod.z) * this->bodySegs[i].scale.z, MTXMODE_APPLY);
         Matrix_ToMtx(segMtx, "../z_en_rr.c", 1527);
-        Matrix_Pull();
+        Matrix_Pop();
         segMtx++;
         Matrix_MultVec3f(&zeroVec, &this->effectPos[i]);
     }

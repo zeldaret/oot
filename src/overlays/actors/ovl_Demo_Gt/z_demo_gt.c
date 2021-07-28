@@ -59,7 +59,7 @@ void DemoGt_SpawnDust(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec
 void func_8097D7D8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velOffset, f32 scale, s32 arg4, s32 arg5, s16 life) {
     s32 pad;
 
-    if (func_800C0D28(globalCtx) == 0) {
+    if (!FrameAdvance_IsEnabled(globalCtx)) {
         s32 frames = globalCtx->gameplayFrames;
 
         if (ABS(frames % arg4) == arg5) {
@@ -281,7 +281,7 @@ void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity,
     f32 dustScale = 300.0f * scale;
     Vec3f pos;
 
-    if ((func_800C0D28(globalCtx) == 0) && (arg7 > 0) && (arg6 > 0)) {
+    if ((!FrameAdvance_IsEnabled(globalCtx)) && (arg7 > 0) && (arg6 > 0)) {
         frames = (ABS((s32)globalCtx->gameplayFrames) % arg7);
         phi_s0 = 0x10000 * frames / arg6;
         increment = 0x10000 / arg6;
@@ -304,7 +304,7 @@ void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity,
 }
 
 u8 func_8097E69C(GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         return true;
     } else {
         return false;
@@ -512,7 +512,7 @@ void func_8097EF40(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad1[3];
     Vec3f dustPos;
     Vec3f velocity = { 0.0f, -16.0f, 0.0f };
-    Vec3f accel = { 0.0f, 1.20000004768f, 0.0f };
+    Vec3f accel = { 0.0f, 1.2f, 0.0f };
     Vec3f* pos = &this->dyna.actor.world.pos;
     s32 pad;
 
@@ -679,7 +679,7 @@ void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
     unk188 = this->unk_188;
     unk178 = this->unk_178;
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
 
@@ -1064,7 +1064,7 @@ void func_8098085C(DemoGt* this, GlobalContext* globalCtx) {
         sp28.x = pos->x + 810.0f;
         sp28.y = pos->y + 200.0f;
         sp28.z = pos->z - 37.0f;
-        DemoGt_SpawnExplosionWithSound(globalCtx, &sp28, 0.899999976158f);
+        DemoGt_SpawnExplosionWithSound(globalCtx, &sp28, 0.9f);
     } else if (frames == 90) {
         sp28.x = pos->x - 220.0f;
         sp28.y = pos->y + 1350.0f;
@@ -1298,11 +1298,11 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx) {
         Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
         Matrix_ToMtx(sp60, "../z_demo_gt_part4_1.c", 232);
 
-        if (func_800C0D28(globalCtx2) == 0) {
+        if (!FrameAdvance_IsEnabled(globalCtx2)) {
             func_80980F8C(this, globalCtx2);
         }
 
-        Matrix_Pull();
+        Matrix_Pop();
 
         func_80093D18(gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, sp60, (G_MTX_PUSH | G_MTX_LOAD) | G_MTX_MODELVIEW);
@@ -1417,11 +1417,11 @@ void DemoGt_Draw5(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp60, "../z_demo_gt_part4_2.c", 227);
 
-    if (func_800C0D28(globalCtx) == 0) {
+    if (!FrameAdvance_IsEnabled(globalCtx)) {
         func_80981458(this, globalCtx);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp60, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1513,7 +1513,7 @@ void DemoGt_Draw6(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Translate(sp4C.x, sp4C.y, sp4C.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp64, "../z_demo_gt_part4_3.c", 291);
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp64, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1605,7 +1605,7 @@ void DemoGt_Draw7(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp5C, "../z_demo_gt_part5.c", 152);
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1696,7 +1696,7 @@ void DemoGt_Draw8(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp5C, "../z_demo_gt_part6.c", 153);
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

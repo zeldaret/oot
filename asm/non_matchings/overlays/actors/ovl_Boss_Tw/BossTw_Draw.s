@@ -354,7 +354,7 @@ glabel BossTw_Draw
 /* 0AAB8 80943788 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 0AABC 8094378C 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0AAC0 80943790 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 0AAC4 80943794 0C034221 */  jal     Matrix_Pull
+/* 0AAC4 80943794 0C034221 */  jal     Matrix_Pop
 /* 0AAC8 80943798 00000000 */  nop
 /* 0AACC 8094379C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 0AAD0 809437A0 0C02F228 */  jal     func_800BC8A0

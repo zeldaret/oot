@@ -26,12 +26,12 @@ typedef struct {
     /* 0x0006 */ u8 unk_6; // limb index
     /* 0x0006 */ u8 unk_7; // limb index
     /* 0x0008 */ s8 unk_8; // rate of some kind
-    /* 0x000C */ AnimationHeader* unk_C;
-    /* 0x0010 */ AnimationHeader* unk_10;
-    /* 0x0014 */ UNK_PTR unk_14;
-    /* 0x0018 */ AnimationHeader* unk_18;
-    /* 0x001C */ Gfx* unk_1C;
-    /* 0x0020 */ Gfx* unk_20;
+    /* 0x000C */ AnimationHeader* idleAnim;
+    /* 0x0010 */ AnimationHeader* idleAnim2;
+    /* 0x0014 */ AnimationHeader* damageAnim;
+    /* 0x0018 */ AnimationHeader* fleeAnim;
+    /* 0x001C */ Gfx* lanternDisplayList;
+    /* 0x0020 */ Gfx* burnDisplayList;
     /* 0x0024 */ Gfx* soulDisplayList;
 } EnPohInfo; // size = 0x28
 

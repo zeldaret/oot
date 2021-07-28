@@ -49,8 +49,8 @@ void DemoShd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80991298(DemoShd* this, GlobalContext* globalCtx) {
-    if ((globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[0] != NULL) ||
-        (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[1] != NULL)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[0] != NULL) ||
+        (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL)) {
         if (globalCtx->csCtx.frames == 800) {
             func_800F3F3C(9);
         }
@@ -59,7 +59,7 @@ void func_80991298(DemoShd* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction0 = globalCtx->csCtx.npcActions[0];
 
         if (npcAction0 != NULL) {
@@ -74,7 +74,7 @@ void func_80991298(DemoShd* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction1 = globalCtx->csCtx.npcActions[1];
 
         if (npcAction1 != NULL) {

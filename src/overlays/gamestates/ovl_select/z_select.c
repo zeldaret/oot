@@ -28,7 +28,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
-    Audio_SetBGM(NA_BGM_STOP);
+    Audio_QueueSeqCmd(NA_BGM_STOP);
     gSaveContext.entranceIndex = entranceIndex;
     gSaveContext.respawnFlag = 0;
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
@@ -272,13 +272,13 @@ void Select_UpdateMenu(SelectContext* this) {
                 this->unk_224 = 0x14;
                 this->unk_22C = 1;
                 Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->unk_220 = SREG(30);
+                this->unk_220 = R_UPDATE_RATE;
             }
         }
 
         if (CHECK_BTN_ALL(controller1->cur.button, BTN_DUP) && this->unk_224 == 0) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            this->unk_220 = SREG(30) * 3;
+            this->unk_220 = R_UPDATE_RATE * 3;
         }
 
         if (CHECK_BTN_ALL(controller1->press.button, BTN_DDOWN)) {
@@ -289,24 +289,24 @@ void Select_UpdateMenu(SelectContext* this) {
                 this->unk_228 = 0x14;
                 this->unk_230 = 1;
                 Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->unk_220 = -SREG(30);
+                this->unk_220 = -R_UPDATE_RATE;
             }
         }
 
         if (CHECK_BTN_ALL(controller1->cur.button, BTN_DDOWN) && (this->unk_228 == 0)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            this->unk_220 = -SREG(30) * 3;
+            this->unk_220 = -R_UPDATE_RATE * 3;
         }
 
         if (CHECK_BTN_ALL(controller1->press.button, BTN_DLEFT) || CHECK_BTN_ALL(controller1->cur.button, BTN_DLEFT)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            this->unk_220 = SREG(30);
+            this->unk_220 = R_UPDATE_RATE;
         }
 
         if (CHECK_BTN_ALL(controller1->press.button, BTN_DRIGHT) ||
             CHECK_BTN_ALL(controller1->cur.button, BTN_DRIGHT)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            this->unk_220 = -SREG(30);
+            this->unk_220 = -R_UPDATE_RATE;
         }
     }
 
@@ -613,9 +613,9 @@ void Select_Init(GameState* thisx) {
         this->unk_20C = dREG(81);
         this->unk_1DC = dREG(82);
     }
-    SREG(30) = 1;
+    R_UPDATE_RATE = 1;
 
-    this->staticSegment = GameState_Alloc(this, size, "../z_select.c", 1114);
+    this->staticSegment = GameState_Alloc(&this->state, size, "../z_select.c", 1114);
     DmaMgr_SendRequest1(this->staticSegment, _z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
     gSaveContext.cutsceneIndex = 0x8000;
     gSaveContext.linkAge = 1;

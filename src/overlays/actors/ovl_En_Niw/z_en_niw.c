@@ -467,7 +467,8 @@ void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         this->actionFunc = func_80AB6BF8;
     } else {
-        func_8002F434(&this->actor, globalCtx, 0, 25.0f, 10.0f);
+        // GI_NONE in this case allows the player to lift the actor
+        func_8002F434(&this->actor, globalCtx, GI_NONE, 25.0f, 10.0f);
         func_80AB5BF8(this, globalCtx, 1);
     }
 }
@@ -764,7 +765,7 @@ void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB70A0(EnNiw* this, GlobalContext* globalCtx) {
-    func_800800F8(globalCtx, 0x8F2, -0x63, &this->actor, 0);
+    OnePointCutscene_Init(globalCtx, 2290, -99, &this->actor, MAIN_CAM);
     this->timer5 = 100;
     this->unk_2A2 = 1;
     this->actionFunc = func_80AB70F8;

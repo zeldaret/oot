@@ -70,7 +70,7 @@ void func_80AE7358(EnRl* this) {
 void func_80AE73D8(EnRl* this, GlobalContext* globalCtx) {
     static s32 D_80AE81AC = 0;
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         if (D_80AE81AC) {
             if (this->actor.params == 2) {
                 func_80AE7358(this);
@@ -93,7 +93,7 @@ s32 func_80AE7494(EnRl* this) {
 s32 func_80AE74B4(EnRl* this, GlobalContext* globalCtx, u16 arg2, s32 arg3) {
     CsCmdActorAction* csCmdActorAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         csCmdActorAction = globalCtx->csCtx.npcActions[arg3];
         if (csCmdActorAction != NULL && csCmdActorAction->action == arg2) {
             return 1;
@@ -105,7 +105,7 @@ s32 func_80AE74B4(EnRl* this, GlobalContext* globalCtx, u16 arg2, s32 arg3) {
 s32 func_80AE74FC(EnRl* this, GlobalContext* globalCtx, u16 arg2, s32 arg3) {
     CsCmdActorAction* csCmdActorAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         csCmdActorAction = globalCtx->csCtx.npcActions[arg3];
         if (csCmdActorAction != NULL && csCmdActorAction->action != arg2) {
             return 1;
@@ -124,7 +124,7 @@ void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s16 sceneNum = globalCtx->sceneNum;
 
-    if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != 0 &&
+    if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != CS_STATE_IDLE &&
         globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 &&
         !this->lightMedallionGiven) {
         player = PLAYER;
@@ -148,7 +148,7 @@ void func_80AE7668(EnRl* this, GlobalContext* globalCtx) {
 void func_80AE7698(EnRl* this, GlobalContext* globalCtx) {
     CsCmdActorAction* csCmdActorAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         csCmdActorAction = globalCtx->csCtx.npcActions[0];
         if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
             Animation_Change(&this->skelAnime, &D_0600040C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600040C),

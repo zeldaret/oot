@@ -7,6 +7,7 @@
 #include "z_bg_hidan_kowarerukabe.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -35,7 +36,11 @@ const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     (ActorFunc)BgHidanKowarerukabe_Draw,
 };
 
-static Gfx* sBreakableWallDLists[] = { 0x0600B9C0, 0x0600C038, 0x0600B900 };
+static Gfx* sBreakableWallDLists[] = {
+    gFireTempleCrackedStoneFloorDL,
+    gFireTempleBombableWallDL,
+    gFireTempleLargeBombableWallDL,
+};
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
@@ -65,7 +70,11 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
-    static CollisionHeader* collisionHeaders[] = { 0x0600D800, 0x0600D878, 0x0600D8F8 };
+    static CollisionHeader* collisionHeaders[] = {
+        &gFireTempleCrackedStoneFloorCol,
+        &gFireTempleBombableWallCol,
+        &gFireTempleLargeBombableWallCol,
+    };
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;

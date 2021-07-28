@@ -409,12 +409,11 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         temp_a1 = this->actor.wallYaw;
     } else {
-        temp_a1 =
-            this->actor.yawTowardsPlayer - Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) - 0x8000;
+        temp_a1 = this->actor.yawTowardsPlayer - Camera_GetCamDirYaw(ACTIVE_CAM) - 0x8000;
         if (ABS(temp_a1) >= 0x4001) {
-            temp_a1 = Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x8000;
+            temp_a1 = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000;
         } else {
-            temp_a1 = Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) - (temp_a1 >> 1) + 0x8000;
+            temp_a1 = Camera_GetCamDirYaw(ACTIVE_CAM) - (temp_a1 >> 1) + 0x8000;
         }
     }
     Math_ScaledStepToS(&this->actor.shape.rot.y, temp_a1, 0x800);
@@ -463,7 +462,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx) {
 void EnHintnuts_ColliderCheck(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
         if (this->collider.base.ac->id != ACTOR_EN_NUTSBALL) {
             EnHintnuts_SetupBurrow(this);
         } else {

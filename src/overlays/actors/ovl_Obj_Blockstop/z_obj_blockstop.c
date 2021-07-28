@@ -33,7 +33,7 @@ void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         Actor_Kill(&this->actor);
     } else {
-        this->actor.world.pos.y += 1;
+        this->actor.world.pos.y++;
     }
 }
 
@@ -48,7 +48,7 @@ void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (BgCheck_EntityLineTest2(&globalCtx->colCtx, &this->actor.home.pos, &this->actor.world.pos, &sp4C,
-                                &this->actor.floorPoly, 0, 0, 1, 1, &bgId, &this->actor)) {
+                                &this->actor.floorPoly, false, false, true, true, &bgId, &this->actor)) {
         dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
 
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_OBJ_OSHIHIKI) {

@@ -10,6 +10,17 @@
 #define CAM_STAT_ACTIVE     7
 #define CAM_STAT_UNK100     0x100
 
+#define NUM_CAMS 4
+#define MAIN_CAM 0
+#define SUBCAM_FIRST 1
+#define SUBCAM_FREE 0
+#define SUBCAM_NONE -1
+#define SUBCAM_ACTIVE -1
+
+#define ONEPOINT_CS_INFO(camera) ((Unique9OnePointCs*)camera->paramData)
+#define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
+#define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
+
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
     /* 0x01 */ CAM_SET_NORMAL0,
@@ -696,10 +707,10 @@ typedef struct {
     /* 0x000C */ f32 lerpStepScale;
     /* 0x0010 */ Vec3f atTargetInit;
     /* 0x001C */ Vec3f eyeTargetInit;
-} OnePointDemoFull; /* size = 0x28 */
+} OnePointCsFull; /* size = 0x28 */
 
 typedef struct {
-    /* 0x0000 */ OnePointDemoFull* curKeyFrame;
+    /* 0x0000 */ OnePointCsFull* curKeyFrame;
     /* 0x0004 */ Vec3f atTarget;
     /* 0x0010 */ Vec3f eyeTarget;
     /* 0x001C */ Vec3f playerPos;
@@ -719,9 +730,9 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ s32 keyFrameCnt;
-    /* 0x0004 */ OnePointDemoFull* keyFrames;
+    /* 0x0004 */ OnePointCsFull* keyFrames;
     /* 0x0008 */ Unique9 uniq9;
-} Unique9OnePointDemo; // size = 0x48
+} Unique9OnePointCs; // size = 0x48
 
 typedef struct {
     /* 0x0000 */ f32 curFrame;
@@ -776,12 +787,12 @@ typedef struct {
     /* 0x0004 */ CutsceneCameraPoint* eyePoints;
     /* 0x0008 */ s16 actionParameters;
     /* 0x000A */ s16 initTimer;
-} OnePointDemoCamera; // size = 0xC
+} OnePointCsCamera; // size = 0xC
 
 typedef struct {
-    /* 0x0000 */ OnePointDemoCamera onePointDemo;
+    /* 0x0000 */ OnePointCsCamera onePointCs;
     /* 0x000C */ Demo9 demo9;
-} Demo9OnePointDemo; // size = 0x1C
+} Demo9OnePointCs; // size = 0x1C
 
 typedef struct {
     /* 0x0000 */ f32 lerpAtScale;
@@ -849,7 +860,7 @@ typedef struct {
 } CamColChk; // size = 0x28
 
 typedef struct {
-    char paramData[0x50];
+    /* 0x0000 */ char paramData[0x50];
     /* 0x0050 */ Vec3f at;
     /* 0x005C */ Vec3f eye;
     /* 0x0068 */ Vec3f up;
@@ -884,7 +895,7 @@ typedef struct {
     /* 0x012C */ s16 data2;
     /* 0x012E */ s16 data3;
     /* 0x0130 */ s16 uid;
-    /* 0x0132 */ char unk_132[0x02];
+    /* 0x0132 */ char unk_132[2];
     /* 0x0134 */ Vec3s inputDir;
     /* 0x013A */ Vec3s camDir;
     /* 0x0140 */ s16 status;
@@ -907,7 +918,7 @@ typedef struct {
     /* 0x0162 */ s16 parentCamIdx;
     /* 0x0164 */ s16 thisIdx;
     /* 0x0166 */ s16 prevCamDataIdx;
-    /* 0x0168 */ s16 unk_168;
+    /* 0x0168 */ s16 csId;
     /* 0x016A */ s16 unk_16A;
 } Camera; // size = 0x16C
 

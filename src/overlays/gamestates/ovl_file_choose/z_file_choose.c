@@ -1080,7 +1080,7 @@ void FileChoose_InitContext(GameState* thisx) {
     gSaveContext.environmentTime = 0;
     gSaveContext.dayTime = 0;
 
-    func_800B0E50(&this->state, &this->skyboxCtx, 1);
+    Skybox_Init(&this->state, &this->skyboxCtx, 1);
 
     D_8011FB40 = 10;
 
@@ -1147,6 +1147,6 @@ void FileChoose_Init(GameState* thisx) {
     this->state.destroy = FileChoose_Destroy;
     FileChoose_InitContext(this);
     Font_LoadOrderedFont(&this->font);
-    Audio_SetBGM(0xF000000A);
+    Audio_QueueSeqCmd(0xF000000A);
     func_800F5E18(0, 0x57, 0, 7, 1);
 }
