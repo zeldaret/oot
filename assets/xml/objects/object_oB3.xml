@@ -54,17 +54,17 @@
         <DList Name="object_oB3_DL_00002C00" Offset="0x2C00"/>
         <DList Name="object_oB3_DL_00002C58" Offset="0x2C58"/>
         <DList Name="object_oB3_DL_00002CB0" Offset="0x2CB0"/>
-        <Texture Name="object_oB3_Tex_00002D08" OutName="tex_00002D08" Format="rgb5a1" Width="32" Height="16" Offset="0x2D08"/>
-        <Texture Name="object_oB3_Tex_00003108" OutName="tex_00003108" Format="rgb5a1" Width="32" Height="16" Offset="0x3108"/>
-        <Texture Name="object_oB3_Tex_00003508" OutName="tex_00003508" Format="rgb5a1" Width="8" Height="8" Offset="0x3508"/>
-        <Texture Name="object_oB3_Tex_00003588" OutName="tex_00003588" Format="rgb5a1" Width="16" Height="16" Offset="0x3588"/>
-        <Texture Name="object_oB3_Tex_00003788" OutName="tex_00003788" Format="rgb5a1" Width="16" Height="16" Offset="0x3788"/>
-        <Texture Name="object_oB3_Tex_00003988" OutName="tex_00003988" Format="rgb5a1" Width="8" Height="8" Offset="0x3988"/>
-        <Texture Name="object_oB3_Tex_00003A08" OutName="tex_00003A08" Format="rgb5a1" Width="8" Height="8" Offset="0x3A08"/>
-        <Texture Name="object_oB3_Tex_00003A88" OutName="tex_00003A88" Format="rgb5a1" Width="8" Height="8" Offset="0x3A88"/>
-        <Texture Name="object_oB3_Tex_00003B08" OutName="tex_00003B08" Format="rgb5a1" Width="32" Height="32" Offset="0x3B08"/>
-        <Texture Name="object_oB3_Tex_00004308" OutName="tex_00004308" Format="rgb5a1" Width="8" Height="8" Offset="0x4308"/>
-        <Texture Name="object_oB3_Tex_00004388" OutName="tex_00004388" Format="rgb5a1" Width="8" Height="8" Offset="0x4388"/>
-        <Texture Name="object_oB3_Tex_00004408" OutName="tex_00004408" Format="rgb5a1" Width="8" Height="8" Offset="0x4408"/>
+        <Texture Name="object_oB3_Tex_00002D08" OutName="tex_00002D08" Format="rgba16" Width="32" Height="16" Offset="0x2D08"/>
+        <Texture Name="object_oB3_Tex_00003108" OutName="tex_00003108" Format="rgba16" Width="32" Height="16" Offset="0x3108"/>
+        <Texture Name="object_oB3_Tex_00003508" OutName="tex_00003508" Format="rgba16" Width="8" Height="8" Offset="0x3508"/>
+        <Texture Name="object_oB3_Tex_00003588" OutName="tex_00003588" Format="rgba16" Width="16" Height="16" Offset="0x3588"/>
+        <Texture Name="object_oB3_Tex_00003788" OutName="tex_00003788" Format="rgba16" Width="16" Height="16" Offset="0x3788"/>
+        <Texture Name="object_oB3_Tex_00003988" OutName="tex_00003988" Format="rgba16" Width="8" Height="8" Offset="0x3988"/>
+        <Texture Name="object_oB3_Tex_00003A08" OutName="tex_00003A08" Format="rgba16" Width="8" Height="8" Offset="0x3A08"/>
+        <Texture Name="object_oB3_Tex_00003A88" OutName="tex_00003A88" Format="rgba16" Width="8" Height="8" Offset="0x3A88"/>
+        <Texture Name="object_oB3_Tex_00003B08" OutName="tex_00003B08" Format="rgba16" Width="32" Height="32" Offset="0x3B08"/>
+        <Texture Name="object_oB3_Tex_00004308" OutName="tex_00004308" Format="rgba16" Width="8" Height="8" Offset="0x4308"/>
+        <Texture Name="object_oB3_Tex_00004388" OutName="tex_00004388" Format="rgba16" Width="8" Height="8" Offset="0x4388"/>
+        <Texture Name="object_oB3_Tex_00004408" OutName="tex_00004408" Format="rgba16" Width="8" Height="8" Offset="0x4408"/>
     </File>
 </Root>

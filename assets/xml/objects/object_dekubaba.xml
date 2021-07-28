@@ -13,11 +13,11 @@
         <DList Name="gDekuBabaStemBaseDL" Offset="0x1828"/>
 
         <!-- Deku Baba body textures -->
-        <Texture Name="gDekuBabaJawOuterTex" OutName="deku_baba_jaw_outer" Format="rgb5a1" Width="16" Height="32" Offset="0x18D0"/>
-        <Texture Name="gDekuBabaJawInnerTex" OutName="deku_baba_jaw_inner" Format="rgb5a1" Width="32" Height="32" Offset="0x1CD0"/>
-        <Texture Name="gDekuBabaLeafTex" OutName="deku_baba_leaf" Format="rgb5a1" Width="16" Height="32" Offset="0x24D0"/>
-        <Texture Name="gDekuBabaBulbTex" OutName="deku_baba_bulb" Format="rgb5a1" Width="8" Height="8" Offset="0x28D0"/>
-        <Texture Name="gDekuBabaStemTex" OutName="deku_baba_stem" Format="rgb5a1" Width="8" Height="8" Offset="0x2950"/>
+        <Texture Name="gDekuBabaJawOuterTex" OutName="deku_baba_jaw_outer" Format="rgba16" Width="16" Height="32" Offset="0x18D0"/>
+        <Texture Name="gDekuBabaJawInnerTex" OutName="deku_baba_jaw_inner" Format="rgba16" Width="32" Height="32" Offset="0x1CD0"/>
+        <Texture Name="gDekuBabaLeafTex" OutName="deku_baba_leaf" Format="rgba16" Width="16" Height="32" Offset="0x24D0"/>
+        <Texture Name="gDekuBabaBulbTex" OutName="deku_baba_bulb" Format="rgba16" Width="8" Height="8" Offset="0x28D0"/>
+        <Texture Name="gDekuBabaStemTex" OutName="deku_baba_stem" Format="rgba16" Width="8" Height="8" Offset="0x2950"/>
 
         <!-- Deku Baba limbs -->
         <Limb Name="object_dekubaba_Limb_0029D0" LimbType="Standard" Offset="0x29D0"/>
@@ -33,6 +33,6 @@
 
         <!-- Deku Baba stick drop -->
         <DList Name="gDekuBabaStickDropDL" Offset="0x3070"/>
-        <Texture Name="gDekuBabaStickDropTex" OutName="deku_baba_stick_drop" Format="rgb5a1" Width="32" Height="32" Offset="0x31C0"/>
+        <Texture Name="gDekuBabaStickDropTex" OutName="deku_baba_stick_drop" Format="rgba16" Width="32" Height="32" Offset="0x31C0"/>
     </File>
 </Root>

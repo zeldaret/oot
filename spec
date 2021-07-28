@@ -405,13 +405,11 @@ beginseg
     include "build/src/code/fault_drawer.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
-    include "build/src/code/code_800DACC0.o"
-    include "build/data/code_800DACC0.data.o"
-    include "build/data/code_800DACC0.bss.o"
+    include "build/src/code/audio_synthesis.o"
+    include "build/data/audio_synthesis.data.o"
     include "build/src/code/audio_heap.o"
-    include "build/src/code/code_800E11F0.o"
-    include "build/data/code_800E11F0.data.o"
-    include "build/data/code_800E11F0.rodata.o"
+    include "build/src/code/audio_load.o"
+    include "build/src/code/code_800E4FE0.o"
     include "build/src/libultra_code_O2/code_800E6840.o"
     include "build/src/libultra_code_O2/osAiSetNextBuffer.o"
     include "build/src/code/audio_playback.o"
@@ -421,9 +419,10 @@ beginseg
     include "build/src/code/code_800EC960.o"
     include "build/data/code_800EC960.data.o"
     include "build/src/code/code_800F7260.o"
+    include "build/data/code_800F7260.bss.o"
     include "build/src/code/code_800F9280.o"
     include "build/data/code_800F9280.data.o"
-    include "build/data/code_800F9280.rodata.o"
+    include "build/src/code/audio_rodata.o"
     include "build/src/code/logseverity.o"
     include "build/src/code/gfxprint.o"
     include "build/src/code/code_800FBCE0.o"
@@ -2934,8 +2933,7 @@ endseg
 beginseg
     name "ovl_En_Tg"
     include "build/src/overlays/actors/ovl_En_Tg/z_en_tg.o"
-    include "build/data/overlays/actors/z_en_tg.data.o"
-    include "build/data/overlays/actors/z_en_tg.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tg/ovl_En_Tg_reloc.o"
 endseg
 
 beginseg
@@ -3478,7 +3476,8 @@ endseg
 beginseg
     name "object_human"
     romalign 0x1000
-    include "build/baserom/object_human.o"
+    include "build/assets/objects/object_human/object_human.o"
+    number 6
 endseg
 
 beginseg

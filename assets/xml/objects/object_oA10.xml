@@ -54,13 +54,13 @@
         <DList Name="object_oA10_DL_00002448" Offset="0x2448"/>
         <DList Name="object_oA10_DL_000024D8" Offset="0x24D8"/>
         <DList Name="object_oA10_DL_000025C0" Offset="0x25C0"/>
-        <Texture Name="object_oA10_Tex_00002670" OutName="tex_00002670" Format="rgb5a1" Width="8" Height="16" Offset="0x2670"/>
-        <Texture Name="object_oA10_Tex_00002770" OutName="tex_00002770" Format="rgb5a1" Width="8" Height="8" Offset="0x2770"/>
+        <Texture Name="object_oA10_Tex_00002670" OutName="tex_00002670" Format="rgba16" Width="8" Height="16" Offset="0x2670"/>
+        <Texture Name="object_oA10_Tex_00002770" OutName="tex_00002770" Format="rgba16" Width="8" Height="8" Offset="0x2770"/>
         <Texture Name="object_oA10_Tex_000027F0" OutName="tex_000027F0" Format="i4" Width="16" Height="8" Offset="0x27F0"/>
-        <Texture Name="object_oA10_Tex_00002830" OutName="tex_00002830" Format="rgb5a1" Width="16" Height="8" Offset="0x2830"/>
-        <Texture Name="object_oA10_Tex_00002930" OutName="tex_00002930" Format="rgb5a1" Width="16" Height="32" Offset="0x2930"/>
-        <Texture Name="object_oA10_Tex_00002D30" OutName="tex_00002D30" Format="rgb5a1" Width="8" Height="8" Offset="0x2D30"/>
-        <Texture Name="object_oA10_Tex_00002DB0" OutName="tex_00002DB0" Format="rgb5a1" Width="8" Height="8" Offset="0x2DB0"/>
-        <Texture Name="object_oA10_Tex_00002E30" OutName="tex_00002E30" Format="rgb5a1" Width="8" Height="8" Offset="0x2E30"/>
+        <Texture Name="object_oA10_Tex_00002830" OutName="tex_00002830" Format="rgba16" Width="16" Height="8" Offset="0x2830"/>
+        <Texture Name="object_oA10_Tex_00002930" OutName="tex_00002930" Format="rgba16" Width="16" Height="32" Offset="0x2930"/>
+        <Texture Name="object_oA10_Tex_00002D30" OutName="tex_00002D30" Format="rgba16" Width="8" Height="8" Offset="0x2D30"/>
+        <Texture Name="object_oA10_Tex_00002DB0" OutName="tex_00002DB0" Format="rgba16" Width="8" Height="8" Offset="0x2DB0"/>
+        <Texture Name="object_oA10_Tex_00002E30" OutName="tex_00002E30" Format="rgba16" Width="8" Height="8" Offset="0x2E30"/>
     </File>
 </Root>

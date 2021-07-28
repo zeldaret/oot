@@ -39,8 +39,8 @@
         <DList Name="gGerudoWhiteHeadDL" Offset="0x5C38"/>
 
         <!-- White-clothed Gerudo palettes -->
-        <Texture Name="gGerudoWhiteGeneralTLUT" OutName="gerudo_white_general_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x0348"/>
-        <Texture Name="gGerudoWhiteHairTLUT" OutName="gerudo_white_hair_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x2808"/>
+        <Texture Name="gGerudoWhiteGeneralTLUT" OutName="gerudo_white_general_tlut" Format="rgba16" Width="16" Height="16" Offset="0x0348"/>
+        <Texture Name="gGerudoWhiteHairTLUT" OutName="gerudo_white_hair_tlut" Format="rgba16" Width="16" Height="16" Offset="0x2808"/>
 
         <!-- White-clothed Gerudo Displaylist textures -->
         <Texture Name="gGerudoWhiteSkinGradientTex" OutName="gerudo_white_skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x0548"/>
@@ -54,7 +54,7 @@
         <Texture Name="gGerudoWhiteCleavageTex" OutName="gerudo_white_cleavage" Format="ci8" Width="8" Height="8" Offset="0x2688"/>
         <Texture Name="gGerudoWhiteShoeUpperTex" OutName="gerudo_white_shoe_upper" Format="ci8" Width="8" Height="16" Offset="0x26C8"/>
         <Texture Name="gGerudoWhiteShoeSoleTex" OutName="gerudo_white_shoe_sole" Format="ci8" Width="8" Height="8" Offset="0x2748"/>
-        <Texture Name="gGerudoWhiteCrotchTex" OutName="gerudo_white_crotch" Format="rgb5a1" Width="8" Height="8" Offset="0x2788"/>
+        <Texture Name="gGerudoWhiteCrotchTex" OutName="gerudo_white_crotch" Format="rgba16" Width="8" Height="8" Offset="0x2788"/>
 
         <!-- White-clothed Gerudo Hairstyle DisplayLists -->
         <DList Name="gGerudoWhiteHairstyleBobDL" Offset="0x9198"/>
@@ -65,9 +65,9 @@
         <Texture Name="gGerudoWhiteHairTex" OutName="gerudo_white_hair" Format="ci8" Width="16" Height="16" Offset="0x2A08"/>
         
         <!-- White-clothed Gerudo Eye Textures -->
-        <Texture Name="gGerudoWhiteEyeOpenTex" OutName="gerudo_white_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x0708"/>
-        <Texture Name="gGerudoWhiteEyeHalfTex" OutName="gerudo_white_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x0F08"/>
-        <Texture Name="gGerudoWhiteEyeClosedTex" OutName="gerudo_white_eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x1708"/>
+        <Texture Name="gGerudoWhiteEyeOpenTex" OutName="gerudo_white_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x0708"/>
+        <Texture Name="gGerudoWhiteEyeHalfTex" OutName="gerudo_white_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x0F08"/>
+        <Texture Name="gGerudoWhiteEyeClosedTex" OutName="gerudo_white_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x1708"/>
 
         <!-- White-clothed Gerudo Animations -->
         <Animation Name="gGerudoWhiteUnusedFoldingArmsAnim" Offset="0x0168"/>
