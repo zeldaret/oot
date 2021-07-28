@@ -165,13 +165,11 @@ AudioTask* func_800E5000(void) {
     gAudioContext.curAbiCmdBuf = gAudioContext.abiCmdBufs[gAudioContext.rspTaskIdx];
     gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx] =
         (s16)((((gAudioContext.audioBufferParameters.samplesPerFrameTarget - sp6C) + 0x80) & 0xFFF0) + 0x10);
-    if (gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx] <
-        gAudioContext.audioBufferParameters.minAiBufferLength) {
+    if (gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx] < gAudioContext.audioBufferParameters.minAiBufferLength) {
         gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx] = gAudioContext.audioBufferParameters.minAiBufferLength;
     }
 
-    if (gAudioContext.audioBufferParameters.maxAiBufferLength <
-        gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx]) {
+    if (gAudioContext.audioBufferParameters.maxAiBufferLength < gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx]) {
         gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx] = gAudioContext.audioBufferParameters.maxAiBufferLength;
     }
 
@@ -192,7 +190,7 @@ AudioTask* func_800E5000(void) {
                           gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx]);
     gAudioContext.audioRandom = osGetCount() * (gAudioContext.audioRandom + gAudioContext.totalTaskCnt);
     gAudioContext.audioRandom = gAudioContext.aiBuffers[gAudioContext.curAIBufIdx][gAudioContext.totalTaskCnt & 0xFF] +
-                                 gAudioContext.audioRandom;
+                                gAudioContext.audioRandom;
     ;
     gWaveSamples[8] = (s16*)((((u8*)func_800E4FE0)) + (gAudioContext.audioRandom & 0xFFF0));
     gAudioContext.currTask->taskQueue = NULL;
@@ -537,8 +535,9 @@ s32 func_800E5EDC(void) {
 
 void func_800E5F34(void) {
     // probably a macro of some type?
-    s32 chk = -1;s32 sp28;do { } while (osRecvMesg(gAudioContext.audioResetQueueP, &sp28, 0) != chk); 
-}
+    s32 chk = -1;
+    s32 sp28;
+    do { } while (osRecvMesg(gAudioContext.audioResetQueueP, &sp28, 0) != chk); }
 
 s32 func_800E5F88(u32 resetPreloadID) {
     s32 resetStatus;

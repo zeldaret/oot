@@ -85,7 +85,7 @@ ZAPD also accepts the following list of extra parameters:
   - Can be used only in mode `btex`.
   - Valid values:
     - `rgba32`
-    - `rgba16`
+    - `rgb5a1`
     - `i4`
     - `i8`
     - `ia4`

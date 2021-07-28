@@ -801,20 +801,16 @@ void Audio_InitHeap(void) {
         gAudioContext.audioBufferParameters.samplesPerFrameTarget + 0x10;
     gAudioContext.audioBufferParameters.updatesPerFrame =
         ((gAudioContext.audioBufferParameters.samplesPerFrameTarget + 0x10) / 0xD0) + 1;
-    gAudioContext.audioBufferParameters.samplesPerUpdate =
-        (gAudioContext.audioBufferParameters.samplesPerFrameTarget /
-         gAudioContext.audioBufferParameters.updatesPerFrame) &
-        ~7;
-    gAudioContext.audioBufferParameters.samplesPerUpdateMax =
-        gAudioContext.audioBufferParameters.samplesPerUpdate + 8;
-    gAudioContext.audioBufferParameters.samplesPerUpdateMin =
-        gAudioContext.audioBufferParameters.samplesPerUpdate - 8;
+    gAudioContext.audioBufferParameters.samplesPerUpdate = (gAudioContext.audioBufferParameters.samplesPerFrameTarget /
+                                                            gAudioContext.audioBufferParameters.updatesPerFrame) &
+                                                           ~7;
+    gAudioContext.audioBufferParameters.samplesPerUpdateMax = gAudioContext.audioBufferParameters.samplesPerUpdate + 8;
+    gAudioContext.audioBufferParameters.samplesPerUpdateMin = gAudioContext.audioBufferParameters.samplesPerUpdate - 8;
     gAudioContext.audioBufferParameters.resampleRate = 32000.0f / (s32)gAudioContext.audioBufferParameters.frequency;
     gAudioContext.audioBufferParameters.unkUpdatesPerFrameScaled =
         (1.0f / 256.0f) / gAudioContext.audioBufferParameters.updatesPerFrame;
     gAudioContext.audioBufferParameters.unk_24 = gAudioContext.audioBufferParameters.updatesPerFrame * 0.25f;
-    gAudioContext.audioBufferParameters.updatesPerFrameInv =
-        1.0f / gAudioContext.audioBufferParameters.updatesPerFrame;
+    gAudioContext.audioBufferParameters.updatesPerFrameInv = 1.0f / gAudioContext.audioBufferParameters.updatesPerFrame;
     gAudioContext.unk_2874 = preset->unk_10;
     gAudioContext.unk_2878 = preset->unk_12;
 
@@ -825,7 +821,7 @@ void Audio_InitHeap(void) {
     }
     gAudioContext.unk_2 = preset->unk_14;
     gAudioContext.tempoInternalToExternal = (u32)(gAudioContext.audioBufferParameters.updatesPerFrame * 2880000.0f /
-                                                   gTatumsPerBeat / gAudioContext.unk_2960);
+                                                  gTatumsPerBeat / gAudioContext.unk_2960);
 
     gAudioContext.unk_2870 = gAudioContext.refreshRate;
     gAudioContext.unk_2870 *= gAudioContext.audioBufferParameters.updatesPerFrame;
@@ -876,8 +872,8 @@ void Audio_InitHeap(void) {
     Audio_NoteInitAll();
     Audio_InitNoteFreeList();
     gAudioContext.noteSubsEu = Audio_AllocZeroed(&gAudioContext.notesAndBuffersPool,
-                                                  gAudioContext.audioBufferParameters.updatesPerFrame *
-                                                      gAudioContext.maxSimultaneousNotes * sizeof(NoteSubEu));
+                                                 gAudioContext.audioBufferParameters.updatesPerFrame *
+                                                     gAudioContext.maxSimultaneousNotes * sizeof(NoteSubEu));
 
     for (i = 0; i != 2; i++) {
         gAudioContext.abiCmdBufs[i] =

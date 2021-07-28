@@ -812,8 +812,9 @@ void func_800EDD68(u8 arg0) {
                 for (j = 0; j < 9 - gOcarinaSongNotes[i].len; j++) {
                     for (k = 0; k < gOcarinaSongNotes[i].len && k + j < 8 &&
                                 gOcarinaSongNotes[i].notesIdx[k] == gOcarinaSongNotes[0xC].notesIdx[k + j];
-                         k++)
+                         k++) {
                         ;
+                    }
 
                     if (k == gOcarinaSongNotes[i].len) {
                         D_80131858 = 0xFF;
@@ -1445,8 +1446,9 @@ void func_800F2464(void) {
                 phi_v1 = 9;
             }
             D_8016E2E0[D_80131F04] = D_8016E2E0[phi_v1];
-            if (!D_80131F08)
+            if (!D_80131F08) {
                 ;
+            }
             D_8016E2F8[D_80131F04] = D_8016E2F8[phi_v1];
         }
     } else {

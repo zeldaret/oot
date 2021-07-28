@@ -155,10 +155,10 @@ typedef struct {
     /* 0xC */ Color_RGBA8 bootsColor;
 } EnKoModelInfo; // size = 0x10
 
-typedef enum { 
-    /* 0 */ KO_BOY, 
-    /* 1 */ KO_GIRL, 
-    /* 2 */ KO_FADO 
+typedef enum {
+    /* 0 */ KO_BOY,
+    /* 1 */ KO_GIRL,
+    /* 2 */ KO_FADO
 } KokiriGender;
 
 static EnKoModelInfo sModelInfo[] = {
