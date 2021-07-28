@@ -6,8 +6,8 @@
         <Texture Name="gTowerCollapseCsExteriorBlackStoneTex" OutName="exterior_black_stone" Format="i4" Width="64" Height="64" Offset="0xB070"/>
         <Texture Name="gTowerCollapseCsTex_B870" OutName="tex_B870" Format="i4" Width="32" Height="8" Offset="0xB870"/>
         <Texture Name="gTowerCollapseCsRaftersTex" OutName="rafters" Format="ia8" Width="32" Height="32" Offset="0xB8F0"/>
-        <Texture Name="gTowerCollapseCsBrownPaneledFloor1Tex" OutName="brown_paneled_floor_1" Format="rgb5a1" Width="32" Height="64" Offset="0xBCF0"/>
-        <Texture Name="gTowerCollapseCsBrownPaneledFloor2Tex" OutName="brown_paneled_floor_2" Format="rgb5a1" Width="32" Height="64" Offset="0xCCF0"/>
+        <Texture Name="gTowerCollapseCsBrownPaneledFloor1Tex" OutName="brown_paneled_floor_1" Format="rgba16" Width="32" Height="64" Offset="0xBCF0"/>
+        <Texture Name="gTowerCollapseCsBrownPaneledFloor2Tex" OutName="brown_paneled_floor_2" Format="rgba16" Width="32" Height="64" Offset="0xCCF0"/>
         <Texture Name="gTowerCollapseCsExteriorPillarStoneTex" OutName="exterior_pillar_stone" Format="i4" Width="64" Height="128" Offset="0xDCF0"/>
         <Texture Name="gTowerCollapseCsRailingTex" OutName="railing" Format="ia8" Width="32" Height="16" Offset="0xECF0"/>
         <Texture Name="gTowerCollapseCsTex_EEF0" OutName="tex_EEF0" Format="i4" Width="32" Height="64" Offset="0xEEF0"/>
@@ -18,7 +18,7 @@
         <Texture Name="gTowerCollapseCsSpikeTex" OutName="spike" Format="ia8" Width="16" Height="16" Offset="0x10EF0"/>   
         <Texture Name="gTowerCollapseCsCollapsedCastleEdgeTex" OutName="collapsed_castle_edge" Format="i8" Width="64" Height="64" Offset="0x10FF0"/>
         <Texture Name="gTowerCollapseCsTex_11FF0" OutName="tex_11FF0" Format="i8" Width="32" Height="32" Offset="0x11FF0"/>
-        <Texture Name="gTowerCollapseCsTex_123F0" OutName="tex_123F0" Format="rgb5a1" Width="16" Height="16" Offset="0x123F0"/>
+        <Texture Name="gTowerCollapseCsTex_123F0" OutName="tex_123F0" Format="rgba16" Width="16" Height="16" Offset="0x123F0"/>
         <Texture Name="gTowerCollapseCsTex_125F0" OutName="tex_125F0" Format="i8" Width="64" Height="64" Offset="0x125F0"/>
         
         <!-- Tower Collapse DisplayLists -->

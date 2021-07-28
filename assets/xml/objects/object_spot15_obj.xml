@@ -2,7 +2,7 @@
     <File Name="object_spot15_obj" Segment="6">
         <!-- Lon Lon Milk Crate -->
         <DList Name="gLonLonMilkCrateDL" Offset="0x180"/>
-        <Texture Name="gLonLonMilkCrateTex" OutName="milk_crate" Format="rgb5a1" Width="32" Height="64" Offset="0xD00"/>
+        <Texture Name="gLonLonMilkCrateTex" OutName="milk_crate" Format="rgba16" Width="32" Height="64" Offset="0xD00"/>
         <Collision Name="gLonLonMilkCrateCol" Offset="0x348"/>
 
         <!-- Lon Lon Corral Fence -->

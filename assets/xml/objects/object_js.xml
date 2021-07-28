@@ -31,7 +31,7 @@
         <DList Name="gCarpetMerchantHeadDL" Offset="0x4070"/>
 
         <!-- Carpet Merchant Palettes -->
-        <Texture Name="gCarpetMerchantTLUT" OutName="tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x4C20"/>
+        <Texture Name="gCarpetMerchantTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x4C20"/>
 
         <!-- Carpet Merchant DisplayList Textures -->
         <Texture Name="gCarpetMerchantPantsTex" OutName="pants" Format="ci8" Width="8" Height="16" Offset="0x4E20" TlutOffset="0x4C20"/>

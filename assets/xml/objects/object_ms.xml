@@ -23,7 +23,7 @@
         <DList Name="gBeanSalesmanBeanbagDL" Offset="0x21E0"/>
 
         <!-- Bean Salesman Palettes -->
-        <Texture Name="gBeanSalesmanTLUT" OutName="tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x3230"/>
+        <Texture Name="gBeanSalesmanTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x3230"/>
 
         <!-- Bean Salesman DisplayList Textures -->
         <Texture Name="gBeanSalesmanBackOfHandTex" OutName="back_of_hand" Format="ci8" Width="16" Height="16" Offset="0x3430" TlutOffset="0x3230"/>

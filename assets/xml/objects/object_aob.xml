@@ -39,7 +39,7 @@
         <DList Name="gDogLadyHeadDL" Offset="0x3C88"/>
 
         <!-- Palettes -->
-        <Texture Name="gDogLadyTLUT" OutName="tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x0108"/>
+        <Texture Name="gDogLadyTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x0108"/>
 
         <!-- Textures -->
         <Texture Name="gDogLadyHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x0308" TlutOffset="0x0108"/>
@@ -52,8 +52,8 @@
         <Texture Name="gDogLadyDressTex" OutName="dress" Format="ci8" Width="8" Height="8" Offset="0x1F08" TlutOffset="0x0108"/>
 
         <!-- Dog Lady Eye Textures -->
-        <Texture Name="gDogLadyEyeOpenTex" OutName="dog_lady_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x05C8"/>
-        <Texture Name="gDogLadyEyeHalfTex" OutName="dog_lady_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x0DC8"/>
-        <Texture Name="gDogLadyEyeClosedTex" OutName="dog_lady_eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x15C8"/>
+        <Texture Name="gDogLadyEyeOpenTex" OutName="dog_lady_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x05C8"/>
+        <Texture Name="gDogLadyEyeHalfTex" OutName="dog_lady_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x0DC8"/>
+        <Texture Name="gDogLadyEyeClosedTex" OutName="dog_lady_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x15C8"/>
     </File>
 </Root>

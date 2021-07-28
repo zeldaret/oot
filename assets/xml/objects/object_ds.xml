@@ -17,7 +17,7 @@
         <DList Name="gPotionShopLadyHeadDL" Offset="0x2C00"/>
 
         <!-- Potion Shop Lady Palettes -->
-        <Texture Name="gPotionShopLadyTLUT" OutName="potion_shop_lady_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x3918"/>
+        <Texture Name="gPotionShopLadyTLUT" OutName="potion_shop_lady_tlut" Format="rgba16" Width="16" Height="16" Offset="0x3918"/>
 
         <!-- Potion Shop Lady DisplayList Textures -->
         <Texture Name="gPotionShopLadySkinGradientTex" OutName="skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x3B18" TlutOffset="0x3918"/>
