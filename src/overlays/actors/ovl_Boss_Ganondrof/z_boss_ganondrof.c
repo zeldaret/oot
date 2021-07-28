@@ -186,7 +186,7 @@ static u64* sLimbTex_rgba16_8x8[] = {
     gPhantomGanonLimbTex_00A800, gPhantomGanonLimbTex_00AE80, gPhantomGanonLimbTex_00AF00,
     gPhantomGanonLimbTex_00C180, gPhantomGanonLimbTex_00C400,
 };
-static u64* sLimbTex_rgba16_16x8[] = {
+static u64* sLimbTex_rgb5a1_16x8[] = {
     gPhantomGanonLimbTex_00B980, gPhantomGanonLimbTex_00C480, gPhantomGanonLimbTex_00BC80,
     gPhantomGanonLimbTex_00BD80, gPhantomGanonLimbTex_00C080,
 };
@@ -250,7 +250,7 @@ void BossGanondrof_ClearPixels(u8* mask, s16 index) {
     for (i = 0; i < 5; i++) {
         // ARRAY_COUNT can't be used here because the arrays aren't guaranteed to be the same size.
         BossGanondrof_ClearPixels8x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgba16_8x8[i]), mask, index);
-        BossGanondrof_ClearPixels16x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgba16_16x8[i]), mask, index);
+        BossGanondrof_ClearPixels16x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x8[i]), mask, index);
     }
 
     for (i = 0; i < ARRAY_COUNT(sLimbTex_rgba16_16x16); i++) {
