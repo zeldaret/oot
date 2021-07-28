@@ -25,12 +25,7 @@ void func_80A99384(EnKo* this, GlobalContext* globalCtx);
 void func_80A99438(EnKo* this, GlobalContext* globalCtx);
 void func_80A99504(EnKo* this, GlobalContext* globalCtx);
 void func_80A99560(EnKo* this, GlobalContext* globalCtx);
-Gfx* EnKo_SetEnvColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a);
-s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                          Gfx** arg6);
-u16 func_80A97610(GlobalContext*, Actor*);
-s16 func_80A97738(GlobalContext*, Actor*);
-f32 func_80A97BC0(EnKo* this);
+
 s32 func_80A98ECC(EnKo* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06006A60;
@@ -78,10 +73,10 @@ static void* sKw1Eyes[] = { /* gKw1EyeOpenTex */ 0x06000F4C, /* gKw1EyeHalfTex *
                             /* gKw1EyeClosedTex */ 0x06001E0C, NULL };
 
 typedef struct {
-    s16 objectId;
-    Gfx* dList;
-    void** eyeTextures;
-} EnKoHead;
+    /* 0x0 */ s16 objectId;
+    /* 0x4 */ Gfx* dList;
+    /* 0x8 */ void** eyeTextures;
+} EnKoHead; // size = 0xC
 
 static EnKoHead sHead[] = {
     { OBJECT_KM1, /* gKm1DL */ 0x06001890, NULL },
@@ -90,9 +85,9 @@ static EnKoHead sHead[] = {
 };
 
 typedef struct {
-    s16 objectId;
-    FlexSkeletonHeader* flexSkeletonHeader;
-} EnKoSkeleton;
+    /* 0x0 */ s16 objectId;
+    /* 0x4 */ FlexSkeletonHeader* flexSkeletonHeader;
+} EnKoSkeleton; // size = 0x8
 
 static EnKoSkeleton sSkeleton[2] = {
     { OBJECT_KM1, /* gKm1Skel */ 0x060000F0 },
@@ -149,18 +144,22 @@ static u8 sOsAnimeLookup[13][5] = {
     /* ENKO_TYPE_CHILD_9    */ { 0x03, 0x03, 0x03, 0x1B, 0x1B },
     /* ENKO_TYPE_CHILD_10   */ { 0x02, 0x02, 0x02, 0x02, 0x16 },
     /* ENKO_TYPE_CHILD_11   */ { 0x0E, 0x0E, 0x0E, 0x0E, 0x0E },
-    /* ENKO_TYPE_CHILD_FADO */ { 0x05, 0x05, 0x05, 0x05, 0x05 }
+    /* ENKO_TYPE_CHILD_FADO */ { 0x05, 0x05, 0x05, 0x05, 0x05 },
 };
 
 typedef struct {
-    u8 headId;
-    u8 bodyId;
-    Color_RGBA8 tunicColor;
-    u8 legsId;
-    Color_RGBA8 bootsColor;
-} EnKoModelInfo;
+    /* 0x0 */ u8 headId;
+    /* 0x1 */ u8 bodyId;
+    /* 0x4 */ Color_RGBA8 tunicColor;
+    /* 0x8 */ u8 legsId;
+    /* 0xC */ Color_RGBA8 bootsColor;
+} EnKoModelInfo; // size = 0x10
 
-typedef enum { KO_BOY, KO_GIRL, KO_FADO } KokiriGender;
+typedef enum { 
+    /* 0 */ KO_BOY, 
+    /* 1 */ KO_GIRL, 
+    /* 2 */ KO_FADO 
+} KokiriGender;
 
 static EnKoModelInfo sModelInfo[] = {
     /* ENKO_TYPE_CHILD_0    */ { KO_BOY, KO_BOY, { 0, 130, 70, 255 }, KO_BOY, { 110, 170, 20, 255 } },
@@ -179,10 +178,10 @@ static EnKoModelInfo sModelInfo[] = {
 };
 
 typedef struct {
-    s8 targetMode;
-    f32 lookDist; // extended by collider radius
-    f32 appearDist;
-} EnKoInteractInfo;
+    /* 0x0 */ s8 targetMode;
+    /* 0x4 */ f32 lookDist; // extended by collider radius
+    /* 0x8 */ f32 appearDist;
+} EnKoInteractInfo; // size = 0xC
 
 static EnKoInteractInfo sInteractInfo[] = {
     /* ENKO_TYPE_CHILD_0    */ { 6, 30.0f, 180.0f },
@@ -197,7 +196,7 @@ static EnKoInteractInfo sInteractInfo[] = {
     /* ENKO_TYPE_CHILD_9    */ { 6, 30.0f, 180.0f },
     /* ENKO_TYPE_CHILD_10   */ { 6, 30.0f, 180.0f },
     /* ENKO_TYPE_CHILD_11   */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_FADO */ { 6, 30.0f, 180.0f }
+    /* ENKO_TYPE_CHILD_FADO */ { 6, 30.0f, 180.0f },
 };
 
 s32 EnKo_AreObjectsAvailable(EnKo* this, GlobalContext* globalCtx) {

@@ -8,14 +8,14 @@
         <Blob Name="object_sb_Blob_000840" Size="0x3C0" Offset="0x840"/>
         <DList Name="object_sb_DL_000D80" Offset="0xD80"/>
         <DList Name="object_sb_DL_000E70" Offset="0xE70"/>
-        <Texture Name="object_sb_Tex_001020" OutName="tex_00001020" Format="rgb5a1" Width="32" Height="32" Offset="0x1020"/>
-        <Texture Name="object_sb_Tex_001820" OutName="tex_00001820" Format="rgb5a1" Width="8" Height="16" Offset="0x1820"/>
-        <Texture Name="object_sb_Tex_001920" OutName="tex_00001920" Format="rgb5a1" Width="8" Height="8" Offset="0x1920"/>
-        <Texture Name="object_sb_Tex_0019A0" OutName="tex_000019A0" Format="rgb5a1" Width="8" Height="8" Offset="0x19A0"/>
-        <Texture Name="object_sb_Tex_001A20" OutName="tex_00001A20" Format="rgb5a1" Width="8" Height="8" Offset="0x1A20"/>
+        <Texture Name="object_sb_Tex_001020" OutName="tex_00001020" Format="rgba16" Width="32" Height="32" Offset="0x1020"/>
+        <Texture Name="object_sb_Tex_001820" OutName="tex_00001820" Format="rgba16" Width="8" Height="16" Offset="0x1820"/>
+        <Texture Name="object_sb_Tex_001920" OutName="tex_00001920" Format="rgba16" Width="8" Height="8" Offset="0x1920"/>
+        <Texture Name="object_sb_Tex_0019A0" OutName="tex_000019A0" Format="rgba16" Width="8" Height="8" Offset="0x19A0"/>
+        <Texture Name="object_sb_Tex_001A20" OutName="tex_00001A20" Format="rgba16" Width="8" Height="8" Offset="0x1A20"/>
         <DList Name="object_sb_DL_0025B0" Offset="0x25B0"/>
         <DList Name="object_sb_DL_002858" Offset="0x2858"/>
-        <Texture Name="object_sb_Tex_002AF0" OutName="tex_00002AF0" Format="rgb5a1" Width="8" Height="8" Offset="0x2AF0"/>
+        <Texture Name="object_sb_Tex_002AF0" OutName="tex_00002AF0" Format="rgba16" Width="8" Height="8" Offset="0x2AF0"/>
         <Limb Name="object_sb_Limb_002B70" LimbType="Standard" Offset="0x2B70"/>
         <Limb Name="object_sb_Limb_002B7C" LimbType="Standard" Offset="0x2B7C"/>
         <Limb Name="object_sb_Limb_002B88" LimbType="Standard" Offset="0x2B88"/>

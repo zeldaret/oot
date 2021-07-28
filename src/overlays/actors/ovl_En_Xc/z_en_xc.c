@@ -49,9 +49,9 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static u64* sEyeTextures[] = {
-    gShiekEyeOpenTex,
-    gShiekEyeHalfClosedTex,
-    gShiekEyeShutTex,
+    gSheikEyeOpenTex,
+    gSheikEyeHalfClosedTex,
+    gSheikEyeShutTex,
 };
 
 void EnXc_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
@@ -214,7 +214,7 @@ void EnXc_CheckAndSetAction(EnXc* this, s32 check, s32 set) {
 
 void func_80B3C7D4(EnXc* this, s32 action1, s32 action2, s32 action3) {
     if (action1 != this->action) {
-        if (this->action == SHIEK_ACTION_PUT_HARP_AWAY) {
+        if (this->action == SHEIK_ACTION_PUT_HARP_AWAY) {
             this->action = action2;
         } else {
             this->action = action3;
@@ -230,13 +230,13 @@ s32 EnXc_NoCutscenePlaying(GlobalContext* globalCtx) {
 }
 
 void func_80B3C820(EnXc* this) {
-    Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim),
+    Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim),
                      ANIMMODE_LOOP, 0.0f);
-    this->action = SHIEK_ACTION_53;
+    this->action = SHEIK_ACTION_53;
 }
 
 void func_80B3C888(EnXc* this, GlobalContext* globalCtx) {
-    if (EnXc_NoCutscenePlaying(globalCtx) && this->actor.params == SHIEK_TYPE_4) {
+    if (EnXc_NoCutscenePlaying(globalCtx) && this->actor.params == SHEIK_TYPE_4) {
         func_80B3C820(this);
     }
 }
@@ -267,23 +267,23 @@ void func_80B3C9DC(EnXc* this) {
 }
 
 void func_80B3C9EC(EnXc* this) {
-    EnXc_ChangeAnimation(this, &gShiekArmsCrossedIdleAnim, ANIMMODE_LOOP, 0.0f, false);
-    this->action = SHIEK_ACTION_BLOCK_PEDESTAL;
-    this->drawMode = SHIEK_DRAW_DEFAULT;
+    EnXc_ChangeAnimation(this, &gSheikArmsCrossedIdleAnim, ANIMMODE_LOOP, 0.0f, false);
+    this->action = SHEIK_ACTION_BLOCK_PEDESTAL;
+    this->drawMode = SHEIK_DRAW_DEFAULT;
     this->unk_30C = 1;
 }
 
 void func_80B3CA38(EnXc* this, GlobalContext* globalCtx) {
     // If Player is adult but hasn't learned Minuet of Forest
     if (!(gSaveContext.eventChkInf[5] & 1) && LINK_IS_ADULT) {
-        this->action = SHIEK_ACTION_INIT;
+        this->action = SHEIK_ACTION_INIT;
     } else {
         Actor_Kill(&this->actor);
     }
 }
 
 s32 EnXc_MinuetCS(EnXc* this, GlobalContext* globalCtx) {
-    if (this->actor.params == SHIEK_TYPE_MINUET) {
+    if (this->actor.params == SHEIK_TYPE_MINUET) {
         Player* player = PLAYER;
         f32 z = player->actor.world.pos.z;
         if (z < -2225.0f) {
@@ -303,7 +303,7 @@ s32 EnXc_MinuetCS(EnXc* this, GlobalContext* globalCtx) {
 void func_80B3CB58(EnXc* this, GlobalContext* globalCtx) {
     // If hasn't learned Bolero and Player is Adult
     if (!(gSaveContext.eventChkInf[5] & 2) && LINK_IS_ADULT) {
-        this->action = SHIEK_ACTION_INIT;
+        this->action = SHEIK_ACTION_INIT;
     } else {
         Actor_Kill(&this->actor);
     }
@@ -313,7 +313,7 @@ s32 EnXc_BoleroCS(EnXc* this, GlobalContext* globalCtx) {
     Player* player;
     PosRot* posRot;
 
-    if (this->actor.params == SHIEK_TYPE_BOLERO) {
+    if (this->actor.params == SHEIK_TYPE_BOLERO) {
         player = PLAYER;
         posRot = &player->actor.world;
         if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
@@ -333,7 +333,7 @@ s32 EnXc_BoleroCS(EnXc* this, GlobalContext* globalCtx) {
 void EnXc_SetupSerenadeAction(EnXc* this, GlobalContext* globalCtx) {
     // Player is adult and does not have iron boots and has not learned Serenade
     if ((!CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4)) && LINK_IS_ADULT) {
-        this->action = SHIEK_ACTION_SERENADE;
+        this->action = SHEIK_ACTION_SERENADE;
         osSyncPrintf("水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n");
     } else {
         Actor_Kill(&this->actor);
@@ -342,7 +342,7 @@ void EnXc_SetupSerenadeAction(EnXc* this, GlobalContext* globalCtx) {
 }
 
 s32 EnXc_SerenadeCS(EnXc* this, GlobalContext* globalCtx) {
-    if (this->actor.params == SHIEK_TYPE_SERENADE) {
+    if (this->actor.params == SHEIK_TYPE_SERENADE) {
         Player* player = PLAYER;
         s32 stateFlags = player->stateFlags1;
         if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) && !(stateFlags & 0x20000000) &&
@@ -557,21 +557,21 @@ void func_80B3D48C(EnXc* this, GlobalContext* globalCtx) {
 }
 
 AnimationHeader* EnXc_GetCurrentHarpAnim(GlobalContext* globalCtx, s32 index) {
-    AnimationHeader* animation = &gShiekPlayingHarp5Anim;
+    AnimationHeader* animation = &gSheikPlayingHarp5Anim;
     CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, index);
 
     if (npcAction != NULL) {
         u16 action = npcAction->action;
         if (action == 11) {
-            animation = &gShiekPlayingHarp3Anim;
+            animation = &gSheikPlayingHarp3Anim;
         } else if (action == 12) {
-            animation = &gShiekPlayingHarp2Anim;
+            animation = &gSheikPlayingHarp2Anim;
         } else if (action == 13) {
-            animation = &gShiekPlayingHarp4Anim;
+            animation = &gSheikPlayingHarp4Anim;
         } else if (action == 23) {
-            animation = &gShiekPlayingHarpAnim;
+            animation = &gSheikPlayingHarpAnim;
         } else {
-            animation = &gShiekPlayingHarp5Anim;
+            animation = &gSheikPlayingHarp5Anim;
         }
     }
     return animation;
@@ -622,7 +622,7 @@ void func_80B3D730(EnXc* this) {
 
 void func_80B3D750(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_MinuetCS(this, globalCtx) && EnXc_BoleroCS(this, globalCtx)) {
-        this->action = SHIEK_ACTION_WAIT;
+        this->action = SHEIK_ACTION_WAIT;
     }
 }
 
@@ -637,10 +637,10 @@ void EnXc_SetupFallFromSkyAction(EnXc* this, GlobalContext* globalCtx) {
             s32 pad;
             Vec3f* pos = &this->actor.world.pos;
             SkelAnime* skelAnime = &this->skelAnime;
-            f32 frameCount = Animation_GetLastFrame(&gShiekFallingFromSkyAnim);
+            f32 frameCount = Animation_GetLastFrame(&gSheikFallingFromSkyAnim);
 
-            this->action = SHIEK_ACTION_GRACEFUL_FALL;
-            this->drawMode = SHIEK_DRAW_DEFAULT;
+            this->action = SHEIK_ACTION_GRACEFUL_FALL;
+            this->drawMode = SHEIK_DRAW_DEFAULT;
 
             pos->x = npcAction->startPos.x;
             pos->y = npcAction->startPos.y;
@@ -648,7 +648,7 @@ void EnXc_SetupFallFromSkyAction(EnXc* this, GlobalContext* globalCtx) {
 
             func_80B3D48C(this, globalCtx);
             func_80B3C964(this, globalCtx);
-            Animation_Change(skelAnime, &gShiekFallingFromSkyAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+            Animation_Change(skelAnime, &gSheikFallingFromSkyAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
             func_80B3D118(globalCtx);
         }
     }
@@ -657,11 +657,11 @@ void EnXc_SetupFallFromSkyAction(EnXc* this, GlobalContext* globalCtx) {
 void func_80B3D8A4(EnXc* this, GlobalContext* globalCtx, s32 animFinished) {
     if (animFinished) {
         SkelAnime* skelAnime = &this->skelAnime;
-        f32 frameCount = Animation_GetLastFrame(&gShiekWalkingAnim);
+        f32 frameCount = Animation_GetLastFrame(&gSheikWalkingAnim);
 
-        Animation_Change(skelAnime, &gShiekWalkingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -8.0f);
+        Animation_Change(skelAnime, &gSheikWalkingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -8.0f);
 
-        this->action = SHIEK_ACTION_ACCEL;
+        this->action = SHEIK_ACTION_ACCEL;
         this->timer = 0.0f;
 
         func_80B3C9DC(this);
@@ -678,7 +678,7 @@ void EnXc_SetupWalkAction(EnXc* this) {
     *timer += 1.0f;
     if (*timer >= 12.0f) {
         this->actor.speedXZ = (kREG(2) * 0.01f) + 1.2f;
-        this->action = SHIEK_ACTION_WALK;
+        this->action = SHEIK_ACTION_WALK;
     }
 }
 
@@ -687,10 +687,10 @@ void EnXc_SetupHaltAction(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (xzDistToPlayer <= (kREG(3) + 95.0f)) {
-        f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
+        f32 frameCount = Animation_GetLastFrame(&gSheikIdleAnim);
 
-        Animation_Change(skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -12.0f);
-        this->action = SHIEK_ACTION_HALT;
+        Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -12.0f);
+        this->action = SHEIK_ACTION_HALT;
         this->timer = 0.0f;
     }
 }
@@ -700,7 +700,7 @@ void EnXc_SetupStoppedAction(EnXc* this) {
 
     *timer += 1.0f;
     if (*timer >= 12.0f) {
-        this->action = SHIEK_ACTION_STOPPED;
+        this->action = SHEIK_ACTION_STOPPED;
         this->actor.speedXZ = 0.0f;
     }
 }
@@ -713,10 +713,10 @@ void func_80B3DAF0(EnXc* this, GlobalContext* globalCtx) {
         (action = npcAction->action, action == 3 || action == 11 || action == 12 || action == 13 || action == 23)) {
         f32 frameCount;
 
-        frameCount = Animation_GetLastFrame(&gShiekPullingOutHarpAnim);
-        Animation_Change(&this->skelAnime, &gShiekPullingOutHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -4.0f);
-        this->action = SHIEK_ACTION_7;
-        this->drawMode = SHIEK_DRAW_PULLING_OUT_HARP;
+        frameCount = Animation_GetLastFrame(&gSheikPullingOutHarpAnim);
+        Animation_Change(&this->skelAnime, &gSheikPullingOutHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -4.0f);
+        this->action = SHEIK_ACTION_7;
+        this->drawMode = SHEIK_DRAW_PULLING_OUT_HARP;
     }
 }
 
@@ -726,10 +726,10 @@ void EnXc_SetupInitialHarpAction(EnXc* this, s32 animFinished) {
 
     if (animFinished) {
         skelAnime = &this->skelAnime;
-        frameCount = Animation_GetLastFrame(&gShiekInitialHarpAnim);
-        Animation_Change(skelAnime, &gShiekInitialHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-        this->action = SHIEK_ACTION_HARP_READY;
-        this->drawMode = SHIEK_DRAW_HARP;
+        frameCount = Animation_GetLastFrame(&gSheikInitialHarpAnim);
+        Animation_Change(skelAnime, &gSheikInitialHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+        this->action = SHEIK_ACTION_HARP_READY;
+        this->drawMode = SHEIK_DRAW_HARP;
     }
 }
 
@@ -744,8 +744,8 @@ void EnXc_SetupPlayingHarpAction(EnXc* this, GlobalContext* globalCtx, s32 animF
         animation = EnXc_GetCurrentHarpAnim(globalCtx, 4);
         frameCount = Animation_GetLastFrame(animation);
         Animation_Change(skelAnime, animation, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -8.0f);
-        this->action = SHIEK_PLAYING_HARP;
-        this->drawMode = SHIEK_DRAW_HARP;
+        this->action = SHEIK_PLAYING_HARP;
+        this->drawMode = SHEIK_DRAW_HARP;
     }
 }
 
@@ -756,10 +756,10 @@ void func_80B3DCA8(EnXc* this, GlobalContext* globalCtx) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[4];
 
         if (npcAction != NULL && npcAction->action == 8) {
-            frameCount = Animation_GetLastFrame(&gShiekInitialHarpAnim);
-            Animation_Change(&this->skelAnime, &gShiekInitialHarpAnim, 0.0f, frameCount, frameCount, ANIMMODE_LOOP,
+            frameCount = Animation_GetLastFrame(&gSheikInitialHarpAnim);
+            Animation_Change(&this->skelAnime, &gSheikInitialHarpAnim, 0.0f, frameCount, frameCount, ANIMMODE_LOOP,
                              -8.0f);
-            this->action = SHIEK_ACTION_10;
+            this->action = SHEIK_ACTION_10;
         }
     }
 }
@@ -772,9 +772,9 @@ void EnXc_SetupHarpPutawayAction(EnXc* this, GlobalContext* globalCtx) {
         curFrame = this->skelAnime.curFrame;
         animFrameCount = this->skelAnime.endFrame;
         if (curFrame >= animFrameCount) {
-            Animation_Change(&this->skelAnime, &gShiekInitialHarpAnim, -1.0f,
-                             Animation_GetLastFrame(&gShiekInitialHarpAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
-            this->action = SHIEK_ACTION_PUT_HARP_AWAY;
+            Animation_Change(&this->skelAnime, &gSheikInitialHarpAnim, -1.0f,
+                             Animation_GetLastFrame(&gSheikInitialHarpAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
+            this->action = SHEIK_ACTION_PUT_HARP_AWAY;
         }
     } else if (EnXc_CsActionsAreNotEqual(this, globalCtx, 8, 4)) {
         EnXc_SetupPlayingHarpAction(this, globalCtx, true);
@@ -783,19 +783,19 @@ void EnXc_SetupHarpPutawayAction(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B3DE00(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gShiekPullingOutHarpAnim, -1.0f,
-                         Animation_GetLastFrame(&gShiekPullingOutHarpAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
-        this->action = SHIEK_ACTION_12;
-        this->drawMode = SHIEK_DRAW_PULLING_OUT_HARP;
+        Animation_Change(&this->skelAnime, &gSheikPullingOutHarpAnim, -1.0f,
+                         Animation_GetLastFrame(&gSheikPullingOutHarpAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
+        this->action = SHEIK_ACTION_12;
+        this->drawMode = SHEIK_DRAW_PULLING_OUT_HARP;
     }
 }
 
 void func_80B3DE78(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim),
+        Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim),
                          ANIMMODE_LOOP, 0.0f);
-        this->action = SHIEK_ACTION_13;
-        this->drawMode = SHIEK_DRAW_DEFAULT;
+        this->action = SHEIK_ACTION_13;
+        this->drawMode = SHEIK_DRAW_DEFAULT;
         this->timer = 0.0f;
     }
 }
@@ -805,9 +805,9 @@ void EnXc_SetupReverseAccel(EnXc* this, GlobalContext* globalCtx) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[4];
 
         if (npcAction != NULL && npcAction->action == 4) {
-            Animation_Change(&this->skelAnime, &gShiekWalkingAnim, -1.0f, Animation_GetLastFrame(&gShiekWalkingAnim),
+            Animation_Change(&this->skelAnime, &gSheikWalkingAnim, -1.0f, Animation_GetLastFrame(&gSheikWalkingAnim),
                              0.0f, ANIMMODE_LOOP, -12.0f);
-            this->action = SHIEK_ACTION_REVERSE_ACCEL;
+            this->action = SHEIK_ACTION_REVERSE_ACCEL;
             this->actor.world.rot.y += 0x8000;
             this->timer = 0.0f;
         }
@@ -818,7 +818,7 @@ void EnXc_SetupReverseWalkAction(EnXc* this) {
     this->timer++;
     if (this->timer >= 12.0f) {
         this->actor.speedXZ = (kREG(2) * 0.01f) + 1.2f;
-        this->action = SHIEK_ACTION_REVERSE_WALK;
+        this->action = SHEIK_ACTION_REVERSE_WALK;
     }
 }
 
@@ -826,9 +826,9 @@ void EnXc_SetupReverseHaltAction(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (xzDistToPlayer >= kREG(5) + 140.0f) {
-        Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim),
+        Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim),
                          ANIMMODE_LOOP, -12.0f);
-        this->action = SHIEK_ACTION_REVERSE_HALT;
+        this->action = SHEIK_ACTION_REVERSE_HALT;
         this->timer = 0.0f;
     }
 }
@@ -836,9 +836,9 @@ void EnXc_SetupReverseHaltAction(EnXc* this) {
 void EnXc_SetupNutThrow(EnXc* this) {
     this->timer++;
     if (this->timer >= 12.0f) {
-        Animation_Change(&this->skelAnime, &gShiekThrowingNutAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gShiekThrowingNutAnim), ANIMMODE_ONCE, 0.0f);
-        this->action = SHIEK_ACTION_THROW_NUT;
+        Animation_Change(&this->skelAnime, &gSheikThrowingNutAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gSheikThrowingNutAnim), ANIMMODE_ONCE, 0.0f);
+        this->action = SHEIK_ACTION_THROW_NUT;
         this->timer = 0.0f;
         this->actor.speedXZ = 0.0f;
     }
@@ -847,7 +847,7 @@ void EnXc_SetupNutThrow(EnXc* this) {
 void func_80B3E164(EnXc* this, GlobalContext* globalCtx) {
     this->timer++;
     if (this->timer >= 30.0f) {
-        this->action = SHIEK_ACTION_DELETE;
+        this->action = SHEIK_ACTION_DELETE;
         EnXc_SpawnNut(this, globalCtx);
     }
 }
@@ -859,10 +859,10 @@ void EnXc_SetupDisappear(EnXc* this, GlobalContext* globalCtx) {
         if (npcAction != NULL && npcAction->action == 9) {
             s16 sceneNum = globalCtx->sceneNum;
 
-            // Shiek fades away if end of Bolero CS, kill actor otherwise
+            // Sheik fades away if end of Bolero CS, kill actor otherwise
             if (sceneNum == SCENE_SPOT17) {
-                this->action = SHIEK_ACTION_FADE;
-                this->drawMode = SHIEK_DRAW_NOTHING;
+                this->action = SHEIK_ACTION_FADE;
+                this->drawMode = SHEIK_DRAW_NOTHING;
                 this->actor.shape.shadowAlpha = 0;
             } else {
                 Actor_Kill(&this->actor);
@@ -1037,7 +1037,7 @@ void func_80B3E87C(Gfx** dList, EnXc* this) {
     f32 currentFrame = this->skelAnime.curFrame;
 
     if (currentFrame >= 34.0f) {
-        *dList = gShiekHarpDL;
+        *dList = gSheikHarpDL;
     }
 }
 
@@ -1057,7 +1057,7 @@ s32 EnXc_HarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
     EnXc* this = THIS;
 
     if (limbIndex == 12) {
-        *dList = gShiekHarpDL;
+        *dList = gSheikHarpDL;
     }
 
     return 0;
@@ -1109,11 +1109,11 @@ void EnXc_DrawHarp(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B3EBF0(EnXc* this, GlobalContext* globalCtx) {
-    this->action = SHIEK_ACTION_20;
+    this->action = SHEIK_ACTION_20;
 }
 
 void func_80B3EC00(EnXc* this) {
-    this->action = SHIEK_ACTION_21;
+    this->action = SHEIK_ACTION_21;
 }
 
 void func_80B3EC0C(EnXc* this, GlobalContext* globalCtx) {
@@ -1133,8 +1133,8 @@ void func_80B3EC0C(EnXc* this, GlobalContext* globalCtx) {
 
             posRot->rot.y = shape->rot.y = npcAction->rot.y;
 
-            this->action = SHIEK_ACTION_22;
-            this->drawMode = SHIEK_DRAW_DEFAULT;
+            this->action = SHEIK_ACTION_22;
+            this->drawMode = SHEIK_DRAW_DEFAULT;
         }
     }
 }
@@ -1155,7 +1155,7 @@ void func_80B3ECD8(EnXc* this) {
     this->timer++;
     if (this->timer >= 12.0f) {
         this->actor.speedXZ = kREG(2) * 0.01f + 1.2f;
-        this->action = SHIEK_ACTION_24;
+        this->action = SHEIK_ACTION_24;
     }
 }
 
@@ -1199,76 +1199,76 @@ void EnXc_ActionFunc28(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3EE64(EnXc* this, GlobalContext* globalCtx) {
-    this->action = SHIEK_ACTION_SERENADE;
+    this->action = SHEIK_ACTION_SERENADE;
 }
 
 void func_80B3EE74(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_SerenadeCS(this, globalCtx)) {
-        this->action = SHIEK_ACTION_30;
+        this->action = SHEIK_ACTION_30;
     }
 }
 
 void func_80B3EEA4(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_30, SHIEK_ACTION_31);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_30, SHEIK_ACTION_31);
 }
 
 void func_80B3EEC8(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_31, SHIEK_ACTION_32);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_31, SHEIK_ACTION_32);
 }
 
 void func_80B3EEEC(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_32, SHIEK_ACTION_33);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_32, SHEIK_ACTION_33);
 }
 
 void func_80B3EF10(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_33, SHIEK_ACTION_34);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_33, SHEIK_ACTION_34);
 }
 
 void func_80B3EF34(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_34, SHIEK_ACTION_35);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_34, SHEIK_ACTION_35);
 }
 
 void func_80B3EF58(EnXc* this) {
-    func_80B3C7D4(this, SHIEK_ACTION_35, SHIEK_ACTION_36, SHIEK_ACTION_34);
+    func_80B3C7D4(this, SHEIK_ACTION_35, SHEIK_ACTION_36, SHEIK_ACTION_34);
 }
 
 void func_80B3EF80(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_36, SHIEK_ACTION_37);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_36, SHEIK_ACTION_37);
 }
 
 void func_80B3EFA4(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_37, SHIEK_ACTION_38);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_37, SHEIK_ACTION_38);
 }
 
 void func_80B3EFC8(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_38, SHIEK_ACTION_39);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_38, SHEIK_ACTION_39);
 }
 
 void func_80B3EFEC(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_39, SHIEK_ACTION_40);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_39, SHEIK_ACTION_40);
 }
 
 void func_80B3F010(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (kREG(5) + 140.0f <= xzDistToPlayer) {
-        Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim),
+        Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim),
                          ANIMMODE_LOOP, -12.0f);
-        this->action = SHIEK_ACTION_41;
+        this->action = SHEIK_ACTION_41;
         this->timer = 0.0f;
     }
 }
 
 void func_80B3F0B8(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_41, SHIEK_ACTION_42);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_41, SHEIK_ACTION_42);
 }
 
 void func_80B3F0DC(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_42, SHIEK_ACTION_43);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_42, SHEIK_ACTION_43);
 }
 
 void func_80B3F100(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_43, SHIEK_ACTION_44);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_43, SHEIK_ACTION_44);
 }
 
 void EnXc_Serenade(EnXc* this, GlobalContext* globalCtx) {
@@ -1354,7 +1354,7 @@ void EnXc_ActionFunc44(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3F3C8(EnXc* this, GlobalContext* globalCtx) {
-    this->action = SHIEK_ACTION_45;
+    this->action = SHEIK_ACTION_45;
 }
 
 void func_80B3F3D8() {
@@ -1419,45 +1419,45 @@ void func_80B3F59C(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3F620(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_45, SHIEK_ACTION_46);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_45, SHEIK_ACTION_46);
 }
 
 void func_80B3F644(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_46, SHIEK_ACTION_47);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_46, SHEIK_ACTION_47);
 }
 
 void func_80B3F668(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_CompareCsAction(this, globalCtx, 4, 4)) {
-        EnXc_ChangeAnimation(this, &gShiekWalkingAnim, ANIMMODE_LOOP, -12.0f, true);
-        this->action = SHIEK_ACTION_48;
+        EnXc_ChangeAnimation(this, &gSheikWalkingAnim, ANIMMODE_LOOP, -12.0f, true);
+        this->action = SHEIK_ACTION_48;
         this->actor.world.rot.y += 0x8000;
         this->timer = 0.0f;
     }
 }
 
 void func_80B3F6DC(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_48, SHIEK_ACTION_49);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_48, SHEIK_ACTION_49);
 }
 
 void EnXc_SetupKneelAction(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_CompareCsAction(this, globalCtx, 16, 4)) {
-        EnXc_ChangeAnimation(this, &gShiekKneelingAnim, ANIMMODE_LOOP, 0.0f, false);
-        this->action = SHIEK_SHIEK_KNEEL;
+        EnXc_ChangeAnimation(this, &gSheikKneelingAnim, ANIMMODE_LOOP, 0.0f, false);
+        this->action = SHEIK_ACTION_KNEEL;
     }
 }
 
 void func_80B3F754(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_CompareCsAction(this, globalCtx, 22, 4)) {
-        EnXc_ChangeAnimation(this, &gShiekAnim_01A048, ANIMMODE_LOOP, 0.0f, false);
-        this->action = SHIEK_ACTION_51;
+        EnXc_ChangeAnimation(this, &gSheikAnim_01A048, ANIMMODE_LOOP, 0.0f, false);
+        this->action = SHEIK_ACTION_51;
         func_80B3C588(this, globalCtx, 4);
     }
 }
 
 void func_80B3F7BC(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_CompareCsAction(this, globalCtx, 9, 4)) {
-        this->action = SHIEK_ACTION_52;
-        this->drawMode = SHIEK_DRAW_NOTHING;
+        this->action = SHEIK_ACTION_52;
+        this->drawMode = SHEIK_DRAW_NOTHING;
     }
 }
 
@@ -1514,7 +1514,7 @@ void EnXc_ActionFunc52(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3FA08(EnXc* this, GlobalContext* globalCtx) {
-    this->action = SHIEK_ACTION_53;
+    this->action = SHEIK_ACTION_53;
     this->triforceAngle = kREG(24) + 0x53FC;
 }
 
@@ -1617,25 +1617,25 @@ void func_80B3FF0C(EnXc* this, GlobalContext* globalCtx) {
             }
         }
 
-        this->action = SHIEK_ACTION_54;
-        this->drawMode = SHIEK_DRAW_DEFAULT;
+        this->action = SHEIK_ACTION_54;
+        this->drawMode = SHEIK_DRAW_DEFAULT;
     }
 }
 
 void EnXc_SetupShowTriforceAction(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_CompareCsAction(this, globalCtx, 10, 4)) {
-        Animation_Change(&this->skelAnime, &gShiekShowingTriforceOnHandAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gShiekShowingTriforceOnHandAnim), ANIMMODE_ONCE, -8.0f);
-        this->action = SHIEK_ACTION_SHOW_TRIFORCE;
-        this->drawMode = SHIEK_DRAW_TRIFORCE;
+        Animation_Change(&this->skelAnime, &gSheikShowingTriforceOnHandAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gSheikShowingTriforceOnHandAnim), ANIMMODE_ONCE, -8.0f);
+        this->action = SHEIK_ACTION_SHOW_TRIFORCE;
+        this->drawMode = SHEIK_DRAW_TRIFORCE;
     }
 }
 
 void EnXc_SetupShowTriforceIdleAction(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gShiekShowingTriforceOnHandIdleAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gShiekShowingTriforceOnHandIdleAnim), ANIMMODE_LOOP, 0.0f);
-        this->action = SHIEK_ACTION_SHOW_TRIFORCE_IDLE;
+        Animation_Change(&this->skelAnime, &gSheikShowingTriforceOnHandIdleAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gSheikShowingTriforceOnHandIdleAnim), ANIMMODE_LOOP, 0.0f);
+        this->action = SHEIK_ACTION_SHOW_TRIFORCE_IDLE;
     }
 }
 void func_80B400AC(EnXc* this, GlobalContext* globalCtx) {
@@ -1678,7 +1678,7 @@ void EnXc_ShowTriforceIdle(EnXc* this, GlobalContext* globalCtx) {
 s32 EnXc_TriforceOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
     if (limbIndex == 15) {
-        *dList = gShiekDL_011620;
+        *dList = gSheikDL_011620;
     }
     return 0;
 }
@@ -1721,7 +1721,7 @@ void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, primColor[2], primColor[3]);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, envColor[1], 0, 128);
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gShiekDL_012970);
+        gSPDisplayList(POLY_XLU_DISP++, gSheikDL_012970);
     }
 
     func_8002EBCC(thisx, globalCtx, 0);
@@ -1734,8 +1734,8 @@ void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B40590(EnXc* this, GlobalContext* globalCtx) {
-    this->action = SHIEK_ACTION_NOCTURNE_INIT;
-    this->drawMode = SHIEK_DRAW_SQUINT;
+    this->action = SHEIK_ACTION_NOCTURNE_INIT;
+    this->drawMode = SHEIK_DRAW_SQUINT;
 }
 
 void EnXc_SetThrownAroundSFX(EnXc* this) {
@@ -1772,8 +1772,8 @@ void EnXc_SetCrySFX(EnXc* this, GlobalContext* globalCtx) {
 void func_80B406F8(Actor* thisx) {
     EnXc* this = THIS;
 
-    this->action = SHIEK_ACTION_NOCTURNE_INIT;
-    this->drawMode = SHIEK_DRAW_NOTHING;
+    this->action = SHEIK_ACTION_NOCTURNE_INIT;
+    this->drawMode = SHEIK_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
 }
 
@@ -1781,160 +1781,160 @@ void EnXc_SetupIdleInNocturne(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     ActorShape* actorShape = &this->actor.shape;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
+    f32 frameCount = Animation_GetLastFrame(&gSheikIdleAnim);
 
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    this->action = SHIEK_ACTION_NOCTURNE_IDLE;
-    this->drawMode = SHIEK_DRAW_SQUINT;
+    Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    this->action = SHEIK_ACTION_NOCTURNE_IDLE;
+    this->drawMode = SHEIK_DRAW_SQUINT;
     actorShape->shadowAlpha = 255;
 }
 
 void EnXc_SetupDefenseStance(Actor* thisx) {
     EnXc* this = THIS;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&gShiekDefenseStanceAnim);
+    f32 frameCount = Animation_GetLastFrame(&gSheikDefenseStanceAnim);
 
-    Animation_Change(skelAnime, &gShiekDefenseStanceAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -8.0f);
-    this->action = SHIEK_ACTION_DEFENSE_STANCE;
-    this->drawMode = SHIEK_DRAW_DEFAULT;
+    Animation_Change(skelAnime, &gSheikDefenseStanceAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -8.0f);
+    this->action = SHEIK_ACTION_DEFENSE_STANCE;
+    this->drawMode = SHEIK_DRAW_DEFAULT;
 }
 
 void EnXc_SetupContortions(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
+    f32 frameCount = Animation_GetLastFrame(&gSheikIdleAnim);
 
-    Animation_Change(skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     func_80B3C588(this, globalCtx, 4);
     func_80B3C964(this, globalCtx);
-    Animation_Change(skelAnime, &gShiekContortionsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekContortionsAnim),
+    Animation_Change(skelAnime, &gSheikContortionsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikContortionsAnim),
                      ANIMMODE_ONCE, 0.0f);
-    this->action = SHIEK_ACTION_CONTORT;
-    this->drawMode = SHIEK_DRAW_DEFAULT;
+    this->action = SHEIK_ACTION_CONTORT;
+    this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
 void EnXc_SetupFallInNocturne(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
+    f32 frameCount = Animation_GetLastFrame(&gSheikIdleAnim);
 
-    Animation_Change(skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     func_80B3C588(this, globalCtx, 4);
     func_80B3C964(this, globalCtx);
-    Animation_Change(skelAnime, &gShiekFallingFromContortionsAnim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(&gShiekFallingFromContortionsAnim), ANIMMODE_ONCE, 0.0f);
-    this->action = SHIEK_ACTION_NOCTURNE_FALL;
-    this->drawMode = SHIEK_DRAW_DEFAULT;
+    Animation_Change(skelAnime, &gSheikFallingFromContortionsAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gSheikFallingFromContortionsAnim), ANIMMODE_ONCE, 0.0f);
+    this->action = SHEIK_ACTION_NOCTURNE_FALL;
+    this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
 void EnXc_SetupHittingGroundInNocturne(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&gShiekHittingGroundAnim);
+    f32 frameCount = Animation_GetLastFrame(&gSheikHittingGroundAnim);
 
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &gShiekHittingGroundAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-    this->action = SHIEK_ACTION_NOCTURNE_HIT_GROUND;
-    this->drawMode = SHIEK_DRAW_DEFAULT;
+    Animation_Change(&this->skelAnime, &gSheikHittingGroundAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+    this->action = SHEIK_ACTION_NOCTURNE_HIT_GROUND;
+    this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B40A78(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&gShiekHittingGroundAnim);
+    f32 frameCount = Animation_GetLastFrame(&gSheikHittingGroundAnim);
 
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &gShiekHittingGroundAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-    this->action = SHIEK_ACTION_63;
-    this->drawMode = SHIEK_DRAW_DEFAULT;
+    Animation_Change(&this->skelAnime, &gSheikHittingGroundAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+    this->action = SHEIK_ACTION_63;
+    this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
 void EnXc_SetupKneelInNocturne(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&gShiekKneelingAnim);
+    f32 frameCount = Animation_GetLastFrame(&gSheikKneelingAnim);
 
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &gShiekKneelingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    this->action = SHIEK_ACTION_NOCTURNE_KNEEL;
-    this->drawMode = SHIEK_DRAW_DEFAULT;
+    Animation_Change(&this->skelAnime, &gSheikKneelingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    this->action = SHEIK_ACTION_NOCTURNE_KNEEL;
+    this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B40BB4(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
+    f32 frameCount = Animation_GetLastFrame(&gSheikIdleAnim);
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    this->action = SHIEK_ACTION_65;
-    this->drawMode = SHIEK_DRAW_DEFAULT;
+    Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    this->action = SHEIK_ACTION_65;
+    this->drawMode = SHEIK_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B40C50(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_65, SHIEK_ACTION_66);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_65, SHEIK_ACTION_66);
 }
 
 void func_80B40C74(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_66, SHIEK_ACTION_67);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_66, SHEIK_ACTION_67);
 }
 
 void func_80B40C98(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_67, SHIEK_ACTION_68);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_67, SHEIK_ACTION_68);
 }
 
 void func_80B40CBC(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_68, SHIEK_ACTION_69);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_68, SHEIK_ACTION_69);
 }
 
 void func_80B40CE0(EnXc* this) {
-    func_80B3C7D4(this, SHIEK_ACTION_69, SHIEK_ACTION_70, SHIEK_ACTION_68);
+    func_80B3C7D4(this, SHEIK_ACTION_69, SHEIK_ACTION_70, SHEIK_ACTION_68);
 }
 
 void func_80B40D08(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_70, SHIEK_ACTION_71);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_70, SHEIK_ACTION_71);
 }
 
 void func_80B40D2C(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_71, SHIEK_ACTION_72);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_71, SHEIK_ACTION_72);
 }
 
 void func_80B40D50(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_72, SHIEK_ACTION_NOCTURNE_REVERSE_ACCEL);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_72, SHEIK_ACTION_NOCTURNE_REVERSE_ACCEL);
 }
 
 void func_80B40D74(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_NOCTURNE_REVERSE_ACCEL, SHIEK_ACTION_NOCTURNE_REVERSE_WALK);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_NOCTURNE_REVERSE_ACCEL, SHEIK_ACTION_NOCTURNE_REVERSE_WALK);
 }
 
 void EnXc_SetupReverseHaltInNocturneCS(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (kREG(5) + 140.0f <= xzDistToPlayer) {
-        Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim),
+        Animation_Change(&this->skelAnime, &gSheikIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gSheikIdleAnim),
                          ANIMMODE_LOOP, -12.0f);
-        this->action = SHIEK_ACTION_NOCTURNE_REVERSE_HALT;
+        this->action = SHEIK_ACTION_NOCTURNE_REVERSE_HALT;
         this->timer = 0.0f;
     }
 }
 
 void func_80B40E40(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_NOCTURNE_REVERSE_HALT, SHIEK_ACTION_NOCTURNE_THROW_NUT);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_NOCTURNE_REVERSE_HALT, SHEIK_ACTION_NOCTURNE_THROW_NUT);
 }
 
 void func_80B40E64(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_NOCTURNE_THROW_NUT, SHIEK_ACTION_77);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_NOCTURNE_THROW_NUT, SHEIK_ACTION_77);
 }
 
 void func_80B40E88(EnXc* this) {
-    EnXc_CheckAndSetAction(this, SHIEK_ACTION_77, SHIEK_ACTION_78);
+    EnXc_CheckAndSetAction(this, SHEIK_ACTION_77, SHEIK_ACTION_78);
 }
 
 s32 EnXc_SetupNocturneState(Actor* thisx, GlobalContext* globalCtx) {
@@ -2128,8 +2128,8 @@ void EnXc_DrawSquintingEyes(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_en_oA2_inStalker.c", 839);
     func_80093D18(gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gShiekEyeSquintingTex));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gShiekEyeSquintingTex));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSheikEyeSquintingTex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gSheikEyeSquintingTex));
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL,
                           NULL);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inStalker.c", 854);
@@ -2147,7 +2147,7 @@ void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
             Item_Give(globalCtx, ITEM_SONG_PRELUDE);
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gPreludeCs);
             gSaveContext.cutsceneTrigger = 1;
-            this->action = SHIEK_ACTION_30;
+            this->action = SHEIK_ACTION_30;
         } else if (!(gSaveContext.eventChkInf[5] & 0x20)) {
             func_80B3C9EC(this);
         } else {
@@ -2160,7 +2160,7 @@ void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
 
 void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
-        this->action = SHIEK_ACTION_IN_DIALOGUE;
+        this->action = SHEIK_ACTION_IN_DIALOGUE;
     } else {
         this->actor.flags |= 9;
         if (INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE) {
@@ -2174,7 +2174,7 @@ void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B41798(EnXc* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-        this->action = SHIEK_ACTION_BLOCK_PEDESTAL;
+        this->action = SHEIK_ACTION_BLOCK_PEDESTAL;
         this->actor.flags &= ~9;
     }
 }
@@ -2296,39 +2296,39 @@ void EnXc_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gShiekSkel, &gShiekIdleAnim, this->jointTable, this->morphTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gSheikSkel, &gSheikIdleAnim, this->jointTable, this->morphTable,
                        ARRAY_COUNT(this->jointTable));
     EnXc_InitCollider(thisx, globalCtx);
 
     switch (this->actor.params) {
-        case SHIEK_TYPE_1:
+        case SHEIK_TYPE_1:
             func_80B3EBF0(this, globalCtx);
             break;
-        case SHIEK_TYPE_2: // Beta Serenade Cutscene or Learning Prelude
+        case SHEIK_TYPE_2: // Beta Serenade Cutscene or Learning Prelude
             func_80B3EE64(this, globalCtx);
             break;
-        case SHIEK_TYPE_3:
+        case SHEIK_TYPE_3:
             func_80B3F3C8(this, globalCtx);
             break;
-        case SHIEK_TYPE_4:
+        case SHEIK_TYPE_4:
             func_80B3FA08(this, globalCtx);
             break;
-        case SHIEK_TYPE_5:
+        case SHEIK_TYPE_5:
             func_80B40590(this, globalCtx);
             break;
-        case SHIEK_TYPE_MINUET:
+        case SHEIK_TYPE_MINUET:
             func_80B3CA38(this, globalCtx);
             break;
-        case SHIEK_TYPE_BOLERO:
+        case SHEIK_TYPE_BOLERO:
             func_80B3CB58(this, globalCtx);
             break;
-        case SHIEK_TYPE_SERENADE:
+        case SHEIK_TYPE_SERENADE:
             EnXc_SetupSerenadeAction(this, globalCtx);
             break;
-        case SHIEK_TYPE_9:
+        case SHEIK_TYPE_9:
             EnXc_InitTempleOfTime(this, globalCtx);
             break;
-        case SHIEK_TYPE_0:
+        case SHEIK_TYPE_0:
             EnXc_DoNothing(this, globalCtx);
             break;
         default:

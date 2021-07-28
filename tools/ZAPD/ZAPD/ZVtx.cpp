@@ -21,6 +21,9 @@ ZVtx::ZVtx(ZFile* nParent) : ZResource(nParent)
 
 void ZVtx::ParseRawData()
 {
+	ZResource::ParseRawData();
+
+	const auto& rawData = parent->GetRawData();
 	x = BitConverter::ToInt16BE(rawData, rawDataIndex + 0);
 	y = BitConverter::ToInt16BE(rawData, rawDataIndex + 2);
 	z = BitConverter::ToInt16BE(rawData, rawDataIndex + 4);

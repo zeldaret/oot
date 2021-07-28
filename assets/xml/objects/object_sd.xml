@@ -43,7 +43,7 @@
         <DList Name="gEnHeishiUpperLeftArmDL" Offset="0xB8C0"/>
 
         <!--King Guard Textures-->
-        <Texture Name="gEnHeishiKingGuardTLUT" OutName="king_guard_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x0000"/>
+        <Texture Name="gEnHeishiKingGuardTLUT" OutName="king_guard_tlut" Format="rgba16" Width="16" Height="16" Offset="0x0000"/>
         <Texture Name="gEnHeishiKingGuardTex_200" Format="ci8" Width="8" Height="8" Offset="0x0200"/><!--Mouth?-->
         <Texture Name="gEnHeishiKingGuardTex_240" Format="ci8" Width="8" Height="8" Offset="0x0240"/><!--Eyes?-->
         <Texture Name="gEnHeishiKingGuardArmorTex" OutName="king_guard_armor" Format="ci8" Width="8" Height="8" Offset="0x0280"/>
@@ -54,7 +54,7 @@
         <Texture Name="gEnHeishiKingGuardPantsTex" OutName="king_guard_pants" Format="ci8" Width="16" Height="16" Offset="0x0C80"/>
         
         <!--Normal Guard Textures-->
-        <Texture Name="gHeishiTLUT" OutName="guard_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x5C40"/>
+        <Texture Name="gHeishiTLUT" OutName="guard_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5C40"/>
         <Texture Name="gEnHeishiMouthTex" OutName="mouth_tex" Format="ci8" Width="16" Height="16" Offset="0x5E40"/>
         <Texture Name="gEnHeishiGradient1Tex" OutName="gradient1" Format="ci8" Width="8" Height="8" Offset="0x5F40"/>
         <Texture Name="gEnHeishiGradient2Tex" OutName="gradient2" Format="ci8" Width="8" Height="8" Offset="0x5F80"/>

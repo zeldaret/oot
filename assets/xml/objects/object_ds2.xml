@@ -9,7 +9,7 @@
         <DList Name="object_ds2_DL_002610" Offset="0x2610"/>
         <DList Name="object_ds2_DL_002738" Offset="0x2738"/>
         <DList Name="object_ds2_DL_002908" Offset="0x2908"/>
-        <Texture Name="object_ds2_TLUT_002A98" OutName="tlut_00002A98" Format="rgb5a1" Width="16" Height="16" Offset="0x2A98"/>
+        <Texture Name="object_ds2_TLUT_002A98" OutName="tlut_00002A98" Format="rgba16" Width="16" Height="16" Offset="0x2A98"/>
         <Texture Name="object_ds2_Tex_002C98" OutName="tex_00002C98" Format="ci8" Width="16" Height="16" Offset="0x2C98"/>
         <Texture Name="object_ds2_Tex_002D98" OutName="tex_00002D98" Format="ci8" Width="8" Height="8" Offset="0x2D98"/>
         <Texture Name="object_ds2_Tex_002DD8" OutName="tex_00002DD8" Format="ci8" Width="16" Height="16" Offset="0x2DD8"/>

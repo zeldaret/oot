@@ -56,17 +56,17 @@ void Idle_ThreadEntry(void* arg) {
     gViConfigYScale = 1.0f;
 
     switch (osTvType) {
-        case 1:
+        case OS_TV_NTSC:
             D_80013960 = 2;
             gViConfigMode = osViModeNtscLan1;
             break;
 
-        case 2:
+        case OS_TV_MPAL:
             D_80013960 = 0x1E;
             gViConfigMode = osViModeMpalLan1;
             break;
 
-        case 0:
+        case OS_TV_PAL:
             D_80013960 = 0x2C;
             gViConfigMode = osViModeFpalLan1;
             gViConfigYScale = 0.833f;
