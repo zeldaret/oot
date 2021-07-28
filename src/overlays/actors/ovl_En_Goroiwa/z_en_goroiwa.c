@@ -7,6 +7,7 @@
 #include "z_en_goroiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_goroiwa/object_goroiwa.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -75,8 +76,6 @@ static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_HEAVY };
 
 // Unused
 static f32 D_80A4DEBC[] = { 10.0f, 9.2f };
-
-extern Gfx gRollingRockDL[];
 
 void func_80A4BCA0(EnGoroiwa* this) {
     static f32 colliderHeightOffset[] = { 0.0f, 59.5f };

@@ -28,11 +28,6 @@ void BgRelayObjects_DoNothing(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx);
 
-extern Gfx gDampeRaceDoorDL[];
-extern CollisionHeader gDampeRaceDoorCol;
-extern Gfx gWindmillRotatingPlatformDL[];
-extern CollisionHeader gWindmillRotatingPlatformCol;
-
 const ActorInit Bg_Relay_Objects_InitVars = {
     ACTOR_BG_RELAY_OBJECTS,
     ACTORCAT_BG,

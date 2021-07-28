@@ -50,10 +50,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-extern FlexSkeletonHeader gCarpetMerchantSkel;
-extern AnimationHeader gCarpetMerchantSlappingKneeAnim;
-extern AnimationHeader gCarpetMerchantIdleAnim;
-
 void En_Js_SetupAction(EnJs* this, EnJsActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }

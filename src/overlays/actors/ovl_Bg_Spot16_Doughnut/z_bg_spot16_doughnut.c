@@ -42,9 +42,6 @@ static s16 sScales[] = {
     0, 0, 70, 210, 300,
 };
 
-extern Gfx gDeathMountainCloudCircleFieryDL[];
-extern Gfx gDeathMountainCloudCircleNormalDL[];
-
 void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Doughnut* this = THIS;
     s32 params;
