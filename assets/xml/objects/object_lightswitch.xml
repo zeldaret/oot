@@ -4,6 +4,6 @@
         <DList Name="object_lightswitch_DL_000398" Offset="0x398"/>
         <DList Name="object_lightswitch_DL_000408" Offset="0x408"/>
         <Blob Name="object_lightswitch_Blob_000420" Size="0x1800" Offset="0x420"/>
-        <Texture Name="object_lightswitch_Tex_001C20" OutName="tex_00001C20" Format="rgb5a1" Width="32" Height="32" Offset="0x1C20"/>
+        <Texture Name="object_lightswitch_Tex_001C20" OutName="tex_00001C20" Format="rgba16" Width="32" Height="32" Offset="0x1C20"/>
     </File>
 </Root>

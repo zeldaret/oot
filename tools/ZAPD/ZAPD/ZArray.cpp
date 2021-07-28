@@ -22,7 +22,7 @@ void ZArray::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZResource::ParseXML(reader);
 
-	arrayCnt = StringHelper::StrToL(registeredAttributes.at("Count").value, 0);
+	arrayCnt = reader->IntAttribute("Count", 0);
 	// TODO: do a better check.
 	assert(arrayCnt > 0);
 
@@ -46,7 +46,7 @@ void ZArray::ParseXML(tinyxml2::XMLElement* reader)
 		}
 		res->parent = parent;
 		res->SetInnerNode(true);
-		res->ExtractFromXML(child, rawData, childIndex);
+		res->ExtractFromXML(child, childIndex);
 
 		childIndex += res->GetRawDataSize();
 		resList.push_back(res);

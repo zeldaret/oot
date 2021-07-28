@@ -1,3 +1,22 @@
+.late_rodata
+glabel jtbl_8014A680
+    .word L800FAAE4
+    .word L800FAB28
+    .word L800FAB48
+    .word L800FAB84
+    .word L800FABAC
+    .word L800FABD0
+    .word L800FAC18
+    .word L800FAAFC
+    .word L800FAC24
+    .word L800FAC84
+    .word L800FACA4
+    .word L800FACD4
+    .word L800FACD4
+    .word L800FACD4
+    .word L800FAC3C
+
+.text
 glabel func_800FA3DC
 /* B7157C 800FA3DC 27BDFF70 */  addiu $sp, $sp, -0x90
 /* B71580 800FA3E0 AFB7003C */  sw    $s7, 0x3c($sp)
@@ -38,7 +57,7 @@ glabel func_800FA3DC
 /* B71608 800FA468 92580013 */   lbu   $t8, 0x13($s2)
 .L800FA46C:
 /* B7160C 800FA46C A2400260 */  sb    $zero, 0x260($s2)
-/* B71610 800FA470 0C03E53F */  jal   func_800F94FC
+/* B71610 800FA470 0C03E53F */  jal   Audio_ProcessSeqCmd
 /* B71614 800FA474 8E44025C */   lw    $a0, 0x25c($s2)
 /* B71618 800FA478 92580013 */  lbu   $t8, 0x13($s2)
 .L800FA47C:
@@ -116,7 +135,7 @@ glabel func_800FA3DC
 .L800FA588:
 /* B71728 800FA588 44D9F800 */  ctc1  $t9, $31
 /* B7172C 800FA58C 314B00FF */  andi  $t3, $t2, 0xff
-/* B71730 800FA590 0C03E803 */  jal   Audio_SetBGM
+/* B71730 800FA590 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B71734 800FA594 030B2025 */   or    $a0, $t8, $t3
 /* B71738 800FA598 A2400013 */  sb    $zero, 0x13($s2)
 .L800FA59C:
@@ -139,7 +158,7 @@ glabel func_800FA3DC
 /* B71774 800FA5D4 00042400 */  sll   $a0, $a0, 0x10
 /* B71778 800FA5D8 3C014100 */  lui   $at, 0x4100
 /* B7177C 800FA5DC 00812025 */  or    $a0, $a0, $at
-/* B71780 800FA5E0 0C0396B6 */  jal   func_800E5AD8
+/* B71780 800FA5E0 0C0396B6 */  jal   Audio_QueueCmdF32
 /* B71784 800FA5E4 8E450000 */   lw    $a1, ($s2)
 .L800FA5E8:
 /* B71788 800FA5E8 8E450014 */  lw    $a1, 0x14($s2)
@@ -327,7 +346,7 @@ glabel func_800FA3DC
 /* B71A10 800FA870 00612025 */  or    $a0, $v1, $at
 /* B71A14 800FA874 4600410D */  trunc.w.s $f4, $f8
 /* B71A18 800FA878 44052000 */  mfc1  $a1, $f4
-/* B71A1C 800FA87C 0C0396BF */  jal   func_800E5AFC
+/* B71A1C 800FA87C 0C0396BF */  jal   Audio_QueueCmdS32
 /* B71A20 800FA880 00000000 */   nop   
 .L800FA884:
 /* B71A24 800FA884 96590252 */  lhu   $t9, 0x252($s2)
@@ -372,7 +391,7 @@ glabel func_800FA3DC
 /* B71AB4 800FA914 321900FF */  andi  $t9, $s0, 0xff
 /* B71AB8 800FA918 00195200 */  sll   $t2, $t9, 8
 /* B71ABC 800FA91C 00CA2025 */  or    $a0, $a2, $t2
-/* B71AC0 800FA920 0C0396B6 */  jal   func_800E5AD8
+/* B71AC0 800FA920 0C0396B6 */  jal   Audio_QueueCmdF32
 /* B71AC4 800FA924 8C450050 */   lw    $a1, 0x50($v0)
 .L800FA928:
 /* B71AC8 800FA928 26100001 */  addiu $s0, $s0, 1
@@ -423,7 +442,7 @@ glabel func_800FA3DC
 /* B71B6C 800FA9CC 321800FF */  andi  $t8, $s0, 0xff
 /* B71B70 800FA9D0 00185A00 */  sll   $t3, $t8, 8
 /* B71B74 800FA9D4 00CB2025 */  or    $a0, $a2, $t3
-/* B71B78 800FA9D8 0C0396B6 */  jal   func_800E5AD8
+/* B71B78 800FA9D8 0C0396B6 */  jal   Audio_QueueCmdF32
 /* B71B7C 800FA9DC 8C450060 */   lw    $a1, 0x60($v0)
 .L800FA9E0:
 /* B71B80 800FA9E0 26100001 */  addiu $s0, $s0, 1
@@ -498,7 +517,7 @@ glabel func_800FA3DC
 glabel L800FAAE4
 /* B71C84 800FAAE4 322400FF */  andi  $a0, $s1, 0xff
 /* B71C88 800FAAE8 24050001 */  li    $a1, 1
-/* B71C8C 800FAAEC 0C03E890 */  jal   func_800FA240
+/* B71C8C 800FAAEC 0C03E890 */  jal   Audio_SetVolScale
 /* B71C90 800FAAF0 2406007F */   li    $a2, 127
 /* B71C94 800FAAF4 10000077 */  b     .L800FACD4
 /* B71C98 800FAAF8 9243004D */   lbu   $v1, 0x4d($s2)
@@ -510,7 +529,7 @@ glabel L800FAAFC
 /* B71CAC 800FAB0C 24050001 */  li    $a1, 1
 /* B71CB0 800FAB10 14EC0070 */  bne   $a3, $t4, .L800FACD4
 /* B71CB4 800FAB14 2406007F */   li    $a2, 127
-/* B71CB8 800FAB18 0C03E890 */  jal   func_800FA240
+/* B71CB8 800FAB18 0C03E890 */  jal   Audio_SetVolScale
 /* B71CBC 800FAB1C 320700FF */   andi  $a3, $s0, 0xff
 /* B71CC0 800FAB20 1000006C */  b     .L800FACD4
 /* B71CC4 800FAB24 9243004D */   lbu   $v1, 0x4d($s2)
@@ -519,7 +538,7 @@ glabel L800FAB28
 /* B71CCC 800FAB2C 3C013000 */  lui   $at, 0x3000
 /* B71CD0 800FAB30 0015CE00 */  sll   $t9, $s5, 0x18
 /* B71CD4 800FAB34 01E17025 */  or    $t6, $t7, $at
-/* B71CD8 800FAB38 0C03E803 */  jal   Audio_SetBGM
+/* B71CD8 800FAB38 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B71CDC 800FAB3C 01D92025 */   or    $a0, $t6, $t9
 /* B71CE0 800FAB40 10000064 */  b     .L800FACD4
 /* B71CE4 800FAB44 9243004D */   lbu   $v1, 0x4d($s2)
@@ -531,7 +550,7 @@ glabel L800FAB48
 /* B71CF8 800FAB58 02EA8021 */  addu  $s0, $s7, $t2
 /* B71CFC 800FAB5C 96180254 */  lhu   $t8, 0x254($s0)
 /* B71D00 800FAB60 030B2025 */  or    $a0, $t8, $t3
-/* B71D04 800FAB64 0C03E803 */  jal   Audio_SetBGM
+/* B71D04 800FAB64 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B71D08 800FAB68 00812025 */   or    $a0, $a0, $at
 /* B71D0C 800FAB6C 240D0001 */  li    $t5, 1
 /* B71D10 800FAB70 240C007F */  li    $t4, 127
@@ -546,7 +565,7 @@ glabel L800FAB84
 /* B71D30 800FAB90 01E17025 */  or    $t6, $t7, $at
 /* B71D34 800FAB94 0010CC00 */  sll   $t9, $s0, 0x10
 /* B71D38 800FAB98 01D95025 */  or    $t2, $t6, $t9
-/* B71D3C 800FAB9C 0C03E803 */  jal   Audio_SetBGM
+/* B71D3C 800FAB9C 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B71D40 800FABA0 01472025 */   or    $a0, $t2, $a3
 /* B71D44 800FABA4 1000004B */  b     .L800FACD4
 /* B71D48 800FABA8 9243004D */   lbu   $v1, 0x4d($s2)
@@ -556,7 +575,7 @@ glabel L800FABAC
 /* B71D54 800FABB4 0011C600 */  sll   $t8, $s1, 0x18
 /* B71D58 800FABB8 03015825 */  or    $t3, $t8, $at
 /* B71D5C 800FABBC 00076C00 */  sll   $t5, $a3, 0x10
-/* B71D60 800FABC0 0C03E803 */  jal   Audio_SetBGM
+/* B71D60 800FABC0 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B71D64 800FABC4 016D2025 */   or    $a0, $t3, $t5
 /* B71D68 800FABC8 10000042 */  b     .L800FACD4
 /* B71D6C 800FABCC 9243004D */   lbu   $v1, 0x4d($s2)
@@ -569,12 +588,12 @@ glabel L800FABD0
 /* B71D84 800FABE4 920F004E */  lbu   $t7, 0x4e($s0)
 /* B71D88 800FABE8 000F7400 */  sll   $t6, $t7, 0x10
 /* B71D8C 800FABEC 01D95025 */  or    $t2, $t6, $t9
-/* B71D90 800FABF0 0C03E803 */  jal   Audio_SetBGM
+/* B71D90 800FABF0 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B71D94 800FABF4 01432025 */   or    $a0, $t2, $v1
 /* B71D98 800FABF8 322400FF */  andi  $a0, $s1, 0xff
 /* B71D9C 800FABFC 24050001 */  li    $a1, 1
 /* B71DA0 800FAC00 2406007F */  li    $a2, 127
-/* B71DA4 800FAC04 0C03E890 */  jal   func_800FA240
+/* B71DA4 800FAC04 0C03E890 */  jal   Audio_SetVolScale
 /* B71DA8 800FAC08 00003825 */   move  $a3, $zero
 /* B71DAC 800FAC0C A200004E */  sb    $zero, 0x4e($s0)
 /* B71DB0 800FAC10 10000030 */  b     .L800FACD4
@@ -586,7 +605,7 @@ glabel L800FAC18
 glabel L800FAC24
 /* B71DC4 800FAC24 322400FF */  andi  $a0, $s1, 0xff
 /* B71DC8 800FAC28 320500FF */  andi  $a1, $s0, 0xff
-/* B71DCC 800FAC2C 0C03E890 */  jal   func_800FA240
+/* B71DCC 800FAC2C 0C03E890 */  jal   Audio_SetVolScale
 /* B71DD0 800FAC30 2406007F */   li    $a2, 127
 /* B71DD4 800FAC34 10000027 */  b     .L800FACD4
 /* B71DD8 800FAC38 9243004D */   lbu   $v1, 0x4d($s2)
@@ -595,19 +614,19 @@ glabel L800FAC3C
 /* B71DE0 800FAC40 13000004 */  beqz  $t8, .L800FAC54
 /* B71DE4 800FAC44 00E08025 */   move  $s0, $a3
 /* B71DE8 800FAC48 02C02025 */  move  $a0, $s6
-/* B71DEC 800FAC4C 0C0396BF */  jal   func_800E5AFC
+/* B71DEC 800FAC4C 0C0396BF */  jal   Audio_QueueCmdS32
 /* B71DF0 800FAC50 00002825 */   move  $a1, $zero
 .L800FAC54:
 /* B71DF4 800FAC54 320B0002 */  andi  $t3, $s0, 2
 /* B71DF8 800FAC58 11600003 */  beqz  $t3, .L800FAC68
 /* B71DFC 800FAC5C 02C02025 */   move  $a0, $s6
-/* B71E00 800FAC60 0C0396BF */  jal   func_800E5AFC
+/* B71E00 800FAC60 0C0396BF */  jal   Audio_QueueCmdS32
 /* B71E04 800FAC64 24050001 */   li    $a1, 1
 .L800FAC68:
 /* B71E08 800FAC68 320D0004 */  andi  $t5, $s0, 4
 /* B71E0C 800FAC6C 11A00003 */  beqz  $t5, .L800FAC7C
 /* B71E10 800FAC70 02C02025 */   move  $a0, $s6
-/* B71E14 800FAC74 0C0396BF */  jal   func_800E5AFC
+/* B71E14 800FAC74 0C0396BF */  jal   Audio_QueueCmdS32
 /* B71E18 800FAC78 24050002 */   li    $a1, 2
 .L800FAC7C:
 /* B71E1C 800FAC7C 10000015 */  b     .L800FACD4
@@ -617,7 +636,7 @@ glabel L800FAC84
 /* B71E28 800FAC88 3C01A000 */  lui   $at, 0xa000
 /* B71E2C 800FAC8C 3043FFFF */  andi  $v1, $v0, 0xffff
 /* B71E30 800FAC90 01817825 */  or    $t7, $t4, $at
-/* B71E34 800FAC94 0C03E803 */  jal   Audio_SetBGM
+/* B71E34 800FAC94 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B71E38 800FAC98 01E32025 */   or    $a0, $t7, $v1
 /* B71E3C 800FAC9C 1000000D */  b     .L800FACD4
 /* B71E40 800FACA0 9243004D */   lbu   $v1, 0x4d($s2)
@@ -631,7 +650,7 @@ glabel L800FACA4
 /* B71E5C 800FACBC 00105400 */  sll   $t2, $s0, 0x10
 /* B71E60 800FACC0 032AC025 */  or    $t8, $t9, $t2
 /* B71E64 800FACC4 316DFFFF */  andi  $t5, $t3, 0xffff
-/* B71E68 800FACC8 0C03E803 */  jal   Audio_SetBGM
+/* B71E68 800FACC8 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B71E6C 800FACCC 030D2025 */   or    $a0, $t8, $t5
 /* B71E70 800FACD0 9243004D */  lbu   $v1, 0x4d($s2)
 .L800FACD4:

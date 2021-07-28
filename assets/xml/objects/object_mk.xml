@@ -16,13 +16,13 @@
         <DList Name="object_mk_DL_004B30" Offset="0x4B30"/>
         <DList Name="object_mk_DL_004C60" Offset="0x4C60"/>
         <DList Name="object_mk_DL_004DB0" Offset="0x4DB0"/>
-        <Texture Name="object_mk_TLUT_004F30" OutName="tlut_00004F30" Format="rgb5a1" Width="16" Height="16" Offset="0x4F30"/>
+        <Texture Name="object_mk_TLUT_004F30" OutName="tlut_00004F30" Format="rgba16" Width="16" Height="16" Offset="0x4F30"/>
         <Texture Name="object_mk_Tex_005130" OutName="tex_00005130" Format="ci8" Width="8" Height="8" Offset="0x5130"/>
         <Texture Name="object_mk_Tex_005170" OutName="tex_00005170" Format="ci8" Width="16" Height="16" Offset="0x5170"/>
         <Texture Name="object_mk_Tex_005270" OutName="tex_00005270" Format="ci8" Width="8" Height="8" Offset="0x5270"/>
         <Texture Name="object_mk_Tex_0052B0" OutName="tex_000052B0" Format="ci8" Width="8" Height="8" Offset="0x52B0"/>
         <Texture Name="object_mk_Tex_0052F0" OutName="tex_000052F0" Format="ci8" Width="8" Height="16" Offset="0x52F0"/>
-        <Texture Name="object_mk_Tex_005370" OutName="tex_00005370" Format="rgb5a1" Width="32" Height="32" Offset="0x5370"/>
+        <Texture Name="object_mk_Tex_005370" OutName="tex_00005370" Format="rgba16" Width="32" Height="32" Offset="0x5370"/>
         <Texture Name="object_mk_Tex_005B70" OutName="tex_00005B70" Format="ci8" Width="8" Height="8" Offset="0x5B70"/>
         <Texture Name="object_mk_Tex_005BB0" OutName="tex_00005BB0" Format="ci8" Width="8" Height="8" Offset="0x5BB0"/>
         <Texture Name="object_mk_Tex_005BF0" OutName="tex_00005BF0" Format="ci8" Width="8" Height="8" Offset="0x5BF0"/>

@@ -35,7 +35,6 @@ void ZVector::ParseRawData()
 	{
 		ZScalar scalar(scalarType, parent);
 		scalar.rawDataIndex = currentRawDataIndex;
-		scalar.rawData = rawData;
 		scalar.ParseRawData();
 		currentRawDataIndex += scalar.GetRawDataSize();
 

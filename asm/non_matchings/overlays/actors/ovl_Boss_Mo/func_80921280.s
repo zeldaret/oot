@@ -166,7 +166,7 @@ glabel func_80921280
 /* 05950 80921450 0C00CB1F */  jal     Enemy_StartFinishingBlow              
 /* 05954 80921454 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 05958 80921458 3C041001 */  lui     $a0, 0x1001                ## $a0 = 10010000
-/* 0595C 8092145C 0C03E803 */  jal     Audio_SetBGM
+/* 0595C 8092145C 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 05960 80921460 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100100FF
 /* 05964 80921464 24180064 */  addiu   $t8, $zero, 0x0064         ## $t8 = 00000064

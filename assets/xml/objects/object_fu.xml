@@ -17,8 +17,8 @@
         <DList Name="gWindmillManLeftThighDL" Offset="0x48E8"/>
         <DList Name="gWindmillManLeftLegDL" Offset="0x4A08"/>
         <DList Name="gWindmillManLeftFootDL" Offset="0x4B58"/>
-        <Texture Name="gWindmillManClothesTLUT" OutName="clothes_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x4C60"/>
-        <Texture Name="gWindmillManSkinTLUT" OutName="skin_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x4E60"/>
+        <Texture Name="gWindmillManClothesTLUT" OutName="clothes_tlut" Format="rgba16" Width="16" Height="16" Offset="0x4C60"/>
+        <Texture Name="gWindmillManSkinTLUT" OutName="skin_tlut" Format="rgba16" Width="16" Height="16" Offset="0x4E60"/>
         <Texture Name="gWindmillManPantsTex" OutName="pants" Format="ci8" Width="16" Height="16" Offset="0x5060"/>
         <Texture Name="gWindmillManHeadSkinTex" OutName="head_skin" Format="ci8" Width="8" Height="8" Offset="0x5160"/>
         <Texture Name="gWindmillManMusicBoxTex" OutName="music_box" Format="ci8" Width="32" Height="32" Offset="0x51A0"/>

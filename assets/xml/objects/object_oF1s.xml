@@ -30,10 +30,10 @@
 
         <!-- 32-bit aligned textures. -->
         <!--
-        <Texture Name="object_oF1s_TLUT_00011C" OutName="tlut_0000011C" Format="rgb5a1" Width="216" Height="1" Offset="0x11C" />
+        <Texture Name="object_oF1s_TLUT_00011C" OutName="tlut_0000011C" Format="rgba16" Width="216" Height="1" Offset="0x11C" />
         <Blob Name="object_oF1s_Blob_00031C" Size="0x1A0" Offset="0x31C" />
         <Texture Name="object_oF1s_Tex_0004BC" OutName="tex_000004BC" Format="ci8" Width="32" Height="32" Offset="0x4BC" />
-        <Texture Name="object_oF1s_Tex_0008BC" OutName="tex_000008BC" Format="rgb5a1" Width="64" Height="32" Offset="0x8BC" />
+        <Texture Name="object_oF1s_Tex_0008BC" OutName="tex_000008BC" Format="rgba16" Width="64" Height="32" Offset="0x8BC" />
         <Texture Name="object_oF1s_Tex_0018BC" OutName="tex_000018BC" Format="ci8" Width="8" Height="8" Offset="0x18BC" />
         <Texture Name="object_oF1s_Tex_0018FC" OutName="tex_000018FC" Format="ci8" Width="16" Height="16" Offset="0x18FC" />
         <Texture Name="object_oF1s_Tex_0019FC" OutName="tex_000019FC" Format="ci8" Width="16" Height="16" Offset="0x19FC" />
