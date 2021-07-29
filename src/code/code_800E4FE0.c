@@ -48,45 +48,9 @@ AudioTask* func_800E5000(void) {
     void* sp3C;
     void* sp34;
     OSTask_t* temp_v1_10;
-    OSMesgQueue* temp_s1;
-    s16 temp_a0_2;
-    s16 temp_v0_2;
-    s16 temp_v1;
-    s16 temp_v1_2;
-    s16 temp_v1_9;
-    s32 temp_a0;
-    s32 temp_a3;
-    s32 temp_a3_2;
     s32 temp_hi;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_s0_3;
-    s32 temp_s0_4;
-    s32 temp_s0_5;
     s32 temp_t4;
     s32 temp_t6;
-    s32 temp_t7;
-    s32 temp_v1_6;
-    s32 temp_v1_7;
-    s32 temp_v1_8;
-    u32 temp_t3;
-    u32 temp_t4_2;
-    void* temp_t0;
-    void* temp_v1_3;
-    void* temp_v1_4;
-    void* temp_v1_5;
-    s16 phi_v1;
-    s32 phi_a0;
-    void* phi_v1_2;
-    s32 phi_s0;
-    s32 phi_v1_3;
-    void* phi_v1_4;
-    s32 phi_s0_2;
-    s32 phi_v1_5;
-    s32 phi_s0_3;
-    s32 phi_s0_4;
-    void* phi_v1_6;
-    s32 phi_s0_5;
     s32 i;
 
     gAudioContext.totalTaskCnt++;
@@ -747,36 +711,29 @@ void Audio_WaitForAudioTask(void) {
 
 #ifdef NON_MATCHING
 s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
-    u32 temp_v1_2;
-    AudioBankSound* temp_a0;
-    Note* temp_a0_2;
-    SequenceChannelLayer* temp_v0;
-    SequenceChannel* temp_v1;
-    SequencePlayer* seqPlayer;
-
-    seqPlayer = &gAudioContext.seqPlayers[arg0];
+    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[arg0];
     if (seqPlayer->enabled && seqPlayer->channels[arg1]->enabled) {
-        temp_v0 = seqPlayer->channels[arg1]->layers[arg2];
-        if (temp_v0 == NULL) {
+        SequenceChannelLayer* layer = seqPlayer->channels[arg1]->layers[arg2]; // v0
+        if (layer == NULL) {
             return 0;
         }
 
-        if (temp_v0->enabled) {
-            temp_a0_2 = temp_v0->note;
-            if (temp_a0_2 == NULL) {
+        if (layer->enabled) {
+            Note* note = layer->note; // a0
+            if (note == NULL) {
                 return 0;
             }
 
-            if (!temp_v0->bit3) {
+            if (!layer->bit3) {
                 return 0;
             }
 
-            if (temp_v0 == temp_a0_2->playbackState.parentLayer) {
-                temp_a0 = temp_a0_2->noteSubEu.sound.audioBankSound;
-                if (temp_a0 == 0) {
+            if (layer == note->playbackState.parentLayer) {
+                AudioBankSound* sound = note->noteSubEu.sound.audioBankSound; // also a0
+                if (sound == NULL) {
                     return 0;
                 }
-                return temp_a0->sample->loop->end - temp_a0_2->synthesisState.samplePosInt;
+                return sound->sample->loop->end - note->synthesisState.samplePosInt;
             }
             return 0;
         }
