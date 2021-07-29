@@ -35,7 +35,9 @@ AudioTask* func_800E4FE0(void) {
 u32 D_801304E0 = 0x80;
 AudioTask* D_801304E4 = NULL;
 
-extern u8 D_80155C70[];
+extern u64 rspAspMainDataStart[];
+extern u64 rspAspMainDataEnd[];
+
 #ifdef NON_EQUIVALENT
 // haven't verified Equivalency yet.
 AudioTask* func_800E5000(void) {
@@ -166,9 +168,9 @@ AudioTask* func_800E5000(void) {
     temp_v1_10->flags = 0U;
     temp_v1_10->ucode_boot = D_801120C0;
     temp_v1_10->ucode_boot_size = 0x1000;
-    temp_v1_10->ucode_data_size = (((s32)(D_80155F50 - D_80155C70) >> 3) * 8) - 1;
+    temp_v1_10->ucode_data_size = ((rspAspMainDataEnd - rspAspMainDataStart) * sizeof(u64)) - 1;
     temp_v1_10->ucode = D_801120C0;
-    temp_v1_10->ucode_data = D_80155C70;
+    temp_v1_10->ucode_data = rspAspMainDataStart;
     temp_v1_10->ucode_size = 0x1000;
     temp_v1_10->dram_stack = NULL;
     temp_v1_10->dram_stack_size = 0;
@@ -177,7 +179,7 @@ AudioTask* func_800E5000(void) {
     temp_v1_10->data_ptr = gAudioContext.abiCmdBufs[gAudioContext.rspTaskIdx];
     temp_v1_10->yield_data_ptr = NULL;
     temp_v1_10->yield_data_size = 0;
-    temp_v1_10->data_size = abiCmdCnt * sizeof(ACmd);
+    temp_v1_10->data_size = abiCmdCnt * sizeof(Acmd);
 
     if (D_801304E0 < abiCmdCnt) {
         D_801304E0 = abiCmdCnt;
