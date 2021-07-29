@@ -3310,7 +3310,7 @@ extern AudioContext gAudioContext; // at 0x8016F180
 //extern ? D_80174DB8;
 //extern ? D_80174DBC;
 //extern ? D_80174DC0;
-extern void(*D_801755D0)(void); // not sure about arguments yet.
+extern void(*D_801755D0)(void);
 extern u32 __osMalloc_FreeBlockTest_Enable;
 //extern ? D_80175640;
 //extern ? D_80175670;

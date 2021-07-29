@@ -1893,7 +1893,7 @@ void UCodeDisas_RegisterUCode(UCodeDisas*, s32, UCodeInfo*);
 void UCodeDisas_SetCurUCode(UCodeDisas*, void*);
 // ? func_800DACC0(?);
 // ? func_800DB03C(?);
-// ? AudioSynth_Update(?);
+Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen);
 // ? func_800DB2C0(?);
 // ? func_800DB330(?);
 // ? func_800DB3D8(?);
