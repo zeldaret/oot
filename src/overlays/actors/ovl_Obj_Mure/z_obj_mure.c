@@ -62,15 +62,15 @@ static s16 sSpawnActorIds[] = { ACTOR_EN_KUSA, 0, ACTOR_EN_FISH, ACTOR_EN_INSECT
 
 static s16 sSpawnParams[] = { 0, 2, -1, 0, -1 };
 
-// sInitChain
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-static ObjMureActionFunc sTypeGroupBehaviorFunc[] = { NULL, NULL, ObjMure_GroupBehavior0, ObjMure_GroupBehavior0,
-                                                      ObjMure_GroupBehavior1 };
+static ObjMureActionFunc sTypeGroupBehaviorFunc[] = {
+    NULL, NULL, ObjMure_GroupBehavior0, ObjMure_GroupBehavior0, ObjMure_GroupBehavior1,
+};
 
 s32 ObjMure_SetCullingImpl(Actor* thisx, GlobalContext* globalCtx) {
     ObjMure* this = THIS;
@@ -84,7 +84,7 @@ s32 ObjMure_SetCullingImpl(Actor* thisx, GlobalContext* globalCtx) {
             result = true;
             break;
         default:
-            // Translation: Error : Culling is not set.(%s %d)(arg_data 0x%04x)"
+            // Translation: "Error : Culling is not set.(%s %d)(arg_data 0x%04x)"
             osSyncPrintf("Error : カリングの設定がされていません。(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 204,
                          this->actor.params);
             return false;
@@ -154,7 +154,7 @@ void ObjMure_SpawnActors0(ObjMure* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < maxChildren; i++) {
         if (this->children[i] != NULL) {
-            // Translation: Error: I already have a child(%s %d)(arg_data 0x%04x)
+            // Translation: "Error: I already have a child(%s %d)(arg_data 0x%04x)
             osSyncPrintf("Error : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 333,
                          this->actor.params);
         }
@@ -190,7 +190,7 @@ void ObjMure_SpawnActors0(ObjMure* this, GlobalContext* globalCtx) {
 }
 
 void ObjMure_SpawnActors1(ObjMure* this, GlobalContext* globalCtx) {
-    ActorContext* ac = (ActorContext*)globalCtx; // fun times in fake-match land again!
+    ActorContext* ac = (ActorContext*)globalCtx; // fake match
     Actor* actor = &this->actor;
     Vec3f spawnPos;
     s32 maxChildren = ObjMure_GetMaxChildSpawns(this);
