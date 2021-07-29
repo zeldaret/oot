@@ -159,7 +159,7 @@ void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity) {
             }
 
             for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.unk_8C[2]); i++) {
-                globalCtx->envCtx.unk_8C[2][i] = -(s16)(globalCtx->envCtx.unk_C9[2][i] * temp_f0);
+                globalCtx->envCtx.unk_8C[2][i] = -(s16)(globalCtx->envCtx.unk_CF[i] * temp_f0);
             }
         }
     }
