@@ -28,9 +28,9 @@ void func_809BE180(EnBigokuta* this, GlobalContext* globalCtx);
 void func_809BE058(EnBigokuta* this, GlobalContext* globalCtx);
 void func_809BD1C8(EnBigokuta* this, GlobalContext* globalCtx);
 
-static Color_RGBA8 effectPrimColor = { 255, 255, 255, 255 };
-static Color_RGBA8 effectEnvColor = { 100, 255, 255, 255 };
-static Vec3f effPosAcell = { 0.0f, 0.0f, 0.0f };
+static Color_RGBA8 sEffectPrimColor = { 255, 255, 255, 255 };
+static Color_RGBA8 sEffectEnvColor = { 100, 255, 255, 255 };
+static Vec3f sEffectPosAccel = { 0.0f, 0.0f, 0.0f };
 
 const ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,
@@ -307,14 +307,14 @@ void func_809BD3F8(EnBigokuta* this) {
     this->unk_198 = 80;
     this->unk_19A = this->unk_194 * -0x200;
     func_809BCE3C(this);
-    this->cylinder[0].base.atFlags |= 1;
-    this->collider.base.acFlags |= 1;
+    this->cylinder[0].base.atFlags |= AT_ON;
+    this->collider.base.acFlags |= AC_ON;
     this->actionFunc = func_809BDC08;
 }
 
 void func_809BD47C(EnBigokuta* this) {
     this->unk_196 = 16;
-    this->collider.base.acFlags &= ~1;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actor.colorFilterTimer = 0;
     this->actionFunc = func_809BDF34;
 }
@@ -324,8 +324,8 @@ void func_809BD4A4(EnBigokuta* this) {
     this->unk_195 = true;
     this->actor.world.rot.x = this->actor.shape.rot.y + 0x8000;
     this->unk_19A = this->unk_194 * 0x200;
-    this->collider.base.acFlags &= ~1;
-    this->cylinder[0].base.atFlags |= 1;
+    this->collider.base.acFlags &= ~AC_ON;
+    this->cylinder[0].base.atFlags |= AT_ON;
     this->actionFunc = func_809BDFC8;
 }
 
@@ -333,7 +333,7 @@ void func_809BD524(EnBigokuta* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_bigokuta_Anim_000D1C, -5.0f);
     this->unk_196 = 80;
     this->unk_19A = 0;
-    this->cylinder[0].base.atFlags |= 1;
+    this->cylinder[0].base.atFlags |= AT_ON;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_MAHI);
     if (this->collider.elements->info.acHitInfo->toucher.dmgFlags & 1) {
         this->unk_195 = true;
@@ -350,7 +350,7 @@ void func_809BD5E0(EnBigokuta* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_bigokuta_Anim_000444, -5.0f);
     this->unk_196 = 24;
     this->unk_19A = 0;
-    this->cylinder[0].base.atFlags &= ~1;
+    this->cylinder[0].base.atFlags &= ~AT_ON;
     Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 24);
     this->actionFunc = func_809BE180;
 }
@@ -378,15 +378,15 @@ void func_809BD6B8(EnBigokuta* this) {
         }
     }
     this->unk_19A = 0;
-    this->collider.base.acFlags &= ~1;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = func_809BE3E4;
 }
 
 void func_809BD768(EnBigokuta* this) {
-    this->unk_194 = (Rand_ZeroOne() < 0.5f) ? -1 : 1;
+    this->unk_194 = Rand_ZeroOne() < 0.5f ? -1 : 1;
     this->unk_19A = 0;
     this->actor.flags &= ~1;
-    this->cylinder[0].base.atFlags &= ~1;
+    this->cylinder[0].base.atFlags &= ~AT_ON;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_SINK);
     this->actionFunc = func_809BE4A4;
 }
@@ -470,7 +470,7 @@ void func_809BDB90(EnBigokuta* this, GlobalContext* globalCtx) {
     }
     if (this->unk_196 == 0) {
         if (this->actor.params == 3) {
-            func_800F5ACC(0x38U);
+            func_800F5ACC(0x38);
         }
         func_809BD3F8(this);
     }
@@ -636,8 +636,8 @@ void func_809BE26C(EnBigokuta* this, GlobalContext* globalCtx) {
             effectPos.x = this->actor.world.pos.x;
             effectPos.y = this->actor.world.pos.y + 150.0f;
             effectPos.z = this->actor.world.pos.z;
-            func_8002829C(globalCtx, &effectPos, &effPosAcell, &effPosAcell, &effectPrimColor, &effectEnvColor, 1200,
-                          20);
+            func_8002829C(globalCtx, &effectPos, &sEffectPosAccel, &sEffectPosAccel, &sEffectPrimColor,
+                          &sEffectEnvColor, 1200, 20);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
         }
         if (this->unk_198 == 0 && Math_StepToF(&this->actor.scale.y, 0.0f, 0.001f)) {
@@ -655,7 +655,9 @@ void func_809BE3E4(EnBigokuta* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_196 != 0) {
-        DECR(this->unk_196);
+        if (this->unk_196 != 0) {
+            this->unk_196--;
+        }
         this->actor.shape.rot.y += 0x2000;
     }
     if (this->unk_196 == 0) {
@@ -743,8 +745,8 @@ void func_809BE798(EnBigokuta* this, GlobalContext* globalCtx) {
         }
     }
 }
-// EnBigokuta_CollisionCheck
-void func_809BE8DC(EnBigokuta* this, GlobalContext* globalCtx) {
+
+void EnBigokuta_UpdateDamage(EnBigokuta* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
@@ -773,11 +775,11 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
 
     func_809BE798(this, globalCtx);
-    func_809BE8DC(this, globalCtx);
+    EnBigokuta_UpdateDamage(this, globalCtx);
     this->actionFunc(this, globalCtx);
     func_809BD2E4(this);
     func_809BE568(this);
-    Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], 0x34);
+    Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_TAKO);
     func_8005AD1C(globalCtx->cameraPtrs[MAIN_CAM], 4);
 
     if (this->cylinder[0].base.atFlags & AT_ON) {
@@ -810,7 +812,7 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
 s32 EnBigokuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
     EnBigokuta* this = THIS;
-    u8 v0;
+    u8 intensity;
     f32 temp_f0;
     s32 temp_hi;
 
@@ -843,12 +845,12 @@ s32 EnBigokuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     } else if (limbIndex == 10) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bigokuta.c", 1950);
         if (this->actionFunc == func_809BE26C) {
-            v0 = this->unk_196 * (255.0f / 38);
+            intensity = this->unk_196 * (255.0f / 38);
         } else {
-            v0 = 255;
+            intensity = 255;
         }
         gDPPipeSync(POLY_OPA_DISP++);
-        gDPSetEnvColor(POLY_OPA_DISP++, v0, v0, v0, v0);
+        gDPSetEnvColor(POLY_OPA_DISP++, intensity, intensity, intensity, intensity);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bigokuta.c", 1972);
     } else if (limbIndex == 17 && this->actionFunc == func_809BE26C) {
@@ -875,8 +877,8 @@ void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 255);
         if (this->unk_196 & 1) {
-            if (((this->actionFunc == func_809BE180) && (this->unk_196 >= 8)) ||
-                ((this->actionFunc == func_809BE26C) && (this->unk_196 >= 10))) {
+            if ((this->actionFunc == func_809BE180 && this->unk_196 >= 8) ||
+                (this->actionFunc == func_809BE26C && this->unk_196 >= 10)) {
                 f32 rotX = Rand_ZeroOne() * (M_PI * 2.0f);
                 f32 rotY = Rand_ZeroOne() * (M_PI * 2.0f);
 
