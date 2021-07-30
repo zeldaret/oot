@@ -91,8 +91,76 @@ void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
     CLOSE_DISPS(gfxCtx, "../z_file_nameset_PAL.c", 119);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80806F34.s")
+void func_80806F34(FileChooseContext* thisx);
+#ifdef NON_MATCHING
 
+void func_80806F34(FileChooseContext* thisx) {
+    s16 val;
+    s16 phi_t2;
+    s16 phi_t0;
+    s16 phi_t3;
+    s16 phi_s1;
+    s16 phi_t1;
+    s16 phi_s2;
+
+    thisx->allocVtx3 = Graph_Alloc(thisx->state.gfxCtx, sizeof(Vtx) * 4 * 5 * 13);
+    phi_s1 = 0x26;
+    phi_t2 = 0;
+    phi_t3 = 0;
+
+    for (phi_s2 = 0; phi_s2 < 5; phi_s2++) {
+        phi_t0 = -0x60;
+        for (phi_t1 = 0; phi_t1 < 13; phi_t1++) {
+
+            thisx->allocVtx3[phi_t3].v.ob[0] = thisx->allocVtx3[phi_t3 + 2].v.ob[0] = D_80812544[phi_t2] + phi_t0;
+
+            thisx->allocVtx3[phi_t3 + 1].v.ob[0] = thisx->allocVtx3[phi_t3 + 3].v.ob[0] = D_80812544[phi_t2] + phi_t0 + 12;
+
+            thisx->allocVtx3[phi_t3].v.ob[1] = thisx->allocVtx3[phi_t3 + 1].v.ob[1] = phi_s1;
+
+            thisx->allocVtx3[phi_t3 + 2].v.ob[1] = thisx->allocVtx3[phi_t3 + 3].v.ob[1] = phi_s1 - 12;
+
+
+            thisx->allocVtx3[phi_t3].v.ob[2] = thisx->allocVtx3[phi_t3 + 1].v.ob[2]
+                = thisx->allocVtx3[phi_t3 + 2].v.ob[2] = thisx->allocVtx3[phi_t3 + 3].v.ob[2] = 0;
+
+
+            thisx->allocVtx3[phi_t3].v.flag = thisx->allocVtx3[phi_t3 + 1].v.flag
+                = thisx->allocVtx3[phi_t3 + 2].v.flag = thisx->allocVtx3[phi_t3 + 3].v.flag = 0;
+
+
+            thisx->allocVtx3[phi_t3].v.tc[0] = thisx->allocVtx3[phi_t3].v.tc[1]
+                = thisx->allocVtx3[phi_t3 + 1].v.tc[1] = thisx->allocVtx3[phi_t3 + 2].v.tc[0] = 0;
+
+
+            thisx->allocVtx3[phi_t3 + 1].v.tc[0] = thisx->allocVtx3[phi_t3 + 2].v.tc[1]
+                = thisx->allocVtx3[phi_t3 + 3].v.tc[0] = thisx->allocVtx3[phi_t3 + 3].v.tc[1] = 0x200;
+
+            thisx->allocVtx3[phi_t3].v.cn[0] = thisx->allocVtx3[phi_t3 + 1].v.cn[0]
+                = thisx->allocVtx3[phi_t3 + 2].v.cn[0] = thisx->allocVtx3[phi_t3 + 3].v.cn[0]
+
+                = thisx->allocVtx3[phi_t3 + 0].v.cn[1] = thisx->allocVtx3[phi_t3 + 1].v.cn[1]
+                = thisx->allocVtx3[phi_t3 + 2].v.cn[1] = thisx->allocVtx3[phi_t3 + 3].v.cn[1]
+
+                = thisx->allocVtx3[phi_t3 + 0].v.cn[2] = thisx->allocVtx3[phi_t3 + 1].v.cn[2]
+                = thisx->allocVtx3[phi_t3 + 2].v.cn[2] = thisx->allocVtx3[phi_t3 + 3].v.cn[2]
+
+                = thisx->allocVtx3[phi_t3 + 0].v.cn[3] = thisx->allocVtx3[phi_t3 + 1].v.cn[3]
+                = thisx->allocVtx3[phi_t3 + 2].v.cn[3] = thisx->allocVtx3[phi_t3 + 3].v.cn[3] = 255;
+            phi_t3 += 4;
+            phi_t2++;
+
+            phi_t0 += 0x10;
+        }
+        phi_s1 -= 0x10;
+    }
+}
+
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80806F34.s")
+#endif
+
+void func_8080723C(FileChooseContext* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080723C.s")
 
 void FileChoose_DrawKeyboard(FileChooseContext* thisx) {
