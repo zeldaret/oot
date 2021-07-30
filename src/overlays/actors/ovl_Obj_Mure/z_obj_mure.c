@@ -14,19 +14,11 @@ void ObjMure_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure_Update(Actor* thisx, GlobalContext* globalCtx);
 
-s32 ObjMure_GetMaxChildSpawns(ObjMure* this);
-void ObjMure_GetSpawnPos(Vec3f* outPos, Vec3f* inPos, s32 ptn, s32 idx);
-void ObjMure_SpawnActors0(ObjMure* this, GlobalContext* globalCtx);
-void ObjMure_SpawnActors1(ObjMure* this, GlobalContext* globalCtx);
-void ObjMure_SpawnActors(ObjMure* this, GlobalContext* globalCtx);
-void ObjMure_KillActorsImpl(ObjMure* this, GlobalContext* globalCtx);
-void ObjMure_KillActors(ObjMure* this, GlobalContext* globalCtx);
-void ObjMure_CheckChildren(ObjMure* this, GlobalContext* globalCtx);
 void ObjMure_InitialAction(ObjMure* this, GlobalContext* globalCtx);
 void ObjMure_CulledState(ObjMure* this, GlobalContext* globalCtx);
-void ObjMure_GroupBehavior0(ObjMure* this, GlobalContext* globalCtx);
-void ObjMure_GroupBehavior1(ObjMure* this, GlobalContext* globalCtx);
 void ObjMure_ActiveState(ObjMure* this, GlobalContext* globalCtx);
+
+s32 ObjMure_GetMaxChildSpawns(ObjMure* this);
 
 const ActorInit Obj_Mure_InitVars = {
     ACTOR_OBJ_MURE,
@@ -66,10 +58,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
-};
-
-static ObjMureActionFunc sTypeGroupBehaviorFunc[] = {
-    NULL, NULL, ObjMure_GroupBehavior0, ObjMure_GroupBehavior0, ObjMure_GroupBehavior1,
 };
 
 s32 ObjMure_SetCullingImpl(Actor* thisx, GlobalContext* globalCtx) {
@@ -185,6 +173,7 @@ void ObjMure_SpawnActors0(ObjMure* this, GlobalContext* globalCtx) {
                 } else {
                     osSyncPrintf("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 382);
                 }
+                break;
         }
     }
 }
@@ -404,6 +393,10 @@ void ObjMure_GroupBehavior1(ObjMure* this, GlobalContext* globalCtx) {
     }
 }
 
+static ObjMureActionFunc sTypeGroupBehaviorFunc[] = {
+    NULL, NULL, ObjMure_GroupBehavior0, ObjMure_GroupBehavior0, ObjMure_GroupBehavior1,
+};
+
 void ObjMure_ActiveState(ObjMure* this, GlobalContext* globalCtx) {
     ObjMure_CheckChildren(this, globalCtx);
     if (sZClip[this->type] + 40.0f <= fabsf(this->actor.projectedPos.z)) {
@@ -419,7 +412,7 @@ void ObjMure_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjMure* this = THIS;
 
     if (this->unk_1A4 > 0) {
-        this->unk_1A4 -= 1;
+        this->unk_1A4--;
     }
     this->actionFunc(this, globalCtx);
 }
