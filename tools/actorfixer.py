@@ -126,7 +126,7 @@ def replace_anim_all(repo):
                 replace_anim(file)
     return 1
 
-parser = argparse.ArgumentParser(description='Update to the new animation names')
+parser = argparse.ArgumentParser(description='Apply function renames to a file')
 parser.add_argument('file', help="source file to be processed. use . to process the whole repo", default = None)
 
 if __name__ == "__main__":

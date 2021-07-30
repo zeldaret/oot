@@ -12,14 +12,14 @@
         <Animation Name="gEponaJumpingAnim" Offset="0x2470"/>
         <Animation Name="gEponaJumpingHighAnim" Offset="0x2C38"/>
 
-        <Texture Name="gEponaFeatheringTex" OutName="epona_feathering" Format="rgb5a1" Width="16" Height="16" Offset="0xBF10" />
-        <Texture Name="gEponaHairTex" OutName="epona_hair" Format="rgb5a1" Width="8" Height="8" Offset="0xC190" />
+        <Texture Name="gEponaFeatheringTex" OutName="epona_feathering" Format="rgba16" Width="16" Height="16" Offset="0xBF10" />
+        <Texture Name="gEponaHairTex" OutName="epona_hair" Format="rgba16" Width="8" Height="8" Offset="0xC190" />
 
         <!-- Head -->
-        <Texture Name="gEponaCrestTex" OutName="epona_crest" Format="rgb5a1" Width="16" Height="8" Offset="0xCA10" />
-        <Texture Name="gEponaManeTex" OutName="epona_mane" Format="rgb5a1" Width="16" Height="16" Offset="0xC810" />
-        <Texture Name="gEponaNostrilsTex" OutName="epona_nostrils" Format="rgb5a1" Width="16" Height="32" Offset="0xC410" />
-        <Texture Name="gEponaForeheadTex" OutName="epona_forehead" Format="rgb5a1" Width="8" Height="32" Offset="0xC210" />
+        <Texture Name="gEponaCrestTex" OutName="epona_crest" Format="rgba16" Width="16" Height="8" Offset="0xCA10" />
+        <Texture Name="gEponaManeTex" OutName="epona_mane" Format="rgba16" Width="16" Height="16" Offset="0xC810" />
+        <Texture Name="gEponaNostrilsTex" OutName="epona_nostrils" Format="rgba16" Width="16" Height="32" Offset="0xC410" />
+        <Texture Name="gEponaForeheadTex" OutName="epona_forehead" Format="rgba16" Width="8" Height="32" Offset="0xC210" />
         <Limb Name="gEponaHeadLimb" LimbType="Skin" Offset="0x9A98" />
 
         <!-- Body -->
@@ -30,10 +30,10 @@
         <Limb Name="gEponaBodyLimb" LimbType="Skin" Offset="0x9A18" />
 
         <!-- Saddle -->
-        <Texture Name="gEponaSaddleTex" OutName="epona_saddle" Format="rgb5a1" Width="32" Height="32" Offset="0xCB10" />
-        <Texture Name="gEponaSaddleFlapTex" OutName="epona_saddle_flap" Format="rgb5a1" Width="16" Height="16" Offset="0xD510" />
-        <Texture Name="gEponaSaddleLipTex" OutName="epona_saddle_lip" Format="rgb5a1" Width="16" Height="16" Offset="0xD310" />
-        <Texture Name="gEponaSaddleGirthTex" OutName="epona_saddle_girth" Format="rgb5a1" Width="32" Height="16" Offset="0xD710" />
+        <Texture Name="gEponaSaddleTex" OutName="epona_saddle" Format="rgba16" Width="32" Height="32" Offset="0xCB10" />
+        <Texture Name="gEponaSaddleFlapTex" OutName="epona_saddle_flap" Format="rgba16" Width="16" Height="16" Offset="0xD510" />
+        <Texture Name="gEponaSaddleLipTex" OutName="epona_saddle_lip" Format="rgba16" Width="16" Height="16" Offset="0xD310" />
+        <Texture Name="gEponaSaddleGirthTex" OutName="epona_saddle_girth" Format="rgba16" Width="32" Height="16" Offset="0xD710" />
         <Limb Name="gEponaSaddleLimb" LimbType="Skin" Offset="0x9BA8" />
 
         <!-- Cannons -->
@@ -43,14 +43,14 @@
         <Limb Name="gEponaCannon4Limb" LimbType="Skin" Offset="0x9CA8" />
 
         <!-- Hooves -->
-        <Texture Name="gEponaHorseshoeTex" OutName="epona_horseshoe" Format="rgb5a1" Width="8" Height="8" Offset="0xC110" />
+        <Texture Name="gEponaHorseshoeTex" OutName="epona_horseshoe" Format="rgba16" Width="8" Height="8" Offset="0xC110" />
         <Limb Name="gEponaHoof1Limb" LimbType="Skin" Offset="0x9B08" />
         <Limb Name="gEponaHoof2Limb" LimbType="Skin" Offset="0x9B88" />
         <Limb Name="gEponaHoof3Limb" LimbType="Skin" Offset="0x9C18" />
         <Limb Name="gEponaHoof4Limb" LimbType="Skin" Offset="0x9C98" />
 
         <!-- Eyes textures -->
-        <Texture Name="gEponaEyeTLUT" OutName="epona_eye_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x9D80" />
+        <Texture Name="gEponaEyeTLUT" OutName="epona_eye_tlut" Format="rgba16" Width="16" Height="16" Offset="0x9D80" />
         <Texture Name="gEponaEyeOpenTex" OutName="epona_eye_open" Format="ci8" Width="32" Height="16" Offset="0x9F80" />
         <Texture Name="gEponaEyeHalfTex" OutName="epona_eye_half" Format="ci8" Width="32" Height="16" Offset="0xA180" />
         <Texture Name="gEponaEyeClosedTex" OutName="epona_eye_closed" Format="ci8" Width="32" Height="16" Offset="0xA380" />

@@ -3,13 +3,13 @@
         <Animation Name="object_fr_Anim_0007BC" Offset="0x7BC"/>
         <Animation Name="object_fr_Anim_0011C0" Offset="0x11C0"/>
         <Animation Name="object_fr_Anim_001534" Offset="0x1534"/>
-        <Texture Name="object_fr_Tex_001550" OutName="tex_00001550" Format="rgb5a1" Width="32" Height="32" Offset="0x1550"/>
+        <Texture Name="object_fr_Tex_001550" OutName="tex_00001550" Format="rgba16" Width="32" Height="32" Offset="0x1550"/>
         <Blob Name="object_fr_Blob_001D50" Size="0x1D50" Offset="0x1D50"/>
         <Texture Name="object_fr_Tex_003AA0" OutName="tex_00003AA0" Format="i8" Width="16" Height="16" Offset="0x3AA0"/>
-        <Texture Name="object_fr_Tex_003BA0" OutName="tex_00003BA0" Format="rgb5a1" Width="32" Height="32" Offset="0x3BA0"/>
-        <Texture Name="object_fr_Tex_0043A0" OutName="tex_000043A0" Format="rgb5a1" Width="32" Height="32" Offset="0x43A0"/>
-        <Texture Name="object_fr_Tex_004BA0" OutName="tex_00004BA0" Format="rgb5a1" Width="16" Height="16" Offset="0x4BA0"/>
-        <Texture Name="object_fr_Tex_004DA0" OutName="tex_00004DA0" Format="rgb5a1" Width="32" Height="32" Offset="0x4DA0"/>
+        <Texture Name="object_fr_Tex_003BA0" OutName="tex_00003BA0" Format="rgba16" Width="32" Height="32" Offset="0x3BA0"/>
+        <Texture Name="object_fr_Tex_0043A0" OutName="tex_000043A0" Format="rgba16" Width="32" Height="32" Offset="0x43A0"/>
+        <Texture Name="object_fr_Tex_004BA0" OutName="tex_00004BA0" Format="rgba16" Width="16" Height="16" Offset="0x4BA0"/>
+        <Texture Name="object_fr_Tex_004DA0" OutName="tex_00004DA0" Format="rgba16" Width="32" Height="32" Offset="0x4DA0"/>
         <Texture Name="object_fr_Tex_0055A0" OutName="tex_000055A0" Format="i8" Width="32" Height="32" Offset="0x55A0"/>
         <Blob Name="object_fr_Blob_0059A0" Size="0x400" Offset="0x59A0"/>
         <Texture Name="object_fr_Tex_005DA0" OutName="tex_00005DA0" Format="ia16" Width="32" Height="32" Offset="0x5DA0"/>

@@ -47,8 +47,8 @@
         <DList Name="gGerudoPurpleWaistDL" Offset="0x4050"/>
 
         <!-- Purple-clothed Gerudo palettes -->
-        <Texture Name="gGerudoPurple1TLUT" OutName="gerudo_purple_1_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x4788"/>
-        <Texture Name="gGerudoPurple2TLUT" OutName="gerudo_purple_2_tlut" Format="rgb5a1" Width="18" Height="12" Offset="0x4D08"/>
+        <Texture Name="gGerudoPurple1TLUT" OutName="gerudo_purple_1_tlut" Format="rgba16" Width="16" Height="16" Offset="0x4788"/>
+        <Texture Name="gGerudoPurple2TLUT" OutName="gerudo_purple_2_tlut" Format="rgba16" Width="18" Height="12" Offset="0x4D08"/>
 
         <!-- Purple-clothed Gerudo Displaylist textures -->
         <Texture Name="gGerudoPurpleSkinShadowTex" OutName="gerudo_purple_skin_shadow" Format="ci8" Width="8" Height="8" Offset="0x4988"/>
