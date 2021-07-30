@@ -18,6 +18,12 @@ typedef struct {
     s32 unk_0C;
 } unk_s2;
 
+typedef struct {
+    u16 unk_00;
+    u16 unk_02;
+    u8 unk_04[100];
+} D_801306DC_s; // size = 0x68
+
 void Audio_SetVolScale(u8, u8, u8, u8);
 void func_800F5550(u16);
 void func_800F5E18(u8 arg0, u16 arg1, u8 arg2, s8 arg3, s8 arg4);
@@ -26,80 +32,147 @@ void func_800F56A8(void);
 void func_800F6FB4(u8);
 s32 func_800F491C(u8 arg0);
 
+extern f32 D_8012F6B4[]; // from audio_synthesis
+
 // stick float vals
-extern f32 D_8012F6B4[];
-extern u32 sOcarinaAllowedBtnMask; // 80130EFC
-extern s32 sOcarinaABtnMap;        // 80130F00
-extern s32 sOcarinaCUPBtnMap;      // 80130F04
-extern s32 sOcarinaCDownBtnMap;    // 80130F08
-extern u8 D_80131F64;
-extern u8 D_80133408;
-extern s8 D_8013060C;
+extern u32 D_801305B0;
+extern u32 D_801305B4;
+extern s8 D_801305B8;
+extern s8 D_801305BC;
+extern s8 D_801305C0;
+extern f32 D_801305C4[2];
+extern u8 D_801305CC;
+extern u8 sPrevChargeLevel; // 801305E0
+extern f32 D_801305E4[4];
+extern f32 D_801305F4;
+extern u8 D_801305F8[8];
+extern u8 D_80130600;
 extern s8 D_80130604;
+extern s8 D_80130608;
+extern s8 D_8013060C;
+extern s8 D_80130610;
 extern s8 D_80130614;
-extern f32 D_80130620;
-extern s8 D_80130624;
-extern u8 D_80131878;
-extern u32 D_80130F3C;
-extern u8 sCurOcarinaBtnVal;   // 80130F14
-extern u8 sPrevOcarinaNoteVal; // 80130F18
-extern u8 sCurOcarinaBtnIdx;   // note index?
-extern u8 sLearnSongLastBtn;
-extern u8 sOcarinaInpEnabled; // D_80130F0C
-extern u8 sPlaybackState;
-extern u16 sStaffPlaybackPos;
-extern s8 D_80130F10; // ocarina active?
-extern u8 sNoteValueIndexMap[];
 extern s8 D_80130618;
 extern u8 D_8013061C;
+extern f32 D_80130620;
+extern s8 D_80130624;
+extern u16 D_80130628;
+extern u8 D_8013062C;
+extern u8 D_80130630;
+extern u32 D_80130634;
+extern u32 D_80130638;
 extern u8 D_8013063C;
 extern u8 D_80130640;
 extern u8 D_80130644;
 extern u8 D_80130648;
-extern s8 D_801306C8[];
-extern u8 D_80133414;
-extern s8 D_80130610;
-extern u8 D_80130600;
-extern u8 D_801305F8[];
-extern s8 D_80130608;
-extern u8 D_801305FF;
 extern Vec3f* D_8013064C;
-extern u8 D_801305CC;
-extern u8 D_8013062C;
-extern u8 D_80130630;
-extern u8 D_80130658[];
-extern u8 D_80133418;
-extern u16 D_80130628;
-extern s8 D_80130F2C; // pitch?
 extern f32 D_80130650;
-extern s8 D_801305B8;
-extern s8 D_801305BC;
-extern s8 D_801305C0;
-extern f32 D_801305E4[];
-extern u8 sPrevChargeLevel;
-extern f32 D_801305F4;
-extern u32 D_801305B0;
-extern u32 D_801305B4;
+extern u8 D_80130654;
+extern u8 D_80130658[]; // <= 112
+extern s8 D_801306C8[20];
+extern D_801306DC_s D_801306DC[20];
+extern u32 sOcarinaAllowedBtnMask; // 80130EFC
+extern s32 sOcarinaABtnMap;        // 80130F00
+extern s32 sOcarinaCUPBtnMap;      // 80130F04
+extern s32 sOcarinaCDownBtnMap;    // 80130F08
+extern u8 sOcarinaInpEnabled;      // 80130F0C
+extern s8 D_80130F10;              // ocarina active?
+extern u8 sCurOcarinaBtnVal;       // 80130F14
+extern u8 sPrevOcarinaNoteVal;     // 80130F18
+extern u8 sCurOcarinaBtnIdx;       // 80130F1C, note index?
+extern u8 sLearnSongLastBtn;       // 80130F20
+extern f32 D_80130F24;
+extern u32 D_80130F28;
+extern s8 D_80130F2C; // pitch?
+extern s8 D_80130F30;
+extern s8 D_80130F34;
+extern u8 sPlaybackState; // 80130F38
+extern u32 D_80130F3C;
+extern u32 sNotePlaybackTimer;
+extern u16 sPlaybackNotePos;
+extern u16 sStaffPlaybackPos;
+extern u16 D_80130F4C;
+extern u8 sDisplayedNoteValue; // Note to display on screen?
+extern u8 sNotePlaybackVolume;
+extern u8 sNotePlaybackVibrato;
+extern s8 sNotePlaybackTone;
+extern f32 sNormalizedNotePlaybackTone;
+extern f32 sNormalizedNotePlaybackVolume;
+extern s32 D_80130F68;
+extern u8 sOcarinaNoteValues[5];
+extern u8 sOcaMinigameApndPos;
+extern u8 sOcaMinigameEndPos;
+extern u8 sOcaMinigameNoteCnts[]; // <= 4
+extern OcarinaSong sOcarinaSongs[14]; // 80130F80
+extern OcarinaSong* sPlaybackSong;
+// extern u8 D_80131844[];
+// extern u8* gFrogsSongPtr = D_80131844;
+extern u8 D_80131858;
+extern u8 sRecordSongPos;
+extern u32 D_80131860;
+extern u8 D_80131864;
+extern u8 D_80131868;
+extern u8 D_8013186C;
+extern s8 D_80131870;
+extern u8 D_80131874;
+extern u8 D_80131878;
+extern u8 D_8013187C;
+extern u8 D_80131880;
+extern OcarinaSong sPierresSong;
+// extern OcarinaNote* gScarecrowCustomSongPtr = &sPierresSong;
+// extern OcarinaNote* gScarecrowSpawnSongPtr = &sOcarinaSongs[12];
+extern OcarinaSong* D_80131BEC; // = &sOcarinaSongs[13];
+extern u8 sNoteValueIndexMap[16]; // = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 5, 3, 3, 4, 4, 4}
+// extern OcarinaSongInfo gOcarinaSongNotes[14];
+// D_80131C80 .. 88 are in-function static in func_800EE824
 extern f32 D_80131C8C;
+
+extern u8 D_801333F0;
+
+// Debug variables (separate file?):
+extern f32 D_80131C90; // func_800EEA50, in-function static?
+extern f32 D_80131C94; // func_800EEA50, in-function static?
 extern u8 D_80131C98;
 extern u8 D_80131C9C;
 extern u8 D_80131CA0;
+extern u8 D_80131CA4;
 extern u8 D_80131CA8;
-extern u16 D_80131E08[];
-extern u8 D_8013340C;
-extern u8 D_80131EEE;
+extern char D_80131CAC[][23];
+extern u16 D_80131E08[11];
+extern u16 D_80131E20[11];
+extern char D_80131E38[7][11]; // func_800EEA50
+extern char D_80131E88[][10]; // func_800EEA50
 extern s8 D_80131EBC;
 extern s8 D_80131EC0;
 extern s8 D_80131EC4;
 extern s8 D_80131EC8[];
-extern u16 D_80131E20[];
-extern u8 D_80131CA4;
-extern u8 sOcaMinigameEndPos;
-extern u8 sOcaMinigameApndPos;
-extern u8 sOcaMinigameNoteCnts[];
-extern u16 D_80130F3E;
-extern u8 sOcarinaNoteValues[5];
-extern u8 D_8013170C;
+extern u8 D_80131ED0;
+extern u8 D_80131ED4;
+extern u8 D_80131ED8;
+extern s8 D_80131EDC;
+extern s8 D_80131EE0;
+extern u8 D_80131EE4[12];
+extern u8 D_80131EF0[];
+extern u8 D_80131EFC;
+extern u8 D_80131F00;
+extern u8 D_80131F04;
+extern u8 D_80131F08;
+extern char D_80131F0C[][5]; // func_800EEA50
+extern u8 D_80131F18;
+extern u8 D_80131F1C;
+extern u16 D_80131F20[];
+extern u8 D_80131F28;
+extern u8 D_80131F2C;
+extern u8 D_80131F30[];
+extern char D_80131F44[][2]; // func_800EEA50
+extern u8 D_80131F4C[];
+extern u8 D_80131F50;
+extern char D_80131F54[][5]; // func_800EEA50
+extern u8 D_80131F64;
+extern u8 D_80131F68;
+// D_80131F6C is in-function static in func_800F510C
+
+
 /** bit field of songs that can be played
  * 0x0800 storms
  * 0x0400 song of time
@@ -114,44 +187,18 @@ extern u8 D_8013170C;
  * 0x0002 bolero
  * 0x0001 minuet
  */
-extern u8 D_8013187C;
-extern u16 D_80130F4C;
-extern u8 D_80131880;
-extern u8 D_80131858;
-extern f32 D_80130F24;
-extern s8 D_80130F34;
-extern u32 D_80130F28;
-extern u8 D_80131F4C[];
-extern u8 D_80131F50;
-extern OcarinaSong sOcarinaSongs[]; // 80130F80
-extern u32 sNotePlaybackTimer;
-extern u16 sPlaybackNotePos;
-extern u32 D_80131860;
-extern u8 D_8013186;
-extern u8 D_80131868;
-extern u8 D_8013186C;
-extern s8 D_80131870;
-extern u8 D_80131874;
-extern u8 sRecordSongPos;
-extern u8 D_80131864;
-extern s8 D_80130F30;
-extern OcarinaSong* sPlaybackSong;
-extern OcarinaSong sPierresSong;
-extern u8 sDisplayedNoteValue; // Note to display on screen?
-extern s32 D_80130F68;
-extern OcarinaNote* D_80131BE4;
-extern OcarinaSong* D_80131BEC;
 
 typedef struct {
     u8 unk_00;
     char unk_01[0x37];
 } unk_dstruct;
 
-extern u8 D_80131EFC;
+extern u8 D_801333F4;
+extern u8 D_80133408;
+extern u8 D_8013340C;
+extern u8 D_80133414;
+extern u8 D_80133418;
 extern unk_dstruct D_801337CE[];
-extern u8 D_80131F28;
-extern u8 D_80131F2C;
-extern u8 D_80131F30[];
 
 /**
  * BSS
@@ -222,6 +269,10 @@ u32 sDebugPadPressRaw;
 u32 sDebugPadPress;
 s32 sAudioUpdateTaskStart;
 s32 sAudioUpdateTaskEnd;
+
+extern u16 D_8016E2E0[];
+extern u16 D_8016E2F8[];
+extern u8 D_8016E310[];
 
 void func_800EC960(u8 custom) {
     if (!custom) {
@@ -470,7 +521,7 @@ void func_800ED200(void) {
     u8 k;
 
     if (CHECK_BTN_ANY(sCurOcarinaBtnPress, BTN_L) && CHECK_BTN_ANY(sCurOcarinaBtnPress, sOcarinaAllowedBtnMask)) {
-        func_800ECC04(D_80130F3E);
+        func_800ECC04((u16) D_80130F3C);
         return;
     }
 
@@ -655,12 +706,6 @@ void func_800ED93C(s8 songIdx, s8 arg1) {
         sPlaybackNotePos++;
     }
 }
-
-extern u8 sNotePlaybackVolume;
-extern f32 sNormalizedNotePlaybackVolume;
-extern u8 sNotePlaybackVibrato;
-extern s8 sNotePlaybackTone;
-extern f32 sNormalizedNotePlaybackTone;
 
 void Audio_OcaPlayback(void) {
     s32 noteTimerStep;
@@ -1140,16 +1185,9 @@ u8* func_800EE9D0(s32 arg0, u8 arg1) {
     return D_8016B9B8;
 }
 
-extern char D_80131CAC[][0x17];
-extern char D_80131F54[][5];
-extern char D_80131E38[7][0xB];
-extern char D_80131E88[][0xA];
-extern u8 D_80131F68;
-
 // Debug Print
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EEA50.s")
 
-extern u16 D_80131E14;
 void func_800F1BDC(void) {
     u16 phi_t1 = 1;
 
@@ -1171,12 +1209,12 @@ void func_800F1BDC(void) {
         if (D_80131CA4 > 0) {
             D_80131CA4--;
         } else {
-            D_80131CA4 = 0xA;
+            D_80131CA4 = 10;
         }
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_DDOWN)) {
-        if (D_80131CA4 < 0xA) {
+        if (D_80131CA4 < 10) {
             D_80131CA4++;
         } else {
             D_80131CA4 = 0;
@@ -1236,7 +1274,7 @@ void func_800F1BDC(void) {
                 break;
             case 6:
                 Audio_SeqCmdF(0, D_80131E08[D_80131CA4]);
-                D_80131EFC = D_80131E14;
+                D_80131EFC = D_80131E08[6];
                 if (gAudioSessionPresets[D_80131EFC].numSequencePlayers - 1 < D_80131F28) {
                     D_80131F28 = gAudioSessionPresets[D_80131EFC].numSequencePlayers - 1;
                 }
@@ -1322,15 +1360,6 @@ void func_800F2150(void) {
     }
 }
 
-extern u8 D_80131ED0;
-extern u8 D_80131ED4;
-extern u8 D_80131ED8;
-extern s8 D_80131EDC;
-extern s8 D_80131EE0;
-extern u8 D_80131EE4[];
-extern u8 D_80131EF0[];
-extern u8 D_801333F0;
-
 void func_800F227C(void) {
 
     if (D_80131EE4[0] != 0) {
@@ -1393,14 +1422,6 @@ void func_800F227C(void) {
     D_801333F0 = D_80131EE4[3] + (D_80131EE4[4] * 2) + (D_80131EE4[5] * 4) + (D_80131EE4[6] * 8) +
                  (D_80131EE4[7] * 0x10) + (D_80131EE4[8] * 32);
 }
-
-extern u8 D_80131F00;
-extern u8 D_80131F04;
-extern u8 D_80131F08;
-extern u16 D_8016E2E0[];
-extern u16 D_8016E2F8[];
-extern u8 D_801333F4;
-extern u8 D_8016E310[];
 
 #ifdef NON_MATCHING
 // regalloc near phi_v1
@@ -1582,12 +1603,6 @@ void func_800F28B4(void) {
 void func_800F29FC(void) {
 }
 
-extern u8 D_80131F18;
-extern u16 D_80131F20[];
-
-extern u16 D_80131E24;
-extern u8 D_80131F1C;
-
 void func_800F2A04(void) {
     s32 phi_a2;
     u16 sfx;
@@ -1619,7 +1634,7 @@ void func_800F2A04(void) {
                 if (D_80131F20[D_80131F18] > 0) {
                     D_80131F20[D_80131F18]--;
                 } else {
-                    D_80131F20[D_80131F18] = D_80131E24 - 1;
+                    D_80131F20[D_80131F18] = D_80131E20[2] - 1;
                 }
             } else {
                 D_80131F20[D_80131F18] -= phi_a2;
@@ -1635,7 +1650,7 @@ void func_800F2A04(void) {
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_DRIGHT)) {
         if (D_80131F18 < 2) {
             if (D_80131F18 == 0) {
-                if (D_80131F20[D_80131F18] < (D_80131E24 - 1)) {
+                if (D_80131F20[D_80131F18] < (D_80131E20[2] - 1)) {
                     D_80131F20[D_80131F18]++;
                 } else {
                     D_80131F20[D_80131F18] = 0;
@@ -1782,7 +1797,7 @@ void func_800F2E28(void) {
                 break;
         }
 
-        D_8013340C = D_80131EEE;
+        D_8013340C = D_80131EE4[10];
     }
 }
 
@@ -2072,7 +2087,6 @@ s8 func_800F3990(f32 arg0, u16 arg1) {
     return ret | 1;
 }
 
-extern f32 D_801305C4[];
 void func_800F3A08(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     f32 sp44;
     s8 phi_a1;
@@ -2454,7 +2468,7 @@ void func_800F4A70(void) {
     if (D_80130600 != 0) {
         D_80130600--;
         if (D_80130600 == 0) {
-            func_800F491C(D_801305FF);
+            func_800F491C(D_801305F8[7]);
         }
     }
 }
@@ -2858,9 +2872,6 @@ void func_800F5E18(u8 seqIdx, u16 seqId, u8 fadeTimer, s8 arg3, s8 arg4) {
     Audio_StartSeq(seqIdx, fadeTimer, seqId);
 }
 
-extern u8 D_80130654;
-extern u32 D_80130634;
-extern u32 D_80130638;
 void func_800F5E90(u8 arg0) {
     s32 phi_t0;
     u16 phi_t1;
@@ -3135,7 +3146,7 @@ void func_800F6964(u16 arg0) {
         switch (i) {
             case 0xB:
             case 0xC:
-                if (D_80133414 == 0xA) {
+                if (D_80133414 == 10) {
                     phi_v1 = 1;
                 }
                 break;
@@ -3219,14 +3230,6 @@ void func_800F6C34(void) {
     D_8016B9F3 = 1;
     D_8016B9F2 = 0;
 }
-
-typedef struct {
-    u16 unk_00;
-    u16 unk_02;
-    u8 unk_04[100];
-} D_801306DC_s;
-
-extern D_801306DC_s D_801306DC[];
 
 void func_800F6D58(u8 arg0, u8 arg1, u8 arg2) {
     u8 t;

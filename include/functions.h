@@ -2209,7 +2209,7 @@ void func_800F87A0(u8);
 void func_800F8884(u8, Vec3f*);
 void func_800F89A0(u8, Vec3f*);
 void func_800F89E8(Vec3f*);
-// ? func_800F9280(?);
+void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer);
 void Audio_QueueSeqCmd(u32 bgmID);
 u16 func_800FA0B4(u8 a0);
 s32 func_800FA11C(u32, u32);
