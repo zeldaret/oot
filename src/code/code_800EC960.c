@@ -377,7 +377,6 @@ void func_800ECDBC(void) {
     }
 }
 
-#ifdef NON_MATCHING
 void func_800ECDF8(void) {
     u16 sh;
     u16 pad;
@@ -396,16 +395,17 @@ void func_800ECDF8(void) {
             return;
         }
 
-        if (sPrevOcarinaNoteVal == sCurOcarinaBtnVal || sCurOcarinaBtnVal == 0xFF) {
-            inputChanged = 1;
-        }
+        // clang-format on
+        if (sPrevOcarinaNoteVal == sCurOcarinaBtnVal || sCurOcarinaBtnVal == 0xFF) { inputChanged = 1; }
+        // clang-format off
 
         for (i = gOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
             sh = 1 << i;
             if (sOcarinaAvailSongs & sh) {
                 D_8016BA50[i] = D_8016BA70[i] + 0x12;
                 if (inputChanged) {
-                    if ((D_8016BA50[i] >= D_8016BA70[i] - 0x12) && (D_8016BA50[i] >= D_8016BA70[i]) &&
+                    // (pointless if check, this is always true)
+                    if ((D_8016BA50[i] >= D_8016BA70[i] - 0x12) && (D_8016BA50[i] >= D_8016BA70[i] + 0x12) &&
                         (sOcarinaSongs[i].notes[sLearnSongPos[i]].unk_02 == 0) &&
                         (sLearnSongLastBtn == sLearnSongExpectedNote[i])) {
                         D_80131878 = i + 1;
@@ -431,11 +431,11 @@ void func_800ECDF8(void) {
                     if (sCurOcarinaBtnVal != sLearnSongExpectedNote[i]) {
                         sOcarinaAvailSongs ^= sh;
                     }
-                    for (; prevNote->noteIdx == note->noteIdx || (note->noteIdx == 0xFF && note->unk_02 != 0);
-                         sLearnSongPos[i]++) {
+                    while (prevNote->noteIdx == note->noteIdx || (note->noteIdx == 0xFF && note->unk_02 != 0)) {
                         D_8016BA70[i] += note->unk_02;
-                        note = &sOcarinaSongs[i].notes[sLearnSongPos[i] + 1];
                         prevNote = &sOcarinaSongs[i].notes[sLearnSongPos[i]];
+                        note = &sOcarinaSongs[i].notes[sLearnSongPos[i] + 1];
+                        sLearnSongPos[i]++;
                     }
                 } else if (D_8016BA50[i] < 0xA) {
                     sp57 = -1;
@@ -462,10 +462,6 @@ void func_800ECDF8(void) {
         }
     }
 }
-#else
-void func_800ECDF8(void);
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800ECDF8.s")
-#endif
 
 void func_800ED200(void) {
     u32 temp_v0;
@@ -1405,6 +1401,7 @@ extern u16 D_8016E2E0[];
 extern u16 D_8016E2F8[];
 extern u8 D_801333F4;
 extern u8 D_8016E310[];
+
 #ifdef NON_MATCHING
 void func_800F2464(void) {
     s16 phi_t1;
@@ -1428,7 +1425,6 @@ void func_800F2464(void) {
         }
 
         phi_v1 = 9;
-        phi_t1 = phi_t1;
         if ((sDebugPadPress & 0x8000) != 0) {
             D_80131F00 = 1;
         }
@@ -1476,13 +1472,13 @@ void func_800F2464(void) {
             if (D_80131F08 < 4) {
                 new_var = (u16)(((D_8016E2E0[D_80131F04] >> (((-D_80131F08) * 4) + 0xC)) + phi_t1) & 0xF);
                 D_8016E2E0[D_80131F04] =
-                    (u16)((D_8016E2E0[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0xC)) ^ 0xFFFF)) +
-                          (new_var << (((-D_80131F08) * 4) + 0xC)));
+                    (D_8016E2E0[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0xC)) ^ 0xFFFF)) +
+                          (new_var << (((-D_80131F08) * 4) + 0xC));
             } else {
                 new_var = (u16)(((D_8016E2F8[D_80131F04] >> (((-D_80131F08) * 4) + 0x1C)) + phi_t1) & 0xF);
                 D_8016E2F8[D_80131F04] =
-                    (u16)((D_8016E2F8[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0x1C)) ^ 0xFFFF)) +
-                          (new_var << (((-D_80131F08) * 4) + 0x1C)));
+                    (D_8016E2F8[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0x1C)) ^ 0xFFFF)) +
+                          (new_var << (((-D_80131F08) * 4) + 0x1C));
             }
         }
 
