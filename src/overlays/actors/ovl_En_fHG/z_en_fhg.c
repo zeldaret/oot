@@ -147,7 +147,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 }
                 if (this->timers[0] == 51) {
                     Audio_PlayActorSound2(this->actor.child, NA_SE_EV_SPEAR_FENCE);
-                    Audio_SetBGM(0x1B);
+                    Audio_QueueSeqCmd(0x1B);
                 }
                 if (this->timers[0] == 0) {
                     EnfHG_SetupApproach(this, globalCtx, Rand_ZeroOne() * 5.99f);
@@ -163,7 +163,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             this->cutsceneState = INTRO_FENCE;
             this->timers[0] = 60;
             this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y - 7.0f;
-            Audio_SetBGM(0x100100FF);
+            Audio_QueueSeqCmd(0x100100FF);
             gSaveContext.eventChkInf[7] |= 4;
             Flags_SetSwitch(globalCtx, 0x23);
         case INTRO_FENCE:
@@ -199,7 +199,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, &this->actor, 9);
             }
             if (this->timers[0] == 1) {
-                Audio_SetBGM(0x23);
+                Audio_QueueSeqCmd(0x23);
             }
             Math_ApproachF(&this->cameraEye.x, GND_BOSSROOM_CENTER_X + 40.0f, 0.05f, this->cameraSpeedMod * 20.0f);
             Math_ApproachF(&this->cameraEye.y, GND_BOSSROOM_CENTER_Y + 37.0f, 0.05f, this->cameraSpeedMod * 20.0f);
@@ -287,7 +287,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 this->bossGndSignal = FHG_RIDE;
             }
             if (this->timers[0] == 130) {
-                Audio_SetBGM(0x105000FF);
+                Audio_QueueSeqCmd(0x105000FF);
             }
             if (this->timers[0] == 30) {
                 bossGnd->work[GND_EYE_STATE] = GND_EYESTATE_BRIGHTEN;
@@ -300,7 +300,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_80078914(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
             }
             if (this->timers[0] == 20) {
-                Audio_SetBGM(0x1B);
+                Audio_QueueSeqCmd(0x1B);
             }
             if (this->timers[0] == 2) {
                 this->cameraSpeedMod = 0.0f;

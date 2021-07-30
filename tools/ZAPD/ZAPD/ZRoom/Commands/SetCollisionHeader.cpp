@@ -13,7 +13,6 @@ void SetCollisionHeader::ParseRawData()
 {
 	ZRoomCommand::ParseRawData();
 	collisionHeader = new ZCollisionHeader(parent);
-	collisionHeader->SetRawData(parent->GetRawData());
 	collisionHeader->SetRawDataIndex(segmentOffset);
 	collisionHeader->SetName(
 		StringHelper::Sprintf("%sCollisionHeader_%06X", parent->GetName().c_str(), segmentOffset));

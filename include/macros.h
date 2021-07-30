@@ -9,6 +9,8 @@
 #define SEGMENTED_TO_VIRTUAL(addr) PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr))
 
 #define ALIGN16(val) (((val) + 0xF) & ~0xF)
+#define ALIGN32(val) (((val) + 0x1F) & ~0x1F)
+#define ALIGN256(val) (((val) + 0xFF) & ~0xFF)
 
 #define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))

@@ -728,7 +728,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             this->unk_2E0 &= ~0x10;
                             this->unk_2E0 &= ~0x100;
                             gSaveContext.eventInf[0] |= 0x100;
-                            Audio_SetBGM(NA_BGM_STOP);
+                            Audio_QueueSeqCmd(NA_BGM_STOP);
                             this->unk_2E0 &= ~0x200;
                             func_800F5C64(0x39);
                             return;
@@ -757,7 +757,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.timer1Value == 0 && !Gameplay_InCsMode(globalCtx)) {
-        Audio_SetBGM(NA_BGM_STOP);
+        Audio_QueueSeqCmd(NA_BGM_STOP);
         this->unk_2E0 &= ~0x200;
         func_80078884(NA_SE_SY_FOUND);
         gSaveContext.timer1State = 0;
