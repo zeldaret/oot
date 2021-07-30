@@ -1403,9 +1403,10 @@ extern u8 D_801333F4;
 extern u8 D_8016E310[];
 
 #ifdef NON_MATCHING
+// regalloc near phi_v1
 void func_800F2464(void) {
-    s16 phi_t1;
-    u16 new_var;
+    s16 delta;
+    u16 val;
     u8 phi_v1;
 
     if (D_80131F00 == 0) {
@@ -1441,7 +1442,7 @@ void func_800F2464(void) {
                 phi_v1 = 9;
             }
             D_8016E2E0[D_80131F04] = D_8016E2E0[phi_v1];
-            if (!D_80131F08) {}
+            if (D_80131F08) {}
             D_8016E2F8[D_80131F04] = D_8016E2F8[phi_v1];
         }
     } else {
@@ -1462,23 +1463,25 @@ void func_800F2464(void) {
 
         if (((sDebugPadPress & 0x800) != 0) || ((sDebugPadPress & 0x400) != 0)) {
             if ((sDebugPadPress & 0x800) != 0) {
-                phi_t1 = (D_8016BAB0 & 8) != 0 ? 8 : 1;
+                delta = (D_8016BAB0 & 8) != 0 ? 8 : 1;
             }
 
             if ((sDebugPadPress & 0x400) != 0) {
-                phi_t1 = (D_8016BAB0 & 8) != 0 ? -8 : -1;
+                delta = (D_8016BAB0 & 8) != 0 ? -8 : -1;
             }
 
             if (D_80131F08 < 4) {
-                new_var = (u16)(((D_8016E2E0[D_80131F04] >> (((-D_80131F08) * 4) + 0xC)) + phi_t1) & 0xF);
+                val = D_8016E2E0[D_80131F04] >> (((-D_80131F08) * 4) + 0xC);
+                val = (val + delta) & 0xF;
                 D_8016E2E0[D_80131F04] =
                     (D_8016E2E0[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0xC)) ^ 0xFFFF)) +
-                          (new_var << (((-D_80131F08) * 4) + 0xC));
+                          (val << (((-D_80131F08) * 4) + 0xC));
             } else {
-                new_var = (u16)(((D_8016E2F8[D_80131F04] >> (((-D_80131F08) * 4) + 0x1C)) + phi_t1) & 0xF);
+                val = D_8016E2F8[D_80131F04] >> (((-D_80131F08) * 4) + 0x1C);
+                val = (val + delta) & 0xF;
                 D_8016E2F8[D_80131F04] =
                     (D_8016E2F8[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0x1C)) ^ 0xFFFF)) +
-                          (new_var << (((-D_80131F08) * 4) + 0x1C));
+                          (val << (((-D_80131F08) * 4) + 0x1C));
             }
         }
 
