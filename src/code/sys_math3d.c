@@ -36,8 +36,8 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
     planeIntersectSeg.b.z = (planeIntersectLine.dir.z * 100.0f) + planeIntersectLine.point.z;
 
     // closestPoint is a point on planeIntersect, sp34 is a point on linePointA, linePointB
-    if (!Math3D_LineVsLineClosestTwoPoints(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB, closestPoint,
-                                       &sp34)) {
+    if (!Math3D_LineVsLineClosestTwoPoints(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB,
+                                           closestPoint, &sp34)) {
         return false;
     }
     return true;
@@ -80,9 +80,9 @@ s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Ve
 
     compAAlongB = ((lineAx * lineBx) + (lineAy * lineBy) + (lineAz * lineBz)) * scaleB;
 
-    compBAAlongB = ((lineBx * (lineAPointA->x - lineBPointA->x)) +
-                    (lineBy * (lineAPointA->y - lineBPointA->y)) +
-                    (lineBz * (lineAPointA->z - lineBPointA->z))) * scaleB;
+    compBAAlongB = ((lineBx * (lineAPointA->x - lineBPointA->x)) + (lineBy * (lineAPointA->y - lineBPointA->y)) +
+                    (lineBz * (lineAPointA->z - lineBPointA->z))) *
+                   scaleB;
 
     lineAPerpB.x = lineAx - (lineBx * compAAlongB);
     lineAPerpB.y = lineAy - (lineBy * compAAlongB);

@@ -86,7 +86,7 @@ glabel func_80902524
 /* 056F4 80902634 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 056F8 80902638 2405399B */  addiu   $a1, $zero, 0x399B         ## $a1 = 0000399B
-/* 056FC 8090263C 0C03E341 */  jal     func_800F8D04              
+/* 056FC 8090263C 0C03E341 */  jal     Audio_StopSfx              
 /* 05700 80902640 240439D9 */  addiu   $a0, $zero, 0x39D9         ## $a0 = 000039D9
 /* 05704 80902644 10000072 */  beq     $zero, $zero, .L80902810   
 /* 05708 80902648 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -105,7 +105,7 @@ glabel func_80902524
 /* 05738 80902678 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 0573C 8090267C 2405399B */  addiu   $a1, $zero, 0x399B         ## $a1 = 0000399B
-/* 05740 80902680 0C03E341 */  jal     func_800F8D04              
+/* 05740 80902680 0C03E341 */  jal     Audio_StopSfx              
 /* 05744 80902684 240439D9 */  addiu   $a0, $zero, 0x39D9         ## $a0 = 000039D9
 /* 05748 80902688 920D00AF */  lbu     $t5, 0x00AF($s0)           ## 000000AF
 /* 0574C 8090268C 25AEFFFE */  addiu   $t6, $t5, 0xFFFE           ## $t6 = FFFFFFFE
@@ -166,7 +166,7 @@ glabel func_80902524
 /* 05814 80902754 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 05818 80902758 AFA70020 */  sw      $a3, 0x0020($sp)           
-/* 0581C 8090275C 0C03E341 */  jal     func_800F8D04              
+/* 0581C 8090275C 0C03E341 */  jal     Audio_StopSfx              
 /* 05820 80902760 240439D9 */  addiu   $a0, $zero, 0x39D9         ## $a0 = 000039D9
 /* 05824 80902764 8FA70020 */  lw      $a3, 0x0020($sp)           
 /* 05828 80902768 3C010900 */  lui     $at, 0x0900                ## $at = 09000000

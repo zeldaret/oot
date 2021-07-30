@@ -54,7 +54,7 @@
         <DList Name="object_oA1_DL_000033D0" Offset="0x33D0"/>
         <DList Name="object_oA1_DL_00003508" Offset="0x3508"/>
         <DList Name="object_oA1_DL_00003678" Offset="0x3678"/>
-        <Texture Name="object_oA1_TLUT_00003748" OutName="tlut_00003748" Format="rgb5a1" Width="16" Height="16" Offset="0x3748"/>
+        <Texture Name="object_oA1_TLUT_00003748" OutName="tlut_00003748" Format="rgba16" Width="16" Height="16" Offset="0x3748"/>
         <Texture Name="object_oA1_Tex_00003948" OutName="tex_00003948" Format="ci8" Width="32" Height="32" Offset="0x3948"/>
         <Texture Name="object_oA1_Tex_00003D48" OutName="tex_00003D48" Format="ci8" Width="16" Height="16" Offset="0x3D48"/>
         <Texture Name="object_oA1_Tex_00003E48" OutName="tex_00003E48" Format="ci8" Width="8" Height="8" Offset="0x3E48"/>
@@ -63,7 +63,7 @@
         <Texture Name="object_oA1_Tex_00004088" OutName="tex_00004088" Format="ci8" Width="16" Height="16" Offset="0x4088"/>
         <Texture Name="object_oA1_Tex_00004188" OutName="tex_00004188" Format="i4" Width="16" Height="16" Offset="0x4188"/>
         <Texture Name="object_oA1_Tex_00004208" OutName="tex_00004208" Format="i4" Width="16" Height="32" Offset="0x4208"/>
-        <Texture Name="object_oA1_Tex_00004308" OutName="tex_00004308" Format="rgb5a1" Width="16" Height="16" Offset="0x4308"/>
-        <Texture Name="object_oA1_Tex_00004508" OutName="tex_00004508" Format="rgb5a1" Width="16" Height="16" Offset="0x4508"/>
+        <Texture Name="object_oA1_Tex_00004308" OutName="tex_00004308" Format="rgba16" Width="16" Height="16" Offset="0x4308"/>
+        <Texture Name="object_oA1_Tex_00004508" OutName="tex_00004508" Format="rgba16" Width="16" Height="16" Offset="0x4508"/>
     </File>
 </Root>

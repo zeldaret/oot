@@ -9,8 +9,8 @@
         <Animation Name="object_tite_Anim_000F50" Offset="0xF50"/>
         <Animation Name="object_tite_Anim_0012E4" Offset="0x12E4"/>
         <Blob Name="object_tite_Blob_0012F4" Size="0x70C" Offset="0x12F4"/>
-        <Texture Name="object_tite_Tex_001A00" OutName="tex_00001A00" Format="rgb5a1" Width="4" Height="16" Offset="0x1A00"/>
-        <Texture Name="object_tite_Tex_001A80" OutName="tex_00001A80" Format="rgb5a1" Width="8" Height="8" Offset="0x1A80"/>
+        <Texture Name="object_tite_Tex_001A00" OutName="tex_00001A00" Format="rgba16" Width="4" Height="16" Offset="0x1A00"/>
+        <Texture Name="object_tite_Tex_001A80" OutName="tex_00001A80" Format="rgba16" Width="8" Height="8" Offset="0x1A80"/>
         <Blob Name="object_tite_Blob_001B00" Size="0x700" Offset="0x1B00"/>
         <DList Name="object_tite_DL_002FF0" Offset="0x2FF0"/>
         <DList Name="object_tite_DL_003160" Offset="0x3160"/>

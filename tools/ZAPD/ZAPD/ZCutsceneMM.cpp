@@ -58,16 +58,16 @@ size_t ZCutsceneMM::GetRawDataSize() const
 	return 8 + data.size() * 4;
 }
 
-void ZCutsceneMM::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                                 const uint32_t nRawDataIndex)
+void ZCutsceneMM::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
 {
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
+	ZResource::ExtractFromXML(reader, nRawDataIndex);
 	DeclareVar(parent->GetName(), "");
 }
 
 void ZCutsceneMM::ParseRawData()
 {
 	segmentOffset = rawDataIndex;
+	const auto& rawData = parent->GetRawData();
 
 	numCommands = BitConverter::ToInt32BE(rawData, rawDataIndex + 0);
 	commands = std::vector<CutsceneCommand*>();
