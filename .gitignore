@@ -24,6 +24,7 @@ docs/doxygen/
 *.v64
 *.map
 *.dump
+safeOverlays.mk
 out.txt
 
 # Tool artifacts
