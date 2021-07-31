@@ -62,15 +62,15 @@
         <DList Name="object_oB2_DL_002758" Offset="0x2758" />
         <DList Name="object_oB2_DL_0028B8" Offset="0x28B8" />
         <DList Name="object_oB2_DL_002978" Offset="0x2978" />
-        <Texture Name="object_oB2_Tex_002A58" OutName="tex_00002A58" Format="rgb5a1" Width="16" Height="16" Offset="0x2A58" />
-        <Texture Name="object_oB2_Tex_002C58" OutName="tex_00002C58" Format="rgb5a1" Width="8" Height="8" Offset="0x2C58" />
-        <Texture Name="object_oB2_Tex_002CD8" OutName="tex_00002CD8" Format="rgb5a1" Width="32" Height="16" Offset="0x2CD8" />
-        <Texture Name="object_oB2_Tex_0030D8" OutName="tex_000030D8" Format="rgb5a1" Width="16" Height="8" Offset="0x30D8" />
-        <Texture Name="object_oB2_Tex_0031D8" OutName="tex_000031D8" Format="rgb5a1" Width="32" Height="32" Offset="0x31D8" />
-        <Texture Name="object_oB2_Tex_0039D8" OutName="tex_000039D8" Format="rgb5a1" Width="16" Height="16" Offset="0x39D8" />
-        <Texture Name="object_oB2_Tex_003BD8" OutName="tex_00003BD8" Format="rgb5a1" Width="8" Height="8" Offset="0x3BD8" />
-        <Texture Name="object_oB2_Tex_003C58" OutName="tex_00003C58" Format="rgb5a1" Width="16" Height="16" Offset="0x3C58" />
-        <Texture Name="object_oB2_Tex_003E58" OutName="tex_00003E58" Format="rgb5a1" Width="16" Height="16" Offset="0x3E58" />
-        <Texture Name="object_oB2_Tex_004058" OutName="tex_00004058" Format="rgb5a1" Width="8" Height="8" Offset="0x4058" />
+        <Texture Name="object_oB2_Tex_002A58" OutName="tex_00002A58" Format="rgba16" Width="16" Height="16" Offset="0x2A58" />
+        <Texture Name="object_oB2_Tex_002C58" OutName="tex_00002C58" Format="rgba16" Width="8" Height="8" Offset="0x2C58" />
+        <Texture Name="object_oB2_Tex_002CD8" OutName="tex_00002CD8" Format="rgba16" Width="32" Height="16" Offset="0x2CD8" />
+        <Texture Name="object_oB2_Tex_0030D8" OutName="tex_000030D8" Format="rgba16" Width="16" Height="8" Offset="0x30D8" />
+        <Texture Name="object_oB2_Tex_0031D8" OutName="tex_000031D8" Format="rgba16" Width="32" Height="32" Offset="0x31D8" />
+        <Texture Name="object_oB2_Tex_0039D8" OutName="tex_000039D8" Format="rgba16" Width="16" Height="16" Offset="0x39D8" />
+        <Texture Name="object_oB2_Tex_003BD8" OutName="tex_00003BD8" Format="rgba16" Width="8" Height="8" Offset="0x3BD8" />
+        <Texture Name="object_oB2_Tex_003C58" OutName="tex_00003C58" Format="rgba16" Width="16" Height="16" Offset="0x3C58" />
+        <Texture Name="object_oB2_Tex_003E58" OutName="tex_00003E58" Format="rgba16" Width="16" Height="16" Offset="0x3E58" />
+        <Texture Name="object_oB2_Tex_004058" OutName="tex_00004058" Format="rgba16" Width="8" Height="8" Offset="0x4058" />
     </File>
 </Root>

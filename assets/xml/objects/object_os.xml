@@ -9,8 +9,8 @@
         <DList Name="object_os_DL_002A00" Offset="0x2A00"/>
         <DList Name="object_os_DL_002B30" Offset="0x2B30"/>
         <DList Name="object_os_DL_002C60" Offset="0x2C60"/>
-        <Texture Name="object_os_TLUT_002E18" OutName="tlut_00002E18" Format="rgb5a1" Width="16" Height="16" Offset="0x2E18"/>
-        <Texture Name="object_os_TLUT_003018" OutName="tlut_00003018" Format="rgb5a1" Width="16" Height="16" Offset="0x3018"/>
+        <Texture Name="object_os_TLUT_002E18" OutName="tlut_00002E18" Format="rgba16" Width="16" Height="16" Offset="0x2E18"/>
+        <Texture Name="object_os_TLUT_003018" OutName="tlut_00003018" Format="rgba16" Width="16" Height="16" Offset="0x3018"/>
         <Texture Name="object_os_Tex_003218" OutName="tex_00003218" Format="ci8" Width="8" Height="8" Offset="0x3218"/>
         <Texture Name="object_os_Tex_003258" OutName="tex_00003258" Format="ci8" Width="16" Height="16" Offset="0x3258"/>
         <Texture Name="object_os_Tex_003358" OutName="tex_00003358" Format="ci8" Width="8" Height="8" Offset="0x3358"/>

@@ -17,7 +17,7 @@
         <Texture Name="gDungeonMapB6ButtonTex" OutName="dungeon_map_b6_button" Format="ia8" Width="24" Height="16" Offset="0x1500"/>
         <Texture Name="gDungeonMapB7ButtonTex" OutName="dungeon_map_b7_button" Format="ia8" Width="24" Height="16" Offset="0x1680"/>
         <Texture Name="gDungeonMapB8ButtonTex" OutName="dungeon_map_b8_button" Format="ia8" Width="24" Height="16" Offset="0x1800"/>
-        <Texture Name="gDungeonMapLinkHeadTex" OutName="dungeon_map_link_head" Format="rgb5a1" Width="16" Height="16" Offset="0x1980"/>
-        <Texture Name="gDungeonMapSkullTex" OutName="dungeon_map_skull" Format="rgb5a1" Width="16" Height="16" Offset="0x1B80"/>
+        <Texture Name="gDungeonMapLinkHeadTex" OutName="dungeon_map_link_head" Format="rgba16" Width="16" Height="16" Offset="0x1980"/>
+        <Texture Name="gDungeonMapSkullTex" OutName="dungeon_map_skull" Format="rgba16" Width="16" Height="16" Offset="0x1B80"/>
     </File>
 </Root>

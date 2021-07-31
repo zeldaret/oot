@@ -29,7 +29,7 @@
 
         <!-- The following are unused -->
         <Texture Name="gGanonsCastleUnusedSpikeVariantTex" OutName="ganons_castle_unused_spike_variant" Format="ia16" Width="64" Height="32" Offset="0x8B20"/>
-        <Texture Name="gGanonsCastleUnusedWallTex" OutName="ganons_castle_unused_wall" Format="rgb5a1" Width="32" Height="32" Offset="0x9B20"/>
+        <Texture Name="gGanonsCastleUnusedWallTex" OutName="ganons_castle_unused_wall" Format="rgba16" Width="32" Height="32" Offset="0x9B20"/>
         <Texture Name="gGanonsCastleUnusedTex_00A320" OutName="ganons_castle_unused_00A320" Format="ia16" Width="16" Height="32" Offset="0xA320"/>
     </File>
 </Root>

@@ -11,12 +11,6 @@ ZSymbol::ZSymbol(ZFile* nParent) : ZResource(nParent)
 	RegisterOptionalAttribute("Count");
 }
 
-void ZSymbol::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                             const uint32_t nRawDataIndex)
-{
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
-}
-
 void ZSymbol::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZResource::ParseXML(reader);

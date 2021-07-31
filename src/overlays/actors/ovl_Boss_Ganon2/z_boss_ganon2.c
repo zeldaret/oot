@@ -307,7 +307,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_339 = 4;
             if (this->unk_398 == 0xA) {
                 func_80078914(&D_80906D6C, NA_SE_EV_STONE_BOUND);
-                Audio_SetBGM(NA_BGM_STOP);
+                Audio_QueueSeqCmd(NA_BGM_STOP);
             }
             if (this->unk_398 == 0x14) {
                 sZelda->unk_3C8 = 3;
@@ -455,7 +455,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->actor.world.pos.x = -200.0f;
                 this->actor.world.pos.y = this->actor.world.pos.y - 30.0f;
                 this->actor.world.pos.z = -200.0f;
-                Audio_SetBGM(0x23);
+                Audio_QueueSeqCmd(0x23);
             } else {
                 break;
             }
@@ -593,7 +593,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         case 18:
             this->unk_339 = 6;
             if (this->unk_398 == 0x1E) {
-                Audio_SetBGM(0x65);
+                Audio_QueueSeqCmd(0x65);
             }
             Math_ApproachF(&this->unk_30C, 7.0f, 1.0f, 0.1f);
             Math_ApproachF(&this->unk_3A4.x, (this->actor.world.pos.x + 500.0f) - 350.0f, 0.1f, 1.0f);
@@ -1026,11 +1026,11 @@ void func_808FFCFC(BossGanon2* this, GlobalContext* globalCtx) {
         ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2800) {
         this->unk_311 = false;
         func_80900580(this, globalCtx);
-        func_800F8D04(NA_SE_EN_MGANON_UNARI);
+        Audio_StopSfx(NA_SE_EN_MGANON_UNARI);
     } else if ((this->actor.bgCheckFlags & 8) && func_808FFA24(this, globalCtx)) {
         this->unk_311 = false;
         func_80900580(this, globalCtx);
-        func_800F8D04(NA_SE_EN_MGANON_UNARI);
+        Audio_StopSfx(NA_SE_EN_MGANON_UNARI);
     }
 }
 
@@ -1690,7 +1690,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_3B0.z = D_80907050[phi_a1].z + player->actor.world.pos.z;
             }
             if (this->unk_398 >= 0x51) {
-                Audio_SetBGM(0x100100FF);
+                Audio_QueueSeqCmd(0x100100FF);
                 this->unk_39C = 0x4B;
                 this->unk_398 = 0;
                 this->unk_3A4.x = 112.0f;
@@ -1896,12 +1896,12 @@ void func_80902524(BossGanon2* this, GlobalContext* globalCtx) {
                     func_809000A0(this, globalCtx);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
-                    func_800F8D04(NA_SE_EN_MGANON_UNARI);
+                    Audio_StopSfx(NA_SE_EN_MGANON_UNARI);
                 } else if ((this->actionFunc == func_80900890) && (acHitInfo->toucher.dmgFlags & 0x9000200)) {
                     this->noHitTime = 60;
                     this->unk_342 = 5;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
-                    func_800F8D04(NA_SE_EN_MGANON_UNARI);
+                    Audio_StopSfx(NA_SE_EN_MGANON_UNARI);
                     this->actor.colChkInfo.health -= 2;
                     temp_v0_4 = this->actor.colChkInfo.health;
                     if (temp_v0_4 < 0x15 && this->unk_334 == 0) {
@@ -1927,7 +1927,7 @@ void func_80902524(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_344 = 0x32;
             this->unk_342 = 5;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
-            func_800F8D04(NA_SE_EN_MGANON_UNARI);
+            Audio_StopSfx(NA_SE_EN_MGANON_UNARI);
             phi_v1_2 = 1;
             if (acHitInfo->toucher.dmgFlags & 0x9000200) {
                 if (acHitInfo->toucher.dmgFlags & 0x8000000) {
