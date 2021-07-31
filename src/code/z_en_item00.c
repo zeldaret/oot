@@ -726,15 +726,17 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_15A--;
     }
 
-    if (((this->unk_15A > 0) && (this->unk_15A < 41)) && (this->unk_154 <= 0)) {
+    if ((this->unk_15A > 0) && (this->unk_15A < 41) && (this->unk_154 <= 0)) {
         this->unk_156 = this->unk_15A;
     }
 
     this->actionFunc(this, globalCtx);
     Math_SmoothStepToF(&this->actor.scale.x, this->unk_15C, 0.1f, this->unk_15C * 0.1f, 0.0f);
     temp = &D_80157D90;
+    
     this->actor.scale.z = this->actor.scale.x;
     this->actor.scale.y = this->actor.scale.x;
+    
     if (this->actor.gravity) {
         if (this->actor.bgCheckFlags & 0x0003) {
             if ((*temp) != globalCtx->gameplayFrames) {
