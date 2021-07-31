@@ -147,12 +147,12 @@ extern s8 D_80131EC0;
 extern s8 D_80131EC4;
 extern s8 D_80131EC8[];
 extern u8 D_80131ED0;
-extern u8 D_80131ED4;
-extern u8 D_80131ED8;
+extern u8 sAudioScreenPrintInd;
+extern u8 sAudioScreenPrintOverflow;
 extern s8 D_80131EDC;
 extern s8 D_80131EE0;
-extern u8 D_80131EE4[12];
-extern u8 D_80131EF0[];
+extern u8 D_80131EE4[11];
+extern u8 D_80131EF0[11];
 extern u8 D_80131EFC;
 extern u8 D_80131F00;
 extern u8 D_80131F04;
@@ -216,10 +216,10 @@ s8 D_8016B7DC;
 f32 D_8016B7E0;
 u16 D_8016B7E4;
 typedef struct {
-    char unk_00[6];
-    s16 unk_06;
-} unk_D_8016B7E8;
-unk_D_8016B7E8 D_8016B7E8[0x19];
+    s8 str[5];
+    u16 num;
+} unk_sAudioScreenPrintBuf;
+unk_sAudioScreenPrintBuf sAudioScreenPrintBuf[25];
 u8 D_8016B8B0;
 u8 D_8016B8B1;
 u8 D_8016B8B2;
@@ -1382,8 +1382,8 @@ void func_800F227C(void) {
         }
 
         if (CHECK_BTN_ANY(sDebugPadPress, BTN_B)) {
-            D_80131ED4 = 0;
-            D_80131ED8 = 0;
+            sAudioScreenPrintInd = 0;
+            sAudioScreenPrintOverflow = 0;
         }
     }
 
@@ -1396,7 +1396,7 @@ void func_800F227C(void) {
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_DDOWN)) {
-        if (D_80131ED0 < 0xA) {
+        if (D_80131ED0 < 10) {
             D_80131ED0++;
         } else {
             D_80131ED0 = 0;
@@ -1420,7 +1420,7 @@ void func_800F227C(void) {
     }
 
     D_801333F0 = D_80131EE4[3] + (D_80131EE4[4] * 2) + (D_80131EE4[5] * 4) + (D_80131EE4[6] * 8) +
-                 (D_80131EE4[7] * 0x10) + (D_80131EE4[8] * 32);
+                 (D_80131EE4[7] * 0x10) + (D_80131EE4[8] * 0x20);
 }
 
 #ifdef NON_MATCHING
@@ -1686,26 +1686,26 @@ void func_800F2A04(void) {
     }
 }
 
-void func_800F2D6C(s8* arg0, u16 arg1) {
+void func_800F2D6C(s8* str, u16 num) {
     u8 i = 0;
 
-    D_8016B7E8[D_80131ED4].unk_06 = arg1;
+    sAudioScreenPrintBuf[sAudioScreenPrintInd].num = num;
 
-    while (arg0[i] != 0) {
-        D_8016B7E8[D_80131ED4].unk_00[i] = arg0[i];
+    while (str[i] != 0) {
+        sAudioScreenPrintBuf[sAudioScreenPrintInd].str[i] = str[i];
         i++;
     }
 
     while (i < 5) {
-        D_8016B7E8[D_80131ED4].unk_00[i] = 0;
+        sAudioScreenPrintBuf[sAudioScreenPrintInd].str[i] = 0;
         i++;
     }
 
-    if (D_80131ED4 < 0x18) {
-        D_80131ED4++;
+    if (sAudioScreenPrintInd < 25 - 1) {
+        sAudioScreenPrintInd++;
     } else {
-        D_80131ED4 = 0;
-        D_80131ED8 = 1;
+        sAudioScreenPrintInd = 0;
+        sAudioScreenPrintOverflow = 1;
     }
 }
 

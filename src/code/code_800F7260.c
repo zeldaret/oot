@@ -18,12 +18,7 @@ typedef struct {
     /* 0x0C */ u16 unk_C;
 } Struct_800F8EA0; // size = 0x10
 
-u8 D_80133340[4] = {
-    0x53,
-    0x45,
-    0x00,
-    0x00,
-};
+char D_80133340[] = "SE";
 
 char D_80133344[] = VT_COL(RED, WHITE) "<INAGAKI CHECK> dist over! flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n";
 
@@ -218,7 +213,7 @@ void func_800F7680(void) {
     }
     phi_s5 = SFX_BANK(sp50->sfxId);
     if ((1 << phi_s5) & D_801333F0) {
-        func_800F2D6C(D_80133340, sp50->sfxId);
+        func_800F2D6C(D_80133340, sp50->sfxId); // "SE"
         phi_s5 = SFX_BANK(sp50->sfxId);
     }
     sp55 = 0;

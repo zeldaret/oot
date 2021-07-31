@@ -357,10 +357,10 @@ glabel D_80131EC8
 glabel D_80131ED0
     .incbin "baserom.z64", 0xBA9070, 0x4
 
-glabel D_80131ED4
+glabel sAudioScreenPrintInd
     .incbin "baserom.z64", 0xBA9074, 0x4
 
-glabel D_80131ED8
+glabel sAudioScreenPrintOverflow
     .incbin "baserom.z64", 0xBA9078, 0x4
 
 glabel D_80131EDC

@@ -608,7 +608,7 @@ glabel func_800EEA50
 /* B65CFC 800EEB5C 8FA400B0 */   lw    $a0, 0xb0($sp)
 /* B65D00 800EEB60 3C058013 */  lui   $a1, %hi(D_80133414) # $a1, 0x8013
 /* B65D04 800EEB64 90A53414 */  lbu   $a1, %lo(D_80133414)($a1)
-/* B65D08 800EEB68 3C048013 */  lui   $a0, %hi(gAudioSessionPresets)
+/* B65D08 800EEB68 3C048013 */  lui   $a0, %hi(gAudioSessionPresets+0x5)
 /* B65D0C 800EEB6C 3C188017 */  lui   $t8, %hi(D_8016B9E0) # $t8, 0x8017
 /* B65D10 800EEB70 0005C8C0 */  sll   $t9, $a1, 3
 /* B65D14 800EEB74 0325C823 */  subu  $t9, $t9, $a1
@@ -693,8 +693,8 @@ glabel func_800EEA50
 /* B65E3C 800EEC9C 0C03EF2D */  jal   GfxPrint_Printf
 /* B65E40 800EECA0 8FA400B0 */   lw    $a0, 0xb0($sp)
 /* B65E44 800EECA4 92840001 */  lbu   $a0, 1($s4)
-/* B65E48 800EECA8 3C1E8013 */  lui   $fp, %hi(D_80131ED4) # $fp, 0x8013
-/* B65E4C 800EECAC 83DE1ED4 */  lb    $fp, %lo(D_80131ED4)($fp)
+/* B65E48 800EECA8 3C1E8013 */  lui   $fp, %hi(sAudioScreenPrintInd) # $fp, 0x8013
+/* B65E4C 800EECAC 83DE1ED4 */  lb    $fp, %lo(sAudioScreenPrintInd)($fp)
 /* B65E50 800EECB0 24840001 */  addiu $a0, $a0, 1
 /* B65E54 800EECB4 18800074 */  blez  $a0, .L800EEE88
 /* B65E58 800EECB8 00009025 */   move  $s2, $zero
@@ -703,9 +703,9 @@ glabel func_800EEA50
 /* B65E64 800EECC4 241100B4 */  li    $s1, 180
 .L800EECC8:
 /* B65E68 800EECC8 17C0000B */  bnez  $fp, .L800EECF8
-/* B65E6C 800EECCC 3C0C8017 */   lui   $t4, %hi(D_8016B7E8) # $t4, 0x8017
-/* B65E70 800EECD0 3C0A8013 */  lui   $t2, %hi(D_80131ED8) # $t2, 0x8013
-/* B65E74 800EECD4 914A1ED8 */  lbu   $t2, %lo(D_80131ED8)($t2)
+/* B65E6C 800EECCC 3C0C8017 */   lui   $t4, %hi(sAudioScreenPrintBuf) # $t4, 0x8017
+/* B65E70 800EECD0 3C0A8013 */  lui   $t2, %hi(sAudioScreenPrintOverflow) # $t2, 0x8013
+/* B65E74 800EECD4 914A1ED8 */  lbu   $t2, %lo(sAudioScreenPrintOverflow)($t2)
 /* B65E78 800EECD8 24010001 */  li    $at, 1
 /* B65E7C 800EECDC 55410004 */  bnel  $t2, $at, .L800EECF0
 /* B65E80 800EECE0 00049600 */   sll   $s2, $a0, 0x18
@@ -724,7 +724,7 @@ glabel func_800EEA50
 /* B65EA8 800EED08 001E58C0 */   sll   $t3, $fp, 3
 /* B65EAC 800EED0C 03D7001A */  div   $zero, $fp, $s7
 /* B65EB0 800EED10 00006810 */  mfhi  $t5
-/* B65EB4 800EED14 258CB7E8 */  addiu $t4, %lo(D_8016B7E8) # addiu $t4, $t4, -0x4818
+/* B65EB4 800EED14 258CB7E8 */  addiu $t4, %lo(sAudioScreenPrintBuf) # addiu $t4, $t4, -0x4818
 /* B65EB8 800EED18 016C8021 */  addu  $s0, $t3, $t4
 /* B65EBC 800EED1C 16E00002 */  bnez  $s7, .L800EED28
 /* B65EC0 800EED20 00000000 */   nop   

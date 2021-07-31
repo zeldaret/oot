@@ -2113,7 +2113,7 @@ void func_800EEA50(GfxPrint* printer);
 // ? func_800F28B4(?);
 // ? func_800F29FC(?);
 // ? func_800F2A04(?);
-void func_800F2D6C(s8*, u16 sfxId);
+void func_800F2D6C(s8* str, u16 num);
 // ? func_800F2E28(?);
 void func_800F3054(void);
 // ? func_800F3188(?);
