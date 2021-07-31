@@ -711,57 +711,55 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
     }
 }
 
-extern s32 D_80157D90;
-extern u32 D_80157D90_; // these must be defined separately for EnItem00_Update to match.
-extern s16 D_80157D94;
-
 void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnItem00* this = THIS;
+    static u32 D_80157D90;
+    static s16 D_80157D94[1];
     s16* params;
+    Actor* dynaActor;
     s32 getItemId = 0;
     s16 sp3A = 0;
-    Actor* dynaActor;
     s16 i;
+    u32* temp;
+    EnItem00* this = THIS;
 
     if (this->unk_15A > 0) {
         this->unk_15A--;
     }
 
-    if ((this->unk_15A > 0) && (this->unk_15A < 41) && (this->unk_154 <= 0)) {
+    if (((this->unk_15A > 0) && (this->unk_15A < 41)) && (this->unk_154 <= 0)) {
         this->unk_156 = this->unk_15A;
     }
 
     this->actionFunc(this, globalCtx);
-
     Math_SmoothStepToF(&this->actor.scale.x, this->unk_15C, 0.1f, this->unk_15C * 0.1f, 0.0f);
+    temp = &D_80157D90;
     this->actor.scale.z = this->actor.scale.x;
     this->actor.scale.y = this->actor.scale.x;
-
     if (this->actor.gravity) {
         if (this->actor.bgCheckFlags & 0x0003) {
-            // Separate symbols seem to be used here for 0x80157D90 since the loads and stores are completely separate
-            if ((u32)D_80157D90 != globalCtx->gameplayFrames) {
-                D_80157D90_ = globalCtx->gameplayFrames;
-                D_80157D94 = 0;
-                for (i = 0; i < BG_ACTOR_MAX; i++) {
+            if ((*temp) != globalCtx->gameplayFrames) {
+                D_80157D90 = globalCtx->gameplayFrames;
+                D_80157D94[0] = 0;
+                for (i = 0; i < 50; i++) {
                     if (globalCtx->colCtx.dyna.bgActorFlags[i] & 1) {
                         dynaActor = globalCtx->colCtx.dyna.bgActors[i].actor;
-                        if ((dynaActor != NULL) && (dynaActor->update != NULL) &&
-                            ((dynaActor->world.pos.x != dynaActor->prevPos.x) ||
-                             (dynaActor->world.pos.y != dynaActor->prevPos.y) ||
+                        if (((dynaActor != NULL) && (dynaActor->update != NULL)) &&
+                            (((dynaActor->world.pos.x != dynaActor->prevPos.x) ||
+                              (dynaActor->world.pos.y != dynaActor->prevPos.y)) ||
                              (dynaActor->world.pos.z != dynaActor->prevPos.z))) {
-                            D_80157D94++;
+                            D_80157D94[0]++;
                             break;
                         }
                     }
                 }
             }
+
         } else {
             sp3A = 1;
             Actor_MoveForward(&this->actor);
         }
 
-        if (sp3A || D_80157D94) {
+        if (sp3A || D_80157D94[0]) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 15.0f, 15.0f, 0x1D);
 
             if (this->actor.floorHeight <= -10000.0f) {
@@ -776,10 +774,10 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.params == ITEM00_SHIELD_DEKU) || (this->actor.params == ITEM00_SHIELD_HYLIAN) ||
         (this->actor.params == ITEM00_TUNIC_ZORA) || (this->actor.params == ITEM00_TUNIC_GORON)) {
-        f32 newUnkBC = Math_CosS(this->actor.shape.rot.x) * 37.0f;
+        f32 cos = Math_CosS(this->actor.shape.rot.x) * 37.0f;
 
-        this->actor.shape.yOffset = newUnkBC;
-        if (newUnkBC >= 0.0f) {
+        this->actor.shape.yOffset = cos;
+        if (cos >= 0.0f) {
             this->actor.shape.yOffset = this->actor.shape.yOffset;
         } else {
             this->actor.shape.yOffset = -this->actor.shape.yOffset;
