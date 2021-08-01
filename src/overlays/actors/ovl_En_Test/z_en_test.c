@@ -1939,6 +1939,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
                 break;
             case STALFOS_LIMB_FOOT_R:
                 bodyPart = 8;
+                break;
         }
 
         if (bodyPart >= 0) {
@@ -2008,7 +2009,7 @@ s32 EnTest_ReactToProjectile(GlobalContext* globalCtx, EnTest* this) {
             touchingWall = false;
         }
 
-        if ((Math_Vec3f_DistXYZ(&this->actor.world.pos, &projectileActor->world.pos) < 200.0f)) {
+        if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &projectileActor->world.pos) < 200.0f) {
             if (Actor_IsTargeted(globalCtx, &this->actor) && (projectileActor->id == ACTOR_ARMS_HOOK)) {
                 EnTest_SetupJumpUp(this);
             } else if (ABS(yawToProjectile) < 0x2000) {
