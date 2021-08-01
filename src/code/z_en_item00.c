@@ -740,8 +740,10 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Math_SmoothStepToF(&this->actor.scale.x, this->scale, 0.1f, this->scale * 0.1f, 0.0f);
     temp = &D_80157D90;
+    
     this->actor.scale.z = this->actor.scale.x;
     this->actor.scale.y = this->actor.scale.x;
+    
     if (this->actor.gravity) {
         if (this->actor.bgCheckFlags & 0x0003) {
             if (*temp != globalCtx->gameplayFrames) {
