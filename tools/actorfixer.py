@@ -89,6 +89,9 @@ animdict ={
     "func_80033260": "Actor_SpawnFloorDust",
     "func_80032C7C": "Enemy_StartFinishingBlow",
     "actorCtx.unk_00": "actorCtx.freezeFlashTimer",
+    "Matrix_Reverse": "Matrix_Transpose",
+    "func_800D20CC": "Matrix_MtxFToRotS",
+    "func_800D23FC": "Matrix_RotateAxis",
 }
 
 def replace_anim(file):
