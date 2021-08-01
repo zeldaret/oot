@@ -9445,7 +9445,8 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         D_808535F4 = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, spC0, this->actor.floorBgId);
         if (D_808535F4 != 0) {
             D_808535F8 = SurfaceType_IsConveyor(&globalCtx->colCtx, spC0, this->actor.floorBgId);
-            if (((D_808535F8 == 0) && (this->actor.yDistToWater > 20.0f) && (this->currentBoots != PLAYER_BOOTS_IRON)) ||
+            if (((D_808535F8 == 0) && (this->actor.yDistToWater > 20.0f) &&
+                 (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((D_808535F8 != 0) && (this->actor.bgCheckFlags & 1))) {
                 D_808535FC = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, spC0, this->actor.floorBgId) << 10;
             } else {
