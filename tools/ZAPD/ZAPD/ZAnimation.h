@@ -126,8 +126,7 @@ public:
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
-	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex) override;
+	void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex) override;
 
 	void DeclareReferences(const std::string& prefix) override;
 	size_t GetRawDataSize() const override;
@@ -136,3 +135,50 @@ public:
 	std::string GetSourceTypeName() const override;
 };
 // TransformUpdateIndex
+
+/* ZLegacyAnimation */
+
+class JointKey : public ZResource
+{
+public:
+	JointKey(ZFile* nParent);
+
+	void ParseRawData() override;
+	std::string GetBodySourceCode() const override;
+
+	std::string GetSourceTypeName() const override;
+	ZResourceType GetResourceType() const override;
+
+	size_t GetRawDataSize() const override;
+
+protected:
+	int16_t xMax, x;
+	int16_t yMax, y;
+	int16_t zMax, z;
+};
+
+class ZLegacyAnimation : public ZAnimation
+{
+public:
+	ZLegacyAnimation(ZFile* nParent);
+
+	void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex) override;
+
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix) override;
+	std::string GetBodySourceCode() const override;
+
+	std::string GetSourceOutputCode(const std::string& prefix) override;
+
+	std::string GetSourceTypeName() const override;
+
+	size_t GetRawDataSize() const override;
+
+protected:
+	int16_t limbCount;
+	segptr_t frameData;  // s16*
+	segptr_t jointKey;   // JointKey*
+
+	std::vector<uint16_t> frameDataArray;
+	std::vector<JointKey> jointKeyArray;
+};

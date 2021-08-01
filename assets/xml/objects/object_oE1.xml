@@ -54,17 +54,17 @@
         <DList Name="object_oE1_DL_004530" Offset="0x4530"/>
         <DList Name="object_oE1_DL_0045E8" Offset="0x45E8"/>
         <DList Name="object_oE1_DL_004738" Offset="0x4738"/>
-        <Texture Name="object_oE1_TLUT_004808" OutName="tlut_00004808" Format="rgb5a1" Width="16" Height="16" Offset="0x4808"/>
+        <Texture Name="object_oE1_TLUT_004808" OutName="tlut_00004808" Format="rgba16" Width="16" Height="16" Offset="0x4808"/>
         <Texture Name="object_oE1_Tex_004A08" OutName="tex_00004A08" Format="ci8" Width="32" Height="32" Offset="0x4A08"/>
         <Blob Name="object_oE1_Blob_004E08" Size="0x800" Offset="0x4E08"/>
-        <Texture Name="object_oE1_TLUT_005608" OutName="tlut_00005608" Format="rgb5a1" Width="16" Height="16" Offset="0x5608"/>
+        <Texture Name="object_oE1_TLUT_005608" OutName="tlut_00005608" Format="rgba16" Width="16" Height="16" Offset="0x5608"/>
         <Texture Name="object_oE1_Tex_005808" OutName="tex_00005808" Format="ci8" Width="8" Height="8" Offset="0x5808"/>
         <Texture Name="object_oE1_Tex_005848" OutName="tex_00005848" Format="ci8" Width="16" Height="16" Offset="0x5848"/>
         <Texture Name="object_oE1_Tex_005948" OutName="tex_00005948" Format="ci8" Width="16" Height="16" Offset="0x5948"/>
-        <Texture Name="object_oE1_Tex_005A48" OutName="tex_00005A48" Format="rgb5a1" Width="16" Height="32" Offset="0x5A48"/>
-        <Texture Name="object_oE1_Tex_005E48" OutName="tex_00005E48" Format="rgb5a1" Width="32" Height="32" Offset="0x5E48"/>
+        <Texture Name="object_oE1_Tex_005A48" OutName="tex_00005A48" Format="rgba16" Width="16" Height="32" Offset="0x5A48"/>
+        <Texture Name="object_oE1_Tex_005E48" OutName="tex_00005E48" Format="rgba16" Width="32" Height="32" Offset="0x5E48"/>
         <Texture Name="object_oE1_Tex_006648" OutName="tex_00006648" Format="i4" Width="16" Height="8" Offset="0x6648"/>
         <Texture Name="object_oE1_Tex_006688" OutName="tex_00006688" Format="i4" Width="16" Height="16" Offset="0x6688"/>
-        <Texture Name="object_oE1_Tex_006708" OutName="tex_00006708" Format="rgb5a1" Width="16" Height="8" Offset="0x6708"/>
+        <Texture Name="object_oE1_Tex_006708" OutName="tex_00006708" Format="rgba16" Width="16" Height="8" Offset="0x6708"/>
     </File>
 </Root>

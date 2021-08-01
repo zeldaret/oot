@@ -8,16 +8,16 @@
         <Animation Name="gTreasureChestAnim_00043C" Offset="0x43C"/>
 
         <DList Name="gTreasureChestChestFrontDL" Offset="0x6F0"/>
-        <Texture Name="gTreasureChestFrontTex" OutName="chest_front" Format="rgb5a1" Width="32" Height="64" Offset="0x1798"/>
+        <Texture Name="gTreasureChestFrontTex" OutName="chest_front" Format="rgba16" Width="32" Height="64" Offset="0x1798"/>
 
         <DList Name="gTreasureChestBossKeyChestFrontDL" Offset="0xAE8"/>
-        <Texture Name="gTreasureChestBossKeyFrontTex" OutName="boss_key_front_tex" Format="rgb5a1" Width="32" Height="64" Offset="0x3798"/>
+        <Texture Name="gTreasureChestBossKeyFrontTex" OutName="boss_key_front_tex" Format="rgba16" Width="32" Height="64" Offset="0x3798"/>
         
         <DList Name="gTreasureChestChestSideAndLidDL" Offset="0x10C0"/>
-        <Texture Name="gTreasureChestSideAndTopTex" OutName="side_and_top" Format="rgb5a1" Width="32" Height="32" Offset="0x2798"/>
+        <Texture Name="gTreasureChestSideAndTopTex" OutName="side_and_top" Format="rgba16" Width="32" Height="32" Offset="0x2798"/>
 
         <DList Name="gTreasureChestBossKeyChestSideAndTopDL" Offset="0x1678"/>
-        <Texture Name="gTreasureChestBossKeySideAndTopTex" OutName="boss_key_side_and_top" Format="rgb5a1" Width="32" Height="32" Offset="0x2F98"/>
+        <Texture Name="gTreasureChestBossKeySideAndTopTex" OutName="boss_key_side_and_top" Format="rgba16" Width="32" Height="32" Offset="0x2F98"/>
 
         <Skeleton Name="gTreasureChestSkel" Type="Normal" LimbType="Standard" Offset="0x47D8"/>
         <Collision Name="gTreasureChestCol" Offset="0x5FC8"/>

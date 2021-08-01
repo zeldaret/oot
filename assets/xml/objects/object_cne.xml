@@ -25,7 +25,7 @@
 
         <!-- 32-bit aligned textures. -->
         <!--
-        <Texture Name="object_cne_TLUT_0000FC" OutName="tlut_000000FC" Format="rgb5a1" Width="16" Height="16" Offset="0xFC" />
+        <Texture Name="object_cne_TLUT_0000FC" OutName="tlut_000000FC" Format="rgba16" Width="16" Height="16" Offset="0xFC" />
         <Texture Name="object_cne_Tex_0002FC" OutName="tex_000002FC" Format="ci8" Width="8" Height="8" Offset="0x2FC" />
         <Texture Name="object_cne_Tex_00033C" OutName="tex_0000033C" Format="ci8" Width="8" Height="8" Offset="0x33C" />
         <Texture Name="object_cne_Tex_00037C" OutName="tex_0000037C" Format="ci8" Width="8" Height="8" Offset="0x37C" />
@@ -53,8 +53,8 @@
         <DList Name="object_cne_DL_002300" Offset="0x2300" />
         -->
 
-        <Texture Name="object_cne_Tex_0023D0" OutName="tex_000023D0" Format="rgb5a1" Width="8" Height="16" Offset="0x23D0" />
-        <Texture Name="object_cne_Tex_0024D0" OutName="tex_000024D0" Format="rgb5a1" Width="8" Height="8" Offset="0x24D0" />
+        <Texture Name="object_cne_Tex_0023D0" OutName="tex_000023D0" Format="rgba16" Width="8" Height="16" Offset="0x23D0" />
+        <Texture Name="object_cne_Tex_0024D0" OutName="tex_000024D0" Format="rgba16" Width="8" Height="8" Offset="0x24D0" />
 
         <DList Name="object_cne_DL_002860" Offset="0x2860" />
     </File>

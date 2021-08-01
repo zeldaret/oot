@@ -370,8 +370,6 @@ beginseg
     include "build/src/code/z_fbdemo_fade.o"
     include "build/src/code/shrink_window.o"
     include "build/src/code/db_camera.o"
-    include "build/data/db_camera.data.o"
-    include "build/data/db_camera.bss.o"
     include "build/src/code/code_800BB0A0.o"
     include "build/src/code/mempak.o"
     include "build/src/code/z_kaleido_manager.o"
@@ -406,13 +404,11 @@ beginseg
     include "build/src/code/fault_drawer.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
-    include "build/src/code/code_800DACC0.o"
-    include "build/data/code_800DACC0.data.o"
-    include "build/data/code_800DACC0.bss.o"
+    include "build/src/code/audio_synthesis.o"
+    include "build/data/audio_synthesis.data.o"
     include "build/src/code/audio_heap.o"
-    include "build/src/code/code_800E11F0.o"
-    include "build/data/code_800E11F0.data.o"
-    include "build/data/code_800E11F0.rodata.o"
+    include "build/src/code/audio_load.o"
+    include "build/src/code/code_800E4FE0.o"
     include "build/src/libultra_code_O2/code_800E6840.o"
     include "build/src/libultra_code_O2/osAiSetNextBuffer.o"
     include "build/src/code/audio_playback.o"
@@ -422,9 +418,10 @@ beginseg
     include "build/src/code/code_800EC960.o"
     include "build/data/code_800EC960.data.o"
     include "build/src/code/code_800F7260.o"
+    include "build/data/code_800F7260.bss.o"
     include "build/src/code/code_800F9280.o"
     include "build/data/code_800F9280.data.o"
-    include "build/data/code_800F9280.rodata.o"
+    include "build/src/code/audio_rodata.o"
     include "build/src/code/logseverity.o"
     include "build/src/code/gfxprint.o"
     include "build/src/code/code_800FBCE0.o"
@@ -1896,8 +1893,7 @@ endseg
 beginseg
     name "ovl_En_Bigokuta"
     include "build/src/overlays/actors/ovl_En_Bigokuta/z_en_bigokuta.o"
-    include "build/data/overlays/actors/z_en_bigokuta.data.o"
-    include "build/data/overlays/actors/z_en_bigokuta.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bigokuta/ovl_En_Bigokuta_reloc.o"
 endseg
 
 beginseg
@@ -2035,8 +2031,7 @@ endseg
 beginseg
     name "ovl_En_Dekubaba"
     include "build/src/overlays/actors/ovl_En_Dekubaba/z_en_dekubaba.o"
-    include "build/data/overlays/actors/z_en_dekubaba.data.o"
-    include "build/data/overlays/actors/z_en_dekubaba.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dekubaba/ovl_En_Dekubaba_reloc.o"
 endseg
 
 beginseg
@@ -2528,8 +2523,7 @@ endseg
 beginseg
     name "ovl_En_Ko"
     include "build/src/overlays/actors/ovl_En_Ko/z_en_ko.o"
-    include "build/data/overlays/actors/z_en_ko.data.o"
-    include "build/data/overlays/actors/z_en_ko.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ko/ovl_En_Ko_reloc.o"
 endseg
 
 beginseg
@@ -2708,8 +2702,7 @@ endseg
 beginseg
     name "ovl_En_Ossan"
     include "build/src/overlays/actors/ovl_En_Ossan/z_en_ossan.o"
-    include "build/data/overlays/actors/z_en_ossan.data.o"
-    include "build/data/overlays/actors/z_en_ossan.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ossan/ovl_En_Ossan_reloc.o"
 endseg
 
 beginseg
@@ -2937,8 +2930,7 @@ endseg
 beginseg
     name "ovl_En_Tg"
     include "build/src/overlays/actors/ovl_En_Tg/z_en_tg.o"
-    include "build/data/overlays/actors/z_en_tg.data.o"
-    include "build/data/overlays/actors/z_en_tg.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tg/ovl_En_Tg_reloc.o"
 endseg
 
 beginseg
@@ -3163,9 +3155,7 @@ endseg
 beginseg
     name "ovl_Fishing"
     include "build/src/overlays/actors/ovl_Fishing/z_fishing.o"
-    include "build/data/overlays/actors/z_fishing.data.o"
-    include "build/data/overlays/actors/z_fishing.bss.o"
-    include "build/data/overlays/actors/z_fishing.reloc.o"
+    include "build/src/overlays/actors/ovl_Fishing/ovl_Fishing_reloc.o"
 endseg
 
 beginseg
@@ -3326,8 +3316,7 @@ endseg
 beginseg
     name "ovl_Obj_Mure"
     include "build/src/overlays/actors/ovl_Obj_Mure/z_obj_mure.o"
-    include "build/data/overlays/actors/z_obj_mure.data.o"
-    include "build/data/overlays/actors/z_obj_mure.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Mure/ovl_Obj_Mure_reloc.o"
 endseg
 
 beginseg
@@ -3483,7 +3472,8 @@ endseg
 beginseg
     name "object_human"
     romalign 0x1000
-    include "build/baserom/object_human.o"
+    include "build/assets/objects/object_human/object_human.o"
+    number 6
 endseg
 
 beginseg
@@ -4017,7 +4007,8 @@ endseg
 beginseg
     name "object_ossan"
     romalign 0x1000
-    include "build/baserom/object_ossan.o"
+    include "build/assets/objects/object_ossan/object_ossan.o"
+    number 6
 endseg
 
 beginseg
@@ -4687,7 +4678,8 @@ endseg
 beginseg
     name "object_oF1d_map"
     romalign 0x1000
-    include "build/baserom/object_oF1d_map.o"
+    include "build/assets/objects/object_oF1d_map/object_oF1d_map.o"
+    number 6
 endseg
 
 beginseg
@@ -5016,12 +5008,15 @@ beginseg
     name "object_km1"
     romalign 0x1000
     include "build/baserom/object_km1.o"
+    //include "build/assets/objects/object_km1/object_km1.o"
+    number 6
 endseg
 
 beginseg
     name "object_kw1"
     romalign 0x1000
-    include "build/assets/objects/object_kw1/object_kw1.o"
+    include "build/baserom/object_kw1.o"
+    //include "build/assets/objects/object_kw1/object_kw1.o"
     number 6
 endseg
 
@@ -6033,343 +6028,343 @@ endseg
 beginseg
     name "g_pn_01"
     romalign 0x1000
-    include "build/baserom/g_pn_01.o"
+    include "build/assets/textures/place_title_cards/g_pn_01.o"
 endseg
 
 beginseg
     name "g_pn_02"
     romalign 0x1000
-    include "build/baserom/g_pn_02.o"
+    include "build/assets/textures/place_title_cards/g_pn_02.o"
 endseg
 
 beginseg
     name "g_pn_03"
     romalign 0x1000
-    include "build/baserom/g_pn_03.o"
+    include "build/assets/textures/place_title_cards/g_pn_03.o"
 endseg
 
 beginseg
     name "g_pn_04"
     romalign 0x1000
-    include "build/baserom/g_pn_04.o"
+    include "build/assets/textures/place_title_cards/g_pn_04.o"
 endseg
 
 beginseg
     name "g_pn_05"
     romalign 0x1000
-    include "build/baserom/g_pn_05.o"
+    include "build/assets/textures/place_title_cards/g_pn_05.o"
 endseg
 
 beginseg
     name "g_pn_06"
     romalign 0x1000
-    include "build/baserom/g_pn_06.o"
+    include "build/assets/textures/place_title_cards/g_pn_06.o"
 endseg
 
 beginseg
     name "g_pn_07"
     romalign 0x1000
-    include "build/baserom/g_pn_07.o"
+    include "build/assets/textures/place_title_cards/g_pn_07.o"
 endseg
 
 beginseg
     name "g_pn_08"
     romalign 0x1000
-    include "build/baserom/g_pn_08.o"
+    include "build/assets/textures/place_title_cards/g_pn_08.o"
 endseg
 
 beginseg
     name "g_pn_09"
     romalign 0x1000
-    include "build/baserom/g_pn_09.o"
+    include "build/assets/textures/place_title_cards/g_pn_09.o"
 endseg
 
 beginseg
     name "g_pn_10"
     romalign 0x1000
-    include "build/baserom/g_pn_10.o"
+    include "build/assets/textures/place_title_cards/g_pn_10.o"
 endseg
 
 beginseg
     name "g_pn_11"
     romalign 0x1000
-    include "build/baserom/g_pn_11.o"
+    include "build/assets/textures/place_title_cards/g_pn_11.o"
 endseg
 
 beginseg
     name "g_pn_12"
     romalign 0x1000
-    include "build/baserom/g_pn_12.o"
+    include "build/assets/textures/place_title_cards/g_pn_12.o"
 endseg
 
 beginseg
     name "g_pn_13"
     romalign 0x1000
-    include "build/baserom/g_pn_13.o"
+    include "build/assets/textures/place_title_cards/g_pn_13.o"
 endseg
 
 beginseg
     name "g_pn_14"
     romalign 0x1000
-    include "build/baserom/g_pn_14.o"
+    include "build/assets/textures/place_title_cards/g_pn_14.o"
 endseg
 
 beginseg
     name "g_pn_15"
     romalign 0x1000
-    include "build/baserom/g_pn_15.o"
+    include "build/assets/textures/place_title_cards/g_pn_15.o"
 endseg
 
 beginseg
     name "g_pn_16"
     romalign 0x1000
-    include "build/baserom/g_pn_16.o"
+    include "build/assets/textures/place_title_cards/g_pn_16.o"
 endseg
 
 beginseg
     name "g_pn_17"
     romalign 0x1000
-    include "build/baserom/g_pn_17.o"
+    include "build/assets/textures/place_title_cards/g_pn_17.o"
 endseg
 
 beginseg
     name "g_pn_18"
     romalign 0x1000
-    include "build/baserom/g_pn_18.o"
+    include "build/assets/textures/place_title_cards/g_pn_18.o"
 endseg
 
 beginseg
     name "g_pn_19"
     romalign 0x1000
-    include "build/baserom/g_pn_19.o"
+    include "build/assets/textures/place_title_cards/g_pn_19.o"
 endseg
 
 beginseg
     name "g_pn_20"
     romalign 0x1000
-    include "build/baserom/g_pn_20.o"
+    include "build/assets/textures/place_title_cards/g_pn_20.o"
 endseg
 
 beginseg
     name "g_pn_21"
     romalign 0x1000
-    include "build/baserom/g_pn_21.o"
+    include "build/assets/textures/place_title_cards/g_pn_21.o"
 endseg
 
 beginseg
     name "g_pn_22"
     romalign 0x1000
-    include "build/baserom/g_pn_22.o"
+    include "build/assets/textures/place_title_cards/g_pn_22.o"
 endseg
 
 beginseg
     name "g_pn_23"
     romalign 0x1000
-    include "build/baserom/g_pn_23.o"
+    include "build/assets/textures/place_title_cards/g_pn_23.o"
 endseg
 
 beginseg
     name "g_pn_24"
     romalign 0x1000
-    include "build/baserom/g_pn_24.o"
+    include "build/assets/textures/place_title_cards/g_pn_24.o"
 endseg
 
 beginseg
     name "g_pn_25"
     romalign 0x1000
-    include "build/baserom/g_pn_25.o"
+    include "build/assets/textures/place_title_cards/g_pn_25.o"
 endseg
 
 beginseg
     name "g_pn_26"
     romalign 0x1000
-    include "build/baserom/g_pn_26.o"
+    include "build/assets/textures/place_title_cards/g_pn_26.o"
 endseg
 
 beginseg
     name "g_pn_27"
     romalign 0x1000
-    include "build/baserom/g_pn_27.o"
+    include "build/assets/textures/place_title_cards/g_pn_27.o"
 endseg
 
 beginseg
     name "g_pn_28"
     romalign 0x1000
-    include "build/baserom/g_pn_28.o"
+    include "build/assets/textures/place_title_cards/g_pn_28.o"
 endseg
 
 beginseg
     name "g_pn_29"
     romalign 0x1000
-    include "build/baserom/g_pn_29.o"
+    include "build/assets/textures/place_title_cards/g_pn_29.o"
 endseg
 
 beginseg
     name "g_pn_30"
     romalign 0x1000
-    include "build/baserom/g_pn_30.o"
+    include "build/assets/textures/place_title_cards/g_pn_30.o"
 endseg
 
 beginseg
     name "g_pn_31"
     romalign 0x1000
-    include "build/baserom/g_pn_31.o"
+    include "build/assets/textures/place_title_cards/g_pn_31.o"
 endseg
 
 beginseg
     name "g_pn_32"
     romalign 0x1000
-    include "build/baserom/g_pn_32.o"
+    include "build/assets/textures/place_title_cards/g_pn_32.o"
 endseg
 
 beginseg
     name "g_pn_33"
     romalign 0x1000
-    include "build/baserom/g_pn_33.o"
+    include "build/assets/textures/place_title_cards/g_pn_33.o"
 endseg
 
 beginseg
     name "g_pn_34"
     romalign 0x1000
-    include "build/baserom/g_pn_34.o"
+    include "build/assets/textures/place_title_cards/g_pn_34.o"
 endseg
 
 beginseg
     name "g_pn_35"
     romalign 0x1000
-    include "build/baserom/g_pn_35.o"
+    include "build/assets/textures/place_title_cards/g_pn_35.o"
 endseg
 
 beginseg
     name "g_pn_36"
     romalign 0x1000
-    include "build/baserom/g_pn_36.o"
+    include "build/assets/textures/place_title_cards/g_pn_36.o"
 endseg
 
 beginseg
     name "g_pn_37"
     romalign 0x1000
-    include "build/baserom/g_pn_37.o"
+    include "build/assets/textures/place_title_cards/g_pn_37.o"
 endseg
 
 beginseg
     name "g_pn_38"
     romalign 0x1000
-    include "build/baserom/g_pn_38.o"
+    include "build/assets/textures/place_title_cards/g_pn_38.o"
 endseg
 
 beginseg
     name "g_pn_39"
     romalign 0x1000
-    include "build/baserom/g_pn_39.o"
+    include "build/assets/textures/place_title_cards/g_pn_39.o"
 endseg
 
 beginseg
     name "g_pn_40"
     romalign 0x1000
-    include "build/baserom/g_pn_40.o"
+    include "build/assets/textures/place_title_cards/g_pn_40.o"
 endseg
 
 beginseg
     name "g_pn_41"
     romalign 0x1000
-    include "build/baserom/g_pn_41.o"
+    include "build/assets/textures/place_title_cards/g_pn_41.o"
 endseg
 
 beginseg
     name "g_pn_42"
     romalign 0x1000
-    include "build/baserom/g_pn_42.o"
+    include "build/assets/textures/place_title_cards/g_pn_42.o"
 endseg
 
 beginseg
     name "g_pn_43"
     romalign 0x1000
-    include "build/baserom/g_pn_43.o"
+    include "build/assets/textures/place_title_cards/g_pn_43.o"
 endseg
 
 beginseg
     name "g_pn_44"
     romalign 0x1000
-    include "build/baserom/g_pn_44.o"
+    include "build/assets/textures/place_title_cards/g_pn_44.o"
 endseg
 
 beginseg
     name "g_pn_45"
     romalign 0x1000
-    include "build/baserom/g_pn_45.o"
+    include "build/assets/textures/place_title_cards/g_pn_45.o"
 endseg
 
 beginseg
     name "g_pn_46"
     romalign 0x1000
-    include "build/baserom/g_pn_46.o"
+    include "build/assets/textures/place_title_cards/g_pn_46.o"
 endseg
 
 beginseg
     name "g_pn_47"
     romalign 0x1000
-    include "build/baserom/g_pn_47.o"
+    include "build/assets/textures/place_title_cards/g_pn_47.o"
 endseg
 
 beginseg
     name "g_pn_48"
     romalign 0x1000
-    include "build/baserom/g_pn_48.o"
+    include "build/assets/textures/place_title_cards/g_pn_48.o"
 endseg
 
 beginseg
     name "g_pn_49"
     romalign 0x1000
-    include "build/baserom/g_pn_49.o"
+    include "build/assets/textures/place_title_cards/g_pn_49.o"
 endseg
 
 beginseg
     name "g_pn_50"
     romalign 0x1000
-    include "build/baserom/g_pn_50.o"
+    include "build/assets/textures/place_title_cards/g_pn_50.o"
 endseg
 
 beginseg
     name "g_pn_51"
     romalign 0x1000
-    include "build/baserom/g_pn_51.o"
+    include "build/assets/textures/place_title_cards/g_pn_51.o"
 endseg
 
 beginseg
     name "g_pn_52"
     romalign 0x1000
-    include "build/baserom/g_pn_52.o"
+    include "build/assets/textures/place_title_cards/g_pn_52.o"
 endseg
 
 beginseg
     name "g_pn_53"
     romalign 0x1000
-    include "build/baserom/g_pn_53.o"
+    include "build/assets/textures/place_title_cards/g_pn_53.o"
 endseg
 
 beginseg
     name "g_pn_54"
     romalign 0x1000
-    include "build/baserom/g_pn_54.o"
+    include "build/assets/textures/place_title_cards/g_pn_54.o"
 endseg
 
 beginseg
     name "g_pn_55"
     romalign 0x1000
-    include "build/baserom/g_pn_55.o"
+    include "build/assets/textures/place_title_cards/g_pn_55.o"
 endseg
 
 beginseg
     name "g_pn_56"
     romalign 0x1000
-    include "build/baserom/g_pn_56.o"
+    include "build/assets/textures/place_title_cards/g_pn_56.o"
 endseg
 
 beginseg
     name "g_pn_57"
     romalign 0x1000
-    include "build/baserom/g_pn_57.o"
+    include "build/assets/textures/place_title_cards/g_pn_57.o"
 endseg
 
 beginseg

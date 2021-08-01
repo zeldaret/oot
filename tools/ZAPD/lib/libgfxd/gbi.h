@@ -1,5 +1,5 @@
 /**
- * gbi.h version 0.3.4
+ * gbi.h version 0.3.5
  * n64 graphics microcode interface library
  * compatible with fast3d, f3dex, f3dex2, s2dex, and s2dex2
  *
@@ -2748,6 +2748,14 @@
 
 #if defined(F3DEX_GBI)
 
+# define gsSP1Triangle(v0, v1, v2, flag) \
+	gO_( \
+		G_TRI1, \
+		0, \
+		gF_(gV3_(v0, v1, v2, flag) * 2, 8, 16) | \
+		gF_(gV3_(v1, v2, v0, flag) * 2, 8, 8) | \
+		gF_(gV3_(v2, v0, v1, flag) * 2, 8, 0))
+
 # define gsSP1Quadrangle(v0, v1, v2, v3, flag) \
 	gO_( \
 		G_TRI2, \
@@ -2771,14 +2779,6 @@
 /* instruction macros for f3dex and f3dex2 */
 
 #if defined(F3DEX_GBI) || defined(F3DEX_GBI_2)
-
-# define gsSP1Triangle(v0, v1, v2, flag) \
-	gO_( \
-		G_TRI1, \
-		gF_(gV3_(v0, v1, v2, flag) * 2, 8, 16) | \
-		gF_(gV3_(v1, v2, v0, flag) * 2, 8, 8) | \
-		gF_(gV3_(v2, v0, v1, flag) * 2, 8, 0), \
-		0)
 
 # define gsSP2Triangles(v00, v01, v02, flag0, v10, v11, v12, flag1) \
 	gO_( \
@@ -2854,6 +2854,14 @@
 /* instruction macros for f3dex2 */
 
 #if defined(F3DEX_GBI_2)
+
+# define gsSP1Triangle(v0, v1, v2, flag) \
+	gO_( \
+		G_TRI1, \
+		gF_(gV3_(v0, v1, v2, flag) * 2, 8, 16) | \
+		gF_(gV3_(v1, v2, v0, flag) * 2, 8, 8) | \
+		gF_(gV3_(v2, v0, v1, flag) * 2, 8, 0), \
+		0)
 
 # define gsSP1Quadrangle(v0, v1, v2, v3, flag) \
 	gO_( \

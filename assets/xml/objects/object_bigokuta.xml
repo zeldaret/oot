@@ -24,16 +24,16 @@
         <DList Name="object_bigokuta_DL_005710" Offset="0x5710"/>
         <DList Name="object_bigokuta_DL_0058F0" Offset="0x58F0"/>
         <DList Name="object_bigokuta_DL_0059B0" Offset="0x59B0"/>
-        <Texture Name="object_bigokuta_Tex_005B90" OutName="tex_00005B90" Format="rgb5a1" Width="16" Height="16" Offset="0x5B90"/>
-        <Texture Name="object_bigokuta_Tex_005D90" OutName="tex_00005D90" Format="rgb5a1" Width="8" Height="16" Offset="0x5D90"/>
-        <Texture Name="object_bigokuta_Tex_005E90" OutName="tex_00005E90" Format="rgb5a1" Width="16" Height="16" Offset="0x5E90"/>
-        <Texture Name="object_bigokuta_Tex_006090" OutName="tex_00006090" Format="rgb5a1" Width="16" Height="16" Offset="0x6090"/>
-        <Texture Name="object_bigokuta_Tex_006290" OutName="tex_00006290" Format="rgb5a1" Width="8" Height="8" Offset="0x6290"/>
-        <Texture Name="object_bigokuta_Tex_006310" OutName="tex_00006310" Format="rgb5a1" Width="8" Height="8" Offset="0x6310"/>
-        <Texture Name="object_bigokuta_Tex_006390" OutName="tex_00006390" Format="rgb5a1" Width="16" Height="16" Offset="0x6390"/>
-        <Texture Name="object_bigokuta_Tex_006590" OutName="tex_00006590" Format="rgb5a1" Width="16" Height="16" Offset="0x6590"/>
-        <Texture Name="object_bigokuta_Tex_006790" OutName="tex_00006790" Format="rgb5a1" Width="8" Height="16" Offset="0x6790"/>
-        <Texture Name="object_bigokuta_Tex_006890" OutName="tex_00006890" Format="rgb5a1" Width="16" Height="16" Offset="0x6890"/>
+        <Texture Name="object_bigokuta_Tex_005B90" OutName="tex_00005B90" Format="rgba16" Width="16" Height="16" Offset="0x5B90"/>
+        <Texture Name="object_bigokuta_Tex_005D90" OutName="tex_00005D90" Format="rgba16" Width="8" Height="16" Offset="0x5D90"/>
+        <Texture Name="object_bigokuta_Tex_005E90" OutName="tex_00005E90" Format="rgba16" Width="16" Height="16" Offset="0x5E90"/>
+        <Texture Name="object_bigokuta_Tex_006090" OutName="tex_00006090" Format="rgba16" Width="16" Height="16" Offset="0x6090"/>
+        <Texture Name="object_bigokuta_Tex_006290" OutName="tex_00006290" Format="rgba16" Width="8" Height="8" Offset="0x6290"/>
+        <Texture Name="object_bigokuta_Tex_006310" OutName="tex_00006310" Format="rgba16" Width="8" Height="8" Offset="0x6310"/>
+        <Texture Name="object_bigokuta_Tex_006390" OutName="tex_00006390" Format="rgba16" Width="16" Height="16" Offset="0x6390"/>
+        <Texture Name="object_bigokuta_Tex_006590" OutName="tex_00006590" Format="rgba16" Width="16" Height="16" Offset="0x6590"/>
+        <Texture Name="object_bigokuta_Tex_006790" OutName="tex_00006790" Format="rgba16" Width="8" Height="16" Offset="0x6790"/>
+        <Texture Name="object_bigokuta_Tex_006890" OutName="tex_00006890" Format="rgba16" Width="16" Height="16" Offset="0x6890"/>
         <Limb Name="object_bigokuta_Limb_006A90" LimbType="Standard" Offset="0x6A90"/>
         <Limb Name="object_bigokuta_Limb_006A9C" LimbType="Standard" Offset="0x6A9C"/>
         <Limb Name="object_bigokuta_Limb_006AA8" LimbType="Standard" Offset="0x6AA8"/>

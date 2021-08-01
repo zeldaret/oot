@@ -190,9 +190,9 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                         D_8082A11C = 0;
                         func_800ED858(1);
                         func_800ECC04((1 << pauseCtx->unk_264) + 0x8000);
-                        pauseCtx->unk_194 = func_800EE3F8();
-                        pauseCtx->unk_194->unk_02 = 0;
-                        pauseCtx->unk_194->unk_01 = 0xFF;
+                        pauseCtx->unk_194 = Audio_OcaGetDisplayStaff();
+                        pauseCtx->unk_194->pos = 0;
+                        pauseCtx->unk_194->state = 0xFF;
                         VREG(21) = -62;
                         VREG(22) = -56;
                         VREG(23) = -49;
@@ -278,8 +278,8 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 pauseCtx->unk_264 = D_80153960[phi_s6];
                 func_800ED93C(pauseCtx->unk_264 + 1, 1);
                 pauseCtx->unk_1E4 = 2;
-                pauseCtx->unk_194 = func_800EE3F8();
-                pauseCtx->unk_194->unk_02 = 0;
+                pauseCtx->unk_194 = Audio_OcaGetDisplayStaff();
+                pauseCtx->unk_194->pos = 0;
                 sp216 = pauseCtx->cursorSlot[PAUSE_QUEST];
                 KaleidoScope_SetCursorVtx(pauseCtx, sp216 * 4, pauseCtx->questVtx);
             }
@@ -471,11 +471,11 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
         }
 
         if (pauseCtx->unk_1E4 == 2) {
-            pauseCtx->unk_194 = func_800EE3F8();
+            pauseCtx->unk_194 = Audio_OcaGetDisplayStaff();
 
-            if (pauseCtx->unk_194->unk_02 != 0) {
-                if (D_8082A11C == (pauseCtx->unk_194->unk_02 - 1)) {
-                    D_8082A124[pauseCtx->unk_194->unk_02 - 1] = pauseCtx->unk_194->unk_00;
+            if (pauseCtx->unk_194->pos != 0) {
+                if (D_8082A11C == (pauseCtx->unk_194->pos - 1)) {
+                    D_8082A124[pauseCtx->unk_194->pos - 1] = pauseCtx->unk_194->noteIdx;
                     D_8082A11C++;
                 }
 
@@ -519,12 +519,12 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
         } else if (((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 6)) || (pauseCtx->unk_1E4 == 8)) {
             phi_a2 = pauseCtx->unk_264;
 
-            sp226 = D_80131C00[phi_a2][0];
+            sp226 = gOcarinaSongNotes[phi_a2].len;
             sp218 = sp21A;
 
             for (phi_s3 = 0; phi_s3 < sp226; phi_s3++, sp21A += 4) {
                 pauseCtx->questVtx[sp21A + 0].v.ob[1] = pauseCtx->questVtx[sp21A + 1].v.ob[1] =
-                    VREG(21 + D_80131C00[phi_a2][phi_s3 + 1]);
+                    VREG(21 + gOcarinaSongNotes[phi_a2].notesIdx[phi_s3]);
 
                 pauseCtx->questVtx[sp21A + 2].v.ob[1] = pauseCtx->questVtx[sp21A + 3].v.ob[1] =
                     pauseCtx->questVtx[sp21A + 0].v.ob[1] - 12;
@@ -532,7 +532,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 gDPPipeSync(POLY_OPA_DISP++);
 
                 if (pauseCtx->unk_1E4 == 8) {
-                    if (D_80131C00[phi_a2][phi_s3 + 1] == 0) {
+                    if (gOcarinaSongNotes[phi_a2].notesIdx[phi_s3] == 0) {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, 200);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, 200);
@@ -545,9 +545,9 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
                 gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
-                gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[D_80131C00[phi_a2][phi_s3 + 1]], G_IM_FMT_IA,
-                                    G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
-                                    G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[gOcarinaSongNotes[phi_a2].notesIdx[phi_s3]],
+                                    G_IM_FMT_IA, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 if (1) {}
 
                 gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
@@ -556,11 +556,11 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
             if (pauseCtx->unk_1E4 != 8) {
                 pauseCtx->unk_194 = func_800EE3D4();
 
-                if (pauseCtx->unk_194->unk_02 != 0) {
-                    if (D_8082A11C == (pauseCtx->unk_194->unk_02 - 1)) {
-                        if ((pauseCtx->unk_194->unk_00 >= 0) && (pauseCtx->unk_194->unk_00 < 5)) {
-                            D_8082A124[pauseCtx->unk_194->unk_02 - 1] = pauseCtx->unk_194->unk_00;
-                            D_8082A124[pauseCtx->unk_194->unk_02] = 0xFF;
+                if (pauseCtx->unk_194->pos != 0) {
+                    if (D_8082A11C == (pauseCtx->unk_194->pos - 1)) {
+                        if ((pauseCtx->unk_194->noteIdx >= 0) && (pauseCtx->unk_194->noteIdx < 5)) {
+                            D_8082A124[pauseCtx->unk_194->pos - 1] = pauseCtx->unk_194->noteIdx;
+                            D_8082A124[pauseCtx->unk_194->pos] = 0xFF;
                             D_8082A11C++;
                         }
                     }
@@ -612,9 +612,9 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                     D_8082A11C = 0;
                     func_800ED858(1);
                     func_800ECC04((1 << pauseCtx->unk_264) + 0x8000);
-                    pauseCtx->unk_194 = func_800EE3F8();
-                    pauseCtx->unk_194->unk_02 = 0;
-                    pauseCtx->unk_194->unk_01 = 0xFE;
+                    pauseCtx->unk_194 = Audio_OcaGetDisplayStaff();
+                    pauseCtx->unk_194->pos = 0;
+                    pauseCtx->unk_194->state = 0xFE;
                     pauseCtx->unk_1E4 = 5;
                 }
             }

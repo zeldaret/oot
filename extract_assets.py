@@ -39,13 +39,12 @@ def ExtractFunc(fullPath):
     outPath = os.path.join("assets", *pathList[2:], objectName)
     outSourcePath = outPath
 
-    if not globalForce:
-        if fullPath in globalExtractedAssetsTracker:
-            timestamp = globalExtractedAssetsTracker[fullPath]["timestamp"]
-            modificationTime = int(os.path.getmtime(fullPath))
-            if modificationTime < timestamp:
-                # XML has not been modified since last extraction.
-                return
+    if fullPath in globalExtractedAssetsTracker:
+        timestamp = globalExtractedAssetsTracker[fullPath]["timestamp"]
+        modificationTime = int(os.path.getmtime(fullPath))
+        if modificationTime < timestamp:
+            # XML has not been modified since last extraction.
+            return
 
     currentTimeStamp = int(time.time())
 
@@ -57,13 +56,11 @@ def ExtractFunc(fullPath):
             globalExtractedAssetsTracker[fullPath] = globalManager.dict()
         globalExtractedAssetsTracker[fullPath]["timestamp"] = currentTimeStamp
 
-def initializeWorker(force: bool, abort, unaccounted: bool, extractedAssetsTracker: dict, manager):
-    global globalForce
+def initializeWorker(abort, unaccounted: bool, extractedAssetsTracker: dict, manager):
     global globalAbort
     global globalUnaccounted
     global globalExtractedAssetsTracker
     global globalManager
-    globalForce = force
     globalAbort = abort
     globalUnaccounted = unaccounted
     globalExtractedAssetsTracker = extractedAssetsTracker
@@ -82,15 +79,21 @@ def main():
     signal.signal(signal.SIGINT, SignalHandler)
 
     extractedAssetsTracker = manager.dict()
-    if os.path.exists(EXTRACTED_ASSETS_NAMEFILE):
+    if os.path.exists(EXTRACTED_ASSETS_NAMEFILE) and not args.force:
         with open(EXTRACTED_ASSETS_NAMEFILE, encoding='utf-8') as f:
             extractedAssetsTracker.update(json.load(f, object_hook=manager.dict))
 
     asset_path = args.single
     if asset_path is not None:
-        # Always force if -s is used.
-        initializeWorker(True, mainAbort, args.unaccounted, extractedAssetsTracker, manager)
         fullPath = os.path.join("assets", "xml", asset_path + ".xml")
+        if not os.path.exists(fullPath):
+            print(f"Error. File {fullPath} doesn't exists.", file=os.sys.stderr)
+            exit(1)
+
+        initializeWorker(mainAbort, args.unaccounted, extractedAssetsTracker, manager)
+        # Always extract if -s is used.
+        if fullPath in extractedAssetsTracker:
+            del extractedAssetsTracker[fullPath]
         ExtractFunc(fullPath)
     else:
         xmlFiles = []
@@ -102,7 +105,7 @@ def main():
 
         numCores = cpu_count()
         print("Extracting assets with " + str(numCores) + " CPU cores.")
-        with Pool(numCores,  initializer=initializeWorker, initargs=(args.force, mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
+        with Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
             p.map(ExtractFunc, xmlFiles)
 
     with open(EXTRACTED_ASSETS_NAMEFILE, 'w', encoding='utf-8') as f:

@@ -15,14 +15,14 @@
         <DList Name="object_hs_DL_004BF0" Offset="0x4BF0"/>
         <DList Name="object_hs_DL_004CF0" Offset="0x4CF0"/>
         <DList Name="object_hs_DL_004CF8" Offset="0x4CF8"/>
-        <Texture Name="object_hs_TLUT_004E50" OutName="tlut_00004E50" Format="rgb5a1" Width="16" Height="16" Offset="0x4E50"/>
+        <Texture Name="object_hs_TLUT_004E50" OutName="tlut_00004E50" Format="rgba16" Width="16" Height="16" Offset="0x4E50"/>
         <Texture Name="object_hs_Tex_005050" OutName="tex_00005050" Format="ci8" Width="16" Height="32" Offset="0x5050"/>
         <Texture Name="object_hs_Tex_005250" OutName="tex_00005250" Format="ci8" Width="8" Height="8" Offset="0x5250"/>
         <Texture Name="object_hs_Tex_005290" OutName="tex_00005290" Format="ci8" Width="32" Height="16" Offset="0x5290"/>
-        <Texture Name="object_hs_Tex_005490" OutName="tex_00005490" Format="rgb5a1" Width="32" Height="16" Offset="0x5490"/>
+        <Texture Name="object_hs_Tex_005490" OutName="tex_00005490" Format="rgba16" Width="32" Height="16" Offset="0x5490"/>
         <Texture Name="object_hs_Tex_005890" OutName="tex_00005890" Format="ci8" Width="16" Height="16" Offset="0x5890"/>
         <Texture Name="object_hs_Tex_005990" OutName="tex_00005990" Format="ci8" Width="16" Height="16" Offset="0x5990"/>
-        <Texture Name="object_hs_Tex_005A90" OutName="tex_00005A90" Format="rgb5a1" Width="4" Height="4" Offset="0x5A90"/>
+        <Texture Name="object_hs_Tex_005A90" OutName="tex_00005A90" Format="rgba16" Width="4" Height="4" Offset="0x5A90"/>
         <Texture Name="object_hs_Tex_005AB0" OutName="tex_00005AB0" Format="ci8" Width="8" Height="8" Offset="0x5AB0"/>
         <Texture Name="object_hs_Tex_005AF0" OutName="tex_00005AF0" Format="ci8" Width="32" Height="32" Offset="0x5AF0"/>
         <Texture Name="object_hs_Tex_005EF0" OutName="tex_00005EF0" Format="ci8" Width="8" Height="16" Offset="0x5EF0"/>

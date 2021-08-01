@@ -1,14 +1,14 @@
 <Root>
     <File Name="object_toryo" Segment="6">
         <Animation Name="object_toryo_Anim_000E50" Offset="0xE50"/>
-        <Texture Name="object_toryo_TLUT_000E60" OutName="tlut_00000E60" Format="rgb5a1" Width="16" Height="16" Offset="0xE60"/>
+        <Texture Name="object_toryo_TLUT_000E60" OutName="tlut_00000E60" Format="rgba16" Width="16" Height="16" Offset="0xE60"/>
         <Texture Name="object_toryo_Tex_001060" OutName="tex_00001060" Format="ci8" Width="16" Height="16" Offset="0x1060"/>
         <Texture Name="object_toryo_Tex_001160" OutName="tex_00001160" Format="ci8" Width="8" Height="4" Offset="0x1160"/>
         <Texture Name="object_toryo_Tex_001180" OutName="tex_00001180" Format="ci8" Width="8" Height="8" Offset="0x1180"/>
         <Texture Name="object_toryo_Tex_0011C0" OutName="tex_000011C0" Format="ci8" Width="8" Height="8" Offset="0x11C0"/>
         <Texture Name="object_toryo_Tex_001200" OutName="tex_00001200" Format="ci8" Width="8" Height="8" Offset="0x1200"/>
         <Texture Name="object_toryo_Tex_001240" OutName="tex_00001240" Format="ci8" Width="8" Height="16" Offset="0x1240"/>
-        <Texture Name="object_toryo_Tex_0012C0" OutName="tex_000012C0" Format="rgb5a1" Width="32" Height="16" Offset="0x12C0"/>
+        <Texture Name="object_toryo_Tex_0012C0" OutName="tex_000012C0" Format="rgba16" Width="32" Height="16" Offset="0x12C0"/>
         <Texture Name="object_toryo_Tex_0016C0" OutName="tex_000016C0" Format="ci8" Width="16" Height="16" Offset="0x16C0"/>
         <Texture Name="object_toryo_Tex_0017C0" OutName="tex_000017C0" Format="ci8" Width="16" Height="16" Offset="0x17C0"/>
         <Texture Name="object_toryo_Tex_0018C0" OutName="tex_000018C0" Format="ci8" Width="16" Height="16" Offset="0x18C0"/>

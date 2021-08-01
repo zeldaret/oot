@@ -5,6 +5,8 @@
  */
 
 #include "z_en_owl.h"
+#include "scenes/overworld/spot06/spot06_scene.h"
+#include "scenes/overworld/spot16/spot16_scene.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
@@ -12,8 +14,6 @@
 #define THIS ((EnOwl*)thisx)
 
 extern AnimationHeader D_0600C1C4;
-extern CsCmdActorAction D_0201E6A0;
-extern CsCmdActorAction D_0201B0C0;
 extern AnimationHeader D_06001168;
 extern FlexSkeletonHeader D_0600C0E8;
 extern FlexSkeletonHeader D_060100B0;
@@ -349,7 +349,7 @@ void func_80ACA76C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         func_80ACA62C(this, globalCtx);
         this->actor.flags &= ~0x10000;
     }
@@ -359,7 +359,7 @@ void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         if ((this->unk_3EE & 0x3F) == 0) {
             func_80ACA62C(this, globalCtx);
         } else {
@@ -559,7 +559,7 @@ void func_80ACB03C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         func_80ACA62C(this, globalCtx);
         this->actor.flags &= ~0x10000;
     }
@@ -588,7 +588,7 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
         Flags_SetSwitch(globalCtx, 0x23);
@@ -608,7 +608,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
     }
@@ -616,7 +616,7 @@ void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB274(EnOwl* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         this->actionFunc = EnOwl_WaitDeathMountainShortcut;
     }
 }
@@ -945,12 +945,12 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
                     osSyncPrintf(VT_FGCOL(CYAN));
                     osSyncPrintf("SPOT 06 の デモがはしった\n"); // Demo of SPOT 06
                     osSyncPrintf(VT_RST);
-                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_0201B0C0);
+                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
                     this->actor.draw = NULL;
                     break;
                 case 8:
                 case 9:
-                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_0201E6A0);
+                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDmtOwlCs);
                     this->actor.draw = NULL;
                     break;
                 default:

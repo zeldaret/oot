@@ -19,9 +19,9 @@
         <DList Name="object_reeba_DL_000B80" Offset="0xB80"/>
         <DList Name="object_reeba_DL_000C18" Offset="0xC18"/>
         <DList Name="object_reeba_DL_000C28" Offset="0xC28"/>
-        <Texture Name="object_reeba_Tex_000CD8" OutName="tex_00000CD8" Format="rgb5a1" Width="8" Height="16" Offset="0xCD8"/>
-        <Texture Name="object_reeba_Tex_000DD8" OutName="tex_00000DD8" Format="rgb5a1" Width="32" Height="32" Offset="0xDD8"/>
-        <Texture Name="object_reeba_Tex_0015D8" OutName="tex_000015D8" Format="rgb5a1" Width="32" Height="32" Offset="0x15D8"/>
+        <Texture Name="object_reeba_Tex_000CD8" OutName="tex_00000CD8" Format="rgba16" Width="8" Height="16" Offset="0xCD8"/>
+        <Texture Name="object_reeba_Tex_000DD8" OutName="tex_00000DD8" Format="rgba16" Width="32" Height="32" Offset="0xDD8"/>
+        <Texture Name="object_reeba_Tex_0015D8" OutName="tex_000015D8" Format="rgba16" Width="32" Height="32" Offset="0x15D8"/>
         <Blob Name="object_reeba_Blob_001DD8" Size="0x118" Offset="0x1DD8"/>
     </File>
 </Root>
