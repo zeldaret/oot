@@ -7,8 +7,8 @@
         <Limb Name="object_dh_Limb_000BB4" LimbType="Standard" Offset="0xBB4"/>
         <Limb Name="object_dh_Limb_000BC0" LimbType="Standard" Offset="0xBC0"/>
         <Skeleton Name="object_dh_Skel_000BD8" Type="Flex" LimbType="Standard" Offset="0xBD8"/>
-        <Texture Name="object_dh_Tex_000BF0" OutName="tex_00000BF0" Format="rgb5a1" Width="16" Height="32" Offset="0xBF0"/>
-        <Texture Name="object_dh_Tex_000FF0" OutName="tex_00000FF0" Format="rgb5a1" Width="32" Height="16" Offset="0xFF0"/>
+        <Texture Name="object_dh_Tex_000BF0" OutName="tex_00000BF0" Format="rgba16" Width="16" Height="32" Offset="0xBF0"/>
+        <Texture Name="object_dh_Tex_000FF0" OutName="tex_00000FF0" Format="rgba16" Width="32" Height="16" Offset="0xFF0"/>
         <Animation Name="object_dh_Anim_0015B0" Offset="0x15B0"/>
         <Animation Name="object_dh_Anim_001A3C" Offset="0x1A3C"/>
         <Animation Name="object_dh_Anim_002148" Offset="0x2148"/>
@@ -17,10 +17,10 @@
         <Animation Name="object_dh_Anim_003A8C" Offset="0x3A8C"/>
         <Animation Name="object_dh_Anim_003D6C" Offset="0x3D6C"/>
         <Animation Name="object_dh_Anim_004658" Offset="0x4658"/>
-        <Texture Name="object_dh_Tex_004670" OutName="tex_00004670" Format="rgb5a1" Width="16" Height="32" Offset="0x4670"/>
-        <Texture Name="object_dh_Tex_004A70" OutName="tex_00004A70" Format="rgb5a1" Width="16" Height="32" Offset="0x4A70"/>
-        <Texture Name="object_dh_Tex_004E70" OutName="tex_00004E70" Format="rgb5a1" Width="16" Height="16" Offset="0x4E70"/>
-        <Texture Name="object_dh_Tex_005070" OutName="tex_00005070" Format="rgb5a1" Width="16" Height="16" Offset="0x5070"/>
+        <Texture Name="object_dh_Tex_004670" OutName="tex_00004670" Format="rgba16" Width="16" Height="32" Offset="0x4670"/>
+        <Texture Name="object_dh_Tex_004A70" OutName="tex_00004A70" Format="rgba16" Width="16" Height="32" Offset="0x4A70"/>
+        <Texture Name="object_dh_Tex_004E70" OutName="tex_00004E70" Format="rgba16" Width="16" Height="16" Offset="0x4E70"/>
+        <Texture Name="object_dh_Tex_005070" OutName="tex_00005070" Format="rgba16" Width="16" Height="16" Offset="0x5070"/>
         <Animation Name="object_dh_Anim_005880" Offset="0x5880"/>
         <DList Name="object_dh_DL_006D10" Offset="0x6D10"/>
         <DList Name="object_dh_DL_006DD8" Offset="0x6DD8"/>

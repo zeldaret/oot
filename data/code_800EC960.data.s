@@ -42,7 +42,7 @@ glabel D_801305CC
 glabel D_801305D0
     .incbin "baserom.z64", 0xBA7770, 0x10
 
-glabel D_801305E0
+glabel sPrevChargeLevel
     .incbin "baserom.z64", 0xBA7780, 0x4
 
 glabel D_801305E4
@@ -132,34 +132,34 @@ glabel D_801306C8
 glabel D_801306DC
     .incbin "baserom.z64", 0xBA787C, 0x820
 
-glabel D_80130EFC
+glabel sOcarinaAllowedBtnMask
     .incbin "baserom.z64", 0xBA809C, 0x4
 
-glabel D_80130F00
+glabel sOcarinaABtnMap
     .incbin "baserom.z64", 0xBA80A0, 0x4
 
-glabel D_80130F04
+glabel sOcarinaCUPBtnMap
     .incbin "baserom.z64", 0xBA80A4, 0x4
 
-glabel D_80130F08
+glabel sOcarinaCDownBtnMap
     .incbin "baserom.z64", 0xBA80A8, 0x4
 
-glabel D_80130F0C
+glabel sOcarinaInpEnabled
     .incbin "baserom.z64", 0xBA80AC, 0x4
 
 glabel D_80130F10
     .incbin "baserom.z64", 0xBA80B0, 0x4
 
-glabel D_80130F14
+glabel sCurOcarinaBtnVal
     .incbin "baserom.z64", 0xBA80B4, 0x4
 
-glabel D_80130F18
+glabel sPrevOcarinaNoteVal
     .incbin "baserom.z64", 0xBA80B8, 0x4
 
-glabel D_80130F1C
+glabel sCurOcarinaBtnIdx
     .incbin "baserom.z64", 0xBA80BC, 0x4
 
-glabel D_80130F20
+glabel sLearnSongLastBtn
     .incbin "baserom.z64", 0xBA80C0, 0x4
 
 glabel D_80130F24
@@ -177,7 +177,7 @@ glabel D_80130F30
 glabel D_80130F34
     .incbin "baserom.z64", 0xBA80D4, 0x4
 
-glabel D_80130F38
+glabel sPlaybackState
     .incbin "baserom.z64", 0xBA80D8, 0x4
 
 glabel D_80130F3C
@@ -186,68 +186,56 @@ glabel D_80130F3C
 glabel D_80130F3E
     .incbin "baserom.z64", 0xBA80DE, 0x2
 
-glabel D_80130F40
+glabel sNotePlaybackTimer
     .incbin "baserom.z64", 0xBA80E0, 0x4
 
-glabel D_80130F44
+glabel sPlaybackNotePos
     .incbin "baserom.z64", 0xBA80E4, 0x4
 
-glabel D_80130F48
+glabel sStaffPlaybackPos
     .incbin "baserom.z64", 0xBA80E8, 0x4
 
 glabel D_80130F4C
     .incbin "baserom.z64", 0xBA80EC, 0x4
 
-glabel D_80130F50
+glabel sDisplayedNoteValue
     .incbin "baserom.z64", 0xBA80F0, 0x4
 
-glabel D_80130F54
+glabel sNotePlaybackVolume
     .incbin "baserom.z64", 0xBA80F4, 0x4
 
-glabel D_80130F58
+glabel sNotePlaybackVibrato
     .incbin "baserom.z64", 0xBA80F8, 0x4
 
-glabel D_80130F5C
+glabel sNotePlaybackTone
     .incbin "baserom.z64", 0xBA80FC, 0x4
 
-glabel D_80130F60
+glabel sNormalizedNotePlaybackTone
     .incbin "baserom.z64", 0xBA8100, 0x4
 
-glabel D_80130F64
+glabel sNormalizedNotePlaybackVolume
     .incbin "baserom.z64", 0xBA8104, 0x4
 
 glabel D_80130F68
     .incbin "baserom.z64", 0xBA8108, 0x4
 
-glabel D_80130F6C
+glabel sOcarinaNoteValues
     .incbin "baserom.z64", 0xBA810C, 0x8
 
-glabel D_80130F74
+glabel sOcaMinigameApndPos
     .incbin "baserom.z64", 0xBA8114, 0x4
 
-glabel D_80130F78
+glabel sOcaMinigameEndPos
     .incbin "baserom.z64", 0xBA8118, 0x4
 
-glabel D_80130F7C
+glabel sOcaMinigameNoteCnts
     .incbin "baserom.z64", 0xBA811C, 0x4
 
-glabel D_80130F80
-    .incbin "baserom.z64", 0xBA8120, 0x180
+glabel sOcarinaSongs
+    .incbin "baserom.z64", 0xBA8120, 0x8C0
 
-glabel D_80131100
-    .incbin "baserom.z64", 0xBA82A0, 0x600
-
-glabel D_80131700
-    .incbin "baserom.z64", 0xBA88A0, 0xC
-
-glabel D_8013170C
-    .incbin "baserom.z64", 0xBA88AC, 0x94
-
-glabel D_801317A0
-    .incbin "baserom.z64", 0xBA8940, 0xA0
-
-glabel D_80131840
-    .word D_80130F80
+glabel sPlaybackSong
+    .word sOcarinaSongs
 
 glabel D_80131844
     .incbin "baserom.z64", 0xBA89E4, 0x10
@@ -258,7 +246,7 @@ glabel gFrogsSongPtr
 glabel D_80131858
     .incbin "baserom.z64", 0xBA89F8, 0x4
 
-glabel D_8013185C
+glabel sRecordSongPos
     .incbin "baserom.z64", 0xBA89FC, 0x4
 
 glabel D_80131860
@@ -288,25 +276,22 @@ glabel D_8013187C
 glabel D_80131880
     .incbin "baserom.z64", 0xBA8A20, 0x4
 
-glabel D_80131884
-    .incbin "baserom.z64", 0xBA8A24, 0x8
-
-glabel D_8013188C
-    .incbin "baserom.z64", 0xBA8A2C, 0x358
+glabel sPierresSong
+    .incbin "baserom.z64", 0xBA8A24, 0x360
 
 glabel gScarecrowCustomSongPtr
-    .word D_80131884
+    .word sPierresSong
 
 glabel gScarecrowSpawnSongPtr
-    .word D_80131700
+    .word sOcarinaSongs+0x780
 
 glabel D_80131BEC
-    .word D_801317A0
+    .word sOcarinaSongs+0x820
 
-glabel D_80131BF0
+glabel sNoteValueIndexMap
     .incbin "baserom.z64", 0xBA8D90, 0x10
 
-glabel D_80131C00
+glabel gOcarinaSongNotes
     .incbin "baserom.z64", 0xBA8DA0, 0x80
 
 glabel D_80131C80
@@ -497,4 +482,3 @@ glabel D_8013331C
     .word D_80132FDC
     .word D_801330FC
     .word D_8013311C
-    .incbin "baserom.z64", 0xBAA4D8, 0x8

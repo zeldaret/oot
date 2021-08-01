@@ -5,7 +5,7 @@
 
 #define THIS ((BossTw*)thisx)
 
-enum TwEffType {
+typedef enum {
     /*  0 */ TWEFF_NONE,
     /*  1 */ TWEFF_DOT,
     /*  2 */ TWEFF_2,
@@ -17,21 +17,21 @@ enum TwEffType {
     /*  8 */ TWEFF_SHLD_BLST,
     /*  9 */ TWEFF_SHLD_DEFL,
     /* 10 */ TWEFF_SHLD_HIT
-};
+} TwEffType;
 
-enum EffectWork {
+typedef enum {
     /* 0 */ EFF_ARGS,
     /* 1 */ EFF_UNKS1,
-    /* 2 */ EFF_WORK_MAX,
-};
+    /* 2 */ EFF_WORK_MAX
+} EffectWork;
 
-enum EffectFWork {
+typedef enum {
     /* 0 */ EFF_SCALE,
     /* 1 */ EFF_DIST,
     /* 2 */ EFF_ROLL,
     /* 3 */ EFF_YAW,
-    /* 4 */ EFF_FWORK_MAX,
-};
+    /* 4 */ EFF_FWORK_MAX
+} EffectFWork;
 
 typedef enum {
     /* 0x00 */ TW_KOTAKE,
@@ -129,20 +129,62 @@ static Vec3f D_8094A7D0 = { 0.0f, 0.0f, 1000.0f };
 static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
 
 static ColliderCylinderInit sCylinderInitBlasts = {
-    { COLTYPE_NONE, 0x39, 0x09, 0x09, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x30 }, { 0x00100000, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ALL,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x30 },
+        { 0x00100000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 25, 35, -17, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInitKoumeKotake = {
-    { COLTYPE_HIT3, 0x11, 0x09, 0x09, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x20 },
+        { 0xFFCDFFFE, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 45, 120, -30, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInitTwinrova = {
-    { COLTYPE_HIT3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x20 },
+        { 0xFFCDFFFE, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 45, 120, -30, { 0, 0, 0 } },
 };
 
@@ -419,6 +461,7 @@ void BossTw_AddShieldDeflectEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2)
 
     sShieldHitPos = player->bodyPartsPos[15];
     sShieldHitYaw = player->actor.shape.rot.y;
+
     for (i = 0; i < 8; i++) {
         for (eff = globalCtx->specialEffects, j = 0; j < ARRAY_COUNT(sTWEffects); j++, eff++) {
             if (eff->type == TWEFF_NONE) {
@@ -448,6 +491,7 @@ void BossTw_AddShieldHitEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
 
     sShieldHitPos = player->bodyPartsPos[15];
     sShieldHitYaw = player->actor.shape.rot.y;
+
     for (i = 0; i < 8; i++) {
         for (eff = globalCtx->specialEffects, j = 0; j < ARRAY_COUNT(sTWEffects); j++, eff++) {
             if (eff->type == TWEFF_NONE) {
@@ -475,7 +519,8 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
     s16 i;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    ActorShape_Init(&this->actor.shape, 0, NULL, 0);
+    ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
+
     if (this->actor.params >= TW_FIRE_BLAST) {
         // Blasts
         Actor_SetScale(&this->actor, 0.01f);
@@ -501,6 +546,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 thisx->world.rot.y = sTwinrovaPtr->actor.world.rot.y - 0x4000;
             }
         }
+
         this->timers[1] = 150;
         return;
     }

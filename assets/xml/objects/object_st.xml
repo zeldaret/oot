@@ -2,12 +2,12 @@
     <File Name="object_st" Segment="6">
         <Animation Name="object_st_Anim_000304" Offset="0x304"/>
         <Texture Name="object_st_Tex_000320" OutName="tex_00000320" Format="i4" Width="16" Height="8" Offset="0x320"/>
-        <Texture Name="object_st_Tex_000360" OutName="tex_00000360" Format="rgb5a1" Width="16" Height="8" Offset="0x360"/>
-        <Texture Name="object_st_Tex_000460" OutName="tex_00000460" Format="rgb5a1" Width="8" Height="8" Offset="0x460"/>
+        <Texture Name="object_st_Tex_000360" OutName="tex_00000360" Format="rgba16" Width="16" Height="8" Offset="0x360"/>
+        <Texture Name="object_st_Tex_000460" OutName="tex_00000460" Format="rgba16" Width="8" Height="8" Offset="0x460"/>
         <Texture Name="object_st_Tex_0004E0" OutName="tex_000004E0" Format="i4" Width="16" Height="16" Offset="0x4E0"/>
-        <Texture Name="object_st_Tex_000560" OutName="tex_00000560" Format="rgb5a1" Width="16" Height="16" Offset="0x560"/>
-        <Texture Name="object_st_Tex_000760" OutName="tex_00000760" Format="rgb5a1" Width="8" Height="8" Offset="0x760"/>
-        <Texture Name="object_st_Tex_0007E0" OutName="tex_000007E0" Format="rgb5a1" Width="8" Height="8" Offset="0x7E0"/>
+        <Texture Name="object_st_Tex_000560" OutName="tex_00000560" Format="rgba16" Width="16" Height="16" Offset="0x560"/>
+        <Texture Name="object_st_Tex_000760" OutName="tex_00000760" Format="rgba16" Width="8" Height="8" Offset="0x760"/>
+        <Texture Name="object_st_Tex_0007E0" OutName="tex_000007E0" Format="rgba16" Width="8" Height="8" Offset="0x7E0"/>
         <DList Name="object_st_DL_001A40" Offset="0x1A40"/>
         <DList Name="object_st_DL_001C30" Offset="0x1C30"/>
         <DList Name="object_st_DL_001FD0" Offset="0x1FD0"/>
@@ -19,9 +19,9 @@
         <DList Name="object_st_DL_002360" Offset="0x2360"/>
         <DList Name="object_st_DL_0023F8" Offset="0x23F8"/>
         <Texture Name="object_st_Tex_002490" OutName="tex_00002490" Format="i8" Width="8" Height="8" Offset="0x2490"/>
-        <Texture Name="object_st_Tex_0024D0" OutName="tex_000024D0" Format="rgb5a1" Width="16" Height="8" Offset="0x24D0"/>
+        <Texture Name="object_st_Tex_0024D0" OutName="tex_000024D0" Format="rgba16" Width="16" Height="8" Offset="0x24D0"/>
         <Texture Name="object_st_Tex_0025D0" OutName="tex_000025D0" Format="i4" Width="16" Height="16" Offset="0x25D0"/>
-        <Texture Name="object_st_Tex_002650" OutName="tex_00002650" Format="rgb5a1" Width="8" Height="8" Offset="0x2650"/>
+        <Texture Name="object_st_Tex_002650" OutName="tex_00002650" Format="rgba16" Width="8" Height="8" Offset="0x2650"/>
         <Blob Name="object_st_Blob_003C50" Size="0x358" Offset="0x3C50"/>
         <DList Name="object_st_DL_003FA8" Offset="0x3FA8"/>
         <DList Name="object_st_DL_0043D8" Offset="0x43D8"/>

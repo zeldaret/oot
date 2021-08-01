@@ -687,7 +687,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             if ((this->work[FD2_HOLE_COUNTER] == 1) || (this->work[FD2_HOLE_COUNTER] == 40)) {
                 this->work[FD2_SCREAM_TIMER] = 20;
                 if (this->work[FD2_HOLE_COUNTER] == 40) {
-                    func_800F8D04(NA_SE_EN_VALVAISA_DEAD);
+                    Audio_StopSfx(NA_SE_EN_VALVAISA_DEAD);
                 }
 
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
@@ -884,9 +884,9 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 BossFd2_SetupDeath(this, globalCtx);
                 this->work[FD2_DAMAGE_FLASH_TIMER] = 10;
                 this->work[FD2_INVINC_TIMER] = 30000;
-                Audio_SetBGM(0x100100FF);
+                Audio_QueueSeqCmd(0x100100FF);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DEAD);
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
             } else if (damage) {
                 BossFd2_SetupDamaged(this, globalCtx);
                 this->work[FD2_DAMAGE_FLASH_TIMER] = 10;

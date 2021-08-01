@@ -172,7 +172,7 @@ void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 Actor* EnTorch2_GetAttackItem(GlobalContext* globalCtx, Player* this) {
-    Actor* rangedItem = func_80033780(globalCtx, &this->actor, 4000.0f);
+    Actor* rangedItem = Actor_GetProjectileActor(globalCtx, &this->actor, 4000.0f);
 
     if (rangedItem != NULL) {
         return rangedItem;
@@ -266,7 +266,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->skelAnime.playSpeed = 0.0f;
             this->actor.world.pos.x = (Math_SinS(this->actor.world.rot.y) * 25.0f) + sSpawnPoint.x;
             this->actor.world.pos.z = (Math_CosS(this->actor.world.rot.y) * 25.0f) + sSpawnPoint.z;
-            if ((this->actor.xzDistToPlayer <= 120.0f) || func_80033A84(globalCtx, &this->actor) ||
+            if ((this->actor.xzDistToPlayer <= 120.0f) || Actor_IsTargeted(globalCtx, &this->actor) ||
                 (attackItem != NULL)) {
                 if (attackItem != NULL) {
                     sDodgeRollState = 1;
@@ -399,7 +399,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                             if ((this->swordState == 0) && (sCounterState == 0) && (player->invincibilityTimer == 0) &&
                                 (player->swordAnimation == STAB_1H) && (this->actor.xzDistToPlayer <= 85.0f) &&
-                                func_80033A84(globalCtx, &this->actor)) {
+                                Actor_IsTargeted(globalCtx, &this->actor)) {
 
                                 sStickTilt = 0.0f;
                                 sSwordJumpState = 1;
@@ -618,7 +618,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
             sDeathFlag++;
             sActionState = ENTORCH2_DEATH;
-            func_80032C7C(globalCtx, &this->actor);
+            Enemy_StartFinishingBlow(globalCtx, &this->actor);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xC0);
             this->stateFlags3 &= ~4;
         } else {
@@ -636,7 +636,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_8A0 = this->actor.colChkInfo.damage;
                 this->unk_8A4 = 8.0f;
                 this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
-                func_80035650(&this->actor, &this->cylinder.info, 1);
+                Actor_SetDropFlag(&this->actor, &this->cylinder.info, 1);
                 this->stateFlags3 &= ~4;
                 this->stateFlags3 |= 1;
                 sActionState = ENTORCH2_DAMAGE;
