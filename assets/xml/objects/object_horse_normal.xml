@@ -21,6 +21,6 @@
         <!-- Walking slow. -->
         <Animation Name="gHorseNormalWalkingAnim" Offset="0x54BC"/>
 
-        <Texture Name="gHorseNormalEyeTex" OutName="horse_normal_eye" Format="rgb5a1" Width="32" Height="16" Offset="0x54D8"/>
+        <Texture Name="gHorseNormalEyeTex" OutName="horse_normal_eye" Format="rgba16" Width="32" Height="16" Offset="0x54D8"/>
     </File>
 </Root>

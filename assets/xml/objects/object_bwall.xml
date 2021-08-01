@@ -2,6 +2,6 @@
     <File Name="object_bwall" Segment="6">
         <DList Name="object_bwall_DL_000040" Offset="0x40"/>
         <Blob Name="object_bwall_Blob_0000D0" Size="0x80" Offset="0xD0"/>
-        <Texture Name="object_bwall_Tex_000150" OutName="tex_00000150" Format="rgb5a1" Width="32" Height="64" Offset="0x150"/>
+        <Texture Name="object_bwall_Tex_000150" OutName="tex_00000150" Format="rgba16" Width="32" Height="64" Offset="0x150"/>
     </File>
 </Root>
