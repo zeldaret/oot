@@ -336,13 +336,13 @@ static Gfx* sPlayerBottleHandDLists[] = {
     gLinkChildBottleHandNearDL,
 };
 
-static Gfx* sPlayerFPSLeftForearmDLists[] = {
-    gLinkAdultFPSLeftForearmDL,
+static Gfx* sPlayerFPLeftForearmDLists[] = {
+    gLinkAdultFPLeftForearmDL,
     NULL,
 };
 
-static Gfx* sPlayerFPSLeftHandDLists[] = {
-    gLinkAdultFPSLeftHandDL,
+static Gfx* sPlayerFPLeftHandDLists[] = {
+    gLinkAdultFPLeftHandDL,
     NULL,
 };
 
@@ -351,14 +351,14 @@ static Gfx* sPlayerShoulderDLists[] = {
     gLinkChildLeftShoulderNearDL,
 };
 
-static Gfx* sPlayerFPSRightForearmDLists[] = {
-    gLinkAdultFPSRightForearmDL,
+static Gfx* sPlayerFPRightForearmDLists[] = {
+    gLinkAdultFPRightForearmDL,
     NULL,
 };
 
-static Gfx* sPlayerFPSRightHandAndBowDLists[] = {
-    gLinkAdultFPSRightHandAndFairyBowDL,
-    gLinkChildFPSRightHandAndFairySlingshotDL,
+static Gfx* sPlayerFPRightHandAndBowDLists[] = {
+    gLinkAdultFPRightHandAndFairyBowDL,
+    gLinkChildFPRightHandAndFairySlingshotDL,
 };
 
 // Indexed by model types (left hand, right hand, sheath or waist)
@@ -1013,16 +1013,16 @@ s32 Player_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         if (this->unk_6AD != 2) {
             *dList = NULL;
         } else if (limbIndex == PLAYER_LIMB_L_FOREARM) {
-            *dList = sPlayerFPSLeftForearmDLists[(void)0, gSaveContext.linkAge];
+            *dList = sPlayerFPLeftForearmDLists[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_L_HAND) {
-            *dList = sPlayerFPSLeftHandDLists[(void)0, gSaveContext.linkAge];
+            *dList = sPlayerFPLeftHandDLists[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_SHOULDER) {
             *dList = sPlayerShoulderDLists[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_FOREARM) {
-            *dList = sPlayerFPSRightForearmDLists[(void)0, gSaveContext.linkAge];
+            *dList = sPlayerFPRightForearmDLists[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-            *dList = Player_IsHoldingHookshot(this) ? gLinkAdultFPSRightHandAndHookshotDL
-                                                    : sPlayerFPSRightHandAndBowDLists[(void)0, gSaveContext.linkAge];
+            *dList = Player_IsHoldingHookshot(this) ? gLinkAdultFPRightHandAndHookshotDL
+                                                    : sPlayerFPRightHandAndBowDLists[(void)0, gSaveContext.linkAge];
         } else {
             *dList = NULL;
         }

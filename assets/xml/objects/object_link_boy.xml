@@ -60,7 +60,7 @@
         <Texture Name="gLinkAdultHylianShieldBackTex" OutName="hylian_shield_back" Format="ci8" Width="16" Height="32" Offset="0xD938" TlutOffset="0xCB40"/>
         <Texture Name="gLinkAdultPalmThumbTex" OutName="palm_thumb" Format="ci8" Width="16" Height="16" Offset="0xDB38" TlutOffset="0xCF50"/>
         <Texture Name="gLinkAdultSheathTex" OutName="sheath" Format="ci8" Width="32" Height="32" Offset="0xDC38" TlutOffset="0xCB40"/>
-        <Texture Name="gLinkAdultFPSGauntletTex" OutName="fps_gauntlet" Format="ci8" Width="32" Height="32" Offset="0xE038" TlutOffset="0xCD48"/>
+        <Texture Name="gLinkAdultFPGauntletTex" OutName="fp_gauntlet" Format="ci8" Width="32" Height="32" Offset="0xE038" TlutOffset="0xCD48"/>
         <Texture Name="gLinkAdultSwordGuardTex" OutName="sword_guard" Format="ci8" Width="32" Height="32" Offset="0xE438" TlutOffset="0xCB40"/>
         <Texture Name="gLinkAdultSheathTopTex" OutName="sheath_top_tex" Format="ci8" Width="32" Height="16" Offset="0xE838" TlutOffset="0xCB40"/>
         <Texture Name="gLinkAdultSwordGemTex" OutName="sword_gem" Format="ci8" Width="16" Height="16" Offset="0xEA38" TlutOffset="0xCB40"/>
@@ -137,11 +137,11 @@
         <DList Name="gLinkAdultBottleHandFarDL" Offset="0x29600"/>
         
         <!--DLists-->
-        <DList Name="gLinkAdultFPSLeftForearmDL" Offset="0x29918"/>
-        <DList Name="gLinkAdultFPSLeftHandDL" Offset="0x29C20"/>
-        <DList Name="gLinkAdultFPSRightForearmDL" Offset="0x29FA0"/>
-        <DList Name="gLinkAdultFPSRightHandAndFairyBowDL" Offset="0x2A248"/>
-        <DList Name="gLinkAdultFPSRightHandAndHookshotDL" Offset="0x2A738"/>
+        <DList Name="gLinkAdultFPLeftForearmDL" Offset="0x29918"/>
+        <DList Name="gLinkAdultFPLeftHandDL" Offset="0x29C20"/>
+        <DList Name="gLinkAdultFPRightForearmDL" Offset="0x29FA0"/>
+        <DList Name="gLinkAdultFPRightHandAndFairyBowDL" Offset="0x2A248"/>
+        <DList Name="gLinkAdultFPRightHandAndHookshotDL" Offset="0x2A738"/>
         <DList Name="gLinkAdultBottleDL" Offset="0x2AD58"/>
         <DList Name="gLinkAdultHookshotChainsDL" Offset="0x2AFF0"/>
         <DList Name="gLinkAdultBowStringDL" Offset="0x2B108"/>

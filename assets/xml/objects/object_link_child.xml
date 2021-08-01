@@ -100,7 +100,7 @@
         <DList Name="gLinkChildBottleHandNearDL" Offset="0x15FD0"/>
         <DList Name="gLinkChildBottleHandFarDL" Offset="0x17F00"/>
 
-        <DList Name="gLinkChildFPSRightHandAndFairySlingshotDL" Offset="0x18048"/>
+        <DList Name="gLinkChildFPRightHandAndFairySlingshotDL" Offset="0x18048"/>
         <DList Name="gLinkChildBottleDL" Offset="0x18478"/>
         <DList Name="gLinkChildDL_18580" Offset="0x18580"/>
         <DList Name="gLinkChildBottle2DL" Offset="0x18648"/>
