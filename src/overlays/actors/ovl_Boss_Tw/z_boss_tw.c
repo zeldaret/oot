@@ -540,6 +540,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->actionFunc = BossTw_DeathBall;
             this->actor.draw = BossTw_DrawDeathBall;
             this->workf[TAIL_ALPHA] = 128.0f;
+            
             if (thisx->params == TW_DEATHBALL_KOTAKE) {
                 thisx->world.rot.y = sTwinrovaPtr->actor.world.rot.y + 0x4000;
             } else {
