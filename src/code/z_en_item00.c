@@ -17,6 +17,11 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx);
 void func_8001E304(EnItem00* this, GlobalContext* globalCtx);
 void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx);
 
+void EnItem00_DrawRupee(EnItem00* this, GlobalContext* globalCtx);
+void EnItem00_DrawCollectible(EnItem00* this, GlobalContext* globalCtx);
+void EnItem00_DrawHeartContainer(EnItem00* this, GlobalContext* globalCtx);
+void EnItem00_DrawHeartPiece(EnItem00* this, GlobalContext* globalCtx);
+
 const ActorInit En_Item00_InitVars = {
     ACTOR_EN_ITEM00,
     ACTORCAT_MISC,
@@ -327,14 +332,13 @@ void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
 
 void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnItem00* this = THIS;
-    s32 pad2;
-    f32 sp34 = 980.0f;
-    f32 sp30 = 6.0f;
+    s32 pad;
+    f32 yOffset = 980.0f;
+    f32 shadowScale = 6.0f;
     s32 getItemId = 0;
-    s16 spawnParam8000;
-    s32 pad3;
+    s16 spawnParam8000 = this->actor.params & 0x8000;
+    s32 pad1;
 
-    spawnParam8000 = this->actor.params & 0x8000;
     this->collectibleFlag = (this->actor.params & 0x3F00) >> 8;
 
     this->actor.params &= 0xFF;
@@ -355,44 +359,44 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
         case ITEM00_RUPEE_BLUE:
         case ITEM00_RUPEE_RED:
             Actor_SetScale(&this->actor, 0.015f);
-            this->unk_15C = 0.015f;
-            sp34 = 750.0f;
+            this->scale = 0.015f;
+            yOffset = 750.0f;
             break;
         case ITEM00_SMALL_KEY:
             this->unk_158 = 0;
             Actor_SetScale(&this->actor, 0.03f);
-            this->unk_15C = 0.03f;
-            sp34 = 350.0f;
+            this->scale = 0.03f;
+            yOffset = 350.0f;
             break;
         case ITEM00_HEART_PIECE:
             this->unk_158 = 0;
-            sp34 = 650.0f;
+            yOffset = 650.0f;
             Actor_SetScale(&this->actor, 0.02f);
-            this->unk_15C = 0.02f;
+            this->scale = 0.02f;
             break;
         case ITEM00_HEART:
             this->actor.home.rot.z = Rand_CenteredFloat(65535.0f);
-            sp34 = 430.0f;
+            yOffset = 430.0f;
             Actor_SetScale(&this->actor, 0.02f);
-            this->unk_15C = 0.02f;
+            this->scale = 0.02f;
             break;
         case ITEM00_HEART_CONTAINER:
-            sp34 = 430.0f;
+            yOffset = 430.0f;
             this->unk_158 = 0;
             Actor_SetScale(&this->actor, 0.02f);
-            this->unk_15C = 0.02f;
+            this->scale = 0.02f;
             break;
         case ITEM00_ARROWS_SINGLE:
-            sp34 = 400.0f;
+            yOffset = 400.0f;
             Actor_SetScale(&this->actor, 0.02f);
-            this->unk_15C = 0.02f;
+            this->scale = 0.02f;
             break;
         case ITEM00_ARROWS_SMALL:
         case ITEM00_ARROWS_MEDIUM:
         case ITEM00_ARROWS_LARGE:
             Actor_SetScale(&this->actor, 0.035f);
-            this->unk_15C = 0.035f;
-            sp34 = 250.0f;
+            this->scale = 0.035f;
+            yOffset = 250.0f;
             break;
         case ITEM00_BOMBS_A:
         case ITEM00_BOMBS_B:
@@ -402,45 +406,45 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
         case ITEM00_SEEDS:
         case ITEM00_BOMBS_SPECIAL:
             Actor_SetScale(&this->actor, 0.03f);
-            this->unk_15C = 0.03f;
-            sp34 = 320.0f;
+            this->scale = 0.03f;
+            yOffset = 320.0f;
             break;
         case ITEM00_MAGIC_LARGE:
             Actor_SetScale(&this->actor, 0.045 - 1e-10);
-            this->unk_15C = 0.045 - 1e-10;
-            sp34 = 320.0f;
+            this->scale = 0.045 - 1e-10;
+            yOffset = 320.0f;
             break;
         case ITEM00_RUPEE_ORANGE:
             Actor_SetScale(&this->actor, 0.045 - 1e-10);
-            this->unk_15C = 0.045 - 1e-10;
-            sp34 = 750.0f;
+            this->scale = 0.045 - 1e-10;
+            yOffset = 750.0f;
             break;
         case ITEM00_RUPEE_PURPLE:
             Actor_SetScale(&this->actor, 0.03f);
-            this->unk_15C = 0.03f;
-            sp34 = 750.0f;
+            this->scale = 0.03f;
+            yOffset = 750.0f;
             break;
         case ITEM00_FLEXIBLE:
-            sp34 = 500.0f;
+            yOffset = 500.0f;
             Actor_SetScale(&this->actor, 0.01f);
-            this->unk_15C = 0.01f;
+            this->scale = 0.01f;
             break;
         case ITEM00_SHIELD_DEKU:
             this->actor.objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_SHIELD_1);
             Actor_SetObjectDependency(globalCtx, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
-            this->unk_15C = 0.5f;
-            sp34 = 0.0f;
-            sp30 = 0.6f;
+            this->scale = 0.5f;
+            yOffset = 0.0f;
+            shadowScale = 0.6f;
             this->actor.world.rot.x = 0x4000;
             break;
         case ITEM00_SHIELD_HYLIAN:
             this->actor.objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_SHIELD_2);
             Actor_SetObjectDependency(globalCtx, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
-            this->unk_15C = 0.5f;
-            sp34 = 0.0f;
-            sp30 = 0.6f;
+            this->scale = 0.5f;
+            yOffset = 0.0f;
+            shadowScale = 0.6f;
             this->actor.world.rot.x = 0x4000;
             break;
         case ITEM00_TUNIC_ZORA:
@@ -448,18 +452,18 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_CLOTHES);
             Actor_SetObjectDependency(globalCtx, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
-            this->unk_15C = 0.5f;
-            sp34 = 0.0f;
-            sp30 = 0.6f;
+            this->scale = 0.5f;
+            yOffset = 0.0f;
+            shadowScale = 0.6f;
             this->actor.world.rot.x = 0x4000;
             break;
     }
 
     this->unk_156 = 0;
-    ActorShape_Init(&this->actor.shape, sp34, ActorShadow_DrawCircle, sp30);
+    ActorShape_Init(&this->actor.shape, yOffset, ActorShadow_DrawCircle, shadowScale);
     this->actor.shape.shadowAlpha = 180;
     this->actor.focus.pos = this->actor.world.pos;
-    this->unk_152 = 0;
+    this->getItemId = 0;
 
     if (!spawnParam8000) {
         EnItem00_SetupAction(this, func_8001DFC8);
@@ -561,11 +565,13 @@ void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
     } else {
         if ((this->actor.params >= ITEM00_SHIELD_DEKU) && (this->actor.params != ITEM00_BOMBS_SPECIAL)) {
             if (this->unk_15A == -1) {
-                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x - 0x4000, 2, 3000, 1500)) {
+                if (Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x - 0x4000, 2, 3000, 1500) ==
+                    0) {
                     this->unk_15A = -2;
                 }
             } else {
-                if (!Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x - 0x4000, 2, 3000, 1500)) {
+                if (Math_SmoothStepToS(&this->actor.shape.rot.x, -this->actor.world.rot.x - 0x4000, 2, 3000, 1500) ==
+                    0) {
                     this->unk_15A = -1;
                 }
             }
@@ -682,12 +688,12 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
 void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->unk_152 != 0) {
+    if (this->getItemId != 0) {
         if (!Actor_HasParent(&this->actor, globalCtx)) {
-            func_8002F434(&this->actor, globalCtx, this->unk_152, 50.0f, 80.0f);
+            func_8002F434(&this->actor, globalCtx, this->getItemId, 50.0f, 80.0f);
             this->unk_15A++;
         } else {
-            this->unk_152 = 0;
+            this->getItemId = 0;
         }
     }
 
@@ -721,17 +727,18 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     s16 i;
     u32* temp;
     EnItem00* this = THIS;
+    s32 pad;
 
     if (this->unk_15A > 0) {
         this->unk_15A--;
     }
 
-    if (((this->unk_15A > 0) && (this->unk_15A < 41)) && (this->unk_154 <= 0)) {
+    if ((this->unk_15A > 0) && (this->unk_15A < 41) && (this->unk_154 <= 0)) {
         this->unk_156 = this->unk_15A;
     }
 
     this->actionFunc(this, globalCtx);
-    Math_SmoothStepToF(&this->actor.scale.x, this->unk_15C, 0.1f, this->unk_15C * 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->actor.scale.x, this->scale, 0.1f, this->scale * 0.1f, 0.0f);
     temp = &D_80157D90;
     this->actor.scale.z = this->actor.scale.x;
     this->actor.scale.y = this->actor.scale.x;
@@ -743,9 +750,9 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
                 for (i = 0; i < 50; i++) {
                     if (globalCtx->colCtx.dyna.bgActorFlags[i] & 1) {
                         dynaActor = globalCtx->colCtx.dyna.bgActors[i].actor;
-                        if (((dynaActor != NULL) && (dynaActor->update != NULL)) &&
-                            (((dynaActor->world.pos.x != dynaActor->prevPos.x) ||
-                              (dynaActor->world.pos.y != dynaActor->prevPos.y)) ||
+                        if ((dynaActor != NULL) && (dynaActor->update != NULL) &&
+                            ((dynaActor->world.pos.x != dynaActor->prevPos.x) ||
+                             (dynaActor->world.pos.y != dynaActor->prevPos.y) ||
                              (dynaActor->world.pos.z != dynaActor->prevPos.z))) {
                             D_80157D94[0]++;
                             break;
@@ -774,14 +781,8 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.params == ITEM00_SHIELD_DEKU) || (this->actor.params == ITEM00_SHIELD_HYLIAN) ||
         (this->actor.params == ITEM00_TUNIC_ZORA) || (this->actor.params == ITEM00_TUNIC_GORON)) {
-        f32 cos = Math_CosS(this->actor.shape.rot.x) * 37.0f;
-
-        this->actor.shape.yOffset = cos;
-        if (cos >= 0.0f) {
-            this->actor.shape.yOffset = this->actor.shape.yOffset;
-        } else {
-            this->actor.shape.yOffset = -this->actor.shape.yOffset;
-        }
+        this->actor.shape.yOffset = Math_CosS(this->actor.shape.rot.x) * 37.0f;
+        this->actor.shape.yOffset = ABS(this->actor.shape.yOffset);
     }
 
     if (this->unk_154 > 0) {
@@ -919,17 +920,11 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.velocity.y = 0;
     this->actor.gravity = 0;
 
-    Actor_SetScale(&this->actor, this->unk_15C);
+    Actor_SetScale(&this->actor, this->scale);
 
-    this->unk_152 = 0;
+    this->getItemId = 0;
     EnItem00_SetupAction(this, func_8001E5C8);
 }
-
-// Draw Function prototypes (used in EnItem00_Draw)
-void func_8001EF30(EnItem00* this, GlobalContext* globalCtx);
-void func_8001F080(EnItem00* this, GlobalContext* globalCtx);
-void func_8001F1F4(EnItem00* this, GlobalContext* globalCtx);
-void func_8001F334(EnItem00* this, GlobalContext* globalCtx);
 
 void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnItem00* this = THIS;
@@ -942,13 +937,13 @@ void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
             case ITEM00_RUPEE_RED:
             case ITEM00_RUPEE_ORANGE:
             case ITEM00_RUPEE_PURPLE:
-                func_8001EF30(this, globalCtx);
+                EnItem00_DrawRupee(this, globalCtx);
                 break;
             case ITEM00_HEART_PIECE:
-                func_8001F334(this, globalCtx);
+                EnItem00_DrawHeartPiece(this, globalCtx);
                 break;
             case ITEM00_HEART_CONTAINER:
-                func_8001F1F4(this, globalCtx);
+                EnItem00_DrawHeartContainer(this, globalCtx);
                 break;
             case ITEM00_HEART:
                 if (this->unk_15A < 0) {
@@ -979,7 +974,7 @@ void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
             case ITEM00_MAGIC_SMALL:
             case ITEM00_SEEDS:
             case ITEM00_SMALL_KEY:
-                func_8001F080(this, globalCtx);
+                EnItem00_DrawCollectible(this, globalCtx);
                 break;
             case ITEM00_SHIELD_DEKU:
                 GetItem_Draw(globalCtx, GID_SHIELD_DEKU);
@@ -1002,9 +997,9 @@ void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
 /**
  * Draw Function used for Rupee types of En_Item00.
  */
-void func_8001EF30(EnItem00* this, GlobalContext* globalCtx) {
+void EnItem00_DrawRupee(EnItem00* this, GlobalContext* globalCtx) {
     s32 pad;
-    s32 iconNb;
+    s32 texIndex;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1546);
 
@@ -1012,16 +1007,15 @@ void func_8001EF30(EnItem00* this, GlobalContext* globalCtx) {
     func_8002EBCC(&this->actor, globalCtx, 0);
 
     if (this->actor.params <= ITEM00_RUPEE_RED) {
-        iconNb = this->actor.params;
+        texIndex = this->actor.params;
     } else {
-        iconNb = this->actor.params - 0x10;
+        texIndex = this->actor.params - 0x10;
     }
-    if (1) {} // Necessary to match
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1562),
               G_MTX_MODELVIEW | G_MTX_LOAD);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[iconNb]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[texIndex]));
 
     gSPDisplayList(POLY_OPA_DISP++, &gRupeeDL);
 
@@ -1031,22 +1025,22 @@ void func_8001EF30(EnItem00* this, GlobalContext* globalCtx) {
 /**
  * Draw Function used for most collectible types of En_Item00 (ammo, bombs, sticks, nuts, magic...).
  */
-void func_8001F080(EnItem00* this, GlobalContext* globalCtx) {
-    s32 iconNb = this->actor.params - 3;
+void EnItem00_DrawCollectible(EnItem00* this, GlobalContext* globalCtx) {
+    s32 texIndex = this->actor.params - 3;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1594);
 
     POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
 
     if (this->actor.params == ITEM00_BOMBS_SPECIAL) {
-        iconNb = 1;
+        texIndex = 1;
     } else if (this->actor.params >= ITEM00_ARROWS_SMALL) {
-        iconNb -= 3;
+        texIndex -= 3;
     }
 
     POLY_OPA_DISP = func_800946E4(POLY_OPA_DISP);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sItemDropTex[iconNb]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sItemDropTex[texIndex]));
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1607),
               G_MTX_MODELVIEW | G_MTX_LOAD);
@@ -1058,7 +1052,7 @@ void func_8001F080(EnItem00* this, GlobalContext* globalCtx) {
 /**
  * Draw Function used for the Heart Container type of En_Item00.
  */
-void func_8001F1F4(EnItem00* this, GlobalContext* globalCtx) {
+void EnItem00_DrawHeartContainer(EnItem00* this, GlobalContext* globalCtx) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1623);
@@ -1081,7 +1075,7 @@ void func_8001F1F4(EnItem00* this, GlobalContext* globalCtx) {
 /**
  * Draw Function used for the Piece of Heart type of En_Item00.
  */
-void func_8001F334(EnItem00* this, GlobalContext* globalCtx) {
+void EnItem00_DrawHeartPiece(EnItem00* this, GlobalContext* globalCtx) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1658);
