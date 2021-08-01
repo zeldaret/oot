@@ -569,7 +569,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
             return;
         }
         if (gSaveContext.eventChkInf[7] & 0x10) {
-            Audio_SetBGM(0x1B);
+            Audio_QueueSeqCmd(0x1B);
             this->tentMaxAngle = 5.0f;
             this->timers[0] = 50;
         } else {
@@ -1305,7 +1305,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                        this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0, -1);
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
                                 -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
-                    Audio_SetBGM(0x21);
+                    Audio_QueueSeqCmd(0x21);
                     Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
                 }
             }
@@ -1435,7 +1435,7 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
                 this->actor.world.rot.y = 0x721A;
                 sMorphaTent1->actionState = MO_TENT_READY;
                 sMorphaTent1->timers[0] = 30000;
-                Audio_SetBGM(0x103200FF);
+                Audio_QueueSeqCmd(0x103200FF);
                 func_80106CCC(globalCtx);
             } else {
                 break;
@@ -1616,7 +1616,7 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
                 this->cameraAccel = 0.01f;
             }
             if (this->timers[2] == 150) {
-                Audio_SetBGM(0x1B);
+                Audio_QueueSeqCmd(0x1B);
             }
             if (this->timers[2] == 130) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
@@ -1968,8 +1968,8 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                     if (((sMorphaTent1->csCamera == 0) && (sMorphaTent2 == NULL)) ||
                         ((sMorphaTent1->csCamera == 0) && (sMorphaTent2 != NULL) &&
                          (sMorphaTent2->csCamera == 0))) {
-                        func_80032C7C(globalCtx, &this->actor);
-                        Audio_SetBGM(NA_BGM_STOP | (1 << 0x10));
+                        Enemy_StartFinishingBlow(globalCtx, &this->actor);
+                        Audio_QueueSeqCmd(NA_BGM_STOP | (1 << 0x10));
                         this->csState = MO_DEATH_START;
                         sMorphaTent1->drawActor = false;
                         sMorphaTent1->actionState = MO_TENT_DEATH_START;
@@ -3272,11 +3272,11 @@ void BossMo_Unknown(void) {
 
     if (BREG(0x20) != 0) {
         BREG(0x20)--;
-        Audio_SetBGM(NA_BGM_STOP | (1 << 0x10));
+        Audio_QueueSeqCmd(NA_BGM_STOP | (1 << 0x10));
         func_80078914(&zeroVec, unkSfx[BREG(0x21)]);
     }
     if (BREG(0x22) != 0) {
         BREG(0x22) = 0;
-        Audio_SetBGM((u16)BREG(0x23));
+        Audio_QueueSeqCmd((u16)BREG(0x23));
     }
 }
