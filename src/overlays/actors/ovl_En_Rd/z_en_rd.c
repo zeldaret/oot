@@ -340,7 +340,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
             if (this->unk_306 == 0) {
                 if (!(this->unk_312 & 0x80)) {
                     player->actor.freezeTimer = 40;
-                    Player_SetTargetting(globalCtx, &this->actor);
+                    Player_SetTargeting(globalCtx, &this->actor);
                     PLAYER->unk_684 = &this->actor;
                     func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
                 }
@@ -570,7 +570,7 @@ void func_80AE3834(EnRd* this, GlobalContext* globalCtx) {
         if (!(this->unk_312 & 0x80)) {
             player->actor.freezeTimer = 60;
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
-            Player_SetTargetting(globalCtx, &this->actor);
+            Player_SetTargeting(globalCtx, &this->actor);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_AIM);
         func_80AE2B90(this, globalCtx);

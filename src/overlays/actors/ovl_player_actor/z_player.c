@@ -1832,7 +1832,7 @@ s32 func_80833B54(Player* this) {
 }
 
 s32 func_80833BCC(Player* this) {
-    return Player_IsTargetting(this) || func_80833B2C(this);
+    return Player_IsTargeting(this) || func_80833B2C(this);
 }
 
 s32 func_80833C04(Player* this) {
@@ -2572,7 +2572,7 @@ s32 func_808359FC(Player* this, GlobalContext* globalCtx) {
             boomerang->moveTo = this->unk_664;
             boomerang->returnTimer = 20;
             this->stateFlags1 |= 0x2000000;
-            if (!Player_IsTargetting(this)) {
+            if (!Player_IsTargeting(this)) {
                 func_808355DC(this);
             }
             this->unk_A73 = 4;
@@ -2767,7 +2767,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
 
             if (((actionParam >= PLAYER_AP_OCARINA_FAIRY) && (actionParam <= PLAYER_AP_OCARINA_TIME)) ||
                 (actionParam >= PLAYER_AP_BOTTLE_FISH)) {
-                if (!Player_IsTargetting(this) ||
+                if (!Player_IsTargeting(this) ||
                     ((actionParam >= PLAYER_AP_BOTTLE_POTION_RED) && (actionParam <= PLAYER_AP_BOTTLE_FAIRY))) {
                     func_8002D53C(globalCtx, &globalCtx->actorCtx.titleCtx);
                     this->unk_6AD = 4;
@@ -3016,7 +3016,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                         this->stateFlags2 &= ~0x200002;
                     } else {
                         if (!holdTarget) {
-                            Player_UnsetTargetting(this);
+                            Player_UnsetTargeting(this);
                         }
                     }
 
@@ -3031,7 +3031,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
             if (this->unk_664 != NULL) {
                 if ((this->actor.category == ACTORCAT_PLAYER) && (this->unk_664 != this->unk_684) &&
                     func_8002F0C8(this->unk_664, this, sp1C)) {
-                    Player_UnsetTargetting(this);
+                    Player_UnsetTargeting(this);
                     this->stateFlags1 |= 0x40000000;
                 } else if (this->unk_664 != NULL) {
                     this->unk_664->targetPriority = 40;
@@ -3050,11 +3050,11 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
             if (this->stateFlags1 & 0x20000) {
                 this->stateFlags2 &= ~0x2000;
             } else {
-                Player_InitTargetting(this);
+                Player_InitTargeting(this);
             }
         }
     } else {
-        Player_InitTargetting(this);
+        Player_InitTargeting(this);
     }
 }
 
@@ -3504,7 +3504,7 @@ void func_80837C0C(GlobalContext* globalCtx, Player* this, s32 arg2, f32 arg3, f
             this->hoverBootsTimer = 0;
             this->actor.bgCheckFlags &= ~1;
         } else {
-            if ((this->linearVelocity > 4.0f) && !Player_IsTargetting(this)) {
+            if ((this->linearVelocity > 4.0f) && !Player_IsTargeting(this)) {
                 this->unk_890 = 20;
                 func_8083264C(this, 120, 20, 10, 0);
                 func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
@@ -3528,7 +3528,7 @@ void func_80837C0C(GlobalContext* globalCtx, Player* this, s32 arg2, f32 arg3, f
                 sp28 += 2;
             }
 
-            if (Player_IsTargetting(this)) {
+            if (Player_IsTargeting(this)) {
                 sp28 += 1;
             }
 
@@ -4280,7 +4280,7 @@ void func_80839F30(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_80839F90(Player* this, GlobalContext* globalCtx) {
-    if (Player_IsTargetting(this)) {
+    if (Player_IsTargeting(this)) {
         func_80839E88(this, globalCtx);
     } else if (func_80833B2C(this)) {
         func_80839F30(this, globalCtx);
@@ -4292,7 +4292,7 @@ void func_80839F90(Player* this, GlobalContext* globalCtx) {
 void func_80839FFC(Player* this, GlobalContext* globalCtx) {
     PlayerFunc674 func;
 
-    if (Player_IsTargetting(this)) {
+    if (Player_IsTargeting(this)) {
         func = func_80840450;
     } else if (func_80833B2C(this)) {
         func = func_808407CC;
@@ -4305,7 +4305,7 @@ void func_80839FFC(Player* this, GlobalContext* globalCtx) {
 
 void func_8083A060(Player* this, GlobalContext* globalCtx) {
     func_80839FFC(this, globalCtx);
-    if (Player_IsTargetting(this)) {
+    if (Player_IsTargeting(this)) {
         this->unk_850 = 1;
     }
 }
@@ -4924,7 +4924,7 @@ s32 func_8083B998(Player* this, GlobalContext* globalCtx) {
     if ((this->unk_664 != NULL) &&
         (((this->unk_664->flags & 0x40001) == 0x40001) || (this->unk_664->naviEnemyId != 0xFF))) {
         this->stateFlags2 |= 0x200000;
-    } else if ((this->naviTextId == 0) && !Player_IsTargetting(this) &&
+    } else if ((this->naviTextId == 0) && !Player_IsTargeting(this) &&
                CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && (YREG(15) != 0x10) && (YREG(15) != 0x20) &&
                !func_8083B8F4(this, globalCtx)) {
         func_80078884(NA_SE_SY_ERROR);
@@ -5129,7 +5129,7 @@ s32 func_8083C2B0(Player* this, GlobalContext* globalCtx) {
             }
 
             if (anim != this->skelAnime.animation) {
-                if (Player_IsTargetting(this)) {
+                if (Player_IsTargeting(this)) {
                     this->unk_86C = 1.0f;
                 } else {
                     this->unk_86C = 0.0f;
@@ -7078,7 +7078,7 @@ void func_8084193C(Player* this, GlobalContext* globalCtx) {
         }
 
         if ((this->linearVelocity < 3.6f) && (sp3C < 4.0f)) {
-            if (!Player_IsTargetting(this) && func_80833B2C(this)) {
+            if (!Player_IsTargeting(this) && func_80833B2C(this)) {
                 func_8083CB94(this, globalCtx);
             } else {
                 func_80839F90(this, globalCtx);
@@ -7475,7 +7475,7 @@ void func_80842D20(GlobalContext* globalCtx, Player* this) {
         func_80832440(globalCtx, this);
         func_80835C58(globalCtx, this, func_808505DC, 0);
 
-        if (Player_IsTargetting(this)) {
+        if (Player_IsTargeting(this)) {
             sp28 = 2;
         } else {
             sp28 = 0;
@@ -7962,7 +7962,7 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
 
     if (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 40) {
         this->actor.gravity = 0.0f;
-    } else if (Player_IsTargetting(this)) {
+    } else if (Player_IsTargeting(this)) {
         this->actor.gravity = -1.2f;
     }
 
@@ -8033,14 +8033,14 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
         s32 sp3C;
 
         if (this->stateFlags2 & 0x80000) {
-            if (Player_IsTargetting(this)) {
+            if (Player_IsTargeting(this)) {
                 anim = D_80853D4C[this->unk_84F][2];
             } else {
                 anim = D_80853D4C[this->unk_84F][1];
             }
         } else if (this->skelAnime.animation == &gPlayerAnim_003148) {
             anim = &gPlayerAnim_003150;
-        } else if (Player_IsTargetting(this)) {
+        } else if (Player_IsTargeting(this)) {
             anim = &gPlayerAnim_002538;
             func_80833C3C(this);
         } else if (this->fallDistance <= 80) {
@@ -9286,7 +9286,7 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
                 } else if (!sp1C && (!(this->stateFlags1 & 0x400000) || func_80833BCC(this) ||
                                      !Player_IsChildWithHylianShield(this))) {
                     if ((!(this->stateFlags1 & 0x4000) && (sp20 <= 0) &&
-                         (Player_IsTargetting(this) ||
+                         (Player_IsTargeting(this) ||
                           ((D_808535E4 != 7) &&
                            (func_80833B2C(this) || ((globalCtx->roomCtx.curRoom.unk_03 != 2) &&
                                                     !(this->stateFlags1 & 0x400000) && (sp20 == 0))))))) {
@@ -10394,7 +10394,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
         s32 lod;
         s32 pad;
 
-        if ((this->csMode != 0) || (Player_IsTargetting(this) && 0) || (this->actor.projectedPos.z < 160.0f)) {
+        if ((this->csMode != 0) || (Player_IsTargeting(this) && 0) || (this->actor.projectedPos.z < 160.0f)) {
             lod = 0;
         } else {
             lod = 1;
@@ -10717,7 +10717,7 @@ void func_8084B530(Player* this, GlobalContext* globalCtx) {
         func_8084CC98(this, globalCtx);
     } else if (func_808332B8(this)) {
         func_8084D610(this, globalCtx);
-    } else if (!Player_IsTargetting(this) && LinkAnimation_Update(globalCtx, &this->skelAnime)) {
+    } else if (!Player_IsTargeting(this) && LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         if (this->skelAnime.moveFlags != 0) {
             func_80832DBC(this);
             if ((this->targetActor->category == ACTORCAT_NPC) &&
@@ -12682,7 +12682,7 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
                 u8 sp43 = this->skelAnime.moveFlags;
                 LinkAnimationHeader* sp3C;
 
-                if (Player_IsTargetting(this)) {
+                if (Player_IsTargeting(this)) {
                     sp3C = sp44->unk_08;
                 } else {
                     sp3C = sp44->unk_04;
@@ -14118,7 +14118,7 @@ void func_80853148(GlobalContext* globalCtx, Actor* actor) {
             } else if ((actor->category != ACTORCAT_NPC) || (this->heldItemActionParam == PLAYER_AP_FISHING_POLE)) {
                 func_8083A2F8(globalCtx, this);
 
-                if (!Player_IsTargetting(this)) {
+                if (!Player_IsTargeting(this)) {
                     if ((actor != this->naviActor) && (actor->xzDistToPlayer < 40.0f)) {
                         func_808322D0(globalCtx, this, &gPlayerAnim_002DF0);
                     } else {

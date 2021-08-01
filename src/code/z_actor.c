@@ -2142,7 +2142,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
     if ((actor != NULL) && (actor->update == NULL)) {
         actor = NULL;
-        Player_UnsetTargetting(player);
+        Player_UnsetTargeting(player);
     }
 
     if ((actor == NULL) || (player->unk_66C < 5)) {
@@ -2867,7 +2867,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
     }
 
     if ((player != NULL) && (actor == player->unk_664)) {
-        Player_UnsetTargetting(player);
+        Player_UnsetTargeting(player);
         Camera_ChangeMode(Gameplay_GetCamera(globalCtx, Gameplay_GetActiveCamId(globalCtx)), 0);
     }
 
