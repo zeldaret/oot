@@ -26,7 +26,7 @@
         <Texture Name="gLinkAdultPantsTex" OutName="pants" Format="ci8" Width="16" Height="32" Offset="0x6100" TlutOffset="0x5A00"/>
         <Texture Name="gLinkAdultBootTex" OutName="boot" Format="ci8" Width="16" Height="32" Offset="0x6300" TlutOffset="0x5800"/>
         <Texture Name="gLinkAdultBootBuckleTex" OutName="boot_buckle" Format="ci8" Width="32" Height="16" Offset="0x6500" TlutOffset="0x5800"/>
-        <Texture Name="gLinkAdultTunicSkirtTex" OutName="tunic_skirt" Format="rgb5a1" Width="32" Height="32" Offset="0x6700"/>
+        <Texture Name="gLinkAdultTunicSkirtTex" OutName="tunic_skirt" Format="rgba16" Width="32" Height="32" Offset="0x6700"/>
         <Texture Name="gLinkAdultBeltTex" OutName="belt" Format="ci8" Width="8" Height="16" Offset="0x6F00" TlutOffset="0x5800"/>
         <Texture Name="gLinkAdultBeltBuckleTex" OutName="belt_buckle" Format="ci8" Width="32" Height="16" Offset="0x6F80" TlutOffset="0x5800"/>
         <Texture Name="gLinkAdultEarringTex" OutName="earring" Format="ia16" Width="32" Height="32" Offset="0x7180"/>
@@ -40,15 +40,15 @@
         <Texture Name="gLinkAdultUnusedSwordGuardTex" OutName="unused_sword_guard" Format="ci8" TlutOffset="0x5E00" Width="32" Height="32" Offset="0x8E80"/>
         <Texture Name="gLinkAdultUnusedSwordGemTex" OutName="unused_sword_gem" Format="ci8" TlutOffset="0x5E00" Width="16" Height="16" Offset="0x9280"/>
         <Texture Name="gLinkAdultUndershirtTex" OutName="undershirt_tex" Format="ci8" Width="16" Height="32" Offset="0x9380" TlutOffset="0x5A00"/>
-        <Texture Name="gLinkAdultCollarTex" OutName="collar_tex" Format="rgb5a1" Width="16" Height="32" Offset="0x9580"/>
-        <Texture Name="gLinkAdultGauntletMetal1Tex" OutName="gauntlet_metal_1" Format="rgb5a1" Width="16" Height="32" Offset="0x9980"/>
-        <Texture Name="gLinkAdultGauntletMetal2Tex" OutName="gauntlet_metal_2" Format="rgb5a1" Width="32" Height="32" Offset="0x9D80"/>
-        <Texture Name="gLinkAdultHoverBootSideTex" OutName="hover_boot_side" Format="rgb5a1" Width="16" Height="8" Offset="0xA580"/>
-        <Texture Name="gLinkAdultHoverBootBottomTex" OutName="hover_boot_bottom" Format="rgb5a1" Width="32" Height="32" Offset="0xA680"/>
-        <Texture Name="gLinkAdultHoverBootWingTex" OutName="hover_boot_wing" Format="rgb5a1" Width="32" Height="16" Offset="0xAE80"/>
+        <Texture Name="gLinkAdultCollarTex" OutName="collar_tex" Format="rgba16" Width="16" Height="32" Offset="0x9580"/>
+        <Texture Name="gLinkAdultGauntletMetal1Tex" OutName="gauntlet_metal_1" Format="rgba16" Width="16" Height="32" Offset="0x9980"/>
+        <Texture Name="gLinkAdultGauntletMetal2Tex" OutName="gauntlet_metal_2" Format="rgba16" Width="32" Height="32" Offset="0x9D80"/>
+        <Texture Name="gLinkAdultHoverBootSideTex" OutName="hover_boot_side" Format="rgba16" Width="16" Height="8" Offset="0xA580"/>
+        <Texture Name="gLinkAdultHoverBootBottomTex" OutName="hover_boot_bottom" Format="rgba16" Width="32" Height="32" Offset="0xA680"/>
+        <Texture Name="gLinkAdultHoverBootWingTex" OutName="hover_boot_wing" Format="rgba16" Width="32" Height="16" Offset="0xAE80"/>
         <Texture Name="gLinkAdultMirrorShieldDecorTex" OutName="mirror_shield_decor" Format="ia16" Width="32" Height="64" Offset="0xB280"/>
         <Texture Name="gLinkAdultMirrorShieldGerudoInsigniaTex" OutName="mirror_shield_gerudo_insignia" Format="ia8" Width="64" Height="32" Offset="0xC280"/>
-        <Texture Name="gLinkAdultHookshotMetalTex" OutName="hookshot_metal" Format="rgb5a1" Width="8" Height="8" Offset="0xCA80"/>
+        <Texture Name="gLinkAdultHookshotMetalTex" OutName="hookshot_metal" Format="rgba16" Width="8" Height="8" Offset="0xCA80"/>
         <Texture Name="gLinkAdultBowTex" OutName="bow" Format="i8" Width="8" Height="8" Offset="0xCB00"/>
         <Texture Name="gLinkAdultSwordGripTex" OutName="sword_grip" Format="ci8" Width="16" Height="16" Offset="0xD0B8" TlutOffset="0xCB40"/>
         <Texture Name="gLinkAdultIronBootMetalTex" OutName="iron_boot_metal" Format="ci8" Width="16" Height="16" Offset="0xD1B8" TlutOffset="0xCB40"/>
@@ -67,19 +67,19 @@
         <Texture Name="gLinkAdultHookshotHandleTex" OutName="hookshot_handle" Format="ci8" Width="16" Height="8" Offset="0xEB38" TlutOffset="0xCD48"/>
         <Texture Name="gLinkAdultHookshotChainSpoolTex" OutName="hookshot_chain_spool" Format="ci8" Width="16" Height="32" Offset="0xEBB8" TlutOffset="0xCB40"/>
         <Texture Name="gLinkAdultArmTex" OutName="arm" Format="ci8" Width="16" Height="32" Offset="0xEDB8" TlutOffset="0xD078"/>
-        <Texture Name="gLinkAdultHookshotChainTex" OutName="hookshot_chain" Format="rgb5a1" Width="16" Height="32" Offset="0x2B338"/>
+        <Texture Name="gLinkAdultHookshotChainTex" OutName="hookshot_chain" Format="rgba16" Width="16" Height="32" Offset="0x2B338"/>
         <Texture Name="gLinkAdultHookshotPointerTex" OutName="hookshot_pointer" Format="i8" Width="64" Height="64" Offset="0x2BB18"/>
 
         <!--TLUTS-->
-        <Texture Name="gLinkAdultTLUT_5400" OutName="tlut_5400" Format="rgb5a1" Width="16" Height="16" Offset="0x5400"/>
-        <Texture Name="gLinkAdultTLUT_5800" OutName="tlut_5800" Format="rgb5a1" Width="16" Height="16" Offset="0x5800"/>
-        <Texture Name="gLinkAdultTLUT_5A00" OutName="tlut_5A00" Format="rgb5a1" Width="16" Height="16" Offset="0x5A00"/>
-        <Texture Name="gLinkAdultTLUT_5C00" OutName="tlut_5C00" Format="rgb5a1" Width="16" Height="16" Offset="0x5C00"/>
-        <Texture Name="gLinkAdultTLUT_5E00" OutName="tlut_5E00" Format="rgb5a1" Width="16" Height="16" Offset="0x5E00"/>
-        <Texture Name="gLinkAdultTLUT_CB40" OutName="tlut_CB40" Format="rgb5a1" Width="16" Height="16" Offset="0xCB40"/>
-        <Texture Name="gLinkAdultTLUT_CD48" OutName="tlut_CD48" Format="rgb5a1" Width="16" Height="16" Offset="0xCD48"/>
-        <Texture Name="gLinkAdultTLUT_CF50" OutName="tlut_CF50" Format="rgb5a1" Width="148" Height="1" Offset="0xCF50"/>
-        <Texture Name="gLinkAdultTLUT_D078" OutName="tlut_D078" Format="rgb5a1" Width="16" Height="2" Offset="0xD078"/>
+        <Texture Name="gLinkAdultTLUT_5400" OutName="tlut_5400" Format="rgba16" Width="16" Height="16" Offset="0x5400"/>
+        <Texture Name="gLinkAdultTLUT_5800" OutName="tlut_5800" Format="rgba16" Width="16" Height="16" Offset="0x5800"/>
+        <Texture Name="gLinkAdultTLUT_5A00" OutName="tlut_5A00" Format="rgba16" Width="16" Height="16" Offset="0x5A00"/>
+        <Texture Name="gLinkAdultTLUT_5C00" OutName="tlut_5C00" Format="rgba16" Width="16" Height="16" Offset="0x5C00"/>
+        <Texture Name="gLinkAdultTLUT_5E00" OutName="tlut_5E00" Format="rgba16" Width="16" Height="16" Offset="0x5E00"/>
+        <Texture Name="gLinkAdultTLUT_CB40" OutName="tlut_CB40" Format="rgba16" Width="16" Height="16" Offset="0xCB40"/>
+        <Texture Name="gLinkAdultTLUT_CD48" OutName="tlut_CD48" Format="rgba16" Width="16" Height="16" Offset="0xCD48"/>
+        <Texture Name="gLinkAdultTLUT_CF50" OutName="tlut_CF50" Format="rgba16" Width="148" Height="1" Offset="0xCF50"/>
+        <Texture Name="gLinkAdultTLUT_D078" OutName="tlut_D078" Format="rgba16" Width="16" Height="2" Offset="0xD078"/>
 
         <!--Near DLists-->
         <DList Name="gLinkAdultHylianShieldSheathAndSwordNearDL" Offset="0x20A78"/>

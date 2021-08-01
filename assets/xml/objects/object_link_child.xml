@@ -130,60 +130,60 @@
         <Texture Name="gLinkChildWaistTex" OutName="waist" Format="i8" Width="32" Height="32" Offset="0x6400"/>
         <Texture Name="gLinkChildBeltTex" OutName="belt" Format="ci8" Width="8" Height="16" Offset="0x6800" TlutOffset="0x5300"/>
         <Texture Name="gLinkChildBeltBuckleTex" OutName="belt_buckle" Format="ci8" Width="32" Height="16" Offset="0x6880" TlutOffset="0x5300"/>
-        <Texture Name="gLinkChildFairyOcarinaTex" OutName="fairy_ocarina" Format="rgb5a1" Width="32" Height="16" Offset="0x6E08"/>
-        <Texture Name="gLinkChildDekuShieldBackTex" OutName="deku_shield_back" Format="rgb5a1" Height="32" Width="32" Offset="0x7688"/>
-        <Texture Name="gLinkChildDekuShieldFrontTex" OutName="deku_shield_front" Format="rgb5a1" Height="64" Width="32" Offset="0x7E88"/>
-        <Texture Name="gLinkChildHylianShieldBackTex" OutName="hylian_shield_back" Format="rgb5a1" Height="32" Width="16" Offset="0x8E88"/>
-        <Texture Name="gLinkChildSlingshotTex" OutName="slingshot" Format="rgb5a1" Width="16" Height="32" Offset="0x9288"/>
-        <Texture Name="gLinkChildSlingshotSeedTex" OutName="slingshot_seed" Format="rgb5a1" Width="32" Height="32" Offset="0x9688"/>
+        <Texture Name="gLinkChildFairyOcarinaTex" OutName="fairy_ocarina" Format="rgba16" Width="32" Height="16" Offset="0x6E08"/>
+        <Texture Name="gLinkChildDekuShieldBackTex" OutName="deku_shield_back" Format="rgba16" Height="32" Width="32" Offset="0x7688"/>
+        <Texture Name="gLinkChildDekuShieldFrontTex" OutName="deku_shield_front" Format="rgba16" Height="64" Width="32" Offset="0x7E88"/>
+        <Texture Name="gLinkChildHylianShieldBackTex" OutName="hylian_shield_back" Format="rgba16" Height="32" Width="16" Offset="0x8E88"/>
+        <Texture Name="gLinkChildSlingshotTex" OutName="slingshot" Format="rgba16" Width="16" Height="32" Offset="0x9288"/>
+        <Texture Name="gLinkChildSlingshotSeedTex" OutName="slingshot_seed" Format="rgba16" Width="32" Height="32" Offset="0x9688"/>
         <Texture Name="gLinkChildHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0xA1F0" TlutOffset="0x9E88"/>
         <Texture Name="gLinkChildKokiriSwordSheathTex" OutName="kokiri_sword_sheath" Format="ci8" Height="16" Width="16" Offset="0xA2F0" TlutOffset="0x9F10"/>
         <Texture Name="gLinkChildSwordJewelTex" OutName="sword_jewel" Format="ci8" Width="32" Height="16" Offset="0xA3F0" TlutOffset="0xA118"/>
         <Texture Name="gLinkChildMasterSwordPommelTex" OutName="master_sword_pommel" Format="ci8" Height="16" Width="16" Offset="0xA5F0" TlutOffset="0x9F10"/>
         <Texture Name="gLinkChildMasterSwordGuardTex" OutName="master_sword_guard" Format="ci8" Height="32" Width="32" Offset="0xA6F0" TlutOffset="0x9F10"/>
         <Texture Name="gLinkChildMasterSwordEmblemTex" OutName="master_sword_emblem" Format="ci8" Height="16" Width="16" Offset="0xAAF0" TlutOffset="0x9F10"/>
-        <Texture Name="gLinkChildGoronBracletTex" OutName="goron_braclet" Format="rgb5a1" Width="8" Height="8" Offset="0x7208"/>
+        <Texture Name="gLinkChildGoronBracletTex" OutName="goron_braclet" Format="rgba16" Width="8" Height="8" Offset="0x7208"/>
         <Texture Name="gLinkChildGoronSymbolTex" OutName="goron_symbol" Format="ia16" Width="16" Height="32" Offset="0x7288"/>
 
-        <Texture Name="gLinkChildSkullMaskTeethTex" OutName="skull_mask_teeth" Format="rgb5a1" Width="8" Height="8" Offset="0x26BA0"/>
-        <Texture Name="gLinkChildSkullMaskNoseTex" OutName="skull_mask_nose" Format="rgb5a1" Width="8" Height="8" Offset="0x27520"/>
-        <Texture Name="gLinkChildSkullMaskEyeTex" OutName="skull_mask_eye" Format="rgb5a1" Width="16" Height="16" Offset="0x23B20"/>
+        <Texture Name="gLinkChildSkullMaskTeethTex" OutName="skull_mask_teeth" Format="rgba16" Width="8" Height="8" Offset="0x26BA0"/>
+        <Texture Name="gLinkChildSkullMaskNoseTex" OutName="skull_mask_nose" Format="rgba16" Width="8" Height="8" Offset="0x27520"/>
+        <Texture Name="gLinkChildSkullMaskEyeTex" OutName="skull_mask_eye" Format="rgba16" Width="16" Height="16" Offset="0x23B20"/>
         
         <Texture Name="gLinkChildSpookyMaskTex" OutName="spooky_mask" Format="ia16" Width="32" Height="64" Offset="0x226A0"/>
-        <Texture Name="gLinkChildKeatonMaskEyeBrowTex" OutName="keaton_mask_eye_brow" Format="rgb5a1" Width="32" Height="16" Offset="0x236A0"/>
-        <Texture Name="gLinkChildKeatonMaskEarTex" OutName="keaton_mask_ear" Format="rgb5a1" Width="8" Height="8" Offset="0x23AA0"/>
-        <Texture Name="gLinkChildMaskOfTruthCurveTex" OutName="mask_of_truth_curves" Format="rgb5a1" Width="16" Height="32" Offset="0x24D20"/>
-        <Texture Name="gLinkChildMaskOfTruthTex" OutName="mask_of_truth" Format="rgb5a1" Width="32" Height="64" Offset="0x23D20"/>
+        <Texture Name="gLinkChildKeatonMaskEyeBrowTex" OutName="keaton_mask_eye_brow" Format="rgba16" Width="32" Height="16" Offset="0x236A0"/>
+        <Texture Name="gLinkChildKeatonMaskEarTex" OutName="keaton_mask_ear" Format="rgba16" Width="8" Height="8" Offset="0x23AA0"/>
+        <Texture Name="gLinkChildMaskOfTruthCurveTex" OutName="mask_of_truth_curves" Format="rgba16" Width="16" Height="32" Offset="0x24D20"/>
+        <Texture Name="gLinkChildMaskOfTruthTex" OutName="mask_of_truth" Format="rgba16" Width="32" Height="64" Offset="0x23D20"/>
         
-        <Texture Name="gLinkChildGoronMaskMouthTex" OutName="goron_mask_mouth" Format="rgb5a1" Width="64" Height="32" Offset="0x25120"/>
-        <Texture Name="gLinkChildGoronMaskEyeTex" OutName="goron_mask_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x26120"/>
-        <Texture Name="gLinkChildGoronMaskNoseTex" OutName="goron_mask_nose" Format="rgb5a1" Width="8" Height="8" Offset="0x26920"/>
-        <Texture Name="gLinkChildGoronMaskHairTex" OutName="goron_mask_hair" Format="rgb5a1" Width="16" Height="16" Offset="0x269A0"/>
-        <Texture Name="gLinkChildGoronMaskEarTex" OutName="goron_mask_ear" Format="rgb5a1" Width="8" Height="8" Offset="0x26C20"/><!--TODO verify this-->
+        <Texture Name="gLinkChildGoronMaskMouthTex" OutName="goron_mask_mouth" Format="rgba16" Width="64" Height="32" Offset="0x25120"/>
+        <Texture Name="gLinkChildGoronMaskEyeTex" OutName="goron_mask_eye" Format="rgba16" Width="32" Height="32" Offset="0x26120"/>
+        <Texture Name="gLinkChildGoronMaskNoseTex" OutName="goron_mask_nose" Format="rgba16" Width="8" Height="8" Offset="0x26920"/>
+        <Texture Name="gLinkChildGoronMaskHairTex" OutName="goron_mask_hair" Format="rgba16" Width="16" Height="16" Offset="0x269A0"/>
+        <Texture Name="gLinkChildGoronMaskEarTex" OutName="goron_mask_ear" Format="rgba16" Width="8" Height="8" Offset="0x26C20"/><!--TODO verify this-->
 
-        <Texture Name="gLinkChildZoraMaskEyeBoarderTex" OutName="zora_mask_eye_boarder" Format="rgb5a1" Width="8" Height="8" Offset="0x26CA0"/>
-        <Texture Name="gLinkChildZoraMaskEarTex" OutName="zora_mask_ear" Format="rgb5a1" Width="32" Height="32" Offset="0x26D20"/>
-        <Texture Name="gLinkChildZoraMaskEyeTex" OutName="zora_mask_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x275A0"/>
-        <Texture Name="gLinkChildZoraMaskMouthTex" OutName="zora_mask_mouth" Format="rgb5a1" Width="32" Height="32" Offset="0x27DA0"/>
+        <Texture Name="gLinkChildZoraMaskEyeBoarderTex" OutName="zora_mask_eye_boarder" Format="rgba16" Width="8" Height="8" Offset="0x26CA0"/>
+        <Texture Name="gLinkChildZoraMaskEarTex" OutName="zora_mask_ear" Format="rgba16" Width="32" Height="32" Offset="0x26D20"/>
+        <Texture Name="gLinkChildZoraMaskEyeTex" OutName="zora_mask_eye" Format="rgba16" Width="32" Height="32" Offset="0x275A0"/>
+        <Texture Name="gLinkChildZoraMaskMouthTex" OutName="zora_mask_mouth" Format="rgba16" Width="32" Height="32" Offset="0x27DA0"/>
 
-        <Texture Name="gLinkChildGerudoMaskEyeTex" OutName="gerudo_mask_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x285A0"/>
-        <Texture Name="gLinkChildGerudoMaskMouthTex" OutName="gerudo_mask_mouth" Format="rgb5a1" Width="16" Height="16" Offset="0x28DA0"/>
-        <Texture Name="gLinkChildGerudoMaskHairTex" OutName="gerudo_mask_hair" Format="rgb5a1" Width="16" Height="16" Offset="0x28FA0"/>
-        <Texture Name="gLinkChildGerudoMaskNoseTex" OutName="gerudo_mask_nose" Format="rgb5a1" Width="8" Height="8" Offset="0x291A0"/>
+        <Texture Name="gLinkChildGerudoMaskEyeTex" OutName="gerudo_mask_eye" Format="rgba16" Width="32" Height="32" Offset="0x285A0"/>
+        <Texture Name="gLinkChildGerudoMaskMouthTex" OutName="gerudo_mask_mouth" Format="rgba16" Width="16" Height="16" Offset="0x28DA0"/>
+        <Texture Name="gLinkChildGerudoMaskHairTex" OutName="gerudo_mask_hair" Format="rgba16" Width="16" Height="16" Offset="0x28FA0"/>
+        <Texture Name="gLinkChildGerudoMaskNoseTex" OutName="gerudo_mask_nose" Format="rgba16" Width="8" Height="8" Offset="0x291A0"/>
 
-        <Texture Name="gLinkChildBunnyHoodEyeTex" OutName="bunny_hood_eye" Format="rgb5a1" Width="16" Height="16" Offset="0x2BA28"/>
-        <Texture Name="gLinkChildBunnyHoodTex" OutName="bunny_hood" Format="rgb5a1" Width="16" Height="32" Offset="0x2BC28"/>
-        <Texture Name="gLinkChildBunnyHoodEarTex" OutName="bunny_hood_ear" Format="rgb5a1" Width="16" Height="32" Offset="0x2C028"/>
+        <Texture Name="gLinkChildBunnyHoodEyeTex" OutName="bunny_hood_eye" Format="rgba16" Width="16" Height="16" Offset="0x2BA28"/>
+        <Texture Name="gLinkChildBunnyHoodTex" OutName="bunny_hood" Format="rgba16" Width="16" Height="32" Offset="0x2BC28"/>
+        <Texture Name="gLinkChildBunnyHoodEarTex" OutName="bunny_hood_ear" Format="rgba16" Width="16" Height="32" Offset="0x2C028"/>
 
         <Texture Name="gLinkChildUnusedSwordSheathTex" OutName="unused_sword_sheath" Format="ci8" TlutOffset="0x5700" Width="16" Height="16" Offset="0x5900"/>
         
         <!--TLUTs-->
-        <Texture Name="gLinkChildSkinTLUT" OutName="skin_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x5500"/>
-        <Texture Name="gLinkChildUnusedSwordSheathTLUT" OutName="unused_sword_sheath_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x5700"/>
-        <Texture Name="gLinkChildHandTLUT" OutName="hand_tlut" Format="rgb5a1" Width="17" Height="4" Offset="0x9E88"/>
-        <Texture Name="gLinkChildSwordsTLUT" OutName="swords_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x9F10"/> <!--For both the kokiri sword sheath and master sword-->
-        <Texture Name="gLinkChildSwordTLUT" OutName="sword_tlut" Format="rgb5a1" Width="27" Height="4" Offset="0xA118"/>
-        <Texture Name="gLinkChildBeltTLUT" OutName="belt_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x5300"/>
+        <Texture Name="gLinkChildSkinTLUT" OutName="skin_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5500"/>
+        <Texture Name="gLinkChildUnusedSwordSheathTLUT" OutName="unused_sword_sheath_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5700"/>
+        <Texture Name="gLinkChildHandTLUT" OutName="hand_tlut" Format="rgba16" Width="17" Height="4" Offset="0x9E88"/>
+        <Texture Name="gLinkChildSwordsTLUT" OutName="swords_tlut" Format="rgba16" Width="16" Height="16" Offset="0x9F10"/> <!--For both the kokiri sword sheath and master sword-->
+        <Texture Name="gLinkChildSwordTLUT" OutName="sword_tlut" Format="rgba16" Width="27" Height="4" Offset="0xA118"/>
+        <Texture Name="gLinkChildBeltTLUT" OutName="belt_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5300"/>
         
         <!--Eyes-->
         <Texture Name="gLinkChildEyesOpenTex" OutName="eyes_open" Format="ci8" TlutOffset="0x5500" Width="64" Height="32" Offset="0x0000"/>
