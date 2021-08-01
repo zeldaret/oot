@@ -716,7 +716,8 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
         this->actor.world.pos.y += 20.0f;
     }
 }
-/* The BSS in the function acted weird in the past. It is matching now but mighy cause issues in the future*/
+
+// The BSS in the function acted weird in the past. It is matching now but might cause issues in the future
 void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     static u32 D_80157D90;
     static s16 D_80157D94[1];
