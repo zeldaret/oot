@@ -120,28 +120,28 @@
         <DList Name="gLinkChildBunnyHoodDL" Offset="0x2CA38"/>
         
         <!--Textures-->
-        <Texture Name="gLinkChildNoseTex" OutName="nose" Format="ci8" Width="16" Height="16" Offset="0x5000"/>
-        <Texture Name="gLinkChildUnusedHandTex" OutName="hand_unused" Format="ci8" Width="16" Height="16" Offset="0x5100"/>
-        <Texture Name="gLinkChildEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x5200"/>
+        <Texture Name="gLinkChildNoseTex" OutName="nose" Format="ci8" Width="16" Height="16" Offset="0x5000" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildUnusedHandTex" OutName="hand_unused" Format="ci8" Width="16" Height="16" Offset="0x5100" TlutOffset="0x5500"/>
+        <Texture Name="gLinkChildEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x5200" TlutOffset="0x5500"/>
         <Texture Name="gLinkChildUnusedSwordJewelTex" OutName="unused_sword_jewel" Format="ci8" TlutOffset="0x5300" Width="32" Height="16" Offset="0x5A00"/>
-        <Texture Name="gLinkChildLowerBootTex" OutName="lower_boot" Format="ci8" Height="32" Width="32" Offset="0x5C00"/>
+        <Texture Name="gLinkChildLowerBootTex" OutName="lower_boot" Format="ci8" Height="32" Width="32" Offset="0x5C00" TlutOffset="0x5300"/>
         
-        <Texture Name="gLinkChildBootTex" OutName="boot" Format="ci8" Width="32" Height="32" Offset="0x6000"/>
+        <Texture Name="gLinkChildBootTex" OutName="boot" Format="ci8" Width="32" Height="32" Offset="0x6000" TlutOffset="0x5300"/>
         <Texture Name="gLinkChildWaistTex" OutName="waist" Format="i8" Width="32" Height="32" Offset="0x6400"/>
-        <Texture Name="gLinkChildBeltTex" OutName="belt" Format="ci8" Width="8" Height="16" Offset="0x6800"/>
-        <Texture Name="gLinkChildBeltBuckleTex" OutName="belt_buckle" Format="ci8" Width="32" Height="16" Offset="0x6880"/>
+        <Texture Name="gLinkChildBeltTex" OutName="belt" Format="ci8" Width="8" Height="16" Offset="0x6800" TlutOffset="0x5300"/>
+        <Texture Name="gLinkChildBeltBuckleTex" OutName="belt_buckle" Format="ci8" Width="32" Height="16" Offset="0x6880" TlutOffset="0x5300"/>
         <Texture Name="gLinkChildFairyOcarinaTex" OutName="fairy_ocarina" Format="rgb5a1" Width="32" Height="16" Offset="0x6E08"/>
         <Texture Name="gLinkChildDekuShieldBackTex" OutName="deku_shield_back" Format="rgb5a1" Height="32" Width="32" Offset="0x7688"/>
         <Texture Name="gLinkChildDekuShieldFrontTex" OutName="deku_shield_front" Format="rgb5a1" Height="64" Width="32" Offset="0x7E88"/>
         <Texture Name="gLinkChildHylianShieldBackTex" OutName="hylian_shield_back" Format="rgb5a1" Height="32" Width="16" Offset="0x8E88"/>
         <Texture Name="gLinkChildSlingshotTex" OutName="slingshot" Format="rgb5a1" Width="16" Height="32" Offset="0x9288"/>
         <Texture Name="gLinkChildSlingshotSeedTex" OutName="slingshot_seed" Format="rgb5a1" Width="32" Height="32" Offset="0x9688"/>
-        <Texture Name="gLinkChildHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0xA1F0"/>
-        <Texture Name="gLinkChildKokiriSwordSheathTex" OutName="kokiri_sword_sheath" Format="ci8" Height="16" Width="16" Offset="0xA2F0"/>
-        <Texture Name="gLinkChildSwordJewelTex" OutName="sword_jewel" Format="ci8" Width="32" Height="16" Offset="0xA3F0"/>
-        <Texture Name="gLinkChildMasterSwordPommelTex" OutName="master_sword_pommel" Format="ci8" Height="16" Width="16" Offset="0xA5F0"/>
-        <Texture Name="gLinkChildMasterSwordGuardTex" OutName="master_sword_guard" Format="ci8" Height="32" Width="32" Offset="0xA6F0"/>
-        <Texture Name="gLinkChildMasterSwordEmblemTex" OutName="master_sword_emblem" Format="ci8" Height="16" Width="16" Offset="0xAAF0"/>
+        <Texture Name="gLinkChildHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0xA1F0" TlutOffset="0x9E88"/>
+        <Texture Name="gLinkChildKokiriSwordSheathTex" OutName="kokiri_sword_sheath" Format="ci8" Height="16" Width="16" Offset="0xA2F0" TlutOffset="0x9F10"/>
+        <Texture Name="gLinkChildSwordJewelTex" OutName="sword_jewel" Format="ci8" Width="32" Height="16" Offset="0xA3F0" TlutOffset="0xA118"/>
+        <Texture Name="gLinkChildMasterSwordPommelTex" OutName="master_sword_pommel" Format="ci8" Height="16" Width="16" Offset="0xA5F0" TlutOffset="0x9F10"/>
+        <Texture Name="gLinkChildMasterSwordGuardTex" OutName="master_sword_guard" Format="ci8" Height="32" Width="32" Offset="0xA6F0" TlutOffset="0x9F10"/>
+        <Texture Name="gLinkChildMasterSwordEmblemTex" OutName="master_sword_emblem" Format="ci8" Height="16" Width="16" Offset="0xAAF0" TlutOffset="0x9F10"/>
         <Texture Name="gLinkChildGoronBracletTex" OutName="goron_braclet" Format="rgb5a1" Width="8" Height="8" Offset="0x7208"/>
         <Texture Name="gLinkChildGoronSymbolTex" OutName="goron_symbol" Format="ia16" Width="16" Height="32" Offset="0x7288"/>
 
