@@ -1042,7 +1042,7 @@ s32 Player_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
 u8 Player_SetQuadWeaponCollision(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* weaponInfo,
                                  Vec3f* newTip, Vec3f* newBase) {
-    if (weaponInfo->active == false) {
+    if (!weaponInfo->active) {
         if (collider != NULL) {
             Collider_ResetQuadAT(globalCtx, &collider->base);
         }
@@ -1064,7 +1064,7 @@ u8 Player_SetQuadWeaponCollision(GlobalContext* globalCtx, ColliderQuad* collide
         }
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
         Math_Vec3f_Copy(&weaponInfo->tip, newTip);
-        weaponInfo->active = 1;
+        weaponInfo->active = true;
         return true;
     }
 }

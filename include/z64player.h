@@ -214,7 +214,7 @@ typedef struct Player {
     /* 0x0150 */ s8 heldItemButton;      // Button index for the item currently used
     /* 0x0151 */ s8 heldItemActionParam; // Action param for the item currently used
     /* 0x0152 */ u8 heldItemId;          // Item id for the item currently used
-    /* 0x0153 */ s8 prevBoots;           // previous type type from `PlayerBoots`
+    /* 0x0153 */ s8 prevBoots;           // previous boots type from `PlayerBoots`
     /* 0x0154 */ s8 itemActionParam;     // the difference between this and heldItemActionParam is unclear
     /* 0x0155 */ char unk_155[0x003];
     /* 0x0158 */ u8 modelGroup;
@@ -380,6 +380,6 @@ typedef struct Player {
     /* 0x0A86 */ s8 unk_A86;
     /* 0x0A87 */ u8 unk_A87;
     /* 0x0A88 */ Vec3f unk_A88; // previous body part 0 position
-} Player;                       // size = 0xA94
+} Player; // size = 0xA94
 
 #endif
