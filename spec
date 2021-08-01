@@ -370,8 +370,6 @@ beginseg
     include "build/src/code/z_fbdemo_fade.o"
     include "build/src/code/shrink_window.o"
     include "build/src/code/db_camera.o"
-    include "build/data/db_camera.data.o"
-    include "build/data/db_camera.bss.o"
     include "build/src/code/code_800BB0A0.o"
     include "build/src/code/mempak.o"
     include "build/src/code/z_kaleido_manager.o"
@@ -406,13 +404,11 @@ beginseg
     include "build/src/code/fault_drawer.o"
     include "build/asm/code_800D71F0.o"
     include "build/src/code/ucode_disas.o"
-    include "build/src/code/code_800DACC0.o"
-    include "build/data/code_800DACC0.data.o"
-    include "build/data/code_800DACC0.bss.o"
+    include "build/src/code/audio_synthesis.o"
+    include "build/data/audio_synthesis.data.o"
     include "build/src/code/audio_heap.o"
-    include "build/src/code/code_800E11F0.o"
-    include "build/data/code_800E11F0.data.o"
-    include "build/data/code_800E11F0.rodata.o"
+    include "build/src/code/audio_load.o"
+    include "build/src/code/code_800E4FE0.o"
     include "build/src/libultra_code_O2/code_800E6840.o"
     include "build/src/libultra_code_O2/osAiSetNextBuffer.o"
     include "build/src/code/audio_playback.o"
@@ -422,9 +418,10 @@ beginseg
     include "build/src/code/code_800EC960.o"
     include "build/data/code_800EC960.data.o"
     include "build/src/code/code_800F7260.o"
+    include "build/data/code_800F7260.bss.o"
     include "build/src/code/code_800F9280.o"
     include "build/data/code_800F9280.data.o"
-    include "build/data/code_800F9280.rodata.o"
+    include "build/src/code/audio_rodata.o"
     include "build/src/code/logseverity.o"
     include "build/src/code/gfxprint.o"
     include "build/src/code/code_800FBCE0.o"
@@ -1895,8 +1892,7 @@ endseg
 beginseg
     name "ovl_En_Bigokuta"
     include "build/src/overlays/actors/ovl_En_Bigokuta/z_en_bigokuta.o"
-    include "build/data/overlays/actors/z_en_bigokuta.data.o"
-    include "build/data/overlays/actors/z_en_bigokuta.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bigokuta/ovl_En_Bigokuta_reloc.o"
 endseg
 
 beginseg
@@ -2526,8 +2522,7 @@ endseg
 beginseg
     name "ovl_En_Ko"
     include "build/src/overlays/actors/ovl_En_Ko/z_en_ko.o"
-    include "build/data/overlays/actors/z_en_ko.data.o"
-    include "build/data/overlays/actors/z_en_ko.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ko/ovl_En_Ko_reloc.o"
 endseg
 
 beginseg
@@ -2934,8 +2929,7 @@ endseg
 beginseg
     name "ovl_En_Tg"
     include "build/src/overlays/actors/ovl_En_Tg/z_en_tg.o"
-    include "build/data/overlays/actors/z_en_tg.data.o"
-    include "build/data/overlays/actors/z_en_tg.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tg/ovl_En_Tg_reloc.o"
 endseg
 
 beginseg
@@ -3321,8 +3315,7 @@ endseg
 beginseg
     name "ovl_Obj_Mure"
     include "build/src/overlays/actors/ovl_Obj_Mure/z_obj_mure.o"
-    include "build/data/overlays/actors/z_obj_mure.data.o"
-    include "build/data/overlays/actors/z_obj_mure.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Mure/ovl_Obj_Mure_reloc.o"
 endseg
 
 beginseg
@@ -3478,7 +3471,8 @@ endseg
 beginseg
     name "object_human"
     romalign 0x1000
-    include "build/baserom/object_human.o"
+    include "build/assets/objects/object_human/object_human.o"
+    number 6
 endseg
 
 beginseg
@@ -5013,12 +5007,15 @@ beginseg
     name "object_km1"
     romalign 0x1000
     include "build/baserom/object_km1.o"
+    //include "build/assets/objects/object_km1/object_km1.o"
+    number 6
 endseg
 
 beginseg
     name "object_kw1"
     romalign 0x1000
-    include "build/assets/objects/object_kw1/object_kw1.o"
+    include "build/baserom/object_kw1.o"
+    //include "build/assets/objects/object_kw1/object_kw1.o"
     number 6
 endseg
 

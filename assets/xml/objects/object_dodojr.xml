@@ -10,10 +10,10 @@
         <DList Name="object_dodojr_DL_0013E8" Offset="0x13E8"/>
         <DList Name="object_dodojr_DL_001508" Offset="0x1508"/>
         <DList Name="object_dodojr_DL_001618" Offset="0x1618"/>
-        <Texture Name="object_dodojr_Tex_001700" OutName="tex_00001700" Format="rgb5a1" Width="16" Height="16" Offset="0x1700"/>
-        <Texture Name="object_dodojr_Tex_001900" OutName="tex_00001900" Format="rgb5a1" Width="8" Height="16" Offset="0x1900"/>
-        <Texture Name="object_dodojr_Tex_001A00" OutName="tex_00001A00" Format="rgb5a1" Width="32" Height="8" Offset="0x1A00"/>
-        <Texture Name="object_dodojr_Tex_001C00" OutName="tex_00001C00" Format="rgb5a1" Width="16" Height="32" Offset="0x1C00"/>
+        <Texture Name="object_dodojr_Tex_001700" OutName="tex_00001700" Format="rgba16" Width="16" Height="16" Offset="0x1700"/>
+        <Texture Name="object_dodojr_Tex_001900" OutName="tex_00001900" Format="rgba16" Width="8" Height="16" Offset="0x1900"/>
+        <Texture Name="object_dodojr_Tex_001A00" OutName="tex_00001A00" Format="rgba16" Width="32" Height="8" Offset="0x1A00"/>
+        <Texture Name="object_dodojr_Tex_001C00" OutName="tex_00001C00" Format="rgba16" Width="16" Height="32" Offset="0x1C00"/>
         <Limb Name="object_dodojr_Limb_002000" LimbType="Standard" Offset="0x2000"/>
         <Limb Name="object_dodojr_Limb_00200C" LimbType="Standard" Offset="0x200C"/>
         <Limb Name="object_dodojr_Limb_002018" LimbType="Standard" Offset="0x2018"/>

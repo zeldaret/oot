@@ -54,8 +54,8 @@
         <DList Name="object_oA8_DL_00001468" Offset="0x1468"/>
         <DList Name="object_oA8_DL_000014C0" Offset="0x14C0"/>
         <DList Name="object_oA8_DL_00001518" Offset="0x1518"/>
-        <Texture Name="object_oA8_Tex_00001570" OutName="tex_00001570" Format="rgb5a1" Width="8" Height="16" Offset="0x1570"/>
-        <Texture Name="object_oA8_Tex_00001670" OutName="tex_00001670" Format="rgb5a1" Width="8" Height="16" Offset="0x1670"/>
+        <Texture Name="object_oA8_Tex_00001570" OutName="tex_00001570" Format="rgba16" Width="8" Height="16" Offset="0x1570"/>
+        <Texture Name="object_oA8_Tex_00001670" OutName="tex_00001670" Format="rgba16" Width="8" Height="16" Offset="0x1670"/>
         <Texture Name="object_oA8_Tex_00001770" OutName="tex_00001770" Format="i4" Width="16" Height="8" Offset="0x1770"/>
     </File>
 </Root>

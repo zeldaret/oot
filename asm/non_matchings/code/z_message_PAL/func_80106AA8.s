@@ -48,7 +48,7 @@ glabel func_80106AA8
 /* B7DCFC 80106B5C 00000000 */   nop   
 /* B7DD00 80106B60 0C03B616 */  jal   func_800ED858
 /* B7DD04 80106B64 AFA30024 */   sw    $v1, 0x24($sp)
-/* B7DD08 80106B68 0C03B8FE */  jal   func_800EE3F8
+/* B7DD08 80106B68 0C03B8FE */  jal   Audio_OcaGetDisplayStaff
 /* B7DD0C 80106B6C 00000000 */   nop   
 /* B7DD10 80106B70 8FA30024 */  lw    $v1, 0x24($sp)
 /* B7DD14 80106B74 3C068015 */  lui   $a2, %hi(D_8014B2F8) # $a2, 0x8015

@@ -94,7 +94,7 @@ glabel func_800F510C
 /* B6C3F8 800F5258 00024080 */   sll   $t0, $v0, 2
 /* B6C3FC 800F525C 00077600 */  sll   $t6, $a3, 0x18
 /* B6C400 800F5260 01D27825 */  or    $t7, $t6, $s2
-/* B6C404 800F5264 0C03E803 */  jal   Audio_SetBGM
+/* B6C404 800F5264 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B6C408 800F5268 01E52025 */   or    $a0, $t7, $a1
 /* B6C40C 800F526C 26100001 */  addiu $s0, $s0, 1
 /* B6C410 800F5270 321000FF */  andi  $s0, $s0, 0xff

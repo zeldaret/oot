@@ -13,9 +13,9 @@
         <Animation Name="gDntJijiWalkAnim" Offset="0x37C0"/>
 
         <!-- Forest Stage leader eye textures -->
-        <Texture Name="gDntJijiEyeOpenTex" Format="rgb5a1" Width="8" Height="8" Offset="0x30A0"/>
-        <Texture Name="gDntJijiEyeHalfTex" Format="rgb5a1" Width="8" Height="8" Offset="0x2EA0"/>
-        <Texture Name="gDntJijiEyeShutTex" Format="rgb5a1" Width="8" Height="8" Offset="0x3020"/>
+        <Texture Name="gDntJijiEyeOpenTex" Format="rgba16" Width="8" Height="8" Offset="0x30A0"/>
+        <Texture Name="gDntJijiEyeHalfTex" Format="rgba16" Width="8" Height="8" Offset="0x2EA0"/>
+        <Texture Name="gDntJijiEyeShutTex" Format="rgba16" Width="8" Height="8" Offset="0x3020"/>
         
         <!-- Forest Stage leader flower -->
         <DList Name="gDntJijiFlowerDL" Offset="0x2310"/>

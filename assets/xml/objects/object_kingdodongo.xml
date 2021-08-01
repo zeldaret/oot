@@ -37,17 +37,17 @@
         <DList Name="object_kingdodongo_DL_014100" Offset="0x14100"/>
         <DList Name="object_kingdodongo_DL_014A30" Offset="0x14A30"/>
         <DList Name="object_kingdodongo_DL_015630" Offset="0x15630"/>
-        <Texture Name="object_kingdodongo_Tex_015890" OutName="tex_00015890" Format="rgb5a1" Width="8" Height="16" Offset="0x15890"/>
-        <Texture Name="object_kingdodongo_Tex_015990" OutName="tex_00015990" Format="rgb5a1" Width="16" Height="32" Offset="0x15990"/>
-        <Texture Name="object_kingdodongo_Tex_015D90" OutName="tex_00015D90" Format="rgb5a1" Width="16" Height="16" Offset="0x15D90"/>
-        <Texture Name="object_kingdodongo_Tex_015F90" OutName="tex_00015F90" Format="rgb5a1" Width="16" Height="32" Offset="0x15F90"/>
-        <Texture Name="object_kingdodongo_Tex_016390" OutName="tex_00016390" Format="rgb5a1" Width="16" Height="16" Offset="0x16390"/>
-        <Texture Name="object_kingdodongo_Tex_016590" OutName="tex_00016590" Format="rgb5a1" Width="16" Height="16" Offset="0x16590"/>
-        <Texture Name="object_kingdodongo_Tex_016790" OutName="tex_00016790" Format="rgb5a1" Width="16" Height="16" Offset="0x16790"/>
-        <Texture Name="object_kingdodongo_Tex_016990" OutName="tex_00016990" Format="rgb5a1" Width="32" Height="16" Offset="0x16990"/>
-        <Texture Name="object_kingdodongo_Tex_016D90" OutName="tex_00016D90" Format="rgb5a1" Width="8" Height="8" Offset="0x16D90"/>
-        <Texture Name="object_kingdodongo_Tex_016E10" OutName="tex_00016E10" Format="rgb5a1" Width="32" Height="16" Offset="0x16E10"/>
-        <Texture Name="object_kingdodongo_Tex_017210" OutName="tex_00017210" Format="rgb5a1" Width="8" Height="32" Offset="0x17210"/>
+        <Texture Name="object_kingdodongo_Tex_015890" OutName="tex_00015890" Format="rgba16" Width="8" Height="16" Offset="0x15890"/>
+        <Texture Name="object_kingdodongo_Tex_015990" OutName="tex_00015990" Format="rgba16" Width="16" Height="32" Offset="0x15990"/>
+        <Texture Name="object_kingdodongo_Tex_015D90" OutName="tex_00015D90" Format="rgba16" Width="16" Height="16" Offset="0x15D90"/>
+        <Texture Name="object_kingdodongo_Tex_015F90" OutName="tex_00015F90" Format="rgba16" Width="16" Height="32" Offset="0x15F90"/>
+        <Texture Name="object_kingdodongo_Tex_016390" OutName="tex_00016390" Format="rgba16" Width="16" Height="16" Offset="0x16390"/>
+        <Texture Name="object_kingdodongo_Tex_016590" OutName="tex_00016590" Format="rgba16" Width="16" Height="16" Offset="0x16590"/>
+        <Texture Name="object_kingdodongo_Tex_016790" OutName="tex_00016790" Format="rgba16" Width="16" Height="16" Offset="0x16790"/>
+        <Texture Name="object_kingdodongo_Tex_016990" OutName="tex_00016990" Format="rgba16" Width="32" Height="16" Offset="0x16990"/>
+        <Texture Name="object_kingdodongo_Tex_016D90" OutName="tex_00016D90" Format="rgba16" Width="8" Height="8" Offset="0x16D90"/>
+        <Texture Name="object_kingdodongo_Tex_016E10" OutName="tex_00016E10" Format="rgba16" Width="32" Height="16" Offset="0x16E10"/>
+        <Texture Name="object_kingdodongo_Tex_017210" OutName="tex_00017210" Format="rgba16" Width="8" Height="32" Offset="0x17210"/>
         <Blob Name="object_kingdodongo_Blob_017410" Size="0x3C00" Offset="0x17410"/>
         <Limb Name="object_kingdodongo_Limb_01B010" LimbType="Standard" Offset="0x1B010"/>
         <Limb Name="object_kingdodongo_Limb_01B01C" LimbType="Standard" Offset="0x1B01C"/>
@@ -106,7 +106,7 @@
         <DList Name="object_kingdodongo_DL_025A90" Offset="0x25A90"/>
         <Blob Name="object_kingdodongo_Blob_025B30" Size="0x60" Offset="0x25B30"/>
         <DList Name="object_kingdodongo_DL_025BD0" Offset="0x25BD0"/>
-        <Texture Name="object_kingdodongo_Tex_025C58" OutName="tex_00025C58" Format="rgb5a1" Width="32" Height="32" Offset="0x25C58"/>
+        <Texture Name="object_kingdodongo_Tex_025C58" OutName="tex_00025C58" Format="rgba16" Width="32" Height="32" Offset="0x25C58"/>
         <Blob Name="object_kingdodongo_Blob_026458" Size="0xA888" Offset="0x26458"/>
     </File>
 </Root>
