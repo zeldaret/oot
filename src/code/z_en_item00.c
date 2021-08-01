@@ -1167,7 +1167,6 @@ EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 pa
             }
         }
     }
-
     return spawnedActor;
 }
 
