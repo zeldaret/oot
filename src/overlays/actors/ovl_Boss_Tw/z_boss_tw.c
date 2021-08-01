@@ -2877,6 +2877,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
                 this->actor.world.pos.y = -2000.0f;
                 this->workf[UNK_F18] = 0.0f;
                 sKoumePtr->visible = sKotakePtr->visible = false;
+                if (&this->subCamEye) {} // fixes regalloc, may be fake
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }
             break;
@@ -5493,7 +5494,7 @@ void BossTw_TwinrovaSpin(BossTw* this, GlobalContext* globalCtx) {
     if (this->timers[0] != 0) {
         this->collider.base.colType = COLTYPE_METAL;
         this->actor.shape.rot.y -= 0x3000;
-        
+
         if ((this->timers[0] % 4) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_ROLL);
         }
