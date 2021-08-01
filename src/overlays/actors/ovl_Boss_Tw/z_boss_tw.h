@@ -64,8 +64,8 @@ typedef struct BossTw {
     /* 0x01D4 */ f32 fogR;
     /* 0x01D8 */ f32 fogG;
     /* 0x01DC */ f32 fogB;
-    /* 0x01E0 */ f32 fogMin;
-    /* 0x01E4 */ f32 fogMax;
+    /* 0x01E0 */ f32 fogNear;
+    /* 0x01E4 */ f32 fogFar;
     /* 0x01E8 */ Vec3f blastTailPos[50];
     /* 0x0440 */ s16 csState1;
     /* 0x0444 */ Vec3f crownPos;
