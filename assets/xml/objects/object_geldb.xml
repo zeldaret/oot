@@ -22,7 +22,7 @@
         <Texture Name="gGerudoRedEyeShutTex" OutName="gerudo_red_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x6D28"/>
 
         <!-- These hints are currently needed for ZAPD to extract the textures properly. -->
-        <Texture Name="sGerudoRedTexHint1" Format="rgb5a1" Width="18" Height="14" Offset="0x5D30"/>
+        <Texture Name="sGerudoRedTexHint1" Format="rgba16" Width="18" Height="14" Offset="0x5D30"/>
         <Texture Name="sGerudoRedTexHint2" Format="ci8" Width="8" Height="8" Offset="0x5F28"/>
     </File>
 </Root>

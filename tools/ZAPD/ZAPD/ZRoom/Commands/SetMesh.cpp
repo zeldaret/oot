@@ -116,7 +116,6 @@ RoomCommand SetMesh::GetRoomCommand() const
 PolygonDlist::PolygonDlist(const std::string& prefix, const std::vector<uint8_t>& nRawData,
                            uint32_t nRawDataIndex, ZFile* nParent, ZRoom* nRoom)
 {
-	rawData.assign(nRawData.begin(), nRawData.end());
 	rawDataIndex = nRawDataIndex;
 	parent = nParent;
 	zRoom = nRoom;
@@ -126,6 +125,7 @@ PolygonDlist::PolygonDlist(const std::string& prefix, const std::vector<uint8_t>
 
 void PolygonDlist::ParseRawData()
 {
+	const auto& rawData = parent->GetRawData();
 	switch (polyType)
 	{
 	case 2:
@@ -161,9 +161,9 @@ ZDisplayList* PolygonDlist::MakeDlist(segptr_t ptr, const std::string& prefix)
 	uint32_t dlistAddress = Seg2Filespace(ptr, parent->baseAddress);
 
 	int32_t dlistLength = ZDisplayList::GetDListLength(
-		rawData, dlistAddress,
+		parent->GetRawData(), dlistAddress,
 		Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX);
-	ZDisplayList* dlist = new ZDisplayList(rawData, dlistAddress, dlistLength, parent);
+	ZDisplayList* dlist = new ZDisplayList(dlistAddress, dlistLength, parent);
 	GenDListDeclarations(zRoom, parent, dlist);
 
 	return dlist;
@@ -271,7 +271,6 @@ std::string PolygonDlist::GetName()
 BgImage::BgImage(bool nIsSubStruct, const std::string& prefix, const std::vector<uint8_t>& nRawData,
                  uint32_t nRawDataIndex, ZFile* nParent)
 {
-	rawData.assign(nRawData.begin(), nRawData.end());
 	rawDataIndex = nRawDataIndex;
 	parent = nParent;
 	isSubStruct = nIsSubStruct;
@@ -285,6 +284,7 @@ BgImage::BgImage(bool nIsSubStruct, const std::string& prefix, const std::vector
 void BgImage::ParseRawData()
 {
 	size_t pad = 0x00;
+	const auto& rawData = parent->GetRawData();
 	if (!isSubStruct)
 	{
 		pad = 0x04;
@@ -312,7 +312,7 @@ ZBackground* BgImage::MakeBackground(segptr_t ptr, const std::string& prefix)
 
 	uint32_t backAddress = Seg2Filespace(ptr, parent->baseAddress);
 
-	ZBackground* background = new ZBackground(prefix, rawData, backAddress, parent);
+	ZBackground* background = new ZBackground(prefix, backAddress, parent);
 	background->DeclareVar(prefix, "");
 	parent->resources.push_back(background);
 
@@ -408,9 +408,9 @@ std::string BgImage::GetName()
 
 PolygonTypeBase::PolygonTypeBase(ZFile* nParent, const std::vector<uint8_t>& nRawData,
                                  uint32_t nRawDataIndex, ZRoom* nRoom)
-	: rawData{nRawData}, rawDataIndex{nRawDataIndex}, parent{nParent}, zRoom{nRoom}
+	: rawDataIndex{nRawDataIndex}, parent{nParent}, zRoom{nRoom}
 {
-	type = BitConverter::ToUInt8BE(rawData, rawDataIndex);
+	type = BitConverter::ToUInt8BE(parent->GetRawData(), rawDataIndex);
 }
 
 void PolygonTypeBase::DeclareVar(const std::string& prefix, const std::string& bodyStr)
@@ -477,6 +477,8 @@ PolygonType1::PolygonType1(ZFile* nParent, const std::vector<uint8_t>& nRawData,
 
 void PolygonType1::ParseRawData()
 {
+	const auto& rawData = parent->GetRawData();
+
 	format = BitConverter::ToUInt8BE(rawData, rawDataIndex + 0x01);
 	dlist = BitConverter::ToUInt32BE(rawData, rawDataIndex + 0x04);
 
@@ -506,7 +508,7 @@ void PolygonType1::DeclareReferences(const std::string& prefix)
 	switch (format)
 	{
 	case 1:
-		single = BgImage(true, prefix, rawData, rawDataIndex + 0x08, parent);
+		single = BgImage(true, prefix, parent->GetRawData(), rawDataIndex + 0x08, parent);
 		break;
 
 	case 2:
@@ -515,8 +517,8 @@ void PolygonType1::DeclareReferences(const std::string& prefix)
 			listAddress = Seg2Filespace(list, parent->baseAddress);
 			for (size_t i = 0; i < count; ++i)
 			{
-				BgImage bg(false, prefix, rawData, listAddress + i * BgImage::GetRawDataSize(),
-				           parent);
+				BgImage bg(false, prefix, parent->GetRawData(),
+				           listAddress + i * BgImage::GetRawDataSize(), parent);
 				multiList.push_back(bg);
 				bgImageArrayBody += bg.GetBodySourceCode(true);
 				if (i + 1 < count)
@@ -609,6 +611,8 @@ PolygonType2::PolygonType2(ZFile* nParent, const std::vector<uint8_t>& nRawData,
 
 void PolygonType2::ParseRawData()
 {
+	const auto& rawData = parent->GetRawData();
+
 	num = BitConverter::ToUInt8BE(rawData, rawDataIndex + 0x01);
 
 	start = BitConverter::ToUInt32BE(rawData, rawDataIndex + 0x04);

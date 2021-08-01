@@ -25,7 +25,7 @@
 
         <!-- 32-bit aligned textures. -->
         <!--
-        <Texture Name="object_bji_TLUT_0000FC" OutName="tlut_000000FC" Format="rgb5a1" Width="16" Height="16" Offset="0xFC" />
+        <Texture Name="object_bji_TLUT_0000FC" OutName="tlut_000000FC" Format="rgba16" Width="16" Height="16" Offset="0xFC" />
         <Texture Name="object_bji_Tex_0002FC" OutName="tex_000002FC" Format="ci8" Width="8" Height="8" Offset="0x2FC" />
         <Texture Name="object_bji_Tex_00033C" OutName="tex_0000033C" Format="ci8" Width="8" Height="8" Offset="0x33C" />
         <Texture Name="object_bji_Tex_00037C" OutName="tex_0000037C" Format="ci8" Width="16" Height="16" Offset="0x37C" />
@@ -54,9 +54,9 @@
         <DList Name="object_bji_DL_0037D8" Offset="0x37D8" />
         -->
 
-        <Texture Name="object_bji_Tex_003908" OutName="tex_00003908" Format="rgb5a1" Width="8" Height="8" Offset="0x3908" />
-        <Texture Name="object_bji_Tex_003988" OutName="tex_00003988" Format="rgb5a1" Width="8" Height="8" Offset="0x3988" />
-        <Texture Name="object_bji_Tex_003A08" OutName="tex_00003A08" Format="rgb5a1" Width="8" Height="8" Offset="0x3A08" />
+        <Texture Name="object_bji_Tex_003908" OutName="tex_00003908" Format="rgba16" Width="8" Height="8" Offset="0x3908" />
+        <Texture Name="object_bji_Tex_003988" OutName="tex_00003988" Format="rgba16" Width="8" Height="8" Offset="0x3988" />
+        <Texture Name="object_bji_Tex_003A08" OutName="tex_00003A08" Format="rgba16" Width="8" Height="8" Offset="0x3A08" />
         <DList Name="object_bji_DL_003F68" Offset="0x3F68" />
     </File>
 </Root>

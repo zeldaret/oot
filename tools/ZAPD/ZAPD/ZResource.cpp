@@ -21,10 +21,8 @@ ZResource::ZResource(ZFile* nParent)
 	RegisterOptionalAttribute("Custom");
 }
 
-void ZResource::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                               const uint32_t nRawDataIndex)
+void ZResource::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
 {
-	rawData = nRawData;
 	rawDataIndex = nRawDataIndex;
 
 	if (reader != nullptr)
@@ -34,9 +32,8 @@ void ZResource::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<u
 	CalcHash();
 }
 
-void ZResource::ExtractFromFile(const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex)
+void ZResource::ExtractFromFile(uint32_t nRawDataIndex)
 {
-	rawData = nRawData;
 	rawDataIndex = nRawDataIndex;
 
 	ParseRawData();
@@ -158,16 +155,6 @@ bool ZResource::DoesSupportArray() const
 std::string ZResource::GetExternalExtension() const
 {
 	return "";
-}
-
-const std::vector<uint8_t>& ZResource::GetRawData() const
-{
-	return rawData;
-}
-
-void ZResource::SetRawData(const std::vector<uint8_t>& nData)
-{
-	rawData = nData;
 }
 
 bool ZResource::WasDeclaredInXml() const

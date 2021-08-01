@@ -39,11 +39,11 @@
         <Animation Name="gGraveyardKidIdleAnim" Offset="0x195C"/>
 
 
-        <Texture Name="gGraveyardKidEyesOpenTex" OutName="eyes_open" Format="rgb5a1" Width="64" Height="16" Offset="0x2130"/>
-        <Texture Name="gGraveyardKidEyesHalfTex" OutName="eyes_half" Format="rgb5a1" Width="64" Height="16" Offset="0x2930"/>
-        <Texture Name="gGraveyardKidEyesClosedTex" OutName="eyes_closed" Format="rgb5a1" Width="64" Height="16" Offset="0x3130"/>
+        <Texture Name="gGraveyardKidEyesOpenTex" OutName="eyes_open" Format="rgba16" Width="64" Height="16" Offset="0x2130"/>
+        <Texture Name="gGraveyardKidEyesHalfTex" OutName="eyes_half" Format="rgba16" Width="64" Height="16" Offset="0x2930"/>
+        <Texture Name="gGraveyardKidEyesClosedTex" OutName="eyes_closed" Format="rgba16" Width="64" Height="16" Offset="0x3130"/>
 
-        <Texture Name="gGraveyardKidTLUT" OutName="tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x1970"/>
+        <Texture Name="gGraveyardKidTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x1970"/>
         <Texture Name="gGraveyardKidGradientTex" OutName="gradient" Format="ci8" Width="8" Height="8" Offset="0x1B70"/>
         <Texture Name='gGraveyardKidPantsTex' OutName="pants" Format="ci8" Width="16" Height="16" Offset="0x3C70"/>
         <Texture Name='gGraveyardKidBoot1Tex' OutName="boot1" Format="ci8" Width="8" Height="16" Offset="0x3BF0"/>
@@ -51,7 +51,7 @@
         <Texture Name='gGraveyardKidHairTex' OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x1BB0"/>
         <Texture Name='gGraveyardKidEarTex' OutName="ear" Format="ci8" Width="8" Height="8" Offset="0x1CB0"/>
         <Texture Name='gGraveyardKidNoseTex' OutName="nose" Format="ci8" Width="8" Height="8" Offset="0x1CF0"/>
-        <Texture Name='gGraveyardKidMouthTex' OutName="mouth" Format="rgb5a1" Width="32" Height="16" Offset="0x1D30"/>
+        <Texture Name='gGraveyardKidMouthTex' OutName="mouth" Format="rgba16" Width="32" Height="16" Offset="0x1D30"/>
         <Texture Name='gGraveyardKidShirt1Tex' OutName="shirt1" Format="ci8" Width="16" Height="16" Offset="0x3A30"/>
         <Texture Name='gGraveyardKidShirt2Tex' OutName="shirt2" Format="ci8" Width="8" Height="8" Offset="0x3B30"/>
         <Texture Name='gGraveyardKidFingersTex' OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0x3930"/>

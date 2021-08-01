@@ -191,7 +191,7 @@ void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AFCD60(EnSkb* this) {
     if (gSaveContext.nightFlag == 0) {
         func_80AFCF48(this);
-    } else if ((func_8002E084(&this->actor, 0x11C7) != 0) &&
+    } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
                (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
         func_80AFD33C(this);
     } else {
@@ -288,7 +288,7 @@ void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
     }
     if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) > 800.0f || gSaveContext.nightFlag == 0) {
         func_80AFCF48(this);
-    } else if ((func_8002E084(&this->actor, 0x11C7) != 0) &&
+    } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
                (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
         func_80AFD33C(this);
     }
@@ -447,7 +447,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
             this->collider.base.acFlags &= ~2;
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->unk_282 = this->actor.colChkInfo.damageEffect;
-                func_80035650(&this->actor, &this->collider.elements[1].info, 1);
+                Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, 1);
                 this->unk_281 = 0;
                 if (this->actor.colChkInfo.damageEffect == 1) {
                     if (this->unk_280 != 6) {

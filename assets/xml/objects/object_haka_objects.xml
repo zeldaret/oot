@@ -53,33 +53,33 @@
         <DList Name="object_haka_objects_DL_012270" Offset="0x12270"/>
         <Blob Name="object_haka_objects_Blob_012AA0" Size="0x750" Offset="0x12AA0"/>
         <Texture Name="object_haka_objects_Tex_0131F0" OutName="tex_000131F0" Format="ia8" Width="32" Height="32" Offset="0x131F0"/>
-        <Texture Name="object_haka_objects_Tex_0135F0" OutName="tex_000135F0" Format="rgb5a1" Width="32" Height="32" Offset="0x135F0"/>
-        <Texture Name="object_haka_objects_Tex_013DF0" OutName="tex_00013DF0" Format="rgb5a1" Width="32" Height="32" Offset="0x13DF0"/>
-        <Texture Name="object_haka_objects_Tex_0145F0" OutName="tex_000145F0" Format="rgb5a1" Width="32" Height="64" Offset="0x145F0"/>
-        <Texture Name="object_haka_objects_Tex_0155F0" OutName="tex_000155F0" Format="rgb5a1" Width="32" Height="64" Offset="0x155F0"/>
-        <Texture Name="object_haka_objects_Tex_0165F0" OutName="tex_000165F0" Format="rgb5a1" Width="32" Height="8" Offset="0x165F0"/>
-        <Texture Name="object_haka_objects_Tex_0167F0" OutName="tex_000167F0" Format="rgb5a1" Width="32" Height="16" Offset="0x167F0"/>
+        <Texture Name="object_haka_objects_Tex_0135F0" OutName="tex_000135F0" Format="rgba16" Width="32" Height="32" Offset="0x135F0"/>
+        <Texture Name="object_haka_objects_Tex_013DF0" OutName="tex_00013DF0" Format="rgba16" Width="32" Height="32" Offset="0x13DF0"/>
+        <Texture Name="object_haka_objects_Tex_0145F0" OutName="tex_000145F0" Format="rgba16" Width="32" Height="64" Offset="0x145F0"/>
+        <Texture Name="object_haka_objects_Tex_0155F0" OutName="tex_000155F0" Format="rgba16" Width="32" Height="64" Offset="0x155F0"/>
+        <Texture Name="object_haka_objects_Tex_0165F0" OutName="tex_000165F0" Format="rgba16" Width="32" Height="8" Offset="0x165F0"/>
+        <Texture Name="object_haka_objects_Tex_0167F0" OutName="tex_000167F0" Format="rgba16" Width="32" Height="16" Offset="0x167F0"/>
         <Texture Name="object_haka_objects_Tex_016BF0" OutName="tex_00016BF0" Format="i4" Width="32" Height="32" Offset="0x16BF0"/>
         <Texture Name="object_haka_objects_Tex_016DF0" OutName="tex_00016DF0" Format="i4" Width="32" Height="32" Offset="0x16DF0"/>
         <Texture Name="object_haka_objects_Tex_016FF0" OutName="tex_00016FF0" Format="i4" Width="32" Height="32" Offset="0x16FF0"/>
         <Texture Name="object_haka_objects_Tex_0171F0" OutName="tex_000171F0" Format="i4" Width="32" Height="32" Offset="0x171F0"/>
         <Texture Name="object_haka_objects_Tex_0173F0" OutName="tex_000173F0" Format="i4" Width="32" Height="32" Offset="0x173F0"/>
         <Texture Name="object_haka_objects_Tex_0175F0" OutName="tex_000175F0" Format="i4" Width="32" Height="32" Offset="0x175F0"/>
-        <Texture Name="object_haka_objects_Tex_0177F0" OutName="tex_000177F0" Format="rgb5a1" Width="32" Height="32" Offset="0x177F0"/>
-        <Texture Name="object_haka_objects_Tex_017FF0" OutName="tex_00017FF0" Format="rgb5a1" Width="32" Height="32" Offset="0x17FF0"/>
-        <Texture Name="object_haka_objects_Tex_0187F0" OutName="tex_000187F0" Format="rgb5a1" Width="16" Height="64" Offset="0x187F0"/>
-        <Texture Name="object_haka_objects_Tex_018FF0" OutName="tex_00018FF0" Format="rgb5a1" Width="32" Height="32" Offset="0x18FF0"/>
+        <Texture Name="object_haka_objects_Tex_0177F0" OutName="tex_000177F0" Format="rgba16" Width="32" Height="32" Offset="0x177F0"/>
+        <Texture Name="object_haka_objects_Tex_017FF0" OutName="tex_00017FF0" Format="rgba16" Width="32" Height="32" Offset="0x17FF0"/>
+        <Texture Name="object_haka_objects_Tex_0187F0" OutName="tex_000187F0" Format="rgba16" Width="16" Height="64" Offset="0x187F0"/>
+        <Texture Name="object_haka_objects_Tex_018FF0" OutName="tex_00018FF0" Format="rgba16" Width="32" Height="32" Offset="0x18FF0"/>
         <Texture Name="object_haka_objects_Tex_0197F0" OutName="tex_000197F0" Format="i4" Width="16" Height="16" Offset="0x197F0"/>
-        <Texture Name="object_haka_objects_Tex_019870" OutName="tex_00019870" Format="rgb5a1" Width="32" Height="32" Offset="0x19870"/>
-        <Texture Name="object_haka_objects_Tex_01A070" OutName="tex_0001A070" Format="rgb5a1" Width="16" Height="32" Offset="0x1A070"/>
+        <Texture Name="object_haka_objects_Tex_019870" OutName="tex_00019870" Format="rgba16" Width="32" Height="32" Offset="0x19870"/>
+        <Texture Name="object_haka_objects_Tex_01A070" OutName="tex_0001A070" Format="rgba16" Width="16" Height="32" Offset="0x1A070"/>
         <Texture Name="object_haka_objects_Tex_01A470" OutName="tex_0001A470" Format="i4" Width="32" Height="32" Offset="0x1A470"/>
-        <Texture Name="object_haka_objects_Tex_01A670" OutName="tex_0001A670" Format="rgb5a1" Width="32" Height="32" Offset="0x1A670"/>
+        <Texture Name="object_haka_objects_Tex_01A670" OutName="tex_0001A670" Format="rgba16" Width="32" Height="32" Offset="0x1A670"/>
         <Texture Name="object_haka_objects_Tex_01AE70" OutName="tex_0001AE70" Format="ia4" Width="64" Height="32" Offset="0x1AE70"/>
-        <Texture Name="object_haka_objects_Tex_01B270" OutName="tex_0001B270" Format="rgb5a1" Width="64" Height="16" Offset="0x1B270"/>
-        <Texture Name="object_haka_objects_Tex_01BA70" OutName="tex_0001BA70" Format="rgb5a1" Width="64" Height="16" Offset="0x1BA70"/>
+        <Texture Name="object_haka_objects_Tex_01B270" OutName="tex_0001B270" Format="rgba16" Width="64" Height="16" Offset="0x1B270"/>
+        <Texture Name="object_haka_objects_Tex_01BA70" OutName="tex_0001BA70" Format="rgba16" Width="64" Height="16" Offset="0x1BA70"/>
         <Texture Name="object_haka_objects_Tex_01C270" OutName="tex_0001C270" Format="i4" Width="32" Height="32" Offset="0x1C270"/>
         <Texture Name="object_haka_objects_Tex_01C470" OutName="tex_0001C470" Format="i4" Width="32" Height="32" Offset="0x1C470"/>
-        <Texture Name="object_haka_objects_Tex_01C670" OutName="tex_0001C670" Format="rgb5a1" Width="32" Height="33" Offset="0x1C670"/>
+        <Texture Name="object_haka_objects_Tex_01C670" OutName="tex_0001C670" Format="rgba16" Width="32" Height="33" Offset="0x1C670"/>
         <Texture Name="object_haka_objects_Tex_01CEB0" OutName="tex_0001CEB0" Format="i4" Width="64" Height="64" Offset="0x1CEB0"/>
     </File>
 </Root>
