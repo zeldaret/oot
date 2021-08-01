@@ -53,9 +53,9 @@
         <Animation Name="gSkullKidWaitAnim" Offset="0x8B9C"/>
         <Animation Name="gSkullKidWalkToPlayerAnim" Offset="0x8E14"/>
         
-        <Texture Name="gSkullKidSkullMaskTex" OutName="skull_mask" Format="rgb5a1" Width="16" Height="16" Offset="0xF08"/>
-        <Texture Name="gSkullKidSkullMaskTeethTex" OutName="skull_mask_teeth" Format="rgb5a1" Width="8" Height="8" Offset="0x1108"/>
-        <Texture Name="gSkullKidSkullMaskNoseTex" OutName="skull_mask_nose" Format="rgb5a1" Width="8" Height="8" Offset="0x1188"/>
+        <Texture Name="gSkullKidSkullMaskTex" OutName="skull_mask" Format="rgba16" Width="16" Height="16" Offset="0xF08"/>
+        <Texture Name="gSkullKidSkullMaskTeethTex" OutName="skull_mask_teeth" Format="rgba16" Width="8" Height="8" Offset="0x1108"/>
+        <Texture Name="gSkullKidSkullMaskNoseTex" OutName="skull_mask_nose" Format="rgba16" Width="8" Height="8" Offset="0x1188"/>
 
         <!--Unaccounted blocks larger than the padding of a file-->
         <Blob Name="gSKJunaccounted_52C" Size="0x24" Offset="0x52C"/>

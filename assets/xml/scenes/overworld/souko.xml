@@ -1,6 +1,6 @@
 <Root>
     <File Name="souko_scene" Segment="2">
-        <Scene Name="souko_scene"/>
+        <Scene Name="souko_scene" Offset="0x0"/>
     </File>
     <File Name="souko_room_0" Segment="3">
         <Room Name="souko_room_0" Offset="0x0"/>

@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_rd" Segment="6">
-        <Texture Name="object_rd_Tex_000000" OutName="tex_00000000" Format="rgb5a1" Width="64" Height="32" Offset="0x0"/>
-        <Texture Name="object_rd_Tex_001000" OutName="tex_00001000" Format="rgb5a1" Width="32" Height="16" Offset="0x1000"/>
+        <Texture Name="object_rd_Tex_000000" OutName="tex_00000000" Format="rgba16" Width="64" Height="32" Offset="0x0"/>
+        <Texture Name="object_rd_Tex_001000" OutName="tex_00001000" Format="rgba16" Width="32" Height="16" Offset="0x1000"/>
         <DList Name="object_rd_DL_002C60" Offset="0x2C60"/>
         <DList Name="object_rd_DL_002D40" Offset="0x2D40"/>
         <DList Name="object_rd_DL_002EB0" Offset="0x2EB0"/>
@@ -53,13 +53,13 @@
         <Animation Name="object_rd_Anim_0074F0" Offset="0x74F0"/>
         <Animation Name="object_rd_Anim_008040" Offset="0x8040"/>
         <Animation Name="object_rd_Anim_0087D0" Offset="0x87D0"/>
-        <Texture Name="object_rd_Tex_0087E0" OutName="tex_000087E0" Format="rgb5a1" Width="32" Height="64" Offset="0x87E0"/>
-        <Texture Name="object_rd_Tex_0097E0" OutName="tex_000097E0" Format="rgb5a1" Width="32" Height="64" Offset="0x97E0"/>
-        <Texture Name="object_rd_Tex_00A7E0" OutName="tex_0000A7E0" Format="rgb5a1" Width="16" Height="32" Offset="0xA7E0"/>
-        <Texture Name="object_rd_Tex_00ABE0" OutName="tex_0000ABE0" Format="rgb5a1" Width="16" Height="32" Offset="0xABE0"/>
+        <Texture Name="object_rd_Tex_0087E0" OutName="tex_000087E0" Format="rgba16" Width="32" Height="64" Offset="0x87E0"/>
+        <Texture Name="object_rd_Tex_0097E0" OutName="tex_000097E0" Format="rgba16" Width="32" Height="64" Offset="0x97E0"/>
+        <Texture Name="object_rd_Tex_00A7E0" OutName="tex_0000A7E0" Format="rgba16" Width="16" Height="32" Offset="0xA7E0"/>
+        <Texture Name="object_rd_Tex_00ABE0" OutName="tex_0000ABE0" Format="rgba16" Width="16" Height="32" Offset="0xABE0"/>
         <Texture Name="object_rd_Tex_00AFE0" OutName="tex_0000AFE0" Format="i8" Width="32" Height="32" Offset="0xAFE0"/>
-        <Texture Name="object_rd_Tex_00B3E0" OutName="tex_0000B3E0" Format="rgb5a1" Width="32" Height="64" Offset="0xB3E0"/>
-        <Texture Name="object_rd_Tex_00C3E0" OutName="tex_0000C3E0" Format="rgb5a1" Width="32" Height="16" Offset="0xC3E0"/>
+        <Texture Name="object_rd_Tex_00B3E0" OutName="tex_0000B3E0" Format="rgba16" Width="32" Height="64" Offset="0xB3E0"/>
+        <Texture Name="object_rd_Tex_00C3E0" OutName="tex_0000C3E0" Format="rgba16" Width="32" Height="16" Offset="0xC3E0"/>
         <DList Name="object_rd_DL_00D6A0" Offset="0xD6A0"/>
         <DList Name="object_rd_DL_00D7C8" Offset="0xD7C8"/>
         <DList Name="object_rd_DL_00DAC0" Offset="0xDAC0"/>

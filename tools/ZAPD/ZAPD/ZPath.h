@@ -32,8 +32,7 @@ class ZPath : public ZResource
 public:
 	ZPath(ZFile* nParent);
 
-	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex);
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;

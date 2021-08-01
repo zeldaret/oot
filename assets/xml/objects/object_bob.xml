@@ -16,7 +16,7 @@
         <Limb Name="object_bob_Limb_00009C" LimbType="Standard" Offset="0x9C"/>
         <Limb Name="object_bob_Limb_0000A8" LimbType="Standard" Offset="0xA8"/>
         <Skeleton Name="object_bob_Skel_0000F0" Type="Flex" LimbType="Standard" Offset="0xF0"/>
-        <Texture Name="object_bob_TLUT_000108" OutName="tlut_00000108" Format="rgb5a1" Width="16" Height="16" Offset="0x108"/>
+        <Texture Name="object_bob_TLUT_000108" OutName="tlut_00000108" Format="rgba16" Width="16" Height="16" Offset="0x108"/>
         <Texture Name="object_bob_Tex_000308" OutName="tex_00000308" Format="ci8" Width="8" Height="8" Offset="0x308"/>
         <Texture Name="object_bob_Tex_000348" OutName="tex_00000348" Format="ci8" Width="8" Height="8" Offset="0x348"/>
         <Texture Name="object_bob_Tex_000388" OutName="tex_00000388" Format="ci8" Width="32" Height="32" Offset="0x388"/>

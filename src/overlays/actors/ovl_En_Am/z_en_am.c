@@ -270,7 +270,7 @@ void EnAm_SpawnEffects(EnAm* this, GlobalContext* globalCtx) {
     }
 
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_WALK);
-    func_80033260(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 4.0f, 3, 8.0f, 0x12C, 0xF, 0);
+    Actor_SpawnFloorDust(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 4.0f, 3, 8.0f, 0x12C, 0xF, 0);
 }
 
 void EnAm_SetupSleep(EnAm* this) {
@@ -348,7 +348,7 @@ void EnAm_SetupRecoilFromDamage(EnAm* this, GlobalContext* globalCtx) {
     }
 
     this->dyna.actor.colorFilterTimer = 0;
-    func_80032C7C(globalCtx, &this->dyna.actor);
+    Enemy_StartFinishingBlow(globalCtx, &this->dyna.actor);
     EnAm_SetupAction(this, EnAm_RecoilFromDamage);
 }
 
@@ -800,7 +800,7 @@ void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
             if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
                 this->unk_264 = 0;
                 this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
-                func_80035650(&this->dyna.actor, &this->hurtCollider.info, 0);
+                Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.info, 0);
 
                 if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
                     (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||

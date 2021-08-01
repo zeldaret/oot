@@ -183,7 +183,7 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
             func_800F5C64(0x922);
         }
         if (scoreIndex == 1) {
-            func_800F8D04(NA_SE_SY_TRE_BOX_APPEAR);
+            Audio_StopSfx(NA_SE_SY_TRE_BOX_APPEAR);
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         }
         if (scoreIndex == 0) {
