@@ -54,11 +54,11 @@
         <DList Name="object_oA6_DL_00001488" Offset="0x1488"/>
         <DList Name="object_oA6_DL_000014F0" Offset="0x14F0"/>
         <DList Name="object_oA6_DL_00001548" Offset="0x1548"/>
-        <Texture Name="object_oA6_Tex_00001600" OutName="tex_00001600" Format="rgb5a1" Width="8" Height="16" Offset="0x1600"/>
-        <Texture Name="object_oA6_Tex_00001700" OutName="tex_00001700" Format="rgb5a1" Width="8" Height="8" Offset="0x1700"/>
-        <Texture Name="object_oA6_Tex_00001780" OutName="tex_00001780" Format="rgb5a1" Width="8" Height="8" Offset="0x1780"/>
-        <Texture Name="object_oA6_Tex_00001800" OutName="tex_00001800" Format="rgb5a1" Width="8" Height="16" Offset="0x1800"/>
-        <Texture Name="object_oA6_Tex_00001900" OutName="tex_00001900" Format="rgb5a1" Width="8" Height="8" Offset="0x1900"/>
-        <Texture Name="object_oA6_Tex_00001980" OutName="tex_00001980" Format="rgb5a1" Width="8" Height="8" Offset="0x1980"/>
+        <Texture Name="object_oA6_Tex_00001600" OutName="tex_00001600" Format="rgba16" Width="8" Height="16" Offset="0x1600"/>
+        <Texture Name="object_oA6_Tex_00001700" OutName="tex_00001700" Format="rgba16" Width="8" Height="8" Offset="0x1700"/>
+        <Texture Name="object_oA6_Tex_00001780" OutName="tex_00001780" Format="rgba16" Width="8" Height="8" Offset="0x1780"/>
+        <Texture Name="object_oA6_Tex_00001800" OutName="tex_00001800" Format="rgba16" Width="8" Height="16" Offset="0x1800"/>
+        <Texture Name="object_oA6_Tex_00001900" OutName="tex_00001900" Format="rgba16" Width="8" Height="8" Offset="0x1900"/>
+        <Texture Name="object_oA6_Tex_00001980" OutName="tex_00001980" Format="rgba16" Width="8" Height="8" Offset="0x1980"/>
     </File>
 </Root>

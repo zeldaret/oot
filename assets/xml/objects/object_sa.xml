@@ -66,11 +66,11 @@
         <DList Name="gSariaLeftShinDL" Offset="0xAC20"/>
         <DList Name="gSariaLeftFootDL" Offset="0xAEE0"/>
 
-        <Texture Name="gSariaClothesTLUT" OutName="clothes_tlut" Format="rgb5a1" Width="18" Height="6" Offset="0x21F0"/>
-        <Texture Name="gSariaMouthTLUT" OutName="mouth_tlut" Format="rgb5a1" Width="18" Height="6" Offset="0x2CF8"/>
-        <Texture Name="gSariaEyeTLUT" OutName="eye_tlut" Format="rgb5a1" Width="18" Height="6" Offset="0x2B00"/>
-        <Texture Name="gSariaSkinTLUT" OutName="skin_tlut" Format="rgb5a1" Width="8" Height="9" Offset="0x2A70"/>
-        <Texture Name="gSariaUnkTLUT" OutName="unk_tlut" Format="rgb5a1" Width="16" Height="9" Offset="0x2BD8"/>
+        <Texture Name="gSariaClothesTLUT" OutName="clothes_tlut" Format="rgba16" Width="18" Height="6" Offset="0x21F0"/>
+        <Texture Name="gSariaMouthTLUT" OutName="mouth_tlut" Format="rgba16" Width="18" Height="6" Offset="0x2CF8"/>
+        <Texture Name="gSariaEyeTLUT" OutName="eye_tlut" Format="rgba16" Width="18" Height="6" Offset="0x2B00"/>
+        <Texture Name="gSariaSkinTLUT" OutName="skin_tlut" Format="rgba16" Width="8" Height="9" Offset="0x2A70"/>
+        <Texture Name="gSariaUnkTLUT" OutName="unk_tlut" Format="rgba16" Width="16" Height="9" Offset="0x2BD8"/>
 
         <Texture Name="gSariaBootsTex" OutName="boots" Format="ci8" Width="16" Height="16" Offset="0x23F0"/>
         <Texture Name="gSariaGreenTex" OutName="green" Format="ci8" Width="8" Height="8" Offset="0x24F0"/> 
@@ -90,7 +90,7 @@
         <Texture Name="gSariaHandTex" OutName="hand" Format="ci8" Width="8" Height="8" Offset="0x3808"/>
         <Texture Name="gSariaEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x3848"/>
         <Texture Name="gSariaEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x3C48"/>
-        <Texture Name="gSariaFairyOcarinaTex" OutName="fairy_ocarina" Format="rgb5a1" Width="32" Height="16" Offset="0x4048"/>
+        <Texture Name="gSariaFairyOcarinaTex" OutName="fairy_ocarina" Format="rgba16" Width="32" Height="16" Offset="0x4048"/>
         <Texture Name="gSariaMouthSmilingOpenTex" OutName="mouth_smiling_open" Format="ci8" Width="32" Height="16" Offset="0x4448"/>
         <Texture Name="gSariaMouthFrowningTex" OutName="mouth_frowning" Format="ci8" Width="32" Height="16" Offset="0x4648"/>
         <Texture Name="gSariaEyeSuprisedTex" OutName="eye_suprised" Format="ci8" Width="32" Height="32" Offset="0x4848"/>

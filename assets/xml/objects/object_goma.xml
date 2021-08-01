@@ -151,12 +151,12 @@
         <Animation Name="gGohmaViolentAttackAnim" Offset="0x39D0"/>
 
         <!-- Limb textures -->
-        <Texture Name="gGohmaBodyTex" OutName="gohma_body" Format="rgb5a1" Width="16" Height="16" Offset="0x183A8"/>
-        <Texture Name="gGohmaShellUndersideTex" OutName="gohma_shell_underside" Format="rgb5a1" Width="16" Height="16" Offset="0x185A8"/>
-        <Texture Name="gGohmaDarkShellTex" OutName="gohma_dark_shell" Format="rgb5a1" Width="16" Height="16" Offset="0x187A8"/>
-        <Texture Name="gGohmaShellTex" OutName="gohma_shell" Format="rgb5a1" Width="32" Height="32" Offset="0x189A8"/>
-        <Texture Name="gGohmaEyeTex" OutName="gohma_eye" Format="rgb5a1" Width="16" Height="16" Offset="0x191A8"/>
-        <Texture Name="gGohmaIrisTex" OutName="gohma_iris" Format="rgb5a1" Width="32" Height="32" Offset="0x193A8"/>
+        <Texture Name="gGohmaBodyTex" OutName="gohma_body" Format="rgba16" Width="16" Height="16" Offset="0x183A8"/>
+        <Texture Name="gGohmaShellUndersideTex" OutName="gohma_shell_underside" Format="rgba16" Width="16" Height="16" Offset="0x185A8"/>
+        <Texture Name="gGohmaDarkShellTex" OutName="gohma_dark_shell" Format="rgba16" Width="16" Height="16" Offset="0x187A8"/>
+        <Texture Name="gGohmaShellTex" OutName="gohma_shell" Format="rgba16" Width="32" Height="32" Offset="0x189A8"/>
+        <Texture Name="gGohmaEyeTex" OutName="gohma_eye" Format="rgba16" Width="16" Height="16" Offset="0x191A8"/>
+        <Texture Name="gGohmaIrisTex" OutName="gohma_iris" Format="rgba16" Width="32" Height="32" Offset="0x193A8"/>
 
         <!-- Boss title card -->
         <Texture Name="gGohmaTitleCardTex" OutName="gohma_title_card" Format="i8" Width="128" Height="120" Offset="0x19BA8"/>
@@ -164,6 +164,6 @@
         <!-- Door -->
         <DList Name="gGohmaDoorDL" Offset="0x1EC20"/>
         <Collision Name="gGohmaDoorCol" Offset="0x1EDD0"/>
-        <Texture Name="gGohmaDoorTex" OutName="door" Format="rgb5a1" Width="32" Height="32" Offset="0x1EE00"/>
+        <Texture Name="gGohmaDoorTex" OutName="door" Format="rgba16" Width="32" Height="32" Offset="0x1EE00"/>
     </File>
 </Root>

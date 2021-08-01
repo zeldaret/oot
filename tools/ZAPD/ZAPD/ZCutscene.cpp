@@ -151,15 +151,18 @@ size_t ZCutscene::GetRawDataSize() const
 	return size;
 }
 
-void ZCutscene::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                               const uint32_t nRawDataIndex)
+void ZCutscene::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
 {
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
+	ZResource::ExtractFromXML(reader, nRawDataIndex);
 	DeclareVar(parent->GetName(), "");
 }
 
 void ZCutscene::ParseRawData()
 {
+	ZResource::ParseRawData();
+
+	const auto& rawData = parent->GetRawData();
+
 	numCommands = BitConverter::ToInt32BE(rawData, rawDataIndex + 0);
 	commands = std::vector<CutsceneCommand*>();
 
