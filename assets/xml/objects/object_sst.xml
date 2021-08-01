@@ -49,7 +49,7 @@
         <Collision Name="gBongoDrumCol" Offset="0x194F8"/>
 
         <!-- Unused textures -->
-        <Texture Name="gBongoUnused1Tex" OutName="bongo_unused_1" Format="rgb5a1" Width="8" Height="8" Offset="0x01A6B0"/>
-        <Texture Name="gBongoUnused2Tex" OutName="bongo_unused_2" Format="rgb5a1" Width="16" Height="16" Offset="0x01A9B0"/>
+        <Texture Name="gBongoUnused1Tex" OutName="bongo_unused_1" Format="rgba16" Width="8" Height="8" Offset="0x01A6B0"/>
+        <Texture Name="gBongoUnused2Tex" OutName="bongo_unused_2" Format="rgba16" Width="16" Height="16" Offset="0x01A9B0"/>
     </File>
 </Root>

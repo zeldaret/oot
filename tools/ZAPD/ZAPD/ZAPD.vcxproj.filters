@@ -55,6 +55,12 @@
     <Filter Include="Header Files\Libraries\fbx">
       <UniqueIdentifier>{be9a5be0-ec6a-4200-8e39-bb58c7da7aa8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Libraries\libgfxd">
+      <UniqueIdentifier>{7ee79d97-c6a8-4e82-93ef-37981f4d7838}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Libraries\libgfxd">
+      <UniqueIdentifier>{85600275-99fe-491d-8189-bcc3dc1a8903}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -199,6 +205,66 @@
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
     <ClCompile Include="ZVtx.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZLimb.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputFormatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZSymbol.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\libgfxd\gfxd.c">
+      <Filter>Source Files\Libraries\libgfxd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\libgfxd\uc.c">
+      <Filter>Source Files\Libraries\libgfxd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\libgfxd\uc_f3d.c">
+      <Filter>Source Files\Libraries\libgfxd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\libgfxd\uc_f3db.c">
+      <Filter>Source Files\Libraries\libgfxd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\libgfxd\uc_f3dex.c">
+      <Filter>Source Files\Libraries\libgfxd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\libgfxd\uc_f3dex2.c">
+      <Filter>Source Files\Libraries\libgfxd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\libgfxd\uc_f3dexb.c">
+      <Filter>Source Files\Libraries\libgfxd</Filter>
+    </ClCompile>
+    <ClCompile Include="ZMtx.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetWorldMapVisited.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\Unused1D.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetActorCutsceneList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetAnimatedTextureList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetCsCamera.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetMinimapChests.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZRoom\Commands\SetMinimapList.cpp">
+      <Filter>Source Files\Z64\ZRoom\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ZCutsceneMM.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZBackground.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
   </ItemGroup>
@@ -420,6 +486,57 @@
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
     <ClInclude Include="ZVtx.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="CRC32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLimb.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZSymbol.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\libgfxd\gbi.h">
+      <Filter>Header Files\Libraries\libgfxd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\libgfxd\gfxd.h">
+      <Filter>Header Files\Libraries\libgfxd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\libgfxd\priv.h">
+      <Filter>Header Files\Libraries\libgfxd</Filter>
+    </ClInclude>
+    <ClInclude Include="ZMtx.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetWorldMapVisited.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetActorCutsceneList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\Unused1D.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetAnimatedTextureList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetCsCamera.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetMinimapChests.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZRoom\Commands\SetMinimapList.h">
+      <Filter>Header Files\Z64\ZRoom\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ZCutsceneMM.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZBackground.h">
       <Filter>Header Files\Z64</Filter>
     </ClInclude>
   </ItemGroup>

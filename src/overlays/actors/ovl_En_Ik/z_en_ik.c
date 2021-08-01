@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ik.h"
-
+#include "scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -53,7 +53,6 @@ void func_80A77EDC(EnIk* this, GlobalContext* globalCtx);
 void func_80A78160(EnIk* this, GlobalContext* globalCtx);
 void func_80A781CC(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_02003F80;
 extern AnimationHeader D_06001C28;
 extern AnimationHeader D_06002538;
 extern AnimationHeader D_060029FC;
@@ -285,7 +284,7 @@ Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
         if ((prop == actor) || (prop->id != ACTOR_BG_JYA_IRONOBJ)) {
             prop = prop->next;
             continue;
-        } else if (func_8002E1A8(actor, prop, 80.0f, 0x2710)) {
+        } else if (Actor_ActorAIsFacingAndNearActorB(actor, prop, 80.0f, 0x2710)) {
             return prop;
         }
 
@@ -632,8 +631,8 @@ void func_80A75790(EnIk* this) {
 
 void func_80A758B0(EnIk* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
-    if (func_8003305C(&this->actor, &this->unk_308, globalCtx, this->actor.params + 4)) {
-        this->unk_308.unk_10 = 0;
+    if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, this->actor.params + 4)) {
+        this->bodyBreak.val = BODYBREAK_STATUS_FINISHED;
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4000) {
@@ -711,7 +710,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     }
     sp38 = this->actor.world.pos;
     sp38.y += 50.0f;
-    func_80035650(&this->actor, &this->bodyCollider.info, 1);
+    Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 1);
     temp_v0_3 = this->actor.colChkInfo.damageEffect;
     this->unk_2FD = temp_v0_3 & 0xFF;
     this->bodyCollider.base.acFlags &= ~AC_HIT;
@@ -730,7 +729,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     if (this->actor.params != 0) {
         if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
             this->unk_2FB = 1;
-            func_80032E24(&this->unk_308, 3, globalCtx);
+            BodyBreak_Alloc(&this->bodyBreak, 3, globalCtx);
         }
     } else if (this->actor.colChkInfo.health <= 10) {
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_BOSS);
@@ -745,7 +744,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
 
     if (this->actor.colChkInfo.health == 0) {
         func_80A7598C(this);
-        func_80032C7C(globalCtx, &this->actor);
+        Enemy_StartFinishingBlow(globalCtx, &this->actor);
         return;
     }
     Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x7D0, 0);
@@ -884,7 +883,7 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1201);
 
     if (this->unk_2FB & 1) {
-        func_80032F54(&this->unk_308, limbIndex, 0x1A, 0x1B, 0x1C, dList, -1);
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 26, 27, 28, dList, BODYBREAK_OBJECT_DEFAULT);
     }
     if (limbIndex == 12) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1217),
@@ -1451,7 +1450,7 @@ void func_80A781CC(Actor* thisx, GlobalContext* globalCtx) {
     if (!Gameplay_InCsMode(globalCtx)) {
         this->actor.update = EnIk_Update;
         this->actor.draw = EnIk_Draw;
-        Cutscene_SetSegment(globalCtx, &D_02003F80);
+        Cutscene_SetSegment(globalCtx, gNabooruKnuckleDefeatCs);
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
         gSaveContext.eventChkInf[3] |= 0x1000;

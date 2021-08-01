@@ -382,30 +382,30 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
             this->actor.world.pos.z += (tmpf3 / tmpf4) * 5.0f;
         }
     } else {
-        s32 itemId;
+        s32 getItemId;
 
         this->actor.draw = NULL;
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.parent = NULL;
         if (CUR_UPG_VALUE(UPG_BULLET_BAG) == 1) {
-            itemId = GI_BULLET_BAG_40;
+            getItemId = GI_BULLET_BAG_40;
         } else {
-            itemId = GI_BULLET_BAG_50;
+            getItemId = GI_BULLET_BAG_50;
         }
-        func_8002F434(&this->actor, globalCtx, itemId, 2000.0f, 1000.0f);
+        func_8002F434(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
         this->actionFunc = EnExItem_TargetPrizeGive;
     }
 }
 
 void EnExItem_TargetPrizeGive(EnExItem* this, GlobalContext* globalCtx) {
-    s32 itemId;
+    s32 getItemId;
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnExItem_TargetPrizeFinish;
     } else {
-        itemId = (CUR_UPG_VALUE(UPG_BULLET_BAG) == 2) ? GI_BULLET_BAG_50 : GI_BULLET_BAG_40;
+        getItemId = (CUR_UPG_VALUE(UPG_BULLET_BAG) == 2) ? GI_BULLET_BAG_50 : GI_BULLET_BAG_40;
 
-        func_8002F434(&this->actor, globalCtx, itemId, 2000.0f, 1000.0f);
+        func_8002F434(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
     }
 }
 

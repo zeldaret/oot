@@ -1,10 +1,17 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class LightingSettings
 {
 public:
+	LightingSettings(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
+
+	std::string GetBodySourceCode() const;
+
+	size_t GetRawDataSize() const;
+
+protected:
 	uint8_t ambientClrR, ambientClrG, ambientClrB;
 	uint8_t diffuseClrA_R, diffuseClrA_G, diffuseClrA_B;
 	uint8_t diffuseDirA_X, diffuseDirA_Y, diffuseDirA_Z;
@@ -13,23 +20,21 @@ public:
 	uint8_t fogClrR, fogClrG, fogClrB;
 	uint16_t unk;
 	uint16_t drawDistance;
-
-	LightingSettings(std::vector<uint8_t> rawData, int rawDataIndex);
 };
 
 class SetLightingSettings : public ZRoomCommand
 {
 public:
-	SetLightingSettings(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
-	~SetLightingSettings();
+	SetLightingSettings(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GenerateSourceCodePass2(std::string roomName, int baseAddress);
-	virtual std::string GetCommandCName();
-	virtual std::string GenerateExterns();
-	virtual RoomCommand GetRoomCommand();
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix) override;
+
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	std::string GetCommandCName() const override;
 
 private:
-	uint32_t segmentOffset;
-	std::vector<LightingSettings*> settings;
+	std::vector<LightingSettings> settings;
 };

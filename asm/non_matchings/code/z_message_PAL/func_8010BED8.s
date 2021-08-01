@@ -212,8 +212,8 @@ glabel func_8010BED8
 /* B833AC 8010C20C AC6C0000 */  sw    $t4, ($v1)
 /* B833B0 8010C210 24420008 */  addiu $v0, $v0, 8
 /* B833B4 8010C214 00401825 */  move  $v1, $v0
-/* B833B8 8010C218 3C0F0200 */  lui   $t7, %hi(D_02002E40) # $t7, 0x200
-/* B833BC 8010C21C 25EF2E40 */  addiu $t7, %lo(D_02002E40) # addiu $t7, $t7, 0x2e40
+/* B833B8 8010C218 3C0F0200 */  lui   $t7, %hi(gOcarinaTrebleClefTex) # $t7, 0x200
+/* B833BC 8010C21C 25EF2E40 */  addiu $t7, %lo(gOcarinaTrebleClefTex) # addiu $t7, $t7, 0x2e40
 /* B833C0 8010C220 3C18FD90 */  lui   $t8, 0xfd90
 /* B833C4 8010C224 AC780000 */  sw    $t8, ($v1)
 /* B833C8 8010C228 AC6F0004 */  sw    $t7, 4($v1)
