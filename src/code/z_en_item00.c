@@ -741,10 +741,10 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Math_SmoothStepToF(&this->actor.scale.x, this->scale, 0.1f, this->scale * 0.1f, 0.0f);
     temp = &D_80157D90;
-    
+
     this->actor.scale.z = this->actor.scale.x;
     this->actor.scale.y = this->actor.scale.x;
-    
+
     if (this->actor.gravity) {
         if (this->actor.bgCheckFlags & 0x0003) {
             if (*temp != globalCtx->gameplayFrames) {
@@ -753,12 +753,13 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
                 for (i = 0; i < 50; i++) {
                     if (globalCtx->colCtx.dyna.bgActorFlags[i] & 1) {
                         dynaActor = globalCtx->colCtx.dyna.bgActors[i].actor;
-                        if ((dynaActor != NULL) && (dynaActor->update != NULL) &&
-                            ((dynaActor->world.pos.x != dynaActor->prevPos.x) ||
-                             (dynaActor->world.pos.y != dynaActor->prevPos.y) ||
-                             (dynaActor->world.pos.z != dynaActor->prevPos.z))) {
-                            D_80157D94[0]++;
-                            break;
+                        if ((dynaActor != NULL) && (dynaActor->update != NULL)) {
+                            if ((dynaActor->world.pos.x != dynaActor->prevPos.x) ||
+                                (dynaActor->world.pos.y != dynaActor->prevPos.y) ||
+                                (dynaActor->world.pos.z != dynaActor->prevPos.z)) {
+                                    D_80157D94[0]++;
+                                    break;
+                                }
                         }
                     }
                 }
