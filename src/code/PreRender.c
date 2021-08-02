@@ -365,8 +365,8 @@ void func_800C2500(PreRender* this, s32 x, s32 y) {
     s32 pxR2;
     s32 pxG2;
     s32 pxB2;
-    Color_RGB5A1 pxIn;
-    Color_RGB5A1 pxOut;
+    Color_RGBA16 pxIn;
+    Color_RGBA16 pxOut;
     u32 pxR3;
     u32 pxG3;
     u32 pxB3;
@@ -483,7 +483,7 @@ void func_800C2FE4(PreRender* this) {
 
     for (y = 0; y < this->height; y++) {
         for (x = 0; x < this->width; x++) {
-            Color_RGB5A1 pxIn;
+            Color_RGBA16 pxIn;
 
             pxIn.rgba = this->fbufSave[x + y * this->width];
             buffR[x] = pxIn.r;
@@ -492,7 +492,7 @@ void func_800C2FE4(PreRender* this) {
         }
 
         for (x = 1; x < this->width - 1; x++) {
-            Color_RGB5A1 pxOut;
+            Color_RGBA16 pxOut;
             s32 a = this->cvgSave[x + y * this->width];
 
             a >>= 5;

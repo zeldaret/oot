@@ -83,7 +83,7 @@ The following is a list of the texture formats the Nintendo 64 supports, with th
 | 8-bit I                                         | `G_IM_FMT_I, G_IM_SIZ_8b`        | i8              |
 | 8-bit IA (4/4)                                  | `G_IM_FMT_IA, G_IM_SIZ_8b`       | ia8             |
 | 8-bit CI                                        | `G_IM_FMT_CI, G_IM_SIZ_8b`       | ci8             |
-| 16-bit red, green, blue, alpha (RGBA) (5/5/5/1) | `G_IM_FMT_RGBA, G_IM_SIZ_16b`    | rgb5a1          |
+| 16-bit red, green, blue, alpha (RGBA) (5/5/5/1) | `G_IM_FMT_RGBA, G_IM_SIZ_16b`    | rgba16          |
 | 16-bit IA (8/8)                                 | `G_IM_FMT_IA, G_IM_SIZ_16b`      | ia16            |
 | 16-bit YUV (Luminance, Blue-Y, Red-Y)           | `G_IM_FMT_YUV, G_IM_SIZ_16b`     | (not used)      |
 | 32-bit RGBA (8/8/8/8)                           | `G_IM_FMT_RGBA, G_IM_SIZ_32b`    | rgba32          |
@@ -96,10 +96,10 @@ For example,
 gsDPLoadTextureBlock(D_06006110, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 4, 4, 0, 0),
 ```
 
-says that there is a texture at offset `0x6110`, its Format is `rgb5a1`, Width is `16` and Height is `16`, so we can declare
+says that there is a texture at offset `0x6110`, its Format is `rgba16`, Width is `16` and Height is `16`, so we can declare
 
 ```XML
-<Texture Name="gObjectNameSomethingTex" OutName="object_name_something" Format="rgb5a1" Width="16" Height="16" Offset="0x6110"/>
+<Texture Name="gObjectNameSomethingTex" OutName="object_name_something" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
 ```
 
 See [this web page](http://n64devkit.square7.ch/tutorial/graphics/3/3_3.htm) for more information about these formats, and [gSP functions](http://n64devkit.square7.ch/n64man/gsp/gSP_INDEX.htm) and [gDP functions](http://n64devkit.square7.ch/n64man/gdp/gDP_INDEX.htm) for more about the graphics functions used.
