@@ -24,13 +24,13 @@
         <DList Name="object_ka_DL_002930" Offset="0x2930"/>
         <DList Name="object_ka_DL_0029D0" Offset="0x29D0"/>
         <DList Name="object_ka_DL_002A70" Offset="0x2A70"/>
-        <Texture Name="object_ka_Tex_002C00" OutName="tex_00002C00" Format="rgb5a1" Width="32" Height="32" Offset="0x2C00"/>
-        <Texture Name="object_ka_Tex_003400" OutName="tex_00003400" Format="rgb5a1" Width="32" Height="32" Offset="0x3400"/>
-        <Texture Name="object_ka_Tex_003C00" OutName="tex_00003C00" Format="rgb5a1" Width="32" Height="32" Offset="0x3C00"/>
-        <Texture Name="object_ka_Tex_004400" OutName="tex_00004400" Format="rgb5a1" Width="32" Height="32" Offset="0x4400"/>
-        <Texture Name="object_ka_Tex_004C00" OutName="tex_00004C00" Format="rgb5a1" Width="32" Height="32" Offset="0x4C00"/>
-        <Texture Name="object_ka_Tex_005400" OutName="tex_00005400" Format="rgb5a1" Width="32" Height="32" Offset="0x5400"/>
-        <Texture Name="object_ka_Tex_005C00" OutName="tex_00005C00" Format="rgb5a1" Width="32" Height="32" Offset="0x5C00"/>
+        <Texture Name="object_ka_Tex_002C00" OutName="tex_00002C00" Format="rgba16" Width="32" Height="32" Offset="0x2C00"/>
+        <Texture Name="object_ka_Tex_003400" OutName="tex_00003400" Format="rgba16" Width="32" Height="32" Offset="0x3400"/>
+        <Texture Name="object_ka_Tex_003C00" OutName="tex_00003C00" Format="rgba16" Width="32" Height="32" Offset="0x3C00"/>
+        <Texture Name="object_ka_Tex_004400" OutName="tex_00004400" Format="rgba16" Width="32" Height="32" Offset="0x4400"/>
+        <Texture Name="object_ka_Tex_004C00" OutName="tex_00004C00" Format="rgba16" Width="32" Height="32" Offset="0x4C00"/>
+        <Texture Name="object_ka_Tex_005400" OutName="tex_00005400" Format="rgba16" Width="32" Height="32" Offset="0x5400"/>
+        <Texture Name="object_ka_Tex_005C00" OutName="tex_00005C00" Format="rgba16" Width="32" Height="32" Offset="0x5C00"/>
         <Limb Name="object_ka_Limb_006400" LimbType="Standard" Offset="0x6400"/>
         <Limb Name="object_ka_Limb_00640C" LimbType="Standard" Offset="0x640C"/>
         <Limb Name="object_ka_Limb_006418" LimbType="Standard" Offset="0x6418"/>

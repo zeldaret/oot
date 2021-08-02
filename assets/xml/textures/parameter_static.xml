@@ -19,9 +19,9 @@
         <Texture Name="gRupeeCounterIconTex" OutName="rupee_counter_icon" Format="ia8" Width="16" Height="16" Offset="0x1F00"/>
         <Texture Name="gClockIconTex" OutName="clock_icon" Format="ia8" Width="16" Height="16" Offset="0x2000"/>
         <Texture Name="gCarrotIconTex" OutName="carrot_icon" Format="rgba32" Width="16" Height="16" Offset="0x2100"/>
-        <Texture Name="gMapDungeonEntranceIconTex" OutName="map_dungeon_entrance_icon" Format="rgb5a1" Width="8" Height="8" Offset="0x2500"/>
-        <Texture Name="gMapChestIconTex" OutName="map_chest_icon" Format="rgb5a1" Width="8" Height="8" Offset="0x2580"/>
-        <Texture Name="gArcheryScoreIconTex" OutName="archery_score_icon" Format="rgb5a1" Width="24" Height="16" Offset="0x2600"/>
+        <Texture Name="gMapDungeonEntranceIconTex" OutName="map_dungeon_entrance_icon" Format="rgba16" Width="8" Height="8" Offset="0x2500"/>
+        <Texture Name="gMapChestIconTex" OutName="map_chest_icon" Format="rgba16" Width="8" Height="8" Offset="0x2580"/>
+        <Texture Name="gArcheryScoreIconTex" OutName="archery_score_icon" Format="rgba16" Width="24" Height="16" Offset="0x2600"/>
         <Texture Name="gMapBossIconTex" OutName="map_boss_icon" Format="ia8" Width="8" Height="8" Offset="0x2900"/>
         <Texture Name="gOcarinaATex" OutName="ocarina_a" Format="ia8" Width="16" Height="16" Offset="0x2940"/>
         <Texture Name="gOcarinaCDownTex" OutName="ocarina_c_down" Format="ia8" Width="16" Height="16" Offset="0x2A40"/>

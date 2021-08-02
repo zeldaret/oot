@@ -58,10 +58,9 @@ public:
 
 	bool isPalette = false;
 
-	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    uint32_t nRawDataIndex) override;
-	void FromBinary(const std::vector<uint8_t>& nRawData, uint32_t nRawDataIndex, int32_t nWidth,
-	                int32_t nHeight, TextureType nType, bool nIsPalette);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex) override;
+	void FromBinary(uint32_t nRawDataIndex, int32_t nWidth, int32_t nHeight, TextureType nType,
+	                bool nIsPalette);
 	void FromPNG(const fs::path& pngFilePath, TextureType texType);
 	void FromHLTexture(HLTexture* hlTex);
 

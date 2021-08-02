@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_ts" Segment="6">
         <Animation Name="object_ts_Anim_000498" Offset="0x498"/>
-        <Texture Name="object_ts_TLUT_0004B0" OutName="tlut_000004B0" Format="rgb5a1" Width="16" Height="16" Offset="0x4B0"/>
+        <Texture Name="object_ts_TLUT_0004B0" OutName="tlut_000004B0" Format="rgba16" Width="16" Height="16" Offset="0x4B0"/>
         <Texture Name="object_ts_Tex_0006B0" OutName="tex_000006B0" Format="ci8" Width="8" Height="8" Offset="0x6B0"/>
         <Texture Name="object_ts_Tex_0006F0" OutName="tex_000006F0" Format="ci8" Width="16" Height="16" Offset="0x6F0"/>
         <Texture Name="object_ts_Tex_0007F0" OutName="tex_000007F0" Format="ci8" Width="8" Height="8" Offset="0x7F0"/>

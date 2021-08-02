@@ -526,9 +526,10 @@ glabel jtbl_8014A484
     .word L800F17F8
 
 glabel D_8014A4C0
-    .float 127.1
-
-    .word 0 # forced padding
+    .double 5.31283964854272E14
+    # .float 127.1
+    #.word 0 # forced padding double?
+    
 glabel D_8014A4C8
     .double 127.1
 
@@ -607,13 +608,13 @@ glabel func_800EEA50
 /* B65CFC 800EEB5C 8FA400B0 */   lw    $a0, 0xb0($sp)
 /* B65D00 800EEB60 3C058013 */  lui   $a1, %hi(D_80133414) # $a1, 0x8013
 /* B65D04 800EEB64 90A53414 */  lbu   $a1, %lo(D_80133414)($a1)
-/* B65D08 800EEB68 3C048013 */  lui   $a0, %hi(D_801337CD)
+/* B65D08 800EEB68 3C048013 */  lui   $a0, %hi(gAudioSessionPresets)
 /* B65D0C 800EEB6C 3C188017 */  lui   $t8, %hi(D_8016B9E0) # $t8, 0x8017
 /* B65D10 800EEB70 0005C8C0 */  sll   $t9, $a1, 3
 /* B65D14 800EEB74 0325C823 */  subu  $t9, $t9, $a1
 /* B65D18 800EEB78 0019C8C0 */  sll   $t9, $t9, 3
 /* B65D1C 800EEB7C 00992021 */  addu  $a0, $a0, $t9
-/* B65D20 800EEB80 908437CD */  lbu   $a0, %lo(D_801337CD)($a0)
+/* B65D20 800EEB80 908437CD */  lbu   $a0, %lo(gAudioSessionPresets+0x5)($a0)
 /* B65D24 800EEB84 0000B025 */  move  $s6, $zero
 /* B65D28 800EEB88 3C0E8013 */  lui   $t6, %hi(D_80131F68) # $t6, 0x8013
 /* B65D2C 800EEB8C 18800013 */  blez  $a0, .L800EEBDC
@@ -3252,8 +3253,8 @@ glabel L800F12F0
 /* B684F0 800F1350 24050003 */  li    $a1, 3
 /* B684F4 800F1354 0C03ED07 */  jal   GfxPrint_SetPos
 /* B684F8 800F1358 24060004 */   li    $a2, 4
-/* B684FC 800F135C 3C028017 */  lui   $v0, %hi(D_8016B9FC) # $v0, 0x8017
-/* B68500 800F1360 2442B9FC */  addiu $v0, %lo(D_8016B9FC) # addiu $v0, $v0, -0x4604
+/* B684FC 800F135C 3C028017 */  lui   $v0, %hi(sDisplayedStaff) # $v0, 0x8017
+/* B68500 800F1360 2442B9FC */  addiu $v0, %lo(sDisplayedStaff) # addiu $v0, $v0, -0x4604
 /* B68504 800F1364 904D0002 */  lbu   $t5, 2($v0)
 /* B68508 800F1368 3C058015 */  lui   $a1, %hi(D_8014A290) # $a1, 0x8015
 /* B6850C 800F136C 24A5A290 */  addiu $a1, %lo(D_8014A290) # addiu $a1, $a1, -0x5d70
@@ -3325,10 +3326,10 @@ glabel L800F12F0
 /* B6860C 800F146C 24050003 */  li    $a1, 3
 /* B68610 800F1470 0C03ED07 */  jal   GfxPrint_SetPos
 /* B68614 800F1474 24060018 */   li    $a2, 24
-/* B68618 800F1478 3C0A8013 */  lui   $t2, %hi(D_80130F38) # $t2, 0x8013
+/* B68618 800F1478 3C0A8013 */  lui   $t2, %hi(sPlaybackState) # $t2, 0x8013
 /* B6861C 800F147C 3C0B8013 */  lui   $t3, %hi(D_80131858) # $t3, 0x8013
 /* B68620 800F1480 916B1858 */  lbu   $t3, %lo(D_80131858)($t3)
-/* B68624 800F1484 914A0F38 */  lbu   $t2, %lo(D_80130F38)($t2)
+/* B68624 800F1484 914A0F38 */  lbu   $t2, %lo(sPlaybackState)($t2)
 /* B68628 800F1488 3C058015 */  lui   $a1, %hi(D_8014A2E4) # $a1, 0x8015
 /* B6862C 800F148C 3C068013 */  lui   $a2, %hi(D_80130F10) # $a2, 0x8013
 /* B68630 800F1490 3C078013 */  lui   $a3, %hi(D_80130F3C) # $a3, 0x8013
@@ -3590,15 +3591,15 @@ glabel L800F17F8
 /* B68A28 800F1888 8FA400B0 */  lw    $a0, 0xb0($sp)
 /* B68A2C 800F188C 0C03EF2D */  jal   GfxPrint_Printf
 /* B68A30 800F1890 AFB90010 */   sw    $t9, 0x10($sp)
-/* B68A34 800F1894 3C0A8017 */  lui   $t2, %hi(D_8016BAC0) # $t2, 0x8017
-/* B68A38 800F1898 3C0B8017 */  lui   $t3, %hi(D_8016BABC) # $t3, 0x8017
-/* B68A3C 800F189C 8D6BBABC */  lw    $t3, %lo(D_8016BABC)($t3)
-/* B68A40 800F18A0 8D4ABAC0 */  lw    $t2, %lo(D_8016BAC0)($t2)
+/* B68A34 800F1894 3C0A8017 */  lui   $t2, %hi(sAudioUpdateTaskEnd) # $t2, 0x8017
+/* B68A38 800F1898 3C0B8017 */  lui   $t3, %hi(sAudioUpdateTaskStart) # $t3, 0x8017
+/* B68A3C 800F189C 8D6BBABC */  lw    $t3, %lo(sAudioUpdateTaskStart)($t3)
+/* B68A40 800F18A0 8D4ABAC0 */  lw    $t2, %lo(sAudioUpdateTaskEnd)($t2)
 /* B68A44 800F18A4 154B0020 */  bne   $t2, $t3, .L800F1928
-/* B68A48 800F18A8 3C0D8017 */   lui   $t5, %hi(D_8016B7A4) # $t5, 0x8017
-/* B68A4C 800F18AC 3C0C8017 */  lui   $t4, %hi(D_8016B7A0) # $t4, 0x8017
-/* B68A50 800F18B0 8D8CB7A0 */  lw    $t4, %lo(D_8016B7A0)($t4)
-/* B68A54 800F18B4 8DADB7A4 */  lw    $t5, %lo(D_8016B7A4)($t5)
+/* B68A48 800F18A8 3C0D8017 */   lui   $t5, %hi(sAudioUpdateEndTime) # $t5, 0x8017
+/* B68A4C 800F18AC 3C0C8017 */  lui   $t4, %hi(sAudioUpdateStartTime) # $t4, 0x8017
+/* B68A50 800F18B0 8D8CB7A0 */  lw    $t4, %lo(sAudioUpdateStartTime)($t4)
+/* B68A54 800F18B4 8DADB7A4 */  lw    $t5, %lo(sAudioUpdateEndTime)($t5)
 /* B68A58 800F18B8 24040000 */  li    $a0, 0
 /* B68A5C 800F18BC 24060000 */  li    $a2, 0
 /* B68A60 800F18C0 24070040 */  li    $a3, 64
