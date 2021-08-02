@@ -4164,8 +4164,8 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 // are common across the two actors' structs however most other variables are not!
                 door = (EnDoor*)doorActor;
 
-                door->animStyle = (doorDirection < 0.0f) ? ((LINK_IS_ADULT) ? KNOB_ANIM_ADULT_L : KNOB_ANIM_CHILD_L)
-                                                         : ((LINK_IS_ADULT) ? KNOB_ANIM_ADULT_R : KNOB_ANIM_CHILD_R);
+                door->animStyle = (doorDirection < 0.0f) ? (LINK_IS_ADULT ? KNOB_ANIM_ADULT_L : KNOB_ANIM_CHILD_L)
+                                                         : (LINK_IS_ADULT ? KNOB_ANIM_ADULT_R : KNOB_ANIM_CHILD_R);
 
                 if (door->animStyle == KNOB_ANIM_ADULT_L) {
                     sp5C = D_808539EC[this->modelAnimType];
@@ -13518,8 +13518,8 @@ void func_80851A50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
     LinkAnimation_Update(globalCtx, &this->skelAnime);
 
-    if (((LINK_IS_ADULT) && LinkAnimation_OnFrame(&this->skelAnime, 70.0f)) ||
-        ((LINK_IS_CHILD) && LinkAnimation_OnFrame(&this->skelAnime, 87.0f))) {
+    if ((LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 70.0f)) ||
+        (LINK_IS_CHILD && LinkAnimation_OnFrame(&this->skelAnime, 87.0f))) {
         sp2C = &D_808551A4[gSaveContext.linkAge];
         this->interactRangeActor->parent = &this->actor;
 

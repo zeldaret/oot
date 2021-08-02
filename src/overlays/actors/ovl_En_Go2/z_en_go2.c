@@ -1161,7 +1161,7 @@ s32 EnGo2_IsCameraModified(EnGo2* this, GlobalContext* globalCtx) {
         (this->actor.params & 0x1F) == GORON_CITY_STAIRWELL || (this->actor.params & 0x1F) == GORON_DMT_BIGGORON ||
         (this->actor.params & 0x1F) == GORON_MARKET_BAZAAR) {
         return true;
-    } else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1))) {
+    } else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
         return true;
     } else {
         return false;
@@ -1555,7 +1555,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             if ((gSaveContext.infTable[16] & 0x200)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
-                if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1))) {
+                if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
                     EnGo2_GetItemAnimation(this, globalCtx);
                 } else {
                     this->actionFunc = EnGo2_CurledUp;

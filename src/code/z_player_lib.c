@@ -917,11 +917,11 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
             if ((this->sheathType == 18) || (this->sheathType == 19)) {
                 dLists += this->currentShield * 4;
-                if ((LINK_IS_CHILD) && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
+                if (LINK_IS_CHILD && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
                     (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                     dLists += 16;
                 }
-            } else if ((LINK_IS_CHILD) && ((this->sheathType == 16) || (this->sheathType == 17)) &&
+            } else if (LINK_IS_CHILD && ((this->sheathType == 16) || (this->sheathType == 17)) &&
                        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                 dLists = D_80125D68;
             }

@@ -766,9 +766,8 @@ void func_80AEC320(EnRu1* this, GlobalContext* globalCtx) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 7;
         EnRu1_SetMouthIndex(this, 1);
-    }
-    else if ((gSaveContext.infTable[20] & 0x80) && (!(gSaveContext.infTable[20] & 1)) &&
-        (!(gSaveContext.infTable[20] & 0x20))) {
+    } else if ((gSaveContext.infTable[20] & 0x80) && !(gSaveContext.infTable[20] & 1) &&
+               !(gSaveContext.infTable[20] & 0x20)) {
         if (!func_80AEB020(this, globalCtx)) {
             func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
             actorRoom = this->actor.room;
@@ -1172,8 +1171,8 @@ void func_80AED414(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AED44C(EnRu1* this, GlobalContext* globalCtx) {
     s8 actorRoom;
 
-    if ((gSaveContext.infTable[20] & 2) && (!(gSaveContext.infTable[20] & 0x20)) &&
-        (!(gSaveContext.infTable[20] & 1)) && (!(gSaveContext.infTable[20] & 0x80))) {
+    if ((gSaveContext.infTable[20] & 2) && !(gSaveContext.infTable[20] & 0x20) && !(gSaveContext.infTable[20] & 1) &&
+        !(gSaveContext.infTable[20] & 0x80)) {
         if (!func_80AEB020(this, globalCtx)) {
             func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
             actorRoom = this->actor.room;
@@ -1599,7 +1598,7 @@ s32 func_80AEE6D0(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad;
     s8 curRoomNum = globalCtx->roomCtx.curRoom.num;
 
-    if ((!(gSaveContext.infTable[20] & 0x10)) && (func_80AEB124(globalCtx) != 0)) {
+    if (!(gSaveContext.infTable[20] & 0x10) && (func_80AEB124(globalCtx) != 0)) {
         if (!Player_InCsMode(globalCtx)) {
             Animation_Change(&this->skelAnime, &gRutoChildSeesSapphireAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
@@ -2094,7 +2093,7 @@ void func_80AEFC24(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEFC54(EnRu1* this, GlobalContext* globalCtx) {
-    if ((gSaveContext.infTable[20] & 0x20) && (!(gSaveContext.infTable[20] & 0x40))) {
+    if ((gSaveContext.infTable[20] & 0x20) && !(gSaveContext.infTable[20] & 0x40)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 41;
         this->unk_28C = EnRu1_FindSwitch(globalCtx);
@@ -2115,7 +2114,7 @@ void func_80AEFCE8(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
-    if ((gSaveContext.eventChkInf[3] & 0x80) && (LINK_IS_NOT_ADULT)) {
+    if ((gSaveContext.eventChkInf[3] & 0x80) && LINK_IS_NOT_ADULT) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->actor.flags &= ~0x10;
         this->action = 44;
@@ -2178,7 +2177,7 @@ void func_80AEFF40(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEFF94(EnRu1* this, GlobalContext* globalCtx) {
     s8 actorRoom;
 
-    if ((gSaveContext.infTable[20] & 2) && (gSaveContext.infTable[20] & 1) && (!(gSaveContext.infTable[20] & 0x20)) &&
+    if ((gSaveContext.infTable[20] & 2) && (gSaveContext.infTable[20] & 1) && !(gSaveContext.infTable[20] & 0x20) &&
         (!(func_80AEB020(this, globalCtx)))) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         actorRoom = this->actor.room;

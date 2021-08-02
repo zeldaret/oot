@@ -879,7 +879,7 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 0, (s8)shadowAlpha);
 
-            if ((this->actionState == ENKANBAN_SIGN) && (LINK_IS_NOT_ADULT)) {
+            if ((this->actionState == ENKANBAN_SIGN) && LINK_IS_NOT_ADULT) {
                 zShift = 0.0f;
             } else {
                 zShift = ((this->actor.world.pos.y - this->actor.floorHeight) * -50.0f) / 100.0f;

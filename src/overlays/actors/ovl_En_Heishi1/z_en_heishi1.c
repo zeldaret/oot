@@ -451,7 +451,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         }
 
                         if (this->linkDetected) {
-                            // ! @bug This appears to be a check to make sure that link is standing on the ground
+                            //! @bug This appears to be a check to make sure that link is standing on the ground
                             // before getting caught. However this is an issue for two reasons:
                             // 1: When doing a backflip or falling from the upper path, links y velocity will reach
                             // less than -4.0 before even touching the ground.

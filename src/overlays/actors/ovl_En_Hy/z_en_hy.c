@@ -660,7 +660,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
                 return true;
             } else if (LINK_IS_CHILD) {
                 return true;
-            } else if (((this->actor.params & 0x7F) != 12) && (IS_NOT_DAY)) {
+            } else if (((this->actor.params & 0x7F) != 12) && IS_NOT_DAY) {
                 return false;
             } else {
                 return true;

@@ -1786,7 +1786,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
     spF0 = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
     if (spF0 != 0) {
-        f32 spD8 = (LINK_IS_ADULT) ? 80.0f : 60.0f;
+        f32 spD8 = LINK_IS_ADULT ? 80.0f : 60.0f;
         f32 spD4 = 1.0f;
         s32 spD0 = 0xFF;
         s32 spCC = spF0 - 40;
