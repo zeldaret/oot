@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_mo" Segment="6">
-        <!-- Morpha's Title Card       -->
+        <!-- Morpha's Title Card -->
         <Texture Name="gMorphaTitleCardTex" Format="i8" Width="128" Height="120" Offset="0x1010"/>
         
         <!-- DLists for Morpha's Core -->
@@ -68,9 +68,14 @@
         <DList Name="gMorphaDL_000EC0" Offset="0xEC0"/>
         <DList Name="gMorphaDL_000EF8" Offset="0xEF8"/>
         <DList Name="gMorphaDL_007BF8" Offset="0x7BF8"/>
-        <!-- <Vtx Name="gMorphaVtx_006938" Count="14" Offset="0x6938"/> -->
-        <Blob Name="gMorphaVtx_006938" Size="0xE0" Offset="0x6938"/>
-        <!-- <Vtx Name="gMorphaVtx_006938" Count="4" Offset="0x7BB8"/> -->
-        <Blob Name="gMorphaVtx_007BB8" Size="0x40" Offset="0x7BB8"/>
+        
+        <Array Name="gMorphaVtx_006938" Count="14" Offset="0x6938">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gMorphaVtx_007BB8" Count="4" Offset="0x7BB8">
+            <Vtx/>
+        </Array>
+
     </File>
 </Root>
