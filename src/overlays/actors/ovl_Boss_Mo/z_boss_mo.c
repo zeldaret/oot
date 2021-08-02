@@ -374,20 +374,20 @@ f32 BossMo_RandZeroOne(void) {
 
 s32 BossMo_OnLand(Vec3f* pos, f32 margin) {
     if (450.0f - margin <= fabsf(pos->x)) {
-        return 1;
+        return true;
     }
     if (450.0f - margin <= fabsf(pos->z)) {
-        return 1;
+        return true;
     }
     if ((fabsf(pos->x - 180.0f) < 90.0f + margin) || (fabsf(pos->x - -180.0f) < 90.0f + margin)) {
         if (fabsf(pos->z - 180.0f) < 90.0f + margin) {
-            return 1;
+            return true;
         }
         if (fabsf(pos->z - -180.0f) < 90.0f + margin) {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void BossMo_SpawnRipples(BossMoParticle* particle, Vec3f* pos, f32 scale, f32 maxScale, s16 maxAlpha, s16 partLimit,
@@ -541,7 +541,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         WATER_LEVEL(globalCtx) = this->waterLevel = WATER_LEVEL(globalCtx);
         globalCtx->unk_11D30[0] = 0xA0;
         globalCtx->specialEffects = &sParticles;
-        for (i = 0; i < 300; i++) {
+        for (i = 0; i < ARRAY_COUNT(sParticles); i++) {
             sParticles[i].type = 0;
         }
         this->actor.world.pos.x = 200.0f;
@@ -633,26 +633,26 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
     f32 swingSizeAccel;                           // real
     s16 rippleCount;                              // real
     s16 indT5;
-    Vec3f sp16C; // real
+    Vec3f ripplePos; // real
     f32 rand_angle;
     f32 rand_f;
     f32 temp_f22;
     f32 temp_f24;
     f32 sin;
     f32 cos;
-    f32 pad150;
+    f32 temp;
     f32 dx;
     f32 dy;
     f32 dz;
     Vec3f sp138; // real
     Vec3f sp12C; // real
     Vec3f sp120; // real
-    f32 pad11C;  // currently unused
-    f32 pad118;  // currently unused
-    f32 pad114;  // currently unused
-    f32 pad110;  // currently unused
-    f32 pad10C;  // currently unused
-    f32 pad108;  // currently unused
+    s32 pad11C;  // currently unused
+    s32 pad118;  // currently unused
+    s32 pad114;  // currently unused
+    s32 pad110;  // currently unused
+    s32 pad10C;  // currently unused
+    s32 pad108;  // currently unused
     Vec3f spFC;  // real
     Vec3f spF0;  // real
     f32 padEC;
@@ -695,7 +695,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             maxSwingSizeZ = 0.0;
             swingRateAccel = 30.0f;
             swingSizeAccel = 60.0f;
-            if (((this->sfxTimer % 0x10) == 0) && (this->timers[0] < 30)) {
+            if (((this->sfxTimer % 16) == 0) && (this->timers[0] < 30)) {
                 func_800F4B58(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, D_801305D0);
             }
         } else if (this->actionState == MO_TENT_SHAKE) {
@@ -708,7 +708,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 maxSwingSizeZ = 5000.0f;
                 swingRateAccel = 30.0f;
                 swingSizeAccel = 60.0f;
-                if ((this->sfxTimer % 0x20) == 0) {
+                if ((this->sfxTimer % 32) == 0) {
                     func_800F4B58(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, D_801305D0);
                     func_800AA000(0, 100, 5, 2);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
@@ -722,7 +722,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 maxSwingSizeZ = 100.0f;
                 swingRateAccel = 70.0f;
                 swingSizeAccel = 70.0f;
-                if ((this->sfxTimer % 0x10) == 0) {
+                if ((this->sfxTimer % 16) == 0) {
                     func_800F4B58(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, D_801305D0);
                     func_800AA000(0, 160, 5, 4);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
@@ -790,11 +790,11 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             for (indS1 = 0; indS1 < rippleCount; indS1++) {
                 rand_f = Rand_ZeroFloat(50.0f);
                 rand_angle = Rand_ZeroFloat(0x10000);
-                sp16C = this->actor.world.pos;
-                sp16C.x += sinf(rand_angle) * rand_f;
-                sp16C.z += cosf(rand_angle) * rand_f;
-                sp16C.y = WATER_LEVEL(globalCtx);
-                BossMo_SpawnRipples(globalCtx->specialEffects, &sp16C, 40.0f, 110.0f, 80, 290, MO_SMALL_RIPPLE);
+                ripplePos = this->actor.world.pos;
+                ripplePos.x += sinf(rand_angle) * rand_f;
+                ripplePos.z += cosf(rand_angle) * rand_f;
+                ripplePos.y = WATER_LEVEL(globalCtx);
+                BossMo_SpawnRipples(globalCtx->specialEffects, &ripplePos, 40.0f, 110.0f, 80, 290, MO_SMALL_RIPPLE);
             }
             break;
         case MO_TENT_READY:
@@ -969,7 +969,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachS(&player->actor.shape.rot.y, this->grabPosRot.rot.y, 2, 0x7D0);
                 Math_ApproachS(&player->actor.shape.rot.z, this->grabPosRot.rot.z, 2, 0x7D0);
                 if (this->timers[0] == 0) {
-                    camera1 = Gameplay_GetCamera(globalCtx, 0);
+                    camera1 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
                     this->actionState = MO_TENT_SHAKE;
                     this->tentMaxAngle = .001f;
                     this->swingRateX = this->swingRateZ = this->swingSizeX = this->swingSizeZ = this->tentSpeed = 0;
@@ -979,7 +979,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     func_800F4BE8();
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     this->csCamera = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+                    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, 1);
                     Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, 7);
                     this->cameraEye = camera1->eye;
                     this->cameraAt = camera1->at;
@@ -1011,8 +1011,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     temp_f22 = this->swingSizeX * (indS1 * 0.025f * sin);
                     cos = Math_SinS(((s16)this->swingLagZ * indS1) + this->tentSwingZ);
                     temp_f24 = this->swingSizeZ * (indS1 * 0.025f * cos);
-                    pad150 = ((((40 - indS1) * 25.0f) / 100.0f) + 5.0f);
-                    Math_ApproachF(&this->tentStretch[indS1].y, this->tentMaxStretch * pad150, 0.1f, 0.1f);
+                    temp = ((((40 - indS1) * 25.0f) / 100.0f) + 5.0f);
+                    Math_ApproachF(&this->tentStretch[indS1].y, this->tentMaxStretch * temp, 0.1f, 0.1f);
                     Math_ApproachS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
                     Math_ApproachS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
                 }
@@ -1098,7 +1098,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->cameraAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
                 Gameplay_CameraSetAtEye(globalCtx, this->csCamera, &this->cameraAt, &this->cameraEye);
                 if (player->actor.world.pos.y <= 42.0f) {
-                    camera2 = Gameplay_GetCamera(globalCtx, 0);
+                    camera2 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
                     camera2->eye = this->cameraEye;
                     camera2->eyeNext = this->cameraEye;
                     camera2->at = this->cameraAt;
@@ -1316,7 +1316,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
         Vec3f pos;                             // real
         Vec3f velocity = { 0.0f, 0.0f, 0.0f }; // real
         f32 scale;
-        f32 padA8;
+        f32 temp;
 
         if (this->actionState >= MO_TENT_DEATH_2) {
             indS1 = 38;
@@ -1327,9 +1327,9 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             scale = Rand_ZeroFloat(0.02f) + .05f;
             pos.y = this->tentPos[indS1].y - 10.0f;
         }
-        padA8 = (this->actor.scale.x * 100.0f) * 20.0f;
-        pos.x = this->tentPos[indS1].x + Rand_CenteredFloat(padA8);
-        pos.z = this->tentPos[indS1].z + Rand_CenteredFloat(padA8);
+        temp = (this->actor.scale.x * 100.0f) * 20.0f;
+        pos.x = this->tentPos[indS1].x + Rand_CenteredFloat(temp);
+        pos.z = this->tentPos[indS1].z + Rand_CenteredFloat(temp);
         BossMo_SpawnDroplet(MO_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &pos, &velocity, scale);
     }
 }
@@ -1390,12 +1390,12 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
     f32 dz;
     f32 tempX;
     f32 tempY;
-    f32 pad84;
+    s32 pad84;
     f32 sp80;
     f32 sp7C;
     f32 sp78;
     Player* player = PLAYER;
-    Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+    Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
     Vec3f bubblePos;
     Vec3f bubblePos2;
     Camera* camera2;
@@ -1423,7 +1423,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
                 this->csCamera = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, 1);
                 Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, 7);
                 this->actor.speedXZ = 0.0f;
                 this->csState = MO_INTRO_START;
@@ -1634,7 +1634,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 sMorphaTent1->timers[0] = 50;
             }
             if (this->timers[2] == 20) {
-                camera2 = Gameplay_GetCamera(globalCtx, 0);
+                camera2 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
                 camera2->eye = this->cameraEye;
                 camera2->eyeNext = this->cameraEye;
                 camera2->at = this->cameraAt;
@@ -1691,14 +1691,14 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
 
 void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
     s16 i;
-    s16 pad8C;
+    s16 one;
     f32 dx;
     f32 dz;
     f32 sp80;
     f32 sp7C;
     Vec3f sp70;
     Vec3f sp64;
-    Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+    Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
     Vec3f velocity;
     Vec3f pos;
 
@@ -1707,7 +1707,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->csCamera = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, 1);
             Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, 7);
             this->csState = MO_DEATH_MO_CORE_BURST;
             this->cameraEye = camera->eye;
@@ -1912,9 +1912,9 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&sp70, &sp64);
     this->cameraEye.x = sp64.x + this->cameraAt.x;
     this->cameraEye.z = sp64.z + this->cameraAt.z;
-    pad8C = 1; // Super fake, but it works
+    one = 1; // Super fake, but it works
     if (this->csCamera != 0) {
-        if (pad8C) {
+        if (one) {
             Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
                            this->cameraAtVel.y * this->cameraSpeedMod);
             Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
@@ -2045,8 +2045,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
     Vec3f effectPos;
     Vec3f effectVelocity;
     Vec3f effectAccel;
-    f32 pad94;
-    f32 pad90;
+    s32 pad94;
+    s32 pad90;
     s16 j;
     s16 index; // not on stack
     f32 sp88;
@@ -2533,7 +2533,7 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
         Vec3f sp7C;
         Vec3f bubblePos;
         Vec3f bubbleAccel = { 0.0f, 0.0f, 0.0f }; // Also velocity
-        f32 pad;
+        s32 pad;
 
         this->baseBubblesTimer--;
         sp88.x = 0.0;
