@@ -187,7 +187,7 @@ void EnWallmas_SetupLand(EnWallmas* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_GetLastFrame(objSegFrameCount),
                      ANIMMODE_ONCE, -3.0f);
 
-    func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
+    Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_LAND);
     this->actionFunc = EnWallmas_Land;
 }
@@ -307,7 +307,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 
     if ((player->stateFlags1 & 0x100000) || (player->stateFlags1 & 0x8000000) || !(player->actor.bgCheckFlags & 1) ||
         ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.home.pos, playerPos)))) {
-        func_800F8D04(NA_SE_EN_FALL_AIM);
+        Audio_StopSfx(NA_SE_EN_FALL_AIM);
         this->timer = 0x82;
     }
 
@@ -506,10 +506,10 @@ void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & AC_HIT) != 0) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DEAD);
                 this->actor.flags &= ~1;
             } else {

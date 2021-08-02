@@ -1,17 +1,30 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class SetRoomBehavior : public ZRoomCommand
 {
 public:
-	SetRoomBehavior(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	SetRoomBehavior(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GetCommandCName();
-	virtual RoomCommand GetRoomCommand();
+	void ParseRawData() override;
 
-private:
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	std::string GetCommandCName() const override;
+
+protected:
 	uint8_t gameplayFlags;
 	uint32_t gameplayFlags2;
+
+	uint8_t currRoomUnk2;
+
+	uint8_t showInvisActors;
+	uint8_t currRoomUnk5;
+
+	uint8_t msgCtxUnk;
+
+	uint8_t enablePosLights;
+	uint8_t kankyoContextUnkE2;
 };

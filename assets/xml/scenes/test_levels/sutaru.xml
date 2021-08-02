@@ -1,11 +1,8 @@
 <Root>
-    <File Name="sutaru_scene">
-        <Scene Name="sutaru_scene">
-            <BlobHint Offset="0xC4" Size="0x0C"/>
-        </Scene>
+    <File Name="sutaru_scene" Segment="2">
+        <Scene Name="sutaru_scene" Offset="0x0"/>
     </File>
-    <File Name="sutaru_room_0">
-        <Room Name="sutaru_room_0">
-        </Room>
+    <File Name="sutaru_room_0" Segment="3">
+        <Room Name="sutaru_room_0" Offset="0x0"/>
     </File>
 </Root>

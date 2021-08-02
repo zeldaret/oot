@@ -15,6 +15,6 @@
         <DList Name="gBigPoeFaceDL" Offset="0x5900"/>
         <DList Name="gBigPoeBodyDL" Offset="0x59F0"/>
         <DList Name="gPoeFieldBurnDL" Offset="0x66D0"/>
-        <Skeleton Name="gPoeFieldSkel" Type="Standard" LimbType="Standard" Offset="0x6A30"/>
+        <Skeleton Name="gPoeFieldSkel" Type="Normal" LimbType="Standard" Offset="0x6A30"/>
     </File>
 </Root>

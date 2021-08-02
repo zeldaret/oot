@@ -6,21 +6,26 @@
 class ZBlob : public ZResource
 {
 public:
-	ZBlob(const std::vector<uint8_t>& nRawData, int rawDataIndex, int size, std::string nName);
+	ZBlob(ZFile* nParent);
 
-	static ZBlob* ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                             int rawDataIndex, std::string nRelPath);
 	static ZBlob* BuildFromXML(tinyxml2::XMLElement* reader, const std::string& inFolder,
 	                           bool readFile);
 	static ZBlob* FromFile(const std::string& filePath);
+
+	void ParseXML(tinyxml2::XMLElement* reader) override;
+	void ParseRawData() override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 	std::string GetSourceOutputHeader(const std::string& prefix) override;
-	void Save(const std::string& outFolder) override;
-	bool IsExternalResource() override;
-	std::string GetExternalExtension() override;
-	std::string GetSourceTypeName() override;
-	ZResourceType GetResourceType() override;
+	void Save(const fs::path& outFolder) override;
 
-private:
-	ZBlob();
+	bool IsExternalResource() const override;
+	std::string GetSourceTypeName() const override;
+	ZResourceType GetResourceType() const override;
+	std::string GetExternalExtension() const override;
+
+	size_t GetRawDataSize() const override;
+
+protected:
+	std::vector<uint8_t> blobData;
+	size_t blobSize = 0;
 };

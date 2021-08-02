@@ -93,7 +93,7 @@ glabel EnTorch2_Update
 /* 00558 80B1DED8 46083280 */  add.s   $f10, $f6, $f8             
 /* 0055C 80B1DEDC 45010007 */  bc1t    .L80B1DEFC                 
 /* 00560 80B1DEE0 E60A002C */  swc1    $f10, 0x002C($s0)          ## 0000002C
-/* 00564 80B1DEE4 0C00CEA1 */  jal     func_80033A84              
+/* 00564 80B1DEE4 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 00568 80B1DEE8 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 0056C 80B1DEEC 14400003 */  bne     $v0, $zero, .L80B1DEFC     
 /* 00570 80B1DEF0 8FAB005C */  lw      $t3, 0x005C($sp)           
@@ -514,7 +514,7 @@ glabel EnTorch2_Update
 /* 00B78 80B1E4F8 00000000 */  nop
 /* 00B7C 80B1E4FC 4500002E */  bc1f    .L80B1E5B8                 
 /* 00B80 80B1E500 00000000 */  nop
-/* 00B84 80B1E504 0C00CEA1 */  jal     func_80033A84              
+/* 00B84 80B1E504 0C00CEA1 */  jal     Actor_IsTargeted              
 /* 00B88 80B1E508 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00B8C 80B1E50C 1040002A */  beq     $v0, $zero, .L80B1E5B8     
 /* 00B90 80B1E510 3C0380B2 */  lui     $v1, %hi(sSwordJumpTimer)       ## $v1 = 80B20000
@@ -1333,7 +1333,7 @@ glabel EnTorch2_Update
 /* 01744 80B1F0C4 272E0001 */  addiu   $t6, $t9, 0x0001           ## $t6 = 00000001
 /* 01748 80B1F0C8 A04E0000 */  sb      $t6, 0x0000($v0)           ## 80B1FA04
 /* 0174C 80B1F0CC A023015E */  sb      $v1, %lo(sActionState)($at)  
-/* 01750 80B1F0D0 0C00CB1F */  jal     func_80032C7C              
+/* 01750 80B1F0D0 0C00CB1F */  jal     Enemy_StartFinishingBlow              
 /* 01754 80B1F0D4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01758 80B1F0D8 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 0175C 80B1F0DC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
@@ -1395,7 +1395,7 @@ glabel EnTorch2_Update
 /* 0182C 80B1F1AC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01830 80B1F1B0 E60008A8 */  swc1    $f0, 0x08A8($s0)           ## 000008A8
 /* 01834 80B1F1B4 A20B08A0 */  sb      $t3, 0x08A0($s0)           ## 000008A0
-/* 01838 80B1F1B8 0C00D594 */  jal     func_80035650              
+/* 01838 80B1F1B8 0C00D594 */  jal     Actor_SetDropFlag              
 /* 0183C 80B1F1BC E61008A4 */  swc1    $f16, 0x08A4($s0)          ## 000008A4
 /* 01840 80B1F1C0 920F0692 */  lbu     $t7, 0x0692($s0)           ## 00000692
 /* 01844 80B1F1C4 3C0C80B2 */  lui     $t4, %hi(sAlpha)       ## $t4 = 80B20000

@@ -5,7 +5,7 @@ SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;
 struct_80166500 D_80166500;
 VisMono sMonoColors;
-unk_80166528 D_80166528;
+ViMode sViMode;
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
 
@@ -251,9 +251,9 @@ void GameState_Update(GameState* gameState) {
             gfxCtx->xScale = gViConfigXScale;
             gfxCtx->yScale = gViConfigYScale;
         } else if (SREG(48) > 0) {
-            func_800ACAF8(&D_80166528, gameState->input, gfxCtx);
-            gfxCtx->viMode = &D_80166528.viMode;
-            gfxCtx->viFeatures = D_80166528.viFeatures;
+            ViMode_Update(&sViMode, gameState->input);
+            gfxCtx->viMode = &sViMode.customViMode;
+            gfxCtx->viFeatures = sViMode.viFeatures;
             gfxCtx->xScale = 1.0f;
             gfxCtx->yScale = 1.0f;
         }
@@ -262,22 +262,22 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->viFeatures = gViConfigFeatures;
         gfxCtx->xScale = gViConfigXScale;
         gfxCtx->yScale = gViConfigYScale;
-        if (SREG(63) == 6 || (SREG(63) == 2u && osTvType == 1)) {
+        if (SREG(63) == 6 || (SREG(63) == 2u && osTvType == OS_TV_NTSC)) {
             gfxCtx->viMode = &osViModeNtscLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 5 || (SREG(63) == 2u && osTvType == 2)) {
+        if (SREG(63) == 5 || (SREG(63) == 2u && osTvType == OS_TV_MPAL)) {
             gfxCtx->viMode = &osViModeMpalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 4 || (SREG(63) == 2u && osTvType == 0)) {
+        if (SREG(63) == 4 || (SREG(63) == 2u && osTvType == OS_TV_PAL)) {
             gfxCtx->viMode = &osViModePalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 3 || (SREG(63) == 2u && osTvType == 0)) {
+        if (SREG(63) == 3 || (SREG(63) == 2u && osTvType == OS_TV_PAL)) {
             gfxCtx->viMode = &osViModeFpalLan1;
             gfxCtx->yScale = 0.833f;
         }
@@ -416,7 +416,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     func_800AD920(&D_80166500);
     VisMono_Init(&sMonoColors);
     if (SREG(48) == 0) {
-        func_800ACA28(&D_80166528);
+        ViMode_Init(&sViMode);
     }
     SpeedMeter_Init(&D_801664D0);
     func_800AA0B4();
@@ -436,7 +436,7 @@ void GameState_Destroy(GameState* gameState) {
     // game destructor start
     osSyncPrintf("game デストラクタ開始\n");
     func_800C3C20();
-    func_800F3054();
+    func_800F30534();
     osRecvMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
     LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1139);
     if (gameState->destroy != NULL) {
@@ -448,7 +448,7 @@ void GameState_Destroy(GameState* gameState) {
     func_800AD950(&D_80166500);
     VisMono_Destroy(&sMonoColors);
     if (SREG(48) == 0) {
-        func_800ACA90(&D_80166528);
+        ViMode_Destroy(&sViMode);
     }
     THA_Dt(&gameState->tha);
     GameAlloc_Cleanup(&gameState->alloc);

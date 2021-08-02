@@ -39,7 +39,7 @@ const ActorInit Bg_Ice_Objects_InitVars = {
     (ActorFunc)BgIceObjects_Draw,
 };
 
-InitChainEntry sInitChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 

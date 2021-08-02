@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_jya_kanaami.h"
+#include "objects/object_jya_obj/object_jya_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -40,10 +41,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern Gfx D_0600F000[];
-extern CollisionHeader D_0600F208;
-
-void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
+void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                               DynaPolyMoveFlag flag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -60,7 +59,7 @@ void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, CollisionHeader
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaKanaami* this = THIS;
 
-    func_80899740(this, globalCtx, &D_0600F208, 0);
+    BgJyaKanaami_InitDynaPoly(this, globalCtx, &gKanaamiCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_80899A08(this);
@@ -100,16 +99,16 @@ void func_8089993C(BgJyaKanaami* this) {
 
 void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
     s32 pad[2];
-    s32 var;
+    s32 quakeId;
 
     this->unk_168 += 0x20;
     if (Math_ScaledStepToS(&this->dyna.actor.world.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
-        var = Quake_Add(ACTIVE_CAM, 3);
-        Quake_SetSpeed(var, 25000);
-        Quake_SetQuakeValues(var, 2, 0, 0, 0);
-        Quake_SetCountdown(var, 0x10);
+        quakeId = Quake_Add(ACTIVE_CAM, 3);
+        Quake_SetSpeed(quakeId, 25000);
+        Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
+        Quake_SetCountdown(quakeId, 16);
     }
 }
 
@@ -128,5 +127,5 @@ void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaKanaami_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_0600F000);
+    Gfx_DrawDListOpa(globalCtx, gKanaamiDL);
 }

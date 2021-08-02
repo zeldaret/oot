@@ -955,7 +955,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_BF = 1;
                 func_8002DF54(globalCtx, &this->actor, 8);
             } else if (this->timer >= 35000) {
-                Audio_SetBGM(0x1B);
+                Audio_QueueSeqCmd(0x1B);
             }
 
             this->timer += this->unk_1F2;
@@ -1380,7 +1380,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
                         sPhase4HP += 3;
                         if (sFightPhase >= PHASE_DEATH) {
                             BossVa_SetupBodyDeath(this, globalCtx);
-                            func_80032C7C(globalCtx, &this->actor);
+                            Enemy_StartFinishingBlow(globalCtx, &this->actor);
                             return;
                         }
                         this->actor.speedXZ = -10.0f;
@@ -1511,7 +1511,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
 void BossVa_SetupBodyDeath(BossVa* this, GlobalContext* globalCtx) {
     func_800F436C(&this->actor.projectedPos, 0x313C, 1.0f);
     this->actor.flags &= ~5;
-    Audio_SetBGM(0x100100FF);
+    Audio_QueueSeqCmd(0x100100FF);
     this->vaCamRotMod = 0xC31;
     sCsState = DEATH_START;
     this->actor.speedXZ = 0.0f;
@@ -1595,7 +1595,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
             break;
         case DEATH_CORE_BURST:
             if (this->timer == 13) {
-                Audio_SetBGM(0x21);
+                Audio_QueueSeqCmd(0x21);
             }
 
             this->timer--;
