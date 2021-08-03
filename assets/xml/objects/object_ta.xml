@@ -14,7 +14,7 @@
         <DList Name="object_ta_DL_005FD8" Offset="0x5FD8"/>
         <DList Name="object_ta_DL_006330" Offset="0x6330"/>
         <DList Name="object_ta_DL_006770" Offset="0x6770"/>
-        <Texture Name="object_ta_TLUT_006AC0" OutName="tlut_00006AC0" Format="rgb5a1" Width="132" Height="1" Offset="0x6AC0"/><!--Blob Name="object_ta_Blob_006CC0" Size="0x100" Offset="0x6CC0" /-->
+        <Texture Name="object_ta_TLUT_006AC0" OutName="tlut_00006AC0" Format="rgba16" Width="132" Height="1" Offset="0x6AC0"/><!--Blob Name="object_ta_Blob_006CC0" Size="0x100" Offset="0x6CC0" /-->
         <Texture Name="object_ta_Tex_006DC0" OutName="tex_00006DC0" Format="ci8" Width="8" Height="8" Offset="0x6DC0"/>
         <Texture Name="object_ta_Tex_006E00" OutName="tex_00006E00" Format="ci8" Width="8" Height="8" Offset="0x6E00"/>
         <Texture Name="object_ta_Tex_006E40" OutName="tex_00006E40" Format="ci8" Width="8" Height="16" Offset="0x6E40"/>
@@ -27,7 +27,7 @@
         <DList Name="object_ta_DL_0096D0" Offset="0x96D0"/>
         <DList Name="object_ta_DL_00A2F8" Offset="0xA2F8"/>
         <DList Name="object_ta_DL_00A498" Offset="0xA498"/>
-        <Texture Name="object_ta_TLUT_00A638" OutName="tlut_0000A638" Format="rgb5a1" Width="16" Height="16" Offset="0xA638"/>
+        <Texture Name="object_ta_TLUT_00A638" OutName="tlut_0000A638" Format="rgba16" Width="16" Height="16" Offset="0xA638"/>
         <Blob Name="object_ta_Blob_00A838" Size="0x80" Offset="0xA838"/>
         <Texture Name="object_ta_Tex_00A8B8" OutName="tex_0000A8B8" Format="ci8" Width="8" Height="8" Offset="0xA8B8"/>
         <Texture Name="object_ta_Tex_00A8F8" OutName="tex_0000A8F8" Format="ci8" Width="16" Height="16" Offset="0xA8F8"/>
@@ -37,8 +37,8 @@
         <Texture Name="object_ta_Tex_00AC78" OutName="tex_0000AC78" Format="ci8" Width="8" Height="8" Offset="0xAC78"/>
         <Texture Name="object_ta_Tex_00ACB8" OutName="tex_0000ACB8" Format="ci8" Width="16" Height="16" Offset="0xACB8"/>
         <Texture Name="object_ta_Tex_00ADB8" OutName="tex_0000ADB8" Format="ci8" Width="16" Height="32" Offset="0xADB8"/>
-        <Texture Name="object_ta_Tex_00AFB8" OutName="tex_0000AFB8" Format="rgb5a1" Width="16" Height="32" Offset="0xAFB8"/>
-        <Texture Name="object_ta_Tex_00B3B8" OutName="tex_0000B3B8" Format="rgb5a1" Width="8" Height="16" Offset="0xB3B8"/>
+        <Texture Name="object_ta_Tex_00AFB8" OutName="tex_0000AFB8" Format="rgba16" Width="16" Height="32" Offset="0xAFB8"/>
+        <Texture Name="object_ta_Tex_00B3B8" OutName="tex_0000B3B8" Format="rgba16" Width="8" Height="16" Offset="0xB3B8"/>
         <Blob Name="object_ta_Blob_00B4B8" Size="0x200" Offset="0xB4B8"/>
         <Limb Name="object_ta_Limb_00B6B8" LimbType="Standard" Offset="0xB6B8"/>
         <Limb Name="object_ta_Limb_00B6C4" LimbType="Standard" Offset="0xB6C4"/>

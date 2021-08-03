@@ -39,7 +39,7 @@
         <DList Name="gEnMbDL_0077F8" Offset="0x077F8"/>
         <DList Name="gEnMbDL_007AD0" Offset="0x07AD0"/>
         <DList Name="gEnMbDL_007E70" Offset="0x07E70"/>
-        <Texture Name="gEnMbFaceTex" OutName="face" Format="rgb5a1" Width="16" Height="32" Offset="0x8528"/>
+        <Texture Name="gEnMbFaceTex" OutName="face" Format="rgba16" Width="16" Height="32" Offset="0x8528"/>
         <DList Name="gEnMbDL_012580" Offset="0x12580"/>
         <DList Name="gEnMbDL_012698" Offset="0x12698"/>
         <DList Name="gEnMbDL_012868" Offset="0x12868"/>

@@ -12,9 +12,9 @@
         <Animation Name="gDntStageWalkAnim" Offset="0x2E1C"/>
 
         <!-- Forest Stage scrub eye textures -->
-        <Texture Name="gDntStageEyeOpenTex" OutName="dnt_stage_eye_open" Format="rgb5a1" Width="8" Height="8" Offset="0x27D0"/>
-        <Texture Name="gDntStageEyeHalfTex" OutName="dnt_stage_eye_half" Format="rgb5a1" Width="8" Height="8" Offset="0x25D0"/>
-        <Texture Name="gDntStageEyeShutTex" OutName="dnt_stage_eye_shut" Format="rgb5a1" Width="8" Height="8" Offset="0x2750"/>
+        <Texture Name="gDntStageEyeOpenTex" OutName="dnt_stage_eye_open" Format="rgba16" Width="8" Height="8" Offset="0x27D0"/>
+        <Texture Name="gDntStageEyeHalfTex" OutName="dnt_stage_eye_half" Format="rgba16" Width="8" Height="8" Offset="0x25D0"/>
+        <Texture Name="gDntStageEyeShutTex" OutName="dnt_stage_eye_shut" Format="rgba16" Width="8" Height="8" Offset="0x2750"/>
 
         <!-- Forest Stage scrub flower -->
         <DList Name="gDntStageFlowerDL" Offset="0x1B00"/>

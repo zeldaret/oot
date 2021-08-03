@@ -71,7 +71,7 @@ glabel L80075BD8
 /* AECDA4 80075C04 3C0410F0 */  lui   $a0, (0x10F000FF >> 16) # lui $a0, 0x10f0
 /* AECDA8 80075C08 55600005 */  bnezl $t3, .L80075C20
 /* AECDAC 80075C0C 3C010001 */   lui   $at, 1
-/* AECDB0 80075C10 0C03E803 */  jal   Audio_SetBGM
+/* AECDB0 80075C10 0C03E803 */  jal   Audio_QueueSeqCmd
 /* AECDB4 80075C14 348400FF */   ori   $a0, (0x10F000FF & 0xFFFF) # ori $a0, $a0, 0xff
 /* AECDB8 80075C18 92020B04 */  lbu   $v0, 0xb04($s0)
 /* AECDBC 80075C1C 3C010001 */  lui   $at, 1

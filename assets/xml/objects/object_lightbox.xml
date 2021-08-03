@@ -8,8 +8,8 @@
         <DList Name="object_lightbox_DL_0007A0" Offset="0x7A0"/>
         <Blob Name="object_lightbox_Blob_000A40" Size="0x130" Offset="0xA40"/>
         <DList Name="object_lightbox_DL_000B70" Offset="0xB70"/>
-        <Texture Name="object_lightbox_Tex_000E10" OutName="tex_00000E10" Format="rgb5a1" Width="32" Height="32" Offset="0xE10"/>
-        <Texture Name="object_lightbox_Tex_001610" OutName="tex_00001610" Format="rgb5a1" Width="32" Height="32" Offset="0x1610"/>
+        <Texture Name="object_lightbox_Tex_000E10" OutName="tex_00000E10" Format="rgba16" Width="32" Height="32" Offset="0xE10"/>
+        <Texture Name="object_lightbox_Tex_001610" OutName="tex_00001610" Format="rgba16" Width="32" Height="32" Offset="0x1610"/>
         <Blob Name="object_lightbox_Blob_001E10" Size="0x130" Offset="0x1E10"/>
     </File>
 </Root>
