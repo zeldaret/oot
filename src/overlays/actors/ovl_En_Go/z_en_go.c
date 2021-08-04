@@ -227,7 +227,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                     unkState = 0;
                     break;
                 case 0x3036:
-                    func_8002F434(thisx, globalCtx, GI_TUNIC_GORON, xzRange, yRange);
+                    Actor_PickUp(thisx, globalCtx, GI_TUNIC_GORON, xzRange, yRange);
                     gSaveContext.infTable[16] |= 0x2000; // EnGo exclusive flag
                     unkState = 2;
                     break;
@@ -972,7 +972,7 @@ void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
 
         yDist = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzDist = this->actor.xzDistToPlayer + 1.0f;
-        func_8002F434(&this->actor, globalCtx, getItemId, xzDist, yDist);
+        Actor_PickUp(&this->actor, globalCtx, getItemId, xzDist, yDist);
     }
 }
 

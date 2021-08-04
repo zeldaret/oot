@@ -1321,7 +1321,7 @@ void EnOssan_GiveItemWithFanfare(GlobalContext* globalCtx, EnOssan* this) {
     Player* player = PLAYER;
 
     osSyncPrintf("\n" VT_FGCOL(YELLOW) "初めて手にいれた！！" VT_RST "\n\n");
-    func_8002F434(&this->actor, globalCtx, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
+    Actor_PickUp(&this->actor, globalCtx, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
     globalCtx->msgCtx.msgMode = 0x36;
     globalCtx->msgCtx.unk_E3E7 = 4;
     player->stateFlags2 &= ~0x20000000;
@@ -1652,7 +1652,7 @@ void EnOssan_State_GiveItemWithFanfare(EnOssan* this, GlobalContext* globalCtx, 
         this->stateFlag = OSSAN_STATE_ITEM_PURCHASED;
         return;
     }
-    func_8002F434(&this->actor, globalCtx, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
+    Actor_PickUp(&this->actor, globalCtx, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
 }
 
 void EnOssan_State_ItemPurchased(EnOssan* this, GlobalContext* globalCtx, Player* player) {

@@ -453,7 +453,7 @@ void func_809EEA00(EnDivingGame* this, GlobalContext* globalCtx) {
     if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx))) {
         func_80106CCC(globalCtx);
         this->actor.parent = NULL;
-        func_8002F434(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
         this->actionFunc = func_809EEA90;
     }
 }
@@ -463,7 +463,7 @@ void func_809EEA90(EnDivingGame* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_809EEAF8;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
     }
 }
 

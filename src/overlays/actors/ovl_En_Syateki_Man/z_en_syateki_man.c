@@ -284,7 +284,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                             this->getItemId = GI_RUPEE_PURPLE;
                         }
                     }
-                    func_8002F434(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
+                    Actor_PickUp(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
                     this->actionFunc = EnSyatekiMan_GivePrize;
                     break;
                 case SYATEKI_RESULT_ALMOST:
@@ -313,7 +313,7 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnSyatekiMan_FinishPrize;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
+        Actor_PickUp(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
     }
 }
 

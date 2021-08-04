@@ -132,7 +132,7 @@ void func_80A89160(EnJs* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         En_Js_SetupAction(this, func_80A8910C);
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_BOMBCHUS_10, 10000.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_BOMBCHUS_10, 10000.0f, 50.0f);
     }
 }
 

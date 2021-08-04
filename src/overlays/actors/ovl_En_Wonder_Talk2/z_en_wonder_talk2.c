@@ -163,7 +163,7 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
             }
 
             this->unk_158 = 0;
-            Actor_RequestToTalkAndExchangeItemInRange(&this->actor, globalCtx, this->triggerRange + 50.0f, 100.0f,
+            Actor_RequestToTalkTradeItemInRange(&this->actor, globalCtx, this->triggerRange + 50.0f, 100.0f,
                                                       EXCH_ITEM_NONE);
         }
     }

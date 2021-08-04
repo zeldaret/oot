@@ -4992,7 +4992,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                 }
 
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
+                Actor_PickUp(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
                 this->unk_15C = 23;
             }
             break;
@@ -5043,7 +5043,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             if (Actor_HasParent(&this->actor, globalCtx)) {
                 this->unk_15C = 24;
             } else {
-                func_8002F434(&this->actor, globalCtx, GI_SCALE_GOLD, 2000.0f, 1000.0f);
+                Actor_PickUp(&this->actor, globalCtx, GI_SCALE_GOLD, 2000.0f, 1000.0f);
             }
             break;
 

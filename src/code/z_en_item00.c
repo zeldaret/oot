@@ -684,7 +684,7 @@ void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
 
     if (this->unk_152 != 0) {
         if (!Actor_HasParent(&this->actor, globalCtx)) {
-            func_8002F434(&this->actor, globalCtx, this->unk_152, 50.0f, 80.0f);
+            Actor_PickUp(&this->actor, globalCtx, this->unk_152, 50.0f, 80.0f);
             this->unk_15A++;
         } else {
             this->unk_152 = 0;

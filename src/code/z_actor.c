@@ -1495,7 +1495,7 @@ u32 Actor_IsTalking(Actor* actor, GlobalContext* globalCtx) {
     return false;
 }
 
-s32 Actor_RequestToTalkAndExchangeItemInRange(Actor* actor, GlobalContext* globalCtx, f32 radius, f32 height,
+s32 Actor_RequestToTalkTradeItemInRange(Actor* actor, GlobalContext* globalCtx, f32 radius, f32 height,
                                               u32 exchangeItemId) {
     Player* player = PLAYER;
 
@@ -1515,7 +1515,7 @@ s32 Actor_RequestToTalkAndExchangeItemInRange(Actor* actor, GlobalContext* globa
 }
 
 s32 Actor_RequestToTalkAndExchangeItem(Actor* actor, GlobalContext* globalCtx, f32 range, u32 exchangeItemId) {
-    return Actor_RequestToTalkAndExchangeItemInRange(actor, globalCtx, range, range, exchangeItemId);
+    return Actor_RequestToTalkTradeItemInRange(actor, globalCtx, range, range, exchangeItemId);
 }
 
 s32 Actor_RequestToTalkInRange(Actor* actor, GlobalContext* globalCtx, f32 radius) {
@@ -1563,7 +1563,7 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
 }
 
 // Related to carrying an actor as well as giving the player an item?
-s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
+s32 Actor_PickUp(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = PLAYER;
 
     if (!(player->stateFlags1 & 0x3C7080) && Player_GetExplosiveHeld(player) < 0) {
@@ -1588,7 +1588,7 @@ s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzR
 }
 
 void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
-    func_8002F434(actor, globalCtx, getItemId, 50.0f, 10.0f);
+    Actor_PickUp(actor, globalCtx, getItemId, 50.0f, 10.0f);
 }
 
 void func_8002F580(Actor* actor, GlobalContext* globalCtx) {
@@ -1759,7 +1759,7 @@ static LightNode* D_8015BC10;
 static s32 D_8015BC14;
 static f32 D_8015BC18;
 
-void Actor_InitFaroresWindPointer(GlobalContext* globalCtx) {
+void Actor_InitFaroresWindMarker(GlobalContext* globalCtx) {
     Vec3f lightPos;
 
     if (gSaveContext.fw.set) {
@@ -1977,7 +1977,7 @@ void Actor_InitContext(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEn
 
     Actor_SpawnEntry(actorCtx, actorEntry, globalCtx);
     Target_Init(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, globalCtx);
-    Actor_InitFaroresWindPointer(globalCtx);
+    Actor_InitFaroresWindMarker(globalCtx);
 }
 
 static u32 D_80116068[] = {

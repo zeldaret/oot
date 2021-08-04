@@ -185,7 +185,7 @@ void EnBomBowlPit_GivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
 
     player->stateFlags1 &= ~0x20000000;
     this->actor.parent = NULL;
-    func_8002F434(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
+    Actor_PickUp(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
     player->stateFlags1 |= 0x20000000;
     this->actionFunc = EnBomBowlPit_WaitTillPrizeGiven;
 }
@@ -194,7 +194,7 @@ void EnBomBowlPit_WaitTillPrizeGiven(EnBomBowlPit* this, GlobalContext* globalCt
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnBomBowlPit_Reset;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
+        Actor_PickUp(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
     }
 }
 

@@ -261,7 +261,7 @@ s32 func_80A6F790(EnHy* this, GlobalContext* globalCtx) {
 
 void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
     this->unk_260 = getItemId;
-    func_8002F434(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
+    Actor_PickUp(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
                   fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
@@ -895,7 +895,7 @@ void func_80A714C4(EnHy* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_80A71530;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->unk_260, this->actor.xzDistToPlayer + 1.0f,
+        Actor_PickUp(&this->actor, globalCtx, this->unk_260, this->actor.xzDistToPlayer + 1.0f,
                       fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }

@@ -286,7 +286,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
         if (this->actor.xzDistToPlayer < targetDist) {
             this->actor.flags |= 0x10000;
-            Actor_RequestToTalkAndExchangeItemInRange(&this->actor, globalCtx, targetDist, distCheck, 0);
+            Actor_RequestToTalkTradeItemInRange(&this->actor, globalCtx, targetDist, distCheck, 0);
         }
         return false;
     }
@@ -298,7 +298,7 @@ s32 func_80ACA558(EnOwl* this, GlobalContext* globalCtx, u16 textId) {
     } else {
         this->actor.textId = textId;
         if (this->actor.xzDistToPlayer < 120.0f) {
-            Actor_RequestToTalkAndExchangeItemInRange(&this->actor, globalCtx, 350.0f, 1000.0f, 0);
+            Actor_RequestToTalkTradeItemInRange(&this->actor, globalCtx, 350.0f, 1000.0f, 0);
         }
         return false;
     }

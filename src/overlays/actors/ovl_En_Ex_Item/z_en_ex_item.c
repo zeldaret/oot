@@ -392,7 +392,7 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
         } else {
             getItemId = GI_BULLET_BAG_50;
         }
-        func_8002F434(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
+        Actor_PickUp(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
         this->actionFunc = EnExItem_TargetPrizeGive;
     }
 }
@@ -405,7 +405,7 @@ void EnExItem_TargetPrizeGive(EnExItem* this, GlobalContext* globalCtx) {
     } else {
         getItemId = (CUR_UPG_VALUE(UPG_BULLET_BAG) == 2) ? GI_BULLET_BAG_50 : GI_BULLET_BAG_40;
 
-        func_8002F434(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
+        Actor_PickUp(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
     }
 }
 

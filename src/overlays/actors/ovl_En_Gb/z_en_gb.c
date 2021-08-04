@@ -352,7 +352,7 @@ void func_80A2FA50(EnGb* this, GlobalContext* globalCtx) {
 
 void func_80A2FB40(EnGb* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
-        func_8002F434(&this->dyna.actor, globalCtx, GI_BOTTLE, 100.0f, 10.0f);
+        Actor_PickUp(&this->dyna.actor, globalCtx, GI_BOTTLE, 100.0f, 10.0f);
         this->actionFunc = func_80A2FBB0;
     }
 }
@@ -362,7 +362,7 @@ void func_80A2FBB0(EnGb* this, GlobalContext* globalCtx) {
         this->dyna.actor.parent = NULL;
         this->actionFunc = func_80A2FC0C;
     } else {
-        func_8002F434(&this->dyna.actor, globalCtx, GI_BOTTLE, 100.0f, 10.0f);
+        Actor_PickUp(&this->dyna.actor, globalCtx, GI_BOTTLE, 100.0f, 10.0f);
     }
 }
 
