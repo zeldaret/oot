@@ -470,8 +470,8 @@ void BossTw_AddShieldDeflectEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2)
                 eff->pos = sShieldHitPos;
                 eff->curSpeed = sZeroVector;
                 eff->accel = sZeroVector;
-                eff->workf[EFF_ROLL] = i * 0.7853982f;
-                eff->workf[EFF_YAW] = 1.5707964f;
+                eff->workf[EFF_ROLL] = i * (M_PI / 4.0f);
+                eff->workf[EFF_YAW] = M_PI / 2.0f;
                 eff->workf[EFF_DIST] = 0.0f;
                 eff->workf[EFF_SCALE] = arg1 / 1000.0f;
                 eff->work[EFF_ARGS] = arg2;
@@ -500,8 +500,8 @@ void BossTw_AddShieldHitEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
                 eff->pos = sShieldHitPos;
                 eff->curSpeed = sZeroVector;
                 eff->accel = sZeroVector;
-                eff->workf[EFF_ROLL] = i * (2.0f * M_PI / 8.0f);
-                eff->workf[EFF_YAW] = 1.5707964f;
+                eff->workf[EFF_ROLL] = i * (M_PI / 4.0f);
+                eff->workf[EFF_YAW] = M_PI / 2.0f;
                 eff->workf[EFF_DIST] = 0.0f;
                 eff->workf[EFF_SCALE] = arg1 / 1000.0f;
                 eff->work[EFF_ARGS] = arg2;
@@ -1307,6 +1307,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
 
             for (i = 0; i < 200; i++) {
                 Vec3f spBC;
+
                 Matrix_MultVec3f(&sp130, &spBC);
                 floorY = BossTw_GetFloorY(&spBC);
                 this->groundBlastPos.y = floorY;
@@ -1773,7 +1774,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             }
 
             if (this->timers[2] == 1) {
-                Camera* cam = Gameplay_GetCamera(globalCtx, 0);
+                Camera* cam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
                 cam->eye = this->subCamEye;
                 cam->eyeNext = this->subCamEye;
@@ -2337,7 +2338,8 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             }
 
             if (this->work[CS_TIMER_1] == 260) {
-                Camera* cam = Gameplay_GetCamera(globalCtx, 0);
+                Camera* cam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+
                 cam->eye = this->subCamEye;
                 cam->eyeNext = this->subCamEye;
                 cam->at = this->subCamAt;
@@ -2675,7 +2677,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f spD8;
     Player* player = PLAYER;
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, 0);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
     SkelAnime_Update(&this->skelAnime);
     this->work[UNK_S8] += 20;
@@ -2899,11 +2901,11 @@ Vec3f D_8094A8F4 = { 0.0f, 0.0f, 0.0f };
 #endif
 
 static s16 D_8094A900[] = {
-    0x0000, 0x0001, 0x0002, 0x0002, 0x0001, 0x0000,
+    0, 1, 2, 2, 1,
 };
 
 static s16 D_8094A90C[] = {
-    0x0000, 0x0001, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0000,
+    0, 1, 2, 2, 2, 2, 2, 2, 1,
 };
 
 void BossTw_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -3642,7 +3644,7 @@ s32 BossTw_TwinrovaOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx
     switch (limbIndex) {
         case 21:
             gSPSegment(POLY_OPA_DISP++, 0xC,
-                       Gfx_TexScroll(globalCtx->state.gfxCtx, 0U, (s16)(f32)this->work[CS_TIMER_1], 8, 8));
+                       Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (s16)(f32)this->work[CS_TIMER_1], 8, 8));
             gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_8094A9B0[this->eyeTexIdx]));
             gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(D_8094A9B0[this->leftEyeTexIdx]));
             gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, this->work[UNK_S8]);
@@ -3651,28 +3653,28 @@ s32 BossTw_TwinrovaOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx
         case 41:
             *dList = NULL;
             gSPSegment(POLY_XLU_DISP++, 0xA,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, 0U, 0x20, 0x20, 1, 0,
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, 0,
                                         -this->work[CS_TIMER_1] * 0xF, 0x20, 0x40));
             break;
         case 18:
         case 42:
             *dList = NULL;
             gSPSegment(POLY_XLU_DISP++, 0xB,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, 0U, 0x20, 0x20, 1, 0,
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, 0,
                                         -this->work[CS_TIMER_1] * 0xA, 0x20, 0x40));
             break;
         case 16:
         case 32:
             *dList = NULL;
             gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, 0U, 0x20, 0x20, 1, this->work[CS_TIMER_1],
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, this->work[CS_TIMER_1],
                                         -this->work[CS_TIMER_1] * 7, 0x20, 0x40));
             break;
         case 15:
         case 31:
             *dList = NULL;
             gSPSegment(POLY_XLU_DISP++, 9,
-                       Gfx_TexScroll(globalCtx->state.gfxCtx, 0U, this->work[CS_TIMER_1], 0x20, 0x40));
+                       Gfx_TexScroll(globalCtx->state.gfxCtx, 0, this->work[CS_TIMER_1], 0x20, 0x40));
             break;
         case 19:
             if (this->unk_5F8 != 0) {
@@ -3777,7 +3779,7 @@ void BossTw_ShieldChargeDraw(BossTw* this, GlobalContext* globalCtx) {
     if (Player_HasMirrorShieldEquipped(globalCtx)) {
         if (temp_t0 != 0) {
             Matrix_Mult(&player->shieldMf, MTXMODE_NEW);
-            Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+            Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7362),
                       G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
             temp_a0 = (Math_SinS(this->work[CS_TIMER_1] * 2730 * temp_t0) * D_8094C854 * 0.5f) + (D_8094C854 * 0.5f);
@@ -3785,7 +3787,7 @@ void BossTw_ShieldChargeDraw(BossTw* this, GlobalContext* globalCtx) {
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 245, 255, temp_a0);
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601E0E0));
                 gSPSegment(POLY_XLU_DISP++, 8,
-                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (this->work[CS_TIMER_1] * 2) * temp_t0, 0U,
+                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (this->work[CS_TIMER_1] * 2) * temp_t0, 0,
                                             0x20, 0x20, 1, (-this->work[CS_TIMER_1] * 2) * temp_t0, 0, 0x20, 0x20));
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 20, 0, (s16)D_8094C854);
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601E020));
@@ -3793,7 +3795,7 @@ void BossTw_ShieldChargeDraw(BossTw* this, GlobalContext* globalCtx) {
                 gDPSetEnvColor(POLY_XLU_DISP++, 225, 255, 255, temp_a0);
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601E3A0));
                 gSPSegment(POLY_XLU_DISP++, 8,
-                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, (-this->work[CS_TIMER_1] * 5) * temp_t0,
+                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (-this->work[CS_TIMER_1] * 5) * temp_t0,
                                             0x20, 0x40, 1, (this->work[CS_TIMER_1] * 4) * temp_t0, 0, 0x20, 0x20));
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 175, 205, 195, (s16)D_8094C854);
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601E2C0));
@@ -3829,7 +3831,7 @@ void BossTw_ShieldChargeDraw(BossTw* this, GlobalContext* globalCtx) {
         }
 
         gSPSegment(POLY_XLU_DISP++, 8,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, this->work[CS_TIMER_1] * D_8094C872, 0x20, 0x40, 1,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, this->work[CS_TIMER_1] * D_8094C872, 0x20, 0x40, 1,
                                     0, this->work[CS_TIMER_1] * D_8094C872, 0x20, 0x20));
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601E9F0));
     }
@@ -3860,7 +3862,7 @@ void BossTw_SpawnPortalDraw(BossTw* this, GlobalContext* globalCtx) {
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 135, 175, 165, (s16)this->spawnPortalAlpha);
     Matrix_Translate(0.0f, 2.0f, 0.0f, MTXMODE_APPLY);
-    Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+    Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7596),
               G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601CEE0));
@@ -3874,7 +3876,7 @@ void BossTw_SpawnPortalDraw(BossTw* this, GlobalContext* globalCtx) {
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, (s16)this->spawnPortalAlpha);
     Matrix_Translate(0.0f, 2.0f, 0.0f, MTXMODE_APPLY);
-    Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+    Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7631),
               G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601DBE8));
@@ -5075,7 +5077,7 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
             }
 
             Matrix_RotateZ(currentEffect->workf[EFF_ROLL], MTXMODE_APPLY);
-            Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+            Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
             Matrix_Scale(currentEffect->workf[EFF_SCALE], 1.0f, currentEffect->workf[EFF_SCALE], MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_tw.c", 9775),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
