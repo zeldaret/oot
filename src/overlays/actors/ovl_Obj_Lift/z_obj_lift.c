@@ -121,7 +121,7 @@ void ObjLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B9651C(ObjLift* this) {
-    this->timer = D_80B969C0[(this->dyna.actor.params >> 8) & ARRAY_COUNT(D_80B969C0) - 1];
+    this->timer = D_80B969C0[(this->dyna.actor.params >> 8) & 7];
     ObjLift_SetupAction(this, func_80B96560);
 }
 
@@ -143,7 +143,7 @@ void func_80B96560(ObjLift* this, GlobalContext* globalCtx) {
             return;
         }
     } else {
-        this->timer = D_80B969C0[((this->dyna.actor.params >> 8) & ARRAY_COUNT(D_80B969C0) - 1)];
+        this->timer = D_80B969C0[(this->dyna.actor.params >> 8) & 7];
     }
 }
 
