@@ -331,7 +331,7 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
             if (this->actor.xzDistToPlayer < 400.0f) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
                 if (this->actor.xzDistToPlayer < 100.0f) {
-                    func_8002F580(&this->actor, globalCtx);
+                    Actor_PickUpNearbyActor(&this->actor, globalCtx);
                 }
             }
         }

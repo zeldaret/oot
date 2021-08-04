@@ -250,7 +250,7 @@ void EnSth_GivePlayerItem(EnSth* this, GlobalContext* globalCtx) {
             break;
     }
 
-    func_8002F434(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
+    Actor_PickUp(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
 }
 
 void EnSth_GiveReward(EnSth* this, GlobalContext* globalCtx) {

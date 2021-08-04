@@ -450,7 +450,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe2_SetActionAfterTalk;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -459,7 +459,7 @@ void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
         func_80106CCC(globalCtx);
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnGe2_WaitTillCardGiven;
-        func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -470,7 +470,7 @@ void EnGe2_ForceTalk(EnGe2* this, GlobalContext* globalCtx) {
     } else {
         this->actor.textId = 0x6004;
         this->actor.flags |= 0x10000;
-        Actor_RequestToTalkAndExchangeItemInRange(&this->actor, globalCtx, 300.0f, 300.0f, 0);
+        Actor_RequestToTalkTradeItemInRange(&this->actor, globalCtx, 300.0f, 300.0f, 0);
     }
     EnGe2_LookAtPlayer(this, globalCtx);
 }

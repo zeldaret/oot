@@ -321,7 +321,7 @@ void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
             this->actor.parent = NULL;
             this->unk_1E4 = 5;
         } else {
-            func_8002F434(&this->actor, globalCtx, GI_SWORD_BROKEN, 100.0f, 10.0f);
+            Actor_PickUp(&this->actor, globalCtx, GI_SWORD_BROKEN, 100.0f, 10.0f);
         }
         return;
     }
@@ -400,8 +400,8 @@ s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     if ((this->stateFlags & 8)) {
         switch (limbIndex) {
             case 8:
-                rot->x += this->npcInfo.WaistAngle.y;
-                rot->y -= this->npcInfo.WaistAngle.x;
+                rot->x += this->npcInfo.waistAngle.y;
+                rot->y -= this->npcInfo.waistAngle.x;
                 break;
             case 15:
                 rot->x += this->npcInfo.neckAngle.y;

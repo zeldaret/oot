@@ -4,7 +4,7 @@
         <Animation Name="object_im_Anim_000AFC" Offset="0xAFC"/>
         <Animation Name="object_im_Anim_0014E4" Offset="0x14E4"/>
         <Animation Name="object_im_Anim_001868" Offset="0x1868"/>
-        <Texture Name="object_im_TLUT_001880" OutName="tlut_00001880" Format="rgb5a1" Width="16" Height="16" Offset="0x1880"/>
+        <Texture Name="object_im_TLUT_001880" OutName="tlut_00001880" Format="rgba16" Width="16" Height="16" Offset="0x1880"/>
         <Texture Name="object_im_Tex_001A80" OutName="tex_00001A80" Format="ci8" Width="8" Height="8" Offset="0x1A80"/>
         <Texture Name="object_im_Tex_001AC0" OutName="tex_00001AC0" Format="ci8" Width="16" Height="32" Offset="0x1AC0"/>
         <Texture Name="object_im_Tex_001CC0" OutName="tex_00001CC0" Format="ci8" Width="16" Height="16" Offset="0x1CC0"/>
@@ -16,8 +16,8 @@
         <Texture Name="object_im_Tex_002300" OutName="tex_00002300" Format="ci8" Width="16" Height="16" Offset="0x2300"/>
         <Texture Name="object_im_Tex_002400" OutName="tex_00002400" Format="ci8" Width="8" Height="16" Offset="0x2400"/>
         <Texture Name="object_im_Tex_002480" OutName="tex_00002480" Format="ci8" Width="32" Height="32" Offset="0x2480"/>
-        <Texture Name="object_im_Tex_002880" OutName="tex_00002880" Format="rgb5a1" Width="8" Height="16" Offset="0x2880"/>
-        <Texture Name="object_im_Tex_002980" OutName="tex_00002980" Format="rgb5a1" Width="16" Height="32" Offset="0x2980"/>
+        <Texture Name="object_im_Tex_002880" OutName="tex_00002880" Format="rgba16" Width="8" Height="16" Offset="0x2880"/>
+        <Texture Name="object_im_Tex_002980" OutName="tex_00002980" Format="rgba16" Width="16" Height="32" Offset="0x2980"/>
         <Texture Name="object_im_Tex_002D80" OutName="tex_00002D80" Format="ci8" Width="8" Height="8" Offset="0x2D80"/>
         <DList Name="object_im_DL_005040" Offset="0x5040"/>
         <DList Name="object_im_DL_005D60" Offset="0x5D60"/>
@@ -29,15 +29,15 @@
         <DList Name="object_im_DL_0069E8" Offset="0x69E8"/>
         <DList Name="object_im_DL_006BB8" Offset="0x6BB8"/>
         <DList Name="object_im_DL_006D70" Offset="0x6D70"/>
-        <Texture Name="object_im_Tex_006F40" OutName="tex_00006F40" Format="rgb5a1" Width="16" Height="16" Offset="0x6F40"/>
-        <Texture Name="object_im_TLUT_007140" OutName="tlut_00007140" Format="rgb5a1" Width="16" Height="16" Offset="0x7140"/>
+        <Texture Name="object_im_Tex_006F40" OutName="tex_00006F40" Format="rgba16" Width="16" Height="16" Offset="0x6F40"/>
+        <Texture Name="object_im_TLUT_007140" OutName="tlut_00007140" Format="rgba16" Width="16" Height="16" Offset="0x7140"/>
         <Blob Name="object_im_Blob_007340" Size="0x2D0" Offset="0x7340"/>
         <Texture Name="object_im_Tex_007610" OutName="tex_00007610" Format="ci8" Width="16" Height="16" Offset="0x7610"/>
         <Texture Name="object_im_Tex_007710" OutName="tex_00007710" Format="ci8" Width="8" Height="8" Offset="0x7710"/>
-        <Texture Name="object_im_Tex_007750" OutName="tex_00007750" Format="rgb5a1" Width="8" Height="8" Offset="0x7750"/>
-        <Texture Name="object_im_Tex_0077D0" OutName="tex_000077D0" Format="rgb5a1" Width="16" Height="16" Offset="0x77D0"/>
+        <Texture Name="object_im_Tex_007750" OutName="tex_00007750" Format="rgba16" Width="8" Height="8" Offset="0x7750"/>
+        <Texture Name="object_im_Tex_0077D0" OutName="tex_000077D0" Format="rgba16" Width="16" Height="16" Offset="0x77D0"/>
         <Texture Name="object_im_Tex_0079D0" OutName="tex_000079D0" Format="ci8" Width="8" Height="8" Offset="0x79D0"/>
-        <Texture Name="object_im_Tex_007A10" OutName="tex_00007A10" Format="rgb5a1" Width="8" Height="16" Offset="0x7A10"/>
+        <Texture Name="object_im_Tex_007A10" OutName="tex_00007A10" Format="rgba16" Width="8" Height="16" Offset="0x7A10"/>
         <Texture Name="object_im_Tex_007B10" OutName="tex_00007B10" Format="ci8" Width="8" Height="8" Offset="0x7B10"/>
         <Texture Name="object_im_Tex_007B50" OutName="tex_00007B50" Format="ci8" Width="16" Height="16" Offset="0x7B50"/>
         <Texture Name="object_im_Tex_007C50" OutName="tex_00007C50" Format="ci8" Width="16" Height="16" Offset="0x7C50"/>

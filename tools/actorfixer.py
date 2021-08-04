@@ -107,12 +107,15 @@ animdict ={
     "func_8002F334": "Actor_HasFinishedTalking",
     "func_80033480": "Actor_SpawnFlyingDust",
     "func_8002D97C": "Actor_MoveForwardXYZ",
-    "func_8002F1C4": "Actor_RequestToTalkAndExchangeItemInRange",
+    "func_8002F1C4": "Actor_RequestToTalkTradeItemInRange",
     "func_8002F2F4": "Actor_RequestToTalk",
     "func_80033684": "Actor_FindNearbyExplosion",
     "func_800347E8": "Npc_GetSightAngleRange",
     "func_80034DD4": "Npc_GetFadeOutAlpha",
     "globalCtx->mf_11D60": "globalCtx->projectionMatrix",
+    "func_8002F434": "Actor_PickUp",
+    "func_8002F554": "Actor_PickUpNearby",
+    "func_8002F580": "Actor_PickUpNearbyActor",
 }
 
 def replace_anim(file):
@@ -150,7 +153,7 @@ def replace_anim_all(repo):
                 replace_anim(file)
     return 1
 
-parser = argparse.ArgumentParser(description='Update to the new animation names')
+parser = argparse.ArgumentParser(description='Apply function renames to a file')
 parser.add_argument('file', help="source file to be processed. use . to process the whole repo", default = None)
 
 if __name__ == "__main__":

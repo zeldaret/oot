@@ -1101,8 +1101,8 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 Camera_ChangeSetting(ACTIVE_CAM, 1);
                 this->talkState = 7;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
-                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
-                              fabsf(this->actor.yDistToPlayer) + 1.0f);
+                Actor_PickUp(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
+                             fabsf(this->actor.yDistToPlayer) + 1.0f);
                 globalCtx->msgCtx.unk_E3E7 = 4;
                 globalCtx->msgCtx.msgMode = 0x36;
             }
@@ -1112,8 +1112,8 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
                 this->talkState++;
             } else {
-                func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
-                              fabsf(this->actor.yDistToPlayer) + 1.0f);
+                Actor_PickUp(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
+                             fabsf(this->actor.yDistToPlayer) + 1.0f);
             }
             // no break here is required for matching
     }
@@ -1262,7 +1262,7 @@ s32 EnZl4_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         Matrix_Translate(-900.0f, 0.0f, 0.0f, 1);
     }
     if (limbIndex == 10) {
-        sp1C = this->npcInfo.WaistAngle;
+        sp1C = this->npcInfo.waistAngle;
         Matrix_RotateY((sp1C.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_RotateX((sp1C.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
     }

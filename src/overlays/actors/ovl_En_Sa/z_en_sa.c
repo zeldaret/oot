@@ -740,7 +740,7 @@ s32 EnSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
 
     if (limbIndex == 9) {
-        sp18 = this->npcInfo.WaistAngle;
+        sp18 = this->npcInfo.waistAngle;
         Matrix_RotateY(BINANG_TO_RAD(sp18.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD(sp18.x), MTXMODE_APPLY);
     }

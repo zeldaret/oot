@@ -265,8 +265,8 @@ s32 EnGo2_SpawnDust(EnGo2* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 
 
 void EnGo2_GetItem(EnGo2* this, GlobalContext* globalCtx, s32 getItemId) {
     this->getItemId = getItemId;
-    func_8002F434(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
-                  fabsf(this->actor.yDistToPlayer) + 1.0f);
+    Actor_PickUp(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
+                 fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
 s32 EnGo2_GetDialogState(EnGo2* this, GlobalContext* globalCtx) {
@@ -506,12 +506,12 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3033 : 0x3035;
                         if (this->actor.textId == 0x3035) {
-                            func_800F8D04(0x39EB);
+                            Audio_StopSfx(0x39EB);
                         }
                     } else {
                         this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3036 : 0x3033;
                         if (this->actor.textId == 0x3036) {
-                            func_800F8D04(0x39EB);
+                            Audio_StopSfx(0x39EB);
                         }
                     }
                     func_8010B720(globalCtx, this->actor.textId);
@@ -1750,8 +1750,8 @@ void EnGo2_SetupGetItem(EnGo2* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnGo2_SetGetItem;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->getItemId, this->actor.xzDistToPlayer + 1.0f,
-                      fabsf(this->actor.yDistToPlayer) + 1.0f);
+        Actor_PickUp(&this->actor, globalCtx, this->getItemId, this->actor.xzDistToPlayer + 1.0f,
+                     fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
 
@@ -1874,7 +1874,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 this->actor.gravity = 0.0f;
                 this->actor.speedXZ = 2.0f;
                 this->npcInfo.neckAngle = D_80A4854C;
-                this->npcInfo.WaistAngle = D_80A4854C;
+                this->npcInfo.waistAngle = D_80A4854C;
                 this->goronState++;
                 this->goronState++;
                 player->actor.world.rot.y = this->actor.world.rot.y;
@@ -1995,7 +1995,7 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limb == 10) {
-        vec1 = this->npcInfo.WaistAngle;
+        vec1 = this->npcInfo.waistAngle;
         float1 = (vec1.y / (f32)0x8000) * M_PI;
         Matrix_RotateY(float1, MTXMODE_APPLY);
         float1 = (vec1.x / (f32)0x8000) * M_PI;

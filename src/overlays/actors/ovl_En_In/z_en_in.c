@@ -445,7 +445,7 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &sp48, &sp3C);
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &sp3C);
     this->npcInfo.neckAngle = zeroVec;
-    this->npcInfo.WaistAngle = zeroVec;
+    this->npcInfo.waistAngle = zeroVec;
     func_8010B680(globalCtx, 0x2025, NULL);
     this->npcInfo.talkState = 1;
     player->actor.world.pos = this->actor.world.pos;
@@ -941,7 +941,7 @@ s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 9) {
-        sp2C = this->npcInfo.WaistAngle;
+        sp2C = this->npcInfo.waistAngle;
         Matrix_RotateX(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
     }

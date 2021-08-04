@@ -799,7 +799,7 @@ s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 9) {
-        vec = this->npcInfo.WaistAngle;
+        vec = this->npcInfo.waistAngle;
         Matrix_RotateX((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateY((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
     }

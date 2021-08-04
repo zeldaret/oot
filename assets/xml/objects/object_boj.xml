@@ -25,7 +25,7 @@
 
         <!-- 32-bit aligned textures. -->
         <!--
-        <Texture Name="object_boj_TLUT_0000FC" OutName="tlut_000000FC" Format="rgb5a1" Width="16" Height="16" Offset="0xFC" />
+        <Texture Name="object_boj_TLUT_0000FC" OutName="tlut_000000FC" Format="rgba16" Width="16" Height="16" Offset="0xFC" />
         <Texture Name="object_boj_Tex_0002FC" OutName="tex_000002FC" Format="ci8" Width="8" Height="16" Offset="0x2FC" />
         <Texture Name="object_boj_Tex_00037C" OutName="tex_0000037C" Format="ci8" Width="8" Height="8" Offset="0x37C" />
         <Texture Name="object_boj_Tex_0003BC" OutName="tex_000003BC" Format="ci8" Width="32" Height="16" Offset="0x3BC" />

@@ -91,7 +91,7 @@ glabel func_80811A20
 /* 0DE28 80811B68 0C01BBC4 */  jal     Font_LoadOrderedFont
 /* 0DE2C 80811B6C 02012021 */  addu    $a0, $s0, $at
 /* 0DE30 80811B70 3C04F000 */  lui     $a0, 0xF000                ## $a0 = F0000000
-/* 0DE34 80811B74 0C03E803 */  jal     Audio_SetBGM
+/* 0DE34 80811B74 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 0DE38 80811B78 3484000A */  ori     $a0, $a0, 0x000A           ## $a0 = F000000A
 /* 0DE3C 80811B7C 240C0001 */  addiu   $t4, $zero, 0x0001         ## $t4 = 00000001

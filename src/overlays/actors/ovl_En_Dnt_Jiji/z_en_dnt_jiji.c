@@ -258,7 +258,7 @@ void EnDntJiji_Talk(EnDntJiji* this, GlobalContext* globalCtx) {
         func_80106CCC(globalCtx);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.parent = NULL;
-        func_8002F434(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
+        Actor_PickUp(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
         this->actionFunc = EnDntJiji_SetupGivePrize;
     }
 }
@@ -268,7 +268,7 @@ void EnDntJiji_SetupGivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnDntJiji_GivePrize;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
+        Actor_PickUp(&this->actor, globalCtx, this->getItemId, 400.0f, 200.0f);
     }
 }
 
@@ -361,7 +361,7 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
             if ((this->stage->actor.update != NULL) && (this->stage->leaderSignal == DNT_SIGNAL_NONE)) {
                 this->stage->leaderSignal = DNT_SIGNAL_HIDE;
                 this->stage->action = DNT_ACTION_ATTACK;
-                Audio_SetBGM(0x81A);
+                Audio_QueueSeqCmd(0x81A);
             }
         }
         this->actor.speedXZ = 0.0f;

@@ -431,7 +431,7 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
         getItemId = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
         yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzRange = this->actor.xzDistToPlayer + 1.0f;
-        func_8002F434(&this->actor, globalCtx, getItemId, xzRange, yRange);
+        Actor_PickUp(&this->actor, globalCtx, getItemId, xzRange, yRange);
     }
 }
 

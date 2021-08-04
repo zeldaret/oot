@@ -93,7 +93,7 @@ void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
         this->actionFunc = EnDs_DisplayOddPotionText;
         gSaveContext.timer2State = 0;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
     }
 }
 
@@ -101,7 +101,7 @@ void EnDs_TalkAfterBrewOddPotion(EnDs* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         this->actionFunc = EnDs_GiveOddPotion;
-        func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
     }
 }
 
@@ -173,7 +173,7 @@ void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_Talk;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
     }
 }
 
@@ -192,7 +192,7 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
                         this->actor.flags &= ~0x10000;
-                        func_8002F434(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
+                        Actor_PickUp(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
                 }

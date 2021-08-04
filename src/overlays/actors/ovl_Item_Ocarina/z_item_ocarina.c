@@ -183,7 +183,7 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
         this->actionFunc = ItemOcarina_StartSoTCutscene;
         this->actor.draw = NULL;
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_OCARINA_OOT, 30.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_OCARINA_OOT, 30.0f, 50.0f);
 
         if ((globalCtx->gameplayFrames & 13) == 0) {
             EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);

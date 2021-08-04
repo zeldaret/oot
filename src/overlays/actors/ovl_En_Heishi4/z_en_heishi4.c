@@ -356,7 +356,7 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         Npc_TurnTowardsFocus(thisx, &this->npcInfo, 2, 4);
         this->unk_260 = this->npcInfo.neckAngle;
-        this->unk_266 = this->npcInfo.WaistAngle;
+        this->unk_266 = this->npcInfo.waistAngle;
     }
     this->unk_27E += 1;
     this->actionFunc(this, globalCtx);

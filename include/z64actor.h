@@ -165,7 +165,7 @@ typedef struct {
     /* 0x04 */ s16   turnTimer;
     /* 0x06 */ s16   unk_06; // related to turning
     /* 0x08 */ Vec3s neckAngle;
-    /* 0x0E */ Vec3s WaistAngle;
+    /* 0x0E */ Vec3s waistAngle;
     /* 0x14 */ f32   eyeHeight; // height of the NPC's eyes for use with `focusPos`
     /* 0x18 */ Vec3f focusPos; // position that the NPC is looking at
     /* 0x24 */ s16   unk_24;

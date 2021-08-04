@@ -458,7 +458,7 @@ s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
 
     switch (limbIndex) {
         case 8:
-            angle = this->npcInfo.WaistAngle;
+            angle = this->npcInfo.waistAngle;
             Matrix_RotateX(-(angle.y * (M_PI / 32768.0f)), MTXMODE_APPLY);
             Matrix_RotateZ(-(angle.x * (M_PI / 32768.0f)), MTXMODE_APPLY);
             break;

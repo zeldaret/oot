@@ -207,7 +207,7 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     }
 
     if (limbIndex == 8) {
-        sp3C = this->npcInfo.WaistAngle;
+        sp3C = this->npcInfo.waistAngle;
         Matrix_RotateX((-sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((sp3C.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }

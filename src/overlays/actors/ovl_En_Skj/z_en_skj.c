@@ -1043,8 +1043,8 @@ void EnSkj_SariaSongTalk(EnSkj* this, GlobalContext* globalCtx) {
             EnSkj_SetupWaitInRange(this);
         } else {
             func_80AFFE24(this);
-            func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, EnSkj_GetItemXzRange(this),
-                          EnSkj_GetItemYRange(this));
+            Actor_PickUp(&this->actor, globalCtx, GI_HEART_PIECE, EnSkj_GetItemXzRange(this),
+                         EnSkj_GetItemYRange(this));
         }
     }
 }
@@ -1058,7 +1058,7 @@ void func_80AFFE44(EnSkj* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         EnSkj_SetupPostSariasSong(this);
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, EnSkj_GetItemXzRange(this), EnSkj_GetItemYRange(this));
+        Actor_PickUp(&this->actor, globalCtx, GI_HEART_PIECE, EnSkj_GetItemXzRange(this), EnSkj_GetItemYRange(this));
     }
 }
 
@@ -1539,7 +1539,7 @@ void EnSkj_WonOcarinaMiniGame(EnSkj* this, GlobalContext* globalCtx) {
 
 void EnSkj_WaitToGiveReward(EnSkj* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
-        func_8002F434(&this->actor, globalCtx, sOcarinaGameRewards[gSaveContext.ocarinaGameReward], 26.0f, 26.0f);
+        Actor_PickUp(&this->actor, globalCtx, sOcarinaGameRewards[gSaveContext.ocarinaGameReward], 26.0f, 26.0f);
         this->actionFunc = EnSkj_GiveOcarinaGameReward;
     }
 }
@@ -1549,7 +1549,7 @@ void EnSkj_GiveOcarinaGameReward(EnSkj* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnSkj_FinishOcarinaGameRound;
     } else {
-        func_8002F434(&this->actor, globalCtx, sOcarinaGameRewards[gSaveContext.ocarinaGameReward], 26.0f, 26.0f);
+        Actor_PickUp(&this->actor, globalCtx, sOcarinaGameRewards[gSaveContext.ocarinaGameReward], 26.0f, 26.0f);
     }
 }
 

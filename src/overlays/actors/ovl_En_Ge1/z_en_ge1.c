@@ -516,7 +516,7 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
         } else {
             getItemId = GI_HEART_PIECE;
         }
-        func_8002F434(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
     }
 }
 
@@ -545,7 +545,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
         getItemId = GI_HEART_PIECE;
     }
 
-    func_8002F434(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
+    Actor_PickUp(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
 }
 
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {

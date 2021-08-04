@@ -173,7 +173,7 @@ void func_80AB10C4(EnNb* this) {
     tempPtr = &this->npcInfo.neckAngle;
     Math_SmoothStepToS(&tempPtr->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&tempPtr->y, 0, 20, 6200, 100);
-    tempPtr2 = &this->npcInfo.WaistAngle;
+    tempPtr2 = &this->npcInfo.waistAngle;
     Math_SmoothStepToS(&tempPtr2->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&tempPtr2->y, 0, 20, 6200, 100);
 }
@@ -1456,8 +1456,8 @@ s32 EnNb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     if (this->headTurnFlag != 0) {
         if (limbIndex == NB_LIMB_TORSO) {
-            rot->x += npcInfo->WaistAngle.y;
-            rot->y -= npcInfo->WaistAngle.x;
+            rot->x += npcInfo->waistAngle.y;
+            rot->y -= npcInfo->waistAngle.x;
             ret = false;
         } else if (limbIndex == NB_LIMB_HEAD) {
             rot->x += npcInfo->neckAngle.y;

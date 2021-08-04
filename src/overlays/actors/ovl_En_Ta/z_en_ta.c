@@ -728,7 +728,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             this->unk_2E0 &= ~0x10;
                             this->unk_2E0 &= ~0x100;
                             gSaveContext.eventInf[0] |= 0x100;
-                            Audio_SetBGM(NA_BGM_STOP);
+                            Audio_QueueSeqCmd(NA_BGM_STOP);
                             this->unk_2E0 &= ~0x200;
                             func_800F5C64(0x39);
                             return;
@@ -757,7 +757,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.timer1Value == 0 && !Gameplay_InCsMode(globalCtx)) {
-        Audio_SetBGM(NA_BGM_STOP);
+        Audio_QueueSeqCmd(NA_BGM_STOP);
         this->unk_2E0 &= ~0x200;
         func_80078884(NA_SE_SY_FOUND);
         gSaveContext.timer1State = 0;
@@ -887,9 +887,9 @@ void func_80B15E80(EnTa* this, GlobalContext* globalCtx) {
         }
         this->unk_2E0 &= ~0x2;
     } else if (this->unk_2E0 & 2) {
-        func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_MILK_BOTTLE, 10000.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_MILK_BOTTLE, 10000.0f, 50.0f);
     }
     this->unk_2E0 |= 1;
 }
@@ -899,7 +899,7 @@ void func_80B15F54(EnTa* this, GlobalContext* globalCtx) {
         func_80106CCC(globalCtx);
         this->unk_2E0 &= ~0x2;
         func_80B13AA0(this, func_80B15E80, func_80B16938);
-        func_8002F434(&this->actor, globalCtx, GI_MILK_BOTTLE, 10000.0f, 50.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_MILK_BOTTLE, 10000.0f, 50.0f);
     }
 }
 
@@ -920,7 +920,7 @@ void func_80B15FE8(EnTa* this, GlobalContext* globalCtx) {
                         this->unk_2E0 |= 2;
                         func_80B13AA0(this, func_80B15E80, func_80B16938);
                         Rupees_ChangeBy(-30);
-                        func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
+                        Actor_PickUp(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
                         break;
                 }
                 break;
@@ -1013,7 +1013,7 @@ void func_80B1642C(EnTa* this, GlobalContext* globalCtx) {
             func_80106CCC(globalCtx);
             this->unk_2E0 |= 2;
             func_80B13AA0(this, func_80B15E80, func_80B16938);
-            func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
+            Actor_PickUp(&this->actor, globalCtx, GI_MILK, 10000.0f, 50.0f);
         } else {
             func_8010B720(globalCtx, 0x208A);
             func_80B13AA0(this, func_80B15E28, func_80B16938);

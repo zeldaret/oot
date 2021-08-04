@@ -371,9 +371,9 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
             if (this->actor.xzDistToPlayer < 90.0f) {
                 // GI_NONE in these cases allows the player to lift the actor
                 if (type == ROCK_LARGE) {
-                    func_8002F434(&this->actor, globalCtx, GI_NONE, 80.0f, 20.0f);
+                    Actor_PickUp(&this->actor, globalCtx, GI_NONE, 80.0f, 20.0f);
                 } else {
-                    func_8002F434(&this->actor, globalCtx, GI_NONE, 50.0f, 10.0f);
+                    Actor_PickUp(&this->actor, globalCtx, GI_NONE, 50.0f, 10.0f);
                 }
             }
         }

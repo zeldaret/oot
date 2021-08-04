@@ -261,8 +261,8 @@ s32 func_80A6F790(EnHy* this, GlobalContext* globalCtx) {
 
 void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
     this->unk_260 = getItemId;
-    func_8002F434(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
-                  fabsf(this->actor.yDistToPlayer) + 1.0f);
+    Actor_PickUp(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
+                 fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
 u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
@@ -895,8 +895,8 @@ void func_80A714C4(EnHy* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_80A71530;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->unk_260, this->actor.xzDistToPlayer + 1.0f,
-                      fabsf(this->actor.yDistToPlayer) + 1.0f);
+        Actor_PickUp(&this->actor, globalCtx, this->unk_260, this->actor.xzDistToPlayer + 1.0f,
+                     fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
 
@@ -973,7 +973,7 @@ s32 func_80A716B8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     }
 
     if (limbIndex == 8) {
-        sp48 = this->npcInfo.WaistAngle;
+        sp48 = this->npcInfo.waistAngle;
         Matrix_RotateX((-sp48.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((sp48.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
     }

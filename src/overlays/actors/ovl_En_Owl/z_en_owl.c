@@ -286,7 +286,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
         if (this->actor.xzDistToPlayer < targetDist) {
             this->actor.flags |= 0x10000;
-            Actor_RequestToTalkAndExchangeItemInRange(&this->actor, globalCtx, targetDist, distCheck, 0);
+            Actor_RequestToTalkTradeItemInRange(&this->actor, globalCtx, targetDist, distCheck, 0);
         }
         return false;
     }
@@ -298,7 +298,7 @@ s32 func_80ACA558(EnOwl* this, GlobalContext* globalCtx, u16 textId) {
     } else {
         this->actor.textId = textId;
         if (this->actor.xzDistToPlayer < 120.0f) {
-            Actor_RequestToTalkAndExchangeItemInRange(&this->actor, globalCtx, 350.0f, 1000.0f, 0);
+            Actor_RequestToTalkTradeItemInRange(&this->actor, globalCtx, 350.0f, 1000.0f, 0);
         }
         return false;
     }
@@ -349,7 +349,7 @@ void func_80ACA76C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         func_80ACA62C(this, globalCtx);
         this->actor.flags &= ~0x10000;
     }
@@ -359,7 +359,7 @@ void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         if ((this->unk_3EE & 0x3F) == 0) {
             func_80ACA62C(this, globalCtx);
         } else {
@@ -559,7 +559,7 @@ void func_80ACB03C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         func_80ACA62C(this, globalCtx);
         this->actor.flags &= ~0x10000;
     }
@@ -588,7 +588,7 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
         Flags_SetSwitch(globalCtx, 0x23);
@@ -608,7 +608,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
     }
@@ -616,7 +616,7 @@ void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB274(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_HasFinishedTalking(&this->actor, globalCtx)) {
-        Audio_SetBGM(0x110000FF);
+        Audio_QueueSeqCmd(0x110000FF);
         this->actionFunc = EnOwl_WaitDeathMountainShortcut;
     }
 }

@@ -1278,7 +1278,7 @@ void func_80AED83C(EnRu1* this) {
     tempPtr = &this->npcInfo.neckAngle;
     Math_SmoothStepToS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
     Math_SmoothStepToS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
-    tempPtr2 = &this->npcInfo.WaistAngle;
+    tempPtr2 = &this->npcInfo.waistAngle;
     Math_SmoothStepToS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
     Math_SmoothStepToS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
 }
@@ -1573,7 +1573,7 @@ void func_80AEE568(EnRu1* this, GlobalContext* globalCtx) {
     if (!func_80AEE394(this, globalCtx)) {
         if ((this->actor.bgCheckFlags & 1) && (this->actor.speedXZ == 0.0f) && (this->actor.minVelocityY == 0.0f)) {
             func_80AEE02C(this);
-            func_8002F580(&this->actor, globalCtx);
+            Actor_PickUpNearbyActor(&this->actor, globalCtx);
             this->action = 27;
             func_80AEADD8(this);
         } else if (this->actor.yDistToWater > 0.0f) {
@@ -1674,7 +1674,7 @@ void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
 s32 func_80AEEAC8(EnRu1* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 1) {
         func_80AEE02C(this);
-        func_8002F580(&this->actor, globalCtx);
+        Actor_PickUpNearbyActor(&this->actor, globalCtx);
         this->action = 27;
         func_80AEADD8(this);
         return 1;
@@ -1692,7 +1692,7 @@ void func_80AEEB24(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEEBB4(EnRu1* this, GlobalContext* globalCtx) {
-    func_8002F580(&this->actor, globalCtx);
+    Actor_PickUpNearbyActor(&this->actor, globalCtx);
 }
 
 void func_80AEEBD4(EnRu1* this, GlobalContext* globalCtx) {
@@ -1844,7 +1844,7 @@ void func_80AEF1F0(EnRu1* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
         func_80106CCC(globalCtx);
         gSaveContext.infTable[20] |= 8;
         func_80AED6DC(this, globalCtx);
-        func_8002F580(&this->actor, globalCtx);
+        Actor_PickUpNearbyActor(&this->actor, globalCtx);
         this->action = 27;
         func_80AEADD8(this);
     }
@@ -2259,7 +2259,7 @@ void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AF0278(EnRu1* this, GlobalContext* globalCtx, s32 limbIndex, Vec3s* rot) {
-    Vec3s* vec1 = &this->npcInfo.WaistAngle;
+    Vec3s* vec1 = &this->npcInfo.waistAngle;
     Vec3s* vec2 = &this->npcInfo.neckAngle;
 
     switch (limbIndex) {

@@ -1495,8 +1495,8 @@ u32 Actor_IsTalking(Actor* actor, GlobalContext* globalCtx) {
     return false;
 }
 
-s32 Actor_RequestToTalkAndExchangeItemInRange(Actor* actor, GlobalContext* globalCtx, f32 radius, f32 height,
-                                              u32 exchangeItemId) {
+s32 Actor_RequestToTalkTradeItemInRange(Actor* actor, GlobalContext* globalCtx, f32 radius, f32 height,
+                                        u32 exchangeItemId) {
     Player* player = PLAYER;
 
     // This is convoluted but it seems like it must be a single if statement to match
@@ -1515,7 +1515,7 @@ s32 Actor_RequestToTalkAndExchangeItemInRange(Actor* actor, GlobalContext* globa
 }
 
 s32 Actor_RequestToTalkAndExchangeItem(Actor* actor, GlobalContext* globalCtx, f32 range, u32 exchangeItemId) {
-    return Actor_RequestToTalkAndExchangeItemInRange(actor, globalCtx, range, range, exchangeItemId);
+    return Actor_RequestToTalkTradeItemInRange(actor, globalCtx, range, range, exchangeItemId);
 }
 
 s32 Actor_RequestToTalkInRange(Actor* actor, GlobalContext* globalCtx, f32 radius) {
@@ -1562,8 +1562,13 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-// Related to carrying an actor as well as giving the player an item?
-s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
+/**
+ * This function is used for various "pick up" actions:
+ * - giving the player an item (`GI_NONE < getItemId < GI_MAX`)
+ * - making the player hold or pick up something (box, cucco, master sword, ...) (`getItemId == GI_NONE`)
+ * - catching things (fish, bugs, ...) into bottles (`getItemId == GI_MAX`)
+ */
+s32 Actor_PickUp(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = PLAYER;
 
     if (!(player->stateFlags1 & 0x3C7080) && Player_GetExplosiveHeld(player) < 0) {
@@ -1587,12 +1592,12 @@ s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzR
     return false;
 }
 
-void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
-    func_8002F434(actor, globalCtx, getItemId, 50.0f, 10.0f);
+void Actor_PickUpNearby(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
+    Actor_PickUp(actor, globalCtx, getItemId, 50.0f, 10.0f);
 }
 
-void func_8002F580(Actor* actor, GlobalContext* globalCtx) {
-    func_8002F554(actor, globalCtx, GI_NONE);
+void Actor_PickUpNearbyActor(Actor* actor, GlobalContext* globalCtx) {
+    Actor_PickUpNearby(actor, globalCtx, GI_NONE);
 }
 
 u32 Actor_HasNoParent(Actor* actor, GlobalContext* globalCtx) {
@@ -1759,7 +1764,7 @@ static LightNode* D_8015BC10;
 static s32 D_8015BC14;
 static f32 D_8015BC18;
 
-void Actor_InitFaroresWindPointer(GlobalContext* globalCtx) {
+void Actor_InitFaroresWindMarker(GlobalContext* globalCtx) {
     Vec3f lightPos;
 
     if (gSaveContext.fw.set) {
@@ -1977,7 +1982,7 @@ void Actor_InitContext(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEn
 
     Actor_SpawnEntry(actorCtx, actorEntry, globalCtx);
     Target_Init(&actorCtx->targetCtx, actorCtx->actorLists[ACTORCAT_PLAYER].head, globalCtx);
-    Actor_InitFaroresWindPointer(globalCtx);
+    Actor_InitFaroresWindMarker(globalCtx);
 }
 
 static u32 D_80116068[] = {
@@ -3703,10 +3708,10 @@ void Npc_TurnTowardsFocusImpl(Actor* actor, NpcInfo* npcInfo, s16 neckAngleRange
     yAngle2 -= npcInfo->neckAngle.y;
 
     offset = CLAMP(yAngle2, -waistAngleRangeY, waistAngleRangeY);
-    Math_SmoothStepToS(&npcInfo->WaistAngle.y, offset, 6, 2000, 1);
+    Math_SmoothStepToS(&npcInfo->waistAngle.y, offset, 6, 2000, 1);
 
     offset = (ABS(yAngle2) >= 0x8000) ? 0 : ABS(yAngle2);
-    npcInfo->WaistAngle.y = CLAMP(npcInfo->WaistAngle.y, -offset, offset);
+    npcInfo->waistAngle.y = CLAMP(npcInfo->waistAngle.y, -offset, offset);
 
     if (waistCanRotate) {
         Math_SmoothStepToS(&actor->shape.rot.y, yAngle1, 6, 2000, 1);
@@ -3718,7 +3723,7 @@ void Npc_TurnTowardsFocusImpl(Actor* actor, NpcInfo* npcInfo, s16 neckAngleRange
     xAngle2 = xAngle1 - npcInfo->neckAngle.x;
 
     offset = CLAMP(xAngle2, waistAngleMinX, waistAngleMaxX);
-    Math_SmoothStepToS(&npcInfo->WaistAngle.x, offset, 6, 2000, 1);
+    Math_SmoothStepToS(&npcInfo->waistAngle.x, offset, 6, 2000, 1);
 }
 
 s16 Npc_GetSightAngleRange(s16 index) {
@@ -3920,7 +3925,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
                 ret = 1;
             } else {
                 actor->shape.rot.x = actor->shape.rot.z = 0;
-                func_8002F580(actor, globalCtx);
+                Actor_PickUpNearbyActor(actor, globalCtx);
             }
             break;
         case 1:

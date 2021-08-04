@@ -198,7 +198,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                 }
             } else {
                 if (!Actor_HasParent(&this->actor, globalCtx)) {
-                    func_8002F580(&this->actor, globalCtx);
+                    Actor_PickUpNearbyActor(&this->actor, globalCtx);
                 } else {
                     player->actor.child = NULL;
                     player->heldActor = NULL;
@@ -248,7 +248,7 @@ void EnBombf_Move(EnBombf* this, GlobalContext* globalCtx) {
             func_8002F850(globalCtx, &this->actor);
             this->actor.velocity.y *= -0.5f;
         } else if (this->timer >= 4) {
-            func_8002F580(&this->actor, globalCtx);
+            Actor_PickUpNearbyActor(&this->actor, globalCtx);
         }
     }
 }

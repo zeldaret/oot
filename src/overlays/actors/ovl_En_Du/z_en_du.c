@@ -277,7 +277,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE890);
     } else if (globalCtx->sceneNum == 4) {
         EnDu_SetupAction(this, func_809FE638);
-    } else if (gSaveContext.linkAge != 0) {
+    } else if (LINK_IS_CHILD) {
         EnDu_SetupAction(this, func_809FE3C0);
     } else {
         EnDu_SetupAction(this, func_809FE3B4);
@@ -513,7 +513,7 @@ void func_809FEC70(EnDu* this, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FECE4);
     } else {
         f32 xzRange = this->actor.xzDistToPlayer + 1.0f;
-        func_8002F434(&this->actor, globalCtx, GI_BRACELET, xzRange, fabsf(this->actor.yDistToPlayer) + 1.0f);
+        Actor_PickUp(&this->actor, globalCtx, GI_BRACELET, xzRange, fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
 
@@ -570,7 +570,7 @@ s32 EnDu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         Matrix_Translate(-2400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
-        sp1C = this->npcInfo.WaistAngle;
+        sp1C = this->npcInfo.waistAngle;
         Matrix_RotateY(BINANG_TO_RAD(sp1C.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD(sp1C.x), MTXMODE_APPLY);
     }
