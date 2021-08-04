@@ -216,7 +216,7 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
             }
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F580(&this->actor, globalCtx);
+            Actor_PickUpNearbyActor(&this->actor, globalCtx);
         }
     }
 }

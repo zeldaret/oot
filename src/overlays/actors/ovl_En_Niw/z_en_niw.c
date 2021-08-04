@@ -490,7 +490,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->actionFunc = func_80AB6BF8;
             return;
         }
-        func_8002F580(&this->actor, globalCtx);
+        Actor_PickUpNearbyActor(&this->actor, globalCtx);
     } else {
         if (this->path != 0) {
             this->unk_2A6 = 1;
@@ -699,7 +699,7 @@ void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80AB6BF8;
     } else {
         if (this->timer5 >= 6) {
-            func_8002F580(&this->actor, globalCtx);
+            Actor_PickUpNearbyActor(&this->actor, globalCtx);
         }
         func_80AB5BF8(this, globalCtx, 2);
     }

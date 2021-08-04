@@ -1018,7 +1018,7 @@ void EnDekubaba_DeadStickDrop(EnDekubaba* this, GlobalContext* globalCtx) {
         return;
     }
 
-    func_8002F554(&this->actor, globalCtx, GI_STICKS_1);
+    Actor_PickUpNearby(&this->actor, globalCtx, GI_STICKS_1);
 }
 
 // Update and associated functions

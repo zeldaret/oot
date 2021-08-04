@@ -117,7 +117,7 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
             BgTokiSwd_SetupAction(this, func_808BB0AC);
         } else {
             if (Actor_IsFacingPlayer(&this->actor, 0x2000)) {
-                func_8002F580(&this->actor, globalCtx);
+                Actor_PickUpNearbyActor(&this->actor, globalCtx);
             }
         }
     }

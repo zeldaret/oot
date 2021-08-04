@@ -114,6 +114,8 @@ animdict ={
     "func_80034DD4": "Npc_GetFadeOutAlpha",
     "globalCtx->mf_11D60": "globalCtx->projectionMatrix",
     "func_8002F434": "Actor_PickUp",
+    "func_8002F554": "Actor_PickUpNearby",
+    "func_8002F580": "Actor_PickUpNearbyActor",
 }
 
 def replace_anim(file):

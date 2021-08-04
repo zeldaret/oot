@@ -1587,12 +1587,12 @@ s32 Actor_PickUp(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRa
     return false;
 }
 
-void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
+void Actor_PickUpNearby(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
     Actor_PickUp(actor, globalCtx, getItemId, 50.0f, 10.0f);
 }
 
-void func_8002F580(Actor* actor, GlobalContext* globalCtx) {
-    func_8002F554(actor, globalCtx, GI_NONE);
+void Actor_PickUpNearbyActor(Actor* actor, GlobalContext* globalCtx) {
+    Actor_PickUpNearby(actor, globalCtx, GI_NONE);
 }
 
 u32 Actor_HasNoParent(Actor* actor, GlobalContext* globalCtx) {
@@ -3920,7 +3920,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
                 ret = 1;
             } else {
                 actor->shape.rot.x = actor->shape.rot.z = 0;
-                func_8002F580(actor, globalCtx);
+                Actor_PickUpNearbyActor(actor, globalCtx);
             }
             break;
         case 1:

@@ -1573,7 +1573,7 @@ void func_80AEE568(EnRu1* this, GlobalContext* globalCtx) {
     if (!func_80AEE394(this, globalCtx)) {
         if ((this->actor.bgCheckFlags & 1) && (this->actor.speedXZ == 0.0f) && (this->actor.minVelocityY == 0.0f)) {
             func_80AEE02C(this);
-            func_8002F580(&this->actor, globalCtx);
+            Actor_PickUpNearbyActor(&this->actor, globalCtx);
             this->action = 27;
             func_80AEADD8(this);
         } else if (this->actor.yDistToWater > 0.0f) {
@@ -1674,7 +1674,7 @@ void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
 s32 func_80AEEAC8(EnRu1* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 1) {
         func_80AEE02C(this);
-        func_8002F580(&this->actor, globalCtx);
+        Actor_PickUpNearbyActor(&this->actor, globalCtx);
         this->action = 27;
         func_80AEADD8(this);
         return 1;
@@ -1692,7 +1692,7 @@ void func_80AEEB24(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEEBB4(EnRu1* this, GlobalContext* globalCtx) {
-    func_8002F580(&this->actor, globalCtx);
+    Actor_PickUpNearbyActor(&this->actor, globalCtx);
 }
 
 void func_80AEEBD4(EnRu1* this, GlobalContext* globalCtx) {
@@ -1844,7 +1844,7 @@ void func_80AEF1F0(EnRu1* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
         func_80106CCC(globalCtx);
         gSaveContext.infTable[20] |= 8;
         func_80AED6DC(this, globalCtx);
-        func_8002F580(&this->actor, globalCtx);
+        Actor_PickUpNearbyActor(&this->actor, globalCtx);
         this->action = 27;
         func_80AEADD8(this);
     }

@@ -541,7 +541,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((getItemId != 0) && !Actor_HasParent(&this->actor, globalCtx)) {
-        func_8002F554(&this->actor, globalCtx, getItemId);
+        Actor_PickUpNearby(&this->actor, globalCtx, getItemId);
     }
 
     EnItem00_SetupAction(this, func_8001E5C8);
@@ -882,7 +882,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     params = &this->actor.params;
 
     if ((getItemId != 0) && !Actor_HasParent(&this->actor, globalCtx)) {
-        func_8002F554(&this->actor, globalCtx, getItemId);
+        Actor_PickUpNearby(&this->actor, globalCtx, getItemId);
     }
 
     switch (*params) {

@@ -100,7 +100,7 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
                     thisx->velocity.y *= IREG(60) / 100.0f;
                     thisx->bgCheckFlags &= ~0x1;
                 } else {
-                    func_8002F580(thisx, globalCtx);
+                    Actor_PickUpNearbyActor(thisx, globalCtx);
                 }
             }
         }
