@@ -422,7 +422,7 @@ void func_80099140(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->soundCtx.nightSeqIndex = cmd->soundSettings.nightSeqIndex;
 
     if (gSaveContext.seqIndex == 0xFF) {
-        Audio_SetBGM(cmd->soundSettings.bgmId | 0xF0000000);
+        Audio_QueueSeqCmd(cmd->soundSettings.bgmId | 0xF0000000);
     }
 }
 

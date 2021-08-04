@@ -351,7 +351,7 @@ glabel func_8010B820
 /* B82E20 8010BC80 24040001 */   li    $a0, 1
 /* B82E24 8010BC84 0C03B616 */  jal   func_800ED858
 /* B82E28 8010BC88 24040001 */   li    $a0, 1
-/* B82E2C 8010BC8C 0C03B8FE */  jal   func_800EE3F8
+/* B82E2C 8010BC8C 0C03B8FE */  jal   Audio_OcaGetDisplayStaff
 /* B82E30 8010BC90 00000000 */   nop   
 /* B82E34 8010BC94 3C048015 */  lui   $a0, %hi(D_8014B2FC) # $a0, 0x8015
 /* B82E38 8010BC98 26417FFF */  addiu $at, $s2, 0x7fff

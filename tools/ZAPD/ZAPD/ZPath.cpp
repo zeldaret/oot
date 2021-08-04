@@ -13,10 +13,9 @@ ZPath::ZPath(ZFile* nParent) : ZResource(nParent)
 	RegisterOptionalAttribute("NumPaths", "1");
 }
 
-void ZPath::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                           const uint32_t nRawDataIndex)
+void ZPath::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
 {
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex);
+	ZResource::ExtractFromXML(reader, nRawDataIndex);
 
 	parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::Align4, pathways.size() * 8,
 	                            GetSourceTypeName(), name, pathways.size(), "");
@@ -135,7 +134,6 @@ void PathwayEntry::ParseRawData()
 	for (int32_t i = 0; i < numPoints; i++)
 	{
 		ZVector vec(parent);
-		vec.SetRawData(parentRawData);
 		vec.SetRawDataIndex(currentPtr);
 		vec.SetScalarType(ZScalarType::ZSCALAR_S16);
 		vec.SetDimensions(3);

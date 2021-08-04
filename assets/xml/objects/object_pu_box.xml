@@ -8,6 +8,6 @@
         <Collision Name="gUnknownUnusedBox3Col" Offset="0xA50"/>
         <DList Name="gUnknownUnusedBox4DL" Offset="0xA80"/>
         <Collision Name="gUnknownUnusedBox4Col" Offset="0x15D0"/>
-        <Texture Name="gUnknownUnusedBoxTex" OutName="unknown_unused_box" Format="rgb5a1" Width="32" Height="32" Offset="0xCC8"/>
+        <Texture Name="gUnknownUnusedBoxTex" OutName="unknown_unused_box" Format="rgba16" Width="32" Height="32" Offset="0xCC8"/>
     </File>
 </Root>
