@@ -283,7 +283,6 @@ beginseg
     after "dmadata"
     include "build/src/code/z_en_a_keep.o"
     include "build/src/code/z_en_item00.o"
-    include "build/data/z_en_item00.bss.o"
     include "build/src/code/z_eff_blure.o"
     include "build/src/code/z_eff_shield_particle.o"
     include "build/src/code/z_eff_spark.o"
