@@ -1278,7 +1278,7 @@ void func_80AED83C(EnRu1* this) {
     tempPtr = &this->npcInfo.neckAngle;
     Math_SmoothStepToS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
     Math_SmoothStepToS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
-    tempPtr2 = &this->npcInfo.WaistAngle;
+    tempPtr2 = &this->npcInfo.waistAngle;
     Math_SmoothStepToS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
     Math_SmoothStepToS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
 }
@@ -2259,7 +2259,7 @@ void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AF0278(EnRu1* this, GlobalContext* globalCtx, s32 limbIndex, Vec3s* rot) {
-    Vec3s* vec1 = &this->npcInfo.WaistAngle;
+    Vec3s* vec1 = &this->npcInfo.waistAngle;
     Vec3s* vec2 = &this->npcInfo.neckAngle;
 
     switch (limbIndex) {

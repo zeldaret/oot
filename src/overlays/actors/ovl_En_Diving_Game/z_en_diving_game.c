@@ -517,7 +517,7 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->npcInfo.focusPos.y = player->actor.world.pos.y;
     Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 2, 4);
     this->vec_284 = this->npcInfo.neckAngle;
-    this->vec_28A = this->npcInfo.WaistAngle;
+    this->vec_28A = this->npcInfo.waistAngle;
     if ((globalCtx->gameplayFrames % 16) == 0) {
         pos = this->actor.world.pos;
         pos.y += 20.0f;

@@ -973,7 +973,7 @@ s32 func_80A716B8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     }
 
     if (limbIndex == 8) {
-        sp48 = this->npcInfo.WaistAngle;
+        sp48 = this->npcInfo.waistAngle;
         Matrix_RotateX((-sp48.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((sp48.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
     }

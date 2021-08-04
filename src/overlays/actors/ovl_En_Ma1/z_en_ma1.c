@@ -421,7 +421,7 @@ s32 EnMa1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
-        vec = this->npcInfo.WaistAngle;
+        vec = this->npcInfo.waistAngle;
         Matrix_RotateX((-vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((-vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }

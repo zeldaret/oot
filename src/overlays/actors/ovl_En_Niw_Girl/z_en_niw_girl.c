@@ -211,7 +211,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 2, 4);
         this->unk_260 = this->npcInfo.neckAngle;
-        this->unk_266 = this->npcInfo.WaistAngle;
+        this->unk_266 = this->npcInfo.waistAngle;
     } else {
         Math_SmoothStepToS(&this->unk_266.y, 0, 5, 3000, 0);
         Math_SmoothStepToS(&this->unk_260.y, 0, 5, 3000, 0);

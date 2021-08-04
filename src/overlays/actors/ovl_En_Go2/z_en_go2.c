@@ -1874,7 +1874,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 this->actor.gravity = 0.0f;
                 this->actor.speedXZ = 2.0f;
                 this->npcInfo.neckAngle = D_80A4854C;
-                this->npcInfo.WaistAngle = D_80A4854C;
+                this->npcInfo.waistAngle = D_80A4854C;
                 this->goronState++;
                 this->goronState++;
                 player->actor.world.rot.y = this->actor.world.rot.y;
@@ -1995,7 +1995,7 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limb == 10) {
-        vec1 = this->npcInfo.WaistAngle;
+        vec1 = this->npcInfo.waistAngle;
         float1 = (vec1.y / (f32)0x8000) * M_PI;
         Matrix_RotateY(float1, MTXMODE_APPLY);
         float1 = (vec1.x / (f32)0x8000) * M_PI;

@@ -400,8 +400,8 @@ s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     if ((this->stateFlags & 8)) {
         switch (limbIndex) {
             case 8:
-                rot->x += this->npcInfo.WaistAngle.y;
-                rot->y -= this->npcInfo.WaistAngle.x;
+                rot->x += this->npcInfo.waistAngle.y;
+                rot->y -= this->npcInfo.waistAngle.x;
                 break;
             case 15:
                 rot->x += this->npcInfo.neckAngle.y;

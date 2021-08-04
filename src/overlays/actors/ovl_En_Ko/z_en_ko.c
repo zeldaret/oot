@@ -1256,7 +1256,7 @@ s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->legsObjectBankIdx].segment);
     }
     if (limbIndex == 8) {
-        sp40 = this->unk_1E8.WaistAngle;
+        sp40 = this->unk_1E8.waistAngle;
         Matrix_RotateX(BINANG_TO_RAD(-sp40.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD(sp40.x), MTXMODE_APPLY);
     }

@@ -2342,8 +2342,8 @@ s32 EnXc_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     if (this->unk_30C != 0) {
         if (limbIndex == 9) {
-            rot->x += this->npcInfo.WaistAngle.y;
-            rot->y -= this->npcInfo.WaistAngle.x;
+            rot->x += this->npcInfo.waistAngle.y;
+            rot->y -= this->npcInfo.waistAngle.x;
         } else if (limbIndex == 16) {
             rot->x += this->npcInfo.neckAngle.y;
             rot->z += this->npcInfo.neckAngle.x;

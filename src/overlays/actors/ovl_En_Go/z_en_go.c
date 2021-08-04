@@ -1095,7 +1095,7 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
     }
 
     if (limb == 10) {
-        vec1 = this->npcInfo.WaistAngle;
+        vec1 = this->npcInfo.waistAngle;
         float1 = (vec1.y / (f32)0x8000) * M_PI;
         Matrix_RotateY(float1, MTXMODE_APPLY);
         float1 = (vec1.x / (f32)0x8000) * M_PI;

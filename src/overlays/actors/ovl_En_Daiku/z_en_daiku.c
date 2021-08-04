@@ -620,8 +620,8 @@ s32 EnDaiku_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Ve
 
     switch (limb) {
         case 8: // torso
-            rot->x += this->npcInfo.WaistAngle.y;
-            rot->y -= this->npcInfo.WaistAngle.x;
+            rot->x += this->npcInfo.waistAngle.y;
+            rot->y -= this->npcInfo.waistAngle.x;
             break;
         case 15: // head
             rot->x += this->npcInfo.neckAngle.y;

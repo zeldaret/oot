@@ -3703,10 +3703,10 @@ void Npc_TurnTowardsFocusImpl(Actor* actor, NpcInfo* npcInfo, s16 neckAngleRange
     yAngle2 -= npcInfo->neckAngle.y;
 
     offset = CLAMP(yAngle2, -waistAngleRangeY, waistAngleRangeY);
-    Math_SmoothStepToS(&npcInfo->WaistAngle.y, offset, 6, 2000, 1);
+    Math_SmoothStepToS(&npcInfo->waistAngle.y, offset, 6, 2000, 1);
 
     offset = (ABS(yAngle2) >= 0x8000) ? 0 : ABS(yAngle2);
-    npcInfo->WaistAngle.y = CLAMP(npcInfo->WaistAngle.y, -offset, offset);
+    npcInfo->waistAngle.y = CLAMP(npcInfo->waistAngle.y, -offset, offset);
 
     if (waistCanRotate) {
         Math_SmoothStepToS(&actor->shape.rot.y, yAngle1, 6, 2000, 1);
@@ -3718,7 +3718,7 @@ void Npc_TurnTowardsFocusImpl(Actor* actor, NpcInfo* npcInfo, s16 neckAngleRange
     xAngle2 = xAngle1 - npcInfo->neckAngle.x;
 
     offset = CLAMP(xAngle2, waistAngleMinX, waistAngleMaxX);
-    Math_SmoothStepToS(&npcInfo->WaistAngle.x, offset, 6, 2000, 1);
+    Math_SmoothStepToS(&npcInfo->waistAngle.x, offset, 6, 2000, 1);
 }
 
 s16 Npc_GetSightAngleRange(s16 index) {

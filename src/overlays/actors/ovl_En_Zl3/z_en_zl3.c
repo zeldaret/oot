@@ -153,7 +153,7 @@ void func_80B536B4(EnZl3* this) {
 void func_80B536C4(EnZl3* this) {
     s32 pad[2];
     Vec3s* vec1 = &this->npcInfo.neckAngle;
-    Vec3s* vec2 = &this->npcInfo.WaistAngle;
+    Vec3s* vec2 = &this->npcInfo.waistAngle;
 
     Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
@@ -606,7 +606,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     MtxF sp38;
     Vec3s sp30;
     Vec3s* unk_3F8_unk_08 = &this->npcInfo.neckAngle;
-    Vec3s* unk_3F8_unk_0E = &this->npcInfo.WaistAngle;
+    Vec3s* unk_3F8_unk_0E = &this->npcInfo.waistAngle;
 
     if (limbIndex == 14) {
         sp78 = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);

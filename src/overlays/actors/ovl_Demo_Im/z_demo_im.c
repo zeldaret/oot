@@ -179,7 +179,7 @@ void func_80984D74(DemoIm* this, GlobalContext* globalCtx) {
 void func_80984DB8(DemoIm* this) {
     s32 pad[2];
     Vec3s* vec1 = &this->npcInfo.neckAngle;
-    Vec3s* vec2 = &this->npcInfo.WaistAngle;
+    Vec3s* vec2 = &this->npcInfo.waistAngle;
 
     Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
     Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
@@ -1145,7 +1145,7 @@ s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     s32* unk_2D0 = &this->unk_2D0;
 
     if (this->unk_280 != 0) {
-        Vec3s* unk_2D4_unk_0E = &this->npcInfo.WaistAngle;
+        Vec3s* unk_2D4_unk_0E = &this->npcInfo.waistAngle;
         Vec3s* unk_2D4_unk_08 = &this->npcInfo.neckAngle;
 
         switch (limbIndex) {

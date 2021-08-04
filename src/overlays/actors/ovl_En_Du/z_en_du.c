@@ -570,7 +570,7 @@ s32 EnDu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         Matrix_Translate(-2400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
-        sp1C = this->npcInfo.WaistAngle;
+        sp1C = this->npcInfo.waistAngle;
         Matrix_RotateY(BINANG_TO_RAD(sp1C.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD(sp1C.x), MTXMODE_APPLY);
     }
