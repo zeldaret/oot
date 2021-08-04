@@ -219,6 +219,8 @@ void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
         this->unk_16C.z = Math_CosS(this->actor.shape.rot.y + 0x4000);
 
         this->actor.speedXZ = 8.0f;
+        //! @bug there is no NULL check on the floor poly.  If the player is out of bounds the floor poly will be NULL
+        //! and will cause a crash inside this function.
         func_809C5BA8(this, this->actor.floorPoly, globalCtx);
         this->actor.flags |= 1; // make chu targetable
         func_8002F850(globalCtx, &this->actor);
