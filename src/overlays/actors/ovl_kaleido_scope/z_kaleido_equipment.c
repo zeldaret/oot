@@ -1,5 +1,6 @@
 #include "z_kaleido_scope.h"
 #include "textures/icon_item_static/icon_item_static.h"
+#include "textures/parameter_static/parameter_static.h"
 
 static u8 sChildUpgrades[] = { UPG_BULLET_BAG, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
 static u8 sAdultUpgrades[] = { UPG_QUIVER, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
@@ -140,7 +141,7 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
             gDPPipeSync(POLY_OPA_DISP++);
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[j], 4, 0);
 
-            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_02000A00[1], 32, 32, 0);
+            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, gEquippedItemOutlineTex, 32, 32, 0);
         }
     }
 

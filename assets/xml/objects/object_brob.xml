@@ -6,7 +6,7 @@
         <DList Name="object_brob_DL_0009D0" Offset="0x9D0"/>
         <DList Name="object_brob_DL_000AE8" Offset="0xAE8"/>
         <DList Name="object_brob_DL_000C00" Offset="0xC00"/>
-        <Texture Name="object_brob_Tex_000D48" OutName="tex_00000D48" Format="rgb5a1" Width="32" Height="32" Offset="0xD48"/>
+        <Texture Name="object_brob_Tex_000D48" OutName="tex_00000D48" Format="rgba16" Width="32" Height="32" Offset="0xD48"/>
         <Limb Name="object_brob_Limb_001548" LimbType="Standard" Offset="0x1548"/>
         <Limb Name="object_brob_Limb_001554" LimbType="Standard" Offset="0x1554"/>
         <Limb Name="object_brob_Limb_001560" LimbType="Standard" Offset="0x1560"/>

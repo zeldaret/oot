@@ -97,7 +97,7 @@ s32 Player_InCsMode(GlobalContext* globalCtx) {
     return Player_InBlockingCsMode(globalCtx, this) || (this->unk_6AD == 4);
 }
 
-s32 Player_IsTargetting(Player* this) {
+s32 Player_IsTargeting(Player* this) {
     return (this->stateFlags1 & 0x10);
 }
 
@@ -336,13 +336,13 @@ static Gfx* sPlayerBottleHandDLists[] = {
     gLinkChildBottleHandNearDL,
 };
 
-static Gfx* sPlayerFPSLeftForearmDLists[] = {
-    gLinkAdultFPSLeftForearmDL,
+static Gfx* sPlayerFPLeftForearmDLists[] = {
+    gLinkAdultFPLeftForearmDL,
     NULL,
 };
 
-static Gfx* sPlayerFPSLeftHandDLists[] = {
-    gLinkAdultFPSLeftHandDL,
+static Gfx* sPlayerFPLeftHandDLists[] = {
+    gLinkAdultFPLeftHandDL,
     NULL,
 };
 
@@ -351,14 +351,14 @@ static Gfx* sPlayerShoulderDLists[] = {
     gLinkChildLeftShoulderNearDL,
 };
 
-static Gfx* sPlayerFPSRightForearmDLists[] = {
-    gLinkAdultFPSRightForearmDL,
+static Gfx* sPlayerFPRightForearmDLists[] = {
+    gLinkAdultFPRightForearmDL,
     NULL,
 };
 
-static Gfx* sPlayerFPSRightHandAndBowDLists[] = {
-    gLinkAdultFPSRightHandAndFairyBowDL,
-    gLinkChildFPSRightHandAndFairySlingshotDL,
+static Gfx* sPlayerFPRightHandAndBowDLists[] = {
+    gLinkAdultFPRightHandAndFairyBowDL,
+    gLinkChildFPRightHandAndFairySlingshotDL,
 };
 
 // Indexed by model types (left hand, right hand, sheath or waist)
@@ -471,12 +471,12 @@ void Player_UpdateBottleHeld(GlobalContext* globalCtx, Player* this, s32 item, s
     this->itemActionParam = actionParam;
 }
 
-void Player_UnsetTargetting(Player* this) {
+void Player_UnsetTargeting(Player* this) {
     this->unk_664 = NULL;
     this->stateFlags2 &= ~0x2000;
 }
 
-void Player_InitTargetting(Player* this) {
+void Player_InitTargeting(Player* this) {
     if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8A00000) ||
         (!(this->stateFlags1 & 0xC0000) && ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
         this->stateFlags1 &= ~0x400F8000;
@@ -484,13 +484,13 @@ void Player_InitTargetting(Player* this) {
         this->stateFlags1 |= 0x80000;
     }
 
-    Player_UnsetTargetting(this);
+    Player_UnsetTargeting(this);
 }
 
-void Player_SetTargetting(GlobalContext* globalCtx, Actor* actor) {
+void Player_SetTargeting(GlobalContext* globalCtx, Actor* actor) {
     Player* this = PLAYER;
 
-    Player_InitTargetting(this);
+    Player_InitTargeting(this);
     this->unk_664 = actor;
     this->unk_684 = actor;
     this->stateFlags1 |= 0x10000;
@@ -1013,16 +1013,16 @@ s32 Player_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         if (this->unk_6AD != 2) {
             *dList = NULL;
         } else if (limbIndex == PLAYER_LIMB_L_FOREARM) {
-            *dList = sPlayerFPSLeftForearmDLists[(void)0, gSaveContext.linkAge];
+            *dList = sPlayerFPLeftForearmDLists[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_L_HAND) {
-            *dList = sPlayerFPSLeftHandDLists[(void)0, gSaveContext.linkAge];
+            *dList = sPlayerFPLeftHandDLists[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_SHOULDER) {
             *dList = sPlayerShoulderDLists[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_FOREARM) {
-            *dList = sPlayerFPSRightForearmDLists[(void)0, gSaveContext.linkAge];
+            *dList = sPlayerFPRightForearmDLists[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-            *dList = Player_IsHoldingHookshot(this) ? gLinkAdultFPSRightHandAndHookshotDL
-                                                    : sPlayerFPSRightHandAndBowDLists[(void)0, gSaveContext.linkAge];
+            *dList = Player_IsHoldingHookshot(this) ? gLinkAdultFPRightHandAndHookshotDL
+                                                    : sPlayerFPRightHandAndBowDLists[(void)0, gSaveContext.linkAge];
         } else {
             *dList = NULL;
         }
@@ -1042,7 +1042,7 @@ s32 Player_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
 u8 Player_SetQuadWeaponCollision(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* weaponInfo,
                                  Vec3f* newTip, Vec3f* newBase) {
-    if (weaponInfo->active == false) {
+    if (!weaponInfo->active) {
         if (collider != NULL) {
             Collider_ResetQuadAT(globalCtx, &collider->base);
         }
@@ -1064,7 +1064,7 @@ u8 Player_SetQuadWeaponCollision(GlobalContext* globalCtx, ColliderQuad* collide
         }
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
         Math_Vec3f_Copy(&weaponInfo->tip, newTip);
-        weaponInfo->active = 1;
+        weaponInfo->active = true;
         return true;
     }
 }

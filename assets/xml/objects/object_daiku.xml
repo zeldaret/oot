@@ -3,15 +3,15 @@
         <Animation Name="object_daiku_Anim_000600" Offset="0x600"/>
         <Animation Name="object_daiku_Anim_000C44" Offset="0xC44"/>
         <Animation Name="object_daiku_Anim_001AB0" Offset="0x1AB0"/>
-        <Texture Name="object_daiku_TLUT_001AC0" OutName="tlut_00001AC0" Format="rgb5a1" Width="16" Height="16" Offset="0x1AC0"/>
+        <Texture Name="object_daiku_TLUT_001AC0" OutName="tlut_00001AC0" Format="rgba16" Width="16" Height="16" Offset="0x1AC0"/>
         <Texture Name="object_daiku_Tex_001CC0" OutName="tex_00001CC0" Format="ci8" Width="8" Height="8" Offset="0x1CC0"/>
         <Texture Name="object_daiku_Tex_001D00" OutName="tex_00001D00" Format="ci8" Width="16" Height="16" Offset="0x1D00"/>
-        <Texture Name="object_daiku_Tex_001E00" OutName="tex_00001E00" Format="rgb5a1" Width="4" Height="4" Offset="0x1E00"/>
+        <Texture Name="object_daiku_Tex_001E00" OutName="tex_00001E00" Format="rgba16" Width="4" Height="4" Offset="0x1E00"/>
         <Texture Name="object_daiku_Tex_001E20" OutName="tex_00001E20" Format="ci8" Width="8" Height="16" Offset="0x1E20"/>
         <Texture Name="object_daiku_Tex_001EA0" OutName="tex_00001EA0" Format="ci8" Width="8" Height="8" Offset="0x1EA0"/>
         <Texture Name="object_daiku_Tex_001EE0" OutName="tex_00001EE0" Format="ci8" Width="16" Height="16" Offset="0x1EE0"/>
         <Texture Name="object_daiku_Tex_001FE0" OutName="tex_00001FE0" Format="ci8" Width="8" Height="8" Offset="0x1FE0"/>
-        <Texture Name="object_daiku_Tex_002020" OutName="tex_00002020" Format="rgb5a1" Width="32" Height="32" Offset="0x2020"/>
+        <Texture Name="object_daiku_Tex_002020" OutName="tex_00002020" Format="rgba16" Width="32" Height="32" Offset="0x2020"/>
         <Texture Name="object_daiku_Tex_002820" OutName="tex_00002820" Format="ci8" Width="16" Height="16" Offset="0x2820"/>
         <Texture Name="object_daiku_Tex_002920" OutName="tex_00002920" Format="ci8" Width="8" Height="8" Offset="0x2920"/>
         <Texture Name="object_daiku_Tex_002960" OutName="tex_00002960" Format="ci8" Width="8" Height="8" Offset="0x2960"/>

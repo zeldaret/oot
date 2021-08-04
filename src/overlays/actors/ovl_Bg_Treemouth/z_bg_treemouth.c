@@ -142,7 +142,7 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
     if ((!(Flags_GetEventChkInf(5))) || LINK_IS_ADULT) {
         if (LINK_IS_CHILD) {
             if (Flags_GetEventChkInf(0xC)) {
-                if (func_8002E12C(&this->dyna.actor, 1658.0f, 0x7530)) {
+                if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
                     this->dyna.actor.flags |= 1;
                     if (this->dyna.actor.isTargeted) {
                         this->dyna.actor.flags &= ~1;
@@ -151,7 +151,7 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
                         BgTreemouth_SetupAction(this, func_808BC9EC);
                     }
                 }
-            } else if (func_8002E12C(&this->dyna.actor, 1658.0f, 0x4E20)) {
+            } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x4E20)) {
                 Flags_SetEventChkInf(0xC);
                 globalCtx->csCtx.segment = D_808BCE20;
                 gSaveContext.cutsceneTrigger = 1;
@@ -167,7 +167,7 @@ void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (globalCtx->csCtx.state == CS_STATE_UNSKIPPABLE_INIT) {
-        if (func_8002E12C(&this->dyna.actor, 350.0f, 0x7530)) {
+        if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 350.0f, 0x7530)) {
             player->actor.world.pos.x = 3827.0f;
             player->actor.world.pos.y = -161.0f;
             player->actor.world.pos.z = -1142.0f;

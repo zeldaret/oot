@@ -340,7 +340,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
             if (this->unk_306 == 0) {
                 if (!(this->unk_312 & 0x80)) {
                     player->actor.freezeTimer = 40;
-                    Player_SetTargetting(globalCtx, &this->actor);
+                    Player_SetTargeting(globalCtx, &this->actor);
                     PLAYER->unk_684 = &this->actor;
                     func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
                 }
@@ -357,7 +357,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     }
 
     if (!this->unk_307 && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 45.0f) &&
-        func_8002E084(&this->actor, 0x38E3)) {
+        Actor_IsFacingPlayer(&this->actor, 0x38E3)) {
         player->actor.freezeTimer = 0;
         if (globalCtx->grabPlayer(globalCtx, player)) {
             this->actor.flags &= ~1;
@@ -570,7 +570,7 @@ void func_80AE3834(EnRd* this, GlobalContext* globalCtx) {
         if (!(this->unk_312 & 0x80)) {
             player->actor.freezeTimer = 60;
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
-            Player_SetTargetting(globalCtx, &this->actor);
+            Player_SetTargeting(globalCtx, &this->actor);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_AIM);
         func_80AE2B90(this, globalCtx);
@@ -763,7 +763,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
         this->unk_31C = this->actor.colChkInfo.damageEffect;
 
         if (this->unk_31B != 11) {
-            func_80035650(&this->actor, &this->collider.info, 1);
+            Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
             }
