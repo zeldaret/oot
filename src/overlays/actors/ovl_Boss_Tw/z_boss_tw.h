@@ -22,7 +22,7 @@ typedef enum {
     /* 10 */ YAW_TGT,
     /* 11 */ PLAYED_CHRG_SFX,
     /* 12 */ BURN_TMR,
-    /* 12 */ WORK_MAX = BURN_TMR
+    /* 13 */ WORK_MAX
 } TwWork;
 
 typedef enum {
@@ -59,7 +59,7 @@ typedef struct BossTw {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ BossTwActionFunc actionFunc;
     /* 0x0150 */ s16 work[WORK_MAX];
-    /* 0x0168 */ char unused_168[0x10]; // Likely unused Work variables
+    /* 0x0168 */ char unused_170[0xE]; // Likely unused Work variables
     /* 0x0178 */ s16 timers[5];
     /* 0x0184 */ f32 workf[FWORK_MAX];
     /* 0x01D4 */ f32 fogR;
