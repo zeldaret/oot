@@ -361,7 +361,7 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
             if ((this->stage->actor.update != NULL) && (this->stage->leaderSignal == DNT_SIGNAL_NONE)) {
                 this->stage->leaderSignal = DNT_SIGNAL_HIDE;
                 this->stage->action = DNT_ACTION_ATTACK;
-                Audio_SetBGM(0x81A);
+                Audio_QueueSeqCmd(0x81A);
             }
         }
         this->actor.speedXZ = 0.0f;

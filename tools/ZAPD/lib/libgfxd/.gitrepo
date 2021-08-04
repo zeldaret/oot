@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/glankk/libgfxd.git
 	branch = master
-	commit = 2f00ff7dff14ae44c12ed421be54b9fec815541b
-	parent = a43a526c4296d7dc48852f6017fe069724465494
+	commit = 01db16329ef5cac23566b6d143b57d0525e22876
+	parent = c6b352aac040527d2962f3e764e460eb9e813fe5
 	method = merge
 	cmdver = 0.4.3
