@@ -60,7 +60,7 @@ static InitChainEntry sInitChain[] = {
 
 static Color_RGBA8 sEffectPrimColor = { 255, 255, 127, 0 };
 static Color_RGBA8 sEffectEnvColor = { 255, 255, 255, 0 };
-static Vec3f sEffectPos = { 0.0f, 0.1f, 0.0f };
+static Vec3f sEffectVelocity = { 0.0f, 0.1f, 0.0f };
 static Vec3f sEffectAccel = { 0.0f, 0.01f, 0.0f };
 
 static void* sRupeeTex[] = {
@@ -335,7 +335,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     f32 yOffset = 980.0f;
     f32 shadowScale = 6.0f;
-    s32 getItemId = 0;
+    s32 getItemId = GI_NONE;
     s16 spawnParam8000 = this->actor.params & 0x8000;
     s32 pad1;
 
@@ -463,7 +463,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, yOffset, ActorShadow_DrawCircle, shadowScale);
     this->actor.shape.shadowAlpha = 180;
     this->actor.focus.pos = this->actor.world.pos;
-    this->getItemId = 0;
+    this->getItemId = GI_NONE;
 
     if (!spawnParam8000) {
         EnItem00_SetupAction(this, func_8001DFC8);
@@ -544,7 +544,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    if ((getItemId != 0) && !Actor_HasParent(&this->actor, globalCtx)) {
+    if ((getItemId != GI_NONE) && !Actor_HasParent(&this->actor, globalCtx)) {
         func_8002F554(&this->actor, globalCtx, getItemId);
     }
 
@@ -606,17 +606,18 @@ void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
 
 void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
     f32 originalVelocity;
-    Vec3f pos;
+    Vec3f effectPos;
 
     if (this->actor.params <= ITEM00_RUPEE_RED) {
         this->actor.shape.rot.y += 960;
     }
 
     if (globalCtx->gameplayFrames & 1) {
-        pos.x = this->actor.world.pos.x + Rand_CenteredFloat(10.0f);
-        pos.y = this->actor.world.pos.y + Rand_CenteredFloat(10.0f);
-        pos.z = this->actor.world.pos.z + Rand_CenteredFloat(10.0f);
-        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectPos, &sEffectAccel, &sEffectPrimColor, &sEffectEnvColor);
+        effectPos.x = this->actor.world.pos.x + Rand_CenteredFloat(10.0f);
+        effectPos.y = this->actor.world.pos.y + Rand_CenteredFloat(10.0f);
+        effectPos.z = this->actor.world.pos.z + Rand_CenteredFloat(10.0f);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &effectPos, &sEffectVelocity, &sEffectAccel, &sEffectPrimColor,
+                                    &sEffectEnvColor);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -674,7 +675,8 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.world.pos.x + (Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.y = this->actor.world.pos.y + (Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.z = this->actor.world.pos.z + (Rand_ZeroOne() - 0.5f) * 10.0f;
-        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectPos, &sEffectAccel, &sEffectPrimColor, &sEffectEnvColor);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &sEffectVelocity, &sEffectAccel, &sEffectPrimColor,
+                                    &sEffectEnvColor);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -688,12 +690,12 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
 void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->getItemId != 0) {
+    if (this->getItemId != GI_NONE) {
         if (!Actor_HasParent(&this->actor, globalCtx)) {
             func_8002F434(&this->actor, globalCtx, this->getItemId, 50.0f, 80.0f);
             this->unk_15A++;
         } else {
-            this->getItemId = 0;
+            this->getItemId = GI_NONE;
         }
     }
 
@@ -723,7 +725,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     static s16 D_80157D94[1];
     s16* params;
     Actor* dynaActor;
-    s32 getItemId = 0;
+    s32 getItemId = GI_NONE;
     s16 sp3A = 0;
     s16 i;
     u32* temp;
@@ -757,9 +759,9 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
                             if ((dynaActor->world.pos.x != dynaActor->prevPos.x) ||
                                 (dynaActor->world.pos.y != dynaActor->prevPos.y) ||
                                 (dynaActor->world.pos.z != dynaActor->prevPos.z)) {
-                                    D_80157D94[0]++;
-                                    break;
-                                }
+                                D_80157D94[0]++;
+                                break;
+                            }
                         }
                     }
                 }
@@ -884,7 +886,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     params = &this->actor.params;
 
-    if ((getItemId != 0) && !Actor_HasParent(&this->actor, globalCtx)) {
+    if ((getItemId != GI_NONE) && !Actor_HasParent(&this->actor, globalCtx)) {
         func_8002F554(&this->actor, globalCtx, getItemId);
     }
 
@@ -905,7 +907,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((*params <= ITEM00_RUPEE_RED) || (*params == ITEM00_RUPEE_ORANGE)) {
         Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    } else if (getItemId != 0) {
+    } else if (getItemId != GI_NONE) {
         if (Actor_HasParent(&this->actor, globalCtx)) {
             Flags_SetCollectible(globalCtx, this->collectibleFlag);
             Actor_Kill(&this->actor);
@@ -926,13 +928,13 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, this->scale);
 
-    this->getItemId = 0;
+    this->getItemId = GI_NONE;
     EnItem00_SetupAction(this, func_8001E5C8);
 }
 
 void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnItem00* this = THIS;
-    f32 unkFloat;
+    f32 mtxScale;
 
     if (!(this->unk_156 & this->unk_158)) {
         switch (this->actor.params) {
@@ -959,8 +961,8 @@ void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
                             this->unk_15A = -2;
                         }
                     } else {
-                        unkFloat = 16.0f;
-                        Matrix_Scale(unkFloat, unkFloat, unkFloat, MTXMODE_APPLY);
+                        mtxScale = 16.0f;
+                        Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
                         GetItem_Draw(globalCtx, GID_HEART);
                     }
                     break;
