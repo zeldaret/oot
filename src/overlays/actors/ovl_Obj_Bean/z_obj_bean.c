@@ -244,14 +244,11 @@ void ObjBean_SetupPath(ObjBean* this, GlobalContext* globalCtx) {
     Math_Vec3s_ToVec3f(&this->pathPoints, SEGMENTED_TO_VIRTUAL(path->points));
 }
 
-#ifdef NON_MATCHING
-// Regalloc near speed > mag.
-// f12 vs f2 regs
 void ObjBean_FollowPath(ObjBean* this, GlobalContext* globalCtx) {
     Path* path;
     Vec3f acell;
     Vec3f pathPointsFloat;
-    s32 pad;
+    f32 speed;
     Vec3s* nextPathPoint;
     Vec3s* currentPoint;
     Vec3s* sp4C;
@@ -259,7 +256,6 @@ void ObjBean_FollowPath(ObjBean* this, GlobalContext* globalCtx) {
     Vec3f sp34;
     f32 sp30;
     f32 mag;
-    f32 speed;
 
     Math_StepToF(&this->dyna.actor.speedXZ, sBeanSpeeds[this->unk_1F6].velocity, sBeanSpeeds[this->unk_1F6].accel);
     path = &globalCtx->setupPathList[(this->dyna.actor.params >> 8) & 0x1F];
@@ -290,15 +286,12 @@ void ObjBean_FollowPath(ObjBean* this, GlobalContext* globalCtx) {
             this->dyna.actor.speedXZ *= (sp30 + 1.0f) * 0.5f;
         }
     } else {
-        Math_Vec3f_Scale(&acell, speed / mag);
+        Math_Vec3f_Scale(&acell, this->dyna.actor.speedXZ / mag);
         this->pathPoints.x += acell.x;
         this->pathPoints.y += acell.y;
         this->pathPoints.z += acell.z;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/ObjBean_FollowPath.s")
-#endif
 
 s32 ObjBean_CheckForHorseTrample(ObjBean* this, GlobalContext* globalCtx) {
     Actor* currentActor = globalCtx->actorCtx.actorLists[ACTORCAT_BG].head;
@@ -645,10 +638,9 @@ void ObjBean_SetupWaitForWater(ObjBean* this) {
     ObjBean_SetupLeavesStill(this);
 }
 
-#ifdef NON_MATCHING
-// D_80B90E30 isn't being loaded properly
 void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
     this->transformFunc(this);
+
     if (!(this->stateFlags & BEAN_STATE_BEEN_WATERED) && Flags_GetEnv(globalCtx, 5) && (D_80B90E30 == NULL) &&
         (this->dyna.actor.xzDistToPlayer < 50.0f)) {
         ObjBean_SetupGrowWaterPhase1(this);
@@ -657,13 +649,12 @@ void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
         this->dyna.actor.flags |= 0x10;
         return;
     }
+
     if ((D_80B90E30 == this) && !Flags_GetEnv(globalCtx, 5)) {
         D_80B90E30 = NULL;
+        if (D_80B90E30) {}
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/ObjBean_WaitForWater.s")
-#endif
 
 void ObjBean_SetupGrowWaterPhase1(ObjBean* this) {
     this->actionFunc = ObjBean_GrowWaterPhase1;
