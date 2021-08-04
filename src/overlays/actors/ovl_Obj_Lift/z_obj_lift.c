@@ -123,7 +123,7 @@ void ObjLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B9651C(ObjLift* this) {
     this->unk_16E = D_80B969C0[(this->dyna.actor.params >> 8) & 7];
-    func_80B960D0(this, &func_80B96560);
+    func_80B960D0(this, func_80B96560);
 }
 
 void func_80B96560(ObjLift* this, GlobalContext* globalCtx) {
