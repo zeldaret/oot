@@ -61,7 +61,7 @@
         <!-- Unused body skeleton assets -->
         <Skeleton Name="gVolvagiaBodySkel" Type="Flex" LimbType="Standard" Offset="0x11420"/>
         <Animation Name="gVolvagiaBodyStaticAnim" Offset="0x61D8"/>
-        <Texture Name="gVolvagiaBodyTex" OutName="volvagia_body" Format="rgb5a1" Width="32" Height="64" Offset="0x8128"/>
+        <Texture Name="gVolvagiaBodyTex" OutName="volvagia_body" Format="rgba16" Width="32" Height="64" Offset="0x8128"/>
 
         <!-- Unused, purpose unknown -->
         <DList Name="gVolvagiaDL_009668" Offset="0x9668"/>

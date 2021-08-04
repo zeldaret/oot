@@ -19,7 +19,7 @@ void SetCutscenes::ParseRawData()
 	if (Globals::Instance->game == ZGame::OOT_RETAIL || Globals::Instance->game == ZGame::OOT_SW97)
 	{
 		ZCutscene* cutscene = new ZCutscene(parent);
-		cutscene->ExtractFromFile(parent->GetRawData(), segmentOffset);
+		cutscene->ExtractFromFile(segmentOffset);
 
 		auto decl = parent->GetDeclaration(segmentOffset);
 		if (decl == nullptr)
@@ -48,7 +48,7 @@ void SetCutscenes::ParseRawData()
 				declaration += "\n";
 
 			ZCutsceneMM* cutscene = new ZCutsceneMM(parent);
-			cutscene->ExtractFromFile(parent->GetRawData(), entry.segmentOffset);
+			cutscene->ExtractFromFile(entry.segmentOffset);
 			cutscenes.push_back(cutscene);
 		}
 

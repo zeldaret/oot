@@ -277,7 +277,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE890);
     } else if (globalCtx->sceneNum == 4) {
         EnDu_SetupAction(this, func_809FE638);
-    } else if (gSaveContext.linkAge != 0) {
+    } else if (LINK_IS_CHILD) {
         EnDu_SetupAction(this, func_809FE3C0);
     } else {
         EnDu_SetupAction(this, func_809FE3B4);

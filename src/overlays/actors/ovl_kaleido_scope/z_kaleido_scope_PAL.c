@@ -2924,8 +2924,8 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 2:
-                    pauseCtx->unk_194 = func_800EE3F8();
-                    if (pauseCtx->unk_194->unk_01 == 0) {
+                    pauseCtx->unk_194 = Audio_OcaGetDisplayStaff();
+                    if (pauseCtx->unk_194->state == 0) {
                         pauseCtx->unk_1E4 = 4;
                         func_800ED858(0);
                     }
@@ -2962,13 +2962,13 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         Interface_ChangeAlpha(50);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
-                    } else if (pauseCtx->unk_194->unk_01 == pauseCtx->unk_264) {
+                    } else if (pauseCtx->unk_194->state == pauseCtx->unk_264) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         D_8082B258 = 0;
                         D_8082B25C = 30;
                         pauseCtx->unk_1E4 = 6;
-                    } else if (pauseCtx->unk_194->unk_01 == 0xFF) {
+                    } else if (pauseCtx->unk_194->state == 0xFF) {
                         Audio_PlaySoundGeneral(NA_SE_SY_OCARINA_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         D_8082B258 = 4;
@@ -3383,7 +3383,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         gSaveContext.respawnFlag = -2;
                         gSaveContext.nextTransition = 2;
                         gSaveContext.health = 0x30;
-                        Audio_SetBGM(0xF000000A);
+                        Audio_QueueSeqCmd(0xF000000A);
                         gSaveContext.healthAccumulator = 0;
                         gSaveContext.unk_13F0 = 0;
                         gSaveContext.unk_13F2 = 0;

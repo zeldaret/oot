@@ -384,7 +384,7 @@ void BossSst_HeadSetupIntro(BossSst* this, GlobalContext* globalCtx) {
     }
 
     Gameplay_CameraSetAtEye(globalCtx, sCutsceneCamera, &sCameraAt, &sCameraEye);
-    Audio_SetBGM(0x100100FF);
+    Audio_QueueSeqCmd(0x100100FF);
     this->actionFunc = BossSst_HeadIntro;
 }
 
@@ -598,7 +598,7 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
                         TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                                SEGMENTED_TO_VIRTUAL(&gBongoTitleCardTex), 160, 180, 128, 40);
                     }
-                    Audio_SetBGM(0x1B);
+                    Audio_QueueSeqCmd(0x1B);
                     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadEyeCloseAnim, -5.0f);
                     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_DISAPPEAR);
                 }
@@ -1011,7 +1011,7 @@ void BossSst_HeadSetupDeath(BossSst* this, GlobalContext* globalCtx) {
     this->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     sHands[LEFT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     sHands[RIGHT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
-    Audio_SetBGM(0x100100FF);
+    Audio_QueueSeqCmd(0x100100FF);
     sCutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
     Gameplay_ChangeCameraStatus(globalCtx, sCutsceneCamera, CAM_STAT_ACTIVE);
@@ -1156,7 +1156,7 @@ void BossSst_HeadMelt(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HeadSetupFinish(BossSst* this) {
     this->actor.draw = BossSst_DrawEffect;
     this->timer = 40;
-    Audio_SetBGM(0x21);
+    Audio_QueueSeqCmd(0x21);
     BossSst_SetCameraTargets(1.0 / 40, 6);
     this->actionFunc = BossSst_HeadFinish;
 }

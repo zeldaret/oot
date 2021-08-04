@@ -1,7 +1,7 @@
 <Root>
     <File Name="link_animetion" Segment="7">
         <Array Name="firstAnim" Count="20" Offset="0x000000">
-            <Vector Type="s16" Dimensions="3" />
+            <Vector Type="s16" Dimensions="3"/>
         </Array>
     </File>
 </Root>

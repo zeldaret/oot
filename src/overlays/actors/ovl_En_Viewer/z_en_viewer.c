@@ -269,7 +269,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
             }
         }
         if (globalCtx->csCtx.frames == 1020) {
-            Audio_SetBGM(0x1000023);
+            Audio_QueueSeqCmd(0x1000023);
         }
         if (globalCtx->csCtx.frames == 960) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,

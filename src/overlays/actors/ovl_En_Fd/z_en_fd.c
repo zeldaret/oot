@@ -628,7 +628,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
 }
 
 /**
- * En_Fw will set `this` params when it is done with it's action.
+ * En_Fw will set `this` params when it is done with its action.
  * It will set FLG_COREDONE when the core has returned to `this`'s initial
  * position, and FLG_COREDEAD when there is no health left
  */
