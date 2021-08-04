@@ -1044,7 +1044,7 @@ void EnSkj_SariaSongTalk(EnSkj* this, GlobalContext* globalCtx) {
         } else {
             func_80AFFE24(this);
             Actor_PickUp(&this->actor, globalCtx, GI_HEART_PIECE, EnSkj_GetItemXzRange(this),
-                          EnSkj_GetItemYRange(this));
+                         EnSkj_GetItemYRange(this));
         }
     }
 }

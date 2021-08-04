@@ -1496,7 +1496,7 @@ u32 Actor_IsTalking(Actor* actor, GlobalContext* globalCtx) {
 }
 
 s32 Actor_RequestToTalkTradeItemInRange(Actor* actor, GlobalContext* globalCtx, f32 radius, f32 height,
-                                              u32 exchangeItemId) {
+                                        u32 exchangeItemId) {
     Player* player = PLAYER;
 
     // This is convoluted but it seems like it must be a single if statement to match
@@ -1562,7 +1562,12 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-// Related to carrying an actor as well as giving the player an item?
+/**
+ * This function is used for various "pick up" actions:
+ * - giving the player an item (`GI_NONE < getItemId < GI_MAX`)
+ * - making the player hold or pick up something (box, cucco, master sword, ...) (`getItemId == GI_NONE`)
+ * - catching things (fish, bugs, ...) into bottles (`getItemId == GI_MAX`)
+ */
 s32 Actor_PickUp(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = PLAYER;
 

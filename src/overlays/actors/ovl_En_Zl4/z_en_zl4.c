@@ -1102,7 +1102,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState = 7;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 Actor_PickUp(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
-                              fabsf(this->actor.yDistToPlayer) + 1.0f);
+                             fabsf(this->actor.yDistToPlayer) + 1.0f);
                 globalCtx->msgCtx.unk_E3E7 = 4;
                 globalCtx->msgCtx.msgMode = 0x36;
             }
@@ -1113,7 +1113,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState++;
             } else {
                 Actor_PickUp(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
-                              fabsf(this->actor.yDistToPlayer) + 1.0f);
+                             fabsf(this->actor.yDistToPlayer) + 1.0f);
             }
             // no break here is required for matching
     }
