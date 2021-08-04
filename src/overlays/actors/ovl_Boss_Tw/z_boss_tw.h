@@ -6,9 +6,9 @@
 
 struct BossTw;
 
-typedef void (*BossTW_ActionFunc)(struct BossTw* this, GlobalContext* globalCtx);
+typedef void (*BossTwActionFunc)(struct BossTw* this, GlobalContext* globalCtx);
 
-enum Work {
+typedef enum {
     /*  0 */ CS_TIMER_1,
     /*  1 */ CS_TIMER_2,
     /*  2 */ TW_PLLR_IDX,
@@ -23,9 +23,9 @@ enum Work {
     /* 11 */ PLAYED_CHRG_SFX,
     /* 12 */ BURN_TMR,
     /* 12 */ WORK_MAX = BURN_TMR
-};
+} TwWork;
 
-enum Fwork {
+typedef enum {
     /*  0 */ OUTR_CRWN_TX_X1,
     /*  1 */ OUTR_CRWN_TX_X2,
     /*  2 */ INNR_CRWN_TX_X1,
@@ -53,10 +53,11 @@ enum Fwork {
     /* 24 */ UNK_F18,
     /* 25 */ UNK_F19,
     /* 26 */ FWORK_MAX
-};
+} TwFwork;
+
 typedef struct BossTw {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ BossTW_ActionFunc actionFunc;
+    /* 0x014C */ BossTwActionFunc actionFunc;
     /* 0x0150 */ s16 work[WORK_MAX];
     /* 0x0168 */ char unused_168[0x10]; // Likely unused Work variables
     /* 0x0178 */ s16 timers[5];
