@@ -1,29 +1,44 @@
 <Root>
-    <File Name="object_box" Segment="6">
-        <Skeleton Name="gTreasureChestCurveSkel" Type="Curve" LimbType="Curve" Offset="0x5EB8"/>
-        <CurveAnimation Name="gTreasureChestCurveAnim_4B60" SkelOffset="0x5EB8" Offset="0x4B60"/>
-        <CurveAnimation Name="gTreasureChestCurveAnim_4F70" SkelOffset="0x5EB8" Offset="0x4F70"/>
+    <File Name="object_box" OutName="object_box_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0x140" Segment="6">
         <Animation Name="gTreasureChestAnim_000128" Offset="0x128"/>
+    </File>
+    <File Name="object_box" OutName="object_box_140" BaseAddress="0x06000140" RangeStart="0x140" RangeEnd="0x350" Segment="6">
         <Animation Name="gTreasureChestAnim_00024C" Offset="0x24C"/>
+
+        <!-- Unaccounted -->
+        <Blob Name="gBoxBlob_00025C" Size="0xF4" Offset="0x25C"/>
+    </File>
+    <File Name="object_box" OutName="object_box_350" BaseAddress="0x06000350" RangeStart="0x350" RangeEnd="0x4B0" Segment="6">
         <Animation Name="gTreasureChestAnim_00043C" Offset="0x43C"/>
-
+        
+        <!-- Unaccounted -->
+        <Blob Name="gBoxBlob_00044C" Size="0x64" Offset="0x44C"/>
+    </File>
+    <File Name="object_box" OutName="object_box_4B0" BaseAddress="0x060004B0" RangeStart="0x4B0" RangeEnd="0x47F0" Segment="6">
         <DList Name="gTreasureChestChestFrontDL" Offset="0x6F0"/>
-        <Texture Name="gTreasureChestFrontTex" OutName="chest_front" Format="rgba16" Width="32" Height="64" Offset="0x1798"/>
-
         <DList Name="gTreasureChestBossKeyChestFrontDL" Offset="0xAE8"/>
-        <Texture Name="gTreasureChestBossKeyFrontTex" OutName="boss_key_front_tex" Format="rgba16" Width="32" Height="64" Offset="0x3798"/>
+        
+        <!-- Unaccounted -->
+        <Blob Name="gBoxBlob_00047E0" Size="0x10" Offset="0x47E0"/>
         
         <DList Name="gTreasureChestChestSideAndLidDL" Offset="0x10C0"/>
-        <Texture Name="gTreasureChestSideAndTopTex" OutName="side_and_top" Format="rgba16" Width="32" Height="32" Offset="0x2798"/>
-
         <DList Name="gTreasureChestBossKeyChestSideAndTopDL" Offset="0x1678"/>
+        <Texture Name="gTreasureChestFrontTex" OutName="chest_front" Format="rgba16" Width="32" Height="64" Offset="0x1798"/>
+        <Texture Name="gTreasureChestSideAndTopTex" OutName="side_and_top" Format="rgba16" Width="32" Height="32" Offset="0x2798"/>
         <Texture Name="gTreasureChestBossKeySideAndTopTex" OutName="boss_key_side_and_top" Format="rgba16" Width="32" Height="32" Offset="0x2F98"/>
-
+        <Texture Name="gTreasureChestBossKeyFrontTex" OutName="boss_key_front_tex" Format="rgba16" Width="32" Height="64" Offset="0x3798"/>
         <Skeleton Name="gTreasureChestSkel" Type="Normal" LimbType="Standard" Offset="0x47D8"/>
+    </File>
+    <File Name="object_box" OutName="object_box_47F0" BaseAddress="0x060047F0" RangeStart="0x47F0" RangeEnd="0x4B70" Segment="6">
+        <CurveAnimation Name="gTreasureChestCurveAnim_4B60" SkelOffset="0x5EB8" Offset="0x4B60"/>
+    </File>
+    <File Name="object_box" OutName="object_box_4B70" BaseAddress="0x06004B70" RangeStart="0x4B70" RangeEnd="0x4F80" Segment="6">
+        <CurveAnimation Name="gTreasureChestCurveAnim_4F70" SkelOffset="0x5EB8" Offset="0x4F70"/>
+    </File>
+    <File Name="object_box" OutName="object_box_4F80" BaseAddress="0x06004F80" RangeStart="0x4F80" RangeEnd="0x5EC0" Segment="6">
+        <Skeleton Name="gTreasureChestCurveSkel" Type="Curve" LimbType="Curve" Offset="0x5EB8"/>
+    </File>
+    <File Name="object_box" OutName="object_box_5EC0" BaseAddress="0x06005EC0" RangeStart="0x5EC0" Segment="6">
         <Collision Name="gTreasureChestCol" Offset="0x5FC8"/>
-
-        <!--Large Unaccounted-->
-        <Blob Name="gBoxBlob_00025C" Size="0xF4" Offset="0x025C"/>
-        <Blob Name="gBoxBlob_00044C" Size="0x64" Offset="0x044C"/>
     </File>
 </Root>

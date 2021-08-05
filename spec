@@ -3461,7 +3461,14 @@ endseg
 beginseg
     name "object_box"
     romalign 0x1000
-    include "build/assets/objects/object_box/object_box.o"
+    include "build/assets/objects/object_box/object_box_0.o"
+    include "build/assets/objects/object_box/object_box_140.o"
+    include "build/assets/objects/object_box/object_box_350.o"
+    include "build/assets/objects/object_box/object_box_4B0.o"
+    include "build/assets/objects/object_box/object_box_47F0.o"
+    include "build/assets/objects/object_box/object_box_4B70.o"
+    include "build/assets/objects/object_box/object_box_4F80.o"
+    include "build/assets/objects/object_box/object_box_5EC0.o"
     number 6
 endseg
 
