@@ -1,6 +1,6 @@
 ﻿<Root>
     <File Name="object_ik" Segment="6">
-        <Blob Name="object_ik_zeroes_unk_00000000" Size="0xF7A0" Offset="0x0" />
+        <!--Blob Name="object_ik_zeroes_unk_00000000" Size="0xF7A0" Offset="0x0" /-->
         <Texture Name="object_ik_Tex_00F7A0" OutName="tex_00F7A0" Format="i4" Width="32" Height="64" Offset="0xF7A0" />
         <Texture Name="object_ik_Tex_00FBA0" OutName="tex_00FBA0" Format="ia8" Width="32" Height="32" Offset="0xFBA0" />
         <Texture Name="object_ik_Tex_00FFA0" OutName="tex_00FFA0" Format="rgba16" Width="16" Height="16" Offset="0xFFA0" />
