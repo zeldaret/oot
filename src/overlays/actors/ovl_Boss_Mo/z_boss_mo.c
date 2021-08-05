@@ -570,7 +570,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 ripplePos = this->actor.world.pos;
                 ripplePos.x += sinf(rand_angle) * rand_f;
                 ripplePos.z += cosf(rand_angle) * rand_f;
-                ripplePos.y = WATER_LEVEL(globalCtx);
+                ripplePos.y = MO_WATER_LEVEL(globalCtx);
                 BossMo_SpawnRipples(globalCtx->specialEffects, &ripplePos, 40.0f, 110.0f, 80, 290, MO_FX_SMALL_RIPPLE);
             }
             break;
@@ -1807,7 +1807,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
     };
     // Because of the large number of temps, I have indicated which named temps
     // are not actually on the stack and can be reordered. All pads are unused.
-    u8 onLand;
+    u8 nearLand;
     s16 i;                   // not on stack
     Player* player = PLAYER; // not on stack
     f32 spDC;
@@ -1867,8 +1867,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.scale.x, xScaleTarget, 0.2f, 0.001f);
     this->actor.scale.z = this->actor.scale.x;
     Math_ApproachF(&this->actor.scale.y, yScaleTarget, 0.2f, 0.001f);
-    this->drawShadow = BossMo_OnLand(&this->actor.world.pos, 15.0f);
-    onLand = BossMo_OnLand(&this->actor.world.pos, 0.0f);
+    this->drawShadow = BossMo_NearLand(&this->actor.world.pos, 15.0f);
+    nearLand = BossMo_NearLand(&this->actor.world.pos, 0.0f);
     if ((player->actor.world.pos.y < (MO_WATER_LEVEL(globalCtx) - 50.0f)) &&
         ((this->actionState == MO_CORE_MOVE) || (this->actionState == MO_CORE_MAKE_TENT))) {
         this->actionState = MO_CORE_UNDERWATER;
@@ -2022,7 +2022,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                                     Rand_ZeroFloat(0.02f) + 0.05f);
             };
 
-            if (onLand) {
+            if (nearLand) {
                 if (this->actor.world.pos.y <= 10) {
                     this->actor.world.pos.y = 10;
                     this->actor.velocity.y = -0.01f;
@@ -2137,13 +2137,13 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
 
                 effectPos = this->actor.world.pos;
                 effectPos.x += effectVelocity.x * 3.0f;
-                effectPos.y = WATER_LEVEL(globalCtx);
+                effectPos.y = MO_WATER_LEVEL(globalCtx);
                 effectPos.z += effectVelocity.z * 3.0f;
                 BossMo_SpawnDroplet(MO_FX_SPLASH, (BossMoParticle*) globalCtx->specialEffects, &effectPos, &effectVelocity,
                                     Rand_ZeroFloat(0.075f) + 0.15f);
             }
             effectPos = this->actor.world.pos;
-            effectPos.y = WATER_LEVEL(globalCtx);
+            effectPos.y = MO_WATER_LEVEL(globalCtx);
             BossMo_SpawnRipples(globalCtx->specialEffects, &effectPos, 100.0f, 800.0f, 100, 290, MO_FX_SMALL_RIPPLE);
             BossMo_SpawnRipples(globalCtx->specialEffects, &effectPos, 50.0f, 600.0f, 70, 290, MO_FX_SMALL_RIPPLE);
             BossMo_SpawnRipples(globalCtx->specialEffects, &effectPos, 0, 400.0f, 50, 290, MO_FX_SMALL_RIPPLE);
@@ -2838,10 +2838,10 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                             particle->type = MO_FX_WET_SPOT;
                             particle->alpha = 150;
                             particle->vStretch = (particle->scale * 15.0f) * 0.15f;
-                        } else if (particle->pos.y <= WATER_LEVEL(globalCtx)) {
+                        } else if (particle->pos.y <= MO_WATER_LEVEL(globalCtx)) {
                             Vec3f pos = particle->pos;
 
-                            pos.y = WATER_LEVEL(globalCtx);
+                            pos.y = MO_WATER_LEVEL(globalCtx);
                             if (particle->type == MO_FX_SPLASH) {
                                 BossMo_SpawnRipples(globalCtx->specialEffects, &pos, 60.0f, 160.0f, 80, 290,
                                                     MO_FX_SMALL_RIPPLE);
