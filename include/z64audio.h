@@ -1177,8 +1177,8 @@ typedef struct {
 
 typedef struct {
     u8 noteIdx;
-    u8 state;
-    u8 pos;
+    u8 state;   // original name: "status"
+    u8 pos;     // original name: "locate"
 } OcarinaStaff;
 
 #endif

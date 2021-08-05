@@ -335,17 +335,6 @@ typedef enum {
     MESSAGE_ICON_ARROW
 } MessageBoxIcon;
 
-typedef struct {
-    /* 0x00 */ u8 noteIdx;
-    /* 0x01 */ u8 state;    // "status"
-    /* 0x02 */ u8 pos;      // "locate"
-} OcarinaStaff;
-
-typedef struct {
-    u8 len;
-    u8 notesIdx[8];
-} OcarinaSongInfo;
-
 #define LANGUAGE_ENG 0
 #define LANGUAGE_GER 1
 #define LANGUAGE_FRA 2

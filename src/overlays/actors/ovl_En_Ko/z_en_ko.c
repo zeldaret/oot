@@ -513,7 +513,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
             }
             return 1;
         case 4:
-            if (func_80106BC8(globalCtx)) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x1035:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x1036 : 0x1037;
@@ -540,7 +540,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
             }
             break;
         case 6:
-            if (func_80106BC8(globalCtx) != 0) {
+            if (Message_ShouldAdvance(globalCtx)) {
                 return 3;
             }
     }
