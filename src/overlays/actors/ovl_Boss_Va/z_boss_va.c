@@ -184,7 +184,8 @@ void BossVa_SpawnZapperCharge(GlobalContext* globalCtx, BossVaEffect* effect, Bo
 void BossVa_SpawnTumor(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* this, Vec3f* offset, s16 scale, u8 mode);
 void BossVa_SpawnSparkBall(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* this, Vec3f* offset, s16 scale,
                            u8 mode);
-void BossVa_SpawnBloodDroplets(GlobalContext* globalCtx, BossVaEffect* effect, Vec3f* pos, s16 scale, s16 phase, s16 yaw);
+void BossVa_SpawnBloodDroplets(GlobalContext* globalCtx, BossVaEffect* effect, Vec3f* pos, s16 scale, s16 phase,
+                               s16 yaw);
 void BossVa_Tumor(GlobalContext* globalCtx, BossVa* this, s32 count, s16 scale, f32 xzSpread, f32 ySpread, u8 mode,
                   f32 range, u8 fixed);
 
@@ -3563,7 +3564,8 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->primColor[0], effect->primColor[1], effect->primColor[2],
                             effect->primColor[3]);
             gDPPipeSync(POLY_XLU_DISP++);
-            gDPSetEnvColor(POLY_XLU_DISP++, effect->envColor[0], effect->envColor[1], effect->envColor[2], effect->envColor[3]);
+            gDPSetEnvColor(POLY_XLU_DISP++, effect->envColor[0], effect->envColor[1], effect->envColor[2],
+                           effect->envColor[3]);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_011768);
         }
     }
@@ -3610,7 +3612,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             }
 
             if ((effect->mode != TUMOR_BODY) || ((Math_Vec3f_DistXZ(&camera->eye, &effect->pos) -
-                                               Math_Vec3f_DistXZ(&camera->eye, &parent->actor.world.pos)) < 10.0f)) {
+                                                  Math_Vec3f_DistXZ(&camera->eye, &parent->actor.world.pos)) < 10.0f)) {
                 Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
                 Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
 
@@ -3722,7 +3724,8 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     CLOSE_DISPS(localGfx, "../z_boss_va.c", 5215);
 }
 
-void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* this, Vec3f* offset, s16 scale, u8 mode) {
+void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* this, Vec3f* offset, s16 scale,
+                       u8 mode) {
     Player* player = PLAYER;
     s16 index;
     Vec3f pos = { 0.0f, -1000.0f, 0.0f };
@@ -3811,7 +3814,8 @@ void BossVa_SpawnSparkBall(GlobalContext* globalCtx, BossVaEffect* effect, BossV
     }
 }
 
-void BossVa_SpawnBloodDroplets(GlobalContext* globalCtx, BossVaEffect* effect, Vec3f* pos, s16 scale, s16 phase, s16 yaw) {
+void BossVa_SpawnBloodDroplets(GlobalContext* globalCtx, BossVaEffect* effect, Vec3f* pos, s16 scale, s16 phase,
+                               s16 yaw) {
     s32 i;
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
@@ -3876,7 +3880,8 @@ void BossVa_SpawnBloodSplatter(GlobalContext* globalCtx, BossVaEffect* effect, V
     }
 }
 
-void BossVa_SpawnTumor(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* this, Vec3f* offset, s16 scale, u8 mode) {
+void BossVa_SpawnTumor(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* this, Vec3f* offset, s16 scale,
+                       u8 mode) {
     Vec3f pos = { 0.0f, -1000.0f, 0.0f };
     s16 i;
 
@@ -3936,7 +3941,8 @@ void BossVa_SpawnGore(GlobalContext* globalCtx, BossVaEffect* effect, Vec3f* pos
                 effect->mode = GORE_PERMANENT;
             }
 
-            effect->primColor[3] = effect->envColor[0] = effect->envColor[1] = effect->envColor[2] = effect->envColor[3] = 255;
+            effect->primColor[3] = effect->envColor[0] = effect->envColor[1] = effect->envColor[2] =
+                effect->envColor[3] = 255;
 
             effect->primColor[0] = 155;
             effect->primColor[1] = effect->primColor[2] = 55;
