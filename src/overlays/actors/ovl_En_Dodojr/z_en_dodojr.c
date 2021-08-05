@@ -356,7 +356,7 @@ s32 func_809F70E8(EnDodojr* this, GlobalContext* globalCtx) {
         }
 
         if ((this->actor.colChkInfo.damageEffect == 0) && (this->actor.colChkInfo.damage != 0)) {
-            func_80032C7C(globalCtx, &this->actor);
+            Enemy_StartFinishingBlow(globalCtx, &this->actor);
             this->timer2 = 2;
             this->actionFunc = func_809F7C48;
             return 1;

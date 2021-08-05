@@ -12,13 +12,13 @@
 
         <DList Name="gWallmasterFingerDL" Offset="0x8688"/>
 
-        <Texture Name="gWallmasterExposedBoneTex" OutName="exposed_bone" Format="rgb5a1" Width="8" Height="16" Offset="0x88F0"/>
-        <Texture Name="gWallmasterBloodyEdgeTex" OutName="bloody_edge" Format="rgb5a1" Width="8" Height="16" Offset="0x89F0"/>
-        <Texture Name="gWallmasterUpperSkinTex" OutName="upper_skin" Format="rgb5a1" Width="8" Height="8" Offset="0x8AF0"/>
-        <Texture Name="gWallmasterFingerTipTex" OutName="finger_tip" Format="rgb5a1" Width="4" Height="16" Offset="0x8B70"/>
-        <Texture Name="gWallmasterUpperToUnderBorderTex" OutName="upper_under_border" Format="rgb5a1" Width="4" Height="8" Offset="0x8BF0"/>
-        <Texture Name="gWallmasterUnderSkinTex" OutName="under_skin" Format="rgb5a1" Width="8" Height="16" Offset="0x8C30"/>
-        <Texture Name="gWallmasterKnuckleTex" OutName="knuckle" Format="rgb5a1" Width="8" Height="16" Offset="0x8D30"/>
+        <Texture Name="gWallmasterExposedBoneTex" OutName="exposed_bone" Format="rgba16" Width="8" Height="16" Offset="0x88F0"/>
+        <Texture Name="gWallmasterBloodyEdgeTex" OutName="bloody_edge" Format="rgba16" Width="8" Height="16" Offset="0x89F0"/>
+        <Texture Name="gWallmasterUpperSkinTex" OutName="upper_skin" Format="rgba16" Width="8" Height="8" Offset="0x8AF0"/>
+        <Texture Name="gWallmasterFingerTipTex" OutName="finger_tip" Format="rgba16" Width="4" Height="16" Offset="0x8B70"/>
+        <Texture Name="gWallmasterUpperToUnderBorderTex" OutName="upper_under_border" Format="rgba16" Width="4" Height="8" Offset="0x8BF0"/>
+        <Texture Name="gWallmasterUnderSkinTex" OutName="under_skin" Format="rgba16" Width="8" Height="16" Offset="0x8C30"/>
+        <Texture Name="gWallmasterKnuckleTex" OutName="knuckle" Format="rgba16" Width="8" Height="16" Offset="0x8D30"/>
 
         <Skeleton Name="gWallmasterSkel" Type="Flex" LimbType="Standard" Offset="0x8FB0"/>
 

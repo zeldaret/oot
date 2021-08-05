@@ -1,24 +1,22 @@
 <Root>
-    <File Name="spot04_scene">
-        <Scene Name="spot04_scene">
-            <PathHint Offset="0x314"/>
-            <PathHint Offset="0x31C"/>
-            <PathHint Offset="0xD730"/>
-            <CutsceneHint Offset="0x10E20"/>
-        </Scene>
+    <File Name="spot04_scene" Segment="2">
+        <Path Name="gSpot04Path_000314" Offset="0x314"/>
+        <Path Name="gSpot04Path_00031C" Offset="0x31C"/>
+        <Path Name="gSpot04Path_00D730" Offset="0xD730"/>
+
+        <Cutscene Name="gSpot04Cs_10E20" Offset="0x10E20"/>
+
+        <Scene Name="spot04_scene" Offset="0x0"/>
     </File>
-    <File Name="spot04_room_0">
-        <Room Name="spot04_room_0">
-        </Room>
+    <File Name="spot04_room_0" Segment="3">
+        <Room Name="spot04_room_0" Offset="0x0"/>
     </File>
-    <File Name="spot04_room_1">
-        <Room Name="spot04_room_1">
-        </Room>
+    <File Name="spot04_room_1" Segment="3">
+        <Room Name="spot04_room_1" Offset="0x0"/>
     </File>
-    <File Name="spot04_room_2">
-        <Room Name="spot04_room_2">
-            <DListHint Offset="0x2BB8" Comment="This display list appears to be unused..."/>
-            <DListHint Offset="0x5058" Comment="This display list appears to be unused..."/>
-        </Room>
+    <File Name="spot04_room_2" Segment="3">
+        <DList Name="gSpot04DL_002BB8" Offset="0x2BB8"/>
+        <DList Name="gSpot04DL_005058" Offset="0x5058"/>
+        <Room Name="spot04_room_2" Offset="0x0"/>
     </File>
 </Root>

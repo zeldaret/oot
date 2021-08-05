@@ -551,13 +551,13 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
     if ((s32)this->skelAnime.curFrame < 21) {
         if (!this->rightFootStep) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_J_WALK);
-            func_80033260(globalCtx, &this->actor, &this->leftFootPos, 10.0f, 3, 2.0f, 0xC8, 0xF, 0);
+            Actor_SpawnFloorDust(globalCtx, &this->actor, &this->leftFootPos, 10.0f, 3, 2.0f, 0xC8, 0xF, 0);
             this->rightFootStep = true;
         }
     } else {
         if (this->rightFootStep) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_J_WALK);
-            func_80033260(globalCtx, &this->actor, &this->rightFootPos, 10.0f, 3, 2.0f, 0xC8, 0xF, 0);
+            Actor_SpawnFloorDust(globalCtx, &this->actor, &this->rightFootPos, 10.0f, 3, 2.0f, 0xC8, 0xF, 0);
             this->rightFootStep = false;
         }
     }
@@ -642,11 +642,11 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
         tailPos.x = this->sphElements[1].dim.worldSphere.center.x;
         tailPos.y = this->sphElements[1].dim.worldSphere.center.y;
         tailPos.z = this->sphElements[1].dim.worldSphere.center.z;
-        func_80033260(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
         tailPos.x = this->sphElements[2].dim.worldSphere.center.x;
         tailPos.y = this->sphElements[2].dim.worldSphere.center.y;
         tailPos.z = this->sphElements[2].dim.worldSphere.center.z;
-        func_80033260(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
+        Actor_SpawnFloorDust(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
 
         if (this->colliderBody.base.atFlags & AT_HIT) {
             Player* player = PLAYER;
@@ -717,7 +717,7 @@ void EnDodongo_CollisionCheck(EnDodongo* this, GlobalContext* globalCtx) {
         this->colliderBody.base.acFlags &= ~AC_HIT;
     } else if ((this->colliderBody.base.acFlags & AC_HIT) && (this->actionState > DODONGO_DEATH)) {
         this->colliderBody.base.acFlags &= ~AC_HIT;
-        func_8003573C(&this->actor, &this->colliderBody, 0);
+        Actor_SetDropFlagJntSph(&this->actor, &this->colliderBody, 0);
         if (this->actor.colChkInfo.damageEffect != 0xE) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {

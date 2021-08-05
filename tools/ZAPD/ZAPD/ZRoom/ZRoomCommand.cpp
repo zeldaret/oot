@@ -1,61 +1,56 @@
 #include "ZRoomCommand.h"
 
-using namespace std;
+#include "BitConverter.h"
+#include "StringHelper.h"
+#include "ZRoom.h"
 
-ZRoomCommand::ZRoomCommand(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
+ZRoomCommand::ZRoomCommand(ZFile* nParent) : ZResource(nParent)
 {
-	cmdID = (RoomCommand)rawData[rawDataIndex];
-	cmdAddress = rawDataIndex;
+}
+
+void ZRoomCommand::ExtractCommandFromRoom(ZRoom* nZRoom, uint32_t nRawDataIndex)
+{
 	zRoom = nZRoom;
+	rawDataIndex = nRawDataIndex;
+
+	ParseRawData();
 }
 
-string ZRoomCommand::GenerateSourceCodePass1(string roomName, int baseAddress)
+void ZRoomCommand::ParseRawData()
 {
-	char line[2048];
+	auto& parentRawData = parent->GetRawData();
+	cmdID = static_cast<RoomCommand>(parentRawData.at(rawDataIndex));
+	cmdAddress = rawDataIndex;
 
-	// sprintf(line, "%s _%s_set%04X_cmd%02X = { 0x%02X,", GetCommandCName().c_str(),
-	// roomName.c_str(), baseAddress, cmdIndex, cmdID);
-	sprintf(line, " 0x%02X,", (uint8_t)cmdID);
-
-	return string(line);
+	cmdArg1 = parentRawData.at(rawDataIndex + 1);
+	cmdArg2 = BitConverter::ToUInt32BE(parentRawData, rawDataIndex + 4);
+	segmentOffset = GETSEGOFFSET(cmdArg2);
 }
 
-string ZRoomCommand::GenerateSourceCodePass2(string roomName, int baseAddress)
+void ZRoomCommand::ParseRawDataLate()
 {
-	return "";
 }
 
-string ZRoomCommand::GenerateSourceCodePass3(string roomName)
+void ZRoomCommand::DeclareReferencesLate(const std::string& prefix)
 {
-	return "";
 }
 
-string ZRoomCommand::GenerateExterns()
-{
-	return "";
-}
-
-std::string ZRoomCommand::Save()
-{
-	return std::string();
-}
-
-std::string ZRoomCommand::PreGenSourceFiles()
-{
-	return std::string();
-}
-
-int32_t ZRoomCommand::GetRawDataSize()
-{
-	return 8;
-}
-
-string ZRoomCommand::GetCommandCName()
+std::string ZRoomCommand::GetCommandCName() const
 {
 	return "SCmdBase";
 }
 
-RoomCommand ZRoomCommand::GetRoomCommand()
+ZResourceType ZRoomCommand::GetResourceType() const
 {
-	return RoomCommand::Error;
+	return ZResourceType::RoomCommand;
+}
+
+size_t ZRoomCommand::GetRawDataSize() const
+{
+	return 0x08;
+}
+
+std::string ZRoomCommand::GetCommandHex() const
+{
+	return StringHelper::Sprintf("0x%02X", static_cast<uint8_t>(cmdID));
 }
