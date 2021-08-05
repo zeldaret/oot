@@ -5674,7 +5674,10 @@ endseg
 beginseg
     name "object_bg"
     romalign 0x1000
-    include "build/assets/objects/object_bg/object_bg.o"
+    include "build/assets/objects/object_bg/object_bg_0.o"
+    include "build/assets/objects/object_bg/object_bg_90.o"
+    include "build/assets/objects/object_bg/object_bg_720.o"
+    include "build/assets/objects/object_bg/object_bg_6EC0.o"
     number 6
 endseg
 
