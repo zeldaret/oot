@@ -89,7 +89,7 @@ glabel func_801083F8
 /* B7F61C 8010847C 24040001 */   li    $a0, 1
 /* B7F620 80108480 0C03B616 */  jal   func_800ED858
 /* B7F624 80108484 24040001 */   li    $a0, 1
-/* B7F628 80108488 0C03B8FE */  jal   func_800EE3F8
+/* B7F628 80108488 0C03B8FE */  jal   Audio_OcaGetDisplayStaff
 /* B7F62C 8010848C 00000000 */   nop   
 /* B7F630 80108490 3C038015 */  lui   $v1, %hi(D_8014B2FC) # $v1, 0x8015
 /* B7F634 80108494 26017FFF */  addiu $at, $s0, 0x7fff
@@ -136,7 +136,7 @@ glabel func_801083F8
 /* B7F6D0 80108530 24040001 */   li    $a0, 1
 /* B7F6D4 80108534 0C03B616 */  jal   func_800ED858
 /* B7F6D8 80108538 24040001 */   li    $a0, 1
-/* B7F6DC 8010853C 0C03B8FE */  jal   func_800EE3F8
+/* B7F6DC 8010853C 0C03B8FE */  jal   Audio_OcaGetDisplayStaff
 /* B7F6E0 80108540 00000000 */   nop   
 /* B7F6E4 80108544 3C038015 */  lui   $v1, %hi(D_8014B2FC) # $v1, 0x8015
 /* B7F6E8 80108548 26017FFF */  addiu $at, $s0, 0x7fff

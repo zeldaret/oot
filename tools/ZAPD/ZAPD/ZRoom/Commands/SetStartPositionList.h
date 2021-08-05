@@ -1,22 +1,21 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
 #include "SetActorList.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class SetStartPositionList : public ZRoomCommand
 {
 public:
-	std::vector<ActorSpawnEntry*> actors;
+	SetStartPositionList(ZFile* nParent);
 
-	SetStartPositionList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
-	~SetStartPositionList();
+	void ParseRawData() override;
+	void DeclareReferences(const std::string& prefix) override;
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GenerateSourceCodePass2(std::string roomName, int baseAddress);
-	virtual std::string GetCommandCName();
-	virtual std::string GenerateExterns();
-	virtual RoomCommand GetRoomCommand();
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	std::string GetCommandCName() const override;
 
 private:
-	uint32_t segmentOffset;
+	std::vector<ActorSpawnEntry> actors;
 };

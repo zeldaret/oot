@@ -331,8 +331,8 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    this->bobPhaseSlow = (s32)(Rand_ZeroOne() * 65535.5f);
-    this->bobPhaseFast = (s32)(Rand_ZeroOne() * 65535.5f);
+    this->bobPhaseSlow = (s32)(Rand_ZeroOne() * (0xFFFF + 0.5f));
+    this->bobPhaseFast = (s32)(Rand_ZeroOne() * (0xFFFF + 0.5f));
     this->surfaceNormal.y = 1.0f;
     this->rotationAxis.x = 1.0f;
 

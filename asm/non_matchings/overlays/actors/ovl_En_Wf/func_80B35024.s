@@ -85,7 +85,7 @@ glabel func_80B35024
 /* 0148C 80B3513C A60902FE */  sh      $t1, 0x02FE($s0)           ## 000002FE
 /* 01490 80B35140 8FA4005C */  lw      $a0, 0x005C($sp)           
 .L80B35144:
-/* 01494 80B35144 0C00CEAE */  jal     func_80033AB8              
+/* 01494 80B35144 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 01498 80B35148 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0149C 80B3514C 10400004 */  beq     $v0, $zero, .L80B35160     
 /* 014A0 80B35150 3C014316 */  lui     $at, 0x4316                ## $at = 43160000
@@ -281,7 +281,7 @@ glabel func_80B35024
 /* 01744 80B353F4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01748 80B353F8 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
 /* 0174C 80B353FC 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
-/* 01750 80B35400 0C00CC98 */  jal     func_80033260              
+/* 01750 80B35400 0C00CC98 */  jal     Actor_SpawnFloorDust              
 /* 01754 80B35404 E7A80014 */  swc1    $f8, 0x0014($sp)           
 /* 01758 80B35408 8FAB005C */  lw      $t3, 0x005C($sp)           
 .L80B3540C:
@@ -310,7 +310,7 @@ glabel func_80B35024
 /* 017A8 80B35458 00000000 */  nop
 /* 017AC 80B3545C 45020010 */  bc1fl   .L80B354A0                 
 /* 017B0 80B35460 8E1802E8 */  lw      $t8, 0x02E8($s0)           ## 000002E8
-/* 017B4 80B35464 0C00CEAE */  jal     func_80033AB8              
+/* 017B4 80B35464 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 017B8 80B35468 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 017BC 80B3546C 1440000B */  bne     $v0, $zero, .L80B3549C     
 /* 017C0 80B35470 3C0142A0 */  lui     $at, 0x42A0                ## $at = 42A00000
@@ -331,7 +331,7 @@ glabel func_80B35024
 /* 017F4 80B354A4 2719FFFF */  addiu   $t9, $t8, 0xFFFF           ## $t9 = FFFFFFFF
 /* 017F8 80B354A8 17200020 */  bne     $t9, $zero, .L80B3552C     
 /* 017FC 80B354AC AE1902E8 */  sw      $t9, 0x02E8($s0)           ## 000002E8
-/* 01800 80B354B0 0C00CEAE */  jal     func_80033AB8              
+/* 01800 80B354B0 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 01804 80B354B4 8FA4005C */  lw      $a0, 0x005C($sp)           
 /* 01808 80B354B8 1040000E */  beq     $v0, $zero, .L80B354F4     
 /* 0180C 80B354BC 00000000 */  nop

@@ -2502,7 +2502,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx) {
         this->hbaTimer++;
     }
 
-    sp20 = func_800F5A58(65, globalCtx);
+    sp20 = func_800F5A58(65);
     EnHorse_UpdateHbaRaceInfo(this, globalCtx, &sHbaInfo);
     if (this->hbaFlags & 1 || this->hbaTimer >= 46) {
         if (sp20 != 1 && gSaveContext.minigameState != 3) {
@@ -2530,7 +2530,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx) {
     if ((globalCtx->interfaceCtx.hbaAmmo == 0) || (this->hbaFlags & 2)) {
         if (this->hbaFlags & 4) {
             this->hbaFlags &= ~4;
-            Audio_SetBGM(65);
+            Audio_QueueSeqCmd(65);
         }
     }
 
@@ -3209,7 +3209,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
     obstaclePos.z += intersectDist * Math_CosS(this->actor.world.rot.y);
     obstacleTop = obstaclePos;
     obstacleTop.y = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &obstacleFloor, &bgId, &obstaclePos);
-    if (obstacleTop.y == -32000.0f) {
+    if (obstacleTop.y == BGCHECK_Y_MIN) {
         return;
     }
     obstacleHeight = obstacleTop.y - this->actor.world.pos.y;
@@ -3258,7 +3258,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
 
     obstacleTop = obstaclePos;
     obstacleTop.y = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &obstacleFloor, &bgId, &obstaclePos);
-    if (obstacleTop.y == -32000.0f) {
+    if (obstacleTop.y == BGCHECK_Y_MIN) {
         return;
     }
 

@@ -22,21 +22,30 @@
         <Animation Name="gBarinadeZapperDamage1Anim" Offset="0x18A68"/> <!-- Zapper damaged anim 1 -->
         <Animation Name="gBarinadeZapperDamage2Anim" Offset="0x18B90"/> <!-- Zapper damaged anim 2 -->
 
+        <!-- body overrides -->
         <DList Name="gBarinadeDL_008D70" Offset="0x8D70"/>
         <DList Name="gBarinadeDL_008BB8" Offset="0x8BB8"/>
+        <!-- Bari something -->
         <DList Name="gBarinadeDL_000FA0" Offset="0xFA0"/>
+        <!-- large spark -->
         <DList Name="gBarinadeDL_0156A0" Offset="0x156A0"/>
         <DList Name="gBarinadeDL_015710" Offset="0x15710"/>
+        <!-- spark ball -->
         <DList Name="gBarinadeDL_011738" Offset="0x11738"/>
         <DList Name="gBarinadeDL_011768" Offset="0x11768"/>
+        <!-- blood -->
         <DList Name="gBarinadeDL_009430" Offset="0x9430"/>
         <DList Name="gBarinadeDL_009468" Offset="0x9468"/>
+        <!-- tumor -->
         <DList Name="gBarinadeDL_0128B8" Offset="0x128B8"/>
         <DList Name="gBarinadeDL_012948" Offset="0x12948"/>
+        <!-- gore -->
         <DList Name="gBarinadeDL_012BA0" Offset="0x12BA0"/>
         <DList Name="gBarinadeDL_012C50" Offset="0x12C50"/>
+        <!-- zapper charge -->
         <DList Name="gBarinadeDL_0135B0" Offset="0x135B0"/>
         <DList Name="gBarinadeDL_013638" Offset="0x13638"/>
+        <!-- small spark -->
         <DList Name="gBarinadeDL_008F08" Offset="0x8F08"/>
         <DList Name="gBarinadeDL_008F70" Offset="0x8F70"/>
         

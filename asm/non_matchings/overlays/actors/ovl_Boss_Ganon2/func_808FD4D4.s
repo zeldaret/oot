@@ -25,7 +25,7 @@ glabel func_808FD4D4
 /* 005EC 808FD52C 260601D0 */  addiu   $a2, $s0, 0x01D0           ## $a2 = 000001D0
 /* 005F0 808FD530 3C0741C8 */  lui     $a3, 0x41C8                ## $a3 = 41C80000
 /* 005F4 808FD534 AFAF0010 */  sw      $t7, 0x0010($sp)           
-/* 005F8 808FD538 0C00CC98 */  jal     func_80033260              
+/* 005F8 808FD538 0C00CC98 */  jal     Actor_SpawnFloorDust              
 /* 005FC 808FD53C E7A40014 */  swc1    $f4, 0x0014($sp)           
 .L808FD540:
 /* 00600 808FD540 87A90042 */  lh      $t1, 0x0042($sp)           
@@ -47,7 +47,7 @@ glabel func_808FD4D4
 /* 0063C 808FD57C 260601DC */  addiu   $a2, $s0, 0x01DC           ## $a2 = 000001DC
 /* 00640 808FD580 3C0741C8 */  lui     $a3, 0x41C8                ## $a3 = 41C80000
 /* 00644 808FD584 AFAA0010 */  sw      $t2, 0x0010($sp)           
-/* 00648 808FD588 0C00CC98 */  jal     func_80033260              
+/* 00648 808FD588 0C00CC98 */  jal     Actor_SpawnFloorDust              
 /* 0064C 808FD58C E7A60014 */  swc1    $f6, 0x0014($sp)           
 .L808FD590:
 /* 00650 808FD590 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

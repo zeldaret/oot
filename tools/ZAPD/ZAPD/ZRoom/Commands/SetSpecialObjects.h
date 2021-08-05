@@ -1,15 +1,18 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
+#include "ZRoom/ZRoomCommand.h"
 
 class SetSpecialObjects : public ZRoomCommand
 {
 public:
-	SetSpecialObjects(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	SetSpecialObjects(ZFile* nParent);
 
-	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
-	virtual std::string GetCommandCName();
-	virtual RoomCommand GetRoomCommand();
+	void ParseRawData() override;
+
+	std::string GetBodySourceCode() const override;
+
+	RoomCommand GetRoomCommand() const override;
+	std::string GetCommandCName() const override;
 
 private:
 	uint8_t elfMessage;

@@ -6,20 +6,24 @@
 #include "ZResource.h"
 #include "tinyxml2.h"
 
-typedef enum ZScalarType
+enum class ZScalarType
 {
 	ZSCALAR_NONE,
 	ZSCALAR_S8,
 	ZSCALAR_U8,
+	ZSCALAR_X8,
 	ZSCALAR_S16,
 	ZSCALAR_U16,
+	ZSCALAR_X16,
 	ZSCALAR_S32,
 	ZSCALAR_U32,
+	ZSCALAR_X32,
 	ZSCALAR_S64,
 	ZSCALAR_U64,
+	ZSCALAR_X64,
 	ZSCALAR_F32,
 	ZSCALAR_F64
-} ZScalarType;
+};
 
 typedef union ZScalarData
 {
@@ -40,28 +44,25 @@ class ZScalar : public ZResource
 	friend class ZVector;
 
 public:
-	ZScalarData scalarData;
-	ZScalarType scalarType;
+	ZScalar(ZFile* nParent);
+	ZScalar(const ZScalarType scalarType, ZFile* nParent);
 
-	ZScalar();
-	ZScalar(const ZScalarType scalarType);
-
-	void ParseXML(tinyxml2::XMLElement* reader) override;
-	std::string GetSourceTypeName() override;
-	std::string GetSourceValue();
-	std::string GetSourceOutputCode(const std::string& prefix) override;
-	int GetRawDataSize() override;
-	ZResourceType GetResourceType() override;
-	bool DoesSupportArray() override;
 	void ParseRawData() override;
+	void ParseXML(tinyxml2::XMLElement* reader) override;
+	std::string GetBodySourceCode() const override;
+	std::string GetSourceOutputCode(const std::string& prefix) override;
 
-	static ZScalar* ExtractFromXML(tinyxml2::XMLElement* reader,
-	                               const std::vector<uint8_t>& nRawData, const int rawDataIndex,
-	                               const std::string& nRelPath);
-	static int MapTypeToSize(const ZScalarType scalarType);
+	bool DoesSupportArray() const override;
+	std::string GetSourceTypeName() const override;
+	ZResourceType GetResourceType() const override;
+
+	size_t GetRawDataSize() const override;
+
+	static size_t MapTypeToSize(const ZScalarType scalarType);
 	static ZScalarType MapOutputTypeToScalarType(const std::string& type);
 	static std::string MapScalarTypeToOutputType(const ZScalarType scalarType);
 
 protected:
-	void ParseRawData(const std::vector<uint8_t>& data, const int offset);
+	ZScalarData scalarData;
+	ZScalarType scalarType;
 };

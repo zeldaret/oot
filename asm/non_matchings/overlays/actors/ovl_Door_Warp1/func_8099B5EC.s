@@ -585,10 +585,10 @@ glabel func_8099B5EC
 /* 036A8 8099BE28 AFA2008C */  sw      $v0, 0x008C($sp)           
 /* 036AC 8099BE2C 8FA3008C */  lw      $v1, 0x008C($sp)           
 /* 036B0 8099BE30 8FA800D8 */  lw      $t0, 0x00D8($sp)           
-/* 036B4 8099BE34 3C040600 */  lui     $a0, %hi(D_060001A0)                ## $a0 = 06000000
+/* 036B4 8099BE34 3C040600 */  lui     $a0, %hi(gBlueWarpLightBeamDL)                ## $a0 = 06000000
 /* 036B8 8099BE38 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 036BC 8099BE3C 8D0202D0 */  lw      $v0, 0x02D0($t0)           ## 000002D0
-/* 036C0 8099BE40 248401A0 */  addiu   $a0, $a0, %lo(D_060001A0)           ## $a0 = 060001A0
+/* 036C0 8099BE40 248401A0 */  addiu   $a0, $a0, %lo(gBlueWarpLightBeamDL)           ## $a0 = 060001A0
 /* 036C4 8099BE44 3C0EDE00 */  lui     $t6, 0xDE00                ## $t6 = DE000000
 /* 036C8 8099BE48 244D0008 */  addiu   $t5, $v0, 0x0008           ## $t5 = 00000008
 /* 036CC 8099BE4C AD0D02D0 */  sw      $t5, 0x02D0($t0)           ## 000002D0
