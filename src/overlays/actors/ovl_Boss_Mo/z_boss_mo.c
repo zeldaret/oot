@@ -1071,7 +1071,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                             spD4.y = -280.0f;
                         }
                         spD4.z += spE0.z * 3.0f;
-                        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*) globalCtx->specialEffects, &spD4, &spE0,
+                        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &spD4, &spE0,
                                             ((300 - indS1) * .0015f) + 0.13f);
                     }
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
@@ -1107,7 +1107,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
         temp = (this->actor.scale.x * 100.0f) * 20.0f;
         pos.x = this->tentPos[indS1].x + Rand_CenteredFloat(temp);
         pos.z = this->tentPos[indS1].z + Rand_CenteredFloat(temp);
-        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*) globalCtx->specialEffects, &pos, &velocity, scale);
+        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &pos, &velocity, scale);
     }
 }
 
@@ -1146,7 +1146,7 @@ void BossMo_TentCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                 pos = this->tentPos[2 * i1];
                 pos.x += velocity.x * 3.0f;
                 pos.z += velocity.z * 3.0f;
-                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*) globalCtx->specialEffects, &pos, &velocity,
+                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &pos, &velocity,
                                     Rand_ZeroFloat(0.08f) + 0.13f);
             }
             break;
@@ -1529,7 +1529,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
                     pos.x += 2.0f * velocity.x;
                     pos.y += 2.0f * velocity.y;
                     pos.z += 2.0f * velocity.z;
-                    BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*) globalCtx->specialEffects, &pos, &velocity,
+                    BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &pos, &velocity,
                                         Rand_ZeroFloat(0.08f) + 0.13f);
                 }
                 this->drawActor = false;
@@ -1793,7 +1793,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                 pos = this->actor.world.pos;
                 pos.x += (velocity.x * 3.0f);
                 pos.z += (velocity.z * 3.0f);
-                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*) globalCtx->specialEffects, &pos, &velocity,
+                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &pos, &velocity,
                                     Rand_ZeroFloat(0.08f) + 0.13f);
             }
         }
@@ -2020,8 +2020,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 effectPos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
                 effectPos.y = Rand_CenteredFloat(20.0f) + this->actor.world.pos.y;
                 effectPos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
-                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*) globalCtx->specialEffects, &effectPos, &effectVelocity,
-                                    Rand_ZeroFloat(0.02f) + 0.05f);
+                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &effectPos,
+                                    &effectVelocity, Rand_ZeroFloat(0.02f) + 0.05f);
             };
 
             if (nearLand) {
@@ -2042,13 +2042,13 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                             effectPos = this->actor.world.pos;
                             effectPos.x += effectVelocity.x;
                             effectPos.z += effectVelocity.z;
-                            BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*) globalCtx->specialEffects, &effectPos,
+                            BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &effectPos,
                                                 &effectVelocity, Rand_ZeroFloat(0.08f) + 0.13f);
                         }
                         effectVelocity.x = effectVelocity.y = effectVelocity.z = 0.0f;
                         effectPos = this->actor.world.pos;
                         effectPos.y = 0.0f;
-                        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*) globalCtx->specialEffects, &effectPos,
+                        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &effectPos,
                                             &effectVelocity, 0.4f);
                     }
                 }
@@ -2141,8 +2141,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 effectPos.x += effectVelocity.x * 3.0f;
                 effectPos.y = MO_WATER_LEVEL(globalCtx);
                 effectPos.z += effectVelocity.z * 3.0f;
-                BossMo_SpawnDroplet(MO_FX_SPLASH, (BossMoParticle*) globalCtx->specialEffects, &effectPos, &effectVelocity,
-                                    Rand_ZeroFloat(0.075f) + 0.15f);
+                BossMo_SpawnDroplet(MO_FX_SPLASH, (BossMoParticle*)globalCtx->specialEffects, &effectPos,
+                                    &effectVelocity, Rand_ZeroFloat(0.075f) + 0.15f);
             }
             effectPos = this->actor.world.pos;
             effectPos.y = MO_WATER_LEVEL(globalCtx);
@@ -2331,8 +2331,8 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
         bubblePos.x = this->tentPos[i].x + sp7C.x;
         bubblePos.y = (MO_WATER_LEVEL(globalCtx) - 40.0f) + Rand_ZeroFloat(20.0f);
         bubblePos.z = this->tentPos[i].z + sp7C.z;
-        BossMo_SpawnBubble(globalCtx->specialEffects, &bubblePos, &zeroVec, &zeroVec,
-                           Rand_ZeroFloat(0.05f) + 0.2f, &this->tentPos[i]);
+        BossMo_SpawnBubble(globalCtx->specialEffects, &bubblePos, &zeroVec, &zeroVec, Rand_ZeroFloat(0.05f) + 0.2f,
+                           &this->tentPos[i]);
     }
 
     if (this->damageFlashTimer != 0) {
@@ -2598,7 +2598,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
             (this->actor.world.pos.y < MO_WATER_LEVEL(globalCtx))) {
             f32 groundLevel;
             s16 shadowAlpha;
-            
+
             if (this->actor.world.pos.y < MO_WATER_LEVEL(globalCtx)) {
                 groundLevel = -280.0f;
                 shadowAlpha = 100;
@@ -2810,7 +2810,7 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                         if (particle->type == MO_FX_SPLASH) {
                             Vec3f velocity = { 0.0f, 0.0f, 0.0f };
 
-                            BossMo_SpawnDroplet(MO_FX_SPLASH_TRAIL, (BossMoParticle*) globalCtx->specialEffects,
+                            BossMo_SpawnDroplet(MO_FX_SPLASH_TRAIL, (BossMoParticle*)globalCtx->specialEffects,
                                                 &particle->pos, &velocity, particle->scale);
                         }
                         if (particle->vel.y < -20.0f) {
@@ -2917,7 +2917,8 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
     particle = firstParticle;
     flag = 0;
     for (i = 0; i < 300; i++, particle++) {
-        if (((particle->type == MO_FX_DROPLET) || (particle->type == MO_FX_SPLASH)) || (particle->type == MO_FX_SPLASH_TRAIL)) {
+        if (((particle->type == MO_FX_DROPLET) || (particle->type == MO_FX_SPLASH)) ||
+            (particle->type == MO_FX_SPLASH_TRAIL)) {
             if (flag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
@@ -2933,7 +2934,8 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
 
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(particle->scale / particle->vStretch, particle->vStretch * particle->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(particle->scale / particle->vStretch, particle->vStretch * particle->scale, 1.0f,
+                         MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
