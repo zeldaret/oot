@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot18_shutter.h"
+#include "objects/object_spot18_obj/object_spot18_obj.h"
 
 #define FLAGS 0x00000030
 
@@ -36,9 +37,6 @@ const ActorInit Bg_Spot18_Shutter_InitVars = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
-
-extern Gfx D_06000420[];
-extern CollisionHeader D_06000534;
 
 void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -75,7 +73,7 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    CollisionHeader_GetVirtual(&D_06000534, &colHeader);
+    CollisionHeader_GetVirtual(&gGoronCityDoorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
@@ -139,5 +137,5 @@ void BgSpot18Shutter_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Shutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06000420);
+    Gfx_DrawDListOpa(globalCtx, gGoronCityDoorDL);
 }

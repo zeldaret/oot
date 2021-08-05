@@ -5,6 +5,7 @@
  */
 
 #include "z_item_ocarina.h"
+#include "scenes/overworld/spot00/spot00_scene.h"
 
 #define FLAGS 0x00000010
 
@@ -34,8 +35,6 @@ const ActorInit Item_Ocarina_InitVars = {
     (ActorFunc)ItemOcarina_Update,
     (ActorFunc)ItemOcarina_Draw,
 };
-
-extern CutsceneData D_0200F870[]; // song of time cutscene
 
 void ItemOcarina_SetupAction(ItemOcarina* this, ItemOcarinaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -171,7 +170,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx) {
 
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_0200F870);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldaSongOfTimeCs);
         gSaveContext.cutsceneTrigger = 1;
     }
 }
