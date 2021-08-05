@@ -2820,17 +2820,17 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
 
         if (msgCtx->msgMode == MSGMODE_UNK_1B) {
             temp = msgCtx->unk_E3F0 - 0xF;
-            for (phi_a3 = 0, phi_a1 = VREG(28); phi_a3 < D_80131C00[temp].len; phi_a3++, phi_a1 += VREG(29)) {
+            for (phi_a3 = 0, phi_a1 = VREG(28); phi_a3 < gOcarinaSongNotes[temp].len; phi_a3++, phi_a1 += VREG(29)) {
                 gDPPipeSync(gfx++);
                 gDPSetPrimColor(gfx++, 0, 0, 150, 150, 150, 150);
                 gDPSetEnvColor(gfx++, 10, 10, 10, 0);
 
-                gDPLoadTextureBlock(gfx++, D_80153C94[D_80131C00[temp].notesIdx[phi_a3]], G_IM_FMT_IA, G_IM_SIZ_8b, 16,
+                gDPLoadTextureBlock(gfx++, D_80153C94[gOcarinaSongNotes[temp].notesIdx[phi_a3]], G_IM_FMT_IA, G_IM_SIZ_8b, 16,
                                     16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                     G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                gSPTextureRectangle(gfx++, phi_a1 << 2, VREG(45 + D_80131C00[temp].notesIdx[phi_a3]) << 2,
-                                    (phi_a1 + 0x10) << 2, (VREG(45 + D_80131C00[temp].notesIdx[phi_a3]) + 0x10) << 2,
+                gSPTextureRectangle(gfx++, phi_a1 << 2, VREG(45 + gOcarinaSongNotes[temp].notesIdx[phi_a3]) << 2,
+                                    (phi_a1 + 0x10) << 2, (VREG(45 + gOcarinaSongNotes[temp].notesIdx[phi_a3]) + 0x10) << 2,
                                     G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
             }
         }

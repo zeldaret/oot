@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_bdan_switch.h"
+#include "objects/object_bdan_objects/object_bdan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -54,10 +55,6 @@ const ActorInit Bg_Bdan_Switch_InitVars = {
     (ActorFunc)BgBdanSwitch_Update,
     (ActorFunc)BgBdanSwitch_Draw,
 };
-
-extern CollisionHeader D_06005CF8;
-extern Gfx D_060061A0[];
-extern Gfx D_06005A20[];
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
@@ -160,7 +157,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            func_8086D010(this, globalCtx, &D_06005CF8, DPM_PLAYER);
+            func_8086D010(this, globalCtx, &gJabuFloorSwitchCol, DPM_PLAYER);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
@@ -518,15 +515,15 @@ void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params & 0xFF) {
         case YELLOW_HEAVY:
         case YELLOW:
-            func_8086DF58(this, globalCtx, D_060061A0);
+            func_8086DF58(this, globalCtx, gJabuYellowFloorSwitchDL);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            func_8086DF58(this, globalCtx, D_060061A0);
+            func_8086DF58(this, globalCtx, gJabuYellowFloorSwitchDL);
             Collider_UpdateSpheres(0, &this->collider);
             Matrix_MultVec3f(&D_8086E0E0, &this->dyna.actor.focus.pos);
             break;
         case BLUE:
-            func_8086DF58(this, globalCtx, D_06005A20);
+            func_8086DF58(this, globalCtx, gJabuBlueFloorSwitchDL);
     }
 }

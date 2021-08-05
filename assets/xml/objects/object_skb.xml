@@ -44,15 +44,15 @@
         <DList Name="gStalchildRightFootDL" Offset="0x4028"/>
 
         <!-- Stalchild Textures -->
-        <Texture Name="gStalchildWaistTex" OutName="stalchild_waist" Format="rgb5a1" Width="16" Height="16" Offset="0x18A0"/>
-        <Texture Name="gStalchildRibCageTex" OutName="stalchild_rib_cage" Format="rgb5a1" Width="8" Height="16" Offset="0x1AA0"/>
-        <Texture Name="gStalchildHeadTex" OutName="stalchild_head" Format="rgb5a1" Width="8" Height="8" Offset="0x1BA0"/>
-        <Texture Name="gStalchildBoneTex" OutName="stalchild_bone" Format="rgb5a1" Width="8" Height="8" Offset="0x1CA0"/>
-        <Texture Name="gStalchildNostrilTex" OutName="stalchild_nostril" Format="rgb5a1" Width="8" Height="8" Offset="0x1C20"/>
-        <Texture Name="gStalchildHandAndFeetTex" OutName="stalchild_hand_and_feet" Format="rgb5a1" Width="8" Height="16" Offset="0x1D20"/>
-        <Texture Name="gStalchildTeethTex" OutName="stalchild_teeth" Format="rgb5a1" Width="16" Height="8" Offset="0x1E20"/>
-        <Texture Name="gStalchildEyeSocketTex" OutName="stalchild_eye_socket" Format="rgb5a1" Width="16" Height="16" Offset="0x1F20"/>
-        <Texture Name="gStalchildEyeTex" OutName="stalchild_eye" Format="rgb5a1" Width="8" Height="8" Offset="0x2120"/>
+        <Texture Name="gStalchildWaistTex" OutName="stalchild_waist" Format="rgba16" Width="16" Height="16" Offset="0x18A0"/>
+        <Texture Name="gStalchildRibCageTex" OutName="stalchild_rib_cage" Format="rgba16" Width="8" Height="16" Offset="0x1AA0"/>
+        <Texture Name="gStalchildHeadTex" OutName="stalchild_head" Format="rgba16" Width="8" Height="8" Offset="0x1BA0"/>
+        <Texture Name="gStalchildBoneTex" OutName="stalchild_bone" Format="rgba16" Width="8" Height="8" Offset="0x1CA0"/>
+        <Texture Name="gStalchildNostrilTex" OutName="stalchild_nostril" Format="rgba16" Width="8" Height="8" Offset="0x1C20"/>
+        <Texture Name="gStalchildHandAndFeetTex" OutName="stalchild_hand_and_feet" Format="rgba16" Width="8" Height="16" Offset="0x1D20"/>
+        <Texture Name="gStalchildTeethTex" OutName="stalchild_teeth" Format="rgba16" Width="16" Height="8" Offset="0x1E20"/>
+        <Texture Name="gStalchildEyeSocketTex" OutName="stalchild_eye_socket" Format="rgba16" Width="16" Height="16" Offset="0x1F20"/>
+        <Texture Name="gStalchildEyeTex" OutName="stalchild_eye" Format="rgba16" Width="8" Height="8" Offset="0x2120"/>
 
         <!-- Stalchild animations -->
         <Animation Name="gStalchildUncurlingAnim" Offset="0x1854"/>

@@ -48,7 +48,7 @@ Looking in the actor, the unknowns are assigned to segment 8 using `SEGMENTED_TO
 06002FD8: gsDPLoadTextureBlock(D_08000000, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, 5, 5, 0, 0),
 ```
 
-So all three are `Format="rgb5a1" Width="32" Height="32"`.
+So all three are `Format="rgba16" Width="32" Height="32"`.
 
 ```xml
 <Root>
@@ -63,9 +63,9 @@ So all three are `Format="rgb5a1" Width="32" Height="32"`.
         <Animation Name="gChuGirlLeanOverCounterAnim" Offset="0x72AC"/>
 
         <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgb5a1" Width="32" Height="32"  Offset="0x5110"/>
+        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
 
     </File>
 </Root>
@@ -142,9 +142,9 @@ In this case naming is easy: we just have to note down the limb each is attached
         <DList Name="gChuGirlRightHandDL" Offset="0x3968"/>
 
         <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgb5a1" Width="32" Height="32"  Offset="0x5110"/>
+        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
 
 
     </File>
@@ -182,16 +182,16 @@ This is the difficult bit: we have to work out what each texture in the extracte
         <DList Name="gChuGirlRightHandDL" Offset="0x3968"/>
 
         <!-- Bombchu Bowling Girl limb textures -->
-        <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgb5a1" Width="32" Height="32" Offset="0x5910"/>
-        <Texture Name="gChuGirlSkinGradientTex" OutName="chu_girl_skin_gradient" Format="rgb5a1" Width="16" Height="16" Offset="0x6110"/>
-        <Texture Name="gChuGirlSweaterTex" OutName="chu_girl_sweater" Format="rgb5a1" Width="32" Height="32" Offset="0x6510"/>
-        <Texture Name="gChuGirlUmbEarLicusTex" OutName="chu_girl_umb_ear_licus" Format="rgb5a1" Width="16" Height="16" Offset="0x6310"/>
-        <Texture Name="gChuGirlHairTex" OutName="chu_girl_hair" Format="rgb5a1" Width="8" Height="16" Offset="0x6D10"/>
+        <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
+        <Texture Name="gChuGirlSkinGradientTex" OutName="chu_girl_skin_gradient" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
+        <Texture Name="gChuGirlSweaterTex" OutName="chu_girl_sweater" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
+        <Texture Name="gChuGirlUmbEarLicusTex" OutName="chu_girl_umb_ear_licus" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
+        <Texture Name="gChuGirlHairTex" OutName="chu_girl_hair" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
 
         <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgb5a1" Width="32" Height="32"  Offset="0x5110"/>
+        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
 
 
     </File>
@@ -239,16 +239,16 @@ Therefore, we end up with the following:
         <Limb Name="gChuGirlRightHandLimb" Type="Standard" Offset="0x6E7C"/>
 
         <!-- Bombchu Bowling Girl limb textures -->
-        <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgb5a1" Width="32" Height="32" Offset="0x5910"/>
-        <Texture Name="gChuGirlSkinGradientTex" OutName="chu_girl_skin_gradient" Format="rgb5a1" Width="16" Height="16" Offset="0x6110"/>
-        <Texture Name="gChuGirlSweaterTex" OutName="chu_girl_sweater" Format="rgb5a1" Width="32" Height="32" Offset="0x6510"/>
-        <Texture Name="gChuGirlUmbEarLicusTex" OutName="chu_girl_umb_ear_licus" Format="rgb5a1" Width="16" Height="16" Offset="0x6310"/>
-        <Texture Name="gChuGirlHairTex" OutName="chu_girl_hair" Format="rgb5a1" Width="8" Height="16" Offset="0x6D10"/>
+        <Texture Name="gChuGirlMouthTex" OutName="chu_girl_mouth" Format="rgba16" Width="32" Height="32" Offset="0x5910"/>
+        <Texture Name="gChuGirlSkinGradientTex" OutName="chu_girl_skin_gradient" Format="rgba16" Width="16" Height="16" Offset="0x6110"/>
+        <Texture Name="gChuGirlSweaterTex" OutName="chu_girl_sweater" Format="rgba16" Width="32" Height="32" Offset="0x6510"/>
+        <Texture Name="gChuGirlUmbEarLicusTex" OutName="chu_girl_umb_ear_licus" Format="rgba16" Width="16" Height="16" Offset="0x6310"/>
+        <Texture Name="gChuGirlHairTex" OutName="chu_girl_hair" Format="rgba16" Width="8" Height="16" Offset="0x6D10"/>
 
         <!-- Bombchu Bowling Girl eye textures -->
-        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x4110"/>
-        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4910"/>
-        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgb5a1" Width="32" Height="32"  Offset="0x5110"/>
+        <Texture Name="gChuGirlEyeOpenTex" OutName="chu_girl_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x4110"/>
+        <Texture Name="gChuGirlEyeHalfTex" OutName="chu_girl_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4910"/>
+        <Texture Name="gChuGirlEyeClosedTex" OutName="chu_girl_eye_closed" Format="rgba16" Width="32" Height="32"  Offset="0x5110"/>
 
 
     </File>

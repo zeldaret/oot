@@ -5,6 +5,7 @@
  */
 
 #include "z_en_dns.h"
+#include "objects/object_shopnuts/object_shopnuts.h"
 #include "vt.h"
 
 #define FLAGS 0x00000009
@@ -128,14 +129,10 @@ typedef struct {
 } DnsAnimInfo; // size = 0xC
 
 DnsAnimInfo D_809F0538[] = {
-    { 0x06001108, 0x00, 0.0f },
-    { 0x06004404, 0x02, 0.0f },
-    { 0x060009A0, 0x02, 0.0f },
+    { &gBusinessScrubNervousIdleAnim, 0x00, 0.0f },
+    { &gBusinessScrubAnim_4404, 0x02, 0.0f },
+    { &gBusinessScrubNervousTransitionAnim, 0x02, 0.0f },
 };
-
-extern FlexSkeletonHeader D_060041A8;
-extern AnimationHeader D_060009A0;
-extern AnimationHeader D_06004404;
 
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = THIS;
@@ -154,7 +151,8 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", D_809F0424[this->actor.params],
                  this->actor.params);
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->jointTable, this->morphTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim,
+                       this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 35.0f);
@@ -438,7 +436,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_SetupBurrow(EnDns* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06004404);
+    f32 frameCount = Animation_GetLastFrame(&gBusinessScrubAnim_4404);
 
     if (this->skelAnime.curFrame == frameCount) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);

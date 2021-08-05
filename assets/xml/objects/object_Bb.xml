@@ -9,14 +9,14 @@
         <DList Name="object_Bb_DL_000E08" Offset="0xE08"/>
         <DList Name="object_Bb_DL_001100" Offset="0x1100"/>
         <DList Name="object_Bb_DL_001190" Offset="0x1190"/>
-        <Texture Name="object_Bb_Tex_001220" OutName="tex_00001220" Format="rgb5a1" Width="16" Height="16" Offset="0x1220"/>
-        <Texture Name="object_Bb_Tex_001420" OutName="tex_00001420" Format="rgb5a1" Width="8" Height="8" Offset="0x1420"/>
-        <Texture Name="object_Bb_Tex_0014A0" OutName="tex_000014A0" Format="rgb5a1" Width="4" Height="4" Offset="0x14A0"/>
-        <Texture Name="object_Bb_Tex_0014C0" OutName="tex_000014C0" Format="rgb5a1" Width="8" Height="8" Offset="0x14C0"/>
-        <Texture Name="object_Bb_Tex_001540" OutName="tex_00001540" Format="rgb5a1" Width="8" Height="8" Offset="0x1540"/>
-        <Texture Name="object_Bb_Tex_0015C0" OutName="tex_000015C0" Format="rgb5a1" Width="8" Height="8" Offset="0x15C0"/>
-        <Texture Name="object_Bb_Tex_001640" OutName="tex_00001640" Format="rgb5a1" Width="16" Height="8" Offset="0x1640"/>
-        <Texture Name="object_Bb_Tex_001740" OutName="tex_00001740" Format="rgb5a1" Width="16" Height="16" Offset="0x1740"/>
+        <Texture Name="object_Bb_Tex_001220" OutName="tex_00001220" Format="rgba16" Width="16" Height="16" Offset="0x1220"/>
+        <Texture Name="object_Bb_Tex_001420" OutName="tex_00001420" Format="rgba16" Width="8" Height="8" Offset="0x1420"/>
+        <Texture Name="object_Bb_Tex_0014A0" OutName="tex_000014A0" Format="rgba16" Width="4" Height="4" Offset="0x14A0"/>
+        <Texture Name="object_Bb_Tex_0014C0" OutName="tex_000014C0" Format="rgba16" Width="8" Height="8" Offset="0x14C0"/>
+        <Texture Name="object_Bb_Tex_001540" OutName="tex_00001540" Format="rgba16" Width="8" Height="8" Offset="0x1540"/>
+        <Texture Name="object_Bb_Tex_0015C0" OutName="tex_000015C0" Format="rgba16" Width="8" Height="8" Offset="0x15C0"/>
+        <Texture Name="object_Bb_Tex_001640" OutName="tex_00001640" Format="rgba16" Width="16" Height="8" Offset="0x1640"/>
+        <Texture Name="object_Bb_Tex_001740" OutName="tex_00001740" Format="rgba16" Width="16" Height="16" Offset="0x1740"/>
         <Limb Name="object_Bb_Limb_001940" LimbType="Standard" Offset="0x1940"/>
         <Limb Name="object_Bb_Limb_00194C" LimbType="Standard" Offset="0x194C"/>
         <Limb Name="object_Bb_Limb_001958" LimbType="Standard" Offset="0x1958"/>

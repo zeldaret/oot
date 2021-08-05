@@ -5,6 +5,7 @@
  */
 
 #include "z_en_guest.h"
+#include "objects/object_os_anime/object_os_anime.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
@@ -92,8 +93,8 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
-        Animation_Change(&this->skelAnime, &D_060042AC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060042AC), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gObjOsAnim_42AC, 1.0f, 0.0f, Animation_GetLastFrame(&gObjOsAnim_42AC),
+                         ANIMMODE_LOOP, 0.0f);
 
         this->actor.draw = EnGuest_Draw;
         this->actor.update = func_80A505CC;

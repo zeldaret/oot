@@ -1,12 +1,12 @@
 <Root>
     <File Name="gameplay_keep" Segment="4">
-        <Texture Name="gHilite1Tex" OutName="hilite_1" Format="rgb5a1" Width="16" Height="16" Offset="0x0"/>
-        <Texture Name="gHilite2Tex" OutName="hilite_2" Format="rgb5a1" Width="16" Height="16" Offset="0x200"/>
-        <Texture Name="gHylianShieldDesignTex" OutName="hylian_shield_design" Format="rgb5a1" Width="32" Height="64" Offset="0x400"/>
-        <Texture Name="gOcarinaofTimeDesignTex" OutName="ocarina_of_time_design" Format="rgb5a1" Width="32" Height="16" Offset="0x1400"/>
-        <Texture Name="gBottleGlassTex" OutName="bottle_glass" Format="rgb5a1" Width="16" Height="16" Offset="0x1800"/>
+        <Texture Name="gHilite1Tex" OutName="hilite_1" Format="rgba16" Width="16" Height="16" Offset="0x0"/>
+        <Texture Name="gHilite2Tex" OutName="hilite_2" Format="rgba16" Width="16" Height="16" Offset="0x200"/>
+        <Texture Name="gHylianShieldDesignTex" OutName="hylian_shield_design" Format="rgba16" Width="32" Height="64" Offset="0x400"/>
+        <Texture Name="gOcarinaofTimeDesignTex" OutName="ocarina_of_time_design" Format="rgba16" Width="32" Height="16" Offset="0x1400"/>
+        <Texture Name="gBottleGlassTex" OutName="bottle_glass" Format="rgba16" Width="16" Height="16" Offset="0x1800"/>
         <Texture Name="gLinkTunic1Tex" OutName="link_tunic_1" Format="i8" Width="8" Height="8" Offset="0x1A00"/>
-        <Texture Name="gLinkHairTex" OutName="link_hair" Format="rgb5a1" Width="16" Height="16" Offset="0x1A40"/>
+        <Texture Name="gLinkHairTex" OutName="link_hair" Format="rgba16" Width="16" Height="16" Offset="0x1A40"/>
         <Texture Name="gLinkTunic2Tex" OutName="link_tunic_2" Format="i8" Width="16" Height="16" Offset="0x1C40"/>
         <Texture Name="gLinkTunic3Tex" OutName="link_tunic_3" Format="i8" Width="16" Height="32" Offset="0x1D40"/>
         <Texture Name="gLinkTunic4Tex" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x1F40"/>    
@@ -614,17 +614,17 @@
         <DList Name="gDebugSpriteDL" Offset="0x4298"/>
         <Animation Name="gArrow1Anim" Offset="0x4310"/>
         <Animation Name="gArrow2Anim" Offset="0x436C"/>
-        <Texture Name="gArrowShaftTex" OutName="arrow_shaft" Format="rgb5a1" Width="16" Height="128" Offset="0x4380"/>
-        <Texture Name="gArrowFletchingTex" OutName="arrow_fletching" Format="rgb5a1" Width="32" Height="16" Offset="0x5380"/>
+        <Texture Name="gArrowShaftTex" OutName="arrow_shaft" Format="rgba16" Width="16" Height="128" Offset="0x4380"/>
+        <Texture Name="gArrowFletchingTex" OutName="arrow_fletching" Format="rgba16" Width="32" Height="16" Offset="0x5380"/>
         <DList Name="gArrowNearDL" Offset="0x5AA0"/>
         <DList Name="gArrowFarDL" Offset="0x5E20"/>
         <Skeleton Name="gArrowSkel" Type="Normal" LimbType="LOD" Offset="0x6010"/> <!-- fix pointer for this! -->
         <Texture Name="gUnknownEffBlureTex" OutName="unknown_eff_blure" Format="i8" Width="64" Height="32" Offset="0x6020"/>
         <Texture Name="gBombBodyTex" OutName="bomb_body" Format="ia8" Width="64" Height="64" Offset="0x6820"/>
         <DList Name="gBombBodyDL" Offset="0x7860"/>
-        <Texture Name="gBombCapTex" OutName="bomb_cap" Format="rgb5a1" Width="8" Height="8" Offset="0x78F0"/>
+        <Texture Name="gBombCapTex" OutName="bomb_cap" Format="rgba16" Width="8" Height="8" Offset="0x78F0"/>
         <DList Name="gBombCapDL" Offset="0x7A50"/>
-        <Texture Name="gBombchuBodyTex" OutName="bombchu_body" Format="rgb5a1" Width="8" Height="8" Offset="0x7B10"/>
+        <Texture Name="gBombchuBodyTex" OutName="bombchu_body" Format="rgba16" Width="8" Height="8" Offset="0x7B10"/>
         <DList Name="gBombchuDL" Offset="0x7E10"/>
         <Texture Name="gEffBombExplosion1Tex" OutName="eff_bomb_explosion_1" Format="ia16" Width="32" Height="32" Offset="0x7F80"/>
         <Texture Name="gEffBombExplosion2Tex" OutName="eff_bomb_explosion_2" Format="ia16" Width="32" Height="32" Offset="0x8780"/>
@@ -638,7 +638,7 @@
         <DList Name="gEffBombExplosion2DL" Offset="0xBFE8"/>
         <DList Name="gEffBombExplosion3DL" Offset="0xC040"/>
         <DList Name="gEffFragments1DL" Offset="0xC0D0"/>
-        <Texture Name="gWitheredLeafTex" OutName="withered_leaf" Format="rgb5a1" Width="16" Height="16" Offset="0xC160"/>
+        <Texture Name="gWitheredLeafTex" OutName="withered_leaf" Format="rgba16" Width="16" Height="16" Offset="0xC160"/>
         <DList Name="gUnknownBlankDL" Offset="0xC690"/>
         <DList Name="gBoomerangDL" Offset="0xC698"/>
         <DList Name="gBoomerangRefDL" Offset="0xC808"/>
@@ -651,15 +651,15 @@
         <Texture Name="gArrowCursorTex" OutName="arrow_cursor" Format="ia8" Width="16" Height="24" Offset="0xCF40"/>
         <DList Name="gUnusedRockFragmentDL" Offset="0xD240"/>
         <DList Name="gBoulderFragmentsDL" Offset="0xD340"/>
-        <Texture Name="gRockFragment1Tex" OutName="rock_fragment_1" Format="rgb5a1" Width="32" Height="32" Offset="0xD4E0"/>
-        <Texture Name="gRockFragment2Tex" OutName="rock_fragment_2" Format="rgb5a1" Width="32" Height="32" Offset="0xDCE0"/>
+        <Texture Name="gRockFragment1Tex" OutName="rock_fragment_1" Format="rgba16" Width="32" Height="32" Offset="0xD4E0"/>
+        <Texture Name="gRockFragment2Tex" OutName="rock_fragment_2" Format="rgba16" Width="32" Height="32" Offset="0xDCE0"/>
         <Animation Name="gDoor1Anim" Offset="0xE5B4"/>
         <Animation Name="gDoor2Anim" Offset="0xE6A0"/>
         <Animation Name="gDoor3Anim" Offset="0xE758"/>
         <DList Name="gDoorFrameDL" Offset="0xEC30"/>
         <DList Name="gDoorLeftDL" Offset="0xECB8"/>
         <DList Name="gDoorRightDL" Offset="0xEE00"/>
-        <Texture Name="gWoodenDoorTex" OutName="wooden_door" Format="rgb5a1" Width="32" Height="64" Offset="0xEF38"/>
+        <Texture Name="gWoodenDoorTex" OutName="wooden_door" Format="rgba16" Width="32" Height="64" Offset="0xEF38"/>
         <Skeleton Name="gDoorSkel" Type="Normal" LimbType="Standard" Offset="0xFF78"/>
         <Animation Name="gDoor4Anim" Offset="0x10038"/>
         <DList Name="gEffDustDL" Offset="0x10050"/>
@@ -687,19 +687,19 @@
         <DList Name="gGlowCircleTextureLoadDL" Offset="0x15720"/>
         <DList Name="gGlowCircleDL" Offset="0x15760"/>
         <DList Name="gGlowCircleSmallDL" Offset="0x15780"/>
-        <Texture Name="gUnusedFairyWingTex" OutName="unused_fairy_wing" Format="rgb5a1" Width="32" Height="64" Offset="0x15968"/>
+        <Texture Name="gUnusedFairyWingTex" OutName="unused_fairy_wing" Format="rgba16" Width="32" Height="64" Offset="0x15968"/>
         <Skeleton Name="gFairySkel" Type="Normal" LimbType="Standard" Offset="0x16A48"/>
         <Texture Name="gUnknownCircle3Tex" OutName="unknown_circle_3" Format="i4" Width="16" Height="16" Offset="0x16A50"/>
         <Texture Name="gUnknownCircle4Tex" OutName="unknown_circle_4" Format="i8" Width="16" Height="16" Offset="0x16AD0"/>
-        <Texture Name="gHilite4Tex" OutName="hilite_4" Format="rgb5a1" Width="32" Height="32" Offset="0x16BD0"/>
+        <Texture Name="gHilite4Tex" OutName="hilite_4" Format="rgba16" Width="32" Height="32" Offset="0x16BD0"/>
         <Texture Name="gEffUnknown4Tex" OutName="eff_unknown_4" Format="i8" Width="32" Height="64" Offset="0x173D0"/>
         <Texture Name="gEffUnknown5Tex" OutName="eff_unknown_5" Format="i8" Width="32" Height="64" Offset="0x17BD0"/>
         <DList Name="gEffFireCircleDL" Offset="0x184B0"/>
         <Animation Name="gFishOutOfWaterAnim" Offset="0x185FC"/>
         <Skeleton Name="gFishSkel" Type="Flex" LimbType="Standard" Offset="0x18FE0"/>
         <Animation Name="gFishInWaterAnim" Offset="0x1909C"/>
-        <Texture Name="gFishTailTex" OutName="fish_tail" Format="rgb5a1" Width="16" Height="16" Offset="0x18B80"/>
-        <Texture Name="gFishBodyTex" OutName="fish_body" Format="rgb5a1" Width="32" Height="8" Offset="0x18D80"/>
+        <Texture Name="gFishTailTex" OutName="fish_tail" Format="rgba16" Width="16" Height="16" Offset="0x18B80"/>
+        <Texture Name="gFishBodyTex" OutName="fish_body" Format="rgba16" Width="32" Height="8" Offset="0x18D80"/>
         <Texture Name="gEffShockwaveTex" OutName="eff_shockwave" Format="i8" Width="64" Height="64" Offset="0x190B0"/>
         <DList Name="gEffShockwaveDL" Offset="0x1A0B0"/>
         <DList Name="gEffBubbleDL" Offset="0x1A160"/>
@@ -837,12 +837,12 @@
         <DList Name="gBugLimb9WrapperDL" Offset="0x34A40"/>
         <DList Name="gBugLimb9WrapperWrapperDL" Offset="0x34A50"/>
         <Skeleton Name="gBugSkel" Type="Normal" LimbType="Standard" Offset="0x35590"/>
-        <Texture Name="gBugBodyTex" OutName="bug_body" Format="rgb5a1" Width="16" Height="64" Offset="0x34B20"/>
-        <Texture Name="gBugLegTex" OutName="bug_leg" Format="rgb5a1" Width="32" Height="4" Offset="0x35320"/>
+        <Texture Name="gBugBodyTex" OutName="bug_body" Format="rgba16" Width="16" Height="64" Offset="0x34B20"/>
+        <Texture Name="gBugLegTex" OutName="bug_leg" Format="rgba16" Width="32" Height="4" Offset="0x35320"/>
         <DList Name="gCuttableShrubStalkDL" Offset="0x355E0"/>
         <DList Name="gCuttableShrubTipDL" Offset="0x356A0"/>
-        <Texture Name="gCuttableShrubLeafTFragmentTex" OutName="cuttable_shrub_leaf_fragment" Format="rgb5a1" Width="32" Height="32" Offset="0x35730"/>
-        <Texture Name="gCuttableShrubTex" OutName="cuttanble_shrub" Format="rgb5a1" Width="32" Height="32" Offset="0x35F30"/>
+        <Texture Name="gCuttableShrubLeafTFragmentTex" OutName="cuttable_shrub_leaf_fragment" Format="rgba16" Width="32" Height="32" Offset="0x35730"/>
+        <Texture Name="gCuttableShrubTex" OutName="cuttanble_shrub" Format="rgba16" Width="32" Height="32" Offset="0x35F30"/>
         <Texture Name="gBurnMark1Tex" OutName="burn_mark_1" Format="i4" Width="64" Height="64" Offset="0x36730"/>
         <Texture Name="gBurnMark2Tex" OutName="burn_mark_2" Format="i4" Width="64" Height="64" Offset="0x36F30"/>
         <DList Name="gEffBurnMark1DL" Offset="0x37730"/>
@@ -875,37 +875,37 @@
         <DList Name="gHeartContainerInteriorDL" Offset="0x3BCD8"/>
         <DList Name="gSignRectangularDL" Offset="0x3C050"/>
         <DList Name="gSignDirectionalDL" Offset="0x3C5B0"/>
-        <Texture Name="gDropArrows2Tex" OutName="drop_arrows_2" Format="rgb5a1" Width="32" Height="32" Offset="0x3C870"/>
-        <Texture Name="gDropArrows1Tex" OutName="drop_arrows_1" Format="rgb5a1" Width="32" Height="32" Offset="0x3D070"/>
-        <Texture Name="gDropArrows3Tex" OutName="drop_arrows_3" Format="rgb5a1" Width="32" Height="32" Offset="0x3D870"/>
-        <Texture Name="gDropBombTex" OutName="drop_bomb" Format="rgb5a1" Width="32" Height="32" Offset="0x3E070"/>
-        <Texture Name="gDropRecoveryHeartTex" OutName="drop_recovery_heart" Format="rgb5a1" Width="32" Height="32" Offset="0x3E870"/>
+        <Texture Name="gDropArrows2Tex" OutName="drop_arrows_2" Format="rgba16" Width="32" Height="32" Offset="0x3C870"/>
+        <Texture Name="gDropArrows1Tex" OutName="drop_arrows_1" Format="rgba16" Width="32" Height="32" Offset="0x3D070"/>
+        <Texture Name="gDropArrows3Tex" OutName="drop_arrows_3" Format="rgba16" Width="32" Height="32" Offset="0x3D870"/>
+        <Texture Name="gDropBombTex" OutName="drop_bomb" Format="rgba16" Width="32" Height="32" Offset="0x3E070"/>
+        <Texture Name="gDropRecoveryHeartTex" OutName="drop_recovery_heart" Format="rgba16" Width="32" Height="32" Offset="0x3E870"/>
         <DList Name="gItemDropDL" Offset="0x3F070"/>
-        <Texture Name="gDropKeySmallTex" OutName="drop_key_small" Format="rgb5a1" Width="32" Height="32" Offset="0x3F140"/>
-        <Texture Name="gDropMagicSmallTex" OutName="drop_magic_small" Format="rgb5a1" Width="32" Height="32" Offset="0x3F940"/>
-        <Texture Name="gDropDekuNutTex" OutName="drop_deku_nut" Format="rgb5a1" Width="32" Height="32" Offset="0x40140"/>
-        <Texture Name="gDropDekuSeedsTex" OutName="drop_deku_seeds" Format="rgb5a1" Width="32" Height="32" Offset="0x40940"/>
-        <Texture Name="gDropDekuStickTex" OutName="drop_deku_stick" Format="rgb5a1" Width="32" Height="32" Offset="0x41140"/>
-        <Texture Name="gDropMagicLargeTex" OutName="drop_magic_large" Format="rgb5a1" Width="32" Height="32" Offset="0x41940"/>
-        <Texture Name="gRupeeGreenTex" OutName="rupee_green" Format="rgb5a1" Width="4" Height="4" Offset="0x42140"/>
-        <Texture Name="gRupeeBlueTex" OutName="rupee_blue" Format="rgb5a1" Width="4" Height="4" Offset="0x42160"/>
-        <Texture Name="gRupeeRedTex" OutName="rupee_red" Format="rgb5a1" Width="4" Height="4" Offset="0x42180"/>
-        <Texture Name="gRupeePinkTex" OutName="rupee_pink" Format="rgb5a1" Width="4" Height="4" Offset="0x421C0"/>
-        <Texture Name="gRupeeOrangeTex" OutName="rupee_orange" Format="rgb5a1" Width="4" Height="4" Offset="0x421A0"/>
-        <Texture Name="gRupeeSilverTex" OutName="rupee_silver" Format="rgb5a1" Width="4" Height="4" Offset="0x421E0"/>
+        <Texture Name="gDropKeySmallTex" OutName="drop_key_small" Format="rgba16" Width="32" Height="32" Offset="0x3F140"/>
+        <Texture Name="gDropMagicSmallTex" OutName="drop_magic_small" Format="rgba16" Width="32" Height="32" Offset="0x3F940"/>
+        <Texture Name="gDropDekuNutTex" OutName="drop_deku_nut" Format="rgba16" Width="32" Height="32" Offset="0x40140"/>
+        <Texture Name="gDropDekuSeedsTex" OutName="drop_deku_seeds" Format="rgba16" Width="32" Height="32" Offset="0x40940"/>
+        <Texture Name="gDropDekuStickTex" OutName="drop_deku_stick" Format="rgba16" Width="32" Height="32" Offset="0x41140"/>
+        <Texture Name="gDropMagicLargeTex" OutName="drop_magic_large" Format="rgba16" Width="32" Height="32" Offset="0x41940"/>
+        <Texture Name="gRupeeGreenTex" OutName="rupee_green" Format="rgba16" Width="4" Height="4" Offset="0x42140"/>
+        <Texture Name="gRupeeBlueTex" OutName="rupee_blue" Format="rgba16" Width="4" Height="4" Offset="0x42160"/>
+        <Texture Name="gRupeeRedTex" OutName="rupee_red" Format="rgba16" Width="4" Height="4" Offset="0x42180"/>
+        <Texture Name="gRupeePinkTex" OutName="rupee_pink" Format="rgba16" Width="4" Height="4" Offset="0x421C0"/>
+        <Texture Name="gRupeeOrangeTex" OutName="rupee_orange" Format="rgba16" Width="4" Height="4" Offset="0x421A0"/>
+        <Texture Name="gRupeeSilverTex" OutName="rupee_silver" Format="rgba16" Width="4" Height="4" Offset="0x421E0"/>
         <DList Name="gRupeeDL" Offset="0x42440"/>
-        <Texture Name="gRupeeLightRedTex" OutName="rupee_light_red" Format="rgb5a1" Width="4" Height="4" Offset="0x42510"/>
-        <Texture Name="gUnknownStone1Tex" OutName="unknown_stone_1" Format="rgb5a1" Width="32" Height="32" Offset="0x42530"/>
-        <Texture Name="gUnknownStone2Tex" OutName="unknown_stone_2" Format="rgb5a1" Width="32" Height="32" Offset="0x42D30"/>
-        <Texture Name="gUnusedTreeStumpTopTex" OutName="unused_tree_stump_top" Format="rgb5a1" Width="32" Height="32" Offset="0x43530"/>
-        <Texture Name="gUnusedTreeStumpBarkTex" OutName="unused_tree_stump_bark" Format="rgb5a1" Width="32" Height="32" Offset="0x43D30"/>
-        <Texture Name="gUnusedGrassBladesTex" OutName="unused_grass_blades" Format="rgb5a1" Width="64" Height="32" Offset="0x44530"/>
-        <Texture Name="gUnusedStoneHookshotTargetTex" OutName="unused_stone_hookshot_target" Format="rgb5a1" Width="32" Height="32" Offset="0x45530"/>
-        <Texture Name="gUnknownStone3Tex" OutName="unknown_stone_3" Format="rgb5a1" Width="32" Height="32" Offset="0x45D30"/>
-        <Texture Name="gSignRectangularSideTex" OutName="sign_rectangular_side" Format="rgb5a1" Width="32" Height="16" Offset="0x46530"/>
-        <Texture Name="gSignRectangularFrontTex" OutName="sign_rectangular_front" Format="rgb5a1" Width="32" Height="16" Offset="0x46930"/>
-        <Texture Name="gSignPostWoodTex" OutName="sign_post_wood" Format="rgb5a1" Width="64" Height="8" Offset="0x46D30"/>
-        <Texture Name="gSignLetteringTex" OutName="sign_lettering" Format="rgb5a1" Width="64" Height="32" Offset="0x47130"/>
+        <Texture Name="gRupeeLightRedTex" OutName="rupee_light_red" Format="rgba16" Width="4" Height="4" Offset="0x42510"/>
+        <Texture Name="gUnknownStone1Tex" OutName="unknown_stone_1" Format="rgba16" Width="32" Height="32" Offset="0x42530"/>
+        <Texture Name="gUnknownStone2Tex" OutName="unknown_stone_2" Format="rgba16" Width="32" Height="32" Offset="0x42D30"/>
+        <Texture Name="gUnusedTreeStumpTopTex" OutName="unused_tree_stump_top" Format="rgba16" Width="32" Height="32" Offset="0x43530"/>
+        <Texture Name="gUnusedTreeStumpBarkTex" OutName="unused_tree_stump_bark" Format="rgba16" Width="32" Height="32" Offset="0x43D30"/>
+        <Texture Name="gUnusedGrassBladesTex" OutName="unused_grass_blades" Format="rgba16" Width="64" Height="32" Offset="0x44530"/>
+        <Texture Name="gUnusedStoneHookshotTargetTex" OutName="unused_stone_hookshot_target" Format="rgba16" Width="32" Height="32" Offset="0x45530"/>
+        <Texture Name="gUnknownStone3Tex" OutName="unknown_stone_3" Format="rgba16" Width="32" Height="32" Offset="0x45D30"/>
+        <Texture Name="gSignRectangularSideTex" OutName="sign_rectangular_side" Format="rgba16" Width="32" Height="16" Offset="0x46530"/>
+        <Texture Name="gSignRectangularFrontTex" OutName="sign_rectangular_front" Format="rgba16" Width="32" Height="16" Offset="0x46930"/>
+        <Texture Name="gSignPostWoodTex" OutName="sign_post_wood" Format="rgba16" Width="64" Height="8" Offset="0x46D30"/>
+        <Texture Name="gSignLetteringTex" OutName="sign_lettering" Format="rgba16" Width="64" Height="32" Offset="0x47130"/>
         <DList Name="gRaindropDL" Offset="0x48160"/>
         <DList Name="gFootShadowDL" Offset="0x48180"/>
         <Texture Name="gFootShadowTex" OutName="footprint_shadow" Format="ia16" Width="32" Height="64" Offset="0x48210"/>
@@ -916,7 +916,7 @@
         <DList Name="gDungeonDoorDL" Offset="0x49FE0"/>
         <Texture Name="gDoorMetalBarsTex" OutName="door_metal_bars" Format="ia8" Width="32" Height="128" Offset="0x4A090"/>
         <DList Name="gDoorMetalBarsDL" Offset="0x4B0D0"/>
-        <Texture Name="gGenericDungeonDoorTex" OutName="generic_dungeon_door" Format="rgb5a1" Width="32" Height="64" Offset="0x4B160"/>
+        <Texture Name="gGenericDungeonDoorTex" OutName="generic_dungeon_door" Format="rgba16" Width="32" Height="64" Offset="0x4B160"/>
         <Texture Name="gSun1Tex" OutName="sun_1" Format="i4" Width="64" Height="31" Offset="0x4C160"/>
         <Texture Name="gSun2Tex" OutName="sun_2" Format="i4" Width="64" Height="16" Offset="0x4C540"/>
         <Texture Name="gSun3Tex" OutName="sun_3" Format="i4" Width="64" Height="16" Offset="0x4C740"/>

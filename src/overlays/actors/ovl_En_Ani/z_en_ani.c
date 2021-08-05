@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ani.h"
+#include "objects/object_ani/object_ani.h"
 
 #define FLAGS 0x00000009
 
@@ -26,11 +27,6 @@ void func_809B0988(EnAni* this, GlobalContext* globalCtx);
 void func_809B0994(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx);
-
-extern FlexSkeletonHeader D_060000F0;
-extern AnimationHeader D_060067B8;
-extern AnimationHeader D_060070F0;
-extern AnimationHeader D_060076EC;
 
 const ActorInit En_Ani_InitVars = {
     ACTOR_EN_ANI,
@@ -79,8 +75,9 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->jointTable, this->morphTable, 0x10);
-    Animation_PlayOnce(&this->skelAnime, &D_060076EC);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRoofManSkel, &gRoofManIdleAnim, this->jointTable,
+                       this->morphTable, 0x10);
+    Animation_PlayOnce(&this->skelAnime, &gRoofManIdleAnim);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -214,8 +211,8 @@ void func_809B0988(EnAni* this, GlobalContext* globalCtx) {
 
 void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.npcActions[0]->action == 4) {
-        Animation_Change(&this->skelAnime, &D_060070F0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060070F0), ANIMMODE_ONCE,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &gRoofManGettingUpAfterKnockbackAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gRoofManGettingUpAfterKnockbackAnim), ANIMMODE_ONCE, -4.0f);
         this->unk_2AA++;
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     }
@@ -232,8 +229,8 @@ void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
         this->skelAnime.curFrame = 0.0f;
     }
     if (globalCtx->csCtx.npcActions[0]->action == 2) {
-        Animation_Change(&this->skelAnime, &D_060067B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060067B8), ANIMMODE_ONCE,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gRoofManKnockbackAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gRoofManKnockbackAnim), ANIMMODE_ONCE, 0.0f);
         this->actor.shape.shadowDraw = NULL;
         this->unk_2AA++;
     }
@@ -317,9 +314,9 @@ void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 static u64* sEyeTextures[] = {
-    0x06000408,
-    0x06001518,
-    0x06001D18,
+    gRoofManEyeOpenTex,
+    gRoofManEyeHalfTex,
+    gRoofManEyeClosedTex,
 };
 
 void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {

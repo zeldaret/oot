@@ -1,4 +1,5 @@
 #include "z_en_eiyer.h"
+#include "objects/object_ei/object_ei.h"
 
 #define FLAGS 0x00000005
 
@@ -35,13 +36,6 @@ void EnEiyer_Hurt(EnEiyer* this, GlobalContext* globalCtx);
 void EnEiyer_Die(EnEiyer* this, GlobalContext* globalCtx);
 void EnEiyer_Dead(EnEiyer* this, GlobalContext* globalCtx);
 void EnEiyer_Stunned(EnEiyer* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06000288;
-extern AnimationHeader D_060004C4;
-extern AnimationHeader D_06000704;
-extern AnimationHeader D_06000FC0;
-extern AnimationHeader D_060012AC;
-extern SkeletonHeader D_06003410;
 
 const ActorInit En_Eiyer_InitVars = {
     ACTOR_EN_EIYER,
@@ -129,7 +123,8 @@ void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 600.0f, ActorShadow_DrawCircle, 65.0f);
-    SkelAnime_Init(globalCtx, &this->skelanime, &D_06003410, &D_060012AC, this->jointTable, this->morphTable, 19);
+    SkelAnime_Init(globalCtx, &this->skelanime, &gStingerSkel, &gStingerIdleAnim, this->jointTable, this->morphTable,
+                   19);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColCylInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -187,7 +182,7 @@ void EnEiyer_RotateAroundHome(EnEiyer* this) {
 
 void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
     this->collider.info.bumper.dmgFlags = 0x19;
-    Animation_PlayLoop(&this->skelanime, &D_060012AC);
+    Animation_PlayLoop(&this->skelanime, &gStingerIdleAnim);
 
     this->actor.world.pos.x = this->actor.home.pos.x;
     this->actor.world.pos.y = this->actor.home.pos.y - 40.0f;
@@ -235,7 +230,7 @@ void EnEiyer_SetupInactive(EnEiyer* this) {
 
 void EnEiyer_SetupAmbush(EnEiyer* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
-    Animation_PlayOnce(&this->skelanime, &D_06000704);
+    Animation_PlayOnce(&this->skelanime, &gStingerBackflipAnim);
     this->collider.info.bumper.dmgFlags = ~0x00300000;
     this->basePos = this->actor.world.pos;
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -251,7 +246,7 @@ void EnEiyer_SetupAmbush(EnEiyer* this, GlobalContext* globalCtx) {
 void EnEiyer_SetupGlide(EnEiyer* this) {
     this->targetYaw = this->actor.shape.rot.y;
     this->basePos.y = (cosf(-M_PI / 8) * 5.0f) + this->actor.world.pos.y;
-    Animation_MorphToLoop(&this->skelanime, &D_06000FC0, -5.0f);
+    Animation_MorphToLoop(&this->skelanime, &gStingerHitAnim, -5.0f);
     this->timer = 60;
     this->actionFunc = EnEiyer_Glide;
 }
@@ -271,7 +266,7 @@ void EnEiyer_SetupDiveAttack(EnEiyer* this, GlobalContext* globalCtx) {
 }
 
 void EnEiyer_SetupLand(EnEiyer* this) {
-    Animation_MorphToPlayOnce(&this->skelanime, &D_060004C4, -3.0f);
+    Animation_MorphToPlayOnce(&this->skelanime, &gStingerDiveAnim, -3.0f);
     this->collider.base.atFlags &= ~AT_ON;
     this->actor.flags |= 0x10;
 
@@ -284,7 +279,7 @@ void EnEiyer_SetupLand(EnEiyer* this) {
 
 void EnEiyer_SetupHurt(EnEiyer* this) {
     this->basePos.y = this->actor.world.pos.y;
-    Animation_Change(&this->skelanime, &D_06000FC0, 2.0f, 0.0f, 0.0f, 0, -3.0f);
+    Animation_Change(&this->skelanime, &gStingerHitAnim, 2.0f, 0.0f, 0.0f, 0, -3.0f);
     this->timer = 40;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -300,7 +295,7 @@ void EnEiyer_SetupDie(EnEiyer* this) {
 
     if (this->collider.info.bumper.dmgFlags != 0x19) {
         this->actor.speedXZ = 6.0f;
-        Animation_MorphToLoop(&this->skelanime, &D_06000FC0, -3.0f);
+        Animation_MorphToLoop(&this->skelanime, &gStingerHitAnim, -3.0f);
     } else {
         this->actor.speedXZ -= 6.0f;
     }
@@ -319,7 +314,7 @@ void EnEiyer_SetupDead(EnEiyer* this) {
 }
 
 void EnEiyer_SetupStunned(EnEiyer* this) {
-    Animation_Change(&this->skelanime, &D_06000288, 2.0f, 0.0f, 0.0f, 0, -8.0f);
+    Animation_Change(&this->skelanime, &gStingerPopOutAnim, 2.0f, 0.0f, 0.0f, 0, -8.0f);
     this->timer = 80;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;

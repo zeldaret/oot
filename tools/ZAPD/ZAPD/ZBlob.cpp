@@ -45,7 +45,8 @@ void ZBlob::ParseXML(tinyxml2::XMLElement* reader)
 
 void ZBlob::ParseRawData()
 {
-	blobData.assign(rawData.data() + rawDataIndex, rawData.data() + rawDataIndex + blobSize);
+	blobData.assign(parent->GetRawData().begin() + rawDataIndex,
+	                parent->GetRawData().begin() + rawDataIndex + blobSize);
 }
 
 std::string ZBlob::GetSourceOutputCode(const std::string& prefix)

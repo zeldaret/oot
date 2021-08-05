@@ -13,9 +13,9 @@
         <DList Name="gBirdBodyWrapper1DL" Offset="0x3D0"/>
         <DList Name="gBirdBodyWrapper2DL" Offset="0x3E0"/>
 
-        <Texture Name="gBirdFaceTex" OutName="face" Format="rgb5a1" Width="32" Height="32" Offset="0x500"/>
-        <Texture Name="gBirdTailTex" OutName="tail" Format="rgb5a1" Width="16" Height="32" Offset="0xD00"/>
-        <Texture Name="gBirdWingTex" OutName="wing" Format="rgb5a1" Width="64" Height="32" Offset="0x1100"/>
+        <Texture Name="gBirdFaceTex" OutName="face" Format="rgba16" Width="32" Height="32" Offset="0x500"/>
+        <Texture Name="gBirdTailTex" OutName="tail" Format="rgba16" Width="16" Height="32" Offset="0xD00"/>
+        <Texture Name="gBirdWingTex" OutName="wing" Format="rgba16" Width="64" Height="32" Offset="0x1100"/>
         <Limb Name="gBirdLimb_002100" LimbType="Standard" Offset="0x2100"/>
         <Limb Name="gBirdLimb_00210C" LimbType="Standard" Offset="0x210C"/>
         <Limb Name="gBirdLimb_002118" LimbType="Standard" Offset="0x2118"/>
