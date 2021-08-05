@@ -5996,7 +5996,9 @@ endseg
 beginseg
     name "object_bwall"
     romalign 0x1000
-    include "build/assets/objects/object_bwall/object_bwall.o"
+    include "build/assets/objects/object_bwall/object_bwall_0.o"
+    include "build/assets/objects/object_bwall/object_bwall_D0.o"
+    include "build/assets/objects/object_bwall/object_bwall_150.o"
     number 6
 endseg
 

@@ -1,7 +1,14 @@
 <Root>
-    <File Name="object_bwall" Segment="6">
+    <File Name="object_bwall" OutName="object_bwall_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0xD0" Segment="6">
+        <!-- TODO: Remove this when headers are unified -->
+        <Symbol Name="object_bwallTex_000150" Type="u64" TypeSize="8" Count="" />
+
         <DList Name="object_bwall_DL_000040" Offset="0x40"/>
+    </File>
+    <File Name="object_bwall" OutName="object_bwall_D0" BaseAddress="0x060000D0" RangeStart="0xD0" RangeEnd="0x150" Segment="6">
         <Blob Name="object_bwall_Blob_0000D0" Size="0x80" Offset="0xD0"/>
-        <Texture Name="object_bwall_Tex_000150" OutName="tex_00000150" Format="rgba16" Width="32" Height="64" Offset="0x150"/>
+    </File>
+    <File Name="object_bwall" OutName="object_bwall_150" BaseAddress="0x06000150" RangeStart="0x150" Segment="6">
+        <Texture Name="object_bwallTex_000150" OutName="tex_00000150" Format="rgba16" Width="32" Height="64" Offset="0x150"/>
     </File>
 </Root>
