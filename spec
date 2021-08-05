@@ -3449,7 +3449,7 @@ endseg
 beginseg
     name "object_link_boy"
     romalign 0x1000
-    include "build/assets/objects/object_link_boy/object_link_boy.o"
+    include "build/baserom/object_link_boy.o"
     number 6
 endseg
 
@@ -4275,7 +4275,7 @@ endseg
 beginseg
     name "object_bv"
     romalign 0x1000
-    include "build/assets/objects/object_bv/object_bv.o"
+    include "build/baserom/object_bv.o"
     number 6
 endseg
 
@@ -4555,7 +4555,7 @@ endseg
 beginseg
     name "object_mo"
     romalign 0x1000
-    include "build/assets/objects/object_mo/object_mo.o"
+    include "build/baserom/object_mo.o"
     number 6
 endseg
 
