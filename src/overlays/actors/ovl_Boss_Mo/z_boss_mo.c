@@ -374,7 +374,7 @@ void BossMo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BossMo* this = THIS;
 
-    if (this->actor.params >= 100) {
+    if (this->actor.params >= BOSSMO_TENTACLE) {
         Collider_DestroyJntSph(globalCtx, &this->tentCollider);
     } else {
         Collider_DestroyCylinder(globalCtx, &this->coreCollider);
@@ -1113,13 +1113,12 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
 
 void BossMo_TentCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
     s16 i1;
-    s16 i2;
-    ColliderInfo* hurtbox;
-    Vec3f pos;
-    Vec3f velocity;
 
     for (i1 = 0; i1 < ARRAY_COUNT(this->tentElements); i1++) {
         if (this->tentCollider.elements[i1].info.bumperFlags & BUMP_HIT) {
+            s16 i2;
+            ColliderInfo* hurtbox;
+
             for (i2 = 0; i2 < 19; i2++) {
                 this->tentCollider.elements[i2].info.bumperFlags &= ~BUMP_HIT;
                 this->tentCollider.elements[i2].info.toucherFlags &= ~TOUCH_HIT;
@@ -1138,6 +1137,9 @@ void BossMo_TentCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
             }
             this->tentRippleSize = 0.2f;
             for (i2 = 0; i2 < 10; i2++) {
+                Vec3f pos;
+                Vec3f velocity;
+
                 velocity.x = Rand_CenteredFloat(8.0f);
                 velocity.y = Rand_ZeroFloat(7.0f) + 4.0f;
                 velocity.z = Rand_CenteredFloat(8.0f);
