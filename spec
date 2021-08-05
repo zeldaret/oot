@@ -5274,7 +5274,11 @@ endseg
 beginseg
     name "object_blkobj"
     romalign 0x1000
-    include "build/assets/objects/object_blkobj/object_blkobj.o"
+    include "build/assets/objects/object_blkobj/object_blkobj_0.o"
+    include "build/assets/objects/object_blkobj/object_blkobj_1F30.o"
+    include "build/assets/objects/object_blkobj/object_blkobj_6C70.o"
+    include "build/assets/objects/object_blkobj/object_blkobj_7590.o"
+    include "build/assets/objects/object_blkobj/object_blkobj_8090.o"
     number 6
 endseg
 

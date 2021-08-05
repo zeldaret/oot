@@ -1,15 +1,115 @@
 <Root>
-    <File Name="object_blkobj" Segment="6">
-        <!-- Illusion Room Collision -->
-        <Collision Name="gIllusionRoomCol" Offset="0x7564"/>
-
+    <File Name="object_blkobj" OutName="object_blkobj_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0x1F30" Segment="6">\
+        <!-- TODO: Remove this when headers are unified -->
+        <Symbol Name="object_blkobjTex_00A090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00F890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00E890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00E090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00D090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_011090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00B890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_009090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_008090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_012090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_009890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00D890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_011890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_010090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00B090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00C890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00C090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_012890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_008890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_013090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_010890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00A890" Type="u64" TypeSize="8" Count="" />
+        
         <!-- Illusion Room DLists -->
         <DList Name="gIllusionRoomNormalDL" Offset="0x14E0"/>
+    </File>
+    <File Name="object_blkobj" OutName="object_blkobj_1F30" BaseAddress="0x06001F30" RangeStart="0x1F30" RangeEnd="0x6C70" Segment="6">
+        <!-- TODO: Remove this when headers are unified -->
+        <Symbol Name="object_blkobjTex_00A090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00F890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00E890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00E090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00D090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_011090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00B890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_009090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_008090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_012090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_009890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00D890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_011890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_010090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00B090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00C890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00C090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_012890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_008890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_013090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_010890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00A890" Type="u64" TypeSize="8" Count="" />
+        
+        <!-- Illusion Room DLists -->
         <DList Name="gIllusionRoomIllusionDL" Offset="0x53D0"/>
+    </File>
+    <File Name="object_blkobj" OutName="object_blkobj_6C70" BaseAddress="0x06006C70" RangeStart="0x6C70" RangeEnd="0x7590" Segment="6">
+        <!-- Illusion Room Collision -->
+        <Collision Name="gIllusionRoomCol" Offset="0x7564"/>
+    </File>
+    <File Name="object_blkobj" OutName="object_blkobj_7590" BaseAddress="0x06007590" RangeStart="0x7590" RangeEnd="0x8090" Segment="6">
+        <!-- TODO: Remove this when headers are unified -->
+        <Symbol Name="object_blkobjTex_00A090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00F890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00E890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00E090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00D090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_011090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00B890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_009090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_008090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_012090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_009890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00D890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_011890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_010090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00B090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00C890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00C090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_012890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_008890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_013090" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_010890" Type="u64" TypeSize="8" Count="" />
+        <Symbol Name="object_blkobjTex_00A890" Type="u64" TypeSize="8" Count="" />
         
         <!-- Unused Content -->
-
         <!-- Illusion room DLists -->
         <DList Name="gIllusionRoomTreeDL" Offset="0x7EB0"/>
+    </File>
+    <File Name="object_blkobj" OutName="object_blkobj_8090" BaseAddress="0x06008090" RangeStart="0x8090" Segment="6">
+        <Texture Name="object_blkobjTex_00A090" Format="ia16" Width="32" Height="32" Offset="0xA090"/>
+        <Texture Name="object_blkobjTex_00F890" Format="rgba16" Width="32" Height="32" Offset="0xF890"/>
+        <Texture Name="object_blkobjTex_00E890" Format="rgba16" Width="32" Height="64" Offset="0xE890"/>
+        <Texture Name="object_blkobjTex_00E090" Format="rgba16" Width="32" Height="32" Offset="0xE090"/>
+        <Texture Name="object_blkobjTex_00D090" Format="rgba16" Width="32" Height="32" Offset="0xD090"/>
+        <Texture Name="object_blkobjTex_011090" Format="rgba16" Width="32" Height="32" Offset="0x11090"/>
+        <Texture Name="object_blkobjTex_00B890" Format="rgba16" Width="32" Height="32" Offset="0xB890"/>
+        <Texture Name="object_blkobjTex_009090" Format="rgba16" Width="32" Height="32" Offset="0x9090"/>
+        <Texture Name="object_blkobjTex_008090" Format="rgba16" Width="32" Height="32" Offset="0x8090"/>
+        <Texture Name="object_blkobjTex_012090" Format="rgba16" Width="32" Height="32" Offset="0x012090"/>
+        <Texture Name="object_blkobjTex_009890" Format="rgba16" Width="32" Height="32" Offset="0x9890"/>
+        <Texture Name="object_blkobjTex_00D890" Format="rgba16" Width="32" Height="32" Offset="0xD890"/>
+        <Texture Name="object_blkobjTex_011890" Format="rgba16" Width="32" Height="32" Offset="0x11890"/>
+        <Texture Name="object_blkobjTex_010090" Format="rgba16" Width="32" Height="32" Offset="0x10090"/>
+        <Texture Name="object_blkobjTex_00B090" Format="rgba16" Width="32" Height="32" Offset="0xB090"/>
+        <Texture Name="object_blkobjTex_00C890" Format="rgba16" Width="32" Height="32" Offset="0xC890"/>
+        <Texture Name="object_blkobjTex_00C090" Format="rgba16" Width="32" Height="32" Offset="0xC090"/>
+        <Texture Name="object_blkobjTex_012890" Format="rgba16" Width="32" Height="32" Offset="0x12890"/>
+        <Texture Name="object_blkobjTex_008890" Format="rgba16" Width="32" Height="32" Offset="0x8890"/>
+        <Texture Name="object_blkobjTex_013090" Format="rgba16" Width="32" Height="32" Offset="0x13090"/>
+        <Texture Name="object_blkobjTex_010890" Format="rgba16" Width="32" Height="32" Offset="0x10890"/>
+        <Texture Name="object_blkobjTex_00A890" Format="rgba16" Width="32" Height="32" Offset="0xA890"/>
     </File>
 </Root>
