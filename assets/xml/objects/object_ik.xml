@@ -36,7 +36,7 @@
         <DList Name="object_ik_DL_016F88" Offset="0x16F88" />
         <DList Name="object_ik_DL_017028" Offset="0x17028" />
         <DList Name="object_ik_DL_017170" Offset="0x17170" />
-        <Blob Name="object_ik_zeroes_unk_00017288" Size="0xF0" Offset="0x17288" />
+        <!--Blob Name="object_ik_zeroes_unk_00017288" Size="0xF0" Offset="0x17288" /-->
         <Texture Name="object_ik_Tex_017378" OutName="tex_017378" Format="ci8" Width="16" Height="16" Offset="0x17378" />
         <Texture Name="object_ik_Tex_017478" OutName="tex_017478" Format="ci8" Width="8" Height="8" Offset="0x17478" />
         <Texture Name="object_ik_Tex_0174B8" OutName="tex_0174B8" Format="ci8" Width="16" Height="16" Offset="0x174B8" />
@@ -63,6 +63,6 @@
         <Texture Name="object_ik_Tex_01DBA8" OutName="tex_01DBA8" Format="ia16" Width="16" Height="16" Offset="0x1DBA8" />
         <Texture Name="object_ik_Tex_01DDA8" OutName="tex_01DDA8" Format="ci8" Width="16" Height="16" Offset="0x1DDA8" />
         <Texture Name="object_ik_Tex_01DEA8" OutName="tex_01DEA8" Format="ci8" Width="16" Height="16" Offset="0x1DEA8" />
-        <Blob Name="object_ik_zeroes_unk_0001DFA8" Size="0x2628" Offset="0x1DFA8" />
+        <!--Blob Name="object_ik_zeroes_unk_0001DFA8" Size="0x2628" Offset="0x1DFA8" /-->
     </File>
 </Root>
