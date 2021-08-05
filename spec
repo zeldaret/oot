@@ -283,7 +283,6 @@ beginseg
     after "dmadata"
     include "build/src/code/z_en_a_keep.o"
     include "build/src/code/z_en_item00.o"
-    include "build/data/z_en_item00.bss.o"
     include "build/src/code/z_eff_blure.o"
     include "build/src/code/z_eff_shield_particle.o"
     include "build/src/code/z_eff_spark.o"
@@ -1426,9 +1425,11 @@ endseg
 beginseg
     name "ovl_Boss_Tw"
     include "build/src/overlays/actors/ovl_Boss_Tw/z_boss_tw.o"
-    include "build/data/overlays/actors/z_boss_tw.data.o"
-    include "build/data/overlays/actors/z_boss_tw.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Boss_Tw/ovl_Boss_Tw_reloc.o"
+#else
     include "build/data/overlays/actors/z_boss_tw.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3212,11 +3213,7 @@ endseg
 beginseg
     name "ovl_Obj_Bean"
     include "build/src/overlays/actors/ovl_Obj_Bean/z_obj_bean.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Obj_Bean/ovl_Obj_Bean_reloc.o"
-#else
-    include "build/data/overlays/actors/z_obj_bean.reloc.o"
-#endif
 endseg
 
 beginseg
