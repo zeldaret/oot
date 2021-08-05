@@ -1,12 +1,27 @@
 <Root>
-    <File Name="object_bxa" Segment="6">
+    <File Name="object_bxa" OutName="object_bxa_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0xC40" Segment="6">
+        <!-- TODO: Remove this when headers are unified -->
+        <Symbol Name="object_bxaTex_0026F0" Type="u64" TypeSize="8" Count="" />
+
         <DList Name="object_bxa_DL_000890" Offset="0x890"/>
+    </File>
+    <File Name="object_bxa" OutName="object_bxa_C40" BaseAddress="0x06000C40" RangeStart="0xC40" RangeEnd="0x1E90" Segment="6">
+        <!-- TODO: Remove this when headers are unified -->
+        <Symbol Name="object_bxaTex_0026F0" Type="u64" TypeSize="8" Count="" />
+        
         <Texture Name="object_bxa_Tex_000C40" OutName="tex_00000C40" Format="rgba16" Width="32" Height="32" Offset="0xC40"/>
         <Texture Name="object_bxa_Tex_001440" OutName="tex_00001440" Format="rgba16" Width="32" Height="32" Offset="0x1440"/>
         <DList Name="object_bxa_DL_001D80" Offset="0x1D80"/>
+    </File>
+    <File Name="object_bxa" OutName="object_bxa_1E90" BaseAddress="0x060001E90" RangeStart="0x1E90" RangeEnd="0x24F0" Segment="6">
+        <!-- TODO: Remove this when headers are unified -->
+        <Symbol Name="object_bxaTex_0026F0" Type="u64" TypeSize="8" Count="" />
+        
         <DList Name="object_bxa_DL_0022F0" Offset="0x22F0"/>
+    </File>
+    <File Name="object_bxa" OutName="object_bxa_24F0" BaseAddress="0x060024F0" RangeStart="0x24F0" Segment="6">
         <Blob Name="object_bxa_Blob_0024F0" Size="0x200" Offset="0x24F0"/>
-        <Texture Name="object_bxa_Tex_0026F0" OutName="tex_000026F0" Format="i8" Width="16" Height="16" Offset="0x26F0"/>
+        <Texture Name="object_bxaTex_0026F0" OutName="tex_000026F0" Format="i8" Width="16" Height="16" Offset="0x26F0"/>
         <Blob Name="object_bxa_Blob_0027F0" Size="0x400" Offset="0x27F0"/>
     </File>
 </Root>

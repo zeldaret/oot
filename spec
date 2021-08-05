@@ -4781,7 +4781,10 @@ endseg
 beginseg
     name "object_bxa"
     romalign 0x1000
-    include "build/assets/objects/object_bxa/object_bxa.o"
+    include "build/assets/objects/object_bxa/object_bxa_0.o"
+    include "build/assets/objects/object_bxa/object_bxa_C40.o"
+    include "build/assets/objects/object_bxa/object_bxa_1E90.o"
+    include "build/assets/objects/object_bxa/object_bxa_24F0.o"
     number 6
 endseg
 
