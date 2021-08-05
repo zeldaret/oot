@@ -5515,7 +5515,11 @@ endseg
 beginseg
     name "object_cs"
     romalign 0x1000
-    include "build/assets/objects/object_cs/object_cs.o"
+    include "build/assets/objects/object_cs/object_cs_0.o"
+    include "build/assets/objects/object_cs/object_cs_710.o"
+    include "build/assets/objects/object_cs/object_cs_E20.o"
+    include "build/assets/objects/object_cs/object_cs_15A0.o"
+    include "build/assets/objects/object_cs/object_cs_1970.o"
     number 6
 endseg
 
@@ -6008,7 +6012,8 @@ endseg
 beginseg
     name "object_crow"
     romalign 0x1000
-    include "build/assets/objects/object_crow/object_crow.o"
+    include "build/assets/objects/object_crow/object_crow_0.o"
+    include "build/assets/objects/object_crow/object_crow_100.o"
     number 6
 endseg
 

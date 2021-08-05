@@ -1,5 +1,17 @@
 <Root>
-    <File Name="object_cs" Segment="6">
+    <File Name="object_cs" OutName="object_cs_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0x710" Segment="6">
+        <Animation Name="gGraveyardKidWalkAnim" Offset="0x0700"/>
+    </File>
+    <File Name="object_cs" OutName="object_cs_710" BaseAddress="0x06000710" RangeStart="0x710" RangeEnd="0xE20" Segment="6">
+        <Animation Name="gGraveyardKidSwingStickUpAnim" Offset="0x0E10"/>
+    </File>
+    <File Name="object_cs" OutName="object_cs_E20" BaseAddress="0x06000E20" RangeStart="0xE20" RangeEnd="0x15A0" Segment="6">
+        <Animation Name="gGraveyardKidGrabStickTwoHandsAnim" Offset="0x1588"/>
+    </File>
+    <File Name="object_cs" OutName="object_cs_15A0" BaseAddress="0x060015A0" RangeStart="0x15A0" RangeEnd="0x1970" Segment="6">
+        <Animation Name="gGraveyardKidIdleAnim" Offset="0x195C"/>
+    </File>
+    <File Name="object_cs" OutName="object_cs_1970" BaseAddress="0x06001970" RangeStart="0x1970" Segment="6">
         <Skeleton Name="gGraveyardKidSkel" Type="Flex" LimbType="Standard" Offset="0x8540"/>
         <Limb Name="gGraveyardKidTorsoLimb" LimbType="Standard" Offset="0x8450"/>
         <Limb Name="gGraveyardKidLeftThighLimb" LimbType="Standard" Offset="0x845C"/>
@@ -33,16 +45,9 @@
         <DList Name="gGraveyardKidRightHandDL" Offset="0x70A8"/>
         <DList Name="gGraveyardKidHeadDL" Offset="0x6808"/>
 
-        <Animation Name="gGraveyardKidWalkAnim" Offset="0x0700"/>
-        <Animation Name="gGraveyardKidSwingStickUpAnim" Offset="0x0E10"/>
-        <Animation Name="gGraveyardKidGrabStickTwoHandsAnim" Offset="0x1588"/>
-        <Animation Name="gGraveyardKidIdleAnim" Offset="0x195C"/>
-
-
         <Texture Name="gGraveyardKidEyesOpenTex" OutName="eyes_open" Format="rgba16" Width="64" Height="16" Offset="0x2130"/>
         <Texture Name="gGraveyardKidEyesHalfTex" OutName="eyes_half" Format="rgba16" Width="64" Height="16" Offset="0x2930"/>
         <Texture Name="gGraveyardKidEyesClosedTex" OutName="eyes_closed" Format="rgba16" Width="64" Height="16" Offset="0x3130"/>
-
         <Texture Name="gGraveyardKidTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x1970"/>
         <Texture Name="gGraveyardKidGradientTex" OutName="gradient" Format="ci8" Width="8" Height="8" Offset="0x1B70"/>
         <Texture Name='gGraveyardKidPantsTex' OutName="pants" Format="ci8" Width="16" Height="16" Offset="0x3C70"/>
@@ -56,5 +61,5 @@
         <Texture Name='gGraveyardKidShirt2Tex' OutName="shirt2" Format="ci8" Width="8" Height="8" Offset="0x3B30"/>
         <Texture Name='gGraveyardKidFingersTex' OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0x3930"/>
         <Texture Name='gGraveyardKidStickTex' OutName="stick" Format="ci8" Width="8" Height="8" Offset="0x3B70"/>
-   </File>
+    </File>
 </Root>
