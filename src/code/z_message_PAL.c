@@ -1159,33 +1159,29 @@ void Message_LoadItemIcon(GlobalContext* globalCtx, u16 itemId, s16 arg2) {
 }
 
 // Message_Decode
-#ifdef NON_MATCHING
-// regalloc at the end, stack, saved register s2 not used in one place (likely unintuitive variable reuse)
 void func_80109B3C(GlobalContext* globalCtx) {
     u8 temp_s2;
     u8 phi_s1;
-    u8 temp_var;
-    s32 phi_s1_2;
-    s16 new_var;
     u16 phi_s0_3;
-    s16 phi_s3;
-    s16 sp86 = 0;
-    f32 temp_f0_2;
-    s16 sp7C[4]; // digits
-    MessageContext* msgCtx = &globalCtx->msgCtx;
-    Font* font = &globalCtx->msgCtx.font;
+    s32 phi_s1_2;
     s32 phi_s5 = 0;
     s16 phi_s4;
     s16 phi_s6 = 0;
+    s16 sp86 = 0;
+    s16 phi_s3;
+    s16 sp7C[4];
+    f32 temp_f0_2;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
+    Font* font = &globalCtx->msgCtx.font;
 
     globalCtx->msgCtx.unk_E3E8 = 0;
     globalCtx->msgCtx.unk_E3D6 = globalCtx->msgCtx.unk_E3EA = globalCtx->msgCtx.unk_E3E8 = 0;
     D_8014B2F0 = 0;
 
     while (true) {
-        temp_s2 = msgCtx->unk_E306[phi_s6] = font->msgBuf[msgCtx->unk_E3CE];
-        if (1) {}
-        phi_s1 = temp_s2;
+        phi_s1 = temp_s2 = msgCtx->unk_E306[phi_s6] = font->msgBuf[msgCtx->unk_E3CE];
+        // if (1) {}
+        // phi_s1 = temp_s2;
 
         if (temp_s2 == 4 || temp_s2 == 7 || temp_s2 == 0xC || temp_s2 == 0xB || temp_s2 == 0x2) {
             msgCtx->msgMode = MSGMODE_UNK_06;
@@ -1204,14 +1200,14 @@ void func_80109B3C(GlobalContext* globalCtx) {
             if (phi_s1 == 7) {
                 osSyncPrintf("NZ_NEXTMSG=%x, %x, %x\n", font->msgBuf[msgCtx->unk_E3CE],
                              font->msgBuf[msgCtx->unk_E3CE + 1], font->msgBuf[msgCtx->unk_E3CE + 2]);
-                phi_s1 = font->msgBuf[msgCtx->unk_E3CE + 1];
-                msgCtx->unk_E306[++phi_s6] = phi_s1;
+                temp_s2 = msgCtx->unk_E306[++phi_s6] = font->msgBuf[msgCtx->unk_E3CE + 1];
+                //  temp_s2;
                 msgCtx->unk_E306[++phi_s6] = font->msgBuf[msgCtx->unk_E3CE + 2];
-                phi_s0_3 = phi_s1 << 8;
-                if (1) {}
+                phi_s0_3 = temp_s2 << 8;
+                // if (1) {}
                 D_8014B304 = msgCtx->unk_E306[phi_s6] | phi_s0_3;
             }
-            if (phi_s1) {}
+            // if (phi_s1) {}
             if (phi_s1 == 0xC) {
                 msgCtx->unk_E306[++phi_s6] = font->msgBuf[msgCtx->unk_E3CE + 1];
                 msgCtx->unk_E3CE += 2;
@@ -1463,7 +1459,7 @@ void func_80109B3C(GlobalContext* globalCtx) {
         } else if (temp_s2 == 0x1F) {
             osSyncPrintf("\nゼルダ時間 ＝ ");
             sp7C[0] = 0;
-            temp_f0_2 = gSaveContext.dayTime * 0.021972656f;
+            temp_f0_2 = gSaveContext.dayTime * (24.0f * 60.0f / 0x10000);
 
             sp7C[1] = temp_f0_2 / 60.0f;
             while (sp7C[1] >= 10) {
@@ -1526,7 +1522,7 @@ void func_80109B3C(GlobalContext* globalCtx) {
                 msgCtx->unk_E306[++phi_s6] = font->msgBuf[++msgCtx->unk_E3CE];
                 msgCtx->unk_E306[++phi_s6] = font->msgBuf[++msgCtx->unk_E3CE];
             } else if (temp_s2 == 6 || temp_s2 == 0x14) {
-                msgCtx->unk_E306[++phi_s6] = font->msgBuf[++msgCtx->unk_E3CE];
+                msgCtx->unk_E306[++phi_s6] = font->msgBuf[++msgCtx->unk_E3CE] & 0xFF;
             } else if (temp_s2 == 0x12) {
                 msgCtx->unk_E306[++phi_s6] = font->msgBuf[++msgCtx->unk_E3CE];
                 msgCtx->unk_E306[++phi_s6] = font->msgBuf[++msgCtx->unk_E3CE];
@@ -1543,10 +1539,6 @@ void func_80109B3C(GlobalContext* globalCtx) {
         msgCtx->unk_E3CE++;
     }
 }
-#else
-void func_80109B3C(GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80109B3C.s")
-#endif
 
 void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
     static s16 messageStaticIndices[] = {
