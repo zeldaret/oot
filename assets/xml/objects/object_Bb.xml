@@ -1,8 +1,14 @@
 <Root>
-    <File Name="object_Bb" Segment="6">
+    <File Name="object_Bb" OutName="object_Bb_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0x1A0" Segment="6">
         <Animation Name="object_Bb_Anim_000184" Offset="0x184"/>
+    </File>
+    <File Name="object_Bb" OutName="object_Bb_1A0" BaseAddress="0x060001A0" RangeStart="0x1A0" RangeEnd="0x2C0" Segment="6">
         <Animation Name="object_Bb_Anim_0002AC" Offset="0x2AC"/>
+    </File>
+    <File Name="object_Bb" OutName="object_Bb_2C0" BaseAddress="0x060002C0" RangeStart="0x2C0" RangeEnd="0x460" Segment="6">
         <Animation Name="object_Bb_Anim_000444" Offset="0x444"/>
+    </File>
+    <File Name="object_Bb" OutName="object_Bb_460" BaseAddress="0x06000460" RangeStart="0x460" Segment="6">
         <DList Name="object_Bb_DL_000C20" Offset="0xC20"/>
         <DList Name="object_Bb_DL_000CB0" Offset="0xCB0"/>
         <DList Name="object_Bb_DL_000D40" Offset="0xD40"/>
