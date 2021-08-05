@@ -9,34 +9,34 @@
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgIngoGate*)thisx)
+#define THIS ((BgInGate*)thisx)
 
-void BgIngoGate_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgIngoGate_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgIngoGate_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgIngoGate_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgInGate_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgInGate_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgInGate_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80892890(BgIngoGate* this, GlobalContext* globalCtx);
-void BgIngoGate_DoNothing(BgIngoGate* this, GlobalContext* globalCtx);
+void func_80892890(BgInGate* this, GlobalContext* globalCtx);
+void BgInGate_DoNothing(BgInGate* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
     ACTORCAT_PROP,
     FLAGS,
     OBJECT_INGATE,
-    sizeof(BgIngoGate),
-    (ActorFunc)BgIngoGate_Init,
-    (ActorFunc)BgIngoGate_Destroy,
-    (ActorFunc)BgIngoGate_Update,
-    (ActorFunc)BgIngoGate_Draw,
+    sizeof(BgInGate),
+    (ActorFunc)BgInGate_Init,
+    (ActorFunc)BgInGate_Destroy,
+    (ActorFunc)BgInGate_Update,
+    (ActorFunc)BgInGate_Draw,
 };
 
-void BgIngoGate_SetupAction(BgIngoGate* this, BgIngoGateActionFunc actionFunc) {
+void BgInGate_SetupAction(BgInGate* this, BgInGateActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgIngoGate_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgIngoGate* this = THIS;
+void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgInGate* this = THIS;
 
     s32 pad;
     CollisionHeader* colHeader = NULL;
@@ -55,19 +55,19 @@ void BgIngoGate_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->dyna.actor, 0.1f);
     if (((this->dyna.actor.params & 1) != 0) && ((gSaveContext.eventInf[0] & 0xF) == 6)) {
         globalCtx->csCtx.frames = 0;
-        BgIngoGate_SetupAction(this, func_80892890);
+        BgInGate_SetupAction(this, func_80892890);
     } else {
-        BgIngoGate_SetupAction(this, BgIngoGate_DoNothing);
+        BgInGate_SetupAction(this, BgInGate_DoNothing);
     }
 }
 
-void BgIngoGate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgIngoGate* this = THIS;
+void BgInGate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgInGate* this = THIS;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_80892890(BgIngoGate* this, GlobalContext* globalCtx) {
+void func_80892890(BgInGate* this, GlobalContext* globalCtx) {
     s32 phi0;
     s16 phi1;
     s16 csFrames;
@@ -78,7 +78,7 @@ void func_80892890(BgIngoGate* this, GlobalContext* globalCtx) {
             phi0 = -0x4000;
         }
         this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi0;
-        BgIngoGate_SetupAction(this, &BgIngoGate_DoNothing);
+        BgInGate_SetupAction(this, &BgInGate_DoNothing);
     } else if (globalCtx->csCtx.frames >= 10) {
         csFrames = globalCtx->csCtx.frames - 10;
         csFrames *= 400;
@@ -95,16 +95,16 @@ void func_80892890(BgIngoGate* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgIngoGate_DoNothing(BgIngoGate* this, GlobalContext* globalCtx) {
+void BgInGate_DoNothing(BgInGate* this, GlobalContext* globalCtx) {
 }
 
-void BgIngoGate_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgIngoGate* this = THIS;
+void BgInGate_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgInGate* this = THIS;
 
     this->actionFunc(this, globalCtx);
 }
 
-void BgIngoGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgInGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_ingate.c", 240);
 
     func_80093D18(globalCtx->state.gfxCtx);

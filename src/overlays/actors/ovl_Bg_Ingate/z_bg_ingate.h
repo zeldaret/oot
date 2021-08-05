@@ -4,14 +4,14 @@
 #include "ultra64.h"
 #include "global.h"
 
-struct BgIngoGate;
+struct BgInGate;
 
-typedef void (*BgIngoGateActionFunc)(struct BgIngoGate*, GlobalContext*);
+typedef void (*BgInGateActionFunc)(struct BgInGate*, GlobalContext*);
 
-typedef struct BgIngoGate {
+typedef struct BgInGate {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ BgIngoGateActionFunc actionFunc;
-} BgIngoGate; // size = 0x0168
+    /* 0x0164 */ BgInGateActionFunc actionFunc;
+} BgInGate; // size = 0x0168
 
 extern const ActorInit Bg_Ingate_InitVars;
 
