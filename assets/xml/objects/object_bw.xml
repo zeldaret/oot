@@ -1,6 +1,8 @@
 <Root>
-    <File Name="object_bw" Segment="6">
+    <File Name="object_bw" OutName="object_bw_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0x240" Segment="6">
         <Animation Name="object_bw_Anim_000228" Offset="0x228"/>
+    </File>
+    <File Name="object_bw" OutName="object_bw_240" BaseAddress="0x06000240" RangeStart="0x240" RangeEnd="0x2100" Segment="6">
         <DList Name="object_bw_DL_0002C0" Offset="0x2C0"/>
         <DList Name="object_bw_DL_0003E8" Offset="0x3E8"/>
         <DList Name="object_bw_DL_000558" Offset="0x558"/>
@@ -23,7 +25,11 @@
         <Limb Name="object_bw_Limb_0020AC" LimbType="Standard" Offset="0x20AC"/>
         <Limb Name="object_bw_Limb_0020B8" LimbType="Standard" Offset="0x20B8"/>
         <Skeleton Name="object_bw_Skel_0020F0" Type="Normal" LimbType="Standard" Offset="0x20F0"/>
+    </File>
+    <File Name="object_bw" OutName="object_bw_2100" BaseAddress="0x06002100" RangeStart="0x2100" RangeEnd="0x21B0" Segment="6">
         <Animation Name="object_bw_Anim_0021A0" Offset="0x21A0"/>
+    </File>
+    <File Name="object_bw" OutName="object_bw_21B0" BaseAddress="0x060021B0" RangeStart="0x21B0" Segment="6">
         <Blob Name="object_bw_Blob_0021B0" Size="0xB0" Offset="0x21B0"/>
     </File>
 </Root>

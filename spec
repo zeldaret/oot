@@ -3648,7 +3648,10 @@ endseg
 beginseg
     name "object_bw"
     romalign 0x1000
-    include "build/assets/objects/object_bw/object_bw.o"
+    include "build/assets/objects/object_bw/object_bw_0.o"
+    include "build/assets/objects/object_bw/object_bw_240.o"
+    include "build/assets/objects/object_bw/object_bw_2100.o"
+    include "build/assets/objects/object_bw/object_bw_21B0.o"
     number 6
 endseg
 
