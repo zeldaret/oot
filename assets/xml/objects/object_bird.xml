@@ -1,6 +1,8 @@
 <Root>
-    <File Name="object_bird" Segment="6">
+    <File Name="object_bird" OutName="object_bird_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0x80" Segment="6">
         <Animation Name="gBirdFlyAnim" Offset="0x6C"/>
+    </File>
+    <File Name="object_bird" OutName="object_bird_80" BaseAddress="0x06000080" RangeStart="0x80" Segment="6">
         <DList Name="gBirdLeftWingDL" Offset="0x80"/>
         <DList Name="gBirdLeftWingWrapper1DL" Offset="0x120"/>
         <DList Name="gBirdLeftWingWrapper2DL" Offset="0x130"/>
@@ -25,6 +27,7 @@
         <Limb Name="gBirdLimb_002148" LimbType="Standard" Offset="0x2148"/>
         <Limb Name="gBirdRightWingLimb" LimbType="Standard" Offset="0x2154"/>
         <Limb Name="gBirdBodyLimb" LimbType="Standard" Offset="0x2160"/>
+
         <Skeleton Name="gBirdSkel" Type="Normal" LimbType="Standard" Offset="0x2190"/>
     </File>
 </Root>

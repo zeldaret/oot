@@ -3610,7 +3610,10 @@ endseg
 beginseg
     name "object_bl"
     romalign 0x1000
-    include "build/assets/objects/object_bl/object_bl.o"
+    include "build/assets/objects/object_bl/object_bl_0.o"
+    include "build/assets/objects/object_bl/object_bl_40.o"
+    include "build/assets/objects/object_bl/object_bl_80.o"
+    include "build/assets/objects/object_bl/object_bl_C0.o"
     number 6
 endseg
 
@@ -4187,7 +4190,8 @@ endseg
 beginseg
     name "object_bird"
     romalign 0x1000
-    include "build/assets/objects/object_bird/object_bird.o"
+    include "build/assets/objects/object_bird/object_bird_0.o"
+    include "build/assets/objects/object_bird/object_bird_80.o"
     number 6
 endseg
 

@@ -1,10 +1,17 @@
 <Root>
-    <File Name="object_bl" Segment="6">
+    <File Name="object_bl" OutName="object_bl_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0x40" Segment="6">
         <!-- Biri Animations -->
         <Animation Name="gBiriDischargeLightningAnim" Offset="0x24"/>
+    </File>
+    <File Name="object_bl" OutName="object_bl_40" BaseAddress="0x06000040" RangeStart="0x40" RangeEnd="0x80" Segment="6">
+        <!-- Biri Animations -->
         <Animation Name="gBiriClimbAnim" Offset="0x64"/>
-        <Animation Name="gBiriDefaultAnim" Offset="0xA4"/><!-- Used in various states, not just as an idle -->
-
+    </File>
+    <File Name="object_bl" OutName="object_bl_80" BaseAddress="0x06000080" RangeStart="0x80" RangeEnd="0xC0" Segment="6">
+        <!-- Biri Animations -->
+        <Animation Name="gBiriDefaultAnim" Offset="0xA4"/> <!-- Used in various states, not just as an idle -->
+    </File>
+    <File Name="object_bl" OutName="object_bl_C0" BaseAddress="0x060000C0" RangeStart="0xC0" Segment="6">
         <!-- Biri DLists -->
         <DList Name="gBiriTentaclesDL" Offset="0x3B0"/>
         <DList Name="gBiriInnerHoodDL" Offset="0x448"/>
