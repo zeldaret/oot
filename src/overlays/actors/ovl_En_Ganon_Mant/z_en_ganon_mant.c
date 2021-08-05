@@ -29,28 +29,27 @@ const ActorInit En_Ganon_Mant_InitVars = {
 };
 
 s16 D_80A24D20[] = {
-    0x0000, 0x0000, 0x0000, 0x0001, 0x0001, 0x0001, 0x0001, 0x0001, 0x0000, 0x0000,
+    0, 0, 0, 1, 1, 1, 1, 1, 0, 0,
 };
 
 s16 D_80A24D34[] = {
-    0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0001, 0x0002, 0x0002,
-    0x0002, 0x0001, 0x0001, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
+    0, 0, 0, 0, 1, 1, 2, 2, 2, 1, 1, 0, 0, 0, 0,
 };
 
 s16 D_80A24D54[] = {
-    0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
+    0, 0, 0, 0, 0, 0, 0,
 };
 
 typedef struct {
-    s16* unk_0;
-    s16 unk_4;
+    s16* data;
+    s16 count;
 } Struct_80A24D64; // size = 0x8
 
 Struct_80A24D64 D_80A24D64[] = {
     { D_80A24D20, ARRAY_COUNT(D_80A24D20) },
     { D_80A24D20, ARRAY_COUNT(D_80A24D20) },
-    { D_80A24D34, ARRAY_COUNT(D_80A24D34) - 1 },
-    { D_80A24D54, ARRAY_COUNT(D_80A24D54) - 1 },
+    { D_80A24D34, ARRAY_COUNT(D_80A24D34) },
+    { D_80A24D54, ARRAY_COUNT(D_80A24D54) },
 };
 
 f32 D_80A24D84[] = {
@@ -90,31 +89,34 @@ void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
+#define TEX_WIDTH 32
+#define TEX_HEIGHT 64
+
 /**
  * Randomly zeros portions of the cloak texture
  */
-void func_80A23D84(EnGanonMant* this) {
+void EnGanonMant_Tear(EnGanonMant* this) {
     s32 pad;
     s16 i;
     s16 txi;
     s16 tyi;
     s16 texIdx;
-    f32 tx = Rand_ZeroFloat(32.0f);
-    f32 ty = Rand_ZeroFloat(64.0f);
+    f32 tx = Rand_ZeroFloat(TEX_WIDTH);
+    f32 ty = Rand_ZeroFloat(TEX_HEIGHT);
     f32 randAngle = Rand_ZeroFloat(2 * M_PI);
     f32 randSin = sinf(randAngle);
     f32 randCos = cosf(randAngle);
-    Struct_80A24D64* coeffs = &D_80A24D64[(s16)Rand_ZeroFloat(3.99f)];
-    s16 count = coeffs->unk_4;
-    s16* data = coeffs->unk_0;
+    Struct_80A24D64* coeffs = &D_80A24D64[(s16)Rand_ZeroFloat(ARRAY_COUNT(D_80A24D64) - 0.01f)];
+    s16 count = coeffs->count;
+    s16* data = coeffs->data;
 
     for (i = 0; i < count; i++) {
-        if ((0.0f <= tx && tx < 32.0f) && (0.0f <= ty && ty < 64.0f)) {
+        if ((0 <= tx && tx < TEX_WIDTH) && (0 <= ty && ty < TEX_HEIGHT)) {
             for (txi = 0; txi <= data[i]; txi++) {
                 texIdx = 0;
                 if (1) {}
                 for (tyi = 0; tyi <= data[i]; tyi++) {
-                    texIdx = (s16)((s16)tx + ((s16)ty * 32)) + ((s16)txi + ((s16)tyi * 32));
+                    texIdx = (s16)((s16)tx + ((s16)ty * TEX_WIDTH)) + ((s16)txi + ((s16)tyi * TEX_WIDTH));
                     if (texIdx < ARRAY_COUNT(D_80A24F78)) {
                         D_80A24F78[texIdx] = 0;
                     }
@@ -126,24 +128,23 @@ void func_80A23D84(EnGanonMant* this) {
     }
 
     for (i = 0; i < 4; i++) {
-        this->unk_14C[(s16)Rand_ZeroFloat(11.9f)].unk_1B0[(s16)Rand_ZeroFloat(11.9f)] = 1;
+        this->strands[(s16)Rand_ZeroFloat(11.9f)].unk_1B0[(s16)Rand_ZeroFloat(11.9f)] = 1;
     }
 }
 
 #ifdef NON_MATCHING
 // Stack only
-void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* arg3, Vec3f* arg4, Vec3f* arg5,
-                   Vec3f* arg6, s16 arg7) {
-    f32 temp_1;
-    f32 temp_2;
-    f32 temp_f12;
-    f32 temp_f20;
-    f32 temp_f22;
-    f32 temp_f24;
-    f32 temp_f26;
+void EnGanonMant_UpdateStrands(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* pos, Vec3f* nextPos,
+                               Vec3f* rot, Vec3f* vel, s16 strandNum) {
+    f32 temp1;
+    f32 temp2;
+    f32 temp3;
+    s32 pad;
+    f32 yaw;
     s16 i;
-    f32 unk_16C8;
-
+    f32 x;
+    f32 y;
+    f32 z;
     f32 spAC;
     Vec3f spA0;
     Vec3f sp94;
@@ -156,107 +157,119 @@ void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec
         spA0.z = -30.0f;
         Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&spA0, &sp94);
-        for (i = 0; i < 0xC; i++) {
-            (arg3 + i)->x += sp94.x;
-            (arg3 + i)->z += sp94.z;
+        for (i = 0; i < GANON_MANT_NUM_JOINTS; i++) {
+            (pos + i)->x += sp94.x;
+            (pos + i)->z += sp94.z;
         }
         spAC = 6.5f;
     } else {
         spAC = 9.5f;
     }
 
-    for (i = 0; i < 12; i++, arg3++, arg6++, arg5++, arg4++) {
+    for (i = 0; i < GANON_MANT_NUM_JOINTS; i++, pos++, vel++, rot++, nextPos++) {
         if (i == 0) {
-            arg3->x = root->x;
-            arg3->y = root->y;
-            arg3->z = root->z;
+            // Constraint: first position is always root
+            pos->x = root->x;
+            pos->y = root->y;
+            pos->z = root->z;
         } else {
-            Math_ApproachZeroF(&arg6->x, 1.0f, 0.1f);
-            Math_ApproachZeroF(&arg6->y, 1.0f, 0.1f);
-            Math_ApproachZeroF(&arg6->z, 1.0f, 0.1f);
+            // Decelerate
+            Math_ApproachZeroF(&vel->x, 1.0f, 0.1f);
+            Math_ApproachZeroF(&vel->y, 1.0f, 0.1f);
+            Math_ApproachZeroF(&vel->z, 1.0f, 0.1f);
+
             spA0.x = 0;
-            spA0.z = (this->unk_16B0 + (sinf((arg7 * (2 * M_PI)) / 2.1f) * this->unk_16B4)) * D_80A24D84[i];
-            Matrix_RotateY(this->unk_16CC, MTXMODE_NEW);
+            spA0.z = (this->unk_16B0 + (sinf((strandNum * (2 * M_PI)) / 2.1f) * this->unk_16B4)) * D_80A24D84[i];
+            Matrix_RotateY(this->baseYaw, MTXMODE_NEW);
             Matrix_MultVec3f(&spA0, &sp88);
-            spA0.x = cosf((arg7 * M_PI) / 11.0f) * this->unk_16B8 * D_80A24DD0[i];
+
+            spA0.x = cosf((strandNum * M_PI) / 11.0f) * this->unk_16B8 * D_80A24DD0[i];
             spA0.z = 0;
             Matrix_MultVec3f(&spA0, &sp7C);
-            unk_16C8 = this->unk_16C8;
-            temp_f20 = ((arg3->x + arg6->x) - (arg3 - 1)->x) + (sp88.x + sp7C.x);
-            temp_f24 = ((arg3->y + arg6->y) - (arg3 - 1)->y) + unk_16C8;
-            temp_f22 = ((arg3->z + arg6->z) - (arg3 - 1)->z) + (sp88.z + sp7C.z);
-            temp_f26 = Math_Atan2F(temp_f22, temp_f20);
-            temp_f20 = -Math_Atan2F(sqrtf(SQ(temp_f20) + SQ(temp_f22)), temp_f24);
-            (arg5 - 1)->x = temp_f20;
+
+            temp3 = this->unk_16C8;
+            x = ((pos->x + vel->x) - (pos - 1)->x) + (sp88.x + sp7C.x);
+            y = ((pos->y + vel->y) - (pos - 1)->y) + temp3;
+            z = ((pos->z + vel->z) - (pos - 1)->z) + (sp88.z + sp7C.z);
+
+            yaw = Math_Atan2F(z, x);
+            x = -Math_Atan2F(sqrtf(SQ(x) + SQ(z)), y);
+            (rot - 1)->x = x;
             spA0.x = 0;
             spA0.z = spAC;
-            Matrix_RotateY(temp_f26, MTXMODE_NEW);
-            Matrix_RotateX(temp_f20, MTXMODE_APPLY);
+            Matrix_RotateY(yaw, MTXMODE_NEW);
+            Matrix_RotateX(x, MTXMODE_APPLY);
             Matrix_MultVec3f(&spA0, &sp94);
 
-            temp_f20 = arg3->x;
-            temp_f22 = arg3->z;
-            temp_f24 = arg3->y;
+            x = pos->x;
+            y = pos->y;
+            z = pos->z;
 
-            arg3->x = (arg3 - 1)->x + sp94.x;
-            arg3->y = (arg3 - 1)->y + sp94.y;
-            arg3->z = (arg3 - 1)->z + sp94.z;
+            // Calculate next position
+            pos->x = (pos - 1)->x + sp94.x;
+            pos->y = (pos - 1)->y + sp94.y;
+            pos->z = (pos - 1)->z + sp94.z;
 
-            if (sqrtf(SQ(arg3->x - this->actor.world.pos.x) + SQ(arg3->z - this->actor.world.pos.z)) <
+            if (sqrtf(SQ(pos->x - this->actor.world.pos.x) + SQ(pos->z - this->actor.world.pos.z)) <
                 (D_80A24E18[i] * this->unk_16D0)) {
-                temp_f12 = Math_Atan2F(arg3->z - this->actor.world.pos.z, arg3->x - this->actor.world.pos.x);
+                yaw = Math_Atan2F(pos->z - this->actor.world.pos.z, pos->x - this->actor.world.pos.x);
                 spA0.z = this->unk_16D0 * D_80A24E18[i];
-                Matrix_RotateY(temp_f12, MTXMODE_NEW);
+                Matrix_RotateY(yaw, MTXMODE_NEW);
                 Matrix_MultVec3f(&spA0, &sp94);
-                arg3->x = this->actor.world.pos.x + sp94.x;
-                arg3->z = this->actor.world.pos.z + sp94.z;
+                pos->x = this->actor.world.pos.x + sp94.x;
+                pos->z = this->actor.world.pos.z + sp94.z;
+            }
+            if (pos->y < this->minY) {
+                pos->y = this->minY;
             }
 
-            if (arg3->y < this->unk_16AC) {
-                arg3->y = this->unk_16AC;
-            }
-
-            arg6->x = ((arg3->x - temp_f20) * 80.0f) / 100.0f;
-            arg6->y = ((arg3->y - temp_f24) * 80.0f) / 100.0f;
-            arg6->z = ((arg3->z - temp_f22) * 80.0f) / 100.0f;
+            // Calculate next velocity
+            vel->x = (pos->x - x) * 80.0f / 100.0f;
+            vel->y = (pos->y - y) * 80.0f / 100.0f;
+            vel->z = (pos->z - z) * 80.0f / 100.0f;
 
             if (this->actor.params != 0x23) {
-                if (5.0f < arg6->x) {
-                    arg6->x = 5.0f;
-                } else if (arg6->x < -5.0f) {
-                    arg6->x = -5.0f;
+                // Clamp elements of vel into [-5.0, 5.0]
+                if (vel->x > 5.0f) {
+                    vel->x = 5.0f;
+                } else if (vel->x < -5.0f) {
+                    vel->x = -5.0f;
                 }
-                if (5.0f < arg6->y) {
-                    arg6->y = 5.0f;
-                } else if (arg6->y < -5.0f) {
-                    arg6->y = -5.0f;
+                if (vel->y > 5.0f) {
+                    vel->y = 5.0f;
+                } else if (vel->y < -5.0f) {
+                    vel->y = -5.0f;
                 }
-                if (5.0f < arg6->z) {
-                    arg6->z = 5.0f;
-                } else if (arg6->z < -5.0f) {
-                    arg6->z = -5.0f;
+                if (vel->z > 5.0f) {
+                    vel->z = 5.0f;
+                } else if (vel->z < -5.0f) {
+                    vel->z = -5.0f;
                 }
             }
 
-            temp_1 = arg3->x - arg4->x;
-            temp_2 = arg3->z - arg4->z;
-            (arg5 - 1)->y = Math_Atan2F(temp_2, temp_1);
+            // update angle
+            temp1 = pos->x - nextPos->x;
+            temp2 = pos->z - nextPos->z;
+            (rot - 1)->y = Math_Atan2F(temp2, temp1);
         }
     }
-    arg5[11].y = arg5[10].y;
-    arg5[11].x = arg5[10].x;
+    rot[11].y = rot[10].y;
+    rot[11].x = rot[10].x;
 }
 #else
-void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* arg3, Vec3f* arg4, Vec3f* arg5,
-                   Vec3f* arg6, s16 arg7);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ganon_Mant/func_80A23FE0.s")
+void EnGanonMant_UpdateStrands(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* pos, Vec3f* nextPos,
+                               Vec3f* rot, Vec3f* vel, s16 strandNum);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ganon_Mant/EnGanonMant_UpdateStrands.s")
 #endif
 
-void func_80A245A4(EnGanonMant* this) {
+/**
+ * Update the cloak vertices using the current state of the strands
+ */
+void EnGanonMant_UpdateVertices(EnGanonMant* this) {
     s16 i;
     Vtx* vtx;
     Vtx* vertices;
-    MantSub14C* sub;
+    MantStrand* strand;
     s16 j;
     s16 k;
     Vec3f up;
@@ -271,15 +284,15 @@ void func_80A245A4(EnGanonMant* this) {
     up.y = 30.0f;
     up.z = 0.0f;
 
-    sub = &this->unk_14C[0];
-    for (i = 0; i < ARRAY_COUNT(sub->unk_C); i++, sub++) {
-        for (j = 0, k = 0; j < ARRAY_COUNT(sub->unk_C); j++, k += ARRAY_COUNT(sub->unk_C)) {
+    strand = &this->strands[0];
+    for (i = 0; i < GANON_MANT_NUM_JOINTS; i++, strand++) {
+        for (j = 0, k = 0; j < GANON_MANT_NUM_JOINTS; j++, k += GANON_MANT_NUM_JOINTS) {
             vtx = &vertices[D_80A24E4C[i + k]];
-            vtx->n.ob[0] = sub->unk_C[j].x;
-            vtx->n.ob[1] = sub->unk_C[j].y;
-            vtx->n.ob[2] = sub->unk_C[j].z;
-            Matrix_RotateY(sub->unk_90[j].y, MTXMODE_NEW);
-            Matrix_RotateX(sub->unk_90[j].x, MTXMODE_APPLY);
+            vtx->n.ob[0] = strand->joints[j].x;
+            vtx->n.ob[1] = strand->joints[j].y;
+            vtx->n.ob[2] = strand->joints[j].z;
+            Matrix_RotateY(strand->rotations[j].y, MTXMODE_NEW);
+            Matrix_RotateX(strand->rotations[j].x, MTXMODE_APPLY);
             Matrix_MultVec3f(&up, &normal);
             vtx->n.n[0] = normal.x;
             vtx->n.n[1] = normal.y;
@@ -292,11 +305,10 @@ void EnGanonMant_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGanonMant* this = THIS;
     BossGanon* ganon = (BossGanon*)this->actor.parent;
 
-    this->unk_1705 = 1;
+    this->updateHasRun = true;
     this->frameTimer++;
 
     if (this->unk_16C0 == 0.0f) {
-        // lol
     } else {
         this->unk_16C0 -= 1.0f;
     }
@@ -309,13 +321,13 @@ void EnGanonMant_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.shape.rot.y = ganon->actor.shape.rot.y;
 
-    if (this->unk_1704 != 0) {
-        this->unk_1704--;
-        func_80A23D84(this);
+    if (this->tearTimer != 0) {
+        this->tearTimer--;
+        EnGanonMant_Tear(this);
     }
 }
 
-void func_80A24884(GlobalContext* globalCtx, EnGanonMant* this) {
+void EnGanonMant_DrawCloak(GlobalContext* globalCtx, EnGanonMant* this) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_mant.c", 564);
@@ -335,7 +347,8 @@ void func_80A24884(GlobalContext* globalCtx, EnGanonMant* this) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A27578);
     }
 
-    gSPDisplayList(POLY_OPA_DISP++, D_80A27128); // draw vertices
+    // draw cloak
+    gSPDisplayList(POLY_OPA_DISP++, D_80A27128);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_mant.c", 584);
 }
@@ -347,16 +360,18 @@ void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f spC0;
     Vec3f spB4;
     f32 zDiff;
-    f32 temp_f22_2;
+    f32 diffHalfDist;
     f32 yDiff;
     f32 yaw;
     Vec3f* phi_v0;
     Vec3f* phi_v1;
     s16 i;
-    Vec3f sp8C;
-    s16 idx;
+    Vec3f midpoint;
+    s16 next;
 
-    if (this->unk_1705 != 0) {
+    if (this->updateHasRun) {
+        // Only run this if update has run since last draw
+
         if (this->unk_16BC != 0.0f) {
             phi_v0 = &this->unk_16D4;
             phi_v1 = &this->unk_16F8;
@@ -378,42 +393,42 @@ void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx) {
         yDiff = phi_v1->y - phi_v0->y;
         zDiff = phi_v1->z - phi_v0->z;
 
-        sp8C.x = phi_v0->x + (xDiff * 0.5f);
-        sp8C.y = phi_v0->y + (yDiff * 0.5f);
-        sp8C.z = phi_v0->z + (zDiff * 0.5f);
+        midpoint.x = phi_v0->x + xDiff * 0.5f;
+        midpoint.y = phi_v0->y + yDiff * 0.5f;
+        midpoint.z = phi_v0->z + zDiff * 0.5f;
 
         yaw = Math_Atan2F(zDiff, xDiff);
         pitch = -Math_Atan2F(sqrtf(SQ(xDiff) + SQ(zDiff)), yDiff);
-        temp_f22_2 = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff)) * 0.5f;
+        diffHalfDist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff)) * 0.5f;
 
         Matrix_RotateY(yaw, MTXMODE_NEW);
         Matrix_RotateX(pitch, MTXMODE_APPLY);
-        this->unk_16CC = yaw - M_PI / 2.0f;
+        this->baseYaw = yaw - M_PI / 2.0f;
 
-        for (i = 0; i < 12; i++) {
+        for (i = 0; i < GANON_MANT_NUM_STRANDS; i++) {
             Matrix_Push();
 
-            spC0.x = sinf((i * M_PI) / 11.0f) * temp_f22_2;
+            spC0.x = sinf((i * M_PI) / 11.0f) * diffHalfDist;
             spC0.y = 0;
-            spC0.z = -cosf((i * M_PI) / 11.0f) * temp_f22_2;
+            spC0.z = -cosf((i * M_PI) / 11.0f) * diffHalfDist;
             Matrix_MultVec3f(&spC0, &spB4);
-            this->unk_14C[i].rootPos.x = sp8C.x + spB4.x;
-            this->unk_14C[i].rootPos.y = sp8C.y + spB4.y;
-            this->unk_14C[i].rootPos.z = sp8C.z + spB4.z;
+            this->strands[i].root.x = midpoint.x + spB4.x;
+            this->strands[i].root.y = midpoint.y + spB4.y;
+            this->strands[i].root.z = midpoint.z + spB4.z;
 
-            idx = i + 1;
-            if (idx >= 12) {
-                idx = i - 1;
+            next = i + 1;
+            if (next >= GANON_MANT_NUM_STRANDS) {
+                next = i - 1;
             }
 
-            func_80A23FE0(globalCtx, this, &this->unk_14C[i].rootPos, this->unk_14C[i].unk_C,
-                          this->unk_14C[idx].unk_C, &this->unk_14C[i].unk_90[0], &this->unk_14C[i].unk_120[0],
-                          i);
+            EnGanonMant_UpdateStrands(globalCtx, this, &this->strands[i].root, this->strands[i].joints,
+                                      this->strands[next].joints, this->strands[i].rotations,
+                                      this->strands[i].velocities, i);
             Matrix_Pop();
         }
-        func_80A245A4(this);
-        this->unk_1705 = 0;
+        EnGanonMant_UpdateVertices(this);
+        this->updateHasRun = false;
     }
 
-    func_80A24884(globalCtx, this);
+    EnGanonMant_DrawCloak(globalCtx, this);
 }
