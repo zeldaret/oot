@@ -3766,7 +3766,11 @@ endseg
 beginseg
     name "object_am"
     romalign 0x1000
-    include "build/assets/objects/object_am/object_am.o"
+    include "build/assets/objects/object_am/object_am_0.o"
+    include "build/assets/objects/object_am/object_am_150.o"
+    include "build/assets/objects/object_am/object_am_250.o"
+    include "build/assets/objects/object_am/object_am_350.o"
+    include "build/assets/objects/object_am/object_am_5950.o"
     number 6
 endseg
 
