@@ -58,7 +58,7 @@ void BossMo_Unknown(void);
 #define vMaxScale moFxFloat2
 
 typedef enum {
-    /* 0 */ MO_FX_NULL,
+    /* 0 */ MO_FX_NONE,
     /* 1 */ MO_FX_SMALL_RIPPLE,
     /* 2 */ MO_FX_BIG_RIPPLE,
     /* 3 */ MO_FX_DROPLET,
@@ -190,7 +190,7 @@ void BossMo_SpawnRipples(BossMoEffect* effect, Vec3f* pos, f32 scale, f32 vMaxSc
     s16 i;
 
     for (i = 0; i < partLimit; i++, effect++) {
-        if (effect->type == MO_FX_NULL) {
+        if (effect->type == MO_FX_NONE) {
             effect->stopTimer = 0;
             effect->type = type;
             effect->pos = *pos;
@@ -218,7 +218,7 @@ void BossMo_SpawnDroplet(s16 type, BossMoEffect* effect, Vec3f* pos, Vec3f* vel,
     Vec3f gravity = { 0.0f, -1.0f, 0.0f };
 
     for (i = 0; i < 290; i++, effect++) {
-        if (effect->type == MO_FX_NULL) {
+        if (effect->type == MO_FX_NONE) {
             effect->type = type;
             effect->pos = *pos;
             effect->vel = *vel;
@@ -239,7 +239,7 @@ void BossMo_SpawnStillDroplet(BossMoEffect* effect, Vec3f* pos, f32 scale) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     for (i = 0; i < 290; i++, effect++) {
-        if (effect->type == MO_FX_NULL) {
+        if (effect->type == MO_FX_NONE) {
             effect->type = MO_FX_DROPLET;
             effect->stopTimer = 2;
             effect->pos = *pos;
@@ -256,7 +256,7 @@ void BossMo_SpawnBubble(BossMoEffect* effect, Vec3f* pos, Vec3f* vel, Vec3f* acc
     s16 i;
 
     for (i = 0; i < 280; i++, effect++) {
-        if (effect->type == MO_FX_NULL) {
+        if (effect->type == MO_FX_NONE) {
             effect->type = MO_FX_BUBBLE;
             effect->stopTimer = 0;
             effect->pos = *pos;
@@ -2158,8 +2158,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 effectPos.x += effectVelocity.x * 3.0f;
                 effectPos.y = MO_WATER_LEVEL(globalCtx);
                 effectPos.z += effectVelocity.z * 3.0f;
-                BossMo_SpawnDroplet(MO_FX_SPLASH, (BossMoEffect*)globalCtx->specialEffects, &effectPos,
-                                    &effectVelocity, Rand_ZeroFloat(0.075f) + 0.15f);
+                BossMo_SpawnDroplet(MO_FX_SPLASH, (BossMoEffect*)globalCtx->specialEffects, &effectPos, &effectVelocity,
+                                    Rand_ZeroFloat(0.075f) + 0.15f);
             }
             effectPos = this->actor.world.pos;
             effectPos.y = MO_WATER_LEVEL(globalCtx);
@@ -2734,7 +2734,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
     Vec3f bubbleVel;
 
     for (i = 0; i < 300; i++, effect++) {
-        if (effect->type != MO_FX_NULL) {
+        if (effect->type != MO_FX_NONE) {
             effect->timer++;
             if (effect->stopTimer == 0) {
                 effect->pos.x += effect->vel.x;
@@ -2761,13 +2761,13 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
                     effect->alpha -= 5;
                     if (effect->alpha <= 0) {
                         effect->alpha = 0;
-                        effect->type = MO_FX_NULL;
+                        effect->type = MO_FX_NONE;
                     }
                 }
             } else if (effect->type == MO_FX_BUBBLE) {
                 if (effect->targetPos == NULL) {
                     if ((effect->accel.y > 0.0f) && (effect->pos.y >= MO_WATER_LEVEL(globalCtx))) {
-                        effect->type = MO_FX_NULL;
+                        effect->type = MO_FX_NONE;
                     } else {
                         if (effect->vel.y > 2.0f) {
                             effect->vel.y = 2.0f;
@@ -2775,7 +2775,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
                         effect->alpha -= 20;
                         if (effect->alpha <= 0) {
                             effect->alpha = 0;
-                            effect->type = MO_FX_NULL;
+                            effect->type = MO_FX_NONE;
                         }
                     }
                 } else {
@@ -2795,7 +2795,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
                         effect->accel.y = 1.5f;
                         if ((effect->alpha <= 0) || (effect->pos.y >= MO_WATER_LEVEL(globalCtx))) {
                             effect->alpha = 0;
-                            effect->type = MO_FX_NULL;
+                            effect->type = MO_FX_NONE;
                         }
                     } else {
                         effect->alpha += 30;
@@ -2814,14 +2814,14 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
                     effect->alpha -= 15;
                     if (effect->alpha <= 0) {
                         effect->alpha = 0;
-                        effect->type = MO_FX_NULL;
+                        effect->type = MO_FX_NONE;
                     }
                 } else {
                     effect->alpha = effect->vShimmer;
                     if (effect->type == MO_FX_SPLASH_TRAIL) {
                         Math_ApproachF(&effect->scale, 0.0f, 1.0f, 0.02f);
                         if (effect->scale <= 0.0f) {
-                            effect->type = MO_FX_NULL;
+                            effect->type = MO_FX_NONE;
                         }
                     } else {
                         if (effect->type == MO_FX_SPLASH) {
@@ -2844,7 +2844,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
                             effect->accel.y = -1.0f;
                         }
                         if ((effect->pos.y <= -280.0f) || ((1.0f >= effect->pos.y) && (effect->pos.y >= -20.0f) &&
-                                                             BossMo_NearLand(&effect->pos, 0.0f))) {
+                                                           BossMo_NearLand(&effect->pos, 0.0f))) {
                             effect->accel.y = 0.0f;
                             effect->vel.z = 0.0f;
                             effect->vel.y = 0.0f;
@@ -2868,7 +2868,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
                                 BossMo_SpawnRipples(globalCtx->specialEffects, &pos, 40.0f, 110.0f, 80, 290,
                                                     MO_FX_SMALL_RIPPLE);
                             }
-                            effect->type = MO_FX_NULL;
+                            effect->type = MO_FX_NONE;
                         }
                     }
                 }
@@ -2951,8 +2951,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(effect->scale / effect->vStretch, effect->vStretch * effect->scale, 1.0f,
-                         MTXMODE_APPLY);
+            Matrix_Scale(effect->scale / effect->vStretch, effect->vStretch * effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
