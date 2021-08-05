@@ -17,6 +17,23 @@
 
 #define HAS_LINK(tent) ((tent != NULL) && ((tent->actionState == MO_TENT_GRAB) || (tent->actionState == MO_TENT_SHAKE)))
 
+typedef struct BossMoEffect {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ Vec3f vel;
+    /* 0x18 */ Vec3f accel;
+    /* 0x24 */ u8 type;
+    /* 0x25 */ u8 timer;
+    /* 0x26 */ u8 stopTimer;
+    /* 0x28 */ s16 unk_28; // unused?
+    /* 0x2A */ s16 alpha;
+    /* 0x2C */ s16 rippleMode;
+    /* 0x2E */ s16 maxAlpha;
+    /* 0x30 */ f32 scale;
+    /* 0x34 */ f32 moFxFloat1;
+    /* 0x38 */ f32 moFxFloat2;
+    /* 0x3C */ Vec3f* targetPos;
+} BossMoEffect; // size = 0x40
+
 void BossMo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossMo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossMo_UpdateCore(Actor* thisx, GlobalContext* globalCtx);
@@ -24,8 +41,8 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx);
 void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx);
 void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx);
-void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx);
+void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx);
+void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx);
 
 void BossMo_SetupTentacle(BossMo* this, GlobalContext* globalCtx);
 void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx);
@@ -49,7 +66,7 @@ typedef enum {
     /* 5 */ MO_FX_SPLASH_TRAIL,
     /* 6 */ MO_FX_WET_SPOT,
     /* 7 */ MO_FX_BUBBLE
-} BossMoParticleType;
+} BossMoEffectType;
 
 typedef enum {
     /*   0 */ MO_TENT_READY,
@@ -123,7 +140,7 @@ static f32 sFlatWidth[41] = {
 
 #include "z_boss_mo_colchk.c"
 
-static BossMoParticle sParticles[300];
+static BossMoEffect sEffects[300];
 static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
@@ -167,93 +184,93 @@ s32 BossMo_NearLand(Vec3f* pos, f32 margin) {
     return false;
 }
 
-void BossMo_SpawnRipples(BossMoParticle* particle, Vec3f* pos, f32 scale, f32 vMaxScale, s16 maxAlpha, s16 partLimit,
+void BossMo_SpawnRipples(BossMoEffect* effect, Vec3f* pos, f32 scale, f32 vMaxScale, s16 maxAlpha, s16 partLimit,
                          u8 type) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
-    for (i = 0; i < partLimit; i++, particle++) {
-        if (particle->type == MO_FX_NULL) {
-            particle->stopTimer = 0;
-            particle->type = type;
-            particle->pos = *pos;
-            particle->vel = zeroVec;
-            particle->accel = zeroVec;
-            particle->scale = scale * 0.0025f;
-            particle->vMaxSize = vMaxScale * 0.0025f;
+    for (i = 0; i < partLimit; i++, effect++) {
+        if (effect->type == MO_FX_NULL) {
+            effect->stopTimer = 0;
+            effect->type = type;
+            effect->pos = *pos;
+            effect->vel = zeroVec;
+            effect->accel = zeroVec;
+            effect->scale = scale * 0.0025f;
+            effect->vMaxSize = vMaxScale * 0.0025f;
             if (scale > 300.0f) {
-                particle->alpha = 0;
-                particle->maxAlpha = maxAlpha;
-                particle->rippleMode = 0;
-                particle->vSpreadRate = (particle->vMaxSize - particle->scale) * 0.05f;
+                effect->alpha = 0;
+                effect->maxAlpha = maxAlpha;
+                effect->rippleMode = 0;
+                effect->vSpreadRate = (effect->vMaxSize - effect->scale) * 0.05f;
             } else {
-                particle->alpha = maxAlpha;
-                particle->rippleMode = 1;
-                particle->vSpreadRate = (particle->vMaxSize - particle->scale) * 0.1f;
+                effect->alpha = maxAlpha;
+                effect->rippleMode = 1;
+                effect->vSpreadRate = (effect->vMaxSize - effect->scale) * 0.1f;
             }
             break;
         }
     }
 }
 
-void BossMo_SpawnDroplet(s16 type, BossMoParticle* particle, Vec3f* pos, Vec3f* vel, f32 scale) {
+void BossMo_SpawnDroplet(s16 type, BossMoEffect* effect, Vec3f* pos, Vec3f* vel, f32 scale) {
     s16 i;
     Vec3f gravity = { 0.0f, -1.0f, 0.0f };
 
-    for (i = 0; i < 290; i++, particle++) {
-        if (particle->type == MO_FX_NULL) {
-            particle->type = type;
-            particle->pos = *pos;
-            particle->vel = *vel;
-            particle->accel = gravity;
+    for (i = 0; i < 290; i++, effect++) {
+        if (effect->type == MO_FX_NULL) {
+            effect->type = type;
+            effect->pos = *pos;
+            effect->vel = *vel;
+            effect->accel = gravity;
             if (type == MO_FX_SPLASH_TRAIL) {
-                particle->accel.y = 0.0f;
+                effect->accel.y = 0.0f;
             }
-            particle->scale = scale;
-            particle->vSpreadRate = 1.0f;
-            particle->stopTimer = 0;
+            effect->scale = scale;
+            effect->vSpreadRate = 1.0f;
+            effect->stopTimer = 0;
             break;
         }
     }
 }
 
-void BossMo_SpawnStillDroplet(BossMoParticle* particle, Vec3f* pos, f32 scale) {
+void BossMo_SpawnStillDroplet(BossMoEffect* effect, Vec3f* pos, f32 scale) {
     s16 i;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
-    for (i = 0; i < 290; i++, particle++) {
-        if (particle->type == MO_FX_NULL) {
-            particle->type = MO_FX_DROPLET;
-            particle->stopTimer = 2;
-            particle->pos = *pos;
-            particle->vel = zeroVec;
-            particle->accel = zeroVec;
-            particle->scale = scale;
-            particle->vSpreadRate = 1.0f;
+    for (i = 0; i < 290; i++, effect++) {
+        if (effect->type == MO_FX_NULL) {
+            effect->type = MO_FX_DROPLET;
+            effect->stopTimer = 2;
+            effect->pos = *pos;
+            effect->vel = zeroVec;
+            effect->accel = zeroVec;
+            effect->scale = scale;
+            effect->vSpreadRate = 1.0f;
             break;
         }
     }
 }
 
-void BossMo_SpawnBubble(BossMoParticle* particle, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale, Vec3f* targetPos) {
+void BossMo_SpawnBubble(BossMoEffect* effect, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale, Vec3f* targetPos) {
     s16 i;
 
-    for (i = 0; i < 280; i++, particle++) {
-        if (particle->type == MO_FX_NULL) {
-            particle->type = MO_FX_BUBBLE;
-            particle->stopTimer = 0;
-            particle->pos = *pos;
-            particle->vel = *vel;
-            particle->accel = *accel;
-            particle->scale = scale;
-            particle->vSuction = 0.0f;
-            particle->targetPos = targetPos;
+    for (i = 0; i < 280; i++, effect++) {
+        if (effect->type == MO_FX_NULL) {
+            effect->type = MO_FX_BUBBLE;
+            effect->stopTimer = 0;
+            effect->pos = *pos;
+            effect->vel = *vel;
+            effect->accel = *accel;
+            effect->scale = scale;
+            effect->vSuction = 0.0f;
+            effect->targetPos = targetPos;
             if (targetPos == NULL) {
-                particle->alpha = 255;
+                effect->alpha = 255;
             } else {
-                particle->alpha = 0;
+                effect->alpha = 0;
             }
-            particle->timer = 0;
+            effect->timer = 0;
             break;
         }
     }
@@ -274,7 +291,7 @@ static s16 sAttackRot[41] = {
 
 static InitChainEntry sInitChain[4] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 37, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x25, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -317,9 +334,9 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         sMorphaCore = this;
         MO_WATER_LEVEL(globalCtx) = this->waterLevel = MO_WATER_LEVEL(globalCtx);
         globalCtx->unk_11D30[0] = 0xA0;
-        globalCtx->specialEffects = &sParticles;
-        for (i = 0; i < ARRAY_COUNT(sParticles); i++) {
-            sParticles[i].type = 0;
+        globalCtx->specialEffects = &sEffects;
+        for (i = 0; i < ARRAY_COUNT(sEffects); i++) {
+            sEffects[i].type = 0;
         }
         this->actor.world.pos.x = 200.0f;
         this->actor.world.pos.y = MO_WATER_LEVEL(globalCtx) + 50.0f;
@@ -756,8 +773,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     func_800F4BE8();
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     this->csCamera = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, 1);
-                    Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, 7);
+                    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                    Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, CAM_STAT_ACTIVE);
                     this->cameraEye = camera1->eye;
                     this->cameraAt = camera1->at;
                     this->cameraYaw = Math_FAtan2F(this->cameraEye.x - this->actor.world.pos.x,
@@ -1071,7 +1088,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                             spD4.y = -280.0f;
                         }
                         spD4.z += spE0.z * 3.0f;
-                        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &spD4, &spE0,
+                        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)globalCtx->specialEffects, &spD4, &spE0,
                                             ((300 - indS1) * .0015f) + 0.13f);
                     }
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
@@ -1107,7 +1124,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
         temp = (this->actor.scale.x * 100.0f) * 20.0f;
         pos.x = this->tentPos[indS1].x + Rand_CenteredFloat(temp);
         pos.z = this->tentPos[indS1].z + Rand_CenteredFloat(temp);
-        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &pos, &velocity, scale);
+        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)globalCtx->specialEffects, &pos, &velocity, scale);
     }
 }
 
@@ -1146,7 +1163,7 @@ void BossMo_TentCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                 pos = this->tentPos[2 * i1];
                 pos.x += velocity.x * 3.0f;
                 pos.z += velocity.z * 3.0f;
-                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &pos, &velocity,
+                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)globalCtx->specialEffects, &pos, &velocity,
                                     Rand_ZeroFloat(0.08f) + 0.13f);
             }
             break;
@@ -1202,8 +1219,8 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
                 this->csCamera = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, 1);
-                Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, 7);
+                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, CAM_STAT_ACTIVE);
                 this->actor.speedXZ = 0.0f;
                 this->csState = MO_INTRO_START;
                 this->timers[2] = 50;
@@ -1486,8 +1503,8 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->csCamera = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, CAM_STAT_ACTIVE);
             this->csState = MO_DEATH_MO_CORE_BURST;
             this->cameraEye = camera->eye;
             this->timers[0] = 90;
@@ -1529,7 +1546,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
                     pos.x += 2.0f * velocity.x;
                     pos.y += 2.0f * velocity.y;
                     pos.z += 2.0f * velocity.z;
-                    BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &pos, &velocity,
+                    BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)globalCtx->specialEffects, &pos, &velocity,
                                         Rand_ZeroFloat(0.08f) + 0.13f);
                 }
                 this->drawActor = false;
@@ -1745,7 +1762,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                     if (((sMorphaTent1->csCamera == 0) && (sMorphaTent2 == NULL)) ||
                         ((sMorphaTent1->csCamera == 0) && (sMorphaTent2 != NULL) && (sMorphaTent2->csCamera == 0))) {
                         Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                        Audio_QueueSeqCmd(NA_BGM_STOP | (1 << 0x10));
+                        Audio_QueueSeqCmd(0x100100FF);
                         this->csState = MO_DEATH_START;
                         sMorphaTent1->drawActor = false;
                         sMorphaTent1->actionState = MO_TENT_DEATH_START;
@@ -1793,7 +1810,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                 pos = this->actor.world.pos;
                 pos.x += (velocity.x * 3.0f);
                 pos.z += (velocity.z * 3.0f);
-                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &pos, &velocity,
+                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)globalCtx->specialEffects, &pos, &velocity,
                                     Rand_ZeroFloat(0.08f) + 0.13f);
             }
         }
@@ -2020,7 +2037,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 effectPos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
                 effectPos.y = Rand_CenteredFloat(20.0f) + this->actor.world.pos.y;
                 effectPos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
-                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &effectPos,
+                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)globalCtx->specialEffects, &effectPos,
                                     &effectVelocity, Rand_ZeroFloat(0.02f) + 0.05f);
             };
 
@@ -2042,13 +2059,13 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                             effectPos = this->actor.world.pos;
                             effectPos.x += effectVelocity.x;
                             effectPos.z += effectVelocity.z;
-                            BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &effectPos,
+                            BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)globalCtx->specialEffects, &effectPos,
                                                 &effectVelocity, Rand_ZeroFloat(0.08f) + 0.13f);
                         }
                         effectVelocity.x = effectVelocity.y = effectVelocity.z = 0.0f;
                         effectPos = this->actor.world.pos;
                         effectPos.y = 0.0f;
-                        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoParticle*)globalCtx->specialEffects, &effectPos,
+                        BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)globalCtx->specialEffects, &effectPos,
                                             &effectVelocity, 0.4f);
                     }
                 }
@@ -2141,7 +2158,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 effectPos.x += effectVelocity.x * 3.0f;
                 effectPos.y = MO_WATER_LEVEL(globalCtx);
                 effectPos.z += effectVelocity.z * 3.0f;
-                BossMo_SpawnDroplet(MO_FX_SPLASH, (BossMoParticle*)globalCtx->specialEffects, &effectPos,
+                BossMo_SpawnDroplet(MO_FX_SPLASH, (BossMoEffect*)globalCtx->specialEffects, &effectPos,
                                     &effectVelocity, Rand_ZeroFloat(0.075f) + 0.15f);
             }
             effectPos = this->actor.world.pos;
@@ -2210,7 +2227,7 @@ void BossMo_UpdateCore(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->coreCollider.base);
     }
-    BossMo_UpdateParticles(this, globalCtx);
+    BossMo_UpdateEffects(this, globalCtx);
     if (player->actor.parent != NULL) {
         this->actor.flags &= ~1;
     }
@@ -2587,7 +2604,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
 
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 220, 255, 128);
-        if (this->damageFlashTimer & 1) {
+        if ((this->damageFlashTimer % 2) != 0) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 60, 0, 255);
         } else {
             gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, 255);
@@ -2678,7 +2695,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6945);
 
-    BossMo_DrawParticles(globalCtx->specialEffects, globalCtx);
+    BossMo_DrawEffects(globalCtx->specialEffects, globalCtx);
 }
 
 void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -2707,8 +2724,8 @@ void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 7023);
 }
 
-void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
-    BossMoParticle* particle = globalCtx->specialEffects;
+void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
+    BossMoEffect* effect = globalCtx->specialEffects;
     s16 i;
     Vec3f* targetPos;
     f32 dx;
@@ -2716,142 +2733,142 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
     Vec3f bubbleSpeed = { 0.0f, 0.0f, 0.0f };
     Vec3f bubbleVel;
 
-    for (i = 0; i < 300; i++, particle++) {
-        if (particle->type != MO_FX_NULL) {
-            particle->timer++;
-            if (particle->stopTimer == 0) {
-                particle->pos.x += particle->vel.x;
-                particle->pos.y += particle->vel.y;
-                particle->pos.z += particle->vel.z;
-                particle->vel.x += particle->accel.x;
-                particle->vel.y += particle->accel.y;
-                particle->vel.z += particle->accel.z;
+    for (i = 0; i < 300; i++, effect++) {
+        if (effect->type != MO_FX_NULL) {
+            effect->timer++;
+            if (effect->stopTimer == 0) {
+                effect->pos.x += effect->vel.x;
+                effect->pos.y += effect->vel.y;
+                effect->pos.z += effect->vel.z;
+                effect->vel.x += effect->accel.x;
+                effect->vel.y += effect->accel.y;
+                effect->vel.z += effect->accel.z;
             } else {
-                particle->stopTimer--;
+                effect->stopTimer--;
             }
-            if (particle->type <= MO_FX_BIG_RIPPLE) {
+            if (effect->type <= MO_FX_BIG_RIPPLE) {
                 if (this->csState >= MO_DEATH_START) {
-                    particle->pos.y = MO_WATER_LEVEL(globalCtx);
+                    effect->pos.y = MO_WATER_LEVEL(globalCtx);
                 }
-                Math_ApproachF(&particle->scale, particle->vMaxSize, 0.2f, particle->vSpreadRate);
-                if (particle->rippleMode == 0) {
-                    particle->alpha += 15;
-                    if (particle->alpha >= particle->maxAlpha) {
-                        particle->alpha = particle->maxAlpha;
-                        particle->rippleMode++;
+                Math_ApproachF(&effect->scale, effect->vMaxSize, 0.2f, effect->vSpreadRate);
+                if (effect->rippleMode == 0) {
+                    effect->alpha += 15;
+                    if (effect->alpha >= effect->maxAlpha) {
+                        effect->alpha = effect->maxAlpha;
+                        effect->rippleMode++;
                     }
                 } else {
-                    particle->alpha -= 5;
-                    if (particle->alpha <= 0) {
-                        particle->alpha = 0;
-                        particle->type = MO_FX_NULL;
+                    effect->alpha -= 5;
+                    if (effect->alpha <= 0) {
+                        effect->alpha = 0;
+                        effect->type = MO_FX_NULL;
                     }
                 }
-            } else if (particle->type == MO_FX_BUBBLE) {
-                if (particle->targetPos == NULL) {
-                    if ((particle->accel.y > 0.0f) && (particle->pos.y >= MO_WATER_LEVEL(globalCtx))) {
-                        particle->type = MO_FX_NULL;
+            } else if (effect->type == MO_FX_BUBBLE) {
+                if (effect->targetPos == NULL) {
+                    if ((effect->accel.y > 0.0f) && (effect->pos.y >= MO_WATER_LEVEL(globalCtx))) {
+                        effect->type = MO_FX_NULL;
                     } else {
-                        if (particle->vel.y > 2.0f) {
-                            particle->vel.y = 2.0f;
+                        if (effect->vel.y > 2.0f) {
+                            effect->vel.y = 2.0f;
                         }
-                        particle->alpha -= 20;
-                        if (particle->alpha <= 0) {
-                            particle->alpha = 0;
-                            particle->type = MO_FX_NULL;
+                        effect->alpha -= 20;
+                        if (effect->alpha <= 0) {
+                            effect->alpha = 0;
+                            effect->type = MO_FX_NULL;
                         }
                     }
                 } else {
-                    if ((particle->timer % 4) == 0) {
-                        targetPos = particle->targetPos;
-                        dx = targetPos->x - particle->pos.x;
-                        dz = targetPos->z - particle->pos.z;
-                        bubbleSpeed.z = particle->vSuction;
+                    if ((effect->timer % 4) == 0) {
+                        targetPos = effect->targetPos;
+                        dx = targetPos->x - effect->pos.x;
+                        dz = targetPos->z - effect->pos.z;
+                        bubbleSpeed.z = effect->vSuction;
                         Matrix_RotateY(Math_FAtan2F(dx, dz), MTXMODE_NEW);
                         Matrix_MultVec3f(&bubbleSpeed, &bubbleVel);
-                        particle->vel.x = bubbleVel.x;
-                        particle->vel.z = bubbleVel.z;
+                        effect->vel.x = bubbleVel.x;
+                        effect->vel.z = bubbleVel.z;
                     }
-                    Math_ApproachF(&particle->vSuction, 5.0f, 1.0f, 0.5f);
-                    if (particle->timer > 20) {
-                        particle->alpha -= 30;
-                        particle->accel.y = 1.5f;
-                        if ((particle->alpha <= 0) || (particle->pos.y >= MO_WATER_LEVEL(globalCtx))) {
-                            particle->alpha = 0;
-                            particle->type = MO_FX_NULL;
+                    Math_ApproachF(&effect->vSuction, 5.0f, 1.0f, 0.5f);
+                    if (effect->timer > 20) {
+                        effect->alpha -= 30;
+                        effect->accel.y = 1.5f;
+                        if ((effect->alpha <= 0) || (effect->pos.y >= MO_WATER_LEVEL(globalCtx))) {
+                            effect->alpha = 0;
+                            effect->type = MO_FX_NULL;
                         }
                     } else {
-                        particle->alpha += 30;
-                        if (particle->alpha >= 255) {
-                            particle->alpha = 255;
+                        effect->alpha += 30;
+                        if (effect->alpha >= 255) {
+                            effect->alpha = 255;
                         }
                     }
                 }
-            } else if ((particle->type == MO_FX_DROPLET) || (particle->type == MO_FX_SPLASH) ||
-                       (particle->type == MO_FX_SPLASH_TRAIL) || (particle->type == MO_FX_WET_SPOT)) {
-                f32 shimmer = (particle->timer & 6) ? 80.0f : 200.0f;
+            } else if ((effect->type == MO_FX_DROPLET) || (effect->type == MO_FX_SPLASH) ||
+                       (effect->type == MO_FX_SPLASH_TRAIL) || (effect->type == MO_FX_WET_SPOT)) {
+                f32 shimmer = (effect->timer & 6) ? 80.0f : 200.0f;
 
-                Math_ApproachF(&particle->vShimmer, shimmer, 1.0f, 80.0f);
-                if (particle->type == MO_FX_WET_SPOT) {
-                    Math_ApproachF(&particle->scale, particle->vMaxScale, 0.1f, 0.6f);
-                    particle->alpha -= 15;
-                    if (particle->alpha <= 0) {
-                        particle->alpha = 0;
-                        particle->type = MO_FX_NULL;
+                Math_ApproachF(&effect->vShimmer, shimmer, 1.0f, 80.0f);
+                if (effect->type == MO_FX_WET_SPOT) {
+                    Math_ApproachF(&effect->scale, effect->vMaxScale, 0.1f, 0.6f);
+                    effect->alpha -= 15;
+                    if (effect->alpha <= 0) {
+                        effect->alpha = 0;
+                        effect->type = MO_FX_NULL;
                     }
                 } else {
-                    particle->alpha = particle->vShimmer;
-                    if (particle->type == MO_FX_SPLASH_TRAIL) {
-                        Math_ApproachF(&particle->scale, 0.0f, 1.0f, 0.02f);
-                        if (particle->scale <= 0.0f) {
-                            particle->type = MO_FX_NULL;
+                    effect->alpha = effect->vShimmer;
+                    if (effect->type == MO_FX_SPLASH_TRAIL) {
+                        Math_ApproachF(&effect->scale, 0.0f, 1.0f, 0.02f);
+                        if (effect->scale <= 0.0f) {
+                            effect->type = MO_FX_NULL;
                         }
                     } else {
-                        if (particle->type == MO_FX_SPLASH) {
+                        if (effect->type == MO_FX_SPLASH) {
                             Vec3f velocity = { 0.0f, 0.0f, 0.0f };
 
-                            BossMo_SpawnDroplet(MO_FX_SPLASH_TRAIL, (BossMoParticle*)globalCtx->specialEffects,
-                                                &particle->pos, &velocity, particle->scale);
+                            BossMo_SpawnDroplet(MO_FX_SPLASH_TRAIL, (BossMoEffect*)globalCtx->specialEffects,
+                                                &effect->pos, &velocity, effect->scale);
                         }
-                        if (particle->vel.y < -20.0f) {
-                            particle->vel.y = -20.0f;
-                            particle->accel.y = 0.0f;
+                        if (effect->vel.y < -20.0f) {
+                            effect->vel.y = -20.0f;
+                            effect->accel.y = 0.0f;
                         }
-                        if (particle->stopTimer == 0) {
-                            if (particle->vel.y < -5.0f) {
-                                Math_ApproachF(&particle->vStretch, 5.0f, 0.1f, 0.15f);
+                        if (effect->stopTimer == 0) {
+                            if (effect->vel.y < -5.0f) {
+                                Math_ApproachF(&effect->vStretch, 5.0f, 0.1f, 0.15f);
                             }
-                        } else if (particle->stopTimer == 1) {
-                            particle->vel.x = Rand_CenteredFloat(3.0f);
-                            particle->vel.z = Rand_CenteredFloat(3.0f);
-                            particle->accel.y = -1.0f;
+                        } else if (effect->stopTimer == 1) {
+                            effect->vel.x = Rand_CenteredFloat(3.0f);
+                            effect->vel.z = Rand_CenteredFloat(3.0f);
+                            effect->accel.y = -1.0f;
                         }
-                        if ((particle->pos.y <= -280.0f) || ((1.0f >= particle->pos.y) && (particle->pos.y >= -20.0f) &&
-                                                             BossMo_NearLand(&particle->pos, 0.0f))) {
-                            particle->accel.y = 0.0f;
-                            particle->vel.z = 0.0f;
-                            particle->vel.y = 0.0f;
-                            particle->vel.x = 0.0f;
-                            if (particle->pos.y <= -280.0f) {
-                                particle->pos.y = -280.0f;
+                        if ((effect->pos.y <= -280.0f) || ((1.0f >= effect->pos.y) && (effect->pos.y >= -20.0f) &&
+                                                             BossMo_NearLand(&effect->pos, 0.0f))) {
+                            effect->accel.y = 0.0f;
+                            effect->vel.z = 0.0f;
+                            effect->vel.y = 0.0f;
+                            effect->vel.x = 0.0f;
+                            if (effect->pos.y <= -280.0f) {
+                                effect->pos.y = -280.0f;
                             } else {
-                                particle->pos.y = 0.0f;
+                                effect->pos.y = 0.0f;
                             }
-                            particle->type = MO_FX_WET_SPOT;
-                            particle->alpha = 150;
-                            particle->vStretch = (particle->scale * 15.0f) * 0.15f;
-                        } else if (particle->pos.y <= MO_WATER_LEVEL(globalCtx)) {
-                            Vec3f pos = particle->pos;
+                            effect->type = MO_FX_WET_SPOT;
+                            effect->alpha = 150;
+                            effect->vStretch = (effect->scale * 15.0f) * 0.15f;
+                        } else if (effect->pos.y <= MO_WATER_LEVEL(globalCtx)) {
+                            Vec3f pos = effect->pos;
 
                             pos.y = MO_WATER_LEVEL(globalCtx);
-                            if (particle->type == MO_FX_SPLASH) {
+                            if (effect->type == MO_FX_SPLASH) {
                                 BossMo_SpawnRipples(globalCtx->specialEffects, &pos, 60.0f, 160.0f, 80, 290,
                                                     MO_FX_SMALL_RIPPLE);
                             } else {
                                 BossMo_SpawnRipples(globalCtx->specialEffects, &pos, 40.0f, 110.0f, 80, 290,
                                                     MO_FX_SMALL_RIPPLE);
                             }
-                            particle->type = MO_FX_NULL;
+                            effect->type = MO_FX_NULL;
                         }
                     }
                 }
@@ -2860,18 +2877,18 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
     }
 }
 
-void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
+void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     u8 flag = 0;
     s16 i;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    BossMoParticle* firstParticle = particle;
+    BossMoEffect* effectHead = effect;
 
     OPEN_DISPS(gfxCtx, "../z_boss_mo.c", 7264);
     Matrix_Push();
 
-    for (i = 0; i < 300; i++, particle++) {
-        if (particle->type == MO_FX_BIG_RIPPLE) {
+    for (i = 0; i < 300; i++, effect++) {
+        if (effect->type == MO_FX_BIG_RIPPLE) {
             if (flag == 0) {
                 func_80094BC4(gfxCtx);
 
@@ -2880,10 +2897,10 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, particle->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
 
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
-            Matrix_Scale(particle->scale, 1.0f, particle->scale, MTXMODE_APPLY);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+            Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7294),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -2891,10 +2908,10 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
         }
     }
 
-    particle = firstParticle;
+    effect = effectHead;
     flag = 0;
-    for (i = 0; i < 300; i++, particle++) {
-        if (particle->type == MO_FX_SMALL_RIPPLE) {
+    for (i = 0; i < 300; i++, effect++) {
+        if (effect->type == MO_FX_SMALL_RIPPLE) {
             if (flag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
 
@@ -2903,10 +2920,10 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, particle->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
 
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
-            Matrix_Scale(particle->scale, 1.0f, particle->scale, MTXMODE_APPLY);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+            Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7330),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -2914,11 +2931,11 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
         }
     }
 
-    particle = firstParticle;
+    effect = effectHead;
     flag = 0;
-    for (i = 0; i < 300; i++, particle++) {
-        if (((particle->type == MO_FX_DROPLET) || (particle->type == MO_FX_SPLASH)) ||
-            (particle->type == MO_FX_SPLASH_TRAIL)) {
+    for (i = 0; i < 300; i++, effect++) {
+        if (((effect->type == MO_FX_DROPLET) || (effect->type == MO_FX_SPLASH)) ||
+            (effect->type == MO_FX_SPLASH_TRAIL)) {
             if (flag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
@@ -2929,12 +2946,12 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)(*particle).vShimmer, (s16)(*particle).vShimmer, 255,
-                            particle->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)(*effect).vShimmer, (s16)(*effect).vShimmer, 255,
+                            effect->alpha);
 
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(particle->scale / particle->vStretch, particle->vStretch * particle->scale, 1.0f,
+            Matrix_Scale(effect->scale / effect->vStretch, effect->vStretch * effect->scale, 1.0f,
                          MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -2943,10 +2960,10 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
         }
     }
 
-    particle = firstParticle;
+    effect = effectHead;
     flag = 0;
-    for (i = 0; i < 300; i++, particle++) {
-        if (particle->type == MO_FX_WET_SPOT) {
+    for (i = 0; i < 300; i++, effect++) {
+        if (effect->type == MO_FX_WET_SPOT) {
             if (flag == 0) {
                 func_80094044(gfxCtx);
 
@@ -2957,11 +2974,11 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)(*particle).vShimmer, (s16)(*particle).vShimmer, 0xFF,
-                            particle->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)(*effect).vShimmer, (s16)(*effect).vShimmer, 0xFF,
+                            effect->alpha);
 
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
-            Matrix_Scale(particle->scale, 1.0f, particle->scale, MTXMODE_APPLY);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+            Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7441),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -2969,10 +2986,10 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
         }
     }
 
-    particle = firstParticle;
+    effect = effectHead;
     flag = 0;
-    for (i = 0; i < 300; i++, particle++) {
-        if (particle->type == MO_FX_BUBBLE) {
+    for (i = 0; i < 300; i++, effect++) {
+        if (effect->type == MO_FX_BUBBLE) {
             if (flag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
 
@@ -2981,11 +2998,11 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, particle->alpha);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, effect->alpha);
 
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7476),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -3044,7 +3061,7 @@ void BossMo_Unknown(void) {
 
     if (BREG(0x20) != 0) {
         BREG(0x20)--;
-        Audio_QueueSeqCmd(NA_BGM_STOP | (1 << 0x10));
+        Audio_QueueSeqCmd(0x100100FF);
         func_80078914(&zeroVec, unkSfx[BREG(0x21)]);
     }
     if (BREG(0x22) != 0) {
