@@ -1,6 +1,8 @@
 <Root>
-    <File Name="object_brob" Segment="6">
+    <File Name="object_brob" OutName="object_brob_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0x2A0" Segment="6">
         <Animation Name="object_brob_Anim_000290" Offset="0x290"/>
+    </File>
+    <File Name="object_brob" OutName="object_brob_2A0" BaseAddress="0x060002A0" RangeStart="0x2A0" RangeEnd="0x15F0" Segment="6">
         <DList Name="object_brob_DL_0007E0" Offset="0x7E0"/>
         <DList Name="object_brob_DL_000898" Offset="0x898"/>
         <DList Name="object_brob_DL_0009D0" Offset="0x9D0"/>
@@ -17,9 +19,17 @@
         <Limb Name="object_brob_Limb_00159C" LimbType="Standard" Offset="0x159C"/>
         <Limb Name="object_brob_Limb_0015A8" LimbType="Standard" Offset="0x15A8"/>
         <Skeleton Name="object_brob_Skel_0015D8" Type="Flex" LimbType="Standard" Offset="0x15D8"/>
+    </File>
+    <File Name="object_brob" OutName="object_brob_15F0" BaseAddress="0x060015F0" RangeStart="0x15F0" RangeEnd="0x1690" Segment="6">
         <Animation Name="object_brob_Anim_001678" Offset="0x1678"/>
+    </File>
+    <File Name="object_brob" OutName="object_brob_1690" BaseAddress="0x06001690" RangeStart="0x1690" RangeEnd="0x1760" Segment="6">
         <Animation Name="object_brob_Anim_001750" Offset="0x1750"/>
+    </File>
+    <File Name="object_brob" OutName="object_brob_1760" BaseAddress="0x06001760" RangeStart="0x1760" RangeEnd="0x1970" Segment="6">
         <Animation Name="object_brob_Anim_001958" Offset="0x1958"/>
-        <Blob Name="object_brob_Blob_001968" Size="0x138" Offset="0x1968"/>
+    </File>
+    <File Name="object_brob" OutName="object_brob_1970" BaseAddress="0x06001970" RangeStart="0x1970" Segment="6">
+        <Blob Name="object_brob_Blob_001970" Size="0x130" Offset="0x1970"/>
     </File>
 </Root>

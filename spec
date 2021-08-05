@@ -4492,7 +4492,12 @@ endseg
 beginseg
     name "object_brob"
     romalign 0x1000
-    include "build/assets/objects/object_brob/object_brob.o"
+    include "build/assets/objects/object_brob/object_brob_0.o"
+    include "build/assets/objects/object_brob/object_brob_2A0.o"
+    include "build/assets/objects/object_brob/object_brob_15F0.o"
+    include "build/assets/objects/object_brob/object_brob_1690.o"
+    include "build/assets/objects/object_brob/object_brob_1760.o"
+    include "build/assets/objects/object_brob/object_brob_1970.o"
     number 6
 endseg
 
