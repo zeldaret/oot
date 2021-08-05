@@ -48,27 +48,27 @@ typedef struct BossVa {
 } BossVa; // size = 0x03B8
 
 typedef enum BossVaParam {
-    BOSSVA_BODY = -1,
-    BOSSVA_SUPPORT_1,
-    BOSSVA_SUPPORT_2,
-    BOSSVA_SUPPORT_3,
-    BOSSVA_ZAPPER_1,
-    BOSSVA_ZAPPER_2,
-    BOSSVA_ZAPPER_3,
-    BOSSVA_BARI_UPPER_1,
-    BOSSVA_BARI_UPPER_2,
-    BOSSVA_BARI_UPPER_3,
-    BOSSVA_BARI_UPPER_4,
-    BOSSVA_BARI_UPPER_5,
-    BOSSVA_BARI_LOWER_1,
-    BOSSVA_BARI_LOWER_2,
-    BOSSVA_BARI_LOWER_3,
-    BOSSVA_BARI_LOWER_4,
-    BOSSVA_BARI_LOWER_5,
-    BOSSVA_STUMP_1,
-    BOSSVA_STUMP_2,
-    BOSSVA_STUMP_3,
-    BOSSVA_DOOR
+    /* -1 */ BOSSVA_BODY = -1,
+    /*  0 */ BOSSVA_SUPPORT_1,
+    /*  1 */ BOSSVA_SUPPORT_2,
+    /*  2 */ BOSSVA_SUPPORT_3,
+    /*  3 */ BOSSVA_ZAPPER_1,
+    /*  4 */ BOSSVA_ZAPPER_2,
+    /*  5 */ BOSSVA_ZAPPER_3,
+    /*  6 */ BOSSVA_BARI_UPPER_1,
+    /*  7 */ BOSSVA_BARI_UPPER_2,
+    /*  8 */ BOSSVA_BARI_UPPER_3,
+    /*  9 */ BOSSVA_BARI_UPPER_4,
+    /* 10 */ BOSSVA_BARI_UPPER_5,
+    /* 11 */ BOSSVA_BARI_LOWER_1,
+    /* 12 */ BOSSVA_BARI_LOWER_2,
+    /* 13 */ BOSSVA_BARI_LOWER_3,
+    /* 14 */ BOSSVA_BARI_LOWER_4,
+    /* 15 */ BOSSVA_BARI_LOWER_5,
+    /* 16 */ BOSSVA_STUMP_1,
+    /* 17 */ BOSSVA_STUMP_2,
+    /* 18 */ BOSSVA_STUMP_3,
+    /* 19 */ BOSSVA_DOOR
 } BossVaParam;
 
 extern const ActorInit Boss_Va_InitVars;
