@@ -1,46 +1,41 @@
 #include "SetCollisionHeader.h"
-#include "../../BitConverter.h"
-#include "../../StringHelper.h"
-#include "../../ZFile.h"
-#include "../ZRoom.h"
 
-using namespace std;
+#include "BitConverter.h"
+#include "StringHelper.h"
+#include "ZFile.h"
+#include "ZRoom/ZRoom.h"
 
-SetCollisionHeader::SetCollisionHeader(ZRoom* nZRoom, std::vector<uint8_t> rawData,
-                                       int rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetCollisionHeader::SetCollisionHeader(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
-	collisionHeader = ZCollisionHeader(
-		nZRoom->parent,
-		StringHelper::Sprintf("%sCollisionHeader0x%06X", nZRoom->GetName().c_str(), segmentOffset),
-		rawData, segmentOffset);
 }
 
-string SetCollisionHeader::GenerateSourceCodePass1(string roomName, int baseAddress)
+void SetCollisionHeader::ParseRawData()
 {
-	return StringHelper::Sprintf(
-		"%s 0x00, (u32)&%sCollisionHeader0x%06X",
-		ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
-		zRoom->GetName().c_str(), segmentOffset);
+	ZRoomCommand::ParseRawData();
+	collisionHeader = new ZCollisionHeader(parent);
+	collisionHeader->SetRawDataIndex(segmentOffset);
+	collisionHeader->SetName(
+		StringHelper::Sprintf("%sCollisionHeader_%06X", parent->GetName().c_str(), segmentOffset));
+	collisionHeader->ParseRawData();
 }
 
-string SetCollisionHeader::GenerateSourceCodePass2(string roomName, int baseAddress)
+SetCollisionHeader::~SetCollisionHeader()
 {
-	return "";
+	delete collisionHeader;
 }
 
-string SetCollisionHeader::GetCommandCName()
+std::string SetCollisionHeader::GetBodySourceCode() const
+{
+	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	return StringHelper::Sprintf("SCENE_CMD_COL_HEADER(%s)", listName.c_str());
+}
+
+std::string SetCollisionHeader::GetCommandCName() const
 {
 	return "SCmdColHeader";
 }
 
-string SetCollisionHeader::GenerateExterns()
-{
-	return "";
-}
-
-RoomCommand SetCollisionHeader::GetRoomCommand()
+RoomCommand SetCollisionHeader::GetRoomCommand() const
 {
 	return RoomCommand::SetCollisionHeader;
 }

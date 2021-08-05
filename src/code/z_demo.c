@@ -57,10 +57,11 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx);
 
 void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneContext* csCtx) {
     GfxPrint printer;
-    u8 pad2[8];
+    s32 pad[2];
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *dlist);
+
     GfxPrint_SetPos(&printer, 22, 25);
     GfxPrint_SetColor(&printer, 255, 255, 55, 32);
     GfxPrint_Printf(&printer, "%s", "FLAME ");
@@ -69,6 +70,7 @@ void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneConte
     GfxPrint_SetColor(&printer, 50, 255, 255, 60);
     GfxPrint_SetPos(&printer, 4, 26);
     GfxPrint_Printf(&printer, "%s", "SKIP=(START) or (Cursole Right)");
+
     *dlist = GfxPrint_Close(&printer);
     GfxPrint_Destroy(&printer);
 }
@@ -408,9 +410,9 @@ void Cutscene_Command_FadeBGM(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         var1 = cmd->endFrame - cmd->startFrame;
 
         if (cmd->type == 3) {
-            Audio_SetBGM(var1 << 0x10 | 0x110000FF);
+            Audio_QueueSeqCmd(var1 << 0x10 | 0x110000FF);
         } else {
-            Audio_SetBGM(var1 << 0x10 | 0x100000FF);
+            Audio_QueueSeqCmd(var1 << 0x10 | 0x100000FF);
         }
     }
 }

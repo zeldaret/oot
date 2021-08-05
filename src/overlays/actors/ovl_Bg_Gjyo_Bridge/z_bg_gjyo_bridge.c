@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_gjyo_bridge.h"
+#include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 
 #define FLAGS 0x00000000
 
@@ -38,7 +39,6 @@ static InitChainEntry sInitChain[] = {
 
 extern Gfx D_06000600[];
 extern CollisionHeader D_06000DB8;
-extern CutsceneData D_02002640[];
 
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGjyoBridge* this = THIS;
@@ -79,7 +79,7 @@ void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx) 
         (player->actor.world.pos.x < 300.0f) && (player->actor.world.pos.y > 1340.0f) &&
         (player->actor.world.pos.z > 1340.0f) && (player->actor.world.pos.z < 1662.0f) &&
         !Gameplay_InCsMode(globalCtx)) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02002640);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gRainbowBridgeCs);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = BgGjyoBridge_SpawnBridge;
     }
