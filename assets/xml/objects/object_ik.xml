@@ -3,11 +3,11 @@
         <Blob Name="object_ik_zeroes_unk_00000000" Size="0xF7A0" Offset="0x0" />
         <Texture Name="object_ik_Tex_00F7A0" OutName="tex_00F7A0" Format="i4" Width="32" Height="64" Offset="0xF7A0" />
         <Texture Name="object_ik_Tex_00FBA0" OutName="tex_00FBA0" Format="ia8" Width="32" Height="32" Offset="0xFBA0" />
-        <Texture Name="object_ik_Tex_00FFA0" OutName="tex_00FFA0" Format="rgb5a1" Width="16" Height="16" Offset="0xFFA0" />
-        <Texture Name="object_ik_Tex_0101A0" OutName="tex_0101A0" Format="rgb5a1" Width="16" Height="16" Offset="0x101A0" />
+        <Texture Name="object_ik_Tex_00FFA0" OutName="tex_00FFA0" Format="rgba16" Width="16" Height="16" Offset="0xFFA0" />
+        <Texture Name="object_ik_Tex_0101A0" OutName="tex_0101A0" Format="rgba16" Width="16" Height="16" Offset="0x101A0" />
         <Texture Name="object_ik_Tex_0103A0" OutName="tex_0103A0" Format="ia16" Width="32" Height="32" Offset="0x103A0" />
-        <Texture Name="object_ik_Tex_010BA0" OutName="tex_010BA0" Format="rgb5a1" Width="32" Height="32" Offset="0x10BA0" />
-        <Texture Name="object_ik_Tex_0113A0" OutName="tex_0113A0" Format="rgb5a1" Width="8" Height="8" Offset="0x113A0" />
+        <Texture Name="object_ik_Tex_010BA0" OutName="tex_010BA0" Format="rgba16" Width="32" Height="32" Offset="0x10BA0" />
+        <Texture Name="object_ik_Tex_0113A0" OutName="tex_0113A0" Format="rgba16" Width="8" Height="8" Offset="0x113A0" />
         <Texture Name="object_ik_Tex_011420" OutName="tex_011420" Format="ci8" Width="16" Height="16" Offset="0x11420" />
         <Texture Name="object_ik_Tex_011520" OutName="tex_011520" Format="ci8" Width="16" Height="16" Offset="0x11520" />
         <Texture Name="object_ik_Tex_011620" OutName="tex_011620" Format="ci8" Width="8" Height="8" Offset="0x11620" />
@@ -59,7 +59,7 @@
         <DList Name="object_ik_DL_01D2B0" Offset="0x1D2B0" />
         <DList Name="object_ik_DL_01D3F8" Offset="0x1D3F8" />
         <DList Name="object_ik_DL_01D638" Offset="0x1D638" />
-        <Texture Name="object_ik_Tex_01D9A8" OutName="tex_01D9A8" Format="rgb5a1" Width="16" Height="16" Offset="0x1D9A8" />
+        <Texture Name="object_ik_Tex_01D9A8" OutName="tex_01D9A8" Format="rgba16" Width="16" Height="16" Offset="0x1D9A8" />
         <Texture Name="object_ik_Tex_01DBA8" OutName="tex_01DBA8" Format="ia16" Width="16" Height="16" Offset="0x1DBA8" />
         <Texture Name="object_ik_Tex_01DDA8" OutName="tex_01DDA8" Format="ci8" Width="16" Height="16" Offset="0x1DDA8" />
         <Texture Name="object_ik_Tex_01DEA8" OutName="tex_01DEA8" Format="ci8" Width="16" Height="16" Offset="0x1DEA8" />

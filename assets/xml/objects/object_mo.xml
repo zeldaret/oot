@@ -3,7 +3,7 @@
         <Texture Name="object_mo_Tex_000000" OutName="tex_000000" Format="ia8" Width="16" Height="16" Offset="0x0" />
         <DList Name="object_mo_DL_000140" Offset="0x140" />
         <DList Name="object_mo_DL_000550" Offset="0x550" />
-        <Texture Name="object_mo_Tex_000680" OutName="tex_000680" Format="rgb5a1" Width="32" Height="32" Offset="0x680" />
+        <Texture Name="object_mo_Tex_000680" OutName="tex_000680" Format="rgba16" Width="32" Height="32" Offset="0x680" />
         <DList Name="object_mo_DL_000EC0" Offset="0xEC0" />
         <DList Name="object_mo_DL_000EF8" Offset="0xEF8" />
         <DList Name="object_mo_DL_000F20" Offset="0xF20" />
@@ -60,6 +60,6 @@
         <DList Name="object_mo_DL_0087A8" Offset="0x87A8" />
         <DList Name="object_mo_DL_0087F0" Offset="0x87F0" />
         <DList Name="object_mo_DL_008838" Offset="0x8838" />
-        <Texture Name="object_mo_Tex_008870" OutName="tex_008870" Format="rgb5a1" Width="32" Height="32" Offset="0x8870" />
+        <Texture Name="object_mo_Tex_008870" OutName="tex_008870" Format="rgba16" Width="32" Height="32" Offset="0x8870" />
     </File>
 </Root>

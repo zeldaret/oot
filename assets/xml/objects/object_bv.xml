@@ -14,9 +14,9 @@
         <Limb Name="object_bv_Limb_004E54" LimbType="Standard" Offset="0x4E54" />
         <Skeleton Name="object_bv_Skel_004E70" Type="Flex" LimbType="Standard" Offset="0x4E70" />
         <Animation Name="object_bv_Anim_005184" Offset="0x5184" />
-        <Texture Name="object_bv_Tex_0051A0" OutName="tex_0051A0" Format="rgb5a1" Width="8" Height="16" Offset="0x51A0" />
-        <Texture Name="object_bv_Tex_0052A0" OutName="tex_0052A0" Format="rgb5a1" Width="8" Height="16" Offset="0x52A0" />
-        <Texture Name="object_bv_Tex_0053A0" OutName="tex_0053A0" Format="rgb5a1" Width="16" Height="16" Offset="0x53A0" />
+        <Texture Name="object_bv_Tex_0051A0" OutName="tex_0051A0" Format="rgba16" Width="8" Height="16" Offset="0x51A0" />
+        <Texture Name="object_bv_Tex_0052A0" OutName="tex_0052A0" Format="rgba16" Width="8" Height="16" Offset="0x52A0" />
+        <Texture Name="object_bv_Tex_0053A0" OutName="tex_0053A0" Format="rgba16" Width="16" Height="16" Offset="0x53A0" />
         <Texture Name="object_bv_Tex_0055A0" OutName="tex_0055A0" Format="ia16" Width="16" Height="32" Offset="0x55A0" />
         <Texture Name="object_bv_Tex_0059A0" OutName="tex_0059A0" Format="ia16" Width="16" Height="32" Offset="0x59A0" />
         <Texture Name="object_bv_Tex_005DA0" OutName="tex_005DA0" Format="ia16" Width="16" Height="64" Offset="0x5DA0" />
@@ -52,9 +52,9 @@
         <Blob Name="object_bv_Blob_0096F8" Size="0x8000" Offset="0x96F8" />
         <DList Name="object_bv_DL_011738" Offset="0x11738" />
         <DList Name="object_bv_DL_011768" Offset="0x11768" />
-        <Texture Name="object_bv_Tex_0117B8" OutName="tex_0117B8" Format="rgb5a1" Width="16" Height="16" Offset="0x117B8" />
-        <Texture Name="object_bv_Tex_0119B8" OutName="tex_0119B8" Format="rgb5a1" Width="16" Height="16" Offset="0x119B8" />
-        <Texture Name="object_bv_Tex_011BB8" OutName="tex_011BB8" Format="rgb5a1" Width="16" Height="16" Offset="0x11BB8" />
+        <Texture Name="object_bv_Tex_0117B8" OutName="tex_0117B8" Format="rgba16" Width="16" Height="16" Offset="0x117B8" />
+        <Texture Name="object_bv_Tex_0119B8" OutName="tex_0119B8" Format="rgba16" Width="16" Height="16" Offset="0x119B8" />
+        <Texture Name="object_bv_Tex_011BB8" OutName="tex_011BB8" Format="rgba16" Width="16" Height="16" Offset="0x11BB8" />
         <DList Name="object_bv_DL_0128B8" Offset="0x128B8" />
         <DList Name="object_bv_DL_012948" Offset="0x12948" />
         <DList Name="object_bv_DL_012BA0" Offset="0x12BA0" />
@@ -139,8 +139,8 @@
         <DList Name="object_bv_DL_016DC8" Offset="0x16DC8" />
         <DList Name="object_bv_DL_016EC8" Offset="0x16EC8" />
         <DList Name="object_bv_DL_016FC8" Offset="0x16FC8" />
-        <Texture Name="object_bv_Tex_0170D8" OutName="tex_0170D8" Format="rgb5a1" Width="16" Height="8" Offset="0x170D8" />
-        <Texture Name="object_bv_Tex_0171D8" OutName="tex_0171D8" Format="rgb5a1" Width="16" Height="16" Offset="0x171D8" />
+        <Texture Name="object_bv_Tex_0170D8" OutName="tex_0170D8" Format="rgba16" Width="16" Height="8" Offset="0x170D8" />
+        <Texture Name="object_bv_Tex_0171D8" OutName="tex_0171D8" Format="rgba16" Width="16" Height="16" Offset="0x171D8" />
         <Limb Name="object_bv_Limb_0173D8" LimbType="Standard" Offset="0x173D8" />
         <Limb Name="object_bv_Limb_0173E4" LimbType="Standard" Offset="0x173E4" />
         <Limb Name="object_bv_Limb_0173F0" LimbType="Standard" Offset="0x173F0" />
@@ -174,7 +174,7 @@
         <DList Name="object_bv_DL_018410" Offset="0x18410" />
         <DList Name="object_bv_DL_0184D0" Offset="0x184D0" />
         <DList Name="object_bv_DL_0185E8" Offset="0x185E8" />
-        <Texture Name="object_bv_Tex_018770" OutName="tex_018770" Format="rgb5a1" Width="8" Height="8" Offset="0x18770" />
+        <Texture Name="object_bv_Tex_018770" OutName="tex_018770" Format="rgba16" Width="8" Height="8" Offset="0x18770" />
         <Limb Name="object_bv_Limb_0187F0" LimbType="Standard" Offset="0x187F0" />
         <Limb Name="object_bv_Limb_0187FC" LimbType="Standard" Offset="0x187FC" />
         <Limb Name="object_bv_Limb_018808" LimbType="Standard" Offset="0x18808" />
@@ -188,8 +188,8 @@
         <Animation Name="object_bv_Anim_018A68" Offset="0x18A68" />
         <Animation Name="object_bv_Anim_018B90" Offset="0x18B90" />
         <Animation Name="object_bv_Anim_018D18" Offset="0x18D18" />
-        <Texture Name="object_bv_Tex_018D30" OutName="tex_018D30" Format="rgb5a1" Width="16" Height="8" Offset="0x18D30" />
-        <Texture Name="object_bv_Tex_018E30" OutName="tex_018E30" Format="rgb5a1" Width="16" Height="16" Offset="0x18E30" />
+        <Texture Name="object_bv_Tex_018D30" OutName="tex_018D30" Format="rgba16" Width="16" Height="8" Offset="0x18D30" />
+        <Texture Name="object_bv_Tex_018E30" OutName="tex_018E30" Format="rgba16" Width="16" Height="16" Offset="0x18E30" />
         <DList Name="object_bv_DL_0194A0" Offset="0x194A0" />
         <DList Name="object_bv_DL_0195C8" Offset="0x195C8" />
         <DList Name="object_bv_DL_0196C8" Offset="0x196C8" />
@@ -202,35 +202,35 @@
         <Limb Name="object_bv_Limb_01996C" LimbType="Standard" Offset="0x1996C" />
         <Limb Name="object_bv_Limb_019978" LimbType="Standard" Offset="0x19978" />
         <Skeleton Name="object_bv_Skel_0199A0" Type="Flex" LimbType="Standard" Offset="0x199A0" />
-        <Texture Name="object_bv_TLUT_0199B0" OutName="tlut_0199B0" Format="rgb5a1" Width="16" Height="16" Offset="0x199B0" />
+        <Texture Name="object_bv_TLUT_0199B0" OutName="tlut_0199B0" Format="rgba16" Width="16" Height="16" Offset="0x199B0" />
         <Blob Name="object_bv_Blob_019BB0" Size="0x8" Offset="0x19BB0" />
         <Texture Name="object_bv_Tex_019BB8" OutName="tex_019BB8" Format="ci8" Width="32" Height="64" Offset="0x19BB8" />
         <DList Name="object_bv_DL_01A3E8" Offset="0x1A3E8" />
-        <Texture Name="object_bv_TLUT_01A4B0" OutName="tlut_01A4B0" Format="rgb5a1" Width="16" Height="16" Offset="0x1A4B0" />
+        <Texture Name="object_bv_TLUT_01A4B0" OutName="tlut_01A4B0" Format="rgba16" Width="16" Height="16" Offset="0x1A4B0" />
         <Blob Name="object_bv_Blob_01A6B0" Size="0x8" Offset="0x1A6B0" />
         <Texture Name="object_bv_Tex_01A6B8" OutName="tex_01A6B8" Format="ci8" Width="32" Height="64" Offset="0x1A6B8" />
         <DList Name="object_bv_DL_01AEE8" Offset="0x1AEE8" />
-        <Texture Name="object_bv_TLUT_01AFB0" OutName="tlut_01AFB0" Format="rgb5a1" Width="16" Height="16" Offset="0x1AFB0" />
+        <Texture Name="object_bv_TLUT_01AFB0" OutName="tlut_01AFB0" Format="rgba16" Width="16" Height="16" Offset="0x1AFB0" />
         <Blob Name="object_bv_Blob_01B1B0" Size="0x8" Offset="0x1B1B0" />
         <Texture Name="object_bv_Tex_01B1B8" OutName="tex_01B1B8" Format="ci8" Width="32" Height="64" Offset="0x1B1B8" />
         <DList Name="object_bv_DL_01B9E8" Offset="0x1B9E8" />
-        <Texture Name="object_bv_TLUT_01BAB0" OutName="tlut_01BAB0" Format="rgb5a1" Width="16" Height="16" Offset="0x1BAB0" />
+        <Texture Name="object_bv_TLUT_01BAB0" OutName="tlut_01BAB0" Format="rgba16" Width="16" Height="16" Offset="0x1BAB0" />
         <Blob Name="object_bv_Blob_01BCB0" Size="0x8" Offset="0x1BCB0" />
         <Texture Name="object_bv_Tex_01BCB8" OutName="tex_01BCB8" Format="ci8" Width="32" Height="64" Offset="0x1BCB8" />
         <DList Name="object_bv_DL_01C4E8" Offset="0x1C4E8" />
-        <Texture Name="object_bv_TLUT_01C5B0" OutName="tlut_01C5B0" Format="rgb5a1" Width="16" Height="16" Offset="0x1C5B0" />
+        <Texture Name="object_bv_TLUT_01C5B0" OutName="tlut_01C5B0" Format="rgba16" Width="16" Height="16" Offset="0x1C5B0" />
         <Blob Name="object_bv_Blob_01C7B0" Size="0x8" Offset="0x1C7B0" />
         <Texture Name="object_bv_Tex_01C7B8" OutName="tex_01C7B8" Format="ci8" Width="32" Height="64" Offset="0x1C7B8" />
         <DList Name="object_bv_DL_01CFE8" Offset="0x1CFE8" />
-        <Texture Name="object_bv_TLUT_01D0B0" OutName="tlut_01D0B0" Format="rgb5a1" Width="16" Height="16" Offset="0x1D0B0" />
+        <Texture Name="object_bv_TLUT_01D0B0" OutName="tlut_01D0B0" Format="rgba16" Width="16" Height="16" Offset="0x1D0B0" />
         <Blob Name="object_bv_Blob_01D2B0" Size="0x8" Offset="0x1D2B0" />
         <Texture Name="object_bv_Tex_01D2B8" OutName="tex_01D2B8" Format="ci8" Width="32" Height="64" Offset="0x1D2B8" />
         <DList Name="object_bv_DL_01DAE8" Offset="0x1DAE8" />
-        <Texture Name="object_bv_TLUT_01DBB0" OutName="tlut_01DBB0" Format="rgb5a1" Width="16" Height="16" Offset="0x1DBB0" />
+        <Texture Name="object_bv_TLUT_01DBB0" OutName="tlut_01DBB0" Format="rgba16" Width="16" Height="16" Offset="0x1DBB0" />
         <Blob Name="object_bv_Blob_01DDB0" Size="0x8" Offset="0x1DDB0" />
         <Texture Name="object_bv_Tex_01DDB8" OutName="tex_01DDB8" Format="ci8" Width="32" Height="64" Offset="0x1DDB8" />
         <DList Name="object_bv_DL_01E5E8" Offset="0x1E5E8" />
-        <Texture Name="object_bv_TLUT_01E6B0" OutName="tlut_01E6B0" Format="rgb5a1" Width="16" Height="16" Offset="0x1E6B0" />
+        <Texture Name="object_bv_TLUT_01E6B0" OutName="tlut_01E6B0" Format="rgba16" Width="16" Height="16" Offset="0x1E6B0" />
         <Blob Name="object_bv_Blob_01E8B0" Size="0x8" Offset="0x1E8B0" />
         <Texture Name="object_bv_Tex_01E8B8" OutName="tex_01E8B8" Format="ci8" Width="32" Height="64" Offset="0x1E8B8" />
         <DList Name="object_bv_DL_01F0E8" Offset="0x1F0E8" />

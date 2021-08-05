@@ -2,8 +2,8 @@
     <File Name="object_kz" Segment="6">
         <Animation Name="object_kz_Anim_00046C" Offset="0x46C" />
         <Animation Name="object_kz_Anim_00075C" Offset="0x75C" />
-        <Texture Name="object_kz_TLUT_000770" OutName="tlut_000770" Format="rgb5a1" Width="16" Height="16" Offset="0x770" />
-        <Texture Name="object_kz_Tex_000970" OutName="tex_000970" Format="rgb5a1" Width="16" Height="16" Offset="0x970" />
+        <Texture Name="object_kz_TLUT_000770" OutName="tlut_000770" Format="rgba16" Width="16" Height="16" Offset="0x770" />
+        <Texture Name="object_kz_Tex_000970" OutName="tex_000970" Format="rgba16" Width="16" Height="16" Offset="0x970" />
         <Texture Name="object_kz_Tex_000B70" OutName="tex_000B70" Format="ci8" Width="32" Height="32" Offset="0xB70" />
         <Texture Name="object_kz_Tex_000F70" OutName="tex_000F70" Format="ci8" Width="8" Height="16" Offset="0xF70" />
         <Texture Name="object_kz_Tex_000FF0" OutName="tex_000FF0" Format="ci8" Width="32" Height="32" Offset="0xFF0" />
