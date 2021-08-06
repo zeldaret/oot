@@ -5279,7 +5279,13 @@ endseg
 beginseg
     name "object_daiku"
     romalign 0x1000
-    include "build/assets/objects/object_daiku/object_daiku.o"
+    include "build/assets/objects/object_daiku/object_daiku_0.o"
+    include "build/assets/objects/object_daiku/object_daiku_610.o"
+    include "build/assets/objects/object_daiku/object_daiku_C60.o"
+    include "build/assets/objects/object_daiku/object_daiku_1AC0.o"
+    include "build/assets/objects/object_daiku/object_daiku_7970.o"
+    include "build/assets/objects/object_daiku/object_daiku_7DF0.o"
+    include "build/assets/objects/object_daiku/object_daiku_8180.o"
     number 6
 endseg
 

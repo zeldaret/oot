@@ -1,8 +1,14 @@
 <Root>
-    <File Name="object_daiku" Segment="6">
+    <File Name="object_daiku" OutName="object_daiku_0" BaseAddress="0x06000000" RangeStart="0x0" RangeEnd="0x610" Segment="6">
         <Animation Name="object_daiku_Anim_000600" Offset="0x600"/>
+    </File>
+    <File Name="object_daiku" OutName="object_daiku_610" BaseAddress="0x06000610" RangeStart="0x610" RangeEnd="0xC60" Segment="6">
         <Animation Name="object_daiku_Anim_000C44" Offset="0xC44"/>
+    </File>
+    <File Name="object_daiku" OutName="object_daiku_C60" BaseAddress="0x06000C60" RangeStart="0xC60" RangeEnd="0x1AC0" Segment="6">
         <Animation Name="object_daiku_Anim_001AB0" Offset="0x1AB0"/>
+    </File>
+    <File Name="object_daiku" OutName="object_daiku_1AC0" BaseAddress="0x06001AC0" RangeStart="0x1AC0" RangeEnd="0x7970" Segment="6">
         <Texture Name="object_daiku_TLUT_001AC0" OutName="tlut_00001AC0" Format="rgba16" Width="16" Height="16" Offset="0x1AC0"/>
         <Texture Name="object_daiku_Tex_001CC0" OutName="tex_00001CC0" Format="ci8" Width="8" Height="8" Offset="0x1CC0"/>
         <Texture Name="object_daiku_Tex_001D00" OutName="tex_00001D00" Format="ci8" Width="16" Height="16" Offset="0x1D00"/>
@@ -53,8 +59,14 @@
         <Limb Name="object_daiku_Limb_007900" LimbType="Standard" Offset="0x7900"/>
         <Limb Name="object_daiku_Limb_00790C" LimbType="Standard" Offset="0x790C"/>
         <Skeleton Name="object_daiku_Skel_007958" Type="Flex" LimbType="Standard" Offset="0x7958"/>
+    </File>
+    <File Name="object_daiku" OutName="object_daiku_7970" BaseAddress="0x06007970" RangeStart="0x7970" RangeEnd="0x7DF0" Segment="6">
         <Animation Name="object_daiku_Anim_007DE0" Offset="0x7DE0"/>
+    </File>
+    <File Name="object_daiku" OutName="object_daiku_7DF0" BaseAddress="0x06007DF0" RangeStart="0x7DF0" RangeEnd="0x8180" Segment="6">
         <Animation Name="object_daiku_Anim_008164" Offset="0x8164"/>
+    </File>
+    <File Name="object_daiku" OutName="object_daiku_8180" BaseAddress="0x06008180" RangeStart="0x8180" Segment="6">
         <Animation Name="object_daiku_Anim_00885C" Offset="0x885C"/>
     </File>
 </Root>
