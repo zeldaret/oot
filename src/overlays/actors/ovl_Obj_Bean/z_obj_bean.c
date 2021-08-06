@@ -5,8 +5,9 @@
  */
 
 #include "z_obj_bean.h"
-#include "vt.h"
+#include "objects/object_mamenoki/object_mamenoki.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "vt.h"
 
 #define FLAGS 0x00400000
 
@@ -61,12 +62,6 @@ void ObjBean_Grow(ObjBean* this);
 void ObjBean_SetupGrow(ObjBean* this);
 void ObjBean_SetupWaitForStepOff(ObjBean* this);
 void ObjBean_WaitForStepOff(ObjBean* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000090[];
-extern Gfx D_060001B0[];
-extern Gfx D_060003F0[];
-extern CollisionHeader D_060005DC;
-extern Gfx D_06000650[];
 
 #define BEAN_STATE_DRAW_LEAVES (1 << 0)
 #define BEAN_STATE_DRAW_SOIL (1 << 1)
@@ -503,7 +498,7 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
             ObjBean_Move(this);
             ObjBean_SetupWaitForPlayer(this);
 
-            ObjBean_InitDynaPoly(this, globalCtx, &D_060005DC, DPM_UNK3);
+            ObjBean_InitDynaPoly(this, globalCtx, &gMagicBeanPlatformCol, DPM_UNK3);
             this->stateFlags |= BEAN_STATE_DYNAPOLY_SET;
             ObjBean_InitCollider(&this->dyna.actor, globalCtx);
             this->stateFlags |= BEAN_STATE_COLLIDER_SET;
@@ -924,7 +919,7 @@ void ObjBean_DrawSoftSoilSpot(ObjBean* this, GlobalContext* globalCtx) {
                      MTXMODE_NEW);
     Matrix_RotateY(this->dyna.actor.home.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
-    Gfx_DrawDListOpa(globalCtx, D_06000650);
+    Gfx_DrawDListOpa(globalCtx, gMagicBeanSoftSoilDL);
 }
 
 void ObjBean_DrawBeanstalk(ObjBean* this, GlobalContext* globalCtx) {
@@ -932,17 +927,17 @@ void ObjBean_DrawBeanstalk(ObjBean* this, GlobalContext* globalCtx) {
                      MTXMODE_NEW);
     Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_Scale(0.1f, this->stalkSizeMultiplier, 0.1f, MTXMODE_APPLY);
-    Gfx_DrawDListOpa(globalCtx, D_060001B0);
+    Gfx_DrawDListOpa(globalCtx, gMagicBeanStemDL);
 }
 
 void ObjBean_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ObjBean* this = THIS;
 
     if (this->stateFlags & BEAN_STATE_DRAW_SOIL) {
-        Gfx_DrawDListOpa(globalCtx, D_06000090);
+        Gfx_DrawDListOpa(globalCtx, gMagicBeanSeedlingDL);
     }
     if (this->stateFlags & BEAN_STATE_DRAW_PLANT) {
-        Gfx_DrawDListOpa(globalCtx, D_060003F0);
+        Gfx_DrawDListOpa(globalCtx, gMagicBeanPlatformDL);
     }
     if (this->stateFlags & BEAN_STATE_DRAW_LEAVES) {
         ObjBean_DrawSoftSoilSpot(this, globalCtx);

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot08_bakudankabe.h"
+#include "objects/object_spot08_obj/object_spot08_obj.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
@@ -31,9 +32,6 @@ const ActorInit Bg_Spot08_Bakudankabe_InitVars = {
     (ActorFunc)BgSpot08Bakudankabe_Update,
     (ActorFunc)BgSpot08Bakudankabe_Draw,
 };
-
-extern CollisionHeader D_060039D4;
-extern Gfx D_06003898[];
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
@@ -171,7 +169,7 @@ void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     func_808B02D0(this, globalCtx);
-    CollisionHeader_GetVirtual(&D_060039D4, &colHeader);
+    CollisionHeader_GetVirtual(&gZorasFountainBombableWallCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
@@ -203,5 +201,5 @@ void BgSpot08Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateSpheres(0, &this->collider);
     Collider_UpdateSpheres(1, &this->collider);
     Collider_UpdateSpheres(2, &this->collider);
-    Gfx_DrawDListOpa(globalCtx, D_06003898);
+    Gfx_DrawDListOpa(globalCtx, gZorasFountainBombableWallDL);
 }

@@ -14,6 +14,7 @@
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 #include "objects/object_jya_door/object_jya_door.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
+#include "objects/object_bdan_objects/object_bdan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -91,7 +92,7 @@ static ShutterInfo sShutterInfo[] = {
     { gDTDungeonDoor1DL, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { gDTDungeonDoor2DL, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 },
-    { 0x06000590, 0x06006460, 0, 110, 50, 15 },
+    { gJabuDoorSection1DL, 0x06006460, 0, 110, 50, 15 },
     { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },
     { gGohmaDoorDL, NULL, 130, 12, 50, 15 },
     { gSpiritDoorDL, gJyaDoorMetalBarsDL, 240, 14, 50, 15 },
@@ -151,8 +152,9 @@ static BossDoorInfo D_80998288[] = {
     { -1, -1, 0x00 },
 };
 
-static Gfx* D_809982B4[] = {
-    0x06000590, 0x06000BF0, 0x06002BD0, 0x060018B0, 0x06001F10, 0x060018B0, 0x06001250, 0x06000BF0,
+static Gfx* sJabuDoorDLists[] = {
+    gJabuDoorSection1DL, gJabuDoorSection2DL, gJabuDoorSection7DL, gJabuDoorSection4DL,
+    gJabuDoorSection5DL, gJabuDoorSection4DL, gJabuDoorSection3DL, gJabuDoorSection2DL,
 };
 
 // boss door textures?
@@ -641,7 +643,7 @@ Gfx* func_80997838(GlobalContext* globalCtx, DoorShutter* this, Gfx* p) {
     s32 i;
 
     Matrix_Get(&mtx);
-    for (i = 0; i < ARRAY_COUNT(D_809982B4); i++) {
+    for (i = 0; i < ARRAY_COUNT(sJabuDoorDLists); i++) {
         Matrix_RotateZ(angle, MTXMODE_APPLY);
         if (i % 2 == 0) {
             Matrix_Translate(0.0f, 800.0f, 0.0f, MTXMODE_APPLY);
@@ -655,7 +657,7 @@ Gfx* func_80997838(GlobalContext* globalCtx, DoorShutter* this, Gfx* p) {
         }
         gSPMatrix(p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_shutter.c", 1991),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(p++, D_809982B4[i]);
+        gSPDisplayList(p++, sJabuDoorDLists[i]);
         angle -= M_PI / 4;
         Matrix_Put(&mtx);
     }
