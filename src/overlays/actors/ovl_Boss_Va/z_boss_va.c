@@ -452,7 +452,7 @@ void BossVa_BloodSplatter(GlobalContext* globalCtx, BossVaEffect* src, s16 yaw, 
         pos.x = Rand_CenteredFloat(10.0f) + src->pos.x;
         pos.y = src->pos.y - (Rand_ZeroOne() * 15.0f);
         pos.z = Rand_CenteredFloat(10.0f) + src->pos.z;
-        BossVa_SpawnBloodSplatter(globalCtx, sVaEffects, &pos, (s16)Rand_CenteredFloat(26000.0f) + yaw, scale);
+        BossVa_SpawnBloodSplatter(globalCtx, sVaEffects, &pos, (s16)Rand_CenteredFloat(0x6590) + yaw, scale);
     }
 }
 
@@ -464,7 +464,7 @@ void BossVa_Gore(GlobalContext* globalCtx, BossVaEffect* src, s16 yaw, s16 scale
         pos.x = Rand_CenteredFloat(10.0f) + src->pos.x;
         pos.y = Rand_CenteredFloat(10.0f) + src->pos.y;
         pos.z = Rand_CenteredFloat(10.0f) + src->pos.z;
-        BossVa_SpawnGore(globalCtx, sVaEffects, &pos, (s16)Rand_CenteredFloat(26000.0f) + yaw, scale);
+        BossVa_SpawnGore(globalCtx, sVaEffects, &pos, (s16)Rand_CenteredFloat(0x6590) + yaw, scale);
     }
 }
 
@@ -648,8 +648,8 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     globalCtx->envCtx.unk_E2[3] = 0xD2;
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     sCsCamera = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-                    Gameplay_ChangeCameraStatus(globalCtx, sCsCamera, 7);
+                    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                    Gameplay_ChangeCameraStatus(globalCtx, sCsCamera, CAM_STAT_ACTIVE);
                     sCameraNextEye.x = sCameraEye.x = 140.0f;
                     sCameraNextEye.y = sCameraEye.y = 205.0f;
                     sCameraNextEye.z = sCameraEye.z = -20.0f;
@@ -788,11 +788,11 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             break;
         case INTRO_LOOK_DOOR:
             func_80064520(globalCtx, &globalCtx->csCtx);
-            if (sCsCamera == 0) {
+            if (sCsCamera == SUBCAM_FREE) {
                 sCsCamera = Gameplay_CreateSubCamera(globalCtx);
             }
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, sCsCamera, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sCsCamera, CAM_STAT_ACTIVE);
 
             sCameraNextEye.x = sCameraEye.x = 13.0f;
             sCameraNextEye.y = sCameraEye.y = 124.0f;
@@ -830,11 +830,11 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             break;
         case INTRO_SPAWN_BARI:
             func_80064520(globalCtx, &globalCtx->csCtx);
-            if (sCsCamera == 0) {
+            if (sCsCamera == SUBCAM_FREE) {
                 sCsCamera = Gameplay_CreateSubCamera(globalCtx);
             }
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, sCsCamera, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sCsCamera, CAM_STAT_ACTIVE);
 
             sCameraNextEye.x = sCameraEye.x = 13.0f;
             sCameraNextEye.y = sCameraEye.y = 124.0f;
@@ -1012,7 +1012,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                 Gameplay_ClearCamera(globalCtx, sCsCamera);
                 sCsCamera = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
+                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 sCsState++;
                 gSaveContext.eventChkInf[7] |= 0x40;
@@ -1076,7 +1076,7 @@ void BossVa_BodyPhase1(BossVa* this, GlobalContext* globalCtx) {
 
     if (sBodyState & 0x7F) {
         this->skelAnime.curFrame = 0.0f;
-        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xC);
+        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
     }
 
@@ -1127,7 +1127,7 @@ void BossVa_BodyPhase2(BossVa* this, GlobalContext* globalCtx) {
     if (this->actor.colorFilterTimer == 0) {
         sPhase2Timer++;
         if ((this->invincibilityTimer != 0) && (this->actor.colorFilterParams & 0x4000)) {
-            Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xA0);
+            Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
             this->actor.colorFilterTimer = this->invincibilityTimer;
         } else {
             this->colliderBody.info.bumper.dmgFlags = 0x10;
@@ -1139,7 +1139,7 @@ void BossVa_BodyPhase2(BossVa* this, GlobalContext* globalCtx) {
 
         if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
             sPhase2Timer &= 0xFE00;
-            Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xA0);
+            Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
             this->colliderBody.info.bumper.dmgFlags = 0xFC00712;
         } else {
             sKillBari++;
@@ -1150,7 +1150,7 @@ void BossVa_BodyPhase2(BossVa* this, GlobalContext* globalCtx) {
                 }
             }
 
-            Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
+            Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
         }
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_FAINT);
@@ -1237,14 +1237,14 @@ void BossVa_BodyPhase3(BossVa* this, GlobalContext* globalCtx) {
         this->colliderBody.base.atFlags &= ~AT_HIT;
         if (this->colliderBody.base.at == &player->actor) {
             func_8002F71C(globalCtx, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
-            this->actor.world.rot.y += (s16)Rand_CenteredFloat(12000.0f) + 0x8000;
+            this->actor.world.rot.y += (s16)Rand_CenteredFloat(0x2EE0) + 0x8000;
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
 
     if (this->colliderBody.base.acFlags & AC_HIT) {
         this->skelAnime.curFrame = 0.0f;
-        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xC);
+        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_FAINT);
         sBodyState = 1;
         this->timer = 131;
@@ -1358,7 +1358,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
         this->colliderBody.base.atFlags &= ~AT_HIT;
         if (this->colliderBody.base.at == &player->actor) {
             func_8002F71C(globalCtx, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
-            this->actor.world.rot.y += (s16)Rand_CenteredFloat(12000.0f) + 0x8000;
+            this->actor.world.rot.y += (s16)Rand_CenteredFloat(0x2EE0) + 0x8000;
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
@@ -1375,7 +1375,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
                 if (this->actor.colChkInfo.damageEffect != 1) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
                     sPhase4HP -= this->actor.colChkInfo.damage;
                     if (sPhase4HP <= 0) {
                         this->timer = 0;
@@ -1393,7 +1393,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
                     this->timer = (s16)Rand_CenteredFloat(40.0f) + 160;
                     this->vaBodySpinRate = 0;
                     this->actor.speedXZ = 0.0f;
-                    Actor_SetColorFilter(&this->actor, 0, 0x7D, 0, 0xFF);
+                    Actor_SetColorFilter(&this->actor, 0, 125, 0, 255);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_FAINT);
                 }
             }
@@ -1534,8 +1534,8 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
             func_8002DF54(globalCtx, &this->actor, 1);
             func_80064520(globalCtx, &globalCtx->csCtx);
             sCsCamera = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, sCsCamera, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sCsCamera, CAM_STAT_ACTIVE);
 
             sCameraNextAt.x = this->actor.world.pos.x;
             sCameraNextAt.y = this->actor.world.pos.y;
@@ -1627,7 +1627,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
                 Gameplay_ClearCamera(globalCtx, sCsCamera);
                 sCsCamera = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
+                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
 
                 camera->eyeNext = camera->eye = sCameraEye;
 
@@ -1717,7 +1717,7 @@ void BossVa_SetupSupportAttached(BossVa* this, GlobalContext* globalCtx) {
 void BossVa_SupportAttached(BossVa* this, GlobalContext* globalCtx) {
     this->timer++;
     if (sBodyState & 0x7F) {
-        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xC);
+        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
         if (Rand_ZeroOne() > 0.5f) {
             Animation_Change(&this->skelAnime, &gBarinadeSupportDamage1Anim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gBarinadeSupportDamage1Anim), ANIMMODE_ONCE, 0.0f);
@@ -2122,7 +2122,7 @@ void BossVa_SetupZapperDamaged(BossVa* this, GlobalContext* globalCtx) {
                          Animation_GetLastFrame(&gBarinadeZapperDamage2Anim), ANIMMODE_ONCE_INTERP, 4.0f);
     }
 
-    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xC);
+    Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
     this->burst = false;
     BossVa_SetupAction(this, BossVa_ZapperDamaged);
 }
@@ -2697,7 +2697,7 @@ void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
         } else {
             this->unk_1AC = 0;
             if (this->actor.colorFilterTimer == 0) {
-                Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, BODY->actor.colorFilterTimer);
+                Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, BODY->actor.colorFilterTimer);
             }
         }
 
@@ -2732,7 +2732,7 @@ void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
 void BossVa_SetupBariPhase3Stunned(BossVa* this, GlobalContext* globalCtx) {
     this->actor.flags |= 1;
     this->timer = BODY->timer;
-    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, this->timer);
+    Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, this->timer);
     BossVa_SetupAction(this, BossVa_BariPhase3Stunned);
 }
 
@@ -2746,7 +2746,7 @@ void BossVa_BariPhase3Stunned(BossVa* this, GlobalContext* globalCtx) {
         return;
     }
 
-    this->unk_1A4 += (Rand_ZeroOne() * 0.5f);
+    this->unk_1A4 += Rand_ZeroOne() * 0.5f;
     Math_SmoothStepToF(&this->actor.world.pos.y, 4.0f, 1.0f, 2.0f, 0.0f);
     this->actor.world.pos.y += Math_SinF(this->unk_1A4) * 3.0f;
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderSph.base);
@@ -3334,8 +3334,8 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
             if ((effect->type == VA_LARGE_SPARK) || (effect->type == VA_SMALL_SPARK)) {
                 refActor = effect->parent;
 
-                effect->rot.z += (s16)(Rand_ZeroOne() * 20000.0f) + 0x2000;
-                effect->rot.y += (s16)(Rand_ZeroOne() * 10000.0f) + 0x2000;
+                effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x2000;
+                effect->rot.y += (s16)(Rand_ZeroOne() * 0x2710) + 0x2000;
 
                 if ((effect->mode == SPARK_TETHER) || (effect->mode == SPARK_UNUSED)) {
                     pitch = effect->rot.x -
@@ -3368,7 +3368,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
             }
 
             if (effect->type == VA_BLAST_SPARK) {
-                effect->rot.z += (s16)(Rand_ZeroOne() * 20000.0f) + 0x4000;
+                effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x4000;
                 if (effect->timer < 100) {
                     effect->primColor[3] -= 50;
                     if (effect->primColor[3] < 0) {
@@ -3382,7 +3382,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
             if (effect->type == VA_SPARK_BALL) {
                 refActor2 = effect->parent;
 
-                effect->rot.z += (s16)(Rand_ZeroOne() * 10000.0f) + 0x24A8;
+                effect->rot.z += (s16)(Rand_ZeroOne() * 0x2710) + 0x24A8;
                 effect->pos.x = effect->offset.x + refActor2->actor.world.pos.x;
                 effect->pos.y =
                     refActor2->actor.world.pos.y + 310.0f + (refActor2->actor.shape.yOffset * refActor2->actor.scale.y);
@@ -3947,8 +3947,8 @@ void BossVa_SpawnGore(GlobalContext* globalCtx, BossVaEffect* effect, Vec3f* pos
             effect->primColor[0] = 155;
             effect->primColor[1] = effect->primColor[2] = 55;
 
-            effect->rot.x = Rand_CenteredFloat(65536.0f);
-            effect->rot.y = Rand_CenteredFloat(65536.0f);
+            effect->rot.x = Rand_CenteredFloat(0x10000);
+            effect->rot.y = Rand_CenteredFloat(0x10000);
             effect->scale = (Rand_ZeroFloat(scale) + scale) * 0.01f;
             effect->vaGorePulseRate = (Rand_ZeroOne() * 0.25f) + 0.9f;
             break;

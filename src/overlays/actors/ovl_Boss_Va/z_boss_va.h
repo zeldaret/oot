@@ -1,8 +1,8 @@
 #ifndef _Z_BOSS_VA_H_
 #define _Z_BOSS_VA_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BossVa;
 
