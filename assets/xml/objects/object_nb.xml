@@ -86,7 +86,7 @@
         <Texture Name="gNabooruEyeClosedTex" OutName="nabooru_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x0D4E8"/>
         <Texture Name="gNabooruEyeWideTex" OutName="nabooru_eye_wide" Format="ci8" Width="32" Height="32" Offset="0x0D8E8"/>
 
-                <!-- Nabooru Animations -->
+        <!-- Nabooru Animations -->
         <Animation Name="gNabooruPuttingHandsTogetherCastingMagicAnim" Offset="0x00410"/>
         <Animation Name="gNabooruSittingCrossLeggedAnim" Offset="0x00BC0"/>
         <Animation Name="gNabooruTrappedInVortexRaisingArmAnim" Offset="0x01104"/>

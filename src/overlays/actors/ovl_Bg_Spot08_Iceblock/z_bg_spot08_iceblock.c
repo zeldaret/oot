@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot08_iceblock.h"
+#include "objects/object_spot08_obj/object_spot08_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -34,11 +35,6 @@ const ActorInit Bg_Spot08_Iceblock_InitVars = {
     (ActorFunc)BgSpot08Iceblock_Update,
     (ActorFunc)BgSpot08Iceblock_Draw,
 };
-
-extern Gfx D_06000DE0[];           // Large iceberg spawned in place of Jabu
-extern CollisionHeader D_06001904; // Large iceberg spawned in place of Jabu
-extern Gfx D_06002BD0[];           // Hexagonal ice floe
-extern CollisionHeader D_06002FD8; // Hexagonal ice floe
 
 void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -295,10 +291,10 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->dyna.actor.params & 0x200) {
         case 0:
-            colHeader = &D_06002FD8;
+            colHeader = &gZorasFountainIcebergCol;
             break;
         case 0x200:
-            colHeader = &D_06001904;
+            colHeader = &gZorasFountainIceRampCol;
             break;
     }
 
@@ -440,10 +436,10 @@ void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->dyna.actor.params & 0x200) {
         case 0:
-            dList = D_06002BD0;
+            dList = gZorasFountainIcebergDL;
             break;
         case 0x200:
-            dList = D_06000DE0;
+            dList = gZorasFountainIceRampDL;
             break;
     }
 

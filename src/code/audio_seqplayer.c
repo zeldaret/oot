@@ -374,7 +374,6 @@ s32 func_800E9F64(SequenceChannelLayer* layer, s32 arg1);
 s32 func_800EA0C0(SequenceChannelLayer* layer);
 s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1);
 s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1);
-s32 func_800E3414(u8 bankId, s32 value, s8* value2);
 
 void Audio_SeqChannelLayerProcessScript(SequenceChannelLayer* layer) {
     s32 val;
@@ -1411,14 +1410,14 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                 case 0x10:
                     if (lowBits < 8) {
                         channel->soundScriptIO[lowBits] = -1;
-                        if (func_800E3414(channel->bankId, scriptState->value, &channel->soundScriptIO[lowBits]) ==
+                        if (Audio_SyncLoadSample(channel->bankId, scriptState->value, &channel->soundScriptIO[lowBits]) ==
                             -1) {
                             break;
                         }
                     } else {
                         lowBits -= 8;
                         channel->soundScriptIO[lowBits] = -1;
-                        if (func_800E3414(channel->bankId, channel->unk_22 + 0x100, &channel->soundScriptIO[lowBits]) ==
+                        if (Audio_SyncLoadSample(channel->bankId, channel->unk_22 + 0x100, &channel->soundScriptIO[lowBits]) ==
                             -1) {
                             break;
                         }
@@ -1730,7 +1729,7 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0xB0:
                         command = Audio_M64ReadU8(seqScript);
                         temp = Audio_M64ReadS16(seqScript);
-                        func_800E390C(command, &seqPlayer->seqData[temp], &seqPlayer->unk_158[commandLow]);
+                        Audio_SyncLoadSeq(command, &seqPlayer->seqData[temp], &seqPlayer->unk_158[commandLow]);
                         break;
                     case 0x60: {
                         command = Audio_M64ReadU8(seqScript);
