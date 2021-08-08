@@ -5,6 +5,7 @@
  */
 
 #include "z_demo_geff.h"
+#include "objects/object_geff/object_geff.h"
 #include "vt.h"
 
 #define FLAGS 0x00000030
@@ -55,7 +56,7 @@ const ActorInit Demo_Geff_InitVars = {
     (ActorFunc)DemoGeff_Draw,
 };
 
-extern Gfx D_06000EA0[];
+extern Gfx gGanonRubbleDL[];
 
 void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -172,7 +173,7 @@ void func_80978308(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
 void func_80978344(DemoGeff* this, GlobalContext* globalCtx) {
-    func_80977EA8(globalCtx, D_06000EA0);
+    func_80977EA8(globalCtx, gGanonRubbleDL);
 }
 
 void func_80978370(DemoGeff* this, GlobalContext* globalCtx) {

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_ddan_jd.h"
+#include "objects/object_ddan_objects/object_ddan_objects.h"
 
 #define FLAGS 0x00000030
 
@@ -17,9 +18,6 @@ void BgDdanJd_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx);
 void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx);
-
-extern Gfx D_060037B8[];
-extern CollisionHeader D_06003CE0;
 
 const ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
@@ -61,7 +59,7 @@ void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&D_06003CE0, &colHeader);
+    CollisionHeader_GetVirtual(&gDodongoRisingPlatformCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->idleTimer = IDLE_FRAMES;
     this->state = STATE_GO_BOTTOM;
@@ -179,5 +177,5 @@ void BgDdanJd_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanJd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_060037B8);
+    Gfx_DrawDListOpa(globalCtx, gDodongoRisingPlatformDL);
 }

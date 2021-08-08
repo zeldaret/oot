@@ -5,6 +5,7 @@
  */
 
 #include "z_en_yukabyun.h"
+#include "objects/object_yukabyun/object_yukabyun.h"
 
 #define FLAGS 0x00000010
 
@@ -56,10 +57,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 16, ICHAIN_STOP),
 };
 
-static UNK_PTR D_80B43F64[] = { 0x06000AF0, 0x06000000 };
-
-extern Gfx D_06000A60[];
-extern Gfx D_06000970[];
+static void* D_80B43F64[] = { gFloorTileEnemyTopTex, gFloorTileEnemyBottomTex };
 
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnYukabyun* this = THIS;
@@ -112,7 +110,7 @@ void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
 
 void EnYukabyun_Break(EnYukabyun* this, GlobalContext* globalCtx) {
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 8.0f, 0, 1300, 300, 15, OBJECT_YUKABYUN, 10,
-                             D_06000A60);
+                             gFloorTileEnemyFragmentDL);
     Actor_Kill(&this->actor);
 }
 
@@ -156,7 +154,7 @@ void EnYukabyun_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B43F64[this->unk_152]));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 373),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000970);
+    gSPDisplayList(POLY_OPA_DISP++, gFloorTileEnemyDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 378);
 }
