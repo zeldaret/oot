@@ -8,6 +8,51 @@ struct BossMo;
 
 typedef void (*BossMoActionFunc)(struct BossMo*, GlobalContext*);
 
+typedef enum {
+    /*  0 */ MO_TENT_ACTION_STATE,
+    /*  1 */ MO_TENT_MOVE_TIMER,
+    /*  2 */ MO_TENT_VAR_TIMER,
+    /*  3 */ MO_TENT_UNK_TIMER,
+    /*  4 */ MO_TENT_INVINC_TIMER,
+    /*  5 */ MO_TENT_BASE_TEX1_X,
+    /*  6 */ MO_TENT_BASE_TEX1_Y,
+    /*  7 */ MO_TENT_BASE_TEX2_X,
+    /*  8 */ MO_TENT_BASE_TEX2_Y,
+    /* 9 */ MO_TENT_SHORT_MAX
+} BossMoTentS16Var;
+
+typedef enum {
+    /*  0 */ MO_CORE_ACTION_STATE,
+    /*  1 */ MO_CORE_MOVE_TIMER,
+    /*  2 */ MO_CORE_VAR_TIMER,
+    /*  3 */ MO_CORE_DMG_FLASH_TIMER,
+    /*  4 */ MO_CORE_INVINC_TIMER,
+    /*  5 */ MO_CORE_SHORT_5,
+    /*  6 */ MO_CORE_POS_IN_TENT,
+    /*  7 */ MO_CORE_DRAW_SHADOW,
+    /*  8 */ MO_CORE_WAIT_IN_WATER,
+    /*  9 */ MO_CORE_SHORT_MAX
+} BossMoCoreS16Var;
+
+typedef enum {
+    /*  0 */ MO_TENT_SWING_LAG_X,
+    /*  1 */ MO_TENT_SWING_SIZE_X,
+    /*  2 */ MO_TENT_SWING_RATE_X,
+    /*  3 */ MO_TENT_SWING_LAG_Z,
+    /*  4 */ MO_TENT_SWING_SIZE_Z,
+    /*  5 */ MO_TENT_SWING_RATE_Z,
+    /*  6 */ MO_TENT_MAX_STRETCH,
+    /*  7 */ MO_TENT_FLOAT_MAX
+} BossMoTentF32Var;
+
+typedef enum {
+    /*  0 */ MO_CORE_INTRO_WATER_ALPHA,
+    /*  7 */ MO_CORE_FLOAT_MAX
+} BossMoCoreF32Var;
+
+#define MO_SHORT_MAX MAX(MO_TENT_SHORT_MAX, MO_CORE_SHORT_MAX)
+#define MO_FLOAT_MAX MAX(MO_TENT_FLOAT_MAX, MO_CORE_FLOAT_MAX)
+
 typedef struct BossMo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Actor* otherTent;
@@ -15,19 +60,11 @@ typedef struct BossMo {
     /* 0x0154 */ u8 tent2KillTimer;
     /* 0x0155 */ u8 hitCount;
     /* 0x0156 */ u8 tentSpawnPos;
-    /* 0x0158 */ s16 actionState;
-    /* 0x015A */ s16 movementTimer;
-    /* 0x015C */ s16 rippleTimer;
-    /* 0x015E */ s16 damageFlashTimer;
-    /* 0x0160 */ s16 invincibilityTimer;
-    /* 0x0162 */ s16 baseTex1x;
-    /* 0x0164 */ union{s16 baseTex1y; s16 corePos;};
-    /* 0x0166 */ union{s16 baseTex2x; s16 drawShadow;};
-    /* 0x0168 */ union{s16 baseTex2y; s16 waitUnderwater;};
-    /* 0x016A */ s16 tentWidthIndex;
-    /* 0x016C */ s16 tentPulsePhase;
-    /* 0x016E */ s16 tentSwingX;
-    /* 0x0170 */ s16 tentSwingZ;
+    /* 0x0158 */ s16 work[MO_SHORT_MAX];
+    /* 0x016A */ s16 widthIndex;
+    /* 0x016C */ s16 pulsePhase;
+    /* 0x016E */ s16 xSwing;
+    /* 0x0170 */ s16 zSwing;
     /* 0x0172 */ s16 cutIndex;
     /* 0x0174 */ s16 meltIndex;
     /* 0x0176 */ s16 linkToLeft;
@@ -35,13 +72,7 @@ typedef struct BossMo {
     /* 0x017A */ s16 noBubbles;
     /* 0x017C */ s16 sfxTimer;
     /* 0x017E */ s16 timers[5];
-    /* 0x0188 */ union{f32 swingLagX; f32 introWaterTexAlpha;};
-    /* 0x018C */ f32 swingSizeX;
-    /* 0x0190 */ f32 swingRateX;
-    /* 0x0194 */ f32 swingLagZ;
-    /* 0x0198 */ f32 swingSizeZ;
-    /* 0x019C */ f32 swingRateZ;
-    /* 0x01A0 */ f32 tentMaxStretch;
+    /* 0x0188 */ f32 fwork[MO_FLOAT_MAX];
     /* 0x01A4 */ f32 baseAlpha;
     /* 0x01A8 */ f32 cutScale;
     /* 0x01AC */ f32 waterTex1x;
