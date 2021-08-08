@@ -2147,6 +2147,8 @@ void func_800F4870(u8);
 // ? func_800F491C(?);
 void func_800F4A54(u8);
 // ? func_800F4A70(?);
+void func_800F4B58(Vec3f*, s16, u8*);
+void func_800F4BE8(void);
 void func_800F4BF4(Vec3f*, u16 sfxId, s8);
 void func_800F4C58(Vec3f*, u16 sfxId, u8);
 void func_800F4E30(Vec3f*, f32);
