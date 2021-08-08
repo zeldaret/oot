@@ -1440,9 +1440,7 @@ endseg
 beginseg
     name "ovl_Boss_Va"
     include "build/src/overlays/actors/ovl_Boss_Va/z_boss_va.o"
-    include "build/data/overlays/actors/z_boss_va.data.o"
-    include "build/data/overlays/actors/z_boss_va.bss.o"
-    include "build/data/overlays/actors/z_boss_va.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Va/ovl_Boss_Va_reloc.o"
 endseg
 
 beginseg
@@ -4277,7 +4275,7 @@ endseg
 beginseg
     name "object_bv"
     romalign 0x1000
-    include "build/baserom/object_bv.o"
+    include "build/assets/objects/object_bv/object_bv.o"
     number 6
 endseg
 
