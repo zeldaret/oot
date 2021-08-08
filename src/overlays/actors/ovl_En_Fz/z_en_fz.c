@@ -1,4 +1,5 @@
 #include "z_en_fz.h"
+#include "objects/object_fz/object_fz.h"
 
 #define FLAGS 0x00000415
 
@@ -45,10 +46,6 @@ void EnFz_SpawnIceSmokeFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* ac
                               s16 primAlpha, u8 isTimerMod8);
 void EnFz_UpdateIceSmoke(EnFz* this, GlobalContext* globalCtx);
 void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx);
-
-// Same effects as "z_eff_ss_ice_smoke.h"
-extern Gfx* D_060030A0[];
-extern Gfx* D_06003158[];
 
 const ActorInit En_Fz_InitVars = {
     ACTOR_EN_FZ,
@@ -710,9 +707,9 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* displayLists[] = {
-        0x06001130, // Body fully intact           (5 or 6 health)
-        0x060021A0, // Top right horn chipped off  (from Freezards perspective)   (3 or 4 health)
-        0x06002CA0, // Entire head chipped off     (1 or 2 health)
+        gFreezardIntactDL,              // Body fully intact           (5 or 6 health)
+        gFreezardTopRightHornChippedDL, // Top right horn chipped off  (from Freezards perspective)   (3 or 4 health)
+        gFreezardHeadChippedDL,         // Entire head chipped off     (1 or 2 health)
     };
     EnFz* this = THIS;
     s32 pad;
@@ -873,7 +870,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             gDPPipeSync(POLY_XLU_DISP++);
 
             if (!texLoaded) {
-                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_060030A0));
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardSteamStartDL));
                 texLoaded++;
             }
 
@@ -886,7 +883,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             Matrix_Scale(iceSmoke->xyScale, iceSmoke->xyScale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_fz.c", 1424),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_06003158));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gFreezardSteamDL));
         }
 
         iceSmoke++;

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_trap.h"
+#include "objects/object_trap/object_trap.h"
 
 #define FLAGS 0x00000010
 
@@ -59,8 +60,6 @@ static ColliderCylinderInit sCylinderInit = {
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, TOUCH_NONE, BUMP_ON, OCELEM_ON },
     { 30, 20, 0, { 0, 0, 0 } },
 };
-
-extern Gfx D_06001400[];
 
 void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 trapDist;
@@ -391,5 +390,5 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_8002EBCC(thisx, globalCtx, 1);
-    Gfx_DrawDListOpa(globalCtx, D_06001400);
+    Gfx_DrawDListOpa(globalCtx, gSlidingBladeTrapDL);
 }
