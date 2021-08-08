@@ -46,9 +46,9 @@ typedef struct {
 void BossMo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossMo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossMo_UpdateCore(Actor* thisx, GlobalContext* globalCtx);
-void BossMo_Update(Actor* thisx, GlobalContext* globalCtx);
+void BossMo_UpdateTent(Actor* thisx, GlobalContext* globalCtx);
 void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx);
-void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BossMo_DrawTent(Actor* thisx, GlobalContext* globalCtx);
 
 void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx);
 void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx);
@@ -125,8 +125,8 @@ const ActorInit Boss_Mo_InitVars = {
     sizeof(BossMo),
     (ActorFunc)BossMo_Init,
     (ActorFunc)BossMo_Destroy,
-    (ActorFunc)BossMo_Update,
-    (ActorFunc)BossMo_Draw,
+    (ActorFunc)BossMo_UpdateTent,
+    (ActorFunc)BossMo_DrawTent,
 };
 
 static BossMo* sMorphaCore = NULL;
@@ -2245,7 +2245,7 @@ void BossMo_UpdateCore(Actor* thisx, GlobalContext* globalCtx) {
     BossMo_Unknown();
 }
 
-void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BossMo_UpdateTent(Actor* thisx, GlobalContext* globalCtx) {
     s16 i;
     s16 index;
     s32 pad;
@@ -2712,7 +2712,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
     BossMo_DrawEffects(globalCtx->specialEffects, globalCtx);
 }
 
-void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BossMo_DrawTent(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BossMo* this = THIS;
     u16 scroll;
