@@ -12,7 +12,7 @@
 #define FLAGS 0x00000035
 
 #define THIS ((BossVa*)thisx)
-#define BODY ((BossVa*)this->actor.parent)
+#define BODY(this) ((BossVa*)this->actor.parent)
 #define vaGorePulse offset.x
 #define vaGorePulseRate offset.y
 #define vaBariUnused headRot
@@ -40,7 +40,7 @@ typedef struct BossVaEffect {
     /* 0x54 */ struct BossVa* parent;
 } BossVaEffect; // size = 0x58
 
-typedef enum BossVaEffectType {
+typedef enum {
     /* 0 */ VA_NONE,
     /* 1 */ VA_LARGE_SPARK,
     /* 2 */ VA_BLAST_SPARK,
@@ -52,7 +52,7 @@ typedef enum BossVaEffectType {
     /* 8 */ VA_GORE
 } BossVaEffectType;
 
-typedef enum BossVaSparkMode {
+typedef enum {
     /* 1 */ SPARK_TETHER = 1,
     /* 2 */ SPARK_BARI,
     /* 3 */ SPARK_BLAST,
@@ -61,25 +61,25 @@ typedef enum BossVaSparkMode {
     /* 6 */ SPARK_LINK
 } BossVaSparkMode;
 
-typedef enum BossVaBloodMode {
+typedef enum {
     /* 0 */ BLOOD_DROPLET,
     /* 1 */ BLOOD_SPLATTER,
     /* 2 */ BLOOD_SPOT
 } BossVaBloodMode;
 
-typedef enum BossVaTumorMode {
+typedef enum {
     /* 0 */ TUMOR_UNUSED,
     /* 1 */ TUMOR_BODY,
     /* 2 */ TUMOR_ARM
 } BossVaTumorMode;
 
-typedef enum BossVaGoreMode {
+typedef enum {
     /* 0 */ GORE_PERMANENT,
     /* 1 */ GORE_FLOOR,
     /* 2 */ GORE_FADING
 } BossVaGoreMode;
 
-typedef enum BossVaCutscene {
+typedef enum {
     /* -5 */ INTRO_UNUSED_START = -5,
     /* -4 */ INTRO_START,
     /* -3 */ INTRO_LOOK_DOOR,
@@ -398,7 +398,7 @@ void BossVa_SetupAction(BossVa* this, BossVaActionFunc func) {
 }
 
 void BossVa_AttachToBody(BossVa* this) {
-    BossVa* vaBody = BODY;
+    BossVa* vaBody = BODY(this);
 
     Matrix_Translate(vaBody->actor.world.pos.x, vaBody->actor.world.pos.y, vaBody->actor.world.pos.z, MTXMODE_NEW);
     Matrix_RotateRPY(vaBody->actor.shape.rot.x, 0, vaBody->actor.shape.rot.z, MTXMODE_APPLY);
@@ -429,7 +429,7 @@ void BossVa_AttachToBody(BossVa* this) {
     }
 
     this->actor.world.rot = this->actor.shape.rot;
-    this->actor.shape.yOffset = BODY->actor.shape.yOffset;
+    this->actor.shape.yOffset = BODY(this)->actor.shape.yOffset;
 }
 
 void BossVa_BloodDroplets(GlobalContext* globalCtx, Vec3f* pos, s16 phase, s16 yaw) {
@@ -753,9 +753,9 @@ void BossVa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupIntro(BossVa* this) {
-    f32 endFrame = Animation_GetLastFrame(&gBarinadeBodyAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gBarinadeBodyAnim);
 
-    Animation_Change(&this->skelAnime, &gBarinadeBodyAnim, 1.0f, endFrame, endFrame, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gBarinadeBodyAnim, 1.0f, lastFrame, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->actor.shape.yOffset = -450.0f;
     this->actor.flags &= ~1;
     BossVa_SetupAction(this, BossVa_BodyIntro);
@@ -1025,7 +1025,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
     }
 
     if (sCsState >= INTRO_BODY_SOUND) {
-        func_800F436C(&this->actor.projectedPos, 0x313C, 1.0f);
+        func_800F436C(&this->actor.projectedPos, NA_SE_EN_BALINADE_LEVEL - SFX_FLAG, 1.0f);
         if ((sCsState >= INTRO_CALL_BARI) && ((globalCtx->gameplayFrames % 4) == 0)) {
             BossVa_Spark(globalCtx, this, 1, 100, 50.0f, 10.0f, SPARK_BODY, 10.0f, false);
         }
@@ -1045,9 +1045,9 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupBodyPhase1(BossVa* this) {
-    f32 endFrame = Animation_GetLastFrame(&gBarinadeBodyAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gBarinadeBodyAnim);
 
-    Animation_Change(&this->skelAnime, &gBarinadeBodyAnim, 1.0f, endFrame, endFrame, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gBarinadeBodyAnim, 1.0f, lastFrame, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->actor.shape.yOffset = -450.0f;
     this->actor.flags &= ~1;
     this->timer = 25;
@@ -1100,7 +1100,7 @@ void BossVa_BodyPhase1(BossVa* this, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->colliderBody);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
-    func_800F436C(&this->actor.projectedPos, 0x313C, 1.0f);
+    func_800F436C(&this->actor.projectedPos, NA_SE_EN_BALINADE_LEVEL - SFX_FLAG, 1.0f);
 }
 
 void BossVa_SetupBodyPhase2(BossVa* this, GlobalContext* globalCtx) {
@@ -1511,7 +1511,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupBodyDeath(BossVa* this, GlobalContext* globalCtx) {
-    func_800F436C(&this->actor.projectedPos, 0x313C, 1.0f);
+    func_800F436C(&this->actor.projectedPos, NA_SE_EN_BALINADE_LEVEL - SFX_FLAG, 1.0f);
     this->actor.flags &= ~5;
     Audio_QueueSeqCmd(0x100100FF);
     this->vaCamRotMod = 0xC31;
@@ -1589,7 +1589,8 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
                 this->isDead++;
                 this->timer = 30;
                 sCsState++;
-                EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, 0x3940, 1, 1, 0x28);
+                EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_BALINADE_DEAD, 1, 1,
+                                                  0x28);
                 this->onCeiling = 2; // Not used by body
                 BossVa_SetDeathEnv(globalCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
@@ -1764,41 +1765,41 @@ void BossVa_SetupSupportCut(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SupportCut(BossVa* this, GlobalContext* globalCtx) {
-    BossVa* vaBody = BODY;
-    f32 endFrame;
+    BossVa* vaBody = BODY(this);
+    f32 lastFrame;
 
     BossVa_AttachToBody(this);
 
     if (this->onCeiling) {
-        endFrame = Animation_GetLastFrame(&gBarinadeSupportCutAnim);
+        lastFrame = Animation_GetLastFrame(&gBarinadeSupportCutAnim);
         this->onCeiling = false;
         this->timer = (s32)(Rand_ZeroOne() * 10.0f) + 5;
         SkelAnime_Free(&this->skelAnime, globalCtx);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBarinadeCutSupportSkel, &gBarinadeSupportCutAnim, NULL, NULL,
                            0);
-        Animation_Change(&this->skelAnime, &gBarinadeSupportCutAnim, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE, 0.0f);
+        Animation_Change(&this->skelAnime, &gBarinadeSupportCutAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
         sBodyState = 0;
-        BODY->actor.shape.yOffset -= 60.0f;
+        BODY(this)->actor.shape.yOffset -= 60.0f;
 
         switch (this->actor.params) {
             case BOSSVA_SUPPORT_1:
-                BODY->actor.world.rot.x += 0x4B0;
+                BODY(this)->actor.world.rot.x += 0x4B0;
                 break;
             case BOSSVA_SUPPORT_2:
-                BODY->actor.world.rot.x -= 0x258;
-                BODY->actor.world.rot.z -= 0x4E2;
+                BODY(this)->actor.world.rot.x -= 0x258;
+                BODY(this)->actor.world.rot.z -= 0x4E2;
                 break;
             case BOSSVA_SUPPORT_3:
-                BODY->actor.world.rot.x -= 0x258;
-                BODY->actor.world.rot.z += 0x4E2;
+                BODY(this)->actor.world.rot.x -= 0x258;
+                BODY(this)->actor.world.rot.z += 0x4E2;
                 break;
         }
     }
 
     Math_SmoothStepToS(&this->headRot.x, vaBody->vaBodySpinRate * -3, 1, 0x4B0, 0);
     if (SkelAnime_Update(&this->skelAnime)) {
-        endFrame = Animation_GetLastFrame(&gBarinadeSupportDetachedAnim);
-        Animation_Change(&this->skelAnime, &gBarinadeSupportDetachedAnim, 1.0f, 0.0f, endFrame, ANIMMODE_LOOP_INTERP,
+        lastFrame = Animation_GetLastFrame(&gBarinadeSupportDetachedAnim);
+        Animation_Change(&this->skelAnime, &gBarinadeSupportDetachedAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP,
                          0.0f);
         this->actor.flags &= ~1;
     }
@@ -1869,10 +1870,10 @@ void BossVa_Stump(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupZapperIntro(BossVa* this, GlobalContext* globalCtx) {
-    f32 endFrame = Animation_GetLastFrame(&gBarinadeZapperIdleAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gBarinadeZapperIdleAnim);
 
-    Animation_Change(&this->skelAnime, &gBarinadeZapperIdleAnim, 1.0f, endFrame - 1.0f, endFrame, ANIMMODE_LOOP_INTERP,
-                     -6.0f);
+    Animation_Change(&this->skelAnime, &gBarinadeZapperIdleAnim, 1.0f, lastFrame - 1.0f, lastFrame,
+                     ANIMMODE_LOOP_INTERP, -6.0f);
     this->actor.flags &= ~1;
     BossVa_SetupAction(this, BossVa_ZapperIntro);
 }
@@ -1896,10 +1897,10 @@ void BossVa_ZapperIntro(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupZapperAttack(BossVa* this, GlobalContext* globalCtx) {
-    f32 endFrame = Animation_GetLastFrame(&gBarinadeZapperIdleAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gBarinadeZapperIdleAnim);
 
-    Animation_Change(&this->skelAnime, &gBarinadeZapperIdleAnim, 1.0f, endFrame - 1.0f, endFrame, ANIMMODE_LOOP_INTERP,
-                     -6.0f);
+    Animation_Change(&this->skelAnime, &gBarinadeZapperIdleAnim, 1.0f, lastFrame - 1.0f, lastFrame,
+                     ANIMMODE_LOOP_INTERP, -6.0f);
     this->actor.flags &= ~1;
     BossVa_SetupAction(this, BossVa_ZapperAttack);
 }
@@ -1992,7 +1993,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if ((sFightPhase < PHASE_4) && (BODY->actor.speedXZ != 0.0f)) {
+    if ((sFightPhase < PHASE_4) && (BODY(this)->actor.speedXZ != 0.0f)) {
         BossVa_SetupZapperHold(this, globalCtx);
         return;
     }
@@ -2006,11 +2007,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
             sp94 = sp98 - this->actor.shape.rot.y;
 
             if (ABS(sp94) > 0x1770) {
-                if (sp94 > 0) {
-                    sp94 = 0x1770;
-                } else {
-                    sp94 = -0x1770;
-                }
+                sp94 = (sp94 > 0) ? 0x1770 : -0x1770;
             }
 
             tmp17 = Math_SmoothStepToS(&this->unk_1E6, sp94, 1, 0x6D6, 0);
@@ -2019,11 +2016,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
             sp94 = sp98 - sp94;
 
             if (ABS(sp94) > 0x1770) {
-                if (sp94 > 0) {
-                    sp94 = 0x1770;
-                } else {
-                    sp94 = -0x1770;
-                }
+                sp94 = (sp94 > 0) ? 0x1770 : -0x1770;
             }
 
             tmp17 = Math_SmoothStepToS(&this->unk_1EC, sp94, 1, 0x6D6, 0);
@@ -2064,7 +2057,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HIT_RINK);
                     BossVa_SetSparkEnv(globalCtx);
                     this->timer2 = -1;
-                    BODY->onCeiling = 6; // not used by body
+                    BODY(this)->onCeiling = 6; // not used by body
                 }
             } else if (this->timer2 > 0) {
                 this->timer2 = 0;
@@ -2145,10 +2138,10 @@ void BossVa_ZapperDamaged(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupZapperDeath(BossVa* this, GlobalContext* globalCtx) {
-    f32 endFrame = Animation_GetLastFrame(&gBarinadeZapperIdleAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gBarinadeZapperIdleAnim);
 
     Animation_Change(&this->skelAnime, &gBarinadeZapperIdleAnim, Rand_ZeroOne() + 0.25f, Rand_ZeroOne() * 3.0f,
-                     endFrame, ANIMMODE_LOOP_INTERP, -6.0f);
+                     lastFrame, ANIMMODE_LOOP_INTERP, -6.0f);
     this->burst = false;
     this->timer2 = (this->actor.params * -6) + 18;
     this->unk_1B0 = 0;
@@ -2234,17 +2227,17 @@ void BossVa_ZapperDeath(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_SetupZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
-    f32 endFrame = Animation_GetLastFrame(&gBarinadeZapperIdleAnim);
+    f32 lastFrame = Animation_GetLastFrame(&gBarinadeZapperIdleAnim);
 
-    Animation_Change(&this->skelAnime, &gBarinadeZapperIdleAnim, 1.0f, endFrame - 1.0f, endFrame, ANIMMODE_LOOP_INTERP,
-                     -6.0f);
+    Animation_Change(&this->skelAnime, &gBarinadeZapperIdleAnim, 1.0f, lastFrame - 1.0f, lastFrame,
+                     ANIMMODE_LOOP_INTERP, -6.0f);
     this->burst = false;
     BossVa_SetupAction(this, BossVa_ZapperEnraged);
 }
 
 void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 sp70_pad;
+    s32 pad;
     s16 tmp16;
     s16 sp6C;
     s16 sp6A;
@@ -2276,11 +2269,7 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
 
             sp68 = sp6C - this->actor.shape.rot.y;
             if (ABS(sp68) > 0x1770) {
-                if (sp68 > 0) {
-                    sp68 = 0x1770;
-                } else {
-                    sp68 = -0x1770;
-                }
+                sp68 = (sp68 > 0) ? 0x1770 : -0x1770;
             }
 
             tmp16 = Math_SmoothStepToS(&this->unk_1E6, sp68, 1, 0xDAC, 0);
@@ -2326,7 +2315,7 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HIT_RINK);
                     BossVa_SetSparkEnv(globalCtx);
                     this->timer2 = -1;
-                    BODY->onCeiling = 6; // not used by body
+                    BODY(this)->onCeiling = 6; // not used by body
                 }
             } else if (this->timer2 > 0) {
                 this->timer2 = 0;
@@ -2392,7 +2381,7 @@ void BossVa_ZapperHold(BossVa* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->unk_1EA, 0, 1, 0x1770, 0);
     Math_SmoothStepToS(&this->unk_1F2, this->actor.shape.rot.y - 0x4000, 1, 0x2710, 0);
     Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.jointTable[7].z - 0x1388, 1, 0x1770, 0);
-    if (BODY->actor.speedXZ == 0.0f) {
+    if (BODY(this)->actor.speedXZ == 0.0f) {
         BossVa_SetupZapperAttack(this, globalCtx);
     }
 }
@@ -2495,8 +2484,8 @@ void BossVa_BariIntro(BossVa* this, GlobalContext* globalCtx) {
             if (this->timer == 0) {
                 this->timer2 = 0;
             } else {
-                func_80035844(&BODY->actor.world.pos, &this->actor.world.pos, &this->actor.world.rot, false);
-                this->unk_1A0 = Math_Vec3f_DistXYZ(&BODY->actor.world.pos, &this->actor.world.pos);
+                func_80035844(&BODY(this)->actor.world.pos, &this->actor.world.pos, &this->actor.world.rot, false);
+                this->unk_1A0 = Math_Vec3f_DistXYZ(&BODY(this)->actor.world.pos, &this->actor.world.pos);
                 if (sp50 > 30.0f) {
                     BossVa_Spark(globalCtx, this, 1, 80, 15.0f, 0.0f, SPARK_BARI, 1.0f, true);
                 }
@@ -2537,7 +2526,7 @@ void BossVa_SetupBariPhase3Attack(BossVa* this, GlobalContext* globalCtx) {
 void BossVa_BariPhase3Attack(BossVa* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnBoom* boomerang;
-    Vec3f sp54 = BODY->unk_1D8;
+    Vec3f sp54 = BODY(this)->unk_1D8;
     s16 sp52;
     s32 pad;
 
@@ -2552,7 +2541,7 @@ void BossVa_BariPhase3Attack(BossVa* this, GlobalContext* globalCtx) {
     this->vaBariUnused.y += this->vaBariUnused.z;
     if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderSph.base.atFlags & AT_HIT)) {
         if ((this->colliderLightning.base.at == &player->actor) || (this->colliderSph.base.at == &player->actor)) {
-            func_8002F71C(globalCtx, &this->actor, 8.0f, BODY->actor.yawTowardsPlayer, 8.0f);
+            func_8002F71C(globalCtx, &this->actor, 8.0f, BODY(this)->actor.yawTowardsPlayer, 8.0f);
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             this->colliderSph.base.at = NULL;
             this->colliderLightning.base.at = NULL;
@@ -2624,7 +2613,7 @@ void BossVa_SetupBariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
 void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnBoom* boomerang;
-    Vec3f sp54 = BODY->unk_1D8;
+    Vec3f sp54 = BODY(this)->unk_1D8;
     s16 sp52;
     s16 sp50;
     f32 sp4C;
@@ -2647,7 +2636,7 @@ void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
 
     if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderSph.base.atFlags & AT_HIT)) {
         if ((this->colliderLightning.base.at == &player->actor) || (this->colliderSph.base.at == &player->actor)) {
-            func_8002F71C(globalCtx, &this->actor, 8.0f, BODY->actor.yawTowardsPlayer, 8.0f);
+            func_8002F71C(globalCtx, &this->actor, 8.0f, BODY(this)->actor.yawTowardsPlayer, 8.0f);
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
             this->colliderSph.base.at = NULL;
             this->colliderLightning.base.at = NULL;
@@ -2664,7 +2653,7 @@ void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
         BossVa_Spark(globalCtx, this, 1, this->unk_1F0, 25.0f, 20.0f, 2, 2.0f, true);
     }
 
-    if (!(sPhase2Timer & 0x100) && (BODY->actor.colorFilterTimer == 0)) {
+    if (!(sPhase2Timer & 0x100) && (BODY(this)->actor.colorFilterTimer == 0)) {
         sp4C = 200.0f;
         BossVa_Spark(globalCtx, this, 1, 125, 15.0f, 7.0f, SPARK_TETHER, 1.0f, true);
         this->actor.flags &= ~1;
@@ -2692,12 +2681,12 @@ void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
     } else {
         this->actor.flags |= 1;
         Math_SmoothStepToS(&this->unk_1AC, sp50 + 150, 1, 0x3C, 0);
-        if (BODY->actor.colorFilterTimer == 0) {
+        if (BODY(this)->actor.colorFilterTimer == 0) {
             Math_SmoothStepToF(&this->unk_1A0, 180.0f, 1.0f, 1.5f, 0.0f);
         } else {
             this->unk_1AC = 0;
             if (this->actor.colorFilterTimer == 0) {
-                Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, BODY->actor.colorFilterTimer);
+                Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, BODY(this)->actor.colorFilterTimer);
             }
         }
 
@@ -2717,7 +2706,7 @@ void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
-    if (BODY->actor.colorFilterTimer == 0) {
+    if (BODY(this)->actor.colorFilterTimer == 0) {
         if (!(this->timer2 & 0x400)) {
             this->actor.world.rot.y += this->unk_1AC;
         } else {
@@ -2731,16 +2720,16 @@ void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
 
 void BossVa_SetupBariPhase3Stunned(BossVa* this, GlobalContext* globalCtx) {
     this->actor.flags |= 1;
-    this->timer = BODY->timer;
+    this->timer = BODY(this)->timer;
     Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, this->timer);
     BossVa_SetupAction(this, BossVa_BariPhase3Stunned);
 }
 
 void BossVa_BariPhase3Stunned(BossVa* this, GlobalContext* globalCtx) {
     s32 sp44_pad;
-    Vec3f sp40 = BODY->unk_1D8;
+    Vec3f sp40 = BODY(this)->unk_1D8;
 
-    this->actor.world.rot.x = Math_Vec3f_Pitch(&BODY->actor.world.pos, &this->actor.world.pos);
+    this->actor.world.rot.x = Math_Vec3f_Pitch(&BODY(this)->actor.world.pos, &this->actor.world.pos);
     if (this->colliderSph.base.acFlags & AC_HIT) {
         BossVa_KillBari(this, globalCtx);
         return;
@@ -3253,9 +3242,9 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                   BossVa_BariOverrideLimbDraw, BossVa_BariPostLimbDraw, this);
                 Collider_UpdateSpheres(0, &this->colliderSph);
                 if (sCsState < BOSSVA_BATTLE) {
-                    spBC = BODY->actor.world.pos;
+                    spBC = BODY(this)->actor.world.pos;
                 } else {
-                    spBC = BODY->unk_1D8;
+                    spBC = BODY(this)->unk_1D8;
                 }
                 Matrix_MultVec3f(&sZeroVec, &this->effectPos[1]);
                 Matrix_Push();
@@ -3338,8 +3327,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                 effect->rot.y += (s16)(Rand_ZeroOne() * 0x2710) + 0x2000;
 
                 if ((effect->mode == SPARK_TETHER) || (effect->mode == SPARK_UNUSED)) {
-                    pitch = effect->rot.x -
-                            Math_Vec3f_Pitch(&refActor->actor.world.pos, &((BossVa*)refActor->actor.parent)->unk_1D8);
+                    pitch = effect->rot.x - Math_Vec3f_Pitch(&refActor->actor.world.pos, &BODY(refActor)->unk_1D8);
                     pad8C = Math_SinS(refActor->actor.world.rot.y);
                     effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * pad8C);
                     pad74 = Math_CosS(refActor->actor.world.rot.y);
@@ -3517,12 +3505,12 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
         gBarinadeSparkBall5Tex, gBarinadeSparkBall6Tex, gBarinadeSparkBall7Tex, gBarinadeSparkBall8Tex,
     };
     s16 i;
-    GraphicsContext* localGfx = globalCtx->state.gfxCtx;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     u8 flag = 0;
     BossVaEffect* effectHead = effect;
     Camera* camera = Gameplay_GetCamera(globalCtx, sCsCamera);
 
-    OPEN_DISPS(localGfx, "../z_boss_va.c", 4953);
+    OPEN_DISPS(gfxCtx, "../z_boss_va.c", 4953);
 
     for (i = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
         if (effect->type == VA_LARGE_SPARK) {
@@ -3538,7 +3526,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_RotateZ((effect->rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
             Matrix_Scale(effect->scale * 0.0185f, effect->scale * 0.0185f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(localGfx, "../z_boss_va.c", 4976),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 4976),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_015710);
         }
@@ -3557,7 +3545,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
             Matrix_RotateZ((effect->rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(localGfx, "../z_boss_va.c", 5002),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5002),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPPipeSync(POLY_XLU_DISP++);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sSparkBallTex[effect->mode]));
@@ -3594,7 +3582,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(localGfx, "../z_boss_va.c", 5052),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5052),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_009468);
         }
@@ -3616,7 +3604,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
                 Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
                 Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfx, "../z_boss_va.c", 5080),
+                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5080),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, gBarinadeDL_012948);
             }
@@ -3648,7 +3636,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             Matrix_RotateY(-(effect->offset.x * 0.13f), MTXMODE_APPLY);
             Matrix_RotateX(-(effect->offset.x * 0.115f), MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfx, "../z_boss_va.c", 5124),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5124),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gBarinadeDL_012C50);
         }
@@ -3671,7 +3659,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             Matrix_RotateRPY(effect->rot.x, effect->rot.y, 0, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(localGfx, "../z_boss_va.c", 5152),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5152),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_013638);
         }
@@ -3693,7 +3681,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             Matrix_RotateZ((effect->rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
             Matrix_Scale(effect->scale * 0.02f, effect->scale * 0.02f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(localGfx, "../z_boss_va.c", 5180),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5180),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_015710);
         }
@@ -3715,13 +3703,13 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             Matrix_RotateY((effect->rot.y / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(localGfx, "../z_boss_va.c", 5208),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 5208),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008F70);
         }
     }
 
-    CLOSE_DISPS(localGfx, "../z_boss_va.c", 5215);
+    CLOSE_DISPS(gfxCtx, "../z_boss_va.c", 5215);
 }
 
 void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* this, Vec3f* offset, s16 scale,
@@ -3749,7 +3737,7 @@ void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* t
                     tempVec.x += this->actor.world.pos.x;
                     tempVec.z += this->actor.world.pos.z;
                     effect->offset.x = Math_Vec3f_DistXZ(&this->actor.world.pos, &tempVec);
-                    effect->rot.x = Math_Vec3f_Pitch(&this->actor.world.pos, &BODY->unk_1D8);
+                    effect->rot.x = Math_Vec3f_Pitch(&this->actor.world.pos, &BODY(this)->unk_1D8);
                     break;
 
                 case SPARK_BODY:
@@ -3773,6 +3761,7 @@ void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* t
                     effect->pos.x = player->bodyPartsPos[index].x + Rand_CenteredFloat(10.0f);
                     effect->pos.y = player->bodyPartsPos[index].y + Rand_CenteredFloat(15.0f);
                     effect->pos.z = player->bodyPartsPos[index].z + Rand_CenteredFloat(10.0f);
+                    break;
             }
 
             effect->offset.y = offset->y;
@@ -3986,7 +3975,6 @@ void BossVa_DrawDoor(GlobalContext* globalCtx, s16 scale) {
         gBarinadeDoorPiece5DL, gBarinadeDoorPiece6DL, gBarinadeDoorPiece7DL, gBarinadeDoorPiece8DL,
     };
     static s16 doorPieceLength[] = { 836, 900, 836, 1016, 800, 1016, 836, 900 };
-
     MtxF doorMtx;
     f32 yScale;
     f32 segAngle = 0.0f;
