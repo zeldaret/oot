@@ -810,8 +810,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     if ((globalCtx->actorCtx.freezeFlashTimer > 0) &&
                         ((globalCtx->actorCtx.freezeFlashTimer % 2) != 0)) {
                         globalCtx->envCtx.unk_E1 = 1;
-                        globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0x96;
-                        globalCtx->envCtx.unk_E2[3] = 0x50;
+                        globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 150;
+                        globalCtx->envCtx.unk_E2[3] = 80;
                     } else {
                         globalCtx->envCtx.unk_E1 = 0;
                     }
