@@ -563,7 +563,7 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.velocity.y > 20.0f) {
             this->dyna.actor.floorHeight = this->dyna.actor.home.pos.y;
             Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 45.0f, 0xA, 8.0f, 0x1F4,
-                                 0xA, 0);
+                                     0xA, 0);
         }
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         quakeId = Quake_Add(Gameplay_GetCamera(globalCtx, 0), 3);
@@ -599,8 +599,8 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
             this->unk_164 = 10;
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             func_8099803C(globalCtx, 2, 10, parent->subCameraId);
-            Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 70.0f, 20, 8.0f, 500, 10,
-                                 1);
+            Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 70.0f, 20, 8.0f, 500,
+                                     10, 1);
         }
     }
 }

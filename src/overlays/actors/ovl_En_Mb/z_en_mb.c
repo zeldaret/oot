@@ -1432,7 +1432,8 @@ void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->hitbox.dim.pos.z += Math_CosS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
         }
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->hitbox.base);
-        if (this->state >= ENMB_STATE_STUNNED && (thisx->params == ENMB_TYPE_CLUB || this->state != ENMB_STATE_ATTACK)) {
+        if (this->state >= ENMB_STATE_STUNNED &&
+            (thisx->params == ENMB_TYPE_CLUB || this->state != ENMB_STATE_ATTACK)) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->hitbox.base);
         }
         if (this->state >= ENMB_STATE_IDLE) {

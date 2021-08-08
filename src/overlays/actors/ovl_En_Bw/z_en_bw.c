@@ -326,7 +326,8 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
     if (this->unk_224 != 0) {
         this->unk_224--;
     }
-    if ((this->unk_234 == 0) && !Actor_TestFloorInDirection(&this->actor, globalCtx, 50.0f, this->unk_236 + this->unk_238)) {
+    if ((this->unk_234 == 0) &&
+        !Actor_TestFloorInDirection(&this->actor, globalCtx, 50.0f, this->unk_236 + this->unk_238)) {
         if (this->unk_238 != 0x4000) {
             this->unk_238 = 0x4000;
         } else {
@@ -709,8 +710,8 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
                     if (func_800355E4(globalCtx, &this->collider2.base)) {
                         this->unk_230 = 0;
                         this->actor.scale.y -= 0.009f;
-                        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0,
-                                             0);
+                        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0,
+                                                 0, 0);
                     } else {
                         this->unk_230 = 1;
                     }

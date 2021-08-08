@@ -664,8 +664,8 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 8.0f;
             }
         }
-        if ((this->actor.bgCheckFlags & 8) ||
-            !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3E80)) {
+        if ((this->actor.bgCheckFlags & 8) || !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ,
+                                                                          this->actor.shape.rot.y + 0x3E80)) {
             if (this->actor.bgCheckFlags & 8) {
                 if (this->actor.speedXZ >= 0.0f) {
                     phi_v1 = this->actor.shape.rot.y + 0x3E80;
