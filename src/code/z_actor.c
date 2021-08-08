@@ -2223,9 +2223,9 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
         }
 
         if (actor->colorFilterParams & 0x2000) {
-            EffectSsDead_SetCloseFogColorXlu(globalCtx, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
+            func_80026860(globalCtx, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
         } else {
-            EffectSsDead_SetCloseFogColorOpa(globalCtx, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
+            func_80026400(globalCtx, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
         }
     }
 

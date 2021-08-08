@@ -28,14 +28,14 @@ void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 129);
 }
 
-void EffectSsDead_SetCloseFogColorOpa(GlobalContext* globalCtx, Color_RGBA8* color, s16 timeLeft, s16 timeTotal) {
+void func_80026400(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3) {
     Gfx* displayListHead;
     f32 cos;
 
-    if (timeTotal != 0) {
+    if (arg3 != 0) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 141);
 
-        cos = Math_CosS((0x4000 / timeTotal) * timeLeft);
+        cos = Math_CosS((0x4000 / arg3) * arg2);
         displayListHead = POLY_OPA_DISP;
 
         gDPPipeSync(displayListHead++);
@@ -89,14 +89,14 @@ void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 194);
 }
 
-void EffectSsDead_SetCloseFogColorXlu(GlobalContext* globalCtx, Color_RGBA8* color, s16 timeLeft, s16 timeTotal) {
+void func_80026860(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3) {
     f32 cos;
     Gfx* displayListHead;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 201);
 
     displayListHead = POLY_XLU_DISP;
-    cos = Math_CosS((0x4000 / timeTotal) * timeLeft);
+    cos = Math_CosS((0x4000 / arg3) * arg2);
 
     gDPPipeSync(displayListHead++);
     gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);

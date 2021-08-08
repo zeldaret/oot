@@ -90,8 +90,6 @@ animdict ={
     "Actor_SpawnFloorDust": "Actor_SpawnFloorDustRing",
     "func_80032C7C": "Enemy_StartFinishingBlow",
     "actorCtx.unk_00": "actorCtx.freezeFlashTimer",
-    "func_80026400": "EffectSsDead_SetCloseFogColorOpa",
-    "func_80026860": "EffectSsDead_SetCloseFogColorXlu",
     "func_800339B8": "Actor_TestFloorInDirection",
 }
 
