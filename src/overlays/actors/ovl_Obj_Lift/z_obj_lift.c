@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_lift.h"
+#include "objects/object_d_lift/object_d_lift.h"
 
 #define FLAGS 0x00000010
 
@@ -14,9 +15,6 @@ void ObjLift_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjLift_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjLift_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_06000140;
-extern UNK_TYPE D_060003D0;
 
 /*
 const ActorInit Obj_Lift_InitVars = {

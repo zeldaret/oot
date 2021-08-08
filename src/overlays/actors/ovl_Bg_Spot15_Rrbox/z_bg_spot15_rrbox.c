@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot15_rrbox.h"
+#include "objects/object_spot15_obj/object_spot15_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -25,9 +26,6 @@ void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 
 static s16 D_808B4590 = 0;
-
-extern CollisionHeader D_06000348;
-extern Gfx D_06000180[];
 
 const ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
@@ -124,7 +122,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
 
-    func_808B3960(this, globalCtx, &D_06000348, DPM_UNK);
+    func_808B3960(this, globalCtx, &gLonLonMilkCrateCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_808B3A34(this);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
@@ -367,5 +365,5 @@ void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06000180);
+    Gfx_DrawDListOpa(globalCtx, gLonLonMilkCrateDL);
 }

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_bdan_objects.h"
+#include "objects/object_bdan_objects/object_bdan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -68,17 +69,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_STOP),
 };
 
-static Gfx* D_8086CDA0[] = {
-    0x06008618,
-    0x06004BE8,
-    0x060038E8,
-    0x06005200,
+static Gfx* sDLists[] = {
+    gJabuObjectsLargeRotatingSpikePlatformDL,
+    gJabuElevatorPlatformDL,
+    gJabuWaterDL,
+    gJabuFallingPlatformDL,
 };
-
-extern Gfx D_060038E8[];
-extern CollisionHeader D_06005048;
-extern CollisionHeader D_06005580;
-extern CollisionHeader D_06008CE0;
 
 s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
@@ -126,7 +122,7 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     if (thisx->params == 0) {
-        CollisionHeader_GetVirtual(&D_06008CE0, &colHeader);
+        CollisionHeader_GetVirtual(&gJabuBigOctoPlatformCol, &colHeader);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
         thisx->world.pos.y += -79.0f;
@@ -151,12 +147,12 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         if (thisx->params == 1) {
-            CollisionHeader_GetVirtual(&D_06005048, &colHeader);
+            CollisionHeader_GetVirtual(&gJabuElevatorCol, &colHeader);
             this->timer = 512;
             this->unk_168 = 0;
             this->actionFunc = func_8086C874;
         } else {
-            CollisionHeader_GetVirtual(&D_06005580, &colHeader);
+            CollisionHeader_GetVirtual(&gJabuLoweringPlatformCol, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->unk_168)) {
                 this->actionFunc = BgBdanObjects_DoNothing;
                 thisx->world.pos.y = thisx->home.pos.y - 400.0f;
@@ -462,8 +458,8 @@ void BgBdanObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 2) {
-        Gfx_DrawDListXlu(globalCtx, D_060038E8);
+        Gfx_DrawDListXlu(globalCtx, gJabuWaterDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_8086CDA0[thisx->params]);
+        Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);
     }
 }

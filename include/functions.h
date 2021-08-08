@@ -2003,7 +2003,7 @@ s32 Audio_SyncLoadSample(s32 arg0, s32 arg1, u8* arg2);
 s32 Audio_SyncLoadSeq(s32 seqIdx, u8* ramAddr, u8* arg2);
 void Audio_AsyncLoadReqInit(void);
 void func_800E4D94(void);
-// ? func_800E4EEC(?);
+void func_800E4EEC(s32 arg0, s32 arg1, u8* arg2);
 void func_800E4F58(void);
 void func_800E4FB0(void);
 AudioTask* func_800E4FE0(void);

@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_hsblock.h"
+#include "objects/object_d_hsblock/object_d_hsblock.h"
 
 #define FLAGS 0x00000000
 
@@ -43,11 +44,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
 };
 
-CollisionHeader* D_80B940DC[] = { 0x06000730, 0x06000730, 0x06000578 };
+static CollisionHeader* sCollisionHeaders[] = { &gHookshotTargetCol, &gHookshotTargetCol, &gHookshotPostCol };
 
 static Color_RGB8 sFireTempleColor = { 165, 125, 55 };
 
-static Gfx* sDLists[] = { 0x06000210, 0x06000210, 0x06000470 };
+static Gfx* sDLists[] = { gHookshotPostDL, gHookshotPostDL, gHookshotTargetDL };
 
 void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -78,7 +79,7 @@ void func_80B93BF0(ObjHsblock* this, GlobalContext* globalCtx) {
 void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjHsblock* this = THIS;
 
-    func_80B93B68(this, globalCtx, D_80B940DC[thisx->params & 3], DPM_UNK);
+    func_80B93B68(this, globalCtx, sCollisionHeaders[thisx->params & 3], DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80B93BF0(this, globalCtx);
 

@@ -6,6 +6,7 @@
  */
 
 #include "z_bg_jya_goroiwa.h"
+#include "objects/object_goroiwa/object_goroiwa.h"
 
 #define FLAGS 0x00000010
 
@@ -35,8 +36,6 @@ const ActorInit Bg_Jya_Goroiwa_InitVars = {
     (ActorFunc)BgJyaGoroiwa_Update,
     (ActorFunc)BgJyaGoroiwa_Draw,
 };
-
-extern Gfx gRollingRockDL[];
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
