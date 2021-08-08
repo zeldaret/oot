@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_relay_objects.h"
+#include "objects/object_relay_objects/object_relay_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -26,11 +27,6 @@ void func_808A9234(BgRelayObjects* this, GlobalContext* globalCtx);
 void BgRelayObjects_DoNothing(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx);
 void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx);
-
-extern Gfx D_060001A0[];
-extern UNK_TYPE D_060003C4;
-extern Gfx D_06001AB0[];
-extern UNK_TYPE D_060025FC;
 
 const ActorInit Bg_Relay_Objects_InitVars = {
     ACTOR_BG_RELAY_OBJECTS,
@@ -60,7 +56,7 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params = (thisx->params >> 8) & 0xFF;
     DynaPolyActor_Init(&this->dyna, 3);
     if (thisx->params == WINDMILL_ROTATING_GEAR) {
-        CollisionHeader_GetVirtual(&D_060025FC, &colHeader);
+        CollisionHeader_GetVirtual(&gWindmillRotatingPlatformCol, &colHeader);
         if (gSaveContext.eventChkInf[6] & 0x20) {
             thisx->world.rot.y = 0x400;
         } else {
@@ -77,7 +73,7 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_808A939C;
         }
     } else {
-        CollisionHeader_GetVirtual(&D_060003C4, &colHeader);
+        CollisionHeader_GetVirtual(&gDampeRaceDoorCol, &colHeader);
         if (thisx->room == 0) {
             this->unk_169 = this->switchFlag - 0x33;
         } else {
@@ -208,8 +204,8 @@ void BgRelayObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgRelayObjects* this = THIS;
 
     if (this->dyna.actor.params == WINDMILL_ROTATING_GEAR) {
-        Gfx_DrawDListOpa(globalCtx, D_06001AB0);
+        Gfx_DrawDListOpa(globalCtx, gWindmillRotatingPlatformDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_060001A0);
+        Gfx_DrawDListOpa(globalCtx, gDampeRaceDoorDL);
     }
 }

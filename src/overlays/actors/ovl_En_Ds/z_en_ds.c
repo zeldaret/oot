@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ds.h"
+#include "objects/object_ds/object_ds.h"
 
 #define FLAGS 0x00000009
 
@@ -29,15 +30,13 @@ const ActorInit En_Ds_InitVars = {
     (ActorFunc)EnDs_Draw,
 };
 
-extern FlexSkeletonHeader D_06004768;
-extern AnimationHeader D_0600039C;
-
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, this->jointTable, this->morphTable, 6);
-    Animation_PlayOnce(&this->skelAnime, &D_0600039C);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gPotionShopLadySkel, &gPotionShopLadyAnim, this->jointTable,
+                       this->morphTable, 6);
+    Animation_PlayOnce(&this->skelAnime, &gPotionShopLadyAnim);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 

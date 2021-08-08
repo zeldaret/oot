@@ -1,4 +1,5 @@
 #include "z_bg_spot18_basket.h"
+#include "objects/object_spot18_obj/object_spot18_obj.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -22,9 +23,6 @@ void func_808B7B6C(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_06002154;
-extern Gfx D_060018B0[];
 
 const ActorInit Bg_Spot18_Basket_InitVars = {
     ACTOR_BG_SPOT18_BASKET,
@@ -139,7 +137,7 @@ void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK3);
     func_808B7710(&this->dyna.actor, globalCtx);
-    CollisionHeader_GetVirtual(&D_06002154, &colHeader);
+    CollisionHeader_GetVirtual(&gGoronCityVaseCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
@@ -452,5 +450,5 @@ void BgSpot18Basket_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_UpdateSpheres(0, &this->colliderJntSph);
     Collider_UpdateSpheres(1, &this->colliderJntSph);
-    Gfx_DrawDListOpa(globalCtx, D_060018B0);
+    Gfx_DrawDListOpa(globalCtx, gGoronCityVaseDL);
 }

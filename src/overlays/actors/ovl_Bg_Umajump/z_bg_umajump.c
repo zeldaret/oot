@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_umajump.h"
+#include "objects/object_umajump/object_umajump.h"
 
 #define FLAGS 0x00000000
 
@@ -27,9 +28,6 @@ const ActorInit Bg_Umajump_InitVars = {
     (ActorFunc)BgUmaJump_Draw,
 };
 
-extern CollisionHeader D_06001438;
-extern Gfx D_06001220[];
-
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
@@ -41,7 +39,7 @@ void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06001438, &colHeader);
+    CollisionHeader_GetVirtual(&gJumpableHorseFenceCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.actor.params == 1) {
@@ -63,5 +61,5 @@ void BgUmaJump_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgUmaJump_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06001220);
+    Gfx_DrawDListOpa(globalCtx, gJumpableHorseFenceDL);
 }

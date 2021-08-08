@@ -11,7 +11,7 @@ glabel func_80B483E4
 /* 043B8 80B48408 3C064220 */  lui     $a2, 0x4220                ## $a2 = 42200000
 /* 043BC 80B4840C 24E73FFF */  addiu   $a3, $a3, 0x3FFF           ## $a3 = 00003FFF
 /* 043C0 80B48410 00073C00 */  sll     $a3, $a3, 16
-/* 043C4 80B48414 0C00CE6E */  jal     func_800339B8
+/* 043C4 80B48414 0C00CE6E */  jal     Actor_TestFloorInDirection
 /* 043C8 80B48418 00073C03 */  sra     $a3, $a3, 16
 /* 043CC 80B4841C 1440000A */  bne     $v0, $zero, .L80B48448
 /* 043D0 80B48420 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -20,7 +20,7 @@ glabel func_80B483E4
 /* 043DC 80B4842C 3C06C220 */  lui     $a2, 0xC220                ## $a2 = C2200000
 /* 043E0 80B48430 24E73FFF */  addiu   $a3, $a3, 0x3FFF           ## $a3 = 00003FFF
 /* 043E4 80B48434 00073C00 */  sll     $a3, $a3, 16
-/* 043E8 80B48438 0C00CE6E */  jal     func_800339B8
+/* 043E8 80B48438 0C00CE6E */  jal     Actor_TestFloorInDirection
 /* 043EC 80B4843C 00073C03 */  sra     $a3, $a3, 16
 /* 043F0 80B48440 10400046 */  beq     $v0, $zero, .L80B4855C
 /* 043F4 80B48444 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
