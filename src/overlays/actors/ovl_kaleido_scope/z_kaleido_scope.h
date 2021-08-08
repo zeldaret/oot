@@ -4,6 +4,10 @@
 #include "ultra64.h"
 #include "global.h"
 
+#define AGE_REQ_ADULT 0
+#define AGE_REQ_CHILD 1
+#define AGE_REQ_NONE 9
+
 extern u8 gAmmoItems[];
 extern s16 D_8082AAEC[];
 extern s16 D_8082AB2C[];

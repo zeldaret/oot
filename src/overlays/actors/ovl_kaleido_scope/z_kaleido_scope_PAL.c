@@ -7,10 +7,6 @@
 #include "textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "vt.h"
 
-#define AGE_REQ_ADULT 0
-#define AGE_REQ_CHILD 1
-#define AGE_REQ_NONE 9
-
 static void* sEquipmentFRATexs[] = {
     gPauseEquipment00FRATex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
     gPauseEquipment10FRATex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
