@@ -7,6 +7,10 @@
 #include "textures/icon_item_gameover_static/icon_item_gameover_static.h"
 #include "vt.h"
 
+#define AGE_REQ_ADULT 0
+#define AGE_REQ_CHILD 1
+#define AGE_REQ_NONE 9
+
 static void* sEquipmentFRATexs[] = {
     gPauseEquipment00FRATex, gPauseEquipment01Tex, gPauseEquipment02Tex, gPauseEquipment03Tex, gPauseEquipment04Tex,
     gPauseEquipment10FRATex, gPauseEquipment11Tex, gPauseEquipment12Tex, gPauseEquipment13Tex, gPauseEquipment14Tex,
@@ -167,21 +171,149 @@ static u16 D_8082ABEC[] = {
     PAUSE_MAP, PAUSE_EQUIP, PAUSE_QUEST, PAUSE_ITEM, PAUSE_EQUIP, PAUSE_MAP, PAUSE_ITEM, PAUSE_QUEST,
 };
 
+// Controls if the item slot specifided is able to be equipped and the color of the name card
 u8 gSlotAgeReqs[] = {
-    1, 9, 9, 0, 0, 9, 1, 9, 9, 0, 0, 9, 1, 9, 1, 0, 0, 9, 9, 9, 9, 9, 0, 1,
+    AGE_REQ_CHILD, // Deku stick
+    AGE_REQ_NONE,  // Deku Nuts
+    AGE_REQ_NONE,  // Bombs,
+    AGE_REQ_ADULT, // Bow
+    AGE_REQ_ADULT, // Fire arrows
+    AGE_REQ_NONE,  // Dins fire,
+    AGE_REQ_CHILD, // Slingshot
+    AGE_REQ_NONE,  // Ocarina,
+    AGE_REQ_NONE,  // Bombchus
+    AGE_REQ_ADULT, // Hookshot
+    AGE_REQ_ADULT, // Ice arrows
+    AGE_REQ_NONE,  // Farore's Wind
+    AGE_REQ_CHILD, // Boomerang
+    AGE_REQ_NONE,  // Lens of truth
+    AGE_REQ_CHILD, // Bean
+    AGE_REQ_ADULT, // Megaton Hammer
+    AGE_REQ_ADULT, // Light arrows
+    AGE_REQ_NONE,  // Nayrus love
+    AGE_REQ_NONE,  // Bottle 1
+    AGE_REQ_NONE,  // Bottle 2,
+    AGE_REQ_NONE,  // Bottle 3,
+    AGE_REQ_NONE,  // Bottle 4,
+    AGE_REQ_ADULT, // Adult trade
+    AGE_REQ_CHILD  // Child trade
 };
 
 u8 gEquipAgeReqs[][4] = {
-    { 0, 1, 0, 0 },
-    { 9, 1, 9, 0 },
-    { 0, 9, 0, 0 },
-    { 9, 9, 0, 0 },
+    {
+        AGE_REQ_ADULT, // Quiver/Bullet bag (Unused)
+        AGE_REQ_CHILD, // Kokiri sword
+        AGE_REQ_ADULT, // Master Sword
+        AGE_REQ_ADULT  // Big Goron's Sword
+    },
+    {
+        AGE_REQ_NONE,  // Bomb bag
+        AGE_REQ_CHILD, // Deku shield
+        AGE_REQ_NONE,  // Hylian shield
+        AGE_REQ_ADULT  // Mirror shield
+    },
+    {
+        AGE_REQ_ADULT, // Strength (Unused)
+        AGE_REQ_NONE,  // Kokiri tunic
+        AGE_REQ_ADULT, // Goron tunic
+        AGE_REQ_ADULT  // Zora tunic
+    },
+    {
+        AGE_REQ_NONE,  // Scale
+        AGE_REQ_NONE,  // Kokiri boots
+        AGE_REQ_ADULT, // Iron Boots
+        AGE_REQ_ADULT  // Hover Boots
+    },
 };
 
-u8 gItemAgeReqs[] = {
-    1, 9, 9, 0, 0, 9, 1, 9, 9, 9, 0, 0, 0, 9, 1, 9, 1, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-    9, 9, 9, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 9, 0, 9, 0, 0, 9, 0, 0, 1, 1, 1, 0, 0, 0, 9, 9, 9, 1, 0, 0, 9, 9, 0,
+// Controls if the icon is grayed out or not depending on age
+u8 gItemIconAgeInfo[] = {
+    AGE_REQ_CHILD, // Deku sticks
+    AGE_REQ_NONE,  // Deku nuts
+    AGE_REQ_NONE,  // Bombs
+    AGE_REQ_ADULT, // Bow
+    AGE_REQ_ADULT, // Fire arrows
+    AGE_REQ_NONE,  // Dins fire
+    AGE_REQ_CHILD, // Slingshot
+    AGE_REQ_NONE,  // Fairy Ocarina
+    AGE_REQ_NONE,  // Ocarina of Time
+    AGE_REQ_NONE,  // Bombchus
+    AGE_REQ_ADULT, // Hookshot
+    AGE_REQ_ADULT, // Longshot
+    AGE_REQ_ADULT, // Ice arrows
+    AGE_REQ_NONE,  // Farore's Wind
+    AGE_REQ_CHILD, // Boomerang
+    AGE_REQ_NONE,  // Lens of truth
+    AGE_REQ_CHILD, // Bean
+    AGE_REQ_ADULT, // Megaton Hammer
+    AGE_REQ_ADULT, // Light arrows
+    AGE_REQ_NONE,  // Nayrus love
+    AGE_REQ_NONE,  // Bottle
+    AGE_REQ_NONE,  // Red Potion
+    AGE_REQ_NONE,  // Green Potion
+    AGE_REQ_NONE,  // Blue Potion
+    AGE_REQ_NONE,  // Fairy
+    AGE_REQ_NONE,  // Fish
+    AGE_REQ_NONE,  // Milk
+    AGE_REQ_NONE,  // Letter in a bottle
+    AGE_REQ_NONE,  // Blue Potion
+    AGE_REQ_NONE,  // Bug
+    AGE_REQ_NONE,  // Big poe
+    AGE_REQ_NONE,  // Half Milk
+    AGE_REQ_NONE,  // Poe
+    AGE_REQ_CHILD, // Weird Egg
+    AGE_REQ_CHILD, // Chicken
+    AGE_REQ_CHILD, // Zelda's Letter
+    AGE_REQ_CHILD, // Keaton Mask
+    AGE_REQ_CHILD, // Skull Mask
+    AGE_REQ_CHILD, // Spooky Mask
+    AGE_REQ_CHILD, // Bunny Hood
+    AGE_REQ_CHILD, // Goron Mask
+    AGE_REQ_CHILD, // Zora Mask
+    AGE_REQ_CHILD, // Gerudo Mask
+    AGE_REQ_CHILD, // Mask of Truth
+    AGE_REQ_CHILD, // SOLD OUT
+    AGE_REQ_ADULT, // Pocket Egg
+    AGE_REQ_ADULT, // Pocket Cucco
+    AGE_REQ_ADULT, // Cojiro
+    AGE_REQ_ADULT, // Odd Mushroom
+    AGE_REQ_ADULT, // Odd Potion
+    AGE_REQ_ADULT, // Poacher's Saw
+    AGE_REQ_ADULT, // Goron's Sword (Broken)
+    AGE_REQ_ADULT, // Prescription
+    AGE_REQ_ADULT, // Eyeball Frog
+    AGE_REQ_ADULT, // Eye Drops
+    AGE_REQ_ADULT, // Claim Check
+    AGE_REQ_ADULT, // Unknown
+    AGE_REQ_ADULT, // Unknown
+    AGE_REQ_ADULT, // Unknown
+    AGE_REQ_CHILD, // Kokiri Sword
+    AGE_REQ_ADULT, // Master Sword
+    AGE_REQ_ADULT, // Big Goron's Sword
+    AGE_REQ_CHILD, // Deku Shild
+    AGE_REQ_NONE,  // Hylian Shield
+    AGE_REQ_ADULT, // Mirror Shield
+    AGE_REQ_NONE,  // Kokiri Tunic
+    AGE_REQ_ADULT, // Goron Tunic
+    AGE_REQ_ADULT, // Zora Tunic
+    AGE_REQ_NONE,  // Kokiri Boots
+    AGE_REQ_ADULT, // Iron Boots
+    AGE_REQ_ADULT, // Hover Boots
+    AGE_REQ_CHILD, // Bullet Bag 30
+    AGE_REQ_CHILD, // Bullet Bag 40
+    AGE_REQ_CHILD, // Bullet Bag 50
+    AGE_REQ_ADULT, // Quiver 30
+    AGE_REQ_ADULT, // Quiver 40
+    AGE_REQ_ADULT, // Quiver 50
+    AGE_REQ_NONE,  // Goron's Bracelet
+    AGE_REQ_NONE,  // Silver Gauntlets
+    AGE_REQ_NONE,  // Gold Gauntlets
+    AGE_REQ_CHILD, // Silver Scale
+    AGE_REQ_ADULT, // Gold Scale
+    AGE_REQ_ADULT, // Unused
+    AGE_REQ_NONE,  // Unused
+    AGE_REQ_NONE,  // Unused
+    AGE_REQ_ADULT  // Unused
 };
 
 u8 gAreaGsFlags[] = {
@@ -2535,8 +2667,8 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             gSegments[8] = VIRTUAL_TO_PHYSICAL(pauseCtx->iconItemSegment);
 
-            for (i = 0; i < ARRAY_COUNTU(gItemAgeReqs); i++) {
-                if ((gItemAgeReqs[i] != 9) && (gItemAgeReqs[i] != ((void)0, gSaveContext.linkAge))) {
+            for (i = 0; i < ARRAY_COUNTU(gItemIconAgeInfo); i++) {
+                if ((gItemIconAgeInfo[i] != 9) && (gItemIconAgeInfo[i] != ((void)0, gSaveContext.linkAge))) {
                     KaleidoScope_GrayOutTextureRGBA32(SEGMENTED_TO_VIRTUAL(gItemIcons[i]), 0x400);
                 }
             }
