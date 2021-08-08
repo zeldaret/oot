@@ -3,7 +3,18 @@
 import os
 import argparse
 
-animdict ={
+# all occurrences of keys will be replaced by associated value
+simpleReplace = {
+    "ACTORTYPE":"ACTORCAT",
+    "DistToLink":"DistToPlayer",
+    "HitItem":"HitInfo",
+}
+
+# all occurrences of keys will be replaced by associated value,
+# if the occurence is the whole word
+# for example, if there is a space before and an open parenthesis after,
+# like for a function call: ` func_8002E4B4(`
+wordReplace = {
     "Actor_SetHeight":"Actor_SetFocus",
     "func_8002E4B4":"Actor_UpdateBgCheckInfo",
     "func_8002BDB0":"Actor_SetFeetPos",
@@ -29,7 +40,6 @@ animdict ={
     "actor.wallPolySource":"actor.wallBgId",
     "actor.floorPolySource":"actor.floorBgId",
     "actor.wallPolyRot":"actor.wallYaw",
-    "DistToLink":"DistToPlayer",
     "yawTowardsLink":"yawTowardsPlayer",
     "colChkInfo.unk_10":"colChkInfo.cylRadius",
     "colChkInfo.unk_12":"colChkInfo.cylHeight",
@@ -49,17 +59,15 @@ animdict ={
     "Actor_ChangeType":"Actor_ChangeCategory",
     "ActorShadow_DrawFunc_Squiggly":"ActorShadow_DrawHorse",
     "ActorShadow_DrawFunc_":"ActorShadow_Draw",
-    "ACTORTYPE":"ACTORCAT",
     "actor.type":"actor.category",
     ".body.":".info.",
-    "HitItem":"HitInfo",
     "bumper.unk_06":"bumper.hitPos",
     "base.list":"base.elements",
     "toucher.flags":"toucher.dmgFlags",
     "bumper.flags":"bumper.dmgFlags",
     "maskA ":"ocFlags1 ",
     "maskB ":"ocFlags2 ",
-    "base.type":"base.colType",
+    ".base.type":".base.colType",
     "COLTYPE_UNK11":"COLTYPE_HARD",
     "COLTYPE_UNK12":"COLTYPE_WOOD",
     "COLTYPE_UNK13":"COLTYPE_TREE",
@@ -93,47 +101,74 @@ animdict ={
     "func_800339B8": "Actor_TestFloorInDirection",
 }
 
-def replace_anim(file):
-    with open(file,'r',encoding = 'utf-8') as infile:
+# [a-zA-Z0-9_]
+def is_word_char(c):
+    return (c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z') or (c >= '0' and c <= '9') or c == '_'
+
+def replace_single(file):
+    with open(file, 'r', encoding = 'utf-8') as infile:
         srcdata = infile.read()
 
-    funcs = list(animdict.keys())
-    fixes = 0
-    for func in funcs:
-        newfunc = animdict.get(func)
-        if(newfunc is None):
-            print("How did this happen?")
-            return -1
-        if(func in srcdata):
-            fixes += 1
-            print(func)
-            srcdata = srcdata.replace(func, newfunc)
+    changesCount = 0
 
-    if(fixes > 0):
-        print('Changed', fixes,'entr' + ('y' if fixes == 1 else 'ies') + ' in',file)
+    for old, new in simpleReplace.items():
+        # replace `old` with `new`
+        if old in srcdata:
+            changesCount += 1
+            print(old, "->", new)
+            srcdata = srcdata.replace(old, new)
+
+    for old, new in wordReplace.items():
+        # replace `old` with `new` if the occurence of `old` is the whole word
+        oldStartIdx = srcdata.find(old)
+        if oldStartIdx >= 0:
+            old_start_as_word = is_word_char(old[0])
+            old_end_as_word = is_word_char(old[-1])
+            replaceCount = 0
+            while oldStartIdx >= 0:
+                replace = True
+                if old_start_as_word:
+                    if oldStartIdx == 0:
+                        pass
+                    elif is_word_char(srcdata[oldStartIdx-1]):
+                        replace = False
+                if old_end_as_word:
+                    oldEndIdx = oldStartIdx + len(old)
+                    if oldEndIdx >= len(srcdata):
+                        pass
+                    elif is_word_char(srcdata[oldEndIdx]):
+                        replace = False
+                if replace:
+                    srcdata = srcdata[:oldStartIdx] + new + srcdata[oldEndIdx:]
+                    replaceCount += 1
+                oldStartIdx = srcdata.find(old, oldStartIdx + len(new))
+            if replaceCount > 0:
+                changesCount += 1
+                print(old, "->", new)
+
+    if changesCount > 0:
+        print('Changed', changesCount, 'entry' if changesCount == 1 else 'entries', 'in', file)
         with open(file, 'w', encoding = 'utf-8', newline = '\n') as outfile:
             outfile.write(srcdata)
-    return 1
 
-def replace_anim_all(repo):
+def replace_all(repo):
     for subdir, dirs, files in os.walk(repo + os.sep + 'src'):
         for filename in files:
-            if(filename.endswith('.c')):
+            if filename.endswith('.c'):
                 file = subdir + os.sep + filename
-                replace_anim(file)
+                replace_single(file)
     for subdir, dirs, files in os.walk(repo + os.sep + 'asm' + os.sep + 'non_matchings'):
         for filename in files:
-            if(filename.endswith('.s')):
+            if filename.endswith('.s'):
                 file = subdir + os.sep + filename
-                replace_anim(file)
-    return 1
+                replace_single(file)
 
 parser = argparse.ArgumentParser(description='Apply function renames to a file')
-parser.add_argument('file', help="source file to be processed. use . to process the whole repo", default = None)
+parser.add_argument('file', help="source file to be processed. use . to process the whole repo")
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    if(args.file == '.'):
-        replace_anim_all(os.curdir)
+    if args.file == '.':
+        replace_all(os.curdir)
     else:
-        replace_anim(args.file)
+        replace_single(args.file)
