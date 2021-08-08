@@ -187,7 +187,7 @@ void func_808FD4D4(BossGanon2* this, GlobalContext* globalCtx, s16 arg2, s16 arg
 
 void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_808FD5F4;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.world.pos.y = -3000.0f;
 }
 
@@ -874,7 +874,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_337 = 1;
                 func_808FFDB0(this, globalCtx);
                 this->unk_1A2[1] = 50;
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
                 sZelda->unk_3C8 = 7;
             }
             break;
@@ -1049,7 +1049,7 @@ void func_808FFDB0(BossGanon2* this, GlobalContext* globalCtx) {
         }
 
         this->unk_336 = 1;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->unk_228 = 1.0f;
         this->unk_224 = 1.0f;
     } else {

@@ -528,7 +528,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_SetScale(&this->actor, 0.01f);
         this->actor.update = BossTw_BlastUpdate;
         this->actor.draw = BossTw_BlastDraw;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
 
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitBlasts);
@@ -717,7 +717,7 @@ void BossTw_SetupFlyTo(BossTw* this, GlobalContext* globalCtx) {
     BossTw* otherTw = (BossTw*)this->actor.parent;
 
     this->unk_5F8 = 1;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actionFunc = BossTw_FlyTo;
     this->rotateSpeed = 0.0f;
     Animation_MorphToLoop(&this->skelAnime, &D_06006F28, -10.0f);
@@ -1540,7 +1540,7 @@ void BossTw_SetupWait(BossTw* this, GlobalContext* globalCtx) {
     this->actionFunc = BossTw_Wait;
     this->visible = false;
     this->actor.world.pos.y = -2000.0f;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void BossTw_Wait(BossTw* this, GlobalContext* globalCtx) {
@@ -1702,7 +1702,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
 
                     this->csState1 = 1;
                     this->visible = true;
-                    this->actor.flags |= 1;
+                    this->actor.flags |= ACTOR_FLAG_0;
                     this->actor.shape.rot.y = 0;
                     BossTw_SetupWait(sKotakePtr, globalCtx);
                     BossTw_SetupWait(sKoumePtr, globalCtx);
@@ -1823,7 +1823,7 @@ void BossTw_SetupCSWait(BossTw* this, GlobalContext* globalCtx) {
     this->actionFunc = BossTw_CSWait;
     this->visible = false;
     this->actor.world.pos.y = -2000.0f;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 /**
@@ -1836,7 +1836,7 @@ void BossTw_TwinrovaSetupIntroCS(BossTw* this, GlobalContext* globalCtx) {
     this->actionFunc = BossTw_TwinrovaIntroCS;
     this->visible = false;
     this->actor.world.pos.y = -2000.0f;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
@@ -2443,7 +2443,7 @@ void BossTw_TwinrovaSetupDeathCS(BossTw* this, GlobalContext* globalCtx) {
     this->actionFunc = BossTw_TwinrovaDeathCS;
     Animation_MorphToLoop(&this->skelAnime, &D_06024374, -3.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->csState2 = this->csState1 = 0;
     this->work[CS_TIMER_1] = this->work[CS_TIMER_2] = 0;
     this->work[INVINC_TIMER] = 10000;
@@ -2744,7 +2744,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_TW,
                                        this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0,
                                        0, TW_DEATHBALL_KOTAKE);
-                    this->actor.flags &= ~1;
+                    this->actor.flags &= ~ACTOR_FLAG_0;
                 }
             }
             Actor_SetScale(&this->actor, this->actor.scale.x);
@@ -2797,7 +2797,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
                 sKoumePtr->work[YAW_TGT] = sKotakePtr->work[YAW_TGT] = sKoumePtr->actor.shape.rot.x =
                     sKotakePtr->actor.shape.rot.x = sKoumePtr->actor.shape.rot.y = sKotakePtr->actor.shape.rot.y = 0;
                 func_8002DF54(globalCtx, &sKoumePtr->actor, 1);
-                sKoumePtr->actor.flags |= 1;
+                sKoumePtr->actor.flags |= ACTOR_FLAG_0;
             }
             break;
         case 2:
@@ -3043,7 +3043,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, GlobalContext* globalCtx2) {
     BossTw* this = THIS;
     Player* player = PLAYER;
 
-    this->actor.flags &= ~0x400;
+    this->actor.flags &= ~ACTOR_FLAG_10;
     this->unk_5F8 = 0;
     this->collider.base.colType = COLTYPE_HIT3;
 
@@ -5354,7 +5354,7 @@ void BossTw_TwinrovaStun(BossTw* this, GlobalContext* globalCtx) {
     s16 cloudType;
 
     this->unk_5F8 = 1;
-    this->actor.flags |= 0x400;
+    this->actor.flags |= ACTOR_FLAG_10;
 
     cloudType = sTwinrovaBlastType == 0 ? 3 : 2;
 
