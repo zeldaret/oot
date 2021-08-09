@@ -23,7 +23,8 @@ the codebase can drastically change at any time. Also note that some parts of th
 'shiftable' yet, so modifying them could be difficult at this point.
 ```
 
-This is a WIP decompilation of The Legend of Zelda: Ocarina of Time.
+This is a WIP decompilation of The Legend of Zelda: Ocarina of Time. **It is not a PC port.** It has never been a PC port. There will never be a PC port in this repository. Do not try to claim that this project is a PC port. Anything claiming this is a PC port is misinformation.
+
 The purpose of the project is to recreate a source code base for the game from scratch, using information found inside the game along with static and/or dynamic analysis.
 The only build currently supported is Master Quest (Debug), but other versions are planned to be supported.
 
