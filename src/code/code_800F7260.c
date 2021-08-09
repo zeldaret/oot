@@ -18,22 +18,20 @@ typedef struct {
     /* 0x0C */ u16 unk_C;
 } Struct_800F8EA0; // size = 0x10
 
+// rodata for func_800F7680 (this file)
 char D_80133340[] = "SE";
 
+// rodata for func_800F7CEC (this file)
 char D_80133344[] = VT_COL(RED, WHITE) "<INAGAKI CHECK> dist over! flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n";
 
+// file padding
 s32 D_8013338C = 0;
 
-UNK_TYPE D_80133390[] = {
-    0x53455120,
-    0x48000000,
-};
+// rodata for Audio_ProcessSeqCmd (code_800F9280.c)
+char D_80133390[] = "SEQ H";
+char D_80133398[] = "    L";
 
-UNK_TYPE D_80133398[] = {
-    0x20202020,
-    0x4C000000,
-};
-
+// data
 u8 D_801333A0 = 0;
 
 u8 D_801333A4 = 0;
@@ -109,6 +107,8 @@ void Audio_ClearBGMMute(u8 arg0) {
     }
 }
 
+// a3 = freq scale factor for ocarina
+// a5 = reverb add
 void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, s8* a5) {
     u8 i;
     Struct_800F738C* phi_v0;
@@ -213,7 +213,7 @@ void func_800F7680(void) {
     }
     phi_s5 = SFX_BANK(sp50->sfxId);
     if ((1 << phi_s5) & D_801333F0) {
-        func_800F2D6C(D_80133340, sp50->sfxId); // "SE"
+        func_800F2D6C(D_80133340, sp50->sfxId);
         phi_s5 = SFX_BANK(sp50->sfxId);
     }
     sp55 = 0;

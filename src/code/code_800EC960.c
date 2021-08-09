@@ -2331,7 +2331,7 @@ void func_800F2A04(void) {
     }
 }
 
-void func_800F2D6C(s8* str, u16 num) {
+void func_800F2D6C(const s8* str, u16 num) {
     u8 i = 0;
 
     sAudioScreenPrintBuf[sAudioScreenPrintInd].num = num;
