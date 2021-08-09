@@ -6,6 +6,7 @@
  */
 
 #include "z_bg_jya_goroiwa.h"
+#include "objects/object_goroiwa/object_goroiwa.h"
 
 #define FLAGS 0x00000010
 
@@ -35,7 +36,6 @@ const ActorInit Bg_Jya_Goroiwa_InitVars = {
     (ActorFunc)BgJyaGoroiwa_Update,
     (ActorFunc)BgJyaGoroiwa_Draw,
 };
-extern Gfx D_060006B0[];
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
@@ -222,5 +222,5 @@ void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaGoroiwa* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, D_060006B0);
+    Gfx_DrawDListOpa(globalCtx, gRollingRockDL);
 }

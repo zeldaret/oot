@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_spot01_idohashira.h"
-
+#include "objects/object_spot01_objects/object_spot01_objects.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -49,9 +49,6 @@ const ActorInit Bg_Spot01_Idohashira_InitVars = {
     (ActorFunc)BgSpot01Idohashira_Update,
     (ActorFunc)BgSpot01Idohashira_Draw,
 };
-
-extern Gfx D_06000420[];
-extern CollisionHeader D_0600075C;
 
 void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
     func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_BOX_BREAK);
@@ -303,7 +300,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     colHeader = NULL;
-    CollisionHeader_GetVirtual(&D_0600075C, &colHeader);
+    CollisionHeader_GetVirtual(&gKakarikoWellArchCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (gSaveContext.sceneSetupIndex < 4) {
@@ -332,7 +329,7 @@ void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_808AAF34(this, globalCtx);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000420);
+    gSPDisplayList(POLY_OPA_DISP++, gKakarikoWellArchDL);
 
     CLOSE_DISPS(localGfxCtx, "../z_bg_spot01_idohashira.c", 708);
 }

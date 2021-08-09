@@ -5,6 +5,7 @@
  */
 
 #include "z_en_dy_extra.h"
+#include "objects/object_dy_obj/object_dy_obj.h"
 #include "vt.h"
 
 #define FLAGS 0x00000030
@@ -30,9 +31,6 @@ const ActorInit En_Dy_Extra_InitVars = {
     (ActorFunc)EnDyExtra_Update,
     (ActorFunc)EnDyExtra_Draw,
 };
-
-extern Vtx D_0601BFB0[];
-extern Gfx D_0601C160[];
 
 void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -99,7 +97,7 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDyExtra* this = THIS;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Vtx* vertices = SEGMENTED_TO_VIRTUAL(D_0601BFB0);
+    Vtx* vertices = SEGMENTED_TO_VIRTUAL(gGreatFairySpiralBeamVtx);
     s32 i;
     u8 unk[3];
 
@@ -125,7 +123,7 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
                     primColors[this->type].b, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b, 128);
-    gSPDisplayList(POLY_XLU_DISP++, D_0601C160);
+    gSPDisplayList(POLY_XLU_DISP++, gGreatFairySpiralBeamDL);
 
     CLOSE_DISPS(gfxCtx, "../z_en_dy_extra.c", 325);
 }

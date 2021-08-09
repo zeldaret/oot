@@ -6,6 +6,7 @@
 
 #include "z_en_fd.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_fw/object_fw.h"
 
 #define FLAGS 0x00000215
 
@@ -30,12 +31,6 @@ void EnFd_AddEffect(EnFd*, u8, Vec3f*, Vec3f*, Vec3f*, u8, f32, f32);
 void EnFd_DrawDots(EnFd* this, GlobalContext* globalCtx);
 void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx);
 void EnFd_Land(EnFd* this, GlobalContext* globalCtx);
-
-extern Gfx D_060079F8[];
-extern Gfx D_06007A78[];
-extern Gfx D_06007928[];
-extern Gfx D_06007938[];
-extern FlexSkeletonHeader D_06005810;
 
 const ActorInit En_Fd_InitVars = {
     ACTOR_EN_FD,
@@ -200,11 +195,11 @@ static ColliderJntSphInit sJntSphInit = {
 static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x060010B4, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
-    { 0x06005C64, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
-    { 0x06006044, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
-    { 0x06006A18, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
-    { 0x06006B64, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
+    { &gFlareDancerCastingFireAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
+    { &gFlareDancerBackflipAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
+    { &gFlareDancerGettingUpAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
+    { &gFlareDancerChasingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &gFlareDancerTwirlAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
 };
 
 s32 EnFd_SpawnCore(EnFd* this, GlobalContext* globalCtx) {
@@ -450,7 +445,7 @@ void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
 void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFd* this = THIS;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005810, NULL, this->jointTable, this->morphTable, 27);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFlareDancerSkel, NULL, this->jointTable, this->morphTable, 27);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 32.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
@@ -888,7 +883,7 @@ void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx) {
         if (eff->type == FD_EFFECT_FLAME) {
             if (!firstDone) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
-                gSPDisplayList(POLY_XLU_DISP++, D_06007928);
+                gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
                 firstDone = true;
             }
@@ -901,7 +896,7 @@ void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             idx = eff->timer * (8.0f / eff->initialTimer);
             gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(D_80A0E0F8[idx]));
-            gSPDisplayList(POLY_XLU_DISP++, D_06007938);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 2020);
@@ -921,7 +916,7 @@ void EnFd_DrawDots(EnFd* this, GlobalContext* globalCtx) {
         if (eff->type == FD_EFFECT_DOT) {
             if (!firstDone) {
                 func_80093D84(globalCtx->state.gfxCtx);
-                gSPDisplayList(POLY_XLU_DISP++, D_060079F8);
+                gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_79F8);
                 firstDone = true;
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b,
@@ -933,7 +928,7 @@ void EnFd_DrawDots(EnFd* this, GlobalContext* globalCtx) {
             Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fd.c", 2064),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_06007A78);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerTriangleParticleDL);
         }
     }
 
