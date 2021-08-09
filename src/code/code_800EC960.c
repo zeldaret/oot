@@ -2462,7 +2462,7 @@ void func_800F4A70(void) {
     }
 }
 
-void func_800F4B58(Vec3f* arg0, u16 arg1, u8* arg2) {
+void func_800F4B58(Vec3f* arg0, s16 arg1, u8* arg2) {
     Audio_PlaySoundGeneral(arg1, arg0, 4, &gNoteFrequencies[arg2[D_801305CC] + 39], &D_801333E0, &D_801333E8);
 
     if (D_801305CC < 15) {

@@ -65,11 +65,11 @@
 
         <!-- Other body parts textures -->
         <Texture Name="gZoraMouthTex" OutName="mouth" Format="rgba16" Width="32" Height="32" Offset="0x5640"/>
-        <Texture Name="gZoraHeadTailTex" OutName="head_tail" Format="ci8" Width="32" Height="64" Offset="0x3600"/>
-        <Texture Name="gZoraHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0x5E40"/>
-        <Texture Name="gZoraKneeTex" OutName="knee" Format="ci8" Width="8" Height="8" Offset="0x5F40"/>
-        <Texture Name="gZoraHeadTex" OutName="head" Format="ci8" Width="8" Height="8" Offset="0x3E00"/>
-        <Texture Name="gZoraFinTex" OutName="fin" Format="ci8" Width="32" Height="32" Offset="0x3200"/>
+        <Texture Name="gZoraHeadTailTex" OutName="head_tail" Format="ci8" Width="32" Height="64" Offset="0x3600" TlutOffset="0x3000"/>
+        <Texture Name="gZoraHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0x5E40" TlutOffset="0x3000"/>
+        <Texture Name="gZoraKneeTex" OutName="knee" Format="ci8" Width="8" Height="8" Offset="0x5F40" TlutOffset="0x3000"/>
+        <Texture Name="gZoraHeadTex" OutName="head" Format="ci8" Width="8" Height="8" Offset="0x3E00" TlutOffset="0x3000"/>
+        <Texture Name="gZoraFinTex" OutName="fin" Format="ci8" Width="32" Height="32" Offset="0x3200" TlutOffset="0x3000"/>
 
         <!-- Palette / Tlut -->
         <Texture Name="gZoraTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x3000"/>

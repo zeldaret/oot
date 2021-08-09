@@ -6,12 +6,12 @@
         <Texture Name="object_mu_Tex_000650" OutName="tex_00000650" Format="i8" Width="8" Height="8" Offset="0x650"/>
         <Texture Name="object_mu_Tex_000690" OutName="tex_00000690" Format="i8" Width="8" Height="8" Offset="0x690"/>
         <Texture Name="object_mu_Tex_0006D0" OutName="tex_000006D0" Format="i8" Width="8" Height="8" Offset="0x6D0"/>
-        <Texture Name="object_mu_Tex_000710" OutName="tex_00000710" Format="ci8" Width="8" Height="16" Offset="0x710"/>
-        <Texture Name="object_mu_Tex_000790" OutName="tex_00000790" Format="ci8" Width="8" Height="8" Offset="0x790"/>
-        <Texture Name="object_mu_Tex_0007D0" OutName="tex_000007D0" Format="ci8" Width="8" Height="8" Offset="0x7D0"/>
-        <Texture Name="object_mu_Tex_000810" OutName="tex_00000810" Format="ci8" Width="8" Height="8" Offset="0x810"/>
-        <Texture Name="object_mu_Tex_000850" OutName="tex_00000850" Format="ci8" Width="8" Height="8" Offset="0x850"/>
-        <Texture Name="object_mu_Tex_000890" OutName="tex_00000890" Format="ci8" Width="8" Height="8" Offset="0x890"/>
+        <Texture Name="object_mu_Tex_000710" OutName="tex_00000710" Format="ci8" Width="8" Height="16" Offset="0x710" TlutOffset="0x410"/>
+        <Texture Name="object_mu_Tex_000790" OutName="tex_00000790" Format="ci8" Width="8" Height="8" Offset="0x790" TlutOffset="0x410"/>
+        <Texture Name="object_mu_Tex_0007D0" OutName="tex_000007D0" Format="ci8" Width="8" Height="8" Offset="0x7D0" TlutOffset="0x410"/>
+        <Texture Name="object_mu_Tex_000810" OutName="tex_00000810" Format="ci8" Width="8" Height="8" Offset="0x810" TlutOffset="0x410"/>
+        <Texture Name="object_mu_Tex_000850" OutName="tex_00000850" Format="ci8" Width="8" Height="8" Offset="0x850" TlutOffset="0x410"/>
+        <Texture Name="object_mu_Tex_000890" OutName="tex_00000890" Format="ci8" Width="8" Height="8" Offset="0x890" TlutOffset="0x410"/>
         <DList Name="object_mu_DL_003110" Offset="0x3110"/>
         <DList Name="object_mu_DL_0035E8" Offset="0x35E8"/>
         <DList Name="object_mu_DL_0037B0" Offset="0x37B0"/>
@@ -44,16 +44,16 @@
         <Animation Name="gDancingCoupleAnim" Offset="0x5040"/>
         <Texture Name="object_mu_TLUT_005050" OutName="tlut_00005050" Format="rgba16" Width="16" Height="16" Offset="0x5050"/>
         <Texture Name="object_mu_Tex_005250" OutName="tex_00005250" Format="i8" Width="16" Height="16" Offset="0x5250"/>
-        <Texture Name="object_mu_Tex_005350" OutName="tex_00005350" Format="ci8" Width="16" Height="16" Offset="0x5350"/>
+        <Texture Name="object_mu_Tex_005350" OutName="tex_00005350" Format="ci8" Width="16" Height="16" Offset="0x5350" TlutOffset="0x5050"/>
         <Texture Name="object_mu_Tex_005450" OutName="tex_00005450" Format="i8" Width="8" Height="8" Offset="0x5450"/>
-        <Texture Name="object_mu_Tex_005490" OutName="tex_00005490" Format="ci8" Width="8" Height="8" Offset="0x5490"/>
-        <Texture Name="object_mu_Tex_0054D0" OutName="tex_000054D0" Format="ci8" Width="16" Height="16" Offset="0x54D0"/>
-        <Texture Name="object_mu_Tex_0055D0" OutName="tex_000055D0" Format="ci8" Width="8" Height="8" Offset="0x55D0"/>
-        <Texture Name="object_mu_Tex_005610" OutName="tex_00005610" Format="ci8" Width="32" Height="16" Offset="0x5610"/>
-        <Texture Name="object_mu_Tex_005810" OutName="tex_00005810" Format="ci8" Width="32" Height="32" Offset="0x5810"/>
-        <Texture Name="object_mu_Tex_005C10" OutName="tex_00005C10" Format="ci8" Width="8" Height="8" Offset="0x5C10"/>
-        <Texture Name="object_mu_Tex_005C50" OutName="tex_00005C50" Format="ci8" Width="8" Height="16" Offset="0x5C50"/>
-        <Texture Name="object_mu_Tex_005CD0" OutName="tex_00005CD0" Format="ci8" Width="32" Height="32" Offset="0x5CD0"/>
+        <Texture Name="object_mu_Tex_005490" OutName="tex_00005490" Format="ci8" Width="8" Height="8" Offset="0x5490" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_0054D0" OutName="tex_000054D0" Format="ci8" Width="16" Height="16" Offset="0x54D0" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_0055D0" OutName="tex_000055D0" Format="ci8" Width="8" Height="8" Offset="0x55D0" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005610" OutName="tex_00005610" Format="ci8" Width="32" Height="16" Offset="0x5610" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005810" OutName="tex_00005810" Format="ci8" Width="32" Height="32" Offset="0x5810" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005C10" OutName="tex_00005C10" Format="ci8" Width="8" Height="8" Offset="0x5C10" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005C50" OutName="tex_00005C50" Format="ci8" Width="8" Height="16" Offset="0x5C50" TlutOffset="0x5050"/>
+        <Texture Name="object_mu_Tex_005CD0" OutName="tex_00005CD0" Format="ci8" Width="32" Height="32" Offset="0x5CD0" TlutOffset="0x5050"/>
         <DList Name="object_mu_DL_008FD0" Offset="0x8FD0"/>
         <DList Name="object_mu_DL_009328" Offset="0x9328"/>
         <DList Name="object_mu_DL_009828" Offset="0x9828"/>

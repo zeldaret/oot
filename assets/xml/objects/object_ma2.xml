@@ -1,28 +1,28 @@
 <Root>
     <File Name="object_ma2" Segment="6">
-        <Texture Name="gMalonAdultClothesTLUT" OutName="clothes_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x7F0"/>
-        <Texture Name="gMalonAdultFingersTex" OutName="fingers" Format="rgb5a1" Width="16" Height="16" Offset="0x9F0"/>
-        <Texture Name="gMalonAdultShirtTex" OutName="shirt" Format="ci8" Width="16" Height="16" Offset="0xBF0"/>
-        <Texture Name="gMalonAdultShirtCuffTex" OutName="shirt_cuff" Format="ci8" Width="8" Height="16" Offset="0xCF0"/>
-        <Texture Name="gMalonAdultScarfTex" OutName="scarf" Format="ci8" Width="8" Height="8" Offset="0xD70"/>
-        <Texture Name="gMalonBowserTex" OutName="bowser" Format="rgb5a1" Width="16" Height="32" Offset="0xDB0"/>
-        <Texture Name="gMalonAdultMiddleDressTex" OutName="middle_dress" Format="ci8" Width="16" Height="16" Offset="0x11B0"/>
-        <Texture Name="gMalonAdultFrontDressTex" OutName="front_dress" Format="rgb5a1" Width="16" Height="32" Offset="0x12B0"/>
-        <Texture Name="gMalonAdultDressPatternTex" OutName="dress_pattern" Format="ci8" Width="16" Height="32" Offset="0x16B0"/>
-        <Texture Name="gMalonAdultBootTex" OutName="boot" Format="ci8" Width="64" Height="16" Offset="0x18B0"/>
-        <Texture Name="gMalonAdultBeltTex" OutName="belt" Format="ci8" Width="32" Height="16" Offset="0x1CB0"/>
-        <Texture Name="gMalonAdultHairTLUT" OutName="hair_tlut" Format="rgb5a1" Width="96" Height="1" Offset="0x1EB0"/><!--Blob Name="object_ma2_Blob_0020B0" Size="0xC0" Offset="0x20B0" /-->
-        <Texture Name="gMalonAdultGradientTex" OutName="gradient" Format="rgb5a1" Width="8" Height="8" Offset="0x2170"/>
-        <Texture Name="gMalonAdultNoseTex" OutName="nose" Format="rgb5a1" Width="8" Height="8" Offset="0x21F0"/>
-        <Texture Name="gMalonAdultEarTex" OutName="ear" Format="rgb5a1" Width="16" Height="16" Offset="0x2270"/>
-        <Texture Name="gMalonAdultHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x2470"/>
+        <Texture Name="gMalonAdultClothesTLUT" OutName="clothes_tlut" Format="rgba16" Width="16" Height="16" Offset="0x7F0"/>
+        <Texture Name="gMalonAdultFingersTex" OutName="fingers" Format="rgba16" Width="16" Height="16" Offset="0x9F0"/>
+        <Texture Name="gMalonAdultShirtTex" OutName="shirt" Format="ci8" Width="16" Height="16" Offset="0xBF0" TlutOffset="0x7F0"/>
+        <Texture Name="gMalonAdultShirtCuffTex" OutName="shirt_cuff" Format="ci8" Width="8" Height="16" Offset="0xCF0" TlutOffset="0x7F0"/>
+        <Texture Name="gMalonAdultScarfTex" OutName="scarf" Format="ci8" Width="8" Height="8" Offset="0xD70" TlutOffset="0x7F0"/>
+        <Texture Name="gMalonBowserTex" OutName="bowser" Format="rgba16" Width="16" Height="32" Offset="0xDB0"/>
+        <Texture Name="gMalonAdultMiddleDressTex" OutName="middle_dress" Format="ci8" Width="16" Height="16" Offset="0x11B0" TlutOffset="0x7F0"/>
+        <Texture Name="gMalonAdultFrontDressTex" OutName="front_dress" Format="rgba16" Width="16" Height="32" Offset="0x12B0"/>
+        <Texture Name="gMalonAdultDressPatternTex" OutName="dress_pattern" Format="ci8" Width="16" Height="32" Offset="0x16B0" TlutOffset="0x7F0"/>
+        <Texture Name="gMalonAdultBootTex" OutName="boot" Format="ci8" Width="64" Height="16" Offset="0x18B0" TlutOffset="0x7F0"/>
+        <Texture Name="gMalonAdultBeltTex" OutName="belt" Format="ci8" Width="32" Height="16" Offset="0x1CB0" TlutOffset="0x7F0"/>
+        <Texture Name="gMalonAdultHairTLUT" OutName="hair_tlut" Format="rgba16" Width="96" Height="1" Offset="0x1EB0"/>
+        <Texture Name="gMalonAdultGradientTex" OutName="gradient" Format="rgba16" Width="8" Height="8" Offset="0x2170"/>
+        <Texture Name="gMalonAdultNoseTex" OutName="nose" Format="rgba16" Width="8" Height="8" Offset="0x21F0"/>
+        <Texture Name="gMalonAdultEarTex" OutName="ear" Format="rgba16" Width="16" Height="16" Offset="0x2270"/>
+        <Texture Name="gMalonAdultHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x2470" TlutOffset="0x1EB0"/>
 
         <Texture Name="gMalonAdultEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x2570"/>
         <Texture Name="gMalonAdultEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x2C70"/>
         <Texture Name="gMalonAdultEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x3070"/>
         
-        <Texture Name="gMalonAdultBasketTex" OutName="basket" Format="rgb5a1" Width="8" Height="16" Offset="0x2B70"/>
-        <Texture Name="gMalonAdultBasketInsideTex" OutName="basket_inside" Format="rgb5a1" Width="8" Height="16" Offset="0x3470"/>
+        <Texture Name="gMalonAdultBasketTex" OutName="basket" Format="rgba16" Width="8" Height="16" Offset="0x2B70"/>
+        <Texture Name="gMalonAdultBasketInsideTex" OutName="basket_inside" Format="rgba16" Width="8" Height="16" Offset="0x3470"/>
 
         <Texture Name="gMalonAdultMouthNeutralTex" OutName="mouth_neutral" Format="ci8" Width="32" Height="16" Offset="0x2970"/>
         <Texture Name="gMalonAdultMouthSadTex" OutName="mouth_sad" Format="ci8" Width="32" Height="16" Offset="0x3570"/>
