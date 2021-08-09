@@ -1151,18 +1151,18 @@ Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthSt
 
     switch (arg5) {
         case 1:
+            phi_t0 = 0x940;
             phi_v1 = noteSubEu->headsetPanRight;
             phi_v0 = synthState->prevHeadsetPanRight;
             synthState->prevHeadsetPanLeft = 0;
-            synthState->prevHeadsetPanRight = noteSubEu->headsetPanRight;
-            phi_t0 = 0x940;
+            synthState->prevHeadsetPanRight = phi_v1;
             break;
         case 2:
+            phi_t0 = 0xAE0;
             phi_v1 = noteSubEu->headsetPanLeft;
             phi_v0 = synthState->prevHeadsetPanLeft;
-            synthState->prevHeadsetPanLeft = noteSubEu->headsetPanLeft;
+            synthState->prevHeadsetPanLeft = phi_v1;
             synthState->prevHeadsetPanRight = 0;
-            phi_t0 = 0xAE0;
             break;
         default:
             return cmd;
@@ -1170,26 +1170,26 @@ Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthSt
 
     if (arg4 != 1) {
         if (phi_v0 != phi_v1) {
-            aSetBuffer(cmd++, 0, 0x5C0, 0x3C0, (arg3 + phi_v1) - phi_v0);
-            aResampleZOH(cmd++, (u16)((((arg3 << 0xF) / 2) - 1) / ((((arg3 + phi_v1) - phi_v0) - 2) / 2)), 0);
+            aSetBuffer(cmd++, 0, 0x5C0, 0x3C0, arg3 + phi_v1 - phi_v0);
+            aResampleZOH(cmd++, (u16)((((arg3 << 0xF) / 2) - 1) / ((arg3 + phi_v1 - phi_v0 - 2) / 2)), 0);
         } else {
             aDMEMMove(cmd++, 0x5C0, 0x3C0, arg3);
         }
 
         if (phi_v0 != 0) {
             aLoadBuffer(cmd++, &synthState->synthesisBuffers->panResampleState[0x8], 0x5C0, ALIGN16(phi_v0));
-            aDMEMMove(cmd++, 0x3C0, phi_v0 + 0x5C0, (arg3 + phi_v1) - phi_v0);
+            aDMEMMove(cmd++, 0x3C0, 0x5C0 + phi_v0, arg3 + phi_v1 - phi_v0);
         } else {
-            aDMEMMove(cmd++, 0x3C0, 0x5C0, (arg3 + phi_v1));
+            aDMEMMove(cmd++, 0x3C0, 0x5C0, arg3 + phi_v1);
         }
     } else {
         aDMEMMove(cmd++, 0x5C0, 0x3C0, arg3);
         aClearBuffer(cmd++, 0x5C0, phi_v1);
-        aDMEMMove(cmd++, 0x3C0, phi_v1 + 0x5C0, arg3);
+        aDMEMMove(cmd++, 0x3C0, 0x5C0 + phi_v1, arg3);
     }
 
     if (phi_v1 != 0) {
-        aSaveBuffer(cmd++, arg3 + 0x5C0, &synthState->synthesisBuffers->panResampleState[0x8], ALIGN16(phi_v1));
+        aSaveBuffer(cmd++, 0x5C0 + arg3, &synthState->synthesisBuffers->panResampleState[0x8], ALIGN16(phi_v1));
     }
     aAddMixer(cmd++, ((arg3 + 0x3F) & ~0x3F), 0x5C0, phi_t0, 0x7FFF);
     return cmd;
