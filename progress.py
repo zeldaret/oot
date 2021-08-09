@@ -64,7 +64,6 @@ src = 0
 code = 0
 boot = 0
 ovl = 0
-asm = 0
 
 for line in mapFile:
     lineSplit =  list(filter(None, line.split(" ")))
@@ -77,8 +76,6 @@ for line in mapFile:
         if (section == ".text"):
             if (objFile.startswith("build/src")):
                 src += size
-            elif (objFile.startswith("build/asm")):
-                asm += size
 
             if (objFile.startswith("build/src/code") or objFile.startswith("build/src/libultra_code")):
                 code += size
@@ -89,37 +86,32 @@ for line in mapFile:
 
 nonMatchingASM = GetNonMatchingSize("asm/non_matchings")
 nonMatchingASMBoot = GetNonMatchingSize("asm/non_matchings/boot")
-nonMatchingASMCode = GetNonMatchingSize("asm/non_matchings/code") + GetNonMatchingSize("asm/non_matchings/libultra_code")
+nonMatchingASMCode = GetNonMatchingSize("asm/non_matchings/code")
 nonMatchingASMOvl = GetNonMatchingSize("asm/non_matchings/overlays")
 
 src -= nonMatchingASM
 code -= nonMatchingASMCode
 boot -= nonMatchingASMBoot
 ovl -= nonMatchingASMOvl
-asm += nonMatchingASM
 
 bootSize = 31408 # decompilable code only
-codeSize = 1004128 # .text section except rsp bins (1.00mb)
+codeSize = 1000000 # decompilable code only (1.00mb)
 ovlSize = 2812000 # .text sections
-handwritten = 5840 # boot only
 
-asm -= handwritten
-
-total = src + asm
+total = src + nonMatchingASM
 srcPct = 100 * src / total
-asmPct = 100 * asm / total
 codePct = 100 * code / codeSize
 bootPct = 100 * boot / bootSize
 ovlPct = 100 * ovl / ovlSize
-compiled_bytes = total
-bytesPerHeartPiece = compiled_bytes / 80
+
+bytesPerHeartPiece = total / 80
 
 if args.format == 'csv':
     version = 1
     git_object = git.Repo().head.object
     timestamp = str(git_object.committed_date)
     git_hash = git_object.hexsha
-    csv_list = [str(version), timestamp, git_hash, str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize), str(src), str(asm), str(len(nonMatchingFunctions))]
+    csv_list = [str(version), timestamp, git_hash, str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize), str(src), str(nonMatchingASM), str(len(nonMatchingFunctions))]
     print(",".join(csv_list))
 elif args.format == 'shield-json':
     # https://shields.io/endpoint
