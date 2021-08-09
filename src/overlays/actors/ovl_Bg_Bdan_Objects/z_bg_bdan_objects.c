@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_bdan_objects.h"
+#include "objects/object_bdan_objects/object_bdan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -68,17 +69,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_STOP),
 };
 
-static Gfx* D_8086CDA0[] = {
-    0x06008618,
-    0x06004BE8,
-    0x060038E8,
-    0x06005200,
+static Gfx* sDLists[] = {
+    gJabuObjectsLargeRotatingSpikePlatformDL,
+    gJabuElevatorPlatformDL,
+    gJabuWaterDL,
+    gJabuFallingPlatformDL,
 };
-
-extern Gfx D_060038E8[];
-extern CollisionHeader D_06005048;
-extern CollisionHeader D_06005580;
-extern CollisionHeader D_06008CE0;
 
 s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
@@ -126,7 +122,7 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     if (thisx->params == 0) {
-        CollisionHeader_GetVirtual(&D_06008CE0, &colHeader);
+        CollisionHeader_GetVirtual(&gJabuBigOctoPlatformCol, &colHeader);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
         thisx->world.pos.y += -79.0f;
@@ -151,12 +147,12 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         if (thisx->params == 1) {
-            CollisionHeader_GetVirtual(&D_06005048, &colHeader);
+            CollisionHeader_GetVirtual(&gJabuElevatorCol, &colHeader);
             this->timer = 512;
             this->unk_168 = 0;
             this->actionFunc = func_8086C874;
         } else {
-            CollisionHeader_GetVirtual(&D_06005580, &colHeader);
+            CollisionHeader_GetVirtual(&gJabuLoweringPlatformCol, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->unk_168)) {
                 this->actionFunc = BgBdanObjects_DoNothing;
                 thisx->world.pos.y = thisx->home.pos.y - 400.0f;
@@ -184,7 +180,7 @@ void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
             BgBdanObjects_SetContactRu1(this, 1);
             this->timer = 20;
-            func_800800F8(globalCtx, 0xBFE, -0x63, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 3070, -99, &this->dyna.actor, MAIN_CAM);
             player->actor.world.pos.x = -1130.0f;
             player->actor.world.pos.y = -1025.0f;
             player->actor.world.pos.z = -3300.0f;
@@ -261,7 +257,7 @@ void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 140.0f;
         this->actionFunc = func_8086C5BC;
-        func_800800F8(globalCtx, 0xC08, -0x63, this->dyna.actor.child, 0);
+        OnePointCutscene_Init(globalCtx, 3080, -99, this->dyna.actor.child, MAIN_CAM);
         player->actor.world.pos.x = -1130.0f;
         player->actor.world.pos.y = -1025.0f;
         player->actor.world.pos.z = -3500.0f;
@@ -334,7 +330,7 @@ void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna)) {
         if (this->dyna.actor.xzDistToPlayer < 120.0f) {
             this->actionFunc = func_8086C7D0;
-            func_800800F8(globalCtx, 0xC12, -0x63, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 3090, -99, &this->dyna.actor, MAIN_CAM);
         }
     }
 }
@@ -358,13 +354,13 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
     if (this->unk_168 == 0) {
         if (func_8004356C(&this->dyna)) {
-            this->cameraSetting = globalCtx->cameraPtrs[0]->setting;
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_NORMAL2);
-            func_8005AD1C(globalCtx->cameraPtrs[0], 4);
-            this->unk_168 = 0xAU;
+            this->cameraSetting = globalCtx->cameraPtrs[MAIN_CAM]->setting;
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_NORMAL2);
+            func_8005AD1C(globalCtx->cameraPtrs[MAIN_CAM], 4);
+            this->unk_168 = 10;
         }
     } else {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_NORMAL2);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_NORMAL2);
         if (!func_8004356C(&this->dyna)) {
             if (this->unk_168 != 0) {
                 this->unk_168--;
@@ -373,12 +369,12 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->unk_168 == 0) {
             do {
             } while (0);
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], this->cameraSetting);
-            func_8005ACFC(globalCtx->cameraPtrs[0], 4);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], this->cameraSetting);
+            func_8005ACFC(globalCtx->cameraPtrs[MAIN_CAM], 4);
         }
     }
     this->dyna.actor.world.pos.y =
-        this->dyna.actor.home.pos.y - (sinf(this->timer * (M_PI / 256.0f)) * 471.239990234375f); // pi * 150
+        this->dyna.actor.home.pos.y - (sinf(this->timer * (M_PI / 256.0f)) * 471.24f); // pi * 150
     if (this->timer == 0) {
         this->timer = 512;
     }
@@ -423,7 +419,7 @@ void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx) {
         this->timer = 50;
         this->actionFunc = func_8086CB8C;
         this->dyna.actor.home.pos.y -= 200.0f;
-        func_800800F8(globalCtx, 0xC1C, 0x33, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 3100, 51, &this->dyna.actor, MAIN_CAM);
     }
 }
 
@@ -437,7 +433,7 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->actionFunc = BgBdanObjects_DoNothing;
-        Gameplay_CopyCamera(globalCtx, 0, -1);
+        Gameplay_CopyCamera(globalCtx, MAIN_CAM, SUBCAM_ACTIVE);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_BUYOSTAND_FALL - SFX_FLAG);
     }
@@ -462,8 +458,8 @@ void BgBdanObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 2) {
-        Gfx_DrawDListXlu(globalCtx, D_060038E8);
+        Gfx_DrawDListXlu(globalCtx, gJabuWaterDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_8086CDA0[thisx->params]);
+        Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);
     }
 }

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_ddan_kd.h"
+#include "objects/object_ddan_objects/object_ddan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -58,9 +59,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 32767, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06004F30;
-extern Gfx D_060048A8[];
-
 void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -76,7 +74,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    CollisionHeader_GetVirtual(&D_06004F30, &colHeader);
+    CollisionHeader_GetVirtual(&gDodongoFallingStairsCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
@@ -106,7 +104,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
     if ((explosive != NULL) && (this->prevExplosive != NULL) && (explosive != this->prevExplosive) &&
         (Math_Vec3f_DistXZ(&this->prevExplosivePos, &explosive->world.pos) > 80.0f)) {
         BgDdanKd_SetupAction(this, BgDdanKd_LowerStairs);
-        func_800800F8(globalCtx, 0xBEA, 0x3E7, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 3050, 999, &this->dyna.actor, MAIN_CAM);
     } else {
         if (this->timer != 0) {
             this->timer -= 1;
@@ -187,5 +185,5 @@ void BgDdanKd_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_060048A8);
+    Gfx_DrawDListOpa(globalCtx, gDodongoFallingStairsDL);
 }

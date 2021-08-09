@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_dalm.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -95,10 +96,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -200, ICHAIN_STOP),
 };
 
-extern Gfx D_0600BBF0[];
-extern Gfx D_0600BDF0[];
-extern CollisionHeader D_0600DA10;
-
 void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanDalm* this = THIS;
     s32 pad;
@@ -106,7 +103,7 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_0600DA10, &colHeader);
+    CollisionHeader_GetVirtual(&gFireTempleHammerableTotemCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     Collider_InitTris(globalCtx, &this->collider);
     Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, this->colliderItems);
@@ -216,9 +213,9 @@ void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanDalm* this = THIS;
 
     if (this->dyna.actor.params == 0) {
-        Gfx_DrawDListOpa(globalCtx, D_0600BBF0);
+        Gfx_DrawDListOpa(globalCtx, gFireTempleHammerableTotemBodyDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_0600BDF0);
+        Gfx_DrawDListOpa(globalCtx, gFireTempleHammerableTotemHeadDL);
     }
 
     if (this->actionFunc == BgHidanDalm_Wait) {

@@ -8,7 +8,7 @@ typedef struct {
     /* 0x08 */ u8 unk_8;
     /* 0x0C */ f32* unk_C;
     /* 0x10 */ f32* unk_10;
-    /* 0x14 */ f32* unk_14;
+    /* 0x14 */ s8* unk_14;
 } Struct_800F738C; // size = 0x18
 
 typedef struct {
@@ -17,16 +17,6 @@ typedef struct {
     /* 0x08 */ f32 unk_8;
     /* 0x0C */ u16 unk_C;
 } Struct_800F8EA0; // size = 0x10
-
-typedef struct {
-    u32 unk_0;
-    u8 unk_4;
-} Struct_800F7CEC;
-
-typedef struct {
-    u8 unk_0;
-    u16 unk_2;
-} Struct_8013331C;
 
 u8 D_80133340[4] = {
     0x53,
@@ -83,7 +73,7 @@ f32 D_801333E0 = 1.0f;
 
 UNK_TYPE D_801333E4 = 0;
 
-f32 D_801333E8 = 0.0f;
+s8 D_801333E8 = 0;
 
 UNK_TYPE D_801333EC = 0;
 
@@ -94,7 +84,6 @@ u8 D_801333F4 = 0;
 u8 D_801333F8 = 0;
 
 extern Struct_800F738C D_8016C9A0[];
-extern Struct_800F7CEC D_8016E1B8[7][3]; // total size = 0xA8
 extern Struct_800F8EA0 D_8016E270[];
 extern Struct_8013331C* D_8013331C[9];
 
@@ -111,21 +100,21 @@ void func_800F7260(u16 arg0) {
     }
 }
 
-void func_800F72B8(u8 arg0) {
+void Audio_QueueSeqCmdMute(u8 arg0) {
     D_801333D0 |= (1 << arg0);
-    func_800FA240(0, 2, 0x40, 0xF);
-    func_800FA240(3, 2, 0x40, 0xF);
+    Audio_SetVolScale(0, 2, 0x40, 0xF);
+    Audio_SetVolScale(3, 2, 0x40, 0xF);
 }
 
-void func_800F731C(u8 arg0) {
+void Audio_ClearBGMMute(u8 arg0) {
     D_801333D0 &= ((1 << arg0) ^ 0xFFFF);
     if (D_801333D0 == 0) {
-        func_800FA240(0, 2, 0x7F, 0xF);
-        func_800FA240(3, 2, 0x7F, 0xF);
+        Audio_SetVolScale(0, 2, 0x7F, 0xF);
+        Audio_SetVolScale(3, 2, 0x7F, 0xF);
     }
 }
 
-void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, f32* a5) {
+void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, s8* a5) {
     u8 i;
     Struct_800F738C* phi_v0;
 
@@ -165,7 +154,7 @@ void func_800F74E0(u8 arg0, SoundBankEntry* arg1) {
     s32 phi_a0;
     u8 i = D_801333A4;
 
-    while (i != D_801333A0) {
+    for (i; i != D_801333A0; i++) {
         phi_a0 = false;
         entry = &D_8016C9A0[i];
         switch (arg0) {
@@ -203,83 +192,83 @@ void func_800F74E0(u8 arg0, SoundBankEntry* arg1) {
         if (phi_a0) {
             entry->sfxId = 0;
         }
-        i++;
+        // i++;
     }
 }
 
-#ifdef NON_EQUIVALENT
-// Mostly ok at the start, then runs into some reorderings near the assignments
-// of temp_s0 and temp_a2, inducing regalloc throughout the rest
+#ifdef NON_MATCHING
+// Down to a/v regalloc and some stuff where the compiler gets confused about reusing values. There's some fake matching
+// stuff to improve regalloc enough to verify equivalence.
 void func_800F7680(void) {
-    u8 sp43;
-    Struct_8013331C* temp_a2;
-    SoundBankEntry* temp_s0;
-    s32 phi_s5;
-    Struct_800F738C* phi_t2;
+    u16 flag1;
+    u8 sp55;
     u8 phi_a1;
-    u8 phi_t4;
-    s32 phi_s1;
+    Struct_800F738C* sp50;
+    SoundBankEntry* temp_v0;
+    Struct_8013331C* sp48;
+    s32 phi_s5;
+    u8 sp43;
+    u8 phi_s1;
+    u16 flag2;
 
-    phi_t2 = &D_8016C9A0[D_801333A4];
+    sp50 = &D_8016C9A0[D_801333A4];
     phi_s1 = 0x80;
-    if (phi_t2->sfxId == 0) {
+    if (sp50->sfxId == 0) {
         return;
     }
-    phi_s5 = SFX_BANK(phi_t2->sfxId);
+    phi_s5 = SFX_BANK(sp50->sfxId);
     if ((1 << phi_s5) & D_801333F0) {
-        func_800F2D6C(D_80133340, phi_t2->sfxId);
-        phi_s5 = SFX_BANK(phi_t2->sfxId);
+        func_800F2D6C(D_80133340, sp50->sfxId);
+        phi_s5 = SFX_BANK(sp50->sfxId);
     }
-    phi_t4 = 0;
+    sp55 = 0;
     phi_a1 = gSoundBanks[phi_s5][0].next;
     while (phi_a1 != 0xFF && phi_a1 != 0) {
-        if (gSoundBanks[phi_s5][phi_a1].posX == &phi_t2->pos->x) {
-            temp_a2 = &D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)];
-            temp_s0 = &gSoundBanks[phi_s5][phi_a1];
-            if (!(temp_a2->unk_2 & 0x20) || temp_s0->unk_24 != temp_a2->unk_0) {
-                if (temp_s0->unk_28 == phi_t2->sfxId) {
-                    phi_t4 = D_80130594[phi_s5][D_801333CC];
-                } else {
-                    //!@bug possibly uninitialized sp43 ? confirm when matching
-                    if (phi_t4 == 0) {
-                        phi_s1 = phi_a1;
-                        sp43 = D_8013331C[SFX_BANK_SHIFT(temp_s0->unk_28)][SFX_INDEX(temp_s0->unk_28)].unk_0;
-                    } else if (temp_s0->unk_24 < sp43) {
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-                        phi_s1 = phi_a1;
-                        sp43 = D_8013331C[SFX_BANK_SHIFT(temp_s0->unk_28)][SFX_INDEX(temp_s0->unk_28)].unk_0;
-                    }
-                    phi_t4++;
-                    if (phi_t4 == D_80130594[phi_s5][D_801333CC]) {
-                        phi_a1 = (temp_a2->unk_0 >= sp43) ? phi_s1 : 0;
-                    }
-                }
-                if (D_80130594[phi_s5][D_801333CC] == phi_t4) {
-                    if ((phi_t2->sfxId & 0xC00) || (temp_a2->unk_2 & 4) || phi_a1 == phi_s1) {
-                        if ((gSoundBanks[phi_s5][phi_a1].unk_26 & 8) && gSoundBanks[phi_s5][phi_a1].unk_2A != 1) {
-                            func_800F731C(gSoundBanks[phi_s5][phi_a1].unk_2E);
-                        }
-                        gSoundBanks[phi_s5][phi_a1].unk_C = phi_t2->unk_8;
-                        gSoundBanks[phi_s5][phi_a1].unk_28 = phi_t2->sfxId;
-                        gSoundBanks[phi_s5][phi_a1].unk_2A = 1;
-                        gSoundBanks[phi_s5][phi_a1].unk_2B = 2;
-                        gSoundBanks[phi_s5][phi_a1].unk_10 = phi_t2->unk_C;
-                        gSoundBanks[phi_s5][phi_a1].unk_14 = phi_t2->unk_10;
-                        gSoundBanks[phi_s5][phi_a1].unk_18 = phi_t2->unk_14;
-                        gSoundBanks[phi_s5][phi_a1].unk_26 = temp_a2->unk_2;
-                        gSoundBanks[phi_s5][phi_a1].unk_24 = temp_a2->unk_0;
-                    } else if (gSoundBanks[phi_s5][phi_a1].unk_2A == 5) {
-                        gSoundBanks[phi_s5][phi_a1].unk_2A = 4;
-                    }
-                    phi_a1 = 0;
-                }
-            } else {
+        if (gSoundBanks[phi_s5][phi_a1].posX == &sp50->pos->x) {
+            sp48 = &D_8013331C[SFX_BANK_SHIFT(sp50->sfxId)][SFX_INDEX(sp50->sfxId)];
+            if (!(!(sp48->unk_2 & 0x20) || sp48->unk_0 != gSoundBanks[phi_s5][phi_a1].unk_24)) {
                 return;
+            }
+            if (gSoundBanks[phi_s5][phi_a1].unk_28 == sp50->sfxId) {
+                sp55 = D_80130594[D_801333CC][phi_s5];
+            } else {
+                //!@bug possibly uninitialized sp43 ? confirm when matching
+                if (sp55 == 0) {
+                    phi_s1 = phi_a1;
+                    flag1 = gSoundBanks[phi_s5][phi_a1].unk_28 & 0xFFFF;
+                    sp43 = D_8013331C[SFX_BANK_SHIFT(flag1)][SFX_INDEX(flag1)].unk_0;
+                } else if (gSoundBanks[phi_s5][phi_a1].unk_24 < sp43) {
+                    phi_s1 = phi_a1;
+                    flag1 = gSoundBanks[phi_s5][phi_a1].unk_28 & 0xFFFF;
+                    sp43 = D_8013331C[SFX_BANK_SHIFT(flag1)][SFX_INDEX(flag1)].unk_0;
+                }
+                sp55++;
+                if (sp55 == D_80130594[D_801333CC][phi_s5]) {
+                    phi_a1 = (sp48->unk_0 >= sp43) ? phi_s1 : 0;
+                }
+            }
+            if (D_80130594[D_801333CC][phi_s5] == sp55) {
+                flag2 = sp50->sfxId & 0xC00; // Problem is around here
+                sp48 = &D_8013331C[SFX_BANK_SHIFT(sp50->sfxId)][SFX_INDEX(sp50->sfxId)];
+                if ((flag2) || (D_8013331C[SFX_BANK_SHIFT(sp50->sfxId)][SFX_INDEX(sp50->sfxId)].unk_2 & 4) ||
+                    (phi_a1 == phi_s1)) {
+                    if ((gSoundBanks[phi_s5][phi_a1].unk_26 & 8) && gSoundBanks[phi_s5][phi_a1].unk_2A != 1) {
+                        Audio_ClearBGMMute(gSoundBanks[phi_s5][phi_a1].unk_2E);
+                    }
+                    gSoundBanks[phi_s5][phi_a1].unk_C = sp50->unk_8;
+                    gSoundBanks[phi_s5][phi_a1].unk_28 = sp50->sfxId;
+                    gSoundBanks[phi_s5][phi_a1].unk_2A = 1;
+                    gSoundBanks[phi_s5][phi_a1].unk_2B = 2;
+                    gSoundBanks[phi_s5][phi_a1].unk_10 = sp50->unk_C;
+                    gSoundBanks[phi_s5][phi_a1].unk_14 = sp50->unk_10;
+                    gSoundBanks[phi_s5][phi_a1].unk_18 = sp50->unk_14;
+                    gSoundBanks[phi_s5][phi_a1].unk_26 = sp48->unk_2;
+                    gSoundBanks[phi_s5][phi_a1].unk_24 = sp48->unk_0;
+                    if (!sp48->unk_2) {}
+                } else if (gSoundBanks[phi_s5][phi_a1].unk_2A == 5) {
+                    gSoundBanks[phi_s5][phi_a1].unk_2A = 4;
+                }
+                phi_a1 = 0;
             }
         }
         if (phi_a1 != 0) {
@@ -288,26 +277,26 @@ void func_800F7680(void) {
     }
     if (gSoundBanks[phi_s5][D_8016E1A8[phi_s5]].next != 0xFF && phi_a1 != 0) {
         phi_a1 = D_8016E1A8[phi_s5];
-        temp_s0 = &gSoundBanks[phi_s5][phi_a1];
-        temp_s0->posX = &phi_t2->pos->x;
-        temp_s0->posY = &phi_t2->pos->y;
-        temp_s0->posZ = &phi_t2->pos->z;
-        temp_s0->unk_C = phi_t2->unk_8;
-        temp_s0->unk_10 = phi_t2->unk_C;
-        temp_s0->unk_14 = phi_t2->unk_10;
-        temp_s0->unk_18 = phi_t2->unk_14;
-        temp_a2 = &D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)];
-        temp_s0->unk_26 = temp_a2->unk_2;
-        temp_s0->unk_24 = temp_a2->unk_0;
-        temp_s0->unk_28 = phi_t2->sfxId;
-        temp_s0->unk_2A = 1;
-        temp_s0->unk_2B = 2;
-        temp_s0->prev = D_8016E1A0[phi_s5];
+        temp_v0 = &gSoundBanks[phi_s5][phi_a1];
+        temp_v0->posX = &sp50->pos->x;
+        temp_v0->posY = &sp50->pos->y;
+        temp_v0->posZ = &sp50->pos->z;
+        temp_v0->unk_C = sp50->unk_8;
+        temp_v0->unk_10 = sp50->unk_C;
+        temp_v0->unk_14 = sp50->unk_10;
+        temp_v0->unk_18 = sp50->unk_14;
+        sp48 = &D_8013331C[SFX_BANK_SHIFT(sp50->sfxId)][SFX_INDEX(sp50->sfxId)];
+        temp_v0->unk_26 = sp48->unk_2;
+        temp_v0->unk_24 = sp48->unk_0;
+        temp_v0->unk_28 = sp50->sfxId;
+        temp_v0->unk_2A = 1;
+        temp_v0->unk_2B = 2;
+        temp_v0->prev = D_8016E1A0[phi_s5];
         gSoundBanks[phi_s5][D_8016E1A0[phi_s5]].next = D_8016E1A8[phi_s5];
         D_8016E1A0[phi_s5] = D_8016E1A8[phi_s5];
         D_8016E1A8[phi_s5] = gSoundBanks[phi_s5][D_8016E1A8[phi_s5]].next;
         gSoundBanks[phi_s5][D_8016E1A8[phi_s5]].prev = 0xFF;
-        temp_s0->next = 0xFF;
+        temp_v0->next = 0xFF;
     }
 }
 #else
@@ -320,7 +309,7 @@ void func_800F7B54(u8 bankId, u8 bankIndex) {
     u8 i;
 
     if (entry->unk_26 & 8) {
-        func_800F731C(entry->unk_2E);
+        Audio_ClearBGMMute(entry->unk_2E);
     }
     if (bankIndex == D_8016E1A0[bankId]) {
         D_8016E1A0[bankId] = entry->prev;
@@ -342,7 +331,159 @@ void func_800F7B54(u8 bankId, u8 bankIndex) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F7CEC.s")
+void func_800F7CEC(u8 arg0) {
+    u8 phi_a1;
+    u8 spAE;
+    u8 phi_s4;
+    u8 spAC;
+    u8 phi_s3;
+    u8 phi_s0;
+    u8 spA9;
+    u8 phi_v1_5;
+    u8 temp1;
+    u8 temp2;
+    u16 temp3;
+    f32 tempf1;
+    SoundBankEntry* temp_s2;
+    Struct_800F7CEC sp84[3];
+    Struct_800F7CEC* temp_s4_3;
+    s32 pad;
+
+    phi_s3 = 0;
+    for (spAC = 0; spAC < 3; spAC++) {
+        sp84[spAC].unk_0 = 0x7FFFFFFF;
+        sp84[spAC].unk_4 = 0xFF;
+    }
+    phi_s4 = gSoundBanks[arg0][0].next;
+    phi_s0 = 0;
+    while (phi_s4 != 0xFF) {
+        if ((1 == gSoundBanks[arg0][phi_s4].unk_2A) && (gSoundBanks[arg0][phi_s4].unk_28 & 0xC00)) {
+            gSoundBanks[arg0][phi_s4].unk_2B--;
+        } else if (!(gSoundBanks[arg0][phi_s4].unk_28 & 0xC00) && (gSoundBanks[arg0][phi_s4].unk_2A == 5)) {
+            Audio_QueueCmdS8((gSoundBanks[arg0][phi_s4].unk_2E << 8) | 0x6020000, 0);
+            func_800F7B54(arg0, phi_s4);
+        }
+        if (gSoundBanks[arg0][phi_s4].unk_2B == 0) {
+            func_800F7B54(arg0, phi_s4);
+        } else if (gSoundBanks[arg0][phi_s4].unk_2A != 0) {
+            temp_s2 = &gSoundBanks[arg0][phi_s4];
+
+            if (&D_801333D4.x == temp_s2[0].posX) {
+                temp_s2->unk_1C = 0.0f;
+            } else {
+                tempf1 = *temp_s2->posY * 1;
+                temp_s2->unk_1C = (SQ(*temp_s2->posX) + SQ(tempf1) + SQ(*temp_s2->posZ)) * 1;
+            }
+            spA9 = temp_s2->unk_24;
+            if (temp_s2->unk_26 & 0x10) {
+                temp_s2->unk_20 = SQ(0xFF - spA9) * 0x1690;
+            } else {
+                if (temp_s2->unk_1C > 0x7FFFFFD0) {
+                    temp_s2->unk_1C = 0x70000008;
+                    osSyncPrintf(D_80133344, temp_s2->unk_28, temp_s2->posX, temp_s2->posZ, *temp_s2->posX,
+                                 *temp_s2->posY, *temp_s2->posZ);
+                }
+                temp3 = temp_s2->unk_28;
+                temp_s2->unk_20 = (u32)temp_s2->unk_1C + (SQ(0xFF - spA9) * 0x1690) + temp3 - temp3;
+                if (*temp_s2->posZ < 0.0f) {
+                    temp_s2->unk_20 += (s32)(-*temp_s2->posZ * 6.0f);
+                }
+            }
+            if (temp_s2->unk_1C > 1.0e10f) {
+                if (temp_s2->unk_2A == 4) {
+                    Audio_QueueCmdS8((temp_s2->unk_2E << 8) | 0x6020000, 0);
+                    if (temp_s2->unk_28 & 0xC00) {
+                        func_800F7B54(arg0, phi_s4);
+                        phi_s4 = phi_s0;
+                    }
+                }
+            } else {
+                spAE = D_80130578[D_801333CC][arg0];
+                for (spAC = 0; spAC < spAE; spAC++) {
+                    if (sp84[spAC].unk_0 >= temp_s2->unk_20) {
+                        if (phi_s3 < D_80130578[D_801333CC][arg0]) {
+                            phi_s3++;
+                        }
+                        for (phi_a1 = spAE - 1; phi_a1 > spAC; phi_a1--) {
+                            sp84[phi_a1].unk_0 = sp84[phi_a1 - 1].unk_0;
+                            sp84[phi_a1].unk_4 = sp84[phi_a1 - 1].unk_4;
+                        }
+                        sp84[spAC].unk_0 = temp_s2->unk_20;
+                        sp84[spAC].unk_4 = phi_s4;
+                        spAC = spAE;
+                    }
+                }
+            }
+            phi_s0 = phi_s4;
+        }
+        phi_s4 = gSoundBanks[arg0][phi_s0].next;
+    }
+    for (spAC = 0; spAC < phi_s3; spAC++) {
+        temp_s2 = &gSoundBanks[arg0][sp84[spAC].unk_4];
+        if (temp_s2->unk_2A == 1) {
+            temp_s2->unk_2A = 2;
+        } else if (temp_s2->unk_2A == 4) {
+            temp_s2->unk_2A = 3;
+        }
+    }
+
+    spAE = D_80130578[D_801333CC][arg0];
+    for (spAC = 0; spAC < spAE; spAC++) {
+        phi_v1_5 = 0;
+        temp_s4_3 = &D_8016E1B8[arg0][spAC];
+        temp1 = temp_s4_3->unk_4;
+
+        if (temp_s4_3->unk_4 == 0xFF) {
+            phi_v1_5 = 1;
+        } else {
+            temp_s2 = &gSoundBanks[arg0][temp_s4_3[0].unk_4];
+            if (temp_s2->unk_2A == 4) {
+                if (temp_s2->unk_28 & 0xC00) {
+                    func_800F7B54(arg0, temp_s4_3->unk_4);
+                } else {
+                    temp_s2->unk_2A = 1;
+                }
+                phi_v1_5 = 1;
+            } else if (temp_s2->unk_2A == 0) {
+                temp_s4_3->unk_4 = 0xFF;
+                phi_v1_5 = 1;
+            } else {
+                for (phi_a1 = 0; phi_a1 < spAE; phi_a1++) {
+                    if (temp_s4_3->unk_4 == sp84[phi_a1].unk_4) {
+                        sp84[phi_a1].unk_4 = 0xFF;
+                        phi_a1 = spAE;
+                    }
+                }
+                phi_s3--;
+            }
+        }
+
+        if (phi_v1_5 == 1) {
+            for (phi_a1 = 0; phi_a1 < spAE; phi_a1++) {
+                temp2 = sp84[phi_a1].unk_4;
+                if ((temp2 != 0xFF) && (gSoundBanks[arg0][temp2].unk_2A != 3)) {
+                    for (phi_s0 = 0; phi_s0 < spAE; phi_s0++) {
+                        if (temp2 == D_8016E1B8[arg0][phi_s0].unk_4) {
+                            phi_v1_5 = 0;
+                            phi_s0 = spAE;
+                        }
+                    }
+                    if (phi_v1_5 == 1) {
+                        temp_s4_3->unk_4 = temp2;
+
+                        sp84[phi_a1].unk_4 = 0xFF;
+
+                        phi_a1 = spAE + 1;
+                        phi_s3--;
+                    }
+                }
+            }
+            if (phi_a1 == spAE) {
+                temp_s4_3->unk_4 = 0xFF;
+            }
+        }
+    }
+}
 
 void func_800F8480(u8 bankId) {
     u8 bankIndex;
@@ -354,11 +495,11 @@ void func_800F8480(u8 bankId) {
         bankIndex = D_8016E1B8[bankId][i].unk_4;
         if (bankIndex != 0xFF) {
             entry = &gSoundBanks[bankId][bankIndex];
-            seqChannel = gAudioContext.gSequencePlayers[2].channels[D_8016E260];
+            seqChannel = gAudioContext.seqPlayers[2].channels[D_8016E260];
             if (entry->unk_2A == 2) {
                 entry->unk_2E = D_8016E260;
                 if (entry->unk_26 & 8) {
-                    func_800F72B8(D_8016E260);
+                    Audio_QueueSeqCmdMute(D_8016E260);
                 }
                 if (entry->unk_26 & 0xC0) {
                     switch (entry->unk_26 & 0xC0) {
@@ -377,10 +518,10 @@ void func_800F8480(u8 bankId) {
                     }
                 }
                 func_800F3A08(bankId, bankIndex, D_8016E260);
-                func_800E5B20(0x06020000 | ((D_8016E260 & 0xFF) << 8), 1);
-                func_800E5B20(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 4, entry->unk_28 & 0xFF);
+                Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8), 1);
+                Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 4, entry->unk_28 & 0xFF);
                 if (D_80130570[bankId] != 0) {
-                    func_800E5B20(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 5, (entry->unk_28 & 0x100) >> 8);
+                    Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 5, (entry->unk_28 & 0x100) >> 8);
                 }
                 if (entry->unk_28 & 0xC00) {
                     entry->unk_2A = 4;
@@ -411,7 +552,7 @@ void func_800F87A0(u8 bankId) {
     while (bankIndex != 0xFF) {
         entry = &gSoundBanks[bankId][bankIndex];
         if (entry->unk_2A >= 3) {
-            func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
+            Audio_QueueCmdS8(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
         }
         if (entry->unk_2A != 0) {
             func_800F7B54(bankId, bankIndex);
@@ -431,7 +572,7 @@ void func_800F8884(u8 bankId, Vec3f* pos) {
         entry = &gSoundBanks[bankId][bankIndex];
         if (entry->posX == &pos->x) {
             if (entry->unk_2A >= 3) {
-                func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
+                Audio_QueueCmdS8(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
             }
             if (entry->unk_2A != 0) {
                 func_800F7B54(bankId, bankIndex);
@@ -473,7 +614,7 @@ void func_800F8A44(Vec3f* pos, u16 sfxId) {
         entry = &gSoundBanks[SFX_BANK(sfxId)][bankIndex];
         if (entry->posX == &pos->x && entry->unk_28 == sfxId) {
             if (entry->unk_2A >= 3) {
-                func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
+                Audio_QueueCmdS8(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
             }
             if (entry->unk_2A != 0) {
                 func_800F7B54(SFX_BANK(sfxId), bankIndex);
@@ -501,7 +642,7 @@ void func_800F8BA0(u8 arg0, u16 sfxId) {
         entry = &gSoundBanks[SFX_BANK(sfxId)][bankIndex];
         if (entry->unk_C == arg0 && entry->unk_28 == sfxId) {
             if (entry->unk_2A >= 3) {
-                func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
+                Audio_QueueCmdS8(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
             }
             if (entry->unk_2A != 0) {
                 func_800F7B54(SFX_BANK(sfxId), bankIndex);
@@ -518,7 +659,7 @@ void func_800F8BA0(u8 arg0, u16 sfxId) {
     func_800F74E0(4, &sp58);
 }
 
-void func_800F8D04(u32 sfxId) {
+void Audio_StopSfx(u32 sfxId) {
     SoundBankEntry* entry;
     u8 bankIndex = gSoundBanks[SFX_BANK(sfxId)][0].next;
     u8 bankIndex2 = 0;
@@ -528,7 +669,7 @@ void func_800F8D04(u32 sfxId) {
         entry = &gSoundBanks[SFX_BANK(sfxId)][bankIndex];
         if (entry->unk_28 == sfxId) {
             if (entry->unk_2A >= 3) {
-                func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
+                Audio_QueueCmdS8(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
             }
             if (entry->unk_2A != 0) {
                 func_800F7B54(SFX_BANK(sfxId), bankIndex);
@@ -572,7 +713,7 @@ void func_800F8F34(u8 arg0) {
 void func_800F8F88(void) {
     u8 i;
 
-    if (IS_SEQUENCE_CHANNEL_VALID(gAudioContext.gSequencePlayers[2].channels[0])) {
+    if (IS_SEQUENCE_CHANNEL_VALID(gAudioContext.seqPlayers[2].channels[0])) {
         D_8016E260 = 0;
         for (i = 0; i < ARRAY_COUNT(gSoundBanks); i++) {
             func_800F7CEC(i);

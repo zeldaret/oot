@@ -146,11 +146,11 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
     } else if ((this->startTimer > 80) && (player->rideActor != NULL) && !(this->startFlags & INGORACE_PLAYER_MOVE)) {
         this->startFlags |= INGORACE_PLAYER_MOVE;
         horse = (EnHorse*)player->rideActor;
-        horse->unk_388 = 1;
+        horse->inRace = 1;
     } else if ((this->startTimer > 81) && !(this->startFlags & INGORACE_INGO_MOVE)) {
         ingoHorse = (EnHorse*)this->ingoHorse;
 
-        ingoHorse->unk_388 = 1;
+        ingoHorse->inRace = 1;
         this->startFlags |= INGORACE_INGO_MOVE;
         Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
@@ -183,7 +183,7 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
             if (this->playerFinish > 0) {
                 this->result = INGORACE_PLAYER_WIN;
                 this->finishTimer = 55;
-                Audio_SetBGM(0x41);
+                Audio_QueueSeqCmd(0x41);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
             for (i = 0; i < 3; i++) {
@@ -197,8 +197,8 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
 
                 this->result = INGORACE_INGO_WIN;
                 this->finishTimer = 70;
-                ingoHorse->unk_1F0 |= 0x800000;
-                Audio_SetBGM(0x41);
+                ingoHorse->stateFlags |= ENHORSE_INGO_WON;
+                Audio_QueueSeqCmd(0x41);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
             for (i = 0; i < 3; i++) {
@@ -206,12 +206,12 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
             }
         }
         if (((player2->rideActor != NULL) && AT_RANCH_EXIT(player2->rideActor)) || AT_RANCH_EXIT(&player2->actor)) {
-            Audio_SetBGM(0x41);
+            Audio_QueueSeqCmd(0x41);
             this->result = INGORACE_INGO_WIN;
             this->finishTimer = 20;
         }
         if ((gSaveContext.timer1Value >= 180) && (this->startFlags & 2)) {
-            Audio_SetBGM(0x41);
+            Audio_QueueSeqCmd(0x41);
             this->result = INGORACE_TIME_UP;
             this->finishTimer = 20;
         }
@@ -249,7 +249,7 @@ s32 EnHorseGameCheck_UpdateGerudoArchery(EnHorseGameCheckBase* base, GlobalConte
 
     if (this->startTimer > 90) {
         if (globalCtx) {}
-        horse->unk_3A0 = 1;
+        horse->hbaStarted = 1;
     }
     this->startTimer++;
     return true;
@@ -332,7 +332,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
         this->raceFlags |= MALONRACE_PLAYER_MOVE;
         horse = (EnHorse*)player->rideActor;
 
-        horse->unk_388 = 1;
+        horse->inRace = 1;
     } else if ((this->startTimer > 81) && !(this->raceFlags & MALONRACE_START_SFX)) {
         this->raceFlags |= MALONRACE_START_SFX;
         Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -351,7 +351,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
             if ((player->rideActor != NULL) && (dist < 250.0f)) {
                 horse = (EnHorse*)player2->rideActor;
 
-                if (horse->unk_1F0 & 4) {
+                if (horse->stateFlags & ENHORSE_JUMPING) {
                     if ((i > 0) && (this->fenceCheck[i - 1] == 1)) {
                         this->fenceCheck[i] = 1;
                     } else if (i == 0) {
@@ -376,7 +376,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
                 this->finishTimer = 30;
             } else if (this->fenceCheck[15] == 1) {
                 this->lapCount = 2;
-                Audio_SetBGM(0x41);
+                Audio_QueueSeqCmd(0x41);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->result = MALONRACE_SUCCESS;
                 this->finishTimer = 70;

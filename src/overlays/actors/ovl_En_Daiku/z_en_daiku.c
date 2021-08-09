@@ -260,11 +260,9 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, GlobalContext* globalCtx) {
     return newTalkState;
 }
 
-#ifdef NON_MATCHING
-// regalloc
 void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
-    s32 wannabeV0;
-    s32 wannabeV1;
+    s32 carpenterType;
+    s32 freedCount;
     s16 sp2E;
     s16 sp2C;
 
@@ -278,25 +276,14 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
             func_8002F2CC(&this->actor, globalCtx, 100.0f) == 1) {
             if (globalCtx->sceneNum == SCENE_GERUDOWAY) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
-                    // wannabeV0 uses v1 and wannabeV1 uses v0, the opposite is wanted
-                    wannabeV0 = gSaveContext.eventChkInf[9];
-                    // moving the wannabeV1 initialization to its declaration fixes regalloc but breaks earlier codegen
-                    wannabeV1 = 0;
-
-                    if (wannabeV0 & 1) {
-                        wannabeV1++;
-                    }
-                    if (wannabeV0 & 2) {
-                        wannabeV1++;
-                    }
-                    if (wannabeV0 & 4) {
-                        wannabeV1++;
-                    }
-                    if (wannabeV0 & 8) {
-                        wannabeV1++;
+                    freedCount = 0;
+                    for (carpenterType = 0; carpenterType < 4; carpenterType++) {
+                        if (gSaveContext.eventChkInf[9] & (1 << carpenterType)) {
+                            freedCount++;
+                        }
                     }
 
-                    switch (wannabeV1) {
+                    switch (freedCount) {
                         case 0:
                             this->actor.textId = 0x605B;
                             break;
@@ -357,10 +344,6 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Daiku/EnDaiku_UpdateText.s")
-#endif
 
 /**
  * The carpenter is idling in the tent.
@@ -487,8 +470,8 @@ void EnDaiku_InitSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     this->subCamAtTarget.z = this->subCamAt.z = this->actor.world.pos.z;
 
     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, 7);
+    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 
     Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     Gameplay_CameraSetFov(globalCtx, this->subCamId, globalCtx->mainCamera.fov);
@@ -515,7 +498,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
     Vec3f vec;
 
     Gameplay_ClearCamera(globalCtx, this->subCamId);
-    Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
+    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
     this->subCamActive = false;
 
     if ((gSaveContext.eventChkInf[9] & 0xF) == 0xF) {

@@ -8,7 +8,7 @@ struct EnViewer;
 
 typedef void (*EnViewerActionFunc)(struct EnViewer*, GlobalContext*);
 typedef void (*EnViewerDrawFunc)(struct EnViewer*, GlobalContext*);
-typedef void (*EnViewerAnimFunc)(struct EnViewer*, GlobalContext*, FlexSkeletonHeader*, AnimationHeader*);
+typedef void (*EnViewerAnimFunc)(struct EnViewer*, GlobalContext*, void*, AnimationHeader*);
 
 typedef struct {
     /* 0x00 */ s16 objId1;
@@ -18,7 +18,7 @@ typedef struct {
     /* 0x06 */ u8 actorShadowDrawFuncIndex;
     /* 0x07 */ u8 unk_7;
     /* 0x08 */ u8 drawFuncIndex;
-    /* 0x0C */ FlexSkeletonHeader* unk_C;
+    /* 0x0C */ void* skel;
     /* 0x10 */ AnimationHeader* unk_10;
 } struct_80B2CEE8; // size = 0x14
 

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_rr.h"
+#include "objects/object_rr/object_rr.h"
 #include "vt.h"
 
 #define FLAGS 0x00000435
@@ -64,8 +65,6 @@ void EnRr_Damage(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Death(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Retreat(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Stunned(EnRr* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000470[];
 
 const ActorInit En_Rr_InitVars = {
     ACTOR_EN_RR,
@@ -790,7 +789,7 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     if (this->hasPlayer == 0x3F80) { // checks if 1.0f has been stored to hasPlayer's address
-        __assert("0", "../z_en_rr.c", 1355);
+        ASSERT(0, "0", "../z_en_rr.c", 1355);
     }
 
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f);
@@ -862,7 +861,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
                  (1.0f + this->bodySegs[RR_BASE].scaleMod.z) * this->bodySegs[RR_BASE].scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    Matrix_Pull();
+    Matrix_Pop();
     zeroVec.x = 0.0f;
     zeroVec.y = 0.0f;
     zeroVec.z = 0.0f;
@@ -875,13 +874,13 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
                      (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,
                      (1.0f + this->bodySegs[i].scaleMod.z) * this->bodySegs[i].scale.z, MTXMODE_APPLY);
         Matrix_ToMtx(segMtx, "../z_en_rr.c", 1527);
-        Matrix_Pull();
+        Matrix_Pop();
         segMtx++;
         Matrix_MultVec3f(&zeroVec, &this->effectPos[i]);
     }
     this->effectPos[0] = this->actor.world.pos;
     Matrix_MultVec3f(&zeroVec, &this->mouthPos);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000470);
+    gSPDisplayList(POLY_XLU_DISP++, gLikeLikeDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1551);
     if (this->effectTimer != 0) {

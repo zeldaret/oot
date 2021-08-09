@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_heavy_block.h"
+#include "objects/object_heavy_object/object_heavy_object.h"
 #include "vt.h"
 
 #define FLAGS 0x00000000
@@ -46,11 +47,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_0600169C;
-extern Gfx D_060013C0[];
-extern Gfx D_06001A30[];
-extern Gfx D_060018A0[];
-
 void BgHeavyBlock_SetPieceRandRot(BgHeavyBlock* this, f32 scale) {
     this->dyna.actor.world.rot.x = Rand_CenteredFloat(1024.0f) * scale;
     this->dyna.actor.world.rot.y = Rand_CenteredFloat(1024.0f) * scale;
@@ -83,7 +79,7 @@ void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     this->dyna.actor.flags |= 0x20030;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_0600169C, &colHeader);
+    CollisionHeader_GetVirtual(&gHeavyBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
@@ -321,19 +317,19 @@ void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
 void BgHeavyBlock_Wait(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 quakeIndex;
 
-    // if block has a parent link has lifted it, start onepointdemo (cutscene) and quake
+    // if block has a parent link has lifted it, start one point cutscene and quake
     if (Actor_HasParent(&this->dyna.actor, globalCtx)) {
         this->timer = 0;
 
         switch (this->dyna.actor.params & 0xFF) {
             case HEAVYBLOCK_BREAKABLE:
-                func_800800F8(globalCtx, 0xFB4, 0x10E, &this->dyna.actor, 0);
+                OnePointCutscene_Init(globalCtx, 4020, 270, &this->dyna.actor, MAIN_CAM);
                 break;
             case HEAVYBLOCK_UNBREAKABLE:
-                func_800800F8(globalCtx, 0xFB5, 0xDC, &this->dyna.actor, 0);
+                OnePointCutscene_Init(globalCtx, 4021, 220, &this->dyna.actor, MAIN_CAM);
                 break;
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
-                func_800800F8(globalCtx, 0xFB6, 0xD2, &this->dyna.actor, 0);
+                OnePointCutscene_Init(globalCtx, 4022, 210, &this->dyna.actor, MAIN_CAM);
                 break;
         }
 
@@ -509,7 +505,7 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 931),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_060013C0);
+    gSPDisplayList(POLY_OPA_DISP++, gHeavyBlockEntirePillarDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 935);
 }
@@ -518,11 +514,11 @@ void BgHeavyBlock_DrawPiece(Actor* thisx, GlobalContext* globalCtx) {
     switch (thisx->params & 0xFF) {
         case HEAVYBLOCK_BIG_PIECE:
             Matrix_Translate(50.0f, -260.0f, -20.0f, MTXMODE_APPLY);
-            Gfx_DrawDListOpa(globalCtx, D_060018A0);
+            Gfx_DrawDListOpa(globalCtx, gHeavyBlockBigPieceDL);
             break;
         case HEAVYBLOCK_SMALL_PIECE:
             Matrix_Translate(45.0f, -280.0f, -5.0f, MTXMODE_APPLY);
-            Gfx_DrawDListOpa(globalCtx, D_06001A30);
+            Gfx_DrawDListOpa(globalCtx, gHeavyBlockSmallPieceDL);
             break;
     }
 }

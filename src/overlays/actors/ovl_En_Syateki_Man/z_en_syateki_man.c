@@ -1,6 +1,7 @@
 #include "z_en_syateki_man.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
+#include "objects/object_ossan/object_ossan.h"
 
 #define FLAGS 0x08000019
 
@@ -43,10 +44,6 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this);
 
 void EnSyatekiMan_SetBgm(void);
 
-extern AnimationHeader D_06000338;
-extern Gfx D_06007E28[];
-extern FlexSkeletonHeader D_06009B38;
-
 const ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
     ACTORCAT_NPC,
@@ -66,6 +63,7 @@ static u16 sBgmList[] = {
     0x48, 0x49,  0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50,  0x51,  0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59,
     0x5A, 0x5B,  0x5C, 0x5D, 0x6D, 0x5E, 0x5E, 0x5F, 0x60,  0x61,  0x6D, 0x62, 0x63, 0x64, 0x65, 0x66,
 };
+
 static s16 sTextIds[] = { 0x2B, 0x2E, 0xC8, 0x2D };
 
 static s16 sTextBoxCount[] = { 4, 5, 5, 5 };
@@ -79,7 +77,8 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
     this->actor.targetMode = 1;
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009B38, &D_06000338, this->jointTable, this->morphTable, 9);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gObjectOssanSkel, &gObjectOssanAnim_000338, this->jointTable,
+                       this->morphTable, 9);
     if (LINK_IS_CHILD) {
         this->headRot.z = 20;
     }
@@ -94,9 +93,9 @@ void EnSyatekiMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiMan_Start(EnSyatekiMan* this, GlobalContext* globalCtx) {
-    f32 lastFrame = Animation_GetLastFrame(&D_06000338);
+    f32 lastFrame = Animation_GetLastFrame(&gObjectOssanAnim_000338);
 
-    Animation_Change(&this->skelAnime, &D_06000338, 1.0f, 0.0f, (s16)lastFrame, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gObjectOssanAnim_000338, 1.0f, 0.0f, (s16)lastFrame, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = EnSyatekiMan_SetupIdle;
 }
 
@@ -172,8 +171,8 @@ void EnSyatekiMan_StopTalk(EnSyatekiMan* this, GlobalContext* globalCtx) {
     }
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->cameraHold) {
-            func_800803F0(globalCtx, this->onePointCam);
-            this->onePointCam = -1;
+            OnePointCutscene_EndCutscene(globalCtx, this->csCam);
+            this->csCam = SUBCAM_NONE;
             this->cameraHold = false;
         }
         func_80106CCC(globalCtx);
@@ -190,8 +189,8 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     }
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->cameraHold) {
-            func_800803F0(globalCtx, this->onePointCam);
-            this->onePointCam = -1;
+            OnePointCutscene_EndCutscene(globalCtx, this->csCam);
+            this->csCam = SUBCAM_NONE;
             this->cameraHold = false;
         }
         func_80106CCC(globalCtx);
@@ -210,7 +209,7 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if (1) {}
     gallery = ((EnSyatekiItm*)this->actor.parent);
     if ((gallery->actor.update != NULL) && (gallery->signal == ENSYATEKI_END)) {
-        this->onePointCam = func_800800F8(globalCtx, 0x1F42, -0x63, &this->actor, 0);
+        this->csCam = OnePointCutscene_Init(globalCtx, 8002, -99, &this->actor, MAIN_CAM);
         switch (gallery->hitCount) {
             case 10:
                 this->gameResult = SYATEKI_RESULT_WINNER;
@@ -242,8 +241,8 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->gameResult != SYATEKI_RESULT_FAILURE) {
-            func_800803F0(globalCtx, this->onePointCam);
-            this->onePointCam = -1;
+            OnePointCutscene_EndCutscene(globalCtx, this->csCam);
+            this->csCam = SUBCAM_NONE;
         }
         func_80106CCC(globalCtx);
         gallery = ((EnSyatekiItm*)this->actor.parent);
@@ -394,7 +393,8 @@ void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80038290(globalCtx, &this->actor, &this->headRot, &this->bodyRot, this->actor.focus.pos);
 }
 
-s32 func_80B1148C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnSyatekiMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                  void* thisx) {
     EnSyatekiMan* this = THIS;
     s32 turnDirection;
 
@@ -402,7 +402,7 @@ s32 func_80B1148C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         rot->x += this->bodyRot.y;
     }
     if (limbIndex == 8) {
-        *dList = D_06007E28;
+        *dList = gObjectOssanEnSyatekiManDL_007E28;
         turnDirection = 1;
         if (this->gameResult == SYATEKI_RESULT_REFUSE) {
             turnDirection = -1;
@@ -419,12 +419,12 @@ void EnSyatekiMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          func_80B1148C, NULL, this);
+                          EnSyatekiMan_OverrideLimbDraw, NULL, this);
 }
 
 void EnSyatekiMan_SetBgm(void) {
     if (BREG(80)) {
         BREG(80) = false;
-        Audio_SetBGM(sBgmList[BREG(81)]);
+        Audio_QueueSeqCmd(sBgmList[BREG(81)]);
     }
 }

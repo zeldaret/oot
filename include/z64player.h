@@ -149,6 +149,15 @@ typedef enum {
     /* 0x16 */ PLAYER_LIMB_MAX
 } PlayerLimb;
 
+typedef enum {
+    /* -1 */ PLAYER_DOORTYPE_AJAR = -1,
+    /*  0 */ PLAYER_DOORTYPE_NONE,
+    /*  1 */ PLAYER_DOORTYPE_HANDLE,
+    /*  2 */ PLAYER_DOORTYPE_SLIDING,
+    /*  3 */ PLAYER_DOORTYPE_FAKE
+} PlayerDoorType;
+
+
 #define PLAYER_LIMB_BUF_COUNT PLAYER_LIMB_MAX + 2 // 2 extra entries in limb buffers?
 
 typedef struct {
@@ -244,7 +253,7 @@ typedef struct Player {
     /* 0x0434 */ s8         getItemId;
     /* 0x0436 */ u16        getItemDirection;
     /* 0x0438 */ Actor*     interactRangeActor;
-    /* 0x043C */ s8         unk_43C;
+    /* 0x043C */ s8         mountSide;
     /* 0x043D */ char       unk_43D[0x003];
     /* 0x0440 */ Actor*     rideActor;
     /* 0x0444 */ u8         csMode;
@@ -339,7 +348,7 @@ typedef struct Player {
     /* 0x0890 */ u8         unk_890;
     /* 0x0891 */ u8         shockTimer;
     /* 0x0892 */ u8         unk_892;
-    /* 0x0893 */ u8         unk_893;
+    /* 0x0893 */ u8         hoverBootsTimer;
     /* 0x0894 */ s16        fallStartHeight; // last truncated Y position before falling
     /* 0x0896 */ s16        fallDistance; // truncated Y distance the player has fallen so far (positive is down)
     /* 0x0898 */ s16        unk_898;

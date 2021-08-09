@@ -98,7 +98,7 @@ typedef struct {
     /* 0x14 */ u8 shadowAlpha; // Default is 255
     /* 0x15 */ u8 feetFloorFlags; // Set if the actor's foot is clipped under the floor. & 1 is right foot, & 2 is left
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
-} ActorShape; // size = 0x18
+} ActorShape; // size = 0x30
 
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID
@@ -201,14 +201,17 @@ typedef struct DynaPolyActor {
 } DynaPolyActor; // size = 0x164
 
 typedef struct {
-    /* 0x00 */ MtxF* unk_00;
-    /* 0x04 */ s16* unk_04;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ char unk_0A[0x02];
-    /* 0x0C */ Gfx** unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-} struct_80032E24;
+    /* 0x00 */ MtxF* matrices;
+    /* 0x04 */ s16* objectIds;
+    /* 0x08 */ s16 count;
+    /* 0x0C */ Gfx** dLists;
+    /* 0x10 */ s32 val; // used for various purposes: both a status indicator and counter
+    /* 0x14 */ s32 prevLimbIndex;
+} BodyBreak;
+
+#define BODYBREAK_OBJECT_DEFAULT -1 // use the same object as the actor
+#define BODYBREAK_STATUS_READY -1
+#define BODYBREAK_STATUS_FINISHED 0
 
 typedef enum {
     /* 0x00 */ ITEM00_RUPEE_GREEN,
@@ -247,12 +250,12 @@ typedef struct EnItem00 {
     /* 0x000 */ Actor actor;
     /* 0x14C */ EnItem00ActionFunc actionFunc;
     /* 0x150 */ s16 collectibleFlag;
-    /* 0x152 */ s16 unk_152;
+    /* 0x152 */ s16 getItemId;
     /* 0x154 */ s16 unk_154;
     /* 0x156 */ s16 unk_156;
     /* 0x158 */ s16 unk_158;
     /* 0x15A */ s16 unk_15A;
-    /* 0x15C */ f32 unk_15C;
+    /* 0x15C */ f32 scale;
     /* 0x160 */ ColliderCylinder collider;
 } EnItem00; // size = 0x1AC
 

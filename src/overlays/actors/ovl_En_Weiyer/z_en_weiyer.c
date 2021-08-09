@@ -5,6 +5,7 @@
  */
 
 #include "z_en_weiyer.h"
+#include "objects/object_ei/object_ei.h"
 
 #define FLAGS 0x00000005
 
@@ -26,11 +27,6 @@ void func_80B333B8(EnWeiyer* this, GlobalContext* globalCtx);
 void func_80B332B4(EnWeiyer* this, GlobalContext* globalCtx);
 void func_80B33338(EnWeiyer* this, GlobalContext* globalCtx);
 void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06000288;
-extern AnimationHeader D_06000FC0;
-extern AnimationHeader D_060012AC;
-extern SkeletonHeader D_06003410;
 
 const ActorInit En_Weiyer_InitVars = {
     ACTOR_EN_WEIYER,
@@ -109,7 +105,8 @@ void EnWeiyer_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&this->actor.shape, 1000.0f, ActorShadow_DrawCircle, 65.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003410, &D_060012AC, this->jointTable, this->morphTable, 19);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gStingerSkel, &gStingerIdleAnim, this->jointTable, this->morphTable,
+                   19);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -125,7 +122,7 @@ void EnWeiyer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80B32384(EnWeiyer* this) {
     this->unk_196 = this->actor.shape.rot.y;
     this->unk_27C = (cosf(-M_PI / 8) * 3.0f) + this->actor.world.pos.y;
-    Animation_MorphToLoop(&this->skelAnime, &D_06000FC0, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gStingerHitAnim, -5.0f);
     this->unk_194 = 30;
     this->actor.speedXZ = CLAMP_MAX(this->actor.speedXZ, 2.5f);
     this->collider.base.atFlags &= ~AT_ON;
@@ -134,7 +131,7 @@ void func_80B32384(EnWeiyer* this) {
 }
 
 void func_80B32434(EnWeiyer* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06000FC0, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gStingerHitAnim, -5.0f);
     this->collider.base.atFlags |= AT_ON;
     this->unk_194 = 0;
     this->actor.speedXZ = 5.0f;
@@ -142,7 +139,7 @@ void func_80B32434(EnWeiyer* this) {
 }
 
 void func_80B32494(EnWeiyer* this) {
-    Animation_Change(&this->skelAnime, &D_06000288, 2.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -8.0f);
+    Animation_Change(&this->skelAnime, &gStingerPopOutAnim, 2.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -8.0f);
     this->unk_194 = 40;
     this->collider.base.atFlags |= AT_ON;
     this->actionFunc = func_80B32D30;
@@ -166,7 +163,7 @@ void func_80B32538(EnWeiyer* this) {
 }
 
 void func_80B325A0(EnWeiyer* this) {
-    Animation_Change(&this->skelAnime, &D_06000FC0, 2.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -3.0f);
+    Animation_Change(&this->skelAnime, &gStingerHitAnim, 2.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -3.0f);
     this->unk_194 = 40;
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
@@ -179,7 +176,7 @@ void func_80B325A0(EnWeiyer* this) {
 }
 
 void func_80B32660(EnWeiyer* this) {
-    Animation_Change(&this->skelAnime, &D_06000288, 2.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -8.0f);
+    Animation_Change(&this->skelAnime, &gStingerPopOutAnim, 2.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -8.0f);
     this->unk_194 = 80;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -192,7 +189,7 @@ void func_80B32660(EnWeiyer* this) {
 }
 
 void func_80B32724(EnWeiyer* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06000FC0, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gStingerHitAnim, -5.0f);
     this->unk_194 = 20;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, 0x28);
     this->collider.base.atFlags &= ~AT_ON;
@@ -370,7 +367,7 @@ void func_80B32E34(EnWeiyer* this, GlobalContext* globalCtx) {
         (this->collider.base.atFlags & AT_HIT)) {
         func_80B32538(this);
     } else {
-        if (func_8002E084(&this->actor, 0x2800)) {
+        if (Actor_IsFacingPlayer(&this->actor, 0x2800)) {
             Math_StepToF(&this->actor.speedXZ, 4.0f, 0.2f);
         } else {
             Math_StepToF(&this->actor.speedXZ, 1.3f, 0.2f);
@@ -392,7 +389,7 @@ void func_80B32E34(EnWeiyer* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0x200, 0x80);
 
         if ((player->actor.yDistToWater < 50.0f) && (this->actor.yDistToWater < 20.0f) &&
-            func_8002E084(&this->actor, 0x2000)) {
+            Actor_IsFacingPlayer(&this->actor, 0x2000)) {
             func_80B327D8(this);
         }
     }
@@ -564,7 +561,7 @@ void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx) {
 void func_80B3368C(EnWeiyer* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) {
@@ -572,7 +569,7 @@ void func_80B3368C(EnWeiyer* this, GlobalContext* globalCtx) {
                     func_80B32660(this);
                 }
             } else if (Actor_ApplyDamage(&this->actor) == 0) {
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_DEAD);
                 this->actor.flags &= ~1;
                 func_80B32724(this);

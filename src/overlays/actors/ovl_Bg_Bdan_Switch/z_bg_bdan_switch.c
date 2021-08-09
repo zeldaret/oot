@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_bdan_switch.h"
+#include "objects/object_bdan_objects/object_bdan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -55,10 +56,6 @@ const ActorInit Bg_Bdan_Switch_InitVars = {
     (ActorFunc)BgBdanSwitch_Draw,
 };
 
-extern CollisionHeader D_06005CF8;
-extern Gfx D_060061A0[];
-extern Gfx D_06005A20[];
-
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         {
@@ -92,7 +89,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-static Vec3f D_8086E0E0 = { 0, 140.0f, 0 };
+static Vec3f D_8086E0E0 = { 0.0f, 140.0f, 0.0f };
 
 void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
     s16 pad1;
@@ -125,7 +122,7 @@ void func_8086D0EC(BgBdanSwitch* this) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            this->unk_1D4 = ((Math_CosS(this->unk_1CC) * 0.5f) + 8.833334f) * 0.012f;
+            this->unk_1D4 = ((Math_CosS(this->unk_1CC) * 0.5f) + (53.000004f / 6.0f)) * 0.012f;
             this->unk_1D0 = ((Math_CosS(this->unk_1CC) * 0.5f) + 20.5f) * (this->unk_1C8 * 0.0050000004f);
             this->dyna.actor.scale.y = this->unk_1C8 * 0.1f;
             break;
@@ -160,7 +157,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            func_8086D010(this, globalCtx, &D_06005CF8, DPM_PLAYER);
+            func_8086D010(this, globalCtx, &gJabuFloorSwitchCol, DPM_PLAYER);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
@@ -227,9 +224,9 @@ void func_8086D4B4(BgBdanSwitch* this, GlobalContext* globalCtx) {
         type = this->dyna.actor.params & 0xFF;
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
         if (type == BLUE || type == YELLOW_TALL_2) {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
+            OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
         } else {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
+            OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
         }
     }
 }
@@ -238,7 +235,7 @@ void func_8086D548(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
         Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
         if ((this->dyna.actor.params & 0xFF) == YELLOW_TALL_2) {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
+            OnePointCutscene_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
 }
@@ -518,15 +515,15 @@ void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params & 0xFF) {
         case YELLOW_HEAVY:
         case YELLOW:
-            func_8086DF58(this, globalCtx, D_060061A0);
+            func_8086DF58(this, globalCtx, gJabuYellowFloorSwitchDL);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            func_8086DF58(this, globalCtx, D_060061A0);
+            func_8086DF58(this, globalCtx, gJabuYellowFloorSwitchDL);
             Collider_UpdateSpheres(0, &this->collider);
             Matrix_MultVec3f(&D_8086E0E0, &this->dyna.actor.focus.pos);
             break;
         case BLUE:
-            func_8086DF58(this, globalCtx, D_06005A20);
+            func_8086DF58(this, globalCtx, gJabuBlueFloorSwitchDL);
     }
 }
