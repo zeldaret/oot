@@ -1744,9 +1744,9 @@ void EnHorse_Inactive(EnHorse* this, GlobalContext* globalCtx2) {
             gSaveContext.horseData.scene = globalCtx->sceneNum;
 
             // Focus the camera on Epona
-            Camera_SetParam(globalCtx->cameraPtrs[0], 8, this);
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0x38);
-            Camera_SetCameraData(globalCtx->cameraPtrs[0], 4, NULL, NULL, 0x51, 0, 0);
+            Camera_SetParam(globalCtx->cameraPtrs[MAIN_CAM], 8, this);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_ITEM2);
+            Camera_SetCameraData(globalCtx->cameraPtrs[MAIN_CAM], 4, NULL, NULL, 0x51, 0, 0);
         }
     }
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
@@ -1816,9 +1816,9 @@ void EnHorse_Idle(EnHorse* this, GlobalContext* globalCtx) {
                                        &D_801333E8);
                 this->followTimer = 0;
                 EnHorse_SetFollowAnimation(this, globalCtx);
-                Camera_SetParam(globalCtx->cameraPtrs[0], 8, this);
-                Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0x38);
-                Camera_SetCameraData(globalCtx->cameraPtrs[0], 4, NULL, NULL, 0x51, 0, 0);
+                Camera_SetParam(globalCtx->cameraPtrs[MAIN_CAM], 8, this);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_ITEM2);
+                Camera_SetCameraData(globalCtx->cameraPtrs[MAIN_CAM], 4, NULL, NULL, 0x51, 0, 0);
             }
         } else {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,

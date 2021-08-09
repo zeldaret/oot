@@ -1149,14 +1149,14 @@ s32 OnePointCutscene_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
 s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor, s16 parentCamIdx) {
     s16 temp1;
     s16 temp2;
-    s16 csCamIdx;
+    s16 subCamId;
     Camera* csCam;
 
     if (parentCamIdx == SUBCAM_ACTIVE) {
         parentCamIdx = globalCtx->activeCamera;
     }
-    csCamIdx = Gameplay_CreateSubCamera(globalCtx);
-    if (csCamIdx == SUBCAM_NONE) {
+    subCamId = Gameplay_CreateSubCamera(globalCtx);
+    if (subCamId == SUBCAM_NONE) {
         osSyncPrintf(VT_COL(RED, WHITE) "onepoint demo: error: too many cameras ... give up! type=%d\n" VT_RST, csId);
         return SUBCAM_NONE;
     }
@@ -1166,14 +1166,14 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
     vChildCamIdx = globalCtx->cameraPtrs[parentCamIdx]->childCamIdx;
     vCsStatus = CAM_STAT_ACTIVE;
     if (vChildCamIdx >= SUBCAM_FIRST) {
-        OnePointCutscene_SetAsChild(globalCtx, vChildCamIdx, csCamIdx);
+        OnePointCutscene_SetAsChild(globalCtx, vChildCamIdx, subCamId);
         vCsStatus = CAM_STAT_WAIT;
     } else {
         Interface_ChangeAlpha(2);
     }
-    OnePointCutscene_SetAsChild(globalCtx, csCamIdx, parentCamIdx);
+    OnePointCutscene_SetAsChild(globalCtx, subCamId, parentCamIdx);
 
-    csCam = globalCtx->cameraPtrs[csCamIdx];
+    csCam = globalCtx->cameraPtrs[subCamId];
 
     csCam->timer = timer;
     csCam->target = actor;
@@ -1189,16 +1189,16 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
     } else {
         Gameplay_ChangeCameraStatus(globalCtx, parentCamIdx, CAM_STAT_WAIT);
     }
-    OnePointCutscene_SetInfo(globalCtx, csCamIdx, csId, actor, timer);
-    Gameplay_ChangeCameraStatus(globalCtx, csCamIdx, vCsStatus);
+    OnePointCutscene_SetInfo(globalCtx, subCamId, csId, actor, timer);
+    Gameplay_ChangeCameraStatus(globalCtx, subCamId, vCsStatus);
 
     // Removes all lower priority cutscenes in front of this cutscene from the queue.
-    vCurCamIdx = csCamIdx;
-    vNextCamIdx = globalCtx->cameraPtrs[csCamIdx]->childCamIdx;
+    vCurCamIdx = subCamId;
+    vNextCamIdx = globalCtx->cameraPtrs[subCamId]->childCamIdx;
 
     while (vNextCamIdx >= SUBCAM_FIRST) {
         s16 nextCsId = globalCtx->cameraPtrs[vNextCamIdx]->csId;
-        s16 thisCsId = globalCtx->cameraPtrs[csCamIdx]->csId;
+        s16 thisCsId = globalCtx->cameraPtrs[subCamId]->csId;
 
         if ((nextCsId / 100) < (thisCsId / 100)) {
             osSyncPrintf(VT_COL(YELLOW, BLACK) "onepointdemo camera[%d]: killed 'coz low priority (%d < %d)\n" VT_RST,
@@ -1216,7 +1216,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
         }
         vNextCamIdx = globalCtx->cameraPtrs[vCurCamIdx]->childCamIdx;
     }
-    return csCamIdx;
+    return subCamId;
 }
 
 /**

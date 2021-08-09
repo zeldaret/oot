@@ -1443,23 +1443,23 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
 void EnGo2_GoronFireCamera(EnGo2* this, GlobalContext* globalCtx) {
     s16 yaw;
 
-    this->camId = Gameplay_CreateSubCamera(globalCtx);
+    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->camId, CAM_STAT_ACTIVE);
-    Path_CopyLastPoint(this->path, &this->at);
-    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->at) + 0xE38;
-    this->eye.x = Math_SinS(yaw) * 100.0f + this->actor.world.pos.x;
-    this->eye.z = Math_CosS(yaw) * 100.0f + this->actor.world.pos.z;
-    this->eye.y = this->actor.world.pos.y + 20.0f;
-    this->at.x = this->actor.world.pos.x;
-    this->at.y = this->actor.world.pos.y + 40.0f;
-    this->at.z = this->actor.world.pos.z;
-    Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->at, &this->eye);
+    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    Path_CopyLastPoint(this->path, &this->subCamAt);
+    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->subCamAt) + 0xE38;
+    this->subCamEye.x = Math_SinS(yaw) * 100.0f + this->actor.world.pos.x;
+    this->subCamEye.z = Math_CosS(yaw) * 100.0f + this->actor.world.pos.z;
+    this->subCamEye.y = this->actor.world.pos.y + 20.0f;
+    this->subCamAt.x = this->actor.world.pos.x;
+    this->subCamAt.y = this->actor.world.pos.y + 40.0f;
+    this->subCamAt.z = this->actor.world.pos.z;
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
 }
 
 void EnGo2_GoronFireClearCamera(EnGo2* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
-    Gameplay_ClearCamera(globalCtx, this->camId);
+    Gameplay_ClearCamera(globalCtx, this->subCamId);
 }
 
 void EnGo2_BiggoronAnimation(EnGo2* this) {

@@ -257,7 +257,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     sp5A = player->actor.shape.rot.y - this->actor.shape.rot.y;
     input->cur.button = 0;
-    camera = Gameplay_GetCamera(globalCtx, 0);
+    camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
     attackItem = EnTorch2_GetAttackItem(globalCtx, this);
     switch (sActionState) {
         case ENTORCH2_WAIT:

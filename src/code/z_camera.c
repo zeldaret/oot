@@ -3094,7 +3094,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         anim->unk_00 = spC0.r;
         anim->unk_08 = playerPosRot->pos.y - camera->playerPosDelta.y;
     }
-    if (camera->status == 7) {
+    if (camera->status == CAM_STAT_ACTIVE) {
         sUpdateCameraDirection = 1;
         camera->inputDir.x = -spC0.pitch;
         camera->inputDir.y = BINANG_ROT180(spC0.yaw);
@@ -5406,7 +5406,7 @@ s32 Camera_Unique9(Camera* camera) {
             // Change the parent camera (or default)'s mode to normal
             s32 camIdx = camera->parentCamIdx <= SUBCAM_NONE ? MAIN_CAM : camera->parentCamIdx;
 
-            Camera_ChangeModeFlags(camera->globalCtx->cameraPtrs[camIdx], CAM_MODE_NORMAL, 1);
+            Camera_ChangeModeFlags(camera->globalCtx->cameraPtrs[camIdx], CAM_MODE_NORMAL, CAM_MODE_TARGET);
         }
         case 18: {
             // copy the current camera to the parent (or default)'s camera.
@@ -6948,8 +6948,8 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     s32 i;
 
     if (PREG(82)) {
-        osSyncPrintf("camera: change camera status: cond %c%c\n", status == 7 ? 'o' : 'x',
-                     camera->status != 7 ? 'o' : 'x');
+        osSyncPrintf("camera: change camera status: cond %c%c\n", status == CAM_STAT_ACTIVE ? 'o' : 'x',
+                     camera->status != CAM_STAT_ACTIVE ? 'o' : 'x');
     }
 
     if (PREG(82)) {
@@ -6970,7 +6970,16 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     return camera->status;
 }
 
-void Camera_PrintSettings(Camera* camera) {
+/**
+ * Prints camera information for debugging. The following information is printed in order:
+ *      - Camera status
+ *      - Active camera ID
+ *      - Camera setting (S: )
+ *      - Camera mode (M: )
+ *      - Camera function (F: )
+ *      - Camera data index (I: )
+ */ 
+void Camera_PrintInfo(Camera* camera) {
     char sp58[8];
     char sp50[8];
     char sp48[8];
@@ -6983,19 +6992,19 @@ void Camera_PrintSettings(Camera* camera) {
                 sp48[i] = ' ';
             } else {
                 switch (camera->globalCtx->cameraPtrs[i]->status) {
-                    case 0:
+                    case CAM_STAT_CUT:
                         sp58[i] = 'c';
                         break;
-                    case 1:
+                    case CAM_STAT_WAIT:
                         sp58[i] = 'w';
                         break;
-                    case 3:
+                    case CAM_STAT_UNK3:
                         sp58[i] = 's';
                         break;
-                    case 7:
+                    case CAM_STAT_ACTIVE:
                         sp58[i] = 'a';
                         break;
-                    case 0x100:
+                    case CAM_STAT_DEACTIVATED:
                         sp58[i] = 'd';
                         break;
                     default:
@@ -7368,7 +7377,7 @@ Vec3s Camera_Update(Camera* camera) {
             }
         }
     }
-    Camera_PrintSettings(camera);
+    Camera_PrintInfo(camera);
     Camera_DbgChangeMode(camera);
 
     if (camera->status == CAM_STAT_WAIT) {
@@ -7447,7 +7456,7 @@ Vec3s Camera_Update(Camera* camera) {
 
     OREG(0) &= ~8;
 
-    if (camera->status == 3) {
+    if (camera->status == CAM_STAT_UNK3) {
         return camera->inputDir;
     }
 

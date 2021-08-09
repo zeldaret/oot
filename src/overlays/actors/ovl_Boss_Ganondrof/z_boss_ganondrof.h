@@ -76,16 +76,16 @@ typedef struct BossGanondrof {
     /* 0x0200 */ Vec3f spearTip;
     /* 0x020C */ Vec3f targetPos;
     /* 0x0218 */ Vec3f bodyPartsPos[27]; // only 25 used
-    /* 0x035C */ s16 deathCamera;
+    /* 0x035C */ s16 subCamId;
     /* 0x035E */ s16 deathState;
-    /* 0x0360 */ Vec3f cameraEye;
-    /* 0x036C */ Vec3f cameraAt;
-    /* 0x0378 */ Vec3f cameraEyeVel;
-    /* 0x0384 */ Vec3f cameraAtVel;
+    /* 0x0360 */ Vec3f subCamEye;
+    /* 0x036C */ Vec3f subCamAt;
+    /* 0x0378 */ Vec3f subCamEyeVel;
+    /* 0x0384 */ Vec3f subCamAtVel;
     /* 0x0390 */ Vec3f cameraNextEye;
-    /* 0x039C */ Vec3f cameraEyeMaxVel;
+    /* 0x039C */ Vec3f subCamEyeMaxVel;
     /* 0x03A8 */ Vec3f cameraNextAt;
-    /* 0x03B4 */ Vec3f cameraAtMaxVel;
+    /* 0x03B4 */ Vec3f subCamAtMaxVel;
     /* 0x03C0 */ f32 cameraSpeedMod;
     /* 0x03C4 */ f32 cameraAccel;
     /* 0x03C8 */ f32 legRotY;

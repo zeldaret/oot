@@ -1098,7 +1098,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
             if (!((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx))) {
                 break;
             } else {
-                Camera_ChangeSetting(ACTIVE_CAM, 1);
+                Camera_ChangeSetting(ACTIVE_CAM, CAM_SET_NORMAL0);
                 this->talkState = 7;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,

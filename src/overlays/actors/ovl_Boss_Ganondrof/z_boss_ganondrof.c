@@ -944,7 +944,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 camZ;
     f32 pad;
     Player* player = PLAYER;
-    Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+    Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
     osSyncPrintf("PYP %f\n", player->actor.floorHeight);
     SkelAnime_Update(&this->skelAnime);
@@ -958,35 +958,35 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
         case DEATH_START:
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
-            this->deathCamera = Gameplay_CreateSubCamera(globalCtx);
+            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
             Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
             osSyncPrintf("7\n");
-            Gameplay_ChangeCameraStatus(globalCtx, this->deathCamera, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             osSyncPrintf("8\n");
             this->deathState = DEATH_THROES;
             player->actor.speedXZ = 0.0f;
             this->timers[0] = 50;
-            this->cameraEye = camera->eye;
-            this->cameraAt = camera->at;
+            this->subCamEye = camera->eye;
+            this->subCamAt = camera->at;
             this->cameraNextEye.x = this->targetPos.x;
             this->cameraNextEye.y = GND_BOSSROOM_CENTER_Y + 83.0f;
             this->cameraNextEye.z = (this->targetPos.z + 100.0f) + 50;
             this->cameraNextAt.x = this->targetPos.x;
             this->cameraNextAt.y = this->targetPos.y - 10.0f;
             this->cameraNextAt.z = this->targetPos.z;
-            this->cameraEyeVel.x = fabsf(camera->eye.x - this->cameraNextEye.x);
-            this->cameraEyeVel.y = fabsf(camera->eye.y - this->cameraNextEye.y);
-            this->cameraEyeVel.z = fabsf(camera->eye.z - this->cameraNextEye.z);
-            this->cameraAtVel.x = fabsf(camera->at.x - this->cameraNextAt.x);
-            this->cameraAtVel.y = fabsf(camera->at.y - this->cameraNextAt.y);
-            this->cameraAtVel.z = fabsf(camera->at.z - this->cameraNextAt.z);
+            this->subCamEyeVel.x = fabsf(camera->eye.x - this->cameraNextEye.x);
+            this->subCamEyeVel.y = fabsf(camera->eye.y - this->cameraNextEye.y);
+            this->subCamEyeVel.z = fabsf(camera->eye.z - this->cameraNextEye.z);
+            this->subCamAtVel.x = fabsf(camera->at.x - this->cameraNextAt.x);
+            this->subCamAtVel.y = fabsf(camera->at.y - this->cameraNextAt.y);
+            this->subCamAtVel.z = fabsf(camera->at.z - this->cameraNextAt.z);
             this->cameraAccel = 0.02f;
-            this->cameraEyeMaxVel.x = this->cameraEyeMaxVel.y = this->cameraEyeMaxVel.z = 0.05f;
+            this->subCamEyeMaxVel.x = this->subCamEyeMaxVel.y = this->subCamEyeMaxVel.z = 0.05f;
             this->work[GND_ACTION_STATE] = DEATH_SPASM;
             this->timers[0] = 150;
-            this->cameraAtMaxVel.x = 0.2f;
-            this->cameraAtMaxVel.y = 0.2f;
-            this->cameraAtMaxVel.z = 0.2f;
+            this->subCamAtMaxVel.x = 0.2f;
+            this->subCamAtMaxVel.y = 0.2f;
+            this->subCamAtMaxVel.z = 0.2f;
         case DEATH_THROES:
             switch (this->work[GND_ACTION_STATE]) {
                 case DEATH_SPASM:
@@ -1042,12 +1042,12 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             this->fwork[GND_CAMERA_ANGLE] += 0x78;
             camX = Math_SinS(this->fwork[GND_CAMERA_ANGLE]) * this->fwork[GND_CAMERA_ZOOM];
             camZ = Math_CosS(this->fwork[GND_CAMERA_ANGLE]) * this->fwork[GND_CAMERA_ZOOM];
-            this->cameraEye.x = GND_BOSSROOM_CENTER_X + camX;
-            this->cameraEye.y = this->cameraNextEye.y;
-            this->cameraEye.z = GND_BOSSROOM_CENTER_Z + camZ;
-            this->cameraAt.x = GND_BOSSROOM_CENTER_X;
-            this->cameraAt.y = GND_BOSSROOM_CENTER_Y + 23.0f;
-            this->cameraAt.z = GND_BOSSROOM_CENTER_Z;
+            this->subCamEye.x = GND_BOSSROOM_CENTER_X + camX;
+            this->subCamEye.y = this->cameraNextEye.y;
+            this->subCamEye.z = GND_BOSSROOM_CENTER_Z + camZ;
+            this->subCamAt.x = GND_BOSSROOM_CENTER_X;
+            this->subCamAt.y = GND_BOSSROOM_CENTER_Y + 23.0f;
+            this->subCamAt.z = GND_BOSSROOM_CENTER_Z;
             Math_ApproachF(&this->cameraNextEye.y, GND_BOSSROOM_CENTER_Y + 33.0f, 0.05f, 0.5f);
             Math_ApproachF(&this->fwork[GND_CAMERA_ZOOM], 170.0f, 0.05f, 1.0f);
             Math_ApproachF(&this->actor.world.pos.x, GND_BOSSROOM_CENTER_X, 0.05f, 1.5f);
@@ -1072,12 +1072,12 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             holdCamera = true;
             bodyDecayLevel = 2;
             this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y + 83.0f;
-            this->cameraEye.x = GND_BOSSROOM_CENTER_X;
-            this->cameraEye.y = GND_BOSSROOM_CENTER_Y + 83.0f;
-            this->cameraEye.z = GND_BOSSROOM_CENTER_Z + 50.0f;
-            this->cameraAt.x = GND_BOSSROOM_CENTER_X;
-            this->cameraAt.y = GND_BOSSROOM_CENTER_Y + 103.0f;
-            this->cameraAt.z = GND_BOSSROOM_CENTER_Z;
+            this->subCamEye.x = GND_BOSSROOM_CENTER_X;
+            this->subCamEye.y = GND_BOSSROOM_CENTER_Y + 83.0f;
+            this->subCamEye.z = GND_BOSSROOM_CENTER_Z + 50.0f;
+            this->subCamAt.x = GND_BOSSROOM_CENTER_X;
+            this->subCamAt.y = GND_BOSSROOM_CENTER_Y + 103.0f;
+            this->subCamAt.z = GND_BOSSROOM_CENTER_Z;
             if (this->timers[0] == 0) {
                 this->deathState = DEATH_DISINTEGRATE;
                 Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonLastPoseAnim, -10.0f);
@@ -1088,9 +1088,9 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
         case DEATH_DISINTEGRATE:
             holdCamera = true;
             bodyDecayLevel = 3;
-            Math_ApproachZeroF(&this->cameraEye.y, 0.05f, 1.0f); // approaches GND_BOSSROOM_CENTER_Y + 33.0f
-            Math_ApproachF(&this->cameraEye.z, GND_BOSSROOM_CENTER_Z + 170.0f, 0.05f, 2.0f);
-            Math_ApproachF(&this->cameraAt.y, GND_BOSSROOM_CENTER_Y + 53.0f, 0.05f, 1.0f);
+            Math_ApproachZeroF(&this->subCamEye.y, 0.05f, 1.0f); // approaches GND_BOSSROOM_CENTER_Y + 33.0f
+            Math_ApproachF(&this->subCamEye.z, GND_BOSSROOM_CENTER_Z + 170.0f, 0.05f, 2.0f);
+            Math_ApproachF(&this->subCamAt.y, GND_BOSSROOM_CENTER_Y + 53.0f, 0.05f, 1.0f);
             if (this->timers[0] == 0) {
                 this->timers[0] = 250;
                 this->deathState = DEATH_FINISH;
@@ -1105,17 +1105,17 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                             GND_BOSSROOM_CENTER_Y, GND_BOSSROOM_CENTER_Z, 0, 0, 0, -1);
             }
 
-            Math_ApproachZeroF(&this->cameraEye.y, 0.05f, 1.0f); // GND_BOSSROOM_CENTER_Y + 33.0f
-            Math_ApproachF(&this->cameraEye.z, GND_BOSSROOM_CENTER_Z + 170.0f, 0.05f, 2.0f);
-            Math_ApproachF(&this->cameraAt.y, GND_BOSSROOM_CENTER_Y + 53.0f, 0.05f, 1.0f);
+            Math_ApproachZeroF(&this->subCamEye.y, 0.05f, 1.0f); // GND_BOSSROOM_CENTER_Y + 33.0f
+            Math_ApproachF(&this->subCamEye.z, GND_BOSSROOM_CENTER_Z + 170.0f, 0.05f, 2.0f);
+            Math_ApproachF(&this->subCamAt.y, GND_BOSSROOM_CENTER_Y + 53.0f, 0.05f, 1.0f);
             if (this->timers[0] == 0) {
                 EnfHG* horse = (EnfHG*)this->actor.child;
 
-                camera->eye = this->cameraEye;
-                camera->eyeNext = this->cameraEye;
-                camera->at = this->cameraAt;
-                func_800C08AC(globalCtx, this->deathCamera, 0);
-                this->deathCamera = 0;
+                camera->eye = this->subCamEye;
+                camera->eyeNext = this->subCamEye;
+                camera->at = this->subCamAt;
+                func_800C08AC(globalCtx, this->subCamId, 0);
+                this->subCamId = SUBCAM_FREE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, GND_BOSSROOM_CENTER_X,
@@ -1200,24 +1200,24 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->deathCamera != 0) {
+    if (this->subCamId != SUBCAM_FREE) {
         if (!holdCamera) {
-            Math_ApproachF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
-                           this->cameraEyeVel.x * this->cameraSpeedMod);
-            Math_ApproachF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
-                           this->cameraEyeVel.y * this->cameraSpeedMod);
-            Math_ApproachF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
-                           this->cameraEyeVel.z * this->cameraSpeedMod);
-            Math_ApproachF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
-                           this->cameraAtVel.x * this->cameraSpeedMod);
-            Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
-                           this->cameraAtVel.y * this->cameraSpeedMod);
-            Math_ApproachF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
-                           this->cameraAtVel.z * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamEye.x, this->cameraNextEye.x, this->subCamEyeMaxVel.x,
+                           this->subCamEyeVel.x * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamEye.y, this->cameraNextEye.y, this->subCamEyeMaxVel.y,
+                           this->subCamEyeVel.y * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamEye.z, this->cameraNextEye.z, this->subCamEyeMaxVel.z,
+                           this->subCamEyeVel.z * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamAt.x, this->cameraNextAt.x, this->subCamAtMaxVel.x,
+                           this->subCamAtVel.x * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamAt.y, this->cameraNextAt.y, this->subCamAtMaxVel.y,
+                           this->subCamAtVel.y * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamAt.z, this->cameraNextAt.z, this->subCamAtMaxVel.z,
+                           this->subCamAtVel.z * this->cameraSpeedMod);
             Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         }
 
-        Gameplay_CameraSetAtEye(globalCtx, this->deathCamera, &this->cameraAt, &this->cameraEye);
+        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 

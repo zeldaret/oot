@@ -87,7 +87,7 @@ typedef struct {
     /* 0x7C */ f32 accel;
     /* 0x80 */ f32 yMod;
     /* 0x84 */ f32 shake;
-} BossFdCam; // size = 0x88
+} BossFdSubCam; // size = 0x88
 
 typedef enum {
     /*  0 */ BFD_ACTION_STATE,
@@ -175,8 +175,8 @@ typedef struct BossFd {
     /* 0x13F4 */ Vec3f headPos;
     /* 0x1400 */ s16 introFlyState;
     /* 0x1402 */ s16 introState;
-    /* 0x1404 */ s16 introCamera;
-    /* 0x1408 */ BossFdCam camData;
+    /* 0x1404 */ s16 subCamId;
+    /* 0x1408 */ BossFdSubCam subCamData;
     /* 0x1490 */ ColliderJntSph collider;
     /* 0x14B0 */ ColliderJntSphElement elements[19];
     /* 0x1970 */ BossFdEffect effects[180];

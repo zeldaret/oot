@@ -413,8 +413,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 indS0;
     s16 indS1;
-    Camera* camera1;
-    Camera* camera2;
+    Camera* mainCam1;
+    Camera* mainCam2;
     BossMo* otherTent = (BossMo*)this->otherTent; // real
     f32 maxSwingRateX;                            // real
     f32 maxSwingLagX;                             // real
@@ -764,7 +764,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachS(&player->actor.shape.rot.y, this->grabPosRot.rot.y, 2, 0x7D0);
                 Math_ApproachS(&player->actor.shape.rot.z, this->grabPosRot.rot.z, 2, 0x7D0);
                 if (this->timers[0] == 0) {
-                    camera1 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                    mainCam1 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
                     this->work[MO_TENT_ACTION_STATE] = MO_TENT_SHAKE;
                     this->tentMaxAngle = .001f;
                     this->fwork[MO_TENT_SWING_RATE_X] = this->fwork[MO_TENT_SWING_RATE_Z] =
@@ -774,13 +774,13 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     this->sfxTimer = 30;
                     func_800F4BE8();
                     func_80064520(globalCtx, &globalCtx->csCtx);
-                    this->csCamera = Gameplay_CreateSubCamera(globalCtx);
+                    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
                     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-                    Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, CAM_STAT_ACTIVE);
-                    this->cameraEye = camera1->eye;
-                    this->cameraAt = camera1->at;
-                    this->cameraYaw = Math_FAtan2F(this->cameraEye.x - this->actor.world.pos.x,
-                                                   this->cameraEye.z - this->actor.world.pos.z);
+                    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+                    this->subCamEye = mainCam1->eye;
+                    this->subCamAt = mainCam1->at;
+                    this->cameraYaw = Math_FAtan2F(this->subCamEye.x - this->actor.world.pos.x,
+                                                   this->subCamEye.z - this->actor.world.pos.z);
                     this->cameraYawRate = 0;
                     goto tent_shake;
                 }
@@ -842,7 +842,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     this->timers[0] = 75;
                 }
             }
-            if (this->csCamera != 0) {
+            if (this->subCamId != SUBCAM_FREE) {
                 sp138.x = 0;
                 sp138.y = 100.0f;
                 sp138.z = 200.0f;
@@ -850,13 +850,13 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->cameraYawRate, 0.01, 1.0f, 0.002f);
                 Matrix_RotateY(this->cameraYaw, MTXMODE_NEW);
                 Matrix_MultVec3f(&sp138, &sp12C);
-                Math_ApproachF(&this->cameraEye.x, this->actor.world.pos.x + sp12C.x, 0.1f, 10.0f);
-                Math_ApproachF(&this->cameraEye.y, this->actor.world.pos.y + sp12C.y, 0.1f, 10.0f);
-                Math_ApproachF(&this->cameraEye.z, this->actor.world.pos.z + sp12C.z, 0.1f, 10.0f);
-                Math_ApproachF(&this->cameraAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
-                Math_ApproachF(&this->cameraAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
-                Math_ApproachF(&this->cameraAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
-                Gameplay_CameraSetAtEye(globalCtx, this->csCamera, &this->cameraAt, &this->cameraEye);
+                Math_ApproachF(&this->subCamEye.x, this->actor.world.pos.x + sp12C.x, 0.1f, 10.0f);
+                Math_ApproachF(&this->subCamEye.y, this->actor.world.pos.y + sp12C.y, 0.1f, 10.0f);
+                Math_ApproachF(&this->subCamEye.z, this->actor.world.pos.z + sp12C.z, 0.1f, 10.0f);
+                Math_ApproachF(&this->subCamAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
+                Math_ApproachF(&this->subCamAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
+                Math_ApproachF(&this->subCamAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
+                Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
             }
             break;
         case MO_TENT_CUT:
@@ -888,18 +888,18 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             }
             break;
         case MO_TENT_RETREAT:
-            if (this->csCamera != 0) {
-                Math_ApproachF(&this->cameraAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
-                Math_ApproachF(&this->cameraAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
-                Math_ApproachF(&this->cameraAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
-                Gameplay_CameraSetAtEye(globalCtx, this->csCamera, &this->cameraAt, &this->cameraEye);
+            if (this->subCamId != SUBCAM_FREE) {
+                Math_ApproachF(&this->subCamAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
+                Math_ApproachF(&this->subCamAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
+                Math_ApproachF(&this->subCamAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
+                Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
                 if (player->actor.world.pos.y <= 42.0f) {
-                    camera2 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-                    camera2->eye = this->cameraEye;
-                    camera2->eyeNext = this->cameraEye;
-                    camera2->at = this->cameraAt;
-                    func_800C08AC(globalCtx, this->csCamera, 0);
-                    this->csCamera = 0;
+                    mainCam2 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                    mainCam2->eye = this->subCamEye;
+                    mainCam2->eyeNext = this->subCamEye;
+                    mainCam2->at = this->subCamAt;
+                    func_800C08AC(globalCtx, this->subCamId, 0);
+                    this->subCamId = SUBCAM_FREE;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                 }
             }
@@ -1197,10 +1197,10 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
     f32 sp7C;
     f32 sp78;
     Player* player = PLAYER;
-    Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    Camera* mainCam1 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
     Vec3f bubblePos;
     Vec3f bubblePos2;
-    Camera* camera2;
+    Camera* mainCam2;
     f32 pad50;
     f32 pad4C;
     f32 pad48;
@@ -1224,9 +1224,9 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 // checks if Link is on one of the four platforms
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
-                this->csCamera = Gameplay_CreateSubCamera(globalCtx);
+                this->subCamId = Gameplay_CreateSubCamera(globalCtx);
                 Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, CAM_STAT_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                 this->actor.speedXZ = 0.0f;
                 this->csState = MO_INTRO_START;
                 this->timers[2] = 50;
@@ -1244,19 +1244,19 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
             player->actor.world.pos.z = -130.0f;
             player->actor.shape.rot.y = player->actor.world.rot.y = 0;
             player->actor.speedXZ = 0.0f;
-            this->cameraEye.x = -424.0f;
-            this->cameraEye.y = -190.0f;
-            this->cameraEye.z = 180.0f;
-            this->cameraAt.x = player->actor.world.pos.x;
-            this->cameraAt.y = -330.0f;
-            this->cameraAt.z = 0.0f;
+            this->subCamEye.x = -424.0f;
+            this->subCamEye.y = -190.0f;
+            this->subCamEye.z = 180.0f;
+            this->subCamAt.x = player->actor.world.pos.x;
+            this->subCamAt.y = -330.0f;
+            this->subCamAt.z = 0.0f;
             if (this->timers[2] == 0) {
                 this->csState = MO_INTRO_SWIM;
                 this->work[MO_TENT_MOVE_TIMER] = 0;
             } else if (this->timers[2] < 50) {
-                bubblePos.x = (this->cameraEye.x + 20.0f) + 10.0f;
+                bubblePos.x = (this->subCamEye.x + 20.0f) + 10.0f;
                 bubblePos.y = -250.0f;
-                bubblePos.z = this->cameraEye.z;
+                bubblePos.z = this->subCamEye.z;
                 EffectSsBubble_Spawn(globalCtx, &bubblePos, 0.0f, 10.0f, 50.0f, Rand_ZeroFloat(0.05f) + 0.13f);
             }
             if (this->timers[2] == 40) {
@@ -1271,34 +1271,34 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
             } else {
                 tempY = Math_SinS(this->work[MO_TENT_MOVE_TIMER] * 0x500) * 5.0f;
             }
-            dx = this->targetPos.x - this->cameraEye.x;
-            dy = this->targetPos.y - this->cameraEye.y + tempY;
-            dz = this->targetPos.z - this->cameraEye.z;
+            dx = this->targetPos.x - this->subCamEye.x;
+            dy = this->targetPos.y - this->subCamEye.y + tempY;
+            dz = this->targetPos.z - this->subCamEye.z;
             tempY = Math_FAtan2F(dx, dz);
             tempX = Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz)));
             Math_ApproachS(&this->actor.world.rot.y, tempY * (0x8000 / M_PI), 5, this->cameraYawRate);
             Math_ApproachS(&this->actor.world.rot.x, tempX * (0x8000 / M_PI), 5, this->cameraYawRate);
             if (this->work[MO_TENT_MOVE_TIMER] == 150) {
-                this->cameraAtVel.x = fabsf(this->cameraAt.x - player->actor.world.pos.x);
-                this->cameraAtVel.y = fabsf(this->cameraAt.y - player->actor.world.pos.y);
-                this->cameraAtVel.z = fabsf(this->cameraAt.z - player->actor.world.pos.z);
+                this->subCamAtVel.x = fabsf(this->subCamAt.x - player->actor.world.pos.x);
+                this->subCamAtVel.y = fabsf(this->subCamAt.y - player->actor.world.pos.y);
+                this->subCamAtVel.z = fabsf(this->subCamAt.z - player->actor.world.pos.z);
             }
             if (this->work[MO_TENT_MOVE_TIMER] >= 150) {
-                Math_ApproachF(&this->cameraAt.x, player->actor.world.pos.x, 0.1f,
-                               this->cameraAtVel.x * this->cameraSpeedMod);
-                Math_ApproachF(&this->cameraAt.y, player->actor.world.pos.y + 50.0f, 0.1f,
-                               this->cameraAtVel.y * this->cameraSpeedMod);
-                Math_ApproachF(&this->cameraAt.z, player->actor.world.pos.z, 0.1f,
-                               this->cameraAtVel.z * this->cameraSpeedMod);
+                Math_ApproachF(&this->subCamAt.x, player->actor.world.pos.x, 0.1f,
+                               this->subCamAtVel.x * this->cameraSpeedMod);
+                Math_ApproachF(&this->subCamAt.y, player->actor.world.pos.y + 50.0f, 0.1f,
+                               this->subCamAtVel.y * this->cameraSpeedMod);
+                Math_ApproachF(&this->subCamAt.z, player->actor.world.pos.z, 0.1f,
+                               this->subCamAtVel.z * this->cameraSpeedMod);
                 Math_ApproachF(&this->cameraSpeedMod, 0.02f, 1.0f, 0.001f);
             }
             if (this->work[MO_TENT_MOVE_TIMER] == 190) {
                 func_80078914(&sAudioZeroVec, NA_SE_EN_MOFER_BUBLE_DEMO);
             }
             if ((this->work[MO_TENT_MOVE_TIMER] > 150) && (this->work[MO_TENT_MOVE_TIMER] < 180)) {
-                bubblePos2.x = (this->cameraEye.x + 20.0f) + 10.0f;
+                bubblePos2.x = (this->subCamEye.x + 20.0f) + 10.0f;
                 bubblePos2.y = -250.0f;
-                bubblePos2.z = this->cameraEye.z;
+                bubblePos2.z = this->subCamEye.z;
                 EffectSsBubble_Spawn(globalCtx, &bubblePos2, 0.0f, 10.0f, 50.0f, Rand_ZeroFloat(0.05f) + 0.13f);
             }
             sp7C = (f32)0x1000;
@@ -1359,12 +1359,12 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
             }
         case MO_INTRO_REVEAL:
             if (this->timers[2] >= 160) {
-                this->cameraEye.x = 150.0f;
-                this->cameraEye.y = 60.0f;
-                this->cameraEye.z = -230.0f;
-                this->cameraAt.x = 170.0f;
-                this->cameraAt.y = 40.0;
-                this->cameraAt.z = -280.0f;
+                this->subCamEye.x = 150.0f;
+                this->subCamEye.y = 60.0f;
+                this->subCamEye.z = -230.0f;
+                this->subCamAt.x = 170.0f;
+                this->subCamAt.y = 40.0;
+                this->subCamAt.z = -280.0f;
                 sMorphaTent1->xSwing = 0xCEC;
                 sMorphaTent1->fwork[MO_TENT_SWING_RATE_X] = 0.0f;
                 sMorphaTent1->fwork[MO_TENT_SWING_LAG_X] = 1000.0f;
@@ -1372,18 +1372,18 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 if (this->timers[2] == 160) {
                     this->cameraNextAt.y = 65.0f;
                     this->cameraNextAt.z = -280.0f;
-                    this->cameraEyeVel.x = fabsf(this->cameraEye.x - 150.0f) * 0.1f;
-                    this->cameraEyeVel.y = fabsf(this->cameraEye.y - 60.0f) * 0.1f;
-                    this->cameraEyeVel.z = fabsf(this->cameraEye.z - -260.0f) * 0.1f;
+                    this->subCamEyeVel.x = fabsf(this->subCamEye.x - 150.0f) * 0.1f;
+                    this->subCamEyeVel.y = fabsf(this->subCamEye.y - 60.0f) * 0.1f;
+                    this->subCamEyeVel.z = fabsf(this->subCamEye.z - -260.0f) * 0.1f;
                     this->cameraNextEye.x = 150.0f;
                     this->cameraNextEye.y = 60.0f;
                     this->cameraNextEye.z = -260.0f;
                     this->cameraNextAt.x = 155.0f;
-                    this->cameraAtMaxVel.x = this->cameraAtMaxVel.y = this->cameraAtMaxVel.z = 0.1f;
-                    this->cameraAtVel.x = fabsf(this->cameraAt.x - this->cameraNextAt.x) * 0.1f;
-                    this->cameraAtVel.y = fabsf(this->cameraAt.y - this->cameraNextAt.y) * 0.1f;
-                    this->cameraAtVel.z = fabsf(this->cameraAt.z - this->cameraNextAt.z) * 0.1f;
-                    this->cameraEyeMaxVel.x = this->cameraEyeMaxVel.y = this->cameraEyeMaxVel.z = 0.1f;
+                    this->subCamAtMaxVel.x = this->subCamAtMaxVel.y = this->subCamAtMaxVel.z = 0.1f;
+                    this->subCamAtVel.x = fabsf(this->subCamAt.x - this->cameraNextAt.x) * 0.1f;
+                    this->subCamAtVel.y = fabsf(this->subCamAt.y - this->cameraNextAt.y) * 0.1f;
+                    this->subCamAtVel.z = fabsf(this->subCamAt.z - this->cameraNextAt.z) * 0.1f;
+                    this->subCamEyeMaxVel.x = this->subCamEyeMaxVel.y = this->subCamEyeMaxVel.z = 0.1f;
                     this->cameraSpeedMod = 0.0f;
                     this->cameraAccel = 0.01f;
                     this->tentMaxAngle = 0.001f;
@@ -1397,20 +1397,20 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 this->cameraNextAt.x = 160.0f;
                 this->cameraNextAt.y = 58.0f;
                 this->cameraNextAt.z = -247.0f;
-                this->cameraEyeVel.x = fabsf(this->cameraEye.x - 111.0f) * 0.1f;
-                this->cameraEyeVel.y = fabsf(this->cameraEye.y - 133.0f) * 0.1f;
-                this->cameraEyeVel.z = fabsf(this->cameraEye.z - -191.0f) * 0.1f;
+                this->subCamEyeVel.x = fabsf(this->subCamEye.x - 111.0f) * 0.1f;
+                this->subCamEyeVel.y = fabsf(this->subCamEye.y - 133.0f) * 0.1f;
+                this->subCamEyeVel.z = fabsf(this->subCamEye.z - -191.0f) * 0.1f;
                 if (1) {}
                 this->csState = MO_INTRO_FINISH;
                 this->timers[2] = 110;
                 this->cameraNextEye.x = 111.0f;
                 this->cameraNextEye.y = 133.0f;
                 this->cameraNextEye.z = -191.0f;
-                this->cameraAtVel.x = fabsf(this->cameraAt.x - this->cameraNextAt.x) * 0.1f;
-                this->cameraAtVel.y = fabsf(this->cameraAt.y - this->cameraNextAt.y) * 0.1f;
-                this->cameraAtVel.z = fabsf(this->cameraAt.z - this->cameraNextAt.z) * 0.1f;
-                this->cameraEyeMaxVel.y = 0.03f;
-                this->cameraAtMaxVel.y = 0.03f;
+                this->subCamAtVel.x = fabsf(this->subCamAt.x - this->cameraNextAt.x) * 0.1f;
+                this->subCamAtVel.y = fabsf(this->subCamAt.y - this->cameraNextAt.y) * 0.1f;
+                this->subCamAtVel.z = fabsf(this->subCamAt.z - this->cameraNextAt.z) * 0.1f;
+                this->subCamEyeMaxVel.y = 0.03f;
+                this->subCamAtMaxVel.y = 0.03f;
                 this->cameraSpeedMod = 0.0f;
                 this->cameraAccel = 0.01f;
             }
@@ -1436,12 +1436,12 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 sMorphaTent1->timers[0] = 50;
             }
             if (this->timers[2] == 20) {
-                camera2 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-                camera2->eye = this->cameraEye;
-                camera2->eyeNext = this->cameraEye;
-                camera2->at = this->cameraAt;
-                func_800C08AC(globalCtx, this->csCamera, 0);
-                this->csState = this->csCamera = MO_BATTLE;
+                mainCam2 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                mainCam2->eye = this->subCamEye;
+                mainCam2->eyeNext = this->subCamEye;
+                mainCam2->at = this->subCamAt;
+                func_800C08AC(globalCtx, this->subCamId, 0);
+                this->csState = this->subCamId = MO_BATTLE; // this->subCamId = SUBCAM_FREE
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
             }
@@ -1454,35 +1454,35 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
         sMorphaTent1->actor.speedXZ = 0.0f;
         sMorphaTent1->actor.shape.rot.y = sMorphaTent1->actor.yawTowardsPlayer;
     }
-    if (this->csCamera != 0) {
+    if (this->subCamId != SUBCAM_FREE) {
         if (sp9F) {
-            Math_ApproachF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
-                           this->cameraEyeVel.x * this->cameraSpeedMod);
-            Math_ApproachF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
-                           this->cameraEyeVel.y * this->cameraSpeedMod);
-            Math_ApproachF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
-                           this->cameraEyeVel.z * this->cameraSpeedMod);
-            Math_ApproachF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
-                           this->cameraAtVel.x * this->cameraSpeedMod);
-            Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
-                           this->cameraAtVel.y * this->cameraSpeedMod);
-            Math_ApproachF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
-                           this->cameraAtVel.z * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamEye.x, this->cameraNextEye.x, this->subCamEyeMaxVel.x,
+                           this->subCamEyeVel.x * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamEye.y, this->cameraNextEye.y, this->subCamEyeMaxVel.y,
+                           this->subCamEyeVel.y * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamEye.z, this->cameraNextEye.z, this->subCamEyeMaxVel.z,
+                           this->subCamEyeVel.z * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamAt.x, this->cameraNextAt.x, this->subCamAtMaxVel.x,
+                           this->subCamAtVel.x * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamAt.y, this->cameraNextAt.y, this->subCamAtMaxVel.y,
+                           this->subCamAtVel.y * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamAt.z, this->cameraNextAt.z, this->subCamAtMaxVel.z,
+                           this->subCamAtVel.z * this->cameraSpeedMod);
             Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         } else if (this->csState < MO_INTRO_REVEAL) {
             func_8002D908(&this->actor);
-            this->cameraEye.x += this->actor.velocity.x;
-            this->cameraEye.y += this->actor.velocity.y;
-            this->cameraEye.z += this->actor.velocity.z;
+            this->subCamEye.x += this->actor.velocity.x;
+            this->subCamEye.y += this->actor.velocity.y;
+            this->subCamEye.z += this->actor.velocity.z;
         }
         this->cameraUp.x = this->cameraUp.z =
             sinf(this->work[MO_TENT_VAR_TIMER] * 0.03f) * this->cameraYawShake * (-2.0f);
         this->cameraUp.y = 1.0f;
-        Gameplay_CameraSetAtEyeUp(globalCtx, this->csCamera, &this->cameraAt, &this->cameraEye, &this->cameraUp);
-        camera->eye = this->cameraEye;
-        camera->eyeNext = this->cameraEye;
-        camera->at = this->cameraAt;
-        Gameplay_CameraSetFov(globalCtx, this->csCamera, this->cameraZoom);
+        Gameplay_CameraSetAtEyeUp(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye, &this->cameraUp);
+        mainCam1->eye = this->subCamEye;
+        mainCam1->eyeNext = this->subCamEye;
+        mainCam1->at = this->subCamAt;
+        Gameplay_CameraSetFov(globalCtx, this->subCamId, this->cameraZoom);
     }
 
     if ((this->csState > MO_INTRO_START) && (this->work[MO_TENT_MOVE_TIMER] > 540)) {
@@ -1501,7 +1501,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
     f32 sp7C;
     Vec3f sp70;
     Vec3f sp64;
-    Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
     Vec3f velocity;
     Vec3f pos;
 
@@ -1509,14 +1509,14 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
         case MO_DEATH_START:
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
-            this->csCamera = Gameplay_CreateSubCamera(globalCtx);
+            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
             Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->csState = MO_DEATH_MO_CORE_BURST;
-            this->cameraEye = camera->eye;
+            this->subCamEye = mainCam->eye;
             this->timers[0] = 90;
-            dx = this->actor.world.pos.x - this->cameraEye.x;
-            dz = this->actor.world.pos.z - this->cameraEye.z;
+            dx = this->actor.world.pos.x - this->subCamEye.x;
+            dz = this->actor.world.pos.z - this->subCamEye.z;
             this->cameraYaw = Math_FAtan2F(dx, dz);
             this->cameraDist = sqrtf(SQ(dx) + SQ(dz));
             this->cameraYawRate = 0.0f;
@@ -1539,8 +1539,8 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->cameraYawRate, 0.0f, 1.0f, 0.002f);
             }
             Math_ApproachF(&this->actor.world.pos.y, 150.0f, 0.05f, 5.0f);
-            Math_ApproachF(&this->cameraEye.y, 100.0f, 0.05f, 2.0f);
-            this->cameraAt = this->cameraNextAt = this->actor.world.pos;
+            Math_ApproachF(&this->subCamEye.y, 100.0f, 0.05f, 2.0f);
+            this->subCamAt = this->cameraNextAt = this->actor.world.pos;
             if (this->timers[0] > 20) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_DEAD - SFX_FLAG);
             }
@@ -1567,15 +1567,15 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
                 this->actor.world.pos.y = -1000.0f;
                 this->fwork[MO_TENT_SWING_SIZE_X] = 15.0f;
                 this->cameraYaw = 0.0f;
-                this->cameraEye.x = 490.0f;
-                this->cameraEye.y = 50.0f;
-                this->cameraEye.z = 0.0f;
-                this->cameraAt.x = 0;
-                this->cameraAt.y = -100.0f;
-                this->cameraAt.z = 0.0f;
+                this->subCamEye.x = 490.0f;
+                this->subCamEye.y = 50.0f;
+                this->subCamEye.z = 0.0f;
+                this->subCamAt.x = 0;
+                this->subCamAt.y = -100.0f;
+                this->subCamAt.z = 0.0f;
                 this->work[MO_TENT_VAR_TIMER] = this->work[MO_TENT_MOVE_TIMER] = 0;
-                this->cameraAtMaxVel.y = 0.05f;
-                this->cameraAtVel.y = 4.0f;
+                this->subCamAtMaxVel.y = 0.05f;
+                this->subCamAtVel.y = 4.0f;
                 this->cameraSpeedMod = 0.0f;
                 this->cameraAccel = 0.02f;
                 this->cameraNextAt.y = 320.0f;
@@ -1612,10 +1612,10 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
         case MO_DEATH_DRAIN_WATER_1:
             if (this->timers[0] == 0) {
                 this->csState = MO_DEATH_DRAIN_WATER_2;
-                this->cameraAt.y = -200.0f;
+                this->subCamAt.y = -200.0f;
                 this->cameraNextAt.y = 320.0f;
-                this->cameraAtMaxVel.y = 0.05f;
-                this->cameraAtVel.y = 4.0f;
+                this->subCamAtMaxVel.y = 0.05f;
+                this->subCamAtVel.y = 4.0f;
                 this->cameraSpeedMod = 0.0f;
                 this->cameraAccel = 0.0f;
                 sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_DEATH_1;
@@ -1652,16 +1652,16 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
                 sMorphaTent1->tentSpeed = sMorphaTent1->tentMaxAngle;
             }
             if (this->timers[0] == 0) {
-                if (-100.0f < this->cameraEye.y) {
-                    Math_ApproachF(&this->cameraEye.y, sMorphaTent1->actor.world.pos.y - 100.0f, 0.1f, 2000.0f);
+                if (-100.0f < this->subCamEye.y) {
+                    Math_ApproachF(&this->subCamEye.y, sMorphaTent1->actor.world.pos.y - 100.0f, 0.1f, 2000.0f);
                 } else {
-                    Math_ApproachF(&this->cameraEye.y, -200.0f, 0.1f, 2000.0f);
+                    Math_ApproachF(&this->subCamEye.y, -200.0f, 0.1f, 2000.0f);
                 }
 
-                Math_ApproachF(&this->cameraAt.y, (sMorphaTent1->actor.world.pos.y - 50.0f) + 30.0f, 0.5f, 2000.0f);
-                this->cameraNextAt.y = this->cameraAt.y;
+                Math_ApproachF(&this->subCamAt.y, (sMorphaTent1->actor.world.pos.y - 50.0f) + 30.0f, 0.5f, 2000.0f);
+                this->cameraNextAt.y = this->subCamAt.y;
             } else {
-                Math_ApproachF(&this->cameraEye.y, 300.0f, 0.05f, this->cameraSpeed);
+                Math_ApproachF(&this->subCamEye.y, 300.0f, 0.05f, this->cameraSpeed);
             }
             Math_ApproachF(&this->cameraYaw, -M_PI / 2.0f, 0.05f, this->cameraYawRate);
             Math_ApproachF(&this->cameraSpeed, 3.0f, 1.0f, 0.05f);
@@ -1670,11 +1670,11 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->cameraDist, 200.0f, 0.02f, this->cameraSpeed);
                 if (sMorphaTent1->timers[0] == 0) {
                     this->csState = MO_DEATH_FINISH;
-                    camera->eye = this->cameraEye;
-                    camera->eyeNext = this->cameraEye;
-                    camera->at = this->cameraAt;
-                    func_800C08AC(globalCtx, this->csCamera, 0);
-                    this->csCamera = 0;
+                    mainCam->eye = this->subCamEye;
+                    mainCam->eyeNext = this->subCamEye;
+                    mainCam->at = this->subCamAt;
+                    func_800C08AC(globalCtx, this->subCamId, 0);
+                    this->subCamId = SUBCAM_FREE;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     sMorphaTent1->actor.world.pos.y = -1000.0f;
@@ -1713,16 +1713,16 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
     sp70.z = 0.0f;
     Matrix_RotateY(this->cameraYaw, MTXMODE_NEW);
     Matrix_MultVec3f(&sp70, &sp64);
-    this->cameraEye.x = sp64.x + this->cameraAt.x;
-    this->cameraEye.z = sp64.z + this->cameraAt.z;
+    this->subCamEye.x = sp64.x + this->subCamAt.x;
+    this->subCamEye.z = sp64.z + this->subCamAt.z;
     one = 1; // Super fake, but it works
-    if (this->csCamera != 0) {
+    if (this->subCamId != SUBCAM_FREE) {
         if (one) {
-            Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
-                           this->cameraAtVel.y * this->cameraSpeedMod);
+            Math_ApproachF(&this->subCamAt.y, this->cameraNextAt.y, this->subCamAtMaxVel.y,
+                           this->subCamAtVel.y * this->cameraSpeedMod);
             Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         }
-        Gameplay_CameraSetAtEye(globalCtx, this->csCamera, &this->cameraAt, &this->cameraEye);
+        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 
@@ -1766,8 +1766,8 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                 this->actor.colChkInfo.health -= damage;
                 this->hitCount++;
                 if ((s8)this->actor.colChkInfo.health <= 0) {
-                    if (((sMorphaTent1->csCamera == 0) && (sMorphaTent2 == NULL)) ||
-                        ((sMorphaTent1->csCamera == 0) && (sMorphaTent2 != NULL) && (sMorphaTent2->csCamera == 0))) {
+                    if (((sMorphaTent1->subCamId == SUBCAM_FREE) && (sMorphaTent2 == NULL)) ||
+                        ((sMorphaTent1->subCamId == SUBCAM_FREE) && (sMorphaTent2 != NULL) && (sMorphaTent2->subCamId == SUBCAM_FREE))) {
                         Enemy_StartFinishingBlow(globalCtx, &this->actor);
                         Audio_QueueSeqCmd(0x100100FF);
                         this->csState = MO_DEATH_START;
@@ -2655,7 +2655,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
         BossMo_DrawWater(this, globalCtx);
     }
 
-    if ((this->csCamera != 0) && (this->csState < MO_INTRO_REVEAL)) {
+    if ((this->subCamId != SUBCAM_FREE) && (this->csState < MO_INTRO_REVEAL)) {
         f32 sp8C;
         f32 sp88;
         f32 sp84;
@@ -2675,9 +2675,9 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
                                     (s16)sMorphaTent1->waterTex1y, 32, 32, 1, (s16)sMorphaTent1->waterTex2x,
                                     (s16)sMorphaTent1->waterTex2y, 32, 32));
 
-        sp8C = this->cameraAt.x - this->cameraEye.x;
-        sp88 = this->cameraAt.y - this->cameraEye.y;
-        sp84 = this->cameraAt.z - this->cameraEye.z;
+        sp8C = this->subCamAt.x - this->subCamEye.x;
+        sp88 = this->subCamAt.y - this->subCamEye.y;
+        sp84 = this->subCamAt.z - this->subCamEye.z;
         temp = SQ(sp8C) + SQ(sp84);
         sp7C = Math_FAtan2F(sp8C, sp84);
         sp78 = -Math_FAtan2F(sp88, sqrtf(temp));
@@ -2689,9 +2689,9 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateY(sp7C, MTXMODE_NEW);
         Matrix_RotateX(sp78, MTXMODE_APPLY);
         Matrix_MultVec3f(&sp6C, &sp60);
-        sp8C = sp60.x + this->cameraEye.x;
-        sp88 = sp60.y + this->cameraEye.y;
-        sp84 = sp60.z + this->cameraEye.z;
+        sp8C = sp60.x + this->subCamEye.x;
+        sp88 = sp60.y + this->subCamEye.y;
+        sp84 = sp60.z + this->subCamEye.z;
         Matrix_Translate(sp8C, sp88, sp84, MTXMODE_NEW);
         Matrix_RotateY(sp7C, MTXMODE_APPLY);
         Matrix_RotateX(sp78, MTXMODE_APPLY);

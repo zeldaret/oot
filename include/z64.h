@@ -272,12 +272,12 @@ typedef struct {
     /* 0x0C */ f32   unk_0C;
     /* 0x10 */ u16   frames;
     /* 0x12 */ u16   unk_12;
-    /* 0x14 */ s32   unk_14;
+    /* 0x14 */ s32   subCamId;
     /* 0x18 */ u16   unk_18;
     /* 0x1A */ u8    unk_1A;
     /* 0x1B */ u8    unk_1B;
-    /* 0x1C */ CutsceneCameraPoint* cameraFocus;
-    /* 0x20 */ CutsceneCameraPoint* cameraPosition;
+    /* 0x1C */ CutsceneCameraPoint* atPoints;
+    /* 0x20 */ CutsceneCameraPoint* eyePoints;
     /* 0x24 */ CsCmdActorAction* linkAction;
     /* 0x28 */ CsCmdActorAction* npcActions[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50

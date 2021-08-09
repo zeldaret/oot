@@ -26,10 +26,10 @@ typedef struct EnfHG {
     /* 0x014D */ u8 bossGndInPainting;
     /* 0x014E */ u8 killActor;
     /* 0x014F */ u8 fhgFireKillWarp;
-    /* 0x0150 */ Vec3f cameraEye;
-    /* 0x015C */ Vec3f cameraAt;
-    /* 0x0168 */ Vec3f cameraEyeVel;
-    /* 0x0174 */ Vec3f cameraAtVel;
+    /* 0x0150 */ Vec3f subCamEye;
+    /* 0x015C */ Vec3f subCamAt;
+    /* 0x0168 */ Vec3f subCamEyeVel;
+    /* 0x0174 */ Vec3f subCamAtVel;
     /* 0x0180 */ Vec3f hoofSfxPos;
     /* 0x018C */ Vec3f inPaintingPos;
     /* 0x0198 */ f32 inPaintingVelX;
@@ -45,7 +45,7 @@ typedef struct EnfHG {
     /* 0x01C6 */ s16 turnTarget;
     /* 0x01C8 */ s16 spawnedWarp;
     /* 0x01CA */ s16 cutsceneState;
-    /* 0x01CC */ s16 cutsceneCamera;
+    /* 0x01CC */ s16 subCamId;
     /* 0x01CE */ char unk_1CE[6];
     /* 0x01D4 */ s16 timers[5];
     /* 0x01DE */ s16 hitTimer;

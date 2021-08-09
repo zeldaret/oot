@@ -279,7 +279,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s16 i;
     Gfx* phi_s2;
     Gfx* phi_s1;
-    Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+    Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
     Actor* actor;
     BgGanonOtyuka* platform;
     BossGanon* ganondorf;

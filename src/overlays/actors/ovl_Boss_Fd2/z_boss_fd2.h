@@ -37,7 +37,7 @@ typedef struct {
     /* 0x7C */ f32 accel;
     /* 0x80 */ f32 yMod;
     /* 0x84 */ f32 shake;
-} BossFd2Cam; // size = 0x88
+} BossFd2SubCam; // size = 0x88
 
 typedef enum {
     /* 0 */ FD2_TURN_TO_LINK,
@@ -83,8 +83,8 @@ typedef struct BossFd2 {
     /* 0x1388 */ char unk_1388[4];
     /* 0x138C */ f32 jawOpening;
     /* 0x1390 */ s16 deathState;
-    /* 0x1392 */ s16 deathCamera;
-    /* 0x1394 */ BossFd2Cam camData;
+    /* 0x1392 */ s16 subCamId;
+    /* 0x1394 */ BossFd2SubCam subCamData;
     /* 0x141C */ ColliderJntSph collider;
     /* 0x143C */ ColliderJntSphElement elements[9];
 } BossFd2; // size = 0x167C
