@@ -4,9 +4,10 @@
  * Description: Bombchu Bowling Alley Walls
  */
 
-#include "vt.h"
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
+#include "objects/object_bowl/object_bowl.h"
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -30,8 +31,6 @@ const ActorInit Bg_Bom_Guard_InitVars = {
     NULL,
 };
 
-extern CollisionHeader D_06001C40;
-
 void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -42,7 +41,7 @@ void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06001C40, &colHeader);
+    CollisionHeader_GetVirtual(&gBowlingDefaultCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     osSyncPrintf("\n\n");
