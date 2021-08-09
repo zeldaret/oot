@@ -721,18 +721,23 @@ void Audio_WaitForAudioTask(void) {
     osRecvMesg(gAudioContext.taskStartQueueP, NULL, OS_MESG_BLOCK);
 }
 
-#ifdef NON_MATCHING
 s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
-    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[arg0];
+    SequencePlayer* seqPlayer;
+    SequenceChannelLayer* layer;
+    Note* note;
+    AudioBankSound* sound;
+    s32 loopEnd;
+    s32 samplePos;
+
+    seqPlayer = &gAudioContext.seqPlayers[arg0];
     if (seqPlayer->enabled && seqPlayer->channels[arg1]->enabled) {
-        SequenceChannelLayer* layer = seqPlayer->channels[arg1]->layers[arg2]; // v0
+        layer = seqPlayer->channels[arg1]->layers[arg2];
         if (layer == NULL) {
             return 0;
         }
 
         if (layer->enabled) {
-            Note* note = layer->note; // a0
-            if (note == NULL) {
+            if (layer->note == NULL) {
                 return 0;
             }
 
@@ -740,21 +745,21 @@ s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
                 return 0;
             }
 
+            note = layer->note;
             if (layer == note->playbackState.parentLayer) {
-                AudioBankSound* sound = note->noteSubEu.sound.audioBankSound; // also a0
+                sound = note->noteSubEu.sound.audioBankSound;
                 if (sound == NULL) {
                     return 0;
                 }
-                return sound->sample->loop->end - note->synthesisState.samplePosInt;
+                loopEnd = sound->sample->loop->end;
+                samplePos = note->synthesisState.samplePosInt;
+                return loopEnd - samplePos;
             }
             return 0;
         }
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E6590.s")
-#endif
 
 s32 func_800E6680(void) {
     return func_800E66C0(0);
