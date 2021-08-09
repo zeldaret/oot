@@ -8,7 +8,7 @@
 #define CAM_STAT_WAIT 1
 #define CAM_STAT_UNK3 3
 #define CAM_STAT_ACTIVE 7
-#define CAM_STAT_DEACTIVATED 0x100
+#define CAM_STAT_INACTIVE 0x100
 
 #define NUM_CAMS 4
 #define MAIN_CAM 0
@@ -18,8 +18,8 @@
 #define SUBCAM_ACTIVE -1
 
 #define ONEPOINT_CS_INFO(camera) ((Unique9OnePointCs*)camera->paramData)
-#define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
-#define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
+#define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
+#define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
 
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
@@ -905,7 +905,7 @@ typedef struct {
     /* 0x0148 */ s16 camDataIdx;
     /* 0x014A */ s16 unk_14A;
     /* 0x014C */ s16 unk_14C;
-    /* 0x014E */ s16 childCamIdx;
+    /* 0x014E */ s16 childCamId;
     /* 0x0150 */ s16 unk_150;
     /* 0x0152 */ s16 unk_152;
     /* 0x0154 */ s16 prevSetting;
@@ -915,8 +915,8 @@ typedef struct {
     /* 0x015C */ s16 paramFlags;
     /* 0x015E */ s16 animState;
     /* 0x0160 */ s16 timer;
-    /* 0x0162 */ s16 parentCamIdx;
-    /* 0x0164 */ s16 thisIdx;
+    /* 0x0162 */ s16 parentCamId;
+    /* 0x0164 */ s16 camId;
     /* 0x0166 */ s16 prevCamDataIdx;
     /* 0x0168 */ s16 csId;
     /* 0x016A */ s16 unk_16A;

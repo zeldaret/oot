@@ -217,7 +217,7 @@ void Gameplay_Init(GameState* thisx) {
 
     for (i = 0; i < 3; i++) {
         Camera_Init(&globalCtx->subCameras[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-        Camera_ChangeStatus(&globalCtx->subCameras[i], CAM_STAT_DEACTIVATED);
+        Camera_ChangeStatus(&globalCtx->subCameras[i], CAM_STAT_INACTIVE);
     }
 
     globalCtx->cameraPtrs[MAIN_CAM] = &globalCtx->mainCamera;
@@ -1539,7 +1539,7 @@ void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId) {
     }
 
     if (globalCtx->cameraPtrs[camIdx] != NULL) {
-        Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], CAM_STAT_DEACTIVATED);
+        Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], CAM_STAT_INACTIVE);
         globalCtx->cameraPtrs[camIdx] = NULL;
         osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " clear sub camera [%d] " VT_BGCOL(
                          CYAN) " " VT_RST "\n",

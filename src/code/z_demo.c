@@ -1276,8 +1276,8 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
     }
 }
 
-// Command 0x1 & 0x5: Camera Positions
-s32 Cutscene_Command_eyePointss(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
+// Command 0x1 & 0x5: Camera Eye Points
+s32 Cutscene_Command_EyePoints(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
     s32 shouldContinue = 1;
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
@@ -1313,8 +1313,8 @@ s32 Cutscene_Command_eyePointss(GlobalContext* globalCtx, CutsceneContext* csCtx
     return size;
 }
 
-// Command 0x2 & 0x6: Camera Focus Points
-s32 Cutscene_Command_atPoints(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
+// Command 0x2 & 0x6: Camera At Points
+s32 Cutscene_Command_AtPoints(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
     s32 shouldContinue = 1;
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
@@ -1374,7 +1374,7 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
                 Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
-                sp28 = csCtx->atPoints->cameraRoll * 1.40625f;
+                sp28 = csCtx->atPoints->cameraRoll * (45.0f / 32.0f);
                 Camera_SetParam(sp2C, 64, &sp28);
                 sp3C.x = csCtx->atPoints->pos.x;
                 sp3C.y = csCtx->atPoints->pos.y;
@@ -1804,16 +1804,16 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 }
                 break;
             case CS_CMD_CAMERA_POS:
-                cutscenePtr += Cutscene_Command_eyePointss(globalCtx, csCtx, (void*)cutscenePtr, 0);
+                cutscenePtr += Cutscene_Command_EyePoints(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
             case CS_CMD_CAMERA_POS_PLAYER:
-                cutscenePtr += Cutscene_Command_eyePointss(globalCtx, csCtx, (void*)cutscenePtr, 1);
+                cutscenePtr += Cutscene_Command_EyePoints(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
             case CS_CMD_CAMERA_FOCUS:
-                cutscenePtr += Cutscene_Command_atPoints(globalCtx, csCtx, (void*)cutscenePtr, 0);
+                cutscenePtr += Cutscene_Command_AtPoints(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
             case CS_CMD_CAMERA_FOCUS_PLAYER:
-                cutscenePtr += Cutscene_Command_atPoints(globalCtx, csCtx, (void*)cutscenePtr, 1);
+                cutscenePtr += Cutscene_Command_AtPoints(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
             case CS_CMD_07:
                 cutscenePtr += Cutscene_Command_07(globalCtx, csCtx, (void*)cutscenePtr, 0);
