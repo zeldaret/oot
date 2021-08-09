@@ -512,29 +512,26 @@ Acmd* func_800DC2DC(Acmd* cmd, SynthesisReverb* reverb, s16 bufIdx) {
     return cmd;
 }
 
-#ifdef NON_MATCHING
 Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
-    NoteSubEu* phi_v0;
-    u8 sp9C[88];
+    u8 sp9C[0x5C];
     s16 phi_s2;
     s16 phi_s4;
-    s32 t;
-    s32 useReverb;
     SynthesisReverb* temp_t8;
-    u8 t2;
+    s32 useReverb;
+    s32 t;
     s32 i;
+    NoteSubEu* phi_v0;
+    NoteSubEu* phi_v0_2;
     s32 unk14;
 
     t = gAudioContext.maxSimultaneousNotes * updateIdx;
     phi_s2 = 0;
     if (gAudioContext.numSynthesisReverbs == 0) {
         for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
-            phi_v0 = &gAudioContext.noteSubsEu[t + i];
-            if (phi_v0->bitField0.s.enabled) {
+            if (gAudioContext.noteSubsEu[t + i].bitField0.s.enabled) {
                 sp9C[phi_s2++] = i;
             }
         }
-        i = 0;
     } else {
         for (phi_s4 = 0; phi_s4 < gAudioContext.numSynthesisReverbs; phi_s4++) {
             for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
@@ -551,10 +548,10 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
                 sp9C[phi_s2++] = i;
             }
         }
-        i = 0;
     }
 
     aClearBuffer(cmd++, 0x940, 0x340);
+    i = 0;
     for (phi_s4 = 0; phi_s4 < gAudioContext.numSynthesisReverbs; phi_s4++) {
         temp_t8 = &gAudioContext.synthesisReverbs[phi_s4];
         useReverb = temp_t8->useReverb;
@@ -582,9 +579,9 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
         }
 
         while (i < phi_s2) {
-            phi_v0 = &gAudioContext.noteSubsEu[sp9C[i] + t];
-            if (phi_v0->bitField1.s.reverbIndex == phi_s4) {
-                cmd = func_800DC910(sp9C[i], phi_v0, &gAudioContext.notes[sp9C[i]].synthesisState, aiBuf, aiBufLen,
+            phi_v0_2 = &gAudioContext.noteSubsEu[sp9C[i] + t];
+            if (phi_v0_2->bitField1.s.reverbIndex == phi_s4) {
+                cmd = func_800DC910(sp9C[i], phi_v0_2, &gAudioContext.notes[sp9C[i]].synthesisState, aiBuf, aiBufLen,
                                     cmd, updateIdx);
             } else {
                 break;
@@ -619,9 +616,6 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
 
     return cmd;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_synthesis/func_800DC384.s")
-#endif
 
 #ifdef NON_MATCHING
 Acmd* func_800DC910(s32 noteIdx, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf, s32 aiBufLen,
