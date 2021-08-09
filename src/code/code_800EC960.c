@@ -2735,8 +2735,8 @@ s8 func_800F3990(f32 arg0, u16 arg1) {
 void func_800F3A08(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     f32 sp44;
     s8 phi_a1;
-    s8 sp42;
-    f32 sp3C;
+    s8 reverb;
+    f32 freqScale;
     s8 sp3B;
     u8 sp3A;
     u8 sp39;
@@ -2745,13 +2745,13 @@ void func_800F3A08(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     u8 sp33;
     SoundBankEntry* temp_a3;
 
-    sp42 = 0;
+    reverb = 0;
     sp3B = 0x40;
     sp3A = 0;
     sp39 = 0;
     sp38 = 0;
     sp33 = 0;
-    sp3C = 1.0f;
+    freqScale = 1.0f;
     sp44 = 1.0f;
     temp_a3 = &gSoundBanks[bankIdx][entryIdx];
     switch (bankIdx) {
@@ -2766,9 +2766,9 @@ void func_800F3A08(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
         case BANK_OCARINA:
             temp_a3->unk_1C = sqrtf(temp_a3->unk_1C);
             sp44 = func_800F3188(bankIdx, entryIdx) * *temp_a3->unk_14;
-            sp42 = func_800F32F0(bankIdx, entryIdx, channelIdx);
+            reverb = func_800F32F0(bankIdx, entryIdx, channelIdx);
             sp3B = func_800F3468(*temp_a3->posX, *temp_a3->posZ, temp_a3->unk_C);
-            sp3C = func_800F35EC(bankIdx, entryIdx) * *temp_a3->unk_10;
+            freqScale = func_800F35EC(bankIdx, entryIdx) * *temp_a3->unk_10;
             if (D_80130604 == 2) {
                 sp34 = D_801305C4[(temp_a3->unk_26 & 0x400) >> 10];
                 if (!(temp_a3->unk_26 & 0x800)) {
@@ -2788,7 +2788,7 @@ void func_800F3A08(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
                 }
             }
             if (D_8013063C != 0) {
-                if ((bankIdx == 1) || (bankIdx == 0) || (bankIdx == 6)) {
+                if ((bankIdx == BANK_ITEM) || (bankIdx == BANK_PLAYER) || (bankIdx == BANK_VOICE)) {
                     sp33 = D_8013063C;
                 }
             }
@@ -2813,13 +2813,13 @@ void func_800F3A08(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     }
 
     Audio_QueueCmdS8(0x6020000 | (channelIdx << 8) | 2, phi_a1);
-    if (sp42 != D_8016B8B8[channelIdx].unk_08) {
-        Audio_QueueCmdS8(0x5020000 | (channelIdx << 8), sp42);
-        D_8016B8B8[channelIdx].unk_08 = sp42;
+    if (reverb != D_8016B8B8[channelIdx].unk_08) {
+        Audio_QueueCmdS8(0x5020000 | (channelIdx << 8), reverb);
+        D_8016B8B8[channelIdx].unk_08 = reverb;
     }
-    if (sp3C != D_8016B8B8[channelIdx].unk_04) {
-        Audio_QueueCmdF32(0x4020000 | (channelIdx << 8), sp3C);
-        D_8016B8B8[channelIdx].unk_04 = sp3C;
+    if (freqScale != D_8016B8B8[channelIdx].unk_04) {
+        Audio_QueueCmdF32(0x4020000 | (channelIdx << 8), freqScale);
+        D_8016B8B8[channelIdx].unk_04 = freqScale;
     }
     if (sp3A != D_8016B8B8[channelIdx].unk_0A) {
         Audio_QueueCmdS8(0xE020000 | (channelIdx << 8), sp3A | 0x10);

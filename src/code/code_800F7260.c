@@ -554,7 +554,7 @@ void func_800F87A0(u8 bankId) {
         }
         bankIndex = gSoundBanks[bankId][0].next;
     }
-    sp48.unk_28 = bankId << 0xC;
+    sp48.unk_28 = bankId << 12;
     func_800F74E0(0, &sp48);
 }
 
@@ -583,7 +583,7 @@ void func_800F89A0(u8 bankId, Vec3f* pos) {
     SoundBankEntry sp18;
 
     func_800F8884(bankId, pos);
-    sp18.unk_28 = bankId << 0xC;
+    sp18.unk_28 = bankId << 12;
     sp18.posX = &pos->x;
     func_800F74E0(1, &sp18);
 }

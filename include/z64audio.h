@@ -1112,7 +1112,7 @@ typedef struct {
  * bank     1111000000000000    observed in audio code
  */
 
-#define SFX_BANK_SHIFT(sfxId)   (((sfxId) >> 0xC) & 0xFF)
+#define SFX_BANK_SHIFT(sfxId)   (((sfxId) >> 12) & 0xFF)
 
 #define SFX_BANK_MASK(sfxId)    ((sfxId) & 0xF000)
 
