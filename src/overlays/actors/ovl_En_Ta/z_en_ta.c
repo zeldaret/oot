@@ -6,6 +6,7 @@
 
 #include "z_en_ta.h"
 #include "vt.h"
+#include "objects/object_ta/object_ta.h"
 
 #define FLAGS 0x00000009
 
@@ -126,7 +127,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_0600B7B8, &D_06001C94, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &gTalonSkel, &D_06001C94, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(globalCtx2, &this->collider);
     Collider_SetCylinder(globalCtx2, &this->collider, &this->actor, &sCylinderInit);
 

@@ -13,6 +13,7 @@
 #include "objects/object_ge1/object_ge1.h"
 #include "objects/object_fu/object_fu.h"
 #include "objects/object_fish/object_fish.h"
+#include "objects/object_ta/object_ta.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 
 #define FLAGS 0x00000010
@@ -99,9 +100,6 @@ static s16 sAnimationObjects[] = {
 };
 
 // skeletons (all from other objects)
-
-// Object_TA
-extern FlexSkeletonHeader D_0600B7B8;
 
 // Object_KM1, Object_KW1, Object_BJI, Objct_AHG, Object_BOB, Object_BBA, Object_ANE
 extern FlexSkeletonHeader D_060000F0;
@@ -380,7 +378,7 @@ void DemoEc_DrawIngo(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitTalon(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_0600B7B8);
+    DemoEc_InitSkelAnime(this, globalCtx, &gTalonSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcTalonAnim, 0, 0.0f, false);
     func_8096D64C(this, globalCtx);
