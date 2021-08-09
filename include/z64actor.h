@@ -250,12 +250,12 @@ typedef struct EnItem00 {
     /* 0x000 */ Actor actor;
     /* 0x14C */ EnItem00ActionFunc actionFunc;
     /* 0x150 */ s16 collectibleFlag;
-    /* 0x152 */ s16 unk_152;
+    /* 0x152 */ s16 getItemId;
     /* 0x154 */ s16 unk_154;
     /* 0x156 */ s16 unk_156;
     /* 0x158 */ s16 unk_158;
     /* 0x15A */ s16 unk_15A;
-    /* 0x15C */ f32 unk_15C;
+    /* 0x15C */ f32 scale;
     /* 0x160 */ ColliderCylinder collider;
 } EnItem00; // size = 0x1AC
 

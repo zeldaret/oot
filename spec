@@ -268,7 +268,8 @@ endseg
 beginseg
     name "map_48x85_static"
     romalign 0x1000
-    include "build/baserom/map_48x85_static.o"
+    include "build/assets/textures/map_48x85_static/map_48x85_static.o"
+    number 11
 endseg
 
 beginseg
@@ -283,7 +284,6 @@ beginseg
     after "dmadata"
     include "build/src/code/z_en_a_keep.o"
     include "build/src/code/z_en_item00.o"
-    include "build/data/z_en_item00.bss.o"
     include "build/src/code/z_eff_blure.o"
     include "build/src/code/z_eff_shield_particle.o"
     include "build/src/code/z_eff_spark.o"
@@ -1394,9 +1394,11 @@ endseg
 beginseg
     name "ovl_Boss_Ganon2"
     include "build/src/overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.o"
-    include "build/data/overlays/actors/z_boss_ganon2.data.o"
-    include "build/data/overlays/actors/z_boss_ganon2.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Boss_Ganon2/ovl_Boss_Ganon2_reloc.o"
+#else
     include "build/data/overlays/actors/z_boss_ganon2.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1428,9 +1430,11 @@ endseg
 beginseg
     name "ovl_Boss_Tw"
     include "build/src/overlays/actors/ovl_Boss_Tw/z_boss_tw.o"
-    include "build/data/overlays/actors/z_boss_tw.data.o"
-    include "build/data/overlays/actors/z_boss_tw.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Boss_Tw/ovl_Boss_Tw_reloc.o"
+#else
     include "build/data/overlays/actors/z_boss_tw.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3214,11 +3218,7 @@ endseg
 beginseg
     name "ovl_Obj_Bean"
     include "build/src/overlays/actors/ovl_Obj_Bean/z_obj_bean.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Obj_Bean/ovl_Obj_Bean_reloc.o"
-#else
-    include "build/data/overlays/actors/z_obj_bean.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3452,6 +3452,7 @@ beginseg
     name "object_link_boy"
     romalign 0x1000
     include "build/baserom/object_link_boy.o"
+    number 6
 endseg
 
 beginseg
@@ -3499,7 +3500,8 @@ endseg
 beginseg
     name "object_dy_obj"
     romalign 0x1000
-    include "build/baserom/object_dy_obj.o"
+    include "build/assets/objects/object_dy_obj/object_dy_obj.o"
+    number 6
 endseg
 
 beginseg
@@ -3526,7 +3528,8 @@ endseg
 beginseg
     name "object_niw"
     romalign 0x1000
-    include "build/baserom/object_niw.o"
+    include "build/assets/objects/object_niw/object_niw.o"
+    number 6
 endseg
 
 beginseg
@@ -3546,7 +3549,8 @@ endseg
 beginseg
     name "object_peehat"
     romalign 0x1000
-    include "build/baserom/object_peehat.o"
+    include "build/assets/objects/object_peehat/object_peehat.o"
+    number 6
 endseg
 
 beginseg
@@ -3580,7 +3584,8 @@ endseg
 beginseg
     name "object_zl1"
     romalign 0x1000
-    include "build/baserom/object_zl1.o"
+    include "build/assets/objects/object_zl1/object_zl1.o"
+    number 6
 endseg
 
 beginseg
@@ -3593,7 +3598,8 @@ endseg
 beginseg
     name "object_bubble"
     romalign 0x1000
-    include "build/baserom/object_bubble.o"
+    include "build/assets/objects/object_bubble/object_bubble.o"
+    number 6
 endseg
 
 beginseg
@@ -3648,7 +3654,8 @@ endseg
 beginseg
     name "object_ei"
     romalign 0x1000
-    include "build/baserom/object_ei.o"
+    include "build/assets/objects/object_ei/object_ei.o"
+    number 6
 endseg
 
 beginseg
@@ -3675,13 +3682,15 @@ endseg
 beginseg
     name "object_spot04_objects"
     romalign 0x1000
-    include "build/baserom/object_spot04_objects.o"
+    include "build/assets/objects/object_spot04_objects/object_spot04_objects.o"
+    number 6
 endseg
 
 beginseg
     name "object_ddan_objects"
     romalign 0x1000
-    include "build/baserom/object_ddan_objects.o"
+    include "build/assets/objects/object_ddan_objects/object_ddan_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -3708,7 +3717,8 @@ endseg
 beginseg
     name "object_spot00_objects"
     romalign 0x1000
-    include "build/baserom/object_spot00_objects.o"
+    include "build/assets/objects/object_spot00_objects/object_spot00_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -3721,7 +3731,8 @@ endseg
 beginseg
     name "object_bombf"
     romalign 0x1000
-    include "build/baserom/object_bombf.o"
+    include "build/assets/objects/object_bombf/object_bombf.o"
+    number 6
 endseg
 
 beginseg
@@ -3909,7 +3920,8 @@ endseg
 beginseg
     name "object_menkuri_objects"
     romalign 0x1000
-    include "build/baserom/object_menkuri_objects.o"
+    include "build/assets/objects/object_menkuri_objects/object_menkuri_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -4027,13 +4039,15 @@ endseg
 beginseg
     name "object_toki_objects"
     romalign 0x1000
-    include "build/baserom/object_toki_objects.o"
+    include "build/assets/objects/object_toki_objects/object_toki_objects.o"
+    number 6
 endseg
 
 beginseg
     name "object_yukabyun"
     romalign 0x1000
-    include "build/baserom/object_yukabyun.o"
+    include "build/assets/objects/object_yukabyun/object_yukabyun.o"
+    number 6
 endseg
 
 beginseg
@@ -4109,7 +4123,8 @@ endseg
 beginseg
     name "object_spot06_objects"
     romalign 0x1000
-    include "build/baserom/object_spot06_objects.o"
+    include "build/assets/objects/object_spot06_objects/object_spot06_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -4122,7 +4137,8 @@ endseg
 beginseg
     name "object_relay_objects"
     romalign 0x1000
-    include "build/baserom/object_relay_objects.o"
+    include "build/assets/objects/object_relay_objects/object_relay_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -4163,7 +4179,8 @@ endseg
 beginseg
     name "object_spot08_obj"
     romalign 0x1000
-    include "build/baserom/object_spot08_obj.o"
+    include "build/assets/objects/object_spot08_obj/object_spot08_obj.o"
+    number 6
 endseg
 
 beginseg
@@ -4211,7 +4228,8 @@ endseg
 beginseg
     name "object_trap"
     romalign 0x1000
-    include "build/baserom/object_trap.o"
+    include "build/assets/objects/object_trap/object_trap.o"
+    number 6
 endseg
 
 beginseg
@@ -4252,13 +4270,15 @@ endseg
 beginseg
     name "object_vm"
     romalign 0x1000
-    include "build/baserom/object_vm.o"
+    include "build/assets/objects/object_vm/object_vm.o"
+    number 6
 endseg
 
 beginseg
     name "object_bv"
     romalign 0x1000
     include "build/baserom/object_bv.o"
+    number 6
 endseg
 
 beginseg
@@ -4334,7 +4354,8 @@ endseg
 beginseg
     name "object_bdan_objects"
     romalign 0x1000
-    include "build/baserom/object_bdan_objects.o"
+    include "build/assets/objects/object_bdan_objects/object_bdan_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -4361,7 +4382,8 @@ endseg
 beginseg
     name "object_heavy_object"
     romalign 0x1000
-    include "build/baserom/object_heavy_object.o"
+    include "build/assets/objects/object_heavy_object/object_heavy_object.o"
+    number 6
 endseg
 
 beginseg
@@ -4388,7 +4410,8 @@ endseg
 beginseg
     name "object_fw"
     romalign 0x1000
-    include "build/baserom/object_fw.o"
+    include "build/assets/objects/object_fw/object_fw.o"
+    number 6
 endseg
 
 beginseg
@@ -4408,7 +4431,8 @@ endseg
 beginseg
     name "object_haka"
     romalign 0x1000
-    include "build/baserom/object_haka.o"
+    include "build/assets/objects/object_haka/object_haka.o"
+    number 6
 endseg
 
 beginseg
@@ -4498,7 +4522,8 @@ endseg
 beginseg
     name "object_spot18_obj"
     romalign 0x1000
-    include "build/baserom/object_spot18_obj.o"
+    include "build/assets/objects/object_spot18_obj/object_spot18_obj.o"
+    number 6
 endseg
 
 beginseg
@@ -4533,6 +4558,7 @@ beginseg
     name "object_mo"
     romalign 0x1000
     include "build/baserom/object_mo.o"
+    number 6
 endseg
 
 beginseg
@@ -4650,7 +4676,8 @@ endseg
 beginseg
     name "object_os_anime"
     romalign 0x1000
-    include "build/baserom/object_os_anime.o"
+    include "build/assets/objects/object_os_anime/object_os_anime.o"
+    number 6
 endseg
 
 beginseg
@@ -4684,7 +4711,8 @@ endseg
 beginseg
     name "object_ru2"
     romalign 0x1000
-    include "build/baserom/object_ru2.o"
+    include "build/assets/objects/object_ru2/object_ru2.o"
+    number 6
 endseg
 
 beginseg
@@ -4746,13 +4774,15 @@ endseg
 beginseg
     name "object_tw"
     romalign 0x1000
-    include "build/baserom/object_tw.o"
+    include "build/assets/objects/object_tw/object_tw.o"
+    number 6
 endseg
 
 beginseg
     name "object_rr"
     romalign 0x1000
-    include "build/baserom/object_rr.o"
+    include "build/assets/objects/object_rr/object_rr.o"
+    number 6
 endseg
 
 beginseg
@@ -4905,7 +4935,8 @@ endseg
 beginseg
     name "object_ani"
     romalign 0x1000
-    include "build/baserom/object_ani.o"
+    include "build/assets/objects/object_ani/object_ani.o"
+    number 6
 endseg
 
 beginseg
@@ -4932,7 +4963,8 @@ endseg
 beginseg
     name "object_spot15_obj"
     romalign 0x1000
-    include "build/baserom/object_spot15_obj.o"
+    include "build/assets/objects/object_spot15_obj/object_spot15_obj.o"
+    number 6
 endseg
 
 beginseg
@@ -4994,13 +5026,15 @@ endseg
 beginseg
     name "object_spot01_objects"
     romalign 0x1000
-    include "build/baserom/object_spot01_objects.o"
+    include "build/assets/objects/object_spot01_objects/object_spot01_objects.o"
+    number 6
 endseg
 
 beginseg
     name "object_md"
     romalign 0x1000
-    include "build/baserom/object_md.o"
+    include "build/assets/objects/object_md/object_md.o"
+    number 6
 endseg
 
 beginseg
@@ -5029,13 +5063,15 @@ endseg
 beginseg
     name "object_kz"
     romalign 0x1000
-    include "build/baserom/object_kz.o"
+    include "build/assets/objects/object_kz/object_kz.o"
+    number 6
 endseg
 
 beginseg
     name "object_umajump"
     romalign 0x1000
-    include "build/baserom/object_umajump.o"
+    include "build/assets/objects/object_umajump/object_umajump.o"
+    number 6
 endseg
 
 beginseg
@@ -5048,31 +5084,36 @@ endseg
 beginseg
     name "object_masterkokirihead"
     romalign 0x1000
-    include "build/baserom/object_masterkokirihead.o"
+    include "build/assets/objects/object_masterkokirihead/object_masterkokirihead.o"
+    number 6
 endseg
 
 beginseg
     name "object_mastergolon"
     romalign 0x1000
-    include "build/baserom/object_mastergolon.o"
+    include "build/assets/objects/object_mastergolon/object_mastergolon.o"
+    number 6
 endseg
 
 beginseg
     name "object_masterzoora"
     romalign 0x1000
-    include "build/baserom/object_masterzoora.o"
+    include "build/assets/objects/object_masterzoora/object_masterzoora.o"
+    number 6
 endseg
 
 beginseg
     name "object_aob"
     romalign 0x1000
-    include "build/baserom/object_aob.o"
+    include "build/assets/objects/object_aob/object_aob.o"
+    number 6
 endseg
 
 beginseg
     name "object_ik"
     romalign 0x1000
-    include "build/baserom/object_ik.o"
+    include "build/assets/objects/object_ik/object_ik.o"
+    number 6
 endseg
 
 beginseg
@@ -5134,13 +5175,15 @@ endseg
 beginseg
     name "object_ds"
     romalign 0x1000
-    include "build/baserom/object_ds.o"
+    include "build/assets/objects/object_ds/object_ds.o"
+    number 6
 endseg
 
 beginseg
     name "object_ane"
     romalign 0x1000
-    include "build/baserom/object_ane.o"
+    include "build/assets/objects/object_ane/object_ane.o"
+    number 6
 endseg
 
 beginseg
@@ -5167,7 +5210,8 @@ endseg
 beginseg
     name "object_fz"
     romalign 0x1000
-    include "build/baserom/object_fz.o"
+    include "build/assets/objects/object_fz/object_fz.o"
+    number 6
 endseg
 
 beginseg
@@ -5222,25 +5266,29 @@ endseg
 beginseg
     name "object_d_hsblock"
     romalign 0x1000
-    include "build/baserom/object_d_hsblock.o"
+    include "build/assets/objects/object_d_hsblock/object_d_hsblock.o"
+    number 6
 endseg
 
 beginseg
     name "object_d_lift"
     romalign 0x1000
-    include "build/baserom/object_d_lift.o"
+    include "build/assets/objects/object_d_lift/object_d_lift.o"
+    number 6
 endseg
 
 beginseg
     name "object_mamenoki"
     romalign 0x1000
-    include "build/baserom/object_mamenoki.o"
+    include "build/assets/objects/object_mamenoki/object_mamenoki.o"
+    number 6
 endseg
 
 beginseg
     name "object_goroiwa"
     romalign 0x1000
-    include "build/baserom/object_goroiwa.o"
+    include "build/assets/objects/object_goroiwa/object_goroiwa.o"
+    number 6
 endseg
 
 beginseg
@@ -5260,7 +5308,8 @@ endseg
 beginseg
     name "object_nwc"
     romalign 0x1000
-    include "build/baserom/object_nwc.o"
+    include "build/assets/objects/object_nwc/object_nwc.o"
+    number 6
 endseg
 
 beginseg
@@ -5280,7 +5329,8 @@ endseg
 beginseg
     name "object_ms"
     romalign 0x1000
-    include "build/baserom/object_ms.o"
+    include "build/assets/objects/object_ms/object_ms.o"
+    number 6
 endseg
 
 beginseg
@@ -5293,7 +5343,8 @@ endseg
 beginseg
     name "object_ingate"
     romalign 0x1000
-    include "build/baserom/object_ingate.o"
+    include "build/assets/objects/object_ingate/object_ingate.o"
+    number 6
 endseg
 
 beginseg
@@ -5341,13 +5392,15 @@ endseg
 beginseg
     name "object_gjyo_objects"
     romalign 0x1000
-    include "build/baserom/object_gjyo_objects.o"
+    include "build/assets/objects/object_gjyo_objects/object_gjyo_objects.o"
+    number 6
 endseg
 
 beginseg
     name "object_owl"
     romalign 0x1000
-    include "build/baserom/object_owl.o"
+    include "build/assets/objects/object_owl/object_owl.o"
+    number 6
 endseg
 
 beginseg
@@ -5479,7 +5532,8 @@ endseg
 beginseg
     name "object_js"
     romalign 0x1000
-    include "build/baserom/object_js.o"
+    include "build/assets/objects/object_js/object_js.o"
+    number 6
 endseg
 
 beginseg
@@ -5520,19 +5574,22 @@ endseg
 beginseg
     name "object_mag"
     romalign 0x1000
-    include "build/baserom/object_mag.o"
+    include "build/assets/objects/object_mag/object_mag.o"
+    number 6
 endseg
 
 beginseg
     name "object_door_gerudo"
     romalign 0x1000
-    include "build/baserom/object_door_gerudo.o"
+    include "build/assets/objects/object_door_gerudo/object_door_gerudo.o"
+    number 6
 endseg
 
 beginseg
     name "object_gt"
     romalign 0x1000
-    include "build/baserom/object_gt.o"
+    include "build/assets/objects/object_gt/object_gt.o"
+    number 6
 endseg
 
 beginseg
@@ -5601,7 +5658,8 @@ endseg
 beginseg
     name "object_zg"
     romalign 0x1000
-    include "build/baserom/object_zg.o"
+    include "build/assets/objects/object_zg/object_zg.o"
+    number 6
 endseg
 
 beginseg
@@ -5684,7 +5742,8 @@ endseg
 beginseg
     name "object_spot12_obj"
     romalign 0x1000
-    include "build/baserom/object_spot12_obj.o"
+    include "build/assets/objects/object_spot12_obj/object_spot12_obj.o"
+    number 6
 endseg
 
 beginseg
@@ -5711,7 +5770,8 @@ endseg
 beginseg
     name "object_spot00_break"
     romalign 0x1000
-    include "build/baserom/object_spot00_break.o"
+    include "build/assets/objects/object_spot00_break/object_spot00_break.o"
+    number 6
 endseg
 
 beginseg
@@ -5724,7 +5784,8 @@ endseg
 beginseg
     name "object_shopnuts"
     romalign 0x1000
-    include "build/baserom/object_shopnuts.o"
+    include "build/assets/objects/object_shopnuts/object_shopnuts.o"
+    number 6
 endseg
 
 beginseg
@@ -5744,7 +5805,8 @@ endseg
 beginseg
     name "object_dog"
     romalign 0x1000
-    include "build/baserom/object_dog.o"
+    include "build/assets/objects/object_dog/object_dog.o"
+    number 6
 endseg
 
 beginseg
@@ -5764,7 +5826,8 @@ endseg
 beginseg
     name "object_spot01_objects2"
     romalign 0x1000
-    include "build/baserom/object_spot01_objects2.o"
+    include "build/assets/objects/object_spot01_objects2/object_spot01_objects2.o"
+    number 6
 endseg
 
 beginseg
@@ -5777,7 +5840,8 @@ endseg
 beginseg
     name "object_kibako2"
     romalign 0x1000
-    include "build/baserom/object_kibako2.o"
+    include "build/assets/objects/object_kibako2/object_kibako2.o"
+    number 6
 endseg
 
 beginseg
@@ -5832,7 +5896,8 @@ endseg
 beginseg
     name "object_bowl"
     romalign 0x1000
-    include "build/baserom/object_bowl.o"
+    include "build/assets/objects/object_bowl/object_bowl.o"
+    number 6
 endseg
 
 beginseg
@@ -5852,7 +5917,8 @@ endseg
 beginseg
     name "object_efc_doughnut"
     romalign 0x1000
-    include "build/baserom/object_efc_doughnut.o"
+    include "build/assets/objects/object_efc_doughnut/object_efc_doughnut.o"
+    number 6
 endseg
 
 beginseg
@@ -5893,13 +5959,15 @@ endseg
 beginseg
     name "object_spot01_matoya"
     romalign 0x1000
-    include "build/baserom/object_spot01_matoya.o"
+    include "build/assets/objects/object_spot01_matoya/object_spot01_matoya.o"
+    number 6
 endseg
 
 beginseg
     name "object_spot01_matoyab"
     romalign 0x1000
-    include "build/baserom/object_spot01_matoyab.o"
+    include "build/assets/objects/object_spot01_matoyab/object_spot01_matoyab.o"
+    number 6
 endseg
 
 beginseg
@@ -5940,7 +6008,8 @@ endseg
 beginseg
     name "object_geff"
     romalign 0x1000
-    include "build/baserom/object_geff.o"
+    include "build/assets/objects/object_geff/object_geff.o"
+    number 6
 endseg
 
 beginseg
@@ -5953,7 +6022,8 @@ endseg
 beginseg
     name "object_gs"
     romalign 0x1000
-    include "build/baserom/object_gs.o"
+    include "build/assets/objects/object_gs/object_gs.o"
+    number 6
 endseg
 
 beginseg
@@ -5980,7 +6050,8 @@ endseg
 beginseg
     name "object_cow"
     romalign 0x1000
-    include "build/baserom/object_cow.o"
+    include "build/assets/objects/object_cow/object_cow.o"
+    number 6
 endseg
 
 beginseg
@@ -6014,7 +6085,8 @@ endseg
 beginseg
     name "object_timeblock"
     romalign 0x1000
-    include "build/baserom/object_timeblock.o"
+    include "build/assets/objects/object_timeblock/object_timeblock.o"
+    number 6
 endseg
 
 beginseg
