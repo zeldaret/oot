@@ -45,13 +45,15 @@ class InstrumentSet:
                 self.instruments.append(instrument)
 
         if self.effectCount > 0:
+            #usedSetData.append((self, self.offset + effectsOffset, self.offset + effectsOffset + (self.effectCount * 8)))
             for i in range(self.effectCount):
                 buffer = effectsTable[i * 8:(i * 8) + 8]
                 offset = struct.unpack(">L", buffer[0:4])[0]
-                effect = None if offset == 0 else SoundEffect(self.bank, buffer, setCtl, self.offset, offset)
+                effect = None if offset == 0 else SoundEffect(self.bank, buffer, setCtl, self.offset, effectsOffset + (i * 8))
                 self.effects.append(effect)
         
         if self.percussionCount > 0:
+            usedSetData.append((self, self.offset + percussionOffset, self.offset + percussionOffset + (self.percussionCount * 4)))
             percussionsOffsets = struct.unpack(">" + str(self.percussionCount) + "L", percussionTable[:self.percussionCount * 4])
             for i in range(self.percussionCount):
                 offset = percussionsOffsets[i]
@@ -69,22 +71,61 @@ class Percussion:
         self.unk, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">LLfL", record)
         usedSetData.append((self, baseOffset + offset, baseOffset + offset + 16))
         self.sample = SampleHeader(bank, tbl[self.headerOffset:self.headerOffset + 16], tbl, baseOffset, self.headerOffset)
-        self.envelope = Envelope(tbl[self.envelopeOffset:self.envelopeOffset + 16])
-        usedSetData.append((self.envelope, baseOffset + self.envelopeOffset, baseOffset + self.envelopeOffset + 16))
+        self.envelope = Envelope(tbl, baseOffset, self.envelopeOffset)
 
 class Instrument:
     def __init__(self, bank, record, tbl, baseOffset, offset):
         self.keyLow, self.keyMedium, self.keyHigh, self.decay, self.envelopeOffset, self.keyLowOffset, self.keyLowPitch, self.keyMedOffset, self.keyMedPitch, self.keyHighOffset, self.keyHighPitch = struct.unpack(">BBBbLLfLfLf", record)
         usedSetData.append((self, baseOffset + offset, baseOffset + offset + 32))
-        self.envelope = Envelope(tbl[self.envelopeOffset:self.envelopeOffset + 16])
-        usedSetData.append((self.envelope, baseOffset + self.envelopeOffset, baseOffset + self.envelopeOffset + 16))
+        self.envelope = Envelope(tbl, baseOffset, self.envelopeOffset)
         self.keyLowSample = None if self.keyLowOffset == 0 else SampleHeader(bank, tbl[self.keyLowOffset:self.keyLowOffset + 16], tbl, baseOffset, self.keyLowOffset)
         self.keyMedSample = None if self.keyMedOffset == 0 else SampleHeader(bank, tbl[self.keyMedOffset:self.keyMedOffset + 16], tbl, baseOffset, self.keyMedOffset)
         self.keyHighSample = None if self.keyHighOffset == 0 else SampleHeader(bank, tbl[self.keyHighOffset:self.keyHighOffset + 16], tbl, baseOffset, self.keyHighOffset)
 
 class Envelope:
-    def __init__(self, record):
-        self.attackRate, self.attackLevel, self.sustainRate, self.sustainLevel, self.decayRate, self.decayLevel, self.releaseRate, self.releaseLevel = struct.unpack(">hHhHhHhH", record)
+    def __init__(self, tbl, baseOffset, offset):
+        advanceOffset = 0
+        self.script = []
+        self.referencedScripts = []
+        while True:
+            cmd, value = struct.unpack(">hH", tbl[offset + advanceOffset:offset + advanceOffset + 4])
+            possibleFloat = struct.unpack(">f", tbl[offset + advanceOffset:offset + advanceOffset + 4])[0]
+            if cmd == 0 and value != 0:
+                break
+            elif cmd == -1 and value != 0:
+                break
+            elif cmd == -2:
+                if value == 0:
+                    break
+                else:
+                    try:
+                        self.referencedScripts.append(Envelope(tbl, baseOffset, value))
+                        self.script.append(("ADSR_GOTO", value))
+                    except:
+                        break
+            elif cmd == -3 and value != 0:
+                break
+            elif cmd > 0 and value > 32767:
+                break
+            elif -100000 > possibleFloat and possibleFloat < 100000:
+                break
+            else:
+                cmd = {
+                    0: "ADSR_DISABLE",
+                    -1: "ADSR_HANG",
+                    -2: "ADSR_GOTO",
+                    -3: "ADSR_RESTART"
+                }.get(cmd, cmd)
+                self.script.append((cmd, value))
+                if isinstance(cmd, str):
+                    break
+    
+            advanceOffset += 4
+
+        if len(self.script) == 0:
+            raise Exception("Not a valid envelope script")
+
+        usedSetData.append((self, baseOffset + offset, baseOffset + offset + advanceOffset + 4))
 
 class SampleHeader:
     def __init__(self, bank, record, tbl, baseOffset, offset):
@@ -97,8 +138,7 @@ class SampleHeader:
         
         self.loop = None
         if self.loopOffset != 0:
-            self.loop = PCMLoop(tbl[self.loopOffset:self.loopOffset + 44])
-            usedSetData.append((self.loop, baseOffset + self.loopOffset, baseOffset + self.loopOffset + 44))
+            self.loop = PCMLoop(tbl[self.loopOffset:self.loopOffset + 48], baseOffset, self.loopOffset)
         
         self.book = None
         if self.bookOffset != 0:
@@ -106,16 +146,21 @@ class SampleHeader:
         rawSamples.append(self)
 
 class PCMLoop:
-    def __init__(self, record):
-        self.start, self.end, self.count = struct.unpack(">LLl", record[0:12])
-        self.state = struct.unpack(">16h", record[12:])
+    def __init__(self, record, baseOffset, offset):
+        self.start, self.end, self.count, unused = struct.unpack(">LLll", record[0:16])
+        endOffset = offset + 16
+        assert unused == 0
+        if self.count != 0:
+            self.state = struct.unpack(">16h", record[16:])
+            endOffset += 32
+        usedSetData.append((self, baseOffset + offset, baseOffset + endOffset))
 
 class PCMBook:
     def __init__(self, record, remainder, baseOffset, offset):
         self.order, self.predictorCount = struct.unpack(">LL", record)
         self.predictors = []
         predictorSize = self.order * 8
-        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 8 + predictorSize))
+        usedSetData.append((self, baseOffset + offset, baseOffset + offset + 8 + (predictorSize * self.predictorCount * 2)))
         for i in range(self.predictorCount):
             self.predictors.append(struct.unpack(">" + str(predictorSize) + "h", remainder[i * predictorSize * 2:(i * predictorSize * 2) + (predictorSize * 2)]))
 
@@ -159,8 +204,8 @@ def parse_setfile(setdef_data, set_data, raw_indexes):
     sets = []
     for i in range(count):
         buffer = setdef_data[16 + (i * 16):32 + (i * 16)]
-        if i != 37:
-            sets.append(InstrumentSet(buffer, set_data))
+        #if i != 37:
+        sets.append(InstrumentSet(buffer, set_data))
     return sets
 
 def align(val, al):
@@ -331,7 +376,7 @@ def write_aifc(data, entry, out):
     writer.finish()
 
 
-def write_aiff(raw, offset, entry, filename):
+def write_aiff(raw, offset, entry, basedir, filename):
     temp = tempfile.NamedTemporaryFile(suffix=".aifc", delete=False)
     #temp = open("tempfile.aifc", "wb")
     try:
@@ -344,12 +389,14 @@ def write_aiff(raw, offset, entry, filename):
         common_dir = os.getcwd()
         rel_aifc_decode = "./" + os.path.relpath(aifc_decode, common_dir).replace("\\", "/")
         rel_temp_file = os.path.relpath(temp.name, common_dir).replace("\\", "/")
-        rel_aiff_file = os.path.relpath(filename, common_dir).replace("\\", "/")
+        rel_aiff_file = os.path.join(os.path.relpath(basedir, common_dir).replace("\\", "/"), str(entry.bank), filename)
+        os.makedirs(os.path.join(basedir, str(entry.bank)), exist_ok=True)
         subprocess.run(["bash", "-c", "{0} {1} {2}".format(rel_aifc_decode, rel_temp_file, rel_aiff_file)], check=True)
     except subprocess.CalledProcessError:
-        os.makedirs(os.path.join("samples", "bad", str(entry.bank)), exist_ok=True)
+        targetfile = os.path.join(basedir, "bad", str(entry.bank), f"{os.path.splitext(filename)[0]}.aifc")
+        os.makedirs(os.path.dirname(targetfile), exist_ok=True)
         os.remove(rel_aiff_file)
-        shutil.copy2(temp.name, "samples/bad/{0}/{1}.aifc".format(entry.bank, os.path.basename(filename)))
+        shutil.copy2(temp.name, targetfile)
     finally:
         os.remove(temp.name)
 
@@ -426,24 +473,10 @@ def generate_instrument_obj(instrument, samples, envelopes):
     }
 
 def generate_envelope_obj(envelope):
-    return {
-        "attack": {
-            "rate": envelope.attackRate,
-            "level": envelope.attackLevel
-        },
-        "sustain": {
-            "rate": envelope.sustainRate,
-            "level": envelope.sustainLevel
-        },
-        "decay": {
-            "rate": envelope.decayRate,
-            "level": envelope.decayLevel
-        },
-        "release": {
-            "rate": envelope.releaseRate,
-            "level": envelope.releaseLevel
-        }
-    }
+    return [{
+        "delay": x[0],
+        "arg": x[1]
+    } for x in envelope.script]
 
 def generate_sample_obj(sample, books, loops):
     books[sample.bookOffset] = sample.book
@@ -464,12 +497,16 @@ def generate_pcm_book_obj(book):
     }
 
 def generate_pcm_loop_obj(loop):
-    return {
+    loop_data = {
         "start": loop.start,
         "end": loop.end,
-        "count": loop.count,
-        "state": loop.state
+        "count": loop.count
     }
+
+    if loop.count != 0:
+        loop_data["state"] = loop.state
+
+    return loop_data
 
 def write_instrument_set(_set, filename):
     samples = {}
@@ -494,7 +531,8 @@ def write_instrument_set(_set, filename):
     file.flush()
     file.close()
 
-def report_gaps(report_type, data, length):
+def report_gaps(report_type, data, bin):
+    length = len(bin)
     sorted_data = sorted(data, key = lambda tup: (tup[1], tup[2]))
     gaps = []
     intersections = []
@@ -502,7 +540,9 @@ def report_gaps(report_type, data, length):
     currentEnd = 0
     for tup in sorted_data:
         if tup[1] > currentEnd:
-            gaps.append((currentEnd, tup[1]))
+            # Don't report a gap of all 0 bytes, since those are generally just alignment padding
+            if any(v != 0 for v in struct.unpack(f">{tup[1] - currentEnd}b", bin[currentEnd:tup[1]])):
+                gaps.append((currentEnd, tup[1]))
         elif tup[1] < currentEnd and (lastTuple[1] != tup[1] or lastTuple[2] != tup[2]):
             intersections.append((lastTuple, tup))
         lastTuple = tup
@@ -574,20 +614,19 @@ def main():
     bank_defs = parse_raw_def_data(rawdef_data)
     sets = parse_setfile(setdef_data, set_data, bank_defs)
 
-    report_gaps("SET", usedSetData, len(set_data))
+    report_gaps("SET", usedSetData, set_data)
 
     bank_ctr = defaultdict(int)
 
     # Export AIFF samples
     for header in rawSamples:
         bank_ctr[header.bank] += 1
-        dir = os.path.join(samples_out_dir, str(header.bank))
-        os.makedirs(dir, exist_ok=True)
-        filename = os.path.join(dir, "{0:0>8x}.aiff".format(header.address))
+        os.makedirs(samples_out_dir, exist_ok=True)
+        filename = f"{header.address:0>8x}-{header.length:0>8x}.aiff"
         # if not os.path.exists(filename) or os.path.getsize(filename) == 0:
-        write_aiff(raw_data, bank_defs[header.bank] + header.address, header, filename)
+        write_aiff(raw_data, bank_defs[header.bank] + header.address, header, samples_out_dir, filename)
     
-    report_gaps("SAMPLE", usedRawData, len(raw_data))
+    report_gaps("SAMPLE", usedRawData, raw_data)
 
     # Export sequences
     sequences = parse_seq_def_data(seqdef_data, setmap_data, seq_data)
