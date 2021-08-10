@@ -71,17 +71,14 @@ Vec3f D_80B16E7C = {
     0.0f,
 };
 
-UNK_TYPE D_80B16E88[] = {
-    0x06007F80,
-    0x06006EC0,
-    0x060072C0,
+void* eyeTextures[] = {
+    gTalonEyeOpenTex,
+    gTalonEyeHalfTex,
+    gTalonEyeClosedTex,
 };
 
-extern UNK_TYPE D_06006DC0;
-extern FlexSkeletonHeader D_0600B7B8;
-
 void func_80B13AA0(EnTa* this, EnTaActionFunc arg1, EnTaUnkFunc arg2) {
-    this->unk_25C = arg1;
+    this->actionFunc = arg1;
     this->unk_260 = arg2;
 }
 
@@ -146,12 +143,12 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                 func_80B13AA0(this, func_80B14CAC, func_80B167C0);
                 this->unk_2B4 = 0;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
-                this->unk_2E4 = &gTalonStandAnim;
+                this->currentAnimation = &gTalonStandAnim;
             } else {
                 func_80B13AA0(this, func_80B14754, func_80B167FC);
                 this->unk_2B4 = 2;
                 Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
-                this->unk_2E4 = &gTalonSleepAnim;
+                this->currentAnimation = &gTalonSleepAnim;
                 this->actor.shape.shadowScale = 54.0f;
             }
             break;
@@ -168,7 +165,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                 func_80B13AA0(this, func_80B14D98, func_80B167C0);
                 this->unk_2B4 = 0;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
-                this->unk_2E4 = &gTalonStandAnim;
+                this->currentAnimation = &gTalonStandAnim;
             }
             break;
         default:
@@ -180,12 +177,12 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                     func_80B13AA0(this, func_80B14C18, func_80B167C0);
                     this->unk_2B4 = 0;
                     Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
-                    this->unk_2E4 = &gTalonStandAnim;
+                    this->currentAnimation = &gTalonStandAnim;
                 } else {
                     func_80B13AA0(this, func_80B14634, func_80B167FC);
                     this->unk_2B4 = 2;
                     Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
-                    this->unk_2E4 = &gTalonSleepAnim;
+                    this->currentAnimation = &gTalonSleepAnim;
                     this->actor.shape.shadowScale = 54.0f;
                 }
             } else if (globalCtx2->sceneNum == SCENE_SOUKO) {
@@ -198,13 +195,13 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                     if (gSaveContext.nightFlag == 0) {
                         this->actor.flags |= 0x10;
                         this->unk_2C4[0] = this->unk_2C4[1] = this->unk_2C4[2] = 7;
-                        this->unk_2B8[0] = (EnNiw*)Actor_Spawn(
+                        this->superCuccos[0] = (EnNiw*)Actor_Spawn(
                             &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
                             this->actor.world.pos.y + 3.0f, this->actor.world.pos.z + 26.0f, 0, 0, 0, 0xD);
-                        this->unk_2B8[1] = (EnNiw*)Actor_Spawn(
+                        this->superCuccos[1] = (EnNiw*)Actor_Spawn(
                             &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x - 20.0f,
                             this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
-                        this->unk_2B8[2] = (EnNiw*)Actor_Spawn(
+                        this->superCuccos[2] = (EnNiw*)Actor_Spawn(
                             &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x + 20.0f,
                             this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
                         func_80B13AAC(this, globalCtx2);
@@ -219,13 +216,13 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                             func_80B13AA0(this, func_80B16504, func_80B16854);
                             this->unk_2B4 = 0;
                             Animation_PlayOnce(&this->skelAnime, &gTalonSitSleepingAnim);
-                            this->unk_2E4 = &gTalonSitSleepingAnim;
+                            this->currentAnimation = &gTalonSitSleepingAnim;
                         }
                     } else {
                         func_80B13AA0(this, func_80B146F8, func_80B167FC);
                         this->unk_2B4 = 2;
                         Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
-                        this->unk_2E4 = &gTalonSleepAnim;
+                        this->currentAnimation = &gTalonSleepAnim;
                         this->actor.shape.shadowScale = 54.0f;
                     }
                 }
@@ -233,7 +230,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                 func_80B13AA0(this, func_80B14634, func_80B167FC);
                 this->unk_2B4 = 2;
                 Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
-                this->unk_2E4 = &gTalonSleepAnim;
+                this->currentAnimation = &gTalonSleepAnim;
                 this->actor.shape.shadowScale = 54.0f;
             }
             break;
@@ -327,7 +324,7 @@ void func_80B14570(EnTa* this, GlobalContext* globalCtx) {
         this->unk_2CE = 3;
         this->unk_2CC = 60;
         Animation_PlayOnce(&this->skelAnime, &gTalonWakeUpAnim);
-        this->unk_2E4 = &gTalonStandAnim;
+        this->currentAnimation = &gTalonStandAnim;
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SURPRISE);
     }
 }
@@ -479,7 +476,7 @@ void func_80B14B6C(EnTa* this, GlobalContext* globalCtx) {
         this->unk_2CC = 5;
         gSaveContext.eventChkInf[1] |= 0x10;
         Animation_PlayOnce(&this->skelAnime, &gTalonRunTransitionAnim);
-        this->unk_2E4 = &gTalonRunAnim;
+        this->currentAnimation = &gTalonRunAnim;
     }
     this->unk_2E0 |= 1;
 }
@@ -564,7 +561,7 @@ void func_80B14F20(EnTa* this, EnTaActionFunc arg1) {
     Animation_Change(&this->skelAnime, &gTalonSitSleepingAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gTalonSitSleepingAnim), ANIMMODE_ONCE,
                      -5.0f);
     this->unk_2E2 = 0;
-    this->unk_2E4 = &gTalonSitSleepingAnim;
+    this->currentAnimation = &gTalonSitSleepingAnim;
 }
 
 void func_80B14FAC(EnTa* this, EnTaActionFunc arg1) {
@@ -591,7 +588,7 @@ s32 func_80B150AC(EnTa* this, GlobalContext* globalCtx, s32 idx) {
     if (player->stateFlags1 & 0x800) {
         interactRangeActor = player->interactRangeActor;
         if (interactRangeActor != NULL && interactRangeActor->id == ACTOR_EN_NIW &&
-            interactRangeActor == &this->unk_2B8[idx]->actor) {
+            interactRangeActor == &this->superCuccos[idx]->actor) {
             return true;
         }
     }
@@ -609,27 +606,27 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
         this->unk_2E0 &= ~0x10;
         func_80106CCC(globalCtx);
         unk_2CA = this->unk_2CA;
-        this->unk_25C = func_80B154FC;
-        this->unk_2B8[unk_2CA]->actor.gravity = 0.1f;
-        this->unk_2B8[unk_2CA]->actor.velocity.y = 0.0f;
-        this->unk_2B8[unk_2CA]->actor.speedXZ = 0.0f;
-        this->unk_2B8[unk_2CA]->actor.parent = NULL;
+        this->actionFunc = func_80B154FC;
+        this->superCuccos[unk_2CA]->actor.gravity = 0.1f;
+        this->superCuccos[unk_2CA]->actor.velocity.y = 0.0f;
+        this->superCuccos[unk_2CA]->actor.speedXZ = 0.0f;
+        this->superCuccos[unk_2CA]->actor.parent = NULL;
 
-        if (player->interactRangeActor == &this->unk_2B8[unk_2CA]->actor) {
+        if (player->interactRangeActor == &this->superCuccos[unk_2CA]->actor) {
             player->interactRangeActor = NULL;
         }
-        if (player->heldActor == &this->unk_2B8[unk_2CA]->actor) {
+        if (player->heldActor == &this->superCuccos[unk_2CA]->actor) {
             player->heldActor = NULL;
         }
         player->stateFlags1 &= ~0x800;
-        this->unk_2B8[unk_2CA] = NULL;
+        this->superCuccos[unk_2CA] = NULL;
     }
     this->unk_2E0 |= 1;
 }
 
 void func_80B15260(EnTa* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
-        this->unk_25C = func_80B15100;
+        this->actionFunc = func_80B15100;
         this->actor.flags &= ~0x10000;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
@@ -641,8 +638,8 @@ s32 func_80B152D0(EnTa* this, GlobalContext* globalCtx) {
     s32 ct;
     s32 i;
 
-    for (ct = 0, i = 0; i < ARRAY_COUNT(this->unk_2B8); i++) {
-        if (this->unk_2B8[i] != NULL) {
+    for (ct = 0, i = 0; i < ARRAY_COUNT(this->superCuccos); i++) {
+        if (this->superCuccos[i] != NULL) {
             ct++;
         }
     }
@@ -689,7 +686,7 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
 
         globalCtx->sceneLoadFlag = 0x14;
         gSaveContext.eventInf[0] |= 0x400;
-        this->unk_25C = func_80B153D4;
+        this->actionFunc = func_80B153D4;
         this->unk_2CC = 22;
     }
 }
@@ -697,10 +694,10 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
 void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->unk_2B8); i++) {
-        if (this->unk_2B8[i] != NULL) {
-            if (this->unk_2B8[i]->actor.gravity > -2.0f) {
-                this->unk_2B8[i]->actor.gravity -= 0.03f;
+    for (i = 0; i < ARRAY_COUNT(this->superCuccos); i++) {
+        if (this->superCuccos[i] != NULL) {
+            if (this->superCuccos[i]->actor.gravity > -2.0f) {
+                this->superCuccos[i]->actor.gravity -= 0.03f;
             }
 
             if (func_80B150AC(this, globalCtx, i)) {
@@ -716,7 +713,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             gSaveContext.timer1State = 0;
                             func_8002DF54(globalCtx, &this->actor, 1);
                             func_8010B680(globalCtx, 0x2084, &this->actor);
-                            this->unk_25C = func_80B15424;
+                            this->actionFunc = func_80B15424;
                             Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE, -10.0f);
                             this->unk_2E0 &= ~0x10;
                             this->unk_2E0 &= ~0x100;
@@ -734,7 +731,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SURPRISE);
                             break;
                     }
-                    this->unk_25C = func_80B15260;
+                    this->actionFunc = func_80B15260;
                     this->actor.flags |= 0x10000;
                     func_8002F2CC(&this->actor, globalCtx, 1000.0f);
                     return;
@@ -756,7 +753,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
         gSaveContext.timer1State = 0;
         func_8002DF54(globalCtx, &this->actor, 1);
         func_8010B680(globalCtx, 0x2081, &this->actor);
-        this->unk_25C = func_80B15424;
+        this->actionFunc = func_80B15424;
         func_80B14E28(this, globalCtx);
         gSaveContext.eventInf[0] &= ~0x100;
         this->unk_2E0 |= 0x80;
@@ -772,28 +769,28 @@ void func_80B1585C(EnTa* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->unk_2CC > 35) {
-        for (i = 1; i < ARRAY_COUNT(this->unk_2B8); i++) {
-            if (this->unk_2B8[i] != NULL) {
-                Math_SmoothStepToS(&this->unk_2B8[i]->actor.world.rot.y, i * -10000 - 3000, 2, 0x800, 0x100);
-                this->unk_2B8[i]->actor.shape.rot.y = this->unk_2B8[i]->actor.world.rot.y;
+        for (i = 1; i < ARRAY_COUNT(this->superCuccos); i++) {
+            if (this->superCuccos[i] != NULL) {
+                Math_SmoothStepToS(&this->superCuccos[i]->actor.world.rot.y, i * -10000 - 3000, 2, 0x800, 0x100);
+                this->superCuccos[i]->actor.shape.rot.y = this->superCuccos[i]->actor.world.rot.y;
             }
         }
     } else if (this->unk_2CC == 35) {
-        for (i = 0; i < ARRAY_COUNT(this->unk_2B8); i++) {
+        for (i = 0; i < ARRAY_COUNT(this->superCuccos); i++) {
             this->unk_2C4[i] = (s32)(Rand_CenteredFloat(6.0f) + 10.0f);
 
-            if (this->unk_2B8[i] != NULL) {
-                EnNiw* niw = this->unk_2B8[i];
+            if (this->superCuccos[i] != NULL) {
+                EnNiw* niw = this->superCuccos[i];
                 niw->unk_308 = 1;
                 niw->actor.gravity = 0.0f;
             }
         }
     } else {
-        for (i = 0; i < ARRAY_COUNT(this->unk_2B8); i++) {
+        for (i = 0; i < ARRAY_COUNT(this->superCuccos); i++) {
             if (this->unk_2CC < 35 - this->unk_2C4[i]) {
-                if (this->unk_2B8[i] != NULL) {
-                    if (this->unk_2B8[i]->actor.gravity > -2.0f) {
-                        this->unk_2B8[i]->actor.gravity -= 0.03f;
+                if (this->superCuccos[i] != NULL) {
+                    if (this->superCuccos[i]->actor.gravity > -2.0f) {
+                        this->superCuccos[i]->actor.gravity -= 0.03f;
                     }
                 }
             }
@@ -874,7 +871,7 @@ void func_80B15E28(EnTa* this, GlobalContext* globalCtx) {
 void func_80B15E80(EnTa* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
-        this->unk_25C = func_80B15E28;
+        this->actionFunc = func_80B15E28;
         if (!(this->unk_2E0 & 0x2)) {
             gSaveContext.itemGetInf[0] |= 4;
         }
@@ -1048,13 +1045,13 @@ void func_80B16608(EnTa* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         switch (this->actor.textId) {
             case 0x2085:
-                this->unk_25C = func_80B161C0;
+                this->actionFunc = func_80B161C0;
                 break;
             case 0x2086:
-                this->unk_25C = func_80B162E8;
+                this->actionFunc = func_80B162E8;
                 break;
             case 0x2088:
-                this->unk_25C = func_80B1642C;
+                this->actionFunc = func_80B1642C;
                 break;
         }
         this->actor.flags &= ~0x10000;
@@ -1103,13 +1100,13 @@ void func_80B16700(EnTa* this) {
 
 void func_80B167C0(EnTa* this) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        Animation_PlayOnce(&this->skelAnime, this->unk_2E4);
+        Animation_PlayOnce(&this->skelAnime, this->currentAnimation);
     }
 }
 
 void func_80B167FC(EnTa* this) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        Animation_PlayOnce(&this->skelAnime, this->unk_2E4);
+        Animation_PlayOnce(&this->skelAnime, this->currentAnimation);
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_SLEEP);
     }
     this->unk_2E0 |= 0xC;
@@ -1120,7 +1117,7 @@ void func_80B16854(EnTa* this) {
         this->unk_2E2--;
     } else {
         if (SkelAnime_Update(&this->skelAnime)) {
-            Animation_PlayOnce(&this->skelAnime, this->unk_2E4);
+            Animation_PlayOnce(&this->skelAnime, this->currentAnimation);
             this->unk_2E2 = Rand_ZeroFloat(100.0f) + 100.0f;
         }
 
@@ -1152,7 +1149,7 @@ void EnTa_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->unk_260(this);
-    this->unk_25C(this, globalCtx);
+    this->actionFunc(this, globalCtx);
 
     if (!(this->unk_2E0 & 4)) {
         this->unk_2B0(this);
@@ -1215,8 +1212,8 @@ void EnTa_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800943C8(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(D_80B16E88[this->unk_2B4]));
-    gSPSegment(POLY_OPA_DISP++, 0x9, SEGMENTED_TO_VIRTUAL(&D_06006DC0));
+    gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(eyeTextures[this->unk_2B4]));
+    gSPSegment(POLY_OPA_DISP++, 0x9, SEGMENTED_TO_VIRTUAL(&gTalonHeadSkinTex));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnTa_OverrideLimbDraw, EnTa_PostLimbDraw, this);
