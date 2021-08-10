@@ -20,7 +20,7 @@ typedef struct EnTa {
     /* 0x0260 */ EnTaUnkFunc unk_260;
     /* 0x0264 */ ColliderCylinder collider;
     /* 0x02B0 */ EnTaUnkFunc unk_2B0;
-    /* 0x02B4 */ s16 unk_2B4;
+    /* 0x02B4 */ s16 eyeIndex;
     /* 0x02B6 */ s16 unk_2B6;
     /* 0x02B8 */ EnNiw* superCuccos[3];
     /* 0x02C4 */ s16 unk_2C4[3];

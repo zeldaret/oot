@@ -111,14 +111,15 @@ void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnTa* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &gTalonSkel, &gTalonStandAnim, this->jointTable, this->morphTable, 17);
-    Collider_InitCylinder(globalCtx2, &this->collider);
-    Collider_SetCylinder(globalCtx2, &this->collider, &this->actor, &sCylinderInit);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gTalonSkel, &gTalonStandAnim, this->jointTable, this->morphTable,
+                       17);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->unk_2E0 = 0;
@@ -141,12 +142,12 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
             } else if (gSaveContext.eventChkInf[6] & 0x400) {
                 func_80B13AA0(this, func_80B14CAC, func_80B167C0);
-                this->unk_2B4 = 0;
+                this->eyeIndex = 0;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                 this->currentAnimation = &gTalonStandAnim;
             } else {
                 func_80B13AA0(this, func_80B14754, func_80B167FC);
-                this->unk_2B4 = 2;
+                this->eyeIndex = 2;
                 Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                 this->currentAnimation = &gTalonSleepAnim;
                 this->actor.shape.shadowScale = 54.0f;
@@ -158,34 +159,34 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
             } else if (LINK_IS_CHILD) {
                 Actor_Kill(&this->actor);
-            } else if (globalCtx2->sceneNum == SCENE_MALON_STABLE && gSaveContext.nightFlag) {
+            } else if (globalCtx->sceneNum == SCENE_MALON_STABLE && gSaveContext.nightFlag) {
                 Actor_Kill(&this->actor);
                 osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
                 func_80B13AA0(this, func_80B14D98, func_80B167C0);
-                this->unk_2B4 = 0;
+                this->eyeIndex = 0;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                 this->currentAnimation = &gTalonStandAnim;
             }
             break;
         default:
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
-            if (globalCtx2->sceneNum == SCENE_SPOT15) {
+            if (globalCtx->sceneNum == SCENE_SPOT15) {
                 if (gSaveContext.eventChkInf[1] & 0x10) {
                     Actor_Kill(&this->actor);
                 } else if (gSaveContext.eventChkInf[1] & 0x8) {
                     func_80B13AA0(this, func_80B14C18, func_80B167C0);
-                    this->unk_2B4 = 0;
+                    this->eyeIndex = 0;
                     Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
                     this->currentAnimation = &gTalonStandAnim;
                 } else {
                     func_80B13AA0(this, func_80B14634, func_80B167FC);
-                    this->unk_2B4 = 2;
+                    this->eyeIndex = 2;
                     Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                     this->currentAnimation = &gTalonSleepAnim;
                     this->actor.shape.shadowScale = 54.0f;
                 }
-            } else if (globalCtx2->sceneNum == SCENE_SOUKO) {
+            } else if (globalCtx->sceneNum == SCENE_SOUKO) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
                 if (!(gSaveContext.eventChkInf[1] & 0x10)) {
                     Actor_Kill(&this->actor);
@@ -196,13 +197,13 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                         this->actor.flags |= 0x10;
                         this->unk_2C4[0] = this->unk_2C4[1] = this->unk_2C4[2] = 7;
                         this->superCuccos[0] = (EnNiw*)Actor_Spawn(
-                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
+                            &globalCtx->actorCtx, globalCtx, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
                             this->actor.world.pos.y + 3.0f, this->actor.world.pos.z + 26.0f, 0, 0, 0, 0xD);
                         this->superCuccos[1] = (EnNiw*)Actor_Spawn(
-                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x - 20.0f,
+                            &globalCtx->actorCtx, globalCtx, ACTOR_EN_NIW, this->actor.world.pos.x - 20.0f,
                             this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
                         this->superCuccos[2] = (EnNiw*)Actor_Spawn(
-                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x + 20.0f,
+                            &globalCtx->actorCtx, globalCtx, ACTOR_EN_NIW, this->actor.world.pos.x + 20.0f,
                             this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
                         func_80B13AAC(this, globalCtx2);
 
@@ -214,13 +215,13 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                             gSaveContext.eventInf[0] &= ~0x400;
                         } else {
                             func_80B13AA0(this, func_80B16504, func_80B16854);
-                            this->unk_2B4 = 0;
+                            this->eyeIndex = 0;
                             Animation_PlayOnce(&this->skelAnime, &gTalonSitSleepingAnim);
                             this->currentAnimation = &gTalonSitSleepingAnim;
                         }
                     } else {
                         func_80B13AA0(this, func_80B146F8, func_80B167FC);
-                        this->unk_2B4 = 2;
+                        this->eyeIndex = 2;
                         Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                         this->currentAnimation = &gTalonSleepAnim;
                         this->actor.shape.shadowScale = 54.0f;
@@ -228,7 +229,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                 }
             } else {
                 func_80B13AA0(this, func_80B14634, func_80B167FC);
-                this->unk_2B4 = 2;
+                this->eyeIndex = 2;
                 Animation_PlayOnce(&this->skelAnime, &gTalonSleepAnim);
                 this->currentAnimation = &gTalonSleepAnim;
                 this->actor.shape.shadowScale = 54.0f;
@@ -309,7 +310,7 @@ void func_80B144D8(EnTa* this, GlobalContext* globalCtx) {
         this->unk_2B0 = func_80B16700;
     }
     if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
-        this->unk_2B4 = 1;
+        this->eyeIndex = 1;
         func_80B13AA0(this, func_80B1448C, func_80B167C0);
     }
     func_80B14248(this);
@@ -557,19 +558,19 @@ void func_80B14EDC(EnTa* this, GlobalContext* globalCtx) {
 
 void func_80B14F20(EnTa* this, EnTaActionFunc arg1) {
     func_80B13AA0(this, arg1, func_80B16854);
-    this->unk_2B4 = 2;
-    Animation_Change(&this->skelAnime, &gTalonSitSleepingAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gTalonSitSleepingAnim), ANIMMODE_ONCE,
-                     -5.0f);
+    this->eyeIndex = 2;
+    Animation_Change(&this->skelAnime, &gTalonSitSleepingAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gTalonSitSleepingAnim), ANIMMODE_ONCE, -5.0f);
     this->unk_2E2 = 0;
     this->currentAnimation = &gTalonSitSleepingAnim;
 }
 
 void func_80B14FAC(EnTa* this, EnTaActionFunc arg1) {
-    this->unk_2B4 = 1;
+    this->eyeIndex = 1;
     func_80B13AA0(this, arg1, func_80B16938);
     this->unk_2E0 &= ~0x10;
-    Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gTalonSitWakeUpAnim), ANIMMODE_ONCE,
-                     -5.0f);
+    Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gTalonSitWakeUpAnim),
+                     ANIMMODE_ONCE, -5.0f);
 }
 
 void func_80B15034(EnTa* this, GlobalContext* globalCtx) {
@@ -601,7 +602,8 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         s32 unk_2CA;
 
-        Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f, Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
+        Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
+                         Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim), ANIMMODE_ONCE, 10.0f);
         this->unk_2E0 &= ~0x10;
         func_80106CCC(globalCtx);
@@ -714,7 +716,8 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             func_8002DF54(globalCtx, &this->actor, 1);
                             func_8010B680(globalCtx, 0x2084, &this->actor);
                             this->actionFunc = func_80B15424;
-                            Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE, -10.0f);
+                            Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE,
+                                             -10.0f);
                             this->unk_2E0 &= ~0x10;
                             this->unk_2E0 &= ~0x100;
                             gSaveContext.eventInf[0] |= 0x100;
@@ -800,7 +803,8 @@ void func_80B1585C(EnTa* this, GlobalContext* globalCtx) {
     if (this->unk_2CC == 0) {
         func_80B13AA0(this, func_80B154FC, func_80B16938);
         this->unk_2E0 &= ~0x10;
-        Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f, Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
+        Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
+                         Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim), ANIMMODE_ONCE, 10.0f);
         func_8002DF54(globalCtx, &this->actor, 7);
     }
@@ -810,8 +814,8 @@ void func_80B15AD4(EnTa* this, GlobalContext* globalCtx) {
     if (this->unk_2CC == 0 && this->unk_2E0 & 0x20) {
         func_80B13AA0(this, func_80B1585C, func_80B16938);
         this->unk_2E0 &= ~0x10;
-        Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 1.0f, Animation_GetLastFrame(&gTalonSitHandsUpAnim), ANIMMODE_ONCE,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 1.0f,
+                         Animation_GetLastFrame(&gTalonSitHandsUpAnim), ANIMMODE_ONCE, 0.0f);
         this->unk_2CC = 50;
         func_80088B34(0x1E);
         func_800F5ACC(0x6C);
@@ -1073,26 +1077,26 @@ void func_80B166CC(EnTa* this) {
 }
 
 void func_80B16700(EnTa* this) {
-    s16 temp2B6 = this->unk_2B6 - 1;
+    s16 lastEyeIndex = this->unk_2B6 - 1;
 
-    if (temp2B6 != 0) {
-        this->unk_2B6 = temp2B6;
+    if (lastEyeIndex != 0) {
+        this->unk_2B6 = lastEyeIndex;
     } else {
-        s16 temp2B4 = this->unk_2B4 + 1;
-        s16 temp2B6 = 3;
+        s16 nextEyeIndex = this->eyeIndex + 1;
+        s16 lastEyeIndex = 3;
 
-        if (temp2B4 >= temp2B6) {
-            this->unk_2B4 = 0;
+        if (nextEyeIndex >= lastEyeIndex) {
+            this->eyeIndex = 0;
             if (this->unk_2CE > 0) {
                 this->unk_2CE--;
-                temp2B6 = 1;
+                lastEyeIndex = 1;
             } else {
-                temp2B6 = (s32)(Rand_ZeroOne() * 60.0f) + 20;
+                lastEyeIndex = (s32)(Rand_ZeroOne() * 60.0f) + 20;
             }
-            this->unk_2B6 = temp2B6;
+            this->unk_2B6 = lastEyeIndex;
             this->unk_2B0 = func_80B166CC;
         } else {
-            this->unk_2B4 = temp2B4;
+            this->eyeIndex = nextEyeIndex;
             this->unk_2B6 = 1;
         }
     }
@@ -1122,9 +1126,9 @@ void func_80B16854(EnTa* this) {
         }
 
         if (this->skelAnime.curFrame < 96.0f && this->skelAnime.curFrame >= 53.0f) {
-            this->unk_2B4 = 1;
+            this->eyeIndex = 1;
         } else {
-            this->unk_2B4 = 2;
+            this->eyeIndex = 2;
         }
         this->unk_2E0 |= 8;
     }
@@ -1212,7 +1216,7 @@ void EnTa_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800943C8(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(eyeTextures[this->unk_2B4]));
+    gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x9, SEGMENTED_TO_VIRTUAL(&gTalonHeadSkinTex));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
