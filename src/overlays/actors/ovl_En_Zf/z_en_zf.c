@@ -737,8 +737,8 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
     f32 sp44;
     f32 sp40;
     Player* player;
-    s32 pad2;
-    s32 pad3;
+    // s32 pad2;
+    // s32 pad3;
     f32 sp30;
     // s16 temp_v0;
     // s32 pad5;
@@ -820,8 +820,7 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
 
         sp54 = this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        sp30 = ABS(this->skelAnime.playSpeed);
-        sp50 = (s32)(this->skelAnime.curFrame - sp30);
+        sp50 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
         sp30 = ABS(this->skelAnime.playSpeed);
 
         if (sp48 == this->unk_3FE) {
@@ -873,7 +872,7 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
         }
 
         if ((sp54 != (s32)this->skelAnime.curFrame) &&
-            (((sp50 < 2) && (((s32)sp30 + sp54) >= 4)) || ((sp50 < 0x20) && (((s32)sp30 + sp54) >= 0x22)))) {
+            (((sp50 < 2) && (sp54 + (s32)sp30 >= 4)) || ((sp50 < 0x20) && (sp54 + (s32)sp30 >= 0x22)))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
         }
     }
@@ -980,7 +979,7 @@ void func_80B46098(EnZf* this, GlobalContext* globalCtx) {
                 this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
                 if (this->unk_3FE != func_80B446A8(&player->actor.world.pos, -1)) {
                     func_80B456B4(this, globalCtx);
-                    return; // Seems to be necessary for matching
+                    return;
                 }
             }
             if (Actor_IsFacingPlayer(&this->actor, 30 * 0x10000 / 360)) {
