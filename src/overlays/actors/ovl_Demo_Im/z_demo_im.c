@@ -28,7 +28,7 @@ void func_80985830(DemoIm* this, GlobalContext* globalCtx);
 void func_80985C10(DemoIm* this, GlobalContext* globalCtx);
 void func_80985C40(DemoIm* this, GlobalContext* globalCtx);
 void func_80985C94(DemoIm* this, GlobalContext* globalCtx);
-void func_80985CE8(DemoIm* this, GlobalContext* globalCtx);
+void DemoIm_DrawTranslucent(DemoIm* this, GlobalContext* globalCtx);
 void func_809863BC(DemoIm* this, GlobalContext* globalCtx);
 void func_809863DC(DemoIm* this, GlobalContext* globalCtx);
 void func_80986430(DemoIm* this, GlobalContext* globalCtx);
@@ -50,8 +50,8 @@ void func_80987288(DemoIm* this, GlobalContext* globalCtx);
 void func_809872A8(DemoIm* this, GlobalContext* globalCtx);
 void func_809872F0(DemoIm* this, GlobalContext* globalCtx);
 void func_80987330(DemoIm* this, GlobalContext* globalCtx);
-void func_8098764C(DemoIm* this, GlobalContext* globalCtx);
-void func_80987658(DemoIm* this, GlobalContext* globalCtx);
+void DemoIm_DrawNothing(DemoIm* this, GlobalContext* globalCtx);
+void DemoIm_DrawSolid(DemoIm* this, GlobalContext* globalCtx);
 
 static UNK_PTR D_80987830[] = {
     0x06007210,
@@ -86,9 +86,9 @@ static DemoImActionFunc sActionFuncs[] = {
 static Vec3f D_809887D8 = { 0.0f, 10.0f, 0.0f };
 
 static DemoImDrawFunc sDrawFuncs[] = {
-    func_8098764C,
-    func_80987658,
-    func_80985CE8,
+    DemoIm_DrawNothing,
+    DemoIm_DrawSolid,
+    DemoIm_DrawTranslucent,
 };
 
 const ActorInit Demo_Im_InitVars = {
@@ -528,7 +528,7 @@ void func_80985C94(DemoIm* this, GlobalContext* globalCtx) {
     func_80984C8C(this, globalCtx);
 }
 
-void func_80985CE8(DemoIm* this, GlobalContext* globalCtx) {
+void DemoIm_DrawTranslucent(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 unk_25C = this->unk_25C;
     UNK_PTR sp68 = D_80987830[unk_25C];
@@ -1185,10 +1185,10 @@ void DemoIm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     }
 }
 
-void func_8098764C(DemoIm* this, GlobalContext* globalCtx) {
+void DemoIm_DrawNothing(DemoIm* this, GlobalContext* globalCtx) {
 }
 
-void func_80987658(DemoIm* this, GlobalContext* globalCtx) {
+void DemoIm_DrawSolid(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 unk_25C = this->unk_25C;
     UNK_PTR sp68 = D_80987830[unk_25C];
