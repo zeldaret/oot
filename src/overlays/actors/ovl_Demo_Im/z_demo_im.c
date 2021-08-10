@@ -7,6 +7,7 @@
 #include "z_demo_im.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "scenes/indoors/nakaniwa/nakaniwa_scene.h"
+#include "objects/object_im/object_im.h"
 #include "vt.h"
 
 #define FLAGS 0x00000011
@@ -1112,7 +1113,7 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     func_80984D00(thisx, globalCtx);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600F788, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gImpaSkel, NULL, this->jointTable, this->morphTable, 17);
     thisx->flags &= ~1;
 
     switch (this->actor.params) {

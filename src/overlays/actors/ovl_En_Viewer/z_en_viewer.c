@@ -10,6 +10,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_horse_zelda/object_horse_zelda.h"
 #include "objects/object_horse_ganon/object_horse_ganon.h"
+#include "objects/object_im/object_im.h"
 
 #define FLAGS 0x00000010
 
@@ -93,7 +94,7 @@ static InitChainEntry sInitChain[] = {
 
 struct_80B2CEE8 D_80B2CEE8[] = {
     { OBJECT_HORSE_ZELDA, OBJECT_HORSE_ZELDA, 1, 0, 2, 20, 1, &gHorseZeldaSkel, &gHorseZeldaGallopingAnim },
-    { OBJECT_IM, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 3, &D_0600F788, &D_060029CC },
+    { OBJECT_IM, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 3, &gImpaSkel, &D_060029CC },
     { OBJECT_ZL4, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 2, &gChildZeldaSkel, &D_06000450 },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_06002928 },
     { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &gHorseGanonSkel, &gHorseGanonRearingAnim },
