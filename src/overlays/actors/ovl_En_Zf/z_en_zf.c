@@ -179,12 +179,10 @@ extern AnimationHeader D_06014E60;
 extern AnimationHeader D_060157F8;
 extern AnimationHeader D_06016388;
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44050.s")
 void EnZf_SetupAction(EnZf* this, EnZfActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44058.s")
 s32 func_80B44058(EnZf* this, GlobalContext* globalCtx, f32 arg2) {
     s16 ret;
     s16 oldBgCheckFlags;
@@ -213,7 +211,6 @@ s32 func_80B44058(EnZf* this, GlobalContext* globalCtx, f32 arg2) {
     return ret;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B441C4.s")
 s16 func_80B441C4(EnZf* this, GlobalContext* globalCtx, f32 arg2) {
     s16 ret;
     s16 oldBgCheckFlags;
@@ -241,7 +238,6 @@ s16 func_80B441C4(EnZf* this, GlobalContext* globalCtx, f32 arg2) {
     return ret;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Init.s")
 void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnZf* this = THIS;
@@ -317,7 +313,6 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Destroy.s")
 void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnZf* this = THIS;
 
@@ -330,7 +325,6 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyQuad(globalCtx, &this->swordCollider);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B446A8.s")
 s16 func_80B446A8(Vec3f* pos, s16 arg1) {
     f32 rangeXZ;
     s16 i;
@@ -358,7 +352,6 @@ s16 func_80B446A8(Vec3f* pos, s16 arg1) {
     return i;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44870.s")
 s16 func_80B44870(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx) {
     f32 temp_f0;
     f32 phi_f24 = 585.0f;
@@ -427,7 +420,6 @@ s16 func_80B44870(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx) {
     return phi_s5;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44B14.s")
 s16 func_80B44B14(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx) {
     s16 loopIndex = 7;
     s16 minIndex = 0;
@@ -477,7 +469,6 @@ s16 func_80B44B14(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx) {
     return temp_fp;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44CF0.s")
 // Player not targeting this or another EnZf
 s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this) {
     Actor* targetedActor;
@@ -512,7 +503,6 @@ s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this) {
     return false;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44DC4.s")
 void func_80B44DC4(EnZf* this, GlobalContext* globalCtx) {
     s16 angleDiff;
 
@@ -532,7 +522,6 @@ void func_80B44DC4(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44E8C.s")
 s32 func_80B44E8C(GlobalContext* globalCtx, EnZf* this) {
     s16 angleToWall;
     Actor* explosive;
@@ -576,7 +565,6 @@ s32 func_80B44E8C(GlobalContext* globalCtx, EnZf* this) {
     return false;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B450AC.s")
 void func_80B450AC(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_06009530, 0.0f, 9.0f, Animation_GetLastFrame(&D_06009530), ANIMMODE_LOOP,
                      0.0f);
@@ -592,7 +580,6 @@ void func_80B450AC(EnZf* this) {
     EnZf_SetupAction(this, func_80B45174);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45174.s")
 void func_80B45174(EnZf* this, GlobalContext* globalCtx) {
     if (this->unk_3F0 == 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
@@ -639,7 +626,6 @@ void func_80B45174(EnZf* this, GlobalContext* globalCtx) {
     this->actor.shape.shadowAlpha = this->unk_404;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45384.s")
 void func_80B45384(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_0600B10C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600B10C), 1, -4.0f);
     this->unk_3DC = 3;
@@ -649,7 +635,6 @@ void func_80B45384(EnZf* this) {
     EnZf_SetupAction(this, func_80B4543C);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4543C.s")
 void func_80B4543C(EnZf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 pad;
@@ -709,7 +694,6 @@ void func_80B4543C(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B456B4.s")
 void func_80B456B4(EnZf* this, GlobalContext* globalCtx) {
     Animation_MorphToLoop(&this->skelAnime, &D_06008138, -4.0f);
     this->unk_3DC = 5;
@@ -821,7 +805,7 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
         sp54 = this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
         sp50 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        sp30 = ABS(this->skelAnime.playSpeed);
+        sp30 = ((void)0,ABS(this->skelAnime.playSpeed));
 
         if (sp48 == this->unk_3FE) {
             if (!Actor_IsFacingPlayer(&this->actor, 0x11C7)) {
@@ -878,10 +862,8 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 // #else
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45748.s")
 // #endif
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45E30.s")
 void func_80B45E30(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_06009530, 1.0f, 0.0f, 3.0f, 2, -3.0f);
     this->unk_3F0 = 0;
@@ -899,7 +881,6 @@ void func_80B45E30(EnZf* this) {
     EnZf_SetupAction(this, func_80B45EF0);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45EF0.s")
 void func_80B45EF0(EnZf* this, GlobalContext* globalCtx) {
     if ((this->unk_3F0 != 0) && (this->actor.world.pos.y <= this->actor.floorHeight)) {
         this->actor.world.pos.y = this->actor.floorHeight;
@@ -932,14 +913,12 @@ void func_80B45EF0(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4604C.s")
 void func_80B4604C(EnZf* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_06008138, -4.0f);
     this->unk_3DC = 6;
     EnZf_SetupAction(this, func_80B46098);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46098.s")
 void func_80B46098(EnZf* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 phi_f2;
@@ -996,7 +975,6 @@ void func_80B46098(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B462E4.s")
 void func_80B462E4(EnZf* this, GlobalContext* globalCtx) {
     if ((this->actor.params < 0) ||
         Actor_TestFloorInDirection(&this->actor, globalCtx, 40.0f, (s16)(this->actor.shape.rot.y + 0x3FFF)) ||
@@ -1014,7 +992,6 @@ void func_80B462E4(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B463E4.s")
 void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
     s16 angleBehindPlayer;
     s16 phi_v0_3;
@@ -1129,7 +1106,6 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46A24.s")
 void func_80B46A24(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_0600A3D4, 1.25f, 0.0f, Animation_GetLastFrame(&D_0600A3D4), 2, -4.0f);
     if (this->actor.params == -2) {
@@ -1142,7 +1118,6 @@ void func_80B46A24(EnZf* this) {
     EnZf_SetupAction(this, func_80B46AE0);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46AE0.s")
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 rotDiff;
@@ -1196,7 +1171,6 @@ void func_80B46AE0(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46D64.s")
 void func_80B46D64(EnZf* this) {
     f32 frame = this->skelAnime.curFrame - 3.0f;
 
@@ -1205,7 +1179,6 @@ void func_80B46D64(EnZf* this) {
     EnZf_SetupAction(this, func_80B46DD4);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46DD4.s")
 void func_80B46DD4(EnZf* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (Rand_ZeroOne() > 0.7f) {
@@ -1218,7 +1191,6 @@ void func_80B46DD4(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46E8C.s")
 void func_80B46E8C(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_06009530, -1.0f, 3.0f, 0.0f, 2, -3.0f);
     this->unk_3F0 = 0;
@@ -1230,7 +1202,6 @@ void func_80B46E8C(EnZf* this) {
     EnZf_SetupAction(this, func_80B46F2C);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46F2C.s")
 void func_80B46F2C(EnZf* this, GlobalContext* globalCtx) {
     if ((this->unk_3F0 != 0) && (this->actor.world.pos.y <= this->actor.floorHeight)) {
         this->actor.world.pos.y = this->actor.floorHeight;
@@ -1256,7 +1227,6 @@ void func_80B46F2C(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47050.s")
 void func_80B47050(EnZf* this) {
     if ((this->actor.bgCheckFlags & 1) && ((this->actor.velocity.y == 0.0f) || (this->actor.velocity.y == -4.0f))) {
         this->actor.speedXZ = 0.0f;
@@ -1277,7 +1247,6 @@ void func_80B47050(EnZf* this) {
     EnZf_SetupAction(this, func_80B47120);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47120.s")
 void func_80B47120(EnZf* this, GlobalContext* globalCtx) {
     s16 angleToWall;
 
@@ -1321,7 +1290,6 @@ void func_80B47120(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47360.s")
 void func_80B47360(EnZf* this, GlobalContext* globalCtx) {
     f32 morphFrames = 0.0f;
     f32 lastFrame = Animation_GetLastFrame(&D_060119F4);
@@ -1339,7 +1307,6 @@ void func_80B47360(EnZf* this, GlobalContext* globalCtx) {
     EnZf_SetupAction(this, func_80B4743C);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4743C.s")
 void func_80B4743C(EnZf* this, GlobalContext* globalCtx) {
     s16 yaw = Actor_WorldYawTowardPoint(&this->actor, &D_80B4A090[this->unk_402]) + 0x8000;
 
@@ -1353,7 +1320,6 @@ void func_80B4743C(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B474E4.s")
 void func_80B474E4(EnZf* this) {
     this->unk_3E4 = 0;
     Animation_MorphToPlayOnce(&this->skelAnime, D_80B4A280[0], -4.0f);
@@ -1364,7 +1330,6 @@ void func_80B474E4(EnZf* this) {
     EnZf_SetupAction(this, func_80B47544);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47544.s")
 void func_80B47544(EnZf* this, GlobalContext* globalCtx) {
     f32 lastFrame;
     f32 maxDist = 400.0f;
@@ -1428,7 +1393,6 @@ void func_80B47544(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4779C.s")
 void func_80B4779C(EnZf* this, GlobalContext* globalCtx) {
     this->unk_3E4 = 0;
     Animation_PlayOnce(&this->skelAnime, D_80B4A280[0]);
@@ -1438,7 +1402,6 @@ void func_80B4779C(EnZf* this, GlobalContext* globalCtx) {
     EnZf_SetupAction(this, func_80B4781C);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4781C.s")
 void func_80B4781C(EnZf* this, GlobalContext* globalCtx) {
     f32 sp74;
     f32 sp70;
@@ -1552,7 +1515,6 @@ void func_80B4781C(EnZf* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47C64.s")
 void func_80B47C64(EnZf* this, GlobalContext* globalCtx) {
     Animation_PlayOnce(&this->skelAnime, &D_0601366C);
     this->actor.world.rot.y += 0x8000;
@@ -1563,7 +1525,6 @@ void func_80B47C64(EnZf* this, GlobalContext* globalCtx) {
     EnZf_SetupAction(this, func_80B47CF8);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47CF8.s")
 void func_80B47CF8(EnZf* this, GlobalContext* globalCtx) {
     s16 yawTowardsPlayer = this->actor.yawTowardsPlayer;
 
@@ -1583,7 +1544,6 @@ void func_80B47CF8(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47DA8.s")
 void func_80B47DA8(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_060157F8, 1.5f, 0.0f, Animation_GetLastFrame(&D_060157F8), 2, -4.0f);
 
@@ -1607,7 +1567,6 @@ void func_80B47DA8(EnZf* this) {
     EnZf_SetupAction(this, func_80B47EB4);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47EB4.s")
 void func_80B47EB4(EnZf* this, GlobalContext* globalCtx) {
     s16 wallYawDiff;
 
@@ -1671,7 +1630,6 @@ void func_80B47EB4(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48210.s")
 void func_80B48210(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_06009530, 1.0f, 0.0f, 3.0f, 2, 0.0f);
     this->unk_3F0 = 0;
@@ -1684,7 +1642,6 @@ void func_80B48210(EnZf* this) {
     EnZf_SetupAction(this, func_80B482B8);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B482B8.s")
 void func_80B482B8(EnZf* this, GlobalContext* globalCtx) {
     s16 temp_yaw; // Need this temp for stack size
 
@@ -1712,7 +1669,6 @@ void func_80B482B8(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B483E4.s")
 void func_80B483E4(EnZf* this, GlobalContext* globalCtx) {
     s16 playerRotY;
     Player* player;
@@ -1742,7 +1698,6 @@ void func_80B483E4(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48578.s")
 void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
     s16 playerRot;
     s16 phi_v0_4;
@@ -1876,7 +1831,6 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48CEC.s")
 void func_80B48CEC(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_06014E60, 1.5f, 0.0f, Animation_GetLastFrame(&D_06014E60), 2, -4.0f);
 
@@ -1911,7 +1865,6 @@ void func_80B48CEC(EnZf* this) {
     EnZf_SetupAction(this, func_80B48E50);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48E50.s")
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx) {
     s32 curFrame;
 
@@ -1950,7 +1903,6 @@ void func_80B48E50(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48F90.s")
 void func_80B48F90(EnZf* this, GlobalContext* globalCtx) {
     s16 temp_angle;
 
@@ -1965,7 +1917,6 @@ void func_80B48F90(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B490B4.s")
 void func_80B490B4(EnZf* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 dropParams;
@@ -2010,7 +1961,6 @@ void func_80B490B4(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Update.s")
 void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnZf* this = THIS;
@@ -2104,7 +2054,6 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B495FC.s")
 s32 EnZf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
     EnZf* this = THIS;
@@ -2130,7 +2079,6 @@ s32 EnZf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return false;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49688.s")
 void EnZf_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     static Vec3f D_80B4A298 = { 300.0f, 0.0f, 0.0f };
     static Vec3f D_80B4A2A4 = { 300.0f, -1700.0f, 0.0f };
@@ -2219,7 +2167,6 @@ static Gfx D_80B4A2F8[] = {
     gsSPEndDisplayList(),
 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Draw.s")
 void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnZf* this = THIS;
@@ -2264,7 +2211,6 @@ void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zf.c", 3601);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49B60.s")
 void func_80B49B60(EnZf* this, f32 arg1) {
     Animation_MorphToLoop(&this->skelAnime, &D_06016388, -1.0f);
     this->unk_3F0 = ((Rand_ZeroOne() * 10.0f) + 8.0f);
@@ -2282,7 +2228,6 @@ void func_80B49B60(EnZf* this, f32 arg1) {
     EnZf_SetupAction(this, func_80B48578);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49C2C.s")
 s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this) {
     Actor* temp_actor;
     s16 temp_yaw;
@@ -2341,7 +2286,6 @@ s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this) {
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49E4C.s")
 s32 func_80B49E4C(GlobalContext* globalCtx, EnZf* this) {
     Actor* temp_actor;
     s16 temp_yaw;
