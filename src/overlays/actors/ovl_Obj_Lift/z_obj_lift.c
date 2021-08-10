@@ -14,10 +14,12 @@ void ObjLift_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjLift_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjLift_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80B9651C(ObjLift* this);
-void func_80B96560(ObjLift* this, GlobalContext* globalCtx);
 void func_80B9664C(ObjLift* this);
 void func_80B967C0(ObjLift* this);
+
+void func_80B96560(ObjLift* this, GlobalContext* globalCtx);
 void func_80B96678(ObjLift* this, GlobalContext* globalCtx);
 void func_80B96840(ObjLift* this, GlobalContext* globalCtx);
 
