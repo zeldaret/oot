@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_ta" Segment="6">
-        <Animation Name="object_ta_Anim_0017E8" Offset="0x17E8"/>
-        <Animation Name="object_ta_Anim_001C94" Offset="0x1C94"/>
+        <Animation Name="gTalonSitSleepingAnim" Offset="0x17E8"/>
+        <Animation Name="gTalonStandAnim" Offset="0x1C94"/>
         <DList Name="gTalonTorsoDL" Offset="0x3F70"/>
         <DList Name="gTalonChestDL" Offset="0x4288"/>
         <DList Name="gTalonRightSHoulderDL" Offset="0x4918"/>
@@ -57,11 +57,11 @@
         <Limb Name="gTalonHead" LimbType="Standard" Offset="0xB760"/>
         <Limb Name="gTalonTorsoLimb" LimbType="Standard" Offset="0xB76C"/>
         <Skeleton Name="gTalonSkel" Type="Flex" LimbType="Standard" Offset="0xB7B8"/>
-        <Animation Name="object_ta_Anim_00BF38" Offset="0xBF38"/>
-        <Animation Name="object_ta_Anim_00C48C" Offset="0xC48C"/>
-        <Animation Name="object_ta_Anim_00C858" Offset="0xC858"/>
-        <Animation Name="object_ta_Anim_00CD50" Offset="0xCD50"/>
-        <Animation Name="object_ta_Anim_00CF28" Offset="0xCF28"/>
-        <Animation Name="object_ta_Anim_00E3D8" Offset="0xE3D8"/>
+        <Animation Name="gTalonSitHandsUpAnim" Offset="0xBF38"/>
+        <Animation Name="gTalonSitWakeUpAnim" Offset="0xC48C"/>
+        <Animation Name="gTalonRunAnim" Offset="0xC858"/>
+        <Animation Name="gTalonSleepAnim" Offset="0xCD50"/>
+        <Animation Name="gTalonRunTransitionAnim" Offset="0xCF28"/>
+        <Animation Name="gTalonWakeUpAnim" Offset="0xE3D8"/>
     </File>
 </Root>
