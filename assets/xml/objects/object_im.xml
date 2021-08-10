@@ -29,10 +29,14 @@
         <DList Name="gImpaRightLegDL" Offset="0x69E8"/>
         <DList Name="gImpaLeftThighDL" Offset="0x6BB8"/>
         <DList Name="gImpaLeftLegDL" Offset="0x6D70"/>
-        <Texture Name="gImpaHairEdgeTex" OutName="hair_edge" Format="rgba16" Width="16" Height="16" Offset="0x6F40"/>
-        <Texture Name="object_im_TLUT_007140" OutName="tlut_00007140" Format="rgba16" Width="16" Height="16" Offset="0x7140"/>
-        <Blob Name="object_im_Blob_007340" Size="0x2D0" Offset="0x7340"/>
-        <Texture Name="object_im_Tex_007610" OutName="tex_00007610" Format="ci8" Width="16" Height="16" Offset="0x7610" TlutOffset="0x7140"/>
+        <Texture Name="gImpaHeadTLUT" OutName="headTLUT" Format="rgba16" Width="16" Height="16" Offset="0x6F40"/>
+        <Texture Name="object_im_TLUT_007140" OutName="tlut_00007140" Format="rgba16" Width="26" Height="4" Offset="0x7140"/>
+        <Texture Name="gImpaEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x7210" TlutOffset="0x6F40"/>
+        <Texture Name="gImpaEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x7D50" TlutOffset="0x6F40"/>
+        <Texture Name="gImpaEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x8150" TlutOffset="0x6F40"/>
+
+        <Texture Name="gImpaEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x7610" TlutOffset="0x7140"/> <!-- Also used in gImpaHandPointingDL DList -->
+        <DList Name="gImpaHeadDL" Offset="0xBDC0"/>
         <Texture Name="gImpaHeadGradientTex" OutName="head_gradient" Format="ci8" Width="8" Height="8" Offset="0x7710" TlutOffset="0x7140"/>
         <Texture Name="object_im_Tex_007750" OutName="tex_00007750" Format="rgba16" Width="8" Height="8" Offset="0x7750"/>
         <Texture Name="gImpaHair2Tex" OutName="hair_2" Format="rgba16" Width="16" Height="16" Offset="0x77D0"/>
@@ -40,15 +44,13 @@
         <Texture Name="gImpaShoulderPadTopTex" OutName="shoulder_pad_top" Format="rgba16" Width="8" Height="16" Offset="0x7A10"/>
         <Texture Name="object_im_Tex_007B10" OutName="tex_00007B10" Format="ci8" Width="8" Height="8" Offset="0x7B10" TlutOffset="0x7140"/>
         <Texture Name="object_im_Tex_007B50" OutName="tex_00007B50" Format="ci8" Width="16" Height="16" Offset="0x7B50" TlutOffset="0x7140"/>
-        <Texture Name="object_im_Tex_007C50" OutName="tex_00007C50" Format="ci8" Width="16" Height="16" Offset="0x7C50" TlutOffset="0x7140"/>
-        <Blob Name="object_im_Blob_007D50" Size="0x800" Offset="0x7D50"/>
-        <DList Name="gImpaHeadDL" Offset="0xBDC0"/>
-        <DList Name="object_im_DL_00D0D8" Offset="0xD0D8"/>
+        <Texture Name="gImpaFingers2Tex" OutName="fingers_2" Format="ci8" Width="16" Height="16" Offset="0x7C50" TlutOffset="0x7140"/> <!-- Used in the gImpaHandPointingDL DList -->
+        <DList Name="gImpaHead2DL" Offset="0xD0D8"/>
         <DList Name="gImpaLeftFootDL" Offset="0xDDB8"/>
         <DList Name="gImpaLeftHandDL" Offset="0xE0F0"/>
         <DList Name="gImpaRightFootDL" Offset="0xE5D0"/>
         <DList Name="gImpaRightHandDL" Offset="0xE908"/>
-        <DList Name="object_im_DL_00EDE8" Offset="0xEDE8"/>
+        <DList Name="gImpaHandPointingDL" Offset="0xEDE8"/>
         <Limb Name="gImpaRootLimb" LimbType="Standard" Offset="0xF688"/>
         <Limb Name="gImpaTorso" LimbType="Standard" Offset="0xF694"/>
         <Limb Name="gImpaLeftThighLimb" LimbType="Standard" Offset="0xF6A0"/>

@@ -54,9 +54,9 @@ void DemoIm_DrawNothing(DemoIm* this, GlobalContext* globalCtx);
 void DemoIm_DrawSolid(DemoIm* this, GlobalContext* globalCtx);
 
 static UNK_PTR D_80987830[] = {
-    0x06007210,
-    0x06007D50,
-    0x06008150,
+    gImpaEyeOpenTex,
+    gImpaEyeHalfTex,
+    gImpaEyeClosedTex,
 };
 
 static u32 D_8098783C = 0;
@@ -1162,7 +1162,7 @@ s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     }
 
     if ((*unk_2D0 != 0) && (limbIndex == 15)) {
-        *dList = D_0600EDE8;
+        *dList = gImpaHandPointingDL;
     }
 
     return false;

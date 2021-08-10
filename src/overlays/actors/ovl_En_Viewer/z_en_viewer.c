@@ -63,7 +63,6 @@ extern AnimationHeader D_060050A8;
 extern UNK_TYPE D_06007210;
 extern UNK_TYPE D_0600A4E0;
 extern Gfx D_0600BE90[];
-extern Gfx D_0600D0D8[];
 extern Gfx D_0600E1A8[];
 extern UNK_TYPE D_0600F178;
 extern UNK_TYPE D_0600F378;
@@ -677,7 +676,7 @@ void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx) {
 
 s32 func_80B2C10C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if (limbIndex == 16) {
-        *dList = D_0600D0D8;
+        *dList = gImpaHead2DL;
     }
     return 0;
 }
