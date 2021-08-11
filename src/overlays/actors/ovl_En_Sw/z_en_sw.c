@@ -662,7 +662,7 @@ void func_80B0DB00(EnSw* this, GlobalContext* globalCtx) {
         }
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
-        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, 16.0f, 0xC, 2.0f, 0x78, 0xA, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 16.0f, 0xC, 2.0f, 0x78, 0xA, 0);
     }
 }
 

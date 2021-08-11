@@ -33,7 +33,7 @@ glabel func_80B36740
 /* 02AEC 80B3679C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02AF0 80B367A0 8FA50074 */  lw      $a1, 0x0074($sp)           
 /* 02AF4 80B367A4 8E060068 */  lw      $a2, 0x0068($s0)           ## 00000068
-/* 02AF8 80B367A8 0C00CE6E */  jal     func_800339B8              
+/* 02AF8 80B367A8 0C00CE6E */  jal     Actor_TestFloorInDirection              
 /* 02AFC 80B367AC 860700B6 */  lh      $a3, 0x00B6($s0)           ## 000000B6
 /* 02B00 80B367B0 54400018 */  bnel    $v0, $zero, .L80B36814     
 /* 02B04 80B367B4 860F00B6 */  lh      $t7, 0x00B6($s0)           ## 000000B6
@@ -365,7 +365,7 @@ glabel func_80B36740
 /* 02F94 80B36C44 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02F98 80B36C48 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
 /* 02F9C 80B36C4C 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
-/* 02FA0 80B36C50 0C00CC98 */  jal     Actor_SpawnFloorDust              
+/* 02FA0 80B36C50 0C00CC98 */  jal     Actor_SpawnFloorDustRing              
 /* 02FA4 80B36C54 E7A60014 */  swc1    $f6, 0x0014($sp)           
 /* 02FA8 80B36C58 8FAF003C */  lw      $t7, 0x003C($sp)           
 .L80B36C5C:

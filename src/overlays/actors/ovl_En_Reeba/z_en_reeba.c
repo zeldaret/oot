@@ -200,8 +200,8 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
 
     if ((globalCtx->gameplayFrames % 4) == 0) {
-        Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1, 8.0f,
-                             500, 10, 1);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,
+                                 8.0f, 500, 10, 1);
     }
 
     if (this->unk_278 == 0) {
@@ -341,8 +341,8 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
 
     if ((this->unk_284 + 10.0f) <= this->actor.shape.yOffset) {
         if ((globalCtx->gameplayFrames % 4) == 0) {
-            Actor_SpawnFloorDust(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,
-                                 8.0f, 500, 10, 1);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,
+                                     8.0f, 500, 10, 1);
         }
 
         Math_ApproachF(&this->actor.shape.yOffset, this->unk_284, 1.0f, this->unk_288);

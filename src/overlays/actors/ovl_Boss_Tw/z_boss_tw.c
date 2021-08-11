@@ -2805,7 +2805,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
                 Vec3f pos;
                 Vec3f velocity;
                 Vec3f accel = { 0.0f, 0.0f, 0.0f };
-                
+
                 for (i = 0; i < 50; i++) {
                     velocity.x = Rand_CenteredFloat(3.0f);
                     velocity.y = Rand_CenteredFloat(3.0f);

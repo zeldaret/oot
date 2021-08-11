@@ -1410,15 +1410,15 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                 case 0x10:
                     if (lowBits < 8) {
                         channel->soundScriptIO[lowBits] = -1;
-                        if (Audio_SyncLoadSample(channel->bankId, scriptState->value, &channel->soundScriptIO[lowBits]) ==
-                            -1) {
+                        if (Audio_SyncLoadSample(channel->bankId, scriptState->value,
+                                                 &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
                     } else {
                         lowBits -= 8;
                         channel->soundScriptIO[lowBits] = -1;
-                        if (Audio_SyncLoadSample(channel->bankId, channel->unk_22 + 0x100, &channel->soundScriptIO[lowBits]) ==
-                            -1) {
+                        if (Audio_SyncLoadSample(channel->bankId, channel->unk_22 + 0x100,
+                                                 &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
                     }
