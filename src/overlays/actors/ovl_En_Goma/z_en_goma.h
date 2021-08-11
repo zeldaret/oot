@@ -41,7 +41,7 @@ typedef enum {
     /* 22 */ GOMA_LIMB_R_SHIN,
     /* 23 */ GOMA_LIMB_R_THIGH,
     /* 24 */ GOMA_LIMB_MAX
-} EnGe1Limb;
+} EnGomaLimb;
 
 typedef struct EnGoma {
     /* 0x000 */ Actor actor;
