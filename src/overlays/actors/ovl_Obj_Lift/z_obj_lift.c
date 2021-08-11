@@ -98,7 +98,7 @@ void func_80B96160(ObjLift* this, GlobalContext* globalCtx) {
                              OBJECT_D_LIFT, gCollapsingPlatformDL);
     }
 
-    if (!((this->dyna.actor.params >> 1) & 1)) {
+    if (((this->dyna.actor.params >> 1) & 1) == 0) {
         func_80033480(globalCtx, &this->dyna.actor.world.pos, 120.0f, 12, 120, 100, 1);
     } else if (((this->dyna.actor.params >> 1) & 1) == 1) {
         func_80033480(globalCtx, &this->dyna.actor.world.pos, 60.0f, 8, 60, 100, 1);
@@ -214,7 +214,7 @@ void ObjLift_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->timer > 0) {
         this->timer--;
     }
-    
+
     this->actionFunc(this, globalCtx);
 }
 
