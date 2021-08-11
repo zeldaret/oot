@@ -78,7 +78,7 @@
         <Limb Name="object_zf_Limb_0065AC" LimbType="Standard" Offset="0x65AC"/>
         <Limb Name="object_zf_Limb_0065B8" LimbType="Standard" Offset="0x65B8"/>
         <Limb Name="object_zf_Limb_0065C4" LimbType="Standard" Offset="0x65C4"/>
-        <Skeleton Name="object_zf_Skel_006690" Type="Normal" LimbType="Standard" Offset="0x6690"/>
+        <Skeleton Name="gZfDinolfosSkel" Type="Normal" LimbType="Standard" Offset="0x6690"/>
         <Animation Name="object_zf_Anim_008138" Offset="0x8138"/>
         <Animation Name="object_zf_Anim_008C6C" Offset="0x8C6C"/>
         <Animation Name="object_zf_Anim_009530" Offset="0x9530"/>
@@ -166,7 +166,7 @@
         <Limb Name="object_zf_Limb_0103D4" LimbType="Standard" Offset="0x103D4"/>
         <Limb Name="object_zf_Limb_0103E0" LimbType="Standard" Offset="0x103E0"/>
         <Limb Name="object_zf_Limb_0103EC" LimbType="Standard" Offset="0x103EC"/>
-        <Skeleton Name="object_zf_Skel_0104B8" Type="Normal" LimbType="Standard" Offset="0x104B8"/>
+        <Skeleton Name="gZfLizalfosSkel" Type="Normal" LimbType="Standard" Offset="0x104B8"/>
         <Animation Name="object_zf_Anim_01081C" Offset="0x1081C"/>
         <Animation Name="object_zf_Anim_010CAC" Offset="0x10CAC"/>
         <Animation Name="object_zf_Anim_011070" Offset="0x11070"/>
