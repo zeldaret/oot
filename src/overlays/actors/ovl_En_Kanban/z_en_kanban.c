@@ -757,7 +757,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 ((pDiff + yDiff + rDiff + this->spinRot.x + this->spinRot.z) == 0) && (this->floorRot.x == 0.0f) &&
                 (this->floorRot.z == 0.0f)) {
                 signpost->partFlags |= this->partFlags;
-                signpost->actor.flags |= 1;
+                signpost->actor.flags |= ACTOR_FLAG_0;
                 Actor_Kill(&this->actor);
             }
         } break;
