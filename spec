@@ -3282,8 +3282,7 @@ endseg
 beginseg
     name "ovl_Obj_Lift"
     include "build/src/overlays/actors/ovl_Obj_Lift/z_obj_lift.o"
-    include "build/data/overlays/actors/z_obj_lift.data.o"
-    include "build/data/overlays/actors/z_obj_lift.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Lift/ovl_Obj_Lift_reloc.o"
 endseg
 
 beginseg
