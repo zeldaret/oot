@@ -1416,9 +1416,7 @@ endseg
 beginseg
     name "ovl_Boss_Mo"
     include "build/src/overlays/actors/ovl_Boss_Mo/z_boss_mo.o"
-    include "build/data/overlays/actors/z_boss_mo.data.o"
-    include "build/data/overlays/actors/z_boss_mo.bss.o"
-    include "build/data/overlays/actors/z_boss_mo.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Mo/ovl_Boss_Mo_reloc.o"
 endseg
 
 beginseg
@@ -1440,9 +1438,7 @@ endseg
 beginseg
     name "ovl_Boss_Va"
     include "build/src/overlays/actors/ovl_Boss_Va/z_boss_va.o"
-    include "build/data/overlays/actors/z_boss_va.data.o"
-    include "build/data/overlays/actors/z_boss_va.bss.o"
-    include "build/data/overlays/actors/z_boss_va.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Va/ovl_Boss_Va_reloc.o"
 endseg
 
 beginseg
@@ -2372,11 +2368,7 @@ endseg
 beginseg
     name "ovl_En_Holl"
     include "build/src/overlays/actors/ovl_En_Holl/z_en_holl.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Holl/ovl_En_Holl_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_holl.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3290,8 +3282,7 @@ endseg
 beginseg
     name "ovl_Obj_Lift"
     include "build/src/overlays/actors/ovl_Obj_Lift/z_obj_lift.o"
-    include "build/data/overlays/actors/z_obj_lift.data.o"
-    include "build/data/overlays/actors/z_obj_lift.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Lift/ovl_Obj_Lift_reloc.o"
 endseg
 
 beginseg
@@ -4277,7 +4268,7 @@ endseg
 beginseg
     name "object_bv"
     romalign 0x1000
-    include "build/baserom/object_bv.o"
+    include "build/assets/objects/object_bv/object_bv.o"
     number 6
 endseg
 
@@ -4557,7 +4548,7 @@ endseg
 beginseg
     name "object_mo"
     romalign 0x1000
-    include "build/baserom/object_mo.o"
+    include "build/assets/objects/object_mo/object_mo.o"
     number 6
 endseg
 

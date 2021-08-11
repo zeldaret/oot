@@ -2212,20 +2212,20 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.status[actor->objBankIndex].segment);
 
     if (actor->colorFilterTimer != 0) {
-        Color_RGBA8 sp2C = { 0, 0, 0, 255 };
+        Color_RGBA8 color = { 0, 0, 0, 255 };
 
         if (actor->colorFilterParams & 0x8000) {
-            sp2C.r = sp2C.g = sp2C.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
+            color.r = color.g = color.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
         } else if (actor->colorFilterParams & 0x4000) {
-            sp2C.r = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
+            color.r = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
         } else {
-            sp2C.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
+            color.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
         }
 
         if (actor->colorFilterParams & 0x2000) {
-            func_80026860(globalCtx, &sp2C, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
+            func_80026860(globalCtx, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
         } else {
-            func_80026400(globalCtx, &sp2C, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
+            func_80026400(globalCtx, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
         }
     }
 
@@ -3167,33 +3167,35 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* glob
     return true;
 }
 
-void Actor_SpawnFloorDust(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 randAccelWeight,
-                          s16 scale, s16 scaleStep, u8 arg8) {
+void Actor_SpawnFloorDustRing(GlobalContext* globalCtx, Actor* actor, Vec3f* posXZ, f32 radius, s32 amountMinusOne,
+                              f32 randAccelWeight, s16 scale, s16 scaleStep, u8 useLighting) {
     Vec3f pos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
-    f32 var;
+    f32 angle;
     s32 i;
 
-    var = (Rand_ZeroOne() - 0.5f) * 6.28f;
+    angle = (Rand_ZeroOne() - 0.5f) * (2.0f * 3.14f);
     pos.y = actor->floorHeight;
     accel.y += (Rand_ZeroOne() - 0.5f) * 0.2f;
 
-    for (i = arg4; i >= 0; i--) {
-        pos.x = (Math_SinF(var) * arg3) + arg2->x;
-        pos.z = (Math_CosF(var) * arg3) + arg2->z;
+    for (i = amountMinusOne; i >= 0; i--) {
+        pos.x = Math_SinF(angle) * radius + posXZ->x;
+        pos.z = Math_CosF(angle) * radius + posXZ->z;
         accel.x = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
         accel.z = (Rand_ZeroOne() - 0.5f) * randAccelWeight;
 
         if (scale == 0) {
             func_8002857C(globalCtx, &pos, &velocity, &accel);
-        } else if (arg8 != 0) {
-            func_800286CC(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
         } else {
-            func_8002865C(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
+            if (useLighting) {
+                func_800286CC(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
+            } else {
+                func_8002865C(globalCtx, &pos, &velocity, &accel, scale, scaleStep);
+            }
         }
 
-        var += 6.28f / (arg4 + 1.0f);
+        angle += (2.0f * 3.14f) / (amountMinusOne + 1.0f);
     }
 }
 
@@ -3388,24 +3390,33 @@ void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 baseTex
     actor->textId = prefix | baseTextId;
 }
 
-s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3) {
+/**
+ * Checks if a given actor will be standing on the ground after being translated
+ * by the provided distance and angle.
+ *
+ * Returns true if the actor will be standing on ground.
+ */
+s16 Actor_TestFloorInDirection(Actor* actor, GlobalContext* globalCtx, f32 distance, s16 angle) {
     s16 ret;
-    s16 sp44;
-    f32 sp40;
-    f32 sp3C;
-    Vec3f sp30;
+    s16 prevBgCheckFlags;
+    f32 dx;
+    f32 dz;
+    Vec3f prevActorPos;
 
-    Math_Vec3f_Copy(&sp30, &actor->world.pos);
-    sp44 = actor->bgCheckFlags;
-    sp40 = Math_SinS(arg3) * arg2;
-    sp3C = Math_CosS(arg3) * arg2;
-    actor->world.pos.x += sp40;
-    actor->world.pos.z += sp3C;
+    Math_Vec3f_Copy(&prevActorPos, &actor->world.pos);
+    prevBgCheckFlags = actor->bgCheckFlags;
+
+    dx = Math_SinS(angle) * distance;
+    dz = Math_CosS(angle) * distance;
+    actor->world.pos.x += dx;
+    actor->world.pos.z += dz;
+
     Actor_UpdateBgCheckInfo(globalCtx, actor, 0.0f, 0.0f, 0.0f, 4);
-    Math_Vec3f_Copy(&actor->world.pos, &sp30);
+
+    Math_Vec3f_Copy(&actor->world.pos, &prevActorPos);
 
     ret = actor->bgCheckFlags & 1;
-    actor->bgCheckFlags = sp44;
+    actor->bgCheckFlags = prevBgCheckFlags;
 
     return ret;
 }
