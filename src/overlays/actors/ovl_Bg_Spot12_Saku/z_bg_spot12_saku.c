@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot12_saku.h"
+#include "objects/object_spot12_obj/object_spot12_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -41,9 +42,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern Gfx D_06002260[];
-extern CollisionHeader D_0600238C;
-
 void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
@@ -61,7 +59,7 @@ void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, CollisionHeader
 void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Saku* this = THIS;
 
-    func_808B3420(this, globalCtx, &D_0600238C, DPM_UNK);
+    func_808B3420(this, globalCtx, &gGerudoFortressGTGShutterCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_808B3714(this);
@@ -135,5 +133,5 @@ void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06002260);
+    Gfx_DrawDListOpa(globalCtx, gGerudoFortressGTGShutterDL);
 }

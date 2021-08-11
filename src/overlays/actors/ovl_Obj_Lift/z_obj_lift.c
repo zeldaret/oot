@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_lift.h"
+#include "objects/object_d_lift/object_d_lift.h"
 
 #define FLAGS 0x00000010
 
