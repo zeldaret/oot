@@ -77,8 +77,8 @@ typedef struct EnZf {
     /* 0x03E0 */ s32 unk_3E0; // Unused
     /* 0x03E4 */ s32 unk_3E4;
     /* 0x03E8 */ EnZfActionFunc actionFunc;
-    /* 0x03EC */ s16 unk_3EC;
-    /* 0x03EE */ s16 unk_3EE;
+    /* 0x03EC */ s16 headRot;
+    /* 0x03EE */ s16 headRotTemp; // Only used in one function
     /* 0x03F0 */ s32 unk_3F0;
     /* 0x03F4 */ s16 unk_3F4;
     /* 0x03F6 */ s16 iceTimer;

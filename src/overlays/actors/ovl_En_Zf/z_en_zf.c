@@ -16,7 +16,7 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s16 func_80B446A8(Vec3f* pos, s16 arg1);
+s16 EnZf_FindPlatform(Vec3f* pos, s16 arg1);
 void func_80B450AC(EnZf* this);
 void func_80B45174(EnZf* this, GlobalContext* globalCtx);
 void func_80B45384(EnZf* this);
@@ -46,8 +46,8 @@ void func_80B48210(EnZf* this);
 void func_80B482B8(EnZf* this, GlobalContext* globalCtx);
 void func_80B483E4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48578(EnZf* this, GlobalContext* globalCtx);
-void func_80B48CEC(EnZf* this);
-void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
+void EnZf_SetupDie(EnZf* this);
+void EnZf_Die(EnZf* this, GlobalContext* globalCtx);
 void func_80B49B60(EnZf* this, f32 arg1);
 s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this);
 s32 func_80B49E4C(GlobalContext* globalCtx, EnZf* this);
@@ -188,7 +188,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
 };
 
-static AnimationHeader* D_80B4A280[] = { 0x0601081C, 0x06010CAC, 0x06011070 };
+static AnimationHeader* sJumpingAnims[] = { 0x0601081C, 0x06010CAC, 0x06011070 };
 
 static s32 D_80B4AB30;
 
@@ -343,7 +343,7 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
         posDiff = player->actor.world.pos.y - thisx->world.pos.y;
 
         if ((ABS(posDiff) <= 100.0f) && !Flags_GetSwitch(globalCtx, this->clearFlag)) {
-            this->unk_400 = this->unk_3FE = func_80B446A8(&thisx->world.pos, 0);
+            this->unk_400 = this->unk_3FE = EnZf_FindPlatform(&thisx->world.pos, 0);
             func_80B450AC(this);
             D_80B4A1B4 = 1;
         } else {
@@ -365,24 +365,24 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 /**
- * Finds the platform position highest in the array that satisfies the range check.
+ * Finds the index of the platform position sufficiently close to pos, starting from startIndex and working down.
  */
-s16 func_80B446A8(Vec3f* pos, s16 arg1) {
+s16 EnZf_FindPlatform(Vec3f* pos, s16 startIndex) {
     f32 rangeXZ;
     s16 i;
 
     rangeXZ = 210.0f;
 
-    // Upstairs
+    // Upstairs has a smaller range
     if (pos->y >= 420.0f) {
         rangeXZ = 110.0f;
     }
 
-    if ((arg1 != -1) && ((sPlatformPositions[arg1].y - 150.0f) <= pos->y) &&
-        (pos->y <= (sPlatformPositions[arg1].y + 150.0f)) && ((sPlatformPositions[arg1].x - rangeXZ) <= pos->x) &&
-        (pos->x <= (sPlatformPositions[arg1].x + rangeXZ)) && ((sPlatformPositions[arg1].z - rangeXZ) <= pos->z) &&
-        (pos->z <= (sPlatformPositions[arg1].z + rangeXZ))) {
-        return arg1;
+    if ((startIndex != -1) && ((sPlatformPositions[startIndex].y - 150.0f) <= pos->y) &&
+        (pos->y <= (sPlatformPositions[startIndex].y + 150.0f)) && ((sPlatformPositions[startIndex].x - rangeXZ) <= pos->x) &&
+        (pos->x <= (sPlatformPositions[startIndex].x + rangeXZ)) && ((sPlatformPositions[startIndex].z - rangeXZ) <= pos->z) &&
+        (pos->z <= (sPlatformPositions[startIndex].z + rangeXZ))) {
+        return startIndex;
     }
 
     for (i = ARRAY_COUNT(sPlatformPositions) - 1; i > -1; i--) {
@@ -407,7 +407,7 @@ s16 func_80B44870(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx) {
     f32 largeMaxRange = 99999.0f;
     s16 phi_s4 = -1;
     s16 phi_s5 = -1;
-    s16 temp_s3 = func_80B446A8(&player->actor.world.pos, temp_fp);
+    s16 temp_s3 = EnZf_FindPlatform(&player->actor.world.pos, temp_fp);
 
     // Upstairs
     if (pos->y > 420.0f) {
@@ -468,7 +468,7 @@ s16 func_80B44B14(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx) {
     s16 loopIndex = 7;
     s16 minIndex = 0;
     Player* player = PLAYER;
-    s16 temp_fp = func_80B446A8(&player->actor.world.pos, -1);
+    s16 temp_fp = EnZf_FindPlatform(&player->actor.world.pos, -1);
     f32 minRange = 500.0f;
     f32 smallMaxRange = 99998.0f;
     f32 largeMaxRange = 99999.0f;
@@ -686,7 +686,7 @@ void func_80B4543C(EnZf* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 angleToPlayer;
 
-    angleToPlayer = (this->actor.yawTowardsPlayer - this->unk_3EC) - this->actor.shape.rot.y;
+    angleToPlayer = (this->actor.yawTowardsPlayer - this->headRot) - this->actor.shape.rot.y;
     angleToPlayer = ABS(angleToPlayer);
     SkelAnime_Update(&this->skelAnime);
 
@@ -745,7 +745,7 @@ void func_80B456B4(EnZf* this, GlobalContext* globalCtx) {
     this->unk_3DC = 5;
 
     if (this->actor.params >= 0) {
-        this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
+        this->unk_3FE = EnZf_FindPlatform(&this->actor.world.pos, this->unk_3FE);
         this->unk_402 = func_80B44B14(&this->actor.world.pos, this->unk_3FE, this->unk_400, globalCtx);
         this->unk_3E4 = 0;
     }
@@ -770,8 +770,8 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
     player = PLAYER;
 
     if (this->actor.params >= 0) {
-        sp48 = func_80B446A8(&player->actor.world.pos, sp48);
-        this->unk_3FE = func_80B446A8(&this->actor.world.pos, sp48);
+        sp48 = EnZf_FindPlatform(&player->actor.world.pos, sp48);
+        this->unk_3FE = EnZf_FindPlatform(&this->actor.world.pos, sp48);
 
         if (this->actor.world.pos.y >= 420.0f) {
             sp44 = 270.0f;
@@ -990,8 +990,8 @@ void func_80B46098(EnZf* this, GlobalContext* globalCtx) {
             SkelAnime_Update(&this->skelAnime);
 
             if (this->actor.params >= 0) {
-                this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
-                if (this->unk_3FE != func_80B446A8(&player->actor.world.pos, -1)) {
+                this->unk_3FE = EnZf_FindPlatform(&this->actor.world.pos, this->unk_3FE);
+                if (this->unk_3FE != EnZf_FindPlatform(&player->actor.world.pos, -1)) {
                     func_80B456B4(this, globalCtx);
                     return;
                 }
@@ -1300,7 +1300,7 @@ void func_80B47120(EnZf* this, GlobalContext* globalCtx) {
 
     if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & 1)) {
         if (this->actor.colChkInfo.health == 0) {
-            func_80B48CEC(this);
+            EnZf_SetupDie(this);
         } else if ((this->actor.params != ENZF_TYPE_DINOLFOS) || (!func_80B44E8C(globalCtx, this))) {
             if (D_80B4A1B4 != -1) {
                 func_80B44DC4(this, globalCtx);
@@ -1338,7 +1338,7 @@ void func_80B47360(EnZf* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &D_060119F4, 2.0f, 0.0f, lastFrame, 2, morphFrames);
     this->unk_3DC = 0x12;
     this->actor.speedXZ = 0.0f;
-    this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
+    this->unk_3FE = EnZf_FindPlatform(&this->actor.world.pos, this->unk_3FE);
     this->unk_402 = func_80B44870(&this->actor.world.pos, this->unk_3FE, this->unk_400, globalCtx);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     EnZf_SetupAction(this, func_80B4743C);
@@ -1359,7 +1359,7 @@ void func_80B4743C(EnZf* this, GlobalContext* globalCtx) {
 
 void func_80B474E4(EnZf* this) {
     this->unk_3E4 = 0;
-    Animation_MorphToPlayOnce(&this->skelAnime, D_80B4A280[0], -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, sJumpingAnims[0], -4.0f);
     this->unk_3DC = 0x14;
     this->actor.speedXZ = 0.0f;
     this->unk_40C = 0.0f;
@@ -1397,7 +1397,7 @@ void func_80B47544(EnZf* this, GlobalContext* globalCtx) {
                 this->unk_3E4 = 1;
             }
 
-            lastFrame = Animation_GetLastFrame(D_80B4A280[this->unk_3E4]);
+            lastFrame = Animation_GetLastFrame(sJumpingAnims[this->unk_3E4]);
 
             switch (this->unk_3E4) {
                 case 0:
@@ -1421,7 +1421,7 @@ void func_80B47544(EnZf* this, GlobalContext* globalCtx) {
                     break;
             }
 
-            Animation_Change(&this->skelAnime, D_80B4A280[this->unk_3E4], 1.5f, 0.0f, lastFrame, 2, 0.0f);
+            Animation_Change(&this->skelAnime, sJumpingAnims[this->unk_3E4], 1.5f, 0.0f, lastFrame, 2, 0.0f);
         }
 
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
@@ -1432,9 +1432,9 @@ void func_80B47544(EnZf* this, GlobalContext* globalCtx) {
 
 void func_80B4779C(EnZf* this, GlobalContext* globalCtx) {
     this->unk_3E4 = 0;
-    Animation_PlayOnce(&this->skelAnime, D_80B4A280[0]);
+    Animation_PlayOnce(&this->skelAnime, sJumpingAnims[0]);
     this->unk_3DC = 0x13;
-    this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
+    this->unk_3FE = EnZf_FindPlatform(&this->actor.world.pos, this->unk_3FE);
     this->unk_402 = func_80B44870(&this->actor.world.pos, this->unk_3FE, this->unk_400, globalCtx);
     EnZf_SetupAction(this, func_80B4781C);
 }
@@ -1526,7 +1526,7 @@ void func_80B4781C(EnZf* this, GlobalContext* globalCtx) {
                 if ((phi_f20 <= this->actor.xzDistToPlayer)) {
                     func_80B474E4(this);
                 } else if ((sp74 < 80.0f)) {
-                    this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
+                    this->unk_3FE = EnZf_FindPlatform(&this->actor.world.pos, this->unk_3FE);
                     this->unk_402 = func_80B44870(&this->actor.world.pos, this->unk_3FE, this->unk_400, globalCtx);
                 }
 
@@ -1547,7 +1547,7 @@ void func_80B4781C(EnZf* this, GlobalContext* globalCtx) {
     }
 
     if (sp54 != this->unk_3E4) {
-        Animation_PlayOnceSetSpeed(&this->skelAnime, D_80B4A280[this->unk_3E4], sp70);
+        Animation_PlayOnceSetSpeed(&this->skelAnime, sJumpingAnims[this->unk_3E4], sp70);
     }
     SkelAnime_Update(&this->skelAnime);
 }
@@ -1557,7 +1557,7 @@ void func_80B47C64(EnZf* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y += 0x8000;
     this->unk_3DC = 0x15;
     this->actor.speedXZ = 0.0f;
-    this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
+    this->unk_3FE = EnZf_FindPlatform(&this->actor.world.pos, this->unk_3FE);
     this->unk_402 = func_80B44870(&this->actor.world.pos, this->unk_3FE, this->unk_400, globalCtx);
     EnZf_SetupAction(this, func_80B47CF8);
 }
@@ -1816,9 +1816,9 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
     prevKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
     playSpeed = ((void)0, ABS(this->skelAnime.playSpeed));
 
-    this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
+    this->unk_3FE = EnZf_FindPlatform(&this->actor.world.pos, this->unk_3FE);
 
-    if (func_80B446A8(&player->actor.world.pos, -1) != this->unk_3FE) {
+    if (EnZf_FindPlatform(&player->actor.world.pos, -1) != this->unk_3FE) {
         this->actor.speedXZ = 0.0f;
         if ((this->actor.params >= 0) && (D_80B4A1B4 == this->actor.params)) {
             func_80B474E4(this);
@@ -1869,7 +1869,7 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B48CEC(EnZf* this) {
+void EnZf_SetupDie(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_06014E60, 1.5f, 0.0f, Animation_GetLastFrame(&D_06014E60), 2, -4.0f);
 
     if ((this->actor.bgCheckFlags & 1) && ((this->actor.velocity.y == 0.0f) || (this->actor.velocity.y == -4.0f))) {
@@ -1900,10 +1900,10 @@ void func_80B48CEC(EnZf* this) {
 
     D_80B4A1B0 = 0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DEAD);
-    EnZf_SetupAction(this, func_80B48E50);
+    EnZf_SetupAction(this, EnZf_Die);
 }
 
-void func_80B48E50(EnZf* this, GlobalContext* globalCtx) {
+void EnZf_Die(EnZf* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 2) {
         this->actor.speedXZ = 0.0f;
@@ -1942,16 +1942,16 @@ void func_80B48E50(EnZf* this, GlobalContext* globalCtx) {
 }
 
 void func_80B48F90(EnZf* this, GlobalContext* globalCtx) {
-    s16 temp_angle;
+    s16 angleTemp;
 
     if ((this->actor.params == ENZF_TYPE_DINOLFOS) && (this->unk_3DC == 3) && (this->unk_3F4 != 0)) {
-        this->unk_3EC = (Math_SinS(this->unk_3F4 * 1400) * 10920.0f);
+        this->headRot = (Math_SinS(this->unk_3F4 * 1400) * 0x2AA8);
     } else {
-        temp_angle = this->actor.yawTowardsPlayer;
-        temp_angle -= (s16)(this->unk_3EC + this->actor.shape.rot.y);
-        this->unk_3EE = CLAMP(temp_angle, -0x7D0, 0x7D0);
-        this->unk_3EC += this->unk_3EE;
-        this->unk_3EC = CLAMP(this->unk_3EC, -0x1CD7, 0x1CD7);
+        angleTemp = this->actor.yawTowardsPlayer;
+        angleTemp -= (s16)(this->headRot + this->actor.shape.rot.y);
+        this->headRotTemp = CLAMP(angleTemp, -0x7D0, 0x7D0);
+        this->headRot += this->headRotTemp;
+        this->headRot = CLAMP(this->headRot, -0x1CD7, 0x1CD7);
     }
 }
 
@@ -1979,7 +1979,7 @@ void EnZf_UpdateDamage(EnZf* this, GlobalContext* globalCtx) {
 
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     dropParams = 0x40;
-                    func_80B48CEC(this);
+                    EnZf_SetupDie(this);
 
                     if (this->actor.params == ENZF_TYPE_DINOLFOS) {
                         dropParams = 0xE0;
@@ -2049,7 +2049,7 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_3DC >= 0xF) {
-        Math_SmoothStepToS(&this->unk_3EC, 0, 1, 2000, 0);
+        Math_SmoothStepToS(&this->headRot, 0, 1, 2000, 0);
 
         if (this->unk_3DC < 0x15) {
             if ((this->unk_3F4 == 1) && (this->actor.bgCheckFlags & 1)) {
@@ -2099,7 +2099,7 @@ s32 EnZf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     switch (limbIndex) {
         case ENZF_LIMB_NECK_ROOT:
-            rot->y -= this->unk_3EC;
+            rot->y -= this->headRot;
             break;
         case ENZF_LIMB_SWORD:
             if (this->unk_3FA != 0) {
@@ -2296,7 +2296,7 @@ s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this) {
         if ((((this->actor.xzDistToPlayer < 90.0f) || (phi_t0 == 3)) && !func_80B44058(this, globalCtx, 135.0f)) ||
             (projectileActor->id == ACTOR_ARMS_HOOK)) {
             func_80B48210(this);
-            return 1;
+            return true;
         }
 
         this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
@@ -2310,21 +2310,21 @@ s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this) {
         if ((ABS(yawToProjectile) < 0x2000) || (ABS(yawToProjectile) >= 0x6000)) {
             if (phi_v1 & 1) {
                 func_80B49B60(this, 8.0f);
-                return 1;
+                return true;
             }
             func_80B49B60(this, -8.0f);
-            return 1;
+            return true;
         }
         if (ABS(yawToProjectile) < 0x5FFF) {
             if (phi_v1 & 1) {
                 func_80B49B60(this, 4.0f);
-                return 1;
+                return true;
             }
             func_80B49B60(this, -4.0f);
         }
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 s32 func_80B49E4C(GlobalContext* globalCtx, EnZf* this) {
