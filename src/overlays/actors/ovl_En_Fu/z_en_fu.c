@@ -105,7 +105,7 @@ void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFunc actionFunc) {
     s16 yawDiff;
 
-    // func_8002F194 returns 1 if actor flags & 0x100 is set and unsets it
+    // func_8002F194 returns 1 if ACTOR_FLAG_8 is set and unsets it
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return true;
@@ -142,7 +142,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
         // 0x5033: "Go around, go around, go around... What? It's going way too fast!"
     }
 
-    // if actor flags & 0x100 is set and textID is 0x5033, change animation
+    // if ACTOR_FLAG_8 is set and textID is 0x5033, change animation
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
