@@ -1,4 +1,5 @@
 #include "z_en_ssh.h"
+#include "objects/object_ssh/object_ssh.h"
 
 #define FLAGS 0x00000035
 
@@ -28,12 +29,6 @@ void EnSsh_Idle(EnSsh* this, GlobalContext* globalCtx);
 void EnSsh_Drop(EnSsh* this, GlobalContext* globalCtx);
 void EnSsh_Return(EnSsh* this, GlobalContext* globalCtx);
 void EnSsh_Start(EnSsh* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06000304;
-extern SkeletonHeader D_060052E0;
-extern Gfx D_060046C0[];
-extern Gfx D_06004080[];
-extern Gfx D_06004DE8[];
 
 static Vtx D_80B043C0[] = {
     VTX(-1, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -628,7 +623,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSsh* this = THIS;
 
-    frameCount = Animation_GetLastFrame(&D_06000304);
+    frameCount = Animation_GetLastFrame(&object_ssh_Anim_000304);
     if (this->actor.params == ENSSH_FATHER) {
         if (gSaveContext.inventory.gsTokens >= 100) {
             Actor_Kill(&this->actor);
@@ -639,8 +634,8 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->jointTable, this->morphTable, 30);
-    Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP_INTERP, 0.0f);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &object_ssh_Skel_0052E0, NULL, this->jointTable, this->morphTable, 30);
+    Animation_Change(&this->skelAnime, &object_ssh_Anim_000304, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP_INTERP, 0.0f);
     this->blureIdx = EnSsh_CreateBlureEffect(globalCtx);
     EnSsh_InitColliders(this, globalCtx);
     this->stateFlags = 0;
@@ -867,17 +862,17 @@ s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
             break;
         case 4:
             if (this->actor.params == ENSSH_FATHER) {
-                *dList = D_060046C0;
+                *dList = object_ssh_DL_0046C0;
             }
             break;
         case 5:
             if (this->actor.params == ENSSH_FATHER) {
-                *dList = D_06004080;
+                *dList = object_ssh_DL_004080;
             }
             break;
         case 8:
             if (this->actor.params == ENSSH_FATHER) {
-                *dList = D_06004DE8;
+                *dList = object_ssh_DL_004DE8;
             }
             break;
     }

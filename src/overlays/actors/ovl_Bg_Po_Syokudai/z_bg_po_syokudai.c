@@ -6,6 +6,7 @@
 
 #include "z_bg_po_syokudai.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_syokudai/object_syokudai.h"
 
 #define FLAGS 0x00000000
 
@@ -74,8 +75,6 @@ const ActorInit Bg_Po_Syokudai_InitVars = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
-
-extern Gfx D_060003A0[];
 
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgPoSyokudai* this = THIS;
@@ -157,7 +156,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 319),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_060003A0);
+    gSPDisplayList(POLY_OPA_DISP++, gGoldenTorchDL);
 
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         Color_RGBA8* primColor = &sPrimColors[this->flameColor];

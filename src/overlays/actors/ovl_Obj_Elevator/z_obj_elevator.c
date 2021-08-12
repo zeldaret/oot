@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_elevator.h"
+#include "objects/object_d_elevator/object_d_elevator.h"
 
 #define FLAGS 0x00000000
 
@@ -40,9 +41,6 @@ static InitChainEntry sInitChain[] = {
 
 static f32 sScales[] = { 0.1f, 0.05f };
 
-extern Gfx D_06000180[];
-extern CollisionHeader D_06000360;
-
 void ObjElevator_SetupAction(ObjElevator* this, ObjElevatorActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -66,7 +64,7 @@ void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjElevator* this = THIS;
     f32 temp_f0;
 
-    func_80B92B08(this, globalCtx, &D_06000360, DPM_PLAYER);
+    func_80B92B08(this, globalCtx, &object_d_elevator_Col_000360, DPM_PLAYER);
     Actor_SetScale(thisx, sScales[thisx->params & 1]);
     Actor_ProcessInitChain(thisx, sInitChain);
     temp_f0 = (thisx->params >> 8) & 0xF;
@@ -125,5 +123,5 @@ void ObjElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjElevator_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06000180);
+    Gfx_DrawDListOpa(globalCtx, object_d_elevator_DL_000180);
 }

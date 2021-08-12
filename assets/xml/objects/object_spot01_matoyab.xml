@@ -1,5 +1,7 @@
 <Root>
     <File Name="object_spot01_matoyab" Segment="6">
+        <Collision Name="object_spot01_matoyab_col" Offset="0x1C58"/>
+
         <!-- Kakariko Guard Gate -->
         <DList Name="gKakarikoGuardGateDL" Offset="0x1CD0"/>
         <Texture Name="gKakarikoGuardGateMetalSidebarDL" OutName="guard_gate_metal_sidebar" Format="rgba16" Width="8" Height="64" Offset="0x1DE0"/>

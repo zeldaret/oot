@@ -1,6 +1,7 @@
 #include "z_en_encount2.h"
 #include "overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.h"
 #include "vt.h"
+#include "objects/object_efc_star_field/object_efc_star_field.h"
 
 #define FLAGS 0x00000030
 
@@ -22,8 +23,6 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx);
 void EnEncount2_ParticleInit(EnEncount2* this, Vec3f* particlePos, f32 scale);
 void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount2_ParticleUpdate(EnEncount2* this, GlobalContext* globalCtx);
-
-extern Gfx* D_06000DE0[];
 
 const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
@@ -365,7 +364,7 @@ void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx) {
                 gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_encount2.c", 669),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, D_06000DE0);
+                gSPDisplayList(POLY_OPA_DISP++, object_efc_star_field_DL_000DE0);
             }
         }
     }

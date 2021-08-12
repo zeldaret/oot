@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ma3.h"
+#include "objects/object_ma2/object_ma2.h"
 
 #define FLAGS 0x00000039
 
@@ -78,11 +79,6 @@ static UNK_PTR D_80AA38B0[] = {
     0x06002C70,
     0x06003070,
 };
-
-extern u32 D_06005420;
-extern FlexSkeletonHeader D_06008D90;
-extern AnimationHeader D_060093BC;
-extern AnimationHeader D_06009EE0;
 
 u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = PLAYER;
@@ -195,7 +191,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &D_06009EE0)) {
+    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &object_ma2_Anim_009EE0)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -220,7 +216,7 @@ s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA2F28(EnMa3* this) {
-    if (this->skelAnime.animation != &D_06009EE0) {
+    if (this->skelAnime.animation != &object_ma2_Anim_009EE0) {
         return 0;
     }
     if (this->unk_1E0.unk_00 != 0) {
@@ -256,7 +252,7 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ma2_Skel_008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
@@ -352,8 +348,8 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if (limbIndex == 18) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
-    if ((limbIndex == 14) && (this->skelAnime.animation == &D_060093BC)) {
-        gSPDisplayList(POLY_OPA_DISP++, &D_06005420);
+    if ((limbIndex == 14) && (this->skelAnime.animation == &object_ma2_Anim_0093BC)) {
+        gSPDisplayList(POLY_OPA_DISP++, &object_ma2_DL_005420);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 950);

@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_ice_smoke.h"
+#include "objects/object_fz/object_fz.h"
 
 #define rObjBankIdx regs[0]
 #define rAlpha regs[1]
@@ -18,9 +19,6 @@ EffectSsInit Effect_Ss_Ice_Smoke_InitVars = {
     EFFECT_SS_ICE_SMOKE,
     EffectSsIceSmoke_Init,
 };
-
-extern Gfx D_060030A0[];
-extern Gfx D_06003158[];
 
 u32 EffectSsIceSmoke_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsIceSmokeInitParams* initParams = (EffectSsIceSmokeInitParams*)initParamsx;
@@ -70,7 +68,7 @@ void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         func_80093D84(globalCtx->state.gfxCtx);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
         gSPSegment(POLY_XLU_DISP++, 0x06, object);
-        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_060030A0));
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamStartDL));
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 235, 235, this->rAlpha);
         gSPSegment(
@@ -85,7 +83,7 @@ void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
 
         if (mtx != NULL) {
             gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_06003158));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamDL));
         }
     } else {
         this->life = -1;

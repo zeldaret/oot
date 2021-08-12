@@ -7,6 +7,8 @@
 #include "z_demo_6k.h"
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_demo_6k/object_demo_6k.h"
+#include "objects/object_gnd_magic/object_gnd_magic.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
 #define FLAGS 0x00000010
@@ -36,12 +38,6 @@ void func_809688C4(Actor* thisx, GlobalContext* globalCtx);
 void func_80968B70(Actor* thisx, GlobalContext* globalCtx);
 void func_80968FB0(Actor* thisx, GlobalContext* globalCtx);
 void func_809691BC(Demo6K* this, GlobalContext* globalCtx, s32 params);
-
-extern Gfx D_06001040[];
-extern Gfx D_06001190[];
-extern Gfx D_060022B0[];
-extern Vtx D_060035E0[];
-extern Gfx D_060039D0[];
 
 const ActorInit Demo_6K_InitVars = {
     ACTOR_DEMO_6K,
@@ -593,7 +589,7 @@ void func_80967FFC(Actor* thisx, GlobalContext* globalCtx) {
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, colors[i][0].r, colors[i][0].g, colors[i][0].b, 255);
             gDPSetEnvColor(POLY_XLU_DISP++, colors[i][1].r, colors[i][1].g, colors[i][1].b, 255);
-            gSPDisplayList(POLY_XLU_DISP++, D_060022B0);
+            gSPDisplayList(POLY_XLU_DISP++, object_demo_6k_DL_0022B0);
         }
 
         // required to avoid optimizing out i
@@ -609,7 +605,7 @@ void func_80968298(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     u32 timer1 = this->timer1;
     f32 scale = this->unk_164 * this->unk_168;
-    Vtx* vertices = SEGMENTED_TO_VIRTUAL(D_060035E0);
+    Vtx* vertices = SEGMENTED_TO_VIRTUAL(object_demo_6kVtx_0035E0);
     s32 i;
     s32 i2;
     u8 alpha;
@@ -641,14 +637,14 @@ void func_80968298(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (0xFFF - (timer1 * 6)) & 0xFFF, (timer1 * 12) & 0xFFF, 128,
                                 64, 1, (0xFFF - (timer1 * 6)) & 0xFFF, (timer1 * 12) & 0xFFF, 64, 32));
-    gSPDisplayList(POLY_XLU_DISP++, D_060039D0);
+    gSPDisplayList(POLY_XLU_DISP++, object_demo_6k_DL_0039D0);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_6k.c", 1189),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 50, 50, 50, 255);
-    gSPDisplayList(POLY_XLU_DISP++, D_06001040);
+    gSPDisplayList(POLY_XLU_DISP++, object_demo_6k_DL_001040);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_6k.c", 1198);
 }
@@ -767,7 +763,7 @@ void func_80968B70(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColor[0], primColor[1], primColor[2], primColor[3]);
     gDPSetEnvColor(POLY_XLU_DISP++, envColor[0], envColor[1], envColor[2], 128);
-    gSPDisplayList(POLY_XLU_DISP++, D_06001190);
+    gSPDisplayList(POLY_XLU_DISP++, object_gnd_magic_DL_001190);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_6k.c", 1368);
 }

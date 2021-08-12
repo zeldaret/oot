@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_ice_objects.h"
+#include "objects/object_ice_objects/object_ice_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -19,9 +20,6 @@ void BgIceObjects_Idle(BgIceObjects* this, GlobalContext* globalCtx);
 void BgIceObjects_Slide(BgIceObjects* this, GlobalContext* globalCtx);
 void BgIceObjects_Reset(BgIceObjects* this, GlobalContext* globalCtx);
 void BgIceObjects_Stuck(BgIceObjects* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000190[];
-extern CollisionHeader D_060003F0;
 
 static Color_RGBA8 sWhite = { 250, 250, 250, 255 };
 static Color_RGBA8 sGray = { 180, 180, 180, 255 };
@@ -50,7 +48,7 @@ void BgIceObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_060003F0, &colHeader);
+    CollisionHeader_GetVirtual(&object_ice_objects_Col_0003F0, &colHeader);
     Math_Vec3f_Copy(&this->targetPos, &this->dyna.actor.home.pos);
     this->actionFunc = BgIceObjects_Idle;
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -237,5 +235,5 @@ void BgIceObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgIceObjects* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, D_06000190);
+    Gfx_DrawDListOpa(globalCtx, object_ice_objects_DL_000190);
 }
