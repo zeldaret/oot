@@ -127,11 +127,9 @@ extern u8 sNoteValueIndexMap[16]; // = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 5, 3, 3, 4
 // D_80131C80 .. 88 are in-function static in func_800EE824
 extern f32 D_80131C8C;
 
-extern u8 D_801333F0;
-
 // Debug variables (separate file?):
-extern f32 D_80131C90; // func_800EEA50, in-function static?
-extern f32 D_80131C94; // func_800EEA50, in-function static?
+extern f32 D_80131C90;
+extern f32 D_80131C94;
 extern u8 D_80131C98;
 extern u8 D_80131C9C;
 extern u8 D_80131CA0;
@@ -145,7 +143,7 @@ extern char D_80131E88[][10];  // func_800EEA50
 extern s8 D_80131EBC;
 extern s8 D_80131EC0;
 extern s8 D_80131EC4;
-extern s8 D_80131EC8[];
+extern s8 D_80131EC8[7];
 extern u8 D_80131ED0;
 extern u8 sAudioScreenPrintInd;
 extern u8 sAudioScreenPrintOverflow;
@@ -187,17 +185,12 @@ extern u8 D_80131F68;
  * 0x0001 minuet
  */
 
-typedef struct {
-    u8 unk_00;
-    char unk_01[0x37];
-} unk_dstruct;
-
+extern u8 D_801333F0;
 extern u8 D_801333F4;
 extern u8 D_80133408;
 extern u8 D_8013340C;
 extern u8 D_80133414;
 extern u8 D_80133418;
-extern unk_dstruct D_801337CE[];
 
 /**
  * BSS
@@ -1186,22 +1179,17 @@ u8* func_800EE9D0(s32 arg0, u8 arg1) {
 }
 
 // Debug Print
-#ifdef NON_EQUIVALENT
 void func_800EEA50(GfxPrint* printer) {
-    char digitStr[2] = "1"; // sp98
-    s32 s0;
-    s32 k;
+    s32 pad[3];
     u8 i;
     u8 j;
-    u8 songInd;
-    u8 totalNumLayers;
-    u8 instOrWave;
-    u8 inst;
-    u8 phi_s2_3;
+    u8 ctr;
+    u8 ctr2;
+    s8 k;
+    s8 k2;
     s8 ind;
-    u8 idx;             // v1
-    u8 bank;            // fp
-    u8 numEnabledNotes; // sp78
+    u8 numEnabledNotes = 0;
+    char digitStr[2] = "1";
 
 #define SETCOL_COMMON(v, r, g, b) \
     GfxPrint_SetColor(printer, ((v & 4) >> 2) * (r), ((v & 2) >> 1) * (g), (v & 1) * (b), 255)
@@ -1216,8 +1204,7 @@ void func_800EEA50(GfxPrint* printer) {
     GfxPrint_SetPos(printer, 3, 3);
     GfxPrint_Printf(printer, "- %s -", D_80131CAC[D_80131CA0]);
 
-    numEnabledNotes = 0;                                                          // s0
-    for (i = 0; i < gAudioSessionPresets[D_80133414].maxSimultaneousNotes; i++) { // s6
+    for (i = 0; i < gAudioSessionPresets[D_80133414].maxSimultaneousNotes; i++) {
         if (gAudioContext.notes[i].noteSubEu.bitField0.s.enabled == 1) {
             numEnabledNotes++;
         }
@@ -1232,11 +1219,11 @@ void func_800EEA50(GfxPrint* printer) {
 
     if (D_80131EE4[0] != 0) {
         GfxPrint_SetPos(printer, D_80131EDC, D_80131EE0);
-        SETCOL2(0xC8, 0xC8, 0xC8);
+        SETCOL2(200, 200, 200);
         GfxPrint_Printf(printer, "Audio ScrPrt");
 
-        ind = sAudioScreenPrintInd;               // fp
-        for (k = 0; k < D_80131EE4[1] + 1; k++) { // s2 (s32 loop)
+        ind = sAudioScreenPrintInd;
+        for (k = 0; k < D_80131EE4[1] + 1; k++) {
             if (ind == 0) {
                 if (sAudioScreenPrintOverflow == 1) {
                     ind = 25 - 1;
@@ -1248,14 +1235,14 @@ void func_800EEA50(GfxPrint* printer) {
             }
             if (k != D_80131EE4[1] + 1) {
                 if ((ind % 5) != 0) {
-                    SETCOL2(0xB4, 0xB4, 0xB4);
+                    SETCOL2(180, 180, 180);
                 } else {
-                    SETCOL2(0x78, 0x78, 0x78);
+                    SETCOL2(120, 120, 120);
                 }
-                GfxPrint_SetPos(printer, D_80131EDC + 2, D_80131EE0 + D_80131EE4[1] + 1 - k);
+                GfxPrint_SetPos(printer, 2 + D_80131EDC, D_80131EE0 + D_80131EE4[1] + 1 - k);
                 GfxPrint_Printf(printer, "%s", sAudioScreenPrintBuf[ind].str);
 
-                GfxPrint_SetPos(printer, D_80131EDC + 7, D_80131EE0 + D_80131EE4[1] + 1 - k);
+                GfxPrint_SetPos(printer, 7 + D_80131EDC, D_80131EE0 + D_80131EE4[1] + 1 - k);
                 GfxPrint_Printf(printer, "%04X", sAudioScreenPrintBuf[ind].num);
             }
         }
@@ -1264,7 +1251,7 @@ void func_800EEA50(GfxPrint* printer) {
     switch (D_80131CA0) {
         case 0:
             GfxPrint_SetPos(printer, 3, 4);
-            SETCOL(255, 6, 6);
+            SETCOL(255, 64, 64);
             GfxPrint_Printf(printer, "BGM CANCEL:%s", D_80131F54[D_80131E08[5]]);
 
             GfxPrint_SetPos(printer, 3, 5);
@@ -1274,23 +1261,23 @@ void func_800EEA50(GfxPrint* printer) {
             SETCOL(255, 255, 255);
             GfxPrint_Printf(printer, "PUSH CONT-4 A-BTN");
 
-            bank = (u8)D_80131E08[2];
-            i = gSoundBanks[bank][0].next; // s6, s3
+            ind = (s8)D_80131E08[2];
+            i = gSoundBanks[ind][0].next;
+            j = 0;
             SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 6);
-            GfxPrint_Printf(printer, "SE HANDLE:%s", D_80131E38[bank]);
+            GfxPrint_Printf(printer, "SE HANDLE:%s", D_80131E38[ind]);
 
             while (i != 0xFF) {
-                GfxPrint_SetPos(printer, 3, j + 7);
-                GfxPrint_Printf(printer, "%02x %04x %02x %08x", i, gSoundBanks[bank][i].unk_28,
-                                gSoundBanks[bank][i].unk_2A, gSoundBanks[bank][i].unk_20);
-                i = gSoundBanks[bank][i].next;
-                j++;
+                GfxPrint_SetPos(printer, 3, 7 + j++);
+                GfxPrint_Printf(printer, "%02x %04x %02x %08x", i, gSoundBanks[ind][i].unk_28,
+                                gSoundBanks[ind][i].unk_2A, gSoundBanks[ind][i].unk_20);
+                i = gSoundBanks[ind][i].next;
             }
             break;
 
         case 1:
-            GfxPrint_SetPos(printer, 2, D_80131CA4 + 4);
+            GfxPrint_SetPos(printer, 2, 4 + D_80131CA4);
             SETCOL(127, 255, 127);
             GfxPrint_Printf(printer, "*");
 
@@ -1330,59 +1317,55 @@ void func_800EEA50(GfxPrint* printer) {
             break;
 
         case 7:
-            ind = 0;                  // fp
-            for (k = 0; k < 7; k++) { // s2 (s32 loop)
+            ind = 0;
+            for (k = 0; k < 7; k++) {
                 if (k == D_80131EC4) {
                     SETCOL(255, 127, 127);
                 } else {
                     SETCOL(255, 255, 255);
                 }
-                GfxPrint_SetPos(printer, D_80131EBC + 2, D_80131EC0 + ind + 4);
+                GfxPrint_SetPos(printer, 2 + D_80131EBC, 4 + ind + D_80131EC0);
                 GfxPrint_Printf(printer, "%s <%d>", D_80131E38[k], D_80131EC8[k]);
 
-                for (s0 = 0; s0 < D_80130578[D_801333CC][k]; s0++) {
-                    GfxPrint_SetPos(printer, D_80131EBC + 2, D_80131EC0 + ind + 5);
+                for (k2 = 0; k2 < D_80130578[D_801333CC][k]; k2++) {
+#define idx (D_8016E1B8[k][k2].unk_4)
+#define bank (&gSoundBanks[k][idx])
+#define chan (gAudioContext.seqPlayers[2].channels[bank->unk_2E])
+                    GfxPrint_SetPos(printer, 2 + D_80131EBC, 5 + ind + D_80131EC0);
                     if (D_80131EC8[k] == 1) {
-                        idx = D_8016E1B8[k][s0].unk_4;
-                        if ((idx != 0xFF) && ((gSoundBanks[k][idx].unk_2A == 4) || (gSoundBanks[k][idx].unk_2A == 5))) {
-                            SoundBankEntry* entry = &gSoundBanks[k][idx];
-                            GfxPrint_Printf(printer, "%2X %5d %5d %5d %02X %04X %04X", idx, (s32)*entry->posX,
-                                            (s32)*entry->posY, (s32)*entry->posZ, entry->unk_24, entry->unk_26,
-                                            entry->unk_28);
+                        if ((idx != 0xFF) && ((bank->unk_2A == 4) || (bank->unk_2A == 5))) {
+                            GfxPrint_Printf(printer, "%2X %5d %5d %5d %02X %04X %04X", idx, (s32)*bank->posX,
+                                            (s32)*bank->posY, (s32)*bank->posZ, bank->unk_24, bank->unk_26,
+                                            bank->unk_28);
                         } else {
-                            GfxPrint_Printf(printer, "FF ----- ----- ----- -- ---- ----", idx);
+                            GfxPrint_Printf(printer, "FF ----- ----- ----- -- ---- ----");
                         }
                     } else if (D_80131EC8[k] == 2) {
-                        idx = D_8016E1B8[k][s0].unk_4;
-                        if ((idx != 0xFF) && ((gSoundBanks[k][idx].unk_2A == 4) || (gSoundBanks[k][idx].unk_2A == 5))) {
-                            SoundBankEntry* entry = &gSoundBanks[k][idx];
-                            SequenceChannel* chan = gAudioContext.seqPlayers[2].channels[entry->unk_2E];
-                            GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", idx, (s32)*entry->posX,
-                                            (s32)*entry->posY, (s32)*entry->posZ, (s32)(chan->volume * 127.1f),
-                                            chan->newPan, entry->unk_28);
+                        if ((idx != 0xFF) && ((bank->unk_2A == 4) || (bank->unk_2A == 5))) {
+                            GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", idx, (s32)*bank->posX,
+                                            (s32)*bank->posY, (s32)*bank->posZ, (s32)(chan->volume * 127.1f),
+                                            chan->newPan, bank->unk_28);
                         } else {
-                            GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----", idx);
+                            GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----");
                         }
                     } else if (D_80131EC8[k] == 3) {
-                        idx = D_8016E1B8[k][s0].unk_4;
-                        if ((idx != 0xFF) && ((gSoundBanks[k][idx].unk_2A == 4) || (gSoundBanks[k][idx].unk_2A == 5))) {
-                            SoundBankEntry* entry = &gSoundBanks[k][idx];
-                            SequenceChannel* chan = gAudioContext.seqPlayers[2].channels[entry->unk_2E];
-                            GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", idx, (s32)*entry->posX,
-                                            (s32)*entry->posY, (s32)*entry->posZ, (s32)(chan->freqScale * 100.0f),
-                                            chan->reverb, entry->unk_28);
+                        if ((idx != 0xFF) && ((bank->unk_2A == 4) || (bank->unk_2A == 5))) {
+                            GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", idx, (s32)*bank->posX,
+                                            (s32)*bank->posY, (s32)*bank->posZ, (s32)(chan->freqScale * 100.0f),
+                                            chan->reverb, bank->unk_28);
                         } else {
-                            GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----", idx);
+                            GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----");
                         }
                     } else if (D_80131EC8[k] == 4) {
-                        idx = D_8016E1B8[k][s0].unk_4;
-                        if ((idx != 0xFF) && ((gSoundBanks[k][idx].unk_2A == 4) || (gSoundBanks[k][idx].unk_2A == 5))) {
-                            SoundBankEntry* entry = &gSoundBanks[k][idx];
-                            GfxPrint_Printf(printer, "%2X %04X", idx, entry->unk_28);
+                        if ((idx != 0xFF) && ((bank->unk_2A == 4) || (bank->unk_2A == 5))) {
+                            GfxPrint_Printf(printer, "%2X %04X", idx, bank->unk_28);
                         } else {
-                            GfxPrint_Printf(printer, "FF ----", idx);
+                            GfxPrint_Printf(printer, "FF ----");
                         }
                     }
+#undef idx
+#undef bank
+#undef chan
 
                     if (D_80131EC8[k] != 0) {
                         ind++;
@@ -1393,7 +1376,7 @@ void func_800EEA50(GfxPrint* printer) {
             break;
 
         case 13:
-            GfxPrint_SetPos(printer, 2, D_80131ED0 + 4);
+            GfxPrint_SetPos(printer, 2, 4 + D_80131ED0);
             SETCOL(255, 255, 255);
             GfxPrint_Printf(printer, "*");
 
@@ -1444,20 +1427,20 @@ void func_800EEA50(GfxPrint* printer) {
             } else {
                 SETCOL(127, 127, 127);
             }
-            GfxPrint_SetPos(printer, 2, D_80131F04 + 6);
+            GfxPrint_SetPos(printer, 2, 6 + D_80131F04);
             GfxPrint_Printf(printer, "*");
 
-            phi_s2_3 = D_80131F08;
+            ctr = D_80131F08;
             if (D_80131F08 >= 4) {
-                phi_s2_3++;
+                ctr++;
             }
             if (D_80131F00 == 1) {
                 SETCOL(255, 255, 255);
-                GfxPrint_SetPos(printer, phi_s2_3 + 3, 5);
+                GfxPrint_SetPos(printer, 3 + ctr, 5);
                 GfxPrint_Printf(printer, "V");
             }
 
-            for (i = 0; i < 10; i++) { // s3, s6
+            for (i = 0; i < 10; i++) {
                 if (i == D_80131F04) {
                     if (D_80131F00 == 0) {
                         SETCOL(192, 192, 192);
@@ -1469,7 +1452,7 @@ void func_800EEA50(GfxPrint* printer) {
                 } else {
                     SETCOL(96, 96, 96);
                 }
-                GfxPrint_SetPos(printer, 3, i + 6);
+                GfxPrint_SetPos(printer, 3, 6 + i);
                 GfxPrint_Printf(printer, "%04x %04x %s", D_8016E2E0[i], D_8016E2F8[i], D_80131F0C[D_8016E310[i]]);
             }
             break;
@@ -1494,48 +1477,48 @@ void func_800EEA50(GfxPrint* printer) {
             GfxPrint_SetPos(printer, 3, 9);
             GfxPrint_Printf(printer, "OPENNOTE");
 
-            totalNumLayers = 0;        // s4
-            for (i = 0; i < 16; i++) { // s3, s6
-                u8 numLayers = 0;      // s2
+            ctr2 = 0;
+            for (i = 0; i < 16; i++) {
                 if (i == D_80131F2C) {
                     SETCOL(255, 255, 255);
                 } else {
                     SETCOL(200, 200, 200);
                 }
-                GfxPrint_SetPos(printer, i + 15, 6);
+                GfxPrint_SetPos(printer, 15 + i, 6);
                 GfxPrint_Printf(printer, "%1X", i);
 
-                GfxPrint_SetPos(printer, i + 15, 7);
+                GfxPrint_SetPos(printer, 15 + i, 7);
                 if (gAudioContext.seqPlayers[D_80131F28].channels[i]->enabled) {
                     GfxPrint_Printf(printer, "O");
                 } else {
                     GfxPrint_Printf(printer, "X");
                 }
 
-                GfxPrint_SetPos(printer, i + 15, 8);
+                GfxPrint_SetPos(printer, 15 + i, 8);
                 if (gAudioContext.seqPlayers[D_80131F28].channels[i]->stopSomething2) {
                     GfxPrint_Printf(printer, "O");
                 } else {
                     GfxPrint_Printf(printer, "X");
                 }
 
-                GfxPrint_SetPos(printer, i + 15, 9);
-                for (j = 0; j < 4; j++) { // s0
+                GfxPrint_SetPos(printer, 15 + i, 9);
+                ctr = 0;
+                for (j = 0; j < 4; j++) {
                     if (gAudioContext.seqPlayers[D_80131F28].channels[i]->layers[j] != NULL) {
-                        numLayers++;
+                        ctr++;
                     }
                 }
 
-                GfxPrint_Printf(printer, "%1X", numLayers);
-                totalNumLayers += numLayers;
+                GfxPrint_Printf(printer, "%1X", ctr);
+                ctr2 += ctr;
             }
 
             SETCOL(255, 255, 255);
-            if (D_80131F30[D_80131F28] < totalNumLayers) {
-                D_80131F30[D_80131F28] = totalNumLayers;
+            if (D_80131F30[D_80131F28] < ctr2) {
+                D_80131F30[D_80131F28] = ctr2;
             }
-            GfxPrint_SetPos(printer, i + 16, 9);
-            GfxPrint_Printf(printer, "%2d,%2d", totalNumLayers, D_80131F30[D_80131F28]);
+            GfxPrint_SetPos(printer, 16 + i, 9);
+            GfxPrint_Printf(printer, "%2d,%2d", ctr2, D_80131F30[D_80131F28]);
 
             GfxPrint_SetPos(printer, 3, 11);
             GfxPrint_Printf(printer, "VOL     ");
@@ -1573,38 +1556,36 @@ void func_800EEA50(GfxPrint* printer) {
             GfxPrint_SetPos(printer, 3, 22);
             GfxPrint_Printf(printer, "TUNE    ");
 
-            for (i = 0; i < 8; i++) { // s3, s6
-                GfxPrint_SetPos(printer, (i + 5) * 3, 22);
+            for (i = 0; i < 8; i++) {
+                GfxPrint_SetPos(printer, 15 + 3 * i, 22);
                 GfxPrint_Printf(printer, "%02X ",
-                                gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->soundScriptIO[i]);
+                                (u8)gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->soundScriptIO[i]);
             }
 
             if (gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->enabled) {
                 GfxPrint_SetPos(printer, 15, 11);
                 GfxPrint_Printf(printer, "%d",
-                                (u32)(gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->volume * 127.1) &
-                                    0xFF);
+                                (u8)(gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->volume * 127.1));
 
                 GfxPrint_SetPos(printer, 15, 12);
                 GfxPrint_Printf(printer, "%d",
-                                (u32)(gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->volumeScale * 127.1) &
-                                    0xFF);
+                                (u8)(gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->volumeScale * 127.1));
 
                 GfxPrint_SetPos(printer, 15, 13);
                 GfxPrint_Printf(printer, "%X", gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->bankId);
 
-                instOrWave = (u8)gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->instOrWave;
-                if (instOrWave == 0) {
-                    inst = 0x7F;
+                ctr = (u8)(gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->instOrWave);
+
+                if (ctr == 0) {
+                    ctr2 = 0x7F;
+                } else if (ctr < 0x80) {
+                    ctr2 = ctr - 1;
                 } else {
-                    inst = instOrWave;
-                    if (instOrWave < 0x80) {
-                        inst--;
-                    }
+                    ctr2 = ctr;
                 }
 
                 GfxPrint_SetPos(printer, 15, 14);
-                GfxPrint_Printf(printer, "%d", inst);
+                GfxPrint_Printf(printer, "%d", ctr2);
 
                 GfxPrint_SetPos(printer, 15, 15);
                 GfxPrint_Printf(printer, "%d", gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->newPan);
@@ -1620,19 +1601,18 @@ void func_800EEA50(GfxPrint* printer) {
                 GfxPrint_Printf(printer, "%d", gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->notePriority);
 
                 GfxPrint_SetPos(printer, 15, 19);
-                GfxPrint_Printf(printer, "%d",
-                                (gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->vibratoRateTarget / 32) &
-                                    0xFF);
+                GfxPrint_Printf(
+                    printer, "%d",
+                    (u8)(gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->vibratoRateTarget / 32));
 
                 GfxPrint_SetPos(printer, 15, 20);
-                GfxPrint_Printf(printer, "%d",
-                                (gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->vibratoExtentTarget / 8) &
-                                    0xFF);
+                GfxPrint_Printf(
+                    printer, "%d",
+                    (u8)(gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->vibratoExtentTarget / 8));
 
                 GfxPrint_SetPos(printer, 15, 21);
                 GfxPrint_Printf(printer, "%d",
-                                (u32)(gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->freqScale * 100.0f) &
-                                    0xFFFF);
+                                (u16)(gAudioContext.seqPlayers[D_80131F28].channels[D_80131F2C]->freqScale * 100));
             }
             break;
 
@@ -1667,8 +1647,8 @@ void func_800EEA50(GfxPrint* printer) {
                 gAudioContext.seqLoadedPool.persistent.pool.cur - gAudioContext.seqLoadedPool.persistent.pool.start,
                 gAudioContext.seqLoadedPool.persistent.pool.size);
 
-            for (k = 0; k < gAudioContext.seqLoadedPool.persistent.numEntries; k++) { // s2 (s32 loop)
-                GfxPrint_SetPos(printer, (k + 1) * 3, 9);
+            for (k = 0; k < gAudioContext.seqLoadedPool.persistent.numEntries; k++) {
+                GfxPrint_SetPos(printer, 3 + 3 * k, 9);
                 GfxPrint_Printf(printer, "%02x", gAudioContext.seqLoadedPool.persistent.entries[k].id);
             }
 
@@ -1678,8 +1658,8 @@ void func_800EEA50(GfxPrint* printer) {
                 gAudioContext.bankLoadedPool.persistent.pool.cur - gAudioContext.bankLoadedPool.persistent.pool.start,
                 gAudioContext.bankLoadedPool.persistent.pool.size);
 
-            for (k = 0; k < gAudioContext.bankLoadedPool.persistent.numEntries; k++) { // s2 (s32 loop)
-                GfxPrint_SetPos(printer, (k + 1) * 3, 11);
+            for (k = 0; k < gAudioContext.bankLoadedPool.persistent.numEntries; k++) {
+                GfxPrint_SetPos(printer, 3 + 3 * k, 11);
                 GfxPrint_Printf(printer, "%02x", gAudioContext.bankLoadedPool.persistent.entries[k].id);
             }
 
@@ -1697,7 +1677,7 @@ void func_800EEA50(GfxPrint* printer) {
             GfxPrint_Printf(printer, "SCENE SET  %02X %s", D_80131F4C[1], D_80131F44[D_80131F4C[1]]);
 
             SETCOL(0x64, 255, 0x64);
-            GfxPrint_SetPos(printer, 2, D_80131F50 + 4);
+            GfxPrint_SetPos(printer, 2, 4 + D_80131F50);
             GfxPrint_Printf(printer, "*");
 
             SETCOL(255, 255, 255);
@@ -1738,11 +1718,11 @@ void func_800EEA50(GfxPrint* printer) {
             GfxPrint_SetPos(printer, 3, 6);
             GfxPrint_Printf(printer, "8note REC POINTER : %08x", gScarecrowSpawnSongPtr);
 
-            songInd = 0;                  // s2
-            for (j = 0; j < 4; j++) {     // s0, a0
-                for (i = 0; i < 8; i++) { // s3, s6
-                    GfxPrint_SetPos(printer, (i + 1) * 3, j + 7);
-                    GfxPrint_Printf(printer, "%02x", gScarecrowSpawnSongPtr[songInd++]);
+            ctr = 0;
+            for (j = 0; j < 4; j++) {
+                for (i = 0; i < 8; i++) {
+                    GfxPrint_SetPos(printer, 3 + 3 * i, 7 + j);
+                    GfxPrint_Printf(printer, "%02x", gScarecrowSpawnSongPtr[ctr++]);
                 }
             }
 
@@ -1752,7 +1732,7 @@ void func_800EEA50(GfxPrint* printer) {
             break;
 
         case 12:
-            GfxPrint_SetPos(printer, 2, D_80131F18 + 4);
+            GfxPrint_SetPos(printer, 2, 4 + D_80131F18);
             SETCOL(127, 255, 127);
             GfxPrint_Printf(printer, "*");
 
@@ -1771,8 +1751,8 @@ void func_800EEA50(GfxPrint* printer) {
 
             SETCOL(127, 255, 127);
             digitStr[0] = (char)('0' + ((D_8013331C[D_80131F20[0]][D_80131F20[1]].unk_2 >> (15 - D_80131F1C)) & 1));
-            GfxPrint_SetPos(printer, D_80131F1C + 12, 6);
-            GfxPrint_Printf(printer, "%s", &digitStr);
+            GfxPrint_SetPos(printer, 12 + D_80131F1C, 6);
+            GfxPrint_Printf(printer, "%s", digitStr);
 
             SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 7);
@@ -1784,7 +1764,7 @@ void func_800EEA50(GfxPrint* printer) {
             SETCOL(255, 255, 255);
             GfxPrint_Printf(printer, "env_fx %d code_fx %d SPEC %d", D_80130614, D_80130618, D_80133414);
 
-            if (sAudioUpdateTaskEnd == sAudioUpdateTaskStart) {
+            if (sAudioUpdateTaskStart == sAudioUpdateTaskEnd) {
                 D_80131C90 = (f32)((sAudioUpdateEndTime - sAudioUpdateStartTime) * 64ULL / 3) / 50000000.0f;
                 if (D_80131C94 < D_80131C90) {
                     D_80131C94 = D_80131C90;
@@ -1829,8 +1809,8 @@ void func_800EEA50(GfxPrint* printer) {
             GfxPrint_SetPos(printer, 3, 25);
             GfxPrint_Printf(printer, "POLI %d(%d)", D_80131F68, numEnabledNotes);
 
-            for (i = 0; i < 11; i++) { // s3, s6
-                GfxPrint_SetPos(printer, (i + 1) * 3, 26);
+            for (i = 0; i < 11; i++) {
+                GfxPrint_SetPos(printer, 3 + 3 * i, 26);
                 GfxPrint_Printf(printer, "%d", D_8016B9E0[i]);
             }
             break;
@@ -1839,9 +1819,6 @@ void func_800EEA50(GfxPrint* printer) {
 #undef SETCOL
 #undef SETCOL2
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EEA50.s")
-#endif
 
 void func_800F1BDC(void) {
     u16 phi_t1 = 1;
