@@ -1203,16 +1203,14 @@ void func_800EEA50(GfxPrint* printer) {
     u8 bank;            // fp
     u8 numEnabledNotes; // sp78
 
-#define SETCOL(r, g, b)                                                                                              \
-    GfxPrint_SetColor(printer, ((D_80131CA8 & 4) >> 2) * (r), ((D_80131CA8 & 2) >> 1) * (g), (D_80131CA8 & 1) * (b), \
-                      0xFF)
-#define SETCOL2(r, g, b)                                                                           \
-    GfxPrint_SetColor(printer, ((D_80131EE4[2] & 4) >> 2) * (r), ((D_80131EE4[2] & 2) >> 1) * (g), \
-                      (D_80131EE4[2] & 1) * (b), 0xFF)
+#define SETCOL_COMMON(v, r, g, b) \
+    GfxPrint_SetColor(printer, ((v & 4) >> 2) * (r), ((v & 2) >> 1) * (g), (v & 1) * (b), 255)
+#define SETCOL(r, g, b) SETCOL_COMMON(D_80131CA8, r, g, b)
+#define SETCOL2(r, g, b) SETCOL_COMMON(D_80131EE4[2], r, g, b)
 
     D_80131C98 = 1;
     GfxPrint_SetPos(printer, 3, 2);
-    SETCOL(0xFF, 0xFF, 0xFF);
+    SETCOL(255, 255, 255);
     GfxPrint_Printf(printer, "Audio Debug Mode");
 
     GfxPrint_SetPos(printer, 3, 3);
@@ -1266,19 +1264,19 @@ void func_800EEA50(GfxPrint* printer) {
     switch (D_80131CA0) {
         case 0:
             GfxPrint_SetPos(printer, 3, 4);
-            SETCOL(0xFF, 6, 6);
+            SETCOL(255, 6, 6);
             GfxPrint_Printf(printer, "BGM CANCEL:%s", D_80131F54[D_80131E08[5]]);
 
             GfxPrint_SetPos(printer, 3, 5);
             GfxPrint_Printf(printer, "SE MUTE:%s", D_80131F54[D_80131C9C]);
 
             GfxPrint_SetPos(printer, 18, 4);
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_Printf(printer, "PUSH CONT-4 A-BTN");
 
             bank = (u8)D_80131E08[2];
             i = gSoundBanks[bank][0].next; // s6, s3
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 6);
             GfxPrint_Printf(printer, "SE HANDLE:%s", D_80131E38[bank]);
 
@@ -1293,10 +1291,10 @@ void func_800EEA50(GfxPrint* printer) {
 
         case 1:
             GfxPrint_SetPos(printer, 2, D_80131CA4 + 4);
-            SETCOL(0x7F, 0xFF, 0x7F);
+            SETCOL(127, 255, 127);
             GfxPrint_Printf(printer, "*");
 
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 4);
             GfxPrint_Printf(printer, "Seq 0  : %2x", D_80131E08[0]);
 
@@ -1335,9 +1333,9 @@ void func_800EEA50(GfxPrint* printer) {
             ind = 0;                  // fp
             for (k = 0; k < 7; k++) { // s2 (s32 loop)
                 if (k == D_80131EC4) {
-                    SETCOL(0xFF, 0x7F, 0x7F);
+                    SETCOL(255, 127, 127);
                 } else {
-                    SETCOL(0xFF, 0xFF, 0xFF);
+                    SETCOL(255, 255, 255);
                 }
                 GfxPrint_SetPos(printer, D_80131EBC + 2, D_80131EC0 + ind + 4);
                 GfxPrint_Printf(printer, "%s <%d>", D_80131E38[k], D_80131EC8[k]);
@@ -1396,10 +1394,10 @@ void func_800EEA50(GfxPrint* printer) {
 
         case 13:
             GfxPrint_SetPos(printer, 2, D_80131ED0 + 4);
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_Printf(printer, "*");
 
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 4);
             GfxPrint_Printf(printer, "Swicth  : %d", D_80131EE4[0]);
 
@@ -1436,15 +1434,15 @@ void func_800EEA50(GfxPrint* printer) {
 
         case 8:
             GfxPrint_SetPos(printer, 3, 4);
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             if (D_801333F4 != 0) {
                 GfxPrint_Printf(printer, "SWAP OFF");
             }
 
             if (D_80131F00 == 0) {
-                SETCOL(0xFF, 0xFF, 0xFF);
+                SETCOL(255, 255, 255);
             } else {
-                SETCOL(0x7F, 0x7F, 0x7F);
+                SETCOL(127, 127, 127);
             }
             GfxPrint_SetPos(printer, 2, D_80131F04 + 6);
             GfxPrint_Printf(printer, "*");
@@ -1454,7 +1452,7 @@ void func_800EEA50(GfxPrint* printer) {
                 phi_s2_3++;
             }
             if (D_80131F00 == 1) {
-                SETCOL(0xFF, 0xFF, 0xFF);
+                SETCOL(255, 255, 255);
                 GfxPrint_SetPos(printer, phi_s2_3 + 3, 5);
                 GfxPrint_Printf(printer, "V");
             }
@@ -1462,14 +1460,14 @@ void func_800EEA50(GfxPrint* printer) {
             for (i = 0; i < 10; i++) { // s3, s6
                 if (i == D_80131F04) {
                     if (D_80131F00 == 0) {
-                        SETCOL(0xC0, 0xC0, 0xC0);
+                        SETCOL(192, 192, 192);
                     } else {
-                        SETCOL(0xFF, 0xFF, 0xFF);
+                        SETCOL(255, 255, 255);
                     }
                 } else if (D_80131F00 == 0) {
-                    SETCOL(0x90, 0x90, 0x90);
+                    SETCOL(144, 144, 144);
                 } else {
-                    SETCOL(0x60, 0x60, 0x60);
+                    SETCOL(96, 96, 96);
                 }
                 GfxPrint_SetPos(printer, 3, i + 6);
                 GfxPrint_Printf(printer, "%04x %04x %s", D_8016E2E0[i], D_8016E2F8[i], D_80131F0C[D_8016E310[i]]);
@@ -1478,7 +1476,7 @@ void func_800EEA50(GfxPrint* printer) {
 
         case 5:
             GfxPrint_SetPos(printer, 3, 4);
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_Printf(printer, "Group Track:%d", D_80131F28);
 
             GfxPrint_SetPos(printer, 3, 5);
@@ -1500,9 +1498,9 @@ void func_800EEA50(GfxPrint* printer) {
             for (i = 0; i < 16; i++) { // s3, s6
                 u8 numLayers = 0;      // s2
                 if (i == D_80131F2C) {
-                    SETCOL(0xFF, 0xFF, 0xFF);
+                    SETCOL(255, 255, 255);
                 } else {
-                    SETCOL(0xC8, 0xC8, 0xC8);
+                    SETCOL(200, 200, 200);
                 }
                 GfxPrint_SetPos(printer, i + 15, 6);
                 GfxPrint_Printf(printer, "%1X", i);
@@ -1532,7 +1530,7 @@ void func_800EEA50(GfxPrint* printer) {
                 totalNumLayers += numLayers;
             }
 
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             if (D_80131F30[D_80131F28] < totalNumLayers) {
                 D_80131F30[D_80131F28] = totalNumLayers;
             }
@@ -1639,7 +1637,7 @@ void func_800EEA50(GfxPrint* printer) {
             break;
 
         case 3:
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 4);
             GfxPrint_Printf(printer, "TOTAL  %d", D_8014A6C4.heap);
 
@@ -1691,18 +1689,18 @@ void func_800EEA50(GfxPrint* printer) {
             break;
 
         case 9:
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 4);
             GfxPrint_Printf(printer, "BGM No.    %02X", D_80131F4C[0]);
 
             GfxPrint_SetPos(printer, 3, 5);
             GfxPrint_Printf(printer, "SCENE SET  %02X %s", D_80131F4C[1], D_80131F44[D_80131F4C[1]]);
 
-            SETCOL(0x64, 0xFF, 0x64);
+            SETCOL(0x64, 255, 0x64);
             GfxPrint_SetPos(printer, 2, D_80131F50 + 4);
             GfxPrint_Printf(printer, "*");
 
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 7);
             GfxPrint_Printf(printer, "NEXT SCENE %02X %s", (u8)gAudioContext.seqPlayers[0].unk_158[2],
                             D_80131F44[(u8)gAudioContext.seqPlayers[0].unk_158[2]]);
@@ -1729,7 +1727,7 @@ void func_800EEA50(GfxPrint* printer) {
             break;
 
         case 11:
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 4);
             GfxPrint_Printf(printer, "SEQ INFO  : %2d %02x %d", sDisplayedStaff.noteIdx, sDisplayedStaff.state,
                             sDisplayedStaff.pos);
@@ -1755,10 +1753,10 @@ void func_800EEA50(GfxPrint* printer) {
 
         case 12:
             GfxPrint_SetPos(printer, 2, D_80131F18 + 4);
-            SETCOL(0x7F, 0xFF, 0x7F);
+            SETCOL(127, 255, 127);
             GfxPrint_Printf(printer, "*");
 
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 4);
             GfxPrint_Printf(printer, "SE HD  : %02x %s", D_80131F20[0], D_80131E38[D_80131F20[0]]);
 
@@ -1771,19 +1769,19 @@ void func_800EEA50(GfxPrint* printer) {
             GfxPrint_SetPos(printer, 3, 6);
             GfxPrint_Printf(printer, "SE SW    %s", func_800EE9D0(D_8013331C[D_80131F20[0]][D_80131F20[1]].unk_2, 16));
 
-            SETCOL(0x7F, 0xFF, 0x7F);
+            SETCOL(127, 255, 127);
             digitStr[0] = (char)('0' + ((D_8013331C[D_80131F20[0]][D_80131F20[1]].unk_2 >> (15 - D_80131F1C)) & 1));
             GfxPrint_SetPos(printer, D_80131F1C + 12, 6);
             GfxPrint_Printf(printer, "%s", &digitStr);
 
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 7);
             GfxPrint_Printf(printer, "SE PR  : %02x", D_8013331C[D_80131F20[0]][D_80131F20[1]].unk_0);
             break;
 
         case 14:
             GfxPrint_SetPos(printer, 3, 4);
-            SETCOL(0xFF, 0xFF, 0xFF);
+            SETCOL(255, 255, 255);
             GfxPrint_Printf(printer, "env_fx %d code_fx %d SPEC %d", D_80130614, D_80130618, D_80133414);
 
             if (sAudioUpdateTaskEnd == sAudioUpdateTaskStart) {
@@ -1837,6 +1835,7 @@ void func_800EEA50(GfxPrint* printer) {
             }
             break;
     }
+#undef SETCOL_COMMON
 #undef SETCOL
 #undef SETCOL2
 }

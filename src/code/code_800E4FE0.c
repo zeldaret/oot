@@ -518,7 +518,7 @@ s32 func_800E5EDC(void) {
 void func_800E5F34(void) {
     // macro?
     // clang-format off
-    s32 chk = -1;s32 sp28;do { } while (osRecvMesg(gAudioContext.audioResetQueueP, (OSMesg*) &sp28, OS_MESG_NOBLOCK) != chk);
+    s32 chk = -1; s32 sp28; do {} while (osRecvMesg(gAudioContext.audioResetQueueP, (OSMesg*)&sp28, OS_MESG_NOBLOCK) != chk);
     // clang-format on
 }
 
