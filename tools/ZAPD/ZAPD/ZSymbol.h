@@ -14,9 +14,6 @@ protected:
 public:
 	ZSymbol(ZFile* nParent);
 
-	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-	                    const uint32_t nRawDataIndex) override;
-
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 
 	size_t GetRawDataSize() const override;

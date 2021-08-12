@@ -619,7 +619,7 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
     return cmd;
 }
 
-#ifdef NON_MATCHING
+#ifdef NON_EQUIVALENT
 Acmd* func_800DC910(s32 noteIdx, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf, s32 aiBufLen,
                     Acmd* cmd, s32 updateIdx) {
     AudioBankSample* sp150;

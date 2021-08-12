@@ -1,3 +1,4 @@
+
 /*
  * File: z_bg_spot18_obj.c
  * Overlay: ovl_Bg_Spot18_Obj
@@ -5,6 +6,7 @@
  */
 
 #include "z_bg_spot18_obj.h"
+#include "objects/object_spot18_obj/object_spot18_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -49,12 +51,9 @@ static f32 D_808B90F4[] = {
     0.1f,
 };
 
-extern CollisionHeader D_06002FE4;
-extern CollisionHeader D_0600261C;
-
 static CollisionHeader* D_808B90FC[] = {
-    &D_06002FE4,
-    &D_0600261C,
+    &gGoronCityStatueCol,
+    &gGoronCityStatueSpearCol,
 };
 
 static u32 D_808B9104[] = {
@@ -86,12 +85,9 @@ static BgSpot18ObjInitFunc D_808B913C[] = {
     func_808B8C90,
 };
 
-extern Gfx D_06002BC0[];
-extern Gfx D_06002370[];
-
 static Gfx(*sDlists[]) = {
-    D_06002BC0,
-    D_06002370,
+    gGoronCityStatueDL,
+    gGoronCityStatueSpearDL,
 };
 
 s32 func_808B8910(BgSpot18Obj* this, GlobalContext* globalCtx) {

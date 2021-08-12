@@ -633,7 +633,8 @@ typedef struct {
     /* 0xE6 */ u8       unk_E6;
     /* 0xE7 */ u8       unk_E7;
     /* 0xE8 */ u8       unk_E8;
-    /* 0xE9 */ char     unk_E9[0x05];
+    /* 0xE9 */ u8       unk_E9;
+    /* 0xEA */ u8       unk_EA[4];
     /* 0xEE */ u8       unk_EE[4];
     /* 0xF2 */ u8       unk_F2[4];
     /* 0xF6 */ char     unk_F6[0x06];

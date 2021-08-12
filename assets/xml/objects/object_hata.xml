@@ -43,8 +43,8 @@
         <DList Name="gFlagpoleFlag2HoistEndDL" Offset="0x2B90"/>
 
         <!-- Flagpole Textures -->
-        <Texture Name="gFlagpolePoleTex" OutName="flagpole_pole_tex" Format="rgb5a1" Width="32" Height="32" Offset="0x460"/>
-        <Texture Name="gFlagpoleTopTex" OutName="flagpole_top_tex" Format="rgb5a1" Width="32" Height="32" Offset="0xC60"/>
+        <Texture Name="gFlagpolePoleTex" OutName="flagpole_pole_tex" Format="rgba16" Width="32" Height="32" Offset="0x460"/>
+        <Texture Name="gFlagpoleTopTex" OutName="flagpole_top_tex" Format="rgba16" Width="32" Height="32" Offset="0xC60"/>
         <Texture Name="gFlagpoleFlagTex" OutName="flagpole_flag_tex" Format="ia8" Width="128" Height="32" Offset="0x1460"/>
     </File>
 </Root>
