@@ -82,7 +82,7 @@
         <Animation Name="object_zf_Anim_008138" Offset="0x8138"/>
         <Animation Name="object_zf_Anim_008C6C" Offset="0x8C6C"/>
         <Animation Name="object_zf_Anim_009530" Offset="0x9530"/>
-        <Animation Name="object_zf_Anim_00A3D4" Offset="0xA3D4"/>
+        <Animation Name="gZfSlashAnim" Offset="0xA3D4"/>
         <Animation Name="object_zf_Anim_00B10C" Offset="0xB10C"/>
         <Texture Name="object_zf_Tex_00B120" OutName="tex_0000B120" Format="rgba16" Width="32" Height="32" Offset="0xB120"/>
         <Texture Name="object_zf_Tex_00B920" OutName="tex_0000B920" Format="rgba16" Width="8" Height="8" Offset="0xB920"/>
@@ -108,7 +108,7 @@
         <DList Name="object_zf_DL_00D968" Offset="0xD968"/>
         <DList Name="object_zf_DL_00DAA0" Offset="0xDAA0"/>
         <DList Name="object_zf_DL_00DD20" Offset="0xDD20"/>
-        <DList Name="object_zf_DL_00E198" Offset="0xE198"/>
+        <DList Name="gZfEmptyHandDL" Offset="0xE198"/>
         <DList Name="object_zf_DL_00E3E8" Offset="0xE3E8"/>
         <DList Name="object_zf_DL_00E7E0" Offset="0xE7E0"/>
         <DList Name="object_zf_DL_00EBA8" Offset="0xEBA8"/>
@@ -117,7 +117,7 @@
         <DList Name="object_zf_DL_00F970" Offset="0xF970"/>
         <DList Name="object_zf_DL_00FB88" Offset="0xFB88"/>
         <DList Name="object_zf_DL_00FDA0" Offset="0xFDA0"/>
-        <DList Name="object_zf_DL_010060" Offset="0x10060"/>
+        <DList Name="gZfSheathedSwordDL" Offset="0x10060"/>
         <Limb Name="object_zf_Limb_0101B8" LimbType="Standard" Offset="0x101B8"/>
         <Limb Name="object_zf_Limb_0101C4" LimbType="Standard" Offset="0x101C4"/>
         <Limb Name="object_zf_Limb_0101D0" LimbType="Standard" Offset="0x101D0"/>

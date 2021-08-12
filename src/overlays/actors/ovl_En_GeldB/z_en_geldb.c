@@ -1,3 +1,9 @@
+/*
+ * File: z_en_geldb.c
+ * Overlay: ovl_En_GeldB
+ * Description: Gerudo fighter
+ */
+
 #include "z_en_geldb.h"
 #include "objects/object_geldb/object_geldb.h"
 
