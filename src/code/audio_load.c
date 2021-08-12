@@ -74,19 +74,19 @@ void func_800E11F0(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E12DC.s")
 
-#ifdef NON_MATCHING
 void func_800E1618(s32 arg0) {
     SampleDmaReq* temp_s0;
     s32 i;
     s32 t2;
+    s32 j;
 
     gAudioContext.unk_288C = gAudioContext.unk_2874;
     gAudioContext.sampleDmaReqs =
         Audio_Alloc(&gAudioContext.notesAndBuffersPool,
-                    (gAudioContext.maxSimultaneousNotes * 0x40) * gAudioContext.audioBufferParameters.presetUnk4);
-    t2 = gAudioContext.maxSimultaneousNotes * 3 * gAudioContext.audioBufferParameters.presetUnk4;
+                    4 * gAudioContext.maxSimultaneousNotes * sizeof(SampleDmaReq) * gAudioContext.audioBufferParameters.presetUnk4);
+    t2 = 3 * gAudioContext.maxSimultaneousNotes * gAudioContext.audioBufferParameters.presetUnk4;
     for (i = 0; i < t2; i++) {
-        SampleDmaReq* temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];
+        temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];
         temp_s0->ramAddr = func_800DE2B0(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
         if (temp_s0->ramAddr == NULL) {
             break;
@@ -115,8 +115,8 @@ void func_800E1618(s32 arg0) {
     gAudioContext.unk_2624 = gAudioContext.sampleDmaReqCnt;
     gAudioContext.unk_288C = gAudioContext.unk_2878;
 
-    for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
-        SampleDmaReq* temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];
+    for (j = 0; j < gAudioContext.maxSimultaneousNotes; j++) {
+        temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];
         temp_s0->ramAddr = func_800DE2B0(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
         if (temp_s0->ramAddr == NULL) {
             break;
@@ -132,9 +132,8 @@ void func_800E1618(s32 arg0) {
     }
 
     for (i = gAudioContext.unk_2624; i < gAudioContext.sampleDmaReqCnt; i++) {
-        SampleDmaReq* temp_s0 = &gAudioContext.sampleDmaReqs[i + gAudioContext.unk_2624];
-        gAudioContext.unk_272C[i - gAudioContext.unk_2624] = gAudioContext.unk_2624;
-        temp_s0->unk_0D = i - gAudioContext.unk_2624;
+        gAudioContext.unk_272C[i - gAudioContext.unk_2624] = i;
+        gAudioContext.sampleDmaReqs[i].unk_0D = i - gAudioContext.unk_2624;
     }
 
     for (i = gAudioContext.sampleDmaReqCnt; i < 0x100; i++) {
@@ -144,9 +143,6 @@ void func_800E1618(s32 arg0) {
     gAudioContext.unk_282D = 0;
     gAudioContext.unk_282F = gAudioContext.sampleDmaReqCnt - gAudioContext.unk_2624;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E1618.s")
-#endif
 
 s32 Audio_IsBankLoadComplete(s32 bankId) {
     if (bankId == 0xFF) {
