@@ -62,8 +62,8 @@ s32 func_80B49E4C(GlobalContext* globalCtx, EnZf* this);
 
 /** Array of platform positions in Dodongo's Cavern miniboss room.
  *  0 -  7 : Downstairs
- *  8 - 15? : Upstairs inner platforms
- * 16? - 23 : Upstairs outer platforms (including several points on the long thin one)
+ *  8 - 15 : Upstairs inner platforms
+ * 16 - 23 : Upstairs outer platforms (including several points on the long thin one)
  */
 static Vec3f sPlatformPositions[] = {
     // Downstairs
