@@ -48,7 +48,6 @@ void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
     }
 }
 #else
-void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer);
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/func_800F9280.s")
 #endif
 
