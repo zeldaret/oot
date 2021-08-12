@@ -214,7 +214,7 @@ void func_80098674(GlobalContext* globalCtx, SceneCmd* cmd) {
     colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
     colHeader->polyList = SEGMENTED_TO_VIRTUAL(colHeader->polyList);
     colHeader->surfaceTypeList = SEGMENTED_TO_VIRTUAL(colHeader->surfaceTypeList);
-    colHeader->cameraDataList = SEGMENTED_TO_VIRTUAL(colHeader->cameraDataList);
+    colHeader->bgCamDataList = SEGMENTED_TO_VIRTUAL(colHeader->bgCamDataList);
     colHeader->waterBoxes = SEGMENTED_TO_VIRTUAL(colHeader->waterBoxes);
 
     BgCheck_Allocate(&globalCtx->colCtx, globalCtx, colHeader);

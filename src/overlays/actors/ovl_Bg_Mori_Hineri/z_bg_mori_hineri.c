@@ -189,7 +189,7 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
         this->actionFunc = func_808A3E54;
 
-        mainCamChildIdx = globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx;
+        mainCamChildIdx = globalCtx->cameraPtrs[MAIN_CAM]->childCamId;
         if ((mainCamChildIdx != SUBCAM_FREE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_DEMO1)) {
             OnePointCutscene_EndCutscene(globalCtx, mainCamChildIdx);
         }

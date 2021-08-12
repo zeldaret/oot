@@ -52,10 +52,10 @@ typedef struct {
 } CollisionPoly; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ u16 cameraSType;
-    /* 0x02 */ s16 numCameras;
-    /* 0x04 */ Vec3s* camPosData;
-} CamData;
+    /* 0x00 */ u16 setting;
+    /* 0x02 */ s16 dataLength;
+    /* 0x04 */ Vec3s* data;
+} BgCamData;
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -68,7 +68,7 @@ typedef struct {
     // 0x0008_0000 = ?
     // 0x0007_E000 = Room Index, 0x3F = all rooms
     // 0x0000_1F00 = Lighting Settings Index
-    // 0x0000_00FF = CamData index
+    // 0x0000_00FF = BgCamData index
 } WaterBox; // size = 0x10
 
 typedef struct {
@@ -86,7 +86,7 @@ typedef struct {
     /* 0x14 */ u16 nbPolygons;
     /* 0x18 */ CollisionPoly* polyList;
     /* 0x1C */ SurfaceType* surfaceTypeList;
-    /* 0x20 */ CamData* cameraDataList;
+    /* 0x20 */ BgCamData* bgCamDataList;
     /* 0x24 */ u16 nbWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader; // original name: BGDataInfo

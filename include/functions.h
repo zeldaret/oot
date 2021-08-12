@@ -638,12 +638,12 @@ s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionP
 void CollisionHeader_GetVirtual(void* colHeader, CollisionHeader** dest);
 void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx);
 void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
-u32 SurfaceType_GetCamDataIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetBgCamDataId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 func_80041A4C(CollisionContext* colCtx, u32 camId, s32 bgId);
-u16 SurfaceType_GetCameraSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u16 SurfaceType_GetNumCameras(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 SurfaceType_GetBgCamDataSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 SurfaceType_GetBgCamDataLength(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 Vec3s* func_80041C10(CollisionContext* colCtx, s32 camId, s32 bgId);
-Vec3s* SurfaceType_GetCamPosData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+Vec3s* SurfaceType_GetBgCamData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetSceneExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);

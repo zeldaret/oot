@@ -58,7 +58,7 @@ void OnePointCutscene_SetCsCamPoints(Camera* camera, s16 actionParameters, s16 i
 
 s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* actor, s16 timer) {
     Camera* csCam = globalCtx->cameraPtrs[camIdx];
-    Camera* childCam = globalCtx->cameraPtrs[csCam->childCamIdx];
+    Camera* childCam = globalCtx->cameraPtrs[csCam->childCamId];
     Camera* mainCam = globalCtx->cameraPtrs[MAIN_CAM];
     Player* player = mainCam->player;
     VecSph spD0;
@@ -303,8 +303,8 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             func_8002DF54(globalCtx, NULL, 8);
             csCam->roll = 0;
             csCam->fov = 50.0f;
-            if (csCam->childCamIdx != SUBCAM_FREE) {
-                OnePointCutscene_EndCutscene(globalCtx, csCam->childCamIdx);
+            if (csCam->childCamId != SUBCAM_FREE) {
+                OnePointCutscene_EndCutscene(globalCtx, csCam->childCamId);
             }
             break;
         case 2210:
@@ -1105,11 +1105,11 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
     return 0;
 }
 
-s16 OnePointCutscene_SetAsChild(GlobalContext* globalCtx, s16 newCamIdx, s16 parentCamIdx) {
-    s16 prevCamIdx = globalCtx->cameraPtrs[parentCamIdx]->childCamIdx;
+s16 OnePointCutscene_SetAsChild(GlobalContext* globalCtx, s16 newCamIdx, s16 parentCamId) {
+    s16 prevCamIdx = globalCtx->cameraPtrs[parentCamId]->childCamId;
 
-    globalCtx->cameraPtrs[newCamIdx]->parentCamIdx = parentCamIdx;
-    globalCtx->cameraPtrs[parentCamIdx]->childCamIdx = newCamIdx;
+    globalCtx->cameraPtrs[newCamIdx]->parentCamId = parentCamId;
+    globalCtx->cameraPtrs[parentCamId]->childCamId = newCamIdx;
 
     return prevCamIdx;
 }
@@ -1122,21 +1122,21 @@ s32 OnePointCutscene_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     s32 nextCamIdx;
 
-    if (camera->thisIdx == CHILD_CAM(camera)->parentCamIdx) {
-        CHILD_CAM(camera)->parentCamIdx = camera->parentCamIdx;
+    if (camera->camId == CHILD_CAM(camera)->parentCamId) {
+        CHILD_CAM(camera)->parentCamId = camera->parentCamId;
     }
-    if (camera->thisIdx == PARENT_CAM(camera)->childCamIdx) {
-        PARENT_CAM(camera)->childCamIdx = camera->childCamIdx;
+    if (camera->camId == PARENT_CAM(camera)->childCamId) {
+        PARENT_CAM(camera)->childCamId = camera->childCamId;
     }
-    nextCamIdx = (globalCtx->activeCamera == camIdx) ? camera->parentCamIdx : SUBCAM_NONE;
-    camera->parentCamIdx = MAIN_CAM;
-    camera->childCamIdx = camera->parentCamIdx;
+    nextCamIdx = (globalCtx->activeCamera == camIdx) ? camera->parentCamId : SUBCAM_NONE;
+    camera->parentCamId = MAIN_CAM;
+    camera->childCamId = camera->parentCamId;
     camera->timer = -1;
-    Gameplay_ClearCamera(camera->globalCtx, camera->thisIdx);
+    Gameplay_ClearCamera(camera->globalCtx, camera->camId);
     return nextCamIdx;
 }
 
-#define vChildCamIdx temp2
+#define vchildCamId temp2
 #define vCsStatus temp1
 #define vCurCamIdx temp2
 #define vNextCamIdx temp1
@@ -1146,14 +1146,14 @@ s32 OnePointCutscene_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
  * cutscene queue in front of the specified camera, then all lower priority demos in front of it are removed from the
  * queue.
  */
-s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor, s16 parentCamIdx) {
+s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor, s16 parentCamId) {
     s16 temp1;
     s16 temp2;
     s16 subCamId;
     Camera* csCam;
 
-    if (parentCamIdx == SUBCAM_ACTIVE) {
-        parentCamIdx = globalCtx->activeCamera;
+    if (parentCamId == SUBCAM_ACTIVE) {
+        parentCamId = globalCtx->activeCamera;
     }
     subCamId = Gameplay_CreateSubCamera(globalCtx);
     if (subCamId == SUBCAM_NONE) {
@@ -1163,15 +1163,15 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
 
     // Inserts the cutscene camera into the cutscene queue in front of parentCam
 
-    vChildCamIdx = globalCtx->cameraPtrs[parentCamIdx]->childCamIdx;
+    vchildCamId = globalCtx->cameraPtrs[parentCamId]->childCamId;
     vCsStatus = CAM_STAT_ACTIVE;
-    if (vChildCamIdx >= SUBCAM_FIRST) {
-        OnePointCutscene_SetAsChild(globalCtx, vChildCamIdx, subCamId);
+    if (vchildCamId >= SUBCAM_FIRST) {
+        OnePointCutscene_SetAsChild(globalCtx, vchildCamId, subCamId);
         vCsStatus = CAM_STAT_WAIT;
     } else {
         Interface_ChangeAlpha(2);
     }
-    OnePointCutscene_SetAsChild(globalCtx, subCamId, parentCamIdx);
+    OnePointCutscene_SetAsChild(globalCtx, subCamId, parentCamId);
 
     csCam = globalCtx->cameraPtrs[subCamId];
 
@@ -1184,17 +1184,17 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
 
     csCam->csId = csId;
 
-    if (parentCamIdx == MAIN_CAM) {
-        Gameplay_ChangeCameraStatus(globalCtx, parentCamIdx, CAM_STAT_UNK3);
+    if (parentCamId == MAIN_CAM) {
+        Gameplay_ChangeCameraStatus(globalCtx, parentCamId, CAM_STAT_UNK3);
     } else {
-        Gameplay_ChangeCameraStatus(globalCtx, parentCamIdx, CAM_STAT_WAIT);
+        Gameplay_ChangeCameraStatus(globalCtx, parentCamId, CAM_STAT_WAIT);
     }
     OnePointCutscene_SetInfo(globalCtx, subCamId, csId, actor, timer);
     Gameplay_ChangeCameraStatus(globalCtx, subCamId, vCsStatus);
 
     // Removes all lower priority cutscenes in front of this cutscene from the queue.
     vCurCamIdx = subCamId;
-    vNextCamIdx = globalCtx->cameraPtrs[subCamId]->childCamIdx;
+    vNextCamIdx = globalCtx->cameraPtrs[subCamId]->childCamId;
 
     while (vNextCamIdx >= SUBCAM_FIRST) {
         s16 nextCsId = globalCtx->cameraPtrs[vNextCamIdx]->csId;
@@ -1214,7 +1214,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
         } else {
             vCurCamIdx = vNextCamIdx;
         }
-        vNextCamIdx = globalCtx->cameraPtrs[vCurCamIdx]->childCamIdx;
+        vNextCamIdx = globalCtx->cameraPtrs[vCurCamIdx]->childCamId;
     }
     return subCamId;
 }
@@ -1228,7 +1228,7 @@ s16 OnePointCutscene_EndCutscene(GlobalContext* globalCtx, s16 camIdx) {
     }
     if (globalCtx->cameraPtrs[camIdx] != NULL) {
         osSyncPrintf("onepointdemo camera[%d]: delete timer=%d next=%d\n", camIdx, globalCtx->cameraPtrs[camIdx]->timer,
-                     globalCtx->cameraPtrs[camIdx]->parentCamIdx);
+                     globalCtx->cameraPtrs[camIdx]->parentCamId);
         if (globalCtx->cameraPtrs[camIdx]->csId == 5010) {
             globalCtx->cameraPtrs[camIdx]->timer = 5;
         } else {
@@ -1239,7 +1239,7 @@ s16 OnePointCutscene_EndCutscene(GlobalContext* globalCtx, s16 camIdx) {
 }
 
 #define vTargetCat temp1
-#define vParentCamIdx temp1
+#define vparentCamId temp1
 #define vLastHigherCat temp2
 #define vCsCamIdx temp2
 
@@ -1268,8 +1268,8 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
     // after at least one attention demo.
 
     vLastHigherCat = -1;
-    while (parentCam->childCamIdx != SUBCAM_FREE) {
-        parentCam = globalCtx->cameraPtrs[parentCam->childCamIdx];
+    while (parentCam->childCamId != SUBCAM_FREE) {
+        parentCam = globalCtx->cameraPtrs[parentCam->childCamId];
         if (parentCam == NULL) {
             break;
         } else if (parentCam->setting != CAM_SET_DEMO4) {
@@ -1288,7 +1288,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
     }
     // Actorcat is only undefined if the actor is in a higher category than all other attention cutscenes. In this case,
     // it goes in the first position of the list. Otherwise, it goes in the index found in the loop.
-    vParentCamIdx = (vLastHigherCat == -1) ? MAIN_CAM : parentCam->thisIdx;
+    vparentCamId = (vLastHigherCat == -1) ? MAIN_CAM : parentCam->camId;
 
     switch (actor->category) {
         case ACTORCAT_SWITCH:
@@ -1322,7 +1322,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
         return SUBCAM_NONE;
     }
     osSyncPrintf("→ " VT_FGCOL(BLUE) "○" VT_RST " (%d)\n", actor->id);
-    vCsCamIdx = OnePointCutscene_Init(globalCtx, 5010, timer, actor, vParentCamIdx);
+    vCsCamIdx = OnePointCutscene_Init(globalCtx, 5010, timer, actor, vparentCamId);
     if (vCsCamIdx == SUBCAM_NONE) {
         osSyncPrintf(VT_COL(RED, WHITE) "actor attention demo: give up! \n" VT_RST, actor->id);
         return SUBCAM_NONE;
@@ -1361,8 +1361,8 @@ void OnePointCutscene_DisableAttention() {
 s32 OnePointCutscene_CheckForCategory(GlobalContext* globalCtx, s32 category) {
     Camera* parentCam = globalCtx->cameraPtrs[MAIN_CAM];
 
-    while (parentCam->childCamIdx != SUBCAM_FREE) {
-        parentCam = globalCtx->cameraPtrs[parentCam->childCamIdx];
+    while (parentCam->childCamId != SUBCAM_FREE) {
+        parentCam = globalCtx->cameraPtrs[parentCam->childCamId];
         if ((parentCam == NULL) || (parentCam->setting != CAM_SET_DEMO4)) {
             break;
         } else if (category == parentCam->target->category) {

@@ -1512,7 +1512,7 @@ s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
 
     globalCtx->cameraPtrs[i] = &globalCtx->subCameras[i - SUBCAM_FIRST];
     Camera_Init(globalCtx->cameraPtrs[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-    globalCtx->cameraPtrs[i]->thisIdx = i;
+    globalCtx->cameraPtrs[i]->camId = i;
 
     return i;
 }
@@ -1673,7 +1673,7 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
 
     if (arg2 <= 0) {
         Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
-        globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx = globalCtx->cameraPtrs[MAIN_CAM]->parentCamIdx = SUBCAM_FREE;
+        globalCtx->cameraPtrs[MAIN_CAM]->childCamId = globalCtx->cameraPtrs[MAIN_CAM]->parentCamId = SUBCAM_FREE;
     } else {
         OnePointCutscene_Init(globalCtx, 1020, arg2, NULL, MAIN_CAM);
     }

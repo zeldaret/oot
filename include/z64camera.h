@@ -640,7 +640,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ struct Actor* doorActor;
-    /* 0x0004 */ s16 camDataIdx;
+    /* 0x0004 */ s16 bgCamDataId;
     /* 0x0006 */ s16 timer1;
     /* 0x0008 */ s16 timer2;
     /* 0x000A */ s16 timer3;
@@ -902,14 +902,14 @@ typedef struct {
     /* 0x0142 */ s16 setting;
     /* 0x0144 */ s16 mode;
     /* 0x0146 */ s16 bgCheckId;
-    /* 0x0148 */ s16 camDataIdx;
+    /* 0x0148 */ s16 bgCamDataId;
     /* 0x014A */ s16 unk_14A;
     /* 0x014C */ s16 unk_14C;
     /* 0x014E */ s16 childCamId;
     /* 0x0150 */ s16 unk_150;
     /* 0x0152 */ s16 unk_152;
     /* 0x0154 */ s16 prevSetting;
-    /* 0x0156 */ s16 nextCamDataIdx;
+    /* 0x0156 */ s16 nextBgCamDataId;
     /* 0x0158 */ s16 nextBGCheckId;
     /* 0x015A */ s16 roll;
     /* 0x015C */ s16 paramFlags;
@@ -917,7 +917,7 @@ typedef struct {
     /* 0x0160 */ s16 timer;
     /* 0x0162 */ s16 parentCamId;
     /* 0x0164 */ s16 camId;
-    /* 0x0166 */ s16 prevCamDataIdx;
+    /* 0x0166 */ s16 prevBgCamDataId;
     /* 0x0168 */ s16 csId;
     /* 0x016A */ s16 unk_16A;
 } Camera; // size = 0x16C
