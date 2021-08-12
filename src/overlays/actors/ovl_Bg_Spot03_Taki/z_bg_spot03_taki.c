@@ -36,7 +36,8 @@ static InitChainEntry sInitChain[] = {
 
 void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
     s32 i;
-    Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(object_spot03_object_Vtx_000800) : SEGMENTED_TO_VIRTUAL(object_spot03_object_Vtx_000990);
+    Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(object_spot03_object_Vtx_000800)
+                                  : SEGMENTED_TO_VIRTUAL(object_spot03_object_Vtx_000990);
 
     for (i = 0; i < 5; i++) {
         vtx[i + 10].v.cn[3] = this->openingAlpha;

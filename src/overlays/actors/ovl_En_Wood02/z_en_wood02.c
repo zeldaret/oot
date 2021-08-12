@@ -76,12 +76,23 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Gfx* D_80B3BF54[] = {
-    object_wood02_DL_0078D0, object_wood02_DL_007CA0, object_wood02_DL_0080D0, object_wood02_DL_000090, object_wood02_DL_000340, object_wood02_DL_000340, object_wood02_DL_000700,
+    object_wood02_DL_0078D0, object_wood02_DL_007CA0, object_wood02_DL_0080D0, object_wood02_DL_000090,
+    object_wood02_DL_000340, object_wood02_DL_000340, object_wood02_DL_000700,
 };
 
 static Gfx* D_80B3BF70[] = {
-    object_wood02_DL_007968, object_wood02_DL_007D38, object_wood02_DL_0081A8, NULL,       NULL,       NULL,
-    object_wood02_DL_007AD0, object_wood02_DL_007E20, object_wood02_DL_008350, object_wood02_DL_000160, object_wood02_DL_000440, object_wood02_DL_000700,
+    object_wood02_DL_007968,
+    object_wood02_DL_007D38,
+    object_wood02_DL_0081A8,
+    NULL,
+    NULL,
+    NULL,
+    object_wood02_DL_007AD0,
+    object_wood02_DL_007E20,
+    object_wood02_DL_008350,
+    object_wood02_DL_000160,
+    object_wood02_DL_000440,
+    object_wood02_DL_000700,
 };
 
 static f32 sSpawnCos;

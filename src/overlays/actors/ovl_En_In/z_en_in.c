@@ -71,13 +71,31 @@ static struct_D_80AA1678 sAnimationInfo[] = {
 };
 
 static AnimationHeader* D_80A7B918[] = {
-    &object_in_Anim_0151C8, &object_in_Anim_015DF0, &object_in_Anim_016B3C, &object_in_Anim_015814, &object_in_Anim_01646C, &object_in_Anim_0175D0, &object_in_Anim_017B58, &object_in_Anim_018C38,
+    &object_in_Anim_0151C8, &object_in_Anim_015DF0, &object_in_Anim_016B3C, &object_in_Anim_015814,
+    &object_in_Anim_01646C, &object_in_Anim_0175D0, &object_in_Anim_017B58, &object_in_Anim_018C38,
 };
 
 static Gfx* sAlternateOutfitDLs[] = {
-    NULL,       NULL,       object_in_DL_013688, object_in_DL_0137C0, object_in_DL_013910, object_in_DL_0132B8, object_in_DL_0133F0,
-    object_in_DL_013540, object_in_DL_013100, object_in_DL_011758, object_in_DL_012AC0, object_in_DL_012BF0, object_in_DL_012D20, object_in_DL_012480,
-    object_in_DL_0125B0, object_in_DL_0126E0, object_in_DL_011AD8, object_in_DL_012350, object_in_DL_012220, object_in_DL_012120,
+    NULL,
+    NULL,
+    object_in_DL_013688,
+    object_in_DL_0137C0,
+    object_in_DL_013910,
+    object_in_DL_0132B8,
+    object_in_DL_0133F0,
+    object_in_DL_013540,
+    object_in_DL_013100,
+    object_in_DL_011758,
+    object_in_DL_012AC0,
+    object_in_DL_012BF0,
+    object_in_DL_012D20,
+    object_in_DL_012480,
+    object_in_DL_0125B0,
+    object_in_DL_0126E0,
+    object_in_DL_011AD8,
+    object_in_DL_012350,
+    object_in_DL_012220,
+    object_in_DL_012120,
 };
 
 u16 func_80A78FB0(GlobalContext* globalCtx) {
@@ -485,7 +503,8 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_in_Skel_013B88, NULL, this->jointTable, this->morphTable, 20);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_in_Skel_013B88, NULL, this->jointTable,
+                           this->morphTable, 20);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -960,7 +979,8 @@ void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_TYPE* D_80A7B9B4[] = { object_in_Tex_003590, object_in_Tex_0047D0, object_in_Tex_004BD0, object_in_Tex_004390 };
+    static UNK_TYPE* D_80A7B9B4[] = { object_in_Tex_003590, object_in_Tex_0047D0, object_in_Tex_004BD0,
+                                      object_in_Tex_004390 };
     EnIn* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2384);

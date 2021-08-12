@@ -1082,7 +1082,8 @@ void DempEc_UpdateBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { gBombchuShopkeeperEyeOpenTex, gBombchuShopkeeperEyeHalfTex, gBombchuShopkeeperEyeClosedTex };
+    static void* eyeTextures[] = { gBombchuShopkeeperEyeOpenTex, gBombchuShopkeeperEyeHalfTex,
+                                   gBombchuShopkeeperEyeClosedTex };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 

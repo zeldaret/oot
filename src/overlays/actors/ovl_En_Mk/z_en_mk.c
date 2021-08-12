@@ -57,7 +57,8 @@ void EnMk_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_mk_Skel_005DF0, &object_mk_Anim_000D88, this->jointTable, this->morphTable, 13);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_mk_Skel_005DF0, &object_mk_Anim_000D88, this->jointTable,
+                       this->morphTable, 13);
     Animation_PlayLoop(&this->skelAnime, &object_mk_Anim_000D88);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -131,8 +132,8 @@ void func_80AACC04(EnMk* this, GlobalContext* globalCtx) {
     } else {
         this->timer = 16;
         this->actionFunc = func_80AACBAC;
-        Animation_Change(&this->skelAnime, &object_mk_Anim_000D88, 1.0f, 0.0f, Animation_GetLastFrame(&object_mk_Anim_000D88), ANIMMODE_LOOP,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &object_mk_Anim_000D88, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_mk_Anim_000D88), ANIMMODE_LOOP, -4.0f);
         this->flags &= ~2;
     }
 }
@@ -144,8 +145,8 @@ void func_80AACCA0(EnMk* this, GlobalContext* globalCtx) {
     } else {
         this->timer = 120;
         this->actionFunc = func_80AACC04;
-        Animation_Change(&this->skelAnime, &object_mk_Anim_000724, 1.0f, 0.0f, Animation_GetLastFrame(&object_mk_Anim_000724), ANIMMODE_LOOP,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &object_mk_Anim_000724, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_mk_Anim_000724), ANIMMODE_LOOP, -4.0f);
         this->flags &= ~2;
     }
 }
@@ -159,8 +160,8 @@ void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.msgMode = 0x37;
         player->exchangeItemId = EXCH_ITEM_NONE;
         this->timer = 16;
-        Animation_Change(&this->skelAnime, &object_mk_Anim_000D88, 1.0f, 0.0f, Animation_GetLastFrame(&object_mk_Anim_000D88), ANIMMODE_LOOP,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &object_mk_Anim_000D88, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_mk_Anim_000D88), ANIMMODE_LOOP, -4.0f);
         this->flags &= ~2;
     }
 
@@ -170,8 +171,8 @@ void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
 void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_8010B720(globalCtx, 0x4001);
-        Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f, Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_ONCE,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_ONCE, -4.0f);
         this->flags &= ~2;
         this->actionFunc = func_80AACD48;
     }
@@ -182,8 +183,8 @@ void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
 void func_80AACEE8(EnMk* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_8010B720(globalCtx, 0x4000);
-        Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f, Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_LOOP,
-                         -4.0f);
+        Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_LOOP, -4.0f);
         this->flags &= ~2;
         this->actionFunc = func_80AACE2C;
     }
@@ -251,8 +252,8 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
                     case EXCH_ITEM_FROG:
                         player->actor.textId = 0x4019;
                         this->actionFunc = func_80AACEE8;
-                        Animation_Change(&this->skelAnime, &object_mk_Anim_000368, 1.0f, 0.0f, Animation_GetLastFrame(&object_mk_Anim_000368),
-                                         ANIMMODE_ONCE, -4.0f);
+                        Animation_Change(&this->skelAnime, &object_mk_Anim_000368, 1.0f, 0.0f,
+                                         Animation_GetLastFrame(&object_mk_Anim_000368), ANIMMODE_ONCE, -4.0f);
                         this->flags &= ~2;
                         gSaveContext.timer2State = 0;
                         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);

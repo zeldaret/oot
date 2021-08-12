@@ -63,7 +63,8 @@ void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBrob* this = THIS;
     CollisionHeader* colHeader = NULL;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_brob_Skel_0015D8, &object_brob_Anim_001750, this->jointTable, this->morphTable, 10);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_brob_Skel_0015D8, &object_brob_Anim_001750,
+                       this->jointTable, this->morphTable, 10);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&object_brob_Col_001A70, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
@@ -134,8 +135,8 @@ void func_809CAEF4(EnBrob* this) {
 }
 
 void func_809CAF88(EnBrob* this) {
-    Animation_Change(&this->skelAnime, &object_brob_Anim_001750, -1.0f, Animation_GetLastFrame(&object_brob_Anim_001750), 0.0f, ANIMMODE_ONCE,
-                     -5.0f);
+    Animation_Change(&this->skelAnime, &object_brob_Anim_001750, -1.0f,
+                     Animation_GetLastFrame(&object_brob_Anim_001750), 0.0f, ANIMMODE_ONCE, -5.0f);
     this->unk_1AE = 8250;
     this->actionFunc = func_809CB354;
 }

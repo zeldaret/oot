@@ -143,7 +143,8 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &D_809EC620;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_dh_Skel_007E88, &object_dh_Anim_005880, this->jointTable, this->limbRotTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_dh_Skel_007E88, &object_dh_Anim_005880, this->jointTable,
+                       this->limbRotTable, 16);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 64.0f);
     this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = MASS_HEAVY;
@@ -240,8 +241,8 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_SetupWalk(EnDh* this) {
-    Animation_Change(&this->skelAnime, &object_dh_Anim_003A8C, 1.0f, 0.0f, Animation_GetLastFrame(&object_dh_Anim_003A8C) - 3.0f,
-                     ANIMMODE_LOOP, -6.0f);
+    Animation_Change(&this->skelAnime, &object_dh_Anim_003A8C, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_dh_Anim_003A8C) - 3.0f, ANIMMODE_LOOP, -6.0f);
     this->curAction = DH_WALK;
     this->timer = 300;
     this->actor.speedXZ = 1.0f;
@@ -302,7 +303,8 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actionState++;
     } else if ((this->actor.xzDistToPlayer > 100.0f) || !Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360)) {
-        Animation_Change(&this->skelAnime, &object_dh_Anim_004658, -1.0f, this->skelAnime.curFrame, 0.0f, ANIMMODE_ONCE, -4.0f);
+        Animation_Change(&this->skelAnime, &object_dh_Anim_004658, -1.0f, this->skelAnime.curFrame, 0.0f, ANIMMODE_ONCE,
+                         -4.0f);
         this->actionState = 4;
         this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_NONE; // also TOUCH_NONE
         this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
@@ -335,12 +337,12 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             break;
         case 3:
             if ((this->actor.xzDistToPlayer <= 100.0f) && (Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360))) {
-                Animation_Change(&this->skelAnime, &object_dh_Anim_004658, 1.0f, 20.0f, Animation_GetLastFrame(&object_dh_Anim_004658),
-                                 ANIMMODE_ONCE, -6.0f);
+                Animation_Change(&this->skelAnime, &object_dh_Anim_004658, 1.0f, 20.0f,
+                                 Animation_GetLastFrame(&object_dh_Anim_004658), ANIMMODE_ONCE, -6.0f);
                 this->actionState = 0;
             } else {
-                Animation_Change(&this->skelAnime, &object_dh_Anim_004658, -1.0f, Animation_GetLastFrame(&object_dh_Anim_004658), 0.0f,
-                                 ANIMMODE_ONCE, -4.0f);
+                Animation_Change(&this->skelAnime, &object_dh_Anim_004658, -1.0f,
+                                 Animation_GetLastFrame(&object_dh_Anim_004658), 0.0f, ANIMMODE_ONCE, -4.0f);
                 this->actionState++;
                 this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags =
                     AT_NONE; // also TOUCH_NONE

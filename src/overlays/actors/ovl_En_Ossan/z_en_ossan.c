@@ -2003,7 +2003,8 @@ void EnOssan_InitKokiriShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
 void EnOssan_InitGoronShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex3].segment);
-    Animation_Change(&this->skelAnime, &gGoronShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGoronShopkeeperAnim), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &gGoronShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGoronShopkeeperAnim),
+                     0, 0.0f);
     this->actor.draw = EnOssan_DrawGoronShopkeeper;
     this->obj3ToSeg6Func = EnOssan_Obj3ToSeg6;
 }
@@ -2011,7 +2012,8 @@ void EnOssan_InitGoronShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
 void EnOssan_InitZoraShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gZoraSkel, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex3].segment);
-    Animation_Change(&this->skelAnime, &gZoraShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gZoraShopkeeperAnim), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &gZoraShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gZoraShopkeeperAnim),
+                     0, 0.0f);
     this->actor.draw = EnOssan_DrawZoraShopkeeper;
     this->obj3ToSeg6Func = EnOssan_Obj3ToSeg6;
 }

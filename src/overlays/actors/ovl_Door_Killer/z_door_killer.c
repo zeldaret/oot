@@ -126,7 +126,8 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {
         case DOOR_KILLER_DOOR:
             // `jointTable` is used for both the `jointTable` and `morphTable` args here. Because this actor doesn't
             // play any animations it does not cause problems, but it would need to be changed otherwise.
-            SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &object_door_killer_Skel_001BC8, NULL, this->jointTable, this->jointTable, 9);
+            SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &object_door_killer_Skel_001BC8, NULL, this->jointTable,
+                               this->jointTable, 9);
             this->actionFunc = DoorKiller_SetProperties;
             DoorKiller_SetProperties(this, globalCtx2);
 
@@ -514,7 +515,8 @@ void DoorKiller_DrawDoor(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorKiller_DrawRubble(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dLists[] = { object_door_killer_DL_001250, object_door_killer_DL_001550, object_door_killer_DL_0017B8, object_door_killer_DL_001A58 };
+    static Gfx* dLists[] = { object_door_killer_DL_001250, object_door_killer_DL_001550, object_door_killer_DL_0017B8,
+                             object_door_killer_DL_001A58 };
     s32 rubblePieceIndex = (thisx->params & 0xFF) - 1;
     DoorKiller* this = THIS;
 

@@ -149,7 +149,8 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
             this->actor.draw = func_80A90948;
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL,
+                               0);
             OnePointCutscene_Attention(globalCtx, &this->actor);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
 

@@ -763,8 +763,9 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 static Gfx* sDisplayLists[] = {
-    object_kanban_DL_000CB0, object_kanban_DL_000DB8, object_kanban_DL_000E78, object_kanban_DL_000F38, object_kanban_DL_000FF8, object_kanban_DL_0010B8,
-    object_kanban_DL_0011C0, object_kanban_DL_0012C8, object_kanban_DL_0013D0, object_kanban_DL_001488, object_kanban_DL_001540,
+    object_kanban_DL_000CB0, object_kanban_DL_000DB8, object_kanban_DL_000E78, object_kanban_DL_000F38,
+    object_kanban_DL_000FF8, object_kanban_DL_0010B8, object_kanban_DL_0011C0, object_kanban_DL_0012C8,
+    object_kanban_DL_0013D0, object_kanban_DL_001488, object_kanban_DL_001540,
 };
 
 #include "z_en_kanban_gfx.c"

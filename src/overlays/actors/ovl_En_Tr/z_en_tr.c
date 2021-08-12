@@ -97,8 +97,8 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case TR_KOUME:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tr_Skel_011688, &object_tr_Anim_003FC8, this->jointTable,
-                               this->morphTable, 27);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tr_Skel_011688, &object_tr_Anim_003FC8,
+                               this->jointTable, this->morphTable, 27);
             Animation_PlayOnce(&this->skelAnime, &object_tr_Anim_003FC8);
             this->animation = NULL;
             EnTr_SetupAction(this, EnTr_ChooseAction1);
@@ -106,8 +106,8 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case TR_KOTAKE:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tr_Skel_00C530, &object_tr_Anim_001CDC, this->jointTable,
-                               this->morphTable, 27);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tr_Skel_00C530, &object_tr_Anim_001CDC,
+                               this->jointTable, this->morphTable, 27);
             Animation_PlayOnce(&this->skelAnime, &object_tr_Anim_001CDC);
             this->animation = NULL;
             EnTr_SetupAction(this, EnTr_ChooseAction1);
@@ -391,8 +391,8 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Animation_PlayLoop(&this->skelAnime, this->animation);
             } else if (this->animation == &object_tr_Anim_0049C8) {
                 EnTr_SetupAction(this, EnTr_ChooseAction2);
-                Animation_Change(&this->skelAnime, &object_tr_Anim_0049C8, 1.0f, 0.0f, Animation_GetLastFrame(&object_tr_Anim_0049C8),
-                                 ANIMMODE_LOOP, -5.0f);
+                Animation_Change(&this->skelAnime, &object_tr_Anim_0049C8, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&object_tr_Anim_0049C8), ANIMMODE_LOOP, -5.0f);
             } else {
                 Animation_PlayLoop(&this->skelAnime, this->animation);
             }

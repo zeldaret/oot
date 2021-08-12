@@ -116,7 +116,8 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &object_ta_Skel_00B7B8, &object_ta_Anim_001C94, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &object_ta_Skel_00B7B8, &object_ta_Anim_001C94, this->jointTable,
+                       this->morphTable, 17);
     Collider_InitCylinder(globalCtx2, &this->collider);
     Collider_SetCylinder(globalCtx2, &this->collider, &this->actor, &sCylinderInit);
 
@@ -558,8 +559,8 @@ void func_80B14EDC(EnTa* this, GlobalContext* globalCtx) {
 void func_80B14F20(EnTa* this, EnTaActionFunc arg1) {
     func_80B13AA0(this, arg1, func_80B16854);
     this->unk_2B4 = 2;
-    Animation_Change(&this->skelAnime, &object_ta_Anim_0017E8, 1.0f, 0.0f, Animation_GetLastFrame(&object_ta_Anim_0017E8), ANIMMODE_ONCE,
-                     -5.0f);
+    Animation_Change(&this->skelAnime, &object_ta_Anim_0017E8, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_ta_Anim_0017E8), ANIMMODE_ONCE, -5.0f);
     this->unk_2E2 = 0;
     this->unk_2E4 = &object_ta_Anim_0017E8;
 }
@@ -568,8 +569,8 @@ void func_80B14FAC(EnTa* this, EnTaActionFunc arg1) {
     this->unk_2B4 = 1;
     func_80B13AA0(this, arg1, func_80B16938);
     this->unk_2E0 &= ~0x10;
-    Animation_Change(&this->skelAnime, &object_ta_Anim_00C48C, 1.0f, 0.0f, Animation_GetLastFrame(&object_ta_Anim_00C48C), ANIMMODE_ONCE,
-                     -5.0f);
+    Animation_Change(&this->skelAnime, &object_ta_Anim_00C48C, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_ta_Anim_00C48C), ANIMMODE_ONCE, -5.0f);
 }
 
 void func_80B15034(EnTa* this, GlobalContext* globalCtx) {
@@ -601,7 +602,8 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         s32 unk_2CA;
 
-        Animation_Change(&this->skelAnime, &object_ta_Anim_00C48C, 1.0f, Animation_GetLastFrame(&object_ta_Anim_00C48C) - 1.0f,
+        Animation_Change(&this->skelAnime, &object_ta_Anim_00C48C, 1.0f,
+                         Animation_GetLastFrame(&object_ta_Anim_00C48C) - 1.0f,
                          Animation_GetLastFrame(&object_ta_Anim_00C48C), ANIMMODE_ONCE, 10.0f);
         this->unk_2E0 &= ~0x10;
         func_80106CCC(globalCtx);
@@ -705,7 +707,8 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                     this->unk_2C4[i]--;
                 } else {
                     this->unk_2CA = i;
-                    Animation_Change(&this->skelAnime, &object_ta_Anim_00BF38, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE, -10.0f);
+                    Animation_Change(&this->skelAnime, &object_ta_Anim_00BF38, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE,
+                                     -10.0f);
                     this->unk_2E0 &= ~0x10;
 
                     switch (func_80B152D0(this, globalCtx)) {
@@ -714,7 +717,8 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             func_8002DF54(globalCtx, &this->actor, 1);
                             func_8010B680(globalCtx, 0x2084, &this->actor);
                             this->unk_25C = func_80B15424;
-                            Animation_Change(&this->skelAnime, &object_ta_Anim_00BF38, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE, -10.0f);
+                            Animation_Change(&this->skelAnime, &object_ta_Anim_00BF38, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE,
+                                             -10.0f);
                             this->unk_2E0 &= ~0x10;
                             this->unk_2E0 &= ~0x100;
                             gSaveContext.eventInf[0] |= 0x100;
@@ -800,7 +804,8 @@ void func_80B1585C(EnTa* this, GlobalContext* globalCtx) {
     if (this->unk_2CC == 0) {
         func_80B13AA0(this, func_80B154FC, func_80B16938);
         this->unk_2E0 &= ~0x10;
-        Animation_Change(&this->skelAnime, &object_ta_Anim_00C48C, 1.0f, Animation_GetLastFrame(&object_ta_Anim_00C48C) - 1.0f,
+        Animation_Change(&this->skelAnime, &object_ta_Anim_00C48C, 1.0f,
+                         Animation_GetLastFrame(&object_ta_Anim_00C48C) - 1.0f,
                          Animation_GetLastFrame(&object_ta_Anim_00C48C), ANIMMODE_ONCE, 10.0f);
         func_8002DF54(globalCtx, &this->actor, 7);
     }
@@ -810,8 +815,8 @@ void func_80B15AD4(EnTa* this, GlobalContext* globalCtx) {
     if (this->unk_2CC == 0 && this->unk_2E0 & 0x20) {
         func_80B13AA0(this, func_80B1585C, func_80B16938);
         this->unk_2E0 &= ~0x10;
-        Animation_Change(&this->skelAnime, &object_ta_Anim_00BF38, 1.0f, 1.0f, Animation_GetLastFrame(&object_ta_Anim_00BF38), ANIMMODE_ONCE,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &object_ta_Anim_00BF38, 1.0f, 1.0f,
+                         Animation_GetLastFrame(&object_ta_Anim_00BF38), ANIMMODE_ONCE, 0.0f);
         this->unk_2CC = 50;
         func_80088B34(0x1E);
         func_800F5ACC(0x6C);

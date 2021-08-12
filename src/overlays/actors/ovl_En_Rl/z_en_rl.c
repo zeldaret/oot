@@ -53,8 +53,8 @@ void func_80AE72D0(EnRl* this) {
 }
 
 void func_80AE7358(EnRl* this) {
-    Animation_Change(&this->skelAnime, &object_rl_Anim_000A3C, 1.0f, 0.0f, Animation_GetLastFrame(&object_rl_Anim_000A3C), ANIMMODE_LOOP,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &object_rl_Anim_000A3C, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_rl_Anim_000A3C), ANIMMODE_LOOP, 0.0f);
     this->action = 4;
     this->drawConfig = 0;
     this->alpha = 0;
@@ -147,8 +147,8 @@ void func_80AE7698(EnRl* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         csCmdActorAction = globalCtx->csCtx.npcActions[0];
         if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
-            Animation_Change(&this->skelAnime, &object_rl_Anim_00040C, 1.0f, 0.0f, Animation_GetLastFrame(&object_rl_Anim_00040C),
-                             ANIMMODE_ONCE, 0.0f);
+            Animation_Change(&this->skelAnime, &object_rl_Anim_00040C, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&object_rl_Anim_00040C), ANIMMODE_ONCE, 0.0f);
             this->action = 2;
         }
     }
@@ -156,8 +156,8 @@ void func_80AE7698(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE772C(EnRl* this, s32 arg1) {
     if (arg1) {
-        Animation_Change(&this->skelAnime, &object_rl_Anim_000830, 1.0f, 0.0f, Animation_GetLastFrame(&object_rl_Anim_000830), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &object_rl_Anim_000830, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_rl_Anim_000830), ANIMMODE_LOOP, 0.0f);
         this->action = 3;
     }
 }
@@ -242,8 +242,8 @@ void func_80AE79A4(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
     if (func_80AE74B4(this, globalCtx, 3, 0)) {
-        Animation_Change(&this->skelAnime, &object_rl_Anim_00040C, 1.0f, 0.0f, Animation_GetLastFrame(&object_rl_Anim_00040C), ANIMMODE_ONCE,
-                         -8.0f);
+        Animation_Change(&this->skelAnime, &object_rl_Anim_00040C, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_rl_Anim_00040C), ANIMMODE_ONCE, -8.0f);
         this->action = 6;
     } else if (func_80AE74FC(this, globalCtx, 4, 0)) {
         this->action = 5;
@@ -260,8 +260,8 @@ void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE7BF8(EnRl* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &object_rl_Anim_000830, 1.0f, 0.0f, Animation_GetLastFrame(&object_rl_Anim_000830), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &object_rl_Anim_000830, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_rl_Anim_000830), ANIMMODE_LOOP, 0.0f);
         this->action = 7;
     }
 }
