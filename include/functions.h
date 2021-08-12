@@ -640,7 +640,7 @@ void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx);
 void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
 u32 SurfaceType_GetCamDataIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 func_80041A4C(CollisionContext* colCtx, u32 camId, s32 bgId);
-u16 SurfaceType_GetCameraSType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 SurfaceType_GetCameraSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 SurfaceType_GetNumCameras(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 Vec3s* func_80041C10(CollisionContext* colCtx, s32 camId, s32 bgId);
 Vec3s* SurfaceType_GetCamPosData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
@@ -673,7 +673,7 @@ s32 WaterBox_GetSurface2(GlobalContext* globalCtx, CollisionContext* colCtx, Vec
 s32 WaterBox_GetSurfaceImpl(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                             WaterBox** outWaterBox);
 u32 WaterBox_GetCamDataIndex(CollisionContext* colCtx, WaterBox* waterBox);
-u16 WaterBox_GetCameraSType(CollisionContext* colCtx, WaterBox* waterBox);
+u16 WaterBox_GetCameraSetting(CollisionContext* colCtx, WaterBox* waterBox);
 u32 WaterBox_GetLightSettingIndex(CollisionContext* colCtx, WaterBox* waterBox);
 s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* point, Vec3f* closestPoint);
 s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec3f* pointB, Vec3f* closestPoint);

@@ -28,33 +28,52 @@ s32 Camera_CheckWater(Camera* camera);
 /*===============================================================*/
 
 /**
- * Interpolates along a curve between 0 and 1 with a period of
- * -a <= p <= a at time `b`
+ * Interpolates along the curve shown below
+ * returns value y ranging from 0.0f to 1.0f for -xMax <= x <= xMax
+ * returns 1.0f otherwise
+ *
+ * y = 1.0f    ________                   _________
+ *                     __               __
+ *                       _             _
+ * y axis                 _           _
+ *                         ___     ___
+ *                            _____
+ * y = 0.0f           |         |         |
+ *                 -xMax        0       xMax
+ *
+ *                           x axis
  */
-f32 Camera_InterpolateCurve(f32 a, f32 b) {
-    f32 ret;
-    f32 absB;
-    f32 t = 0.4f;
-    f32 t2;
-    f32 t3;
-    f32 t4;
+f32 Camera_InterpolateCurve(f32 xMax, f32 x) {
+    f32 y;
+    f32 absX= fabsf(x);
+    f32 percent40 = 0.4f;
+    f32 percent60;
+    f32 xQuadratic;
+    f32 xMaxQuadratic; // Normalizing constant
 
-    absB = fabsf(b);
-    if (a < absB) {
-        ret = 1.0f;
+    // fixed value outside xMax range
+    if (absX > xMax) {
+        y = 1.0f;
+
+    // inside xMax range
     } else {
-        t2 = 1.0f - t;
-        if ((a * t2) > absB) {
-            t3 = SQ(b) * (1.0f - t);
-            t4 = SQ(a * t2);
-            ret = t3 / t4;
+        percent60 = 1.0f - percent40;
+
+        // quadratic curve in the inner 60% of xMax range: +concavity (upward curve)
+        if (absX < (xMax * percent60)) {
+            xQuadratic = SQ(x) * (1.0f - percent40);
+            xMaxQuadratic = SQ(xMax * percent60);
+
+            y = xQuadratic / xMaxQuadratic;
+            // quadratic curve in the outer 40% of xMax range: -concavity (flattening curve)
         } else {
-            t3 = SQ(a - absB) * t;
-            t4 = SQ(0.4f * a);
-            ret = 1.0f - (t3 / t4);
+            xQuadratic = SQ(xMax - absX) * percent40;
+            xMaxQuadratic = SQ(0.4f * xMax);
+
+            y = 1.0f - (xQuadratic / xMaxQuadratic);
         }
     }
-    return ret;
+    return y;
 }
 
 /*
@@ -518,7 +537,7 @@ s32 Camera_GetWaterBoxDataIdx(Camera* camera, f32* waterY) {
     }
 
     ret = WaterBox_GetCamDataIndex(&camera->globalCtx->colCtx, waterBox);
-    if ((ret <= 0) || (WaterBox_GetCameraSType(&camera->globalCtx->colCtx, waterBox) <= 0)) {
+    if ((ret <= 0) || (WaterBox_GetCameraSetting(&camera->globalCtx->colCtx, waterBox) <= 0)) {
         // no camera data idx, or no CameraSettingType
         return -2;
     }
@@ -771,9 +790,9 @@ void Camera_UpdateInterface(s16 flags) {
     if ((flags & IFACE_ALPHA_MASK) != IFACE_ALPHA_MASK) {
         interfaceAlpha = (flags & IFACE_ALPHA_MASK) >> 8;
         if (interfaceAlpha == 0) {
-            interfaceAlpha = 0x32;
+            interfaceAlpha = 50;
         }
-        if (interfaceAlpha != sCameraInterfaceAlpha) {
+        if (sCameraInterfaceAlpha != interfaceAlpha) {
             sCameraInterfaceAlpha = interfaceAlpha;
             Interface_ChangeAlpha(sCameraInterfaceAlpha);
         }
@@ -4243,26 +4262,45 @@ s32 Camera_Subj3(Camera* camera) {
     return 1;
 }
 
+/**
+ * Subject 4 uses bgCamData.data differently than other functions:
+ * It uses the only setting where bgCamData.dataLength is either 6 or 9 from the scene files (CAM_SET_RAIL3)
+ * bgCamData.data[1] stores the coordinates of the front entrance to the crawlspace
+ * bgCamData.data[4] stores the coordinates of the back entrance to the crawlspace
+ * bgCamData.data[0], bgCamData.data[2], bgCamData.data[3], bgCamData.data[5], go unused,
+ *      but also contain coordinates along the straight line path of the crawlspace
+ * Entry refers to the side of the crawlspace first accessible via casual gameplay, Exit is the other entrance
+ */ 
+#define BGCAM_CRAWLSPACE_FRONT_POS(v) ((v)[1]) 
+#define BGCAM_CRAWLSPACE_BACK_POS(v, l) ((v)[l - 2])
+
+/**
+ * Crawlspaces
+ * Moves the camera from third person to first person when entering a crawlspace
+ * While in the crawlspace, link remains fixed in a single direction
+ * The camera is what swings up and down while crawling forward or backwards
+ */
 s32 Camera_Subj4(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* eyeNext = &camera->eyeNext;
     Vec3f* at = &camera->at;
-    u16 spAA;
-    Vec3s* spA4;
-    Vec3f sp98;
-    Vec3f sp8C;
-    f32 sp88;
-    s16 pad2;
-    f32 temp_f16;
-    PosRot sp6C;
+    u16 bgCamDataLength;
+    Vec3s* bgCamData;
+    Vec3f crawlspaceExitPos; // eyeTarget (reused temp)
+    Vec3f zoomAtTarget;
+    f32 sp88; // zoomTimer and playerDistToFront (reused temp)
+    f32 pad2;
+    f32 heightOffset;
+    PosRot playerPosRot;
     VecSph sp64;
-    VecSph sp5C;
-    s16 temp_a0;
+    VecSph atEyeOffset;
+    s16 xzOffsetTimer;
     f32 tx;
     Player* player;
-    PosRot* playerPosRot = &camera->playerPosRot;
+    s32 pad3;
     Subj4* subj4 = (Subj4*)camera->paramData;
     Subj4Anim* anim = &subj4->anim;
+
 
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
@@ -4275,98 +4313,119 @@ s32 Camera_Subj4(Camera* camera) {
 
     if (camera->globalCtx->view.unk_124 == 0) {
         camera->globalCtx->view.unk_124 = (camera->camId | 0x50);
-        anim->unk_24 = camera->xzSpeed;
+        anim->xzSpeed = camera->xzSpeed;
         return true;
     }
 
-    Actor_GetWorldPosShapeRot(&sp6C, &camera->player->actor);
+    Actor_GetWorldPosShapeRot(&playerPosRot, &camera->player->actor);
+    OLib_Vec3fDiffToVecSphGeo(&atEyeOffset, at, eye);
 
-    OLib_Vec3fDiffToVecSphGeo(&sp5C, at, eye);
     sCameraInterfaceFlags = subj4->interfaceFlags;
+
+    // Crawlspace setup (runs for only 1 frame)
     if (camera->animState == 0) {
-        spA4 = Camera_GetCamBgDataUnderPlayer(camera, &spAA);
-        Camera_Vec3sToVec3f(&anim->unk_00.a, &spA4[1]);
-        Camera_Vec3sToVec3f(&sp98, &spA4[spAA - 2]);
+        bgCamData = Camera_GetCamBgDataUnderPlayer(camera, &bgCamDataLength);
+        Camera_Vec3sToVec3f(&anim->crawlspaceLine.a, &BGCAM_CRAWLSPACE_FRONT_POS(bgCamData));
+        Camera_Vec3sToVec3f(&crawlspaceExitPos, &BGCAM_CRAWLSPACE_BACK_POS(bgCamData, bgCamDataLength));
 
         sp64.r = 10.0f;
-        // 0x238C ~ 50 degrees
-        sp64.pitch = 0x238C;
-        sp64.yaw = Camera_XZAngle(&sp98, &anim->unk_00.a);
-        sp88 = OLib_Vec3fDist(&playerPosRot->pos, &anim->unk_00.a);
-        if (OLib_Vec3fDist(&playerPosRot->pos, &sp98) < sp88) {
-            anim->unk_00.b.x = anim->unk_00.a.x - sp98.x;
-            anim->unk_00.b.y = anim->unk_00.a.y - sp98.y;
-            anim->unk_00.b.z = anim->unk_00.a.z - sp98.z;
-            anim->unk_00.a = sp98;
+        sp64.pitch = 0x238C; // ~50 degrees
+        sp64.yaw = Camera_XZAngle(&crawlspaceExitPos, &anim->crawlspaceLine.a);
+
+        sp88 = OLib_Vec3fDist(&camera->playerPosRot.pos, &anim->crawlspaceLine.a);
+        if (OLib_Vec3fDist(&camera->playerPosRot.pos, &crawlspaceExitPos) < sp88) {
+            // Player is entering the crawlspace from the back
+            anim->crawlspaceLine.b.x = anim->crawlspaceLine.a.x - crawlspaceExitPos.x;
+            anim->crawlspaceLine.b.y = anim->crawlspaceLine.a.y - crawlspaceExitPos.y;
+            anim->crawlspaceLine.b.z = anim->crawlspaceLine.a.z - crawlspaceExitPos.z;
+            anim->crawlspaceLine.a = crawlspaceExitPos;
         } else {
-            anim->unk_00.b.x = sp98.x - anim->unk_00.a.x;
-            anim->unk_00.b.y = sp98.y - anim->unk_00.a.y;
-            anim->unk_00.b.z = sp98.z - anim->unk_00.a.z;
+            // Player is entering the crawlspace from the front
+            anim->crawlspaceLine.b.x = crawlspaceExitPos.x - anim->crawlspaceLine.a.x;
+            anim->crawlspaceLine.b.y = crawlspaceExitPos.y - anim->crawlspaceLine.a.y;
+            anim->crawlspaceLine.b.z = crawlspaceExitPos.z - anim->crawlspaceLine.a.z;
             sp64.yaw = BINANG_ROT180(sp64.yaw);
         }
+
         anim->unk_30 = sp64.yaw;
-        anim->unk_32 = 0xA;
-        anim->unk_2C = 0;
-        anim->unk_2E = false;
-        anim->unk_28 = 0.0f;
+        anim->zoomTimer = 10;
+        anim->heightCycleTimer = 0;
+        anim->isSfxOff = false;
+        anim->heightOffsetPrev = 0.0f;
         camera->animState++;
     }
 
-    if (anim->unk_32 != 0) {
+    // Camera zooms in from third person to first person over 10 frames
+    if (anim->zoomTimer != 0) {
         sp64.r = 10.0f;
-        sp64.pitch = 0x238C;
+        sp64.pitch = 0x238C; // ~50 degrees
         sp64.yaw = anim->unk_30;
-        Camera_Vec3fVecSphGeoAdd(&sp8C, &sp6C.pos, &sp64);
-        sp88 = (anim->unk_32 + 1.0f);
-        at->x += (sp8C.x - at->x) / sp88;
-        at->y += (sp8C.y - at->y) / sp88;
-        at->z += (sp8C.z - at->z) / sp88;
-        sp5C.r -= (sp5C.r / sp88);
-        sp5C.yaw = BINANG_LERPIMPINV(sp5C.yaw, BINANG_ROT180(sp6C.rot.y), anim->unk_32);
-        sp5C.pitch = BINANG_LERPIMPINV(sp5C.pitch, sp6C.rot.x, anim->unk_32);
-        Camera_Vec3fVecSphGeoAdd(eyeNext, at, &sp5C);
+        Camera_Vec3fVecSphGeoAdd(&zoomAtTarget, &playerPosRot.pos, &sp64);
+
+        sp88 = anim->zoomTimer + 1.0f;
+        at->x = F32_LERPIMPINV(at->x, zoomAtTarget.x, sp88);
+        at->y = F32_LERPIMPINV(at->y, zoomAtTarget.y, sp88);
+        at->z = F32_LERPIMPINV(at->z, zoomAtTarget.z, sp88);
+
+        atEyeOffset.r -= (atEyeOffset.r / sp88);
+        atEyeOffset.yaw = BINANG_LERPIMPINV(atEyeOffset.yaw, BINANG_ROT180(playerPosRot.rot.y), anim->zoomTimer);
+        atEyeOffset.pitch = BINANG_LERPIMPINV(atEyeOffset.pitch, playerPosRot.rot.x, anim->zoomTimer);
+        Camera_Vec3fVecSphGeoAdd(eyeNext, at, &atEyeOffset);
         *eye = *eyeNext;
-        anim->unk_32--;
+        anim->zoomTimer--;
         return false;
-    } else if (anim->unk_24 < 0.5f) {
+    } else if (anim->xzSpeed < 0.5f) {
         return false;
     }
 
-    Actor_GetWorldPosShapeRot(&sp6C, &camera->player->actor);
-    Math3D_LineClosestToPoint(&anim->unk_00, &sp6C.pos, eyeNext);
-    at->x = eyeNext->x + anim->unk_00.b.x;
-    at->y = eyeNext->y + anim->unk_00.b.y;
-    at->z = eyeNext->z + anim->unk_00.b.z;
+    Actor_GetWorldPosShapeRot(&playerPosRot, &camera->player->actor);
+    Math3D_LineClosestToPoint(&anim->crawlspaceLine, &playerPosRot.pos, eyeNext);
+
+    // *at is unused before getting overwritten later this function
+    at->x = eyeNext->x + anim->crawlspaceLine.b.x;
+    at->y = eyeNext->y + anim->crawlspaceLine.b.y;
+    at->z = eyeNext->z + anim->crawlspaceLine.b.z;
+
     *eye = *eyeNext;
+
     sp64.yaw = anim->unk_30;
     sp64.r = 5.0f;
-    sp64.pitch = 0x238C;
-    Camera_Vec3fVecSphGeoAdd(&sp98, eyeNext, &sp64);
-    anim->unk_2C += 0xBB8;
-    temp_f16 = Math_CosS(anim->unk_2C);
-    eye->x += (sp98.x - eye->x) * fabsf(temp_f16);
-    eye->y += (sp98.y - eye->y) * fabsf(temp_f16);
-    eye->z += (sp98.z - eye->z) * fabsf(temp_f16);
+    sp64.pitch = 0x238C; // ~50 degrees
 
-    if ((anim->unk_28 < temp_f16) && !anim->unk_2E) {
+    Camera_Vec3fVecSphGeoAdd(&crawlspaceExitPos, eyeNext, &sp64);
+    anim->heightCycleTimer += 0xBB8;
+    heightOffset = Math_CosS(anim->heightCycleTimer);
+
+    // VEC3F_LERPIMPDST(eye, eye, &sp98, fabsf(temp_f16))
+    eye->x += (crawlspaceExitPos.x - eye->x) * fabsf(heightOffset);
+    eye->y += (crawlspaceExitPos.y - eye->y) * fabsf(heightOffset);
+    eye->z += (crawlspaceExitPos.z - eye->z) * fabsf(heightOffset);
+
+    // When camera reaches the peak of offset and starts to move down
+    // && alternating cycles (sfx plays only every 2nd cycle)
+    if ((anim->heightOffsetPrev < heightOffset) && !anim->isSfxOff) {
         player = camera->player;
-        anim->unk_2E = true;
-        func_800F4010(&player->actor.projectedPos, player->unk_89E + 0x8B0, 4.0f);
-    } else if (anim->unk_28 > temp_f16) {
-        anim->unk_2E = false;
+        anim->isSfxOff = true;
+        func_800F4010(&player->actor.projectedPos, player->unk_89E + NA_SE_PL_CRAWL, 4.0f);
+    } else if (anim->heightOffsetPrev > heightOffset) {
+        anim->isSfxOff = false;
     }
 
-    anim->unk_28 = temp_f16;
+    anim->heightOffsetPrev = heightOffset;
+    
     camera->player->actor.world.pos = *eyeNext;
     camera->player->actor.world.pos.y = camera->playerGroundY;
     camera->player->actor.shape.rot.y = sp64.yaw;
-    temp_f16 = ((240.0f * temp_f16) * (anim->unk_24 * 0.416667f));
-    temp_a0 = temp_f16 + anim->unk_30;
-    at->x = eye->x + (Math_SinS(temp_a0) * 10.0f);
+
+    heightOffset = ((240.0f * heightOffset) * (anim->xzSpeed * 0.416667f));
+    xzOffsetTimer = heightOffset + anim->unk_30;
+
+    at->x = eye->x + (Math_SinS(xzOffsetTimer) * 10.0f);
     at->y = eye->y;
-    at->z = eye->z + (Math_CosS(temp_a0) * 10.0f);
+    at->z = eye->z + (Math_CosS(xzOffsetTimer) * 10.0f);
+
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
-    return 1;
+    return true;
 }
 
 s32 Camera_Subj0(Camera* camera) {
@@ -6060,11 +6119,11 @@ s32 Camera_Demo6(Camera* camera) {
             camera->at.x = focusPosRot.pos.x;
             camera->at.y = focusPosRot.pos.y + 20.0f;
             camera->at.z = focusPosRot.pos.z;
+
             eyeOffset.r = 200.0f;
-            // 0x7D0 ~10.99 degrees
-            eyeOffset.yaw = Camera_XZAngle(&focusPosRot.pos, &mainCam->playerPosRot.pos) + 0x7D0;
-            // -0x3E8 ~5.49 degrees
-            eyeOffset.pitch = -0x3E8;
+            eyeOffset.yaw = Camera_XZAngle(&focusPosRot.pos, &mainCam->playerPosRot.pos) + 0x7D0; // ~10.99 degrees
+            eyeOffset.pitch = -0x3E8; // ~5.49 degrees
+
             Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeOffset);
             camera->eye = *eyeNext;
             camera->animState++;
@@ -6971,7 +7030,7 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
 }
 
 /**
- * Prints camera information for all 4 cameras: debugging features.
+ * Prints camera information: debugging features.
  * The following information is printed in order:
  *      - Camera status for all 4 cameras -> example: 'wadd' (mainCam WAIT, subCam 1 ACTIVE, subCam 2/3 INACTIVE)
  *      - Active camera from all 4 cameras -> example ' a  ' (this shows subCam 1 is active, others are given a space)
@@ -7033,8 +7092,8 @@ void Camera_PrintInfo(Camera* camera) {
         if (camera->camDataIdx < 0) {
             camDataIdxStr[i++] = '-';
         }
-        if (camera->camDataIdx / 0xA != 0) {
-            camDataIdxStr[i++] = i / 0xA + '0';
+        if (camera->camDataIdx / 10 != 0) {
+            camDataIdxStr[i++] = i / 10 + '0';
         }
         camDataIdxStr[i++] = i % 10 + '0';
         camDataIdxStr[i++] = ' ';
@@ -7063,10 +7122,10 @@ s32 Camera_CheckWater(Camera* camera) {
 
     if (camera->unk_14C & 0x200) {
         if (player->stateFlags2 & 0x800) {
-            Camera_ChangeSettingFlags(camera, CAM_SET_CIRCLE5, 6);
+            Camera_ChangeSettingFlags(camera, CAM_SET_CIRCLE5, (4 | 2));
             camera->unk_14C |= (s16)0x8000;
         } else if (camera->unk_14C & (s16)0x8000) {
-            Camera_ChangeSettingFlags(camera, *waterPrevCamSetting, 6);
+            Camera_ChangeSettingFlags(camera, *waterPrevCamSetting, (4 | 2));
             camera->unk_14C &= ~((s16)0x8000);
         }
     }
@@ -7804,7 +7863,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
     if (!(camera->unk_14A & 0x40)) {
         newCameraSetting = Camera_GetCamDataSetting(camera, camDataIdx);
         camera->unk_14A |= 0x40;
-        settingChangeSuccessful = Camera_ChangeSettingFlags(camera, newCameraSetting, 5) >= 0;
+        settingChangeSuccessful = Camera_ChangeSettingFlags(camera, newCameraSetting, (4 | 1)) >= 0;
         if (settingChangeSuccessful || sCameraSettings[camera->setting].unk_00 & 0x80000000) {
             camera->camDataIdx = camDataIdx;
             camera->unk_14A |= 4;

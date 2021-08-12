@@ -3834,9 +3834,9 @@ u32 SurfaceType_GetCamDataIndex(CollisionContext* colCtx, CollisionPoly* poly, s
 }
 
 /**
- * CamData return cameraSType
+ * CamData return camera setting
  */
-u16 func_80041A4C(CollisionContext* colCtx, u32 camId, s32 bgId) {
+u16 func_80041A4C(CollisionContext* colCtx, u32 camDataIdx, s32 bgId) {
     u16 result;
     CollisionHeader* colHeader;
     CamData* camData;
@@ -3846,14 +3846,14 @@ u16 func_80041A4C(CollisionContext* colCtx, u32 camId, s32 bgId) {
         return 0;
     }
     camData = colHeader->cameraDataList;
-    result = camData[camId].cameraSType;
+    result = camData[camDataIdx].setting;
     return result;
 }
 
 /**
- * SurfaceType return cameraSType
+ * SurfaceType return camera setting
  */
-u16 SurfaceType_GetCameraSType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u16 SurfaceType_GetCameraSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     CamData* camData;
     SurfaceType* surfaceTypes;
@@ -4266,7 +4266,7 @@ u32 WaterBox_GetCamDataIndex(CollisionContext* colCtx, WaterBox* waterBox) {
 /**
  * WaterBox get CamData cameraSType
  */
-u16 WaterBox_GetCameraSType(CollisionContext* colCtx, WaterBox* waterBox) {
+u16 WaterBox_GetCameraSetting(CollisionContext* colCtx, WaterBox* waterBox) {
     s32 camId = WaterBox_GetCamDataIndex(colCtx, waterBox);
     CamData* camData = colCtx->colHeader->cameraDataList;
 
@@ -4274,7 +4274,7 @@ u16 WaterBox_GetCameraSType(CollisionContext* colCtx, WaterBox* waterBox) {
         return 0;
     }
 
-    return colCtx->colHeader->cameraDataList[camId].cameraSType;
+    return colCtx->colHeader->cameraDataList[camId].setting;
 }
 
 /**
