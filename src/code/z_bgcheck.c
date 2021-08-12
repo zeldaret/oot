@@ -3835,17 +3835,17 @@ u32 SurfaceType_GetBgCamDataId(CollisionContext* colCtx, CollisionPoly* poly, s3
 /**
  * BgCamData Get setting of bgCamData
  */
-u16 func_80041A4C(CollisionContext* colCtx, u32 camDataIdx, s32 bgId) {
+u16 func_80041A4C(CollisionContext* colCtx, u32 bgCamDataId, s32 bgId) {
     u16 result;
     CollisionHeader* colHeader;
-    BgCamData* camData;
+    BgCamData* bgCamData;
 
     colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     if (colHeader == NULL) {
         return 0;
     }
-    camData = colHeader->bgCamDataList;
-    result = camData[camDataIdx].setting;
+    bgCamData = colHeader->bgCamDataList;
+    result = bgCamData[bgCamDataId].setting;
     return result;
 }
 

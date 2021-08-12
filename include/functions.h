@@ -700,7 +700,7 @@ void Camera_Finish(Camera* camera);
 s32 Camera_ChangeMode(Camera* camera, s16 mode);
 s32 Camera_CheckValidMode(Camera* camera, s16 mode);
 s32 Camera_ChangeSetting(Camera* camera, s16 setting);
-s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx);
+s32 Camera_ChangeDataIdx(Camera* camera, s32 bgCamDataId);
 s16 Camera_GetInputDirYaw(Camera* camera);
 Vec3s* Camera_GetCamDir(Vec3s* dir, Camera* camera);
 s16 Camera_GetCamDirPitch(Camera* camera);
@@ -713,7 +713,7 @@ s16 func_8005AD1C(Camera* camera, s16 arg1);
 s32 Camera_ResetAnim(Camera* camera);
 s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints, Player* player,
                        s16 relativeToPlayer);
-s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 arg3, s16 timer1, s16 timer2,
+s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 bgCamDataId, f32 arg3, s16 timer1, s16 timer2,
                          s16 timer3);
 s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
 Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera);

@@ -21,6 +21,11 @@
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
 
+#define BGCAM_POS(v) ((v)[0])
+#define BGCAM_ROT(v) ((v)[1])
+#define BGCAM_FOV(v) ((v)[2].x)
+#define BGCAM_JFIFID(v) ((v)[2].y)
+
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
     /* 0x01 */ CAM_SET_NORMAL0,
@@ -901,7 +906,7 @@ typedef struct {
     /* 0x0140 */ s16 status;
     /* 0x0142 */ s16 setting;
     /* 0x0144 */ s16 mode;
-    /* 0x0146 */ s16 bgCheckId;
+    /* 0x0146 */ s16 bgId;
     /* 0x0148 */ s16 bgCamDataId;
     /* 0x014A */ s16 unk_14A;
     /* 0x014C */ s16 unk_14C;
@@ -910,7 +915,7 @@ typedef struct {
     /* 0x0152 */ s16 unk_152;
     /* 0x0154 */ s16 prevSetting;
     /* 0x0156 */ s16 nextBgCamDataId;
-    /* 0x0158 */ s16 nextBGCheckId;
+    /* 0x0158 */ s16 nextBgId;
     /* 0x015A */ s16 roll;
     /* 0x015C */ s16 paramFlags;
     /* 0x015E */ s16 animState;

@@ -15,11 +15,6 @@ s32 Camera_CheckWater(Camera* camera);
 #define NEXTSETTING ((values++)->val)
 #define NEXTPCT PCT(NEXTSETTING)
 
-#define BGCAM_POS(v) ((v)[0])
-#define BGCAM_ROT(v) ((v)[1])
-#define BGCAM_FOV(v) ((v)[2].x)
-#define BGCAM_JFIFID(v) ((v)[2].y)
-
 #define FLG_ADJSLOPE (1 << 0)
 #define FLG_OFFGROUND (1 << 7)
 
@@ -331,7 +326,7 @@ s32 func_80043F94(Camera* camera, Vec3f* from, CamColChk* to) {
             // line is from->to is touching the poly the player is on.
             to->norm = playerFloorNormF;
             to->poly = playerFloorPoly;
-            to->bgId = camera->bgCheckId;
+            to->bgId = camera->bgId;
             to->pos.x = to->norm.x + toNewPos.x;
             to->pos.y = to->norm.y + toNewPos.y;
             to->pos.z = to->norm.z + toNewPos.z;
@@ -6887,7 +6882,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
     camera->setting = camera->prevSetting = CAM_SET_FREE0;
     camera->bgCamDataId = camera->prevBgCamDataId = -1;
     camera->mode = 0;
-    camera->bgCheckId = BGCHECK_SCENE;
+    camera->bgId = BGCHECK_SCENE;
     camera->csId = 0x7FFF;
     camera->timer = -1;
     camera->unk_14C |= 0x4000;
@@ -6974,7 +6969,7 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     camera->up.x = upXZ;
 
     if (Camera_GetFloorYNorm(camera, &floorPos, at, &bgId) != BGCHECK_Y_MIN) {
-        camera->bgCheckId = bgId;
+        camera->bgId = bgId;
     }
 
     camera->waterPrevCamIdx = -1;
@@ -7139,11 +7134,11 @@ s32 Camera_CheckWater(Camera* camera) {
                 *quakeId = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
-                prevBgId = camera->bgCheckId;
-                camera->bgCheckId = BGCHECK_SCENE;
+                prevBgId = camera->bgId;
+                camera->bgId = BGCHECK_SCENE;
                 Camera_ChangeSettingFlags(camera, CAM_SET_NORMAL3, 2);
                 *waterPrevCamSetting = camera->setting;
-                camera->bgCheckId = prevBgId;
+                camera->bgId = prevBgId;
                 camera->bgCamDataId = -2;
             }
         } else if (waterCamIdx != -1) {
@@ -7155,25 +7150,25 @@ s32 Camera_CheckWater(Camera* camera) {
                 *quakeId = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
-                prevBgId = camera->bgCheckId;
-                camera->bgCheckId = BGCHECK_SCENE;
+                prevBgId = camera->bgId;
+                camera->bgId = BGCHECK_SCENE;
                 Camera_ChangeDataIdx(camera, waterCamIdx);
                 *waterPrevCamSetting = camera->setting;
-                camera->bgCheckId = prevBgId;
+                camera->bgId = prevBgId;
             }
         } else if (camera->unk_14C & 0x200) {
             // player is out of a water box.
             osSyncPrintf("camera: water: off\n");
             camera->unk_14C &= ~0x200;
-            prevBgId = camera->bgCheckId;
-            camera->bgCheckId = BGCHECK_SCENE;
+            prevBgId = camera->bgId;
+            camera->bgId = BGCHECK_SCENE;
             if (camera->waterPrevCamIdx < 0) {
                 func_80057FC4(camera);
                 camera->bgCamDataId = -1;
             } else {
                 Camera_ChangeDataIdx(camera, camera->waterPrevCamIdx);
             }
-            camera->bgCheckId = prevBgId;
+            camera->bgId = prevBgId;
         }
     }
 
@@ -7393,7 +7388,7 @@ Vec3s Camera_Update(Camera* camera) {
             camera->floorNorm.x = COLPOLY_GET_NORMAL(playerFloorPoly->normal.x);
             camera->floorNorm.y = COLPOLY_GET_NORMAL(playerFloorPoly->normal.y);
             camera->floorNorm.z = COLPOLY_GET_NORMAL(playerFloorPoly->normal.z);
-            camera->bgCheckId = bgId;
+            camera->bgId = bgId;
             camera->playerGroundY = playerGroundY;
         } else {
             // player is not above ground.
@@ -7420,7 +7415,7 @@ Vec3s Camera_Update(Camera* camera) {
                 (!(camera->unk_14C & (s16)0x8000)) && (playerGroundY != BGCHECK_Y_MIN)) {
                 bgCamDataId = Camera_GetBgCamDataId(camera, &bgId, playerFloorPoly);
                 if (bgCamDataId != -1) {
-                    camera->nextBGCheckId = bgId;
+                    camera->nextBgId = bgId;
                     if (bgId == BGCHECK_SCENE) {
                         camera->nextBgCamDataId = bgCamDataId;
                     }
@@ -7429,7 +7424,7 @@ Vec3s Camera_Update(Camera* camera) {
 
             if (camera->nextBgCamDataId != -1 && (fabsf(curPlayerPosRot.pos.y - playerGroundY) < 2.0f) &&
                 (!(camera->unk_14C & 0x200) || (player->currentBoots == PLAYER_BOOTS_IRON))) {
-                camera->bgCheckId = camera->nextBGCheckId;
+                camera->bgId = camera->nextBgId;
                 Camera_ChangeDataIdx(camera, camera->nextBgCamDataId);
                 camera->nextBgCamDataId = -1;
             }
@@ -7519,7 +7514,7 @@ Vec3s Camera_Update(Camera* camera) {
         return camera->inputDir;
     }
 
-    // setting bgCheckId to the ret of Quake_Calc, and checking that
+    // setting bgId to the ret of Quake_Calc, and checking that
     // is required, it doesn't make too much sense though.
     bgId = Quake_Calc(camera, &quake);
     if ((bgId != 0) && (camera->setting != CAM_SET_ITEM2)) {
@@ -7872,7 +7867,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 bgCamDataId) {
             // @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
             // bgCamDataId would make more sense.
             osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, bgCamDataId,
-                         camera->camId, 0x32, newCameraSetting);
+                         camera->camId, 50, newCameraSetting);
         }
         return 0x80000000 | bgCamDataId;
     }
