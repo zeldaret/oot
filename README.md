@@ -17,16 +17,10 @@
 ```diff
 - WARNING! -
 
-This repository is a work in progress, and while it can be used to make certain changes, it's still
-constantly evolving. If you use it for modding purposes in its current state, please be aware that
-the codebase can drastically change at any time. Also note that some parts of the ROM may not be
-'shiftable' yet, so modifying them could be difficult at this point.
+This repository is a work in progress, and while it can be used to make certain changes, it's still constantly evolving. If you use it for modding purposes in its current state, please be aware that the codebase can drastically change at any time. Also note that some parts of the ROM may not be 'shiftable' yet, so modifying them could be difficult at this point.
 ```
 
-This is a WIP decompilation of The Legend of Zelda: Ocarina of Time. 
-The purpose of the project is to recreate a source code base for the game from scratch, using information found inside the game along with static and/or dynamic analysis. 
-**It is not producing a PC port.** 
-For more information you can get in touch with the team on our [Discord server](https://discord.zelda64.dev).
+This is a WIP **decompilation** of ***The Legend of Zelda: Ocarina of Time***. The purpose of the project is to recreate a source code base for the game from scratch, using information found inside the game along with static and/or dynamic analysis. **It is not producing a PC port.** For more information you can get in touch with the team on our [Discord server](https://discord.zelda64.dev).
 
 The only build currently supported is Master Quest (Debug), but other versions are planned to be supported.
 
