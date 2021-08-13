@@ -194,8 +194,8 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
 
         scaleIndex = (s32)(Rand_ZeroOne() * 111.1f) & 7;
 
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, sFragmentScales[scaleIndex], 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, gCuttableShrubStalkDL);
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, sFragmentScales[scaleIndex], 0, 0,
+                             80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, gCuttableShrubStalkDL);
 
         pos.x = this->actor.world.pos.x + (dir->x * this->actor.scale.x * 40.0f);
         pos.y = this->actor.world.pos.y + (dir->y * this->actor.scale.y * 40.0f) + 10.0f;
@@ -207,8 +207,8 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
 
         scaleIndex = (s32)(Rand_ZeroOne() * 111.1f) % 7;
 
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, sFragmentScales[scaleIndex], 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, gCuttableShrubTipDL);
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, sFragmentScales[scaleIndex], 0, 0,
+                             80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, gCuttableShrubTipDL);
     }
 }
 
