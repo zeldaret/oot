@@ -468,13 +468,13 @@ void EnKusa_SetupRegrow(EnKusa* this) {
 }
 
 void EnKusa_Regrow(EnKusa* this, GlobalContext* globalCtx) {
-    s32 fullyGrown;
+    s32 isFullyGrown;
 
-    fullyGrown = Math_StepToF(&this->actor.scale.y, 0.4f, 0.014f) & 1;
-    fullyGrown &= Math_StepToF(&this->actor.scale.x, 0.4f, 0.011f);
+    isFullyGrown = Math_StepToF(&this->actor.scale.y, 0.4f, 0.014f) & 1;
+    isFullyGrown &= Math_StepToF(&this->actor.scale.x, 0.4f, 0.011f);
     this->actor.scale.z = this->actor.scale.x;
 
-    if (fullyGrown) {
+    if (isFullyGrown) {
         Actor_SetScale(&this->actor, 0.4f);
         EnKusa_SetupMain(this);
         this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
