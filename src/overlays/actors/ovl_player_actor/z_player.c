@@ -14041,10 +14041,10 @@ s32 func_80852F38(GlobalContext* globalCtx, Player* this) {
         this->stateFlags2 |= 0x80;
         func_80832224(this);
         func_80832698(this, NA_SE_VO_LI_HELD);
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 // Sets up player cutscene

@@ -21,8 +21,9 @@ glabel gSequenceTable
 glabel gAudioTable
     .incbin "baserom.z64", 0xBCCD90, 0x80
 
-glabel D_80155C70
+glabel rspAspMainDataStart
     .incbin "baserom.z64", 0xBCCE10, 0x2E0
+glabel rspAspMainDataEnd
 
 glabel D_80155F50
     .incbin "baserom.z64", 0xBCD0F0, 0x1630

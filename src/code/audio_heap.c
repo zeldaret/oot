@@ -45,8 +45,8 @@ void Audio_ResetLoadStatus(void) {
     }
 
     for (i = 0; i < 0x80; i++) {
-        if (gAudioContext.seqLoadstatus[i] != 5) {
-            gAudioContext.seqLoadstatus[i] = 0;
+        if (gAudioContext.seqLoadStatus[i] != 5) {
+            gAudioContext.seqLoadStatus[i] = 0;
         }
     }
 }
@@ -207,7 +207,7 @@ void func_800DE4B0(s32 poolIdx) {
     switch (poolIdx) {
         case 0:
             loadedPool = &gAudioContext.seqLoadedPool;
-            table = gAudioContext.seqLoadstatus;
+            table = gAudioContext.seqLoadStatus;
             break;
         case 1:
             loadedPool = &gAudioContext.bankLoadedPool;
@@ -304,7 +304,7 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
     switch (poolIdx) {
         case 0:
             loadedPool = &gAudioContext.seqLoadedPool;
-            table = gAudioContext.seqLoadstatus;
+            table = gAudioContext.seqLoadStatus;
             break;
         case 1:
             loadedPool = &gAudioContext.bankLoadedPool;
