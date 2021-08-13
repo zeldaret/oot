@@ -1136,7 +1136,7 @@ s32 OnePointCutscene_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
     return nextCamIdx;
 }
 
-#define vchildCamId temp2
+#define vChildCamId temp2
 #define vCsStatus temp1
 #define vCurCamIdx temp2
 #define vNextCamIdx temp1
@@ -1163,10 +1163,10 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
 
     // Inserts the cutscene camera into the cutscene queue in front of parentCam
 
-    vchildCamId = globalCtx->cameraPtrs[parentCamId]->childCamId;
+    vChildCamId = globalCtx->cameraPtrs[parentCamId]->childCamId;
     vCsStatus = CAM_STAT_ACTIVE;
-    if (vchildCamId >= SUBCAM_FIRST) {
-        OnePointCutscene_SetAsChild(globalCtx, vchildCamId, subCamId);
+    if (vChildCamId >= SUBCAM_FIRST) {
+        OnePointCutscene_SetAsChild(globalCtx, vChildCamId, subCamId);
         vCsStatus = CAM_STAT_WAIT;
     } else {
         Interface_ChangeAlpha(2);
@@ -1239,7 +1239,7 @@ s16 OnePointCutscene_EndCutscene(GlobalContext* globalCtx, s16 camIdx) {
 }
 
 #define vTargetCat temp1
-#define vparentCamId temp1
+#define vParentCamId temp1
 #define vLastHigherCat temp2
 #define vCsCamIdx temp2
 
@@ -1288,7 +1288,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
     }
     // Actorcat is only undefined if the actor is in a higher category than all other attention cutscenes. In this case,
     // it goes in the first position of the list. Otherwise, it goes in the index found in the loop.
-    vparentCamId = (vLastHigherCat == -1) ? MAIN_CAM : parentCam->camId;
+    vParentCamId = (vLastHigherCat == -1) ? MAIN_CAM : parentCam->camId;
 
     switch (actor->category) {
         case ACTORCAT_SWITCH:
@@ -1322,7 +1322,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
         return SUBCAM_NONE;
     }
     osSyncPrintf("→ " VT_FGCOL(BLUE) "○" VT_RST " (%d)\n", actor->id);
-    vCsCamIdx = OnePointCutscene_Init(globalCtx, 5010, timer, actor, vparentCamId);
+    vCsCamIdx = OnePointCutscene_Init(globalCtx, 5010, timer, actor, vParentCamId);
     if (vCsCamIdx == SUBCAM_NONE) {
         osSyncPrintf(VT_COL(RED, WHITE) "actor attention demo: give up! \n" VT_RST, actor->id);
         return SUBCAM_NONE;

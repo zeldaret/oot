@@ -379,7 +379,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     Camera* camera = ACTIVE_CAM;
     s32 bgCamDataId = camera->bgCamDataId;
-    s16 jfifId = BGCAM_JFIFID(func_80041C10(&globalCtx->colCtx, bgCamDataId, BGCHECK_SCENE));
+    s16 jfifId = BGCAM_JFIFID(SurfaceType_GetBgCamData(&globalCtx->colCtx, bgCamDataId, BGCHECK_SCENE));
     Player* player;
     BgImage* bgImage;
     s32 i;

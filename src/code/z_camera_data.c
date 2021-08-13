@@ -72,7 +72,7 @@ CameraModeValue D_8011A3A0[] = {
     { 35, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 60, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 /**
@@ -105,7 +105,7 @@ CameraModeValue D_8011A3C8[] = {
     { 5, 5 },      // unk_0C
     { 45, 7 },     // fovTarget
     { 50, 8 },     // unk_14
-    { 0x200A, 9 }, // interface flags
+    { 0x200A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 20, 12 }     // unk_1C
 };
@@ -144,7 +144,7 @@ CameraModeValue D_8011A3F4[] = {
     { 15, 17 },    // unk_1C
     { 45, 7 },     // unk_20
     { 50, 8 },     // unk_24
-    { 0x2001, 9 }, // interface flags
+    { 0x2001, 9 }, // flags
     { -50, 11 },   // unk_28
     { 30, 12 },    // unk_2C
 };
@@ -162,7 +162,7 @@ CameraModeValue D_8011A428[] = {
     { 45, 7 },     // fovTarget
     { 50, 8 },     // atLERPScaleMax
     { 10, 4 },     // initTimer
-    { 0x3500, 9 }, // interface flags
+    { 0x3500, 9 }, // flags
 };
 
 CameraModeValue D_8011A458[] = {
@@ -176,7 +176,7 @@ CameraModeValue D_8011A458[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 50, 7 },     // fov
     { 80, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 25, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -191,7 +191,7 @@ CameraModeValue D_8011A488[] = {
     { 5, 5 },      // xzUpdRateTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPStepScale
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A4AC[] = {
@@ -204,7 +204,7 @@ CameraModeValue D_8011A4AC[] = {
     { 0, 20 },     // atOffset.y
     { 0, 21 },     // atOffset.z
     { 45, 7 },     // fovTarget
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A4D0[] = {
@@ -217,7 +217,7 @@ CameraModeValue D_8011A4D0[] = {
     { -30, 20 },   // atOffset.y
     { -5, 21 },    // atOffset.z
     { 45, 7 },     // fovTarget
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011A4F4[] = {
@@ -230,7 +230,7 @@ CameraModeValue D_8011A4F4[] = {
     { 20, 20 },    // atOffset.y
     { 0, 21 },     // atOffset.z
     { 45, 7 },     // fovTarget
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011A518[] = {
@@ -242,7 +242,7 @@ CameraModeValue D_8011A518[] = {
     { 60, 7 },     // pitch
     { 40, 8 },     // fovTarget
     { 6, 22 },     // atMaxLERPScale
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011A538[] = {
@@ -255,7 +255,7 @@ CameraModeValue D_8011A538[] = {
     { 0, 20 },     // atOffset.y
     { 0, 21 },     // atOffset.z
     { 45, 7 },     // fovTarget
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011A55C[] = {
@@ -268,7 +268,7 @@ CameraModeValue D_8011A55C[] = {
     { -63, 20 },   // atOffset.y
     { -30, 21 },   // atOffset.z
     { 45, 7 },     // fovTarget
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011A580[] = {
@@ -281,7 +281,7 @@ CameraModeValue D_8011A580[] = {
     { 5, 5 },      // xzUpdRateTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPStepScale
-    { 0x2006, 9 }, // interface flags
+    { 0x2006, 9 }, // flags
 };
 
 CameraModeValue D_8011A5A4[] = {
@@ -293,7 +293,7 @@ CameraModeValue D_8011A5A4[] = {
     { 35, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 40, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A5C4[] = {
@@ -304,7 +304,7 @@ CameraModeValue D_8011A5C4[] = {
     { 40, 3 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A5E0[] = {
@@ -315,7 +315,7 @@ CameraModeValue D_8011A5E0[] = {
     { 70, 3 },     // pitchTarget
     { 45, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011A5FC[] = {
@@ -327,7 +327,7 @@ CameraModeValue D_8011A5FC[] = {
     { 80, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 20, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A61C[] = {
@@ -338,7 +338,7 @@ CameraModeValue D_8011A61C[] = {
     { 2, 4 },      // lerpUpdateRate
     { 80, 7 },     // fovTarget
     { 20, 8 },     // atLERPTarget
-    { 0xF000, 9 }, // interface flags
+    { 0xF000, 9 }, // flags
 };
 
 CameraModeValue D_8011A638[] = {
@@ -352,7 +352,7 @@ CameraModeValue D_8011A638[] = {
     { 100, 6 },    // unk_14
     { 60, 7 },     // fovTarget
     { 5, 8 },      // atLERPScaleMax
-    { 0xF003, 9 }, // interface flags
+    { 0xF003, 9 }, // flags
 };
 
 CameraModeValue D_8011A660[] = {
@@ -365,7 +365,7 @@ CameraModeValue D_8011A660[] = {
     { 5, 5 },      // unk_0C
     { 70, 7 },     // fovTarget
     { 30, 8 },     // unk_14
-    { 0x206A, 9 }, // interface flags
+    { 0x206A, 9 }, // flags
     { -20, 11 },   // unk_18
     { 30, 12 },    // unk_1C
 };
@@ -382,7 +382,7 @@ CameraModeValue D_8011A68C[] = {
     { 25, 17 },    // unk_1C
     { 45, 7 },     // unk_20
     { 50, 8 },     // unk_24
-    { 0x2001, 9 }, // interface flags
+    { 0x2001, 9 }, // flags
     { -15, 11 },   // unk_28
     { 30, 12 },    // unk_2C
 };
@@ -398,7 +398,7 @@ CameraModeValue sSetNorm1ModeNormVals[] = {
     { 40, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 60, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue sSetNorm1ModeParaVals[] = {
@@ -411,7 +411,7 @@ CameraModeValue sSetNorm1ModeParaVals[] = {
     { 5, 5 },      // unk_0C
     { 45, 7 },     // fovTarget
     { 50, 8 },     // unk_14
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // unk_18
     { 20, 12 },    // unk_1C
 };
@@ -428,7 +428,7 @@ CameraModeValue D_8011A714[] = {
     { 15, 17 },    // unk_1C
     { 45, 7 },     // unk_20
     { 50, 8 },     // unk_24
-    { 0x2001, 9 }, // interface flags
+    { 0x2001, 9 }, // flags
     { -50, 11 },   // unk_28
     { 20, 12 },    // unk_2C
 };
@@ -444,7 +444,7 @@ CameraModeValue D_8011A748[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 50, 7 },     // fov
     { 65, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 25, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -458,7 +458,7 @@ CameraModeValue D_8011A778[] = {
     { 45, 3 },     // pitch
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atMaxLERPScale
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011A798[] = {
@@ -470,7 +470,7 @@ CameraModeValue D_8011A798[] = {
     { 50, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 30, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A7B8[] = {
@@ -482,7 +482,7 @@ CameraModeValue D_8011A7B8[] = {
     { 80, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 20, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A7D8[] = {
@@ -495,7 +495,7 @@ CameraModeValue D_8011A7D8[] = {
     { 5, 5 },      // xzUpdRateTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPStepScale
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A7FC[] = {
@@ -508,7 +508,7 @@ CameraModeValue D_8011A7FC[] = {
     { 5, 5 },      // xzUpdRateTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPStepScale
-    { 0x2006, 9 }, // interface flags
+    { 0x2006, 9 }, // flags
 };
 
 CameraModeValue D_8011A820[] = {
@@ -519,7 +519,7 @@ CameraModeValue D_8011A820[] = {
     { 2, 4 },      // lerpUpdateRate
     { 80, 7 },     // fovTarget
     { 20, 8 },     // atLERPTarget
-    { 0xF000, 9 }, // interface flags
+    { 0xF000, 9 }, // flags
 };
 
 CameraModeValue D_8011A83C[] = {
@@ -530,7 +530,7 @@ CameraModeValue D_8011A83C[] = {
     { 40, 3 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A858[] = {
@@ -541,7 +541,7 @@ CameraModeValue D_8011A858[] = {
     { 70, 3 },     // pitchTarget
     { 45, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011A874[] = {
@@ -555,7 +555,7 @@ CameraModeValue D_8011A874[] = {
     { 100, 6 },    // unk_14
     { 60, 7 },     // fovTarget
     { 5, 8 },      // atLERPScaleMax
-    { 0xF003, 9 }, // interface flags
+    { 0xF003, 9 }, // flags
 };
 
 CameraModeValue D_8011A89C[] = {
@@ -569,7 +569,7 @@ CameraModeValue D_8011A89C[] = {
     { 30, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 60, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011A8C4[] = {
@@ -582,7 +582,7 @@ CameraModeValue D_8011A8C4[] = {
     { 5, 5 },      // unk_0C
     { 45, 7 },     // fovTarget
     { 50, 8 },     // unk_14
-    { 0x200A, 9 }, // interface flags
+    { 0x200A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 20, 12 },    // unk_1C
 };
@@ -599,7 +599,7 @@ CameraModeValue D_8011A8F0[] = {
     { 15, 17 },    // unk_1C
     { 45, 7 },     // unk_20
     { 50, 8 },     // unk_24
-    { 0x2001, 9 }, // interface flags
+    { 0x2001, 9 }, // flags
     { -40, 11 },   // unk_28
     { 20, 12 },    // unk_2C
 };
@@ -615,7 +615,7 @@ CameraModeValue D_8011A924[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 45, 7 },     // fov
     { 80, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 25, 12 },    // atLERPScaleOnGround (PCT)
 };
@@ -629,7 +629,7 @@ CameraModeValue D_8011A954[] = {
     { 50, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 40, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A974[] = {
@@ -641,7 +641,7 @@ CameraModeValue D_8011A974[] = {
     { 80, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 20, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A994[] = {
@@ -654,7 +654,7 @@ CameraModeValue D_8011A994[] = {
     { 5, 5 },      // xzUpdRateTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPStepScale
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011A9B8[] = {
@@ -667,7 +667,7 @@ CameraModeValue D_8011A9B8[] = {
     { 5, 5 },      // xzUpdRateTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPStepScale
-    { 0x2006, 9 }, // interface flags
+    { 0x2006, 9 }, // flags
 };
 
 CameraModeValue D_8011A9DC[] = {
@@ -678,7 +678,7 @@ CameraModeValue D_8011A9DC[] = {
     { 2, 4 },      // lerpUpdateRate
     { 80, 7 },     // fovTarget
     { 20, 8 },     // atLERPTarget
-    { 0xF000, 9 }, // interface flags
+    { 0xF000, 9 }, // flags
 };
 
 CameraModeValue D_8011A9F8[] = {
@@ -689,7 +689,7 @@ CameraModeValue D_8011A9F8[] = {
     { 40, 3 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011AA14[] = {
@@ -700,7 +700,7 @@ CameraModeValue D_8011AA14[] = {
     { 70, 3 },     // pitchTarget */
     { 45, 7 },     // fovTarget */
     { 10, 8 },     // atLERPScaleMax */
-    { 0x2000, 9 }, // interface flags */
+    { 0x2000, 9 }, // flags */
 };
 
 CameraModeValue D_8011AA30[] = {
@@ -714,7 +714,7 @@ CameraModeValue D_8011AA30[] = {
     { 100, 6 },    // unk_14
     { 60, 7 },     // fovTarget
     { 5, 8 },      // atLERPScaleMax
-    { 0xF003, 9 }, // interface flags
+    { 0xF003, 9 }, // flags
 };
 
 CameraModeValue D_8011AA58[] = {
@@ -728,7 +728,7 @@ CameraModeValue D_8011AA58[] = {
     { 30, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 60, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011AA80[] = {
@@ -744,7 +744,7 @@ CameraModeValue D_8011AA80[] = {
     { 45, 7 },     // fovTarget
     { 50, 8 },     // atLERPScaleMax
     { 10, 4 },     // initTimer
-    { 0x3500, 9 }, // interface flags
+    { 0x3500, 9 }, // flags
 };
 
 CameraModeValue D_8011AAB0[] = {
@@ -756,7 +756,7 @@ CameraModeValue D_8011AAB0[] = {
     { 50, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 40, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011AAD0[] = {
@@ -768,7 +768,7 @@ CameraModeValue D_8011AAD0[] = {
     { 80, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 20, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011AAF0[] = {
@@ -781,7 +781,7 @@ CameraModeValue D_8011AAF0[] = {
     { 5, 5 },      // xzUpdRateTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPStepScale
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011AB14[] = {
@@ -794,7 +794,7 @@ CameraModeValue D_8011AB14[] = {
     { 5, 5 },      // xzUpdRateTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPStepScale
-    { 0x2006, 9 }, // interface flags
+    { 0x2006, 9 }, // flags
 };
 
 CameraModeValue D_8011AB38[] = {
@@ -805,7 +805,7 @@ CameraModeValue D_8011AB38[] = {
     { 2, 4 },      // lerpUpdateRate
     { 80, 7 },     // fovTarget
     { 20, 8 },     // atLERPTarget
-    { 0xF000, 9 }, // interface flags
+    { 0xF000, 9 }, // flags
 };
 
 CameraModeValue D_8011AB54[] = {
@@ -816,7 +816,7 @@ CameraModeValue D_8011AB54[] = {
     { 40, 3 },     // pitchTarget */
     { 60, 7 },     // fovTarget */
     { 10, 8 },     // atLERPScaleMax */
-    { 0x0000, 9 }, // interface flags */
+    { 0x0000, 9 }, // flags */
 };
 
 CameraModeValue D_8011AB70[] = {
@@ -827,7 +827,7 @@ CameraModeValue D_8011AB70[] = {
     { 70, 3 },     // pitchTarget
     { 45, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011AB8C[] = {
@@ -841,7 +841,7 @@ CameraModeValue D_8011AB8C[] = {
     { 100, 6 },    // unk_14
     { 60, 7 },     // fovTarget
     { 5, 8 },      // atLERPScaleMax
-    { 0xF003, 9 }, // interface flags
+    { 0xF003, 9 }, // flags
 };
 
 CameraModeValue D_8011ABB4[] = {
@@ -854,7 +854,7 @@ CameraModeValue D_8011ABB4[] = {
     { 5, 5 },      // unk_0C
     { 60, 7 },     // fovTarget
     { 50, 8 },     // unk_14
-    { 0x206A, 9 }, // interface flags
+    { 0x206A, 9 }, // flags
     { -20, 11 },   // unk_18
     { 30, 12 },    // unk_1C
 };
@@ -870,7 +870,7 @@ CameraModeValue sSetNorm3ModeNormVals[] = {
     { 40, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 100, 8 },    // unk_1C
-    { 0x0004, 9 }, // interface flags
+    { 0x0004, 9 }, // flags
 };
 
 CameraModeValue D_8011AC08[] = {
@@ -883,7 +883,7 @@ CameraModeValue D_8011AC08[] = {
     { 5, 5 },      // unk_0C
     { 60, 7 },     // fovTarget
     { 100, 8 },    // unk_14
-    { 0x200A, 9 }, // interface flags
+    { 0x200A, 9 }, // flags
     { -50, 11 },   // unk_18
     { 20, 12 },    // unk_1C
 };
@@ -901,7 +901,7 @@ CameraModeValue D_8011AC34[] = {
     { 45, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
     { 10, 4 },     // initTimer
-    { 0x3500, 9 }, // interface flags
+    { 0x3500, 9 }, // flags
 };
 
 CameraModeValue sSetNorm3ModeBoomVals[] = {
@@ -918,7 +918,7 @@ CameraModeValue sSetNorm3ModeBoomVals[] = {
     { 60, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 40, 8 },     // unk_1C
-    { 0x0005, 9 }, // interface flags
+    { 0x0005, 9 }, // flags
 };
 
 CameraModeValue sSetHrse0ModeNormVals[] = {
@@ -931,7 +931,7 @@ CameraModeValue sSetHrse0ModeNormVals[] = {
     { 20, 5 },     // unk_10
     { 60, 7 },     // fovTarget
     { 100, 8 },    // maxAtLERPScale
-    { 0x0600, 9 }, // interface flags
+    { 0x0600, 9 }, // flags
 };
 
 CameraModeValue sSetHrse0ModeParaVals[] = {
@@ -944,7 +944,7 @@ CameraModeValue sSetHrse0ModeParaVals[] = {
     { 100, 5 },    // unk_10
     { 45, 7 },     // fovTarget
     { 100, 8 },    // maxAtLERPScale
-    { 0x2600, 9 }, // interface flags
+    { 0x2600, 9 }, // flags
 };
 
 CameraModeValue D_8011ACD4[] = {
@@ -957,7 +957,7 @@ CameraModeValue D_8011ACD4[] = {
     { -30, 20 },   // atOffset.y
     { -5, 21 },    // atOffset.z
     { 40, 7 },     // fovTarget
-    { 0x2600, 9 }, // interface flags
+    { 0x2600, 9 }, // flags
 };
 
 CameraModeValue D_8011ACF8[] = {
@@ -972,7 +972,7 @@ CameraModeValue D_8011ACF8[] = {
     { 15, 17 },    // unk_1C
     { 45, 7 },     // unk_20
     { 50, 8 },     // unk_24
-    { 0x2601, 9 }, // interface flags
+    { 0x2601, 9 }, // flags
     { -60, 11 },   // unk_28
     { 20, 12 },    // unk_2C
 };
@@ -990,7 +990,7 @@ CameraModeValue D_8011AD2C[] = {
     { 45, 7 },     // fovTarget
     { 50, 8 },     // atLERPScaleMax
     { 10, 4 },     // initTimer
-    { 0x3500, 9 }, // interface flags
+    { 0x3500, 9 }, // flags
 };
 
 CameraModeValue D_8011AD5C[] = {
@@ -1004,7 +1004,7 @@ CameraModeValue D_8011AD5C[] = {
     { 40, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 60, 8 },     // atLERPScaleMax
-    { 0x0001, 9 }, // interface flags
+    { 0x0001, 9 }, // flags
 };
 
 CameraModeValue D_8011AD84[] = {
@@ -1018,7 +1018,7 @@ CameraModeValue D_8011AD84[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 60, 7 },     // fov
     { 40, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -50, 11 },   // yOffsetOffGround (PCT)
     { 20, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -1034,7 +1034,7 @@ CameraModeValue D_8011ADB4[] = {
     { 70, 6 },     // unk_14
     { 70, 7 },     // fovTarget
     { 40, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011ADDC[] = {
@@ -1048,7 +1048,7 @@ CameraModeValue D_8011ADDC[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 70, 7 },     // fov
     { 50, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 20, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -1064,7 +1064,7 @@ CameraModeValue D_8011AE0C[] = {
     { 40, 6 },     // unk_14
     { 70, 7 },     // fovTarget
     { 70, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011AE34[] = {
@@ -1078,7 +1078,7 @@ CameraModeValue D_8011AE34[] = {
     { 50, 17 },    // swingPitchAdj (PCT)
     { 60, 7 },     // fov
     { 50, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -50, 11 },   // yOffsetOffGround (PCT)
     { 20, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -1094,7 +1094,7 @@ CameraModeValue D_8011AE64[] = {
     { 40, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 100, 8 },    // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011AE8C[] = {
@@ -1108,7 +1108,7 @@ CameraModeValue D_8011AE8C[] = {
     { 35, 17 },    // swingPitchAdj (PCT)
     { 60, 7 },     // fov
     { 100, 8 },    // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 60, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -1124,7 +1124,7 @@ CameraModeValue D_8011AEBC[] = {
     { 40, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 80, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011AEE4[] = {
@@ -1138,7 +1138,7 @@ CameraModeValue D_8011AEE4[] = {
     { 15, 17 },    // swingPitchAdj (PCT)
     { 45, 7 },     // fov
     { 50, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 20, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -1154,7 +1154,7 @@ CameraModeValue D_8011AF14[] = {
     { 40, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 80, 8 },     // atLERPScaleMax
-    { 0x0083, 9 }, // interface flags
+    { 0x0083, 9 }, // flags
 };
 
 CameraModeValue D_8011AF3C[] = {
@@ -1168,7 +1168,7 @@ CameraModeValue D_8011AF3C[] = {
     { 15, 17 },    // swingPitchAdj (PCT)
     { 45, 7 },     // fov
     { 50, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2082, 9 }, // interface flags
+    { 0x2082, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 20, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -1184,7 +1184,7 @@ CameraModeValue D_8011AF6C[] = {
     { 80, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 80, 8 },     // atLERPScaleMax
-    { 0x0083, 9 }, // interface flags
+    { 0x0083, 9 }, // flags
 };
 
 CameraModeValue D_8011AF94[] = {
@@ -1198,7 +1198,7 @@ CameraModeValue D_8011AF94[] = {
     { 40, 6 },     // unk_14
     { 80, 7 },     // fovTarget
     { 60, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011AFBC[] = {
@@ -1212,7 +1212,7 @@ CameraModeValue D_8011AFBC[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 70, 7 },     // fov
     { 40, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 20, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -1228,7 +1228,7 @@ CameraModeValue D_8011AFEC[] = {
     { 40, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 80, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011B014[] = {
@@ -1242,7 +1242,7 @@ CameraModeValue D_8011B014[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 45, 7 },     // fov
     { 40, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -20, 11 },   // yOffsetOffGround (PCT)
     { 20, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -1258,7 +1258,7 @@ CameraModeValue D_8011B044[] = {
     { 40, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 50, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011B06C[] = {
@@ -1272,7 +1272,7 @@ CameraModeValue D_8011B06C[] = {
     { 40, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 100, 8 },    // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B094[] = {
@@ -1283,7 +1283,7 @@ CameraModeValue D_8011B094[] = {
     { 2, 4 },      // lerpUpdateRate
     { 80, 7 },     // fovTarget
     { 20, 8 },     // atLERPTarget
-    { 0xF000, 9 }, // interface flags
+    { 0xF000, 9 }, // flags
 };
 
 CameraModeValue D_8011B0B0[] = {
@@ -1297,7 +1297,7 @@ CameraModeValue D_8011B0B0[] = {
     { 40, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 80, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011B0D8[] = {
@@ -1311,7 +1311,7 @@ CameraModeValue D_8011B0D8[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 45, 7 },     // fov
     { 50, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 20, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -1326,7 +1326,7 @@ CameraModeValue D_8011B108[] = {
     { 40, 6 },     // unk_10
     { 60, 7 },     // unk_14
     { 50, 8 },     // unk_18
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B12C[] = {
@@ -1339,7 +1339,7 @@ CameraModeValue D_8011B12C[] = {
     { 40, 6 },     // unk_10
     { 60, 7 },     // unk_14
     { 50, 8 },     // unk_18
-    { 0x0080, 9 }, // interface flags
+    { 0x0080, 9 }, // flags
 };
 
 CameraModeValue D_8011B150[] = {
@@ -1352,7 +1352,7 @@ CameraModeValue D_8011B150[] = {
     { 60, 6 },     // unk_10
     { 60, 7 },     // unk_14
     { 100, 8 },    // unk_18
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B174[] = {
@@ -1365,7 +1365,7 @@ CameraModeValue D_8011B174[] = {
     { 60, 6 },     // unk_10
     { 60, 7 },     // unk_14
     { 100, 8 },    // unk_18
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue sSetFixd0ModeNormVals[] = {
@@ -1373,7 +1373,7 @@ CameraModeValue sSetFixd0ModeNormVals[] = {
     { -40, 0 },    // yOffset
     { 100, 4 },    // lerpStep
     { 60, 7 },     // fov
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B1A8[] = {
@@ -1381,7 +1381,7 @@ CameraModeValue D_8011B1A8[] = {
     { -40, 0 },    // yOffset
     { 100, 4 },    // lerpStep
     { 60, 7 },     // fov
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011B1B8[] = {
@@ -1389,7 +1389,7 @@ CameraModeValue D_8011B1B8[] = {
     { -40, 0 },    // yOffset
     { 100, 4 },    // lerpStep
     { 60, 7 },     // fov
-    { 0x3500, 9 }, // interface flags
+    { 0x3500, 9 }, // flags
 };
 
 CameraModeValue D_8011B1C8[] = {
@@ -1397,7 +1397,7 @@ CameraModeValue D_8011B1C8[] = {
     { -40, 0 },    // yOffset
     { 25, 4 },     // lerpStep
     { 60, 7 },     // fov
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue sSetCirc0ModeNormVals[] = {
@@ -1406,14 +1406,14 @@ CameraModeValue sSetCirc0ModeNormVals[] = {
     { 50, 4 },     // eyeStepScale
     { 80, 5 },     // posStepScale
     { 60, 7 },     // fov
-    { 0x0001, 9 }, // interface flags
+    { 0x0001, 9 }, // flags
 };
 
 CameraModeValue sSetCirc2ModeNormVals[] = {
     /* CAM_FUNC_DATA4 */
     { -40, 0 },    // yOffset
     { 60, 7 },     // fov
-    { 0x3F00, 9 }, // interface flags
+    { 0x3F00, 9 }, // flags
 };
 
 CameraModeValue D_8011B1F8[] = {
@@ -1422,7 +1422,7 @@ CameraModeValue D_8011B1F8[] = {
     { 50, 4 },     // speedToEyePos
     { 80, 5 },     // followSpeed
     { 60, 7 },     // fov
-    { 0x0004, 9 }, // interface flags
+    { 0x0004, 9 }, // flags
 };
 
 CameraModeValue D_8011B20C[] = {
@@ -1430,24 +1430,24 @@ CameraModeValue D_8011B20C[] = {
        CAM_FUNC_FIXD3
        CAM_FUNC_SPEC6
        CAM_FUNC_SPEC7 */
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue sSetPR0ModeKeepTalkVals[] = {
     /* CAM_FUNC_FIXD3 */
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue sSetPR1ModeNormVals[] = {
     /* CAM_FUNC_UNIQ7 */
     { 60, 7 },     // fov
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue sSetPR1ModeKeepVals[] = {
     /* CAM_FUNC_UNIQ7 */
     { 60, 7 },     // fov
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue sSetPreRend1ModeTalkVals[] = {
@@ -1455,34 +1455,34 @@ CameraModeValue sSetPreRend1ModeTalkVals[] = {
     { 30, 24 },    // fovScale
     { 0, 25 },     // yawScale
     { 4, 4 },      // timerInit
-    { 0x3500, 9 }, // interface flags
+    { 0x3500, 9 }, // flags
 };
 
 CameraModeValue sSetDoor0ModeNormVals[] = {
     /* CAM_FUNC_UNIQ3 */
     { -40, 0 },    // yOffset
     { 60, 7 },     // fov
-    { 0x3200, 9 }, // interface flags
+    { 0x3200, 9 }, // flags
 };
 
 CameraModeValue sSetDoorCModeNormVals[] = {
     /* CAM_FUNC_SPEC9 */
     { -5, 0 },     // yOffset
     { 60, 7 },     // unk_04 (unused)
-    { 0x3202, 9 }, // interface flags
+    { 0x3202, 9 }, // flags
 };
 
 CameraModeValue sSetDoorCModeParaVals[] = {
     /* CAM_FUNC_SPEC9 */
     { -5, 0 },     // yOffset
     { 60, 7 },     // unk_04 (unused)
-    { 0x320A, 9 }, // interface flags
+    { 0x320A, 9 }, // flags
 };
 
 CameraModeValue sSetRail3ModeNormVals[] = {
     /* CAM_FUNC_SUBJ4
        Camera_Subj4 only reads one setting which is used for flags. */
-    { 0x0000, 0 }, // interface flags
+    { 0x0000, 0 }, // flags
     { 2, 1 },      // unused
     { 30, 2 },     // unused
     { 10, 4 },     // unused
@@ -1492,17 +1492,17 @@ CameraModeValue sSetRail3ModeNormVals[] = {
 
 CameraModeValue D_8011B270[] = {
     /* CAM_FUNC_UNIQ0 */
-    { 0x0001, 9 }, // interface flags
+    { 0x0001, 9 }, // flags
 };
 
 CameraModeValue sSetFree0ModeNormVals[] = {
     /* CAM_FUNC_UNIQ6 */
-    { 0xFF00, 9 }, // interface flags
+    { 0xFF00, 9 }, // flags
 };
 
 CameraModeValue sSetFree1ModeNormVals[] = {
     /* CAM_FUNC_UNIQ6  */
-    { 0xFF01, 9 }, // interface flags
+    { 0xFF01, 9 }, // flags
 };
 
 CameraModeValue sSetCirc4ModeNormVals[] = {
@@ -1511,7 +1511,7 @@ CameraModeValue sSetCirc4ModeNormVals[] = {
     { 100, 4 },    // eyeStepScale
     { 80, 5 },     // posStepScale
     { 60, 7 },     // fov
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B290[] = {
@@ -1519,7 +1519,7 @@ CameraModeValue D_8011B290[] = {
     { -40, 0 },    // yOffset
     { 60, 1 },     // distTarget
     { 60, 7 },     // fovTarget
-    { 0x0002, 9 }, // interface flags
+    { 0x0002, 9 }, // flags
 };
 
 CameraModeValue D_8011B2A0[] = {
@@ -1527,7 +1527,7 @@ CameraModeValue D_8011B2A0[] = {
     { -30, 0 },    // yOffset
     { 45, 1 },     // distTarget
     { 100, 7 },    // fovTarget
-    { 0x2001, 9 }, // interface flags
+    { 0x2001, 9 }, // flags
 };
 
 CameraModeValue D_8011B2B0[] = {
@@ -1535,7 +1535,7 @@ CameraModeValue D_8011B2B0[] = {
        CAM_FUNC_DEMO4 (Not actually used in Camera_Demo4)
        CAM_FUNC_DEMO6
        CAM_FUNC_SPEC4 */
-    { 0x3200, 9 }, // interface flags
+    { 0x3200, 9 }, // flags
 };
 
 CameraModeValue sSetMori1ModeNormVals[] = {
@@ -1548,14 +1548,14 @@ CameraModeValue sSetMori1ModeNormVals[] = {
     { 5, 5 },      // unk_0C
     { 70, 7 },     // fovTarget
     { 30, 8 },     // unk_14
-    { 0x000C, 9 }, // interface flags
+    { 0x000C, 9 }, // flags
     { -50, 11 },   // unk_18
     { 20, 12 },    // unk_1C
 };
 
 CameraModeValue D_8011B2E0[] = {
     /* CAM_FUNC_PARA3 */
-    { 0x3501, 9 }, // interface flags
+    { 0x3501, 9 }, // flags
 };
 
 CameraModeValue D_8011B2E4[] = {
@@ -1563,12 +1563,12 @@ CameraModeValue D_8011B2E4[] = {
       CAM_FUNC_DEMO4 (not actually used in Camera_Demo4) */
     { 60, 7 },     // fov
     { 30, 8 },     // unk_04
-    { 0x3200, 9 }, // interface flags
+    { 0x3200, 9 }, // flags
 };
 
 CameraModeValue sSetDemo3ModeNormVals[] = {
     /* CAM_FUNC_DEMO9 */
-    { 0x3212, 9 }, // interface flags
+    { 0x3212, 9 }, // flags
 };
 
 CameraModeValue D_8011B2F4[] = {
@@ -1582,7 +1582,7 @@ CameraModeValue D_8011B2F4[] = {
     { 50, 6 },     // unk_14
     { 70, 7 },     // fovTarget
     { 40, 8 },     // atLERPScaleMax
-    { 0x0002, 9 }, // interface flags
+    { 0x0002, 9 }, // flags
 };
 
 CameraModeValue D_8011B31C[] = {
@@ -1595,7 +1595,7 @@ CameraModeValue D_8011B31C[] = {
     { 5, 5 },      // unk_0C
     { 45, 7 },     // fovTarget
     { 50, 8 },     // unk_14
-    { 0x200A, 9 }, // interface flags
+    { 0x200A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 20, 12 },    // unk_1C
 };
@@ -1609,7 +1609,7 @@ CameraModeValue D_8011B348[] = {
     { 35, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 40, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B368[] = {
@@ -1620,7 +1620,7 @@ CameraModeValue D_8011B368[] = {
     { 60, 3 },     // fovTarget
     { 70, 7 },     // pitchTarget
     { 30, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B384[] = {
@@ -1631,7 +1631,7 @@ CameraModeValue D_8011B384[] = {
     { 70, 3 },     // pitchTarget
     { 50, 7 },     // fovTarget
     { 30, 8 },     // atLERPScaleMax
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011B3A0[] = {
@@ -1645,7 +1645,7 @@ CameraModeValue D_8011B3A0[] = {
     { 100, 6 },    // unk_14
     { 70, 7 },     // fovTarget
     { 30, 8 },     // atLERPScaleMax
-    { 0xF002, 9 }, // interface flags
+    { 0xF002, 9 }, // flags
 };
 
 CameraModeValue D_8011B3C8[] = {
@@ -1659,7 +1659,7 @@ CameraModeValue D_8011B3C8[] = {
     { 50, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 50, 8 },     // atLERPScaleMax
-    { 0x0002, 9 }, // interface flags
+    { 0x0002, 9 }, // flags
 };
 
 CameraModeValue D_8011B3F0[] = {
@@ -1672,7 +1672,7 @@ CameraModeValue D_8011B3F0[] = {
     { 5, 5 },      // unk_0C
     { 45, 7 },     // fovTarget
     { 50, 8 },     // unk_14
-    { 0x200A, 9 }, // interface flags
+    { 0x200A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 20, 12 },    // unk_1C
 };
@@ -1686,7 +1686,7 @@ CameraModeValue D_8011B41C[] = {
     { 35, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 40, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B43C[] = {
@@ -1697,7 +1697,7 @@ CameraModeValue D_8011B43C[] = {
     { 40, 3 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 30, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B458[] = {
@@ -1708,7 +1708,7 @@ CameraModeValue D_8011B458[] = {
     { 60, 3 },     // pitchtarget
     { 50, 7 },     // fovTarget
     { 30, 8 },     // atLERPScaleMax
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011B474[] = {
@@ -1722,14 +1722,14 @@ CameraModeValue D_8011B474[] = {
     { 100, 6 },    // pitchTarget
     { 60, 7 },     // fovTarget
     { 30, 8 },     // atLERPScaleMax
-    { 0xF002, 9 }, // interface flags
+    { 0xF002, 9 }, // flags
 };
 
 CameraModeValue sSetScn0ModeNormVals[] = {
     /* CAM_FUNC_SPEC9 */
     { -30, 0 },   // yOffset
     { 60, 7 },    // unk_04 (unused)
-    { 0x010A, 9 }, // interface flags
+    { 0x010A, 9 }, // flags
 };
 
 CameraModeValue D_8011B4A8[] = {
@@ -1737,7 +1737,7 @@ CameraModeValue D_8011B4A8[] = {
     { -20, 0 },    // yOffset
     { 150, 1 },    // distTarget
     { 60, 7 },     // fovTarget
-    { 0x0210, 9 }, // interface flags
+    { 0x0210, 9 }, // flags
 };
 
 CameraModeValue D_8011B4B8[] = {
@@ -1751,7 +1751,7 @@ CameraModeValue D_8011B4B8[] = {
     { 20, 6 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPScaleMax
-    { 0x0012, 9 }, // interface flags
+    { 0x0012, 9 }, // flags
 };
 
 CameraModeValue D_8011B4E0[] = {
@@ -1765,7 +1765,7 @@ CameraModeValue D_8011B4E0[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 45, 7 },     // fov
     { 60, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 25, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -1781,7 +1781,7 @@ CameraModeValue D_8011B510[] = {
     { 60, 6 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 30, 8 },     // atLERPScaleMax
-    { 0x0012, 9 }, // interface flags
+    { 0x0012, 9 }, // flags
 };
 
 CameraModeValue D_8011B538[] = {
@@ -1795,7 +1795,7 @@ CameraModeValue D_8011B538[] = {
     { 70, 6 },     // pitchTarget
     { 70, 7 },     // fovTarget
     { 80, 8 },     // atLERPScaleMax
-    { 0x0012, 9 }, // interface flags
+    { 0x0012, 9 }, // flags
 };
 
 CameraModeValue D_8011B560[] = {
@@ -1808,7 +1808,7 @@ CameraModeValue D_8011B560[] = {
     { 5, 5 },      // unk_0C
     { 70, 7 },     // fovTarget
     { 80, 8 },     // unk_14
-    { 0x201A, 9 }, // interface flags
+    { 0x201A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 40, 12 },    // unk_1C
 };
@@ -1823,7 +1823,7 @@ CameraModeValue D_8011B58C[] = {
     { 5, 5 },      // unk_0C
     { 60, 7 },     // fovTarget
     { 80, 8 },     // unk_14
-    { 0x201A, 9 }, // interface flags
+    { 0x201A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 40, 12 },    // unk_1C
 };
@@ -1839,7 +1839,7 @@ CameraModeValue D_8011B5B8[] = {
     { 80, 6 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 20, 8 },     // atLERPScaleMax
-    { 0x0012, 9 }, // interface flags
+    { 0x0012, 9 }, // flags
 };
 
 CameraModeValue D_8011B5E0[] = {
@@ -1853,7 +1853,7 @@ CameraModeValue D_8011B5E0[] = {
     { 70, 6 },     // pitchTarget
     { 70, 7 },     // fovTarget
     { 80, 8 },     // atLERPScaleMax
-    { 0x0012, 9 }, // interface flags
+    { 0x0012, 9 }, // flags
 };
 
 CameraModeValue D_8011B608[] = {
@@ -1866,7 +1866,7 @@ CameraModeValue D_8011B608[] = {
     { 5, 5 },      // unk_0C
     { 70, 7 },     // fovTarget
     { 80, 8 },     // unk_14
-    { 0x201A, 9 }, // interface flags
+    { 0x201A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 40, 12 },    // unk_1C
 };
@@ -1881,7 +1881,7 @@ CameraModeValue D_8011B634[] = {
     { 5, 5 },      // unk_0C
     { 70, 7 },     // fovTarget
     { 80, 8 },     // unk_14
-    { 0x200A, 9 }, // interface flags
+    { 0x200A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 40, 12 },    // unk_1C
 };
@@ -1897,7 +1897,7 @@ CameraModeValue D_8011B660[] = {
     { 80, 6 },     // pitchTarget
     { 70, 7 },     // fovTarget
     { 20, 8 },     // atLERPScaleMax
-    { 0x0012, 9 }, // interface flags
+    { 0x0012, 9 }, // flags
 };
 
 CameraModeValue D_8011B688[] = {
@@ -1911,7 +1911,7 @@ CameraModeValue D_8011B688[] = {
     { 70, 6 },     // pitchTarget
     { 70, 7 },     // fovTarget
     { 80, 8 },     // atLERPScaleMax
-    { 0x0002, 9 }, // interface flags
+    { 0x0002, 9 }, // flags
 };
 
 CameraModeValue D_8011B6B0[] = {
@@ -1924,7 +1924,7 @@ CameraModeValue D_8011B6B0[] = {
     { 5, 5 },      // unk_0C
     { 70, 7 },     // fovTarget
     { 80, 8 },     // unk_14
-    { 0x200A, 9 }, // interface flags
+    { 0x200A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 40, 12 },    // unk_1C
 };
@@ -1939,7 +1939,7 @@ CameraModeValue D_8011B6DC[] = {
     { 5, 5 },      // unk_0C
     { 60, 7 },     // fovTarget
     { 80, 8 },     // unk_14
-    { 0x200A, 9 }, // interface flags
+    { 0x200A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 40, 12 },    // unk_1C
 };
@@ -1955,7 +1955,7 @@ CameraModeValue D_8011B708[] = {
     { 80, 6 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 20, 8 },     // atLERPScaleMax
-    { 0x0002, 9 }, // interface flags
+    { 0x0002, 9 }, // flags
 };
 
 CameraModeValue D_8011B730[] = {
@@ -1966,7 +1966,7 @@ CameraModeValue D_8011B730[] = {
     { 170, 10 },   // unk_0C
     { 0, 21 },     // unk_10
     { 60, 7 },     // unk_18
-    { 0x2502, 9 }, // interface flags
+    { 0x2502, 9 }, // flags
     { 25, 4 },     // unk_14
     { 6, 22 },     // unk_1E
 };
@@ -1974,7 +1974,7 @@ CameraModeValue D_8011B730[] = {
 CameraModeValue sSetCirc6ModeNormVals[] = {
     /* CAM_FUNC_SPEC0 */
     { 20, 4 },     // lerpATScale
-    { 0x3200, 9 }, // interface flags
+    { 0x3200, 9 }, // flags
 };
 
 CameraModeValue D_8011B75C[] = {
@@ -1988,7 +1988,7 @@ CameraModeValue D_8011B75C[] = {
     { 35, 6 },     // unk_14
     { 60, 7 },     // fovTarget
     { 60, 8 },     // atLERPScaleMax
-    { 0x0002, 9 }, // interface flags
+    { 0x0002, 9 }, // flags
 };
 
 CameraModeValue D_8011B784[] = {
@@ -2002,7 +2002,7 @@ CameraModeValue D_8011B784[] = {
     { 35, 6 },     // pitchTarget
     { 55, 7 },     // fovTarget
     { 60, 8 },     // atLERPScaleMax
-    { 0x0F02, 9 }, // interface flags
+    { 0x0F02, 9 }, // flags
 };
 
 CameraModeValue D_8011B7AC[] = {
@@ -2015,7 +2015,7 @@ CameraModeValue D_8011B7AC[] = {
     { 5, 5 },      // unk_0C
     { 45, 7 },     // fovTarget
     { 50, 8 },     // unk_14
-    { 0x2F0A, 9 }, // interface flags
+    { 0x2F0A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 20, 12 },    // unk_1C
 };
@@ -2031,7 +2031,7 @@ CameraModeValue D_8011B7D8[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 55, 7 },     // fov
     { 80, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2F02, 9 }, // interface flags
+    { 0x2F02, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 25, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -2049,7 +2049,7 @@ CameraModeValue D_8011B808[] = {
     { 45, 7 },     // fovTarget
     { 50, 8 },     // atLERPScaleMax
     { 10, 4 },     // initTimer
-    { 0x3F20, 9 }, // interface flags
+    { 0x3F20, 9 }, // flags
 };
 
 CameraModeValue D_8011B838[] = {
@@ -2062,7 +2062,7 @@ CameraModeValue D_8011B838[] = {
     { 0, 20 },     // atOffset.y
     { 0, 21 },     // atOffset.z
     { 45, 7 },     // fovTarget
-    { 0x0F00, 9 }, // interface flags
+    { 0x0F00, 9 }, // flags
 };
 
 CameraModeValue D_8011B85C[] = {
@@ -2074,7 +2074,7 @@ CameraModeValue D_8011B85C[] = {
     { 35, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 40, 8 },     // atLERPScaleMax
-    { 0x0F00, 9 }, // interface flags
+    { 0x0F00, 9 }, // flags
 };
 
 CameraModeValue D_8011B87C[] = {
@@ -2086,7 +2086,7 @@ CameraModeValue D_8011B87C[] = {
     { 80, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 20, 8 },     // atLERPScaleMax
-    { 0x0F00, 9 }, // interface flags
+    { 0x0F00, 9 }, // flags
 };
 
 CameraModeValue D_8011B89C[] = {
@@ -2097,7 +2097,7 @@ CameraModeValue D_8011B89C[] = {
     { 40, 3 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
-    { 0x0F00, 9 }, // interface flags
+    { 0x0F00, 9 }, // flags
 };
 
 CameraModeValue D_8011B8B8[] = {
@@ -2108,7 +2108,7 @@ CameraModeValue D_8011B8B8[] = {
     { 70, 3 },     // pitchTarget
     { 45, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
-    { 0x2F00, 9 }, // interface flags
+    { 0x2F00, 9 }, // flags
 };
 
 CameraModeValue sSetDemoCModeNormVals[] = {
@@ -2127,7 +2127,7 @@ CameraModeValue D_8011B8D8[] = {
     { 50, 6 },     // pitchTarget
     { 70, 7 },     // fovTarget
     { 70, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011B900[] = {
@@ -2141,7 +2141,7 @@ CameraModeValue D_8011B900[] = {
     { 70, 17 },    // swingPitchAdj (PCT)
     { 60, 7 },     // fov
     { 40, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -50, 11 },   // yOffsetOffGround (PCT)
     { 20, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -2157,7 +2157,7 @@ CameraModeValue D_8011B930[] = {
     { 30, 6 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 60, 8 },     // atLERPScaleMax
-    { 0x0003, 9 }, // interface flags
+    { 0x0003, 9 }, // flags
 };
 
 CameraModeValue D_8011B958[] = {
@@ -2170,7 +2170,7 @@ CameraModeValue D_8011B958[] = {
     { 5, 5 },      // unk_0C
     { 45, 7 },     // fovTarget
     { 50, 8 },     // unk_14
-    { 0x200A, 9 }, // interface flags
+    { 0x200A, 9 }, // flags
     { -40, 11 },   // unk_18
     { 20, 12 },    // unk_1C
 };
@@ -2186,7 +2186,7 @@ CameraModeValue sSetDung2ModeBattVals[] = {
     { 25, 17 },    // swingPitchAdj (PCT)
     { 45, 7 },     // fov
     { 80, 8 },     // atLERPScaleOnGround (PCT)
-    { 0x2002, 9 }, // interface flags
+    { 0x2002, 9 }, // flags
     { -40, 11 },   // yOffsetOffGround (PCT)
     { 25, 12 },    // atLERPScaleOffGround (PCT)
 };
@@ -2200,7 +2200,7 @@ CameraModeValue D_8011B9B4[] = {
     { 50, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 40, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B9D4[] = {
@@ -2212,7 +2212,7 @@ CameraModeValue D_8011B9D4[] = {
     { 80, 6 },     // maxYawUpdate
     { 60, 7 },     // unk_14
     { 20, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011B9F4[] = {
@@ -2225,7 +2225,7 @@ CameraModeValue D_8011B9F4[] = {
     { 5, 5 },      // xzUpdRateTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPStepScale
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011BA18[] = {
@@ -2238,7 +2238,7 @@ CameraModeValue D_8011BA18[] = {
     { 5, 5 },      // xzUpdRateTarget
     { 60, 7 },     // fovTarget
     { 40, 8 },     // atLERPStepScale
-    { 0x2006, 9 }, // interface flags
+    { 0x2006, 9 }, // flags
 };
 
 CameraModeValue D_8011BA3C[] = {
@@ -2249,7 +2249,7 @@ CameraModeValue D_8011BA3C[] = {
     { 40, 3 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
-    { 0x0000, 9 }, // interface flags
+    { 0x0000, 9 }, // flags
 };
 
 CameraModeValue D_8011BA58[] = {
@@ -2260,7 +2260,7 @@ CameraModeValue D_8011BA58[] = {
     { 70, 3 },     // pitchTarget
     { 45, 7 },     // fovTarget
     { 10, 8 },     // atLERPScaleMax
-    { 0x2000, 9 }, // interface flags
+    { 0x2000, 9 }, // flags
 };
 
 CameraModeValue D_8011BA74[] = {
@@ -2274,7 +2274,7 @@ CameraModeValue D_8011BA74[] = {
     { 100, 6 },    // pitchTarget
     { 60, 7 },     // fovTarget
     { 5, 8 },      // atLERPScaleMax
-    { 0xF003, 9 }, // interface flags
+    { 0xF003, 9 }, // flags
 };
 
 CameraModeValue D_8011BA9C[] = {
@@ -2287,7 +2287,7 @@ CameraModeValue D_8011BA9C[] = {
     { 5, 5 },      // unk_0C
     { 70, 7 },     // fovTarget
     { 30, 8 },     // unk_14
-    { 0x206A, 9 }, // interface flags
+    { 0x206A, 9 }, // flags
     { -20, 11 },   // unk_18
     { 30, 12 },    // unk_1C
 };
@@ -2303,7 +2303,7 @@ CameraModeValue D_8011BAC8[] = {
     { 80, 6 },     // pitchTarget
     { 60, 7 },     // fovTarget
     { 80, 8 },     // atLERPScaleMax
-    { 0x0002, 9 }, // interface flags
+    { 0x0002, 9 }, // flags
 };
 
 CameraModeValue D_8011BAF0[] = {
@@ -2318,7 +2318,7 @@ CameraModeValue D_8011BAF0[] = {
     { 20, 17 },    // unk_1C
     { 50, 7 },     // unk_20
     { 50, 8 },     // unk_24
-    { 0x2001, 9 }, // interface flags
+    { 0x2001, 9 }, // flags
     { -50, 11 },   // unk_28
     { 30, 12 },    // unk_2C
 };
@@ -2336,7 +2336,7 @@ CameraModeValue D_8011BB24[] = {
     { 50, 7 },     // fovTarget
     { 50, 8 },     // atLERPScaleMax
     { 10, 4 },     // initTimer
-    { 0x3520, 9 }, // interface flags
+    { 0x3520, 9 }, // flags
 };
 
 CameraModeValue D_8011BB54[] = {
@@ -2352,7 +2352,7 @@ CameraModeValue D_8011BB54[] = {
     { 45, 7 },     // fovTarget
     { 50, 8 },     // atLERPScaleMax
     { 10, 4 },     // initTimer
-    { 0x35A0, 9 }, // interface flags
+    { 0x35A0, 9 }, // flags
 };
 
 CameraMode sCamSetNorm0Modes[] = {

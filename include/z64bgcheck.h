@@ -53,7 +53,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16 setting;
-    /* 0x02 */ s16 dataLength;
+    /* 0x02 */ s16 dataCount;
     /* 0x04 */ Vec3s* data;
 } BgCamData;
 

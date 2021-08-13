@@ -660,7 +660,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ Vec3f initalPos;
     /* 0x000C */ s16 animTimer;
-    /* 0x0010 */ Linef sceneCamPosPlayerLine;
+    /* 0x0010 */ Linef bgCamPosPlayerLine;
 } Unique0Anim; // size = 0x28
 
 typedef struct {
