@@ -47,7 +47,7 @@ glabel func_80B48578
 /* 045B4 80B48604 A7A80056 */  sh      $t0, 0x0056($sp)           
 /* 045B8 80B48608 24E73FFF */  addiu   $a3, $a3, 0x3FFF           ## $a3 = 00003FFF
 /* 045BC 80B4860C 00073C00 */  sll     $a3, $a3, 16               
-/* 045C0 80B48610 0C00CE6E */  jal     func_800339B8              
+/* 045C0 80B48610 0C00CE6E */  jal     Actor_TestFloorInDirection              
 /* 045C4 80B48614 00073C03 */  sra     $a3, $a3, 16               
 /* 045C8 80B48618 1440003B */  bne     $v0, $zero, .L80B48708     
 /* 045CC 80B4861C 87A80056 */  lh      $t0, 0x0056($sp)           

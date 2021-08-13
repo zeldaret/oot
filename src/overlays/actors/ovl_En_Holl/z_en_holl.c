@@ -170,41 +170,35 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
 }
 
 // Horizontal Planes
-#ifdef NON_MATCHING
-// a/v regalloc near the end. Also ugly float thing in the conditional that seems needed to match.
 void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
-    s32 pad;
-    s32 pad1;
-    Vec3f vec;
-    TransitionActorEntry* transitionEntry;
-    f32 planeHalfWidth;
-    s32 pad2;
     Player* player = PLAYER;
     s32 useViewEye = gDbgCamEnabled || globalCtx->csCtx.state != CS_STATE_IDLE;
-    s32 transitionActorIdx;
+    Vec3f vec;
+    s32 temp;
+    f32 planeHalfWidth;
     f32 absZ;
-    s32 side;
-    s8 test;
 
     func_8002DBD0(&this->actor, &vec, (useViewEye) ? &globalCtx->view.eye : &player->actor.world.pos);
     planeHalfWidth = (((this->actor.params >> 6) & 7) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
 
-    if (EnHoll_IsKokiriSetup8() || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
-                                    (absZ = fabsf(vec.z), 100.0f > absZ && absZ > 50.0f))) {
-        transitionActorIdx = (u16)this->actor.params >> 0xA;
-        side = (vec.z < 0.0f) ? 0 : 1;
-        transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
-        test = transitionEntry->sides[side].room;
-        this->actor.room = test;
-        if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
-            func_8009728C(globalCtx, &globalCtx->roomCtx, (u32)this->actor.room)) {
-            EnHoll_SetupAction(this, EnHoll_NextAction);
+    temp = EnHoll_IsKokiriSetup8();
+    if (temp || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
+                 (absZ = fabsf(vec.z), 100.0f > absZ && absZ > 50.0f))) {
+        s32 transitionActorIdx = (u16)this->actor.params >> 0xA;
+        s32 side = (vec.z < 0.0f) ? 0 : 1;
+        TransitionActorEntry* transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
+        s32 room = transitionEntry->sides[side].room;
+
+        this->actor.room = room;
+        if (temp) {}
+        if (this->actor.room != globalCtx->roomCtx.curRoom.num) {
+            if (room) {}
+            if (func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room)) {
+                EnHoll_SetupAction(this, EnHoll_NextAction);
+            }
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A59014.s")
-#endif
 
 // Vertical Planes
 void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
