@@ -1,6 +1,7 @@
 #include "file_choose.h"
 
 void func_80808000(FileChooseContext* this);
+void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
 extern s16 gScreenFillAlpha;
 extern void (*gFileSelectDrawFuncs[])(FileChooseContext*);
 extern void (*gFileSelectUpdateFuncs[])(FileChooseContext*);
@@ -10,12 +11,41 @@ extern Gfx* gControlsTexture[];
 extern Gfx D_80812728[];
 extern u8 gEmptyName[];
 extern s16 gSelectFileYOffsets[];
+extern s16 D_80812750[];
+extern s16 D_80812818[];
+extern s16 D_80812820[];
+extern s16 D_80812828[];
+extern s16 D_80812830[];
+extern s16 D_8081283C[];
+extern s16 D_80812844[];
+extern s16 D_80812848[];
+extern u16 D_8081284C[];
+extern void* D_80812854[];
+extern s16 D_80812878[];
+extern s16 D_8081288C[];
+extern s16 D_808128A0[];
+extern s16 D_808128B4[];
+extern s16 D_808128C8[2][3];
+extern void* D_808128D4[];
+extern s16 D_808128DC[2][3];
+extern s16 D_808128E8[2][3];
+extern s16 D_8081275C[2][3];
+extern void* D_808128F4[];
+extern void* D_80812908[3][9];
+extern void* D_80812974[3][5];
+extern void* D_808129B0[3][3];
+extern void* D_808129D4[3][4];
+extern void* D_80812A04[];
 
 extern u8 D_80000002; // this is code in the very beginning of ram???
 extern s16 D_80812814[];
 extern Gfx D_01046F00[];
 extern Gfx D_01047118[];
 extern Gfx D_01047328[];
+extern u8 D_01000000[];
+extern u8 D_0101AD00[];
+extern u8 D_01015600[];
+extern u8 D_0101B680[];
 
 void FileChoose_SetupView(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
     Vec3f eye;
@@ -35,36 +65,14 @@ void FileChoose_SetupView(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ)
     func_800AAA50(&this->view, 0x7F);
 }
 
-#define gDPLoadTextureBlockCustom(pkt, timg, fmt, siz, width, height,   \
-        pal, cms, cmt, masks, maskt, shifts, shiftt)                    \
-{                                                                       \
-    gDPSetTextureImage(pkt, fmt, siz##_LOAD_BLOCK, 1, timg);            \
-    gDPSetTile(pkt, fmt, siz##_LOAD_BLOCK, 0, 0, G_TX_LOADTILE,         \
-        0 , cmt, maskt, shiftt, cms, masks, shifts);                    \
-    gDPLoadSync(pkt);                                                   \
-    gDPLoadBlock(pkt, G_TX_LOADTILE, 0, 0,                              \
-        (((width)*(height) + 1) >> 1) -1,                               \
-        CALC_DXT(width, 1));                                            \
-    gDPPipeSync(pkt);                                                   \
-    gDPSetTile(pkt, fmt, siz,                                           \
-        (((width) * 1)+7)>>3, 0,                                        \
-        G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks,           \
-        shifts);                                                        \
-    gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0,                          \
-        ((width)-1) << G_TEXTURE_IMAGE_FRAC,                            \
-        ((height)-1) << G_TEXTURE_IMAGE_FRAC);                          \
-}
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080AFD0.s")
-#if 0
 Gfx* func_8080AFD0(Gfx* gfx, void* timg, s16 arg2, s16 arg3, s16 arg4) {
-    gDPLoadTextureBlockCustom(gfx++, timg, G_IM_FMT_IA, G_IM_SIZ_16b, arg2, arg3, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlockYuv(gfx++, timg, G_IM_FMT_IA, G_IM_SIZ_8b, arg2, arg3, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                              G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-    gSP1Quadrangle(gfx++, arg4, arg4 + 2, arg4 + 3, arg4 + 2, 0);
+    gSP1Quadrangle(gfx++, arg4, arg4 + 2, arg4 + 3, arg4 + 1, 0);
 
     return gfx;
 }
-#endif
 
 void FileChoose_InitModeUpdate(FileChooseContext* this) {
     if (this->menuMode == MENU_MODE_INIT) {
@@ -279,7 +287,7 @@ void FileChoose_UpdateMainMenu(FileChooseContext* thisx) {
 void func_8080BE28(FileChooseContext* thisx) {
 }
 
-void func_8080BE30(FileChooseContext *this) {
+void func_8080BE30(FileChooseContext* this) {
     XREG(73) += 2;
     if (XREG(73) == 0xFE) {
         this->configMode = this->nextConfigMode;
@@ -390,93 +398,528 @@ void FileChoose_ConfigModeUpdate(FileChooseContext* this) {
     gConfigModeUpdateFuncs[this->configMode](this);
 }
 
-void func_8080C330(FileChooseContext* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C330.s")
-// void func_8080C330(FileChooseContext* this) {
-//     GraphicsContext* gfxCtx = this->state.gfxCtx;
-//     s16 i;
-//     s16 j;
-//     s16 x;
-//     s16 tmp;
-//     s16 tmp2;
-//     s16 tmp3;
+void func_8080C330(FileChooseContext* this) {
+    GraphicsContext* gfxCtx = this->state.gfxCtx;
+    s16 i;
+    s16 j;
+    s16 x;
+    s16 tmp;
+    s16 tmp2;
+    s16 tmp3;
 
-//     this->allocVtx1 = Graph_Alloc(gfxCtx, sizeof(Vtx) * 80);
-//     tmp = this->windowPosX - 90;
+    this->allocVtx1 = Graph_Alloc(gfxCtx, sizeof(Vtx) * 80);
+    tmp = this->windowPosX - 90;
 
-//     for (i = 0, x = 0; i < 4; i++) {
-//         tmp += 0x40;
-//         if (i == 3) {
-//             tmp2 = 0x30;
-//         } else {
-//             tmp2 = 0x40;
-//         }
-//         tmp3 = 0x50;
+    for (x = 0, i = 0; i < 4; i++) {
+        tmp += 0x40;
+        tmp2 = (i == 3) ? 0x30 : 0x40;
 
-//         for (j = 0; j < 5; j++, x += 4) {
+        for (j = 0, tmp3 = 0x50; j < 5; j++, x += 4, tmp3 -= 0x20) {
+            this->allocVtx1[x].v.ob[0] = this->allocVtx1[x + 2].v.ob[0] = tmp;
 
-//             this->allocVtx1[x].v.ob[0] = 
-//             this->allocVtx1[x+2].v.ob[0] = tmp;
+            this->allocVtx1[x + 1].v.ob[0] = this->allocVtx1[x + 3].v.ob[0] = tmp + tmp2;
 
-//             this->allocVtx1[x+3].v.ob[0] = tmp + tmp2;
-//             this->allocVtx1[x+1].v.ob[0] = tmp + tmp2;
-//             // 54
-//             this->allocVtx1[x].v.ob[1] = 
-//             this->allocVtx1[x+1].v.ob[1] = tmp3;
+            this->allocVtx1[x].v.ob[1] = this->allocVtx1[x + 1].v.ob[1] = tmp3;
 
-//             this->allocVtx1[x+3].v.ob[1] = tmp3 - 0x20;
-//             this->allocVtx1[x+2].v.ob[1] = tmp3 - 0x20;
-//             // 59
-//             this->allocVtx1[x].v.ob[2] = 
-//             this->allocVtx1[x+1].v.ob[2] = 
-//             this->allocVtx1[x+2].v.ob[2] = 
-//             this->allocVtx1[x+3].v.ob[2] = 0;
-//             // 64
-//             this->allocVtx1[x].v.flag = 
-//             this->allocVtx1[x+1].v.flag = 
-//             this->allocVtx1[x+2].v.flag = 
-//             this->allocVtx1[x+3].v.flag = 0;
-//             // 69
-//             this->allocVtx1[x].v.tc[0] = 
-//             this->allocVtx1[x].v.tc[1] = 
-//             this->allocVtx1[x+1].v.tc[1] = 
-//             this->allocVtx1[x+2].v.tc[0] = 0;
-//             //74
-//             this->allocVtx1[x+3].v.tc[0] = tmp2 * 32;
-//             this->allocVtx1[x+1].v.tc[0] = tmp2 * 32;
-//             // 76
-//             this->allocVtx1[x+2].v.tc[1] = 
-//             this->allocVtx1[x+3].v.tc[1] = 0x400;
-//             // 79
-//             this->allocVtx1[x].v.cn[0] = 
-//             this->allocVtx1[x+2].v.cn[0] = 
-//             this->allocVtx1[x].v.cn[1] = 
-//             this->allocVtx1[x+2].v.cn[1] = 
-//             this->allocVtx1[x].v.cn[2] = 
-//             this->allocVtx1[x+2].v.cn[2] = 
-//             this->allocVtx1[x+1].v.cn[0] = 
-//             this->allocVtx1[x+3].v.cn[0] = 
-//             this->allocVtx1[x+1].v.cn[1] = 
-//             this->allocVtx1[x+3].v.cn[1] = 
-//             this->allocVtx1[x+1].v.cn[2] = 
-//             this->allocVtx1[x+3].v.cn[2] = 
-//             this->allocVtx1[x].v.cn[3] = 
-//             this->allocVtx1[x+2].v.cn[3] = 
-//             this->allocVtx1[x+1].v.cn[3] = 
-//             this->allocVtx1[x+3].v.cn[3] = 0xFF;
+            this->allocVtx1[x + 2].v.ob[1] = this->allocVtx1[x + 3].v.ob[1] = tmp3 - 0x20;
 
-//             tmp3 -= 0x20;
-//         }
-//     }
-// }
+            this->allocVtx1[x].v.ob[2] = this->allocVtx1[x + 1].v.ob[2] = this->allocVtx1[x + 2].v.ob[2] =
+                this->allocVtx1[x + 3].v.ob[2] = 0;
 
-void func_8080C60C(FileChooseContext* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C60C.s")
+            this->allocVtx1[x].v.flag = this->allocVtx1[x + 1].v.flag = this->allocVtx1[x + 2].v.flag =
+                this->allocVtx1[x + 3].v.flag = 0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080D8CC.s")
+            this->allocVtx1[x].v.tc[0] = this->allocVtx1[x].v.tc[1] = this->allocVtx1[x + 1].v.tc[1] =
+                this->allocVtx1[x + 2].v.tc[0] = 0;
 
+            this->allocVtx1[x + 1].v.tc[0] = this->allocVtx1[x + 3].v.tc[0] = tmp2 * 0x20;
+
+            this->allocVtx1[x + 2].v.tc[1] = this->allocVtx1[x + 3].v.tc[1] = 0x400;
+
+            this->allocVtx1[x].v.cn[0] = this->allocVtx1[x + 2].v.cn[0] = this->allocVtx1[x].v.cn[1] =
+                this->allocVtx1[x + 2].v.cn[1] = this->allocVtx1[x].v.cn[2] = this->allocVtx1[x + 2].v.cn[2] =
+                    this->allocVtx1[x + 1].v.cn[0] = this->allocVtx1[x + 3].v.cn[0] = this->allocVtx1[x + 1].v.cn[1] =
+                        this->allocVtx1[x + 3].v.cn[1] = this->allocVtx1[x + 1].v.cn[2] =
+                            this->allocVtx1[x + 3].v.cn[2] = this->allocVtx1[x].v.cn[3] =
+                                this->allocVtx1[x + 2].v.cn[3] = this->allocVtx1[x + 1].v.cn[3] =
+                                    this->allocVtx1[x + 3].v.cn[3] = 255;
+        }
+    }
+}
+
+void func_8080C60C(FileChooseContext* thisx) {
+    FileChooseContext* this = thisx;
+    s16 phi_t2;
+    s16 phi_t0;
+    s16 phi_t5;
+    s16 phi_a1;
+    s16 phi_ra;
+    s16 temp_t1;
+    SramContext* sramCtx = &this->sramCtx;
+    ;
+
+    this->allocVtx2 = Graph_Alloc(this->state.gfxCtx, 0x288 * sizeof(Vtx));
+
+    for (phi_t2 = 0; phi_t2 < 0x288; phi_t2 += 4) {
+        this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = 0x12C;
+        this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
+            this->allocVtx2[phi_t2].v.ob[0] + 0x10;
+        this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = 0;
+        this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
+            this->allocVtx2[phi_t2].v.ob[1] - 0x10;
+
+        this->allocVtx2[phi_t2].v.ob[2] = this->allocVtx2[phi_t2 + 1].v.ob[2] = this->allocVtx2[phi_t2 + 2].v.ob[2] =
+            this->allocVtx2[phi_t2 + 3].v.ob[2] = 0;
+
+        this->allocVtx2[phi_t2].v.flag = this->allocVtx2[phi_t2 + 1].v.flag = this->allocVtx2[phi_t2 + 2].v.flag =
+            this->allocVtx2[phi_t2 + 3].v.flag = 0;
+
+        this->allocVtx2[phi_t2].v.tc[0] = this->allocVtx2[phi_t2].v.tc[1] = this->allocVtx2[phi_t2 + 1].v.tc[1] =
+            this->allocVtx2[phi_t2 + 2].v.tc[0] = 0;
+
+        this->allocVtx2[phi_t2 + 1].v.tc[0] = this->allocVtx2[phi_t2 + 2].v.tc[1] =
+            this->allocVtx2[phi_t2 + 3].v.tc[0] = this->allocVtx2[phi_t2 + 3].v.tc[1] = 0x200;
+
+        this->allocVtx2[phi_t2].v.cn[0] = this->allocVtx2[phi_t2 + 1].v.cn[0] = this->allocVtx2[phi_t2 + 2].v.cn[0] =
+            this->allocVtx2[phi_t2 + 3].v.cn[0] = this->allocVtx2[phi_t2].v.cn[1] =
+                this->allocVtx2[phi_t2 + 1].v.cn[1] = this->allocVtx2[phi_t2 + 2].v.cn[1] =
+                    this->allocVtx2[phi_t2 + 3].v.cn[1] = this->allocVtx2[phi_t2].v.cn[2] =
+                        this->allocVtx2[phi_t2 + 1].v.cn[2] = this->allocVtx2[phi_t2 + 2].v.cn[2] =
+                            this->allocVtx2[phi_t2 + 3].v.cn[2] = this->allocVtx2[phi_t2].v.cn[3] =
+                                this->allocVtx2[phi_t2 + 1].v.cn[3] = this->allocVtx2[phi_t2 + 2].v.cn[3] =
+                                    this->allocVtx2[phi_t2 + 3].v.cn[3] = 0xFF;
+    }
+
+    this->allocVtx2[0].v.ob[0] = this->allocVtx2[2].v.ob[0] = this->windowPosX;
+    this->allocVtx2[1].v.ob[0] = this->allocVtx2[3].v.ob[0] = this->allocVtx2[0].v.ob[0] + 0x80;
+    this->allocVtx2[0].v.ob[1] = this->allocVtx2[1].v.ob[1] = 0x48;
+    this->allocVtx2[2].v.ob[1] = this->allocVtx2[3].v.ob[1] = this->allocVtx2[0].v.ob[1] - 0x10;
+    this->allocVtx2[1].v.tc[0] = this->allocVtx2[3].v.tc[0] = 0x1000;
+
+    for (phi_a1 = 0, phi_t2 = 4; phi_a1 < 3; phi_a1++) {
+        phi_t0 = this->windowPosX - 6;
+        for (phi_t5 = 0; phi_t5 < 5; phi_t5++, phi_t2 += 4) {
+            this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
+            this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
+                this->allocVtx2[phi_t2].v.ob[0] + D_80812750[phi_t5];
+            this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = this->fileNamesY[phi_a1] + 0x2C;
+            this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
+                this->allocVtx2[phi_t2].v.ob[1] - 0x38;
+            this->allocVtx2[phi_t2 + 1].v.tc[0] = this->allocVtx2[phi_t2 + 3].v.tc[0] = D_80812750[phi_t5] << 5;
+            this->allocVtx2[phi_t2 + 2].v.tc[1] = this->allocVtx2[phi_t2 + 3].v.tc[1] = 0x700;
+            phi_t0 += D_80812750[phi_t5];
+        }
+    }
+
+    phi_t0 = this->windowPosX - 6;
+    phi_ra = 0x2C;
+    for (phi_t5 = 0; phi_t5 < 3; phi_t5++, phi_t2 += 20, phi_ra -= 0x10) {
+        this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
+        this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
+            this->allocVtx2[phi_t2].v.ob[0] + 0x40;
+        this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = this->buttonYOffsets[phi_t5] + phi_ra;
+        this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
+            this->allocVtx2[phi_t2].v.ob[1] - 0x10;
+        this->allocVtx2[phi_t2 + 1].v.tc[0] = this->allocVtx2[phi_t2 + 3].v.tc[0] = 0x800;
+        this->allocVtx2[phi_t2 + 4].v.ob[0] = this->allocVtx2[phi_t2 + 6].v.ob[0] = phi_t0 + 0x40;
+        this->allocVtx2[phi_t2 + 5].v.ob[0] = this->allocVtx2[phi_t2 + 7].v.ob[0] =
+            this->allocVtx2[phi_t2 + 4].v.ob[0] + 0x6C;
+        this->allocVtx2[phi_t2 + 4].v.ob[1] = this->allocVtx2[phi_t2 + 5].v.ob[1] =
+            this->buttonYOffsets[phi_t5] + phi_ra;
+        this->allocVtx2[phi_t2 + 6].v.ob[1] = this->allocVtx2[phi_t2 + 7].v.ob[1] =
+            this->allocVtx2[phi_t2 + 4].v.ob[1] - 0x10;
+        this->allocVtx2[phi_t2 + 5].v.tc[0] = this->allocVtx2[phi_t2 + 7].v.tc[0] = 0xD80;
+
+        if ((this->configMode == 0xF) && (phi_t5 == this->copyDestFileIndex)) {
+            temp_t1 = this->fileNamesY[phi_t5] + 0x2C;
+        } else if (((this->configMode == 0x10) || (this->configMode == 0x11)) && (phi_t5 == this->copyDestFileIndex)) {
+            temp_t1 = this->buttonYOffsets[phi_t5] + phi_ra;
+        } else {
+            temp_t1 = phi_ra + this->buttonYOffsets[phi_t5] + this->fileNamesY[phi_t5];
+        }
+
+        this->allocVtx2[phi_t2 + 8].v.ob[0] = this->allocVtx2[phi_t2 + 10].v.ob[0] = phi_t0 + 0xA8;
+        this->allocVtx2[phi_t2 + 9].v.ob[0] = this->allocVtx2[phi_t2 + 11].v.ob[0] =
+            this->allocVtx2[phi_t2 + 8].v.ob[0] + 0x2C;
+        this->allocVtx2[phi_t2 + 8].v.ob[1] = this->allocVtx2[phi_t2 + 9].v.ob[1] = temp_t1;
+        this->allocVtx2[phi_t2 + 10].v.ob[1] = this->allocVtx2[phi_t2 + 11].v.ob[1] =
+            this->allocVtx2[phi_t2 + 8].v.ob[1] - 0x10;
+        this->allocVtx2[phi_t2 + 9].v.tc[0] = this->allocVtx2[phi_t2 + 11].v.tc[0] = 0x580;
+        this->allocVtx2[phi_t2 + 12].v.ob[0] = this->allocVtx2[phi_t2 + 14].v.ob[0] = phi_t0 + 0x34;
+        this->allocVtx2[phi_t2 + 13].v.ob[0] = this->allocVtx2[phi_t2 + 15].v.ob[0] =
+            this->allocVtx2[phi_t2 + 12].v.ob[0] + 0x18;
+        this->allocVtx2[phi_t2 + 12].v.ob[1] = this->allocVtx2[phi_t2 + 13].v.ob[1] =
+            this->buttonYOffsets[phi_t5] + phi_ra;
+        this->allocVtx2[phi_t2 + 14].v.ob[1] = this->allocVtx2[phi_t2 + 15].v.ob[1] =
+            this->allocVtx2[phi_t2 + 12].v.ob[1] - 0x10;
+        this->allocVtx2[phi_t2 + 13].v.tc[0] = this->allocVtx2[phi_t2 + 15].v.tc[0] = 0x300;
+        this->allocVtx2[phi_t2 + 16].v.ob[0] = this->allocVtx2[phi_t2 + 18].v.ob[0] = phi_t0 + 0x9C;
+        this->allocVtx2[phi_t2 + 17].v.ob[0] = this->allocVtx2[phi_t2 + 19].v.ob[0] =
+            this->allocVtx2[phi_t2 + 16].v.ob[0] + 0x18;
+        this->allocVtx2[phi_t2 + 16].v.ob[1] = this->allocVtx2[phi_t2 + 17].v.ob[1] =
+            this->buttonYOffsets[phi_t5] + phi_ra;
+        this->allocVtx2[phi_t2 + 18].v.ob[1] = this->allocVtx2[phi_t2 + 19].v.ob[1] =
+            this->allocVtx2[phi_t2 + 16].v.ob[1] - 0x10;
+        this->allocVtx2[phi_t2 + 17].v.tc[0] = this->allocVtx2[phi_t2 + 19].v.tc[0] = 0x300;
+    }
+    phi_ra = 0x2C;
+
+    for (phi_t5 = 0; phi_t5 < 3; phi_t5++, phi_ra -= gGameInfo->data[1766]) {
+        if ((sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x1C] == 0x5A) ||
+            (sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x1D] == 0x45) ||
+            (sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x1E] == 0x4C) ||
+            (sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x1F] == 0x44) ||
+            (sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x20] == 0x41) ||
+            (sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x21] == 0x5A)) {
+            phi_t0 = this->windowPosX - gGameInfo->data[1767];
+            if ((this->configMode == 0xF) && (phi_t5 == this->copyDestFileIndex)) {
+                temp_t1 = this->fileNamesY[phi_t5] + 0x2C;
+            } else if (((this->configMode == 0x10) || (this->configMode == 0x11)) &&
+                       (phi_t5 == this->copyDestFileIndex)) {
+                temp_t1 = this->buttonYOffsets[phi_t5] + phi_ra;
+            } else {
+                temp_t1 = phi_ra + this->buttonYOffsets[phi_t5] + this->fileNamesY[phi_t5];
+            }
+            temp_t1 += 2;
+            for (phi_a1 = 0; phi_a1 < 8; phi_a1++, phi_t2 += 4, phi_t0 += gGameInfo->data[1768]) {
+                this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] =
+                    gGameInfo->data[1769] + phi_t0 + 0x40;
+                this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
+                    this->allocVtx2[phi_t2].v.ob[0] + gGameInfo->data[1770];
+                this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = temp_t1 - 3;
+                this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
+                    this->allocVtx2[phi_t2].v.ob[1] - gGameInfo->data[1771];
+            }
+
+            phi_t0 = this->windowPosX - 0xE;
+            temp_t1 -= 0x16;
+            for (phi_a1 = 0; phi_a1 < 4; phi_a1++, phi_t2 += 4) {
+                this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
+                this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
+                    this->allocVtx2[phi_t2].v.ob[0] + D_80812820[phi_a1];
+                this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = temp_t1;
+                this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
+                    this->allocVtx2[phi_t2].v.ob[1] - D_80812828[phi_a1];
+                phi_t0 += D_80812818[phi_a1];
+            }
+            this->allocVtx2[phi_t2 - 15].v.tc[0] = this->allocVtx2[phi_t2 - 13].v.tc[0] = 0x400;
+
+            phi_t0 = this->windowPosX + 0x3F;
+            temp_t1 += 4;
+            for (phi_a1 = 0; phi_a1 < 20; phi_a1++, phi_t2 += 4, phi_t0 += 9) {
+                this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
+                this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
+                    this->allocVtx2[phi_t2].v.ob[0] + 0xA;
+                this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = temp_t1;
+                this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
+                    this->allocVtx2[phi_t2].v.ob[1] - 0xA;
+
+                if (phi_a1 == 9) {
+                    phi_t0 = this->windowPosX + 0x36;
+                    temp_t1 -= 8;
+                }
+            }
+            phi_t0 = this->windowPosX + 4;
+            temp_t1 -= 0xA;
+            for (phi_a1 = 0; phi_a1 < 10; phi_a1++, phi_t2 += 4, phi_t0 += 0x10) {
+                this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
+                this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
+                    this->allocVtx2[phi_t2].v.ob[0] + 0x10;
+                this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = temp_t1;
+                this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
+                    this->allocVtx2[phi_t2].v.ob[1] - 0x10;
+            }
+        } else {
+            phi_t2 += 0xA8;
+        }
+    }
+    phi_t0 = this->windowPosX - 6;
+    phi_ra = -0xC;
+    for (phi_t5 = 0; phi_t5 < 2; phi_t5++, phi_t2 += 4, phi_ra -= 0x10) {
+        this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
+        this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
+            this->allocVtx2[phi_t2].v.ob[0] + 0x40;
+        this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] =
+            this->buttonYOffsets[phi_t5 + 3] + phi_ra;
+        this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
+            this->allocVtx2[phi_t2].v.ob[1] - 0x10;
+        this->allocVtx2[phi_t2 + 1].v.tc[0] = this->allocVtx2[phi_t2 + 3].v.tc[0] = 0x800;
+    }
+
+    this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
+    this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] = this->allocVtx2[phi_t2].v.ob[0] + 0x40;
+    this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = this->buttonYOffsets[5] - 0x34;
+    this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] = this->allocVtx2[phi_t2].v.ob[1] - 0x10;
+    this->allocVtx2[phi_t2 + 1].v.tc[0] = this->allocVtx2[phi_t2 + 3].v.tc[0] = 0x800;
+
+    phi_t2 += 4;
+
+    if (((this->menuMode == 1) && (this->configMode >= 2)) || ((this->menuMode == 2) && (this->selectMode == 3))) {
+        if (this->menuMode == 1) {
+            if ((this->configMode == 4) || (this->configMode == 7) || (this->configMode == 0x15)) {
+                phi_t5 = D_8081283C[this->buttonIndex];
+            } else if ((this->configMode == 0x18) || (this->configMode == 0xC)) {
+                phi_t5 = D_80812844[this->buttonIndex];
+            } else {
+                phi_t5 = D_80812830[this->buttonIndex];
+            }
+        } else {
+            phi_t5 = D_80812848[this->confirmButtonIndex];
+        }
+
+        this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = this->windowPosX - 0xA;
+        this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
+            this->allocVtx2[phi_t2].v.ob[0] + 0x48;
+        this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = this->allocVtx2[phi_t5].v.ob[1] + 4;
+        this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
+            this->allocVtx2[phi_t2].v.ob[1] - 0x18;
+        this->allocVtx2[phi_t2 + 1].v.tc[0] = this->allocVtx2[phi_t2 + 3].v.tc[0] = 0x900;
+        this->allocVtx2[phi_t2 + 2].v.tc[1] = this->allocVtx2[phi_t2 + 3].v.tc[1] = 0x300;
+    }
+    this->allocVtx2[phi_t2 + 4].v.ob[0] = this->allocVtx2[phi_t2 + 6].v.ob[0] = this->windowPosX + 0x3A;
+    this->allocVtx2[phi_t2 + 5].v.ob[0] = this->allocVtx2[phi_t2 + 7].v.ob[0] =
+        this->allocVtx2[phi_t2 + 4].v.ob[0] + 0x80;
+    this->allocVtx2[phi_t2 + 4].v.ob[1] = this->allocVtx2[phi_t2 + 5].v.ob[1] =
+        this->allocVtx2[D_80812830[this->warningButtonIndex]].v.ob[1];
+    this->allocVtx2[phi_t2 + 6].v.ob[1] = this->allocVtx2[phi_t2 + 7].v.ob[1] =
+        this->allocVtx2[phi_t2 + 4].v.ob[1] - 0x10;
+    this->allocVtx2[phi_t2 + 5].v.tc[0] = this->allocVtx2[phi_t2 + 7].v.tc[0] = 0x1000;
+}
+
+void func_8080D8CC(FileChooseContext* this, s16 arg1, s16 arg2) {
+    s32 phi_a2_2;
+    Font* sp54;
+    u16* pad;
+    s16 phi_s0;
+    s16 phi_s2;
+    s16 phi_s3;
+    s16 spD8[3];
+
+    OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1709);
+
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
+                      PRIMITIVE, 0);
+
+    sp54 = &this->font;
+    pad = &D_8081284C[arg1];
+    if (this->nameAlpha[arg1] != 0) {
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[*pad], 32, 0);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, D_808128C8[arg2][0], D_808128C8[arg2][1], D_808128C8[arg2][2],
+                        this->nameAlpha[arg1]);
+        for (phi_s0 = 0, phi_s2 = 0; phi_s2 < 0x20; phi_s0++, phi_s2 += 4) {
+            FileChoose_DrawCharacter(this->state.gfxCtx,
+                                     sp54->fontBuf + this->fileNames[arg1][phi_s0] * FONT_CHAR_TEX_SIZE, phi_s2);
+        }
+    }
+
+    if ((arg1 == this->selectedFileIndex) || (arg1 == this->copyDestFileIndex)) {
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
+                          PRIMITIVE, 0);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->fileInfoAlpha[arg1]);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[*pad] + 0x24, 12, 0);
+
+        func_8080B394(this->deaths[arg1], &spD8[0], &spD8[1], &spD8[2]);
+
+        for (phi_s0 = 0, phi_s2 = 0; phi_s0 < 3; phi_s0++, phi_s2 += 4) {
+            FileChoose_DrawCharacter(this->state.gfxCtx, sp54->fontBuf + spD8[phi_s0] * FONT_CHAR_TEX_SIZE, phi_s2);
+        }
+
+        gDPPipeSync(POLY_OPA_DISP++);
+
+        phi_a2_2 = (this->defense[arg1] == 0) ? 0 : 1;
+
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+                          PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, D_808128DC[phi_a2_2][0], D_808128DC[phi_a2_2][1],
+                        D_808128DC[phi_a2_2][2], this->fileInfoAlpha[arg1]);
+        gDPSetEnvColor(POLY_OPA_DISP++, D_808128E8[phi_a2_2][0], D_808128E8[phi_a2_2][1], D_808128E8[phi_a2_2][2], 255);
+
+        phi_s0 = this->healthCapacities[arg1] / 0x10;
+
+        for (phi_s2 = 0, phi_s3 = 0; phi_s3 < phi_s0; phi_s3++, phi_s2 += 4) {
+            gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[*pad + phi_s2] + 0x30, 4, 0);
+            if (!phi_s0) {}
+            POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, D_808128D4[phi_a2_2], 0x10, 0x10, 0);
+        }
+
+        gDPPipeSync(POLY_OPA_DISP++);
+
+        for (phi_s2 = 0, phi_s3 = 0; phi_s3 < 9; phi_s3++, phi_s2 += 4) {
+            if (this->questItems[arg1] & gBitFlags[D_808128B4[phi_s3]]) {
+                gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[*pad + phi_s2] + 0x80, 4, 0);
+                gDPPipeSync(POLY_OPA_DISP++);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, D_80812878[phi_s3], D_8081288C[phi_s3], D_808128A0[phi_s3],
+                                this->fileInfoAlpha[arg1]);
+                gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
+
+                if (phi_s3 < 3) {
+                    gDPLoadTextureBlock(POLY_OPA_DISP++, D_80812854[phi_s3], G_IM_FMT_RGBA, G_IM_SIZ_32b, 16, 16, 0,
+                                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
+                                        G_TX_NOMASK, G_TX_NOLOD);
+                    gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+
+                } else {
+                    POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, D_80812854[phi_s3], 0x10, 0x10, 0);
+                }
+            }
+        }
+    }
+    CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1797);
+}
+
+#ifdef NON_EQUIVALENT
+void func_8080E074(FileChooseContext* thisx) {
+    FileChooseContext* this = thisx;
+    s16 phi_s0;
+    s16 phi_s5 = 0;
+    s16 phi_t3;
+    s16 phi_t2;
+    s32 phi_a3;
+    s32 pad2;
+
+    OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1940);
+
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
+                      ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
+    gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[phi_s5], 4, 0);
+    phi_s5 += 4;
+    gDPLoadTextureBlock(POLY_OPA_DISP++, D_80812908[gSaveContext.language][this->titleLabel], G_IM_FMT_IA, G_IM_SIZ_8b,
+                        128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[1]);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, D_80812908[gSaveContext.language][this->nextTitleLabel], G_IM_FMT_IA,
+                        G_IM_SIZ_8b, 128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+
+    gDPPipeSync(POLY_OPA_DISP++);
+
+    
+    for (phi_s0 = 0; phi_s0 < 3; phi_s0++) {
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+                        this->fileInfoAlpha[phi_s0]);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[phi_s5], 20, 0);
+        phi_s5 += 20;
+        for (phi_t3 = 0, phi_t2 = 0; phi_t3 < 5; phi_t3++, phi_t2 += 4) { 
+            gDPLoadTextureBlock(POLY_OPA_DISP++, D_808128F4[phi_t3], G_IM_FMT_IA, G_IM_SIZ_16b, D_80812750[phi_t3], 56,
+                                0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+            
+            gSP1Quadrangle(POLY_OPA_DISP++, phi_t2, phi_t2 + 2, phi_t2 + 3, phi_t2 + 1, 0);
+        }
+        
+    }
+    for (phi_t3 = 0; phi_t3 < 3; phi_t3++) {
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[phi_s5], 20, 0);
+        phi_s5 += 20;
+
+        phi_a3 = ((this->n64ddFlag == this->n64ddFlags[phi_t3]) || (this->nameBoxAlpha[phi_t3] == 0)) ? 0 : 1;
+        
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8081275C[phi_a3][0], D_8081275C[phi_a3][1], D_8081275C[phi_a3][2],
+                        this->fileButtonAlpha[phi_t3]);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_808129B0[gSaveContext.language][phi_t3], G_IM_FMT_IA, G_IM_SIZ_16b, 64,
+                            16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8081275C[phi_a3][0], D_8081275C[phi_a3][1], D_8081275C[phi_a3][2],
+                        this->nameBoxAlpha[phi_t3]);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_01015600, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, 4, 6, 7, 5, 0);
+
+        if (this->n64ddFlags[phi_t3]) {
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8081275C[phi_a3][0], D_8081275C[phi_a3][1], D_8081275C[phi_a3][2],
+                            this->nameAlpha[phi_t3]);
+            gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101AD00, G_IM_FMT_IA, G_IM_SIZ_16b, 44, 16, 0,
+                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+            gSP1Quadrangle(POLY_OPA_DISP++, 8, 10, 11, 9, 0);
+        }
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8081275C[phi_a3][0], D_8081275C[phi_a3][1], D_8081275C[phi_a3][2],
+                        this->connectorAlpha[phi_t3]);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_01000000, G_IM_FMT_IA, G_IM_SIZ_8b, 24, 16, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, 12, 14, 15, 13, 0);
+
+        if (this->n64ddFlags[phi_t3]) {
+            gSP1Quadrangle(POLY_OPA_DISP++, 16, 18, 19, 17, 0);
+        }
+        
+    }
+
+    for (phi_s0 = 0; phi_s0 < 3; phi_s0++) {
+        phi_a3 = ((this->n64ddFlag == this->n64ddFlags[phi_s0]) || (this->nameBoxAlpha[phi_s0] == 0)) ? 0 : 1;
+        func_8080D8CC(this, phi_s0, phi_a3);
+    }
+
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
+                      ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
+    gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[0x274], 20, 0);
+    
+    for (phi_t3 = 0, phi_t2 = 0; phi_t3 < 2; phi_t3++, phi_t2 += 4) {
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+                        this->actionBtnAlpha[phi_t3]);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_808129D4[gSaveContext.language][phi_t3], G_IM_FMT_IA, G_IM_SIZ_16b, 64,
+                            16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, phi_t2, phi_t2 + 2, phi_t2 + 3, phi_t2 + 1, 0);
+    }
+    gDPPipeSync(POLY_OPA_DISP++);
+
+    for (phi_t3 = 0, phi_t2 = 0; phi_t3 < 2; phi_t3++, phi_t2 += 4) {
+        phi_a3 = this->unk_1CAAE[phi_t3];
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+                        this->confirmButtonAlpha[phi_t3]);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_808129D4[gSaveContext.language][phi_a3], G_IM_FMT_IA,
+                            G_IM_SIZ_16b, 64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, phi_t2, phi_t2 + 2, phi_t2 + 3, phi_t2 + 1, 0);
+    }
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+                    this->optionButtonAlpha);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, D_80812A04[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_16b, 64, 16, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gSP1Quadrangle(POLY_OPA_DISP++, 8, 10, 11, 9, 0);
+
+    if (((this->menuMode == 1) &&
+         ((this->configMode == 2) || (this->configMode == 4) || (this->configMode == 7) || (this->configMode == 0xC) ||
+          (this->configMode == 0x15) || (this->configMode == 0x18))) ||
+        ((this->menuMode == 2) && (this->selectMode == 3))) {
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
+                          PRIMITIVE, 0);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->highlightColor[0], this->highlightColor[1],
+                        this->highlightColor[2], this->highlightColor[3]);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101B680, G_IM_FMT_I, G_IM_SIZ_8b, 72, 24, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, 12, 14, 15, 13, 0);
+    }
+    if (this->warningLabel >= 0) {
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+                          PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->emptyFileTextAlpha);
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_80812974[gSaveContext.language][this->warningLabel], G_IM_FMT_IA,
+                            G_IM_SIZ_8b, 128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, 16, 18, 19, 17, 0);
+    }
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA);
+    CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2198);
+}
+#else
 void func_8080E074(FileChooseContext* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080E074.s")
+#endif
 
 void FileChoose_ConfigModeDraw(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -783,7 +1226,7 @@ void FileChoose_LoadGame(FileChooseContext* thisx) {
         SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
         this->state.running = false;
     }
-    
+
     gSaveContext.respawn[0].entranceIndex = -1;
     gSaveContext.respawnFlag = 0;
     gSaveContext.seqIndex = 0xFF;

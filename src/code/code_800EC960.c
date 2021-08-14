@@ -812,8 +812,9 @@ void func_800EDD68(u8 arg0) {
                 for (j = 0; j < 9 - gOcarinaSongNotes[i].len; j++) {
                     for (k = 0; k < gOcarinaSongNotes[i].len && k + j < 8 &&
                                 gOcarinaSongNotes[i].notesIdx[k] == gOcarinaSongNotes[0xC].notesIdx[k + j];
-                         k++)
+                         k++) {
                         ;
+                    }
 
                     if (k == gOcarinaSongNotes[i].len) {
                         D_80131858 = 0xFF;
@@ -1445,8 +1446,9 @@ void func_800F2464(void) {
                 phi_v1 = 9;
             }
             D_8016E2E0[D_80131F04] = D_8016E2E0[phi_v1];
-            if (!D_80131F08)
+            if (!D_80131F08) {
                 ;
+            }
             D_8016E2F8[D_80131F04] = D_8016E2F8[phi_v1];
         }
     } else {
@@ -2460,7 +2462,7 @@ void func_800F4A70(void) {
     }
 }
 
-void func_800F4B58(Vec3f* arg0, u16 arg1, u8* arg2) {
+void func_800F4B58(Vec3f* arg0, s16 arg1, u8* arg2) {
     Audio_PlaySoundGeneral(arg1, arg0, 4, &gNoteFrequencies[arg2[D_801305CC] + 39], &D_801333E0, &D_801333E8);
 
     if (D_801305CC < 15) {

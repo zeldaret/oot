@@ -584,8 +584,8 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
         while (i < phi_s2) {
             phi_v0 = &gAudioContext.noteSubsEu[sp9C[i] + t];
             if (phi_v0->bitField1.s.reverbIndex == phi_s4) {
-                cmd = func_800DC910(sp9C[i], phi_v0, &gAudioContext.notes[sp9C[i]].synthesisState, aiBuf, aiBufLen,
-                                    cmd, updateIdx);
+                cmd = func_800DC910(sp9C[i], phi_v0, &gAudioContext.notes[sp9C[i]].synthesisState, aiBuf, aiBufLen, cmd,
+                                    updateIdx);
             } else {
                 break;
             }
@@ -623,7 +623,7 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_synthesis/func_800DC384.s")
 #endif
 
-#ifdef NON_MATCHING
+#ifdef NON_EQUIVALENT
 Acmd* func_800DC910(s32 noteIdx, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf, s32 aiBufLen,
                     Acmd* cmd, s32 updateIdx) {
     AudioBankSample* sp150;

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_menkuri_eye.h"
+#include "objects/object_menkuri_objects/object_menkuri_objects.h"
 
 #define FLAGS 0x00000020
 
@@ -27,7 +28,6 @@ const ActorInit Bg_Menkuri_Eye_InitVars = {
     (ActorFunc)BgMenkuriEye_Draw,
 };
 
-extern Gfx D_06002D20[];
 static s32 D_8089C1A0;
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
@@ -138,6 +138,6 @@ void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_menkuri_eye.c", 331),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06002D20);
+    gSPDisplayList(POLY_XLU_DISP++, gGTGEyeStatueEyeDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_menkuri_eye.c", 335);
 }

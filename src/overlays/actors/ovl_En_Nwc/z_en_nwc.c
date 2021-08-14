@@ -5,6 +5,7 @@
  */
 
 #include "z_en_nwc.h"
+#include "objects/object_nwc/object_nwc.h"
 
 #define FLAGS 0x00000030
 
@@ -30,15 +31,6 @@ typedef enum {
     /* 0 */ CHICK_NONE,
     /* 1 */ CHICK_NORMAL
 } ChickTypes;
-
-extern Gfx D_06000840[];
-extern Gfx D_060008B0[];
-extern Gfx D_06000BF0[];
-extern Gfx D_06000C68[];
-extern Gfx D_06000C88[];
-extern Gfx D_06000CE0[];
-extern Gfx D_06000D10[];
-extern Gfx D_06000D50[];
 
 const ActorInit En_Nwc_InitVars = {
     ACTOR_EN_NWC,
@@ -170,9 +162,9 @@ void EnNwc_DrawChicks(EnNwc* this, GlobalContext* globalCtx) {
     dList2 = dList1 + 3 * this->count + 1;
     dList3 = dList2 + 2 * this->count + 1;
 
-    gSPDisplayList(dList1++, D_06000840);
-    gSPDisplayList(dList2++, D_06000BF0);
-    gSPDisplayList(dList3++, D_06000C88);
+    gSPDisplayList(dList1++, gCuccoChickSetupBodyDL);
+    gSPDisplayList(dList2++, gCuccoChickSetupEyeDL);
+    gSPDisplayList(dList3++, gCuccoChickSetupBeakDL);
 
     chick = this->chicks;
     for (i = 0; i < this->count; i++, chick++) {
@@ -184,18 +176,18 @@ void EnNwc_DrawChicks(EnNwc* this, GlobalContext* globalCtx) {
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nwc.c", 346);
             gDPSetEnvColor(dList1++, 0, 100, 255, 255);
             gSPMatrix(dList1++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(dList1++, D_060008B0);
+            gSPDisplayList(dList1++, gCuccoChickBodyDL);
             gSPMatrix(dList2++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(dList2++, D_06000C68);
+            gSPDisplayList(dList2++, gCuccoChickEyesDL);
             gSPMatrix(dList3++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(dList3++, D_06000CE0);
+            gSPDisplayList(dList3++, gCuccoChickBeakDL);
         }
     }
 
     chick = this->chicks;
     POLY_XLU_DISP = dList3;
     func_80094044(globalCtx->state.gfxCtx);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000D10);
+    gSPDisplayList(POLY_XLU_DISP++, gCuccoChickSetupShadowDL);
 
     for (i = 0; i < this->count; i++, chick++) {
         if ((chick->type != CHICK_NONE) && (chick->floorPoly != NULL)) {
@@ -205,7 +197,7 @@ void EnNwc_DrawChicks(EnNwc* this, GlobalContext* globalCtx) {
             Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nwc.c", 388),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_06000D50);
+            gSPDisplayList(POLY_XLU_DISP++, gCuccoChickShadowDL);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_nwc.c", 395);

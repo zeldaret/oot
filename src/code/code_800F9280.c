@@ -20,8 +20,7 @@ void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
         arg2 &= 0x7F;
         if (arg2 == 0x7F) {
             Audio_QueueCmdS32(0x85000000 | ((u8)seqIdx << 16) | (seqId << 8),
-                              ((fadeTimer >> 3) * 0x3C * gAudioContext.audioBufferParameters.updatesPerFrame) &
-                                  0xFFFF);
+                              ((fadeTimer >> 3) * 0x3C * gAudioContext.audioBufferParameters.updatesPerFrame) & 0xFFFF);
         } else {
             Audio_QueueCmdS32(0x82000000 | ((u8)seqIdx << 16) | (seqId << 8),
                               (fadeTimer * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
