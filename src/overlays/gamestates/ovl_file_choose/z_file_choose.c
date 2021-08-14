@@ -398,8 +398,8 @@ void FileChoose_ConfigModeUpdate(FileChooseContext* this) {
     gConfigModeUpdateFuncs[this->configMode](this);
 }
 
-void func_8080C330(FileChooseContext* this) {
-    GraphicsContext* gfxCtx = this->state.gfxCtx;
+void func_8080C330(FileChooseContext* thisx) {
+    FileChooseContext* this = thisx;
     s16 i;
     s16 j;
     s16 x;
@@ -407,7 +407,7 @@ void func_8080C330(FileChooseContext* this) {
     s16 tmp2;
     s16 tmp3;
 
-    this->allocVtx1 = Graph_Alloc(gfxCtx, sizeof(Vtx) * 80);
+    this->allocVtx1 = Graph_Alloc(this->state.gfxCtx, sizeof(Vtx) * 80);
     tmp = this->windowPosX - 90;
 
     for (x = 0, i = 0; i < 4; i++) {
@@ -686,25 +686,23 @@ void func_8080C60C(FileChooseContext* thisx) {
     this->allocVtx2[phi_t2 + 5].v.tc[0] = this->allocVtx2[phi_t2 + 7].v.tc[0] = 0x1000;
 }
 
-void func_8080D8CC(FileChooseContext* this, s16 arg1, s16 arg2) {
+void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
+    FileChooseContext* this = thisx;
+    Font* sp54  = &this->font;
     s32 phi_a2_2;
-    Font* sp54;
-    u16* pad;
     s16 phi_s0;
     s16 phi_s2;
     s16 phi_s3;
     s16 spD8[3];
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1709);
-
+    if (1) {}
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                       PRIMITIVE, 0);
 
-    sp54 = &this->font;
-    pad = &D_8081284C[arg1];
     if (this->nameAlpha[arg1] != 0) {
-        gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[*pad], 32, 0);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[D_8081284C[arg1]], 32, 0);
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, D_808128C8[arg2][0], D_808128C8[arg2][1], D_808128C8[arg2][2],
                         this->nameAlpha[arg1]);
         for (phi_s0 = 0, phi_s2 = 0; phi_s2 < 0x20; phi_s0++, phi_s2 += 4) {
@@ -718,7 +716,7 @@ void func_8080D8CC(FileChooseContext* this, s16 arg1, s16 arg2) {
         gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
                           PRIMITIVE, 0);
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->fileInfoAlpha[arg1]);
-        gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[*pad] + 0x24, 12, 0);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[D_8081284C[arg1]] + 0x24, 12, 0);
 
         func_8080B394(this->deaths[arg1], &spD8[0], &spD8[1], &spD8[2]);
 
@@ -740,8 +738,8 @@ void func_8080D8CC(FileChooseContext* this, s16 arg1, s16 arg2) {
         phi_s0 = this->healthCapacities[arg1] / 0x10;
 
         for (phi_s2 = 0, phi_s3 = 0; phi_s3 < phi_s0; phi_s3++, phi_s2 += 4) {
-            gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[*pad + phi_s2] + 0x30, 4, 0);
-            if (!phi_s0) {}
+            gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[D_8081284C[arg1] + phi_s2] + 0x30, 4, 0);
+            
             POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, D_808128D4[phi_a2_2], 0x10, 0x10, 0);
         }
 
@@ -749,7 +747,7 @@ void func_8080D8CC(FileChooseContext* this, s16 arg1, s16 arg2) {
 
         for (phi_s2 = 0, phi_s3 = 0; phi_s3 < 9; phi_s3++, phi_s2 += 4) {
             if (this->questItems[arg1] & gBitFlags[D_808128B4[phi_s3]]) {
-                gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[*pad + phi_s2] + 0x80, 4, 0);
+                gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[D_8081284C[arg1] + phi_s2] + 0x80, 4, 0);
                 gDPPipeSync(POLY_OPA_DISP++);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, D_80812878[phi_s3], D_8081288C[phi_s3], D_808128A0[phi_s3],
                                 this->fileInfoAlpha[arg1]);
@@ -770,15 +768,14 @@ void func_8080D8CC(FileChooseContext* this, s16 arg1, s16 arg2) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1797);
 }
 
-#ifdef NON_EQUIVALENT
+#ifdef NON_MATCHING
 void func_8080E074(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     s16 phi_s0;
-    s16 phi_s5 = 0;
+    s16 phi_s5;
     s16 phi_t3;
     s16 phi_t2;
-    s32 phi_a3;
-    s32 pad2;
+    s16 phi_a3;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1940);
 
@@ -787,10 +784,12 @@ void func_8080E074(FileChooseContext* thisx) {
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
-    gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[phi_s5], 4, 0);
-    phi_s5 += 4;
+    
+    gSPVertex(POLY_OPA_DISP++, this->allocVtx2, 4, 0);
+
     gDPLoadTextureBlock(POLY_OPA_DISP++, D_80812908[gSaveContext.language][this->titleLabel], G_IM_FMT_IA, G_IM_SIZ_8b,
                         128, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -800,38 +799,35 @@ void func_8080E074(FileChooseContext* thisx) {
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
     gDPPipeSync(POLY_OPA_DISP++);
-
-    
-    for (phi_s0 = 0; phi_s0 < 3; phi_s0++) {
+    phi_s5 = 4;
+    for (phi_s0 = 0; phi_s0 < 3; phi_s0++, phi_s5 += 0x14) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->fileInfoAlpha[phi_s0]);
         gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[phi_s5], 20, 0);
-        phi_s5 += 20;
-        for (phi_t3 = 0, phi_t2 = 0; phi_t3 < 5; phi_t3++, phi_t2 += 4) { 
+        
+        for (phi_t2 = 0, phi_t3 = 0; phi_t3 < 5; phi_t3++, phi_t2 += 4) { 
             gDPLoadTextureBlock(POLY_OPA_DISP++, D_808128F4[phi_t3], G_IM_FMT_IA, G_IM_SIZ_16b, D_80812750[phi_t3], 56,
                                 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-            
             gSP1Quadrangle(POLY_OPA_DISP++, phi_t2, phi_t2 + 2, phi_t2 + 3, phi_t2 + 1, 0);
         }
-        
     }
-    for (phi_t3 = 0; phi_t3 < 3; phi_t3++) {
+    for (phi_t3 = 0; phi_t3 < 3; phi_t3++, phi_s5 += 20) {
         gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[phi_s5], 20, 0);
-        phi_s5 += 20;
 
         phi_a3 = ((this->n64ddFlag == this->n64ddFlags[phi_t3]) || (this->nameBoxAlpha[phi_t3] == 0)) ? 0 : 1;
-        
+
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8081275C[phi_a3][0], D_8081275C[phi_a3][1], D_8081275C[phi_a3][2],
                         this->fileButtonAlpha[phi_t3]);
         gDPLoadTextureBlock(POLY_OPA_DISP++, D_808129B0[gSaveContext.language][phi_t3], G_IM_FMT_IA, G_IM_SIZ_16b, 64,
                             16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
-
+        
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8081275C[phi_a3][0], D_8081275C[phi_a3][1], D_8081275C[phi_a3][2],
                         this->nameBoxAlpha[phi_t3]);
         gDPLoadTextureBlock(POLY_OPA_DISP++, D_01015600, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                            
         gSP1Quadrangle(POLY_OPA_DISP++, 4, 6, 7, 5, 0);
 
         if (this->n64ddFlags[phi_t3]) {
@@ -840,14 +836,14 @@ void func_8080E074(FileChooseContext* thisx) {
             gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101AD00, G_IM_FMT_IA, G_IM_SIZ_16b, 44, 16, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             gSP1Quadrangle(POLY_OPA_DISP++, 8, 10, 11, 9, 0);
+            if (1){}
         }
-
+        
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8081275C[phi_a3][0], D_8081275C[phi_a3][1], D_8081275C[phi_a3][2],
                         this->connectorAlpha[phi_t3]);
         gDPLoadTextureBlock(POLY_OPA_DISP++, D_01000000, G_IM_FMT_IA, G_IM_SIZ_8b, 24, 16, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 12, 14, 15, 13, 0);
-
         if (this->n64ddFlags[phi_t3]) {
             gSP1Quadrangle(POLY_OPA_DISP++, 16, 18, 19, 17, 0);
         }
@@ -855,8 +851,7 @@ void func_8080E074(FileChooseContext* thisx) {
     }
 
     for (phi_s0 = 0; phi_s0 < 3; phi_s0++) {
-        phi_a3 = ((this->n64ddFlag == this->n64ddFlags[phi_s0]) || (this->nameBoxAlpha[phi_s0] == 0)) ? 0 : 1;
-        func_8080D8CC(this, phi_s0, phi_a3);
+        func_8080D8CC(this, phi_s0, ((this->n64ddFlag == this->n64ddFlags[phi_s0]) || (this->nameBoxAlpha[phi_s0] == 0)) ? 0 : 1);
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -865,7 +860,7 @@ void func_8080E074(FileChooseContext* thisx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
     gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[0x274], 20, 0);
     
-    for (phi_t3 = 0, phi_t2 = 0; phi_t3 < 2; phi_t3++, phi_t2 += 4) {
+    for (phi_t2 = 0, phi_t3 = 0; phi_t3 < 2; phi_t3++, phi_t2 += 4) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->actionBtnAlpha[phi_t3]);
@@ -875,14 +870,16 @@ void func_8080E074(FileChooseContext* thisx) {
     }
     gDPPipeSync(POLY_OPA_DISP++);
 
-    for (phi_t3 = 0, phi_t2 = 0; phi_t3 < 2; phi_t3++, phi_t2 += 4) {
-        phi_a3 = this->unk_1CAAE[phi_t3];
+    for (phi_t2 = 0, phi_t3 = 0; phi_t3 < 2; phi_t3++, phi_t2 += 4) {
+        phi_s5 = this->unk_1CAAE[phi_t3];
+        
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
-                        this->confirmButtonAlpha[phi_t3]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, D_808129D4[gSaveContext.language][phi_a3], G_IM_FMT_IA,
+                        this->confirmButtonAlpha[phi_s5]);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_808129D4[gSaveContext.language][phi_s5], G_IM_FMT_IA,
                             G_IM_SIZ_16b, 64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, phi_t2, phi_t2 + 2, phi_t2 + 3, phi_t2 + 1, 0);
     }
+    
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                     this->optionButtonAlpha);
@@ -903,6 +900,7 @@ void func_8080E074(FileChooseContext* thisx) {
         gSP1Quadrangle(POLY_OPA_DISP++, 12, 14, 15, 13, 0);
     }
     if (this->warningLabel >= 0) {
+        
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);

@@ -2434,9 +2434,9 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6366);
 
-    sp110.x = globalCtx->envCtx.unk_2A;
-    sp110.y = globalCtx->envCtx.unk_2B;
-    sp110.z = globalCtx->envCtx.unk_2C;
+    sp110.x = globalCtx->envCtx.unk_28.params.dir.x;
+    sp110.y = globalCtx->envCtx.unk_28.params.dir.y;
+    sp110.z = globalCtx->envCtx.unk_28.params.dir.z;
 
     Matrix_Push();
 

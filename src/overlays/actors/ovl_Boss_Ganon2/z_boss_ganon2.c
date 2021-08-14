@@ -2884,9 +2884,9 @@ void func_809060E8(GlobalContext* globalCtx) {
             f32 angle;
 
             func_80093D84(globalCtx->state.gfxCtx);
-            spA0.x = globalCtx->envCtx.unk_2A;
-            spA0.y = globalCtx->envCtx.unk_2B;
-            spA0.z = globalCtx->envCtx.unk_2C;
+            spA0.x = globalCtx->envCtx.unk_28.params.dir.x;
+            spA0.y = globalCtx->envCtx.unk_28.params.dir.y;
+            spA0.z = globalCtx->envCtx.unk_28.params.dir.z;
             func_8002EABC(&effect->position, &globalCtx->view.eye, &spA0, globalCtx->state.gfxCtx);
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);
