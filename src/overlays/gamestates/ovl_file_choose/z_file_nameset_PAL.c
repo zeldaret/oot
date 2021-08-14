@@ -17,7 +17,7 @@ s16 D_80812544[] = {
 };
 
 s32 D_808125C4[] = { 0x01033480, 0x01033480, 0x01033B80 };
-s32 D_808125D0[3][2] = { { 0x01015280, 0x01014200}, {0x01015280 ,  0x01014780}, {0x01015280, 0x01014D00 } };
+s32 D_808125D0[3][2] = { { 0x01015280, 0x01014200 }, { 0x01015280, 0x01014780 }, { 0x01015280, 0x01014D00 } };
 u16 D_808125E8[] = { 0x001C, 0x002C };
 s16 D_808125EC[] = { 0xFFE2, 0xFFF0, 0xFFFA, 0x0004, 0x000E, 0x0018, 0x0022, 0x002C, 0x0036, 0xFFF0, 0xFFF0, 0x0000 };
 s16 D_80812604[] = { 0x0048, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0000 };
@@ -136,9 +136,10 @@ void func_8080723C(FileChooseContext* thisx) {
     s16 phi_t1;
     u8 temp;
     s16 phi_v0;
-    
+
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 205);
-    if(1) {}if(1) {}
+    if (1) {}
+    if (1) {}
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -172,7 +173,7 @@ void func_8080723C(FileChooseContext* thisx) {
                 this->allocVtx4[phi_t1].v.ob[0] + 0xA;
         } else {
             this->allocVtx4[phi_t1].v.ob[0] = this->allocVtx4[phi_t1 + 2].v.ob[0] =
-                 D_808125EC[phi_s0] + this->nameEntryBoxPosX;
+                D_808125EC[phi_s0] + this->nameEntryBoxPosX;
             this->allocVtx4[phi_t1 + 1].v.ob[0] = this->allocVtx4[phi_t1 + 3].v.ob[0] =
                 this->allocVtx4[phi_t1].v.ob[0] + 0xA;
         }
@@ -192,7 +193,7 @@ void func_8080723C(FileChooseContext* thisx) {
 
         this->allocVtx4[phi_t1 + 1].v.tc[0] = this->allocVtx4[phi_t1 + 2].v.tc[1] =
             this->allocVtx4[phi_t1 + 3].v.tc[0] = this->allocVtx4[phi_t1 + 3].v.tc[1] = 0x200;
-        
+
         this->allocVtx4[phi_t1].v.cn[0] = this->allocVtx4[phi_t1 + 1].v.cn[0] = this->allocVtx4[phi_t1 + 2].v.cn[0] =
             this->allocVtx4[phi_t1 + 3].v.cn[0] = this->allocVtx4[phi_t1].v.cn[1] =
                 this->allocVtx4[phi_t1 + 1].v.cn[1] = this->allocVtx4[phi_t1 + 2].v.cn[1] =
@@ -205,7 +206,7 @@ void func_8080723C(FileChooseContext* thisx) {
     this->allocVtx4[1].v.ob[0] = this->allocVtx4[3].v.ob[0] = this->allocVtx4[0].v.ob[0] + 0x6C;
     this->allocVtx4[2].v.ob[1] = this->allocVtx4[3].v.ob[1] = this->allocVtx4[0].v.ob[1] - 0x10;
     this->allocVtx4[1].v.tc[0] = this->allocVtx4[3].v.tc[0] = 0xD80;
-    
+
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -882,7 +883,7 @@ void func_808099C8(FileChooseContext* thisx) {
 
     // check brightness bars
     gDPLoadTextureBlock_4b(POLY_OPA_DISP++, D_0101B380, G_IM_FMT_IA, 96, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 55, 55, 55, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 40, 40, 40, 255);
     gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
@@ -902,7 +903,7 @@ void func_808099C8(FileChooseContext* thisx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
     gDPLoadTextureBlock_4b(POLY_OPA_DISP++, D_0101B280, G_IM_FMT_IA, 256, 2, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.1f, 0.0f, MTXMODE_APPLY);

@@ -322,11 +322,13 @@ void FileChoose_SelectCopyDest(FileChooseContext* thisx) {
             if ((this->buttonIndex == this->selectedFileIndex)) {
                 this->buttonIndex--;
 
-                if (this->buttonIndex < BTN_COPY_FILE_1)
+                if (this->buttonIndex < BTN_COPY_FILE_1) {
                     this->buttonIndex = BTN_COPY_QUIT;
+                }
             } else {
-                if (this->buttonIndex < BTN_COPY_FILE_1)
+                if (this->buttonIndex < BTN_COPY_FILE_1) {
                     this->buttonIndex = BTN_COPY_QUIT;
+                }
             }
         } else {
             this->buttonIndex++;
