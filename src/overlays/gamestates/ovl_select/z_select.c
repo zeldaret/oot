@@ -418,7 +418,7 @@ static char* sLoadingMessages[] = {
     "\x8Dｲﾏ ﾂｸｯﾃﾏｽ",                       // "Now creating"
     "\x8Dｺｼｮｳｼﾞｬﾅｲﾖ",                      // "It's not broken"
     "\x8Cｺｰﾋｰ ﾌﾞﾚｲｸ",                      // "Coffee Break"
-    "\x8C\Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",                 // "Please set B side"
+    "\x8C" "Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",               // "Please set B side"
     "\x8Dｼﾞｯﾄ\x8Cｶﾞﾏﾝ\x8Dﾉ\x8Cｺ\x8Dﾃﾞｱｯﾀ", // "Be patient, now"
     "\x8Dｲﾏｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",                 // "Please wait just a minute"
     "\x8Dｱﾜﾃﾅｲｱﾜﾃﾅｲ｡ﾋﾄﾔｽﾐﾋﾄﾔｽﾐ｡",          // "Don't worry, don't worry. Take a break, take a break"

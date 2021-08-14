@@ -210,7 +210,7 @@ glabel func_80B4781C
 /* 03AA8 80B47AF8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03AAC 80B47AFC 260604F0 */  addiu   $a2, $s0, 0x04F0           ## $a2 = 000004F0
 /* 03AB0 80B47B00 3C074040 */  lui     $a3, 0x4040                ## $a3 = 40400000
-/* 03AB4 80B47B04 0C00CC98 */  jal     Actor_SpawnFloorDust
+/* 03AB4 80B47B04 0C00CC98 */  jal     Actor_SpawnFloorDustRing
 /* 03AB8 80B47B08 E7A60014 */  swc1    $f6, 0x0014($sp)
 /* 03ABC 80B47B0C 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 03AC0 80B47B10 44814000 */  mtc1    $at, $f8                   ## $f8 = 2.00
@@ -223,7 +223,7 @@ glabel func_80B4781C
 /* 03ADC 80B47B2C AFA00018 */  sw      $zero, 0x0018($sp)
 /* 03AE0 80B47B30 AFA0001C */  sw      $zero, 0x001C($sp)
 /* 03AE4 80B47B34 AFA00020 */  sw      $zero, 0x0020($sp)
-/* 03AE8 80B47B38 0C00CC98 */  jal     Actor_SpawnFloorDust
+/* 03AE8 80B47B38 0C00CC98 */  jal     Actor_SpawnFloorDustRing
 /* 03AEC 80B47B3C E7A80014 */  swc1    $f8, 0x0014($sp)
 /* 03AF0 80B47B40 C60A0090 */  lwc1    $f10, 0x0090($s0)          ## 00000090
 /* 03AF4 80B47B44 C7B00074 */  lwc1    $f16, 0x0074($sp)
