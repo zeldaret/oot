@@ -800,7 +800,7 @@ void func_8080E074(FileChooseContext* thisx) {
 
     gDPPipeSync(POLY_OPA_DISP++);
     phi_s5 = 4;
-    for (phi_s0 = 0; phi_s0 < 3; phi_s0++, phi_s5 += 0x14) {
+    for (phi_s0 = 0; phi_s0 < 3; phi_s0++, phi_s5 += 20) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->fileInfoAlpha[phi_s0]);
@@ -836,7 +836,7 @@ void func_8080E074(FileChooseContext* thisx) {
             gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101AD00, G_IM_FMT_IA, G_IM_SIZ_16b, 44, 16, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,  G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             gSP1Quadrangle(POLY_OPA_DISP++, 8, 10, 11, 9, 0);
-            if (1){}
+            // if (1){}
         }
         
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8081275C[phi_a3][0], D_8081275C[phi_a3][1], D_8081275C[phi_a3][2],
@@ -851,7 +851,8 @@ void func_8080E074(FileChooseContext* thisx) {
     }
 
     for (phi_s0 = 0; phi_s0 < 3; phi_s0++) {
-        func_8080D8CC(this, phi_s0, ((this->n64ddFlag == this->n64ddFlags[phi_s0]) || (this->nameBoxAlpha[phi_s0] == 0)) ? 0 : 1);
+        phi_a3 = ((this->n64ddFlag == this->n64ddFlags[phi_s0]) || (this->nameBoxAlpha[phi_s0] == 0)) ? 0 : 1;
+        func_8080D8CC(this, phi_s0, phi_a3);
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
