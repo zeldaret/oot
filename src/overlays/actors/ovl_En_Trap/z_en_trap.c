@@ -308,7 +308,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                         }
                         break;
                 }
-                if (!func_800339B8(thisx, globalCtx, 50.0f, this->vClosestDirection)) {
+                if (!Actor_TestFloorInDirection(thisx, globalCtx, 50.0f, this->vClosestDirection)) {
                     this->vMovementMetric = 0.0f;
                 }
                 // if in initial position:
