@@ -327,8 +327,7 @@ typedef struct {
     /* 0x13C */ void* roomVtx;
     /* 0x140 */ s16  unk_140;
     /* 0x144 */ Vec3f rot;
-    /* 0x14A */ Vec3f eye;
-    /* 0x15C */ s16 angle;
+    /* 0x14A */ char unk_14A[0x14];
 } SkyboxContext; // size = 0x15E
 
 typedef enum {
