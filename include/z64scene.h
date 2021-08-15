@@ -259,7 +259,7 @@ typedef struct {
 } MeshHeader2;
 
 typedef struct {
-    /* 0x00 */ Color_RGB8 ambientColor;
+    /* 0x00 */ u8 ambientColor[3];
     /* 0x03 */ s8 diffuseDir1[3];
     /* 0x06 */ u8 diffuseColor1[3];
     /* 0x09 */ s8 diffuseDir2[3];
