@@ -51,6 +51,34 @@ typedef struct {
     /* 0x0E */ s16 dist; // Plane distance from origin along the normal
 } CollisionPoly; // size = 0x10
 
+/**
+ * BgCamData Summary:
+ * 
+ * setting - camera seting described by CameraSettingType Enum
+ * dataCount - The total count of Vec3s data in the collision
+ * data - data stored in Vec3s with various purposes summarized below:
+ * 
+ * dataCount = 0:
+ *      data unused
+ * 
+ * dataCount = 3:
+ *      data[0]   // Position
+ *      data[1]   // Rotation
+ *      data[2].x // Field of View
+ *      data[2].y // Jfif Id
+ *      data[2].z // unused
+ * 
+ * dataCount = 6: Crawlspaces only (CAM_SET_RAIL3)
+ *      data[1] // Front entrance coordinates to crawlspace
+ *      data[4] // Back entrance coordinates to crawlspace
+ *      data[0], data[2], data[3], data[5] // Unused coordinates along crawlspace line
+ * 
+ * dataCount = 9: Testroom scene & crawlspace only
+ *      data[1] // Front entrance coordinates to crawlspace
+ *      data[7] // Back entrance coordinates to crawlspace
+ *      data[0], data[2] to data[6], data[8], // Unused coordinates along crawlspace line
+ * 
+ */
 typedef struct {
     /* 0x00 */ u16 setting;
     /* 0x02 */ s16 dataCount;
