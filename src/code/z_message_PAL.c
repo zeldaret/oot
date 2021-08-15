@@ -1923,8 +1923,43 @@ void Message_SetView(View* view) {
 }
 
 // Message_DrawMain ?
-#ifdef NON_MATCHING
-// regalloc, stack, some instruction reorderings towards the end
+/* #ifdef NON_MATCHING
+// regalloc differences, stack
+
+#else
+void func_8010C39C(GlobalContext* globalCtx, Gfx** p);
+s16 D_80153C68[] = {
+    0x0040, 0x0200, 0x0400, 0x0800, 0x1000, 0x0000, 0x0199, 0x0198,
+};
+s16 D_80153C78[] = { 0x018A, 0x017E, 0x018A, 0x018B, 0x01CB, 0x0000, 0x0000,
+                     0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 0x0000, 0x0000 };
+// texture segment addrs
+u64* D_80153C94[] = {
+    0x02002940, 0x02002A40, 0x02002B40, 0x02002C40, 0x02002D40,
+};
+Vec3s D_80153CA8[] = {
+    { 0x0050, 0x00FF, 0x0096 },
+    { 0x0064, 0x00FF, 0x00C8 },
+};
+Vec3s D_80153CB4[] = {
+    { 0x000A, 0x000A, 0x000A },
+    { 0x0032, 0x00FF, 0x0032 },
+};
+Vec3s D_80153CC0[] = {
+    { 0x00FF, 0x00FF, 0x0032 },
+    { 0x00FF, 0x00FF, 0x00B4 },
+};
+Vec3s D_80153CCC[] = {
+    { 0x000A, 0x000A, 0x000A },
+    { 0x006E, 0x006E, 0x0032 },
+};
+s16 D_80153CD8 = 0x000C;
+s16 D_80153CDC = 0x0001;
+s16 D_80153CE0[] = {
+    0x0034, 0x0033, 0x0035, 0x0036, 0x0037, 0x0025, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049,
+};
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010C39C.s")
+#endif */
 void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
     static s16 D_80153C68[] = {
         0x0040, 0x0200, 0x0400, 0x0800, 0x1000, 0x0000,
@@ -1982,6 +2017,7 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
     s16 b3;
     s16 b4;
     s16 temp;
+    u8 temp2;
 
     gSPSegment(gfx++, 0x02, globalCtx->interfaceCtx.parameterSegment);
     msgCtx = &globalCtx->msgCtx; // s1
@@ -2812,7 +2848,8 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
 
         if (msgCtx->msgMode == MSGMODE_UNK_1B) {
             temp = msgCtx->unk_E3F0 - 0xF;
-            for (phi_a3 = 0, phi_a1 = VREG(28); phi_a3 < gOcarinaSongNotes[temp].len; phi_a3++, phi_a1 += VREG(29)) {
+            temp2 = gOcarinaSongNotes[temp].len;
+            for (phi_a3 = 0, phi_a1 = VREG(28); phi_a3 < temp2; phi_a3++, phi_a1 += VREG(29)) {
                 gDPPipeSync(gfx++);
                 gDPSetPrimColor(gfx++, 0, 0, 150, 150, 150, 150);
                 gDPSetEnvColor(gfx++, 10, 10, 10, 0);
@@ -2863,40 +2900,6 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p) {
 end:
     *p = gfx;
 }
-#else
-void func_8010C39C(GlobalContext* globalCtx, Gfx** p);
-s16 D_80153C68[] = {
-    0x0040, 0x0200, 0x0400, 0x0800, 0x1000, 0x0000, 0x0199, 0x0198,
-};
-s16 D_80153C78[] = { 0x018A, 0x017E, 0x018A, 0x018B, 0x01CB, 0x0000, 0x0000,
-                     0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 0x0000, 0x0000 };
-// texture segment addrs
-u64* D_80153C94[] = {
-    0x02002940, 0x02002A40, 0x02002B40, 0x02002C40, 0x02002D40,
-};
-Vec3s D_80153CA8[] = {
-    { 0x0050, 0x00FF, 0x0096 },
-    { 0x0064, 0x00FF, 0x00C8 },
-};
-Vec3s D_80153CB4[] = {
-    { 0x000A, 0x000A, 0x000A },
-    { 0x0032, 0x00FF, 0x0032 },
-};
-Vec3s D_80153CC0[] = {
-    { 0x00FF, 0x00FF, 0x0032 },
-    { 0x00FF, 0x00FF, 0x00B4 },
-};
-Vec3s D_80153CCC[] = {
-    { 0x000A, 0x000A, 0x000A },
-    { 0x006E, 0x006E, 0x0032 },
-};
-s16 D_80153CD8 = 0x000C;
-s16 D_80153CDC = 0x0001;
-s16 D_80153CE0[] = {
-    0x0034, 0x0033, 0x0035, 0x0036, 0x0037, 0x0025, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049,
-};
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010C39C.s")
-#endif
 
 // Message_DrawSetup ?
 void func_8010F2CC(s16* arg0, GraphicsContext* gfxCtx) {
