@@ -262,8 +262,8 @@ typedef struct {
     /* 0x00 */ Color_RGB8 ambientColor;
     /* 0x03 */ s8 diffuseDir1[3];
     /* 0x06 */ Color_RGB8 diffuseColor1;
-    /* 0x09 */ s8 diffusePos2[3];
-    /* 0x0C */ Color_RGB8 diffuseColor;
+    /* 0x09 */ s8 diffuseDir2[3];
+    /* 0x0C */ Color_RGB8 diffuseColor2;
     /* 0x0F */ Color_RGB8 fogColor;
     /* 0x12 */ u16 fogNear;
     /* 0x14 */ u16 fogFar;
