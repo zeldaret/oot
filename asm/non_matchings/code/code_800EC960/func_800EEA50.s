@@ -608,7 +608,7 @@ glabel func_800EEA50
 /* B65CFC 800EEB5C 8FA400B0 */   lw    $a0, 0xb0($sp)
 /* B65D00 800EEB60 3C058013 */  lui   $a1, %hi(D_80133414) # $a1, 0x8013
 /* B65D04 800EEB64 90A53414 */  lbu   $a1, %lo(D_80133414)($a1)
-/* B65D08 800EEB68 3C048013 */  lui   $a0, %hi(gAudioSessionPresets)
+/* B65D08 800EEB68 3C048013 */  lui   $a0, %hi(gAudioSessionPresets+0x5)
 /* B65D0C 800EEB6C 3C188017 */  lui   $t8, %hi(D_8016B9E0) # $t8, 0x8017
 /* B65D10 800EEB70 0005C8C0 */  sll   $t9, $a1, 3
 /* B65D14 800EEB74 0325C823 */  subu  $t9, $t9, $a1
@@ -693,8 +693,8 @@ glabel func_800EEA50
 /* B65E3C 800EEC9C 0C03EF2D */  jal   GfxPrint_Printf
 /* B65E40 800EECA0 8FA400B0 */   lw    $a0, 0xb0($sp)
 /* B65E44 800EECA4 92840001 */  lbu   $a0, 1($s4)
-/* B65E48 800EECA8 3C1E8013 */  lui   $fp, %hi(D_80131ED4) # $fp, 0x8013
-/* B65E4C 800EECAC 83DE1ED4 */  lb    $fp, %lo(D_80131ED4)($fp)
+/* B65E48 800EECA8 3C1E8013 */  lui   $fp, %hi(sAudioScreenPrintInd) # $fp, 0x8013
+/* B65E4C 800EECAC 83DE1ED4 */  lb    $fp, %lo(sAudioScreenPrintInd)($fp)
 /* B65E50 800EECB0 24840001 */  addiu $a0, $a0, 1
 /* B65E54 800EECB4 18800074 */  blez  $a0, .L800EEE88
 /* B65E58 800EECB8 00009025 */   move  $s2, $zero
@@ -703,9 +703,9 @@ glabel func_800EEA50
 /* B65E64 800EECC4 241100B4 */  li    $s1, 180
 .L800EECC8:
 /* B65E68 800EECC8 17C0000B */  bnez  $fp, .L800EECF8
-/* B65E6C 800EECCC 3C0C8017 */   lui   $t4, %hi(D_8016B7E8) # $t4, 0x8017
-/* B65E70 800EECD0 3C0A8013 */  lui   $t2, %hi(D_80131ED8) # $t2, 0x8013
-/* B65E74 800EECD4 914A1ED8 */  lbu   $t2, %lo(D_80131ED8)($t2)
+/* B65E6C 800EECCC 3C0C8017 */   lui   $t4, %hi(sAudioScreenPrintBuf) # $t4, 0x8017
+/* B65E70 800EECD0 3C0A8013 */  lui   $t2, %hi(sAudioScreenPrintOverflow) # $t2, 0x8013
+/* B65E74 800EECD4 914A1ED8 */  lbu   $t2, %lo(sAudioScreenPrintOverflow)($t2)
 /* B65E78 800EECD8 24010001 */  li    $at, 1
 /* B65E7C 800EECDC 55410004 */  bnel  $t2, $at, .L800EECF0
 /* B65E80 800EECE0 00049600 */   sll   $s2, $a0, 0x18
@@ -724,7 +724,7 @@ glabel func_800EEA50
 /* B65EA8 800EED08 001E58C0 */   sll   $t3, $fp, 3
 /* B65EAC 800EED0C 03D7001A */  div   $zero, $fp, $s7
 /* B65EB0 800EED10 00006810 */  mfhi  $t5
-/* B65EB4 800EED14 258CB7E8 */  addiu $t4, %lo(D_8016B7E8) # addiu $t4, $t4, -0x4818
+/* B65EB4 800EED14 258CB7E8 */  addiu $t4, %lo(sAudioScreenPrintBuf) # addiu $t4, $t4, -0x4818
 /* B65EB8 800EED18 016C8021 */  addu  $s0, $t3, $t4
 /* B65EBC 800EED1C 16E00002 */  bnez  $s7, .L800EED28
 /* B65EC0 800EED20 00000000 */   nop   
@@ -1653,8 +1653,8 @@ glabel L800EF978
 /* B66C9C 800EFAFC 0C03ED07 */  jal   GfxPrint_SetPos
 /* B66CA0 800EFB00 24060008 */   li    $a2, 8
 /* B66CA4 800EFB04 3C058015 */  lui   $a1, %hi(D_80149F88) # $a1, 0x8015
-/* B66CA8 800EFB08 3C068013 */  lui   $a2, %hi(D_80131E43) # $a2, 0x8013
-/* B66CAC 800EFB0C 24C61E43 */  addiu $a2, %lo(D_80131E43) # addiu $a2, $a2, 0x1e43
+/* B66CA8 800EFB08 3C068013 */  lui   $a2, %hi(D_80131E38 + 0xB) # $a2, 0x8013
+/* B66CAC 800EFB0C 24C61E43 */  addiu $a2, %lo(D_80131E38 + 0xB) # addiu $a2, $a2, 0x1e43
 /* B66CB0 800EFB10 24A59F88 */  addiu $a1, %lo(D_80149F88) # addiu $a1, $a1, -0x6078
 /* B66CB4 800EFB14 8FA400B0 */  lw    $a0, 0xb0($sp)
 /* B66CB8 800EFB18 0C03EF2D */  jal   GfxPrint_Printf
@@ -1673,8 +1673,8 @@ glabel L800EF978
 /* B66CEC 800EFB4C 0C03ED07 */  jal   GfxPrint_SetPos
 /* B66CF0 800EFB50 2406000A */   li    $a2, 10
 /* B66CF4 800EFB54 3C058015 */  lui   $a1, %hi(D_80149FA4) # $a1, 0x8015
-/* B66CF8 800EFB58 3C068013 */  lui   $a2, %hi(D_80131E59) # $a2, 0x8013
-/* B66CFC 800EFB5C 24C61E59 */  addiu $a2, %lo(D_80131E59) # addiu $a2, $a2, 0x1e59
+/* B66CF8 800EFB58 3C068013 */  lui   $a2, %hi(D_80131E38 + 0x21) # $a2, 0x8013
+/* B66CFC 800EFB5C 24C61E59 */  addiu $a2, %lo(D_80131E38 + 0x21) # addiu $a2, $a2, 0x1e59
 /* B66D00 800EFB60 24A59FA4 */  addiu $a1, %lo(D_80149FA4) # addiu $a1, $a1, -0x605c
 /* B66D04 800EFB64 8FA400B0 */  lw    $a0, 0xb0($sp)
 /* B66D08 800EFB68 0C03EF2D */  jal   GfxPrint_Printf
@@ -1684,8 +1684,8 @@ glabel L800EF978
 /* B66D18 800EFB78 0C03ED07 */  jal   GfxPrint_SetPos
 /* B66D1C 800EFB7C 2406000B */   li    $a2, 11
 /* B66D20 800EFB80 3C058015 */  lui   $a1, %hi(D_80149FB0) # $a1, 0x8015
-/* B66D24 800EFB84 3C068013 */  lui   $a2, %hi(D_80131E64) # $a2, 0x8013
-/* B66D28 800EFB88 24C61E64 */  addiu $a2, %lo(D_80131E64) # addiu $a2, $a2, 0x1e64
+/* B66D24 800EFB84 3C068013 */  lui   $a2, %hi(D_80131E38 + 0x2c) # $a2, 0x8013
+/* B66D28 800EFB88 24C61E64 */  addiu $a2, %lo(D_80131E38 + 0x2c) # addiu $a2, $a2, 0x1e64
 /* B66D2C 800EFB8C 24A59FB0 */  addiu $a1, %lo(D_80149FB0) # addiu $a1, $a1, -0x6050
 /* B66D30 800EFB90 8FA400B0 */  lw    $a0, 0xb0($sp)
 /* B66D34 800EFB94 0C03EF2D */  jal   GfxPrint_Printf
@@ -1695,8 +1695,8 @@ glabel L800EF978
 /* B66D44 800EFBA4 0C03ED07 */  jal   GfxPrint_SetPos
 /* B66D48 800EFBA8 2406000C */   li    $a2, 12
 /* B66D4C 800EFBAC 3C058015 */  lui   $a1, %hi(D_80149FBC) # $a1, 0x8015
-/* B66D50 800EFBB0 3C068013 */  lui   $a2, %hi(D_80131E6F) # $a2, 0x8013
-/* B66D54 800EFBB4 24C61E6F */  addiu $a2, %lo(D_80131E6F) # addiu $a2, $a2, 0x1e6f
+/* B66D50 800EFBB0 3C068013 */  lui   $a2, %hi(D_80131E38 + 0x37) # $a2, 0x8013
+/* B66D54 800EFBB4 24C61E6F */  addiu $a2, %lo(D_80131E38 + 0x37) # addiu $a2, $a2, 0x1e6f
 /* B66D58 800EFBB8 24A59FBC */  addiu $a1, %lo(D_80149FBC) # addiu $a1, $a1, -0x6044
 /* B66D5C 800EFBBC 8FA400B0 */  lw    $a0, 0xb0($sp)
 /* B66D60 800EFBC0 0C03EF2D */  jal   GfxPrint_Printf
@@ -1706,8 +1706,8 @@ glabel L800EF978
 /* B66D70 800EFBD0 0C03ED07 */  jal   GfxPrint_SetPos
 /* B66D74 800EFBD4 2406000D */   li    $a2, 13
 /* B66D78 800EFBD8 3C058015 */  lui   $a1, %hi(D_80149FC4) # $a1, 0x8015
-/* B66D7C 800EFBDC 3C068013 */  lui   $a2, %hi(D_80131E7A) # $a2, 0x8013
-/* B66D80 800EFBE0 24C61E7A */  addiu $a2, %lo(D_80131E7A) # addiu $a2, $a2, 0x1e7a
+/* B66D7C 800EFBDC 3C068013 */  lui   $a2, %hi(D_80131E38 + 0x42) # $a2, 0x8013
+/* B66D80 800EFBE0 24C61E7A */  addiu $a2, %lo(D_80131E38 + 0x42) # addiu $a2, $a2, 0x1e7a
 /* B66D84 800EFBE4 24A59FC4 */  addiu $a1, %lo(D_80149FC4) # addiu $a1, $a1, -0x603c
 /* B66D88 800EFBE8 8FA400B0 */  lw    $a0, 0xb0($sp)
 /* B66D8C 800EFBEC 0C03EF2D */  jal   GfxPrint_Printf

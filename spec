@@ -1396,9 +1396,11 @@ endseg
 beginseg
     name "ovl_Boss_Ganon2"
     include "build/src/overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.o"
-    include "build/data/overlays/actors/z_boss_ganon2.data.o"
-    include "build/data/overlays/actors/z_boss_ganon2.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Boss_Ganon2/ovl_Boss_Ganon2_reloc.o"
+#else
     include "build/data/overlays/actors/z_boss_ganon2.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1416,9 +1418,7 @@ endseg
 beginseg
     name "ovl_Boss_Mo"
     include "build/src/overlays/actors/ovl_Boss_Mo/z_boss_mo.o"
-    include "build/data/overlays/actors/z_boss_mo.data.o"
-    include "build/data/overlays/actors/z_boss_mo.bss.o"
-    include "build/data/overlays/actors/z_boss_mo.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Mo/ovl_Boss_Mo_reloc.o"
 endseg
 
 beginseg
@@ -1440,9 +1440,7 @@ endseg
 beginseg
     name "ovl_Boss_Va"
     include "build/src/overlays/actors/ovl_Boss_Va/z_boss_va.o"
-    include "build/data/overlays/actors/z_boss_va.data.o"
-    include "build/data/overlays/actors/z_boss_va.bss.o"
-    include "build/data/overlays/actors/z_boss_va.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Va/ovl_Boss_Va_reloc.o"
 endseg
 
 beginseg
@@ -2372,11 +2370,7 @@ endseg
 beginseg
     name "ovl_En_Holl"
     include "build/src/overlays/actors/ovl_En_Holl/z_en_holl.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Holl/ovl_En_Holl_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_holl.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3290,8 +3284,7 @@ endseg
 beginseg
     name "ovl_Obj_Lift"
     include "build/src/overlays/actors/ovl_Obj_Lift/z_obj_lift.o"
-    include "build/data/overlays/actors/z_obj_lift.data.o"
-    include "build/data/overlays/actors/z_obj_lift.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Lift/ovl_Obj_Lift_reloc.o"
 endseg
 
 beginseg
@@ -3452,6 +3445,7 @@ beginseg
     name "object_link_boy"
     romalign 0x1000
     include "build/baserom/object_link_boy.o"
+    number 6
 endseg
 
 beginseg
@@ -4038,7 +4032,8 @@ endseg
 beginseg
     name "object_toki_objects"
     romalign 0x1000
-    include "build/baserom/object_toki_objects.o"
+    include "build/assets/objects/object_toki_objects/object_toki_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -4275,7 +4270,8 @@ endseg
 beginseg
     name "object_bv"
     romalign 0x1000
-    include "build/baserom/object_bv.o"
+    include "build/assets/objects/object_bv/object_bv.o"
+    number 6
 endseg
 
 beginseg
@@ -4554,7 +4550,8 @@ endseg
 beginseg
     name "object_mo"
     romalign 0x1000
-    include "build/baserom/object_mo.o"
+    include "build/assets/objects/object_mo/object_mo.o"
+    number 6
 endseg
 
 beginseg
@@ -4770,7 +4767,8 @@ endseg
 beginseg
     name "object_tw"
     romalign 0x1000
-    include "build/baserom/object_tw.o"
+    include "build/assets/objects/object_tw/object_tw.o"
+    number 6
 endseg
 
 beginseg
@@ -5058,7 +5056,8 @@ endseg
 beginseg
     name "object_kz"
     romalign 0x1000
-    include "build/baserom/object_kz.o"
+    include "build/assets/objects/object_kz/object_kz.o"
+    number 6
 endseg
 
 beginseg
@@ -5106,7 +5105,7 @@ endseg
 beginseg
     name "object_ik"
     romalign 0x1000
-    include "build/baserom/object_ik.o"
+    include "build/assets/objects/object_ik/object_ik.o"
     number 6
 endseg
 
@@ -5799,7 +5798,8 @@ endseg
 beginseg
     name "object_dog"
     romalign 0x1000
-    include "build/baserom/object_dog.o"
+    include "build/assets/objects/object_dog/object_dog.o"
+    number 6
 endseg
 
 beginseg
@@ -5819,7 +5819,8 @@ endseg
 beginseg
     name "object_spot01_objects2"
     romalign 0x1000
-    include "build/baserom/object_spot01_objects2.o"
+    include "build/assets/objects/object_spot01_objects2/object_spot01_objects2.o"
+    number 6
 endseg
 
 beginseg

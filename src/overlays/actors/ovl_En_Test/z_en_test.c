@@ -597,7 +597,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
         }
 
         if ((this->actor.params == STALFOS_TYPE_CEILING) &&
-            !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.world.rot.y)) {
+            !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ, this->actor.world.rot.y)) {
             this->actor.speedXZ *= -1.0f;
         }
 
@@ -826,7 +826,7 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
 
         if ((this->actor.bgCheckFlags & 8) ||
             ((this->actor.params == STALFOS_TYPE_CEILING) &&
-             !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.world.rot.y))) {
+             !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ, this->actor.world.rot.y))) {
             if (this->actor.bgCheckFlags & 8) {
                 if (this->actor.speedXZ >= 0.0f) {
                     newYaw = this->actor.shape.rot.y + 0x3FFF;
@@ -1398,7 +1398,7 @@ void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
 
     if ((this->actor.bgCheckFlags & 8) ||
         ((this->actor.params == STALFOS_TYPE_CEILING) &&
-         !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3FFF))) {
+         !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3FFF))) {
         if (this->actor.bgCheckFlags & 8) {
             if (this->actor.speedXZ >= 0.0f) {
                 newYaw = (this->actor.shape.rot.y + 0x3FFF);
@@ -1905,7 +1905,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
             if ((this->unk_7C8 == 0x15) || (this->unk_7C8 == 0x16)) {
                 if (this->actor.speedXZ != 0.0f) {
                     Matrix_MultVec3f(&D_80864658, &sp64);
-                    Actor_SpawnFloorDust(globalCtx, &this->actor, &sp64, 10.0f, 1, 8.0f, 0x64, 0xF, 0);
+                    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &sp64, 10.0f, 1, 8.0f, 0x64, 0xF, 0);
                 }
             }
         }

@@ -895,16 +895,13 @@ typedef struct {
     /* 0x1D50 */ AudioSyncLoad syncLoads[2];
     /* 0x1E18 */ OSPiHandle* cartHandle;
     /* probably an unused PI handle for n64 disk drive */
-    /* 0x1E1C */ OSPiHandle* unk_1E1C;  
+    /* 0x1E1C */ OSPiHandle* unk_1E1C;
     /* 0x1E20 */ OSMesgQueue unk_1E20;
-    /* 0x1E38 */ OSMesg unk_1E38;
-    /* 0x1E38 */ char unk_1E3C[0x3C];
+    /* 0x1E38 */ OSMesg unk_1E38[0x10];
     /* 0x1E78 */ OSMesgQueue unk_1E78;
-    /* 0x1E90 */ OSMesg unk_1E90;
-    /* 0x1E94 */ char unk_1E94[0x3C];
+    /* 0x1E90 */ OSMesg unk_1E90[0x10];
     /* 0x1ED0 */ OSMesgQueue unk_1ED0;
-    /* 0x1EE8 */ OSMesg unk_1EE8;
-    /* 0x1EEC */ char unk_1EEC[0xFC];
+    /* 0x1EE8 */ OSMesg unk_1EE8[0x40];
     /* 0x1FE8 */ OSIoMesg sampIoReq[1]; // unknown size
     /* 0x2000 */ char unk_2000[0x5E8];
     /* 0x25E8 */ OSMesgQueue unk_25E8;
@@ -943,8 +940,8 @@ typedef struct {
     /* 0x28A0 */ s32 sampleIoReqIdx;
     /* 0x28A4 */ s32 rspTaskIdx;
     /* 0x28A8 */ s32 curAIBufIdx;
-    /* 0x28AC */ u64* abiCmdBufs[2];
-    /* 0x28B4 */ u64* curAbiCmdBuf;
+    /* 0x28AC */ Acmd* abiCmdBufs[2];
+    /* 0x28B4 */ Acmd* curAbiCmdBuf;
     /* 0x28B8 */ AudioTask* currTask;
     /* 0x28BC */ char unk_28BC[0x4];
     /* 0x28C0 */ AudioTask rspTask[2];
@@ -977,7 +974,7 @@ typedef struct {
     /* 0x342C */ AudioPoolSplit3 temporaryCommonPoolSplit;
     /* 0x3438 */ u8 audioTableLoadStatus[0x30];
     /* 0x3468 */ u8 bankLoadStatus[0x30];
-    /* 0x3498 */ u8 seqLoadstatus[0x80];
+    /* 0x3498 */ u8 seqLoadStatus[0x80];
     /* 0x3518 */ volatile u8 resetStatus;
     /* 0x3519 */ u8 audioResetPresetIdToLoad;
     /* 0x351C */ s32 audioResetFadeOutFramesLeft;
@@ -990,7 +987,7 @@ typedef struct {
     /* 0x5AB0 */ SequenceChannel sequenceChannelNone;
     /* 0x5B84 */ s32 noteSubEuOffset;
     /* 0x5B88 */ AudioListItem layerFreeList;
-    /* 0x5B98 */ NotePool noteFreeLists; 
+    /* 0x5B98 */ NotePool noteFreeLists;
     /* 0x5BD8 */ u8 cmdWrPos;
     /* 0x5BD9 */ u8 cmdRdPos;
     /* 0x5BDA */ u8 cmdQueueFinished;
@@ -1056,7 +1053,7 @@ typedef struct {
     /* 0x002C */ u32 unk_2C[8];
     /* 0x004C */ u8 unk_4C;
     /* 0x004D */ u8 unk_4D;
-    /* 0x004E */ u8 unk_4E; 
+    /* 0x004E */ u8 unk_4E;
     /* 0x004F */ char unk_4F;
     /* 0x0050 */ unk_50_s unk_50[0x10];
     /* 0x0250 */ u16 unk_250;
@@ -1090,7 +1087,7 @@ typedef struct {
     /* 0x18 */ s8*      unk_18;
     /* 0x1C */ f32      unk_1C;
     /* 0x20 */ u32      unk_20;
-    /* 0x24 */ u8       unk_24; 
+    /* 0x24 */ u8       unk_24;
     /* 0x26 */ u16      unk_26;
     /* 0x28 */ u16      unk_28;     // "flag"
     /* 0x2A */ u8       unk_2A;
@@ -1103,7 +1100,7 @@ typedef struct {
 
 /*
  * SFX IDs
- * 
+ *
  * index    0000000111111111    observed in audio code
  * & 200    0000001000000000    single bit
  * & 400    0000010000000000    single bit
@@ -1113,10 +1110,9 @@ typedef struct {
  * & C00    0000110000000000    2 bits, observed in audio code
  * & E00    0000111000000000    all 3 bits
  * bank     1111000000000000    observed in audio code
- * 
  */
 
-#define SFX_BANK_SHIFT(sfxId)   (((sfxId) >> 0xC) & 0xFF)
+#define SFX_BANK_SHIFT(sfxId)   (((sfxId) >> 12) & 0xFF)
 
 #define SFX_BANK_MASK(sfxId)    ((sfxId) & 0xF000)
 

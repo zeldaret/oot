@@ -295,7 +295,7 @@ typedef enum {
     /* 0x03 */ SKYBOX_OVERCAST_SUNSET,
     /* 0x04 */ SKYBOX_MARKET_ADULT,
     /* 0x05 */ SKYBOX_CUTSCENE_MAP,
-    /* 0x06 */ SKYBOX_HOUSE_LINK,
+    /* 0x07 */ SKYBOX_HOUSE_LINK = 7,
     /* 0x09 */ SKYBOX_MARKET_CHILD_DAY = 9,
     /* 0x0A */ SKYBOX_MARKET_CHILD_NIGHT,
     /* 0x0B */ SKYBOX_HAPPY_MASK_SHOP,
@@ -794,7 +794,8 @@ typedef struct {
     /* 0xE6 */ u8       unk_E6;
     /* 0xE7 */ u8       unk_E7;
     /* 0xE8 */ u8       unk_E8;
-    /* 0xE9 */ char     unk_E9[0x05];
+    /* 0xE9 */ u8       unk_E9;
+    /* 0xEA */ u8       unk_EA[4];
     /* 0xEE */ u8       unk_EE[4];
     /* 0xF2 */ u8       unk_F2[4];
     /* 0xF6 */ char     unk_F6[0x06];
