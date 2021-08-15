@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_menkuri_nisekabe.h"
+#include "objects/object_menkuri_objects/object_menkuri_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -27,7 +28,7 @@ const ActorInit Bg_Menkuri_Nisekabe_InitVars = {
     (ActorFunc)BgMenkuriNisekabe_Draw,
 };
 
-static u32 segmentAddr[] = { 0x06002280, 0x06002BC0 };
+static Gfx* sDLists[] = { gGTGFakeWallDL, gGTGFakeCeilingDL };
 
 void BgMenkuriNisekabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriNisekabe* this = THIS;
@@ -53,8 +54,8 @@ void BgMenkuriNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 index = this->actor.params & 0xFF;
 
     if ((this->actor.flags & 0x80) == 0x80) {
-        Gfx_DrawDListXlu(globalCtx, segmentAddr[index]);
+        Gfx_DrawDListXlu(globalCtx, sDLists[index]);
     } else {
-        Gfx_DrawDListOpa(globalCtx, segmentAddr[index]);
+        Gfx_DrawDListOpa(globalCtx, sDLists[index]);
     }
 }

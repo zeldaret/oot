@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_haka.h"
+#include "objects/object_haka/object_haka.h"
 
 #define FLAGS 0x00000000
 
@@ -38,10 +39,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06000428;
-extern Gfx D_060001B0[];
-extern Gfx D_060002A8[];
-
 void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHaka* this = THIS;
     s32 pad;
@@ -49,7 +46,7 @@ void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06000428, &colHeader);
+    CollisionHeader_GetVirtual(&gGravestoneCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8087B7E8;
 }
@@ -159,11 +156,11 @@ void BgHaka_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 406),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_060001B0);
+    gSPDisplayList(POLY_OPA_DISP++, gGravestoneStoneDL);
     Matrix_Translate(0.0f, 0.0f, thisx->minVelocityY * 10.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka.c", 416),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_060002A8);
+    gSPDisplayList(POLY_XLU_DISP++, gGravestoneEarthDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka.c", 421);
 }
