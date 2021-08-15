@@ -37,7 +37,6 @@ extern void* D_808129B0[3][3];
 extern void* D_808129D4[3][4];
 extern void* D_80812A04[];
 
-extern u8 D_80000002; // this is code in the very beginning of ram???
 extern s16 D_80812814[];
 extern Gfx D_01046F00[];
 extern Gfx D_01047118[];
