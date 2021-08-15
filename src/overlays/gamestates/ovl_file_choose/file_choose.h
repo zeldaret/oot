@@ -5,6 +5,7 @@
 #ifndef _FILE_CHOOSE_H_
 #define _FILE_CHOOSE_H_
 
+#define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[index])])
 #define NEWF_GET_Z(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[0])])
 #define NEWF_GET_E(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[1])])
 #define NEWF_GET_L(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[2])])
@@ -13,12 +14,12 @@
 #define NEWF_GET_Z2(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[5])])
 
 #define SLOT_OCCUPIED(sramCtx, slotNum) \
-    ((NEWF_GET_Z(sramCtx, slotNum) == 'Z') || \
-     (NEWF_GET_E(sramCtx, slotNum) == 'E') || \
-     (NEWF_GET_L(sramCtx, slotNum) == 'L') || \
-     (NEWF_GET_D(sramCtx, slotNum) == 'D') || \
-     (NEWF_GET_A(sramCtx, slotNum) == 'A') || \
-     (NEWF_GET_Z2(sramCtx, slotNum) == 'Z'))
+    ((GET_NEWF(sramCtx, slotNum, 0) == 'Z') || \
+     (GET_NEWF(sramCtx, slotNum, 1) == 'E') || \
+     (GET_NEWF(sramCtx, slotNum, 2) == 'L') || \
+     (GET_NEWF(sramCtx, slotNum, 3) == 'D') || \
+     (GET_NEWF(sramCtx, slotNum, 4) == 'A') || \
+     (GET_NEWF(sramCtx, slotNum, 5) == 'Z'))
 
 typedef enum {
     /* 0 */ MENU_MODE_INIT,

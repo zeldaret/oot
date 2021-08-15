@@ -2,40 +2,6 @@
 
 void func_80808000(FileChooseContext* this);
 void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
-extern s16 gScreenFillAlpha;
-extern void (*gFileSelectDrawFuncs[])(FileChooseContext*);
-extern void (*gFileSelectUpdateFuncs[])(FileChooseContext*);
-extern void (*gConfigModeUpdateFuncs[])(FileChooseContext*);
-extern void (*gSelectModeUpdateFuncs[])(FileChooseContext*);
-extern Gfx* gControlsTexture[];
-extern Gfx D_80812728[];
-extern u8 gEmptyName[];
-extern s16 gSelectFileYOffsets[];
-extern s16 D_80812750[];
-extern s16 D_80812818[];
-extern s16 D_80812820[];
-extern s16 D_80812828[];
-extern s16 D_80812830[];
-extern s16 D_8081283C[];
-extern s16 D_80812844[];
-extern s16 D_80812848[];
-extern u16 D_8081284C[];
-extern void* D_80812854[];
-extern s16 D_80812878[];
-extern s16 D_8081288C[];
-extern s16 D_808128A0[];
-extern s16 D_808128B4[];
-extern s16 D_808128C8[2][3];
-extern void* D_808128D4[];
-extern s16 D_808128DC[2][3];
-extern s16 D_808128E8[2][3];
-extern s16 D_8081275C[2][3];
-extern void* D_808128F4[];
-extern void* D_80812908[3][9];
-extern void* D_80812974[3][5];
-extern void* D_808129B0[3][3];
-extern void* D_808129D4[3][4];
-extern void* D_80812A04[];
 
 extern s16 D_80812814[];
 extern Gfx D_01046F00[];
@@ -45,6 +11,115 @@ extern u8 D_01000000[];
 extern u8 D_0101AD00[];
 extern u8 D_01015600[];
 extern u8 D_0101B680[];
+
+s16 D_8081271C = 106; // unused?
+
+s16 gScreenFillAlpha = 255;
+
+Gfx D_80812728[] = {
+    gsDPPipeSync(),
+    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
+                          G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
+    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
+                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_1PRIMITIVE,
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_CLD_SURF | G_RM_CLD_SURF2),
+    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PRIMITIVE),
+    gsSPEndDisplayList(),
+};
+
+s16 D_80812750[] = { 0x0024, 0x0024, 0x0024, 0x0024, 0x0018, 0x0000 };
+s16 D_8081275C[2][3] = { { 0x0064, 0x0096, 0x00FF }, { 0x0064, 0x0064, 0x0064 } };
+
+u8 gEmptyName[] = { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E };
+
+void (*gConfigModeUpdateFuncs[])(FileChooseContext*) = {
+    FileChoose_StartFadeIn,
+    FileChoose_FinishFadeIn,
+    FileChoose_UpdateMainMenu,
+    FileCopy_SetupSourceSelect,
+    FileCopy_SelectSource,
+    func_80804248,
+    func_808043D8,
+    FileChoose_SelectCopyDest,
+    func_80804858,
+    func_80804924,
+    func_80804A50,
+    func_80804C74,
+    func_80804CD0,
+    func_80804ED8,
+    func_8080510C,
+    func_808051C8,
+    func_80805318,
+    func_80805434,
+    func_80805524,
+    FileCopy_SetupMainMenu,
+    func_8080595C,
+    func_80805B2C,
+    func_80805EB8,
+    func_80806180,
+    func_8080625C,
+    func_80806444,
+    func_808064F4,
+    func_80806710,
+    func_808068F0,
+    func_808069B4,
+    func_80806C20,
+    func_8080BE28,
+    FileChoose_RotateToNameEntry,
+    FileChoose_UpdateKeyboardCursor,
+    FileChoose_StartNameEntry,
+    FileChoose_RotateFromOptions,
+    FileChoose_RotateToOptions,
+    FileChoose_UpdateOptionsMenu,
+    FileChoose_StartOptions,
+    FileChoose_RotateFromOptions,
+    func_8080BE30,
+};
+
+s16 D_80812814[] = { 0x0046, 0x00C8 }; // used for calculating alpha for the flashing cursor
+s16 D_80812818[] = { 0x001A, 0x000A, 0x000A, 0x000A };
+s16 D_80812820[] = { 0x0020, 0x000C, 0x000C, 0x000C };
+s16 D_80812828[] = { 0x0010, 0x000C, 0x000C, 0x000C };
+s16 D_80812830[] = { 0x0040, 0x0054, 0x0068, 0x0274, 0x0278, 0x027C };
+s16 D_8081283C[] = { 0x0040, 0x0054, 0x0068, 0x0278 };
+s16 D_80812844[] = { 0x0274, 0x0278 };
+s16 D_80812848[] = { 0x0274, 0x0278 };
+u16 D_8081284C[] = { 0x007C, 0x0124, 0x01CC, 0x0000 };
+void* D_80812854[] = { 0x0101C880, 0x0101CC80, 0x0101D080, 0x01000180, 0x01000280,
+                       0x01000380, 0x01000480, 0x01000580, 0x01000680 };
+s16 D_80812878[] = { 0x00FF, 0x00FF, 0x00FF, 0x0000, 0x00FF, 0x0000, 0x00FF, 0x00C8, 0x00C8, 0x0000 };
+s16 D_8081288C[] = { 0x00FF, 0x00FF, 0x00FF, 0x00FF, 0x003C, 0x0064, 0x0082, 0x0032, 0x00C8, 0x0000 };
+s16 D_808128A0[] = { 0x00FF, 0x00FF, 0x00FF, 0x0000, 0x0000, 0x00FF, 0x0000, 0x00FF, 0x0000, 0x0000 };
+s16 D_808128B4[] = { 0x0012, 0x0013, 0x0014, 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0000 };
+s16 D_808128C8[2][3] = { { 0x00FF, 0x00FF, 0x00FF }, { 0x0064, 0x0064, 0x0064 } };
+void* D_808128D4[] = { 0x02000400, 0x02000900 };
+s16 D_808128DC[2][3] = { { 0x00FF, 0x0046, 0x0032 }, { 0x00C8, 0x0000, 0x0000 } };
+s16 D_808128E8[2][3] = { { 0x0032, 0x0028, 0x003C }, { 0x00FF, 0x00FF, 0x00FF } };
+void* D_808128F4[] = { 0x01016380, 0x01017340, 0x01018300, 0x010192C0, 0x0101A280 };
+void* D_80812908[3][9] = {
+    { 0x0102AC80, 0x0102B480, 0x01024C80, 0x01025480, 0x01025C80, 0x01026480, 0x0102DC80, 0x0102E480, 0x0102EC80 },
+    { 0x0102BC80, 0x0102C480, 0x01026C80, 0x01027480, 0x01027C80, 0x01028480, 0x0102F480, 0x0102FC80, 0x01030480 },
+    { 0x0102CC80, 0x0102D480, 0x01028C80, 0x01029480, 0x01029C80, 0x0102A480, 0x01030C80, 0x01031480, 0x01031C80 }
+};
+void* D_80812974[3][5] = { { 0x0101D480, 0x0101DC80, 0x0101E480, 0x0101EC80, 0x0101F480 },
+                           { 0x0101FC80, 0x01020480, 0x01020C80, 0x01021480, 0x01021C80 },
+                           { 0x01022480, 0x01022C80, 0x01023480, 0x01023C80, 0x01024480 } };
+void* D_808129B0[3][3] = { { 0x01037200, 0x01037A00, 0x01038200 },
+                           { 0x01038A00, 0x01039200, 0x01039A00 },
+                           { 0x0103A200, 0x0103AA00, 0x0103B200 } };
+void* D_808129D4[3][4] = { { 0x01035A00, 0x0103D200, 0x0103BA00, 0x0103EA00 },
+                           { 0x01036200, 0x0103DA00, 0x0103C200, 0x0103F200 },
+                           { 0x01036A00, 0x0103E200, 0x0103CA00, 0x0103FA00 } };
+void* D_80812A04[] = { 0x01045E00, 0x01046600, 0x01045E00 };
+
+
+
+
+
+
+
+
+
 
 void FileChoose_SetupView(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
     Vec3f eye;
@@ -186,10 +261,10 @@ void FileChoose_UpdateMainMenu(FileChooseContext* thisx) {
 
     if (CHECK_BTN_ALL(controller1->press.button, BTN_START) || CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
         if (this->buttonIndex < BTN_MAIN_COPY) {
-            osSyncPrintf("REGCK_ALL[%x]=%x,%x,%x,%x,%x,%x\n", this->buttonIndex, NEWF_GET_Z(sramCtx, this->buttonIndex),
-                         NEWF_GET_E(sramCtx, this->buttonIndex), NEWF_GET_L(sramCtx, this->buttonIndex),
-                         NEWF_GET_D(sramCtx, this->buttonIndex), NEWF_GET_A(sramCtx, this->buttonIndex),
-                         NEWF_GET_Z2(sramCtx, this->buttonIndex));
+            osSyncPrintf("REGCK_ALL[%x]=%x,%x,%x,%x,%x,%x\n", this->buttonIndex, GET_NEWF(sramCtx, this->buttonIndex, 0),
+                         GET_NEWF(sramCtx, this->buttonIndex, 1), GET_NEWF(sramCtx, this->buttonIndex, 2),
+                         GET_NEWF(sramCtx, this->buttonIndex, 3), GET_NEWF(sramCtx, this->buttonIndex, 4),
+                         GET_NEWF(sramCtx, this->buttonIndex, 5));
 
             if (!SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -1075,6 +1150,7 @@ void func_8080FE2C(FileChooseContext* thisx) {
 }
 
 void func_8080FF98(FileChooseContext* thisx) {
+    static s16 gSelectFileYOffsets[] = { 0, 16, 32 };
     FileChooseContext* this = thisx;
     s16 yStep;
 
@@ -1290,6 +1366,11 @@ void FileChoose_LoadGame(FileChooseContext* thisx) {
     }
 }
 
+void (*gSelectModeUpdateFuncs[])(FileChooseContext*) = {
+    func_8080FE2C, func_8080FF98, func_8081009C,      func_8081017C,
+    func_80810354, func_80810440, FileChoose_FadeOut, FileChoose_LoadGame,
+};
+
 void FileChoose_SelectModeUpdate(FileChooseContext* this) {
     gSelectModeUpdateFuncs[this->selectMode](this);
 }
@@ -1346,7 +1427,20 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2834);
 }
 
+void (*gFileSelectDrawFuncs[])(FileChooseContext*) = {
+    FileChoose_InitModeDraw,
+    FileChoose_ConfigModeDraw,
+    FileChoose_SelectModeDraw,
+};
+
+void (*gFileSelectUpdateFuncs[])(FileChooseContext*) = {
+    FileChoose_InitModeUpdate,
+    FileChoose_ConfigModeUpdate,
+    FileChoose_SelectModeUpdate,
+};
+
 void FileChoose_Main(GameState* thisx) {
+    static void* gControlsTexture[] = { 0x01033F00, 0x01034800, 0x01035100 };
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];
 
@@ -1626,7 +1720,7 @@ void FileChoose_Destroy(GameState* thisx) {
 
 void FileChoose_Init(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    u32 size = (u32)_title_staticSegmentRomEnd - (u32)_title_staticSegmentRomStart; // 01AA4000
+    u32 size = (u32)_title_staticSegmentRomEnd - (u32)_title_staticSegmentRomStart;
     s32 pad;
 
     SREG(30) = 1;
@@ -1650,7 +1744,7 @@ void FileChoose_Init(GameState* thisx) {
     View_Init(&this->view, this->state.gfxCtx);
     this->state.main = FileChoose_Main;
     this->state.destroy = FileChoose_Destroy;
-    FileChoose_InitContext(this);
+    FileChoose_InitContext(&this->state);
     Font_LoadOrderedFont(&this->font);
     Audio_QueueSeqCmd(0xF000000A);
     func_800F5E18(0, 0x57, 0, 7, 1);

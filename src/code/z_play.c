@@ -1435,7 +1435,7 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
 }
 
 void Gameplay_InitSkybox(GlobalContext* globalCtx, s16 skyboxId) {
-    Skybox_Init(globalCtx, &globalCtx->skyboxCtx, skyboxId);
+    Skybox_Init(&globalCtx->state, &globalCtx->skyboxCtx, skyboxId);
     func_8006F140(globalCtx, &globalCtx->envCtx, 0);
 }
 

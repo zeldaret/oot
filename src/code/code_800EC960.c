@@ -20,7 +20,6 @@ typedef struct {
 
 void Audio_SetVolScale(u8, u8, u8, u8);
 void func_800F5550(u16);
-void func_800F5E18(u8 arg0, u16 arg1, u8 arg2, s8 arg3, s8 arg4);
 void func_800F4784(unk_s2* arg0);
 void func_800F56A8(void);
 void func_800F6FB4(u8);
