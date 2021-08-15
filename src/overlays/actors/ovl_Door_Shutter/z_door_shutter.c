@@ -169,7 +169,7 @@ void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc
 
 s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
     TransitionActorEntry* transitionEntry =
-        &globalCtx->doorCtx.transitionActorList[(u16)this->dyna.actor.params >> 0xA];
+        &globalCtx->transiActorCtx.list[(u16)this->dyna.actor.params >> 0xA];
     s8 frontRoom = transitionEntry->sides[0].room;
     s32 doorType = this->doorType;
     ShutterObjectInfo* temp_t0 = &sObjectInfo[this->unk_16B];
@@ -276,7 +276,7 @@ void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.room >= 0) {
         s32 transitionActorId = (u16)this->dyna.actor.params >> 0xA;
 
-        globalCtx->doorCtx.transitionActorList[transitionActorId].id *= -1;
+        globalCtx->transiActorCtx.list[transitionActorId].id *= -1;
     }
 }
 
@@ -534,7 +534,7 @@ void func_80997220(DoorShutter* this, GlobalContext* globalCtx) {
         Vec3f vec;
 
         func_8002DBD0(&this->dyna.actor, &vec, &player->actor.world.pos);
-        this->dyna.actor.room = globalCtx->doorCtx.transitionActorList[(u16)this->dyna.actor.params >> 0xA]
+        this->dyna.actor.room = globalCtx->transiActorCtx.list[(u16)this->dyna.actor.params >> 0xA]
                                     .sides[(vec.z < 0.0f) ? 0 : 1]
                                     .room;
         if (room != this->dyna.actor.room) {
@@ -723,7 +723,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             if (sp70->b != NULL) {
                 TransitionActorEntry* transitionEntry =
-                    &globalCtx->doorCtx.transitionActorList[(u16)this->dyna.actor.params >> 0xA];
+                    &globalCtx->transiActorCtx.list[(u16)this->dyna.actor.params >> 0xA];
 
                 if (globalCtx->roomCtx.prevRoom.num >= 0 ||
                     transitionEntry->sides[0].room == transitionEntry->sides[1].room) {

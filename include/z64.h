@@ -336,7 +336,7 @@ typedef enum {
     MESSAGE_ICON_ARROW
 } MessageBoxIcon;
 
-#define FONT_CHAR_TEX_SIZE 128 // 16x16 I4 texture
+#define FONT_CHAR_TEX_SIZE ((16 * 16) / 2) // 16x16 I4 texture
 
 typedef struct {
     /* 0x0000 */ u32   msgOffset;
@@ -944,9 +944,9 @@ typedef struct {
 } ElfMessage; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ u8 numTransitionActors;
-    /* 0x04 */ TransitionActorEntry* transitionActorList;
-} DoorContext;
+    /* 0x00 */ u8 numActors;
+    /* 0x04 */ TransitionActorEntry* list;
+} TransitionActorContext;
 
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext {
@@ -978,7 +978,7 @@ typedef struct GlobalContext {
     /* 0x10B20 */ AnimationContext animationCtx;
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
-    /* 0x11D34 */ DoorContext doorCtx;
+    /* 0x11D34 */ TransitionActorContext transiActorCtx;
     /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
     /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);

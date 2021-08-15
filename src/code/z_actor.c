@@ -2819,13 +2819,13 @@ Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, GlobalContext* 
 
 void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCtx) {
     TransitionActorEntry* transitionActor;
-    u8 numTransitionActors;
+    u8 numActors;
     s32 i;
 
-    transitionActor = globalCtx->doorCtx.transitionActorList;
-    numTransitionActors = globalCtx->doorCtx.numTransitionActors;
+    transitionActor = globalCtx->transiActorCtx.list;
+    numActors = globalCtx->transiActorCtx.numActors;
 
-    for (i = 0; i < numTransitionActors; i++) {
+    for (i = 0; i < numActors; i++) {
         if (transitionActor->id >= 0) {
             if (((transitionActor->sides[0].room >= 0) &&
                  ((transitionActor->sides[0].room == globalCtx->roomCtx.curRoom.num) ||
@@ -2838,7 +2838,7 @@ void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCt
                             (i << 0xA) + transitionActor->params);
 
                 transitionActor->id = -transitionActor->id;
-                numTransitionActors = globalCtx->doorCtx.numTransitionActors;
+                numActors = globalCtx->transiActorCtx.numActors;
             }
         }
         transitionActor++;
