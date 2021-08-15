@@ -867,7 +867,7 @@ void KaleidoSetup_Update(GlobalContext* globalCtx);
 void KaleidoSetup_Init(GlobalContext* globalCtx);
 void KaleidoSetup_Destroy(GlobalContext* globalCtx);
 void func_8006EE50(Font* font, s16 arg1, s16 arg2);
-void Font_LoadChar(u32 offset, u8 character, u16 codePointIndex);
+void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxEndIcon(Font* font, u16 icon);
 void Font_LoadOrderedFont(Font* font);
 s32 func_8006F0A0(s32 arg0);
@@ -1197,7 +1197,7 @@ s32 Object_GetIndex(ObjectContext* objectCtx, s16 objectId);
 s32 Object_IsLoaded(ObjectContext* objectCtx, s32 bankIndex);
 void func_800981B8(ObjectContext* objectCtx);
 s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd);
-void func_80098CBC(GlobalContext* globalCtx, u8* nbTransitionActors);
+void TransitionActor_InitContext(GameState* state, TransitionActorContext* transiActorCtx);
 void func_800994A0(GlobalContext* globalCtx);
 void Scene_Draw(GlobalContext* globalCtx);
 void SkelAnime_DrawLod(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,

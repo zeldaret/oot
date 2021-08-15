@@ -1188,7 +1188,7 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = { gHoleVolvagiaEyeOpenTex, gHoleVolvagiaEyeHalfTex, gHoleVolvagiaEyeClosedTex };
+    static void* eyeTextures[] = { gHoleVolvagiaEyeOpenTex, gHoleVolvagiaEyeHalfTex, gHoleVolvagiaEyeClosedTex };
     s32 pad;
     BossFd2* this = THIS;
 

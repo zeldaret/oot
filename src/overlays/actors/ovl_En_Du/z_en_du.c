@@ -587,19 +587,29 @@ void EnDu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex,
-                                   gDaruniaEyeClosingTex };
-    static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
-                                     gDaruniaMouthHappyTex };
-    static u64* sNoseTextures[] = { gDaruniaNoseSeriousTex, gDaruniaNoseHappyTex };
-
+    static void* eyeTextures[] = {
+        gDaruniaEyeOpenTex,
+        gDaruniaEyeOpeningTex,
+        gDaruniaEyeShutTex,
+        gDaruniaEyeClosingTex,
+    };
+    static void* mouthTextures[] = {
+        gDaruniaMouthSeriousTex,
+        gDaruniaMouthGrinningTex,
+        gDaruniaMouthOpenTex,
+        gDaruniaMouthHappyTex,
+    };
+    static void* noseTextures[] = {
+        gDaruniaNoseSeriousTex,
+        gDaruniaNoseHappyTex,
+    };
     EnDu* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_du.c", 1470);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthTexIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sNoseTextures[this->noseTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(noseTextures[this->noseTexIndex]));
 
     func_80034BA0(globalCtx, &this->skelAnime, EnDu_OverrideLimbDraw, EnDu_PostLimbDraw, &this->actor, 255);
 

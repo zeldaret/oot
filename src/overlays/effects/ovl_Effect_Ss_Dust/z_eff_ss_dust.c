@@ -76,11 +76,10 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     return 1;
 }
 
-static UNK_PTR sTextures[] = {
-    gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
-};
-
 void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    static void* dustTextures[] = {
+        gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
+    };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF mfTrans;
     MtxF mfScale;
@@ -104,7 +103,7 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if (mtx != NULL) {
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTextures[this->rTexIdx]));
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
         gDPPipeSync(POLY_XLU_DISP++);
 

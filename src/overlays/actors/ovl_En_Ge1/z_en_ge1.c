@@ -81,7 +81,7 @@ static Gfx* sHairstyleDLists[] = {
 
 static Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gGerudoWhiteEyeOpenTex,
     gGerudoWhiteEyeHalfTex,
     gGerudoWhiteEyeClosedTex,
