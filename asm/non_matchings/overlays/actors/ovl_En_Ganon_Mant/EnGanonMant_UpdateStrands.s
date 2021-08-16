@@ -151,9 +151,9 @@ glabel EnGanonMant_UpdateStrands
 /* 00478 80A241D8 C64416B0 */  lwc1    $f4, 0x16B0($s2)           ## 000016B0
 /* 0047C 80A241DC 00149880 */  sll     $s3, $s4,  2               
 /* 00480 80A241E0 46060202 */  mul.s   $f8, $f0, $f6              
-/* 00484 80A241E4 3C0180A2 */  lui     $at, %hi(D_80A24D84)       ## $at = 80A20000
+/* 00484 80A241E4 3C0180A2 */  lui     $at, %hi(sBackSwayCoefficients)       ## $at = 80A20000
 /* 00488 80A241E8 00330821 */  addu    $at, $at, $s3              
-/* 0048C 80A241EC C4304D84 */  lwc1    $f16, %lo(D_80A24D84)($at) 
+/* 0048C 80A241EC C4304D84 */  lwc1    $f16, %lo(sBackSwayCoefficients)($at) 
 /* 00490 80A241F0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00494 80A241F4 46082280 */  add.s   $f10, $f4, $f8             
 /* 00498 80A241F8 460A8482 */  mul.s   $f18, $f16, $f10           
@@ -167,10 +167,10 @@ glabel EnGanonMant_UpdateStrands
               
 /* 004B8 80A24218 4600B306 */  mov.s   $f12, $f22                 
 /* 004BC 80A2421C C64416B8 */  lwc1    $f4, 0x16B8($s2)           ## 000016B8
-/* 004C0 80A24220 3C0180A2 */  lui     $at, %hi(D_80A24DD0)       ## $at = 80A20000
+/* 004C0 80A24220 3C0180A2 */  lui     $at, %hi(sSideSwayCoefficients)       ## $at = 80A20000
 /* 004C4 80A24224 00330821 */  addu    $at, $at, $s3              
 /* 004C8 80A24228 46040202 */  mul.s   $f8, $f0, $f4              
-/* 004CC 80A2422C C4264DD0 */  lwc1    $f6, %lo(D_80A24DD0)($at)  
+/* 004CC 80A2422C C4264DD0 */  lwc1    $f6, %lo(sSideSwayCoefficients)($at)  
 /* 004D0 80A24230 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
 /* 004D4 80A24234 02A02025 */  or      $a0, $s5, $zero            ## $a0 = FFFFFFC0
 /* 004D8 80A24238 27A5007C */  addiu   $a1, $sp, 0x007C           ## $a1 = FFFFFF9C
@@ -240,8 +240,8 @@ glabel EnGanonMant_UpdateStrands
 /* 005D0 80A24330 C6160008 */  lwc1    $f22, 0x0008($s0)          ## 00000008
 /* 005D4 80A24334 E6080000 */  swc1    $f8, 0x0000($s0)           ## 00000000
 /* 005D8 80A24338 C7B00098 */  lwc1    $f16, 0x0098($sp)          
-/* 005DC 80A2433C 3C1980A2 */  lui     $t9, %hi(D_80A24E18)       ## $t9 = 80A20000
-/* 005E0 80A24340 27394E18 */  addiu   $t9, $t9, %lo(D_80A24E18)  ## $t9 = 80A24E18
+/* 005DC 80A2433C 3C1980A2 */  lui     $t9, %hi(sDistMultipliers)       ## $t9 = 80A20000
+/* 005E0 80A24340 27394E18 */  addiu   $t9, $t9, %lo(sDistMultipliers)  ## $t9 = 80A24E18
 /* 005E4 80A24344 46105100 */  add.s   $f4, $f10, $f16            
 /* 005E8 80A24348 C60A0000 */  lwc1    $f10, 0x0000($s0)          ## 00000000
 /* 005EC 80A2434C 02791021 */  addu    $v0, $s3, $t9              
