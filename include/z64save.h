@@ -187,17 +187,6 @@ typedef enum {
 } ButtonStatus;
 
 typedef enum {
-    /* 0x00 */ LANGUAGE_NTSC_JP,
-    /* 0x01 */ LANGUAGE_NTSC_ENG
-} LanguageNTSC;
-
-typedef enum {
-    /* 0x00 */ LANGUAGE_PAL_ENG,
-    /* 0x01 */ LANGUAGE_PAL_GER,
-    /* 0x02 */ LANGUAGE_PAL_FR
-} LanguagePAL;
-
-typedef enum {
     /* 0x00 */ HS_HBA,          // horseback archery
     /* 0x01 */ HS_POE_POINTS,
     /* 0x02 */ HS_FISHING,

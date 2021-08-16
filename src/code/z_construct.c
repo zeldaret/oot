@@ -48,9 +48,9 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
 
-    if (gSaveContext.language == LANGUAGE_PAL_ENG) {
+    if (gSaveContext.language == 0) {
         doActionOffset = 0;
-    } else if (gSaveContext.language == LANGUAGE_PAL_GER) {
+    } else if (gSaveContext.language == 1) {
         doActionOffset = 0x2B80;
     } else {
         doActionOffset = 0x5700;
@@ -59,9 +59,9 @@ void func_801109B0(GlobalContext* globalCtx) {
     DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (u32)_do_action_staticSegmentRomStart + doActionOffset, 0x300,
                         "../z_construct.c", 174);
 
-    if (gSaveContext.language == LANGUAGE_PAL_ENG) {
+    if (gSaveContext.language == 0) {
         doActionOffset = 0x480;
-    } else if (gSaveContext.language == LANGUAGE_PAL_GER) {
+    } else if (gSaveContext.language == 1) {
         doActionOffset = 0x3000;
     } else {
         doActionOffset = 0x5B80;

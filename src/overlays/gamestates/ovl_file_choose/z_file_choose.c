@@ -371,8 +371,8 @@ void FileChoose_FlashCursor(GameState* thisx) {
     Input* controller3 = &this->state.input[2];
 
     if (CHECK_BTN_ALL(controller3->press.button, BTN_DLEFT)) {
-        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_ENG;
-        *((u8*)0x80000002) = LANGUAGE_PAL_ENG;
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = 0;
+        *((u8*)0x80000002) = 0;
 
         SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
         osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
@@ -384,8 +384,8 @@ void FileChoose_FlashCursor(GameState* thisx) {
                      sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                      sramCtx->readBuff[SRAM_HEADER_MAGIC]);
     } else if (CHECK_BTN_ALL(controller3->press.button, BTN_DUP)) {
-        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_GER;
-        *((u8*)0x80000002) = LANGUAGE_PAL_GER;
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = 1;
+        *((u8*)0x80000002) = 1;
 
         SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
         osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
@@ -396,8 +396,8 @@ void FileChoose_FlashCursor(GameState* thisx) {
                      sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
                      sramCtx->readBuff[SRAM_HEADER_MAGIC]);
     } else if (CHECK_BTN_ALL(controller3->press.button, BTN_DRIGHT)) {
-        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_FR;
-        *((u8*)0x80000002) = LANGUAGE_PAL_FR;
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = 2;
+        *((u8*)0x80000002) = 2;
 
         SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
         osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
@@ -1712,8 +1712,8 @@ void FileChoose_InitContext(GameState* thisx) {
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
 
     gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
-    if (gSaveContext.language > LANGUAGE_PAL_FR) {
-        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_ENG;
+    if (gSaveContext.language > 2) {
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = 0;
     }
 }
 
