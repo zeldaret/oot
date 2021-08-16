@@ -3,9 +3,6 @@
 "gDma.*" = "void"
 "G_IM_SIZ_.*" = "int"
 "G_[AC]C.*" = "int"
-PRIMITIVE = "int"
-TEXEL0 = "int"
-TEXEL1 = "int"
 
 LOG = "void"
 SET_FULLSCREEN_VIEWPORT = "void"
