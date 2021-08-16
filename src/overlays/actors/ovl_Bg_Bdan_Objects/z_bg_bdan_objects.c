@@ -145,20 +145,18 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_8086C054;
             }
         }
+    } else if (thisx->params == 1) {
+        CollisionHeader_GetVirtual(&gJabuElevatorCol, &colHeader);
+        this->timer = 512;
+        this->unk_168 = 0;
+        this->actionFunc = func_8086C874;
     } else {
-        if (thisx->params == 1) {
-            CollisionHeader_GetVirtual(&gJabuElevatorCol, &colHeader);
-            this->timer = 512;
-            this->unk_168 = 0;
-            this->actionFunc = func_8086C874;
+        CollisionHeader_GetVirtual(&gJabuLoweringPlatformCol, &colHeader);
+        if (Flags_GetSwitch(globalCtx, this->unk_168)) {
+            this->actionFunc = BgBdanObjects_DoNothing;
+            thisx->world.pos.y = thisx->home.pos.y - 400.0f;
         } else {
-            CollisionHeader_GetVirtual(&gJabuLoweringPlatformCol, &colHeader);
-            if (Flags_GetSwitch(globalCtx, this->unk_168)) {
-                this->actionFunc = BgBdanObjects_DoNothing;
-                thisx->world.pos.y = thisx->home.pos.y - 400.0f;
-            } else {
-                this->actionFunc = func_8086CB10;
-            }
+            this->actionFunc = func_8086CB10;
         }
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
@@ -428,7 +426,7 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->timer * (M_PI / 50.0f)) * 200.0f);
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->timer * (M_PI / 50)) * 200.0f);
 
     if (this->timer == 0) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);

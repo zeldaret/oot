@@ -1636,11 +1636,11 @@ s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll) {
     return 1;
 }
 
-void Gameplay_CopyCamera(GlobalContext* globalCtx, s16 camId1, s16 camId2) {
-    s16 camIdx2 = (camId2 == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId2;
-    s16 camIdx1 = (camId1 == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId1;
+void Gameplay_CopyCamera(GlobalContext* globalCtx, s16 destCamId, s16 srcCamId) {
+    s16 srcCamIdx = (srcCamId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : srcCamId;
+    s16 destCamIdx = (destCamId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : destCamId;
 
-    Camera_Copy(globalCtx->cameraPtrs[camIdx1], globalCtx->cameraPtrs[camIdx2]);
+    Camera_Copy(globalCtx->cameraPtrs[destCamIdx], globalCtx->cameraPtrs[srcCamIdx]);
 }
 
 s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 setting) {
