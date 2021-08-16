@@ -1522,7 +1522,7 @@ void FileChoose_Main(GameState* thisx) {
     this->emptyFileTextAlpha = 0;
 
     FileChoose_FlashCursor(&this->state);
-    gFileSelectUpdateFuncs[this->menuMode](this); // 803FE738
+    gFileSelectUpdateFuncs[this->menuMode](&this->state);
     gFileSelectDrawFuncs[this->menuMode](&this->state);
 
     // do not draw controls text in the options menu
