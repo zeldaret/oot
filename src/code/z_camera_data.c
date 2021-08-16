@@ -61,7 +61,7 @@ char sCameraSettingNames[][12] = {
 
 char sCameraModeNames[][12] = {
     "NORMAL     ", "PARALLEL   ", "KEEPON     ", "TALK       ", "BATTLE     ", "CLIMB      ", "SUBJECT    ",
-    "BOWARROW   ", "BOWARROWZ  ", "HOOKSHOT   ", "BOOMERANG  ", "PACHINCO   ", "CLIMBZ     ", "JUMP       ",
+    "BOWARROW   ", "BOWARROWZ  ", "FOOKSHOT   ", "BOOMERANG  ", "PACHINCO   ", "CLIMBZ     ", "JUMP       ",
     "HANG       ", "HANGZ      ", "FREEFALL   ", "CHARGE     ", "STILL      ", "PUSHPULL   ", "BOOKEEPON  ",
 };
 
@@ -381,10 +381,31 @@ CameraModeValue D_8011A4F4[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: NORMAL0        Mode: HOOKSHOT    Func: SPEC5
+ * Sett: NORMAL3        Mode: HOOKSHOT    Func: SPEC5
+ * Sett: BOSS_GOMA      Mode: HOOKSHOT    Func: SPEC5
+ * Sett: BOSS_DODO      Mode: HOOKSHOT    Func: SPEC5
+ * Sett: BOSS_BARI      Mode: HOOKSHOT    Func: SPEC5
+ * Sett: BOSS_FGANON    Mode: HOOKSHOT    Func: SPEC5
+ * Sett: BOSS_BAL       Mode: HOOKSHOT    Func: SPEC5
+ * Sett: BOSS_SHADES    Mode: HOOKSHOT    Func: SPEC5
+ * Sett: BOSS_MOFA      Mode: HOOKSHOT    Func: SPEC5
+ * Sett: TWIN0          Mode: HOOKSHOT    Func: SPEC5
+ * Sett: TWIN1          Mode: HOOKSHOT    Func: SPEC5
+ * Sett: BOSS_GANON1    Mode: HOOKSHOT    Func: SPEC5
+ * Sett: BOSS_GANON2    Mode: HOOKSHOT    Func: SPEC5
+ * Sett: TOWER0         Mode: HOOKSHOT    Func: SPEC5
+ * Sett: TOWER1         Mode: HOOKSHOT    Func: SPEC5
+ * Sett: CIRCLE3        Mode: HOOKSHOT    Func: SPEC5
+ * Sett: UFOBEAN        Mode: HOOKSHOT    Func: SPEC5
+ * Sett: LIFTBEAN       Mode: HOOKSHOT    Func: SPEC5
+ * Sett: NORMAL2        Mode: HOOKSHOT    Func: SPEC5
+ * Sett: UO_FIBER       Mode: HOOKSHOT    Func: SPEC5
+ * Sett: TEPPEN         Mode: HOOKSHOT    Func: SPEC5
+ * Sett: CIRCLE7        Mode: HOOKSHOT    Func: SPEC5
+ * Sett: NORMAL4        Mode: HOOKSHOT    Func: SPEC5
  */
 CameraModeValue D_8011A518[] = {
-    /* CAM_FUNC_SPEC5 */
     { -20, 0 },    // yOffset
     { 80, 1 },     // eyeDist
     { 250, 2 },    // minDistForRot
@@ -396,10 +417,35 @@ CameraModeValue D_8011A518[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: NORMAL0        Mode: BOOMERANG    Func: SUBJ3
+ * Sett: NORMAL1        Mode: BOOMERANG    Func: SUBJ3
+ * Sett: DUNGEON0       Mode: BOOMERANG    Func: SUBJ3
+ * Sett: DUNGEON1       Mode: BOOMERANG    Func: SUBJ3
+ * Sett: BOSS_GOMA      Mode: BOOMERANG    Func: SUBJ3
+ * Sett: BOSS_DODO      Mode: BOOMERANG    Func: SUBJ3
+ * Sett: BOSS_BARI      Mode: BOOMERANG    Func: SUBJ3
+ * Sett: BOSS_FGANON    Mode: BOOMERANG    Func: SUBJ3
+ * Sett: BOSS_BAL       Mode: BOOMERANG    Func: SUBJ3
+ * Sett: BOSS_SHADES    Mode: BOOMERANG    Func: SUBJ3
+ * Sett: BOSS_MOFA      Mode: BOOMERANG    Func: SUBJ3
+ * Sett: TWIN0          Mode: BOOMERANG    Func: SUBJ3
+ * Sett: TWIN1          Mode: BOOMERANG    Func: SUBJ3
+ * Sett: BOSS_GANON1    Mode: BOOMERANG    Func: SUBJ3
+ * Sett: BOSS_GANON2    Mode: BOOMERANG    Func: SUBJ3
+ * Sett: TOWER0         Mode: BOOMERANG    Func: SUBJ3
+ * Sett: TOWER1         Mode: BOOMERANG    Func: SUBJ3
+ * Sett: CIRCLE3        Mode: BOOMERANG    Func: SUBJ3
+ * Sett: UFOBEAN        Mode: BOOMERANG    Func: SUBJ3
+ * Sett: LIFTBEAN       Mode: BOOMERANG    Func: SUBJ3
+ * Sett: TAKO           Mode: BOOMERANG    Func: SUBJ3
+ * Sett: NORMAL2        Mode: BOOMERANG    Func: SUBJ3
+ * Sett: UO_FIBER       Mode: BOOMERANG    Func: SUBJ3
+ * Sett: DUNGEON2       Mode: BOOMERANG    Func: SUBJ3
+ * Sett: TEPPEN         Mode: BOOMERANG    Func: SUBJ3
+ * Sett: CIRCLE7        Mode: BOOMERANG    Func: SUBJ3
+ * Sett: NORMAL4        Mode: BOOMERANG    Func: SUBJ3
  */
 CameraModeValue D_8011A538[] = {
-    /* CAM_FUNC_SUBJ3 */
     { 5, 0 },      // eyeNextYOffset
     { 50, 1 },     // eyeDist
     { 50, 2 },     // eyeNextDist
@@ -412,10 +458,35 @@ CameraModeValue D_8011A538[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: NORMAL0        Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: NORMAL1        Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: DUNGEON0       Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: DUNGEON1       Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: BOSS_GOMA      Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: BOSS_DODO      Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: BOSS_BARI      Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: BOSS_FGANON    Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: BOSS_BAL       Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: BOSS_SHADES    Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: BOSS_MOFA      Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: TWIN0          Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: TWIN1          Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: BOSS_GANON1    Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: BOSS_GANON2    Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: TOWER0         Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: TOWER1         Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: CIRCLE3        Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: UFOBEAN        Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: LIFTBEAN       Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: TAKO           Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: NORMAL2        Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: UO_FIBER       Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: DUNGEON2       Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: TEPPEN         Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: CIRCLE7        Mode: SLINGSHOT    Func: SUBJ3
+ * Sett: NORMAL4        Mode: SLINGSHOT    Func: SUBJ3
  */
 CameraModeValue D_8011A55C[] = {
-    /* CAM_FUNC_SUBJ3 */
     { -7, 0 },     // eyeNextYOffset
     { 14, 1 },     // eyeDist
     { 50, 2 },     // eyeNextDist
@@ -428,10 +499,30 @@ CameraModeValue D_8011A55C[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: NORMAL0        Mode: CLIMBZ    Func: JUMP2
+ * Sett: NORMAL3        Mode: CLIMBZ    Func: JUMP2
+ * Sett: BOSS_GOMA      Mode: CLIMBZ    Func: JUMP2
+ * Sett: BOSS_DODO      Mode: CLIMBZ    Func: JUMP2
+ * Sett: BOSS_BARI      Mode: CLIMBZ    Func: JUMP2
+ * Sett: BOSS_FGANON    Mode: CLIMBZ    Func: JUMP2
+ * Sett: BOSS_BAL       Mode: CLIMBZ    Func: JUMP2
+ * Sett: BOSS_SHADES    Mode: CLIMBZ    Func: JUMP2
+ * Sett: BOSS_MOFA      Mode: CLIMBZ    Func: JUMP2
+ * Sett: TWIN0          Mode: CLIMBZ    Func: JUMP2
+ * Sett: TWIN1          Mode: CLIMBZ    Func: JUMP2
+ * Sett: BOSS_GANON1    Mode: CLIMBZ    Func: JUMP2
+ * Sett: BOSS_GANON2    Mode: CLIMBZ    Func: JUMP2
+ * Sett: TOWER0         Mode: CLIMBZ    Func: JUMP2
+ * Sett: TOWER1         Mode: CLIMBZ    Func: JUMP2
+ * Sett: CIRCLE3        Mode: CLIMBZ    Func: JUMP2
+ * Sett: UFOBEAN        Mode: CLIMBZ    Func: JUMP2
+ * Sett: LIFTBEAN       Mode: CLIMBZ    Func: JUMP2
+ * Sett: NORMAL2        Mode: CLIMBZ    Func: JUMP2
+ * Sett: UO_FIBER       Mode: CLIMBZ    Func: JUMP2
+ * Sett: TEPPEN         Mode: CLIMBZ    Func: JUMP2
+ * Sett: NORMAL4        Mode: CLIMBZ    Func: JUMP2
  */
 CameraModeValue D_8011A580[] = {
-    /* CAM_FUNC_JUMP2 */
     { -20, 0 },    // atYOffset
     { 200, 1 },    // minDist
     { 300, 2 },    // maxDist
@@ -2564,11 +2655,16 @@ CameraModeValue D_8011B75C[] = {
     { 0x0002, 9 }, // flags
 };
 
+
+/************************************************
+ *             FISHING CAMERA DATA              *
+ *                                              *
+ ************************************************/
+
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: FISHING    Mode: NORMAL    Func: NORM1
  */
-CameraModeValue D_8011B784[] = {
-    /* CAM_FUNC_NORM1 */
+CameraModeValue sSetFishingModeNormVals[] = {
     { 0, 0 },      // yOffset
     { 200, 1 },    // distMin
     { 300, 2 },    // distMax
@@ -2582,10 +2678,9 @@ CameraModeValue D_8011B784[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: FISHING    Mode: TARGET    Func: PARA1
  */
-CameraModeValue D_8011B7AC[] = {
-    /* CAM_FUNC_PARA1 */
+CameraModeValue sSetFishingModeTargetVals[] = {
     { -20, 0 },    // unk_00
     { 250, 1 },    // distTarget
     { 0, 3 },      // pitchTarget
@@ -2600,10 +2695,10 @@ CameraModeValue D_8011B7AC[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: FISHING    Mode: FOLLOWTARGET    Func: BATT1
+ * Sett: FISHING    Mode: BATTLE          Func: BATT1
  */
-CameraModeValue D_8011B7D8[] = {
-    /* CAM_FUNC_BATT1 */
+CameraModeValue sSetFishingModeBattVals[] = {
     { -20, 0 },    // yOffset (PCT)
     { 250, 1 },    // distance
     { 0, 13 },     // swingYawInitial
@@ -2619,10 +2714,9 @@ CameraModeValue D_8011B7D8[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: FISHING    Mode: TALK    Func: KEEP3
  */
-CameraModeValue D_8011B808[] = {
-    /* CAM_FUNC_KEEP3 */
+CameraModeValue sSetFishingModeTalkVals[] = {
     { -30, 0 },    // yOffset
     { 70, 1 },     // minDist
     { 200, 2 },    // maxDist
@@ -2638,10 +2732,9 @@ CameraModeValue D_8011B808[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: FISHING    Mode: FIRSTPERSON    Func: SUBJ3
  */
-CameraModeValue D_8011B838[] = {
-    /* CAM_FUNC_SUBJ3 */
+CameraModeValue sSetFishingModeFirstPersonVals[] = {
     { 0, 0 },      // eyeNextYOffset
     { 5, 1 },      // eyeDist
     { 50, 2 },     // eyeNextDist
@@ -2654,10 +2747,9 @@ CameraModeValue D_8011B838[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: FISHING    Mode: JUMP    Func: JUMP1
  */
-CameraModeValue D_8011B85C[] = {
-    /* CAM_FUNC_JUMP1 */
+CameraModeValue sSetFishingModeJumpVals[] = {
     { -20, 0 },    // atYOffset
     { 200, 1 },    // distMin
     { 300, 2 },    // distMax
@@ -2669,10 +2761,9 @@ CameraModeValue D_8011B85C[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: FISHING    Mode: FREEFALL    Func: JUMP1
  */
-CameraModeValue D_8011B87C[] = {
-    /* CAM_FUNC_JUMP1 */
+CameraModeValue sSetFishingModeFreeFallVals[] = {
     { -20, 0 },    // atYOffset
     { 200, 1 },    // distMin
     { 300, 2 },    // distMax
@@ -2684,10 +2775,9 @@ CameraModeValue D_8011B87C[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: FISHING    Mode: HANG    Func: UNIQ1
  */
-CameraModeValue D_8011B89C[] = {
-    /* CAM_FUNC_UNIQ1 */
+CameraModeValue sSetFishingModeHangVals[] = {
     { -80, 0 },    // yOffset
     { 200, 1 },    // distMin
     { 300, 2 },    // distMax
@@ -2698,10 +2788,9 @@ CameraModeValue D_8011B89C[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: FISHING    Mode: HANGZ    Func: UNIQ1
  */
-CameraModeValue D_8011B8B8[] = {
-    /* CAM_FUNC_UNIQ1 */
+CameraModeValue sSetFishingModeHangZVals[] = {
     { -120, 0 },   // yOffset
     { 300, 1 },    // distMin
     { 300, 2 },    // distMax
@@ -2991,10 +3080,9 @@ CameraModeValue D_8011BB24[] = {
 };
 
 /**
- * Sett: NORMAL0        Mode: FOLLOWTARGET    Func: KEEP1
+ * Sett: NORMAL4    Mode: TALK    Func: KEEP3
  */
 CameraModeValue D_8011BB54[] = {
-    /* CAM_FUNC_KEEP3 */
     { -30, 0 },    // yOffset
     { 70, 1 },     // minDist
     { 200, 2 },    // maxDist
@@ -3738,23 +3826,23 @@ CameraMode sCamSetNorm2Modes[] = {
 };
 
 CameraMode sCamSetFishingModes[] = {
-    { CAM_FUNC_NORM1, 10, D_8011B784 }, // CAM_MODE_NORMAL
-    { CAM_FUNC_PARA1, 11, D_8011B7AC }, // CAM_MODE_TARGET
-    { CAM_FUNC_BATT1, 12, D_8011B7D8 }, // CAM_MODE_FOLLOWTARGET
-    { CAM_FUNC_KEEP3, 12, D_8011B808 }, // CAM_MODE_TALK
-    { CAM_FUNC_BATT1, 12, D_8011B7D8 }, // CAM_MODE_BATTLE
-    { CAM_FUNC_NONE, 0, NULL },         // CAM_MODE_CLIMB
-    { CAM_FUNC_SUBJ3, 9, D_8011B838 },  // CAM_MODE_FIRSTPERSON
-    { CAM_FUNC_NONE, 0, NULL },         // CAM_MODE_BOWARROW
-    { CAM_FUNC_NONE, 0, NULL },         // CAM_MODE_BOWARROWZ
-    { CAM_FUNC_NONE, 0, NULL },         // CAM_MODE_HOOKSHOT
-    { CAM_FUNC_NONE, 0, NULL },         // CAM_MODE_BOOMERANG
-    { CAM_FUNC_NONE, 0, NULL },         // CAM_MODE_SLINGSHOT
-    { CAM_FUNC_NONE, 0, NULL },         // CAM_MODE_CLIMBZ
-    { CAM_FUNC_JUMP1, 8, D_8011B85C },  // CAM_MODE_JUMP
-    { CAM_FUNC_UNIQ1, 7, D_8011B89C },  // CAM_MODE_HANG
-    { CAM_FUNC_UNIQ1, 7, D_8011B8B8 },  // CAM_MODE_HANGZ
-    { CAM_FUNC_JUMP1, 8, D_8011B87C },  // CAM_MODE_FREEFALL
+    { CAM_FUNC_NORM1, 10, sSetFishingModeNormVals },       // CAM_MODE_NORMAL
+    { CAM_FUNC_PARA1, 11, sSetFishingModeTargetVals },     // CAM_MODE_TARGET
+    { CAM_FUNC_BATT1, 12, sSetFishingModeBattVals },       // CAM_MODE_FOLLOWTARGET
+    { CAM_FUNC_KEEP3, 12, sSetFishingModeTalkVals },       // CAM_MODE_TALK
+    { CAM_FUNC_BATT1, 12, sSetFishingModeBattVals },       // CAM_MODE_BATTLE
+    { CAM_FUNC_NONE, 0, NULL },                            // CAM_MODE_CLIMB
+    { CAM_FUNC_SUBJ3, 9, sSetFishingModeFirstPersonVals }, // CAM_MODE_FIRSTPERSON
+    { CAM_FUNC_NONE, 0, NULL },                            // CAM_MODE_BOWARROW
+    { CAM_FUNC_NONE, 0, NULL },                            // CAM_MODE_BOWARROWZ
+    { CAM_FUNC_NONE, 0, NULL },                            // CAM_MODE_HOOKSHOT
+    { CAM_FUNC_NONE, 0, NULL },                            // CAM_MODE_BOOMERANG
+    { CAM_FUNC_NONE, 0, NULL },                            // CAM_MODE_SLINGSHOT
+    { CAM_FUNC_NONE, 0, NULL },                            // CAM_MODE_CLIMBZ
+    { CAM_FUNC_JUMP1, 8, sSetFishingModeJumpVals },        // CAM_MODE_JUMP
+    { CAM_FUNC_UNIQ1, 7, sSetFishingModeHangVals },        // CAM_MODE_HANG
+    { CAM_FUNC_UNIQ1, 7, sSetFishingModeHangZVals },       // CAM_MODE_HANGZ
+    { CAM_FUNC_JUMP1, 8, sSetFishingModeFreeFallVals },    // CAM_MODE_FREEFALL
 };
 
 CameraMode sCamSetDemoCModes[] = {
