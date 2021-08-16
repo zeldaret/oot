@@ -1200,7 +1200,7 @@ void EnGo_UpdateDust(EnGo* this) {
 }
 
 void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
-    static u64* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
+    static void* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
     EnGoEffect* dustEffect = this->dustEffects;
     s16 alpha;
     s16 firstDone;

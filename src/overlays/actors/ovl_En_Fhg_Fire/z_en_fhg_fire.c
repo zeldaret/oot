@@ -693,7 +693,7 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->updateFunc(this, globalCtx);
 }
 
-static u64* sDustTextures[] = {
+static void* sDustTextures[] = {
     gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
 };
 

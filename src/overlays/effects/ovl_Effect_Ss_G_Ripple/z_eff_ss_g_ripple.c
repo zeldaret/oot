@@ -75,7 +75,7 @@ void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PT
 
     radius = this->rRadius * 0.0025f;
 
-    if ((this->rWaterBoxNum != -1) && (this->rWaterBoxNum < globalCtx->colCtx.colHeader->nbWaterBoxes)) {
+    if ((this->rWaterBoxNum != -1) && (this->rWaterBoxNum < globalCtx->colCtx.colHeader->numWaterBoxes)) {
         yPos = (this->rWaterBoxNum + globalCtx->colCtx.colHeader->waterBoxes)->ySurface;
     } else {
         yPos = this->pos.y;

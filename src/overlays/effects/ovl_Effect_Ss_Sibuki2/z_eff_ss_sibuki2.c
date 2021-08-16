@@ -50,12 +50,12 @@ u32 EffectSsSibuki2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     return 1;
 }
 
-static UNK_PTR sTextures[] = {
-    gEffUnusedBubbles1Tex, gEffUnusedBubbles1Tex, gEffUnusedBubbles2Tex, gEffUnusedBubbles3Tex, gEffUnusedBubbles4Tex,
-    gEffUnusedBubbles5Tex, gEffUnusedBubbles6Tex, gEffUnusedBubbles7Tex, gEffUnusedBubbles8Tex,
-};
-
 void EffectSsSibuki2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    static void* bubbleTextures[] = {
+        gEffUnusedBubbles1Tex, gEffUnusedBubbles1Tex, gEffUnusedBubbles2Tex,
+        gEffUnusedBubbles3Tex, gEffUnusedBubbles4Tex, gEffUnusedBubbles5Tex,
+        gEffUnusedBubbles6Tex, gEffUnusedBubbles7Tex, gEffUnusedBubbles8Tex,
+    };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 scale = this->rScale / 100.0f;
 
@@ -68,7 +68,7 @@ void EffectSsSibuki2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     func_80093D18(gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
     gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(bubbleTextures[this->rTexIdx]));
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffUnusedBubblesDL));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_sibuki2.c", 198);

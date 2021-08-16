@@ -198,7 +198,7 @@ void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x01: Actor List
 void func_800985DC(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->nbSetupActors = cmd->actorList.num;
+    globalCtx->numSetupActors = cmd->actorList.num;
     globalCtx->setupActorList = SEGMENTED_TO_VIRTUAL(cmd->actorList.segment);
 }
 
@@ -222,7 +222,7 @@ void func_80098674(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x04: Room List
 void func_800987A4(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->nbRooms = cmd->roomList.num;
+    globalCtx->numRooms = cmd->roomList.num;
     globalCtx->roomList = SEGMENTED_TO_VIRTUAL(cmd->roomList.segment);
 }
 
@@ -327,17 +327,17 @@ void func_80098C24(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x0E: Transition Actor List
 void func_80098C68(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->nbTransitionActors = cmd->transiActorList.num;
-    globalCtx->transitionActorList = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.segment);
+    globalCtx->transiActorCtx.numActors = cmd->transiActorList.num;
+    globalCtx->transiActorCtx.list = SEGMENTED_TO_VIRTUAL(cmd->transiActorList.segment);
 }
 
-void func_80098CBC(GlobalContext* globalCtx, u8* nbTransitionActors) {
-    *nbTransitionActors = 0;
+void TransitionActor_InitContext(GameState* state, TransitionActorContext* transiActorCtx) {
+    transiActorCtx->numActors = 0;
 }
 
 // Scene Command 0x0F: Light Setting List
 void func_80098CC8(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->envCtx.nbLightSettings = cmd->lightSettingList.num;
+    globalCtx->envCtx.numLightSettings = cmd->lightSettingList.num;
     globalCtx->envCtx.lightSettingsList = SEGMENTED_TO_VIRTUAL(cmd->lightSettingList.segment);
 }
 

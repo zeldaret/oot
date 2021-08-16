@@ -377,8 +377,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 }
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
-    u64 startTime;
-    u64 endTime;
+    OSTime startTime;
+    OSTime endTime;
 
     // game constructor start
     osSyncPrintf("game コンストラクタ開始\n");

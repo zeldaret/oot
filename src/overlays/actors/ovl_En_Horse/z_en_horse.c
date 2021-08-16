@@ -3787,23 +3787,24 @@ void EnHorse_SkinCallback1(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* ski
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->jntSph.base);
 }
 
-static s32 unk_80A667DC[] = { 0, 3, 7, 14 };
-static u64* sEyeTextures[] = {
-    gEponaEyeOpenTex,
-    gEponaEyeHalfTex,
-    gEponaEyeClosedTex,
-};
-static u8 sBlinkTextures[] = { 0, 1, 2, 1 };
+// unused
+static s32 D_80A667DC[] = { 0, 3, 7, 14 };
 
 s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 limbIndex, PSkinAwb* arg3) {
+    static void* eyeTextures[] = {
+        gEponaEyeOpenTex,
+        gEponaEyeHalfTex,
+        gEponaEyeClosedTex,
+    };
+    static u8 eyeBlinkIndexes[] = { 0, 1, 2, 1 };
     EnHorse* this = THIS;
     s32 drawOriginalLimb = true;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
     if (limbIndex == 13 && this->type == HORSE_EPONA) {
-        u8 index = sBlinkTextures[this->blinkTimer];
+        u8 index = eyeBlinkIndexes[this->blinkTimer];
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[index]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[index]));
     } else if (this->type == HORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && limbIndex == 30) {
         func_800A5F60(globalCtx->state.gfxCtx, &this->skin, limbIndex, gHorseIngoGerudoSaddleDL, 0);
         drawOriginalLimb = false;
