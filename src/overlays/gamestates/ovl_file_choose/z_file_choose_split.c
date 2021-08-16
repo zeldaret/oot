@@ -143,7 +143,7 @@ s16 D_808124AC[] = { 0, 16, 32, 0, 0, 0, 0 };
  * Fade out the copy/erase/options buttons and bring in the new title
  * When action timer is 0 set the cursor to the quit button and move on to the next config mode
  */
-void FileCopy_SetupSourceSelect(FileChooseContext* thisx) {
+void FileCopy_SetupSourceSelect(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 yStep;
     s16 i;
@@ -181,7 +181,7 @@ void FileCopy_SetupSourceSelect(FileChooseContext* thisx) {
     }
 }
 
-void FileCopy_SelectSource(FileChooseContext* thisx) {
+void FileCopy_SelectSource(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller1 = &this->state.input[0];
@@ -240,8 +240,8 @@ void FileCopy_SelectSource(FileChooseContext* thisx) {
 }
 
 // move buttons to setup for copy decision
-void func_80804248(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void func_80804248(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     s16 yStep;
     s16 i;
 
@@ -271,7 +271,9 @@ void func_80804248(FileChooseContext* thisx) {
 }
 
 // show name and info box, put cursor on quit
-void func_808043D8(FileChooseContext* this) {
+void func_808043D8(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+
     this->nameBoxAlpha[this->buttonIndex] -= 25;
     this->fileInfoAlpha[this->buttonIndex] += 25;
     this->actionTimer--;
@@ -285,7 +287,7 @@ void func_808043D8(FileChooseContext* this) {
     }
 }
 
-void FileChoose_SelectCopyDest(FileChooseContext* thisx) {
+void FileChoose_SelectCopyDest(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller1 = &this->state.input[0];
@@ -354,7 +356,9 @@ void FileChoose_SelectCopyDest(FileChooseContext* thisx) {
     }
 }
 
-void func_80804858(FileChooseContext* this) {
+void func_80804858(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+
     this->fileInfoAlpha[this->buttonIndex] -= 25;
     this->nameBoxAlpha[this->buttonIndex] += 25;
     this->actionTimer--;
@@ -368,7 +372,7 @@ void func_80804858(FileChooseContext* this) {
     }
 }
 
-void func_80804924(FileChooseContext* thisx) {
+void func_80804924(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
@@ -397,7 +401,7 @@ void func_80804924(FileChooseContext* thisx) {
     }
 }
 
-void func_80804A50(FileChooseContext* thisx) {
+void func_80804A50(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
@@ -435,7 +439,9 @@ void func_80804A50(FileChooseContext* thisx) {
     }
 }
 
-void func_80804C74(FileChooseContext* this) {
+void func_80804C74(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+
     this->confirmButtonAlpha[BTN_CONFIRM_YES] += 25;
     this->actionTimer--;
 
@@ -445,7 +451,7 @@ void func_80804C74(FileChooseContext* this) {
     }
 }
 
-void func_80804CD0(FileChooseContext* thisx) {
+void func_80804CD0(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller1 = &this->state.input[0];
@@ -473,8 +479,8 @@ void func_80804CD0(FileChooseContext* thisx) {
     }
 }
 
-void func_80804ED8(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void func_80804ED8(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
     s16 yStep;
@@ -514,7 +520,9 @@ void func_80804ED8(FileChooseContext* thisx) {
     }
 }
 
-void func_8080510C(FileChooseContext* this) {
+void func_8080510C(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+
     this->titleAlpha[0] -= 31;
     this->confirmButtonAlpha[BTN_CONFIRM_YES] -= 25;
     this->confirmButtonAlpha[BTN_CONFIRM_QUIT] -= 25;
@@ -529,7 +537,8 @@ void func_8080510C(FileChooseContext* this) {
     }
 }
 
-void func_808051C8(FileChooseContext* this) {
+void func_808051C8(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     s16 yStep;
 
     this->fileInfoAlpha[this->copyDestFileIndex] += 25;
@@ -553,7 +562,7 @@ void func_808051C8(FileChooseContext* this) {
     }
 }
 
-void func_80805318(FileChooseContext* thisx) {
+void func_80805318(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];
 
@@ -575,7 +584,9 @@ void func_80805318(FileChooseContext* thisx) {
 }
 
 // QuitCopyTo
-void func_80805434(FileChooseContext* this) {
+void func_80805434(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+
     this->fileInfoAlpha[this->selectedFileIndex] -= 25;
     this->fileInfoAlpha[this->copyDestFileIndex] -= 25;
     this->nameBoxAlpha[this->selectedFileIndex] += 25;
@@ -592,7 +603,7 @@ void func_80805434(FileChooseContext* this) {
 }
 
 // QuitCopyFrom
-void func_80805524(FileChooseContext* thisx) {
+void func_80805524(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
@@ -648,8 +659,8 @@ void func_80805524(FileChooseContext* thisx) {
     }
 }
 
-void FileCopy_SetupMainMenu(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void FileCopy_SetupMainMenu(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     s16 i;
     s16 yStep;
 
@@ -681,8 +692,8 @@ void FileCopy_SetupMainMenu(FileChooseContext* thisx) {
     this->optionButtonAlpha = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->actionBtnAlpha[BTN_ACTION_COPY];
 }
 
-void func_8080595C(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void func_8080595C(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     s16 i;
     s16 yStep;
 
@@ -723,8 +734,8 @@ void func_8080595C(FileChooseContext* thisx) {
     }
 }
 
-void func_80805B2C(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void func_80805B2C(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller1 = &this->state.input[0];
 
@@ -779,8 +790,8 @@ void func_80805B2C(FileChooseContext* thisx) {
     }
 }
 
-void func_80805EB8(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void func_80805EB8(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
     s16 yStep;
@@ -830,7 +841,9 @@ void func_80805EB8(FileChooseContext* thisx) {
     }
 }
 
-void func_80806180(FileChooseContext* this) {
+void func_80806180(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+
     this->confirmButtonAlpha[BTN_CONFIRM_YES] += 25;
     this->titleAlpha[0] -= 15;
     this->titleAlpha[1] += 15;
@@ -848,7 +861,7 @@ void func_80806180(FileChooseContext* this) {
     }
 }
 
-void func_8080625C(FileChooseContext* thisx) {
+void func_8080625C(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];
 
@@ -873,7 +886,9 @@ void func_8080625C(FileChooseContext* thisx) {
     }
 }
 
-void func_80806444(FileChooseContext* this) {
+void func_80806444(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+
     this->fileInfoAlpha[this->buttonIndex] -= 25;
     this->nameBoxAlpha[this->buttonIndex] += 25;
     this->confirmButtonAlpha[BTN_CONFIRM_YES] -= 25;
@@ -886,8 +901,8 @@ void func_80806444(FileChooseContext* this) {
     }
 }
 
-void func_808064F4(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void func_808064F4(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
     s16 yStep;
@@ -926,9 +941,9 @@ void func_808064F4(FileChooseContext* thisx) {
     }
 }
 
-void func_80806710(FileChooseContext* thisx) {
+void func_80806710(GameState* thisx) {
     static s16 D_80813800;
-    FileChooseContext* this = thisx;
+    FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
 
     if (D_808124A0 == 0) {
@@ -969,7 +984,7 @@ void func_80806710(FileChooseContext* thisx) {
     }
 }
 
-void func_808068F0(FileChooseContext* thisx) {
+void func_808068F0(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];
 
@@ -982,8 +997,8 @@ void func_808068F0(FileChooseContext* thisx) {
     }
 }
 
-void func_808069B4(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void func_808069B4(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
     s16 yStep;
@@ -1031,8 +1046,8 @@ void func_808069B4(FileChooseContext* thisx) {
     this->optionButtonAlpha = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->actionBtnAlpha[BTN_ACTION_COPY];
 }
 
-void func_80806C20(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void func_80806C20(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     s16 i;
     s16 yStep;
 

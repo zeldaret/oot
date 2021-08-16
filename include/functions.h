@@ -1390,7 +1390,7 @@ void VisMono_DrawOld(VisMono* this);
 void func_800AD920(struct_80166500* this);
 void func_800AD950(struct_80166500* this);
 void func_800AD958(struct_80166500* this, Gfx** gfxp);
-void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId);
+void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId);
 Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z);
 void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 alpha, f32 x, f32 y, f32 z);
 void SkyboxDraw_Update(SkyboxContext* skyboxCtx);

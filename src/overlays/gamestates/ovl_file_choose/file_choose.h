@@ -6,12 +6,6 @@
 #define _FILE_CHOOSE_H_
 
 #define GET_NEWF(sramCtx, slotNum, index) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[index])])
-#define NEWF_GET_Z(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[0])])
-#define NEWF_GET_E(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[1])])
-#define NEWF_GET_L(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[2])])
-#define NEWF_GET_D(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[3])])
-#define NEWF_GET_A(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[4])])
-#define NEWF_GET_Z2(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[slotNum] + OFFSETOF(SaveContext, newf[5])])
 
 #define SLOT_OCCUPIED(sramCtx, slotNum) \
     ((GET_NEWF(sramCtx, slotNum, 0) == 'Z') || \
@@ -113,7 +107,7 @@ typedef enum {
     /* 02 */ KBD_BTN_ENG,
     /* 03 */ KBD_BTN_BACKSPACE,
     /* 04 */ KBD_BTN_END,
-    /* 99 */ KBD_BTN_NONE = 99,
+    /* 99 */ KBD_BTN_NONE = 99
 } KeyboardButton;
 
 typedef enum {
@@ -161,47 +155,47 @@ typedef enum {
 } ConfigMode;
 
 // Config Mode Update Functions
-/* 00 */ void FileChoose_StartFadeIn(FileChooseContext* this);
-/* 01 */ void FileChoose_FinishFadeIn(FileChooseContext* this);
-/* 02 */ void FileChoose_UpdateMainMenu(FileChooseContext* this);
-/* 03 */ void FileCopy_SetupSourceSelect(FileChooseContext* this); 
-/* 04 */ void FileCopy_SelectSource(FileChooseContext* this); 
-/* 05 */ void func_80804248(FileChooseContext* this); 
-/* 06 */ void func_808043D8(FileChooseContext* this); 
-/* 07 */ void FileChoose_SelectCopyDest(FileChooseContext* this); 
-/* 08 */ void func_80804858(FileChooseContext* this); 
-/* 09 */ void func_80804924(FileChooseContext* this); 
-/* 10 */ void func_80804A50(FileChooseContext* this); 
-/* 11 */ void func_80804C74(FileChooseContext* this); 
-/* 12 */ void func_80804CD0(FileChooseContext* this); 
-/* 13 */ void func_80804ED8(FileChooseContext* this); 
-/* 14 */ void func_8080510C(FileChooseContext* this); 
-/* 15 */ void func_808051C8(FileChooseContext* this); 
-/* 16 */ void func_80805318(FileChooseContext* this); 
-/* 17 */ void func_80805434(FileChooseContext* this); 
-/* 18 */ void func_80805524(FileChooseContext* this); 
-/* 19 */ void FileCopy_SetupMainMenu(FileChooseContext* this); 
-/* 20 */ void func_8080595C(FileChooseContext* this); 
-/* 21 */ void func_80805B2C(FileChooseContext* this); 
-/* 22 */ void func_80805EB8(FileChooseContext* this); 
-/* 23 */ void func_80806180(FileChooseContext* this); 
-/* 24 */ void func_8080625C(FileChooseContext* this); 
-/* 25 */ void func_80806444(FileChooseContext* this); 
-/* 26 */ void func_808064F4(FileChooseContext* this); 
-/* 27 */ void func_80806710(FileChooseContext* this); 
-/* 28 */ void func_808068F0(FileChooseContext* this); 
-/* 29 */ void func_808069B4(FileChooseContext* this); 
-/* 30 */ void func_80806C20(FileChooseContext* this); 
-/* 31 */ void func_8080BE28(FileChooseContext* this); 
-/* 32 */ void FileChoose_RotateToNameEntry(FileChooseContext* this);
-/* 33 */ void FileChoose_UpdateKeyboardCursor(FileChooseContext* this);
-/* 34 */ void FileChoose_StartNameEntry(FileChooseContext* this);
-/* 35 */ void FileChoose_RotateFromOptions(FileChooseContext* this);
-/* 36 */ void FileChoose_RotateToOptions(FileChooseContext* this);
-/* 37 */ void FileChoose_UpdateOptionsMenu(FileChooseContext* this);
-/* 38 */ void FileChoose_StartOptions(FileChooseContext* this);
-/* 39 */ void FileChoose_RotateFromOptions(FileChooseContext* this);
-/* 40 */ void func_8080BE30(FileChooseContext* this);
+/* 00 */ void FileChoose_StartFadeIn(GameState* thisx);
+/* 01 */ void FileChoose_FinishFadeIn(GameState* thisx);
+/* 02 */ void FileChoose_UpdateMainMenu(GameState* thisx);
+/* 03 */ void FileCopy_SetupSourceSelect(GameState* thisx); 
+/* 04 */ void FileCopy_SelectSource(GameState* thisx); 
+/* 05 */ void func_80804248(GameState* thisx); 
+/* 06 */ void func_808043D8(GameState* thisx); 
+/* 07 */ void FileChoose_SelectCopyDest(GameState* thisx); 
+/* 08 */ void func_80804858(GameState* thisx); 
+/* 09 */ void func_80804924(GameState* thisx); 
+/* 10 */ void func_80804A50(GameState* thisx); 
+/* 11 */ void func_80804C74(GameState* thisx); 
+/* 12 */ void func_80804CD0(GameState* thisx); 
+/* 13 */ void func_80804ED8(GameState* thisx); 
+/* 14 */ void func_8080510C(GameState* thisx); 
+/* 15 */ void func_808051C8(GameState* thisx); 
+/* 16 */ void func_80805318(GameState* thisx); 
+/* 17 */ void func_80805434(GameState* thisx); 
+/* 18 */ void func_80805524(GameState* thisx); 
+/* 19 */ void FileCopy_SetupMainMenu(GameState* thisx); 
+/* 20 */ void func_8080595C(GameState* thisx); 
+/* 21 */ void func_80805B2C(GameState* thisx); 
+/* 22 */ void func_80805EB8(GameState* thisx); 
+/* 23 */ void func_80806180(GameState* thisx); 
+/* 24 */ void func_8080625C(GameState* thisx); 
+/* 25 */ void func_80806444(GameState* thisx); 
+/* 26 */ void func_808064F4(GameState* thisx); 
+/* 27 */ void func_80806710(GameState* thisx); 
+/* 28 */ void func_808068F0(GameState* thisx); 
+/* 29 */ void func_808069B4(GameState* thisx); 
+/* 30 */ void func_80806C20(GameState* thisx); 
+/* 31 */ void func_8080BE28(GameState* thisx); 
+/* 32 */ void FileChoose_RotateToNameEntry(GameState* thisx);
+/* 33 */ void FileChoose_UpdateKeyboardCursor(GameState* thisx);
+/* 34 */ void FileChoose_StartNameEntry(GameState* thisx);
+/* 35 */ void FileChoose_RotateFromOptions(GameState* thisx);
+/* 36 */ void FileChoose_RotateToOptions(GameState* thisx);
+/* 37 */ void FileChoose_UpdateOptionsMenu(GameState* thisx);
+/* 38 */ void FileChoose_StartOptions(GameState* thisx);
+/* 39 */ void FileChoose_RotateFromOptions(GameState* thisx);
+/* 40 */ void func_8080BE30(GameState* thisx);
 
 typedef enum {
     /* 00 */ SM_00,
@@ -215,24 +209,27 @@ typedef enum {
 } SelectMode;
 
 // Select Mode Update Functions
-void func_8080FE2C(FileChooseContext* this);
-void func_8080FF98(FileChooseContext* this);
-void func_8081009C(FileChooseContext* this);
-void func_8081017C(FileChooseContext* this);
-void func_80810354(FileChooseContext* this);
-void func_80810440(FileChooseContext* this);
-void FileChoose_FadeOut(FileChooseContext* this);
-void FileChoose_LoadGame(FileChooseContext* this);
+void func_8080FE2C(GameState* thisx);
+void func_8080FF98(GameState* thisx);
+void func_8081009C(GameState* thisx);
+void func_8081017C(GameState* thisx);
+void func_80810354(GameState* thisx);
+void func_80810440(GameState* thisx);
+void FileChoose_FadeOut(GameState* thisx);
+void FileChoose_LoadGame(GameState* thisx);
 
-void FileChoose_InitModeUpdate(FileChooseContext* this);
-void FileChoose_ConfigModeUpdate(FileChooseContext* this);
-void FileChoose_SelectModeUpdate(FileChooseContext* this);
+void FileChoose_InitModeUpdate(GameState* thisx);
+void FileChoose_ConfigModeUpdate(GameState* thisx);
+void FileChoose_SelectModeUpdate(GameState* thisx);
 
 void FileChoose_InitModeDraw(GameState* thisx);
 void FileChoose_ConfigModeDraw(GameState* thisx);
 void FileChoose_SelectModeDraw(GameState* thisx);
 
+void FileChoose_FlashCursor(GameState* thisx);
+void FileChoose_DrawSettings(FileChooseContext* this);
 
-
+void func_80808000(FileChooseContext* this);
+void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx);
 
 #endif

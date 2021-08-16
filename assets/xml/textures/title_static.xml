@@ -145,5 +145,8 @@
         <Texture Name="gTitleStaticOptionsButtonENGTex" OutName="title_static_options_button_eng" Format="ia16" Width="64" Height="16" Offset="0x45E00"/>
         <Texture Name="gTitleStaticOptionsButtonGERTex" OutName="title_static_options_button_ger" Format="ia16" Width="64" Height="16" Offset="0x46600"/>
         <Texture Name="gTitleStaticSaveXTex" OutName="title_static_save_x" Format="i4" Width="32" Height="16" Offset="0x46E00"/>
+        <DList Name="gFileSelectDL46F00" Offset="0x46F00"/>
+        <DList Name="gFileSelectDL47118" Offset="0x47118"/>
+        <DList Name="gFileSelectDL47328" Offset="0x47328"/>
     </File>
 </Root>

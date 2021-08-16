@@ -636,7 +636,7 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vr_box/Skybox_Setup.s")
 #endif
 
-void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId) {
+void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId) {
     skyboxCtx->unk_140 = 0;
     skyboxCtx->rot.x = 0.0f;
     skyboxCtx->rot.y = 0.0f;

@@ -1,4 +1,5 @@
 #include "file_choose.h"
+#include "textures/title_static/title_static.h"
 
 s16 D_808124C0[] = {
     0x0002, 0x0003, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0002, 0x0000, 0x0001,
@@ -46,7 +47,6 @@ OptionsMenuTextures gOptionsMenuSettings[] = {
     { { 0x01043B00, 0x01043E00, 0x01044300 }, { 48, 80, 48 }, 16 }, // "Hold"
 };
 
-
 extern Vtx D_80811BB0[6][4];
 extern s16 D_808123F0[];
 extern Vtx D_80811E30[];
@@ -57,13 +57,6 @@ extern Vtx gOptionsDividerTop[];
 extern Vtx gOptionsDividerMiddle[];
 extern Vtx gOptionsDividerBottom[];
 extern u8 gSelectedSetting;
-
-extern u8 D_0101BD40[];
-extern u8 D_0101BF80[];
-extern u8 D_0101C4C0[];
-extern u8 D_0101B380[];
-extern u8 D_0101B280[];
-extern u8 D_01015600[];
 
 void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
     OPEN_DISPS(gfxCtx, "../z_file_nameset_PAL.c", 110);
@@ -214,7 +207,7 @@ void func_8080723C(FileChooseContext* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                     this->nameEntryBoxAlpha);
     gSPVertex(POLY_OPA_DISP++, this->allocVtx4, 4, 0);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, D_01015600, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticFileNameBackgroundTex, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     gDPPipeSync(POLY_OPA_DISP++);
@@ -269,10 +262,6 @@ void FileChoose_DrawKeyboard(FileChooseContext* thisx) {
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 347);
 }
-// extern int PRIMITIVE;
-// extern int TEXEL0;
-// extern int TEXEL1;
-// extern int G_IM_SIZ_8b_SHIFTL;
 
 #ifdef NON_MATCHING
 // Each invocation of D_80811BB0[this->kbdX + 1] needs to skip a t register.
@@ -289,7 +278,7 @@ void func_80808000(FileChooseContext* thisx) {
 
     func_80806F34(this);
     func_8080723C(this);
-    FileChoose_FlashCursor(this);
+    FileChoose_FlashCursor(&this->state);
 
     tmp = (this->newFileNameCharCount * 4) + 4;
     this->allocVtx4[36].v.ob[0] = this->allocVtx4[38].v.ob[0] = this->allocVtx4[tmp].v.ob[0] - 6;
@@ -332,16 +321,16 @@ void func_80808000(FileChooseContext* thisx) {
                       PRIMITIVE, 0);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->highlightColor[0], this->highlightColor[1], this->highlightColor[2],
                     this->highlightColor[3]);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101BD40, G_IM_FMT_I, G_IM_SIZ_8b, 24, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticNameSelectLetterHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 24, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
     if ((this->kbdButton == KBD_BTN_HIRA) || (this->kbdButton == KBD_BTN_KATA) || (this->kbdButton == KBD_BTN_END)) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101BF80, G_IM_FMT_I, G_IM_SIZ_8b, 56, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticMediumButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 56, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     } else if ((this->kbdButton == KBD_BTN_ENG) || (this->kbdButton == KBD_BTN_BACKSPACE)) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101C4C0, G_IM_FMT_I, G_IM_SIZ_8b, 40, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticSmallButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 40, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     }
 
@@ -448,7 +437,7 @@ void func_80808000(FileChooseContext* thisx) {
                                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                        &D_801333E8);
                                 gSaveContext.fileNum = this->buttonIndex;
-                                dayTime = (0, gSaveContext.dayTime);
+                                dayTime = ((void)0, gSaveContext.dayTime);
                                 Sram_InitSave(this, &this->sramCtx);
                                 gSaveContext.dayTime = dayTime;
                                 this->configMode = CM_KEYBOARD_TO_MAIN;
@@ -497,7 +486,9 @@ void func_80808000(FileChooseContext* thisx);
  * Fade in the name entry box and slide it to the center of the screen from the right side.
  * After the name entry box is in place, init the keyboard/cursor and change modes
  */
-void FileChoose_StartNameEntry(FileChooseContext* this) {
+void FileChoose_StartNameEntry(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+
     this->nameEntryBoxAlpha += 25;
 
     if (this->nameEntryBoxAlpha >= 255) {
@@ -521,7 +512,7 @@ void FileChoose_StartNameEntry(FileChooseContext* this) {
  * There are many special cases for warping the cursor depending on where
  * on the keyboard the cursor currently is.
  */
-void FileChoose_UpdateKeyboardCursor(FileChooseContext* thisx) {
+void FileChoose_UpdateKeyboardCursor(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 prevKbdX;
 
@@ -638,7 +629,9 @@ void FileChoose_UpdateKeyboardCursor(FileChooseContext* thisx) {
  * The name entry box fades and slides in even though it is not visible.
  * After this is complete, change to the options menu mode
  */
-void FileChoose_StartOptions(FileChooseContext* this) {
+void FileChoose_StartOptions(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+
     this->nameEntryBoxAlpha += 25;
 
     if (this->nameEntryBoxAlpha >= 255) {
@@ -661,7 +654,7 @@ u8 gSelectedSetting;
  * If the player presses B, write the selected options to the SRAM header
  * and set configMode to rotate back to the main menu
  */
-void FileChoose_UpdateOptionsMenu(FileChooseContext* thisx) {
+void FileChoose_UpdateOptionsMenu(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller1 = &this->state.input[0];
@@ -722,7 +715,7 @@ void FileChoose_UpdateOptionsMenu(FileChooseContext* thisx) {
     }
 }
 
-void func_808099C8(FileChooseContext* thisx) {
+void FileChoose_DrawSettingsImpl(FileChooseContext* thisx) {
     static s16 cursorPrimRed = 255;
     static s16 cursorPrimGreen = 255;
     static s16 cursorPrimBlue = 255;
@@ -885,7 +878,7 @@ void func_808099C8(FileChooseContext* thisx) {
     gDPPipeSync(POLY_OPA_DISP++);
 
     // check brightness bars
-    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, D_0101B380, G_IM_FMT_IA, 96, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gTitleStaticBrightnessCheckTex, G_IM_FMT_IA, 96, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 55, 55, 55, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 40, 40, 40, 255);
@@ -905,7 +898,7 @@ void func_808099C8(FileChooseContext* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, D_0101B280, G_IM_FMT_IA, 256, 2, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gTitleStaticOptionsSeparatorTex, G_IM_FMT_IA, 256, 2, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     Matrix_Push();
@@ -936,8 +929,6 @@ void func_808099C8(FileChooseContext* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 1040);
 }
 
-void func_8080AF30(FileChooseContext* this) {
-    func_808099C8(this);
+void FileChoose_DrawSettings(FileChooseContext* this) {
+    FileChoose_DrawSettingsImpl(this);
 }
-
-
