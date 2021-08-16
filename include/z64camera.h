@@ -106,7 +106,7 @@ typedef enum {
     /* 0x06 */ CAM_MODE_FIRSTPERSON,  // Original: CAM_MODE_SUBJECT
     /* 0x07 */ CAM_MODE_BOWARROW,
     /* 0x08 */ CAM_MODE_BOWARROWZ,
-    /* 0x09 */ CAM_MODE_FOOKSHOT,
+    /* 0x09 */ CAM_MODE_HOOKSHOT, // Original: CAM_MODE_FOOKSHOT
     /* 0x0A */ CAM_MODE_BOOMERANG,
     /* 0x0B */ CAM_MODE_SLINGSHOT, // Original: CasdfsAM_MODE_PACHINCO
     /* 0x0C */ CAM_MODE_CLIMBZ,

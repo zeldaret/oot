@@ -9629,7 +9629,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
             Camera_ChangeMode(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN), CAM_MODE_NORMAL);
         } else if (!(this->stateFlags1 & 0x100000)) {
             if ((this->actor.parent != NULL) && (this->stateFlags3 & 0x80)) {
-                cameraMode = CAM_MODE_FOOKSHOT;
+                cameraMode = CAM_MODE_HOOKSHOT;
                 Camera_SetParam(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN), 8, this->actor.parent);
             } else if (func_8084377C == this->func_674) {
                 cameraMode = CAM_MODE_STILL;
