@@ -255,7 +255,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
                 csInfo->keyFrames = D_801211D4;
                 csInfo->keyFrameCnt = 2;
             }
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_UNK3);
             func_800C0808(globalCtx, subCamId, player, CAM_SET_DEMOC);
         } break;
         case 2290: {
@@ -1164,10 +1164,10 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
     // Inserts the cutscene camera into the cutscene queue in front of parentCam
 
     vChildCamId = globalCtx->cameraPtrs[parentCamId]->childCamId;
-    vSubCamStatus = CAM_STAT_ACTIVE;
+    vSubCamStatus = CAM_STATUS_ACTIVE;
     if (vChildCamId >= CAM_ID_SUB_FIRST) {
         OnePointCutscene_SetAsChild(globalCtx, vChildCamId, subCamId);
-        vSubCamStatus = CAM_STAT_WAIT;
+        vSubCamStatus = CAM_STATUS_WAIT;
     } else {
         Interface_ChangeAlpha(2);
     }
@@ -1185,9 +1185,9 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
     subCamera->csId = csId;
 
     if (parentCamId == CAM_ID_MAIN) {
-        Gameplay_ChangeCameraStatus(globalCtx, parentCamId, CAM_STAT_UNK3);
+        Gameplay_ChangeCameraStatus(globalCtx, parentCamId, CAM_STATUS_UNK3);
     } else {
-        Gameplay_ChangeCameraStatus(globalCtx, parentCamId, CAM_STAT_WAIT);
+        Gameplay_ChangeCameraStatus(globalCtx, parentCamId, CAM_STATUS_WAIT);
     }
     OnePointCutscene_SetInfo(globalCtx, subCamId, csId, actor, timer);
     Gameplay_ChangeCameraStatus(globalCtx, subCamId, vSubCamStatus);
@@ -1205,7 +1205,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
                          vNextCamId, nextCsId, thisCsId);
             if (globalCtx->cameraPtrs[vNextCamId]->csId != 5010) {
                 if ((vNextCamId = OnePointCutscene_RemoveCamera(globalCtx, vNextCamId)) != CAM_ID_SUB_NONE) {
-                    Gameplay_ChangeCameraStatus(globalCtx, vNextCamId, CAM_STAT_ACTIVE);
+                    Gameplay_ChangeCameraStatus(globalCtx, vNextCamId, CAM_STATUS_ACTIVE);
                 }
             } else {
                 vCurCamId = vNextCamId;

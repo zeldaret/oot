@@ -656,8 +656,8 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
             this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STATUS_ACTIVE);
             this->subCamData.eye = mainCam->eye;
             this->subCamData.at = mainCam->at;
             this->subCamData.eyeVel.x = 100.0f;

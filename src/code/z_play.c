@@ -213,11 +213,11 @@ void Gameplay_Init(GameState* thisx) {
     }
 
     Camera_Init(&globalCtx->mainCamera, &globalCtx->view, &globalCtx->colCtx, globalCtx);
-    Camera_ChangeStatus(&globalCtx->mainCamera, CAM_STAT_ACTIVE);
+    Camera_ChangeStatus(&globalCtx->mainCamera, CAM_STATUS_ACTIVE);
 
     for (i = 0; i < 3; i++) {
         Camera_Init(&globalCtx->subCameras[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-        Camera_ChangeStatus(&globalCtx->subCameras[i], CAM_STAT_INACTIVE);
+        Camera_ChangeStatus(&globalCtx->subCameras[i], CAM_STATUS_INACTIVE);
     }
 
     globalCtx->cameraPtrs[CAM_ID_MAIN] = &globalCtx->mainCamera;
@@ -1524,7 +1524,7 @@ s16 Gameplay_GetActiveCamId(GlobalContext* globalCtx) {
 s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status) {
     s16 camIdx = (camId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId;
 
-    if (status == CAM_STAT_ACTIVE) {
+    if (status == CAM_STATUS_ACTIVE) {
         globalCtx->activeCamId = camIdx;
     }
 
@@ -1539,7 +1539,7 @@ void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId) {
     }
 
     if (globalCtx->cameraPtrs[camIdx] != NULL) {
-        Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], CAM_STAT_INACTIVE);
+        Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], CAM_STATUS_INACTIVE);
         globalCtx->cameraPtrs[camIdx] = NULL;
         osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " clear sub camera [%d] " VT_BGCOL(
                          CYAN) " " VT_RST "\n",
@@ -1672,7 +1672,7 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
     }
 
     if (arg2 <= 0) {
-        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_ACTIVE);
         globalCtx->cameraPtrs[CAM_ID_MAIN]->childCamId = globalCtx->cameraPtrs[CAM_ID_MAIN]->parentCamId = CAM_ID_SUB_FREE;
     } else {
         OnePointCutscene_Init(globalCtx, 1020, arg2, NULL, CAM_ID_MAIN);
@@ -1696,7 +1696,7 @@ s16 func_800C09D8(GlobalContext* globalCtx, s16 camId, s16 arg2) {
         return 0;
     } else if (camera->uid != arg2) {
         return 0;
-    } else if (camera->status != CAM_STAT_ACTIVE) {
+    } else if (camera->status != CAM_STATUS_ACTIVE) {
         return 2;
     } else {
         return 1;

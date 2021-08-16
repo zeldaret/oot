@@ -169,8 +169,8 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_10B38, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gChildZelda1Anim_10B38), ANIMMODE_ONCE_INTERP, -10.0f);
         this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-        Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_WAIT);
+        Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STATUS_ACTIVE);
         func_800C0808(globalCtx, this->subCamId, player, CAM_SET_FREE0);
         globalCtx->envCtx.unk_E2[0] = 0xFF;
         globalCtx->envCtx.unk_E2[1] = 0xFF;
@@ -520,7 +520,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
         case 2:
             if (Actor_HasParent(&this->actor, globalCtx)) {
                 Gameplay_CopyCamera(globalCtx, CAM_ID_MAIN, this->subCamId);
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_ACTIVE);
                 Gameplay_ClearCamera(globalCtx, this->subCamId);
                 this->actor.parent = NULL;
                 this->unk_1E2++;

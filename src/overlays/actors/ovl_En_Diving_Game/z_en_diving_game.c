@@ -300,8 +300,8 @@ void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
 void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STATUS_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STATUS_ACTIVE);
     this->spawnRuppyTimer = 10;
     this->unk_2F4.x = -210.0f;
     this->unk_2F4.y = -80.0f;
@@ -398,7 +398,7 @@ void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->csCameraTimer == 0) {
         Gameplay_ClearCamera(globalCtx, this->subCamId);
-        Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
+        Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STATUS_ACTIVE);
         this->actor.textId = 0x405A;
         func_8010B720(globalCtx, this->actor.textId);
         this->unk_292 = 5;

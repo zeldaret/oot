@@ -5228,8 +5228,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             Camera* camera;
 
             sSubCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STATUS_ACTIVE);
             camera = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
             sCameraEye.x = camera->eye.x;
             sCameraEye.y = camera->eye.y;
@@ -5359,8 +5359,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
             func_80064520(globalCtx, &globalCtx->csCtx);
             sSubCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STATUS_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 5);
             camera = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
             sCameraEye.x = camera->eye.x;
@@ -5401,8 +5401,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
             func_80064520(globalCtx, &globalCtx->csCtx);
             sSubCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STATUS_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 5);
             camera = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
             sCameraEye.x = camera->eye.x;

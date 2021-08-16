@@ -648,8 +648,8 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     globalCtx->envCtx.unk_E2[3] = 0xD2;
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     sSubCamId = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                    Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+                    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_WAIT);
+                    Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STATUS_ACTIVE);
                     sCameraNextEye.x = sCameraEye.x = 140.0f;
                     sCameraNextEye.y = sCameraEye.y = 205.0f;
                     sCameraNextEye.z = sCameraEye.z = -20.0f;
@@ -791,8 +791,8 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             if (sSubCamId == CAM_ID_SUB_FREE) {
                 sSubCamId = Gameplay_CreateSubCamera(globalCtx);
             }
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STATUS_ACTIVE);
 
             sCameraNextEye.x = sCameraEye.x = 13.0f;
             sCameraNextEye.y = sCameraEye.y = 124.0f;
@@ -833,8 +833,8 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             if (sSubCamId == CAM_ID_SUB_FREE) {
                 sSubCamId = Gameplay_CreateSubCamera(globalCtx);
             }
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STATUS_ACTIVE);
 
             sCameraNextEye.x = sCameraEye.x = 13.0f;
             sCameraNextEye.y = sCameraEye.y = 124.0f;
@@ -1012,7 +1012,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                 Gameplay_ClearCamera(globalCtx, sSubCamId);
                 sSubCamId = CAM_ID_SUB_FREE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_ACTIVE);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 sCsState++;
                 gSaveContext.eventChkInf[7] |= 0x40;
@@ -1534,8 +1534,8 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
             func_8002DF54(globalCtx, &this->actor, 1);
             func_80064520(globalCtx, &globalCtx->csCtx);
             sSubCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STATUS_ACTIVE);
 
             sCameraNextAt.x = this->actor.world.pos.x;
             sCameraNextAt.y = this->actor.world.pos.y;
@@ -1628,7 +1628,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
                 Gameplay_ClearCamera(globalCtx, sSubCamId);
                 sSubCamId = CAM_ID_SUB_FREE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_ACTIVE);
 
                 mainCam->eyeNext = mainCam->eye = sCameraEye;
 

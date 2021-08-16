@@ -1594,7 +1594,7 @@ s32 Camera_Normal1(Camera* camera) {
     }
 
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeAdjustment);
-    if ((camera->status == CAM_STAT_ACTIVE) && (!(norm1->interfaceFlags & 0x10))) {
+    if ((camera->status == CAM_STATUS_ACTIVE) && (!(norm1->interfaceFlags & 0x10))) {
         anim->swingYawTarget = BINANG_ROT180(camera->playerPosRot.rot.y);
         if (anim->startSwingTimer > 0) {
             func_80046E20(camera, &eyeAdjustment, norm1->distMin, norm1->unk_0C, &sp98, &anim->swing);
@@ -1790,7 +1790,7 @@ s32 Camera_Normal2(Camera* camera) {
 
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &adjSph);
 
-    if (camera->status == CAM_STAT_ACTIVE) {
+    if (camera->status == CAM_STATUS_ACTIVE) {
         bgChk.pos = *eyeNext;
         if ((camera->globalCtx->envCtx.skyDisabled == 0) || norm2->interfaceFlags & 0x10) {
             Camera_BGCheckInfo(camera, at, &bgChk);
@@ -1943,7 +1943,7 @@ s32 Camera_Normal3(Camera* camera) {
 
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &sp84);
 
-    if (camera->status == CAM_STAT_ACTIVE) {
+    if (camera->status == CAM_STATUS_ACTIVE) {
         func_80046E20(camera, &sp84, norm3->distMin, norm3->yawUpdateSpeed, &sp8C, &anim->swing);
     } else {
         *eye = *eyeNext;
@@ -2122,7 +2122,7 @@ s32 Camera_Parallel1(Camera* camera) {
         }
     }
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spA8);
-    if (camera->status == CAM_STAT_ACTIVE) {
+    if (camera->status == CAM_STATUS_ACTIVE) {
         sp6C.pos = *eyeNext;
         if (camera->globalCtx->envCtx.skyDisabled == 0 || para1->interfaceFlags & 0x10) {
             Camera_BGCheckInfo(camera, at, &sp6C);
@@ -2284,7 +2284,7 @@ s32 Camera_Jump1(Camera* camera) {
     eyeNext->x = newEye.x;
     eyeNext->z = newEye.z;
     eyeNext->y += (newEye.y - eyeNext->y) * PCT(OREG(31));
-    if ((camera->status == CAM_STAT_ACTIVE) && !(jump1->interfaceFlags & 0x10)) {
+    if ((camera->status == CAM_STATUS_ACTIVE) && !(jump1->interfaceFlags & 0x10)) {
         func_80046E20(camera, &eyeDiffSph, jump1->distMin, jump1->yawUpateRateTarget, &spA4, &anim->swing);
         if (jump1->interfaceFlags & 4) {
             camera->inputDir.x = -eyeAtOffset.pitch;
@@ -2651,7 +2651,7 @@ s32 Camera_Jump3(Camera* camera) {
     }
 
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeDiffSph);
-    if ((camera->status == CAM_STAT_ACTIVE) && !(jump3->interfaceFlags & 0x10)) {
+    if ((camera->status == CAM_STATUS_ACTIVE) && !(jump3->interfaceFlags & 0x10)) {
         func_80046E20(camera, &eyeDiffSph, jump3->distMin, jump3->swingUpdateRate, &spBC, &anim->swing);
         if (jump3->interfaceFlags & 4) {
             camera->inputDir.x = -eyeAtOffset.pitch;
@@ -2822,7 +2822,7 @@ s32 Camera_Battle1(Camera* camera) {
         anim->yPosOffset = playerPosRot->pos.y - camera->playerPosDelta.y;
     }
 
-    if (camera->status == CAM_STAT_ACTIVE) {
+    if (camera->status == CAM_STATUS_ACTIVE) {
         sUpdateCameraDirection = 1;
         camera->inputDir.x = -atToEyeDir.pitch;
         camera->inputDir.y = BINANG_ROT180(atToEyeDir.yaw);
@@ -2915,7 +2915,7 @@ s32 Camera_Battle1(Camera* camera) {
         spB4.pitch = Camera_LERPCeilS(tmpAng1, atToEyeNextDir.pitch, anim->unk_10, 0xA);
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spB4);
         spBC.pos = *eyeNext;
-        if (camera->status == CAM_STAT_ACTIVE) {
+        if (camera->status == CAM_STATUS_ACTIVE) {
             if (camera->globalCtx->envCtx.skyDisabled == 0 || batt1->flags & 1) {
                 Camera_BGCheckInfo(camera, at, &spBC);
             } else if (batt1->flags & 2) {
@@ -3108,7 +3108,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         anim->unk_00 = spC0.r;
         anim->unk_08 = playerPosRot->pos.y - camera->playerPosDelta.y;
     }
-    if (camera->status == CAM_STAT_ACTIVE) {
+    if (camera->status == CAM_STATUS_ACTIVE) {
         sUpdateCameraDirection = 1;
         camera->inputDir.x = -spC0.pitch;
         camera->inputDir.y = BINANG_ROT180(spC0.yaw);
@@ -3237,7 +3237,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         spD8.pitch = Camera_LERPCeilS(spE2, spB8.pitch, PCT(OREG(12)), 0xA);
         Camera_Vec3fVecSphGeoAdd(eyeNext, at, &spD8);
         sp8C.pos = *eyeNext;
-        if (camera->status == CAM_STAT_ACTIVE) {
+        if (camera->status == CAM_STATUS_ACTIVE) {
             if ((camera->globalCtx->envCtx.skyDisabled == 0) || keep1->interfaceFlags & 1) {
                 Camera_BGCheckInfo(camera, at, &sp8C);
             } else if (keep1->interfaceFlags & 2) {
@@ -7002,15 +7002,15 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     s32 i;
 
     if (PREG(82)) {
-        osSyncPrintf("camera: change camera status: cond %c%c\n", status == CAM_STAT_ACTIVE ? 'o' : 'x',
-                     camera->status != CAM_STAT_ACTIVE ? 'o' : 'x');
+        osSyncPrintf("camera: change camera status: cond %c%c\n", status == CAM_STATUS_ACTIVE ? 'o' : 'x',
+                     camera->status != CAM_STATUS_ACTIVE ? 'o' : 'x');
     }
 
     if (PREG(82)) {
         osSyncPrintf("camera: res: stat (%d/%d/%d)\n", camera->camId, camera->setting, camera->mode);
     }
 
-    if (status == CAM_STAT_ACTIVE && camera->status != CAM_STAT_ACTIVE) {
+    if (status == CAM_STATUS_ACTIVE && camera->status != CAM_STATUS_ACTIVE) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         for (i = 0; i < sCameraSettings[camera->setting].cameraModes[camera->mode].valueCnt; i++) {
             valueP = &values[i];
@@ -7047,19 +7047,19 @@ void Camera_PrintInfo(Camera* camera) {
                 activeCamStr[i] = ' ';
             } else {
                 switch (camera->globalCtx->cameraPtrs[i]->status) {
-                    case CAM_STAT_CUT:
+                    case CAM_STATUS_CUT:
                         statusStr[i] = 'c';
                         break;
-                    case CAM_STAT_WAIT:
+                    case CAM_STATUS_WAIT:
                         statusStr[i] = 'w';
                         break;
-                    case CAM_STAT_UNK3:
+                    case CAM_STATUS_UNK3:
                         statusStr[i] = 's';
                         break;
-                    case CAM_STAT_ACTIVE:
+                    case CAM_STATUS_ACTIVE:
                         statusStr[i] = 'a';
                         break;
-                    case CAM_STAT_INACTIVE:
+                    case CAM_STATUS_INACTIVE:
                         statusStr[i] = 'd';
                         break;
                     default:
@@ -7360,7 +7360,7 @@ Vec3s Camera_Update(Camera* camera) {
         osSyncPrintf("camera: in %x\n", camera);
     }
 
-    if (camera->status == CAM_STAT_CUT) {
+    if (camera->status == CAM_STATUS_CUT) {
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: cut out %x\n", camera);
         }
@@ -7401,7 +7401,7 @@ Vec3s Camera_Update(Camera* camera) {
         camera->playerPosRot = curPlayerPosRot;
 
         if (sOOBTimer < 200) {
-            if (camera->status == CAM_STAT_ACTIVE) {
+            if (camera->status == CAM_STATUS_ACTIVE) {
                 Camera_CheckWater(camera);
                 Camera_SetRoomHotFlag(camera);
             }
@@ -7434,7 +7434,7 @@ Vec3s Camera_Update(Camera* camera) {
     Camera_PrintInfo(camera);
     Camera_DbgChangeMode(camera);
 
-    if (camera->status == CAM_STAT_WAIT) {
+    if (camera->status == CAM_STATUS_WAIT) {
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: wait out %x\n", camera);
         }
@@ -7457,7 +7457,7 @@ Vec3s Camera_Update(Camera* camera) {
         Camera_CalcAtDefault(camera, &eyeAtAngle, 0.0f, 0);
     }
 
-    if (camera->status == CAM_STAT_ACTIVE) {
+    if (camera->status == CAM_STATUS_ACTIVE) {
         if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3)) {
             sCameraInterfaceFlags = 0;
             Camera_UpdateInterface(sCameraInterfaceFlags);
@@ -7510,7 +7510,7 @@ Vec3s Camera_Update(Camera* camera) {
 
     OREG(0) &= ~8;
 
-    if (camera->status == CAM_STAT_UNK3) {
+    if (camera->status == CAM_STATUS_UNK3) {
         return camera->inputDir;
     }
 
@@ -7596,7 +7596,7 @@ void Camera_Finish(Camera* camera) {
     Player* player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
 
     if (camera->timer == 0) {
-        Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamId, CAM_STAT_ACTIVE);
+        Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamId, CAM_STATUS_ACTIVE);
 
         if ((camera->parentCamId == CAM_ID_MAIN) && (camera->csId != 0)) {
             player->actor.freezeTimer = 0;
@@ -7736,7 +7736,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
                 break;
         }
         modeChangeFlags &= ~0x10;
-        if (camera->status == CAM_STAT_ACTIVE) {
+        if (camera->status == CAM_STATUS_ACTIVE) {
             switch (modeChangeFlags) {
                 case 1:
                     func_80078884(0);

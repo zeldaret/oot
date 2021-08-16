@@ -365,8 +365,8 @@ void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
 
     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
     this->activeCamId = globalCtx->activeCamId;
-    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STATUS_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STATUS_ACTIVE);
     subCamAt = this->actor.world.pos;
     subCamEye = this->actor.home.pos;
     subCamAt.y += 60.0f;
@@ -403,7 +403,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_StopMweep(EnKz* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STAT_ACTIVE);
+    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STATUS_ACTIVE);
     Gameplay_ClearCamera(globalCtx, this->subCamId);
     func_8002DF54(globalCtx, &this->actor, 7);
     this->actionFunc = EnKz_Wait;

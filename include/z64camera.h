@@ -4,11 +4,11 @@
 #include <ultra64.h>
 #include <z64cutscene.h>
 
-#define CAM_STAT_CUT 0
-#define CAM_STAT_WAIT 1
-#define CAM_STAT_UNK3 3
-#define CAM_STAT_ACTIVE 7
-#define CAM_STAT_INACTIVE 0x100
+#define CAM_STATUS_CUT 0
+#define CAM_STATUS_WAIT 1
+#define CAM_STATUS_UNK3 3
+#define CAM_STATUS_ACTIVE 7
+#define CAM_STATUS_INACTIVE 0x100
 
 #define NUM_CAMS 4
 #define CAM_ID_MAIN 0
