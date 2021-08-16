@@ -328,11 +328,13 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             Gameplay_SetCameraRoll(globalCtx, subCamId, childCam->roll);
             break;
         case 9601:
+            // Leaving a crawlspace forwards
             Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_DEMO3);
             Gameplay_CameraChangeSetting(globalCtx, CAM_ID_MAIN, mainCam->prevSetting);
             OnePointCutscene_SetCsCamPoints(csCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120398);
             break;
         case 9602:
+        // Leaving a crawlspace backwards
             Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_DEMO3);
             Gameplay_CameraChangeSetting(globalCtx, CAM_ID_MAIN, mainCam->prevSetting);
             OnePointCutscene_SetCsCamPoints(csCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120434);

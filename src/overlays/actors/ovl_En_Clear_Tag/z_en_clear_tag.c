@@ -618,7 +618,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 // Cutscene has finished.
                 if (this->cutsceneTimer == 1) {
                     func_800C08AC(globalCtx, this->subCamId, 0);
-                    this->cutsceneMode = this->subCamId = CAM_ID_SUB_FREE;
+                    this->cutsceneMode = this->subCamId = 0; // = CLEAR_TAG_CUTSCENE_MODE_NONE = CAM_ID_SUB_FREE
                     func_80064534(globalCtx, &globalCtx->csCtx);
                 }
             }
