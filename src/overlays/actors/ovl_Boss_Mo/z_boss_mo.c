@@ -764,7 +764,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachS(&player->actor.shape.rot.y, this->grabPosRot.rot.y, 2, 0x7D0);
                 Math_ApproachS(&player->actor.shape.rot.z, this->grabPosRot.rot.z, 2, 0x7D0);
                 if (this->timers[0] == 0) {
-                    mainCam1 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                    mainCam1 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                     this->work[MO_TENT_ACTION_STATE] = MO_TENT_SHAKE;
                     this->tentMaxAngle = .001f;
                     this->fwork[MO_TENT_SWING_RATE_X] = this->fwork[MO_TENT_SWING_RATE_Z] =
@@ -775,7 +775,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     func_800F4BE8();
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                     Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                     this->subCamEye = mainCam1->eye;
                     this->subCamAt = mainCam1->at;
@@ -842,7 +842,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     this->timers[0] = 75;
                 }
             }
-            if (this->subCamId != SUBCAM_FREE) {
+            if (this->subCamId != CAM_ID_SUB_FREE) {
                 sp138.x = 0;
                 sp138.y = 100.0f;
                 sp138.z = 200.0f;
@@ -888,18 +888,18 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             }
             break;
         case MO_TENT_RETREAT:
-            if (this->subCamId != SUBCAM_FREE) {
+            if (this->subCamId != CAM_ID_SUB_FREE) {
                 Math_ApproachF(&this->subCamAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
                 Math_ApproachF(&this->subCamAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
                 Math_ApproachF(&this->subCamAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
                 Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
                 if (player->actor.world.pos.y <= 42.0f) {
-                    mainCam2 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                    mainCam2 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                     mainCam2->eye = this->subCamEye;
                     mainCam2->eyeNext = this->subCamEye;
                     mainCam2->at = this->subCamAt;
                     func_800C08AC(globalCtx, this->subCamId, 0);
-                    this->subCamId = SUBCAM_FREE;
+                    this->subCamId = CAM_ID_SUB_FREE;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                 }
             }
@@ -1197,7 +1197,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
     f32 sp7C;
     f32 sp78;
     Player* player = PLAYER;
-    Camera* mainCam1 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    Camera* mainCam1 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     Vec3f bubblePos;
     Vec3f bubblePos2;
     Camera* mainCam2;
@@ -1225,7 +1225,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
                 this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                 this->actor.speedXZ = 0.0f;
                 this->csState = MO_INTRO_START;
@@ -1436,12 +1436,12 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 sMorphaTent1->timers[0] = 50;
             }
             if (this->timers[2] == 20) {
-                mainCam2 = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                mainCam2 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                 mainCam2->eye = this->subCamEye;
                 mainCam2->eyeNext = this->subCamEye;
                 mainCam2->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->csState = this->subCamId = MO_BATTLE; // this->subCamId = SUBCAM_FREE
+                this->csState = this->subCamId = MO_BATTLE; // this->subCamId = CAM_ID_SUB_FREE
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
             }
@@ -1454,7 +1454,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
         sMorphaTent1->actor.speedXZ = 0.0f;
         sMorphaTent1->actor.shape.rot.y = sMorphaTent1->actor.yawTowardsPlayer;
     }
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         if (sp9F) {
             Math_ApproachF(&this->subCamEye.x, this->cameraNextEye.x, this->subCamEyeMaxVel.x,
                            this->subCamEyeVel.x * this->cameraSpeedMod);
@@ -1501,7 +1501,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
     f32 sp7C;
     Vec3f sp70;
     Vec3f sp64;
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     Vec3f velocity;
     Vec3f pos;
 
@@ -1510,7 +1510,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->csState = MO_DEATH_MO_CORE_BURST;
             this->subCamEye = mainCam->eye;
@@ -1674,7 +1674,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
                     mainCam->eyeNext = this->subCamEye;
                     mainCam->at = this->subCamAt;
                     func_800C08AC(globalCtx, this->subCamId, 0);
-                    this->subCamId = SUBCAM_FREE;
+                    this->subCamId = CAM_ID_SUB_FREE;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     sMorphaTent1->actor.world.pos.y = -1000.0f;
@@ -1716,7 +1716,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
     this->subCamEye.x = sp64.x + this->subCamAt.x;
     this->subCamEye.z = sp64.z + this->subCamAt.z;
     one = 1; // Super fake, but it works
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         if (one) {
             Math_ApproachF(&this->subCamAt.y, this->cameraNextAt.y, this->subCamAtMaxVel.y,
                            this->subCamAtVel.y * this->cameraSpeedMod);
@@ -1766,8 +1766,8 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                 this->actor.colChkInfo.health -= damage;
                 this->hitCount++;
                 if ((s8)this->actor.colChkInfo.health <= 0) {
-                    if (((sMorphaTent1->subCamId == SUBCAM_FREE) && (sMorphaTent2 == NULL)) ||
-                        ((sMorphaTent1->subCamId == SUBCAM_FREE) && (sMorphaTent2 != NULL) && (sMorphaTent2->subCamId == SUBCAM_FREE))) {
+                    if (((sMorphaTent1->subCamId == CAM_ID_SUB_FREE) && (sMorphaTent2 == NULL)) ||
+                        ((sMorphaTent1->subCamId == CAM_ID_SUB_FREE) && (sMorphaTent2 != NULL) && (sMorphaTent2->subCamId == CAM_ID_SUB_FREE))) {
                         Enemy_StartFinishingBlow(globalCtx, &this->actor);
                         Audio_QueueSeqCmd(0x100100FF);
                         this->csState = MO_DEATH_START;
@@ -2655,7 +2655,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
         BossMo_DrawWater(this, globalCtx);
     }
 
-    if ((this->subCamId != SUBCAM_FREE) && (this->csState < MO_INTRO_REVEAL)) {
+    if ((this->subCamId != CAM_ID_SUB_FREE) && (this->csState < MO_INTRO_REVEAL)) {
         f32 sp8C;
         f32 sp88;
         f32 sp84;

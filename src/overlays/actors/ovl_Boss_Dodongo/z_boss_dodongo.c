@@ -273,7 +273,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
     Vec3f subCamAt;
     Vec3f subCamUp;
 
-    mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
     if (this->unk_196 != 0) {
         this->unk_196--;
@@ -301,7 +301,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             func_8002DF54(globalCtx, &this->actor, 1);
             Gameplay_ClearAllSubCameras(globalCtx);
             this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->csState = 2;
             this->unk_196 = 0x3C;
@@ -442,7 +442,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = SUBCAM_FREE;
+                this->subCamId = CAM_ID_SUB_FREE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 BossDodongo_SetupWalk(this);
@@ -454,7 +454,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         if (this->unk_1B6 != 0) {
             this->unk_1B6--;
         }
@@ -702,7 +702,7 @@ void BossDodongo_Walk(BossDodongo* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_WALK);
             }
 
-            if (this->subCamId == SUBCAM_FREE) {
+            if (this->subCamId == CAM_ID_SUB_FREE) {
                 func_80033E88(&this->actor, globalCtx, 4, 10);
             } else {
                 this->unk_1B6 = 10;
@@ -1330,9 +1330,9 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
             this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_UNK3);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
             Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
-            mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+            mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
             this->subCamEye.x = mainCam->eye.x;
             this->subCamEye.y = mainCam->eye.y;
             this->subCamEye.z = mainCam->eye.z;
@@ -1628,15 +1628,15 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                             Math_CosS(this->actor.shape.rot.y) * -50.0f + this->actor.world.pos.z, 0, 0, 0, 0);
             }
             if (this->unk_1DA == 600) {
-                mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
                 this->unk_1BC = 0;
-                this->subCamId = SUBCAM_FREE;
+                this->subCamId = CAM_ID_SUB_FREE;
                 this->csState = 100;
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, -890.0f, -1523.76f,
@@ -1658,7 +1658,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
             break;
     }
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }

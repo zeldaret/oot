@@ -481,7 +481,7 @@ void func_80B14AF4(EnTa* this, GlobalContext* globalCtx) {
 
 void func_80B14B6C(EnTa* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
-        OnePointCutscene_Init(globalCtx, 4175, -99, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4175, -99, &this->actor, CAM_ID_MAIN);
         func_80B13AA0(this, func_80B14AF4, func_80B167C0);
         this->unk_2CC = 5;
         gSaveContext.eventChkInf[1] |= 0x10;
@@ -545,7 +545,7 @@ void func_80B14E28(EnTa* this, GlobalContext* globalCtx) {
     Vec3f subCamAt;
 
     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    this->activeCamId = globalCtx->activeCamera;
+    this->activeCamId = globalCtx->activeCamId;
     Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STAT_WAIT);
     Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 

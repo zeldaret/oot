@@ -1371,7 +1371,7 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
             if (D_8015FCC8 != 0) {
                 sp2C = Gameplay_GetCamera(globalCtx, csCtx->subCamId);
                 sp2C->player = NULL;
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
                 sp28 = csCtx->atPoints->cameraRoll * (45.0f / 32.0f);
@@ -1414,7 +1414,7 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
             if (D_8015FCC8 != 0) {
                 sp2C = Gameplay_GetCamera(globalCtx, csCtx->subCamId);
                 sp2C->player = NULL;
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
                 sp3C.x = csCtx->atPoints->pos.x;
@@ -1957,7 +1957,7 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
             D_8015FCC4 = 0xFFFF;
             csCtx->unk_1A = 0;
             csCtx->unk_1B = 0;
-            D_8015FCC6 = globalCtx->activeCamera;
+            D_8015FCC6 = globalCtx->activeCamId;
 
             if (D_8015FCC8 != 0) {
                 csCtx->subCamId = Gameplay_CreateSubCamera(globalCtx);

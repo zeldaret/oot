@@ -216,7 +216,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
-    this->camId = SUBCAM_NONE;
+    this->subCamId = CAM_ID_SUB_NONE;
     if (func_8002F194(&this->actor, globalCtx)) {
         if (!this->unk_194) {
             if (this->unk_1A8 == 0) {
@@ -237,7 +237,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                 if (!this->unk_194) {
 
                     if (player->stateFlags2 & 0x1000000) {
-                        this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
+                        this->subCamId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, CAM_ID_MAIN);
                         globalCtx->msgCtx.msgMode = 0x37;
                         this->dialogState = 5;
                         this->unk_1B8 = 0.0f;
@@ -252,7 +252,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                 } else if (gSaveContext.scarecrowSpawnSongSet && !this->unk_195) {
 
                     if (player->stateFlags2 & 0x1000000) {
-                        this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
+                        this->subCamId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, CAM_ID_MAIN);
                         globalCtx->msgCtx.msgMode = 0x37;
                         this->dialogState = 5;
                         this->unk_1B8 = 0.0f;
@@ -286,12 +286,12 @@ void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
         (globalCtx->msgCtx.msgMode == 0)) {
 
-        OnePointCutscene_EndCutscene(globalCtx, this->camId);
-        if (globalCtx->cameraPtrs[this->camId] == NULL) {
-            this->camId = SUBCAM_NONE;
+        OnePointCutscene_EndCutscene(globalCtx, this->subCamId);
+        if (globalCtx->cameraPtrs[this->subCamId] == NULL) {
+            this->subCamId = CAM_ID_SUB_NONE;
         }
-        if (this->camId != SUBCAM_NONE) {
-            func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
+        if (this->subCamId != CAM_ID_SUB_NONE) {
+            func_8005B1A4(globalCtx->cameraPtrs[this->subCamId]);
         }
         this->actionFunc = func_80A911F0;
         return;
@@ -319,7 +319,7 @@ void func_80A91760(EnKakasi3* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.msgMode = 0x37;
         func_8010BD58(globalCtx, 0x2D);
         this->actionFunc = func_80A917FC;
-        this->camId = OnePointCutscene_Init(globalCtx, 2280, -99, &this->actor, MAIN_CAM);
+        this->subCamId = OnePointCutscene_Init(globalCtx, 2280, -99, &this->actor, CAM_ID_MAIN);
     }
 }
 
@@ -330,7 +330,7 @@ void func_80A917FC(EnKakasi3* this, GlobalContext* globalCtx) {
     } else {
         globalCtx->msgCtx.unk_E3EE = 4;
         func_80106CCC(globalCtx);
-        OnePointCutscene_EndCutscene(globalCtx, this->camId);
+        OnePointCutscene_EndCutscene(globalCtx, this->subCamId);
         this->actionFunc = func_80A911F0;
     }
 }
@@ -356,8 +356,8 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
 
         func_8010B680(globalCtx, 0x40A6, NULL);
         this->dialogState = 5;
-        OnePointCutscene_EndCutscene(globalCtx, this->camId);
-        this->camId = SUBCAM_NONE;
+        OnePointCutscene_EndCutscene(globalCtx, this->subCamId);
+        this->subCamId = CAM_ID_SUB_NONE;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_80A91A90;
         return;
@@ -396,11 +396,11 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
                 gSaveContext.eventChkInf[9] |= 0x1000;
             }
         }
-        if (globalCtx->cameraPtrs[this->camId] == NULL) {
-            this->camId = SUBCAM_NONE;
+        if (globalCtx->cameraPtrs[this->subCamId] == NULL) {
+            this->subCamId = CAM_ID_SUB_NONE;
         }
-        if (this->camId != SUBCAM_NONE) {
-            func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
+        if (this->subCamId != CAM_ID_SUB_NONE) {
+            func_8005B1A4(globalCtx->cameraPtrs[this->subCamId]);
         }
         func_80106CCC(globalCtx);
         globalCtx->msgCtx.unk_E3EE = 4;

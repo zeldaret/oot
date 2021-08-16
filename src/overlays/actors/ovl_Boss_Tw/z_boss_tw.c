@@ -1630,7 +1630,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         if (this->unk_5F9 == 0) {
             Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
         } else {
@@ -1777,13 +1777,13 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             }
 
             if (this->timers[2] == 1) {
-                Camera* cam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                Camera* cam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
                 cam->eye = this->subCamEye;
                 cam->eyeNext = this->subCamEye;
                 cam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = SUBCAM_FREE;
+                this->subCamId = CAM_ID_SUB_FREE;
                 this->csState2 = this->subCamId;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
@@ -2341,13 +2341,13 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             }
 
             if (this->work[CS_TIMER_1] == 260) {
-                Camera* cam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                Camera* cam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
                 cam->eye = this->subCamEye;
                 cam->eyeNext = this->subCamEye;
                 cam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = SUBCAM_FREE;
+                this->subCamId = CAM_ID_SUB_FREE;
                 this->csState2 = this->subCamId;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
@@ -2356,7 +2356,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         if (updateCam) {
             Math_ApproachF(&this->subCamEye.x, this->subCamEyeTarget.x, this->subCamDistStep,
                            this->subCamEyeStep.x * this->subCamUpdateRate);
@@ -2680,7 +2680,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f spD8;
     Player* player = PLAYER;
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
     SkelAnime_Update(&this->skelAnime);
     this->work[UNK_S8] += 20;
@@ -2760,7 +2760,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->subCamEye = mainCam->eye;
             this->subCamAt = mainCam->at;
@@ -2869,14 +2869,14 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
             Actor_SetScale(&sKoumePtr->actor, sKoumePtr->actor.scale.x);
             Actor_SetScale(&sKotakePtr->actor, sKoumePtr->actor.scale.x);
             if (this->work[CS_TIMER_2] >= 1020) {
-                Camera* cam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                Camera* cam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
                 cam->eye = this->subCamEye;
                 cam->eyeNext = this->subCamEye;
                 cam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
                 this->csState2 = 4;
-                this->subCamId = SUBCAM_FREE;
+                this->subCamId = CAM_ID_SUB_FREE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Audio_QueueSeqCmd(0x21);
@@ -2895,7 +2895,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         if (1) {}
         Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }

@@ -425,8 +425,8 @@ void func_8008EEAC(GlobalContext* globalCtx, Actor* actor) {
     this->unk_664 = actor;
     this->unk_684 = actor;
     this->stateFlags1 |= 0x10000;
-    Camera_SetParam(Gameplay_GetCamera(globalCtx, MAIN_CAM), 8, actor);
-    Camera_ChangeMode(Gameplay_GetCamera(globalCtx, MAIN_CAM), CAM_MODE_FOLLOWTARGET);
+    Camera_SetParam(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN), 8, actor);
+    Camera_ChangeMode(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN), CAM_MODE_FOLLOWTARGET);
 }
 
 s32 func_8008EF30(GlobalContext* globalCtx) {

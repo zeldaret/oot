@@ -157,7 +157,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->cutsceneState = INTRO_FENCE;
             this->timers[0] = 60;
@@ -395,20 +395,20 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->subCamAt.y, (this->actor.world.pos.y + 70.0f) - 20.0f, 0.1f,
                            this->cameraSpeedMod * 10.0f);
             if (this->timers[1] == 0) {
-                Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                Camera* camera = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
                 camera->eye = this->subCamEye;
                 camera->eyeNext = this->subCamEye;
                 camera->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = SUBCAM_FREE;
+                this->subCamId = CAM_ID_SUB_FREE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->actionFunc = EnfHG_Retreat;
             }
             break;
     }
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }

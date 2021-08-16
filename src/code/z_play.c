@@ -220,9 +220,9 @@ void Gameplay_Init(GameState* thisx) {
         Camera_ChangeStatus(&globalCtx->subCameras[i], CAM_STAT_INACTIVE);
     }
 
-    globalCtx->cameraPtrs[MAIN_CAM] = &globalCtx->mainCamera;
-    globalCtx->cameraPtrs[MAIN_CAM]->uid = 0;
-    globalCtx->activeCamera = MAIN_CAM;
+    globalCtx->cameraPtrs[CAM_ID_MAIN] = &globalCtx->mainCamera;
+    globalCtx->cameraPtrs[CAM_ID_MAIN]->uid = 0;
+    globalCtx->activeCamId = CAM_ID_MAIN;
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
     Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
@@ -1000,7 +1000,7 @@ skip:
         s32 pad3[5];
         s32 i;
 
-        globalCtx->nextCamera = globalCtx->activeCamera;
+        globalCtx->nextCamera = globalCtx->activeCamId;
 
         if (1 && HREG(63)) {
             LOG_NUM("1", 1, "../z_play.c", 3806);
@@ -1495,7 +1495,7 @@ void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
 s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
     s16 i;
 
-    for (i = SUBCAM_FIRST; i < NUM_CAMS; i++) {
+    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
         if (globalCtx->cameraPtrs[i] == NULL) {
             break;
         }
@@ -1503,14 +1503,14 @@ s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
 
     if (i == NUM_CAMS) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
-        return SUBCAM_NONE;
+        return CAM_ID_SUB_NONE;
     }
 
     osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
                      CYAN) " " VT_RST "\n",
                  i);
 
-    globalCtx->cameraPtrs[i] = &globalCtx->subCameras[i - SUBCAM_FIRST];
+    globalCtx->cameraPtrs[i] = &globalCtx->subCameras[i - CAM_ID_SUB_FIRST];
     Camera_Init(globalCtx->cameraPtrs[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
     globalCtx->cameraPtrs[i]->camId = i;
 
@@ -1518,23 +1518,23 @@ s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
 }
 
 s16 Gameplay_GetActiveCamId(GlobalContext* globalCtx) {
-    return globalCtx->activeCamera;
+    return globalCtx->activeCamId;
 }
 
 s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status) {
-    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId;
 
     if (status == CAM_STAT_ACTIVE) {
-        globalCtx->activeCamera = camIdx;
+        globalCtx->activeCamId = camIdx;
     }
 
     Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], status);
 }
 
 void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId) {
-    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId;
 
-    if (camIdx == MAIN_CAM) {
+    if (camIdx == CAM_ID_MAIN) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: never clear camera !!\n" VT_RST);
     }
 
@@ -1552,24 +1552,24 @@ void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId) {
 void Gameplay_ClearAllSubCameras(GlobalContext* globalCtx) {
     s16 i;
 
-    for (i = SUBCAM_FIRST; i < NUM_CAMS; i++) {
+    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
         if (globalCtx->cameraPtrs[i] != NULL) {
             Gameplay_ClearCamera(globalCtx, i);
         }
     }
 
-    globalCtx->activeCamera = MAIN_CAM;
+    globalCtx->activeCamId = CAM_ID_MAIN;
 }
 
 Camera* Gameplay_GetCamera(GlobalContext* globalCtx, s16 camId) {
-    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId;
 
     return globalCtx->cameraPtrs[camIdx];
 }
 
 s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye) {
     s32 ret = 0;
-    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId;
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
@@ -1595,7 +1595,7 @@ s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3
 
 s32 Gameplay_CameraSetAtEyeUp(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
     s32 ret = 0;
-    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId;
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
@@ -1628,7 +1628,7 @@ s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov) {
 }
 
 s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll) {
-    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId;
     Camera* camera = globalCtx->cameraPtrs[camIdx];
 
     camera->roll = roll;
@@ -1637,15 +1637,15 @@ s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll) {
 }
 
 void Gameplay_CopyCamera(GlobalContext* globalCtx, s16 camId1, s16 camId2) {
-    s16 camIdx2 = (camId2 == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId2;
-    s16 camIdx1 = (camId1 == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId1;
+    s16 camIdx2 = (camId2 == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId2;
+    s16 camIdx1 = (camId1 == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId1;
 
     Camera_Copy(globalCtx->cameraPtrs[camIdx1], globalCtx->cameraPtrs[camIdx2]);
 }
 
 s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 setting) {
     Camera* camera;
-    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId;
 
     camera = globalCtx->cameraPtrs[camIdx];
     Camera_InitPlayerSettings(camera, player);
@@ -1657,12 +1657,12 @@ s32 Gameplay_CameraChangeSetting(GlobalContext* globalCtx, s16 camId, s16 settin
 }
 
 void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
-    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == CAM_ID_ACTIVE) ? globalCtx->activeCamId : camId;
     s16 i;
 
     Gameplay_ClearCamera(globalCtx, camIdx);
 
-    for (i = SUBCAM_FIRST; i < NUM_CAMS; i++) {
+    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
         if (globalCtx->cameraPtrs[i] != NULL) {
             osSyncPrintf(
                 VT_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" VT_RST,
@@ -1672,10 +1672,10 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
     }
 
     if (arg2 <= 0) {
-        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
-        globalCtx->cameraPtrs[MAIN_CAM]->childCamId = globalCtx->cameraPtrs[MAIN_CAM]->parentCamId = SUBCAM_FREE;
+        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+        globalCtx->cameraPtrs[CAM_ID_MAIN]->childCamId = globalCtx->cameraPtrs[CAM_ID_MAIN]->parentCamId = CAM_ID_SUB_FREE;
     } else {
-        OnePointCutscene_Init(globalCtx, 1020, arg2, NULL, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 1020, arg2, NULL, CAM_ID_MAIN);
     }
 }
 

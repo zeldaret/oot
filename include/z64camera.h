@@ -11,11 +11,11 @@
 #define CAM_STAT_INACTIVE 0x100
 
 #define NUM_CAMS 4
-#define MAIN_CAM 0
-#define SUBCAM_FIRST 1
-#define SUBCAM_FREE 0
-#define SUBCAM_NONE -1
-#define SUBCAM_ACTIVE -1
+#define CAM_ID_MAIN 0
+#define CAM_ID_SUB_FIRST 1
+#define CAM_ID_SUB_FREE 0
+#define CAM_ID_SUB_NONE -1
+#define CAM_ID_ACTIVE -1
 
 #define ONEPOINT_CS_INFO(camera) ((Unique9OnePointCs*)camera->paramData)
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])

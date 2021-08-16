@@ -151,7 +151,7 @@ void BossFd_SetCameraSpeed(BossFd* this, f32 speedMod) {
 }
 
 void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         Math_ApproachF(&this->subCamData.eye.x, this->subCamData.nextEye.x, this->subCamData.eyeMaxVel.x,
                        this->subCamData.eyeVel.x * this->subCamData.speedMod);
         Math_ApproachF(&this->subCamData.eye.y, this->subCamData.nextEye.y, this->subCamData.eyeMaxVel.y,
@@ -301,7 +301,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
     if (this->introState != BFD_CS_NONE) {
         Player* player2 = PLAYER;
-        Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+        Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
         switch (this->introState) {
             case BFD_CS_WAIT:
@@ -318,7 +318,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 8);
                     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                     Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                     player2->actor.world.pos.x = 380.0f;
                     player2->actor.world.pos.y = 100.0f;
@@ -537,7 +537,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     mainCam->eyeNext = this->subCamData.eye;
                     mainCam->at = this->subCamData.at;
                     func_800C08AC(globalCtx, this->subCamId, 0);
-                    this->introState = this->introFlyState = this->subCamId = BFD_CS_NONE; // this->subCamId = SUBCAM_FREE
+                    this->introState = this->introFlyState = this->subCamId = BFD_CS_NONE; // this->subCamId = CAM_ID_SUB_FREE
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = BossFd_Wait;

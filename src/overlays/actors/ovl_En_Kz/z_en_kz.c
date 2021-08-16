@@ -364,7 +364,7 @@ void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
     Vec3f subCamEye;
 
     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    this->activeCamId = globalCtx->activeCamera;
+    this->activeCamId = globalCtx->activeCamId;
     Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STAT_WAIT);
     Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
     subCamAt = this->actor.world.pos;

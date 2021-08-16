@@ -944,7 +944,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 camZ;
     f32 pad;
     Player* player = PLAYER;
-    Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    Camera* camera = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
     osSyncPrintf("PYP %f\n", player->actor.floorHeight);
     SkelAnime_Update(&this->skelAnime);
@@ -959,7 +959,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
             this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             osSyncPrintf("7\n");
             Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             osSyncPrintf("8\n");
@@ -1115,7 +1115,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                 camera->eyeNext = this->subCamEye;
                 camera->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = SUBCAM_FREE;
+                this->subCamId = CAM_ID_SUB_FREE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, GND_BOSSROOM_CENTER_X,
@@ -1200,7 +1200,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         if (!holdCamera) {
             Math_ApproachF(&this->subCamEye.x, this->cameraNextEye.x, this->subCamEyeMaxVel.x,
                            this->subCamEyeVel.x * this->cameraSpeedMod);

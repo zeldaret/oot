@@ -617,7 +617,7 @@ void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_UpdateCamera(BossFd2* this, GlobalContext* globalCtx) {
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         Math_ApproachF(&this->subCamData.eye.x, this->subCamData.nextEye.x, this->subCamData.eyeMaxVel.x,
                        this->subCamData.eyeVel.x * this->subCamData.speedMod);
         Math_ApproachF(&this->subCamData.eye.y, this->subCamData.nextEye.y, this->subCamData.eyeMaxVel.y,
@@ -642,7 +642,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
     Vec3f sp70;
     Vec3f sp64;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     f32 pad3;
     f32 pad2;
     f32 pad1;
@@ -656,7 +656,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
             this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->subCamData.eye = mainCam->eye;
             this->subCamData.at = mainCam->at;
@@ -779,7 +779,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 mainCam->eyeNext = this->subCamData.eye;
                 mainCam->at = this->subCamData.at;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = SUBCAM_FREE;
+                this->subCamId = CAM_ID_SUB_FREE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,

@@ -54,7 +54,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
     EnBomChu* chu;
     Vec3f chuPosDiff;
 
-    if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FIXED1) {
+    if (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_FIXED1) {
         chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
         while (chu != NULL) {
@@ -73,7 +73,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 chu->timer = 1;
 
                 this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 
                 this->unk_1C8.x = this->unk_1C8.y = this->unk_1C8.z = 0.1f;
@@ -120,7 +120,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if (this->subCamId != SUBCAM_FREE) {
+    if (this->subCamId != CAM_ID_SUB_FREE) {
         Math_ApproachF(&this->subCamAt.x, this->subCamAtTarget.x, this->unk_1C8.x, this->unk_1D4.x);
         Math_ApproachF(&this->subCamAt.y, this->subCamAtTarget.y, this->unk_1C8.y, this->unk_1D4.y);
         Math_ApproachF(&this->subCamAt.z, this->subCamAtTarget.z, this->unk_1C8.z, this->unk_1D4.z);
@@ -167,7 +167,7 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
         }
 
         Gameplay_ClearCamera(globalCtx, this->subCamId);
-        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
+        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = EnBomBowlPit_GivePrize;
     }

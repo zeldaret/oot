@@ -18,7 +18,7 @@ typedef struct EnDntDemo {
     /* 0x0158 */ s16 leaderSignal;
     /* 0x015A */ s16 action;
     /* 0x015C */ s16 prize;
-    /* 0x015E */ s16 subCamera;
+    /* 0x015E */ s16 subCamId;
     /* 0x0160 */ Vec3f scrubPos[9];
     /* 0x01CC */ Vec3f leaderPos;
     /* 0x01D8 */ struct EnDntNomal* scrubs[9];
