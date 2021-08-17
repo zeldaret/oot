@@ -4279,18 +4279,18 @@ CameraSetting sCameraSettings[] = {
     { { 0x051FFFFF }, sCamSetDungeon1Modes },   // CAM_SET_DUNGEON1
     { { 0x050FF7FF }, sCamSetNorm3Modes },      // CAM_SET_NORMAL3
     { { 0x8500018F }, sCamSetHorse0Modes },     // CAM_SET_HORSE0
-    { { 0x051FFFFF }, sCamSetBossGomaModes },   // CAM_SET_BOSS_GOMA
-    { { 0x051FFFFF }, sCamSetBossDodoModes },   // CAM_SET_BOSS_DODO
-    { { 0x051FFFFF }, sCamSetBossBariModes },   // CAM_SET_BOSS_BARI
-    { { 0x051FFFFF }, sCamSetBossFGanonModes }, // CAM_SET_BOSS_FGANON
-    { { 0x051FFFFF }, sCamSetBossBalModes },    // CAM_SET_BOSS_BAL
-    { { 0x051FFFFF }, sCamSetBossShadesModes }, // CAM_SET_BOSS_SHADES
-    { { 0x051FFFFF }, sCamSetBossMofaModes },   // CAM_SET_BOSS_MOFA
-    { { 0x051FFFFF }, sCamSetBossTwin0Modes },  // CAM_SET_TWIN0
-    { { 0x051FFFFF }, sCamSetBossTwin1Modes },  // CAM_SET_TWIN1
-    { { 0x051FFFFF }, sCamSetBossGanon1Modes }, // CAM_SET_BOSS_GANON1
+    { { 0x051FFFFF }, sCamSetBossGomaModes },   // CAM_SET_BOSS_GOHMA
+    { { 0x051FFFFF }, sCamSetBossDodoModes },   // CAM_SET_BOSS_DODONGO
+    { { 0x051FFFFF }, sCamSetBossBariModes },   // CAM_SET_BOSS_BARINADE
+    { { 0x051FFFFF }, sCamSetBossFGanonModes }, // CAM_SET_BOSS_PHANTOM
+    { { 0x051FFFFF }, sCamSetBossBalModes },    // CAM_SET_BOSS_VOLVAGIA
+    { { 0x051FFFFF }, sCamSetBossShadesModes }, // CAM_SET_BOSS_BONGO
+    { { 0x051FFFFF }, sCamSetBossMofaModes },   // CAM_SET_BOSS_MORPHA
+    { { 0x051FFFFF }, sCamSetBossTwin0Modes },  // CAM_SET_BOSS_TWINROVA_PLATFORM
+    { { 0x051FFFFF }, sCamSetBossTwin1Modes },  // CAM_SET_BOSS_TWINROVA_FLOOR
+    { { 0x051FFFFF }, sCamSetBossGanon1Modes }, // CAM_SET_BOSS_GANONDORF
     { { 0x051FFFFF }, sCamSetBossGanon2Modes }, // CAM_SET_BOSS_GANON2
-    { { 0x851FFFFF }, sCamSetTower0Modes },     // CAM_SET_TOWER0
+    { { 0x851FFFFF }, sCamSetTower0Modes },     // CAM_SET_COLLAPSE_STAIRS
     { { 0x851FFFFF }, sCamSetTower1Modes },     // CAM_SET_TOWER1
     { { 0x8500000D }, sCamSetFixed0Modes },     // CAM_SET_FIXED0
     { { 0x85000001 }, sCamSetFixed1Modes },     // CAM_SET_FIXED1
@@ -4302,7 +4302,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x8C000001 }, sCamSetPreRend3Modes },   // CAM_SET_PREREND3
     { { 0xC5000001 }, sCamSetDoor0Modes },      // CAM_SET_DOOR0
     { { 0xC5000003 }, sCamSetDoorCModes },      // CAM_SET_DOORC
-    { { 0xC5000001 }, sCamSetRail3Modes },      // CAM_SET_RAIL3
+    { { 0xC5000001 }, sCamSetRail3Modes },      // CAM_SET_CRAWLSPACE
     { { 0xC5000001 }, sCamSetStart0Modes },     // CAM_SET_START0
     { { 0xC5000001 }, sCamSetStart1Modes },     // CAM_SET_START1
     { { 0x05000001 }, sCamSetFree0Modes },      // CAM_SET_FREE0

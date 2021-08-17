@@ -68,7 +68,7 @@ typedef struct {
  *      data[2].y // Jfif Id
  *      data[2].z // unused
  * 
- * dataCount = 6: Crawlspaces only (CAM_SET_RAIL3)
+ * dataCount = 6: Crawlspaces only (CAM_SET_CRAWLSPACE)
  *      data[1] // Front entrance coordinates to crawlspace
  *      data[4] // Back entrance coordinates to crawlspace
  *      data[0], data[2], data[3], data[5] // Unused coordinates along crawlspace line

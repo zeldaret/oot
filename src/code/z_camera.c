@@ -4257,7 +4257,7 @@ s32 Camera_Subj3(Camera* camera) {
 
 /**
  * Subject 4 uses bgCamData.data differently than other functions:
- * It uses the only setting where bgCamData.dataCount is either 6 or 9 from the scene files (CAM_SET_RAIL3)
+ * It uses the only setting where bgCamData.dataCount is either 6 or 9 from the scene files (CAM_SET_CRAWLSPACE)
  * bgCamData.data[1] stores the coordinates of the front entrance to the crawlspace
  * bgCamData.data[4] stores the coordinates of the back entrance to the crawlspace
  * bgCamData.data[0], bgCamData.data[2], bgCamData.data[3], bgCamData.data[5], go unused,
