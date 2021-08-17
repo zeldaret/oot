@@ -1,6 +1,5 @@
 #include <ultra64.h>
 #include <global.h>
-#include "z64camera.h"
 
 typedef struct {
     s16 val;

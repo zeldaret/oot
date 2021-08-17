@@ -1,6 +1,5 @@
 #include "ultra64.h"
 #include "global.h"
-#include "z64camera.h"
 
 char* D_8012CEE0[] = { "\x8Cｷ-ﾌﾚ-ﾑ\x8Dｶﾞ" };
 const char* D_8012CEE4 = "\x8Dﾀﾘﾏｾﾝ｡";
