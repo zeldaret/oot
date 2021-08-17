@@ -2264,7 +2264,8 @@ s32 func_80834E7C(GlobalContext* globalCtx) {
 
 s32 func_80834EB8(Player* this, GlobalContext* globalCtx) {
     if ((this->unk_6AD == 0) || (this->unk_6AD == 2)) {
-        if (func_80833BCC(this) || (Camera_CheckValidMode(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN), CAM_MODE_BOWARROW) == 0)) {
+        if (func_80833BCC(this) ||
+            (Camera_CheckValidMode(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN), CAM_MODE_BOWARROW) == 0)) {
             return 1;
         }
         this->unk_6AD = 2;
@@ -4904,7 +4905,8 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083B8F4(Player* this, GlobalContext* globalCtx) {
-    if (!(this->stateFlags1 & 0x800800) && (Camera_CheckValidMode(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN), CAM_MODE_FIRSTPERSON) != 0)) {
+    if (!(this->stateFlags1 & 0x800800) &&
+        (Camera_CheckValidMode(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN), CAM_MODE_FIRSTPERSON) != 0)) {
         if ((this->actor.bgCheckFlags & 1) ||
             (func_808332B8(this) && (this->actor.yDistToWater < this->ageProperties->unk_2C))) {
             this->unk_6AD = 1;
@@ -8622,8 +8624,8 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
 
             temp = func_80845BA0(globalCtx, this, &sp34, sp30);
 
-            if ((this->unk_850 == 0) ||
-                ((temp == 0) && (this->linearVelocity == 0.0f) && (Gameplay_GetCamera(globalCtx, CAM_ID_MAIN)->unk_14C & 0x10))) {
+            if ((this->unk_850 == 0) || ((temp == 0) && (this->linearVelocity == 0.0f) &&
+                                         (Gameplay_GetCamera(globalCtx, CAM_ID_MAIN)->unk_14C & 0x10))) {
 
                 func_8005B1A4(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN));
                 func_80845C68(globalCtx, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);

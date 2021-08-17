@@ -40,7 +40,7 @@ s32 Camera_CheckWater(Camera* camera);
  */
 f32 Camera_InterpolateCurve(f32 xMax, f32 x) {
     f32 y;
-    f32 absX= fabsf(x);
+    f32 absX = fabsf(x);
     f32 percent40 = 0.4f;
     f32 percent60;
     f32 xQuadratic;
@@ -50,7 +50,7 @@ f32 Camera_InterpolateCurve(f32 xMax, f32 x) {
     if (absX > xMax) {
         y = 1.0f;
 
-    // inside xMax range
+        // inside xMax range
     } else {
         percent60 = 1.0f - percent40;
 
@@ -3780,7 +3780,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     *eye = *eyeNext;
 
     bgCamRot = BGCAM_ROT(bgCamData); // unused
-    (void)bgCamRot;                     // suppresses set but unused warning
+    (void)bgCamRot;                  // suppresses set but unused warning
 
     fov = BGCAM_FOV(bgCamData);
     if (fov == -1) {
@@ -4263,8 +4263,8 @@ s32 Camera_Subj3(Camera* camera) {
  * bgCamData.data[0], bgCamData.data[2], bgCamData.data[3], bgCamData.data[5], go unused,
  *      but also contain coordinates along the straight line path of the crawlspace
  * Entry refers to the side of the crawlspace first accessible via casual gameplay, Exit is the other entrance
- */ 
-#define BGCAM_CRAWLSPACE_FRONT_POS(v) ((v)[1]) 
+ */
+#define BGCAM_CRAWLSPACE_FRONT_POS(v) ((v)[1])
 #define BGCAM_CRAWLSPACE_BACK_POS(v, l) ((v)[l - 2])
 #define vCrawlSpaceExitPos temp1
 #define vEyeTarget temp1
@@ -4406,7 +4406,7 @@ s32 Camera_Subj4(Camera* camera) {
     }
 
     anim->lineOffsetPrev = lineOffset;
-    
+
     camera->player->actor.world.pos = *eyeNext;
     camera->player->actor.world.pos.y = camera->playerGroundY;
     camera->player->actor.shape.rot.y = atEyeTargetOffset.yaw;
@@ -5002,7 +5002,7 @@ s32 Camera_Unique7(Camera* camera) {
     Camera_Vec3sToVec3f(eyeNext, &BGCAM_POS(bgCamData));
     *eye = *eyeNext;
     bgCamRot = BGCAM_ROT(bgCamData); // unused
-    (void)bgCamRot;                     // suppresses set but unused warning
+    (void)bgCamRot;                  // suppresses set but unused warning
 
     OLib_Vec3fDiffToVecSphGeo(&playerPosEyeOffset, eye, &playerPosRot->pos);
 
@@ -5030,8 +5030,7 @@ s32 Camera_Unique7(Camera* camera) {
 
     // 0x7D0 ~ 10.98 degres.
     unk08->unk_00.x = Camera_LERPFloorS(playerPosEyeOffset.yaw, unk08->unk_00.x, 0.4f, 0x7D0);
-    playerPosEyeOffset.pitch =
-        -BGCAM_ROT(bgCamData).x * Math_CosS(playerPosEyeOffset.yaw - BGCAM_ROT(bgCamData).y);
+    playerPosEyeOffset.pitch = -BGCAM_ROT(bgCamData).x * Math_CosS(playerPosEyeOffset.yaw - BGCAM_ROT(bgCamData).y);
     Camera_Vec3fVecSphGeoAdd(at, eye, &playerPosEyeOffset);
     camera->unk_14C |= 0x400;
     return true;
@@ -6116,7 +6115,7 @@ s32 Camera_Demo6(Camera* camera) {
 
             eyeOffset.r = 200.0f;
             eyeOffset.yaw = Camera_XZAngle(&focusPosRot.pos, &mainCam->playerPosRot.pos) + 0x7D0; // ~10.99 degrees
-            eyeOffset.pitch = -0x3E8; // ~5.49 degrees
+            eyeOffset.pitch = -0x3E8;                                                             // ~5.49 degrees
 
             Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeOffset);
             camera->eye = *eyeNext;
@@ -6595,8 +6594,7 @@ s32 Camera_Special6(Camera* camera) {
 
     sCameraInterfaceFlags = spec6->interfaceFlags;
 
-    if (eyeNext->x != bgCamPos.x || eyeNext->y != bgCamPos.y || eyeNext->z != bgCamPos.z ||
-        camera->animState == 0) {
+    if (eyeNext->x != bgCamPos.x || eyeNext->y != bgCamPos.y || eyeNext->z != bgCamPos.z || camera->animState == 0) {
         // A change in the current scene's camera positon has been detected,
         // Change "screens"
         camera->player->actor.freezeTimer = 12;
@@ -7032,7 +7030,7 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
  *      - Camera mode (M: )
  *      - Camera function (F: )
  *      - Camera bgCamData index (I: )
- */ 
+ */
 void Camera_PrintInfo(Camera* camera) {
     char statusStr[8];
     char bgCamDataIdStr[8];

@@ -147,7 +147,8 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) 
 void BgMoriBigst_StalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((this->dyna.actor.home.rot.z == 0) && ((this->dyna.actor.home.pos.y - 5.0f) <= GET_PLAYER(globalCtx)->actor.world.pos.y)) {
+    if ((this->dyna.actor.home.rot.z == 0) &&
+        ((this->dyna.actor.home.pos.y - 5.0f) <= GET_PLAYER(globalCtx)->actor.world.pos.y)) {
         BgMoriBigst_SetupFall(this, globalCtx);
         OnePointCutscene_Init(globalCtx, 3220, 72, &this->dyna.actor, CAM_ID_MAIN);
     }

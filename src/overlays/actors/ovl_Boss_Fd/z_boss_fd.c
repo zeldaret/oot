@@ -352,7 +352,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                         this->subCamData.nextAt.y = 120.0f;
                         this->subCamData.nextAt.z = 0.0f;
                         BossFd_SetCameraSpeed(this, 0.5f);
-                        this->subCamData.eyeMaxVel.x = this->subCamData.eyeMaxVel.y = this->subCamData.eyeMaxVel.z = 0.1f;
+                        this->subCamData.eyeMaxVel.x = this->subCamData.eyeMaxVel.y = this->subCamData.eyeMaxVel.z =
+                            0.1f;
                         this->subCamData.atMaxVel.x = this->subCamData.atMaxVel.y = this->subCamData.atMaxVel.z = 0.1f;
                         this->subCamData.accel = 0.005f;
                         this->timers[0] = 0;
@@ -537,7 +538,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     mainCam->eyeNext = this->subCamData.eye;
                     mainCam->at = this->subCamData.at;
                     func_800C08AC(globalCtx, this->subCamId, 0);
-                    this->introState = this->introFlyState = this->subCamId = BFD_CS_NONE; // this->subCamId = CAM_ID_MAIN
+                    this->introState = this->introFlyState = this->subCamId =
+                        BFD_CS_NONE; // this->subCamId = CAM_ID_MAIN
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = BossFd_Wait;

@@ -2914,7 +2914,8 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
         sp118 = (player->actor.speedXZ * 0.3f) + 0.25f;
     }
 
-    if ((D_80B7E0B0 != 0) || (sSubCamId != CAM_ID_MAIN) || ((player->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
+    if ((D_80B7E0B0 != 0) || (sSubCamId != CAM_ID_MAIN) ||
+        ((player->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
         this->actor.flags &= ~1;
     } else {
         this->actor.flags |= 1;

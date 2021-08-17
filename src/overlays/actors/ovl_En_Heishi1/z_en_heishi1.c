@@ -419,7 +419,8 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->type != 5) {
             path = this->path * 2;
-            if ((sBgCamDataIds[path] == activeCam->bgCamDataId) || (sBgCamDataIds[path + 1] == activeCam->bgCamDataId)) {
+            if ((sBgCamDataIds[path] == activeCam->bgCamDataId) ||
+                (sBgCamDataIds[path + 1] == activeCam->bgCamDataId)) {
                 if (!sPlayerIsCaught) {
                     if ((this->actionFunc == EnHeishi1_Walk) || (this->actionFunc == EnHeishi1_Wait)) {
                         Vec3f searchBallVel;

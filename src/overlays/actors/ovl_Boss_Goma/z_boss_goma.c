@@ -779,7 +779,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                 this->lookedAtFrames++;
                 Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
                 Math_ApproachS(&this->actor.world.rot.y,
-                               Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000, 2, 0xBB8);
+                               Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000, 2,
+                               0xBB8);
                 this->eyeLidBottomRotX = this->eyeLidTopRotX = this->eyeIrisRotX = this->eyeIrisRotY = 0;
             } else {
                 this->lookedAtFrames = 0;
@@ -870,8 +871,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
         case 9: // falling from the ceiling
             Math_ApproachF(&this->subCamEye.x, this->actor.world.pos.x + 8.0f + 90.0f, 0.1f,
                            this->camFollowSpeed * 30.0f);
-            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 10.0f, 0.1f,
-                           this->camFollowSpeed * 30.0f);
+            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 10.0f, 0.1f, this->camFollowSpeed * 30.0f);
             Math_ApproachF(&this->subCamEye.z, this->actor.world.pos.z + 45.0f + 40.0f, 0.1f,
                            this->camFollowSpeed * 30.0f);
             this->subCamAt.x = this->actor.world.pos.x;
@@ -879,7 +879,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             this->subCamAt.z = this->actor.world.pos.z;
             SkelAnime_Update(&this->skelanime);
             Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-            Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
+            Math_ApproachS(&this->actor.world.rot.y,
+                           Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
 
             if (this->actor.bgCheckFlags & 1) {
                 this->actionState = 130;
@@ -896,12 +897,12 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
         case 130: // focus Gohma on the ground
             Math_ApproachF(&this->subCamEye.x, this->actor.world.pos.x + 8.0f + 90.0f, 0.1f,
                            this->camFollowSpeed * 30.0f);
-            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 10.0f, 0.1f,
-                           this->camFollowSpeed * 30.0f);
+            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 10.0f, 0.1f, this->camFollowSpeed * 30.0f);
             Math_ApproachF(&this->subCamEye.z, this->actor.world.pos.z + 45.0f + 40.0f, 0.1f,
                            this->camFollowSpeed * 30.0f);
             Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-            Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
+            Math_ApproachS(&this->actor.world.rot.y,
+                           Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
             SkelAnime_Update(&this->skelanime);
             this->subCamAt.x = this->actor.world.pos.x;
             this->subCamAt.z = this->actor.world.pos.z;
@@ -1256,7 +1257,8 @@ void BossGoma_FloorAttackPosture(BossGoma* this, GlobalContext* globalCtx) {
     Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
 
     if (this->skelanime.curFrame >= (19.0f + 1.0f / 3.0f) && this->skelanime.curFrame <= 30.0f) {
-        Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 3, 0xBB8);
+        Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor),
+                       3, 0xBB8);
     }
 
     if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&gGohmaPrepareAttackAnim))) {
@@ -1424,7 +1426,8 @@ void BossGoma_FloorStunned(BossGoma* this, GlobalContext* globalCtx) {
 void BossGoma_FallJump(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
+    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2,
+                   0x7D0);
 
     if (this->actor.bgCheckFlags & 1) {
         BossGoma_SetupFloorLand(this);
@@ -1440,7 +1443,8 @@ void BossGoma_FallJump(BossGoma* this, GlobalContext* globalCtx) {
 void BossGoma_FallStruckDown(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 3, 0x7D0);
+    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 3,
+                   0x7D0);
 
     if (this->actor.bgCheckFlags & 1) {
         BossGoma_SetupFloorLandStruckDown(this);
@@ -1743,8 +1747,10 @@ void BossGoma_UpdateEye(BossGoma* this, GlobalContext* globalCtx) {
         }
 
         if (this->eyeState != EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES) {
-            targetEyeIrisRotY = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.shape.rot.y;
-            targetEyeIrisRotX = Actor_WorldPitchTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.shape.rot.x;
+            targetEyeIrisRotY =
+                Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.shape.rot.y;
+            targetEyeIrisRotX =
+                Actor_WorldPitchTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.shape.rot.x;
 
             if (this->actor.shape.rot.x > 0x4000 || this->actor.shape.rot.x < -0x4000) {
                 targetEyeIrisRotY = -(s16)(targetEyeIrisRotY + 0x8000);

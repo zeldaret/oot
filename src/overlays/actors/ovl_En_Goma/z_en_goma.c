@@ -196,7 +196,8 @@ void EnGoma_SetupFlee(EnGoma* this) {
 void EnGoma_Flee(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachF(&this->actor.speedXZ, 6.6666665f, 0.5f, 2.0f);
-    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000, 3, 2000);
+    Math_ApproachS(&this->actor.world.rot.y,
+                   Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000, 3, 2000);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 3000);
 
     if (this->actionTimer == 0) {
@@ -515,7 +516,8 @@ void EnGoma_Jump(EnGoma* this, GlobalContext* globalCtx) {
 void EnGoma_Stand(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
-    Math_ApproachS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 3000);
+    Math_ApproachS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2,
+                   3000);
 
     if (this->actionTimer == 0) {
         EnGoma_SetupChasePlayer(this);
