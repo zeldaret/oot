@@ -321,7 +321,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         f32 var2;
         s32 i;
 
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
 
         spCE = 0xFF;
         var1 = 1.0f;
@@ -986,19 +986,19 @@ s32 func_8002DD78(Player* player) {
 }
 
 s32 func_8002DDA8(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     return (player->stateFlags1 & 0x800) || func_8002DD78(player);
 }
 
 s32 func_8002DDE4(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     return player->stateFlags2 & 0x8;
 }
 
 s32 func_8002DDF4(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     return player->stateFlags2 & 0x1000;
 }
@@ -1035,7 +1035,7 @@ void func_8002DF18(GlobalContext* globalCtx, Player* player) {
 }
 
 s32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->csMode = csMode;
     player->unk_448 = actor;
@@ -1045,7 +1045,7 @@ s32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
 }
 
 s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_8002DF38(globalCtx, actor, csMode);
     player->unk_46A = 1;
@@ -1068,7 +1068,7 @@ void func_8002DFA4(DynaPolyActor* dynaActor, f32 arg1, s16 arg2) {
  * The maximum angle difference that qualifies as "facing" is specified by `maxAngle`.
  */
 s32 Player_IsFacingActor(Actor* actor, s16 maxAngle, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
 
     if (ABS(yawDiff) < maxAngle) {
@@ -1515,7 +1515,7 @@ u32 func_8002F194(Actor* actor, GlobalContext* globalCtx) {
 }
 
 s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u32 exchangeItemId) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     // This is convoluted but it seems like it must be a single if statement to match
     if ((player->actor.flags & 0x100) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(globalCtx)) ||
@@ -1555,7 +1555,7 @@ u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
 }
 
 s8 func_8002F368(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     return player->exchangeItemId;
 }
@@ -1578,7 +1578,7 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
 }
 
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x3C7080) && Player_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (actor == player->targetActor)) && (getItemId > GI_NONE) &&
@@ -1633,7 +1633,7 @@ void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx) {
 }
 
 void func_8002F5F0(Actor* actor, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (actor->xyzDistToPlayerSq < player->unk_6A4) {
         player->unk_6A4 = actor->xyzDistToPlayerSq;
@@ -1649,7 +1649,7 @@ s32 Actor_IsMounted(GlobalContext* globalCtx, Actor* horse) {
 }
 
 u32 Actor_SetRideActor(GlobalContext* globalCtx, Actor* horse, s32 mountSide) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x003C7880)) {
         player->rideActor = horse;
@@ -1669,7 +1669,7 @@ s32 Actor_NotMounted(GlobalContext* globalCtx, Actor* horse) {
 }
 
 void func_8002F698(GlobalContext* globalCtx, Actor* actor, f32 arg2, s16 arg3, f32 arg4, u32 arg5, u32 arg6) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->unk_8A0 = arg6;
     player->unk_8A1 = arg5;
@@ -2027,7 +2027,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     ActorEntry* actorEntry;
     s32 i;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
 
     if (0) {
         // This ASSERT is optimized out but it exists due to its presence in rodata
@@ -2050,7 +2050,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if (KREG(0) == -100) {
-        refActor = &PLAYER->actor;
+        refActor = &GET_PLAYER(globalCtx)->actor;
         KREG(0) = 0;
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_CLEAR_TAG, refActor->world.pos.x,
                     refActor->world.pos.y + 100.0f, refActor->world.pos.z, 0, 0, 0, 1);
@@ -2856,7 +2856,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
     Actor* newHead;
     ActorOverlay* overlayEntry;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
 
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
@@ -3425,7 +3425,7 @@ s16 Actor_TestFloorInDirection(Actor* actor, GlobalContext* globalCtx, f32 dista
  * Returns true if the player is targeting the provided actor
  */
 s32 Actor_IsTargeted(GlobalContext* globalCtx, Actor* actor) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags1 & 0x10) && actor->isTargeted) {
         return true;
@@ -3438,7 +3438,7 @@ s32 Actor_IsTargeted(GlobalContext* globalCtx, Actor* actor) {
  * Returns true if the player is targeting an actor other than the provided actor
  */
 s32 Actor_OtherIsTargeted(GlobalContext* globalCtx, Actor* actor) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags1 & 0x10) && !actor->isTargeted) {
         return true;
@@ -3870,7 +3870,7 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
 }
 
 s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 var;
 
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) {
@@ -3951,7 +3951,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
 #include "z_cheap_proc.c"
 
 u8 func_800353E8(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     return player->unk_845;
 }
@@ -3980,7 +3980,7 @@ Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, 
 }
 
 s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 var1;
     s16 var2;
 
@@ -4025,7 +4025,7 @@ void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1) {
 }
 
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((collider->acFlags & AC_TYPE_PLAYER) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
         return true;
@@ -5510,7 +5510,7 @@ s32 func_80037FC8(Actor* actor, Vec3f* arg1, Vec3s* arg2, Vec3s* arg3) {
 }
 
 s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* arg3, f32 arg4) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     Vec3f sp2C;
     s16 var;
@@ -5540,7 +5540,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 }
 
 s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* arg3, Vec3f arg4) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     Vec3f sp24;
     s16 var;

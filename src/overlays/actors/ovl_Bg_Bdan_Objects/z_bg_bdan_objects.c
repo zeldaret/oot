@@ -172,7 +172,7 @@ void BgBdanObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (BgBdanObjects_GetContactRu1(this, 0)) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
@@ -245,7 +245,7 @@ void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
 }
 
 void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->dyna.actor.velocity.y += 0.5f;
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + -70.0f,

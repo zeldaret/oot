@@ -413,7 +413,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
 void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDaikuKakariko* this = THIS;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
 
     if (this->currentAnimIndex == 3) {

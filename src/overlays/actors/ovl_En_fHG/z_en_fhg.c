@@ -113,7 +113,7 @@ void EnfHG_SetupIntro(EnfHG* this, GlobalContext* globalCtx) {
 void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
     static Vec3f audioVec = { 0.0f, 0.0f, 50.0f };
     s32 pad64;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
     s32 pad58;
     s32 pad54;

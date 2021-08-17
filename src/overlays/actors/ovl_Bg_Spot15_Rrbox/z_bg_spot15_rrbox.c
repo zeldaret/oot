@@ -233,7 +233,7 @@ void func_808B4084(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 void func_808B40AC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unk_168 <= 0 && fabsf(this->dyna.unk_150) > 0.001f) {
         if (func_808B3AAC(this, globalCtx) && !func_808B4010(this, globalCtx)) {
@@ -256,7 +256,7 @@ void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
 void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     f32 sign;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 tempUnk178;
     s32 approxFResult;
     Actor* actor = &this->dyna.actor;
@@ -282,7 +282,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         this->unk_174 = 0.0f;
         func_808B4380(this, globalCtx);
     } else if (approxFResult) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         if (func_808B4010(this, globalCtx)) {
             Audio_PlayActorSound2(actor, NA_SE_EV_WOOD_BOUND);
         }
@@ -312,7 +312,7 @@ void func_808B4380(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
 void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     f32 floorHeight;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* actor = &this->dyna.actor;
 
     if (fabsf(this->dyna.unk_150) > 0.001f) {
@@ -346,7 +346,7 @@ void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 }
 
 void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->stateFlags2 &= ~0x10;
     this->dyna.unk_150 = 0.0f;

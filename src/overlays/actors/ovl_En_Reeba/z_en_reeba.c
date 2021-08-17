@@ -167,7 +167,7 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&D_060001E4);
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 playerSpeed;
 
     Animation_Change(&this->skelanime, &D_060001E4, 2.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
@@ -194,7 +194,7 @@ void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 playerLinearVel;
 
     SkelAnime_Update(&this->skelanime);
@@ -578,7 +578,7 @@ void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
 void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnReeba* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_80AE5EDC(this, globalCtx);
     this->actionfunc(this, globalCtx);

@@ -228,7 +228,7 @@ void EnCrow_SetupRespawn(EnCrow* this) {
 // Action functions
 
 void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 skelanimeUpdated;
     s16 var;
 
@@ -285,7 +285,7 @@ void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 facingPlayer;
     Vec3f pos;
     s16 target;

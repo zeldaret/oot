@@ -658,7 +658,7 @@ void EnDntNomal_SetupStageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
 }
 
 void EnDntNomal_StageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* nut;
     f32 frame = this->skelAnime.curFrame;
     f32 dz;

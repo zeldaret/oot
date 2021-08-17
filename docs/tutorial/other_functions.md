@@ -301,7 +301,7 @@ extern Vec3f D_80A88CF0;
 After all this, the function becomes
 ```C
 void func_80A87C30(EnJj *this, GlobalContext *globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) && (globalCtx->isPlayerDroppingFish(globalCtx) != 0)) {
         this->unk_30C = 100;
@@ -344,7 +344,7 @@ typedef struct EnJj {
 The diff now looks fine for this function, but it gives compiler warnings about `CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);`: the last argument is the wrong type: we need to give it `&this->collider.base` instead, which points to the same address, but is the right type. So the matching function is
 ```C
 void func_80A87C30(EnJj *this, GlobalContext *globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) && (globalCtx->isPlayerDroppingFish(globalCtx) != 0)) {
         this->unk_30C = 100;

@@ -115,7 +115,7 @@ void EnDntJiji_SetupWait(EnDntJiji* this, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     if ((this->timer == 1) && (this->actor.xzDistToPlayer < 150.0f) && !Gameplay_InCsMode(globalCtx) &&

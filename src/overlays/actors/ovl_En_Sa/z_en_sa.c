@@ -372,7 +372,7 @@ s32 func_80AF5DFC(EnSa* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF5F34(EnSa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3 = 0;
 
     if (globalCtx->sceneNum == SCENE_SPOT04) {
@@ -588,7 +588,7 @@ void func_80AF67D0(EnSa* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF683C(EnSa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Gameplay_InCsMode(globalCtx)) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02005730);

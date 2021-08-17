@@ -71,7 +71,7 @@ extern AnimationHeader D_060093BC;
 extern AnimationHeader D_06009EE0;
 
 u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16* timer1ValuePtr; // weirdness with this necessary to match
 
     if (!(gSaveContext.infTable[11] & 0x100)) {
@@ -178,7 +178,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3;
 
     if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &D_06009EE0)) {

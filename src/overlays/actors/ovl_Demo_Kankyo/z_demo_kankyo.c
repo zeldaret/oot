@@ -284,7 +284,7 @@ void DemoKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp;
 
     if (this->actor.objBankIndex == this->objBankIndex) {
@@ -771,7 +771,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
     f32 temp_f22;
     DemoKankyo* this = THIS;
     Gfx* disp;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f camPos;
     f32 translateX;
     f32 translateY;

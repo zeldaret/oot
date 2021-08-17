@@ -470,7 +470,7 @@ void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx) {
 
 void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
     Vec3f pos;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3s sp40;
 
     this->timer--;
@@ -573,7 +573,7 @@ void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
 
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnOkuta* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     GlobalContext* globalCtx2 = globalCtx;
     WaterBox* outWaterBox;
     f32 ySurface;

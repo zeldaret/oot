@@ -190,7 +190,7 @@ void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
 void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwGirl* this = THIS;
     EnNiwGirlActionFunc tempActionFunc;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Actor_SetScale(&this->actor, 0.013f);
     this->unkUpTimer++;

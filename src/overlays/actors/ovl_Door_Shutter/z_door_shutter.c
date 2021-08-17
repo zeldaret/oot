@@ -310,7 +310,7 @@ f32 func_80996840(GlobalContext* globalCtx, DoorShutter* this, f32 arg2, f32 arg
     s32 pad;
     Vec3f sp28;
     Vec3f sp1C;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     sp28.x = player->actor.world.pos.x;
     sp28.y = player->actor.world.pos.y + arg2;
@@ -324,7 +324,7 @@ f32 func_80996840(GlobalContext* globalCtx, DoorShutter* this, f32 arg2, f32 arg
 }
 
 s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!Player_InCsMode(globalCtx)) {
         ShutterInfo* temp_v1 = &sShutterInfo[this->unk_16C];
@@ -349,10 +349,10 @@ void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
         Flags_SetClear(globalCtx, this->dyna.actor.room);
         DoorShutter_SetupAction(this, func_80997150);
         OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
-        OnePointCutscene_Attention(globalCtx, &PLAYER->actor);
+        OnePointCutscene_Attention(globalCtx, &GET_PLAYER(globalCtx)->actor);
         this->unk_16F = -100;
     } else if (func_809968D4(this, globalCtx) != 0) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         player->naviTextId = -0x202;
     }
@@ -378,7 +378,7 @@ void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {
         s32 doorDirection = func_809968D4(this, globalCtx);
 
         if (doorDirection != 0) {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
 
             if (this->unk_16E != 0) {
                 if (this->doorType == SHUTTER_BOSS) {
@@ -401,7 +401,7 @@ void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {
 
 void func_80996C60(DoorShutter* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.category == ACTORCAT_DOOR) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         s32 sp38 = this->unk_16C;
         s32 sp34 = 0xF;
 
@@ -467,7 +467,7 @@ void func_80996EE8(DoorShutter* this, GlobalContext* globalCtx) {
             OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
             this->unk_16F = -100;
         } else if (func_809968D4(this, globalCtx)) {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
             // Jabu navi text for switch doors is different
             player->naviTextId = (globalCtx->sceneNum == SCENE_BDAN) ? -0x20B : -0x202;
         }
@@ -526,7 +526,7 @@ void func_80997150(DoorShutter* this, GlobalContext* globalCtx) {
 }
 
 void func_80997220(DoorShutter* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 room = this->dyna.actor.room;
 
     if (this->dyna.actor.room >= 0) {
@@ -629,7 +629,7 @@ void func_80997744(DoorShutter* this, GlobalContext* globalCtx) {
 
 void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x100004C0) || (this->actionFunc == DoorShutter_SetupType)) {
         this->actionFunc(this, globalCtx);

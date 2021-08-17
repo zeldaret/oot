@@ -184,7 +184,7 @@ void EnPoRelay_Talk(EnPoRelay* this, GlobalContext* globalCtx) {
 }
 
 void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f vec;
     f32 speed;
     f32 multiplier;

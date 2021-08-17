@@ -1151,7 +1151,7 @@ s32 func_80832224(Player* this) {
 }
 
 s32 func_8083224C(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->actor.flags & 0x100) == 0x100;
 }
@@ -2996,7 +2996,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                 if (this->actor.category == ACTORCAT_PLAYER) {
                     actorToTarget = globalCtx->actorCtx.targetCtx.arrowPointedActor;
                 } else {
-                    actorToTarget = &PLAYER->actor;
+                    actorToTarget = &GET_PLAYER(globalCtx)->actor;
                 }
 
                 holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
@@ -14021,13 +14021,13 @@ void func_80852E14(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 Player_IsDroppingFish(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (func_8084EFC0 == this->func_674) && (this->itemActionParam == PLAYER_AP_BOTTLE_FISH);
 }
 
 s32 Player_StartFishing(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     func_80832564(globalCtx, this);
     func_80835F44(globalCtx, this, ITEM_FISHING_POLE);
@@ -14051,7 +14051,7 @@ s32 func_80852F38(GlobalContext* globalCtx, Player* this) {
 
 // Sets up player cutscene
 s32 func_80852FFC(GlobalContext* globalCtx, Actor* actor, s32 csMode) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     if (!Player_InBlockingCsMode(globalCtx, this)) {
         func_80832564(globalCtx, this);
@@ -14072,7 +14072,7 @@ void func_80853080(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 Player_InflictDamage(GlobalContext* globalCtx, s32 damage) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     if (!Player_InBlockingCsMode(globalCtx, this) && !func_80837B18(globalCtx, this, damage)) {
         this->stateFlags2 &= ~0x80;
@@ -14084,7 +14084,7 @@ s32 Player_InflictDamage(GlobalContext* globalCtx, s32 damage) {
 
 // Start talking with the given actor
 void func_80853148(GlobalContext* globalCtx, Actor* actor) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
     s32 pad;
 
     if ((this->targetActor != NULL) || (actor == this->naviActor) || ((actor->flags & 0x40001) == 0x40001)) {

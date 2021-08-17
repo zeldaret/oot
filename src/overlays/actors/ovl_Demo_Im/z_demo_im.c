@@ -189,7 +189,7 @@ void func_80984DB8(DemoIm* this) {
 }
 
 void func_80984E58(DemoIm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff;
     s16 phi_a3;
 
@@ -202,7 +202,7 @@ void func_80984E58(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80984F10(DemoIm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_2D4.unk_18 = player->actor.world.pos;
     this->unk_2D4.unk_14 = kREG(16) + 12.0f;
@@ -211,7 +211,7 @@ void func_80984F10(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80984F94(DemoIm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_2D4.unk_18 = player->actor.world.pos;
     this->unk_2D4.unk_14 = kREG(16) + 4.0f;
@@ -320,7 +320,7 @@ void func_80985358(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_809853B4(DemoIm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 playerX = player->actor.world.pos.x;
     f32 playerY = player->actor.world.pos.y + 80.0f;
     f32 playerZ = player->actor.world.pos.z;
@@ -338,7 +338,7 @@ void func_8098544C(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[2];
 
     if ((gSaveContext.chamberCutsceneNum == 4) && (gSaveContext.sceneSetupIndex < 4)) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         this->action = 1;
         globalCtx->csCtx.segment = D_8098786C;
@@ -837,7 +837,7 @@ void func_809869B0(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 s32 func_809869F8(DemoIm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 playerPosX = player->actor.world.pos.x;
     f32 thisPosX = this->actor.world.pos.x;
 
@@ -848,7 +848,7 @@ s32 func_809869F8(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 playerPosX = player->actor.world.pos.x;
     f32 thisPosX = this->actor.world.pos.x;
 
@@ -871,7 +871,7 @@ s32 func_80986AD0(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80986B2C(GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         globalCtx->nextEntranceIndex = 0xCD;
         globalCtx->fadeTransition = 38;

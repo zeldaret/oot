@@ -130,7 +130,7 @@ void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         player = (Player*)this->actor.parent;
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
     }
 
     this->actor.world.pos = player->actor.world.pos;
@@ -148,7 +148,7 @@ void EnSda_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         player = (Player*)this->actor.parent;
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
     }
 
     player->actor.shape.shadowAlpha = 0;

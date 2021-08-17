@@ -55,7 +55,7 @@ void BgSstFloor_Destroy(BgSstFloor* thisx, GlobalContext* globalCtx) {
 void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgSstFloor* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(&gBongoDrumCol);
 
     colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);

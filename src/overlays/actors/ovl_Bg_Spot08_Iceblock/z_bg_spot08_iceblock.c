@@ -174,7 +174,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     s32 rollDataIndex;
     MtxF mtx;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (this->dyna.actor.params & 0xFF) {
         case 0x11: // Medium nonrotating

@@ -176,7 +176,7 @@ void DemoDu_CsFireMedallion_SpawnDoorWarp(DemoDu* this, GlobalContext* globalCtx
 
 // Gives the Fire Medallion to Link.
 void func_80969F38(DemoDu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 posX = player->actor.world.pos.x;
     f32 posY = player->actor.world.pos.y + 80.0f;
     f32 posZ = player->actor.world.pos.z;
@@ -195,7 +195,7 @@ void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, GlobalContext* globalCtx) 
     s32 pad[2];
 
     if ((gSaveContext.chamberCutsceneNum == 1) && (gSaveContext.sceneSetupIndex < 4)) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(1);
         globalCtx->csCtx.segment = D_8096C1A4;
@@ -316,7 +316,7 @@ void DemoDu_CsPlaySfx_DaruniaFalling(GlobalContext* globalCtx) {
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
 void DemoDu_CsPlaySfx_DaruniaHitsLink(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     func_80078914(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
@@ -333,7 +333,7 @@ void DemoDu_CsPlaySfx_HitBreast(DemoDu* this) {
 // Sfx played when Link is escaping from the gorons at the end of the scene.
 void DemoDu_CsPlaySfx_LinkEscapeFromGorons(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.frames == 1400) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         Audio_PlaySoundGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -344,7 +344,7 @@ void DemoDu_CsPlaySfx_LinkEscapeFromGorons(GlobalContext* globalCtx) {
 // Sfx played when Link is surprised by Darunia falling from the sky.
 void DemoDu_CsPlaySfx_LinkSurprised(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.frames == 174) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         Audio_PlaySoundGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -394,7 +394,7 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
     if (Animation_OnFrame(&this->skelAnime, 31.0f) || Animation_OnFrame(&this->skelAnime, 41.0f)) {
         s32 pad[2];
         s32 i;
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         Vec3f* headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
         Vec3f velocity = { 0.0f, 0.0f, 0.0f };
         Vec3f accel = { 0.0f, 0.3f, 0.0f };

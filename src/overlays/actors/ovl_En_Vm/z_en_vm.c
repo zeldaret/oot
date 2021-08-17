@@ -176,7 +176,7 @@ void EnVm_SetupWait(EnVm* this) {
 }
 
 void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 dist;
     s16 headRot;
     s16 pad;
@@ -260,7 +260,7 @@ void EnVm_SetupAttack(EnVm* this) {
 }
 
 void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 pitch = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.world.pos);
     f32 dist;
     Vec3f playerPos;

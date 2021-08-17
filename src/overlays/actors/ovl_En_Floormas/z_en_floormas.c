@@ -740,7 +740,7 @@ void EnFloormas_SmShrink(EnFloormas* this, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     if (this->skelAnime.curFrame < 20.0f) {
@@ -761,7 +761,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnFloormas* parent;
     EnFloormas* child;
     f32 yDelta;

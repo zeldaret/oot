@@ -477,7 +477,7 @@ void func_809BDB90(EnBigokuta* this, GlobalContext* globalCtx) {
 }
 
 void func_809BDC08(EnBigokuta* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_v0;
     s16 pad;
     s16 phi_v1;
@@ -573,7 +573,7 @@ void func_809BDFC8(EnBigokuta* this, GlobalContext* globalCtx) {
 }
 
 void func_809BE058(EnBigokuta* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 speedXZ;
 
     if (this->unk_196 != 0) {

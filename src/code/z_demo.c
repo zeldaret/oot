@@ -161,7 +161,7 @@ void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
 // Command 3: Misc. Actions
 void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp;
     u8 sp3F;
 
@@ -440,7 +440,7 @@ void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTim
 
 // Command 0x3E8: Code Execution (& Terminates Cutscene?)
 void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 temp = 0;
 
     if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3) && (globalCtx->sceneNum != SCENE_SPOT00) &&
@@ -1297,7 +1297,7 @@ s32 Cutscene_Command_EyePoints(GlobalContext* globalCtx, CutsceneContext* csCtx,
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STATUS_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->subCamId));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->atPoints,
-                                   csCtx->eyePoints, PLAYER, relativeToLink);
+                                   csCtx->eyePoints, GET_PLAYER(globalCtx), relativeToLink);
             }
         }
     }
@@ -1334,7 +1334,7 @@ s32 Cutscene_Command_AtPoints(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STATUS_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->subCamId));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->atPoints,
-                                   csCtx->eyePoints, PLAYER, relativeToLink);
+                                   csCtx->eyePoints, GET_PLAYER(globalCtx), relativeToLink);
             }
         }
     }

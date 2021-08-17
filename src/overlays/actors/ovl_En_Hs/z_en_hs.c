@@ -187,7 +187,7 @@ void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E8CC(EnHs* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_8010B720(globalCtx, 0x10B3);
@@ -207,7 +207,7 @@ void func_80A6E8CC(EnHs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff;
 
     if (func_8002F194(&this->actor, globalCtx)) {

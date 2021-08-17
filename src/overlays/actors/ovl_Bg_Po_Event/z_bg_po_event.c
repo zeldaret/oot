@@ -322,7 +322,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx) {
             if (firstFall == 0) {
                 firstFall = 1;
             } else {
-                func_8002DF54(globalCtx, &PLAYER->actor, 7);
+                func_8002DF54(globalCtx, &GET_PLAYER(globalCtx)->actor, 7);
             }
         }
         this->direction = 0;
@@ -331,7 +331,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_BlockIdle(BgPoEvent* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* amy;
 
     if (sPuzzleState == 0xF) {
@@ -386,7 +386,7 @@ void BgPoEvent_BlockPush(BgPoEvent* this, GlobalContext* globalCtx) {
     static f32 blockPushDist = 0.0f;
     f32 displacement;
     s32 blockStop;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->dyna.actor.speedXZ += 0.1f;
     this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 2.0f);
@@ -417,7 +417,7 @@ void BgPoEvent_BlockPush(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_BlockReset(BgPoEvent* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         player->stateFlags2 &= ~0x10;
@@ -437,7 +437,7 @@ void BgPoEvent_BlockReset(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_BlockSolved(BgPoEvent* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         player->stateFlags2 &= ~0x10;
@@ -515,7 +515,7 @@ void BgPoEvent_PaintingVanish(BgPoEvent* this, GlobalContext* globalCtx) {
 
 void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     DECR(this->timer);
 

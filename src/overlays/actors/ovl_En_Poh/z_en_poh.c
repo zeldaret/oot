@@ -459,7 +459,7 @@ void func_80ADE9BC(EnPoh* this) {
 }
 
 void EnPoh_MoveTowardsPlayerHeight(EnPoh* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_StepToF(&this->actor.world.pos.y, player->actor.world.pos.y, 1.0f);
     this->actor.world.pos.y += 2.5f * Math_SinS(this->unk_195 * 0x800);
@@ -520,7 +520,7 @@ void func_80ADEC9C(EnPoh* this, GlobalContext* globalCtx) {
     Player* player;
     s16 facingDiff;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_198 != 0) {
         this->unk_198--;

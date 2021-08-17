@@ -125,7 +125,7 @@ void func_8088B268(BgHidanRock* this, GlobalContext* globalCtx) {
     f32 sp2C;
     s32 temp_v1;
     s32 frame;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         if (this->timer == 0) {
@@ -294,7 +294,7 @@ void func_8088B954(BgHidanRock* this, GlobalContext* globalCtx) {
 }
 
 void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->timer++;
     if (this->dyna.unk_150 != 0.0f) {

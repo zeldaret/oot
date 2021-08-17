@@ -189,7 +189,7 @@ void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 u32 EnIceHono_InBottleRange(EnIceHono* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->actor.xzDistToPlayer < 60.0f) {
         Vec3f tempPos;

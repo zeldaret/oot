@@ -278,7 +278,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
     f32 sqrtFallDistance;
     f32 unk;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     webPos.x = this->dyna.actor.world.pos.x;
     webPos.y = this->dyna.actor.world.pos.y - 50.0f;
     webPos.z = this->dyna.actor.world.pos.z;
@@ -399,7 +399,7 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
     Player* player;
     Vec3f sp30;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if (Flags_GetSwitch(globalCtx, this->burnSwitchFlag) || (this->trisCollider.base.acFlags & 2)) {
         this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, globalCtx);

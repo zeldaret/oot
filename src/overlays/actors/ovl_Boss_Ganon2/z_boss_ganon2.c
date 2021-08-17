@@ -205,7 +205,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     Vec3f* temp[2];
 
     sp8D = false;
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->unk_398++;
 
     switch (this->unk_39C) {
@@ -1284,7 +1284,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
     f32 temp_f2;
 
     sp4C = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
     this->unk_398++;
     this->unk_339 = 20;
@@ -1466,7 +1466,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
     f32 phi_f0;
     s32 phi_a1;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->unk_398++;
     SkelAnime_Update(&this->skelAnime);
 
@@ -1854,7 +1854,7 @@ void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_324 > 0.0f) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         temp_f2 = -200.0f - player->actor.world.pos.x;
         temp_f12 = -200.0f - player->actor.world.pos.z;
 
@@ -2650,7 +2650,7 @@ void func_8090523C(BossGanon2* this, GlobalContext* globalCtx) {
     if (this->unk_38C > 0.0f) {
         s8 i;
 
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s16)this->unk_38C);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 0);
@@ -2804,7 +2804,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad[5];
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     BossGanon2Effect* effect = globalCtx->specialEffects;
     Vec3f sp78;
     s16 i;

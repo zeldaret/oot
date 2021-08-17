@@ -22,7 +22,7 @@
 
 #define RGBA8(r, g, b, a) (((r & 0xFF) << 24) | ((g & 0xFF) << 16) | ((b & 0xFF) << 8) | ((a & 0xFF) << 0))
 
-#define PLAYER ((Player*)globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head)
+#define GET_PLAYER(globalCtx) ((Player*)globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head)
 
 #define ACTIVE_CAM globalCtx->cameraPtrs[globalCtx->activeCamId]
 

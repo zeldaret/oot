@@ -156,7 +156,7 @@ void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
         }
 
         func_8002F6D4(globalCtx, thisx, 2.0f, thisx->yawTowardsPlayer, 0.0f, 0);
-        func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
+        func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_PL_BODY_HIT);
 
         this->unk_1B8 = 10.0f;
         this->unk_1B0 = 0.5f;
@@ -199,7 +199,7 @@ void func_80897DF0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
 void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgJyaGoroiwa* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 bgId;
     Vec3f pos;
 

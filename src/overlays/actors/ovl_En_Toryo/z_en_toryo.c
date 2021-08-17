@@ -149,7 +149,7 @@ void EnToryo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 ret = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -222,7 +222,7 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
 
 s32 func_80B205CC(EnToryo* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 ret = 5;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -292,7 +292,7 @@ s32 func_80B206A0(EnToryo* this, GlobalContext* globalCtx) {
 }
 
 void func_80B20768(EnToryo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 sp32;
     s16 sp30;
 
@@ -358,7 +358,7 @@ void func_80B20914(EnToryo* this, GlobalContext* globalCtx) {
 void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnToryo* this = THIS;
     ColliderCylinder* collider = &this->collider;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 rot;
 
     Collider_UpdateCylinder(thisx, collider);

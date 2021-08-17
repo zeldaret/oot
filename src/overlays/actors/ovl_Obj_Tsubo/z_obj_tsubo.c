@@ -263,7 +263,7 @@ void ObjTsubo_Idle(ObjTsubo* this, GlobalContext* globalCtx) {
             }
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            temp_v0 = this->actor.yawTowardsPlayer - PLAYER->actor.world.rot.y;
+            temp_v0 = this->actor.yawTowardsPlayer - GET_PLAYER(globalCtx)->actor.world.rot.y;
             phi_v1 = ABS(temp_v0);
             if (phi_v1 >= 0x5556) {
                 // GI_NONE in this case allows the player to lift the actor

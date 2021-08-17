@@ -169,7 +169,7 @@ void EnGm_SetTextID(EnGm* this) {
 void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dz;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     dx = this->talkPos.x - player->actor.world.pos.x;
     dz = this->talkPos.z - player->actor.world.pos.z;
@@ -195,7 +195,7 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dz;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     EnGm_SetTextID(this);
 

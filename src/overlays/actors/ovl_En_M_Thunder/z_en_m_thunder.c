@@ -70,7 +70,7 @@ void func_80A9EFE0(EnMThunder* this, EnMThunderActionFunc actionFunc) {
 void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnMThunder* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AA0420);
@@ -136,7 +136,7 @@ void func_80A9F314(GlobalContext* globalCtx, f32 arg1) {
 }
 
 void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags2 & 0x20000) {
         if (player->swordAnimation >= 0x18) {
@@ -156,7 +156,7 @@ void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* child = this->actor.child;
 
     this->unk_1B8 = player->unk_858;
@@ -277,7 +277,7 @@ void func_80A9F938(EnMThunder* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (Math_StepToF(&this->unk_1AC, 0.0f, 1 / 16.0f)) {
         Actor_Kill(&this->actor);
@@ -327,7 +327,7 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     static f32 D_80AA046C[] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f };
     GlobalContext* globalCtx = globalCtx2;
     EnMThunder* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 phi_f14;
     s32 phi_t1;
     // u8 frames;

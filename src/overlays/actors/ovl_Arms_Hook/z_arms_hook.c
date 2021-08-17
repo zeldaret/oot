@@ -86,13 +86,13 @@ void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ArmsHook_Wait(ArmsHook* this, GlobalContext* globalCtx) {
     if (this->actor.parent == NULL) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         // get correct timer length for hookshot or longshot
         s32 length = (player->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 13 : 26;
 
         ArmsHook_SetupAction(this, ArmsHook_Shoot);
         func_8002D9A4(&this->actor, 20.0f);
-        this->actor.parent = &PLAYER->actor;
+        this->actor.parent = &GET_PLAYER(globalCtx)->actor;
         this->timer = length;
     }
 }
@@ -142,7 +142,7 @@ void ArmsHook_AttachHookToActor(ArmsHook* this, Actor* actor) {
 }
 
 void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* touchedActor;
     Actor* grabbed;
     Vec3f bodyDistDiffVec;
@@ -301,7 +301,7 @@ void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx) {
 void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ArmsHook* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp78;
     Vec3f sp6C;
     Vec3f sp60;

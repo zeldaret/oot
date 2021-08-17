@@ -480,7 +480,7 @@ void EnDekubaba_Wait(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 headDistHorizontal;
     f32 headDistVertical;
     f32 headShiftX;
@@ -620,7 +620,7 @@ void EnDekubaba_UpdateHeadPosition(EnDekubaba* this) {
 }
 
 void EnDekubaba_DecideLunge(EnDekubaba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
@@ -723,7 +723,7 @@ void EnDekubaba_Lunge(EnDekubaba* this, GlobalContext* globalCtx) {
 }
 
 void EnDekubaba_PrepareLunge(EnDekubaba* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->timer != 0) {
         this->timer--;

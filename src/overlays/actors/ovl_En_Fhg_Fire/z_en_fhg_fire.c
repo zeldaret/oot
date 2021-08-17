@@ -85,7 +85,7 @@ void EnFhgFire_SetUpdate(EnFhgFire* this, EnFhgFireUpdateFunc updateFunc) {
 void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnFhgFire* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     if ((this->actor.params == FHGFIRE_LIGHTNING_SHOCK) || (this->actor.params == FHGFIRE_LIGHTNING_BURST) ||
@@ -284,7 +284,7 @@ void EnFhgFire_LightningTrail(EnFhgFire* this, GlobalContext* globalCtx) {
 }
 
 void EnFhgFire_LightningShock(EnFhgFire* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f pos;
 
     if (this->collider.base.atFlags & AT_HIT) {
@@ -311,7 +311,7 @@ void EnFhgFire_LightningShock(EnFhgFire* this, GlobalContext* globalCtx) {
 }
 
 void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     globalCtx->envCtx.unk_E1 = 0x01;
     this->actor.shape.rot.y += 0x1000;
@@ -423,7 +423,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
     f32 dzPG;
     u8 killMode = BALL_FIZZLE;
     u8 canBottleReflect1;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->work[FHGFIRE_KILL_TIMER] != 0) {
         this->work[FHGFIRE_KILL_TIMER]--;

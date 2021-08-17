@@ -107,7 +107,7 @@ u16 func_80A78FB0(GlobalContext* globalCtx) {
 }
 
 u16 func_80A79010(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     u16 temp_v0 = Text_GetFaceReaction(globalCtx, 25);
 
     if (temp_v0 != 0) {
@@ -295,7 +295,7 @@ s16 func_80A79500(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 void func_80A795C8(EnIn* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3;
 
     if (this->skelAnime.animation == &D_060003B4 || this->skelAnime.animation == &D_06001BE0 ||
@@ -428,7 +428,7 @@ void func_80A79BAC(EnIn* this, GlobalContext* globalCtx, s32 index, u32 arg3) {
 }
 
 void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f subCamAt;
     Vec3f subCamEye;
     Vec3s zeroVec = { 0, 0, 0 };
@@ -635,7 +635,7 @@ void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 phi_a2;
     s32 phi_a3;
 
@@ -655,7 +655,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
                 this->unk_308.unk_00 = 0;
                 return;
             }
-            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x10) | (((EnHorse*)PLAYER->rideActor)->type << 4);
+            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x10) | (((EnHorse*)GET_PLAYER(globalCtx)->rideActor)->type << 4);
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
             phi_a2 = 2;
             phi_a3 = 2;
@@ -778,7 +778,7 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f subCamAt;
     Vec3f subCamEye;
 
@@ -843,7 +843,7 @@ void func_80A7AE84(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 yaw;
     Vec3f pos = this->actor.world.pos;
 
@@ -866,7 +866,7 @@ void func_80A7B018(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->rideActor != NULL) {
         player->rideActor->freezeTimer = 10;

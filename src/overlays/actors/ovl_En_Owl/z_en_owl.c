@@ -245,7 +245,7 @@ void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
  * Rotates this to the player instance
  */
 void EnOwl_LookAtLink(EnOwl* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->actor.shape.rot.y = this->actor.world.rot.y =
         Math_Vec3f_Yaw(&this->actor.world.pos, &player->actor.world.pos);

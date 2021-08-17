@@ -153,7 +153,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
         }
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         interactionType = 0;
         if (this->actor.params & 0x400) {
             this->litTimer = -1;

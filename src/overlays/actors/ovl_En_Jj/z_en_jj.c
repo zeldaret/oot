@@ -196,7 +196,7 @@ void EnJj_WaitToOpenMouth(EnJj* this, GlobalContext* globalCtx) {
 
 void EnJj_WaitForFish(EnJj* this, GlobalContext* globalCtx) {
     static Vec3f feedingSpot = { -1589.0f, 53.0f, -43.0f };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((Math_Vec3f_DistXZ(&feedingSpot, &player->actor.world.pos) < 300.0f) &&
         globalCtx->isPlayerDroppingFish(globalCtx)) {

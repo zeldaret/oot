@@ -87,13 +87,13 @@ void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 BgMoriRakkatenjo_IsLinkUnder(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    Vec3f* pos = &PLAYER->actor.world.pos;
+    Vec3f* pos = &GET_PLAYER(globalCtx)->actor.world.pos;
 
     return (-3300.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
 }
 
 s32 BgMoriRakkatenjo_IsLinkClose(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    Vec3f* pos = &PLAYER->actor.world.pos;
+    Vec3f* pos = &GET_PLAYER(globalCtx)->actor.world.pos;
 
     return (-3360.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
 }

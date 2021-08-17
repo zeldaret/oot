@@ -169,7 +169,7 @@ void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, GlobalContext* globalCtx
 
 void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
     f32 f0;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     f0 = 1100.0f - (player->actor.world.pos.z - this->dyna.actor.world.pos.z);
     this->dyna.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;

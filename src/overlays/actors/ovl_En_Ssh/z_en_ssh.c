@@ -373,7 +373,7 @@ void EnSsh_Bob(EnSsh* this, GlobalContext* globalCtx) {
 }
 
 s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 yDist;
 
     if (this->stateFlags & SSH_STATE_GROUND_START) {
@@ -455,7 +455,7 @@ void EnSsh_Sway(EnSsh* this) {
 
 void EnSsh_CheckBodyStickHit(EnSsh* this, GlobalContext* globalCtx) {
     ColliderInfo* info0 = &this->colCylinder[0].info;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->unk_860 != 0) {
         info0->bumper.dmgFlags |= 2;

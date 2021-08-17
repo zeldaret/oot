@@ -174,7 +174,7 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlPit_GivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_8002DF54(globalCtx, NULL, 7);
     this->getItemId = sGetItemIds[this->prizeIndex];

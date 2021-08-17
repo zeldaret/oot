@@ -342,7 +342,7 @@ void BgHeavyBlock_Wait(BgHeavyBlock* this, GlobalContext* globalCtx) {
 }
 
 void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     f32 cosYaw;
     f32 zOffset;
@@ -487,7 +487,7 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f D_80884ED4 = { 0.0f, 400.0f, 0.0f };
     BgHeavyBlock* this = THIS;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 904);
 

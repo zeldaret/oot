@@ -137,7 +137,7 @@ void BgIceObjects_CheckPits(BgIceObjects* this, GlobalContext* globalCtx) {
 }
 
 void BgIceObjects_Idle(BgIceObjects* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* thisx = &this->dyna.actor;
 
     if (this->dyna.unk_150 != 0.0f) {
@@ -202,7 +202,7 @@ void BgIceObjects_Slide(BgIceObjects* this, GlobalContext* globalCtx) {
 }
 
 void BgIceObjects_Reset(BgIceObjects* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* thisx = &this->dyna.actor;
 
     if (this->dyna.unk_150 != 0.0f) {
@@ -218,7 +218,7 @@ void BgIceObjects_Reset(BgIceObjects* this, GlobalContext* globalCtx) {
 }
 
 void BgIceObjects_Stuck(BgIceObjects* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         player->stateFlags2 &= ~0x10;

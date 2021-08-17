@@ -589,7 +589,7 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
         osSyncPrintf("Player ぶっ飛ばし\n");
         osSyncPrintf(VT_RST);
         D_80A4DF20[(this->actor.params >> 10) & 1](this);
-        func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
+        func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {
             this->collisionTimer = 50;
         }
@@ -671,7 +671,7 @@ void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 4);
-        func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
+        func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {
             this->collisionTimer = 50;
         }
@@ -696,7 +696,7 @@ void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 4);
-        func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
+        func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {
             this->collisionTimer = 50;
         }
@@ -710,7 +710,7 @@ void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     UNK_TYPE sp30;
 

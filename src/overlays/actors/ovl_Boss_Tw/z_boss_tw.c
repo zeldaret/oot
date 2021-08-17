@@ -459,7 +459,7 @@ void BossTw_AddShieldDeflectEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2)
     s16 i;
     s16 j;
     BossTwEffect* eff;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     sShieldHitPos = player->bodyPartsPos[15];
     sShieldHitYaw = player->actor.shape.rot.y;
@@ -489,7 +489,7 @@ void BossTw_AddShieldHitEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
     s16 i;
     s16 j;
     BossTwEffect* eff;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     sShieldHitPos = player->bodyPartsPos[15];
     sShieldHitYaw = player->actor.shape.rot.y;
@@ -778,7 +778,7 @@ void BossTw_FlyTo(BossTw* this, GlobalContext* globalCtx) {
 }
 
 void BossTw_SetupShootBeam(BossTw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->actionFunc = BossTw_ShootBeam;
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06007688, -5.0f);
@@ -860,7 +860,7 @@ void BossTw_SpawnGroundBlast(BossTw* this, GlobalContext* globalCtx, s16 blastTy
 s32 BossTw_BeamHitPlayerCheck(BossTw* this, GlobalContext* globalCtx) {
     Vec3f offset;
     Vec3f beamDistFromPlayer;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 i;
 
     offset.x = player->actor.world.pos.x - this->beamOrigin.x;
@@ -906,7 +906,7 @@ s32 BossTw_BeamHitPlayerCheck(BossTw* this, GlobalContext* globalCtx) {
 s32 BossTw_CheckBeamReflection(BossTw* this, GlobalContext* globalCtx) {
     Vec3f offset;
     Vec3f vec;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags1 & 0x400000 &&
         (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) < 0x2000 &&
@@ -1039,7 +1039,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
     f32 floorY;
     Vec3f sp130;
     Vec3s sp128;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     BossTw* otherTw = (BossTw*)this->actor.parent;
     Input* input = &globalCtx->state.input[0];
 
@@ -1213,7 +1213,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
 
             case 1:
                 if (CHECK_BTN_ALL(input->cur.button, BTN_R)) {
-                    Player* player = PLAYER;
+                    Player* player = GET_PLAYER(globalCtx);
 
                     this->beamDist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff));
                     Math_ApproachF(&this->beamReflectionDist, 2000.0f, 1.0f, 40.0f);
@@ -1564,7 +1564,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f spB0;
     Vec3f spA4;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (this->csState2) {
         case 0:
@@ -1844,7 +1844,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f sp90;
     Vec3f sp84;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->csSfxTimer > 220 && this->csSfxTimer < 630) {
         func_80078884(NA_SE_EN_TWINROBA_UNARI - SFX_FLAG);
@@ -2679,7 +2679,7 @@ void BossTw_DeathCSMsgSfx(BossTw* this, GlobalContext* globalCtx) {
 void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f spD8;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
     SkelAnime_Update(&this->skelAnime);
@@ -2916,7 +2916,7 @@ static s16 D_8094A90C[] = {
 
 void BossTw_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossTw* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 i;
     s32 pad;
 
@@ -3042,7 +3042,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, GlobalContext* globalCtx2) {
     s16 i;
     GlobalContext* globalCtx = globalCtx2;
     BossTw* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->actor.flags &= ~0x400;
     this->unk_5F8 = 0;
@@ -3559,7 +3559,7 @@ void BossTw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     static Vec3f D_8094A9A4 = { 0.0f, 200.0f, 2000.0f };
     GlobalContext* globalCtx = globalCtx2;
     BossTw* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6947);
 
@@ -3748,7 +3748,7 @@ void BossTw_TwinrovaPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 
 void BossTw_ShieldChargeDraw(BossTw* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 temp_t0;
     s16 temp_a0;
 
@@ -3981,7 +3981,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
     f32 yDiff;
     f32 zDiff;
     f32 distXZ;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Player* player2 = player;
 
     switch (this->actor.params) {
@@ -4172,7 +4172,7 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
     f32 yDiff;
     f32 zDiff;
     f32 xzDist;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Player* player2 = player;
 
     switch (this->actor.params) {
@@ -4391,7 +4391,7 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
 }
 
 s32 BossTw_BlastShieldCheck(BossTw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 ret = false;
     ColliderInfo* info;
 
@@ -4632,7 +4632,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
     };
     Vec3f sp11C;
     BossTwEffect* eff = globalCtx->specialEffects;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     u8 sp113 = 0;
     s16 i;
     s16 j;
@@ -4970,7 +4970,7 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
     s16 i;
     s16 j;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_s4;
     BossTwEffect* currentEffect = globalCtx->specialEffects;
     BossTwEffect* effectHead;
@@ -5435,7 +5435,7 @@ void BossTw_TwinrovaSetupFly(BossTw* this, GlobalContext* globalCtx) {
     f32 zDiff;
     f32 yDiff;
     f32 xzDist;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     do {
         this->work[TW_PLLR_IDX] += (s16)(((s16)Rand_ZeroFloat(2.99f)) + 1);

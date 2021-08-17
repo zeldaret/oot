@@ -39,7 +39,7 @@ static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 
 
 void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (LINK_IS_CHILD) {
         this->scale = 0.4f;
@@ -73,7 +73,7 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     u8 phi_a0;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 pad;
     s16 nayrusLoveTimer = gSaveContext.nayrusLoveTimer;
     s32 msgMode = globalCtx->msgCtx.msgMode;
@@ -168,7 +168,7 @@ void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity) {
 void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_BALL - SFX_FLAG);
     if (this->timer < 35) {
@@ -203,7 +203,7 @@ void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         f32 heightDiff;
 
         this->actor.world.pos.x = player->bodyPartsPos[0].x;
@@ -234,7 +234,7 @@ void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
 void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     Vec3f pos;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     f32 sp6C = globalCtx->state.frames & 0x1F;
 

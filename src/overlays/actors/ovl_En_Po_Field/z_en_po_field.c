@@ -236,7 +236,7 @@ void EnPoField_SetupAppear(EnPoField* this) {
 }
 
 void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Animation_PlayLoop(&this->skelAnime, &gPoeFieldFloatAnim);
     this->collider.base.acFlags |= AC_ON;
@@ -359,7 +359,7 @@ void EnPoField_SetupInteractWithSoul(EnPoField* this) {
 }
 
 void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unk_194 == 0) {
         this->unk_194 = 32;
@@ -380,7 +380,7 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 speed = ((player->stateFlags1 & 0x800000) && player->rideActor != NULL) ? player->rideActor->speedXZ : 12.0f;
 
     if (this->actor.xzDistToPlayer < 300.0f) {
@@ -396,7 +396,7 @@ f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 spawnDist;
     s32 i;
     s32 bgId;
@@ -464,7 +464,7 @@ void EnPoField_Appear(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_CirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 temp_v1 = 16 - this->unk_194;
 
     SkelAnime_Update(&this->skelAnime);

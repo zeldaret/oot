@@ -268,7 +268,7 @@ void BossDodongo_SetupIntroCutscene(BossDodongo* this, GlobalContext* globalCtx)
 void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
     f32 phi_f0;
     Camera* mainCam;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f subCamEye;
     Vec3f subCamAt;
     Vec3f subCamUp;
@@ -844,8 +844,8 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     BossDodongo* this = THIS;
     f32 temp_f0;
     s16 i;
-    Player* player = PLAYER;
-    Player* player2 = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
+    Player* player2 = GET_PLAYER(globalCtx);
     s32 pad;
 
     this->unk_1E2 = 0;
@@ -1175,7 +1175,7 @@ f32 func_808C4F6C(BossDodongo* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 temp_f2;
     f32 rotation;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
@@ -1198,7 +1198,7 @@ f32 func_808C50A8(BossDodongo* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 temp_f2;
     f32 rotation;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
@@ -1216,7 +1216,7 @@ f32 func_808C50A8(BossDodongo* this, GlobalContext* globalCtx) {
 }
 
 void BossDodongo_PlayerYawCheck(BossDodongo* this, GlobalContext* globalCtx) {
-    s16 yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
+    s16 yawDiff = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.world.rot.y;
 
     if ((yawDiff < 0x38E3) && (-0x38E3 < yawDiff)) {
         this->playerYawInRange = true;
@@ -1320,7 +1320,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f effectPos;
     Camera* mainCam;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
 

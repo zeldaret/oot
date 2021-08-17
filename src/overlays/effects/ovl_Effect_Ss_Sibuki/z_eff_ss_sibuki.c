@@ -82,7 +82,7 @@ void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     s32 pad[3];
     f32 xzVelScale;
     s16 yaw;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->pos.y <= player->actor.floorHeight) {
         this->life = 0;
