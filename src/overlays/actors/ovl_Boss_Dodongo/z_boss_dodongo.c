@@ -442,7 +442,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = CAM_ID_SUB_FREE;
+                this->subCamId = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 BossDodongo_SetupWalk(this);
@@ -454,7 +454,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->subCamId != CAM_ID_SUB_FREE) {
+    if (this->subCamId != CAM_ID_MAIN) {
         if (this->unk_1B6 != 0) {
             this->unk_1B6--;
         }
@@ -702,7 +702,7 @@ void BossDodongo_Walk(BossDodongo* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_WALK);
             }
 
-            if (this->subCamId == CAM_ID_SUB_FREE) {
+            if (this->subCamId == CAM_ID_MAIN) {
                 func_80033E88(&this->actor, globalCtx, 4, 10);
             } else {
                 this->unk_1B6 = 10;
@@ -1634,7 +1634,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
                 this->unk_1BC = 0;
-                this->subCamId = CAM_ID_SUB_FREE;
+                this->subCamId = CAM_ID_MAIN;
                 this->csState = 100;
                 Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_ACTIVE);
                 func_80064534(globalCtx, &globalCtx->csCtx);
@@ -1658,7 +1658,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
             break;
     }
-    if (this->subCamId != CAM_ID_SUB_FREE) {
+    if (this->subCamId != CAM_ID_MAIN) {
         Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }

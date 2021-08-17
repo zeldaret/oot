@@ -120,7 +120,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if (this->subCamId != CAM_ID_SUB_FREE) {
+    if (this->subCamId != CAM_ID_MAIN) {
         Math_ApproachF(&this->subCamAt.x, this->subCamAtTarget.x, this->unk_1C8.x, this->unk_1D4.x);
         Math_ApproachF(&this->subCamAt.y, this->subCamAtTarget.y, this->unk_1C8.y, this->unk_1D4.y);
         Math_ApproachF(&this->subCamAt.z, this->subCamAtTarget.z, this->unk_1C8.z, this->unk_1D4.z);

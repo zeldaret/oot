@@ -766,7 +766,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = CAM_ID_SUB_FREE;
+                this->subCamId = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->actionState = 3;
@@ -956,7 +956,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = CAM_ID_SUB_FREE;
+                this->subCamId = CAM_ID_MAIN;
                 BossGoma_SetupFloorMain(this);
                 this->disableGameplayLogic = false;
                 this->patienceTimer = 200;
@@ -1177,7 +1177,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
                     mainCam->eyeNext = this->subCamEye;
                     mainCam->at = this->subCamAt;
                     func_800C08AC(globalCtx, this->subCamId, 0);
-                    this->subCamId = CAM_ID_SUB_FREE;
+                    this->subCamId = CAM_ID_MAIN;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     Actor_Kill(&this->actor);
@@ -1188,7 +1188,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->subCamId != CAM_ID_SUB_FREE) {
+    if (this->subCamId != CAM_ID_MAIN) {
         Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 

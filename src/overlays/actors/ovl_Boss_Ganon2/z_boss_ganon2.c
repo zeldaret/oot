@@ -899,7 +899,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
 #endif
 
 void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
-    if ((this->unk_312 != 0) && (this->unk_39E == CAM_ID_SUB_FREE)) {
+    if ((this->unk_312 != 0) && (this->unk_39E == CAM_ID_MAIN)) {
         Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
 
         while (actor != NULL) {
@@ -1341,7 +1341,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
                 temp_v0->eyeNext = this->unk_3A4;
                 temp_v0->at = this->unk_3B0;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
-                this->unk_39E = CAM_ID_SUB_FREE;
+                this->unk_39E = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->unk_39C = 3;
@@ -1373,14 +1373,14 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
                 temp_v0_2->at = this->unk_3B0;
                 this->unk_39C = 3;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
-                this->unk_39E = CAM_ID_SUB_FREE;
+                this->unk_39E = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
             }
             break;
     }
 
-    if (this->unk_39E != CAM_ID_SUB_FREE) {
+    if (this->unk_39E != CAM_ID_MAIN) {
         Gameplay_CameraSetAtEye(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4);
     }
 
@@ -1618,7 +1618,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 temp_v0_2->eyeNext = this->unk_3A4;
                 temp_v0_2->at = this->unk_3B0;
                 func_800C08AC(globalCtx, this->unk_39E, 0);
-                this->unk_39E = CAM_ID_SUB_FREE;
+                this->unk_39E = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->unk_39C = 6;
@@ -1805,7 +1805,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->unk_39E != CAM_ID_SUB_FREE) {
+    if (this->unk_39E != CAM_ID_MAIN) {
         Gameplay_CameraSetAtEyeUp(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4, &this->unk_3BC);
     }
 
@@ -2061,7 +2061,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_424.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_444.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_444.base);
-        if (this->unk_39E == CAM_ID_SUB_FREE) {
+        if (this->unk_39E == CAM_ID_MAIN) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk_444.base);
         }
     }

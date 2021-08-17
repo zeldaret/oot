@@ -1673,7 +1673,7 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
 
     if (arg2 <= 0) {
         Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STATUS_ACTIVE);
-        globalCtx->cameraPtrs[CAM_ID_MAIN]->childCamId = globalCtx->cameraPtrs[CAM_ID_MAIN]->parentCamId = CAM_ID_SUB_FREE;
+        globalCtx->cameraPtrs[CAM_ID_MAIN]->childCamId = globalCtx->cameraPtrs[CAM_ID_MAIN]->parentCamId = CAM_ID_MAIN;
     } else {
         OnePointCutscene_Init(globalCtx, 1020, arg2, NULL, CAM_ID_MAIN);
     }

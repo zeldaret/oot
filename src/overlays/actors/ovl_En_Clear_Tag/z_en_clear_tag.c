@@ -604,7 +604,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
 
                 // Make the Arwing cutscene camera approach the target.
-                if (this->subCamId != CAM_ID_SUB_FREE) {
+                if (this->subCamId != CAM_ID_MAIN) {
                     Math_ApproachF(&this->cutsceneCameraEye.x, cutsceneCameraEyeTarget.x, 0.1f, 500.0f);
                     Math_ApproachF(&this->cutsceneCameraEye.y, cutsceneCameraEyeTarget.y, 0.1f, 500.0f);
                     Math_ApproachF(&this->cutsceneCameraEye.z, cutsceneCameraEyeTarget.z, 0.1f, 500.0f);
@@ -618,7 +618,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 // Cutscene has finished.
                 if (this->cutsceneTimer == 1) {
                     func_800C08AC(globalCtx, this->subCamId, 0);
-                    this->cutsceneMode = this->subCamId = 0; // = CLEAR_TAG_CUTSCENE_MODE_NONE = CAM_ID_SUB_FREE
+                    this->cutsceneMode = this->subCamId = 0; // = CLEAR_TAG_CUTSCENE_MODE_NONE = CAM_ID_MAIN
                     func_80064534(globalCtx, &globalCtx->csCtx);
                 }
             }

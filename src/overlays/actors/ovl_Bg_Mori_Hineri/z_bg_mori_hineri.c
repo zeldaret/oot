@@ -190,7 +190,7 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->actionFunc = func_808A3E54;
 
         mainCamChildId = globalCtx->cameraPtrs[CAM_ID_MAIN]->childCamId;
-        if ((mainCamChildId != CAM_ID_SUB_FREE) && (globalCtx->cameraPtrs[mainCamChildId]->setting == CAM_SET_DEMO1)) {
+        if ((mainCamChildId != CAM_ID_MAIN) && (globalCtx->cameraPtrs[mainCamChildId]->setting == CAM_SET_DEMO1)) {
             OnePointCutscene_EndCutscene(globalCtx, mainCamChildId);
         }
         OnePointCutscene_Init(globalCtx, 3260, 40, &this->dyna.actor, CAM_ID_MAIN);
@@ -202,12 +202,12 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
     s8 objBankIndex;
 
     if (globalCtx->activeCamId == sSubCamId) {
-        if (sSubCamId != CAM_ID_SUB_FREE) {
+        if (sSubCamId != CAM_ID_MAIN) {
             objBankIndex = this->dyna.actor.objBankIndex;
             this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
             this->moriHineriObjIdx = objBankIndex;
             this->dyna.actor.params ^= 1;
-            sSubCamId = CAM_ID_SUB_FREE;
+            sSubCamId = CAM_ID_MAIN;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             this->dyna.actor.draw = NULL;

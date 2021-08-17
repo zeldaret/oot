@@ -617,7 +617,7 @@ void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_UpdateCamera(BossFd2* this, GlobalContext* globalCtx) {
-    if (this->subCamId != CAM_ID_SUB_FREE) {
+    if (this->subCamId != CAM_ID_MAIN) {
         Math_ApproachF(&this->subCamData.eye.x, this->subCamData.nextEye.x, this->subCamData.eyeMaxVel.x,
                        this->subCamData.eyeVel.x * this->subCamData.speedMod);
         Math_ApproachF(&this->subCamData.eye.y, this->subCamData.nextEye.y, this->subCamData.eyeMaxVel.y,
@@ -779,7 +779,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 mainCam->eyeNext = this->subCamData.eye;
                 mainCam->at = this->subCamData.at;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = CAM_ID_SUB_FREE;
+                this->subCamId = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,

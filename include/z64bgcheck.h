@@ -83,7 +83,7 @@ typedef struct {
     /* 0x00 */ u16 setting;
     /* 0x02 */ s16 dataCount;
     /* 0x04 */ Vec3s* data;
-} BgCamData;
+} CamData; // BgCamData
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -114,7 +114,7 @@ typedef struct {
     /* 0x14 */ u16 numPolygons;
     /* 0x18 */ CollisionPoly* polyList;
     /* 0x1C */ SurfaceType* surfaceTypeList;
-    /* 0x20 */ BgCamData* bgCamDataList;
+    /* 0x20 */ CamData* bgCamDataList;
     /* 0x24 */ u16 numWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader; // original name: BGDataInfo

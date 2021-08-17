@@ -294,7 +294,7 @@ CameraDataList::CameraDataList(ZFile* parent, const std::string& prefix,
 	}
 
 	parent->AddDeclarationArray(
-		rawDataIndex, DeclarationAlignment::None, entries.size() * 8, "BgCamData",
+		rawDataIndex, DeclarationAlignment::None, entries.size() * 8, "CamData",
 		StringHelper::Sprintf("%s_camDataList_%08X", prefix.c_str(), rawDataIndex), entries.size(),
 		declaration);
 

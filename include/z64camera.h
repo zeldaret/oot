@@ -1,8 +1,8 @@
 #ifndef _Z64CAMERA_H_
 #define _Z64CAMERA_H_
 
-#include <ultra64.h>
-#include <z64cutscene.h>
+#include "ultra64.h"
+#include "z64cutscene.h"
 
 #define CAM_STATUS_CUT 0
 #define CAM_STATUS_WAIT 1
@@ -13,7 +13,6 @@
 #define NUM_CAMS 4
 #define CAM_ID_MAIN 0
 #define CAM_ID_SUB_FIRST 1
-#define CAM_ID_SUB_FREE 0
 #define CAM_ID_SUB_NONE -1
 #define CAM_ID_ACTIVE -1
 
@@ -570,14 +569,12 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ Linef crawlspaceLine;
-    /* 0x0018 */ f32 unk_18;
-    /* 0x001C */ f32 unk_1C;
-    /* 0x0020 */ f32 unk_20;
+    /* 0x0018 */ Vec3f unk_18; // unused
     /* 0x0024 */ f32 xzSpeed;
-    /* 0x0028 */ f32 heightOffsetPrev;
-    /* 0x002C */ s16 heightCycleTimer;
+    /* 0x0028 */ f32 lineOffsetPrev;
+    /* 0x002C */ s16 lineOffsetAngle;
     /* 0x002E */ s16 isSfxOff;
-    /* 0x0030 */ s16 unk_30;
+    /* 0x0030 */ s16 yaw;
     /* 0x0032 */ s16 zoomTimer;
 } Subj4Anim; // size = 0x34
 

@@ -340,7 +340,7 @@ void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
     if (func_800C0DB4(globalCtx, &this->actor.projectedPos)) {
         func_800F6828(0);
     }
-    if (this->subCamId != 0) {
+    if (this->subCamId != CAM_ID_MAIN) {
         Math_ApproachF(&this->camEye.x, this->unk_2D0.x, this->unk_2DC.x, this->unk_2E8.x * this->unk_318);
         Math_ApproachF(&this->camEye.z, this->unk_2D0.z, this->unk_2DC.z, this->unk_2E8.z * this->unk_318);
         Math_ApproachF(&this->camLookAt.x, this->unk_2F4.x, this->unk_300.x, this->unk_30C.x * this->unk_318);

@@ -67,7 +67,7 @@ static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
 #include "z_bg_ganon_otyuka_gfx.c"
 
-static BgCamData sCameraDataList[] = { { 0, 0, 0 } };
+static CamData sCameraDataList[] = { { 0, 0, 0 } };
 
 static SurfaceType sSurfaceTypeList[] = {
     { 0x00000000, 0x000007C0 },

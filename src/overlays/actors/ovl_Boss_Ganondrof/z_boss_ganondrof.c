@@ -1115,7 +1115,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                 camera->eyeNext = this->subCamEye;
                 camera->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = CAM_ID_SUB_FREE;
+                this->subCamId = CAM_ID_MAIN;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, GND_BOSSROOM_CENTER_X,
@@ -1200,7 +1200,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->subCamId != CAM_ID_SUB_FREE) {
+    if (this->subCamId != CAM_ID_MAIN) {
         if (!holdCamera) {
             Math_ApproachF(&this->subCamEye.x, this->cameraNextEye.x, this->subCamEyeMaxVel.x,
                            this->subCamEyeVel.x * this->cameraSpeedMod);

@@ -2914,7 +2914,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
         sp118 = (player->actor.speedXZ * 0.3f) + 0.25f;
     }
 
-    if ((D_80B7E0B0 != 0) || (sSubCamId != CAM_ID_SUB_FREE) || ((player->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
+    if ((D_80B7E0B0 != 0) || (sSubCamId != CAM_ID_MAIN) || ((player->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
         this->actor.flags &= ~1;
     } else {
         this->actor.flags |= 1;
@@ -4374,7 +4374,7 @@ void Fishing_UpdatePondProps(GlobalContext* globalCtx) {
         prop++;
     }
 
-    if (sSubCamId == CAM_ID_SUB_FREE) {
+    if (sSubCamId == CAM_ID_MAIN) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &sFishingMain->collider.base);
     }
 }
@@ -5346,7 +5346,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             func_800C08AC(globalCtx, sSubCamId, 0);
             func_80064534(globalCtx, &globalCtx->csCtx);
             D_80B7A6CC = 0;
-            sSubCamId = CAM_ID_SUB_FREE;
+            sSubCamId = CAM_ID_MAIN;
             func_80070600(globalCtx, 0);
             globalCtx->envCtx.unk_9E = 0;
             player->unk_860 = -5;
@@ -5389,7 +5389,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 D_80B7A6CC = 0;
-                sSubCamId = CAM_ID_SUB_FREE;
+                sSubCamId = CAM_ID_MAIN;
                 D_80B7A6D0 = 30;
                 func_80070600(globalCtx, 0);
                 globalCtx->envCtx.unk_9E = 0;
@@ -5492,7 +5492,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
                         func_80064534(globalCtx, &globalCtx->csCtx);
                         func_8002DF54(globalCtx, &this->actor, 7);
                         D_80B7A6CC = 0;
-                        sSubCamId = CAM_ID_SUB_FREE;
+                        sSubCamId = CAM_ID_MAIN;
                         player->unk_860 = -5;
                         D_80B7E0B0 = 5;
                         D_80B7A6D4 = 0;
@@ -5508,7 +5508,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             break;
     }
 
-    if (sSubCamId != CAM_ID_SUB_FREE) {
+    if (sSubCamId != CAM_ID_MAIN) {
         Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &sCameraAt, &sCameraEye);
         Math_ApproachF(&D_80B7FECC, 1.0f, 1.0f, 0.02f);
 

@@ -151,7 +151,7 @@ void BossFd_SetCameraSpeed(BossFd* this, f32 speedMod) {
 }
 
 void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
-    if (this->subCamId != CAM_ID_SUB_FREE) {
+    if (this->subCamId != CAM_ID_MAIN) {
         Math_ApproachF(&this->subCamData.eye.x, this->subCamData.nextEye.x, this->subCamData.eyeMaxVel.x,
                        this->subCamData.eyeVel.x * this->subCamData.speedMod);
         Math_ApproachF(&this->subCamData.eye.y, this->subCamData.nextEye.y, this->subCamData.eyeMaxVel.y,
@@ -537,7 +537,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     mainCam->eyeNext = this->subCamData.eye;
                     mainCam->at = this->subCamData.at;
                     func_800C08AC(globalCtx, this->subCamId, 0);
-                    this->introState = this->introFlyState = this->subCamId = BFD_CS_NONE; // this->subCamId = CAM_ID_SUB_FREE
+                    this->introState = this->introFlyState = this->subCamId = BFD_CS_NONE; // this->subCamId = CAM_ID_MAIN
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = BossFd_Wait;

@@ -303,7 +303,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             func_8002DF54(globalCtx, NULL, 8);
             subCam->roll = 0;
             subCam->fov = 50.0f;
-            if (subCam->childCamId != CAM_ID_SUB_FREE) {
+            if (subCam->childCamId != CAM_ID_MAIN) {
                 OnePointCutscene_EndCutscene(globalCtx, subCam->childCamId);
             }
             break;
@@ -1270,7 +1270,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
     // after at least one attention demo.
 
     vLastHigherCat = -1;
-    while (parentCam->childCamId != CAM_ID_SUB_FREE) {
+    while (parentCam->childCamId != CAM_ID_MAIN) {
         parentCam = globalCtx->cameraPtrs[parentCam->childCamId];
         if (parentCam == NULL) {
             break;
@@ -1363,7 +1363,7 @@ void OnePointCutscene_DisableAttention() {
 s32 OnePointCutscene_CheckForCategory(GlobalContext* globalCtx, s32 category) {
     Camera* parentCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
-    while (parentCam->childCamId != CAM_ID_SUB_FREE) {
+    while (parentCam->childCamId != CAM_ID_MAIN) {
         parentCam = globalCtx->cameraPtrs[parentCam->childCamId];
         if ((parentCam == NULL) || (parentCam->setting != CAM_SET_DEMO4)) {
             break;
