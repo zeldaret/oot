@@ -66,7 +66,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx);
 void EnGo2_GoronLinkStopRolling(EnGo2* this, GlobalContext* globalCtx);
 void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx);
 
-static u64* sDustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
+static void* sDustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
 
 static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
 static Vec3f sVelocity = { 0.0f, 0.0f, 0.0f };
@@ -2021,8 +2021,8 @@ void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
 void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo2* this = THIS;
-    u64* eyeTextures[] = { gGoronCsEyeClosed2Tex, gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
-    u64* mouthTextures[] = { gGoronCsMouthNeutralTex, gGoronCsMouthSmileTex };
+    void* eyeTextures[] = { gGoronCsEyeClosed2Tex, gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
+    void* mouthTextures[] = { gGoronCsMouthNeutralTex, gGoronCsMouthSmileTex };
 
     EnGo2_UpdateDust(this);
     Matrix_Push();

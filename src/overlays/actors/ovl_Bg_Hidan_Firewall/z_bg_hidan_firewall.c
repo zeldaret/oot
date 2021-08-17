@@ -195,7 +195,7 @@ void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static u64* sFireballTexs[] = {
+static void* sFireballTexs[] = {
     gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
     gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
 };
