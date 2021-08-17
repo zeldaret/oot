@@ -546,6 +546,7 @@ endseg
 
 beginseg
     name "ovl_file_choose"
+    include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_data.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_copy_erase.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_nameset_PAL.o"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_choose.o"

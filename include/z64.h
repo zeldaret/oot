@@ -1104,7 +1104,7 @@ typedef struct {
     /* 0x1CAA0 */ s16 emptyFileTextAlpha;
     /* 0x1CAA2 */ s16 highlightColor[4];
     /* 0x1CAAA */ s16 highlightFlashDir; // 0 decrease, 1 increase
-    /* 0x1CAAC */ s16 unk_1CAAC;
+    /* 0x1CAAC */ s16 unk_1CAAC; // initialized but never used
     /* 0x1CAAE */ s16 unk_1CAAE[2]; // no array?
     /* 0x1CAB2 */ s16 inputTimerX;
     /* 0x1CAB4 */ s16 inputTimerY;

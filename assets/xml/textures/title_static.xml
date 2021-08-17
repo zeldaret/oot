@@ -61,7 +61,7 @@
         <Texture Name="gTitleStaticThisIsAnEmptyFileGERTex" OutName="title_static_this_is_an_empty_file_ger" Format="ia8" Width="128" Height="16" Offset="0x21480"/>
         <Texture Name="gTitleStaticThisFileIsInUseGERTex" OutName="title_static_this_file_is_in_use_ger" Format="ia8" Width="128" Height="16" Offset="0x21C80"/>
         <Texture Name="gTitleStaticNoFileToCopyFRATex" OutName="title_static_no_file_to_copy_fra" Format="ia8" Width="128" Height="16" Offset="0x22480"/>
-        <Texture Name="gTitleStaticNoFileToDeleteFRATex" OutName="title_static_no_file_to_delete_fra" Format="ia8" Width="128" Height="16" Offset="0x22C80"/>
+        <Texture Name="gTitleStaticNoFileToEraseFRATex" OutName="title_static_no_file_to_erase_fra" Format="ia8" Width="128" Height="16" Offset="0x22C80"/>
         <Texture Name="gTitleStaticThereIsNoEmptyFileFRATex" OutName="title_static_there_is_no_empty_file_fra" Format="ia8" Width="128" Height="16" Offset="0x23480"/>
         <Texture Name="gTitleStaticThisIsAnEmptyFileFRATex" OutName="title_static_this_is_an_empty_file_fra" Format="ia8" Width="128" Height="16" Offset="0x23C80"/>
         <Texture Name="gTitleStaticThisFileIsInUseFRATex" OutName="title_static_this_file_is_in_use_fra" Format="ia8" Width="128" Height="16" Offset="0x24480"/>
@@ -69,7 +69,7 @@
         <Texture Name="gTitleStaticCopyToWhichFileENGTex" OutName="title_static_copy_to_which_file_eng" Format="ia8" Width="128" Height="16" Offset="0x25480"/>
         <Texture Name="gTitleStaticAreYouSureENGTex" OutName="title_static_are_you_sure_eng" Format="ia8" Width="128" Height="16" Offset="0x25C80"/>
         <Texture Name="gTitleStaticFileCopiedENGTex" OutName="title_static_file_copied_eng" Format="ia8" Width="128" Height="16" Offset="0x26480"/>
-        <Texture Name="gTitleStaticCopyWhichFileGERTex" OutName="title_static_copy_which_file_ger" Format="ia8" Width="128" Height="16" Offset="0x26C80"/>
+        <Texture Name="gTitleStaticWhichFile1GERTex" OutName="title_static_which_file_1_ger" Format="ia8" Width="128" Height="16" Offset="0x26C80"/>
         <Texture Name="gTitleStaticCopyToWhichFileGERTex" OutName="title_static_copy_to_which_file_ger" Format="ia8" Width="128" Height="16" Offset="0x27480"/>
         <Texture Name="gTitleStaticAreYouSureGERTex" OutName="title_static_are_you_sure_ger" Format="ia8" Width="128" Height="16" Offset="0x27C80"/>
         <Texture Name="gTitleStaticFileCopiedGERTex" OutName="title_static_file_copied_ger" Format="ia8" Width="128" Height="16" Offset="0x28480"/>
@@ -86,7 +86,7 @@
         <Texture Name="gTitleStaticEraseWhichFileENGTex" OutName="title_static_erase_which_file_eng" Format="ia8" Width="128" Height="16" Offset="0x2DC80"/>
         <Texture Name="gTitleStaticAreYouSure2ENGTex" OutName="title_static_are_you_sure_eng_2" Format="ia8" Width="128" Height="16" Offset="0x2E480"/>
         <Texture Name="gTitleStaticFileErasedENGTex" OutName="title_static_file_erased_eng" Format="ia8" Width="128" Height="16" Offset="0x2EC80"/>
-        <Texture Name="gTitleStaticCopyWhichFile2GERTex" OutName="title_static_copy_which_file_ger_2" Format="ia8" Width="128" Height="16" Offset="0x2F480"/>
+        <Texture Name="gTitleStaticWhichFile2GERTex" OutName="title_static_which_file_2_ger" Format="ia8" Width="128" Height="16" Offset="0x2F480"/>
         <Texture Name="gTitleStaticAreYouSure2GERTex" OutName="title_static_are_you_sure_ger_2" Format="ia8" Width="128" Height="16" Offset="0x2FC80"/>
         <Texture Name="gTitleStaticFileErasedGERTex" OutName="title_static_file_erased_ger" Format="ia8" Width="128" Height="16" Offset="0x30480"/>
         <Texture Name="gTitleStaticEraseWhichFileFRATex" OutName="title_static_erase_which_file_fra" Format="ia8" Width="128" Height="16" Offset="0x30C80"/>

@@ -1,6 +1,16 @@
 #include "file_choose.h"
 #include "textures/title_static/title_static.h"
 
+extern Vtx D_80811BB0[6][4];
+extern s16 D_808123F0[];
+extern Vtx D_80811E30[];
+extern Vtx D_80811D30[];
+extern Vtx D_80812130[];
+extern Vtx D_80811F30[];
+extern Vtx gOptionsDividerTop[];
+extern Vtx gOptionsDividerMiddle[];
+extern Vtx gOptionsDividerBottom[];
+
 s16 D_808124C0[] = {
     0x0002, 0x0003, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0002, 0x0000, 0x0001,
     0x0001, 0x0002, 0x0001, 0x0001, 0x0004, 0x0002, 0x0002, 0x0002, 0x0001, 0x0001, 0x0000, 0x0002, 0x0000, 0x0001,
@@ -46,17 +56,6 @@ OptionsMenuTextures gOptionsMenuSettings[] = {
     { { 0x01043000, 0x01043300, 0x01043800 }, { 48, 80, 48 }, 16 }, // "Switch"
     { { 0x01043B00, 0x01043E00, 0x01044300 }, { 48, 80, 48 }, 16 }, // "Hold"
 };
-
-extern Vtx D_80811BB0[6][4];
-extern s16 D_808123F0[];
-extern Vtx D_80811E30[];
-extern Vtx D_80811D30[];
-extern Vtx D_80812130[];
-extern Vtx D_80811F30[];
-extern Vtx gOptionsDividerTop[];
-extern Vtx gOptionsDividerMiddle[];
-extern Vtx gOptionsDividerBottom[];
-extern u8 gSelectedSetting;
 
 void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
     OPEN_DISPS(gfxCtx, "../z_file_nameset_PAL.c", 110);

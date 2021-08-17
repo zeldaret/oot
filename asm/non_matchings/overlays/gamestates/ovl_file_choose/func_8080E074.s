@@ -1083,10 +1083,10 @@ glabel func_8080E074
 /* 0B3A4 8080F0E4 AD2F02C0 */  sw      $t7, 0x02C0($t1)           ## 000002C0
 /* 0B3A8 8080F0E8 ACD80000 */  sw      $t8, 0x0000($a2)           ## 00000000
 /* 0B3AC 8080F0EC 9339FA69 */  lbu     $t9, %lo(gSaveContext+0x1409)($t9)
-/* 0B3B0 8080F0F0 3C0F8081 */  lui     $t7, %hi(D_80812A04)       ## $t7 = 80810000
+/* 0B3B0 8080F0F0 3C0F8081 */  lui     $t7, %hi(sOptionsButtonLabels)       ## $t7 = 80810000
 /* 0B3B4 8080F0F4 00197080 */  sll     $t6, $t9,  2               
 /* 0B3B8 8080F0F8 01EE7821 */  addu    $t7, $t7, $t6              
-/* 0B3BC 8080F0FC 8DEF2A04 */  lw      $t7, %lo(D_80812A04)($t7)  
+/* 0B3BC 8080F0FC 8DEF2A04 */  lw      $t7, %lo(sOptionsButtonLabels)($t7)  
 /* 0B3C0 8080F100 ACCF0004 */  sw      $t7, 0x0004($a2)           ## 00000004
 /* 0B3C4 8080F104 8D2602C0 */  lw      $a2, 0x02C0($t1)           ## 000002C0
 /* 0B3C8 8080F108 3C0F073F */  lui     $t7, 0x073F                ## $t7 = 073F0000

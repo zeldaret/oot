@@ -1,5 +1,6 @@
 #include "file_choose.h"
 #include "textures/title_static/title_static.h"
+#include "textures/parameter_static/parameter_static.h"
 
 s16 D_8081271C = 106; // unused?
 
@@ -364,7 +365,7 @@ void (*gConfigModeUpdateFuncs[])(GameState*) = {
 s16 D_80812814[] = { 0x0046, 0x00C8 }; // used for calculating alpha for the flashing cursor
 
 void FileChoose_FlashCursor(GameState* thisx) {
-    
+
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 alphaStep;
     SramContext* sramCtx = &this->sramCtx;
@@ -499,7 +500,6 @@ void func_8080C60C(FileChooseContext* thisx) {
     s16 phi_ra;
     s16 temp_t1;
     SramContext* sramCtx = &this->sramCtx;
-    
 
     this->allocVtx2 = Graph_Alloc(this->state.gfxCtx, 0x288 * sizeof(Vtx));
 
@@ -730,14 +730,19 @@ void func_8080C60C(FileChooseContext* thisx) {
 }
 
 u16 D_8081284C[] = { 0x007C, 0x0124, 0x01CC, 0x0000 };
-void* D_80812854[] = { 0x0101C880, 0x0101CC80, 0x0101D080, 0x01000180, 0x01000280,
-                       0x01000380, 0x01000480, 0x01000580, 0x01000680 };
+
+void* sQuestItemTextures[] = {
+    gTitleStaticKokiriEmeraldTex,   gTitleStaticGoronRubyTex,       gTitleStaticZoraSapphireTex,
+    gTitleStaticForestMedallionTex, gTitleStaticFireMedallionTex,   gTitleStaticWaterMedallionTex,
+    gTitleStaticSpiritMedallionTex, gTitleStaticShadowMedallionTex, gTitleStaticLightMedallionTex,
+};
+
 s16 D_80812878[] = { 0x00FF, 0x00FF, 0x00FF, 0x0000, 0x00FF, 0x0000, 0x00FF, 0x00C8, 0x00C8, 0x0000 };
 s16 D_8081288C[] = { 0x00FF, 0x00FF, 0x00FF, 0x00FF, 0x003C, 0x0064, 0x0082, 0x0032, 0x00C8, 0x0000 };
 s16 D_808128A0[] = { 0x00FF, 0x00FF, 0x00FF, 0x0000, 0x0000, 0x00FF, 0x0000, 0x00FF, 0x0000, 0x0000 };
 s16 D_808128B4[] = { 0x0012, 0x0013, 0x0014, 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0000 };
 s16 D_808128C8[2][3] = { { 0x00FF, 0x00FF, 0x00FF }, { 0x0064, 0x0064, 0x0064 } };
-void* D_808128D4[] = { 0x02000400, 0x02000900 };
+void* sHeartTextures[] = { gHeartFullTex, gDefenseHeartFullTex };
 s16 D_808128DC[2][3] = { { 0x00FF, 0x0046, 0x0032 }, { 0x00C8, 0x0000, 0x0000 } };
 s16 D_808128E8[2][3] = { { 0x0032, 0x0028, 0x003C }, { 0x00FF, 0x00FF, 0x00FF } };
 
@@ -750,8 +755,10 @@ void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
     s16 phi_s3;
     s16 spD8[3];
 
-    OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1709);
     if (1) {}
+
+    OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1709);
+
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                       PRIMITIVE, 0);
@@ -795,7 +802,7 @@ void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
         for (phi_s2 = 0, phi_s3 = 0; phi_s3 < phi_s0; phi_s3++, phi_s2 += 4) {
             gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[D_8081284C[arg1] + phi_s2] + 0x30, 4, 0);
 
-            POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, D_808128D4[phi_a2_2], 0x10, 0x10, 0);
+            POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, sHeartTextures[phi_a2_2], 0x10, 0x10, 0);
         }
 
         gDPPipeSync(POLY_OPA_DISP++);
@@ -809,36 +816,57 @@ void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
                 if (phi_s3 < 3) {
-                    gDPLoadTextureBlock(POLY_OPA_DISP++, D_80812854[phi_s3], G_IM_FMT_RGBA, G_IM_SIZ_32b, 16, 16, 0,
+                    gDPLoadTextureBlock(POLY_OPA_DISP++, sQuestItemTextures[phi_s3], G_IM_FMT_RGBA, G_IM_SIZ_32b, 16, 16, 0,
                                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
                                         G_TX_NOMASK, G_TX_NOLOD);
                     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
                 } else {
-                    POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, D_80812854[phi_s3], 0x10, 0x10, 0);
+                    POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, sQuestItemTextures[phi_s3], 0x10, 0x10, 0);
                 }
             }
         }
     }
+
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1797);
 }
 
-void* D_808128F4[] = { 0x01016380, 0x01017340, 0x01018300, 0x010192C0, 0x0101A280 };
-void* D_80812908[3][9] = {
-    { 0x0102AC80, 0x0102B480, 0x01024C80, 0x01025480, 0x01025C80, 0x01026480, 0x0102DC80, 0x0102E480, 0x0102EC80 },
-    { 0x0102BC80, 0x0102C480, 0x01026C80, 0x01027480, 0x01027C80, 0x01028480, 0x0102F480, 0x0102FC80, 0x01030480 },
-    { 0x0102CC80, 0x0102D480, 0x01028C80, 0x01029480, 0x01029C80, 0x0102A480, 0x01030C80, 0x01031480, 0x01031C80 }
+void* D_808128F4[] = {
+    gTitleStaticFileBackground1Tex, gTitleStaticFileBackground2Tex, gTitleStaticFileBackground3Tex,
+    gTitleStaticFileBackground4Tex, gTitleStaticFileBackground5Tex,
 };
-void* D_80812974[3][5] = { { 0x0101D480, 0x0101DC80, 0x0101E480, 0x0101EC80, 0x0101F480 },
-                           { 0x0101FC80, 0x01020480, 0x01020C80, 0x01021480, 0x01021C80 },
-                           { 0x01022480, 0x01022C80, 0x01023480, 0x01023C80, 0x01024480 } };
-void* D_808129B0[3][3] = { { 0x01037200, 0x01037A00, 0x01038200 },
-                           { 0x01038A00, 0x01039200, 0x01039A00 },
-                           { 0x0103A200, 0x0103AA00, 0x0103B200 } };
-void* D_808129D4[3][4] = { { 0x01035A00, 0x0103D200, 0x0103BA00, 0x0103EA00 },
-                           { 0x01036200, 0x0103DA00, 0x0103C200, 0x0103F200 },
-                           { 0x01036A00, 0x0103E200, 0x0103CA00, 0x0103FA00 } };
-void* D_80812A04[] = { 0x01045E00, 0x01046600, 0x01045E00 };
+
+// clang-format off
+void* D_80812908[3][9] = {
+    { gTitleStaticPleaseSelectAFileENGTex, gTitleStaticOpenThisFileENGTex, gTitleStaticCopyWhichFileENGTex, gTitleStaticCopyToWhichFileENGTex, gTitleStaticAreYouSureENGTex, gTitleStaticFileCopiedENGTex, gTitleStaticEraseWhichFileENGTex, gTitleStaticAreYouSure2ENGTex, gTitleStaticFileErasedENGTex },
+    { gTitleStaticPleaseSelectAFileGERTex, gTitleStaticOpenThisFileGERTex, gTitleStaticWhichFile1GERTex, gTitleStaticCopyToWhichFileGERTex, gTitleStaticAreYouSureGERTex, gTitleStaticFileCopiedGERTex, gTitleStaticWhichFile2GERTex, gTitleStaticAreYouSure2GERTex, gTitleStaticFileErasedGERTex },
+    { gTitleStaticPleaseSelectAFileFRATex, gTitleStaticOpenThisFileFRATex, gTitleStaticCopyWhichFileFRATex, gTitleStaticCopyToWhichFileFRATex, gTitleStaticAreYouSureFRATex, gTitleStaticFileCopiedFRATex, gTitleStaticEraseWhichFileFRATex, gTitleStaticAreYouSure2FRATex, gTitleStaticFileErasedFRATex }
+};
+
+void* D_80812974[3][5] = {
+    { gTitleStaticNoFileToCopyENGTex, gTitleStaticNoFileToEraseENGTex, gTitleStaticThereIsNoEmptyFileENGTex, gTitleStaticThisIsAnEmptyFileENGTex, gTitleStaticThisFileIsInUseENGTex },
+    { gTitleStaticNoFileToCopyGERTex, gTitleStaticNoFileToEraseGERTex, gTitleStaticThereIsNoEmptyFileGERTex, gTitleStaticThisIsAnEmptyFileGERTex, gTitleStaticThisFileIsInUseGERTex },
+    { gTitleStaticNoFileToCopyFRATex, gTitleStaticNoFileToEraseFRATex, gTitleStaticThereIsNoEmptyFileFRATex, gTitleStaticThisIsAnEmptyFileFRATex, gTitleStaticThisFileIsInUseFRATex },
+};
+
+void* D_808129B0[3][3] = {
+    { gTitleStaticFile1ButtonENGTex, gTitleStaticFile2ButtonENGTex, gTitleStaticFile3ButtonENGTex },
+    { gTitleStaticFile1ButtonGERTex, gTitleStaticFile2ButtonGERTex, gTitleStaticFile3ButtonGERTex },
+    { gTitleStaticFile1ButtonFRATex, gTitleStaticFile2ButtonFRATex, gTitleStaticFile3ButtonFRATex },
+};
+// clang-format on
+
+void* D_808129D4[3][4] = {
+    { gTitleStaticCopyButtonENGTex, gTitleStaticEraseButtonENGTex, gTitleStaticYesButtonENGTex,
+      gTitleStaticQuitButtonENGTex },
+    { gTitleStaticCopyButtonGERTex, gTitleStaticEraseButtonGERTex, gTitleStaticYesButtonGERTex,
+      gTitleStaticQuitButtonGERTex },
+    { gTitleStaticCopyButtonFRATex, gTitleStaticEraseButtonFRATex, gTitleStaticYesButtonFRATex,
+      gTitleStaticQuitButtonFRATex },
+};
+
+void* sOptionsButtonLabels[] = { gTitleStaticOptionsButtonENGTex, gTitleStaticOptionsButtonGERTex,
+                                 gTitleStaticOptionsButtonENGTex };
 
 #ifdef NON_MATCHING
 void func_8080E074(FileChooseContext* thisx) {
@@ -919,8 +947,9 @@ void func_8080E074(FileChooseContext* thisx) {
 
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8081275C[phi_a3][0], D_8081275C[phi_a3][1], D_8081275C[phi_a3][2],
                         this->connectorAlpha[phi_t3]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticFileAttachmentTex, G_IM_FMT_IA, G_IM_SIZ_8b, 24, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticFileAttachmentTex, G_IM_FMT_IA, G_IM_SIZ_8b, 24, 16, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 12, 14, 15, 13, 0);
         if (this->n64ddFlags[phi_t3]) {
             gSP1Quadrangle(POLY_OPA_DISP++, 16, 18, 19, 17, 0);
@@ -963,8 +992,8 @@ void func_8080E074(FileChooseContext* thisx) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                     this->optionButtonAlpha);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, D_80812A04[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_16b, 64, 16, 0,
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsButtonLabels[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_16b, 64, 16,
+                        0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 8, 10, 11, 9, 0);
 
@@ -977,8 +1006,9 @@ void func_8080E074(FileChooseContext* thisx) {
                           PRIMITIVE, 0);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->highlightColor[0], this->highlightColor[1],
                         this->highlightColor[2], this->highlightColor[3]);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticBigButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 72, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticBigButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 72, 24, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 12, 14, 15, 13, 0);
     }
     if (this->warningLabel >= 0) {
@@ -1373,7 +1403,7 @@ void (*gSelectModeUpdateFuncs[])(GameState*) = {
 
 void FileChoose_SelectModeUpdate(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    
+
     gSelectModeUpdateFuncs[this->selectMode](thisx);
 }
 
@@ -1442,7 +1472,8 @@ void (*gFileSelectUpdateFuncs[])(GameState*) = {
 };
 
 void FileChoose_Main(GameState* thisx) {
-    static void* gControlsTexture[] = { 0x01033F00, 0x01034800, 0x01035100 };
+    static void* controlsTextures[] = { gTitleStaticADecideBCancelENGTex, gTitleStaticADecideBCancelGERTex,
+                                        gTitleStaticADecideBCancelFRATex };
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];
 
@@ -1533,7 +1564,7 @@ void FileChoose_Main(GameState* thisx) {
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 100, 255, 255, this->controlsAlpha);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gControlsTexture[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 144, 16,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, controlsTextures[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 144, 16,
                             0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
         gSPTextureRectangle(POLY_OPA_DISP++, 0x0168, 0x0330, 0x03A8, 0x0370, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
