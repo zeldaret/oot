@@ -1018,7 +1018,7 @@ void BossSst_HeadSetupDeath(BossSst* this, GlobalContext* globalCtx) {
     Gameplay_CopyCamera(globalCtx, sSubCamId, CAM_ID_MAIN);
     func_8002DF54(globalCtx, &player->actor, 8);
     func_80064520(globalCtx, &globalCtx->csCtx);
-    Math_Vec3f_Copy(&sSubCamEye, &ACTIVE_CAM->eye);
+    Math_Vec3f_Copy(&sSubCamEye, &GET_ACTIVE_CAM(globalCtx)->eye);
     this->actionFunc = BossSst_HeadDeath;
 }
 

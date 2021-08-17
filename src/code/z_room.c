@@ -329,7 +329,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     sp9C = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
@@ -377,7 +377,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 }
 
 BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
-    Camera* camera = ACTIVE_CAM;
+    Camera* camera = GET_ACTIVE_CAM(globalCtx);
     s32 bgCamDataId = camera->bgCamDataId;
     s16 jfifId = BGCAM_JFIFID(SurfaceType_GetBgCamDataVec3s(&globalCtx->colCtx, bgCamDataId, BGCHECK_SCENE));
     Player* player;
@@ -420,7 +420,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     sp98 = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);

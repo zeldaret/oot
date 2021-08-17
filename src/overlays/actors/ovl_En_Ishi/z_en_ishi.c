@@ -430,7 +430,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
             sDustSpawnFuncs[type](this, globalCtx);
         }
         if (type == ROCK_LARGE) {
-            quakeIdx = Quake_Add(ACTIVE_CAM, 3);
+            quakeIdx = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
             Quake_SetSpeed(quakeIdx, -0x3CB0);
             Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
             Quake_SetCountdown(quakeIdx, 7);

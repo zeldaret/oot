@@ -2099,7 +2099,7 @@ void func_80B582C8(EnZl3* this, GlobalContext* globalCtx) {
         *unk_3CC += 1.0f;
         func_80B57858(globalCtx);
     } else if (*unk_3CC == kREG(17) + 40.0f) {
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         *unk_3CC += 1.0f;
     } else if (*unk_3CC >= ((kREG(17) + 40.0f) + 1.0f)) {
         this->action = 32;
@@ -2162,7 +2162,7 @@ void func_80B58624(EnZl3* this, GlobalContext* globalCtx) {
     } else {
         if (*unk_3CC >= kREG(20) + 30.0f) {
             this->action = 28;
-            func_8005B1A4(ACTIVE_CAM);
+            func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
             func_80B54E14(this, &gZelda2Anime2Anim_009FBC, 0, -12.0f, 0);
             *unk_3CC = 0.0f;
         } else {

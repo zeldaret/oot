@@ -3478,11 +3478,9 @@ s32 Camera_KeepOn4(Camera* camera) {
     KeepOn4_Unk20* unk20 = &keep4->unk_20;
     s32 pad;
     f32 playerHeight;
-    Player* player;
+    Player* player = GET_PLAYER(camera->globalCtx);
     s16 angleCnt;
     s32 i;
-
-    player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
 
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
         if (camera->globalCtx->view.unk_124 == 0) {
@@ -7593,7 +7591,7 @@ Vec3s Camera_Update(Camera* camera) {
  */
 void Camera_Finish(Camera* camera) {
     Camera* mainCam = camera->globalCtx->cameraPtrs[CAM_ID_MAIN];
-    Player* player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
+    Player* player = GET_PLAYER(camera->globalCtx);
 
     if (camera->timer == 0) {
         Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamId, CAM_STATUS_ACTIVE);
@@ -8163,7 +8161,7 @@ s16 func_8005B1A4(Camera* camera) {
     camera->unk_14C |= 0x8;
 
     if ((camera->camId == CAM_ID_MAIN) && (camera->globalCtx->activeCamId != CAM_ID_MAIN)) {
-        camera->globalCtx->cameraPtrs[camera->globalCtx->activeCamId]->unk_14C |= 0x8;
+        GET_ACTIVE_CAM(camera->globalCtx)->unk_14C |= 0x8;
         return camera->globalCtx->activeCamId;
     }
 

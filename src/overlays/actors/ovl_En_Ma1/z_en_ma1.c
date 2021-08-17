@@ -445,7 +445,7 @@ void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     distFromCamera = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
     func_800F6268(distFromCamera, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);

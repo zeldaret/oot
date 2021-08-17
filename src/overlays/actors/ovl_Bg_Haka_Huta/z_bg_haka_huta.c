@@ -180,7 +180,7 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     this->counter++;
     if (this->counter == 6) {
         this->actionFunc = BgHakaHuta_DoNothing;
-        quakeIndex = Quake_Add(ACTIVE_CAM, 3);
+        quakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
         Quake_SetSpeed(quakeIndex, 0x7530);
         Quake_SetQuakeValues(quakeIndex, 4, 0, 0, 0);
         Quake_SetCountdown(quakeIndex, 2);

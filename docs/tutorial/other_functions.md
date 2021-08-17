@@ -394,9 +394,9 @@ Easy things to sort out:
 
 - We can remove the casts from `(u8)1U` and just leave `1`.
 
-- `globalCtx->cameraPtrs[globalCtx->activeCamId]` has a macro: it is `ACTIVE_CAM`, so this line can be written as
+- `globalCtx->cameraPtrs[globalCtx->activeCamId]` has a macro: it is `GET_ACTIVE_CAM(globalCtx)`, so this line can be written as
 ```C
-func_8005B1A4(ACTIVE_CAM);
+func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
 ```
 
 - `gSaveContext.unkEDA` we have dealt with before: it is `gSaveContext.eventChkInf[3]`. This is a flag-setting function; it can be written more compactly as
@@ -418,7 +418,7 @@ void func_80A87CEC(EnJj *this, GlobalContext *globalCtx) {
     globalCtx->csCtx.segment = &D_80A88164;
     gSaveContext.cutsceneTrigger = 1;
     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, child->bgId);
-    func_8005B1A4(ACTIVE_CAM);
+    func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
     gSaveContext.eventChkInf[3] |= 0x400;
     func_80078884(NA_SE_SY_CORRECT_CHIME);
 }
@@ -437,7 +437,7 @@ void func_80A87CEC(EnJj* this, GlobalContext* globalCtx) {
         globalCtx->csCtx.segment = &D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, child->bgId);
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         gSaveContext.eventChkInf[3] |= 0x400;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }

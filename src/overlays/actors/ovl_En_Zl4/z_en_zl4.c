@@ -181,7 +181,7 @@ static struct_80034EC0_Entry sAnimationEntries[] = {
 #include "z_en_zl4_cutscene_data.c"
 
 void EnZl4_SetCsCameraAngle(GlobalContext* globalCtx, s16 index) {
-    Camera* activeCam = ACTIVE_CAM;
+    Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
 
     Camera_ChangeSetting(activeCam, CAM_SET_FREE0);
     activeCam->at = sCsCameraAngle[index].at;
@@ -191,7 +191,7 @@ void EnZl4_SetCsCameraAngle(GlobalContext* globalCtx, s16 index) {
 }
 
 void EnZl4_SetCsCameraMove(GlobalContext* globalCtx, s16 index) {
-    Camera* activeCam = ACTIVE_CAM;
+    Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
     Player* player = GET_PLAYER(globalCtx);
 
     Camera_ChangeSetting(activeCam, CAM_SET_DEMO0);
@@ -786,7 +786,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
 }
 
 s32 EnZl4_CsTellLegend(EnZl4* this, GlobalContext* globalCtx) {
-    Camera* activeCam = ACTIVE_CAM;
+    Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
 
     switch (this->talkState) {
         case 0:
@@ -1098,7 +1098,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
             if (!((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx))) {
                 break;
             } else {
-                Camera_ChangeSetting(ACTIVE_CAM, CAM_SET_NORMAL0);
+                Camera_ChangeSetting(GET_ACTIVE_CAM(globalCtx), CAM_SET_NORMAL0);
                 this->talkState = 7;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
