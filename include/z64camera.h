@@ -926,7 +926,6 @@ typedef struct {
  * Debug Camera
 */
 
-
 typedef struct {
     /* 0x0000 */ s16 mode;
     /* 0x0002 */ s16 nFrames;
