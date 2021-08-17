@@ -7438,11 +7438,11 @@ Vec3s Camera_Update(Camera* camera) {
     if (gDbgCamEnabled) {
         camera->globalCtx->view.fovy = D_8015BD80.fov;
         DbCamera_Update(&D_8015BD80, camera);
-        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.up);
+        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");
         }
-        return D_8015BD80.unk_10C6;
+        return D_8015BD80.sub.unk_104A;
     }
 
     OREG(0) &= ~8;
@@ -7811,7 +7811,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
 
 Vec3s* Camera_GetInputDir(Vec3s* dst, Camera* camera) {
     if (gDbgCamEnabled) {
-        *dst = D_8015BD80.unk_10C6;
+        *dst = D_8015BD80.sub.unk_104A;
         return dst;
     } else {
         *dst = camera->inputDir;
@@ -7835,7 +7835,7 @@ s16 Camera_GetInputDirYaw(Camera* camera) {
 
 Vec3s* Camera_GetCamDir(Vec3s* dst, Camera* camera) {
     if (gDbgCamEnabled) {
-        *dst = D_8015BD80.unk_10C6;
+        *dst = D_8015BD80.sub.unk_104A;
         return dst;
     } else {
         *dst = camera->camDir;
