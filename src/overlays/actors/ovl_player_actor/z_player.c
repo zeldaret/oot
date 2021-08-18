@@ -4152,7 +4152,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 }
 
                 if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
-                    this->unk_46A = globalCtx->transitionActorList[(u16)doorShutter->dyna.actor.params >> 10]
+                    this->unk_46A = globalCtx->transiActorCtx.list[(u16)doorShutter->dyna.actor.params >> 10]
                                         .sides[(doorDirection > 0) ? 0 : 1]
                                         .effects;
 
@@ -4224,7 +4224,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                         }
                     } else {
                         Camera_ChangeDoorCam(Gameplay_GetCamera(globalCtx, 0), doorActor,
-                                             globalCtx->transitionActorList[(u16)doorActor->params >> 10]
+                                             globalCtx->transiActorCtx.list[(u16)doorActor->params >> 10]
                                                  .sides[(doorDirection > 0) ? 0 : 1]
                                                  .effects,
                                              0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
@@ -4233,7 +4233,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
             }
 
             if ((this->doorType != PLAYER_DOORTYPE_FAKE) && (doorActor->category == ACTORCAT_DOOR)) {
-                frontRoom = globalCtx->transitionActorList[(u16)doorActor->params >> 10]
+                frontRoom = globalCtx->transiActorCtx.list[(u16)doorActor->params >> 10]
                                 .sides[(doorDirection > 0) ? 0 : 1]
                                 .room;
 
@@ -9035,7 +9035,7 @@ static Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
 void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Player* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
-    Scene* scene = globalCtx->loadedScene;
+    SceneTableEntry* scene = globalCtx->loadedScene;
     u32 titleFileSize;
     s32 initMode;
     s32 sp50;

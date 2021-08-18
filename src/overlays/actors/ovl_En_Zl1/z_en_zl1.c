@@ -59,8 +59,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-static void* D_80B4E61C[] = { gChildZelda1EyeOpenLookingUpRightTex, gChildZelda1EyeHalf2Tex, gChildZelda1EyeClosedTex,
-                              gChildZelda1EyeHalf2Tex };
+static void* D_80B4E61C[] = {
+    gChildZelda1EyeOpenLookingUpRightTex,
+    gChildZelda1EyeHalf2Tex,
+    gChildZelda1EyeClosedTex,
+    gChildZelda1EyeHalf2Tex,
+};
 static void* D_80B4E62C[] = { gChildZelda1MouthNeutralTex };
 
 void func_80B4AB40(void) {

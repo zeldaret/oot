@@ -66,20 +66,6 @@ static struct_D_80AA1678 D_80AA3848[] = {
     { 0x06009EE0, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-static Vec3f D_80AA3898 = { 900.0f, 0.0f, 0.0f };
-
-static UNK_PTR D_80AA38A4[] = {
-    0x06002970,
-    0x06003570,
-    0x06003770,
-};
-
-static UNK_PTR D_80AA38B0[] = {
-    0x06002570,
-    0x06002C70,
-    0x06003070,
-};
-
 u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = PLAYER;
     s16* timer1ValuePtr; // weirdness with this necessary to match
@@ -341,7 +327,7 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnMa3* this = THIS;
-    Vec3f vec = D_80AA3898;
+    Vec3f vec = { 900.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
 
@@ -356,6 +342,16 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* D_80AA38A4[] = {
+        0x06002970,
+        0x06003570,
+        0x06003770,
+    };
+    static void* D_80AA38B0[] = {
+        0x06002570,
+        0x06002C70,
+        0x06003070,
+    };
     EnMa3* this = THIS;
     Camera* camera;
     f32 someFloat;

@@ -35,14 +35,13 @@ u32 EffectSsBomb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     return 1;
 }
 
-static UNK_PTR sTextures[] = {
-    gEffBombExplosion1Tex,
-    gEffBombExplosion2Tex,
-    gEffBombExplosion3Tex,
-    gEffBombExplosion4Tex,
-};
-
 void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    static void* explosionTextures[] = {
+        gEffBombExplosion1Tex,
+        gEffBombExplosion2Tex,
+        gEffBombExplosion3Tex,
+        gEffBombExplosion4Tex,
+    };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF mfTrans;
     MtxF mfScale;
@@ -70,7 +69,7 @@ void EffectSsBomb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if (mtx != NULL) {
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(explosionTextures[this->rTexIdx]));
         gDPPipeSync(POLY_XLU_DISP++);
         func_80094C50(gfxCtx);
         color = this->life * 12.75f;

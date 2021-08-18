@@ -26,7 +26,7 @@ void func_808ACB58(BgSpot02Objects* this, GlobalContext* globalCtx);
 void func_808ACC34(BgSpot02Objects* this, GlobalContext* globalCtx);
 void func_808AD3D4(BgSpot02Objects* this, GlobalContext* globalCtx);
 
-static u64* D_808AD850[] = {
+static void* D_808AD850[] = {
     0x060096B0, 0x0600A2B0, 0x0600AEB0, 0x0600BAB0, 0x0600C6B0, 0x0600D2B0,
     0x0600DEB0, 0x0600EAB0, 0x0600F6B0, 0x060102B0, 0x06010EB0, 0x06011AB0,
 };

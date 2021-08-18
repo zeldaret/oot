@@ -52,7 +52,7 @@ typedef struct ObjSwitch {
     /* 0x016C */ s16 cooldownTimer;
     /* 0x016E */ u8 cooldownOn;
     /* 0x0170 */ s16 eyeTexIndex;
-    /* 0x0174 */ UNK_PTR crystalSubtype1texture;
+    /* 0x0174 */ void* crystalSubtype1texture;
     /* 0x0178 */ u8 x1TexScroll;
     /* 0x0179 */ u8 y1TexScroll;
     /* 0x017A */ u8 x2TexScroll;

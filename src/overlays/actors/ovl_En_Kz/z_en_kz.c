@@ -485,7 +485,7 @@ void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR sEyeSegments[] = {
+    static void* sEyeSegments[] = {
         object_kz_Tex_001470,
         object_kz_Tex_001870,
         object_kz_Tex_001C70,
