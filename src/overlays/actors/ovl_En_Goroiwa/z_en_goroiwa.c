@@ -447,7 +447,7 @@ void EnGoroiwa_UpdateRotation(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->flags & ENGOROIWA_RETAIN_ROT_SPEED) {
         /*
          * EnGoroiwa_GetPrevWaypointDiff has no side effects and its result goes unused,
-         * the devs probably meant to use the result instead of the actor's velocity in the
+         * its result was probably meant to be used instead of the actor's velocity in the
          * Math3D_Vec3f_Cross call.
          */
         EnGoroiwa_GetPrevWaypointDiff(this, globalCtx, &unusedDiff);
