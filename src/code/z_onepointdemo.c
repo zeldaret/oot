@@ -1118,7 +1118,7 @@ s16 OnePointCutscene_SetAsChild(GlobalContext* globalCtx, s16 newCamId, s16 pare
 
 /**
  * Removes a cutscene camera from the list. Returns the parent cam if the removed camera is active, otherwise returns
- * CAM_ID_SUB_NONE
+ * CAM_ID_NONE
  */
 s32 OnePointCutscene_RemoveCamera(GlobalContext* globalCtx, s16 subCamId) {
     Camera* camera = globalCtx->cameraPtrs[subCamId];
@@ -1130,7 +1130,7 @@ s32 OnePointCutscene_RemoveCamera(GlobalContext* globalCtx, s16 subCamId) {
     if (camera->camId == PARENT_CAM(camera)->childCamId) {
         PARENT_CAM(camera)->childCamId = camera->childCamId;
     }
-    nextCamIdx = (globalCtx->activeCamId == subCamId) ? camera->parentCamId : CAM_ID_SUB_NONE;
+    nextCamIdx = (globalCtx->activeCamId == subCamId) ? camera->parentCamId : CAM_ID_NONE;
     camera->parentCamId = CAM_ID_MAIN;
     camera->childCamId = camera->parentCamId;
     camera->timer = -1;
@@ -1158,9 +1158,9 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
         parentCamId = globalCtx->activeCamId;
     }
     subCamId = Gameplay_CreateSubCamera(globalCtx);
-    if (subCamId == CAM_ID_SUB_NONE) {
+    if (subCamId == CAM_ID_NONE) {
         osSyncPrintf(VT_COL(RED, WHITE) "onepoint demo: error: too many cameras ... give up! type=%d\n" VT_RST, csId);
-        return CAM_ID_SUB_NONE;
+        return CAM_ID_NONE;
     }
 
     // Inserts the cutscene camera into the cutscene queue in front of parentCam
@@ -1206,7 +1206,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
             osSyncPrintf(VT_COL(YELLOW, BLACK) "onepointdemo camera[%d]: killed 'coz low priority (%d < %d)\n" VT_RST,
                          vNextCamId, nextCsId, thisCsId);
             if (globalCtx->cameraPtrs[vNextCamId]->csId != 5010) {
-                if ((vNextCamId = OnePointCutscene_RemoveCamera(globalCtx, vNextCamId)) != CAM_ID_SUB_NONE) {
+                if ((vNextCamId = OnePointCutscene_RemoveCamera(globalCtx, vNextCamId)) != CAM_ID_NONE) {
                     Gameplay_ChangeCameraStatus(globalCtx, vNextCamId, CAM_STATUS_ACTIVE);
                 }
             } else {
@@ -1256,7 +1256,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
 
     if (sDisableAttention) {
         osSyncPrintf(VT_COL(YELLOW, BLACK) "actor attention demo camera: canceled by other camera\n" VT_RST);
-        return CAM_ID_SUB_NONE;
+        return CAM_ID_NONE;
     }
     sUnused = -1;
 
@@ -1321,13 +1321,13 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
     // If the previous attention cutscene has an actor in the same category, skip this actor.
     if (actor->category == vLastHigherCat) {
         osSyncPrintf("→ " VT_FGCOL(PURPLE) "×" VT_RST " (%d)\n", actor->id);
-        return CAM_ID_SUB_NONE;
+        return CAM_ID_NONE;
     }
     osSyncPrintf("→ " VT_FGCOL(BLUE) "○" VT_RST " (%d)\n", actor->id);
     vSubCamId = OnePointCutscene_Init(globalCtx, 5010, timer, actor, vParentCamId);
-    if (vSubCamId == CAM_ID_SUB_NONE) {
+    if (vSubCamId == CAM_ID_NONE) {
         osSyncPrintf(VT_COL(RED, WHITE) "actor attention demo: give up! \n" VT_RST, actor->id);
-        return CAM_ID_SUB_NONE;
+        return CAM_ID_NONE;
     } else {
         s32* data = (s32*)&globalCtx->cameraPtrs[vSubCamId]->data1;
 
@@ -1342,7 +1342,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
 s32 OnePointCutscene_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32 sfxId) {
     s32 subCamId = OnePointCutscene_Attention(globalCtx, actor);
 
-    if (subCamId != CAM_ID_SUB_NONE) {
+    if (subCamId != CAM_ID_NONE) {
         s32* data = (s32*)&globalCtx->cameraPtrs[subCamId]->data1;
 
         *data = sfxId;

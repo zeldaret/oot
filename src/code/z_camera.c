@@ -46,22 +46,22 @@ f32 Camera_InterpolateCurve(f32 xMax, f32 x) {
     f32 xQuadratic;
     f32 xMaxQuadratic; // Normalizing constant
 
-    // fixed value outside xMax range
     if (absX > xMax) {
+        // fixed value outside xMax range
         y = 1.0f;
 
-        // inside xMax range
     } else {
+        // inside xMax range
         percent60 = 1.0f - percent40;
 
-        // quadratic curve in the inner 60% of xMax range: +concavity (upward curve)
         if (absX < (xMax * percent60)) {
+            // quadratic curve in the inner 60% of xMax range: (bending upward section of curve)
             xQuadratic = SQ(x) * (1.0f - percent40);
             xMaxQuadratic = SQ(xMax * percent60);
 
             y = xQuadratic / xMaxQuadratic;
-            // quadratic curve in the outer 40% of xMax range: -concavity (flattening curve)
         } else {
+            // quadratic curve in the outer 40% of xMax range: (bending downward section of curve)
             xQuadratic = SQ(xMax - absX) * percent40;
             xMaxQuadratic = SQ(0.4f * xMax);
 
@@ -487,7 +487,7 @@ s32 Camera_GetSurfaceBgCamDataId(Camera* camera, s32* bgId, CollisionPoly* poly)
  * If there is no floor then there is no camera data, returns the number of
  * pieces of data there are in `dataCnt`
  */
-Vec3s* Camera_GetSurfaceCamBgDataAndDataCount(Camera* camera, u16* bgCamDataCount) {
+Vec3s* Camera_GetSurfaceBgCamDataAndDataCount(Camera* camera, u16* bgCamDataCount) {
     CollisionPoly* floorPoly;
     s32 pad;
     s32 bgId;
@@ -500,7 +500,7 @@ Vec3s* Camera_GetSurfaceCamBgDataAndDataCount(Camera* camera, u16* bgCamDataCoun
         // no floor
         return NULL;
     }
-    *bgCamDataCount = SurfaceType_GetBgCamDataCountSetup(&camera->globalCtx->colCtx, floorPoly, bgId);
+    *bgCamDataCount = SurfaceType_GetBgCamDataNumSetup(&camera->globalCtx->colCtx, floorPoly, bgId);
     return SurfaceType_GetBgCamDataVec3sSetup(&camera->globalCtx->colCtx, floorPoly, bgId);
 }
 
@@ -1664,7 +1664,7 @@ s32 Camera_Normal2(Camera* camera) {
     Normal2* norm2 = (Normal2*)camera->paramData;
     Normal2Anim* anim = &norm2->anim;
     s32 pad;
-    Vec3s* bgData;
+    SceneCamData* bgData;
     f32 playerHeight;
     f32 yNormal;
 
@@ -1699,16 +1699,16 @@ s32 Camera_Normal2(Camera* camera) {
         case 0xA:
         case 0x14:
         case 0x19:
-            bgData = Camera_GetSurfaceBgCamData(camera);
-            Camera_Vec3sToVec3f(&anim->unk_00, &BGCAM_POS(bgData));
-            anim->unk_20 = BGCAM_ROT(bgData).x;
-            anim->unk_22 = BGCAM_ROT(bgData).y;
+            bgData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
+            Camera_Vec3sToVec3f(&anim->unk_00, &bgData->pos);
+            anim->unk_20 = bgData->rot.x;
+            anim->unk_22 = bgData->rot.y;
             anim->unk_24 = playerPosRot->pos.y;
-            anim->unk_1C = BGCAM_FOV(bgData) == -1
+            anim->unk_1C = bgData->fov == -1
                                ? norm2->unk_14
-                               : BGCAM_FOV(bgData) >= 0x169 ? PCT(BGCAM_FOV(bgData)) : BGCAM_FOV(bgData);
+                               : bgData->fov >= 0x169 ? PCT(bgData->fov) : bgData->fov;
 
-            anim->unk_28 = BGCAM_JFIFID(bgData) == -1 ? 0 : BGCAM_JFIFID(bgData);
+            anim->unk_28 = bgData->jfifId == -1 ? 0 : bgData->jfifId;
 
             anim->unk_18 = 0.0f;
 
@@ -3759,7 +3759,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     KeepOn0* keep0 = (KeepOn0*)camera->paramData;
     KeepOn0Anim* anim = &keep0->anim;
     s32 pad;
-    Vec3s* bgCamData;
+    SceneCamData* bgCamData;
     Vec3s bgCamRot;
     s16 fov;
 
@@ -3775,14 +3775,14 @@ s32 Camera_KeepOn0(Camera* camera) {
     if (R_RELOAD_CAM_PARAMS) {
         Camera_CopyPREGToModeValues(camera);
     }
-    bgCamData = Camera_GetSurfaceBgCamData(camera);
-    Camera_Vec3sToVec3f(eyeNext, &BGCAM_POS(bgCamData));
+    bgCamData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
+    Camera_Vec3sToVec3f(eyeNext, &bgCamData->pos);
     *eye = *eyeNext;
 
-    bgCamRot = BGCAM_ROT(bgCamData); // unused
+    bgCamRot = bgCamData->rot; // unused
     (void)bgCamRot;                  // suppresses set but unused warning
 
-    fov = BGCAM_FOV(bgCamData);
+    fov = bgCamData->fov;
     if (fov == -1) {
         fov = 6000;
     }
@@ -3832,7 +3832,7 @@ s32 Camera_Fixed1(Camera* camera) {
     VecSph eyeAtOffset;
     s32 pad2;
     Vec3f adjustedPos;
-    Vec3s* scenePosData;
+    SceneCamData* scenePosData;
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     PosRot* playerPosRot = &camera->playerPosRot;
@@ -3841,10 +3841,10 @@ s32 Camera_Fixed1(Camera* camera) {
     playerHeight = Player_GetHeight(camera->player);
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        scenePosData = Camera_GetSurfaceBgCamData(camera);
-        Camera_Vec3sToVec3f(&anim->eyePosRotTarget.pos, &BGCAM_POS(scenePosData));
-        anim->eyePosRotTarget.rot = BGCAM_ROT(scenePosData);
-        anim->fov = BGCAM_FOV(scenePosData);
+        scenePosData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
+        Camera_Vec3sToVec3f(&anim->eyePosRotTarget.pos, &scenePosData->pos);
+        anim->eyePosRotTarget.rot = scenePosData->rot;
+        anim->fov = scenePosData->fov;
         fixd1->unk_00 = NEXTPCT * playerHeight;
         fixd1->lerpStep = NEXTPCT;
         fixd1->fov = NEXTSETTING;
@@ -3903,7 +3903,7 @@ s32 Camera_Fixed2(Camera* camera) {
     Vec3f atTarget;
     Vec3f posOffsetTarget;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Vec3s* scenePosData;
+    SceneCamData* scenePosData;
     Fixed2* fixd2 = (Fixed2*)camera->paramData;
     Fixed2InitParams* initParams = &fixd2->initParams;
     s32 pad;
@@ -3920,11 +3920,11 @@ s32 Camera_Fixed2(Camera* camera) {
         fixd2->fov = NEXTSETTING;
         fixd2->interfaceFlags = NEXTSETTING;
         initParams->fov = fixd2->fov * 100.0f;
-        scenePosData = Camera_GetSurfaceBgCamData(camera);
+        scenePosData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
         if (scenePosData != NULL) {
-            Camera_Vec3sToVec3f(&initParams->eye, &BGCAM_POS(scenePosData));
-            if (BGCAM_FOV(scenePosData) != -1) {
-                initParams->fov = BGCAM_FOV(scenePosData);
+            Camera_Vec3sToVec3f(&initParams->eye, &scenePosData->pos);
+            if (scenePosData->fov != -1) {
+                initParams->fov = scenePosData->fov;
             }
         } else {
             initParams->eye = *eye;
@@ -3980,24 +3980,24 @@ s32 Camera_Fixed3(Camera* camera) {
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
     VecSph atSph;
-    Vec3s* bgCamData;
+    SceneCamData* bgCamData;
     VecSph eyeAtOffset;
     Fixed3* fixd3 = (Fixed3*)camera->paramData;
     Fixed3Anim* anim = &fixd3->anim;
     s32 pad;
 
-    bgCamData = Camera_GetSurfaceBgCamData(camera);
+    bgCamData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
 
     OLib_Vec3fDiffToVecSphGeo(&eyeAtOffset, eye, at);
 
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         fixd3->interfaceFlags = NEXTSETTING;
-        Camera_Vec3sToVec3f(eyeNext, &BGCAM_POS(bgCamData));
+        Camera_Vec3sToVec3f(eyeNext, &bgCamData->pos);
         *eye = *eyeNext;
-        anim->rot = BGCAM_ROT(bgCamData);
-        anim->fov = BGCAM_FOV(bgCamData);
-        anim->jfifId = BGCAM_JFIFID(bgCamData);
+        anim->rot = bgCamData->rot;
+        anim->fov = bgCamData->fov;
+        anim->jfifId = bgCamData->jfifId;
         if (anim->fov == -1) {
             anim->fov = 6000;
         }
@@ -4016,9 +4016,9 @@ s32 Camera_Fixed3(Camera* camera) {
         camera->animState++;
     }
 
-    if (BGCAM_JFIFID(bgCamData) != anim->jfifId) {
+    if (bgCamData->jfifId != anim->jfifId) {
         osSyncPrintf("camera: position change %d \n", anim->jfifId);
-        anim->jfifId = BGCAM_JFIFID(bgCamData);
+        anim->jfifId = bgCamData->jfifId;
         anim->updDirTimer = 5;
     }
 
@@ -4056,7 +4056,7 @@ s32 Camera_Fixed4(Camera* camera) {
     VecSph atEyeNextOffset;
     VecSph atTargetEyeNextOffset;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Vec3s* camPosData;
+    SceneCamData* camPosData;
     Vec3f* posOffset = &camera->posOffset;
     Fixed4* fixed4 = (Fixed4*)camera->paramData;
     Fixed4Anim* anim = &fixed4->anim;
@@ -4071,9 +4071,9 @@ s32 Camera_Fixed4(Camera* camera) {
         fixed4->followSpeed = NEXTPCT;
         fixed4->fov = NEXTSETTING;
         fixed4->interfaceFlags = NEXTSETTING;
-        camPosData = Camera_GetSurfaceBgCamData(camera);
+        camPosData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
         if (camPosData != NULL) {
-            Camera_Vec3sToVec3f(&anim->eyeTarget, &BGCAM_POS(camPosData));
+            Camera_Vec3sToVec3f(&anim->eyeTarget, &camPosData->pos);
         } else {
             anim->eyeTarget = *eye;
         }
@@ -4257,16 +4257,16 @@ s32 Camera_Subj3(Camera* camera) {
 
 /**
  * Subject 4 uses bgCamData.data differently than other functions:
- * It uses the only setting where bgCamData.dataCount is either 6 or 9 from the scene files (CAM_SET_CRAWLSPACE)
+ * It uses the only setting where bgCamData.numData is either 6 or 9 from the scene files (CAM_SET_CRAWLSPACE)
  * bgCamData.data[1] stores the coordinates of the front entrance to the crawlspace
  * bgCamData.data[4] stores the coordinates of the back entrance to the crawlspace
  * bgCamData.data[0], bgCamData.data[2], bgCamData.data[3], bgCamData.data[5], go unused,
  *      but also contain coordinates along the straight line path of the crawlspace
- * Entry refers to the side of the crawlspace first accessible via casual gameplay, Exit is the other entrance
+ * Front refers to the side of the crawlspace first accessible via casual gameplay, Back is the other entrance
  */
-#define BGCAM_CRAWLSPACE_FRONT_POS(v) ((v)[1])
-#define BGCAM_CRAWLSPACE_BACK_POS(v, l) ((v)[l - 2])
-#define vCrawlSpaceExitPos temp1
+#define BGCAMDATA_CRAWLSPACE_FRONT_POS(v) ((v)[1])
+#define BGCAMDATA_CRAWLSPACE_BACK_POS(v, l) ((v)[l - 2])
+#define vCrawlSpaceBackPos temp1
 #define vEyeTarget temp1
 #define vPlayerDistToFront temp2
 #define vZoomTimer temp2
@@ -4318,26 +4318,26 @@ s32 Camera_Subj4(Camera* camera) {
 
     // Crawlspace setup (runs for only 1 frame)
     if (camera->animState == 0) {
-        bgCamData = Camera_GetSurfaceCamBgDataAndDataCount(camera, &bgCamDataCount);
-        Camera_Vec3sToVec3f(&anim->crawlspaceLine.a, &BGCAM_CRAWLSPACE_FRONT_POS(bgCamData));
-        Camera_Vec3sToVec3f(&vCrawlSpaceExitPos, &BGCAM_CRAWLSPACE_BACK_POS(bgCamData, bgCamDataCount));
+        bgCamData = Camera_GetSurfaceBgCamDataAndDataCount(camera, &bgCamDataCount);
+        Camera_Vec3sToVec3f(&anim->crawlspaceLine.a, &BGCAMDATA_CRAWLSPACE_FRONT_POS(bgCamData));
+        Camera_Vec3sToVec3f(&vCrawlSpaceBackPos, &BGCAMDATA_CRAWLSPACE_BACK_POS(bgCamData, bgCamDataCount));
 
         atEyeTargetOffset.r = 10.0f;
         atEyeTargetOffset.pitch = 0x238C; // ~50 degrees
-        atEyeTargetOffset.yaw = Camera_XZAngle(&vCrawlSpaceExitPos, &anim->crawlspaceLine.a);
+        atEyeTargetOffset.yaw = Camera_XZAngle(&vCrawlSpaceBackPos, &anim->crawlspaceLine.a);
 
         vPlayerDistToFront = OLib_Vec3fDist(&camera->playerPosRot.pos, &anim->crawlspaceLine.a);
-        if (OLib_Vec3fDist(&camera->playerPosRot.pos, &vCrawlSpaceExitPos) < vPlayerDistToFront) {
+        if (OLib_Vec3fDist(&camera->playerPosRot.pos, &vCrawlSpaceBackPos) < vPlayerDistToFront) {
             // Player is entering the crawlspace from the back
-            anim->crawlspaceLine.b.x = anim->crawlspaceLine.a.x - vCrawlSpaceExitPos.x;
-            anim->crawlspaceLine.b.y = anim->crawlspaceLine.a.y - vCrawlSpaceExitPos.y;
-            anim->crawlspaceLine.b.z = anim->crawlspaceLine.a.z - vCrawlSpaceExitPos.z;
-            anim->crawlspaceLine.a = vCrawlSpaceExitPos;
+            anim->crawlspaceLine.b.x = anim->crawlspaceLine.a.x - vCrawlSpaceBackPos.x;
+            anim->crawlspaceLine.b.y = anim->crawlspaceLine.a.y - vCrawlSpaceBackPos.y;
+            anim->crawlspaceLine.b.z = anim->crawlspaceLine.a.z - vCrawlSpaceBackPos.z;
+            anim->crawlspaceLine.a = vCrawlSpaceBackPos;
         } else {
             // Player is entering the crawlspace from the front
-            anim->crawlspaceLine.b.x = vCrawlSpaceExitPos.x - anim->crawlspaceLine.a.x;
-            anim->crawlspaceLine.b.y = vCrawlSpaceExitPos.y - anim->crawlspaceLine.a.y;
-            anim->crawlspaceLine.b.z = vCrawlSpaceExitPos.z - anim->crawlspaceLine.a.z;
+            anim->crawlspaceLine.b.x = vCrawlSpaceBackPos.x - anim->crawlspaceLine.a.x;
+            anim->crawlspaceLine.b.y = vCrawlSpaceBackPos.y - anim->crawlspaceLine.a.y;
+            anim->crawlspaceLine.b.z = vCrawlSpaceBackPos.z - anim->crawlspaceLine.a.z;
             atEyeTargetOffset.yaw = BINANG_ROT180(atEyeTargetOffset.yaw);
         }
 
@@ -4452,7 +4452,7 @@ s32 Camera_Data4(Camera* camera) {
     f32 yNormal;
     s16 fov;
     Vec3f* eyeNext = &camera->eyeNext;
-    Vec3s* bgCamData;
+    SceneCamData* bgCamData;
     Vec3f lookAt;
     CameraModeValue* values;
     Data4InitParams* initParams = &data4->initParams;
@@ -4469,16 +4469,16 @@ s32 Camera_Data4(Camera* camera) {
         data4->yOffset = NEXTPCT * playerHeight * yNormal;
         data4->fov = NEXTSETTING;
         data4->interfaceFlags = NEXTSETTING;
-        bgCamData = Camera_GetSurfaceBgCamData(camera);
-        Camera_Vec3sToVec3f(&initParams->eyePosRot.pos, &BGCAM_POS(bgCamData));
-        initParams->eyePosRot.rot = BGCAM_ROT(bgCamData);
-        fov = BGCAM_FOV(bgCamData);
+        bgCamData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
+        Camera_Vec3sToVec3f(&initParams->eyePosRot.pos, &bgCamData->pos);
+        initParams->eyePosRot.rot = bgCamData->rot;
+        fov = bgCamData->fov;
         initParams->fov = fov;
         if (fov != -1) {
             data4->fov = initParams->fov < 361 ? initParams->fov : PCT(initParams->fov);
         }
 
-        initParams->jfifId = BGCAM_JFIFID(bgCamData);
+        initParams->jfifId = bgCamData->jfifId;
         *eye = initParams->eyePosRot.pos;
     }
 
@@ -4695,7 +4695,7 @@ s32 Camera_Unique3(Camera* camera) {
     VecSph sp60;
     f32 playerHeight;
     Unique3* uniq3 = (Unique3*)camera->paramData;
-    Vec3s* temp_v0_2;
+    SceneCamData* temp_v0_2;
     Vec3s sp4C;
     Unique3Anim* anim = &uniq3->anim;
     Unique3Params* params = &uniq3->params;
@@ -4726,10 +4726,10 @@ s32 Camera_Unique3(Camera* camera) {
             if (uniq3->doorParams.timer1-- > 0) {
                 break;
             }
-            temp_v0_2 = Camera_GetSurfaceBgCamData(camera);
-            Camera_Vec3sToVec3f(&camera->eyeNext, &BGCAM_POS(temp_v0_2));
+            temp_v0_2 = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
+            Camera_Vec3sToVec3f(&camera->eyeNext, &temp_v0_2->pos);
             camera->eye = camera->eyeNext;
-            sp4C = BGCAM_ROT(temp_v0_2);
+            sp4C = temp_v0_2->rot;
             sp60.r = 100.0f;
             sp60.yaw = sp4C.y;
             sp60.pitch = -sp4C.x;
@@ -4808,7 +4808,7 @@ s32 Camera_Unique0(Camera* camera) {
     Player* player;
     Vec3f playerPosWithOffset;
     VecSph atPlayerOffset;
-    Vec3s* bgCamData;
+    SceneCamData* bgCamData;
     Vec3s bgCamRot;
     PosRot* playerPosRot = &camera->playerPosRot;
     Unique0* uniq0 = (Unique0*)camera->paramData;
@@ -4837,16 +4837,16 @@ s32 Camera_Unique0(Camera* camera) {
     if (camera->animState == 0) {
         func_80043B60(camera);
         camera->unk_14C &= ~4;
-        bgCamData = Camera_GetSurfaceBgCamData(camera);
-        Camera_Vec3sToVec3f(&anim->bgCamPosPlayerLine.a, &BGCAM_POS(bgCamData));
+        bgCamData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
+        Camera_Vec3sToVec3f(&anim->bgCamPosPlayerLine.a, &bgCamData->pos);
 
         *eye = camera->eyeNext = anim->bgCamPosPlayerLine.a;
-        bgCamRot = BGCAM_ROT(bgCamData);
-        fov = BGCAM_FOV(bgCamData);
+        bgCamRot = bgCamData->rot;
+        fov = bgCamData->fov;
         if (fov != -1) {
             camera->fov = fov < 361 ? fov : PCT(fov);
         }
-        anim->animTimer = BGCAM_JFIFID(bgCamData);
+        anim->animTimer = bgCamData->jfifId;
         if (anim->animTimer == -1) {
             anim->animTimer = uniq0->doorParams.timer1 + uniq0->doorParams.timer2;
         }
@@ -4980,7 +4980,7 @@ s32 Camera_Unique7(Camera* camera) {
     CameraModeValue* values;
     VecSph playerPosEyeOffset;
     s16 fov;
-    Vec3s* bgCamData;
+    SceneCamData* bgCamData;
     Vec3s bgCamRot;
     Vec3f* at = &camera->at;
     PosRot* playerPosRot = &camera->playerPosRot;
@@ -4997,17 +4997,17 @@ s32 Camera_Unique7(Camera* camera) {
         Camera_CopyPREGToModeValues(camera);
     }
 
-    bgCamData = Camera_GetSurfaceBgCamData(camera);
+    bgCamData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
 
-    Camera_Vec3sToVec3f(eyeNext, &BGCAM_POS(bgCamData));
+    Camera_Vec3sToVec3f(eyeNext, &bgCamData->pos);
     *eye = *eyeNext;
-    bgCamRot = BGCAM_ROT(bgCamData); // unused
+    bgCamRot = bgCamData->rot; // unused
     (void)bgCamRot;                  // suppresses set but unused warning
 
     OLib_Vec3fDiffToVecSphGeo(&playerPosEyeOffset, eye, &playerPosRot->pos);
 
     // fov actually goes unused since it's hard set later on.
-    fov = BGCAM_FOV(bgCamData);
+    fov = bgCamData->fov;
     if (fov == -1) {
         fov = uniq7->fov * 100.0f;
     }
@@ -5030,7 +5030,7 @@ s32 Camera_Unique7(Camera* camera) {
 
     // 0x7D0 ~ 10.98 degres.
     unk08->unk_00.x = Camera_LERPFloorS(playerPosEyeOffset.yaw, unk08->unk_00.x, 0.4f, 0x7D0);
-    playerPosEyeOffset.pitch = -BGCAM_ROT(bgCamData).x * Math_CosS(playerPosEyeOffset.yaw - BGCAM_ROT(bgCamData).y);
+    playerPosEyeOffset.pitch = -bgCamData->rot.x * Math_CosS(playerPosEyeOffset.yaw - bgCamData->rot.y);
     Camera_Vec3fVecSphGeoAdd(at, eye, &playerPosEyeOffset);
     camera->unk_14C |= 0x400;
     return true;
@@ -5456,13 +5456,13 @@ s32 Camera_Unique9(Camera* camera) {
             break;
         case 19: {
             // Change the parent camera (or default)'s mode to normal
-            s32 camIdx = camera->parentCamId <= CAM_ID_SUB_NONE ? CAM_ID_MAIN : camera->parentCamId;
+            s32 camIdx = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
 
             Camera_ChangeModeFlags(camera->globalCtx->cameraPtrs[camIdx], CAM_MODE_NORMAL, 1);
         }
         case 18: {
             // copy the current camera to the parent (or default)'s camera.
-            s32 camIdx = camera->parentCamId <= CAM_ID_SUB_NONE ? CAM_ID_MAIN : camera->parentCamId;
+            s32 camIdx = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
             Camera* cam = camera->globalCtx->cameraPtrs[camIdx];
 
             *eye = *eyeNext;
@@ -6559,7 +6559,7 @@ s32 Camera_Special6(Camera* camera) {
     Vec3f atAnim;
     VecSph eyeAtOffset;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Vec3s* bgCamData;
+    SceneCamData* bgCamData;
     Vec3s bgCamRot;
     s16 fov;
     f32 sp54;
@@ -6580,10 +6580,10 @@ s32 Camera_Special6(Camera* camera) {
 
     OLib_Vec3fDiffToVecSphGeo(&eyeAtOffset, eye, at);
 
-    bgCamData = Camera_GetSurfaceBgCamData(camera);
-    Camera_Vec3sToVec3f(&bgCamPos, &BGCAM_POS(bgCamData));
-    bgCamRot = BGCAM_ROT(bgCamData);
-    fov = BGCAM_FOV(bgCamData);
+    bgCamData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
+    Camera_Vec3sToVec3f(&bgCamPos, &bgCamData->pos);
+    bgCamRot = bgCamData->rot;
+    fov = bgCamData->fov;
     if (fov == -1) {
         fov = 6000;
     }
@@ -6671,7 +6671,7 @@ s32 Camera_Special9(Camera* camera) {
     Special9Params* params = &spec9->params;
     Special9Anim* anim = &params->anim;
     s32 pad4;
-    Vec3s* camPosData;
+    SceneCamData* camPosData;
 
     playerYOffset = Player_GetHeight(camera->player);
     camera->unk_14C &= ~0x10;
@@ -6715,8 +6715,8 @@ s32 Camera_Special9(Camera* camera) {
             if (spec9->doorParams.timer1 <= 0) {
                 camera->animState++;
                 if (params->interfaceFlags & 1) {
-                    camPosData = Camera_GetSurfaceBgCamData(camera);
-                    Camera_Vec3sToVec3f(eyeNext, &BGCAM_POS(camPosData));
+                    camPosData = (SceneCamData*)Camera_GetSurfaceBgCamData(camera);
+                    Camera_Vec3sToVec3f(eyeNext, &camPosData->pos);
                     spAC = *eye = *eyeNext;
                 } else {
                     s16 yaw;
@@ -7586,7 +7586,7 @@ Vec3s Camera_Update(Camera* camera) {
 }
 
 /**
- * When the camera's timer is 0, change the camera to it's parent
+ * When the camera's timer is 0, change the camera to its parent
  */
 void Camera_Finish(Camera* camera) {
     Camera* mainCam = camera->globalCtx->cameraPtrs[CAM_ID_MAIN];

@@ -960,7 +960,7 @@ typedef struct GlobalContext {
     /* 0x0034C */ Camera subCameras[NUM_CAMS - CAM_ID_SUB_FIRST];
     /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
     /* 0x007A0 */ s16 activeCamId;
-    /* 0x007A2 */ s16 nextCamera;
+    /* 0x007A2 */ s16 nextCamId;
     /* 0x007A4 */ SoundContext soundCtx;
     /* 0x007A8 */ LightContext lightCtx;
     /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;

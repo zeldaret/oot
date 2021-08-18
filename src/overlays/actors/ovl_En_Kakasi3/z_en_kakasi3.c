@@ -216,7 +216,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
-    this->subCamId = CAM_ID_SUB_NONE;
+    this->subCamId = CAM_ID_NONE;
     if (func_8002F194(&this->actor, globalCtx)) {
         if (!this->unk_194) {
             if (this->unk_1A8 == 0) {
@@ -288,9 +288,9 @@ void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
 
         OnePointCutscene_EndCutscene(globalCtx, this->subCamId);
         if (globalCtx->cameraPtrs[this->subCamId] == NULL) {
-            this->subCamId = CAM_ID_SUB_NONE;
+            this->subCamId = CAM_ID_NONE;
         }
-        if (this->subCamId != CAM_ID_SUB_NONE) {
+        if (this->subCamId != CAM_ID_NONE) {
             func_8005B1A4(globalCtx->cameraPtrs[this->subCamId]);
         }
         this->actionFunc = func_80A911F0;
@@ -357,7 +357,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
         func_8010B680(globalCtx, 0x40A6, NULL);
         this->dialogState = 5;
         OnePointCutscene_EndCutscene(globalCtx, this->subCamId);
-        this->subCamId = CAM_ID_SUB_NONE;
+        this->subCamId = CAM_ID_NONE;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_80A91A90;
         return;
@@ -397,9 +397,9 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
             }
         }
         if (globalCtx->cameraPtrs[this->subCamId] == NULL) {
-            this->subCamId = CAM_ID_SUB_NONE;
+            this->subCamId = CAM_ID_NONE;
         }
-        if (this->subCamId != CAM_ID_SUB_NONE) {
+        if (this->subCamId != CAM_ID_NONE) {
             func_8005B1A4(globalCtx->cameraPtrs[this->subCamId]);
         }
         func_80106CCC(globalCtx);

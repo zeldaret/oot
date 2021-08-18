@@ -1186,11 +1186,11 @@ void func_80832318(Player* this) {
 void func_80832340(GlobalContext* globalCtx, Player* this) {
     Camera* camera;
 
-    if (this->subCamId != CAM_ID_SUB_NONE) {
+    if (this->subCamId != CAM_ID_NONE) {
         camera = globalCtx->cameraPtrs[this->subCamId];
         if ((camera != NULL) && (camera->csId == 1100)) {
             OnePointCutscene_EndCutscene(globalCtx, this->subCamId);
-            this->subCamId = CAM_ID_SUB_NONE;
+            this->subCamId = CAM_ID_NONE;
         }
     }
 
@@ -9016,7 +9016,7 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeade
 
     Effect_Add(globalCtx, &this->swordEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, this->ageProperties->unk_04);
-    this->subCamId = CAM_ID_SUB_NONE;
+    this->subCamId = CAM_ID_NONE;
 
     Collider_InitCylinder(globalCtx, &this->cylinder);
     Collider_SetCylinder(globalCtx, &this->cylinder, &this->actor, &D_80854624);

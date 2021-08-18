@@ -13,17 +13,17 @@
 #define NUM_CAMS 4
 #define CAM_ID_MAIN 0
 #define CAM_ID_SUB_FIRST 1
-#define CAM_ID_SUB_NONE -1
+#define CAM_ID_NONE -1
 #define CAM_ID_ACTIVE -1
 
 #define ONEPOINT_CS_INFO(camera) ((Unique9OnePointCs*)camera->paramData)
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
 
-#define BGCAM_POS(v) ((v)[0])
-#define BGCAM_ROT(v) ((v)[1])
-#define BGCAM_FOV(v) ((v)[2].x)
-#define BGCAM_JFIFID(v) ((v)[2].y)
+// #define BGCAMDATA_POS(v) ((v)[0])
+// #define BGCAMDATA_ROT(v) ((v)[1])
+// #define BGCAMDATA_FOV(v) ((v)[2].x)
+// #define BGCAMDATA_JFIFID(v) ((v)[2].y)
 
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
@@ -33,34 +33,34 @@ typedef enum {
     /* 0x04 */ CAM_SET_DUNGEON1,
     /* 0x05 */ CAM_SET_NORMAL3,
     /* 0x06 */ CAM_SET_HORSE0,
-    /* 0x07 */ CAM_SET_BOSS_GOHMA, // Original: CAM_SET_BOSS_GOMA
-    /* 0x08 */ CAM_SET_BOSS_DODONGO, // Original: CAM_SET_BOSS_DODO
-    /* 0x09 */ CAM_SET_BOSS_BARINADE, // Original: CAM_SET_BOSS_BARI
-    /* 0x0A */ CAM_SET_BOSS_PHANTOM, // Original: CAM_SET_BOSS_FGANON
-    /* 0x0B */ CAM_SET_BOSS_VOLVAGIA, // Original: CAM_SET_BOSS_BAL
-    /* 0x0C */ CAM_SET_BOSS_BONGO, // Original: CAM_SET_BOSS_SHADES
-    /* 0x0D */ CAM_SET_BOSS_MORPHA, // Original: CAM_SET_BOSS_MOFA
-    /* 0x0E */ CAM_SET_BOSS_TWINROVA_PLATFORM, // Original: CAM_SET_TWIN0
-    /* 0x0F */ CAM_SET_BOSS_TWINROVA_FLOOR, // Original: CAM_SET_TWIN1
-    /* 0x10 */ CAM_SET_BOSS_GANONDORF, // Original: CAM_SET_BOSS_GANON1
+    /* 0x07 */ CAM_SET_BOSS_GOHMA, // "BOSS_GOMA"
+    /* 0x08 */ CAM_SET_BOSS_DODONGO, // "BOSS_DODO"
+    /* 0x09 */ CAM_SET_BOSS_BARINADE, // "BOSS_BARI"
+    /* 0x0A */ CAM_SET_BOSS_PHANTOM, // "BOSS_FGANON"
+    /* 0x0B */ CAM_SET_BOSS_VOLVAGIA, // "BOSS_BAL"
+    /* 0x0C */ CAM_SET_BOSS_BONGO, // "BOSS_SHADES"
+    /* 0x0D */ CAM_SET_BOSS_MORPHA, // "BOSS_MOFA"
+    /* 0x0E */ CAM_SET_BOSS_TWINROVA_PLATFORM, // "TWIN0"
+    /* 0x0F */ CAM_SET_BOSS_TWINROVA_FLOOR, // "TWIN1"
+    /* 0x10 */ CAM_SET_BOSS_GANONDORF, // "BOSS_GANON1"
     /* 0x11 */ CAM_SET_BOSS_GANON2,
-    /* 0x12 */ CAM_SET_COLLAPSE_STAIRS, // Original: CAM_SET_TOWER0
+    /* 0x12 */ CAM_SET_COLLAPSE_STAIRS, // "TOWER0"
     /* 0x13 */ CAM_SET_TOWER1,
     /* 0x14 */ CAM_SET_FIXED0,
     /* 0x15 */ CAM_SET_FIXED1,
     /* 0x16 */ CAM_SET_CIRCLE0,
     /* 0x17 */ CAM_SET_CIRCLE2, // Shopping and browsing for items
-    /* 0x18 */ CAM_SET_CIRCLE3, // (eg. coming out of Links house first time (intro))
+    /* 0x18 */ CAM_SET_CIRCLE3, // Unknown behaviour: (example: coming out of Links house first time (intro))
     /* 0x19 */ CAM_SET_PREREND0, // Camera fixed in one spot, unmoving (eg. shops, outside temple of time)
-    /* 0x1A */ CAM_SET_PREREND1, // Camera fixed in middle of scene (eg. Links house, market, many houses)
+    /* 0x1A */ CAM_SET_PREREND1, // Camera fixed to a specific location, rotates 360 degrees (example: Link's house, market, many houses)
     /* 0x1B */ CAM_SET_PREREND3,
     /* 0x1C */ CAM_SET_DOOR0,
     /* 0x1D */ CAM_SET_DOORC, // most doors
-    /* 0x1E */ CAM_SET_CRAWLSPACE, // Original: CAM_SET_RAIL3
+    /* 0x1E */ CAM_SET_CRAWLSPACE, // "RAIL3"
     /* 0x1F */ CAM_SET_START0,
-    /* 0x20 */ CAM_SET_START1, // climbing ganon's towers doors forward
+    /* 0x20 */ CAM_SET_START1, // doors that snap the camera to a fixed location (example: ganon's towers doors climbing up)
     /* 0x21 */ CAM_SET_FREE0,
-    /* 0x22 */ CAM_SET_FREE2, // (eg. small chest dropping)
+    /* 0x22 */ CAM_SET_FREE2, // Unknown behaviour: (example: small chest dropping)
     /* 0x23 */ CAM_SET_CIRCLE4,
     /* 0x24 */ CAM_SET_CIRCLE5, // Diving into water from a swimming state
     /* 0x25 */ CAM_SET_DEMO0,
@@ -82,8 +82,8 @@ typedef enum {
     /* 0x35 */ CAM_SET_SPOT05A, // Sacred Forest Meadow maze as child
     /* 0x36 */ CAM_SET_SPOT05B,
     /* 0x37 */ CAM_SET_HIDAN3, // Fire Temple maze
-    /* 0x38 */ CAM_SET_ITEM2, // holding item above head
-    /* 0x39 */ CAM_SET_CIRCLE6, // Lowering platforms
+    /* 0x38 */ CAM_SET_ITEM2, // Zoom into links face (example: holding item above head, pulling out ocarina) 
+    /* 0x39 */ CAM_SET_CIRCLE6, // Lowering platforms (example: Forest Temple Stalfos lowering platform, Jabu Jabu lowering of shortcut to PreBoss Room)
     /* 0x3A */ CAM_SET_NORMAL2,
     /* 0x3B */ CAM_SET_FISHING, // Fishing pond by the lake
     /* 0x3C */ CAM_SET_DEMOC,
@@ -97,17 +97,17 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ CAM_MODE_NORMAL,
-    /* 0x01 */ CAM_MODE_TARGET, // Original: CAM_MODE_PARALLEL
-    /* 0x02 */ CAM_MODE_FOLLOWTARGET, // Original: CAM_MODE_KEEPON
+    /* 0x01 */ CAM_MODE_TARGET, // "PARALLEL"
+    /* 0x02 */ CAM_MODE_FOLLOWTARGET, // "KEEPON"
     /* 0x03 */ CAM_MODE_TALK,
     /* 0x04 */ CAM_MODE_BATTLE,
     /* 0x05 */ CAM_MODE_CLIMB,
-    /* 0x06 */ CAM_MODE_FIRSTPERSON,  // Original: CAM_MODE_SUBJECT
+    /* 0x06 */ CAM_MODE_FIRSTPERSON,  // "SUBJECT"
     /* 0x07 */ CAM_MODE_BOWARROW,
     /* 0x08 */ CAM_MODE_BOWARROWZ,
-    /* 0x09 */ CAM_MODE_HOOKSHOT, // Original: CAM_MODE_FOOKSHOT
+    /* 0x09 */ CAM_MODE_HOOKSHOT, // "FOOKSHOT"
     /* 0x0A */ CAM_MODE_BOOMERANG,
-    /* 0x0B */ CAM_MODE_SLINGSHOT, // Original: CasdfsAM_MODE_PACHINCO
+    /* 0x0B */ CAM_MODE_SLINGSHOT, // "PACHINCO"
     /* 0x0C */ CAM_MODE_CLIMBZ,
     /* 0x0D */ CAM_MODE_JUMP,
     /* 0x0E */ CAM_MODE_HANG,
@@ -116,7 +116,7 @@ typedef enum {
     /* 0x11 */ CAM_MODE_CHARGE,
     /* 0x12 */ CAM_MODE_STILL,
     /* 0x13 */ CAM_MODE_PUSHPULL,
-    /* 0x14 */ CAM_MODE_BOOMFOLLLOW, // Original: CAM_MODE_BOOKEEPON
+    /* 0x14 */ CAM_MODE_BOOMFOLLLOW, // "BOOKEEPON"
     /* 0x15 */ CAM_MODE_MAX
 } CameraModeType;
 

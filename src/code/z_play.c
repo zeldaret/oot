@@ -1000,14 +1000,14 @@ skip:
         s32 pad3[5];
         s32 i;
 
-        globalCtx->nextCamera = globalCtx->activeCamId;
+        globalCtx->nextCamId = globalCtx->activeCamId;
 
         if (1 && HREG(63)) {
             LOG_NUM("1", 1, "../z_play.c", 3806);
         }
 
         for (i = 0; i < NUM_CAMS; i++) {
-            if ((i != globalCtx->nextCamera) && (globalCtx->cameraPtrs[i] != NULL)) {
+            if ((i != globalCtx->nextCamId) && (globalCtx->cameraPtrs[i] != NULL)) {
                 if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3809);
                 }
@@ -1016,7 +1016,7 @@ skip:
             }
         }
 
-        Camera_Update(globalCtx->cameraPtrs[globalCtx->nextCamera]);
+        Camera_Update(globalCtx->cameraPtrs[globalCtx->nextCamId]);
 
         if (1 && HREG(63)) {
             LOG_NUM("1", 1, "../z_play.c", 3814);
@@ -1504,7 +1504,7 @@ s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
 
     if (i == NUM_CAMS) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
-        return CAM_ID_SUB_NONE;
+        return CAM_ID_NONE;
     }
 
     osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
