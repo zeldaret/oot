@@ -20,11 +20,6 @@
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
 
-// #define BGCAMDATA_POS(v) ((v)[0])
-// #define BGCAMDATA_ROT(v) ((v)[1])
-// #define BGCAMDATA_FOV(v) ((v)[2].x)
-// #define BGCAMDATA_JFIFID(v) ((v)[2].y)
-
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
     /* 0x01 */ CAM_SET_NORMAL0,
