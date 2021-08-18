@@ -166,10 +166,10 @@ void func_80A7C058(EnInsect* this) {
 
 void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnInsect* this = THIS;
+    GlobalContext* globalCtx = globalCtx2;
     f32 rand;
     s16 temp_s2;
     s32 count;
-    GlobalContext* globalCtx = globalCtx2;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_80A7BE20(this);
