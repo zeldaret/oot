@@ -509,7 +509,7 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
                 return;
             }
 
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, -1500.0f, 1.0f, 150.0f, 0.0f);
             }
 
@@ -535,12 +535,12 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0, 1.0f, 400.0f, 0.0f);
             }
             break;
         case 4:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0, 1.0f, 400.0f, 0.0f);
             }
             this->actor.targetMode = 0;

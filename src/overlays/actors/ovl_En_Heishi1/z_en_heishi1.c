@@ -125,7 +125,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     } else {
-        if ((gSaveContext.dayTime >= 0xB889) || IS_NIGHT || (gSaveContext.eventChkInf[8] & 1)) {
+        if ((gSaveContext.dayTime >= 0xB889) || !IS_DAY || (gSaveContext.eventChkInf[8] & 1)) {
             this->actionFunc = EnHeishi1_SetupWaitNight;
         } else {
             Actor_Kill(&this->actor);

@@ -141,7 +141,7 @@ f32 DemoEffect_InterpolateCsFrames(GlobalContext* globalCtx, s32 csActionId) {
  */
 void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this) {
     this->initDrawFunc = DemoEffect_DrawJewel;
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         this->initUpdateFunc = DemoEffect_UpdateJewelChild;
     } else {
         this->initUpdateFunc = DemoEffect_UpdateJewelAdult;

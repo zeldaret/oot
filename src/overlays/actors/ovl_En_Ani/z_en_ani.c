@@ -81,7 +81,7 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         EnAni_SetupAction(this, func_809B064C);
     } else {
         EnAni_SetupAction(this, func_809B07F8);
@@ -120,7 +120,7 @@ void func_809B0524(EnAni* this, GlobalContext* globalCtx) {
 void func_809B0558(EnAni* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             EnAni_SetupAction(this, func_809B04F0);
         } else {
             EnAni_SetupAction(this, func_809B0524);
@@ -149,7 +149,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
     if (!textId) {}
 
     if (textId2 == 0) {
-        textId = IS_NIGHT ? 0x5051 : 0x5050;
+        textId = !IS_DAY ? 0x5051 : 0x5050;
     }
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;

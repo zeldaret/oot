@@ -351,7 +351,7 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetFocus(thisx, this->height);
     if (this->type != HEISHI4_AT_MARKET_DYING) {
         this->unk_28C.unk_18 = player->actor.world.pos;
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             this->unk_28C.unk_18.y = (player->actor.world.pos.y - 10.0f);
         }
         func_80034A14(thisx, &this->unk_28C, 2, 4);

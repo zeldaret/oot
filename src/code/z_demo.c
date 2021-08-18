@@ -523,7 +523,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                     globalCtx->fadeTransition = 11;
                 } else {
                     if (gSaveContext.sceneSetupIndex < 4) {
-                        if (LINK_IS_CHILD) {
+                        if (!LINK_IS_ADULT) {
                             globalCtx->linkAgeOnLoad = 0;
                         } else {
                             globalCtx->linkAgeOnLoad = 1;

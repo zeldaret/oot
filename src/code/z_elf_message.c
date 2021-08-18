@@ -141,7 +141,7 @@ u16 ElfMessage_GetSariaText(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     ElfMessage* msgs;
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         if (Actor_FindNearby(globalCtx, &player->actor, ACTOR_EN_SA, 4, 800.0f) == NULL) {
             msgs = sChildSariaMsgs;
         } else {
