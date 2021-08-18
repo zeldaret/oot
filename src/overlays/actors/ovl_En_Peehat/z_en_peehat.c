@@ -310,8 +310,8 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
-    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim), ANIMMODE_ONCE,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim),
+                     ANIMMODE_ONCE, 0.0f);
     this->seekPlayerTimer = 600;
     this->unk2D4 = 0;
     this->unk2FA = 0;
@@ -348,8 +348,8 @@ void EnPeehat_Ground_StateGround(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Flying_SetStateGround(EnPeehat* this) {
-    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim), ANIMMODE_ONCE,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim),
+                     ANIMMODE_ONCE, 0.0f);
     this->seekPlayerTimer = 400;
     this->unk2D4 = 0;
     this->unk2FA = 0; //! @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
