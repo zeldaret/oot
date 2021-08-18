@@ -215,9 +215,10 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static u64* D_809B3270[] = { gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex };
-
 void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* D_809B3270[] = {
+        gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex,
+    };
     EnAnubiceFire* this = THIS;
     s32 pad[2];
     s32 i;

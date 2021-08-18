@@ -80,7 +80,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.sceneSetupIndex == 5) {
-        globalCtx->unk_11D30[0] = 0xFF;
+        globalCtx->roomCtx.unk_74[0] = 0xFF;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -97,7 +97,7 @@ void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
     if (((gSaveContext.eventChkInf[4] & 0x8000) == 0) && (gSaveContext.sceneSetupIndex < 4) &&
-        (func_8002E12C(&this->actor, 800.0f, 0x7530) != 0) && !Gameplay_InCsMode(globalCtx)) {
+        Actor_IsFacingAndNearPlayer(&this->actor, 800.0f, 0x7530) && !Gameplay_InCsMode(globalCtx)) {
         gSaveContext.eventChkInf[4] |= 0x8000;
         globalCtx->csCtx.segment = D_808BBD90;
         gSaveContext.cutsceneTrigger = 1;
@@ -110,22 +110,22 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
             } else {
                 globalCtx->csCtx.segment = D_808BB7A0;
             }
-            Audio_SetBGM(NA_BGM_STOP);
-            Audio_SetBGM(0x53);
+            Audio_QueueSeqCmd(NA_BGM_STOP);
+            Audio_QueueSeqCmd(0x53);
             gSaveContext.cutsceneTrigger = 1;
             this->actor.parent = NULL;
             BgTokiSwd_SetupAction(this, func_808BB0AC);
         } else {
-            if (func_8002E084(&this->actor, 0x2000) != 0) {
+            if (Actor_IsFacingPlayer(&this->actor, 0x2000)) {
                 func_8002F580(&this->actor, globalCtx);
             }
         }
     }
     if (gSaveContext.sceneSetupIndex == 5) {
-        if (globalCtx->unk_11D30[0] > 0) {
-            globalCtx->unk_11D30[0]--;
+        if (globalCtx->roomCtx.unk_74[0] > 0) {
+            globalCtx->roomCtx.unk_74[0]--;
         } else {
-            globalCtx->unk_11D30[0] = 0;
+            globalCtx->roomCtx.unk_74[0] = 0;
         }
     }
 }
@@ -149,8 +149,8 @@ void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
 }
 
 void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx) {
-    if (Flags_GetEnv(globalCtx, 1) && (globalCtx->unk_11D30[0] < 0xFF)) {
-        globalCtx->unk_11D30[0] += 5;
+    if (Flags_GetEnv(globalCtx, 1) && (globalCtx->roomCtx.unk_74[0] < 0xFF)) {
+        globalCtx->roomCtx.unk_74[0] += 5;
     }
 }
 

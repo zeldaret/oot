@@ -136,7 +136,7 @@ void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     TransitionActorEntry* transitionEntry;
     EnDoor* this = THIS;
 
-    transitionEntry = &globalCtx->transitionActorList[(u16)this->actor.params >> 0xA];
+    transitionEntry = &globalCtx->transiActorCtx.list[(u16)this->actor.params >> 0xA];
     if (transitionEntry->id < 0) {
         transitionEntry->id = -transitionEntry->id;
     }
@@ -307,7 +307,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
     if (limbIndex == 4) {
         temp_a2 = D_809FCEE4[this->dListIndex];
-        transitionEntry = &globalCtx->transitionActorList[(u16)this->actor.params >> 0xA];
+        transitionEntry = &globalCtx->transiActorCtx.list[(u16)this->actor.params >> 0xA];
         rot->z += this->actor.world.rot.y;
         if ((globalCtx->roomCtx.prevRoom.num >= 0) ||
             (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {

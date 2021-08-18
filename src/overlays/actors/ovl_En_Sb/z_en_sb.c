@@ -427,7 +427,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             this->hitByWindArrow = hitByWindArrow;
             BodyBreak_Alloc(&this->bodyBreak, 8, globalCtx);
             this->isDead = true;
-            func_80032C7C(globalCtx, &this->actor);
+            Enemy_StartFinishingBlow(globalCtx, &this->actor);
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
             return 1;
         }

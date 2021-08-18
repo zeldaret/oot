@@ -1,6 +1,7 @@
 <Root>
     <File Name="hakaana_ouke_scene" Segment="2">
-        <Scene Name="hakaana_ouke_scene"/>
+        <Cutscene Name="gSunSongTeachCs" Offset="0x24A0"/>
+        <Scene Name="hakaana_ouke_scene" Offset="0x0"/>
     </File>
     <File Name="hakaana_ouke_room_0" Segment="3">
         <Room Name="hakaana_ouke_room_0" Offset="0x0"/>

@@ -47,7 +47,7 @@ glabel func_80B48578
 /* 045B4 80B48604 A7A80056 */  sh      $t0, 0x0056($sp)           
 /* 045B8 80B48608 24E73FFF */  addiu   $a3, $a3, 0x3FFF           ## $a3 = 00003FFF
 /* 045BC 80B4860C 00073C00 */  sll     $a3, $a3, 16               
-/* 045C0 80B48610 0C00CE6E */  jal     func_800339B8              
+/* 045C0 80B48610 0C00CE6E */  jal     Actor_TestFloorInDirection              
 /* 045C4 80B48614 00073C03 */  sra     $a3, $a3, 16               
 /* 045C8 80B48618 1440003B */  bne     $v0, $zero, .L80B48708     
 /* 045CC 80B4861C 87A80056 */  lh      $t0, 0x0056($sp)           
@@ -146,7 +146,7 @@ glabel func_80B48578
 /* 04710 80B48760 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 04714 80B48764 25AE4000 */  addiu   $t6, $t5, 0x4000           ## $t6 = 00004000
 /* 04718 80B48768 A60E0032 */  sh      $t6, 0x0032($s0)           ## 00000032
-/* 0471C 80B4876C 0C00CEAE */  jal     func_80033AB8              
+/* 0471C 80B4876C 0C00CEAE */  jal     Actor_OtherIsTargeted              
 /* 04720 80B48770 8FA4005C */  lw      $a0, 0x005C($sp)           
 /* 04724 80B48774 10400004 */  beq     $v0, $zero, .L80B48788     
 /* 04728 80B48778 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000

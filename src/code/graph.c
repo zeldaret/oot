@@ -362,7 +362,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         gfxCtx->fbIdx++;
     }
 
-    func_800F3054();
+    func_800F30534();
 
     {
         OSTime time = osGetTime();

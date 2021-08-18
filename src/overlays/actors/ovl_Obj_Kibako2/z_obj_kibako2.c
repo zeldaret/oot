@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_kibako2.h"
+#include "objects/object_kibako2/object_kibako2.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000000
@@ -17,10 +18,6 @@ void ObjKibako2_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Draw(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Idle(ObjKibako2* this, GlobalContext* globalCtx);
 void ObjKibako2_Kill(ObjKibako2* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000960[];
-extern UNK_TYPE D_06000B70;
-extern Gfx D_06001000[];
 
 const ActorInit Obj_Kibako2_InitVars = {
     ACTOR_OBJ_KIBAKO2,
@@ -103,7 +100,7 @@ void ObjKibako2_Break(ObjKibako2* this, GlobalContext* globalCtx) {
             phi_s0 = 0x20;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -200, phi_s0, 28, 2, 0, (Rand_ZeroOne() * 30.0f) + 5.0f,
-                             0, 0, 70, KAKERA_COLOR_NONE, OBJECT_KIBAKO2, D_06001000);
+                             0, 0, 70, KAKERA_COLOR_NONE, OBJECT_KIBAKO2, gLargeCrateFragmentDL);
     }
     func_80033480(globalCtx, thisPos, 90.0f, 6, 100, 160, 1);
 }
@@ -128,7 +125,7 @@ void ObjKibako2_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ObjKibako2_InitCollider(thisx, globalCtx);
-    CollisionHeader_GetVirtual(&D_06000B70, &colHeader);
+    CollisionHeader_GetVirtual(&gLargeCrateCol, &colHeader);
     bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->collectibleFlag = this->dyna.actor.home.rot.z & 0x3F;
     this->dyna.bgId = bgId;
@@ -180,5 +177,5 @@ void ObjKibako2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjKibako2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06000960);
+    Gfx_DrawDListOpa(globalCtx, gLargeCrateDL);
 }

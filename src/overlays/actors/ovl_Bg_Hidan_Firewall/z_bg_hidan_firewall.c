@@ -129,11 +129,12 @@ void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx) {
 void BgHidanFirewall_Collide(BgHidanFirewall* this, GlobalContext* globalCtx) {
     s16 phi_a3;
 
-    if (func_8002E084(&this->actor, 0x4000) != 0) {
+    if (Actor_IsFacingPlayer(&this->actor, 0x4000)) {
         phi_a3 = this->actor.shape.rot.y;
     } else {
         phi_a3 = this->actor.shape.rot.y + 0x8000;
     }
+
     func_8002F71C(globalCtx, &this->actor, 5.0f, phi_a3, 1.0f);
 }
 
@@ -194,7 +195,7 @@ void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static u64* sFireballTexs[] = {
+static void* sFireballTexs[] = {
     gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
     gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
 };

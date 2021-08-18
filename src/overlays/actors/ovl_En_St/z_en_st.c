@@ -472,7 +472,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
         return false;
     }
-    func_80032C7C(globalCtx, &this->actor);
+    Enemy_StartFinishingBlow(globalCtx, &this->actor);
     this->actor.flags &= ~1;
     this->groundBounces = 3;
     this->deathTimer = 20;

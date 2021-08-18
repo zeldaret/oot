@@ -1,4 +1,6 @@
 #include "z_en_niw_lady.h"
+#include "objects/object_ane/object_ane.h"
+#include "objects/object_os_anime/object_os_anime.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 #include "vt.h"
 
@@ -65,12 +67,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
-extern FlexSkeletonHeader D_060000F0;
-extern AnimationHeader D_06000718;
-extern AnimationHeader D_060007D0;
-extern AnimationHeader D_06009F94;
-extern AnimationHeader D_0600A630;
-
 void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNiwLady* this = THIS;
@@ -115,8 +111,8 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 10:
                 this->unk_275 = 1;
             case 9:
-                frames = Animation_GetLastFrame(&D_060007D0);
-                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
+                frames = Animation_GetLastFrame(&gObjOsAnim_07D0);
+                Animation_Change(&this->skelAnime, &gObjOsAnim_07D0, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 0:
             case 1:
@@ -130,8 +126,8 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 22:
             case 24:
             case 29:
-                frames = Animation_GetLastFrame(&D_06009F94);
-                Animation_Change(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
+                frames = Animation_GetLastFrame(&gObjOsAnim_9F94);
+                Animation_Change(&this->skelAnime, &gObjOsAnim_9F94, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 7:
             case 20:
@@ -140,12 +136,12 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 26:
             case 27:
             case 28:
-                frames = Animation_GetLastFrame(&D_06000718);
-                Animation_Change(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
+                frames = Animation_GetLastFrame(&gObjOsAnim_0718);
+                Animation_Change(&this->skelAnime, &gObjOsAnim_0718, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 100:
-                frames = Animation_GetLastFrame(&D_0600A630);
-                Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
+                frames = Animation_GetLastFrame(&gObjOsAnim_A630);
+                Animation_Change(&this->skelAnime, &gObjOsAnim_A630, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 this->unk_276 = 0;
                 break;
         }
@@ -160,7 +156,7 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectAneIndex) &&
         Object_IsLoaded(&globalCtx->objectCtx, this->objectOsAnimeIndex)) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectAneIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCuccoLadySkel, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectOsAnimeIndex].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
@@ -174,11 +170,11 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         switch (this->unk_278) {
             case 0:
                 if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
-                    frames = Animation_GetLastFrame(&D_0600A630);
-                    Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
+                    frames = Animation_GetLastFrame(&gObjOsAnim_A630);
+                    Animation_Change(&this->skelAnime, &gObjOsAnim_A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 } else {
-                    frames = Animation_GetLastFrame(&D_060007D0);
-                    Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
+                    frames = Animation_GetLastFrame(&gObjOsAnim_07D0);
+                    Animation_Change(&this->skelAnime, &gObjOsAnim_07D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 }
                 if (LINK_IS_ADULT) {
                     this->actionFunc = func_80ABA778;
@@ -187,8 +183,8 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
                 }
                 return;
             case 1:
-                frames = Animation_GetLastFrame(&D_060007D0);
-                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
+                frames = Animation_GetLastFrame(&gObjOsAnim_07D0);
+                Animation_Change(&this->skelAnime, &gObjOsAnim_07D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 this->actionFunc = func_80ABAD38;
                 return;
         }
@@ -570,7 +566,7 @@ s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* D_80ABB408[] = { 0x060008C8, 0x060010C8, 0x060018C8 };
+    static void* sEyeTextures[] = { gCuccoLadyEyeOpenTex, gCuccoLadyEyeHalfTex, gCuccoLadyEyeClosedTex };
     EnNiwLady* this = THIS;
     s32 pad;
 
@@ -578,7 +574,7 @@ void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_27E != 0) {
         func_80093D18(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80ABB408[this->faceState]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->faceState]));
         gSPSegment(POLY_OPA_DISP++, 0x0C, func_80ABB0A0(globalCtx->state.gfxCtx));
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnNiwLady_OverrideLimbDraw, NULL, this);

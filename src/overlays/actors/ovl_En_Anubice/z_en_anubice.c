@@ -367,7 +367,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
                 flameCircle->timer != 0) {
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~1;
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
                 return;
@@ -379,7 +379,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (this->actor.colChkInfo.damageEffect == 2) {
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~1;
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
                 return;

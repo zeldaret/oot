@@ -446,7 +446,7 @@ void EnDekunuts_Die(EnDekunuts* this, GlobalContext* globalCtx) {
 void EnDekunuts_ColliderCheck(EnDekunuts* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
         if (this->actor.colChkInfo.mass == 0x32) {
             if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
                 if (this->actor.colChkInfo.damageEffect != 1) {
@@ -455,7 +455,7 @@ void EnDekunuts_ColliderCheck(EnDekunuts* this, GlobalContext* globalCtx) {
                     }
                     EnDekunuts_SetupBeDamaged(this);
                     if (Actor_ApplyDamage(&this->actor) == 0) {
-                        func_80032C7C(globalCtx, &this->actor);
+                        Enemy_StartFinishingBlow(globalCtx, &this->actor);
                     }
                 } else if (this->actionFunc != EnDekunuts_BeStunned) {
                     EnDekunuts_SetupBeStunned(this);

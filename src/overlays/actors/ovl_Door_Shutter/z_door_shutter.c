@@ -14,6 +14,7 @@
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 #include "objects/object_jya_door/object_jya_door.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
+#include "objects/object_bdan_objects/object_bdan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -91,7 +92,7 @@ static ShutterInfo sShutterInfo[] = {
     { gDTDungeonDoor1DL, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { gDTDungeonDoor2DL, gDoorMetalBarsDL, 130, 12, 20, 15 },
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 },
-    { 0x06000590, 0x06006460, 0, 110, 50, 15 },
+    { gJabuDoorSection1DL, 0x06006460, 0, 110, 50, 15 },
     { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },
     { gGohmaDoorDL, NULL, 130, 12, 50, 15 },
     { gSpiritDoorDL, gJyaDoorMetalBarsDL, 240, 14, 50, 15 },
@@ -151,12 +152,13 @@ static BossDoorInfo D_80998288[] = {
     { -1, -1, 0x00 },
 };
 
-static Gfx* D_809982B4[] = {
-    0x06000590, 0x06000BF0, 0x06002BD0, 0x060018B0, 0x06001F10, 0x060018B0, 0x06001250, 0x06000BF0,
+static Gfx* sJabuDoorDLists[] = {
+    gJabuDoorSection1DL, gJabuDoorSection2DL, gJabuDoorSection7DL, gJabuDoorSection4DL,
+    gJabuDoorSection5DL, gJabuDoorSection4DL, gJabuDoorSection3DL, gJabuDoorSection2DL,
 };
 
 // boss door textures?
-static UNK_PTR D_809982D4[] = {
+static void* D_809982D4[] = {
     0x060065C0, 0x060035C0, 0x060055C0, 0x060045C0, 0x06000000, 0x060025C0, 0x060015C0,
 };
 
@@ -166,7 +168,7 @@ void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc
 }
 
 s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
-    TransitionActorEntry* transitionEntry = &globalCtx->transitionActorList[(u16)this->dyna.actor.params >> 0xA];
+    TransitionActorEntry* transitionEntry = &globalCtx->transiActorCtx.list[(u16)this->dyna.actor.params >> 0xA];
     s8 frontRoom = transitionEntry->sides[0].room;
     s32 doorType = this->doorType;
     ShutterObjectInfo* temp_t0 = &sObjectInfo[this->unk_16B];
@@ -273,7 +275,7 @@ void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.room >= 0) {
         s32 transitionActorId = (u16)this->dyna.actor.params >> 0xA;
 
-        globalCtx->transitionActorList[transitionActorId].id *= -1;
+        globalCtx->transiActorCtx.list[transitionActorId].id *= -1;
     }
 }
 
@@ -532,7 +534,7 @@ void func_80997220(DoorShutter* this, GlobalContext* globalCtx) {
 
         func_8002DBD0(&this->dyna.actor, &vec, &player->actor.world.pos);
         this->dyna.actor.room =
-            globalCtx->transitionActorList[(u16)this->dyna.actor.params >> 0xA].sides[(vec.z < 0.0f) ? 0 : 1].room;
+            globalCtx->transiActorCtx.list[(u16)this->dyna.actor.params >> 0xA].sides[(vec.z < 0.0f) ? 0 : 1].room;
         if (room != this->dyna.actor.room) {
             Room tempRoom = globalCtx->roomCtx.curRoom;
 
@@ -560,7 +562,8 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
         if (this->dyna.actor.velocity.y > 20.0f) {
             this->dyna.actor.floorHeight = this->dyna.actor.home.pos.y;
-            func_80033260(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 45.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
+            Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 45.0f, 0xA, 8.0f, 0x1F4,
+                                     0xA, 0);
         }
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         quakeId = Quake_Add(Gameplay_GetCamera(globalCtx, 0), 3);
@@ -596,7 +599,8 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
             this->unk_164 = 10;
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             func_8099803C(globalCtx, 2, 10, parent->subCameraId);
-            func_80033260(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 70.0f, 20, 8.0f, 500, 10, 1);
+            Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 70.0f, 20, 8.0f, 500,
+                                     10, 1);
         }
     }
 }
@@ -639,7 +643,7 @@ Gfx* func_80997838(GlobalContext* globalCtx, DoorShutter* this, Gfx* p) {
     s32 i;
 
     Matrix_Get(&mtx);
-    for (i = 0; i < ARRAY_COUNT(D_809982B4); i++) {
+    for (i = 0; i < ARRAY_COUNT(sJabuDoorDLists); i++) {
         Matrix_RotateZ(angle, MTXMODE_APPLY);
         if (i % 2 == 0) {
             Matrix_Translate(0.0f, 800.0f, 0.0f, MTXMODE_APPLY);
@@ -653,7 +657,7 @@ Gfx* func_80997838(GlobalContext* globalCtx, DoorShutter* this, Gfx* p) {
         }
         gSPMatrix(p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_shutter.c", 1991),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(p++, D_809982B4[i]);
+        gSPDisplayList(p++, sJabuDoorDLists[i]);
         angle -= M_PI / 4;
         Matrix_Put(&mtx);
     }
@@ -717,7 +721,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             if (sp70->b != NULL) {
                 TransitionActorEntry* transitionEntry =
-                    &globalCtx->transitionActorList[(u16)this->dyna.actor.params >> 0xA];
+                    &globalCtx->transiActorCtx.list[(u16)this->dyna.actor.params >> 0xA];
 
                 if (globalCtx->roomCtx.prevRoom.num >= 0 ||
                     transitionEntry->sides[0].room == transitionEntry->sides[1].room) {

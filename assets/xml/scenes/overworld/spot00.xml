@@ -1,6 +1,7 @@
 <Root>
     <File Name="spot00_scene" Segment="2">
-        <Scene Name="spot00_scene"/>
+        <Cutscene Name="gZeldaSongOfTimeCs" Offset="0xF870"/>
+        <Scene Name="spot00_scene" Offset="0x0"/>
     </File>
     <File Name="spot00_room_0" Segment="3">
         <Room Name="spot00_room_0" Offset="0x0"/>
