@@ -106,8 +106,8 @@ void EnGoroiwa_InitCollider(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void EnGoroiwa_UpdateFlags(EnGoroiwa* this, u8 setFlags) {
-    this->flags &= ~(ENGOROIWA_ENABLE_AT | ENGOROIWA_ENABLE_OC);
-    this->flags |= setFlags;
+    this->stateFlags &= ~(ENGOROIWA_ENABLE_AT | ENGOROIWA_ENABLE_OC);
+    this->stateFlags |= setFlags;
 }
 
 s32 EnGoroiwa_Vec3fNormalize(Vec3f* ret, Vec3f* a) {
@@ -385,7 +385,7 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, GlobalContext* globalCtx) 
                 Quake_SetCountdown(quakeIdx, 7);
             }
             this->rollRotSpeed = 0.0f;
-            if (!(this->flags & ENGOROIWA_IN_WATER)) {
+            if (!(this->stateFlags & ENGOROIWA_IN_WATER)) {
                 raycastFrom.x = this->actor.world.pos.x;
                 raycastFrom.y = this->actor.world.pos.y + 50.0f;
                 raycastFrom.z = this->actor.world.pos.z;
@@ -411,7 +411,7 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, GlobalContext* globalCtx) 
         WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
                                 &ySurface, &waterBox) &&
         this->actor.world.pos.y <= ySurface) {
-        this->flags |= ENGOROIWA_IN_WATER;
+        this->stateFlags |= ENGOROIWA_IN_WATER;
         if (ySurface < thisY) {
             waterHitPos.x = this->actor.world.pos.x;
             waterHitPos.y = ySurface;
@@ -436,7 +436,7 @@ void EnGoroiwa_UpdateRotation(EnGoroiwa* this, GlobalContext* globalCtx) {
     MtxF mtx;
     Vec3f unusedDiff;
 
-    if (this->flags & ENGOROIWA_RETAIN_ROT_SPEED) {
+    if (this->stateFlags & ENGOROIWA_RETAIN_ROT_SPEED) {
         rollAngleDiff = this->prevRollAngleDiff;
     } else {
         this->prevRollAngleDiff = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.prevPos) * (1.0f / 59.5f);
@@ -444,7 +444,7 @@ void EnGoroiwa_UpdateRotation(EnGoroiwa* this, GlobalContext* globalCtx) {
     }
     rollAngleDiff *= this->rollRotSpeed;
     rollAxisPtr = &rollAxis;
-    if (this->flags & ENGOROIWA_RETAIN_ROT_SPEED) {
+    if (this->stateFlags & ENGOROIWA_RETAIN_ROT_SPEED) {
         /*
          * EnGoroiwa_GetPrevWaypointDiff has no side effects and its result goes unused,
          * its result was probably meant to be used instead of the actor's velocity in the
@@ -586,10 +586,10 @@ void EnGoroiwa_Roll(EnGoroiwa* this, GlobalContext* globalCtx) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        this->flags &= ~ENGOROIWA_PLAYER_IN_THE_WAY;
+        this->stateFlags &= ~ENGOROIWA_PLAYER_IN_THE_WAY;
         yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
         if (yawDiff > -0x4000 && yawDiff < 0x4000) {
-            this->flags |= ENGOROIWA_PLAYER_IN_THE_WAY;
+            this->stateFlags |= ENGOROIWA_PLAYER_IN_THE_WAY;
             if (((this->actor.params >> 10) & 1) || (this->actor.home.rot.z & 1) != 1) {
                 EnGoroiwa_ReverseDirection(this);
                 EnGoroiwa_FaceNextWaypoint(this, globalCtx);
@@ -645,7 +645,7 @@ void EnGoroiwa_SetupMoveAndFallToGround(EnGoroiwa* this) {
 void EnGoroiwa_MoveAndFallToGround(EnGoroiwa* this, GlobalContext* globalCtx) {
     EnGoroiwa_MoveAndFall(this, globalCtx);
     if ((this->actor.bgCheckFlags & 1) && this->actor.velocity.y < 0.0f) {
-        if ((this->flags & ENGOROIWA_PLAYER_IN_THE_WAY) && (this->actor.home.rot.z & 1) == 1) {
+        if ((this->stateFlags & ENGOROIWA_PLAYER_IN_THE_WAY) && (this->actor.home.rot.z & 1) == 1) {
             EnGoroiwa_ReverseDirection(this);
             EnGoroiwa_FaceNextWaypoint(this, globalCtx);
         }
@@ -700,8 +700,8 @@ void EnGoroiwa_SetupMoveDown(EnGoroiwa* this) {
     this->rollRotSpeed = 0.3f;
     this->bounceCount = 0;
     this->actor.velocity.y = fabsf(this->actor.speedXZ) * -0.3f;
-    this->flags |= ENGOROIWA_RETAIN_ROT_SPEED;
-    this->flags &= ~ENGOROIWA_IN_WATER;
+    this->stateFlags |= ENGOROIWA_RETAIN_ROT_SPEED;
+    this->stateFlags &= ~ENGOROIWA_IN_WATER;
 }
 
 void EnGoroiwa_MoveDown(EnGoroiwa* this, GlobalContext* globalCtx) {
@@ -715,7 +715,7 @@ void EnGoroiwa_MoveDown(EnGoroiwa* this, GlobalContext* globalCtx) {
     } else if (EnGoroiwa_MoveDownToNextWaypoint(this, globalCtx)) {
         EnGoroiwa_NextWaypoint(this, globalCtx);
         EnGoroiwa_SetupRoll(this);
-        this->flags &= ~ENGOROIWA_RETAIN_ROT_SPEED;
+        this->stateFlags &= ~ENGOROIWA_RETAIN_ROT_SPEED;
         this->actor.speedXZ = 0.0f;
     }
 }
@@ -743,10 +743,10 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnGoroiwa_UpdateRotation(this, globalCtx);
         if (this->actor.xzDistToPlayer < 300.0f) {
             EnGoroiwa_UpdateCollider(this);
-            if ((this->flags & ENGOROIWA_ENABLE_AT) && this->collisionDisabledTimer <= 0) {
+            if ((this->stateFlags & ENGOROIWA_ENABLE_AT) && this->collisionDisabledTimer <= 0) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
-            if ((this->flags & ENGOROIWA_ENABLE_OC) && this->collisionDisabledTimer <= 0) {
+            if ((this->stateFlags & ENGOROIWA_ENABLE_OC) && this->collisionDisabledTimer <= 0) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
         }

@@ -24,7 +24,7 @@ typedef struct EnGoroiwa {
     /* 0x01CE */ s16 nextWaypoint;
     /* 0x01D0 */ s16 pathDirection;
     /* 0x01D2 */ u8 isInKokiri;
-    /* 0x01D3 */ u8 flags;
+    /* 0x01D3 */ u8 stateFlags;
 } EnGoroiwa; // size = 0x01D4
 
 extern const ActorInit En_Goroiwa_InitVars;
