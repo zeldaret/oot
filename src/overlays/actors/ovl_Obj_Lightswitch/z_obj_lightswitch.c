@@ -78,7 +78,7 @@ static ColliderJntSphInit sColliderJntSphInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 static void* sFaceTextures[] = { object_lightswitch_Tex_000C20, object_lightswitch_Tex_000420,
-                                  object_lightswitch_Tex_001420 };
+                                 object_lightswitch_Tex_001420 };
 
 static Vec3f D_80B97F68 = { -1707.0f, 843.0f, -180.0f };
 static Vec3f D_80B97F74 = { 0.0f, 0.0f, 0.0f };
