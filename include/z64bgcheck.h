@@ -61,7 +61,7 @@ typedef struct {
 /**
  * BgCamData Summary:
  * 
- * setting - camera setting described by CameraSettingType Enum
+ * setting - camera setting described by CameraSettingType enum
  * numData - The total count of Vec3s data in the collision
  * data - data stored in Vec3s with various purposes summarized below:
  * 
