@@ -518,9 +518,7 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnGs* this = THIS;
 
     Actor_SetFocus(&this->actor, 23.0f);
-   // if (globalCtx) {};
     if (!(this->unk_19E & 0x10)) {
-     //   if (globalCtx) {};
         if (this->collider.base.acFlags & AC_HIT) {
             this->unk_19F = 0;
             this->collider.base.acFlags &= ~AC_HIT;
