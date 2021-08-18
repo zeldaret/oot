@@ -313,13 +313,12 @@ void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     }
 }
 
-static u64* sEyeTextures[] = {
-    gRoofManEyeOpenTex,
-    gRoofManEyeHalfTex,
-    gRoofManEyeClosedTex,
-};
-
 void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* eyeTextures[] = {
+        gRoofManEyeOpenTex,
+        gRoofManEyeHalfTex,
+        gRoofManEyeClosedTex,
+    };
     EnAni* this = THIS;
     s32 pad;
 
@@ -327,7 +326,7 @@ void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800943C8(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, this);

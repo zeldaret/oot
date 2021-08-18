@@ -723,22 +723,11 @@ void ObjSwitch_DrawFloorRusty(ObjSwitch* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, gRustyFloorSwitchDL);
 }
 
-static u64* sEyeTextures[][4] = {
-    {
-        gEyeSwitchGoldOpenTex,
-        gEyeSwitchGoldOpeningTex,
-        gEyeSwitchGoldClosingTex,
-        gEyeSwitchGoldClosedTex,
-    },
-    {
-        gEyeSwitchSilverOpenTex,
-        gEyeSwitchSilverHalfTex,
-        gEyeSwitchSilverClosedTex,
-        gEyeSwitchSilverClosedTex,
-    },
-};
-
 void ObjSwitch_DrawEye(ObjSwitch* this, GlobalContext* globalCtx) {
+    static void* eyeTextures[][4] = {
+        { gEyeSwitchGoldOpenTex, gEyeSwitchGoldOpeningTex, gEyeSwitchGoldClosingTex, gEyeSwitchGoldClosedTex },
+        { gEyeSwitchSilverOpenTex, gEyeSwitchSilverHalfTex, gEyeSwitchSilverClosedTex, gEyeSwitchSilverClosedTex },
+    };
     static Gfx* eyeDlists[] = { gEyeSwitch1DL, gEyeSwitch2DL };
     s32 pad;
     s32 subType = (this->dyna.actor.params >> 4 & 7);
@@ -748,7 +737,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_switch.c", 1462),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[subType][this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[subType][this->eyeTexIndex]));
     gSPDisplayList(POLY_OPA_DISP++, eyeDlists[subType]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_switch.c", 1471);

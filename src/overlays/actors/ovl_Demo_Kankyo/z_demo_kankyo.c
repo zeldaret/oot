@@ -245,7 +245,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
                                    this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                    0x0000);
             } else {
-                globalCtx->unk_11D30[1] = 0xFF;
+                globalCtx->roomCtx.unk_74[1] = 0xFF;
                 Actor_Kill(&this->actor);
             }
             break;

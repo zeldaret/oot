@@ -62,11 +62,11 @@ void func_80B523BC(EnZl2* this, GlobalContext* globalCtx);
 void func_80B523C8(EnZl2* this, GlobalContext* globalCtx);
 void func_80B525D4(EnZl2* this, GlobalContext* globalCtx);
 
-static u64* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex,
-                               gZelda2Eye03Tex,   gZelda2Eye04Tex,   gZelda2Eye05Tex,
-                               gZelda2Eye06Tex,   gZelda2Eye07Tex,   gZelda2Eye08Tex };
+static void* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex,
+                                gZelda2Eye03Tex,   gZelda2Eye04Tex,   gZelda2Eye05Tex,
+                                gZelda2Eye06Tex,   gZelda2Eye07Tex,   gZelda2Eye08Tex };
 
-static u64* sMouthTextures[] = { gZelda2MouthSeriousTex, gZelda2MouthHappyTex, gZelda2MouthOpenTex };
+static void* sMouthTextures[] = { gZelda2MouthSeriousTex, gZelda2MouthHappyTex, gZelda2MouthOpenTex };
 
 static EnZl2ActionFunc sActionFuncs[] = {
     func_80B521A0, func_80B50BBC, func_80B50BEC, func_80B50C40, func_80B50CA8, func_80B50CFC,
@@ -1632,11 +1632,11 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad[3];
     s16 eyeTexIndex = this->eyeTexIndex;
     s16 eyeTexIndex2 = this->eyeTexIndex2;
-    u64* eyeTex = sEyeTextures[eyeTexIndex];
-    u64* eyeTex2 = sEyeTextures[eyeTexIndex2];
+    void* eyeTex = sEyeTextures[eyeTexIndex];
+    void* eyeTex2 = sEyeTextures[eyeTexIndex2];
     SkelAnime* skelAnime = &this->skelAnime;
     s16 mouthTexIndex = this->mouthTexIndex;
-    u64* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouthTexIndex];
     s32 pad1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1623);
@@ -1658,10 +1658,10 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
 void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTex = sEyeTextures[eyeTexIndex];
+    void* eyeTex = sEyeTextures[eyeTexIndex];
     s16 mouthTexIndex = this->mouthTexIndex;
     SkelAnime* skelAnime = &this->skelAnime;
-    u64* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouthTexIndex];
     s32 pad1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1663);
