@@ -182,7 +182,7 @@ void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* glob
             mf.zy = this->unk_154.y;
             mf.zz = this->unk_154.z;
 
-            Matrix_MtxFToRotS(&mf, &this->actor.world.rot, 0);
+            Matrix_MtxFToYXZRotS(&mf, &this->actor.world.rot, 0);
 
             this->actor.world.rot.x = -this->actor.world.rot.x;
         }

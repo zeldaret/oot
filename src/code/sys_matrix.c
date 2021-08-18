@@ -740,10 +740,10 @@ void func_800D1FD4(MtxF* mf) {
 }
 
 /**
- * Gets the rotation the specified matrix represents, using Euler ZXY (most likely).
+ * Gets the rotation the specified matrix represents, using Euler YXZ.
  * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
  */
-void Matrix_MtxFToRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
+void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
     f32 temp;
     f32 temp2;
     f32 temp3;
@@ -792,7 +792,11 @@ void Matrix_MtxFToRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
     }
 }
 
-void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
+/**
+ * Gets the rotation the specified matrix represents, using Euler ZYX.
+ * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
+ */
+void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
     f32 temp;
     f32 temp2;
     f32 temp3;
@@ -801,39 +805,39 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
     temp = mf->xx;
     temp *= temp;
     temp += SQ(mf->xy);
-    vec->y = Math_FAtan2F(-mf->xz, sqrtf(temp)) * (32768 / M_PI);
+    rotDest->y = Math_FAtan2F(-mf->xz, sqrtf(temp)) * (0x8000 / M_PI);
 
-    if ((vec->y == 0x4000) || (vec->y == -0x4000)) {
-        vec->x = 0;
-        vec->z = Math_FAtan2F(-mf->yx, mf->yy) * (32768 / M_PI);
-        return;
-    }
-
-    vec->z = Math_FAtan2F(mf->xy, mf->xx) * (32768 / M_PI);
-
-    if (!flag) {
-        vec->x = Math_FAtan2F(mf->yz, mf->zz) * (32768 / M_PI);
+    if ((rotDest->y == 0x4000) || (rotDest->y == -0x4000)) {
+        rotDest->x = 0;
+        rotDest->z = Math_FAtan2F(-mf->yx, mf->yy) * (0x8000 / M_PI);
     } else {
-        temp = mf->yx;
-        temp2 = mf->yy;
-        temp3 = mf->zy;
+        rotDest->z = Math_FAtan2F(mf->xy, mf->xx) * (0x8000 / M_PI);
 
-        temp *= temp;
-        temp += SQ(temp2);
-        temp2 = mf->yz;
-        temp += SQ(temp2);
-        temp = sqrtf(temp);
-        temp = temp2 / temp;
+        if (!flag) {
+            rotDest->x = Math_FAtan2F(mf->yz, mf->zz) * (0x8000 / M_PI);
+        } else {
+            // see Matrix_MtxFToYXZRotS
+            temp = mf->yx;
+            temp2 = mf->yy;
+            temp3 = mf->zy;
 
-        temp2 = mf->zx;
-        temp2 *= temp2;
-        temp2 += SQ(temp3);
-        temp3 = mf->zz;
-        temp2 += SQ(temp3);
-        temp2 = sqrtf(temp2);
-        temp2 = temp3 / temp2;
+            temp *= temp;
+            temp += SQ(temp2);
+            temp2 = mf->yz;
+            temp += SQ(temp2);
+            temp = sqrtf(temp);
+            temp = temp2 / temp;
 
-        vec->x = Math_FAtan2F(temp, temp2) * (32768 / M_PI);
+            temp2 = mf->zx;
+            temp2 *= temp2;
+            temp2 += SQ(temp3);
+            temp3 = mf->zz;
+            temp2 += SQ(temp3);
+            temp2 = sqrtf(temp2);
+            temp2 = temp3 / temp2;
+
+            rotDest->x = Math_FAtan2F(temp, temp2) * (0x8000 / M_PI);
+        }
     }
 }
 
