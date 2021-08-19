@@ -230,7 +230,7 @@ void EnZf_SetupAction(EnZf* this, EnZfActionFunc actionFunc) {
  * Tests if it will still be on a floor after moving forwards a distance determined by dist, in the shape forward
  * direction (special case for 0, testing using the speed instead).
  */
-s32 func_80B44058(EnZf* this, GlobalContext* globalCtx, f32 dist) {
+s32 EnZf_PrimaryFloorCheck(EnZf* this, GlobalContext* globalCtx, f32 dist) {
     s16 ret;
     s16 curBgCheckFlags;
     f32 sin;
@@ -262,14 +262,14 @@ s32 func_80B44058(EnZf* this, GlobalContext* globalCtx, f32 dist) {
 /**
  * Supplementary floor test. Only used twice.
  */
-s16 func_80B441C4(EnZf* this, GlobalContext* globalCtx, f32 dist) {
+s16 EnZf_SecondaryFloorCheck(EnZf* this, GlobalContext* globalCtx, f32 dist) {
     s16 ret;
     s16 curBgCheckFlags;
     f32 sin;
     f32 cos;
     Vec3f curPos;
 
-    if ((this->actor.speedXZ != 0.0f) && func_80B44058(this, globalCtx, this->actor.speedXZ)) {
+    if ((this->actor.speedXZ != 0.0f) && EnZf_PrimaryFloorCheck(this, globalCtx, this->actor.speedXZ)) {
         return true;
     }
 
@@ -813,7 +813,7 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
                 if ((this->unk_3F8 && (this->actor.speedXZ > 0.0f)) ||
                     ((this->actor.bgCheckFlags & 8) && (temp_v1 >= 0x5C19))) {
                     if ((Actor_WorldDistXZToPoint(&this->actor, &sPlatformPositions[this->nextPlatform]) < sp44) &&
-                        !func_80B44058(this, globalCtx, 191.9956f)) {
+                        !EnZf_PrimaryFloorCheck(this, globalCtx, 191.9956f)) {
                         func_80B45E30(this);
 
                         if (this->actor.bgCheckFlags & 8) {
@@ -1119,7 +1119,7 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
             Math_SmoothStepToF(&this->unk_408, 0.0f, 1.0f, 5.65f, 0.0f);
         }
 
-        if ((this->unk_408 != 0.0f) && !func_80B441C4(this, globalCtx, this->unk_408)) {
+        if ((this->unk_408 != 0.0f) && !EnZf_SecondaryFloorCheck(this, globalCtx, this->unk_408)) {
             this->actor.world.pos.x += Math_SinS(this->actor.shape.rot.y) * this->unk_408;
             this->actor.world.pos.z += Math_CosS(this->actor.shape.rot.y) * this->unk_408;
         }
@@ -1491,8 +1491,8 @@ void func_80B4781C(EnZf* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.y = sp5A + 0x8000;
             D_80B4AB30 = 0;
             this->homePlatform = this->curPlatform;
-            temp_v1_2 = !func_80B44058(this, globalCtx, 107.0f);
-            temp_v1_2 |= !func_80B44058(this, globalCtx, 220.0f) << 1;
+            temp_v1_2 = !EnZf_PrimaryFloorCheck(this, globalCtx, 107.0f);
+            temp_v1_2 |= !EnZf_PrimaryFloorCheck(this, globalCtx, 220.0f) << 1;
             this->hopAnimIndex++;
 
             switch (temp_v1_2) {
@@ -1519,7 +1519,7 @@ void func_80B4781C(EnZf* this, GlobalContext* globalCtx) {
 
                     for (phi_v1 = 20; phi_v1 >= 0; phi_v1--, phi_f20_2 += 10.0f, phi_f0 += 1.2f) {
 
-                        if (!func_80B44058(this, globalCtx, phi_f20_2)) {
+                        if (!EnZf_PrimaryFloorCheck(this, globalCtx, phi_f20_2)) {
                             this->actor.speedXZ = phi_f0;
                             this->actor.velocity.y = 12.0f;
                             break;
@@ -1647,7 +1647,7 @@ void func_80B47EB4(EnZf* this, GlobalContext* globalCtx) {
             } else {
                 this->actor.world.rot.y = this->actor.shape.rot.y;
 
-                if (!func_80B44058(this, globalCtx, 135.0f) && (this->actor.xzDistToPlayer < 90.0f)) {
+                if (!EnZf_PrimaryFloorCheck(this, globalCtx, 135.0f) && (this->actor.xzDistToPlayer < 90.0f)) {
                     func_80B48210(this);
                 } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames % 4) == 0)) {
                     func_80B46A24(this);
@@ -1667,7 +1667,7 @@ void func_80B47EB4(EnZf* this, GlobalContext* globalCtx) {
                 if (this->actor.params != ENZF_TYPE_DINOLFOS) {
                     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-                    if (!func_80B44058(this, globalCtx, 135.0f) && (this->actor.xzDistToPlayer < 90.0f)) {
+                    if (!EnZf_PrimaryFloorCheck(this, globalCtx, 135.0f) && (this->actor.xzDistToPlayer < 90.0f)) {
                         func_80B48210(this);
                     } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames % 4) == 0)) {
                         func_80B46A24(this);
@@ -1816,7 +1816,7 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->unk_408, 0.0f, 1.0f, 5.65f, 0.0f);
     }
 
-    if ((this->unk_408 != 0.0f) && !func_80B441C4(this, globalCtx, this->unk_408)) {
+    if ((this->unk_408 != 0.0f) && !EnZf_SecondaryFloorCheck(this, globalCtx, this->unk_408)) {
         this->actor.world.pos.x += (Math_SinS(this->actor.shape.rot.y) * this->unk_408);
         this->actor.world.pos.z += (Math_CosS(this->actor.shape.rot.y) * this->unk_408);
     }
@@ -1867,7 +1867,7 @@ void func_80B48578(EnZf* this, GlobalContext* globalCtx) {
                     func_80B44CF0(globalCtx, this)) {
                     func_80B46A24(this);
                 } else if ((this->actor.xzDistToPlayer < 280.0f) && (this->actor.xzDistToPlayer > 240.0f) &&
-                           !func_80B44058(this, globalCtx, 191.9956f) && ((globalCtx->gameplayFrames % 2) == 0)) {
+                           !EnZf_PrimaryFloorCheck(this, globalCtx, 191.9956f) && ((globalCtx->gameplayFrames % 2) == 0)) {
                     func_80B45E30(this);
                 } else {
                     func_80B456B4(this, globalCtx);
@@ -2028,10 +2028,10 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_3F8 = false;
         if ((this->hopAnimIndex != 1) && (this->unk_3DC != 0x13)) {
             if (this->actor.speedXZ != 0.0f) {
-                this->unk_3F8 = func_80B44058(this, globalCtx, this->actor.speedXZ * 1.5f);
+                this->unk_3F8 = EnZf_PrimaryFloorCheck(this, globalCtx, this->actor.speedXZ * 1.5f);
             }
             if (!this->unk_3F8) {
-                this->unk_3F8 = func_80B44058(this, globalCtx, 0.0f);
+                this->unk_3F8 = EnZf_PrimaryFloorCheck(this, globalCtx, 0.0f);
             }
         }
 
@@ -2301,17 +2301,17 @@ s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this) {
 
         phi_t0 = 0;
 
-        if (func_80B44058(this, globalCtx, -8.0f)) {
+        if (EnZf_PrimaryFloorCheck(this, globalCtx, -8.0f)) {
             phi_t0 = 1;
         }
 
-        if (func_80B44058(this, globalCtx, 8.0f)) {
+        if (EnZf_PrimaryFloorCheck(this, globalCtx, 8.0f)) {
             phi_t0 |= 2;
         }
 
         this->actor.world.rot.y = this->actor.shape.rot.y;
 
-        if ((((this->actor.xzDistToPlayer < 90.0f) || (phi_t0 == 3)) && !func_80B44058(this, globalCtx, 135.0f)) ||
+        if ((((this->actor.xzDistToPlayer < 90.0f) || (phi_t0 == 3)) && !EnZf_PrimaryFloorCheck(this, globalCtx, 135.0f)) ||
             (projectileActor->id == ACTOR_ARMS_HOOK)) {
             func_80B48210(this);
             return true;
@@ -2359,11 +2359,11 @@ s32 func_80B49E4C(GlobalContext* globalCtx, EnZf* this) {
 
         phi_t0 = 0;
 
-        if (func_80B44058(this, globalCtx, -70.0f)) {
+        if (EnZf_PrimaryFloorCheck(this, globalCtx, -70.0f)) {
             phi_t0 = 1;
         }
 
-        if (func_80B44058(this, globalCtx, 70.0f)) {
+        if (EnZf_PrimaryFloorCheck(this, globalCtx, 70.0f)) {
             phi_t0 |= 2;
         }
 
