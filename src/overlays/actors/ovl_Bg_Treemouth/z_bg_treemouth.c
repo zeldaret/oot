@@ -238,7 +238,7 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.sceneSetupIndex == 6) {
-        alpha = (globalCtx->unk_11D30[0] + 0x1F4);
+        alpha = (globalCtx->roomCtx.unk_74[0] + 0x1F4);
     }
 
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, alpha * 0.1f);

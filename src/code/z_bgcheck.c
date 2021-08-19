@@ -1377,7 +1377,7 @@ u32 BgCheck_InitializeStaticLookup(CollisionContext* colCtx, GlobalContext* glob
         spA4->ceiling.head = SS_NULL;
     }
 
-    polyMax = colHeader->nbPolygons;
+    polyMax = colHeader->numPolygons;
     vtxList = colHeader->vtxList;
     polyList = colHeader->polyList;
     sp98 = colCtx->subdivAmount.x * colCtx->subdivAmount.y;
@@ -1581,7 +1581,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, GlobalContext* globalCtx, Collis
     BgCheck_SetSubdivisionDimension(colCtx->minBounds.z, colCtx->subdivAmount.z, &colCtx->maxBounds.z,
                                     &colCtx->subdivLength.z, &colCtx->subdivLengthInv.z);
     memSize = colCtx->subdivAmount.x * sizeof(StaticLookup) * colCtx->subdivAmount.y * colCtx->subdivAmount.z +
-              colCtx->colHeader->nbPolygons * sizeof(u8) + colCtx->dyna.polyNodesMax * sizeof(SSNode) +
+              colCtx->colHeader->numPolygons * sizeof(u8) + colCtx->dyna.polyNodesMax * sizeof(SSNode) +
               colCtx->dyna.polyListMax * sizeof(CollisionPoly) + colCtx->dyna.vtxListMax * sizeof(Vec3s) +
               sizeof(CollisionContext);
     if (customNodeListMax > 0) {
@@ -1596,7 +1596,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, GlobalContext* globalCtx, Collis
     }
 
     SSNodeList_Initialize(&colCtx->polyNodes);
-    SSNodeList_Alloc(globalCtx, &colCtx->polyNodes, tblMax, colCtx->colHeader->nbPolygons);
+    SSNodeList_Alloc(globalCtx, &colCtx->polyNodes, tblMax, colCtx->colHeader->numPolygons);
 
     lookupTblMemSize = BgCheck_InitializeStaticLookup(colCtx, globalCtx, colCtx->lookupTbl);
     osSyncPrintf(VT_FGCOL(GREEN));
@@ -2151,7 +2151,7 @@ s32 BgCheck_CheckLineImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, 
         }
     }
 
-    BgCheck_ResetPolyCheckTbl(&colCtx->polyNodes, colCtx->colHeader->nbPolygons);
+    BgCheck_ResetPolyCheckTbl(&colCtx->polyNodes, colCtx->colHeader->numPolygons);
     BgCheck_GetStaticLookupIndicesFromPos(colCtx, posA, (Vec3i*)&subdivMin);
     BgCheck_GetStaticLookupIndicesFromPos(colCtx, &posBTemp, (Vec3i*)&subdivMax);
     *posResult = *posB;
@@ -2766,29 +2766,29 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
         return;
     }
 
-    if (!(dyna->polyListMax >= *polyStartIndex + pbgdata->nbPolygons)) {
+    if (!(dyna->polyListMax >= *polyStartIndex + pbgdata->numPolygons)) {
         osSyncPrintf(VT_FGCOL(RED));
-        // do not use if %d[*polyStartIndex + pbgdata->nbPolygons] exceeds %d[dyna->polyListMax]
+        // do not use if %d[*polyStartIndex + pbgdata->numPolygons] exceeds %d[dyna->polyListMax]
         osSyncPrintf("DynaPolyInfo_expandSRT():polygon over %dが%dを越えるとダメ\n",
-                     *polyStartIndex + pbgdata->nbPolygons, dyna->polyListMax);
+                     *polyStartIndex + pbgdata->numPolygons, dyna->polyListMax);
     }
 
-    if (!(dyna->vtxListMax >= *vtxStartIndex + pbgdata->nbVertices)) {
+    if (!(dyna->vtxListMax >= *vtxStartIndex + pbgdata->numVertices)) {
         osSyncPrintf(VT_FGCOL(RED));
-        // do not use if %d[*vtxStartIndex + pbgdata->nbVertices] exceeds %d[dyna->vtxListMax]
+        // do not use if %d[*vtxStartIndex + pbgdata->numVertices] exceeds %d[dyna->vtxListMax]
         osSyncPrintf("DynaPolyInfo_expandSRT():vertex over %dが%dを越えるとダメ\n",
-                     *vtxStartIndex + pbgdata->nbVertices, dyna->vtxListMax);
+                     *vtxStartIndex + pbgdata->numVertices, dyna->vtxListMax);
     }
 
-    ASSERT(dyna->polyListMax >= *polyStartIndex + pbgdata->nbPolygons,
+    ASSERT(dyna->polyListMax >= *polyStartIndex + pbgdata->numPolygons,
            "pdyna_poly_info->poly_num >= *pstart_poly_index + pbgdata->poly_num", "../z_bgcheck.c", 6687);
-    ASSERT(dyna->vtxListMax >= *vtxStartIndex + pbgdata->nbVertices,
+    ASSERT(dyna->vtxListMax >= *vtxStartIndex + pbgdata->numVertices,
            "pdyna_poly_info->vert_num >= *pstart_vert_index + pbgdata->vtx_num", "../z_bgcheck.c", 6688);
 
     if (!(dyna->bitFlag & DYNAPOLY_INVALIDATE_LOOKUP) &&
         (BgActor_IsTransformUnchanged(&dyna->bgActors[bgId]) == true)) {
         s32 pi;
-        for (pi = *polyStartIndex; pi < *polyStartIndex + pbgdata->nbPolygons; pi++) {
+        for (pi = *polyStartIndex; pi < *polyStartIndex + pbgdata->numPolygons; pi++) {
             CollisionPoly* poly = &dyna->polyList[pi];
             s16 normalY = poly->normal.y;
 
@@ -2807,8 +2807,8 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
             }
         }
 
-        *polyStartIndex += pbgdata->nbPolygons;
-        *vtxStartIndex += pbgdata->nbVertices;
+        *polyStartIndex += pbgdata->numPolygons;
+        *vtxStartIndex += pbgdata->numVertices;
     } else {
         SkinMatrix_SetScaleRotateYRPTranslate(
             &mtx, dyna->bgActors[bgId].curTransform.scale.x, dyna->bgActors[bgId].curTransform.scale.y,
@@ -2817,9 +2817,9 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
             dyna->bgActors[bgId].curTransform.pos.x, dyna->bgActors[bgId].curTransform.pos.y,
             dyna->bgActors[bgId].curTransform.pos.z);
 
-        numVtxInverse = 1.0f / pbgdata->nbVertices;
+        numVtxInverse = 1.0f / pbgdata->numVertices;
         newCenterPoint.x = newCenterPoint.y = newCenterPoint.z = 0.0f;
-        for (i = 0; i < pbgdata->nbVertices; i++) {
+        for (i = 0; i < pbgdata->numVertices; i++) {
             Vec3f vtx;
             Vec3f vtxT; // Vtx after mtx transform
             Math_Vec3s_ToVec3f(&vtx, &pbgdata->vtxList[i]);
@@ -2846,7 +2846,7 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
         sphere->center.z = newCenterPoint.z;
         newRadiusSq = -100.0f;
 
-        for (i = 0; i < pbgdata->nbVertices; i++) {
+        for (i = 0; i < pbgdata->numVertices; i++) {
             f32 radiusSq;
             newVtx.x = dyna->vtxList[*vtxStartIndex + i].x;
             newVtx.y = dyna->vtxList[*vtxStartIndex + i].y;
@@ -2859,7 +2859,7 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
 
         sphere->radius = sqrtf(newRadiusSq) * 1.1f;
 
-        for (i = 0; i < pbgdata->nbPolygons; i++) {
+        for (i = 0; i < pbgdata->numPolygons; i++) {
             CollisionPoly* newPoly = &dyna->polyList[*polyStartIndex + i];
             f32 newNormMagnitude;
             *newPoly = pbgdata->polyList[i];
@@ -2905,8 +2905,8 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
             }
         }
 
-        *polyStartIndex += pbgdata->nbPolygons;
-        *vtxStartIndex += pbgdata->nbVertices;
+        *polyStartIndex += pbgdata->numPolygons;
+        *vtxStartIndex += pbgdata->numVertices;
     }
 }
 
@@ -4187,11 +4187,11 @@ s32 WaterBox_GetSurfaceImpl(GlobalContext* globalCtx, CollisionContext* colCtx, 
     u32 room;
     WaterBox* curWaterBox;
 
-    if (colHeader->nbWaterBoxes == 0 || colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (colHeader->numWaterBoxes == 0 || colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return false;
     }
 
-    for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->nbWaterBoxes;
+    for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->numWaterBoxes;
          curWaterBox++) {
         room = (curWaterBox->properties >> 13) & 0x3F;
         if (room == (u32)globalCtx->roomCtx.curRoom.num || room == 0x3F) {
@@ -4223,12 +4223,12 @@ s32 WaterBox_GetSurface2(GlobalContext* globalCtx, CollisionContext* colCtx, Vec
     WaterBox* waterBox;
     WaterBox* waterBoxList = colHeader->waterBoxes; // unused, needed for matching
 
-    if (colHeader->nbWaterBoxes == 0 || colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (colHeader->numWaterBoxes == 0 || colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         *outWaterBox = NULL;
         return -1;
     }
 
-    for (i = 0; i < colHeader->nbWaterBoxes; i++) {
+    for (i = 0; i < colHeader->numWaterBoxes; i++) {
         waterBox = &colHeader->waterBoxes[i];
 
         room = WATERBOX_ROOM(waterBox->properties);
@@ -4297,11 +4297,11 @@ s32 func_800425B0(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32
     u32 room;
     WaterBox* curWaterBox;
 
-    if (colHeader->nbWaterBoxes == 0 || colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    if (colHeader->numWaterBoxes == 0 || colHeader->waterBoxes == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return false;
     }
 
-    for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->nbWaterBoxes;
+    for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->numWaterBoxes;
          curWaterBox++) {
         room = (curWaterBox->properties >> 0xD) & 0x3F;
         if ((room == (u32)globalCtx->roomCtx.curRoom.num) || (room == 0x3F)) {

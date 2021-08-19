@@ -444,7 +444,7 @@ void EnFw_UpdateDust(EnFw* this) {
 }
 
 void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx) {
-    static UNK_PTR D_80A1FC18[] = {
+    static void* dustTextures[] = {
         gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
     EnFwEffect* eff = this->effects;
@@ -477,7 +477,7 @@ void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fw.c", 1229),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             idx = eff->timer * (8.0f / eff->initialTimer);
-            gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(D_80A1FC18[idx]));
+            gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
             gSPDisplayList(POLY_XLU_DISP++, &gFlareDancerSquareParticleDL);
         }
     }
