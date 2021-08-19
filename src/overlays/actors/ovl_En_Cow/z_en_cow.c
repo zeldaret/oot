@@ -294,15 +294,14 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnCow_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnCow* this = THIS;
-    s32 pad;
+    GlobalContext* globalCtx = globalCtx2;
     s16 targetX;
     s16 targetY;
     Player* player = PLAYER;
 
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
-    if (globalCtx) {} // necessary to match
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
     Actor_MoveForward(thisx);
     Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 4);

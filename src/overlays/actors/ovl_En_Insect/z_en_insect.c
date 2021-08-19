@@ -164,8 +164,9 @@ void func_80A7C058(EnInsect* this) {
     }
 }
 
-void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnInsect* this = THIS;
+    GlobalContext* globalCtx = globalCtx2;
     f32 rand;
     s16 temp_s2;
     s32 count;
@@ -205,14 +206,10 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.world.pos.x,
                             this->actor.world.pos.y, this->actor.world.pos.z, this->actor.shape.rot.x,
                             this->actor.shape.rot.y, this->actor.shape.rot.z, 3);
-
-                if (globalCtx) {}
             }
         }
 
         func_80A7D39C(this);
-
-        if (1) {}
 
         D_80A7DEB8++;
     } else {
@@ -349,7 +346,7 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
                 yaw -= 0x2000;
             }
         }
-        if (globalCtx) {}
+        if (globalCtx) {} // Must be 'globalCtx'
         Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000);
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -450,7 +447,7 @@ void func_80A7CE60(EnInsect* this) {
 void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
     f32 temp_f0;
     s16 temp_v1;
-    s16 padding;
+    s16 pad;
     s16 sp4E;
     Vec3f sp40;
     s32 phi_v0;

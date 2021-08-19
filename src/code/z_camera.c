@@ -1871,7 +1871,7 @@ s32 Camera_Normal3(Camera* camera) {
                                                     camera->yawUpdateRateInv, sp98, 0.1f);
         camera->pitchUpdateRateInv = Camera_LERPCeilF((f32)OREG(7) + (anim->swing.swingUpdateRateTimer * 2),
                                                       camera->pitchUpdateRateInv, sp94, 0.1f);
-        if (!sp98) {}
+        if (1) {}
         anim->swing.swingUpdateRateTimer--;
     } else {
         camera->yawUpdateRateInv = Camera_LERPCeilF(norm3->yawUpdateSpeed, camera->yawUpdateRateInv, sp98, 0.1f);
@@ -3371,7 +3371,6 @@ s32 Camera_KeepOn3(Camera* camera) {
         sp82 = atToEyeAdj.pitch;
         playerHeadPos = camPlayerPosRot->pos;
         playerHeadPos.y += playerHeight;
-        if (!temp_f0) {}
         Camera_Vec3fVecSphGeoAdd(&anim->atTarget, &playerHeadPos, &targetToPlayerDir);
         angleCnt = ARRAY_COUNT(D_8011D3B0);
         i = 0;
@@ -6734,7 +6733,7 @@ s32 Camera_Special9(Camera* camera) {
             }
             break;
     }
-    if (!camera->globalCtx->state.frames) {}
+    if (1) {}
     spAC = playerPosRot->pos;
     spAC.y += playerYOffset;
     camera->dist = OLib_Vec3fDist(&spAC, eye);
