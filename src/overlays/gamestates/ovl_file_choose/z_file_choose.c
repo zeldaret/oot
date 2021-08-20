@@ -2,7 +2,7 @@
 #include "textures/title_static/title_static.h"
 #include "textures/parameter_static/parameter_static.h"
 
-s16 D_8081271C = 106; // unused?
+s16 D_8081271C = 106; // unused
 
 s16 gScreenFillAlpha = 255;
 
@@ -17,9 +17,9 @@ Gfx D_80812728[] = {
     gsSPEndDisplayList(),
 };
 
-s16 D_80812750[] = { 0x0024, 0x0024, 0x0024, 0x0024, 0x0018, 0x0000 };
+s16 D_80812750[] = { 36, 36, 36, 36, 24 };
 
-s16 D_8081275C[2][3] = { { 0x0064, 0x0096, 0x00FF }, { 0x0064, 0x0064, 0x0064 } };
+s16 D_8081275C[2][3] = { { 100, 150, 255 }, { 100, 100, 100 } };
 
 void FileChoose_SetupView(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
     Vec3f eye;
@@ -362,10 +362,8 @@ void (*gConfigModeUpdateFuncs[])(GameState*) = {
     func_8080BE30,
 };
 
-s16 D_80812814[] = { 0x0046, 0x00C8 }; // used for calculating alpha for the flashing cursor
-
 void FileChoose_FlashCursor(GameState* thisx) {
-
+    static s16 cursorAlphaTargets[] = { 70, 200 };
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 alphaStep;
     SramContext* sramCtx = &this->sramCtx;
@@ -411,9 +409,9 @@ void FileChoose_FlashCursor(GameState* thisx) {
                      sramCtx->readBuff[SRAM_HEADER_MAGIC]);
     }
 
-    alphaStep = ABS(this->highlightColor[3] - D_80812814[this->highlightFlashDir]) / XREG(35);
+    alphaStep = ABS(this->highlightColor[3] - cursorAlphaTargets[this->highlightFlashDir]) / XREG(35);
 
-    if (this->highlightColor[3] >= D_80812814[this->highlightFlashDir]) {
+    if (this->highlightColor[3] >= cursorAlphaTargets[this->highlightFlashDir]) {
         this->highlightColor[3] -= alphaStep;
     } else {
         this->highlightColor[3] += alphaStep;
@@ -422,7 +420,7 @@ void FileChoose_FlashCursor(GameState* thisx) {
     XREG(35)--;
 
     if (XREG(35) == 0) {
-        this->highlightColor[3] = D_80812814[this->highlightFlashDir];
+        this->highlightColor[3] = cursorAlphaTargets[this->highlightFlashDir];
         XREG(35) = XREG(36 + this->highlightFlashDir);
         this->highlightFlashDir ^= 1;
     }
@@ -816,9 +814,9 @@ void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
                 if (phi_s3 < 3) {
-                    gDPLoadTextureBlock(POLY_OPA_DISP++, sQuestItemTextures[phi_s3], G_IM_FMT_RGBA, G_IM_SIZ_32b, 16, 16, 0,
-                                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
-                                        G_TX_NOMASK, G_TX_NOLOD);
+                    gDPLoadTextureBlock(POLY_OPA_DISP++, sQuestItemTextures[phi_s3], G_IM_FMT_RGBA, G_IM_SIZ_32b, 16,
+                                        16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
+                                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
                     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
                 } else {

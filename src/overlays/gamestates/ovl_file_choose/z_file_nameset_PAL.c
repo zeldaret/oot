@@ -27,36 +27,6 @@ s16 D_80812544[] = {
     0x0003, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0003,
 };
 
-s32 D_808125C4[] = { 0x01033480, 0x01033480, 0x01033B80 };
-s32 D_808125D0[3][2] = { { 0x01015280, 0x01014200 }, { 0x01015280, 0x01014780 }, { 0x01015280, 0x01014D00 } };
-u16 D_808125E8[] = { 0x001C, 0x002C };
-s16 D_808125EC[] = { 0xFFE2, 0xFFF0, 0xFFFA, 0x0004, 0x000E, 0x0018, 0x0022, 0x002C, 0x0036, 0xFFF0, 0xFFF0, 0x0000 };
-s16 D_80812604[] = { 0x0048, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0000 };
-
-void func_8080723C(FileChooseContext* this);
-
-typedef struct {
-    void* texture[3];
-    u16 width[3];
-    u16 height;
-} OptionsMenuTextures;
-
-OptionsMenuTextures gOptionsMenuHeaders[] = {
-    { { 0x01032480, 0x01032C80, 0x01032480 }, { 128, 128, 128 }, 16 }, // "Options"
-    { { 0x01041100, 0x01041100, 0x01041500 }, { 64, 64, 64 }, 16 },    // "Sound"
-    { { 0x01041F00, 0x01042300, 0x01042C00 }, { 64, 144, 64 }, 16 },   // "Z Targeting"
-    { { 0x01044600, 0x01044E00, 0x01045600 }, { 128, 128, 128 }, 16 }, // "Check Brightness"
-};
-
-OptionsMenuTextures gOptionsMenuSettings[] = {
-    { { 0x01041900, 0x01041900, 0x01041C00 }, { 48, 48, 48 }, 16 }, //"Stereo"
-    { { 0x01040E00, 0x01040E00, 0x01040E00 }, { 48, 48, 48 }, 16 }, // "Mono"
-    { { 0x01040500, 0x01040800, 0x01040B00 }, { 48, 48, 48 }, 16 }, // "Headset"
-    { { 0x01040200, 0x01040200, 0x01040200 }, { 48, 48, 48 }, 16 }, // "Surround"
-    { { 0x01043000, 0x01043300, 0x01043800 }, { 48, 80, 48 }, 16 }, // "Switch"
-    { { 0x01043B00, 0x01043E00, 0x01044300 }, { 48, 80, 48 }, 16 }, // "Hold"
-};
-
 void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
     OPEN_DISPS(gfxCtx, "../z_file_nameset_PAL.c", 110);
 
@@ -67,8 +37,8 @@ void FileChoose_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
     CLOSE_DISPS(gfxCtx, "../z_file_nameset_PAL.c", 119);
 }
 
-void func_80806F34(FileChooseContext* this) {
-    FileChooseContext* thisx = this;
+void func_80806F34(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     s16 val;
     s16 phi_t2;
     s16 phi_t0;
@@ -77,69 +47,89 @@ void func_80806F34(FileChooseContext* this) {
     s16 phi_t1;
     s16 phi_s2;
 
-    thisx->allocVtx3 = Graph_Alloc(thisx->state.gfxCtx, sizeof(Vtx) * 4 * 5 * 13);
+    this->allocVtx3 = Graph_Alloc(this->state.gfxCtx, sizeof(Vtx) * 4 * 5 * 13);
     phi_s1 = 0x26;
 
     for (phi_t2 = 0, phi_s2 = 0, phi_t3 = 0; phi_s2 < 5; phi_s2++) {
         phi_t0 = -0x60;
         for (phi_t1 = 0; phi_t1 < 13; phi_t1++, phi_t3 += 4, phi_t2++) {
 
-            thisx->allocVtx3[phi_t3].v.ob[0] = thisx->allocVtx3[phi_t3 + 2].v.ob[0] = D_80812544[phi_t2] + phi_t0;
+            this->allocVtx3[phi_t3].v.ob[0] = this->allocVtx3[phi_t3 + 2].v.ob[0] = D_80812544[phi_t2] + phi_t0;
 
-            thisx->allocVtx3[phi_t3 + 1].v.ob[0] = thisx->allocVtx3[phi_t3 + 3].v.ob[0] =
+            this->allocVtx3[phi_t3 + 1].v.ob[0] = this->allocVtx3[phi_t3 + 3].v.ob[0] =
                 D_80812544[phi_t2] + phi_t0 + 12;
 
-            thisx->allocVtx3[phi_t3].v.ob[1] = thisx->allocVtx3[phi_t3 + 1].v.ob[1] = phi_s1;
+            this->allocVtx3[phi_t3].v.ob[1] = this->allocVtx3[phi_t3 + 1].v.ob[1] = phi_s1;
 
-            thisx->allocVtx3[phi_t3 + 2].v.ob[1] = thisx->allocVtx3[phi_t3 + 3].v.ob[1] = phi_s1 - 12;
+            this->allocVtx3[phi_t3 + 2].v.ob[1] = this->allocVtx3[phi_t3 + 3].v.ob[1] = phi_s1 - 12;
 
-            thisx->allocVtx3[phi_t3].v.ob[2] = thisx->allocVtx3[phi_t3 + 1].v.ob[2] =
-                thisx->allocVtx3[phi_t3 + 2].v.ob[2] = thisx->allocVtx3[phi_t3 + 3].v.ob[2] = 0;
+            this->allocVtx3[phi_t3].v.ob[2] = this->allocVtx3[phi_t3 + 1].v.ob[2] =
+                this->allocVtx3[phi_t3 + 2].v.ob[2] = this->allocVtx3[phi_t3 + 3].v.ob[2] = 0;
 
-            thisx->allocVtx3[phi_t3].v.flag = thisx->allocVtx3[phi_t3 + 1].v.flag =
-                thisx->allocVtx3[phi_t3 + 2].v.flag = thisx->allocVtx3[phi_t3 + 3].v.flag = 0;
+            this->allocVtx3[phi_t3].v.flag = this->allocVtx3[phi_t3 + 1].v.flag = this->allocVtx3[phi_t3 + 2].v.flag =
+                this->allocVtx3[phi_t3 + 3].v.flag = 0;
 
-            thisx->allocVtx3[phi_t3].v.tc[0] = thisx->allocVtx3[phi_t3].v.tc[1] = thisx->allocVtx3[phi_t3 + 1].v.tc[1] =
-                thisx->allocVtx3[phi_t3 + 2].v.tc[0] = 0;
+            this->allocVtx3[phi_t3].v.tc[0] = this->allocVtx3[phi_t3].v.tc[1] = this->allocVtx3[phi_t3 + 1].v.tc[1] =
+                this->allocVtx3[phi_t3 + 2].v.tc[0] = 0;
 
-            thisx->allocVtx3[phi_t3 + 1].v.tc[0] = thisx->allocVtx3[phi_t3 + 2].v.tc[1] =
-                thisx->allocVtx3[phi_t3 + 3].v.tc[0] = thisx->allocVtx3[phi_t3 + 3].v.tc[1] = 0x200;
+            this->allocVtx3[phi_t3 + 1].v.tc[0] = this->allocVtx3[phi_t3 + 2].v.tc[1] =
+                this->allocVtx3[phi_t3 + 3].v.tc[0] = this->allocVtx3[phi_t3 + 3].v.tc[1] = 0x200;
 
-            thisx->allocVtx3[phi_t3].v.cn[0] = thisx->allocVtx3[phi_t3 + 1].v.cn[0] =
-                thisx->allocVtx3[phi_t3 + 2].v.cn[0] = thisx->allocVtx3[phi_t3 + 3].v.cn[0]
+            this->allocVtx3[phi_t3].v.cn[0] = this->allocVtx3[phi_t3 + 1].v.cn[0] =
+                this->allocVtx3[phi_t3 + 2].v.cn[0] = this->allocVtx3[phi_t3 + 3].v.cn[0]
 
-                = thisx->allocVtx3[phi_t3].v.cn[1] = thisx->allocVtx3[phi_t3 + 1].v.cn[1] =
-                    thisx->allocVtx3[phi_t3 + 2].v.cn[1] = thisx->allocVtx3[phi_t3 + 3].v.cn[1]
+                = this->allocVtx3[phi_t3].v.cn[1] = this->allocVtx3[phi_t3 + 1].v.cn[1] =
+                    this->allocVtx3[phi_t3 + 2].v.cn[1] = this->allocVtx3[phi_t3 + 3].v.cn[1]
 
-                = thisx->allocVtx3[phi_t3].v.cn[2] = thisx->allocVtx3[phi_t3 + 1].v.cn[2] =
-                    thisx->allocVtx3[phi_t3 + 2].v.cn[2] = thisx->allocVtx3[phi_t3 + 3].v.cn[2]
+                = this->allocVtx3[phi_t3].v.cn[2] = this->allocVtx3[phi_t3 + 1].v.cn[2] =
+                    this->allocVtx3[phi_t3 + 2].v.cn[2] = this->allocVtx3[phi_t3 + 3].v.cn[2]
 
-                = thisx->allocVtx3[phi_t3].v.cn[3] = thisx->allocVtx3[phi_t3 + 1].v.cn[3] =
-                    thisx->allocVtx3[phi_t3 + 2].v.cn[3] = thisx->allocVtx3[phi_t3 + 3].v.cn[3] = 255;
+                = this->allocVtx3[phi_t3].v.cn[3] = this->allocVtx3[phi_t3 + 1].v.cn[3] =
+                    this->allocVtx3[phi_t3 + 2].v.cn[3] = this->allocVtx3[phi_t3 + 3].v.cn[3] = 255;
             phi_t0 += 0x10;
         }
         phi_s1 -= 0x10;
     }
 }
 
-void func_8080723C(FileChooseContext* thisx) {
-    FileChooseContext* this = thisx;
+void* sNameLabelTextures[] = { gTitleStaticNameENGTex, gTitleStaticNameENGTex, gTitleStaticNameFRATex };
+
+void* sBackspaceEndTextures[][2] = {
+    { gTitleStaticBackspaceButtonTex, gTitleStaticENDButtonENGTex },
+    { gTitleStaticBackspaceButtonTex, gTitleStaticENDButtonGERTex },
+    { gTitleStaticBackspaceButtonTex, gTitleStaticENDButtonFRATex },
+};
+
+static u16 sBackspaceEndWidths[] = { 28, 44 };
+
+static s16 D_808125EC[] = {
+    0xFFE2, 0xFFF0, 0xFFFA, 0x0004, 0x000E, 0x0018, 0x0022, 0x002C, 0x0036, 0xFFF0, 0xFFF0,
+};
+
+static s16 D_80812604[] = {
+    0x0048, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045, 0x0045,
+};
+
+void func_8080723C(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     Font* sp30 = &this->font;
     s16 phi_s0;
     s16 phi_t1;
     u8 temp;
     s16 phi_v0;
 
+    if (1) {}
+    if (1) {}
+
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 205);
-    if (1) {}
-    if (1) {}
+
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
     gSPVertex(POLY_OPA_DISP++, D_80811BB0, 24, 0);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, D_808125C4[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 56, 16, 0,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, sNameLabelTextures[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 56, 16, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
@@ -149,9 +139,9 @@ void func_8080723C(FileChooseContext* thisx) {
     for (phi_t1 = 0; phi_t1 < 2; phi_t1++, phi_s0 += 4) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2], 255);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
-        gDPLoadTextureBlock(POLY_OPA_DISP++, D_808125D0[gSaveContext.language][phi_t1], G_IM_FMT_IA, G_IM_SIZ_16b,
-                            D_808125E8[phi_t1], 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sBackspaceEndTextures[gSaveContext.language][phi_t1], G_IM_FMT_IA,
+                            G_IM_SIZ_16b, sBackspaceEndWidths[phi_t1], 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, phi_s0, phi_s0 + 2, phi_s0 + 3, phi_s0 + 1, 0);
     }
 
@@ -196,6 +186,7 @@ void func_8080723C(FileChooseContext* thisx) {
                                 this->allocVtx4[phi_t1 + 1].v.cn[3] = this->allocVtx4[phi_t1 + 2].v.cn[3] =
                                     this->allocVtx4[phi_t1 + 3].v.cn[3] = 0xFF;
     }
+
     this->allocVtx4[1].v.ob[0] = this->allocVtx4[3].v.ob[0] = this->allocVtx4[0].v.ob[0] + 0x6C;
     this->allocVtx4[2].v.ob[1] = this->allocVtx4[3].v.ob[1] = this->allocVtx4[0].v.ob[1] - 0x10;
     this->allocVtx4[1].v.tc[0] = this->allocVtx4[3].v.tc[0] = 0xD80;
@@ -206,8 +197,9 @@ void func_8080723C(FileChooseContext* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                     this->nameEntryBoxAlpha);
     gSPVertex(POLY_OPA_DISP++, this->allocVtx4, 4, 0);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticFileNameBackgroundTex, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticFileNameBackgroundTex, G_IM_FMT_IA, G_IM_SIZ_16b, 108, 16, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
@@ -220,6 +212,7 @@ void func_8080723C(FileChooseContext* thisx) {
                                  sp30->fontBuf + this->fileNames[this->buttonIndex][phi_v0] * FONT_CHAR_TEX_SIZE,
                                  phi_s0);
     }
+
     this->allocVtx4[0x25].v.tc[0] = this->allocVtx4[0x26].v.tc[1] = this->allocVtx4[0x27].v.tc[0] =
         this->allocVtx4[0x27].v.tc[1] = this->allocVtx4[0x29].v.tc[0] = this->allocVtx4[0x2A].v.tc[1] =
             this->allocVtx4[0x2B].v.tc[0] = this->allocVtx4[0x2B].v.tc[1] = 0x300;
@@ -229,6 +222,7 @@ void func_8080723C(FileChooseContext* thisx) {
     } else if ((this->kbdButton == 2) || (this->kbdButton == 3)) {
         this->allocVtx4[0x29].v.tc[0] = this->allocVtx4[0x2B].v.tc[0] = 0x500;
     }
+
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 307);
 }
 
@@ -271,12 +265,12 @@ void func_80808000(FileChooseContext* thisx) {
     s16 i;
     s16 tmp;
     u16 dayTime;
-    s16 flag;
+    s16 validName;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 368);
 
-    func_80806F34(this);
-    func_8080723C(this);
+    func_80806F34(&this->state);
+    func_8080723C(&this->state);
     FileChoose_FlashCursor(&this->state);
 
     tmp = (this->newFileNameCharCount * 4) + 4;
@@ -284,7 +278,7 @@ void func_80808000(FileChooseContext* thisx) {
     this->allocVtx4[37].v.ob[0] = this->allocVtx4[39].v.ob[0] = this->allocVtx4[36].v.ob[0] + 24;
     this->allocVtx4[36].v.ob[1] = this->allocVtx4[37].v.ob[1] = this->allocVtx4[tmp].v.ob[1] + 7;
     this->allocVtx4[38].v.ob[1] = this->allocVtx4[39].v.ob[1] = this->allocVtx4[36].v.ob[1] - 24;
-    // #pragma PERM_RANDOMIZE(
+
     if ((this->kbdButton == KBD_BTN_HIRA) || (this->kbdButton == KBD_BTN_KATA) || (this->kbdButton == KBD_BTN_END)) {
         if (this->kbdX != this->kbdButton) {
             osSyncPrintf("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
@@ -311,7 +305,7 @@ void func_80808000(FileChooseContext* thisx) {
         this->allocVtx4[41].v.ob[0] = this->allocVtx4[43].v.ob[0] = this->allocVtx4[40].v.ob[0] + 24;
         this->allocVtx4[40].v.ob[1] = this->allocVtx4[41].v.ob[1] = this->allocVtx3[this->charIndex * 4].v.ob[1] + 6;
     }
-    //)
+
     this->allocVtx4[42].v.ob[1] = this->allocVtx4[43].v.ob[1] = this->allocVtx4[40].v.ob[1] - 24;
 
     gSPVertex(POLY_OPA_DISP++, &this->allocVtx4[36], 8, 0);
@@ -320,17 +314,20 @@ void func_80808000(FileChooseContext* thisx) {
                       PRIMITIVE, 0);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->highlightColor[0], this->highlightColor[1], this->highlightColor[2],
                     this->highlightColor[3]);
-    gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticNameSelectLetterHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 24, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticNameSelectLetterHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 24, 24, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
     if ((this->kbdButton == KBD_BTN_HIRA) || (this->kbdButton == KBD_BTN_KATA) || (this->kbdButton == KBD_BTN_END)) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticMediumButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 56, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticMediumButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 56, 24, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
 
     } else if ((this->kbdButton == KBD_BTN_ENG) || (this->kbdButton == KBD_BTN_BACKSPACE)) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticSmallButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 40, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gTitleStaticSmallButtonHighlightTex, G_IM_FMT_I, G_IM_SIZ_8b, 40, 24, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
     }
 
     gSP1Quadrangle(POLY_OPA_DISP++, 4, 6, 7, 5, 0);
@@ -423,16 +420,16 @@ void func_80808000(FileChooseContext* thisx) {
                                                        &D_801333E8);
                             }
                         } else if (this->kbdButton == KBD_BTN_END) {
-                            flag = false;
+                            validName = false;
 
                             for (i = 0; i < 8; i++) {
                                 if (this->fileNames[this->buttonIndex][i] != 0x3E) {
-                                    flag = true;
+                                    validName = true;
                                     break;
                                 }
                             }
 
-                            if (flag) {
+                            if (validName) {
                                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                        &D_801333E8);
                                 gSaveContext.fileNum = this->buttonIndex;
@@ -450,7 +447,7 @@ void func_80808000(FileChooseContext* thisx) {
                         }
                     }
 
-                    if (CHECK_BTN_ALL(controller1->press.button, BTN_CRIGHT)) { // 2080
+                    if (CHECK_BTN_ALL(controller1->press.button, BTN_CRIGHT)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         this->newFileNameCharCount++;
@@ -471,6 +468,7 @@ void func_80808000(FileChooseContext* thisx) {
             }
         }
     }
+
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA);
 
@@ -649,7 +647,7 @@ void FileChoose_StartOptions(GameState* thisx) {
 u8 gSelectedSetting;
 
 /**
- * Update the cursor and appropriate settings for the options menu
+ * Update the cursor and appropriate settings for the options menu.
  * If the player presses B, write the selected options to the SRAM header
  * and set configMode to rotate back to the main menu
  */
@@ -713,6 +711,68 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
         gSelectedSetting ^= 1;
     }
 }
+
+typedef struct {
+    /* 0x00 */ void* texture[3];
+    /* 0x0C */ u16 width[3];
+    /* 0x12 */ u16 height;
+} OptionsMenuTextures; // size = 0x14
+
+OptionsMenuTextures gOptionsMenuHeaders[] = {
+    {
+        { gTitleStaticOptionsENGTex, gTitleStaticOptionsGERTex, gTitleStaticOptionsENGTex },
+        { 128, 128, 128 },
+        16,
+    },
+    {
+        { gTitleStaticSOUNDENGTex, gTitleStaticSOUNDENGTex, gTitleStaticSOUNDFRATex },
+        { 64, 64, 64 },
+        16,
+    },
+    {
+        { gTitleStaticLTargetingENGTex, gTitleStaticLTargetingGERTex, gTitleStaticLTargetingFRATex },
+        { 64, 144, 64 },
+        16,
+    },
+    {
+        { gTitleStaticCheckBrightnessENGTex, gTitleStaticCheckBrightnessGERTex, gTitleStaticCheckBrightnessFRATex },
+        { 128, 128, 128 },
+        16,
+    },
+};
+
+OptionsMenuTextures gOptionsMenuSettings[] = {
+    {
+        { gTitleStaticStereoENGTex, gTitleStaticStereoENGTex, gTitleStaticStereoFRATex },
+        { 48, 48, 48 },
+        16,
+    },
+    {
+        { gTitleStaticMonoENGTex, gTitleStaticMonoENGTex, gTitleStaticMonoENGTex },
+        { 48, 48, 48 },
+        16,
+    },
+    {
+        { gTitleStaticHeadsetENGTex, gTitleStaticHeadsetGERTex, gTitleStaticHeadsetFRATex },
+        { 48, 48, 48 },
+        16,
+    },
+    {
+        { gTitleStaticSurroundENGTex, gTitleStaticSurroundENGTex, gTitleStaticSurroundENGTex },
+        { 48, 48, 48 },
+        16,
+    },
+    {
+        { gTitleStaticSwitchENGTex, gTitleStaticSwitchGERTex, gTitleStaticSwitchFRATex },
+        { 48, 80, 48 },
+        16,
+    },
+    {
+        { gTitleStaticHoldENGTex, gTitleStaticHoldGERTex, gTitleStaticHoldFRATex },
+        { 48, 80, 48 },
+        16,
+    },
+};
 
 void FileChoose_DrawSettingsImpl(FileChooseContext* thisx) {
     static s16 cursorPrimRed = 255;
@@ -877,8 +937,9 @@ void FileChoose_DrawSettingsImpl(FileChooseContext* thisx) {
     gDPPipeSync(POLY_OPA_DISP++);
 
     // check brightness bars
-    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gTitleStaticBrightnessCheckTex, G_IM_FMT_IA, 96, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gTitleStaticBrightnessCheckTex, G_IM_FMT_IA, 96, 16, 0,
+                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                           G_TX_NOLOD);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 55, 55, 55, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 40, 40, 40, 255);
     gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
@@ -897,8 +958,9 @@ void FileChoose_DrawSettingsImpl(FileChooseContext* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gTitleStaticOptionsSeparatorTex, G_IM_FMT_IA, 256, 2, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gTitleStaticOptionsSeparatorTex, G_IM_FMT_IA, 256, 2, 0,
+                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                           G_TX_NOLOD);
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.1f, 0.0f, MTXMODE_APPLY);
