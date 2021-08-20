@@ -1058,7 +1058,7 @@ void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = { 0x060059A0, 0x06005BA0 };
+    static void* eyeTextures[] = { 0x060059A0, 0x06005BA0 };
     s16 lightRadius;
     EnFr* this = THIS;
     s16 frogIndex = this->actor.params - 1;

@@ -182,22 +182,22 @@ static u8 sDecayMaskTotal[16 * 16] = {
 // clang-format on
 
 // These are Phantom Ganon's body textures, but I don't know which is which.
-static u64* sLimbTex_rgba16_8x8[] = {
+static void* sLimbTex_rgba16_8x8[] = {
     gPhantomGanonLimbTex_00A800, gPhantomGanonLimbTex_00AE80, gPhantomGanonLimbTex_00AF00,
     gPhantomGanonLimbTex_00C180, gPhantomGanonLimbTex_00C400,
 };
-static u64* sLimbTex_rgba16_16x8[] = {
+static void* sLimbTex_rgba16_16x8[] = {
     gPhantomGanonLimbTex_00B980, gPhantomGanonLimbTex_00C480, gPhantomGanonLimbTex_00BC80,
     gPhantomGanonLimbTex_00BD80, gPhantomGanonLimbTex_00C080,
 };
-static u64* sLimbTex_rgba16_16x16[] = {
+static void* sLimbTex_rgba16_16x16[] = {
     gPhantomGanonLimbTex_00C200, gPhantomGanonLimbTex_00A000, gPhantomGanonLimbTex_00A200,
     gPhantomGanonLimbTex_00A400, gPhantomGanonLimbTex_00A600, gPhantomGanonLimbTex_00A880,
     gPhantomGanonLimbTex_00B780, gPhantomGanonLimbTex_00BA80, gPhantomGanonLimbTex_00BE80,
 };
-static u64* sLimbTex_rgba16_16x32[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
+static void* sLimbTex_rgba16_16x32[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
 
-static u64* sMouthTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileTex };
+static void* sMouthTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileTex };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),

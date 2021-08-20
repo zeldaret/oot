@@ -1510,7 +1510,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
 }
 
 void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
-    static u64* dustTex[] = {
+    static void* dustTex[] = {
         gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
     };
     u8 flag = false;
@@ -1804,7 +1804,11 @@ void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     }
 }
 
-static u64* sEyeTextures[] = { gVolvagiaEyeOpenTex, gVolvagiaEyeHalfTex, gVolvagiaEyeClosedTex };
+static void* sEyeTextures[] = {
+    gVolvagiaEyeOpenTex,
+    gVolvagiaEyeHalfTex,
+    gVolvagiaEyeClosedTex,
+};
 
 static Gfx* sBodyDLists[] = {
     gVolvagiaBodySeg1DL,  gVolvagiaBodySeg2DL,  gVolvagiaBodySeg3DL,  gVolvagiaBodySeg4DL,  gVolvagiaBodySeg5DL,

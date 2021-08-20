@@ -448,7 +448,7 @@ void EnCs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = {
+    static void* eyeTextures[] = {
         gGraveyardKidEyesOpenTex,
         gGraveyardKidEyesHalfTex,
         gGraveyardKidEyesClosedTex,

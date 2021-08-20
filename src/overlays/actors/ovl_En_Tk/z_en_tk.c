@@ -79,7 +79,7 @@ void EnTkEff_Update(EnTk* this) {
 }
 
 void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
-    static UNK_PTR dustImages[] = {
+    static void* dustTextures[] = {
         &gDust8Tex, &gDust7Tex, &gDust6Tex, &gDust5Tex, &gDust4Tex, &gDust3Tex, &gDust2Tex, &gDust1Tex,
     };
 
@@ -116,8 +116,8 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 140),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustImages) / eff->timeTotal);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustImages[imageIdx]));
+            imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustTextures) / eff->timeTotal);
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTextures[imageIdx]));
 
             gSPDisplayList(POLY_XLU_DISP++, gDampeEff2DL);
         }
@@ -717,7 +717,7 @@ void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* sEyesSegments[] = {
+    static void* sEyesSegments[] = {
         gDampeEyeOpenTex,
         gDampeEyeHalfTex,
         gDampeEyeClosedTex,

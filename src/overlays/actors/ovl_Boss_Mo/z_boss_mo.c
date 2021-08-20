@@ -334,7 +334,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Flags_SetSwitch(globalCtx, 0x14);
         sMorphaCore = this;
         MO_WATER_LEVEL(globalCtx) = this->waterLevel = MO_WATER_LEVEL(globalCtx);
-        globalCtx->unk_11D30[0] = 0xA0;
+        globalCtx->roomCtx.unk_74[0] = 0xA0;
         globalCtx->specialEffects = sEffects;
         for (i = 0; i < ARRAY_COUNT(sEffects); i++) {
             sEffects[i].type = MO_FX_NONE;
@@ -354,7 +354,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, -280.0f, 0.0f, 0,
                                0, 0, -1);
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, -200.0f, -280.0f, 0.0f, 0, 0, 0, 0);
-            globalCtx->unk_11D30[0] = 0xFF;
+            globalCtx->roomCtx.unk_74[0] = 0xFF;
             MO_WATER_LEVEL(globalCtx) = -500;
             return;
         }
@@ -1698,9 +1698,9 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
         }
     }
     if (sMorphaCore->waterLevel < -200.0f) {
-        globalCtx->unk_11D30[0]++;
-        if (globalCtx->unk_11D30[0] >= 0xFF) {
-            globalCtx->unk_11D30[0] = 0xFF;
+        globalCtx->roomCtx.unk_74[0]++;
+        if (globalCtx->roomCtx.unk_74[0] >= 0xFF) {
+            globalCtx->roomCtx.unk_74[0] = 0xFF;
         }
     }
     if (sMorphaCore->waterLevel < -250.0f) {

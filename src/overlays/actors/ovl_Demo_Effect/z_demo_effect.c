@@ -1098,7 +1098,6 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
         }
 
         if (globalCtx->sceneNum == SCENE_TOKINOMA && gSaveContext.sceneSetupIndex == 14) {
-            // do {} while(0) necessary to match
             do {
                 if (globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);

@@ -11,7 +11,7 @@ typedef void (*EnGbActionFunc)(struct EnGb*, GlobalContext*);
 typedef struct {
     /* 0x00 */ Color_RGBA8 prim;
     /* 0x04 */ Color_RGBA8 env;
-    /* 0x08 */ u64* texture;
+    /* 0x08 */ void* texture;
     /* 0x0C */ s16 timerMultiplier;
 } EnGbCagedSoulInfo; // size = 0x10
 

@@ -496,7 +496,7 @@ void DoorKiller_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void DoorKiller_SetTexture(Actor* thisx, GlobalContext* globalCtx) {
     DoorKiller* this = THIS;
-    u64* doorTexture = this->texture;
+    void* doorTexture = this->texture;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_killer.c", 883);
     gSPSegment(POLY_OPA_DISP++, 0x08, doorTexture);
