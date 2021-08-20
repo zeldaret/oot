@@ -136,8 +136,6 @@ extern GraphicsContext* __gfxCtx;
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
 
-#define VTX_TN(x,y,z,s,t,nx,ny,nz,a) { { x, y, z }, 0, { s, t }, { nx, ny, nz }, a }
-
 #ifdef NDEBUG
 #define ASSERT(cond, msg, file, line) ((void)0)
 #elif defined(REAL_ASSERT_MACRO)
