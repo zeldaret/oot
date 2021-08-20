@@ -197,7 +197,7 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_300 = 6;
         this->actor.textId = 0x7006;
         this->actionFunc = func_80A5475C;
-    } else if (IS_NIGHT) {
+    } else if (!IS_DAY) {
         // "Sleep early for children!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = 6;

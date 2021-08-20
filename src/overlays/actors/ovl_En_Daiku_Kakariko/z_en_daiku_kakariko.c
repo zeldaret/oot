@@ -131,7 +131,7 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
                 }
                 break;
             case SCENE_KAKARIKO:
-                if (IS_NOT_DAY) {
+                if (IS_NIGHT) {
                     this->flags |= 2;
                 }
                 break;
@@ -145,7 +145,7 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
 
-    if (IS_NOT_DAY) {
+    if (IS_NIGHT) {
         this->flags |= 8;
     }
 

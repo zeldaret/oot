@@ -386,7 +386,7 @@ void EnPeehat_Flying_SetStateFly(EnPeehat* this) {
 void EnPeehat_Flying_StateFly(EnPeehat* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
     SkelAnime_Update(&this->skelAnime);
-    if (IS_NIGHT || this->xzDistToRise < this->actor.xzDistToPlayer) {
+    if (!IS_DAY || this->xzDistToRise < this->actor.xzDistToPlayer) {
         EnPeehat_Flying_SetStateLanding(this);
     } else if (this->actor.xzDistToPlayer < this->xzDistMax) {
         if (this->unk2FA < MAX_LARVA && (globalCtx->gameplayFrames & 7) == 0) {

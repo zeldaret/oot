@@ -1862,7 +1862,7 @@ void BossSst_HandCrush(BossSst* this, GlobalContext* globalCtx) {
         player->actor.world.pos = this->actor.world.pos;
         if (this->timer == 0) {
             this->timer = 20;
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S_KID);
             } else {
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S);

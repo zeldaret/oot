@@ -532,5 +532,6 @@ void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case BLUE:
             func_8086DF58(this, globalCtx, gJabuBlueFloorSwitchDL);
+            break;
     }
 }
