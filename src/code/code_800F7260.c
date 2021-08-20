@@ -72,7 +72,7 @@ UNK_TYPE D_801333EC = 0;
 
 u8 D_801333F0 = 0;
 
-u8 D_801333F4 = 0;
+u8 gAudioSEFlagSwapOff = 0;
 
 u8 D_801333F8 = 0;
 
@@ -80,14 +80,14 @@ extern Struct_800F738C D_8016C9A0[];
 extern Struct_800F8EA0 D_8016E270[];
 extern Struct_8013331C* D_8013331C[9];
 
-void func_800F7260(u16 arg0) {
+void Audio_MuteSoundBanks(u16 arg0) {
     u8 bankId;
 
     for (bankId = 0; bankId < ARRAY_COUNT(gSoundBanks); bankId++) {
         if (arg0 & 1) {
-            D_8016E264[bankId] = 1;
+            gSoundBankMuted[bankId] = true;
         } else {
-            D_8016E264[bankId] = 0;
+            gSoundBankMuted[bankId] = false;
         }
         arg0 = (arg0 >> 1) & 0xFFFF;
     }
@@ -113,15 +113,15 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, s8* a
     u8 i;
     Struct_800F738C* phi_v0;
 
-    if (D_8016E264[SFX_BANK_SHIFT(sfxId)] == 0) {
+    if (!gSoundBankMuted[SFX_BANK_SHIFT(sfxId)]) {
         phi_v0 = &D_8016C9A0[D_801333A0];
-        if (D_801333F4 == 0) {
+        if (!gAudioSEFlagSwapOff) {
             for (i = 0; i < 10; i++) {
-                if (sfxId == D_8016E2E0[i]) {
-                    if (D_8016E310[i] == 0) {
-                        sfxId = D_8016E2F8[i];
-                    } else {
-                        phi_v0->sfxId = D_8016E2F8[i];
+                if (sfxId == gAudioSEFlagSwapSource[i]) {
+                    if (gAudioSEFlagSwapMode[i] == 0) { // "SWAP"
+                        sfxId = gAudioSEFlagSwapTarget[i];
+                    } else { // "ADD"
+                        phi_v0->sfxId = gAudioSEFlagSwapTarget[i];
                         phi_v0->pos = a1;
                         phi_v0->unk_8 = a2;
                         phi_v0->unk_C = a3;
@@ -130,7 +130,7 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, s8* a
                         D_801333A0++;
                         phi_v0 = &D_8016C9A0[D_801333A0];
                     }
-                    i = 10;
+                    i = 10; // "break;"
                 }
             }
         }
@@ -213,7 +213,7 @@ void func_800F7680(void) {
     }
     phi_s5 = SFX_BANK(sp50->sfxId);
     if ((1 << phi_s5) & D_801333F0) {
-        func_800F2D6C(D_80133340, sp50->sfxId);
+        AudioDebug_ScrPrt(D_80133340, sp50->sfxId); // "SE"
         phi_s5 = SFX_BANK(sp50->sfxId);
     }
     sp55 = 0;
@@ -744,7 +744,7 @@ void func_800F905C(void) {
         D_8016E1A0[bankId] = 0;
         D_8016E1A8[bankId] = 1;
         D_8016E1B0[bankId] = 0;
-        D_8016E264[bankId] = 0;
+        gSoundBankMuted[bankId] = false;
         D_8016E270[bankId].unk_0 = 1.0f;
         D_8016E270[bankId].unk_C = 0;
     }
@@ -765,9 +765,9 @@ void func_800F905C(void) {
     }
     if (D_801333F8 == 0) {
         for (bankId = 0; bankId < 10; bankId++) {
-            D_8016E2E0[bankId] = 0;
-            D_8016E2F8[bankId] = 0;
-            D_8016E310[bankId] = 0;
+            gAudioSEFlagSwapSource[bankId] = 0;
+            gAudioSEFlagSwapTarget[bankId] = 0;
+            gAudioSEFlagSwapMode[bankId] = 0;
         }
         D_801333F8++;
     }

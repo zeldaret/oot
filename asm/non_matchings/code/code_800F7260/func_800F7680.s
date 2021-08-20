@@ -29,7 +29,7 @@ glabel func_800F7680
 /* B6E88C 800F76EC 13000009 */  beqz  $t8, .L800F7714
 /* B6E890 800F76F0 3C048013 */   lui   $a0, %hi(D_80133340) # $a0, 0x8013
 /* B6E894 800F76F4 24843340 */  addiu $a0, %lo(D_80133340) # addiu $a0, $a0, 0x3340
-/* B6E898 800F76F8 0C03CB5B */  jal   func_800F2D6C
+/* B6E898 800F76F8 0C03CB5B */  jal   AudioDebug_ScrPrt
 /* B6E89C 800F76FC AFAA0050 */   sw    $t2, 0x50($sp)
 /* B6E8A0 800F7700 8FAA0050 */  lw    $t2, 0x50($sp)
 /* B6E8A4 800F7704 95550000 */  lhu   $s5, ($t2)

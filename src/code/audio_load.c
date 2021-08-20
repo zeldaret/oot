@@ -82,8 +82,8 @@ void func_800E1618(s32 arg0) {
 
     gAudioContext.unk_288C = gAudioContext.unk_2874;
     gAudioContext.sampleDmaReqs =
-        Audio_Alloc(&gAudioContext.notesAndBuffersPool,
-                    4 * gAudioContext.maxSimultaneousNotes * sizeof(SampleDmaReq) * gAudioContext.audioBufferParameters.presetUnk4);
+        Audio_Alloc(&gAudioContext.notesAndBuffersPool, 4 * gAudioContext.maxSimultaneousNotes * sizeof(SampleDmaReq) *
+                                                            gAudioContext.audioBufferParameters.presetUnk4);
     t2 = 3 * gAudioContext.maxSimultaneousNotes * gAudioContext.audioBufferParameters.presetUnk4;
     for (i = 0; i < t2; i++) {
         temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];

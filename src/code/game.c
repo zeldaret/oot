@@ -163,7 +163,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 
         GfxPrint_Init(&printer);
         GfxPrint_Open(&printer, newDList);
-        func_800EEA50(&printer);
+        AudioDebug_Draw(&printer);
         newDList = GfxPrint_Close(&printer);
         GfxPrint_Destroy(&printer);
     }

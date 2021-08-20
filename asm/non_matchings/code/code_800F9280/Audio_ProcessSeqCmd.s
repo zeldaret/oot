@@ -34,12 +34,12 @@ glabel Audio_ProcessSeqCmd
 /* B706C8 800F9528 3C048013 */   lui   $a0, %hi(D_80133390) # $a0, 0x8013
 /* B706CC 800F952C 00102C02 */  srl   $a1, $s0, 0x10
 /* B706D0 800F9530 30A5FFFF */  andi  $a1, $a1, 0xffff
-/* B706D4 800F9534 0C03CB5B */  jal   func_800F2D6C
+/* B706D4 800F9534 0C03CB5B */  jal   AudioDebug_ScrPrt
 /* B706D8 800F9538 24843390 */   addiu $a0, %lo(D_80133390) # addiu $a0, $a0, 0x3390
 /* B706DC 800F953C 3C048013 */  lui   $a0, %hi(D_80133398) # $a0, 0x8013
 /* B706E0 800F9540 02002825 */  move  $a1, $s0
 /* B706E4 800F9544 30A5FFFF */  andi  $a1, $a1, 0xffff
-/* B706E8 800F9548 0C03CB5B */  jal   func_800F2D6C
+/* B706E8 800F9548 0C03CB5B */  jal   AudioDebug_ScrPrt
 /* B706EC 800F954C 24843398 */   addiu $a0, %lo(D_80133398) # addiu $a0, $a0, 0x3398
 .L800F9550:
 /* B706F0 800F9550 3C010F00 */  lui   $at, 0xf00
