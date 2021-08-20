@@ -192,8 +192,8 @@ void EnPeehat_SetupAction(EnPeehat* this, EnPeehatActionFunc actionFunc) {
 void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPeehat* this = THIS;
 
-    Actor_ProcessInitChain(thisx, sInitChain);
-    Actor_SetScale(thisx, 36.0f * 0.001f);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    Actor_SetScale(&this->actor, 36.0f * 0.001f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gPeehatSkel, &gPeehatRisingAnim, this->jointTable, this->morphTable,
                    24);
     ActorShape_Init(&this->actor.shape, 100.0f, ActorShadow_DrawCircle, 27.0f);
@@ -205,11 +205,11 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.floorHeight = this->actor.world.pos.y;
     Collider_InitCylinder(globalCtx, &this->colCylinder);
-    Collider_SetCylinder(globalCtx, &this->colCylinder, thisx, &sCylinderInit);
+    Collider_SetCylinder(globalCtx, &this->colCylinder, &this->actor, &sCylinderInit);
     Collider_InitQuad(globalCtx, &this->colQuad);
-    Collider_SetQuad(globalCtx, &this->colQuad, thisx, &sQuadInit);
+    Collider_SetQuad(globalCtx, &this->colQuad, &this->actor, &sQuadInit);
     Collider_InitJntSph(globalCtx, &this->colJntSph);
-    Collider_SetJntSph(globalCtx, &this->colJntSph, thisx, &sJntSphInit, this->colJntSphItemList);
+    Collider_SetJntSph(globalCtx, &this->colJntSph, &this->actor, &sJntSphInit, this->colJntSphItemList);
 
     this->actor.naviEnemyId = 0x48;
     this->xzDistToRise = 740.0f;
@@ -404,9 +404,8 @@ void EnPeehat_Flying_StateFly(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Ground_SetStateRise(EnPeehat* this) {
-    f32 lastFrame;
+    f32 lastFrame = Animation_GetLastFrame(&gPeehatRisingAnim);
 
-    lastFrame = Animation_GetLastFrame(&gPeehatRisingAnim);
     if (this->state != PEAHAT_STATE_STUNNED) {
         Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     }
@@ -925,7 +924,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     // If Adult Peahat
-    if (thisx->params <= 0) {
+    if (thisx->params <= 0) { // thisx is required to match
         EnPeehat_Adult_CollisionCheck(this, globalCtx);
     }
     if (thisx->colChkInfo.damageEffect != PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
