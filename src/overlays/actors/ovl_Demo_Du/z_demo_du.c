@@ -19,9 +19,9 @@ static s32 sUnused = 0;
 
 #include "z_demo_du_cutscene_data.c" EARLY
 
-static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
-static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
-                                 gDaruniaMouthHappyTex };
+static void* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
+static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
+                                  gDaruniaMouthHappyTex };
 
 /**
  * Cs => Cutscene
@@ -798,10 +798,10 @@ void DemoDu_Draw_02(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     DemoDu* this = THIS;
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTexture = sEyeTextures[eyeTexIndex];
+    void* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 mouthTexIndex = this->mouthTexIndex;
-    u64* mouthTexture = sMouthTextures[mouthTexIndex];
+    void* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du_inKenjyanomaDemo02.c", 275);
@@ -993,10 +993,10 @@ void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     DemoDu* this = THIS;
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTexture = sEyeTextures[eyeTexIndex];
+    void* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 mouthTexIndex = this->mouthTexIndex;
-    u64* mouthTexture = sMouthTextures[mouthTexIndex];
+    void* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du.c", 615);

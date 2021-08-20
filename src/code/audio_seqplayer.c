@@ -1044,8 +1044,8 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
 
                         if (player->defaultBank != 0xFF) {
                             offset = ((u16*)gAudioContext.unk_283C)[player->seqId];
-                            lowBits = gAudioContext.unk_283C[offset];
-                            command = gAudioContext.unk_283C[offset + lowBits - result];
+                            lowBits = gAudioContext.unk_283Cb[offset];
+                            command = gAudioContext.unk_283Cb[offset + lowBits - result];
                         }
 
                         if (func_800DF074(1, 2, command)) {
@@ -1155,8 +1155,8 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
 
                         if (player->defaultBank != 0xFF) {
                             offset = ((u16*)gAudioContext.unk_283C)[player->seqId];
-                            lowBits = gAudioContext.unk_283C[offset];
-                            command = gAudioContext.unk_283C[offset + lowBits - result];
+                            lowBits = gAudioContext.unk_283Cb[offset];
+                            command = gAudioContext.unk_283Cb[offset + lowBits - result];
                         }
 
                         if (func_800DF074(1, 2, command)) {

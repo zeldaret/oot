@@ -198,7 +198,7 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
+    static void* D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
     EnBx* this = THIS;
     s32 pad;
     Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));

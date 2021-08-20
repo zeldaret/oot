@@ -327,7 +327,8 @@ typedef struct {
     /* 0x13C */ void* roomVtx;
     /* 0x140 */ s16  unk_140;
     /* 0x144 */ Vec3f rot;
-} SkyboxContext; // size = 0x150
+    /* 0x150 */ char unk_150[0x10];
+} SkyboxContext; // size = 0x160
 
 typedef enum {
     MESSAGE_ICON_TRIANGLE,
@@ -335,7 +336,7 @@ typedef enum {
     MESSAGE_ICON_ARROW
 } MessageBoxIcon;
 
-#define FONT_CHAR_TEX_SIZE 128 // 16x16 I4 texture
+#define FONT_CHAR_TEX_SIZE ((16 * 16) / 2) // 16x16 I4 texture
 
 typedef struct {
     /* 0x0000 */ u32   msgOffset;
@@ -611,7 +612,7 @@ typedef struct {
     /* 0xAA */ s16      unk_AA;
     /* 0xAC */ s16      unk_AC;
     /* 0xB0 */ f32      unk_B0;
-    /* 0xB4 */ u8       nbLightSettings;
+    /* 0xB4 */ u8       numLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
     /* 0xBC */ u8       unk_BC;
     /* 0xBD */ u8       unk_BD;
@@ -757,7 +758,8 @@ typedef struct {
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
-} RoomContext; // size = 0x74
+    /* 0x74 */ s16 unk_74[2];
+} RoomContext; // size = 0x78
 
 typedef struct {
     /* 0x000 */ s16 colATCount;
@@ -941,6 +943,11 @@ typedef struct {
     /* 0x03 */ u8 byte3;
 } ElfMessage; // size = 0x4
 
+typedef struct {
+    /* 0x00 */ u8 numActors;
+    /* 0x04 */ TransitionActorEntry* list;
+} TransitionActorContext;
+
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext {
     /* 0x00000 */ GameState state;
@@ -963,7 +970,6 @@ typedef struct GlobalContext {
     /* 0x01DB4 */ SoundSource soundSources[16];
     /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
-    /* 0x020C8 */ char unk_20C8[0x10];
     /* 0x020D8 */ MessageContext msgCtx; // "message"
     /* 0x104F0 */ InterfaceContext interfaceCtx; // "parameter"
     /* 0x10760 */ PauseContext pauseCtx;
@@ -972,9 +978,7 @@ typedef struct GlobalContext {
     /* 0x10B20 */ AnimationContext animationCtx;
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
-    /* 0x11D30 */ s16 unk_11D30[2];
-    /* 0x11D34 */ u8 nbTransitionActors;
-    /* 0x11D38 */ TransitionActorEntry* transitionActorList;
+    /* 0x11D34 */ TransitionActorContext transiActorCtx;
     /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
     /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);
@@ -991,8 +995,8 @@ typedef struct GlobalContext {
     /* 0x11DE8 */ u8 linkAgeOnLoad;
     /* 0x11DE9 */ u8 unk_11DE9;
     /* 0x11DEA */ u8 curSpawn;
-    /* 0x11DEB */ u8 nbSetupActors;
-    /* 0x11DEC */ u8 nbRooms;
+    /* 0x11DEB */ u8 numSetupActors;
+    /* 0x11DEC */ u8 numRooms;
     /* 0x11DF0 */ RomFile* roomList;
     /* 0x11DF4 */ ActorEntry* linkActorEntry;
     /* 0x11DF8 */ ActorEntry* setupActorList;
@@ -1022,7 +1026,7 @@ typedef struct GlobalContext {
     /* 0x1241C */ TransitionFade transitionFade;
     /* 0x12428 */ char unk_12428[0x3];
     /* 0x1242B */ u8 unk_1242B;
-    /* 0x1242C */ Scene* loadedScene;
+    /* 0x1242C */ SceneTableEntry* loadedScene;
     /* 0x12430 */ char unk_12430[0xE8];
 } GlobalContext; // size = 0x12518
 
@@ -1041,7 +1045,6 @@ typedef struct {
     /* 0x001E0 */ SramContext sramCtx;
     /* 0x001E4 */ char unk_1E4[0x4];
     /* 0x001E8 */ SkyboxContext skyboxCtx;
-    /* 0x00338 */ char unk_338[0x10];
     /* 0x00348 */ MessageContext msgCtx;
     /* 0x0E760 */ char kanfont[0xE188];
     /* 0x1C8E8 */ EnvironmentContext envCtx;
