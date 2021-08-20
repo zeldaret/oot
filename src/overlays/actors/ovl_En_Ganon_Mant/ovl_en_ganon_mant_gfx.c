@@ -391,7 +391,7 @@ Vtx sMantVtx1[] = {
     VTX(11000, 0, 11000, 2048, -482, 0x00, 0x78, 0x00, 0xFF),
 };
 
-Gfx sMantTexDl[] = {
+Gfx sMantTexDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -400,8 +400,8 @@ Gfx sMantTexDl[] = {
     gsSPEndDisplayList(),
 };
 
-//! @bug sMantUnusedTex is 32x32 not 32x64, however this dlist goes unused
-Gfx sMantUnusedTexDl[] = {
+//! @bug sMantUnusedTex is 32x32 not 32x64, however this dlist is unused
+Gfx sMantUnusedTexDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -410,7 +410,7 @@ Gfx sMantUnusedTexDl[] = {
     gsSPEndDisplayList(),
 };
 
-Gfx sMantDl[] = {
+Gfx sMantDL[] = {
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, COMBINED, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED),
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_TEX_EDGE2),
     gsSPClearGeometryMode(G_CULL_BACK | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
@@ -577,6 +577,7 @@ Vtx sMantVtx2[] = {
     VTX(0, 0, 9000, 0, 0, 0x00, 0x78, 0x00, 0xFF),
     VTX(0, 0, 10000, 0, -241, 0x00, 0x78, 0x00, 0xFF),
     VTX(0, 0, 11000, 0, -482, 0x00, 0x78, 0x00, 0xFF),
+
     VTX(2000, 0, 0, 372, 2168, 0x00, 0x78, 0x00, 0xFF),
     VTX(2000, 0, 1000, 372, 1928, 0x00, 0x78, 0x00, 0xFF),
     VTX(2000, 0, 2000, 372, 1687, 0x00, 0x78, 0x00, 0xFF),
@@ -589,6 +590,7 @@ Vtx sMantVtx2[] = {
     VTX(2000, 0, 9000, 372, 0, 0x00, 0x78, 0x00, 0xFF),
     VTX(2000, 0, 10000, 372, -241, 0x00, 0x78, 0x00, 0xFF),
     VTX(2000, 0, 11000, 372, -482, 0x00, 0x78, 0x00, 0xFF),
+
     VTX(3000, 0, 0, 559, 2168, 0x00, 0x78, 0x00, 0xFF),
     VTX(3000, 0, 1000, 559, 1928, 0x00, 0x78, 0x00, 0xFF),
     VTX(3000, 0, 2000, 559, 1687, 0x00, 0x78, 0x00, 0xFF),
@@ -601,6 +603,7 @@ Vtx sMantVtx2[] = {
     VTX(3000, 0, 9000, 559, 0, 0x00, 0x78, 0x00, 0xFF),
     VTX(3000, 0, 10000, 559, -241, 0x00, 0x78, 0x00, 0xFF),
     VTX(3000, 0, 11000, 559, -482, 0x00, 0x78, 0x00, 0xFF),
+
     VTX(4000, 0, 0, 745, 2168, 0x00, 0x78, 0x00, 0xFF),
     VTX(4000, 0, 1000, 745, 1928, 0x00, 0x78, 0x00, 0xFF),
     VTX(4000, 0, 2000, 745, 1687, 0x00, 0x78, 0x00, 0xFF),
@@ -613,6 +616,7 @@ Vtx sMantVtx2[] = {
     VTX(4000, 0, 9000, 745, 0, 0x00, 0x78, 0x00, 0xFF),
     VTX(4000, 0, 10000, 745, -241, 0x00, 0x78, 0x00, 0xFF),
     VTX(4000, 0, 11000, 745, -482, 0x00, 0x78, 0x00, 0xFF),
+
     VTX(5000, 0, 0, 931, 2168, 0x00, 0x78, 0x00, 0xFF),
     VTX(5000, 0, 1000, 931, 1928, 0x00, 0x78, 0x00, 0xFF),
     VTX(5000, 0, 2000, 931, 1687, 0x00, 0x78, 0x00, 0xFF),
@@ -625,6 +629,7 @@ Vtx sMantVtx2[] = {
     VTX(5000, 0, 9000, 931, 0, 0x00, 0x78, 0x00, 0xFF),
     VTX(5000, 0, 10000, 931, -241, 0x00, 0x78, 0x00, 0xFF),
     VTX(5000, 0, 11000, 931, -482, 0x00, 0x78, 0x00, 0xFF),
+
     VTX(6000, 0, 0, 1117, 2168, 0x00, 0x78, 0x00, 0xFF),
     VTX(6000, 0, 1000, 1117, 1928, 0x00, 0x78, 0x00, 0xFF),
     VTX(6000, 0, 2000, 1117, 1687, 0x00, 0x78, 0x00, 0xFF),
@@ -637,6 +642,7 @@ Vtx sMantVtx2[] = {
     VTX(6000, 0, 9000, 1117, 0, 0x00, 0x78, 0x00, 0xFF),
     VTX(6000, 0, 10000, 1117, -241, 0x00, 0x78, 0x00, 0xFF),
     VTX(6000, 0, 11000, 1117, -482, 0x00, 0x78, 0x00, 0xFF),
+
     VTX(7000, 0, 0, 1303, 2168, 0x00, 0x78, 0x00, 0xFF),
     VTX(7000, 0, 1000, 1303, 1928, 0x00, 0x78, 0x00, 0xFF),
     VTX(7000, 0, 2000, 1303, 1687, 0x00, 0x78, 0x00, 0xFF),
@@ -649,6 +655,7 @@ Vtx sMantVtx2[] = {
     VTX(7000, 0, 9000, 1303, 0, 0x00, 0x78, 0x00, 0xFF),
     VTX(7000, 0, 10000, 1303, -241, 0x00, 0x78, 0x00, 0xFF),
     VTX(7000, 0, 11000, 1303, -482, 0x00, 0x78, 0x00, 0xFF),
+
     VTX(8000, 0, 0, 1489, 2168, 0x00, 0x78, 0x00, 0xFF),
     VTX(8000, 0, 1000, 1489, 1928, 0x00, 0x78, 0x00, 0xFF),
     VTX(8000, 0, 2000, 1489, 1687, 0x00, 0x78, 0x00, 0xFF),
@@ -661,6 +668,7 @@ Vtx sMantVtx2[] = {
     VTX(8000, 0, 9000, 1489, 0, 0x00, 0x78, 0x00, 0xFF),
     VTX(8000, 0, 10000, 1489, -241, 0x00, 0x78, 0x00, 0xFF),
     VTX(8000, 0, 11000, 1489, -482, 0x00, 0x78, 0x00, 0xFF),
+
     VTX(9000, 0, 0, 1676, 2168, 0x00, 0x78, 0x00, 0xFF),
     VTX(9000, 0, 1000, 1676, 1928, 0x00, 0x78, 0x00, 0xFF),
     VTX(9000, 0, 2000, 1676, 1687, 0x00, 0x78, 0x00, 0xFF),
@@ -673,6 +681,7 @@ Vtx sMantVtx2[] = {
     VTX(9000, 0, 9000, 1676, 0, 0x00, 0x78, 0x00, 0xFF),
     VTX(9000, 0, 10000, 1676, -241, 0x00, 0x78, 0x00, 0xFF),
     VTX(9000, 0, 11000, 1676, -482, 0x00, 0x78, 0x00, 0xFF),
+
     VTX(10000, 0, 0, 1862, 2168, 0x00, 0x78, 0x00, 0xFF),
     VTX(10000, 0, 1000, 1862, 1928, 0x00, 0x78, 0x00, 0xFF),
     VTX(10000, 0, 2000, 1862, 1687, 0x00, 0x78, 0x00, 0xFF),
@@ -685,6 +694,7 @@ Vtx sMantVtx2[] = {
     VTX(10000, 0, 9000, 1862, 0, 0x00, 0x78, 0x00, 0xFF),
     VTX(10000, 0, 10000, 1862, -241, 0x00, 0x78, 0x00, 0xFF),
     VTX(10000, 0, 11000, 1862, -482, 0x00, 0x78, 0x00, 0xFF),
+
     VTX(11000, 0, 0, 2048, 2168, 0x00, 0x78, 0x00, 0xFF),
     VTX(11000, 0, 1000, 2048, 1928, 0x00, 0x78, 0x00, 0xFF),
     VTX(11000, 0, 2000, 2048, 1687, 0x00, 0x78, 0x00, 0xFF),

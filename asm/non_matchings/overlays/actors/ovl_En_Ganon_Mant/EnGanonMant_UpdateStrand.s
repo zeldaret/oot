@@ -12,7 +12,7 @@ glabel D_80A27EE0
     .float 3.14159274101
 
 .text
-glabel EnGanonMant_UpdateStrands
+glabel EnGanonMant_UpdateStrand
 /* 00280 80A23FE0 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 00284 80A23FE4 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 00288 80A23FE8 AFBF006C */  sw      $ra, 0x006C($sp)           

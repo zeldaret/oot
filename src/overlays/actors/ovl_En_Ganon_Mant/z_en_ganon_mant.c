@@ -28,53 +28,57 @@ const ActorInit En_Ganon_Mant_InitVars = {
     (ActorFunc)EnGanonMant_Draw,
 };
 
-s16 D_80A24D20[] = {
+static s16 sPixelCounts1[] = {
     0, 0, 0, 1, 1, 1, 1, 1, 0, 0,
 };
 
-s16 D_80A24D34[] = {
+static s16 sPixelCounts2[] = {
     0, 0, 0, 0, 1, 1, 2, 2, 2, 1, 1, 0, 0, 0, 0,
 };
 
-s16 D_80A24D54[] = {
+static s16 sPixelCounts3[] = {
     0, 0, 0, 0, 0, 0, 0,
 };
 
 typedef struct {
-    s16* data;
+    s16* pixelCounts;
     s16 count;
-} Struct_80A24D64; // size = 0x8
+} PixelCountsInfo; // size = 0x8
 
-Struct_80A24D64 D_80A24D64[] = {
-    { D_80A24D20, ARRAY_COUNT(D_80A24D20) },
-    { D_80A24D20, ARRAY_COUNT(D_80A24D20) },
-    { D_80A24D34, ARRAY_COUNT(D_80A24D34) },
-    { D_80A24D54, ARRAY_COUNT(D_80A24D54) },
+/**
+ * The arrays pointed to by this table describe how many pixels should
+ * be removed from the cloak texture in a single pass
+ */
+static PixelCountsInfo sPixelCountsInfo[] = {
+    { sPixelCounts1, ARRAY_COUNT(sPixelCounts1) },
+    { sPixelCounts1, ARRAY_COUNT(sPixelCounts1) },
+    { sPixelCounts2, ARRAY_COUNT(sPixelCounts2) },
+    { sPixelCounts3, ARRAY_COUNT(sPixelCounts3) },
 };
 
 /// How much each joint is affected by backwards/forwards swaying motion
-f32 sBackSwayCoefficients[GANON_MANT_NUM_JOINTS] = {
+static f32 sBackSwayCoefficients[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 0.5f, 0.25f, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 
 };
 
-f32 D_80A24DB4[] = {
+static f32 D_80A24DB4[] = {
     0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
 /// How much each joint is affected by sideways swaying motion, tends to 0
-f32 sSideSwayCoefficients[GANON_MANT_NUM_JOINTS] = {
+static f32 sSideSwayCoefficients[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f, 0.0f, 
 };
 
-f32 D_80A24E00[] = {  
+static f32 D_80A24E00[] = {  
     0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
-f32 sDistMultipliers[GANON_MANT_NUM_JOINTS] = {
+static f32 sDistMultipliers[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f, 1.7f, 
 };
 
-f32 D_80A24E48[] = {  
+static f32 D_80A24E48[] = {  
     1.8f,
 };
 
@@ -84,7 +88,7 @@ f32 D_80A24E48[] = {
         (n) + GANON_MANT_NUM_JOINTS * 6, (n) + GANON_MANT_NUM_JOINTS * 7, (n) + GANON_MANT_NUM_JOINTS * 8, \
         (n) + GANON_MANT_NUM_JOINTS * 9, (n) + GANON_MANT_NUM_JOINTS * 10, (n) + GANON_MANT_NUM_JOINTS * 11
 
-u16 sVerticesMap[GANON_MANT_NUM_STRANDS * GANON_MANT_NUM_JOINTS] = {
+static u16 sVerticesMap[GANON_MANT_NUM_STRANDS * GANON_MANT_NUM_JOINTS] = {
     MAP_STRAND_JOINTS(11), MAP_STRAND_JOINTS(10), MAP_STRAND_JOINTS(9), MAP_STRAND_JOINTS(8),
     MAP_STRAND_JOINTS(7),  MAP_STRAND_JOINTS(6),  MAP_STRAND_JOINTS(5), MAP_STRAND_JOINTS(4),
     MAP_STRAND_JOINTS(3),  MAP_STRAND_JOINTS(2),  MAP_STRAND_JOINTS(1), MAP_STRAND_JOINTS(0),
@@ -115,16 +119,16 @@ void EnGanonMant_Tear(EnGanonMant* this) {
     f32 randAngle = Rand_ZeroFloat(2 * M_PI);
     f32 randSin = sinf(randAngle);
     f32 randCos = cosf(randAngle);
-    Struct_80A24D64* coeffs = &D_80A24D64[(s16)Rand_ZeroFloat(ARRAY_COUNT(D_80A24D64) - 0.01f)];
-    s16 count = coeffs->count;
-    s16* data = coeffs->data;
+    PixelCountsInfo* pixelCountsInfo = &sPixelCountsInfo[(s16)Rand_ZeroFloat(ARRAY_COUNT(sPixelCountsInfo) - 0.01f)];
+    s16 count = pixelCountsInfo->count;
+    s16* pixelCounts = pixelCountsInfo->pixelCounts;
 
     for (i = 0; i < count; i++) {
         if ((0 <= tx && tx < MANT_TEX_WIDTH) && (0 <= ty && ty < MANT_TEX_HEIGHT)) {
-            for (txi = 0; txi <= data[i]; txi++) {
+            for (txi = 0; txi <= pixelCounts[i]; txi++) {
                 texIdx = 0;
                 if (1) {}
-                for (tyi = 0; tyi <= data[i]; tyi++) {
+                for (tyi = 0; tyi <= pixelCounts[i]; tyi++) {
                     texIdx = (s16)((s16)tx + ((s16)ty * MANT_TEX_WIDTH)) + ((s16)txi + ((s16)tyi * MANT_TEX_WIDTH));
                     if (texIdx < ARRAY_COUNT(sMantTex)) {
                         sMantTex[texIdx] = 0;
@@ -141,9 +145,12 @@ void EnGanonMant_Tear(EnGanonMant* this) {
     }
 }
 
+/**
+ * Updates the dynamic strands that control the shape and motion of the cloak
+ */
 #ifdef NON_MATCHING
 // Stack only
-void EnGanonMant_UpdateStrands(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* pos, Vec3f* nextPos,
+void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* pos, Vec3f* nextPos,
                                Vec3f* rot, Vec3f* vel, s16 strandNum) {
     f32 xDiff;
     f32 zDiff;
@@ -189,13 +196,13 @@ void EnGanonMant_UpdateStrands(GlobalContext* globalCtx, EnGanonMant* this, Vec3
             Math_ApproachZeroF(&vel->y, 1.0f, 0.1f);
             Math_ApproachZeroF(&vel->z, 1.0f, 0.1f);
 
-            // Push the cape away from attached actor, plus oscillations
+            // Push the cloak away from attached actor, plus oscillations
             delta.x = 0;
             delta.z = (this->backPush + (sinf((strandNum * (2 * M_PI)) / 2.1f) * this->backSwayMagnitude)) * sBackSwayCoefficients[i];
             Matrix_RotateY(this->baseYaw, MTXMODE_NEW);
             Matrix_MultVec3f(&delta, &backSwayOffset);
 
-            // Push the cape out to either side, in a swaying manner
+            // Push the cloak out to either side, in a swaying manner
             delta.x = cosf((strandNum * M_PI) / (GANON_MANT_NUM_STRANDS - 1.0f)) * this->sideSwayMagnitude * sSideSwayCoefficients[i];
             delta.z = 0;
             Matrix_MultVec3f(&delta, &sideSwayOffset);
@@ -228,7 +235,7 @@ void EnGanonMant_UpdateStrands(GlobalContext* globalCtx, EnGanonMant* this, Vec3
             pos->y = (pos - 1)->y + posStep.y;
             pos->z = (pos - 1)->z + posStep.z;
 
-            // Pushes the cape away from the actor if it is too close
+            // Pushes the cloak away from the actor if it is too close
             if (sqrtf(SQ(pos->x - this->actor.world.pos.x) + SQ(pos->z - this->actor.world.pos.z)) <
                 (sDistMultipliers[i] * this->minDist)) {
                 yaw = Math_Atan2F(pos->z - this->actor.world.pos.z, pos->x - this->actor.world.pos.x);
@@ -278,9 +285,9 @@ void EnGanonMant_UpdateStrands(GlobalContext* globalCtx, EnGanonMant* this, Vec3
     rot[11].x = rot[10].x;
 }
 #else
-void EnGanonMant_UpdateStrands(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* pos, Vec3f* nextPos,
+void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* pos, Vec3f* nextPos,
                                Vec3f* rot, Vec3f* vel, s16 strandNum);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ganon_Mant/EnGanonMant_UpdateStrands.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ganon_Mant/EnGanonMant_UpdateStrand.s")
 #endif
 
 /**
@@ -359,7 +366,7 @@ void EnGanonMant_DrawCloak(GlobalContext* globalCtx, EnGanonMant* this) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     // set texture
-    gSPDisplayList(POLY_OPA_DISP++, sMantTexDl);
+    gSPDisplayList(POLY_OPA_DISP++, sMantTexDL);
 
     // set vertices
     if (this->frameTimer % 2 != 0) {
@@ -369,7 +376,7 @@ void EnGanonMant_DrawCloak(GlobalContext* globalCtx, EnGanonMant* this) {
     }
 
     // draw cloak
-    gSPDisplayList(POLY_OPA_DISP++, sMantDl);
+    gSPDisplayList(POLY_OPA_DISP++, sMantDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_mant.c", 584);
 }
@@ -445,7 +452,8 @@ void EnGanonMant_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 next = i - 1;
             }
 
-            EnGanonMant_UpdateStrands(globalCtx, this, &this->strands[i].root, this->strands[i].joints,
+            // Update the strand joints
+            EnGanonMant_UpdateStrand(globalCtx, this, &this->strands[i].root, this->strands[i].joints,
                                       this->strands[next].joints, this->strands[i].rotations,
                                       this->strands[i].velocities, i);
             Matrix_Pop();
