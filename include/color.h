@@ -29,6 +29,6 @@ typedef union {
         u16 a : 1;
     };
     u16 rgba;
-} Color_RGB5A1;
+} Color_RGBA16;
 
 #endif

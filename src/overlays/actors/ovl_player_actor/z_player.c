@@ -1268,8 +1268,8 @@ s32 func_80832594(Player* this, s32 arg1, s32 arg2) {
 }
 
 void func_80832630(GlobalContext* globalCtx) {
-    if (globalCtx->actorCtx.unk_00 == 0) {
-        globalCtx->actorCtx.unk_00 = 1;
+    if (globalCtx->actorCtx.freezeFlashTimer == 0) {
+        globalCtx->actorCtx.freezeFlashTimer = 1;
     }
 }
 
@@ -1292,7 +1292,7 @@ void func_808326F0(Player* this) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        func_800F8D04((u16)(*entry + this->ageProperties->unk_92));
+        Audio_StopSfx((u16)(*entry + this->ageProperties->unk_92));
         entry++;
     }
 }
@@ -3923,8 +3923,6 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, s
     f32 linearVel;
     s32 yaw;
 
-    if (1) {}
-
     if (this->actor.category == ACTORCAT_PLAYER) {
         sp3C = 0;
 
@@ -4152,7 +4150,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 }
 
                 if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
-                    this->unk_46A = globalCtx->transitionActorList[(u16)doorShutter->dyna.actor.params >> 10]
+                    this->unk_46A = globalCtx->transiActorCtx.list[(u16)doorShutter->dyna.actor.params >> 10]
                                         .sides[(doorDirection > 0) ? 0 : 1]
                                         .effects;
 
@@ -4224,7 +4222,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                         }
                     } else {
                         Camera_ChangeDoorCam(Gameplay_GetCamera(globalCtx, 0), doorActor,
-                                             globalCtx->transitionActorList[(u16)doorActor->params >> 10]
+                                             globalCtx->transiActorCtx.list[(u16)doorActor->params >> 10]
                                                  .sides[(doorDirection > 0) ? 0 : 1]
                                                  .effects,
                                              0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
@@ -4233,7 +4231,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
             }
 
             if ((this->doorType != PLAYER_DOORTYPE_FAKE) && (doorActor->category == ACTORCAT_DOOR)) {
-                frontRoom = globalCtx->transitionActorList[(u16)doorActor->params >> 10]
+                frontRoom = globalCtx->transiActorCtx.list[(u16)doorActor->params >> 10]
                                 .sides[(doorDirection > 0) ? 0 : 1]
                                 .room;
 
@@ -4640,8 +4638,6 @@ void func_8083AE40(Player* this, s16 objectId) {
 
         LOG_HEX("size", size, "../z_player.c", 9090);
         ASSERT(size <= 1024 * 8, "size <= 1024 * 8", "../z_player.c", 9091);
-
-        if (gObjectTable[objectId].vromEnd) {}
 
         DmaMgr_SendRequest2(&this->giObjectDmaRequest, (u32)this->giObjectSegment, gObjectTable[objectId].vromStart,
                             size, 0, &this->giObjectLoadQueue, NULL, "../z_player.c", 9099);
@@ -9035,7 +9031,7 @@ static Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
 void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Player* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
-    Scene* scene = globalCtx->loadedScene;
+    SceneTableEntry* scene = globalCtx->loadedScene;
     u32 titleFileSize;
     s32 initMode;
     s32 sp50;
@@ -9805,7 +9801,6 @@ void func_80848C74(GlobalContext* globalCtx, Player* this) {
             EffectSsFireTail_SpawnFlameOnPlayer(globalCtx, flameScale, i, flameIntensity);
         }
 
-        if (1) {}
     }
 
     if (spawnedFlame) {
@@ -10381,11 +10376,9 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19328);
 }
 
-void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     Player* this = THIS;
-
-    if (1) {}
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19346);
 
@@ -14041,10 +14034,10 @@ s32 func_80852F38(GlobalContext* globalCtx, Player* this) {
         this->stateFlags2 |= 0x80;
         func_80832224(this);
         func_80832698(this, NA_SE_VO_LI_HELD);
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 // Sets up player cutscene

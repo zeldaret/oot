@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot01_objects2.h"
+#include "objects/object_spot01_matoya/object_spot01_matoya.h"
 
 #define FLAGS 0x00000010
 
@@ -39,7 +40,6 @@ static InitChainEntry sInitChain[] = {
 
 static Gfx* D_808AC510[] = { 0x06001EB0, 0x06002780, 0x06003078, 0x06001228, 0x06001528 };
 
-extern CollisionHeader D_06001A38;
 extern CollisionHeader D_06001C58;
 
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -101,7 +101,7 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
 
         switch (this->dyna.actor.params & 7) {
             case 4: // Shooting gallery
-                CollisionHeader_GetVirtual(&D_06001A38, &colHeader);
+                CollisionHeader_GetVirtual(&gKakarikoShootingGalleryCol, &colHeader);
                 this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 break;
             case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day

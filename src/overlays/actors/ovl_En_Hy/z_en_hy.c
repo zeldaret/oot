@@ -5,6 +5,8 @@
  */
 
 #include "z_en_hy.h"
+#include "objects/object_aob/object_aob.h"
+#include "objects/object_os_anime/object_os_anime.h"
 
 #define FLAGS 0x00000019
 
@@ -25,12 +27,6 @@ void func_80A7127C(EnHy* this, GlobalContext* globalCtx);
 void func_80A712B4(EnHy* this, GlobalContext* globalCtx);
 void func_80A714C4(EnHy* this, GlobalContext* globalCtx);
 
-extern AnimationHeader D_06000BFC;
-extern AnimationHeader D_06000FE4;
-extern AnimationHeader D_060012E8;
-extern AnimationHeader D_06002160;
-extern AnimationHeader D_0600265C;
-extern AnimationHeader D_060033B4;
 extern Gfx D_06005BC8[];
 
 const ActorInit En_Hy_InitVars = {
@@ -81,14 +77,14 @@ typedef struct {
 } EnHyUnknownStruct1; // size = 0xC
 
 static EnHyUnknownStruct1 D_80A71F50[] = {
-    { OBJECT_AOB, 0x06003C88, D_80A71EF8 }, { OBJECT_BOB, 0x06003B78, D_80A71F40 },
-    { OBJECT_BOJ, 0x060026F0, D_80A71F30 }, { OBJECT_BOJ, 0x060052E0, NULL },
-    { OBJECT_BOJ, 0x06005528, NULL },       { OBJECT_BOJ, 0x06005738, NULL },
-    { OBJECT_BOJ, 0x060059B0, NULL },       { OBJECT_AHG, 0x060030F0, D_80A71F08 },
-    { OBJECT_AHG, 0x06005508, NULL },       { OBJECT_AHG, 0x06005728, NULL },
-    { OBJECT_BBA, 0x06002948, D_80A71F18 }, { OBJECT_CNE, 0x06001300, NULL },
-    { OBJECT_CNE, 0x06002860, NULL },       { OBJECT_BJI, 0x06002560, D_80A71F20 },
-    { OBJECT_BJI, 0x06003F68, NULL },       { OBJECT_COB, 0x06001300, NULL },
+    { OBJECT_AOB, gDogLadyHeadDL, D_80A71EF8 }, { OBJECT_BOB, 0x06003B78, D_80A71F40 },
+    { OBJECT_BOJ, 0x060026F0, D_80A71F30 },     { OBJECT_BOJ, 0x060052E0, NULL },
+    { OBJECT_BOJ, 0x06005528, NULL },           { OBJECT_BOJ, 0x06005738, NULL },
+    { OBJECT_BOJ, 0x060059B0, NULL },           { OBJECT_AHG, 0x060030F0, D_80A71F08 },
+    { OBJECT_AHG, 0x06005508, NULL },           { OBJECT_AHG, 0x06005728, NULL },
+    { OBJECT_BBA, 0x06002948, D_80A71F18 },     { OBJECT_CNE, 0x06001300, NULL },
+    { OBJECT_CNE, 0x06002860, NULL },           { OBJECT_BJI, 0x06002560, D_80A71F20 },
+    { OBJECT_BJI, 0x06003F68, NULL },           { OBJECT_COB, 0x06001300, NULL },
 };
 
 typedef struct {
@@ -97,25 +93,25 @@ typedef struct {
 } EnHyUnknownStruct2; // size = 0x8
 
 static EnHyUnknownStruct2 D_80A72010[] = {
-    { OBJECT_AOB, 0x060000F0 }, { OBJECT_BOB, 0x060000F0 }, { OBJECT_BOJ, 0x060000F0 }, { OBJECT_AHG, 0x060000F0 },
-    { OBJECT_BBA, 0x060000F0 }, { OBJECT_CNE, 0x060000F0 }, { OBJECT_BJI, 0x060000F0 }, { OBJECT_COB, 0x060021F8 },
+    { OBJECT_AOB, &gDogLadySkel }, { OBJECT_BOB, 0x060000F0 }, { OBJECT_BOJ, 0x060000F0 }, { OBJECT_AHG, 0x060000F0 },
+    { OBJECT_BBA, 0x060000F0 },    { OBJECT_CNE, 0x060000F0 }, { OBJECT_BJI, 0x060000F0 }, { OBJECT_COB, 0x060021F8 },
 };
 
 static struct_80034EC0_Entry D_80A72050[] = {
-    { 0x0600092C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x06000228, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x06004CF4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x060016EC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x0600265C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x060042AC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x060028DC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x06002160, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
-    { 0x0600265C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f }, { 0x06004E90, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x06001E7C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x06000170, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x060000B4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x06003D84, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x060041F8, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x0600300C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x060031B0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x060031B0, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { 0x06002D0C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x06002DC0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x06004408, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x06001F18, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x06004F28, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x060033B4, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { 0x060012E8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },  { 0x06000FE4, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
-    { 0x06000BFC, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gObjOsAnim_092C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_0228, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_4CF4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_16EC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_265C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_42AC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_28DC, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_2160, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
+    { &gObjOsAnim_265C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f }, { &gObjOsAnim_4E90, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_1E7C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_0170, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_00B4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_3D84, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_41F8, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_300C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_31B0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_31B0, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gObjOsAnim_2D0C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_2DC0, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_4408, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_1F18, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
+    { &gObjOsAnim_4F28, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { &gObjOsAnim_33B4, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gObjOsAnim_12E8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },  { &gObjOsAnim_0FE4, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
+    { &gObjOsAnim_0BFC, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
 };
 
 typedef struct {
@@ -430,7 +426,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F1:
                 case 0x70F2:
                 case 0x70F3:
-                    if (this->skelAnime.animation != &D_060033B4) {
+                    if (this->skelAnime.animation != &gObjOsAnim_33B4) {
                         func_80034EC0(&this->skelAnime, D_80A72050, 23);
                         func_800F5C64(0x922);
                     }
@@ -812,14 +808,14 @@ void func_80A70E34(EnHy* this, GlobalContext* globalCtx) {
 
 void func_80A710F8(EnHy* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
-        if (this->skelAnime.animation != &D_06000BFC) {
+        if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
             func_80034EC0(&this->skelAnime, D_80A72050, 26);
         }
     } else if (gSaveContext.eventInf[3] & 1) {
-        if (this->skelAnime.animation != &D_06000FE4) {
+        if (this->skelAnime.animation != &gObjOsAnim_0FE4) {
             func_80034EC0(&this->skelAnime, D_80A72050, 25);
         }
-    } else if (this->skelAnime.animation != &D_060012E8) {
+    } else if (this->skelAnime.animation != &gObjOsAnim_12E8) {
         func_80034EC0(&this->skelAnime, D_80A72050, 24);
     }
 }
@@ -861,11 +857,11 @@ void func_80A7134C(EnHy* this, GlobalContext* globalCtx) {
     s16 yaw;
     f32 distSq;
 
-    if ((this->skelAnime.animation == &D_06002160) && (this->unk_1E8.unk_00 != 0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.unk_00 != 0)) {
         func_80034EC0(&this->skelAnime, D_80A72050, 8);
     }
 
-    if ((this->skelAnime.animation == &D_0600265C) && (this->unk_1E8.unk_00 == 0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.unk_00 == 0)) {
         func_80034EC0(&this->skelAnime, D_80A72050, 7);
     }
 

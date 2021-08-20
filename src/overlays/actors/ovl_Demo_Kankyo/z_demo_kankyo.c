@@ -245,7 +245,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
                                    this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                    0x0000);
             } else {
-                globalCtx->unk_11D30[1] = 0xFF;
+                globalCtx->roomCtx.unk_74[1] = 0xFF;
                 Actor_Kill(&this->actor);
             }
             break;
@@ -443,7 +443,7 @@ void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 if (globalCtx->sceneNum == SCENE_TOKINOMA) {
                     if (!Flags_GetEnv(globalCtx, 1)) {
                         break;
-                    } else if (!func_8002E12C(&this->actor, 300.0f, 0x7530)) {
+                    } else if (!Actor_IsFacingAndNearPlayer(&this->actor, 300.0f, 0x7530)) {
                         break;
                     } else {
                         if (LINK_IS_CHILD) {

@@ -3,7 +3,7 @@ glabel func_80B49C2C
 /* 05BE0 80B49C30 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 05BE4 80B49C34 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 05BE8 80B49C38 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 05BEC 80B49C3C 0C00CDE0 */  jal     func_80033780              
+/* 05BEC 80B49C3C 0C00CDE0 */  jal     Actor_GetProjectileActor              
 /* 05BF0 80B49C40 3C064416 */  lui     $a2, 0x4416                ## $a2 = 44160000
 /* 05BF4 80B49C44 8FA70024 */  lw      $a3, 0x0024($sp)           
 /* 05BF8 80B49C48 1040007B */  beq     $v0, $zero, .L80B49E38     

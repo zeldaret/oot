@@ -5,6 +5,7 @@
  */
 
 #include "z_en_gs.h"
+#include "objects/object_gs/object_gs.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
@@ -21,10 +22,6 @@ void func_80A4F734(EnGs* this, GlobalContext* globalCtx);
 void func_80A4F700(EnGs* this, GlobalContext* globalCtx);
 
 void func_80A4F77C(EnGs* this);
-
-extern Gfx D_06000950[];
-extern Gfx D_060009D0[];
-extern Gfx D_06000A60[];
 
 const ActorInit En_Gs_InitVars = {
     ACTOR_EN_GS,
@@ -516,14 +513,12 @@ void func_80A4F77C(EnGs* this) {
     this->unk_19C = 3;
 }
 
-void EnGs_Update(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+void EnGs_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     EnGs* this = THIS;
 
     Actor_SetFocus(&this->actor, 23.0f);
-    if (globalCtx) {};
     if (!(this->unk_19E & 0x10)) {
-        if (globalCtx) {};
         if (this->collider.base.acFlags & AC_HIT) {
             this->unk_19F = 0;
             this->collider.base.acFlags &= ~AC_HIT;
@@ -587,7 +582,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06000950);
+        gSPDisplayList(POLY_OPA_DISP++, gGossipStoneSetupDL);
 
         if (this->unk_19E & 4) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
@@ -596,8 +591,8 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
         }
 
-        gSPDisplayList(POLY_OPA_DISP++, D_060009D0);
-        gSPDisplayList(POLY_OPA_DISP++, D_06000A60);
+        gSPDisplayList(POLY_OPA_DISP++, gGossipStoneDL);
+        gSPDisplayList(POLY_OPA_DISP++, gGossipStoneSquishedDL);
 
         Matrix_Pop();
         if (this->unk_19E & 2) {

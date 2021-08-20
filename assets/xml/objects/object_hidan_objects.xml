@@ -83,7 +83,7 @@
         <DList Name="gFireTempleDoorFrontDL" Offset="0x10CB0"/>
         <DList Name="gFireTempleDoorBackDL" Offset="0x11F20"/>
 
-        <Texture Name="gFireTempleDoorKillerTex" OutName="fire_temple_door_killer" Format="rgb5a1" Width="32" Height="64" Offset="0xE5A0"/>
+        <Texture Name="gFireTempleDoorKillerTex" OutName="fire_temple_door_killer" Format="rgba16" Width="32" Height="64" Offset="0xE5A0"/>
 
         <!-- I don't know what could this be -->
         <Blob Name="gFireTempleBlob_00CCC0" Size="0x10E" Offset="0xCCC0"/>

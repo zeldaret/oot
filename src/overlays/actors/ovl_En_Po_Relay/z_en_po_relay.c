@@ -80,9 +80,9 @@ static Vec3f D_80AD8D3C = { 0.0f, 0.0f, 0.0f };
 
 static Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
 
-static u64* sEyesSegments[] = {
+static void* sEyesTextures[] = {
     gDampeEyeOpenTex,
-    gDampeEyeHalfOpenTex,
+    gDampeEyeHalfTex,
     gDampeEyeClosedTex,
 };
 
@@ -262,7 +262,7 @@ void EnPoRelay_EndRace(EnPoRelay* this, GlobalContext* globalCtx) {
     } else if (globalCtx->roomCtx.curRoom.num == 5) {
         Actor_Kill(&this->actor);
         gSaveContext.timer1State = 0;
-    } else if (func_8002E12C(&this->actor, 150.0f, 0x3000) != 0) {
+    } else if (Actor_IsFacingAndNearPlayer(&this->actor, 150.0f, 0x3000)) {
         this->actor.textId = this->textId;
         func_8002F2CC(&this->actor, globalCtx, 250.0f);
     }
@@ -404,7 +404,7 @@ void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 940);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesTextures[this->eyeTextureIdx]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, EnPoRelay_PostLimbDraw, &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 954);

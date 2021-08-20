@@ -15,7 +15,7 @@ typedef struct {
     /* 0x11 */ u8  config;
     /* 0x12 */ u8  unk_12;
     /* 0x13 */ u8  unk_13;
-} Scene; // size = 0x14
+} SceneTableEntry; // size = 0x14
 
 typedef struct {
     /* 0x00 */ u8  code;
@@ -258,17 +258,16 @@ typedef struct {
     u32 dListEnd;
 } MeshHeader2;
 
-
 typedef struct {
-    u8 ambientClrR, ambientClrG, ambientClrB;
-    u8 diffuseClrA_R, diffuseClrA_G, diffuseClrA_B;
-    u8 diffuseDirA_X, diffuseDirA_Y, diffuseDirA_Z;
-    u8 diffuseClrB_R, diffuseClrB_G, diffuseClrB_B;
-    u8 diffuseDirB_X, diffuseDirB_Y, diffuseDirB_Z;
-    u8 fogClrR, fogClrG, fogClrB;
-    u16 unk;
-    u16 drawDistance;
-} LightSettings;
+    /* 0x00 */ u8 ambientColor[3];
+    /* 0x03 */ s8 diffuseDir1[3];
+    /* 0x06 */ u8 diffuseColor1[3];
+    /* 0x09 */ s8 diffuseDir2[3];
+    /* 0x0C */ u8 diffuseColor2[3];
+    /* 0x0F */ u8 fogColor[3];
+    /* 0x12 */ u16 fogNear;
+    /* 0x14 */ u16 fogFar;
+} LightSettings; // size = 0x16
 
 typedef struct {
     /* 0x00 */ u8 count; // number of points in the path
@@ -493,8 +492,8 @@ typedef enum {
 #define SCENE_CMD_PATH_LIST(pathList) \
     { SCENE_CMD_ID_PATH_LIST, 0, CMD_PTR(pathList) }
 
-#define SCENE_CMD_TRANSITION_ACTOR_LIST(numTransitionActors, transitionActorList) \
-    { SCENE_CMD_ID_TRANSI_ACTOR_LIST, numTransitionActors, CMD_PTR(transitionActorList) } 
+#define SCENE_CMD_TRANSITION_ACTOR_LIST(numActors, list) \
+    { SCENE_CMD_ID_TRANSI_ACTOR_LIST, numActors, CMD_PTR(list) } 
 
 #define SCENE_CMD_ENV_LIGHT_SETTINGS(numLightSettings, lightSettingsList) \
     { SCENE_CMD_ID_ENV_LIGHT_SETTINGS, numLightSettings, CMD_PTR(lightSettingsList) }

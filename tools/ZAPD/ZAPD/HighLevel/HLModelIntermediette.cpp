@@ -244,7 +244,7 @@ void HLModelIntermediette::FromZSkeleton(HLModelIntermediette* model, ZSkeleton*
 	model->hasSkeleton = true;
 
 	// Start at the root skeleton node, go down...
-	ProcessZSkeletonLimb(model, zSkeleton, zSkeleton->limbs[0]);
+	// ProcessZSkeletonLimb(model, zSkeleton, zSkeleton->limbs[0]);
 }
 
 void HLModelIntermediette::ProcessZSkeletonLimb(HLModelIntermediette* model, ZSkeleton* zSkeleton,
@@ -879,7 +879,7 @@ void HLTextureIntermediette::InitFromXML(tinyxml2::XMLElement* xmlElement)
 
 	fileName = xmlElement->Attribute("TextureName");
 	// std::string format = xmlElement->Attribute("Format");
-	std::string format = "rgb5a1";  // TEST
+	std::string format = "rgba16";  // TEST
 
 	// tex = HLTexture::FromPNG(fileName,
 	// (HLTextureType)ZTexture::GetTextureTypeFromString(format));

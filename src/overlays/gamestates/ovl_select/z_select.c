@@ -31,7 +31,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.buttonStatus[1] = BTN_ENABLED;
     gSaveContext.buttonStatus[0] = BTN_ENABLED;
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
-    Audio_SetBGM(NA_BGM_STOP);
+    Audio_QueueSeqCmd(NA_BGM_STOP);
     gSaveContext.entranceIndex = entranceIndex;
     gSaveContext.respawnFlag = 0;
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
@@ -410,15 +410,16 @@ void Select_PrintMenu(SelectContext* this, GfxPrint* printer) {
 }
 
 static char* sLoadingMessages[] = {
-    "\x8Dｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",                   // "Please wait a minute"
-    "\x8Dﾁｮｯﾄ ﾏｯﾃﾈ",                       // "Hold on a sec"
-    "\x8Cｳｪｲﾄ ｱ ﾓｰﾒﾝﾄ",                    // "Wait a moment"
-    "\x8Cﾛｰﾄﾞ\x8Dﾁｭｳ",                     // "Loading"
-    "\x8Dﾅｳ ﾜｰｷﾝｸﾞ",                       // "Now working"
-    "\x8Dｲﾏ ﾂｸｯﾃﾏｽ",                       // "Now creating"
-    "\x8Dｺｼｮｳｼﾞｬﾅｲﾖ",                      // "It's not broken"
-    "\x8Cｺｰﾋｰ ﾌﾞﾚｲｸ",                      // "Coffee Break"
-    "\x8C\Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",                 // "Please set B side"
+    "\x8Dｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ", // "Please wait a minute"
+    "\x8Dﾁｮｯﾄ ﾏｯﾃﾈ",     // "Hold on a sec"
+    "\x8Cｳｪｲﾄ ｱ ﾓｰﾒﾝﾄ",  // "Wait a moment"
+    "\x8Cﾛｰﾄﾞ\x8Dﾁｭｳ",   // "Loading"
+    "\x8Dﾅｳ ﾜｰｷﾝｸﾞ",     // "Now working"
+    "\x8Dｲﾏ ﾂｸｯﾃﾏｽ",     // "Now creating"
+    "\x8Dｺｼｮｳｼﾞｬﾅｲﾖ",    // "It's not broken"
+    "\x8Cｺｰﾋｰ ﾌﾞﾚｲｸ",    // "Coffee Break"
+    "\x8C"
+    "Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",                      // "Please set B side"
     "\x8Dｼﾞｯﾄ\x8Cｶﾞﾏﾝ\x8Dﾉ\x8Cｺ\x8Dﾃﾞｱｯﾀ", // "Be patient, now"
     "\x8Dｲﾏｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",                 // "Please wait just a minute"
     "\x8Dｱﾜﾃﾅｲｱﾜﾃﾅｲ｡ﾋﾄﾔｽﾐﾋﾄﾔｽﾐ｡",          // "Don't worry, don't worry. Take a break, take a break"

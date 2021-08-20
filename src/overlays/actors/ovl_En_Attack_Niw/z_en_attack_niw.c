@@ -5,6 +5,7 @@
  */
 
 #include "z_en_attack_niw.h"
+#include "objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
 #define FLAGS 0x00000010
@@ -19,9 +20,6 @@ void EnAttackNiw_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx);
 void func_809B5C18(EnAttackNiw* this, GlobalContext* globalCtx);
 void func_809B59B0(EnAttackNiw* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_060000E8;
-extern FlexSkeletonHeader D_06002530;
 
 const ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
@@ -47,7 +45,7 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTable, this->morphTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }

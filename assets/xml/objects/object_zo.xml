@@ -59,12 +59,12 @@
         <Animation Name="gZoraOpenArmsAnim" Offset="0xD48"/>
 
         <!-- Eyes textures -->
-        <Texture Name="gZoraEyeOpenTex" OutName="eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x3E40"/>
-        <Texture Name="gZoraEyeHalfTex" OutName="eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x4640"/>
-        <Texture Name="gZoraEyeClosedTex" OutName="eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x4E40"/>
+        <Texture Name="gZoraEyeOpenTex" OutName="eye_open" Format="rgba16" Width="32" Height="32" Offset="0x3E40"/>
+        <Texture Name="gZoraEyeHalfTex" OutName="eye_half" Format="rgba16" Width="32" Height="32" Offset="0x4640"/>
+        <Texture Name="gZoraEyeClosedTex" OutName="eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x4E40"/>
 
         <!-- Other body parts textures -->
-        <Texture Name="gZoraMouthTex" OutName="mouth" Format="rgb5a1" Width="32" Height="32" Offset="0x5640"/>
+        <Texture Name="gZoraMouthTex" OutName="mouth" Format="rgba16" Width="32" Height="32" Offset="0x5640"/>
         <Texture Name="gZoraHeadTailTex" OutName="head_tail" Format="ci8" Width="32" Height="64" Offset="0x3600"/>
         <Texture Name="gZoraHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0x5E40"/>
         <Texture Name="gZoraKneeTex" OutName="knee" Format="ci8" Width="8" Height="8" Offset="0x5F40"/>
@@ -72,7 +72,7 @@
         <Texture Name="gZoraFinTex" OutName="fin" Format="ci8" Width="32" Height="32" Offset="0x3200"/>
 
         <!-- Palette / Tlut -->
-        <Texture Name="gZoraTLUT" OutName="tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x3000"/>
+        <Texture Name="gZoraTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0x3000"/>
 
         <Texture Name="gZoraBubblesTex" OutName="bubbles" Format="ia8" Width="16" Height="16" Offset="0x21B0"/>
         <DList Name="gZoraBubblesVisualDL" Offset="0x22F0"/>

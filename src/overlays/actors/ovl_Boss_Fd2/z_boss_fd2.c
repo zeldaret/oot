@@ -687,7 +687,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             if ((this->work[FD2_HOLE_COUNTER] == 1) || (this->work[FD2_HOLE_COUNTER] == 40)) {
                 this->work[FD2_SCREAM_TIMER] = 20;
                 if (this->work[FD2_HOLE_COUNTER] == 40) {
-                    func_800F8D04(NA_SE_EN_VALVAISA_DEAD);
+                    Audio_StopSfx(NA_SE_EN_VALVAISA_DEAD);
                 }
 
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
@@ -884,9 +884,9 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 BossFd2_SetupDeath(this, globalCtx);
                 this->work[FD2_DAMAGE_FLASH_TIMER] = 10;
                 this->work[FD2_INVINC_TIMER] = 30000;
-                Audio_SetBGM(0x100100FF);
+                Audio_QueueSeqCmd(0x100100FF);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DEAD);
-                func_80032C7C(globalCtx, &this->actor);
+                Enemy_StartFinishingBlow(globalCtx, &this->actor);
             } else if (damage) {
                 BossFd2_SetupDamaged(this, globalCtx);
                 this->work[FD2_DAMAGE_FLASH_TIMER] = 10;
@@ -951,8 +951,8 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
     }
 }
 
-void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     BossFd2* this = THIS;
     s16 i;
 
@@ -962,7 +962,7 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->work[FD2_VAR_TIMER]++;
     this->work[FD2_UNK_TIMER]++;
 
-    this->actionFunc(this, globalCtx2);
+    this->actionFunc(this, globalCtx);
 
     for (i = 0; i < ARRAY_COUNT(this->timers); i++) {
         if (this->timers[i] != 0) {
@@ -978,16 +978,16 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->deathState == DEATH_START) {
         if (this->work[FD2_INVINC_TIMER] == 0) {
-            BossFd2_CollisionCheck(this, globalCtx2);
+            BossFd2_CollisionCheck(this, globalCtx);
         }
-        CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
-        CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         if (!this->disableAT) {
-            CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 
-    BossFd2_UpdateFace(this, globalCtx2);
+    BossFd2_UpdateFace(this, globalCtx);
     this->fwork[FD2_TEX1_SCROLL_X] += 4.0f;
     this->fwork[FD2_TEX1_SCROLL_Y] = 120.0f;
     this->fwork[FD2_TEX2_SCROLL_X] += 3.0f;
@@ -1188,7 +1188,7 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = { gHoleVolvagiaEyeOpenTex, gHoleVolvagiaEyeHalfTex, gHoleVolvagiaEyeClosedTex };
+    static void* eyeTextures[] = { gHoleVolvagiaEyeOpenTex, gHoleVolvagiaEyeHalfTex, gHoleVolvagiaEyeClosedTex };
     s32 pad;
     BossFd2* this = THIS;
 

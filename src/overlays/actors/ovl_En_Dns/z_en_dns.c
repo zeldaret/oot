@@ -5,6 +5,7 @@
  */
 
 #include "z_en_dns.h"
+#include "objects/object_shopnuts/object_shopnuts.h"
 #include "vt.h"
 
 #define FLAGS 0x00000009
@@ -110,7 +111,7 @@ static DnsItemEntry D_809F04E0 = { 40, 1, GI_STICK_UPGRADE_20, func_809EF70C, fu
 
 static DnsItemEntry D_809F04F0 = { 40, 1, GI_NUT_UPGRADE_30, func_809EF70C, func_809EFB40 };
 
-static DnsItemEntry* D_809F0500[] = {
+static DnsItemEntry* sItemEntries[] = {
     &D_809F0450, &D_809F0460, &D_809F0470, &D_809F0480, &D_809F0490, &D_809F04A0,
     &D_809F04B0, &D_809F04C0, &D_809F04D0, &D_809F04E0, &D_809F04F0,
 };
@@ -127,15 +128,11 @@ typedef struct {
     /* 0x08 */ f32 transitionRate;
 } DnsAnimInfo; // size = 0xC
 
-static DnsAnimInfo D_809F0538[] = {
-    { 0x06001108, 0x00, 0.0f },
-    { 0x06004404, 0x02, 0.0f },
-    { 0x060009A0, 0x02, 0.0f },
+static DnsAnimInfo sAnimInfo[] = {
+    { &gBusinessScrubNervousIdleAnim, ANIMMODE_LOOP, 0.0f },
+    { &gBusinessScrubAnim_4404, ANIMMODE_ONCE, 0.0f },
+    { &gBusinessScrubNervousTransitionAnim, ANIMMODE_ONCE, 0.0f },
 };
-
-extern FlexSkeletonHeader D_060041A8;
-extern AnimationHeader D_060009A0;
-extern AnimationHeader D_06004404;
 
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = THIS;
@@ -154,7 +151,8 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", D_809F0424[this->actor.params],
                  this->actor.params);
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->jointTable, this->morphTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim,
+                       this->jointTable, this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 35.0f);
@@ -167,7 +165,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
-    this->dnsItemEntry = D_809F0500[this->actor.params];
+    this->dnsItemEntry = sItemEntries[this->actor.params];
     this->actionFunc = EnDns_SetupWait;
 }
 
@@ -180,10 +178,10 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDns_Change(EnDns* this, u8 arg1) {
     s16 frameCount;
 
-    frameCount = Animation_GetLastFrame(D_809F0538[arg1].anim);
+    frameCount = Animation_GetLastFrame(sAnimInfo[arg1].anim);
     this->unk_2BA = arg1; // Not used anywhere else?
-    Animation_Change(&this->skelAnime, D_809F0538[arg1].anim, 1.0f, 0.0f, (f32)frameCount, D_809F0538[arg1].mode,
-                     D_809F0538[arg1].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimInfo[arg1].anim, 1.0f, 0.0f, (f32)frameCount, sAnimInfo[arg1].mode,
+                     sAnimInfo[arg1].transitionRate);
 }
 
 /* Item give checking functions */
@@ -438,7 +436,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_SetupBurrow(EnDns* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06004404);
+    f32 frameCount = Animation_GetLastFrame(&gBusinessScrubAnim_4404);
 
     if (this->skelAnime.curFrame == frameCount) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);

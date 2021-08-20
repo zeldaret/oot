@@ -70,7 +70,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gZoraEyeOpenTex,
     gZoraEyeHalfTex,
     gZoraEyeClosedTex,

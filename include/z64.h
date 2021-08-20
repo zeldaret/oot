@@ -240,7 +240,7 @@ typedef struct {
 } ActorListEntry; // size = 0x08
 
 typedef struct {
-    /* 0x0000 */ u8     unk_00;
+    /* 0x0000 */ u8     freezeFlashTimer;
     /* 0x0001 */ char   unk_01[0x01];
     /* 0x0002 */ u8     unk_02;
     /* 0x0003 */ u8     unk_03;
@@ -288,15 +288,47 @@ typedef struct {
     /* 0x10 */ Vec3f relativePos;
 } SoundSource; // size = 0x1C
 
+typedef enum {
+    /* 0x00 */ SKYBOX_NONE,
+    /* 0x01 */ SKYBOX_NORMAL_SKY,
+    /* 0x02 */ SKYBOX_BAZAAR,
+    /* 0x03 */ SKYBOX_OVERCAST_SUNSET,
+    /* 0x04 */ SKYBOX_MARKET_ADULT,
+    /* 0x05 */ SKYBOX_CUTSCENE_MAP,
+    /* 0x07 */ SKYBOX_HOUSE_LINK = 7,
+    /* 0x09 */ SKYBOX_MARKET_CHILD_DAY = 9,
+    /* 0x0A */ SKYBOX_MARKET_CHILD_NIGHT,
+    /* 0x0B */ SKYBOX_HAPPY_MASK_SHOP,
+    /* 0x0C */ SKYBOX_HOUSE_KNOW_IT_ALL_BROTHERS,
+    /* 0x0E */ SKYBOX_HOUSE_OF_TWINS = 14,
+    /* 0x0F */ SKYBOX_STABLES,
+    /* 0x10 */ SKYBOX_HOUSE_KAKARIKO,
+    /* 0x11 */ SKYBOX_KOKIRI_SHOP,
+    /* 0x13 */ SKYBOX_GORON_SHOP = 19,
+    /* 0x14 */ SKYBOX_ZORA_SHOP,
+    /* 0x16 */ SKYBOX_POTION_SHOP_KAKARIKO = 22,
+    /* 0x17 */ SKYBOX_POTION_SHOP_MARKET,
+    /* 0x18 */ SKYBOX_BOMBCHU_SHOP,
+    /* 0x1A */ SKYBOX_HOUSE_RICHARD = 26,
+    /* 0x1B */ SKYBOX_HOUSE_IMPA,
+    /* 0x1C */ SKYBOX_TENT,
+    /* 0x1D */ SKYBOX_UNSET_1D,
+    /* 0x20 */ SKYBOX_HOUSE_MIDO = 32,
+    /* 0x21 */ SKYBOX_HOUSE_SARIA,
+    /* 0x22 */ SKYBOX_HOUSE_ALLEY,
+    /* 0x27 */ SKYBOX_UNSET_27 = 39
+} SkyboxId;
+
 typedef struct {
     /* 0x000 */ char unk_00[0x128];
     /* 0x128 */ void* staticSegments[3];
-    /* 0x134 */ Gfx* dpList;
+    /* 0x134 */ Gfx* dListBuf;
     /* 0x138 */ Gfx* unk_138;
     /* 0x13C */ void* roomVtx;
     /* 0x140 */ s16  unk_140;
     /* 0x144 */ Vec3f rot;
-} SkyboxContext; // size = 0x150
+    /* 0x150 */ char unk_150[0x10];
+} SkyboxContext; // size = 0x160
 
 typedef enum {
     MESSAGE_ICON_TRIANGLE,
@@ -304,7 +336,7 @@ typedef enum {
     MESSAGE_ICON_ARROW
 } MessageBoxIcon;
 
-#define FONT_CHAR_TEX_SIZE 128 // 16x16 I4 texture
+#define FONT_CHAR_TEX_SIZE ((16 * 16) / 2) // 16x16 I4 texture
 
 typedef struct {
     /* 0x0000 */ u32   msgOffset;
@@ -479,7 +511,7 @@ typedef struct {
     /* 0x0168 */ Vtx*   cursorVtx;
     /* 0x016C */ Vtx*   saveVtx;
     /* 0x0170 */ char   unk_170[0x24];
-    /* 0x0194 */ UnkAudioStruct* unk_194;
+    /* 0x0194 */ OcarinaStaff* unk_194;
     /* 0x0198 */ char   unk_198[0x20];
     /* 0x01B8 */ OSMesgQueue loadQueue;
     /* 0x01D0 */ OSMesg loadMsg;
@@ -549,7 +581,9 @@ typedef struct {
     /* 0x00 */ char     unk_00[0x02];
     /* 0x02 */ u16      unk_02;
     /* 0x04 */ Vec3f    unk_04;
-    /* 0x10 */ char     unk_10[0x03];
+    /* 0x10 */ u8       unk_10;
+    /* 0x11 */ u8       unk_11;
+    /* 0x12 */ char     unk_12[0x1];
     /* 0x13 */ u8       unk_13;
     /* 0x14 */ char     unk_14[0x01];
     /* 0x15 */ u8       skyDisabled;
@@ -578,7 +612,7 @@ typedef struct {
     /* 0xAA */ s16      unk_AA;
     /* 0xAC */ s16      unk_AC;
     /* 0xB0 */ f32      unk_B0;
-    /* 0xB4 */ u8       nbLightSettings;
+    /* 0xB4 */ u8       numLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
     /* 0xBC */ u8       unk_BC;
     /* 0xBD */ u8       unk_BD;
@@ -600,7 +634,8 @@ typedef struct {
     /* 0xE6 */ u8       unk_E6;
     /* 0xE7 */ u8       unk_E7;
     /* 0xE8 */ u8       unk_E8;
-    /* 0xE9 */ char     unk_E9[0x05];
+    /* 0xE9 */ u8       unk_E9;
+    /* 0xEA */ u8       unk_EA[4];
     /* 0xEE */ u8       unk_EE[4];
     /* 0xF2 */ u8       unk_F2[4];
     /* 0xF6 */ char     unk_F6[0x06];
@@ -723,7 +758,8 @@ typedef struct {
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
-} RoomContext; // size = 0x74
+    /* 0x74 */ s16 unk_74[2];
+} RoomContext; // size = 0x78
 
 typedef struct {
     /* 0x000 */ s16 colATCount;
@@ -762,7 +798,7 @@ typedef struct {
     /* 0x40 */ s32 lry;
     /* 0x44 */ ListAlloc alloc;
     /* 0x4C */ u32 unk_4C;
-} PreRenderContext; // size = 0x50
+} PreRender; // size = 0x50
 
 typedef struct {
     union {
@@ -907,6 +943,11 @@ typedef struct {
     /* 0x03 */ u8 byte3;
 } ElfMessage; // size = 0x4
 
+typedef struct {
+    /* 0x00 */ u8 numActors;
+    /* 0x04 */ TransitionActorEntry* list;
+} TransitionActorContext;
+
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext {
     /* 0x00000 */ GameState state;
@@ -929,7 +970,6 @@ typedef struct GlobalContext {
     /* 0x01DB4 */ SoundSource soundSources[16];
     /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
-    /* 0x020C8 */ char unk_20C8[0x10];
     /* 0x020D8 */ MessageContext msgCtx; // "message"
     /* 0x104F0 */ InterfaceContext interfaceCtx; // "parameter"
     /* 0x10760 */ PauseContext pauseCtx;
@@ -938,9 +978,7 @@ typedef struct GlobalContext {
     /* 0x10B20 */ AnimationContext animationCtx;
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
-    /* 0x11D30 */ s16 unk_11D30[2];
-    /* 0x11D34 */ u8 nbTransitionActors;
-    /* 0x11D38 */ TransitionActorEntry* transitionActorList;
+    /* 0x11D34 */ TransitionActorContext transiActorCtx;
     /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
     /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);
@@ -957,8 +995,8 @@ typedef struct GlobalContext {
     /* 0x11DE8 */ u8 linkAgeOnLoad;
     /* 0x11DE9 */ u8 unk_11DE9;
     /* 0x11DEA */ u8 curSpawn;
-    /* 0x11DEB */ u8 nbSetupActors;
-    /* 0x11DEC */ u8 nbRooms;
+    /* 0x11DEB */ u8 numSetupActors;
+    /* 0x11DEC */ u8 numRooms;
     /* 0x11DF0 */ RomFile* roomList;
     /* 0x11DF4 */ ActorEntry* linkActorEntry;
     /* 0x11DF8 */ ActorEntry* setupActorList;
@@ -979,7 +1017,7 @@ typedef struct GlobalContext {
     /* 0x11E5E */ u8 fadeTransition;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
     /* 0x120FC */ u16 envFlags[20];
-    /* 0x12124 */ PreRenderContext preRenderCtx;
+    /* 0x12124 */ PreRender pauseBgPreRender;
     /* 0x12174 */ char unk_12174[0x53];
     /* 0x121C7 */ s8 unk_121C7;
     /* 0x121C8 */ TransitionContext transitionCtx;
@@ -988,7 +1026,7 @@ typedef struct GlobalContext {
     /* 0x1241C */ TransitionFade transitionFade;
     /* 0x12428 */ char unk_12428[0x3];
     /* 0x1242B */ u8 unk_1242B;
-    /* 0x1242C */ Scene* loadedScene;
+    /* 0x1242C */ SceneTableEntry* loadedScene;
     /* 0x12430 */ char unk_12430[0xE8];
 } GlobalContext; // size = 0x12518
 
@@ -1007,7 +1045,6 @@ typedef struct {
     /* 0x001E0 */ SramContext sramCtx;
     /* 0x001E4 */ char unk_1E4[0x4];
     /* 0x001E8 */ SkyboxContext skyboxCtx;
-    /* 0x00338 */ char unk_338[0x10];
     /* 0x00348 */ MessageContext msgCtx;
     /* 0x0E760 */ char kanfont[0xE188];
     /* 0x1C8E8 */ EnvironmentContext envCtx;
@@ -1473,23 +1510,11 @@ typedef struct {
 #define OS_SC_YIELDED           0x0020
 
 typedef struct {
-    struct {
-    /* 0x0000 */ s32          unk_0[0x10]; // not char to avoid generating lwl/lwr swl/swr in a struct copy
-    } unk_0;
-    /* 0x0040 */ OSMesgQueue*  unk_40;
-} Sub_AudioMgr_18; // size = 0x44
-
-typedef struct {
     /* 0x0000 */ IrqMgr*       irqMgr;
     /* 0x0004 */ SchedContext* sched;
-    /* 0x0008 */ OSMesg        unk_8;
-    /* 0x000C */ char          unk_C[0x04];
-    /* 0x0010 */ s32           unk_10;
-    /* 0x0014 */ s32           unk_14;
-    /* 0x0018 */ Sub_AudioMgr_18 unk_18;
-    /* 0x005C */ UNK_PTR       unk_5C;
+    /* 0x0008 */ OSScTask      audioTask;
     /* 0x0060 */ char          unk_60[0x10];
-    /* 0x0070 */ Sub_AudioMgr_18* unk_70;
+    /* 0x0070 */ AudioTask*    rspTask;
     /* 0x0074 */ OSMesgQueue   unk_74;
     /* 0x008C */ OSMesg        unk_8C;
     /* 0x0090 */ OSMesgQueue   unk_90;
@@ -1501,7 +1526,6 @@ typedef struct {
     /* 0x00E4 */ char          unk_E4[0x04];
     /* 0x00E8 */ OSThread      unk_E8;
 } AudioMgr; // size = 0x298
-
 
 struct ArenaNode;
 

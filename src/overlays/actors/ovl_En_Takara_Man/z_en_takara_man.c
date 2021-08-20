@@ -215,17 +215,16 @@ s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR sTakaraEyeTextures[] = {
+    static void* eyeTextures[] = {
         0x06000970,
         0x06000D70,
     };
-
     EnTakaraMan* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_takara_man.c", 528);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTakaraEyeTextures[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTextureIdx]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnTakaraMan_OverrideLimbDraw, NULL, this);
 

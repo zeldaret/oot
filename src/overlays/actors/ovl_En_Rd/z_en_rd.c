@@ -357,7 +357,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     }
 
     if (!this->unk_307 && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 45.0f) &&
-        func_8002E084(&this->actor, 0x38E3)) {
+        Actor_IsFacingPlayer(&this->actor, 0x38E3)) {
         player->actor.freezeTimer = 0;
         if (globalCtx->grabPlayer(globalCtx, player)) {
             this->actor.flags &= ~1;
@@ -763,7 +763,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
         this->unk_31C = this->actor.colChkInfo.damageEffect;
 
         if (this->unk_31B != 11) {
-            func_80035650(&this->actor, &this->collider.info, 1);
+            Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
             }

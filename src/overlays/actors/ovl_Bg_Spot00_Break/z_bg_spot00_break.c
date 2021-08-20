@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot00_break.h"
+#include "objects/object_spot00_break/object_spot00_break.h"
 
 #define FLAGS 0x00000000
 
@@ -34,11 +35,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06000AF0;
-extern CollisionHeader D_06000908;
-extern Gfx D_06000980[];
-extern Gfx D_06000440[];
-
 void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot00Break* this = THIS;
     s32 pad;
@@ -48,9 +44,9 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
     if (this->dyna.actor.params == 1) {
-        CollisionHeader_GetVirtual(&D_06000AF0, &colHeader);
+        CollisionHeader_GetVirtual(&gBarbedWireFenceCol, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&D_06000908, &colHeader);
+        CollisionHeader_GetVirtual(&gBrokenDrawbridgeCol, &colHeader);
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -73,8 +69,8 @@ void BgSpot00Break_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot00Break* this = THIS;
 
     if (this->dyna.actor.params == 1) {
-        Gfx_DrawDListOpa(globalCtx, D_06000980);
+        Gfx_DrawDListOpa(globalCtx, gBarbedWireFenceDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_06000440);
+        Gfx_DrawDListOpa(globalCtx, gBrokenDrawbridgeDL);
     }
 }
