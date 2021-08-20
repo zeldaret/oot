@@ -245,8 +245,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx2) {
     } else {
         this->dyna.actor.room = -1;
     }
-    if (this->requiredObjBankIndex = objectIndex =
-            Object_GetIndex(&globalCtx->objectCtx, sObjectInfo[phi_a3].objectId),
+    if (this->requiredObjBankIndex = objectIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectInfo[phi_a3].objectId),
         (s8)objectIndex < 0) {
         Actor_Kill(&this->dyna.actor);
         return;

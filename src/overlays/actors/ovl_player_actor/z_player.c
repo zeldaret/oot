@@ -9800,7 +9800,6 @@ void func_80848C74(GlobalContext* globalCtx, Player* this) {
             flameIntensity = CLAMP(flameIntensity, 0.0f, 1.0f);
             EffectSsFireTail_SpawnFlameOnPlayer(globalCtx, flameScale, i, flameIntensity);
         }
-
     }
 
     if (spawnedFlame) {
