@@ -498,7 +498,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     u32 roomSize;
     s32 i;
 
-    for (i = 0; i < globalCtx->nbRooms; i++) {
+    for (i = 0; i < globalCtx->numRooms; i++) {
         roomSize = roomList[i].vromEnd - roomList[i].vromStart;
         osSyncPrintf("ROOM%d size=%d\n", i, roomSize);
         if (maxRoomSize < roomSize) {
@@ -506,14 +506,14 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
         }
     }
 
-    if (globalCtx->nbTransitionActors != 0) {
+    if (globalCtx->transiActorCtx.numActors != 0) {
         s32 j;
         RomFile* roomList = globalCtx->roomList;
-        TransitionActorEntry* transitionActor = &globalCtx->transitionActorList[0];
+        TransitionActorEntry* transitionActor = &globalCtx->transiActorCtx.list[0];
 
-        LOG_NUM("game_play->room_rom_address.num", globalCtx->nbRooms, "../z_room.c", 912);
+        LOG_NUM("game_play->room_rom_address.num", globalCtx->numRooms, "../z_room.c", 912);
 
-        for (j = 0; j < globalCtx->nbTransitionActors; j++) {
+        for (j = 0; j < globalCtx->transiActorCtx.numActors; j++) {
             s8 frontRoom = transitionActor->sides[0].room;
             s8 backRoom = transitionActor->sides[1].room;
             u32 frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
@@ -563,7 +563,7 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
         roomCtx->curRoom.segment = NULL;
         roomCtx->status = 1;
 
-        ASSERT(roomNum < globalCtx->nbRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
+        ASSERT(roomNum < globalCtx->numRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
         size = globalCtx->roomList[roomNum].vromEnd - globalCtx->roomList[roomNum].vromStart;
         roomCtx->unk_34 = (void*)ALIGN16((s32)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));

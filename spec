@@ -2368,11 +2368,7 @@ endseg
 beginseg
     name "ovl_En_Holl"
     include "build/src/overlays/actors/ovl_En_Holl/z_en_holl.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Holl/ovl_En_Holl_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_holl.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3286,8 +3282,7 @@ endseg
 beginseg
     name "ovl_Obj_Lift"
     include "build/src/overlays/actors/ovl_Obj_Lift/z_obj_lift.o"
-    include "build/data/overlays/actors/z_obj_lift.data.o"
-    include "build/data/overlays/actors/z_obj_lift.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Lift/ovl_Obj_Lift_reloc.o"
 endseg
 
 beginseg

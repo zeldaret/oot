@@ -1447,10 +1447,10 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     globalCtx->setupExitList = NULL;
     globalCtx->cUpElfMsgs = NULL;
     globalCtx->setupPathList = NULL;
-    globalCtx->nbSetupActors = 0;
+    globalCtx->numSetupActors = 0;
     Object_InitBank(globalCtx, &globalCtx->objectCtx);
     LightContext_Init(globalCtx, &globalCtx->lightCtx);
-    func_80098CBC(globalCtx, &globalCtx->nbTransitionActors);
+    TransitionActor_InitContext(&globalCtx->state, &globalCtx->transiActorCtx);
     func_80096FD4(globalCtx, &globalCtx->roomCtx.curRoom);
     YREG(15) = 0;
     gSaveContext.worldMapArea = 0;
@@ -1459,7 +1459,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
 }
 
 void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
-    Scene* scene = &gSceneTable[sceneNum];
+    SceneTableEntry* scene = &gSceneTable[sceneNum];
 
     scene->unk_13 = 0;
     globalCtx->loadedScene = scene;
@@ -1787,7 +1787,7 @@ s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {
         return 0;
     }
 
-    transitionActor = &globalCtx->transitionActorList[(u16)actor->params >> 10];
+    transitionActor = &globalCtx->transiActorCtx.list[(u16)actor->params >> 10];
     frontRoom = transitionActor->sides[0].room;
 
     if (frontRoom == transitionActor->sides[1].room) {

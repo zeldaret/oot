@@ -3,7 +3,7 @@
 OSTime osGetTime(void) {
     u32 count;
     u32 base;
-    u64 t;
+    OSTime t;
     register u32 prevInt = __osDisableInt();
 
     count = osGetCount();

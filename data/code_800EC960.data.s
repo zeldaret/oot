@@ -52,10 +52,7 @@ glabel D_801305F4
     .incbin "baserom.z64", 0xBA7794, 0x4
 
 glabel D_801305F8
-    .incbin "baserom.z64", 0xBA7798, 0x7
-
-glabel D_801305FF
-    .incbin "baserom.z64", 0xBA779F, 0x1
+    .incbin "baserom.z64", 0xBA7798, 0x8
 
 glabel D_80130600
     .incbin "baserom.z64", 0xBA77A0, 0x4
@@ -181,10 +178,7 @@ glabel sPlaybackState
     .incbin "baserom.z64", 0xBA80D8, 0x4
 
 glabel D_80130F3C
-    .incbin "baserom.z64", 0xBA80DC, 0x2
-
-glabel D_80130F3E
-    .incbin "baserom.z64", 0xBA80DE, 0x2
+    .incbin "baserom.z64", 0xBA80DC, 0x4
 
 glabel sNotePlaybackTimer
     .incbin "baserom.z64", 0xBA80E0, 0x4
@@ -331,33 +325,18 @@ glabel D_80131CAC
     .incbin "baserom.z64", 0xBA8E4C, 0x15C
 
 glabel D_80131E08
-    .incbin "baserom.z64", 0xBA8FA8, 0xC
-
-glabel D_80131E14
-    .incbin "baserom.z64", 0xBA8FB4, 0xC
+    .incbin "baserom.z64", 0xBA8FA8, 0x18
 
 glabel D_80131E20
-    .incbin "baserom.z64", 0xBA8FC0, 0x4
-
-glabel D_80131E24
-    .incbin "baserom.z64", 0xBA8FC4, 0x14
+    .incbin "baserom.z64", 0xBA8FC0, 0x18
 
 glabel D_80131E38
     .incbin "baserom.z64", 0xBA8FD8, 0xB
-
-glabel D_80131E43
-    .incbin "baserom.z64", 0xBA8FE3, 0x16
-
-glabel D_80131E59
+    .incbin "baserom.z64", 0xBA8FE3, 0xB
+    .incbin "baserom.z64", 0xBA8FEE, 0xB
     .incbin "baserom.z64", 0xBA8FF9, 0xB
-
-glabel D_80131E64
     .incbin "baserom.z64", 0xBA9004, 0xB
-
-glabel D_80131E6F
     .incbin "baserom.z64", 0xBA900F, 0xB
-
-glabel D_80131E7A
     .incbin "baserom.z64", 0xBA901A, 0xE
 
 glabel D_80131E88
@@ -378,10 +357,10 @@ glabel D_80131EC8
 glabel D_80131ED0
     .incbin "baserom.z64", 0xBA9070, 0x4
 
-glabel D_80131ED4
+glabel sAudioScreenPrintInd
     .incbin "baserom.z64", 0xBA9074, 0x4
 
-glabel D_80131ED8
+glabel sAudioScreenPrintOverflow
     .incbin "baserom.z64", 0xBA9078, 0x4
 
 glabel D_80131EDC
@@ -391,10 +370,7 @@ glabel D_80131EE0
     .incbin "baserom.z64", 0xBA9080, 0x4
 
 glabel D_80131EE4
-    .incbin "baserom.z64", 0xBA9084, 0xA
-
-glabel D_80131EEE
-    .incbin "baserom.z64", 0xBA908E, 0x2
+    .incbin "baserom.z64", 0xBA9084, 0xC
 
 glabel D_80131EF0
     .incbin "baserom.z64", 0xBA9090, 0xC
