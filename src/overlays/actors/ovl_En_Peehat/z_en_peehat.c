@@ -469,8 +469,8 @@ void EnPeehat_Flying_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
             }
         }
         if (SkelAnime_Update(&this->skelAnime) || this->animTimer == 0) {
-            this->unk2FA =
-                0; //! @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
+            //! @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
+            this->unk2FA = 0;
             EnPeehat_Flying_SetStateFly(this);
         } else {
             this->actor.world.pos.y += 18.0f;

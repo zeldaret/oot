@@ -67,9 +67,9 @@ typedef struct {
     /* 0x04 */ f32 unk_4; // second ring
     /* 0x08 */ f32 unk_8; // outside edge
     /* 0x0C */ f32 unk_C;
-} unknownStruct; // size = 0x10
+} YabasumeUnkStruct; // size = 0x10
 
-static unknownStruct D_80B4362C[] = {
+static YabasumeUnkStruct D_80B4362C[] = {
     { 20.0f, 40.0f, 60.0f, 777.0f },
     { 40.0f, 80.0f, 120.0f, 777.0f },
     { 40.0f, 120.0f, 160.0f, 777.0f },
