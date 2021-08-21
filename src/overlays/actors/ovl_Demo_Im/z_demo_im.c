@@ -53,6 +53,9 @@ void func_80987330(DemoIm* this, GlobalContext* globalCtx);
 void DemoIm_DrawNothing(DemoIm* this, GlobalContext* globalCtx);
 void DemoIm_DrawSolid(DemoIm* this, GlobalContext* globalCtx);
 
+#define ANIM_FORWARD 0
+#define ANIM_BACKWARD 1
+
 static void* sEyeTextures[] = {
     gImpaEyeOpenTex,
     gImpaEyeHalfTex,
@@ -103,19 +106,6 @@ const ActorInit Demo_Im_InitVars = {
     (ActorFunc)DemoIm_Draw,
 };
 
-extern AnimationHeader D_06000710;
-extern AnimationHeader D_06000AFC;
-extern Gfx D_0600EDE8[];
-extern AnimationHeader D_060014E4;
-extern AnimationHeader D_06001868;
-extern FlexSkeletonHeader D_0600F788;
-extern AnimationHeader D_0600FB10;
-extern AnimationHeader D_060101C8;
-extern AnimationHeader D_06010EE0;
-extern AnimationHeader D_0601182C;
-extern AnimationHeader D_06011C08;
-extern AnimationHeader D_06012218;
-
 void func_80984BE0(DemoIm* this) {
     s32 pad[3];
     s16* blinkTimer = &this->blinkTimer;
@@ -157,20 +147,20 @@ void func_80984C8C(DemoIm* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80984D00(Actor* thisx, GlobalContext* globalCtx) {
+void DemoIm_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
-void func_80984D4C(Actor* thisx, GlobalContext* globalCtx) {
+void DemoIm_DestroyCollider(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void func_80984D74(DemoIm* this, GlobalContext* globalCtx) {
+void DemoIm_UpdateCollider(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[5];
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -219,33 +209,34 @@ void func_80984F94(DemoIm* this, GlobalContext* globalCtx) {
     func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, 4);
 }
 
-void func_80985018(DemoIm* this, GlobalContext* globalCtx) {
+void DemoIm_UpdateBgCheckInfo(DemoIm* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
-s32 func_80985060(DemoIm* this) {
+s32 DemoIm_UpdateSkelAnime(DemoIm* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-s32 func_80985080(GlobalContext* globalCtx) {
+s32 DemoIm_IsCsStateIdle(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         return 1;
+    } else {
+        return 0;
     }
-    return 0;
 }
 
-CsCmdActorAction* func_809850A0(GlobalContext* globalCtx, s32 actionIdx) {
+CsCmdActorAction* DemoIm_GetNpcAction(GlobalContext* globalCtx, s32 actionIdx) {
     s32 pad[2];
     CsCmdActorAction* ret = NULL;
 
-    if (!func_80985080(globalCtx)) {
+    if (!DemoIm_IsCsStateIdle(globalCtx)) {
         ret = globalCtx->csCtx.npcActions[actionIdx];
     }
     return ret;
 }
 
 s32 func_809850E8(DemoIm* this, GlobalContext* globalCtx, u16 action, s32 actionIdx) {
-    CsCmdActorAction* npcAction = func_809850A0(globalCtx, actionIdx);
+    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(globalCtx, actionIdx);
 
     if (npcAction != NULL) {
         if (npcAction->action == action) {
@@ -256,7 +247,7 @@ s32 func_809850E8(DemoIm* this, GlobalContext* globalCtx, u16 action, s32 action
 }
 
 s32 func_80985134(DemoIm* this, GlobalContext* globalCtx, u16 action, s32 actionIdx) {
-    CsCmdActorAction* npcAction = func_809850A0(globalCtx, actionIdx);
+    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(globalCtx, actionIdx);
 
     if (npcAction != NULL) {
         if (npcAction->action != action) {
@@ -267,7 +258,7 @@ s32 func_80985134(DemoIm* this, GlobalContext* globalCtx, u16 action, s32 action
 }
 
 void func_80985180(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
-    CsCmdActorAction* npcAction = func_809850A0(globalCtx, actionIdx);
+    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(globalCtx, actionIdx);
 
     if (npcAction != NULL) {
         this->actor.world.pos.x = npcAction->startPos.x;
@@ -278,7 +269,7 @@ void func_80985180(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
 }
 
 void func_80985200(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
-    CsCmdActorAction* npcAction = func_809850A0(globalCtx, actionIdx);
+    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(globalCtx, actionIdx);
 
     if (npcAction != NULL) {
         this->actor.world.pos.x = npcAction->startPos.x;
@@ -288,27 +279,27 @@ void func_80985200(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-void func_80985280(DemoIm* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 transitionRate, s32 arg4) {
+void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode, f32 transitionRate, s32 animDir) {
     f32 frameCount = Animation_GetLastFrame(animHeaderSeg);
     f32 playbackSpeed;
-    f32 unk0;
-    f32 fc;
+    f32 startFrame;
+    f32 endFrame;
 
-    if (arg4 == 0) {
-        unk0 = 0.0f;
-        fc = frameCount;
+    if (animDir == ANIM_FORWARD) {
+        startFrame = 0.0f;
+        endFrame = frameCount;
         playbackSpeed = 1.0f;
     } else {
-        fc = 0.0f;
-        unk0 = frameCount;
+        endFrame = 0.0f;
+        startFrame = frameCount;
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animHeaderSeg, playbackSpeed, unk0, fc, arg2, transitionRate);
+    Animation_Change(&this->skelAnime, animHeaderSeg, playbackSpeed, startFrame, endFrame, animMode, transitionRate);
 }
 
 void func_80985310(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
     this->actor.shape.yOffset = -10000.0f;
 }
 
@@ -352,8 +343,8 @@ void func_8098544C(DemoIm* this, GlobalContext* globalCtx) {
 void func_809854DC(DemoIm* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[5] != NULL) &&
         (globalCtx->csCtx.npcActions[5]->action == 2)) {
-        Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gImpaIdleAnim), ANIMMODE_LOOP, 0.0f);
         this->action = 2;
         this->drawConfig = 1;
         func_80985358(this, globalCtx);
@@ -370,16 +361,16 @@ void func_8098557C(DemoIm* this) {
 void func_809855A8(DemoIm* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[5] != NULL) &&
         (globalCtx->csCtx.npcActions[5]->action == 3)) {
-        Animation_Change(&this->skelAnime, &D_06000710, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000710), ANIMMODE_ONCE,
-                         4.0f);
+        Animation_Change(&this->skelAnime, &gImpaRaiseArms, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gImpaRaiseArms), ANIMMODE_ONCE, 4.0f);
         this->action = 4;
     }
 }
 
 void func_80985640(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &D_06000AFC, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000AFC), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gImpaPresentShadowMedallion, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gImpaPresentShadowMedallion), ANIMMODE_LOOP, 0.0f);
         this->action = 5;
     }
 }
@@ -402,14 +393,14 @@ void func_80985718(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985738(DemoIm* this, GlobalContext* globalCtx) {
     func_80985430(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_8098557C(this);
 }
 
 void func_80985770(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_809855A8(this, globalCtx);
 }
@@ -417,27 +408,27 @@ void func_80985770(DemoIm* this, GlobalContext* globalCtx) {
 void func_809857B0(DemoIm* this, GlobalContext* globalCtx) {
     s32 sp1C;
 
-    func_80985018(this, globalCtx);
-    sp1C = func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    sp1C = DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80985640(this, sp1C);
 }
 
 void func_809857F0(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_809856AC(this, globalCtx);
 }
 
 void func_80985830(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
 }
 
 void func_80985860(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
     this->action = 7;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -446,15 +437,15 @@ void func_809858A8(void) {
     func_800788CC(NA_SE_SY_WHITE_OUT_T);
 }
 
-void func_809858C8(DemoIm* this, GlobalContext* globalCtx) {
+void DemoIm_SpawnLightBall(DemoIm* this, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.world.pos.x,
                        (kREG(17) + 24.0f) + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 6);
 }
 
 void func_80985948(DemoIm* this, GlobalContext* globalCtx) {
     if (func_809850E8(this, globalCtx, 4, 5)) {
-        Animation_Change(&this->skelAnime, &D_06011C08, 1.0f, 0.0f, Animation_GetLastFrame(&D_06011C08), ANIMMODE_ONCE,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gImpaCrossArmsAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gImpaCrossArmsAnim), ANIMMODE_ONCE, 0.0f);
         this->action = 8;
         this->drawConfig = 2;
         this->alpha = 0;
@@ -493,14 +484,14 @@ void func_809859E0(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985B34(DemoIm* this, GlobalContext* globalCtx) {
     if (func_80985134(this, globalCtx, 4, 5)) {
-        Animation_Change(&this->skelAnime, &D_06012218, 1.0f, 0.0f, Animation_GetLastFrame(&D_06012218), ANIMMODE_ONCE,
-                         -8.0f);
+        Animation_Change(&this->skelAnime, &gImpaSealGanonAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gImpaSealGanonAnim), ANIMMODE_ONCE, -8.0f);
         this->action = 8;
         this->drawConfig = 2;
         this->unk_268 = kREG(5) + 10.0f;
         this->alpha = 255;
         if (this->unk_270 == 0) {
-            func_809858C8(this, globalCtx);
+            DemoIm_SpawnLightBall(this, globalCtx);
             this->unk_270 = 1;
         }
         this->actor.shape.shadowAlpha = 0xFF;
@@ -513,16 +504,16 @@ void func_80985C10(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80985C40(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_809859E0(this, globalCtx);
     func_80984C8C(this, globalCtx);
 }
 
 void func_80985C94(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80985B34(this, globalCtx);
     func_80984C8C(this, globalCtx);
@@ -550,7 +541,7 @@ void DemoIm_DrawTranslucent(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80985E60(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
     this->action = 10;
     this->unk_280 = 1;
 }
@@ -564,8 +555,8 @@ void func_80985EAC(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80985EF4(DemoIm* this) {
-    if (!Animation_OnFrame(&this->skelAnime, Animation_GetLastFrame(&D_0601182C) - 1.0f)) {
-        func_80985060(this);
+    if (!Animation_OnFrame(&this->skelAnime, Animation_GetLastFrame(&gImpaPlayingAnim) - 1.0f)) {
+        DemoIm_UpdateSkelAnime(this);
     }
 }
 
@@ -575,8 +566,8 @@ void func_80985F54(DemoIm* this) {
 }
 
 void func_80985F64(DemoIm* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), ANIMMODE_LOOP,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gImpaIdleAnim), ANIMMODE_LOOP, 0.0f);
     func_80985180(this, globalCtx, 5);
     this->action = 11;
     this->drawConfig = 1;
@@ -584,15 +575,15 @@ void func_80985F64(DemoIm* this, GlobalContext* globalCtx) {
 
 void func_80985FE8(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &D_0601182C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0601182C), ANIMMODE_LOOP,
-                         -8.0f);
+        Animation_Change(&this->skelAnime, &gImpaPlayingAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gImpaPlayingAnim), ANIMMODE_LOOP, -8.0f);
     }
 }
 
 void func_8098604C(DemoIm* this) {
-    f32 frameCount = Animation_GetLastFrame(&D_06010EE0);
+    f32 frameCount = Animation_GetLastFrame(&gImpaStartPlayingAnim);
 
-    Animation_Change(&this->skelAnime, &D_06010EE0, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -8.0f);
+    Animation_Change(&this->skelAnime, &gImpaStartPlayingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -8.0f);
     this->action = 12;
     this->drawConfig = 1;
     this->unk_2D0 = 1;
@@ -605,21 +596,21 @@ void func_809860C8(DemoIm* this) {
 
 void func_809860DC(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), ANIMMODE_LOOP,
-                         -8.0f);
+        Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gImpaIdleAnim), ANIMMODE_LOOP, -8.0f);
         this->unk_2D0 = 0;
     }
 }
 
 void func_80986148(DemoIm* this) {
-    Animation_Change(&this->skelAnime, &D_06010EE0, -1.0f, Animation_GetLastFrame(&D_06010EE0), 0.0f, ANIMMODE_ONCE,
-                     -8.0f);
+    Animation_Change(&this->skelAnime, &gImpaStartPlayingAnim, -1.0f, Animation_GetLastFrame(&gImpaStartPlayingAnim),
+                     0.0f, ANIMMODE_ONCE, -8.0f);
     this->action = 14;
     this->drawConfig = 1;
 }
 
 void func_809861C4(DemoIm* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_809850A0(globalCtx, 5);
+    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(globalCtx, 5);
 
     if (npcAction != NULL) {
         u32 action = npcAction->action;
@@ -631,8 +622,8 @@ void func_809861C4(DemoIm* this, GlobalContext* globalCtx) {
                     func_80986148(this);
                     break;
                 case 7:
-                    Animation_Change(&this->skelAnime, &D_0601182C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0601182C),
-                                     ANIMMODE_LOOP, -8.0f);
+                    Animation_Change(&this->skelAnime, &gImpaPlayingAnim, 1.0f, 0.0f,
+                                     Animation_GetLastFrame(&gImpaPlayingAnim), ANIMMODE_LOOP, -8.0f);
                     this->action = 12;
                     break;
                 default:
@@ -644,7 +635,7 @@ void func_809861C4(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_8098629C(DemoIm* this, GlobalContext* globalCtx) {
-    if (func_80985080(globalCtx)) {
+    if (DemoIm_IsCsStateIdle(globalCtx)) {
         this->action = 21;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -652,7 +643,7 @@ void func_8098629C(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_809862E0(DemoIm* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_809850A0(globalCtx, 5);
+    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(globalCtx, 5);
 
     if (npcAction != NULL) {
         u32 action = npcAction->action;
@@ -687,8 +678,8 @@ void func_809863BC(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_809863DC(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80985EAC(this, globalCtx);
     func_80984BE0(this);
     func_809862E0(this, globalCtx);
@@ -697,8 +688,8 @@ void func_809863DC(DemoIm* this, GlobalContext* globalCtx) {
 void func_80986430(DemoIm* this, GlobalContext* globalCtx) {
     s32 sp24;
 
-    func_80985018(this, globalCtx);
-    sp24 = func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    sp24 = DemoIm_UpdateSkelAnime(this);
     func_80985EAC(this, globalCtx);
     func_80984BE0(this);
     func_80985FE8(this, sp24);
@@ -706,7 +697,7 @@ void func_80986430(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986494(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
     func_80985EF4(this);
     func_80984BE0(this);
     func_809861C4(this, globalCtx);
@@ -715,15 +706,15 @@ void func_80986494(DemoIm* this, GlobalContext* globalCtx) {
 void func_809864D4(DemoIm* this, GlobalContext* globalCtx) {
     s32 sp24;
 
-    func_80985018(this, globalCtx);
-    sp24 = func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    sp24 = DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_809860DC(this, sp24);
     func_8098629C(this, globalCtx);
 }
 
 void func_8098652C(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
     this->action = 15;
 }
 
@@ -766,22 +757,22 @@ void func_80986700(DemoIm* this) {
 }
 
 void func_80986710(DemoIm* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06001868, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001868), ANIMMODE_LOOP,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gImpaIdleAnim), ANIMMODE_LOOP, 0.0f);
     func_80985180(this, globalCtx, 5);
     this->action = 16;
     this->drawConfig = 1;
 }
 
 void func_80986794(DemoIm* this) {
-    Animation_Change(&this->skelAnime, &D_060014E4, 1.0f, 0.0f, Animation_GetLastFrame(&D_060014E4), ANIMMODE_ONCE,
-                     -8.0f);
+    Animation_Change(&this->skelAnime, &gImpaThrowDekuNutAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gImpaThrowDekuNutAnim), ANIMMODE_ONCE, -8.0f);
     this->action = 17;
     this->drawConfig = 1;
 }
 
 void func_8098680C(DemoIm* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_809850A0(globalCtx, 5);
+    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(globalCtx, 5);
 
     if (npcAction != NULL) {
         u32 action = npcAction->action;
@@ -814,8 +805,8 @@ void func_809868E8(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986908(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_8098680C(this, globalCtx);
 }
@@ -823,8 +814,8 @@ void func_80986908(DemoIm* this, GlobalContext* globalCtx) {
 void func_80986948(DemoIm* this, GlobalContext* globalCtx) {
     s32 sp24;
 
-    func_80985018(this, globalCtx);
-    sp24 = func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    sp24 = DemoIm_UpdateSkelAnime(this);
     func_80986570(this, globalCtx);
     func_80984BE0(this);
     func_809865F8(this, globalCtx, sp24);
@@ -832,7 +823,7 @@ void func_80986948(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_809869B0(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
     this->action = 18;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -844,8 +835,9 @@ s32 func_809869F8(DemoIm* this, GlobalContext* globalCtx) {
 
     if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && (!(this->actor.flags & 0x40))) {
         return 1;
+    } else {
+        return 0;
     }
-    return 0;
 }
 
 s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
@@ -855,8 +847,9 @@ s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
 
     if ((thisPosX - (kREG(17) + 130.0f) < playerPosX) && (!Gameplay_InCsMode(globalCtx))) {
         return 1;
+    } else {
+        return 0;
     }
-    return 0;
 }
 
 s32 func_80986AD0(DemoIm* this, GlobalContext* globalCtx) {
@@ -945,8 +938,8 @@ void func_80986D40(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986DC8(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, globalCtx);
     this->actor.flags &= ~0x9;
@@ -957,20 +950,20 @@ void func_80986E20(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986E40(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, globalCtx);
-    func_80984D74(this, globalCtx);
+    DemoIm_UpdateCollider(this, globalCtx);
     func_80986BE4(this, func_80986AD0(this, globalCtx));
 }
 
 void func_80986EAC(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984F94(this, globalCtx);
-    func_80984D74(this, globalCtx);
+    DemoIm_UpdateCollider(this, globalCtx);
     func_80986B2C(globalCtx);
 }
 
@@ -979,11 +972,11 @@ void func_80986F08(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986F28(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, globalCtx);
-    func_80984D74(this, globalCtx);
+    DemoIm_UpdateCollider(this, globalCtx);
     func_80986C30(this, globalCtx);
 }
 
@@ -992,17 +985,17 @@ void func_80986F88(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986FA8(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, globalCtx);
     this->actor.flags &= ~0x9;
-    func_80984D74(this, globalCtx);
+    DemoIm_UpdateCollider(this, globalCtx);
     func_80986CFC(this, globalCtx);
 }
 
 void func_80987018(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985280(this, &D_06001868, 0, 0.0f, 0);
+    DemoIm_ChangeAnim(this, &gImpaIdleAnim, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
     this->action = 27;
     this->drawConfig = 0;
     this->actor.shape.shadowAlpha = 0;
@@ -1037,18 +1030,18 @@ void func_80987128(DemoIm* this) {
 }
 
 void func_80987174(DemoIm* this) {
-    func_80985280(this, &D_060101C8, 2, -8.0f, 0);
+    DemoIm_ChangeAnim(this, &object_im_Anim_0101C8, ANIMMODE_ONCE, -8.0f, ANIM_FORWARD);
     this->action = 30;
 }
 
 void func_809871B4(DemoIm* this, s32 arg1) {
     if (arg1 != 0) {
-        func_80985280(this, &D_0600FB10, 0, 0.0f, 0);
+        DemoIm_ChangeAnim(this, &object_im_Anim_00FB10, ANIMMODE_LOOP, 0.0f, ANIM_FORWARD);
     }
 }
 
 void func_809871E8(DemoIm* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_809850A0(globalCtx, 5);
+    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(globalCtx, 5);
 
     if (npcAction != NULL) {
         u32 action = npcAction->action;
@@ -1075,16 +1068,16 @@ void func_80987288(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_809872A8(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80987064(this);
     func_80987128(this);
 }
 
 void func_809872F0(DemoIm* this, GlobalContext* globalCtx) {
-    func_80985018(this, globalCtx);
-    func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_809871E8(this, globalCtx);
 }
@@ -1092,8 +1085,8 @@ void func_809872F0(DemoIm* this, GlobalContext* globalCtx) {
 void func_80987330(DemoIm* this, GlobalContext* globalCtx) {
     s32 sp1C;
 
-    func_80985018(this, globalCtx);
-    sp1C = func_80985060(this);
+    DemoIm_UpdateBgCheckInfo(this, globalCtx);
+    sp1C = DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_809871B4(this, sp1C);
 }
@@ -1112,7 +1105,7 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    func_80984D00(thisx, globalCtx);
+    DemoIm_InitCollider(thisx, globalCtx);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gImpaSkel, NULL, this->jointTable, this->morphTable, 17);
     thisx->flags &= ~1;
 
@@ -1138,7 +1131,7 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    func_80984D4C(thisx, globalCtx);
+    DemoIm_DestroyCollider(thisx, globalCtx);
 }
 
 s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -1150,18 +1143,18 @@ s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         Vec3s* unk_2D4_unk_08 = &this->unk_2D4.unk_08;
 
         switch (limbIndex) {
-            case 9:
+            case IMPA_LIMB_CHEST:
                 rot->x += unk_2D4_unk_0E->y;
                 rot->y -= unk_2D4_unk_0E->x;
                 break;
-            case 16:
+            case IMPA_LIMB_HEAD:
                 rot->x += unk_2D4_unk_08->y;
                 rot->z += unk_2D4_unk_08->x;
                 break;
         }
     }
 
-    if ((*unk_2D0 != 0) && (limbIndex == 15)) {
+    if ((*unk_2D0 != 0) && (limbIndex == IMPA_LIMB_RIGHT_HAND)) {
         *dList = gImpaHandPointingDL;
     }
 
@@ -1171,7 +1164,7 @@ s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 void DemoIm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     DemoIm* this = THIS;
 
-    if (limbIndex == 16) {
+    if (limbIndex == IMPA_LIMB_HEAD) {
         Vec3f sp28 = D_809887D8;
         Vec3f dest;
 
@@ -1211,6 +1204,7 @@ void DemoIm_DrawSolid(DemoIm* this, GlobalContext* globalCtx) {
 
 void DemoIm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
+    GfxPrint printer;
 
     if ((this->drawConfig < 0) || (this->drawConfig >= 3) || (sDrawFuncs[this->drawConfig] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
