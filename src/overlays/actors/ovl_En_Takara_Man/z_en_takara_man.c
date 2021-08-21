@@ -78,7 +78,7 @@ void func_80B176E0(EnTakaraMan* this, GlobalContext* globalCtx) {
 
     Animation_Change(&this->skelAnime, &D_06000498, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     if (!this->unk_214) {
-        this->actor.textId = 0x6D; // "Open the chest and..Surprise! ... 10 Rupees to play .. Yes/No"
+        this->actor.textId = 0x6D;
         this->dialogState = 4;
     }
     this->actionFunc = func_80B1778C;
@@ -98,17 +98,17 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
     } else {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         if (globalCtx->roomCtx.curRoom.num == 6 && !this->unk_21A) {
-            this->actor.textId = 0x6E; // "Great! You are a real gambler!"
+            this->actor.textId = 0x6E;
             this->unk_21A = 1;
             this->dialogState = 6;
         }
 
         if (!this->unk_21A && this->unk_214) {
             if (Flags_GetSwitch(globalCtx, 0x32)) {
-                this->actor.textId = 0x84; // "Thanks a lot!"
+                this->actor.textId = 0x84;
                 this->dialogState = 5;
             } else {
-                this->actor.textId = 0x704C; // "With that key, proceed to the room ahead. Go, go!"
+                this->actor.textId = 0x704C;
                 this->dialogState = 6;
             }
         }
@@ -142,7 +142,7 @@ void func_80B17934(EnTakaraMan* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80B17A6C;
                 } else {
                     func_80106CCC(globalCtx);
-                    this->actor.textId = 0x85; // "You don't have enough Rupees!"
+                    this->actor.textId = 0x85;
                     func_8010B720(globalCtx, this->actor.textId);
                     this->dialogState = 5;
                     this->actionFunc = func_80B17B14;
@@ -150,7 +150,7 @@ void func_80B17934(EnTakaraMan* this, GlobalContext* globalCtx) {
                 break;
             case 1: // No
                 func_80106CCC(globalCtx);
-                this->actor.textId = 0x2D; // "All right. You don't have to play if you don't want to."
+                this->actor.textId = 0x2D;
                 func_8010B720(globalCtx, this->actor.textId);
                 this->dialogState = 5;
                 this->actionFunc = func_80B17B14;

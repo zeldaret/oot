@@ -926,14 +926,14 @@ Gfx sDefaultDisplayList[] = {
 void func_800994A0(GlobalContext* globalCtx) {
     s16 computedEntranceIndex;
 
-    if (gSaveContext.nightFlag != 0) {
-        if (LINK_IS_CHILD) {
+    if (!IS_DAY) {
+        if (!LINK_IS_ADULT) {
             computedEntranceIndex = globalCtx->nextEntranceIndex + 1;
         } else {
             computedEntranceIndex = globalCtx->nextEntranceIndex + 3;
         }
     } else {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             computedEntranceIndex = globalCtx->nextEntranceIndex;
         } else {
             computedEntranceIndex = globalCtx->nextEntranceIndex + 2;

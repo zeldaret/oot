@@ -81,7 +81,7 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         EnAni_SetupAction(this, func_809B064C);
     } else {
         EnAni_SetupAction(this, func_809B07F8);
@@ -120,15 +120,15 @@ void func_809B0524(EnAni* this, GlobalContext* globalCtx) {
 void func_809B0558(EnAni* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             EnAni_SetupAction(this, func_809B04F0);
         } else {
             EnAni_SetupAction(this, func_809B0524);
         }
         gSaveContext.itemGetInf[1] |= 0x20;
-        return;
+    } else {
+        func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
     }
-    func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
 }
 
 void func_809B05F0(EnAni* this, GlobalContext* globalCtx) {
@@ -149,15 +149,14 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
     if (!textId) {}
 
     if (textId2 == 0) {
-        textId = gSaveContext.nightFlag ? 0x5051 : 0x5050; // "...all I can do is look at the stars."
-                                                           // "...all I can do is look at Death Mountain."
+        textId = !IS_DAY ? 0x5051 : 0x5050;
     }
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx)) {
-        if (this->actor.textId == 0x5056) { // "To get a good view..."
+        if (this->actor.textId == 0x5056) {
             EnAni_SetupAction(this, func_809B04F0);
-        } else if (this->actor.textId == 0x5055) { // "...I'll give you this as a memento."
+        } else if (this->actor.textId == 0x5055) {
             EnAni_SetupAction(this, func_809B05F0);
         } else {
             EnAni_SetupAction(this, func_809B04F0);
@@ -165,9 +164,9 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
     } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f &&
                -80.0f < this->actor.yDistToPlayer) {
         if (gSaveContext.itemGetInf[1] & 0x20) {
-            EnAni_SetText(this, globalCtx, 0x5056); // "To get a good view..."
+            EnAni_SetText(this, globalCtx, 0x5056);
         } else {
-            EnAni_SetText(this, globalCtx, 0x5055); // "...I'll give you this as a memento."
+            EnAni_SetText(this, globalCtx, 0x5055);
         }
     } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistToPlayer < 350.0f) {
         EnAni_SetText(this, globalCtx, textId);
@@ -181,9 +180,9 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx)) {
-        if (this->actor.textId == 0x5056) { // "To get a good view..."
+        if (this->actor.textId == 0x5056) {
             EnAni_SetupAction(this, func_809B0524);
-        } else if (this->actor.textId == 0x5055) { // "...I'll give you this as a memento."
+        } else if (this->actor.textId == 0x5055) {
             EnAni_SetupAction(this, func_809B05F0);
         } else {
             EnAni_SetupAction(this, func_809B0524);
@@ -191,16 +190,15 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
     } else if (yawDiff > -0x36B0 && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f &&
                -80.0f < this->actor.yDistToPlayer) {
         if (gSaveContext.itemGetInf[1] & 0x20) {
-            EnAni_SetText(this, globalCtx, 0x5056); // "To get a good view..."
+            EnAni_SetText(this, globalCtx, 0x5056);
         } else {
-            EnAni_SetText(this, globalCtx, 0x5055); // "...I'll give you this as a memento."
+            EnAni_SetText(this, globalCtx, 0x5055);
         }
     } else if (yawDiff > -0x3E8 && yawDiff < 0x36B0 && this->actor.xzDistToPlayer < 350.0f) {
         if (!(gSaveContext.eventChkInf[2] & 0x8000)) {
-            textId = 0x5052; // "...Something is happening on Death Mountain!"
+            textId = 0x5052;
         } else {
-            textId = (gSaveContext.itemGetInf[1] & 0x20) ? 0x5054 : 0x5053; // "I don't feel like getting down..."
-                                                                            // "...Death Mountain is back to normal!"
+            textId = (gSaveContext.itemGetInf[1] & 0x20) ? 0x5054 : 0x5053;
         }
         EnAni_SetText(this, globalCtx, textId);
     }

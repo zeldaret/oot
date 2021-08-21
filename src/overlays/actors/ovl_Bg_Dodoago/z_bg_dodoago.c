@@ -19,7 +19,7 @@ void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx);
 void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx);
-void func_8087227C(BgDodoago* this, GlobalContext* globalCtx);
+void BgDodoago_DoNothing(BgDodoago* this, GlobalContext* globalCtx);
 void func_80872288(BgDodoago* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Dodoago_InitVars = {
@@ -119,7 +119,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
 
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
-        BgDodoago_SetupAction(this, func_8087227C);
+        BgDodoago_SetupAction(this, BgDodoago_DoNothing);
         this->dyna.actor.shape.rot.x = 0x1333;
         globalCtx->roomCtx.unk_74[0] = globalCtx->roomCtx.unk_74[1] = 0xFF;
         return;
@@ -175,22 +175,19 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
             sHasParent = true;
             D_80872824 = 0x32;
         }
-    } else {
+    } else if (Flags_GetEventChkInf(0xB0)) {
+        Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[0]);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[1]);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[2]);
+        this->colliders[0].dim.pos.z += 200;
+        this->colliders[1].dim.pos.z += 215;
+        this->colliders[1].dim.pos.x += 90;
+        this->colliders[2].dim.pos.z += 215;
+        this->colliders[2].dim.pos.x -= 90;
 
-        if (Flags_GetEventChkInf(0xB0)) {
-            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[0]);
-            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[1]);
-            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[2]);
-            this->colliders[0].dim.pos.z += 0xC8;
-            this->colliders[1].dim.pos.z += 0xD7;
-            this->colliders[1].dim.pos.x += 0x5A;
-            this->colliders[2].dim.pos.z += 0xD7;
-            this->colliders[2].dim.pos.x -= 0x5A;
-
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[2].base);
-        }
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[2].base);
     }
 }
 
@@ -215,7 +212,7 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
         D_80872824--;
         return;
     }
-
+    
     if (D_80872824 == 0x6C) {
         for (i = 10; i >= 0; i--) {
             currentPos.x = D_808725CC[i].x + this->dyna.actor.world.pos.x;
@@ -240,7 +237,7 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
     func_800AA000(500.0f, 0x78, 0x14, 0xA);
 
     if (Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, 0x1333, 0x6E - this->unk_164, 0x3E8, 0x32) == 0) {
-        BgDodoago_SetupAction(this, func_8087227C);
+        BgDodoago_SetupAction(this, BgDodoago_DoNothing);
         Audio_PlaySoundGeneral(NA_SE_EV_STONE_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     } else {
@@ -249,7 +246,7 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8087227C(BgDodoago* this, GlobalContext* globalCtx) {
+void BgDodoago_DoNothing(BgDodoago* this, GlobalContext* globalCtx) {
 }
 
 void func_80872288(BgDodoago* this, GlobalContext* globalCtx) {

@@ -159,11 +159,11 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params >= -1) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600E778, &D_060087D0, this->jointTable, this->morphTable,
                            26);
-        thisx->naviEnemyId = 42;
+        thisx->naviEnemyId = 0x2A;
     } else {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DD8, &D_060087D0, this->jointTable, this->morphTable,
                            26);
-        thisx->naviEnemyId = 45;
+        thisx->naviEnemyId = 0x2D;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -509,7 +509,7 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
                 return;
             }
 
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, -1500.0f, 1.0f, 150.0f, 0.0f);
             }
 
@@ -535,12 +535,12 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0, 1.0f, 400.0f, 0.0f);
             }
             break;
         case 4:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0, 1.0f, 400.0f, 0.0f);
             }
             this->actor.targetMode = 0;

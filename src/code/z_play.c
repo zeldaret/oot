@@ -261,18 +261,18 @@ void Gameplay_Init(GameState* thisx) {
         gSaveContext.nayrusLoveTimer = 0;
         func_800876C8(globalCtx);
         gSaveContext.sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;
-    } else if (LINK_IS_CHILD && gSaveContext.nightFlag == 0) {
+    } else if (!LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneSetupIndex = 0;
-    } else if (LINK_IS_CHILD && gSaveContext.nightFlag != 0) {
+    } else if (!LINK_IS_ADULT && !IS_DAY) {
         gSaveContext.sceneSetupIndex = 1;
-    } else if (LINK_IS_ADULT && gSaveContext.nightFlag == 0) {
+    } else if (LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneSetupIndex = 2;
     } else {
         gSaveContext.sceneSetupIndex = 3;
     }
 
     tempSetupIndex = gSaveContext.sceneSetupIndex;
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT00) && LINK_IS_CHILD &&
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT00) && !LINK_IS_ADULT &&
         gSaveContext.sceneSetupIndex < 4) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
