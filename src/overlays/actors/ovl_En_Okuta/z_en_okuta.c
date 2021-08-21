@@ -111,7 +111,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 66, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x42, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 6500, ICHAIN_STOP),
 };
 
@@ -571,10 +571,10 @@ void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnOkuta* this = THIS;
+    GlobalContext* globalCtx = globalCtx2;
     Player* player = PLAYER;
-    GlobalContext* globalCtx2 = globalCtx;
     WaterBox* outWaterBox;
     f32 ySurface;
     Vec3f sp38;
@@ -582,8 +582,8 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(player->stateFlags1 & 0x300000C0)) {
         if (this->actor.params == 0) {
-            EnOkuta_ColliderCheck(this, globalCtx2);
-            if (!WaterBox_GetSurfaceImpl(globalCtx2, &globalCtx2->colCtx, this->actor.world.pos.x,
+            EnOkuta_ColliderCheck(this, globalCtx);
+            if (!WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.world.pos.x,
                                          this->actor.world.pos.z, &ySurface, &outWaterBox) ||
                 (ySurface < this->actor.floorHeight)) {
                 if (this->actor.colChkInfo.health != 0) {
@@ -594,7 +594,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->actor.home.pos.y = ySurface;
             }
         }
-        this->actionFunc(this, globalCtx2);
+        this->actionFunc(this, globalCtx);
         if (this->actor.params == 0) {
             EnOkuta_UpdateHeadScale(this);
             this->collider.dim.height =
@@ -604,14 +604,14 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             sp34 = false;
             Actor_MoveForward(&this->actor);
             Math_Vec3f_Copy(&sp38, &this->actor.world.pos);
-            Actor_UpdateBgCheckInfo(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 15.0f, 30.0f, 5);
             if ((this->actor.bgCheckFlags & 8) &&
-                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~8;
             }
             if ((this->actor.bgCheckFlags & 1) &&
-                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.floorPoly, this->actor.floorBgId)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~1;
             }
@@ -626,18 +626,18 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (this->actor.params == 0x10) {
             this->actor.flags |= 0x1000000;
-            CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnOkuta_WaitToAppear) {
             if ((this->actionFunc != EnOkuta_Die) && (this->actionFunc != EnOkuta_WaitToDie) &&
                 (this->actionFunc != EnOkuta_Freeze)) {
-                CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
-            CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         Actor_SetFocus(&this->actor, 15.0f);
         if ((this->actor.params == 0) && (this->actor.draw != NULL)) {
-            EnOkuta_SpawnRipple(this, globalCtx2);
+            EnOkuta_SpawnRipple(this, globalCtx);
         }
     }
 }

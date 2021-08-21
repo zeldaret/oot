@@ -96,8 +96,8 @@ static DoorKillerTextureEntry sDoorTextures[4] = {
     { OBJECT_GAMEPLAY_KEEP, gWoodenDoorTex },
 };
 
-void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     f32 randF;
     DoorKiller* this = THIS;
     s32 bankIndex;
@@ -106,7 +106,7 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {
     // Look in the object bank for one of the four objects containing door textures
     bankIndex = -1;
     for (i = 0; bankIndex < 0; i++) {
-        bankIndex = Object_GetIndex(&globalCtx2->objectCtx, sDoorTextures[i].objectId);
+        bankIndex = Object_GetIndex(&globalCtx->objectCtx, sDoorTextures[i].objectId);
         this->textureEntryIndex = i;
     }
     osSyncPrintf("bank_ID = %d\n", bankIndex);
@@ -125,19 +125,18 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {
         case DOOR_KILLER_DOOR:
             // `jointTable` is used for both the `jointTable` and `morphTable` args here. Because this actor doesn't
             // play any animations it does not cause problems, but it would need to be changed otherwise.
-            SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_06001BC8, NULL, this->jointTable, this->jointTable, 9);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06001BC8, NULL, this->jointTable, this->jointTable, 9);
             this->actionFunc = DoorKiller_SetProperties;
-            DoorKiller_SetProperties(this, globalCtx2);
+            DoorKiller_SetProperties(this, globalCtx);
 
             // manually set the overall rotation of the door
             this->jointTable[1].x = this->jointTable[1].z = 0x4000;
 
             // Set a cylinder collider to detect link attacks and larger sphere collider to detect explosions
-            Collider_InitCylinder(globalCtx2, &this->colliderCylinder);
-            Collider_SetCylinder(globalCtx2, &this->colliderCylinder, &this->actor, &sCylinderInit);
-            Collider_InitJntSph(globalCtx2, &this->colliderJntSph);
-            Collider_SetJntSph(globalCtx2, &this->colliderJntSph, &this->actor, &sJntSphInit,
-                               this->colliderJntSphItems);
+            Collider_InitCylinder(globalCtx, &this->colliderCylinder);
+            Collider_SetCylinder(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
+            Collider_InitJntSph(globalCtx, &this->colliderJntSph);
+            Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphItems);
             this->colliderJntSph.elements[0].dim.worldSphere.radius = 80;
             this->colliderJntSph.elements[0].dim.worldSphere.center.x = (s16)this->actor.world.pos.x;
             this->colliderJntSph.elements[0].dim.worldSphere.center.y = (s16)this->actor.world.pos.y + 50;
@@ -145,7 +144,7 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             // If tied to a switch flag and that switch flag is already set, kill the actor.
             if ((((this->actor.params >> 8) & 0x3F) != 0x3F) &&
-                Flags_GetSwitch(globalCtx2, ((this->actor.params >> 8) & 0x3F))) {
+                Flags_GetSwitch(globalCtx, ((this->actor.params >> 8) & 0x3F))) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -154,7 +153,7 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {
         case DOOR_KILLER_RUBBLE_PIECE_3:
         case DOOR_KILLER_RUBBLE_PIECE_4:
             this->actionFunc = DoorKiller_SetProperties;
-            DoorKiller_SetProperties(this, globalCtx2);
+            DoorKiller_SetProperties(this, globalCtx);
 
             this->actor.gravity = -0.6f;
             this->actor.minVelocityY = -6.0f;

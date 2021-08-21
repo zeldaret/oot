@@ -1819,7 +1819,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
     spF0 = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
     if (spF0 != 0) {
-        f32 spD8 = (LINK_IS_ADULT) ? 80.0f : 60.0f;
+        f32 spD8 = LINK_IS_ADULT ? 80.0f : 60.0f;
         f32 spD4 = 1.0f;
         s32 spD0 = 0xFF;
         s32 spCC = spF0 - 40;
@@ -4239,7 +4239,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 1:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     if (Flags_GetInfTable(0x10)) {
                         retTextId = 0x1046;
@@ -4286,7 +4286,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 2:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1042;
                 } else {
@@ -4303,7 +4303,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 3:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1043;
                 } else {
@@ -4322,7 +4322,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 4:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1042;
                 } else {
@@ -4339,7 +4339,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 5:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1044;
                 } else if (Flags_GetInfTable(0x22)) {
@@ -4356,7 +4356,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 6:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1042;
                 } else if (Flags_GetInfTable(0x24)) {
@@ -4373,7 +4373,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 7:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1043;
                 } else if (Flags_GetInfTable(0x26)) {
@@ -4390,7 +4390,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 8:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1043;
                 } else if (Flags_GetInfTable(0x28)) {
@@ -4409,7 +4409,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 9:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1049;
                 } else {
@@ -4424,7 +4424,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 10:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104A;
                 } else {
@@ -4441,7 +4441,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 11:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104B;
                 } else {
@@ -4456,7 +4456,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 12:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104C;
                 } else {
@@ -4471,7 +4471,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 13:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104D;
                 } else {
@@ -4653,7 +4653,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             retTextId = 0x5002;
             break;
         case 38:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetEventChkInf(0x23)) {
@@ -4672,7 +4672,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 39:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetEventChkInf(0x23)) {
@@ -4689,7 +4689,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 40:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetEventChkInf(0x23)) {
@@ -4708,7 +4708,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 41:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetInfTable(0xF0)) {
@@ -4725,7 +4725,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 42:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetInfTable(0xF4)) {
@@ -4742,7 +4742,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 43:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetInfTable(0xF8)) {
@@ -4834,7 +4834,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 55:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x37)) {
                     retTextId = 0x402B;
                 } else if (Flags_GetEventChkInf(0x31)) {
@@ -4896,7 +4896,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 72:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x14)) {
                     retTextId = 0x2040;
                 } else if (Flags_GetInfTable(0x94)) {
@@ -4906,7 +4906,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 }
             } else {
                 if (!Flags_GetEventChkInf(0x18)) {
-                    if (gSaveContext.nightFlag != 0) {
+                    if (!IS_DAY) {
                         retTextId = 0x204E;
                     } else if (Flags_GetInfTable(0x9A)) {
                         retTextId = 0x2031;

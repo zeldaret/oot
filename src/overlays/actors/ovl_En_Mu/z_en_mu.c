@@ -41,7 +41,7 @@ static ColliderCylinderInit D_80AB0BD0 = {
     { 100, 70, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
+static CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 const ActorInit En_Mu_InitVars = {
     ACTOR_EN_MU,
