@@ -1166,7 +1166,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         command = (u8)parameters[0];
                         offset = (u16)parameters[1];
                         test = &player->seqData[offset];
-                            test[0] = (u8)scriptState->value + command;
+                        test[0] = (u8)scriptState->value + command;
                         break;
                     case 0xC8:
                     case 0xCC:
