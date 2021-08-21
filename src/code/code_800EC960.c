@@ -101,7 +101,7 @@ extern s8 D_80130F2C; // pitch?
 extern s8 D_80130F30;
 extern s8 D_80130F34;
 extern u8 sPlaybackState; // 80130F38
-extern u32 D_80130F3C; // "SEQ"
+extern u32 D_80130F3C;    // "SEQ"
 extern u32 sNotePlaybackTimer;
 extern u16 sPlaybackNotePos;
 extern u16 sStaffPlaybackPos;
@@ -180,7 +180,7 @@ extern u16 sAudioSEParamChgWork[2];          // = {0}
 extern u8 sAudioSubTrackInfoPlayerSel;       // = 0
 extern u8 sAudioSubTrackInfoChannelSel;      // = 0
 extern u8 sSeqPlayerPeakNumLayers[4];        // = {0}
-extern char sAudioSceneNames[3][2];                // = {"A", "S", "X"}
+extern char sAudioSceneNames[3][2];          // = {"A", "S", "X"}
 extern u8 sAudioBlkChgBgmWork[2];            // = {0}
 extern u8 sAudioBlkChgBgmSel;                // = 0
 extern char sBoolStrs[3][5];                 // = {"OFF", "ON", "STBY"}
@@ -260,7 +260,7 @@ s32 D_8016BA1C;
 u8 sCurOcarinaSong[8];
 u8 sOcarinaSongAppendPos;
 u8 sOcarinaHasStartedSong;
-u8 gOcarinaSongNotestartIdx;
+u8 sOcarinaSongNotestartIdx;
 u8 sOcarinaSongCnt;
 u16 sOcarinaAvailSongs;
 u8 D_8016BA2E;
@@ -397,7 +397,7 @@ void func_800ECC04(u16 flg) {
 
     if (flg != 0xFFFF) {
         D_80130F3C = 0x80000000 + (u32)flg;
-        gOcarinaSongNotestartIdx = 0;
+        sOcarinaSongNotestartIdx = 0;
         sOcarinaSongCnt = 0xE;
         if (flg != 0xA000) {
             sOcarinaSongCnt--;
@@ -464,7 +464,7 @@ void func_800ECDF8(void) {
         if (sPrevOcarinaNoteVal == sCurOcarinaBtnVal || sCurOcarinaBtnVal == 0xFF) { inputChanged = 1; }
         // clang-format on
 
-        for (i = gOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
+        for (i = sOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
             sh = 1 << i;
             if (sOcarinaAvailSongs & sh) {
                 D_8016BA50[i] = D_8016BA70[i] + 0x12;
@@ -562,7 +562,7 @@ void func_800ED200(void) {
                 sCurOcarinaSong[sOcarinaSongAppendPos - 1] = sCurOcarinaBtnVal;
             }
 
-            for (i = gOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
+            for (i = sOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
                 if (sOcarinaAvailSongs & (u16)(1 << i)) {
                     for (j = 0, k = 0;
                          j < gOcarinaSongNotes[i].len && k == 0 && sOcarinaSongAppendPos >= gOcarinaSongNotes[i].len;) {
@@ -1713,7 +1713,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
             GfxPrint_Printf(printer, "BGM No.    %02X", sAudioBlkChgBgmWork[0]);
 
             GfxPrint_SetPos(printer, 3, 5);
-            GfxPrint_Printf(printer, "SCENE SET  %02X %s", sAudioBlkChgBgmWork[1], sAudioSceneNames[sAudioBlkChgBgmWork[1]]);
+            GfxPrint_Printf(printer, "SCENE SET  %02X %s", sAudioBlkChgBgmWork[1],
+                            sAudioSceneNames[sAudioBlkChgBgmWork[1]]);
 
             SETCOL(0x64, 255, 0x64);
             GfxPrint_SetPos(printer, 2, 4 + sAudioBlkChgBgmSel);
