@@ -262,12 +262,12 @@ void DemoEc_DrawSkeleton(DemoEc* this, GlobalContext* globalCtx, void* eyeTextur
 
     func_80093D18(gfxCtx);
 
-    if (eyeTexture != 0) {
+    if (eyeTexture != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     }
 
-    if (arg3 != 0) {
+    if (arg3 != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(arg3));
     }
 
@@ -394,7 +394,7 @@ void DemoEc_UpdateTalon(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawTalon(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &D_060076C0, &D_06007AC0, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, &gTalonEyeClosed2Tex, &gTalon_007AC0, NULL, NULL);
 }
 
 void DemoEc_InitWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
@@ -415,7 +415,7 @@ void DemoEc_UpdateWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &D_06005F20, &D_06006920, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, &gWindmillManEyeClosedTex, &gWindMillManMouthAngryTex, NULL, NULL);
 }
 
 void DemoEc_InitKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
@@ -1163,11 +1163,11 @@ void DemoEc_UpdateMalon(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawMalon(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x06002570, 0x06002C70, 0x06003070 };
+    static void* eyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &D_06003770, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &gMalonAdultMouthHappyTex, NULL, NULL);
 }
 
 static DemoEcInitFunc sInitFuncs[] = {
