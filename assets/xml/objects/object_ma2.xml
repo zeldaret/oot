@@ -17,16 +17,17 @@
         <Texture Name="gMalonAdultEarTex" OutName="ear" Format="rgba16" Width="16" Height="16" Offset="0x2270"/>
         <Texture Name="gMalonAdultHairTex" OutName="hair" Format="ci8" Width="16" Height="16" Offset="0x2470" TlutOffset="0x1EB0"/>
 
-        <Texture Name="gMalonAdultEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x2570"/>
-        <Texture Name="gMalonAdultEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x2C70"/>
-        <Texture Name="gMalonAdultEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x3070"/>
+        <Texture Name="gMalonAdultFaceTLUT" OutName="face_tlut" Format="rgba16" Width="16" Height="16" Offset="0x1F70"/>
+        <Texture Name="gMalonAdultEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x2570" TlutOffset="0x1F70"/>
+        <Texture Name="gMalonAdultEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x2C70" TlutOffset="0x1F70"/>
+        <Texture Name="gMalonAdultEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x3070" TlutOffset="0x1F70"/>
         
         <Texture Name="gMalonAdultBasketTex" OutName="basket" Format="rgba16" Width="8" Height="16" Offset="0x2B70"/>
         <Texture Name="gMalonAdultBasketInsideTex" OutName="basket_inside" Format="rgba16" Width="8" Height="16" Offset="0x3470"/>
 
-        <Texture Name="gMalonAdultMouthNeutralTex" OutName="mouth_neutral" Format="ci8" Width="32" Height="16" Offset="0x2970"/>
-        <Texture Name="gMalonAdultMouthSadTex" OutName="mouth_sad" Format="ci8" Width="32" Height="16" Offset="0x3570"/>
-        <Texture Name="gMalonAdultMouthHappyTex" OutName="mouth_happy" Format="ci8" Width="32" Height="16" Offset="0x3770"/>
+        <Texture Name="gMalonAdultMouthNeutralTex" OutName="mouth_neutral" Format="ci8" Width="32" Height="16" Offset="0x2970" TlutOffset="0x1F70"/>
+        <Texture Name="gMalonAdultMouthSadTex" OutName="mouth_sad" Format="ci8" Width="32" Height="16" Offset="0x3570" TlutOffset="0x1F70"/>
+        <Texture Name="gMalonAdultMouthHappyTex" OutName="mouth_happy" Format="ci8" Width="32" Height="16" Offset="0x3770" TlutOffset="0x1F70"/>
 
         <DList Name="gMalonAdultHeadDL" Offset="0x4BE0"/>
         <DList Name="gMalonAdultBasketDL" Offset="0x5420"/>
