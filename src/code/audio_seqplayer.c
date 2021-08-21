@@ -956,8 +956,6 @@ void Audio_SequenceChannelSetVolume(SequenceChannel* seqChannel, u8 volume) {
     seqChannel->volume = (f32)(s32)volume / 127.0f;
 }
 
-#ifdef NON_MATCHING
-// Two reg category errors and lots of t register shifting.
 void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
     s32 i;
     u8* data;
@@ -982,7 +980,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
         s32 param;
         s16 pad1;
         u16 offset;
-        s32 parameters[3];
+        u32 parameters[3];
         s8 signedParam;
         u8 command = Audio_M64ReadU8(scriptState);
         u8 lowBits;
@@ -1039,8 +1037,8 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         }
                         break;
                     case 0xEB:
-                        result = (u8)parameters[0]; // category error: should be t not v
-                        command = result;
+                        result = (u8)parameters[0];
+                        command = (u8)parameters[0];
 
                         if (player->defaultBank != 0xFF) {
                             offset = ((u16*)gAudioContext.unk_283C)[player->seqId];
@@ -1150,8 +1148,8 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         channel->reverb = command;
                         break;
                     case 0xC6:
-                        result = (u8)parameters[0]; // category error: should be t not v
-                        command = result;
+                        result = (u8)parameters[0];
+                        command = (u8)parameters[0];
 
                         if (player->defaultBank != 0xFF) {
                             offset = ((u16*)gAudioContext.unk_283C)[player->seqId];
@@ -1168,7 +1166,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         command = (u8)parameters[0];
                         offset = (u16)parameters[1];
                         test = &player->seqData[offset];
-                        test[0] = (u8)scriptState->value + command;
+                            test[0] = (u8)scriptState->value + command;
                         break;
                     case 0xC8:
                     case 0xCC:
@@ -1195,7 +1193,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                     case 0xCB:
                         offset = (u16)parameters[0];
 
-                        scriptState->value = *(offset + scriptState->value + player->seqData);
+                        scriptState->value = *(player->seqData + (u32)(offset + scriptState->value));
                         break;
                     case 0xCE:
                         offset = (u16)parameters[0];
@@ -1313,7 +1311,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xB2:
                         offset = (u16)parameters[0];
-                        channel->unk_22 = *(u16*)(offset + scriptState->value * 2 + player->seqData);
+                        channel->unk_22 = *(u16*)(player->seqData + (u32)(offset + scriptState->value * 2));
                         break;
                     case 0xB4:
                         channel->dynTable = (void*)&player->seqData[channel->unk_22];
@@ -1322,20 +1320,19 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         channel->unk_22 = ((u16*)(channel->dynTable))[scriptState->value];
                         break;
                     case 0xB6:
-                        data = (*channel->dynTable)[0];
                         scriptState->value = (*channel->dynTable)[0][scriptState->value];
                         break;
                     case 0xB7:
-                        channel->unk_22 = (parameters[0] == 0) ? gAudioContext.audioRandom // odd load here
+                        channel->unk_22 = (parameters[0] == 0) ? gAudioContext.audioRandom & 0xffff
                                                                : gAudioContext.audioRandom % parameters[0];
                         break;
                     case 0xB8:
-                        scriptState->value = (parameters[0] == 0) ? gAudioContext.audioRandom
+                        scriptState->value = (parameters[0] == 0) ? gAudioContext.audioRandom & 0xffff
                                                                   : gAudioContext.audioRandom % parameters[0];
                         break;
                     case 0xBD: {
                         result = Audio_NextRandom();
-                        channel->unk_22 = (parameters[0] == 0) ? (u32)result : (u32)result % parameters[0];
+                        channel->unk_22 = (parameters[0] == 0) ? (u32)result & 0xffff : (u32)result % parameters[0];
                         channel->unk_22 += parameters[1];
                         pad2 = (channel->unk_22 / 0x100) + 0x80; // i is wrong here
                         param = channel->unk_22 % 0x100;
@@ -1455,10 +1452,6 @@ exit_loop:
         }
     }
 }
-#else
-void Audio_SequenceChannelProcessScript(SequenceChannel* seqChannel);
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelProcessScript.s")
-#endif
 
 void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     u8 command;
