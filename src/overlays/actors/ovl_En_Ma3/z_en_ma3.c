@@ -23,7 +23,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2F28(EnMa3* this);
 void EnMa3_UpdateEyes(EnMa3* this);
-void func_80AA3004(EnMa3* this, s32 arg1);
+void EnMa3_ChangeAnim(EnMa3* this, s32 arg1);
 void func_80AA3200(EnMa3* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma3_InitVars = {
@@ -226,7 +226,7 @@ void EnMa3_UpdateEyes(EnMa3* this) {
     }
 }
 
-void func_80AA3004(EnMa3* this, s32 idx) {
+void EnMa3_ChangeAnim(EnMa3* this, s32 idx) {
     f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
 
     Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
@@ -245,11 +245,11 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (func_80AA2EC8(this, globalCtx)) {
         case 0:
-            func_80AA3004(this, 0);
+            EnMa3_ChangeAnim(this, 0);
             this->actionFunc = func_80AA3200;
             break;
         case 1:
-            func_80AA3004(this, 0);
+            EnMa3_ChangeAnim(this, 0);
             this->actionFunc = func_80AA3200;
             break;
         case 2:

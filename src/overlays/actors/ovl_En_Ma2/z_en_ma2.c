@@ -179,7 +179,7 @@ void EnMa2_UpdateEyes(EnMa2* this) {
     }
 }
 
-void func_80AA1D44(EnMa2* this, s32 idx) {
+void EnMa2_ChangeAnim(EnMa2* this, s32 idx) {
     f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
 
     Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
@@ -214,18 +214,18 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (func_80AA1B58(this, globalCtx)) {
         case 1:
-            func_80AA1D44(this, 2);
+            EnMa2_ChangeAnim(this, 2);
             this->actionFunc = func_80AA2018;
             break;
         case 2:
-            func_80AA1D44(this, 3);
+            EnMa2_ChangeAnim(this, 3);
             this->actionFunc = func_80AA204C;
             break;
         case 3:
             if (gSaveContext.infTable[8] & 0x2000) {
-                func_80AA1D44(this, 0);
+                EnMa2_ChangeAnim(this, 0);
             } else {
-                func_80AA1D44(this, 3);
+                EnMa2_ChangeAnim(this, 3);
             }
             this->actionFunc = func_80AA2018;
             break;
