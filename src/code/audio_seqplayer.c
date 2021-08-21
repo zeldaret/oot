@@ -960,13 +960,13 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
     s32 i;
     u8* data;
     u8* test;
-    SequencePlayer* player;
+    SequencePlayer* seqPlayer;
 
     if (channel->stopScript) {
         goto exit_loop;
     }
-    player = channel->seqPlayer;
-    if (player->muted && (channel->muteBehavior & 0x80)) {
+    seqPlayer = channel->seqPlayer;
+    if (seqPlayer->muted && (channel->muteBehavior & 0x80)) {
         return;
     }
 
@@ -1000,7 +1000,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                 }
             }
             if (command >= 0xF2) {
-                result = Audio_HandleScriptFlowControl(player, scriptState, command, parameters[0]);
+                result = Audio_HandleScriptFlowControl(seqPlayer, scriptState, command, parameters[0]);
 
                 if (result != 0) {
                     if (result == -1) {
@@ -1025,7 +1025,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xC2:
                         offset = (u16)parameters[0];
-                        channel->dynTable = (void*)&player->seqData[offset];
+                        channel->dynTable = (void*)&seqPlayer->seqData[offset];
                         break;
                     case 0xC5:
                         if (scriptState->value != -1) {
@@ -1033,15 +1033,15 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             data = (*channel->dynTable)[scriptState->value];
                             offset = (u16)((data[0] << 8) + data[1]);
 
-                            channel->dynTable = (void*)&player->seqData[offset];
+                            channel->dynTable = (void*)&seqPlayer->seqData[offset];
                         }
                         break;
                     case 0xEB:
                         result = (u8)parameters[0];
                         command = (u8)parameters[0];
 
-                        if (player->defaultBank != 0xFF) {
-                            offset = ((u16*)gAudioContext.unk_283C)[player->seqId];
+                        if (seqPlayer->defaultBank != 0xFF) {
+                            offset = ((u16*)gAudioContext.unk_283C)[seqPlayer->seqId];
                             lowBits = gAudioContext.unk_283Cb[offset];
                             command = gAudioContext.unk_283Cb[offset + lowBits - result];
                         }
@@ -1105,7 +1105,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xDA:
                         offset = (u16)parameters[0];
-                        channel->adsr.envelope = (AdsrEnvelope*)&player->seqData[offset];
+                        channel->adsr.envelope = (AdsrEnvelope*)&seqPlayer->seqData[offset];
                         break;
                     case 0xD9:
                         command = (u8)parameters[0];
@@ -1151,8 +1151,8 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         result = (u8)parameters[0];
                         command = (u8)parameters[0];
 
-                        if (player->defaultBank != 0xFF) {
-                            offset = ((u16*)gAudioContext.unk_283C)[player->seqId];
+                        if (seqPlayer->defaultBank != 0xFF) {
+                            offset = ((u16*)gAudioContext.unk_283C)[seqPlayer->seqId];
                             lowBits = gAudioContext.unk_283Cb[offset];
                             command = gAudioContext.unk_283Cb[offset + lowBits - result];
                         }
@@ -1165,7 +1165,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                     case 0xC7:
                         command = (u8)parameters[0];
                         offset = (u16)parameters[1];
-                        test = &player->seqData[offset];
+                        test = &seqPlayer->seqData[offset];
                         test[0] = (u8)scriptState->value + command;
                         break;
                     case 0xC8:
@@ -1183,7 +1183,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xCD:
                         command = (u8)parameters[0];
-                        Audio_SequenceChannelDisable(player->channels[command]);
+                        Audio_SequenceChannelDisable(seqPlayer->channels[command]);
                         break;
                     case 0xCA:
                         command = (u8)parameters[0];
@@ -1193,7 +1193,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                     case 0xCB:
                         offset = (u16)parameters[0];
 
-                        scriptState->value = *(player->seqData + (u32)(offset + scriptState->value));
+                        scriptState->value = *(seqPlayer->seqData + (u32)(offset + scriptState->value));
                         break;
                     case 0xCE:
                         offset = (u16)parameters[0];
@@ -1201,7 +1201,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xCF:
                         offset = (u16)parameters[0];
-                        test = &player->seqData[offset];
+                        test = &seqPlayer->seqData[offset];
                         test[0] = (channel->unk_22 >> 8) & 0xFF;
                         test[1] = channel->unk_22 & 0xFF;
                         break;
@@ -1232,7 +1232,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                             // @bug: Missing a stack depth check here
                             scriptState->stack[scriptState->depth++] = scriptState->pc;
                             offset = (u16)((data[0] << 8) + data[1]);
-                            scriptState->pc = player->seqData + offset;
+                            scriptState->pc = seqPlayer->seqData + offset;
                         }
                         break;
                     case 0xE6:
@@ -1241,7 +1241,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xE7:
                         offset = (u16)parameters[0];
-                        data = &player->seqData[offset];
+                        data = &seqPlayer->seqData[offset];
                         channel->muteBehavior = data[0];
                         data += 3;
                         channel->noteAllocPolicy = data[-2];
@@ -1294,7 +1294,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xB0:
                         offset = (u16)parameters[0];
-                        data = player->seqData + offset;
+                        data = seqPlayer->seqData + offset;
                         channel->unk_CC = (s16*)data;
                         break;
                     case 0xB1:
@@ -1311,10 +1311,10 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xB2:
                         offset = (u16)parameters[0];
-                        channel->unk_22 = *(u16*)(player->seqData + (u32)(offset + scriptState->value * 2));
+                        channel->unk_22 = *(u16*)(seqPlayer->seqData + (u32)(offset + scriptState->value * 2));
                         break;
                     case 0xB4:
-                        channel->dynTable = (void*)&player->seqData[channel->unk_22];
+                        channel->dynTable = (void*)&seqPlayer->seqData[channel->unk_22];
                         break;
                     case 0xB5:
                         channel->unk_22 = ((u16*)(channel->dynTable))[scriptState->value];
@@ -1323,16 +1323,16 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         scriptState->value = (*channel->dynTable)[0][scriptState->value];
                         break;
                     case 0xB7:
-                        channel->unk_22 = (parameters[0] == 0) ? gAudioContext.audioRandom & 0xffff
+                        channel->unk_22 = (parameters[0] == 0) ? gAudioContext.audioRandom & 0XFFFF
                                                                : gAudioContext.audioRandom % parameters[0];
                         break;
                     case 0xB8:
-                        scriptState->value = (parameters[0] == 0) ? gAudioContext.audioRandom & 0xffff
+                        scriptState->value = (parameters[0] == 0) ? gAudioContext.audioRandom & 0XFFFF
                                                                   : gAudioContext.audioRandom % parameters[0];
                         break;
                     case 0xBD: {
                         result = Audio_NextRandom();
-                        channel->unk_22 = (parameters[0] == 0) ? (u32)result & 0xffff : (u32)result % parameters[0];
+                        channel->unk_22 = (parameters[0] == 0) ? (u32)result & 0XFFFF : (u32)result % parameters[0];
                         channel->unk_22 += parameters[1];
                         pad2 = (channel->unk_22 / 0x100) + 0x80; // i is wrong here
                         param = channel->unk_22 % 0x100;
@@ -1371,7 +1371,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                 case 0x88:
                     offset = Audio_M64ReadS16(scriptState);
                     if (!Audio_SeqChannelSetLayer(channel, lowBits)) {
-                        channel->layers[lowBits]->scriptState.pc = &player->seqData[offset];
+                        channel->layers[lowBits]->scriptState.pc = &seqPlayer->seqData[offset];
                     }
                     break;
                 case 0x90:
@@ -1384,7 +1384,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
 
                     data = (*channel->dynTable)[scriptState->value];
                     offset = (data[0] << 8) + data[1];
-                    channel->layers[lowBits]->scriptState.pc = &player->seqData[offset];
+                    channel->layers[lowBits]->scriptState.pc = &seqPlayer->seqData[offset];
                     break;
                 case 0x70:
                     channel->soundScriptIO[lowBits] = scriptState->value;
@@ -1431,15 +1431,15 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                     break;
                 case 0x20:
                     offset = Audio_M64ReadS16(scriptState);
-                    Audio_SequenceChannelEnable(player, lowBits, &player->seqData[offset]);
+                    Audio_SequenceChannelEnable(seqPlayer, lowBits, &seqPlayer->seqData[offset]);
                     break;
                 case 0x30:
                     command = Audio_M64ReadU8(scriptState);
-                    player->channels[lowBits]->soundScriptIO[command] = scriptState->value;
+                    seqPlayer->channels[lowBits]->soundScriptIO[command] = scriptState->value;
                     break;
                 case 0x40:
                     command = Audio_M64ReadU8(scriptState);
-                    scriptState->value = player->channels[lowBits]->soundScriptIO[command];
+                    scriptState->value = seqPlayer->channels[lowBits]->soundScriptIO[command];
                     break;
             }
         }
@@ -1462,8 +1462,8 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     s32 i;
     s32 value;
     u8* data;
-    u8* data2; // force a1
-    u8* data3; // force v0
+    u8* data2;
+    u8* data3;
     s32 pad3;
     s32 dummy;
 
