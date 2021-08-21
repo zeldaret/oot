@@ -53,7 +53,7 @@ void func_80987330(DemoIm* this, GlobalContext* globalCtx);
 void DemoIm_DrawNothing(DemoIm* this, GlobalContext* globalCtx);
 void DemoIm_DrawSolid(DemoIm* this, GlobalContext* globalCtx);
 
-static UNK_PTR D_80987830[] = {
+static void* sEyeTextures[] = {
     gImpaEyeOpenTex,
     gImpaEyeHalfTex,
     gImpaEyeClosedTex,
@@ -118,23 +118,23 @@ extern AnimationHeader D_06012218;
 
 void func_80984BE0(DemoIm* this) {
     s32 pad[3];
-    s16* unk_25E = &this->unk_25E;
-    s16* unk_25C = &this->unk_25C;
+    s16* blinkTimer = &this->blinkTimer;
+    s16* eyeIndex = &this->eyeIndex;
 
-    if (DECR(*unk_25E) == 0) {
-        *unk_25E = Rand_S16Offset(0x3C, 0x3C);
+    if (DECR(*blinkTimer) == 0) {
+        *blinkTimer = Rand_S16Offset(60, 60);
     }
 
-    *unk_25C = *unk_25E;
-    if (*unk_25C >= 3) {
-        *unk_25C = 0;
+    *eyeIndex = *blinkTimer;
+    if (*eyeIndex >= 3) {
+        *eyeIndex = 0;
     }
 }
 
 void func_80984C68(DemoIm* this) {
     this->action = 7;
     this->drawConfig = 0;
-    this->unk_26C = 0;
+    this->alpha = 0;
     this->unk_270 = 0;
     this->actor.shape.shadowAlpha = 0;
     this->unk_268 = 0.0f;
@@ -457,7 +457,7 @@ void func_80985948(DemoIm* this, GlobalContext* globalCtx) {
                          0.0f);
         this->action = 8;
         this->drawConfig = 2;
-        this->unk_26C = 0;
+        this->alpha = 0;
         this->actor.shape.shadowAlpha = 0;
         this->unk_268 = 0.0f;
         func_809858A8();
@@ -474,7 +474,7 @@ void func_809859E0(DemoIm* this, GlobalContext* globalCtx) {
             this->action = 9;
             this->drawConfig = 1;
             *unk_268 = kREG(5) + 10.0f;
-            this->unk_26C = this->actor.shape.shadowAlpha = alpha;
+            this->alpha = this->actor.shape.shadowAlpha = alpha;
             return;
         }
     } else {
@@ -483,12 +483,12 @@ void func_809859E0(DemoIm* this, GlobalContext* globalCtx) {
             this->action = 7;
             this->drawConfig = 0;
             *unk_268 = 0.0f;
-            this->unk_26C = 0;
+            this->alpha = 0;
             this->actor.shape.shadowAlpha = 0;
             return;
         }
     }
-    this->actor.shape.shadowAlpha = this->unk_26C = (*unk_268 / (kREG(5) + 10.0f)) * 255.0f;
+    this->actor.shape.shadowAlpha = this->alpha = (*unk_268 / (kREG(5) + 10.0f)) * 255.0f;
 }
 
 void func_80985B34(DemoIm* this, GlobalContext* globalCtx) {
@@ -498,7 +498,7 @@ void func_80985B34(DemoIm* this, GlobalContext* globalCtx) {
         this->action = 8;
         this->drawConfig = 2;
         this->unk_268 = kREG(5) + 10.0f;
-        this->unk_26C = 255;
+        this->alpha = 255;
         if (this->unk_270 == 0) {
             func_809858C8(this, globalCtx);
             this->unk_270 = 1;
@@ -530,17 +530,17 @@ void func_80985C94(DemoIm* this, GlobalContext* globalCtx) {
 
 void DemoIm_DrawTranslucent(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[2];
-    s16 unk_25C = this->unk_25C;
-    UNK_PTR sp68 = D_80987830[unk_25C];
+    s16 eyeIndex = this->eyeIndex;
+    void* eyeTex = sEyeTextures[eyeIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_im_inKenjyanomaDemo02.c", 281);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sp68));
-    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp68));
-    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_26C);
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTex));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTex));
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
@@ -1017,9 +1017,9 @@ void func_80987064(DemoIm* this) {
     temp = kREG(17) + 10.0f;
 
     if (*unk_268 >= temp) {
-        this->actor.shape.shadowAlpha = this->unk_26C = alpha;
+        this->actor.shape.shadowAlpha = this->alpha = alpha;
     } else {
-        this->actor.shape.shadowAlpha = this->unk_26C = (*unk_268 / temp) * 255.0f;
+        this->actor.shape.shadowAlpha = this->alpha = (*unk_268 / temp) * 255.0f;
     }
 }
 
@@ -1190,16 +1190,16 @@ void DemoIm_DrawNothing(DemoIm* this, GlobalContext* globalCtx) {
 
 void DemoIm_DrawSolid(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[2];
-    s16 unk_25C = this->unk_25C;
-    UNK_PTR sp68 = D_80987830[unk_25C];
+    s16 eyeIndex = this->eyeIndex;
+    void* eyeTexture = sEyeTextures[eyeIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_im.c", 904);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sp68));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp68));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
