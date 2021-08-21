@@ -6,9 +6,9 @@ typedef struct {
     /* 0x00 */ u16 sfxId;
     /* 0x04 */ Vec3f* pos;
     /* 0x08 */ u8 unk_8;
-    /* 0x0C */ f32* unk_C;
+    /* 0x0C */ f32* freqScale;
     /* 0x10 */ f32* unk_10;
-    /* 0x14 */ s8* unk_14;
+    /* 0x14 */ s8* reverbAdd;
 } Struct_800F738C; // size = 0x18
 
 typedef struct {
@@ -107,9 +107,8 @@ void Audio_ClearBGMMute(u8 arg0) {
     }
 }
 
-// a3 = freq scale factor for ocarina
-// a5 = reverb add
-void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, s8* a5) {
+// a4 is often the same as freqScale. (u8)(*a4 * 127.0f) is sent to script on IO port 2
+void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 a2, f32* freqScale, f32* a4, s8* reverbAdd) {
     u8 i;
     Struct_800F738C* phi_v0;
 
@@ -122,11 +121,11 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, s8* a
                         sfxId = gAudioSEFlagSwapTarget[i];
                     } else { // "ADD"
                         phi_v0->sfxId = gAudioSEFlagSwapTarget[i];
-                        phi_v0->pos = a1;
+                        phi_v0->pos = pos;
                         phi_v0->unk_8 = a2;
-                        phi_v0->unk_C = a3;
+                        phi_v0->freqScale = freqScale;
                         phi_v0->unk_10 = a4;
-                        phi_v0->unk_14 = a5;
+                        phi_v0->reverbAdd = reverbAdd;
                         D_801333A0++;
                         phi_v0 = &D_8016C9A0[D_801333A0];
                     }
@@ -135,11 +134,11 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, s8* a
             }
         }
         phi_v0->sfxId = sfxId;
-        phi_v0->pos = a1;
+        phi_v0->pos = pos;
         phi_v0->unk_8 = a2;
-        phi_v0->unk_C = a3;
+        phi_v0->freqScale = freqScale;
         phi_v0->unk_10 = a4;
-        phi_v0->unk_14 = a5;
+        phi_v0->reverbAdd = reverbAdd;
         D_801333A0++;
     }
 }
@@ -149,7 +148,7 @@ void func_800F74E0(u8 arg0, SoundBankEntry* arg1) {
     s32 phi_a0;
     u8 i = D_801333A4;
 
-    for (i; i != D_801333A0; i++) {
+    for (; i != D_801333A0; i++) {
         phi_a0 = false;
         entry = &D_8016C9A0[i];
         switch (arg0) {
@@ -187,7 +186,6 @@ void func_800F74E0(u8 arg0, SoundBankEntry* arg1) {
         if (phi_a0) {
             entry->sfxId = 0;
         }
-        // i++;
     }
 }
 
@@ -213,7 +211,7 @@ void func_800F7680(void) {
     }
     phi_s5 = SFX_BANK(sp50->sfxId);
     if ((1 << phi_s5) & D_801333F0) {
-        AudioDebug_ScrPrt(D_80133340, sp50->sfxId); // "SE"
+        AudioDebug_ScrPrt((const s8*)D_80133340, sp50->sfxId); // "SE"
         phi_s5 = SFX_BANK(sp50->sfxId);
     }
     sp55 = 0;
@@ -254,9 +252,9 @@ void func_800F7680(void) {
                     gSoundBanks[phi_s5][phi_a1].unk_28 = sp50->sfxId;
                     gSoundBanks[phi_s5][phi_a1].unk_2A = 1;
                     gSoundBanks[phi_s5][phi_a1].unk_2B = 2;
-                    gSoundBanks[phi_s5][phi_a1].unk_10 = sp50->unk_C;
+                    gSoundBanks[phi_s5][phi_a1].unk_10 = sp50->freqScale;
                     gSoundBanks[phi_s5][phi_a1].unk_14 = sp50->unk_10;
-                    gSoundBanks[phi_s5][phi_a1].unk_18 = sp50->unk_14;
+                    gSoundBanks[phi_s5][phi_a1].unk_18 = sp50->reverbAdd;
                     gSoundBanks[phi_s5][phi_a1].unk_26 = sp48->unk_2;
                     gSoundBanks[phi_s5][phi_a1].unk_24 = sp48->unk_0;
                     if (!sp48->unk_2) {}
@@ -277,9 +275,9 @@ void func_800F7680(void) {
         temp_v0->posY = &sp50->pos->y;
         temp_v0->posZ = &sp50->pos->z;
         temp_v0->unk_C = sp50->unk_8;
-        temp_v0->unk_10 = sp50->unk_C;
+        temp_v0->unk_10 = sp50->freqScale;
         temp_v0->unk_14 = sp50->unk_10;
-        temp_v0->unk_18 = sp50->unk_14;
+        temp_v0->unk_18 = sp50->reverbAdd;
         sp48 = &D_8013331C[SFX_BANK_SHIFT(sp50->sfxId)][SFX_INDEX(sp50->sfxId)];
         temp_v0->unk_26 = sp48->unk_2;
         temp_v0->unk_24 = sp48->unk_0;
@@ -335,7 +333,6 @@ void func_800F7CEC(u8 arg0) {
     u8 phi_s0;
     u8 spA9;
     u8 phi_v1_5;
-    u8 temp1;
     u8 temp2;
     u16 temp3;
     f32 tempf1;
@@ -426,7 +423,6 @@ void func_800F7CEC(u8 arg0) {
     for (spAC = 0; spAC < spAE; spAC++) {
         phi_v1_5 = 0;
         temp_s4_3 = &D_8016E1B8[arg0][spAC];
-        temp1 = temp_s4_3->unk_4;
 
         if (temp_s4_3->unk_4 == 0xFF) {
             phi_v1_5 = 1;
@@ -718,7 +714,7 @@ void func_800F8F88(void) {
     }
 }
 
-u8 func_800F8FF4(u32 sfxId) {
+u8 Audio_IsSfxPlaying(u32 sfxId) {
     SoundBankEntry* entry;
     u8 bankIndex = gSoundBanks[SFX_BANK(sfxId)][0].next;
 

@@ -405,7 +405,7 @@ glabel sAudioSubTrackInfoPlayerSel
 glabel sAudioSubTrackInfoChannelSel
     .incbin "baserom.z64", 0xBA90CC, 0x4
 
-glabel sSequencePlayerPeakNumLayers
+glabel sSeqPlayerPeakNumLayers
     .incbin "baserom.z64", 0xBA90D0, 0x14
 
 glabel D_80131F44
