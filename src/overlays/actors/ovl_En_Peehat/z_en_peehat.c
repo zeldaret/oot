@@ -924,7 +924,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     // If Adult Peahat
-    if (thisx->params <= 0) { // thisx is required to match
+    if (thisx->params <= 0) {
         EnPeehat_Adult_CollisionCheck(this, globalCtx);
     }
     if (thisx->colChkInfo.damageEffect != PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
