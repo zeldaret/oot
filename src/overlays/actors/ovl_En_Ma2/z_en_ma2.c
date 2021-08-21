@@ -62,20 +62,6 @@ static struct_D_80AA1678 sAnimationInfo[] = {
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-static Vec3f D_80AA28A8 = { 900.0f, 0.0f, 0.0f };
-
-static void* sMouthTextures[] = {
-    gMalonAdultMouthNeutralTex,
-    gMalonAdultMouthSadTex,
-    gMalonAdultMouthHappyTex,
-};
-
-static void* sEyeTextures[] = {
-    gMalonAdultEyeOpenTex,
-    gMalonAdultEyeHalfTex,
-    gMalonAdultEyeClosedTex,
-};
-
 u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 23);
     if (faceReaction != 0) {
@@ -375,16 +361,17 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* D_80AA28B4[] = {
-        0x06002970,
-        0x06003570,
-        0x06003770,
+    static void* sMouthTextures[] = {
+        gMalonAdultMouthNeutralTex,
+        gMalonAdultMouthSadTex,
+        gMalonAdultMouthHappyTex
     };
-    static void* D_80AA28C0[] = {
-        0x06002570,
-        0x06002C70,
-        0x06003070,
+    static void* sEyeTextures[] = {
+        gMalonAdultEyeOpenTex,
+        gMalonAdultEyeHalfTex,
+        gMalonAdultEyeClosedTex
     };
+
     EnMa2* this = THIS;
     Camera* camera;
     f32 someFloat;

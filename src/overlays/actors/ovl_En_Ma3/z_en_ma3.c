@@ -66,20 +66,6 @@ static struct_D_80AA1678 sAnimationInfo[] = {
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-static Vec3f D_80AA3898 = { 900.0f, 0.0f, 0.0f };
-
-static void* sMouthTextures[] = {
-    gMalonAdultMouthNeutralTex,
-    gMalonAdultMouthSadTex,
-    gMalonAdultMouthHappyTex,
-};
-
-static void* sEyeTextures[] = {
-    gMalonAdultEyeOpenTex,
-    gMalonAdultEyeHalfTex,
-    gMalonAdultEyeClosedTex,
-};
-
 u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = PLAYER;
     s16* timer1ValuePtr; // weirdness with this necessary to match
@@ -357,16 +343,8 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static void* D_80AA38A4[] = {
-        0x06002970,
-        0x06003570,
-        0x06003770,
-    };
-    static void* D_80AA38B0[] = {
-        0x06002570,
-        0x06002C70,
-        0x06003070,
-    };
+    static void* sMouthTextures[] = { gMalonAdultMouthNeutralTex, gMalonAdultMouthSadTex, gMalonAdultMouthHappyTex };
+    static void* sEyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
     EnMa3* this = THIS;
     Camera* camera;
     f32 someFloat;
