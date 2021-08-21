@@ -61,11 +61,11 @@ typedef enum {
     /* 4 */ SARIA_MOUTH_FROWNING
 } SariaMouthState;
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gSariaEyeOpenTex, gSariaEyeHalfTex, gSariaEyeClosedTex, gSariaEyeSuprisedTex, gSariaEyeSadTex,
 };
 
-static u64* sMouthTextures[] = {
+static void* sMouthTextures[] = {
     gSariaMouthClosed2Tex,     gSariaMouthSuprisedTex, gSariaMouthClosedTex,
     gSariaMouthSmilingOpenTex, gSariaMouthFrowningTex,
 };
@@ -457,10 +457,10 @@ void func_8098F16C(DemoSa* this, GlobalContext* globalCtx) {
 void DemoSa_DrawXlu(DemoSa* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeIndex = this->eyeIndex;
-    UNK_PTR sp78 = sEyeTextures[eyeIndex];
+    void* sp78 = sEyeTextures[eyeIndex];
     s16 mouthIndex = this->mouthIndex;
     s32 pad2;
-    UNK_PTR sp6C = sMouthTextures[mouthIndex];
+    void* sp6C = sMouthTextures[mouthIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 296);
@@ -795,10 +795,10 @@ void DemoSa_DrawNothing(DemoSa* this, GlobalContext* globalCtx) {
 void DemoSa_DrawOpa(DemoSa* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeIndex = this->eyeIndex;
-    UNK_PTR eyeTex = sEyeTextures[eyeIndex];
+    void* eyeTex = sEyeTextures[eyeIndex];
     s32 pad2;
     s16 mouthIndex = this->mouthIndex;
-    UNK_PTR mouthTex = sMouthTextures[mouthIndex];
+    void* mouthTex = sMouthTextures[mouthIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa.c", 602);

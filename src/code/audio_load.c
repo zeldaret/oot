@@ -297,13 +297,12 @@ s32 func_800E1D64(s32 arg0, s32 arg1, s32 arg2) {
         }
         func_800E1C78(instrument->normalNotesSound.sample, arg0);
         if (instrument->normalRangeHi != 0x7F) {
-            func_800E1C78(instrument->highNotesSound.sample, arg0);
-            return;
+            return func_800E1C78(instrument->highNotesSound.sample, arg0);
         }
     } else if (arg1 == 0x7F) {
         Drum* drum = Audio_GetDrum(arg0, arg2);
 
-        if (drum == 0) {
+        if (drum == NULL) {
             return -1;
         }
         func_800E1C78(drum->sound.sample, arg0);

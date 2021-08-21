@@ -213,7 +213,7 @@ extern s16 gLinkObjectIds[2];
 extern u32 gObjectTableSize;
 extern RomFile gObjectTable[OBJECT_ID_MAX];
 extern EntranceInfo gEntranceTable[1556];
-extern Scene gSceneTable[SCENE_ID_MAX];
+extern SceneTableEntry gSceneTable[SCENE_ID_MAX];
 //extern ? D_8012A4A0;
 extern u16 gSramSlotOffsets[];
 //extern ? D_8012A690;
@@ -3212,7 +3212,6 @@ extern u16 gAudioSEFlagSwapTarget[10];
 extern u8 gAudioSEFlagSwapMode[10];
 //extern ? D_8016E320;
 //extern ? D_8016E348;
-//extern ? sAudioSeqCmds;
 extern unk_D_8016E750 D_8016E750[4];
 //extern ? D_8016EE8B;
 extern AudioContext gAudioContext; // at 0x8016F180

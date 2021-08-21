@@ -2485,7 +2485,7 @@ void AudioDebug_ProcessInput(void) {
 void func_800F4A70(void);
 void func_800F5CF8(void);
 
-void func_800F30534(void) {
+void func_800F3054(void) {
     if (func_800FAD34() == 0) {
         sAudioUpdateTaskStart = gAudioContext.totalTaskCnt;
         sAudioUpdateStartTime = osGetTime();
@@ -3729,13 +3729,13 @@ void func_800F6584(u8 arg0) {
     }
 }
 
-void Audio_SetEnvReverb(s8 arg0) {
-    sAudioEnvReverb = arg0 & 0x7F;
+void Audio_SetEnvReverb(s8 reverb) {
+    sAudioEnvReverb = reverb & 0x7F;
 }
 
-void Audio_SetCodeReverb(s8 arg0) {
-    if (arg0 != 0) {
-        sAudioCodeReverb = arg0 & 0x7F;
+void Audio_SetCodeReverb(s8 reverb) {
+    if (reverb != 0) {
+        sAudioCodeReverb = reverb & 0x7F;
     }
 }
 
