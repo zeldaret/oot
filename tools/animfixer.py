@@ -4,7 +4,7 @@ import os
 import argparse
 
 animdict ={
-    "SkelAnime_UpdateSkelAnime":"SkelAnime_Update",
+    "SkelAnime_FrameUpdateMatrix":"SkelAnime_Update",
     "SkelAnime_ChangeAnimTransitionRepeat":"Animation_MorphToLoop",
     "SkelAnime_ChangeAnimDefaultRepeat":"Animation_PlayLoop",
     "SkelAnime_ChangeAnimPlaybackRepeat":"Animation_PlayLoopSetSpeed",
