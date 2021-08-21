@@ -117,7 +117,7 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case SCENE_KAKARIKO:
-            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && IS_NOT_DAY) {
+            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && IS_NIGHT) {
                 this->stateFlags |= 4;
             }
             break;

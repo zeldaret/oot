@@ -69,7 +69,7 @@ void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Actor_SetFocus(thisx, 50.0f);
 
-    if ((gSaveContext.sceneSetupIndex < 4) && LINK_IS_CHILD) {
+    if ((gSaveContext.sceneSetupIndex < 4) && !LINK_IS_ADULT) {
         BgTreemouth_SetupAction(this, func_808BC8B8);
     } else if (LINK_IS_ADULT || (gSaveContext.sceneSetupIndex == 7)) {
         this->unk_168 = 0.0f;
@@ -138,7 +138,7 @@ void func_808BC864(BgTreemouth* this, GlobalContext* globalCtx) {
 
 void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
     if ((!(Flags_GetEventChkInf(5))) || LINK_IS_ADULT) {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             if (Flags_GetEventChkInf(0xC)) {
                 if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
                     this->dyna.actor.flags |= 1;

@@ -136,8 +136,7 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {
             Collider_InitCylinder(globalCtx, &this->colliderCylinder);
             Collider_SetCylinder(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
             Collider_InitJntSph(globalCtx, &this->colliderJntSph);
-            Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->actor, &sJntSphInit,
-                               this->colliderJntSphItems);
+            Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphItems);
             this->colliderJntSph.elements[0].dim.worldSphere.radius = 80;
             this->colliderJntSph.elements[0].dim.worldSphere.center.x = (s16)this->actor.world.pos.x;
             this->colliderJntSph.elements[0].dim.worldSphere.center.y = (s16)this->actor.world.pos.y + 50;

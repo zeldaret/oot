@@ -355,7 +355,7 @@ s32 func_80AF5DFC(EnSa* this, GlobalContext* globalCtx) {
             return 5;
         }
     }
-    if (globalCtx->sceneNum == SCENE_KOKIRI_HOME5 && LINK_IS_CHILD &&
+    if (globalCtx->sceneNum == SCENE_KOKIRI_HOME5 && !LINK_IS_ADULT &&
         INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !(gSaveContext.eventChkInf[4] & 1)) {
         return 1;
     }

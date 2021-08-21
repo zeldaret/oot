@@ -193,7 +193,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
-    if (LINK_IS_NOT_ADULT) {
+    if (LINK_IS_CHILD) {
         return 2;
     }
     if (!(gSaveContext.eventChkInf[1] & 0x100)) {

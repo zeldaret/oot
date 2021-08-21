@@ -177,7 +177,7 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
     if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneSetupIndex == 5)) {
         return 1;
     }
-    if (LINK_IS_NOT_CHILD) {
+    if (!LINK_IS_CHILD) {
         return 0;
     }
     if (((globalCtx->sceneNum == SCENE_MARKET_NIGHT) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) &&
@@ -192,7 +192,7 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
             return 0;
         }
     }
-    if ((globalCtx->sceneNum == SCENE_SOUKO) && IS_NOT_DAY && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((globalCtx->sceneNum == SCENE_SOUKO) && IS_NIGHT && (gSaveContext.eventChkInf[1] & 0x10)) {
         return 1;
     }
     if (globalCtx->sceneNum != SCENE_SPOT20) {

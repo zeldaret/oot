@@ -73,7 +73,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         if ((gSaveContext.sceneSetupIndex != 6) &&
             ((gSaveContext.sceneSetupIndex == 4) || (gSaveContext.sceneSetupIndex == 5) ||
-             (LINK_IS_CHILD && IS_NIGHT))) {
+             (!LINK_IS_ADULT && !IS_DAY))) {
             this->dyna.actor.shape.rot.x = -0x4000;
         } else {
             this->dyna.actor.shape.rot.x = 0;
@@ -153,7 +153,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, GlobalContext* glob
 
             if (this) {} // required to match
         }
-        if ((this->dyna.actor.shape.rot.x == 0) && (gSaveContext.sceneSetupIndex < 4) && LINK_IS_CHILD &&
+        if ((this->dyna.actor.shape.rot.x == 0) && (gSaveContext.sceneSetupIndex < 4) && !LINK_IS_ADULT &&
             (gSaveContext.nightFlag != 0)) {
             this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
             this->destAngle = -0x4000;
@@ -214,7 +214,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         if (globalCtx->sceneNum == SCENE_SPOT00) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !(gSaveContext.eventChkInf[8] & 1) && LINK_IS_NOT_ADULT) {
+                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !(gSaveContext.eventChkInf[8] & 1) && LINK_IS_CHILD) {
                 Player* player = PLAYER;
 
                 if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f) &&
@@ -319,7 +319,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
         thisx->child->child->world.pos.z = newPos.z;
 
         if (gSaveContext.sceneSetupIndex != 12) {
-            if ((gSaveContext.sceneSetupIndex >= 4) || (LINK_IS_CHILD && (thisx->shape.rot.x < -0x2000))) {
+            if ((gSaveContext.sceneSetupIndex >= 4) || (!LINK_IS_ADULT && (thisx->shape.rot.x < -0x2000))) {
                 BgSpot00Hanebasi_DrawTorches(thisx, globalCtx);
             } else {
                 sTorchFlameScale = 0.0f;

@@ -147,7 +147,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
             osSyncPrintf(VT_FGCOL(CYAN) " 追放タロン \n" VT_RST);
             if (gSaveContext.eventChkInf[6] & 0x800) {
                 Actor_Kill(&this->actor);
-            } else if (LINK_IS_CHILD) {
+            } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             } else if (gSaveContext.eventChkInf[6] & 0x400) {
                 func_80B13AA0(this, func_80B14CAC, func_80B167C0);
@@ -166,7 +166,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
             osSyncPrintf(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
             if (!(gSaveContext.eventChkInf[6] & 0x800)) {
                 Actor_Kill(&this->actor);
-            } else if (LINK_IS_CHILD) {
+            } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             } else if (globalCtx->sceneNum == SCENE_MALON_STABLE && gSaveContext.nightFlag) {
                 Actor_Kill(&this->actor);
@@ -295,7 +295,7 @@ void func_80B143D4(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14410(EnTa* this) {
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         func_80B13AA0(this, func_80B14C18, func_80B167C0);
         gSaveContext.eventChkInf[1] |= 0x8;
     } else {
