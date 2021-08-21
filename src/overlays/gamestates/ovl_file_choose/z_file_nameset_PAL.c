@@ -52,8 +52,8 @@ void func_80806F34(GameState* thisx) {
 
     for (phi_t2 = 0, phi_s2 = 0, phi_t3 = 0; phi_s2 < 5; phi_s2++) {
         phi_t0 = -0x60;
-        for (phi_t1 = 0; phi_t1 < 13; phi_t1++, phi_t3 += 4, phi_t2++) {
 
+        for (phi_t1 = 0; phi_t1 < 13; phi_t1++, phi_t3 += 4, phi_t2++) {
             this->allocVtx3[phi_t3].v.ob[0] = this->allocVtx3[phi_t3 + 2].v.ob[0] = D_80812544[phi_t2] + phi_t0;
 
             this->allocVtx3[phi_t3 + 1].v.ob[0] = this->allocVtx3[phi_t3 + 3].v.ob[0] =
@@ -76,18 +76,17 @@ void func_80806F34(GameState* thisx) {
                 this->allocVtx3[phi_t3 + 3].v.tc[0] = this->allocVtx3[phi_t3 + 3].v.tc[1] = 0x200;
 
             this->allocVtx3[phi_t3].v.cn[0] = this->allocVtx3[phi_t3 + 1].v.cn[0] =
-                this->allocVtx3[phi_t3 + 2].v.cn[0] = this->allocVtx3[phi_t3 + 3].v.cn[0]
+                this->allocVtx3[phi_t3 + 2].v.cn[0] = this->allocVtx3[phi_t3 + 3].v.cn[0] =
+                    this->allocVtx3[phi_t3].v.cn[1] = this->allocVtx3[phi_t3 + 1].v.cn[1] =
+                        this->allocVtx3[phi_t3 + 2].v.cn[1] = this->allocVtx3[phi_t3 + 3].v.cn[1] =
+                            this->allocVtx3[phi_t3].v.cn[2] = this->allocVtx3[phi_t3 + 1].v.cn[2] =
+                                this->allocVtx3[phi_t3 + 2].v.cn[2] = this->allocVtx3[phi_t3 + 3].v.cn[2] =
+                                    this->allocVtx3[phi_t3].v.cn[3] = this->allocVtx3[phi_t3 + 1].v.cn[3] =
+                                        this->allocVtx3[phi_t3 + 2].v.cn[3] = this->allocVtx3[phi_t3 + 3].v.cn[3] = 255;
 
-                = this->allocVtx3[phi_t3].v.cn[1] = this->allocVtx3[phi_t3 + 1].v.cn[1] =
-                    this->allocVtx3[phi_t3 + 2].v.cn[1] = this->allocVtx3[phi_t3 + 3].v.cn[1]
-
-                = this->allocVtx3[phi_t3].v.cn[2] = this->allocVtx3[phi_t3 + 1].v.cn[2] =
-                    this->allocVtx3[phi_t3 + 2].v.cn[2] = this->allocVtx3[phi_t3 + 3].v.cn[2]
-
-                = this->allocVtx3[phi_t3].v.cn[3] = this->allocVtx3[phi_t3 + 1].v.cn[3] =
-                    this->allocVtx3[phi_t3 + 2].v.cn[3] = this->allocVtx3[phi_t3 + 3].v.cn[3] = 255;
             phi_t0 += 0x10;
         }
+
         phi_s1 -= 0x10;
     }
 }
@@ -150,18 +149,22 @@ void func_8080723C(GameState* thisx) {
     for (phi_s0 = 0, phi_t1 = 0; phi_t1 < 44; phi_t1 += 4, phi_s0++) {
         if ((phi_s0 > 0) && (phi_s0 < 9)) {
             temp = this->fileNames[this->buttonIndex][phi_s0 - 1];
+
             this->allocVtx4[phi_t1].v.ob[0] = this->allocVtx4[phi_t1 + 2].v.ob[0] =
                 D_808125EC[phi_s0] + this->nameEntryBoxPosX + D_808124C0[temp];
+
             this->allocVtx4[phi_t1 + 1].v.ob[0] = this->allocVtx4[phi_t1 + 3].v.ob[0] =
                 this->allocVtx4[phi_t1].v.ob[0] + 0xA;
         } else {
             this->allocVtx4[phi_t1].v.ob[0] = this->allocVtx4[phi_t1 + 2].v.ob[0] =
                 D_808125EC[phi_s0] + this->nameEntryBoxPosX;
+
             this->allocVtx4[phi_t1 + 1].v.ob[0] = this->allocVtx4[phi_t1 + 3].v.ob[0] =
                 this->allocVtx4[phi_t1].v.ob[0] + 0xA;
         }
 
         this->allocVtx4[phi_t1].v.ob[1] = this->allocVtx4[phi_t1 + 1].v.ob[1] = D_80812604[phi_s0];
+        
         this->allocVtx4[phi_t1 + 2].v.ob[1] = this->allocVtx4[phi_t1 + 3].v.ob[1] =
             this->allocVtx4[phi_t1].v.ob[1] - 0xA;
 

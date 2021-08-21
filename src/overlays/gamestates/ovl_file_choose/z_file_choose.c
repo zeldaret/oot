@@ -94,7 +94,7 @@ void FileChoose_FadeInMenuElements(FileChooseContext* this) {
 /**
  * Converts a numerical value to ones-tens-hundreds digits
  */
-void func_8080B394(u16 value, s16* hundreds, s16* tens, s16* ones) {
+void FileChoose_SplitNumber(u16 value, s16* hundreds, s16* tens, s16* ones) {
     *hundreds = 0;
     *tens = 0;
     *ones = value;
@@ -106,6 +106,7 @@ void func_8080B394(u16 value, s16* hundreds, s16* tens, s16* ones) {
         (*hundreds)++;
         *ones -= 100;
     }
+
     while (true) {
         if ((*ones - 10) < 0) {
             break;
@@ -505,6 +506,7 @@ void func_8080C60C(FileChooseContext* thisx) {
         this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = 0x12C;
         this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
             this->allocVtx2[phi_t2].v.ob[0] + 0x10;
+            
         this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = 0;
         this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
             this->allocVtx2[phi_t2].v.ob[1] - 0x10;
@@ -539,13 +541,17 @@ void func_8080C60C(FileChooseContext* thisx) {
 
     for (phi_a1 = 0, phi_t2 = 4; phi_a1 < 3; phi_a1++) {
         phi_t0 = this->windowPosX - 6;
+
         for (phi_t5 = 0; phi_t5 < 5; phi_t5++, phi_t2 += 4) {
             this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
             this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
                 this->allocVtx2[phi_t2].v.ob[0] + D_80812750[phi_t5];
+
             this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = this->fileNamesY[phi_a1] + 0x2C;
+
             this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
                 this->allocVtx2[phi_t2].v.ob[1] - 0x38;
+
             this->allocVtx2[phi_t2 + 1].v.tc[0] = this->allocVtx2[phi_t2 + 3].v.tc[0] = D_80812750[phi_t5] << 5;
             this->allocVtx2[phi_t2 + 2].v.tc[1] = this->allocVtx2[phi_t2 + 3].v.tc[1] = 0x700;
             phi_t0 += D_80812750[phi_t5];
@@ -554,21 +560,30 @@ void func_8080C60C(FileChooseContext* thisx) {
 
     phi_t0 = this->windowPosX - 6;
     phi_ra = 0x2C;
+
     for (phi_t5 = 0; phi_t5 < 3; phi_t5++, phi_t2 += 20, phi_ra -= 0x10) {
         this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
+
         this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
             this->allocVtx2[phi_t2].v.ob[0] + 0x40;
+
         this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = this->buttonYOffsets[phi_t5] + phi_ra;
         this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
             this->allocVtx2[phi_t2].v.ob[1] - 0x10;
+
         this->allocVtx2[phi_t2 + 1].v.tc[0] = this->allocVtx2[phi_t2 + 3].v.tc[0] = 0x800;
+
         this->allocVtx2[phi_t2 + 4].v.ob[0] = this->allocVtx2[phi_t2 + 6].v.ob[0] = phi_t0 + 0x40;
+
         this->allocVtx2[phi_t2 + 5].v.ob[0] = this->allocVtx2[phi_t2 + 7].v.ob[0] =
             this->allocVtx2[phi_t2 + 4].v.ob[0] + 0x6C;
+
         this->allocVtx2[phi_t2 + 4].v.ob[1] = this->allocVtx2[phi_t2 + 5].v.ob[1] =
             this->buttonYOffsets[phi_t5] + phi_ra;
+
         this->allocVtx2[phi_t2 + 6].v.ob[1] = this->allocVtx2[phi_t2 + 7].v.ob[1] =
             this->allocVtx2[phi_t2 + 4].v.ob[1] - 0x10;
+
         this->allocVtx2[phi_t2 + 5].v.tc[0] = this->allocVtx2[phi_t2 + 7].v.tc[0] = 0xD80;
 
         if ((this->configMode == 0xF) && (phi_t5 == this->copyDestFileIndex)) {
@@ -580,39 +595,45 @@ void func_8080C60C(FileChooseContext* thisx) {
         }
 
         this->allocVtx2[phi_t2 + 8].v.ob[0] = this->allocVtx2[phi_t2 + 10].v.ob[0] = phi_t0 + 0xA8;
+
         this->allocVtx2[phi_t2 + 9].v.ob[0] = this->allocVtx2[phi_t2 + 11].v.ob[0] =
             this->allocVtx2[phi_t2 + 8].v.ob[0] + 0x2C;
+
         this->allocVtx2[phi_t2 + 8].v.ob[1] = this->allocVtx2[phi_t2 + 9].v.ob[1] = temp_t1;
         this->allocVtx2[phi_t2 + 10].v.ob[1] = this->allocVtx2[phi_t2 + 11].v.ob[1] =
             this->allocVtx2[phi_t2 + 8].v.ob[1] - 0x10;
+
         this->allocVtx2[phi_t2 + 9].v.tc[0] = this->allocVtx2[phi_t2 + 11].v.tc[0] = 0x580;
         this->allocVtx2[phi_t2 + 12].v.ob[0] = this->allocVtx2[phi_t2 + 14].v.ob[0] = phi_t0 + 0x34;
         this->allocVtx2[phi_t2 + 13].v.ob[0] = this->allocVtx2[phi_t2 + 15].v.ob[0] =
             this->allocVtx2[phi_t2 + 12].v.ob[0] + 0x18;
+
         this->allocVtx2[phi_t2 + 12].v.ob[1] = this->allocVtx2[phi_t2 + 13].v.ob[1] =
             this->buttonYOffsets[phi_t5] + phi_ra;
+
         this->allocVtx2[phi_t2 + 14].v.ob[1] = this->allocVtx2[phi_t2 + 15].v.ob[1] =
             this->allocVtx2[phi_t2 + 12].v.ob[1] - 0x10;
+
         this->allocVtx2[phi_t2 + 13].v.tc[0] = this->allocVtx2[phi_t2 + 15].v.tc[0] = 0x300;
         this->allocVtx2[phi_t2 + 16].v.ob[0] = this->allocVtx2[phi_t2 + 18].v.ob[0] = phi_t0 + 0x9C;
         this->allocVtx2[phi_t2 + 17].v.ob[0] = this->allocVtx2[phi_t2 + 19].v.ob[0] =
             this->allocVtx2[phi_t2 + 16].v.ob[0] + 0x18;
+
         this->allocVtx2[phi_t2 + 16].v.ob[1] = this->allocVtx2[phi_t2 + 17].v.ob[1] =
             this->buttonYOffsets[phi_t5] + phi_ra;
+
         this->allocVtx2[phi_t2 + 18].v.ob[1] = this->allocVtx2[phi_t2 + 19].v.ob[1] =
             this->allocVtx2[phi_t2 + 16].v.ob[1] - 0x10;
+
         this->allocVtx2[phi_t2 + 17].v.tc[0] = this->allocVtx2[phi_t2 + 19].v.tc[0] = 0x300;
     }
+
     phi_ra = 0x2C;
 
-    for (phi_t5 = 0; phi_t5 < 3; phi_t5++, phi_ra -= gGameInfo->data[1766]) {
-        if ((sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x1C] == 0x5A) ||
-            (sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x1D] == 0x45) ||
-            (sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x1E] == 0x4C) ||
-            (sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x1F] == 0x44) ||
-            (sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x20] == 0x41) ||
-            (sramCtx->readBuff[gSramSlotOffsets[phi_t5] + 0x21] == 0x5A)) {
-            phi_t0 = this->windowPosX - gGameInfo->data[1767];
+    for (phi_t5 = 0; phi_t5 < 3; phi_t5++, phi_ra -= WREG(38)) {
+        if (SLOT_OCCUPIED(sramCtx, phi_t5)) {
+            phi_t0 = this->windowPosX - WREG(39);
+
             if ((this->configMode == 0xF) && (phi_t5 == this->copyDestFileIndex)) {
                 temp_t1 = this->fileNamesY[phi_t5] + 0x2C;
             } else if (((this->configMode == 0x10) || (this->configMode == 0x11)) &&
@@ -621,19 +642,21 @@ void func_8080C60C(FileChooseContext* thisx) {
             } else {
                 temp_t1 = phi_ra + this->buttonYOffsets[phi_t5] + this->fileNamesY[phi_t5];
             }
+
             temp_t1 += 2;
-            for (phi_a1 = 0; phi_a1 < 8; phi_a1++, phi_t2 += 4, phi_t0 += gGameInfo->data[1768]) {
-                this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] =
-                    gGameInfo->data[1769] + phi_t0 + 0x40;
+
+            for (phi_a1 = 0; phi_a1 < 8; phi_a1++, phi_t2 += 4, phi_t0 += WREG(40)) {
+                this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = WREG(41) + phi_t0 + 0x40;
                 this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
-                    this->allocVtx2[phi_t2].v.ob[0] + gGameInfo->data[1770];
+                    this->allocVtx2[phi_t2].v.ob[0] + WREG(42);
                 this->allocVtx2[phi_t2].v.ob[1] = this->allocVtx2[phi_t2 + 1].v.ob[1] = temp_t1 - 3;
                 this->allocVtx2[phi_t2 + 2].v.ob[1] = this->allocVtx2[phi_t2 + 3].v.ob[1] =
-                    this->allocVtx2[phi_t2].v.ob[1] - gGameInfo->data[1771];
+                    this->allocVtx2[phi_t2].v.ob[1] - WREG(43);
             }
 
             phi_t0 = this->windowPosX - 0xE;
             temp_t1 -= 0x16;
+
             for (phi_a1 = 0; phi_a1 < 4; phi_a1++, phi_t2 += 4) {
                 this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
                 this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
@@ -643,10 +666,12 @@ void func_8080C60C(FileChooseContext* thisx) {
                     this->allocVtx2[phi_t2].v.ob[1] - D_80812828[phi_a1];
                 phi_t0 += D_80812818[phi_a1];
             }
+
             this->allocVtx2[phi_t2 - 15].v.tc[0] = this->allocVtx2[phi_t2 - 13].v.tc[0] = 0x400;
 
             phi_t0 = this->windowPosX + 0x3F;
             temp_t1 += 4;
+
             for (phi_a1 = 0; phi_a1 < 20; phi_a1++, phi_t2 += 4, phi_t0 += 9) {
                 this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
                 this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
@@ -660,8 +685,10 @@ void func_8080C60C(FileChooseContext* thisx) {
                     temp_t1 -= 8;
                 }
             }
+
             phi_t0 = this->windowPosX + 4;
             temp_t1 -= 0xA;
+
             for (phi_a1 = 0; phi_a1 < 10; phi_a1++, phi_t2 += 4, phi_t0 += 0x10) {
                 this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
                 this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
@@ -674,8 +701,10 @@ void func_8080C60C(FileChooseContext* thisx) {
             phi_t2 += 0xA8;
         }
     }
+
     phi_t0 = this->windowPosX - 6;
     phi_ra = -0xC;
+
     for (phi_t5 = 0; phi_t5 < 2; phi_t5++, phi_t2 += 4, phi_ra -= 0x10) {
         this->allocVtx2[phi_t2].v.ob[0] = this->allocVtx2[phi_t2 + 2].v.ob[0] = phi_t0;
         this->allocVtx2[phi_t2 + 1].v.ob[0] = this->allocVtx2[phi_t2 + 3].v.ob[0] =
@@ -717,6 +746,7 @@ void func_8080C60C(FileChooseContext* thisx) {
         this->allocVtx2[phi_t2 + 1].v.tc[0] = this->allocVtx2[phi_t2 + 3].v.tc[0] = 0x900;
         this->allocVtx2[phi_t2 + 2].v.tc[1] = this->allocVtx2[phi_t2 + 3].v.tc[1] = 0x300;
     }
+
     this->allocVtx2[phi_t2 + 4].v.ob[0] = this->allocVtx2[phi_t2 + 6].v.ob[0] = this->windowPosX + 0x3A;
     this->allocVtx2[phi_t2 + 5].v.ob[0] = this->allocVtx2[phi_t2 + 7].v.ob[0] =
         this->allocVtx2[phi_t2 + 4].v.ob[0] + 0x80;
@@ -727,31 +757,31 @@ void func_8080C60C(FileChooseContext* thisx) {
     this->allocVtx2[phi_t2 + 5].v.tc[0] = this->allocVtx2[phi_t2 + 7].v.tc[0] = 0x1000;
 }
 
-u16 D_8081284C[] = { 0x007C, 0x0124, 0x01CC, 0x0000 };
+static u16 D_8081284C[] = { 0x007C, 0x0124, 0x01CC, 0x0000 };
 
-void* sQuestItemTextures[] = {
+static void* sQuestItemTextures[] = {
     gTitleStaticKokiriEmeraldTex,   gTitleStaticGoronRubyTex,       gTitleStaticZoraSapphireTex,
     gTitleStaticForestMedallionTex, gTitleStaticFireMedallionTex,   gTitleStaticWaterMedallionTex,
     gTitleStaticSpiritMedallionTex, gTitleStaticShadowMedallionTex, gTitleStaticLightMedallionTex,
 };
 
-s16 D_80812878[] = { 0x00FF, 0x00FF, 0x00FF, 0x0000, 0x00FF, 0x0000, 0x00FF, 0x00C8, 0x00C8, 0x0000 };
-s16 D_8081288C[] = { 0x00FF, 0x00FF, 0x00FF, 0x00FF, 0x003C, 0x0064, 0x0082, 0x0032, 0x00C8, 0x0000 };
-s16 D_808128A0[] = { 0x00FF, 0x00FF, 0x00FF, 0x0000, 0x0000, 0x00FF, 0x0000, 0x00FF, 0x0000, 0x0000 };
-s16 D_808128B4[] = { 0x0012, 0x0013, 0x0014, 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0000 };
-s16 D_808128C8[2][3] = { { 0x00FF, 0x00FF, 0x00FF }, { 0x0064, 0x0064, 0x0064 } };
-void* sHeartTextures[] = { gHeartFullTex, gDefenseHeartFullTex };
-s16 D_808128DC[2][3] = { { 0x00FF, 0x0046, 0x0032 }, { 0x00C8, 0x0000, 0x0000 } };
-s16 D_808128E8[2][3] = { { 0x0032, 0x0028, 0x003C }, { 0x00FF, 0x00FF, 0x00FF } };
+static s16 D_80812878[] = { 0x00FF, 0x00FF, 0x00FF, 0x0000, 0x00FF, 0x0000, 0x00FF, 0x00C8, 0x00C8, 0x0000 };
+static s16 D_8081288C[] = { 0x00FF, 0x00FF, 0x00FF, 0x00FF, 0x003C, 0x0064, 0x0082, 0x0032, 0x00C8, 0x0000 };
+static s16 D_808128A0[] = { 0x00FF, 0x00FF, 0x00FF, 0x0000, 0x0000, 0x00FF, 0x0000, 0x00FF, 0x0000, 0x0000 };
+static s16 D_808128B4[] = { 0x0012, 0x0013, 0x0014, 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0000 };
+static s16 D_808128C8[2][3] = { { 0x00FF, 0x00FF, 0x00FF }, { 0x0064, 0x0064, 0x0064 } };
+static void* sHeartTextures[] = { gHeartFullTex, gDefenseHeartFullTex };
+static s16 sHeartPrimColors[2][3] = { { 0x00FF, 0x0046, 0x0032 }, { 0x00C8, 0x0000, 0x0000 } };
+static s16 sHeartEnvColors[2][3] = { { 0x0032, 0x0028, 0x003C }, { 0x00FF, 0x00FF, 0x00FF } };
 
 void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
     FileChooseContext* this = thisx;
     Font* sp54 = &this->font;
-    s32 phi_a2_2;
+    s32 heartType;
     s16 phi_s0;
     s16 phi_s2;
     s16 phi_s3;
-    s16 spD8[3];
+    s16 deathCountSplit[3];
 
     if (1) {}
 
@@ -778,29 +808,31 @@ void func_8080D8CC(FileChooseContext* thisx, s16 arg1, s16 arg2) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->fileInfoAlpha[arg1]);
         gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[D_8081284C[arg1]] + 0x24, 12, 0);
 
-        func_8080B394(this->deaths[arg1], &spD8[0], &spD8[1], &spD8[2]);
+        FileChoose_SplitNumber(this->deaths[arg1], &deathCountSplit[0], &deathCountSplit[1], &deathCountSplit[2]);
 
         for (phi_s0 = 0, phi_s2 = 0; phi_s0 < 3; phi_s0++, phi_s2 += 4) {
-            FileChoose_DrawCharacter(this->state.gfxCtx, sp54->fontBuf + spD8[phi_s0] * FONT_CHAR_TEX_SIZE, phi_s2);
+            FileChoose_DrawCharacter(this->state.gfxCtx, sp54->fontBuf + deathCountSplit[phi_s0] * FONT_CHAR_TEX_SIZE,
+                                     phi_s2);
         }
 
         gDPPipeSync(POLY_OPA_DISP++);
 
-        phi_a2_2 = (this->defense[arg1] == 0) ? 0 : 1;
+        heartType = (this->defense[arg1] == 0) ? 0 : 1;
 
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, D_808128DC[phi_a2_2][0], D_808128DC[phi_a2_2][1],
-                        D_808128DC[phi_a2_2][2], this->fileInfoAlpha[arg1]);
-        gDPSetEnvColor(POLY_OPA_DISP++, D_808128E8[phi_a2_2][0], D_808128E8[phi_a2_2][1], D_808128E8[phi_a2_2][2], 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sHeartPrimColors[heartType][0], sHeartPrimColors[heartType][1],
+                        sHeartPrimColors[heartType][2], this->fileInfoAlpha[arg1]);
+        gDPSetEnvColor(POLY_OPA_DISP++, sHeartEnvColors[heartType][0], sHeartEnvColors[heartType][1],
+                       sHeartEnvColors[heartType][2], 255);
 
         phi_s0 = this->healthCapacities[arg1] / 0x10;
 
         for (phi_s2 = 0, phi_s3 = 0; phi_s3 < phi_s0; phi_s3++, phi_s2 += 4) {
             gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[D_8081284C[arg1] + phi_s2] + 0x30, 4, 0);
 
-            POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, sHeartTextures[phi_a2_2], 0x10, 0x10, 0);
+            POLY_OPA_DISP = func_8080AFD0(POLY_OPA_DISP, sHeartTextures[heartType], 0x10, 0x10, 0);
         }
 
         gDPPipeSync(POLY_OPA_DISP++);
@@ -900,7 +932,9 @@ void func_8080E074(FileChooseContext* thisx) {
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
     gDPPipeSync(POLY_OPA_DISP++);
+
     phi_s5 = 4;
+
     for (phi_s0 = 0; phi_s0 < 3; phi_s0++, phi_s5 += 20) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -914,6 +948,7 @@ void func_8080E074(FileChooseContext* thisx) {
             gSP1Quadrangle(POLY_OPA_DISP++, phi_t2, phi_t2 + 2, phi_t2 + 3, phi_t2 + 1, 0);
         }
     }
+
     for (phi_t3 = 0; phi_t3 < 3; phi_t3++, phi_s5 += 20) {
         gSPVertex(POLY_OPA_DISP++, &this->allocVtx2[phi_s5], 20, 0);
 
@@ -974,6 +1009,7 @@ void func_8080E074(FileChooseContext* thisx) {
                             G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, phi_t2, phi_t2 + 2, phi_t2 + 3, phi_t2 + 1, 0);
     }
+
     gDPPipeSync(POLY_OPA_DISP++);
 
     for (phi_t2 = 0, phi_t3 = 0; phi_t3 < 2; phi_t3++, phi_t2 += 4) {
@@ -1009,8 +1045,8 @@ void func_8080E074(FileChooseContext* thisx) {
                             G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 12, 14, 15, 13, 0);
     }
-    if (this->warningLabel >= 0) {
 
+    if (this->warningLabel >= 0) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -1021,6 +1057,7 @@ void func_8080E074(FileChooseContext* thisx) {
                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, 16, 18, 19, 17, 0);
     }
+
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA);
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2198);
@@ -1220,7 +1257,7 @@ void func_8081017C(GameState* thisx) {
 
     if (CHECK_BTN_ALL(controller1->press.button, BTN_START) || (CHECK_BTN_ALL(controller1->press.button, BTN_A))) {
         if (this->confirmButtonIndex == BTN_CONFIRM_YES) {
-            func_800AA000(300.0f, 0xB4, 0x14, 0x64);
+            func_800AA000(300.0f, 180, 20, 100);
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->selectMode = SM_FADE_OUT;
             func_800F6964(0xF);
@@ -1376,6 +1413,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.magicLevel = gSaveContext.magic;
 
     if (1) {}
+
     osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.unk_13F6), gSaveContext.magic);
     osSyncPrintf(VT_RST);
@@ -1394,7 +1432,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     }
 }
 
-void (*gSelectModeUpdateFuncs[])(GameState*) = {
+static void (*gSelectModeUpdateFuncs[])(GameState*) = {
     func_8080FE2C, func_8080FF98, func_8081009C,      func_8081017C,
     func_80810354, func_80810440, FileChoose_FadeOut, FileChoose_LoadGame,
 };
@@ -1457,21 +1495,24 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2834);
 }
 
-void (*gFileSelectDrawFuncs[])(GameState*) = {
+static void (*gFileSelectDrawFuncs[])(GameState*) = {
     FileChoose_InitModeDraw,
     FileChoose_ConfigModeDraw,
     FileChoose_SelectModeDraw,
 };
 
-void (*gFileSelectUpdateFuncs[])(GameState*) = {
+static void (*gFileSelectUpdateFuncs[])(GameState*) = {
     FileChoose_InitModeUpdate,
     FileChoose_ConfigModeUpdate,
     FileChoose_SelectModeUpdate,
 };
 
 void FileChoose_Main(GameState* thisx) {
-    static void* controlsTextures[] = { gTitleStaticADecideBCancelENGTex, gTitleStaticADecideBCancelGERTex,
-                                        gTitleStaticADecideBCancelFRATex };
+    static void* controlsTextures[] = {
+        gTitleStaticADecideBCancelENGTex,
+        gTitleStaticADecideBCancelGERTex,
+        gTitleStaticADecideBCancelFRATex,
+    };
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];
 
