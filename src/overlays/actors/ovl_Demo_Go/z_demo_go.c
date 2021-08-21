@@ -191,7 +191,7 @@ void func_8097CCE0(DemoGo* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 DemoGo_FrameUpdateMatrix(DemoGo* this) {
+s32 DemoGo_UpdateSkelAnime(DemoGo* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -278,7 +278,7 @@ void func_8097D088(DemoGo* this, GlobalContext* globalCtx) {
     s32 something;
 
     func_8097CA30(this, globalCtx);
-    something = DemoGo_FrameUpdateMatrix(this);
+    something = DemoGo_UpdateSkelAnime(this);
     func_8097C930(this);
     func_8097CF20(this, globalCtx, something);
 }
@@ -287,7 +287,7 @@ void func_8097D0D0(DemoGo* this, GlobalContext* globalCtx) {
     func_8097CCE0(this, globalCtx);
     func_8097CCC0(this);
     func_8097CA30(this, globalCtx);
-    DemoGo_FrameUpdateMatrix(this);
+    DemoGo_UpdateSkelAnime(this);
     func_8097C930(this);
     func_8097C9DC(this);
     func_8097CF9C(this);
@@ -296,7 +296,7 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx) {
     func_8097CCE0(this, globalCtx);
     func_8097CC08(this);
     func_8097CA30(this, globalCtx);
-    DemoGo_FrameUpdateMatrix(this);
+    DemoGo_UpdateSkelAnime(this);
     func_8097C930(this);
     func_8097C9DC(this);
 }

@@ -225,7 +225,7 @@ void func_80AB1284(EnNb* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
 }
 
-s32 EnNb_FrameUpdateMatrix(EnNb* this) {
+s32 EnNb_UpdateSkelAnime(EnNb* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -412,14 +412,14 @@ void EnNb_SetupChamberWarp(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_ComeUp(EnNb* this, GlobalContext* globalCtx) {
     EnNb_ComeUpImpl(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupDefaultChamberIdle(this);
 }
 
 void func_80AB193C(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupArmRaise(this, globalCtx);
 }
@@ -428,21 +428,21 @@ void EnNb_RaiseArm(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     func_80AB1284(this, globalCtx);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupRaisedArmTransition(this, animFinished);
 }
 
 void func_80AB19BC(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupMedallion(this, globalCtx);
 }
 
 void func_80AB19FC(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
 }
 
@@ -526,7 +526,7 @@ void EnNb_Hide(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_Fade(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckToFade(this, globalCtx);
     func_80AB1210(this, globalCtx);
@@ -534,7 +534,7 @@ void EnNb_Fade(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_CreateLightOrb(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupLightOrb(this, globalCtx);
     func_80AB1210(this, globalCtx);
@@ -673,7 +673,7 @@ void EnNb_MovingInPortal(EnNb* this, GlobalContext* globalCtx) {
     EnNb_PlayCrySFX(this, globalCtx);
     EnNb_PlayAgonySFX(this, globalCtx);
     EnNb_UpdateEyes(this);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_CheckKidnapCsMode(this, globalCtx);
 }
 
@@ -681,7 +681,7 @@ void EnNb_SuckedInByPortal(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     EnNb_UpdateEyes(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_SetRaisedArmCaptureAnim(this, animFinished);
     EnNb_SetPosInPortal(this, globalCtx);
     EnNb_CheckKidnapCsMode(this, globalCtx);
@@ -897,7 +897,7 @@ void EnNb_Kneel(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     EnNb_UpdateEyes(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_CheckIfKneeling(this, animFinished);
     EnNb_PlayKneelingOnGroundSFX(this);
     func_80AB2688(this, globalCtx);
@@ -909,7 +909,7 @@ void EnNb_LookRight(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     EnNb_UpdateEyes(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_CheckIfLookingRight(this, animFinished);
     EnNb_PlayLookRightSFX(this);
     func_80AB2688(this, globalCtx);
@@ -921,7 +921,7 @@ void EnNb_LookLeft(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     EnNb_UpdateEyes(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_CheckIfLookLeft(this, animFinished);
     func_80AB2688(this, globalCtx);
     func_80AB1284(this, globalCtx);
@@ -933,7 +933,7 @@ void EnNb_Run(EnNb* this, GlobalContext* globalCtx) {
 
     EnNb_PlayKnuckleDefeatSFX(this, globalCtx);
     EnNb_UpdateEyes(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_PlayLookLeftSFX(this);
     func_80AB2688(this, globalCtx);
     func_80AB1284(this, globalCtx);
@@ -1075,7 +1075,7 @@ void EnNb_CheckCreditsCsMode(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_CreditsFade(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetAlphaInCredits(this);
     EnNb_SetupCreditsSit(this);
@@ -1083,7 +1083,7 @@ void EnNb_CreditsFade(EnNb* this, GlobalContext* globalCtx) {
 
 void func_80AB3428(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckCreditsCsModeImpl(this, globalCtx);
 }
@@ -1092,7 +1092,7 @@ void EnNb_LookUp(EnNb* this, GlobalContext* globalCtx) {
     s32 animFinished;
 
     func_80AB1284(this, globalCtx);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckIfLookingUp(this, animFinished);
 }
@@ -1308,7 +1308,7 @@ void func_80AB3B7C(EnNb* this, GlobalContext* globalCtx) {
 void EnNb_WaitForNotice(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_CheckNoticed(this, globalCtx);
 }
@@ -1318,7 +1318,7 @@ void EnNb_StandUpAfterNotice(EnNb* this, GlobalContext* globalCtx) {
 
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetupIdleCrawlspace(this, animFinished);
 }
@@ -1327,7 +1327,7 @@ void EnNb_BlockCrawlspace(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
     func_80AB0FBC(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     func_80AB3838(this, globalCtx);
 }
@@ -1336,7 +1336,7 @@ void EnNb_InitCrawlspaceDialogue(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
     func_80AB0FBC(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     EnNb_SetTextIdAsChild(this, globalCtx);
 }
@@ -1349,7 +1349,7 @@ void EnNb_FollowPath(EnNb* this, GlobalContext* globalCtx) {
     EnNb_UpdateCollider(this, globalCtx);
     func_80AB36DC(this, globalCtx);
     func_80AB10C4(this);
-    animFinished = EnNb_FrameUpdateMatrix(this);
+    animFinished = EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     func_80AB3A7C(this, globalCtx, animFinished);
 }
@@ -1358,7 +1358,7 @@ void func_80AB3DB0(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
     func_80AB0FBC(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     func_80AB3B04(this, globalCtx);
 }
@@ -1367,7 +1367,7 @@ void func_80AB3E10(EnNb* this, GlobalContext* globalCtx) {
     func_80AB1284(this, globalCtx);
     EnNb_UpdateCollider(this, globalCtx);
     func_80AB1040(this, globalCtx);
-    EnNb_FrameUpdateMatrix(this);
+    EnNb_UpdateSkelAnime(this);
     EnNb_UpdateEyes(this);
     func_80AB3B7C(this, globalCtx);
 }
