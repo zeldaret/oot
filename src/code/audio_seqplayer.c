@@ -1323,7 +1323,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         scriptState->value = (*channel->dynTable)[0][scriptState->value];
                         break;
                     case 0xB7:
-                        channel->unk_22 = (parameters[0] == 0) ? gAudioContext.audioRandom & 0XFFFF
+                        channel->unk_22 = (parameters[0] == 0) ? gAudioContext.audioRandom & 0xFFFF
                                                                : gAudioContext.audioRandom % parameters[0];
                         break;
                     case 0xB8:
