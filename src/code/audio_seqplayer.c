@@ -1460,20 +1460,17 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* seqChannel);
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelProcessScript.s")
 #endif
 
-#ifdef NON_MATCHING
-// Regalloc. The large number of pads suggests cases may have their own temp variables.
 void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     u8 command;
     u8 commandLow;
-    u16 offset;
     M64ScriptState* seqScript = &seqPlayer->scriptState;
     s16 tempS;
     u16 temp;
     s32 i;
     s32 value;
     u8* data;
-    s32 pad1;
-    s32 pad2;
+    u8* data2; // force a1
+    u8* data3; // force v0
     s32 pad3;
     s32 dummy;
 
@@ -1627,11 +1624,11 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0xD1:
                     case 0xD2:
                         temp = Audio_M64ReadS16(seqScript);
-                        data = &seqPlayer->seqData[temp];
+                        data3 = &seqPlayer->seqData[temp];
                         if (command == 0xD2) {
-                            seqPlayer->shortNoteVelocityTable = data;
+                            seqPlayer->shortNoteVelocityTable = data3;
                         } else {
-                            seqPlayer->shortNoteDurationTable = data;
+                            seqPlayer->shortNoteDurationTable = data3;
                         }
                         break;
                     case 0xD0:
@@ -1646,11 +1643,10 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         }
                         break;
                     case 0xCD: {
-                        offset = Audio_M64ReadS16(seqScript);
+                        temp = Audio_M64ReadS16(seqScript);
 
                         if ((seqScript->value != -1) && (seqScript->depth != 3)) {
-                            // a/v registers are wrong here. may need to mess with temps
-                            data = seqPlayer->seqData + (u32)(offset + seqScript->value * 2);
+                            data = seqPlayer->seqData + (u32)(temp + (seqScript->value << 1));
                             seqScript->stack[seqScript->depth] = seqScript->pc;
                             seqScript->depth++;
 
@@ -1671,8 +1667,8 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0xC7:
                         command = Audio_M64ReadU8(seqScript);
                         temp = Audio_M64ReadS16(seqScript);
-                        data = &seqPlayer->seqData[temp];
-                        *data = (u8)seqScript->value + command;
+                        data2 = &seqPlayer->seqData[temp];
+                        *data2 = (u8)seqScript->value + command;
                         break;
                     case 0xC6:
                         seqPlayer->unk_0b2 = true;
@@ -1729,7 +1725,8 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0xB0:
                         command = Audio_M64ReadU8(seqScript);
                         temp = Audio_M64ReadS16(seqScript);
-                        Audio_SyncLoadSeq(command, &seqPlayer->seqData[temp], &seqPlayer->unk_158[commandLow]);
+                        data2 = &seqPlayer->seqData[temp];
+                        Audio_SyncLoadSeq(command, data2, &seqPlayer->unk_158[commandLow]);
                         break;
                     case 0x60: {
                         command = Audio_M64ReadU8(seqScript);
@@ -1750,10 +1747,6 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         }
     }
 }
-#else
-void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer);
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerProcessSequence.s")
-#endif
 
 void Audio_ProcessSequences(s32 arg0) {
     SequencePlayer* seqPlayer;
