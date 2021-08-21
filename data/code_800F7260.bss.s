@@ -30,7 +30,7 @@ glabel D_8016C820
 glabel D_8016C8B0
     .space 0xF0
 
-glabel D_8016C9A0
+glabel sSoundRequests
     .space 0x1800
 
 glabel D_8016E1A0

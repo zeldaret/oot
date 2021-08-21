@@ -83,8 +83,8 @@ void func_800E1618(s32 arg0) {
     gAudioContext.unk_288C = gAudioContext.unk_2874;
     gAudioContext.sampleDmaReqs =
         Audio_Alloc(&gAudioContext.notesAndBuffersPool, 4 * gAudioContext.maxSimultaneousNotes * sizeof(SampleDmaReq) *
-                                                            gAudioContext.audioBufferParameters.presetUnk4);
-    t2 = 3 * gAudioContext.maxSimultaneousNotes * gAudioContext.audioBufferParameters.presetUnk4;
+                                                            gAudioContext.audioBufferParameters.specUnk4);
+    t2 = 3 * gAudioContext.maxSimultaneousNotes * gAudioContext.audioBufferParameters.specUnk4;
     for (i = 0; i < t2; i++) {
         temp_s0 = &gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReqCnt];
         temp_s0->ramAddr = func_800DE2B0(&gAudioContext.notesAndBuffersPool, gAudioContext.unk_288C);
@@ -1019,7 +1019,7 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
     gAudioContext.unk_283C = &D_80155340;
     gAudioContext.seqTabEntCnt = gAudioContext.sequenceTable->header.entryCnt;
 
-    gAudioContext.audioResetPresetIdToLoad = 0;
+    gAudioContext.audioResetSpecIdToLoad = 0;
     gAudioContext.resetStatus = 1;
 
     Audio_ResetStep();

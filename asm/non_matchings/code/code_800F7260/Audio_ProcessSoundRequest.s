@@ -1,9 +1,9 @@
-glabel func_800F7680
+glabel Audio_ProcessSoundRequest
 /* B6E820 800F7680 27BDFFA8 */  addiu $sp, $sp, -0x58
-/* B6E824 800F7684 3C0E8013 */  lui   $t6, %hi(D_801333A4) # $t6, 0x8013
-/* B6E828 800F7688 91CE33A4 */  lbu   $t6, %lo(D_801333A4)($t6)
-/* B6E82C 800F768C 3C188017 */  lui   $t8, %hi(D_8016C9A0) # $t8, 0x8017
-/* B6E830 800F7690 2718C9A0 */  addiu $t8, %lo(D_8016C9A0) # addiu $t8, $t8, -0x3660
+/* B6E824 800F7684 3C0E8013 */  lui   $t6, %hi(sSoundRequestTail) # $t6, 0x8013
+/* B6E828 800F7688 91CE33A4 */  lbu   $t6, %lo(sSoundRequestTail)($t6)
+/* B6E82C 800F768C 3C188017 */  lui   $t8, %hi(sSoundRequests) # $t8, 0x8017
+/* B6E830 800F7690 2718C9A0 */  addiu $t8, %lo(sSoundRequests) # addiu $t8, $t8, -0x3660
 /* B6E834 800F7694 000E7880 */  sll   $t7, $t6, 2
 /* B6E838 800F7698 01EE7823 */  subu  $t7, $t7, $t6
 /* B6E83C 800F769C 000F78C0 */  sll   $t7, $t7, 3

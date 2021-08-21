@@ -490,7 +490,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             swingRateAccel = 30.0f;
             swingSizeAccel = 60.0f;
             if (((this->sfxTimer % 16) == 0) && (this->timers[0] < 30)) {
-                func_800F4B58(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, D_801305D0);
+                Audio_PlaySoundIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
             }
         } else if (this->work[MO_TENT_ACTION_STATE] == MO_TENT_SHAKE) {
             if (this->timers[0] > 40) {
@@ -503,7 +503,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 swingRateAccel = 30.0f;
                 swingSizeAccel = 60.0f;
                 if ((this->sfxTimer % 32) == 0) {
-                    func_800F4B58(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, D_801305D0);
+                    Audio_PlaySoundIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
                     func_800AA000(0, 100, 5, 2);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
                 }
@@ -517,7 +517,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 swingRateAccel = 70.0f;
                 swingSizeAccel = 70.0f;
                 if ((this->sfxTimer % 16) == 0) {
-                    func_800F4B58(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, D_801305D0);
+                    Audio_PlaySoundIncreasinglyTransposed(&this->tentTipPos, NA_SE_EN_MOFER_WAVE, gMorphaTransposeTable);
                     func_800AA000(0, 160, 5, 4);
                     func_8002F7DC(&player->actor, NA_SE_VO_LI_FREEZE + player->ageProperties->unk_92);
                 }
@@ -630,7 +630,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 if ((this->timers[0] == 0) && !HAS_LINK(otherTent)) {
                     this->work[MO_TENT_ACTION_STATE] = MO_TENT_SWING;
                     this->timers[0] = 50;
-                    func_800F4BE8();
+                    Audio_ResetIncreasingTranspose();
                     this->attackAngleMod = Rand_CenteredFloat(0x1000);
                 }
             } else {
@@ -772,7 +772,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     this->timers[0] = 150;
                     this->mashCounter = 0;
                     this->sfxTimer = 30;
-                    func_800F4BE8();
+                    Audio_ResetIncreasingTranspose();
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     this->csCamera = Gameplay_CreateSubCamera(globalCtx);
                     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);

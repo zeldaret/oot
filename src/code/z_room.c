@@ -619,5 +619,5 @@ void func_80097534(GlobalContext* globalCtx, RoomContext* roomCtx) {
     if (!((globalCtx->sceneNum >= SCENE_SPOT00) && (globalCtx->sceneNum <= SCENE_SPOT20))) {
         Map_SavePlayerInitialInfo(globalCtx);
     }
-    func_800F66C0(globalCtx->roomCtx.curRoom.echo);
+    Audio_SetEnvReverb(globalCtx->roomCtx.curRoom.echo);
 }

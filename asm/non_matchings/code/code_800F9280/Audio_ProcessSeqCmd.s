@@ -757,10 +757,10 @@ glabel L800F9F68
 /* B71154 800F9FB4 A0393408 */   sb    $t9, %lo(D_80133408)($at)
 glabel L800F9FB8
 /* B71158 800F9FB8 320EFF00 */  andi  $t6, $s0, 0xff00
-/* B7115C 800F9FBC 3C038013 */  lui   $v1, %hi(D_80133414) # $v1, 0x8013
+/* B7115C 800F9FBC 3C038013 */  lui   $v1, %hi(gAudioSpecId) # $v1, 0x8013
 /* B71160 800F9FC0 000E7A02 */  srl   $t7, $t6, 8
 /* B71164 800F9FC4 3C018013 */  lui   $at, %hi(D_801333CC) # $at, 0x8013
-/* B71168 800F9FC8 24633414 */  addiu $v1, %lo(D_80133414) # addiu $v1, $v1, 0x3414
+/* B71168 800F9FC8 24633414 */  addiu $v1, %lo(gAudioSpecId) # addiu $v1, $v1, 0x3414
 /* B7116C 800F9FCC A02F33CC */  sb    $t7, %lo(D_801333CC)($at)
 /* B71170 800F9FD0 90780000 */  lbu   $t8, ($v1)
 /* B71174 800F9FD4 A0700000 */  sb    $s0, ($v1)

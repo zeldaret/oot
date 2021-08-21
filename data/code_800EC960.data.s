@@ -36,10 +36,10 @@ glabel D_801305C0
 glabel D_801305C4
     .incbin "baserom.z64", 0xBA7764, 0x8
 
-glabel D_801305CC
+glabel sAudioIncreasingTranspose
     .incbin "baserom.z64", 0xBA776C, 0x4
 
-glabel D_801305D0
+glabel gMorphaTransposeTable
     .incbin "baserom.z64", 0xBA7770, 0x10
 
 glabel sPrevChargeLevel
@@ -63,25 +63,25 @@ glabel D_80130604
 glabel D_80130608
     .incbin "baserom.z64", 0xBA77A8, 0x4
 
-glabel D_8013060C
+glabel sAudioDemoActive
     .incbin "baserom.z64", 0xBA77AC, 0x4
 
-glabel D_80130610
+glabel sSpecReverb
     .incbin "baserom.z64", 0xBA77B0, 0x4
 
-glabel D_80130614
+glabel sAudioEnvReverb
     .incbin "baserom.z64", 0xBA77B4, 0x4
 
-glabel D_80130618
+glabel sAudioCodeReverb
     .incbin "baserom.z64", 0xBA77B8, 0x4
 
 glabel D_8013061C
     .incbin "baserom.z64", 0xBA77BC, 0x4
 
-glabel D_80130620
+glabel sAudioEnemyDist
     .incbin "baserom.z64", 0xBA77C0, 0x4
 
-glabel D_80130624
+glabel sAudioEnemyVol
     .incbin "baserom.z64", 0xBA77C4, 0x4
 
 glabel D_80130628
@@ -111,7 +111,7 @@ glabel D_80130644
 glabel D_80130648
     .incbin "baserom.z64", 0xBA77E8, 0x4
 
-glabel D_8013064C
+glabel sSariaBgmPtr
     .incbin "baserom.z64", 0xBA77EC, 0x4
 
 glabel D_80130650
@@ -123,7 +123,7 @@ glabel D_80130654
 glabel D_80130658
     .incbin "baserom.z64", 0xBA77F8, 0x70
 
-glabel D_801306C8
+glabel sSpecReverbs
     .incbin "baserom.z64", 0xBA7868, 0x14
 
 glabel D_801306DC
@@ -408,7 +408,7 @@ glabel sAudioSubTrackInfoChannelSel
 glabel sSeqPlayerPeakNumLayers
     .incbin "baserom.z64", 0xBA90D0, 0x14
 
-glabel D_80131F44
+glabel sAudioSceneNames
     .incbin "baserom.z64", 0xBA90E4, 0x8
 
 glabel sAudioBlkChgBgmWork

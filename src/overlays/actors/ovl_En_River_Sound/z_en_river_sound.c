@@ -51,9 +51,9 @@ void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnRiverSound* this = THIS;
 
     if (this->actor.params == RS_SARIAS_SONG) {
-        func_800F50EC(&this->actor.projectedPos);
+        Audio_ClearSariaBgmAtPos(&this->actor.projectedPos);
     } else if (this->actor.params == RS_UNK_13) {
-        func_800F5504();
+        Audio_ClearSariaBgm2();
     }
 }
 
@@ -242,9 +242,9 @@ void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else if (this->actor.params == RS_SARIAS_SONG) {
         func_800F4E30(&this->actor.projectedPos, this->actor.xzDistToPlayer);
     } else if (this->actor.params == RS_UNK_13) {
-        func_800F52A0(&this->actor.home.pos, 62, 1000);
+        Audio_PlaySariaBgm(&this->actor.home.pos, 62, 1000);
     } else if (this->actor.params == RS_UNK_19) {
-        func_800F52A0(&this->actor.home.pos, 40, 800);
+        Audio_PlaySariaBgm(&this->actor.home.pos, 40, 800);
     } else if ((this->actor.params == RS_SANDSTORM) || (this->actor.params == RS_CHAMBER_OF_SAGES_1) ||
                (this->actor.params == RS_CHAMBER_OF_SAGES_2) || (this->actor.params == RS_RUMBLING)) {
         func_800788CC(soundEffects[this->actor.params]);

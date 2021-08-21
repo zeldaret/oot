@@ -55,13 +55,13 @@ AudioTask* func_800E5000(void) {
     s32 i;
 
     gAudioContext.totalTaskCnt++;
-    if (gAudioContext.totalTaskCnt % (gAudioContext.audioBufferParameters.presetUnk4) != 0) {
+    if (gAudioContext.totalTaskCnt % (gAudioContext.audioBufferParameters.specUnk4) != 0) {
         if (D_801755D0 != NULL) {
             D_801755D0();
         }
 
-        if ((gAudioContext.totalTaskCnt % gAudioContext.audioBufferParameters.presetUnk4) + 1 ==
-            gAudioContext.audioBufferParameters.presetUnk4) {
+        if ((gAudioContext.totalTaskCnt % gAudioContext.audioBufferParameters.specUnk4) + 1 ==
+            gAudioContext.audioBufferParameters.specUnk4) {
             return sWaitingAudioTask;
         } else {
             return NULL;
@@ -114,7 +114,7 @@ AudioTask* func_800E5000(void) {
     if (gAudioContext.resetStatus != 0) {
         if (Audio_ResetStep() == 0) {
             if (gAudioContext.resetStatus == 0) {
-                osSendMesg(gAudioContext.audioResetQueueP, gAudioContext.audioResetPresetIdToLoad, OS_MESG_NOBLOCK);
+                osSendMesg(gAudioContext.audioResetQueueP, gAudioContext.audioResetSpecIdToLoad, OS_MESG_NOBLOCK);
             }
 
             sWaitingAudioTask = NULL;
@@ -196,7 +196,7 @@ AudioTask* func_800E5000(void) {
         sMaxAbiCmdCnt = abiCmdCnt;
     }
 
-    if (gAudioContext.audioBufferParameters.presetUnk4 == 1) {
+    if (gAudioContext.audioBufferParameters.specUnk4 == 1) {
         return gAudioContext.currTask;
     } else {
         sWaitingAudioTask = gAudioContext.currTask;
@@ -289,7 +289,7 @@ void func_800E5584(AudioCmd* cmd) {
             return;
         case 0xF9:
             gAudioContext.resetStatus = 5;
-            gAudioContext.audioResetPresetIdToLoad = cmd->asUInt;
+            gAudioContext.audioResetSpecIdToLoad = cmd->asUInt;
             return;
         case 0xFB:
             D_801755D0 = (void (*)(void))cmd->asUInt;
@@ -508,7 +508,7 @@ s32 func_800E5EDC(void) {
 
     if (osRecvMesg(gAudioContext.audioResetQueueP, (OSMesg*)&sp18, OS_MESG_NOBLOCK) == -1) {
         return 0;
-    } else if (gAudioContext.audioResetPresetIdToLoad != sp18) {
+    } else if (gAudioContext.audioResetSpecIdToLoad != sp18) {
         return -1;
     } else {
         return 1;
@@ -531,10 +531,10 @@ s32 func_800E5F88(u32 resetPreloadID) {
     resetStatus = gAudioContext.resetStatus;
     if (resetStatus != 0) {
         Audio_ResetCmdQueue();
-        if (gAudioContext.audioResetPresetIdToLoad == resetPreloadID) {
+        if (gAudioContext.audioResetSpecIdToLoad == resetPreloadID) {
             return -2;
         } else if (resetStatus > 2) {
-            gAudioContext.audioResetPresetIdToLoad = resetPreloadID;
+            gAudioContext.audioResetSpecIdToLoad = resetPreloadID;
             return -3;
         } else {
             osRecvMesg(gAudioContext.audioResetQueueP, &msg, OS_MESG_BLOCK);

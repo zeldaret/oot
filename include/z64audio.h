@@ -273,7 +273,7 @@ typedef struct {
     /*?0x148 */ u32 bankDmaCurrDevAddr;
     /*?0x14C */ s32 bankDmaRemaining;
     /*       */ u8 pad_150[8];
-    /* 0x158 */ s8 unk_158[8]; // seqVariationEu? soundScriptIO?
+    /* 0x158 */ s8 unk_158[8]; // "port" according to debug strings. seqVariationEu? soundScriptIO?
 } SequencePlayer; // size = 0x160
 
 typedef struct {
@@ -592,10 +592,10 @@ typedef struct {
     /* 0x2C */ u32 temporaryUnusedMem;
     /* 0x30 */ s32 unk_30;
     /* 0x34 */ s32 unk_34;
-} AudioSessionSettings; // size = 0x38
+} AudioSpec; // size = 0x38
 
 typedef struct {
-    /* 0x00 */ s16 presetUnk4;
+    /* 0x00 */ s16 specUnk4;
     /* 0x02 */ u16 frequency;
     /* 0x04 */ u16 aiFrequency;
     /* 0x06 */ s16 samplesPerFrameTarget;
@@ -976,7 +976,7 @@ typedef struct {
     /* 0x3468 */ u8 bankLoadStatus[0x30];
     /* 0x3498 */ u8 seqLoadStatus[0x80];
     /* 0x3518 */ volatile u8 resetStatus;
-    /* 0x3519 */ u8 audioResetPresetIdToLoad;
+    /* 0x3519 */ u8 audioResetSpecIdToLoad;
     /* 0x351C */ s32 audioResetFadeOutFramesLeft;
     /* 0x3520 */ f32* unk_3520;
     /* 0x3524 */ u8* audioHeap;
@@ -1068,13 +1068,13 @@ typedef struct {
 } unk_D_8016E750; // size = 0x264
 
 typedef enum {
-    BANK_PLAYER,
-    BANK_ITEM,
-    BANK_ENV,
-    BANK_ENEMY,
-    BANK_SYSTEM,
-    BANK_OCARINA,
-    BANK_VOICE
+    BANK_PLAYER = 0,
+    BANK_ITEM = 1,
+    BANK_ENV = 2,
+    BANK_ENEMY = 3,
+    BANK_SYSTEM = 4,
+    BANK_OCARINA = 5,
+    BANK_VOICE = 6
 } SoundBankTypes;
 
 typedef struct {
@@ -1084,16 +1084,16 @@ typedef struct {
     /* 0x0C */ u8       unk_C;
     /* 0x10 */ f32*     unk_10;
     /* 0x14 */ f32*     unk_14;
-    /* 0x18 */ s8*      unk_18;
-    /* 0x1C */ f32      unk_1C;
+    /* 0x18 */ s8*      reverbAdd;
+    /* 0x1C */ f32      dist;
     /* 0x20 */ u32      unk_20;
     /* 0x24 */ u8       unk_24;
     /* 0x26 */ u16      unk_26;
     /* 0x28 */ u16      unk_28;     // "flag"
     /* 0x2A */ u8       unk_2A;
     /* 0x2B */ u8       unk_2B;
-    /* 0x2C */ u8       prev;       // prev bank index
-    /* 0x2D */ u8       next;       // next bank index
+    /* 0x2C */ u8       prev;
+    /* 0x2D */ u8       next;
     /* 0x2E */ u8       unk_2E;
     /* 0x2F */ u8       unk_2F;
 } SoundBankEntry; // size = 0x30

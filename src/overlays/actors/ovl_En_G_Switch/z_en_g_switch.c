@@ -210,14 +210,14 @@ void EnGSwitch_WaitForObject(EnGSwitch* this, GlobalContext* globalCtx) {
 }
 
 void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, GlobalContext* globalCtx) {
-    static s8 rupeePitches[] = { 0, 2, 4, 5, 7 };
+    static s8 majorScale[] = { 0, 2, 4, 5, 7 };
 
-    if (this->pitchIndex < sCollectedCount) {
+    if (this->noteIndex < sCollectedCount) {
         if (sCollectedCount < 5) {
             // sound?
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->pitchIndex);
-            func_800F4BF4(&D_801333D4, NA_SE_EV_FIVE_COUNT_LUPY, rupeePitches[this->pitchIndex]);
-            this->pitchIndex = sCollectedCount;
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->noteIndex);
+            Audio_PlaySoundTransposed(&D_801333D4, NA_SE_EV_FIVE_COUNT_LUPY, majorScale[this->noteIndex]);
+            this->noteIndex = sCollectedCount;
         }
     }
     if (sCollectedCount >= this->silverCount) {

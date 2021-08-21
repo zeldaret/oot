@@ -673,7 +673,7 @@ void func_800DF7C4(void) {
     s32 i;
     s32 j;
 
-    if (gAudioContext.audioBufferParameters.presetUnk4 == 2) {
+    if (gAudioContext.audioBufferParameters.specUnk4 == 2) {
         count = 2;
     } else {
         count = 1;
@@ -703,7 +703,7 @@ s32 Audio_ResetStep(void) {
     s32 j;
     s32 sp24;
 
-    if (gAudioContext.audioBufferParameters.presetUnk4 == 2) {
+    if (gAudioContext.audioBufferParameters.specUnk4 == 2) {
         sp24 = 2;
     } else {
         sp24 = 1;
@@ -787,11 +787,11 @@ void Audio_InitHeap(void) {
     s32 i;
     s32 j;
     s32 pad2;
-    AudioSessionSettings* preset = &gAudioSessionPresets[gAudioContext.audioResetPresetIdToLoad];
+    AudioSpec* spec;
 
-    preset = &gAudioSessionPresets[gAudioContext.audioResetPresetIdToLoad];
+    spec = &gAudioSpecs[gAudioContext.audioResetSpecIdToLoad];
     gAudioContext.sampleDmaReqCnt = 0;
-    gAudioContext.audioBufferParameters.frequency = preset->frequency;
+    gAudioContext.audioBufferParameters.frequency = spec->frequency;
     gAudioContext.audioBufferParameters.aiFrequency = osAiSetFrequency(gAudioContext.audioBufferParameters.frequency);
     gAudioContext.audioBufferParameters.samplesPerFrameTarget =
         ((gAudioContext.audioBufferParameters.frequency / gAudioContext.refreshRate) + 0xF) & 0xFFF0;
@@ -811,15 +811,15 @@ void Audio_InitHeap(void) {
         (1.0f / 256.0f) / gAudioContext.audioBufferParameters.updatesPerFrame;
     gAudioContext.audioBufferParameters.unk_24 = gAudioContext.audioBufferParameters.updatesPerFrame * 0.25f;
     gAudioContext.audioBufferParameters.updatesPerFrameInv = 1.0f / gAudioContext.audioBufferParameters.updatesPerFrame;
-    gAudioContext.unk_2874 = preset->unk_10;
-    gAudioContext.unk_2878 = preset->unk_12;
+    gAudioContext.unk_2874 = spec->unk_10;
+    gAudioContext.unk_2878 = spec->unk_12;
 
-    gAudioContext.maxSimultaneousNotes = preset->maxSimultaneousNotes;
-    gAudioContext.audioBufferParameters.numSequencePlayers = preset->numSequencePlayers;
+    gAudioContext.maxSimultaneousNotes = spec->maxSimultaneousNotes;
+    gAudioContext.audioBufferParameters.numSequencePlayers = spec->numSequencePlayers;
     if (gAudioContext.audioBufferParameters.numSequencePlayers > 4) {
         gAudioContext.audioBufferParameters.numSequencePlayers = 4;
     }
-    gAudioContext.unk_2 = preset->unk_14;
+    gAudioContext.unk_2 = spec->unk_14;
     gAudioContext.tempoInternalToExternal = (u32)(gAudioContext.audioBufferParameters.updatesPerFrame * 2880000.0f /
                                                   gTatumsPerBeat / gAudioContext.unk_2960);
 
@@ -828,22 +828,22 @@ void Audio_InitHeap(void) {
     gAudioContext.unk_2870 /= gAudioContext.audioBufferParameters.aiFrequency;
     gAudioContext.unk_2870 /= gAudioContext.tempoInternalToExternal;
 
-    gAudioContext.audioBufferParameters.presetUnk4 = preset->unk_04;
-    gAudioContext.audioBufferParameters.samplesPerFrameTarget *= gAudioContext.audioBufferParameters.presetUnk4;
-    gAudioContext.audioBufferParameters.maxAiBufferLength *= gAudioContext.audioBufferParameters.presetUnk4;
-    gAudioContext.audioBufferParameters.minAiBufferLength *= gAudioContext.audioBufferParameters.presetUnk4;
-    gAudioContext.audioBufferParameters.updatesPerFrame *= gAudioContext.audioBufferParameters.presetUnk4;
+    gAudioContext.audioBufferParameters.specUnk4 = spec->unk_04;
+    gAudioContext.audioBufferParameters.samplesPerFrameTarget *= gAudioContext.audioBufferParameters.specUnk4;
+    gAudioContext.audioBufferParameters.maxAiBufferLength *= gAudioContext.audioBufferParameters.specUnk4;
+    gAudioContext.audioBufferParameters.minAiBufferLength *= gAudioContext.audioBufferParameters.specUnk4;
+    gAudioContext.audioBufferParameters.updatesPerFrame *= gAudioContext.audioBufferParameters.specUnk4;
 
-    if (gAudioContext.audioBufferParameters.presetUnk4 >= 2) {
+    if (gAudioContext.audioBufferParameters.specUnk4 >= 2) {
         gAudioContext.audioBufferParameters.maxAiBufferLength -= 0x10;
     }
 
     gAudioContext.maxAudioCmds =
         gAudioContext.maxSimultaneousNotes * 0x10 * gAudioContext.audioBufferParameters.updatesPerFrame +
-        preset->numReverbs * 0x18 + 0x140;
+        spec->numReverbs * 0x18 + 0x140;
 
-    persistentMem = preset->persistentSeqMem + preset->persistentBankMem + preset->persistentUnusedMem + 0x10;
-    temporaryMem = preset->temporarySeqMem + preset->temporaryBankMem + preset->temporaryUnusedMem + 0x10;
+    persistentMem = spec->persistentSeqMem + spec->persistentBankMem + spec->persistentUnusedMem + 0x10;
+    temporaryMem = spec->temporarySeqMem + spec->temporaryBankMem + spec->temporaryUnusedMem + 0x10;
     totalMem = persistentMem + temporaryMem;
     wantMisc = gAudioContext.audioSessionPool.size - totalMem - 0x100;
 
@@ -857,13 +857,13 @@ void Audio_InitHeap(void) {
     gAudioContext.seqAndBankPoolSplit.wantPersistent = persistentMem;
     gAudioContext.seqAndBankPoolSplit.wantTemporary = temporaryMem;
     Audio_SeqAndBankPoolInit(&gAudioContext.seqAndBankPoolSplit);
-    gAudioContext.persistentCommonPoolSplit.wantSeq = preset->persistentSeqMem;
-    gAudioContext.persistentCommonPoolSplit.wantBank = preset->persistentBankMem;
-    gAudioContext.persistentCommonPoolSplit.wantUnused = preset->persistentUnusedMem;
+    gAudioContext.persistentCommonPoolSplit.wantSeq = spec->persistentSeqMem;
+    gAudioContext.persistentCommonPoolSplit.wantBank = spec->persistentBankMem;
+    gAudioContext.persistentCommonPoolSplit.wantUnused = spec->persistentUnusedMem;
     Audio_PersistentPoolsInit(&gAudioContext.persistentCommonPoolSplit);
-    gAudioContext.temporaryCommonPoolSplit.wantSeq = preset->temporarySeqMem;
-    gAudioContext.temporaryCommonPoolSplit.wantBank = preset->temporaryBankMem;
-    gAudioContext.temporaryCommonPoolSplit.wantUnused = preset->temporaryUnusedMem;
+    gAudioContext.temporaryCommonPoolSplit.wantSeq = spec->temporarySeqMem;
+    gAudioContext.temporaryCommonPoolSplit.wantBank = spec->temporaryBankMem;
+    gAudioContext.temporaryCommonPoolSplit.wantUnused = spec->temporaryUnusedMem;
     Audio_TemporaryPoolsInit(&gAudioContext.temporaryCommonPoolSplit);
 
     Audio_ResetLoadStatus();
@@ -886,9 +886,9 @@ void Audio_InitHeap(void) {
         gAudioContext.synthesisReverbs[i].useReverb = 0;
     }
 
-    gAudioContext.numSynthesisReverbs = preset->numReverbs;
+    gAudioContext.numSynthesisReverbs = spec->numReverbs;
     for (i = 0; i < gAudioContext.numSynthesisReverbs; i++) {
-        ReverbSettings* settings = &preset->reverbSettings[i];
+        ReverbSettings* settings = &spec->reverbSettings[i];
         SynthesisReverb* reverb = &gAudioContext.synthesisReverbs[i];
         reverb->downsampleRate = settings->downsampleRate;
         reverb->windowSize = settings->windowSize * 64;
@@ -961,7 +961,7 @@ void Audio_InitHeap(void) {
         Audio_ResetSequencePlayer(&gAudioContext.seqPlayers[j]);
     }
 
-    func_800E0634(preset->unk_30, preset->unk_34);
+    func_800E0634(spec->unk_30, spec->unk_34);
     func_800E1618(gAudioContext.maxSimultaneousNotes);
     gAudioContext.unk_176C = 0;
     Audio_SyncLoadsInit();
