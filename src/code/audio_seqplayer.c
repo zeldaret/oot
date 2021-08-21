@@ -1327,12 +1327,12 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                                                                : gAudioContext.audioRandom % parameters[0];
                         break;
                     case 0xB8:
-                        scriptState->value = (parameters[0] == 0) ? gAudioContext.audioRandom & 0XFFFF
+                        scriptState->value = (parameters[0] == 0) ? gAudioContext.audioRandom & 0xFFFF
                                                                   : gAudioContext.audioRandom % parameters[0];
                         break;
                     case 0xBD: {
                         result = Audio_NextRandom();
-                        channel->unk_22 = (parameters[0] == 0) ? (u32)result & 0XFFFF : (u32)result % parameters[0];
+                        channel->unk_22 = (parameters[0] == 0) ? (u32)result & 0xFFFF : (u32)result % parameters[0];
                         channel->unk_22 += parameters[1];
                         pad2 = (channel->unk_22 / 0x100) + 0x80; // i is wrong here
                         param = channel->unk_22 % 0x100;
