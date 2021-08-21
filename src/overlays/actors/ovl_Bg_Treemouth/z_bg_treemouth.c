@@ -26,7 +26,10 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx);
 void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx);
 void func_808BCAF0(BgTreemouth* this, GlobalContext* globalCtx);
 
-#include "z_bg_treemouth_cutscene_data.c" EARLY
+extern CutsceneData D_808BCE20[];
+extern CutsceneData D_808BD2A0[];
+extern CutsceneData D_808BD520[];
+extern CutsceneData D_808BD790[];
 
 const ActorInit Bg_Treemouth_InitVars = {
     ACTOR_BG_TREEMOUTH,

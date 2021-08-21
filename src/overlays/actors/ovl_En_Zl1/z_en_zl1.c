@@ -25,7 +25,7 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx);
 void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx);
 void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx);
 
-#include "z_en_zl1_cutscene_data.c" EARLY
+extern CutsceneData D_80B4C5D0[];
 
 const ActorInit En_Zl1_InitVars = {
     ACTOR_EN_ZL1,
