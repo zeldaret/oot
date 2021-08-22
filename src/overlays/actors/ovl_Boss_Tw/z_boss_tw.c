@@ -1179,7 +1179,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
 
                         this->beamShootState = 1;
                         func_80078914(&player->actor.projectedPos, NA_SE_IT_SHIELD_REFLECT_MG);
-                        func_800D20CC(&player->shieldMf, &sp128, 0);
+                        Matrix_MtxFToYXZRotS(&player->shieldMf, &sp128, 0);
                         sp128.y += 0x8000;
                         sp128.x = -sp128.x;
                         this->magicDir.x = sp128.x;
@@ -1285,7 +1285,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
 
     if (this->beamShootState == 1) {
         if (this->csState1 == 0) {
-            func_800D20CC(&player->shieldMf, &sp128, 0);
+            Matrix_MtxFToYXZRotS(&player->shieldMf, &sp128, 0);
             sp128.y += 0x8000;
             sp128.x = -sp128.x;
             Math_ApproachS(&this->magicDir.x, sp128.x, 5, 0x2000);
@@ -4019,7 +4019,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
 
                         this->actor.world.pos = player2->bodyPartsPos[15];
                         this->actor.world.pos.y = -2000.0f;
-                        func_800D20CC(&player2->shieldMf, &blastDir, MTXMODE_NEW);
+                        Matrix_MtxFToYXZRotS(&player2->shieldMf, &blastDir, MTXMODE_NEW);
                         blastDir.x = -blastDir.x;
                         blastDir.y = blastDir.y + 0x8000;
                         Math_ApproachS(&this->magicDir.x, blastDir.x, 0xA, 0x800);
@@ -4209,7 +4209,7 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
 
                         this->actor.world.pos = player2->bodyPartsPos[15];
                         this->actor.world.pos.y = -2000.0f;
-                        func_800D20CC(&player2->shieldMf, &reflDir, 0);
+                        Matrix_MtxFToYXZRotS(&player2->shieldMf, &reflDir, 0);
                         reflDir.x = -reflDir.x;
                         reflDir.y += 0x8000;
                         Math_ApproachS(&this->magicDir.x, reflDir.x, 0xA, 0x800);
@@ -4434,7 +4434,7 @@ s32 BossTw_BlastShieldCheck(BossTw* this, GlobalContext* globalCtx) {
                     if ((sShieldIceCharge >= 3) || (sShieldFireCharge >= 3)) {
                         this->timers[0] = 80;
                         this->csState1 = 10;
-                        func_800D20CC(&player->shieldMf, &this->magicDir, 0);
+                        Matrix_MtxFToYXZRotS(&player->shieldMf, &this->magicDir, 0);
                         this->magicDir.y += 0x8000;
                         this->magicDir.x = -this->magicDir.x;
                         D_8094C86F = 8;

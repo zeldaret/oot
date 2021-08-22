@@ -89,7 +89,7 @@ s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
     sp44.z = COLPOLY_GET_NORMAL(poly->normal.z);
     sp34 = Math_FAcosF(DOTXYZ(sp44, this->unk_364));
     EnSw_CrossProduct(&this->unk_364, &sp44, &sp38);
-    func_800D23FC(sp34, &sp38, MTXMODE_NEW);
+    Matrix_RotateAxis(sp34, &sp38, MTXMODE_NEW);
     Matrix_MultVec3f(&this->unk_370, &sp38);
     this->unk_370 = sp38;
     EnSw_CrossProduct(&this->unk_370, &sp44, &this->unk_37C);
@@ -117,7 +117,7 @@ s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
     this->unk_3D8.wy = 0.0f;
     this->unk_3D8.wz = 0.0f;
     this->unk_3D8.ww = 1.0f;
-    func_800D20CC(&this->unk_3D8, &this->actor.world.rot, 0);
+    Matrix_MtxFToYXZRotS(&this->unk_3D8, &this->actor.world.rot, 0);
     //! @bug: Does not return.
 }
 
@@ -404,7 +404,7 @@ s32 func_80B0CCF4(EnSw* this, f32* arg1) {
     sp6C.x = COLPOLY_GET_NORMAL(temp_v1->normal.x);
     sp6C.y = COLPOLY_GET_NORMAL(temp_v1->normal.y);
     sp6C.z = COLPOLY_GET_NORMAL(temp_v1->normal.z);
-    func_800D23FC(*arg1, &sp6C, MTXMODE_NEW);
+    Matrix_RotateAxis(*arg1, &sp6C, MTXMODE_NEW);
     Matrix_MultVec3f(&this->unk_370, &sp6C);
     this->unk_370 = sp6C;
     EnSw_CrossProduct(&this->unk_370, &this->unk_364, &this->unk_37C);
@@ -432,7 +432,7 @@ s32 func_80B0CCF4(EnSw* this, f32* arg1) {
     sp2C.wy = 0.0f;
     sp2C.wz = 0.0f;
     sp2C.ww = 1.0f;
-    func_800D20CC(&sp2C, &this->actor.world.rot, 0);
+    Matrix_MtxFToYXZRotS(&sp2C, &this->actor.world.rot, 0);
     return true;
 }
 
