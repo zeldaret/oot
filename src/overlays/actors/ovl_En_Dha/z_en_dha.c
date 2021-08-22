@@ -6,6 +6,7 @@
 
 #include "z_en_dha.h"
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
+#include "objects/object_dh/object_dh.h"
 
 #define FLAGS 0x00000015
 
@@ -148,9 +149,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
 };
 
-extern FlexSkeletonHeader D_06000BD8;
-extern AnimationHeader D_060015B0;
-
 void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -160,7 +158,8 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->jointTable, this->morphTable, 4);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_dh_Skel_000BD8, &object_dh_Anim_0015B0, this->jointTable,
+                       this->morphTable, 4);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFeet, 90.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 50.0f;
@@ -182,7 +181,7 @@ void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDha_SetupWait(EnDha* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_060015B0);
+    Animation_PlayLoop(&this->skelAnime, &object_dh_Anim_0015B0);
     this->unk_1C0 = 0;
     this->actionTimer = ((Rand_ZeroOne() * 10.0f) + 5.0f);
     this->actor.speedXZ = 0.0f;

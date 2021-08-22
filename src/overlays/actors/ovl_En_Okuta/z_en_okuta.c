@@ -493,7 +493,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
             this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->collider.base.atFlags |= AT_TYPE_PLAYER;
             this->collider.info.toucher.dmgFlags = 2;
-            func_800D20CC(&player->shieldMf, &sp40, 0);
+            Matrix_MtxFToYXZRotS(&player->shieldMf, &sp40, 0);
             this->actor.world.rot.y = sp40.y + 0x8000;
             this->timer = 30;
         } else {
