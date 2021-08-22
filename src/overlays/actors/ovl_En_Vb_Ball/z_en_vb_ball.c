@@ -164,8 +164,8 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     EnVbBall* this = THIS;
     BossFd* bossFd = (BossFd*)this->actor.parent;
     f32 radius;
@@ -183,18 +183,18 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.gravity = -1.0f;
     func_8002D7EC(&this->actor);
     if (this->actor.params >= 200) {
-        EnVbBall_UpdateBones(this, globalCtx2);
+        EnVbBall_UpdateBones(this, globalCtx);
     } else {
         Math_ApproachF(&this->shadowOpacity, 175.0f, 1.0f, 40.0f);
         radius = this->actor.scale.y * 1700.0f;
         this->actor.world.pos.y -= radius;
-        Actor_UpdateBgCheckInfo(globalCtx2, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
         this->actor.world.pos.y += radius;
         if ((this->actor.bgCheckFlags & 1) && (this->actor.velocity.y <= 0.0f)) {
             if ((this->actor.params == 100) || (this->actor.params == 101)) {
                 Actor_Kill(&this->actor);
                 if (this->actor.params == 100) {
-                    func_80033E88(&this->actor, globalCtx2, 5, 0xA);
+                    func_80033E88(&this->actor, globalCtx, 5, 0xA);
                 }
                 if (this->actor.params == 100) {
                     spawnNum = 2;
@@ -215,7 +215,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                         spawnOffset.y = Rand_ZeroFloat(3.0f) + 4.0f;
                         spawnOffset.z = Rand_CenteredFloat(10.0f);
                     }
-                    newActor = (EnVbBall*)Actor_SpawnAsChild(&globalCtx2->actorCtx, &this->actor, globalCtx2,
+                    newActor = (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
                                                              ACTOR_EN_VB_BALL, this->actor.world.pos.x + spawnOffset.x,
                                                              this->actor.world.pos.y + spawnOffset.y,
                                                              this->actor.world.pos.z + spawnOffset.z, 0, 0,
@@ -247,7 +247,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     debrisPos1.y = Rand_CenteredFloat(10.0f) + this->actor.world.pos.y;
                     debrisPos1.z = Rand_CenteredFloat(10.0f) + this->actor.world.pos.z;
 
-                    EnVbBall_SpawnDebris(globalCtx2, bossFd->effects, &debrisPos1, &debrisVel1, &debrisAcc1,
+                    EnVbBall_SpawnDebris(globalCtx, bossFd->effects, &debrisPos1, &debrisVel1, &debrisAcc1,
                                          (s16)Rand_ZeroFloat(12.0f) + 15);
                 }
                 for (i = 0; i < 10; i++) {
@@ -265,7 +265,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     dustPos.y = Rand_CenteredFloat(30.0f) + this->actor.world.pos.y;
                     dustPos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
 
-                    EnVbBall_SpawnDust(globalCtx2, bossFd->effects, &dustPos, &dustVel, &dustAcc,
+                    EnVbBall_SpawnDust(globalCtx, bossFd->effects, &dustPos, &dustVel, &dustAcc,
                                        Rand_ZeroFloat(100.0f) + 350.0f);
                 }
             } else {
@@ -282,7 +282,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     debrisPos2.y = Rand_CenteredFloat(5.0f) + this->actor.world.pos.y;
                     debrisPos2.z = Rand_CenteredFloat(5.0f) + this->actor.world.pos.z;
 
-                    EnVbBall_SpawnDebris(globalCtx2, bossFd->effects, &debrisPos2, &debrisVel2, &debrisAcc2,
+                    EnVbBall_SpawnDebris(globalCtx, bossFd->effects, &debrisPos2, &debrisVel2, &debrisAcc2,
                                          (s16)Rand_ZeroFloat(12.0f) + 15);
                 }
                 Actor_Kill(&this->actor);
@@ -295,7 +295,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
         }
         Collider_UpdateCylinder(&this->actor, &this->collider);
-        CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 

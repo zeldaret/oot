@@ -50,7 +50,7 @@ const ActorInit Boss_Dodongo_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 12, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x0C, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000.0f, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 8200.0f, ICHAIN_STOP),
 };
@@ -231,7 +231,7 @@ void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BossDodongo_SetupIntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
     s16 frames = Animation_GetLastFrame(&object_kingdodongo_Anim_00F0D8);
 
-    Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_00F0D8, 1.0f, 0.0f, frames, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_00F0D8, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = BossDodongo_IntroCutscene;
     this->csState = 0;
     this->unk_1BC = 1;
@@ -501,8 +501,8 @@ void BossDodongo_SetupBlowFire(BossDodongo* this) {
 
 void BossDodongo_SetupInhale(BossDodongo* this) {
     this->actor.speedXZ = 0.0f;
-    Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_008EEC, 1.0f, 0.0f,
-                     Animation_GetLastFrame(&object_kingdodongo_Anim_008EEC), 2, -5.0f);
+    Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_008EEC, 1.0f, 0.0f, Animation_GetLastFrame(&object_kingdodongo_Anim_008EEC), ANIMMODE_ONCE,
+                     -5.0f);
     this->actionFunc = BossDodongo_Inhale;
     this->unk_1DA = 100;
     this->unk_1AC = 0;

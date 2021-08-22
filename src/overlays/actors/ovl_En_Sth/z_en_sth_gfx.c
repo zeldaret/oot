@@ -248,7 +248,7 @@ static Vtx D_80B09F30[] = {
     VTX(332, 65042, 328, 1629, 520, 199, 177, 68, 255),   VTX(332, 65042, 65208, 2210, 520, 199, 177, 188, 255),
 };
 
-Gfx D_80B0A050[] = {
+static Gfx D_80B0A050[] = {
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsDPPipeSync(),
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
@@ -373,7 +373,7 @@ Gfx D_80B0A050[] = {
     gsSPEndDisplayList(),
 };
 
-Gfx D_80B0A3C0[] = {
+static Gfx D_80B0A3C0[] = {
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsDPPipeSync(),
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
