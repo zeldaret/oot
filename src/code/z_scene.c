@@ -60,7 +60,7 @@ void Object_InitBank(GlobalContext* globalCtx, ObjectContext* objectCtx) {
     objectCtx->mainKeepIndex = objectCtx->subKeepIndex = 0;
 
     for (i = 0; i < OBJECT_EXCHANGE_BANK_MAX; i++) {
-        objectCtx->status[i].id = 0;
+        objectCtx->status[i].id = OBJECT_NONE;
     }
 
     osSyncPrintf(VT_FGCOL(GREEN));
@@ -276,7 +276,7 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
         if (status->id != *objectEntry) {
             status2 = &globalCtx->objectCtx.status[i];
             for (j = i; j < globalCtx->objectCtx.num; j++) {
-                status2->id = 0;
+                status2->id = OBJECT_NONE;
                 status2++;
             }
             globalCtx->objectCtx.num = i;
