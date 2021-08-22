@@ -63,7 +63,7 @@ extern u8 D_801305F8[8];             // = {127, 80, 75, 73, 70, 68, 65, 60}
 extern u8 D_80130600;                // = 0
 extern s8 D_80130604;                // = 2
 extern s8 D_80130608;                // = 0
-extern s8 sAudioDemoActive;          // = 0
+extern s8 sAudioCutsceneFlag;        // = 0
 extern s8 sSpecReverb;               // = 0
 extern s8 sAudioEnvReverb;           // = 0
 extern s8 sAudioCodeReverb;          // = 0
@@ -269,8 +269,8 @@ u16 D_8016BA50[0x10];
 u16 D_8016BA70[0x10];
 u8 sLearnSongExpectedNote[0x10];
 OcarinaNote D_8016BAA0;
-u8 sAudioHasMaronBgm;
-f32 sAudioMaronBgmDist;
+u8 sAudioHasMalonBgm;
+f32 sAudioMalonBgmDist;
 
 // Start debug bss
 u32 sDebugPadHold;
@@ -1835,12 +1835,12 @@ void AudioDebug_Draw(GfxPrint* printer) {
             GfxPrint_Printf(printer, "GANON DIST VOL %3d", sAudioGanonDistVol);
 
             GfxPrint_SetPos(printer, 3, 12);
-            GfxPrint_Printf(printer, "DEMO FLAG %d", sAudioDemoActive);
+            GfxPrint_Printf(printer, "DEMO FLAG %d", sAudioCutsceneFlag);
 
             GfxPrint_SetPos(printer, 3, 12);
-            if (sAudioHasMaronBgm == true) {
-                GfxPrint_Printf(printer, "MARON BGM DIST %f", sAudioMaronBgmDist);
-                sAudioHasMaronBgm = false;
+            if (sAudioHasMalonBgm == true) {
+                GfxPrint_Printf(printer, "MARON BGM DIST %f", sAudioMalonBgmDist);
+                sAudioHasMalonBgm = false;
             }
 
             GfxPrint_SetPos(printer, 3, 23);
@@ -2789,7 +2789,7 @@ void Audio_SetSoundProps(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
             sp44 = func_800F3188(bankIdx, entryIdx) * *entry->unk_14;
             reverb = Audio_ComputeSoundReverb(bankIdx, entryIdx, channelIdx);
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->unk_C);
-            freqScale = Audio_ComputeSoundFreqScale(bankIdx, entryIdx) * *entry->unk_10;
+            freqScale = Audio_ComputeSoundFreqScale(bankIdx, entryIdx) * *entry->freqScale;
             if (D_80130604 == 2) {
                 sp34 = D_801305C4[(entry->unk_26 & 0x400) >> 10];
                 if (!(entry->unk_26 & 0x800)) {
@@ -3543,7 +3543,7 @@ void func_800F5E90(u8 arg0) {
 
     D_80130654 = arg0;
     if (D_80130628 == 0xFFFF) {
-        if (sAudioDemoActive) {
+        if (sAudioCutsceneFlag) {
             arg0 = 3;
         }
         phi_t1 = D_8016E750[0].unk_254;
@@ -3634,8 +3634,8 @@ void func_800F6268(f32 dist, u16 arg1) {
     s8 phi_v1;
     s16 temp_a0;
 
-    sAudioHasMaronBgm = true;
-    sAudioMaronBgmDist = dist;
+    sAudioHasMalonBgm = true;
+    sAudioMalonBgmDist = dist;
     if (D_8016B9F2 == 0) {
         temp_a0 = (s8)(func_800FA0B4(0) & 0xFF);
         if (temp_a0 == (arg1 & 0xFF)) {
@@ -3785,12 +3785,12 @@ void func_800F6828(u8 arg0) {
     }
 }
 
-void Audio_SetDemoActive(s8 active) {
-    sAudioDemoActive = active;
+void Audio_SetCutsceneFlag(s8 flag) {
+    sAudioCutsceneFlag = flag;
 }
 
 void Audio_PlaySoundGeneralIfNotDemo(u16 sfxId, Vec3f* pos, u8 arg2, f32* freqScale, f32* arg4, s8* reverbAdd) {
-    if (!sAudioDemoActive) {
+    if (!sAudioCutsceneFlag) {
         Audio_PlaySoundGeneral(sfxId, pos, arg2, freqScale, arg4, reverbAdd);
     }
 }

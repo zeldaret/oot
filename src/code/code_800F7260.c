@@ -252,7 +252,7 @@ void Audio_ProcessSoundRequest(void) {
                     gSoundBanks[phi_s5][phi_a1].unk_28 = req->sfxId;
                     gSoundBanks[phi_s5][phi_a1].unk_2A = 1;
                     gSoundBanks[phi_s5][phi_a1].unk_2B = 2;
-                    gSoundBanks[phi_s5][phi_a1].unk_10 = req->freqScale;
+                    gSoundBanks[phi_s5][phi_a1].freqScale = req->freqScale;
                     gSoundBanks[phi_s5][phi_a1].unk_14 = req->unk_10;
                     gSoundBanks[phi_s5][phi_a1].reverbAdd = req->reverbAdd;
                     gSoundBanks[phi_s5][phi_a1].unk_26 = sp48->unk_2;
@@ -275,7 +275,7 @@ void Audio_ProcessSoundRequest(void) {
         temp_v0->posY = &req->pos->y;
         temp_v0->posZ = &req->pos->z;
         temp_v0->unk_C = req->unk_8;
-        temp_v0->unk_10 = req->freqScale;
+        temp_v0->freqScale = req->freqScale;
         temp_v0->unk_14 = req->unk_10;
         temp_v0->reverbAdd = req->reverbAdd;
         sp48 = &D_8013331C[SFX_BANK_SHIFT(req->sfxId)][SFX_INDEX(req->sfxId)];

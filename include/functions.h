@@ -2161,7 +2161,7 @@ void Audio_SetCodeReverb(s8 reverb);
 void func_800F6700(s8 outputMode);
 void func_800F67A0(u8);
 void func_800F6828(u8);
-void Audio_SetDemoActive(s8 active);
+void Audio_SetCutsceneFlag(s8 flag);
 void Audio_PlaySoundIfNotDemo(u16 sfxId);
 void func_800F6964(u16);
 void func_800F6AB0(u16);

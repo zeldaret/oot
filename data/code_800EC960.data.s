@@ -63,7 +63,7 @@ glabel D_80130604
 glabel D_80130608
     .incbin "baserom.z64", 0xBA77A8, 0x4
 
-glabel sAudioDemoActive
+glabel sAudioCutsceneFlag
     .incbin "baserom.z64", 0xBA77AC, 0x4
 
 glabel sSpecReverb
