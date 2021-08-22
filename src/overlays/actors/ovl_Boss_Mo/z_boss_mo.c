@@ -2539,7 +2539,7 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
             Matrix_MultVec3f(&sp8C, &this->grabPosRot.pos);
             Matrix_RotateX(-35 * M_PI / 64, MTXMODE_APPLY);
             Matrix_Get(&sp98);
-            func_800D20CC(&sp98, &sp84, 0);
+            Matrix_MtxFToYXZRotS(&sp98, &sp84, 0);
             this->grabPosRot.rot.x = sp84.x;
             this->grabPosRot.rot.y = sp84.y;
             this->grabPosRot.rot.z = sp84.z;

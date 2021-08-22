@@ -307,7 +307,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
     }
     osSyncPrintf("SDA CONT 3\n");
     if (this->actor.params != 1) {
-        func_800D20CC(&player->shieldMf, &sp178, false);
+        Matrix_MtxFToYXZRotS(&player->shieldMf, &sp178, false);
         sp178.y += (KREG(87) << 0xF) + 0x8000;
         sp178.x *= (KREG(88) - 1);
         Matrix_Mult(&player->shieldMf, MTXMODE_NEW);

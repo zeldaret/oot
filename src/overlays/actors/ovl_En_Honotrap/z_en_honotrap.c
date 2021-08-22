@@ -424,7 +424,7 @@ void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx) {
         Player* player = PLAYER;
         Vec3s shieldRot;
 
-        func_800D20CC(&player->shieldMf, &shieldRot, false);
+        Matrix_MtxFToYXZRotS(&player->shieldMf, &shieldRot, false);
         this->actor.world.rot.y = ((shieldRot.y * 2) - this->actor.world.rot.y) + 0x8000;
         EnHonotrap_SetupFlameVanish(this);
     } else if (this->collider.cyl.base.atFlags & AT_HIT) {

@@ -17,21 +17,32 @@
 typedef s32 (*EnGoroiwaUnkFunc1)(EnGoroiwa* this, GlobalContext* globalCtx);
 typedef void (*EnGoroiwaUnkFunc2)(EnGoroiwa* this);
 
+#define ENGOROIWA_ENABLE_AT (1 << 0)
+#define ENGOROIWA_ENABLE_OC (1 << 1)
+#define ENGOROIWA_PLAYER_IN_THE_WAY (1 << 2)
+#define ENGOROIWA_RETAIN_ROT_SPEED (1 << 3)
+#define ENGOROIWA_IN_WATER (1 << 4)
+
+#define ENGOROIWA_LOOPMODE_ONEWAY 0
+/* same as ENGOROIWA_LOOPMODE_ONEWAY but display rock fragments as if the boulder broke at the end of the path*/
+#define ENGOROIWA_LOOPMODE_ONEWAY_BREAK 1
+#define ENGOROIWA_LOOPMODE_ROUNDTRIP 3
+
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A4D5E0(EnGoroiwa* this);
-void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx);
-void func_80A4D8CC(EnGoroiwa* this);
-void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx);
-void func_80A4D9DC(EnGoroiwa* this);
-void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx);
-void func_80A4DA7C(EnGoroiwa* this);
-void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx);
-void func_80A4DB90(EnGoroiwa* this);
-void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx);
+void EnGoroiwa_SetupRoll(EnGoroiwa* this);
+void EnGoroiwa_Roll(EnGoroiwa* this, GlobalContext* globalCtx);
+void EnGoroiwa_SetupMoveAndFallToGround(EnGoroiwa* this);
+void EnGoroiwa_MoveAndFallToGround(EnGoroiwa* this, GlobalContext* globalCtx);
+void EnGoroiwa_SetupWait(EnGoroiwa* this);
+void EnGoroiwa_Wait(EnGoroiwa* this, GlobalContext* globalCtx);
+void EnGoroiwa_SetupMoveUp(EnGoroiwa* this);
+void EnGoroiwa_MoveUp(EnGoroiwa* this, GlobalContext* globalCtx);
+void EnGoroiwa_SetupMoveDown(EnGoroiwa* this);
+void EnGoroiwa_MoveDown(EnGoroiwa* this, GlobalContext* globalCtx);
 
 const ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
@@ -74,30 +85,29 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_HEAVY };
 
-// Unused
-static f32 D_80A4DEBC[] = { 10.0f, 9.2f };
+static f32 sUnused[] = { 10.0f, 9.2f };
 
-void func_80A4BCA0(EnGoroiwa* this) {
-    static f32 colliderHeightOffset[] = { 0.0f, 59.5f };
+void EnGoroiwa_UpdateCollider(EnGoroiwa* this) {
+    static f32 yOffsets[] = { 0.0f, 59.5f };
     Sphere16* worldSphere = &this->collider.elements[0].dim.worldSphere;
 
     worldSphere->center.x = this->actor.world.pos.x;
-    worldSphere->center.y = this->actor.world.pos.y + colliderHeightOffset[(this->actor.params >> 10) & 1];
+    worldSphere->center.y = this->actor.world.pos.y + yOffsets[(this->actor.params >> 10) & 1];
     worldSphere->center.z = this->actor.world.pos.z;
 }
 
-void func_80A4BD04(EnGoroiwa* this, GlobalContext* globalCtx) {
+void EnGoroiwa_InitCollider(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
-    func_80A4BCA0(this);
+    EnGoroiwa_UpdateCollider(this);
     this->collider.elements[0].dim.worldSphere.radius = 58;
 }
 
-void func_80A4BD70(EnGoroiwa* this, u8 arg1) {
-    this->unk_1D3 &= ~3;
-    this->unk_1D3 |= arg1;
+void EnGoroiwa_UpdateFlags(EnGoroiwa* this, u8 setFlags) {
+    this->stateFlags &= ~(ENGOROIWA_ENABLE_AT | ENGOROIWA_ENABLE_OC);
+    this->stateFlags |= setFlags;
 }
 
 s32 EnGoroiwa_Vec3fNormalize(Vec3f* ret, Vec3f* a) {
@@ -120,14 +130,14 @@ s32 EnGoroiwa_Vec3fNormalize(Vec3f* ret, Vec3f* a) {
 void EnGoroiwa_SetSpeed(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT04) {
         this->isInKokiri = true;
-        mREG(12) = 920;
+        R_EN_GOROIWA_SPEED = 920;
     } else {
         this->isInKokiri = false;
-        mREG(12) = 1000;
+        R_EN_GOROIWA_SPEED = 1000;
     }
 }
 
-void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
+void EnGoroiwa_FaceNextWaypoint(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3f nextPosF;
@@ -139,53 +149,53 @@ void func_80A4BE54(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &nextPosF);
 }
 
-void func_80A4BF28(EnGoroiwa* this, GlobalContext* globalCtx, Vec3f* arg2) {
-    s16 temp_v0 = (this->actor.params >> 8) & 3;
+void EnGoroiwa_GetPrevWaypointDiff(EnGoroiwa* this, GlobalContext* globalCtx, Vec3f* dest) {
+    s16 loopMode = (this->actor.params >> 8) & 3;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
-    s16 temp_t0 = this->currentWaypoint - this->pathDirection;
-    Vec3s* pointPos;
+    s16 prevWaypoint = this->currentWaypoint - this->pathDirection;
+    Vec3s* prevPointPos;
     Vec3s* currentPointPos;
 
-    if (temp_t0 < 0) {
-        if (temp_v0 == 0 || temp_v0 == 1) {
-            temp_t0 = this->endWaypoint;
-        } else if (temp_v0 == 3) {
-            temp_t0 = 1;
+    if (prevWaypoint < 0) {
+        if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY || loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK) {
+            prevWaypoint = this->endWaypoint;
+        } else if (loopMode == ENGOROIWA_LOOPMODE_ROUNDTRIP) {
+            prevWaypoint = 1;
         }
-    } else if (this->endWaypoint < temp_t0) {
-        if (temp_v0 == 0 || temp_v0 == 1) {
-            temp_t0 = 0;
-        } else if (temp_v0 == 3) {
-            temp_t0 = this->endWaypoint - 1;
+    } else if (prevWaypoint > this->endWaypoint) {
+        if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY || loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK) {
+            prevWaypoint = 0;
+        } else if (loopMode == ENGOROIWA_LOOPMODE_ROUNDTRIP) {
+            prevWaypoint = this->endWaypoint - 1;
         }
     }
 
     currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
-    pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + temp_t0;
-    arg2->x = currentPointPos->x - pointPos->x;
-    arg2->y = currentPointPos->x - pointPos->y;
-    arg2->z = currentPointPos->x - pointPos->z;
+    prevPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + prevWaypoint;
+    dest->x = currentPointPos->x - prevPointPos->x;
+    dest->y = currentPointPos->x - prevPointPos->y;
+    dest->z = currentPointPos->x - prevPointPos->z;
 }
 
-void func_80A4C080(EnGoroiwa* this) {
-    s16 temp_v0 = (this->actor.params >> 8) & 3;
+void EnGoroiw_CheckEndOfPath(EnGoroiwa* this) {
+    s16 loopMode = (this->actor.params >> 8) & 3;
 
     if (this->nextWaypoint < 0) {
-        if (temp_v0 == 0 || temp_v0 == 1) {
+        if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY || loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK) {
             this->currentWaypoint = this->endWaypoint;
             this->nextWaypoint = this->endWaypoint - 1;
             this->pathDirection = -1;
-        } else if (temp_v0 == 3) {
+        } else if (loopMode == ENGOROIWA_LOOPMODE_ROUNDTRIP) {
             this->currentWaypoint = 0;
             this->nextWaypoint = 1;
             this->pathDirection = 1;
         }
     } else if (this->nextWaypoint > this->endWaypoint) {
-        if (temp_v0 == 0 || temp_v0 == 1) {
+        if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY || loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK) {
             this->currentWaypoint = 0;
             this->nextWaypoint = 1;
             this->pathDirection = 1;
-        } else if (temp_v0 == 3) {
+        } else if (loopMode == ENGOROIWA_LOOPMODE_ROUNDTRIP) {
             this->currentWaypoint = this->endWaypoint;
             this->nextWaypoint = this->endWaypoint - 1;
             this->pathDirection = -1;
@@ -193,26 +203,26 @@ void func_80A4C080(EnGoroiwa* this) {
     }
 }
 
-void func_80A4C134(EnGoroiwa* this) {
+void EnGoroiwa_SetNextWaypoint(EnGoroiwa* this) {
     this->currentWaypoint = this->nextWaypoint;
     this->nextWaypoint += this->pathDirection;
-    func_80A4C080(this);
+    EnGoroiw_CheckEndOfPath(this);
 }
 
-void func_80A4C164(EnGoroiwa* this) {
+void EnGoroiwa_ReverseDirection(EnGoroiwa* this) {
     this->pathDirection *= -1;
     this->currentWaypoint = this->nextWaypoint;
     this->nextWaypoint += this->pathDirection;
 }
 
-void func_80A4C188(EnGoroiwa* this, GlobalContext* globalCtx) {
+void EnGoroiwa_InitPath(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->endWaypoint = globalCtx->setupPathList[this->actor.params & 0xFF].count - 1;
     this->currentWaypoint = 0;
     this->nextWaypoint = 1;
     this->pathDirection = 1;
 }
 
-void func_80A4C1C4(EnGoroiwa* this, GlobalContext* globalCtx, s32 waypoint) {
+void EnGoroiwa_TeleportToWaypoint(EnGoroiwa* this, GlobalContext* globalCtx, s32 waypoint) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + waypoint;
 
@@ -221,12 +231,12 @@ void func_80A4C1C4(EnGoroiwa* this, GlobalContext* globalCtx, s32 waypoint) {
     this->actor.world.pos.z = pointPos->z;
 }
 
-void func_80A4C264(EnGoroiwa* this) {
-    this->unk_1B0.x = 1.0f;
-    this->unk_1C0 = 1.0f;
+void EnGoroiwa_InitRotation(EnGoroiwa* this) {
+    this->prevUnitRollAxis.x = 1.0f;
+    this->rollRotSpeed = 1.0f;
 }
 
-s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
+s32 EnGoroiwa_GetAscendDirection(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
@@ -258,9 +268,9 @@ void EnGoroiwa_SpawnDust(GlobalContext* globalCtx, Vec3f* pos) {
 
     for (i = 0; i < 8; i++) {
         angle += 0x4E20;
-        randPos.x = pos->x + ((47.0f * ((Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_SinS(angle));
-        randPos.y = pos->y + ((Rand_ZeroOne() - 0.5f) * 40.0f);
-        randPos.z = pos->z + ((47.0f * ((Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_CosS(angle);
+        randPos.x = pos->x + (47.0f * (Rand_ZeroOne() * 0.5f + 0.5f)) * Math_SinS(angle);
+        randPos.y = pos->y + (Rand_ZeroOne() - 0.5f) * 40.0f;
+        randPos.z = pos->z + ((47.0f * (Rand_ZeroOne() * 0.5f + 0.5f))) * Math_CosS(angle);
         func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Rand_ZeroOne() * 30.0f) + 100, 80);
         func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Rand_ZeroOne() * 20.0f) + 80, 80);
     }
@@ -284,13 +294,13 @@ void EnGoroiwa_SpawnWaterEffects(GlobalContext* globalCtx, Vec3f* contactPos) {
     EffectSsGRipple_Spawn(globalCtx, contactPos, 500, 1300, 8);
 }
 
-s32 func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
+s32 EnGoroiwa_MoveAndFall(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path;
     s32 result;
     s32 pad;
     Vec3s* nextPointPos;
 
-    Math_StepToF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
+    Math_StepToF(&this->actor.speedXZ, R_EN_GOROIWA_SPEED * 0.01f, 0.3f);
     func_8002D868(&this->actor);
     path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
@@ -300,20 +310,20 @@ s32 func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
     return result;
 }
 
-s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
+s32 EnGoroiwa_Move(EnGoroiwa* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     s32 pad;
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     Vec3s* currentPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->currentWaypoint;
-    s32 result;
+    s32 nextPointReached;
     Vec3f posDiff;
     Vec3f nextPointPosF;
 
     nextPointPosF.x = nextPointPos->x;
     nextPointPosF.y = nextPointPos->y;
     nextPointPosF.z = nextPointPos->z;
-    Math_StepToF(&this->actor.speedXZ, mREG(12) * 0.01f, 0.3f);
-    if (Math3D_Vec3fDistSq(&nextPointPosF, &this->actor.world.pos) < 25.0f) {
+    Math_StepToF(&this->actor.speedXZ, R_EN_GOROIWA_SPEED * 0.01f, 0.3f);
+    if (Math3D_Vec3fDistSq(&nextPointPosF, &this->actor.world.pos) < SQ(5.0f)) {
         Math_Vec3f_Diff(&nextPointPosF, &this->actor.world.pos, &posDiff);
     } else {
         posDiff.x = nextPointPosF.x - currentPointPos->x;
@@ -324,40 +334,40 @@ s32 func_80A4C814(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.velocity.x *= this->actor.speedXZ;
     this->actor.velocity.y *= this->actor.speedXZ;
     this->actor.velocity.z *= this->actor.speedXZ;
-    result = Math_StepToF(&this->actor.world.pos.x, nextPointPosF.x, fabsf(this->actor.velocity.x)) & 1;
-    result &= Math_StepToF(&this->actor.world.pos.y, nextPointPosF.y, fabsf(this->actor.velocity.y));
-    result &= Math_StepToF(&this->actor.world.pos.z, nextPointPosF.z, fabsf(this->actor.velocity.z));
-    return result;
+    nextPointReached = Math_StepToF(&this->actor.world.pos.x, nextPointPosF.x, fabsf(this->actor.velocity.x)) & 1;
+    nextPointReached &= Math_StepToF(&this->actor.world.pos.y, nextPointPosF.y, fabsf(this->actor.velocity.y));
+    nextPointReached &= Math_StepToF(&this->actor.world.pos.z, nextPointPosF.z, fabsf(this->actor.velocity.z));
+    return nextPointReached;
 }
 
-s32 func_80A4CA50(EnGoroiwa* this, GlobalContext* globalCtx) {
+s32 EnGoroiwa_MoveUpToNextWaypoint(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
 
-    Math_StepToF(&this->actor.velocity.y, (mREG(12) * 0.01f) * 0.5f, 0.18f);
+    Math_StepToF(&this->actor.velocity.y, (R_EN_GOROIWA_SPEED * 0.01f) * 0.5f, 0.18f);
     this->actor.world.pos.x = nextPointPos->x;
     this->actor.world.pos.z = nextPointPos->z;
     return Math_StepToF(&this->actor.world.pos.y, nextPointPos->y, fabsf(this->actor.velocity.y));
 }
 
-s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
+s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     Vec3s* nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
     f32 nextPointY;
     f32 thisY;
-    f32 temp;
+    f32 yDistToFloor;
     s32 quakeIdx;
-    CollisionPoly* sp68;
-    Vec3f sp5C;
-    f32 temp_f0_2;
+    CollisionPoly* floorPoly;
+    Vec3f raycastFrom;
+    f32 floorY;
     s32 pad2;
-    s32 sp50;
-    Vec3f sp44;
+    s32 floorBgId;
+    Vec3f dustPos;
     WaterBox* waterBox;
     f32 ySurface;
-    Vec3f sp30;
+    Vec3f waterHitPos;
 
     nextPointY = nextPointPos->y;
     Math_StepToF(&this->actor.velocity.y, -14.0f, 1.0f);
@@ -367,47 +377,46 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (1) {}
     this->actor.world.pos.y += this->actor.velocity.y;
     if (this->actor.velocity.y < 0.0f && this->actor.world.pos.y <= nextPointY) {
-        if (this->unk_1C6 == 0) {
+        if (this->bounceCount == 0) {
             if (this->actor.xzDistToPlayer < 600.0f) {
                 quakeIdx = Quake_Add(ACTIVE_CAM, 3);
                 Quake_SetSpeed(quakeIdx, -0x3CB0);
                 Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
                 Quake_SetCountdown(quakeIdx, 7);
             }
-            this->unk_1C0 = 0.0f;
-            if (!(this->unk_1D3 & 0x10)) {
-                sp5C.x = this->actor.world.pos.x;
-                sp5C.y = this->actor.world.pos.y + 50.0f;
-                sp5C.z = this->actor.world.pos.z;
-                temp_f0_2 =
-                    BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &sp68, &sp50, &this->actor, &sp5C);
-                // temp needed to match
-                temp = temp_f0_2 - (this->actor.world.pos.y - 59.5f);
-                if (fabsf(temp) < 15.0f) {
-                    sp44.x = this->actor.world.pos.x;
-                    sp44.y = temp_f0_2 + 10.0f;
-                    sp44.z = this->actor.world.pos.z;
-                    EnGoroiwa_SpawnDust(globalCtx, &sp44);
+            this->rollRotSpeed = 0.0f;
+            if (!(this->stateFlags & ENGOROIWA_IN_WATER)) {
+                raycastFrom.x = this->actor.world.pos.x;
+                raycastFrom.y = this->actor.world.pos.y + 50.0f;
+                raycastFrom.z = this->actor.world.pos.z;
+                floorY = BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &floorPoly, &floorBgId,
+                                                     &this->actor, &raycastFrom);
+                yDistToFloor = floorY - (this->actor.world.pos.y - 59.5f);
+                if (fabsf(yDistToFloor) < 15.0f) {
+                    dustPos.x = this->actor.world.pos.x;
+                    dustPos.y = floorY + 10.0f;
+                    dustPos.z = this->actor.world.pos.z;
+                    EnGoroiwa_SpawnDust(globalCtx, &dustPos);
                 }
             }
         }
-        if (this->unk_1C6 > 0) {
+        if (this->bounceCount >= 1) {
             return true;
         }
-        this->unk_1C6 += 1;
+        this->bounceCount++;
         this->actor.velocity.y *= -0.3f;
         this->actor.world.pos.y = nextPointY - ((this->actor.world.pos.y - nextPointY) * 0.3f);
     }
-    if (this->unk_1C6 == 0 &&
+    if (this->bounceCount == 0 &&
         WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
                                 &ySurface, &waterBox) &&
         this->actor.world.pos.y <= ySurface) {
-        this->unk_1D3 |= 0x10;
+        this->stateFlags |= ENGOROIWA_IN_WATER;
         if (ySurface < thisY) {
-            sp30.x = this->actor.world.pos.x;
-            sp30.y = ySurface;
-            sp30.z = this->actor.world.pos.z;
-            EnGoroiwa_SpawnWaterEffects(globalCtx, &sp30);
+            waterHitPos.x = this->actor.world.pos.x;
+            waterHitPos.y = ySurface;
+            waterHitPos.z = this->actor.world.pos.z;
+            EnGoroiwa_SpawnWaterEffects(globalCtx, &waterHitPos);
             this->actor.velocity.y *= 0.2f;
         }
         if (this->actor.velocity.y < -8.0f) {
@@ -417,93 +426,96 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     return false;
 }
 
-void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
+void EnGoroiwa_UpdateRotation(EnGoroiwa* this, GlobalContext* globalCtx) {
     static Vec3f unitY = { 0.0f, 1.0f, 0.0f };
     s32 pad;
-    Vec3f* temp;
-    f32 sp8C;
-    Vec3f sp80;
-    Vec3f sp74;
+    Vec3f* rollAxisPtr;
+    f32 rollAngleDiff;
+    Vec3f rollAxis;
+    Vec3f unitRollAxis;
     MtxF mtx;
-    Vec3f sp28;
+    Vec3f unusedDiff;
 
-    if (this->unk_1D3 & 8) {
-        sp8C = this->unk_1BC;
+    if (this->stateFlags & ENGOROIWA_RETAIN_ROT_SPEED) {
+        rollAngleDiff = this->prevRollAngleDiff;
     } else {
-        this->unk_1BC = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.prevPos) * (1.0f / 59.5f);
-        sp8C = this->unk_1BC;
+        this->prevRollAngleDiff = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.prevPos) * (1.0f / 59.5f);
+        rollAngleDiff = this->prevRollAngleDiff;
     }
-    sp8C *= this->unk_1C0;
-    // temp assignment needed to match
-    temp = &sp80;
-    if (this->unk_1D3 & 8) {
-        func_80A4BF28(this, globalCtx, &sp28);
-        Math3D_Vec3f_Cross(&unitY, &this->actor.velocity, temp);
+    rollAngleDiff *= this->rollRotSpeed;
+    rollAxisPtr = &rollAxis;
+    if (this->stateFlags & ENGOROIWA_RETAIN_ROT_SPEED) {
+        /*
+         * EnGoroiwa_GetPrevWaypointDiff has no side effects and its result goes unused,
+         * its result was probably meant to be used instead of the actor's velocity in the
+         * Math3D_Vec3f_Cross call.
+         */
+        EnGoroiwa_GetPrevWaypointDiff(this, globalCtx, &unusedDiff);
+        Math3D_Vec3f_Cross(&unitY, &this->actor.velocity, rollAxisPtr);
     } else {
-        Math3D_Vec3f_Cross(&unitY, &this->actor.velocity, temp);
-    }
-
-    if (EnGoroiwa_Vec3fNormalize(&sp74, temp)) {
-        this->unk_1B0 = sp74;
-    } else {
-        sp74 = this->unk_1B0;
+        Math3D_Vec3f_Cross(&unitY, &this->actor.velocity, rollAxisPtr);
     }
 
-    func_800D23FC(sp8C, &sp74, 0);
-    Matrix_RotateY(this->actor.shape.rot.y * (2.0f * M_PI / 0x10000), 1);
-    Matrix_RotateX(this->actor.shape.rot.x * (2.0f * M_PI / 0x10000), 1);
-    Matrix_RotateZ(this->actor.shape.rot.z * (2.0f * M_PI / 0x10000), 1);
+    if (EnGoroiwa_Vec3fNormalize(&unitRollAxis, rollAxisPtr)) {
+        this->prevUnitRollAxis = unitRollAxis;
+    } else {
+        unitRollAxis = this->prevUnitRollAxis;
+    }
+
+    Matrix_RotateAxis(rollAngleDiff, &unitRollAxis, MTXMODE_NEW);
+    Matrix_RotateY(this->actor.shape.rot.y * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
+    Matrix_RotateX(this->actor.shape.rot.x * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
+    Matrix_RotateZ(this->actor.shape.rot.z * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
     Matrix_Get(&mtx);
-    func_800D20CC(&mtx, &this->actor.shape.rot, 0);
+    Matrix_MtxFToYXZRotS(&mtx, &this->actor.shape.rot, 0);
 }
 
-void func_80A4D074(EnGoroiwa* this, GlobalContext* globalCtx) {
-    s16 temp_v0 = (this->actor.params >> 8) & 3;
+void EnGoroiwa_NextWaypoint(EnGoroiwa* this, GlobalContext* globalCtx) {
+    s16 loopMode = (this->actor.params >> 8) & 3;
 
-    func_80A4C134(this);
+    EnGoroiwa_SetNextWaypoint(this);
 
-    if (temp_v0 == 0 || temp_v0 == 1) {
+    if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY || loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK) {
         if (this->currentWaypoint == 0 || this->currentWaypoint == this->endWaypoint) {
-            func_80A4C1C4(this, globalCtx, this->currentWaypoint);
+            EnGoroiwa_TeleportToWaypoint(this, globalCtx, this->currentWaypoint);
         }
     }
 
-    func_80A4BE54(this, globalCtx);
+    EnGoroiwa_FaceNextWaypoint(this, globalCtx);
 }
 
-void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
-    static f32 colliderHeightOffset[] = { 0.0f, 59.5f };
+void EnGoroiwa_SpawnFragments(EnGoroiwa* this, GlobalContext* globalCtx) {
+    static f32 yOffsets[] = { 0.0f, 59.5f };
     s16 angle1;
     s16 angle2;
     s32 pad;
     Vec3f* thisPos = &this->actor.world.pos;
     Vec3f effectPos;
     Vec3f fragmentVelocity;
-    f32 temp_f24;
-    f32 temp_f22;
-    f32 temp_f20;
-    f32 temp_f20_2;
-    s16 temp_v0 = (this->actor.params >> 10) & 1;
+    f32 cos1;
+    f32 sin1;
+    f32 sin2;
+    s16 yOffsetIdx = (this->actor.params >> 10) & 1;
     s32 i;
 
     for (i = 0, angle1 = 0; i < 16; i++, angle1 += 0x4E20) {
-        temp_f22 = Math_SinS(angle1);
-        temp_f24 = Math_CosS(angle1);
+        sin1 = Math_SinS(angle1);
+        cos1 = Math_CosS(angle1);
         angle2 = Rand_ZeroOne() * 0xFFFF;
-        effectPos.x = ((Rand_ZeroOne() * 50.0f) * temp_f22) * Math_SinS(angle2);
-        temp_f20_2 = Math_SinS(angle2);
-        effectPos.y = (((Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + colliderHeightOffset[temp_v0];
-        effectPos.z = ((Rand_ZeroOne() * 50.0f) * temp_f24) * Math_SinS(angle2);
+        effectPos.x = Rand_ZeroOne() * 50.0f * sin1 * Math_SinS(angle2);
+        sin2 = Math_SinS(angle2);
+        effectPos.y = (Rand_ZeroOne() - 0.5f) * 100.0f * sin2 + yOffsets[yOffsetIdx];
+        effectPos.z = Rand_ZeroOne() * 50.0f * cos1 * Math_SinS(angle2);
         fragmentVelocity.x = effectPos.x * 0.2f;
-        fragmentVelocity.y = (Rand_ZeroOne() * 15.0f) + 2.0f;
+        fragmentVelocity.y = Rand_ZeroOne() * 15.0f + 2.0f;
         fragmentVelocity.z = effectPos.z * 0.2f;
         Math_Vec3f_Sum(&effectPos, thisPos, &effectPos);
         EffectSsKakera_Spawn(globalCtx, &effectPos, &fragmentVelocity, &effectPos, -340, 33, 28, 2, 0,
-                             (Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, 1, gBoulderFragmentsDL);
+                             Rand_ZeroOne() * 7.0f + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, 1, gBoulderFragmentsDL);
     }
 
     effectPos.x = thisPos->x;
-    effectPos.y = thisPos->y + colliderHeightOffset[temp_v0];
+    effectPos.y = thisPos->y + yOffsets[yOffsetIdx];
     effectPos.z = thisPos->z;
     func_80033480(globalCtx, &effectPos, 80.0f, 5, 70, 110, 1);
     func_80033480(globalCtx, &effectPos, 90.0f, 5, 110, 160, 1);
@@ -516,12 +528,12 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static f32 D_80A4DF10[] = { 0.0f, 595.0f };
+    static f32 yOffsets[] = { 0.0f, 595.0f };
     EnGoroiwa* this = THIS;
     s32 pathIdx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    func_80A4BD04(this, globalCtx);
+    EnGoroiwa_InitCollider(this, globalCtx);
     pathIdx = this->actor.params & 0xFF;
     if (pathIdx == 0xFF) {
         // Translation: Error: Invalid arg_data
@@ -537,14 +549,14 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-    ActorShape_Init(&this->actor.shape, D_80A4DF10[(this->actor.params >> 10) & 1], ActorShadow_DrawCircle, 9.4f);
+    ActorShape_Init(&this->actor.shape, yOffsets[(this->actor.params >> 10) & 1], ActorShadow_DrawCircle, 9.4f);
     this->actor.shape.shadowAlpha = 200;
     EnGoroiwa_SetSpeed(this, globalCtx);
-    func_80A4C188(this, globalCtx);
-    func_80A4C1C4(this, globalCtx, 0);
-    func_80A4C264(this);
-    func_80A4BE54(this, globalCtx);
-    func_80A4D5E0(this);
+    EnGoroiwa_InitPath(this, globalCtx);
+    EnGoroiwa_TeleportToWaypoint(this, globalCtx, 0);
+    EnGoroiwa_InitRotation(this);
+    EnGoroiwa_FaceNextWaypoint(this, globalCtx);
+    EnGoroiwa_SetupRoll(this);
     // Translation: (Goroiwa)
     osSyncPrintf("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params,
                  this->actor.params & 0xFF, (this->actor.params >> 8) & 3, (this->actor.params >> 10) & 1,
@@ -558,29 +570,29 @@ void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-void func_80A4D5E0(EnGoroiwa* this) {
-    this->actionFunc = func_80A4D624;
-    func_80A4BD70(this, 3);
-    this->unk_1C0 = 1.0f;
+void EnGoroiwa_SetupRoll(EnGoroiwa* this) {
+    this->actionFunc = EnGoroiwa_Roll;
+    EnGoroiwa_UpdateFlags(this, ENGOROIWA_ENABLE_AT | ENGOROIWA_ENABLE_OC);
+    this->rollRotSpeed = 1.0f;
 }
 
-static EnGoroiwaUnkFunc1 D_80A4DF18[] = { func_80A4C814, func_80A4C6C8 };
-static EnGoroiwaUnkFunc2 D_80A4DF20[] = { func_80A4D9DC, func_80A4D8CC };
+void EnGoroiwa_Roll(EnGoroiwa* this, GlobalContext* globalCtx) {
+    static EnGoroiwaUnkFunc1 moveFuncs[] = { EnGoroiwa_Move, EnGoroiwa_MoveAndFall };
+    static EnGoroiwaUnkFunc2 onHitSetupFuncs[] = { EnGoroiwa_SetupWait, EnGoroiwa_SetupMoveAndFallToGround };
 
-void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
-    s32 temp_v0_5;
+    s32 ascendDirection;
     s16 yawDiff;
-    s16 temp_v1_2;
+    s16 loopMode;
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        this->unk_1D3 &= ~4;
+        this->stateFlags &= ~ENGOROIWA_PLAYER_IN_THE_WAY;
         yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
         if (yawDiff > -0x4000 && yawDiff < 0x4000) {
-            this->unk_1D3 |= 4;
-            if ((this->actor.params >> 10) & 1 || (this->actor.home.rot.z & 1) != 1) {
-                func_80A4C164(this);
-                func_80A4BE54(this, globalCtx);
+            this->stateFlags |= ENGOROIWA_PLAYER_IN_THE_WAY;
+            if (((this->actor.params >> 10) & 1) || (this->actor.home.rot.z & 1) != 1) {
+                EnGoroiwa_ReverseDirection(this);
+                EnGoroiwa_FaceNextWaypoint(this, globalCtx);
             }
         }
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 0);
@@ -588,122 +600,122 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
         // Translation: Player knocked down
         osSyncPrintf("Player ぶっ飛ばし\n");
         osSyncPrintf(VT_RST);
-        D_80A4DF20[(this->actor.params >> 10) & 1](this);
+        onHitSetupFuncs[(this->actor.params >> 10) & 1](this);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {
-            this->collisionTimer = 50;
+            this->collisionDisabledTimer = 50;
         }
-    } else if (D_80A4DF18[(this->actor.params >> 10) & 1](this, globalCtx)) {
-        temp_v1_2 = (this->actor.params >> 8) & 3;
-        if (temp_v1_2 == 1) {
-            if (this->nextWaypoint == 0 || this->nextWaypoint == this->endWaypoint) {
-                func_80A4D0FC(this, globalCtx);
-            }
+    } else if (moveFuncs[(this->actor.params >> 10) & 1](this, globalCtx)) {
+        loopMode = (this->actor.params >> 8) & 3;
+        if (loopMode == ENGOROIWA_LOOPMODE_ONEWAY_BREAK &&
+            (this->nextWaypoint == 0 || this->nextWaypoint == this->endWaypoint)) {
+            EnGoroiwa_SpawnFragments(this, globalCtx);
         }
-        func_80A4D074(this, globalCtx);
-        if ((temp_v1_2 == 3) && (this->currentWaypoint == 0 || this->currentWaypoint == this->endWaypoint)) {
-            func_80A4D9DC(this);
+        EnGoroiwa_NextWaypoint(this, globalCtx);
+        if ((loopMode == ENGOROIWA_LOOPMODE_ROUNDTRIP) &&
+            (this->currentWaypoint == 0 || this->currentWaypoint == this->endWaypoint)) {
+            EnGoroiwa_SetupWait(this);
         } else if (!((this->actor.params >> 10) & 1) && this->currentWaypoint != 0 &&
                    this->currentWaypoint != this->endWaypoint) {
-            temp_v0_5 = func_80A4C27C(this, globalCtx);
-            if (temp_v0_5 > 0) {
-                func_80A4DA7C(this);
-            } else if (temp_v0_5 < 0) {
-                func_80A4DB90(this);
+            ascendDirection = EnGoroiwa_GetAscendDirection(this, globalCtx);
+            if (ascendDirection > 0) {
+                EnGoroiwa_SetupMoveUp(this);
+            } else if (ascendDirection < 0) {
+                EnGoroiwa_SetupMoveDown(this);
             } else {
-                func_80A4D5E0(this);
+                EnGoroiwa_SetupRoll(this);
             }
         } else {
-            func_80A4D5E0(this);
+            EnGoroiwa_SetupRoll(this);
         }
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
 }
 
-void func_80A4D8CC(EnGoroiwa* this) {
-    this->actionFunc = func_80A4D944;
-    func_80A4BD70(this, 2);
+void EnGoroiwa_SetupMoveAndFallToGround(EnGoroiwa* this) {
+    this->actionFunc = EnGoroiwa_MoveAndFallToGround;
+    EnGoroiwa_UpdateFlags(this, ENGOROIWA_ENABLE_OC);
     this->actor.gravity = -0.86f;
     this->actor.minVelocityY = -15.0f;
     this->actor.speedXZ *= 0.15f;
     this->actor.velocity.y = 5.0f;
-    this->unk_1C0 = 1.0f;
+    this->rollRotSpeed = 1.0f;
 }
 
-void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx) {
-    func_80A4C6C8(this, globalCtx);
-    if (this->actor.bgCheckFlags & 1 && this->actor.velocity.y < 0.0f) {
-        if (this->unk_1D3 & 4 && (this->actor.home.rot.z & 1) == 1) {
-            func_80A4C164(this);
-            func_80A4BE54(this, globalCtx);
+void EnGoroiwa_MoveAndFallToGround(EnGoroiwa* this, GlobalContext* globalCtx) {
+    EnGoroiwa_MoveAndFall(this, globalCtx);
+    if ((this->actor.bgCheckFlags & 1) && this->actor.velocity.y < 0.0f) {
+        if ((this->stateFlags & ENGOROIWA_PLAYER_IN_THE_WAY) && (this->actor.home.rot.z & 1) == 1) {
+            EnGoroiwa_ReverseDirection(this);
+            EnGoroiwa_FaceNextWaypoint(this, globalCtx);
         }
-        func_80A4D9DC(this);
+        EnGoroiwa_SetupWait(this);
     }
 }
 
-void func_80A4D9DC(EnGoroiwa* this) {
+void EnGoroiwa_SetupWait(EnGoroiwa* this) {
     static s16 waitDurations[] = { 20, 6 };
 
-    this->actionFunc = func_80A4DA3C;
+    this->actionFunc = EnGoroiwa_Wait;
     this->actor.speedXZ = 0.0f;
-    func_80A4BD70(this, 2);
+    EnGoroiwa_UpdateFlags(this, ENGOROIWA_ENABLE_OC);
     this->waitTimer = waitDurations[this->actor.home.rot.z & 1];
-    this->unk_1C0 = 0.0f;
+    this->rollRotSpeed = 0.0f;
 }
 
-void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx) {
+void EnGoroiwa_Wait(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->waitTimer > 0) {
         this->waitTimer--;
     } else {
         this->collider.base.atFlags &= ~AT_HIT;
-        func_80A4D5E0(this);
+        EnGoroiwa_SetupRoll(this);
     }
 }
 
-void func_80A4DA7C(EnGoroiwa* this) {
-    this->actionFunc = func_80A4DAD0;
-    func_80A4BD70(this, 3);
-    this->unk_1C0 = 0.0f;
+void EnGoroiwa_SetupMoveUp(EnGoroiwa* this) {
+    this->actionFunc = EnGoroiwa_MoveUp;
+    EnGoroiwa_UpdateFlags(this, ENGOROIWA_ENABLE_AT | ENGOROIWA_ENABLE_OC);
+    this->rollRotSpeed = 0.0f;
     this->actor.velocity.y = fabsf(this->actor.speedXZ) * 0.1f;
 }
 
-void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx) {
+void EnGoroiwa_MoveUp(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 4);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {
-            this->collisionTimer = 50;
+            this->collisionDisabledTimer = 50;
         }
-    } else if (func_80A4CA50(this, globalCtx)) {
-        func_80A4D074(this, globalCtx);
-        func_80A4D5E0(this);
+    } else if (EnGoroiwa_MoveUpToNextWaypoint(this, globalCtx)) {
+        EnGoroiwa_NextWaypoint(this, globalCtx);
+        EnGoroiwa_SetupRoll(this);
         this->actor.speedXZ = 0.0f;
     }
 }
 
-void func_80A4DB90(EnGoroiwa* this) {
-    this->actionFunc = func_80A4DC00;
-    func_80A4BD70(this, 3);
-    this->unk_1C0 = 0.3f;
-    this->unk_1C6 = 0;
+void EnGoroiwa_SetupMoveDown(EnGoroiwa* this) {
+    this->actionFunc = EnGoroiwa_MoveDown;
+    EnGoroiwa_UpdateFlags(this, ENGOROIWA_ENABLE_AT | ENGOROIWA_ENABLE_OC);
+    this->rollRotSpeed = 0.3f;
+    this->bounceCount = 0;
     this->actor.velocity.y = fabsf(this->actor.speedXZ) * -0.3f;
-    this->unk_1D3 |= 8;
-    this->unk_1D3 &= ~0x10;
+    this->stateFlags |= ENGOROIWA_RETAIN_ROT_SPEED;
+    this->stateFlags &= ~ENGOROIWA_IN_WATER;
 }
 
-void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx) {
+void EnGoroiwa_MoveDown(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 4);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {
-            this->collisionTimer = 50;
+            this->collisionDisabledTimer = 50;
         }
-    } else if (func_80A4CB78(this, globalCtx)) {
-        func_80A4D074(this, globalCtx);
-        func_80A4D5E0(this);
-        this->unk_1D3 &= ~8;
+    } else if (EnGoroiwa_MoveDownToNextWaypoint(this, globalCtx)) {
+        EnGoroiwa_NextWaypoint(this, globalCtx);
+        EnGoroiwa_SetupRoll(this);
+        this->stateFlags &= ~ENGOROIWA_RETAIN_ROT_SPEED;
         this->actor.speedXZ = 0.0f;
     }
 }
@@ -715,8 +727,8 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     UNK_TYPE sp30;
 
     if (!(player->stateFlags1 & 0x300000C0)) {
-        if (this->collisionTimer > 0) {
-            this->collisionTimer--;
+        if (this->collisionDisabledTimer > 0) {
+            this->collisionDisabledTimer--;
         }
         this->actionFunc(this, globalCtx);
         switch ((this->actor.params >> 10) & 1) {
@@ -728,13 +740,13 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
                                                                       &this->actor, &this->actor.world.pos);
                 break;
         }
-        func_80A4CED8(this, globalCtx);
+        EnGoroiwa_UpdateRotation(this, globalCtx);
         if (this->actor.xzDistToPlayer < 300.0f) {
-            func_80A4BCA0(this);
-            if (this->unk_1D3 & 1 && this->collisionTimer <= 0) {
+            EnGoroiwa_UpdateCollider(this);
+            if ((this->stateFlags & ENGOROIWA_ENABLE_AT) && this->collisionDisabledTimer <= 0) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
-            if (this->unk_1D3 & 2 && this->collisionTimer <= 0) {
+            if ((this->stateFlags & ENGOROIWA_ENABLE_OC) && this->collisionDisabledTimer <= 0) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
         }

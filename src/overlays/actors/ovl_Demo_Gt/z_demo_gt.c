@@ -662,7 +662,7 @@ void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
 
     Matrix_Push();
 
-    func_800D23FC(spC0, &spA8, 1);
+    Matrix_RotateAxis(spC0, &spA8, 1);
     Matrix_Translate(sp9C.x, sp9C.y, sp9C.z, MTXMODE_APPLY);
     Matrix_ToMtx(spB4, "../z_demo_gt_part1.c", 474);
     unk198 = this->unk_198;
@@ -1284,7 +1284,7 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx2) {
 
         Matrix_Push();
 
-        func_800D23FC(sp70, &sp54, 1);
+        Matrix_RotateAxis(sp70, &sp54, 1);
         Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
         Matrix_ToMtx(sp60, "../z_demo_gt_part4_1.c", 232);
 
@@ -1403,7 +1403,7 @@ void DemoGt_Draw5(DemoGt* this, GlobalContext* globalCtx) {
 
     Matrix_Push();
 
-    func_800D23FC(sp70, &sp54, 1);
+    Matrix_RotateAxis(sp70, &sp54, 1);
     Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp60, "../z_demo_gt_part4_2.c", 227);
 
@@ -1499,7 +1499,7 @@ void DemoGt_Draw6(DemoGt* this, GlobalContext* globalCtx) {
 
     Matrix_Push();
 
-    func_800D23FC(sp74, &sp58, 1);
+    Matrix_RotateAxis(sp74, &sp58, 1);
     Matrix_Translate(sp4C.x, sp4C.y, sp4C.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp64, "../z_demo_gt_part4_3.c", 291);
 
@@ -1591,7 +1591,7 @@ void DemoGt_Draw7(DemoGt* this, GlobalContext* globalCtx) {
 
     Matrix_Push();
 
-    func_800D23FC(sp68, &sp50, MTXMODE_APPLY);
+    Matrix_RotateAxis(sp68, &sp50, MTXMODE_APPLY);
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp5C, "../z_demo_gt_part5.c", 152);
 
@@ -1682,7 +1682,7 @@ void DemoGt_Draw8(DemoGt* this, GlobalContext* globalCtx) {
 
     Matrix_Push();
 
-    func_800D23FC(sp68, &sp50, 1);
+    Matrix_RotateAxis(sp68, &sp50, 1);
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp5C, "../z_demo_gt_part6.c", 153);
 
