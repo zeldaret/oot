@@ -40,7 +40,7 @@ typedef enum {
     /* 0xC */ PAGE_SE_PARAMETER_CHANGE,
     /* 0xD */ PAGE_SCROLL_PRINT,
     /* 0xE */ PAGE_FREE_AREA,
-    /* 0xF */ PAGE_LIM
+    /* 0xF */ PAGE_MAX
 } AudioDebugPage;
 
 #define SCROLL_PRINT_BUF_SIZE 25
@@ -2408,7 +2408,7 @@ void AudioDebug_ProcessInput(void) {
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_L)) {
-        if (sAudioDebugPage < PAGE_LIM - 1) {
+        if (sAudioDebugPage < PAGE_MAX - 1) {
             sAudioDebugPage++;
         } else {
             sAudioDebugPage = 0;
@@ -2419,7 +2419,7 @@ void AudioDebug_ProcessInput(void) {
         if (sAudioDebugPage > 0) {
             sAudioDebugPage--;
         } else {
-            sAudioDebugPage = PAGE_LIM - 1;
+            sAudioDebugPage = PAGE_MAX - 1;
         }
     }
 
