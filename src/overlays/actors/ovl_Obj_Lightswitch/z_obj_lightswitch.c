@@ -212,11 +212,11 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("(光スイッチ)(arg_data 0x%04x)\n", this->actor.params);
 }
 
-void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     ObjLightswitch* this = THIS;
 
-    Collider_DestroyJntSph(globalCtx2, &this->collider);
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void ObjLightswitch_SetupOff(ObjLightswitch* this) {
@@ -375,15 +375,15 @@ void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx) {
     }
 }
 
-void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx) {
+void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx2) {
     ObjLightswitch* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
 
     if (this->toggleDelay > 0) {
         this->toggleDelay--;
     }
 
-    this->actionFunc(this, globalCtx2);
+    this->actionFunc(this, globalCtx);
 
     if (this->actor.update != NULL) {
         if ((this->actor.params & 1) == 1) {
@@ -395,8 +395,8 @@ void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         this->prevFrameACflags = this->collider.base.acFlags;
         this->collider.base.acFlags &= ~AC_HIT;
-        CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
-        CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 

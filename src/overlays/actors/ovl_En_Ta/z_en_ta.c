@@ -64,13 +64,13 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-Vec3f D_80B16E7C = {
+static Vec3f D_80B16E7C = {
     1100.0f,
     1000.0f,
     0.0f,
 };
 
-UNK_TYPE D_80B16E88[] = {
+static void* D_80B16E88[] = {
     0x06007F80,
     0x06006EC0,
     0x060072C0,
@@ -121,14 +121,14 @@ void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnTa* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_0600B7B8, &D_06001C94, this->jointTable, this->morphTable, 17);
-    Collider_InitCylinder(globalCtx2, &this->collider);
-    Collider_SetCylinder(globalCtx2, &this->collider, &this->actor, &sCylinderInit);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B7B8, &D_06001C94, this->jointTable, this->morphTable, 17);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->unk_2E0 = 0;
@@ -147,7 +147,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(CYAN) " 追放タロン \n" VT_RST);
             if (gSaveContext.eventChkInf[6] & 0x800) {
                 Actor_Kill(&this->actor);
-            } else if (LINK_IS_CHILD) {
+            } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
             } else if (gSaveContext.eventChkInf[6] & 0x400) {
                 func_80B13AA0(this, func_80B14CAC, func_80B167C0);
@@ -166,9 +166,9 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
             if (!(gSaveContext.eventChkInf[6] & 0x800)) {
                 Actor_Kill(&this->actor);
-            } else if (LINK_IS_CHILD) {
+            } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
-            } else if (globalCtx2->sceneNum == SCENE_MALON_STABLE && gSaveContext.nightFlag) {
+            } else if (globalCtx->sceneNum == SCENE_MALON_STABLE && gSaveContext.nightFlag) {
                 Actor_Kill(&this->actor);
                 osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
@@ -180,7 +180,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         default:
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
-            if (globalCtx2->sceneNum == SCENE_SPOT15) {
+            if (globalCtx->sceneNum == SCENE_SPOT15) {
                 if (gSaveContext.eventChkInf[1] & 0x10) {
                     Actor_Kill(&this->actor);
                 } else if (gSaveContext.eventChkInf[1] & 0x8) {
@@ -195,26 +195,26 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->unk_2E4 = &D_0600CD50;
                     this->actor.shape.shadowScale = 54.0f;
                 }
-            } else if (globalCtx2->sceneNum == SCENE_SOUKO) {
+            } else if (globalCtx->sceneNum == SCENE_SOUKO) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
                 if (!(gSaveContext.eventChkInf[1] & 0x10)) {
                     Actor_Kill(&this->actor);
                 } else if (LINK_IS_ADULT) {
                     Actor_Kill(&this->actor);
                 } else {
-                    if (gSaveContext.nightFlag == 0) {
+                    if (IS_DAY) {
                         this->actor.flags |= 0x10;
                         this->unk_2C4[0] = this->unk_2C4[1] = this->unk_2C4[2] = 7;
                         this->unk_2B8[0] = (EnNiw*)Actor_Spawn(
-                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
+                            &globalCtx->actorCtx, globalCtx, ACTOR_EN_NIW, this->actor.world.pos.x + 5.0f,
                             this->actor.world.pos.y + 3.0f, this->actor.world.pos.z + 26.0f, 0, 0, 0, 0xD);
                         this->unk_2B8[1] = (EnNiw*)Actor_Spawn(
-                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x - 20.0f,
+                            &globalCtx->actorCtx, globalCtx, ACTOR_EN_NIW, this->actor.world.pos.x - 20.0f,
                             this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
                         this->unk_2B8[2] = (EnNiw*)Actor_Spawn(
-                            &globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.world.pos.x + 20.0f,
+                            &globalCtx->actorCtx, globalCtx, ACTOR_EN_NIW, this->actor.world.pos.x + 20.0f,
                             this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
-                        func_80B13AAC(this, globalCtx2);
+                        func_80B13AAC(this, globalCtx);
 
                         if (gSaveContext.eventInf[0] & 0x400) {
                             func_80B13AA0(this, func_80B16608, func_80B16938);
@@ -295,7 +295,7 @@ void func_80B143D4(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14410(EnTa* this) {
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         func_80B13AA0(this, func_80B14C18, func_80B167C0);
         gSaveContext.eventChkInf[1] |= 0x8;
     } else {

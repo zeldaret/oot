@@ -164,7 +164,7 @@ void func_808ACA08(BgSpot02Objects* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->csCtx.frames == 402) {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             func_8002F7DC(&player->actor, NA_SE_VO_LI_DEMO_DAMAGE_KID);
         } else {
             func_8002F7DC(&player->actor, NA_SE_VO_LI_DEMO_DAMAGE);

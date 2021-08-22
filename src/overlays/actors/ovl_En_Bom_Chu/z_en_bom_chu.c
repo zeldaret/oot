@@ -153,7 +153,7 @@ void EnBomChu_UpdateFloorPoly(EnBomChu* this, CollisionPoly* floorPoly, GlobalCo
         if (!(angle < 0.001f)) {
             EnBomChu_CrossProduct(&this->axisUp, &normal, &vec);
             //! @bug this function expects a unit vector but `vec` is not normalized
-            func_800D23FC(angle, &vec, MTXMODE_NEW);
+            Matrix_RotateAxis(angle, &vec, MTXMODE_NEW);
 
             Matrix_MultVec3f(&this->axisLeft, &vec);
             this->axisLeft = vec;
@@ -189,7 +189,7 @@ void EnBomChu_UpdateFloorPoly(EnBomChu* this, CollisionPoly* floorPoly, GlobalCo
             mf.zy = this->axisForwards.y;
             mf.zz = this->axisForwards.z;
 
-            func_800D20CC(&mf, &this->actor.world.rot, 0);
+            Matrix_MtxFToYXZRotS(&mf, &this->actor.world.rot, 0);
 
             /*
              * A hack for preventing bombchus from sticking to ledges.

@@ -87,7 +87,7 @@ void EffectSsDeadDs_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             }
         }
 
-        func_800D2264(&mf, &rpy, 0);
+        Matrix_MtxFToZYXRotS(&mf, &rpy, 0);
         this->rRoll = rpy.x;
         this->rPitch = rpy.y;
         this->rYaw = rpy.z;

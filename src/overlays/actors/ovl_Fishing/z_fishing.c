@@ -1638,7 +1638,7 @@ void Fishing_DrawLureHook(GlobalContext* globalCtx, Vec3f* pos, Vec3f* refPos, u
 
             Matrix_MultVec3f(&sZeroVec, &effect->pos);
             Matrix_Get(&mf);
-            func_800D20CC(&mf, &sEffOwnerHatRot, 0);
+            Matrix_MtxFToYXZRotS(&mf, &sEffOwnerHatRot, 0);
 
             D_80B7A690 = 0;
             D_80B7A68C = 0;
