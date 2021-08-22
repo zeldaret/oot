@@ -571,7 +571,7 @@ s32 EnSt_DecrStunTimer(EnSt* this) {
     if (this->stunTimer == 0) {
         return 0;
     }
-    this->stunTimer--; // @bug ? no return but v0 ends up being stunTimer before decrement
+    this->stunTimer--; //! @bug ? no return but v0 ends up being stunTimer before decrement
 }
 
 /**
@@ -801,9 +801,9 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags |= 0x80;
     }
     if (this->actor.params == 1) {
-        this->actor.naviEnemyId = 5;
+        this->actor.naviEnemyId = 0x05;
     } else {
-        this->actor.naviEnemyId = 4;
+        this->actor.naviEnemyId = 0x04;
     }
     EnSt_CheckCeilingPos(this, globalCtx);
     this->actor.flags |= 0x4000;

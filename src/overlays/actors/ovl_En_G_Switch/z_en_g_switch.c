@@ -467,8 +467,9 @@ void EnGSwitch_DrawPot(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static UNK_PTR sRupeeTex[] = { gRupeeGreenTex, gRupeeBlueTex,   gRupeeRedTex,
-                               gRupeePinkTex,  gRupeeOrangeTex, gRupeeSilverTex };
+static void* sRupeeTextures[] = {
+    gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex, gRupeeSilverTex,
+};
 
 void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -481,7 +482,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
         func_8002EBCC(&this->actor, globalCtx, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 957),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[this->colorIdx]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 961);
     }
@@ -565,7 +566,7 @@ void EnGSwitch_DrawEffects(EnGSwitch* this, GlobalContext* globalCtx) {
             Matrix_RotateZ(effect->rot.z, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 1088),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[effect->colorIdx]));
+            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[effect->colorIdx]));
             gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         }
     }

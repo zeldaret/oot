@@ -181,7 +181,7 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
 
     this->actor.textId = 0x4076;
     this->unk_196 = 6;
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         this->unk_194 = false;
         if (gSaveContext.scarecrowCustomSongSet) {
             this->actor.textId = 0x407A;

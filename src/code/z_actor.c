@@ -680,7 +680,7 @@ void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx
 
 void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x, s32 y,
                              s32 width, s32 height, s32 delay) {
-    Scene* loadedScene = globalCtx->loadedScene;
+    SceneTableEntry* loadedScene = globalCtx->loadedScene;
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
     if ((size != 0) && (size <= 0x3000)) {
@@ -1757,7 +1757,7 @@ void func_8002F994(Actor* actor, s32 arg1) {
 // Tests if something hit Jabu Jabu surface, displaying hit splash and playing sfx if true
 s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos) {
     if (func_80041D4C(&globalCtx->colCtx, poly, bgId) == 8) {
-        globalCtx->unk_11D30[0] = 1;
+        globalCtx->roomCtx.unk_74[0] = 1;
         CollisionCheck_BlueBlood(globalCtx, NULL, pos);
         Audio_PlayActorSound2(actor, NA_SE_IT_WALL_HIT_BUYO);
         return true;
@@ -1819,7 +1819,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
     spF0 = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
     if (spF0 != 0) {
-        f32 spD8 = (LINK_IS_ADULT) ? 80.0f : 60.0f;
+        f32 spD8 = LINK_IS_ADULT ? 80.0f : 60.0f;
         f32 spD4 = 1.0f;
         s32 spD0 = 0xFF;
         s32 spCC = spF0 - 40;
@@ -1993,7 +1993,7 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     overlayEntry = &gActorOverlayTable[0];
     for (i = 0; i < ARRAY_COUNT(gActorOverlayTable); i++) {
         overlayEntry->loadedRamAddr = NULL;
-        overlayEntry->nbLoaded = 0;
+        overlayEntry->numLoaded = 0;
         overlayEntry++;
     }
 
@@ -2037,12 +2037,12 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     sp74 = NULL;
     unkFlag = 0;
 
-    if (globalCtx->nbSetupActors != 0) {
+    if (globalCtx->numSetupActors != 0) {
         actorEntry = &globalCtx->setupActorList[0];
-        for (i = 0; i < globalCtx->nbSetupActors; i++) {
+        for (i = 0; i < globalCtx->numSetupActors; i++) {
             Actor_SpawnEntry(&globalCtx->actorCtx, actorEntry++, globalCtx);
         }
-        globalCtx->nbSetupActors = 0;
+        globalCtx->numSetupActors = 0;
     }
 
     if (actorCtx->unk_02 != 0) {
@@ -2275,7 +2275,7 @@ void func_80030FA8(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6183);
 }
 
-void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invisibleActors) {
+void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
     GraphicsContext* gfxCtx;
     s32 i;
@@ -2313,17 +2313,17 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
     func_80030FA8(gfxCtx);
 
     // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY START"
-    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", nbInvisibleActors);
+    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", numInvisibleActors);
 
     invisibleActor = &invisibleActors[0];
-    for (i = 0; i < nbInvisibleActors; i++) {
+    for (i = 0; i < numInvisibleActors; i++) {
         // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY"
         gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示", i);
         Actor_Draw(globalCtx, *(invisibleActor++));
     }
 
     // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY END"
-    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", nbInvisibleActors);
+    gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors != 0) {
         // Translates to: "BLUE SPECTACLES (EXTERIOR)"
@@ -2615,7 +2615,7 @@ Actor* Actor_RemoveFromCategory(GlobalContext* globalCtx, ActorContext* actorCtx
 void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
     osSyncPrintf(VT_FGCOL(CYAN));
 
-    if (actorOverlay->nbLoaded == 0) {
+    if (actorOverlay->numLoaded == 0) {
         if (HREG(20) != 0) {
             // Translates to: "ACTOR CLIENT IS NOW 0"
             osSyncPrintf("アクタークライアントが０になりました\n");
@@ -2644,7 +2644,7 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
         }
     } else if (HREG(20) != 0) {
         // Translates to: "%d OF ACTOR CLIENT REMAINS"
-        osSyncPrintf("アクタークライアントはあと %d 残っています\n", actorOverlay->nbLoaded);
+        osSyncPrintf("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
     }
 
     osSyncPrintf(VT_RST);
@@ -2727,7 +2727,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
                          (u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr, name);
             osSyncPrintf(VT_RST);
 
-            overlayEntry->nbLoaded = 0;
+            overlayEntry->numLoaded = 0;
         }
 
         actorInit = (void*)(u32)((overlayEntry->initInfo != NULL)
@@ -2757,13 +2757,13 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
         return NULL;
     }
 
-    ASSERT(overlayEntry->nbLoaded < 255, "actor_dlftbl->clients < 255", "../z_actor.c", 7031);
+    ASSERT(overlayEntry->numLoaded < 255, "actor_dlftbl->clients < 255", "../z_actor.c", 7031);
 
-    overlayEntry->nbLoaded++;
+    overlayEntry->numLoaded++;
 
     if (HREG(20) != 0) {
         // Translates to: "ACTOR CLIENT No. %d"
-        osSyncPrintf("アクタークライアントは %d 個目です\n", overlayEntry->nbLoaded);
+        osSyncPrintf("アクタークライアントは %d 個目です\n", overlayEntry->numLoaded);
     }
 
     Lib_MemSet((u8*)actor, actorInit->instanceSize, 0);
@@ -2819,13 +2819,13 @@ Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, GlobalContext* 
 
 void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCtx) {
     TransitionActorEntry* transitionActor;
-    u8 nbTransitionActors;
+    u8 numActors;
     s32 i;
 
-    transitionActor = globalCtx->transitionActorList;
-    nbTransitionActors = globalCtx->nbTransitionActors;
+    transitionActor = globalCtx->transiActorCtx.list;
+    numActors = globalCtx->transiActorCtx.numActors;
 
-    for (i = 0; i < nbTransitionActors; i++) {
+    for (i = 0; i < numActors; i++) {
         if (transitionActor->id >= 0) {
             if (((transitionActor->sides[0].room >= 0) &&
                  ((transitionActor->sides[0].room == globalCtx->roomCtx.curRoom.num) ||
@@ -2838,7 +2838,7 @@ void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCt
                             (i << 0xA) + transitionActor->params);
 
                 transitionActor->id = -transitionActor->id;
-                nbTransitionActors = globalCtx->nbTransitionActors;
+                numActors = globalCtx->transiActorCtx.numActors;
             }
         }
         transitionActor++;
@@ -2897,8 +2897,8 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
         }
     } else {
         ASSERT(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
-        ASSERT(overlayEntry->nbLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);
-        overlayEntry->nbLoaded--;
+        ASSERT(overlayEntry->numLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);
+        overlayEntry->numLoaded--;
         Actor_FreeOverlay(overlayEntry);
     }
 
@@ -4239,7 +4239,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 1:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     if (Flags_GetInfTable(0x10)) {
                         retTextId = 0x1046;
@@ -4286,7 +4286,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 2:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1042;
                 } else {
@@ -4303,7 +4303,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 3:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1043;
                 } else {
@@ -4322,7 +4322,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 4:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1042;
                 } else {
@@ -4339,7 +4339,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 5:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1044;
                 } else if (Flags_GetInfTable(0x22)) {
@@ -4356,7 +4356,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 6:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1042;
                 } else if (Flags_GetInfTable(0x24)) {
@@ -4373,7 +4373,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 7:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1043;
                 } else if (Flags_GetInfTable(0x26)) {
@@ -4390,7 +4390,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 8:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1043;
                 } else if (Flags_GetInfTable(0x28)) {
@@ -4409,7 +4409,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 9:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x1049;
                 } else {
@@ -4424,7 +4424,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 10:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104A;
                 } else {
@@ -4441,7 +4441,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 11:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104B;
                 } else {
@@ -4456,7 +4456,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 12:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104C;
                 } else {
@@ -4471,7 +4471,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 13:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x9)) {
                     retTextId = 0x104D;
                 } else {
@@ -4653,7 +4653,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             retTextId = 0x5002;
             break;
         case 38:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetEventChkInf(0x23)) {
@@ -4672,7 +4672,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 39:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetEventChkInf(0x23)) {
@@ -4689,7 +4689,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 40:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetEventChkInf(0x23)) {
@@ -4708,7 +4708,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 41:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetInfTable(0xF0)) {
@@ -4725,7 +4725,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 42:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetInfTable(0xF4)) {
@@ -4742,7 +4742,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 43:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x25)) {
                     retTextId = 0x3027;
                 } else if (Flags_GetInfTable(0xF8)) {
@@ -4834,7 +4834,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 55:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x37)) {
                     retTextId = 0x402B;
                 } else if (Flags_GetEventChkInf(0x31)) {
@@ -4896,7 +4896,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
             }
             break;
         case 72:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (Flags_GetEventChkInf(0x14)) {
                     retTextId = 0x2040;
                 } else if (Flags_GetInfTable(0x94)) {
@@ -4906,7 +4906,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 }
             } else {
                 if (!Flags_GetEventChkInf(0x18)) {
-                    if (gSaveContext.nightFlag != 0) {
+                    if (!IS_DAY) {
                         retTextId = 0x204E;
                     } else if (Flags_GetInfTable(0x9A)) {
                         retTextId = 0x2031;

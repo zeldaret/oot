@@ -67,7 +67,7 @@ static s16 sPuzzleCounter = 0;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 10, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x0A, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2600, ICHAIN_STOP),
 };
 
@@ -89,7 +89,7 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->textIdCopy = this->actor.textId;
         this->actor.params &= 0xFF;
         sPuzzleCounter = 0;
-        if (this->actor.textId == 0x109B) { // "Please forgive me, master!..."
+        if (this->actor.textId == 0x109B) {
             if (Flags_GetClear(globalCtx, 0x9) != 0) {
                 Actor_Kill(&this->actor);
                 return;
@@ -155,7 +155,7 @@ void EnHintnuts_SetupBurrow(EnHintnuts* this) {
 
 void EnHintnuts_HitByScrubProjectile2(EnHintnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gHintNutsUnburrowAnim, -3.0f);
-    this->collider.dim.height = 0x25;
+    this->collider.dim.height = 37;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;
 
