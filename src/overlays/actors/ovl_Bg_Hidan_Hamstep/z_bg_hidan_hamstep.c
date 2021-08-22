@@ -95,14 +95,14 @@ void BgHidanHamstep_SetupAction(BgHidanHamstep* this, s32 action) {
     this->actionFunc = sActionFuncs[action];
 }
 
-s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx) {
+s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx2) {
     BgHidanHamstep* step = this;
     s32 i;
     Vec3f pos;
     f32 sin;
     f32 cos;
     s16 params;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
 
     pos = pos; // Required to match
     pos.y = this->dyna.actor.home.pos.y - 100.0f;
@@ -113,11 +113,11 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, GlobalContext* globalCtx)
         pos.x = (((i * 160.0f) + 60.0f) * sin) + this->dyna.actor.home.pos.x;
         pos.z = (((i * 160.0f) + 60.0f) * cos) + this->dyna.actor.home.pos.z;
 
-        params = ((i + 1) & 0xFF);
+        params = (i + 1) & 0xFF;
         params |= (this->dyna.actor.params & 0xFF00);
 
         step = (BgHidanHamstep*)Actor_SpawnAsChild(
-            &globalCtx2->actorCtx, &step->dyna.actor, globalCtx2, ACTOR_BG_HIDAN_HAMSTEP, pos.x, pos.y, pos.z,
+            &globalCtx->actorCtx, &step->dyna.actor, globalCtx, ACTOR_BG_HIDAN_HAMSTEP, pos.x, pos.y, pos.z,
             this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, params);
 
         if (step == NULL) {

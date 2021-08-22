@@ -148,7 +148,7 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
             } else {
                 this->actor.textId = 0x507A;
             }
-        } else if (gSaveContext.nightFlag == 0) {
+        } else if (IS_DAY) {
             if (this->unk_284 == 0) {
                 this->actor.textId = 0x5063;
             } else {
@@ -194,13 +194,13 @@ void func_80A56614(EnHeishi4* this, GlobalContext* globalCtx) {
         return;
     }
     if (globalCtx->sceneNum == SCENE_MIHARIGOYA) {
-        if (gSaveContext.nightFlag == 0) {
+        if (IS_DAY) {
             this->actor.textId = 0x7004;
         } else {
             this->actor.textId = 0x709A;
         }
     } else if (globalCtx->sceneNum != SCENE_MARKET_NIGHT) {
-        if (gSaveContext.nightFlag == 0) {
+        if (IS_DAY) {
             this->actor.textId = 0x7002;
         } else {
             this->actor.textId = 0x7003;
@@ -351,7 +351,7 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetFocus(thisx, this->height);
     if (this->type != HEISHI4_AT_MARKET_DYING) {
         this->unk_28C.unk_18 = player->actor.world.pos;
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             this->unk_28C.unk_18.y = (player->actor.world.pos.y - 10.0f);
         }
         func_80034A14(thisx, &this->unk_28C, 2, 4);

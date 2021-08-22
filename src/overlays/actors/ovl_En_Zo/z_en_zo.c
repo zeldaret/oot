@@ -498,7 +498,7 @@ void EnZo_Dialog(EnZo* this, GlobalContext* globalCtx) {
     this->unk_194.unk_18 = player->actor.world.pos;
     if (this->actionFunc == EnZo_Standing) {
         // Look down at link if young, look up if old
-        this->unk_194.unk_14 = LINK_IS_CHILD ? 10.0f : -10.0f;
+        this->unk_194.unk_14 = !LINK_IS_ADULT ? 10.0f : -10.0f;
     } else {
         this->unk_194.unk_18.y = this->actor.world.pos.y;
     }

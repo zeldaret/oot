@@ -28,7 +28,7 @@ void func_80AE7FD0(EnRl* this, GlobalContext* globalCtx);
 void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx);
 void func_80AE7D94(EnRl* this, GlobalContext* globalCtx);
 
-static UNK_PTR D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
+static void* D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
 
 extern FlexSkeletonHeader D_06007B38;
 extern AnimationHeader D_06000A3C;
@@ -304,15 +304,15 @@ void func_80AE7D40(EnRl* this, GlobalContext* globalCtx) {
 void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->eyeTextureIndex;
-    s32 addr = D_80AE81A0[temp];
+    void* tex = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rl_inKenjyanomaDemo02.c", 304);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(tex));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(tex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
 
@@ -353,15 +353,15 @@ void func_80AE7FD0(EnRl* this, GlobalContext* globalCtx) {
 void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->eyeTextureIndex;
-    s32 addr = D_80AE81A0[temp];
+    void* tex = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rl.c", 416);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(tex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(tex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 

@@ -203,19 +203,19 @@ void func_80A906C4(EnKakasi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 }
 
-void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnKakasi2* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
 
     this->actor.world.rot = this->actor.shape.rot;
     Actor_SetFocus(&this->actor, this->height);
-    this->actionFunc(this, globalCtx2);
+    this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
 
     if (this->actor.shape.yOffset == 0.0f) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
-        CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
-        CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     if (BREG(0) != 0) {
         if (BREG(5) != 0) {
@@ -229,12 +229,12 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
                 if ((this->unk_194 % 2) == 0) {
                     DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                            this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z,
-                                           1.0f, 1.0f, 1.0f, 70, 70, 70, 255, 4, globalCtx2->state.gfxCtx);
+                                           1.0f, 1.0f, 1.0f, 70, 70, 70, 255, 4, globalCtx->state.gfxCtx);
                 }
             } else {
                 DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                        this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
-                                       1.0f, 1.0f, 0, 255, 255, 255, 4, globalCtx2->state.gfxCtx);
+                                       1.0f, 1.0f, 0, 255, 255, 255, 4, globalCtx->state.gfxCtx);
             }
         }
     }

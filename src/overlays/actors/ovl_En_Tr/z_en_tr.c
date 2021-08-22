@@ -75,7 +75,7 @@ static Color_RGBA8 D_80B243C0[4] = {
     { 0, 0, 255, 255 },
 };
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     0x060086D8, // Open
     0x060094D8, // Half
     0x060098D8, // Closed

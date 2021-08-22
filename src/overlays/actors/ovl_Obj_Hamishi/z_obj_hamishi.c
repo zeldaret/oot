@@ -159,11 +159,11 @@ void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = 80.0f;
 }
 
-void ObjHamishi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void ObjHamishi_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     ObjHamishi* this = THIS;
 
-    Collider_DestroyCylinder(globalCtx2, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx) {

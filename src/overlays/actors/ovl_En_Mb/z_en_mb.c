@@ -248,7 +248,7 @@ static DamageTable sClubMoblinDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 74, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x4A, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
 };

@@ -53,7 +53,7 @@ typedef struct {
     /* 0x14 */ ActorInit* initInfo;
     /* 0x18 */ char* name;
     /* 0x1C */ u16 allocType;
-    /* 0x1E */ s8 nbLoaded; // original name: "clients"
+    /* 0x1E */ s8 numLoaded; // original name: "clients"
 } ActorOverlay; // size = 0x20
 
 typedef struct {

@@ -318,7 +318,7 @@ void func_80A3E090(EnGm* this) {
 }
 
 void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
+    static void* eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     EnGm* this = THIS;
     s32 pad;
 

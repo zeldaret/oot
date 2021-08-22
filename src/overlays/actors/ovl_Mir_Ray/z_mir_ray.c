@@ -44,7 +44,7 @@ const ActorInit Mir_Ray_InitVars = {
     (ActorFunc)MirRay_Draw,
 };
 
-u8 D_80B8E670 = 0;
+static u8 D_80B8E670 = 0;
 
 static ColliderQuadInit sQuadInit = {
     {

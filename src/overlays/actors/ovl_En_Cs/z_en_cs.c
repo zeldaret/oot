@@ -119,7 +119,7 @@ void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnCs* this = THIS;
     s32 pad;
 
-    if (gSaveContext.nightFlag != 0) {
+    if (!IS_DAY) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -448,7 +448,7 @@ void EnCs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = {
+    static void* eyeTextures[] = {
         gGraveyardKidEyesOpenTex,
         gGraveyardKidEyesHalfTex,
         gGraveyardKidEyesClosedTex,

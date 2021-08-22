@@ -47,8 +47,8 @@ void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) 
     }
 }
 
-void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     CollisionHeader* colHeader = NULL;
     BgGndDarkmeiro* this = THIS;
 
@@ -61,7 +61,7 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case DARKMEIRO_CLEAR_BLOCK:
             CollisionHeader_GetVirtual(&gClearBlockCol, &colHeader);
-            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
             if (((this->dyna.actor.params >> 8) & 0x3F) == 0x3F) {
                 this->updateFunc = BgGndDarkmeiro_UpdateStaticBlock;
                 this->dyna.actor.draw = BgGndDarkmeiro_DrawStaticBlock;
@@ -69,8 +69,8 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFlags = this->timer1 = this->timer2 = 0;
                 thisx->draw = BgGndDarkmeiro_DrawSwitchBlock;
                 this->updateFunc = BgGndDarkmeiro_UpdateSwitchBlock;
-                if (!Flags_GetSwitch(globalCtx2, (this->dyna.actor.params >> 8) & 0x3F)) {
-                    func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
+                if (!Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
+                    func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 } else {
                     this->timer1 = 64;
                     this->actionFlags |= 2;
@@ -81,30 +81,30 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFlags = this->timer1 = this->timer2 = 0;
             this->updateFunc = BgGndDarkmeiro_UpdateBlockTimer;
             thisx->draw = NULL;
-            if (Flags_GetSwitch(globalCtx2, ((this->dyna.actor.params >> 8) & 0x3F) + 1)) {
+            if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 1)) {
                 this->timer1 = 64;
                 this->actionFlags |= 4;
             }
-            if (Flags_GetSwitch(globalCtx2, ((this->dyna.actor.params >> 8) & 0x3F) + 2)) {
+            if (Flags_GetSwitch(globalCtx, ((this->dyna.actor.params >> 8) & 0x3F) + 2)) {
                 this->timer2 = 64;
                 this->actionFlags |= 8;
             }
             if ((this->timer1 != 0) || (this->timer2 != 0)) {
-                Flags_SetSwitch(globalCtx2, (this->dyna.actor.params >> 8) & 0x3F);
+                Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
             } else {
-                Flags_UnsetSwitch(globalCtx2, (this->dyna.actor.params >> 8) & 0x3F);
+                Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
             }
             break;
     }
 }
 
-void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     BgGndDarkmeiro* this = THIS;
 
     if ((this->dyna.actor.params & 0xFF) == 1) {
         if (1) {}
-        DynaPoly_DeleteBgActor(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 
@@ -170,9 +170,9 @@ void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, GlobalContext* globa
     BgGndDarkmeiro_ToggleBlock(this, globalCtx);
 }
 
-void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgGndDarkmeiro_Update(Actor* thisx, GlobalContext* globalCtx2) {
     BgGndDarkmeiro* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
 
     this->updateFunc(this, globalCtx2);
 }

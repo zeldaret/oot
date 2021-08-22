@@ -32,7 +32,7 @@ extern Gfx D_060013F0[];
 extern Gfx D_060126F0[];
 extern Gfx D_06012D30[];
 
-static u64* D_808AD850[] = {
+static void* D_808AD850[] = {
     0x060096B0, 0x0600A2B0, 0x0600AEB0, 0x0600BAB0, 0x0600C6B0, 0x0600D2B0,
     0x0600DEB0, 0x0600EAB0, 0x0600F6B0, 0x060102B0, 0x06010EB0, 0x06011AB0,
 };
@@ -164,7 +164,7 @@ void func_808ACA08(BgSpot02Objects* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->csCtx.frames == 402) {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             func_8002F7DC(&player->actor, NA_SE_VO_LI_DEMO_DAMAGE_KID);
         } else {
             func_8002F7DC(&player->actor, NA_SE_VO_LI_DEMO_DAMAGE);

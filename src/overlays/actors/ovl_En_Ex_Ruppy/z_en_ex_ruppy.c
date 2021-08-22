@@ -377,11 +377,10 @@ void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
 }
 
-UNK_PTR D_80A0B3B8[] = {
-    gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
-};
-
 void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* rupeeTextures[] = {
+        gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
+    };
     s32 pad;
     EnExRuppy* this = THIS;
 
@@ -392,7 +391,7 @@ void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_8002EBCC(thisx, globalCtx, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A0B3B8[this->colorIdx]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(rupeeTextures[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 784);

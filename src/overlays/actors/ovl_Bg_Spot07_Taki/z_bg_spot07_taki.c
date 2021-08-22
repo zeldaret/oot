@@ -100,7 +100,7 @@ void BgSpot07Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((frames * -1) & 0x7F), ((frames * 1) & 0x7F), 32, 32, 1,
                                 ((frames * 1) & 0x7F), ((frames * 1) & 0x7F), 32, 32));
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
         if (this->dyna.actor.params == 0) {
             gSPSegment(POLY_XLU_DISP++, 0x09,

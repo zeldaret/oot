@@ -63,9 +63,8 @@ void ArrowLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowLight_Charge(ArrowLight* this, GlobalContext* globalCtx) {
-    EnArrow* arrow;
+    EnArrow* arrow = (EnArrow*)this->actor.parent;
 
-    arrow = (EnArrow*)this->actor.parent;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -148,11 +147,10 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx) {
 }
 
 void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
-    EnArrow* arrow;
+    EnArrow* arrow = (EnArrow*)this->actor.parent;
     f32 distanceScaled;
     s32 pad;
 
-    arrow = (EnArrow*)this->actor.parent;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -194,12 +192,10 @@ void ArrowLight_Update(Actor* thisx, GlobalContext* globalCtx) {
 void ArrowLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ArrowLight* this = THIS;
     s32 pad;
-    u32 stateFrames;
-    EnArrow* arrow;
+    u32 stateFrames = globalCtx->state.frames;
+    EnArrow* arrow = (EnArrow*)this->actor.parent;
     Actor* tranform;
 
-    stateFrames = globalCtx->state.frames;
-    arrow = (EnArrow*)this->actor.parent;
     if (1) {}
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {

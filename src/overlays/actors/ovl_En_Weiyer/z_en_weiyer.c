@@ -59,7 +59,9 @@ static ColliderCylinderInit sCylinderInit = {
     },
     { 16, 10, -6, { 0, 0, 0 } },
 };
+
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 45, 15, 100 };
+
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0x0),
@@ -95,7 +97,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 25, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x19, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 3, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
 };
@@ -181,7 +183,7 @@ void func_80B32660(EnWeiyer* this) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
-    this->collider.dim.height = sCylinderInit.dim.height + 0xF;
+    this->collider.dim.height = sCylinderInit.dim.height + 15;
     Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, 0x50);
     this->collider.base.atFlags &= ~AT_ON;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);

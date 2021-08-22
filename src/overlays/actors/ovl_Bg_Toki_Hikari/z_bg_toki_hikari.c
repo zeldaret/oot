@@ -116,7 +116,7 @@ void func_808BA018(BgTokiHikari* this, GlobalContext* globalCtx) {
 }
 
 void func_808BA204(BgTokiHikari* this, GlobalContext* globalCtx) {
-    if (globalCtx->unk_11D30[1] != 0) {
+    if (globalCtx->roomCtx.unk_74[1] != 0) {
         this->actionFunc = func_808BA22C;
     }
 }

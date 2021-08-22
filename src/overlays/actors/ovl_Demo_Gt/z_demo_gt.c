@@ -1063,11 +1063,11 @@ void func_8098085C(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809809C0(DemoGt* this, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void func_809809C0(DemoGt* this, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     DemoGt* this2 = this;
-    s32 gameplayFrames = globalCtx2->gameplayFrames;
-    u16 frames = globalCtx2->csCtx.frames;
+    s32 gameplayFrames = globalCtx->gameplayFrames;
+    u16 frames = globalCtx->csCtx.frames;
     Vec3f sp54;
     s16 pad[3];
 
@@ -1081,7 +1081,7 @@ void func_809809C0(DemoGt* this, GlobalContext* globalCtx) {
         sp54.z = this2->dyna.actor.world.pos.z + 23.0f;
 
         if (ABS(gameplayFrames % 12) == 0) {
-            DemoGt_SpawnExplosionNoSound(globalCtx2, &sp54, &sp40, &sp34, 2.0f);
+            DemoGt_SpawnExplosionNoSound(globalCtx, &sp54, &sp40, &sp34, 2.0f);
         }
     }
 }
@@ -1245,9 +1245,9 @@ void DemoGt_Update16(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx2) {
     GraphicsContext* gfxCtx;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     u16 frames = globalCtx->csCtx.frames;
     s32 pad;
     s16 sp76;
@@ -1268,7 +1268,7 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx) {
         sp6C = kREG(61);
         sp68 = (s16)((s32)kREG(58)) + 0x4000;
         sp6A = kREG(58);
-        gfxCtx = globalCtx2->state.gfxCtx;
+        gfxCtx = globalCtx->state.gfxCtx;
         sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
         sp44 = 1.0f - Math_CosS(sp76);
 
@@ -1288,8 +1288,8 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx) {
         Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
         Matrix_ToMtx(sp60, "../z_demo_gt_part4_1.c", 232);
 
-        if (!FrameAdvance_IsEnabled(globalCtx2)) {
-            func_80980F8C(this, globalCtx2);
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
+            func_80980F8C(this, globalCtx);
         }
 
         Matrix_Pop();

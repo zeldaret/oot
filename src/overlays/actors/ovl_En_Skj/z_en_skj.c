@@ -368,10 +368,10 @@ void EnSkj_SetNaviId(EnSkj* this) {
     }
 }
 
-void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
     s16 type = (thisx->params >> 0xA) & 0x3F;
     EnSkj* this = (EnSkj*)thisx;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     s32 pad;
     Player* player;
 

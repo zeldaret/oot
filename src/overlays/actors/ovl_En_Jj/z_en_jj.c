@@ -306,13 +306,8 @@ void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->skelAnime.jointTable[10].z = this->mouthOpenAngle;
 }
 
-static u64* sEyeTextures[] = {
-    gJabuJabuEyeOpenTex,
-    gJabuJabuEyeHalfTex,
-    gJabuJabuEyeClosedTex,
-};
-
 void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+    static void* eyeTextures[] = { gJabuJabuEyeOpenTex, gJabuJabuEyeHalfTex, gJabuJabuEyeClosedTex };
     GlobalContext* globalCtx = globalCtx2;
     EnJj* this = THIS;
 
@@ -321,7 +316,7 @@ void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     func_800943C8(globalCtx->state.gfxCtx);
     Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * (M_PI / 41.0f)) * 10.0f) - 10.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(10.0f, 10.0f, 10.0f, MTXMODE_APPLY);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
 

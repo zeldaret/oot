@@ -117,13 +117,13 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x31, ICHAIN_CONTINUE),
-    ICHAIN_F32(targetArrowOffset, 0x157C, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 5500, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_STOP),
 };
 
-void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnFloormas* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     s32 invisble;
     s32 pad;
 
@@ -151,7 +151,7 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         // spawn first small floormaster
         this->actor.parent =
-            Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_FLOORMAS, this->actor.world.pos.x,
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FLOORMAS, this->actor.world.pos.x,
                         this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
         if (this->actor.parent == NULL) {
             Actor_Kill(&this->actor);
@@ -159,7 +159,7 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         // spawn 2nd small floormaster
         this->actor.child =
-            Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_FLOORMAS, this->actor.world.pos.x,
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FLOORMAS, this->actor.world.pos.x,
                         this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
         if (this->actor.child == NULL) {
             Actor_Kill(this->actor.parent);
@@ -351,7 +351,7 @@ void EnFloormas_SetupGrabLink(EnFloormas* this, Player* player) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     EnFloormas_MakeInvulnerable(this);
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         yDelta = CLAMP(-this->actor.yDistToPlayer, 20.0f, 30.0f);
         xzDelta = -10.0f;
     } else {
@@ -779,7 +779,7 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         yDelta = CLAMP(-this->actor.yDistToPlayer, 20.0f, 30.0f);
         xzDelta = -10.0f;
     } else {
@@ -812,7 +812,7 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
     } else {
         // Damage link every 20 frames
         if ((this->actionTarget % 20) == 0) {
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S_KID);
             } else {
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S);

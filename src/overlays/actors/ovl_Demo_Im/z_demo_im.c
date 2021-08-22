@@ -52,7 +52,7 @@ void func_80987330(DemoIm* this, GlobalContext* globalCtx);
 void func_8098764C(DemoIm* this, GlobalContext* globalCtx);
 void func_80987658(DemoIm* this, GlobalContext* globalCtx);
 
-static UNK_PTR D_80987830[] = {
+static void* D_80987830[] = {
     0x06007210,
     0x06007D50,
     0x06008150,
@@ -530,7 +530,7 @@ void func_80985C94(DemoIm* this, GlobalContext* globalCtx) {
 void func_80985CE8(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 unk_25C = this->unk_25C;
-    UNK_PTR sp68 = D_80987830[unk_25C];
+    void* sp68 = D_80987830[unk_25C];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_im_inKenjyanomaDemo02.c", 281);
@@ -1190,7 +1190,7 @@ void func_8098764C(DemoIm* this, GlobalContext* globalCtx) {
 void func_80987658(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 unk_25C = this->unk_25C;
-    UNK_PTR sp68 = D_80987830[unk_25C];
+    void* sp68 = D_80987830[unk_25C];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_im.c", 904);

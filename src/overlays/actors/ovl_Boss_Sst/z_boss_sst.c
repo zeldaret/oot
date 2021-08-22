@@ -259,7 +259,7 @@ static AnimationHeader* sHandPushoffPoses[] = { &gBongoLeftHandPushoffPoseAnim, 
 static AnimationHeader* sHandHangPoses[] = { &gBongoLeftHandHangPoseAnim, &gBongoRightHandHangPoseAnim };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 41, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x29, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 20, ICHAIN_STOP),
 };
@@ -1862,7 +1862,7 @@ void BossSst_HandCrush(BossSst* this, GlobalContext* globalCtx) {
         player->actor.world.pos = this->actor.world.pos;
         if (this->timer == 0) {
             this->timer = 20;
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S_KID);
             } else {
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S);

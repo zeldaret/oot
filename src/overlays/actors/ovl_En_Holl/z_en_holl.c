@@ -118,7 +118,7 @@ void EnHoll_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHoll_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 transitionActorIdx = (u16)thisx->params >> 0xA;
-    TransitionActorEntry* transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
+    TransitionActorEntry* transitionEntry = &globalCtx->transiActorCtx.list[transitionActorIdx];
 
     transitionEntry->id = -transitionEntry->id;
 }
@@ -149,12 +149,12 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
         transitionActorIdx = (u16)this->actor.params >> 0xA;
         if (absZ > sHorizTriggerDists[phi_t0][1]) {
             if (globalCtx->roomCtx.prevRoom.num >= 0 && globalCtx->roomCtx.status == 0) {
-                this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[this->side].room;
+                this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[this->side].room;
                 EnHoll_SwapRooms(globalCtx);
                 func_80097534(globalCtx, &globalCtx->roomCtx);
             }
         } else {
-            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[this->side ^ 1].room;
+            this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[this->side ^ 1].room;
             if (globalCtx->roomCtx.prevRoom.num < 0) {
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room);
             } else {
@@ -186,7 +186,7 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
                  (absZ = fabsf(vec.z), 100.0f > absZ && absZ > 50.0f))) {
         s32 transitionActorIdx = (u16)this->actor.params >> 0xA;
         s32 side = (vec.z < 0.0f) ? 0 : 1;
-        TransitionActorEntry* transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
+        TransitionActorEntry* transitionEntry = &globalCtx->transiActorCtx.list[transitionActorIdx];
         s32 room = transitionEntry->sides[side].room;
 
         this->actor.room = room;
@@ -216,7 +216,7 @@ void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
             globalCtx->unk_11E18 = (s16)(605.0f - absY) * 0.5f;
         }
         if (absY < 95.0f) {
-            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[1].room;
+            this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[1].room;
             Math_SmoothStepToF(&player->actor.world.pos.x, this->actor.world.pos.x, 1.0f, 50.0f, 10.0f);
             Math_SmoothStepToF(&player->actor.world.pos.z, this->actor.world.pos.z, 1.0f, 50.0f, 10.0f);
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
@@ -247,7 +247,7 @@ void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
         if (absY > 50.0f) {
             transitionActorIdx = (u16)this->actor.params >> 0xA;
             side = (0.0f < this->actor.yDistToPlayer) ? 0 : 1;
-            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
+            this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[side].room;
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                 EnHoll_SetupAction(this, EnHoll_NextAction);
@@ -271,7 +271,7 @@ void func_80A59520(EnHoll* this, GlobalContext* globalCtx) {
         if (absY < 200.0f && absY > 50.0f) {
             transitionActorIdx = (u16)this->actor.params >> 0xA;
             side = (0.0f < this->actor.yDistToPlayer) ? 0 : 1;
-            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
+            this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[side].room;
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                 EnHoll_SetupAction(this, EnHoll_NextAction);
@@ -307,7 +307,7 @@ void func_80A59618(EnHoll* this, GlobalContext* globalCtx) {
             }
             if (absZ < 50.0f) {
                 side = (vec.z < 0.0f) ? 0 : 1;
-                this->actor.room = globalCtx->transitionActorList[transitionActorIdx].sides[side].room;
+                this->actor.room = globalCtx->transiActorCtx.list[transitionActorIdx].sides[side].room;
                 if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
                     func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                     EnHoll_SetupAction(this, EnHoll_NextAction);
@@ -343,6 +343,7 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
     // Only draw the plane if not invisible
     if (this->planeAlpha != 0) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_holl.c", 805);
+
         if (this->planeAlpha == 255) {
             gfxP = POLY_OPA_DISP;
             setupDLIdx = 37;
@@ -365,6 +366,7 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             POLY_XLU_DISP = gfxP;
         }
+
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_holl.c", 831);
     }
 }

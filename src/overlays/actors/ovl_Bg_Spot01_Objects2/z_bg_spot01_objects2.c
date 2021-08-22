@@ -107,7 +107,7 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
             case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
                 CollisionHeader_GetVirtual(&D_06001C58, &colHeader);
                 this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-                if (gSaveContext.nightFlag == 0) {
+                if (IS_DAY) {
                     func_808AC22C(globalCtx->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
                     Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,
                                        position.y, position.z, thisx->world.rot.x, thisx->world.rot.y,

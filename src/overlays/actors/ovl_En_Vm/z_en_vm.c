@@ -516,9 +516,9 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     }
 }
 
-void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     EnVm* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     Vec3f actorPos;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_vm.c", 1014);
@@ -538,12 +538,12 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 168);
         func_80094BC4(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 0);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[globalCtx2->gameplayFrames % 8]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[globalCtx->gameplayFrames % 8]));
         gSPDisplayList(POLY_XLU_DISP++, gEffEnemyDeathFlameDL);
         Matrix_RotateY(32767.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1044),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[(globalCtx2->gameplayFrames + 4) % 8]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[(globalCtx->gameplayFrames + 4) % 8]));
         gSPDisplayList(POLY_XLU_DISP++, gEffEnemyDeathFlameDL);
     }
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, this->beamTexScroll));

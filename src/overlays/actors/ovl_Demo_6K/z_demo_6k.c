@@ -687,9 +687,9 @@ void func_8096865C(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_6k.c", 1242);
 }
 
-void func_809688C4(Actor* thisx, GlobalContext* globalCtx) {
+void func_809688C4(Actor* thisx, GlobalContext* globalCtx2) {
     Demo6K* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     u32 frames = globalCtx->state.frames;
     s32 i;
 
@@ -710,7 +710,7 @@ void func_809688C4(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Scale(this->unk_234[i] * D_8096931C[(frames + i) & 3],
                          this->unk_234[i] * D_8096931C[(frames + i) & 3],
                          this->unk_234[i] * D_8096931C[(frames + i) & 3], MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx2->mf_11DA0);
+            func_800D1FD4(&globalCtx->mf_11DA0);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_6k.c", 1297),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);

@@ -113,7 +113,7 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x30, 1),
-    ICHAIN_F32(targetArrowOffset, 0x157C, 1),
+    ICHAIN_F32(targetArrowOffset, 5500, 1),
     ICHAIN_F32_DIV1000(gravity, -1500, 0),
 };
 
@@ -425,7 +425,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (Animation_OnFrame(&this->skelAnime, 1.0f) != 0) {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
         } else {
             func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S);
@@ -443,14 +443,14 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
             this->actor.world.pos.y = this->actor.world.pos.y + 10.0f;
         }
 
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             player->actor.world.pos.y = this->actor.world.pos.y - 30.0f;
         } else {
             player->actor.world.pos.y = this->actor.world.pos.y - 50.0f;
         }
 
         if (this->timer == -0x1E) {
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 func_8002F7DC(&this->actor, NA_SE_VO_LI_TAKEN_AWAY_KID);
             } else {
                 func_8002F7DC(&this->actor, NA_SE_VO_LI_TAKEN_AWAY);
@@ -462,7 +462,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
         this->timer = this->timer + 2;
     } else {
-        Math_StepToF(&this->actor.world.pos.y, player->actor.world.pos.y + (LINK_IS_CHILD ? 30.0f : 50.0f), 5.0f);
+        Math_StepToF(&this->actor.world.pos.y, player->actor.world.pos.y + (!LINK_IS_ADULT ? 30.0f : 50.0f), 5.0f);
     }
 
     Math_StepToF(&this->actor.world.pos.x, player->actor.world.pos.x, 3.0f);

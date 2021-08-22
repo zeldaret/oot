@@ -70,7 +70,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->dyna.unk_150 != 0.0f) {
-        if (globalCtx->sceneNum == SCENE_SPOT02 && LINK_IS_CHILD && !gSaveContext.nightFlag) {
+        if (globalCtx->sceneNum == SCENE_SPOT02 && !LINK_IS_ADULT && !gSaveContext.nightFlag) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~0x10;
             if (!Gameplay_InCsMode(globalCtx)) {
@@ -79,7 +79,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_8087BAE4;
             }
         } else if (0.0f < this->dyna.unk_150 ||
-                   (globalCtx->sceneNum == SCENE_SPOT06 && LINK_IS_CHILD && !Flags_GetSwitch(globalCtx, 0x23))) {
+                   (globalCtx->sceneNum == SCENE_SPOT06 && !LINK_IS_ADULT && !Flags_GetSwitch(globalCtx, 0x23))) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~0x10;
         } else {
@@ -106,7 +106,7 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-        } else if (gSaveContext.nightFlag && globalCtx->sceneNum == SCENE_SPOT02) {
+        } else if (!IS_DAY && globalCtx->sceneNum == SCENE_SPOT02) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->dyna.actor.home.pos.x,
                         this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z, 0, this->dyna.actor.shape.rot.y, 0,
                         1);

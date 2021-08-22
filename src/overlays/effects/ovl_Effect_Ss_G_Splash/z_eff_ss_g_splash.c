@@ -89,12 +89,11 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     return 1;
 }
 
-static UNK_PTR sTextures[] = {
-    gEffWaterSplash1Tex, gEffWaterSplash2Tex, gEffWaterSplash3Tex, gEffWaterSplash4Tex,
-    gEffWaterSplash5Tex, gEffWaterSplash6Tex, gEffWaterSplash7Tex, gEffWaterSplash8Tex,
-};
-
 void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    static void* waterSplashTextures[] = {
+        gEffWaterSplash1Tex, gEffWaterSplash2Tex, gEffWaterSplash3Tex, gEffWaterSplash4Tex,
+        gEffWaterSplash5Tex, gEffWaterSplash6Tex, gEffWaterSplash7Tex, gEffWaterSplash8Tex,
+    };
     s16 texIdx;
 
     switch (this->rType) {
@@ -103,7 +102,7 @@ void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             if (texIdx > 7) {
                 texIdx = 7;
             }
-            EffectSs_DrawGEffect(globalCtx, this, sTextures[texIdx]);
+            EffectSs_DrawGEffect(globalCtx, this, waterSplashTextures[texIdx]);
             break;
 
         case 1:
@@ -111,7 +110,7 @@ void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             if (texIdx > 7) {
                 texIdx = 7;
             }
-            EffectSs_DrawGEffect(globalCtx, this, sTextures[texIdx]);
+            EffectSs_DrawGEffect(globalCtx, this, waterSplashTextures[texIdx]);
             break;
 
         case 2:
@@ -119,7 +118,7 @@ void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             if (texIdx > 7) {
                 texIdx = 7;
             }
-            EffectSs_DrawGEffect(globalCtx, this, sTextures[texIdx]);
+            EffectSs_DrawGEffect(globalCtx, this, waterSplashTextures[texIdx]);
             break;
 
         default:
