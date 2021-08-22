@@ -126,7 +126,8 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {
         case DOOR_KILLER_DOOR:
             // `jointTable` is used for both the `jointTable` and `morphTable` args here. Because this actor doesn't
             // play any animations it does not cause problems, but it would need to be changed otherwise.
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_door_killer_Skel_001BC8, NULL, this->jointTable, this->jointTable, 9);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_door_killer_Skel_001BC8, NULL, this->jointTable,
+                               this->jointTable, 9);
             this->actionFunc = DoorKiller_SetProperties;
             DoorKiller_SetProperties(this, globalCtx);
 
