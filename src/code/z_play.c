@@ -1094,7 +1094,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         globalCtx->mf_11DA0.mf[2][3] = 0.0f;
         globalCtx->mf_11DA0.mf[1][3] = 0.0f;
         globalCtx->mf_11DA0.mf[0][3] = 0.0f;
-        Matrix_Reverse(&globalCtx->mf_11DA0);
+        Matrix_Transpose(&globalCtx->mf_11DA0);
         globalCtx->unk_11DE0 = Matrix_MtxFToMtx(Matrix_CheckFloats(&globalCtx->mf_11DA0, "../z_play.c", 4005),
                                                 Graph_Alloc(gfxCtx, sizeof(Mtx)));
 

@@ -6,6 +6,7 @@
 
 #include "z_en_kakasi2.h"
 #include "vt.h"
+#include "objects/object_ka/object_ka.h"
 
 #define FLAGS 0x0A000031
 
@@ -41,9 +42,6 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A904D8(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A906C4(EnKakasi2* this, GlobalContext* globalCtx);
-
-extern FlexSkeletonHeader D_060065B0;
-extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi2_InitVars = {
     ACTOR_EN_KAKASI2,
@@ -100,7 +98,7 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.draw = func_80A90948;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
         this->actionFunc = func_80A9062C;
     } else {
         this->actionFunc = func_80A90264;
@@ -126,7 +124,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
         this->actor.draw = func_80A90948;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
         OnePointCutscene_Attention(globalCtx, &this->actor);
         this->actor.flags |= 0x8000001;
 
@@ -151,7 +149,8 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
             this->actor.draw = func_80A90948;
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL,
+                               0);
             OnePointCutscene_Attention(globalCtx, &this->actor);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
 
@@ -162,9 +161,9 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A904D8(EnKakasi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06000214);
+    f32 frameCount = Animation_GetLastFrame(&object_ka_Anim_000214);
 
-    Animation_Change(&this->skelAnime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &object_ka_Anim_000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
     this->actionFunc = func_80A90578;
 }
@@ -189,9 +188,9 @@ void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9062C(EnKakasi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06000214);
+    f32 frameCount = Animation_GetLastFrame(&object_ka_Anim_000214);
 
-    Animation_Change(&this->skelAnime, &D_06000214, 0.0f, 0.0f, (s16)frameCount, ANIMMODE_ONCE, -10.0f);
+    Animation_Change(&this->skelAnime, &object_ka_Anim_000214, 0.0f, 0.0f, (s16)frameCount, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A906C4;
 }
 

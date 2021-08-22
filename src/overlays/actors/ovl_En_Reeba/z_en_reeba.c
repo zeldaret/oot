@@ -8,6 +8,7 @@
 #include "z_en_reeba.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "vt.h"
+#include "objects/object_reeba/object_reeba.h"
 
 #define FLAGS 0x08000015
 
@@ -98,9 +99,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
-extern AnimationHeader D_060001E4;
-extern SkeletonHeader D_06001EE8;
-
 void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnReeba* this = THIS;
@@ -110,7 +108,8 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.targetMode = 3;
     this->actor.gravity = -3.5f;
     this->actor.focus.pos = this->actor.world.pos;
-    SkelAnime_Init(globalCtx, &this->skelanime, &D_06001EE8, &D_060001E4, this->jointTable, this->morphTable, 18);
+    SkelAnime_Init(globalCtx, &this->skelanime, &object_reeba_Skel_001EE8, &object_reeba_Anim_0001E4, this->jointTable,
+                   this->morphTable, 18);
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 4;
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -166,11 +165,11 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_GetLastFrame(&D_060001E4);
+    f32 frames = Animation_GetLastFrame(&object_reeba_Anim_0001E4);
     Player* player = PLAYER;
     s16 playerSpeed;
 
-    Animation_Change(&this->skelanime, &D_060001E4, 2.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelanime, &object_reeba_Anim_0001E4, 2.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
 
     playerSpeed = fabsf(player->linearVelocity);
     this->unk_278 = 20 - playerSpeed * 2;

@@ -150,7 +150,7 @@ void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* glob
 
         if (!(sp74 < 0.001f)) {
             EnBomChu_CrossProduct(&this->unk_160, &sp84, &sp78);
-            func_800D23FC(sp74, &sp78, 0);
+            Matrix_RotateAxis(sp74, &sp78, 0);
             Matrix_MultVec3f(&this->unk_16C, &sp78);
             this->unk_16C = sp78;
             EnBomChu_CrossProduct(&this->unk_16C, &sp84, &this->unk_154);
@@ -182,7 +182,7 @@ void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* glob
             mf.zy = this->unk_154.y;
             mf.zz = this->unk_154.z;
 
-            func_800D20CC(&mf, &this->actor.world.rot, 0);
+            Matrix_MtxFToYXZRotS(&mf, &this->actor.world.rot, 0);
 
             this->actor.world.rot.x = -this->actor.world.rot.x;
         }

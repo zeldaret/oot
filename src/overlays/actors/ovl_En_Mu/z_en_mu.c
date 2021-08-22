@@ -5,6 +5,7 @@
  */
 
 #include "z_en_mu.h"
+#include "objects/object_mu/object_mu.h"
 
 #define FLAGS 0x00000009
 
@@ -17,9 +18,6 @@ void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnMu_Pose(EnMu* this, GlobalContext* globalCtx);
 s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx);
-
-extern AnimationHeader D_060003F4;
-extern FlexSkeletonHeader D_06004F70;
 
 static ColliderCylinderInit D_80AB0BD0 = {
     {
@@ -135,7 +133,7 @@ void EnMu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 160.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004F70, &D_060003F4, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_mu_Skel_004F70, &object_mu_Anim_0003F4, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AB0BD0);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AB0BFC);
