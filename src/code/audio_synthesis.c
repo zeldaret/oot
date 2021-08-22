@@ -8,7 +8,7 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx);
 Acmd* func_800DC910(s32 noteIdx, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf, s32 aiBufLen,
                     Acmd* cmd, s32 updateIdx);
 Acmd* func_800DD9F4(Acmd* arg0, NoteSubEu* arg1, NoteSynthesisState* arg2, s32 arg3);
-Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 arg3, s32 arg4, s32 arg5);
+Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 bufLen, s32 flags, s32 side);
 Acmd* func_800DD6CC(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen, u16, s32, s32);
 Acmd* func_800DD62C(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem, s32 resampleFlags);
 extern s16 D_8012FBAA[];
@@ -1139,57 +1139,55 @@ Acmd* func_800DD9F4(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthSt
     return cmd;
 }
 
-#ifdef NON_MATCHING
-Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 arg3, s32 arg4, s32 arg5) {
-    s32 phi_v0;
-    s32 phi_v1;
-    s32 phi_t0;
+Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 bufLen, s32 flags, s32 side) {
+    u16 dest;
+    u16 pitch;
+    u8 prevPanShift;
+    u8 panShift;
 
-    switch (arg5) {
+    switch (side) {
         case 1:
-            phi_t0 = 0x940;
-            phi_v1 = noteSubEu->headsetPanRight;
-            phi_v0 = synthState->prevHeadsetPanRight;
+            dest = 0x940;
+            panShift = noteSubEu->headsetPanRight;
+            prevPanShift = synthState->prevHeadsetPanRight;
             synthState->prevHeadsetPanLeft = 0;
-            synthState->prevHeadsetPanRight = phi_v1;
+            synthState->prevHeadsetPanRight = panShift;
             break;
         case 2:
-            phi_t0 = 0xAE0;
-            phi_v1 = noteSubEu->headsetPanLeft;
-            phi_v0 = synthState->prevHeadsetPanLeft;
-            synthState->prevHeadsetPanLeft = phi_v1;
+            dest = 0xAE0;
+            panShift = noteSubEu->headsetPanLeft;
+            prevPanShift = synthState->prevHeadsetPanLeft;
+            synthState->prevHeadsetPanLeft = panShift;
             synthState->prevHeadsetPanRight = 0;
             break;
         default:
             return cmd;
     }
 
-    if (arg4 != 1) {
-        if (phi_v0 != phi_v1) {
-            aSetBuffer(cmd++, 0, 0x5C0, 0x3C0, arg3 + phi_v1 - phi_v0);
-            aResampleZOH(cmd++, (u16)((((arg3 << 0xF) / 2) - 1) / ((arg3 + phi_v1 - phi_v0 - 2) / 2)), 0);
+    if (flags != 1) {
+        if (panShift != prevPanShift) {
+            pitch = (((bufLen << 0xF) / 2) - 1) / ((bufLen + panShift - prevPanShift - 2) / 2);
+            aSetBuffer(cmd++, 0, 0x5C0, 0x3C0, bufLen + panShift - prevPanShift);
+            aResampleZOH(cmd++, pitch, 0);
         } else {
-            aDMEMMove(cmd++, 0x5C0, 0x3C0, arg3);
+            aDMEMMove(cmd++, 0x5C0, 0x3C0, bufLen);
         }
 
-        if (phi_v0 != 0) {
-            aLoadBuffer(cmd++, &synthState->synthesisBuffers->panResampleState[0x8], 0x5C0, ALIGN16(phi_v0));
-            aDMEMMove(cmd++, 0x3C0, 0x5C0 + phi_v0, arg3 + phi_v1 - phi_v0);
+        if (prevPanShift != 0) {
+            aLoadBuffer(cmd++, &synthState->synthesisBuffers->panResampleState[0x8], 0x5C0, ALIGN16(prevPanShift));
+            aDMEMMove(cmd++, 0x3C0, 0x5C0 + prevPanShift, bufLen + panShift - prevPanShift);
         } else {
-            aDMEMMove(cmd++, 0x3C0, 0x5C0, arg3 + phi_v1);
+            aDMEMMove(cmd++, 0x3C0, 0x5C0, bufLen + panShift);
         }
     } else {
-        aDMEMMove(cmd++, 0x5C0, 0x3C0, arg3);
-        aClearBuffer(cmd++, 0x5C0, phi_v1);
-        aDMEMMove(cmd++, 0x3C0, 0x5C0 + phi_v1, arg3);
+        aDMEMMove(cmd++, 0x5C0, 0x3C0, bufLen);
+        aClearBuffer(cmd++, 0x5C0, panShift);
+        aDMEMMove(cmd++, 0x3C0, 0x5C0 + panShift, bufLen);
     }
 
-    if (phi_v1 != 0) {
-        aSaveBuffer(cmd++, 0x5C0 + arg3, &synthState->synthesisBuffers->panResampleState[0x8], ALIGN16(phi_v1));
+    if (panShift) {
+        aSaveBuffer(cmd++, 0x5C0 + bufLen, &synthState->synthesisBuffers->panResampleState[0x8], ALIGN16(panShift));
     }
-    aAddMixer(cmd++, ((arg3 + 0x3F) & ~0x3F), 0x5C0, phi_t0, 0x7FFF);
+    aAddMixer(cmd++, ((bufLen + 0x3F) & ~0x3F), 0x5C0, dest, 0x7FFF);
     return cmd;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_synthesis/func_800DDB64.s")
-#endif

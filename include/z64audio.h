@@ -73,17 +73,17 @@ typedef struct {
 } Portamento; // size = 0xC
 
 typedef struct {
-    /*?0x0 */ s16 delay;
-    /*?0x2 */ s16 arg;
-} AdsrEnvelope; // size = 0x4?
+    /* 0x0 */ s16 delay;
+    /* 0x2 */ s16 arg;
+} AdsrEnvelope; // size = 0x4
 
 typedef struct {
-    /*?0x00 */ u32 start;
+    /* 0x00 */ u32 start;
     /* 0x04 */ u32 end;
-    /*?0x08 */ u32 count;
+    /* 0x08 */ u32 count;
     /*?0x0C */ char unk_0C[0x4];
     /*?0x10 */ s16 state[16]; // only exists if count != 0. 8-byte aligned
-} AdpcmLoop; // size = 0x30
+} AdpcmLoop; // size = 0x30 (or 0x10)
 
 typedef struct {
     /*?0x00 */ s32 order;
@@ -206,7 +206,7 @@ typedef struct {
     /* 0x19 */ s8 value;
 } M64ScriptState; // size = 0x1C
 
-// Also known as a Group, according to sm64 debug strings.
+// Also known as a Group, according to debug strings.
 typedef struct {
     union {
         s32 playerState;
@@ -332,7 +332,7 @@ typedef struct {
     /* 0x14 */ s16 unk_14[8];
 } NoteAttributes; // size = 0x24
 
-// Also known as a SubTrack, according to sm64 debug strings.
+// Also known as a SubTrack, according to debug strings.
 // Confusingly, a SubTrack is a container of Tracks.
 typedef struct SequenceChannel {
     union {
@@ -402,7 +402,7 @@ typedef struct SequenceChannel {
     /* 0xD0 */ ReverbBits reverbBits;
 } SequenceChannel; // size = 0xD4
 
-// Also known as a Track, according to sm64 debug strings.
+// Also known as a Track, according to debug strings.
 typedef struct SequenceChannelLayer {
     /* 0x00 */ u8 enabled : 1;
     /* 0x00 */ u8 finished : 1;
@@ -454,17 +454,17 @@ typedef struct {
 } NoteSynthesisBuffers; // size = 0x110
 
 typedef struct {
-    /*?0x00 */ u8 restart;
+    /* 0x00 */ u8 restart;
     /*?0x01 */ u8 sampleDmaIndex;
     /*?0x02 */ u8 prevHeadsetPanRight;
     /*?0x03 */ u8 prevHeadsetPanLeft;
     /*?0x04 */ u8 samplePosFrac;
     /* 0x05 */ u8 unk_05;
     /* 0x06 */ u16 unk_06;
-    /*?0x08 */ s32 samplePosInt;
+    /* 0x08 */ s32 samplePosInt;
     /* 0x0C */ NoteSynthesisBuffers* synthesisBuffers;
-    /*?0x10 */ s16 curVolLeft;
-    /*?0x12 */ s16 curVolRight;
+    /* 0x10 */ s16 curVolLeft;
+    /* 0x12 */ s16 curVolRight;
     /* 0x14 */ u16 unk_14;
     /* 0x16 */ u16 unk_16;
     /* 0x18 */ u16 unk_18;
@@ -480,7 +480,7 @@ typedef struct {
     /* 0x0C */ f32 extent;
     /* 0x10 */ f32 rate;
     /* 0x14 */ u8 active;
-    /*!0x16 */ u16 rateChangeTimer;
+    /* 0x16 */ u16 rateChangeTimer;
     /* 0x18 */ u16 extentChangeTimer;
     /* 0x1A */ u16 delay;
 } VibratoState; // size = 0x1C
@@ -495,7 +495,7 @@ typedef struct {
     /* 0x06 */ s16 adsrVolScale; // unused?
     /* 0x08 */ f32 portamentoFreqScale;
     /* 0x0C */ f32 vibratoFreqScale;
-    /*?0x10 */ SequenceChannelLayer* prevParentLayer;
+    /* 0x10 */ SequenceChannelLayer* prevParentLayer;
     /* 0x14 */ SequenceChannelLayer* parentLayer;
     /* 0x18 */ SequenceChannelLayer* wantedParentLayer;
     /* 0x1C */ NoteAttributes attributes;
@@ -548,7 +548,7 @@ typedef struct {
 
 typedef struct Note {
     /* 0x00 */ AudioListItem listItem;
-    /*?0x10 */ NoteSynthesisState synthesisState;
+    /* 0x10 */ NoteSynthesisState synthesisState;
     /* 0x30 */ NotePlaybackState playbackState;
     /* 0x90 */ Portamento portamento;
     /* 0x9C */ VibratoState vibratoState;
