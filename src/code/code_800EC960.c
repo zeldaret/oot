@@ -3084,6 +3084,7 @@ void func_800F4870(u8 arg0) {
     }
 }
 
+// (name derived from debug strings, should probably update. used in ganon/ganon_boss scenes)
 s32 Audio_SetGanonDistVol(u8 targetVol) {
     u8 phi_v0;
     u16 phi_v0_2;

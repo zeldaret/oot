@@ -34,7 +34,7 @@ void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->pathIndex = (this->actor.params >> 8) & 0xFF;
     this->actor.params = this->actor.params & 0xFF;
 
-    if (this->actor.params >= RS_MAX) {
+    if (this->actor.params >= RS_MAX) { // used for ganon and ganon_boss scenes
         func_800F4870(this->actor.params - RS_MAX);
         Actor_Kill(&this->actor);
     } else if (this->actor.params == RS_UNK_F7) {
