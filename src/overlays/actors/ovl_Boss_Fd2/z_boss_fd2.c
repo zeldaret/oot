@@ -69,7 +69,7 @@ static Vec3f sHoleLocations[] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x21, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -951,8 +951,8 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
     }
 }
 
-void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     BossFd2* this = THIS;
     s16 i;
 
@@ -962,7 +962,7 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->work[FD2_VAR_TIMER]++;
     this->work[FD2_UNK_TIMER]++;
 
-    this->actionFunc(this, globalCtx2);
+    this->actionFunc(this, globalCtx);
 
     for (i = 0; i < ARRAY_COUNT(this->timers); i++) {
         if (this->timers[i] != 0) {
@@ -978,16 +978,16 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->deathState == DEATH_START) {
         if (this->work[FD2_INVINC_TIMER] == 0) {
-            BossFd2_CollisionCheck(this, globalCtx2);
+            BossFd2_CollisionCheck(this, globalCtx);
         }
-        CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
-        CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         if (!this->disableAT) {
-            CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 
-    BossFd2_UpdateFace(this, globalCtx2);
+    BossFd2_UpdateFace(this, globalCtx);
     this->fwork[FD2_TEX1_SCROLL_X] += 4.0f;
     this->fwork[FD2_TEX1_SCROLL_Y] = 120.0f;
     this->fwork[FD2_TEX2_SCROLL_X] += 3.0f;

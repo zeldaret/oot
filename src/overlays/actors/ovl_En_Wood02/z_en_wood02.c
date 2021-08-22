@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wood02.h"
+#include "objects/object_wood02/object_wood02.h"
 
 #define FLAGS 0x00000000
 
@@ -75,19 +76,28 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Gfx* D_80B3BF54[] = {
-    0x060078D0, 0x06007CA0, 0x060080D0, 0x06000090, 0x06000340, 0x06000340, 0x06000700,
+    object_wood02_DL_0078D0, object_wood02_DL_007CA0, object_wood02_DL_0080D0, object_wood02_DL_000090,
+    object_wood02_DL_000340, object_wood02_DL_000340, object_wood02_DL_000700,
 };
 
 static Gfx* D_80B3BF70[] = {
-    0x06007968, 0x06007D38, 0x060081A8, NULL,       NULL,       NULL,
-    0x06007AD0, 0x06007E20, 0x06008350, 0x06000160, 0x06000440, 0x06000700,
+    object_wood02_DL_007968,
+    object_wood02_DL_007D38,
+    object_wood02_DL_0081A8,
+    NULL,
+    NULL,
+    NULL,
+    object_wood02_DL_007AD0,
+    object_wood02_DL_007E20,
+    object_wood02_DL_008350,
+    object_wood02_DL_000160,
+    object_wood02_DL_000440,
+    object_wood02_DL_000700,
 };
 
 static f32 sSpawnCos;
 
 static f32 sSpawnSin;
-
-extern Gfx D_06000700[];
 
 s32 EnWood02_SpawnZoneCheck(EnWood02* this, GlobalContext* globalCtx, Vec3f* pos) {
     f32 phi_f12;
@@ -432,7 +442,7 @@ void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.params == WOOD_LEAF_GREEN) || (this->actor.params == WOOD_LEAF_YELLOW)) {
         func_80093D18(gfxCtx);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, red, green, blue, 127);
-        Gfx_DrawDListOpa(globalCtx, D_06000700);
+        Gfx_DrawDListOpa(globalCtx, object_wood02_DL_000700);
     } else if (D_80B3BF70[this->drawType & 0xF] != NULL) {
         Gfx_DrawDListOpa(globalCtx, D_80B3BF54[this->drawType & 0xF]);
         gDPSetEnvColor(POLY_XLU_DISP++, red, green, blue, 0);

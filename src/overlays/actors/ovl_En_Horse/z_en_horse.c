@@ -844,7 +844,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
             return;
         }
     } else if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
-        if (!gSaveContext.nightFlag || Flags_GetEventChkInf(0x18) || DREG(1) != 0 || LINK_IS_CHILD) {
+        if (IS_DAY || Flags_GetEventChkInf(0x18) || DREG(1) != 0 || !LINK_IS_ADULT) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -3292,14 +3292,14 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnHorse_CheckBoost(EnHorse* thisx, GlobalContext* globalCtx) {
+void EnHorse_CheckBoost(EnHorse* thisx, GlobalContext* globalCtx2) {
     EnHorse* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     s32 pad;
 
     if (this->action == ENHORSE_ACT_MOUNTED_WALK || this->action == ENHORSE_ACT_MOUNTED_TROT ||
         this->action == ENHORSE_ACT_MOUNTED_GALLOP) {
-        if (CHECK_BTN_ALL(globalCtx2->state.input[0].press.button, BTN_A) && (globalCtx2->interfaceCtx.unk_1EE == 8)) {
+        if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_A) && (globalCtx->interfaceCtx.unk_1EE == 8)) {
             if (!(this->stateFlags & ENHORSE_BOOST) && !(this->stateFlags & ENHORSE_FLAG_8) &&
                 !(this->stateFlags & ENHORSE_FLAG_9)) {
                 if (this->numBoosts > 0) {
@@ -3457,19 +3457,19 @@ s32 EnHorse_RandInt(f32 range) {
     return Rand_ZeroOne() * range;
 }
 
-void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnHorse* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     Vec3f dustAcc = { 0.0f, 0.0f, 0.0f };
     Vec3f dustVel = { 0.0f, 1.0f, 0.0f };
     Player* player = PLAYER;
 
     this->lastYaw = thisx->shape.rot.y;
-    EnHorse_UpdateStick(this, globalCtx2);
-    EnHorse_UpdatePlayerDir(this, globalCtx2);
+    EnHorse_UpdateStick(this, globalCtx);
+    EnHorse_UpdatePlayerDir(this, globalCtx);
 
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
-        EnHorse_MountDismount(this, globalCtx2);
+        EnHorse_MountDismount(this, globalCtx);
     }
 
     if (this->stateFlags & ENHORSE_FLAG_19) {
@@ -3483,17 +3483,17 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    sActionFuncs[this->action](this, globalCtx2);
+    sActionFuncs[this->action](this, globalCtx);
     this->stateFlags &= ~ENHORSE_OBSTACLE;
     this->curFrame = this->skin.skelAnime.curFrame;
     this->lastPos = thisx->world.pos;
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
         if (this->action == ENHORSE_ACT_MOUNTED_GALLOP || this->action == ENHORSE_ACT_MOUNTED_TROT ||
             this->action == ENHORSE_ACT_MOUNTED_WALK) {
-            EnHorse_CheckBoost(this, globalCtx2);
+            EnHorse_CheckBoost(this, globalCtx);
         }
         if (this->playerControlled == true) {
-            EnHorse_RegenBoost(this, globalCtx2);
+            EnHorse_RegenBoost(this, globalCtx);
         }
         Actor_MoveForward(thisx);
         if (this->action == ENHORSE_ACT_INGO_RACE) {
@@ -3517,7 +3517,7 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         if (this->action != ENHORSE_ACT_INGO_RACE) {
-            EnHorse_TiltBody(this, globalCtx2);
+            EnHorse_TiltBody(this, globalCtx);
         }
         Collider_UpdateCylinder(thisx, &this->cyl1);
         Collider_UpdateCylinder(thisx, &this->cyl2);
@@ -3527,18 +3527,18 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->cyl1.dim.pos.z = this->cyl1.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * 11.0f);
         this->cyl2.dim.pos.x = this->cyl2.dim.pos.x + (s16)(Math_SinS(thisx->shape.rot.y) * -18.0f);
         this->cyl2.dim.pos.z = this->cyl2.dim.pos.z + (s16)(Math_CosS(thisx->shape.rot.y) * -18.0f);
-        CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->cyl1.base);
-        CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->cyl1.base);
-        CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->cyl2.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->cyl1.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cyl1.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cyl2.base);
         if ((player->stateFlags1 & 1) && player->rideActor != NULL) {
-            if (globalCtx2->sceneNum != SCENE_SPOT20 ||
-                (globalCtx2->sceneNum == SCENE_SPOT20 && (thisx->world.pos.z < -2400.0f))) {
-                EnHorse_UpdateConveyors(this, globalCtx2);
+            if (globalCtx->sceneNum != SCENE_SPOT20 ||
+                (globalCtx->sceneNum == SCENE_SPOT20 && (thisx->world.pos.z < -2400.0f))) {
+                EnHorse_UpdateConveyors(this, globalCtx);
             }
         }
         if (!(this->stateFlags & ENHORSE_FLAG_24)) {
-            EnHorse_UpdateBgCheckInfo(this, globalCtx2);
-            EnHorse_CheckFloors(this, globalCtx2);
+            EnHorse_UpdateBgCheckInfo(this, globalCtx);
+            EnHorse_CheckFloors(this, globalCtx);
             if (thisx->world.pos.y < this->yFront && thisx->world.pos.y < this->yBack) {
                 if (this->yBack < this->yFront) {
                     thisx->world.pos.y = this->yBack;
@@ -3551,8 +3551,8 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->stateFlags &= ~ENHORSE_FLAG_24;
         }
 
-        if (globalCtx2->sceneNum == SCENE_SPOT09 && (gSaveContext.eventChkInf[9] & 0xF) != 0xF) {
-            EnHorse_CheckBridgeJumps(this, globalCtx2);
+        if (globalCtx->sceneNum == SCENE_SPOT09 && (gSaveContext.eventChkInf[9] & 0xF) != 0xF) {
+            EnHorse_CheckBridgeJumps(this, globalCtx);
         }
 
         thisx->focus.pos = thisx->world.pos;
@@ -3581,19 +3581,19 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (gSaveContext.entranceIndex != 343 || gSaveContext.sceneSetupIndex != 9) {
             if (this->dustFlags & 1) {
                 this->dustFlags &= ~1;
-                func_800287AC(globalCtx2, &this->frontRightHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
+                func_800287AC(globalCtx, &this->frontRightHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
                               EnHorse_RandInt(10) + 30, EnHorse_RandInt(20) + 30);
             } else if (this->dustFlags & 2) {
                 this->dustFlags &= ~2;
-                func_800287AC(globalCtx2, &this->frontLeftHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
+                func_800287AC(globalCtx, &this->frontLeftHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
                               EnHorse_RandInt(10) + 30, EnHorse_RandInt(20) + 30);
             } else if (this->dustFlags & 4) {
                 this->dustFlags &= ~4;
-                func_800287AC(globalCtx2, &this->backRightHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
+                func_800287AC(globalCtx, &this->backRightHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
                               EnHorse_RandInt(10) + 30, EnHorse_RandInt(20) + 30);
             } else if (this->dustFlags & 8) {
                 this->dustFlags &= ~8;
-                func_800287AC(globalCtx2, &this->backLeftHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
+                func_800287AC(globalCtx, &this->backLeftHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,
                               EnHorse_RandInt(10) + 30, EnHorse_RandInt(20) + 30);
             }
         }
