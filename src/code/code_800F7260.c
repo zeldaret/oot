@@ -33,8 +33,10 @@ char D_80133390[] = "SEQ H";
 char D_80133398[] = "    L";
 
 // data
-u8 sSoundRequestHead = 0;
-u8 sSoundRequestTail = 0;
+
+// sSoundRequests ring buffer endpoints. read index <= write index, wrapping around mod 256.
+u8 sSoundRequestWriteIndex = 0;
+u8 sSoundRequestReadIndex = 0;
 
 /**
  * Array of pointers to arrays of SoundBankEntry of sizes: 9, 12, 22, 20, 8, 3, 5
@@ -113,7 +115,7 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 a2, f32* freqScale, f32* a
     SoundRequest* req;
 
     if (!gSoundBankMuted[SFX_BANK_SHIFT(sfxId)]) {
-        req = &sSoundRequests[sSoundRequestHead];
+        req = &sSoundRequests[sSoundRequestWriteIndex];
         if (!gAudioSEFlagSwapOff) {
             for (i = 0; i < 10; i++) {
                 if (sfxId == gAudioSEFlagSwapSource[i]) {
@@ -126,8 +128,8 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 a2, f32* freqScale, f32* a
                         req->freqScale = freqScale;
                         req->unk_10 = a4;
                         req->reverbAdd = reverbAdd;
-                        sSoundRequestHead++;
-                        req = &sSoundRequests[sSoundRequestHead];
+                        sSoundRequestWriteIndex++;
+                        req = &sSoundRequests[sSoundRequestWriteIndex];
                     }
                     i = 10; // "break;"
                 }
@@ -139,16 +141,16 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 a2, f32* freqScale, f32* a
         req->freqScale = freqScale;
         req->unk_10 = a4;
         req->reverbAdd = reverbAdd;
-        sSoundRequestHead++;
+        sSoundRequestWriteIndex++;
     }
 }
 
 void Audio_RemoveMatchingSoundRequests(u8 aspect, SoundBankEntry* cmp) {
     SoundRequest* req;
     s32 remove;
-    u8 i = sSoundRequestTail;
+    u8 i = sSoundRequestReadIndex;
 
-    for (; i != sSoundRequestHead; i++) {
+    for (; i != sSoundRequestWriteIndex; i++) {
         remove = false;
         req = &sSoundRequests[i];
         switch (aspect) {
@@ -204,7 +206,7 @@ void Audio_ProcessSoundRequest(void) {
     u8 phi_s1;
     u16 flag2;
 
-    req = &sSoundRequests[sSoundRequestTail];
+    req = &sSoundRequests[sSoundRequestReadIndex];
     phi_s1 = 0x80;
     if (req->sfxId == 0) {
         return;
@@ -675,9 +677,9 @@ void Audio_StopSfx(u32 sfxId) {
 }
 
 void Audio_ProcessSoundRequests(void) {
-    while (sSoundRequestHead != sSoundRequestTail) {
+    while (sSoundRequestWriteIndex != sSoundRequestReadIndex) {
         Audio_ProcessSoundRequest();
-        sSoundRequestTail++;
+        sSoundRequestReadIndex++;
     }
 }
 
@@ -733,8 +735,8 @@ void func_800F905C(void) {
     u8 i;
     u8 bankIndex;
 
-    sSoundRequestHead = 0;
-    sSoundRequestTail = 0;
+    sSoundRequestWriteIndex = 0;
+    sSoundRequestReadIndex = 0;
     D_801333D0 = 0;
     for (bankId = 0; bankId < ARRAY_COUNT(gSoundBanks); bankId++) {
         D_8016E1A0[bankId] = 0;
