@@ -1878,10 +1878,8 @@ void AudioDebug_ProcessInput_SndCont(void) {
         if (sAudioSndContWorkLims[sAudioSndContSel] >= 16) {
             step = 8;
         }
-    } else {
-        if (CHECK_BTN_ANY(sDebugPadHold, BTN_CUP)) {
-            sAudioSndContWork[sAudioSndContSel] = 0;
-        }
+    } else if (CHECK_BTN_ANY(sDebugPadHold, BTN_CUP)) {
+        sAudioSndContWork[sAudioSndContSel] = 0;
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_DUP)) {
