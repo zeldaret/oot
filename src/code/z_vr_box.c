@@ -1,6 +1,63 @@
 #include "global.h"
 #include "vt.h"
 
+u32 D_8012AC90[4] = {
+    0x00000000,
+    0x00010000,
+    0x00020000,
+    0x00030000,
+};
+
+u16 D_8012ACA0[2][0x20] = {
+    { 0x00, 0x02, 0x0A, 0x0C, 0x02, 0x04, 0x0C, 0x0E, 0x0A, 0x0C, 0x14, 0x16, 0x0C, 0x0E, 0x16, 0x18,
+      0x01, 0x03, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0B, 0x0D, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x15, 0x17 },
+    { 0x14, 0x16, 0x1E, 0x20, 0x16, 0x18, 0x20, 0x22, 0x1E, 0x20, 0x28, 0x2A, 0x20, 0x22, 0x2A, 0x2C,
+      0x15, 0x17, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1F, 0x21, 0x23, 0x24, 0x25, 0x26, 0x27, 0x29, 0x2B },
+};
+
+s16 D_8012AD20[5] = {
+    0x0000, 0x0FC0, 0x1F80, 0x2F40, 0x3F00,
+};
+
+s16 D_8012AD2C[9] = {
+    0x0000, 0x07C0, 0x0F80, 0x1740, 0x1F00, 0x26C0, 0x2E80, 0x3640, 0x3E00,
+};
+
+s16 D_8012AD40[0x40] = {
+    0x00, 0x10, 0x13, 0x12, 0x10, 0x01, 0x14, 0x13, 0x01, 0x11, 0x15, 0x14, 0x11, 0x05, 0x16, 0x15,
+    0x12, 0x13, 0x17, 0x02, 0x13, 0x14, 0x03, 0x17, 0x14, 0x15, 0x18, 0x03, 0x15, 0x16, 0x07, 0x18,
+    0x02, 0x17, 0x1A, 0x19, 0x17, 0x03, 0x1B, 0x1A, 0x03, 0x18, 0x1C, 0x1B, 0x18, 0x07, 0x1D, 0x1C,
+    0x19, 0x1A, 0x1E, 0x0A, 0x1A, 0x1B, 0x0B, 0x1E, 0x1B, 0x1C, 0x1F, 0x0B, 0x1C, 0x1D, 0x0F, 0x1F,
+};
+
+u32 D_8012ADC0[6] = {
+    0x00000000, 0x00002000, 0x00004000, 0x00006000, 0x00008000, 0x0000C000,
+};
+
+u16 D_8012ADD8[0x20] = {
+    0x00, 0x02, 0x0A, 0x0C, 0x02, 0x04, 0x0C, 0x0E, 0x0A, 0x0C, 0x14, 0x16, 0x0C, 0x0E, 0x16, 0x18,
+    0x01, 0x03, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0B, 0x0D, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x15, 0x17,
+};
+
+s16 D_8012AE18[5] = {
+    0x0000, 0x07C0, 0x0F80, 0x1740, 0x1F00,
+};
+
+s16 D_8012AE24[5] = {
+    0x0000, 0x07C0, 0x0F80, 0x1740, 0x1F00,
+};
+
+s16 D_8012AE30[5] = {
+    0x0000, 0x07C0, 0x0F80, 0x07C0, 0x0000,
+};
+
+s16 D_8012AE3C[0x40] = {
+    0x00, 0x10, 0x13, 0x12, 0x10, 0x01, 0x14, 0x13, 0x01, 0x11, 0x15, 0x14, 0x11, 0x05, 0x16, 0x15,
+    0x12, 0x13, 0x17, 0x02, 0x13, 0x14, 0x03, 0x17, 0x14, 0x15, 0x18, 0x03, 0x15, 0x16, 0x07, 0x18,
+    0x02, 0x17, 0x1A, 0x19, 0x17, 0x03, 0x1B, 0x1A, 0x03, 0x18, 0x1C, 0x1B, 0x18, 0x07, 0x1D, 0x1C,
+    0x19, 0x1A, 0x1E, 0x0A, 0x1A, 0x1B, 0x0B, 0x1E, 0x1B, 0x1C, 0x1F, 0x0B, 0x1C, 0x1D, 0x0F, 0x1F,
+};
+
 typedef struct {
     /* 0x000 */ s32 unk_0;
     /* 0x004 */ s32 unk_4;
@@ -9,34 +66,17 @@ typedef struct {
     /* 0x010 */ s32 unk_10;
 } Struct_8012AF0C; // size = 0x14
 
-extern Struct_8012AF0C D_8012AF0C[6];
-extern Struct_8012AF0C D_8012AEBC[4];
+Struct_8012AF0C D_8012AEBC[4] = {
+    { -0x7E, 0x7C, -0x7E, 0x3F, -0x1F },
+    { 0x7E, 0x7C, -0x7E, 0x3F, -0x1F },
+    { 0x7E, 0x7C, 0x7E, -0x3F, -0x1F },
+    { -0x7E, 0x7C, 0x7E, -0x3F, -0x1F },
+};
 
-typedef struct {
-    union {
-        struct {
-            /* 0x000 */ s16 unk_0;
-            /* 0x004 */ s16 unk_2;
-            /* 0x008 */ s16 unk_4;
-            /* 0x00C */ s16 unk_6;
-            /* 0x010 */ s16 unk_8;
-        };
-        s16 arr[5];
-    };
-} Struct_8012AD20; // size = 0xA
-
-extern u32 D_8012AC90[4];
-extern u16 D_8012ACA0[2][0x20];
-extern Struct_8012AD20 D_8012AD20;
-extern s16 D_8012AD2C[9];
-extern s16 D_8012AD40[0x40];
-
-extern u32 D_8012ADC0[6];
-extern u16 D_8012ADD8[0x20];
-extern Struct_8012AD20 D_8012AE18;
-extern Struct_8012AD20 D_8012AE24;
-extern Struct_8012AD20 D_8012AE30;
-extern s16 D_8012AE3C[0x40];
+Struct_8012AF0C D_8012AF0C[6] = {
+    { -0x40, 0x40, -0x40, 0x20, -0x20 }, { 0x40, 0x40, 0x40, -0x20, -0x20 }, { -0x40, 0x40, 0x40, -0x20, -0x20 },
+    { 0x40, 0x40, -0x40, 0x20, -0x20 },  { -0x40, 0x40, 0x40, 0x20, -0x20 }, { -0x40, -0x40, -0x40, 0x20, 0x20 },
+};
 
 typedef struct {
     /* 0x00 */ u16 unk_0; // start
@@ -44,8 +84,7 @@ typedef struct {
     /* 0x04 */ u8 unk_4;
     /* 0x05 */ u8 unk_5; // img idx 1
     /* 0x06 */ u8 unk_6; // img idx 2
-    /* 0x07 */ char unk_7[0x1];
-} Struct_8011FC1C; // size = 0x8
+} Struct_8011FC1C;       // size = 0x8
 
 extern Struct_8011FC1C D_8011FC1C[8][9];
 
@@ -58,20 +97,23 @@ typedef struct {
 
 extern Struct_8011FD3C D_8011FD3C[];
 
-#ifdef NON_EQUIVALENT
+#ifdef NON_MATCHING
 // Loop unrolls are totally wrong. No idea what's happening.
-// I believe this to be equivalent, but it causes large ROM shifts which seems to break the ocarina.
+// I believe this to be equivalent, but I'm not certain.
 s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7,
                   s32 arg8, s32 arg9) {
+    u32 pad42C;
     // 42C
+    s32 pad428;
     // 428
     s32 sp424;
-    s32 k;
+    s32 pad420;
     // 420
     s32 i;
     // 41C
     s32 j;
     // 418
+    u16 temp;
     s16 phi_t1;
     // 414
     s16 phi_a2_4;
@@ -94,7 +136,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                     sp358[5 * i + j] = arg3 + j * arg6;
                     sp2A4[5 * i + j] = arg4 + i * arg7;
                     sp1F0[5 * i + j] = arg5;
-                    sp13C[5 * i + j] = D_8012AD20.arr[j];
+                    sp13C[5 * i + j] = D_8012AD20[j];
                     sp88[5 * i + j] = D_8012AD2C[i];
                 }
             }
@@ -106,7 +148,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                     sp358[5 * i + j] = arg3;
                     sp2A4[5 * i + j] = arg4 + i * arg7;
                     sp1F0[5 * i + j] = arg5 + j * arg6;
-                    sp13C[5 * i + j] = D_8012AD20.arr[j];
+                    sp13C[5 * i + j] = D_8012AD20[j];
                     sp88[5 * i + j] = D_8012AD2C[i];
                 }
             }
@@ -118,41 +160,39 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                     sp358[5 * i + j] = arg3 + j * arg6;
                     sp2A4[5 * i + j] = arg4;
                     sp1F0[5 * i + j] = arg5 + i * arg7;
-                    sp13C[5 * i + j] = D_8012AD20.arr[j];
+                    sp13C[5 * i + j] = D_8012AD20[j];
                     sp88[5 * i + j] = D_8012AD2C[i];
                 }
             }
             break;
     }
 
-    for (sp424 = 0; sp424 < 2; sp424++) {
-        // Vtx* vtxArr = &roomVtx[arg2];
-        skyboxCtx->unk_138 = skyboxCtx->dListBuf2[sp424 + arg9];
+    for (phi_a2_4 = 0, sp424 = 0; sp424 < 2; sp424++) {
+        skyboxCtx->unk_138 = skyboxCtx->dListBuf2[arg9 + sp424];
 
-        for (i = 0; i < 0x20; i++) {
-            u16 temp = D_8012ACA0[sp424][i];
+        for (pad420 = 0; pad420 < 0x20; pad420++) {
+            temp = D_8012ACA0[sp424][pad420];
 
-            roomVtx[arg2 + i].v.ob[0] = ((s32*)sp358)[temp];
-            roomVtx[arg2 + i].v.ob[1] = ((s32*)sp2A4)[temp];
-            roomVtx[arg2 + i].v.ob[2] = ((s32*)sp1F0)[temp];
-            roomVtx[arg2 + i].v.flag = 0;
-            roomVtx[arg2 + i].v.tc[0] = ((s32*)sp13C)[temp];
-            roomVtx[arg2 + i].v.tc[1] = ((s32*)sp88)[temp];
-            roomVtx[arg2 + i].v.cn[1] = 0;
-            roomVtx[arg2 + i].v.cn[2] = 0;
-            roomVtx[arg2 + i].v.cn[0] = 255;
+            roomVtx[arg2 + pad420].v.ob[0] = ((s32*)sp358)[temp];
+            roomVtx[arg2 + pad420].v.ob[1] = ((s32*)sp2A4)[temp];
+            roomVtx[arg2 + pad420].v.ob[2] = ((s32*)sp1F0)[temp];
+            roomVtx[arg2 + pad420].v.flag = 0;
+            roomVtx[arg2 + pad420].v.tc[0] = ((s32*)sp13C)[temp];
+            roomVtx[arg2 + pad420].v.tc[1] = ((s32*)sp88)[temp];
+            roomVtx[arg2 + pad420].v.cn[1] = 0;
+            roomVtx[arg2 + pad420].v.cn[2] = 0;
+            roomVtx[arg2 + pad420].v.cn[0] = 255;
         }
         gSPVertex(skyboxCtx->unk_138++, &roomVtx[arg2], 32, 0);
-        arg2 += i;
+        arg2 += pad420;
         gSPCullDisplayList(skyboxCtx->unk_138++, 0, 15);
 
-        phi_a2_4 = 0;
         for (phi_t2_4 = 0, phi_ra = 0; phi_ra < 4; phi_ra++, phi_a2_4 += 0x1F) {
-            for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_t2_4+=4, phi_a0_4 += 0x3F) {
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[0] + D_8012AC90[arg8], 0,
-                                 G_TX_LOADTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 256, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x3F,
-                                 phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
-                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x3F, phi_t2_4 += 4) {
+                gDPLoadTextureTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[0] + D_8012AC90[arg8],
+                                   G_IM_FMT_CI, G_IM_SIZ_8b, 256, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x3F,
+                                   phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
+                                   G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
                 gSP1Quadrangle(skyboxCtx->unk_138++, D_8012AD40[phi_t2_4 + 1], D_8012AD40[phi_t2_4 + 2],
                                D_8012AD40[phi_t2_4 + 3], D_8012AD40[phi_t2_4 + 0], 3);
             }
@@ -168,17 +208,28 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32, UNK_TYPE, UNK_TYP
 #endif
 
 #ifdef NON_EQUIVALENT
+// Loop unrolls are totally wrong. No idea what's happening.
+// I believe this to be equivalent, but I'm not certain.
 s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7,
                   s32 arg8) {
+    s32 pad334;
+    s32 pad330;
     s32 i;
+    // 32C
     s32 j;
-    s16 sp320;
-    s16 sp31E;
-    s16 phi_t1;
+    // 328
     s16 phi_a2_4;
     s16 phi_a0_4;
+    // 324
+    s16 phi_t1;
+    u16 temp;
+    // 320
+    s16 sp320;
+    s16 sp31E;
+    // 31C
     s16 phi_t2_4;
     s16 phi_ra;
+    // 318
     s32 sp2B4[5][5];
     s32 sp250[5][5];
     s32 sp1EC[5][5];
@@ -193,8 +244,8 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                     sp2B4[i][j] = arg3 + j * arg6;
                     sp250[i][j] = arg4 + i * arg7;
                     sp1EC[i][j] = arg5;
-                    sp188[i][j] = D_8012AE18.arr[j];
-                    sp124[i][j] = D_8012AE30.arr[i];
+                    sp188[i][j] = D_8012AE18[j];
+                    sp124[i][j] = D_8012AE30[i];
                 }
             }
             break;
@@ -205,8 +256,8 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                     sp2B4[i][j] = arg3;
                     sp250[i][j] = arg4 + i * arg7;
                     sp1EC[i][j] = arg5 + j * arg6;
-                    sp188[i][j] = D_8012AE18.arr[j];
-                    sp124[i][j] = D_8012AE30.arr[i];
+                    sp188[i][j] = D_8012AE18[j];
+                    sp124[i][j] = D_8012AE30[i];
                 }
             }
             break;
@@ -217,80 +268,77 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                     sp2B4[i][j] = arg3 + j * arg6;
                     sp250[i][j] = arg4;
                     sp1EC[i][j] = arg5 + i * arg7;
-                    sp188[i][j] = D_8012AE18.arr[j];
-                    sp124[i][j] = D_8012AE30.arr[i];
+                    sp188[i][j] = D_8012AE18[j];
+                    sp124[i][j] = D_8012AE24[i];
                 }
             }
             break;
     }
     skyboxCtx->unk_138 = &skyboxCtx->dListBuf2[2 * arg8];
 
-    for (i = 0; i < 0x20; i++) {
-        u16 temp = D_8012ADD8[i];
+    for (pad330 = 0; pad330 < 0x20; pad330++) {
+        temp = D_8012ADD8[pad330];
 
-        roomVtx[arg2 + i].v.ob[0] = ((s32*)sp2B4)[temp];
-        roomVtx[arg2 + i].v.ob[1] = ((s32*)sp250)[temp];
-        roomVtx[arg2 + i].v.ob[2] = ((s32*)sp1EC)[temp];
-        roomVtx[arg2 + i].v.flag = 0;
-        roomVtx[arg2 + i].v.tc[0] = ((s32*)sp188)[temp];
-        roomVtx[arg2 + i].v.tc[1] = ((s32*)sp124)[temp];
-        roomVtx[arg2 + i].v.cn[1] = 0;
-        roomVtx[arg2 + i].v.cn[2] = 0;
-        roomVtx[arg2 + i].v.cn[0] = 255;
+        roomVtx[arg2 + pad330].v.ob[0] = ((s32*)sp2B4)[temp];
+        roomVtx[arg2 + pad330].v.ob[1] = ((s32*)sp250)[temp];
+        roomVtx[arg2 + pad330].v.ob[2] = ((s32*)sp1EC)[temp];
+        roomVtx[arg2 + pad330].v.flag = 0;
+        roomVtx[arg2 + pad330].v.tc[0] = ((s32*)sp188)[temp];
+        roomVtx[arg2 + pad330].v.tc[1] = ((s32*)sp124)[temp];
+        roomVtx[arg2 + pad330].v.cn[1] = 0;
+        roomVtx[arg2 + pad330].v.cn[2] = 0;
+        roomVtx[arg2 + pad330].v.cn[0] = 255;
     }
     gSPVertex(skyboxCtx->unk_138++, &roomVtx[arg2], 32, 0);
-    arg2 += i;
+    arg2 += pad330;
     gSPCullDisplayList(skyboxCtx->unk_138++, 0, 15);
 
     if ((arg8 == 4) || (arg8 == 5)) {
         phi_a2_4 = 0;
         for (phi_t2_4 = 0, phi_ra = 0; phi_ra < 4; phi_ra++, phi_a2_4 += 0x1F) {
-            for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x1F) {
+            for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x1F, phi_t2_4 += 4) {
                 gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[0] + D_8012ADC0[arg8], 0,
                                  G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
                                  phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80,
-                                 G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
-                                 phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
-                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
+                                 G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F, phi_a2_4 + 0x1F,
+                                 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
+                                 G_TX_NOMASK, G_TX_NOLOD);
                 gSP1Quadrangle(skyboxCtx->unk_138++, D_8012AE3C[phi_t2_4 + 1], D_8012AE3C[phi_t2_4 + 2],
                                D_8012AE3C[phi_t2_4 + 3], D_8012AE3C[phi_t2_4 + 0], 3);
-                phi_t2_4 += 4;
             }
         }
     } else {
         phi_a2_4 = 0;
         for (phi_t2_4 = 0, phi_ra = 0; phi_ra < 2; phi_ra++, phi_a2_4 += 0x1F) {
-            for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x1F) {
+            for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x1F, phi_t2_4 += 4) {
                 gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[0] + D_8012ADC0[arg8], 0,
                                  G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
                                  phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80,
-                                 G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
-                                 phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
-                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
+                                 G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F, phi_a2_4 + 0x1F,
+                                 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
+                                 G_TX_NOMASK, G_TX_NOLOD);
                 gSP1Quadrangle(skyboxCtx->unk_138++, D_8012AE3C[phi_t2_4 + 1], D_8012AE3C[phi_t2_4 + 2],
                                D_8012AE3C[phi_t2_4 + 3], D_8012AE3C[phi_t2_4 + 0], 3);
-
-                phi_t2_4 += 4;
             }
         }
         phi_a2_4 -= 0x1F;
-        for (phi_t2_4 = 0, phi_ra = 0; phi_ra < 2; phi_ra++, phi_a2_4 -= 0x1F) {
-            for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x1F) {
+        for (phi_ra = 0; phi_ra < 2; phi_ra++, phi_a2_4 -= 0x1F) {
+            for (phi_a0_4 = 0, phi_t1 = 0; phi_t1 < 4; phi_t1++, phi_a0_4 += 0x1F, phi_t2_4 += 4) {
                 gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[0] + D_8012ADC0[arg8], 0,
                                  G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
                                  phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80,
-                                 G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
-                                 phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
-                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (u32)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
+                                 G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F, phi_a2_4 + 0x1F,
+                                 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
+                                 G_TX_NOMASK, G_TX_NOLOD);
                 gSP1Quadrangle(skyboxCtx->unk_138++, D_8012AE3C[phi_t2_4 + 1], D_8012AE3C[phi_t2_4 + 2],
                                D_8012AE3C[phi_t2_4 + 3], D_8012AE3C[phi_t2_4 + 0], 3);
-                phi_t2_4 += 4;
+                // phi_t2_4 += 4;
             }
         }
     }
@@ -385,8 +433,8 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
             DmaMgr_SendRequest1(skyboxCtx->staticSegments[1], D_8011FD3C[sp40].unk_0, size, "../z_vr_box.c", 1064);
 
             // reorderings in the rest of this case
-
-            if (((u8)(sp41 & 4) >> 2) != (sp41 & 1)) {
+            
+            if (((u8)(sp41 & 4) >> 2) != (u8)(sp41 & 1)) {
                 size = D_8011FD3C[sp41].unk_C - D_8011FD3C[sp41].unk_8;
                 skyboxCtx->staticSegments[2] = GameState_Alloc(&globalCtx->state, size * 2, "../z_vr_box.c", 1072);
 
