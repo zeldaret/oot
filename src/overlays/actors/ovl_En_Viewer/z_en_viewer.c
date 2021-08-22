@@ -129,7 +129,7 @@ static EnViewerInitData sInitData[] = {
 };
 // clang-format on
 
-static EnViewerAnimFunc sInitDrawFuncs[] = {
+static EnViewerInitDrawFunc sInitDrawFuncs[] = {
     EnViewer_InitDrawGanonOrZelda,
     EnViewer_InitDrawHorse,
     EnViewer_InitDrawGanonOrZelda,

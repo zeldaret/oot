@@ -8,7 +8,7 @@ struct EnViewer;
 
 typedef void (*EnViewerActionFunc)(struct EnViewer*, GlobalContext*);
 typedef void (*EnViewerDrawFunc)(struct EnViewer*, GlobalContext*);
-typedef void (*EnViewerAnimFunc)(struct EnViewer*, GlobalContext*, void*, AnimationHeader*);
+typedef void (*EnViewerInitDrawFunc)(struct EnViewer*, GlobalContext*, void*, AnimationHeader*);
 
 typedef enum {
     /* 0 */ ENVIEWER_TYPE_0_HORSE_ZELDA,
