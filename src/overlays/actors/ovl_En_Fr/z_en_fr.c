@@ -589,7 +589,7 @@ s32 EnFr_SetupJumpingUp(EnFr* this, s32 frogIndex) {
             frog->isJumpingToFrogSong = true;
         }
         frog->isJumpingUp = true;
-        Audio_PlaySoundTransposed(&frog->actor.projectedPos, NA_SE_EV_FROG_JUMP, (s8)semitone);
+        Audio_PlaySoundTransposed(&frog->actor.projectedPos, NA_SE_EV_FROG_JUMP, semitone);
         return true;
     } else {
         return false;

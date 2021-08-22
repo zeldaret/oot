@@ -80,16 +80,16 @@ extern SoundRequest sSoundRequests[0x100];
 extern Struct_800F8EA0 D_8016E270[7];
 extern Struct_8013331C* D_8013331C[9];
 
-void Audio_MuteSoundBanks(u16 arg0) {
+void Audio_SetSoundBanksMute(u16 muteMask) {
     u8 bankId;
 
     for (bankId = 0; bankId < ARRAY_COUNT(gSoundBanks); bankId++) {
-        if (arg0 & 1) {
+        if (muteMask & 1) {
             gSoundBankMuted[bankId] = true;
         } else {
             gSoundBankMuted[bankId] = false;
         }
-        arg0 = (arg0 >> 1) & 0xFFFF;
+        muteMask = muteMask >> 1;
     }
 }
 
@@ -211,7 +211,7 @@ void Audio_ProcessSoundRequest(void) {
     }
     phi_s5 = SFX_BANK(req->sfxId);
     if ((1 << phi_s5) & D_801333F0) {
-        AudioDebug_ScrPrt((const s8*)D_80133340, req->sfxId); // "SE"
+        AudioDebug_ScrPrt((const s8*)D_80133340, req->sfxId);
         phi_s5 = SFX_BANK(req->sfxId);
     }
     sp55 = 0;
@@ -372,7 +372,6 @@ void func_800F7CEC(u8 arg0) {
             } else {
                 if (entry->dist > 0x7FFFFFD0) {
                     entry->dist = 0x70000008;
-                    // VT_COL(RED, WHITE) "<INAGAKI CHECK> dist over! flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n"
                     osSyncPrintf(D_80133344, entry->unk_28, entry->posX, entry->posZ, *entry->posX,
                                  *entry->posY, *entry->posZ);
                 }

@@ -2176,7 +2176,7 @@ void func_800F70F8();
 void func_800F711C();
 void func_800F7170(void);
 // ? func_800F71BC(?);
-void Audio_MuteSoundBanks(u16);
+void Audio_SetSoundBanksMute(u16 muteMask);
 void Audio_QueueSeqCmdMute(u8);
 void Audio_ClearBGMMute(u8);
 void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 a2, f32* freqScale, f32* a4, s8* reverbAdd);

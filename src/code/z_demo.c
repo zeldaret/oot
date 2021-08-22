@@ -781,7 +781,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 54:
                 gSaveContext.gameMode = 3;
-                Audio_MuteSoundBanks(0x6F);
+                Audio_SetSoundBanksMute(0x6F);
                 globalCtx->linkAgeOnLoad = 1;
                 globalCtx->nextEntranceIndex = 0x0117;
                 gSaveContext.cutsceneIndex = 0xFFF2;
@@ -1161,7 +1161,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 117:
                 gSaveContext.gameMode = 3;
-                Audio_MuteSoundBanks(0x6F);
+                Audio_SetSoundBanksMute(0x6F);
                 globalCtx->linkAgeOnLoad = 0;
                 globalCtx->nextEntranceIndex = 0x00CD;
                 gSaveContext.cutsceneIndex = 0xFFF7;
