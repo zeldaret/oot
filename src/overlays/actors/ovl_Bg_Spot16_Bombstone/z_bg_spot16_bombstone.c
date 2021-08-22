@@ -1,5 +1,6 @@
 #include "z_bg_spot16_bombstone.h"
 #include "objects/object_spot16_obj/object_spot16_obj.h"
+#include "objects/object_bombiwa/object_bombiwa.h"
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
@@ -20,9 +21,6 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5934(BgSpot16Bombstone* this);
 void func_808B5AF0(BgSpot16Bombstone* this);
 void func_808B5A78(BgSpot16Bombstone* this);
-
-extern Gfx D_06000C20[];
-extern Gfx D_060009E0[];
 
 static EnBombf* sPlayerBomb = NULL;
 
@@ -221,7 +219,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
     actor->shape.rot.y = D_808B5DD8[actor->params][8];
     actor->shape.rot.z = D_808B5DD8[actor->params][9];
 
-    this->dList = D_060009E0;
+    this->dList = object_bombiwa_DL_0009E0;
     this->bombiwaBankIndex = Object_GetIndex(&globalctx->objectCtx, OBJECT_BOMBIWA);
 
     if (this->bombiwaBankIndex < 0) {
@@ -348,7 +346,7 @@ void BgSpot16Bombstone_SpawnFragments(BgSpot16Bombstone* this, GlobalContext* gl
             scale = D_808B6074[index] * this->actor.scale.x * 3;
 
             EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, -420, 0x31, 0xF, 0xF, 0, scale, 2,
-                                 0x40, 160, KAKERA_COLOR_NONE, OBJECT_BOMBIWA, D_060009E0);
+                                 0x40, 160, KAKERA_COLOR_NONE, OBJECT_BOMBIWA, object_bombiwa_DL_0009E0);
             index += 1;
         } while (index != ARRAY_COUNT(D_808B6074));
     }

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_brob.h"
+#include "objects/object_brob/object_brob.h"
 
 #define FLAGS 0x00000005
 
@@ -22,13 +23,6 @@ void func_809CB218(EnBrob* this, GlobalContext* globalCtx);
 void func_809CB2B8(EnBrob* this, GlobalContext* globalCtx);
 void func_809CB354(EnBrob* this, GlobalContext* globalCtx);
 void func_809CB458(EnBrob* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06000290;
-extern FlexSkeletonHeader D_060015D8;
-extern AnimationHeader D_06001678;
-extern AnimationHeader D_06001750;
-extern AnimationHeader D_06001958;
-extern CollisionHeader D_06001A70;
 
 const ActorInit En_Brob_InitVars = {
     ACTOR_EN_BROB,
@@ -69,9 +63,10 @@ void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBrob* this = THIS;
     CollisionHeader* colHeader = NULL;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060015D8, &D_06001750, this->jointTable, this->morphTable, 10);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_brob_Skel_0015D8, &object_brob_Anim_001750,
+                       this->jointTable, this->morphTable, 10);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06001A70, &colHeader);
+    CollisionHeader_GetVirtual(&object_brob_Col_001A70, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     Collider_InitCylinder(globalCtx, &this->colliders[0]);
     Collider_SetCylinder(globalCtx, &this->colliders[0], &this->dyna.actor, &sCylinderInit);
@@ -118,21 +113,21 @@ void func_809CADDC(EnBrob* this, GlobalContext* globalCtx) {
 }
 
 void func_809CAE44(EnBrob* this, GlobalContext* globalCtx) {
-    Animation_PlayOnce(&this->skelAnime, &D_06001750);
+    Animation_PlayOnce(&this->skelAnime, &object_brob_Anim_001750);
     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     this->unk_1AE = 1000;
     this->actionFunc = func_809CB114;
 }
 
 void func_809CAEA0(EnBrob* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06001958, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &object_brob_Anim_001958, -5.0f);
     this->unk_1AE = 8000;
     this->timer = 1200;
     this->actionFunc = func_809CB218;
 }
 
 void func_809CAEF4(EnBrob* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000290, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_brob_Anim_000290, -5.0f);
     this->unk_1AE -= 125.0f;
     Actor_SetColorFilter(&this->dyna.actor, 0, 0xFF, 0, 0x50);
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -140,14 +135,14 @@ void func_809CAEF4(EnBrob* this) {
 }
 
 void func_809CAF88(EnBrob* this) {
-    Animation_Change(&this->skelAnime, &D_06001750, -1.0f, Animation_GetLastFrame(&D_06001750), 0.0f, ANIMMODE_ONCE,
-                     -5.0f);
+    Animation_Change(&this->skelAnime, &object_brob_Anim_001750, -1.0f,
+                     Animation_GetLastFrame(&object_brob_Anim_001750), 0.0f, ANIMMODE_ONCE, -5.0f);
     this->unk_1AE = 8250;
     this->actionFunc = func_809CB354;
 }
 
 void func_809CB008(EnBrob* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06001678, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &object_brob_Anim_001678, -5.0f);
     this->timer = 10;
     this->actionFunc = func_809CB458;
 }

@@ -6,6 +6,7 @@
 
 #include "z_en_hs.h"
 #include "vt.h"
+#include "objects/object_hs/object_hs.h"
 
 #define FLAGS 0x00000009
 
@@ -51,11 +52,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 40, 0, { 0, 0, 0 } },
 };
 
-extern AnimationHeader D_06000304;
-extern AnimationHeader D_06000528;
-extern AnimationHeader D_060005C0;
-extern FlexSkeletonHeader D_06006260;
-
 void func_80A6E3A0(EnHs* this, EnHsActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -65,8 +61,9 @@ void EnHs_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->jointTable, this->morphTable, 16);
-    Animation_PlayLoop(&this->skelAnime, &D_060005C0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_hs_Skel_006260, &object_hs_Anim_0005C0, this->jointTable,
+                       this->morphTable, 16);
+    Animation_PlayLoop(&this->skelAnime, &object_hs_Anim_0005C0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -179,8 +176,8 @@ void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        Animation_Change(&this->skelAnime, &D_060005C0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060005C0), ANIMMODE_LOOP,
-                         8.0f);
+        Animation_Change(&this->skelAnime, &object_hs_Anim_0005C0, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_hs_Anim_0005C0), ANIMMODE_LOOP, 8.0f);
     }
 
     this->unk_2A8 |= 1;
@@ -192,8 +189,8 @@ void func_80A6E8CC(EnHs* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_8010B720(globalCtx, 0x10B3);
         func_80A6E3A0(this, func_80A6E7BC);
-        Animation_Change(&this->skelAnime, &D_06000528, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000528), ANIMMODE_LOOP,
-                         8.0f);
+        Animation_Change(&this->skelAnime, &object_hs_Anim_000528, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_hs_Anim_000528), ANIMMODE_LOOP, 8.0f);
     }
 
     if (this->unk_2AA > 0) {
@@ -214,8 +211,8 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
         if (func_8002F368(globalCtx) == 7) {
             player->actor.textId = 0x10B2;
             func_80A6E3A0(this, func_80A6E8CC);
-            Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000304),
-                             ANIMMODE_LOOP, 8.0f);
+            Animation_Change(&this->skelAnime, &object_hs_Anim_000304, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&object_hs_Anim_000304), ANIMMODE_LOOP, 8.0f);
             this->unk_2AA = 40;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {

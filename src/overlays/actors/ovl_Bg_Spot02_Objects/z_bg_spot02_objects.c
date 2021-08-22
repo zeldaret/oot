@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot02_objects.h"
+#include "objects/object_spot02_objects/object_spot02_objects.h"
 
 #define FLAGS 0x00000030
 
@@ -24,13 +25,6 @@ void func_808ACAFC(BgSpot02Objects* this, GlobalContext* globalCtx);
 void func_808ACB58(BgSpot02Objects* this, GlobalContext* globalCtx);
 void func_808ACC34(BgSpot02Objects* this, GlobalContext* globalCtx);
 void func_808AD3D4(BgSpot02Objects* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_060128D8;
-extern CollisionHeader D_06012BA4;
-extern CollisionHeader D_060133EC;
-extern Gfx D_060013F0[];
-extern Gfx D_060126F0[];
-extern Gfx D_06012D30[];
 
 static void* D_808AD850[] = {
     0x060096B0, 0x0600A2B0, 0x0600AEB0, 0x0600BAB0, 0x0600C6B0, 0x0600D2B0,
@@ -76,10 +70,10 @@ void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->actionFunc = func_808ACAFC;
                 }
 
-                CollisionHeader_GetVirtual(&D_06012BA4, &colHeader);
+                CollisionHeader_GetVirtual(&object_spot02_objects_Col_012BA4, &colHeader);
             } else if (thisx->params == 1) {
                 this->actionFunc = func_808AC8FC;
-                CollisionHeader_GetVirtual(&D_060128D8, &colHeader);
+                CollisionHeader_GetVirtual(&object_spot02_objects_Col_0128D8, &colHeader);
                 thisx->flags |= 0x400000;
             } else {
                 if (globalCtx->sceneNum == SCENE_SPOT02) {
@@ -88,7 +82,7 @@ void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->actionFunc = func_808AC8FC;
                 }
 
-                CollisionHeader_GetVirtual(&D_060133EC, &colHeader);
+                CollisionHeader_GetVirtual(&object_spot02_objects_Col_0133EC, &colHeader);
             }
 
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
@@ -158,7 +152,7 @@ void func_808ACA08(BgSpot02Objects* this, GlobalContext* globalCtx) {
     if (this->timer == 20) {
         this->dyna.actor.draw = NULL;
         EffectSsHahen_SpawnBurst(globalCtx, &this->dyna.actor.world.pos, 30.0f, 0, 25, 5, 40, OBJECT_SPOT02_OBJECTS, 20,
-                                 D_06012D30);
+                                 object_spot02_objects_DL_012D30);
     } else if (this->timer == 0) {
         Actor_Kill(&this->dyna.actor);
     }
@@ -262,7 +256,7 @@ void func_808ACCB8(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_808AD850[this->unk_16A]));
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPDisplayList(POLY_XLU_DISP++, D_060126F0);
+        gSPDisplayList(POLY_XLU_DISP++, object_spot02_objects_DL_0126F0);
         gDPPipeSync(POLY_XLU_DISP++);
     }
 
@@ -325,7 +319,7 @@ void func_808AD450(Actor* thisx, GlobalContext* globalCtx) {
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 2 * this->timer, -3 * this->timer, 32, 64, 1,
                                         4 * this->timer, -6 * this->timer, 32, 64));
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPDisplayList(POLY_XLU_DISP++, D_060013F0);
+            gSPDisplayList(POLY_XLU_DISP++, object_spot02_objects_DL_0013F0);
             gDPPipeSync(POLY_XLU_DISP++);
         }
     }

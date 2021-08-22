@@ -5,6 +5,7 @@
  */
 
 #include "z_en_toryo.h"
+#include "objects/object_toryo/object_toryo.h"
 
 #define FLAGS 0x00000009
 
@@ -95,11 +96,9 @@ typedef struct {
     f32 transitionRate;
 } EnToryoAnimation;
 
-static EnToryoAnimation sEnToryoAnimation = { 0x06000E50, 1.0f, 0, 0 };
+static EnToryoAnimation sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
 
 static Vec3f sMultVec = { 800.0f, 1000.0f, 0.0f };
-
-extern FlexSkeletonHeader D_06007150;
 
 void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnToryo* this = THIS;
@@ -128,7 +127,8 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 42.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007150, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_toryo_Skel_007150, NULL, this->jointTable, this->morphTable,
+                       17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);

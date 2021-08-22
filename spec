@@ -1325,6 +1325,7 @@ endseg
 
 beginseg
     name "ovl_Bg_Treemouth"
+    include "build/src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth_cutscene_data.o"
     include "build/src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth.o"
     include "build/src/overlays/actors/ovl_Bg_Treemouth/ovl_Bg_Treemouth_reloc.o"
 endseg
@@ -3107,6 +3108,7 @@ endseg
 
 beginseg
     name "ovl_En_Zl1"
+    include "build/src/overlays/actors/ovl_En_Zl1/z_en_zl1_cutscene_data.o"
     include "build/src/overlays/actors/ovl_En_Zl1/z_en_zl1.o"
     include "build/src/overlays/actors/ovl_En_Zl1/ovl_En_Zl1_reloc.o"
 endseg

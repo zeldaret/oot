@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_toki_swd.h"
+#include "objects/object_toki_objects/object_toki_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -18,8 +19,6 @@ void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx);
 void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx);
 void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx);
-
-extern Gfx D_06001BD0[];
 
 extern CutsceneData D_808BB2F0[];
 extern CutsceneData D_808BB7A0[];
@@ -176,7 +175,7 @@ void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                Gfx_TexScroll(globalCtx->state.gfxCtx, 0, -(globalCtx->gameplayFrames % 0x80), 32, 32));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 742),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06001BD0);
+    gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_001BD0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 776);
 }
