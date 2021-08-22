@@ -66,11 +66,11 @@ Vec3f D_801333D4 = { 0.0f, 0.0f, 0.0f }; // default pos
 
 f32 D_801333E0 = 1.0f; // default freqScale
 
-UNK_TYPE D_801333E4 = 0; // unused
+s32 D_801333E4 = 0; // unused
 
 s8 D_801333E8 = 0; // default reverbAdd
 
-UNK_TYPE D_801333EC = 0; // unused
+s32 D_801333EC = 0; // unused
 
 u8 D_801333F0 = 0;
 
@@ -383,7 +383,7 @@ void func_800F7CEC(u8 arg0) {
                     entry->unk_20 += (s32)(-*entry->posZ * 6.0f);
                 }
             }
-            if (entry->dist > 1.0e10f) {
+            if (entry->dist > SQ(1e5f)) {
                 if (entry->unk_2A == 4) {
                     Audio_QueueCmdS8((entry->unk_2E << 8) | 0x6020000, 0);
                     if (entry->unk_28 & 0xC00) {
@@ -510,7 +510,7 @@ void func_800F8480(u8 bankId) {
                             break;
                     }
                 }
-                Audio_SetSoundProps(bankId, bankIndex, D_8016E260);
+                Audio_SetSoundProperties(bankId, bankIndex, D_8016E260);
                 Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8), 1);
                 Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 4, entry->unk_28 & 0xFF);
                 if (D_80130570[bankId] != 0) {
@@ -524,7 +524,7 @@ void func_800F8480(u8 bankId) {
             } else if ((u8)seqChannel->soundScriptIO[1] == 0xFF) {
                 func_800F7B54(bankId, bankIndex);
             } else if (entry->unk_2A == 3) {
-                Audio_SetSoundProps(bankId, bankIndex, D_8016E260);
+                Audio_SetSoundProperties(bankId, bankIndex, D_8016E260);
                 if (entry->unk_28 & 0xC00) {
                     entry->unk_2A = 4;
                 } else {

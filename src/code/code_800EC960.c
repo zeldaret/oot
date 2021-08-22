@@ -2752,28 +2752,19 @@ s8 func_800F3990(f32 arg0, u16 arg1) {
     return ret | 1;
 }
 
-void Audio_SetSoundProps(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
-    f32 sp44;
+void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
+    f32 sp44 = 1.0f;
     s8 phi_a1;
-    s8 reverb;
-    f32 freqScale;
-    s8 panSigned;
-    u8 reverbFlg;
-    u8 sp39;
-    s8 sp38;
+    s8 reverb = 0;
+    f32 freqScale = 1.0f;
+    s8 panSigned = 0x40;
+    u8 reverbFlg = 0;
+    u8 sp39 = 0;
+    s8 sp38 = 0;
     f32 sp34;
-    u8 sp33;
-    SoundBankEntry* entry;
+    u8 sp33 = 0;
+    SoundBankEntry* entry = &gSoundBanks[bankIdx][entryIdx];
 
-    reverb = 0;
-    panSigned = 0x40;
-    reverbFlg = 0;
-    sp39 = 0;
-    sp38 = 0;
-    sp33 = 0;
-    freqScale = 1.0f;
-    sp44 = 1.0f;
-    entry = &gSoundBanks[bankIdx][entryIdx];
     switch (bankIdx) {
         case BANK_PLAYER:
         case BANK_ITEM:
@@ -2878,7 +2869,7 @@ void func_800F3ED4(void) {
         t->unk_0C = 0xFF;
     }
 
-    D_8016B8B8[0xD].unk_0C = 0;
+    D_8016B8B8[13].unk_0C = 0;
     D_8013061C = 0;
     sAudioCodeReverb = 0;
 }
@@ -3807,7 +3798,7 @@ void func_800F6964(u16 arg0) {
     Audio_SeqCmd1(0, (arg0 * 3) / 2);
     Audio_SeqCmd1(1, (arg0 * 3) / 2);
     for (i = 0; i < 0x10; i++) {
-        skip = 0;
+        skip = false;
         switch (i) {
             case 0xB:
             case 0xC:

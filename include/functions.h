@@ -2106,7 +2106,7 @@ void func_800F3054(void);
 // ? func_800F3188(?);
 // ? func_800F37B8(?);
 // ? func_800F3990(?);
-void Audio_SetSoundProps(u8, u8, u8);
+void Audio_SetSoundProperties(u8, u8, u8);
 // ? func_800F3ED4(?);
 void func_800F3F3C(u8);
 // ? func_800F3F84(?);
