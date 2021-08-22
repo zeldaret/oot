@@ -836,7 +836,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ OSTask task;
     /* 0x0040 */ OSMesgQueue* taskQueue;
-    /* 0x0044 */ void* unk_44; // probbly a message that gets unused.
+    /* 0x0044 */ void* unk_44; // probably a message that gets unused.
     /* 0x0048 */ char unk_48[0x8];
 } AudioTask; // size = 0x50
 
@@ -861,9 +861,9 @@ typedef struct {
 } RelocInfo;
 
 typedef enum {
-    SEQUENCE_TABLE,
-    BANK_TABLE,
-    AUDIO_TABLE
+    /* 0 */ SEQUENCE_TABLE,
+    /* 1 */ BANK_TABLE,
+    /* 2 */ AUDIO_TABLE
 } AudioTableType;
 
 typedef struct {
@@ -1068,13 +1068,13 @@ typedef struct {
 } unk_D_8016E750; // size = 0x264
 
 typedef enum {
-    BANK_PLAYER = 0,
-    BANK_ITEM = 1,
-    BANK_ENV = 2,
-    BANK_ENEMY = 3,
-    BANK_SYSTEM = 4,
-    BANK_OCARINA = 5,
-    BANK_VOICE = 6
+    /* 0 */ BANK_PLAYER,
+    /* 1 */ BANK_ITEM,
+    /* 2 */ BANK_ENV,
+    /* 3 */ BANK_ENEMY,
+    /* 4 */ BANK_SYSTEM,
+    /* 5 */ BANK_OCARINA,
+    /* 6 */ BANK_VOICE
 } SoundBankTypes;
 
 typedef struct {

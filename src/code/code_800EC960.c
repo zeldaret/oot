@@ -24,24 +24,24 @@ typedef struct {
     u8 unk_04[100];
 } D_801306DC_s; // size = 0x68
 
-enum AudioDebugPage {
-    PAGE_NON = 0,
-    PAGE_SOUND_CONTROL = 1,
-    PAGE_SPEC_INFO = 2, // unused
-    PAGE_HEAP_INFO = 3,
-    PAGE_GROUP_TRACK_INFO = 4, // unused
-    PAGE_SUB_TRACK_INFO = 5,
-    PAGE_CHANNEL_INFO = 6, // unused
-    PAGE_INTERFACE_INFO = 7,
-    PAGE_SE_FLAG_SWAP = 8,
-    PAGE_BLOCK_CHANGE_BGM = 9,
-    PAGE_NATURAL_SOUND_CONTROL = 10, // unused
-    PAGE_OCARINA_TEST = 11,
-    PAGE_SE_PARAMETER_CHANGE = 12,
-    PAGE_SCROLL_PRINT = 13,
-    PAGE_FREE_AREA = 14,
-    PAGE_LIM = 15
-};
+typedef enum {
+    /* 0x0 */ PAGE_NON,
+    /* 0x1 */ PAGE_SOUND_CONTROL,
+    /* 0x2 */ PAGE_SPEC_INFO, // unused
+    /* 0x3 */ PAGE_HEAP_INFO,
+    /* 0x4 */ PAGE_GROUP_TRACK_INFO, // unused
+    /* 0x5 */ PAGE_SUB_TRACK_INFO,
+    /* 0x6 */ PAGE_CHANNEL_INFO, // unused
+    /* 0x7 */ PAGE_INTERFACE_INFO,
+    /* 0x8 */ PAGE_SE_FLAG_SWAP,
+    /* 0x9 */ PAGE_BLOCK_CHANGE_BGM,
+    /* 0xA */ PAGE_NATURAL_SOUND_CONTROL, // unused
+    /* 0xB */ PAGE_OCARINA_TEST,
+    /* 0xC */ PAGE_SE_PARAMETER_CHANGE,
+    /* 0xD */ PAGE_SCROLL_PRINT,
+    /* 0xE */ PAGE_FREE_AREA,
+    /* 0xF */ PAGE_LIM
+} AudioDebugPage;
 
 #define SCROLL_PRINT_BUF_SIZE 25
 
