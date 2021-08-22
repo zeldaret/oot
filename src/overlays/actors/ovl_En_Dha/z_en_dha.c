@@ -205,7 +205,7 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
     playerPos.x += Math_SinS(player->actor.shape.rot.y) * -5.0f;
     playerPos.z += Math_CosS(player->actor.shape.rot.y) * -5.0f;
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         playerPos.y += 38.0f;
     } else {
         playerPos.y += 56.0f;

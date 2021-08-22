@@ -66,12 +66,11 @@ void EffectSsLightning_NewLightning(GlobalContext* globalCtx, Vec3f* pos, s16 ya
     EffectSs_Insert(globalCtx, &newLightning);
 }
 
-static UNK_PTR sTextures[] = {
-    gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex,
-    gEffLightning5Tex, gEffLightning6Tex, gEffLightning7Tex, gEffLightning8Tex,
-};
-
 void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    static void* lightningTextures[] = {
+        gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex,
+        gEffLightning5Tex, gEffLightning6Tex, gEffLightning7Tex, gEffLightning8Tex,
+    };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF mfResult;
     MtxF mfTrans;
@@ -108,7 +107,7 @@ void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this)
     if (mtx != NULL) {
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80094C50(gfxCtx);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[texIdx]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(lightningTextures[texIdx]));
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                         this->rPrimColorA);
         gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);

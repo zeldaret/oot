@@ -219,8 +219,8 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 8:
-            if (globalCtx->unk_11D30[0] < 0x80) {
-                globalCtx->unk_11D30[0] += 4;
+            if (globalCtx->roomCtx.unk_74[0] < 0x80) {
+                globalCtx->roomCtx.unk_74[0] += 4;
             }
             break;
         case 9:
@@ -230,13 +230,13 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             Flags_SetEnv(globalCtx, 1);
             break;
         case 11:
-            if (globalCtx->unk_11D30[0] < 0x672) {
-                globalCtx->unk_11D30[0] += 0x14;
+            if (globalCtx->roomCtx.unk_74[0] < 0x672) {
+                globalCtx->roomCtx.unk_74[0] += 0x14;
             }
             if (csCtx->frames == 0x30F) {
                 func_80078884(NA_SE_EV_DEKU_DEATH);
             } else if (csCtx->frames == 0x2CD) {
-                globalCtx->unk_11D30[0] = 0;
+                globalCtx->roomCtx.unk_74[0] = 0;
             }
             break;
         case 12:
@@ -247,11 +247,11 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 13:
-            if (globalCtx->unk_11D30[1] == 0) {
+            if (globalCtx->roomCtx.unk_74[1] == 0) {
                 func_80078884(NA_SE_EV_TRIFORCE_FLASH);
             }
-            if (globalCtx->unk_11D30[1] < 0xFF) {
-                globalCtx->unk_11D30[1] += 5;
+            if (globalCtx->roomCtx.unk_74[1] < 0xFF) {
+                globalCtx->roomCtx.unk_74[1] += 5;
             }
             break;
         case 14:
@@ -367,7 +367,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             gSaveContext.unk_1422 = 1;
             break;
         case 34:
-            if (gSaveContext.nightFlag == 0) {
+            if (IS_DAY) {
                 gSaveContext.dayTime -= D_8011FB40;
             } else {
                 gSaveContext.dayTime -= D_8011FB40 * 2;
@@ -523,7 +523,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                     globalCtx->fadeTransition = 11;
                 } else {
                     if (gSaveContext.sceneSetupIndex < 4) {
-                        if (LINK_IS_CHILD) {
+                        if (!LINK_IS_ADULT) {
                             globalCtx->linkAgeOnLoad = 0;
                         } else {
                             globalCtx->linkAgeOnLoad = 1;

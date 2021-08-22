@@ -359,7 +359,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                                                       : 0x7014;
         case 12:
             if (globalCtx->sceneNum == SCENE_SPOT01) {
-                return gSaveContext.nightFlag ? 0x5084 : 0x5083;
+                return !IS_DAY ? 0x5084 : 0x5083;
             } else {
                 return (gSaveContext.eventChkInf[8] & 1) ? 0x7044 : 0x7015;
             }
@@ -372,7 +372,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
         case 16:
             return 0x700E;
         case 17:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 if (!gSaveContext.nightFlag) {
                     return (gSaveContext.infTable[22] & 1) ? 0x5058 : 0x5057;
                 } else {
@@ -384,7 +384,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x5058;
             }
         case 18:
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 return (gSaveContext.eventChkInf[8] & 1) ? 0x505F : ((gSaveContext.infTable[22] & 8) ? 0x505E : 0x505D);
             } else {
                 return (this->unk_330 & 0x800) ? 0x5062 : ((gSaveContext.infTable[22] & 0x10) ? 0x5061 : 0x5060);
@@ -654,9 +654,9 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
                 ((this->actor.params & 0x7F) != 12) && ((this->actor.params & 0x7F) != 2) &&
                 ((this->actor.params & 0x7F) != 7)) {
                 return true;
-            } else if (LINK_IS_CHILD) {
+            } else if (!LINK_IS_ADULT) {
                 return true;
-            } else if (((this->actor.params & 0x7F) != 12) && (gSaveContext.nightFlag == 1)) {
+            } else if (((this->actor.params & 0x7F) != 12) && IS_NIGHT) {
                 return false;
             } else {
                 return true;
@@ -664,7 +664,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
         case SCENE_LABO:
             if ((this->actor.params & 0x7F) != 10) {
                 return true;
-            } else if (gSaveContext.linkAge == 1) {
+            } else if (LINK_IS_CHILD) {
                 return false;
             } else if (((this->actor.params & 0x7F) == 10) && !gSaveContext.nightFlag) {
                 return false;
@@ -681,13 +681,13 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
             }
         case SCENE_KAKARIKO:
             if ((this->actor.params & 0x7F) == 0) {
-                return LINK_IS_CHILD ? false : true;
+                return !LINK_IS_ADULT ? false : true;
             } else if (((this->actor.params & 0x7F) != 9) && ((this->actor.params & 0x7F) != 2) &&
                        ((this->actor.params & 0x7F) != 7)) {
                 return true;
             } else if (!gSaveContext.nightFlag) {
                 return false;
-            } else if (gSaveContext.linkAge == 1) {
+            } else if (LINK_IS_CHILD) {
                 return false;
             } else {
                 return true;
@@ -696,7 +696,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
         case SCENE_MARKET_ALLEY_N:
             if ((this->actor.params & 0x7F) != 14) {
                 return true;
-            } else if (gSaveContext.nightFlag == 1) {
+            } else if (IS_NIGHT) {
                 return false;
             } else if ((gSaveContext.eventChkInf[8] & 1) && !(gSaveContext.eventChkInf[4] & 0x20)) {
                 return false;
