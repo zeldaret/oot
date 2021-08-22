@@ -260,7 +260,7 @@ s32 D_8016BA1C;
 u8 sCurOcarinaSong[8];
 u8 sOcarinaSongAppendPos;
 u8 sOcarinaHasStartedSong;
-u8 sOcarinaSongNotestartIdx;
+u8 sOcarinaSongNoteStartIdx;
 u8 sOcarinaSongCnt;
 u16 sOcarinaAvailSongs;
 u8 D_8016BA2E;
@@ -397,7 +397,7 @@ void func_800ECC04(u16 flg) {
 
     if (flg != 0xFFFF) {
         D_80130F3C = 0x80000000 + (u32)flg;
-        sOcarinaSongNotestartIdx = 0;
+        sOcarinaSongNoteStartIdx = 0;
         sOcarinaSongCnt = 0xE;
         if (flg != 0xA000) {
             sOcarinaSongCnt--;
@@ -464,7 +464,7 @@ void func_800ECDF8(void) {
         if (sPrevOcarinaNoteVal == sCurOcarinaBtnVal || sCurOcarinaBtnVal == 0xFF) { inputChanged = 1; }
         // clang-format on
 
-        for (i = sOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
+        for (i = sOcarinaSongNoteStartIdx; i < sOcarinaSongCnt; i++) {
             sh = 1 << i;
             if (sOcarinaAvailSongs & sh) {
                 D_8016BA50[i] = D_8016BA70[i] + 0x12;
@@ -562,7 +562,7 @@ void func_800ED200(void) {
                 sCurOcarinaSong[sOcarinaSongAppendPos - 1] = sCurOcarinaBtnVal;
             }
 
-            for (i = sOcarinaSongNotestartIdx; i < sOcarinaSongCnt; i++) {
+            for (i = sOcarinaSongNoteStartIdx; i < sOcarinaSongCnt; i++) {
                 if (sOcarinaAvailSongs & (u16)(1 << i)) {
                     for (j = 0, k = 0;
                          j < gOcarinaSongNotes[i].len && k == 0 && sOcarinaSongAppendPos >= gOcarinaSongNotes[i].len;) {
@@ -3790,14 +3790,14 @@ void Audio_SetCutsceneFlag(s8 flag) {
     sAudioCutsceneFlag = flag;
 }
 
-void Audio_PlaySoundGeneralIfNotDemo(u16 sfxId, Vec3f* pos, u8 arg2, f32* freqScale, f32* arg4, s8* reverbAdd) {
+void Audio_PlaySoundGeneralIfNotInCutscene(u16 sfxId, Vec3f* pos, u8 arg2, f32* freqScale, f32* arg4, s8* reverbAdd) {
     if (!sAudioCutsceneFlag) {
         Audio_PlaySoundGeneral(sfxId, pos, arg2, freqScale, arg4, reverbAdd);
     }
 }
 
-void Audio_PlaySoundIfNotDemo(u16 sfxId) {
-    Audio_PlaySoundGeneralIfNotDemo(sfxId, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+void Audio_PlaySoundIfNotInCutscene(u16 sfxId) {
+    Audio_PlaySoundGeneralIfNotInCutscene(sfxId, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
 void func_800F6964(u16 arg0) {
