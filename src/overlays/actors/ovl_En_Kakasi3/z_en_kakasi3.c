@@ -6,6 +6,7 @@
 
 #include "z_en_kakasi3.h"
 #include "vt.h"
+#include "objects/object_ka/object_ka.h"
 
 #define FLAGS 0x02000009
 
@@ -47,9 +48,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-extern FlexSkeletonHeader D_060065B0;
-extern AnimationHeader D_06000214;
-
 const ActorInit En_Kakasi3_InitVars = {
     ACTOR_EN_KAKASI3,
     ACTORCAT_NPC,
@@ -79,7 +77,7 @@ void EnKakasi3_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
     this->actor.flags |= 0x400;
     this->rot = this->actor.world.rot;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -178,9 +176,9 @@ void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
 }
 
 void func_80A911F0(EnKakasi3* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06000214);
+    f32 frameCount = Animation_GetLastFrame(&object_ka_Anim_000214);
 
-    Animation_Change(&this->skelAnime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &object_ka_Anim_000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A91284;
 }
 

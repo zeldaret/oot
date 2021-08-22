@@ -1,4 +1,5 @@
 #include "z_en_rd.h"
+#include "objects/object_rd/object_rd.h"
 
 #define FLAGS 0x00000415
 
@@ -117,20 +118,6 @@ static Vec3f D_80AE4940 = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80AE494C = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80AE4958 = { 0.25f, 0.25f, 0.25f };
 
-extern FlexSkeletonHeader D_06003DD8;
-extern AnimationHeader D_06004268;
-extern AnimationHeader D_060046F8;
-extern AnimationHeader D_06004ADC;
-extern AnimationHeader D_06004F94;
-extern AnimationHeader D_060057AC;
-extern AnimationHeader D_06005D98;
-extern AnimationHeader D_06006E88;
-extern AnimationHeader D_060074F0;
-extern AnimationHeader D_06008040;
-extern AnimationHeader D_060087D0;
-extern FlexSkeletonHeader D_0600E778;
-extern AnimationHeader D_0600EFDC;
-
 void EnRd_SetupAction(EnRd* this, EnRdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -157,12 +144,12 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params >= -1) {
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600E778, &D_060087D0, this->jointTable, this->morphTable,
-                           26);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_rd_Skel_00E778, &object_rd_Anim_0087D0,
+                           this->jointTable, this->morphTable, 26);
         thisx->naviEnemyId = 0x2A;
     } else {
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DD8, &D_060087D0, this->jointTable, this->morphTable,
-                           26);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_rd_Skel_003DD8, &object_rd_Anim_0087D0,
+                           this->jointTable, this->morphTable, 26);
         thisx->naviEnemyId = 0x2D;
     }
 
@@ -211,9 +198,9 @@ void func_80AE2630(GlobalContext* globalCtx, Actor* thisx, s32 arg2) {
 
 void func_80AE269C(EnRd* this) {
     if (this->actor.params != 2) {
-        Animation_MorphToLoop(&this->skelAnime, &D_060087D0, -6.0f);
+        Animation_MorphToLoop(&this->skelAnime, &object_rd_Anim_0087D0, -6.0f);
     } else {
-        Animation_PlayLoop(&this->skelAnime, &D_06005D98);
+        Animation_PlayLoop(&this->skelAnime, &object_rd_Anim_005D98);
     }
 
     this->unk_31B = 0;
@@ -230,9 +217,9 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
 
     if ((this->actor.params == 2) && (0.0f == this->skelAnime.curFrame)) {
         if (Rand_ZeroOne() >= 0.5f) {
-            Animation_PlayLoop(&this->skelAnime, &D_06005D98);
+            Animation_PlayLoop(&this->skelAnime, &object_rd_Anim_005D98);
         } else {
-            Animation_PlayLoop(&this->skelAnime, &D_060057AC);
+            Animation_PlayLoop(&this->skelAnime, &object_rd_Anim_0057AC);
         }
     } else {
         this->unk_30C--;
@@ -275,7 +262,8 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2970(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_060087D0, 0, 0, Animation_GetLastFrame(&D_060087D0), ANIMMODE_LOOP, -6.0f);
+    Animation_Change(&this->skelAnime, &object_rd_Anim_0087D0, 0, 0, Animation_GetLastFrame(&object_rd_Anim_0087D0),
+                     ANIMMODE_LOOP, -6.0f);
     this->unk_31B = 11;
     this->unk_30C = 6;
     this->actor.shape.rot.x = -0x4000;
@@ -309,8 +297,8 @@ void func_80AE2A10(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2B90(EnRd* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_0600EFDC, 1.0f, 4.0f, Animation_GetLastFrame(&D_0600EFDC),
-                     ANIMMODE_LOOP_INTERP, -4.0f);
+    Animation_Change(&this->skelAnime, &object_rd_Anim_00EFDC, 1.0f, 4.0f,
+                     Animation_GetLastFrame(&object_rd_Anim_00EFDC), ANIMMODE_LOOP_INTERP, -4.0f);
     this->actor.speedXZ = 0.4f;
     this->unk_31B = 4;
     EnRd_SetupAction(this, func_80AE2C1C);
@@ -379,8 +367,8 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2F50(EnRd* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_0600EFDC, 0.5f, 0, Animation_GetLastFrame(&D_0600EFDC), ANIMMODE_LOOP_INTERP,
-                     -4.0f);
+    Animation_Change(&this->skelAnime, &object_rd_Anim_00EFDC, 0.5f, 0, Animation_GetLastFrame(&object_rd_Anim_00EFDC),
+                     ANIMMODE_LOOP_INTERP, -4.0f);
     this->unk_31B = 2;
     EnRd_SetupAction(this, func_80AE2FD0);
 }
@@ -428,8 +416,8 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE31DC(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_0600EFDC, 0.5f, 0, Animation_GetLastFrame(&D_0600EFDC), ANIMMODE_LOOP_INTERP,
-                     -4.0f);
+    Animation_Change(&this->skelAnime, &object_rd_Anim_00EFDC, 0.5f, 0, Animation_GetLastFrame(&object_rd_Anim_00EFDC),
+                     ANIMMODE_LOOP_INTERP, -4.0f);
     this->unk_31B = 3;
     this->unk_305 = 1;
     EnRd_SetupAction(this, func_80AE3260);
@@ -474,7 +462,7 @@ void func_80AE3260(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE33F0(EnRd* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06004ADC);
+    Animation_PlayOnce(&this->skelAnime, &object_rd_Anim_004ADC);
     this->unk_30C = this->unk_304 = 0;
     this->unk_319 = 200;
     this->unk_31B = 8;
@@ -492,7 +480,7 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
 
     switch (this->unk_304) {
         case 1:
-            Animation_PlayLoop(&this->skelAnime, &D_06004268);
+            Animation_PlayLoop(&this->skelAnime, &object_rd_Anim_004268);
             this->unk_304++;
             globalCtx->damagePlayer(globalCtx, -8);
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 1, 0xC);
@@ -502,8 +490,8 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(&this->unk_310, 0, 1, 0x5DC, 0);
         case 2:
             if (!(player->stateFlags2 & 0x80)) {
-                Animation_Change(&this->skelAnime, &D_060046F8, 0.5f, 0.0f, Animation_GetLastFrame(&D_060046F8),
-                                 ANIMMODE_ONCE_INTERP, 0.0f);
+                Animation_Change(&this->skelAnime, &object_rd_Anim_0046F8, 0.5f, 0.0f,
+                                 Animation_GetLastFrame(&object_rd_Anim_0046F8), ANIMMODE_ONCE_INTERP, 0.0f);
                 this->unk_304++;
                 this->unk_31B = 4;
                 return;
@@ -553,8 +541,8 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE37BC(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_06004F94, 0.0f, 0.0f, Animation_GetLastFrame(&D_06004F94), ANIMMODE_ONCE,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &object_rd_Anim_004F94, 0.0f, 0.0f,
+                     Animation_GetLastFrame(&object_rd_Anim_004F94), ANIMMODE_ONCE, 0.0f);
     this->unk_31B = 7;
     EnRd_SetupAction(this, func_80AE3834);
 }
@@ -578,7 +566,7 @@ void func_80AE3834(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE392C(EnRd* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06008040, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_rd_Anim_008040, -4.0f);
     this->unk_31B = 5;
     EnRd_SetupAction(this, func_80AE3978);
 }
@@ -594,8 +582,8 @@ void func_80AE3978(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE39D4(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_06008040, -1.0f, Animation_GetLastFrame(&D_06008040), 0.0f, ANIMMODE_ONCE,
-                     -4.0f);
+    Animation_Change(&this->skelAnime, &object_rd_Anim_008040, -1.0f, Animation_GetLastFrame(&object_rd_Anim_008040),
+                     0.0f, ANIMMODE_ONCE, -4.0f);
     this->unk_31B = 6;
     EnRd_SetupAction(this, func_80AE3A54);
 }
@@ -607,7 +595,7 @@ void func_80AE3A54(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE3A8C(EnRd* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060074F0, -6.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_rd_Anim_0074F0, -6.0f);
 
     if (this->actor.bgCheckFlags & 1) {
         this->actor.speedXZ = -2.0f;
@@ -645,7 +633,7 @@ void func_80AE3B18(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE3C20(EnRd* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06006E88, -1.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_rd_Anim_006E88, -1.0f);
     this->unk_31B = 10;
     this->unk_30C = 300;
     this->actor.flags &= ~1;

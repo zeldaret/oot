@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ba.h"
+#include "objects/object_bxa/object_bxa.h"
 
 #define FLAGS 0x00000015
 
@@ -23,9 +24,6 @@ void EnBa_SwingAtPlayer(EnBa* this, GlobalContext* globalCtx);
 void EnBa_RecoilFromDamage(EnBa* this, GlobalContext* globalCtx);
 void EnBa_Die(EnBa* this, GlobalContext* globalCtx);
 void EnBa_SetupSwingAtPlayer(EnBa* this);
-
-extern Gfx D_06000890[];
-extern Gfx D_06001D80[];
 
 const ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
@@ -507,7 +505,7 @@ void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Pop();
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ba.c", 973),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06000890);
+        gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_000890);
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->gameplayFrames * 2) % 128,
@@ -517,7 +515,7 @@ void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 125, 100, 255);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ba.c", 991),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06001D80);
+        gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_001D80);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ba.c", 995);
 }

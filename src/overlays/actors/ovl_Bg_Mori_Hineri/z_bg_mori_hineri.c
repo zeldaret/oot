@@ -6,6 +6,12 @@
 
 #include "z_bg_mori_hineri.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_box/object_box.h"
+#include "objects/object_mori_hineri1/object_mori_hineri1.h"
+#include "objects/object_mori_hineri1a/object_mori_hineri1a.h"
+#include "objects/object_mori_hineri2/object_mori_hineri2.h"
+#include "objects/object_mori_hineri2a/object_mori_hineri2a.h"
+#include "objects/object_mori_tex/object_mori_tex.h"
 
 #define FLAGS 0x00000030
 
@@ -47,13 +53,6 @@ static Gfx* sDLists[] = {
     0x060020F0,
     0x06002B70,
 };
-
-extern CollisionHeader D_060054B8;
-extern CollisionHeader D_06003490;
-extern CollisionHeader D_060043D0;
-extern CollisionHeader D_06006078;
-extern Gfx D_06000AE8[];
-extern Gfx D_06001678[];
 
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriHineri* this = THIS;
@@ -142,16 +141,16 @@ void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
             this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
             if (this->dyna.actor.params == 0) {
                 this->actionFunc = func_808A3C8C;
-                CollisionHeader_GetVirtual(&D_060054B8, &colHeader);
+                CollisionHeader_GetVirtual(&object_mori_hineri1_Col_0054B8, &colHeader);
             } else if (this->dyna.actor.params == 1) {
                 this->actionFunc = BgMoriHineri_SpawnBossKeyChest;
-                CollisionHeader_GetVirtual(&D_06003490, &colHeader);
+                CollisionHeader_GetVirtual(&object_mori_hineri1a_Col_003490, &colHeader);
             } else if (this->dyna.actor.params == 2) {
                 this->actionFunc = BgMoriHineri_DoNothing;
-                CollisionHeader_GetVirtual(&D_060043D0, &colHeader);
+                CollisionHeader_GetVirtual(&object_mori_hineri2_Col_0043D0, &colHeader);
             } else {
                 this->actionFunc = func_808A3C8C;
-                CollisionHeader_GetVirtual(&D_06006078, &colHeader);
+                CollisionHeader_GetVirtual(&object_mori_hineri2a_Col_006078, &colHeader);
             }
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         }
@@ -264,7 +263,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 689),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06000AE8);
+        gSPDisplayList(POLY_OPA_DISP++, gTreasureChestBossKeyChestFrontDL);
         Matrix_Put(&mtx);
         Matrix_Translate(167.0f, -218.0f, -453.0f, MTXMODE_APPLY);
         if (Flags_GetTreasure(globalCtx, 0xE)) {
@@ -275,7 +274,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 703),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06001678);
+        gSPDisplayList(POLY_OPA_DISP++, gTreasureChestBossKeyChestSideAndTopDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 709);
