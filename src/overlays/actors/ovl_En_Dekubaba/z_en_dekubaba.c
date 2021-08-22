@@ -244,7 +244,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
         // This and its counterpart below mean that a Deku Stick jumpslash will not trigger the Deku Stick drop route.
         // (Of course they reckoned without each age being able to use the other's items, so Stick and Master Sword
         // jumpslash can give the Stick drop as adult, and neither will as child.)
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             sBigDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE); // DMG_JUMP_MASTER
         }
 
@@ -259,7 +259,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
         }
 
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             sDekuBabaDamageTable.table[0x1B] = DMG_ENTRY(4, DEKUBABA_DMGEFF_NONE); // DMG_JUMP_MASTER
         }
 

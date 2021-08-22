@@ -181,7 +181,7 @@ void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 Ge2_DetectPlayerInAction(GlobalContext* globalCtx, EnGe2* this) {
     f32 visionScale;
 
-    visionScale = ((gSaveContext.nightFlag != 0) ? 0.75f : 1.5f);
+    visionScale = (!IS_DAY ? 0.75f : 1.5f);
 
     if ((250.0f * visionScale) < this->actor.xzDistToPlayer) {
         return 0;
@@ -203,7 +203,7 @@ s32 Ge2_DetectPlayerInUpdate(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, 
     CollisionPoly* outPoly;
     f32 visionScale;
 
-    visionScale = ((gSaveContext.nightFlag != 0) ? 0.75f : 1.5f);
+    visionScale = (!IS_DAY ? 0.75f : 1.5f);
 
     if ((250.0f * visionScale) < this->actor.xzDistToPlayer) {
         return 0;

@@ -199,7 +199,7 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
             if (spawnerState == ENCOUNT2_ACTIVE_DEATH_MOUNTAIN) {
                 this->timerBetweenRockSpawns = 4;
                 spawnedRockType = FIRE_ROCK_SPAWNED_FALLING1;
-                if ((Rand_ZeroFloat(1.99f) < 1.0f) && (LINK_IS_CHILD)) {
+                if ((Rand_ZeroFloat(1.99f) < 1.0f) && !LINK_IS_ADULT) {
                     // rock spawn pos X, Z near player
                     tempVec2X = Rand_CenteredFloat(10.0f) + player->actor.world.pos.x;
                     tempVec2Z = Rand_CenteredFloat(10.0f) + player->actor.world.pos.z;

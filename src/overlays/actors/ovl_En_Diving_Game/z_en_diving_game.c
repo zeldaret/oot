@@ -177,7 +177,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, GlobalContext* globalCt
 void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&gZoraIdleAnim);
 
-    Animation_Change(&this->skelAnime, &gZoraIdleAnim, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &gZoraIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->notPlayingMinigame = true;
     this->actionFunc = EnDivingGame_Talk;
 }
@@ -282,7 +282,7 @@ void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx) {
 void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&gZoraThrowRupeesAnim);
 
-    Animation_Change(&this->skelAnime, &gZoraThrowRupeesAnim, 1.0f, 0.0f, (s16)frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &gZoraThrowRupeesAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_ONCE, -10.0f);
     this->notPlayingMinigame = false;
     this->actionFunc = func_809EE194;
 }

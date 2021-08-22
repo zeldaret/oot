@@ -189,7 +189,7 @@ void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AFCD60(EnSkb* this) {
-    if (gSaveContext.nightFlag == 0) {
+    if (IS_DAY) {
         func_80AFCF48(this);
     } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
                (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
@@ -226,7 +226,7 @@ void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
 
 void func_80AFCF48(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildUncurlingAnim, -1.0f,
-                     Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, 2, -4.0f);
+                     Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, ANIMMODE_ONCE, -4.0f);
     this->unk_280 = 0;
     this->unk_281 = 0;
     this->actor.flags &= ~1;
@@ -248,7 +248,7 @@ void func_80AFCFF0(EnSkb* this, GlobalContext* globalCtx) {
 
 void func_80AFD0A4(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildWalkingAnim, 0.96000004f, 0.0f,
-                     Animation_GetLastFrame(&gStalchildWalkingAnim), 0, -4.0f);
+                     Animation_GetLastFrame(&gStalchildWalkingAnim), ANIMMODE_LOOP, -4.0f);
     this->unk_280 = 4;
     this->unk_288 = 0;
     this->actor.speedXZ = this->actor.scale.y * 160.0f;
@@ -286,7 +286,7 @@ void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_WALK);
         }
     }
-    if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) > 800.0f || gSaveContext.nightFlag == 0) {
+    if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) > 800.0f || IS_DAY) {
         func_80AFCF48(this);
     } else if (Actor_IsFacingPlayer(&this->actor, 0x11C7) &&
                (this->actor.xzDistToPlayer < (60.0f + (this->actor.params * 6.0f)))) {
@@ -296,7 +296,7 @@ void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
 
 void func_80AFD33C(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, 0.6f, 0.0f,
-                     Animation_GetLastFrame(&gStalchildAttackingAnim), 3, 4.0f);
+                     Animation_GetLastFrame(&gStalchildAttackingAnim), ANIMMODE_ONCE_INTERP, 4.0f);
     this->collider.base.atFlags &= ~4;
     this->unk_280 = 3;
     this->actor.speedXZ = 0.0f;
@@ -322,7 +322,8 @@ void EnSkb_SetupAttack(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFD47C(EnSkb* this) {
-    Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f, 3, 0.0f);
+    Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f,
+                     ANIMMODE_ONCE_INTERP, 0.0f);
     this->collider.base.atFlags &= ~4;
     this->unk_280 = 5;
     this->unk_281 = 0;

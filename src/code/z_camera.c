@@ -2143,7 +2143,7 @@ s32 Camera_Parallel3(Camera* camera) {
     if (val & 2) {
         camera->unk_14C |= 0x10;
     }
-    // @bug doesn't return
+    //! @bug doesn't return
 }
 
 s32 Camera_Parallel4(Camera* camera) {
@@ -6106,7 +6106,7 @@ s32 Camera_Demo7(Camera* camera) {
         camera->unk_14C |= 0x1000;
         camera->animState++;
     }
-    // @bug doesn't return
+    //! @bug doesn't return
 }
 
 s32 Camera_Demo8(Camera* camera) {
@@ -7153,7 +7153,7 @@ s32 Camera_CheckWater(Camera* camera) {
         }
         func_800F6828(0);
     }
-    // @BUG: doesn't always return a value, but sometimes does.
+    //! @bug: doesn't always return a value, but sometimes does.
 }
 
 /**
@@ -7723,7 +7723,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
             return -2;
         }
     }
-    if (((setting == CAM_SET_SPOT05A) || (setting == CAM_SET_SPOT05B)) && (LINK_IS_ADULT) &&
+    if (((setting == CAM_SET_SPOT05A) || (setting == CAM_SET_SPOT05B)) && LINK_IS_ADULT &&
         (camera->globalCtx->sceneNum == SCENE_SPOT05)) {
         camera->unk_14A |= 0x10;
         return -5;
@@ -7799,7 +7799,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
             camera->unk_14A |= 4;
             Camera_CopyModeValuesToPREG(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
-            // @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
+            //! @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
             // camDataIdx would make more sense.
             osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, camDataIdx,
                          camera->thisIdx, 0x32, newCameraSetting);

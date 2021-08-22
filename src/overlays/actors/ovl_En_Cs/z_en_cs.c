@@ -119,7 +119,7 @@ void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnCs* this = THIS;
     s32 pad;
 
-    if (gSaveContext.nightFlag != 0) {
+    if (!IS_DAY) {
         Actor_Kill(&this->actor);
         return;
     }

@@ -156,7 +156,7 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
         func_80AAEF70(this, globalCtx);
         this->actionFunc = func_80AAF57C;
     }
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         Actor_Kill(&this->actor);
     }
     if (this->actor.params == 1) {

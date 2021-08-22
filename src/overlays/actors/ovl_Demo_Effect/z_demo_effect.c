@@ -111,7 +111,7 @@ static s16 sEffectTypeObjects[] = {
 
 static u8 sTimewarpVertexSizeIndices[] = { 1, 1, 2, 0, 1, 1, 2, 0, 1, 2, 0, 2, 1, 0, 1, 0, 2, 0, 2, 2, 0 };
 
-Color_RGB8 sJewelSparkleColors[5][2] = {
+static Color_RGB8 sJewelSparkleColors[5][2] = {
     { { 255, 255, 255 }, { 100, 255, 0 } }, { { 255, 255, 255 }, { 200, 0, 150 } },
     { { 255, 255, 255 }, { 0, 100, 255 } }, { { 0, 0, 0 }, { 0, 0, 0 } },
     { { 223, 0, 0 }, { 0, 0, 0 } },
@@ -141,7 +141,7 @@ f32 DemoEffect_InterpolateCsFrames(GlobalContext* globalCtx, s32 csActionId) {
  */
 void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this) {
     this->initDrawFunc = DemoEffect_DrawJewel;
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         this->initUpdateFunc = DemoEffect_UpdateJewelChild;
     } else {
         this->initUpdateFunc = DemoEffect_UpdateJewelAdult;
@@ -175,8 +175,8 @@ void DemoEffect_InitGetItem(DemoEffect* this) {
 /**
  * Main Actor Init function
  */
-void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     DemoEffect* this = THIS;
     s32 effectType;
     s32 lightEffect;
@@ -413,7 +413,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             lightRing = (DemoEffect*)Actor_SpawnAsChild(
-                &globalCtx2->actorCtx, &crystalLight->actor, globalCtx2, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                &globalCtx->actorCtx, &crystalLight->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
                 this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_LIGHTRING_TRIFORCE);
 
             if (lightRing != NULL) {
@@ -1664,9 +1664,9 @@ s32 DemoEffect_CheckCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csA
 /**
  * Draw function for the Jewel Actor.
  */
-void DemoEffect_DrawJewel(Actor* thisx, GlobalContext* globalCtx) {
+void DemoEffect_DrawJewel(Actor* thisx, GlobalContext* globalCtx2) {
     DemoEffect* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     u32 frames = this->jewel.timer;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2543);
@@ -1678,21 +1678,21 @@ void DemoEffect_DrawJewel(Actor* thisx, GlobalContext* globalCtx) {
             switch (this->jewel.type) {
                 case DEMO_EFFECT_JEWEL_KOKIRI:
                     gSPSegment(POLY_XLU_DISP++, 9,
-                               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (frames * 4) % 256,
+                               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (frames * 4) % 256,
                                                 (256 - ((frames * 2) % 256)) - 1, 64, 64, 1, (frames * 2) % 256,
                                                 (256 - (frames % 256)) - 1, 16, 16));
                     break;
 
                 case DEMO_EFFECT_JEWEL_GORON:
                     gSPSegment(POLY_XLU_DISP++, 9,
-                               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (frames * 4) % 128,
+                               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (frames * 4) % 128,
                                                 (256 - ((frames * 2) % 256)) - 1, 32, 64, 1, (frames * 2) % 256,
                                                 (256 - (frames % 256)) - 1, 16, 8));
                     break;
 
                 case DEMO_EFFECT_JEWEL_ZORA:
                     gSPSegment(POLY_XLU_DISP++, 9,
-                               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (frames * 4) % 256,
+                               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (frames * 4) % 256,
                                                 (256 - ((frames * 2) % 256)) - 1, 32, 32, 1, (frames * 2) % 256,
                                                 (256 - (frames % 256)) - 1, 16, 16));
                     break;
@@ -1938,24 +1938,24 @@ void DemoEffect_DrawLgtShower(Actor* thisx, GlobalContext* globalCtx) {
 /**
  * Draw function for the Light Ring Actor.
  */
-void DemoEffect_DrawLightRing(Actor* thisx, GlobalContext* globalCtx) {
+void DemoEffect_DrawLightRing(Actor* thisx, GlobalContext* globalCtx2) {
     DemoEffect* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     u32 frames = this->lightRing.timer;
 
-    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 2956);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2956);
 
-    func_80093D84(globalCtx2->state.gfxCtx);
+    func_80093D84(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 170, 255, 255, this->lightRing.alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 255);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 2963),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2963),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (frames * 5) % 64, 512 - ((frames * 2) % 512) - 1, 16, 128,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (frames * 5) % 64, 512 - ((frames * 2) % 512) - 1, 16, 128,
                                 1, 0, 0, 8, 1024));
     gSPDisplayList(POLY_XLU_DISP++, gGoldenGoddessLightRingDL);
 
-    CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 2978);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2978);
 }
 
 /**

@@ -86,7 +86,7 @@ void EnBa_SetupAction(EnBa* this, EnBaActionFunc actionFunc) {
 static Vec3f D_809B80E4 = { 0.01f, 0.01f, 0.01f };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 21, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x15, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),

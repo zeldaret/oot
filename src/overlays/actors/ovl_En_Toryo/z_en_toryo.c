@@ -112,12 +112,12 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case SCENE_SPOT01:
-            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && (gSaveContext.nightFlag == 0)) {
+            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && IS_DAY) {
                 this->stateFlags |= 2;
             }
             break;
         case SCENE_KAKARIKO:
-            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && (gSaveContext.nightFlag == 1)) {
+            if ((LINK_AGE_IN_YEARS == YEARS_CHILD) && IS_NIGHT) {
                 this->stateFlags |= 4;
             }
             break;
