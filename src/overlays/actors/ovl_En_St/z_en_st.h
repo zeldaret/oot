@@ -14,7 +14,7 @@ typedef struct EnSt {
     /* 0x0190 */ EnStActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder colCylinder[6];
     /* 0x035C */ ColliderJntSph colSph;
-    /* 0x037C */ ColliderJntSphItem colSphItems[1];
+    /* 0x037C */ ColliderJntSphElement colSphItems[1];
     /* 0x03BC */ s16 initalYaw;
     /* 0x03BE */ s16 deathYawTarget;
     /* 0x03C0 */ s16 groundBounces;
@@ -41,10 +41,10 @@ typedef struct EnSt {
     /* 0x03FC */ char unk_3FC[0x8];
     /* 0x0404 */ s32 blureIdx;
     /* 0x0408 */ f32 colliderScale;
-    /* 0x040C */ f32 groundYOffset;
+    /* 0x040C */ f32 floorHeightOffset;
     /* 0x0410 */ s16 swayAngle;
-    /* 0x0412 */ Vec3s limbDrawTable[30];
-    /* 0x04C6 */ Vec3s transitionDrawTable[30];
+    /* 0x0412 */ Vec3s jointTable[30];
+    /* 0x04C6 */ Vec3s morphTable[30];
 } EnSt; // size = 0x057C
 
 extern const ActorInit En_St_InitVars;

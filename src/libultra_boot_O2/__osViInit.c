@@ -4,7 +4,7 @@ OSViContext vi[2] = { 0 };
 OSViContext* __osViCurr = &vi[0];
 OSViContext* __osViNext = &vi[1];
 
-void __osViInit() {
+void __osViInit(void) {
     bzero(vi, sizeof(vi));
     __osViCurr = &vi[0];
     __osViNext = &vi[1];
@@ -14,9 +14,9 @@ void __osViInit() {
     __osViNext->buffer = (void*)0x80000000;
     __osViCurr->buffer = (void*)0x80000000;
 
-    if (osTvType == 0) {
+    if (osTvType == OS_TV_PAL) {
         __osViNext->modep = &osViModePalLan1;
-    } else if (osTvType == 2) {
+    } else if (osTvType == OS_TV_MPAL) {
         __osViNext->modep = &osViModeMpalLan1;
     } else {
         __osViNext->modep = &osViModeNtscLan1;

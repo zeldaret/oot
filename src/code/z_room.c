@@ -81,13 +81,13 @@ typedef struct struct_80095D04 {
 
 // Room Draw Polygon Type 2
 #ifdef NON_MATCHING
-// this function still needs some work but it should be functionally equivalent
+// Saved register problems and ordering issues, but definitely equivalent.
 void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     PolygonType2* polygon2;
     PolygonDlist2* polygonDlist;
     struct_80095D04 spB8[SHAPE_SORT_MAX];
-    struct_80095D04* spB4;
-    struct_80095D04* spB0;
+    struct_80095D04* spB4 = NULL;
+    struct_80095D04* spB0 = NULL;
     struct_80095D04* phi_v0;
     struct_80095D04* phi_a0;
     struct_80095D04* spA4;
@@ -98,21 +98,18 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     f32 sp80;
     PolygonDlist2* phi_s0;
     PolygonDlist2* sp78;
-    f32 temp_f0;
+    PolygonDlist2* temp;
     f32 temp_f2;
 
-    spB0 = NULL;
-    spB4 = NULL;
-
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 287);
-
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
         func_80093C80(globalCtx);
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
-
+    if (1) {}
+    if (1) {}
     if (flags & 2) {
         func_8003435C(&D_801270A0, globalCtx);
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
@@ -120,31 +117,27 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
-    spA4 = &spB8[0];
-    polygonDlist = SEGMENTED_TO_VIRTUAL(room->mesh->polygon2.start);
     polygon2 = &room->mesh->polygon2;
-    if (polygon2->num > SHAPE_SORT_MAX) {
-        __assert("polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
-    }
+    polygonDlist = SEGMENTED_TO_VIRTUAL(polygon2->start);
+    spA4 = spB8;
 
+    ASSERT(polygon2->num <= SHAPE_SORT_MAX, "polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
     sp78 = polygonDlist;
-    for (sp9C = 0; sp9C < polygon2->num; sp9C++) {
+
+    for (sp9C = 0; sp9C < polygon2->num; sp9C++, polygonDlist++) {
         sp90.x = polygonDlist->pos.x;
         sp90.y = polygonDlist->pos.y;
         sp90.z = polygonDlist->pos.z;
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp90, &sp84, &sp80);
-        temp_f0 = polygonDlist->unk_06;
-        if (-temp_f0 < sp84.z) {
-            temp_f2 = sp84.z - temp_f0;
+        if (-(f32)polygonDlist->unk_06 < sp84.z) {
+            temp_f2 = sp84.z - polygonDlist->unk_06;
             if (temp_f2 < globalCtx->lightCtx.fogFar) {
+                phi_v0 = spB4;
                 spA4->unk_00 = polygonDlist;
                 spA4->unk_04 = temp_f2;
-                phi_v0 = spB4;
-                if (spB4 == 0) {
-                    spB0 = spA4;
-                    spB4 = spA4;
-                    spA4->unk_0C = NULL;
-                    spA4->unk_08 = NULL;
+                if (phi_v0 == NULL) {
+                    spB4 = spB0 = spA4;
+                    spA4->unk_08 = spA4->unk_0C = NULL;
                 } else {
                     do {
                         if (spA4->unk_04 < phi_v0->unk_04) {
@@ -159,59 +152,65 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
                         spB0->unk_0C = spA4;
                         spB0 = spA4;
                     } else {
-                        phi_a0 = phi_v0->unk_08;
-                        spA4->unk_08 = phi_a0;
-                        if (phi_a0 == NULL) {
+                        spA4->unk_08 = phi_v0->unk_08;
+                        if (spA4->unk_08 == NULL) {
                             spB4 = spA4;
                         } else {
-                            phi_a0->unk_0C = spA4;
+                            spA4->unk_08->unk_0C = spA4;
                         }
                         phi_v0->unk_08 = spA4;
-                        spA4->unk_0C = (void*)phi_v0;
+                        spA4->unk_0C = phi_v0;
                     }
                 }
-                spA4 = spA4++;
+                spA4++;
             }
         }
-        polygonDlist++;
     }
 
     iREG(87) = polygon2->num;
 
-    sp9C = 1;
-    while (spB4 != NULL) {
+    for (sp9C = 1; spB4 != NULL; spB4 = spB4->unk_0C, sp9C++) {
+        Gfx* temp2;
+
         phi_s0 = spB4->unk_00;
         if (iREG(86) != 0) {
-            phi_v1 = 0;
-            while (phi_v1 < polygon2->num) {
-                if (phi_s0 == sp78) {
-                    break;
+            temp = sp78;
+            for (phi_v1 = 0; phi_v1 < polygon2->num; phi_v1++, temp++) {
+                if (phi_s0 == temp) {
+                    break; // This loop does nothing?
                 }
-                phi_v1++;
-                sp78++;
             }
 
-            if (((iREG(86) == 1) && (iREG(89) > sp9C)) || ((iREG(86) == 2) && (iREG(89) == sp9C))) {
-                if ((flags & 1) && (phi_s0->opa != NULL)) {
-                    gSPDisplayList(POLY_OPA_DISP++, phi_s0->opa);
+            if (((iREG(86) == 1) && (iREG(89) >= sp9C)) || ((iREG(86) == 2) && (iREG(89) == sp9C))) {
+                if (flags & 1) {
+                    temp2 = phi_s0->opa;
+                    if (temp2 != NULL) {
+                        gSPDisplayList(POLY_OPA_DISP++, temp2);
+                    }
                 }
 
-                if ((flags & 2) && (phi_s0->xlu != NULL)) {
-                    gSPDisplayList(POLY_XLU_DISP++, phi_s0->xlu);
+                if (flags & 2) {
+                    temp2 = phi_s0->xlu;
+                    if (temp2 != NULL) {
+                        gSPDisplayList(POLY_XLU_DISP++, temp2);
+                    }
                 }
             }
         } else {
-            if ((flags & 1) && (phi_s0->opa != NULL)) {
-                gSPDisplayList(POLY_OPA_DISP++, phi_s0->opa);
+            if (flags & 1) {
+                temp2 = phi_s0->opa;
+                if (temp2 != NULL) {
+                    gSPDisplayList(POLY_OPA_DISP++, temp2);
+                }
             }
 
-            if ((flags & 2) && (phi_s0->xlu != NULL)) {
-                gSPDisplayList(POLY_XLU_DISP++, phi_s0->xlu);
+            if (flags & 2) {
+                temp2 = phi_s0->xlu;
+                if (temp2 != NULL) {
+                    gSPDisplayList(POLY_XLU_DISP++, temp2);
+                }
             }
         }
-
-        spB4 = spB4->unk_0C;
-        sp9C++;
     }
 
     iREG(88) = sp9C - 1;
@@ -256,19 +255,17 @@ s32 func_80096238(void* data) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// pointer arithmetic doesn't quite match
 void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
                    u16 tlutCount, f32 frameX, f32 frameY) {
     Gfx* displayListHead;
     uObjBg* bg;
+    s32 temp;
 
     displayListHead = *displayList;
     func_80096238(SEGMENTED_TO_VIRTUAL(source));
 
-    displayListHead++;
-    gSPBranchList(displayListHead, (u8*)displayListHead + sizeof(uObjBg));
-    bg = (void*)displayListHead;
+    bg = (uObjBg*)(displayListHead + 1);
+    gSPBranchList(displayListHead, (u8*)bg + sizeof(uObjBg));
     bg->b.imageX = 0;
     bg->b.imageW = width * 4;
     bg->b.frameX = frameX * 4;
@@ -282,11 +279,10 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     bg->b.imagePal = 0;
     bg->b.imageFlip = 0;
 
+    displayListHead = (void*)(bg + 1);
     if (fmt == G_IM_FMT_CI) {
-        displayListHead = (void*)(bg + 1);
         gDPLoadTLUT(displayListHead++, tlutCount, 256, tlut);
     } else {
-        displayListHead = (void*)(bg + 1);
         gDPPipeSync(displayListHead++);
     }
 
@@ -297,13 +293,17 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
         gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
         gSPBgRectCopy(displayListHead++, bg);
+
     } else {
         bg->s.frameW = width * 4;
         bg->s.frameH = height * 4;
         bg->s.scaleW = 1024;
         bg->s.scaleH = 1024;
         bg->s.imageYorig = bg->b.imageY;
-        gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+        if (1) {}
+        gDPSetOtherMode(displayListHead++,
+                        mode0 | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE |
+                            G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL |
                             GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA));
@@ -315,11 +315,6 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     gDPPipeSync(displayListHead++);
     *displayList = displayListHead;
 }
-#else
-void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
-                   u16 tlutCount, f32 frameX, f32 frameY);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_8009638C.s")
-#endif
 
 // Room Draw Polygon Type 1 - Single Format
 void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
@@ -335,7 +330,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
 
     camera = ACTIVE_CAM;
-    sp9C = (camera->setting == 25);
+    sp9C = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     sp98 = (flags & 1) && sp9C && polygon1->single.source && !(SREG(25) & 1);
@@ -392,7 +387,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     camera = ACTIVE_CAM;
     camId = camera->camDataIdx;
     // jfifid
-    camId2 = func_80041C10(&globalCtx->colCtx, camId, 50)[2].y;
+    camId2 = func_80041C10(&globalCtx->colCtx, camId, BGCHECK_SCENE)[2].y;
     if (camId2 >= 0) {
         camId = camId2;
     }
@@ -430,7 +425,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = ACTIVE_CAM;
-    sp98 = (camera->setting == 25);
+    sp98 = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);
@@ -495,7 +490,7 @@ void func_80096FD4(GlobalContext* globalCtx, Room* room) {
 }
 
 #ifdef NON_MATCHING
-// regalloc differences
+// regalloc differences near the end
 u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     u8 nextRoomNum;
     u32 maxRoomSize = 0;
@@ -503,7 +498,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     u32 roomSize;
     s32 i;
 
-    for (i = 0; i < globalCtx->nbRooms; i++) {
+    for (i = 0; i < globalCtx->numRooms; i++) {
         roomSize = roomList[i].vromEnd - roomList[i].vromStart;
         osSyncPrintf("ROOM%d size=%d\n", i, roomSize);
         if (maxRoomSize < roomSize) {
@@ -511,14 +506,14 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
         }
     }
 
-    if (globalCtx->nbTransitionActors != 0) {
-        s32 j = 0;
+    if (globalCtx->transiActorCtx.numActors != 0) {
+        s32 j;
         RomFile* roomList = globalCtx->roomList;
-        TransitionActorEntry* transitionActor = &globalCtx->transitionActorList[0];
+        TransitionActorEntry* transitionActor = &globalCtx->transiActorCtx.list[0];
 
-        LOG_NUM("game_play->room_rom_address.num", globalCtx->nbRooms, "../z_room.c", 912);
+        LOG_NUM("game_play->room_rom_address.num", globalCtx->numRooms, "../z_room.c", 912);
 
-        for (j = 0; j < globalCtx->nbTransitionActors; j++) {
+        for (j = 0; j < globalCtx->transiActorCtx.numActors; j++) {
             s8 frontRoom = transitionActor->sides[0].room;
             s8 backRoom = transitionActor->sides[1].room;
             u32 frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
@@ -536,7 +531,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
 
     osSyncPrintf(VT_FGCOL(YELLOW));
     // Translates to: "ROOM BUFFER SIZE=%08x(%5.1fK)"
-    osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize * 0.0009765625f);
+    osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
     roomCtx->bufPtrs[0] = GameState_Alloc(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
     // Translates to: "ROOM BUFFER INITIAL POINTER=%08x"
     osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
@@ -547,11 +542,8 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 
-    if (gSaveContext.respawnFlag > 0) {
-        nextRoomNum = gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex;
-    } else {
-        nextRoomNum = globalCtx->setupEntranceList[globalCtx->curSpawn].room;
-    }
+    nextRoomNum = (gSaveContext.respawnFlag - 1 >= 0) ? gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex
+                                                      : globalCtx->setupEntranceList[globalCtx->curSpawn].room;
     func_8009728C(globalCtx, roomCtx, nextRoomNum);
 
     return maxRoomSize;
@@ -571,9 +563,7 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
         roomCtx->curRoom.segment = NULL;
         roomCtx->status = 1;
 
-        if (roomNum >= globalCtx->nbRooms) {
-            __assert("read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
-        }
+        ASSERT(roomNum < globalCtx->numRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
         size = globalCtx->roomList[roomNum].vromEnd - globalCtx->roomList[roomNum].vromStart;
         roomCtx->unk_34 = (void*)ALIGN16((s32)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
@@ -614,9 +604,8 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
 void Room_Draw(GlobalContext* globalCtx, Room* room, u32 flags) {
     if (room->segment != NULL) {
         gSegments[3] = VIRTUAL_TO_PHYSICAL(room->segment);
-        if (room->mesh->polygon.type >= ARRAY_COUNTU(sRoomDrawHandlers)) {
-            __assert("this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
-        }
+        ASSERT(room->mesh->polygon.type < ARRAY_COUNTU(sRoomDrawHandlers),
+               "this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
         sRoomDrawHandlers[room->mesh->polygon.type](globalCtx, room, flags);
     }
 }

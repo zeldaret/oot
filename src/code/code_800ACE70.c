@@ -65,9 +65,7 @@ void func_800ACE90(struct_801664F0* this) {
 
 // Draw
 void func_800ACE98(struct_801664F0* this, Gfx** gfxp) {
-    Gfx* gfx;
-
-    gfx = *gfxp;
+    Gfx* gfx = *gfxp;
 
     gDPPipeSync(gfx++);
     gDPSetPrimDepth(gfx++, -1, -1);

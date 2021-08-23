@@ -1,18 +1,11 @@
 #include "global.h"
 #include "vt.h"
 
-typedef struct {
-    /* 0x0000 */ OSViMode viMode;
-    /* 0x0050 */ char unk_50[0x30];
-    /* 0x0080 */ u32 viFeatures;
-    /* 0x0084 */ char unk_84[4];
-} unk_80166528;
-
 SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;
 struct_80166500 D_80166500;
 VisMono sMonoColors;
-unk_80166528 D_80166528;
+ViMode sViMode;
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
 
@@ -32,6 +25,7 @@ void GameState_FaultPrint(void) {
 void GameState_SetFBFilter(Gfx** gfx) {
     Gfx* gfxP;
     gfxP = *gfx;
+
     if ((R_FB_FILTER_TYPE > 0) && (R_FB_FILTER_TYPE < 5)) {
         D_801664F0.type = R_FB_FILTER_TYPE;
         D_801664F0.color.r = R_FB_FILTER_PRIM_COLOR(0);
@@ -75,7 +69,7 @@ void func_800C4344(GameState* gameState) {
     }
 
     if (HREG(80) == 0xC) {
-        selectedInput = &gameState->input[HREG(81) < 4U ? HREG(81) : 0];
+        selectedInput = &gameState->input[(u32)HREG(81) < 4U ? HREG(81) : 0];
         hReg82 = HREG(82);
         HREG(83) = selectedInput->cur.button;
         HREG(84) = selectedInput->press.button;
@@ -234,8 +228,10 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }
 
+void PadMgr_RequestPadData(PadMgr*, Input*, s32);
+
 void GameState_ReqPadData(GameState* gameState) {
-    PadMgr_RequestPadData(&gPadMgr, &gameState->input, 1);
+    PadMgr_RequestPadData(&gPadMgr, &gameState->input[0], 1);
 }
 
 void GameState_Update(GameState* gameState) {
@@ -255,9 +251,9 @@ void GameState_Update(GameState* gameState) {
             gfxCtx->xScale = gViConfigXScale;
             gfxCtx->yScale = gViConfigYScale;
         } else if (SREG(48) > 0) {
-            func_800ACAF8(&D_80166528, gameState->input, gfxCtx);
-            gfxCtx->viMode = &D_80166528.viMode;
-            gfxCtx->viFeatures = D_80166528.viFeatures;
+            ViMode_Update(&sViMode, gameState->input);
+            gfxCtx->viMode = &sViMode.customViMode;
+            gfxCtx->viFeatures = sViMode.viFeatures;
             gfxCtx->xScale = 1.0f;
             gfxCtx->yScale = 1.0f;
         }
@@ -266,22 +262,22 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->viFeatures = gViConfigFeatures;
         gfxCtx->xScale = gViConfigXScale;
         gfxCtx->yScale = gViConfigYScale;
-        if (SREG(63) == 6 || (SREG(63) == 2u && osTvType == 1)) {
+        if (SREG(63) == 6 || (SREG(63) == 2u && osTvType == OS_TV_NTSC)) {
             gfxCtx->viMode = &osViModeNtscLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 5 || (SREG(63) == 2u && osTvType == 2)) {
+        if (SREG(63) == 5 || (SREG(63) == 2u && osTvType == OS_TV_MPAL)) {
             gfxCtx->viMode = &osViModeMpalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 4 || (SREG(63) == 2u && osTvType == 0)) {
+        if (SREG(63) == 4 || (SREG(63) == 2u && osTvType == OS_TV_PAL)) {
             gfxCtx->viMode = &osViModePalLan1;
             gfxCtx->yScale = 1.0f;
         }
 
-        if (SREG(63) == 3 || (SREG(63) == 2u && osTvType == 0)) {
+        if (SREG(63) == 3 || (SREG(63) == 2u && osTvType == OS_TV_PAL)) {
             gfxCtx->viMode = &osViModeFpalLan1;
             gfxCtx->yScale = 0.833f;
         }
@@ -346,9 +342,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
     u32 systemMaxFree;
     u32 systemFree;
     u32 systemAlloc;
-    void* thaBufp;
+    void* thaBufp = gameState->tha.bufp;
 
-    thaBufp = gameState->tha.bufp;
     THA_Dt(&gameState->tha);
     GameAlloc_Free(alloc, thaBufp);
     // Hyrule temporarily released !!
@@ -382,8 +377,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 }
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
-    u64 startTime;
-    u64 endTime;
+    OSTime startTime;
+    OSTime endTime;
 
     // game constructor start
     osSyncPrintf("game コンストラクタ開始\n");
@@ -421,7 +416,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     func_800AD920(&D_80166500);
     VisMono_Init(&sMonoColors);
     if (SREG(48) == 0) {
-        func_800ACA28(&D_80166528);
+        ViMode_Init(&sViMode);
     }
     SpeedMeter_Init(&D_801664D0);
     func_800AA0B4();
@@ -453,7 +448,7 @@ void GameState_Destroy(GameState* gameState) {
     func_800AD950(&D_80166500);
     VisMono_Destroy(&sMonoColors);
     if (SREG(48) == 0) {
-        func_800ACA90(&D_80166528);
+        ViMode_Destroy(&sViMode);
     }
     THA_Dt(&gameState->tha);
     GameAlloc_Cleanup(&gameState->alloc);
@@ -482,7 +477,7 @@ void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
     if (THA_IsCrash(&gameState->tha)) {
         osSyncPrintf("ハイラルは滅亡している\n");
         ret = NULL;
-    } else if (THA_GetSize(&gameState->tha) < size) {
+    } else if ((u32)THA_GetSize(&gameState->tha) < size) {
         // Hyral on the verge of extinction does not have% d bytes left (% d bytes until extinction)
         osSyncPrintf("滅亡寸前のハイラルには %d バイトの余力もない（滅亡まであと %d バイト）\n", size,
                      THA_GetSize(&gameState->tha));

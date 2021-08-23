@@ -1,0 +1,8 @@
+<Root>
+    <File Name="spot08_scene" Segment="2">
+        <Scene Name="spot08_scene" Offset="0x0"/>
+    </File>
+    <File Name="spot08_room_0" Segment="3">
+        <Room Name="spot08_room_0" Offset="0x0"/>
+    </File>
+</Root>

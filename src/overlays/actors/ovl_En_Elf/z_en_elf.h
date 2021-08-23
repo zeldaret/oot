@@ -13,8 +13,8 @@ typedef void (*EnElfUnkFunc)(struct EnElf*, GlobalContext*);
 typedef struct EnElf {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[15];
-    /* 0x01EA */ Vec3s transitionDrawTable[15];
+    /* 0x0190 */ Vec3s jointTable[15];
+    /* 0x01EA */ Vec3s morphTable[15];
     /* 0x0244 */ Color_RGBAf innerColor;
     /* 0x0254 */ Color_RGBAf outerColor;
     /* 0x0264 */ LightInfo lightInfoGlow;

@@ -24,10 +24,10 @@ f32 Path_OrientAndGetDistSq(Actor* actor, Path* path, s16 waypoint, s16* yaw) {
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos = &pointPos[waypoint];
 
-    dx = pointPos->x - actor->posRot.pos.x;
-    dz = pointPos->z - actor->posRot.pos.z;
+    dx = pointPos->x - actor->world.pos.x;
+    dz = pointPos->z - actor->world.pos.z;
 
-    *yaw = Math_atan2f(dx, dz) * (32768 / M_PI);
+    *yaw = Math_FAtan2F(dx, dz) * (32768 / M_PI);
 
     return SQ(dx) + SQ(dz);
 }

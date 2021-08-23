@@ -26,7 +26,7 @@ typedef struct EnHorseNormal {
     /* 0x0224 */ char unk_224[0x04];
     /* 0x0228 */ ColliderCylinder bodyCollider;
     /* 0x0274 */ ColliderJntSph headCollider;
-    /* 0x0294 */ ColliderJntSphItem headColliderItems[1];
+    /* 0x0294 */ ColliderJntSphElement headElements[1];
     /* 0x02D4 */ ColliderCylinder cloneCollider;
     /* 0x0320 */ char unk_320[0x04];
     /* 0x0324 */ s32 waypoint;

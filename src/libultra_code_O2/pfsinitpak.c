@@ -26,11 +26,9 @@ s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
     if ((ret = __osPfsCheckRamArea(pfs)) != 0) {
         return ret;
     }
-
     if ((ret = __osPfsSelectBank(pfs, 0)) != 0) {
         return ret;
     }
-
     if ((ret = __osContRamRead(pfs->queue, pfs->channel, PFS_ID_0AREA, temp)) != 0) {
         return (ret);
     }
@@ -60,7 +58,7 @@ s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
 
     bcopy(id, pfs->id, BLOCKSIZE);
 
-    if (0) {}
+    if (1) {}
 
     pfs->version = id->version;
     pfs->banks = id->banks;
@@ -90,9 +88,8 @@ s32 __osPfsCheckRamArea(OSPfs* pfs) {
     if ((ret = __osPfsSelectBank(pfs, PFS_ID_BANK_256K)) != 0) {
         return ret;
     }
-
     if ((ret = __osContRamRead(pfs->queue, pfs->channel, 0, saveReg)) != 0) {
-        return (ret);
+        return ret;
     }
     for (i = 0; i < BLOCKSIZE; i++) {
         temp1[i] = i;
@@ -106,7 +103,5 @@ s32 __osPfsCheckRamArea(OSPfs* pfs) {
     if (bcmp(temp1, temp2, BLOCKSIZE) != 0) {
         return PFS_ERR_DEVICE;
     }
-    ret = __osContRamWrite(pfs->queue, pfs->channel, 0, saveReg, 0);
-
-    return ret;
+    return __osContRamWrite(pfs->queue, pfs->channel, 0, saveReg, 0);
 }

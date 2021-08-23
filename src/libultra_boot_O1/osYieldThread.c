@@ -1,9 +1,8 @@
 #include "global.h"
 
-void osYieldThread() {
-    register u32 prevInt;
+void osYieldThread(void) {
+    register u32 prevInt = __osDisableInt();
 
-    prevInt = __osDisableInt();
     __osRunningThread->state = OS_STATE_RUNNABLE;
     __osEnqueueAndYield(&__osRunQueue);
     __osRestoreInt(prevInt);

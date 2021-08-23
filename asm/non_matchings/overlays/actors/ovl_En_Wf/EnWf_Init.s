@@ -12,11 +12,11 @@ glabel EnWf_Init
 /* 0002C 80B33CDC 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00030 80B33CE0 3C0E80B3 */  lui     $t6, %hi(D_80B37A88)       ## $t6 = 80B30000
 /* 00034 80B33CE4 25CE7A88 */  addiu   $t6, $t6, %lo(D_80B37A88)  ## $t6 = 80B37A88
-/* 00038 80B33CE8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00038 80B33CE8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
 /* 0003C 80B33CEC 44050000 */  mfc1    $a1, $f0
 /* 00040 80B33CF0 44070000 */  mfc1    $a3, $f0
 /* 00044 80B33CF4 AE0E0098 */  sw      $t6, 0x0098($s0)           ## 00000098
-/* 00048 80B33CF8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00048 80B33CF8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0004C 80B33CFC 0C00AC78 */  jal     ActorShape_Init
 
 /* 00050 80B33D00 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4

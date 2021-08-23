@@ -2,8 +2,12 @@
 
 void guLookAtF(f32 mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp) {
     f32 length;
-    f32 xLook, yLook, zLook;
-    f32 xRight, yRight, zRight;
+    f32 xLook;
+    f32 yLook;
+    f32 zLook;
+    f32 xRight;
+    f32 yRight;
+    f32 zRight;
 
     guMtxIdentF(mf);
 
@@ -57,5 +61,5 @@ void guLookAt(Mtx* m, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f
 
     guLookAtF(mf, xEye, yEye, zEye, xAt, yAt, zAt, xUp, yUp, zUp);
 
-    guMtxF2L(mf, m);
+    guMtxF2L((MtxF*)mf, m);
 }

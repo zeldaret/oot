@@ -20,7 +20,7 @@ typedef struct EnHorseZelda {
     /* 0x01F8 */ char unk_1F8[0x4];
     /* 0x01FC */ ColliderCylinder colliderCylinder;
     /* 0x0248 */ ColliderJntSph colliderSphere;
-    /* 0x0268 */ ColliderJntSphItem colliderSphereItem;
+    /* 0x0268 */ ColliderJntSphElement colliderSphereItem;
 } EnHorseZelda; // size = 0x02A8
 
 extern const ActorInit En_Horse_Zelda_InitVars;

@@ -38,7 +38,7 @@ glabel func_808D69B0
 /* 001CC 808D6A3C C7A40030 */  lwc1    $f4, 0x0030($sp)           
 /* 001D0 808D6A40 46062203 */  div.s   $f8, $f4, $f6              
 /* 001D4 808D6A44 E4680034 */  swc1    $f8, 0x0034($v1)           ## 00010034
-/* 001D8 808D6A48 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 001D8 808D6A48 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 001DC 808D6A4C AFA30018 */  sw      $v1, 0x0018($sp)           
 /* 001E0 808D6A50 4600028D */  trunc.w.s $f10, $f0                  
@@ -50,7 +50,7 @@ glabel func_808D69B0
 /* 001F8 808D6A68 25F800C8 */  addiu   $t8, $t7, 0x00C8           ## $t8 = 000000C8
 /* 001FC 808D6A6C A478002E */  sh      $t8, 0x002E($v1)           ## 0000002E
 /* 00200 808D6A70 87B90036 */  lh      $t9, 0x0036($sp)           
-/* 00204 808D6A74 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00204 808D6A74 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00208 808D6A78 A4790030 */  sh      $t9, 0x0030($v1)           ## 00000030
 /* 0020C 808D6A7C 4600040D */  trunc.w.s $f16, $f0                  

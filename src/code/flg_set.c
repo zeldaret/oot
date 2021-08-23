@@ -58,7 +58,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
         GfxPrint_SetPos(&printer, 4, 15);
 
         for (bitIdx = 15; bitIdx >= 0; bitIdx--) {
-            if (bitIdx == curBit) {
+            if ((u32)bitIdx == curBit) {
                 GfxPrint_SetColor(&printer, 200, 200, 200, 255);
             } else {
                 GfxPrint_SetColor(&printer, 100, 100, 100, 255);
@@ -145,7 +145,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_L)) {
-        globalCtx->pauseCtx.flag = 0;
+        globalCtx->pauseCtx.debugState = 0;
     }
 
     CLOSE_DISPS(gfxCtx, "../flg_set.c", 241);

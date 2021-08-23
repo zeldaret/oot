@@ -20,8 +20,8 @@ typedef struct EnPoSisters {
     /* 0x0199 */ u8 unk_199;
     /* 0x019A */ s16 unk_19A;
     /* 0x019A */ s16 unk_19C;
-    /* 0x019E */ Vec3s limbDrawTable[12];
-    /* 0x01E6 */ Vec3s transitionDrawTable[12];
+    /* 0x019E */ Vec3s jointTable[12];
+    /* 0x01E6 */ Vec3s morphTable[12];
     /* 0x022E */ Color_RGBA8 unk_22E;
     /* 0x0234 */ Vec3f unk_234[8];
     /* 0x0294 */ f32 unk_294;

@@ -1,4 +1,7 @@
 #include "global.h"
+#include "textures/icon_item_static/icon_item_static.h"
+#include "textures/icon_item_24_static/icon_item_24_static.h"
+#include "textures/parameter_static/parameter_static.h"
 
 // Bit Flag array in which gBitFlags[n] is literally (1 << n)
 u32 gBitFlags[] = {
@@ -30,26 +33,140 @@ u16 gUpgradeCapacities[][4] = {
     { 0, 20, 30, 40 },     // Deku Nut Upgrades
 };
 
-u32 D_8012723C[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };
-u32 D_8012724C[] = { 0, 8, 16, 24 };
+u32 gGsFlagsMask[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };
+u32 gGsFlagsShift[] = { 0, 8, 16, 24 };
 
-// TODO: use symbols for these icon textures once textures are properly in C
-u32 gItemIcons[] = {
-    0x08000000, 0x08001000, 0x08002000, 0x08003000, 0x08004000, 0x08005000, 0x08006000, 0x08007000, 0x08008000,
-    0x08009000, 0x0800A000, 0x0800B000, 0x0800C000, 0x0800D000, 0x0800E000, 0x0800F000, 0x08010000, 0x08011000,
-    0x08012000, 0x08013000, 0x08014000, 0x08015000, 0x08016000, 0x08017000, 0x08018000, 0x08019000, 0x0801A000,
-    0x0801B000, 0x0801C000, 0x0801D000, 0x0801E000, 0x0801F000, 0x08020000, 0x08021000, 0x08022000, 0x08023000,
-    0x08024000, 0x08025000, 0x08026000, 0x08027000, 0x08028000, 0x08029000, 0x0802A000, 0x0802B000, 0x0802C000,
-    0x0802D000, 0x0802E000, 0x0802F000, 0x08030000, 0x08031000, 0x08032000, 0x08033000, 0x08034000, 0x08035000,
-    0x08036000, 0x08037000, 0x08038000, 0x08039000, 0x0803A000, 0x0803B000, 0x0803C000, 0x0803D000, 0x0803E000,
-    0x0803F000, 0x08040000, 0x08041000, 0x08042000, 0x08043000, 0x08044000, 0x08045000, 0x08046000, 0x08047000,
-    0x08048000, 0x08049000, 0x0804A000, 0x0804B000, 0x0804C000, 0x0804D000, 0x0804E000, 0x0804F000, 0x08050000,
-    0x08051000, 0x08052000, 0x08053000, 0x08054000, 0x08055000, 0x08056000, 0x08057000, 0x08058000, 0x08059000,
-    0x08089440, 0x08089440, 0x08089440, 0x08089440, 0x08089440, 0x08089440, 0x08089440, 0x08089440, 0x08089440,
-    0x08089440, 0x08089440, 0x08089440, 0x09000000, 0x09000900, 0x09001200, 0x09001B00, 0x09002400, 0x09002D00,
-    0x09003600, 0x09003F00, 0x09004800, 0x09005100, 0x09005A00, 0x09006300, 0x09006C00, 0x09007500, 0x09007E00,
-    0x09009000, 0x09008700, 0x09007E00, 0x0900A200, 0x0900AB00, 0x0805A000, 0x0805A900, 0x0805B200, 0x02002D40,
-    0x02002A40, 0x02002C40, 0x02002B40, 0x02002940,
+void* gItemIcons[] = {
+    gDekuStickIconTex,
+    gDekuNutIconTex,
+    gBombIconTex,
+    gFairyBowIconTex,
+    gFireArrowIconTex,
+    gDinsFireIconTex,
+    gFairySlingshotIconTex,
+    gFairyOcarinaIconTex,
+    gOcarinaofTimeIconTex,
+    gBombchuIconTex,
+    gHookshotIconTex,
+    gLongshotIconTex,
+    gIceArrowIconTex,
+    gFaroresWindIconTex,
+    gBoomerangIconTex,
+    gLensofTruthIconTex,
+    gMagicBeansIconTex,
+    gMegatonHammerIconTex,
+    gLightArrowIconTex,
+    gNayrusLoveIconTex,
+    gEmptyBottleIconTex,
+    gRedPotionIconTex,
+    gGreenPotionIconTex,
+    gBluePotionIconTex,
+    gBottledFairyIconTex,
+    gFishIconTex,
+    gMilkFullIconTex,
+    gRutosLetterIconTex,
+    gBlueFireIconTex,
+    gBugIconTex,
+    gBigPoeIconTex,
+    gMilkhalfIconTex,
+    gPoeIconTex,
+    gWeirdEggIconTex,
+    gCuccoIconTex,
+    gZeldasLetterIconTex,
+    gKeatonMaskIconTex,
+    gSkullMaskIconTex,
+    gSpookyMaskIconTex,
+    gBunnyHoodIconTex,
+    gGoronMaskIconTex,
+    gZoraMaskIconTex,
+    gGerudoMaskIconTex,
+    gMaskofTruthIconTex,
+    gSoldOutIconTex,
+    gPocketEggIconTex,
+    gPocketCuccoIconTex,
+    gCojiroIconTex,
+    gOddMushroomIconTex,
+    gOddPotionIconTex,
+    gPoachersSawIconTex,
+    gBrokenBiggoronSwordIconTex,
+    gPrescriptionIconTex,
+    gEyeBallFrogIconTex,
+    gEyeDropsIconTex,
+    gClaimCheckIconTex,
+    gFairyBowFireIconTex,
+    gFairyBowIceIconTex,
+    gFairyBowLightIconTex,
+    gKokiriSwordIconTex,
+    gMasterSwordIconTex,
+    gBiggoronSwordIconTex,
+    gDekuShieldIconTex,
+    gHylianShieldIconTex,
+    gMirrorShieldIconTex,
+    gKokiriTunicIconTex,
+    gGoronTunicIconTex,
+    gZoraTunicIconTex,
+    gKokiriBootsIconTex,
+    gIronBootsIconTex,
+    gHoverBootsIconTex,
+    gBulletBag30IconTex,
+    gBulletBag40IconTex,
+    gBulletBag50IconTex,
+    gQuiver30IconTex,
+    gQuiver40IconTex,
+    gQuiver50IconTex,
+    gBombBag20IconTex,
+    gBombBag30IconTex,
+    gBombBag40IconTex,
+    gGoronsBraceletIconTex,
+    gSilverGauntletsIconTex,
+    gGoldenGauntletsIconTex,
+    gSilverScaleIconTex,
+    gGoldenScaleIconTex,
+    gBrokenGiantsKnifeIconTex,
+    gAdultsWalletIconTex,
+    gGiantsWalletIconTex,
+    gDekuSeedsIconTex,
+    gFishingPoleIconTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gSongNoteTex,
+    gForestMedallionIconTex,
+    gFireMedallionIconTex,
+    gWaterMedallionIconTex,
+    gSpiritMedallionIconTex,
+    gShadowMedallionIconTex,
+    gLightMedallionIconTex,
+    gKokiriEmeraldIconTex,
+    gGoronRubyIconTex,
+    gZoraSapphireIconTex,
+    gStoneOfAgonyIconTex,
+    gGerudosCardIconTex,
+    gGoldSkulltulaIconTex,
+    gHeartContainerIconTex,
+    gUnusedPieceOfHeartIconTex,
+    gBossKeyIconTex,
+    gDungeonMapIconTex,
+    gCompassIconTex,
+    gBossKeyIconTex,
+    gSmallMagicJarIconTex,
+    gBigMagicJarIconTex,
+    gHeartPieceIcon1Tex,
+    gHeartPieceIcon2Tex,
+    gHeartPieceIcon3Tex,
+    gOcarinaCUpTex,
+    gOcarinaCDownTex,
+    gOcarinaCLeftTex,
+    gOcarinaCRightTex,
+    gOcarinaATex,
 };
 
 // Used to map item IDs to inventory slots
@@ -74,9 +191,7 @@ void Inventory_ChangeEquipment(s16 equipment, u16 value) {
 u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
     Player* player = PLAYER;
     s32 pad;
-    u16 sp26;
-
-    sp26 = gSaveContext.equips.equipment & gEquipMasks[equipment];
+    u16 sp26 = gSaveContext.equips.equipment & gEquipMasks[equipment];
 
     // Translates to: "Erasing equipment item = %d  zzz=%d"
     osSyncPrintf("装備アイテム抹消 = %d  zzz=%d\n", equipment, sp26);
@@ -97,7 +212,7 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
         }
 
         Player_SetEquipmentData(globalCtx, player);
-        globalCtx->pauseCtx.unk_238 = 10;
+        globalCtx->pauseCtx.cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 
     return sp26;

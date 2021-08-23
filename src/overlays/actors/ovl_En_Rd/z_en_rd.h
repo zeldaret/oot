@@ -12,8 +12,8 @@ typedef struct EnRd {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Vec3s firePos[10];
     /* 0x0188 */ SkelAnime skelAnime;
-    /* 0x01CC */ Vec3s limbDrawTable[26];
-    /* 0x0268 */ Vec3s transitionDrawTable[26];
+    /* 0x01CC */ Vec3s jointTable[26];
+    /* 0x0268 */ Vec3s morphTable[26];
     /* 0x0304 */ u8 unk_304;
     /* 0x0305 */ u8 unk_305;
     /* 0x0306 */ u8 unk_306;

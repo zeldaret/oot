@@ -5,6 +5,8 @@
  */
 
 #include "z_bg_spot01_objects2.h"
+#include "objects/object_spot01_matoya/object_spot01_matoya.h"
+#include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
 #define FLAGS 0x00000010
 
@@ -20,7 +22,7 @@ void func_808AC4A4(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot01_Objects2_InitVars = {
     ACTOR_BG_SPOT01_OBJECTS2,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgSpot01Objects2),
@@ -38,9 +40,6 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Gfx* D_808AC510[] = { 0x06001EB0, 0x06002780, 0x06003078, 0x06001228, 0x06001528 };
-
-extern UNK_TYPE D_06001A38;
-extern UNK_TYPE D_06001C58;
 
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Objects2* this = THIS;
@@ -86,33 +85,32 @@ s32 func_808AC22C(Path* pathList, Vec3f* pos, s32 path, s32 waypoint) {
 }
 
 void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
-    s32 sp54;
+    CollisionHeader* colHeader = NULL;
     Actor* thisx = &this->dyna.actor;
     s32 pad;
     Vec3f position;
 
-    sp54 = 0;
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         // ---- Successful bank switching!!
         osSyncPrintf("-----バンク切り換え成功！！\n");
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
 
         this->dyna.actor.objBankIndex = this->objBankIndex;
-        DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
+        DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
         switch (this->dyna.actor.params & 7) {
             case 4: // Shooting gallery
-                DynaPolyInfo_Alloc(&D_06001A38, &sp54);
-                this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp54);
+                CollisionHeader_GetVirtual(&gKakarikoShootingGalleryCol, &colHeader);
+                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 break;
             case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
-                DynaPolyInfo_Alloc(&D_06001C58, &sp54);
-                this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp54);
-                if (gSaveContext.nightFlag == 0) {
+                CollisionHeader_GetVirtual(&object_spot01_matoyab_col, &colHeader);
+                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+                if (IS_DAY) {
                     func_808AC22C(globalCtx->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
                     Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,
-                                       position.y, position.z, thisx->posRot.rot.x, thisx->posRot.rot.y,
-                                       thisx->posRot.rot.z, ((((s32)thisx->params >> 8) & 0xFF) << 8) + 1);
+                                       position.y, position.z, thisx->world.rot.x, thisx->world.rot.y,
+                                       thisx->world.rot.z, ((((s32)thisx->params >> 8) & 0xFF) << 8) + 1);
                 }
                 break;
             case 0: // Potion Shop Poster

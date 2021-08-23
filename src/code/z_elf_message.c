@@ -36,10 +36,10 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                              gSaveContext.inventory.equipment) != 0);
                 case 0x20:
                     return ((msg->byte0 & 1) == 1) ==
-                           ((CHECK_QUEST_ITEM(msg->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET)) != 0);
+                           (CHECK_QUEST_ITEM(msg->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET) != 0);
                 case 0x30:
                     return ((msg->byte0 & 1) == 1) ==
-                           ((CHECK_QUEST_ITEM(msg->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST)) != 0);
+                           (CHECK_QUEST_ITEM(msg->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST) != 0);
                 case 0x40:
                     return ((msg->byte0 & 1) == 1) == (((void)0, gSaveContext.magicAcquired) != 0);
             }
@@ -47,7 +47,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
 
     // "Unplanned conditions"
     LOG_STRING("企画外 条件", "../z_elf_message.c", 156);
-    __assert("0", "../z_elf_message.c", 157);
+    ASSERT(0, "0", "../z_elf_message.c", 157);
 
     return false;
 }
@@ -70,15 +70,12 @@ u32 func_8006BE88(ElfMessage** msgp) {
 }
 
 u32 func_8006BF1C(ElfMessage** msgp) {
-    ElfMessage* msg;
+    ElfMessage* msg = *msgp;
     u32 sp44[10];
-    s32 temp1;
-    s32 temp2;
+    s32 temp1 = 0;
+    s32 temp2 = 0;
     s32 temp3;
 
-    msg = *msgp;
-    temp1 = 0;
-    temp2 = 0;
     do {
         sp44[temp2] = ElfMessage_CheckCondition(msg);
         temp1 += sp44[temp2];
@@ -90,7 +87,7 @@ u32 func_8006BF1C(ElfMessage** msgp) {
         return false;
     }
 
-    temp3 = Math_Rand_ZeroFloat(temp1);
+    temp3 = Rand_ZeroFloat(temp1);
     for (temp1 = 0; temp1 < temp2; temp1++) {
         if (sp44[temp1]) {
             if (temp3 > 0) {
@@ -134,7 +131,7 @@ u16 ElfMessage_GetTextFromMsgs(ElfMessage* msg) {
             default:
                 // "Unplanned conditions"
                 LOG_STRING("企画外 条件", "../z_elf_message.c", 281);
-                __assert("0", "../z_elf_message.c", 282);
+                ASSERT(0, "0", "../z_elf_message.c", 282);
         }
         msg++;
     }
@@ -144,7 +141,7 @@ u16 ElfMessage_GetSariaText(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     ElfMessage* msgs;
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         if (Actor_FindNearby(globalCtx, &player->actor, ACTOR_EN_SA, 4, 800.0f) == NULL) {
             msgs = sChildSariaMsgs;
         } else {

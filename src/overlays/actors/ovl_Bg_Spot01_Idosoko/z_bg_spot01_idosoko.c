@@ -1,10 +1,11 @@
 /*
  * File: z_bg_spot01_idosoko.c
- * Overlay: Bg_Spot01_Idosoko
+ * Overlay: ovl_Bg_Spot01_Idosoko
  * Description: Stone that blocks the entrance to Bottom of the Well
  */
 
 #include "z_bg_spot01_idosoko.h"
+#include "objects/object_spot01_matoya/object_spot01_matoya.h"
 
 #define FLAGS 0x00000010
 
@@ -19,7 +20,7 @@ void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot01_Idosoko_InitVars = {
     ACTOR_BG_SPOT01_IDOSOKO,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT01_MATOYA,
     sizeof(BgSpot01Idosoko),
@@ -33,24 +34,22 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06003C64;
-
 void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idosoko* this = THIS;
     s32 pad;
-    s32 local_c = 0;
+    BgSpot01Idosoko* this = THIS;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyInfo_SetActorMove(thisx, 1);
-    Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_Alloc(&D_06003C64, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
-    if (LINK_IS_CHILD) {
-        Actor_Kill(thisx);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    CollisionHeader_GetVirtual(&gKakarikoBOTWStoneCol, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    if (!LINK_IS_ADULT) {
+        Actor_Kill(&this->dyna.actor);
     } else {
         BgSpot01Idosoko_SetupAction(this, func_808ABF54);
     }
@@ -59,7 +58,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idosoko* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
@@ -71,8 +70,6 @@ void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-extern u32 D_06003B20;
-
 void BgSpot01Idosoko_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 162);
 
@@ -80,7 +77,7 @@ void BgSpot01Idosoko_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &D_06003B20);
+    gSPDisplayList(POLY_OPA_DISP++, &gKakarikoBOTWStoneDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 171);
 }

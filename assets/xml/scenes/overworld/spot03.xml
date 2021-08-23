@@ -1,0 +1,16 @@
+<Root>
+    <File Name="spot03_scene" Segment="2">
+        <Path Name="gSpot03Path_0002C4" Offset="0x2C4"/>
+        <Path Name="gSpot03Path_006910" Offset="0x6910"/>
+        <Path Name="gSpot03Path_006918" Offset="0x6918"/>
+
+        <Scene Name="spot03_scene" Offset="0x0"/>
+    </File>
+    <File Name="spot03_room_0" Segment="3">
+        <Room Name="spot03_room_0" Offset="0x0"/>
+    </File>
+    <File Name="spot03_room_1" Segment="3">
+        <DList Name="gSpot03DL_0074E8" Offset="0x74E8"/>
+        <Room Name="spot03_room_1" Offset="0x0"/>
+    </File>
+</Root>

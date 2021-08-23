@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot03_taki.h"
+#include "objects/object_spot03_object/object_spot03_object.h"
 
 #define FLAGS 0x00000030
 
@@ -19,7 +20,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot03_Taki_InitVars = {
     ACTOR_BG_SPOT03_TAKI,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT03_OBJECT,
     sizeof(BgSpot03Taki),
@@ -33,19 +34,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06000C98;
-
-// These are identical vertex data for the waterfall.
-extern Vtx* D_06000800[]; // Vertex buffer 0
-extern Vtx* D_06000990[]; // Vertex buffer 1
-
-extern Gfx* D_06000B20[];
-extern Gfx* D_06000BC0[];
-extern Gfx* D_06001580[];
-
 void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
     s32 i;
-    Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(D_06000800) : SEGMENTED_TO_VIRTUAL(D_06000990);
+    Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(object_spot03_object_Vtx_000800)
+                                  : SEGMENTED_TO_VIRTUAL(object_spot03_object_Vtx_000990);
 
     for (i = 0; i < 5; i++) {
         vtx[i + 10].v.cn[3] = this->openingAlpha;
@@ -55,12 +47,12 @@ void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot03Taki* this = THIS;
     s16 pad;
-    s32 sp24 = 0;
+    CollisionHeader* colHeader = NULL;
 
     this->switchFlag = (this->dyna.actor.params & 0x3F);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06000C98, &sp24);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&object_spot03_object_Col_000C98, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->bufferIndex = 0;
     this->openingAlpha = 255.0f;
@@ -72,7 +64,7 @@ void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot03Taki* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
@@ -80,7 +72,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
         if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->state = WATERFALL_OPENING_ANIMATED;
             this->timer = 40;
-            func_800800F8(globalCtx, 0x1004, -0x63, NULL, 0);
+            OnePointCutscene_Init(globalCtx, 4100, -99, NULL, MAIN_CAM);
         }
     } else if (this->state == WATERFALL_OPENING_IDLE) {
         this->timer--;
@@ -91,7 +83,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
         if (this->openingAlpha > 0) {
             this->openingAlpha -= 5;
             if (this->openingAlpha <= 0.0f) {
-                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->timer = 400;
                 this->state = WATERFALL_OPENED;
                 this->openingAlpha = 0;
@@ -106,7 +98,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
         if (this->openingAlpha < 255.0f) {
             this->openingAlpha += 5.0f;
             if (this->openingAlpha >= 255.0f) {
-                func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+                func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 this->state = WATERFALL_CLOSED;
                 this->openingAlpha = 255.0f;
                 Flags_UnsetSwitch(globalCtx, this->switchFlag);
@@ -141,21 +133,21 @@ void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
         POLY_XLU_DISP++, 0x08,
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames * 5, 64, 64, 1, 0, gameplayFrames * 5, 64, 64));
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06000B20);
+    gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_000B20);
 
     if (this->bufferIndex == 0) {
-        gSPVertex(POLY_XLU_DISP++, D_06000800, 25, 0);
+        gSPVertex(POLY_XLU_DISP++, object_spot03_object_Vtx_000800, 25, 0);
     } else {
-        gSPVertex(POLY_XLU_DISP++, D_06000990, 25, 0);
+        gSPVertex(POLY_XLU_DISP++, object_spot03_object_Vtx_000990, 25, 0);
     }
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06000BC0);
+    gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_000BC0);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 1, gameplayFrames * 3, 64, 64, 1,
                                 -gameplayFrames, gameplayFrames * 3, 64, 64));
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06001580);
+    gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_001580);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_stream.h"
+#include "objects/object_stream/object_stream.h"
 
 #define FLAGS 0x00000010
 
@@ -16,11 +17,9 @@ void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx);
 
-extern Gfx D_06000950[];
-
 const ActorInit En_Stream_InitVars = {
     ACTOR_EN_STREAM,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_STREAM,
     sizeof(EnStream),
@@ -52,34 +51,35 @@ void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-#ifdef NON_MATCHING
-// regalloc differences, checks if the player is range of the vortex
+// Checks if the player is in range of the vortex
 s32 func_80B0B81C(Vec3f* vortexPosRot, Vec3f* playerPosRot, Vec3f* posDifference, f32 vortexYScale) {
     s32 ret = 0;
-    f32 smallConstant = 28;
-    f32 lowerBounds = 0 * vortexYScale * 50;
-    f32 upperBounds = 160 * vortexYScale * 50;
+    f32 smallConstant = 28.0f;
+    f32 upperBounds = 160 * vortexYScale * 50.0f;
+    f32 lowerBounds = 0 * vortexYScale * 50.0f;
     f32 xzDist;
+    f32 range;
 
     posDifference->x = playerPosRot->x - vortexPosRot->x;
     posDifference->y = playerPosRot->y - vortexPosRot->y;
     posDifference->z = playerPosRot->z - vortexPosRot->z;
     xzDist = sqrtf(SQ(posDifference->x) + SQ(posDifference->z));
+
     if (lowerBounds <= posDifference->y && posDifference->y <= upperBounds) {
-        posDifference->y = posDifference->y - lowerBounds;
-        if (xzDist <= (((75 - smallConstant) * (posDifference->y / (upperBounds - lowerBounds))) + 28)) {
+        posDifference->y -= lowerBounds;
+
+        range = ((75.0f - smallConstant) * (posDifference->y / (upperBounds - lowerBounds))) + 28.0f;
+        if (xzDist <= range) {
             ret = 1;
         }
     }
-    if ((posDifference->y <= lowerBounds) && (xzDist <= 28)) {
+
+    if ((posDifference->y <= lowerBounds) && (xzDist <= 28.0f)) {
         ret = 2;
     }
+
     return ret;
 }
-#else
-s32 func_80B0B81C(Vec3f* vortexPos, Vec3f* playerPos, Vec3f* posDifference, f32 vortexYScale);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B81C.s")
-#endif
 
 void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -90,19 +90,19 @@ void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
     s32 pad30;
     s32 pad2C;
 
-    if (func_80B0B81C(&this->actor.posRot.pos, &player->actor.posRot.pos, &posDifference, this->actor.scale.y) != 0) {
+    if (func_80B0B81C(&this->actor.world.pos, &player->actor.world.pos, &posDifference, this->actor.scale.y) != 0) {
         xzDist = sqrtf(SQ(posDifference.x) + SQ(posDifference.z));
-        yDistWithOffset = player->actor.posRot.pos.y - (this->actor.posRot.pos.y - 90.0f);
-        player->windDirection = Math_atan2f(-posDifference.x, -posDifference.z) * 10430.378f;
+        yDistWithOffset = player->actor.world.pos.y - (this->actor.world.pos.y - 90.0f);
+        player->windDirection = Math_FAtan2F(-posDifference.x, -posDifference.z) * (0x8000 / M_PI);
         if (xzDist > 3.0f) {
-            Math_SmoothScaleMaxMinF(&player->windSpeed, 3.0f, 0.5f, xzDist, 0.0f);
+            Math_SmoothStepToF(&player->windSpeed, 3.0f, 0.5f, xzDist, 0.0f);
         } else {
             player->windSpeed = 0.0f;
-            Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 0.5f, 3.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 0.5f, 3.0f, 0.0f);
+            Math_SmoothStepToF(&player->actor.world.pos.x, this->actor.world.pos.x, 0.5f, 3.0f, 0.0f);
+            Math_SmoothStepToF(&player->actor.world.pos.z, this->actor.world.pos.z, 0.5f, 3.0f, 0.0f);
         }
         if (yDistWithOffset > 0.0f) {
-            Math_SmoothScaleMaxMinF(&player->actor.velocity.y, -3.0f, 0.7f, yDistWithOffset, 0.0f);
+            Math_SmoothStepToF(&player->actor.velocity.y, -3.0f, 0.7f, yDistWithOffset, 0.0f);
             if (posDifference.y < -70.0f) {
                 player->stateFlags2 |= 0x80000000;
             }
@@ -117,7 +117,7 @@ void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx) {
     s16 pad;
     Vec3f temp;
 
-    if (func_80B0B81C(&this->actor.posRot.pos, &player->actor.posRot.pos, &temp, this->actor.scale.y) != 0) {
+    if (func_80B0B81C(&this->actor.world.pos, &player->actor.world.pos, &temp, this->actor.scale.y) != 0) {
         EnStream_SetupAction(this, EnStream_SuckPlayer);
     }
 }
@@ -141,6 +141,6 @@ void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, frames * 30, -multipliedFrames, 0x40, 0x40, 1,
                                 multipliedFrames, -multipliedFrames, 0x40, 0x40));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000950);
+    gSPDisplayList(POLY_XLU_DISP++, object_stream_DL_000950);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_stream.c", 310);
 }

@@ -115,7 +115,7 @@ glabel func_808DEE70
 /* 08758 808DEFC8 44066000 */  mfc1    $a2, $f12                  
 /* 0875C 808DEFCC 0C0342A3 */  jal     Matrix_Scale              
 /* 08760 808DEFD0 46006386 */  mov.s   $f14, $f12                 
-/* 08764 808DEFD4 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 08764 808DEFD4 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 08768 808DEFD8 4600A306 */  mov.s   $f12, $f20                 
 /* 0876C 808DEFDC 46000306 */  mov.s   $f12, $f0                  
@@ -173,7 +173,7 @@ glabel func_808DEE70
 /* 08834 808DF0A4 929902E4 */  lbu     $t9, 0x02E4($s4)           ## 000002E4
 /* 08838 808DF0A8 57200007 */  bnel    $t9, $zero, .L808DF0C8     
 /* 0883C 808DF0AC 8E2202D0 */  lw      $v0, 0x02D0($s1)           ## 000002D0
-/* 08840 808DF0B0 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 08840 808DF0B0 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 08844 808DF0B4 4600A306 */  mov.s   $f12, $f20                 
 /* 08848 808DF0B8 46000306 */  mov.s   $f12, $f0                  

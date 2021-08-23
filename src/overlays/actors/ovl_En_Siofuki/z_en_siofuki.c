@@ -5,6 +5,7 @@
  */
 
 #include "z_en_siofuki.h"
+#include "objects/object_siofuki/object_siofuki.h"
 
 #define FLAGS 0x00000030
 
@@ -21,7 +22,7 @@ void func_80AFC478(EnSiofuki* this, GlobalContext* globalCtx);
 
 const ActorInit En_Siofuki_InitVars = {
     ACTOR_EN_SIOFUKI,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SIOFUKI,
     sizeof(EnSiofuki),
@@ -35,13 +36,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern Gfx D_06000B70[];
-extern UNK_TYPE D_06000D78;
-
 void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSiofuki* this = THIS;
     s32 type;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
     s32 pad;
 
     if ((thisx->room == 10) && Flags_GetSwitch(globalCtx, 0x1E)) {
@@ -50,9 +48,9 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
-    DynaPolyInfo_Alloc(&D_06000D78, &colHeader);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    CollisionHeader_GetVirtual(&object_siofuki_Col_000D78, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->sfxFlags |= 1;
 
     type = ((u16)thisx->params >> 0xC) & 0xF;
@@ -61,7 +59,7 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    this->initPosY = thisx->posRot.pos.y;
+    this->initPosY = thisx->world.pos.y;
     this->unk_174 = 35.0f;
     this->unk_170 = -6058.0f + this->unk_174;
 
@@ -78,9 +76,9 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->scale.z = thisx->shape.rot.z * 0.5f * 0.1f;
     }
 
-    thisx->posRot.rot.x = 0;
-    thisx->posRot.rot.y = 0;
-    thisx->posRot.rot.z = 0;
+    thisx->world.rot.x = 0;
+    thisx->world.rot.y = 0;
+    thisx->world.rot.z = 0;
     thisx->shape.rot.x = 0;
     thisx->shape.rot.y = 0;
     thisx->shape.rot.z = 0;
@@ -105,14 +103,14 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnSiofuki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnSiofuki* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80AFBDC8(EnSiofuki* this, GlobalContext* globalCtx) {
     this->oscillation = sinf((globalCtx->gameplayFrames & 0x1F) / 32.0f * M_PI * 2.0f) * 4.0f;
     this->unk_170 = this->unk_174 * 10.0f + -6058.0f - this->oscillation * 10.0f;
     this->unk_174 = 35.0f;
-    this->dyna.actor.posRot.pos.y = this->initPosY + this->currentHeight + this->oscillation;
+    this->dyna.actor.world.pos.y = this->initPosY + this->currentHeight + this->oscillation;
 }
 
 void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
@@ -125,15 +123,15 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
     f32 dist2d;
     f32 speedScale;
 
-    dX = player->actor.posRot.pos.x - this->dyna.actor.posRot.pos.x;
-    dY = player->actor.posRot.pos.y - this->dyna.actor.posRot.pos.y;
-    dZ = player->actor.posRot.pos.z - this->dyna.actor.posRot.pos.z;
+    dX = player->actor.world.pos.x - this->dyna.actor.world.pos.x;
+    dY = player->actor.world.pos.y - this->dyna.actor.world.pos.y;
+    dZ = player->actor.world.pos.z - this->dyna.actor.world.pos.z;
 
     if ((dX > (this->dyna.actor.scale.x * -346.0f)) && (dX < (this->dyna.actor.scale.x * 346.0f)) &&
         (dZ > (this->dyna.actor.scale.z * -400.0f)) && (dZ < (this->dyna.actor.scale.z * 400.0f)) && (dY < 0.0f)) {
         if (func_8004356C(&this->dyna)) {
             if (this->splashTimer <= 0) {
-                EffectSsGSplash_Spawn(globalCtx, &player->actor.posRot.pos, NULL, NULL, 1, 1);
+                EffectSsGSplash_Spawn(globalCtx, &player->actor.world.pos, NULL, NULL, 1, 1);
                 this->splashTimer = 10;
             } else {
                 this->splashTimer--;
@@ -146,25 +144,25 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
             dist2d = sqrtf(SQ(dX) + SQ(dZ));
             this->applySpeed = true;
             this->splashTimer = 0;
-            angle = Math_atan2f(dX, dZ) * (0x8000 / M_PI);
-            dAngle = (player->actor.posRot.rot.y ^ 0x8000) - angle;
+            angle = Math_FAtan2F(dX, dZ) * (0x8000 / M_PI);
+            dAngle = (player->actor.world.rot.y ^ 0x8000) - angle;
             player->actor.gravity = 0.0f;
             player->actor.velocity.y = 0.0f;
-            Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.y, this->dyna.actor.posRot.pos.y, 0.5f, 4.0f, 1.0f);
+            Math_SmoothStepToF(&player->actor.world.pos.y, this->dyna.actor.world.pos.y, 0.5f, 4.0f, 1.0f);
 
             if ((dAngle < 0x4000) && (dAngle > -0x4000)) {
-                this->appliedYaw = player->actor.posRot.rot.y ^ 0x8000;
+                this->appliedYaw = player->actor.world.rot.y ^ 0x8000;
                 speedScale = dist2d / (this->dyna.actor.scale.x * 40.0f * 10.0f);
                 speedScale = CLAMP_MIN(speedScale, 0.0f);
                 speedScale = CLAMP_MAX(speedScale, 1.0f);
                 player->linearVelocity *= speedScale;
-                Math_SmoothScaleMaxF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
-                Math_SmoothScaleMaxF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.3f * speedScale);
+                Math_ApproachF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
+                Math_ApproachF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.3f * speedScale);
             } else {
-                this->appliedYaw = player->actor.posRot.rot.y;
+                this->appliedYaw = player->actor.world.rot.y;
                 player->linearVelocity /= 2.0f;
-                Math_SmoothScaleMaxF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
-                Math_SmoothScaleMaxF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.1f);
+                Math_ApproachF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
+                Math_ApproachF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.1f);
             }
 
             player->windDirection = this->appliedYaw;
@@ -183,7 +181,7 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFC1D0(EnSiofuki* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->currentHeight, this->targetHeight, 0.8f, 3.0f, 0.01f);
+    Math_SmoothStepToF(&this->currentHeight, this->targetHeight, 0.8f, 3.0f, 0.01f);
 }
 
 void func_80AFC218(EnSiofuki* this, GlobalContext* globalCtx) {
@@ -257,7 +255,7 @@ void func_80AFC478(EnSiofuki* this, GlobalContext* globalCtx) {
         if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 6) & 0x3F)) {
             this->timer = 20;
             this->actionFunc = func_80AFC3C8;
-            func_800800F8(globalCtx, 0x1392, 0x28, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 5010, 40, &this->dyna.actor, MAIN_CAM);
         }
 
         if (Flags_GetTreasure(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
@@ -294,7 +292,7 @@ void EnSiofuki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     x = gameplayFrames * 15;
     y = gameplayFrames * -15;
     gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, x, y, 64, 64, 1, x, y, 64, 64));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000B70);
+    gSPDisplayList(POLY_XLU_DISP++, object_siofuki_DL_000B70);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_siofuki.c", 674);
 
     if (this->sfxFlags & 1) {

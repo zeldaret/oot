@@ -14,39 +14,32 @@ s32 osPfsChecker(OSPfs* pfs) {
     __OSInode tempInode;
     __OSDir tempDir;
     __OSInodeUnit nextNodeInFile[16];
-
     __OSInodeCache cache;
-
     s32 fixed = 0;
     u8 bank, prevBank = 254;
     s32 cc, cl;
     s32 offset;
 
     ret = __osCheckId(pfs);
-
     if (ret == PFS_ERR_NEW_PACK) {
         ret = __osGetId(pfs);
     }
-
     if (ret) {
         return ret;
     }
-
     if ((ret = func_80105788(pfs, &cache)) != 0) {
         return ret;
     }
 
     for (j = 0; j < pfs->dir_size; j++) {
-        if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + j, &tempDir)) != 0) {
+        if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + j, (u8*)&tempDir)) != 0) {
             return ret;
         }
-
         if ((tempDir.company_code != 0) || (tempDir.game_code != 0)) {
             if ((tempDir.company_code == 0) || (tempDir.game_code == 0)) {
                 cc = -1;
             } else {
                 next = tempDir.start_page;
-
                 cl = cc = 0;
                 bank = 255;
 
@@ -57,21 +50,17 @@ s32 osPfsChecker(OSPfs* pfs) {
                             ret = __osPfsRWInode(pfs, &tempInode, PFS_READ, bank);
                             prevBank = bank;
                         }
-
                         if ((ret != 0) && (ret != PFS_ERR_INCONSISTENT)) {
                             return ret;
                         }
                     }
-
                     if ((cc = func_80105A60(pfs, next, &cache) - cl) != 0) {
                         break;
                     }
                     cl = 1;
-
                     next = tempInode.inodePage[next.inode_t.page];
                 }
             }
-
             if ((cc != 0) || (next.ipage != PFS_EOF)) {
                 bzero(&tempDir, sizeof(__OSDir));
                 if (pfs->activebank != 0) {
@@ -79,7 +68,7 @@ s32 osPfsChecker(OSPfs* pfs) {
                         return ret;
                     }
                 }
-                if ((ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->dir_table + j, &tempDir, 0)) != 0) {
+                if ((ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->dir_table + j, (u8*)&tempDir, 0)) != 0) {
                     return ret;
                 }
 
@@ -87,8 +76,9 @@ s32 osPfsChecker(OSPfs* pfs) {
             }
         }
     }
+
     for (j = 0; j < pfs->dir_size; j++) {
-        if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + j, &tempDir)) != 0) {
+        if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + j, (u8*)&tempDir)) != 0) {
             return ret;
         }
 
@@ -184,7 +174,7 @@ s32 func_80105A60(OSPfs* pfs, __OSInodeUnit fpage, __OSInodeCache* cache) {
         if ((bank == fpage.inode_t.bank) || (cache->map[n] & (1 << (bank % PFS_BANK_LAPPED_BY))) != 0) {
             if (bank != cache->bank) {
                 ret = __osPfsRWInode(pfs, &(cache->inode), PFS_READ, bank);
-                if ((ret) && (ret != PFS_ERR_INCONSISTENT)) {
+                if (ret && (ret != PFS_ERR_INCONSISTENT)) {
                     return ret;
                 }
                 cache->bank = bank;

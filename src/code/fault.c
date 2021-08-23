@@ -42,7 +42,9 @@ void Fault_SleepImpl(u32 duration) {
     Sleep_Cycles(value);
 }
 
-void Fault_ClientProcessThread(FaultClientContext* ctx) {
+void Fault_ClientProcessThread(void* arg) {
+    FaultClientContext* ctx = (FaultClientContext*)arg;
+
     if (ctx->callback != 0) {
         ctx->ret = ctx->callback(ctx->param0, ctx->param1);
     }
@@ -251,7 +253,7 @@ u32 Fault_ConvertAddress(FaultAddrConvClient* client) {
     while (iter != NULL) {
         if (iter->callback != 0) {
             ret = Fault_ProcessClient(iter->callback, client, iter->param);
-            if (ret == -1) {
+            if ((s32)ret == -1) {
                 Fault_RemoveAddrConvClient(iter);
             } else if (ret != 0) {
                 return ret;
@@ -1001,7 +1003,7 @@ void Fault_ThreadEntry(void* arg) {
             Fault_LogStackTrace(faultedThread, 0x32);
             Fault_WaitForInput();
             Fault_ProcessClients();
-            Fault_DrawMemDump(faultedThread->context.pc - 0x100, (u32*)faultedThread->context.sp, 0, 0);
+            Fault_DrawMemDump(faultedThread->context.pc - 0x100, (u32)faultedThread->context.sp, 0, 0);
             Fault_FillScreenRed();
             FaultDrawer_DrawText(0x40, 0x50, "    CONGRATURATIONS!    ");
             FaultDrawer_DrawText(0x40, 0x5A, "All Pages are displayed.");
@@ -1052,13 +1054,15 @@ void Fault_HangupFaultClient(const char* arg0, const char* arg1) {
 
 void Fault_AddHungupAndCrashImpl(const char* arg0, const char* arg1) {
     FaultClient client;
-    char padd[4];
-    Fault_AddClient(&client, &Fault_HangupFaultClient, arg0, arg1);
+    s32 pad;
+
+    Fault_AddClient(&client, &Fault_HangupFaultClient, (void*)arg0, (void*)arg1);
     *(u32*)0x11111111 = 0; // trigger an exception
 }
 
 void Fault_AddHungupAndCrash(const char* filename, u32 line) {
     char msg[256];
+
     sprintf(msg, "HungUp %s:%d", filename, line);
     Fault_AddHungupAndCrashImpl(msg, NULL);
 }

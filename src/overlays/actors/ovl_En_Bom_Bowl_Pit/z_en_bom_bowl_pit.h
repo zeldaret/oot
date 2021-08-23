@@ -15,7 +15,7 @@ typedef struct EnBomBowlPit {
     /* 0x0150 */ u16 unk_150;
     /* 0x0152 */ s16 camId;
     /* 0x0154 */ s16 unk_154;
-    /* 0x0156 */ s16 unk_156; // Set by EnExItem?
+    /* 0x0156 */ s16 exItemDone; // Set by EnExItem?
     /* 0x0158 */ s16 timer;
     /* 0x015A */ s16 prizeIndex;
     /* 0x015C */ s16 start;

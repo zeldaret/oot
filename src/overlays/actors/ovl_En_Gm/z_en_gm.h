@@ -12,8 +12,8 @@ typedef void (*EnGmActionFunc)(struct EnGm*, GlobalContext*);
 typedef struct EnGm {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[18];
-    /* 0x01FC */ Vec3s transitionDrawTable[18];
+    /* 0x0190 */ Vec3s jointTable[18];
+    /* 0x01FC */ Vec3s morphTable[18];
     /* 0x0268 */ EnGmUpdateFunc updateFunc;
     /* 0x026C */ EnGmActionFunc actionFunc;
     /* 0x0270 */ ColliderCylinder collider;

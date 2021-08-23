@@ -15,11 +15,11 @@ typedef struct EnHorseLinkChild {
     /* 0x0154 */ PSkinAwb skin;
     /* 0x01E4 */ s32 timer;
     /* 0x01E8 */ s32 unk_1E8;
-    /* 0x01EC */ u8 unk_1EC;
+    /* 0x01EC */ u8 eyeTexIndex;
     /* 0x01F0 */ s32 unk_1F0;
     /* 0x01F4 */ ColliderCylinder bodyCollider;
     /* 0x0240 */ ColliderJntSph headCollider;
-    /* 0x0260 */ ColliderJntSphItem headColliderItems[1];
+    /* 0x0260 */ ColliderJntSphElement headElements[1];
     /* 0x02A0 */ s32 unk_2A0;
 } EnHorseLinkChild; // size = 0x02A4
 

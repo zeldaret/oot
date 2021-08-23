@@ -1,8 +1,0 @@
-<Root>
-    <File Name="shop1_scene">
-        <Scene Name="shop1_scene"/>
-    </File>
-    <File Name="shop1_room_0">
-        <Room Name="shop1_room_0"/>
-    </File>
-</Root>

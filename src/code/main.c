@@ -25,7 +25,7 @@ AudioMgr gAudioMgr;
 OSMesgQueue sSiIntMsgQ;
 OSMesg sSiIntMsgBuf[1];
 
-void Main_LogSystemHeap() {
+void Main_LogSystemHeap(void) {
     osSyncPrintf(VT_FGCOL(GREEN));
     // System heap size% 08x (% dKB) Start address% 08x
     osSyncPrintf("システムヒープサイズ %08x(%dKB) 開始アドレス %08x\n", gSystemHeapSize, gSystemHeapSize / 1024,
@@ -33,7 +33,7 @@ void Main_LogSystemHeap() {
     osSyncPrintf(VT_RST);
 }
 
-void Main(void* arg0) {
+void Main(void* arg) {
     IrqMgrClient irqClient;
     OSMesgQueue irqMgrMsgQ;
     OSMesg irqMgrMsgBuf[60];
@@ -92,13 +92,13 @@ void Main(void* arg0) {
     AudioMgr_Unlock(&gAudioMgr);
 
     StackCheck_Init(&sGraphStackInfo, sGraphStack, sGraphStack + sizeof(sGraphStack), 0, 0x100, "graph");
-    osCreateThread(&sGraphThread, 4, Graph_ThreadEntry, arg0, sGraphStack + sizeof(sGraphStack), Z_PRIORITY_GRAPH);
+    osCreateThread(&sGraphThread, 4, Graph_ThreadEntry, arg, sGraphStack + sizeof(sGraphStack), Z_PRIORITY_GRAPH);
     osStartThread(&sGraphThread);
     osSetThreadPri(0, Z_PRIORITY_SCHED);
 
     while (true) {
         msg = NULL;
-        osRecvMesg(&irqMgrMsgQ, &msg, OS_MESG_BLOCK);
+        osRecvMesg(&irqMgrMsgQ, (OSMesg)&msg, OS_MESG_BLOCK);
         if (msg == NULL) {
             break;
         }

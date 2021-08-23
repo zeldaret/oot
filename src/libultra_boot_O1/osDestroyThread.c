@@ -1,12 +1,9 @@
 #include "global.h"
 
 void osDestroyThread(OSThread* thread) {
-    register s32 int_disabled;
-
+    register s32 prevInt = __osDisableInt();
     register OSThread* s1;
     register OSThread* s2;
-
-    int_disabled = __osDisableInt();
 
     if (thread == NULL) {
         thread = __osRunningThread;
@@ -33,5 +30,5 @@ void osDestroyThread(OSThread* thread) {
         __osDispatchThread();
     }
 
-    __osRestoreInt(int_disabled);
+    __osRestoreInt(prevInt);
 }

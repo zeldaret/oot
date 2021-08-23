@@ -5,16 +5,15 @@
 
 OSPifRam osPifBuffers[MAXCONTROLLERS];
 
-// func_800CF990 in 1.0
 s32 osSetRumble(OSPfs* pfs, u32 vibrate) {
     s32 i;
     s32 ret;
-    u8* buf;
+    u8* buf = (u8*)&osPifBuffers[pfs->channel];
 
-    buf = (u8*)&osPifBuffers[pfs->channel];
     if (!(pfs->status & 8)) {
         return 5;
     }
+
     __osSiGetAccess();
     osPifBuffers[pfs->channel].status = 1;
     buf += pfs->channel;
@@ -27,6 +26,7 @@ s32 osSetRumble(OSPfs* pfs, u32 vibrate) {
     osRecvMesg(pfs->queue, NULL, OS_MESG_BLOCK);
     __osSiRawStartDma(OS_READ, &osPifBuffers[pfs->channel]);
     osRecvMesg(pfs->queue, NULL, OS_MESG_BLOCK);
+
     ret = ((__OSContRamHeader*)buf)->rxsize & 0xC0;
     if (!ret) {
         if (!vibrate) {
@@ -39,7 +39,9 @@ s32 osSetRumble(OSPfs* pfs, u32 vibrate) {
             }
         }
     }
+
     __osSiRelAccess();
+
     return ret;
 }
 
@@ -47,17 +49,20 @@ void osSetUpMempakWrite(s32 channel, OSPifRam* buf) {
     u8* bufptr = (u8*)buf;
     __OSContRamHeader mempakwr;
     s32 i;
+
     mempakwr.unk_00 = 0xFF;
     mempakwr.txsize = 0x23;
     mempakwr.rxsize = 1;
     mempakwr.poll = 3; // write mempak
     mempakwr.hi = 0x600 >> 3;
     mempakwr.lo = (u8)(__osContAddressCrc(0x600) | (0x600 << 5));
+
     if (channel != 0) {
         for (i = 0; i < channel; ++i) {
             *bufptr++ = 0;
         }
     }
+
     *(__OSContRamHeader*)bufptr = mempakwr;
     bufptr += sizeof(mempakwr);
     *bufptr = 0xFE;
@@ -80,7 +85,6 @@ s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, OSPfs* pfs, u32 channel) {
         return ret;
     }
     ret = __osContRamRead(ctrlrqueue, channel, BANK_ADDR, sp24);
-    ret = ret;
     if (ret == 2) {
         ret = 4; // "Controller pack communication error"
     }
@@ -111,5 +115,6 @@ s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, OSPfs* pfs, u32 channel) {
         osSetUpMempakWrite(channel, &osPifBuffers[channel]);
     }
     pfs->status = PFS_MOTOR_INITIALIZED;
+
     return 0; // "Recognized rumble pak"
 }

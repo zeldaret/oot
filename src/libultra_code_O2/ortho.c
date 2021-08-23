@@ -21,9 +21,9 @@ void guOrthoF(f32 mf[4][4], f32 left, f32 right, f32 bottom, f32 top, f32 near, 
 }
 
 void guOrtho(Mtx* mtx, f32 left, f32 right, f32 bottom, f32 top, f32 near, f32 far, f32 scale) {
-    MtxF_t mf;
+    f32 mf[4][4];
 
     guOrthoF(mf, left, right, bottom, top, near, far, scale);
 
-    guMtxF2L(mf, mtx);
+    guMtxF2L((MtxF*)mf, mtx);
 }

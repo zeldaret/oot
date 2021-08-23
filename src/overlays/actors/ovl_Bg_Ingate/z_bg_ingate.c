@@ -5,50 +5,48 @@
  */
 
 #include "z_bg_ingate.h"
+#include "objects/object_ingate/object_ingate.h"
 
 #define FLAGS 0x00000000
 
-#define THIS ((BgIngate*)thisx)
+#define THIS ((BgInGate*)thisx)
 
-void BgIngate_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgIngate_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgIngate_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgIngate_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgInGate_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgInGate_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgInGate_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80892890(BgIngate* this, GlobalContext* globalCtx);
-void BgIngate_DoNothing(BgIngate* this, GlobalContext* globalCtx);
+void func_80892890(BgInGate* this, GlobalContext* globalCtx);
+void BgInGate_DoNothing(BgInGate* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_INGATE,
-    sizeof(BgIngate),
-    (ActorFunc)BgIngate_Init,
-    (ActorFunc)BgIngate_Destroy,
-    (ActorFunc)BgIngate_Update,
-    (ActorFunc)BgIngate_Draw,
+    sizeof(BgInGate),
+    (ActorFunc)BgInGate_Init,
+    (ActorFunc)BgInGate_Destroy,
+    (ActorFunc)BgInGate_Update,
+    (ActorFunc)BgInGate_Draw,
 };
 
-extern UNK_TYPE D_060011B8;
-extern Gfx D_06001040[];
-
-void BgIngate_SetupAction(BgIngate* this, BgIngateActionFunc actionFunc) {
+void BgInGate_SetupAction(BgInGate* this, BgInGateActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgIngate_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgIngate* this = THIS;
+void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgInGate* this = THIS;
 
     s32 pad;
-    s32 sp32 = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_060011B8, &sp32);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&gIngoGateCol, &colHeader);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp32);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if ((globalCtx->sceneNum != SCENE_SPOT20 || LINK_IS_CHILD) ||
+    if ((globalCtx->sceneNum != SCENE_SPOT20 || !LINK_IS_ADULT) ||
         (((gSaveContext.eventChkInf[1] & 0x100)) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
         Actor_Kill(&this->dyna.actor);
         return;
@@ -57,19 +55,19 @@ void BgIngate_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->dyna.actor, 0.1f);
     if (((this->dyna.actor.params & 1) != 0) && ((gSaveContext.eventInf[0] & 0xF) == 6)) {
         globalCtx->csCtx.frames = 0;
-        BgIngate_SetupAction(this, func_80892890);
+        BgInGate_SetupAction(this, func_80892890);
     } else {
-        BgIngate_SetupAction(this, BgIngate_DoNothing);
+        BgInGate_SetupAction(this, BgInGate_DoNothing);
     }
 }
 
-void BgIngate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgIngate* this = THIS;
+void BgInGate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgInGate* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_80892890(BgIngate* this, GlobalContext* globalCtx) {
+void func_80892890(BgInGate* this, GlobalContext* globalCtx) {
     s32 phi0;
     s16 phi1;
     s16 csFrames;
@@ -79,8 +77,8 @@ void func_80892890(BgIngate* this, GlobalContext* globalCtx) {
         if ((this->dyna.actor.params & 2) == 0) {
             phi0 = -0x4000;
         }
-        this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y + phi0;
-        BgIngate_SetupAction(this, &BgIngate_DoNothing);
+        this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi0;
+        BgInGate_SetupAction(this, &BgInGate_DoNothing);
     } else if (globalCtx->csCtx.frames >= 10) {
         csFrames = globalCtx->csCtx.frames - 10;
         csFrames *= 400;
@@ -88,25 +86,25 @@ void func_80892890(BgIngate* this, GlobalContext* globalCtx) {
         if (csFrames > 0x4000) {
             csFrames = 0x4000;
         }
-        csFrames = (Math_Sins(csFrames) * 16384.0f);
+        csFrames = (Math_SinS(csFrames) * 16384.0f);
         phi1 = csFrames;
         if ((this->dyna.actor.params & 2) == 0) {
             phi1 = -phi1;
         }
-        this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y + phi1;
+        this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi1;
     }
 }
 
-void BgIngate_DoNothing(BgIngate* this, GlobalContext* globalCtx) {
+void BgInGate_DoNothing(BgInGate* this, GlobalContext* globalCtx) {
 }
 
-void BgIngate_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgIngate* this = THIS;
+void BgInGate_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgInGate* this = THIS;
 
     this->actionFunc(this, globalCtx);
 }
 
-void BgIngate_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgInGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_ingate.c", 240);
 
     func_80093D18(globalCtx->state.gfxCtx);
@@ -114,7 +112,7 @@ void BgIngate_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ingate.c", 245),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_06001040);
+    gSPDisplayList(POLY_OPA_DISP++, gIngoGateDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ingate.c", 250);
 }

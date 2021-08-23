@@ -29,11 +29,9 @@ void Matrix_Push(void) {
     sCurrentMatrix++;
 }
 
-void Matrix_Pull(void) {
+void Matrix_Pop(void) {
     sCurrentMatrix--;
-    if (sCurrentMatrix < sMatrixStack) {
-        __assert("Matrix_now >= Matrix_stack", "../sys_matrix.c", 176);
-    }
+    ASSERT(sCurrentMatrix >= sMatrixStack, "Matrix_now >= Matrix_stack", "../sys_matrix.c", 176);
 }
 
 void Matrix_Get(MtxF* dest) {
@@ -294,7 +292,7 @@ void Matrix_RotateZ(f32 z, u8 mode) {
     }
 }
 
-/*
+/**
  * Rotates the top of the matrix stack by `z` degrees, then
  * rotates that matrix by `y` degrees, then rotates that matrix
  * by `x` degrees. (roll-pitch-yaw)
@@ -308,8 +306,8 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
     f32 cos;
 
     if (mode == MTXMODE_APPLY) {
-        sin = Math_Sins(z);
-        cos = Math_Coss(z);
+        sin = Math_SinS(z);
+        cos = Math_CosS(z);
 
         temp1 = cmf->xx;
         temp2 = cmf->yx;
@@ -332,8 +330,8 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
         cmf->yw = temp2 * cos - temp1 * sin;
 
         if (y != 0) {
-            sin = Math_Sins(y);
-            cos = Math_Coss(y);
+            sin = Math_SinS(y);
+            cos = Math_CosS(y);
 
             temp1 = cmf->xx;
             temp2 = cmf->zx;
@@ -357,8 +355,8 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
         }
 
         if (x != 0) {
-            sin = Math_Sins(x);
-            cos = Math_Coss(x);
+            sin = Math_SinS(x);
+            cos = Math_CosS(x);
 
             temp1 = cmf->yx;
             temp2 = cmf->zx;
@@ -385,18 +383,15 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
     }
 }
 
-/*
+/**
  * Roll-pitch-yaw rotation and position
  */
 void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     MtxF* cmf = sCurrentMatrix;
-    f32 sin;
-    f32 cos;
+    f32 sin = Math_SinS(rotation->z);
+    f32 cos = Math_CosS(rotation->z);
     f32 temp1;
     f32 temp2;
-
-    sin = Math_Sins(rotation->z);
-    cos = Math_Coss(rotation->z);
 
     temp1 = cmf->xx;
     temp2 = cmf->yx;
@@ -423,8 +418,8 @@ void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     cmf->yw = temp2 * cos - temp1 * sin;
 
     if (rotation->y != 0) {
-        sin = Math_Sins(rotation->y);
-        cos = Math_Coss(rotation->y);
+        sin = Math_SinS(rotation->y);
+        cos = Math_CosS(rotation->y);
 
         temp1 = cmf->xx;
         temp2 = cmf->zx;
@@ -448,8 +443,8 @@ void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     }
 
     if (rotation->x != 0) {
-        sin = Math_Sins(rotation->x);
-        cos = Math_Coss(rotation->x);
+        sin = Math_SinS(rotation->x);
+        cos = Math_CosS(rotation->x);
 
         temp1 = cmf->yx;
         temp2 = cmf->zx;
@@ -475,13 +470,10 @@ void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
 
 void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
     MtxF* cmf = sCurrentMatrix;
-    f32 sp30;
-    f32 sp2C;
+    f32 sp30 = Math_SinS(vec->y);
+    f32 sp2C = Math_CosS(vec->y);
     f32 sp28;
     f32 sp24;
-
-    sp30 = Math_Sins(vec->y);
-    sp2C = Math_Coss(vec->y);
 
     cmf->xx = sp2C;
     cmf->xz = -sp30;
@@ -494,8 +486,8 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
     cmf->ww = 1.0f;
 
     if (vec->x != 0) {
-        sp24 = Math_Sins(vec->x);
-        sp28 = Math_Coss(vec->x);
+        sp24 = Math_SinS(vec->x);
+        sp28 = Math_CosS(vec->x);
 
         cmf->zz = sp2C * sp28;
         cmf->yz = sp2C * sp24;
@@ -513,8 +505,8 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
     }
 
     if (vec->z != 0) {
-        sp24 = Math_Sins(vec->z);
-        sp28 = Math_Coss(vec->z);
+        sp24 = Math_SinS(vec->z);
+        sp28 = Math_CosS(vec->z);
 
         sp30 = cmf->xx;
         sp2C = cmf->yx;
@@ -688,7 +680,7 @@ void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf) {
     dest->z = mf->wz + (mf->xz * src->x + mf->yz * src->y + mf->zz * src->z);
 }
 
-void Matrix_Reverse(MtxF* mf) {
+void Matrix_Transpose(MtxF* mf) {
     f32 temp;
 
     temp = mf->xy;
@@ -704,7 +696,6 @@ void Matrix_Reverse(MtxF* mf) {
     mf->zy = temp;
 }
 
-#ifdef NON_MATCHING
 void func_800D1FD4(MtxF* mf) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp;
@@ -713,65 +704,75 @@ void func_800D1FD4(MtxF* mf) {
 
     temp = cmf->xx;
     temp *= temp;
-    temp += SQ(cmf->xy);
-    temp += SQ(cmf->xz);
+    temp2 = cmf->xy;
+    temp += SQ(temp2);
+    temp2 = cmf->xz;
+    temp += SQ(temp2);
+    temp3 = sqrtf(temp);
 
-    cmf->xx = mf->xx * sqrtf(temp);
-    cmf->xy = mf->xy * sqrtf(temp);
-    cmf->xz = mf->xz * sqrtf(temp);
+    cmf->xx = mf->xx * temp3;
+    cmf->xy = mf->xy * temp3;
+    cmf->xz = mf->xz * temp3;
 
     temp = cmf->yx;
     temp *= temp;
-    temp += SQ(cmf->yy);
-    temp += SQ(cmf->yz);
-    cmf->yx = mf->yx * sqrtf(temp);
-    cmf->yy = mf->yy * sqrtf(temp);
-    cmf->yz = mf->yz * sqrtf(temp);
+    temp2 = cmf->yy;
+    temp += SQ(temp2);
+    temp2 = cmf->yz;
+    temp += SQ(temp2);
+    temp3 = sqrtf(temp);
+
+    cmf->yx = mf->yx * temp3;
+    cmf->yy = mf->yy * temp3;
+    cmf->yz = mf->yz * temp3;
 
     temp = cmf->zx;
     temp *= temp;
-    temp += SQ(cmf->zy);
-    temp += SQ(cmf->zz);
-    cmf->zx = mf->zx * sqrtf(temp);
-    cmf->zy = mf->zy * sqrtf(temp);
-    cmf->zz = mf->zz * sqrtf(temp);
-}
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D1FD4.s")
-#endif
+    temp2 = cmf->zy;
+    temp += SQ(temp2);
+    temp2 = cmf->zz;
+    temp += SQ(temp2);
+    temp3 = sqrtf(temp);
 
-#ifdef NON_MATCHING
-// same differences as func_800D2264
-void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
+    cmf->zx = mf->zx * temp3;
+    cmf->zy = mf->zy * temp3;
+    cmf->zz = mf->zz * temp3;
+}
+
+/**
+ * Gets the rotation the specified matrix represents, using Euler YXZ.
+ * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
+ */
+void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
     f32 temp;
     f32 temp2;
     f32 temp3;
     f32 temp4;
-    f32 temp5;
 
     temp = mf->zx;
     temp *= temp;
     temp += SQ(mf->zz);
-    vec->x = Math_atan2f(-mf->zy, sqrtf(temp)) * (32768 / M_PI);
+    rotDest->x = Math_FAtan2F(-mf->zy, sqrtf(temp)) * (0x8000 / M_PI);
 
-    if ((vec->x == 0x4000) || (vec->x == -0x4000)) {
-        vec->z = 0;
+    if ((rotDest->x == 0x4000) || (rotDest->x == -0x4000)) {
+        rotDest->z = 0;
 
-        vec->y = Math_atan2f(-mf->xz, mf->xx) * (32768 / M_PI);
+        rotDest->y = Math_FAtan2F(-mf->xz, mf->xx) * (0x8000 / M_PI);
     } else {
-        vec->y = Math_atan2f(mf->zx, mf->zz) * (32768 / M_PI);
+        rotDest->y = Math_FAtan2F(mf->zx, mf->zz) * (0x8000 / M_PI);
 
         if (!flag) {
-            vec->z = Math_atan2f(mf->xy, mf->yy) * (32768 / M_PI);
+            rotDest->z = Math_FAtan2F(mf->xy, mf->yy) * (0x8000 / M_PI);
         } else {
             temp = mf->xx;
-            temp4 = mf->xz;
+            temp2 = mf->xz;
             temp3 = mf->yz;
 
             temp *= temp;
-            temp += SQ(temp4);
+            temp += SQ(temp2);
             temp2 = mf->xy;
             temp += SQ(temp2);
+            /* temp = xx^2+xz^2+xy^2 == 1 for a rotation matrix */
             temp = sqrtf(temp);
             temp = temp2 / temp;
 
@@ -780,63 +781,71 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
             temp2 += SQ(temp3);
             temp3 = mf->yy;
             temp2 += SQ(temp3);
+            /* temp2 = yx^2+yz^2+yy^2 == 1 for a rotation matrix */
             temp2 = sqrtf(temp2);
             temp2 = temp3 / temp2;
 
-            vec->z = Math_atan2f(temp, temp2) * (32768 / M_PI);
+            /* for a rotation matrix, temp == xy and temp2 == yy
+             * which is the same as in the !flag branch */
+            rotDest->z = Math_FAtan2F(temp, temp2) * (0x8000 / M_PI);
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D20CC.s")
-#endif
 
-#ifdef NON_MATCHING
-// same differences as func_800D20CC
-void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
+/**
+ * Gets the rotation the specified matrix represents, using Euler ZYX.
+ * The flag value doesn't matter for a rotation matrix. Not 0 does extra calculation.
+ */
+void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
     f32 temp;
     f32 temp2;
+    f32 temp3;
+    f32 temp4;
 
     temp = mf->xx;
     temp *= temp;
     temp += SQ(mf->xy);
-    vec->y = Math_atan2f(-mf->xz, sqrtf(temp)) * (32768 / M_PI);
+    rotDest->y = Math_FAtan2F(-mf->xz, sqrtf(temp)) * (0x8000 / M_PI);
 
-    if ((vec->y == 0x4000) || (vec->y == -0x4000)) {
-        vec->x = 0;
-        vec->z = Math_atan2f(-mf->yx, mf->yy) * (32768 / M_PI);
-        return;
-    }
-
-    vec->z = Math_atan2f(mf->xy, mf->xx) * (32768 / M_PI);
-
-    if (!flag) {
-        vec->x = Math_atan2f(mf->yz, mf->zz) * (32768 / M_PI);
+    if ((rotDest->y == 0x4000) || (rotDest->y == -0x4000)) {
+        rotDest->x = 0;
+        rotDest->z = Math_FAtan2F(-mf->yx, mf->yy) * (0x8000 / M_PI);
     } else {
-        temp = mf->yx;
-        temp *= temp;
-        temp += SQ(mf->yy);
-        temp += SQ(mf->yz);
-        temp = sqrtf(temp);
-        temp = mf->yz / temp;
+        rotDest->z = Math_FAtan2F(mf->xy, mf->xx) * (0x8000 / M_PI);
 
-        temp2 = mf->zx;
-        temp2 *= temp2;
-        temp2 += SQ(mf->zy);
-        temp2 += SQ(mf->zz);
-        temp2 = sqrtf(temp2);
-        temp2 = mf->zz / temp2;
+        if (!flag) {
+            rotDest->x = Math_FAtan2F(mf->yz, mf->zz) * (0x8000 / M_PI);
+        } else {
+            // see Matrix_MtxFToYXZRotS
+            temp = mf->yx;
+            temp2 = mf->yy;
+            temp3 = mf->zy;
 
-        vec->x = Math_atan2f(temp, temp2) * (32768 / M_PI);
+            temp *= temp;
+            temp += SQ(temp2);
+            temp2 = mf->yz;
+            temp += SQ(temp2);
+            temp = sqrtf(temp);
+            temp = temp2 / temp;
+
+            temp2 = mf->zx;
+            temp2 *= temp2;
+            temp2 += SQ(temp3);
+            temp3 = mf->zz;
+            temp2 += SQ(temp3);
+            temp2 = sqrtf(temp2);
+            temp2 = temp3 / temp2;
+
+            rotDest->x = Math_FAtan2F(temp, temp2) * (0x8000 / M_PI);
+        }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D2264.s")
-#endif
 
-#ifdef NON_MATCHING
-// regalloc differences
-void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
+/*
+ * Rotate the matrix by `f` radians around a unit vector `vec`.
+ * NB: vec is assumed to be a unit vector.
+ */
+void Matrix_RotateAxis(f32 f, Vec3f* vec, u8 mode) {
     MtxF* cmf;
     f32 sin;
     f32 cos;
@@ -855,9 +864,9 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
             sin = sinf(f);
             cos = cosf(f);
 
-            temp1 = cmf->xx;
             temp2 = cmf->yx;
             temp3 = cmf->zx;
+            temp1 = cmf->xx;
             temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
             cmf->xx = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
             cmf->yx = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
@@ -891,20 +900,22 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
             cmf->yy = vec->y * vec->y * rCos + cos;
             cmf->zz = vec->z * vec->z * rCos + cos;
 
-            temp1 = vec->x * rCos * vec->y;
-            temp2 = vec->z * sin;
-            cmf->xy = temp1 + temp2;
-            cmf->yx = temp1 - temp2;
+            if (0) {}
 
-            temp1 = vec->x * rCos * vec->z;
-            temp2 = vec->y * sin;
-            cmf->xz = temp1 - temp2;
-            cmf->zx = temp1 + temp2;
+            temp2 = vec->x * rCos * vec->y;
+            temp3 = vec->z * sin;
+            cmf->xy = temp2 + temp3;
+            cmf->yx = temp2 - temp3;
 
-            temp1 = vec->y * rCos * vec->z;
-            temp2 = vec->x * sin;
-            cmf->yz = temp1 + temp2;
-            cmf->zy = temp1 - temp2;
+            temp2 = vec->x * rCos * vec->z;
+            temp3 = vec->y * sin;
+            cmf->xz = temp2 - temp3;
+            cmf->zx = temp2 + temp3;
+
+            temp2 = vec->y * rCos * vec->z;
+            temp3 = vec->x * sin;
+            cmf->yz = temp2 + temp3;
+            cmf->zy = temp2 - temp3;
 
             cmf->xw = cmf->yw = cmf->zw = cmf->wx = cmf->wy = cmf->wz = 0.0f;
             cmf->ww = 1.0f;
@@ -928,9 +939,6 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D23FC.s")
-#endif
 
 MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     s32 i, j;

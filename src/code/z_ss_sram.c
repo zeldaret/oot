@@ -11,7 +11,7 @@ SsSramContext sSsSramContext = { 0 };
 
 void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
                  u8 handlePulse, u32 handleSpeed) {
-    u32 intDisabled;
+    u32 prevInt;
     OSPiHandle* handle = &sSsSramContext.piHandle;
 
     if ((u32)OS_PHYSICAL_TO_K1(addr) != (*handle).baseAddress) {
@@ -24,10 +24,10 @@ void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 
         sSsSramContext.piHandle.domain = handleDomain;
         sSsSramContext.piHandle.speed = handleSpeed;
         bzero(&sSsSramContext.piHandle.transferInfo, sizeof(__OSTranxInfo));
-        intDisabled = __osDisableInt();
+        prevInt = __osDisableInt();
         sSsSramContext.piHandle.next = __osPiTable;
         __osPiTable = &sSsSramContext.piHandle;
-        __osRestoreInt(intDisabled);
+        __osRestoreInt(prevInt);
         sSsSramContext.ioMesg.hdr.pri = 0;
         sSsSramContext.ioMesg.hdr.retQueue = &sSsSramContext.mesgQ;
         sSsSramContext.ioMesg.devAddr = addr;

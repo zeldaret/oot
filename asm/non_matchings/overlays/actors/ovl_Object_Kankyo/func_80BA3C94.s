@@ -66,8 +66,8 @@ glabel func_80BA3C94
 /* 012A0 80BA3D40 8E4402D0 */  lw      $a0, 0x02D0($s2)           ## 000002D0
 /* 012A4 80BA3D44 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 012A8 80BA3D48 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
-/* 012AC 80BA3D4C 3C040405 */  lui     $a0, %hi(D_0404C160)                ## $a0 = 04050000
-/* 012B0 80BA3D50 2484C160 */  addiu   $a0, $a0, %lo(D_0404C160)           ## $a0 = 0404C160
+/* 012AC 80BA3D4C 3C040405 */  lui     $a0, %hi(gSun1Tex)                ## $a0 = 04050000
+/* 012B0 80BA3D50 2484C160 */  addiu   $a0, $a0, %lo(gSun1Tex)           ## $a0 = 0404C160
 /* 012B4 80BA3D54 0004C900 */  sll     $t9, $a0,  4               
 /* 012B8 80BA3D58 AE4202D0 */  sw      $v0, 0x02D0($s2)           ## 000002D0
 /* 012BC 80BA3D5C 00194702 */  srl     $t0, $t9, 28               
@@ -88,8 +88,8 @@ glabel func_80BA3C94
 /* 012F8 80BA3D98 01816821 */  addu    $t5, $t4, $at              
 /* 012FC 80BA3D9C AC4D0004 */  sw      $t5, 0x0004($v0)           ## 00000004
 /* 01300 80BA3DA0 8E4202D0 */  lw      $v0, 0x02D0($s2)           ## 000002D0
-/* 01304 80BA3DA4 3C180405 */  lui     $t8, %hi(D_0404D160)                ## $t8 = 04050000
-/* 01308 80BA3DA8 2718D160 */  addiu   $t8, $t8, %lo(D_0404D160)           ## $t8 = 0404D160
+/* 01304 80BA3DA4 3C180405 */  lui     $t8, %hi(gKokiriDustMoteTextureLoadDL )                ## $t8 = 04050000
+/* 01308 80BA3DA8 2718D160 */  addiu   $t8, $t8, %lo(gKokiriDustMoteTextureLoadDL )           ## $t8 = 0404D160
 /* 0130C 80BA3DAC 244E0008 */  addiu   $t6, $v0, 0x0008           ## $t6 = 00000008
 /* 01310 80BA3DB0 AE4E02D0 */  sw      $t6, 0x02D0($s2)           ## 000002D0
 /* 01314 80BA3DB4 3C0FDE00 */  lui     $t7, 0xDE00                ## $t7 = DE000000
@@ -105,8 +105,8 @@ glabel func_80BA3C94
 /* 0133C 80BA3DDC 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
 /* 01340 80BA3DE0 02815021 */  addu    $t2, $s4, $at              
 /* 01344 80BA3DE4 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
-/* 01348 80BA3DE8 3C090405 */  lui     $t1, %hi(D_0404D1A8)                ## $t1 = 04050000
-/* 0134C 80BA3DEC 2529D1A8 */  addiu   $t1, $t1, %lo(D_0404D1A8)           ## $t1 = 0404D1A8
+/* 01348 80BA3DE8 3C090405 */  lui     $t1, %hi(gKokiriDustMoteDL)                ## $t1 = 04050000
+/* 0134C 80BA3DEC 2529D1A8 */  addiu   $t1, $t1, %lo(gKokiriDustMoteDL)           ## $t1 = 0404D1A8
 /* 01350 80BA3DF0 4481A000 */  mtc1    $at, $f20                  ## $f20 = 1.00
 /* 01354 80BA3DF4 AFA90048 */  sw      $t1, 0x0048($sp)           
 /* 01358 80BA3DF8 AFAA0040 */  sw      $t2, 0x0040($sp)           

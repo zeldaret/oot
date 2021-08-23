@@ -4,7 +4,7 @@ void PadUtils_Init(Input* input) {
     bzero(input, sizeof(Input));
 }
 
-void func_800FCB70() {
+void func_800FCB70(void) {
 }
 
 void PadUtils_ResetPressRel(Input* input) {
@@ -66,11 +66,10 @@ s8 PadUtils_GetRelY(Input* input) {
 }
 
 void PadUtils_UpdateRelXY(Input* input) {
-    s32 curX, curY;
-    s32 relX, relY;
-
-    curX = PadUtils_GetCurX(input);
-    curY = PadUtils_GetCurY(input);
+    s32 curX = PadUtils_GetCurX(input);
+    s32 curY = PadUtils_GetCurY(input);
+    s32 relX;
+    s32 relY;
 
     if (curX > 7) {
         relX = (curX < 0x43) ? curX - 7 : 0x43 - 7;

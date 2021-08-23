@@ -1,7 +1,7 @@
 #include "global.h"
 
 s32 osSendMesg(OSMesgQueue* mq, OSMesg mesg, s32 flag) {
-    register u32 s0 = __osDisableInt();
+    register u32 prevInt = __osDisableInt();
     register u32 index;
 
     while (mq->validCount >= mq->msgCount) {
@@ -9,7 +9,7 @@ s32 osSendMesg(OSMesgQueue* mq, OSMesg mesg, s32 flag) {
             __osRunningThread->state = 8;
             __osEnqueueAndYield(&mq->fullqueue);
         } else {
-            __osRestoreInt(s0);
+            __osRestoreInt(prevInt);
             return -1;
         }
     }
@@ -22,7 +22,7 @@ s32 osSendMesg(OSMesgQueue* mq, OSMesg mesg, s32 flag) {
         osStartThread(__osPopThread(&mq->mtqueue));
     }
 
-    __osRestoreInt(s0);
+    __osRestoreInt(prevInt);
 
     return 0;
 }

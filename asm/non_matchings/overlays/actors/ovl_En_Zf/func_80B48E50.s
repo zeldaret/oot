@@ -19,12 +19,12 @@ glabel func_80B48E50
 /* 04E40 80B48E90 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 04E44 80B48E94 44050000 */  mfc1    $a1, $f0                   
 /* 04E48 80B48E98 34E7999A */  ori     $a3, $a3, 0x999A           ## $a3 = 3E19999A
-/* 04E4C 80B48E9C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 04E4C 80B48E9C 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 04E50 80B48EA0 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 04E54 80B48EA4 AE0003E4 */  sw      $zero, 0x03E4($s0)         ## 000003E4
 .L80B48EA8:
-/* 04E58 80B48EA8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04E58 80B48EA8 0C02927F */  jal     SkelAnime_Update
               
 /* 04E5C 80B48EAC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 04E60 80B48EB0 50400027 */  beql    $v0, $zero, .L80B48F50     
@@ -57,7 +57,7 @@ glabel func_80B48E50
 .L80B48F14:
 /* 04EC4 80B48F14 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 04EC8 80B48F18 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 04ECC 80B48F1C 0C00CDD2 */  jal     Actor_ChangeType
+/* 04ECC 80B48F1C 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 04ED0 80B48F20 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 04ED4 80B48F24 92020404 */  lbu     $v0, 0x0404($s0)           ## 00000404

@@ -22,7 +22,7 @@ void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx);
 
 const ActorInit Elf_Msg_InitVars = {
     ACTOR_ELF_MSG,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ElfMsg),
@@ -97,8 +97,8 @@ void ElfMsg_SetupAction(ElfMsg* this, ElfMsgActionFunc actionFunc) {
  */
 s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
 
-    if ((this->actor.posRot.rot.y > 0) && (this->actor.posRot.rot.y < 0x41) &&
-        (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1))) {
+    if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
+        (Flags_GetSwitch(globalCtx, this->actor.world.rot.y - 1))) {
         // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg.c", 161);
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
@@ -106,7 +106,7 @@ s32 ElfMsg_KillCheck(ElfMsg* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
         return 1;
-    } else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
+    } else if ((this->actor.world.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
         // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg.c", 172);
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
@@ -136,17 +136,17 @@ void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!ElfMsg_KillCheck(this, globalCtx)) {
         Actor_ProcessInitChain(thisx, sInitChain);
-        if (thisx->posRot.rot.x == 0) {
+        if (thisx->world.rot.x == 0) {
             thisx->scale.z = 0.4f;
             thisx->scale.x = 0.4f;
         } else {
-            thisx->scale.x = thisx->scale.z = thisx->posRot.rot.x * 0.04f;
+            thisx->scale.x = thisx->scale.z = thisx->world.rot.x * 0.04f;
         }
 
-        if (thisx->posRot.rot.z == 0) {
+        if (thisx->world.rot.z == 0) {
             thisx->scale.y = 0.4f;
         } else {
-            thisx->scale.y = thisx->posRot.rot.z * 0.04f;
+            thisx->scale.y = thisx->world.rot.z * 0.04f;
         }
 
         if (thisx->params & 0x4000) {
@@ -175,10 +175,10 @@ void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnElf* navi = (EnElf*)player->naviActor;
 
-    if ((fabsf(player->actor.posRot.pos.x - this->actor.posRot.pos.x) < (100.0f * this->actor.scale.x)) &&
-        (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
-        ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y)) &&
-        (fabsf(player->actor.posRot.pos.z - this->actor.posRot.pos.z) < (100.0f * this->actor.scale.z))) {
+    if ((fabsf(player->actor.world.pos.x - this->actor.world.pos.x) < (100.0f * this->actor.scale.x)) &&
+        (this->actor.world.pos.y <= player->actor.world.pos.y) &&
+        ((player->actor.world.pos.y - this->actor.world.pos.y) < (100.0f * this->actor.scale.y)) &&
+        (fabsf(player->actor.world.pos.z - this->actor.world.pos.z) < (100.0f * this->actor.scale.z))) {
         player->naviTextId = ElfMsg_GetMessageId(this);
         navi->elfMsg = this;
     }
@@ -192,9 +192,9 @@ void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnElf* navi = (EnElf*)player->naviActor;
 
-    if (ElfMsg_WithinXZDistance(&player->actor.posRot.pos, &this->actor.posRot.pos, this->actor.scale.x * 100.0f) &&
-        (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
-        ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y))) {
+    if (ElfMsg_WithinXZDistance(&player->actor.world.pos, &this->actor.world.pos, this->actor.scale.x * 100.0f) &&
+        (this->actor.world.pos.y <= player->actor.world.pos.y) &&
+        ((player->actor.world.pos.y - this->actor.world.pos.y) < (100.0f * this->actor.scale.y))) {
         player->naviTextId = ElfMsg_GetMessageId(this);
         navi->elfMsg = this;
     }
@@ -211,8 +211,8 @@ void ElfMsg_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         }
-        if ((this->actor.posRot.rot.y <= 0x41) || (this->actor.posRot.rot.y > 0x80) ||
-            Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 0x41)) {
+        if ((this->actor.world.rot.y <= 0x41) || (this->actor.world.rot.y > 0x80) ||
+            Flags_GetSwitch(globalCtx, this->actor.world.rot.y - 0x41)) {
             this->actionFunc(this, globalCtx);
         }
     }

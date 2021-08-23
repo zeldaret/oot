@@ -102,7 +102,7 @@
 #define R_B_LABEL_DD                WREG(0)
 #define R_OW_MINIMAP_X              WREG(29)
 #define R_OW_MINIMAP_Y              WREG(30)
-#define R_MINIMAP_TOGGLED           WREG(31)
+#define R_MINIMAP_DISABLED          WREG(31)
 #define R_B_LABEL_X(i)              WREG(40 + i)
 #define R_B_LABEL_Y(i)              WREG(43 + i)
 #define R_DGN_MINIMAP_X             WREG(68)
@@ -120,6 +120,7 @@
 #define R_ITEM_ICON_WIDTH(i)        VREG(76 + i)
 #define R_ITEM_BTN_WIDTH(i)         VREG(80 + i)
 #define R_DISABLE_INPUT_DISPLAY     HREG(47)
+#define R_EN_GOROIWA_SPEED          mREG(12)
 #define R_NAVI_MSG_REGION_ALPHA     nREG(87)
 
 #endif

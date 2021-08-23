@@ -1,7 +1,6 @@
 #include "global.h"
 
 #ifndef __GNUC__
-#pragma intrinsic(sqrtf)
 #define __builtin_sqrtf sqrtf
 #endif
 

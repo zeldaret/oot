@@ -11,10 +11,10 @@ typedef void (*EnButteActionFunc)(struct EnButte*, GlobalContext*);
 typedef struct EnButte {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderJntSph collider;
-    /* 0x016C */ ColliderJntSphItem colliderItems[1];
+    /* 0x016C */ ColliderJntSphElement colliderItems[1];
     /* 0x01AC */ SkelAnime skelAnime;
-    /* 0x01F0 */ Vec3s limbDrawTable[8];
-    /* 0x0220 */ Vec3s transitionDrawTable[8];
+    /* 0x01F0 */ Vec3s jointTable[8];
+    /* 0x0220 */ Vec3s morphTable[8];
     /* 0x0250 */ EnButteActionFunc actionFunc;
     /* 0x0254 */ s16 timer;
     /* 0x0256 */ u8 flightParamsIdx;

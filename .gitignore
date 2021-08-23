@@ -36,16 +36,18 @@ tools/asmsplitter/asm/*
 tools/asmsplitter/c/*
 ctx.c
 tools/*dSYM/
+graphs/
 
 # Assets
-*.rgba32.png
-*.rgb5a1.png
-*.i4.png
-*.i8.png
-*.ia4.png
-*.ia8.png
-*.ci4.png
-*.ci8.png
+*.png
+*.jpg
+*.mdli
+*.anmi
+*.obj
+*.mtl
+*.fbx
+!*_custom*
+.extracted-assets.json
 
 # Per-user configuration
 .python-version

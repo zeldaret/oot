@@ -34,10 +34,10 @@ glabel func_808D90F8
 /* 02900 808D9170 AC286FC0 */  sw      $t0, %lo(gSegments+0x18)($at)
 /* 02904 808D9174 24A5EA00 */  addiu   $a1, $a1, %lo(D_0600EA00)           ## $a1 = 0600EA00
 /* 02908 808D9178 26040150 */  addiu   $a0, $s0, 0x0150           ## $a0 = 00000150
-/* 0290C 808D917C 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 0290C 808D917C 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 02910 808D9180 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 02914 808D9184 3C040601 */  lui     $a0, %hi(D_0600EA00)                ## $a0 = 06010000
-/* 02918 808D9188 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 02918 808D9188 0C028800 */  jal     Animation_GetLastFrame
 
 /* 0291C 808D918C 2484EA00 */  addiu   $a0, $a0, %lo(D_0600EA00)           ## $a0 = 0600EA00
 /* 02920 808D9190 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

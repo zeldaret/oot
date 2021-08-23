@@ -25,7 +25,7 @@ glabel func_80B3590C
 /* 01CB4 80B35964 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 01CB8 80B35968 44073000 */  mfc1    $a3, $f6
 /* 01CBC 80B3596C E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 01CC0 80B35970 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01CC0 80B35970 0C029468 */  jal     Animation_Change
 
 /* 01CC4 80B35974 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 01CC8 80B35978 2419000C */  addiu   $t9, $zero, 0x000C         ## $t9 = 0000000C

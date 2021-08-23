@@ -18,7 +18,7 @@ OSPiHandle* __osCurrentHandle[] = {
 };
 
 void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQ, OSMesg* cmdBuf, s32 cmdMsgCnt) {
-    u32 int_disabled;
+    u32 prevInt;
     OSPri newPri;
     OSPri currentPri;
 
@@ -36,7 +36,7 @@ void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQ, OSMesg* cmdBuf, s32 cmdMsgC
             newPri = currentPri;
             osSetThreadPri(NULL, pri);
         }
-        int_disabled = __osDisableInt();
+        prevInt = __osDisableInt();
 
         __osPiDevMgr.initialized = true;
         __osPiDevMgr.cmdQueue = cmdQ;
@@ -49,7 +49,7 @@ void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQ, OSMesg* cmdBuf, s32 cmdMsgC
         osCreateThread(&piThread, 0, __osDevMgrMain, (void*)&__osPiDevMgr, piStackThread + sizeof(piStackThread), pri);
         osStartThread(&piThread);
 
-        __osRestoreInt(int_disabled);
+        __osRestoreInt(prevInt);
 
         if (newPri != -1) {
             osSetThreadPri(NULL, newPri);

@@ -31,8 +31,8 @@ typedef struct EnDaiku {
     /* 0x023C */ s32 stateFlags;
     /* 0x0240 */ s32 startFightSwitchFlag;
     /* 0x0244 */ struct_80034A14_arg1 unk_244; // probably related to animating torso and head towards the player
-    /* 0x026C */ Vec3s limbDrawTable[17];
-    /* 0x02D2 */ Vec3s transitionDrawTable[17];
+    /* 0x026C */ Vec3s jointTable[17];
+    /* 0x02D2 */ Vec3s morphTable[17];
     /* 0x0338 */ Vec3s initRot;
     /* 0x0340 */ Vec3f initPos;
 } EnDaiku; // size = 0x034C

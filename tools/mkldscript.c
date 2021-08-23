@@ -194,10 +194,15 @@ static void parse_rom_spec(char *spec)
     while (line[0] != 0)
     {
         char *nextLine = line_split(line);
+        char* stmtName;
 
         if (line[0] != 0)
         {
-            char *stmtName = skip_whitespace(line);
+            stmtName = skip_whitespace(line);
+        }
+
+        if (line[0] != 0 && stmtName[0] != 0)
+        {
             char *args = token_split(stmtName);
             unsigned int stmt;
 
@@ -323,8 +328,9 @@ static void write_ld_script(void)
         //if (seg->fields & (1 << STMT_increment))
             //fprintf(fout, "    . += 0x%08X;\n", seg->increment);
 
-        fprintf(fout, "    _%sSegmentRomStart = _RomSize;\n"
-                  "    ..%s ", seg->name, seg->name);
+        fprintf(fout, "    _%sSegmentRomStartTemp = _RomSize;\n"
+                  "    _%sSegmentRomStart = _%sSegmentRomStartTemp;\n"
+                  "    ..%s ", seg->name, seg->name, seg->name, seg->name);
 
         if (seg->fields & (1 << STMT_after))
             fprintf(fout, "_%sSegmentEnd ", seg->after);
@@ -405,7 +411,9 @@ static void write_ld_script(void)
         //fprintf(fout, "    _RomSize += ( _%sSegmentDataEnd - _%sSegmentTextStart );\n", seg->name, seg->name);
         fprintf(fout, "    _RomSize += ( _%sSegmentOvlEnd - _%sSegmentTextStart );\n", seg->name, seg->name);
 
-        fprintf(fout, "    _%sSegmentRomEnd = _RomSize;\n\n", seg->name);
+        fprintf(fout, "    _%sSegmentRomEndTemp = _RomSize;\n"
+                  "_%sSegmentRomEnd = _%sSegmentRomEndTemp;\n\n",
+                  seg->name, seg->name, seg->name);
 
         // algn end of ROM segment
         if (seg->fields & (1 << STMT_romalign))

@@ -11,7 +11,16 @@ void guLookAtHiliteF(f32 mf[4][4], LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32
                      f32 xl2, f32 yl2, f32 zl2,                            /* light 2 direction */
                      s32 hiliteWidth, s32 hiliteHeight)                    /* size of hilite texture */
 {
-    f32 length, xLook, yLook, zLook, xRight, yRight, zRight, xHilite, yHilite, zHilite;
+    f32 length;
+    f32 xLook;
+    f32 yLook;
+    f32 zLook;
+    f32 xRight;
+    f32 yRight;
+    f32 zRight;
+    f32 xHilite;
+    f32 yHilite;
+    f32 zHilite;
 
     guMtxIdentF(mf);
 
@@ -148,5 +157,5 @@ void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, 
     guLookAtHiliteF(mf, l, h, xEye, yEye, zEye, xAt, yAt, zAt, xUp, yUp, zUp, xl1, yl1, zl1, xl2, yl2, zl2, hiliteWidth,
                     hiliteHeight);
 
-    guMtxF2L(mf, m);
+    guMtxF2L((MtxF*)mf, m);
 }

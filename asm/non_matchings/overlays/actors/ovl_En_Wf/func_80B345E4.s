@@ -11,7 +11,7 @@ glabel func_80B345E4
 /* 00944 80B345F4 8CAF1C44 */  lw      $t7, 0x1C44($a1)           ## 00001C44
 /* 00948 80B345F8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0094C 80B345FC 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
-/* 00950 80B34600 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00950 80B34600 0C02927F */  jal     SkelAnime_Update
               
 /* 00954 80B34604 AFAF002C */  sw      $t7, 0x002C($sp)           
 /* 00958 80B34608 860402E2 */  lh      $a0, 0x02E2($s0)           ## 000002E2
@@ -109,11 +109,11 @@ glabel func_80B345E4
 /* 00AA8 80B34758 2728FFFF */  addiu   $t0, $t9, 0xFFFF           ## $t0 = FFFFFFFF
 /* 00AAC 80B3475C 15000022 */  bne     $t0, $zero, .L80B347E8     
 /* 00AB0 80B34760 AE0802E8 */  sw      $t0, 0x02E8($s0)           ## 000002E8
-/* 00AB4 80B34764 0C00B821 */  jal     func_8002E084              
+/* 00AB4 80B34764 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 00AB8 80B34768 24051555 */  addiu   $a1, $zero, 0x1555         ## $a1 = 00001555
 /* 00ABC 80B3476C 10400012 */  beq     $v0, $zero, .L80B347B8     
 /* 00AC0 80B34770 00000000 */  nop
-/* 00AC4 80B34774 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00AC4 80B34774 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00AC8 80B34778 00000000 */  nop
 /* 00ACC 80B3477C 3C0180B3 */  lui     $at, %hi(D_80B37B78)       ## $at = 80B30000

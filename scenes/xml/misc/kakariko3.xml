@@ -1,9 +1,0 @@
-<Root>
-    <File Name="kakariko3_scene">
-        <Scene Name="kakariko3_scene"/>
-    </File>
-    <File Name="kakariko3_room_0">
-        <Room Name="kakariko3_room_0">
-        </Room>
-    </File>
-</Root>

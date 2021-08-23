@@ -1,6 +1,7 @@
 #include "global.h"
 #include "ultra64.h"
 #include "vt.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define ENV_ROM_FILE(name) \
     { (u32) _vr_##name##_staticSegmentRomStart, (u32)_vr_##name##_staticSegmentRomEnd }
@@ -51,7 +52,7 @@ u8 D_8011FB38 = 0;
 
 u8 gSkyboxBlendingEnabled = false; // D_8011FB3C
 
-u16 gTimeIncrement = 0; // D_8011FB40
+u16 gTimeIncrement = 0; // gTimeIncrement
 
 u16 D_8011FB44 = 0xFFFC;
 
@@ -326,9 +327,9 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
             envCtx->adjFogColor[2] = envCtx->adjFogNear = envCtx->adjFogFar = 0;
 
-    envCtx->sunPos.x = -(Math_Sins(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    envCtx->sunPos.y = +(Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    envCtx->sunPos.z = +(Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
+    envCtx->sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    envCtx->sunPos.y = +(Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    envCtx->sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
 
     envCtx->windDirection.x = 80;
     envCtx->windDirection.y = 80;
@@ -423,8 +424,8 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
         sLightningBolts[i].state = LIGHTNING_BOLT_INACTIVE;
     }
 
-    globalCtx->unk_11D30[0] = 0;
-    globalCtx->unk_11D30[1] = 0;
+    globalCtx->roomCtx.unk_74[0] = 0;
+    globalCtx->roomCtx.unk_74[1] = 0;
 
     for (i = 0; i < ARRAY_COUNT(globalCtx->csCtx.npcActions); i++) {
         globalCtx->csCtx.npcActions[i] = 0;
@@ -953,11 +954,11 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
 
                         // set light1 direction for the sun
                         envCtx->lightSettings.light1Dir[0] =
-                            -(Math_Sins(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f);
+                            -(Math_SinS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f);
                         envCtx->lightSettings.light1Dir[1] =
-                            Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f;
+                            Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f;
                         envCtx->lightSettings.light1Dir[2] =
-                            -(Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f);
+                            -(Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f);
 
                         // set light2 direction for the moon
                         envCtx->lightSettings.light2Dir[0] = -envCtx->lightSettings.light1Dir[0];
@@ -1264,16 +1265,16 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
 
             if (cREG(14)) {
                 envCtx->dirLight1.params.dir.x = R_ENV_LIGHT1_DIR(0) =
-                    Math_Coss(cREG(11)) * Math_Coss(cREG(10)) * 120.0f;
+                    Math_CosS(cREG(11)) * Math_CosS(cREG(10)) * 120.0f;
                 envCtx->dirLight1.params.dir.y = R_ENV_LIGHT1_DIR(1) =
-                    Math_Coss(cREG(11)) * Math_Sins(cREG(10)) * 120.0f;
-                envCtx->dirLight1.params.dir.z = R_ENV_LIGHT1_DIR(2) = Math_Sins(cREG(11)) * 120.0f;
+                    Math_CosS(cREG(11)) * Math_SinS(cREG(10)) * 120.0f;
+                envCtx->dirLight1.params.dir.z = R_ENV_LIGHT1_DIR(2) = Math_SinS(cREG(11)) * 120.0f;
 
                 envCtx->dirLight2.params.dir.x = R_ENV_LIGHT2_DIR(0) =
-                    Math_Coss(cREG(13)) * Math_Coss(cREG(12)) * 120.0f;
+                    Math_CosS(cREG(13)) * Math_CosS(cREG(12)) * 120.0f;
                 envCtx->dirLight2.params.dir.y = R_ENV_LIGHT2_DIR(1) =
-                    Math_Coss(cREG(13)) * Math_Sins(cREG(12)) * 120.0f;
-                envCtx->dirLight2.params.dir.z = R_ENV_LIGHT2_DIR(2) = Math_Sins(cREG(13)) * 120.0f;
+                    Math_CosS(cREG(13)) * Math_SinS(cREG(12)) * 120.0f;
+                envCtx->dirLight2.params.dir.z = R_ENV_LIGHT2_DIR(2) = Math_SinS(cREG(13)) * 120.0f;
             } else {
                 envCtx->dirLight1.params.dir.x = R_ENV_LIGHT1_DIR(0);
                 envCtx->dirLight1.params.dir.y = R_ENV_LIGHT1_DIR(1);
@@ -1317,20 +1318,20 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 2266);
 
     if (globalCtx->csCtx.state != 0) {
-        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.sunPos.x,
-                                -(Math_Sins(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f, 0.8f,
+        Math_SmoothStepToF(&globalCtx->envCtx.sunPos.x,
+                                -(Math_SinS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f, 0.8f,
                                 0.8f);
-        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.sunPos.y,
-                                (Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f, 0.8f,
+        Math_SmoothStepToF(&globalCtx->envCtx.sunPos.y,
+                                (Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f, 0.8f,
                                 0.8f);
         //! @bug This should be z.
-        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.sunPos.y,
-                                (Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f, 1.0f, 0.8f,
+        Math_SmoothStepToF(&globalCtx->envCtx.sunPos.y,
+                                (Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f, 1.0f, 0.8f,
                                 0.8f);
     } else {
-        globalCtx->envCtx.sunPos.x = -(Math_Sins(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-        globalCtx->envCtx.sunPos.y = +(Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-        globalCtx->envCtx.sunPos.z = +(Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
+        globalCtx->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+        globalCtx->envCtx.sunPos.y = +(Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+        globalCtx->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
     }
 
     if (gSaveContext.entranceIndex != 0xCD || ((void)0, gSaveContext.sceneSetupIndex) != 5) {
@@ -1411,7 +1412,7 @@ void Kankyo_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCt
                              Vec3f pos, s32 unused) {
     if ((globalCtx->envCtx.unk_EE[1] == 0) && (globalCtx->envCtx.unk_17 == 0)) {
         Kankyo_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000, 370,
-                             Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f, 400, 1);
+                             Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f, 400, 1);
     }
 }
 
@@ -1552,9 +1553,9 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
             alpha *= 1.0f - fogInfluence;
 
             if (!isOffScreen) { // 5088
-                Math_SmoothScaleMaxMinF(&envCtx->unk_88, unk88Target, 1.0f, 0.05f, 0.001f);
+                Math_SmoothStepToF(&envCtx->unk_88, unk88Target, 1.0f, 0.05f, 0.001f);
             } else {
-                Math_SmoothScaleMaxMinF(&envCtx->unk_88, 0.0f, 1.0f, 0.05f, 0.001f);
+                Math_SmoothStepToF(&envCtx->unk_88, 0.0f, 1.0f, 0.05f, 0.001f);
             }
 
             POLY_XLU_DISP = func_800947AC(POLY_XLU_DISP++);
@@ -1609,9 +1610,9 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
                 gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
 
                 if (!isOffScreen) {
-                    Math_SmoothScaleMaxMinF(&envCtx->unk_84, alpha * alphaScale, 0.5f, 50.0f, 0.1f);
+                    Math_SmoothStepToF(&envCtx->unk_84, alpha * alphaScale, 0.5f, 50.0f, 0.1f);
                 } else {
-                    Math_SmoothScaleMaxMinF(&envCtx->unk_84, 0.0f, 0.5f, 50.0f, 0.1f);
+                    Math_SmoothStepToF(&envCtx->unk_84, 0.0f, 0.5f, 50.0f, 0.1f);
                 }
 
                 temp = arg7 / 120.0f;
@@ -1643,7 +1644,7 @@ u32 D_8011FE48[] = { 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 #endif
 
 f32 func_800746DC() {
-    return Math_Rand_ZeroOne() - 0.5f;
+    return Rand_ZeroOne() - 0.5f;
 }
 
 #ifdef NON_EQUIVALENT
@@ -1693,9 +1694,9 @@ void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxC
 
         // draw rain drops
         for (i = 0; i < globalCtx->envCtx.unk_EE[1]; i++) {
-            vec.x = Math_Rand_ZeroOne();
-            vec.y = Math_Rand_ZeroOne();
-            vec.z = Math_Rand_ZeroOne();
+            vec.x = Rand_ZeroOne();
+            vec.y = Rand_ZeroOne();
+            vec.z = Rand_ZeroOne();
 
             Matrix_Translate((vec.x - 0.7f) * 100.0f + x50, (vec.y - 0.7f) * 100.0f + y50,
                              (vec.z - 0.7f) * 100.0f + z50, MTXMODE_NEW);
@@ -1704,10 +1705,10 @@ void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxC
             windDirection.y = globalCtx->envCtx.windDirection.y;
             windDirection.z = globalCtx->envCtx.windDirection.z;
 
-            tempY = 500.0f + Math_Rand_ZeroOne() * 200.0f + windDirection.y;
+            tempY = 500.0f + Rand_ZeroOne() * 200.0f + windDirection.y;
             gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            rotX = atan2f(sqrtf(SQ(windDirection.x) + SQ(windDirection.z)), -tempY);
-            rotY = atan2f(windDirection.z, windDirection.x);
+            rotX = Math_Atan2F(sqrtf(SQ(windDirection.x) + SQ(windDirection.z)), -tempY);
+            rotY = Math_Atan2F(windDirection.z, windDirection.x);
             Matrix_RotateY(-rotY, MTXMODE_APPLY);
             Matrix_RotateX(M_PI / 2 - rotX, MTXMODE_APPLY);
             Matrix_Scale(0.4f, 1.2f, 0.4f, MTXMODE_APPLY);
@@ -1717,7 +1718,7 @@ void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxC
         }
 
         // draw droplet rings on the ground
-        if (player->actor.posRot.pos.y < view->eye.y) {
+        if (player->actor.world.pos.y < view->eye.y) {
             firstDone = false;
 
             for (i = 0; i < globalCtx->envCtx.unk_EE[1]; i++) {
@@ -1728,11 +1729,11 @@ void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxC
                     firstDone++;
                 }
 
-                Matrix_Translate(func_800746DC() * 280.0f + x280, player->actor.posRot.pos.y + 2.0f,
+                Matrix_Translate(func_800746DC() * 280.0f + x280, player->actor.world.pos.y + 2.0f,
                                  func_800746DC() * 280.0f + z280, MTXMODE_NEW);
 
-                if ((LINK_IS_ADULT && ((player->actor.posRot.pos.y + 2.0f - view->eye.y) > -48.0f)) ||
-                    (LINK_IS_CHILD && ((player->actor.posRot.pos.y + 2.0f - view->eye.y) > -30.0f))) {
+                if ((LINK_IS_ADULT && ((player->actor.world.pos.y + 2.0f - view->eye.y) > -48.0f)) ||
+                    (LINK_IS_CHILD && ((player->actor.world.pos.y + 2.0f - view->eye.y) > -30.0f))) {
                     Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
                 } else {
                     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
@@ -1829,11 +1830,11 @@ void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx) {
         switch (gLightningStrike.state) {
             case LIGHTNING_STRIKE_WAIT:
                 // every frame theres a 10% chance of the timer advancing 50 frames
-                if (Math_Rand_ZeroOne() < 0.1f) {
+                if (Rand_ZeroOne() < 0.1f) {
                     gLightningStrike.delayTimer += 50.0f;
                 }
 
-                gLightningStrike.delayTimer += Math_Rand_ZeroOne();
+                gLightningStrike.delayTimer += Rand_ZeroOne();
 
                 if (gLightningStrike.delayTimer > 500.0f) {
                     gLightningStrike.flashRed = 200;
@@ -1842,7 +1843,7 @@ void Kankyo_UpdateLightningStrike(GlobalContext* globalCtx) {
                     gLightningStrike.flashAlphaTarget = 200;
 
                     gLightningStrike.delayTimer = 0.0f;
-                    Kankyo_AddLightningBolts(globalCtx, (u8)(Math_Rand_ZeroOne() * 2.9f) + 1);
+                    Kankyo_AddLightningBolts(globalCtx, (u8)(Rand_ZeroOne() * 2.9f) + 1);
                     sLightningFlashAlpha = 0;
                     gLightningStrike.state++;
                 }
@@ -1945,16 +1946,16 @@ void Kankyo_DrawLightning(GlobalContext* globalCtx, s32 unused) {
                 z = dz / sqrtf(SQ(dx) + SQ(dz));
 
                 sLightningBolts[i].pos.x = globalCtx->view.eye.x + x * 9500.0f;
-                sLightningBolts[i].pos.y = Math_Rand_ZeroOne() * 1000.0f + 4000.0f;
+                sLightningBolts[i].pos.y = Rand_ZeroOne() * 1000.0f + 4000.0f;
                 sLightningBolts[i].pos.z = globalCtx->view.eye.z + z * 9500.0f;
 
-                sLightningBolts[i].offset.x = (Math_Rand_ZeroOne() - 0.5f) * 5000.0f;
+                sLightningBolts[i].offset.x = (Rand_ZeroOne() - 0.5f) * 5000.0f;
                 sLightningBolts[i].offset.y = 0.0f;
-                sLightningBolts[i].offset.z = (Math_Rand_ZeroOne() - 0.5f) * 5000.0f;
+                sLightningBolts[i].offset.z = (Rand_ZeroOne() - 0.5f) * 5000.0f;
 
                 sLightningBolts[i].textureIndex = 0;
-                sLightningBolts[i].pitch = (Math_Rand_ZeroOne() - 0.5f) * 40.0f;
-                sLightningBolts[i].roll = (Math_Rand_ZeroOne() - 0.5f) * 40.0f;
+                sLightningBolts[i].pitch = (Rand_ZeroOne() - 0.5f) * 40.0f;
+                sLightningBolts[i].roll = (Rand_ZeroOne() - 0.5f) * 40.0f;
                 sLightningBolts[i].delayTimer = 3 * (i + 1);
                 sLightningBolts[i].state++;
                 break;
@@ -2005,7 +2006,7 @@ void func_800758AC(GlobalContext* globalCtx) {
         func_800F6FB4(4);
     } else if (((void)0, gSaveContext.unk_140E) != 0) {
         if (!func_80077600()) {
-            Audio_SetBGM(((void)0, gSaveContext.unk_140E));
+            Audio_ProcessSeqCmd(((void)0, gSaveContext.unk_140E));
         }
 
         gSaveContext.unk_140E = 0;
@@ -2070,7 +2071,7 @@ void func_80075B44(GlobalContext* globalCtx) {
         case 1:
             if (gSaveContext.dayTime > 0xB71C) {
                 if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                    Audio_SetBGM(0x10F000FF);
+                    Audio_QueueSeqCmd(0x10F000FF);
                 }
                 globalCtx->envCtx.unk_E0++;
             }
@@ -2148,13 +2149,13 @@ void Kankyo_InitGameOverLights(GlobalContext* globalCtx) {
 
     sGameOverLightsRGB = 0;
 
-    Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.posRot.pos.x - 10.0f,
-                              (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z - 10.0f, 0, 0, 0,
+    Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.world.pos.x - 10.0f,
+                              (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z - 10.0f, 0, 0, 0,
                               255);
     sNGameOverLightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &sNGameOverLightInfo);
 
-    Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.posRot.pos.x + 10.0f,
-                              (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z + 10.0f, 0, 0, 0,
+    Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.world.pos.x + 10.0f,
+                              (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z + 10.0f, 0, 0, 0,
                               255);
     sSGameOverLightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &sSGameOverLightInfo);
 }
@@ -2163,11 +2164,11 @@ void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 i;
 
-    Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.posRot.pos.x - 10.0f,
-                              (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z - 10.0f,
+    Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.world.pos.x - 10.0f,
+                              (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z - 10.0f,
                               sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 255);
-    Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.posRot.pos.x + 10.0f,
-                              (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z + 10.0f,
+    Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.world.pos.x + 10.0f,
+                              (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z + 10.0f,
                               sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 255);
 
     if (sGameOverLightsRGB < 254) {
@@ -2213,18 +2214,18 @@ void Kankyo_FadeOutGameOverLights(GlobalContext* globalCtx) {
         LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, sNGameOverLightNode);
         LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, sSGameOverLightNode);
     } else if (sGameOverLightsRGB >= 2) {
-        Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.posRot.pos.x - 10.0f,
-                                  (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z - 10.0f,
+        Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.world.pos.x - 10.0f,
+                                  (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z - 10.0f,
                                   sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 255);
-        Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.posRot.pos.x + 10.0f,
-                                  (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z + 10.0f,
+        Lights_PointNoGlowSetInfo(&sSGameOverLightInfo, (s16)player->actor.world.pos.x + 10.0f,
+                                  (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z + 10.0f,
                                   sGameOverLightsRGB, sGameOverLightsRGB, sGameOverLightsRGB, 255);
     }
 
     if (func_800C0CB8(globalCtx)) {
         for (i = 0; i < 3; i++) {
-            Math_SmoothScaleMaxMinS(&globalCtx->envCtx.adjAmbientColor[i], 0, 5, 12, 1);
-            Math_SmoothScaleMaxMinS(&globalCtx->envCtx.adjLight1Color[i], 0, 5, 12, 1);
+            Math_SmoothStepToS(&globalCtx->envCtx.adjAmbientColor[i], 0, 5, 12, 1);
+            Math_SmoothStepToS(&globalCtx->envCtx.adjLight1Color[i], 0, 5, 12, 1);
             globalCtx->envCtx.adjFogColor[i] = 0;
         }
         globalCtx->envCtx.adjFogFar = 0;

@@ -50,7 +50,7 @@ void func_8007B9A4(GraphicsContext* gfxCtx, u8 arg1) {
     }
 
     gSPTextureRectangle(POLY_OPA_DISP++, D_80120120 << 2, D_80120124 << 2, (D_80120120 + 8) << 2, (D_80120124 + 8) << 2,
-                        G_TX_RENDERTILE, (u16)(arg1 & 4) * 64, (u16)(arg1 >> 3) * 256, 1024, 1024);
+                        G_TX_RENDERTILE, (u16)(arg1 & 4) * 64, (u16)(arg1 >> 3) * 256, 1 << 10, 1 << 10);
 
     CLOSE_DISPS(gfxCtx, "../z_moji.c", 123);
 }
@@ -67,15 +67,8 @@ void func_8007BBA8(GraphicsContext* gfxCtx, u8* arg1) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sFontColorRed, sFontColorGreen, sFontColorBlue, sFontColorAlpha);
 
-    gDPSetTextureImage(POLY_OPA_DISP++, G_IM_FMT_CI, G_IM_SIZ_16b, 1, (s32)gFontFF);
-    gDPSetTile(POLY_OPA_DISP++, G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPLoadSync(POLY_OPA_DISP++);
-    gDPLoadBlock(POLY_OPA_DISP++, G_TX_LOADTILE, 0, 0, 511, 2048);
-    gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetTile(POLY_OPA_DISP++, G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPSetTileSize(POLY_OPA_DISP++, G_TX_RENDERTILE, 0, 0, 60, 508);
+    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, (s32)gFontFF, G_IM_FMT_CI, 16, 128, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     D_8015FFC0 = -1;
 

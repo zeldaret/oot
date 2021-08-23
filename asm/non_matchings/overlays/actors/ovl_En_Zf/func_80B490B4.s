@@ -27,7 +27,7 @@ glabel func_80B490B4
 /* 050C4 80B49114 10410048 */  beq     $v0, $at, .L80B49238       
 /* 050C8 80B49118 26050430 */  addiu   $a1, $s0, 0x0430           ## $a1 = 00000430
 /* 050CC 80B4911C A2020410 */  sb      $v0, 0x0410($s0)           ## 00000410
-/* 050D0 80B49120 0C00D594 */  jal     func_80035650              
+/* 050D0 80B49120 0C00D594 */  jal     Actor_SetDropFlag              
 /* 050D4 80B49124 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 050D8 80B49128 920200B1 */  lbu     $v0, 0x00B1($s0)           ## 000000B1
 /* 050DC 80B4912C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -44,7 +44,7 @@ glabel func_80B490B4
 /* 05104 80B49154 24090050 */  addiu   $t1, $zero, 0x0050         ## $t1 = 00000050
 /* 05108 80B49158 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 0510C 80B4915C 24060078 */  addiu   $a2, $zero, 0x0078         ## $a2 = 00000078
-/* 05110 80B49160 0C00D09B */  jal     func_8003426C              
+/* 05110 80B49160 0C00D09B */  jal     Actor_SetColorFilter              
 /* 05114 80B49164 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 05118 80B49168 0C00D58A */  jal     Actor_ApplyDamage
               
@@ -62,7 +62,7 @@ glabel func_80B490B4
 /* 05140 80B49190 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 05144 80B49194 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 05148 80B49198 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 0514C 80B4919C 0C00D09B */  jal     func_8003426C              
+/* 0514C 80B4919C 0C00D09B */  jal     Actor_SetColorFilter              
 /* 05150 80B491A0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 05154 80B491A4 0C00D58A */  jal     Actor_ApplyDamage
               
@@ -85,7 +85,7 @@ glabel func_80B490B4
               
 /* 05194 80B491E4 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
 /* 05198 80B491E8 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 0519C 80B491EC 0C00CB1F */  jal     func_80032C7C              
+/* 0519C 80B491EC 0C00CB1F */  jal     Enemy_StartFinishingBlow              
 /* 051A0 80B491F0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 051A4 80B491F4 10000011 */  beq     $zero, $zero, .L80B4923C   
 /* 051A8 80B491F8 8FBF0024 */  lw      $ra, 0x0024($sp)           

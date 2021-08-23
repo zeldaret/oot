@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_sibuki2.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -25,8 +26,6 @@ EffectSsInit Effect_Ss_Sibuki2_InitVars = {
     EFFECT_SS_SIBUKI2,
     EffectSsSibuki2_Init,
 };
-
-extern Gfx D_0401E2C0[];
 
 u32 EffectSsSibuki2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsSibuki2InitParams* initParams = (EffectSsSibuki2InitParams*)initParamsx;
@@ -51,11 +50,12 @@ u32 EffectSsSibuki2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     return 1;
 }
 
-static void* sTextures[] = {
-    0x0401C2C0, 0x0401C2C0, 0x0401C6C0, 0x0401CAC0, 0x0401CEC0, 0x0401D2C0, 0x0401D6C0, 0x0401DAC0, 0x0401DEC0,
-};
-
 void EffectSsSibuki2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    static void* bubbleTextures[] = {
+        gEffUnusedBubbles1Tex, gEffUnusedBubbles1Tex, gEffUnusedBubbles2Tex,
+        gEffUnusedBubbles3Tex, gEffUnusedBubbles4Tex, gEffUnusedBubbles5Tex,
+        gEffUnusedBubbles6Tex, gEffUnusedBubbles7Tex, gEffUnusedBubbles8Tex,
+    };
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 scale = this->rScale / 100.0f;
 
@@ -68,8 +68,8 @@ void EffectSsSibuki2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     func_80093D18(gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
     gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
-    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0401E2C0));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(bubbleTextures[this->rTexIdx]));
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffUnusedBubblesDL));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_sibuki2.c", 198);
 }

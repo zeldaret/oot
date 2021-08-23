@@ -1,6 +1,6 @@
 #include "global.h"
 
-void MsgEvent_SendNullTask() {
+void MsgEvent_SendNullTask(void) {
     s32 pad[4];
     OSScTask task;
     OSMesgQueue queue;

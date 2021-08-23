@@ -5,6 +5,7 @@
  */
 
 #include "z_item_ocarina.h"
+#include "scenes/overworld/spot00/spot00_scene.h"
 
 #define FLAGS 0x00000010
 
@@ -25,7 +26,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx);
 
 const ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GI_OCARINA,
     sizeof(ItemOcarina),
@@ -34,8 +35,6 @@ const ActorInit Item_Ocarina_InitVars = {
     (ActorFunc)ItemOcarina_Update,
     (ActorFunc)ItemOcarina_Draw,
 };
-
-extern CutsceneData D_0200F870[]; // song of time cutscene
 
 void ItemOcarina_SetupAction(ItemOcarina* this, ItemOcarinaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -94,17 +93,17 @@ void ItemOcarina_Fly(ItemOcarina* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->csCtx.frames == 881) {
-        this->actor.posRot.pos.x = 250.0f;
-        this->actor.posRot.pos.y = 60.0f;
-        this->actor.posRot.pos.z = 1075.0f;
+        this->actor.world.pos.x = 250.0f;
+        this->actor.world.pos.y = 60.0f;
+        this->actor.world.pos.z = 1075.0f;
         this->actor.velocity.x = 1.0f;
         this->actor.velocity.y = -5.0f;
         this->actor.velocity.z = -7.0f;
     }
 
     if (globalCtx->csCtx.frames == 897) {
-        EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, 100, 500, 0);
-        EffectSsGSplash_Spawn(globalCtx, &this->actor.posRot.pos, 0, 0, 1, 0);
+        EffectSsGRipple_Spawn(globalCtx, &this->actor.world.pos, 100, 500, 0);
+        EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, 0, 0, 1, 0);
         this->actor.velocity.x = 0.0f;
         this->actor.velocity.y = 0.0f;
         this->actor.velocity.z = 0.0f;
@@ -146,9 +145,9 @@ void func_80B864EC(ItemOcarina* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->csCtx.frames == 220) {
-        this->actor.posRot.pos.x = 144.0f;
-        this->actor.posRot.pos.y = 80.0f;
-        this->actor.posRot.pos.z = 1686.0f;
+        this->actor.world.pos.x = 144.0f;
+        this->actor.world.pos.y = 80.0f;
+        this->actor.world.pos.z = 1686.0f;
         this->actor.velocity.x = 1.0f;
         this->actor.velocity.y = 2.0f;
         this->actor.velocity.z = -7.0f;
@@ -171,7 +170,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx) {
 
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_0200F870);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldaSongOfTimeCs);
         gSaveContext.cutsceneTrigger = 1;
     }
 }
@@ -186,7 +185,7 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
         func_8002F434(&this->actor, globalCtx, GI_OCARINA_OOT, 30.0f, 50.0f);
 
         if ((globalCtx->gameplayFrames & 13) == 0) {
-            EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 0.0f, 0.0f, 10.0f, 0.13f);
+            EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);
         }
     }
 }
@@ -202,5 +201,5 @@ void ItemOcarina_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002EBCC(thisx, globalCtx, 0);
     func_8002ED80(thisx, globalCtx, 0);
-    func_800694A0(globalCtx, 0x2E);
+    GetItem_Draw(globalCtx, GID_OCARINA_TIME);
 }

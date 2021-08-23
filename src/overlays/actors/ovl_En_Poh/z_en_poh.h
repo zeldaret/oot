@@ -26,12 +26,12 @@ typedef struct {
     /* 0x0006 */ u8 unk_6; // limb index
     /* 0x0006 */ u8 unk_7; // limb index
     /* 0x0008 */ s8 unk_8; // rate of some kind
-    /* 0x000C */ AnimationHeader* unk_C;
-    /* 0x0010 */ AnimationHeader* unk_10;
-    /* 0x0014 */ UNK_PTR unk_14;
-    /* 0x0018 */ AnimationHeader* unk_18;
-    /* 0x001C */ Gfx* unk_1C;
-    /* 0x0020 */ Gfx* unk_20;
+    /* 0x000C */ AnimationHeader* idleAnim;
+    /* 0x0010 */ AnimationHeader* idleAnim2;
+    /* 0x0014 */ AnimationHeader* damageAnim;
+    /* 0x0018 */ AnimationHeader* fleeAnim;
+    /* 0x001C */ Gfx* lanternDisplayList;
+    /* 0x0020 */ Gfx* burnDisplayList;
     /* 0x0024 */ Gfx* soulDisplayList;
 } EnPohInfo; // size = 0x28
 
@@ -46,8 +46,8 @@ typedef struct EnPoh {
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 visibilityTimer;
     /* 0x019C */ s16 unk_19C;
-    /* 0x019E */ Vec3s limbDrawTable[21];
-    /* 0x021C */ Vec3s transitionDrawTable[21];
+    /* 0x019E */ Vec3s jointTable[21];
+    /* 0x021C */ Vec3s morphTable[21];
     /* 0x029A */ Color_RGBA8 lightColor;
     /* 0x029E */ Color_RGBA8 envColor;
     /* 0x02A4 */ EnPohInfo* info;
@@ -55,7 +55,7 @@ typedef struct EnPoh {
     /* 0x02AC */ LightInfo lightInfo;
     /* 0x02BC */ ColliderCylinder colliderCyl;
     /* 0x0308 */ ColliderJntSph colliderSph;
-    /* 0x0328 */ ColliderJntSphItem colliderSphItem;
+    /* 0x0328 */ ColliderJntSphElement colliderSphItem;
     /* 0x0368 */ MtxF unk_368;
 } EnPoh; // size = 0x03A8
 

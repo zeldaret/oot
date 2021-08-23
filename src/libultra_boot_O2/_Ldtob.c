@@ -42,9 +42,9 @@ const f64 D_800122E0[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 1
 
 void _Ldtob(_Pft* args, u8 type) {
     u8 buff[BUFF_LEN];
-    u8* ptr;
+    u8* ptr = buff;
     u32 sp70;
-    f64 val;
+    f64 val = args->v.ld;
     /* maybe struct? */
     s16 err;
     s16 nsig;
@@ -60,14 +60,10 @@ void _Ldtob(_Pft* args, u8 type) {
     u8 drop;
     s32 n2;
 
-    ptr = buff;
-    val = args->v.ld;
     if (args->prec < 0) {
         args->prec = 6;
-    } else {
-        if (args->prec == 0 && (type == 'g' || type == 'G')) {
-            args->prec = 1;
-        }
+    } else if (args->prec == 0 && (type == 'g' || type == 'G')) {
+        args->prec = 1;
     }
     err = _Ldunscale(&exp, (_Pft*)args);
     if (err > 0) {
@@ -90,18 +86,16 @@ void _Ldtob(_Pft* args, u8 type) {
                     val *= D_800122E0[i];
                 }
             }
-        } else {
-            if (exp > 0) {
-                factor = 1;
-                exp &= ~3;
+        } else if (exp > 0) {
+            factor = 1;
+            exp &= ~3;
 
-                for (n = exp, i = 0; n > 0; n >>= 1, i++) {
-                    if ((n & 1) != 0) {
-                        factor *= D_800122E0[i];
-                    }
+            for (n = exp, i = 0; n > 0; n >>= 1, i++) {
+                if ((n & 1) != 0) {
+                    factor *= D_800122E0[i];
                 }
-                val /= factor;
             }
+            val /= factor;
         }
         gen = ((type == 'f') ? exp + 10 : 6) + args->prec;
         if (gen > 0x13) {
@@ -157,27 +151,28 @@ void _Ldtob(_Pft* args, u8 type) {
 }
 
 s16 _Ldunscale(s16* pex, _Pft* px) {
-
     u16* ps = (u16*)px;
     s16 xchar = (ps[_D0] & _DMASK) >> _DOFF;
+
     if (xchar == _DMAX) { /* NaN or INF */
         *pex = 0;
         return (s16)(ps[_D0] & _DFRAC || ps[_D1] || ps[_D2] || ps[_D3] ? NAN : INF);
     } else if (0 < xchar) {
         ps[_D0] = (ps[_D0] & ~_DMASK) | (_DBIAS << _DOFF);
         *pex = xchar - (_DBIAS - 1);
-        return (FINITE);
+        return FINITE;
     }
     if (0 > xchar) {
         return NAN;
     } else {
         *pex = 0;
-        return (0);
+        return 0;
     }
 }
 
 void _Genld(_Pft* px, u8 code, u8* p, s16 nsig, s16 xexp) {
     u8 point = '.';
+
     if (nsig <= 0) {
         nsig = 1,
 

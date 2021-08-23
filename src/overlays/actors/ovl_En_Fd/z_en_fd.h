@@ -32,7 +32,7 @@ typedef struct EnFd {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnFdActionFunc actionFunc;
     /* 0x0194 */ ColliderJntSph collider;
-    /* 0x01B4 */ ColliderJntSphItem colSphs[12];
+    /* 0x01B4 */ ColliderJntSphElement colSphs[12];
     /* 0x04B4 */ u8 coreActive;
     /* 0x04B6 */ s16 initYawToInitPos;
     /* 0x04B8 */ s16 curYawToInitPos;
@@ -45,8 +45,8 @@ typedef struct EnFd {
     /* 0x04C8 */ f32 runRadius;
     /* 0x04CC */ f32 fadeAlpha;
     /* 0x04D0 */ Vec3f corePos;
-    /* 0x04DC */ Vec3s limbDrawTable[27];
-    /* 0x057E */ Vec3s transitionDrawTable[27];
+    /* 0x04DC */ Vec3s jointTable[27];
+    /* 0x057E */ Vec3s morphTable[27];
     /* 0x0620 */ EnFdEffect effects[200];
 } EnFd; // size = 0x31E0
 

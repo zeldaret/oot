@@ -10,6 +10,17 @@
 #define CAM_STAT_ACTIVE     7
 #define CAM_STAT_UNK100     0x100
 
+#define NUM_CAMS 4
+#define MAIN_CAM 0
+#define SUBCAM_FIRST 1
+#define SUBCAM_FREE 0
+#define SUBCAM_NONE -1
+#define SUBCAM_ACTIVE -1
+
+#define ONEPOINT_CS_INFO(camera) ((Unique9OnePointCs*)camera->paramData)
+#define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
+#define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
+
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
     /* 0x01 */ CAM_SET_NORMAL0,
@@ -677,9 +688,9 @@ typedef struct {
  * & 0x00FF = atInitFlags
  * & 0xFF00 = eyeInitFlags
  * 0x1: Direct Copy of atTargetInit
- *      if initFlags & 0x6060: use posRot2 for focus point
+ *      if initFlags & 0x6060: use head for focus point
  * 0x2: Add atTargetInit to view's lookAt
- *      if initFlags & 0x6060: use posRot for focus point
+ *      if initFlags & 0x6060: use world for focus point
  * 0x3: Add atTargetInit to camera's at
  * 0x4: Don't update targets? 
  * 0x8: flag to use atTagetInit as f32 pitch, yaw, r
@@ -696,10 +707,10 @@ typedef struct {
     /* 0x000C */ f32 lerpStepScale;
     /* 0x0010 */ Vec3f atTargetInit;
     /* 0x001C */ Vec3f eyeTargetInit;
-} OnePointDemoFull; /* size = 0x28 */
+} OnePointCsFull; /* size = 0x28 */
 
 typedef struct {
-    /* 0x0000 */ OnePointDemoFull* curKeyFrame;
+    /* 0x0000 */ OnePointCsFull* curKeyFrame;
     /* 0x0004 */ Vec3f atTarget;
     /* 0x0010 */ Vec3f eyeTarget;
     /* 0x001C */ Vec3f playerPos;
@@ -719,9 +730,9 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ s32 keyFrameCnt;
-    /* 0x0004 */ OnePointDemoFull* keyFrames;
+    /* 0x0004 */ OnePointCsFull* keyFrames;
     /* 0x0008 */ Unique9 uniq9;
-} Unique9OnePointDemo; // size = 0x48
+} Unique9OnePointCs; // size = 0x48
 
 typedef struct {
     /* 0x0000 */ f32 curFrame;
@@ -776,12 +787,12 @@ typedef struct {
     /* 0x0004 */ CutsceneCameraPoint* eyePoints;
     /* 0x0008 */ s16 actionParameters;
     /* 0x000A */ s16 initTimer;
-} OnePointDemoCamera; // size = 0xC
+} OnePointCsCamera; // size = 0xC
 
 typedef struct {
-    /* 0x0000 */ OnePointDemoCamera onePointDemo;
+    /* 0x0000 */ OnePointCsCamera onePointCs;
     /* 0x000C */ Demo9 demo9;
-} Demo9OnePointDemo; // size = 0x1C
+} Demo9OnePointCs; // size = 0x1C
 
 typedef struct {
     /* 0x0000 */ f32 lerpAtScale;
@@ -845,11 +856,11 @@ typedef struct {
     /* 0x000C */ Vec3f norm;
     /* 0x0018 */ CollisionPoly* poly;
     /* 0x001C */ VecSph sphNorm;
-    /* 0x0024 */ u32 bgId;
+    /* 0x0024 */ s32 bgId;
 } CamColChk; // size = 0x28
 
 typedef struct {
-    char paramData[0x50];
+    /* 0x0000 */ char paramData[0x50];
     /* 0x0050 */ Vec3f at;
     /* 0x005C */ Vec3f eye;
     /* 0x0068 */ Vec3f up;
@@ -884,7 +895,7 @@ typedef struct {
     /* 0x012C */ s16 data2;
     /* 0x012E */ s16 data3;
     /* 0x0130 */ s16 uid;
-    /* 0x0132 */ char unk_132[0x02];
+    /* 0x0132 */ char unk_132[2];
     /* 0x0134 */ Vec3s inputDir;
     /* 0x013A */ Vec3s camDir;
     /* 0x0140 */ s16 status;
@@ -907,44 +918,74 @@ typedef struct {
     /* 0x0162 */ s16 parentCamIdx;
     /* 0x0164 */ s16 thisIdx;
     /* 0x0166 */ s16 prevCamDataIdx;
-    /* 0x0168 */ s16 unk_168;
+    /* 0x0168 */ s16 csId;
     /* 0x016A */ s16 unk_16A;
 } Camera; // size = 0x16C
 
 /**
  * Debug Camera
 */
+
 typedef struct {
-    /* 0x0000 */ UNK_TYPE unk_00;
+    /* 0x0000 */ s16 mode;
+    /* 0x0002 */ s16 nFrames;
+    /* 0x0004 */ s16 nPoints;
+    /* 0x0006 */ s16 unkIdx;
+    /* 0x0008 */ s16 unk_08;
+    /* 0x000A */ s16 unk_0A;
+    /* 0x000C */ s32 unk_0C; // bool: indicates position vs lookAt?
+    /* 0x0010 */ char unk_10[0x14];
+    /* 0x0024 */ CutsceneCameraPoint position[129];
+    /* 0x0834 */ CutsceneCameraPoint lookAt[129];
+    /* 0x1044 */ s16 demoCtrlMenu;
+    /* 0x1046 */ s16 demoCtrlActionIdx; // e (?), s (save), l (load), c (clear)
+    /* 0x1048 */ s16 demoCtrlToggleSwitch;
+    /* 0x104A */ Vec3s unk_104A;
+} DbCameraSub; // size = 0x1050
+
+typedef struct {
+    /* 0x0000 */ s32 unk_00;
     /* 0x0004 */ Vec3f at;
     /* 0x0010 */ Vec3f eye;
-    /* 0x001C */ Vec3f up;
-    /* 0x0028 */ Vec3f unk_28;
-    /* 0x0034 */ UNK_TYPE unk_34;
-    /* 0x0038 */ UNK_TYPE unk_38;
-    /* 0x003C */ UNK_TYPE unk_3C;
-    /* 0x0040 */ UNK_TYPE unk_40;
-    /* 0x0044 */ UNK_TYPE unk_44;
+    /* 0x001C */ Vec3f unk_1C;
+    /* 0x0028 */ char unk_28[0xC];
+    /* 0x0034 */ s32 unk_34;
+    /* 0x0038 */ s32 unk_38;
+    /* 0x003C */ s32 unk_3C; // bool
+    /* 0x0040 */ s32 unk_40;
+    /* 0x0044 */ s32 unk_44;
     /* 0x0048 */ f32 fov;
-    /* 0x004C */ s16 unk_4C;
-    /* 0x0050 */ f32 unk_50;
+    /* 0x004C */ s16 roll;
+    /* 0x004E */ char unk_4E[0x2];
+    /* 0x0050 */ f32 rollDegrees;
     /* 0x0054 */ Vec3f unk_54;
-    /* 0x0054 */ Vec3f unk_60;
-    /* 0x006C */ f32 unk_6C;
-    /* 0x0070 */ f32 unk_70;
-    /* 0x0074 */ f32 unk_74;
+    /* 0x0060 */ Vec3f unk_60;
+    /* 0x006C */ Vec3f unk_6C;
     /* 0x0078 */ s16 unk_78;
     /* 0x007A */ s16 unk_7A;
-    /* 0x007C */ s16 unk_7C;
-    /* 0x007E */ s16 unk_7E;
-    /* 0x0080 */ s16 unk_80;
-    /* 0x0082 */ s16 unk_82;
-    /* 0x0084 */ s16 unk_84;
-    /* 0x0086 */ s16 unk_86;
-    /* 0x0088 */ s32 unk_88;
-    /* 0x008A */ char unk_8C[0x1034];
-    /* 0x10C0 */ Vec3s unk_10C0;
-    /* 0x10C6 */ Vec3s unk_10C6;
-} DBCamera; // size = 0x10CC
+    /* 0x007C */ DbCameraSub sub;
+} DbCamera; // size = 0x10CC
+
+typedef struct {
+    /* 0x00 */ char letter;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ s16 mode;
+    /* 0x04 */ CutsceneCameraPoint* position;
+    /* 0x08 */ CutsceneCameraPoint* lookAt;
+    /* 0x0C */ s16 nFrames;
+    /* 0x0E */ s16 nPoints;
+} DbCameraCut; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ f32 curFrame;
+    /* 0x04 */ f32 unk_04; // frame count?
+    /* 0x08 */ s16 keyframe;
+    /* 0x0A */ s16 unk_0A;
+    /* 0x0C */ s16 unk_0C;
+    /* 0x10 */ Vec3f positionPos; // confusing name
+    /* 0x1C */ Vec3f lookAtPos;
+    /* 0x28 */ f32 roll;
+    /* 0x2C */ f32 fov;
+} DbCameraAnim; // size = 0x30
 
 #endif

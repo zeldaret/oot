@@ -17,19 +17,19 @@ u32 sIrqMgrRetraceCount = 0;
 #define STATUS_NMI 2
 
 void IrqMgr_AddClient(IrqMgr* this, IrqMgrClient* c, OSMesgQueue* msgQ) {
-    u32 prevMask;
+    u32 prevInt;
 
     LogUtils_CheckNullPointer("this", this, "../irqmgr.c", 96);
     LogUtils_CheckNullPointer("c", c, "../irqmgr.c", 97);
     LogUtils_CheckNullPointer("msgQ", msgQ, "../irqmgr.c", 98);
 
-    prevMask = osSetIntMask(1);
+    prevInt = osSetIntMask(1);
 
     c->queue = msgQ;
     c->prev = this->clients;
     this->clients = c;
 
-    osSetIntMask(prevMask);
+    osSetIntMask(prevInt);
 
     if (this->resetStatus > STATUS_IDLE) {
         osSendMesg(c->queue, (OSMesg) & this->prenmiMsg, OS_MESG_NOBLOCK);
@@ -41,19 +41,16 @@ void IrqMgr_AddClient(IrqMgr* this, IrqMgrClient* c, OSMesgQueue* msgQ) {
 }
 
 void IrqMgr_RemoveClient(IrqMgr* this, IrqMgrClient* c) {
-    IrqMgrClient* iter;
-    IrqMgrClient* lastIter;
-    u32 prevMask;
-
-    iter = this->clients;
-    lastIter = NULL;
+    IrqMgrClient* iter = this->clients;
+    IrqMgrClient* lastIter = NULL;
+    u32 prevInt;
 
     LogUtils_CheckNullPointer("this", this, "../irqmgr.c", 129);
     LogUtils_CheckNullPointer("c", c, "../irqmgr.c", 130);
 
-    prevMask = osSetIntMask(1);
+    prevInt = osSetIntMask(1);
 
-    while (iter) {
+    while (iter != NULL) {
         if (iter == c) {
             if (lastIter) {
                 lastIter->prev = c->prev;
@@ -66,14 +63,13 @@ void IrqMgr_RemoveClient(IrqMgr* this, IrqMgrClient* c) {
         iter = iter->prev;
     }
 
-    osSetIntMask(prevMask);
+    osSetIntMask(prevInt);
 }
 
 void IrqMgr_SendMesgForClient(IrqMgr* this, OSMesg msg) {
-    IrqMgrClient* iter;
+    IrqMgrClient* iter = this->clients;
 
-    iter = this->clients;
-    while (iter) {
+    while (iter != NULL) {
         if (iter->queue->validCount >= iter->queue->msgCount) {
             // irqmgr_SendMesgForClient: Message queue is overflowing mq=%08x cnt=%d
             osSyncPrintf(
@@ -88,10 +84,9 @@ void IrqMgr_SendMesgForClient(IrqMgr* this, OSMesg msg) {
 }
 
 void IrqMgr_JamMesgForClient(IrqMgr* this, OSMesg msg) {
-    IrqMgrClient* iter;
+    IrqMgrClient* iter = this->clients;
 
-    iter = this->clients;
-    while (iter) {
+    while (iter != NULL) {
         if (iter->queue->validCount >= iter->queue->msgCount) {
             // irqmgr_JamMesgForClient: Message queue is overflowing mq=%08x cnt=%d
             osSyncPrintf(
@@ -101,17 +96,17 @@ void IrqMgr_JamMesgForClient(IrqMgr* this, OSMesg msg) {
             // mistake? the function's name suggests it would use osJamMesg
             osSendMesg(iter->queue, msg, OS_MESG_NOBLOCK);
         }
-
         iter = iter->prev;
     }
 }
 
 void IrqMgr_HandlePreNMI(IrqMgr* this) {
     u64 temp = STATUS_PRENMI; // required to match
+
     gIrqMgrResetStatus = temp;
     this->resetStatus = STATUS_PRENMI;
-
     sIrqMgrResetTime = this->resetTime = osGetTime();
+
     osSetTimer(&this->timer, OS_USEC_TO_CYCLES(450000), 0ull, &this->queue, (OSMesg)PRENMI450_MSG);
     IrqMgr_JamMesgForClient(this, (OSMesg) & this->prenmiMsg);
 }
@@ -135,12 +130,14 @@ void IrqMgr_HandlePRENMI450(IrqMgr* this) {
     u64 temp = STATUS_NMI; // required to match
     gIrqMgrResetStatus = temp;
     this->resetStatus = STATUS_NMI;
+
     osSetTimer(&this->timer, OS_USEC_TO_CYCLES(30000), 0ull, &this->queue, (OSMesg)PRENMI480_MSG);
     IrqMgr_SendMesgForClient(this, (OSMesg) & this->nmiMsg);
 }
 
 void IrqMgr_HandlePRENMI480(IrqMgr* this) {
     u32 ret;
+
     osSetTimer(&this->timer, OS_USEC_TO_CYCLES(20000), 0ull, &this->queue, (OSMesg)PRENMI500_MSG);
     ret = osAfterPreNMI();
     if (ret) {
@@ -167,10 +164,9 @@ void IrqMgr_HandleRetrace(IrqMgr* this) {
 
 void IrqMgr_ThreadEntry(void* arg0) {
     OSMesg msg;
-    IrqMgr* this;
+    IrqMgr* this = (IrqMgr*)arg0;
     u8 exit;
 
-    this = (IrqMgr*)arg0;
     msg = 0;
     osSyncPrintf("ＩＲＱマネージャスレッド実行開始\n"); // Start IRQ manager thread execution
     exit = false;
@@ -215,12 +211,14 @@ void IrqMgr_ThreadEntry(void* arg0) {
 void IrqMgr_Init(IrqMgr* this, void* stack, OSPri pri, u8 retraceCount) {
     LogUtils_CheckNullPointer("this", this, "../irqmgr.c", 346);
     LogUtils_CheckNullPointer("stack", stack, "../irqmgr.c", 347);
+
     this->clients = NULL;
     this->retraceMsg.type = OS_SC_RETRACE_MSG;
     this->prenmiMsg.type = OS_SC_PRE_NMI_MSG;
     this->nmiMsg.type = OS_SC_NMI_MSG;
     this->resetStatus = STATUS_IDLE;
     this->resetTime = 0;
+
     osCreateMesgQueue(&this->queue, this->msgBuf, ARRAY_COUNT(this->msgBuf));
     osSetEventMesg(OS_EVENT_PRENMI, &this->queue, (OSMesg)PRE_NMI_MSG);
     osViSetEvent(&this->queue, (OSMesg)RETRACE_MSG, retraceCount);

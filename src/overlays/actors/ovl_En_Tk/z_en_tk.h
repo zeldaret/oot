@@ -25,7 +25,7 @@ typedef void (*EnTkActionFunc)(struct EnTk*, GlobalContext*);
 
 typedef struct EnTk {
     /* 0x0000 */ Actor      actor;
-    /* 0x014C */ SkelAnime  skelAnim;
+    /* 0x014C */ SkelAnime  skelAnime;
     /* 0x0190 */ EnTkActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ s16        h_1E0;
@@ -43,8 +43,8 @@ typedef struct EnTk {
     /* 0x0224 */ s16        blinkCountdown;
     /* 0x0226 */ s16        headRot;
     /* 0x0228 */ s16        currentWaypoint;
-    /* 0x022A */ Vec3s      hz_22A[18];
-    /* 0x0296 */ Vec3s      hz_296[18];
+    /* 0x022A */ Vec3s      jointTable[18];
+    /* 0x0296 */ Vec3s      morphTable[18];
     /* 0x0304 */ Vec3f      v3f_304;
     /* 0x0310 */ EnTkEff    eff[20];
 } EnTk; // size = 0x0770

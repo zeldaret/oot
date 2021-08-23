@@ -1,3 +1,6 @@
 *.bin
 *.c
 *.h
+*.cfg
+*.vtx.inc
+*.dlist.inc

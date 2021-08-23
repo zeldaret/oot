@@ -7,7 +7,7 @@ u32 __osViIntrCount;
 u32 __osTimerCounter;
 OSTimer* __osTimerList = &__osBaseTimer;
 
-void __osTimerServicesInit() {
+void __osTimerServicesInit(void) {
     __osCurrentTime = 0;
     __osBaseCounter = 0;
     __osViIntrCount = 0;
@@ -19,76 +19,83 @@ void __osTimerServicesInit() {
     __osTimerList->msg = NULL;
 }
 
-void __osTimerInterrupt() {
-    OSTimer* sp24;
+void __osTimerInterrupt(void) {
+    OSTimer* timer;
     u32 sp20;
     u32 sp1c;
+
     if (__osTimerList->next == __osTimerList) {
         return;
     }
-    while (1) {
-        sp24 = __osTimerList->next;
-        if (sp24 == __osTimerList) {
+
+    while (true) {
+        timer = __osTimerList->next;
+        if (timer == __osTimerList) {
             __osSetCompare(0);
             __osTimerCounter = 0;
             break;
         }
+
         sp20 = osGetCount();
         sp1c = sp20 - __osTimerCounter;
         __osTimerCounter = sp20;
-        if (sp1c < sp24->value) {
-            sp24->value -= sp1c;
-            __osSetTimerIntr(sp24->value);
-            return;
-        } else {
-            sp24->prev->next = sp24->next;
-            sp24->next->prev = sp24->prev;
-            sp24->next = NULL;
-            sp24->prev = NULL;
-            if (sp24->mq != NULL) {
-                osSendMesg(sp24->mq, sp24->msg, OS_MESG_NOBLOCK);
-            }
-            if (sp24->interval != 0) {
-                sp24->value = sp24->interval;
-                __osInsertTimer(sp24);
-            }
+        if (sp1c < timer->value) {
+            timer->value -= sp1c;
+            __osSetTimerIntr(timer->value);
+            break;
+        }
+
+        timer->prev->next = timer->next;
+        timer->next->prev = timer->prev;
+        timer->next = NULL;
+        timer->prev = NULL;
+        if (timer->mq != NULL) {
+            osSendMesg(timer->mq, timer->msg, OS_MESG_NOBLOCK);
+        }
+        if (timer->interval != 0) {
+            timer->value = timer->interval;
+            __osInsertTimer(timer);
         }
     }
 }
 
-void __osSetTimerIntr(OSTime tim) {
-    OSTime NewTime;
-    u32 savedMask;
+void __osSetTimerIntr(OSTime time) {
+    OSTime newTime;
+    u32 prevInt;
 
-    if (tim < 468) {
-        tim = 468;
+    if (time < 468) {
+        time = 468;
     }
 
-    savedMask = __osDisableInt();
+    prevInt = __osDisableInt();
 
     __osTimerCounter = osGetCount();
-    NewTime = tim + __osTimerCounter;
-    __osSetCompare((u32)NewTime);
-    __osRestoreInt(savedMask);
+    newTime = time + __osTimerCounter;
+    __osSetCompare((u32)newTime);
+    __osRestoreInt(prevInt);
 }
 
-OSTime __osInsertTimer(OSTimer* a0) {
-    OSTimer* sp34;
-    u64 sp28;
-    s32 intDisabled;
-    intDisabled = __osDisableInt();
-    for (sp34 = __osTimerList->next, sp28 = a0->value; sp34 != __osTimerList && sp28 > sp34->value;
-         sp28 -= sp34->value, sp34 = sp34->next) {
+OSTime __osInsertTimer(OSTimer* timer) {
+    OSTimer* nextTimer;
+    u64 timerValue;
+    s32 prevInt = __osDisableInt();
+
+    for (nextTimer = __osTimerList->next, timerValue = timer->value;
+         nextTimer != __osTimerList && timerValue > nextTimer->value;
+         timerValue -= nextTimer->value, nextTimer = nextTimer->next) {
         ;
     }
-    a0->value = sp28;
-    if (sp34 != __osTimerList) {
-        sp34->value -= sp28;
+
+    timer->value = timerValue;
+    if (nextTimer != __osTimerList) {
+        nextTimer->value -= timerValue;
     }
-    a0->next = sp34;
-    a0->prev = sp34->prev;
-    sp34->prev->next = a0;
-    sp34->prev = a0;
-    __osRestoreInt(intDisabled);
-    return sp28;
+
+    timer->next = nextTimer;
+    timer->prev = nextTimer->prev;
+    nextTimer->prev->next = timer;
+    nextTimer->prev = timer;
+    __osRestoreInt(prevInt);
+
+    return timerValue;
 }

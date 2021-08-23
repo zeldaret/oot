@@ -1,8 +1,0 @@
-<Root>
-    <File Name="entra_scene">
-        <Scene Name="entra_scene"/>
-    </File>
-    <File Name="entra_room_0">
-        <Room Name="entra_room_0"/>
-    </File>
-</Root>

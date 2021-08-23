@@ -26,7 +26,7 @@ typedef struct EnFw {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnFwActionFunc actionFunc;
     /* 0x0194 */ ColliderJntSph collider;
-    /* 0x01B4 */ ColliderJntSphItem sphs[1];
+    /* 0x01B4 */ ColliderJntSphElement sphs[1];
     /* 0x01F4 */ Vec3f bompPos;
     /* 0x0200 */ u8 lastDmgHook;
     /* 0x0202 */ s16 runDirection;
@@ -40,8 +40,8 @@ typedef struct EnFw {
     /* 0x0212 */ s16 returnToParentTimer;
     /* 0x0214 */ s16 turnAround;
     /* 0x0218 */ f32 runRadius;
-    /* 0x021C */ Vec3s limbDrawTable[11];
-    /* 0x025E */ Vec3s transitionDrawTable[11];
+    /* 0x021C */ Vec3s jointTable[11];
+    /* 0x025E */ Vec3s morphTable[11];
     /* 0x02A0 */ EnFwEffect effects[20];
 } EnFw; // size = 0x0700
 

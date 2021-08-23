@@ -19,7 +19,7 @@ void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Makekinsuta_InitVars = {
     ACTOR_OBJ_MAKEKINSUTA,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMakekinsuta),
@@ -49,9 +49,8 @@ void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx) {
     if (this->unk_152 != 0) {
         if (this->timer >= 60 && !func_8002DEEC(PLAYER)) {
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, this->actor.posRot.pos.x,
-                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0,
-                        (this->actor.params | 0x8000));
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, this->actor.world.pos.x, this->actor.world.pos.y,
+                        this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0, (this->actor.params | 0x8000));
             this->actionFunc = ObjMakekinsuta_DoNothing;
         } else {
             this->timer++;

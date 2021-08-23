@@ -1,8 +1,8 @@
 #include "global.h"
 #include "vt.h"
 
-s32 Math3D_LineSegMakePerpLineSeg(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
-                                  Vec3f* lineAIntersect, Vec3f* lineBIntersect);
+s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
+                                      Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);
 s32 Math3D_TriLineIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA,
                             Vec3f* linePointB, Vec3f* intersect, s32 fromFront);
 s32 Math3D_PlaneVsPlaneNewLine(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB,
@@ -36,80 +36,79 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
     planeIntersectSeg.b.z = (planeIntersectLine.dir.z * 100.0f) + planeIntersectLine.point.z;
 
     // closestPoint is a point on planeIntersect, sp34 is a point on linePointA, linePointB
-    if (!Math3D_LineSegMakePerpLineSeg(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB, closestPoint,
-                                       &sp34)) {
+    if (!Math3D_LineVsLineClosestTwoPoints(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB,
+                                           closestPoint, &sp34)) {
         return false;
     }
     return true;
 }
 
 /**
- * Creates a line segment which is perpendicular to the line segments `lineAPointA`->`lineAPointB` and
- * `lineBPointA`->`lineBPointB`
+ * Finds the two points on lines A and B where the lines are closest together.
  */
-#ifdef NON_MATCHING
-// Lots of regalloc, but is functionally equivilent, some reordering.
-s32 Math3D_LineSegMakePerpLineSeg(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
-                                  Vec3f* lineAIntersect, Vec3f* lineBIntersect) {
-    f32 sp5C;
-    f32 sp50;
-    f32 sp4C;
-    f32 sp30;
-    f32 temp_f0_4;
-    f32 temp_f18;
-    Vec3f lineADiff;
-    Vec3f lineBDiff;
-    Vec3f lineABPointADiff;
-    f32 t;
-    f32 t2;
+s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
+                                      Vec3f* lineAClosestToB, Vec3f* lineBClosestToA) {
+    f32 sqMag;
+    f32 scaleB;
+    f32 lineAx;
+    f32 lineAy;
+    f32 lineAz;
+    f32 lineBx;
+    f32 lineBy;
+    f32 lineBz;
+    f32 compAAlongB;
+    f32 compBAAlongB;
+    Vec3f lineAPerpB;
+    Vec3f lineBAPerpB;
+    f32 tA;
+    f32 tB;
 
-    lineADiff.x = lineAPointB->x - lineAPointA->x;
-    lineADiff.y = lineAPointB->y - lineAPointA->y;
-    lineADiff.z = lineAPointB->z - lineAPointA->z;
-    lineBDiff.x = lineBPointB->x - lineBPointA->x;
-    lineBDiff.y = lineBPointB->y - lineBPointA->y;
-    lineBDiff.z = lineBPointB->z - lineBPointA->z;
+    lineAx = lineAPointB->x - lineAPointA->x;
+    lineAy = lineAPointB->y - lineAPointA->y;
+    lineAz = lineAPointB->z - lineAPointA->z;
 
-    if (IS_ZERO(SQ(lineBDiff.x) + SQ(lineBDiff.y) + SQ(lineBDiff.z))) {
+    lineBx = lineBPointB->x - lineBPointA->x;
+    lineBy = lineBPointB->y - lineBPointA->y;
+    lineBz = lineBPointB->z - lineBPointA->z;
+
+    sqMag = SQ(lineBx) + SQ(lineBy) + SQ(lineBz);
+    if (IS_ZERO(sqMag)) {
         return false;
     }
 
-    sp5C = ((lineADiff.x * lineBDiff.x) + (lineADiff.y * lineBDiff.y) + (lineADiff.z * lineBDiff.z)) *
-           (1.0f / (SQ(lineBDiff.x) + SQ(lineBDiff.y) + SQ(lineBDiff.z)));
+    scaleB = 1.0f / sqMag;
 
-    lineABPointADiff.x = lineAPointA->x - lineBPointA->x;
-    lineABPointADiff.y = lineAPointA->y - lineBPointA->y;
-    lineABPointADiff.z = lineAPointA->z - lineBPointA->z;
+    compAAlongB = ((lineAx * lineBx) + (lineAy * lineBy) + (lineAz * lineBz)) * scaleB;
 
-    // most reordering is here.
-    temp_f18 =
-        ((lineABPointADiff.x * lineBDiff.x) + (lineABPointADiff.y * lineBDiff.y) + (lineABPointADiff.z * lineBDiff.z)) *
-        (1.0f / (SQ(lineBDiff.x) + SQ(lineBDiff.y) + SQ(lineBDiff.z)));
+    compBAAlongB = ((lineBx * (lineAPointA->x - lineBPointA->x)) + (lineBy * (lineAPointA->y - lineBPointA->y)) +
+                    (lineBz * (lineAPointA->z - lineBPointA->z))) *
+                   scaleB;
 
-    sp4C = lineADiff.x - (lineBDiff.x * sp5C);
-    sp50 = lineADiff.y - (lineBDiff.y * sp5C);
-    sp30 = lineADiff.z - (lineBDiff.z * sp5C);
-    if (IS_ZERO(SQ(sp4C) + SQ(sp50) + SQ(sp30))) {
+    lineAPerpB.x = lineAx - (lineBx * compAAlongB);
+    lineAPerpB.y = lineAy - (lineBy * compAAlongB);
+    lineAPerpB.z = lineAz - (lineBz * compAAlongB);
+
+    sqMag = SQXYZ(lineAPerpB);
+    if (IS_ZERO(sqMag)) {
         return false;
     }
 
-    t = SQ(sp4C) + SQ(sp50) + SQ(sp30);
-    temp_f0_4 = -((sp4C * (lineABPointADiff.x - (lineBDiff.x * temp_f18))) +
-                  (sp50 * (lineABPointADiff.y - (lineBDiff.y * temp_f18))) +
-                  (sp30 * (lineABPointADiff.z - (lineBDiff.z * temp_f18)))) /
-                t;
-    lineAIntersect->x = (lineADiff.x * temp_f0_4) + lineAPointA->x;
-    lineAIntersect->y = (lineADiff.y * temp_f0_4) + lineAPointA->y;
-    lineAIntersect->z = (lineADiff.z * temp_f0_4) + lineAPointA->z;
+    lineBAPerpB.x = (lineAPointA->x - lineBPointA->x) - (lineBx * compBAAlongB);
+    lineBAPerpB.y = (lineAPointA->y - lineBPointA->y) - (lineBy * compBAAlongB);
+    lineBAPerpB.z = (lineAPointA->z - lineBPointA->z) - (lineBz * compBAAlongB);
 
-    lineBIntersect->x = (lineBDiff.x * ((sp5C * temp_f0_4) + temp_f18)) + lineBPointA->x;
-    lineBIntersect->y = (lineBDiff.y * ((sp5C * temp_f0_4) + temp_f18)) + lineBPointA->y;
-    lineBIntersect->z = (lineBDiff.z * ((sp5C * temp_f0_4) + temp_f18)) + lineBPointA->z;
+    tA = -DOTXYZ(lineAPerpB, lineBAPerpB) / sqMag;
+    lineAClosestToB->x = (lineAx * tA) + lineAPointA->x;
+    lineAClosestToB->y = (lineAy * tA) + lineAPointA->y;
+    lineAClosestToB->z = (lineAz * tA) + lineAPointA->z;
+
+    tB = (compAAlongB * tA) + compBAAlongB;
+    lineBClosestToA->x = (lineBx * tB) + lineBPointA->x;
+    lineBClosestToA->y = (lineBy * tB) + lineBPointA->y;
+    lineBClosestToA->z = (lineBz * tB) + lineBPointA->z;
+
     return true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/Math3D_LineSegMakePerpLineSeg.s")
-#endif
 
 /**
  * Determines the closest point on the line `line` to `pos`, by forming a line perpendicular from
@@ -200,7 +199,7 @@ s32 Math3D_PlaneVsPlaneVsLineClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC,
     static Linef planeIntersect;
 
     if (!Math3D_PlaneVsPlaneNewLine(planeAA, planeAB, planeAC, planeADist, planeBA, planeBB, planeBC, planeBDist,
-                                    &planeIntersect)) {
+                                    (InfiniteLine*)&planeIntersect)) {
         return false;
     }
     Math3D_LineClosestToPoint(&planeIntersect, point, closestPoint);
@@ -416,7 +415,7 @@ f32 Math3D_Dist1D(f32 a, f32 b) {
  * Returns the distance squared between (`x0`,`y0`) and (`x1`,`x2`)
  */
 f32 Math3D_Dist2DSq(f32 x0, f32 y0, f32 x1, f32 y1) {
-    Math3D_Dist1DSq(x0 - x1, y0 - y1);
+    return Math3D_Dist1DSq(x0 - x1, y0 - y1);
 }
 
 /**
@@ -627,7 +626,7 @@ s32 Math3D_PointRelativeToCubeVertices(Vec3f* point, Vec3f* min, Vec3f* max) {
         ret |= 0x10;
     }
 
-    // @BUG: The next 2 conditions are the same check.
+    //! @bug: The next 2 conditions are the same check.
     if ((-min->x - min->y + max->z) < (-point->x - point->y + point->z)) {
         ret |= 0x20;
     }
@@ -727,7 +726,7 @@ s32 Math3D_LineVsCube(Vec3f* min, Vec3f* max, Vec3f* a, Vec3f* b) {
     triVtx1.y = min->y;
     triVtx1.z = max->z;
     triVtx2.x = max->x;
-    // @Bug trVtx1.y should be triVtx2.y, prevents a tri on the cube from being checked.
+    //! @bug trVtx1.y should be triVtx2.y, prevents a tri on the cube from being checked.
     triVtx1.y = min->y;
     triVtx2.z = max->z;
     if (Math3D_TriLineIntersect(&triVtx0, &triVtx1, &triVtx2, 0.0f, 0.0f, 1.0f, -max->z, a, b, &intersectPoint, 0)) {
@@ -870,8 +869,8 @@ s32 Math3D_LineVsCubeShort(Vec3s* min, Vec3s* max, Vec3s* a, Vec3s* b) {
  * outputs the plane equation `a``pointOnPlane->x` + 0y + `c``pointOnPlane->z`+`d` = 0
  */
 void Math3D_RotateXZPlane(Vec3f* pointOnPlane, s16 angle, f32* a, f32* c, f32* d) {
-    *a = Math_Sins(angle) * 32767.0f;
-    *c = Math_Coss(angle) * 32767.0f;
+    *a = Math_SinS(angle) * 32767.0f;
+    *c = Math_CosS(angle) * 32767.0f;
     *d = -((*a * pointOnPlane->x) + (*c * pointOnPlane->z));
 }
 
@@ -1624,72 +1623,28 @@ s32 Math3D_PointInCyl(Cylinder16* cyl, Vec3f* point) {
     }
 }
 
-#ifdef NON_MATCHING
 s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, Vec3f* intersectA, Vec3f* intersectB) {
-    Vec3f pointACylBottomDiff;
-    Vec3f pointBCylBottomDiff;
-    Vec3f spD4;
-    f32 spD0;
-    f32 spCC;
-    f32 spB8;
-    s32 sp9C;
-    Vec3f sp6C[4];
-    s32 sp68;
-    f32 sp4C;
-    f32 sp2C;
-    f32 sp28;
-    f32* temp_a0;
-    f32* temp_a1;
-    f32* temp_s0;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f0_3;
-    f32 temp_f0_4;
-    f32 temp_f0_5;
-    f32 temp_f0_6;
-    f32 temp_f10;
-    f32 temp_f12;
-    f32 temp_f12_2;
+    Vec3f cylToPtA;
+    Vec3f cylToPtB;
+    Vec3f ptAToPtB;
+    f32 fracA;
+    f32 fracB;
+    f32 fracBase;
+    f32 zero = 0.0f;
+    f32 pad;
     f32 cylRadiusSq;
-    f32 temp_f14_2;
-    f32 temp_f14_3;
-    f32 temp_f16;
-    f32 temp_f16_2;
-    f32 temp_f18;
-    f32 temp_f2;
-    f32 temp_f2_2;
-    f32 temp_f2_3;
-    f32 temp_f2_4;
-    f32 temp_f2_5;
-    f32 temp_f2_6;
-    f32 temp_f2_7;
-    s32 temp_a0_2;
-    s32 temp_t0;
-    s32 temp_v0;
-    s32 temp_v1;
-    void* temp_t2;
-    s32 phi_a1;
-    s32 phi_a1_2;
-    f32 phi_f2;
-    s32 phi_v0;
-    s32 phi_v0_2;
-    s32 phi_v1;
-    s32 phi_v1_2;
-    s32 phi_a2;
-    s32 phi_a1_3;
-    s32 phi_a2_2;
-    s32 phi_a1_4;
-    s32 phi_v0_3;
-    s32 phi_t0;
-    s32 phi_v1_3;
-    s32 phi_v1_4;
-    s32 phi_a2_3;
-    s32 phi_a2_4;
-    s32 phi_t0_2;
-    s32 phi_v1_5;
-    s32 phi_t0_3;
+    f32 radSqDiff;
+    f32 distCent2;
+    f32 dot2AB;
+    s32 sideIntA;
+    s32 sideIntB;
+    s32 intBeyondA;
+    s32 intBeyondB;
+    s32 intFlags = 0;
+    Vec3f intPts[4];
+    s32 count;
+    s32 i;
 
-    sp9C = 0;
     if (Math3D_PointInCyl(cyl, linePointA) && Math3D_PointInCyl(cyl, linePointB)) {
         // both points are in the cylinder
         *intersectA = *linePointA;
@@ -1697,150 +1652,157 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
         return 2;
     }
 
-    pointACylBottomDiff.x = linePointA->x - cyl->pos.x;
-    pointACylBottomDiff.y = linePointA->y - cyl->pos.y - cyl->yShift;
-    pointACylBottomDiff.z = linePointA->z - cyl->pos.z;
-    pointBCylBottomDiff.x = linePointB->x - cyl->pos.x;
-    pointBCylBottomDiff.y = linePointB->y - cyl->pos.y - cyl->yShift;
-    pointBCylBottomDiff.z = linePointB->z - cyl->pos.z;
-    Math_Vec3f_Diff(&pointBCylBottomDiff, &pointACylBottomDiff, &spD4);
+    cylToPtA.x = linePointA->x - cyl->pos.x;
+    cylToPtA.y = linePointA->y - cyl->pos.y - cyl->yShift;
+    cylToPtA.z = linePointA->z - cyl->pos.z;
+    cylToPtB.x = linePointB->x - cyl->pos.x;
+    cylToPtB.y = linePointB->y - cyl->pos.y - cyl->yShift;
+    cylToPtB.z = linePointB->z - cyl->pos.z;
+    Math_Vec3f_Diff(&cylToPtB, &cylToPtA, &ptAToPtB);
     cylRadiusSq = SQ(cyl->radius);
-    if (!IS_ZERO(spD4.y)) {
-        if (1) {}
-        if ((-pointACylBottomDiff.y / spD4.y) >= 0.0f) {
-            if ((-pointACylBottomDiff.y / spD4.y) <= 1.0f) {
-                if ((SQ((spD4.x * (-pointACylBottomDiff.y / spD4.y)) + pointACylBottomDiff.x) +
-                     SQ((spD4.z * (-pointACylBottomDiff.y / spD4.y)) + pointACylBottomDiff.z)) < cylRadiusSq) {
-                    sp6C[0].x =
-                        (f32)cyl->pos.x + ((spD4.x * (-pointACylBottomDiff.y / spD4.y)) + pointACylBottomDiff.x);
-                    sp6C[0].y = (f32)cyl->pos.y + (f32)cyl->yShift;
-                    sp6C[0].z =
-                        (f32)cyl->pos.z + ((spD4.z * (-pointACylBottomDiff.y / spD4.y)) + pointACylBottomDiff.z);
-                    sp9C |= 1;
-                }
+
+    /**
+     * This section checks for intersections with the cylinder's base and top
+     */
+    if (!IS_ZERO(ptAToPtB.y)) {
+        // fraction of length along AB to reach y = 0
+        fracBase = -cylToPtA.y / ptAToPtB.y;
+        if ((0.0f <= fracBase) && (fracBase <= 1.0f)) {
+            f32 baseIntX = (ptAToPtB.x * fracBase) + cylToPtA.x;
+            f32 baseIntZ = (ptAToPtB.z * fracBase) + cylToPtA.z;
+
+            if (SQ(baseIntX) + SQ(baseIntZ) < cylRadiusSq) {
+                // adds base intersection point to intPts and sets its flag
+                intPts[0].x = cyl->pos.x + baseIntX;
+                intPts[0].y = (f32)cyl->pos.y + cyl->yShift;
+                intPts[0].z = cyl->pos.z + baseIntZ;
+                intFlags |= 1;
             }
         }
+        // fraction of length along AB to reach y = cyl->height
+        fracA = (cyl->height - cylToPtA.y) / ptAToPtB.y;
+        if ((0.0f <= fracA) && (fracA <= 1.0f)) {
+            f32 topIntX = ptAToPtB.x * fracA + cylToPtA.x;
+            f32 topIntZ = ptAToPtB.z * fracA + cylToPtA.z;
 
-        phi_f2 = ((cyl->height - pointACylBottomDiff.y) / spD4.y);
-        if (phi_f2 >= 0.0f) {
-            if (phi_f2 <= 1.0f) {
-                if ((SQ(pointACylBottomDiff.x + (spD4.x * phi_f2)) + SQ(pointACylBottomDiff.z + (spD4.z * phi_f2))) <
-                    cylRadiusSq) {
-                    sp6C[1].x = (f32)cyl->pos.x + pointACylBottomDiff.x + (spD4.x * phi_f2);
-                    sp6C[1].y = (f32)cyl->pos.y + cyl->height + cyl->yShift;
-                    sp6C[1].z = (f32)cyl->pos.z + pointACylBottomDiff.z + (spD4.x * phi_f2);
-                    sp9C |= 2;
-                }
+            if (SQ(topIntX) + SQ(topIntZ) < cylRadiusSq) {
+                // adds top intersection point to intPts and sets its flag
+                intPts[1].x = cyl->pos.x + topIntX;
+                intPts[1].y = (f32)cyl->pos.y + cyl->yShift + cyl->height;
+                intPts[1].z = cyl->pos.z + topIntZ;
+                intFlags |= 2;
             }
         }
     }
-
-    spB8 = SQ(pointACylBottomDiff.x) + SQ(pointACylBottomDiff.z) - cylRadiusSq; // 498c
-    temp_f12_2 = SQ(spD4.z) + SQ(spD4.x);
-    temp_f18 = temp_f12_2 * 2.0f;
-    if (!IS_ZERO(temp_f18)) {
-        temp_f2_3 = (spD4.x * pointACylBottomDiff.x) + (spD4.z * pointACylBottomDiff.z);
-        temp_f14_2 = temp_f2_3 + temp_f2_3;
-        temp_f0_3 = temp_f14_2 * temp_f14_2;
-        temp_f16_2 = (4.0f * temp_f12_2) * spB8;
-        if (temp_f0_3 < temp_f16_2) {
-            return false;
-        }
-
-        phi_a1 = (temp_f0_3 - temp_f16_2) > 0.0f;
-        phi_f2 = (sqrtf((temp_f0_3 - temp_f16_2)) - temp_f14_2) / temp_f18;
-
-        if (phi_a1) {
-            spCC = (-temp_f14_2 - sqrtf((temp_f0_3 - temp_f16_2))) / temp_f18;
-        }
-    } else if (!IS_ZERO(((spD4.x * pointACylBottomDiff.x) + (spD4.z * pointACylBottomDiff.z)) +
-                        ((spD4.x * pointACylBottomDiff.x) + (spD4.z * pointACylBottomDiff.z)))) {
-        phi_f2 = -spB8 / ((spD4.x * pointACylBottomDiff.x) + (spD4.z * pointACylBottomDiff.z)) +
-                 ((spD4.x * pointACylBottomDiff.x) + (spD4.z * pointACylBottomDiff.z));
-        phi_a2 = 1;
-        phi_a1 = 0;
-    } else {
-        return 0;
-    }
-
-    if (!phi_a1) {
-        if (phi_f2 < 0.0f || phi_f2 > 1.0f) {
-            return false;
-        }
-    } else {
-        phi_a2 = phi_f2 < 0.0f || phi_f2 > 1.0f;
-
-        phi_a1 = spCC < 0.0f || spCC > 1.0f;
-
-        if (phi_a1 && phi_a2) {
+    /**
+     * This section finds the points of intersection of the infinite line containing AB with the side of the infinite
+     * cylinder containing cyl. Intersection points beyond the bounds of the segment and cylinder are filtered out
+     * afterward.
+     */
+    radSqDiff = SQXZ(cylToPtA) - cylRadiusSq;
+    if (!IS_ZERO(2.0f * SQXZ(ptAToPtB))) {
+        dot2AB = 2.0f * DOTXZ(ptAToPtB, cylToPtA);
+        if (SQ(dot2AB) < 4.0f * SQXZ(ptAToPtB) * radSqDiff) {
+            // Line's closest xz-approach is outside cylinder. No intersections.
             return 0;
         }
-
-        if (phi_a2) {
-            phi_a2 = 0;
+        if (SQ(dot2AB) - (4.0f * SQXZ(ptAToPtB) * radSqDiff) > zero) {
+            sideIntA = sideIntB = 1;
+        } else {
+            // Line is tangent in xz-plane. At most 1 side intersection.
+            sideIntA = 1;
+            sideIntB = 0;
         }
-
-        if (phi_a1) {
-            phi_a1 = 0;
+        distCent2 = sqrtf(SQ(dot2AB) - (4.0f * SQXZ(ptAToPtB) * radSqDiff));
+        if (sideIntA == 1) {
+            // fraction of length along AB for side intersection closer to A
+            fracA = (distCent2 - dot2AB) / (2.0f * SQXZ(ptAToPtB));
         }
-    }
-
-    if ((phi_a2 == 1) && (((phi_f2 * spD4.y) + pointACylBottomDiff.y) < 0.0f ||
-                          cyl->height < ((phi_f2 * spD4.y) + pointACylBottomDiff.y))) {
-        phi_a2 = 0;
-    }
-
-    if ((phi_a1 == 1) &&
-        (((spCC * spD4.y) + pointACylBottomDiff.y) < 0.0f || cyl->height < ((spCC * spD4.y) + pointACylBottomDiff.y))) {
-        phi_a1 = 0;
-    }
-    if (phi_a2 == 0 && phi_a1 == 0) {
+        if (sideIntB == 1) {
+            // fraction of length along AB for side intersection closer to B
+            fracB = (-dot2AB - distCent2) / (2.0f * SQXZ(ptAToPtB));
+        }
+    } else if (!IS_ZERO(2.0f * DOTXZ(ptAToPtB, cylToPtA))) {
+        // Used if the line segment is nearly vertical. Unclear what it's calculating.
+        fracA = -radSqDiff / (2.0f * DOTXZ(ptAToPtB, cylToPtA));
+        sideIntA = 1;
+        sideIntB = 0;
+    } else {
         return 0;
     }
-
-    if (phi_a2 == 1 && phi_a1 == 1) {
-        sp6C[2].x = ((phi_f2 * spD4.x) + pointACylBottomDiff.x) + (f32)cyl->pos.x;
-        sp6C[2].y = (((phi_f2 * spD4.y) + pointACylBottomDiff.y) + (f32)cyl->pos.y) + (f32)cyl->yShift;
-        sp6C[2].z = ((phi_f2 * spD4.z) + pointACylBottomDiff.z) + (f32)cyl->pos.z;
-        sp6C[2].x = ((spCC * spD4.x) + pointACylBottomDiff.x) + (f32)cyl->pos.x;
-        sp6C[2].y = (((spCC * spD4.y) + pointACylBottomDiff.y) + (f32)cyl->pos.y) + (f32)cyl->yShift;
-        sp6C[2].z = ((spCC * spD4.z) + pointACylBottomDiff.z) + (f32)cyl->pos.z;
-        sp9C = (sp9C | 4) | 8;
-    } else if (phi_a2 == 1) {
-        sp6C[2].x = ((phi_f2 * spD4.x) + pointACylBottomDiff.x) + (f32)cyl->pos.x;
-        sp6C[2].y = (((phi_f2 * spD4.y) + pointACylBottomDiff.y) + (f32)cyl->pos.y) + (f32)cyl->yShift;
-        sp6C[2].z = ((phi_f2 * spD4.z) + pointACylBottomDiff.z) + (f32)cyl->pos.z;
-        sp9C |= 4;
-    } else if (phi_a1 == 1) {
-        sp6C[2].x = ((spCC * spD4.x) + pointACylBottomDiff.x) + (f32)cyl->pos.x;
-        sp6C[2].y = (((spCC * spD4.y) + pointACylBottomDiff.y) + (f32)cyl->pos.y) + (f32)cyl->yShift;
-        sp6C[2].z = ((spCC * spD4.z) + pointACylBottomDiff.z) + (f32)cyl->pos.z;
-        sp9C |= 4;
+    // checks for intersection points outside the bounds of the segment
+    if (!sideIntB) {
+        if (fracA < 0.0f || 1.0f < fracA) {
+            return 0;
+        }
+    } else {
+        intBeyondA = fracA < 0.0f || 1.0f < fracA;
+        intBeyondB = fracB < 0.0f || 1.0f < fracB;
+        if (intBeyondA && intBeyondB) {
+            return 0;
+        }
+        if (intBeyondA) {
+            sideIntA = 0;
+        }
+        if (intBeyondB) {
+            sideIntB = 0;
+        }
+    }
+    // checks for intersection points outside the bounds of the cylinder
+    if ((sideIntA == 1) &&
+        ((fracA * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracA * ptAToPtB.y + cylToPtA.y))) {
+        sideIntA = 0;
+    }
+    if ((sideIntB == 1) &&
+        ((fracB * ptAToPtB.y + cylToPtA.y) < 0.0f || cyl->height < (fracB * ptAToPtB.y + cylToPtA.y))) {
+        sideIntB = 0;
+    }
+    if (sideIntA == 0 && sideIntB == 0) {
+        return 0;
+    }
+    // Adds intersection points to intPts and sets side A and side B flags
+    if (sideIntA == 1 && sideIntB == 1) {
+        intPts[2].x = (fracA * ptAToPtB.x + cylToPtA.x) + cyl->pos.x;
+        intPts[2].y = (fracA * ptAToPtB.y + cylToPtA.y) + cyl->pos.y + cyl->yShift;
+        intPts[2].z = (fracA * ptAToPtB.z + cylToPtA.z) + cyl->pos.z;
+        intFlags |= 4;
+        intPts[3].x = (fracB * ptAToPtB.x + cylToPtA.x) + cyl->pos.x;
+        intPts[3].y = (fracB * ptAToPtB.y + cylToPtA.y) + cyl->pos.y + cyl->yShift;
+        intPts[3].z = (fracB * ptAToPtB.z + cylToPtA.z) + cyl->pos.z;
+        intFlags |= 8;
+    } else if (sideIntA == 1) {
+        intPts[2].x = (fracA * ptAToPtB.x + cylToPtA.x) + cyl->pos.x;
+        intPts[2].y = (fracA * ptAToPtB.y + cylToPtA.y) + cyl->pos.y + cyl->yShift;
+        intPts[2].z = (fracA * ptAToPtB.z + cylToPtA.z) + cyl->pos.z;
+        intFlags |= 4;
+    } else if (sideIntB == 1) {
+        intPts[2].x = (fracB * ptAToPtB.x + cylToPtA.x) + cyl->pos.x;
+        intPts[2].y = (fracB * ptAToPtB.y + cylToPtA.y) + cyl->pos.y + cyl->yShift;
+        intPts[2].z = (fracB * ptAToPtB.z + cylToPtA.z) + cyl->pos.z;
+        intFlags |= 4;
     }
 
-    for (phi_v0_3 = 0, phi_v1_3 = 0; phi_v0_3 < 4; phi_v0_3++) {
-        if (sp9C & (1 << phi_v0_3)) {
-            if (phi_v1_3 == 0) {
-                *intersectA = sp6C[phi_v0_3];
-            } else if (phi_v1_3 == 1) {
-                if (Math3D_Vec3fDistSq(intersectA, linePointA) < Math3D_Vec3fDistSq(intersectA, &sp6C[phi_v0_3])) {
-                    *intersectB = sp6C[phi_v0_3];
+    /**
+     * Places the found intersection points into intersectA and intersectB. IntersectA is always closer to point A
+     */
+    for (count = 0, i = 0; i < 4; i++) {
+        if (intFlags & (1 << i)) {
+            if (count == 0) {
+                *intersectA = intPts[i];
+            } else if (count == 1) {
+                if (Math3D_Vec3fDistSq(intersectA, linePointA) < Math3D_Vec3fDistSq(intersectA, &intPts[i])) {
+                    *intersectB = intPts[i];
                 } else {
                     *intersectB = *intersectA;
-                    *intersectA = sp6C[phi_v0_3];
+                    *intersectA = intPts[i];
                 }
                 break;
             }
+            count++;
         }
-        phi_v1_3++;
     }
-
-    return phi_v1_3;
+    return count;
 }
-
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/Math3D_CylVsLineSeg.s")
-#endif
 
 /*
  * Determines if `cyl` and `tri` are touching.  The point of intersection

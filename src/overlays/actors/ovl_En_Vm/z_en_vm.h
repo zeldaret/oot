@@ -11,8 +11,8 @@ typedef void (*EnVmActionFunc)(struct EnVm*, GlobalContext*);
 typedef struct EnVm {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[11];
-    /* 0x01D2 */ Vec3s transitionDrawTable[11];
+    /* 0x0190 */ Vec3s jointTable[11];
+    /* 0x01D2 */ Vec3s morphTable[11];
     /* 0x0214 */ EnVmActionFunc actionFunc;
     /* 0x0218 */ f32 beamSightRange;
     /* 0x021C */ s32 unk_21C;

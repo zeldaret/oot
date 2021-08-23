@@ -2,6 +2,7 @@
 
 s32 osContStartReadData(OSMesgQueue* mq) {
     s32 ret;
+
     __osSiGetAccess();
     if (__osContLastPoll != 1) {
         __osPackReadData();
@@ -15,10 +16,10 @@ s32 osContStartReadData(OSMesgQueue* mq) {
 }
 
 void osContGetReadData(OSContPad* contData) {
-    u8* bufptr;
+    u8* bufptr = (u8*)(&__osPifInternalBuff);
     __OSContReadHeader read;
     s32 i;
-    bufptr = (u8*)(&__osPifInternalBuff);
+
     for (i = 0; i < __osMaxControllers; i++, bufptr += sizeof(read), contData++) {
         read = *((__OSContReadHeader*)bufptr);
         contData->errno = (read.rxsize & 0xC0) >> 4;
@@ -30,11 +31,11 @@ void osContGetReadData(OSContPad* contData) {
     };
 }
 
-void __osPackReadData() {
-    u8* bufptr;
+void __osPackReadData(void) {
+    u8* bufptr = (u8*)(&__osPifInternalBuff);
     __OSContReadHeader read;
     s32 i;
-    bufptr = (u8*)(&__osPifInternalBuff);
+
     for (i = 0; i < 0xF; i++) {
         __osPifInternalBuff.ram[i] = 0;
     }

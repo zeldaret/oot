@@ -18,7 +18,7 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Ganon_Organ_InitVars = {
     ACTOR_EN_GANON_ORGAN,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_GANON,
     sizeof(EnGanonOrgan),

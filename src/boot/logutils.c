@@ -1,22 +1,22 @@
 #include "global.h"
 #include "vt.h"
 
-f32 LogUtils_CheckFloatRange(const char* exp, s32 arg1, const char* var1Name, f32 var1, const char* var2Name, f32 var2,
-                             const char* var3Name, f32 var3) {
-    if (var1 < var2 || var3 < var1) {
-        osSyncPrintf("%s %d: range error %s(%f) < %s(%f) < %s(%f)\n", exp, arg1, var2Name, var2, var1Name, var1,
-                     var3Name, var3);
+f32 LogUtils_CheckFloatRange(const char* exp, s32 line, const char* valueName, f32 value, const char* minName, f32 min,
+                             const char* maxName, f32 max) {
+    if (value < min || max < value) {
+        osSyncPrintf("%s %d: range error %s(%f) < %s(%f) < %s(%f)\n", exp, line, minName, min, valueName, value,
+                     maxName, max);
     }
-    return var1;
+    return value;
 }
 
-s32 LogUtils_CheckIntRange(const char* exp, s32 arg1, const char* var1Name, s32 var1, const char* var2Name, s32 var2,
-                           const char* var3Name, s32 var3) {
-    if (var1 < var2 || var3 < var1) {
-        osSyncPrintf("%s %d: range error %s(%d) < %s(%d) < %s(%d)\n", exp, arg1, var2Name, var2, var1Name, var1,
-                     var3Name, var3);
+s32 LogUtils_CheckIntRange(const char* exp, s32 line, const char* valueName, s32 value, const char* minName, s32 min,
+                           const char* maxName, s32 max) {
+    if (value < min || max < value) {
+        osSyncPrintf("%s %d: range error %s(%d) < %s(%d) < %s(%d)\n", exp, line, minName, min, valueName, value,
+                     maxName, max);
     }
-    return var1;
+    return value;
 }
 
 void LogUtils_LogHexDump(void* ptr, s32 size0) {
@@ -84,14 +84,13 @@ void LogUtils_CheckBoundary(const char* name, s32 value, s32 unk, const char* fi
 }
 
 void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, s32 line) {
-    if (!ptr) {
+    if (ptr == NULL) {
         osSyncPrintf(VT_COL(RED, WHITE) "%s %d:%s は はヌルポインタです\n" VT_RST, file, line, exp);
     }
 }
 
-void LogUtils_CheckValidPointer(const char* exp, void* ptr0, const char* file, s32 line) {
-    u32 ptr = (u32)ptr0;
-    if (!ptr || ptr < 0x80000000U || (0x80000000U + osMemSize) <= ptr) {
+void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, s32 line) {
+    if (ptr == NULL || (u32)ptr < 0x80000000 || (0x80000000 + osMemSize) <= (u32)ptr) {
         osSyncPrintf(VT_COL(RED, WHITE) "%s %d:ポインタ %s(%08x) が異常です\n" VT_RST, file, line, exp, ptr);
     }
 }
@@ -105,7 +104,7 @@ void LogUtils_HungupThread(const char* name, s32 line) {
     Fault_AddHungupAndCrash(name, line);
 }
 
-void LogUtils_ResetHungup() {
+void LogUtils_ResetHungup(void) {
     osSyncPrintf("*** Reset ***\n");
     Fault_AddHungupAndCrash("Reset", 0);
 }

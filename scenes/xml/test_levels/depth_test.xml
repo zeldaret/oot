@@ -1,8 +1,0 @@
-<Root>
-    <File Name="depth_test_scene">
-        <Scene Name="depth_test_scene"/>
-    </File>
-    <File Name="depth_test_room_0">
-        <Room Name="depth_test_room_0"/>
-    </File>
-</Root>

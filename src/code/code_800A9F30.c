@@ -8,7 +8,8 @@ void func_800A9F30(PadMgr* a, s32 b) {
 }
 
 void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
-    s32 temp1, temp2;
+    s32 temp1;
+    s32 temp2;
 
     if (1000000.0f < a) {
         temp1 = 1000;
@@ -30,6 +31,7 @@ void func_800AA000(f32 a, u8 b, u8 c, u8 d) {
     s32 temp1;
     s32 temp2;
     s32 i;
+
     if (1000000.0f < a) {
         temp1 = 1000;
     } else {
@@ -55,16 +57,16 @@ void func_800AA000(f32 a, u8 b, u8 c, u8 d) {
 void func_800AA0B4(void) {
     func_800D3140(&D_80160FD0);
 
-    gPadMgr.retraceCallback = (void*)func_800A9F30;
+    gPadMgr.retraceCallback = func_800A9F30;
     gPadMgr.retraceCallbackValue = 0;
 
-    if (0) {} // Necessary to match
+    if (1) {}
 }
 
 void func_800AA0F0(void) {
     PadMgr* padmgr = &gPadMgr;
 
-    if (((void*)padmgr->retraceCallback == (void*)func_800A9F30) && (padmgr->retraceCallbackValue == 0)) {
+    if ((padmgr->retraceCallback == func_800A9F30) && (padmgr->retraceCallbackValue == 0)) {
         padmgr->retraceCallback = NULL;
         padmgr->retraceCallbackValue = 0;
     }

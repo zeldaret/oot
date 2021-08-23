@@ -29,15 +29,11 @@ void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDe
  * \f[ [\texttt{dest}, -] = [\texttt{src}, 1] \cdot [mf] \f]
  */
 void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest) {
-    f32 mx;
-    f32 my;
-    f32 mz;
-    f32 mw;
+    f32 mx = mf->xx;
+    f32 my = mf->yx;
+    f32 mz = mf->zx;
+    f32 mw = mf->wx;
 
-    mx = mf->xx;
-    my = mf->yx;
-    mz = mf->zx;
-    mw = mf->wx;
     dest->x = mw + ((src->x * mx) + (src->y * my) + (src->z * mz));
     mx = mf->xy;
     my = mf->yy;
@@ -60,18 +56,13 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     f32 ry;
     f32 rz;
     f32 rw;
-
-    f32 cx;
-    f32 cy;
-    f32 cz;
-    f32 cw;
-
     //---COL1---
-    cx = mfB->xx;
-    cy = mfB->yx;
-    cz = mfB->zx;
-    cw = mfB->wx;
+    f32 cx = mfB->xx;
+    f32 cy = mfB->yx;
+    f32 cz = mfB->zx;
+    f32 cw = mfB->wx;
     //--------
+
     rx = mfA->xx;
     ry = mfA->xy;
     rz = mfA->xz;
@@ -96,7 +87,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     rw = mfA->ww;
     dest->wx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
-    //---COL2---
+    //---2Col---
     cx = mfB->xy;
     cy = mfB->yy;
     cz = mfB->zy;
@@ -126,7 +117,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     rw = mfA->ww;
     dest->wy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
-    //---COL3---
+    //---3Col---
     cx = mfB->xz;
     cy = mfB->yz;
     cz = mfB->zz;
@@ -156,7 +147,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     rw = mfA->ww;
     dest->wz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
-    //---COL4---
+    //---4Col---
     cx = mfB->xw;
     cy = mfB->yw;
     cz = mfB->zw;
@@ -322,16 +313,14 @@ void SkinMatrix_SetScale(MtxF* mf, f32 x, f32 y, f32 z) {
  */
 void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
     f32 cos2;
-    f32 sin;
-    f32 cos;
+    f32 sin = Math_SinS(yaw);
+    f32 cos = Math_CosS(yaw);
     f32 yx;
     f32 sin2;
     f32 zx;
     f32 yy;
     f32 zy;
 
-    sin = Math_Sins(yaw);
-    cos = Math_Coss(yaw);
     mf->yy = cos;
     mf->yx = -sin;
     mf->xw = mf->yw = mf->zw = 0;
@@ -339,8 +328,8 @@ void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
     mf->ww = 1;
 
     if (pitch != 0) {
-        sin2 = Math_Sins(pitch);
-        cos2 = Math_Coss(pitch);
+        sin2 = Math_SinS(pitch);
+        cos2 = Math_CosS(pitch);
 
         mf->xx = cos * cos2;
         mf->zx = cos * sin2;
@@ -361,8 +350,8 @@ void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
     }
 
     if (roll != 0) {
-        sin2 = Math_Sins(roll);
-        cos2 = Math_Coss(roll);
+        sin2 = Math_SinS(roll);
+        cos2 = Math_CosS(roll);
 
         yx = mf->yx;
         zx = mf->zx;
@@ -395,8 +384,8 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     f32 yz;
     f32 xx;
     f32 yx;
-    sin = Math_Sins(roll);
-    cos = Math_Coss(roll);
+    sin = Math_SinS(roll);
+    cos = Math_CosS(roll);
     mf->xx = cos;
     mf->xz = -sin;
     mf->zw = 0;
@@ -408,8 +397,8 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     mf->ww = 1;
 
     if (yaw != 0) {
-        sin2 = Math_Sins(yaw);
-        cos2 = Math_Coss(yaw);
+        sin2 = Math_SinS(yaw);
+        cos2 = Math_CosS(yaw);
 
         mf->zz = cos * cos2;
         mf->yz = cos * sin2;
@@ -430,8 +419,8 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     }
 
     if (pitch != 0) {
-        sin2 = Math_Sins(pitch);
-        cos2 = Math_Coss(pitch);
+        sin2 = Math_SinS(pitch);
+        cos2 = Math_CosS(pitch);
         xx = mf->xx;
         yx = mf->yx;
         mf->xx = (xx * cos2) + (yx * sin2);
@@ -620,8 +609,8 @@ void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z) {
     f32 xz;
     f32 pad;
 
-    sinA = Math_Sins(a);
-    cosA = Math_Coss(a);
+    sinA = Math_SinS(a);
+    cosA = Math_CosS(a);
 
     xx = x * x;
     yy = y * y;

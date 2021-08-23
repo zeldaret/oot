@@ -280,8 +280,13 @@ Gfx sCircleDList[] = {
     gsSPEndDisplayList(),
 };
 
-void TransitionCircle_Start(TransitionCircle* this) {
+#define THIS ((TransitionCircle*)thisx)
+
+void TransitionCircle_Start(void* thisx) {
+    TransitionCircle* this = THIS;
+
     this->isDone = 0;
+
     switch (this->effect) {
         case 1:
             this->texture = sCircleTexWave;
@@ -332,15 +337,18 @@ void TransitionCircle_Start(TransitionCircle* this) {
     guLookAt(&this->lookAt, 0.0f, 0.0f, 400.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 }
 
-TransitionCircle* TransitionCircle_Init(TransitionCircle* this) {
+void* TransitionCircle_Init(void* thisx) {
+    TransitionCircle* this = THIS;
+
     bzero(this, sizeof(*this));
     return this;
 }
 
-void TransitionCircle_Destroy(TransitionCircle* this) {
+void TransitionCircle_Destroy(void* thisx) {
 }
 
-void TransitionCircle_Update(TransitionCircle* this, s32 updateRate) {
+void TransitionCircle_Update(void* thisx, s32 updateRate) {
+    TransitionCircle* this = THIS;
     s32 temp_t2;
     s32 temp_t3;
 
@@ -371,16 +379,17 @@ void TransitionCircle_Update(TransitionCircle* this, s32 updateRate) {
     }
 }
 
-void TransitionCircle_Draw(TransitionCircle* this, Gfx** gfxP) {
+void TransitionCircle_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
-    Mtx* modelView = this->modelView[this->frame];
-    char pad[4];
+    Mtx* modelView;
+    TransitionCircle* this = THIS;
     Gfx* texScroll;
-
     // These variables are a best guess based on the other transition types.
     f32 tPos = 0.0f;
     f32 rot = 0.0f;
     f32 scale = 14.8f;
+
+    modelView = this->modelView[this->frame];
 
     this->frame ^= 1;
     gDPPipeSync(gfx++);
@@ -412,11 +421,15 @@ void TransitionCircle_Draw(TransitionCircle* this, Gfx** gfxP) {
     *gfxP = gfx;
 }
 
-s32 TransitionCircle_IsDone(TransitionCircle* this) {
+s32 TransitionCircle_IsDone(void* thisx) {
+    TransitionCircle* this = THIS;
+
     return this->isDone;
 }
 
-void TransitionCircle_SetType(TransitionCircle* this, s32 type) {
+void TransitionCircle_SetType(void* thisx, s32 type) {
+    TransitionCircle* this = THIS;
+
     if (type & 0x80) {
         this->unk_14 = (type >> 5) & 0x1;
         this->typeColor = (type >> 3) & 0x3;
@@ -429,10 +442,14 @@ void TransitionCircle_SetType(TransitionCircle* this, s32 type) {
     }
 }
 
-void TransitionCircle_SetColor(TransitionCircle* this, u32 color) {
+void TransitionCircle_SetColor(void* thisx, u32 color) {
+    TransitionCircle* this = THIS;
+
     this->color.rgba = color;
 }
 
-void TransitionCircle_SetEnvColor(TransitionCircle* this, u32 envColor) {
+void TransitionCircle_SetEnvColor(void* thisx, u32 envColor) {
+    TransitionCircle* this = THIS;
+
     this->envColor.rgba = envColor;
 }

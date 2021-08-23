@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_extra.h"
+#include "objects/object_yabusame_point/object_yabusame_point.h"
 
 #define rObjBankIdx regs[0]
 #define rTimer regs[1]
@@ -21,8 +22,6 @@ EffectSsInit Effect_Ss_Extra_InitVars = {
     EFFECT_SS_EXTRA,
     EffectSsExtra_Init,
 };
-
-extern Gfx D_06000DC0[];
 
 u32 EffectSsExtra_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
@@ -71,7 +70,7 @@ void EffectSsExtra_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_ss_extra.c", 186),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rScoreIdx]));
-    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_06000DC0));
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_yabusame_point_DL_000DC0));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_extra.c", 194);
 }

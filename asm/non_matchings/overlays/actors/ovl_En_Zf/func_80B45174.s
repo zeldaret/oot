@@ -83,7 +83,7 @@ glabel func_80B45174
 /* 01240 80B45290 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01244 80B45294 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01248 80B45298 E7A00018 */  swc1    $f0, 0x0018($sp)
-/* 0124C 80B4529C 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 0124C 80B4529C 0C029468 */  jal     Animation_Change
 
 /* 01250 80B452A0 E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 01254 80B452A4 96190088 */  lhu     $t9, 0x0088($s0)           ## 00000088
@@ -105,7 +105,7 @@ glabel func_80B45174
 /* 01294 80B452E4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01298 80B452E8 260604F0 */  addiu   $a2, $s0, 0x04F0           ## $a2 = 000004F0
 /* 0129C 80B452EC 3C074040 */  lui     $a3, 0x4040                ## $a3 = 40400000
-/* 012A0 80B452F0 0C00CC98 */  jal     func_80033260
+/* 012A0 80B452F0 0C00CC98 */  jal     Actor_SpawnFloorDustRing
 /* 012A4 80B452F4 E7A80014 */  swc1    $f8, 0x0014($sp)
 /* 012A8 80B452F8 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 012AC 80B452FC 44815000 */  mtc1    $at, $f10                  ## $f10 = 2.00
@@ -118,10 +118,10 @@ glabel func_80B45174
 /* 012C8 80B45318 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 012CC 80B4531C AFA0001C */  sw      $zero, 0x001C($sp)
 /* 012D0 80B45320 AFA00020 */  sw      $zero, 0x0020($sp)
-/* 012D4 80B45324 0C00CC98 */  jal     func_80033260
+/* 012D4 80B45324 0C00CC98 */  jal     Actor_SpawnFloorDustRing
 /* 012D8 80B45328 E7AA0014 */  swc1    $f10, 0x0014($sp)
 .L80B4532C:
-/* 012DC 80B4532C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 012DC 80B4532C 0C02927F */  jal     SkelAnime_Update
 
 /* 012E0 80B45330 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 012E4 80B45334 5040000D */  beql    $v0, $zero, .L80B4536C

@@ -4,12 +4,12 @@ glabel func_80B49E4C
 /* 05E04 80B49E54 AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 05E08 80B49E58 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 05E0C 80B49E5C A7A0001C */  sh      $zero, 0x001C($sp)         
-/* 05E10 80B49E60 0C00CDE0 */  jal     func_80033780              
+/* 05E10 80B49E60 0C00CDE0 */  jal     Actor_GetProjectileActor              
 /* 05E14 80B49E64 3C064416 */  lui     $a2, 0x4416                ## $a2 = 44160000
 /* 05E18 80B49E68 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 05E1C 80B49E6C 10400081 */  beq     $v0, $zero, .L80B4A074     
 /* 05E20 80B49E70 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
-/* 05E24 80B49E74 0C00B69E */  jal     func_8002DA78              
+/* 05E24 80B49E74 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 05E28 80B49E78 00000000 */  nop
 /* 05E2C 80B49E7C 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 05E30 80B49E80 3C06C28C */  lui     $a2, 0xC28C                ## $a2 = C28C0000

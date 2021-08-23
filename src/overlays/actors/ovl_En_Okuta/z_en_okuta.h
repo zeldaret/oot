@@ -14,8 +14,8 @@ typedef struct EnOkuta {
     /* 0x0190 */ EnOkutaActionFunc actionFunc;
     /* 0x0194 */ s16 timer;
     /* 0x0196 */ s16 numShots;
-    /* 0x0198 */ Vec3s limbDrawTable[38];
-    /* 0x027C */ Vec3s transitionDrawTable[38];
+    /* 0x0198 */ Vec3s jointTable[38];
+    /* 0x027C */ Vec3s morphTable[38];
     /* 0x0360 */ f32 jumpHeight;
     /* 0x0364 */ Vec3f headScale;
     /* 0x0370 */ ColliderCylinder collider;

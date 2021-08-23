@@ -56,7 +56,7 @@ glabel func_80B34428
 /* 00838 80B344E8 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 0083C 80B344EC E6040028 */  swc1    $f4, 0x0028($s0)           ## 00000028
 /* 00840 80B344F0 E60A0054 */  swc1    $f10, 0x0054($s0)          ## 00000054
-/* 00844 80B344F4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00844 80B344F4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00848 80B344F8 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 0084C 80B344FC 8E0902E8 */  lw      $t1, 0x02E8($s0)           ## 000002E8
@@ -70,7 +70,7 @@ glabel func_80B34428
 /* 00868 80B34518 1000000C */  beq     $zero, $zero, .L80B3454C   
 /* 0086C 80B3451C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80B34520:
-/* 00870 80B34520 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00870 80B34520 0C02927F */  jal     SkelAnime_Update
               
 /* 00874 80B34524 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 00878 80B34528 10400007 */  beq     $v0, $zero, .L80B34548     
