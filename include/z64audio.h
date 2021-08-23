@@ -32,6 +32,9 @@
 
 #define AIBUF_LEN 0xB00
 
+#define CODEC_ADPCM 0
+#define CODEC_S8 1
+
 struct Note;
 struct NotePool;
 struct SequenceChannel;
@@ -82,20 +85,20 @@ typedef struct {
     /* 0x04 */ u32 end;
     /* 0x08 */ u32 count;
     /*?0x0C */ char unk_0C[0x4];
-    /*?0x10 */ s16 state[16]; // only exists if count != 0. 8-byte aligned
+    /* 0x10 */ s16 state[16]; // only exists if count != 0. 8-byte aligned
 } AdpcmLoop; // size = 0x30 (or 0x10)
 
 typedef struct {
-    /*?0x00 */ s32 order;
-    /*?0x04 */ s32 npredictors;
-    /*?0x08 */ s16 book[1]; // size 8 * order * npredictors. 8-byte aligned
+    /* 0x00 */ s32 order;
+    /* 0x04 */ s32 npredictors;
+    /* 0x08 */ s16 book[1]; // size 8 * order * npredictors. 8-byte aligned
 } AdpcmBook;
 
 typedef struct {
     union{
         struct {
-            /* 0x00 */ u32 bits4 : 4;
-            /* 0x00 */ u32 bits2 : 2;
+            /* 0x00 */ u32 codec : 4;
+            /* 0x00 */ u32 medium : 2;
             /* 0x00 */ u32 unk_bits26 : 1;
             /* 0x00 */ u32 unk_bits25 : 1;
             /* 0x01 */ u32 size : 24;
@@ -104,7 +107,7 @@ typedef struct {
     };
     /* 0x04 */ u8* sampleAddr;
     /* 0x08 */ AdpcmLoop* loop;
-    /*?0x0C */ AdpcmBook* book;
+    /* 0x0C */ AdpcmBook* book;
 } AudioBankSample; // size = 0x10
 
 typedef struct {
@@ -455,12 +458,12 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 restart;
-    /*?0x01 */ u8 sampleDmaIndex;
-    /*?0x02 */ u8 prevHeadsetPanRight;
-    /*?0x03 */ u8 prevHeadsetPanLeft;
-    /*?0x04 */ u8 samplePosFrac;
-    /* 0x05 */ u8 unk_05;
-    /* 0x06 */ u16 unk_06;
+    /* 0x01 */ u8 sampleDmaIndex;
+    /* 0x02 */ u8 prevHeadsetPanRight;
+    /* 0x03 */ u8 prevHeadsetPanLeft;
+    /* 0x04 */ u8 reverbVol;
+    /* 0x05 */ u8 numAdpcmParts;
+    /* 0x06 */ u16 samplePosFrac;
     /* 0x08 */ s32 samplePosInt;
     /* 0x0C */ NoteSynthesisBuffers* synthesisBuffers;
     /* 0x10 */ s16 curVolLeft;
@@ -514,7 +517,7 @@ typedef struct {
             /* 0x00 */ u8 stereoStrongRight : 1;
             /* 0x00 */ u8 stereoStrongLeft : 1;
             /* 0x00 */ u8 stereoHeadsetEffects : 1;
-            /* 0x00 */ u8 usesHeadsetPanEffects : 1;
+            /*?0x00 */ u8 usesHeadsetPanEffects : 1;
         } s;
         /*?0x00 */ u8 asByte;
     } bitField0;
@@ -522,9 +525,9 @@ typedef struct {
         struct {
             /*?0x01 */ u8 reverbIndex : 3;
             /* 0x01 */ u8 bookOffset : 2;
-            /*?0x01 */ u8 bit2 : 1;
-            /*?0x01 */ u8 isSyntheticWave : 1;
-            /*?0x01 */ u8 hasTwoAdpcmParts : 1;
+            /* 0x01 */ u8 isSyntheticWave : 1;
+            /* 0x01 */ u8 hasTwoAdpcmParts : 1;
+            /* 0x01 */ u8 usesHeadsetPanEffects2 : 1;
         } s;
         /*?0x01 */ u8 asByte;
     } bitField1;
@@ -536,11 +539,11 @@ typedef struct {
     /* 0x07 */ u8 unk_07;
     /* 0x08 */ u16 targetVolLeft;
     /* 0x0A */ u16 targetVolRight;
-    /*?0x0C */ u16 resamplingRateFixedPoint; // stored as signed but loaded as u16
-    /* 0x0E */ s16 unk_10;
+    /*?0x0C */ u16 resamplingRateFixedPoint;
+    /* 0x0E */ u16 unk_0E;
     /* 0x10 */ union {
-                 s16* samples;
                  AudioBankSound* audioBankSound;
+                 s16* samples;
              } sound; // not sure if actually a union
     /* 0x14 */ s16* unk_14;
     /* 0x18 */ char pad_18[0x8];
@@ -878,7 +881,7 @@ typedef struct {
     /* 0x0002 */ u16 unk_2;
     /* 0x0004 */ u16 unk_4;
     /* 0x0006 */ char unk_0006[0x0A];
-    /* 0x0000 */ s32 unk_0x10;
+    /* 0x0010 */ s16* curLoadedBook;
     /* 0x0014 */ NoteSubEu* noteSubsEu;
     /* 0x0018 */ SynthesisReverb synthesisReverbs[4];
     /* 0x0B38 */ char unk_0B38[0x30];
@@ -1006,7 +1009,7 @@ typedef struct {
 } AudioContext; // size = 0x6450
 
 typedef struct {
-    /* 0x00 */ u8 reverb; // i.e. volume
+    /* 0x00 */ u8 vol;
     /* 0x01 */ u8 unk_1;
     /* 0x02 */ u8 pan;
     /* 0x03 */ ReverbBits reverbBits;

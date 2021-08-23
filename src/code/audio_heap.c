@@ -914,8 +914,8 @@ void Audio_InitHeap(void) {
         reverb->sound.sample = &reverb->sample;
         reverb->sample.loop = &reverb->loop;
         reverb->sound.tuning = 1.0f;
-        reverb->sample.bits4 = 4;
-        reverb->sample.bits2 = 0;
+        reverb->sample.codec = 4;
+        reverb->sample.medium = 0;
         reverb->sample.size = reverb->windowSize * 2;
         reverb->sample.sampleAddr = (u8*)reverb->leftRingBuf;
         reverb->loop.start = 0;
@@ -1181,7 +1181,7 @@ void func_800E0BB4(UnkHeapEntry* entry, AudioBankSample* sample) {
     if (sample != NULL) {
         if (sample->sampleAddr == entry->unk_08) {
             sample->sampleAddr = entry->unk_0C;
-            sample->bits2 = entry->unk_01;
+            sample->medium = entry->unk_01;
         }
     }
 }
@@ -1251,7 +1251,7 @@ void func_800E0E0C(Struct_800E0E0C* arg0, AudioBankSample* sample) {
         u8* sampleAddr = sample->sampleAddr;
         if (start <= sampleAddr && sampleAddr < end) {
             sample->sampleAddr = sampleAddr - start + arg0->unk_4;
-            sample->bits2 = arg0->unk_C & 0xFF;
+            sample->medium = arg0->unk_C & 0xFF;
         }
     }
 }

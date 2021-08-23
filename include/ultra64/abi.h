@@ -43,7 +43,7 @@
 #define A_LOADBUFF              20
 #define A_SAVEBUFF              21
 #define A_ENVSETUP2             22
-#define A_UNK17                 23
+#define A_S8DEC                 23
 #define A_UNK19                 25
 #define ACMD_SIZE 32
 
@@ -323,11 +323,11 @@ typedef short ENVMIX_STATE[40];
         _a->words.w1 = _SHIFTL(a3, 16, 16) | _SHIFTL(a4, 0, 16);        \
 }
 
-#define aUnkCmd17(pkt, a1, a2)                                          \
+#define aS8Dec(pkt, a1, a2)                                             \
 {                                                                       \
         Acmd *_a = (Acmd *)pkt;                                         \
                                                                         \
-        _a->words.w0 = _SHIFTL(A_UNK17, 24, 8) | _SHIFTL(a1, 16, 8);    \
+        _a->words.w0 = _SHIFTL(A_S8DEC, 24, 8) | _SHIFTL(a1, 16, 8);    \
         _a->words.w1 = (unsigned int)(a2);                              \
 }
 
@@ -561,7 +561,7 @@ extern u32 D_801304A0;
         _a->words.w1 = _SHIFTL(dmemi, 16, 16) | _SHIFTL(dmemo, 0, 16);  \
 }
 
-#define aResampleZOH(pkt, pitch, pitchAccu)                             \
+#define aResampleZoh(pkt, pitch, pitchAccu)                             \
 {                                                                       \
         Acmd *_a = (Acmd *)pkt;                                         \
                                                                         \

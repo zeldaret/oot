@@ -11,6 +11,7 @@ CLOSE_DISPS = "void"
 ABS = "int"
 SQ = "int"
 CLAMP = "int"
+ALIGN16 = "int"
 
 [decompme.compilers]
 "tools/ido_recomp/linux/7.1/cc" = "ido7.1"

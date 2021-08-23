@@ -792,10 +792,10 @@ s32 func_800E66C0(s32 arg0) {
             if (temp_a2->adsr.action.s.state != 0) {
                 if (arg0 >= 2) {
                     sound = temp_a3->sound.audioBankSound;
-                    if (sound == NULL || temp_a3->bitField1.s.bit2) {
+                    if (sound == NULL || temp_a3->bitField1.s.isSyntheticWave) {
                         continue;
                     }
-                    if (sound->sample->bits2 == 0) {
+                    if (sound->sample->medium == 0) {
                         continue;
                     }
                 }

@@ -14,7 +14,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
 
     vel = reverb->velocity;
     pan = reverb->pan;
-    reverbVol = reverb->reverb;
+    reverbVol = reverb->vol;
     sp24 = reverb->reverbBits.s;
 
     sub->bitField0.s = note->noteSubEu.bitField0.s;
@@ -38,7 +38,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
 
         sub->headsetPanLeft = gHeadsetPanQuantization[smallPanIndex];
         sub->headsetPanRight = gHeadsetPanQuantization[0x3f - smallPanIndex];
-        sub->bitField1.s.hasTwoAdpcmParts = true;
+        sub->bitField1.s.usesHeadsetPanEffects2 = true;
 
         volLeft = gHeadsetPanVolume[pan];
         volRight = gHeadsetPanVolume[0x7f - pan];
@@ -46,7 +46,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
         strongLeft = strongRight = 0;
         sub->headsetPanRight = 0;
         sub->headsetPanLeft = 0;
-        sub->bitField1.s.hasTwoAdpcmParts = false;
+        sub->bitField1.s.usesHeadsetPanEffects2 = false;
 
         volLeft = gStereoPanVolume[pan];
         volRight = gStereoPanVolume[0x7f - pan];
@@ -97,7 +97,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     sub->unk_2 = reverb->unk_1;
     sub->unk_14 = reverb->unk_10;
     sub->unk_07 = reverb->unk_14;
-    sub->unk_10 = reverb->unk_16;
+    sub->unk_0E = reverb->unk_16;
     sub->reverbVol = reverbVol;
 }
 
@@ -105,7 +105,7 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
     f32 resamplingRate = 0.0f;
 
     if (resamplingRateInput < 2.0f) {
-        noteSubEu->bitField1.s.isSyntheticWave = false;
+        noteSubEu->bitField1.s.hasTwoAdpcmParts = false;
 
         if (1.99998f < resamplingRateInput) {
             resamplingRate = 1.99998f;
@@ -114,7 +114,7 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
         }
 
     } else {
-        noteSubEu->bitField1.s.isSyntheticWave = true;
+        noteSubEu->bitField1.s.hasTwoAdpcmParts = true;
         if (3.99996f < resamplingRateInput) {
             resamplingRate = 1.99998f;
         } else {
@@ -253,7 +253,7 @@ void Audio_ProcessNotes(void) {
                 reverb.frequency = attributes->freqScale;
                 reverb.velocity = attributes->velocity;
                 reverb.pan = attributes->pan;
-                reverb.reverb = attributes->reverb;
+                reverb.vol = attributes->reverb;
                 reverb.reverbBits = attributes->reverbBits;
                 reverb.unk_1 = attributes->unk_1;
                 reverb.unk_10 = attributes->unk_10;
@@ -272,7 +272,7 @@ void Audio_ProcessNotes(void) {
                 } else {
                     reverb.reverbBits = layer->reverbBits;
                 }
-                reverb.reverb = channel->reverb;
+                reverb.vol = channel->reverb;
                 reverb.unk_1 = channel->unk_0C;
                 reverb.unk_10 = channel->unk_CC;
                 reverb.unk_14 = channel->unk_0F;
@@ -767,12 +767,12 @@ void Audio_NoteInitForLayer(Note* note, SequenceChannelLayer* seqLayer) {
     sub->sound.audioBankSound = seqLayer->sound;
 
     if (instId >= 0x80 && instId < 0xC0) {
-        sub->bitField1.s.bit2 = true;
+        sub->bitField1.s.isSyntheticWave = true;
     } else {
-        sub->bitField1.s.bit2 = false;
+        sub->bitField1.s.isSyntheticWave = false;
     }
 
-    if (sub->bitField1.s.bit2) {
+    if (sub->bitField1.s.isSyntheticWave) {
         Audio_BuildSyntheticWave(note, seqLayer, instId);
     }
 
