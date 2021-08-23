@@ -62,8 +62,8 @@ glabel BossTw_TwinrovaDeathCS
 /* 06DBC 8093FA8C 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
 /* 06DC0 8093FA90 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000568
 /* 06DC4 8093FA94 14410005 */  bne     $v0, $at, .L8093FAAC
-/* 06DC8 8093FA98 3C050602 */  lui     $a1, %hi(D_060216DC)                ## $a1 = 06020000
-/* 06DCC 8093FA9C 24A516DC */  addiu   $a1, $a1, %lo(D_060216DC)           ## $a1 = 060216DC
+/* 06DC8 8093FA98 3C050602 */  lui     $a1, %hi(object_tw_Anim_0216DC)                ## $a1 = 06020000
+/* 06DCC 8093FA9C 24A516DC */  addiu   $a1, $a1, %lo(object_tw_Anim_0216DC)           ## $a1 = 060216DC
 /* 06DD0 8093FAA0 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 06DD4 8093FAA4 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 06DD8 8093FAA8 86420150 */  lh      $v0, 0x0150($s2)           ## 00000150

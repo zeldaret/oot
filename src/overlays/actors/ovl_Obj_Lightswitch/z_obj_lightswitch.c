@@ -7,6 +7,7 @@
 #include "z_obj_lightswitch.h"
 #include "vt.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+#include "objects/object_lightswitch/object_lightswitch.h"
 
 #define FLAGS 0x00000010
 
@@ -35,13 +36,6 @@ void ObjLightswitch_SetupDisappearDelay(ObjLightswitch* this);
 void ObjLightswitch_DisappearDelay(ObjLightswitch* this, GlobalContext* globalCtx);
 void ObjLightswitch_SetupDisappear(ObjLightswitch* this);
 void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000260[]; // face, uses rgba16 32x32 texture at 0x08000000, branches to dlist 0x09000000, uses env color
-extern Gfx D_06000398[]; // flame ring, branches to dlist 0x09000000, uses env color
-extern Gfx D_06000408[]; // a square, geometry only
-extern UNK_TYPE D_06000420[]; // rgba16 32x32 eyes open
-extern UNK_TYPE D_06000C20[]; // rgba16 32x32 eyes closed
-extern UNK_TYPE D_06001420[]; // rgba16 32x32 eyes open, smiling
 
 const ActorInit Obj_Lightswitch_InitVars = {
     ACTOR_OBJ_LIGHTSWITCH,
@@ -83,7 +77,8 @@ static ColliderJntSphInit sColliderJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
-static void* sFaceTextures[] = { D_06000C20, D_06000420, D_06001420 };
+static void* sFaceTextures[] = { object_lightswitch_Tex_000C20, object_lightswitch_Tex_000420,
+                                 object_lightswitch_Tex_001420 };
 
 static Vec3f D_80B97F68 = { -1707.0f, 843.0f, -180.0f };
 static Vec3f D_80B97F74 = { 0.0f, 0.0f, 0.0f };
@@ -429,7 +424,7 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 841),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFaceTextures[this->faceTextureIndex]));
-    gSPDisplayList(POLY_OPA_DISP++, D_06000260);
+    gSPDisplayList(POLY_OPA_DISP++, object_lightswitch_DL_000260);
 
     rot.x = this->actor.shape.rot.x;
     rot.y = this->actor.shape.rot.y;
@@ -438,14 +433,14 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 859),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000398);
+    gSPDisplayList(POLY_OPA_DISP++, object_lightswitch_DL_000398);
 
     rot.z = this->actor.shape.rot.z - this->flameRingRot;
     func_800D1694(pos.x, pos.y, pos.z, &rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 873),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000408);
+    gSPDisplayList(POLY_OPA_DISP++, object_lightswitch_DL_000408);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 878);
 }
@@ -469,7 +464,7 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 912),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFaceTextures[this->faceTextureIndex]));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000260);
+    gSPDisplayList(POLY_XLU_DISP++, object_lightswitch_DL_000260);
 
     sp60.x = this->actor.shape.rot.x;
     sp60.y = this->actor.shape.rot.y;
@@ -479,14 +474,14 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 930),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000398);
+    gSPDisplayList(POLY_XLU_DISP++, object_lightswitch_DL_000398);
 
     sp60.z = this->actor.shape.rot.z - this->flameRingRot;
     func_800D1694(sp68.x, sp68.y, sp68.z, &sp60);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 944),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000408);
+    gSPDisplayList(POLY_XLU_DISP++, object_lightswitch_DL_000408);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 949);
 }

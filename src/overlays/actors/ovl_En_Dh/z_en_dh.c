@@ -1,4 +1,5 @@
 #include "z_en_dh.h"
+#include "objects/object_dh/object_dh.h"
 
 #define FLAGS 0x00000415
 
@@ -31,17 +32,6 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx);
 void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx);
 void EnDh_Damage(EnDh* this, GlobalContext* globalCtx);
 void EnDh_Death(EnDh* this, GlobalContext* globalCtx);
-
-extern FlexSkeletonHeader D_06007E88;
-extern AnimationHeader D_06005880;
-extern AnimationHeader D_06003A8C;
-extern AnimationHeader D_06004658;
-extern AnimationHeader D_06002148;
-extern AnimationHeader D_06003D6C;
-extern AnimationHeader D_060032BC;
-extern AnimationHeader D_06001A3C;
-extern AnimationHeader D_0600375C;
-extern Gfx D_06007FC0[];
 
 const ActorInit En_Dh_InitVars = {
     ACTOR_EN_DH,
@@ -153,7 +143,8 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &D_809EC620;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007E88, &D_06005880, this->jointTable, this->limbRotTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_dh_Skel_007E88, &object_dh_Anim_005880, this->jointTable,
+                       this->limbRotTable, 16);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 64.0f);
     this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = MASS_HEAVY;
@@ -196,7 +187,7 @@ void EnDh_SpawnDebris(GlobalContext* globalCtx, EnDh* this, Vec3f* spawnPos, f32
 }
 
 void EnDh_SetupWait(EnDh* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06003A8C);
+    Animation_PlayLoop(&this->skelAnime, &object_dh_Anim_003A8C);
     this->curAction = DH_WAIT;
     this->actor.world.pos.x = Rand_CenteredFloat(600.0f) + this->actor.home.pos.x;
     this->actor.world.pos.z = Rand_CenteredFloat(600.0f) + this->actor.home.pos.z;
@@ -250,8 +241,8 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_SetupWalk(EnDh* this) {
-    Animation_Change(&this->skelAnime, &D_06003A8C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06003A8C) - 3.0f,
-                     ANIMMODE_LOOP, -6.0f);
+    Animation_Change(&this->skelAnime, &object_dh_Anim_003A8C, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_dh_Anim_003A8C) - 3.0f, ANIMMODE_LOOP, -6.0f);
     this->curAction = DH_WALK;
     this->timer = 300;
     this->actor.speedXZ = 1.0f;
@@ -279,7 +270,7 @@ void EnDh_Walk(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_SetupRetreat(EnDh* this, GlobalContext* globalCtx) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06005880, -4.0f);
+    Animation_MorphToLoop(&this->skelAnime, &object_dh_Anim_005880, -4.0f);
     this->curAction = DH_RETREAT;
     this->timer = 70;
     this->actor.speedXZ = 1.0f;
@@ -299,7 +290,7 @@ void EnDh_Retreat(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_SetupAttack(EnDh* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06004658, -6.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_004658, -6.0f);
     this->timer = this->actionState = 0;
     this->curAction = DH_ATTACK;
     this->actor.speedXZ = 0.0f;
@@ -312,14 +303,15 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actionState++;
     } else if ((this->actor.xzDistToPlayer > 100.0f) || !Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360)) {
-        Animation_Change(&this->skelAnime, &D_06004658, -1.0f, this->skelAnime.curFrame, 0.0f, ANIMMODE_ONCE, -4.0f);
+        Animation_Change(&this->skelAnime, &object_dh_Anim_004658, -1.0f, this->skelAnime.curFrame, 0.0f, ANIMMODE_ONCE,
+                         -4.0f);
         this->actionState = 4;
         this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_NONE; // also TOUCH_NONE
         this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
     }
     switch (this->actionState) {
         case 1:
-            Animation_PlayOnce(&this->skelAnime, &D_06001A3C);
+            Animation_PlayOnce(&this->skelAnime, &object_dh_Anim_001A3C);
             this->actionState++;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_BITE);
         case 0:
@@ -345,12 +337,12 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             break;
         case 3:
             if ((this->actor.xzDistToPlayer <= 100.0f) && (Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360))) {
-                Animation_Change(&this->skelAnime, &D_06004658, 1.0f, 20.0f, Animation_GetLastFrame(&D_06004658),
-                                 ANIMMODE_ONCE, -6.0f);
+                Animation_Change(&this->skelAnime, &object_dh_Anim_004658, 1.0f, 20.0f,
+                                 Animation_GetLastFrame(&object_dh_Anim_004658), ANIMMODE_ONCE, -6.0f);
                 this->actionState = 0;
             } else {
-                Animation_Change(&this->skelAnime, &D_06004658, -1.0f, Animation_GetLastFrame(&D_06004658), 0.0f,
-                                 ANIMMODE_ONCE, -4.0f);
+                Animation_Change(&this->skelAnime, &object_dh_Anim_004658, -1.0f,
+                                 Animation_GetLastFrame(&object_dh_Anim_004658), 0.0f, ANIMMODE_ONCE, -4.0f);
                 this->actionState++;
                 this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags =
                     AT_NONE; // also TOUCH_NONE
@@ -367,7 +359,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_SetupBurrow(EnDh* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06002148, -6.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_002148, -6.0f);
     this->curAction = DH_BURROW;
     this->dirtWaveSpread = this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -409,7 +401,7 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_SetupDamage(EnDh* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06003D6C, -6.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_003D6C, -6.0f);
     if (this->actor.bgCheckFlags & 1) {
         this->actor.speedXZ = -1.0f;
     }
@@ -428,10 +420,10 @@ void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
         if (this->retreat) {
             EnDh_SetupRetreat(this, globalCtx);
         } else if ((this->actor.xzDistToPlayer <= 105.0f) && Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360)) {
-            f32 frames = Animation_GetLastFrame(&D_06004658);
+            f32 frames = Animation_GetLastFrame(&object_dh_Anim_004658);
 
             EnDh_SetupAttack(this);
-            Animation_Change(&this->skelAnime, &D_06004658, 1.0f, 20.0f, frames, ANIMMODE_ONCE, -6.0f);
+            Animation_Change(&this->skelAnime, &object_dh_Anim_004658, 1.0f, 20.0f, frames, ANIMMODE_ONCE, -6.0f);
         } else {
             EnDh_SetupWalk(this);
         }
@@ -440,7 +432,7 @@ void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_SetupDeath(EnDh* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060032BC, -1.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_0032BC, -1.0f);
     this->curAction = DH_DEATH;
     this->timer = 300;
     this->actor.flags &= ~1;
@@ -454,7 +446,7 @@ void EnDh_SetupDeath(EnDh* this) {
 void EnDh_Death(EnDh* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime) || (this->timer != 300)) {
         if (this->timer == 300) {
-            Animation_PlayLoop(&this->skelAnime, &D_0600375C);
+            Animation_PlayLoop(&this->skelAnime, &object_dh_Anim_00375C);
         }
         this->timer--;
         if (this->timer < 150) {
@@ -585,7 +577,7 @@ void EnDh_Draw(Actor* thisx, GlobalContext* globalCtx) {
                      MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dh.c", 1160),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06007FC0);
+        gSPDisplayList(POLY_XLU_DISP++, object_dh_DL_007FC0);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dh.c", 1166);
 }

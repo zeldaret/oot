@@ -6,6 +6,7 @@
 
 #include "z_bg_haka_zou.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
+#include "objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -71,9 +72,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
-
-extern CollisionHeader D_06005E30;
-extern CollisionHeader D_06006F70;
 
 void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -174,7 +172,7 @@ void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
             colHeader = NULL;
 
             if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
-                CollisionHeader_GetVirtual(&D_06006F70, &colHeader);
+                CollisionHeader_GetVirtual(&object_haka_objects_Col_006F70, &colHeader);
                 this->collider.dim.radius = 80;
                 this->collider.dim.height = 100;
                 this->collider.dim.yShift = -30;
@@ -182,7 +180,7 @@ void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
                 this->collider.dim.pos.z += 56;
                 this->dyna.actor.uncullZoneScale = 1500.0f;
             } else if (this->dyna.actor.params == STA_BOMBABLE_SKULL_WALL) {
-                CollisionHeader_GetVirtual(&D_06005E30, &colHeader);
+                CollisionHeader_GetVirtual(&object_haka_objects_Col_005E30, &colHeader);
                 this->collider.dim.yShift = -50;
             } else {
                 CollisionHeader_GetVirtual(&gBotwBombSpotCol, &colHeader);

@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_dekujr.h"
+#include "objects/object_dekujr/object_dekujr.h"
 
 #define FLAGS 0x00000009
 
@@ -40,9 +41,6 @@ static ColliderCylinderInitToActor sCylinderInit = {
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 60, 80, 0, { 0, 0, 0 } },
 };
-
-extern Gfx D_060030D0[]; // Display list for dekujr body
-extern Gfx D_060032D8[]; // Display list for dekujr face and shadow
 
 void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjDekujr* this = THIS;
@@ -160,7 +158,7 @@ void ObjDekujr_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 379),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_060030D0);
+    gSPDisplayList(POLY_OPA_DISP++, object_dekujr_DL_0030D0);
 
     frameCount = globalCtx->state.frames;
     gSPSegment(
@@ -168,7 +166,7 @@ void ObjDekujr_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, frameCount % 128, 0, 32, 32, 1, frameCount % 128, 0, 32, 32));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 399),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_060032D8);
+    gSPDisplayList(POLY_XLU_DISP++, object_dekujr_DL_0032D8);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_dekujr.c", 409);
 }

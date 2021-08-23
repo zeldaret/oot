@@ -6,6 +6,7 @@
 
 #include "z_en_takara_man.h"
 #include "vt.h"
+#include "objects/object_ts/object_ts.h"
 
 #define FLAGS 0x08000039
 
@@ -37,9 +38,6 @@ const ActorInit En_Takara_Man_InitVars = {
 
 static u8 sTakaraIsInitialized = false;
 
-extern FlexSkeletonHeader D_06004FE0;
-extern AnimationHeader D_06000498;
-
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
@@ -58,7 +56,8 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
                  globalCtx->actorCtx.flags.chest); // "Bun! %x" (needs a better translation)
     globalCtx->actorCtx.flags.chest = 0;
     gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->jointTable, this->morphTable, 10);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ts_Skel_004FE0, &object_ts_Anim_000498, this->jointTable,
+                       this->morphTable, 10);
     thisx->focus.pos = thisx->world.pos;
     this->pos = thisx->world.pos;
     thisx->world.pos.x = 133.0f;
@@ -74,9 +73,9 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B176E0(EnTakaraMan* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06000498);
+    f32 frameCount = Animation_GetLastFrame(&object_ts_Anim_000498);
 
-    Animation_Change(&this->skelAnime, &D_06000498, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &object_ts_Anim_000498, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     if (!this->unk_214) {
         this->actor.textId = 0x6D;
         this->dialogState = 4;

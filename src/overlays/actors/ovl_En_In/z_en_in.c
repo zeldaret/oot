@@ -1,5 +1,6 @@
 #include "z_en_in.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "objects/object_in/object_in.h"
 
 #define FLAGS 0x00000019
 
@@ -62,34 +63,40 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 };
 
 static struct_D_80AA1678 sAnimationInfo[] = {
-    { 0x06001CC0, 1.0f, ANIMMODE_LOOP, 0.0f }, { 0x06001CC0, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x06013C6C, 1.0f, ANIMMODE_LOOP, 0.0f }, { 0x06013C6C, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x06000CB0, 1.0f, ANIMMODE_LOOP, 0.0f }, { 0x060003B4, 1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x06001BE0, 1.0f, ANIMMODE_LOOP, 0.0f }, { 0x06013D60, 1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x0601431C, 1.0f, ANIMMODE_LOOP, 0.0f }, { 0x06014CA8, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &object_in_Anim_013C6C, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_013C6C, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &object_in_Anim_000CB0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_0003B4, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { &object_in_Anim_001BE0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_013D60, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { &object_in_Anim_01431C, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_014CA8, 1.0f, ANIMMODE_LOOP, 0.0f },
 };
 
 static AnimationHeader* D_80A7B918[] = {
-    0x060151C8, 0x06015DF0, 0x06016B3C, 0x06015814, 0x0601646C, 0x060175D0, 0x06017B58, 0x06018C38,
+    &object_in_Anim_0151C8, &object_in_Anim_015DF0, &object_in_Anim_016B3C, &object_in_Anim_015814,
+    &object_in_Anim_01646C, &object_in_Anim_0175D0, &object_in_Anim_017B58, &object_in_Anim_018C38,
 };
 
 static Gfx* sAlternateOutfitDLs[] = {
-    NULL,       NULL,       0x06013688, 0x060137C0, 0x06013910, 0x060132B8, 0x060133F0,
-    0x06013540, 0x06013100, 0x06011758, 0x06012AC0, 0x06012BF0, 0x06012D20, 0x06012480,
-    0x060125B0, 0x060126E0, 0x06011AD8, 0x06012350, 0x06012220, 0x06012120,
+    NULL,
+    NULL,
+    object_in_DL_013688,
+    object_in_DL_0137C0,
+    object_in_DL_013910,
+    object_in_DL_0132B8,
+    object_in_DL_0133F0,
+    object_in_DL_013540,
+    object_in_DL_013100,
+    object_in_DL_011758,
+    object_in_DL_012AC0,
+    object_in_DL_012BF0,
+    object_in_DL_012D20,
+    object_in_DL_012480,
+    object_in_DL_0125B0,
+    object_in_DL_0126E0,
+    object_in_DL_011AD8,
+    object_in_DL_012350,
+    object_in_DL_012220,
+    object_in_DL_012120,
 };
-
-extern AnimationHeader D_060003B4;
-extern AnimationHeader D_06001BE0;
-extern AnimationHeader D_06013D60;
-extern AnimationHeader D_06014CA8;
-extern AnimationHeader D_06015814;
-extern AnimationHeader D_0601646C;
-extern AnimationHeader D_06018C38;
-extern FlexSkeletonHeader D_06013B88;
-extern UNK_TYPE D_060034D0;
-extern Gfx D_06007A20[];
-extern Gfx D_06007BF8[];
 
 u16 func_80A78FB0(GlobalContext* globalCtx) {
     if (gSaveContext.eventChkInf[1] & 0x10) {
@@ -298,8 +305,8 @@ void func_80A795C8(EnIn* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if (this->skelAnime.animation == &D_060003B4 || this->skelAnime.animation == &D_06001BE0 ||
-        this->skelAnime.animation == &D_06013D60) {
+    if (this->skelAnime.animation == &object_in_Anim_0003B4 || this->skelAnime.animation == &object_in_Anim_001BE0 ||
+        this->skelAnime.animation == &object_in_Anim_013D60) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -401,7 +408,7 @@ void func_80A79AB4(EnIn* this, GlobalContext* globalCtx) {
     s32 i;
     u32 f = 0;
 
-    if (this->skelAnime.animation != &D_06014CA8) {
+    if (this->skelAnime.animation != &object_in_Anim_014CA8) {
         f = globalCtx->gameplayFrames;
     }
     for (i = 0; i < ARRAY_COUNT(this->unk_330); i++) {
@@ -496,7 +503,8 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06013B88, NULL, this->jointTable, this->morphTable, 20);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_in_Skel_013B88, NULL, this->jointTable,
+                           this->morphTable, 20);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -595,12 +603,12 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7A304(EnIn* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animation == &D_06015814 || this->skelAnime.animation == &D_0601646C) {
+    if (this->skelAnime.animation == &object_in_Anim_015814 || this->skelAnime.animation == &object_in_Anim_01646C) {
         if (this->skelAnime.curFrame == 8.0f) {
             func_800F41E0(&this->actor.projectedPos, NA_SE_VO_IN_LASH_0, 2);
         }
     }
-    if (this->skelAnime.animation == &D_06018C38 && this->skelAnime.curFrame == 20.0f) {
+    if (this->skelAnime.animation == &object_in_Anim_018C38 && this->skelAnime.curFrame == 20.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_IN_CRY_0);
     }
     if (SkelAnime_Update(&this->skelAnime) != 0) {
@@ -900,7 +908,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
     if (this->actionFunc != func_80A7A304) {
         SkelAnime_Update(&this->skelAnime);
-        if (this->skelAnime.animation == &D_06001BE0 && ((gSaveContext.eventInf[0] & 0xF) != 6)) {
+        if (this->skelAnime.animation == &object_in_Anim_001BE0 && ((gSaveContext.eventInf[0] & 0xF) != 6)) {
             func_80A79690(&this->skelAnime, this, globalCtx);
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
@@ -961,24 +969,25 @@ void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_MultVec3f(&D_80A7B9A8, &this->actor.focus.pos);
         this->actor.focus.rot = this->actor.world.rot;
     }
-    if (limbIndex == 12 && this->skelAnime.animation == &D_06014CA8) {
-        gSPDisplayList(POLY_OPA_DISP++, D_06007A20);
+    if (limbIndex == 12 && this->skelAnime.animation == &object_in_Anim_014CA8) {
+        gSPDisplayList(POLY_OPA_DISP++, object_in_DL_007A20);
     }
-    if (limbIndex == 15 && this->skelAnime.animation == &D_06014CA8) {
-        gSPDisplayList(POLY_OPA_DISP++, D_06007BF8);
+    if (limbIndex == 15 && this->skelAnime.animation == &object_in_Anim_014CA8) {
+        gSPDisplayList(POLY_OPA_DISP++, object_in_DL_007BF8);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2365);
 }
 
 void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_TYPE* D_80A7B9B4[] = { 0x06003590, 0x060047D0, 0x06004BD0, 0x06004390 };
+    static UNK_TYPE* D_80A7B9B4[] = { object_in_Tex_003590, object_in_Tex_0047D0, object_in_Tex_004BD0,
+                                      object_in_Tex_004390 };
     EnIn* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2384);
     if (this->actionFunc != func_80A79FB0) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A7B9B4[this->unk_1EE]));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_060034D0));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&object_in_Tex_0034D0));
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnIn_OverrideLimbDraw, EnIn_PostLimbDraw, &this->actor);
     }

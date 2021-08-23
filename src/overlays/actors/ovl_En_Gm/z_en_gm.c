@@ -6,6 +6,7 @@
 
 #include "z_en_gm.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
+#include "objects/object_gm/object_gm.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
@@ -26,8 +27,6 @@ void func_80A3DD7C(EnGm* this, GlobalContext* globalCtx);
 void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DF00(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DF60(EnGm* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_060002B8;
 
 const ActorInit En_Gm_InitVars = {
     ACTOR_EN_GM,
@@ -109,8 +108,8 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
-        Animation_Change(&this->skelAnime, &D_060002B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &object_gm_Anim_0002B8, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_gm_Anim_0002B8), ANIMMODE_LOOP, 0.0f);
         this->actor.draw = EnGm_Draw;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);

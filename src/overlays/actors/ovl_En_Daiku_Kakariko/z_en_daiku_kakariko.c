@@ -5,6 +5,7 @@
  */
 
 #include "z_en_daiku_kakariko.h"
+#include "objects/object_daiku/object_daiku.h"
 
 #define FLAGS 0x00000019
 
@@ -24,8 +25,6 @@ void EnDaikuKakariko_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDaikuKakariko_Wait(EnDaikuKakariko* this, GlobalContext* globalCtx);
 void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx);
-
-extern FlexSkeletonHeader D_06007958;
 
 const ActorInit En_Daiku_Kakariko_InitVars = {
     ACTOR_EN_DAIKU_KAKARIKO,
@@ -97,8 +96,9 @@ static DamageTable sDamageTable = {
 };
 
 static struct_D_80AA1678 sAnimations[] = {
-    { 0x06001AB0, 1.0f, 2, -7.0f }, { 0x06007DE0, 1.0f, 0, -7.0f }, { 0x0600885C, 1.0f, 0, -7.0f },
-    { 0x06000C44, 1.0f, 0, -7.0f }, { 0x06000600, 1.0f, 0, -7.0f }, { 0x06008164, 1.0f, 0, -7.0f },
+    { &object_daiku_Anim_001AB0, 1.0f, 2, -7.0f }, { &object_daiku_Anim_007DE0, 1.0f, 0, -7.0f },
+    { &object_daiku_Anim_00885C, 1.0f, 0, -7.0f }, { &object_daiku_Anim_000C44, 1.0f, 0, -7.0f },
+    { &object_daiku_Anim_000600, 1.0f, 0, -7.0f }, { &object_daiku_Anim_008164, 1.0f, 0, -7.0f },
 };
 
 void EnDaikuKakariko_SetAnimFromIndex(EnDaikuKakariko* this, s32 animIndex, s32* currentAnimIndex) {
@@ -151,7 +151,8 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_daiku_Skel_007958, NULL, this->jointTable, this->morphTable,
+                       17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
@@ -516,7 +517,8 @@ s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
 }
 
 void EnDaikuKakariko_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Gfx* carpenterHeadDLists[] = { 0x06005BD0, 0x06005AC0, 0x06005990, 0x06005880 };
+    static Gfx* carpenterHeadDLists[] = { object_daiku_DL_005BD0, object_daiku_DL_005AC0, object_daiku_DL_005990,
+                                          object_daiku_DL_005880 };
     static Vec3f unkVec = { 700.0f, 1100.0f, 0.0f };
     EnDaikuKakariko* this = THIS;
 

@@ -6,6 +6,7 @@
 
 #include "z_obj_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/object_bombiwa/object_bombiwa.h"
 
 #define FLAGS 0x00000000
 
@@ -64,8 +65,6 @@ static s16 sEffectScales[] = {
     17, 14, 10, 8, 7, 5, 3, 2,
 };
 
-extern Gfx D_060009E0[];
-
 void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
     ObjBombiwa* this = THIS;
 
@@ -106,7 +105,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
     s16 scale;
     s32 i;
 
-    dlist = D_060009E0;
+    dlist = object_bombiwa_DL_0009E0;
     for (i = 0; i < ARRAY_COUNT(sEffectScales); i++) {
         pos.x = ((Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.home.pos.x;
         pos.y = ((Rand_ZeroOne() * 5.0f) + this->actor.home.pos.y) + 8.0f;
@@ -145,5 +144,5 @@ void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_060009E0);
+    Gfx_DrawDListOpa(globalCtx, object_bombiwa_DL_0009E0);
 }

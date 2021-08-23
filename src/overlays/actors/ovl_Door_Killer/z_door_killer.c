@@ -7,6 +7,9 @@
 #include "z_door_killer.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
+#include "objects/object_mizu_objects/object_mizu_objects.h"
+#include "objects/object_haka_door/object_haka_door.h"
+#include "objects/object_door_killer/object_door_killer.h"
 
 #define FLAGS 0x00000010
 
@@ -27,8 +30,6 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx);
 void DoorKiller_SetProperties(DoorKiller* this, GlobalContext* globalCtx);
 void DoorKiller_DrawDoor(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_DrawRubble(Actor* thisx, GlobalContext* globalCtx);
-
-extern FlexSkeletonHeader D_06001BC8;
 
 const ActorInit Door_Killer_InitVars = {
     ACTOR_DOOR_KILLER,
@@ -91,8 +92,8 @@ static ColliderJntSphInit sJntSphInit = {
 
 static DoorKillerTextureEntry sDoorTextures[4] = {
     { OBJECT_HIDAN_OBJECTS, gFireTempleDoorKillerTex },
-    { OBJECT_MIZU_OBJECTS, 0x060035C0 },
-    { OBJECT_HAKA_DOOR, 0x06000000 },
+    { OBJECT_MIZU_OBJECTS, object_mizu_objects_Tex_0035C0 },
+    { OBJECT_HAKA_DOOR, object_haka_door_Tex_000000 },
     { OBJECT_GAMEPLAY_KEEP, gWoodenDoorTex },
 };
 
@@ -125,7 +126,8 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {
         case DOOR_KILLER_DOOR:
             // `jointTable` is used for both the `jointTable` and `morphTable` args here. Because this actor doesn't
             // play any animations it does not cause problems, but it would need to be changed otherwise.
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06001BC8, NULL, this->jointTable, this->jointTable, 9);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_door_killer_Skel_001BC8, NULL, this->jointTable,
+                               this->jointTable, 9);
             this->actionFunc = DoorKiller_SetProperties;
             DoorKiller_SetProperties(this, globalCtx);
 
@@ -512,7 +514,8 @@ void DoorKiller_DrawDoor(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorKiller_DrawRubble(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dLists[] = { 0x06001250, 0x06001550, 0x060017B8, 0x06001A58 };
+    static Gfx* dLists[] = { object_door_killer_DL_001250, object_door_killer_DL_001550, object_door_killer_DL_0017B8,
+                             object_door_killer_DL_001A58 };
     s32 rubblePieceIndex = (thisx->params & 0xFF) - 1;
     DoorKiller* this = THIS;
 
