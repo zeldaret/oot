@@ -2002,7 +2002,7 @@ void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx) {
         entranceCutscene = &sEntranceCutsceneTable[i];
 
         requiredAge = entranceCutscene->ageRestriction;
-        if (requiredAge == 2) {
+        if (requiredAge == LINK_AGE_MAX) {
             requiredAge = gSaveContext.linkAge;
         }
 

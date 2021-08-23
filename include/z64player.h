@@ -157,6 +157,12 @@ typedef enum {
     /*  3 */ PLAYER_DOORTYPE_FAKE
 } PlayerDoorType;
 
+typedef enum {
+    /* 0x00 */ LINK_AGE_ADULT,
+    /* 0x01 */ LINK_AGE_CHILD,
+    /* 0x02 */ LINK_AGE_MAX
+} LinkAge;
+
 #define PLAYER_LIMB_BUF_COUNT PLAYER_LIMB_MAX + 2 // 2 extra entries in limb buffers?
 
 typedef struct {

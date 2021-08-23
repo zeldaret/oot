@@ -102,7 +102,7 @@ s32 Player_IsTargeting(Player* this) {
 }
 
 s32 Player_IsChildWithHylianShield(Player* this) {
-    return (gSaveContext.linkAge != 0) && (this->currentShield == PLAYER_SHIELD_HYLIAN);
+    return (gSaveContext.linkAge != LINK_AGE_ADULT) && (this->currentShield == PLAYER_SHIELD_HYLIAN);
 }
 
 // Used to map action params to model groups
@@ -443,7 +443,7 @@ void Player_SetModelGroup(Player* this, s32 modelGroup) {
     Player_SetModels(this, modelGroup);
 }
 
-void Player_UnsetItemAction(Player* this) {
+void func_8008EC70(Player* this) {
     this->itemActionParam = this->heldItemActionParam;
     Player_SetModelGroup(this, Player_ActionToModelGroup(this, this->heldItemActionParam));
     this->unk_6AD = 0;
@@ -1164,7 +1164,7 @@ void Player_GetSwordTip(Player* this, Vec3f* swordTip) {
     Matrix_MultVec3f(&sSwordTipPos3, &swordTip[2]);
 }
 
-void Player_DrawHookshotPointer(GlobalContext* globalCtx, Player* this, f32 arg2) {
+void Player_DrawHookshotReticle(GlobalContext* globalCtx, Player* this, f32 arg2) {
     static Vec3f posOffset = { -500.0f, -100.0f, 0.0f };
     CollisionPoly* polygon;
     s32 bgId;
@@ -1198,14 +1198,14 @@ void Player_DrawHookshotPointer(GlobalContext* globalCtx, Player* this, f32 arg2
         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2587),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(OVERLAY_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        gSPDisplayList(OVERLAY_DISP++, gLinkHookshotPointerDL);
+        gSPDisplayList(OVERLAY_DISP++, gHookshotReticleDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2592);
     }
 }
 
 typedef struct {
-    /* 0x00 */ void* dList;
+    /* 0x00 */ Gfx* dList;
     /* 0x04 */ Vec3f pos;
 } BowStringInfo; // size = 0x10
 
@@ -1388,7 +1388,7 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 
                     if (func_8002DD78(this) != 0) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
-                        Player_DrawHookshotPointer(
+                        Player_DrawHookshotReticle(
                             globalCtx, this, (this->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 38600.0f : 77600.0f);
                     }
                 }
@@ -1511,7 +1511,7 @@ s32 Player_PauseOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     return 0;
 }
 
-void Player_PauseDrawImpl(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* skelAnime, Vec3f* pos,
+void Player_PauseMenuDrawImpl(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* skelAnime, Vec3f* pos,
                           Vec3s* rot, f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height,
                           Vec3f* eye, Vec3f* at, f32 fovy, void* img1, void* img2) {
     static Vp viewport = { 128, 224, 511, 0, 128, 224, 511, 0 };
@@ -1617,7 +1617,7 @@ void Player_PauseDrawImpl(GlobalContext* globalCtx, void* seg04, void* seg06, Sk
 /**
  * Draws the player in the equip screen on the pause menu.
  */
-void Player_PauseDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
+void Player_PauseMenuDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
                       s32 sword, s32 tunic, s32 shield, s32 boots) {
     static Vec3f eye = { 0.0f, 0.0f, -400.0f };
     static Vec3f at = { 0.0f, 0.0f, 0.0f };
@@ -1650,7 +1650,7 @@ void Player_PauseDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnim
         *destTable++ = *srcTable++;
     }
 
-    Player_PauseDrawImpl(globalCtx, segment + 0x3800, segment + 0x8800, skelAnime, pos, rot, scale, sword, tunic,
+    Player_PauseMenuDrawImpl(globalCtx, segment + 0x3800, segment + 0x8800, skelAnime, pos, rot, scale, sword, tunic,
                          shield, boots, 64, 112, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFrameBuffer,
                          globalCtx->state.gfxCtx->curFrameBuffer + 0x1C00);
 }

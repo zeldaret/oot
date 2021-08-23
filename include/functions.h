@@ -1066,7 +1066,7 @@ s32 Player_ActionToModelGroup(Player* player, s32 actionParam);
 void Player_SetModelsForHoldingShield(Player* player);
 void Player_SetModels(Player* player, s32 modelGroup);
 void Player_SetModelGroup(Player* player, s32 modelGroup);
-void Player_UnsetItemAction(Player* player);
+void func_8008EC70(Player* player);
 void Player_SetEquipmentData(GlobalContext* globalCtx, Player* player);
 void Player_UpdateBottleHeld(GlobalContext* globalCtx, Player* player, s32 item, s32 actionParam);
 void Player_UnsetTargeting(Player* player);
@@ -1103,7 +1103,7 @@ u8 Player_SetQuadWeaponCollision(GlobalContext* globalCtx, ColliderQuad* collide
 void Player_DrawGetItem(GlobalContext* globalCtx, Player* player);
 void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* data);
 size_t Player_LoadPauseSegmentData(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime);
-void Player_PauseDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
+void Player_PauseMenuDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
                    s32 sword, s32 tunic, s32 shield, s32 boots);
 void PreNMI_Init(GameState* thisx);
 Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, VecSph* arg2);

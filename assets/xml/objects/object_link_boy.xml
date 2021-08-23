@@ -147,7 +147,7 @@
         <DList Name="gLinkAdultBowStringDL" Offset="0x2B108"/>
         <DList Name="gLinkAdultHookshotSpikeDL" Offset="0x2B288"/>
         <DList Name="gLinkAdultGiantsKnifeBladeDL" Offset="0x2BA38"/>
-        <DList Name="gLinkHookshotPointerDL" Offset="0x2CB48"/>
+        <DList Name="gHookshotReticleDL" Offset="0x2CB48"/>
         
         <!--Far Limb DLists--> 
         <DList Name="gLinkAdultWaistFarDL" Offset="0x2F530"/>

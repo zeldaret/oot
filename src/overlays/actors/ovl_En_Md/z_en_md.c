@@ -532,7 +532,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
         temp = 2;
     } else {
         this->unk_1E0.unk_18 = player->actor.world.pos;
-        this->unk_1E0.unk_14 = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
+        this->unk_1E0.unk_14 = (gSaveContext.linkAge > LINK_AGE_ADULT) ? 0.0f : -18.0f;
     }
 
     func_80034A14(&this->actor, &this->unk_1E0, 2, temp);
