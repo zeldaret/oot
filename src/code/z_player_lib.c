@@ -50,7 +50,7 @@ void Player_SetMovementBehavior(GlobalContext* globalCtx, Player* this) {
 
     currentBoots = this->currentBoots;
     if (currentBoots == PLAYER_BOOTS_KOKIRI) {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             currentBoots = PLAYER_BOOTS_EX_KOKIRI_CHILD;
         }
     } else if (currentBoots == PLAYER_BOOTS_IRON) {
@@ -102,7 +102,7 @@ s32 Player_IsTargeting(Player* this) {
 }
 
 s32 Player_IsChildWithHylianShield(Player* this) {
-    return LINK_IS_CHILD && (this->currentShield == PLAYER_SHIELD_HYLIAN);
+    return (gSaveContext.linkAge != 0) && (this->currentShield == PLAYER_SHIELD_HYLIAN);
 }
 
 // Used to map action params to model groups
@@ -894,7 +894,7 @@ s32 Player_OverrideLimbDrawImpl(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
         sRightHandType = this->rightHandType;
         sPartsPosPtr = &this->swordInfo[2].base;
 
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 1)) {
                 pos->x *= 0.64f;
                 pos->z *= 0.64f;
@@ -987,11 +987,11 @@ s32 Player_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
             if ((this->sheathType == 18) || (this->sheathType == 19)) {
                 dLists += this->currentShield * 4;
-                if ((LINK_IS_CHILD) && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
+                if (!LINK_IS_ADULT && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
                     (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                     dLists += 16;
                 }
-            } else if ((LINK_IS_CHILD) && ((this->sheathType == 16) || (this->sheathType == 17)) &&
+            } else if (!LINK_IS_ADULT && ((this->sheathType == 16) || (this->sheathType == 17)) &&
                        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                 dLists = D_80125D68;
             }
@@ -1288,14 +1288,13 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
                     Matrix_MultVec3f(&hookActorPos, &hookedActor->world.pos);
                     Matrix_RotateRPY(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
                     Matrix_Get(&matrix);
-                    func_800D20CC(&matrix, &hookedActor->world.rot, 0);
+                    Matrix_MtxFToYXZRotS(&matrix, &hookedActor->world.rot, 0);
                     hookedActor->shape.rot = hookedActor->world.rot;
                 } else if (this->stateFlags1 & 0x800) {
                     Vec3s leftHandAngle;
 
                     Matrix_Get(&matrix);
-                    func_800D20CC(&matrix, &leftHandAngle, 0);
-
+                    Matrix_MtxFToYXZRotS(&matrix, &leftHandAngle, 0);
                     if (hookedActor->flags & 0x20000) {
                         hookedActor->world.rot.x = hookedActor->shape.rot.x = leftHandAngle.x - this->unk_3BC.x;
                     } else {
@@ -1304,7 +1303,7 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
                 }
             } else {
                 Matrix_Get(&this->mf_9E0);
-                func_800D20CC(&this->mf_9E0, &this->unk_3BC, 0);
+                Matrix_MtxFToYXZRotS(&this->mf_9E0, &this->unk_3BC, 0);
             }
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
@@ -1346,7 +1345,7 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 
             Matrix_Scale(1.0f, this->unk_858, 1.0f, MTXMODE_APPLY);
 
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 Matrix_RotateZ(this->unk_858 * -0.2f, MTXMODE_APPLY);
             }
 
@@ -1384,7 +1383,7 @@ void Player_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
                     Matrix_MultVec3f(&hookshotHookPos, &heldActor->world.pos);
                     Matrix_RotateRPY(0, -0x4000, -0x4000, MTXMODE_APPLY);
                     Matrix_Get(&sp44);
-                    func_800D20CC(&sp44, &heldActor->world.rot, 0);
+                    Matrix_MtxFToYXZRotS(&sp44, &heldActor->world.rot, 0);
                     heldActor->shape.rot = heldActor->world.rot;
 
                     if (func_8002DD78(this) != 0) {
@@ -1479,7 +1478,7 @@ s32 Player_PauseOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     s32 dListOffset = 0;
     Gfx** dLists;
 
-    if ((modelGroup == 2) && LINK_IS_CHILD && (ptr[1] == 2)) {
+    if ((modelGroup == 2) && !LINK_IS_ADULT && (ptr[1] == 2)) {
         modelGroup = 1;
     }
 
@@ -1629,7 +1628,7 @@ void Player_PauseDraw(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnim
     gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + 0x3800);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(segment + 0x8800);
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         if (shield == PLAYER_SHIELD_DEKU) {
             srcTable = D_040020D0;
         } else {

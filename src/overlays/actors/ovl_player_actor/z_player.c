@@ -1461,7 +1461,7 @@ void func_80832E48(Player* this, s32 flags) {
     SkelAnime_UpdateTranslation(&this->skelAnime, &pos, this->actor.shape.rot.y);
 
     if (flags & 1) {
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             pos.x *= 0.64f;
             pos.z *= 0.64f;
         }
@@ -3923,8 +3923,6 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, s
     f32 linearVel;
     s32 yaw;
 
-    if (1) {}
-
     if (this->actor.category == ACTORCAT_PLAYER) {
         sp3C = 0;
 
@@ -4152,7 +4150,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 }
 
                 if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
-                    this->unk_46A = globalCtx->transitionActorList[(u16)doorShutter->dyna.actor.params >> 10]
+                    this->unk_46A = globalCtx->transiActorCtx.list[(u16)doorShutter->dyna.actor.params >> 10]
                                         .sides[(doorDirection > 0) ? 0 : 1]
                                         .effects;
 
@@ -4164,8 +4162,8 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 // are common across the two actors' structs however most other variables are not!
                 door = (EnDoor*)doorActor;
 
-                door->animStyle = (doorDirection < 0.0f) ? ((LINK_IS_ADULT) ? KNOB_ANIM_ADULT_L : KNOB_ANIM_CHILD_L)
-                                                         : ((LINK_IS_ADULT) ? KNOB_ANIM_ADULT_R : KNOB_ANIM_CHILD_R);
+                door->animStyle = (doorDirection < 0.0f) ? (LINK_IS_ADULT ? KNOB_ANIM_ADULT_L : KNOB_ANIM_CHILD_L)
+                                                         : (LINK_IS_ADULT ? KNOB_ANIM_ADULT_R : KNOB_ANIM_CHILD_R);
 
                 if (door->animStyle == KNOB_ANIM_ADULT_L) {
                     sp5C = D_808539EC[this->modelAnimType];
@@ -4224,7 +4222,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                         }
                     } else {
                         Camera_ChangeDoorCam(Gameplay_GetCamera(globalCtx, 0), doorActor,
-                                             globalCtx->transitionActorList[(u16)doorActor->params >> 10]
+                                             globalCtx->transiActorCtx.list[(u16)doorActor->params >> 10]
                                                  .sides[(doorDirection > 0) ? 0 : 1]
                                                  .effects,
                                              0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
@@ -4233,7 +4231,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
             }
 
             if ((this->doorType != PLAYER_DOORTYPE_FAKE) && (doorActor->category == ACTORCAT_DOOR)) {
-                frontRoom = globalCtx->transitionActorList[(u16)doorActor->params >> 10]
+                frontRoom = globalCtx->transiActorCtx.list[(u16)doorActor->params >> 10]
                                 .sides[(doorDirection > 0) ? 0 : 1]
                                 .room;
 
@@ -4641,8 +4639,6 @@ void func_8083AE40(Player* this, s16 objectId) {
         LOG_HEX("size", size, "../z_player.c", 9090);
         ASSERT(size <= 1024 * 8, "size <= 1024 * 8", "../z_player.c", 9091);
 
-        if (gObjectTable[objectId].vromEnd) {}
-
         DmaMgr_SendRequest2(&this->giObjectDmaRequest, (u32)this->giObjectSegment, gObjectTable[objectId].vromStart,
                             size, 0, &this->giObjectLoadQueue, NULL, "../z_player.c", 9099);
     }
@@ -4755,11 +4751,11 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                             this->unk_664 = this->targetActor;
                         } else if (sp2C == EXCH_ITEM_LETTER_RUTO) {
                             this->unk_84F = 1;
-                            this->actor.textId = 0x4005; // "There is something already inside this bottle..."
+                            this->actor.textId = 0x4005;
                             func_80835EA4(globalCtx, 1);
                         } else {
                             this->unk_84F = 2;
-                            this->actor.textId = 0xCF; // "This item doesn't work here..."
+                            this->actor.textId = 0xCF;
                             func_80835EA4(globalCtx, 4);
                         }
 
@@ -6132,7 +6128,7 @@ s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
     f32 phi_f12;
     s32 i;
 
-    if (LINK_IS_CHILD && !(this->stateFlags1 & 0x8000000) && (arg2 & 0x30)) {
+    if (!LINK_IS_ADULT && !(this->stateFlags1 & 0x8000000) && (arg2 & 0x30)) {
         wallPoly = this->actor.wallPoly;
         CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, sp50);
 
@@ -8449,7 +8445,7 @@ void func_80845668(Player* this, GlobalContext* globalCtx) {
                 temp1 *= 0.072f;
             }
 
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 temp1 += 1.0f;
             }
 
@@ -9036,7 +9032,7 @@ static Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
 void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Player* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
-    Scene* scene = globalCtx->loadedScene;
+    SceneTableEntry* scene = globalCtx->loadedScene;
     u32 titleFileSize;
     s32 initMode;
     s32 sp50;
@@ -9805,8 +9801,6 @@ void func_80848C74(GlobalContext* globalCtx, Player* this) {
             flameIntensity = CLAMP(flameIntensity, 0.0f, 1.0f);
             EffectSsFireTail_SpawnFlameOnPlayer(globalCtx, flameScale, i, flameIntensity);
         }
-
-        if (1) {}
     }
 
     if (spawnedFlame) {
@@ -10382,11 +10376,9 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19328);
 }
 
-void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     Player* this = THIS;
-
-    if (1) {}
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19346);
 
@@ -11991,7 +11983,7 @@ void func_8084E6D4(Player* this, GlobalContext* globalCtx) {
         }
     } else {
         if (this->unk_850 == 0) {
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 func_80832924(this, D_808549E0);
             }
             return;
@@ -12036,7 +12028,7 @@ void func_8084E9AC(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             func_80832924(this, D_808549F4);
         } else {
             func_8084E988(this);
@@ -13519,12 +13511,12 @@ void func_80851A50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
     LinkAnimation_Update(globalCtx, &this->skelAnime);
 
-    if (((LINK_IS_ADULT) && LinkAnimation_OnFrame(&this->skelAnime, 70.0f)) ||
-        ((LINK_IS_CHILD) && LinkAnimation_OnFrame(&this->skelAnime, 87.0f))) {
+    if ((LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 70.0f)) ||
+        (!LINK_IS_ADULT && LinkAnimation_OnFrame(&this->skelAnime, 87.0f))) {
         sp2C = &D_808551A4[gSaveContext.linkAge];
         this->interactRangeActor->parent = &this->actor;
 
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             dLists = gPlayerLeftHandAndGiantsKnifeDLists;
         } else {
             dLists = gPlayerLeftFistDLists;
@@ -13532,7 +13524,7 @@ void func_80851A50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
         this->leftHandDLists = &dLists[gSaveContext.linkAge];
 
         func_8002F7DC(&this->actor, sp2C->unk_00);
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             func_80832698(this, sp2C->unk_02);
         }
     } else if (LINK_IS_ADULT) {
@@ -13921,7 +13913,7 @@ void func_80852944(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 void func_808529D0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
     this->actor.world.pos.x = arg2->startPos.x;
     this->actor.world.pos.y = arg2->startPos.y;
-    if ((globalCtx->sceneNum == SCENE_SPOT04) && LINK_IS_CHILD) {
+    if ((globalCtx->sceneNum == SCENE_SPOT04) && !LINK_IS_ADULT) {
         this->actor.world.pos.y -= 1.0f;
     }
     this->actor.world.pos.z = arg2->startPos.z;

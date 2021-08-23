@@ -41,7 +41,7 @@ void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_800F6FB4(4);
         Actor_Kill(&this->actor);
     } else if (this->actor.params == RS_SARIAS_SONG) {
-        if ((!CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) || (CHECK_QUEST_ITEM(QUEST_SONG_SARIA))) {
+        if (!CHECK_QUEST_ITEM(QUEST_SONG_LULLABY) || CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
             Actor_Kill(&this->actor);
         }
     }

@@ -626,7 +626,7 @@ s32 Math3D_PointRelativeToCubeVertices(Vec3f* point, Vec3f* min, Vec3f* max) {
         ret |= 0x10;
     }
 
-    // @BUG: The next 2 conditions are the same check.
+    //! @bug: The next 2 conditions are the same check.
     if ((-min->x - min->y + max->z) < (-point->x - point->y + point->z)) {
         ret |= 0x20;
     }
@@ -726,7 +726,7 @@ s32 Math3D_LineVsCube(Vec3f* min, Vec3f* max, Vec3f* a, Vec3f* b) {
     triVtx1.y = min->y;
     triVtx1.z = max->z;
     triVtx2.x = max->x;
-    // @Bug trVtx1.y should be triVtx2.y, prevents a tri on the cube from being checked.
+    //! @bug trVtx1.y should be triVtx2.y, prevents a tri on the cube from being checked.
     triVtx1.y = min->y;
     triVtx2.z = max->z;
     if (Math3D_TriLineIntersect(&triVtx0, &triVtx1, &triVtx2, 0.0f, 0.0f, 1.0f, -max->z, a, b, &intersectPoint, 0)) {

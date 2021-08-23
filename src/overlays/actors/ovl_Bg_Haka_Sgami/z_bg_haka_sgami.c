@@ -5,6 +5,8 @@
  */
 
 #include "z_bg_haka_sgami.h"
+#include "objects/object_haka_objects/object_haka_objects.h"
+#include "objects/object_ice_objects/object_ice_objects.h"
 
 #define FLAGS 0x00000011
 
@@ -25,9 +27,6 @@ void BgHakaSgami_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgHakaSgami_SetupSpin(BgHakaSgami* this, GlobalContext* globalCtx);
 void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx);
-
-extern Gfx D_0600BF20[];
-extern Gfx D_060021F0[];
 
 const ActorInit Bg_Haka_Sgami_InitVars = {
     ACTOR_BG_HAKA_SGAMI,
@@ -301,10 +300,10 @@ void BgHakaSgami_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaSgami* this = THIS;
 
     if (this->unk_151 != 0) {
-        Gfx_DrawDListXlu(globalCtx, D_0600BF20);
+        Gfx_DrawDListXlu(globalCtx, object_haka_objects_DL_00BF20);
     } else if (this->actor.params == SCYTHE_TRAP_SHADOW_TEMPLE) {
-        Gfx_DrawDListOpa(globalCtx, D_0600BF20);
+        Gfx_DrawDListOpa(globalCtx, object_haka_objects_DL_00BF20);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_060021F0);
+        Gfx_DrawDListOpa(globalCtx, object_ice_objects_DL_0021F0);
     }
 }

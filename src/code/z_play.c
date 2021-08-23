@@ -261,18 +261,18 @@ void Gameplay_Init(GameState* thisx) {
         gSaveContext.nayrusLoveTimer = 0;
         func_800876C8(globalCtx);
         gSaveContext.sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;
-    } else if (LINK_IS_CHILD && gSaveContext.nightFlag == 0) {
+    } else if (!LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneSetupIndex = 0;
-    } else if (LINK_IS_CHILD && gSaveContext.nightFlag != 0) {
+    } else if (!LINK_IS_ADULT && !IS_DAY) {
         gSaveContext.sceneSetupIndex = 1;
-    } else if (LINK_IS_ADULT && gSaveContext.nightFlag == 0) {
+    } else if (LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneSetupIndex = 2;
     } else {
         gSaveContext.sceneSetupIndex = 3;
     }
 
     tempSetupIndex = gSaveContext.sceneSetupIndex;
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT00) && LINK_IS_CHILD &&
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT00) && !LINK_IS_ADULT &&
         gSaveContext.sceneSetupIndex < 4) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
@@ -1094,7 +1094,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         globalCtx->mf_11DA0.mf[2][3] = 0.0f;
         globalCtx->mf_11DA0.mf[1][3] = 0.0f;
         globalCtx->mf_11DA0.mf[0][3] = 0.0f;
-        Matrix_Reverse(&globalCtx->mf_11DA0);
+        Matrix_Transpose(&globalCtx->mf_11DA0);
         globalCtx->unk_11DE0 = Matrix_MtxFToMtx(Matrix_CheckFloats(&globalCtx->mf_11DA0, "../z_play.c", 4005),
                                                 Graph_Alloc(gfxCtx, sizeof(Mtx)));
 
@@ -1447,10 +1447,10 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     globalCtx->setupExitList = NULL;
     globalCtx->cUpElfMsgs = NULL;
     globalCtx->setupPathList = NULL;
-    globalCtx->nbSetupActors = 0;
+    globalCtx->numSetupActors = 0;
     Object_InitBank(globalCtx, &globalCtx->objectCtx);
     LightContext_Init(globalCtx, &globalCtx->lightCtx);
-    func_80098CBC(globalCtx, &globalCtx->nbTransitionActors);
+    TransitionActor_InitContext(&globalCtx->state, &globalCtx->transiActorCtx);
     func_80096FD4(globalCtx, &globalCtx->roomCtx.curRoom);
     YREG(15) = 0;
     gSaveContext.worldMapArea = 0;
@@ -1459,7 +1459,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
 }
 
 void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
-    Scene* scene = &gSceneTable[sceneNum];
+    SceneTableEntry* scene = &gSceneTable[sceneNum];
 
     scene->unk_13 = 0;
     globalCtx->loadedScene = scene;
@@ -1787,7 +1787,7 @@ s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {
         return 0;
     }
 
-    transitionActor = &globalCtx->transitionActorList[(u16)actor->params >> 10];
+    transitionActor = &globalCtx->transiActorCtx.list[(u16)actor->params >> 10];
     frontRoom = transitionActor->sides[0].room;
 
     if (frontRoom == transitionActor->sides[1].room) {

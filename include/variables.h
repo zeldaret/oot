@@ -6,8 +6,6 @@
 
 extern u32 D_0300AA48;
 extern u32 D_03012B20;
-extern Gfx D_0602A738[];
-extern Gfx D_0602CB48[];
 //extern ? D_070380D4;
 //extern ? D_0703811C;
 
@@ -206,7 +204,7 @@ extern s16 gLinkObjectIds[2];
 extern u32 gObjectTableSize;
 extern RomFile gObjectTable[OBJECT_ID_MAX];
 extern EntranceInfo gEntranceTable[1556];
-extern Scene gSceneTable[SCENE_ID_MAX];
+extern SceneTableEntry gSceneTable[SCENE_ID_MAX];
 //extern ? D_8012A4A0;
 extern u16 gSramSlotOffsets[];
 //extern ? D_8012A690;

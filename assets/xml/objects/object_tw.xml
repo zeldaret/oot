@@ -136,12 +136,12 @@
         <DList Name="object_tw_DL_0189A0" Offset="0x189A0" />
         <Texture Name="object_tw_Tex_018B20" OutName="tex_018B20" Format="rgba16" Width="4" Height="8" Offset="0x18B20" />
         <Texture Name="object_tw_Tex_018B60" OutName="tex_018B60" Format="i4" Width="32" Height="64" Offset="0x18B60" />
-        <DList Name="object_tw_DL_018FC0" Offset="0x18FC0" />
+        <DList Name="object_tw_DL_018FC0" Offset="0x18FC0" /> <!-- Koume Ground Smoke -->
         <Texture Name="object_tw_Tex_019078" OutName="tex_019078" Format="i8" Width="32" Height="32" Offset="0x19078" />
         <Texture Name="object_tw_Tex_019478" OutName="tex_019478" Format="i4" Width="32" Height="64" Offset="0x19478" />
-        <DList Name="object_tw_DL_019938" Offset="0x19938" />
+        <DList Name="object_tw_DL_019938" Offset="0x19938" /> <!-- koume Ground Flame -->
         <Texture Name="object_tw_Tex_019A20" OutName="tex_019A20" Format="i4" Width="32" Height="32" Offset="0x19A20" />
-        <DList Name="object_tw_DL_019D40" Offset="0x19D40" />
+        <DList Name="object_tw_DL_019D40" Offset="0x19D40" /> <!-- Koume Ground Crater -->
         <Texture Name="object_tw_Tex_019E00" OutName="tex_019E00" Format="i4" Width="32" Height="64" Offset="0x19E00" />
         <Texture Name="object_tw_Tex_01A200" OutName="tex_01A200" Format="i4" Width="32" Height="32" Offset="0x1A200" />
         <DList Name="object_tw_DL_01A430" Offset="0x1A430" />
@@ -271,7 +271,7 @@
         <DList Name="object_tw_DL_02DEB0" Offset="0x2DEB0" />
         <DList Name="object_tw_DL_02DFB0" Offset="0x2DFB0" />
         <DList Name="object_tw_DL_02E098" Offset="0x2E098" />
-        <!--Blob Name="object_tw_Blob_02E170" Size="0x3C00" Offset="0x2E170" /-->
+        <Blob Name="object_tw_Blob_02E170" Size="0x3C00" Offset="0x2E170" /> <!-- boss title card -->
         <Limb Name="object_tw_Limb_031D70" LimbType="Standard" Offset="0x31D70" />
         <Limb Name="object_tw_Limb_031D7C" LimbType="Standard" Offset="0x31D7C" />
         <Limb Name="object_tw_Limb_031D88" LimbType="Standard" Offset="0x31D88" />

@@ -377,8 +377,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 }
 
 void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* gfxCtx) {
-    u64 startTime;
-    u64 endTime;
+    OSTime startTime;
+    OSTime endTime;
 
     // game constructor start
     osSyncPrintf("game コンストラクタ開始\n");
@@ -436,7 +436,7 @@ void GameState_Destroy(GameState* gameState) {
     // game destructor start
     osSyncPrintf("game デストラクタ開始\n");
     func_800C3C20();
-    func_800F30534();
+    func_800F3054();
     osRecvMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
     LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1139);
     if (gameState->destroy != NULL) {

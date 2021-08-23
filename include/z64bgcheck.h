@@ -81,13 +81,13 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec3s minBounds; // minimum coordinates of poly bounding box
     /* 0x06 */ Vec3s maxBounds; // maximum coordinates of poly bounding box
-    /* 0x0C */ u16 nbVertices;
+    /* 0x0C */ u16 numVertices;
     /* 0x10 */ Vec3s* vtxList;
-    /* 0x14 */ u16 nbPolygons;
+    /* 0x14 */ u16 numPolygons;
     /* 0x18 */ CollisionPoly* polyList;
     /* 0x1C */ SurfaceType* surfaceTypeList;
     /* 0x20 */ CamData* cameraDataList;
-    /* 0x24 */ u16 nbWaterBoxes;
+    /* 0x24 */ u16 numWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader; // original name: BGDataInfo
 

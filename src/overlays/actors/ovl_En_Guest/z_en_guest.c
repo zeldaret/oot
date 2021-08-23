@@ -50,12 +50,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
 };
 
-static UNK_PTR D_80A50BA4[] = {
-    0x060005FC,
-    0x060006FC,
-    0x060007FC,
-};
-
 extern FlexSkeletonHeader D_060000F0;
 extern AnimationHeader D_060042AC;
 extern Gfx D_060059B0[];
@@ -224,6 +218,11 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* D_80A50BA4[] = {
+        0x060005FC,
+        0x060006FC,
+        0x060007FC,
+    };
     EnGuest* this = THIS;
     s32 pad;
 

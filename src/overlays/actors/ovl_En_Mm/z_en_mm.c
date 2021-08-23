@@ -521,7 +521,7 @@ void EnMm_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
+    static void* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
     s32 pad;
     EnMm* this = THIS;
 

@@ -195,11 +195,9 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ArrowIce* this = THIS;
     s32 pad;
     Actor* tranform;
-    u32 stateFrames;
-    EnArrow* arrow;
+    u32 stateFrames = globalCtx->state.frames;
+    EnArrow* arrow = (EnArrow*)this->actor.parent;
 
-    stateFrames = globalCtx->state.frames;
-    arrow = (EnArrow*)this->actor.parent;
     if (1) {}
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {

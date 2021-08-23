@@ -85,7 +85,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         this->actionFunc = EnFu_WaitChild;
         this->facialExpression = FU_FACE_CALM;
     } else {

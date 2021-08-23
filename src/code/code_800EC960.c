@@ -2458,7 +2458,7 @@ void func_800F50CC(void);
 void func_800F4A70(void);
 void func_800F5CF8(void);
 
-void func_800F30534(void) {
+void func_800F3054(void) {
     if (func_800FAD34() == 0) {
         sAudioUpdateTaskStart = gAudioContext.totalTaskCnt;
         sAudioUpdateStartTime = osGetTime();
