@@ -13,9 +13,6 @@ Acmd* func_800DD6CC(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthSt
 Acmd* func_800DD62C(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem, s32 resampleFlags);
 extern s16 D_8012FBAA[];
 
-// 4 nops, part of ucode_disas?
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_synthesis/pad_800DACB0.s")
-
 void AudioSynth_InitNextRingBuf(s32 chunkSize, s32 bufIdx, s32 reverbIdx) {
     ReverbRingBufferItem* bufItem;
     s32 pad[3];
