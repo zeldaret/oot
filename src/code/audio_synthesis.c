@@ -619,14 +619,14 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
 Acmd* func_800DC910(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf, s32 aiBufLen,
                     Acmd* cmd, s32 updateIdx) {
     s32 pad1[3];
-    AudioBankSample* audioBankSample; // sp150
-    AdpcmLoop* loopInfo; // sp14C
+    AudioBankSample* audioBankSample;
+    AdpcmLoop* loopInfo;
     s32 samplesRemaining;
     s32 nSamplesInThisIteration;
-    s32 noteFinished; // sp140
-    s32 restart; // sp13C
-    s32 flags; // sp138
-    u16 resamplingRateFixedPoint; // sp136
+    s32 noteFinished;
+    s32 restart;
+    s32 flags;
+    u16 resamplingRateFixedPoint;
     s32 phi_s6;
     s32 phi_s7;
     s32 phi_a1_2;
@@ -635,12 +635,12 @@ Acmd* func_800DC910(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* syn
     s32 temp_v1_6;
     void* buf;
     s32 phi_s0;
-    s32 sampleAddr; // sp110
+    s32 sampleAddr;
     u32 samplesLenFixedPoint;
     s32 samplesLenAdjusted;
-    s32 nAdpcmSamplesProcessed; // sp104
-    s32 endPos; // sp100
-    s32 nSamplesToProcess; // spFC
+    s32 nAdpcmSamplesProcessed;
+    s32 endPos;
+    s32 nSamplesToProcess;
     s32 phi_s4;
     s32 phi_s3;
     s32 pad2[7];
@@ -649,22 +649,22 @@ Acmd* func_800DC910(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* syn
     s32 spCC;
     s32 spC8;
     u8* phi_a1;
-    s32 nParts; // spC0
-    s32 curPart; // spBC
+    s32 nParts;
+    s32 curPart;
     s32 phi_t0;
     s32 phi_s0_2;
-    s32 resampledTempLen; // spB0
-    u16 noteSamplesDmemAddrBeforeResampling; // spAE
+    s32 resampledTempLen;
+    u16 noteSamplesDmemAddrBeforeResampling;
     s32 temp_mult;
     s32 thing;
     s32 s5;
-    Note* note; // sp9C
+    Note* note;
     u32 nSamplesToLoad;
     u16 unk7;
     u16 unkE;
     s16* thing4;
-    s32 bookOffset; // sp8C
-    s32 finished; // sp88
+    s32 bookOffset;
+    s32 finished;
     s32 aligned;
     s16 addr;
     u16 unused;
