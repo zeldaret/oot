@@ -1023,8 +1023,6 @@ void func_800EE404(void) {
     }
 }
 
-s32 func_800EE5EC(void);
-
 void func_800EE57C(u8 minigameIdx) {
     u8 i;
 
@@ -3172,17 +3170,17 @@ void func_800F4C58(Vec3f* pos, u16 sfxId, u8 arg2) {
     Audio_PlaySoundGeneral(sfxId, pos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-void func_800F4E30(Vec3f* arg0, f32 arg1) {
+void func_800F4E30(Vec3f* pos, f32 arg1) {
     f32 phi_f22;
     s8 phi_s4;
     u8 i;
 
     if (sSariaBgmPtr == NULL) {
-        sSariaBgmPtr = arg0;
+        sSariaBgmPtr = pos;
         D_80130650 = arg1;
-    } else if (arg0 != sSariaBgmPtr) {
+    } else if (pos != sSariaBgmPtr) {
         if (arg1 < D_80130650) {
-            sSariaBgmPtr = arg0;
+            sSariaBgmPtr = pos;
             D_80130650 = arg1;
         }
     } else {
