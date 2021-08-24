@@ -898,8 +898,8 @@ void Audio_InitHeap(void) {
         reverb->unk_14 = settings->unk_6 * 64;
         reverb->unk_16 = settings->unk_8;
         reverb->unk_18 = 0;
-        reverb->unk_10 = settings->unk_C;
-        reverb->unk_12 = settings->unk_E;
+        reverb->leakRtl = settings->leakRtl;
+        reverb->leakLtr = settings->leakLtr;
         reverb->unk_05 = settings->unk_10;
         reverb->unk_08 = settings->unk_12;
         reverb->useReverb = 8;
@@ -939,19 +939,19 @@ void Audio_InitHeap(void) {
         }
 
         if (settings->unk_14 != 0) {
-            reverb->unk_278 = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
-            reverb->unk_270 = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
-            func_800DF5DC(reverb->unk_270, settings->unk_14);
+            reverb->filterLeftState = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
+            reverb->filterLeft = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
+            func_800DF5DC(reverb->filterLeft, settings->unk_14);
         } else {
-            reverb->unk_270 = NULL;
+            reverb->filterLeft = NULL;
         }
 
         if (settings->unk_16 != 0) {
-            reverb->unk_27C = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
-            reverb->unk_274 = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
-            func_800DF5DC(reverb->unk_274, settings->unk_16);
+            reverb->filterRightState = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
+            reverb->filterRight = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
+            func_800DF5DC(reverb->filterRight, settings->unk_16);
         } else {
-            reverb->unk_274 = NULL;
+            reverb->filterRight = NULL;
         }
     }
 

@@ -35,6 +35,9 @@
 #define CODEC_ADPCM 0
 #define CODEC_S8 1
 
+#define DEFAULT_LEN_1CH 0x1A0
+#define DEFAULT_LEN_2CH 0x340
+
 struct Note;
 struct NotePool;
 struct SequenceChannel;
@@ -141,11 +144,10 @@ typedef struct {
     /* 0x00A */ s16 unk_0A;
     /* 0x00C */ u16 unk_0C;
     /* 0x00E */ u16 unk_0E;
-    /* 0x010 */ s16 unk_10;
-    /* 0x012 */ s16 unk_12;
+    /* 0x010 */ s16 leakRtl;
+    /* 0x012 */ s16 leakLtr;
     /* 0x014 */ u16 unk_14;
     /* 0x016 */ s16 unk_16;
-
     /* 0x018 */ u8 unk_18;
     /* 0x019 */ u8 unk_19;
     /* 0x01A */ u8 unk_1A;
@@ -159,13 +161,12 @@ typedef struct {
     /* 0x034 */ void* unk_34;
     /* 0x038 */ void* unk_38;
     /* 0x03C */ void* unk_3C;
-
     /* 0x040 */ ReverbRingBufferItem items[2][5];
-    /*?0x158 */ ReverbRingBufferItem items2[2][5];
-    /* 0x270 */ s16* unk_270;
-    /* 0x274 */ s16* unk_274;
-    /* 0x278 */ void* unk_278;
-    /* 0x27C */ void* unk_27C;
+    /* 0x158 */ ReverbRingBufferItem items2[2][5];
+    /* 0x270 */ s16* filterLeft;
+    /* 0x274 */ s16* filterRight;
+    /* 0x278 */ s16* filterLeftState;
+    /* 0x27C */ s16* filterRightState;
     /* 0x280 */ AudioBankSound sound;
     /* 0x288 */ AudioBankSample sample;
     /* 0x298 */ AdpcmLoop loop;
@@ -567,8 +568,8 @@ typedef struct {
     /* 0x06 */ u16 unk_6;
     /* 0x08 */ u16 unk_8;
     /* 0x0A */ u16 unk_A;
-    /* 0x0C */ u16 unk_C;
-    /* 0x0E */ u16 unk_E;
+    /* 0x0C */ u16 leakRtl;
+    /* 0x0E */ u16 leakLtr;
     /* 0x10 */ s8 unk_10;
     /* 0x12 */ u16 unk_12;
     /* 0x14 */ s16 unk_14;
