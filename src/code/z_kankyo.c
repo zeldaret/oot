@@ -291,8 +291,11 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
     envCtx->unk_1F = 0;
     envCtx->unk_20 = 0;
+    envCtx->unk_84 = 0.0f;
+    envCtx->unk_88 = 0.0f;
     envCtx->unk_BD = 0;
     envCtx->unk_BE = 0;
+    envCtx->unk_D8 = 1.0f;
     envCtx->unk_DC = 0;
     envCtx->gloomySkyMode = 0;
     envCtx->unk_DE = 0;
@@ -311,14 +314,13 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     envCtx->sandstormState = 0;
     envCtx->sandstormPrimA = 0;
     envCtx->sandstormEnvA = 0;
-    envCtx->unk_84 = 0.0f;
-    envCtx->unk_88 = 0.0f;
-    envCtx->unk_D8 = 1.0f;
+    
 
     gLightningStrike.state = LIGHTNING_STRIKE_WAIT;
     gLightningStrike.flashRed = 0;
     gLightningStrike.flashGreen = 0;
     gLightningStrike.flashBlue = 0;
+    
     sLightningFlashAlpha = 0;
 
     gSaveContext.unk_1410 = 0;
@@ -338,8 +340,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
     envCtx->blendIndoorLights = false;
     envCtx->unk_BF = 0xFF;
     envCtx->unk_D6 = 0xFFFF;
-    envCtx->timeIncrement = 0;
-    R_ENV_TIME_INCREMENT = gTimeIncrement = 0;
+    R_ENV_TIME_INCREMENT = gTimeIncrement = envCtx->timeIncrement = 0;
     R_ENV_DISABLE_DBG = true;
 
     if (CREG(3) != 0) {
@@ -443,6 +444,74 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006F140.s")
 #endif
+
+u8 func_8006F6BC(u8 *pvalue, u8 target, u8 scale, u8 step, u8 minStep) {
+    s16 stepSize = 0;
+    s16 diff = target - *pvalue;
+    
+    if (target != *pvalue) {
+        stepSize = diff / scale;
+        if ((stepSize >= (s16)minStep) || ((s16)-minStep >= stepSize)) {
+            if ((s16)step < stepSize) {
+                stepSize = step;
+            }
+            if ((s16)-step > stepSize) {
+                stepSize = -step;
+            }
+            *pvalue += (u8)stepSize;
+        } else {
+            if (stepSize < (s16)minStep) {
+                stepSize = minStep;
+                *pvalue += (u8)stepSize;
+                if (target < *pvalue) {
+                    *pvalue = target;
+                }
+            }
+            if ((s16)-minStep < stepSize) {
+                stepSize = -minStep;
+                *pvalue += (u8)stepSize;
+                if (*pvalue < target) {
+                    *pvalue = target;
+                }
+            }
+        }
+    }
+    return diff;
+}
+
+u8 func_8006F7F8(s8 *pvalue, s8 target, u8 scale, u8 step, u8 minStep) {
+    s16 stepSize = 0;
+    s16 diff = target - *pvalue;
+    
+    if (target != *pvalue) {
+        stepSize = diff / scale;
+        if ((stepSize >= (s16)minStep) || ((s16)-minStep >= stepSize)) {
+            if ((s16)step < stepSize) {
+                stepSize = step;
+            }
+            if ((s16)-step > stepSize) {
+                stepSize = -step;
+            }
+            *pvalue += (s8)stepSize;
+        } else {
+            if (stepSize < (s16)minStep) {
+                stepSize = minStep;
+                *pvalue += (s8)stepSize;
+                if (target < *pvalue) {
+                    *pvalue = target;
+                }
+            }
+            if ((s16)-minStep < stepSize) {
+                stepSize = -minStep;
+                *pvalue += (s8)stepSize;
+                if (*pvalue < target) {
+                    *pvalue = target;
+                }
+            }
+        }
+    }
+    return diff;
+}
 
 f32 Kankyo_LerpWeight(u16 max, u16 min, u16 val) {
     f32 ret = max - min;
@@ -825,7 +894,7 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
     }
 
     if (pauseCtx->state == 0) {
-        if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0)) {
+        if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0)) {
             if (globalCtx->skyboxId == 1) {
                 globalCtx->skyboxCtx.rot.y -= 0.001f;
             } else if (globalCtx->skyboxId == 5) {
@@ -1313,7 +1382,7 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
     f32 color;
     f32 y;
     f32 scale;
-    s32 pad;
+    f32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 2266);
 
@@ -1341,8 +1410,7 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
 
         y = globalCtx->envCtx.sunPos.y / 25.0f;
 
-        alpha = y / 80.0f;
-        alpha *= 255.0f;
+        alpha = (y / 80.0f) * 255.0f;
 
         if (alpha < 0.0f) {
             alpha = 0.0f;
@@ -1385,8 +1453,8 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
         scale = -15.0f * scale + 25.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
-        y = -y; // improves alot but also breaks some stuff, might be fake. doing the same above is way worse
-        alpha = y / 80.0f;
+        // y = -y; // improves alot but also breaks some stuff, might be fake. doing the same above is way worse
+        alpha = - y / 80.0f;
 
         if (alpha > 1.0f) {
             alpha = 1.0f;
@@ -1504,7 +1572,9 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
         unk88Target = cosAngle;
     }
 
-    if (!(cosAngle < 0.0f)) {
+    if (cosAngle < 0.0f) {
+
+    } else {
         if (arg9) {
             func_800C016C(globalCtx, &pos, &screenPos);
             D_8015FD7E = screenPos.x;
@@ -2011,14 +2081,14 @@ void func_800758AC(GlobalContext* globalCtx) {
 
         gSaveContext.unk_140E = 0;
     } else if (globalCtx->soundCtx.seqIndex == 0x7F) {
-        if (globalCtx->soundCtx.nightSeqIndex == 19u) {
+        if (globalCtx->soundCtx.nightSeqIndex == 0x13U) {
             return;
         }
 
         if (((void)0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
             func_800F6FB4((s32)globalCtx->soundCtx.nightSeqIndex);
         }
-    } else if (globalCtx->soundCtx.nightSeqIndex == 19u) {
+    } else if (globalCtx->soundCtx.nightSeqIndex == 0x13U) {
         // "BGM Configuration"
         osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", globalCtx->soundCtx.seqIndex,
                      ((void)0, gSaveContext.seqIndex));
