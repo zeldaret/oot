@@ -445,7 +445,7 @@ void Kankyo_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32 unus
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006F140.s")
 #endif
 
-u8 func_8006F6BC(u8 *pvalue, u8 target, u8 scale, u8 step, u8 minStep) {
+u8 Kankyo_SmoothStepToU8(u8 *pvalue, u8 target, u8 scale, u8 step, u8 minStep) {
     s16 stepSize = 0;
     s16 diff = target - *pvalue;
     
@@ -479,7 +479,7 @@ u8 func_8006F6BC(u8 *pvalue, u8 target, u8 scale, u8 step, u8 minStep) {
     return diff;
 }
 
-u8 func_8006F7F8(s8 *pvalue, s8 target, u8 scale, u8 step, u8 minStep) {
+u8 Kankyo_SmoothStepToS8(s8 *pvalue, s8 target, u8 scale, u8 step, u8 minStep) {
     s16 stepSize = 0;
     s16 diff = target - *pvalue;
     
