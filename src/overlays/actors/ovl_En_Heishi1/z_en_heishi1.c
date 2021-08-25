@@ -407,7 +407,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->waypointTimer--;
     }
 
-    activeCam = ACTIVE_CAM;
+    activeCam = GET_ACTIVE_CAM(globalCtx);
 
     if (player->actor.freezeTimer == 0) {
 

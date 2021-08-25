@@ -928,7 +928,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 12:
-                nextPos = ACTIVE_CAM->eye;
+                nextPos = GET_ACTIVE_CAM(globalCtx)->eye;
                 nextPos.y += (-2000.0f * this->actor.scale.y);
                 func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
                 break;

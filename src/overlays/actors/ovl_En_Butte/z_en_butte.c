@@ -123,7 +123,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     alpha = Math_SinS(sTransformationEffectAlpha) * 250;
     alpha = CLAMP(alpha, 0, 255);
 
-    Camera_GetCamDir(&camDir, ACTIVE_CAM);
+    Camera_GetCamDir(&camDir, GET_ACTIVE_CAM(globalCtx));
     Matrix_RotateY(camDir.y * (M_PI / 0x8000), MTXMODE_NEW);
     Matrix_RotateX(camDir.x * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_RotateZ(camDir.z * (M_PI / 0x8000), MTXMODE_APPLY);

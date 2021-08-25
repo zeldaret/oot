@@ -254,7 +254,7 @@ void EnDntJiji_Talk(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         func_80106CCC(globalCtx);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.parent = NULL;

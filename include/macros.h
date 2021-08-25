@@ -24,7 +24,7 @@
 
 #define GET_PLAYER(globalCtx) ((Player*)globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head)
 
-#define ACTIVE_CAM globalCtx->cameraPtrs[globalCtx->activeCamera]
+#define GET_ACTIVE_CAM(globalCtx) globalCtx->cameraPtrs[globalCtx->activeCamera]
 
 #define LINK_IS_ADULT (gSaveContext.linkAge == 0)
 #define LINK_IS_CHILD (gSaveContext.linkAge == 1)

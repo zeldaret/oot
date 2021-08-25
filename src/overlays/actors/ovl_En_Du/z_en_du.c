@@ -368,7 +368,7 @@ void func_809FE6CC(EnDu* this, GlobalContext* globalCtx) {
 
 void func_809FE740(EnDu* this, GlobalContext* globalCtx) {
     if (this->unk_1F4.unk_00 == 0) {
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         this->unk_1E2 = 0x5A;
         EnDu_SetupAction(this, func_809FE798);
     }

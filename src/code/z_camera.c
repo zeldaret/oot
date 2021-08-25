@@ -8096,7 +8096,7 @@ s16 func_8005B1A4(Camera* camera) {
     camera->unk_14C |= 0x8;
 
     if ((camera->thisIdx == MAIN_CAM) && (camera->globalCtx->activeCamera != MAIN_CAM)) {
-        camera->globalCtx->cameraPtrs[camera->globalCtx->activeCamera]->unk_14C |= 0x8;
+        GET_ACTIVE_CAM(camera->globalCtx)->unk_14C |= 0x8;
         return camera->globalCtx->activeCamera;
     }
 

@@ -426,7 +426,7 @@ s32 func_80B0CCF4(EnSw* this, f32* arg1) {
 
 void func_80B0CEA8(EnSw* this, GlobalContext* globalCtx) {
     if (!(this->actor.scale.x < 0.0139999995f)) {
-        Camera* activeCam = ACTIVE_CAM;
+        Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
 
         if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) >= 380.0f)) {
             Audio_PlayActorSound2(&this->actor, ((this->actor.params & 0xE000) >> 0xD) > 0 ? NA_SE_EN_STALGOLD_ROLL
@@ -790,7 +790,7 @@ s32 func_80B0E430(EnSw* this, f32 arg1, s16 arg2, s32 arg3, GlobalContext* globa
         return 0;
     }
 
-    activeCam = ACTIVE_CAM;
+    activeCam = GET_ACTIVE_CAM(globalCtx);
 
     if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) < 380.0f) {
         if (DECR(this->unk_440) == 0) {
