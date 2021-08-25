@@ -641,7 +641,7 @@ void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
 u32 SurfaceType_GetBgCamDataId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 SurfaceType_GetBgCamDataSetting(CollisionContext* colCtx, u32 camId, s32 bgId);
 u16 SurfaceType_GetBgCamDataSettingSetup(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u16 SurfaceType_GetBgCamDataNumSetup(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 SurfaceType_GetBgCamNumDataSetup(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 Vec3s* SurfaceType_GetBgCamDataVec3s(CollisionContext* colCtx, s32 camId, s32 bgId);
 Vec3s* SurfaceType_GetBgCamDataVec3sSetup(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetSceneExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);

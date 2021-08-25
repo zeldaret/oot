@@ -3892,7 +3892,7 @@ u16 SurfaceType_GetBgCamDataNum(CollisionContext* colCtx, u32 bgCamDataId, s32 b
 /**
  * SurfaceType Get the total count of Vec3s data from bgCamData setup
  */
-u16 SurfaceType_GetBgCamDataNumSetup(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u16 SurfaceType_GetBgCamNumDataSetup(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     CamData* bgCamData;
     SurfaceType* surfaceTypes;

@@ -55,8 +55,12 @@ typedef struct {
     /* 0x00 */ Vec3s pos;
     /* 0x06 */ Vec3s rot;
     /* 0x0C */ s16 fov;
-    /* 0x0E */ s16 jfifId;
-} SceneCamData;
+    /* 0x0E */ union {
+                s16 jfifId;
+                s16 flags;
+    };
+    /* 0x10 */ s16 unk_10;
+} SubBgCamData;
 
 /**
  * BgCamData Summary:
@@ -68,19 +72,19 @@ typedef struct {
  * numData = 0:
  *      data unused
  * 
- * numData = 3:
+ * numData = 3: data organized in SubBgCamData struct
  *      data[0]   // Position
  *      data[1]   // Rotation
  *      data[2].x // Field of View
  *      data[2].y // Jfif Id
  *      data[2].z // unused
  * 
- * numData = 6: Crawlspaces only (CAM_SET_CRAWLSPACE)
+ * numData = 6: Crawlspaces only (CAM_SET_CRAWLSPACE), entirely position data
  *      data[1] // Front entrance coordinates to crawlspace
  *      data[4] // Back entrance coordinates to crawlspace
  *      data[0], data[2], data[3], data[5] // Unused coordinates along crawlspace line
  * 
- * numData = 9: Testroom scene & crawlspace only
+ * numData = 9: Testroom scene & crawlspace only, entirely position data
  *      data[1] // Front entrance coordinates to crawlspace
  *      data[7] // Back entrance coordinates to crawlspace
  *      data[0], data[2] to data[6], data[8], // Unused coordinates along crawlspace line
@@ -89,10 +93,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u16 setting;
     /* 0x02 */ s16 numData;
-    /* 0x04 */ union {
-        Vec3s* data;
-        SceneCamData* sceneData;
-    };
+    /* 0x04 */ Vec3s* data;
 }
 CamData; // BgCamData
 
