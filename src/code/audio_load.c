@@ -6,7 +6,7 @@ typedef enum { LOAD_STATUS_WAITING, LOAD_STATUS_START, LOAD_STATUS_LOADING, LOAD
 #define RELOC(v, base) (reloc = (void*)((u32)v + (u32)base))
 
 /* forward declarations */
-s32 func_800E217C(s32 playerIdx, s32, s32);
+s32 func_800E217C(s32 playerIndex, s32, s32);
 unk_ldr* func_800E2454(u32 bankId);
 AudioBankSample* Audio_GetBankSample(s32 bankId, s32 sfxId);
 void Audio_ProcessAsyncLoads(s32 arg0);
@@ -381,27 +381,27 @@ void func_800E202C(s32 arg0) {
     Audio_DiscardBank(arg0);
 }
 
-s32 func_800E20D4(s32 playerIdx, s32 seqId, s32 arg2) {
+s32 func_800E20D4(s32 playerIndex, s32 seqId, s32 arg2) {
     if (gAudioContext.resetTimer != 0) {
         return 0;
     } else {
-        gAudioContext.seqPlayers[playerIdx].unk_DC = 0;
-        return func_800E217C(playerIdx, seqId, arg2);
+        gAudioContext.seqPlayers[playerIndex].unk_DC = 0;
+        return func_800E217C(playerIndex, seqId, arg2);
     }
 }
 
-s32 func_800E2124(s32 playerIdx, s32 seqId, s32 arg2) {
+s32 func_800E2124(s32 playerIndex, s32 seqId, s32 arg2) {
     if (gAudioContext.resetTimer != 0) {
         return 0;
     }
 
-    gAudioContext.seqPlayers[playerIdx].unk_DC = arg2;
-    return func_800E217C(playerIdx, seqId, 0);
+    gAudioContext.seqPlayers[playerIndex].unk_DC = arg2;
+    return func_800E217C(playerIndex, seqId, 0);
 }
 
 // InitSeqPlayer
-s32 func_800E217C(s32 playerIdx, s32 seqId, s32 arg2) {
-    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIdx];
+s32 func_800E217C(s32 playerIndex, s32 seqId, s32 arg2) {
+    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIndex];
     u8* seqData;
     s32 phi_s0;
     s32 phi_s1;
@@ -437,7 +437,7 @@ s32 func_800E217C(s32 playerIdx, s32 seqId, s32 arg2) {
     seqPlayer->scriptState.depth = 0;
     seqPlayer->delay = 0;
     seqPlayer->finished = 0;
-    seqPlayer->seqVariationEu = playerIdx;
+    seqPlayer->playerIndex = playerIndex;
     Audio_ProcessSequence(seqPlayer);
 }
 

@@ -621,46 +621,46 @@ void func_800DF1D8(f32 arg0, f32 arg1, u16* arg2) {
     }
 }
 
-void func_800DF5AC(s16* arg0) {
+void func_800DF5AC(s16* filter) {
     s32 i;
 
     for (i = 0; i < 8; i++) {
-        arg0[i] = 0;
+        filter[i] = 0;
     }
 }
 
-void func_800DF5DC(s16* arg0, s32 arg1) {
+void func_800DF5DC(s16* filter, s32 arg1) {
     s32 i;
     s16* ptr = &D_80130228[8 * arg1];
 
     for (i = 0; i < 8; i++) {
-        arg0[i] = ptr[i];
+        filter[i] = ptr[i];
     }
 }
 
-void func_800DF630(s16* arg0, s32 arg1) {
+void func_800DF630(s16* filter, s32 arg1) {
     s32 i;
     s16* ptr = &D_80130328[8 * (arg1 - 1)];
 
     for (i = 0; i < 8; i++) {
-        arg0[i] = ptr[i];
+        filter[i] = ptr[i];
     }
 }
 
-void func_800DF688(s16* arg0, s32 arg1, s32 arg2) {
+void func_800DF688(s16* filter, s32 arg1, s32 arg2) {
     s32 i;
 
     if (arg1 == 0 && arg2 == 0) {
-        func_800DF5DC(arg0, 0);
+        func_800DF5DC(filter, 0);
     } else if (arg2 == 0) {
-        func_800DF5DC(arg0, arg1);
+        func_800DF5DC(filter, arg1);
     } else if (arg1 == 0) {
-        func_800DF630(arg0, arg2);
+        func_800DF630(filter, arg2);
     } else {
         s16* ptr1 = &D_80130228[8 * arg1];
         s16* ptr2 = &D_80130328[8 * (arg2 - 1)];
         for (i = 0; i < 8; i++) {
-            arg0[i] = (ptr1[i] + ptr2[i]) / 2;
+            filter[i] = (ptr1[i] + ptr2[i]) / 2;
         }
     }
 }

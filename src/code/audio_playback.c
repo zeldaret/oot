@@ -95,7 +95,7 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     sub->targetVolRight = (s32)((vel * volRight) * 4095.999f);
 
     sub->unk_2 = reverb->unk_1;
-    sub->unk_14 = reverb->unk_10;
+    sub->filter = reverb->filter;
     sub->unk_07 = reverb->unk_14;
     sub->unk_0E = reverb->unk_16;
     sub->reverbVol = reverbVol;
@@ -256,7 +256,7 @@ void Audio_ProcessNotes(void) {
                 reverb.vol = attributes->reverb;
                 reverb.reverbBits = attributes->reverbBits;
                 reverb.unk_1 = attributes->unk_1;
-                reverb.unk_10 = attributes->unk_10;
+                reverb.filter = attributes->filter;
                 reverb.unk_14 = attributes->unk_4;
                 reverb.unk_16 = attributes->unk_6;
                 bookOffset = noteSubEu->bitField1.s.bookOffset;
@@ -274,7 +274,7 @@ void Audio_ProcessNotes(void) {
                 }
                 reverb.vol = channel->reverb;
                 reverb.unk_1 = channel->unk_0C;
-                reverb.unk_10 = channel->unk_CC;
+                reverb.filter = channel->filter;
                 reverb.unk_14 = channel->unk_0F;
                 reverb.unk_16 = channel->unk_20;
                 bookOffset = channel->bookOffset & 0x7;
@@ -471,13 +471,13 @@ void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target) 
             chan = seqLayer->seqChannel;
             attributes->reverb = chan->reverb;
             attributes->unk_1 = chan->unk_0C;
-            attributes->unk_10 = chan->unk_CC;
+            attributes->filter = chan->filter;
 
-            if (attributes->unk_10 != NULL) {
+            if (attributes->filter != NULL) {
                 for (i = 0; i < 8; i++) {
-                    attributes->unk_14[i] = attributes->unk_10[i];
+                    attributes->filterBuf[i] = attributes->filter[i];
                 }
-                attributes->unk_10 = attributes->unk_14;
+                attributes->filter = attributes->filterBuf;
             }
 
             attributes->unk_6 = chan->unk_20;
