@@ -285,25 +285,25 @@ typedef struct {
 } AdsrState;
 
 typedef struct {
-    /* 0x00 */ u8 bit0 : 1;
-    /* 0x00 */ u8 bit1 : 1;
+    /* 0x00 */ u8 bit0 : 1; // unused?
+    /* 0x00 */ u8 bit1 : 1; // unused?
     /* 0x00 */ u8 bit2 : 2;
     /* 0x00 */ u8 strongRight : 1;
     /* 0x00 */ u8 strongLeft : 1;
     /* 0x00 */ u8 stereoHeadsetEffects : 1;
     /* 0x00 */ u8 usesHeadsetPanEffects : 1;
-} ReverbBitsData;
+} StereoData;
 
 typedef union {
-    /* 0x00 */ ReverbBitsData s;
+    /* 0x00 */ StereoData s;
     /* 0x00 */ u8 asByte;
-} ReverbBits;
+} Stereo;
 
 typedef struct {
     /* 0x00 */ u8 reverb;
     /* 0x01 */ u8 unk_1;
     /* 0x02 */ u8 pan;
-    /* 0x03 */ ReverbBits reverbBits;
+    /* 0x03 */ Stereo stereo;
     /* 0x04 */ u8 unk_4;
     /* 0x06 */ u16 unk_6;
     /* 0x08 */ f32 freqScale;
@@ -374,7 +374,7 @@ typedef struct SequenceChannel {
     /* 0x84 */ NotePool notePool;
     /* 0xC4 */ s8 soundScriptIO[8]; // bridge between sound script and audio lib
     /* 0xCC */ s16* filter;
-    /* 0xD0 */ ReverbBits reverbBits;
+    /* 0xD0 */ Stereo stereo;
 } SequenceChannel; // size = 0xD4
 
 // Also known as a Track, according to debug strings.
@@ -387,7 +387,7 @@ typedef struct SequenceChannelLayer {
     /* 0x00 */ u8 ignoreDrumPan : 1;
     /* 0x00 */ u8 bit1 : 1; // "has initialized continuous notes"?
     /* 0x00 */ u8 notePropertiesNeedInit : 1;
-    /* 0x01 */ ReverbBits reverbBits;
+    /* 0x01 */ Stereo stereo;
     /* 0x02 */ u8 instOrWave;
     /* 0x03 */ u8 noteDuration;
     /* 0x04 */ u8 semitone;
@@ -485,7 +485,7 @@ typedef struct {
             /* 0x00 */ vu8 enabled : 1;
             /* 0x00 */ u8 needsInit : 1;
             /*?0x00 */ u8 finished : 1;
-            /*?0x00 */ u8 envMixerNeedsInit : 1;
+            /* 0x00 */ u8 unused : 1;
             /* 0x00 */ u8 stereoStrongRight : 1;
             /* 0x00 */ u8 stereoStrongLeft : 1;
             /* 0x00 */ u8 stereoHeadsetEffects : 1;
@@ -981,17 +981,17 @@ typedef struct {
 } AudioContext; // size = 0x6450
 
 typedef struct {
-    /* 0x00 */ u8 vol;
+    /* 0x00 */ u8 reverbVol;
     /* 0x01 */ u8 unk_1;
     /* 0x02 */ u8 pan;
-    /* 0x03 */ ReverbBits reverbBits;
+    /* 0x03 */ Stereo stereo;
     /* 0x04 */ f32 frequency;
     /* 0x08 */ f32 velocity;
     /* 0x0C */ char unk_0C[0x4];
     /* 0x10 */ s16* filter;
     /* 0x14 */ u8 unk_14;
     /* 0x16 */ u16 unk_16;
-} Reverb; // size >= 0x18
+} NoteSubAttributes; // size = 0x18
 
 typedef struct {
     /* 0x0000 */ u32 heap;

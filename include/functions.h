@@ -1979,7 +1979,7 @@ void Audio_InitMesgQueues(void);
 void Audio_osInvalDCache(void* buf, s32 size);
 void Audio_osWritebackDCache(void* mem, s32 size);
 s32 osAiSetNextBuffer(void*, u32);
-void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb);
+void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs);
 void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput);
 void Audio_NoteInit(Note* note);
 void Audio_NoteDisable(Note* note);
