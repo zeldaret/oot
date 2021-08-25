@@ -232,7 +232,7 @@ void func_8098E86C(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098E8C8(DemoSa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 posX = player->actor.world.pos.x;
     f32 posY = player->actor.world.pos.y + 80.0f;
     f32 posZ = player->actor.world.pos.z;
@@ -251,7 +251,7 @@ void func_8098E960(DemoSa* this, GlobalContext* globalCtx) {
     Player* player;
 
     if ((gSaveContext.chamberCutsceneNum == 0) && (gSaveContext.sceneSetupIndex < 4)) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         this->action = 1;
         globalCtx->csCtx.segment = D_8099010C;
         gSaveContext.cutsceneTrigger = 2;

@@ -352,7 +352,7 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 playerExchangeItemId;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
@@ -488,7 +488,7 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx) {
 void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNiwLady* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Actor_SetFocus(thisx, 60.0f);
     this->unk_288.unk_18 = player->actor.world.pos;

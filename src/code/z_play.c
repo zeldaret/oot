@@ -142,7 +142,7 @@ Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx) {
 
 void Gameplay_Destroy(GameState* thisx) {
     GlobalContext* globalCtx = (GlobalContext*)thisx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     globalCtx->state.gfxCtx->callback = NULL;
     globalCtx->state.gfxCtx->callbackParam = 0;
@@ -372,7 +372,7 @@ void Gameplay_Init(GameState* thisx) {
         ; // Empty Loop
     }
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     Camera_InitPlayerSettings(&globalCtx->mainCamera, player);
     Camera_ChangeMode(&globalCtx->mainCamera, CAM_MODE_NORMAL);
 
@@ -394,7 +394,7 @@ void Gameplay_Init(GameState* thisx) {
     func_800758AC(globalCtx);
     gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
     gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
-    func_8002DF18(globalCtx, PLAYER);
+    func_8002DF18(globalCtx, GET_PLAYER(globalCtx));
     AnimationContext_Update(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
 
@@ -1726,7 +1726,7 @@ void Gameplay_SetRespawnData(GlobalContext* globalCtx, s32 respawnMode, s16 entr
 }
 
 void Gameplay_SetupRespawnPoint(GlobalContext* globalCtx, s32 respawnMode, s32 playerParams) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 entranceIndex;
     s8 roomIndex;
 

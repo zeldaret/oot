@@ -2081,7 +2081,7 @@ void func_8009EE44(GlobalContext* globalCtx) {
 
     if ((globalCtx->roomCtx.unk_74[0] == 0) && (INV_CONTENT(ITEM_COJIRO) == ITEM_COJIRO)) {
         if (globalCtx->roomCtx.unk_74[1] == 50) {
-            func_8002F7DC(&PLAYER->actor, NA_SE_EV_CHICKEN_CRY_M);
+            func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_EV_CHICKEN_CRY_M);
             globalCtx->roomCtx.unk_74[0] = 1;
         }
         globalCtx->roomCtx.unk_74[1]++;

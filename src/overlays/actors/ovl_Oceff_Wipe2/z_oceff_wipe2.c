@@ -40,7 +40,7 @@ void OceffWipe2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe2* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_800876C8(globalCtx);
     if (gSaveContext.nayrusLoveTimer != 0) {

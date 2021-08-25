@@ -454,7 +454,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.gravity = -1.0f;
             EnSkj_CalculateCenter(this);
 
-            player = PLAYER;
+            player = GET_PLAYER(globalCtx);
             osSyncPrintf("Player_X : %f\n", player->actor.world.pos.x);
             osSyncPrintf("Player_Z : %f\n", player->actor.world.pos.z);
             osSyncPrintf("World_X  : %f\n", this->actor.world.pos.x);
@@ -723,7 +723,7 @@ void EnSkj_SariasSongKidIdle(EnSkj* this, GlobalContext* globalCtx) {
             this->backfilpFlag = 1;
             EnSkj_Backflip(this);
         } else if (sSmallStumpSkullKid.unk0 != 0) {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
             if (EnSkj_RangeCheck(player, sSmallStumpSkullKid.skullkid)) {
                 EnSkj_SetupWaitInRange(this);
                 player->stateFlags2 |= 0x800000;
@@ -906,7 +906,7 @@ void EnSkj_SetupWaitInRange(EnSkj* this) {
 }
 
 void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     // When link pulls out the Ocarina center him on the stump
     // Link was probably supposed to be pointed towards skull kid as well
@@ -957,7 +957,7 @@ void EnSkj_SetupWaitForSong(EnSkj* this) {
 }
 
 void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     // Played a song thats not Saria's song
     if (!(gSaveContext.itemGetInf[1] & 0x40) &&
@@ -1206,7 +1206,7 @@ void EnSkj_SetupWaitForTextClear(EnSkj* this) {
 
 void EnSkj_SariasSongWaitForTextClear(EnSkj* this, GlobalContext* globalCtx) {
     u8 state = func_8010BDBC(&globalCtx->msgCtx);
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (state == 6 && func_80106BC8(globalCtx)) {
         EnSkj_SetupWaitInRange(this);
@@ -1367,7 +1367,7 @@ void EnSkj_TurnPlayer(EnSkj* this, Player* player) {
 }
 
 void EnSkj_SetupWaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (EnSkj_RangeCheck(player, this)) {
         sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->playerInRange = true;
@@ -1387,7 +1387,7 @@ void EnSkj_SetupWaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_WaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags2 & 0x1000000) {
         player->stateFlags2 |= 0x2000000;
@@ -1403,7 +1403,7 @@ void EnSkj_WaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
 
 void EnSkj_StartOcarinaMinigame(EnSkj* this, GlobalContext* globalCtx) {
     u8 dialogState = func_8010BDBC(&globalCtx->msgCtx);
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     EnSkj_TurnPlayer(this, player);
 
@@ -1418,7 +1418,7 @@ void EnSkj_StartOcarinaMinigame(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     EnSkj_TurnPlayer(this, player);
 
@@ -1518,7 +1518,7 @@ void EnSkj_WaitForOfferResponse(EnSkj* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
-                player = PLAYER;
+                player = GET_PLAYER(globalCtx);
                 player->stateFlags3 |= 0x20; // makes player take ocarina out right away after closing box
                 this->actionFunc = EnSkj_SetupWaitForOcarina;
                 break;

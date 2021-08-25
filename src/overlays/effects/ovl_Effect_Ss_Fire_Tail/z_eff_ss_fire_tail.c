@@ -86,7 +86,7 @@ void EffectSsFireTail_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
             Matrix_Translate(this->pos.x + this->actor->world.pos.x, this->pos.y + this->actor->world.pos.y,
                              this->pos.z + this->actor->world.pos.z, MTXMODE_NEW);
         } else {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
             s16 bodyPart = this->rBodyPart;
 
             this->pos.x = player->bodyPartsPos[bodyPart].x - (Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM)) * 5.0f);

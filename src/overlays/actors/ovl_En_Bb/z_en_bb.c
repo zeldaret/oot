@@ -772,7 +772,7 @@ void EnBb_SetupRed(GlobalContext* globalCtx, EnBb* this) {
 }
 
 void EnBb_Red(EnBb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 floorType;
     s16 yawDiff;
 
@@ -978,7 +978,7 @@ void EnBb_SetupGreen(EnBb* this) {
 }
 
 void EnBb_Green(EnBb* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f bobOffset = { 0.0f, 0.0f, 0.0f };
     Vec3f nextPos = player->actor.world.pos;
 

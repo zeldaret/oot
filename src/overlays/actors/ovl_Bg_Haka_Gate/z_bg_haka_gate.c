@@ -150,7 +150,7 @@ void BgHakaGate_DoNothing(BgHakaGate* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaGate_StatueInactive(BgHakaGate* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
         player->stateFlags2 &= ~0x10;
@@ -159,7 +159,7 @@ void BgHakaGate_StatueInactive(BgHakaGate* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaGate_StatueIdle(BgHakaGate* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 linkDirection;
     f32 forceDirection;
 
@@ -188,7 +188,7 @@ void BgHakaGate_StatueIdle(BgHakaGate* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 turnFinished;
     s16 turnAngle;
 
@@ -222,7 +222,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
 
 void BgHakaGate_FloorClosed(BgHakaGate* this, GlobalContext* globalCtx) {
     if ((sStatueDistToPlayer > 1.0f) && (sStatueRotY != 0)) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         f32 radialDist;
         f32 angDist;
         f32 cos = Math_CosS(sStatueRotY);

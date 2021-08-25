@@ -337,7 +337,7 @@ void func_80AD9718(EnPoSisters* this) {
 }
 
 void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 sp20;
 
     if (this->unk_195 == 0 || this->actionFunc != func_80ADAAA4) {
@@ -572,7 +572,7 @@ void func_80ADA2BC(EnPoSisters* this, GlobalContext* globalCtx) {
 
 void func_80ADA35C(EnPoSisters* this, GlobalContext* globalCtx) {
     f32 targetY;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->actionFunc == func_80ADBF58) {
         targetY = this->actor.home.pos.y;
@@ -629,7 +629,7 @@ void func_80ADA530(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADA6A0(EnPoSisters* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 temp_v0;
 
     SkelAnime_Update(&this->skelAnime);
@@ -844,7 +844,7 @@ void func_80ADB2B8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADB338(EnPoSisters* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnPoSisters* realMeg = (EnPoSisters*)this->actor.parent;
 
     if (this->unk_195 == 0) {
@@ -966,7 +966,7 @@ void func_80ADB770(EnPoSisters* this, GlobalContext* globalCtx) {
             this->unk_199 &= ~0x40;
         }
     }
-    if (Actor_WorldDistXZToPoint(&PLAYER->actor, &this->actor.home.pos) > 600.0f) {
+    if (Actor_WorldDistXZToPoint(&GET_PLAYER(globalCtx)->actor, &this->actor.home.pos) > 600.0f) {
         this->unk_199 &= ~0x40;
         func_80AD9C24(this, globalCtx);
     } else if (this->unk_19A == 0) {

@@ -197,7 +197,7 @@ void EnHonotrap_InitFlame(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->actor.shape.shadowAlpha = 128;
-    this->targetPos = PLAYER->actor.world.pos;
+    this->targetPos = GET_PLAYER(globalCtx)->actor.world.pos;
     this->targetPos.y += 10.0f;
     this->flameScroll = Rand_ZeroOne() * 511.0f;
     EnHonotrap_SetupFlame(this);
@@ -370,7 +370,7 @@ void EnHonotrap_FlameMove(EnHonotrap* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
 
     if (this->collider.tris.base.atFlags & AT_BOUNCED) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         Vec3f shieldNorm;
         Vec3f tempVel;
         Vec3f shieldVec;
@@ -421,7 +421,7 @@ void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx) {
     func_8002D7EC(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);
     if (this->collider.cyl.base.atFlags & AT_BOUNCED) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         Vec3s shieldRot;
 
         Matrix_MtxFToYXZRotS(&player->shieldMf, &shieldRot, false);

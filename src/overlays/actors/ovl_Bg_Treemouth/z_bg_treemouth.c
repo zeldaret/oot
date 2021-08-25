@@ -165,7 +165,7 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
 }
 
 void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->csCtx.state == CS_STATE_UNSKIPPABLE_INIT) {
         if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 350.0f, 0x7530)) {

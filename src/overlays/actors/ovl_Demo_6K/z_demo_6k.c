@@ -520,9 +520,9 @@ void func_80967DBC(Demo6K* this, GlobalContext* globalCtx) {
         }
 
         if (this->timer2 > 104) {
-            func_80967BF8(PLAYER, globalCtx);
+            func_80967BF8(GET_PLAYER(globalCtx), globalCtx);
             Actor_Kill(&this->actor);
-            Audio_PlayActorSound2(&PLAYER->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
+            Audio_PlayActorSound2(&GET_PLAYER(globalCtx)->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
         } else if (this->timer2 > 94) {
             Actor_SetScale(&this->actor, this->actor.scale.x + 0.03f);
 

@@ -124,7 +124,7 @@ s32 EnFdFire_CheckCollider(EnFdFire* this, GlobalContext* globalCtx) {
 void EnFdFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFdFire* this = THIS;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -174,7 +174,7 @@ void EnFdFire_WaitToDie(EnFdFire* this, GlobalContext* globalCtx) {
 }
 
 void EnFdFire_DanceTowardsPlayer(EnFdFire* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 angles[] = {
         0.0f, 210.0f, 60.0f, 270.0f, 120.0f, 330.0f, 180.0f, 30.0f, 240.0f, 90.0f, 300.0f, 150.0f,
     };

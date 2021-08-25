@@ -172,7 +172,7 @@ s32 ElfMsg_GetMessageId(ElfMsg* this) {
 }
 
 void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnElf* navi = (EnElf*)player->naviActor;
 
     if ((fabsf(player->actor.world.pos.x - this->actor.world.pos.x) < (100.0f * this->actor.scale.x)) &&
@@ -189,7 +189,7 @@ s32 ElfMsg_WithinXZDistance(Vec3f* pos1, Vec3f* pos2, f32 distance) {
 }
 
 void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnElf* navi = (EnElf*)player->naviActor;
 
     if (ElfMsg_WithinXZDistance(&player->actor.world.pos, &this->actor.world.pos, this->actor.scale.x * 100.0f) &&

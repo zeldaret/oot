@@ -426,7 +426,7 @@ void BgDyYoseizo_SetupHealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* glob
 }
 
 void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 curFrame = this->skelAnime.curFrame;
     Vec3f beamPos;
     s16 beamParams;
@@ -667,7 +667,7 @@ static u8 sItemIds[] = { ITEM_FARORES_WIND, ITEM_DINS_FIRE, ITEM_NAYRUS_LOVE };
 
 void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 curFrame = this->skelAnime.curFrame;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 actionIndex;
     s16 demoEffectParams;
     Vec3f itemPos;
@@ -950,7 +950,7 @@ void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelo
 
 void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
     BgDyYoseizoParticle* particle = this->particles;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp94;
     Vec3f sp88;
     f32 goalPitch;

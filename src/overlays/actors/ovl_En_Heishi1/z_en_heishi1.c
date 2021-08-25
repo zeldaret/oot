@@ -232,7 +232,7 @@ void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachF(&this->actor.world.pos.x, player->actor.world.pos.x, 1.0f, this->moveSpeed);
@@ -391,7 +391,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s16 path;
     u8 i;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
     Camera* activeCam;
 

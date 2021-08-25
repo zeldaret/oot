@@ -682,7 +682,7 @@ s16 func_80B0DE34(EnSw* this, Vec3f* arg1) {
 }
 
 s32 func_80B0DEA8(EnSw* this, GlobalContext* globalCtx, s32 arg2) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     CollisionPoly* sp58;
     s32 sp54;
     Vec3f sp48;
@@ -827,7 +827,7 @@ void func_80B0E5E0(EnSw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B0E728(EnSw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     if (DECR(this->unk_442) != 0) {

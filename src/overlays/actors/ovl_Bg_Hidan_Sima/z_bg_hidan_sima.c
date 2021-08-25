@@ -116,7 +116,7 @@ void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8088E518(BgHidanSima* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.4f);
     if (func_8004356C(&this->dyna) && !(player->stateFlags1 & 0x6000)) {

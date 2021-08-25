@@ -11,7 +11,7 @@ s16 sPlayerInitialDirection = 0;
 s16 sEntranceIconMapIndex = 0;
 
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     sPlayerInitialPosX = player->actor.world.pos.x;
     sPlayerInitialPosZ = player->actor.world.pos.z;
@@ -312,7 +312,7 @@ void Map_Init(GlobalContext* globalCtx) {
 
 void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 tempX, tempZ;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 565);
@@ -506,7 +506,7 @@ s16 Map_GetFloorTextIndexOffset(s32 mapIndex, s32 floor) {
 
 void Map_Update(GlobalContext* globalCtx) {
     static s16 sLastRoomNum = 99;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 mapIndex = gSaveContext.mapIndex;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s16 floor;

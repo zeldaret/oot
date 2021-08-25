@@ -129,7 +129,7 @@ void MirRay_SetupCollider(MirRay* this) {
 // Set up a light point between source point and reflection point. Reflection point is the pool point (for windows) or
 // at the player position (for mirrors)
 void MirRay_MakeShieldLight(MirRay* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     MirRayDataEntry* dataEntry = &sMirRayData[this->actor.params];
     Vec3f reflectionPt;
     Vec3s lightPt;
@@ -241,7 +241,7 @@ void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void MirRay_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     MirRay* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     D_80B8E670 = 0;
 
@@ -269,7 +269,7 @@ void MirRay_SetIntensity(MirRay* this, GlobalContext* globalCtx) {
     f32 temp_f0_2;
     f32 temp_f2_2;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     MtxF* shieldMtx = &player->shieldMf;
 
     this->reflectIntensity = 0.0f;
@@ -308,7 +308,7 @@ void MirRay_SetIntensity(MirRay* this, GlobalContext* globalCtx) {
 // Draws six images, one for each corner of the shield, by finding the intersection of a line segment from the corner
 // perpendicular to the shield with the nearest collision (if any).
 void MirRay_SetupReflectionPolys(MirRay* this, GlobalContext* globalCtx, MirRayShieldReflection* reflection) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     MtxF* shieldMtx;
     s32 i;
     Vec3f posA;
@@ -365,7 +365,7 @@ void MirRay_RemoveSimilarReflections(MirRayShieldReflection* reflection) {
 
 // Creates the reflected beam's collider (to interact with objects) and places and orients the shield images
 void MirRay_ReflectedBeam(MirRay* this, GlobalContext* globalCtx, MirRayShieldReflection* reflection) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
     f32 temp_f0;
     Vec3f vecB;
@@ -483,7 +483,7 @@ void MirRay_ReflectedBeam(MirRay* this, GlobalContext* globalCtx, MirRayShieldRe
 
 void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
     MirRay* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
     MirRayShieldReflection reflection[6];
     s32 temp;

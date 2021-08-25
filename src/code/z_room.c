@@ -392,7 +392,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
         camId = camId2;
     }
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     player->actor.params = (player->actor.params & 0xFF00) | camId;
 
     bgImage = SEGMENTED_TO_VIRTUAL(polygon1->multi.list);
@@ -589,7 +589,7 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
             gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->unk_34);
 
             Scene_ExecuteCommands(globalCtx, roomCtx->curRoom.segment);
-            Player_SetBootData(globalCtx, PLAYER);
+            Player_SetBootData(globalCtx, GET_PLAYER(globalCtx));
             Actor_SpawnTransitionActors(globalCtx, &globalCtx->actorCtx);
 
             return 1;

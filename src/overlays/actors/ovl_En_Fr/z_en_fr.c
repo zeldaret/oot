@@ -599,7 +599,7 @@ s32 EnFr_SetupJumpingUp(EnFr* this, s32 frogIndex) {
 }
 
 void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags2 & 0x2000000) {
         if (globalCtx->msgCtx.unk_E3EE == 4) {

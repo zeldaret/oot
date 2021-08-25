@@ -65,7 +65,7 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 quakeIndex;
     s16 spawnerState;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     spawnerState = ENCOUNT2_INACTIVE;
     if (!this->isNotDeathMountain) {
@@ -115,7 +115,7 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
 }
 
 void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnFireRock* spawnedRock;
     f32 tempVec1X;
     f32 tempVec1Y;
@@ -311,7 +311,7 @@ void EnEncount2_ParticleInit(EnEncount2* this, Vec3f* particlePos, f32 scale) {
 void EnEncount2_ParticleUpdate(EnEncount2* this, GlobalContext* globalCtx) {
     s16 i;
     EnEncount2Particle* particle = this->particles;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f targetPos;
 
     for (i = 0; i < ARRAY_COUNT(this->particles); particle++, i++) {

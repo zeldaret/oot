@@ -540,7 +540,7 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (gSaveContext.bgsFlag) {
         player->exchangeItemId = EXCH_ITEM_CLAIM_CHECK;
@@ -846,7 +846,7 @@ void EnGo2_SwapInitialFrameAnimFrameCount(EnGo2* this) {
 }
 
 s32 func_80A44AB0(EnGo2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 arg2;
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
@@ -1052,7 +1052,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
 }
 
 void func_80A45288(EnGo2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 linkAge;
 
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
@@ -1828,7 +1828,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void EnGo2_GoronLinkStopRolling(EnGo2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (this->goronState) {
         case 0:
@@ -1857,7 +1857,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3s D_80A4854C = { 0x00, 0x00, 0x00 };
 
     switch (this->goronState) {

@@ -289,7 +289,7 @@ void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
 
 void BgHakaSgami_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaSgami* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == BgHakaSgami_SetupSpin)) {
         this->actionFunc(this, globalCtx);
