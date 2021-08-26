@@ -227,7 +227,7 @@ void Audio_ProcessSoundRequest(void) {
             if (gSoundBanks[phi_s5][phi_a1].unk_28 == req->sfxId) {
                 sp55 = D_80130594[D_801333CC][phi_s5];
             } else {
-                //!@bug possibly uninitialized sp43 ? confirm when matching
+                //! @bug possibly uninitialized sp43 ? confirm when matching
                 if (sp55 == 0) {
                     phi_s1 = phi_a1;
                     flag1 = gSoundBanks[phi_s5][phi_a1].unk_28 & 0xFFFF;

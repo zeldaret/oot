@@ -367,7 +367,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             gSaveContext.unk_1422 = 1;
             break;
         case 34:
-            if (gSaveContext.nightFlag == 0) {
+            if (IS_DAY) {
                 gSaveContext.dayTime -= D_8011FB40;
             } else {
                 gSaveContext.dayTime -= D_8011FB40 * 2;
@@ -523,7 +523,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                     globalCtx->fadeTransition = 11;
                 } else {
                     if (gSaveContext.sceneSetupIndex < 4) {
-                        if (LINK_IS_CHILD) {
+                        if (!LINK_IS_ADULT) {
                             globalCtx->linkAgeOnLoad = 0;
                         } else {
                             globalCtx->linkAgeOnLoad = 1;

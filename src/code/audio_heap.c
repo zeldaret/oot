@@ -999,7 +999,7 @@ void* func_800E0540(s32 poolIdx, s32 id, u32 size) {
     gAudioContext.unk_2D60[sp18].poolIndex = poolIdx;
     gAudioContext.unk_2D60[sp18].id = id;
     gAudioContext.unk_2D60[sp18].size = size;
-    // @bug UB: missing return. "ret" is in v0 at this point, but doing an
+    //! @bug UB: missing return. "ret" is in v0 at this point, but doing an
     // explicit return uses an additional register.
     // return ret;
 }

@@ -328,14 +328,14 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
                 if (this->warpTimer == 1) {
                     if (globalCtx->sceneNum == SCENE_TOKINOMA) {
                         D_8098CF84 = 25;
-                        if (LINK_IS_CHILD) {
+                        if (!LINK_IS_ADULT) {
                             globalCtx->csCtx.segment = gChildWarpInToTCS;
                         } else {
                             globalCtx->csCtx.segment = gAdultWarpInToTCS;
                         }
                     } else {
                         D_8098CF84 = 32;
-                        if (LINK_IS_CHILD) {
+                        if (!LINK_IS_ADULT) {
                             globalCtx->csCtx.segment = gChildWarpInCS;
                         } else {
                             globalCtx->csCtx.segment = gAdultWarpInCS;
@@ -349,13 +349,13 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
                 break;
             case DEMOKANKYO_WARP_IN:
                 if (globalCtx->sceneNum == SCENE_TOKINOMA) {
-                    if (LINK_IS_CHILD) {
+                    if (!LINK_IS_ADULT) {
                         globalCtx->csCtx.segment = gChildWarpOutToTCS;
                     } else {
                         globalCtx->csCtx.segment = gAdultWarpOutToTCS;
                     }
                 } else {
-                    if (LINK_IS_CHILD) {
+                    if (!LINK_IS_ADULT) {
                         globalCtx->csCtx.segment = gChildWarpOutCS;
                     } else {
                         globalCtx->csCtx.segment = gAdultWarpOutCS;
@@ -446,7 +446,7 @@ void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                     } else if (!Actor_IsFacingAndNearPlayer(&this->actor, 300.0f, 0x7530)) {
                         break;
                     } else {
-                        if (LINK_IS_CHILD) {
+                        if (!LINK_IS_ADULT) {
                             if (globalCtx->csCtx.frames < 170 || globalCtx->csCtx.state == CS_STATE_IDLE) {
                                 break;
                             }
