@@ -55,6 +55,6 @@
         <Texture Name="gFieldSilverRockTLUT" OutName="silver_rock_palette" Format="rgba16" Width="4" Height="4" Offset="0x99D0"/>
         <!-- Kankyo Stuff-->
         <DList Name="gFieldDL_00CA70" Offset="0xCA70"/>
-        <Blob Name="gFieldUnaccounted_00CB30" Size="0x800"/>
+        <Blob Name="gFieldUnaccounted_00CB30" Size="0x800" Offset="0xCB30"/>
     </File>
 </Root>
