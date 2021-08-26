@@ -604,6 +604,7 @@ void func_809860DC(DemoIm* this, s32 arg1) {
 
 void func_80986148(DemoIm* this) {
     Animation_Change(&this->skelAnime, &gImpaStartPlayingAnim, -1.0f, Animation_GetLastFrame(&gImpaStartPlayingAnim),
+
                      0.0f, ANIMMODE_ONCE, -8.0f);
     this->action = 14;
     this->drawConfig = 1;

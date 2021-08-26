@@ -24,7 +24,7 @@ const ActorInit Arms_Hook_InitVars = {
     (ActorFunc)ArmsHook_Draw,
 };
 
-ColliderQuadInit sQuadInit = {
+static ColliderQuadInit sQuadInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_PLAYER,
@@ -108,9 +108,9 @@ s32 ArmsHook_AttachToPlayer(ArmsHook* this, Player* player) {
     if (this->actor.child != NULL) {
         player->actor.parent = NULL;
         this->actor.child = NULL;
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void ArmsHook_DetachHookFromActor(ArmsHook* this) {
@@ -284,8 +284,8 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                 Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.projectedPos, 4, &D_801333E0,
                                        &D_801333E0, &D_801333E8);
             }
-        } else if ((CHECK_BTN_ANY(globalCtx->state.input[0].press.button,
-                                  (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)))) {
+        } else if (CHECK_BTN_ANY(globalCtx->state.input[0].press.button,
+                                 (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN))) {
             this->timer = 0;
         }
     }

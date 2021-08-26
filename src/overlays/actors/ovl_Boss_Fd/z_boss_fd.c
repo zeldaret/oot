@@ -61,7 +61,7 @@ const ActorInit Boss_Fd_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x21, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -1911,7 +1911,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                     this->bodyFallApart[i] = 2;
                     Matrix_MultVec3f(&spF0, &spE4);
                     Matrix_Get(&spFC);
-                    func_800D20CC(&spFC, &spDC, 0);
+                    Matrix_MtxFToYXZRotS(&spFC, &spDC, 0);
                     bones =
                         (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
                                                       spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i + 200);

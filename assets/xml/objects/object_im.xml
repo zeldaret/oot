@@ -38,6 +38,7 @@
         <Texture Name="gImpaEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x7610" TlutOffset="0x7140"/> <!-- Also used in gImpaHandPointingDL DList -->
         <DList Name="gImpaHeadDL" Offset="0xBDC0"/>
         <Texture Name="gImpaHeadGradientTex" OutName="head_gradient" Format="ci8" Width="8" Height="8" Offset="0x7710" TlutOffset="0x7140"/>
+
         <Texture Name="object_im_Tex_007750" OutName="tex_00007750" Format="rgba16" Width="8" Height="8" Offset="0x7750"/>
         <Texture Name="gImpaHair2Tex" OutName="hair_2" Format="rgba16" Width="16" Height="16" Offset="0x77D0"/>
         <Texture Name="object_im_Tex_0079D0" OutName="tex_000079D0" Format="ci8" Width="8" Height="8" Offset="0x79D0" TlutOffset="0x7140"/>

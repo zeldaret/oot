@@ -108,6 +108,7 @@
 #define R_ITEM_ICON_WIDTH(i)        VREG(76 + i)
 #define R_ITEM_BTN_WIDTH(i)         VREG(80 + i)
 #define R_DISABLE_INPUT_DISPLAY     HREG(47)
+#define R_EN_GOROIWA_SPEED          mREG(12)
 #define R_NAVI_MSG_REGION_ALPHA     nREG(87)
 
 #endif

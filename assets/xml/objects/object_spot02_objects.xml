@@ -8,12 +8,12 @@
         <Blob Name="object_spot02_objects_Blob_0096A8" Size="0x9008" Offset="0x96A8"/>
         <DList Name="object_spot02_objects_DL_0126F0" Offset="0x126F0"/>
         <DList Name="object_spot02_objects_DL_0127C0" Offset="0x127C0"/>
-        <Blob Name="object_spot02_objects_Blob_012890" Size="0x80" Offset="0x12890"/>
+        <Collision Name="object_spot02_objects_Col_0128D8" Offset="0x128D8"/>
         <DList Name="object_spot02_objects_DL_012A50" Offset="0x12A50"/>
-        <Blob Name="object_spot02_objects_Blob_012B28" Size="0xA8" Offset="0x12B28"/>
+        <Collision Name="object_spot02_objects_Col_012BA4" Offset="0x12BA4"/>
         <DList Name="object_spot02_objects_DL_012D30" Offset="0x12D30"/>
         <DList Name="object_spot02_objects_DL_0130B0" Offset="0x130B0"/>
-        <Blob Name="object_spot02_objects_Blob_013220" Size="0x200" Offset="0x13220"/>
+        <Collision Name="object_spot02_objects_Col_0133EC" Offset="0x133EC"/>
         <Texture Name="object_spot02_objects_Tex_013420" OutName="tex_00013420" Format="i4" Width="32" Height="64" Offset="0x13420"/>
         <Texture Name="object_spot02_objects_Tex_013820" OutName="tex_00013820" Format="rgba16" Width="32" Height="32" Offset="0x13820"/>
         <Texture Name="object_spot02_objects_Tex_014020" OutName="tex_00014020" Format="rgba16" Width="32" Height="32" Offset="0x14020"/>

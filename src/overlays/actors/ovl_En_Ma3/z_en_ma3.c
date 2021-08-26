@@ -189,7 +189,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
-    if (gSaveContext.linkAge == 1) {
+    if (LINK_IS_CHILD) {
         return 2;
     }
     if (!(gSaveContext.eventChkInf[1] & 0x100)) {
@@ -335,6 +335,7 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if (limbIndex == MALON_ADULT_HEAD_LIMB) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
+
     if ((limbIndex == MALON_ADULT_LEFT_HAND_LIMB) && (this->skelAnime.animation == &gMalonAdultStandStillAnim)) {
         gSPDisplayList(POLY_OPA_DISP++, gMalonAdultBasketDL);
     }

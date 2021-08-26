@@ -70,5 +70,6 @@
         <Animation Name="gMalonAdultHandsFromFaceToSideAnim" Offset="0x92F0"/> <!-- Unused -->
         <Animation Name="gMalonAdultStandStillAnim" Offset="0x93BC"/>
         <Animation Name="gMalonAdultSingAnim" Offset="0x9EE0"/>
+
     </File>
 </Root>
