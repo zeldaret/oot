@@ -854,7 +854,7 @@ typedef struct {
     /* 0x0014 */ NoteSubEu* noteSubsEu;
     /* 0x0018 */ SynthesisReverb synthesisReverbs[4];
     /* 0x0B38 */ char unk_0B38[0x30];
-    /* 0x0B68 */ AudioBankSample* unk_B68[128];
+    /* 0x0B68 */ AudioBankSample* unk_0B68[128];
     /* 0x0D68 */ AudioStruct0D68 unk_0D68[128];
     /* 0x1768 */ s32 unk_1768;
     /* 0x176C */ s32 unk_176C;

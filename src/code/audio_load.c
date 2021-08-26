@@ -1446,7 +1446,7 @@ void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
 
             sample->unk_bits25 = 1;
             if (sample->unk_bits26 && (sample->medium != 0)) {
-                gAudioContext.unk_B68[gAudioContext.unk_1768++] = sample;
+                gAudioContext.unk_0B68[gAudioContext.unk_1768++] = sample;
             }
         }
     }
@@ -1564,7 +1564,7 @@ void func_800E48C0(AudioBankSound* sound) {
     AudioBankSample* sample = sound->sample;
 
     if ((sample->size != 0) && (sample->unk_bits26) && (sample->medium)) {
-        gAudioContext.unk_B68[gAudioContext.unk_1768++] = sample;
+        gAudioContext.unk_0B68[gAudioContext.unk_1768++] = sample;
     }
 }
 
