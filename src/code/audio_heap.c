@@ -1047,7 +1047,7 @@ UnkHeapEntry* func_800E06CC(u32 size) {
     s32 index;
     s32 i;
     UnkHeapEntry* ret;
-    AudioStruct0D68* thing;
+    AudioStruct0D68* item;
     UnkPool* unkPool;
     u8* start;
     u8* end;
@@ -1070,10 +1070,10 @@ UnkHeapEntry* func_800E06CC(u32 size) {
 
     index = -1;
     for (i = 0; i < gAudioContext.unk_176C; i++) {
-        thing = &gAudioContext.unk_0D54[i + 1];
-        if (thing->unk_10 == 0) {
-            start = thing->unk_08;
-            end = thing->unk_08 + thing->sample->size - 1;
+        item = &gAudioContext.unk_0D68[i];
+        if (item->isFree == false) {
+            start = item->ramAddr;
+            end = item->ramAddr + item->sample->size - 1;
 
             if (end < allocBefore && start < allocBefore) {
                 continue;
@@ -1083,7 +1083,7 @@ UnkHeapEntry* func_800E06CC(u32 size) {
             }
 
             // Overlap
-            thing->unk_10 = 1;
+            item->isFree = true;
         }
     }
 
