@@ -12,6 +12,8 @@ Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthSt
 Acmd* func_800DD6CC(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen, u16, s32, s32);
 Acmd* func_800DD62C(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem, s32 resampleFlags);
 extern s16 D_8012FBAA[];
+
+// 4 nops, part of ucode_disas?
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_synthesis/pad_800DACB0.s")
 
 void AudioSynth_InitNextRingBuf(s32 chunkSize, s32 bufIdx, s32 reverbIdx) {
@@ -512,29 +514,26 @@ Acmd* func_800DC2DC(Acmd* cmd, SynthesisReverb* reverb, s16 bufIdx) {
     return cmd;
 }
 
-#ifdef NON_MATCHING
 Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
-    NoteSubEu* phi_v0;
-    u8 sp9C[88];
+    u8 sp9C[0x5C];
     s16 phi_s2;
     s16 phi_s4;
-    s32 t;
-    s32 useReverb;
     SynthesisReverb* temp_t8;
-    u8 t2;
+    s32 useReverb;
+    s32 t;
     s32 i;
+    NoteSubEu* phi_v0;
+    NoteSubEu* phi_v0_2;
     s32 unk14;
 
     t = gAudioContext.maxSimultaneousNotes * updateIdx;
     phi_s2 = 0;
     if (gAudioContext.numSynthesisReverbs == 0) {
         for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
-            phi_v0 = &gAudioContext.noteSubsEu[t + i];
-            if (phi_v0->bitField0.s.enabled) {
+            if (gAudioContext.noteSubsEu[t + i].bitField0.s.enabled) {
                 sp9C[phi_s2++] = i;
             }
         }
-        i = 0;
     } else {
         for (phi_s4 = 0; phi_s4 < gAudioContext.numSynthesisReverbs; phi_s4++) {
             for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
@@ -551,10 +550,10 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
                 sp9C[phi_s2++] = i;
             }
         }
-        i = 0;
     }
 
     aClearBuffer(cmd++, 0x940, 0x340);
+    i = 0;
     for (phi_s4 = 0; phi_s4 < gAudioContext.numSynthesisReverbs; phi_s4++) {
         temp_t8 = &gAudioContext.synthesisReverbs[phi_s4];
         useReverb = temp_t8->useReverb;
@@ -582,10 +581,10 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
         }
 
         while (i < phi_s2) {
-            phi_v0 = &gAudioContext.noteSubsEu[sp9C[i] + t];
-            if (phi_v0->bitField1.s.reverbIndex == phi_s4) {
-                cmd = func_800DC910(sp9C[i], phi_v0, &gAudioContext.notes[sp9C[i]].synthesisState, aiBuf, aiBufLen, cmd,
-                                    updateIdx);
+            phi_v0_2 = &gAudioContext.noteSubsEu[sp9C[i] + t];
+            if (phi_v0_2->bitField1.s.reverbIndex == phi_s4) {
+                cmd = func_800DC910(sp9C[i], phi_v0_2, &gAudioContext.notes[sp9C[i]].synthesisState, aiBuf, aiBufLen,
+                                    cmd, updateIdx);
             } else {
                 break;
             }
@@ -619,9 +618,6 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
 
     return cmd;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_synthesis/func_800DC384.s")
-#endif
 
 #ifdef NON_EQUIVALENT
 Acmd* func_800DC910(s32 noteIdx, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf, s32 aiBufLen,
@@ -1151,18 +1147,18 @@ Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthSt
 
     switch (arg5) {
         case 1:
+            phi_t0 = 0x940;
             phi_v1 = noteSubEu->headsetPanRight;
             phi_v0 = synthState->prevHeadsetPanRight;
             synthState->prevHeadsetPanLeft = 0;
-            synthState->prevHeadsetPanRight = noteSubEu->headsetPanRight;
-            phi_t0 = 0x940;
+            synthState->prevHeadsetPanRight = phi_v1;
             break;
         case 2:
+            phi_t0 = 0xAE0;
             phi_v1 = noteSubEu->headsetPanLeft;
             phi_v0 = synthState->prevHeadsetPanLeft;
-            synthState->prevHeadsetPanLeft = noteSubEu->headsetPanLeft;
+            synthState->prevHeadsetPanLeft = phi_v1;
             synthState->prevHeadsetPanRight = 0;
-            phi_t0 = 0xAE0;
             break;
         default:
             return cmd;
@@ -1170,26 +1166,26 @@ Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthSt
 
     if (arg4 != 1) {
         if (phi_v0 != phi_v1) {
-            aSetBuffer(cmd++, 0, 0x5C0, 0x3C0, (arg3 + phi_v1) - phi_v0);
-            aResampleZOH(cmd++, (u16)((((arg3 << 0xF) / 2) - 1) / ((((arg3 + phi_v1) - phi_v0) - 2) / 2)), 0);
+            aSetBuffer(cmd++, 0, 0x5C0, 0x3C0, arg3 + phi_v1 - phi_v0);
+            aResampleZOH(cmd++, (u16)((((arg3 << 0xF) / 2) - 1) / ((arg3 + phi_v1 - phi_v0 - 2) / 2)), 0);
         } else {
             aDMEMMove(cmd++, 0x5C0, 0x3C0, arg3);
         }
 
         if (phi_v0 != 0) {
             aLoadBuffer(cmd++, &synthState->synthesisBuffers->panResampleState[0x8], 0x5C0, ALIGN16(phi_v0));
-            aDMEMMove(cmd++, 0x3C0, phi_v0 + 0x5C0, (arg3 + phi_v1) - phi_v0);
+            aDMEMMove(cmd++, 0x3C0, 0x5C0 + phi_v0, arg3 + phi_v1 - phi_v0);
         } else {
-            aDMEMMove(cmd++, 0x3C0, 0x5C0, (arg3 + phi_v1));
+            aDMEMMove(cmd++, 0x3C0, 0x5C0, arg3 + phi_v1);
         }
     } else {
         aDMEMMove(cmd++, 0x5C0, 0x3C0, arg3);
         aClearBuffer(cmd++, 0x5C0, phi_v1);
-        aDMEMMove(cmd++, 0x3C0, phi_v1 + 0x5C0, arg3);
+        aDMEMMove(cmd++, 0x3C0, 0x5C0 + phi_v1, arg3);
     }
 
     if (phi_v1 != 0) {
-        aSaveBuffer(cmd++, arg3 + 0x5C0, &synthState->synthesisBuffers->panResampleState[0x8], ALIGN16(phi_v1));
+        aSaveBuffer(cmd++, 0x5C0 + arg3, &synthState->synthesisBuffers->panResampleState[0x8], ALIGN16(phi_v1));
     }
     aAddMixer(cmd++, ((arg3 + 0x3F) & ~0x3F), 0x5C0, phi_t0, 0x7FFF);
     return cmd;

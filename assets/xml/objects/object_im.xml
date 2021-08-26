@@ -1,9 +1,9 @@
 <Root>
     <File Name="object_im" Segment="6">
-        <Animation Name="object_im_Anim_000710" Offset="0x710"/>
-        <Animation Name="object_im_Anim_000AFC" Offset="0xAFC"/>
-        <Animation Name="object_im_Anim_0014E4" Offset="0x14E4"/>
-        <Animation Name="object_im_Anim_001868" Offset="0x1868"/>
+        <Animation Name="gImpaRaiseArms" Offset="0x710"/>
+        <Animation Name="gImpaPresentShadowMedallion" Offset="0xAFC"/>
+        <Animation Name="gImpaThrowDekuNutAnim" Offset="0x14E4"/>
+        <Animation Name="gImpaIdleAnim" Offset="0x1868"/>
         <Texture Name="object_im_TLUT_001880" OutName="tlut_00001880" Format="rgba16" Width="16" Height="16" Offset="0x1880"/>
         <Texture Name="gImpaBrownGradientTex" OutName="brown_gradient" Format="ci8" Width="8" Height="8" Offset="0x1A80" TlutOffset="0x1880"/>
         <Texture Name="gImpaSkinAndArmGuardTex" OutName="skin_and_armguard" Format="ci8" Width="16" Height="32" Offset="0x1AC0" TlutOffset="0x1880"/>
@@ -38,6 +38,7 @@
         <Texture Name="gImpaEarTex" OutName="ear" Format="ci8" Width="16" Height="16" Offset="0x7610" TlutOffset="0x7140"/> <!-- Also used in gImpaHandPointingDL DList -->
         <DList Name="gImpaHeadDL" Offset="0xBDC0"/>
         <Texture Name="gImpaHeadGradientTex" OutName="head_gradient" Format="ci8" Width="8" Height="8" Offset="0x7710" TlutOffset="0x7140"/>
+
         <Texture Name="object_im_Tex_007750" OutName="tex_00007750" Format="rgba16" Width="8" Height="8" Offset="0x7750"/>
         <Texture Name="gImpaHair2Tex" OutName="hair_2" Format="rgba16" Width="16" Height="16" Offset="0x77D0"/>
         <Texture Name="object_im_Tex_0079D0" OutName="tex_000079D0" Format="ci8" Width="8" Height="8" Offset="0x79D0" TlutOffset="0x7140"/>
@@ -70,9 +71,9 @@
         <Skeleton Name="gImpaSkel" Type="Flex" LimbType="Standard" Offset="0xF788"/>
         <Animation Name="object_im_Anim_00FB10" Offset="0xFB10"/>
         <Animation Name="object_im_Anim_0101C8" Offset="0x101C8"/>
-        <Animation Name="object_im_Anim_010EE0" Offset="0x10EE0"/>
-        <Animation Name="object_im_Anim_01182C" Offset="0x1182C"/>
-        <Animation Name="object_im_Anim_011C08" Offset="0x11C08"/>
-        <Animation Name="object_im_Anim_012218" Offset="0x12218"/>
+        <Animation Name="gImpaStartPlayingAnim" Offset="0x10EE0"/>
+        <Animation Name="gImpaPlayingAnim" Offset="0x1182C"/>
+        <Animation Name="gImpaCrossArmsAnim" Offset="0x11C08"/>
+        <Animation Name="gImpaSealGanonAnim" Offset="0x12218"/>
     </File>
 </Root>

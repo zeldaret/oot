@@ -10,6 +10,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_tsubo/object_tsubo.h"
 
 #define FLAGS 0x00000030
 
@@ -37,9 +38,6 @@ void EnGSwitch_Kill(EnGSwitch* this, GlobalContext* globalCtx);
 void EnGSwitch_SpawnEffects(EnGSwitch* this, Vec3f* pos, s16 scale, s16 colorIdx);
 void EnGSwitch_UpdateEffects(EnGSwitch* this, GlobalContext* globalCtx);
 void EnGSwitch_DrawEffects(EnGSwitch* this, GlobalContext* globalCtx);
-
-extern Gfx D_060017C0[];
-extern Gfx D_06001960[];
 
 static s16 sCollectedCount = 0;
 
@@ -401,7 +399,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
             scale = 30.0f + Rand_ZeroOne() * 130.0f;
 
             EffectSsKakera_Spawn(globalCtx, &pos, &vel, thisPos, -240, phi_s0, 10, 10, 0, scale, 0, 0x20, 60,
-                                 KAKERA_COLOR_NONE, OBJECT_TSUBO, D_06001960);
+                                 KAKERA_COLOR_NONE, OBJECT_TSUBO, object_tsubo_DL_001960);
         }
         func_80033480(globalCtx, thisPos, 30.0f, 4, 20, 50, 0);
         Audio_PlaySoundAtPosition(globalCtx, thisPos, 40, NA_SE_EV_POT_BROKEN);
@@ -462,13 +460,14 @@ void EnGSwitch_DrawPot(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 925),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_060017C0);
+        gSPDisplayList(POLY_OPA_DISP++, object_tsubo_DL_0017C0);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 928);
     }
 }
 
-static UNK_PTR sRupeeTex[] = { gRupeeGreenTex, gRupeeBlueTex,   gRupeeRedTex,
-                               gRupeePinkTex,  gRupeeOrangeTex, gRupeeSilverTex };
+static void* sRupeeTextures[] = {
+    gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex, gRupeeSilverTex,
+};
 
 void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -481,7 +480,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
         func_8002EBCC(&this->actor, globalCtx, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 957),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[this->colorIdx]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 961);
     }
@@ -565,7 +564,7 @@ void EnGSwitch_DrawEffects(EnGSwitch* this, GlobalContext* globalCtx) {
             Matrix_RotateZ(effect->rot.z, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 1088),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[effect->colorIdx]));
+            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[effect->colorIdx]));
             gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         }
     }

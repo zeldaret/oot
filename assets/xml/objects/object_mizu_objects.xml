@@ -19,7 +19,9 @@
         <DList Name="gObjectMizuObjectsBwallDL_002090" Offset="0x2090"/>
         <DList Name="gObjectMizuObjectsBwallDL_002390" Offset="0x2390"/>
         <Collision Name="gObjectMizuObjectsBwallCol_0025A4" Offset="0x25A4"/>
-        
+
+        <Texture Name="object_mizu_objects_Tex_0035C0" OutName="tex_000035C0" Format="rgba16" Width="32" Height="64" Offset="0x35C0" />
+
         <DList Name="gWaterTempleDoorDL_0048B0" Offset="0x48B0"/>
         <DList Name="gWaterTempleDoorLeftDL" Offset="0x4958"/>
         <DList Name="gWaterTempleDoorRightDL" Offset="0x4A10"/>

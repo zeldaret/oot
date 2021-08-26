@@ -54,7 +54,7 @@ static Vec3f sCollisionVertices[] = {
     { 115.0f, 160.0f, -150.0f }, { -50.0f, -140.0f, -160.0f }, { 115.0f, 160.0f, 150.0f }, { -50.0f, -140.0f, 160.0f },
 };
 
-Vec3f D_80B435F0[] = {
+static Vec3f D_80B435F0[] = {
     { 3382.0f, 1734.0f, -4946.0f }, // small, furthest from entrance
     { 3360.0f, 1734.0f, 495.0f },   // small, closest to entrance
     { 4517.0f, 1682.0f, -1779.0f }, // medium, on the right
@@ -67,9 +67,9 @@ typedef struct {
     /* 0x04 */ f32 unk_4; // second ring
     /* 0x08 */ f32 unk_8; // outside edge
     /* 0x0C */ f32 unk_C;
-} unknownStruct; // size = 0x10
+} YabasumeUnkStruct; // size = 0x10
 
-unknownStruct D_80B4362C[] = {
+static YabasumeUnkStruct D_80B4362C[] = {
     { 20.0f, 40.0f, 60.0f, 777.0f },
     { 40.0f, 80.0f, 120.0f, 777.0f },
     { 40.0f, 120.0f, 160.0f, 777.0f },

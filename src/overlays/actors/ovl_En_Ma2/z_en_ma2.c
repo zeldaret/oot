@@ -62,20 +62,6 @@ static struct_D_80AA1678 sAnimationInfo[] = {
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-static Vec3f D_80AA28A8 = { 900.0f, 0.0f, 0.0f };
-
-static void* sMouthTextures[] = {
-    gMalonAdultMouthNeutralTex,
-    gMalonAdultMouthSadTex,
-    gMalonAdultMouthHappyTex,
-};
-
-static void* sEyeTextures[] = {
-    gMalonAdultEyeOpenTex,
-    gMalonAdultEyeHalfTex,
-    gMalonAdultEyeClosedTex,
-};
-
 u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 23);
     if (faceReaction != 0) {
@@ -84,7 +70,7 @@ u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     if (gSaveContext.eventChkInf[1] & 0x100) {
         return 0x2056;
     }
-    if (gSaveContext.nightFlag == 1) {
+    if (IS_NIGHT) {
         if (gSaveContext.infTable[8] & 0x1000) {
             return 0x2052;
         } else if (gSaveContext.infTable[8] & 0x4000) {
@@ -145,24 +131,24 @@ void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
-    if (gSaveContext.linkAge == 1) {
+    if (LINK_IS_CHILD) {
         return 0;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) &&
-        (gSaveContext.nightFlag == 0) && (this->actor.shape.rot.z == 5)) {
+    if (!(gSaveContext.eventChkInf[1] & 0x100) && (globalCtx->sceneNum == SCENE_MALON_STABLE) && IS_DAY &&
+        (this->actor.shape.rot.z == 5)) {
         return 1;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_SPOT20) &&
-        (gSaveContext.nightFlag == 1) && (this->actor.shape.rot.z == 6)) {
+    if (!(gSaveContext.eventChkInf[1] & 0x100) && (globalCtx->sceneNum == SCENE_SPOT20) && IS_NIGHT &&
+        (this->actor.shape.rot.z == 6)) {
         return 2;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) || (globalCtx->sceneNum != SCENE_SPOT20)) {
+    if (!(gSaveContext.eventChkInf[1] & 0x100) || (globalCtx->sceneNum != SCENE_SPOT20)) {
         return 0;
     }
-    if ((this->actor.shape.rot.z == 7) && (gSaveContext.nightFlag == 0)) {
+    if ((this->actor.shape.rot.z == 7) && IS_DAY) {
         return 3;
     }
-    if ((this->actor.shape.rot.z == 8) && (gSaveContext.nightFlag == 1)) {
+    if ((this->actor.shape.rot.z == 8) && IS_NIGHT) {
         return 3;
     }
     return 0;
@@ -187,13 +173,13 @@ void EnMa2_UpdateEyes(EnMa2* this) {
     if ((!func_80AA1C68(this)) && (DECR(this->blinkTimer) == 0)) {
         this->eyeIndex += 1;
         if (this->eyeIndex >= 3) {
-            this->blinkTimer = Rand_S16Offset(0x1E, 0x1E);
+            this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeIndex = 0;
         }
     }
 }
 
-void func_80AA1D44(EnMa2* this, s32 idx) {
+void EnMa2_ChangeAnim(EnMa2* this, s32 idx) {
     f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
 
     Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
@@ -228,18 +214,18 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (func_80AA1B58(this, globalCtx)) {
         case 1:
-            func_80AA1D44(this, 2);
+            EnMa2_ChangeAnim(this, 2);
             this->actionFunc = func_80AA2018;
             break;
         case 2:
-            func_80AA1D44(this, 3);
+            EnMa2_ChangeAnim(this, 3);
             this->actionFunc = func_80AA204C;
             break;
         case 3:
             if (gSaveContext.infTable[8] & 0x2000) {
-                func_80AA1D44(this, 0);
+                EnMa2_ChangeAnim(this, 0);
             } else {
-                func_80AA1D44(this, 3);
+                EnMa2_ChangeAnim(this, 3);
             }
             this->actionFunc = func_80AA2018;
             break;
@@ -360,7 +346,7 @@ s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnMa2* this = THIS;
-    Vec3f vec = D_80AA28A8;
+    Vec3f vec = { 900.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 904);
 
@@ -375,6 +361,17 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* sMouthTextures[] = {
+        gMalonAdultMouthNeutralTex,
+        gMalonAdultMouthSadTex,
+        gMalonAdultMouthHappyTex
+    };
+    static void* sEyeTextures[] = {
+        gMalonAdultEyeOpenTex,
+        gMalonAdultEyeHalfTex,
+        gMalonAdultEyeClosedTex
+    };
+
     EnMa2* this = THIS;
     Camera* camera;
     f32 someFloat;

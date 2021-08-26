@@ -1,12 +1,12 @@
 <Root>
     <File Name="object_tr" Segment="6">
         <Animation Name="object_tr_Anim_000BFC" Offset="0xBFC"/>
-        <Animation Name="object_tr_Anim_0013CC" Offset="0x13CC"/>
-        <Animation Name="object_tr_Anim_001CDC" Offset="0x1CDC"/>
+        <Animation Name="object_tr_Anim_0013CC" Offset="0x13CC"/> <!-- Looking over right shoulder -->
+        <Animation Name="object_tr_Anim_001CDC" Offset="0x1CDC"/> <!-- Standing, broom in left hand -->
         <Animation Name="object_tr_Anim_002BC4" Offset="0x2BC4"/>
-        <Animation Name="object_tr_Anim_0035CC" Offset="0x35CC"/>
-        <Animation Name="object_tr_Anim_003FC8" Offset="0x3FC8"/>
-        <Animation Name="object_tr_Anim_0049C8" Offset="0x49C8"/>
+        <Animation Name="object_tr_Anim_0035CC" Offset="0x35CC"/> <!-- Looking over left shoulder -->
+        <Animation Name="object_tr_Anim_003FC8" Offset="0x3FC8"/> <!-- Standing, broom over right shoulder -->
+        <Animation Name="object_tr_Anim_0049C8" Offset="0x49C8"/> <!-- Floating on broom -->
         <Animation Name="object_tr_Anim_005308" Offset="0x5308"/>
         <Blob Name="object_tr_Blob_0062E0" Size="0x60" Offset="0x62E0"/>
         <DList Name="object_tr_DL_006520" Offset="0x6520"/>

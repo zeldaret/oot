@@ -61,11 +61,11 @@ typedef enum {
     /* 4 */ SARIA_MOUTH_FROWNING
 } SariaMouthState;
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gSariaEyeOpenTex, gSariaEyeHalfTex, gSariaEyeClosedTex, gSariaEyeSuprisedTex, gSariaEyeSadTex,
 };
 
-static u64* sMouthTextures[] = {
+static void* sMouthTextures[] = {
     gSariaMouthClosed2Tex,     gSariaMouthSuprisedTex, gSariaMouthClosedTex,
     gSariaMouthSmilingOpenTex, gSariaMouthFrowningTex,
 };
@@ -155,7 +155,7 @@ void func_8098E5C8(DemoSa* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
-s32 DemoSa_FrameUpdateMatrix(DemoSa* this) {
+s32 DemoSa_UpdateSkelAnime(DemoSa* this) {
     SkelAnime_Update(&this->skelAnime);
 }
 
@@ -323,30 +323,30 @@ void func_8098EBD8(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098EBF8(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E944(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098EA3C(this);
 }
 
 void func_8098EC28(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098EA68(this, globalCtx);
 }
 
 void func_8098EC60(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    func_8098EB00(this, DemoSa_FrameUpdateMatrix(this));
+    func_8098EB00(this, DemoSa_UpdateSkelAnime(this));
 }
 
 void func_8098EC94(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098EB6C(this, globalCtx);
 }
 
 void func_8098ECCC(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
 }
 
 void func_8098ECF4(DemoSa* this, GlobalContext* globalCtx) {
@@ -440,7 +440,7 @@ void func_8098F0E8(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098F118(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098EEFC(this, globalCtx);
     func_8098E554(this, globalCtx);
@@ -448,7 +448,7 @@ void func_8098F118(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098F16C(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098EDB0(this);
     func_8098F050(this, globalCtx);
     func_8098E554(this, globalCtx);
@@ -457,10 +457,10 @@ void func_8098F16C(DemoSa* this, GlobalContext* globalCtx) {
 void DemoSa_DrawXlu(DemoSa* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeIndex = this->eyeIndex;
-    UNK_PTR sp78 = sEyeTextures[eyeIndex];
+    void* sp78 = sEyeTextures[eyeIndex];
     s16 mouthIndex = this->mouthIndex;
     s32 pad2;
-    UNK_PTR sp6C = sMouthTextures[mouthIndex];
+    void* sp6C = sMouthTextures[mouthIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 296);
@@ -487,7 +487,7 @@ void func_8098F390(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098F3F0(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
 }
 
@@ -576,7 +576,7 @@ void func_8098F714(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098F734(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098F480(this);
     func_8098F544(this);
@@ -584,14 +584,14 @@ void func_8098F734(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098F77C(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098F654(this, globalCtx);
 }
 
 void func_8098F7BC(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098F654(this, globalCtx);
 }
@@ -600,7 +600,7 @@ void func_8098F7FC(DemoSa* this, GlobalContext* globalCtx) {
     s32 sp1C;
 
     func_8098E5C8(this, globalCtx);
-    sp1C = DemoSa_FrameUpdateMatrix(this);
+    sp1C = DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098F610(this, sp1C);
 }
@@ -724,26 +724,26 @@ void func_8098FC44(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098FC64(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098F8F8(this);
     func_8098FA2C(this);
 }
 
 void func_8098FC9C(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098FB68(this, globalCtx);
 }
 
 void func_8098FCD4(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098FB68(this, globalCtx);
 }
 
 void func_8098FD0C(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    func_8098FB34(this, DemoSa_FrameUpdateMatrix(this));
+    func_8098FB34(this, DemoSa_UpdateSkelAnime(this));
     func_8098FB68(this, globalCtx);
 }
 
@@ -795,10 +795,10 @@ void DemoSa_DrawNothing(DemoSa* this, GlobalContext* globalCtx) {
 void DemoSa_DrawOpa(DemoSa* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeIndex = this->eyeIndex;
-    UNK_PTR eyeTex = sEyeTextures[eyeIndex];
+    void* eyeTex = sEyeTextures[eyeIndex];
     s32 pad2;
     s16 mouthIndex = this->mouthIndex;
-    UNK_PTR mouthTex = sMouthTextures[mouthIndex];
+    void* mouthTex = sMouthTextures[mouthIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa.c", 602);

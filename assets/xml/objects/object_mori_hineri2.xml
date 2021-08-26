@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_mori_hineri2" Segment="6">
         <DList Name="object_mori_hineri2_DL_0020F0" Offset="0x20F0"/>
-        <Blob Name="object_mori_hineri2_Blob_0032B0" Size="0x1150" Offset="0x32B0"/>
+        <Collision Name="object_mori_hineri2_Col_0043D0" Offset="0x43D0"/>
     </File>
 </Root>

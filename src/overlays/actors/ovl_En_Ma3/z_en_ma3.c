@@ -23,7 +23,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2F28(EnMa3* this);
 void EnMa3_UpdateEyes(EnMa3* this);
-void func_80AA3004(EnMa3* this, s32 arg1);
+void EnMa3_ChangeAnim(EnMa3* this, s32 arg1);
 void func_80AA3200(EnMa3* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma3_InitVars = {
@@ -64,20 +64,6 @@ static struct_D_80AA1678 sAnimationInfo[] = {
     { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },       { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &gMalonAdultStandStillAnim, 1.0f, ANIMMODE_LOOP, 0.0f }, { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
-};
-
-static Vec3f D_80AA3898 = { 900.0f, 0.0f, 0.0f };
-
-static void* sMouthTextures[] = {
-    gMalonAdultMouthNeutralTex,
-    gMalonAdultMouthSadTex,
-    gMalonAdultMouthHappyTex,
-};
-
-static void* sEyeTextures[] = {
-    gMalonAdultEyeOpenTex,
-    gMalonAdultEyeHalfTex,
-    gMalonAdultEyeClosedTex,
 };
 
 u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
@@ -203,7 +189,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
-    if (gSaveContext.linkAge == 1) {
+    if (LINK_IS_CHILD) {
         return 2;
     }
     if (!(gSaveContext.eventChkInf[1] & 0x100)) {
@@ -240,7 +226,7 @@ void EnMa3_UpdateEyes(EnMa3* this) {
     }
 }
 
-void func_80AA3004(EnMa3* this, s32 idx) {
+void EnMa3_ChangeAnim(EnMa3* this, s32 idx) {
     f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
 
     Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
@@ -259,11 +245,11 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (func_80AA2EC8(this, globalCtx)) {
         case 0:
-            func_80AA3004(this, 0);
+            EnMa3_ChangeAnim(this, 0);
             this->actionFunc = func_80AA3200;
             break;
         case 1:
-            func_80AA3004(this, 0);
+            EnMa3_ChangeAnim(this, 0);
             this->actionFunc = func_80AA3200;
             break;
         case 2:
@@ -342,13 +328,14 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnMa3* this = THIS;
-    Vec3f vec = D_80AA3898;
+    Vec3f vec = { 900.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
 
     if (limbIndex == MALON_ADULT_HEAD_LIMB) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
+
     if ((limbIndex == MALON_ADULT_LEFT_HAND_LIMB) && (this->skelAnime.animation == &gMalonAdultStandStillAnim)) {
         gSPDisplayList(POLY_OPA_DISP++, gMalonAdultBasketDL);
     }
@@ -357,6 +344,8 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static void* sMouthTextures[] = { gMalonAdultMouthNeutralTex, gMalonAdultMouthSadTex, gMalonAdultMouthHappyTex };
+    static void* sEyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
     EnMa3* this = THIS;
     Camera* camera;
     f32 someFloat;

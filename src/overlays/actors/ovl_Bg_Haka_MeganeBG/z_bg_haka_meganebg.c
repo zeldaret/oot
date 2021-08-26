@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_haka_meganebg.h"
+#include "objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -48,17 +49,11 @@ static u32 D_8087E3FC[] = {
 };
 
 static Gfx* D_8087E410[] = {
-    0x06008EB0,
-    0x0600A1A0,
-    0x06005000,
-    0x06000040,
+    object_haka_objects_DL_008EB0,
+    object_haka_objects_DL_00A1A0,
+    object_haka_objects_DL_005000,
+    object_haka_objects_DL_000040,
 };
-
-extern CollisionHeader D_06000118;
-extern CollisionHeader D_06005334;
-extern Gfx D_06008EB0[];
-extern CollisionHeader D_06009168;
-extern CollisionHeader D_0600A7F4;
 
 void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -72,18 +67,18 @@ void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params == 2) {
         DynaPolyActor_Init(&this->dyna, DPM_UNK3);
         thisx->flags |= 0x10;
-        CollisionHeader_GetVirtual(&D_06005334, &colHeader);
+        CollisionHeader_GetVirtual(&object_haka_objects_Col_005334, &colHeader);
         this->actionFunc = func_8087E258;
     } else {
         DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
         if (thisx->params == 0) {
-            CollisionHeader_GetVirtual(&D_06009168, &colHeader);
+            CollisionHeader_GetVirtual(&object_haka_objects_Col_009168, &colHeader);
             thisx->flags |= 0x80;
             this->unk_16A = 20;
             this->actionFunc = func_8087DFF8;
         } else if (thisx->params == 3) {
-            CollisionHeader_GetVirtual(&D_06000118, &colHeader);
+            CollisionHeader_GetVirtual(&object_haka_objects_Col_000118, &colHeader);
             thisx->home.pos.y += 100.0f;
 
             if (Flags_GetSwitch(globalCtx, this->unk_168)) {
@@ -94,7 +89,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_8087E288;
             }
         } else {
-            CollisionHeader_GetVirtual(&D_0600A7F4, &colHeader);
+            CollisionHeader_GetVirtual(&object_haka_objects_Col_00A7F4, &colHeader);
             this->unk_16A = 80;
             this->actionFunc = func_8087E10C;
             thisx->uncullZoneScale = 3000.0f;
@@ -220,7 +215,7 @@ void BgHakaMeganeBG_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s16 params = this->dyna.actor.params;
 
     if (params == 0) {
-        Gfx_DrawDListXlu(globalCtx, D_06008EB0);
+        Gfx_DrawDListXlu(globalCtx, object_haka_objects_DL_008EB0);
     } else {
         Gfx_DrawDListOpa(globalCtx, D_8087E410[params]);
     }

@@ -288,12 +288,12 @@ void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-static u64* sRightSideCrumbles[] = {
+static void* sRightSideCrumbles[] = {
     gMegamiRightCrumble1Tex, gMegamiRightCrumble2Tex, gMegamiRightCrumble3Tex,
     gMegamiRightCrumble4Tex, gMegamiRightCrumble5Tex,
 };
 
-static u64* sLeftSideCrumbles[] = {
+static void* sLeftSideCrumbles[] = {
     gMegamiLeftCrumble1Tex, gMegamiLeftCrumble2Tex, gMegamiLeftCrumble3Tex,
     gMegamiLeftCrumble4Tex, gMegamiLeftCrumble5Tex,
 };

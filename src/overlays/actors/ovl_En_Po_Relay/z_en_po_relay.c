@@ -25,7 +25,7 @@ void EnPoRelay_Talk2(EnPoRelay* this, GlobalContext* globalCtx);
 void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx);
 void EnPoRelay_SetupIdle(EnPoRelay* this);
 
-Vec3s D_80AD8C30[] = {
+static Vec3s D_80AD8C30[] = {
     { 0xFFC4, 0xFDEE, 0xF47A }, { 0x0186, 0xFE0C, 0xF47A }, { 0x0186, 0xFE0C, 0xF0F6 }, { 0x00D2, 0xFDEE, 0xF0F6 },
     { 0x00D2, 0xFD9E, 0xEEDA }, { 0x023A, 0xFDC6, 0xEEDA }, { 0x023A, 0xFDC6, 0xED18 }, { 0x00D2, 0xFDC6, 0xED18 },
     { 0x00D2, 0xFDC6, 0xEBCE }, { 0x00D2, 0xFDC6, 0xEAA2 }, { 0x023A, 0xFDC6, 0xEAA2 }, { 0x023A, 0xFDC6, 0xEBB0 },
@@ -80,7 +80,7 @@ static Vec3f D_80AD8D3C = { 0.0f, 0.0f, 0.0f };
 
 static Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
 
-static u64* sEyesSegments[] = {
+static void* sEyesTextures[] = {
     gDampeEyeOpenTex,
     gDampeEyeHalfTex,
     gDampeEyeClosedTex,
@@ -404,7 +404,7 @@ void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 940);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesTextures[this->eyeTextureIdx]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, EnPoRelay_PostLimbDraw, &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 954);

@@ -15,6 +15,34 @@ struct EnGoma;
 
 typedef void (*EnGomaActionFunc)(struct EnGoma*, GlobalContext*);
 
+typedef enum {
+    /*  0 */ GOMA_LIMB_NONE,
+    /*  1 */ GOMA_LIMB_ROOT1,
+    /*  2 */ GOMA_LIMB_ROOT2,
+    /*  3 */ GOMA_LIMB_BODY,
+    /*  4 */ GOMA_LIMB_ANTENNA_ROOT1,
+    /*  5 */ GOMA_LIMB_ANTENNA_ROOT2,
+    /*  6 */ GOMA_LIMB_ANTENNA,
+    /*  7 */ GOMA_LIMB_EYE_IRIS_ROOT1,
+    /*  8 */ GOMA_LIMB_EYE_IRIS_ROOT2,
+    /*  9 */ GOMA_LIMB_EYE_IRIS,
+    /* 10 */ GOMA_LIMB_L_LEG_ROOT1,
+    /* 11 */ GOMA_LIMB_L_LEG_ROOT2,
+    /* 12 */ GOMA_LIMB_L_SHIN_ROOT,
+    /* 13 */ GOMA_LIMB_L_FOOT_ROOT,
+    /* 14 */ GOMA_LIMB_L_FOOT,
+    /* 15 */ GOMA_LIMB_L_SHIN,
+    /* 16 */ GOMA_LIMB_L_THIGH,
+    /* 17 */ GOMA_LIMB_R_LEG_ROOT1,
+    /* 18 */ GOMA_LIMB_R_LEG_ROOT2,
+    /* 19 */ GOMA_LIMB_R_SHIN_ROOT,
+    /* 20 */ GOMA_LIMB_R_FOOT_ROOT,
+    /* 21 */ GOMA_LIMB_R_FOOT,
+    /* 22 */ GOMA_LIMB_R_SHIN,
+    /* 23 */ GOMA_LIMB_R_THIGH,
+    /* 24 */ GOMA_LIMB_MAX
+} EnGomaLimb;
+
 typedef struct EnGoma {
     /* 0x000 */ Actor actor;
     /* 0x14C */ SkelAnime skelanime;
