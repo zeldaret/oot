@@ -460,10 +460,9 @@ u32 func_800E2318(u32 arg0, u32* arg1) {
 u32 func_800E2338(u32 arg0, u32* arg1, s32 arg2) {
     void* temp_v0;
     AudioTable* audioTable;
-    u32 temp_s0;
+    u32 temp_s0 = Audio_GetTableIndex(AUDIO_TABLE, arg0);
     s8 tmp;
 
-    temp_s0 = Audio_GetTableIndex(AUDIO_TABLE, arg0);
     audioTable = Audio_GetLoadTable(AUDIO_TABLE);
     if (temp_v0 = func_800E27A4(AUDIO_TABLE, temp_s0), temp_v0 != NULL) {
         if (gAudioContext.audioTableLoadStatus[temp_s0] != 1) {
@@ -489,9 +488,8 @@ unk_ldr* func_800E2454(u32 bankId) {
     s32 unk03;
     s32 sp38;
     RelocInfo relocInfo;
-    s32 idx;
+    s32 idx = Audio_GetTableIndex(BANK_TABLE, bankId);
 
-    idx = Audio_GetTableIndex(BANK_TABLE, bankId);
     if (gAudioContext.bankLoadStatus[idx] == 1) {
         return NULL;
     }

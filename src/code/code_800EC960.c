@@ -308,15 +308,15 @@ void func_800EC960(u8 custom) {
 
 void Audio_GetOcaInput(void) {
     Input inputs[4];
-    Input* cont = &inputs[0];
+    Input* controller1 = &inputs[0];
     u32 sp18;
 
     sp18 = sCurOcarinaBtnPress;
     PadMgr_RequestPadData(&gPadMgr, inputs, 0);
-    sCurOcarinaBtnPress = cont->cur.button;
+    sCurOcarinaBtnPress = controller1->cur.button;
     sPrevOcarinaBtnPress = sp18;
-    sCurOcaStick.x = cont->rel.stick_x;
-    sCurOcaStick.y = cont->rel.stick_y;
+    sCurOcaStick.x = controller1->rel.stick_x;
+    sCurOcaStick.y = controller1->rel.stick_y;
 }
 
 f32 Audio_OcaAdjStick(s8 inp) {
@@ -1810,7 +1810,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             GfxPrint_Printf(printer, "env_fx %d code_fx %d SPEC %d", sAudioEnvReverb, sAudioCodeReverb, gAudioSpecId);
 
             if (sAudioUpdateTaskStart == sAudioUpdateTaskEnd) {
-                sAudioUpdateDuration = (f32)((sAudioUpdateEndTime - sAudioUpdateStartTime) * 64ULL / 3) / 50000000.0f;
+                sAudioUpdateDuration = OS_CYCLES_TO_NSEC(sAudioUpdateEndTime - sAudioUpdateStartTime) / (1e9f / 20);
                 if (sAudioUpdateDurationMax < sAudioUpdateDuration) {
                     sAudioUpdateDurationMax = sAudioUpdateDuration;
                 }
@@ -2517,12 +2517,11 @@ void func_800F314C(s8 arg0) {
 }
 
 f32 func_800F3188(u8 bankIdx, u8 entryIdx) {
-    SoundBankEntry* bankEntry;
+    SoundBankEntry* bankEntry = &gSoundBanks[bankIdx][entryIdx];
     f32 temp_f14;
     f32 phi_f0;
     f32 ret;
 
-    bankEntry = &gSoundBanks[bankIdx][entryIdx];
     if (bankEntry->unk_26 & 0x2000) {
         return 1.0f;
     }
@@ -2561,17 +2560,16 @@ f32 func_800F3188(u8 bankIdx, u8 entryIdx) {
 }
 
 s8 Audio_ComputeSoundReverb(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
-    SoundBankEntry* entry;
-    s32 reverb;
-    s8 phi_v0 = 0;
+    s8 distAdd = 0;
     s32 scriptAdd = 0;
+    SoundBankEntry* entry = &gSoundBanks[bankIdx][entryIdx];
+    s32 reverb;
 
-    entry = &gSoundBanks[bankIdx][entryIdx];
     if (!(entry->unk_26 & 0x1000)) {
         if (entry->dist < 2500.0f) {
-            phi_v0 = *entry->posZ > 0.0f ? (entry->dist / 2500.0f) * 70.0f : (entry->dist / 2500.0f) * 91.0f;
+            distAdd = *entry->posZ > 0.0f ? (entry->dist / 2500.0f) * 70.0f : (entry->dist / 2500.0f) * 91.0f;
         } else {
-            phi_v0 = 70;
+            distAdd = 70;
         }
     }
 
@@ -2582,7 +2580,7 @@ s8 Audio_ComputeSoundReverb(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
         }
     }
 
-    reverb = *entry->reverbAdd + phi_v0 + scriptAdd;
+    reverb = *entry->reverbAdd + distAdd + scriptAdd;
     if ((bankIdx != BANK_OCARINA) || !((entry->unk_28 & 0x1FF) < 2)) {
         reverb += sAudioEnvReverb + sAudioCodeReverb + sSpecReverb;
     }
