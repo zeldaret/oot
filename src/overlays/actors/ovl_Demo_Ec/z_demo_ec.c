@@ -150,59 +150,6 @@ static s16 sAnimationObjects[] = {
     OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_GM, OBJECT_MA2,
 };
 
-// skeletons (all from other objects)
-
-// Object_KM1, Object_KW1, Object_BJI, Objct_AHG, Object_BOB, Object_BBA, Object_ANE
-extern FlexSkeletonHeader D_060000F0;
-
-// Object_Toryo
-extern FlexSkeletonHeader D_06007150;
-
-// Object_Daiku
-extern FlexSkeletonHeader D_06007958;
-
-// Object_ZO
-extern FlexSkeletonHeader D_0600BFA8;
-
-// Object_KZ
-extern FlexSkeletonHeader D_060086D0;
-
-// Object_MD
-extern FlexSkeletonHeader D_06007FB8;
-
-// Object_Niw
-extern FlexSkeletonHeader D_06002530;
-
-// Object_DS2
-extern FlexSkeletonHeader D_06004258;
-
-// Object_OS
-extern FlexSkeletonHeader D_06004658;
-
-// Object_RS
-extern FlexSkeletonHeader D_06004868;
-
-// animations from other objects
-extern AnimationHeader D_060002B8;
-extern AnimationHeader D_060076C0;
-extern AnimationHeader D_06005F20;
-
-// mouth textures
-extern u8 D_06007AC0[];
-extern u8 D_06006920[];
-extern u8 D_060004C8[];
-extern u8 D_060035D8[];
-extern u8 D_06003770[];
-
-// PostLimbDraw display lists
-extern Gfx D_06005BD0[];
-extern Gfx D_06005AC0[];
-extern Gfx D_06005990[];
-extern Gfx D_06005880[];
-extern Gfx D_06009198[];
-extern Gfx D_06009430[];
-extern Gfx D_06009690[];
-
 extern FlexSkeletonHeader object_bji_Skel_0000F0;
 extern FlexSkeletonHeader object_ahg_Skel_0000F0;
 
