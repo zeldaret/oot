@@ -33,10 +33,10 @@ typedef float MtxF_t[4][4];
 typedef union {
     MtxF_t mf;
     struct {
-        float xx, now_21, now_31, now_41,
-              now_12, yy, now_32, now_42,
-              now_13, now_23, zz, now_43,
-              now_14, now_24, now_34, ww;
+        float xx, yx, zx, wx,
+              xy, yy, zy, wy,
+              xz, yz, zz, wz,
+              xw, yw, zw, ww;
     };
 } MtxF;
 

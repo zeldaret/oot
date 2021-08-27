@@ -1057,9 +1057,9 @@ void EnPoh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         }
         Matrix_Get(&this->unk_368);
         if (this->actionFunc == func_80ADF15C && this->unk_198 == 27) {
-            this->actor.world.pos.x = this->unk_368.now_14;
-            this->actor.world.pos.y = this->unk_368.now_24;
-            this->actor.world.pos.z = this->unk_368.now_34;
+            this->actor.world.pos.x = this->unk_368.xw;
+            this->actor.world.pos.y = this->unk_368.yw;
+            this->actor.world.pos.z = this->unk_368.zw;
         }
         Lights_PointGlowSetInfo(&this->lightInfo, this->colliderSph.elements[0].dim.worldSphere.center.x,
                                 this->colliderSph.elements[0].dim.worldSphere.center.y,

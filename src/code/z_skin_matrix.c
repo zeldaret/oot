@@ -17,10 +17,10 @@ MtxF sMtxFClear = {
  * \f[ [\texttt{xyzDest}, \texttt{wDest}] = [\texttt{src}, 1] \cdot [mf] \f]
  */
 void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest) {
-    xyzDest->x = mf->now_14 + ((src->x * mf->xx) + (src->y * mf->now_12) + (src->z * mf->now_13));
-    xyzDest->y = mf->now_24 + ((src->x * mf->now_21) + (src->y * mf->yy) + (src->z * mf->now_23));
-    xyzDest->z = mf->now_34 + ((src->x * mf->now_31) + (src->y * mf->now_32) + (src->z * mf->zz));
-    *wDest = mf->ww + ((src->x * mf->now_41) + (src->y * mf->now_42) + (src->z * mf->now_43));
+    xyzDest->x = mf->xw + ((src->x * mf->xx) + (src->y * mf->xy) + (src->z * mf->xz));
+    xyzDest->y = mf->yw + ((src->x * mf->yx) + (src->y * mf->yy) + (src->z * mf->yz));
+    xyzDest->z = mf->zw + ((src->x * mf->zx) + (src->y * mf->zy) + (src->z * mf->zz));
+    *wDest = mf->ww + ((src->x * mf->wx) + (src->y * mf->wy) + (src->z * mf->wz));
 }
 
 /**
@@ -30,20 +30,20 @@ void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDe
  */
 void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest) {
     f32 mx = mf->xx;
-    f32 my = mf->now_12;
-    f32 mz = mf->now_13;
-    f32 mw = mf->now_14;
+    f32 my = mf->xy;
+    f32 mz = mf->xz;
+    f32 mw = mf->xw;
 
     dest->x = mw + ((src->x * mx) + (src->y * my) + (src->z * mz));
-    mx = mf->now_21;
+    mx = mf->yx;
     my = mf->yy;
-    mz = mf->now_23;
-    mw = mf->now_24;
+    mz = mf->yz;
+    mw = mf->yw;
     dest->y = mw + ((src->x * mx) + (src->y * my) + (src->z * mz));
-    mx = mf->now_31;
-    my = mf->now_32;
+    mx = mf->zx;
+    my = mf->zy;
     mz = mf->zz;
-    mw = mf->now_34;
+    mw = mf->zw;
     dest->z = mw + ((src->x * mx) + (src->y * my) + (src->z * mz));
 }
 
@@ -58,122 +58,122 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     f32 w2;
     //---ROW1---
     f32 x1 = mfB->xx;
-    f32 y1 = mfB->now_12;
-    f32 z1 = mfB->now_13;
-    f32 w1 = mfB->now_14;
+    f32 y1 = mfB->xy;
+    f32 z1 = mfB->xz;
+    f32 w1 = mfB->xw;
     //--------
 
     x2 = mfA->xx;
-    y2 = mfA->now_21;
-    z2 = mfA->now_31;
-    w2 = mfA->now_41;
+    y2 = mfA->yx;
+    z2 = mfA->zx;
+    w2 = mfA->wx;
     dest->xx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_12;
+    x2 = mfA->xy;
     y2 = mfA->yy;
-    z2 = mfA->now_32;
-    w2 = mfA->now_42;
-    dest->now_12 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    z2 = mfA->zy;
+    w2 = mfA->wy;
+    dest->xy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_13;
-    y2 = mfA->now_23;
+    x2 = mfA->xz;
+    y2 = mfA->yz;
     z2 = mfA->zz;
-    w2 = mfA->now_43;
-    dest->now_13 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    w2 = mfA->wz;
+    dest->xz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_14;
-    y2 = mfA->now_24;
-    z2 = mfA->now_34;
+    x2 = mfA->xw;
+    y2 = mfA->yw;
+    z2 = mfA->zw;
     w2 = mfA->ww;
-    dest->now_14 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    dest->xw = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
     //---ROW2---
-    x1 = mfB->now_21;
+    x1 = mfB->yx;
     y1 = mfB->yy;
-    z1 = mfB->now_23;
-    w1 = mfB->now_24;
+    z1 = mfB->yz;
+    w1 = mfB->yw;
     //--------
     x2 = mfA->xx;
-    y2 = mfA->now_21;
-    z2 = mfA->now_31;
-    w2 = mfA->now_41;
-    dest->now_21 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    y2 = mfA->yx;
+    z2 = mfA->zx;
+    w2 = mfA->wx;
+    dest->yx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_12;
+    x2 = mfA->xy;
     y2 = mfA->yy;
-    z2 = mfA->now_32;
-    w2 = mfA->now_42;
+    z2 = mfA->zy;
+    w2 = mfA->wy;
     dest->yy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_13;
-    y2 = mfA->now_23;
+    x2 = mfA->xz;
+    y2 = mfA->yz;
     z2 = mfA->zz;
-    w2 = mfA->now_43;
-    dest->now_23 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    w2 = mfA->wz;
+    dest->yz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_14;
-    y2 = mfA->now_24;
-    z2 = mfA->now_34;
+    x2 = mfA->xw;
+    y2 = mfA->yw;
+    z2 = mfA->zw;
     w2 = mfA->ww;
-    dest->now_24 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    dest->yw = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
     //---ROW3---
-    x1 = mfB->now_31;
-    y1 = mfB->now_32;
+    x1 = mfB->zx;
+    y1 = mfB->zy;
     z1 = mfB->zz;
-    w1 = mfB->now_34;
+    w1 = mfB->zw;
     //--------
     x2 = mfA->xx;
-    y2 = mfA->now_21;
-    z2 = mfA->now_31;
-    w2 = mfA->now_41;
-    dest->now_31 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    y2 = mfA->yx;
+    z2 = mfA->zx;
+    w2 = mfA->wx;
+    dest->zx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_12;
+    x2 = mfA->xy;
     y2 = mfA->yy;
-    z2 = mfA->now_32;
-    w2 = mfA->now_42;
-    dest->now_32 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    z2 = mfA->zy;
+    w2 = mfA->wy;
+    dest->zy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_13;
-    y2 = mfA->now_23;
+    x2 = mfA->xz;
+    y2 = mfA->yz;
     z2 = mfA->zz;
-    w2 = mfA->now_43;
+    w2 = mfA->wz;
     dest->zz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_14;
-    y2 = mfA->now_24;
-    z2 = mfA->now_34;
+    x2 = mfA->xw;
+    y2 = mfA->yw;
+    z2 = mfA->zw;
     w2 = mfA->ww;
-    dest->now_34 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    dest->zw = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
     //---ROW4---
-    x1 = mfB->now_41;
-    y1 = mfB->now_42;
-    z1 = mfB->now_43;
+    x1 = mfB->wx;
+    y1 = mfB->wy;
+    z1 = mfB->wz;
     w1 = mfB->ww;
     //--------
     x2 = mfA->xx;
-    y2 = mfA->now_21;
-    z2 = mfA->now_31;
-    w2 = mfA->now_41;
-    dest->now_41 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    y2 = mfA->yx;
+    z2 = mfA->zx;
+    w2 = mfA->wx;
+    dest->wx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_12;
+    x2 = mfA->xy;
     y2 = mfA->yy;
-    z2 = mfA->now_32;
-    w2 = mfA->now_42;
-    dest->now_42 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    z2 = mfA->zy;
+    w2 = mfA->wy;
+    dest->wy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_13;
-    y2 = mfA->now_23;
+    x2 = mfA->xz;
+    y2 = mfA->yz;
     z2 = mfA->zz;
-    w2 = mfA->now_43;
-    dest->now_43 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
+    w2 = mfA->wz;
+    dest->wz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    x2 = mfA->now_14;
-    y2 = mfA->now_24;
-    z2 = mfA->now_34;
+    x2 = mfA->xw;
+    y2 = mfA->yw;
+    z2 = mfA->zw;
     w2 = mfA->ww;
     dest->ww = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 }
@@ -190,36 +190,36 @@ void SkinMatrix_Clear(MtxF* mf) {
     mf->yy = 1.0f;
     mf->zz = 1.0f;
     mf->ww = 1.0f;
-    mf->now_21 = 0.0f;
-    mf->now_31 = 0.0f;
-    mf->now_41 = 0.0f;
-    mf->now_12 = 0.0f;
-    mf->now_32 = 0.0f;
-    mf->now_42 = 0.0f;
-    mf->now_13 = 0.0f;
-    mf->now_23 = 0.0f;
-    mf->now_43 = 0.0f;
-    mf->now_14 = 0.0f;
-    mf->now_24 = 0.0f;
-    mf->now_34 = 0.0f;
+    mf->yx = 0.0f;
+    mf->zx = 0.0f;
+    mf->wx = 0.0f;
+    mf->xy = 0.0f;
+    mf->zy = 0.0f;
+    mf->wy = 0.0f;
+    mf->xz = 0.0f;
+    mf->yz = 0.0f;
+    mf->wz = 0.0f;
+    mf->xw = 0.0f;
+    mf->yw = 0.0f;
+    mf->zw = 0.0f;
 }
 
 void SkinMatrix_MtxFCopy(MtxF* src, MtxF* dest) {
     dest->xx = src->xx;
-    dest->now_21 = src->now_21;
-    dest->now_31 = src->now_31;
-    dest->now_41 = src->now_41;
-    dest->now_12 = src->now_12;
+    dest->yx = src->yx;
+    dest->zx = src->zx;
+    dest->wx = src->wx;
+    dest->xy = src->xy;
     dest->yy = src->yy;
-    dest->now_32 = src->now_32;
-    dest->now_42 = src->now_42;
-    dest->now_13 = src->now_13;
-    dest->now_23 = src->now_23;
+    dest->zy = src->zy;
+    dest->wy = src->wy;
+    dest->xz = src->xz;
+    dest->yz = src->yz;
     dest->zz = src->zz;
-    dest->now_43 = src->now_43;
-    dest->now_14 = src->now_14;
-    dest->now_24 = src->now_24;
-    dest->now_34 = src->now_34;
+    dest->wz = src->wz;
+    dest->xw = src->xw;
+    dest->yw = src->yw;
+    dest->zw = src->zw;
     dest->ww = src->ww;
 }
 
@@ -290,18 +290,18 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
  * Produces a matrix which scales x,y,z components of vectors or x,y,z rows of matrices (when applied on LHS)
  */
 void SkinMatrix_SetScale(MtxF* mf, f32 x, f32 y, f32 z) {
-    mf->now_21 = 0.0f;
-    mf->now_31 = 0.0f;
-    mf->now_41 = 0.0f;
-    mf->now_12 = 0.0f;
-    mf->now_32 = 0.0f;
-    mf->now_42 = 0.0f;
-    mf->now_13 = 0.0f;
-    mf->now_23 = 0.0f;
-    mf->now_43 = 0.0f;
-    mf->now_14 = 0.0f;
-    mf->now_24 = 0.0f;
-    mf->now_34 = 0.0f;
+    mf->yx = 0.0f;
+    mf->zx = 0.0f;
+    mf->wx = 0.0f;
+    mf->xy = 0.0f;
+    mf->zy = 0.0f;
+    mf->wy = 0.0f;
+    mf->xz = 0.0f;
+    mf->yz = 0.0f;
+    mf->wz = 0.0f;
+    mf->xw = 0.0f;
+    mf->yw = 0.0f;
+    mf->zw = 0.0f;
     mf->ww = 1.0f;
     mf->xx = x;
     mf->yy = y;
@@ -315,16 +315,16 @@ void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
     f32 cos2;
     f32 sin = Math_SinS(yaw);
     f32 cos = Math_CosS(yaw);
-    f32 now_12;
+    f32 xy;
     f32 sin2;
-    f32 now_13;
+    f32 xz;
     f32 yy;
-    f32 now_23;
+    f32 yz;
 
     mf->yy = cos;
-    mf->now_12 = -sin;
-    mf->now_41 = mf->now_42 = mf->now_43 = 0;
-    mf->now_14 = mf->now_24 = mf->now_34 = 0;
+    mf->xy = -sin;
+    mf->wx = mf->wy = mf->wz = 0;
+    mf->xw = mf->yw = mf->zw = 0;
     mf->ww = 1;
 
     if (pitch != 0) {
@@ -332,20 +332,20 @@ void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
         cos2 = Math_CosS(pitch);
 
         mf->xx = cos * cos2;
-        mf->now_13 = cos * sin2;
+        mf->xz = cos * sin2;
 
-        mf->now_21 = sin * cos2;
-        mf->now_23 = sin * sin2;
-        mf->now_31 = -sin2;
+        mf->yx = sin * cos2;
+        mf->yz = sin * sin2;
+        mf->zx = -sin2;
         mf->zz = cos2;
 
     } else {
         mf->xx = cos;
         if (1) {}
         if (1) {}
-        now_13 = sin; // required to match
-        mf->now_21 = sin;
-        mf->now_31 = mf->now_13 = mf->now_23 = 0;
+        xz = sin; // required to match
+        mf->yx = sin;
+        mf->zx = mf->xz = mf->yz = 0;
         mf->zz = 1;
     }
 
@@ -353,22 +353,22 @@ void SkinMatrix_SetRotateRPY(MtxF* mf, s16 roll, s16 pitch, s16 yaw) {
         sin2 = Math_SinS(roll);
         cos2 = Math_CosS(roll);
 
-        now_12 = mf->now_12;
-        now_13 = mf->now_13;
-        mf->now_12 = (now_12 * cos2) + (now_13 * sin2);
-        mf->now_13 = (now_13 * cos2) - (now_12 * sin2);
+        xy = mf->xy;
+        xz = mf->xz;
+        mf->xy = (xy * cos2) + (xz * sin2);
+        mf->xz = (xz * cos2) - (xy * sin2);
 
         if (1) {}
-        now_23 = mf->now_23;
+        yz = mf->yz;
         yy = mf->yy;
-        mf->yy = (yy * cos2) + (now_23 * sin2);
-        mf->now_23 = (now_23 * cos2) - (yy * sin2);
+        mf->yy = (yy * cos2) + (yz * sin2);
+        mf->yz = (yz * cos2) - (yy * sin2);
 
         if (cos2) {}
-        mf->now_32 = mf->zz * sin2;
+        mf->zy = mf->zz * sin2;
         mf->zz = mf->zz * cos2;
     } else {
-        mf->now_32 = 0;
+        mf->zy = 0;
     }
 }
 
@@ -379,21 +379,21 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
     f32 cos2;
     f32 sin;
     f32 cos;
-    f32 now_31;
+    f32 zx;
     f32 sin2;
-    f32 now_32;
+    f32 zy;
     f32 xx;
-    f32 now_12;
+    f32 xy;
     sin = Math_SinS(roll);
     cos = Math_CosS(roll);
     mf->xx = cos;
-    mf->now_31 = -sin;
-    mf->now_43 = 0;
-    mf->now_42 = 0;
-    mf->now_41 = 0;
-    mf->now_34 = 0;
-    mf->now_24 = 0;
-    mf->now_14 = 0;
+    mf->zx = -sin;
+    mf->wz = 0;
+    mf->wy = 0;
+    mf->wx = 0;
+    mf->zw = 0;
+    mf->yw = 0;
+    mf->xw = 0;
     mf->ww = 1;
 
     if (yaw != 0) {
@@ -401,20 +401,20 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
         cos2 = Math_CosS(yaw);
 
         mf->zz = cos * cos2;
-        mf->now_32 = cos * sin2;
+        mf->zy = cos * sin2;
 
-        mf->now_13 = sin * cos2;
-        mf->now_12 = sin * sin2;
-        mf->now_23 = -sin2;
+        mf->xz = sin * cos2;
+        mf->xy = sin * sin2;
+        mf->yz = -sin2;
         mf->yy = cos2;
 
     } else {
         mf->zz = cos;
         if (1) {}
         if (1) {}
-        now_12 = sin; // required to match
-        mf->now_13 = sin;
-        mf->now_12 = mf->now_32 = mf->now_23 = 0;
+        xy = sin; // required to match
+        mf->xz = sin;
+        mf->xy = mf->zy = mf->yz = 0;
         mf->yy = 1;
     }
 
@@ -422,19 +422,19 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
         sin2 = Math_SinS(pitch);
         cos2 = Math_CosS(pitch);
         xx = mf->xx;
-        now_12 = mf->now_12;
-        mf->xx = (xx * cos2) + (now_12 * sin2);
-        mf->now_12 = now_12 * cos2 - (xx * sin2);
+        xy = mf->xy;
+        mf->xx = (xx * cos2) + (xy * sin2);
+        mf->xy = xy * cos2 - (xx * sin2);
         if (1) {}
-        now_32 = mf->now_32;
-        now_31 = mf->now_31;
-        mf->now_31 = (now_31 * cos2) + (now_32 * sin2);
-        mf->now_32 = (now_32 * cos2) - (now_31 * sin2);
+        zy = mf->zy;
+        zx = mf->zx;
+        mf->zx = (zx * cos2) + (zy * sin2);
+        mf->zy = (zy * cos2) - (zx * sin2);
         if (cos2) {}
-        mf->now_21 = mf->yy * sin2;
+        mf->yx = mf->yy * sin2;
         mf->yy = mf->yy * cos2;
     } else {
-        mf->now_21 = 0;
+        mf->yx = 0;
     }
 }
 
@@ -442,22 +442,22 @@ void SkinMatrix_SetRotateYRP(MtxF* mf, s16 yaw, s16 roll, s16 pitch) {
  * Produces a matrix which translates a vector by amounts in the x, y and z directions
  */
 void SkinMatrix_SetTranslate(MtxF* mf, f32 x, f32 y, f32 z) {
-    mf->now_21 = 0.0f;
-    mf->now_31 = 0.0f;
-    mf->now_41 = 0.0f;
-    mf->now_12 = 0.0f;
-    mf->now_32 = 0.0f;
-    mf->now_42 = 0.0f;
-    mf->now_13 = 0.0f;
-    mf->now_23 = 0.0f;
-    mf->now_43 = 0.0f;
+    mf->yx = 0.0f;
+    mf->zx = 0.0f;
+    mf->wx = 0.0f;
+    mf->xy = 0.0f;
+    mf->zy = 0.0f;
+    mf->wy = 0.0f;
+    mf->xz = 0.0f;
+    mf->yz = 0.0f;
+    mf->wz = 0.0f;
     mf->xx = 1.0f;
     mf->yy = 1.0f;
     mf->zz = 1.0f;
     mf->ww = 1.0f;
-    mf->now_14 = x;
-    mf->now_24 = y;
-    mf->now_34 = z;
+    mf->xw = x;
+    mf->yw = y;
+    mf->zw = z;
 }
 
 /**
@@ -523,19 +523,19 @@ void SkinMatrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     m1[0] = (temp >> 0x10);
     m1[16 + 0] = temp & 0xFFFF;
 
-    temp = src->now_21 * 0x10000;
+    temp = src->yx * 0x10000;
     m1[1] = (temp >> 0x10);
     m1[16 + 1] = temp & 0xFFFF;
 
-    temp = src->now_31 * 0x10000;
+    temp = src->zx * 0x10000;
     m1[2] = (temp >> 0x10);
     m1[16 + 2] = temp & 0xFFFF;
 
-    temp = src->now_41 * 0x10000;
+    temp = src->wx * 0x10000;
     m1[3] = (temp >> 0x10);
     m1[16 + 3] = temp & 0xFFFF;
 
-    temp = src->now_12 * 0x10000;
+    temp = src->xy * 0x10000;
     m1[4] = (temp >> 0x10);
     m1[16 + 4] = temp & 0xFFFF;
 
@@ -543,19 +543,19 @@ void SkinMatrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     m1[5] = (temp >> 0x10);
     m1[16 + 5] = temp & 0xFFFF;
 
-    temp = src->now_32 * 0x10000;
+    temp = src->zy * 0x10000;
     m1[6] = (temp >> 0x10);
     m1[16 + 6] = temp & 0xFFFF;
 
-    temp = src->now_42 * 0x10000;
+    temp = src->wy * 0x10000;
     m1[7] = (temp >> 0x10);
     m1[16 + 7] = temp & 0xFFFF;
 
-    temp = src->now_13 * 0x10000;
+    temp = src->xz * 0x10000;
     m1[8] = (temp >> 0x10);
     m1[16 + 8] = temp & 0xFFFF;
 
-    temp = src->now_23 * 0x10000;
+    temp = src->yz * 0x10000;
     m1[9] = (temp >> 0x10);
     m2[9] = temp & 0xFFFF;
 
@@ -563,19 +563,19 @@ void SkinMatrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     m1[10] = (temp >> 0x10);
     m2[10] = temp & 0xFFFF;
 
-    temp = src->now_43 * 0x10000;
+    temp = src->wz * 0x10000;
     m1[11] = (temp >> 0x10);
     m2[11] = temp & 0xFFFF;
 
-    temp = src->now_14 * 0x10000;
+    temp = src->xw * 0x10000;
     m1[12] = (temp >> 0x10);
     m2[12] = temp & 0xFFFF;
 
-    temp = src->now_24 * 0x10000;
+    temp = src->yw * 0x10000;
     m1[13] = (temp >> 0x10);
     m2[13] = temp & 0xFFFF;
 
-    temp = src->now_34 * 0x10000;
+    temp = src->zw * 0x10000;
     m1[14] = (temp >> 0x10);
     m2[14] = temp & 0xFFFF;
 
@@ -620,21 +620,21 @@ void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z) {
     xz = x * z;
 
     mf->xx = (1.0f - xx) * cosA + xx;
-    mf->now_21 = (1.0f - cosA) * xy + z * sinA;
-    mf->now_31 = (1.0f - cosA) * xz - y * sinA;
-    mf->now_41 = 0.0f;
+    mf->yx = (1.0f - cosA) * xy + z * sinA;
+    mf->zx = (1.0f - cosA) * xz - y * sinA;
+    mf->wx = 0.0f;
 
-    mf->now_12 = (1.0f - cosA) * xy - z * sinA;
+    mf->xy = (1.0f - cosA) * xy - z * sinA;
     mf->yy = (1.0f - yy) * cosA + yy;
-    mf->now_32 = (1.0f - cosA) * yz + x * sinA;
-    mf->now_42 = 0.0f;
+    mf->zy = (1.0f - cosA) * yz + x * sinA;
+    mf->wy = 0.0f;
 
-    mf->now_13 = (1.0f - cosA) * xz + y * sinA;
-    mf->now_23 = (1.0f - cosA) * yz - x * sinA;
+    mf->xz = (1.0f - cosA) * xz + y * sinA;
+    mf->yz = (1.0f - cosA) * yz - x * sinA;
     mf->zz = (1.0f - zz) * cosA + zz;
-    mf->now_43 = 0.0f;
+    mf->wz = 0.0f;
 
-    mf->now_14 = mf->now_24 = mf->now_34 = 0.0f;
+    mf->xw = mf->yw = mf->zw = 0.0f;
     mf->ww = 1.0f;
 }
 
@@ -669,19 +669,19 @@ void func_800A8030(MtxF* mf, f32* arg1) {
     zzNorm = arg1[2] * zNorm;
 
     mf->xx = (1.0f - (yyNorm + zzNorm));
-    mf->now_21 = (xyNorm + wzNorm);
-    mf->now_31 = (xzNorm - wyNorm);
-    mf->now_41 = 0.0f;
-    mf->now_12 = (xyNorm - wzNorm);
+    mf->yx = (xyNorm + wzNorm);
+    mf->zx = (xzNorm - wyNorm);
+    mf->wx = 0.0f;
+    mf->xy = (xyNorm - wzNorm);
     mf->yy = (1.0f - (xxNorm + zzNorm));
-    mf->now_32 = (yzNorm + wxNorm);
-    mf->now_42 = 0.0f;
-    mf->now_13 = (yzNorm + wyNorm);
-    mf->now_23 = (yzNorm - wxNorm);
+    mf->zy = (yzNorm + wxNorm);
+    mf->wy = 0.0f;
+    mf->xz = (yzNorm + wyNorm);
+    mf->yz = (yzNorm - wxNorm);
     mf->zz = (1.0f - (xxNorm + yyNorm));
-    mf->now_43 = 0.0f;
-    mf->now_14 = 0.0f;
-    mf->now_24 = 0.0f;
+    mf->wz = 0.0f;
+    mf->xw = 0.0f;
+    mf->yw = 0.0f;
     mf->ww = 1.0f;
-    mf->now_34 = 0.0f;
+    mf->zw = 0.0f;
 }

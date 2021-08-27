@@ -756,9 +756,9 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             if ((limbIndex == 15) || (limbIndex == 21)) {
                 if (this->actionFunc != EnFirefly_Die) {
                     Matrix_Get(&mtx);
-                    effPos.x = (Rand_ZeroOne() * 5.0f) + mtx.now_14;
-                    effPos.y = (Rand_ZeroOne() * 5.0f) + mtx.now_24;
-                    effPos.z = (Rand_ZeroOne() * 5.0f) + mtx.now_34;
+                    effPos.x = (Rand_ZeroOne() * 5.0f) + mtx.xw;
+                    effPos.y = (Rand_ZeroOne() * 5.0f) + mtx.yw;
+                    effPos.z = (Rand_ZeroOne() * 5.0f) + mtx.zw;
                     effScaleStep = -40;
                     effLife = 3;
                 } else {

@@ -1386,37 +1386,37 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
         }
 
         mf->xx = temp1;
-        mf->now_21 = -nx * temp2;
-        mf->now_31 = nx * temp3;
-        mf->now_12 = nx;
+        mf->yx = -nx * temp2;
+        mf->zx = nx * temp3;
+        mf->xy = nx;
         mf->yy = ny;
-        mf->now_32 = nz;
-        mf->now_23 = temp3;
+        mf->zy = nz;
+        mf->yz = temp3;
         mf->zz = temp2;
-        mf->now_41 = 0.0f;
-        mf->now_42 = 0.0f;
-        mf->now_13 = 0.0f;
-        mf->now_43 = 0.0f;
-        mf->now_14 = vec->x;
-        mf->now_24 = floorY;
-        mf->now_34 = vec->z;
+        mf->wx = 0.0f;
+        mf->wy = 0.0f;
+        mf->xz = 0.0f;
+        mf->wz = 0.0f;
+        mf->xw = vec->x;
+        mf->yw = floorY;
+        mf->zw = vec->z;
         mf->ww = 1.0f;
     } else {
-        mf->now_12 = 0.0f;
-        mf->now_31 = 0.0f;
-        mf->now_21 = 0.0f;
+        mf->xy = 0.0f;
+        mf->zx = 0.0f;
+        mf->yx = 0.0f;
         mf->xx = 0.0f;
-        mf->now_43 = 0.0f;
-        mf->now_13 = 0.0f;
-        mf->now_42 = 0.0f;
-        mf->now_41 = 0.0f;
+        mf->wz = 0.0f;
+        mf->xz = 0.0f;
+        mf->wy = 0.0f;
+        mf->wx = 0.0f;
         mf->zz = 0.0f;
-        mf->now_23 = 0.0f;
-        mf->now_32 = 0.0f;
+        mf->yz = 0.0f;
+        mf->zy = 0.0f;
         mf->yy = 1.0f;
-        mf->now_14 = vec->x;
-        mf->now_24 = vec->y;
-        mf->now_34 = vec->z;
+        mf->xw = vec->x;
+        mf->yw = vec->y;
+        mf->zw = vec->z;
         mf->ww = 1.0f;
     }
 
@@ -1486,7 +1486,7 @@ void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
     Matrix_MultVec3f(src, dest);
 
     temp = globalCtx->mf_11D60.ww +
-           (globalCtx->mf_11D60.now_41 * src->x + globalCtx->mf_11D60.now_42 * src->y + globalCtx->mf_11D60.now_43 * src->z);
+           (globalCtx->mf_11D60.wx * src->x + globalCtx->mf_11D60.wy * src->y + globalCtx->mf_11D60.wz * src->z);
 
     dest->x = 160.0f + ((dest->x / temp) * 160.0f);
     dest->y = 120.0f - ((dest->y / temp) * 120.0f);
