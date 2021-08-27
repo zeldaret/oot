@@ -52,130 +52,130 @@ void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest) {
  * mfA and dest should not be the same matrix.
  */
 void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
-    f32 rx;
-    f32 ry;
-    f32 rz;
-    f32 rw;
-    //---COL1---
-    f32 cx = mfB->xx;
-    f32 cy = mfB->now_12;
-    f32 cz = mfB->now_13;
-    f32 cw = mfB->now_14;
+    f32 x2;
+    f32 y2;
+    f32 z2;
+    f32 w2;
+    //---ROW1---
+    f32 x1 = mfB->xx;
+    f32 y1 = mfB->now_12;
+    f32 z1 = mfB->now_13;
+    f32 w1 = mfB->now_14;
     //--------
 
-    rx = mfA->xx;
-    ry = mfA->now_21;
-    rz = mfA->now_31;
-    rw = mfA->now_41;
-    dest->xx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->xx;
+    y2 = mfA->now_21;
+    z2 = mfA->now_31;
+    w2 = mfA->now_41;
+    dest->xx = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_12;
-    ry = mfA->yy;
-    rz = mfA->now_32;
-    rw = mfA->now_42;
-    dest->now_12 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_12;
+    y2 = mfA->yy;
+    z2 = mfA->now_32;
+    w2 = mfA->now_42;
+    dest->now_12 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_13;
-    ry = mfA->now_23;
-    rz = mfA->zz;
-    rw = mfA->now_43;
-    dest->now_13 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_13;
+    y2 = mfA->now_23;
+    z2 = mfA->zz;
+    w2 = mfA->now_43;
+    dest->now_13 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_14;
-    ry = mfA->now_24;
-    rz = mfA->now_34;
-    rw = mfA->ww;
-    dest->now_14 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_14;
+    y2 = mfA->now_24;
+    z2 = mfA->now_34;
+    w2 = mfA->ww;
+    dest->now_14 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    //---2Col---
-    cx = mfB->now_21;
-    cy = mfB->yy;
-    cz = mfB->now_23;
-    cw = mfB->now_24;
+    //---ROW2---
+    x1 = mfB->now_21;
+    y1 = mfB->yy;
+    z1 = mfB->now_23;
+    w1 = mfB->now_24;
     //--------
-    rx = mfA->xx;
-    ry = mfA->now_21;
-    rz = mfA->now_31;
-    rw = mfA->now_41;
-    dest->now_21 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->xx;
+    y2 = mfA->now_21;
+    z2 = mfA->now_31;
+    w2 = mfA->now_41;
+    dest->now_21 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_12;
-    ry = mfA->yy;
-    rz = mfA->now_32;
-    rw = mfA->now_42;
-    dest->yy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_12;
+    y2 = mfA->yy;
+    z2 = mfA->now_32;
+    w2 = mfA->now_42;
+    dest->yy = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_13;
-    ry = mfA->now_23;
-    rz = mfA->zz;
-    rw = mfA->now_43;
-    dest->now_23 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_13;
+    y2 = mfA->now_23;
+    z2 = mfA->zz;
+    w2 = mfA->now_43;
+    dest->now_23 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_14;
-    ry = mfA->now_24;
-    rz = mfA->now_34;
-    rw = mfA->ww;
-    dest->now_24 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_14;
+    y2 = mfA->now_24;
+    z2 = mfA->now_34;
+    w2 = mfA->ww;
+    dest->now_24 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    //---3Col---
-    cx = mfB->now_31;
-    cy = mfB->now_32;
-    cz = mfB->zz;
-    cw = mfB->now_34;
+    //---ROW3---
+    x1 = mfB->now_31;
+    y1 = mfB->now_32;
+    z1 = mfB->zz;
+    w1 = mfB->now_34;
     //--------
-    rx = mfA->xx;
-    ry = mfA->now_21;
-    rz = mfA->now_31;
-    rw = mfA->now_41;
-    dest->now_31 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->xx;
+    y2 = mfA->now_21;
+    z2 = mfA->now_31;
+    w2 = mfA->now_41;
+    dest->now_31 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_12;
-    ry = mfA->yy;
-    rz = mfA->now_32;
-    rw = mfA->now_42;
-    dest->now_32 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_12;
+    y2 = mfA->yy;
+    z2 = mfA->now_32;
+    w2 = mfA->now_42;
+    dest->now_32 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_13;
-    ry = mfA->now_23;
-    rz = mfA->zz;
-    rw = mfA->now_43;
-    dest->zz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_13;
+    y2 = mfA->now_23;
+    z2 = mfA->zz;
+    w2 = mfA->now_43;
+    dest->zz = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_14;
-    ry = mfA->now_24;
-    rz = mfA->now_34;
-    rw = mfA->ww;
-    dest->now_34 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_14;
+    y2 = mfA->now_24;
+    z2 = mfA->now_34;
+    w2 = mfA->ww;
+    dest->now_34 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    //---4Col---
-    cx = mfB->now_41;
-    cy = mfB->now_42;
-    cz = mfB->now_43;
-    cw = mfB->ww;
+    //---ROW4---
+    x1 = mfB->now_41;
+    y1 = mfB->now_42;
+    z1 = mfB->now_43;
+    w1 = mfB->ww;
     //--------
-    rx = mfA->xx;
-    ry = mfA->now_21;
-    rz = mfA->now_31;
-    rw = mfA->now_41;
-    dest->now_41 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->xx;
+    y2 = mfA->now_21;
+    z2 = mfA->now_31;
+    w2 = mfA->now_41;
+    dest->now_41 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_12;
-    ry = mfA->yy;
-    rz = mfA->now_32;
-    rw = mfA->now_42;
-    dest->now_42 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_12;
+    y2 = mfA->yy;
+    z2 = mfA->now_32;
+    w2 = mfA->now_42;
+    dest->now_42 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_13;
-    ry = mfA->now_23;
-    rz = mfA->zz;
-    rw = mfA->now_43;
-    dest->now_43 = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_13;
+    y2 = mfA->now_23;
+    z2 = mfA->zz;
+    w2 = mfA->now_43;
+    dest->now_43 = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 
-    rx = mfA->now_14;
-    ry = mfA->now_24;
-    rz = mfA->now_34;
-    rw = mfA->ww;
-    dest->ww = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
+    x2 = mfA->now_14;
+    y2 = mfA->now_24;
+    z2 = mfA->now_34;
+    w2 = mfA->ww;
+    dest->ww = (x1 * x2) + (y1 * y2) + (z1 * z2) + (w1 * w2);
 }
 
 /**
