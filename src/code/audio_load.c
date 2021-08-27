@@ -41,28 +41,28 @@ u8* D_8016B738[0x12];
 u32 D_8016B780[8];
 
 void func_800E11F0(void) {
-    s32 i;
+    u32 i;
 
-    for (i = 0; i < gAudioContext.unk_2624; i++) {
+    for (i = 0; i < gAudioContext.sampleDmaListSize1; i++) {
         SampleDmaReq* req = &gAudioContext.sampleDmaReqs[i];
-        if (req->unk_0E != 0) {
-            req->unk_0E--;
-            if ((req->unk_0E) == 0) {
-                req->unk_0D = gAudioContext.unk_282E;
-                gAudioContext.unk_262C[gAudioContext.unk_282E] = i;
-                gAudioContext.unk_282E++;
+        if (req->ttl != 0) {
+            req->ttl--;
+            if ((req->ttl) == 0) {
+                req->reuseIndex = gAudioContext.sampleDmaReuseQueueHead1;
+                gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueueHead1] = i;
+                gAudioContext.sampleDmaReuseQueueHead1++;
             }
         }
     }
 
-    for (i = gAudioContext.unk_2624; i < gAudioContext.sampleDmaReqCnt; i++) {
+    for (i = gAudioContext.sampleDmaListSize1; i < gAudioContext.sampleDmaReqCnt; i++) {
         SampleDmaReq* req = &gAudioContext.sampleDmaReqs[i];
-        if (req->unk_0E != 0) {
-            req->unk_0E--;
-            if (req->unk_0E == 0) {
-                req->unk_0D = gAudioContext.unk_282F;
-                gAudioContext.unk_272C[gAudioContext.unk_282F] = i;
-                gAudioContext.unk_282F++;
+        if (req->ttl != 0) {
+            req->ttl--;
+            if (req->ttl == 0) {
+                req->reuseIndex = gAudioContext.sampleDmaReuseQueueHead2;
+                gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueueHead2] = i;
+                gAudioContext.sampleDmaReuseQueueHead2++;
             }
         }
     }
@@ -70,7 +70,99 @@ void func_800E11F0(void) {
     gAudioContext.unk_2628 = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/Audio_DmaSampleData.s")
+void* Audio_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, s32 medium) {
+    s32 sp60;
+    SampleDmaReq* dma;
+    s32 hasDma = false;
+    u32 dmaDevAddr;
+    u32 pad;
+    u32 dmaIndex;
+    u32 transfer;
+    s32 bufferPos;
+    u32 i;
+
+    if (arg2 != 0 || *dmaIndexRef >= gAudioContext.sampleDmaListSize1) {
+        for (i = gAudioContext.sampleDmaListSize1; i < gAudioContext.sampleDmaReqCnt; i++) {
+            dma = &gAudioContext.sampleDmaReqs[i];
+            bufferPos = devAddr - dma->devAddr;
+            if (0 <= bufferPos && (u32)bufferPos <= dma->size - size) {
+                // We already have a DMA request for this memory range.
+                if (dma->ttl == 0 && gAudioContext.sampleDmaReuseQueueTail2 != gAudioContext.sampleDmaReuseQueueHead2) {
+                    // Move the DMA out of the reuse queue, by swapping it with the
+                    // tail, and then incrementing the tail.
+                    if (dma->reuseIndex != gAudioContext.sampleDmaReuseQueueTail2) {
+                        gAudioContext.sampleDmaReuseQueue2[dma->reuseIndex] =
+                            gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueueTail2];
+                        gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueueTail2]].reuseIndex =
+                            dma->reuseIndex;
+                    }
+                    gAudioContext.sampleDmaReuseQueueTail2++;
+                }
+                dma->ttl = 32;
+                *dmaIndexRef = (u8)i;
+                return &dma->ramAddr[devAddr - dma->devAddr];
+            }
+        }
+
+        if (arg2 == 0) {
+            goto search_short_lived;
+        }
+
+        if (gAudioContext.sampleDmaReuseQueueTail2 != gAudioContext.sampleDmaReuseQueueHead2 && arg2 != 0) {
+            // Allocate a DMA from reuse queue 2, unless full.
+            dmaIndex = gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueueTail2];
+            gAudioContext.sampleDmaReuseQueueTail2++;
+            dma = gAudioContext.sampleDmaReqs + dmaIndex;
+            hasDma = true;
+        }
+    } else {
+search_short_lived:
+        dma = gAudioContext.sampleDmaReqs + *dmaIndexRef;
+        i = 0;
+again:
+        bufferPos = devAddr - dma->devAddr;
+        if (0 <= bufferPos && (u32)bufferPos <= dma->size - size) {
+            // We already have DMA for this memory range.
+            if (dma->ttl == 0) {
+                // Move the DMA out of the reuse queue, by swapping it with the
+                // tail, and then incrementing the tail.
+                if (dma->reuseIndex != gAudioContext.sampleDmaReuseQueueTail1) {
+                    gAudioContext.sampleDmaReuseQueue1[dma->reuseIndex] =
+                        gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueueTail1];
+                    gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueueTail1]].reuseIndex =
+                        dma->reuseIndex;
+                }
+                gAudioContext.sampleDmaReuseQueueTail1++;
+            }
+            dma->ttl = 2;
+            return dma->ramAddr + (devAddr - dma->devAddr);
+        }
+        dma = gAudioContext.sampleDmaReqs + i++;
+        if (i <= gAudioContext.sampleDmaListSize1) {
+            goto again;
+        }
+    }
+
+    if (!hasDma) {
+        if (gAudioContext.sampleDmaReuseQueueTail1 == gAudioContext.sampleDmaReuseQueueHead1) {
+            return NULL;
+        }
+        // Allocate a DMA from reuse queue 1.
+        dmaIndex = gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueueTail1++];
+        dma = gAudioContext.sampleDmaReqs + dmaIndex;
+        hasDma = true;
+    }
+
+    transfer = dma->size;
+    dmaDevAddr = devAddr & ~0xF;
+    dma->ttl = 3;
+    dma->devAddr = dmaDevAddr;
+    dma->sizeUnused = transfer;
+    Audio_DMA(&gAudioContext.currAudioFrameDmaIoMesgBufs[gAudioContext.currAudioFrameDmaCount++], OS_MESG_PRI_NORMAL, OS_READ,
+         dmaDevAddr, dma->ramAddr, transfer, &gAudioContext.currAudioFrameDmaQueue, medium, "SUPERDMA");
+    *dmaIndexRef = dmaIndex;
+    return (devAddr - dmaDevAddr) + dma->ramAddr;
+}
 
 void func_800E1618(s32 arg0) {
     SampleDmaReq* temp_s0;
@@ -92,25 +184,25 @@ void func_800E1618(s32 arg0) {
             func_800DE238(temp_s0->ramAddr, gAudioContext.unk_288C);
             temp_s0->size = gAudioContext.unk_288C;
             temp_s0->devAddr = 0;
-            temp_s0->unk_08 = 0;
-            temp_s0->unk_0C = 0;
-            temp_s0->unk_0E = 0;
+            temp_s0->sizeUnused = 0;
+            temp_s0->unused2 = 0;
+            temp_s0->ttl = 0;
             gAudioContext.sampleDmaReqCnt++;
         }
     }
 
-    for (i = 0; i < gAudioContext.sampleDmaReqCnt; i++) {
-        gAudioContext.unk_262C[i] = i;
-        gAudioContext.sampleDmaReqs[i].unk_0D = i;
+    for (i = 0; (u32)i < gAudioContext.sampleDmaReqCnt; i++) {
+        gAudioContext.sampleDmaReuseQueue1[i] = i;
+        gAudioContext.sampleDmaReqs[i].reuseIndex = i;
     }
 
     for (i = gAudioContext.sampleDmaReqCnt; i < 0x100; i++) {
-        gAudioContext.unk_262C[i] = 0;
+        gAudioContext.sampleDmaReuseQueue1[i] = 0;
     }
 
-    gAudioContext.unk_282C = 0;
-    gAudioContext.unk_282E = gAudioContext.sampleDmaReqCnt;
-    gAudioContext.unk_2624 = gAudioContext.sampleDmaReqCnt;
+    gAudioContext.sampleDmaReuseQueueTail1 = 0;
+    gAudioContext.sampleDmaReuseQueueHead1 = gAudioContext.sampleDmaReqCnt;
+    gAudioContext.sampleDmaListSize1 = gAudioContext.sampleDmaReqCnt;
     gAudioContext.unk_288C = gAudioContext.unk_2878;
 
     for (j = 0; j < gAudioContext.maxSimultaneousNotes; j++) {
@@ -122,24 +214,24 @@ void func_800E1618(s32 arg0) {
             func_800DE238(temp_s0->ramAddr, gAudioContext.unk_288C);
             temp_s0->size = gAudioContext.unk_288C;
             temp_s0->devAddr = 0U;
-            temp_s0->unk_08 = 0;
-            temp_s0->unk_0C = 0;
-            temp_s0->unk_0E = 0;
+            temp_s0->sizeUnused = 0;
+            temp_s0->unused2 = 0;
+            temp_s0->ttl = 0;
             gAudioContext.sampleDmaReqCnt++;
         }
     }
 
-    for (i = gAudioContext.unk_2624; i < gAudioContext.sampleDmaReqCnt; i++) {
-        gAudioContext.unk_272C[i - gAudioContext.unk_2624] = i;
-        gAudioContext.sampleDmaReqs[i].unk_0D = i - gAudioContext.unk_2624;
+    for (i = gAudioContext.sampleDmaListSize1; (u32)i < gAudioContext.sampleDmaReqCnt; i++) {
+        gAudioContext.sampleDmaReuseQueue2[i - gAudioContext.sampleDmaListSize1] = i;
+        gAudioContext.sampleDmaReqs[i].reuseIndex = i - gAudioContext.sampleDmaListSize1;
     }
 
     for (i = gAudioContext.sampleDmaReqCnt; i < 0x100; i++) {
-        gAudioContext.unk_272C[i] = gAudioContext.unk_2624;
+        gAudioContext.sampleDmaReuseQueue2[i] = gAudioContext.sampleDmaListSize1;
     }
 
-    gAudioContext.unk_282D = 0;
-    gAudioContext.unk_282F = gAudioContext.sampleDmaReqCnt - gAudioContext.unk_2624;
+    gAudioContext.sampleDmaReuseQueueTail2 = 0;
+    gAudioContext.sampleDmaReuseQueueHead2 = gAudioContext.sampleDmaReqCnt - gAudioContext.sampleDmaListSize1;
 }
 
 s32 Audio_IsBankLoadComplete(s32 bankId) {
@@ -359,7 +451,7 @@ void func_800E1F7C(s32 arg0) {
 }
 
 void func_800E202C(s32 arg0) {
-    s32 i;
+    u32 i;
     SoundMultiPool* pool = &gAudioContext.bankLoadedPool;
     PersistentPool* persistent;
 
@@ -969,10 +1061,10 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
     gAudioContext.rspTask[0].task.t.data_size = 0;
     gAudioContext.rspTask[1].task.t.data_size = 0;
     osCreateMesgQueue(&gAudioContext.unk_25E8, &gAudioContext.unk_2600, 1);
-    osCreateMesgQueue(&gAudioContext.unk_1ED0, gAudioContext.unk_1EE8, 0x40);
+    osCreateMesgQueue(&gAudioContext.currAudioFrameDmaQueue, gAudioContext.currAudioFrameDmaMesgBufs, 0x40);
     osCreateMesgQueue(&gAudioContext.unk_1E20, gAudioContext.unk_1E38, 0x10);
     osCreateMesgQueue(&gAudioContext.unk_1E78, gAudioContext.unk_1E90, 0x10);
-    gAudioContext.sampleIoReqIdx = 0;
+    gAudioContext.currAudioFrameDmaCount = 0;
     gAudioContext.sampleDmaReqCnt = 0;
     gAudioContext.cartHandle = osCartRomInit();
 

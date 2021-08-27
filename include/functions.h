@@ -1936,7 +1936,7 @@ void func_800E0E90(s32 id);
 void func_800E0EB4(s32 arg0, s32 id);
 void func_800E1148(void);
 void func_800E11F0(void);
-void* Audio_DmaSampleData(u32 arg0, s32 arg1, s32 arg2, u8* arg3, s32 arg4);
+void* Audio_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, s32 medium);
 void func_800E1618(s32 arg0);
 s32 Audio_IsBankLoadComplete(s32 bankId);
 s32 Audio_IsSeqLoadComplete(s32 seqId);
