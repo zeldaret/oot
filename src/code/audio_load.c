@@ -3,8 +3,6 @@
 
 typedef enum { LOAD_STATUS_WAITING, LOAD_STATUS_START, LOAD_STATUS_LOADING, LOAD_STATUS_DONE } SyncLoadStatus;
 
-#define RELOC(v, base) (reloc = (void*)((u32)v + (u32)base))
-
 /* forward declarations */
 s32 func_800E217C(s32 playerIndex, s32, s32);
 unk_ldr* func_800E2454(u32 bankId);
@@ -511,7 +509,7 @@ unk_ldr* func_800E2454(u32 bankId) {
     }
 
     temp_ret = func_800E2558(BANK_TABLE, bankId, &sp38);
-    if (temp_ret == 0) {
+    if (temp_ret == NULL) {
         return NULL;
     }
     if (sp38 == 1) {
@@ -647,34 +645,27 @@ void* Audio_GetLoadTable(s32 tableType) {
 
 #define BASE_OFFSET(x, off) (void*)((u32)(x) + (u32)(off))
 
-#ifdef NON_MATCHING
 void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2) {
-    s32 temp_v1_3;
-    void* reloc;
+    u32 reloc;
+    u32 reloc2;
+    Instrument* inst;
     Drum* drum;
     AudioBankSound* sfx;
-    Instrument* inst;
-    Instrument** end;
-    Instrument** instIt;
-    Drum** drums;
-    s32 temp_a3;
-    s32 sp50;
-    s32 temp_s5;
     s32 i;
+    s32 numDrums = gAudioContext.ctlEntries[arg0].numDrums;
+    s32 numInstruments = gAudioContext.ctlEntries[arg0].numInstruments;
+    s32 numSfx = gAudioContext.ctlEntries[arg0].numSfx;
+    void** ptrs = (void**)arg1;
 
-    temp_a3 = gAudioContext.ctlEntries[arg0].numDrums;
-    sp50 = gAudioContext.ctlEntries[arg0].numInstruments;
-    temp_s5 = gAudioContext.ctlEntries[arg0].numSfx;
-
-    drums = arg1->drums;
-    if ((drums != NULL) && (temp_a3 != 0)) {
-        if (1) {
-            arg1->drums = RELOC(drums, arg1);
-        }
-        for (i = 0; i < temp_a3; i++) {
-            reloc = arg1->drums[i];
-            if (reloc != NULL) {
-                arg1->drums[i] = drum = RELOC(reloc, arg1);
+    reloc2 = ptrs[0];
+    if (1) {}
+    if ((reloc2 != 0) && (numDrums != 0)) {
+        ptrs[0] = BASE_OFFSET(reloc2, arg1);
+        for (i = 0; i < numDrums; i++) {
+            reloc = ((Drum**)ptrs[0])[i];
+            if (reloc != 0) {
+                reloc = BASE_OFFSET(reloc, arg1);
+                ((Drum**)ptrs[0])[i] = drum = reloc;
                 if (!drum->loaded) {
                     Audio_SampleReloc(&drum->sound, arg1, arg2);
                     reloc = drum->envelope;
@@ -685,57 +676,51 @@ void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2) {
         }
     }
 
-    if ((arg1->sfx != NULL) && (temp_s5 != 0)) {
-        if (1) {
-            arg1->sfx = RELOC(arg1->sfx, arg1);
-        }
-        for (i = 0; i < temp_s5; i++) {
-            sfx = &arg1->sfx[i];
-            if ((sfx != NULL) && (sfx->sample != NULL)) {
-                Audio_SampleReloc(sfx, arg1, arg2);
-            }
-        }
-    }
-
-    if (sp50 >= 0x7F) {
-        sp50 = 0x7E;
-    }
-
-    temp_v1_3 = sp50 + 1;
-    if (temp_v1_3 > 1) {
-        instIt = arg1->instruments;
-        end = instIt + temp_v1_3 - 2;
-        do {
-            if (*instIt != NULL) {
-                inst = *instIt;
-                *instIt = RELOC(inst, arg1);
-                if (0) {}
-                inst = *instIt;
-                if (!inst->loaded) {
-                    if (inst->normalRangeLo != 0) {
-                        Audio_SampleReloc(&inst->lowNotesSound, arg1, arg2);
-                    }
-                    Audio_SampleReloc(&inst->normalNotesSound, arg1, arg2);
-                    if (inst->normalRangeHi != 0x7F) {
-                        Audio_SampleReloc(&inst->highNotesSound, arg1, arg2);
-                    }
-
-                    inst->loaded = 1;
-                    inst->envelope = RELOC(inst->envelope, arg1);
+    reloc2 = ptrs[1];
+    if (1) {}
+    if ((reloc2 != 0) && (numSfx != 0)) {
+        ptrs[1] = BASE_OFFSET(reloc2, arg1);
+        for (i = 0; i < numSfx; i++) {
+            reloc = (AudioBankSound*)ptrs[1] + i;
+            if (reloc != 0) {
+                sfx = reloc;
+                if (sfx->sample != NULL) {
+                    Audio_SampleReloc(sfx, arg1, arg2);
                 }
             }
-            instIt++;
-        } while (instIt <= end);
+        }
     }
 
-    gAudioContext.ctlEntries[arg0].drums = arg1->drums;
-    gAudioContext.ctlEntries[arg0].soundEffects = arg1->sfx;
-    gAudioContext.ctlEntries[arg0].instruments = arg1->instruments;
+    if (numInstruments > 0x7E) {
+        numInstruments = 0x7E;
+    }
+
+    for (i = 2; i <= 2 + numInstruments - 1; i++) {
+        if (ptrs[i] != NULL) {
+            ptrs[i] = BASE_OFFSET(ptrs[i], arg1);
+            inst = ptrs[i];
+            if (!inst->loaded) {
+                if (inst->normalRangeLo != 0) {
+                    Audio_SampleReloc(&inst->lowNotesSound, arg1, arg2);
+                }
+                Audio_SampleReloc(&inst->normalNotesSound, arg1, arg2);
+                if (inst->normalRangeHi != 0x7F) {
+                    Audio_SampleReloc(&inst->highNotesSound, arg1, arg2);
+                }
+
+                reloc = inst->envelope;
+                inst->envelope = BASE_OFFSET(reloc, arg1);
+                inst->loaded = 1;
+            }
+        }
+    }
+
+    gAudioContext.ctlEntries[arg0].drums = ptrs[0];
+    gAudioContext.ctlEntries[arg0].soundEffects = ptrs[1];
+    gAudioContext.ctlEntries[arg0].instruments = (Instrument**)(ptrs + 2);
 }
-#else
-void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E283C.s")
-#endif
+
+#undef BASE_OFFSET
 
 void Audio_DMAFastCopy(u32 devAddr, u8* addr, u32 size, s32 handleType) {
     OSMesgQueue* msgQueue = &gAudioContext.unk_25E8;
@@ -1421,6 +1406,8 @@ void func_800E3FB4(AsyncLoadReq* req, u32 size) {
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3) {
 }
 
+#define RELOC(v, base) (reloc = (void*)((u32)v + (u32)base))
+
 void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
     AudioBankSample* sample;
     void* reloc;
@@ -1451,6 +1438,8 @@ void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
         }
     }
 }
+
+#undef RELOC
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4198.s")
 
