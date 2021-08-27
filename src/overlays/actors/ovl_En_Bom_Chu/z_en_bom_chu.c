@@ -171,15 +171,15 @@ void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* glob
             if (1) {}
 
             mf.xx = this->unk_16C.x;
-            mf.xy = this->unk_16C.y;
-            mf.xz = this->unk_16C.z;
+            mf.now_21 = this->unk_16C.y;
+            mf.now_31 = this->unk_16C.z;
 
-            mf.yx = sp84.x;
+            mf.now_12 = sp84.x;
             mf.yy = sp84.y;
-            mf.yz = sp84.z;
+            mf.now_32 = sp84.z;
 
-            mf.zx = this->unk_154.x;
-            mf.zy = this->unk_154.y;
+            mf.now_13 = this->unk_154.x;
+            mf.now_23 = this->unk_154.y;
             mf.zz = this->unk_154.z;
 
             Matrix_MtxFToYXZRotS(&mf, &this->actor.world.rot, 0);

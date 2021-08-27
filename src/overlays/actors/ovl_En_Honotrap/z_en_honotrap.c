@@ -375,8 +375,8 @@ void EnHonotrap_FlameMove(EnHonotrap* this, GlobalContext* globalCtx) {
         Vec3f tempVel;
         Vec3f shieldVec;
 
-        shieldVec.x = -player->shieldMf.zx;
-        shieldVec.y = -player->shieldMf.zy;
+        shieldVec.x = -player->shieldMf.now_13;
+        shieldVec.y = -player->shieldMf.now_23;
         shieldVec.z = -player->shieldMf.zz;
         EnHonotrap_GetNormal(&shieldNorm, &shieldVec);
 

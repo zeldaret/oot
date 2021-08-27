@@ -225,20 +225,20 @@ void func_80038A28(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest) {
         }
     }
     dest->xx = phi_f2;
-    dest->xy = (-nx) * phi_f14;
-    dest->xz = nx * phi_f12;
-    dest->yx = nx;
+    dest->now_21 = (-nx) * phi_f14;
+    dest->now_31 = nx * phi_f12;
+    dest->now_12 = nx;
     dest->yy = ny;
-    dest->yz = nz;
-    dest->zy = phi_f12;
+    dest->now_32 = nz;
+    dest->now_23 = phi_f12;
     dest->zz = phi_f14;
-    dest->xw = 0.0f;
-    dest->yw = 0.0f;
-    dest->zx = 0.0f;
-    dest->zw = 0.0f;
-    dest->wx = tx;
-    dest->wy = ty;
-    dest->wz = tz;
+    dest->now_41 = 0.0f;
+    dest->now_42 = 0.0f;
+    dest->now_13 = 0.0f;
+    dest->now_43 = 0.0f;
+    dest->now_14 = tx;
+    dest->now_24 = ty;
+    dest->now_34 = tz;
     dest->ww = 1.0f;
 }
 

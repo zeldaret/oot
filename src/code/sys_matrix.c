@@ -63,17 +63,17 @@ void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode) {
 
     if (mode == MTXMODE_APPLY) {
         tx = cmf->xx;
-        ty = cmf->yx;
-        cmf->wx += tx * x + ty * y + cmf->zx * z;
-        tx = cmf->xy;
+        ty = cmf->now_12;
+        cmf->now_14 += tx * x + ty * y + cmf->now_13 * z;
+        tx = cmf->now_21;
         ty = cmf->yy;
-        cmf->wy += tx * x + ty * y + cmf->zy * z;
-        tx = cmf->xz;
-        ty = cmf->yz;
-        cmf->wz += tx * x + ty * y + cmf->zz * z;
-        tx = cmf->xw;
-        ty = cmf->yw;
-        cmf->ww += tx * x + ty * y + cmf->zw * z;
+        cmf->now_24 += tx * x + ty * y + cmf->now_23 * z;
+        tx = cmf->now_31;
+        ty = cmf->now_32;
+        cmf->now_34 += tx * x + ty * y + cmf->zz * z;
+        tx = cmf->now_41;
+        ty = cmf->now_42;
+        cmf->ww += tx * x + ty * y + cmf->now_43 * z;
     } else {
         SkinMatrix_SetTranslate(cmf, x, y, z);
     }
@@ -84,17 +84,17 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode) {
 
     if (mode == MTXMODE_APPLY) {
         cmf->xx *= x;
-        cmf->xy *= x;
-        cmf->xz *= x;
-        cmf->yx *= y;
+        cmf->now_21 *= x;
+        cmf->now_31 *= x;
+        cmf->now_12 *= y;
         cmf->yy *= y;
-        cmf->yz *= y;
-        cmf->zx *= z;
-        cmf->zy *= z;
+        cmf->now_32 *= y;
+        cmf->now_13 *= z;
+        cmf->now_23 *= z;
         cmf->zz *= z;
-        cmf->xw *= x;
-        cmf->yw *= y;
-        cmf->zw *= z;
+        cmf->now_41 *= x;
+        cmf->now_42 *= y;
+        cmf->now_43 *= z;
     } else {
         SkinMatrix_SetScale(cmf, x, y, z);
     }
@@ -114,25 +114,25 @@ void Matrix_RotateX(f32 x, u8 mode) {
             sin = sinf(x);
             cos = cosf(x);
 
-            temp1 = cmf->yx;
-            temp2 = cmf->zx;
-            cmf->yx = temp1 * cos + temp2 * sin;
-            cmf->zx = temp2 * cos - temp1 * sin;
+            temp1 = cmf->now_12;
+            temp2 = cmf->now_13;
+            cmf->now_12 = temp1 * cos + temp2 * sin;
+            cmf->now_13 = temp2 * cos - temp1 * sin;
 
             temp1 = cmf->yy;
-            temp2 = cmf->zy;
+            temp2 = cmf->now_23;
             cmf->yy = temp1 * cos + temp2 * sin;
-            cmf->zy = temp2 * cos - temp1 * sin;
+            cmf->now_23 = temp2 * cos - temp1 * sin;
 
-            temp1 = cmf->yz;
+            temp1 = cmf->now_32;
             temp2 = cmf->zz;
-            cmf->yz = temp1 * cos + temp2 * sin;
+            cmf->now_32 = temp1 * cos + temp2 * sin;
             cmf->zz = temp2 * cos - temp1 * sin;
 
-            temp1 = cmf->yw;
-            temp2 = cmf->zw;
-            cmf->yw = temp1 * cos + temp2 * sin;
-            cmf->zw = temp2 * cos - temp1 * sin;
+            temp1 = cmf->now_42;
+            temp2 = cmf->now_43;
+            cmf->now_42 = temp1 * cos + temp2 * sin;
+            cmf->now_43 = temp2 * cos - temp1 * sin;
         }
     } else {
         cmf = sCurrentMatrix;
@@ -145,22 +145,22 @@ void Matrix_RotateX(f32 x, u8 mode) {
             cos = 1.0f;
         }
 
-        cmf->xy = 0.0f;
-        cmf->xz = 0.0f;
-        cmf->xw = 0.0f;
-        cmf->yx = 0.0f;
-        cmf->yw = 0.0f;
-        cmf->zx = 0.0f;
-        cmf->zw = 0.0f;
-        cmf->wx = 0.0f;
-        cmf->wy = 0.0f;
-        cmf->wz = 0.0f;
+        cmf->now_21 = 0.0f;
+        cmf->now_31 = 0.0f;
+        cmf->now_41 = 0.0f;
+        cmf->now_12 = 0.0f;
+        cmf->now_42 = 0.0f;
+        cmf->now_13 = 0.0f;
+        cmf->now_43 = 0.0f;
+        cmf->now_14 = 0.0f;
+        cmf->now_24 = 0.0f;
+        cmf->now_34 = 0.0f;
         cmf->xx = 1.0f;
         cmf->ww = 1.0f;
         cmf->yy = cos;
         cmf->zz = cos;
-        cmf->yz = sin;
-        cmf->zy = -sin;
+        cmf->now_32 = sin;
+        cmf->now_23 = -sin;
     }
 }
 
@@ -179,24 +179,24 @@ void Matrix_RotateY(f32 y, u8 mode) {
             cos = cosf(y);
 
             temp1 = cmf->xx;
-            temp2 = cmf->zx;
+            temp2 = cmf->now_13;
             cmf->xx = temp1 * cos - temp2 * sin;
-            cmf->zx = temp1 * sin + temp2 * cos;
+            cmf->now_13 = temp1 * sin + temp2 * cos;
 
-            temp1 = cmf->xy;
-            temp2 = cmf->zy;
-            cmf->xy = temp1 * cos - temp2 * sin;
-            cmf->zy = temp1 * sin + temp2 * cos;
+            temp1 = cmf->now_21;
+            temp2 = cmf->now_23;
+            cmf->now_21 = temp1 * cos - temp2 * sin;
+            cmf->now_23 = temp1 * sin + temp2 * cos;
 
-            temp1 = cmf->xz;
+            temp1 = cmf->now_31;
             temp2 = cmf->zz;
-            cmf->xz = temp1 * cos - temp2 * sin;
+            cmf->now_31 = temp1 * cos - temp2 * sin;
             cmf->zz = temp1 * sin + temp2 * cos;
 
-            temp1 = cmf->xw;
-            temp2 = cmf->zw;
-            cmf->xw = temp1 * cos - temp2 * sin;
-            cmf->zw = temp1 * sin + temp2 * cos;
+            temp1 = cmf->now_41;
+            temp2 = cmf->now_43;
+            cmf->now_41 = temp1 * cos - temp2 * sin;
+            cmf->now_43 = temp1 * sin + temp2 * cos;
         }
     } else {
         cmf = sCurrentMatrix;
@@ -209,22 +209,22 @@ void Matrix_RotateY(f32 y, u8 mode) {
             cos = 1.0f;
         }
 
-        cmf->xy = 0.0f;
-        cmf->xw = 0.0f;
-        cmf->yx = 0.0f;
-        cmf->yz = 0.0f;
-        cmf->yw = 0.0f;
-        cmf->zy = 0.0f;
-        cmf->zw = 0.0f;
-        cmf->wx = 0.0f;
-        cmf->wy = 0.0f;
-        cmf->wz = 0.0f;
+        cmf->now_21 = 0.0f;
+        cmf->now_41 = 0.0f;
+        cmf->now_12 = 0.0f;
+        cmf->now_32 = 0.0f;
+        cmf->now_42 = 0.0f;
+        cmf->now_23 = 0.0f;
+        cmf->now_43 = 0.0f;
+        cmf->now_14 = 0.0f;
+        cmf->now_24 = 0.0f;
+        cmf->now_34 = 0.0f;
         cmf->yy = 1.0f;
         cmf->ww = 1.0f;
         cmf->xx = cos;
         cmf->zz = cos;
-        cmf->xz = -sin;
-        cmf->zx = sin;
+        cmf->now_31 = -sin;
+        cmf->now_13 = sin;
     }
 }
 
@@ -243,24 +243,24 @@ void Matrix_RotateZ(f32 z, u8 mode) {
             cos = cosf(z);
 
             temp1 = cmf->xx;
-            temp2 = cmf->yx;
+            temp2 = cmf->now_12;
             cmf->xx = temp1 * cos + temp2 * sin;
-            cmf->yx = temp2 * cos - temp1 * sin;
+            cmf->now_12 = temp2 * cos - temp1 * sin;
 
-            temp1 = cmf->xy;
+            temp1 = cmf->now_21;
             temp2 = cmf->yy;
-            cmf->xy = temp1 * cos + temp2 * sin;
+            cmf->now_21 = temp1 * cos + temp2 * sin;
             cmf->yy = temp2 * cos - temp1 * sin;
 
-            temp1 = cmf->xz;
-            temp2 = cmf->yz;
-            cmf->xz = temp1 * cos + temp2 * sin;
-            cmf->yz = temp2 * cos - temp1 * sin;
+            temp1 = cmf->now_31;
+            temp2 = cmf->now_32;
+            cmf->now_31 = temp1 * cos + temp2 * sin;
+            cmf->now_32 = temp2 * cos - temp1 * sin;
 
-            temp1 = cmf->xw;
-            temp2 = cmf->yw;
-            cmf->xw = temp1 * cos + temp2 * sin;
-            cmf->yw = temp2 * cos - temp1 * sin;
+            temp1 = cmf->now_41;
+            temp2 = cmf->now_42;
+            cmf->now_41 = temp1 * cos + temp2 * sin;
+            cmf->now_42 = temp2 * cos - temp1 * sin;
         }
     } else {
         cmf = sCurrentMatrix;
@@ -273,22 +273,22 @@ void Matrix_RotateZ(f32 z, u8 mode) {
             cos = 1.0f;
         }
 
-        cmf->xz = 0.0f;
-        cmf->xw = 0.0f;
-        cmf->yz = 0.0f;
-        cmf->yw = 0.0f;
-        cmf->zx = 0.0f;
-        cmf->zy = 0.0f;
-        cmf->zw = 0.0f;
-        cmf->wx = 0.0f;
-        cmf->wy = 0.0f;
-        cmf->wz = 0.0f;
+        cmf->now_31 = 0.0f;
+        cmf->now_41 = 0.0f;
+        cmf->now_32 = 0.0f;
+        cmf->now_42 = 0.0f;
+        cmf->now_13 = 0.0f;
+        cmf->now_23 = 0.0f;
+        cmf->now_43 = 0.0f;
+        cmf->now_14 = 0.0f;
+        cmf->now_24 = 0.0f;
+        cmf->now_34 = 0.0f;
         cmf->zz = 1.0f;
         cmf->ww = 1.0f;
         cmf->xx = cos;
         cmf->yy = cos;
-        cmf->xy = sin;
-        cmf->yx = -sin;
+        cmf->now_21 = sin;
+        cmf->now_12 = -sin;
     }
 }
 
@@ -310,73 +310,73 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
         cos = Math_CosS(z);
 
         temp1 = cmf->xx;
-        temp2 = cmf->yx;
+        temp2 = cmf->now_12;
         cmf->xx = temp1 * cos + temp2 * sin;
-        cmf->yx = temp2 * cos - temp1 * sin;
+        cmf->now_12 = temp2 * cos - temp1 * sin;
 
-        temp1 = cmf->xy;
+        temp1 = cmf->now_21;
         temp2 = cmf->yy;
-        cmf->xy = temp1 * cos + temp2 * sin;
+        cmf->now_21 = temp1 * cos + temp2 * sin;
         cmf->yy = temp2 * cos - temp1 * sin;
 
-        temp1 = cmf->xz;
-        temp2 = cmf->yz;
-        cmf->xz = temp1 * cos + temp2 * sin;
-        cmf->yz = temp2 * cos - temp1 * sin;
+        temp1 = cmf->now_31;
+        temp2 = cmf->now_32;
+        cmf->now_31 = temp1 * cos + temp2 * sin;
+        cmf->now_32 = temp2 * cos - temp1 * sin;
 
-        temp1 = cmf->xw;
-        temp2 = cmf->yw;
-        cmf->xw = temp1 * cos + temp2 * sin;
-        cmf->yw = temp2 * cos - temp1 * sin;
+        temp1 = cmf->now_41;
+        temp2 = cmf->now_42;
+        cmf->now_41 = temp1 * cos + temp2 * sin;
+        cmf->now_42 = temp2 * cos - temp1 * sin;
 
         if (y != 0) {
             sin = Math_SinS(y);
             cos = Math_CosS(y);
 
             temp1 = cmf->xx;
-            temp2 = cmf->zx;
+            temp2 = cmf->now_13;
             cmf->xx = temp1 * cos - temp2 * sin;
-            cmf->zx = temp1 * sin + temp2 * cos;
+            cmf->now_13 = temp1 * sin + temp2 * cos;
 
-            temp1 = cmf->xy;
-            temp2 = cmf->zy;
-            cmf->xy = temp1 * cos - temp2 * sin;
-            cmf->zy = temp1 * sin + temp2 * cos;
+            temp1 = cmf->now_21;
+            temp2 = cmf->now_23;
+            cmf->now_21 = temp1 * cos - temp2 * sin;
+            cmf->now_23 = temp1 * sin + temp2 * cos;
 
-            temp1 = cmf->xz;
+            temp1 = cmf->now_31;
             temp2 = cmf->zz;
-            cmf->xz = temp1 * cos - temp2 * sin;
+            cmf->now_31 = temp1 * cos - temp2 * sin;
             cmf->zz = temp1 * sin + temp2 * cos;
 
-            temp1 = cmf->xw;
-            temp2 = cmf->zw;
-            cmf->xw = temp1 * cos - temp2 * sin;
-            cmf->zw = temp1 * sin + temp2 * cos;
+            temp1 = cmf->now_41;
+            temp2 = cmf->now_43;
+            cmf->now_41 = temp1 * cos - temp2 * sin;
+            cmf->now_43 = temp1 * sin + temp2 * cos;
         }
 
         if (x != 0) {
             sin = Math_SinS(x);
             cos = Math_CosS(x);
 
-            temp1 = cmf->yx;
-            temp2 = cmf->zx;
-            cmf->yx = temp1 * cos + temp2 * sin;
-            cmf->zx = temp2 * cos - temp1 * sin;
+            temp1 = cmf->now_12;
+            temp2 = cmf->now_13;
+            cmf->now_12 = temp1 * cos + temp2 * sin;
+            cmf->now_13 = temp2 * cos - temp1 * sin;
 
             temp1 = cmf->yy;
-            temp2 = cmf->zy;
+            temp2 = cmf->now_23;
             cmf->yy = temp1 * cos + temp2 * sin;
-            cmf->zy = temp2 * cos - temp1 * sin;
+            cmf->now_23 = temp2 * cos - temp1 * sin;
 
-            temp1 = cmf->yz;
+            temp1 = cmf->now_32;
             temp2 = cmf->zz;
-            cmf->yz = temp1 * cos + temp2 * sin;
+            cmf->now_32 = temp1 * cos + temp2 * sin;
             cmf->zz = temp2 * cos - temp1 * sin;
 
-            temp1 = cmf->yw;
-            temp2 = cmf->zw;
-            cmf->yw = temp1 * cos + temp2 * sin;
-            cmf->zw = temp2 * cos - temp1 * sin;
+            temp1 = cmf->now_42;
+            temp2 = cmf->now_43;
+            cmf->now_42 = temp1 * cos + temp2 * sin;
+            cmf->now_43 = temp2 * cos - temp1 * sin;
         }
     } else {
         SkinMatrix_SetRotateRPY(cmf, x, y, z);
@@ -394,77 +394,77 @@ void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     f32 temp2;
 
     temp1 = cmf->xx;
-    temp2 = cmf->yx;
-    cmf->wx += temp1 * position->x + temp2 * position->y + cmf->zx * position->z;
+    temp2 = cmf->now_12;
+    cmf->now_14 += temp1 * position->x + temp2 * position->y + cmf->now_13 * position->z;
     cmf->xx = temp1 * cos + temp2 * sin;
-    cmf->yx = temp2 * cos - temp1 * sin;
+    cmf->now_12 = temp2 * cos - temp1 * sin;
 
-    temp1 = cmf->xy;
+    temp1 = cmf->now_21;
     temp2 = cmf->yy;
-    cmf->wy += temp1 * position->x + temp2 * position->y + cmf->zy * position->z;
-    cmf->xy = temp1 * cos + temp2 * sin;
+    cmf->now_24 += temp1 * position->x + temp2 * position->y + cmf->now_23 * position->z;
+    cmf->now_21 = temp1 * cos + temp2 * sin;
     cmf->yy = temp2 * cos - temp1 * sin;
 
-    temp1 = cmf->xz;
-    temp2 = cmf->yz;
-    cmf->wz += temp1 * position->x + temp2 * position->y + cmf->zz * position->z;
-    cmf->xz = temp1 * cos + temp2 * sin;
-    cmf->yz = temp2 * cos - temp1 * sin;
+    temp1 = cmf->now_31;
+    temp2 = cmf->now_32;
+    cmf->now_34 += temp1 * position->x + temp2 * position->y + cmf->zz * position->z;
+    cmf->now_31 = temp1 * cos + temp2 * sin;
+    cmf->now_32 = temp2 * cos - temp1 * sin;
 
-    temp1 = cmf->xw;
-    temp2 = cmf->yw;
-    cmf->ww += temp1 * position->x + temp2 * position->y + cmf->zw * position->z;
-    cmf->xw = temp1 * cos + temp2 * sin;
-    cmf->yw = temp2 * cos - temp1 * sin;
+    temp1 = cmf->now_41;
+    temp2 = cmf->now_42;
+    cmf->ww += temp1 * position->x + temp2 * position->y + cmf->now_43 * position->z;
+    cmf->now_41 = temp1 * cos + temp2 * sin;
+    cmf->now_42 = temp2 * cos - temp1 * sin;
 
     if (rotation->y != 0) {
         sin = Math_SinS(rotation->y);
         cos = Math_CosS(rotation->y);
 
         temp1 = cmf->xx;
-        temp2 = cmf->zx;
+        temp2 = cmf->now_13;
         cmf->xx = temp1 * cos - temp2 * sin;
-        cmf->zx = temp1 * sin + temp2 * cos;
+        cmf->now_13 = temp1 * sin + temp2 * cos;
 
-        temp1 = cmf->xy;
-        temp2 = cmf->zy;
-        cmf->xy = temp1 * cos - temp2 * sin;
-        cmf->zy = temp1 * sin + temp2 * cos;
+        temp1 = cmf->now_21;
+        temp2 = cmf->now_23;
+        cmf->now_21 = temp1 * cos - temp2 * sin;
+        cmf->now_23 = temp1 * sin + temp2 * cos;
 
-        temp1 = cmf->xz;
+        temp1 = cmf->now_31;
         temp2 = cmf->zz;
-        cmf->xz = temp1 * cos - temp2 * sin;
+        cmf->now_31 = temp1 * cos - temp2 * sin;
         cmf->zz = temp1 * sin + temp2 * cos;
 
-        temp1 = cmf->xw;
-        temp2 = cmf->zw;
-        cmf->xw = temp1 * cos - temp2 * sin;
-        cmf->zw = temp1 * sin + temp2 * cos;
+        temp1 = cmf->now_41;
+        temp2 = cmf->now_43;
+        cmf->now_41 = temp1 * cos - temp2 * sin;
+        cmf->now_43 = temp1 * sin + temp2 * cos;
     }
 
     if (rotation->x != 0) {
         sin = Math_SinS(rotation->x);
         cos = Math_CosS(rotation->x);
 
-        temp1 = cmf->yx;
-        temp2 = cmf->zx;
-        cmf->yx = temp1 * cos + temp2 * sin;
-        cmf->zx = temp2 * cos - temp1 * sin;
+        temp1 = cmf->now_12;
+        temp2 = cmf->now_13;
+        cmf->now_12 = temp1 * cos + temp2 * sin;
+        cmf->now_13 = temp2 * cos - temp1 * sin;
 
         temp1 = cmf->yy;
-        temp2 = cmf->zy;
+        temp2 = cmf->now_23;
         cmf->yy = temp1 * cos + temp2 * sin;
-        cmf->zy = temp2 * cos - temp1 * sin;
+        cmf->now_23 = temp2 * cos - temp1 * sin;
 
-        temp1 = cmf->yz;
+        temp1 = cmf->now_32;
         temp2 = cmf->zz;
-        cmf->yz = temp1 * cos + temp2 * sin;
+        cmf->now_32 = temp1 * cos + temp2 * sin;
         cmf->zz = temp2 * cos - temp1 * sin;
 
-        temp1 = cmf->yw;
-        temp2 = cmf->zw;
-        cmf->yw = temp1 * cos + temp2 * sin;
-        cmf->zw = temp2 * cos - temp1 * sin;
+        temp1 = cmf->now_42;
+        temp2 = cmf->now_43;
+        cmf->now_42 = temp1 * cos + temp2 * sin;
+        cmf->now_43 = temp2 * cos - temp1 * sin;
     }
 }
 
@@ -476,13 +476,13 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
     f32 sp24;
 
     cmf->xx = sp2C;
-    cmf->xz = -sp30;
-    cmf->wx = x;
-    cmf->wy = y;
-    cmf->wz = z;
-    cmf->xw = 0.0f;
-    cmf->yw = 0.0f;
-    cmf->zw = 0.0f;
+    cmf->now_31 = -sp30;
+    cmf->now_14 = x;
+    cmf->now_24 = y;
+    cmf->now_34 = z;
+    cmf->now_41 = 0.0f;
+    cmf->now_42 = 0.0f;
+    cmf->now_43 = 0.0f;
     cmf->ww = 1.0f;
 
     if (vec->x != 0) {
@@ -490,17 +490,17 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
         sp28 = Math_CosS(vec->x);
 
         cmf->zz = sp2C * sp28;
-        cmf->yz = sp2C * sp24;
-        cmf->zx = sp30 * sp28;
-        cmf->yx = sp30 * sp24;
-        cmf->zy = -sp24;
+        cmf->now_32 = sp2C * sp24;
+        cmf->now_13 = sp30 * sp28;
+        cmf->now_12 = sp30 * sp24;
+        cmf->now_23 = -sp24;
         cmf->yy = sp28;
     } else {
         cmf->zz = sp2C;
-        cmf->zx = sp30;
-        cmf->zy = 0.0f;
-        cmf->yz = 0.0f;
-        cmf->yx = 0.0f;
+        cmf->now_13 = sp30;
+        cmf->now_23 = 0.0f;
+        cmf->now_32 = 0.0f;
+        cmf->now_12 = 0.0f;
         cmf->yy = 1.0f;
     }
 
@@ -509,20 +509,20 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
         sp28 = Math_CosS(vec->z);
 
         sp30 = cmf->xx;
-        sp2C = cmf->yx;
+        sp2C = cmf->now_12;
         cmf->xx = sp30 * sp28 + sp2C * sp24;
-        cmf->yx = sp2C * sp28 - sp30 * sp24;
+        cmf->now_12 = sp2C * sp28 - sp30 * sp24;
 
-        sp30 = cmf->xz;
-        sp2C = cmf->yz;
-        cmf->xz = sp30 * sp28 + sp2C * sp24;
-        cmf->yz = sp2C * sp28 - sp30 * sp24;
+        sp30 = cmf->now_31;
+        sp2C = cmf->now_32;
+        cmf->now_31 = sp30 * sp28 + sp2C * sp24;
+        cmf->now_32 = sp2C * sp28 - sp30 * sp24;
 
         sp2C = cmf->yy;
-        cmf->xy = sp2C * sp24;
+        cmf->now_21 = sp2C * sp24;
         cmf->yy = sp2C * sp28;
     } else {
-        cmf->xy = 0.0f;
+        cmf->now_21 = 0.0f;
     }
 }
 
@@ -535,19 +535,19 @@ Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     m1[0] = (temp >> 0x10);
     m1[16 + 0] = temp & 0xFFFF;
 
-    temp = src->xy * 0x10000;
+    temp = src->now_21 * 0x10000;
     m1[1] = (temp >> 0x10);
     m1[16 + 1] = temp & 0xFFFF;
 
-    temp = src->xz * 0x10000;
+    temp = src->now_31 * 0x10000;
     m1[2] = (temp >> 0x10);
     m1[16 + 2] = temp & 0xFFFF;
 
-    temp = src->xw * 0x10000;
+    temp = src->now_41 * 0x10000;
     m1[3] = (temp >> 0x10);
     m1[16 + 3] = temp & 0xFFFF;
 
-    temp = src->yx * 0x10000;
+    temp = src->now_12 * 0x10000;
     m1[4] = (temp >> 0x10);
     m1[16 + 4] = temp & 0xFFFF;
 
@@ -555,19 +555,19 @@ Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     m1[5] = (temp >> 0x10);
     m1[16 + 5] = temp & 0xFFFF;
 
-    temp = src->yz * 0x10000;
+    temp = src->now_32 * 0x10000;
     m1[6] = (temp >> 0x10);
     m1[16 + 6] = temp & 0xFFFF;
 
-    temp = src->yw * 0x10000;
+    temp = src->now_42 * 0x10000;
     m1[7] = (temp >> 0x10);
     m1[16 + 7] = temp & 0xFFFF;
 
-    temp = src->zx * 0x10000;
+    temp = src->now_13 * 0x10000;
     m1[8] = (temp >> 0x10);
     m1[16 + 8] = temp & 0xFFFF;
 
-    temp = src->zy * 0x10000;
+    temp = src->now_23 * 0x10000;
     m1[9] = (temp >> 0x10);
     m2[9] = temp & 0xFFFF;
 
@@ -575,19 +575,19 @@ Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     m1[10] = (temp >> 0x10);
     m2[10] = temp & 0xFFFF;
 
-    temp = src->zw * 0x10000;
+    temp = src->now_43 * 0x10000;
     m1[11] = (temp >> 0x10);
     m2[11] = temp & 0xFFFF;
 
-    temp = src->wx * 0x10000;
+    temp = src->now_14 * 0x10000;
     m1[12] = (temp >> 0x10);
     m2[12] = temp & 0xFFFF;
 
-    temp = src->wy * 0x10000;
+    temp = src->now_24 * 0x10000;
     m1[13] = (temp >> 0x10);
     m2[13] = temp & 0xFFFF;
 
-    temp = src->wz * 0x10000;
+    temp = src->now_34 * 0x10000;
     m1[14] = (temp >> 0x10);
     m2[14] = temp & 0xFFFF;
 
@@ -612,43 +612,43 @@ Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
 void Matrix_MultVec3f(Vec3f* src, Vec3f* dest) {
     MtxF* cmf = sCurrentMatrix;
 
-    dest->x = cmf->wx + (cmf->xx * src->x + cmf->yx * src->y + cmf->zx * src->z);
-    dest->y = cmf->wy + (cmf->xy * src->x + cmf->yy * src->y + cmf->zy * src->z);
-    dest->z = cmf->wz + (cmf->xz * src->x + cmf->yz * src->y + cmf->zz * src->z);
+    dest->x = cmf->now_14 + (cmf->xx * src->x + cmf->now_12 * src->y + cmf->now_13 * src->z);
+    dest->y = cmf->now_24 + (cmf->now_21 * src->x + cmf->yy * src->y + cmf->now_23 * src->z);
+    dest->z = cmf->now_34 + (cmf->now_31 * src->x + cmf->now_32 * src->y + cmf->zz * src->z);
 }
 
 void Matrix_MtxFCopy(MtxF* dest, MtxF* src) {
     dest->xx = src->xx;
-    dest->xy = src->xy;
-    dest->xz = src->xz;
-    dest->xw = src->xw;
-    dest->yx = src->yx;
+    dest->now_21 = src->now_21;
+    dest->now_31 = src->now_31;
+    dest->now_41 = src->now_41;
+    dest->now_12 = src->now_12;
     dest->yy = src->yy;
-    dest->yz = src->yz;
-    dest->yw = src->yw;
+    dest->now_32 = src->now_32;
+    dest->now_42 = src->now_42;
     dest->xx = src->xx;
-    dest->xy = src->xy;
-    dest->xz = src->xz;
-    dest->xw = src->xw;
-    dest->yx = src->yx;
+    dest->now_21 = src->now_21;
+    dest->now_31 = src->now_31;
+    dest->now_41 = src->now_41;
+    dest->now_12 = src->now_12;
     dest->yy = src->yy;
-    dest->yz = src->yz;
-    dest->yw = src->yw;
-    dest->zx = src->zx;
-    dest->zy = src->zy;
+    dest->now_32 = src->now_32;
+    dest->now_42 = src->now_42;
+    dest->now_13 = src->now_13;
+    dest->now_23 = src->now_23;
     dest->zz = src->zz;
-    dest->zw = src->zw;
-    dest->wx = src->wx;
-    dest->wy = src->wy;
-    dest->wz = src->wz;
+    dest->now_43 = src->now_43;
+    dest->now_14 = src->now_14;
+    dest->now_24 = src->now_24;
+    dest->now_34 = src->now_34;
     dest->ww = src->ww;
-    dest->zx = src->zx;
-    dest->zy = src->zy;
+    dest->now_13 = src->now_13;
+    dest->now_23 = src->now_23;
     dest->zz = src->zz;
-    dest->zw = src->zw;
-    dest->wx = src->wx;
-    dest->wy = src->wy;
-    dest->wz = src->wz;
+    dest->now_43 = src->now_43;
+    dest->now_14 = src->now_14;
+    dest->now_24 = src->now_24;
+    dest->now_34 = src->now_34;
     dest->ww = src->ww;
 }
 
@@ -657,43 +657,43 @@ void Matrix_MtxToMtxF(Mtx* src, MtxF* dest) {
     u16* m2 = (u16*)&src->m[2][0];
 
     dest->xx = ((m1[0] << 0x10) | m2[0]) * (1 / 65536.0f);
-    dest->xy = ((m1[1] << 0x10) | m2[1]) * (1 / 65536.0f);
-    dest->xz = ((m1[2] << 0x10) | m2[2]) * (1 / 65536.0f);
-    dest->xw = ((m1[3] << 0x10) | m2[3]) * (1 / 65536.0f);
-    dest->yx = ((m1[4] << 0x10) | m2[4]) * (1 / 65536.0f);
+    dest->now_21 = ((m1[1] << 0x10) | m2[1]) * (1 / 65536.0f);
+    dest->now_31 = ((m1[2] << 0x10) | m2[2]) * (1 / 65536.0f);
+    dest->now_41 = ((m1[3] << 0x10) | m2[3]) * (1 / 65536.0f);
+    dest->now_12 = ((m1[4] << 0x10) | m2[4]) * (1 / 65536.0f);
     dest->yy = ((m1[5] << 0x10) | m2[5]) * (1 / 65536.0f);
-    dest->yz = ((m1[6] << 0x10) | m2[6]) * (1 / 65536.0f);
-    dest->yw = ((m1[7] << 0x10) | m2[7]) * (1 / 65536.0f);
-    dest->zx = ((m1[8] << 0x10) | m2[8]) * (1 / 65536.0f);
-    dest->zy = ((m1[9] << 0x10) | m2[9]) * (1 / 65536.0f);
+    dest->now_32 = ((m1[6] << 0x10) | m2[6]) * (1 / 65536.0f);
+    dest->now_42 = ((m1[7] << 0x10) | m2[7]) * (1 / 65536.0f);
+    dest->now_13 = ((m1[8] << 0x10) | m2[8]) * (1 / 65536.0f);
+    dest->now_23 = ((m1[9] << 0x10) | m2[9]) * (1 / 65536.0f);
     dest->zz = ((m1[10] << 0x10) | m2[10]) * (1 / 65536.0f);
-    dest->zw = ((m1[11] << 0x10) | m2[11]) * (1 / 65536.0f);
-    dest->wx = ((m1[12] << 0x10) | m2[12]) * (1 / 65536.0f);
-    dest->wy = ((m1[13] << 0x10) | m2[13]) * (1 / 65536.0f);
-    dest->wz = ((m1[14] << 0x10) | m2[14]) * (1 / 65536.0f);
+    dest->now_43 = ((m1[11] << 0x10) | m2[11]) * (1 / 65536.0f);
+    dest->now_14 = ((m1[12] << 0x10) | m2[12]) * (1 / 65536.0f);
+    dest->now_24 = ((m1[13] << 0x10) | m2[13]) * (1 / 65536.0f);
+    dest->now_34 = ((m1[14] << 0x10) | m2[14]) * (1 / 65536.0f);
     dest->ww = ((m1[15] << 0x10) | m2[15]) * (1 / 65536.0f);
 }
 
 void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf) {
-    dest->x = mf->wx + (mf->xx * src->x + mf->yx * src->y + mf->zx * src->z);
-    dest->y = mf->wy + (mf->xy * src->x + mf->yy * src->y + mf->zy * src->z);
-    dest->z = mf->wz + (mf->xz * src->x + mf->yz * src->y + mf->zz * src->z);
+    dest->x = mf->now_14 + (mf->xx * src->x + mf->now_12 * src->y + mf->now_13 * src->z);
+    dest->y = mf->now_24 + (mf->now_21 * src->x + mf->yy * src->y + mf->now_23 * src->z);
+    dest->z = mf->now_34 + (mf->now_31 * src->x + mf->now_32 * src->y + mf->zz * src->z);
 }
 
 void Matrix_Transpose(MtxF* mf) {
     f32 temp;
 
-    temp = mf->xy;
-    mf->xy = mf->yx;
-    mf->yx = temp;
+    temp = mf->now_21;
+    mf->now_21 = mf->now_12;
+    mf->now_12 = temp;
 
-    temp = mf->xz;
-    mf->xz = mf->zx;
-    mf->zx = temp;
+    temp = mf->now_31;
+    mf->now_31 = mf->now_13;
+    mf->now_13 = temp;
 
-    temp = mf->yz;
-    mf->yz = mf->zy;
-    mf->zy = temp;
+    temp = mf->now_32;
+    mf->now_32 = mf->now_23;
+    mf->now_23 = temp;
 }
 
 void func_800D1FD4(MtxF* mf) {
@@ -704,38 +704,38 @@ void func_800D1FD4(MtxF* mf) {
 
     temp = cmf->xx;
     temp *= temp;
-    temp2 = cmf->xy;
+    temp2 = cmf->now_21;
     temp += SQ(temp2);
-    temp2 = cmf->xz;
+    temp2 = cmf->now_31;
     temp += SQ(temp2);
     temp3 = sqrtf(temp);
 
     cmf->xx = mf->xx * temp3;
-    cmf->xy = mf->xy * temp3;
-    cmf->xz = mf->xz * temp3;
+    cmf->now_21 = mf->now_21 * temp3;
+    cmf->now_31 = mf->now_31 * temp3;
 
-    temp = cmf->yx;
+    temp = cmf->now_12;
     temp *= temp;
     temp2 = cmf->yy;
     temp += SQ(temp2);
-    temp2 = cmf->yz;
+    temp2 = cmf->now_32;
     temp += SQ(temp2);
     temp3 = sqrtf(temp);
 
-    cmf->yx = mf->yx * temp3;
+    cmf->now_12 = mf->now_12 * temp3;
     cmf->yy = mf->yy * temp3;
-    cmf->yz = mf->yz * temp3;
+    cmf->now_32 = mf->now_32 * temp3;
 
-    temp = cmf->zx;
+    temp = cmf->now_13;
     temp *= temp;
-    temp2 = cmf->zy;
+    temp2 = cmf->now_23;
     temp += SQ(temp2);
     temp2 = cmf->zz;
     temp += SQ(temp2);
     temp3 = sqrtf(temp);
 
-    cmf->zx = mf->zx * temp3;
-    cmf->zy = mf->zy * temp3;
+    cmf->now_13 = mf->now_13 * temp3;
+    cmf->now_23 = mf->now_23 * temp3;
     cmf->zz = mf->zz * temp3;
 }
 
@@ -749,43 +749,43 @@ void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
     f32 temp3;
     f32 temp4;
 
-    temp = mf->zx;
+    temp = mf->now_13;
     temp *= temp;
     temp += SQ(mf->zz);
-    rotDest->x = Math_FAtan2F(-mf->zy, sqrtf(temp)) * (0x8000 / M_PI);
+    rotDest->x = Math_FAtan2F(-mf->now_23, sqrtf(temp)) * (0x8000 / M_PI);
 
     if ((rotDest->x == 0x4000) || (rotDest->x == -0x4000)) {
         rotDest->z = 0;
 
-        rotDest->y = Math_FAtan2F(-mf->xz, mf->xx) * (0x8000 / M_PI);
+        rotDest->y = Math_FAtan2F(-mf->now_31, mf->xx) * (0x8000 / M_PI);
     } else {
-        rotDest->y = Math_FAtan2F(mf->zx, mf->zz) * (0x8000 / M_PI);
+        rotDest->y = Math_FAtan2F(mf->now_13, mf->zz) * (0x8000 / M_PI);
 
         if (!flag) {
-            rotDest->z = Math_FAtan2F(mf->xy, mf->yy) * (0x8000 / M_PI);
+            rotDest->z = Math_FAtan2F(mf->now_21, mf->yy) * (0x8000 / M_PI);
         } else {
             temp = mf->xx;
-            temp2 = mf->xz;
-            temp3 = mf->yz;
+            temp2 = mf->now_31;
+            temp3 = mf->now_32;
 
             temp *= temp;
             temp += SQ(temp2);
-            temp2 = mf->xy;
+            temp2 = mf->now_21;
             temp += SQ(temp2);
-            /* temp = xx^2+xz^2+xy^2 == 1 for a rotation matrix */
+            /* temp = xx^2+zx^2+yx^2 == 1 for a rotation matrix */
             temp = sqrtf(temp);
             temp = temp2 / temp;
 
-            temp2 = mf->yx;
+            temp2 = mf->now_12;
             temp2 *= temp2;
             temp2 += SQ(temp3);
             temp3 = mf->yy;
             temp2 += SQ(temp3);
-            /* temp2 = yx^2+yz^2+yy^2 == 1 for a rotation matrix */
+            /* temp2 = xy^2+zy^2+yy^2 == 1 for a rotation matrix */
             temp2 = sqrtf(temp2);
             temp2 = temp3 / temp2;
 
-            /* for a rotation matrix, temp == xy and temp2 == yy
+            /* for a rotation matrix, temp == yx and temp2 == yy
              * which is the same as in the !flag branch */
             rotDest->z = Math_FAtan2F(temp, temp2) * (0x8000 / M_PI);
         }
@@ -804,31 +804,31 @@ void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
 
     temp = mf->xx;
     temp *= temp;
-    temp += SQ(mf->xy);
-    rotDest->y = Math_FAtan2F(-mf->xz, sqrtf(temp)) * (0x8000 / M_PI);
+    temp += SQ(mf->now_21);
+    rotDest->y = Math_FAtan2F(-mf->now_31, sqrtf(temp)) * (0x8000 / M_PI);
 
     if ((rotDest->y == 0x4000) || (rotDest->y == -0x4000)) {
         rotDest->x = 0;
-        rotDest->z = Math_FAtan2F(-mf->yx, mf->yy) * (0x8000 / M_PI);
+        rotDest->z = Math_FAtan2F(-mf->now_12, mf->yy) * (0x8000 / M_PI);
     } else {
-        rotDest->z = Math_FAtan2F(mf->xy, mf->xx) * (0x8000 / M_PI);
+        rotDest->z = Math_FAtan2F(mf->now_21, mf->xx) * (0x8000 / M_PI);
 
         if (!flag) {
-            rotDest->x = Math_FAtan2F(mf->yz, mf->zz) * (0x8000 / M_PI);
+            rotDest->x = Math_FAtan2F(mf->now_32, mf->zz) * (0x8000 / M_PI);
         } else {
             // see Matrix_MtxFToYXZRotS
-            temp = mf->yx;
+            temp = mf->now_12;
             temp2 = mf->yy;
-            temp3 = mf->zy;
+            temp3 = mf->now_23;
 
             temp *= temp;
             temp += SQ(temp2);
-            temp2 = mf->yz;
+            temp2 = mf->now_32;
             temp += SQ(temp2);
             temp = sqrtf(temp);
             temp = temp2 / temp;
 
-            temp2 = mf->zx;
+            temp2 = mf->now_13;
             temp2 *= temp2;
             temp2 += SQ(temp3);
             temp3 = mf->zz;
@@ -864,28 +864,28 @@ void Matrix_RotateAxis(f32 f, Vec3f* vec, u8 mode) {
             sin = sinf(f);
             cos = cosf(f);
 
-            temp2 = cmf->yx;
-            temp3 = cmf->zx;
+            temp2 = cmf->now_12;
+            temp3 = cmf->now_13;
             temp1 = cmf->xx;
             temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
             cmf->xx = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
-            cmf->yx = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
-            cmf->zx = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
+            cmf->now_12 = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
+            cmf->now_13 = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
 
-            temp1 = cmf->xy;
+            temp1 = cmf->now_21;
             temp2 = cmf->yy;
-            temp3 = cmf->zy;
+            temp3 = cmf->now_23;
             temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
-            cmf->xy = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
+            cmf->now_21 = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
             cmf->yy = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
-            cmf->zy = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
+            cmf->now_23 = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
 
-            temp1 = cmf->xz;
-            temp2 = cmf->yz;
+            temp1 = cmf->now_31;
+            temp2 = cmf->now_32;
             temp3 = cmf->zz;
             temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
-            cmf->xz = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
-            cmf->yz = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
+            cmf->now_31 = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
+            cmf->now_32 = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
             cmf->zz = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
         }
     } else {
@@ -904,34 +904,34 @@ void Matrix_RotateAxis(f32 f, Vec3f* vec, u8 mode) {
 
             temp2 = vec->x * rCos * vec->y;
             temp3 = vec->z * sin;
-            cmf->xy = temp2 + temp3;
-            cmf->yx = temp2 - temp3;
+            cmf->now_21 = temp2 + temp3;
+            cmf->now_12 = temp2 - temp3;
 
             temp2 = vec->x * rCos * vec->z;
             temp3 = vec->y * sin;
-            cmf->xz = temp2 - temp3;
-            cmf->zx = temp2 + temp3;
+            cmf->now_31 = temp2 - temp3;
+            cmf->now_13 = temp2 + temp3;
 
             temp2 = vec->y * rCos * vec->z;
             temp3 = vec->x * sin;
-            cmf->yz = temp2 + temp3;
-            cmf->zy = temp2 - temp3;
+            cmf->now_32 = temp2 + temp3;
+            cmf->now_23 = temp2 - temp3;
 
-            cmf->xw = cmf->yw = cmf->zw = cmf->wx = cmf->wy = cmf->wz = 0.0f;
+            cmf->now_41 = cmf->now_42 = cmf->now_43 = cmf->now_14 = cmf->now_24 = cmf->now_34 = 0.0f;
             cmf->ww = 1.0f;
         } else {
-            cmf->xy = 0.0f;
-            cmf->xz = 0.0f;
-            cmf->xw = 0.0f;
-            cmf->yx = 0.0f;
-            cmf->yz = 0.0f;
-            cmf->yw = 0.0f;
-            cmf->zx = 0.0f;
-            cmf->zy = 0.0f;
-            cmf->zw = 0.0f;
-            cmf->wx = 0.0f;
-            cmf->wy = 0.0f;
-            cmf->wz = 0.0f;
+            cmf->now_21 = 0.0f;
+            cmf->now_31 = 0.0f;
+            cmf->now_41 = 0.0f;
+            cmf->now_12 = 0.0f;
+            cmf->now_32 = 0.0f;
+            cmf->now_42 = 0.0f;
+            cmf->now_13 = 0.0f;
+            cmf->now_23 = 0.0f;
+            cmf->now_43 = 0.0f;
+            cmf->now_14 = 0.0f;
+            cmf->now_24 = 0.0f;
+            cmf->now_34 = 0.0f;
             cmf->xx = 1.0f;
             cmf->yy = 1.0f;
             cmf->zz = 1.0f;
@@ -951,8 +951,8 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
                              "| %12.6f %12.6f %12.6f %12.6f |\n"
                              "| %12.6f %12.6f %12.6f %12.6f |\n"
                              "\\ %12.6f %12.6f %12.6f %12.6f /\n",
-                             file, line, "mf", mf->xx, mf->yx, mf->zx, mf->wx, mf->xy, mf->yy, mf->zy, mf->wy, mf->xz,
-                             mf->yz, mf->zz, mf->wz, mf->xw, mf->yw, mf->zw, mf->ww);
+                             file, line, "mf", mf->xx, mf->now_12, mf->now_13, mf->now_14, mf->now_21, mf->yy, mf->now_23, mf->now_24, mf->now_31,
+                             mf->now_32, mf->zz, mf->now_34, mf->now_41, mf->now_42, mf->now_43, mf->ww);
                 Fault_AddHungupAndCrash(file, line);
             }
         }
@@ -962,21 +962,21 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
 }
 
 void func_800D2A34(MtxF* mf, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
-    mf->xy = 0.0f;
-    mf->xz = 0.0f;
-    mf->xw = 0.0f;
-    mf->yx = 0.0f;
-    mf->yz = 0.0f;
-    mf->yw = 0.0f;
-    mf->zx = 0.0f;
-    mf->zy = 0.0f;
-    mf->zw = 0.0f;
+    mf->now_21 = 0.0f;
+    mf->now_31 = 0.0f;
+    mf->now_41 = 0.0f;
+    mf->now_12 = 0.0f;
+    mf->now_32 = 0.0f;
+    mf->now_42 = 0.0f;
+    mf->now_13 = 0.0f;
+    mf->now_23 = 0.0f;
+    mf->now_43 = 0.0f;
     mf->xx = arg1;
     mf->yy = arg1;
     mf->zz = arg1;
-    mf->wx = arg2;
-    mf->wy = arg3;
-    mf->wz = arg4;
+    mf->now_14 = arg2;
+    mf->now_24 = arg3;
+    mf->now_34 = arg4;
     mf->ww = 1.0f;
 }
 
