@@ -36,8 +36,8 @@ void Audio_ProcessSyncLoads(s32 resetStatus);
 void func_800E38F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 OSMesgQueue D_8016B6E0;
-u8 D_8016B6F8[0x40];
-u8* D_8016B738[0x12];
+OSMesg D_8016B6F8[0x10];
+s8* D_8016B738[0x12];
 u32 D_8016B780[8];
 
 void func_800E11F0(void) {
@@ -1026,7 +1026,7 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
 
     {
         s32 i;
-        u8* ctxP = &gAudioContext;
+        u8* ctxP = (u8*)&gAudioContext;
         for (i = sizeof(gAudioContext); i >= 0; i--) {
             *ctxP++ = 0;
         }
@@ -1122,7 +1122,7 @@ void Audio_SyncLoadsInit(void) {
     gAudioContext.syncLoads[1].status = 0;
 }
 
-s32 Audio_SyncLoadSample(s32 arg0, s32 arg1, u8* isDone) {
+s32 Audio_SyncLoadSample(s32 arg0, s32 arg1, s8* isDone) {
     AudioBankSample* sample;
     AudioSyncLoad* syncLoad;
 
@@ -1270,7 +1270,7 @@ void func_800E3874(AudioSyncLoad* arg0, s32 size) {
 void func_800E38F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 }
 
-s32 Audio_SyncLoadSeq(s32 seqIdx, u8* ramAddr, u8* isDone) {
+s32 Audio_SyncLoadSeq(s32 seqIdx, u8* ramAddr, s8* isDone) {
     AudioSyncLoad* syncLoad;
     SequenceTable* seqTable;
     u32 size;
@@ -1368,7 +1368,7 @@ AsyncLoadReq* Audio_InitAsyncReq(u32 devAddr, void* ramAddr, u32 size, s32 arg3,
     loadReq->unk_01 = 3;
     loadReq->unk_02 = arg3;
     loadReq->retMsg = retMsg;
-    osCreateMesgQueue(&loadReq->msgQueue, loadReq->msg, ARRAY_COUNT(loadReq->msg));
+    osCreateMesgQueue(&loadReq->msgQueue, &loadReq->msg, 1);
     return loadReq;
 }
 
@@ -1383,8 +1383,8 @@ void Audio_ProcessAsyncLoads(s32 resetStatus) {
     if (gAudioContext.curAsyncReq == NULL) {
         if (resetStatus != 0) {
             do {
-            } while (osRecvMesg(&gAudioContext.asyncLoadQueue, &loadReq, OS_MESG_NOBLOCK) != -1);
-        } else if (osRecvMesg(&gAudioContext.asyncLoadQueue, &loadReq, OS_MESG_NOBLOCK) == -1) {
+            } while (osRecvMesg(&gAudioContext.asyncLoadQueue, (OSMesg*)&loadReq, OS_MESG_NOBLOCK) != -1);
+        } else if (osRecvMesg(&gAudioContext.asyncLoadQueue, (OSMesg*)&loadReq, OS_MESG_NOBLOCK) == -1) {
             gAudioContext.curAsyncReq = NULL;
         } else {
             gAudioContext.curAsyncReq = loadReq;
@@ -1691,7 +1691,7 @@ void func_800E4EDC(void) {
 void func_800E4EE4(void) {
 }
 
-void func_800E4EEC(s32 tableType, s32 arg1, u8* arg2) {
+void func_800E4EEC(s32 tableType, s32 arg1, s8* arg2) {
     static u32 D_801304DC = 0;
     D_8016B738[D_801304DC] = arg2;
     Audio_AsyncLoad(tableType, arg1, 0, D_801304DC, &D_8016B6E0);
@@ -1704,9 +1704,9 @@ void func_800E4EEC(s32 tableType, s32 arg1, u8* arg2) {
 void func_800E4F58(void) {
     u32 pad;
     u32 sp20;
-    u8* temp_v0;
+    s8* temp_v0;
 
-    if (osRecvMesg(&D_8016B6E0, &sp20, OS_MESG_NOBLOCK) != -1) {
+    if (osRecvMesg(&D_8016B6E0, (OSMesg*)&sp20, OS_MESG_NOBLOCK) != -1) {
         pad = sp20 >> 0x18;
         temp_v0 = D_8016B738[pad];
         if (temp_v0 != NULL) {
@@ -1716,5 +1716,5 @@ void func_800E4F58(void) {
 }
 
 void func_800E4FB0(void) {
-    osCreateMesgQueue(&D_8016B6E0, &D_8016B6F8, 0x10);
+    osCreateMesgQueue(&D_8016B6E0, D_8016B6F8, 0x10);
 }

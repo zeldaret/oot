@@ -731,7 +731,7 @@ typedef struct {
     /* 0x1C */ u32 retMsg;
     /* 0x20 */ OSMesgQueue* retQueue;
     /* 0x24 */ OSMesgQueue msgQueue;
-    /* 0x3C */ OSMesg msg[1];
+    /* 0x3C */ OSMesg msg;
     /* 0x40 */ OSIoMesg ioMesg;
 } AsyncLoadReq; // size = 0x58
 
@@ -748,7 +748,7 @@ typedef struct {
     /* 0x1C */ s8* isDone;
     /* 0x20 */ AudioBankSample sample;
     /* 0x30 */ OSMesgQueue msgqueue;
-    /* 0x48 */ OSMesg msg[1];
+    /* 0x48 */ OSMesg msg;
     /* 0x4C */ OSIoMesg ioMesg;
 } AudioSyncLoad; // size = 0x64
 
@@ -827,8 +827,8 @@ typedef struct {
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
+    u32 unk_10;
+    u32 unk_14;
 } RelocInfo;
 
 typedef enum {
@@ -893,7 +893,7 @@ typedef struct {
     /* 0x2838 */ AudioTable* audioTable;
     union {
     /* 0x283C */ u16* unk_283C;
-    /* 0x283C */ char* unk_283Cb;
+    /* 0x283C */ u8* unk_283Cb;
     };
     /* 0x2840 */ u16 seqTabEntCnt; // channels used?
     /* 0x2844 */ CtlEntry* ctlEntries;
