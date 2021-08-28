@@ -58,8 +58,9 @@ void Moji_DrawChar(GraphicsContext* gfxCtx, char c) {
         sCurTLUTIndex = c & 3;
     }
 
-    gSPTextureRectangle(POLY_OPA_DISP++, sScreenPosX << 2, sScreenPosY << 2, (sScreenPosX + 8) << 2, (sScreenPosY + 8) << 2,
-                        G_TX_RENDERTILE, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
+    gSPTextureRectangle(POLY_OPA_DISP++, sScreenPosX << 2, sScreenPosY << 2, (sScreenPosX + 8) << 2,
+                        (sScreenPosY + 8) << 2, G_TX_RENDERTILE, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10,
+                        1 << 10);
 
     CLOSE_DISPS(gfxCtx, "../z_moji.c", 123);
 }
@@ -67,7 +68,8 @@ void Moji_DrawChar(GraphicsContext* gfxCtx, char c) {
 /**
  * Does not work as is in most cases.
  * Can work if the render mode, combiner and possibly other settings are set correctly.
- * For example this works with the render mode used in `GfxPrint_InitDlist`, and `G_CC_MODULATEI_PRIM` for both combiner cycles.
+ * For example this works with the render mode used in `GfxPrint_InitDlist`,
+ * and `G_CC_MODULATEI_PRIM` for both combiner cycles.
  */
 void Moji_DrawString(GraphicsContext* gfxCtx, char* str) {
     s32 i;
