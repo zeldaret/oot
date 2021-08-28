@@ -32,7 +32,7 @@ const ActorInit Magic_Dark_InitVars = {
     (ActorFunc)MagicDark_OrbDraw,
 };
 
-#include "z_magic_dark_gfx.c"
+#include "overlays/ovl_Magic_Dark/ovl_Magic_Dark.c"
 
 // unused
 static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
@@ -221,11 +221,11 @@ void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (s32)(this->primAlpha * 0.6f) & 0xFF);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
-        gSPDisplayList(POLY_XLU_DISP++, sDiamondTexDList);
+        gSPDisplayList(POLY_XLU_DISP++, sMagicDarkDiamondTexDL);
         gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 2, gameplayFrames * -4, 32, 32, 1,
                                         0, gameplayFrames * -16, 64, 32));
-        gSPDisplayList(POLY_XLU_DISP++, sDiamondVertsDList);
+        gSPDisplayList(POLY_XLU_DISP++, sMagicDarkDiamondVertsDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 570);
