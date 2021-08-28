@@ -28,7 +28,7 @@ void Map_SetPaletteData(GlobalContext* globalCtx, s16 room) {
     }
 
     osSyncPrintf(VT_FGCOL(YELLOW));
-    // Translates to: "PALETE Set"
+    // "PALETE Set"
     osSyncPrintf("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n", paletteIndex,
                  room, mapIndex, gSaveContext.sceneFlags[mapIndex].rooms, interfaceCtx->mapPaletteIndex);
     osSyncPrintf(VT_RST);
@@ -154,7 +154,7 @@ void Map_InitData(GlobalContext* globalCtx, s16 room) {
         case SCENE_JYASINBOSS:
         case SCENE_HAKADAN_BS:
             osSyncPrintf(VT_FGCOL(YELLOW));
-            // Translates to: "Deku Tree Dungeon MAP Texture DMA"
+            // "Deku Tree Dungeon MAP Texture DMA"
             osSyncPrintf("デクの樹ダンジョンＭＡＰ テクスチャＤＭＡ(%x) scene_id_offset=%d  VREG(30)=%d\n", room,
                          mapIndex, VREG(30));
             osSyncPrintf(VT_RST);
@@ -165,7 +165,7 @@ void Map_InitData(GlobalContext* globalCtx, s16 room) {
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
             R_COMPASS_OFFSET_Y = gMapData->roomCompassOffsetY[mapIndex][room];
             Map_SetFloorPalettesData(globalCtx, VREG(30));
-            // Translates to: "MAP Individual Floor ON Check"
+            // "MAP Individual Floor ON Check"
             osSyncPrintf("ＭＡＰ 各階ＯＮチェック\n");
             break;
     }

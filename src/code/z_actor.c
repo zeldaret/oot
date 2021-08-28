@@ -842,7 +842,7 @@ void Actor_Destroy(Actor* actor, GlobalContext* globalCtx) {
         overlayEntry = actor->overlayEntry;
         name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-        // Translates to: "NO Actor CLASS DESTRUCT [%s]"
+        // "NO Actor CLASS DESTRUCT [%s]"
         osSyncPrintf("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" VT_RST, name);
     }
 }
@@ -2170,11 +2170,11 @@ void Actor_FaultPrint(Actor* actor, char* command) {
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-    // Translates to: "ACTOR NAME(%08x:%s)"
+    // "ACTOR NAME(%08x:%s)"
     osSyncPrintf("アクターの名前(%08x:%s)\n", actor, name);
 
     if (command != NULL) {
-        // Translates to: "COMMAND:%s"
+        // "COMMAND:%s"
         osSyncPrintf("コメント:%s\n", command);
     }
 
@@ -2284,7 +2284,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
 
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6197);
 
-    // Translates to: "MAGIC LENS START"
+    // "MAGIC LENS START"
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ START", 0);
 
     gDPPipeSync(POLY_XLU_DISP++);
@@ -2312,21 +2312,21 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
 
     func_80030FA8(gfxCtx);
 
-    // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY START"
+    // "MAGIC LENS INVISIBLE ACTOR DISPLAY START"
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", numInvisibleActors);
 
     invisibleActor = &invisibleActors[0];
     for (i = 0; i < numInvisibleActors; i++) {
-        // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY"
+        // "MAGIC LENS INVISIBLE ACTOR DISPLAY"
         gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示", i);
         Actor_Draw(globalCtx, *(invisibleActor++));
     }
 
-    // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY END"
+    // "MAGIC LENS INVISIBLE ACTOR DISPLAY END"
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors != 0) {
-        // Translates to: "BLUE SPECTACLES (EXTERIOR)"
+        // "BLUE SPECTACLES (EXTERIOR)"
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0);
 
         gDPPipeSync(POLY_XLU_DISP++);
@@ -2340,11 +2340,11 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
 
         func_80030FA8(gfxCtx);
 
-        // Translates to: "BLUE SPECTACLES (EXTERIOR)"
+        // "BLUE SPECTACLES (EXTERIOR)"
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 1);
     }
 
-    // Translates to: "MAGIC LENS END"
+    // "MAGIC LENS END"
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ END", 0);
 
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6284);
@@ -2544,7 +2544,7 @@ void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
     }
 
     if (HREG(20) != 0) {
-        // Translates to: "ABSOLUTE MAGIC FIELD DEALLOCATION"
+        // "ABSOLUTE MAGIC FIELD DEALLOCATION"
         osSyncPrintf("絶対魔法領域解放\n");
     }
 
@@ -2617,25 +2617,25 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
 
     if (actorOverlay->numLoaded == 0) {
         if (HREG(20) != 0) {
-            // Translates to: "ACTOR CLIENT IS NOW 0"
+            // "ACTOR CLIENT IS NOW 0"
             osSyncPrintf("アクタークライアントが０になりました\n");
         }
 
         if (actorOverlay->loadedRamAddr != NULL) {
             if (actorOverlay->allocType & ALLOCTYPE_PERMANENT) {
                 if (HREG(20) != 0) {
-                    // Translates to: "OVERLAY WILL NOT BE DEALLOCATED"
+                    // "OVERLAY WILL NOT BE DEALLOCATED"
                     osSyncPrintf("オーバーレイ解放しません\n");
                 }
             } else if (actorOverlay->allocType & ALLOCTYPE_ABSOLUTE) {
                 if (HREG(20) != 0) {
-                    // Translates to: "ABSOLUTE MAGIC FIELD RESERVED, SO DEALLOCATION WILL NOT OCCUR"
+                    // "ABSOLUTE MAGIC FIELD RESERVED, SO DEALLOCATION WILL NOT OCCUR"
                     osSyncPrintf("絶対魔法領域確保なので解放しません\n");
                 }
                 actorOverlay->loadedRamAddr = NULL;
             } else {
                 if (HREG(20) != 0) {
-                    // Translates to: "OVERLAY DEALLOCATED"
+                    // "OVERLAY DEALLOCATED"
                     osSyncPrintf("オーバーレイ解放します\n");
                 }
                 ZeldaArena_FreeDebug(actorOverlay->loadedRamAddr, "../z_actor.c", 6834);
@@ -2643,7 +2643,7 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
             }
         }
     } else if (HREG(20) != 0) {
-        // Translates to: "%d OF ACTOR CLIENT REMAINS"
+        // "%d OF ACTOR CLIENT REMAINS"
         osSyncPrintf("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
     }
 
@@ -2668,19 +2668,19 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
 
     if (HREG(20) != 0) {
-        // Translates to: "ACTOR CLASS ADDITION [%d:%s]"
+        // "ACTOR CLASS ADDITION [%d:%s]"
         osSyncPrintf("アクタークラス追加 [%d:%s]\n", actorId, name);
     }
 
     if (actorCtx->total > ACTOR_NUMBER_MAX) {
-        // Translates to: "Ａｃｔｏｒ SET NUMBER EXCEEDED"
+        // "Ａｃｔｏｒ SET NUMBER EXCEEDED"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "Ａｃｔｏｒセット数オーバー\n" VT_RST);
         return NULL;
     }
 
     if (overlayEntry->vramStart == 0) {
         if (HREG(20) != 0) {
-            // Translates to: "NOT AN OVERLAY"
+            // "NOT AN OVERLAY"
             osSyncPrintf("オーバーレイではありません\n");
         }
 
@@ -2688,7 +2688,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     } else {
         if (overlayEntry->loadedRamAddr != NULL) {
             if (HREG(20) != 0) {
-                // Translates to: "ALREADY LOADED"
+                // "ALREADY LOADED"
                 osSyncPrintf("既にロードされています\n");
             }
         } else {
@@ -2696,10 +2696,10 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
                 ASSERT(overlaySize <= AM_FIELD_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
 
                 if (actorCtx->absoluteSpace == NULL) {
-                    // Translates to: "AMF: ABSOLUTE MAGIC FIELD"
+                    // "AMF: ABSOLUTE MAGIC FIELD"
                     actorCtx->absoluteSpace = ZeldaArena_MallocRDebug(AM_FIELD_SIZE, "AMF:絶対魔法領域", 0);
                     if (HREG(20) != 0) {
-                        // Translates to: "ABSOLUTE MAGIC FIELD RESERVATION - %d BYTES RESERVED"
+                        // "ABSOLUTE MAGIC FIELD RESERVATION - %d BYTES RESERVED"
                         osSyncPrintf("絶対魔法領域確保 %d バイト確保\n", AM_FIELD_SIZE);
                     }
                 }
@@ -2712,7 +2712,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
             }
 
             if (overlayEntry->loadedRamAddr == NULL) {
-                // Translates to: "CANNOT RESERVE ACTOR PROGRAM MEMORY"
+                // "CANNOT RESERVE ACTOR PROGRAM MEMORY"
                 osSyncPrintf(VT_COL(RED, WHITE) "Ａｃｔｏｒプログラムメモリが確保できません\n" VT_RST);
                 return NULL;
             }
@@ -2740,7 +2740,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
 
     if ((objBankIndex < 0) ||
         ((actorInit->category == ACTORCAT_ENEMY) && (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)))) {
-        // Translates to: "NO DATA BANK!! <DATA BANK＝%d> (profilep->bank=%d)"
+        // "NO DATA BANK!! <DATA BANK＝%d> (profilep->bank=%d)"
         osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
                      objBankIndex, actorInit->objectId);
         Actor_FreeOverlay(overlayEntry);
@@ -2750,7 +2750,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     actor = ZeldaArena_MallocDebug(actorInit->instanceSize, name, 1);
 
     if (actor == NULL) {
-        // Translates to: "ACTOR CLASS CANNOT BE RESERVED! %s <SIZE＝%d BYTES>"
+        // "ACTOR CLASS CANNOT BE RESERVED! %s <SIZE＝%d BYTES>"
         osSyncPrintf(VT_COL(RED, WHITE) "Ａｃｔｏｒクラス確保できません！ %s <サイズ＝%dバイト>\n", VT_RST, name,
                      actorInit->instanceSize);
         Actor_FreeOverlay(overlayEntry);
@@ -2762,7 +2762,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     overlayEntry->numLoaded++;
 
     if (HREG(20) != 0) {
-        // Translates to: "ACTOR CLIENT No. %d"
+        // "ACTOR CLIENT No. %d"
         osSyncPrintf("アクタークライアントは %d 個目です\n", overlayEntry->numLoaded);
     }
 
@@ -2862,7 +2862,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
     if (HREG(20) != 0) {
-        // Translates to: "ACTOR CLASS DELETED [%s]"
+        // "ACTOR CLASS DELETED [%s]"
         osSyncPrintf("アクタークラス削除 [%s]\n", name);
     }
 
@@ -2892,7 +2892,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
 
     if (overlayEntry->vramStart == 0) {
         if (HREG(20) != 0) {
-            // Translates to: "NOT AN OVERLAY"
+            // "NOT AN OVERLAY"
             osSyncPrintf("オーバーレイではありません\n");
         }
     } else {

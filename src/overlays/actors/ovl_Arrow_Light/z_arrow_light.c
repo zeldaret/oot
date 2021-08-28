@@ -58,7 +58,7 @@ void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ArrowLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
-    // Translates to: "Disappearance"
+    // "Disappearance"
     LOG_STRING("消滅", "../z_arrow_light.c", 403);
 }
 

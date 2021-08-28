@@ -227,27 +227,27 @@ s32 func_80096238(void* data) {
     OSTime time;
 
     if (*(u32*)data == JPEG_MARKER) {
-        // Translates to: "EXPANDING JPEG DATA"
+        // "EXPANDING JPEG DATA"
         osSyncPrintf("JPEGデータを展開します\n");
-        // Translates to: "JPEG DATA ADDRESS %08x"
+        // "JPEG DATA ADDRESS %08x"
         osSyncPrintf("JPEGデータアドレス %08x\n", data);
-        // Translates to: "WORK BUFFER ADDRESS (Z BUFFER) %08x"
+        // "WORK BUFFER ADDRESS (Z BUFFER) %08x"
         osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
 
         time = osGetTime();
         if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
             time = osGetTime() - time;
 
-            // Translates to: "SUCCESS... I THINK. time = %6.3f ms"
+            // "SUCCESS... I THINK. time = %6.3f ms"
             osSyncPrintf("成功…だと思う。 time = %6.3f ms \n", OS_CYCLES_TO_USEC(time) / 1000.0f);
-            // Translates to: "WRITING BACK TO ORIGINAL ADDRESS FROM WORK BUFFER."
+            // "WRITING BACK TO ORIGINAL ADDRESS FROM WORK BUFFER."
             osSyncPrintf("ワークバッファから元のアドレスに書き戻します。\n");
-            // Translates to: "IF THE ORIGINAL BUFFER SIZE ISN'T AT LEAST 150KB, IT WILL BE OUT OF CONTROL."
+            // "IF THE ORIGINAL BUFFER SIZE ISN'T AT LEAST 150KB, IT WILL BE OUT OF CONTROL."
             osSyncPrintf("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n");
 
             bcopy(gZBuffer, data, sizeof(gZBuffer));
         } else {
-            // Translates to: "FAILURE! WHY IS IT 〜"
+            // "FAILURE! WHY IS IT 〜"
             osSyncPrintf("失敗！なんで〜\n");
         }
     }
@@ -403,7 +403,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
         bgImage++;
     }
 
-    // Translates to: "z_room.c: DATA CONSISTENT WITH CAMERA ID DOES NOT EXIST camid=%d"
+    // "z_room.c: DATA CONSISTENT WITH CAMERA ID DOES NOT EXIST camid=%d"
     osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, camId);
     LogUtils_HungupThread("../z_room.c", 726);
 
@@ -530,13 +530,13 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     }
 
     osSyncPrintf(VT_FGCOL(YELLOW));
-    // Translates to: "ROOM BUFFER SIZE=%08x(%5.1fK)"
+    // "ROOM BUFFER SIZE=%08x(%5.1fK)"
     osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
     roomCtx->bufPtrs[0] = GameState_Alloc(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
-    // Translates to: "ROOM BUFFER INITIAL POINTER=%08x"
+    // "ROOM BUFFER INITIAL POINTER=%08x"
     osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
     roomCtx->bufPtrs[1] = (void*)((s32)roomCtx->bufPtrs[0] + maxRoomSize);
-    // Translates to: "ROOM BUFFER END POINTER=%08x"
+    // "ROOM BUFFER END POINTER=%08x"
     osSyncPrintf("部屋バッファ終了ポインタ=%08x\n", roomCtx->bufPtrs[1]);
     osSyncPrintf(VT_RST);
     roomCtx->unk_30 = 0;

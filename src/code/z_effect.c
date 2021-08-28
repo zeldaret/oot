@@ -144,9 +144,9 @@ void Effect_Add(GlobalContext* globalCtx, s32* pIndex, s32 type, u8 arg3, u8 arg
         }
 
         if (!slotFound) {
-            // Translates to: "EffectAdd(): I cannot secure it. Be careful. Type %d"
+            // "EffectAdd(): I cannot secure it. Be careful. Type %d"
             osSyncPrintf("EffectAdd():確保できません。注意してください。Type%d\n", type);
-            // Translates to: "Exit without adding the effect."
+            // "Exit without adding the effect."
             osSyncPrintf("エフェクト追加せずに終了します。\n");
         } else {
             sEffectInfoTable[type].init(effect, initParams);

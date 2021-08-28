@@ -193,7 +193,7 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
     s32 pad;
     u16 sp26 = gSaveContext.equips.equipment & gEquipMasks[equipment];
 
-    // Translates to: "Erasing equipment item = %d  zzz=%d"
+    // "Erasing equipment item = %d  zzz=%d"
     osSyncPrintf("装備アイテム抹消 = %d  zzz=%d\n", equipment, sp26);
 
     if (sp26) {

@@ -119,7 +119,7 @@ void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     }
 
     if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE)) {
-        // Translates to: "CUTSCENE START REQUEST ANNOUNCEMENT!"
+        // "CUTSCENE START REQUEST ANNOUNCEMENT!"
         osSyncPrintf("\nデモ開始要求 発令！");
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
@@ -460,7 +460,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
         func_800F68BC(0);
         gSaveContext.unk_1410 = 1;
 
-        // Translates to: "FUTURE FORK DESIGNATION=No. [%d]"
+        // "FUTURE FORK DESIGNATION=No. [%d]"
         osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->base);
 
         if ((gSaveContext.gameMode != 0) && (csCtx->frames != cmd->startFrame)) {
@@ -1902,7 +1902,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
             csCtx->npcActions[i] = NULL;
         }
 
-        // Translates to: "RIGHT HERE, HUH"
+        // "RIGHT HERE, HUH"
         osSyncPrintf("\n\n\n\n\nやっぱりここかいな");
         gSaveContext.cutsceneIndex = 0;
         gSaveContext.gameMode = 0;

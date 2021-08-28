@@ -174,7 +174,7 @@ void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
         this->unk_154 = Rand_ZeroOne() * (0x1FFFF / 2.0f);
         this->unk_156 = Rand_ZeroOne() * (0x1FFFF / 2.0f);
-        // Translates to: "(ice flame)"
+        // "(ice flame)"
         osSyncPrintf("(ice 炎)(arg_data 0x%04x)\n", this->actor.params);
     }
 }
@@ -361,7 +361,7 @@ void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
         sin154 = Math_SinS(this->unk_154);
         intensity = (Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
         if ((intensity > 0.7f) || (intensity < 0.2f)) {
-            // Translates to: "impossible value(ratio = %f)"
+            // "impossible value(ratio = %f)"
             osSyncPrintf("ありえない値(ratio = %f)\n", intensity);
         }
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, (s16)this->actor.world.pos.y + 10,
