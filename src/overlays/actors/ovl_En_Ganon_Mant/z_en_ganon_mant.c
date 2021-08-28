@@ -371,8 +371,8 @@ void EnGanonMant_DrawCloak(GlobalContext* globalCtx, EnGanonMant* this) {
     // set texture
     gSPDisplayList(POLY_OPA_DISP++, sMantTexDL);
 
-    /* set vertices, vertices are double buffered to prevent
-     * modification of vertices as they are being drawn      */
+    // set vertices, vertices are double buffered to prevent
+    // modification of vertices as they are being drawn
     if (this->frameTimer % 2 != 0) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, sMantVtx1);
     } else {
