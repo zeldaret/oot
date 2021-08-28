@@ -57,7 +57,8 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
 
         this->numElements = (this->uDiv * this->vDiv) + 2;
         if (this->numElements > ARRAY_COUNT(this->elements)) {
-            osSyncPrintf("table_sizeオーバー\n"); // "over table_size"
+            // "over table_size"
+            osSyncPrintf("table_sizeオーバー\n");
             return;
         }
 

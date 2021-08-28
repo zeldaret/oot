@@ -79,7 +79,7 @@ void SkelAnime_DrawLod(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL.
+        // "skel is NULL."
         osSyncPrintf("Si2_Lod_draw():skelがNULLです。\n");
         osSyncPrintf(VT_RST);
         return;
@@ -193,7 +193,7 @@ void SkelAnime_DrawFlexLod(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL.
+        // "skel is NULL."
         osSyncPrintf("Si2_Lod_draw_SV():skelがNULLです。\n");
         osSyncPrintf(VT_RST);
         return;
@@ -299,7 +299,7 @@ void SkelAnime_DrawOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL.
+        // "skel is NULL."
         osSyncPrintf("Si2_draw():skelがNULLです。\n");
         osSyncPrintf(VT_RST);
         return;
@@ -412,7 +412,7 @@ void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL.
+        // "skel is NULL."
         osSyncPrintf("Si2_draw_SV():skelがNULLです。\n");
         osSyncPrintf(VT_RST);
         return;
@@ -566,7 +566,7 @@ Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL. Returns NULL.
+        // "skel is NULL. Returns NULL."
         osSyncPrintf("Si2_draw2():skelがNULLです。NULLを返します。\n");
         osSyncPrintf(VT_RST);
         return NULL;
@@ -676,7 +676,7 @@ Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointT
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // skel is NULL. Returns NULL.
+        // "skel is NULL. Returns NULL."
         osSyncPrintf("Si2_draw2_SV():skelがNULLです。NULLを返します。\n");
         osSyncPrintf(VT_RST);
         return NULL;
@@ -1083,7 +1083,7 @@ void SkelAnime_InitLink(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkel
 
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
         osSyncPrintf(VT_FGCOL(RED));
-        // Memory allocation error
+        // "Memory allocation error"
         osSyncPrintf("Skeleton_Info_Rom_SV_ct メモリアロケーションエラー\n");
         osSyncPrintf(VT_RST);
     }
@@ -1402,7 +1402,7 @@ s32 SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeade
     }
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
         osSyncPrintf(VT_FGCOL(RED));
-        // Memory allocation error
+        // "Memory allocation error"
         osSyncPrintf("Skeleton_Info2_ct メモリアロケーションエラー\n");
         osSyncPrintf(VT_RST);
     }
@@ -1436,7 +1436,7 @@ s32 SkelAnime_InitFlex(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkele
     }
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
         osSyncPrintf(VT_FGCOL(RED));
-        // Memory allocation error
+        // "Memory allocation error"
         osSyncPrintf("Skeleton_Info_Rom_SV_ct メモリアロケーションエラー\n");
         osSyncPrintf(VT_RST);
     }
@@ -1461,7 +1461,7 @@ s32 SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonH
         ZeldaArena_MallocDebug(skelAnime->limbCount * sizeof(*skelAnime->morphTable), "../z_skelanime.c", 3121);
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
         osSyncPrintf(VT_FGCOL(RED));
-        // Memory allocation error
+        // "Memory allocation error"
         osSyncPrintf("Skeleton_Info2_skin2_ct メモリアロケーションエラー\n");
         osSyncPrintf(VT_RST);
     }
@@ -1848,7 +1848,7 @@ void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx) {
     if (skelAnime->jointTable != NULL) {
         ZeldaArena_FreeDebug(skelAnime->jointTable, "../z_skelanime.c", 3729);
     } else {
-        // now_joint is freed! !
+        // "now_joint is freed! !"
         osSyncPrintf("now_joint あきまへん！！\n");
     }
 

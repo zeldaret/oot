@@ -163,7 +163,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     if (msg == (OSMesg)666) {
         osSyncPrintf(VT_FGCOL(RED));
-        osSyncPrintf("RCPが帰ってきませんでした。"); // "RCP did not return."
+        // "RCP did not return."
+        osSyncPrintf("RCPが帰ってきませんでした。");
         osSyncPrintf(VT_RST);
         LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
         LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
@@ -406,7 +407,7 @@ void Graph_ThreadEntry(void* arg0) {
 
     nextOvl = &gGameStateOverlayTable[0];
 
-    // Start graphic thread execution
+    // "Start graphic thread execution"
     osSyncPrintf("グラフィックスレッド実行開始\n");
     Graph_Init(&gfxCtx);
 
@@ -415,13 +416,13 @@ void Graph_ThreadEntry(void* arg0) {
         Overlay_LoadGameState(ovl);
 
         size = ovl->instanceSize;
-        // Class size =%d bytes
+        // "Class size = %d bytes"
         osSyncPrintf("クラスサイズ＝%dバイト\n", size);
 
         gameState = SystemArena_MallocDebug(size, "../graph.c", 1196);
 
         if (!gameState) {
-            // Failure to secure
+            // "Failure to secure"
             osSyncPrintf("確保失敗\n");
 
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
@@ -439,7 +440,7 @@ void Graph_ThreadEntry(void* arg0) {
         Overlay_FreeGameState(ovl);
     }
     Graph_Destroy(&gfxCtx);
-    // End of graphic thread execution
+    // "End of graphic thread execution"
     osSyncPrintf("グラフィックスレッド実行終了\n");
 }
 

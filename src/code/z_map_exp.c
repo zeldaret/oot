@@ -204,7 +204,8 @@ void Map_InitRoomData(GlobalContext* globalCtx, s16 room) {
                 interfaceCtx->unk_25A = mapIndex;
                 Map_SetPaletteData(globalCtx, room);
                 osSyncPrintf(VT_FGCOL(YELLOW));
-                osSyncPrintf("部屋部屋＝%d\n", room); // "Room Room = %d"
+                // "Room Room = %d"
+                osSyncPrintf("部屋部屋＝%d\n", room);
                 osSyncPrintf(VT_RST);
                 Map_InitData(globalCtx, room);
                 break;
@@ -556,7 +557,8 @@ void Map_Update(GlobalContext* globalCtx) {
                         (floor == gMapData->switchFromFloor[mapIndex][i])) {
                         interfaceCtx->mapRoomNum = gMapData->switchToRoom[mapIndex][i];
                         osSyncPrintf(VT_FGCOL(YELLOW));
-                        osSyncPrintf("階層切替＝%x\n", interfaceCtx->mapRoomNum); // "Layer switching = %x"
+                        // "Layer switching = %x"
+                        osSyncPrintf("階層切替＝%x\n", interfaceCtx->mapRoomNum);
                         osSyncPrintf(VT_RST);
                         Map_InitData(globalCtx, interfaceCtx->mapRoomNum);
                         gSaveContext.unk_1422 = 0;

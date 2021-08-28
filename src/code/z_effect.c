@@ -240,7 +240,8 @@ void Effect_Delete(GlobalContext* globalCtx, s32 index) {
 void Effect_DeleteAll(GlobalContext* globalCtx) {
     s32 i;
 
-    osSyncPrintf("エフェクト総て解放\n"); // "All effect release"
+    // "All effect release"
+    osSyncPrintf("エフェクト総て解放\n");
 
     for (i = 0; i < SPARK_COUNT; i++) {
         sEffectContext.sparks[i].status.active = false;
@@ -257,5 +258,6 @@ void Effect_DeleteAll(GlobalContext* globalCtx) {
         sEffectInfoTable[EFFECT_SHIELD_PARTICLE].destroy(&sEffectContext.shieldParticles[i].effect);
     }
 
-    osSyncPrintf("エフェクト総て解放 終了\n"); // "All effects release End"
+    // "All effects release End"
+    osSyncPrintf("エフェクト総て解放 終了\n");
 }

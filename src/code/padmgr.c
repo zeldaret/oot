@@ -167,7 +167,8 @@ void PadMgr_RumbleStop(PadMgr* padMgr) {
         if (osProbeRumblePak(ctrlrQ, &padMgr->pfs[i], i) == 0) {
             if ((gFaultStruct.msgId == 0) && (padMgr->rumbleOnFrames != 0)) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
-                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止"); // "Stop vibration pack"
+                // "Stop vibration pack"
+                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
                 osSyncPrintf(VT_RST);
             }
 
@@ -219,7 +220,8 @@ void PadMgr_ProcessInputs(PadMgr* padMgr) {
                 if (!padMgr->ctrlrIsConnected[i]) {
                     padMgr->ctrlrIsConnected[i] = true;
                     osSyncPrintf(VT_FGCOL(YELLOW));
-                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "認識しました"); // "Recognized"
+                    // "Recognized"
+                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "認識しました");
                     osSyncPrintf(VT_RST);
                 }
                 break;
@@ -227,7 +229,8 @@ void PadMgr_ProcessInputs(PadMgr* padMgr) {
                 input->cur = input->prev;
                 LOG_NUM("this->Key_switch[i]", padMgr->ctrlrIsConnected[i], "../padmgr.c", 380);
                 osSyncPrintf(VT_FGCOL(YELLOW));
-                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "オーバーランエラーが発生"); // "Overrun error occurred"
+                // "Overrun error occurred"
+                osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "オーバーランエラーが発生");
                 osSyncPrintf(VT_RST);
                 break;
             case 8:
@@ -240,7 +243,8 @@ void PadMgr_ProcessInputs(PadMgr* padMgr) {
                     padMgr->pakType[i] = 0;
                     padMgr->rumbleCounter[i] = 0xFF;
                     osSyncPrintf(VT_FGCOL(YELLOW));
-                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "応答しません"); // "Do not respond"?
+                    // "Do not respond"?
+                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "応答しません");
                     osSyncPrintf(VT_RST);
                 }
                 break;
