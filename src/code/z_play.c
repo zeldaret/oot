@@ -295,9 +295,11 @@ void Gameplay_Init(GameState* thisx) {
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
     if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) &&
         gSaveContext.sceneSetupIndex == 6) {
-        osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
+        // "Here goes the ending!"
+        osSyncPrintf("エンディングはじまるよー\n");
         ((void (*)())0x81000000)();
-        osSyncPrintf("出戻り？\n"); // "Return?"
+        osSyncPrintf("出戻り？\n");
+        // "Return?"
     }
 
     Cutscene_HandleEntranceTriggers(globalCtx);
@@ -362,8 +364,9 @@ void Gameplay_Init(GameState* thisx) {
     zAlloc = GameState_Alloc(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
     ZeldaArena_Init(zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
+    // "zelda heap -"
     osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
-                 (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc)); // "Zelda Heap"
+                 (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
     func_800304DC(globalCtx, &globalCtx->actorCtx, globalCtx->linkActorEntry);
@@ -449,7 +452,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             switch (gTrnsnUnkState) {
                 case 2:
                     if (TransitionUnk_Init(&sTrnsnUnk, 10, 7) == NULL) {
-                        osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
+                        // "fbdemo_init call failed!"
+                        osSyncPrintf("fbdemo_init呼出し失敗！\n");
                         gTrnsnUnkState = 0;
                     } else {
                         sTrnsnUnk.zBuffer = (u16*)gZBuffer;
@@ -475,9 +479,11 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         }
 
                         if (!(gEntranceTable[globalCtx->nextEntranceIndex + sp6E].field & 0x8000)) { // Continue BGM Off
-                            osSyncPrintf("\n\n\nサウンドイニシャル来ました。111"); // "Sound initalized. 111"
+                            // "sound initalized. 111"
+                            osSyncPrintf("\n\n\nサウンドイニシャル来ました。111");
                             if ((globalCtx->fadeTransition < 56) && (func_80077600() == 0)) {
-                                osSyncPrintf("\n\n\nサウンドイニシャル来ました。222"); // "Sound initalized. 222"
+                                // "sound initialized. 222"
+                                osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
                                 gSaveContext.seqIndex = 0xFF;
                                 gSaveContext.nightSeqIndex = 0xFF;
@@ -716,7 +722,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         globalCtx->envCtx.unk_E6 = 4;
                         globalCtx->envCtx.unk_E7 = 0xFF;
                         globalCtx->envCtx.unk_E8 = 0xFF;
-                        LOG_STRING("来た!!!!!!!!!!!!!!!!!!!!!", "../z_play.c", 3471); // "It's here!!!!!!!!!"
+                        // "It's here!!!!!!!!!"
+                        LOG_STRING("来た!!!!!!!!!!!!!!!!!!!!!", "../z_play.c", 3471);
                         globalCtx->transitionMode = 15;
                     } else {
                         globalCtx->transitionMode = 12;
@@ -905,10 +912,10 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             if (globalCtx->unk_1242B != 0) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.debugState != 0)) {
-                        // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
+                        // "changing viewpoint is prohibited due to being in the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (Player_InCsMode(globalCtx)) {
-                        // Translates to: "Changing viewpoint is prohibited during the cutscene"
+                        // "changing viewpoint is prohibited due to being in a demo"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (YREG(15) == 0x10) {
                         Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
