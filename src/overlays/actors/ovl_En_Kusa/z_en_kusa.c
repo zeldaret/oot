@@ -118,7 +118,7 @@ s32 EnKusa_SnapToFloor(EnKusa* this, GlobalContext* globalCtx, f32 yOffset) {
         return true;
     } else {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // Translation: Failure attaching to ground
+        // "Failure attaching to ground"
         osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
         osSyncPrintf(VT_RST);
         return false;
