@@ -7,7 +7,7 @@
  *
  * DEFINE_OBJECT_UNSET and DEFINE_OBJECT_NULL are needed to define empty entries from the original game
  */
-/* 0x0000 */ DEFINE_OBJECT_UNSET(OBJECT_NONE) // Object ID 0 isn't usable and should remain unset
+/* 0x0000 */ DEFINE_OBJECT_UNSET(OBJECT_INVALID) // Object ID 0 isn't usable and should remain unset
 /* 0x0001 */ DEFINE_OBJECT(gameplay_keep, OBJECT_GAMEPLAY_KEEP)
 /* 0x0002 */ DEFINE_OBJECT(gameplay_field_keep, OBJECT_GAMEPLAY_FIELD_KEEP)
 /* 0x0003 */ DEFINE_OBJECT(gameplay_dangeon_keep, OBJECT_GAMEPLAY_DANGEON_KEEP)
