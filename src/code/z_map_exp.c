@@ -233,7 +233,7 @@ void Map_Init(GlobalContext* globalCtx) {
     interfaceCtx->unk_25A = -1;
 
     interfaceCtx->mapSegment = GameState_Alloc(&globalCtx->state, 0x1000, "../z_map_exp.c", 457);
-    // Translates to "ＭＡＰ TEXTURE INITIALIZATION scene_data_ID=%d mapSegment=%x"
+    // "ＭＡＰ TEXTURE INITIALIZATION scene_data_ID=%d mapSegment=%x"
     osSyncPrintf("\n\n\nＭＡＰ テクスチャ初期化   scene_data_ID=%d\nmapSegment=%x\n\n", globalCtx->sceneNum,
                  interfaceCtx->mapSegment, globalCtx);
     ASSERT(interfaceCtx->mapSegment != NULL, "parameter->mapSegment != NULL", "../z_map_exp.c", 459);
@@ -545,7 +545,7 @@ void Map_Update(GlobalContext* globalCtx) {
                 if (1) {} // Appears to be necessary to match
 
                 if (interfaceCtx->mapRoomNum != sLastRoomNum) {
-                    // Translates to "Current floor = %d Current room = %x Number of rooms = %d"
+                    // "Current floor = %d Current room = %x Number of rooms = %d"
                     osSyncPrintf("現在階＝%d  現在部屋＝%x  部屋数＝%d\n", floor, interfaceCtx->mapRoomNum,
                                  gMapData->switchEntryCount[mapIndex]);
                     sLastRoomNum = interfaceCtx->mapRoomNum;
