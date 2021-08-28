@@ -823,13 +823,13 @@ typedef struct {
 } SampleDmaReq; // size = 0x10
 
 typedef struct {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    u32 unk_10;
-    u32 unk_14;
-} RelocInfo;
+    /* 0x00 */ s32 index1;
+    /* 0x04 */ s32 index2;
+    /* 0x08 */ s32 baseAddr1;
+    /* 0x0C */ s32 baseAddr2;
+    /* 0x10 */ u32 medium1; // medium1
+    /* 0x14 */ u32 medium2; // medium2
+} RelocInfo; // size = 0x18
 
 typedef enum {
     /* 0 */ SEQUENCE_TABLE,

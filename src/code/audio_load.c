@@ -19,7 +19,7 @@ u32 Audio_GetTableIndex(s32 tableType, u32 tableIdx);
 void* func_800E27A4(s32 tableType, s32 id);
 void* Audio_GetLoadTable(s32 tableType);
 void Audio_DMAFastCopy(u32 devAddr, u8* addr, u32 size, s32 handleType);
-void func_800E2BCC(u32 devAddr, u8* addr, u32 size, s32 handleType);
+void Audio_NoopCopy(u32 devAddr, u8* addr, u32 size, s32 handleType);
 s32 Audio_DMA(OSIoMesg* mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size, OSMesgQueue* reqQueue,
               s32 handleType, const char* dmaFuncType);
 void* Audio_AsyncLoadInner(s32 tableType, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue* retQueue);
@@ -38,7 +38,8 @@ void func_800E38F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 OSMesgQueue D_8016B6E0;
 OSMesg D_8016B6F8[0x10];
 s8* D_8016B738[0x12];
-u32 D_8016B780[8];
+s32 D_8016B780;
+s32 sAudioLoadPad[4];
 
 void func_800E11F0(void) {
     u32 i;
@@ -365,7 +366,7 @@ s32 func_800E1C78(AudioBankSample* sample, s32 arg1) {
             }
 
             if (sample->medium == 1) {
-                func_800E2BCC(sample->sampleAddr, sampleAddr, sample->size, gAudioContext.audioTable->header.unk_02);
+                Audio_NoopCopy(sample->sampleAddr, sampleAddr, sample->size, gAudioContext.audioTable->header.unk_02);
             } else {
                 Audio_DMAFastCopy(sample->sampleAddr, sampleAddr, sample->size, sample->medium);
             }
@@ -586,18 +587,18 @@ unk_ldr* func_800E2454(u32 bankId) {
     unk02 = gAudioContext.ctlEntries[idx].unk_02;
     unk03 = gAudioContext.ctlEntries[idx].unk_03;
 
-    relocInfo.unk_00 = unk02;
-    relocInfo.unk_04 = unk03;
-    if (relocInfo.unk_00 != 0xFF) {
-        relocInfo.unk_08 = func_800E2338(relocInfo.unk_00, &relocInfo.unk_10, 0);
+    relocInfo.index1 = unk02;
+    relocInfo.index2 = unk03;
+    if (relocInfo.index1 != 0xFF) {
+        relocInfo.baseAddr1 = func_800E2338(relocInfo.index1, &relocInfo.medium1, 0);
     } else {
-        relocInfo.unk_08 = 0;
+        relocInfo.baseAddr1 = 0;
     }
 
     if (unk03 != 0xFF) {
-        relocInfo.unk_0C = func_800E2338(unk03, &relocInfo.unk_14, 0);
+        relocInfo.baseAddr2 = func_800E2338(unk03, &relocInfo.medium2, 0);
     } else {
-        relocInfo.unk_0C = 0;
+        relocInfo.baseAddr2 = 0;
     }
 
     temp_ret = func_800E2558(BANK_TABLE, bankId, &sp38);
@@ -664,7 +665,7 @@ u8* func_800E2558(u32 tableType, u32 tableIdx, s32* didAllocate) {
 
         *didAllocate = true;
         if (sp40 == 1) {
-            func_800E2BCC(romAddr, ret, size, (s16)table->header.unk_02);
+            Audio_NoopCopy(romAddr, ret, size, (s16)table->header.unk_02);
         } else {
             Audio_DMAFastCopy(romAddr, ret, size, sp40);
         }
@@ -838,7 +839,7 @@ void Audio_DMAFastCopy(u32 devAddr, u8* addr, u32 size, s32 handleType) {
     }
 }
 
-void func_800E2BCC(u32 devAddr, u8* addr, u32 size, s32 handleType) {
+void Audio_NoopCopy(u32 devAddr, u8* addr, u32 size, s32 handleType) {
 }
 
 s32 (*sDmaHandler)(OSPiHandle* handle, OSIoMesg* mb, s32 direction) = osEPiStartDma;
@@ -1429,10 +1430,10 @@ void Audio_AsyncReqDone(AsyncLoadReq* loadReq) {
             b2 = ASYNC_B2(retMsg);
             t1 = gAudioContext.ctlEntries[b2].unk_02;
             t2 = gAudioContext.ctlEntries[b2].unk_03;
-            sp30.unk_00 = t1;
-            sp30.unk_04 = t2;
-            sp30.unk_08 = t1 != 0xFF ? func_800E2318(t1, &sp30.unk_10) : 0;
-            sp30.unk_0C = t2 != 0xFF ? func_800E2318(t2, &sp30.unk_14) : 0;
+            sp30.index1 = t1;
+            sp30.index2 = t2;
+            sp30.baseAddr1 = t1 != 0xFF ? func_800E2318(t1, &sp30.medium1) : 0;
+            sp30.baseAddr2 = t2 != 0xFF ? func_800E2318(t2, &sp30.medium2) : 0;
             Audio_SetBankLoadStatus(b2, ASYNC_B3(retMsg));
             func_800E4198(b2, loadReq->unk_04, &sp30, 1);
             break;
@@ -1511,12 +1512,12 @@ void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
             sample->book = RELOC(sample->book, arg1);
             switch (sample->medium) {
                 case 0:
-                    sample->sampleAddr = RELOC(sample->sampleAddr, arg2->unk_08);
-                    sample->medium = arg2->unk_10;
+                    sample->sampleAddr = RELOC(sample->sampleAddr, arg2->baseAddr1);
+                    sample->medium = arg2->medium1;
                     break;
                 case 1:
-                    sample->sampleAddr = RELOC(sample->sampleAddr, arg2->unk_0C);
-                    sample->medium = arg2->unk_14;
+                    sample->sampleAddr = RELOC(sample->sampleAddr, arg2->baseAddr2);
+                    sample->medium = arg2->medium2;
                     break;
                 case 2:
                 case 3:
@@ -1533,7 +1534,99 @@ void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
 
 #undef RELOC
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4198.s")
+void func_800E4198(s32 bankId, unk_ldr* mem, RelocInfo* relocInfo, s32 arg3) {
+    AudioStruct0D68* item;
+    AudioStruct0D68* item2;
+    AudioBankSample* sample;
+    s32 count;
+    s32 temp;
+    u8* addr;
+    s32 sp4C;
+    s32 i;
+
+    sp4C = false;
+    if (gAudioContext.unk_176C != 0) {
+        sp4C = true;
+    } else {
+        D_8016B780 = 0;
+    }
+    gAudioContext.unk_1768 = 0;
+    func_800E283C(bankId, mem, relocInfo);
+
+    count = 0;
+    for (i = 0; i < gAudioContext.unk_1768; i++) {
+        count += ALIGN16(gAudioContext.unk_0B68[i]->size);
+    }
+
+    if (count && count) {}
+
+    for (i = 0; i < gAudioContext.unk_1768; i++) {
+        if (gAudioContext.unk_176C == 120) {
+            break;
+        }
+
+        sample = gAudioContext.unk_0B68[i];
+        addr = NULL;
+        switch (arg3) {
+            case 0:
+                if (sample->medium == relocInfo->medium1) {
+                    addr = func_800E05C4(sample->size, relocInfo->index1, sample->sampleAddr, sample->medium, 1);
+                } else if (sample->medium == relocInfo->medium2) {
+                    addr = func_800E05C4(sample->size, relocInfo->index2, sample->sampleAddr, sample->medium, 1);
+                } else if (sample->medium == 3) {
+                    addr = func_800E05C4(sample->size, 0xFE, sample->sampleAddr, sample->medium, 1);
+                }
+                break;
+
+            case 1:
+                if (sample->medium == relocInfo->medium1) {
+                    addr = func_800E05C4(sample->size, relocInfo->index1, sample->sampleAddr, sample->medium, 0);
+                } else if (sample->medium == relocInfo->medium2) {
+                    addr = func_800E05C4(sample->size, relocInfo->index2, sample->sampleAddr, sample->medium, 0);
+                } else if (sample->medium == 3) {
+                    addr = func_800E05C4(sample->size, 0xFE, sample->sampleAddr, sample->medium, 0);
+                }
+                break;
+        }
+        if (addr == NULL) {
+            continue;
+        }
+
+        switch (arg3) {
+            case 0:
+                if (sample->medium == 1) {
+                    Audio_NoopCopy((u32)sample->sampleAddr, addr, sample->size, gAudioContext.audioTable->header.unk_02);
+                    sample->sampleAddr = addr;
+                    sample->medium = 0;
+                } else {
+                    Audio_DMAFastCopy((u32)sample->sampleAddr, addr, sample->size, sample->medium);
+                    sample->sampleAddr = addr;
+                    sample->medium = 0;
+                }
+                if (sample->medium == 3) {}
+                break;
+
+            case 1:
+                item = &gAudioContext.unk_0D68[gAudioContext.unk_176C];
+                item->sample = sample;
+                item->ramAddr = addr;
+                item->encodedInfo = (gAudioContext.unk_176C << 24) | 0xffffff;
+                item->isFree = false;
+                item->endAndMediumKey = (u32)sample->sampleAddr + sample->size + sample->medium;
+                gAudioContext.unk_176C++;
+                break;
+        }
+    }
+
+    gAudioContext.unk_1768 = 0;
+    if (gAudioContext.unk_176C != 0 && !sp4C) {
+        item2 = &gAudioContext.unk_0D68[gAudioContext.unk_176C - 1];
+        sample = item2->sample;
+        temp = (sample->size >> 12) + 1;
+        Audio_InitAsyncReq((u32)sample->sampleAddr, item2->ramAddr, sample->size, sample->medium, temp,
+                           &gAudioContext.unk_1E78, item2->encodedInfo);
+    }
+}
 
 s32 func_800E4590(s32 resetStatus) {
     AudioBankSample* sample;
@@ -1665,17 +1758,17 @@ void func_800E4D94(void) {
         RelocInfo sp4C;
         if (gAudioContext.unk_2D60[i].poolIndex == 1) {
             temp_s2 = Audio_GetTableIndex(BANK_TABLE, gAudioContext.unk_2D60[i].id);
-            sp4C.unk_00 = gAudioContext.ctlEntries[temp_s2].unk_02;
-            sp4C.unk_04 = gAudioContext.ctlEntries[temp_s2].unk_03;
+            sp4C.index1 = gAudioContext.ctlEntries[temp_s2].unk_02;
+            sp4C.index2 = gAudioContext.ctlEntries[temp_s2].unk_03;
 
-            if (sp4C.unk_00 != 0xFF) {
-                sp4C.unk_00 = Audio_GetTableIndex(AUDIO_TABLE, sp4C.unk_00);
-                sp4C.unk_10 = audioTable->entries[sp4C.unk_00].unk_08;
+            if (sp4C.index1 != 0xFF) {
+                sp4C.index1 = Audio_GetTableIndex(AUDIO_TABLE, sp4C.index1);
+                sp4C.medium1 = audioTable->entries[sp4C.index1].unk_08;
             }
 
-            if (sp4C.unk_04 != 0xFF) {
-                sp4C.unk_04 = Audio_GetTableIndex(AUDIO_TABLE, sp4C.unk_04);
-                sp4C.unk_14 = audioTable->entries[sp4C.unk_04].unk_08;
+            if (sp4C.index2 != 0xFF) {
+                sp4C.index2 = Audio_GetTableIndex(AUDIO_TABLE, sp4C.index2);
+                sp4C.medium2 = audioTable->entries[sp4C.index2].unk_08;
             }
             func_800E4918(temp_s2, 0, &sp4C);
         }

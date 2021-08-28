@@ -3161,7 +3161,6 @@ extern FaultThreadStruct gFaultStruct;
 //extern ? D_8016B6B5;
 //extern ? D_8016B6B8;
 extern OSMesgQueue D_8016B6E0;
-//extern u32 D_8016B780;
 //extern ? D_8016B7A8;
 //extern ? D_8016B7AC;
 //extern ? D_8016B7B0;

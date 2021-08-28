@@ -222,7 +222,7 @@ glabel func_800E4918
 /* B5BDD0 800E4C30 00613024 */  and   $a2, $v1, $at
 /* B5BDD4 800E4C34 8E040004 */  lw    $a0, 4($s0)
 /* B5BDD8 800E4C38 02202825 */  move  $a1, $s1
-/* B5BDDC 800E4C3C 0C038AF3 */  jal   func_800E2BCC
+/* B5BDDC 800E4C3C 0C038AF3 */  jal   Audio_NoopCopy
 /* B5BDE0 800E4C40 85470002 */   lh    $a3, 2($t2)
 /* B5BDE4 800E4C44 920C0000 */  lbu   $t4, ($s0)
 /* B5BDE8 800E4C48 AE110004 */  sw    $s1, 4($s0)
