@@ -1090,12 +1090,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         Matrix_Mult(&globalCtx->mf_11D60, MTXMODE_NEW);
         Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
         Matrix_Get(&globalCtx->mf_11D60);
-        globalCtx->mf_11DA0.mf[3][2] = 0.0f;
-        globalCtx->mf_11DA0.mf[3][1] = 0.0f;
-        globalCtx->mf_11DA0.mf[3][0] = 0.0f;
-        globalCtx->mf_11DA0.mf[2][3] = 0.0f;
-        globalCtx->mf_11DA0.mf[1][3] = 0.0f;
-        globalCtx->mf_11DA0.mf[0][3] = 0.0f;
+        globalCtx->mf_11DA0.mf[0][3] = globalCtx->mf_11DA0.mf[1][3] = globalCtx->mf_11DA0.mf[2][3] =
+            globalCtx->mf_11DA0.mf[3][0] = globalCtx->mf_11DA0.mf[3][1] = globalCtx->mf_11DA0.mf[3][2] = 0.0f;
         Matrix_Transpose(&globalCtx->mf_11DA0);
         globalCtx->unk_11DE0 = Matrix_MtxFToMtx(Matrix_CheckFloats(&globalCtx->mf_11DA0, "../z_play.c", 4005),
                                                 Graph_Alloc(gfxCtx, sizeof(Mtx)));
@@ -1251,8 +1247,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                     switch (globalCtx->envCtx.fillScreen) {
                         case 1:
-                            Kankyo_FillScreen(gfxCtx, globalCtx->envCtx.screenFillColor[0], globalCtx->envCtx.screenFillColor[1],
-                                          globalCtx->envCtx.screenFillColor[2], globalCtx->envCtx.screenFillColor[3], 3);
+                            Kankyo_FillScreen(
+                                gfxCtx, globalCtx->envCtx.screenFillColor[0], globalCtx->envCtx.screenFillColor[1],
+                                globalCtx->envCtx.screenFillColor[2], globalCtx->envCtx.screenFillColor[3], 3);
                             break;
                         default:
                             break;
@@ -1271,7 +1268,6 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
                     Gfx* sp70 = OVERLAY_DISP;
-                    s32 pad[4];
 
                     globalCtx->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
                     globalCtx->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
@@ -1310,268 +1306,6 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(gfxCtx, "../z_play.c", 4508);
 }
-
-/* 
-void Gameplay_Draw(GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Lights* sp228;
-    Vec3f sp21C;
-
-    OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
-
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
-
-    gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
-    gSPSegment(POLY_XLU_DISP++, 0x00, NULL);
-    gSPSegment(OVERLAY_DISP++, 0x00, NULL);
-
-    gSPSegment(POLY_OPA_DISP++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSPSegment(OVERLAY_DISP++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-
-    gSPSegment(POLY_OPA_DISP++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSPSegment(OVERLAY_DISP++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-
-    gSPSegment(POLY_OPA_DISP++, 0x02, globalCtx->sceneSegment);
-    gSPSegment(POLY_XLU_DISP++, 0x02, globalCtx->sceneSegment);
-    gSPSegment(OVERLAY_DISP++, 0x02, globalCtx->sceneSegment);
-
-    func_80095248(gfxCtx, 0, 0, 0);
-
-    if ((HREG(80) != 10) || (HREG(82) != 0)) {
-        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
-        POLY_XLU_DISP = Gameplay_SetFog(globalCtx, POLY_XLU_DISP);
-
-        func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.fogFar);
-        func_800AAA50(&globalCtx->view, 15);
-
-        Matrix_MtxToMtxF(&globalCtx->view.viewing, &globalCtx->mf_11DA0);
-        Matrix_MtxToMtxF(&globalCtx->view.projection, &globalCtx->mf_11D60);
-        Matrix_Mult(&globalCtx->mf_11D60, MTXMODE_NEW);
-        Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-        Matrix_Get(&globalCtx->mf_11D60);
-        globalCtx->mf_11DA0.mf[3][2] = 0.0f;
-        globalCtx->mf_11DA0.mf[3][1] = 0.0f;
-        globalCtx->mf_11DA0.mf[3][0] = 0.0f;
-        globalCtx->mf_11DA0.mf[2][3] = 0.0f;
-        globalCtx->mf_11DA0.mf[1][3] = 0.0f;
-        globalCtx->mf_11DA0.mf[0][3] = 0.0f;
-        Matrix_Transpose(&globalCtx->mf_11DA0);
-        globalCtx->unk_11DE0 = Matrix_MtxFToMtx(Matrix_CheckFloats(&globalCtx->mf_11DA0, "../z_play.c", 4005),
-                                                Graph_Alloc(gfxCtx, sizeof(Mtx)));
-
-        gSPSegment(POLY_OPA_DISP++, 0x01, globalCtx->unk_11DE0);
-
-        if ((HREG(80) != 10) || (HREG(92) != 0)) {
-            Gfx* gfxP;
-            Gfx* sp1CC = POLY_OPA_DISP;
-
-            gfxP = Graph_GfxPlusOne(sp1CC);
-            gSPDisplayList(OVERLAY_DISP++, gfxP);
-
-            if ((globalCtx->transitionMode == 3) || (globalCtx->transitionMode == 11) ||
-                (globalCtx->transitionCtx.transitionType >= 56)) {
-                View view;
-
-                View_Init(&view, gfxCtx);
-                view.flags = 2 | 8;
-
-                SET_FULLSCREEN_VIEWPORT(&view);
-
-                func_800AB9EC(&view, 15, &gfxP);
-                globalCtx->transitionCtx.draw(&globalCtx->transitionCtx.data, &gfxP);
-            }
-
-            TransitionFade_Draw(&globalCtx->transitionFade, &gfxP);
-
-            if (D_801614B0.a > 0) {
-                D_80161498.primColor.rgba = D_801614B0.rgba;
-                VisMono_Draw(&D_80161498, &gfxP);
-            }
-
-            gSPEndDisplayList(gfxP++);
-            Graph_BranchDlist(sp1CC, gfxP);
-            POLY_OPA_DISP = gfxP;
-        }
-
-        if (gTrnsnUnkState == 3) {
-            Gfx* sp88 = POLY_OPA_DISP;
-
-            TransitionUnk_Draw(&sTrnsnUnk, &sp88);
-            POLY_OPA_DISP = sp88;
-            goto Gameplay_Draw_DrawOverlayElements;
-        } else {
-            PreRender_SetValues(&globalCtx->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer,
-                                gZBuffer);
-
-            if (R_PAUSE_MENU_MODE == 2) {
-                MsgEvent_SendNullTask();
-                PreRender_Calc(&globalCtx->pauseBgPreRender);
-                R_PAUSE_MENU_MODE = 3;
-            } else if (R_PAUSE_MENU_MODE >= 4) {
-                R_PAUSE_MENU_MODE = 0;
-            }
-
-            if (R_PAUSE_MENU_MODE == 3) {
-                Gfx* sp84 = POLY_OPA_DISP;
-
-                func_800C24BC(&globalCtx->pauseBgPreRender, &sp84);
-                POLY_OPA_DISP = sp84;
-                goto Gameplay_Draw_DrawOverlayElements;
-            } else {
-                s32 sp80;
-
-                if ((HREG(80) != 10) || (HREG(83) != 0)) {
-                    if ((globalCtx->skyboxId != 0) && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyboxDisabled) {
-                        if ((globalCtx->skyboxId == 1) || (globalCtx->skyboxId == 5)) {
-                            
-                            Kankyo_UpdateSkybox(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
-                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
-                                            globalCtx->envCtx.skyboxBlend, globalCtx->view.eye.x,
-                                            globalCtx->view.eye.y, globalCtx->view.eye.z);
-                        } else if (globalCtx->skyboxCtx.unk_140 == 0) {
-                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0, globalCtx->view.eye.x,
-                                            globalCtx->view.eye.y, globalCtx->view.eye.z);
-                        }
-                    }
-                }
-
-                if ((HREG(80) != 10) || (HREG(90) & 2)) {
-                    if (!globalCtx->envCtx.sunMoonDisabled) {
-                        Kankyo_DrawSunAndMoon(globalCtx);
-                    }
-                }
-
-                if ((HREG(80) != 10) || (HREG(90) & 1)) {
-                    Kankyo_DrawSkyboxFilters(globalCtx);
-                }
-
-                if ((HREG(80) != 10) || (HREG(90) & 4)) {
-                    Kankyo_UpdateLightningStrike(globalCtx);
-                    Kankyo_DrawLightning(globalCtx, 0);
-                }
-
-                if ((HREG(80) != 10) || (HREG(90) & 8)) {
-                    sp228 = LightContext_NewLights(&globalCtx->lightCtx, gfxCtx);
-                    Lights_BindAll(sp228, globalCtx->lightCtx.listHead, NULL);
-                    Lights_Draw(sp228, gfxCtx);
-                }
-
-                if ((HREG(80) != 10) || (HREG(84) != 0)) {
-                    if (VREG(94) == 0) {
-                        if (HREG(80) != 10) {
-                            sp80 = 3;
-                        } else {
-                            sp80 = HREG(84);
-                        }
-                        Scene_Draw(globalCtx);
-                        Room_Draw(globalCtx, &globalCtx->roomCtx.curRoom, sp80 & 3);
-                        Room_Draw(globalCtx, &globalCtx->roomCtx.prevRoom, sp80 & 3);
-                    }
-                }
-
-                if ((HREG(80) != 10) || (HREG(83) != 0)) {
-                    if ((globalCtx->skyboxCtx.unk_140 != 0) && (ACTIVE_CAM->setting != CAM_SET_PREREND0)) {
-                        Vec3f sp74;
-
-                        Camera_GetSkyboxOffset(&sp74, ACTIVE_CAM);
-                        SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
-                                        globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
-                                        globalCtx->view.eye.z + sp74.z);
-                    }
-                }
-
-                if (globalCtx->envCtx.unk_EE[1] != 0) {
-                    Kankyo_DrawRain(globalCtx, &globalCtx->view, gfxCtx);
-                }
-
-                if ((HREG(80) != 10) || (HREG(84) != 0)) {
-                    Kankyo_FillScreen(gfxCtx, 0, 0, 0, globalCtx->unk_11E18, FILL_SCREEN_OPA);
-                }
-
-                if ((HREG(80) != 10) || (HREG(85) != 0)) {
-                    func_800315AC(globalCtx, &globalCtx->actorCtx);
-                }
-
-                if ((HREG(80) != 10) || (HREG(86) != 0)) {
-                    if (!globalCtx->envCtx.sunMoonDisabled) {
-                        sp21C.x = globalCtx->view.eye.x + globalCtx->envCtx.sunPos.x;
-                        sp21C.y = globalCtx->view.eye.y + globalCtx->envCtx.sunPos.y;
-                        sp21C.z = globalCtx->view.eye.z + globalCtx->envCtx.sunPos.z;
-                        Kankyo_DrawSunLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, gfxCtx, sp21C, 0);
-                    }
-                    Kankyo_DrawCustomLensFlare(globalCtx);
-                }
-
-                if ((HREG(80) != 10) || (HREG(87) != 0)) {
-                    if (MREG(64) != 0) {
-                        Kankyo_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68), FILL_SCREEN_OPA | FILL_SCREEN_XLU);
-                    }
-                    switch (globalCtx->envCtx.fillScreen) {
-                        case 1:
-                          Kankyo_FillScreen(gfxCtx, globalCtx->envCtx.screenFillColor[0], globalCtx->envCtx.screenFillColor[1],
-                                       globalCtx->envCtx.screenFillColor[2], globalCtx->envCtx.screenFillColor[3], 3);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                if ((HREG(80) != 10) || (HREG(88) != 0)) {
-                    if (globalCtx->envCtx.sandstormState != 0) {
-                        Kankyo_DrawSandstorm(globalCtx, globalCtx->envCtx.sandstormState);
-                    }
-                }
-
-                if ((HREG(80) != 10) || (HREG(93) != 0)) {
-                    DebugDisplay_DrawObjects(globalCtx);
-                }
-
-                if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
-                    Gfx* sp70 = OVERLAY_DISP;
-                    s32 pad[5];
-
-                    globalCtx->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
-                    globalCtx->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
-                    func_800C1F20(&globalCtx->pauseBgPreRender, &sp70);
-                    if (R_PAUSE_MENU_MODE == 1) {
-                        globalCtx->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
-                        func_800C20B4(&globalCtx->pauseBgPreRender, &sp70);
-                        R_PAUSE_MENU_MODE = 2;
-                    } else {
-                        gTrnsnUnkState = 2;
-                    }
-                    OVERLAY_DISP = sp70;
-                    globalCtx->unk_121C7 = 2;
-                    SREG(33) |= 1;
-                } else {
-                Gameplay_Draw_DrawOverlayElements:
-                    if ((HREG(80) != 10) || (HREG(89) != 0)) {
-                        Gameplay_DrawOverlayElements(globalCtx);
-                    }
-                }
-            }
-        }
-    }
-
-    if (globalCtx->view.unk_124 != 0) {
-        Camera_Update(ACTIVE_CAM);
-        func_800AB944(&globalCtx->view);
-        globalCtx->view.unk_124 = 0;
-        if ((globalCtx->skyboxId != SKYBOX_NONE) && (globalCtx->skyboxId != SKYBOX_UNSET_1D) && !globalCtx->envCtx.skyboxDisabled) {
-            SkyboxDraw_UpdateMatrix(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y,
-                                    globalCtx->view.eye.z);
-        }
-    }
-
-    Camera_Finish(ACTIVE_CAM);
-
-    CLOSE_DISPS(gfxCtx, "../z_play.c", 4508);
-}
-*/
 
 void Gameplay_Main(GameState* thisx) {
     GlobalContext* globalCtx = (GlobalContext*)thisx;
