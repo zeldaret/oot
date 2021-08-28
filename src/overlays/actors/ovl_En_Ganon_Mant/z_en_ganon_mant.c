@@ -149,14 +149,12 @@ void EnGanonMant_Tear(EnGanonMant* this) {
 /**
  * Updates the dynamic strands that control the shape and motion of the cloak
  */
-#ifdef NON_MATCHING
-// Stack only
 void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* pos, Vec3f* nextPos,
                               Vec3f* rot, Vec3f* vel, s16 strandNum) {
     f32 xDiff;
     f32 zDiff;
     f32 gravity;
-    s32 pad;
+    s32 pad[4];
     f32 yaw;
     s16 i;
     f32 x;
@@ -239,9 +237,10 @@ void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* this, Vec3f
             pos->z = (pos - 1)->z + posStep.z;
 
             // Pushes the cloak away from the actor if it is too close
-            if (sqrtf(SQ(pos->x - this->actor.world.pos.x) + SQ(pos->z - this->actor.world.pos.z)) <
-                (sDistMultipliers[i] * this->minDist)) {
-                yaw = Math_Atan2F(pos->z - this->actor.world.pos.z, pos->x - this->actor.world.pos.x);
+            xDiff = pos->x - this->actor.world.pos.x;
+            zDiff = pos->z - this->actor.world.pos.z;
+            if (sqrtf(SQ(xDiff) + SQ(zDiff)) < (sDistMultipliers[i] * this->minDist)) {
+                yaw = Math_Atan2F(zDiff, xDiff);
                 delta.z = this->minDist * sDistMultipliers[i];
                 Matrix_RotateY(yaw, MTXMODE_NEW);
                 Matrix_MultVec3f(&delta, &posStep);
@@ -287,11 +286,6 @@ void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* this, Vec3f
     rot[11].y = rot[10].y;
     rot[11].x = rot[10].x;
 }
-#else
-void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* root, Vec3f* pos, Vec3f* nextPos,
-                              Vec3f* rot, Vec3f* vel, s16 strandNum);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ganon_Mant/EnGanonMant_UpdateStrand.s")
-#endif
 
 /**
  * Update the cloak vertices using the current state of the strands
