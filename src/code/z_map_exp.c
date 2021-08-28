@@ -234,7 +234,7 @@ void Map_Init(GlobalContext* globalCtx) {
     interfaceCtx->unk_25A = -1;
 
     interfaceCtx->mapSegment = GameState_Alloc(&globalCtx->state, 0x1000, "../z_map_exp.c", 457);
-    // "ＭＡＰ TEXTURE INITIALIZATION scene_data_ID=%d mapSegment=%x"
+    // "ＭＡＰ texture initialization scene_data_ID=%d mapSegment=%x"
     osSyncPrintf("\n\n\nＭＡＰ テクスチャ初期化   scene_data_ID=%d\nmapSegment=%x\n\n", globalCtx->sceneNum,
                  interfaceCtx->mapSegment, globalCtx);
     ASSERT(interfaceCtx->mapSegment != NULL, "parameter->mapSegment != NULL", "../z_map_exp.c", 459);
