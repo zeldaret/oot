@@ -1,126 +1,75 @@
 #include "ultra64.h"
 #include "global.h"
 
-// "keyframes"
 char* D_8012CEE0[] = { "\x8Cｷ-ﾌﾚ-ﾑ\x8Dｶﾞ" };
-// "insufficient."
 const char* D_8012CEE4 = "\x8Dﾀﾘﾏｾﾝ｡";
-// "playback impossible"
 const char* D_8012CEE8 = "\x8Dｻｲｾｲﾃﾞｷﾏｾﾝ";
-// "playback complete"
 const char* D_8012CEEC = "\x8Dｻｲｾｲｼｭｳﾘｮｳ";
-// "playing back!"
 const char* D_8012CEF0 = "\x8Dｻｲｾｲﾁｭｳ!";
 
 const char* D_8012CEF4 = "DEMO CAMERA TOOL";
-// "at limit", "registered point #", "switch /"
 const char* D_8012CEF8[] = { "\x8Dﾓｳﾊｲﾘﾏｾﾝ", "\x8Dﾄｳﾛｸ   ﾃﾝﾒ", "\x8Dﾍﾝｺｳ   /  " };
 const char* D_8012CF04 = ">            >";
 const char* D_8012CF08 = "<            <";
 const char* D_8012CF0C = "<          >";
-// "*player*"
 const char* D_8012CF10 = "\x8C*ﾌﾟﾚｲﾔ-*";
-// "mode: relative"
 const char* D_8012CF14 = "\x8C\Eﾓ-ﾄﾞ\x8D ｿｳﾀｲ";
-// "mode; absolute", "screen: demo", "screen: normal"
 const char* D_8012CF18[] = { "\x8C\Eﾓ-ﾄﾞ\x8Dｾﾞｯﾀｲ", "\x8Dｶﾞﾒﾝ\x8C   ﾃﾞﾓ", "\x8Dｶﾞﾒﾝ   ﾌﾂｳ" };
-// "P time MAX", "link: stored", "link: ignored"
 const char* D_8012CF24[] = { "\x8DPｼﾞｶﾝ  MAX", "\x8Cﾘﾝｸ\x8D    ｷｵｸ", "\x8Cﾘﾝｸ\x8D     ﾑｼ" };
-// "*viewing position*"
 const char* D_8012CF30 = "\x8D*ﾐﾃﾙｲﾁ*";
-// "*camera position*"
 const char* D_8012CF34 = "\x8C*ｶﾒﾗ\x8Dｲﾁ*";
 const char* D_8012CF38 = "DEBUG CAMERA";
-// "center/locked"
 const char* D_8012CF3C = "\x8Cｾﾝﾀ-/ﾛｯｸ";
-// "center/free"
 const char* D_8012CF40 = "\x8Cｾﾝﾀ-/ﾌﾘ-";
 
 const char* D_8012CF44 = "DEMO CONTROL";
-// "memory insufficient"
 const char* D_8012CF48 = "\x8Cﾒﾓﾘ\x8Dｶﾞﾀﾘﾏｾﾝ";
 const char* D_8012CF4C = "p";
 const char* D_8012CF50[] = { "e", "s", "l", "c" };
 
-// "memory pak"
-const char* D_8012CF60[] = { "\x8Cﾒﾓﾘﾊﾟｯｸ" };
-// "save"
-const char* D_8012CF64 = "\x8Cｾｰﾌﾞ"
-// "load"
-const char* D_8012CF68 = "\x8Cﾛｰﾄﾞ";
-// "clear"
-const char* D_8012CF6C = "\x8Cｸﾘｱ-";
-// "should not be removed"
+const char* D_8012CF60[] = { "\x8Cﾒﾓﾘﾊﾟｯｸ" }; // Mempak
+const char* D_8012CF64 = "\x8Cｾｰﾌﾞ";          // Save
+const char* D_8012CF68 = "\x8Cﾛｰﾄﾞ";          // Load
+const char* D_8012CF6C = "\x8Cｸﾘｱ-";          // Clear
 const char* D_8012CF70 = "\x8Dｦﾇｶﾅｲﾃﾞﾈ";
 
 const char* D_8012CF74 = "FREE      BYTE";
 const char* D_8012CF78 = "NEED      BYTE";
-// "*memory pak*"
 const char* D_8012CF7C = "\x8C*ﾒﾓﾘ-ﾊﾟｯｸ*";
-// "not found"
 const char* D_8012CF80 = "\x8Dｦﾐﾂｹﾗﾚﾏｾﾝ";
-// "file"
 char* D_8012CF84 = "\x8Cﾌｧｲﾙ \x8Dｦ";
-// "OK?", "currently edited", "file will be output"
 const char* D_8012CF88[] = { "\x8Dｼﾃﾓｲｲﾃﾞｽｶ?", "\x8Dｹﾞﾝｻﾞｲﾍﾝｼｭｳﾁｭｳﾉ", "\x8Cﾌｧｲﾙ\x8Dﾊﾊｷｻﾚﾏｽ" };
-// "yes"
 const char* D_8012CF94 = "\x8Dﾊｲ";
-// "no"
 const char* D_8012CF98 = "\x8Dｲｲｴ";
-// "underway", "overwrite"
 const char* D_8012CF9C[] = { "\x8Dｼﾃｲﾏｽ", "\x8Dｳﾜｶﾞｷ" };
-// "done"
 const char* D_8012CFA4 = "\x8Dｼﾏｼﾀ";
 const char* D_8012CFA8 = "USE       BYTE";
-// "failure"
 const char* D_8012CFAC = "\x8Dﾆｼｯﾊﾟｲ";
 
-// "mode: fixed"
 const char* D_8012CFB0 = "\x8C\Eﾓ-ﾄﾞ\x8D  ｺﾃｲ";
-// "frame "
 char D_8012CFB4[] = "\x8Cﾌﾚ-ﾑ       ";
-// "key /"
 char D_8012CFC4[] = "\x8Cｷ-   /   ";
-// "(center point)\0\0\0\0\0"
 char D_8012CFD0[] = "\x8D(ｾﾝﾀ-ﾃﾝ)\0\0\0\0\0";
-// "(starting point)\0\0\0\0\0\0"
 char D_8012CFE4[] = "\x8D(ｹﾞﾝﾃﾝ)\0\0\0\0\0\0";
-// "(player)\0\0\0\0\0"
 char D_8012CFF8[] = "\x8C(ﾌﾟﾚｲﾔ-)\0\0\0\0\0";
-// "(alignment)\0\0\0\0\0\0"
 char D_8012D00C[] = "\x8D(ｲﾁｱﾜｾ)\0\0\0\0\0\0";
-// "(configuration)\0\0\0\0\0\0\0\0"
 char D_8012D020[] = "\x8D(ｾｯﾃｲ)\0\0\0\0\0\0\0\0";
-// "(object)\0\0\0\0\0\0"
 char D_8012D034[] = "\x8D(ｷｬｯｶﾝ)\0\0\0\0\0\0";
-// "point no. \0\0\0"
 char D_8012D048[] = "\x8CﾎﾟｲﾝﾄNo.  \0\0\0";
-// "viewing angle \0\0\0"
 char D_8012D05C[] = "\x8Dｶﾞｶｸ    \0\0\0";
-// "N frame \0\0\0\0"
 char D_8012D070[] = "\x8CNﾌﾚ-ﾑ   \0\0\0\0";
-// "Z rotation \0\0\0"
 char D_8012D084[] = "\x8DZｶｲﾃﾝ   \0\0\0";
-// "mode \0\0\0\0"
 char D_8012D098[] = "\x8Cﾓ-ﾄﾞ    \0\0\0\0";
-// "R focus \0\0\0"
 char D_8012D0AC[] = "  R\x8Dﾁｭｳｼﾝ  \0\0\0";
 
-// "P time \0\0"
 char D_8012D0C0[] = "\x8DPｼﾞｶﾝ       \0\0";
-// "distance \0"
 char D_8012D0D4[] = "\x8Dｷｮﾘ       \0";
-// "X rotation \0\0"
 char D_8012D0E4[] = "\x8DXｶｲﾃﾝ       \0\0";
-// "Y rotation \0\0"
 char D_8012D0F8[] = "\x8DYｶｲﾃﾝ       \0\0";
 u32 D_8012D10C = 100;
 u32 D_8012D110 = 0;
-// "frame"
 char D_8012D114[] = "\x8Cﾌﾚ-ﾑ         ";
-// "total"
 char D_8012D128[] = "\x8Cﾄ-ﾀﾙ         ";
-// "key /"
 char D_8012D13C[] = "\x8Cｷ-     /   ";
 
 #define ACTION_E 0
@@ -514,23 +463,18 @@ void DbCamera_PrintCutBytes(DbCameraCut* cut) {
 
     points = cut->lookAt;
     osSyncPrintf("\n@@@ 0,0,0,2,\t/* Look Camera\t*/");
-    // "/* animation*/"
     osSyncPrintf("\n@@@ 0,1,\t/* dousa\t*/");
 
-    // "/* Start Frame*/"
     osSyncPrintf("\n@@@ 0,0,\t/* Start Flame\t*/");
     DbCamera_PrintU16Bytes(cut->nFrames);
-    // "/* End Frame*/"
     osSyncPrintf("\t/*  End   Flame\t*/");
 
-    // "/* Dummy*/"
     osSyncPrintf("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
     for (i = 0; i < cut->nPoints; i++) {
         point = points + i;
         osSyncPrintf("\n@@@    %d, /*     code     */", point->continueFlag);
         osSyncPrintf("\n@@@    %d,  /*     z        */", point->cameraRoll);
         DbCamera_PrintU16Bytes(point->nextPointFrame);
-        // "/* speed*/"
         osSyncPrintf("\t/*  sokudo\t*/");
         DbCamera_PrintF32Bytes(point->viewAngle);
         osSyncPrintf("\t/*  zoom\t*/");
@@ -540,29 +484,23 @@ void DbCamera_PrintCutBytes(DbCameraCut* cut) {
         osSyncPrintf("\t/*  y pos\t*/");
         DbCamera_PrintS16Bytes(point->pos.z);
         osSyncPrintf("\t/*  z pos\t*/\n");
-        // "/* Dummy*/"
         osSyncPrintf("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
     }
 
     points = cut->position;
     osSyncPrintf("\n@@@ 0,0,0,1,\t/* Position Camera */");
-    // "/* animation*/"
     osSyncPrintf("\n@@@ 0,1,\t/* dousa\t*/");
 
-    // "/* Start Frame*/"
     osSyncPrintf("\n@@@ 0,0,\t/* Start Flame\t*/");
     DbCamera_PrintU16Bytes(cut->nFrames);
-    // "/* End Frame*/"
     osSyncPrintf("\t/*  End   Flame\t*/");
 
-    // "/* Dummy*/"
     osSyncPrintf("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
     for (i = 0; i < cut->nPoints; i++) {
         point = points + i;
         osSyncPrintf("\n@@@    %d, /*     code     */", point->continueFlag);
         osSyncPrintf("\n@@@    %d, /*     z        */", point->cameraRoll);
         DbCamera_PrintU16Bytes(point->nextPointFrame);
-        // "/* speed*/"
         osSyncPrintf("\t/*  sokudo\t*/");
         DbCamera_PrintF32Bytes(point->viewAngle);
         osSyncPrintf("\t/*  zoom\t*/");
@@ -572,7 +510,6 @@ void DbCamera_PrintCutBytes(DbCameraCut* cut) {
         osSyncPrintf("\t/*  y pos\t*/");
         DbCamera_PrintS16Bytes(point->pos.z);
         osSyncPrintf("\t/*  z pos\t*/");
-        // "/* Dummy*/"
         osSyncPrintf("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
     }
 }
@@ -1595,14 +1532,14 @@ char DbCamera_InitCut(s32 idx, DbCameraSub* sub) {
     i = sub->nPoints * sizeof(CutsceneCameraPoint);
     sDbCameraCuts[idx].lookAt = DebugArena_MallocDebug(i, "../db_camera.c", 2748);
     if (sDbCameraCuts[idx].lookAt == NULL) {
-        // "%s: %d: debug camera memory allocation failure!!"
+        // Debug camera memory allocation failure
         osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2751);
         return '?';
     }
 
     sDbCameraCuts[idx].position = DebugArena_MallocDebug(i, "../db_camera.c", 2754);
     if (sDbCameraCuts[idx].position == NULL) {
-        // "%s: %d: debug camera memory allocation failure!!"
+        // Debug camera memory allocation failure
         osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2757);
         DebugArena_FreeDebug(sDbCameraCuts[idx].lookAt, "../db_camera.c", 2758);
         sDbCameraCuts[idx].lookAt = NULL;
@@ -1680,7 +1617,7 @@ s32 DbCamera_LoadCallback(char* c) {
 
             sDbCameraCuts[i].lookAt = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2844);
             if (sDbCameraCuts[i].lookAt == NULL) {
-                // "%s: %d: debug camera memory allocation failure!!"
+                // Debug camera memory allocation failure
                 osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2847);
                 return false;
             }
@@ -1691,7 +1628,7 @@ s32 DbCamera_LoadCallback(char* c) {
 
             sDbCameraCuts[i].position = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2855);
             if (sDbCameraCuts[i].position == NULL) {
-                // "%s: %d: debug camera memory allocation failure!!"
+                // Debug camera memory allocation failure
                 osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2858);
                 return false;
             }
