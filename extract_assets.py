@@ -109,8 +109,8 @@ def main():
             with Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
                 p.map(ExtractFunc, xmlFiles)
         except ProcessError:
-            print(f"Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
-            print(f"Disabling mutliprocessing.", file=os.sys.stderr)
+            print("Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
+            print("Disabling mutliprocessing.", file=os.sys.stderr)
 
             initializeWorker(mainAbort, args.unaccounted, extractedAssetsTracker, manager)
             for singlePath in xmlFiles:
