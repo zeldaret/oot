@@ -153,7 +153,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
-        this->actor.naviEnemyId = 6;
+        this->actor.naviEnemyId = 0x06;
         this->timer = 0;
         this->collider.base.acFlags |= AC_HARD;
         this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;

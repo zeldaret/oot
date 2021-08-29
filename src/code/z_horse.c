@@ -112,7 +112,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
             }
         }
     } else if (!Flags_GetEventChkInf(0x18)) {
-        if ((DREG(1) == 0) && (globalCtx->sceneNum == SCENE_SOUKO) && (gSaveContext.nightFlag != 0)) {
+        if ((DREG(1) == 0) && (globalCtx->sceneNum == SCENE_SOUKO) && !IS_DAY) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 0.0f, 0.0f, -60.0f, 0, 0x7360, 0, 1);
         }
     }

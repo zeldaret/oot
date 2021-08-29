@@ -274,7 +274,7 @@ void CollisionPoly_GetVerticesByBgId(CollisionPoly* poly, s32 bgId, CollisionCon
         osSyncPrintf(VT_RST);
 
         if (dest != NULL) {
-            // @bug: dest[2] x and y are not set to 0
+            //! @bug: dest[2] x and y are not set to 0
             dest[0].x = dest[0].y = dest[0].z = dest[1].x = dest[1].y = dest[1].z = dest[2].z = 0.0f;
         }
     } else {

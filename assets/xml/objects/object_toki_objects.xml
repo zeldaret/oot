@@ -16,7 +16,7 @@
         <Texture Name="object_toki_objects_Tex_006FC0" OutName="tex_006FC0" Format="rgba16" Width="16" Height="16" Offset="0x6FC0" />
         <DList Name="object_toki_objects_DL_007440" Offset="0x7440" />
         <DList Name="object_toki_objects_DL_007578" Offset="0x7578" />
-        <Blob Name="object_toki_objects_Blob_0076B0" Size="0x210" Offset="0x76B0" />
+        <Collision Name="gDoorTokiCol" Offset="0x7888"/>
         <DList Name="object_toki_objects_DL_007E20" Offset="0x7E20" />
         <DList Name="object_toki_objects_DL_007EE0" Offset="0x7EE0" />
         <DList Name="object_toki_objects_DL_008190" Offset="0x8190" />

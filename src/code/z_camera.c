@@ -1885,7 +1885,7 @@ s32 Camera_Normal3(Camera* camera) {
                                                     camera->yawUpdateRateInv, sp98, 0.1f);
         camera->pitchUpdateRateInv = Camera_LERPCeilF((f32)OREG(7) + (anim->swing.swingUpdateRateTimer * 2),
                                                       camera->pitchUpdateRateInv, sp94, 0.1f);
-        if (!sp98) {}
+        if (1) {}
         anim->swing.swingUpdateRateTimer--;
     } else {
         camera->yawUpdateRateInv = Camera_LERPCeilF(norm3->yawUpdateSpeed, camera->yawUpdateRateInv, sp98, 0.1f);
@@ -2157,7 +2157,7 @@ s32 Camera_Parallel3(Camera* camera) {
     if (val & 2) {
         camera->unk_14C |= 0x10;
     }
-    // @bug doesn't return
+    //! @bug doesn't return
 }
 
 s32 Camera_Parallel4(Camera* camera) {
@@ -3385,7 +3385,6 @@ s32 Camera_KeepOn3(Camera* camera) {
         sp82 = atToEyeAdj.pitch;
         playerHeadPos = camPlayerPosRot->pos;
         playerHeadPos.y += playerHeight;
-        if (!temp_f0) {}
         Camera_Vec3fVecSphGeoAdd(&anim->atTarget, &playerHeadPos, &targetToPlayerDir);
         angleCnt = ARRAY_COUNT(D_8011D3B0);
         i = 0;
@@ -6165,7 +6164,7 @@ s32 Camera_Demo7(Camera* camera) {
         camera->unk_14C |= 0x1000;
         camera->animState++;
     }
-    // @bug doesn't return
+    //! @bug doesn't return
 }
 
 s32 Camera_Demo8(Camera* camera) {
@@ -6791,7 +6790,7 @@ s32 Camera_Special9(Camera* camera) {
             }
             break;
     }
-    if (!camera->globalCtx->state.frames) {}
+    if (1) {}
     spAC = playerPosRot->pos;
     spAC.y += playerYOffset;
     camera->dist = OLib_Vec3fDist(&spAC, eye);
@@ -7221,7 +7220,7 @@ s32 Camera_CheckWater(Camera* camera) {
         }
         func_800F6828(0);
     }
-    // @BUG: doesn't always return a value, but sometimes does.
+    //! @bug: doesn't always return a value, but sometimes does.
 }
 
 /**
@@ -7504,11 +7503,11 @@ Vec3s Camera_Update(Camera* camera) {
     if (gDbgCamEnabled) {
         camera->globalCtx->view.fovy = D_8015BD80.fov;
         DbCamera_Update(&D_8015BD80, camera);
-        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.up);
+        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");
         }
-        return D_8015BD80.unk_10C6;
+        return D_8015BD80.sub.unk_104A;
     }
 
     OREG(0) &= ~8;
@@ -7867,7 +7866,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 bgCamDataId) {
             camera->unk_14A |= 4;
             Camera_CopyModeValuesToPREG(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
-            // @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
+            //! @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
             // bgCamDataId would make more sense.
             osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, bgCamDataId,
                          camera->camId, BGCHECK_SCENE, newCameraSetting);
@@ -7878,7 +7877,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 bgCamDataId) {
 
 Vec3s* Camera_GetInputDir(Vec3s* dst, Camera* camera) {
     if (gDbgCamEnabled) {
-        *dst = D_8015BD80.unk_10C6;
+        *dst = D_8015BD80.sub.unk_104A;
         return dst;
     } else {
         *dst = camera->inputDir;
@@ -7902,7 +7901,7 @@ s16 Camera_GetInputDirYaw(Camera* camera) {
 
 Vec3s* Camera_GetCamDir(Vec3s* dst, Camera* camera) {
     if (gDbgCamEnabled) {
-        *dst = D_8015BD80.unk_10C6;
+        *dst = D_8015BD80.sub.unk_104A;
         return dst;
     } else {
         *dst = camera->camDir;

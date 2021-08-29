@@ -192,8 +192,8 @@ void EnPeehat_SetupAction(EnPeehat* this, EnPeehatActionFunc actionFunc) {
 void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPeehat* this = THIS;
 
-    Actor_ProcessInitChain(thisx, sInitChain);
-    Actor_SetScale(thisx, 36.0f * 0.001f);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    Actor_SetScale(&this->actor, 36.0f * 0.001f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gPeehatSkel, &gPeehatRisingAnim, this->jointTable, this->morphTable,
                    24);
     ActorShape_Init(&this->actor.shape, 100.0f, ActorShadow_DrawCircle, 27.0f);
@@ -205,11 +205,11 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.floorHeight = this->actor.world.pos.y;
     Collider_InitCylinder(globalCtx, &this->colCylinder);
-    Collider_SetCylinder(globalCtx, &this->colCylinder, thisx, &sCylinderInit);
+    Collider_SetCylinder(globalCtx, &this->colCylinder, &this->actor, &sCylinderInit);
     Collider_InitQuad(globalCtx, &this->colQuad);
-    Collider_SetQuad(globalCtx, &this->colQuad, thisx, &sQuadInit);
+    Collider_SetQuad(globalCtx, &this->colQuad, &this->actor, &sQuadInit);
     Collider_InitJntSph(globalCtx, &this->colJntSph);
-    Collider_SetJntSph(globalCtx, &this->colJntSph, thisx, &sJntSphInit, this->colJntSphItemList);
+    Collider_SetJntSph(globalCtx, &this->colJntSph, &this->actor, &sJntSphInit, this->colJntSphItemList);
 
     this->actor.naviEnemyId = 0x48;
     this->xzDistToRise = 740.0f;
@@ -310,8 +310,8 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
-    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim), 2,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim),
+                     ANIMMODE_ONCE, 0.0f);
     this->seekPlayerTimer = 600;
     this->unk2D4 = 0;
     this->unk2FA = 0;
@@ -321,7 +321,7 @@ void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
 }
 
 void EnPeehat_Ground_StateGround(EnPeehat* this, GlobalContext* globalCtx) {
-    if (gSaveContext.nightFlag == 0) {
+    if (IS_DAY) {
         this->actor.flags |= 1;
         if (this->riseDelayTimer == 0) {
             if (this->actor.xzDistToPlayer < this->xzDistToRise) {
@@ -348,17 +348,17 @@ void EnPeehat_Ground_StateGround(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Flying_SetStateGround(EnPeehat* this) {
-    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim), 2,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, Animation_GetLastFrame(&gPeehatRisingAnim),
+                     ANIMMODE_ONCE, 0.0f);
     this->seekPlayerTimer = 400;
     this->unk2D4 = 0;
-    this->unk2FA = 0; // @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
+    this->unk2FA = 0; //! @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
     this->state = PEAHAT_STATE_4;
     EnPeehat_SetupAction(this, EnPeehat_Flying_StateGrounded);
 }
 
 void EnPeehat_Flying_StateGrounded(EnPeehat* this, GlobalContext* globalCtx) {
-    if (gSaveContext.nightFlag == 0) {
+    if (IS_DAY) {
         if (this->actor.xzDistToPlayer < this->xzDistToRise) {
             EnPeehat_Flying_SetStateRise(this);
         }
@@ -386,7 +386,7 @@ void EnPeehat_Flying_SetStateFly(EnPeehat* this) {
 void EnPeehat_Flying_StateFly(EnPeehat* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
     SkelAnime_Update(&this->skelAnime);
-    if ((gSaveContext.nightFlag != 0) || this->xzDistToRise < this->actor.xzDistToPlayer) {
+    if (!IS_DAY || this->xzDistToRise < this->actor.xzDistToPlayer) {
         EnPeehat_Flying_SetStateLanding(this);
     } else if (this->actor.xzDistToPlayer < this->xzDistMax) {
         if (this->unk2FA < MAX_LARVA && (globalCtx->gameplayFrames & 7) == 0) {
@@ -404,11 +404,10 @@ void EnPeehat_Flying_StateFly(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Ground_SetStateRise(EnPeehat* this) {
-    f32 lastFrame;
+    f32 lastFrame = Animation_GetLastFrame(&gPeehatRisingAnim);
 
-    lastFrame = Animation_GetLastFrame(&gPeehatRisingAnim);
     if (this->state != PEAHAT_STATE_STUNNED) {
-        Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, lastFrame, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     }
     this->state = PEAHAT_STATE_8;
     this->animTimer = lastFrame;
@@ -449,7 +448,7 @@ void EnPeehat_Flying_SetStateRise(EnPeehat* this) {
 
     lastFrame = Animation_GetLastFrame(&gPeehatRisingAnim);
     if (this->state != PEAHAT_STATE_STUNNED) {
-        Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, lastFrame, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &gPeehatRisingAnim, 0.0f, 3.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     }
     this->state = PEAHAT_STATE_9;
     this->animTimer = lastFrame;
@@ -470,7 +469,8 @@ void EnPeehat_Flying_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
             }
         }
         if (SkelAnime_Update(&this->skelAnime) || this->animTimer == 0) {
-            this->unk2FA = 0; // @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
+            //! @bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
+            this->unk2FA = 0;
             EnPeehat_Flying_SetStateFly(this);
         } else {
             this->actor.world.pos.y += 18.0f;
@@ -504,8 +504,7 @@ void EnPeehat_Ground_StateSeekPlayer(EnPeehat* this, GlobalContext* globalCtx) {
     } else {
         this->seekPlayerTimer--;
     }
-    if ((gSaveContext.nightFlag == 0) &&
-        (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->xzDistMax)) {
+    if (IS_DAY && (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->xzDistMax)) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 1000, 0);
         if (this->unk2FA != 0) {
             this->actor.shape.rot.y += 0x1C2;
@@ -682,8 +681,7 @@ void EnPeehat_Ground_StateHover(EnPeehat* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y += 0x15E;
     // if daytime, and the player is close to the initial spawn position
-    if ((gSaveContext.nightFlag == 0) &&
-        Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->xzDistMax) {
+    if (IS_DAY && Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->xzDistMax) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         EnPeehat_Ground_SetStateSeekPlayer(this);
         this->unk2FA = globalCtx->gameplayFrames & 1;
@@ -725,8 +723,7 @@ void EnPeehat_Ground_StateReturnHome(EnPeehat* this, GlobalContext* globalCtx) {
         EnPeehat_Ground_SetStateLanding(this);
         this->riseDelayTimer = 60;
     }
-    if (gSaveContext.nightFlag == 0 &&
-        Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->xzDistMax) {
+    if (IS_DAY && Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->xzDistMax) {
         this->seekPlayerTimer = 400;
         EnPeehat_Ground_SetStateSeekPlayer(this);
         this->unk2FA = (globalCtx->gameplayFrames & 1);

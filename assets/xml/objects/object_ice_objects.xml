@@ -1,17 +1,18 @@
 <Root>
     <File Name="object_ice_objects" Segment="6">
         <DList Name="object_ice_objects_DL_000190" Offset="0x190"/>
-        <Blob Name="object_ice_objects_Blob_0002B8" Size="0x168" Offset="0x2B8"/>
+        <Collision Name="object_ice_objects_Col_0003F0" Offset="0x3F0"/>
         <DList Name="object_ice_objects_DL_0006F0" Offset="0x6F0"/>
         <DList Name="object_ice_objects_DL_0012A0" Offset="0x12A0"/>
-        <Blob Name="object_ice_objects_Blob_001520" Size="0x730" Offset="0x1520"/>
+        <Collision Name="object_ice_objects_Col_001C1C" Offset="0x1C1C"/>
         <DList Name="object_ice_objects_DL_001D10" Offset="0x1D10"/>
         <DList Name="object_ice_objects_DL_0021F0" Offset="0x21F0"/>
         <DList Name="object_ice_objects_DL_0023D0" Offset="0x23D0"/>
-        <Blob Name="object_ice_objects_Blob_002470" Size="0x150" Offset="0x2470"/>
+        <Collision Name="object_ice_objects_Col_002594" Offset="0x2594"/>
         <DList Name="object_ice_objects_DL_002640" Offset="0x2640"/>
         <DList Name="object_ice_objects_DL_002740" Offset="0x2740"/>
-        <Blob Name="object_ice_objects_Blob_0027D8" Size="0x178" Offset="0x27D8"/>
+        <Collision Name="object_ice_objects_Col_002854" Offset="0x2854"/>
+        <Collision Name="object_ice_objects_Col_002920" Offset="0x2920"/>
         <Texture Name="object_ice_objects_Tex_002950" OutName="tex_00002950" Format="rgba16" Width="32" Height="32" Offset="0x2950"/>
         <Texture Name="object_ice_objects_Tex_003150" OutName="tex_00003150" Format="i8" Width="32" Height="128" Offset="0x3150"/>
         <Texture Name="object_ice_objects_Tex_004150" OutName="tex_00004150" Format="rgba16" Width="32" Height="32" Offset="0x4150"/>

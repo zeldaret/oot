@@ -116,7 +116,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
                 this->collider.base.atFlags |= AT_TYPE_PLAYER;
 
                 this->collider.info.toucher.dmgFlags = 2;
-                func_800D20CC(&player->shieldMf, &sp4C, 0);
+                Matrix_MtxFToYXZRotS(&player->shieldMf, &sp4C, 0);
                 this->actor.world.rot.y = sp4C.y + 0x8000;
                 this->timer = 30;
                 return;

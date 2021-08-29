@@ -5,6 +5,7 @@
  */
 
 #include "z_en_siofuki.h"
+#include "objects/object_siofuki/object_siofuki.h"
 
 #define FLAGS 0x00000030
 
@@ -35,9 +36,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern Gfx D_06000B70[];
-extern UNK_TYPE D_06000D78;
-
 void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSiofuki* this = THIS;
     s32 type;
@@ -51,7 +49,7 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&D_06000D78, &colHeader);
+    CollisionHeader_GetVirtual(&object_siofuki_Col_000D78, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->sfxFlags |= 1;
 
@@ -294,7 +292,7 @@ void EnSiofuki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     x = gameplayFrames * 15;
     y = gameplayFrames * -15;
     gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, x, y, 64, 64, 1, x, y, 64, 64));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000B70);
+    gSPDisplayList(POLY_XLU_DISP++, object_siofuki_DL_000B70);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_siofuki.c", 674);
 
     if (this->sfxFlags & 1) {

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bdfire.h"
+#include "objects/object_kingdodongo/object_kingdodongo.h"
 
 #define FLAGS 0x00000030
 
@@ -18,8 +19,6 @@ void EnBdfire_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx);
 void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx);
 void func_809BC598(EnBdfire* this, GlobalContext* globalCtx);
-
-extern Gfx D_0601D950[];
 
 const ActorInit En_Bdfire_InitVars = {
     0,
@@ -219,7 +218,7 @@ void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
     Matrix_Translate(0.0f, 11.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 647),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_0601D950);
+    gSPDisplayList(POLY_XLU_DISP++, object_kingdodongo_DL_01D950);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 651);
 }
 

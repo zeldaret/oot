@@ -76,48 +76,48 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 18, 32, 0, { 0, 0, 0 } },
 };
 
-u16 D_809F040C[] = {
+static u16 D_809F040C[] = {
     0x10A0, 0x10A1, 0x10A2, 0x10CA, 0x10CB, 0x10CC, 0x10CD, 0x10CE, 0x10CF, 0x10DC, 0x10DD,
 };
 
 // Debug text: sells  { Deku Nuts, Deku Sticks, Piece of Heart, Deku Seeds,
 //                      Deku Shield, Bombs, Arrows, Red Potion,
 //                      Green Potion, Deku Stick Upgrade, Deku Nut Upgrade }
-char* D_809F0424[] = {
+static char* D_809F0424[] = {
     "デクの実売り            ", "デクの棒売り            ", "ハートの欠片売り        ", "デクの種売り            ",
     "デクの盾売り            ", "バクダン売り            ", "矢売り                  ", "赤のくすり売り          ",
     "緑のくすり売り          ", "デクの棒持てる数を増やす", "デクの実持てる数を増やす",
 };
 
-DnsItemEntry D_809F0450 = { 20, 5, GI_NUTS_5_2, func_809EF5A4, func_809EFA28 };
+static DnsItemEntry D_809F0450 = { 20, 5, GI_NUTS_5_2, func_809EF5A4, func_809EFA28 };
 
-DnsItemEntry D_809F0460 = { 15, 1, GI_STICKS_1, func_809EF658, func_809EF9F8 };
+static DnsItemEntry D_809F0460 = { 15, 1, GI_STICKS_1, func_809EF658, func_809EF9F8 };
 
-DnsItemEntry D_809F0470 = { 10, 1, GI_HEART_PIECE, func_809EF70C, func_809EFA58 };
+static DnsItemEntry D_809F0470 = { 10, 1, GI_HEART_PIECE, func_809EF70C, func_809EFA58 };
 
-DnsItemEntry D_809F0480 = { 40, 30, GI_SEEDS_30, func_809EF73C, func_809EF9F8 };
+static DnsItemEntry D_809F0480 = { 40, 30, GI_SEEDS_30, func_809EF73C, func_809EF9F8 };
 
-DnsItemEntry D_809F0490 = { 50, 1, GI_SHIELD_DEKU, func_809EF800, func_809EF9F8 };
+static DnsItemEntry D_809F0490 = { 50, 1, GI_SHIELD_DEKU, func_809EF800, func_809EF9F8 };
 
-DnsItemEntry D_809F04A0 = { 40, 5, GI_BOMBS_5, func_809EF854, func_809EFA9C };
+static DnsItemEntry D_809F04A0 = { 40, 5, GI_BOMBS_5, func_809EF854, func_809EFA9C };
 
-DnsItemEntry D_809F04B0 = { 70, 20, GI_ARROWS_LARGE, func_809EF8F4, func_809EFACC };
+static DnsItemEntry D_809F04B0 = { 70, 20, GI_ARROWS_LARGE, func_809EF8F4, func_809EFACC };
 
-DnsItemEntry D_809F04C0 = { 40, 1, GI_POTION_RED, func_809EF9A4, func_809EF9F8 };
+static DnsItemEntry D_809F04C0 = { 40, 1, GI_POTION_RED, func_809EF9A4, func_809EF9F8 };
 
-DnsItemEntry D_809F04D0 = { 40, 1, GI_POTION_GREEN, func_809EF9A4, func_809EF9F8 };
+static DnsItemEntry D_809F04D0 = { 40, 1, GI_POTION_GREEN, func_809EF9A4, func_809EF9F8 };
 
-DnsItemEntry D_809F04E0 = { 40, 1, GI_STICK_UPGRADE_20, func_809EF70C, func_809EFAFC };
+static DnsItemEntry D_809F04E0 = { 40, 1, GI_STICK_UPGRADE_20, func_809EF70C, func_809EFAFC };
 
-DnsItemEntry D_809F04F0 = { 40, 1, GI_NUT_UPGRADE_30, func_809EF70C, func_809EFB40 };
+static DnsItemEntry D_809F04F0 = { 40, 1, GI_NUT_UPGRADE_30, func_809EF70C, func_809EFB40 };
 
-DnsItemEntry* D_809F0500[] = {
+static DnsItemEntry* sItemEntries[] = {
     &D_809F0450, &D_809F0460, &D_809F0470, &D_809F0480, &D_809F0490, &D_809F04A0,
     &D_809F04B0, &D_809F04C0, &D_809F04D0, &D_809F04E0, &D_809F04F0,
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 78, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x4E, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -128,10 +128,10 @@ typedef struct {
     /* 0x08 */ f32 transitionRate;
 } DnsAnimInfo; // size = 0xC
 
-DnsAnimInfo D_809F0538[] = {
-    { &gBusinessScrubNervousIdleAnim, 0x00, 0.0f },
-    { &gBusinessScrubAnim_4404, 0x02, 0.0f },
-    { &gBusinessScrubNervousTransitionAnim, 0x02, 0.0f },
+static DnsAnimInfo sAnimInfo[] = {
+    { &gBusinessScrubNervousIdleAnim, ANIMMODE_LOOP, 0.0f },
+    { &gBusinessScrubAnim_4404, ANIMMODE_ONCE, 0.0f },
+    { &gBusinessScrubNervousTransitionAnim, ANIMMODE_ONCE, 0.0f },
 };
 
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -165,7 +165,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
-    this->dnsItemEntry = D_809F0500[this->actor.params];
+    this->dnsItemEntry = sItemEntries[this->actor.params];
     this->actionFunc = EnDns_SetupWait;
 }
 
@@ -178,10 +178,10 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDns_Change(EnDns* this, u8 arg1) {
     s16 frameCount;
 
-    frameCount = Animation_GetLastFrame(D_809F0538[arg1].anim);
+    frameCount = Animation_GetLastFrame(sAnimInfo[arg1].anim);
     this->unk_2BA = arg1; // Not used anywhere else?
-    Animation_Change(&this->skelAnime, D_809F0538[arg1].anim, 1.0f, 0.0f, (f32)frameCount, D_809F0538[arg1].mode,
-                     D_809F0538[arg1].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimInfo[arg1].anim, 1.0f, 0.0f, (f32)frameCount, sAnimInfo[arg1].mode,
+                     sAnimInfo[arg1].transitionRate);
 }
 
 /* Item give checking functions */

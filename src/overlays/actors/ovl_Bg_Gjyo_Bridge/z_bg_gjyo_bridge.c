@@ -38,8 +38,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CutsceneData D_02002640[];
-
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGjyoBridge* this = THIS;
     s32 pad;

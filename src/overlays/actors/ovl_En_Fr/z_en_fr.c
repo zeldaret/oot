@@ -1,6 +1,7 @@
 #include "z_en_fr.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "vt.h"
+#include "objects/object_fr/object_fr.h"
 
 #define FLAGS 0x02000019
 
@@ -50,11 +51,6 @@ void EnFr_Deactivate(EnFr* this, GlobalContext* globalCtx);
 void EnFr_GiveReward(EnFr* this, GlobalContext* globalCtx);
 void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx);
 
-extern FlexSkeletonHeader D_0600B498; // Frog
-extern AnimationHeader D_06001534;    // Frog
-extern AnimationHeader D_060007BC;    // Frog Jumping
-extern AnimationHeader D_060011C0;    // Frog Landing
-
 /*
 Frogs params WIP docs
 
@@ -100,7 +96,7 @@ typedef struct {
     f32 yDist;
 } LogSpotToFromWater;
 
-EnFrPointers sEnFrPointers = {
+static EnFrPointers sEnFrPointers = {
     0x00,
     {
         NULL,
@@ -112,12 +108,12 @@ EnFrPointers sEnFrPointers = {
 };
 
 // Flags for gSaveContext.eventChkInf[13]
-u16 sSongIndex[] = {
+static u16 sSongIndex[] = {
     0x0002, 0x0004, 0x0010, 0x0008, 0x0020, 0x0040, 0x0001, 0x0000,
 };
 
 // Frog to Index for Song Flag (sSongIndex) Mapping
-u8 sFrogToSongIndex[] = {
+static u8 sFrogToSongIndex[] = {
     FROG_SARIA, FROG_SUNS, FROG_SOT, FROG_ZL, FROG_EPONA,
 };
 
@@ -278,8 +274,8 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         sEnFrPointers.frogs[frogIndex] = this;
         Actor_ProcessInitChain(&this->actor, sInitChain);
         // frog
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, this->jointTable, this->morphTable,
-                           24);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fr_Skel_00B498, &object_fr_Anim_001534,
+                           this->jointTable, this->morphTable, 24);
         // butterfly
         SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim,
                        this->jointTableButterfly, this->morphTableButterfly, 8);
@@ -397,7 +393,8 @@ void EnFr_DecrementBlinkTimerUpdate(EnFr* this) {
 
 void EnFr_SetupJumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
     if (sEnFrPointers.flags == sTimerJumpingOutOfWater[this->actor.params - 1]) {
-        Animation_Change(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060007BC), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &object_fr_Anim_0007BC, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_fr_Anim_0007BC), ANIMMODE_ONCE, 0.0f);
         EnFr_DrawActive(this);
         this->actionFunc = EnFr_JumpingOutOfWater;
     }
@@ -445,17 +442,20 @@ void EnFr_OrientOnLogSpot(EnFr* this, GlobalContext* globalCtx) {
     if ((rotYRemaining == 0) && (this->skelAnime.curFrame == this->skelAnime.endFrame)) {
         sEnFrPointers.flags++;
         this->actionFunc = EnFr_ChooseJumpFromLogSpot;
-        Animation_Change(&this->skelAnime, &D_06001534, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001534), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &object_fr_Anim_001534, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_fr_Anim_001534), ANIMMODE_LOOP, 0.0f);
     }
 }
 
 void EnFr_ChooseJumpFromLogSpot(EnFr* this, GlobalContext* globalCtx) {
     if (sEnFrPointers.flags == 12) {
         this->actor.world.rot.y = ((f32)0x8000 / M_PI) * sLogSpotToFromWater[this->actor.params].yaw;
-        Animation_Change(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060007BC), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &object_fr_Anim_0007BC, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_fr_Anim_0007BC), ANIMMODE_ONCE, 0.0f);
         this->actionFunc = EnFr_JumpingBackIntoWater;
     } else if (this->isJumpingUp) {
-        Animation_Change(&this->skelAnime, &D_060007BC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060007BC), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &object_fr_Anim_0007BC, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_fr_Anim_0007BC), ANIMMODE_ONCE, 0.0f);
         this->actionFunc = EnFr_JumpingUp;
     }
 }
@@ -477,7 +477,8 @@ void EnFr_JumpingUp(EnFr* this, GlobalContext* globalCtx) {
     if (EnFr_IsBelowLogSpot(this, &yDistToLogSpot)) {
         this->isJumpingUp = false;
         this->actor.gravity = 0.0f;
-        Animation_Change(&this->skelAnime, &D_060011C0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060011C0), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &object_fr_Anim_0011C0, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_fr_Anim_0011C0), ANIMMODE_LOOP, 0.0f);
         this->actionFunc = EnFr_ChooseJumpFromLogSpot;
     } else if ((this->actor.velocity.y <= 0.0f) && (yDistToLogSpot < 40.0f)) {
         this->skelAnime.playSpeed = 1.0f;
@@ -498,7 +499,8 @@ void EnFr_JumpingBackIntoWater(EnFr* this, GlobalContext* globalCtx) {
 
     // Final Spot Reached
     if ((this->actor.velocity.y < 0.0f) && (this->actor.world.pos.y < yUnderwater)) {
-        Animation_Change(&this->skelAnime, &D_06001534, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001534), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &object_fr_Anim_001534, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_fr_Anim_001534), ANIMMODE_LOOP, 0.0f);
         this->actionFunc = EnFr_SetupJumpingOutOfWater;
         EnFr_DrawIdle(this);
         this->isDeactivating = true;

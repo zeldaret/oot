@@ -377,7 +377,7 @@ void func_80A2FC0C(EnGb* this, GlobalContext* globalCtx) {
 void func_80A2FC70(EnGb* this, GlobalContext* globalCtx) {
     if (this->skelAnime.curFrame == Animation_GetLastFrame(&gPoeSellerSwingStickAnim)) {
         Animation_Change(&this->skelAnime, &gPoeSellerIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gPoeSellerIdleAnim),
-                         0, 0.0f);
+                         ANIMMODE_LOOP, 0.0f);
         this->actionFunc = func_80A2F83C;
     } else if (this->skelAnime.curFrame == 18.0f) {
         this->cagedSouls[1].unk_1 = 3;
@@ -395,21 +395,21 @@ void func_80A2FC70(EnGb* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnGb_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnGb_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnGb* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     s32 i;
     f32 rand;
 
     this->frameTimer++;
     SkelAnime_Update(&this->skelAnime);
-    this->actionFunc(this, globalCtx2);
+    this->actionFunc(this, globalCtx);
     this->dyna.actor.textId = this->textId;
     func_80A2F608(this);
-    CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
     for (i = 0; i < ARRAY_COUNT(this->bottlesColliders); i++) {
-        CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->bottlesColliders[i].base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bottlesColliders[i].base);
     }
 
     rand = Rand_ZeroOne();
@@ -417,7 +417,7 @@ void EnGb_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->lightColor.g = (s8)(rand * 100.0f) + 155;
     this->lightColor.b = (s8)(rand * 160.0f) + 95;
     this->lightColor.a = 200;
-    EnGb_UpdateCagedSouls(this, globalCtx2);
+    EnGb_UpdateCagedSouls(this, globalCtx);
 }
 
 void EnGb_Draw(Actor* thisx, GlobalContext* globalCtx) {

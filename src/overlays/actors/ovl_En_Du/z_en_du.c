@@ -138,7 +138,7 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
 }
 
 s32 func_809FDDB4(EnDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->sceneNum == SCENE_SPOT18 && gSaveContext.linkAge == 1) {
+    if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD) {
         return 1;
     } else if (globalCtx->sceneNum == SCENE_HIDAN && !(gSaveContext.infTable[0x11] & 0x400) && LINK_IS_ADULT) {
         return 1;
@@ -277,7 +277,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE890);
     } else if (globalCtx->sceneNum == 4) {
         EnDu_SetupAction(this, func_809FE638);
-    } else if (LINK_IS_CHILD) {
+    } else if (!LINK_IS_ADULT) {
         EnDu_SetupAction(this, func_809FE3C0);
     } else {
         EnDu_SetupAction(this, func_809FE3B4);

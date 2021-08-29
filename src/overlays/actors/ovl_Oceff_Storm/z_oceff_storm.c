@@ -112,7 +112,7 @@ void OceffStorm_UnkAction(OceffStorm* this, GlobalContext* globalCtx) {
     if (this->primColorAlpha < 100) {
         this->primColorAlpha += 5;
     }
-    // ! @bug Actor_Kill is never called so the actor will stay alive forever
+    //! @bug Actor_Kill is never called so the actor will stay alive forever
 }
 
 void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx) {

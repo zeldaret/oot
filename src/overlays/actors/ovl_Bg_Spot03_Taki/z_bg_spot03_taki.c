@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot03_taki.h"
+#include "objects/object_spot03_object/object_spot03_object.h"
 
 #define FLAGS 0x00000030
 
@@ -33,19 +34,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06000C98;
-
-// These are identical vertex data for the waterfall.
-extern Vtx* D_06000800[]; // Vertex buffer 0
-extern Vtx* D_06000990[]; // Vertex buffer 1
-
-extern Gfx* D_06000B20[];
-extern Gfx* D_06000BC0[];
-extern Gfx* D_06001580[];
-
 void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
     s32 i;
-    Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(D_06000800) : SEGMENTED_TO_VIRTUAL(D_06000990);
+    Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(object_spot03_object_Vtx_000800)
+                                  : SEGMENTED_TO_VIRTUAL(object_spot03_object_Vtx_000990);
 
     for (i = 0; i < 5; i++) {
         vtx[i + 10].v.cn[3] = this->openingAlpha;
@@ -59,7 +51,7 @@ void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->switchFlag = (this->dyna.actor.params & 0x3F);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06000C98, &colHeader);
+    CollisionHeader_GetVirtual(&object_spot03_object_Col_000C98, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->bufferIndex = 0;
@@ -141,21 +133,21 @@ void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
         POLY_XLU_DISP++, 0x08,
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames * 5, 64, 64, 1, 0, gameplayFrames * 5, 64, 64));
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06000B20);
+    gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_000B20);
 
     if (this->bufferIndex == 0) {
-        gSPVertex(POLY_XLU_DISP++, D_06000800, 25, 0);
+        gSPVertex(POLY_XLU_DISP++, object_spot03_object_Vtx_000800, 25, 0);
     } else {
-        gSPVertex(POLY_XLU_DISP++, D_06000990, 25, 0);
+        gSPVertex(POLY_XLU_DISP++, object_spot03_object_Vtx_000990, 25, 0);
     }
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06000BC0);
+    gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_000BC0);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 1, gameplayFrames * 3, 64, 64, 1,
                                 -gameplayFrames, gameplayFrames * 3, 64, 64));
 
-    gSPDisplayList(POLY_XLU_DISP++, D_06001580);
+    gSPDisplayList(POLY_XLU_DISP++, object_spot03_object_DL_001580);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 

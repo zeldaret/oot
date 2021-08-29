@@ -211,9 +211,9 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
     return false;
 }
 
-void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
+void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx2) {
     DoorShutter* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     s32 phi_a3;
     s32 pad;
     s32 objectIndex;
@@ -228,7 +228,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         ShutterSceneInfo* phi_v1;
 
         for (phi_v1 = &sSceneInfo[0], i = 0; i < ARRAY_COUNT(sSceneInfo) - 1; i++, phi_v1++) {
-            if (globalCtx2->sceneNum == phi_v1->sceneNum) {
+            if (globalCtx->sceneNum == phi_v1->sceneNum) {
                 break;
             }
         }
@@ -237,7 +237,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         BossDoorInfo* phi_v1_2;
 
         for (phi_v1_2 = &D_80998288[0], i = 0; i < ARRAY_COUNT(D_80998288) - 1; i++, phi_v1_2++) {
-            if (globalCtx2->sceneNum == phi_v1_2->dungeonScene || globalCtx2->sceneNum == phi_v1_2->bossScene) {
+            if (globalCtx->sceneNum == phi_v1_2->dungeonScene || globalCtx->sceneNum == phi_v1_2->bossScene) {
                 break;
             }
         }
@@ -245,8 +245,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->dyna.actor.room = -1;
     }
-    if (this->requiredObjBankIndex = objectIndex =
-            Object_GetIndex(&globalCtx2->objectCtx, sObjectInfo[phi_a3].objectId),
+    if (this->requiredObjBankIndex = objectIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectInfo[phi_a3].objectId),
         (s8)objectIndex < 0) {
         Actor_Kill(&this->dyna.actor);
         return;
@@ -254,7 +253,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter_SetupAction(this, DoorShutter_SetupType);
     this->unk_16B = phi_a3;
     if (this->doorType == SHUTTER_KEY_LOCKED || this->doorType == SHUTTER_BOSS) {
-        if (!Flags_GetSwitch(globalCtx2, this->dyna.actor.params & 0x3F)) {
+        if (!Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
             this->unk_16E = 10;
         }
         Actor_SetFocus(&this->dyna.actor, 60.0f);
