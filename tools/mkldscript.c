@@ -379,7 +379,7 @@ static void write_ld_script(void)
         for (j = 0; j < seg->includesCount; j++)
         {
             fprintf(fout, "            %s (.rodata)\n", seg->includes[j]);
-            // In other compilers such as GCC, they produce different sections such as
+            // Compilers other than IDO, such as GCC, produce different sections such as
             // the ones named directly below. These sections do not contain values that
             // need relocating, but we need to ensure that the base .rodata section
             // always comes first. The reason this is important is due to relocs assuming
