@@ -184,7 +184,8 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
     }
 
-    Matrix_RotateY((s16)((Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f),
+    Matrix_RotateY((s16)((Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y) + 0x8000) *
+                       (M_PI / 32768.0f),
                    MTXMODE_APPLY);
 
     if (this->actor.params & 1) {

@@ -614,12 +614,16 @@ void func_80ADF15C(EnPoh* this, GlobalContext* globalCtx) {
         if (this->unk_198 < 5) {
             vec.y = Math_SinS((this->unk_198 * 0x1000) - 0x4000) * 23.0f + (this->actor.world.pos.y + 40.0f);
             multiplier = Math_CosS((this->unk_198 * 0x1000) - 0x4000) * 23.0f;
-            vec.x = Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * multiplier + this->actor.world.pos.x;
-            vec.z = Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * multiplier + this->actor.world.pos.z;
+            vec.x = Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * multiplier +
+                    this->actor.world.pos.x;
+            vec.z = Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * multiplier +
+                    this->actor.world.pos.z;
         } else {
             vec.y = (this->actor.world.pos.y + 40.0f) + (15.0f * (this->unk_198 - 5));
-            vec.x = Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f + this->actor.world.pos.x;
-            vec.z = Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f + this->actor.world.pos.z;
+            vec.x =
+                Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f + this->actor.world.pos.x;
+            vec.z =
+                Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f + this->actor.world.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255,
                              0, 0, 255, 1, 9, 1);

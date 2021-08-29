@@ -658,8 +658,8 @@ void BossSst_HeadNeutral(BossSst* this, GlobalContext* globalCtx) {
             this->timer = 28;
         }
     } else {
-        Math_ApproachS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&GET_PLAYER(globalCtx)->actor, &sRoomCenter) + 0x8000, 4,
-                       0x400);
+        Math_ApproachS(&this->actor.shape.rot.y,
+                       Actor_WorldYawTowardPoint(&GET_PLAYER(globalCtx)->actor, &sRoomCenter) + 0x8000, 4, 0x400);
         if ((this->timer == 28) || (this->timer == 84)) {
             BossSst_HeadSfx(this, NA_SE_EN_SHADEST_PRAY);
         }

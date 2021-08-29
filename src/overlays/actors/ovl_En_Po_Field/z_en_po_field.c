@@ -552,12 +552,16 @@ void EnPoField_Death(EnPoField* this, GlobalContext* globalCtx) {
         if (this->actionTimer < 5) {
             sp6C.y = Math_SinS(this->actionTimer * 0x1000 - 0x4000) * 23.0f + (this->actor.world.pos.y + 40.0f);
             sp68 = Math_CosS(this->actionTimer * 0x1000 - 0x4000) * 23.0f;
-            sp6C.x = Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * sp68 + this->actor.world.pos.x;
-            sp6C.z = Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * sp68 + this->actor.world.pos.z;
+            sp6C.x =
+                Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * sp68 + this->actor.world.pos.x;
+            sp6C.z =
+                Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * sp68 + this->actor.world.pos.z;
         } else {
             sp6C.y = this->actor.world.pos.y + 40.0f + 15.0f * (this->actionTimer - 5);
-            sp6C.x = Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f + this->actor.world.pos.x;
-            sp6C.z = Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f + this->actor.world.pos.z;
+            sp6C.x =
+                Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f + this->actor.world.pos.x;
+            sp6C.z =
+                Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f + this->actor.world.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255,
                              255, 0, 0, 255, 1, 9, 1);
