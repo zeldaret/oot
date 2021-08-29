@@ -1539,7 +1539,7 @@ void func_800E4198(s32 bankId, unk_ldr* mem, RelocInfo* relocInfo, s32 arg3) {
     AudioStruct0D68* item2;
     AudioBankSample* sample;
     s32 count;
-    s32 temp;
+    s32 nChunks;
     u8* addr;
     s32 sp4C;
     s32 i;
@@ -1557,7 +1557,6 @@ void func_800E4198(s32 bankId, unk_ldr* mem, RelocInfo* relocInfo, s32 arg3) {
     for (i = 0; i < gAudioContext.unk_1768; i++) {
         count += ALIGN16(gAudioContext.unk_0B68[i]->size);
     }
-
     if (count && count) {}
 
     for (i = 0; i < gAudioContext.unk_1768; i++) {
@@ -1622,8 +1621,8 @@ void func_800E4198(s32 bankId, unk_ldr* mem, RelocInfo* relocInfo, s32 arg3) {
     if (gAudioContext.unk_176C != 0 && !sp4C) {
         item2 = &gAudioContext.unk_0D68[gAudioContext.unk_176C - 1];
         sample = item2->sample;
-        temp = (sample->size >> 12) + 1;
-        Audio_InitAsyncReq((u32)sample->sampleAddr, item2->ramAddr, sample->size, sample->medium, temp,
+        nChunks = (sample->size >> 12) + 1;
+        Audio_InitAsyncReq((u32)sample->sampleAddr, item2->ramAddr, sample->size, sample->medium, nChunks,
                            &gAudioContext.unk_1E78, item2->encodedInfo);
     }
 }
@@ -1742,9 +1741,134 @@ void func_800E48C0(AudioBankSound* sound) {
     }
 }
 
-// large
-void func_800E4918(s32, s32, RelocInfo*);
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4918.s")
+void func_800E4918(s32 bankId, s32 arg1, RelocInfo *relocInfo) {
+    s32 numDrums; // sp74
+    s32 numInstruments; // sp70, v1
+    s32 numSfx; // sp6C
+    Drum* drum;
+    Instrument* instrument;
+    AudioBankSound* sound;
+    AudioStruct0D68* item;
+    AudioStruct0D68* item2;
+    u8* addr; // sp54
+    s32 count;
+    s32 i;
+    AudioBankSample* sample;
+    s32 sp44;
+    s32 nChunks;
+
+    sp44 = false;
+    if (gAudioContext.unk_176C != 0) {
+        sp44 = true;
+    }
+    gAudioContext.unk_1768 = 0;
+
+    numDrums = gAudioContext.ctlEntries[bankId].numDrums;
+    numInstruments = gAudioContext.ctlEntries[bankId].numInstruments;
+    numSfx = gAudioContext.ctlEntries[bankId].numSfx;
+
+    for (i = 0; i < numInstruments; i++) {
+        instrument = Audio_GetInstrumentInner(bankId, i);
+        if (instrument != NULL) {
+            if (instrument->normalRangeLo != 0) {
+                func_800E48C0(&instrument->lowNotesSound);
+            }
+            if (instrument->normalRangeHi != 0x7F) {
+                func_800E48C0(&instrument->highNotesSound);
+            }
+            func_800E48C0(&instrument->normalNotesSound);
+        }
+    }
+
+    for (i = 0; i < numDrums; i++) {
+        drum = Audio_GetDrum(bankId, i);
+        if (drum != NULL) {
+            func_800E48C0(&drum->sound);
+        }
+    }
+
+    for (i = 0; i < numSfx; i++) {
+        sound = Audio_GetSfx(bankId, i);
+        if (sound != NULL) {
+            func_800E48C0(sound);
+        }
+    }
+
+    if (gAudioContext.unk_1768 == 0) {
+        return;
+    }
+
+    count = 0;
+    for (i = 0; i < gAudioContext.unk_1768; i++) {
+        count += ALIGN16(gAudioContext.unk_0B68[i]->size);
+    }
+    if (count) {}
+
+    for (i = 0; i < gAudioContext.unk_1768; i++) {
+        if (gAudioContext.unk_176C == 120) {
+            break;
+        }
+
+        sample = gAudioContext.unk_0B68[i];
+        if (sample->medium == 0) {
+            continue;
+        }
+
+        switch (arg1) {
+            case 0:
+                if (sample->medium == relocInfo->medium1) {
+                    addr = func_800E05C4(sample->size, relocInfo->index1, sample->sampleAddr, sample->medium, 1);
+                } else if (sample->medium == relocInfo->medium2) {
+                    addr = func_800E05C4(sample->size, relocInfo->index2, sample->sampleAddr, sample->medium, 1);
+                }
+                break;
+
+            case 1:
+                if (sample->medium == relocInfo->medium1) {
+                    addr = func_800E05C4(sample->size, relocInfo->index1, sample->sampleAddr, sample->medium, 0);
+                } else if (sample->medium == relocInfo->medium2) {
+                    addr = func_800E05C4(sample->size, relocInfo->index2, sample->sampleAddr, sample->medium, 0);
+                }
+                break;
+        }
+        if (addr == NULL) {
+            continue;
+        }
+
+        switch (arg1) {
+            case 0:
+                if (sample->medium == 1) {
+                    Audio_NoopCopy((u32)sample->sampleAddr, addr, sample->size, gAudioContext.audioTable->header.unk_02);
+                    sample->sampleAddr = addr;
+                    sample->medium = 0;
+                } else {
+                    Audio_DMAFastCopy((u32)sample->sampleAddr, addr, sample->size, sample->medium);
+                    sample->sampleAddr = addr;
+                    sample->medium = 0;
+                }
+                break;
+
+            case 1:
+                item = &gAudioContext.unk_0D68[gAudioContext.unk_176C];
+                item->sample = sample;
+                item->ramAddr = addr;
+                item->encodedInfo = (gAudioContext.unk_176C << 0x18) | 0xFFFFFF;
+                item->isFree = 0;
+                item->endAndMediumKey = (u32)sample->sampleAddr + sample->size + sample->medium;
+                gAudioContext.unk_176C++;
+                break;
+        }
+    }
+
+    gAudioContext.unk_1768 = 0;
+    if (gAudioContext.unk_176C != 0 && !sp44) {
+        item2 = &gAudioContext.unk_0D68[gAudioContext.unk_176C - 1];
+        sample = item2->sample;
+        nChunks = (sample->size >> 12) + 1;
+        Audio_InitAsyncReq((u32)sample->sampleAddr, item2->ramAddr, sample->size, sample->medium, nChunks,
+                           &gAudioContext.unk_1E78, item2->encodedInfo);
+    }
+}
 
 void func_800E4D94(void) {
     s32 pad;
