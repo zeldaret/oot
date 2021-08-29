@@ -41,30 +41,30 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static u64* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex, gZelda2Eye03Tex,
-                               gZelda2Eye04Tex,   gZelda2Eye05Tex,   gZelda2Eye06Tex,   NULL };
+static void* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex, gZelda2Eye03Tex,
+                                gZelda2Eye04Tex,   gZelda2Eye05Tex,   gZelda2Eye06Tex,   NULL };
 
-static u64* sMouthTextures[] = { gZelda2MouthSeriousTex, gZelda2MouthHappyTex, gZelda2MouthOpenTex };
+static void* sMouthTextures[] = { gZelda2MouthSeriousTex, gZelda2MouthHappyTex, gZelda2MouthOpenTex };
 
-s32 D_80B5A468 = 0;
+static s32 D_80B5A468 = 0;
 
-Vec3f D_80B5A46C = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80B5A46C = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80B5A478 = { 0.0f, 10.0f, 0.0f };
+static Vec3f D_80B5A478 = { 0.0f, 10.0f, 0.0f };
 
-f32 D_80B5A484 = 0.0f;
+static f32 D_80B5A484 = 0.0f;
 
-Vec3f D_80B5A488 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80B5A488 = { 0.0f, 0.0f, 0.0f };
 
-s32 D_80B5A494 = -1;
+static s32 D_80B5A494 = -1;
 
-Vec3f D_80B5A498 = { 148.0f, 260.0f, -87.0f };
+static Vec3f D_80B5A498 = { 148.0f, 260.0f, -87.0f };
 
-Vec3f D_80B5A4A4 = { -12.0f, 260.0f, -147.0f };
+static Vec3f D_80B5A4A4 = { -12.0f, 260.0f, -147.0f };
 
-Vec3f D_80B5A4B0 = { 42.0f, 260.0f, 13.0f };
+static Vec3f D_80B5A4B0 = { 42.0f, 260.0f, 13.0f };
 
-u32 D_80B5A4BC = 0;
+static u32 D_80B5A4BC = 0;
 
 void func_80B533B0(Actor* thisx, GlobalContext* globalCtx) {
     EnZl3* this = THIS;
@@ -620,7 +620,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Push();
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
-        func_800D20CC(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 0);
             func_80B54360(this, sp30.x, 1);
@@ -630,7 +630,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[0], "../z_en_zl3.c", 1490);
         Matrix_Get(&sp38);
-        func_800D20CC(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 3);
         }
@@ -638,7 +638,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[1], "../z_en_zl3.c", 1534);
         Matrix_Get(&sp38);
-        func_800D20CC(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B54360(this, sp30.x, 7);
         }
@@ -649,7 +649,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
-        func_800D20CC(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 9);
             func_80B54360(this, sp30.x, 10);
@@ -659,7 +659,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[3], "../z_en_zl3.c", 1579);
         Matrix_Get(&sp38);
-        func_800D20CC(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 12);
             func_80B54360(this, sp30.x, 13);
@@ -672,7 +672,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
-        func_800D20CC(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 15);
             func_80B54360(this, sp30.x, 16);
@@ -682,7 +682,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[5], "../z_en_zl3.c", 1623);
         Matrix_Get(&sp38);
-        func_800D20CC(&sp38, &sp30, 0);
+        Matrix_MtxFToYXZRotS(&sp38, &sp30, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 18);
             func_80B54360(this, sp30.x, 19);
@@ -2699,10 +2699,10 @@ void func_80B59FE8(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B59FF4(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTex = sEyeTextures[eyeTexIndex];
+    void* eyeTex = sEyeTextures[eyeTexIndex];
     s16 mouthTexIndex = this->mouthTexIndex;
     SkelAnime* skelAnime = &this->skelAnime;
-    u64* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouthTexIndex];
     s32 pad2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2165);
@@ -2724,10 +2724,10 @@ void func_80B59FF4(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTex = sEyeTextures[eyeTexIndex];
+    void* eyeTex = sEyeTextures[eyeTexIndex];
     s16 mouthTexIndex = this->mouthTexIndex;
     SkelAnime* skelAnime = &this->skelAnime;
-    u64* mouthTex = sMouthTextures[mouthTexIndex];
+    void* mouthTex = sMouthTextures[mouthTexIndex];
     s32 pad2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2205);

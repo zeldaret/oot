@@ -219,14 +219,15 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Vec3f effVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f bomb2Accel = { 0.0f, 0.1f, 0.0f };
     Vec3f effAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
     Color_RGBA8 dustColor = { 255, 255, 255, 255 };
-    s32 pad[2];
+    s32 pad;
+    GlobalContext* globalCtx = globalCtx2;
     EnBom* this = THIS;
 
     thisx->gravity = -1.2f;
@@ -314,7 +315,6 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
-            if (globalCtx) {};
             globalCtx->envCtx.unk_8C[1][0] = globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = 0xFA;
             globalCtx->envCtx.unk_8C[0][0] = globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = 0xFA;
             Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);

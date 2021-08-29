@@ -206,7 +206,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetFocus(&this->actor, 30.0f);
     if (tempActionFunc == this->actionFunc) {
         this->npcInfo.focusPos = player->actor.world.pos;
-        if (LINK_IS_CHILD) {
+        if (!LINK_IS_ADULT) {
             this->npcInfo.focusPos.y = player->actor.world.pos.y - 10.0f;
         }
         Npc_TurnTowardsFocus(&this->actor, &this->npcInfo, 2, 4);
@@ -247,7 +247,7 @@ s32 EnNiwGirlOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 
 void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = { gNiwGirlEyeOpenTex, gNiwGirlEyeHalfTex, gNiwGirlEyeClosedTex };
+    static void* eyeTextures[] = { gNiwGirlEyeOpenTex, gNiwGirlEyeHalfTex, gNiwGirlEyeClosedTex };
     EnNiwGirl* this = THIS;
     s32 pad;
     Vec3f sp4C = sConstVec3f;

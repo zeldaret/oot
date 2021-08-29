@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_haka_trap.h"
+#include "objects/object_haka_objects/object_haka_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -106,10 +107,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_060081D0;
-extern CollisionHeader D_06008D10;
-extern CollisionHeader D_06009CD0;
-
 void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     static UNK_TYPE D_80881014 = 0;
     BgHakaTrap* this = THIS;
@@ -139,7 +136,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
             thisx->flags |= 0x10;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
-                CollisionHeader_GetVirtual(&D_06009CD0, &colHeader);
+                CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &colHeader);
                 this->timer = 30;
 
                 if (D_80881014 != 0) {
@@ -158,11 +155,11 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->colliderCylinder.dim.height = 40;
             } else {
                 if (thisx->params == HAKA_TRAP_SPIKED_WALL) {
-                    CollisionHeader_GetVirtual(&D_060081D0, &colHeader);
+                    CollisionHeader_GetVirtual(&object_haka_objects_Col_0081D0, &colHeader);
                     thisx->home.pos.x -= 200.0f;
                 } else {
                     thisx->home.pos.x += 200.0f;
-                    CollisionHeader_GetVirtual(&D_06008D10, &colHeader);
+                    CollisionHeader_GetVirtual(&object_haka_objects_Col_008D10, &colHeader);
                 }
 
                 Collider_InitTris(globalCtx, &this->colliderSpikes);

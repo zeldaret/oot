@@ -1,4 +1,5 @@
 #include "z_bg_ice_shelter.h"
+#include "objects/object_ice_objects/object_ice_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -14,12 +15,6 @@ void func_808911BC(BgIceShelter* this);
 
 void func_8089107C(BgIceShelter* this, GlobalContext* globalCtx);
 void func_808911D4(BgIceShelter* this, GlobalContext* globalCtx);
-
-extern Gfx D_060006F0[];
-extern Gfx D_060012A0[];
-extern CollisionHeader D_06001C1C;
-extern Gfx D_06002640[];
-extern CollisionHeader D_06002920;
 
 const ActorInit Bg_Ice_Shelter_InitVars = {
     ACTOR_BG_ICE_SHELTER,
@@ -158,10 +153,10 @@ void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (type) {
         case 2:
-            func_80890874(this, globalCtx, &D_06001C1C, 0);
+            func_80890874(this, globalCtx, &object_ice_objects_Col_001C1C, 0);
             break;
         case 3:
-            func_80890874(this, globalCtx, &D_06002920, 0);
+            func_80890874(this, globalCtx, &object_ice_objects_Col_002920, 0);
             break;
     }
 
@@ -198,8 +193,8 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->cylinder1);
 }
 
-s16 D_80891794[] = { 0x0000, 0x4000, 0x2000, 0x6000, 0x1000, 0x5000, 0x3000, 0x7000 };
-s16 D_808917A4[] = { 0x0000, 0x003C, 0x0018, 0x0054, 0x0030, 0x000C, 0x0048, 0x0024 };
+static s16 D_80891794[] = { 0x0000, 0x4000, 0x2000, 0x6000, 0x1000, 0x5000, 0x3000, 0x7000 };
+static s16 D_808917A4[] = { 0x0000, 0x003C, 0x0018, 0x0054, 0x0030, 0x000C, 0x0048, 0x0024 };
 
 void func_80890B8C(BgIceShelter* this, GlobalContext* globalCtx, f32 chance, f32 scale) {
     f32 cos;
@@ -421,7 +416,7 @@ void BgIceShelter_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                                         -globalCtx->gameplayFrames & 0x7F, 0x20, 0x20, 1,
                                         -globalCtx->gameplayFrames & 0x7F, globalCtx->gameplayFrames & 0x7F, 0x20,
                                         0x20));
-            gSPDisplayList(POLY_XLU_DISP++, D_060006F0);
+            gSPDisplayList(POLY_XLU_DISP++, object_ice_objects_DL_0006F0);
             break;
 
         case 2:
@@ -433,11 +428,11 @@ void BgIceShelter_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                                         globalCtx->gameplayFrames & 0xFF, 0x40, 0x40, 1,
                                         globalCtx->gameplayFrames & 0xFF, globalCtx->gameplayFrames & 0xFF, 0x40,
                                         0x40));
-            gSPDisplayList(POLY_XLU_DISP++, D_060012A0);
+            gSPDisplayList(POLY_XLU_DISP++, object_ice_objects_DL_0012A0);
             break;
 
         case 3:
-            gSPDisplayList(POLY_XLU_DISP++, D_06002640);
+            gSPDisplayList(POLY_XLU_DISP++, object_ice_objects_DL_002640);
             break;
     }
 

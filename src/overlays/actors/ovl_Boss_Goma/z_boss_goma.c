@@ -333,7 +333,7 @@ void BossGoma_ClearPixels(u8* clearPixelTable, s16 i) {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 1, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x01, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
 
@@ -843,7 +843,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             this->subCameraAt.z = this->actor.world.pos.z;
 
             if (this->framesUntilNextAction < 0) {
-                // @bug ? unreachable, timer is >= 0
+                //! @bug ? unreachable, timer is >= 0
                 SkelAnime_Update(&this->skelanime);
                 Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 2.0f);
             } else {
@@ -1080,7 +1080,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
                 for (i = 0; i < 4; i++) {
                     BossGoma_ClearPixels(sClearPixelTableFirstPass, this->decayingProgress);
-                    // @bug this allows this->decayingProgress = 0x100 = 256 which is out of bounds when accessing
+                    //! @bug this allows this->decayingProgress = 0x100 = 256 which is out of bounds when accessing
                     // sClearPixelTableFirstPass, though timers may prevent this from ever happening?
                     if (this->decayingProgress < 0x100) {
                         this->decayingProgress++;
@@ -1154,7 +1154,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
             for (i = 0; i < 4; i++) {
                 BossGoma_ClearPixels(sClearPixelTableSecondPass, this->decayingProgress);
-                // @bug same as sClearPixelTableFirstPass
+                //! @bug same as sClearPixelTableFirstPass
                 if (this->decayingProgress < 0x100) {
                     this->decayingProgress++;
                 }
@@ -1164,7 +1164,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
         case 3:
             for (i = 0; i < 4; i++) {
                 BossGoma_ClearPixels(sClearPixelTableSecondPass, this->decayingProgress);
-                // @bug same as sClearPixelTableFirstPass
+                //! @bug same as sClearPixelTableFirstPass
                 if (this->decayingProgress < 0x100) {
                     this->decayingProgress++;
                 }
@@ -2070,7 +2070,7 @@ void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         this->deadLimbsState[limbIndex] = 2;
         Matrix_MultVec3f(&zero, &childPos);
         Matrix_Get(&mtx);
-        func_800D20CC(&mtx, &childRot, 0);
+        Matrix_MtxFToYXZRotS(&mtx, &childRot, 0);
         // These are the pieces of Gohma as it falls apart. It appears to use the same actor as the baby gohmas.
         babyGohma = (EnGoma*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA,
                                                 childPos.x, childPos.y, childPos.z, childRot.x, childRot.y, childRot.z,

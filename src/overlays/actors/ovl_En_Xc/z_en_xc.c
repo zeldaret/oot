@@ -48,7 +48,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static u64* sEyeTextures[] = {
+static void* sEyeTextures[] = {
     gSheikEyeOpenTex,
     gSheikEyeHalfClosedTex,
     gSheikEyeShutTex,
@@ -1067,7 +1067,7 @@ void EnXc_DrawPullingOutHarp(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
     s32 pad;
     s16 eyePattern = this->eyeIdx;
-    u64* eyeTexture = sEyeTextures[eyePattern];
+    void* eyeTexture = sEyeTextures[eyePattern];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad2;
@@ -1089,7 +1089,7 @@ void EnXc_DrawHarp(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
     s32 pad;
     s16 eyePattern = this->eyeIdx;
-    u64* eyeTexture = sEyeTextures[eyePattern];
+    void* eyeTexture = sEyeTextures[eyePattern];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad2;
@@ -1699,7 +1699,7 @@ void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
     s32 pad;
     s16 eyeIdx = this->eyeIdx;
-    u64* eyeTexture = sEyeTextures[eyeIdx];
+    void* eyeTexture = sEyeTextures[eyeIdx];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad2;
@@ -2375,7 +2375,7 @@ void EnXc_DrawDefault(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnXc* this = THIS;
     s16 eyeIdx = this->eyeIdx;
-    u64* eyeSegment = sEyeTextures[eyeIdx];
+    void* eyeSegment = sEyeTextures[eyeIdx];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
     GraphicsContext* gfxCtx = localGfxCtx;

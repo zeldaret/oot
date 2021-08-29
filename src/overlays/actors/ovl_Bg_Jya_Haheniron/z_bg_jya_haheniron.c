@@ -6,6 +6,7 @@
 
 #include "z_bg_jya_haheniron.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/object_jya_iron/object_jya_iron.h"
 
 #define FLAGS 0x00000010
 
@@ -76,8 +77,6 @@ static Vec3f D_808987A0[] = { 0.0f, 14.0f, 0.0f };
 
 static Vec3f D_808987AC[] = { 0.0f, 8.0f, 0.0f };
 
-extern Gfx D_06000880[];
-
 void BgJyaHaheniron_ColliderInit(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     s32 pad;
 
@@ -109,7 +108,7 @@ void BgJyaHaheniron_SpawnFragments(GlobalContext* globalCtx, Vec3f* vec1, Vec3f*
         }
 
         EffectSsKakera_Spawn(globalCtx, vec1, &vel, vec1, -350, arg5, 40, 4, 0, sKakeraScales[i], 0, 20, 40,
-                             KAKERA_COLOR_NONE, OBJECT_JYA_IRON, D_06000880);
+                             KAKERA_COLOR_NONE, OBJECT_JYA_IRON, gObjectJyaIronDL_000880);
         angle += 0x3333;
     }
     pos.x = vec1->x + (vec2->x * 5.0f);

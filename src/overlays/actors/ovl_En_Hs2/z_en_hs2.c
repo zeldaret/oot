@@ -6,6 +6,7 @@
 
 #include "z_en_hs2.h"
 #include "vt.h"
+#include "objects/object_hs/object_hs.h"
 
 #define FLAGS 0x00000009
 
@@ -49,16 +50,14 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 40, 0, { 0, 0, 0 } },
 };
 
-extern FlexSkeletonHeader D_06006260;
-extern AnimationHeader D_060005C0;
-
 void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHs2* this = THIS;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->jointTable, this->morphTable, 16);
-    Animation_PlayLoop(&this->skelAnime, &D_060005C0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_hs_Skel_006260, &object_hs_Anim_0005C0, this->jointTable,
+                       this->morphTable, 16);
+    Animation_PlayLoop(&this->skelAnime, &object_hs_Anim_0005C0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;

@@ -3569,5 +3569,5 @@ s16 D_8011DAFC[] = {
 };
 
 GlobalContext* D_8015BD7C;
-DBCamera D_8015BD80;
+DbCamera D_8015BD80;
 CollisionPoly* playerFloorPoly;

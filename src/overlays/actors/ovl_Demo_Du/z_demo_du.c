@@ -19,9 +19,9 @@ static s32 sUnused = 0;
 
 #include "z_demo_du_cutscene_data.c" EARLY
 
-static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
-static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
-                                 gDaruniaMouthHappyTex };
+static void* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
+static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
+                                  gDaruniaMouthHappyTex };
 
 /**
  * Cs => Cutscene
@@ -504,8 +504,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo04(DemoDu* this, GlobalContext* globalCtx) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo05(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
+                         ANIMMODE_LOOP, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(5);
     }
 }
@@ -524,8 +524,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo06(DemoDu* this, GlobalContext* globalCtx) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo07(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
+                         ANIMMODE_LOOP, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(7);
     }
 }
@@ -552,8 +552,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo09(DemoDu* this, s32 animFinished) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo10(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
+                         ANIMMODE_LOOP, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(10);
     }
 }
@@ -584,7 +584,7 @@ void DemoDu_CsGoronsRuby_AdvanceTo13(DemoDu* this, GlobalContext* globalCtx) {
 
         if ((npcAction != NULL) && (npcAction->action != 6)) {
             Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
-                             0, 0.0f);
+                             ANIMMODE_LOOP, 0.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(13);
         }
     }
@@ -703,7 +703,7 @@ void DemoDu_InitCs_AfterGanon(DemoDu* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&gDaruniaSageFormationAnim);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDaruniaSkel, NULL, NULL, NULL, 0);
-    Animation_Change(&this->skelAnime, &gDaruniaSageFormationAnim, 1.0f, 0.0f, lastFrame, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &gDaruniaSageFormationAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
     this->actor.shape.shadowAlpha = 0;
 }
@@ -798,10 +798,10 @@ void DemoDu_Draw_02(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     DemoDu* this = THIS;
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTexture = sEyeTextures[eyeTexIndex];
+    void* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 mouthTexIndex = this->mouthTexIndex;
-    u64* mouthTexture = sMouthTextures[mouthTexIndex];
+    void* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du_inKenjyanomaDemo02.c", 275);
@@ -993,10 +993,10 @@ void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     DemoDu* this = THIS;
     s16 eyeTexIndex = this->eyeTexIndex;
-    u64* eyeTexture = sEyeTextures[eyeTexIndex];
+    void* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 mouthTexIndex = this->mouthTexIndex;
-    u64* mouthTexture = sMouthTextures[mouthTexIndex];
+    void* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du.c", 615);

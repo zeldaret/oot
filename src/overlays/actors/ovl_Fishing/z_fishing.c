@@ -887,10 +887,10 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         D_80B7E07D = (HIGH_SCORE(HS_FISHING) & 0xFF0000) >> 0x10;
         if ((D_80B7E07D & 7) == 7) {
-            globalCtx->unk_11D30[0] = 90;
+            globalCtx->roomCtx.unk_74[0] = 90;
             D_80B7E076 = 1;
         } else {
-            globalCtx->unk_11D30[0] = 40;
+            globalCtx->roomCtx.unk_74[0] = 40;
             D_80B7E076 = 0;
         }
 
@@ -1638,7 +1638,7 @@ void Fishing_DrawLureHook(GlobalContext* globalCtx, Vec3f* pos, Vec3f* refPos, u
 
             Matrix_MultVec3f(&sZeroVec, &effect->pos);
             Matrix_Get(&mf);
-            func_800D20CC(&mf, &sEffOwnerHatRot, 0);
+            Matrix_MtxFToYXZRotS(&mf, &sEffOwnerHatRot, 0);
 
             D_80B7A690 = 0;
             D_80B7A68C = 0;

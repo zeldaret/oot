@@ -6,6 +6,7 @@
 
 #include "z_obj_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/object_bombiwa/object_bombiwa.h"
 
 #define FLAGS 0x00000000
 
@@ -54,17 +55,15 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 0x7D0, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 0x15E, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 0x3E8, ICHAIN_STOP),
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 350, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
 static s16 sEffectScales[] = {
     17, 14, 10, 8, 7, 5, 3, 2,
 };
-
-extern Gfx D_060009E0[];
 
 void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
     ObjBombiwa* this = THIS;
@@ -106,7 +105,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
     s16 scale;
     s32 i;
 
-    dlist = D_060009E0;
+    dlist = object_bombiwa_DL_0009E0;
     for (i = 0; i < ARRAY_COUNT(sEffectScales); i++) {
         pos.x = ((Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.home.pos.x;
         pos.y = ((Rand_ZeroOne() * 5.0f) + this->actor.home.pos.y) + 8.0f;
@@ -145,5 +144,5 @@ void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_060009E0);
+    Gfx_DrawDListOpa(globalCtx, object_bombiwa_DL_0009E0);
 }

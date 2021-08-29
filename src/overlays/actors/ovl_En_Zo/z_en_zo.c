@@ -498,7 +498,7 @@ void EnZo_Dialog(EnZo* this, GlobalContext* globalCtx) {
     this->npcInfo.focusPos = player->actor.world.pos;
     if (this->actionFunc == EnZo_Standing) {
         // Look down at link if young, look up if old
-        this->npcInfo.eyeHeight = LINK_IS_CHILD ? 10.0f : -10.0f;
+        this->npcInfo.eyeHeight = !LINK_IS_ADULT ? 10.0f : -10.0f;
     } else {
         this->npcInfo.focusPos.y = this->actor.world.pos.y;
     }

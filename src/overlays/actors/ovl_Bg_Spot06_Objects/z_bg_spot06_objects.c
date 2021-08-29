@@ -177,7 +177,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
             this->actionFunc = BgSpot06Objects_DoNothing;
 
-            if (LINK_IS_CHILD) {
+            if (!LINK_IS_ADULT) {
                 Actor_Kill(thisx);
             }
             break;

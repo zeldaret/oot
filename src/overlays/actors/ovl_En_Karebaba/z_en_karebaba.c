@@ -88,7 +88,7 @@ static CollisionCheckInfoInit sColCheckInfoInit = { 1, 15, 80, MASS_HEAVY };
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 1, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 9, ICHAIN_STOP),
+    ICHAIN_S8(naviEnemyId, 0x09, ICHAIN_STOP),
 };
 
 void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -157,7 +157,7 @@ void EnKarebaba_SetupUpright(EnKarebaba* this) {
         Actor_SetScale(&this->actor, 0.01f);
         this->bodyCollider.base.colType = COLTYPE_HIT6;
         this->bodyCollider.base.acFlags &= ~AC_HARD;
-        this->bodyCollider.info.bumper.dmgFlags = LINK_IS_CHILD ? 0x07C00710 : 0x0FC00710;
+        this->bodyCollider.info.bumper.dmgFlags = !LINK_IS_ADULT ? 0x07C00710 : 0x0FC00710;
         this->bodyCollider.dim.radius = 15;
         this->bodyCollider.dim.height = 80;
         this->headCollider.dim.height = 80;

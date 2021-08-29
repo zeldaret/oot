@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bx.h"
+#include "objects/object_bxa/object_bxa.h"
 
 #define FLAGS 0x00000010
 
@@ -14,8 +15,6 @@ void EnBx_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBx_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBx_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern Gfx D_060022F0[];
 
 const ActorInit En_Bx_InitVars = {
     ACTOR_EN_BX,
@@ -198,7 +197,7 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
+    static void* D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
     EnBx* this = THIS;
     s32 pad;
     Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
@@ -238,7 +237,7 @@ void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_ToMtx(mtx, "../z_en_bx.c", 507);
     }
 
-    gSPDisplayList(POLY_OPA_DISP++, D_060022F0);
+    gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_0022F0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bx.c", 511);
 }

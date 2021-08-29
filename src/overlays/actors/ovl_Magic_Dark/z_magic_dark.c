@@ -41,7 +41,7 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     Player* player = PLAYER;
 
-    if (LINK_IS_CHILD) {
+    if (!LINK_IS_ADULT) {
         this->scale = 0.4f;
     } else {
         this->scale = 0.6f;
