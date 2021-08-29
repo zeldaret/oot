@@ -108,7 +108,7 @@ def main():
             print("Extracting assets with " + str(numCores) + " CPU cores.")
             with Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
                 p.map(ExtractFunc, xmlFiles)
-        except ProcessError:
+        except (ProcessError, TypeError):
             print(f"Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
             print(f"Disabling mutliprocessing.", file=os.sys.stderr)
 
