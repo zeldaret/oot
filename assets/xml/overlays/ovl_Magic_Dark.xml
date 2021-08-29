@@ -6,7 +6,7 @@
             <Vtx/>
         </Array>
 
-        <DList Name="sMagicDarkDiamondTexDL" Offset="0x1650"/>
-        <DList Name="sMagicDarkDiamondVertsDL" Offset="0x1700"/>
+        <DList Name="sMagicDarkDiamondSetupDL" Offset="0x1650"/>
+        <DList Name="sMagicDarkDiamondGeometryDL" Offset="0x1700"/>
     </File>
 </Root>
