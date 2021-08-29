@@ -487,7 +487,7 @@ s32 Camera_GetSurfaceBgCamDataId(Camera* camera, s32* bgId, CollisionPoly* poly)
  * If there is no floor then there is no camera data, returns the number of
  * pieces of data there are in `dataCnt`
  */
-Vec3s* Camera_GetSurfaceBgCamDataAndDataCount(Camera* camera, u16* bgCamDataCount) {
+Vec3s* Camera_GetSurfaceBgCamDataAndNumData(Camera* camera, u16* bgCamDataNumData) {
     CollisionPoly* floorPoly;
     s32 pad;
     s32 bgId;
@@ -500,7 +500,7 @@ Vec3s* Camera_GetSurfaceBgCamDataAndDataCount(Camera* camera, u16* bgCamDataCoun
         // no floor
         return NULL;
     }
-    *bgCamDataCount = SurfaceType_GetBgCamNumDataSetup(&camera->globalCtx->colCtx, floorPoly, bgId);
+    *bgCamDataNumData = SurfaceType_GetBgCamDataNumDataSetup(&camera->globalCtx->colCtx, floorPoly, bgId);
     return SurfaceType_GetBgCamDataVec3sSetup(&camera->globalCtx->colCtx, floorPoly, bgId);
 }
 
@@ -1704,9 +1704,7 @@ s32 Camera_Normal2(Camera* camera) {
             anim->unk_20 = bgData->rot.x;
             anim->unk_22 = bgData->rot.y;
             anim->unk_24 = playerPosRot->pos.y;
-            anim->unk_1C = bgData->fov == -1
-                               ? norm2->unk_14
-                               : bgData->fov >= 0x169 ? PCT(bgData->fov) : bgData->fov;
+            anim->unk_1C = bgData->fov == -1 ? norm2->unk_14 : bgData->fov > 360 ? PCT(bgData->fov) : bgData->fov;
 
             anim->unk_28 = bgData->jfifId == -1 ? 0 : bgData->jfifId;
 
@@ -3779,7 +3777,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     *eye = *eyeNext;
 
     bgCamRot = bgCamData->rot; // unused
-    (void)bgCamRot;                  // suppresses set but unused warning
+    (void)bgCamRot;            // suppresses set but unused warning
 
     fov = bgCamData->fov;
     if (fov == -1) {
@@ -3855,7 +3853,7 @@ s32 Camera_Fixed1(Camera* camera) {
     }
     if (anim->fov == -1) {
         anim->fov = fixd1->fov * 100.0f;
-    } else if (anim->fov < 361) {
+    } else if (anim->fov <= 360) {
         anim->fov *= 100;
     }
 
@@ -3928,7 +3926,7 @@ s32 Camera_Fixed2(Camera* camera) {
         } else {
             initParams->eye = *eye;
         }
-        if (initParams->fov < 361) {
+        if (initParams->fov <= 360) {
             initParams->fov *= 100;
         }
     }
@@ -4278,7 +4276,7 @@ s32 Camera_Subj4(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* eyeNext = &camera->eyeNext;
     Vec3f* at = &camera->at;
-    u16 bgCamDataCount;
+    u16 bgCamDataNumData;
     Vec3s* bgCamData;
     Vec3f temp1;
     Vec3f zoomAtTarget;
@@ -4315,9 +4313,9 @@ s32 Camera_Subj4(Camera* camera) {
 
     // Crawlspace setup (runs for only 1 frame)
     if (camera->animState == 0) {
-        bgCamData = Camera_GetSurfaceBgCamDataAndDataCount(camera, &bgCamDataCount);
+        bgCamData = Camera_GetSurfaceBgCamDataAndNumData(camera, &bgCamDataNumData);
         Camera_Vec3sToVec3f(&anim->crawlspaceLine.a, &BGCAMDATA_CRAWLSPACE_FRONT_POS(bgCamData));
-        Camera_Vec3sToVec3f(&vCrawlSpaceBackPos, &BGCAMDATA_CRAWLSPACE_BACK_POS(bgCamData, bgCamDataCount));
+        Camera_Vec3sToVec3f(&vCrawlSpaceBackPos, &BGCAMDATA_CRAWLSPACE_BACK_POS(bgCamData, bgCamDataNumData));
 
         atEyeTargetOffset.r = 10.0f;
         atEyeTargetOffset.pitch = 0x238C; // ~50 degrees
@@ -4480,7 +4478,7 @@ s32 Camera_Data4(Camera* camera) {
         fov = bgCamData->fov;
         initParams->fov = fov;
         if (fov != -1) {
-            data4->fov = initParams->fov < 361 ? initParams->fov : PCT(initParams->fov);
+            data4->fov = initParams->fov <= 360 ? initParams->fov : PCT(initParams->fov);
         }
 
         initParams->jfifId = bgCamData->jfifId;
@@ -4849,7 +4847,7 @@ s32 Camera_Unique0(Camera* camera) {
         bgCamRot = bgCamData->rot;
         fov = bgCamData->fov;
         if (fov != -1) {
-            camera->fov = fov < 361 ? fov : PCT(fov);
+            camera->fov = fov <= 360 ? fov : PCT(fov);
         }
         anim->animTimer = bgCamData->jfifId;
         if (anim->animTimer == -1) {
@@ -5007,7 +5005,7 @@ s32 Camera_Unique7(Camera* camera) {
     Camera_Vec3sToVec3f(eyeNext, &bgCamData->pos);
     *eye = *eyeNext;
     bgCamRot = bgCamData->rot; // unused
-    (void)bgCamRot;                  // suppresses set but unused warning
+    (void)bgCamRot;            // suppresses set but unused warning
 
     OLib_Vec3fDiffToVecSphGeo(&playerPosEyeOffset, eye, &playerPosRot->pos);
 
@@ -5017,7 +5015,7 @@ s32 Camera_Unique7(Camera* camera) {
         fov = uniq7->fov * 100.0f;
     }
 
-    if (fov < 361) {
+    if (fov <= 360) {
         fov *= 100;
     }
 
@@ -6593,7 +6591,7 @@ s32 Camera_Special6(Camera* camera) {
         fov = 6000;
     }
 
-    if (fov < 361) {
+    if (fov <= 360) {
         fov *= 100;
     }
 

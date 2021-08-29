@@ -76,7 +76,7 @@ typedef struct {
  *      data[0]   // Position
  *      data[1]   // Rotation
  *      data[2].x // Field of View
- *      data[2].y // Jfif Id
+ *      data[2].y // Jfif Id or flags
  *      data[2].z // unused
  * 
  * numData = 6: Crawlspaces only (CAM_SET_CRAWLSPACE), entirely position data
