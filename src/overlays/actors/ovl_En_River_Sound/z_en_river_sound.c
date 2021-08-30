@@ -34,7 +34,7 @@ void EnRiverSound_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->pathIndex = (this->actor.params >> 8) & 0xFF;
     this->actor.params = this->actor.params & 0xFF;
 
-    if (this->actor.params >= RS_MAX) {
+    if (this->actor.params >= RS_MAX) { // used for ganon and ganon_boss scenes
         func_800F4870(this->actor.params - RS_MAX);
         Actor_Kill(&this->actor);
     } else if (this->actor.params == RS_UNK_F7) {
@@ -51,9 +51,9 @@ void EnRiverSound_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnRiverSound* this = THIS;
 
     if (this->actor.params == RS_SARIAS_SONG) {
-        func_800F50EC(&this->actor.projectedPos);
+        Audio_ClearSariaBgmAtPos(&this->actor.projectedPos);
     } else if (this->actor.params == RS_UNK_13) {
-        func_800F5504();
+        Audio_ClearSariaBgm2();
     }
 }
 
@@ -236,15 +236,15 @@ void EnRiverSound_Draw(Actor* thisx, GlobalContext* globalCtx) {
         this->playSound = true;
     } else if ((this->actor.params == RS_UNK_0) || (this->actor.params == RS_UNK_4) ||
                (this->actor.params == RS_UNK_5)) {
-        func_800F4634(&this->actor.projectedPos, soundPitch[this->soundPitchIndex]);
+        Audio_PlaySoundRiver(&this->actor.projectedPos, soundPitch[this->soundPitchIndex]);
     } else if (this->actor.params == RS_UNK_11) {
         func_800F4A54(90);
     } else if (this->actor.params == RS_SARIAS_SONG) {
         func_800F4E30(&this->actor.projectedPos, this->actor.xzDistToPlayer);
     } else if (this->actor.params == RS_UNK_13) {
-        func_800F52A0(&this->actor.home.pos, 62, 1000);
+        Audio_PlaySariaBgm(&this->actor.home.pos, 62, 1000);
     } else if (this->actor.params == RS_UNK_19) {
-        func_800F52A0(&this->actor.home.pos, 40, 800);
+        Audio_PlaySariaBgm(&this->actor.home.pos, 40, 800);
     } else if ((this->actor.params == RS_SANDSTORM) || (this->actor.params == RS_CHAMBER_OF_SAGES_1) ||
                (this->actor.params == RS_CHAMBER_OF_SAGES_2) || (this->actor.params == RS_RUMBLING)) {
         func_800788CC(soundEffects[this->actor.params]);

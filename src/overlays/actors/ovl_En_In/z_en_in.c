@@ -605,7 +605,8 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
 void func_80A7A304(EnIn* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animation == &object_in_Anim_015814 || this->skelAnime.animation == &object_in_Anim_01646C) {
         if (this->skelAnime.curFrame == 8.0f) {
-            func_800F41E0(&this->actor.projectedPos, NA_SE_VO_IN_LASH_0, 2);
+            Audio_PlaySoundRandom(&this->actor.projectedPos, NA_SE_VO_IN_LASH_0,
+                                  NA_SE_VO_IN_LASH_1 - NA_SE_VO_IN_LASH_0 + 1);
         }
     }
     if (this->skelAnime.animation == &object_in_Anim_018C38 && this->skelAnime.curFrame == 20.0f) {

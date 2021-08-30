@@ -1605,7 +1605,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (thisx->params) {
         case 1:
-            func_800F7260(0x6F);
+            Audio_SetSoundBanksMute(0x6F);
             break;
         case 4:
             gSaveContext.timer2State = 0;
