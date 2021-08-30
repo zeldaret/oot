@@ -25,9 +25,9 @@ void func_800E2BCC(u32 devAddr, u8* addr, u32 size, s32 handleType);
 s32 Audio_DMA(OSIoMesg* mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size, OSMesgQueue* reqQueue,
               s32 handleType, const char* dmaFuncType);
 void* Audio_AsyncLoadInner(s32 tableType, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue* retQueue);
-AsyncLoadReq* func_800E3A44(s32 arg0, s32 devAddr, void* ramAddr, s32 size, s32 arg4, s32 nChunks,
+AsyncLoadReq* func_800E3A44(s32 arg0, u32 devAddr, void* ramAddr, s32 size, s32 arg4, s32 nChunks,
                             OSMesgQueue* retQueue, s32 retMsg);
-AsyncLoadReq* Audio_InitAsyncReq(s32 devAddr, void* ramAddr, s32 size, s32 arg3, s32 nChunks, OSMesgQueue* retQueue,
+AsyncLoadReq* Audio_InitAsyncReq(u32 devAddr, void* ramAddr, u32 size, s32 arg3, s32 nChunks, OSMesgQueue* retQueue,
                                  s32 retMsg);
 void func_800E3FB4(AsyncLoadReq* req, u32 size);
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3);
@@ -649,18 +649,18 @@ void* Audio_GetLoadTable(s32 tableType) {
 
 #ifdef NON_MATCHING
 void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2) {
-    s32 sp50;
     s32 temp_v1_3;
-    s32 temp_s5;
-    s32 temp_a3;
     void* reloc;
-    s32 i;
     Drum* drum;
     AudioBankSound* sfx;
     Instrument* inst;
     Instrument** end;
     Instrument** instIt;
     Drum** drums;
+    s32 temp_a3;
+    s32 sp50;
+    s32 temp_s5;
+    s32 i;
 
     temp_a3 = gAudioContext.ctlEntries[arg0].numDrums;
     sp50 = gAudioContext.ctlEntries[arg0].numInstruments;
@@ -809,12 +809,12 @@ void func_800E2CC0(u32 tableType, u32 bankId) {
 }
 
 void* Audio_AsyncLoadInner(s32 tableType, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue* retQueue) {
-    u32 sp54;
+    u32 size;
     AudioTable* sp50;
     void* sp4C;
     s32 sp48;
     s8 temp_a1;
-    u32 sp40;
+    u32 devAddr;
     s32 sp3C;
     u32 temp_v0;
     u32 sp34;
@@ -844,35 +844,35 @@ void* Audio_AsyncLoadInner(s32 tableType, s32 arg1, s32 arg2, s32 arg3, OSMesgQu
         osSendMesg(retQueue, arg3 << 0x18, 0);
     } else {
         sp50 = Audio_GetLoadTable(tableType);
-        sp54 = sp50->entries[sp34].size;
-        sp54 = ALIGN16(sp54);
+        size = sp50->entries[sp34].size;
+        size = ALIGN16(size);
         sp48 = sp50->entries[arg1].unk_08;
         temp_a1 = sp50->entries[arg1].unk_09;
-        sp40 = sp50->entries[sp34].romAddr;
+        devAddr = sp50->entries[sp34].romAddr;
         sp3C = 2;
         switch (temp_a1) {
             case 0:
-                sp4C = func_800E0540(tableType, sp34, sp54);
+                sp4C = func_800E0540(tableType, sp34, size);
                 if (sp4C == NULL) {
                     return sp4C;
                 }
                 sp3C = 5;
                 break;
             case 1:
-                sp4C = Audio_AllocBankOrSeq(tableType, sp54, 1, sp34);
+                sp4C = Audio_AllocBankOrSeq(tableType, size, 1, sp34);
                 if (sp4C == NULL) {
                     return sp4C;
                 }
                 break;
             case 2:
-                sp4C = Audio_AllocBankOrSeq(tableType, sp54, 0, sp34);
+                sp4C = Audio_AllocBankOrSeq(tableType, size, 0, sp34);
                 if (sp4C == NULL) {
                     return sp4C;
                 }
                 break;
             case 3:
             case 4:
-                sp4C = Audio_AllocBankOrSeq(tableType, sp54, 2, sp34);
+                sp4C = Audio_AllocBankOrSeq(tableType, size, 2, sp34);
                 if (sp4C == NULL) {
                     return sp4C;
                 }
@@ -880,10 +880,10 @@ void* Audio_AsyncLoadInner(s32 tableType, s32 arg1, s32 arg2, s32 arg3, OSMesgQu
         }
 
         if (sp48 == 1) {
-            func_800E3A44((s16)sp50->header.unk_02, sp40, sp4C, sp54, sp48, arg2, retQueue,
+            func_800E3A44((s16)sp50->header.unk_02, devAddr, sp4C, size, sp48, arg2, retQueue,
                           (arg3 << 0x18) | (tableType << 0x10) | (arg1 << 8) | sp3C);
         } else {
-            Audio_InitAsyncReq(sp40, sp4C, sp54, sp48, arg2, retQueue, MK_ASYNC_MSG(arg3, tableType, sp34, sp3C));
+            Audio_InitAsyncReq(devAddr, sp4C, size, sp48, arg2, retQueue, MK_ASYNC_MSG(arg3, tableType, sp34, sp3C));
         }
         sp3C = 1;
     }
@@ -1238,7 +1238,7 @@ void Audio_AsyncLoadReqInit(void) {
     }
 }
 
-AsyncLoadReq* func_800E3A44(s32 arg0, s32 devAddr, void* ramAddr, s32 size, s32 arg4, s32 nChunks,
+AsyncLoadReq* func_800E3A44(s32 arg0, u32 devAddr, void* ramAddr, s32 size, s32 arg4, s32 nChunks,
                             OSMesgQueue* retQueue, s32 retMsg) {
     AsyncLoadReq* loadReq;
 
@@ -1253,7 +1253,7 @@ AsyncLoadReq* func_800E3A44(s32 arg0, s32 devAddr, void* ramAddr, s32 size, s32 
     return loadReq;
 }
 
-AsyncLoadReq* Audio_InitAsyncReq(s32 devAddr, void* ramAddr, s32 size, s32 arg3, s32 nChunks, OSMesgQueue* retQueue,
+AsyncLoadReq* Audio_InitAsyncReq(u32 devAddr, void* ramAddr, u32 size, s32 arg3, s32 nChunks, OSMesgQueue* retQueue,
                                  s32 retMsg) {
     AsyncLoadReq* loadReq;
     s32 i;
@@ -1281,7 +1281,7 @@ AsyncLoadReq* Audio_InitAsyncReq(s32 devAddr, void* ramAddr, s32 size, s32 arg3,
     } else if (nChunks == 1) {
         loadReq->chunkSize = size;
     } else {
-        loadReq->chunkSize = ((size / nChunks) + 0xFF) & ~0xFF;
+        loadReq->chunkSize = (((s32)size / nChunks) + 0xFF) & ~0xFF;
         if (loadReq->chunkSize < 0x100) {
             loadReq->chunkSize = 0x100;
         }
@@ -1454,68 +1454,62 @@ void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4198.s")
 
-#ifdef NON_MATCHING
 s32 func_800E4590(s32 resetStatus) {
+    AudioBankSample* sample;
+    AudioStruct0D68* item;
     u32 sp4C;
-    AudioBankSample* temp_v0_3;
-    AudioStruct0D68* temp_v1_2;
-    s32 temp_a0_2;
-    s32 temp_v0_2;
-    u32 temp_a0;
-    u32 temp_a0_3;
-    u32 temp_a2_2;
-    u32 temp_t0;
-    u8* temp_s0;
-    AudioStruct0D68* temp_a2;
-    AudioBankSample* temp_v0;
-    AudioStruct0D68* temp_v1;
+    u32 key;
+    u32 unk;
+    s32 pad;
 
     if (gAudioContext.unk_176C > 0) {
         if (resetStatus != 0) {
-            osRecvMesg(&gAudioContext.unk_1E78, &sp4C, 0);
+            osRecvMesg(&gAudioContext.unk_1E78, (OSMesg*)&sp4C, OS_MESG_NOBLOCK);
             gAudioContext.unk_176C = 0;
             return 0;
         }
-        if (osRecvMesg(&gAudioContext.unk_1E78, &sp4C, 0) == -1) {
+        if (osRecvMesg(&gAudioContext.unk_1E78, (OSMesg*)&sp4C, OS_MESG_NOBLOCK) == -1) {
             return 0;
         }
 
-        sp4C >>= 0x18;
+        sp4C >>= 24;
+        item = &gAudioContext.unk_0D68[sp4C];
 
-        if (gAudioContext.unk_0D54[sp4C + 1].unk_10 == 0) {
-            if ((temp_v0_3->sampleAddr + temp_v0_3->size + temp_v0_3->bits2) ==
-                gAudioContext.unk_0D54[sp4C + 1].unk_00) {
-                temp_v0_3->bits2 = 0;
-                temp_v0_3->sampleAddr = temp_v0_3->loop;
+        if (item->isFree == false) {
+            sample = item->sample;
+            key = (u32)sample->sampleAddr + sample->size + sample->bits2;
+            if (key == item->endAndMediumKey) {
+                sample->sampleAddr = item->ramAddr;
+                sample->bits2 = 0;
             }
-            gAudioContext.unk_0D54[sp4C + 1].unk_10 = 1;
+            item->isFree = true;
         }
 
-        while (gAudioContext.unk_176C > 0) {
-            if (gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_10 == 1) {
+        for (;;) {
+            if (gAudioContext.unk_176C <= 0) {
+                break;
+            }
+            item = &gAudioContext.unk_0D68[gAudioContext.unk_176C - 1];
+            if (item->isFree == true) {
                 gAudioContext.unk_176C--;
                 continue;
+            }
+
+            sample = item->sample;
+            unk = (sample->size >> 12) + 1;
+            key = (u32)sample->sampleAddr + sample->size + sample->bits2;
+            if (key != item->endAndMediumKey) {
+                item->isFree = true;
+                gAudioContext.unk_176C--;
             } else {
-                temp_v0_3 = gAudioContext.unk_0D54[gAudioContext.unk_176C].sample;
-                if (&temp_v0_3->sampleAddr[temp_v0_3->size + temp_v0_3->bits2] !=
-                    gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_00) {
-                    gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_10 = 1;
-                    gAudioContext.unk_176C--;
-                    continue;
-                } else {
-                    Audio_InitAsyncReq(temp_v0_3->sampleAddr, gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_08,
-                                       temp_v0_3->size, temp_v0_3->bits2, (temp_a2_2 >> 0xC) + 1,
-                                       &gAudioContext.unk_1E78, gAudioContext.unk_0D54[gAudioContext.unk_176C].pad);
-                    break;
-                }
+                Audio_InitAsyncReq((u32)sample->sampleAddr, item->ramAddr, sample->size, sample->bits2, unk,
+                                   &gAudioContext.unk_1E78, item->encodedInfo);
+                break;
             }
         }
     }
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_load/func_800E4590.s")
-#endif
 
 s32 func_800E4744(AudioBankSample* sample, s32 sampleCnt, AudioBankSample** sampleList) {
     s32 i;

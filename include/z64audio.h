@@ -698,11 +698,11 @@ typedef struct {
 } ManyStruct_800E0E0C_2;
 
 typedef struct {
-    /* 0x00 */ u8* unk_00;
+    /* 0x00 */ u32 endAndMediumKey;
     /* 0x04 */ AudioBankSample* sample;
-    /* 0x08 */ u8* unk_08;
-    /* 0x0C */ s32 pad;
-    /* 0x10 */ s32 unk_10;
+    /* 0x08 */ u8* ramAddr;
+    /* 0x0C */ u32 encodedInfo;
+    /* 0x10 */ s32 isFree;
 } AudioStruct0D68; // size = 0x14
 
 typedef struct {
@@ -882,9 +882,8 @@ typedef struct {
     /* 0x0014 */ NoteSubEu* noteSubsEu;
     /* 0x0018 */ SynthesisReverb synthesisReverbs[4];
     /* 0x0B38 */ char unk_0B38[0x30];
-    /* 0x0B68 */ AudioBankSample* unk_B68[1]; // unknown size.
-    /* 0x0B6C */ char unk_B6C[0x1E8];
-    /* 0x0D54 */ AudioStruct0D68 unk_0D54[129]; // guessing at size
+    /* 0x0B68 */ AudioBankSample* unk_B68[128];
+    /* 0x0D68 */ AudioStruct0D68 unk_0D68[128];
     /* 0x1768 */ s32 unk_1768;
     /* 0x176C */ s32 unk_176C;
     /* 0x1770 */ AsyncLoadReq asyncReqs[0x10];
