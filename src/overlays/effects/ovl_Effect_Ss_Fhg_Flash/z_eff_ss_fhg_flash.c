@@ -6,6 +6,7 @@
 
 #include "z_eff_ss_fhg_flash.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
+#include "objects/object_fhg/object_fhg.h"
 
 #define rAlpha regs[0]
 #define rObjBankIdx regs[2]
@@ -26,7 +27,6 @@ EffectSsInit Effect_Ss_Fhg_Flash_InitVars = {
 
 UNK_TYPE D_809A5178[];
 Gfx D_809A5100[];
-extern Gfx D_06012160[];
 
 u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
@@ -52,7 +52,7 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
             this->rAlpha = 255;
             this->draw = EffectSsFhgFlash_DrawLightBall;
             this->update = EffectSsFhgFlash_UpdateLightBall;
-            this->gfx = SEGMENTED_TO_VIRTUAL(D_06012160);
+            this->gfx = SEGMENTED_TO_VIRTUAL(gPhantomEnergyBallDL);
             gSegments[6] = oldSeg6;
         } else {
             osSyncPrintf("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n");

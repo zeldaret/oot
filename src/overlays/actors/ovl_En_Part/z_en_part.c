@@ -6,6 +6,7 @@
 
 #include "z_en_part.h"
 #include "objects/object_tite/object_tite.h"
+#include "objects/object_ik/object_ik.h"
 
 #define FLAGS 0x00000010
 
@@ -27,8 +28,6 @@ const ActorInit En_Part_InitVars = {
     (ActorFunc)EnPart_Update,
     (ActorFunc)EnPart_Draw,
 };
-
-extern Gfx D_06015380[];
 
 void EnPart_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
@@ -86,7 +85,7 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
         case 7:
         case 8:
             this->actor.world.rot.y = this->actor.parent->shape.rot.y;
-            if (this->displayList == D_06015380) {
+            if (this->displayList == object_ik_DL_015380) {
                 sign = -1.0f;
             }
             this->actor.velocity.y = 0.0f;

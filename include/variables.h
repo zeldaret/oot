@@ -4,8 +4,6 @@
 #include "z64.h"
 #include "segment_symbols.h"
 
-extern u32 D_0300AA48;
-extern u32 D_03012B20;
 extern Gfx D_06025218[];
 extern Gfx D_060252D8[];
 extern Gfx D_06025438[];
