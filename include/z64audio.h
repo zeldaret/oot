@@ -35,9 +35,6 @@
 #define CODEC_ADPCM 0
 #define CODEC_S8 1
 
-#define DEFAULT_LEN_1CH 0x1A0
-#define DEFAULT_LEN_2CH 0x340
-
 struct Note;
 struct NotePool;
 struct SequenceChannel;
@@ -95,7 +92,7 @@ typedef struct {
     /* 0x00 */ s32 order;
     /* 0x04 */ s32 npredictors;
     /* 0x08 */ s16 book[1]; // size 8 * order * npredictors. 8-byte aligned
-} AdpcmBook;
+} AdpcmBook; // size >= 0x8
 
 typedef struct {
     /* 0x00 */ u32 codec : 4;
@@ -175,7 +172,7 @@ typedef struct {
     /* 0x08 */ AudioBankSound lowNotesSound;
     /* 0x10 */ AudioBankSound normalNotesSound;
     /* 0x18 */ AudioBankSound highNotesSound;
-} Instrument; // size >= 0x20
+} Instrument; // size = 0x20
 
 typedef struct {
     /* 0x00 */ u8 releaseRate;
@@ -183,7 +180,7 @@ typedef struct {
     /* 0x02 */ u8 loaded;
     /* 0x04 */ AudioBankSound sound;
     /* 0x14 */ AdsrEnvelope* envelope;
-} Drum; // size >= 0x14
+} Drum; // size = 0x14
 
 typedef struct {
     /* 0x00 */ u8 numInstruments;

@@ -1,6 +1,9 @@
 #include "ultra64.h"
 #include "global.h"
 
+#define DEFAULT_LEN_1CH 0x1A0
+#define DEFAULT_LEN_2CH 0x340
+
 #define DMEM_TEMP 0x3C0
 #define DMEM_UNCOMPRESSED_NOTE 0x580
 #define DMEM_NOTE_PAN_TEMP 0x5C0
@@ -48,7 +51,6 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
     if (reverb->downsampleRate >= 2) {
         if (reverb->framesToIgnore == 0) {
             bufItem = &reverb->items[reverb->curFrame][bufIndex];
-            // inval dcache
             Audio_osInvalDCache(bufItem->toDownsampleLeft, DEFAULT_LEN_2CH);
 
             for (j = 0, i = 0; i < bufItem->lengthA / 2; j += reverb->downsampleRate, i++) {
@@ -550,7 +552,7 @@ Acmd* AudioSynth_SaveRingBuffer2(Acmd* cmd, SynthesisReverb* reverb, s16 bufInde
 }
 
 Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
-    u8 noteInds[0x5C];
+    u8 noteIndices[0x5C];
     s16 count;
     s16 reverbIndex;
     SynthesisReverb* reverb;
@@ -566,7 +568,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
     if (gAudioContext.numSynthesisReverbs == 0) {
         for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
             if (gAudioContext.noteSubsEu[t + i].bitField0.s.enabled) {
-                noteInds[count++] = i;
+                noteIndices[count++] = i;
             }
         }
     } else {
@@ -574,7 +576,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
             for (i = 0; i < gAudioContext.maxSimultaneousNotes; i++) {
                 noteSubEu = &gAudioContext.noteSubsEu[t + i];
                 if (noteSubEu->bitField0.s.enabled && noteSubEu->bitField1.s.reverbIndex == reverbIndex) {
-                    noteInds[count++] = i;
+                    noteIndices[count++] = i;
                 }
             }
         }
@@ -583,7 +585,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
             noteSubEu = &gAudioContext.noteSubsEu[t + i];
             if (noteSubEu->bitField0.s.enabled &&
                 noteSubEu->bitField1.s.reverbIndex >= gAudioContext.numSynthesisReverbs) {
-                noteInds[count++] = i;
+                noteIndices[count++] = i;
             }
         }
     }
@@ -617,10 +619,11 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
         }
 
         while (i < count) {
-            noteSubEu2 = &gAudioContext.noteSubsEu[noteInds[i] + t];
+            noteSubEu2 = &gAudioContext.noteSubsEu[noteIndices[i] + t];
             if (noteSubEu2->bitField1.s.reverbIndex == reverbIndex) {
-                cmd = AudioSynth_ProcessNote(noteInds[i], noteSubEu2, &gAudioContext.notes[noteInds[i]].synthesisState,
-                                             aiBuf, aiBufLen, cmd, updateIndex);
+                cmd = AudioSynth_ProcessNote(noteIndices[i], noteSubEu2,
+                                             &gAudioContext.notes[noteIndices[i]].synthesisState, aiBuf, aiBufLen, cmd,
+                                             updateIndex);
             } else {
                 break;
             }
@@ -643,9 +646,9 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
     }
 
     while (i < count) {
-        cmd =
-            AudioSynth_ProcessNote(noteInds[i], &gAudioContext.noteSubsEu[t + noteInds[i]],
-                                   &gAudioContext.notes[noteInds[i]].synthesisState, aiBuf, aiBufLen, cmd, updateIndex);
+        cmd = AudioSynth_ProcessNote(noteIndices[i], &gAudioContext.noteSubsEu[t + noteIndices[i]],
+                                     &gAudioContext.notes[noteIndices[i]].synthesisState, aiBuf, aiBufLen, cmd,
+                                     updateIndex);
         i++;
     }
 
@@ -736,6 +739,8 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     nSamplesToLoad = samplesLenFixedPoint >> 16;
     synthState->samplePosFrac = samplesLenFixedPoint & 0xFFFF;
 
+    // Partially-optimized out no-op ifs required for matching. SM64 decomp
+    // makes it clear that this is how it should look.
     if (synthState->numAdpcmParts == 1 && nParts == 2) {
     } else if (synthState->numAdpcmParts == 2 && nParts == 1) {
     } else {
@@ -1223,6 +1228,6 @@ Acmd* AudioSynth_NoteApplyHeadsetPanEffects(Acmd* cmd, NoteSubEu* noteSubEu, Not
         aSaveBuffer(cmd++, DMEM_NOTE_PAN_TEMP + bufLen, &synthState->synthesisBuffers->panResampleState[0x8],
                     ALIGN16(panShift));
     }
-    aAddMixer(cmd++, ((bufLen + 0x3F) & ~0x3F), DMEM_NOTE_PAN_TEMP, dest, 0x7FFF);
+    aAddMixer(cmd++, ALIGN64(bufLen), DMEM_NOTE_PAN_TEMP, dest, 0x7FFF);
     return cmd;
 }
