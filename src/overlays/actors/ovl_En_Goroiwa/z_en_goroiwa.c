@@ -597,8 +597,7 @@ void EnGoroiwa_Roll(EnGoroiwa* this, GlobalContext* globalCtx) {
         }
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 0);
         osSyncPrintf(VT_FGCOL(CYAN));
-        // "Player knocked down"
-        osSyncPrintf("Player ぶっ飛ばし\n");
+        osSyncPrintf("Player ぶっ飛ばし\n"); // "Player knocked down"
         osSyncPrintf(VT_RST);
         onHitSetupFuncs[(this->actor.params >> 10) & 1](this);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);

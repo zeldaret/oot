@@ -372,8 +372,7 @@ s32 Collider_SetJntSphToActor(GlobalContext* globalCtx, ColliderJntSph* dest, Co
     if (dest->elements == NULL) {
         dest->count = 0;
         osSyncPrintf(VT_FGCOL(RED));
-        // "Can not."
-        osSyncPrintf("ClObjJntSph_set():zelda_malloc()出来ません。\n");
+        osSyncPrintf("ClObjJntSph_set():zelda_malloc()出来ません。\n"); // "Can not."
         osSyncPrintf(VT_RST);
         return 0;
     }
@@ -402,8 +401,7 @@ s32 Collider_SetJntSphAllocType1(GlobalContext* globalCtx, ColliderJntSph* dest,
     if (dest->elements == NULL) {
         dest->count = 0;
         osSyncPrintf(VT_FGCOL(RED));
-        // "Can not."
-        osSyncPrintf("ClObjJntSph_set3():zelda_malloc_出来ません。\n");
+        osSyncPrintf("ClObjJntSph_set3():zelda_malloc_出来ません。\n"); // "Can not."
         osSyncPrintf(VT_RST);
         return 0;
     }
@@ -431,8 +429,7 @@ s32 Collider_SetJntSphAlloc(GlobalContext* globalCtx, ColliderJntSph* dest, Acto
     if (dest->elements == NULL) {
         dest->count = 0;
         osSyncPrintf(VT_FGCOL(RED));
-        // "Can not."
-        osSyncPrintf("ClObjJntSph_set5():zelda_malloc出来ません\n");
+        osSyncPrintf("ClObjJntSph_set5():zelda_malloc出来ません\n"); // "Can not."
         osSyncPrintf(VT_RST);
         return 0;
     }
@@ -741,8 +738,7 @@ s32 Collider_SetTrisAllocType1(GlobalContext* globalCtx, ColliderTris* dest, Act
     if (dest->elements == NULL) {
         dest->count = 0;
         osSyncPrintf(VT_FGCOL(RED));
-        // "Can not."
-        osSyncPrintf("ClObjTris_set3():zelda_malloc()出来ません\n");
+        osSyncPrintf("ClObjTris_set3():zelda_malloc()出来ません\n"); // "Can not."
         osSyncPrintf(VT_RST);
         return 0;
     }
@@ -768,8 +764,7 @@ s32 Collider_SetTrisAlloc(GlobalContext* globalCtx, ColliderTris* dest, Actor* a
 
     if (dest->elements == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
-        // "Can not."
-        osSyncPrintf("ClObjTris_set5():zelda_malloc出来ません\n");
+        osSyncPrintf("ClObjTris_set5():zelda_malloc出来ません\n"); // "Can not."
         osSyncPrintf(VT_RST);
         dest->count = 0;
         return 0;

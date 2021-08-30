@@ -93,8 +93,7 @@ void* KaleidoManager_GetRamAddr(void* vram) {
             //! @bug Devs probably forgot iter++ here
         }
 
-        // "Abnormal"
-        osSyncPrintf("異常\n");
+        osSyncPrintf("異常\n"); // "Abnormal"
         return NULL;
     }
 

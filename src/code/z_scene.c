@@ -174,8 +174,7 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
             gSceneCmdHandlers[cmdCode](globalCtx, sceneCmd);
         } else {
             osSyncPrintf(VT_FGCOL(RED));
-            // "code variable is abnormal"
-            osSyncPrintf("code の値が異常です\n");
+            osSyncPrintf("code の値が異常です\n"); // "code variable is abnormal"
             osSyncPrintf(VT_RST);
         }
         sceneCmd++;

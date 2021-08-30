@@ -118,8 +118,7 @@ void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
         sc->doAudio = 1;
     } else {
         if (sLogScheduler) {
-            // "Entered graph task"
-            osSyncPrintf("グラフタスクをエントリしました\n");
+            osSyncPrintf("グラフタスクをエントリしました\n"); // "Entered graph task"
         }
 
         if (sc->gfxListTail != NULL) {

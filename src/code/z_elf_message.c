@@ -45,8 +45,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
             }
     }
 
-    // "Unplanned conditions"
-    LOG_STRING("企画外 条件", "../z_elf_message.c", 156);
+    LOG_STRING("企画外 条件", "../z_elf_message.c", 156); // "Unplanned conditions"
     ASSERT(0, "0", "../z_elf_message.c", 157);
 
     return false;
@@ -129,8 +128,7 @@ u16 ElfMessage_GetTextFromMsgs(ElfMessage* msg) {
             case 0xE0:
                 return msg->byte2 | 0x100;
             default:
-                // "Unplanned conditions"
-                LOG_STRING("企画外 条件", "../z_elf_message.c", 281);
+                LOG_STRING("企画外 条件", "../z_elf_message.c", 281); // "Unplanned conditions"
                 ASSERT(0, "0", "../z_elf_message.c", 282);
         }
         msg++;

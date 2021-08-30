@@ -54,8 +54,7 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
     }
 
     if (gOverlayLogSeverity >= 3) {
-        // "Relocate"
-        osSyncPrintf("リロケーションします\n");
+        osSyncPrintf("リロケーションします\n"); // "Relocate"
     }
 
     Overlay_Relocate(allocatedVRamAddr, ovl, vRamStart);

@@ -11,8 +11,7 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
 
     if ((this != NULL) && (initParams != NULL)) {
         if ((initParams->uDiv == 0) || (initParams->vDiv == 0)) {
-            // "u_div,v_div 0 is not good."
-            osSyncPrintf("spark():u_div,v_div 0では困る。\n");
+            osSyncPrintf("spark():u_div,v_div 0では困る。\n"); // "u_div,v_div 0 is not good."
             return;
         }
 
@@ -57,8 +56,7 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
 
         this->numElements = (this->uDiv * this->vDiv) + 2;
         if (this->numElements > ARRAY_COUNT(this->elements)) {
-            // "over table_size"
-            osSyncPrintf("table_sizeオーバー\n");
+            osSyncPrintf("table_sizeオーバー\n"); // "over table_size"
             return;
         }
 

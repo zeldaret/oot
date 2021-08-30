@@ -227,10 +227,8 @@ s32 func_80096238(void* data) {
     OSTime time;
 
     if (*(u32*)data == JPEG_MARKER) {
-        // "Expanding jpeg data"
-        osSyncPrintf("JPEGデータを展開します\n");
-        // "Jpeg data address %08x"
-        osSyncPrintf("JPEGデータアドレス %08x\n", data);
+        osSyncPrintf("JPEGデータを展開します\n"); // "Expanding jpeg data"
+        osSyncPrintf("JPEGデータアドレス %08x\n", data); // "Jpeg data address %08x"
         // "Work buffer address (Z buffer) %08x"
         osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
 
@@ -247,8 +245,7 @@ s32 func_80096238(void* data) {
 
             bcopy(gZBuffer, data, sizeof(gZBuffer));
         } else {
-            // "Failure! Why is it 〜"
-            osSyncPrintf("失敗！なんで〜\n");
+            osSyncPrintf("失敗！なんで〜\n"); // "Failure! Why is it 〜"
         }
     }
 

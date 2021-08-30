@@ -295,11 +295,9 @@ void Gameplay_Init(GameState* thisx) {
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
     if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT09) &&
         gSaveContext.sceneSetupIndex == 6) {
-        // "The ending starts"
-        osSyncPrintf("エンディングはじまるよー\n");
+        osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)())0x81000000)();
-        // "Return?"
-        osSyncPrintf("出戻り？\n");
+        osSyncPrintf("出戻り？\n"); // "Return?"
     }
 
     Cutscene_HandleEntranceTriggers(globalCtx);
@@ -364,8 +362,7 @@ void Gameplay_Init(GameState* thisx) {
     zAlloc = GameState_Alloc(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
     ZeldaArena_Init(zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
-    // "Zelda Heap"
-    osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
+    osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned, // "Zelda Heap"
                  (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
@@ -452,8 +449,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             switch (gTrnsnUnkState) {
                 case 2:
                     if (TransitionUnk_Init(&sTrnsnUnk, 10, 7) == NULL) {
-                        // "fbdemo_init call failed!"
-                        osSyncPrintf("fbdemo_init呼出し失敗！\n");
+                        osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
                         gTrnsnUnkState = 0;
                     } else {
                         sTrnsnUnk.zBuffer = (u16*)gZBuffer;

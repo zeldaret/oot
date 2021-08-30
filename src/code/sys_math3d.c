@@ -123,8 +123,7 @@ void Math3D_LineClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // "Math3D_lineVsPosSuisenCross(): No straight line length"
         osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
-        // "Returns cross = pos."
-        osSyncPrintf("cross = pos を返します。\n");
+        osSyncPrintf("cross = pos を返します。\n"); // "Returns cross = pos."
         osSyncPrintf(VT_RST);
         Math_Vec3f_Copy(closestPoint, pos);
     }

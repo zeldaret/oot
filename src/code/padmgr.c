@@ -220,8 +220,7 @@ void PadMgr_ProcessInputs(PadMgr* padMgr) {
                 if (!padMgr->ctrlrIsConnected[i]) {
                     padMgr->ctrlrIsConnected[i] = true;
                     osSyncPrintf(VT_FGCOL(YELLOW));
-                    // "Recognized"
-                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "認識しました");
+                    osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "認識しました"); // "Recognized"
                     osSyncPrintf(VT_RST);
                 }
                 break;
@@ -355,8 +354,7 @@ void PadMgr_ThreadEntry(PadMgr* padMgr) {
     s16* mesg = NULL;
     s32 exit;
 
-    // "Controller thread execution start"
-    osSyncPrintf("コントローラスレッド実行開始\n");
+    osSyncPrintf("コントローラスレッド実行開始\n"); // "Controller thread execution start"
 
     exit = false;
     while (!exit) {
@@ -392,13 +390,11 @@ void PadMgr_ThreadEntry(PadMgr* padMgr) {
 
     IrqMgr_RemoveClient(padMgr->irqMgr, &padMgr->irqClient);
 
-    // "Controller thread execution end"
-    osSyncPrintf("コントローラスレッド実行終了\n");
+    osSyncPrintf("コントローラスレッド実行終了\n"); // "Controller thread execution end"
 }
 
 void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* siIntMsgQ, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack) {
-    // "Pad Manager creation"
-    osSyncPrintf("パッドマネージャ作成 padmgr_Create()\n");
+    osSyncPrintf("パッドマネージャ作成 padmgr_Create()\n"); // "Pad Manager creation"
 
     bzero(padMgr, sizeof(PadMgr));
     padMgr->irqMgr = irqMgr;

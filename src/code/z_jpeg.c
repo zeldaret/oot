@@ -220,8 +220,7 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                     break;
                 }
                 default: {
-                    // "Unknown marker"
-                    osSyncPrintf("マーカー不明 %02x\n", ptr[-1]);
+                    osSyncPrintf("マーカー不明 %02x\n", ptr[-1]); // "Unknown marker"
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }

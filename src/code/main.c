@@ -43,8 +43,7 @@ void Main(void* arg) {
     s32 debugHeapSize;
     s16* msg;
 
-    // "Start running"
-    osSyncPrintf("mainproc 実行開始\n");
+    osSyncPrintf("mainproc 実行開始\n"); // "Start running"
     gScreenWidth = SCREEN_WIDTH;
     gScreenHeight = SCREEN_HEIGHT;
     gAppNmiBufferPtr = (PreNmiBuff*)osAppNmiBuffer;
@@ -79,8 +78,7 @@ void Main(void* arg) {
     StackCheck_Init(&sIrqMgrStackInfo, sIrqMgrStack, sIrqMgrStack + sizeof(sIrqMgrStack), 0, 0x100, "irqmgr");
     IrqMgr_Init(&gIrqMgr, &sGraphStackInfo, Z_PRIORITY_IRQMGR, 1);
 
-    // "Initialize the task scheduler"
-    osSyncPrintf("タスクスケジューラの初期化\n");
+    osSyncPrintf("タスクスケジューラの初期化\n"); // "Initialize the task scheduler"
     StackCheck_Init(&sSchedStackInfo, sSchedStack, sSchedStack + sizeof(sSchedStack), 0, 0x100, "sched");
     Sched_Init(&gSchedContext, &sAudioStack, Z_PRIORITY_SCHED, D_80013960, 1, &gIrqMgr);
 
@@ -106,16 +104,13 @@ void Main(void* arg) {
             break;
         }
         if (*msg == OS_SC_PRE_NMI_MSG) {
-            // "Looks like it's been reset"
-            osSyncPrintf("main.c: リセットされたみたいだよ\n");
+            osSyncPrintf("main.c: リセットされたみたいだよ\n"); // "Looks like it's been reset"
             PreNmiBuff_SetReset(gAppNmiBufferPtr);
         }
     }
 
-    // "Cleanup"
-    osSyncPrintf("mainproc 後始末\n");
+    osSyncPrintf("mainproc 後始末\n"); // "Cleanup"
     osDestroyThread(&sGraphThread);
     func_800FBFD8();
-    // "End of execution"
-    osSyncPrintf("mainproc 実行終了\n");
+    osSyncPrintf("mainproc 実行終了\n"); // "End of execution"
 }

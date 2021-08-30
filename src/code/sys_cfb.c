@@ -12,8 +12,7 @@ void SysCfb_Init(s32 n64dd) {
         osSyncPrintf("８Ｍバイト以上のメモリが搭載されています\n");
         tmpFbEnd = 0x8044BE80;
         if (n64dd == 1) {
-            // "RAM 8M mode (N64DD compatible)"
-            osSyncPrintf("RAM 8M mode (N64DD対応)\n");
+            osSyncPrintf("RAM 8M mode (N64DD対応)\n"); // "RAM 8M mode (N64DD compatible)"
             sSysCfbEnd = 0x805FB000;
         } else {
             // "The margin for this version is %dK bytes"

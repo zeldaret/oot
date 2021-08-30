@@ -112,11 +112,9 @@ void IrqMgr_HandlePreNMI(IrqMgr* this) {
 }
 
 void IrqMgr_CheckStack() {
-    // "0.5 seconds after PRENMI"
-    osSyncPrintf("irqmgr.c: PRENMIから0.5秒経過\n");
+    osSyncPrintf("irqmgr.c: PRENMIから0.5秒経過\n"); // "0.5 seconds after PRENMI"
     if (StackCheck_Check(NULL) == 0) {
-        // "The stack looks ok"
-        osSyncPrintf("スタックは大丈夫みたいです\n");
+        osSyncPrintf("スタックは大丈夫みたいです\n"); // "The stack looks ok"
     } else {
         osSyncPrintf("%c", 7);
         osSyncPrintf(VT_FGCOL(RED));
@@ -171,8 +169,7 @@ void IrqMgr_ThreadEntry(void* arg0) {
     u8 exit;
 
     msg = 0;
-    // "Start IRQ manager thread execution"
-    osSyncPrintf("ＩＲＱマネージャスレッド実行開始\n");
+    osSyncPrintf("ＩＲＱマネージャスレッド実行開始\n"); // "Start IRQ manager thread execution"
     exit = false;
 
     while (!exit) {
@@ -213,8 +210,7 @@ void IrqMgr_ThreadEntry(void* arg0) {
         }
     }
 
-    // "End of IRQ manager thread execution"
-    osSyncPrintf("ＩＲＱマネージャスレッド実行終了\n");
+    osSyncPrintf("ＩＲＱマネージャスレッド実行終了\n"); // "End of IRQ manager thread execution"
 }
 
 void IrqMgr_Init(IrqMgr* this, void* stack, OSPri pri, u8 retraceCount) {

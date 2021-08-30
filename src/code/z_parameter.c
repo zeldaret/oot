@@ -1319,8 +1319,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
-        // "Seals = %x"
-        osSyncPrintf("封印 = %x\n", gSaveContext.inventory.questItems);
+        osSyncPrintf("封印 = %x\n", gSaveContext.inventory.questItems); // "Seals = %x"
         osSyncPrintf(VT_RST);
 
         if (item == ITEM_MEDALLION_WATER) {
@@ -1332,8 +1331,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
-        // "Musical scores = %x"
-        osSyncPrintf("楽譜 = %x\n", gSaveContext.inventory.questItems);
+        osSyncPrintf("楽譜 = %x\n", gSaveContext.inventory.questItems); // "Musical scores = %x"
         // "Musical scores = %x (%x) (%x)"
         osSyncPrintf("楽譜 = %x (%x) (%x)\n", gSaveContext.inventory.questItems,
                      gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET], gBitFlags[item - ITEM_SONG_MINUET]);
@@ -1344,8 +1342,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_KOKIRI_EMERALD + QUEST_KOKIRI_EMERALD];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
-        // "Spiritual Stones = %x"
-        osSyncPrintf("精霊石 = %x\n", gSaveContext.inventory.questItems);
+        osSyncPrintf("精霊石 = %x\n", gSaveContext.inventory.questItems); // "Spiritual Stones = %x"
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
@@ -1353,8 +1350,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.inventory.questItems |= gBitFlags[item - ITEM_STONE_OF_AGONY + QUEST_STONE_OF_AGONY];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
-        // "Items = %x"
-        osSyncPrintf("アイテム = %x\n", gSaveContext.inventory.questItems);
+        osSyncPrintf("アイテム = %x\n", gSaveContext.inventory.questItems); // "Items = %x"
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
@@ -1667,8 +1663,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.health += 0x10;
         return ITEM_NONE;
     } else if (item == ITEM_HEART) {
-        // "Recovery Heart"
-        osSyncPrintf("回復ハート回復ハート回復ハート\n");
+        osSyncPrintf("回復ハート回復ハート回復ハート\n"); // "Recovery Heart"
         Health_ChangeBy(globalCtx, 0x10);
         return item;
     } else if (item == ITEM_MAGIC_SMALL) {
@@ -1936,8 +1931,7 @@ s32 Inventory_ReplaceItem(GlobalContext* globalCtx, u16 oldItem, u16 newItem) {
     for (i = 0; i < ARRAY_COUNT(gSaveContext.inventory.items); i++) {
         if (gSaveContext.inventory.items[i] == oldItem) {
             gSaveContext.inventory.items[i] = newItem;
-            // "Item Purge (%d)"
-            osSyncPrintf("アイテム消去(%d)\n", i);
+            osSyncPrintf("アイテム消去(%d)\n", i); // "Item Purge (%d)"
             for (i = 1; i < 4; i++) {
                 if (gSaveContext.equips.buttonItems[i] == oldItem) {
                     gSaveContext.equips.buttonItems[i] = newItem;
@@ -2020,8 +2014,7 @@ s32 Inventory_ConsumeFairy(GlobalContext* globalCtx) {
                     break;
                 }
             }
-            // "Fairy Usage＝%d"
-            osSyncPrintf("妖精使用＝%d\n", bottleSlot);
+            osSyncPrintf("妖精使用＝%d\n", bottleSlot); // "Fairy Usage＝%d"
             gSaveContext.inventory.items[bottleSlot + i] = ITEM_BOTTLE;
             return 1;
         }
@@ -2137,8 +2130,7 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
                                                    &D_801333E0, &D_801333E0, &D_801333E8);
     } else if ((gSaveContext.doubleDefense != 0) && (healthChange < 0)) {
         healthChange >>= 1;
-        // "Heart decrease halved!!＝%d"
-        osSyncPrintf("ハート減少半分！！＝%d\n", healthChange);
+        osSyncPrintf("ハート減少半分！！＝%d\n", healthChange); // "Heart decrease halved!!＝%d"
     }
     // clang-format on
 
@@ -2236,8 +2228,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
         AMMO(ITEM_BEAN) += ammoChange;
     }
 
-    // "Total = (%d)"
-    osSyncPrintf("合計 = (%d)\n", AMMO(item));
+    osSyncPrintf("合計 = (%d)\n", AMMO(item)); // "Total = (%d)"
 }
 
 void Magic_Fill(GlobalContext* globalCtx) {
@@ -4054,8 +4045,7 @@ void Interface_Update(GlobalContext* globalCtx) {
             gSaveContext.magicLevel = gSaveContext.doubleMagic + 1;
             gSaveContext.unk_13F0 = 8;
             osSyncPrintf(VT_FGCOL(YELLOW));
-            // "Magic Start!!!!!!!!!"
-            osSyncPrintf("魔法スター─────ト！！！！！！！！！\n");
+            osSyncPrintf("魔法スター─────ト！！！！！！！！！\n"); // "Magic Start!!!!!!!!!"
             osSyncPrintf("MAGIC_MAX=%d\n", gSaveContext.magicLevel);
             osSyncPrintf("MAGIC_NOW=%d\n", gSaveContext.magic);
             osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.unk_13F6);

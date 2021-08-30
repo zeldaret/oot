@@ -165,8 +165,7 @@ void Map_InitData(GlobalContext* globalCtx, s16 room) {
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
             R_COMPASS_OFFSET_Y = gMapData->roomCompassOffsetY[mapIndex][room];
             Map_SetFloorPalettesData(globalCtx, VREG(30));
-            // "MAP Individual Floor ON Check"
-            osSyncPrintf("ＭＡＰ 各階ＯＮチェック\n");
+            osSyncPrintf("ＭＡＰ 各階ＯＮチェック\n"); // "MAP Individual Floor ON Check"
             break;
     }
 }
@@ -204,8 +203,7 @@ void Map_InitRoomData(GlobalContext* globalCtx, s16 room) {
                 interfaceCtx->unk_25A = mapIndex;
                 Map_SetPaletteData(globalCtx, room);
                 osSyncPrintf(VT_FGCOL(YELLOW));
-                // "Room Room = %d"
-                osSyncPrintf("部屋部屋＝%d\n", room);
+                osSyncPrintf("部屋部屋＝%d\n", room); // "Room Room = %d"
                 osSyncPrintf(VT_RST);
                 Map_InitData(globalCtx, room);
                 break;

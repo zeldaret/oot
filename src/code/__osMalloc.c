@@ -683,8 +683,7 @@ void __osDisplayArena(Arena* arena) {
     ArenaNode* next;
 
     if (!__osMallocIsInitalized(arena)) {
-        // "Arena is not initalized"
-        osSyncPrintf("アリーナは初期化されていません\n");
+        osSyncPrintf("アリーナは初期化されていません\n"); // "Arena is not initalized"
         return;
     }
 
@@ -694,8 +693,7 @@ void __osDisplayArena(Arena* arena) {
     freeSize = 0;
     allocatedSize = 0;
 
-    // "Arena contents (0x%08x)"
-    osSyncPrintf("アリーナの内容 (0x%08x)\n", arena);
+    osSyncPrintf("アリーナの内容 (0x%08x)\n", arena); // "Arena contents (0x%08x)"
     // "Memory node range status size [time s ms us ns: TID: src: line]"
     osSyncPrintf("メモリブロック範囲 status サイズ  [時刻  s ms us ns: TID:src:行]\n");
 
@@ -808,8 +806,7 @@ u32 __osCheckArena(Arena* arena) {
         iter = ArenaImpl_GetNextBlock(iter);
     }
     if (error == 0) {
-        // "The arena is still going well"
-        osSyncPrintf("アリーナはまだ、いけそうです\n");
+        osSyncPrintf("アリーナはまだ、いけそうです\n"); // "The arena is still going well"
     }
     ArenaImpl_Unlock(arena);
 
