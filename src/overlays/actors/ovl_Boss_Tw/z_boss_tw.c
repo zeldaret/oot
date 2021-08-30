@@ -2604,10 +2604,9 @@ void BossTw_DeathCSMsgSfx(BossTw* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
     s16 i;
-    Vec3f spD8;
+    Vec3f spD0;
     Player* player = PLAYER;
     Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
@@ -2695,11 +2694,11 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
             Audio_QueueSeqCmd(0x100100FF);
             break;
         case 1:
-            spD8.x = Math_SinS(this->actor.world.rot.y) * 200.0f;
-            spD8.z = Math_CosS(this->actor.world.rot.y) * 200.0f;
-            Math_ApproachF(&this->subCamEye.x, spD8.x + this->actor.world.pos.x, 0.1f, 50.0f);
+            spD0.x = Math_SinS(this->actor.world.rot.y) * 200.0f;
+            spD0.z = Math_CosS(this->actor.world.rot.y) * 200.0f;
+            Math_ApproachF(&this->subCamEye.x, spD0.x + this->actor.world.pos.x, 0.1f, 50.0f);
             Math_ApproachF(&this->subCamEye.y, 300.0f, 0.1f, 50.0f);
-            Math_ApproachF(&this->subCamEye.z, spD8.z + this->actor.world.pos.z, 0.1f, 50.0f);
+            Math_ApproachF(&this->subCamEye.z, spD0.z + this->actor.world.pos.z, 0.1f, 50.0f);
             Math_ApproachF(&this->subCamAt.x, this->actor.world.pos.x, 0.1f, 50.0f);
             Math_ApproachF(&this->subCamAt.y, this->actor.world.pos.y, 0.1f, 50.0f);
             Math_ApproachF(&this->subCamAt.z, this->actor.world.pos.z, 0.1f, 50.0f);
@@ -2734,6 +2733,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
                 Vec3f pos;
                 Vec3f velocity;
                 Vec3f accel = { 0.0f, 0.0f, 0.0f };
+                s32 zero = 0;
 
                 for (i = 0; i < 50; i++) {
                     velocity.x = Rand_CenteredFloat(3.0f);
@@ -2744,6 +2744,13 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
                     pos.y += velocity.y * 2.0f;
                     pos.z += velocity.z * 2.0f;
                     BossTw_AddFlameEffect(globalCtx, &pos, &velocity, &accel, Rand_ZeroFloat(2.0f) + 5, 1);
+
+                    // fake code needed to match, tricks the compiler into allocating more stack
+                    if (1) {}
+                    if (zero) {
+                        accel.x *= 2.0;
+                    }
+
                     velocity.x = Rand_CenteredFloat(3.0f);
                     velocity.y = Rand_CenteredFloat(3.0f);
                     velocity.z = Rand_CenteredFloat(3.0f);
@@ -2753,6 +2760,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
                     pos.z += velocity.z * 2.0f;
                     BossTw_AddFlameEffect(globalCtx, &pos, &velocity, &accel, Rand_ZeroFloat(2.0f) + 5, 0);
                 }
+
                 Actor_SetScale(&sKoumePtr->actor, 0.0f);
                 Actor_SetScale(&sKotakePtr->actor, 0.0f);
                 sKoumePtr->visible = 1;
@@ -2797,11 +2805,10 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
             Actor_SetScale(&sKoumePtr->actor, sKoumePtr->actor.scale.x);
             Actor_SetScale(&sKotakePtr->actor, sKoumePtr->actor.scale.x);
             if (this->work[CS_TIMER_2] >= 1020) {
-                Camera* cam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-
-                cam->eye = this->subCamEye;
-                cam->eyeNext = this->subCamEye;
-                cam->at = this->subCamAt;
+                mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                mainCam->eye = this->subCamEye;
+                mainCam->eyeNext = this->subCamEye;
+                mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
                 this->csState2 = 4;
                 this->subCamId = 0;
@@ -2828,11 +2835,6 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
         Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
-#else
-Vec3f D_8094A8E8 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_8094A8F4 = { 0.0f, 0.0f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_TwinrovaDeathCS.s")
-#endif
 
 static s16 D_8094A900[] = {
     0, 1, 2, 2, 1,
