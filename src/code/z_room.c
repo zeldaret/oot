@@ -227,7 +227,7 @@ s32 func_80096238(void* data) {
     OSTime time;
 
     if (*(u32*)data == JPEG_MARKER) {
-        osSyncPrintf("JPEGデータを展開します\n"); // "Expanding jpeg data"
+        osSyncPrintf("JPEGデータを展開します\n");        // "Expanding jpeg data"
         osSyncPrintf("JPEGデータアドレス %08x\n", data); // "Jpeg data address %08x"
         // "Work buffer address (Z buffer) %08x"
         osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);

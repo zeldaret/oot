@@ -82,7 +82,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
         osSyncPrintf("\nthis->timer=[%d]", this->timer);
         if (this->timer == 308) {
             osSyncPrintf("\n\n\n豆よ のびろ 指定\n\n\n"); // "Let's grow some beans"
-            Flags_SetEnv(globalCtx, 5); // set storms env flag
+            Flags_SetEnv(globalCtx, 5);                   // set storms env flag
         }
     }
 
