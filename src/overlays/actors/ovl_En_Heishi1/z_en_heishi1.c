@@ -102,9 +102,8 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード加算値 %f\n" VT_RST, this->headTurnSpeedScale);
     // "(head) maximum turning angle speed"
     osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
-    // "current time"
     // clang-format off
-    time = gSaveContext.dayTime; osSyncPrintf(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, time);
+    time = gSaveContext.dayTime; osSyncPrintf(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, time); // "current time"
     // clang-format on
     osSyncPrintf(VT_FGCOL(YELLOW) " チェック時間 %d\n" VT_RST, 0xBAAA); // "check time"
     osSyncPrintf("\n\n");
