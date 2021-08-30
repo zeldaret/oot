@@ -9427,7 +9427,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
         }
 
         if (this->actor.category == ACTORCAT_PLAYER) {
-            func_800F66DC(SurfaceType_GetEcho(&globalCtx->colCtx, spC0, this->actor.floorBgId));
+            Audio_SetCodeReverb(SurfaceType_GetEcho(&globalCtx->colCtx, spC0, this->actor.floorBgId));
 
             if (this->actor.floorBgId == BGCHECK_SCENE) {
                 func_80074CE8(globalCtx,

@@ -143,7 +143,7 @@ void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
-        func_800F68BC(1);
+        Audio_SetCutsceneFlag(1);
         csCtx->state++;
     }
 }
@@ -154,7 +154,7 @@ void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     ShrinkWindow_SetVal(0x20);
 
     if (func_8006472C(globalCtx, csCtx, 1.0f)) {
-        func_800F68BC(1);
+        Audio_SetCutsceneFlag(1);
         csCtx->state++;
     }
 }
@@ -457,7 +457,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
         ((csCtx->frames > 20) && CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_START) &&
          (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_UNSKIPPABLE_EXEC;
-        func_800F68BC(0);
+        Audio_SetCutsceneFlag(0);
         gSaveContext.unk_1410 = 1;
 
         // Translates to: "FUTURE FORK DESIGNATION=No. [%d]"
@@ -781,7 +781,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 54:
                 gSaveContext.gameMode = 3;
-                func_800F7260(0x6F);
+                Audio_SetSoundBanksMute(0x6F);
                 globalCtx->linkAgeOnLoad = 1;
                 globalCtx->nextEntranceIndex = 0x0117;
                 gSaveContext.cutsceneIndex = 0xFFF2;
@@ -1161,7 +1161,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 117:
                 gSaveContext.gameMode = 3;
-                func_800F7260(0x6F);
+                Audio_SetSoundBanksMute(0x6F);
                 globalCtx->linkAgeOnLoad = 0;
                 globalCtx->nextEntranceIndex = 0x00CD;
                 gSaveContext.cutsceneIndex = 0xFFF7;
@@ -1887,7 +1887,7 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
 void func_80068D84(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     if (func_8006472C(globalCtx, csCtx, 0.0f)) {
-        func_800F68BC(0);
+        Audio_SetCutsceneFlag(0);
         csCtx->state = CS_STATE_IDLE;
     }
 }
@@ -1921,7 +1921,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
             func_8005B1A4(globalCtx->cameraPtrs[D_8015FCC6]);
         }
 
-        func_800F68BC(0);
+        Audio_SetCutsceneFlag(0);
         csCtx->state = CS_STATE_IDLE;
     }
 }
@@ -1948,7 +1948,7 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         csCtx->state++;
 
         if (csCtx->state == CS_STATE_SKIPPABLE_INIT) {
-            func_800F68BC(1);
+            Audio_SetCutsceneFlag(1);
 
             csCtx->frames = 0xFFFF;
             csCtx->unk_18 = 0xFFFF;

@@ -85,19 +85,19 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->type = (this->actor.params >> 0xC) & 0xF;
     this->switchFlag = this->actor.params & 0x3F;
     this->numEffects = ARRAY_COUNT(this->effects);
-    // index
+    // "index"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
-    // save
+    // "save"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ\t     ☆☆☆☆☆ %x\n" VT_RST, this->switchFlag);
     switch (this->type) {
         case ENGSWITCH_SILVER_TRACKER:
             osSyncPrintf("\n\n");
-            // parent switch spawn
+            // "parent switch spawn"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
             sCollectedCount = 0;
             this->silverCount = this->actor.params >> 6;
             this->silverCount &= 0x3F;
-            // maximum number of checks
+            // "maximum number of checks"
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
             osSyncPrintf("\n\n");
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -110,7 +110,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case ENGSWITCH_SILVER_RUPEE:
             osSyncPrintf("\n\n");
-            // child switch spawn
+            // "child switch spawn"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 子スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
             this->colorIdx = 5;
             this->numEffects = 20;
@@ -128,7 +128,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case ENGSWITCH_ARCHERY_POT:
             osSyncPrintf("\n\n");
-            // Horseback archery destructible pot
+            // "Horseback archery destructible pot"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n" VT_RST);
             this->actor.gravity = -3.0f;
             this->colorIdx = Rand_ZeroFloat(2.99f);
@@ -142,9 +142,9 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->objIndex = Object_GetIndex(&globalCtx->objectCtx, this->objId);
             if (this->objIndex < 0) {
                 Actor_Kill(&this->actor);
-                // what?
+                // "what?"
                 osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
-                // bank is funny
+                // "bank is funny"
                 osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             }
             this->collider.dim.radius = 24;
@@ -208,21 +208,21 @@ void EnGSwitch_WaitForObject(EnGSwitch* this, GlobalContext* globalCtx) {
 }
 
 void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, GlobalContext* globalCtx) {
-    static s8 rupeePitches[] = { 0, 2, 4, 5, 7 };
+    static s8 majorScale[] = { 0, 2, 4, 5, 7 };
 
-    if (this->pitchIndex < sCollectedCount) {
+    if (this->noteIndex < sCollectedCount) {
         if (sCollectedCount < 5) {
-            // sound?
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->pitchIndex);
-            func_800F4BF4(&D_801333D4, NA_SE_EV_FIVE_COUNT_LUPY, rupeePitches[this->pitchIndex]);
-            this->pitchIndex = sCollectedCount;
+            // "sound?"
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->noteIndex);
+            Audio_PlaySoundTransposed(&D_801333D4, NA_SE_EV_FIVE_COUNT_LUPY, majorScale[this->noteIndex]);
+            this->noteIndex = sCollectedCount;
         }
     }
     if (sCollectedCount >= this->silverCount) {
-        // It is now the end of the century.
+        // "It is now the end of the century."
         // This another reference to Hokuto no Ken.
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
-        // Last!
+        // "Last!"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n" VT_RST);
         if ((globalCtx->sceneNum == SCENE_MEN) && (this->actor.room == 2)) {
             Flags_SetTempClear(globalCtx, this->actor.room);
@@ -346,7 +346,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                 gallery->targetState[this->index] = ENSYATEKIHIT_HIT;
                 func_80078884(NA_SE_EV_HIT_SOUND);
                 func_80078884(NA_SE_SY_GET_RUPY);
-                // Yeah !
+                // "Yeah !"
                 osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n" VT_RST, gallery->hitCount);
                 EnGSwitch_Break(this, globalCtx);
                 this->killTimer = 50;

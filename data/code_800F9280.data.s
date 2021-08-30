@@ -24,7 +24,7 @@ glabel D_8013340C
 glabel D_80133410
     .incbin "baserom.z64", 0xBAA5B0, 0x4
 
-glabel D_80133414
+glabel gAudioSpecId
     .incbin "baserom.z64", 0xBAA5B4, 0x4
 
 glabel D_80133418
@@ -63,7 +63,7 @@ glabel D_801336F0
 glabel D_80133738
     .incbin "baserom.z64", 0xBAA8D8, 0x90
 
-glabel gAudioSessionPresets
+glabel gAudioSpecs
     .incbin "baserom.z64", 0xBAA968, 0xC
     .word D_80133420
     .incbin "baserom.z64", 0xBAA978, 0x34

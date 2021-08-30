@@ -1443,7 +1443,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                 if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
                     sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCRAINA_WAIT;
                 }
-                if (func_800F8FF4(NA_SE_SY_METRONOME) == 0) {
+                if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
                     if (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid != NULL) {
                         sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState =
                             SKULL_KID_OCARINA_PLAY_NOTES;
@@ -1456,7 +1456,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                 if (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid != NULL) {
                     sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState = SKULL_KID_OCRAINA_WAIT;
                 }
-                if (func_800F8FF4(NA_SE_SY_METRONOME) == 0) {
+                if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
                     func_80106AA8(globalCtx);
                     this->songFailTimer = 160;
                 }
@@ -1477,7 +1477,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                 break;
 
             case 0x30:
-                if (func_800F8FF4(NA_SE_SY_METRONOME) == 0) {
+                if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
                     if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
                         sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState =
                             SKULL_KID_OCARINA_PLAY_NOTES;

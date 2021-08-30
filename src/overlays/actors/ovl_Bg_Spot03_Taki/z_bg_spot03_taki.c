@@ -153,9 +153,9 @@ void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     this->bufferIndex = this->bufferIndex == 0;
 
-    if (this->state > WATERFALL_CLOSED && this->state < WATERFALL_CLOSING) {
-        func_800F46E0(&this->dyna.actor.projectedPos, 0.5f);
+    if (this->state >= WATERFALL_OPENING_IDLE && this->state <= WATERFALL_OPENED) {
+        Audio_PlaySoundWaterfall(&this->dyna.actor.projectedPos, 0.5f);
     } else {
-        func_800F46E0(&this->dyna.actor.projectedPos, 1.0f);
+        Audio_PlaySoundWaterfall(&this->dyna.actor.projectedPos, 1.0f);
     }
 }

@@ -1018,7 +1018,7 @@ void func_80B55808(EnZl3* this) {
 }
 
 void func_80B5582C(EnZl3* this) {
-    func_800F41E0(&D_80B5A488, NA_SE_VO_Z1_CRY_0, 2);
+    Audio_PlaySoundRandom(&D_80B5A488, NA_SE_VO_Z1_CRY_0, NA_SE_VO_Z1_CRY_1 - NA_SE_VO_Z1_CRY_0 + 1);
 }
 
 void func_80B5585C(EnZl3* this) {
