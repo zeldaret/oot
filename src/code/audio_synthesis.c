@@ -373,7 +373,7 @@ void AudioSynth_InterL(Acmd* cmd, s32 dmemIn, s32 dmemOut, s32 count) {
     cmd->words.w1 = _SHIFTL(dmemIn, 16, 16) | _SHIFTL(dmemOut, 0, 16);
 }
 
-void func_800DBCD4(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void AudioSynth_EnvSetup1(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     aEnvSetup1(cmd, arg1, arg2, arg3, arg4);
 }
 
@@ -1120,7 +1120,7 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
 
     if (noteSubEu->bitField1.s.usesHeadsetPanEffects2) {
         AudioSynth_ClearBuffer(cmd++, DMEM_NOTE_PAN_TEMP, DEFAULT_LEN_1CH);
-        func_800DBCD4(cmd++, phi_t1 * 2, rampReverb, rampLeft, rampRight);
+        AudioSynth_EnvSetup1(cmd++, phi_t1 * 2, rampReverb, rampLeft, rampRight);
         AudioSynth_EnvSetup2(cmd++, curVolLeft, curVolRight);
         switch (headsetPanSettings) {
             case 1:
