@@ -2098,12 +2098,10 @@ void AudioDebug_ProcessInput_ScrPrt(void) {
                  (sAudioScrPrtWork[6] * 8) + (sAudioScrPrtWork[7] * 0x10) + (sAudioScrPrtWork[8] * 0x20);
 }
 
-#ifdef NON_MATCHING
-// regalloc near 'prev'
 void AudioDebug_ProcessInput_SEFlagSwap(void) {
     s16 step;
     u16 val;
-    u8 prev; // v1
+    u8 prev;
 
     if (!sAudioSEFlagSwapIsEditing) {
         if (CHECK_BTN_ANY(sDebugPadPress, BTN_DUP)) {
@@ -2122,7 +2120,6 @@ void AudioDebug_ProcessInput_SEFlagSwap(void) {
             }
         }
 
-        prev = 9;
         if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
             sAudioSEFlagSwapIsEditing = true;
         }
@@ -2133,14 +2130,12 @@ void AudioDebug_ProcessInput_SEFlagSwap(void) {
         }
 
         if (CHECK_BTN_ANY(sDebugPadPress, BTN_START)) {
-            prev = sAudioSEFlagSwapSel;
-            if (prev != 0) {
-                prev--;
+            if (sAudioSEFlagSwapSel != 0) {
+                prev = sAudioSEFlagSwapSel - 1;
             } else {
                 prev = 9;
             }
             gAudioSEFlagSwapSource[sAudioSEFlagSwapSel] = gAudioSEFlagSwapSource[prev];
-            if (sAudioSEFlagSwapNibbleSel) {}
             gAudioSEFlagSwapTarget[sAudioSEFlagSwapSel] = gAudioSEFlagSwapTarget[prev];
         }
     } else {
@@ -2169,19 +2164,19 @@ void AudioDebug_ProcessInput_SEFlagSwap(void) {
             }
 
             if (sAudioSEFlagSwapNibbleSel < 4) {
-                val = gAudioSEFlagSwapSource[sAudioSEFlagSwapSel] >> (((-sAudioSEFlagSwapNibbleSel) * 4) + 0xC);
+                val = gAudioSEFlagSwapSource[sAudioSEFlagSwapSel] >> ((3 - sAudioSEFlagSwapNibbleSel) * 4);
                 val = (val + step) & 0xF;
                 gAudioSEFlagSwapSource[sAudioSEFlagSwapSel] =
                     (gAudioSEFlagSwapSource[sAudioSEFlagSwapSel] &
-                     ((0xF << (((-sAudioSEFlagSwapNibbleSel) * 4) + 0xC)) ^ 0xFFFF)) +
-                    (val << (((-sAudioSEFlagSwapNibbleSel) * 4) + 0xC));
+                     ((0xF << ((3 - sAudioSEFlagSwapNibbleSel) * 4)) ^ 0xFFFF)) +
+                    (val << ((3 - sAudioSEFlagSwapNibbleSel) * 4));
             } else {
-                val = gAudioSEFlagSwapTarget[sAudioSEFlagSwapSel] >> (((-sAudioSEFlagSwapNibbleSel) * 4) + 0x1C);
+                val = gAudioSEFlagSwapTarget[sAudioSEFlagSwapSel] >> ((7 - sAudioSEFlagSwapNibbleSel) * 4);
                 val = (val + step) & 0xF;
                 gAudioSEFlagSwapTarget[sAudioSEFlagSwapSel] =
                     (gAudioSEFlagSwapTarget[sAudioSEFlagSwapSel] &
-                     ((0xF << (((-sAudioSEFlagSwapNibbleSel) * 4) + 0x1C)) ^ 0xFFFF)) +
-                    (val << (((-sAudioSEFlagSwapNibbleSel) * 4) + 0x1C));
+                     ((0xF << ((7 - sAudioSEFlagSwapNibbleSel) * 4)) ^ 0xFFFF)) +
+                    (val << ((7 - sAudioSEFlagSwapNibbleSel) * 4));
             }
         }
 
@@ -2206,10 +2201,6 @@ void AudioDebug_ProcessInput_SEFlagSwap(void) {
         gAudioSEFlagSwapMode[sAudioSEFlagSwapSel] ^= 1;
     }
 }
-#else
-void AudioDebug_ProcessInput_SEFlagSwap(void);
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/AudioDebug_ProcessInput_SEFlagSwap.s")
-#endif
 
 void AudioDebug_ProcessInput_SubTrackInfo(void) {
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_DDOWN)) {
