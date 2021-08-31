@@ -1192,10 +1192,10 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
     }
 
     for (i = 0; i < stemSections; i++) {
-        mtx.wy += 20.0f * Math_SinS(this->stemSectionAngle[i]) * this->size;
+        mtx.yw += 20.0f * Math_SinS(this->stemSectionAngle[i]) * this->size;
         horizontalStepSize = 20.0f * Math_CosS(this->stemSectionAngle[i]) * this->size;
-        mtx.wx -= horizontalStepSize * Math_SinS(this->actor.shape.rot.y);
-        mtx.wz -= horizontalStepSize * Math_CosS(this->actor.shape.rot.y);
+        mtx.xw -= horizontalStepSize * Math_SinS(this->actor.shape.rot.y);
+        mtx.zw -= horizontalStepSize * Math_CosS(this->actor.shape.rot.y);
 
         Matrix_Put(&mtx);
         Matrix_RotateRPY(this->stemSectionAngle[i], this->actor.shape.rot.y, 0, MTXMODE_APPLY);
@@ -1209,9 +1209,9 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
 
         if (i == 0) {
             if (this->actionFunc != EnDekubaba_Sway) {
-                this->actor.focus.pos.x = mtx.wx;
-                this->actor.focus.pos.y = mtx.wy;
-                this->actor.focus.pos.z = mtx.wz;
+                this->actor.focus.pos.x = mtx.xw;
+                this->actor.focus.pos.y = mtx.yw;
+                this->actor.focus.pos.z = mtx.zw;
             } else {
                 this->actor.focus.pos.x = this->actor.home.pos.x;
                 this->actor.focus.pos.y = this->actor.home.pos.y + (40.0f * this->size);
@@ -1221,9 +1221,9 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, GlobalContext* globalCtx) {
 
         if ((i < 2) && (this->actor.colorFilterTimer != 0)) {
             // checking colorFilterTimer ensures that spA4 has been initialized earlier, so not a bug
-            this->bodyPartsPos[i].x = mtx.wx;
-            this->bodyPartsPos[i].y = mtx.wy - spA4;
-            this->bodyPartsPos[i].z = mtx.wz;
+            this->bodyPartsPos[i].x = mtx.xw;
+            this->bodyPartsPos[i].y = mtx.yw - spA4;
+            this->bodyPartsPos[i].z = mtx.zw;
         }
     }
 

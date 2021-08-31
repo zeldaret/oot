@@ -244,16 +244,16 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
     v0 = 3 - (this->timer >> 1);
     v0 = CLAMP_MIN(v0, 0);
 
-    mtxF.wx = this->dyna.actor.world.pos.x + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * sin;
-    mtxF.wz = this->dyna.actor.world.pos.z + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * cos;
-    mtxF.wy = this->dyna.actor.world.pos.y + 40.0f;
+    mtxF.xw = this->dyna.actor.world.pos.x + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * sin;
+    mtxF.zw = this->dyna.actor.world.pos.z + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * cos;
+    mtxF.yw = this->dyna.actor.world.pos.y + 40.0f;
     mtxF.zz = v0 * 0.4f + 1.0f;
     mtxF.yy = v0 * 0.4f + 1.0f;
     mtxF.xx = v0 * 0.4f + 1.0f;
 
     for (s3 = v0; s3 < phi_s5; s3++) {
-        mtxF.wx += 25.0f * sin;
-        mtxF.wz += 25.0f * cos;
+        mtxF.xw += 25.0f * sin;
+        mtxF.zw += 25.0f * cos;
         mtxF.xx += 0.4f;
         mtxF.yy += 0.4f;
         mtxF.zz += 0.4f;
@@ -265,8 +265,8 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfx++, gFireTempleFireballDL);
     }
-    mtxF.wx = this->dyna.actor.world.pos.x + (phi_s5 * 25 + 80) * sin;
-    mtxF.wz = this->dyna.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
+    mtxF.xw = this->dyna.actor.world.pos.x + (phi_s5 * 25 + 80) * sin;
+    mtxF.zw = this->dyna.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
     gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[(this->timer + s3) % 7]));
     gSPMatrix(gfx++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 624),
