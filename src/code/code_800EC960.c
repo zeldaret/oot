@@ -1271,8 +1271,6 @@ void func_800EE6F4(void) {
     func_800EE29C();
 }
 
-#ifdef NON_MATCHING
-// matches, but data needs to be migrated.
 void func_800EE824(void) {
     static u8 D_80131C80 = 0;
     static u8 D_80131C84 = 1;
@@ -1304,12 +1302,6 @@ void func_800EE824(void) {
             break;
     }
 }
-#else
-u8 D_80131C80 = 0;
-u8 D_80131C84 = 1;
-u16 D_80131C88 = 1200;
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE824.s")
-#endif
 
 void func_800EE930(void) {
     D_8016B9F8.noteIdx = 0xFF;
@@ -1327,7 +1319,8 @@ void func_800EE930(void) {
 f32 D_80131C8C = 0.0f;
 
 
-// Debug variables (separate file?):
+// === Audio Debugging ===
+
 extern f32 sAudioUpdateDuration;    // = 0
 extern f32 sAudioUpdateDurationMax; // = 0
 extern u8 sAudioDebugEverOpened;    // = 0
@@ -1375,7 +1368,7 @@ extern u8 sPeakNumNotes;                     // = 0
 // D_80131F6C is in-function static in func_800F510C
 
 
-void AudioDebug_SetInput(void) { // (not 16-byte-aligned, so this cannot start a new file...)
+void AudioDebug_SetInput(void) {
     Input inputs[4];
     u32 btn;
 
