@@ -27,7 +27,7 @@ typedef enum {
     /* 0x03 */ CAM_SET_DUNGEON0,
     /* 0x04 */ CAM_SET_DUNGEON1,
     /* 0x05 */ CAM_SET_NORMAL3,
-    /* 0x06 */ CAM_SET_HORSE, // "HORSE"
+    /* 0x06 */ CAM_SET_HORSE, // "HORSE0"
     /* 0x07 */ CAM_SET_BOSS_GOHMA, // "BOSS_GOMA" (unused)
     /* 0x08 */ CAM_SET_BOSS_DODONGO, // "BOSS_DODO" (unused)
     /* 0x09 */ CAM_SET_BOSS_BARINADE, // "BOSS_BARI" (unused)
@@ -39,7 +39,7 @@ typedef enum {
     /* 0x0F */ CAM_SET_BOSS_TWINROVA_FLOOR, // "TWIN1"
     /* 0x10 */ CAM_SET_BOSS_GANONDORF, // "BOSS_GANON1"
     /* 0x11 */ CAM_SET_BOSS_GANON, // "BOSS_GANON2" (unused)
-    /* 0x12 */ CAM_SET_COLLAPSE_STAIRS, // "TOWER0"
+    /* 0x12 */ CAM_SET_TOWER0, // Scene CamData in collapse sequence stairs, zora's domain, zora's river, kokiri forest, wasteland 
     /* 0x13 */ CAM_SET_TOWER1, // Data is given in Phantom Ganon's Lair, but no surface uses it
     /* 0x14 */ CAM_SET_FIXED0, // Market on balcony above bombchu bowling. Triggered by talking to npc at day
     /* 0x15 */ CAM_SET_FIXED1, // Bombchu Bowling

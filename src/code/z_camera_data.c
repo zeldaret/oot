@@ -4645,7 +4645,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x051FFFFF }, sCamSetBossTwin1Modes },  // CAM_SET_BOSS_TWINROVA_FLOOR
     { { 0x051FFFFF }, sCamSetBossGanon1Modes }, // CAM_SET_BOSS_GANONDORF
     { { 0x051FFFFF }, sCamSetBossGanon2Modes }, // CAM_SET_BOSS_GANON
-    { { 0x851FFFFF }, sCamSetTower0Modes },     // CAM_SET_COLLAPSE_STAIRS
+    { { 0x851FFFFF }, sCamSetTower0Modes },     // CAM_SET_TOWER0
     { { 0x851FFFFF }, sCamSetTower1Modes },     // CAM_SET_TOWER1
     { { 0x8500000D }, sCamSetFixed0Modes },     // CAM_SET_FIXED0
     { { 0x85000001 }, sCamSetFixed1Modes },     // CAM_SET_FIXED1
