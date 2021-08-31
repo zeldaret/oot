@@ -150,7 +150,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Player* player;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->unk_2C8++;
 
     func_80A5046C(this);

@@ -304,7 +304,7 @@ s32 Player_InBlockingCsMode(GlobalContext* globalCtx, Player* this) {
 }
 
 s32 Player_InCsMode(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return Player_InBlockingCsMode(globalCtx, this) || (this->unk_6AD == 4);
 }
@@ -419,7 +419,7 @@ void func_8008EE08(Player* this) {
 }
 
 void func_8008EEAC(GlobalContext* globalCtx, Actor* actor) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     func_8008EE08(this);
     this->unk_664 = actor;
@@ -430,7 +430,7 @@ void func_8008EEAC(GlobalContext* globalCtx, Actor* actor) {
 }
 
 s32 func_8008EF30(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->stateFlags1 & 0x800000);
 }
@@ -441,7 +441,7 @@ s32 func_8008EF44(GlobalContext* globalCtx, s32 ammo) {
 }
 
 s32 Player_IsBurningStickInRange(GlobalContext* globalCtx, Vec3f* pos, f32 xzRange, f32 yRange) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
     Vec3f diff;
     s32 pad;
 
@@ -466,13 +466,13 @@ s32 Player_GetStrength(void) {
 }
 
 u8 Player_GetMask(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return this->currentMask;
 }
 
 Player* Player_UnsetMask(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     this->currentMask = PLAYER_MASK_NONE;
 
@@ -480,13 +480,13 @@ Player* Player_UnsetMask(GlobalContext* globalCtx) {
 }
 
 s32 Player_HasMirrorShieldEquipped(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->currentShield == PLAYER_SHIELD_MIRROR);
 }
 
 s32 Player_HasMirrorShieldSetToDraw(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->rightHandType == 10) && (this->currentShield == PLAYER_SHIELD_MIRROR);
 }
@@ -580,7 +580,7 @@ return_neg:
 }
 
 s32 func_8008F2F8(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
     TextTriggerEntry* triggerEntry;
     s32 var;
 

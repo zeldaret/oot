@@ -296,7 +296,7 @@ void EnFirefly_SetupDisturbDiveAttack(EnFirefly* this) {
 }
 
 s32 EnFirefly_ReturnToPerch(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 distFromHome;
 
     if (this->actor.params != KEESE_NORMAL_PERCH) {
@@ -453,7 +453,7 @@ void EnFirefly_Die(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f preyPos;
 
     SkelAnime_Update(&this->skelAnime);
@@ -583,7 +583,7 @@ void EnFirefly_Perch(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_DisturbDiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f preyPos;
 
     SkelAnime_Update(&this->skelAnime);

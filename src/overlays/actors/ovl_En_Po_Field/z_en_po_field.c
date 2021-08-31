@@ -236,7 +236,7 @@ void EnPoField_SetupAppear(EnPoField* this) {
 }
 
 void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Animation_PlayLoop(&this->skelAnime, &gPoeFieldFloatAnim);
     this->collider.base.acFlags |= AC_ON;
@@ -359,7 +359,7 @@ void EnPoField_SetupInteractWithSoul(EnPoField* this) {
 }
 
 void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unk_194 == 0) {
         this->unk_194 = 32;
@@ -380,7 +380,7 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 speed = ((player->stateFlags1 & 0x800000) && player->rideActor != NULL) ? player->rideActor->speedXZ : 12.0f;
 
     if (this->actor.xzDistToPlayer < 300.0f) {
@@ -396,7 +396,7 @@ f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 spawnDist;
     s32 i;
     s32 bgId;
@@ -464,7 +464,7 @@ void EnPoField_Appear(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_CirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 temp_v1 = 16 - this->unk_194;
 
     SkelAnime_Update(&this->skelAnime);
@@ -552,12 +552,16 @@ void EnPoField_Death(EnPoField* this, GlobalContext* globalCtx) {
         if (this->actionTimer < 5) {
             sp6C.y = Math_SinS(this->actionTimer * 0x1000 - 0x4000) * 23.0f + (this->actor.world.pos.y + 40.0f);
             sp68 = Math_CosS(this->actionTimer * 0x1000 - 0x4000) * 23.0f;
-            sp6C.x = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.world.pos.x;
-            sp6C.z = Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * sp68 + this->actor.world.pos.z;
+            sp6C.x =
+                Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * sp68 + this->actor.world.pos.x;
+            sp6C.z =
+                Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * sp68 + this->actor.world.pos.z;
         } else {
             sp6C.y = this->actor.world.pos.y + 40.0f + 15.0f * (this->actionTimer - 5);
-            sp6C.x = Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.world.pos.x;
-            sp6C.z = Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.world.pos.z;
+            sp6C.x =
+                Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f + this->actor.world.pos.x;
+            sp6C.z =
+                Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4800) * 23.0f + this->actor.world.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255,
                              255, 0, 0, 255, 1, 9, 1);
@@ -785,7 +789,7 @@ void EnPoField_DrawFlame(EnPoField* this, GlobalContext* globalCtx) {
         sp4C = this->flameScale * 85000.0f;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, sp4C);
         Matrix_Translate(this->flamePosition.x, this->flamePosition.y, this->flamePosition.z, MTXMODE_NEW);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
         if (this->flameTimer >= 20) {
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
             Matrix_Scale(this->flameScale, this->flameScale, this->flameScale, MTXMODE_APPLY);
@@ -993,7 +997,7 @@ void EnPoField_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, info->primColor.r, info->primColor.g, info->primColor.b,
                         this->lightColor.a);
         gDPSetEnvColor(POLY_XLU_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 255);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000) * 9.58738e-05f, MTXMODE_APPLY);
+        Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000) * 9.58738e-05f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_field.c", 2143),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gPoeFieldSoulDL);

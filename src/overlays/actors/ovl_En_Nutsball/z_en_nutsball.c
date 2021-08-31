@@ -92,7 +92,7 @@ void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3s sp4C;
     Vec3f sp40;
 
@@ -139,7 +139,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
 
 void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnNutsball* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == func_80ABBB34)) {

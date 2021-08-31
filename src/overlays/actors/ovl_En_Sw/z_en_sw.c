@@ -426,7 +426,7 @@ s32 func_80B0CCF4(EnSw* this, f32* arg1) {
 
 void func_80B0CEA8(EnSw* this, GlobalContext* globalCtx) {
     if (!(this->actor.scale.x < 0.0139999995f)) {
-        Camera* activeCam = ACTIVE_CAM;
+        Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
 
         if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) >= 380.0f)) {
             Audio_PlayActorSound2(&this->actor, ((this->actor.params & 0xE000) >> 0xD) > 0 ? NA_SE_EN_STALGOLD_ROLL
@@ -682,7 +682,7 @@ s16 func_80B0DE34(EnSw* this, Vec3f* arg1) {
 }
 
 s32 func_80B0DEA8(EnSw* this, GlobalContext* globalCtx, s32 arg2) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     CollisionPoly* sp58;
     s32 sp54;
     Vec3f sp48;
@@ -790,7 +790,7 @@ s32 func_80B0E430(EnSw* this, f32 arg1, s16 arg2, s32 arg3, GlobalContext* globa
         return 0;
     }
 
-    activeCam = ACTIVE_CAM;
+    activeCam = GET_ACTIVE_CAM(globalCtx);
 
     if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) < 380.0f) {
         if (DECR(this->unk_440) == 0) {
@@ -827,7 +827,7 @@ void func_80B0E5E0(EnSw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B0E728(EnSw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     if (DECR(this->unk_442) != 0) {
