@@ -18,7 +18,7 @@ typedef enum {
     CHAN_UPD_VIBE_X32,        // 11
     CHAN_UPD_UNK_0F,          // 12
     CHAN_UPD_UNK_20,          // 13
-    CHAN_UPD_REVERB_FLG       // 14
+    CHAN_UPD_STEREO           // 14
 } ChannelUpdateType;
 
 void func_800E6300(SequenceChannel* channel, AudioCmd* arg1);
@@ -704,8 +704,8 @@ void func_800E6300(SequenceChannel* channel, AudioCmd* cmd) {
         case CHAN_UPD_UNK_20:
             channel->unk_20 = cmd->asUShort;
             return;
-        case CHAN_UPD_REVERB_FLG:
-            channel->reverbBits.asByte = cmd->asUbyte;
+        case CHAN_UPD_STEREO:
+            channel->stereo.asByte = cmd->asUbyte;
             return;
     }
 }
@@ -792,10 +792,10 @@ s32 func_800E66C0(s32 arg0) {
             if (temp_a2->adsr.action.s.state != 0) {
                 if (arg0 >= 2) {
                     sound = temp_a3->sound.audioBankSound;
-                    if (sound == NULL || temp_a3->bitField1.s.bit2) {
+                    if (sound == NULL || temp_a3->bitField1.s.isSyntheticWave) {
                         continue;
                     }
-                    if (sound->sample->bits2 == 0) {
+                    if (sound->sample->medium == 0) {
                         continue;
                     }
                 }

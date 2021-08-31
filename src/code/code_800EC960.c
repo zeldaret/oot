@@ -6,7 +6,7 @@ typedef struct {
     f32 freqScale;
     s8 reverb;
     s8 panSigned;
-    s8 reverbFlg;
+    s8 stereoBits;
     u8 unk_0B;
     u8 unk_0C;
 } unk_s1;
@@ -2754,7 +2754,7 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     s8 reverb = 0;
     f32 freqScale = 1.0f;
     s8 panSigned = 0x40;
-    u8 reverbFlg = 0;
+    u8 stereoBits = 0;
     u8 sp39 = 0;
     s8 sp38 = 0;
     f32 sp34;
@@ -2781,17 +2781,17 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
                 sp34 = D_801305C4[(entry->unk_26 & 0x400) >> 10];
                 if (!(entry->unk_26 & 0x800)) {
                     if (*entry->posZ < sp34) {
-                        reverbFlg = 0x10;
+                        stereoBits = 0x10;
                     }
 
-                    if ((D_8016B8B8[channelIdx].reverbFlg ^ reverbFlg) & 0x10) {
+                    if ((D_8016B8B8[channelIdx].stereoBits ^ stereoBits) & 0x10) {
                         if (panSigned < 0x40) {
-                            reverbFlg = D_8016B8B8[channelIdx].reverbFlg ^ 0x14;
+                            stereoBits = D_8016B8B8[channelIdx].stereoBits ^ 0x14;
                         } else {
-                            reverbFlg = D_8016B8B8[channelIdx].reverbFlg ^ 0x18;
+                            stereoBits = D_8016B8B8[channelIdx].stereoBits ^ 0x18;
                         }
                     } else {
-                        reverbFlg = D_8016B8B8[channelIdx].reverbFlg;
+                        stereoBits = D_8016B8B8[channelIdx].stereoBits;
                     }
                 }
             }
@@ -2828,9 +2828,9 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
         Audio_QueueCmdF32(0x4020000 | (channelIdx << 8), freqScale);
         D_8016B8B8[channelIdx].freqScale = freqScale;
     }
-    if (reverbFlg != D_8016B8B8[channelIdx].reverbFlg) {
-        Audio_QueueCmdS8(0xE020000 | (channelIdx << 8), reverbFlg | 0x10);
-        D_8016B8B8[channelIdx].reverbFlg = reverbFlg;
+    if (stereoBits != D_8016B8B8[channelIdx].stereoBits) {
+        Audio_QueueCmdS8(0xE020000 | (channelIdx << 8), stereoBits | 0x10);
+        D_8016B8B8[channelIdx].stereoBits = stereoBits;
     }
     if (sp39 != D_8016B8B8[channelIdx].unk_0B) {
         // CHAN_UPD_SCRIPT_IO (slot 3)
@@ -2860,7 +2860,7 @@ void func_800F3ED4(void) {
         t->freqScale = 1.0f;
         t->reverb = 0;
         t->panSigned = 0x40;
-        t->reverbFlg = 0;
+        t->stereoBits = 0;
         t->unk_0B = 0xFF;
         t->unk_0C = 0xFF;
     }

@@ -621,46 +621,46 @@ void func_800DF1D8(f32 arg0, f32 arg1, u16* arg2) {
     }
 }
 
-void func_800DF5AC(s16* arg0) {
+void func_800DF5AC(s16* filter) {
     s32 i;
 
     for (i = 0; i < 8; i++) {
-        arg0[i] = 0;
+        filter[i] = 0;
     }
 }
 
-void func_800DF5DC(s16* arg0, s32 arg1) {
+void func_800DF5DC(s16* filter, s32 arg1) {
     s32 i;
     s16* ptr = &D_80130228[8 * arg1];
 
     for (i = 0; i < 8; i++) {
-        arg0[i] = ptr[i];
+        filter[i] = ptr[i];
     }
 }
 
-void func_800DF630(s16* arg0, s32 arg1) {
+void func_800DF630(s16* filter, s32 arg1) {
     s32 i;
     s16* ptr = &D_80130328[8 * (arg1 - 1)];
 
     for (i = 0; i < 8; i++) {
-        arg0[i] = ptr[i];
+        filter[i] = ptr[i];
     }
 }
 
-void func_800DF688(s16* arg0, s32 arg1, s32 arg2) {
+void func_800DF688(s16* filter, s32 arg1, s32 arg2) {
     s32 i;
 
     if (arg1 == 0 && arg2 == 0) {
-        func_800DF5DC(arg0, 0);
+        func_800DF5DC(filter, 0);
     } else if (arg2 == 0) {
-        func_800DF5DC(arg0, arg1);
+        func_800DF5DC(filter, arg1);
     } else if (arg1 == 0) {
-        func_800DF630(arg0, arg2);
+        func_800DF630(filter, arg2);
     } else {
         s16* ptr1 = &D_80130228[8 * arg1];
         s16* ptr2 = &D_80130328[8 * (arg2 - 1)];
         for (i = 0; i < 8; i++) {
-            arg0[i] = (ptr1[i] + ptr2[i]) / 2;
+            filter[i] = (ptr1[i] + ptr2[i]) / 2;
         }
     }
 }
@@ -898,8 +898,8 @@ void Audio_InitHeap(void) {
         reverb->unk_14 = settings->unk_6 * 64;
         reverb->unk_16 = settings->unk_8;
         reverb->unk_18 = 0;
-        reverb->unk_10 = settings->unk_C;
-        reverb->unk_12 = settings->unk_E;
+        reverb->leakRtl = settings->leakRtl;
+        reverb->leakLtr = settings->leakLtr;
         reverb->unk_05 = settings->unk_10;
         reverb->unk_08 = settings->unk_12;
         reverb->useReverb = 8;
@@ -914,8 +914,8 @@ void Audio_InitHeap(void) {
         reverb->sound.sample = &reverb->sample;
         reverb->sample.loop = &reverb->loop;
         reverb->sound.tuning = 1.0f;
-        reverb->sample.bits4 = 4;
-        reverb->sample.bits2 = 0;
+        reverb->sample.codec = 4;
+        reverb->sample.medium = 0;
         reverb->sample.size = reverb->windowSize * 2;
         reverb->sample.sampleAddr = (u8*)reverb->leftRingBuf;
         reverb->loop.start = 0;
@@ -939,19 +939,19 @@ void Audio_InitHeap(void) {
         }
 
         if (settings->unk_14 != 0) {
-            reverb->unk_278 = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
-            reverb->unk_270 = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
-            func_800DF5DC(reverb->unk_270, settings->unk_14);
+            reverb->filterLeftState = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
+            reverb->filterLeft = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
+            func_800DF5DC(reverb->filterLeft, settings->unk_14);
         } else {
-            reverb->unk_270 = NULL;
+            reverb->filterLeft = NULL;
         }
 
         if (settings->unk_16 != 0) {
-            reverb->unk_27C = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
-            reverb->unk_274 = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
-            func_800DF5DC(reverb->unk_274, settings->unk_16);
+            reverb->filterRightState = Audio_AllocDmaMemoryZeroed(&gAudioContext.notesAndBuffersPool, 0x40);
+            reverb->filterRight = Audio_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 8 * sizeof(s16));
+            func_800DF5DC(reverb->filterRight, settings->unk_16);
         } else {
-            reverb->unk_274 = NULL;
+            reverb->filterRight = NULL;
         }
     }
 
@@ -1181,7 +1181,7 @@ void func_800E0BB4(UnkHeapEntry* entry, AudioBankSample* sample) {
     if (sample != NULL) {
         if (sample->sampleAddr == entry->unk_08) {
             sample->sampleAddr = entry->unk_0C;
-            sample->bits2 = entry->unk_01;
+            sample->medium = entry->unk_01;
         }
     }
 }
@@ -1251,7 +1251,7 @@ void func_800E0E0C(Struct_800E0E0C* arg0, AudioBankSample* sample) {
         u8* sampleAddr = sample->sampleAddr;
         if (start <= sampleAddr && sampleAddr < end) {
             sample->sampleAddr = sampleAddr - start + arg0->unk_4;
-            sample->bits2 = arg0->unk_C & 0xFF;
+            sample->medium = arg0->unk_C & 0xFF;
         }
     }
 }
