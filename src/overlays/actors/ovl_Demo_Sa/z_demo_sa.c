@@ -156,7 +156,7 @@ void func_8098E5C8(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 s32 DemoSa_FrameUpdateMatrix(DemoSa* this) {
-    SkelAnime_Update(&this->skelAnime);
+    return SkelAnime_Update(&this->skelAnime);
 }
 
 CsCmdActorAction* DemoSa_GetNpcAction(GlobalContext* globalCtx, s32 idx) {

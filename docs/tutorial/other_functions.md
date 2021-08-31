@@ -294,7 +294,7 @@ extern Vec3f D_80A88CF0;
 ```
 (you must include the `.0f` parts even for integer floats: it can affect codegen, and as such it is part of our style).
 
-- replace the mysterious `globalCtx->unk1C44 + 0x24`. The first part is so common that most people on decomp know it by heart: it is the location of the Player actor. `+ 0x24` is obviously an offset that leats to a `Vec3f`, and if you look in the actor struct, you find that this is the location of `world.pos`. To use `Player`, we put `Player* player = GET_PLAYER(globalctx)` at the top of the function.
+- replace the mysterious `globalCtx->unk1C44 + 0x24`. The first part is so common that most people on decomp know it by heart: it is the location of the Player actor. `+ 0x24` is obviously an offset that leats to a `Vec3f`, and if you look in the actor struct, you find that this is the location of `world.pos`. To use `Player`, we put `Player* player = GET_PLAYER(globalCtx)` at the top of the function.
 
 **NOTE:** mips_to_c will now output something like `&globalCtx->actorCtx.actorLists[2].head` for the Player pointer instead: this makes a lot more sense, but is not so easy to spot in the ASM without the characteristic `1C44`.
 

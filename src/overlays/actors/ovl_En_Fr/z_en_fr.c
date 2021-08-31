@@ -176,7 +176,7 @@ static f32 sGrowingScale[] = {
     270.0f,
 };
 
-static u8 sPitchSmallFrog[] = {
+static u8 sSmallFrogNotes[] = {
     5,  // C-Down Ocarina
     2,  // A Button Ocarina
     9,  // C-Right Ocarina
@@ -184,7 +184,7 @@ static u8 sPitchSmallFrog[] = {
     14, // C Up Ocarina
 };
 
-static s8 sPitchLargeFrog[] = {
+static s8 sLargeFrogNotes[] = {
     -7,  // C-Down Ocarina
     -10, // A Button Ocarina
     -3,  // C-Right Ocarina
@@ -583,15 +583,15 @@ void EnFr_UpdateActive(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnFr_SetupJumpingUp(EnFr* this, s32 frogIndex) {
     EnFr* frog = sEnFrPointers.frogs[frogIndex];
-    u8 audioPitch;
+    u8 semitone;
 
     if (frog != NULL && frog->isJumpingUp == false) {
-        audioPitch = frog->growingScaleIndex == 3 ? sPitchLargeFrog[frogIndex] : sPitchSmallFrog[frogIndex];
+        semitone = frog->growingScaleIndex == 3 ? sLargeFrogNotes[frogIndex] : sSmallFrogNotes[frogIndex];
         if (this->songIndex == FROG_CHOIR_SONG) {
             frog->isJumpingToFrogSong = true;
         }
         frog->isJumpingUp = true;
-        func_800F4BF4(&frog->actor.projectedPos, NA_SE_EV_FROG_JUMP, (s8)audioPitch);
+        Audio_PlaySoundTransposed(&frog->actor.projectedPos, NA_SE_EV_FROG_JUMP, semitone);
         return true;
     } else {
         return false;

@@ -392,7 +392,7 @@ void func_809BD768(EnBigokuta* this) {
 }
 
 void func_809BD7F0(EnBigokuta* this, GlobalContext* globalCtx) {
-    this->actor.world.rot.y = Actor_WorldYawTowardPoint(globalCtx->actorCtx.actorLists[2].head, &this->actor.home.pos);
+    this->actor.world.rot.y = Actor_WorldYawTowardPoint(&GET_PLAYER(globalCtx)->actor, &this->actor.home.pos);
     this->actor.shape.rot.y = this->actor.world.rot.y + (this->unk_194 * 0x4000);
     func_809BCE3C(this);
     this->actionFunc = func_809BE518;

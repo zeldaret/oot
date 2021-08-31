@@ -11,3 +11,11 @@ CLOSE_DISPS = "void"
 ABS = "int"
 SQ = "int"
 CLAMP = "int"
+
+[decompme.compilers]
+"tools/ido_recomp/linux/7.1/cc" = "ido7.1"
+"tools/ido_recomp/macos/7.1/cc" = "ido7.1"
+"tools/ido_recomp/windows/7.1/cc" = "ido7.1"
+"tools/ido_recomp/linux/5.3/cc" = "ido5.3"
+"tools/ido_recomp/macos/5.3/cc" = "ido5.3"
+"tools/ido_recomp/windows/5.3/cc" = "ido5.3"

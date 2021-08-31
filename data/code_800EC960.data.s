@@ -36,10 +36,10 @@ glabel D_801305C0
 glabel D_801305C4
     .incbin "baserom.z64", 0xBA7764, 0x8
 
-glabel D_801305CC
+glabel sAudioIncreasingTranspose
     .incbin "baserom.z64", 0xBA776C, 0x4
 
-glabel D_801305D0
+glabel gMorphaTransposeTable
     .incbin "baserom.z64", 0xBA7770, 0x10
 
 glabel sPrevChargeLevel
@@ -63,25 +63,25 @@ glabel D_80130604
 glabel D_80130608
     .incbin "baserom.z64", 0xBA77A8, 0x4
 
-glabel D_8013060C
+glabel sAudioCutsceneFlag
     .incbin "baserom.z64", 0xBA77AC, 0x4
 
-glabel D_80130610
+glabel sSpecReverb
     .incbin "baserom.z64", 0xBA77B0, 0x4
 
-glabel D_80130614
+glabel sAudioEnvReverb
     .incbin "baserom.z64", 0xBA77B4, 0x4
 
-glabel D_80130618
+glabel sAudioCodeReverb
     .incbin "baserom.z64", 0xBA77B8, 0x4
 
 glabel D_8013061C
     .incbin "baserom.z64", 0xBA77BC, 0x4
 
-glabel D_80130620
+glabel sAudioEnemyDist
     .incbin "baserom.z64", 0xBA77C0, 0x4
 
-glabel D_80130624
+glabel sAudioEnemyVol
     .incbin "baserom.z64", 0xBA77C4, 0x4
 
 glabel D_80130628
@@ -111,7 +111,7 @@ glabel D_80130644
 glabel D_80130648
     .incbin "baserom.z64", 0xBA77E8, 0x4
 
-glabel D_8013064C
+glabel sSariaBgmPtr
     .incbin "baserom.z64", 0xBA77EC, 0x4
 
 glabel D_80130650
@@ -123,7 +123,7 @@ glabel D_80130654
 glabel D_80130658
     .incbin "baserom.z64", 0xBA77F8, 0x70
 
-glabel D_801306C8
+glabel sSpecReverbs
     .incbin "baserom.z64", 0xBA7868, 0x14
 
 glabel D_801306DC
@@ -300,37 +300,37 @@ glabel D_80131C88
 glabel D_80131C8C
     .incbin "baserom.z64", 0xBA8E2C, 0x4
 
-glabel D_80131C90
+glabel sAudioUpdateDuration
     .incbin "baserom.z64", 0xBA8E30, 0x4
 
-glabel D_80131C94
+glabel sAudioUpdateDurationMax
     .incbin "baserom.z64", 0xBA8E34, 0x4
 
-glabel D_80131C98
+glabel sAudioDebugEverOpened
     .incbin "baserom.z64", 0xBA8E38, 0x4
 
-glabel D_80131C9C
+glabel sAudioSEMuted
     .incbin "baserom.z64", 0xBA8E3C, 0x4
 
-glabel D_80131CA0
+glabel sAudioDebugPage
     .incbin "baserom.z64", 0xBA8E40, 0x4
 
-glabel D_80131CA4
+glabel sAudioSndContSel
     .incbin "baserom.z64", 0xBA8E44, 0x4
 
-glabel D_80131CA8
+glabel sAudioDebugTextColor
     .incbin "baserom.z64", 0xBA8E48, 0x4
 
-glabel D_80131CAC
+glabel sAudioDebugPageNames
     .incbin "baserom.z64", 0xBA8E4C, 0x15C
 
-glabel D_80131E08
+glabel sAudioSndContWork
     .incbin "baserom.z64", 0xBA8FA8, 0x18
 
-glabel D_80131E20
+glabel sAudioSndContWorkLims
     .incbin "baserom.z64", 0xBA8FC0, 0x18
 
-glabel D_80131E38
+glabel sSoundBankNames
     .incbin "baserom.z64", 0xBA8FD8, 0xB
     .incbin "baserom.z64", 0xBA8FE3, 0xB
     .incbin "baserom.z64", 0xBA8FEE, 0xB
@@ -339,91 +339,91 @@ glabel D_80131E38
     .incbin "baserom.z64", 0xBA900F, 0xB
     .incbin "baserom.z64", 0xBA901A, 0xE
 
-glabel D_80131E88
+glabel sSoundModeNames
     .incbin "baserom.z64", 0xBA9028, 0x34
 
-glabel D_80131EBC
+glabel sAudioIntInfoX
     .incbin "baserom.z64", 0xBA905C, 0x4
 
-glabel D_80131EC0
+glabel sAudioIntInfoY
     .incbin "baserom.z64", 0xBA9060, 0x4
 
-glabel D_80131EC4
+glabel sAudioIntInfoSel
     .incbin "baserom.z64", 0xBA9064, 0x4
 
-glabel D_80131EC8
+glabel sAudioIntInfoBankPage
     .incbin "baserom.z64", 0xBA9068, 0x8
 
-glabel D_80131ED0
+glabel sAudioScrPrtSel
     .incbin "baserom.z64", 0xBA9070, 0x4
 
-glabel sAudioScreenPrintInd
+glabel sAudioScrPrtInd
     .incbin "baserom.z64", 0xBA9074, 0x4
 
-glabel sAudioScreenPrintOverflow
+glabel sAudioScrPrtOverflow
     .incbin "baserom.z64", 0xBA9078, 0x4
 
-glabel D_80131EDC
+glabel sAudioScrPrtX
     .incbin "baserom.z64", 0xBA907C, 0x4
 
-glabel D_80131EE0
+glabel sAudioScrPrtY
     .incbin "baserom.z64", 0xBA9080, 0x4
 
-glabel D_80131EE4
+glabel sAudioScrPrtWork
     .incbin "baserom.z64", 0xBA9084, 0xC
 
-glabel D_80131EF0
+glabel sAudioScrPrtWorkLims
     .incbin "baserom.z64", 0xBA9090, 0xC
 
-glabel D_80131EFC
+glabel sAudioSubTrackInfoSpec
     .incbin "baserom.z64", 0xBA909C, 0x4
 
-glabel D_80131F00
+glabel sAudioSEFlagSwapIsEditing
     .incbin "baserom.z64", 0xBA90A0, 0x4
 
-glabel D_80131F04
+glabel sAudioSEFlagSwapSel
     .incbin "baserom.z64", 0xBA90A4, 0x4
 
-glabel D_80131F08
+glabel sAudioSEFlagSwapNibbleSel
     .incbin "baserom.z64", 0xBA90A8, 0x4
 
-glabel D_80131F0C
+glabel sAudioSEFlagSwapModeNames
     .incbin "baserom.z64", 0xBA90AC, 0xC
 
-glabel D_80131F18
+glabel sAudioSEParamChgSel
     .incbin "baserom.z64", 0xBA90B8, 0x4
 
-glabel D_80131F1C
+glabel sAudioSEParamChgBitSel
     .incbin "baserom.z64", 0xBA90BC, 0x4
 
-glabel D_80131F20
+glabel sAudioSEParamChgWork
     .incbin "baserom.z64", 0xBA90C0, 0x8
 
-glabel D_80131F28
+glabel sAudioSubTrackInfoPlayerSel
     .incbin "baserom.z64", 0xBA90C8, 0x4
 
-glabel D_80131F2C
+glabel sAudioSubTrackInfoChannelSel
     .incbin "baserom.z64", 0xBA90CC, 0x4
 
-glabel D_80131F30
+glabel sSeqPlayerPeakNumLayers
     .incbin "baserom.z64", 0xBA90D0, 0x14
 
-glabel D_80131F44
+glabel sAudioSceneNames
     .incbin "baserom.z64", 0xBA90E4, 0x8
 
-glabel D_80131F4C
+glabel sAudioBlkChgBgmWork
     .incbin "baserom.z64", 0xBA90EC, 0x4
 
-glabel D_80131F50
+glabel sAudioBlkChgBgmSel
     .incbin "baserom.z64", 0xBA90F0, 0x4
 
-glabel D_80131F54
+glabel sBoolStrs
     .incbin "baserom.z64", 0xBA90F4, 0x10
 
-glabel D_80131F64
+glabel sAudioNatureFailed
     .incbin "baserom.z64", 0xBA9104, 0x4
 
-glabel D_80131F68
+glabel sPeakNumNotes
     .incbin "baserom.z64", 0xBA9108, 0x4
 
 glabel D_80131F6C
