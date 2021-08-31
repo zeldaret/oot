@@ -91,7 +91,7 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
     Vec3f push;
     Vec3f leverArm;
     Vec3f torque;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 > 0.001f) {
         this->timer++;
@@ -124,7 +124,7 @@ void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this) {
 }
 
 void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* thisx = &this->dyna.actor;
     s16 rotY;
 

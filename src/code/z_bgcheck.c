@@ -4493,7 +4493,7 @@ void BgCheck_DrawStaticPolyList(GlobalContext* globalCtx, CollisionContext* colC
  * Draw scene collision
  */
 void BgCheck_DrawStaticCollision(GlobalContext* globalCtx, CollisionContext* colCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     StaticLookup* lookup = BgCheck_GetNearestStaticLookup(colCtx, colCtx->lookupTbl, &player->actor.world.pos);
 
     if (AREG(23) != 0) {

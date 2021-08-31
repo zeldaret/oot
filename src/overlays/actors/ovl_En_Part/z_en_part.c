@@ -173,7 +173,7 @@ void func_80ACE5B8(EnPart* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->timer--;
     if (this->timer == 0) {

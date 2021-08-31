@@ -598,7 +598,7 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
 
 void func_80083108(GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s16 i;
     s16 sp28 = 0;
@@ -2654,7 +2654,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     static void* cUpLabelTextures[] = { gNaviCUpENGTex, gNaviCUpENGTex, gNaviCUpENGTex };
     static s16 startButtonLeftPos[] = { 132, 130, 130 };
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     s16 temp; // Used as both an alpha value and a button index
     s16 dxdy;
@@ -3018,7 +3018,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     MessageContext* msgCtx = &globalCtx->msgCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 svar1;
     s16 svar2;
     s16 svar3;
@@ -3806,7 +3806,7 @@ void Interface_Update(GlobalContext* globalCtx) {
     static s16 D_80125B64 = 0;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 alpha;
     s16 alpha1;
     u16 action;

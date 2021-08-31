@@ -763,7 +763,7 @@ void BossVa_SetupIntro(BossVa* this) {
 
 void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
     s32 i;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_1AC += 0xC31;
     this->unk_1A0 = (Math_CosS(this->unk_1AC) * 0.1f) + 1.0f;
@@ -1056,7 +1056,7 @@ void BossVa_SetupBodyPhase1(BossVa* this) {
 }
 
 void BossVa_BodyPhase1(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_1B0 += 0xCE4;
     this->bodyGlow = (s16)(Math_SinS(this->unk_1B0) * 50.0f) + 150;
@@ -1121,7 +1121,7 @@ void BossVa_SetupBodyPhase2(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_BodyPhase2(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp48;
 
     if (this->actor.colorFilterTimer == 0) {
@@ -1226,7 +1226,7 @@ void BossVa_SetupBodyPhase3(BossVa* this) {
 
 void BossVa_BodyPhase3(BossVa* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
     s16 sp62;
 
@@ -1348,7 +1348,7 @@ void BossVa_SetupBodyPhase4(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 tmpf1;
     EnBoom* boomerang;
 
@@ -1526,7 +1526,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
     s32 i;
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
     s32 sp7C;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 tmp16;
 
     switch (sCsState) {
@@ -1906,7 +1906,7 @@ void BossVa_SetupZapperAttack(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnBoom* boomerang;
     Actor* boomTarget;
     s16 yaw;
@@ -2236,7 +2236,7 @@ void BossVa_SetupZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s16 tmp16;
     s16 sp6C;
@@ -2524,7 +2524,7 @@ void BossVa_SetupBariPhase3Attack(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_BariPhase3Attack(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnBoom* boomerang;
     Vec3f sp54 = GET_BODY(this)->unk_1D8;
     s16 sp52;
@@ -2611,7 +2611,7 @@ void BossVa_SetupBariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
 }
 
 void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnBoom* boomerang;
     Vec3f sp54 = GET_BODY(this)->unk_1D8;
     s16 sp52;
@@ -3291,7 +3291,7 @@ static s32 sUnkValue = 0x009B0000; // Unreferenced? Possibly a color
 
 void BossVa_UpdateEffects(GlobalContext* globalCtx) {
     BossVaEffect* effect = sVaEffects;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 spB6;
     s16 i;
     f32 floorY;
@@ -3714,7 +3714,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
 
 void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* this, Vec3f* offset, s16 scale,
                        u8 mode) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 index;
     Vec3f pos = { 0.0f, -1000.0f, 0.0f };
     Vec3f tempVec;

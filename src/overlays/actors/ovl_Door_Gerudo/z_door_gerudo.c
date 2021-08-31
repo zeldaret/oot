@@ -64,7 +64,7 @@ void DoorGerudo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 f32 func_809946BC(GlobalContext* globalCtx, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg4) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f playerPos;
     Vec3f sp1C;
 
@@ -81,7 +81,7 @@ f32 func_809946BC(GlobalContext* globalCtx, DoorGerudo* this, f32 arg2, f32 arg3
 }
 
 s32 func_80994750(DoorGerudo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp_f0;
     s16 rotYDiff;
 
@@ -110,7 +110,7 @@ void func_8099485C(DoorGerudo* this, GlobalContext* globalCtx) {
         s32 direction = func_80994750(this, globalCtx);
 
         if (direction != 0) {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
 
             if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                 player->naviTextId = -0x203;

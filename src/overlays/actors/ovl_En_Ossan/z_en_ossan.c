@@ -546,7 +546,7 @@ void EnOssan_TalkHappyMaskShopkeeper(GlobalContext* globalCtx) {
 
 void EnOssan_UpdateCameraDirection(EnOssan* this, GlobalContext* globalCtx, f32 cameraFaceAngle) {
     this->cameraFaceAngle = cameraFaceAngle;
-    Camera_SetCameraData(ACTIVE_CAM, 0xC, NULL, NULL, cameraFaceAngle, 0, 0);
+    Camera_SetCameraData(GET_ACTIVE_CAM(globalCtx), 0xC, NULL, NULL, cameraFaceAngle, 0, 0);
 }
 
 s32 EnOssan_TryGetObjBankIndexes(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
@@ -646,7 +646,7 @@ void EnOssan_UpdateCursorPos(GlobalContext* globalCtx, EnOssan* this) {
 }
 
 void EnOssan_EndInteraction(GlobalContext* globalCtx, EnOssan* this) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     // "End of conversation!"
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d]:★★★ 会話終了！！ ★★★" VT_RST "\n", "../z_en_oB1.c", 1337);
@@ -1317,7 +1317,7 @@ void EnOssan_State_DisplayOnlyBombDialog(EnOssan* this, GlobalContext* globalCtx
 }
 
 void EnOssan_GiveItemWithFanfare(GlobalContext* globalCtx, EnOssan* this) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     osSyncPrintf("\n" VT_FGCOL(YELLOW) "初めて手にいれた！！" VT_RST "\n\n");
     func_8002F434(&this->actor, globalCtx, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
@@ -2198,7 +2198,7 @@ void EnOssan_Obj3ToSeg6(EnOssan* this, GlobalContext* globalCtx) {
 }
 
 void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->blinkFunc(this);
     EnOssan_UpdateJoystickInputState(globalCtx, this);

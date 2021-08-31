@@ -496,7 +496,7 @@ void EnMd_UpdateEyes(EnMd* this) {
 }
 
 void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 absYawDiff;
     s16 temp;
     s16 temp2;
@@ -669,9 +669,9 @@ void func_80AAB8F8(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp;
-    Actor* actorToBlock = &PLAYER->actor;
+    Actor* actorToBlock = &GET_PLAYER(globalCtx)->actor;
     s16 yaw;
 
     func_80AAAA24(this);
@@ -734,7 +734,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE >= 4) {
         this->actionFunc = func_80AAB948;
