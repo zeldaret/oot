@@ -4633,7 +4633,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x051FFFFF }, sCamSetDungeon0Modes },   // CAM_SET_DUNGEON0
     { { 0x051FFFFF }, sCamSetDungeon1Modes },   // CAM_SET_DUNGEON1
     { { 0x050FF7FF }, sCamSetNorm3Modes },      // CAM_SET_NORMAL3
-    { { 0x8500018F }, sCamSetHorse0Modes },     // CAM_SET_HORSE0
+    { { 0x8500018F }, sCamSetHorse0Modes },     // CAM_SET_HORSE
     { { 0x051FFFFF }, sCamSetBossGomaModes },   // CAM_SET_BOSS_GOHMA
     { { 0x051FFFFF }, sCamSetBossDodoModes },   // CAM_SET_BOSS_DODONGO
     { { 0x051FFFFF }, sCamSetBossBariModes },   // CAM_SET_BOSS_BARINADE
@@ -4644,7 +4644,7 @@ CameraSetting sCameraSettings[] = {
     { { 0x051FFFFF }, sCamSetBossTwin0Modes },  // CAM_SET_TWINROVA_PLATFORM
     { { 0x051FFFFF }, sCamSetBossTwin1Modes },  // CAM_SET_BOSS_TWINROVA_FLOOR
     { { 0x051FFFFF }, sCamSetBossGanon1Modes }, // CAM_SET_BOSS_GANONDORF
-    { { 0x051FFFFF }, sCamSetBossGanon2Modes }, // CAM_SET_BOSS_GANON2
+    { { 0x051FFFFF }, sCamSetBossGanon2Modes }, // CAM_SET_BOSS_GANON
     { { 0x851FFFFF }, sCamSetTower0Modes },     // CAM_SET_COLLAPSE_STAIRS
     { { 0x851FFFFF }, sCamSetTower1Modes },     // CAM_SET_TOWER1
     { { 0x8500000D }, sCamSetFixed0Modes },     // CAM_SET_FIXED0

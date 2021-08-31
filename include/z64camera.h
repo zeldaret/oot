@@ -27,64 +27,64 @@ typedef enum {
     /* 0x03 */ CAM_SET_DUNGEON0,
     /* 0x04 */ CAM_SET_DUNGEON1,
     /* 0x05 */ CAM_SET_NORMAL3,
-    /* 0x06 */ CAM_SET_HORSE0,
-    /* 0x07 */ CAM_SET_BOSS_GOHMA, // "BOSS_GOMA"
-    /* 0x08 */ CAM_SET_BOSS_DODONGO, // "BOSS_DODO"
-    /* 0x09 */ CAM_SET_BOSS_BARINADE, // "BOSS_BARI"
+    /* 0x06 */ CAM_SET_HORSE, // "HORSE"
+    /* 0x07 */ CAM_SET_BOSS_GOHMA, // "BOSS_GOMA" (unused)
+    /* 0x08 */ CAM_SET_BOSS_DODONGO, // "BOSS_DODO" (unused)
+    /* 0x09 */ CAM_SET_BOSS_BARINADE, // "BOSS_BARI" (unused)
     /* 0x0A */ CAM_SET_BOSS_PHANTOM, // "BOSS_FGANON"
     /* 0x0B */ CAM_SET_BOSS_VOLVAGIA, // "BOSS_BAL"
     /* 0x0C */ CAM_SET_BOSS_BONGO, // "BOSS_SHADES"
-    /* 0x0D */ CAM_SET_BOSS_MORPHA, // "BOSS_MOFA"
+    /* 0x0D */ CAM_SET_BOSS_MORPHA, // "BOSS_MOFA" (unused)
     /* 0x0E */ CAM_SET_BOSS_TWINROVA_PLATFORM, // "TWIN0"
     /* 0x0F */ CAM_SET_BOSS_TWINROVA_FLOOR, // "TWIN1"
     /* 0x10 */ CAM_SET_BOSS_GANONDORF, // "BOSS_GANON1"
-    /* 0x11 */ CAM_SET_BOSS_GANON2,
+    /* 0x11 */ CAM_SET_BOSS_GANON, // "BOSS_GANON2" (unused)
     /* 0x12 */ CAM_SET_COLLAPSE_STAIRS, // "TOWER0"
-    /* 0x13 */ CAM_SET_TOWER1,
-    /* 0x14 */ CAM_SET_FIXED0,
-    /* 0x15 */ CAM_SET_FIXED1,
-    /* 0x16 */ CAM_SET_CIRCLE0,
+    /* 0x13 */ CAM_SET_TOWER1, // Data is given in Phantom Ganon's Lair, but no surface uses it
+    /* 0x14 */ CAM_SET_FIXED0, // Market on balcony above bombchu bowling. Triggered by talking to npc at day
+    /* 0x15 */ CAM_SET_FIXED1, // Bombchu Bowling
+    /* 0x16 */ CAM_SET_CIRCLE0, // Closely related to crawlspaces
     /* 0x17 */ CAM_SET_CIRCLE2, // Shopping and browsing for items
     /* 0x18 */ CAM_SET_CIRCLE3, // Unknown behaviour: (example: coming out of Links house first time (intro))
     /* 0x19 */ CAM_SET_PREREND0, // Camera fixed in one spot, unmoving (eg. shops, outside temple of time)
     /* 0x1A */ CAM_SET_PREREND1, // Camera fixed to a specific location, rotates 360 degrees (example: Link's house, market, many houses)
-    /* 0x1B */ CAM_SET_PREREND3,
-    /* 0x1C */ CAM_SET_DOOR0,
-    /* 0x1D */ CAM_SET_DOORC, // most doors
+    /* 0x1B */ CAM_SET_PREREND3, // Castle courtyard
+    /* 0x1C */ CAM_SET_DOOR0, // special door transition used in Royal Family Tomb and in Fire Temple
+    /* 0x1D */ CAM_SET_DOORC, // generic door transition
     /* 0x1E */ CAM_SET_CRAWLSPACE, // "RAIL3"
-    /* 0x1F */ CAM_SET_START0,
+    /* 0x1F */ CAM_SET_START0, // Data is given in Temple of Time, but no surface uses it
     /* 0x20 */ CAM_SET_START1, // doors that snap the camera to a fixed location (example: ganon's towers doors climbing up)
     /* 0x21 */ CAM_SET_FREE0,
-    /* 0x22 */ CAM_SET_FREE2, // Unknown behaviour: (example: small chest dropping)
-    /* 0x23 */ CAM_SET_CIRCLE4,
+    /* 0x22 */ CAM_SET_FREE2, // Used by 10 OnePointCutscenes (example: Falling chest)
+    /* 0x23 */ CAM_SET_CIRCLE4, // Inside carpenter jail cells from Thieves' Hideout
     /* 0x24 */ CAM_SET_CIRCLE5, // Diving into water from a swimming state
-    /* 0x25 */ CAM_SET_DEMO0,
-    /* 0x26 */ CAM_SET_DEMO1,
+    /* 0x25 */ CAM_SET_DEMO0, // Used in child princess zelda actor and in z_demo.c
+    /* 0x26 */ CAM_SET_DEMO1, // Never set to, but checked in twisting hallway (Forest Temple)
     /* 0x27 */ CAM_SET_MORI1, // Forest Temple falling ceiling room
     /* 0x28 */ CAM_SET_ITEM0, // Slow CS Opening a big chest
-    /* 0x29 */ CAM_SET_ITEM1,
-    /* 0x2A */ CAM_SET_DEMO3,
-    /* 0x2B */ CAM_SET_DEMO4, // Used in Twinrova cutscene after defeating Nabooru Iron Knuckle
+    /* 0x29 */ CAM_SET_ITEM1, // Unused
+    /* 0x2A */ CAM_SET_DEMO3, // Cutscenes: leaving crawlspaces, falling stairs in dc, statue and wall (shadow temple), coffin lid
+    /* 0x2B */ CAM_SET_DEMO4, // Used in attention cutscenes and for the actor siofuki (water spout/jet)
     /* 0x2C */ CAM_SET_UFOBEAN, // All beans except lost woods
     /* 0x2D */ CAM_SET_LIFTBEAN, // Lost woods bean
-    /* 0x2E */ CAM_SET_SCENE0,
-    /* 0x2F */ CAM_SET_SCENE1,
-    /* 0x30 */ CAM_SET_HIDAN1, // Fire Temple rising block & rising platform
-    /* 0x31 */ CAM_SET_HIDAN2,
-    /* 0x32 */ CAM_SET_MORI2,
+    /* 0x2E */ CAM_SET_SCENE0, // Appears to be unused
+    /* 0x2F */ CAM_SET_SCENE1, // Used in certain types of scene transitions
+    /* 0x30 */ CAM_SET_HIDAN1, // Fire Temple rising blocks & rising platforms
+    /* 0x31 */ CAM_SET_HIDAN2, // Fire Temple lowering staircase in shortcut after hammer (vanilla) or where a gold skull is located after the final small key door (mq)
+    /* 0x32 */ CAM_SET_MORI2, // Appears to be unused
     /* 0x33 */ CAM_SET_MORI3, // Forest Temple defeat a poe sister
     /* 0x34 */ CAM_SET_TAKO, // Jabu-Jabu BigOcto
     /* 0x35 */ CAM_SET_SPOT05A, // Sacred Forest Meadow maze as child
-    /* 0x36 */ CAM_SET_SPOT05B,
-    /* 0x37 */ CAM_SET_HIDAN3, // Fire Temple maze
+    /* 0x36 */ CAM_SET_SPOT05B, // Unused, Spot05 is Sacred Forest Meadow
+    /* 0x37 */ CAM_SET_HIDAN3, // Fire Temple maze (vanilla dungeon only. MQ does not use this setting)
     /* 0x38 */ CAM_SET_ITEM2, // Zoom into links face (example: holding item above head, pulling out ocarina) 
-    /* 0x39 */ CAM_SET_CIRCLE6, // Lowering platforms (example: Forest Temple Stalfos lowering platform, Jabu Jabu lowering of shortcut to PreBoss Room)
+    /* 0x39 */ CAM_SET_CIRCLE6, // Lowering platforms. Used in Forest Temple upper floor Stalfos fight, and in Jabu Jabu: lowering of shortcut to PreBoss Room)
     /* 0x3A */ CAM_SET_NORMAL2,
     /* 0x3B */ CAM_SET_FISHING, // Fishing pond by the lake
-    /* 0x3C */ CAM_SET_DEMOC,
+    /* 0x3C */ CAM_SET_DEMOC, // Used in at least 73 cutscenes
     /* 0x3D */ CAM_SET_UO_FIBER, // Jabu-Jabu Parasitic Tenticle Rooms
     /* 0x3E */ CAM_SET_DUNGEON2,
-    /* 0x3F */ CAM_SET_TEPPEN, // Keeps yaw fixed and pointed in 1 direction. (eg. spirit chain platform, biggoron)
+    /* 0x3F */ CAM_SET_TEPPEN, // Keeps yaw fixed and pointed in 1 direction. Used by spirit chain platform and biggoron
     /* 0x40 */ CAM_SET_CIRCLE7, // Fixed and Rotated side view (eg. Potion Shop, Meadow at fairy grotto)
     /* 0x41 */ CAM_SET_NORMAL4,
     /* 0x42 */ CAM_SET_MAX
