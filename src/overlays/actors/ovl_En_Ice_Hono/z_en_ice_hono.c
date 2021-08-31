@@ -189,7 +189,7 @@ void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 u32 EnIceHono_InBottleRange(EnIceHono* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->actor.xzDistToPlayer < 60.0f) {
         Vec3f tempPos;
@@ -389,7 +389,8 @@ void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 0);
 
-    Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000) * (M_PI / 0x8000),
+    Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000) *
+                       (M_PI / 0x8000),
                    MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 718),

@@ -236,7 +236,7 @@ void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, GlobalContext* globalCtx) {
 }
 
 void EnGSwitch_SilverRupeeIdle(EnGSwitch* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->actor.shape.rot.y += 0x800;
     if (this->actor.xyzDistToPlayerSq < 900.0f) {
@@ -255,7 +255,7 @@ void EnGSwitch_SilverRupeeIdle(EnGSwitch* this, GlobalContext* globalCtx) {
 }
 
 void EnGSwitch_SilverRupeeCollected(EnGSwitch* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->actor.shape.rot.y += 0x3C0;
     if (this->killTimer == 0) {

@@ -161,7 +161,7 @@ void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
 // Command 3: Misc. Actions
 void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp;
     u8 sp3F;
 
@@ -267,7 +267,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 16:
             if (sp3F != 0) {
-                D_8015FCCA = Quake_Add(ACTIVE_CAM, 6);
+                D_8015FCCA = Quake_Add(GET_ACTIVE_CAM(globalCtx), 6);
                 Quake_SetSpeed(D_8015FCCA, 0x7FFF);
                 Quake_SetQuakeValues(D_8015FCCA, 4, 0, 1000, 0);
                 Quake_SetCountdown(D_8015FCCA, 800);
@@ -440,7 +440,7 @@ void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTim
 
 // Command 0x3E8: Code Execution (& Terminates Cutscene?)
 void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 temp = 0;
 
     if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3) && (globalCtx->sceneNum != SCENE_SPOT00) &&
@@ -1297,7 +1297,7 @@ s32 Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContext* 
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus,
-                                   csCtx->cameraPosition, PLAYER, relativeToLink);
+                                   csCtx->cameraPosition, GET_PLAYER(globalCtx), relativeToLink);
             }
         }
     }
@@ -1334,7 +1334,7 @@ s32 Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCt
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus,
-                                   csCtx->cameraPosition, PLAYER, relativeToLink);
+                                   csCtx->cameraPosition, GET_PLAYER(globalCtx), relativeToLink);
             }
         }
     }

@@ -1151,7 +1151,7 @@ s32 func_80832224(Player* this) {
 }
 
 s32 func_8083224C(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (this->actor.flags & 0x100) == 0x100;
 }
@@ -1537,7 +1537,7 @@ void func_8083315C(GlobalContext* globalCtx, Player* this) {
 
     func_80077D10(&D_808535D4, &D_808535D8, sControlInput);
 
-    D_808535DC = Camera_GetInputDirYaw(ACTIVE_CAM) + D_808535D8;
+    D_808535DC = Camera_GetInputDirYaw(GET_ACTIVE_CAM(globalCtx)) + D_808535D8;
 
     this->unk_846 = (this->unk_846 + 1) % 4;
 
@@ -2996,7 +2996,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                 if (this->actor.category == ACTORCAT_PLAYER) {
                     actorToTarget = globalCtx->actorCtx.targetCtx.arrowPointedActor;
                 } else {
-                    actorToTarget = &PLAYER->actor;
+                    actorToTarget = &GET_PLAYER(globalCtx)->actor;
                 }
 
                 holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
@@ -3124,7 +3124,7 @@ s32 func_80837268(Player* this, f32* arg1, s16* arg2, f32 arg3, GlobalContext* g
 
         return 0;
     } else {
-        *arg2 += Camera_GetInputDirYaw(ACTIVE_CAM);
+        *arg2 += Camera_GetInputDirYaw(GET_ACTIVE_CAM(globalCtx));
         return 1;
     }
 }
@@ -6457,7 +6457,7 @@ s32 func_80840058(Player* this, f32* arg1, s16* arg2, GlobalContext* globalCtx) 
     func_8083DC54(this, globalCtx);
 
     if ((*arg1 != 0.0f) || (ABS(this->unk_87C) > 400)) {
-        s16 temp1 = *arg2 - Camera_GetInputDirYaw(ACTIVE_CAM);
+        s16 temp1 = *arg2 - Camera_GetInputDirYaw(GET_ACTIVE_CAM(globalCtx));
         u16 temp2 = (ABS(temp1) - 0x2000) & 0xFFFF;
 
         if ((temp2 < 0x4000) || (this->unk_87C != 0)) {
@@ -7603,7 +7603,7 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
     if (this->unk_850 != 0) {
         sp54 = sControlInput->rel.stick_y * 100;
         sp50 = sControlInput->rel.stick_x * -120;
-        sp4E = this->actor.shape.rot.y - Camera_GetInputDirYaw(ACTIVE_CAM);
+        sp4E = this->actor.shape.rot.y - Camera_GetInputDirYaw(GET_ACTIVE_CAM(globalCtx));
 
         sp40 = Math_CosS(sp4E);
         sp4C = (Math_SinS(sp4E) * sp50) + (sp54 * sp40);
@@ -11989,7 +11989,7 @@ void func_8084E6D4(Player* this, GlobalContext* globalCtx) {
         }
 
         if (this->skelAnime.animation == &gPlayerAnim_002788) {
-            Math_ScaledStepToS(&this->actor.shape.rot.y, Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000, 4000);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000, 4000);
         }
 
         if (LinkAnimation_OnFrame(&this->skelAnime, 21.0f)) {
@@ -12538,7 +12538,7 @@ s32 func_8084FCAC(Player* this, GlobalContext* globalCtx) {
                 s16 angle;
                 s16 temp;
 
-                angle = temp = Camera_GetInputDirYaw(ACTIVE_CAM);
+                angle = temp = Camera_GetInputDirYaw(GET_ACTIVE_CAM(globalCtx));
 
                 if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_DDOWN)) {
                     angle = temp + 0x8000;
@@ -14011,13 +14011,13 @@ void func_80852E14(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 Player_IsDroppingFish(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     return (func_8084EFC0 == this->func_674) && (this->itemActionParam == PLAYER_AP_BOTTLE_FISH);
 }
 
 s32 Player_StartFishing(GlobalContext* globalCtx) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     func_80832564(globalCtx, this);
     func_80835F44(globalCtx, this, ITEM_FISHING_POLE);
@@ -14041,7 +14041,7 @@ s32 func_80852F38(GlobalContext* globalCtx, Player* this) {
 
 // Sets up player cutscene
 s32 func_80852FFC(GlobalContext* globalCtx, Actor* actor, s32 csMode) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     if (!Player_InBlockingCsMode(globalCtx, this)) {
         func_80832564(globalCtx, this);
@@ -14062,7 +14062,7 @@ void func_80853080(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 Player_InflictDamage(GlobalContext* globalCtx, s32 damage) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
 
     if (!Player_InBlockingCsMode(globalCtx, this) && !func_80837B18(globalCtx, this, damage)) {
         this->stateFlags2 &= ~0x80;
@@ -14074,7 +14074,7 @@ s32 Player_InflictDamage(GlobalContext* globalCtx, s32 damage) {
 
 // Start talking with the given actor
 void func_80853148(GlobalContext* globalCtx, Actor* actor) {
-    Player* this = PLAYER;
+    Player* this = GET_PLAYER(globalCtx);
     s32 pad;
 
     if ((this->targetActor != NULL) || (actor == this->naviActor) || ((actor->flags & 0x40001) == 0x40001)) {

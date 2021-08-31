@@ -386,7 +386,7 @@ void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
 }
 
 u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnHy* this = THIS;
     u16 textId = Text_GetFaceReaction(globalCtx, TYPE + 37);
 
@@ -566,7 +566,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
                     func_80034EC0(&this->skelAnime, sAnimationInfos, 17);
-                    Player_UpdateBottleHeld(globalCtx, PLAYER, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+                    Player_UpdateBottleHeld(globalCtx, GET_PLAYER(globalCtx), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
                     break;
                 case 0x7016:
                     gSaveContext.infTable[12] |= 1;
@@ -690,7 +690,7 @@ void EnHy_UpdateCollider(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void func_80A70834(EnHy* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (TYPE == ENHY_TYPE_BOJ_5) {
         if (!Inventory_HasSpecificBottle(ITEM_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BUG) &&
@@ -731,7 +731,7 @@ void func_80A70834(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3;
 
     switch (TYPE) {

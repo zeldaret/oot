@@ -139,7 +139,7 @@ void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
         switch (globalCtx->msgCtx.choiceIndex) {
@@ -204,7 +204,7 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawDiff;
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {

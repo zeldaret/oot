@@ -2621,8 +2621,8 @@ void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
 /**
  * Iterates through all AT colliders, testing them for AC collisions with each AC collider, setting the info regarding
  * the collision for each AC and AT collider that collided. Then spawns hitmarks and plays sound effects for each
- * successful collision. To collide, an AT collider must share a type (PLAYER, ENEMY, or BOMB) with the AC collider and
- * the toucher and bumper elements that overlapped must share a dmgFlag.
+ * successful collision. To collide, an AT collider must share a type (AC_TYPE_PLAYER, AC_TYPE_ENEMY, or AC_TYPE_OTHER)
+ * with the AC collider and the toucher and bumper elements that overlapped must share a dmgFlag.
  */
 void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** col;

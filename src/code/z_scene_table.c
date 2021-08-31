@@ -1437,14 +1437,14 @@ void func_8009BEEC(GlobalContext* globalCtx) {
     s32 var;
 
     if (globalCtx->gameplayFrames % 128 == 13) {
-        var = Quake_Add(ACTIVE_CAM, 2);
+        var = Quake_Add(GET_ACTIVE_CAM(globalCtx), 2);
         Quake_SetSpeed(var, 10000);
         Quake_SetQuakeValues(var, 4, 0, 0, 0);
         Quake_SetCountdown(var, 127);
     }
 
     if ((globalCtx->gameplayFrames % 64 == 0) && (Rand_ZeroOne() > 0.6f)) {
-        var = Quake_Add(ACTIVE_CAM, 3);
+        var = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
         Quake_SetSpeed(var, 32000.0f + (Rand_ZeroOne() * 3000.0f));
         Quake_SetQuakeValues(var, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
         Quake_SetCountdown(var, 48.0f - (Rand_ZeroOne() * 15.0f));
@@ -2081,7 +2081,7 @@ void func_8009EE44(GlobalContext* globalCtx) {
 
     if ((globalCtx->roomCtx.unk_74[0] == 0) && (INV_CONTENT(ITEM_COJIRO) == ITEM_COJIRO)) {
         if (globalCtx->roomCtx.unk_74[1] == 50) {
-            func_8002F7DC(&PLAYER->actor, NA_SE_EV_CHICKEN_CRY_M);
+            func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_EV_CHICKEN_CRY_M);
             globalCtx->roomCtx.unk_74[0] = 1;
         }
         globalCtx->roomCtx.unk_74[1]++;

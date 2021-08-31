@@ -131,7 +131,7 @@ void func_809D1D0C(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBx* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 i;
     s16 tmp32;
     s32 tmp33;

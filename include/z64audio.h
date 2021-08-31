@@ -1088,7 +1088,7 @@ typedef struct {
     /* 0x20 */ u32      unk_20;
     /* 0x24 */ u8       unk_24;
     /* 0x26 */ u16      unk_26;
-    /* 0x28 */ u16      unk_28;     // "flag"
+    /* 0x28 */ u16      sfxId;
     /* 0x2A */ u8       unk_2A;
     /* 0x2B */ u8       unk_2B;
     /* 0x2C */ u8       prev;

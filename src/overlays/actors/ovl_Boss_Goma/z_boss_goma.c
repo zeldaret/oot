@@ -625,7 +625,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
     Camera* camera;
 
     camera = Gameplay_GetCamera(globalCtx, 0);
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->actionState = 4;
     this->actor.flags |= 1;
     func_80064520(globalCtx, &globalCtx->csCtx);
@@ -646,7 +646,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
     player->actor.world.pos.z = 300.0f;
 
     player->actor.world.rot.y = player->actor.shape.rot.y = -0x705C;
-    this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) + 0x8000;
+    this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000;
 
     // room entrance, closer to room center
     this->subCameraEye.x = 90.0f;
@@ -671,7 +671,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
  */
 void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
     Camera* cam;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad[2];
 
     Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
@@ -779,7 +779,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                 this->lookedAtFrames++;
                 Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
                 Math_ApproachS(&this->actor.world.rot.y,
-                               Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) + 0x8000, 2, 0xBB8);
+                               Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) + 0x8000, 2,
+                               0xBB8);
                 this->eyeLidBottomRotX = this->eyeLidTopRotX = this->eyeIrisRotX = this->eyeIrisRotY = 0;
             } else {
                 this->lookedAtFrames = 0;
@@ -879,7 +880,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             this->subCameraAt.z = this->actor.world.pos.z;
             SkelAnime_Update(&this->skelanime);
             Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-            Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 2, 0x7D0);
+            Math_ApproachS(&this->actor.world.rot.y,
+                           Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
 
             if (this->actor.bgCheckFlags & 1) {
                 this->actionState = 130;
@@ -901,7 +903,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->subCameraEye.z, this->actor.world.pos.z + 45.0f + 40.0f, 0.1f,
                            this->subCameraFollowSpeed * 30.0f);
             Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-            Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 2, 0x7D0);
+            Math_ApproachS(&this->actor.world.rot.y,
+                           Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
             SkelAnime_Update(&this->skelanime);
             this->subCameraAt.x = this->actor.world.pos.x;
             this->subCameraAt.z = this->actor.world.pos.z;
@@ -988,7 +991,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
     Vec3f accel2 = { 0.0f, -0.5f, 0.0f };
     Vec3f pos;
     Camera* camera;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f childPos;
     s16 i;
 
@@ -1256,7 +1259,8 @@ void BossGoma_FloorAttackPosture(BossGoma* this, GlobalContext* globalCtx) {
     Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
 
     if (this->skelanime.curFrame >= (19.0f + 1.0f / 3.0f) && this->skelanime.curFrame <= 30.0f) {
-        Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 3, 0xBB8);
+        Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor),
+                       3, 0xBB8);
     }
 
     if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&gGohmaPrepareAttackAnim))) {
@@ -1424,7 +1428,8 @@ void BossGoma_FloorStunned(BossGoma* this, GlobalContext* globalCtx) {
 void BossGoma_FallJump(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 2, 0x7D0);
+    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2,
+                   0x7D0);
 
     if (this->actor.bgCheckFlags & 1) {
         BossGoma_SetupFloorLand(this);
@@ -1440,7 +1445,8 @@ void BossGoma_FallJump(BossGoma* this, GlobalContext* globalCtx) {
 void BossGoma_FallStruckDown(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 3, 0x7D0);
+    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 3,
+                   0x7D0);
 
     if (this->actor.bgCheckFlags & 1) {
         BossGoma_SetupFloorLandStruckDown(this);
@@ -1599,7 +1605,7 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
     }
 
     if (!this->doNotMoveThisFrame) {
-        rot = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor);
+        rot = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
 
         if (this->patienceTimer != 0) {
             this->patienceTimer--;
@@ -1713,7 +1719,7 @@ void BossGoma_UpdateEye(BossGoma* this, GlobalContext* globalCtx) {
     s16 targetEyeIrisRotY;
 
     if (!this->disableGameplayLogic) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         if (this->eyeState == EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES) {
             // player + 0xA73 seems to be related to "throwing something"
@@ -1743,8 +1749,10 @@ void BossGoma_UpdateEye(BossGoma* this, GlobalContext* globalCtx) {
         }
 
         if (this->eyeState != EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES) {
-            targetEyeIrisRotY = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.shape.rot.y;
-            targetEyeIrisRotX = Actor_WorldPitchTowardActor(&this->actor, &PLAYER->actor) - this->actor.shape.rot.x;
+            targetEyeIrisRotY =
+                Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.shape.rot.y;
+            targetEyeIrisRotX =
+                Actor_WorldPitchTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.shape.rot.x;
 
             if (this->actor.shape.rot.x > 0x4000 || this->actor.shape.rot.x < -0x4000) {
                 targetEyeIrisRotY = -(s16)(targetEyeIrisRotY + 0x8000);

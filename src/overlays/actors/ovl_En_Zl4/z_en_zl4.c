@@ -181,7 +181,7 @@ static struct_80034EC0_Entry sAnimationEntries[] = {
 #include "z_en_zl4_cutscene_data.c"
 
 void EnZl4_SetCsCameraAngle(GlobalContext* globalCtx, s16 index) {
-    Camera* activeCam = ACTIVE_CAM;
+    Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
 
     Camera_ChangeSetting(activeCam, CAM_SET_FREE0);
     activeCam->at = sCsCameraAngle[index].at;
@@ -191,8 +191,8 @@ void EnZl4_SetCsCameraAngle(GlobalContext* globalCtx, s16 index) {
 }
 
 void EnZl4_SetCsCameraMove(GlobalContext* globalCtx, s16 index) {
-    Camera* activeCam = ACTIVE_CAM;
-    Player* player = PLAYER;
+    Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
+    Player* player = GET_PLAYER(globalCtx);
 
     Camera_ChangeSetting(activeCam, CAM_SET_DEMO0);
     Camera_ResetAnim(activeCam);
@@ -305,7 +305,7 @@ void EnZl4_SetMove(EnZl4* this, GlobalContext* globalCtx) {
 }
 
 void func_80B5BB78(EnZl4* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_1E0.unk_18 = player->actor.world.pos;
     func_80034A14(&this->actor, &this->unk_1E0, 2, 2);
@@ -318,8 +318,8 @@ void EnZl4_GetActionStartPos(CsCmdActorAction* action, Vec3f* vec) {
 }
 
 s32 EnZl4_SetupFromLegendCs(EnZl4* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
-    Actor* playerx = &PLAYER->actor;
+    Player* player = GET_PLAYER(globalCtx);
+    Actor* playerx = &GET_PLAYER(globalCtx)->actor;
     s16 rotY;
 
     func_8002DF54(globalCtx, &this->actor, 8);
@@ -419,8 +419,8 @@ void EnZl4_ReverseAnimation(EnZl4* this) {
 }
 
 s32 EnZl4_CsWaitForPlayer(EnZl4* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
-    Actor* playerx = &PLAYER->actor;
+    Player* player = GET_PLAYER(globalCtx);
+    Actor* playerx = &GET_PLAYER(globalCtx)->actor;
     s16 rotY;
     s16 yawDiff;
     s16 absYawDiff;
@@ -786,7 +786,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
 }
 
 s32 EnZl4_CsTellLegend(EnZl4* this, GlobalContext* globalCtx) {
-    Camera* activeCam = ACTIVE_CAM;
+    Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
 
     switch (this->talkState) {
         case 0:
@@ -932,7 +932,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, GlobalContext* globalCtx) {
 }
 
 s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 rotY;
 
     switch (this->talkState) {
@@ -1098,7 +1098,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
             if (!((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx))) {
                 break;
             } else {
-                Camera_ChangeSetting(ACTIVE_CAM, 1);
+                Camera_ChangeSetting(GET_ACTIVE_CAM(globalCtx), 1);
                 this->talkState = 7;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
@@ -1121,7 +1121,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
 }
 
 void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (this->csState) {
         case ZL4_CS_WAIT:

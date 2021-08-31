@@ -583,8 +583,8 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, GlobalContext* globalCtx, RaceInf
         this->actor.shape.rot.y = this->actor.world.rot.y;
     }
 
-    sp50 = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
-    relPlayerYaw = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
+    sp50 = Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
+    relPlayerYaw = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.world.rot.y;
     if (sp50 <= 200.0f || (fabsf(Math_SinS(relPlayerYaw)) < 0.8f && Math_CosS(relPlayerYaw) > 0.0f)) {
         if (this->actor.speedXZ < this->ingoHorseMaxSpeed) {
             this->actor.speedXZ += 0.47f;
@@ -677,7 +677,7 @@ s32 EnHorse_Spawn(EnHorse* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 169; i++) {
         if (sHorseSpawns[i].scene == globalCtx->sceneNum) {
-            player = PLAYER;
+            player = GET_PLAYER(globalCtx);
             if (globalCtx->sceneNum != SCENE_SPOT20 ||
                 //! Same flag checked twice
                 (Flags_GetEventChkInf(0x18) && ((gSaveContext.eventInf[0] & 0xF) != 6 || Flags_GetEventChkInf(0x18))) ||
@@ -698,7 +698,7 @@ s32 EnHorse_Spawn(EnHorse* this, GlobalContext* globalCtx) {
                     this->actor.world.pos.z = sHorseSpawns[i].pos.z;
                     this->actor.prevPos = this->actor.world.pos;
                     this->actor.world.rot.y = sHorseSpawns[i].angle;
-                    this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor);
+                    this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
                     spawn = true;
                     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->actor.world.pos,
                                                  &this->actor.projectedPos, &this->actor.projectedW);
@@ -720,9 +720,9 @@ void EnHorse_ResetRace(EnHorse* this, GlobalContext* globalCtx) {
 }
 
 s32 EnHorse_PlayerCanMove(EnHorse* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
-    if ((player->stateFlags1 & 1) || func_8002DD78(PLAYER) == 1 || (player->stateFlags1 & 0x100000) ||
+    if ((player->stateFlags1 & 1) || func_8002DD78(GET_PLAYER(globalCtx)) == 1 || (player->stateFlags1 & 0x100000) ||
         ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) || this->action == ENHORSE_ACT_HBA ||
         player->actor.flags & 0x100 || globalCtx->csCtx.state != 0) {
         return false;
@@ -908,7 +908,7 @@ void EnHorse_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHorse_RotateToPlayer(EnHorse* this, GlobalContext* globalCtx) {
-    EnHorse_RotateToPoint(this, globalCtx, &PLAYER->actor.world.pos, 400);
+    EnHorse_RotateToPoint(this, globalCtx, &GET_PLAYER(globalCtx)->actor.world.pos, 400);
     if (this->stateFlags & ENHORSE_OBSTACLE) {
         this->actor.world.rot.y += 800.0f;
     }
@@ -1514,7 +1514,7 @@ void EnHorse_Reverse(EnHorse* this, GlobalContext* globalCtx) {
     f32 stickMag;
     s16 stickAngle;
     s16 turnAmount;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     EnHorse_PlayWalkingSound(this);
     EnHorse_StickDirection(&this->curStick, &stickMag, &stickAngle);
@@ -1866,7 +1866,7 @@ void EnHorse_SetFollowAnimation(EnHorse* this, GlobalContext* globalCtx) {
     s32 animId = ENHORSE_ANIM_WALK;
     f32 distToPlayer;
 
-    distToPlayer = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
+    distToPlayer = Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
     if (distToPlayer > 400.0f) {
         animId = ENHORSE_ANIM_GALLOP;
     } else if (!(distToPlayer <= 300.0f)) {
@@ -1904,14 +1904,14 @@ void EnHorse_FollowPlayer(EnHorse* this, GlobalContext* globalCtx) {
     f32 angleDiff;
 
     DREG(53) = 0;
-    distToPlayer = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
+    distToPlayer = Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
 
     // First rotate if the player is behind
     if ((this->playerDir == PLAYER_DIR_BACK_R || this->playerDir == PLAYER_DIR_BACK_L) &&
         (distToPlayer > 300.0f && !(this->stateFlags & ENHORSE_TURNING_TO_PLAYER))) {
         this->animationIdx = ENHORSE_ANIM_REARING;
         this->stateFlags |= ENHORSE_TURNING_TO_PLAYER;
-        this->angleToPlayer = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor);
+        this->angleToPlayer = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor);
         angleDiff = (f32)this->angleToPlayer - (f32)this->actor.world.rot.y;
         if (angleDiff > 32767.f) {
             angleDiff -= 32767.0f;
@@ -2565,7 +2565,7 @@ void EnHorse_InitFleePlayer(EnHorse* this) {
 }
 
 void EnHorse_FleePlayer(EnHorse* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 distToHome;
     f32 playerDistToHome;
     f32 distToPlayer;
@@ -2998,7 +2998,7 @@ s32 EnHorse_GetMountSide(EnHorse* this, GlobalContext* globalCtx);
 void EnHorse_MountDismount(EnHorse* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 mountSide;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     mountSide = EnHorse_GetMountSide(this, globalCtx);
     if (mountSide != 0 && !(this->stateFlags & ENHORSE_UNRIDEABLE) && player->rideActor == NULL) {
@@ -3382,7 +3382,7 @@ void EnHorse_UpdatePlayerDir(EnHorse* this, GlobalContext* globalCtx) {
     f32 s;
     f32 c;
 
-    angle = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
+    angle = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor) - this->actor.world.rot.y;
     s = Math_SinS(angle);
     c = Math_CosS(angle);
     if (s > 0.8660254f) {
@@ -3433,7 +3433,7 @@ void EnHorse_TiltBody(EnHorse* this, GlobalContext* globalCtx) {
 }
 
 s32 EnHorse_UpdateConveyors(EnHorse* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 conveyorDir;
 
     if ((this->actor.floorPoly == NULL) && (this != (EnHorse*)player->rideActor)) {
@@ -3462,7 +3462,7 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     Vec3f dustAcc = { 0.0f, 0.0f, 0.0f };
     Vec3f dustVel = { 0.0f, 1.0f, 0.0f };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->lastYaw = thisx->shape.rot.y;
     EnHorse_UpdateStick(this, globalCtx);
@@ -3640,7 +3640,7 @@ s32 EnHorse_GetMountSide(EnHorse* this, GlobalContext* globalCtx) {
     if ((this->animationIdx != ENHORSE_ANIM_IDLE) && (this->animationIdx != ENHORSE_ANIM_WHINNEY)) {
         return 0;
     }
-    return EnHorse_MountSideCheck(this, globalCtx, PLAYER);
+    return EnHorse_MountSideCheck(this, globalCtx, GET_PLAYER(globalCtx));
 }
 
 void EnHorse_RandomOffset(Vec3f* src, f32 dist, Vec3f* dst) {

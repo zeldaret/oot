@@ -410,7 +410,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
     s16 tentXrot;
     s16 sp1B4 = 0; // real
     s32 buttons;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 indS0;
     s16 indS1;
     Camera* camera1;
@@ -1196,7 +1196,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
     f32 sp80;
     f32 sp7C;
     f32 sp78;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
     Vec3f bubblePos;
     Vec3f bubblePos2;
@@ -1728,7 +1728,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
 
 void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
     s16 i;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     osSyncPrintf(VT_FGCOL(YELLOW));
     osSyncPrintf("Core_Damage_check START\n");
@@ -1832,8 +1832,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
         0.1f, 0.15f, 0.2f, 0.3f, 0.4f, 0.43f, 0.4f, 0.3f, 0.2f, 0.15f, 0.1f,
     };
     u8 nearLand;
-    s16 i;                   // not on stack
-    Player* player = PLAYER; // not on stack
+    s16 i;                                  // not on stack
+    Player* player = GET_PLAYER(globalCtx); // not on stack
     f32 spDC;
     f32 spD8;
     f32 spD4;
@@ -2203,7 +2203,7 @@ void BossMo_UpdateCore(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BossMo* this = THIS;
     s16 i;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     osSyncPrintf("CORE mode = <%d>\n", this->work[MO_TENT_ACTION_STATE]);
     if (sMorphaTent2 == NULL) {
@@ -2250,7 +2250,7 @@ void BossMo_UpdateTent(Actor* thisx, GlobalContext* globalCtx) {
     s16 index;
     s32 pad;
     BossMo* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 phi_f0;
 
     if ((this == sMorphaTent2) && (this->tent2KillTimer != 0)) {
