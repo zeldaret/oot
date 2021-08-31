@@ -1609,7 +1609,7 @@ void func_800E4198(s32 bankId, unk_ldr* mem, RelocInfo* relocInfo, s32 arg3) {
                 item = &gAudioContext.unk_0D68[gAudioContext.unk_176C];
                 item->sample = sample;
                 item->ramAddr = addr;
-                item->encodedInfo = (gAudioContext.unk_176C << 24) | 0xffffff;
+                item->encodedInfo = (gAudioContext.unk_176C << 24) | 0xFFFFFF;
                 item->isFree = false;
                 item->endAndMediumKey = (u32)sample->sampleAddr + sample->size + sample->medium;
                 gAudioContext.unk_176C++;
@@ -1742,15 +1742,15 @@ void func_800E48C0(AudioBankSound* sound) {
 }
 
 void func_800E4918(s32 bankId, s32 arg1, RelocInfo *relocInfo) {
-    s32 numDrums; // sp74
-    s32 numInstruments; // sp70, v1
-    s32 numSfx; // sp6C
+    s32 numDrums;
+    s32 numInstruments;
+    s32 numSfx;
     Drum* drum;
     Instrument* instrument;
     AudioBankSound* sound;
     AudioStruct0D68* item;
     AudioStruct0D68* item2;
-    u8* addr; // sp54
+    u8* addr;
     s32 count;
     s32 i;
     AudioBankSample* sample;
@@ -1852,8 +1852,8 @@ void func_800E4918(s32 bankId, s32 arg1, RelocInfo *relocInfo) {
                 item = &gAudioContext.unk_0D68[gAudioContext.unk_176C];
                 item->sample = sample;
                 item->ramAddr = addr;
-                item->encodedInfo = (gAudioContext.unk_176C << 0x18) | 0xFFFFFF;
-                item->isFree = 0;
+                item->encodedInfo = (gAudioContext.unk_176C << 24) | 0xFFFFFF;
+                item->isFree = false;
                 item->endAndMediumKey = (u32)sample->sampleAddr + sample->size + sample->medium;
                 gAudioContext.unk_176C++;
                 break;
@@ -1924,7 +1924,7 @@ void func_800E4F58(void) {
     s8* temp_v0;
 
     if (osRecvMesg(&D_8016B6E0, (OSMesg*)&sp20, OS_MESG_NOBLOCK) != -1) {
-        pad = sp20 >> 0x18;
+        pad = sp20 >> 24;
         temp_v0 = D_8016B738[pad];
         if (temp_v0 != NULL) {
             *temp_v0 = 0;
