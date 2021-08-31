@@ -98,8 +98,7 @@ typedef struct {
 extern Struct_8011FD3C D_8011FD3C[];
 
 #ifdef NON_MATCHING
-// Loop unrolls are totally wrong. No idea what's happening.
-// I believe this to be equivalent, but I'm not certain.
+// Loop unrolls in the switch are totally wrong, but seems to behave equivalently.
 s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7,
                   s32 arg8, s32 arg9) {
     u32 pad42C;
@@ -168,7 +167,7 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
     }
 
     for (phi_a2_4 = 0, sp424 = 0; sp424 < 2; sp424++) {
-        skyboxCtx->unk_138 = skyboxCtx->dListBuf2[arg9 + sp424];
+        skyboxCtx->unk_138 = skyboxCtx->dListBuf[arg9 + sp424];
 
         for (pad420 = 0; pad420 < 0x20; pad420++) {
             temp = D_8012ACA0[sp424][pad420];
@@ -207,9 +206,8 @@ s32 func_800ADBB0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32, UNK_TYPE, UNK_TYP
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vr_box/func_800ADBB0.s")
 #endif
 
-#ifdef NON_EQUIVALENT
-// Loop unrolls are totally wrong. No idea what's happening.
-// I believe this to be equivalent, but I'm not certain.
+#ifdef NON_MATCHING
+// Loop unrolls in the switch are totally wrong, but seems to behave equivalently.
 s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7,
                   s32 arg8) {
     s32 pad334;
@@ -274,7 +272,7 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
             }
             break;
     }
-    skyboxCtx->unk_138 = &skyboxCtx->dListBuf2[2 * arg8];
+    skyboxCtx->unk_138 = &skyboxCtx->dListBuf[2 * arg8];
 
     for (pad330 = 0; pad330 < 0x20; pad330++) {
         temp = D_8012ADD8[pad330];
@@ -338,7 +336,6 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                                  G_TX_NOMASK, G_TX_NOLOD);
                 gSP1Quadrangle(skyboxCtx->unk_138++, D_8012AE3C[phi_t2_4 + 1], D_8012AE3C[phi_t2_4 + 2],
                                D_8012AE3C[phi_t2_4 + 3], D_8012AE3C[phi_t2_4 + 0], 3);
-                // phi_t2_4 += 4;
             }
         }
     }
@@ -384,7 +381,7 @@ void func_800AF178(SkyboxContext* skyboxCtx, s32 arg1) {
 }
 
 #ifdef NON_MATCHING
-// Some reoderings at the end of the first case, regalloc differences
+// Some reoderings at the end of the first case. Verifiably equivalent.
 void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId) {
     u32 size;
     s16 i;
@@ -432,11 +429,12 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
 
             DmaMgr_SendRequest1(skyboxCtx->staticSegments[1], D_8011FD3C[sp40].unk_0, size, "../z_vr_box.c", 1064);
 
-            // reorderings in the rest of this case
-            
-            if (((u8)(sp41 & 4) >> 2) != (u8)(sp41 & 1)) {
-                size = D_8011FD3C[sp41].unk_C - D_8011FD3C[sp41].unk_8;
-                skyboxCtx->staticSegments[2] = GameState_Alloc(&globalCtx->state, size * 2, "../z_vr_box.c", 1072);
+            if (((sp41 & 4) >> 2) != (sp41 & 1)) {
+                D_8011FD3C[sp41].unk_C = D_8011FD3C[sp41].unk_C; // fake but greatly improves match.
+
+                size = (D_8011FD3C[sp41].unk_C - D_8011FD3C[sp41].unk_8) * 2;
+
+                skyboxCtx->staticSegments[2] = GameState_Alloc(&globalCtx->state, size, "../z_vr_box.c", 1072);
 
                 ASSERT(skyboxCtx->staticSegments[2] != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c",
                        1073);
@@ -445,8 +443,9 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
                 DmaMgr_SendRequest1((u32)skyboxCtx->staticSegments[2] + size, D_8011FD3C[sp40].unk_8, size,
                                     "../z_vr_box.c", 1077);
             } else {
-                size = D_8011FD3C[sp41].unk_C - D_8011FD3C[sp41].unk_8;
-                skyboxCtx->staticSegments[2] = GameState_Alloc(&globalCtx->state, size * 2, "../z_vr_box.c", 1085);
+                size = (D_8011FD3C[sp41].unk_C - D_8011FD3C[sp41].unk_8) * 2;
+
+                skyboxCtx->staticSegments[2] = GameState_Alloc(&globalCtx->state, size, "../z_vr_box.c", 1085);
 
                 ASSERT(skyboxCtx->staticSegments[2] != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c",
                        1086);
@@ -949,9 +948,7 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
 
 void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxId) {
     skyboxCtx->unk_140 = 0;
-    skyboxCtx->rot.x = 0.0f;
-    skyboxCtx->rot.y = 0.0f;
-    skyboxCtx->rot.z = 0.0f;
+    skyboxCtx->rot.x = skyboxCtx->rot.y = skyboxCtx->rot.z = 0.0f;
 
     Skybox_Setup(globalCtx, skyboxCtx, skyboxId);
     osSyncPrintf("\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\n"
@@ -963,24 +960,24 @@ void Skybox_Init(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skyboxI
         osSyncPrintf(VT_FGCOL(GREEN));
 
         if (skyboxCtx->unk_140 != 0) {
-            skyboxCtx->dListBuf = GameState_Alloc(&globalCtx->state, 1200 * sizeof(Gfx), "../z_vr_box.c", 1636);
+            skyboxCtx->dListBuf = GameState_Alloc(&globalCtx->state, 8 * 150 * sizeof(Gfx), "../z_vr_box.c", 1636);
             ASSERT(skyboxCtx->dListBuf != NULL, "vr_box->dpList != NULL", "../z_vr_box.c", 1637);
 
-            skyboxCtx->roomVtx = GameState_Alloc(&globalCtx->state, 256 * sizeof(Vtx), "../z_vr_box.c", 1639);
+            skyboxCtx->roomVtx = (Vtx*)GameState_Alloc(&globalCtx->state, 256 * sizeof(Vtx), "../z_vr_box.c", 1639);
             ASSERT(skyboxCtx->roomVtx != NULL, "vr_box->roomVtx != NULL", "../z_vr_box.c", 1640);
 
             func_800AEFC8(skyboxCtx, skyboxId);
         } else {
-            skyboxCtx->dListBuf = GameState_Alloc(&globalCtx->state, 1800 * sizeof(Gfx), "../z_vr_box.c", 1643);
+            skyboxCtx->dListBuf = GameState_Alloc(&globalCtx->state, 12 * 150 * sizeof(Gfx), "../z_vr_box.c", 1643);
             ASSERT(skyboxCtx->dListBuf != NULL, "vr_box->dpList != NULL", "../z_vr_box.c", 1644);
 
             if (skyboxId == SKYBOX_CUTSCENE_MAP) {
-                skyboxCtx->roomVtx = GameState_Alloc(&globalCtx->state, 192 * sizeof(Vtx), "../z_vr_box.c", 1648);
+                skyboxCtx->roomVtx = (Vtx*)GameState_Alloc(&globalCtx->state, 192 * sizeof(Vtx), "../z_vr_box.c", 1648);
                 ASSERT(skyboxCtx->roomVtx != NULL, "vr_box->roomVtx != NULL", "../z_vr_box.c", 1649);
 
                 func_800AF178(skyboxCtx, 6);
             } else {
-                skyboxCtx->roomVtx = GameState_Alloc(&globalCtx->state, 160 * sizeof(Vtx), "../z_vr_box.c", 1653);
+                skyboxCtx->roomVtx = (Vtx*)GameState_Alloc(&globalCtx->state, 160 * sizeof(Vtx), "../z_vr_box.c", 1653);
                 ASSERT(skyboxCtx->roomVtx != NULL, "vr_box->roomVtx != NULL", "../z_vr_box.c", 1654);
 
                 func_800AF178(skyboxCtx, 5);

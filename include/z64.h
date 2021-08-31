@@ -322,10 +322,9 @@ typedef enum {
 typedef struct {
     /* 0x000 */ char unk_00[0x128];
     /* 0x128 */ void* staticSegments[3];
-    /* 0x134 */ union{ Gfx* dListBuf;
-                    Gfx (*dListBuf2)[150];};
+    /* 0x134 */ Gfx (*dListBuf)[150];
     /* 0x138 */ Gfx* unk_138;
-    /* 0x13C */ void* roomVtx;
+    /* 0x13C */ Vtx* roomVtx;
     /* 0x140 */ s16  unk_140;
     /* 0x144 */ Vec3f rot;
 } SkyboxContext; // size = 0x150
