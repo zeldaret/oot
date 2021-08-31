@@ -1110,10 +1110,6 @@ typedef struct {
     /* 0x0007 */ u8 semitone;
 } OcarinaNote;  // size = 0x8
 
-typedef struct {
-    /* 0x0000 */ OcarinaNote notes[20];
-} OcarinaSong; // size = 0xA0
-
 #define Audio_DisableSeq(seqIdx, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)seqIdx << 16), fadeOut)
 #define Audio_Cmd82(seqIdx, a, b) Audio_QueueCmdS32(0x82000000 | ((u8)seqIdx << 16) | ((u8)a << 8), b)
 #define Audio_StartSeq(seqIdx, fadeTimer, seqId) Audio_QueueSeqCmd(0x00000000 | ((u8)seqIdx << 24) | ((u8)(fadeTimer) << 0x10) | (u16)seqId)
