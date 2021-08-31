@@ -178,7 +178,7 @@ void EffectSsFhgFlash_UpdateShock(GlobalContext* globalCtx, u32 index, EffectSs*
     this->rXZRot = (this->rXZRot + rand) + 0x4000;
 
     if (this->rParam == FHGFLASH_SHOCK_PLAYER) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         randBodypart = Rand_ZeroFloat(17.9f);
         this->pos.x = player->bodyPartsPos[randBodypart].x + Rand_CenteredFloat(10.0f);
         this->pos.y = player->bodyPartsPos[randBodypart].y + Rand_CenteredFloat(15.0f);

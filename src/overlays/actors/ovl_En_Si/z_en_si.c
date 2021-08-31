@@ -80,7 +80,7 @@ s32 func_80AFB748(EnSi* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->actor.flags & 0x2000) == 0x2000) {
         this->actionFunc = func_80AFB89C;
@@ -109,7 +109,7 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToF(&this->actor.scale.x, 0.25f, 0.4f, 1.0f, 0.0f);
     Actor_SetScale(&this->actor, this->actor.scale.x);
@@ -125,7 +125,7 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
         player->actor.freezeTimer = 10;

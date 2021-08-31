@@ -190,7 +190,7 @@ void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* glob
 }
 
 void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->timer != 0) {
         this->timer--;

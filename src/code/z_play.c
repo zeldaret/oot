@@ -14,7 +14,7 @@ s16 D_801614C8;
 u64 D_801614D0[0xA00];
 
 void func_800BC450(GlobalContext* globalCtx) {
-    Camera_ChangeDataIdx(ACTIVE_CAM, globalCtx->unk_1242B - 1);
+    Camera_ChangeDataIdx(GET_ACTIVE_CAM(globalCtx), globalCtx->unk_1242B - 1);
 }
 
 void func_800BC490(GlobalContext* globalCtx, s16 point) {
@@ -142,7 +142,7 @@ Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx) {
 
 void Gameplay_Destroy(GameState* thisx) {
     GlobalContext* globalCtx = (GlobalContext*)thisx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     globalCtx->state.gfxCtx->callback = NULL;
     globalCtx->state.gfxCtx->callbackParam = 0;
@@ -372,7 +372,7 @@ void Gameplay_Init(GameState* thisx) {
         ; // Empty Loop
     }
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     Camera_InitPlayerSettings(&globalCtx->mainCamera, player);
     Camera_ChangeMode(&globalCtx->mainCamera, CAM_MODE_NORMAL);
 
@@ -394,7 +394,7 @@ void Gameplay_Init(GameState* thisx) {
     func_800758AC(globalCtx);
     gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
     gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
-    func_8002DF18(globalCtx, PLAYER);
+    func_8002DF18(globalCtx, GET_PLAYER(globalCtx));
     AnimationContext_Update(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
 
@@ -1210,10 +1210,11 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
-                    if ((globalCtx->skyboxCtx.unk_140 != 0) && (ACTIVE_CAM->setting != CAM_SET_PREREND0)) {
+                    if ((globalCtx->skyboxCtx.unk_140 != 0) &&
+                        (GET_ACTIVE_CAM(globalCtx)->setting != CAM_SET_PREREND0)) {
                         Vec3f sp74;
 
-                        Camera_GetSkyboxOffset(&sp74, ACTIVE_CAM);
+                        Camera_GetSkyboxOffset(&sp74, GET_ACTIVE_CAM(globalCtx));
                         SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
                                         globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
                                         globalCtx->view.eye.z + sp74.z);
@@ -1295,7 +1296,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
     }
 
     if (globalCtx->view.unk_124 != 0) {
-        Camera_Update(ACTIVE_CAM);
+        Camera_Update(GET_ACTIVE_CAM(globalCtx));
         func_800AB944(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
         if (globalCtx->skyboxId && (globalCtx->skyboxId != SKYBOX_UNSET_1D) && !globalCtx->envCtx.skyDisabled) {
@@ -1304,7 +1305,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         }
     }
 
-    Camera_Finish(ACTIVE_CAM);
+    Camera_Finish(GET_ACTIVE_CAM(globalCtx));
 
     CLOSE_DISPS(gfxCtx, "../z_play.c", 4508);
 }
@@ -1726,7 +1727,7 @@ void Gameplay_SetRespawnData(GlobalContext* globalCtx, s32 respawnMode, s16 entr
 }
 
 void Gameplay_SetupRespawnPoint(GlobalContext* globalCtx, s32 respawnMode, s32 playerParams) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 entranceIndex;
     s8 roomIndex;
 

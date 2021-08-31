@@ -138,7 +138,7 @@ u16 ElfMessage_GetTextFromMsgs(ElfMessage* msg) {
 }
 
 u16 ElfMessage_GetSariaText(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     ElfMessage* msgs;
 
     if (!LINK_IS_ADULT) {

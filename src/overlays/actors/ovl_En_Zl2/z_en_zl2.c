@@ -544,7 +544,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         }
 
         {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
             Matrix_Push();
             if (player->rightHandType == 0xFF) {
                 Matrix_Put(&player->shieldMf);
@@ -629,7 +629,7 @@ void EnZl2_GiveLightArrows(EnZl2* this, GlobalContext* globalCtx) {
     f32 posZ;
 
     if (this->unk_244 == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posX = player->actor.world.pos.x;
         posY = player->actor.world.pos.y + 80.0f;
         posZ = player->actor.world.pos.z;
@@ -1179,7 +1179,7 @@ void func_80B513A8(EnZl2* this, GlobalContext* globalCtx) {
     f32 posZ;
 
     if (this->unk_250 == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posX = player->actor.world.pos.x;
         posY = player->actor.world.pos.y;
         posZ = player->actor.world.pos.z;

@@ -77,7 +77,7 @@ void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, GlobalContext* globalCt
 }
 
 void func_8089B4C8(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags1 == 0x200000) && (player->actor.wallPoly != NULL)) {
         s32 i;

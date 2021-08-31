@@ -167,7 +167,7 @@ s32 EnRiverSound_GetSoundPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f
 void EnRiverSound_Update(Actor* thisx, GlobalContext* globalCtx) {
     Path* path;
     Vec3f* pos;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnRiverSound* this = THIS;
     s32 sp34;
 

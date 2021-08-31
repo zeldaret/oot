@@ -162,7 +162,7 @@ void func_80B536C4(EnZl3* this) {
 }
 
 void func_80B53764(EnZl3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_3F8.unk_18 = player->actor.world.pos;
     this->unk_3F8.unk_14 = kREG(16) - 16.0f;
@@ -1711,7 +1711,7 @@ s32 func_80B573C8(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B573FC(EnZl3* this, GlobalContext* globalCtx, f32 arg2) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 playerX = player->actor.world.pos.x;
     f32 playerZ = player->actor.world.pos.z;
     f32 thisX = this->actor.world.pos.x;
@@ -1727,7 +1727,7 @@ s32 func_80B57458(EnZl3* this, GlobalContext* globalCtx) {
     Vec3f* thisPos = &this->actor.world.pos;
     f32 thisX = thisPos->x;
     f32 thisZ = thisPos->z;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f* playerPos = &player->actor.world.pos;
     s32 pad;
     f32 playerX = playerPos->x;
@@ -1821,7 +1821,7 @@ void func_80B57754(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B577BC(GlobalContext* globalCtx, Vec3f* vec) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f* playerPos = &player->actor.world.pos;
     f32 posX = vec->x;
     f32 posY = vec->y;
@@ -1973,7 +1973,7 @@ s32 func_80B57D80(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad;
     s16* sp32 = &this->actor.shape.rot.y;
     struct_80034A14_arg1* unk_3F8 = &this->unk_3F8;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 unk_314 = this->unk_314;
     s16 temp_v0 = func_80B57104(this, unk_314);
     s32 pad2;
@@ -2031,7 +2031,7 @@ s32 func_80B57F84(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B58014(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 invincibilityTimer = player->invincibilityTimer;
 
     if (func_80B57324(this, globalCtx)) {
@@ -2073,7 +2073,7 @@ void func_80B58214(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B58268(EnZl3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 invincibilityTimer = player->invincibilityTimer;
 
     if ((invincibilityTimer <= 0) && (player->fallDistance <= 50)) {
@@ -2099,7 +2099,7 @@ void func_80B582C8(EnZl3* this, GlobalContext* globalCtx) {
         *unk_3CC += 1.0f;
         func_80B57858(globalCtx);
     } else if (*unk_3CC == kREG(17) + 40.0f) {
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         *unk_3CC += 1.0f;
     } else if (*unk_3CC >= ((kREG(17) + 40.0f) + 1.0f)) {
         this->action = 32;
@@ -2111,7 +2111,7 @@ void func_80B582C8(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 invincibilityTimer = player->invincibilityTimer;
     Actor* nearbyEnTest = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f);
 
@@ -2162,7 +2162,7 @@ void func_80B58624(EnZl3* this, GlobalContext* globalCtx) {
     } else {
         if (*unk_3CC >= kREG(20) + 30.0f) {
             this->action = 28;
-            func_8005B1A4(ACTIVE_CAM);
+            func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
             func_80B54E14(this, &gZelda2Anime2Anim_009FBC, 0, -12.0f, 0);
             *unk_3CC = 0.0f;
         } else {
@@ -2201,7 +2201,7 @@ s32 func_80B58938(EnZl3* this, GlobalContext* globalCtx) {
 
 s32 func_80B5899C(EnZl3* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 1)) {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
         s8 invincibilityTimer = player->invincibilityTimer;
 
         if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
@@ -2221,7 +2221,7 @@ void func_80B58A1C(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B58A50(EnZl3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s8 invincibilityTimer = player->invincibilityTimer;
 
     if ((invincibilityTimer <= 0) && (player->fallDistance <= 50)) {

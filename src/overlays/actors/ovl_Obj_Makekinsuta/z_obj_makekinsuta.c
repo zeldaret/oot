@@ -48,7 +48,7 @@ void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx) {
     if (this->unk_152 != 0) {
-        if (this->timer >= 60 && !func_8002DEEC(PLAYER)) {
+        if (this->timer >= 60 && !func_8002DEEC(GET_PLAYER(globalCtx))) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, this->actor.world.pos.x, this->actor.world.pos.y,
                         this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0, (this->actor.params | 0x8000));
             this->actionFunc = ObjMakekinsuta_DoNothing;

@@ -88,7 +88,7 @@ s32 func_80BA1ECC(ObjWarp2block* this, GlobalContext* globalCtx) {
     }
 
     temp_a3 = this->dyna.actor.child;
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) ||
         (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
 
@@ -157,7 +157,7 @@ void ObjWarp2block_SwapWithChild(ObjWarp2block* this, GlobalContext* globalCtx) 
 }
 
 s32 func_80BA2218(ObjWarp2block* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (func_80BA1ECC(this, globalCtx)) {
         if (player->stateFlags2 & 0x1000000) {
