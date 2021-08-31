@@ -38,10 +38,15 @@ typedef struct {
     u8 delayTimer;
 } LightningBolt;
 
+typedef struct {
+    s32 unk0;
+    s32 unk1;
+} Struct_8011FAF0;
+
 // data
-s32 D_8011FAF0[][2] = {
-    { 0x00000006, 0x00000000 }, { 0x00000005, 0x00020000 }, { 0x00000004, 0x00030000 }, { 0x00000003, 0x00038000 },
-    { 0x00000002, 0x0003c000 }, { 0x00000001, 0x0003e000 }, { 0x00000000, 0x0003f000 }, { 0x00000000, 0x0003f800 },
+Struct_8011FAF0 D_8011FAF0[] = {
+    { 6, 0x00000000 }, { 5, 0x00020000 }, { 4, 0x00030000 }, { 3, 0x00038000 },
+    { 2, 0x0003C000 }, { 1, 0x0003E000 }, { 0, 0x0003F000 }, { 0, 0x0003F800 },
 };
 
 u8 gWeatherMode = 0; // "E_wether_flg"
@@ -238,8 +243,14 @@ u16 D_8015FDB0;
 void func_80075B44(GlobalContext* globalCtx);
 void func_800766C4(GlobalContext* globalCtx);
 
+typedef struct TestBits {
+    s32 unk0 : 4;
+    s32 unk1 : 11;
+    s32 unk2 : 3;
+} TestBits;
+
 s32 func_8006F0A0(s32 a0) {
-    s32 ret = ((a0 >> 4 & 0x7FF) << D_8011FAF0[a0 >> 15 & 7][0]) + D_8011FAF0[a0 >> 15 & 7][1];
+    s32 ret = ((a0 >> 4 & 0x7FF) << D_8011FAF0[a0 >> 15 & 7].unk0) + D_8011FAF0[a0 >> 15 & 7].unk1;
 
     return ret;
 }
@@ -624,7 +635,7 @@ void func_8006FB94(EnvironmentContext* envCtx, u8 unused) {
 }
 
 // func_8006FC88 skybox related
-#ifdef NON_MATCHING
+#ifndef NON_EQUIVALENT
 void Kankyo_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx) {
     u32 size;
     u8 i;
@@ -1375,8 +1386,6 @@ void Kankyo_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80070C24.s")
 #endif
 
-#ifdef NON_MATCHING
-// float regalloc
 void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
     f32 alpha;
     f32 color;
@@ -1409,20 +1418,19 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
                          globalCtx->view.eye.z + globalCtx->envCtx.sunPos.z, MTXMODE_NEW);
 
         y = globalCtx->envCtx.sunPos.y / 25.0f;
+        pad = y / 80.0f;
 
-        alpha = 255.0f * (y / 80.0f);
-
+        alpha = pad * 255.0f;
         if (alpha < 0.0f) {
             alpha = 0.0f;
         }
-
         if (alpha > 255.0f) {
             alpha = 255.0f;
         }
 
         alpha = 255.0f - alpha;
 
-        color = y / 80.0f;
+        color = pad;
         if (color < 0.0f) {
             color = 0.0f;
         }
@@ -1432,11 +1440,11 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
         }
 
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, (u8)(color * 75.0f) + 180, (u8)(color * 155.0f) + 100, 255);
-        gDPSetEnvColor(POLY_OPA_DISP++, 255, color * 255.0f, color * 255.0f, alpha);
+        gDPSetEnvColor(POLY_OPA_DISP++, 255, (u8)(color * 255.0f), (u8)(color * 255.0f), alpha);
 
         scale = (color * 2.0f) + 10.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kanyo.c", 2364), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kankyo.c", 2364), G_MTX_LOAD);
         func_80093AD0(globalCtx->state.gfxCtx);
         gSPDisplayList(POLY_OPA_DISP++, &D_0404D1C0);
 
@@ -1444,36 +1452,29 @@ void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
                          globalCtx->view.eye.y - globalCtx->envCtx.sunPos.y,
                          globalCtx->view.eye.z - globalCtx->envCtx.sunPos.z, MTXMODE_NEW);
 
-        scale = -y / 120.0f;
+        color = -y / 120.0f;
+        color = CLAMP_MIN(color, 0.0f);
 
-        if (scale < 0.0f) {
-            scale = 0.0f;
-        }
-
-        scale = -15.0f * scale + 25.0f;
+        scale = -15.0f * color + 25.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
-        alpha = - y / 80.0f;
+        pad = -y / 80.0f;
+        pad = CLAMP_MAX(pad, 1.0f);
 
-        if (alpha > 1.0f) {
-            alpha = 1.0f;
-        }
+        alpha = pad * 255.0f;
 
-        if ((alpha * 255.0f) > 0.0f) {
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kanyo.c", 2406), G_MTX_LOAD);
+        if (alpha > 0.0f) {
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kankyo.c", 2406), G_MTX_LOAD);
             func_8009398C(globalCtx->state.gfxCtx);
             gDPPipeSync(POLY_OPA_DISP++);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 240, 255, 180, alpha * 255.0f);
-            gDPSetEnvColor(POLY_OPA_DISP++, 80, 70, 20, alpha * 255.0f);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 240, 255, 180, alpha);
+            gDPSetEnvColor(POLY_OPA_DISP++, 80, 70, 20, alpha);
             gSPDisplayList(POLY_OPA_DISP++, &D_04038F00);
         }
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 2429);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_DrawSunAndMoon.s")
-#endif
 
 void Kankyo_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
                              Vec3f pos, s32 unused) {
@@ -1487,35 +1488,36 @@ void Kankyo_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCt
 void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
                           Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9) {
     static f32 lensFlareScales[] = { 23.0f, 12.0f, 7.0f, 5.0f, 3.0f, 10.0f, 6.0f, 2.0f, 3.0f, 1.0f };
-    f32 lookDirX;
-    f32 lookDirY;
-    f32 lookDirZ;
-    f32 posDirX;
-    f32 posDirY;
-    f32 posDirZ;
-    f32 halfPosX;
-    f32 halfPosY;
-    f32 halfPosZ;
+    
+    s16 i; 
     f32 tempX;
     f32 tempY;
-    f32 tempZ;
-    f32 tempX2;
+    f32 tempZ;  // 1A0 //
+    f32 lookDirX; // 19C
+    f32 lookDirY; // 198
+    f32 lookDirZ; 
+    f32 tempX2; // 190 //
     f32 tempY2;
     f32 tempZ2;
-    f32 pad;
-    f32 cosAngle;
-    f32 unk88Target;
-    u32 isOffScreen = false;
-    Vec3f screenPos;
-    f32 temp;
-    s16 i;
+    f32 posDirX; // 184
+    f32 posDirY; // 180
+    f32 posDirZ; // 17C
     f32 length;
     f32 dist;
-    f32 scale;
-    f32 alpha;
-    f32 fogInfluence;
+    f32 halfPosX; // 170
+    f32 halfPosY; // 16C
+    f32 halfPosZ; // 168
+    f32 cosAngle; // 164
+    f32 pad160; // 160 // 
+    f32 unk88Target; // 15C
+    u32 isOffScreen = false;
+    f32 alpha; 
+    f32 scale; // 150 //
+    Vec3f screenPos; // 144
+    f32 fogInfluence; // 140 //
+    f32 temp; // 13C
     f32 alphaScale;
-    Color_RGB8 lensFlareColors[] = {
+    Color_RGB8 lensFlareColors[] = { // 118
         { 155, 205, 255 }, // blue
         { 255, 255, 205 }, // yellow
         { 255, 255, 205 }, // yellow
@@ -1527,12 +1529,15 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
         { 175, 255, 205 }, // light green
         { 255, 155, 235 }, // pink
     };
-    u32 lensFlareAlphas[] = { 50, 10, 25, 40, 70, 30, 50, 70, 50, 40 };
-    u32 lensFlareTypes[] = {
+    u32 lensFlareAlphas[] = { // F0
+        50, 10, 25, 40, 70, 30, 50, 70, 50, 40,
+    };
+    u32 lensFlareTypes[] = { // C8
         LENS_FLARE_RING,    LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1,
         LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1, LENS_FLARE_CIRCLE1,
     };
-    OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2516);
+    
+    OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2516); // C4
 
     dist = Math3D_Vec3f_DistXYZ(&pos, &view->eye) / 12.0f;
 
@@ -1553,27 +1558,24 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
     halfPosZ = view->eye.z + lookDirZ * (dist * 6.0f);
 
     // compute a unit vector in the direction from halfPos to pos
-    tempX = pos.x - halfPosX;
-    tempY = pos.y - halfPosY;
-    tempZ = pos.z - halfPosZ;
+    tempX2 = pos.x - halfPosX;
+    tempY2 = pos.y - halfPosY;
+    tempZ2 = pos.z - halfPosZ;
 
-    length = sqrtf(SQ(tempX) + SQ(tempY) + SQ(tempZ));
+    length = sqrtf(SQ(tempX2) + SQ(tempY2) + SQ(tempZ2));
 
-    posDirX = tempX / length;
-    posDirY = tempY / length;
-    posDirZ = tempZ / length;
+    posDirX = tempX2 / length;
+    posDirY = tempY2 / length;
+    posDirZ = tempZ2 / length;
 
     // compute the cosine of the angle between lookDir and posDir
     cosAngle = (lookDirX * posDirX + lookDirY * posDirY + lookDirZ * posDirZ) /
                sqrtf((SQ(lookDirX) + SQ(lookDirY) + SQ(lookDirZ)) * (SQ(posDirX) + SQ(posDirY) + SQ(posDirZ)));
 
     unk88Target = cosAngle * 3.5f;
+    unk88Target = CLAMP_MAX(unk88Target, 1.0f);
 
-    if (unk88Target > 1.0f) {
-        unk88Target = 1.0f;
-    }
-
-    if (!arg9) {
+    if (arg9 == 0) {
         unk88Target = cosAngle;
     }
 
@@ -1582,7 +1584,7 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
     } else {
         if (arg9) {
             func_800C016C(globalCtx, &pos, &screenPos);
-            D_8015FD7E = screenPos.x;
+            D_8015FD7E = (s16)screenPos.x;
             D_8015FD80 = (s16)screenPos.y - 5.0f;
             if (D_8011FB44 != 0xFFFC || screenPos.x < 0.0f || screenPos.y < 0.0f || screenPos.x > SCREEN_WIDTH ||
                 screenPos.y > SCREEN_HEIGHT) {
@@ -1607,23 +1609,15 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
             }
 
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+
             alpha = arg7 / 10.0f;
-
-            if (alpha > 1.0f) {
-                alpha = 1.0f;
-            }
-
+            alpha = CLAMP_MAX(alpha, 1.0f);
             alpha = alpha * lensFlareAlphas[i];
-
-            if (alpha < 0.0f) {
-                alpha = 0.0f;
-            }
+            alpha = CLAMP_MIN(alpha, 0.0f);
 
             fogInfluence = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
 
-            if (fogInfluence > 1.0f) {
-                fogInfluence = 1.0f;
-            }
+            fogInfluence = CLAMP_MAX(fogInfluence, 1.0f);
 
             alpha *= 1.0f - fogInfluence;
 
@@ -1657,27 +1651,18 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
 
         alphaScale = cosAngle - (1.5f - cosAngle);
 
-        if (arg8 != 0) {
+        if (arg8) {
             if (alphaScale > 0.0f) {
                 POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
 
                 alpha = arg7 / 10.0f;
-
-                if (alpha > 1.0f) {
-                    alpha = 1.0f;
-                }
-
+                alpha = CLAMP_MAX(alpha, 1.0f);
                 alpha = alpha * arg8;
-
-                if (alpha < 0.0f) {
-                    alpha = 0.0f;
-                }
+                alpha = CLAMP_MIN(alpha, 0.0f);
 
                 fogInfluence = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
 
-                if (fogInfluence > 1.0f) {
-                    fogInfluence = 1.0f;
-                }
+                fogInfluence = CLAMP_MAX(fogInfluence, 1.0f);
 
                 alpha *= 1.0f - fogInfluence;
 
@@ -1691,10 +1676,7 @@ void Kankyo_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, 
                 }
 
                 temp = arg7 / 120.0f;
-
-                if (temp < 0.0f) {
-                    temp = 0.0f;
-                }
+                temp = CLAMP_MIN(temp, 0.0f);
 
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, (u8)(temp * 75.0f) + 180, (u8)(temp * 155.0f) + 100,
                                 envCtx->unk_84);
