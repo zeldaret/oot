@@ -1321,52 +1321,50 @@ f32 D_80131C8C = 0.0f;
 
 // === Audio Debugging ===
 
-extern f32 sAudioUpdateDuration;    // = 0
-extern f32 sAudioUpdateDurationMax; // = 0
-extern u8 sAudioDebugEverOpened;    // = 0
-extern u8 sAudioSEMuted;            // = 0
-extern u8 sAudioDebugPage;          // = 0
-extern u8 sAudioSndContSel;         // = 0
-extern u8 sAudioDebugTextColor;     // = 0
-extern char sAudioDebugPageNames[15][23];
-/* = {"Non", "Sound Control", "Spec Info", "Heap Info", "Grp Track Info", "Sub Track Info",
- * "Channel Info", "Interface Info", "SE Flag Swap", "Block Change BGM", "Natural Sound Control",
- * "Ocarina Test", "SE Parameter Change", "Scroll Print", "Free Area"} */
-extern u16 sAudioSndContWork[11];     // = {0}
-extern u16 sAudioSndContWorkLims[11]; // = {128, 128, 7, 512, 4, 2, 16, 32, 2, 2, 2}
-extern char sSoundBankNames[7][11];
-// = {"PLAYER", "PLAYER", "ITEM", "ENVIROMENT", "ENEMY", "SYSTEM", "OCARINA", "VOICE"}
-extern char sSoundModeNames[4][10];          // = {"W-STEREO", "HEADPHONE", "3D SOUND", "MONO"}
-extern s8 sAudioIntInfoX;                    // = 0
-extern s8 sAudioIntInfoY;                    // = 0
-extern s8 sAudioIntInfoSel;                  // = 0
-extern s8 sAudioIntInfoBankPage[7];          // = {0, 0, 2, 2, 0, 0, 0}
-extern u8 sAudioScrPrtSel;                   // = 0
-extern u8 sAudioScrPrtInd;                   // = 0
-extern u8 sAudioScrPrtOverflow;              // = 0
-extern s8 sAudioScrPrtX;                     // = 26
-extern s8 sAudioScrPrtY;                     // = 1
-extern u8 sAudioScrPrtWork[11];              // = {1, 19, 6, 0, 0, 0, 0, 0, 0, 0, 1}
-extern u8 sAudioScrPrtWorkLims[11];          // = {2, SCROLL_PRINT_BUF_SIZE, 8, 2, 2, 2, 2, 2, 2, 2, 2}
-extern u8 sAudioSubTrackInfoSpec;            // = 0
-extern u8 sAudioSEFlagSwapIsEditing;         // = 0
-extern u8 sAudioSEFlagSwapSel;               // = 0
-extern u8 sAudioSEFlagSwapNibbleSel;         // = 0
-extern char sAudioSEFlagSwapModeNames[2][5]; // = {"SWAP", "ADD"}
-extern u8 sAudioSEParamChgSel;               // = 0
-extern u8 sAudioSEParamChgBitSel;            // = 0
-extern u16 sAudioSEParamChgWork[2];          // = {0}
-extern u8 sAudioSubTrackInfoPlayerSel;       // = 0
-extern u8 sAudioSubTrackInfoChannelSel;      // = 0
-extern u8 sSeqPlayerPeakNumLayers[4];        // = {0}
-extern char sAudioSceneNames[3][2];          // = {"A", "S", "X"}
-extern u8 sAudioBlkChgBgmWork[2];            // = {0}
-extern u8 sAudioBlkChgBgmSel;                // = 0
-extern char sBoolStrs[3][5];                 // = {"OFF", "ON", "STBY"}
-extern u8 sAudioNatureFailed;                // = 0
-extern u8 sPeakNumNotes;                     // = 0
-// D_80131F6C is in-function static in func_800F510C
-
+f32 sAudioUpdateDuration = 0.0f;
+f32 sAudioUpdateDurationMax = 0.0f;
+u8 sAudioDebugEverOpened = 0;
+u8 sAudioSEMuted = 0;
+u8 sAudioDebugPage = 0;
+u8 sAudioSndContSel = 0;
+u8 sAudioDebugTextColor = 7;
+char sAudioDebugPageNames[15][23] = {
+    "Non", "Sound Control", "Spec Info", "Heap Info", "Grp Track Info", "Sub Track Info",
+    "Channel Info", "Interface Info", "SE Flag Swap", "Block Change BGM", "Natural Sound Control",
+    "Ocarina Test", "SE Parameter Change", "Scroll Print", "Free Area"
+};
+u16 sAudioSndContWork[11] = {0};
+u16 sAudioSndContWorkLims[11] = {128, 128, 7, 512, 4, 2, 16, 32, 2, 2, 2};
+char sSoundBankNames[7][11] = {"PLAYER", "ITEM", "ENVIROMENT", "ENEMY", "SYSTEM", "OCARINA", "VOICE"};
+char sSoundModeNames[5][10] = {"W-STEREO", "HEADPHONE", "3D SOUND", "MONO", ""};
+s8 sAudioIntInfoX = 0;
+s8 sAudioIntInfoY = 0;
+s8 sAudioIntInfoSel = 0;
+s8 sAudioIntInfoBankPage[7] = {0, 0, 2, 2, 0, 0, 0};
+u8 sAudioScrPrtSel = 0;
+u8 sAudioScrPrtInd = 0;
+u8 sAudioScrPrtOverflow = 0;
+s8 sAudioScrPrtX = 26;
+s8 sAudioScrPrtY = 1;
+u8 sAudioScrPrtWork[11] = {1, 19, 6, 0, 0, 0, 0, 0, 0, 0, 1};
+u8 sAudioScrPrtWorkLims[11] = {2, SCROLL_PRINT_BUF_SIZE, 8, 2, 2, 2, 2, 2, 2, 2, 2};
+u8 sAudioSubTrackInfoSpec = 0;
+u8 sAudioSEFlagSwapIsEditing = 0;
+u8 sAudioSEFlagSwapSel = 0;
+u8 sAudioSEFlagSwapNibbleSel = 0;
+char sAudioSEFlagSwapModeNames[2][5] = {"SWAP", "ADD"};
+u8 sAudioSEParamChgSel = 0;
+u8 sAudioSEParamChgBitSel = 0;
+u16 sAudioSEParamChgWork[4] = {0};
+u8 sAudioSubTrackInfoPlayerSel = 0;
+u8 sAudioSubTrackInfoChannelSel = 0;
+u8 sSeqPlayerPeakNumLayers[20] = {0};
+char sAudioSceneNames[3][2] = {"A", "S", "X"};
+u8 sAudioBlkChgBgmWork[2] = {0};
+u8 sAudioBlkChgBgmSel = 0;
+char sBoolStrs[3][5] = {"OFF", "ON", "STBY"};
+u8 sAudioNatureFailed = 0;
+u8 sPeakNumNotes = 0;
 
 void AudioDebug_SetInput(void) {
     Input inputs[4];
@@ -3461,6 +3459,7 @@ void func_800F510C(s8 volSplit) {
     }
 }
 #else
+u8 D_80131F6C[2] = {0, 3};
 void func_800F510C(s8 volSplit);
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F510C.s")
 #endif
