@@ -19,6 +19,4 @@ typedef struct EnMs {
 } EnMs; // size = 0x0250
 
 
-extern const ActorInit En_Ms_InitVars;
-
 #endif

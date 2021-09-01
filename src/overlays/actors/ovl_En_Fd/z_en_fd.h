@@ -50,6 +50,4 @@ typedef struct EnFd {
     /* 0x0620 */ EnFdEffect effects[200];
 } EnFd; // size = 0x31E0
 
-extern const ActorInit En_Fd_InitVars;
-
 #endif

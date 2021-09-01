@@ -15,6 +15,4 @@ typedef struct ObjLift {
     /* 0x016E */ s16 timer;
 } ObjLift; // size = 0x0170
 
-extern const ActorInit Obj_Lift_InitVars;
-
 #endif

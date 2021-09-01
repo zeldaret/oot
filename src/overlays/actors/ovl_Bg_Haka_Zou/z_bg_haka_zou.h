@@ -17,6 +17,4 @@ typedef struct BgHakaZou {
     /* 0x016C */ ColliderCylinder collider;
 } BgHakaZou; // size = 0x01B8
 
-extern const ActorInit Bg_Haka_Zou_InitVars;
-
 #endif

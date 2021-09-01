@@ -18,6 +18,4 @@ typedef struct BgSpot06Objects {
     /* 0x0190 */ ColliderJntSphElement colliderItem[1];
 } BgSpot06Objects; // size = 0x01D0
 
-extern const ActorInit Bg_Spot06_Objects_InitVars;
-
 #endif

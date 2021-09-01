@@ -37,6 +37,4 @@ typedef struct EnDaiku {
     /* 0x0340 */ Vec3f initPos;
 } EnDaiku; // size = 0x034C
 
-extern const ActorInit En_Daiku_InitVars;
-
 #endif

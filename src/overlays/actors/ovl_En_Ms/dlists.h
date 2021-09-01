@@ -4,6 +4,4 @@
 #include "ultra64.h"
 #include "global.h"
 
-extern const ActorInit InitVars;
-
 #endif

@@ -29,6 +29,4 @@ typedef enum {
     /*  1 */ FISH_SWIMMING_UNIQUE // Used in grottos
 } EnFishType;
 
-extern const ActorInit En_Fish_InitVars;
-
 #endif

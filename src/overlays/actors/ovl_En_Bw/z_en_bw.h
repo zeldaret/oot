@@ -44,6 +44,4 @@ typedef struct EnBw {
     /* 0x02E0 */ ColliderCylinder collider2;
 } EnBw; // size = 0x032C
 
-extern const ActorInit En_Bw_InitVars;
-
 #endif

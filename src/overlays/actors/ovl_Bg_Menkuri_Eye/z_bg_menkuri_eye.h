@@ -13,6 +13,4 @@ typedef struct BgMenkuriEye {
     /* 0x0170 */ ColliderJntSphElement colliderItems[1];
 } BgMenkuriEye; // size = 0x01B0
 
-extern const ActorInit Bg_Menkuri_Eye_InitVars;
-
 #endif

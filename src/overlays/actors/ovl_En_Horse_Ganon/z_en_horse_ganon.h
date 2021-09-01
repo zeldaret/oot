@@ -24,6 +24,4 @@ typedef struct EnHorseGanon {
     /* 0x0268 */ ColliderJntSphElement headElements[1];
 } EnHorseGanon; // size = 0x02A8
 
-extern const ActorInit En_Horse_Ganon_InitVars;
-
 #endif

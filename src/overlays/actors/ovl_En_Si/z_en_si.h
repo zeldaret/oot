@@ -15,6 +15,4 @@ typedef struct EnSi {
     /* 0x019C */ u8 unk_19C;
 } EnSi; // size = 0x01A0
 
-extern const ActorInit En_Si_InitVars;
-
 #endif

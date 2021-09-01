@@ -26,6 +26,4 @@ typedef struct EnPoDesert {
     /* 0x0238 */ ColliderCylinder collider;
 } EnPoDesert; // size = 0x0284
 
-extern const ActorInit En_Po_Desert_InitVars;
-
 #endif
