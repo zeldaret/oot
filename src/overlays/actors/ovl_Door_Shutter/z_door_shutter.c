@@ -581,7 +581,7 @@ void func_80997528(DoorShutter* this, GlobalContext* globalCtx) {
 }
 
 void func_80997568(DoorShutter* this, GlobalContext* globalCtx) {
-    if ((this->unk_16F++ < 0x1F) ^ 1) {
+    if (this->unk_16F++ > 30) {
         func_8002DF54(globalCtx, NULL, 7);
         DoorShutter_SetupDoor(this, globalCtx);
     }
