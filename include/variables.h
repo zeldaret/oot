@@ -452,7 +452,7 @@ extern OcarinaSongInfo gOcarinaSongNotes[];
 //extern ? D_80131C84;
 //extern ? D_80131C88;
 //extern ? D_80131F6C;
-extern Struct_8013331C *D_8013331C[];
+extern SoundParams* gSoundParams[7];
 //extern ? D_80133344;
 extern char D_80133390[];
 extern char D_80133398[];

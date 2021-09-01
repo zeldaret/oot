@@ -1321,6 +1321,8 @@ f32 D_80131C8C = 0.0f;
 
 // === Audio Debugging ===
 
+// These variables come between in-function statics in func_800EE824 and func_800F510C
+
 f32 sAudioUpdateDuration = 0.0f;
 f32 sAudioUpdateDurationMax = 0.0f;
 u8 sAudioDebugEverOpened = 0;
@@ -1485,7 +1487,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             while (i != 0xFF) {
                 GfxPrint_SetPos(printer, 3, 7 + j++);
                 GfxPrint_Printf(printer, "%02x %04x %02x %08x", i, gSoundBanks[ind][i].sfxId,
-                                gSoundBanks[ind][i].unk_2A, gSoundBanks[ind][i].unk_20);
+                                gSoundBanks[ind][i].unk_2A, gSoundBanks[ind][i].priority);
                 i = gSoundBanks[ind][i].next;
             }
             break;
@@ -1549,7 +1551,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                     if (sAudioIntInfoBankPage[k] == 1) {
                         if ((entryIndex != 0xFF) && ((entry->unk_2A == 4) || (entry->unk_2A == 5))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %02X %04X %04X", entryIndex, (s32)*entry->posX,
-                                            (s32)*entry->posY, (s32)*entry->posZ, entry->unk_24, entry->unk_26,
+                                            (s32)*entry->posY, (s32)*entry->posZ, entry->sfxImportance, entry->sfxParams,
                                             entry->sfxId);
                         } else {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- -- ---- ----");
@@ -1993,15 +1995,15 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 20, 6);
             GfxPrint_Printf(printer, "       : %04x",
-                            D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_2);
+                            gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].params);
 
             GfxPrint_SetPos(printer, 3, 6);
             GfxPrint_Printf(
                 printer, "SE SW    %s",
-                AudioDebug_ToStringBinary(D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_2, 16));
+                AudioDebug_ToStringBinary(gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].params, 16));
 
             SETCOL(127, 255, 127);
-            digitStr[0] = (char)('0' + ((D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_2 >>
+            digitStr[0] = (char)('0' + ((gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].params >>
                                          (15 - sAudioSEParamChgBitSel)) &
                                         1));
             GfxPrint_SetPos(printer, 12 + sAudioSEParamChgBitSel, 6);
@@ -2010,7 +2012,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 7);
             GfxPrint_Printf(printer, "SE PR  : %02x",
-                            D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_0);
+                            gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].importance);
             break;
 
         case PAGE_FREE_AREA:
@@ -2524,7 +2526,7 @@ void AudioDebug_ProcessInput_SEParamChg(void) {
                 sAudioSEParamChgWork[sAudioSEParamChgSel] &= 0x1FF;
             }
         } else if (sAudioSEParamChgSel == 3) {
-            D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_0 -= step;
+            gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].importance -= step;
         } else {
             sAudioSEParamChgBitSel = (sAudioSEParamChgBitSel - 1) & 0xF;
         }
@@ -2543,7 +2545,7 @@ void AudioDebug_ProcessInput_SEParamChg(void) {
                 sAudioSEParamChgWork[sAudioSEParamChgSel] &= 0x1FF;
             }
         } else if (sAudioSEParamChgSel == 3) {
-            D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_0 += step;
+            gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].importance += step;
         } else {
             sAudioSEParamChgBitSel = (sAudioSEParamChgBitSel + 1) & 0xF;
         }
@@ -2560,7 +2562,7 @@ void AudioDebug_ProcessInput_SEParamChg(void) {
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_CDOWN)) {
         if (sAudioSEParamChgSel == 2) {
-            D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_2 ^= (1 << (0xF - sAudioSEParamChgBitSel));
+            gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].params ^= (1 << (0xF - sAudioSEParamChgBitSel));
         }
     }
 
@@ -2722,14 +2724,14 @@ f32 func_800F3188(u8 bankIdx, u8 entryIdx) {
     f32 phi_f0;
     f32 ret;
 
-    if (bankEntry->unk_26 & 0x2000) {
+    if (bankEntry->sfxParams & 0x2000) {
         return 1.0f;
     }
 
     if (bankEntry->dist > 10000.0f) {
         ret = 0.0f;
     } else {
-        switch (bankEntry->unk_26 & 3) {
+        switch (bankEntry->sfxParams & 3) {
             case 1:
                 phi_f0 = 666.6667f;
                 break;
@@ -2765,7 +2767,7 @@ s8 Audio_ComputeSoundReverb(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     SoundBankEntry* entry = &gSoundBanks[bankIdx][entryIdx];
     s32 reverb;
 
-    if (!(entry->unk_26 & 0x1000)) {
+    if (!(entry->sfxParams & 0x1000)) {
         if (entry->dist < 2500.0f) {
             distAdd = *entry->posZ > 0.0f ? (entry->dist / 2500.0f) * 70.0f : (entry->dist / 2500.0f) * 91.0f;
         } else {
@@ -2841,7 +2843,7 @@ f32 Audio_ComputeSoundFreqScale(u8 bankIdx, u8 entryIdx) {
     f32 unk1C;
     f32 freq = 1.0f;
 
-    if (entry->unk_26 & 0x4000) {
+    if (entry->sfxParams & 0x4000) {
         freq = 1.0f - ((gAudioContext.audioRandom & 0xF) / 192.0f);
     }
 
@@ -2865,14 +2867,14 @@ f32 Audio_ComputeSoundFreqScale(u8 bankIdx, u8 entryIdx) {
     }
 
     if (phi_v0 == 1) {
-        if (!(entry->unk_26 & 0x800)) {
+        if (!(entry->sfxParams & 0x800)) {
             freq *= (1.0293 - ((gAudioContext.audioRandom & 0xF) / 144.0f));
         }
     }
 
     unk1C = entry->dist;
-    if (!(entry->unk_26 & 0x2000)) {
-        if (!(entry->unk_26 & 0x8000)) {
+    if (!(entry->sfxParams & 0x2000)) {
+        if (!(entry->sfxParams & 0x8000)) {
             if (unk1C >= 10000.0f) {
                 freq += 0.2f;
             } else {
@@ -2881,7 +2883,7 @@ f32 Audio_ComputeSoundFreqScale(u8 bankIdx, u8 entryIdx) {
         }
     }
 
-    if (entry->unk_26 & 0xC0) {
+    if (entry->sfxParams & 0xC0) {
         freq += (entry->unk_2F / 192.0f);
     }
 
@@ -2910,12 +2912,12 @@ u8 func_800F37B8(f32 arg0, SoundBankEntry* arg1, s8 arg2) {
     }
 
     if (phi_v1 == 0) {
-        if (arg1->unk_26 & 0x200) {
+        if (arg1->sfxParams & 0x200) {
             phi_v1 = 0xF;
         }
     }
 
-    switch (arg1->unk_26 & 3) {
+    switch (arg1->sfxParams & 3) {
         case 1:
             phi_f0 = 12.0f;
             break;
@@ -2935,7 +2937,7 @@ u8 func_800F37B8(f32 arg0, SoundBankEntry* arg1, s8 arg2) {
     return (phi_v1 * 0x10) + (u8)((phi_f0 * phi_f12) / 1923.077f);
 }
 
-s8 func_800F3990(f32 arg0, u16 arg1) {
+s8 func_800F3990(f32 arg0, u16 sfxParams) {
     s8 ret = 0;
 
     if (arg0 >= 0.0f) {
@@ -2968,7 +2970,7 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
         case BANK_ENEMY:
         case BANK_VOICE:
             if (D_80130604 == 2) {
-                sp38 = func_800F3990(*entry->posY, entry->unk_26);
+                sp38 = func_800F3990(*entry->posY, entry->sfxParams);
             }
             // fallthrough
         case BANK_OCARINA:
@@ -2978,8 +2980,8 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->unk_C);
             freqScale = Audio_ComputeSoundFreqScale(bankIdx, entryIdx) * *entry->freqScale;
             if (D_80130604 == 2) {
-                sp34 = D_801305C4[(entry->unk_26 & 0x400) >> 10];
-                if (!(entry->unk_26 & 0x800)) {
+                sp34 = D_801305C4[(entry->sfxParams & 0x400) >> 10];
+                if (!(entry->sfxParams & 0x800)) {
                     if (*entry->posZ < sp34) {
                         stereoBits = 0x10;
                     }
@@ -3003,7 +3005,7 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
 
             if ((sp33 | D_80130640) != 0) {
                 sp39 = (sp33 | D_80130640);
-            } else if (D_80130604 == 2 && (entry->unk_26 & 0x2000) == 0) {
+            } else if (D_80130604 == 2 && (entry->sfxParams & 0x2000) == 0) {
                 sp39 = func_800F37B8(sp34, entry, panSigned);
             }
             break;
