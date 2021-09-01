@@ -120,7 +120,7 @@ void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
     seqChannel->transposition = 0;
     seqChannel->largeNotes = false;
     seqChannel->bookOffset = 0;
-    seqChannel->reverbBits.asByte = 0;
+    seqChannel->stereo.asByte = 0;
     seqChannel->changes.asByte = 0xFF;
     seqChannel->scriptState.depth = 0;
     seqChannel->newPan = 0x40;
@@ -144,7 +144,7 @@ void Audio_SequenceChannelInit(SequenceChannel* seqChannel) {
     seqChannel->vibratoRateChangeDelay = 0;
     seqChannel->vibratoExtentChangeDelay = 0;
     seqChannel->vibratoDelay = 0;
-    seqChannel->unk_CC = NULL;
+    seqChannel->filter = NULL;
     seqChannel->unk_20 = 0;
     seqChannel->unk_0F = 0;
     seqChannel->volume = 1.0f;
@@ -186,7 +186,7 @@ s32 Audio_SeqChannelSetLayer(SequenceChannel* seqChannel, s32 layerIdx) {
     layer->ignoreDrumPan = false;
     layer->bit1 = false;
     layer->notePropertiesNeedInit = false;
-    layer->reverbBits.asByte = 0;
+    layer->stereo.asByte = 0;
     layer->portamento.mode = 0;
     layer->scriptState.depth = 0;
     layer->noteDuration = 0x80;
@@ -427,8 +427,8 @@ void func_800E9ED8(SequenceChannelLayer* layer) {
 }
 
 s32 func_800E9F64(SequenceChannelLayer* layer, s32 arg1) {
-    if (!layer->stopSomething && layer->sound != NULL && layer->sound->sample->bits4 == 2 &&
-        layer->sound->sample->bits2 != 0) {
+    if (!layer->stopSomething && layer->sound != NULL && layer->sound->sample->codec == 2 &&
+        layer->sound->sample->medium != 0) {
         layer->stopSomething = true;
         return -1;
     }
@@ -587,7 +587,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
                 break;
 
             case 0xCD:
-                layer->reverbBits.asByte = Audio_M64ReadU8(state);
+                layer->stereo.asByte = Audio_M64ReadU8(state);
                 break;
 
             case 0xCE: {
@@ -1212,7 +1212,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         } else {
                             channel->stereoHeadsetEffects = false;
                         }
-                        channel->reverbBits.asByte = command & 0x7F;
+                        channel->stereo.asByte = command & 0x7F;
                         break;
                     case 0xD1:
                         command = (u8)parameters[0];
@@ -1275,7 +1275,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         channel->vibratoRateTarget = 0;
                         channel->vibratoRateStart = 0;
                         channel->vibratoRateChangeDelay = 0;
-                        channel->unk_CC = NULL;
+                        channel->filter = NULL;
                         channel->unk_0C = 0;
                         channel->adsr.sustain = 0;
                         channel->velocityRandomVariance = 0;
@@ -1295,18 +1295,18 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                     case 0xB0:
                         offset = (u16)parameters[0];
                         data = seqPlayer->seqData + offset;
-                        channel->unk_CC = (s16*)data;
+                        channel->filter = (s16*)data;
                         break;
                     case 0xB1:
-                        channel->unk_CC = NULL;
+                        channel->filter = NULL;
                         break;
                     case 0xB3:
                         command = parameters[0];
 
-                        if (channel->unk_CC != NULL) {
+                        if (channel->filter != NULL) {
                             lowBits = (command >> 4) & 0xF;
                             command &= 0xF;
-                            func_800DF688(channel->unk_CC, lowBits, command);
+                            func_800DF688(channel->filter, lowBits, command);
                         }
                         break;
                     case 0xB2:
@@ -1676,11 +1676,11 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0xC4:
                         command = Audio_M64ReadU8(seqScript);
                         if (command == 0xFF) {
-                            command = seqPlayer->seqVariationEu;
+                            command = seqPlayer->playerIndex;
                         }
                         commandLow = Audio_M64ReadU8(seqScript);
                         func_800E20D4(command, commandLow, 0);
-                        if (command == (u8)seqPlayer->seqVariationEu) {
+                        if (command == (u8)seqPlayer->playerIndex) {
                             return;
                         }
                         break;

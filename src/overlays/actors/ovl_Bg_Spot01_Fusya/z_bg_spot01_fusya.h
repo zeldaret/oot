@@ -17,6 +17,4 @@ typedef struct BgSpot01Fusya {
     /* 0x015C */ f32 unk_15C;
 } BgSpot01Fusya; // size = 0x0160
 
-extern const ActorInit Bg_Spot01_Fusya_InitVars;
-
 #endif

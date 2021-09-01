@@ -13,6 +13,4 @@ typedef struct EnSceneChange {
     /* 0x014C */ EnSceneChangeActionFunc actionFunc;
 } EnSceneChange; // size = 0x0150
 
-extern const ActorInit En_Scene_Change_InitVars;
-
 #endif

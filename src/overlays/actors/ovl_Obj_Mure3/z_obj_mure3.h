@@ -16,6 +16,4 @@ typedef struct ObjMure3 {
     /* 0x016C */ u16 unk_16C;
 } ObjMure3; // size = 0x0170
 
-extern const ActorInit Obj_Mure3_InitVars;
-
 #endif

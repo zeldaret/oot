@@ -23,6 +23,4 @@ typedef struct DemoExt {
     /* 0x0178 */ Vec3f scale;
 } DemoExt; // size = 0x0184
 
-extern const ActorInit Demo_Ext_InitVars;
-
 #endif

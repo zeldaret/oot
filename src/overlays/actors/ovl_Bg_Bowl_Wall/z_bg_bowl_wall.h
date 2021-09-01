@@ -19,6 +19,4 @@ typedef struct BgBowlWall {
     /* 0x0184 */ EnBomBowlMan* chuGirl;
 } BgBowlWall; // size = 0x0188
 
-extern const ActorInit Bg_Bowl_Wall_InitVars;
-
 #endif

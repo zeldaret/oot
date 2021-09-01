@@ -14,6 +14,4 @@ typedef struct BgHakaWater {
     /* 0x0150 */ u8 isLowered;
 } BgHakaWater; // size = 0x0154
 
-extern const ActorInit Bg_Haka_Water_InitVars;
-
 #endif

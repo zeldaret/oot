@@ -28,6 +28,4 @@ typedef struct EnHeishi3 {
     /* 0x027C */ ColliderCylinder collider;
 } EnHeishi3; // size = 0x02C8
 
-extern const ActorInit En_Heishi3_InitVars;
-
 #endif

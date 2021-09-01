@@ -19,6 +19,4 @@ typedef struct DemoIk {
     /* 0x01B0 */ s32 csAction;
 } DemoIk; // size = 0x01B4
 
-extern const ActorInit Demo_Ik_InitVars;
-
 #endif

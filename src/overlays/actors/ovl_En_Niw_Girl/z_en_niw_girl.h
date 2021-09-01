@@ -32,6 +32,4 @@ typedef struct EnNiwGirl {
     /* 0x02D4 */ struct_80034A14_arg1 unk_2D4;
 } EnNiwGirl; // size = 0x02FC
 
-extern const ActorInit En_Niw_Girl_InitVars;
-
 #endif

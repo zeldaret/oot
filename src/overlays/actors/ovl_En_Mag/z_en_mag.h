@@ -32,8 +32,6 @@ typedef struct EnMag {
     /* 0xE324 */ char unk_E324[0x0004];
 } EnMag; // size = 0xE328
 
-extern const ActorInit En_Mag_InitVars;
-
 typedef enum {
     /* 0x00 */ MAG_STATE_INITIAL,
     /* 0x01 */ MAG_STATE_FADE_IN,

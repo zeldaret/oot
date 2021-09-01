@@ -22,8 +22,6 @@ typedef struct DemoGj {
     /* 0x026C */ Vec3f unk_26C; // This actor never sets this. Specifies which direction will this actor explode when killed using `killFlag`.
 } DemoGj; // size = 0x0278
 
-extern const ActorInit Demo_Gj_InitVars;
-
 /**
  * The format of this actor's params is the following:
  * bits 11-15: The collectible that will be dropped when killed.

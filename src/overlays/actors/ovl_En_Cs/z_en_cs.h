@@ -34,6 +34,4 @@ typedef struct EnCs {
     /* 0x02E4 */ Vec3s morphTable[16];
 } EnCs; // size = 0x0344
 
-extern const ActorInit En_Cs_InitVars;
-
 #endif

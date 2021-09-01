@@ -3146,8 +3146,8 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* glob
 
         mtx = &bodyBreak->matrices[bodyBreak->count];
 
-        spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->wx,
-                                                    mtx->wy, mtx->wz, 0, 0, objBankIndex, type);
+        spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->xw,
+                                                    mtx->yw, mtx->zw, 0, 0, objBankIndex, type);
 
         if (spawnedEnPart != NULL) {
             Matrix_MtxFToYXZRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);

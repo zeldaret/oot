@@ -98,6 +98,4 @@ typedef struct BossDodongo {
     /* 0x0920 */ BossDodongoEffect effects[80];
 } BossDodongo; // size = 0x1820
 
-extern const ActorInit Boss_Dodongo_InitVars;
-
 #endif

@@ -11,6 +11,4 @@ typedef struct EnPubox {
     /* 0x0164 */ u32 unk_164;
 } EnPubox; // size = 0x0168
 
-extern const ActorInit En_Pu_Box_InitVars;
-
 #endif

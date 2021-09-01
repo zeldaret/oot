@@ -132,6 +132,4 @@ typedef struct BossMo {
 #define BOSSMO_CORE -1
 #define BOSSMO_TENTACLE 100
 
-extern const ActorInit Boss_Mo_InitVars;
-
 #endif

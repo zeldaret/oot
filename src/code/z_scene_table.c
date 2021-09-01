@@ -1,5 +1,8 @@
 #include "global.h"
 
+#include "scenes/overworld/spot00/spot00_room_0.h"
+#include "scenes/overworld/spot16/spot16_room_0.h"
+
 #define ENTRANCE(scene, spawn, continueBgm, displayTitleCard, fadeIn, fadeOut)                                     \
     {                                                                                                              \
         scene, spawn,                                                                                              \
@@ -1839,7 +1842,7 @@ void func_8009DA30(GlobalContext* globalCtx) {
         }
 
         gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, globalCtx->roomCtx.unk_74[0]);
-        gSPDisplayList(displayListHead++, &D_03012B20);
+        gSPDisplayList(displayListHead++, spot00_room_0DL_012B20);
         gSPEndDisplayList(displayListHead);
     }
 
@@ -2190,7 +2193,7 @@ void func_8009F5D4(GlobalContext* globalCtx) {
         }
 
         gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, globalCtx->roomCtx.unk_74[0]);
-        gSPDisplayList(displayListHead++, &D_0300AA48);
+        gSPDisplayList(displayListHead++, spot16_room_0DL_00AA48);
         gSPEndDisplayList(displayListHead);
     }
 

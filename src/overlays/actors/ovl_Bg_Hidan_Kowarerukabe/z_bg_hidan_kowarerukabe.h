@@ -12,6 +12,4 @@ typedef struct BgHidanKowarerukabe {
     /* 0x0184 */ ColliderJntSphElement colliderItems[1];
 } BgHidanKowarerukabe; // size = 0x01C4
 
-extern const ActorInit Bg_Hidan_Kowarerukabe_InitVars;
-
 #endif

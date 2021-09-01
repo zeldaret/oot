@@ -21,8 +21,6 @@ typedef struct DemoDu {
     /* 0x01B0 */ s32 lastAction;
 } DemoDu; // size = 0x01B4
 
-extern const ActorInit Demo_Du_InitVars;
-
 // This is the parameter of this actor,
 typedef enum DemoDu_Cutscene {
     /* 0x00 */ DEMO_DU_CS_FIREMEDALLION, // default

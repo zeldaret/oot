@@ -19,6 +19,4 @@ typedef struct ArrowLight {
     /* 0x0168 */ ArrowLightActionFunc actionFunc;
 } ArrowLight; // size = 0x016C
 
-extern const ActorInit Arrow_Light_InitVars;
-
 #endif

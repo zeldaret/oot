@@ -106,6 +106,4 @@ typedef struct EnGo2 {
     /* 0x059C */ s16 unk_59C;
 } EnGo2; // size = 0x05A0
 
-extern const ActorInit En_Go2_InitVars;
-
 #endif

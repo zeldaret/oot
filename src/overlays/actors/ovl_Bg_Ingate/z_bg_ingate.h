@@ -13,6 +13,4 @@ typedef struct BgInGate {
     /* 0x0164 */ BgInGateActionFunc actionFunc;
 } BgInGate; // size = 0x0168
 
-extern const ActorInit Bg_Ingate_InitVars;
-
 #endif

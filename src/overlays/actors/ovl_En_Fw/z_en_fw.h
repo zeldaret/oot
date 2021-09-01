@@ -45,6 +45,4 @@ typedef struct EnFw {
     /* 0x02A0 */ EnFwEffect effects[20];
 } EnFw; // size = 0x0700
 
-extern const ActorInit En_Fw_InitVars;
-
 #endif

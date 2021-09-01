@@ -43,6 +43,4 @@ typedef struct EnPoField {
     /* 0x0290 */ ColliderCylinder flameCollider;
 } EnPoField; // size = 0x02DC
 
-extern const ActorInit En_Po_Field_InitVars;
-
 #endif

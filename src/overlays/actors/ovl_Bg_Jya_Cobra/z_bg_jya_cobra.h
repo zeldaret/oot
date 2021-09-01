@@ -24,6 +24,4 @@ typedef struct BgJyaCobra {
     /* 0x0194 */ u8 shadowTexture[0x1010];
 } BgJyaCobra; // size = 0x11A4
 
-extern const ActorInit Bg_Jya_Cobra_InitVars;
-
 #endif
