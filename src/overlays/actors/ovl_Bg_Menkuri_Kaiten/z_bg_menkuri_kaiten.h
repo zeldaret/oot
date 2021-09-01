@@ -10,6 +10,4 @@ typedef struct BgMenkuriKaiten {
     /* 0x0000 */ DynaPolyActor dyna;
 } BgMenkuriKaiten; // size = 0x0164
 
-extern const ActorInit Bg_Menkuri_Kaiten_InitVars;
-
 #endif

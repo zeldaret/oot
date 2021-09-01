@@ -19,6 +19,4 @@ typedef struct BgMoriKaitenkabe {
     /* 0x0184 */ s8 moriTexObjIndex;
 } BgMoriKaitenkabe; // size = 0x0188
 
-extern const ActorInit Bg_Mori_Kaitenkabe_InitVars;
-
 #endif

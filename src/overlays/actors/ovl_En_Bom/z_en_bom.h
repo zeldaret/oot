@@ -25,6 +25,4 @@ typedef enum {
     /* 0x01 */ BOMB_EXPLOSION
 } EnBomType;
 
-extern const ActorInit En_Bom_InitVars;
-
 #endif

@@ -60,6 +60,4 @@ typedef struct Fishing {
     /* 0x0250 */ ColliderJntSphElement colliderElements[12];
 } Fishing; // size = 0x0550
 
-extern const ActorInit Fishing_InitVars;
-
 #endif

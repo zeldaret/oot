@@ -28,6 +28,4 @@ typedef struct EnBird {
     /* 0x01C2 */ char unk_1C2[0x1A];
 } EnBird; // size = 0x01DC
 
-extern const ActorInit En_Bird_InitVars;
-
 #endif

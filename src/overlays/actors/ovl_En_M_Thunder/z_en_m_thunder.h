@@ -27,6 +27,4 @@ typedef struct EnMThunder {
     /* 0x01CA */ u8 unk_1CA;
 } EnMThunder; // size = 0x01CC
 
-extern const ActorInit En_M_Thunder_InitVars;
-
 #endif

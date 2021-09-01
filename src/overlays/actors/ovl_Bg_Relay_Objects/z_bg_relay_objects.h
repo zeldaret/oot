@@ -16,6 +16,4 @@ typedef struct BgRelayObjects {
     /* 0x016A */ s16 timer;
 } BgRelayObjects; // size = 0x016C
 
-extern const ActorInit Bg_Relay_Objects_InitVars;
-
 #endif

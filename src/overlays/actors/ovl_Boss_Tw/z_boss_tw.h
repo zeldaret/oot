@@ -135,6 +135,4 @@ typedef struct BossTw {
     /* 0x06B0 */ f32 subCamYawStep;
 } BossTw; // size = 0x06B4
 
-extern const ActorInit Boss_Tw_InitVars;
-
 #endif

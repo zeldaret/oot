@@ -15,6 +15,4 @@ typedef struct BgTreemouth {
     /* 0x016C */ BgTreemouthActionFunc actionFunc;
 } BgTreemouth; // size = 0x0170
 
-extern const ActorInit Bg_Treemouth_InitVars;
-
 #endif

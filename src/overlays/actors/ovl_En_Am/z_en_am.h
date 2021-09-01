@@ -35,6 +35,4 @@ typedef enum {
     /* 1 */ ARMOS_ENEMY
 } ArmosType;
 
-extern const ActorInit En_Am_InitVars;
-
 #endif

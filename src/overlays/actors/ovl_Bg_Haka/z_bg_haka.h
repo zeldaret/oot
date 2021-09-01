@@ -13,6 +13,4 @@ typedef struct BgHaka {
     /* 0x0164 */ BgHakaActionFunc actionFunc;
 } BgHaka; // size = 0x0168
 
-extern const ActorInit Bg_Haka_InitVars;
-
 #endif

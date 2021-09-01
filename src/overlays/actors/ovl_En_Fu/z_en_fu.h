@@ -41,6 +41,4 @@ typedef struct EnFu {
     /* 0x02AC */ EnFuActionFunc actionFunc;
 } EnFu; // size = 0x02B0
 
-extern const ActorInit En_Fu_InitVars;
-
 #endif

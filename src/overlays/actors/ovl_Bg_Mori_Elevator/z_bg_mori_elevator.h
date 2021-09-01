@@ -18,6 +18,4 @@ typedef struct BgMoriElevator {
     /* 0x0172 */ s16 unk_172;
 } BgMoriElevator; // size = 0x0174
 
-extern const ActorInit Bg_Mori_Elevator_InitVars;
-
 #endif

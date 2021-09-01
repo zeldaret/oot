@@ -13,6 +13,4 @@ typedef struct BgMizuUzu {
     /* 0x0164 */ BgMizuUzuActionFunc actionFunc;
 } BgMizuUzu; // size = 0x0168
 
-extern const ActorInit Bg_Mizu_Uzu_InitVars;
-
 #endif

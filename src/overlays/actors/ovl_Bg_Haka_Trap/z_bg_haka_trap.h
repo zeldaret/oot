@@ -29,6 +29,4 @@ typedef struct BgHakaTrap {
     /* 0x01E4 */ ColliderTrisElement colliderSpikesItem[2];
 } BgHakaTrap; // size = 0x029C
 
-extern const ActorInit Bg_Haka_Trap_InitVars;
-
 #endif

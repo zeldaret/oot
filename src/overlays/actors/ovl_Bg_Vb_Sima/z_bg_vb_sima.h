@@ -19,6 +19,4 @@ typedef struct BgVbSima {
     /* 0x0176 */ char unk_176[6];
 } BgVbSima; // size = 0x017C
 
-extern const ActorInit Bg_Vb_Sima_InitVars;
-
 #endif

@@ -57,8 +57,6 @@ typedef struct EnVali {
     /* 0x03FC */ ColliderCylinder bodyCollider;
 } EnVali; // size = 0x0448
 
-extern const ActorInit En_Vali_InitVars;
-
 typedef enum {
     /* 0 */ BARI_TYPE_NORMAL,
     /* 1 */ BARI_TYPE_SWORD_DAMAGE

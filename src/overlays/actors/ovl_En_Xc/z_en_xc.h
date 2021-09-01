@@ -142,6 +142,4 @@ typedef struct EnXc {
     /* 0x0314 */ struct_80034A14_arg1 npcInfo;
 } EnXc; // size = 0x033C
 
-extern const ActorInit En_Xc_InitVars;
-
 #endif

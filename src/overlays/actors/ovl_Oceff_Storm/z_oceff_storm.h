@@ -18,6 +18,4 @@ typedef struct OceffStorm {
     /* 0x0154 */ OceffStormActionFunc actionFunc;
 } OceffStorm; // size = 0x0158
 
-extern const ActorInit Oceff_Storm_InitVars;
-
 #endif

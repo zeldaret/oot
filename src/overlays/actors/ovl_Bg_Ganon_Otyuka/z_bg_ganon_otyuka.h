@@ -32,6 +32,4 @@ typedef struct BgGanonOtyuka {
     /* 0x0188 */ f32 flashEnvColorB;
 } BgGanonOtyuka; // size = 0x018C
 
-extern const ActorInit Bg_Ganon_Otyuka_InitVars;
-
 #endif

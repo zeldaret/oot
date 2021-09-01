@@ -42,6 +42,4 @@ typedef struct EnNiwLady {
     /* 0x02B0 */ ColliderCylinder collider;
 } EnNiwLady; // size = 0x02FC
 
-extern const ActorInit En_Niw_Lady_InitVars;
-
 #endif
