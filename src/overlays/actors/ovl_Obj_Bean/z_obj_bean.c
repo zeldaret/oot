@@ -135,8 +135,7 @@ void ObjBean_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
 }
 
-void ObjBean_InitDynaPoly(ObjBean* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                          DynaPolyMoveFlag moveFlag) {
+void ObjBean_InitDynaPoly(ObjBean* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader;
     s32 pad2;

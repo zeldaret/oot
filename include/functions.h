@@ -681,7 +681,7 @@ void BgCheck_DrawDynaCollision(GlobalContext*, CollisionContext*);
 void BgCheck_DrawStaticCollision(GlobalContext*, CollisionContext*);
 void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId);
 s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor);
-void DynaPolyActor_Init(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags);
+void DynaPolyActor_Init(DynaPolyActor* dynaActor, s32 flags);
 void func_800434A0(DynaPolyActor* dynaActor);
 void func_800434A8(DynaPolyActor* dynaActor);
 void func_800434C8(CollisionContext* colCtx, s32 floorBgId);

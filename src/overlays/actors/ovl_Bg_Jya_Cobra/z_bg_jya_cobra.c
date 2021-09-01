@@ -132,8 +132,7 @@ void func_808958F0(Vec3f* dest, Vec3f* src, f32 arg2, f32 arg3) {
     dest->z = (src->z * arg3) - (src->x * arg2);
 }
 
-void BgJyaCobra_InitDynapoly(BgJyaCobra* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                             DynaPolyMoveFlag flags) {
+void BgJyaCobra_InitDynapoly(BgJyaCobra* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
