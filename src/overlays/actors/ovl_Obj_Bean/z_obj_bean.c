@@ -571,9 +571,9 @@ void func_80B8FE6C(ObjBean* this) {
 
 // The leaves are visable and growing
 void func_80B8FEAC(ObjBean* this, GlobalContext* globalCtx) {
-    s32 temp_v1;
+    s32 temp_v1 = true;
 
-    temp_v1 = Math_StepToF(&this->dyna.actor.scale.y, 0.16672663f, 0.01f) & 1;
+    temp_v1 &= Math_StepToF(&this->dyna.actor.scale.y, 0.16672663f, 0.01f);
     temp_v1 &= Math_StepToF(&this->dyna.actor.scale.x, 0.03569199f, 0.00113f);
 
     this->dyna.actor.scale.z = this->dyna.actor.scale.x;
