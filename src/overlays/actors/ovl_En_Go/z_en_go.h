@@ -58,6 +58,4 @@ typedef struct EnGo {
     /* 0x0268 */ EnGoEffect dustEffects[20];
 } EnGo; // size = 0x06C8
 
-extern const ActorInit En_Go_InitVars;
-
 #endif

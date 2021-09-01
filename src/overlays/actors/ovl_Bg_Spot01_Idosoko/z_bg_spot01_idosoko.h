@@ -13,6 +13,4 @@ typedef struct BgSpot01Idosoko {
     /* 0x0164 */ BgSpot01IdosokoActionFunc actionFunc;
 } BgSpot01Idosoko; // size = 0x0168
 
-extern const ActorInit Bg_Spot01_Idosoko_InitVars;
-
 #endif

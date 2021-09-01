@@ -26,6 +26,4 @@ typedef struct BgSpot03Taki {
     /* 0x0174 */ u8 bufferIndex;
 } BgSpot03Taki; // size = 0x0178
 
-extern const ActorInit Bg_Spot03_Taki_InitVars;
-
 #endif

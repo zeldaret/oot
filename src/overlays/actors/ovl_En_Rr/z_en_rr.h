@@ -59,6 +59,4 @@ typedef struct EnRr {
     /* 0x03C4 */ char unk_3C4[0x2000]; //! @bug This is a huge amount of wasted memory.
 } EnRr; // size = 0x23C4
 
-extern const ActorInit En_Rr_InitVars;
-
 #endif

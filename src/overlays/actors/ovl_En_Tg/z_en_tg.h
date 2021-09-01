@@ -18,6 +18,4 @@ typedef struct EnTg {
     /* 0x0208 */ u8 nextDialogue;
 } EnTg; // size = 0x020C
 
-extern const ActorInit En_Tg_InitVars;
-
 #endif

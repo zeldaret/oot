@@ -15,6 +15,4 @@ typedef struct ObjMakekinsuta {
     /* 0x152  */ s16 unk_152;
 } ObjMakekinsuta; // size = 0x0154
 
-extern const ActorInit Obj_Makekinsuta_InitVars;
-
 #endif

@@ -15,6 +15,4 @@ typedef struct DemoShd {
     /* 0x0150 */ DemoShdActionFunc actionFunc;
 } DemoShd; // size = 0x0154
 
-extern const ActorInit Demo_Shd_InitVars;
-
 #endif

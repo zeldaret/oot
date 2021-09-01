@@ -57,6 +57,4 @@ typedef struct EnGSwitch {
     /* 0x01C8 */ EnGSwitchEffect effects[100];
 } EnGSwitch; // size = 0x12F8
 
-extern const ActorInit En_G_Switch_InitVars;
-
 #endif

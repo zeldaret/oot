@@ -30,6 +30,4 @@ typedef struct DemoIm {
     /* 0x02D4 */ struct_80034A14_arg1 unk_2D4;
 } DemoIm; // size = 0x02FC
 
-extern const ActorInit Demo_Im_InitVars;
-
 #endif

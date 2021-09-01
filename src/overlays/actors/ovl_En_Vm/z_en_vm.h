@@ -37,6 +37,4 @@ typedef enum {
     /* 0x01 */ BEAMOS_SMALL
 } BeamosType;
 
-extern const ActorInit En_Vm_InitVars;
-
 #endif

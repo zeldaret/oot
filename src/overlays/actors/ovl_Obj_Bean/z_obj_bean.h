@@ -38,6 +38,4 @@ typedef struct ObjBean {
     /* 0x01F7 */ u8 stateFlags;
 } ObjBean; // size = 0x01F8
 
-extern const ActorInit Obj_Bean_InitVars;
-
 #endif

@@ -190,13 +190,13 @@ void func_80B86F68(ItemShield* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     MtxF* shield = &player->shieldMf;
 
-    this->actor.world.pos.x = shield->wx;
-    this->actor.world.pos.y = shield->wy;
-    this->actor.world.pos.z = shield->wz;
+    this->actor.world.pos.x = shield->xw;
+    this->actor.world.pos.y = shield->yw;
+    this->actor.world.pos.z = shield->zw;
     this->unk_19C &= ~2;
 
-    this->actor.shape.rot.y = Math_Atan2S(-shield->zz, -shield->zx);
-    this->actor.shape.rot.x = Math_Atan2S(-shield->zy, sqrtf(shield->zz * shield->zz + shield->zx * shield->zx));
+    this->actor.shape.rot.y = Math_Atan2S(-shield->zz, -shield->xz);
+    this->actor.shape.rot.x = Math_Atan2S(-shield->yz, sqrtf(shield->zz * shield->zz + shield->xz * shield->xz));
 
     if (ABS(this->actor.shape.rot.x) > 0x4000) {
         this->unk_19C |= 1;

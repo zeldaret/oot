@@ -1387,37 +1387,37 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
         }
 
         mf->xx = temp1;
-        mf->xy = -nx * temp2;
-        mf->xz = nx * temp3;
-        mf->yx = nx;
+        mf->yx = -nx * temp2;
+        mf->zx = nx * temp3;
+        mf->xy = nx;
         mf->yy = ny;
-        mf->yz = nz;
-        mf->zy = temp3;
+        mf->zy = nz;
+        mf->yz = temp3;
         mf->zz = temp2;
-        mf->xw = 0.0f;
-        mf->yw = 0.0f;
-        mf->zx = 0.0f;
-        mf->zw = 0.0f;
-        mf->wx = vec->x;
-        mf->wy = floorY;
-        mf->wz = vec->z;
+        mf->wx = 0.0f;
+        mf->wy = 0.0f;
+        mf->xz = 0.0f;
+        mf->wz = 0.0f;
+        mf->xw = vec->x;
+        mf->yw = floorY;
+        mf->zw = vec->z;
         mf->ww = 1.0f;
     } else {
-        mf->yx = 0.0f;
-        mf->xz = 0.0f;
         mf->xy = 0.0f;
-        mf->xx = 0.0f;
-        mf->zw = 0.0f;
         mf->zx = 0.0f;
-        mf->yw = 0.0f;
-        mf->xw = 0.0f;
+        mf->yx = 0.0f;
+        mf->xx = 0.0f;
+        mf->wz = 0.0f;
+        mf->xz = 0.0f;
+        mf->wy = 0.0f;
+        mf->wx = 0.0f;
         mf->zz = 0.0f;
-        mf->zy = 0.0f;
         mf->yz = 0.0f;
+        mf->zy = 0.0f;
         mf->yy = 1.0f;
-        mf->wx = vec->x;
-        mf->wy = vec->y;
-        mf->wz = vec->z;
+        mf->xw = vec->x;
+        mf->yw = vec->y;
+        mf->zw = vec->z;
         mf->ww = 1.0f;
     }
 
@@ -1487,7 +1487,7 @@ void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
     Matrix_MultVec3f(src, dest);
 
     temp = globalCtx->mf_11D60.ww +
-           (globalCtx->mf_11D60.xw * src->x + globalCtx->mf_11D60.yw * src->y + globalCtx->mf_11D60.zw * src->z);
+           (globalCtx->mf_11D60.wx * src->x + globalCtx->mf_11D60.wy * src->y + globalCtx->mf_11D60.wz * src->z);
 
     dest->x = 160.0f + ((dest->x / temp) * 160.0f);
     dest->y = 120.0f - ((dest->y / temp) * 120.0f);

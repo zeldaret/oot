@@ -19,6 +19,4 @@ typedef struct EnMu {
     /* 0x022A */ s16 unk_22A[17];
 } EnMu; // size = 0x024C
 
-extern const ActorInit En_Mu_InitVars;
-
 #endif

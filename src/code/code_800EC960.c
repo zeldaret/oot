@@ -2,20 +2,20 @@
 #include "global.h"
 
 typedef struct {
-    f32 unk_00;
-    f32 freqScale;
-    s8 reverb;
-    s8 panSigned;
-    s8 stereoBits;
-    u8 unk_0B;
-    u8 unk_0C;
+    /* 0x0 */ f32 unk_00;
+    /* 0x4 */ f32 freqScale;
+    /* 0x8 */ s8 reverb;
+    /* 0x9 */ s8 panSigned;
+    /* 0xA */ s8 stereoBits;
+    /* 0xB */ u8 unk_0B;
+    /* 0xC */ u8 unk_0C;
 } unk_s1;
 
 typedef struct {
-    f32 value;
-    f32 target;
-    f32 step;
-    s32 remainingFrames;
+    /* 0x0 */ f32 value;
+    /* 0x4 */ f32 target;
+    /* 0x8 */ f32 step;
+    /* 0xC */ s32 remainingFrames;
 } FreqLerp;
 
 typedef struct {
@@ -43,151 +43,6 @@ typedef enum {
     /* 0xF */ PAGE_MAX
 } AudioDebugPage;
 
-#define SCROLL_PRINT_BUF_SIZE 25
-
-extern f32 D_8012F6B4[]; // from audio_synthesis
-
-// stick float vals
-extern f32 D_801305B0;
-extern s8 D_801305B4;
-extern s8 D_801305B8;
-extern s8 D_801305BC;
-extern s8 D_801305C0;
-extern f32 D_801305C4[2];            // = {-15.0f, -65.0f}
-extern u8 sAudioIncreasingTranspose; // = 0
-extern u8 gMorphaTransposeTable[16]; // = {0, 0, 0, 1, 1, 2, 4, 6, 8, 8, 8, 8, 8, 8, 8, 8}
-extern u8 sPrevChargeLevel;          // = 0
-extern f32 D_801305E4[4];            // = {1.0f, 1.12246f, 1.33484f, 1.33484f} = 2**({0, 2, 5, 5}/12)
-extern f32 D_801305F4;               // = 1.0f
-extern u8 D_801305F8[8];             // = {127, 80, 75, 73, 70, 68, 65, 60}
-extern u8 D_80130600;                // = 0
-extern s8 D_80130604;                // = 2
-extern s8 D_80130608;                // = 0
-extern s8 sAudioCutsceneFlag;        // = 0
-extern s8 sSpecReverb;               // = 0
-extern s8 sAudioEnvReverb;           // = 0
-extern s8 sAudioCodeReverb;          // = 0
-extern u8 D_8013061C;                // = 0
-extern f32 sAudioEnemyDist;          // = 0.0f
-extern s8 sAudioEnemyVol;            // = 127
-extern u16 D_80130628;               // = 0xFFFF
-extern u8 D_8013062C;                // = 0
-extern u8 D_80130630;                // = 0
-extern u32 D_80130634;               // = 0
-extern u32 D_80130638;               // = 0
-extern u8 D_8013063C;                // = 0
-extern u8 D_80130640;                // = 0
-extern u8 D_80130644;                // = 0
-extern u8 D_80130648;                // = 0
-extern Vec3f* sSariaBgmPtr;          // = 0
-extern f32 D_80130650;               // = 2000.0f
-extern u8 D_80130654;                // = 0
-extern u8 D_80130658[];              // 0x6D <= size <= 0x70
-extern s8 sSpecReverbs[20];          // = {0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-extern D_801306DC_s D_801306DC[20];
-extern u32 sOcarinaAllowedBtnMask; // 80130EFC
-extern s32 sOcarinaABtnMap;        // 80130F00
-extern s32 sOcarinaCUPBtnMap;      // 80130F04
-extern s32 sOcarinaCDownBtnMap;    // 80130F08
-extern u8 sOcarinaInpEnabled;      // 80130F0C
-extern s8 D_80130F10;              // "OCA", ocarina active?
-extern u8 sCurOcarinaBtnVal;       // 80130F14
-extern u8 sPrevOcarinaNoteVal;     // 80130F18
-extern u8 sCurOcarinaBtnIdx;       // 80130F1C, note index?
-extern u8 sLearnSongLastBtn;       // 80130F20
-extern f32 D_80130F24;
-extern f32 D_80130F28;
-extern s8 D_80130F2C; // pitch?
-extern s8 D_80130F30;
-extern s8 D_80130F34;
-extern u8 sPlaybackState; // 80130F38
-extern u32 D_80130F3C;    // "SEQ"
-extern u32 sNotePlaybackTimer;
-extern u16 sPlaybackNotePos;
-extern u16 sStaffPlaybackPos;
-extern u16 D_80130F4C;
-extern u8 sDisplayedNoteValue; // Note to display on screen?
-extern u8 sNotePlaybackVolume;
-extern u8 sNotePlaybackVibrato;
-extern s8 sNotePlaybackTone;
-extern f32 sNormalizedNotePlaybackTone;
-extern f32 sNormalizedNotePlaybackVolume;
-extern s32 D_80130F68;
-extern u8 sOcarinaNoteValues[5];
-extern u8 sOcaMinigameApndPos;
-extern u8 sOcaMinigameEndPos;
-extern u8 sOcaMinigameNoteCnts[];     // <= 4
-extern OcarinaSong sOcarinaSongs[14]; // 80130F80
-extern OcarinaSong* sPlaybackSong;
-// extern u8 D_80131844[];
-// extern u8* gFrogsSongPtr = D_80131844;
-extern u8 D_80131858; // "REC"
-extern u8 sRecordSongPos;
-extern u32 D_80131860;
-extern u8 D_80131864;
-extern u8 D_80131868;
-extern u8 D_8013186C;
-extern s8 D_80131870;
-extern u8 D_80131874;
-extern u8 D_80131878;
-extern u8 D_8013187C;
-extern u8 D_80131880;
-extern OcarinaSong sPierresSong;
-// extern OcarinaNote* gScarecrowCustomSongPtr = &sPierresSong;
-// extern OcarinaNote* gScarecrowSpawnSongPtr = &sOcarinaSongs[12];
-extern OcarinaSong* D_80131BEC;   // = &sOcarinaSongs[13];
-extern u8 sNoteValueIndexMap[16]; // = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 5, 3, 3, 4, 4, 4}
-// extern OcarinaSongInfo gOcarinaSongNotes[14];
-// D_80131C80 .. 88 are in-function static in func_800EE824
-extern f32 D_80131C8C;
-
-// Debug variables (separate file?):
-extern f32 sAudioUpdateDuration;    // = 0
-extern f32 sAudioUpdateDurationMax; // = 0
-extern u8 sAudioDebugEverOpened;    // = 0
-extern u8 sAudioSEMuted;            // = 0
-extern u8 sAudioDebugPage;          // = 0
-extern u8 sAudioSndContSel;         // = 0
-extern u8 sAudioDebugTextColor;     // = 0
-extern char sAudioDebugPageNames[15][23];
-/* = {"Non", "Sound Control", "Spec Info", "Heap Info", "Grp Track Info", "Sub Track Info",
- * "Channel Info", "Interface Info", "SE Flag Swap", "Block Change BGM", "Natural Sound Control",
- * "Ocarina Test", "SE Parameter Change", "Scroll Print", "Free Area"} */
-extern u16 sAudioSndContWork[11];     // = {0}
-extern u16 sAudioSndContWorkLims[11]; // = {128, 128, 7, 512, 4, 2, 16, 32, 2, 2, 2}
-extern char sSoundBankNames[7][11];
-// = {"PLAYER", "PLAYER", "ITEM", "ENVIROMENT", "ENEMY", "SYSTEM", "OCARINA", "VOICE"}
-extern char sSoundModeNames[4][10];          // = {"W-STEREO", "HEADPHONE", "3D SOUND", "MONO"}
-extern s8 sAudioIntInfoX;                    // = 0
-extern s8 sAudioIntInfoY;                    // = 0
-extern s8 sAudioIntInfoSel;                  // = 0
-extern s8 sAudioIntInfoBankPage[7];          // = {0, 0, 2, 2, 0, 0, 0}
-extern u8 sAudioScrPrtSel;                   // = 0
-extern u8 sAudioScrPrtInd;                   // = 0
-extern u8 sAudioScrPrtOverflow;              // = 0
-extern s8 sAudioScrPrtX;                     // = 26
-extern s8 sAudioScrPrtY;                     // = 1
-extern u8 sAudioScrPrtWork[11];              // = {1, 19, 6, 0, 0, 0, 0, 0, 0, 0, 1}
-extern u8 sAudioScrPrtWorkLims[11];          // = {2, SCROLL_PRINT_BUF_SIZE, 8, 2, 2, 2, 2, 2, 2, 2, 2}
-extern u8 sAudioSubTrackInfoSpec;            // = 0
-extern u8 sAudioSEFlagSwapIsEditing;         // = 0
-extern u8 sAudioSEFlagSwapSel;               // = 0
-extern u8 sAudioSEFlagSwapNibbleSel;         // = 0
-extern char sAudioSEFlagSwapModeNames[2][5]; // = {"SWAP", "ADD"}
-extern u8 sAudioSEParamChgSel;               // = 0
-extern u8 sAudioSEParamChgBitSel;            // = 0
-extern u16 sAudioSEParamChgWork[2];          // = {0}
-extern u8 sAudioSubTrackInfoPlayerSel;       // = 0
-extern u8 sAudioSubTrackInfoChannelSel;      // = 0
-extern u8 sSeqPlayerPeakNumLayers[4];        // = {0}
-extern char sAudioSceneNames[3][2];          // = {"A", "S", "X"}
-extern u8 sAudioBlkChgBgmWork[2];            // = {0}
-extern u8 sAudioBlkChgBgmSel;                // = 0
-extern char sBoolStrs[3][5];                 // = {"OFF", "ON", "STBY"}
-extern u8 sAudioNatureFailed;                // = 0
-extern u8 sPeakNumNotes;                     // = 0
-// D_80131F6C is in-function static in func_800F510C
-
 /** bit field of songs that can be played
  * 0x0800 storms
  * 0x0400 song of time
@@ -202,6 +57,334 @@ extern u8 sPeakNumNotes;                     // = 0
  * 0x0002 bolero
  * 0x0001 minuet
  */
+
+#define SCROLL_PRINT_BUF_SIZE 25
+
+extern f32 D_8012F6B4[]; // from audio_synthesis
+
+u8 D_80130570[7] = { 0, 0, 0, 1, 0, 0, 0 };
+u8 D_80130578[4][7] = {
+    { 3, 2, 3, 3, 2, 1, 2 },
+    { 3, 2, 2, 2, 2, 2, 2 },
+    { 3, 2, 2, 2, 2, 2, 2 },
+    { 4, 1, 0, 0, 2, 2, 2 },
+};
+u8 D_80130594[4][7] = {
+    { 3, 2, 3, 2, 2, 1, 1 },
+    { 3, 1, 1, 1, 2, 1, 1 },
+    { 3, 1, 1, 1, 2, 1, 1 },
+    { 2, 1, 0, 0, 1, 1, 1 },
+};
+
+f32 D_801305B0 = 0.7950898f;
+s8 D_801305B4 = 35;
+s8 D_801305B8 = 20;
+s8 D_801305BC = 30;
+s8 D_801305C0 = 20;
+f32 D_801305C4[2] = { -15.0f, -65.0f };
+u8 sAudioIncreasingTranspose = 0;
+u8 gMorphaTransposeTable[16] = { 0, 0, 0, 1, 1, 2, 4, 6, 8, 8, 8, 8, 8, 8, 8, 8 };
+u8 sPrevChargeLevel = 0;
+f32 D_801305E4[4] = { 1.0f, 1.12246f, 1.33484f, 1.33484f }; // 2**({0, 2, 5, 5}/12)
+f32 D_801305F4 = 1.0f;
+u8 D_801305F8[8] = { 127, 80, 75, 73, 70, 68, 65, 60 };
+u8 D_80130600 = 0;
+s8 D_80130604 = 2;
+s8 D_80130608 = 0;
+s8 sAudioCutsceneFlag = 0;
+s8 sSpecReverb = 0;
+s8 sAudioEnvReverb = 0;
+s8 sAudioCodeReverb = 0;
+u8 D_8013061C = 0;
+f32 sAudioEnemyDist = 0.0f;
+s8 sAudioEnemyVol = 127;
+u16 D_80130628 = 0xFFFF;
+u8 D_8013062C = 0;
+u8 D_80130630 = 0;
+u32 D_80130634 = 0;
+u32 D_80130638 = 0;
+u8 D_8013063C = 0;
+u8 D_80130640 = 0;
+u8 D_80130644 = 0;
+u8 D_80130648 = 0;
+Vec3f* sSariaBgmPtr = NULL;
+f32 D_80130650 = 2000.0f;
+u8 D_80130654 = 0;
+u8 D_80130658[0x70] = {
+    2,   1,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,   0, 0,   0,   0,   0, 0,   0, 0,  0, 33, 16, 0, 136,
+    1,   0,  0,  32, 0,  0, 2, 4, 2, 2, 1, 16, 0, 0, 1,   2, 1,   0,   128, 0, 128, 0, 2,  2, 2,  2,  2, 2,
+    136, 2,  0,  2,  17, 2, 1, 1, 0, 0, 0, 2,  2, 2, 2,   2, 2,   2,   0,   0, 0,   0, 32, 0, 16, 2,  0, 0,
+    4,   32, 64, 64, 1,  2, 2, 1, 1, 2, 0, 17, 0, 0, 128, 0, 128, 128, 0,   0, 0,   0, 0,  0, 8,  0,  0, 0,
+};
+s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+D_801306DC_s D_801306DC[20] = {
+    { 0xc0ff, 0xc0fe, { 0, 2,   0,   0, 3, 0, 1,  2,  9,  1,  3, 64, 1,   4,   0,   1, 5, 32, 2,  2,  4,  2,   3,
+                        0, 2,   4,   1, 2, 5, 16, 3,  2,  10, 3, 3,  112, 3,   4,   1, 3, 5,  48, 4,  2,  14,  4,
+                        3, 127, 4,   4, 0, 4, 5,  16, 5,  2,  0, 5,  3,   127, 5,   4, 1, 5,  5,  16, 6,  2,   1,
+                        6, 3,   127, 6, 4, 3, 6,  5,  16, 7,  2, 17, 7,   3,   127, 7, 4, 1,  7,  5,  16, 0xFF } },
+    { 0xc0fb, 0xc0fa, { 0, 2, 0,  0, 3, 0,   1, 2, 4,   1, 3, 0,  1, 4, 1,  1, 5, 16,  3, 2, 11,  3, 3, 112, 3,   4, 1,
+                        3, 5, 48, 4, 2, 14,  4, 3, 127, 4, 4, 0,  4, 5, 16, 5, 2, 0,   5, 3, 127, 5, 4, 1,   5,   5, 16,
+                        6, 2, 1,  6, 3, 127, 6, 4, 3,   6, 5, 16, 7, 2, 17, 7, 3, 127, 7, 4, 1,   7, 5, 16,  0xFF } },
+    { 0xc001, 0x4000, { 0, 2, 0, 0, 3, 0, 2, 2, 11, 2, 3, 48, 2, 4, 1, 2, 5, 32, 0xFF } },
+    { 0xc005, 0x4000, { 0, 2, 1, 0, 3, 32, 2, 2, 11, 2, 3, 48, 2, 4, 1, 2, 5, 32, 0xFF } },
+    { 0xc01f,
+      0xc000,
+      { 0, 2,  0, 0, 3,  47, 1, 2, 13, 1, 3, 0, 1, 4,  1, 1, 5,  16, 2, 2,  16, 2, 3, 0, 2, 4,  1,   2,
+        5, 32, 3, 2, 14, 3,  3, 0, 3,  4, 0, 3, 5, 44, 4, 2, 11, 4,  3, 63, 4,  4, 1, 4, 5, 44, 0xFF } },
+    { 0xc003, 0xc000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+    { 0xc0fb, 0xc0fa, { 0, 2, 0,  0, 3, 0,   1, 2, 4,   1, 3, 0,  1, 4, 1,  1, 5, 16,  3, 2, 11,  3, 3, 112, 3,   4, 1,
+                        3, 5, 48, 4, 2, 14,  4, 3, 127, 4, 4, 0,  4, 5, 16, 5, 2, 0,   5, 3, 127, 5, 4, 1,   5,   5, 16,
+                        6, 2, 1,  6, 3, 127, 6, 4, 3,   6, 5, 16, 7, 2, 17, 7, 3, 127, 7, 4, 1,   7, 5, 16,  0xFF } },
+    { 0x8001, 0x0, { 0, 2, 1, 0, 3, 32, 0xFF } },
+    { 0xc003, 0xc000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+    { 0xc003, 0xc000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+    { 0xc001, 0xc000, { 0, 2, 2, 0, 3, 0, 0, 4, 0, 0xFF } },
+    { 0xc02f, 0xc02e, { 0,  2, 2, 0,  3,  0, 0,   4, 0, 1, 2,   10, 1,  3, 64, 1,  4,  0,   1,   5,
+                        32, 2, 2, 15, 2,  3, 112, 2, 4, 1, 2,   5,  48, 3, 2,  14, 3,  3,   127, 3,
+                        4,  0, 3, 5,  16, 5, 2,   4, 5, 3, 127, 5,  4,  0, 5,  5,  16, 0xFF } },
+    { 0xc07f, 0xc07e, { 0, 2, 0,  0, 3, 0,   0, 4, 0, 1, 2, 10, 1, 3, 64, 1, 4, 0,   1,   5, 32,
+                        2, 2, 11, 2, 3, 112, 2, 4, 1, 2, 5, 48, 3, 2, 12, 3, 3, 127, 3,   4, 0,
+                        3, 5, 16, 4, 2, 6,   4, 3, 0, 4, 4, 0,  4, 5, 16, 5, 2, 0,   5,   3, 0,
+                        5, 4, 0,  5, 5, 16,  6, 2, 1, 6, 3, 0,  6, 4, 0,  6, 5, 16,  0xFF } },
+    { 0xc003, 0xc000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+    { 0xc003, 0xc000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+    { 0xc01f, 0xc000, { 0, 2,  0, 0, 3, 0, 1, 2, 0, 1, 3, 80, 1, 4, 1, 1, 5,  8, 2, 2,  10, 2, 3, 80, 2, 4,  1,   2,
+                        5, 48, 3, 2, 6, 3, 3, 0, 3, 4, 0, 3,  5, 0, 4, 2, 11, 4, 3, 96, 4,  4, 0, 4,  5, 32, 0xFF } },
+    { 0xc003, 0xc000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+    { 0xc003, 0xc000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+    { 0xc003, 0xc000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+    { 0xc003, 0xc000, { 0, 2, 0, 0, 3, 0, 1, 2, 4, 1, 3, 0, 1, 4, 1, 1, 5, 16, 0xFF } },
+};
+
+u32 sOcarinaAllowedBtnMask = 0x800F;
+s32 sOcarinaABtnMap = 0x8000;
+s32 sOcarinaCUPBtnMap = 8;
+s32 sOcarinaCDownBtnMap = 4;
+u8 sOcarinaInpEnabled = 0;
+s8 D_80130F10 = 0; // "OCA", ocarina active?
+u8 sCurOcarinaBtnVal = 0xFF;
+u8 sPrevOcarinaNoteVal = 0;
+u8 sCurOcarinaBtnIdx = 0; // note index?
+u8 sLearnSongLastBtn = 0;
+f32 D_80130F24 = 1.0f;
+f32 D_80130F28 = 0.68503934f;
+s8 D_80130F2C = 0; // pitch?
+s8 D_80130F30 = 0x57;
+s8 D_80130F34 = 0;
+u8 sPlaybackState = 0; // 80130F38
+u32 D_80130F3C = 0;    // "SEQ"
+u32 sNotePlaybackTimer = 0;
+u16 sPlaybackNotePos = 0;
+u16 sStaffPlaybackPos = 0;
+u16 D_80130F4C = 0;
+u8 sDisplayedNoteValue = 0xFF; // Note to display on screen?
+u8 sNotePlaybackVolume = 0;
+u8 sNotePlaybackVibrato = 0;
+s8 sNotePlaybackTone = 0;
+f32 sNormalizedNotePlaybackTone = 1.0f;
+f32 sNormalizedNotePlaybackVolume = 1.0f;
+s32 D_80130F68 = 0;
+u8 sOcarinaNoteValues[5] = { 2, 5, 9, 11, 14 };
+u8 sOcaMinigameApndPos = 0;
+u8 sOcaMinigameEndPos = 0;
+u8 sOcaMinigameNoteCnts[] = { 5, 6, 8 };
+
+OcarinaNote sOcarinaSongs[14][20] = {
+    // minuet
+    {
+        { 2, 0, 18, 86, 0, 0, 0 },
+        { 14, 0, 18, 92, 0, 0, 0 },
+        { 11, 0, 72, 86, 0, 0, 0 },
+        { 9, 0, 18, 80, 0, 0, 0 },
+        { 11, 0, 18, 88, 0, 0, 0 },
+        { 9, 0, 144, 86, 0, 0, 0 },
+        { 0xFF, 0, 0, 86, 0, 0, 0 },
+    },
+
+    // bolero
+    {
+        { 5, 0, 15, 80, 0, 0, 0 },
+        { 2, 0, 15, 72, 0, 0, 0 },
+        { 5, 0, 15, 84, 0, 0, 0 },
+        { 2, 0, 15, 76, 0, 0, 0 },
+        { 9, 0, 15, 84, 0, 0, 0 },
+        { 5, 0, 15, 74, 0, 0, 0 },
+        { 9, 0, 15, 78, 0, 0, 0 },
+        { 5, 0, 135, 66, 0, 0, 0 },
+        { 0xFF, 0, 0, 66, 0, 0, 0 },
+    },
+
+    // serenade
+    {
+        { 2, 0, 36, 60, 0, 0, 0 },
+        { 5, 0, 36, 78, 0, 0, 0 },
+        { 9, 0, 33, 82, 0, 0, 0 },
+        { 0xFF, 0, 3, 82, 0, 0, 0 },
+        { 9, 0, 36, 84, 0, 0, 0 },
+        { 11, 0, 144, 90, 0, 0, 0 },
+        { 0xFF, 0, 0, 90, 0, 0, 0 },
+    },
+
+    // requiem
+    {
+        { 2, 0, 45, 88, 0, 0, 0 },
+        { 5, 0, 23, 86, 0, 0, 0 },
+        { 2, 0, 22, 84, 0, 0, 0 },
+        { 9, 0, 45, 86, 0, 0, 0 },
+        { 5, 0, 45, 94, 0, 0, 0 },
+        { 2, 0, 180, 94, 0, 0, 0 },
+        { 0xFF, 0, 0, 94, 0, 0, 0 },
+    },
+
+    // nocturne
+    {
+        { 11, 0, 36, 88, 0, 0, 0 },
+        { 9, 0, 33, 84, 0, 0, 0 },
+        { 0xFF, 0, 3, 84, 0, 0, 0 },
+        { 9, 0, 18, 82, 0, 0, 0 },
+        { 2, 0, 18, 60, 0, 0, 0 },
+        { 11, 0, 18, 90, 0, 0, 0 },
+        { 9, 0, 18, 88, 0, 0, 0 },
+        { 5, 0, 144, 96, 0, 0, 0 },
+        { 0xFF, 0, 0, 96, 0, 0, 0 },
+    },
+
+    // prelude
+    {
+        { 14, 0, 15, 84, 0, 0, 0 },
+        { 9, 0, 45, 88, 0, 0, 0 },
+        { 14, 0, 15, 88, 0, 0, 0 },
+        { 9, 0, 15, 82, 0, 0, 0 },
+        { 11, 0, 15, 86, 0, 0, 0 },
+        { 14, 0, 60, 90, 0, 0, 0 },
+        { 0xFF, 0, 75, 90, 0, 0, 0 },
+        { 0xFF, 0, 0, 90, 0, 0, 0 },
+    },
+
+    // sarias
+    {
+        { 5, 0, 17, 84, 0, 0, 0 },
+        { 9, 0, 17, 88, 0, 0, 0 },
+        { 11, 0, 34, 80, 0, 0, 0 },
+        { 5, 0, 17, 84, 0, 0, 0 },
+        { 9, 0, 17, 88, 0, 0, 0 },
+        { 11, 0, 136, 80, 0, 0, 0 },
+        { 0xFF, 0, 0, 90, 0, 0, 0 },
+    },
+
+    // epona
+    {
+        { 14, 0, 18, 84, 0, 0, 0 },
+        { 11, 0, 18, 88, 0, 0, 0 },
+        { 9, 0, 72, 80, 0, 0, 0 },
+        { 14, 0, 18, 84, 0, 0, 0 },
+        { 11, 0, 18, 88, 0, 0, 0 },
+        { 9, 0, 144, 80, 0, 0, 0 },
+        { 0xFF, 0, 0, 90, 0, 0, 0 },
+    },
+
+    // lullaby
+    {
+        { 11, 0, 51, 84, 0, 0, 0 },
+        { 14, 0, 25, 88, 0, 0, 0 },
+        { 9, 0, 78, 80, 0, 0, 0 },
+        { 11, 0, 51, 84, 0, 0, 0 },
+        { 14, 0, 25, 88, 0, 0, 0 },
+        { 9, 0, 100, 80, 0, 0, 0 },
+        { 0xFF, 0, 0, 90, 0, 0, 0 },
+    },
+
+    // suns
+    {
+        { 9, 0, 12, 84, 0, 0, 0 },
+        { 5, 0, 13, 88, 0, 0, 0 },
+        { 14, 0, 29, 80, 2, 0, 0 },
+        { 0xFF, 0, 9, 84, 0, 0, 0 },
+        { 9, 0, 12, 84, 0, 0, 0 },
+        { 5, 0, 13, 88, 0, 0, 0 },
+        { 14, 0, 120, 80, 3, 0, 0 },
+        { 0xFF, 0, 0, 90, 0, 0, 0 },
+    },
+
+    // song of time
+    {
+        { 9, 0, 32, 84, 0, 0, 0 },
+        { 2, 0, 65, 88, 0, 0, 0 },
+        { 5, 0, 33, 80, 0, 0, 0 },
+        { 9, 0, 32, 84, 0, 0, 0 },
+        { 2, 0, 65, 88, 0, 0, 0 },
+        { 5, 0, 99, 80, 0, 0, 0 },
+        { 0xFF, 0, 0, 90, 0, 0, 0 },
+    },
+
+    // storms
+    {
+        { 2, 0, 11, 84, 0, 0, 0 },
+        { 5, 0, 11, 88, 0, 0, 0 },
+        { 14, 0, 45, 80, 0, 0, 0 },
+        { 2, 0, 11, 84, 0, 0, 0 },
+        { 5, 0, 11, 88, 0, 0, 0 },
+        { 14, 0, 90, 80, 0, 0, 0 },
+        { 0xFF, 0, 0, 90, 0, 0, 0 },
+    },
+
+    // scarecrow
+    {
+        { 2, 0, 3, 0, 0, 0, 0 },
+        { 0xFF, 0, 0, 255, 0, 0, 0 },
+    },
+
+    // OCA_MEMORYGAME_IDX
+    {
+        { 2, 0, 3, 0, 0, 0, 0 },
+        { 0xFF, 0, 0, 0, 0, 0, 0 },
+    },
+};
+
+OcarinaNote* sPlaybackSong = sOcarinaSongs[0];
+u8 D_80131844[14] = { 0, 3, 2, 1, 3, 2, 1, 0, 1, 0, 1, 2, 3, 0 };
+u8* gFrogsSongPtr = D_80131844;
+u8 D_80131858 = 0; // "REC"
+u8 sRecordSongPos = 0;
+u32 D_80131860 = 0;
+u8 D_80131864 = 0;
+u8 D_80131868 = 0;
+u8 D_8013186C = 0;
+s8 D_80131870 = 0;
+u8 D_80131874 = 0;
+u8 D_80131878 = 0;
+u8 D_8013187C = 0;
+u8 D_80131880 = 0;
+
+OcarinaNote sPierresSong[108] = {
+    { 0xFF, 0, 0, 0, 0, 0, 0 },
+    { 0xFF, 0, 0, 0, 0, 0, 0 },
+};
+OcarinaNote* gScarecrowCustomSongPtr = sPierresSong;
+
+u8* gScarecrowSpawnSongPtr = (u8*)&sOcarinaSongs[12];
+OcarinaNote* D_80131BEC = sOcarinaSongs[13];
+u8 sNoteValueIndexMap[16] = { 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 5, 3, 3, 4, 4, 4 };
+
+// clang-format off
+OcarinaSongInfo gOcarinaSongNotes[14] = {
+    { 6, { 0, 4, 3, 2, 3, 2 }},
+    { 8, { 1, 0, 1, 0, 2, 1, 2, 1 }},
+    { 5, { 0, 1, 2, 2, 3 }},
+    { 6, { 0, 1, 0, 2, 1, 0 }},
+    { 7, { 3, 2, 2, 0, 3, 2, 1 }},
+    { 6, { 4, 2, 4, 2, 3, 4 }},
+    { 6, { 1, 2, 3, 1, 2, 3 }},
+    { 6, { 4, 3, 2, 4, 3, 2 }},
+    { 6, { 3, 4, 2, 3, 4, 2 }},
+    { 6, { 2, 1, 4, 2, 1, 4 }},
+    { 6, { 2, 0, 1, 2, 0, 1 }},
+    { 6, { 0, 1, 4, 0, 1, 4 }},
+    { 8, { 0, 0, 0, 0, 0, 0, 0, 0 }},
+    { 0, { 0, 0, 0, 0, 0, 0, 0, 0 }},
+};
+// clang-format on
 
 extern u8 D_801333F0;
 extern u8 gAudioSEFlagSwapOff;
@@ -372,9 +555,9 @@ void func_800ECB7C(u8 songIdx) {
     savedSongIdx = 0;
     scarecrowSongIdx = 0;
     while (savedSongIdx < 8 && scarecrowSongIdx < 0x10) {
-        noteIdx = sOcarinaSongs[songIdx].notes[scarecrowSongIdx++].noteIdx;
+        noteIdx = sOcarinaSongs[songIdx][scarecrowSongIdx++].noteIdx;
         if (noteIdx != 0xFF) {
-            gOcarinaSongNotes[0xC].notesIdx[savedSongIdx++] = sNoteValueIndexMap[noteIdx];
+            gOcarinaSongNotes[12].notesIdx[savedSongIdx++] = sNoteValueIndexMap[noteIdx];
         }
     }
 }
@@ -383,15 +566,15 @@ void func_800ECB7C(u8 songIdx) {
 void func_800ECC04(u16 flg) {
     u8 i;
 
-    if ((sOcarinaSongs[0xC].notes[1].volume != 0xFF) && ((flg & 0xFFF) == 0xFFF)) {
+    if ((sOcarinaSongs[12][1].volume != 0xFF) && ((flg & 0xFFF) == 0xFFF)) {
         flg |= 0x1000;
     }
 
-    if ((flg == 0xCFFF) && (sOcarinaSongs[0xC].notes[1].volume != 0xFF)) {
+    if ((flg == 0xCFFF) && (sOcarinaSongs[12][1].volume != 0xFF)) {
         flg = 0xDFFF;
     }
 
-    if ((flg == 0xFFF) && (sOcarinaSongs[0xC].notes[1].volume != 0xFF)) {
+    if ((flg == 0xFFF) && (sOcarinaSongs[12][1].volume != 0xFF)) {
         flg = 0x1FFF;
     }
 
@@ -471,7 +654,7 @@ void func_800ECDF8(void) {
                 if (inputChanged) {
                     // (pointless if check, this is always true)
                     if ((D_8016BA50[i] >= D_8016BA70[i] - 0x12) && (D_8016BA50[i] >= D_8016BA70[i] + 0x12) &&
-                        (sOcarinaSongs[i].notes[sLearnSongPos[i]].unk_02 == 0) &&
+                        (sOcarinaSongs[i][sLearnSongPos[i]].unk_02 == 0) &&
                         (sLearnSongLastBtn == sLearnSongExpectedNote[i])) {
                         D_80131878 = i + 1;
                         sOcarinaInpEnabled = 0;
@@ -480,7 +663,7 @@ void func_800ECDF8(void) {
                 } else if (D_8016BA50[i] >= (D_8016BA70[i] - 0x12)) {
                     if (sLearnSongLastBtn != 0xFF) {
                         if (sLearnSongLastBtn == sLearnSongExpectedNote[i]) {
-                            if (i == 0xC) {
+                            if (i == 12) {
                                 D_8016BA50[i] = 0;
                             }
                         } else {
@@ -488,8 +671,8 @@ void func_800ECDF8(void) {
                         }
                     }
 
-                    prevNote = &sOcarinaSongs[i].notes[sLearnSongPos[i]];
-                    note = &sOcarinaSongs[i].notes[++sLearnSongPos[i]];
+                    prevNote = &sOcarinaSongs[i][sLearnSongPos[i]];
+                    note = &sOcarinaSongs[i][++sLearnSongPos[i]];
                     D_8016BA70[i] = prevNote->unk_02;
                     sLearnSongExpectedNote[i] = prevNote->noteIdx;
 
@@ -498,8 +681,8 @@ void func_800ECDF8(void) {
                     }
                     while (prevNote->noteIdx == note->noteIdx || (note->noteIdx == 0xFF && note->unk_02 != 0)) {
                         D_8016BA70[i] += note->unk_02;
-                        prevNote = &sOcarinaSongs[i].notes[sLearnSongPos[i]];
-                        note = &sOcarinaSongs[i].notes[sLearnSongPos[i] + 1];
+                        prevNote = &sOcarinaSongs[i][sLearnSongPos[i]];
+                        note = &sOcarinaSongs[i][sLearnSongPos[i] + 1];
                         sLearnSongPos[i]++;
                     }
                 } else if (D_8016BA50[i] < 0xA) {
@@ -513,7 +696,7 @@ void func_800ECDF8(void) {
 
             if (sOcarinaAvailSongs == 0 && D_8016BA2E >= D_8013187C) {
                 sOcarinaInpEnabled = 0;
-                if (CHECK_BTN_ANY(D_80130F3C, BTN_B) && sCurOcarinaBtnVal == sOcarinaSongs[i].notes[0].noteIdx) {
+                if (CHECK_BTN_ANY(D_80130F3C, BTN_B) && sCurOcarinaBtnVal == sOcarinaSongs[i][0].noteIdx) {
                     D_80130F4C = D_80130F3C;
                 }
                 D_80130F3C = 0;
@@ -699,9 +882,9 @@ void func_800ED93C(s8 songIdx, s8 arg1) {
     }
 
     if (songIdx < 0xF) {
-        sPlaybackSong = &sOcarinaSongs[songIdx - 1];
+        sPlaybackSong = sOcarinaSongs[songIdx - 1];
     } else {
-        sPlaybackSong = &sPierresSong;
+        sPlaybackSong = sPierresSong;
     }
 
     sPlaybackState = arg1;
@@ -709,7 +892,7 @@ void func_800ED93C(s8 songIdx, s8 arg1) {
     sDisplayedNoteValue = 0xFF;
     sPlaybackNotePos = 0;
     sStaffPlaybackPos = 0;
-    while (sPlaybackSong->notes[sPlaybackNotePos].noteIdx == 0xFF) {
+    while (sPlaybackSong[sPlaybackNotePos].noteIdx == 0xFF) {
         sPlaybackNotePos++;
     }
 }
@@ -734,7 +917,7 @@ void Audio_OcaPlayback(void) {
 
         if (sNotePlaybackTimer == 0) {
 
-            sNotePlaybackTimer = sPlaybackSong->notes[sPlaybackNotePos].unk_02;
+            sNotePlaybackTimer = sPlaybackSong[sPlaybackNotePos].unk_02;
 
             if (sPlaybackNotePos == 1) {
                 sNotePlaybackTimer++;
@@ -754,32 +937,31 @@ void Audio_OcaPlayback(void) {
                 sNotePlaybackTimer -= nextNoteTimerStep;
             }
 
-            if (sNotePlaybackVolume != sPlaybackSong->notes[sPlaybackNotePos].volume) {
-                sNotePlaybackVolume = sPlaybackSong->notes[sPlaybackNotePos].volume;
+            if (sNotePlaybackVolume != sPlaybackSong[sPlaybackNotePos].volume) {
+                sNotePlaybackVolume = sPlaybackSong[sPlaybackNotePos].volume;
                 sNormalizedNotePlaybackVolume = sNotePlaybackVolume / 127.0f;
             }
 
-            if (sNotePlaybackVibrato != sPlaybackSong->notes[sPlaybackNotePos].vibrato) {
-                sNotePlaybackVibrato = sPlaybackSong->notes[sPlaybackNotePos].vibrato;
+            if (sNotePlaybackVibrato != sPlaybackSong[sPlaybackNotePos].vibrato) {
+                sNotePlaybackVibrato = sPlaybackSong[sPlaybackNotePos].vibrato;
                 Audio_QueueCmdS8(0x06020D06, sNotePlaybackVibrato);
             }
 
-            if (sNotePlaybackTone != sPlaybackSong->notes[sPlaybackNotePos].tone) {
-                sNotePlaybackTone = sPlaybackSong->notes[sPlaybackNotePos].tone;
+            if (sNotePlaybackTone != sPlaybackSong[sPlaybackNotePos].tone) {
+                sNotePlaybackTone = sPlaybackSong[sPlaybackNotePos].tone;
                 sNormalizedNotePlaybackTone = Audio_OcaAdjStick(sNotePlaybackTone);
             }
 
-            if ((sPlaybackSong->notes[sPlaybackNotePos].volume == sPlaybackSong->notes[sPlaybackNotePos - 1].volume &&
-                 (sPlaybackSong->notes[sPlaybackNotePos].vibrato ==
-                  sPlaybackSong->notes[sPlaybackNotePos - 1].vibrato) &&
-                 (sPlaybackSong->notes[sPlaybackNotePos].tone == sPlaybackSong->notes[sPlaybackNotePos - 1].tone))) {
+            if ((sPlaybackSong[sPlaybackNotePos].volume == sPlaybackSong[sPlaybackNotePos - 1].volume &&
+                 (sPlaybackSong[sPlaybackNotePos].vibrato == sPlaybackSong[sPlaybackNotePos - 1].vibrato) &&
+                 (sPlaybackSong[sPlaybackNotePos].tone == sPlaybackSong[sPlaybackNotePos - 1].tone))) {
                 sDisplayedNoteValue = 0xFE;
             }
 
-            if (sDisplayedNoteValue != sPlaybackSong->notes[sPlaybackNotePos].noteIdx) {
-                u8 tmp = sPlaybackSong->notes[sPlaybackNotePos].noteIdx;
+            if (sDisplayedNoteValue != sPlaybackSong[sPlaybackNotePos].noteIdx) {
+                u8 tmp = sPlaybackSong[sPlaybackNotePos].noteIdx;
                 if (tmp == 0xA) {
-                    sDisplayedNoteValue = tmp + sPlaybackSong->notes[sPlaybackNotePos].semitone;
+                    sDisplayedNoteValue = tmp + sPlaybackSong[sPlaybackNotePos].semitone;
                 } else {
                     sDisplayedNoteValue = tmp;
                 }
@@ -808,19 +990,19 @@ void func_800EDD68(u8 arg0) {
     u8 j;
     u8 k;
     s32 t;
-    OcarinaSong* song;
+    OcarinaNote* song;
 
     if (D_80131858 == 1) {
         song = gScarecrowCustomSongPtr;
     } else {
         song = D_80131BEC;
     }
-    song->notes[sRecordSongPos].noteIdx = D_80131864;
-    song->notes[sRecordSongPos].unk_02 = D_8016BA04 - D_80131860;
-    song->notes[sRecordSongPos].volume = D_80131868;
-    song->notes[sRecordSongPos].vibrato = D_8013186C;
-    song->notes[sRecordSongPos].tone = D_80131870;
-    song->notes[sRecordSongPos].semitone = D_80131874 & 0xC0;
+    song[sRecordSongPos].noteIdx = D_80131864;
+    song[sRecordSongPos].unk_02 = D_8016BA04 - D_80131860;
+    song[sRecordSongPos].volume = D_80131868;
+    song[sRecordSongPos].vibrato = D_8013186C;
+    song[sRecordSongPos].tone = D_80131870;
+    song[sRecordSongPos].semitone = D_80131874 & 0xC0;
     D_80131864 = sCurOcarinaBtnVal;
     D_80131868 = D_80130F30;
     D_8013186C = D_80130F34;
@@ -836,37 +1018,37 @@ void func_800EDD68(u8 arg0) {
     mad = 0xFF;
     while (i != 0 && mad == 0xFF) {
         i--;
-        mad = song->notes[i].noteIdx;
+        mad = song[i].noteIdx;
     }
 
     if (1) {}
 
     if (sRecordSongPos != (i + 1)) {
         sRecordSongPos = i + 2;
-        song->notes[sRecordSongPos - 1].unk_02 = 0;
+        song[sRecordSongPos - 1].unk_02 = 0;
     }
 
-    song->notes[sRecordSongPos].unk_02 = 0;
+    song[sRecordSongPos].unk_02 = 0;
 
     if (D_80131858 == 2) {
         if (D_8016BA2E >= 8) {
             for (i = 0; i < sRecordSongPos; i++) {
-                song->notes[i] = song->notes[i + 1];
+                song[i] = song[i + 1];
             }
 
             func_800ECB7C(0xD);
 
-            for (i = 0; i < 0xC; i++) {
+            for (i = 0; i < 12; i++) {
                 for (j = 0; j < 9 - gOcarinaSongNotes[i].len; j++) {
                     for (k = 0; k < gOcarinaSongNotes[i].len && k + j < 8 &&
-                                gOcarinaSongNotes[i].notesIdx[k] == gOcarinaSongNotes[0xC].notesIdx[k + j];
+                                gOcarinaSongNotes[i].notesIdx[k] == gOcarinaSongNotes[12].notesIdx[k + j];
                          k++) {
                         ;
                     }
 
                     if (k == gOcarinaSongNotes[i].len) {
                         D_80131858 = 0xFF;
-                        sOcarinaSongs[0xC].notes[1].volume = 0xFF;
+                        sOcarinaSongs[12][1].volume = 0xFF;
                         return;
                     }
                 }
@@ -874,7 +1056,7 @@ void func_800EDD68(u8 arg0) {
 
             i = 1;
             while (i < 8) {
-                if (gOcarinaSongNotes[0xC].notesIdx[0] != gOcarinaSongNotes[0xC].notesIdx[i]) {
+                if (gOcarinaSongNotes[12].notesIdx[0] != gOcarinaSongNotes[12].notesIdx[i]) {
                     i = 9;
                 } else {
                     i++;
@@ -883,17 +1065,17 @@ void func_800EDD68(u8 arg0) {
 
             if (i == 8) {
                 D_80131858 = 0xFF;
-                sOcarinaSongs[0xC].notes[1].volume = 0xFF;
+                sOcarinaSongs[12][1].volume = 0xFF;
                 return;
             }
 
             for (i = 0; i < sRecordSongPos; i++) {
-                sOcarinaSongs[0xC].notes[i] = sOcarinaSongs[0xD].notes[i];
+                sOcarinaSongs[12][i] = sOcarinaSongs[13][i];
             }
 
             sOcarinaInpEnabled = 0;
         } else {
-            sOcarinaSongs[0xC].notes[1].volume = 0xFF;
+            sOcarinaSongs[12][1].volume = 0xFF;
         }
     }
     D_80131858 = 0;
@@ -920,10 +1102,10 @@ void func_800EE170(u8 arg0) {
         sRecordSongPos = 0;
         sOcarinaInpEnabled = 1;
         D_8016BA2E = 0;
-        D_8016BAA0 = sPierresSong.notes[1];
+        D_8016BAA0 = sPierresSong[1];
     } else {
         if (sRecordSongPos == 0) {
-            sPierresSong.notes[1] = D_8016BAA0;
+            sPierresSong[1] = D_8016BAA0;
         } else {
             if (D_80131858 == 2) {
                 D_8016BA2E = 1;
@@ -960,7 +1142,7 @@ void func_800EE318(void) {
 
     sDisplayedStaff.state = sPlaybackState;
 
-    if (sPlaybackSong != &sPierresSong) {
+    if (sPlaybackSong != sPierresSong) {
         sDisplayedStaff.pos = sStaffPlaybackPos;
     } else if (sStaffPlaybackPos == 0) {
         sDisplayedStaff.pos = 0;
@@ -1050,22 +1232,22 @@ s32 func_800EE5EC(void) {
     rnd = Audio_NextRandom();
     rndNote = sOcarinaNoteValues[rnd % 5];
 
-    if (sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos - 1].noteIdx == rndNote) {
+    if (sOcarinaSongs[OCA_MEMORYGAME_IDX][sOcaMinigameApndPos - 1].noteIdx == rndNote) {
         rndNote = sOcarinaNoteValues[(rnd + 1) % 5];
     }
 
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].noteIdx = rndNote;
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].unk_02 = 0x2D;
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].volume = 0x50;
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].vibrato = 0;
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].tone = 0;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX][sOcaMinigameApndPos].noteIdx = rndNote;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX][sOcaMinigameApndPos].unk_02 = 0x2D;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX][sOcaMinigameApndPos].volume = 0x50;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX][sOcaMinigameApndPos].vibrato = 0;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX][sOcaMinigameApndPos].tone = 0;
 
     sOcaMinigameApndPos++;
 
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].noteIdx = 0xFF;
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].unk_02 = 0;
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos + 1].noteIdx = 0xFF;
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos + 1].unk_02 = 0;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX][sOcaMinigameApndPos].noteIdx = 0xFF;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX][sOcaMinigameApndPos].unk_02 = 0;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX][sOcaMinigameApndPos + 1].noteIdx = 0xFF;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX][sOcaMinigameApndPos + 1].unk_02 = 0;
     if (1) {}
     return 0;
 }
@@ -1107,8 +1289,6 @@ void func_800EE6F4(void) {
     func_800EE29C();
 }
 
-#ifdef NON_MATCHING
-// matches, but data needs to be migrated.
 void func_800EE824(void) {
     static u8 D_80131C80 = 0;
     static u8 D_80131C84 = 1;
@@ -1140,9 +1320,6 @@ void func_800EE824(void) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE824.s")
-#endif
 
 void func_800EE930(void) {
     D_8016B9F8.noteIdx = 0xFF;
@@ -1157,7 +1334,70 @@ void func_800EE930(void) {
     D_80131880 = 0;
 }
 
-void AudioDebug_SetInput(void) { // (not 16-byte-aligned, so this cannot start a new file...)
+f32 D_80131C8C = 0.0f;
+
+// === Audio Debugging ===
+
+// These variables come between in-function statics in func_800EE824 and func_800F510C
+
+f32 sAudioUpdateDuration = 0.0f;
+f32 sAudioUpdateDurationMax = 0.0f;
+u8 sAudioDebugEverOpened = 0;
+u8 sAudioSEMuted = 0;
+u8 sAudioDebugPage = 0;
+u8 sAudioSndContSel = 0;
+u8 sAudioDebugTextColor = 7;
+char sAudioDebugPageNames[15][23] = {
+    "Non",
+    "Sound Control",
+    "Spec Info",
+    "Heap Info",
+    "Grp Track Info",
+    "Sub Track Info",
+    "Channel Info",
+    "Interface Info",
+    "SE Flag Swap",
+    "Block Change BGM",
+    "Natural Sound Control",
+    "Ocarina Test",
+    "SE Parameter Change",
+    "Scroll Print",
+    "Free Area",
+};
+u16 sAudioSndContWork[11] = { 0 };
+u16 sAudioSndContWorkLims[11] = { 128, 128, 7, 512, 4, 2, 16, 32, 2, 2, 2 };
+char sSoundBankNames[7][11] = { "PLAYER", "ITEM", "ENVIROMENT", "ENEMY", "SYSTEM", "OCARINA", "VOICE" };
+char sSoundModeNames[5][10] = { "W-STEREO", "HEADPHONE", "3D SOUND", "MONO", "" };
+s8 sAudioIntInfoX = 0;
+s8 sAudioIntInfoY = 0;
+s8 sAudioIntInfoSel = 0;
+s8 sAudioIntInfoBankPage[7] = { 0, 0, 2, 2, 0, 0, 0 };
+u8 sAudioScrPrtSel = 0;
+u8 sAudioScrPrtInd = 0;
+u8 sAudioScrPrtOverflow = 0;
+s8 sAudioScrPrtX = 26;
+s8 sAudioScrPrtY = 1;
+u8 sAudioScrPrtWork[11] = { 1, 19, 6, 0, 0, 0, 0, 0, 0, 0, 1 };
+u8 sAudioScrPrtWorkLims[11] = { 2, SCROLL_PRINT_BUF_SIZE, 8, 2, 2, 2, 2, 2, 2, 2, 2 };
+u8 sAudioSubTrackInfoSpec = 0;
+u8 sAudioSEFlagSwapIsEditing = 0;
+u8 sAudioSEFlagSwapSel = 0;
+u8 sAudioSEFlagSwapNibbleSel = 0;
+char sAudioSEFlagSwapModeNames[2][5] = { "SWAP", "ADD" };
+u8 sAudioSEParamChgSel = 0;
+u8 sAudioSEParamChgBitSel = 0;
+u16 sAudioSEParamChgWork[4] = { 0 };
+u8 sAudioSubTrackInfoPlayerSel = 0;
+u8 sAudioSubTrackInfoChannelSel = 0;
+u8 sSeqPlayerPeakNumLayers[20] = { 0 };
+char sAudioSceneNames[3][2] = { "A", "S", "X" };
+u8 sAudioBlkChgBgmWork[2] = { 0 };
+u8 sAudioBlkChgBgmSel = 0;
+char sBoolStrs[3][5] = { "OFF", "ON", "STBY" };
+u8 sAudioNatureFailed = 0;
+u8 sPeakNumNotes = 0;
+
+void AudioDebug_SetInput(void) {
     Input inputs[4];
     u32 btn;
 
@@ -1276,7 +1516,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             while (i != 0xFF) {
                 GfxPrint_SetPos(printer, 3, 7 + j++);
                 GfxPrint_Printf(printer, "%02x %04x %02x %08x", i, gSoundBanks[ind][i].sfxId,
-                                gSoundBanks[ind][i].unk_2A, gSoundBanks[ind][i].unk_20);
+                                gSoundBanks[ind][i].unk_2A, gSoundBanks[ind][i].priority);
                 i = gSoundBanks[ind][i].next;
             }
             break;
@@ -1340,8 +1580,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
                     if (sAudioIntInfoBankPage[k] == 1) {
                         if ((entryIndex != 0xFF) && ((entry->unk_2A == 4) || (entry->unk_2A == 5))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %02X %04X %04X", entryIndex, (s32)*entry->posX,
-                                            (s32)*entry->posY, (s32)*entry->posZ, entry->unk_24, entry->unk_26,
-                                            entry->sfxId);
+                                            (s32)*entry->posY, (s32)*entry->posZ, entry->sfxImportance,
+                                            entry->sfxParams, entry->sfxId);
                         } else {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- -- ---- ----");
                         }
@@ -1784,15 +2024,15 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 20, 6);
             GfxPrint_Printf(printer, "       : %04x",
-                            D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_2);
+                            gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].params);
 
             GfxPrint_SetPos(printer, 3, 6);
             GfxPrint_Printf(
                 printer, "SE SW    %s",
-                AudioDebug_ToStringBinary(D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_2, 16));
+                AudioDebug_ToStringBinary(gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].params, 16));
 
             SETCOL(127, 255, 127);
-            digitStr[0] = (char)('0' + ((D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_2 >>
+            digitStr[0] = (char)('0' + ((gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].params >>
                                          (15 - sAudioSEParamChgBitSel)) &
                                         1));
             GfxPrint_SetPos(printer, 12 + sAudioSEParamChgBitSel, 6);
@@ -1801,7 +2041,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
             SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 7);
             GfxPrint_Printf(printer, "SE PR  : %02x",
-                            D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_0);
+                            gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].importance);
             break;
 
         case PAGE_FREE_AREA:
@@ -1938,7 +2178,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                 break;
             case 2:
             case 3:
-                Audio_PlaySoundGeneral(((sAudioSndContWork[2] << 0xC) & 0xFFFF) + sAudioSndContWork[3] + SFX_FLAG,
+                Audio_PlaySoundGeneral(((sAudioSndContWork[2] << 12) & 0xFFFF) + sAudioSndContWork[3] + SFX_FLAG,
                                        &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 break;
             case 4:
@@ -2098,12 +2338,10 @@ void AudioDebug_ProcessInput_ScrPrt(void) {
                  (sAudioScrPrtWork[6] * 8) + (sAudioScrPrtWork[7] * 0x10) + (sAudioScrPrtWork[8] * 0x20);
 }
 
-#ifdef NON_MATCHING
-// regalloc near 'prev'
 void AudioDebug_ProcessInput_SEFlagSwap(void) {
     s16 step;
     u16 val;
-    u8 prev; // v1
+    u8 prev;
 
     if (!sAudioSEFlagSwapIsEditing) {
         if (CHECK_BTN_ANY(sDebugPadPress, BTN_DUP)) {
@@ -2122,7 +2360,6 @@ void AudioDebug_ProcessInput_SEFlagSwap(void) {
             }
         }
 
-        prev = 9;
         if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
             sAudioSEFlagSwapIsEditing = true;
         }
@@ -2133,14 +2370,12 @@ void AudioDebug_ProcessInput_SEFlagSwap(void) {
         }
 
         if (CHECK_BTN_ANY(sDebugPadPress, BTN_START)) {
-            prev = sAudioSEFlagSwapSel;
-            if (prev != 0) {
-                prev--;
+            if (sAudioSEFlagSwapSel != 0) {
+                prev = sAudioSEFlagSwapSel - 1;
             } else {
                 prev = 9;
             }
             gAudioSEFlagSwapSource[sAudioSEFlagSwapSel] = gAudioSEFlagSwapSource[prev];
-            if (sAudioSEFlagSwapNibbleSel) {}
             gAudioSEFlagSwapTarget[sAudioSEFlagSwapSel] = gAudioSEFlagSwapTarget[prev];
         }
     } else {
@@ -2169,19 +2404,19 @@ void AudioDebug_ProcessInput_SEFlagSwap(void) {
             }
 
             if (sAudioSEFlagSwapNibbleSel < 4) {
-                val = gAudioSEFlagSwapSource[sAudioSEFlagSwapSel] >> (((-sAudioSEFlagSwapNibbleSel) * 4) + 0xC);
+                val = gAudioSEFlagSwapSource[sAudioSEFlagSwapSel] >> ((3 - sAudioSEFlagSwapNibbleSel) * 4);
                 val = (val + step) & 0xF;
                 gAudioSEFlagSwapSource[sAudioSEFlagSwapSel] =
                     (gAudioSEFlagSwapSource[sAudioSEFlagSwapSel] &
-                     ((0xF << (((-sAudioSEFlagSwapNibbleSel) * 4) + 0xC)) ^ 0xFFFF)) +
-                    (val << (((-sAudioSEFlagSwapNibbleSel) * 4) + 0xC));
+                     ((0xF << ((3 - sAudioSEFlagSwapNibbleSel) * 4)) ^ 0xFFFF)) +
+                    (val << ((3 - sAudioSEFlagSwapNibbleSel) * 4));
             } else {
-                val = gAudioSEFlagSwapTarget[sAudioSEFlagSwapSel] >> (((-sAudioSEFlagSwapNibbleSel) * 4) + 0x1C);
+                val = gAudioSEFlagSwapTarget[sAudioSEFlagSwapSel] >> ((7 - sAudioSEFlagSwapNibbleSel) * 4);
                 val = (val + step) & 0xF;
                 gAudioSEFlagSwapTarget[sAudioSEFlagSwapSel] =
                     (gAudioSEFlagSwapTarget[sAudioSEFlagSwapSel] &
-                     ((0xF << (((-sAudioSEFlagSwapNibbleSel) * 4) + 0x1C)) ^ 0xFFFF)) +
-                    (val << (((-sAudioSEFlagSwapNibbleSel) * 4) + 0x1C));
+                     ((0xF << ((7 - sAudioSEFlagSwapNibbleSel) * 4)) ^ 0xFFFF)) +
+                    (val << ((7 - sAudioSEFlagSwapNibbleSel) * 4));
             }
         }
 
@@ -2206,10 +2441,6 @@ void AudioDebug_ProcessInput_SEFlagSwap(void) {
         gAudioSEFlagSwapMode[sAudioSEFlagSwapSel] ^= 1;
     }
 }
-#else
-void AudioDebug_ProcessInput_SEFlagSwap(void);
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/AudioDebug_ProcessInput_SEFlagSwap.s")
-#endif
 
 void AudioDebug_ProcessInput_SubTrackInfo(void) {
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_DDOWN)) {
@@ -2324,7 +2555,7 @@ void AudioDebug_ProcessInput_SEParamChg(void) {
                 sAudioSEParamChgWork[sAudioSEParamChgSel] &= 0x1FF;
             }
         } else if (sAudioSEParamChgSel == 3) {
-            D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_0 -= step;
+            gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].importance -= step;
         } else {
             sAudioSEParamChgBitSel = (sAudioSEParamChgBitSel - 1) & 0xF;
         }
@@ -2343,14 +2574,14 @@ void AudioDebug_ProcessInput_SEParamChg(void) {
                 sAudioSEParamChgWork[sAudioSEParamChgSel] &= 0x1FF;
             }
         } else if (sAudioSEParamChgSel == 3) {
-            D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_0 += step;
+            gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].importance += step;
         } else {
             sAudioSEParamChgBitSel = (sAudioSEParamChgBitSel + 1) & 0xF;
         }
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
-        sfx = (u16)(sAudioSEParamChgWork[0] << 0xC) + sAudioSEParamChgWork[1] + SFX_FLAG;
+        sfx = (u16)(sAudioSEParamChgWork[0] << 12) + sAudioSEParamChgWork[1] + SFX_FLAG;
         Audio_PlaySoundGeneral(sfx, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 
@@ -2360,7 +2591,8 @@ void AudioDebug_ProcessInput_SEParamChg(void) {
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_CDOWN)) {
         if (sAudioSEParamChgSel == 2) {
-            D_8013331C[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].unk_2 ^= (1 << (0xF - sAudioSEParamChgBitSel));
+            gSoundParams[sAudioSEParamChgWork[0]][sAudioSEParamChgWork[1]].params ^=
+                (1 << (0xF - sAudioSEParamChgBitSel));
         }
     }
 
@@ -2522,14 +2754,14 @@ f32 func_800F3188(u8 bankIdx, u8 entryIdx) {
     f32 phi_f0;
     f32 ret;
 
-    if (bankEntry->unk_26 & 0x2000) {
+    if (bankEntry->sfxParams & 0x2000) {
         return 1.0f;
     }
 
     if (bankEntry->dist > 10000.0f) {
         ret = 0.0f;
     } else {
-        switch (bankEntry->unk_26 & 3) {
+        switch (bankEntry->sfxParams & 3) {
             case 1:
                 phi_f0 = 666.6667f;
                 break;
@@ -2565,7 +2797,7 @@ s8 Audio_ComputeSoundReverb(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
     SoundBankEntry* entry = &gSoundBanks[bankIdx][entryIdx];
     s32 reverb;
 
-    if (!(entry->unk_26 & 0x1000)) {
+    if (!(entry->sfxParams & 0x1000)) {
         if (entry->dist < 2500.0f) {
             distAdd = *entry->posZ > 0.0f ? (entry->dist / 2500.0f) * 70.0f : (entry->dist / 2500.0f) * 91.0f;
         } else {
@@ -2641,7 +2873,7 @@ f32 Audio_ComputeSoundFreqScale(u8 bankIdx, u8 entryIdx) {
     f32 unk1C;
     f32 freq = 1.0f;
 
-    if (entry->unk_26 & 0x4000) {
+    if (entry->sfxParams & 0x4000) {
         freq = 1.0f - ((gAudioContext.audioRandom & 0xF) / 192.0f);
     }
 
@@ -2665,14 +2897,14 @@ f32 Audio_ComputeSoundFreqScale(u8 bankIdx, u8 entryIdx) {
     }
 
     if (phi_v0 == 1) {
-        if (!(entry->unk_26 & 0x800)) {
+        if (!(entry->sfxParams & 0x800)) {
             freq *= (1.0293 - ((gAudioContext.audioRandom & 0xF) / 144.0f));
         }
     }
 
     unk1C = entry->dist;
-    if (!(entry->unk_26 & 0x2000)) {
-        if (!(entry->unk_26 & 0x8000)) {
+    if (!(entry->sfxParams & 0x2000)) {
+        if (!(entry->sfxParams & 0x8000)) {
             if (unk1C >= 10000.0f) {
                 freq += 0.2f;
             } else {
@@ -2681,7 +2913,7 @@ f32 Audio_ComputeSoundFreqScale(u8 bankIdx, u8 entryIdx) {
         }
     }
 
-    if (entry->unk_26 & 0xC0) {
+    if (entry->sfxParams & 0xC0) {
         freq += (entry->unk_2F / 192.0f);
     }
 
@@ -2710,12 +2942,12 @@ u8 func_800F37B8(f32 arg0, SoundBankEntry* arg1, s8 arg2) {
     }
 
     if (phi_v1 == 0) {
-        if (arg1->unk_26 & 0x200) {
+        if (arg1->sfxParams & 0x200) {
             phi_v1 = 0xF;
         }
     }
 
-    switch (arg1->unk_26 & 3) {
+    switch (arg1->sfxParams & 3) {
         case 1:
             phi_f0 = 12.0f;
             break;
@@ -2735,7 +2967,7 @@ u8 func_800F37B8(f32 arg0, SoundBankEntry* arg1, s8 arg2) {
     return (phi_v1 * 0x10) + (u8)((phi_f0 * phi_f12) / 1923.077f);
 }
 
-s8 func_800F3990(f32 arg0, u16 arg1) {
+s8 func_800F3990(f32 arg0, u16 sfxParams) {
     s8 ret = 0;
 
     if (arg0 >= 0.0f) {
@@ -2768,7 +3000,7 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
         case BANK_ENEMY:
         case BANK_VOICE:
             if (D_80130604 == 2) {
-                sp38 = func_800F3990(*entry->posY, entry->unk_26);
+                sp38 = func_800F3990(*entry->posY, entry->sfxParams);
             }
             // fallthrough
         case BANK_OCARINA:
@@ -2778,8 +3010,8 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
             panSigned = Audio_ComputeSoundPanSigned(*entry->posX, *entry->posZ, entry->unk_C);
             freqScale = Audio_ComputeSoundFreqScale(bankIdx, entryIdx) * *entry->freqScale;
             if (D_80130604 == 2) {
-                sp34 = D_801305C4[(entry->unk_26 & 0x400) >> 10];
-                if (!(entry->unk_26 & 0x800)) {
+                sp34 = D_801305C4[(entry->sfxParams & 0x400) >> 10];
+                if (!(entry->sfxParams & 0x800)) {
                     if (*entry->posZ < sp34) {
                         stereoBits = 0x10;
                     }
@@ -2803,7 +3035,7 @@ void Audio_SetSoundProperties(u8 bankIdx, u8 entryIdx, u8 channelIdx) {
 
             if ((sp33 | D_80130640) != 0) {
                 sp39 = (sp33 | D_80130640);
-            } else if (D_80130604 == 2 && (entry->unk_26 & 0x2000) == 0) {
+            } else if (D_80130604 == 2 && (entry->sfxParams & 0x2000) == 0) {
                 sp39 = func_800F37B8(sp34, entry, panSigned);
             }
             break;
@@ -3221,8 +3453,6 @@ void Audio_ClearSariaBgmAtPos(Vec3f* pos) {
     }
 }
 
-#ifdef NON_MATCHING
-// matches, but need to migrate data.
 void func_800F510C(s8 volSplit) {
     u8 vol;
     u8 prio;
@@ -3258,10 +3488,6 @@ void func_800F510C(s8 volSplit) {
         }
     }
 }
-#else
-void func_800F510C(s8 volSplit);
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F510C.s")
-#endif
 
 void Audio_PlaySariaBgm(Vec3f* pos, u16 seqId, u16 distMax) {
     f32 absY;
@@ -3796,13 +4022,13 @@ void func_800F6964(u16 arg0) {
     for (i = 0; i < 0x10; i++) {
         skip = false;
         switch (i) {
-            case 0xB:
-            case 0xC:
+            case 11:
+            case 12:
                 if (gAudioSpecId == 10) {
                     skip = true;
                 }
                 break;
-            case 0xD:
+            case 13:
                 skip = true;
                 break;
         }

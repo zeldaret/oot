@@ -6,6 +6,7 @@
 
 #include "z_en_guest.h"
 #include "objects/object_os_anime/object_os_anime.h"
+#include "objects/object_boj/object_boj.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
@@ -50,9 +51,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
 };
 
-extern FlexSkeletonHeader D_060000F0;
-extern AnimationHeader D_060042AC;
-extern Gfx D_060059B0[];
+extern FlexSkeletonHeader object_boj_Skel_0000F0;
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
@@ -85,7 +84,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_boj_Skel_0000F0, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
         Animation_Change(&this->skelAnime, &gObjOsAnim_42AC, 1.0f, 0.0f, Animation_GetLastFrame(&gObjOsAnim_42AC),
                          ANIMMODE_LOOP, 0.0f);
@@ -193,7 +192,7 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
 
     if (limbIndex == 15) {
-        *dList = D_060059B0;
+        *dList = object_boj_DL_0059B0;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp3C = this->unk_2A0.unk_08;
         Matrix_RotateX((sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);

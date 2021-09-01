@@ -1057,9 +1057,9 @@ typedef struct {
     /* 0x14 */ f32*     unk_14;
     /* 0x18 */ s8*      reverbAdd;
     /* 0x1C */ f32      dist;
-    /* 0x20 */ u32      unk_20;
-    /* 0x24 */ u8       unk_24;
-    /* 0x26 */ u16      unk_26;
+    /* 0x20 */ u32      priority; // lower is more prioritized
+    /* 0x24 */ u8       sfxImportance;
+    /* 0x26 */ u16      sfxParams;
     /* 0x28 */ u16      sfxId;
     /* 0x2A */ u8       unk_2A;
     /* 0x2B */ u8       unk_2B;
@@ -1091,14 +1091,14 @@ typedef struct {
 #define SFX_BANK(sfxId)     SFX_BANK_SHIFT(SFX_BANK_MASK(sfxId))
 
 typedef struct {
-    u32 unk_0;
+    u32 priority; // lower is more prioritized
     u8 unk_4;
 } Struct_800F7CEC;
 
 typedef struct {
-    u8 unk_0;
-    u16 unk_2;
-} Struct_8013331C;
+    u8 importance;
+    u16 params;
+} SoundParams;
 
 typedef struct {
     /* 0x0000 */ u8 noteIdx;
@@ -1109,10 +1109,6 @@ typedef struct {
     /* 0x0006 */ s8 tone;
     /* 0x0007 */ u8 semitone;
 } OcarinaNote;  // size = 0x8
-
-typedef struct {
-    /* 0x0000 */ OcarinaNote notes[20];
-} OcarinaSong; // size = 0xA0
 
 #define Audio_DisableSeq(seqIdx, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)seqIdx << 16), fadeOut)
 #define Audio_Cmd82(seqIdx, a, b) Audio_QueueCmdS32(0x82000000 | ((u8)seqIdx << 16) | ((u8)a << 8), b)

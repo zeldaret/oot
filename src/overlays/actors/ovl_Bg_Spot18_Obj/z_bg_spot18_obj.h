@@ -15,6 +15,4 @@ typedef struct BgSpot18Obj {
     /* 0x0168 */ s16 unk_168;
 } BgSpot18Obj; // size = 0x016C
 
-extern const ActorInit Bg_Spot18_Obj_InitVars;
-
 #endif

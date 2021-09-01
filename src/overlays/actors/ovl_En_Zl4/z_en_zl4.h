@@ -31,6 +31,4 @@ typedef struct EnZl4 {
     /* 0x0284 */ Vec3s morphTable[18];
 } EnZl4; // size = 0x02F0
 
-extern const ActorInit En_Zl4_InitVars;
-
 #endif
