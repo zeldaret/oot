@@ -3421,8 +3421,6 @@ void Audio_ClearSariaBgmAtPos(Vec3f* pos) {
     }
 }
 
-#ifdef NON_MATCHING
-// matches, but need to migrate data.
 void func_800F510C(s8 volSplit) {
     u8 vol;
     u8 prio;
@@ -3458,11 +3456,6 @@ void func_800F510C(s8 volSplit) {
         }
     }
 }
-#else
-u8 D_80131F6C[2] = {0, 3};
-void func_800F510C(s8 volSplit);
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F510C.s")
-#endif
 
 void Audio_PlaySariaBgm(Vec3f* pos, u16 seqId, u16 distMax) {
     f32 absY;
