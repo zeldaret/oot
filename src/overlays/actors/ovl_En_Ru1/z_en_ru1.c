@@ -590,7 +590,7 @@ void func_80AEBC30(GlobalContext* globalCtx) {
     Player* player;
 
     if (globalCtx->csCtx.frames == 0xCD) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         Audio_PlaySoundGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     }
@@ -818,7 +818,7 @@ void func_80AEC4F4(EnRu1* this) {
 }
 
 s32 func_80AEC5FC(EnRu1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 thisPosZ = this->actor.world.pos.z;
     f32 playerPosZ = player->actor.world.pos.z;
 
@@ -854,7 +854,7 @@ void func_80AEC6E4(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEC780(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((func_80AEC5FC(this, globalCtx)) && (!Gameplay_InCsMode(globalCtx)) && (!(player->stateFlags1 & 0x206000)) &&
         (player->actor.bgCheckFlags & 1)) {
@@ -1016,7 +1016,7 @@ void func_80AECE04(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AECE20(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f* playerPos = &player->actor.world.pos;
     s16 shapeRotY = player->actor.shape.rot.y;
     s32 pad;
@@ -1030,7 +1030,7 @@ void func_80AECE20(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AECEB4(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f* player_unk_450 = &player->unk_450;
     Vec3f* pos = &this->actor.world.pos;
     s16 shapeRotY = this->actor.shape.rot.y;
@@ -1041,7 +1041,7 @@ void func_80AECEB4(EnRu1* this, GlobalContext* globalCtx) {
 
 s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
     s16* shapeRotY;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Player* otherPlayer;
     s16 temp_f16;
     f32 temp1;
@@ -1050,7 +1050,7 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
 
     this->unk_26C += 1.0f;
     if ((player->actor.speedXZ == 0.0f) && (this->unk_26C >= 3.0f)) {
-        otherPlayer = PLAYER;
+        otherPlayer = GET_PLAYER(globalCtx);
         player->actor.world.pos.x = otherPlayer->unk_450.x;
         player->actor.world.pos.y = otherPlayer->unk_450.y;
         player->actor.world.pos.z = otherPlayer->unk_450.z;
@@ -1194,7 +1194,7 @@ void func_80AED4FC(EnRu1* this) {
 }
 
 void func_80AED520(EnRu1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Audio_PlaySoundGeneral(NA_SE_PL_PULL_UP_RUTO, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                            &D_801333E8);
@@ -1640,7 +1640,7 @@ void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
         return;
     }
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     if (player->stateFlags2 & 0x10000000) {
         this->unk_370 += 1.0f;
         if (this->action != 32) {
@@ -1781,7 +1781,7 @@ void func_80AEEF5C(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEEF68(EnRu1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 something;
 
     this->unk_374.unk_18 = player->actor.world.pos;
@@ -1791,7 +1791,7 @@ void func_80AEEF68(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEEFEC(EnRu1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 something;
 
     this->unk_374.unk_18 = player->actor.world.pos;

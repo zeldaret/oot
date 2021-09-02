@@ -257,7 +257,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnKanban* this = THIS;
     EnKanban* signpost;
     EnKanban* piece;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f offset;
 
     this->frameCount++;

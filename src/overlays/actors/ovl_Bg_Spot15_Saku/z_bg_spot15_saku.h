@@ -16,6 +16,4 @@ typedef struct BgSpot15Saku {
     /* 0x017C */ s16 timer;
 } BgSpot15Saku; // size = 0x0180
 
-extern const ActorInit Bg_Spot15_Saku_InitVars;
-
 #endif

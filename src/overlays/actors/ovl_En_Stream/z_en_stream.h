@@ -15,6 +15,4 @@ typedef struct EnStream {
     /* 0x0154 */ char unk_154[0x4];
 } EnStream; // size = 0x0158
 
-extern const ActorInit En_Stream_InitVars;
-
 #endif

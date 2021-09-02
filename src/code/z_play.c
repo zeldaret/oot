@@ -14,7 +14,7 @@ s16 D_801614C8;
 u64 D_801614D0[0xA00];
 
 void func_800BC450(GlobalContext* globalCtx) {
-    Camera_ChangeDataIdx(ACTIVE_CAM, globalCtx->unk_1242B - 1);
+    Camera_ChangeDataIdx(GET_ACTIVE_CAM(globalCtx), globalCtx->unk_1242B - 1);
 }
 
 void func_800BC490(GlobalContext* globalCtx, s16 point) {
@@ -142,7 +142,7 @@ Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx) {
 
 void Gameplay_Destroy(GameState* thisx) {
     GlobalContext* globalCtx = (GlobalContext*)thisx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     globalCtx->state.gfxCtx->callback = NULL;
     globalCtx->state.gfxCtx->callbackParam = 0;
@@ -372,7 +372,7 @@ void Gameplay_Init(GameState* thisx) {
         ; // Empty Loop
     }
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     Camera_InitPlayerSettings(&globalCtx->mainCamera, player);
     Camera_ChangeMode(&globalCtx->mainCamera, CAM_MODE_NORMAL);
 
@@ -394,7 +394,7 @@ void Gameplay_Init(GameState* thisx) {
     func_800758AC(globalCtx);
     gSaveContext.seqIndex = globalCtx->soundCtx.seqIndex;
     gSaveContext.nightSeqIndex = globalCtx->soundCtx.nightSeqIndex;
-    func_8002DF18(globalCtx, PLAYER);
+    func_8002DF18(globalCtx, GET_PLAYER(globalCtx));
     AnimationContext_Update(globalCtx, &globalCtx->animationCtx);
     gSaveContext.respawnFlag = 0;
 
@@ -1210,10 +1210,11 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
-                    if ((globalCtx->skyboxCtx.unk_140 != 0) && (ACTIVE_CAM->setting != CAM_SET_PREREND0)) {
+                    if ((globalCtx->skyboxCtx.unk_140 != 0) &&
+                        (GET_ACTIVE_CAM(globalCtx)->setting != CAM_SET_PREREND0)) {
                         Vec3f sp74;
 
-                        Camera_GetSkyboxOffset(&sp74, ACTIVE_CAM);
+                        Camera_GetSkyboxOffset(&sp74, GET_ACTIVE_CAM(globalCtx));
                         SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
                                         globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
                                         globalCtx->view.eye.z + sp74.z);
@@ -1295,7 +1296,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
     }
 
     if (globalCtx->view.unk_124 != 0) {
-        Camera_Update(ACTIVE_CAM);
+        Camera_Update(GET_ACTIVE_CAM(globalCtx));
         func_800AB944(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
         if (globalCtx->skyboxId && (globalCtx->skyboxId != SKYBOX_UNSET_1D) && !globalCtx->envCtx.skyDisabled) {
@@ -1304,7 +1305,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         }
     }
 
-    Camera_Finish(ACTIVE_CAM);
+    Camera_Finish(GET_ACTIVE_CAM(globalCtx));
 
     CLOSE_DISPS(gfxCtx, "../z_play.c", 4508);
 }
@@ -1386,37 +1387,37 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
         }
 
         mf->xx = temp1;
-        mf->xy = -nx * temp2;
-        mf->xz = nx * temp3;
-        mf->yx = nx;
+        mf->yx = -nx * temp2;
+        mf->zx = nx * temp3;
+        mf->xy = nx;
         mf->yy = ny;
-        mf->yz = nz;
-        mf->zy = temp3;
+        mf->zy = nz;
+        mf->yz = temp3;
         mf->zz = temp2;
-        mf->xw = 0.0f;
-        mf->yw = 0.0f;
-        mf->zx = 0.0f;
-        mf->zw = 0.0f;
-        mf->wx = vec->x;
-        mf->wy = floorY;
-        mf->wz = vec->z;
+        mf->wx = 0.0f;
+        mf->wy = 0.0f;
+        mf->xz = 0.0f;
+        mf->wz = 0.0f;
+        mf->xw = vec->x;
+        mf->yw = floorY;
+        mf->zw = vec->z;
         mf->ww = 1.0f;
     } else {
-        mf->yx = 0.0f;
-        mf->xz = 0.0f;
         mf->xy = 0.0f;
-        mf->xx = 0.0f;
-        mf->zw = 0.0f;
         mf->zx = 0.0f;
-        mf->yw = 0.0f;
-        mf->xw = 0.0f;
+        mf->yx = 0.0f;
+        mf->xx = 0.0f;
+        mf->wz = 0.0f;
+        mf->xz = 0.0f;
+        mf->wy = 0.0f;
+        mf->wx = 0.0f;
         mf->zz = 0.0f;
-        mf->zy = 0.0f;
         mf->yz = 0.0f;
+        mf->zy = 0.0f;
         mf->yy = 1.0f;
-        mf->wx = vec->x;
-        mf->wy = vec->y;
-        mf->wz = vec->z;
+        mf->xw = vec->x;
+        mf->yw = vec->y;
+        mf->zw = vec->z;
         mf->ww = 1.0f;
     }
 
@@ -1486,7 +1487,7 @@ void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
     Matrix_MultVec3f(src, dest);
 
     temp = globalCtx->mf_11D60.ww +
-           (globalCtx->mf_11D60.xw * src->x + globalCtx->mf_11D60.yw * src->y + globalCtx->mf_11D60.zw * src->z);
+           (globalCtx->mf_11D60.wx * src->x + globalCtx->mf_11D60.wy * src->y + globalCtx->mf_11D60.wz * src->z);
 
     dest->x = 160.0f + ((dest->x / temp) * 160.0f);
     dest->y = 120.0f - ((dest->y / temp) * 120.0f);
@@ -1726,7 +1727,7 @@ void Gameplay_SetRespawnData(GlobalContext* globalCtx, s32 respawnMode, s16 entr
 }
 
 void Gameplay_SetupRespawnPoint(GlobalContext* globalCtx, s32 respawnMode, s32 playerParams) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 entranceIndex;
     s8 roomIndex;
 

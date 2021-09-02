@@ -341,7 +341,7 @@ void func_80B4AE18(EnZl1* this) {
 }
 
 void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
@@ -361,7 +361,7 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
     s32 pad3;
     s32 pad;
@@ -407,7 +407,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
     Vec3f sp58 = { -434.0f, 84.0f, 0.0f };
     u8 sp54[] = { 0x00, 0x00, 0x02 };
     s32 pad2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     AnimationHeader* animHeaderSeg;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     f32 frameCount;
@@ -623,7 +623,7 @@ void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
 void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     func_8002DF54(globalCtx, &this->actor, 1);
@@ -695,7 +695,7 @@ void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
 void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad;
     MessageContext* msgCtx = &globalCtx->msgCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     switch (this->unk_1E2) {
         case 0:

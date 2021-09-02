@@ -20,6 +20,4 @@ typedef struct ObjWarp2block {
     /* 0x0174 */ s16 unk_174;
 } ObjWarp2block; // size = 0x0178
 
-extern const ActorInit Obj_Warp2block_InitVars;
-
 #endif

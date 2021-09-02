@@ -76,6 +76,4 @@ typedef struct EnNiw {
     /* 0x0358 */ EnNiwFeather feathers[20];
 } EnNiw; // size = 0x07B8
 
-extern const ActorInit En_Niw_InitVars;
-
 #endif

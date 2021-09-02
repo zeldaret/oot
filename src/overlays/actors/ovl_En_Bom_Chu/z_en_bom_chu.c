@@ -178,15 +178,15 @@ void EnBomChu_UpdateFloorPoly(EnBomChu* this, CollisionPoly* floorPoly, GlobalCo
             // mf = (axisLeft | axisUp | axisForwards)
 
             mf.xx = this->axisLeft.x;
-            mf.xy = this->axisLeft.y;
-            mf.xz = this->axisLeft.z;
+            mf.yx = this->axisLeft.y;
+            mf.zx = this->axisLeft.z;
 
-            mf.yx = normal.x;
+            mf.xy = normal.x;
             mf.yy = normal.y;
-            mf.yz = normal.z;
+            mf.zy = normal.z;
 
-            mf.zx = this->axisForwards.x;
-            mf.zy = this->axisForwards.y;
+            mf.xz = this->axisForwards.x;
+            mf.yz = this->axisForwards.y;
             mf.zz = this->axisForwards.z;
 
             Matrix_MtxFToYXZRotS(&mf, &this->actor.world.rot, 0);
@@ -203,7 +203,7 @@ void EnBomChu_UpdateFloorPoly(EnBomChu* this, CollisionPoly* floorPoly, GlobalCo
 }
 
 void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->timer != 0) {
         this->timer--;

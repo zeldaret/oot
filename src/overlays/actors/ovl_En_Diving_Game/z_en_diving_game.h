@@ -49,8 +49,6 @@ typedef struct EnDivingGame {
     /* 0x034C */ ColliderCylinder collider;
 } EnDivingGame; // size = 0x0398
 
-extern const ActorInit En_Diving_Game_InitVars;
-
 typedef enum {
     /* 0 */ ENDIVINGGAME_PHASE_ENDED,
     /* 1 */ ENDIVINGGAME_PHASE_1, // Player has not received the scale.

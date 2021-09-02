@@ -15,6 +15,4 @@ typedef struct BgBomGuard {
     /* 0x016C */ Vec3f unk_16C;
 } BgBomGuard; // size = 0x0178
 
-extern const ActorInit Bg_Bom_Guard_InitVars;
-
 #endif

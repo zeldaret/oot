@@ -14,6 +14,4 @@ typedef struct BgSpot05Soko {
     /* 0x0168 */ s32 switchFlag;
 } BgSpot05Soko; // size = 0x016C
 
-extern const ActorInit Bg_Spot05_Soko_InitVars;
-
 #endif

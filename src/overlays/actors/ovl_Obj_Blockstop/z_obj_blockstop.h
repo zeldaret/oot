@@ -10,6 +10,4 @@ typedef struct ObjBlockstop {
     /* 0x0000 */ Actor actor;
 } ObjBlockstop; // size = 0x014C
 
-extern const ActorInit ObjBlockstop_InitVars;
-
 #endif

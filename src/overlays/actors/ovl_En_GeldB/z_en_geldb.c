@@ -266,7 +266,7 @@ void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnGeldB_ReactToPlayer(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* thisx = &this->actor;
     s16 angleToWall;
     s16 angleToLink;
@@ -413,7 +413,7 @@ void EnGeldB_SetupReady(EnGeldB* this) {
 }
 
 void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s16 angleToLink;
 
@@ -480,7 +480,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
     s32 prevKeyFrame;
     s32 pad3C;
     s16 facingAngletoLink;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad30;
     s32 pad2C;
     f32 playSpeed;
@@ -566,7 +566,7 @@ void EnGeldB_SetupRollForward(EnGeldB* this) {
 }
 
 void EnGeldB_RollForward(EnGeldB* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 facingAngleToLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -647,7 +647,7 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
     s32 thisKeyFrame;
     s32 pad;
     s32 prevKeyFrame;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
     if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
@@ -731,7 +731,7 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
 
 void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     s16 sp3E;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 lastFrame = Animation_GetLastFrame(&gGerudoRedSidestepAnim);
 
     Animation_Change(&this->skelAnime, &gGerudoRedSidestepAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, 0.0f);
@@ -839,7 +839,7 @@ void EnGeldB_SetupSlash(EnGeldB* this) {
 }
 
 void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
     s16 angleToLink = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
@@ -897,7 +897,7 @@ void EnGeldB_SetupSpinAttack(EnGeldB* this) {
 }
 
 void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 angleFacingLink;
     s16 angleToLink;
 
@@ -1120,7 +1120,7 @@ void EnGeldB_SetupBlock(EnGeldB* this) {
 }
 
 void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s16 angleToLink;
     s16 angleFacingLink;
@@ -1178,7 +1178,7 @@ void EnGeldB_SetupSidestep(EnGeldB* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&gGerudoRedSidestepAnim);
 
     Animation_Change(&this->skelAnime, &gGerudoRedSidestepAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, 0.0f);
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
     linkAngle = player->actor.shape.rot.y;
     if (Math_SinS(linkAngle - this->actor.shape.rot.y) > 0.0f) {
@@ -1199,7 +1199,7 @@ void EnGeldB_SetupSidestep(EnGeldB* this, GlobalContext* globalCtx) {
 void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
     s16 behindLinkAngle;
     s16 phi_v1;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 thisKeyFrame;
     s32 prevKeyFrame;
     f32 playSpeed;
@@ -1271,7 +1271,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
                 EnGeldB_SetupReady(this);
                 this->timer = (Rand_ZeroOne() * 5.0f) + 1.0f;
             } else {
-                Player* player2 = PLAYER;
+                Player* player2 = GET_PLAYER(globalCtx);
                 s16 angleFacingPlayer2 = player2->actor.shape.rot.y - this->actor.shape.rot.y;
 
                 this->actor.world.rot.y = this->actor.shape.rot.y;
