@@ -15,7 +15,7 @@
 
 #define THIS ((EnKusa*)thisx)
 
-#define TYPE(params) (params & 3)
+#define TYPE(params) ((params) & 3)
 #define SPAWN_BUGS ((this->actor.params >> 4) & 1)
 #define DROPS ((this->actor.params >> 8) & 0xF)
 
@@ -453,8 +453,10 @@ void EnKusa_SetupUprootedWaitRegrow(EnKusa* this) {
 
 void EnKusa_UprootedWaitRegrow(EnKusa* this, GlobalContext* globalCtx) {
     if (this->timer > 120) {
-        if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.6f) && this->timer >= 170) {
-            EnKusa_SetupRegrow(this);
+        if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.6f)) {
+            if (this->timer >= 170) {
+                EnKusa_SetupRegrow(this);
+            }
         }
     }
 }
