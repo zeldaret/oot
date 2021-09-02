@@ -19,9 +19,9 @@ typedef struct {
 } FreqLerp;
 
 typedef struct {
-    u16 unk_00;
-    u16 unk_02;
-    u8 unk_04[100];
+    /* 0x0 */ u16 unk_00;
+    /* 0x2 */ u16 unk_02;
+    /* 0x4 */ u8 unk_04[100];
 } D_801306DC_s; // size = 0x68
 
 typedef enum {

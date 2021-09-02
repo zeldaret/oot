@@ -1,6 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 #include "ultra64/abi.h"
+
 extern unk_D_8016E750 D_8016E750[4];
 extern u8 D_8016E348[4];
 extern u32 sAudioSeqCmds[0x100];
@@ -10,46 +11,43 @@ extern u8 D_80133408;
 
 void Audio_ProcessSeqCmd(u32 cmd);
 
-#ifdef NON_MATCHING
 void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
-    u8 temp_s0;
     u8 i;
+    u16 dur;
+    s32 pad;
 
-    temp_s0 = seqIdx;
-    if (D_80133408 == 0 || temp_s0 == 2) {
+    if (D_80133408 == 0 || seqIdx == 2) {
         arg2 &= 0x7F;
         if (arg2 == 0x7F) {
-            Audio_QueueCmdS32(0x85000000 | ((u8)seqIdx << 16) | (seqId << 8),
-                              ((fadeTimer >> 3) * 0x3C * gAudioContext.audioBufferParameters.updatesPerFrame) & 0xFFFF);
+            dur = (fadeTimer >> 3) * 60 * gAudioContext.audioBufferParameters.updatesPerFrame;
+            Audio_QueueCmdS32(0x85000000 | _SHIFTL(seqIdx, 16, 8) | _SHIFTL(seqId, 8, 8), dur);
         } else {
-            Audio_QueueCmdS32(0x82000000 | ((u8)seqIdx << 16) | (seqId << 8),
+            Audio_QueueCmdS32(0x82000000 | _SHIFTL(seqIdx, 16, 8) | _SHIFTL(seqId, 8, 8),
                               (fadeTimer * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
         }
 
-        D_8016E750[temp_s0].unk_256 = D_8016E750[temp_s0].unk_254 = (arg2 << 8) | seqId;
+        D_8016E750[seqIdx].unk_254 = seqId | (arg2 << 8);
+        D_8016E750[seqIdx].unk_256 = seqId | (arg2 << 8);
 
-        if (D_8016E750[temp_s0].volCur != 1.0f) {
-            Audio_QueueCmdF32(0x41000000 | ((u8)seqIdx << 16), D_8016E750[temp_s0].volCur);
+        if (D_8016E750[seqIdx].volCur != 1.0f) {
+            Audio_QueueCmdF32(0x41000000 | _SHIFTL(seqIdx, 16, 8), D_8016E750[seqIdx].volCur);
         }
 
-        D_8016E750[temp_s0].unk_28 = 0;
-        D_8016E750[temp_s0].unk_18 = 0;
-        D_8016E750[temp_s0].unk_14 = 0;
+        D_8016E750[seqIdx].unk_28 = 0;
+        D_8016E750[seqIdx].unk_18 = 0;
+        D_8016E750[seqIdx].unk_14 = 0;
 
         for (i = 0; i < 0x10; i++) {
-            D_8016E750[temp_s0].unk_50[i].unk_00 = 1.0f;
-            D_8016E750[temp_s0].unk_50[i].unk_0C = 0;
-            D_8016E750[temp_s0].unk_50[i].unk_10 = 1.0f;
-            D_8016E750[temp_s0].unk_50[i].unk_1C = 0;
+            D_8016E750[seqIdx].unk_50[i].unk_00 = 1.0f;
+            D_8016E750[seqIdx].unk_50[i].unk_0C = 0;
+            D_8016E750[seqIdx].unk_50[i].unk_10 = 1.0f;
+            D_8016E750[seqIdx].unk_50[i].unk_1C = 0;
         }
 
-        D_8016E750[temp_s0].unk_250 = 0;
-        D_8016E750[temp_s0].unk_252 = 0;
+        D_8016E750[seqIdx].unk_250 = 0;
+        D_8016E750[seqIdx].unk_252 = 0;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/func_800F9280.s")
-#endif
 
 void func_800F9474(u8 arg0, u16 arg1) {
     Audio_QueueCmdS32(0x83000000 | ((u8)arg0 << 16),
@@ -307,7 +305,7 @@ void func_800FA3DC(void) {
                         D_8016E750[i].unk_50[k].unk_00 = D_8016E750[i].unk_50[k].unk_04;
                         temp_s2->unk_252 ^= (1 << k);
                     }
-                    Audio_QueueCmdF32(0x01000000 | _SHIFTL(i, 16, 8) | (k, 8, 8), D_8016E750[i].unk_50[k].unk_00);
+                    Audio_QueueCmdF32(0x01000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8), D_8016E750[i].unk_50[k].unk_00);
                 }
             }
         }
