@@ -182,26 +182,26 @@ static u8 sDecayMaskTotal[16 * 16] = {
 // clang-format on
 
 // These are Phantom Ganon's body textures, but I don't know which is which.
-static u64* sLimbTex_rgba16_8x8[] = {
+static void* sLimbTex_rgba16_8x8[] = {
     gPhantomGanonLimbTex_00A800, gPhantomGanonLimbTex_00AE80, gPhantomGanonLimbTex_00AF00,
     gPhantomGanonLimbTex_00C180, gPhantomGanonLimbTex_00C400,
 };
-static u64* sLimbTex_rgba16_16x8[] = {
+static void* sLimbTex_rgba16_16x8[] = {
     gPhantomGanonLimbTex_00B980, gPhantomGanonLimbTex_00C480, gPhantomGanonLimbTex_00BC80,
     gPhantomGanonLimbTex_00BD80, gPhantomGanonLimbTex_00C080,
 };
-static u64* sLimbTex_rgba16_16x16[] = {
+static void* sLimbTex_rgba16_16x16[] = {
     gPhantomGanonLimbTex_00C200, gPhantomGanonLimbTex_00A000, gPhantomGanonLimbTex_00A200,
     gPhantomGanonLimbTex_00A400, gPhantomGanonLimbTex_00A600, gPhantomGanonLimbTex_00A880,
     gPhantomGanonLimbTex_00B780, gPhantomGanonLimbTex_00BA80, gPhantomGanonLimbTex_00BE80,
 };
-static u64* sLimbTex_rgba16_16x32[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
+static void* sLimbTex_rgba16_16x32[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
 
-static u64* sMouthTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileTex };
+static void* sMouthTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileTex };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 43, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x2B, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -486,7 +486,7 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 targetX;
     f32 targetY;
     f32 targetZ;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* playerx = &player->actor;
     Actor* thisx = &this->actor;
     f32 rand01;
@@ -797,7 +797,7 @@ void BossGanondrof_SetupCharge(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* playerx = &player->actor;
     Actor* thisx = &this->actor;
     f32 dxCenter = thisx->world.pos.x - GND_BOSSROOM_CENTER_X;
@@ -943,7 +943,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 camX;
     f32 camZ;
     f32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
 
     osSyncPrintf("PYP %f\n", player->actor.floorHeight);

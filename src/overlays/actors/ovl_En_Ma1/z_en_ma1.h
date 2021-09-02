@@ -20,6 +20,4 @@ typedef struct EnMa1 {
     /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;
 } EnMa1; // size = 0x0210
 
-extern const ActorInit En_Ma1_InitVars;
-
 #endif

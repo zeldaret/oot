@@ -416,7 +416,7 @@ beginseg
     include "build/data/audio_effects.data.o"
     include "build/src/code/audio_seqplayer.o"
     include "build/src/code/code_800EC960.o"
-    include "build/data/code_800EC960.data.o"
+    include "build/src/code/audio_sound_params.o"
     include "build/src/code/code_800F7260.o"
     include "build/data/code_800F7260.bss.o"
     include "build/src/code/code_800F9280.o"
@@ -1325,6 +1325,7 @@ endseg
 
 beginseg
     name "ovl_Bg_Treemouth"
+    include "build/src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth_cutscene_data.o"
     include "build/src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth.o"
     include "build/src/overlays/actors/ovl_Bg_Treemouth/ovl_Bg_Treemouth_reloc.o"
 endseg
@@ -1428,11 +1429,7 @@ endseg
 beginseg
     name "ovl_Boss_Tw"
     include "build/src/overlays/actors/ovl_Boss_Tw/z_boss_tw.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Boss_Tw/ovl_Boss_Tw_reloc.o"
-#else
-    include "build/data/overlays/actors/z_boss_tw.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2240,8 +2237,11 @@ endseg
 beginseg
     name "ovl_En_Ganon_Mant"
     include "build/src/overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.o"
-    include "build/data/overlays/actors/z_en_ganon_mant.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Ganon_Mant/ovl_En_Ganon_Mant_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_ganon_mant.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3107,6 +3107,7 @@ endseg
 
 beginseg
     name "ovl_En_Zl1"
+    include "build/src/overlays/actors/ovl_En_Zl1/z_en_zl1_cutscene_data.o"
     include "build/src/overlays/actors/ovl_En_Zl1/z_en_zl1.o"
     include "build/src/overlays/actors/ovl_En_Zl1/ovl_En_Zl1_reloc.o"
 endseg

@@ -377,7 +377,20 @@ static void write_ld_script(void)
         fprintf(fout, "        _%sSegmentRoDataStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
+        {
             fprintf(fout, "            %s (.rodata)\n", seg->includes[j]);
+            // Compilers other than IDO, such as GCC, produce different sections such as
+            // the ones named directly below. These sections do not contain values that
+            // need relocating, but we need to ensure that the base .rodata section
+            // always comes first. The reason this is important is due to relocs assuming
+            // the base of .rodata being the offset for the relocs and thus needs to remain
+            // the beginning of the entire rodata area in order to remain consistent.
+            // Inconsistencies will lead to various .rodata reloc crashes as a result of
+            // either missing relocs or wrong relocs.
+            fprintf(fout, "            %s (.rodata.str1.4)\n", seg->includes[j]);
+            fprintf(fout, "            %s (.rodata.cst4)\n", seg->includes[j]);
+            fprintf(fout, "            %s (.rodata.cst8)\n", seg->includes[j]);
+        }
 
          //fprintf(fout, "        . = ALIGN(0x10);\n");
 

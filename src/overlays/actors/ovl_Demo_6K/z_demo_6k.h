@@ -31,6 +31,4 @@ typedef struct Demo6K {
     /* 0x0293 */ u8 unk_293;
 } Demo6K; // size = 0x0294
 
-extern const ActorInit Demo_6k_InitVars;
-
 #endif

@@ -30,8 +30,8 @@
         <DList Name="object_im_DL_006BB8" Offset="0x6BB8"/>
         <DList Name="object_im_DL_006D70" Offset="0x6D70"/>
         <Texture Name="object_im_Tex_006F40" OutName="tex_00006F40" Format="rgba16" Width="16" Height="16" Offset="0x6F40"/>
-        <Texture Name="object_im_TLUT_007140" OutName="tlut_00007140" Format="rgba16" Width="16" Height="16" Offset="0x7140"/>
-        <Blob Name="object_im_Blob_007340" Size="0x2D0" Offset="0x7340"/>
+        <Texture Name="object_im_TLUT_007140" OutName="tlut_00007140" Format="rgba16" Width="8" Height="13" Offset="0x7140"/>
+        <Texture Name="object_im_Tex_007210" OutName="tex_00007210" Format="ci8" Width="32" Height="32" Offset="0x7210"/>
         <Texture Name="object_im_Tex_007610" OutName="tex_00007610" Format="ci8" Width="16" Height="16" Offset="0x7610"/>
         <Texture Name="object_im_Tex_007710" OutName="tex_00007710" Format="ci8" Width="8" Height="8" Offset="0x7710"/>
         <Texture Name="object_im_Tex_007750" OutName="tex_00007750" Format="rgba16" Width="8" Height="8" Offset="0x7750"/>

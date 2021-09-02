@@ -1,6 +1,41 @@
 ﻿<Root>
     <File Name="object_ik" Segment="6">
         <!--Blob Name="object_ik_zeroes_unk_00000000" Size="0xF630" Offset="0x0" /-->
+
+        <Skeleton Name="object_ik_Skel_000380" Type="Normal" LimbType="Standard" Offset="0x380"/>
+        <Skeleton Name="object_ik_Skel_000660" Type="Normal" LimbType="Standard" Offset="0x660"/>
+        <Skeleton Name="object_ik_Skel_000C90" Type="Normal" LimbType="Standard" Offset="0xC90"/>
+
+        <Skeleton Name="object_ik_Skel_000900" Type="Flex" LimbType="Standard" Offset="0x900"/>
+        <Skeleton Name="object_ik_Skel_000F30" Type="Flex" LimbType="Standard" Offset="0xF30"/>
+        <Skeleton Name="object_ik_Skel_01EB40" Type="Flex" LimbType="Standard" Offset="0x1EB40"/>
+        <Skeleton Name="object_ik_Skel_01EE60" Type="Flex" LimbType="Standard" Offset="0x1EE60"/>
+        <Skeleton Name="object_ik_Skel_01E178" Type="Flex" LimbType="Standard" Offset="0x1E178"/>
+        <Skeleton Name="object_ik_Skel_0205C0" Type="Flex" LimbType="Standard" Offset="0x205C0"/>
+
+        <Animation Name="object_ik_Anim_00035C" Offset="0x35C"/>
+        <Animation Name="object_ik_Anim_000634" Offset="0x634"/>
+        <Animation Name="object_ik_Anim_0008DC" Offset="0x8DC"/>
+        <Animation Name="object_ik_Anim_000C6C" Offset="0xC6C"/>
+        <Animation Name="object_ik_Anim_000F0C" Offset="0xF0C"/>
+        <Animation Name="object_ik_Anim_001C28" Offset="0x1C28"/>
+        <Animation Name="object_ik_Anim_002538" Offset="0x2538"/>
+        <Animation Name="object_ik_Anim_0029FC" Offset="0x29FC"/>
+        <Animation Name="object_ik_Anim_0033C4" Offset="0x33C4"/>
+        <Animation Name="object_ik_Anim_003DBC" Offset="0x3DBC"/>
+        <Animation Name="object_ik_Anim_0045BC" Offset="0x45BC"/>
+        <Animation Name="object_ik_Anim_00485C" Offset="0x485C"/>
+        <Animation Name="object_ik_Anim_005944" Offset="0x5944"/>
+        <Animation Name="object_ik_Anim_006194" Offset="0x6194"/>
+        <Animation Name="object_ik_Anim_006734" Offset="0x6734"/>
+        <Animation Name="object_ik_Anim_00C114" Offset="0xC114"/>
+        <Animation Name="object_ik_Anim_00CD70" Offset="0xCD70"/>
+        <Animation Name="object_ik_Anim_00DD50" Offset="0xDD50"/>
+        <Animation Name="object_ik_Anim_00ED24" Offset="0xED24"/>
+        <Animation Name="object_ik_Anim_01EB14" Offset="0x1EB14"/>
+        <Animation Name="object_ik_Anim_01EE34" Offset="0x1EE34"/>
+        <Animation Name="object_ik_Anim_0203D8" Offset="0x203D8"/>
+
         <Texture Name="object_ik_Tlut_00F630" OutName="tlut_00F630" Format="rgba16" Width="23" Height="8" Offset="0xf630" />
         <Texture Name="object_ik_Tex_00F7A0" OutName="tex_00F7A0" Format="i4" Width="32" Height="64" Offset="0xF7A0" />
         <Texture Name="object_ik_Tex_00FBA0" OutName="tex_00FBA0" Format="ia8" Width="32" Height="32" Offset="0xFBA0" />

@@ -10,6 +10,27 @@
 #include "objects/object_ec/object_ec.h"
 #include "objects/object_fish/object_fish.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
+#include "objects/object_ma2/object_ma2.h"
+#include "objects/object_in/object_in.h"
+#include "objects/object_ta/object_ta.h"
+#include "objects/object_fu/object_fu.h"
+#include "objects/object_toryo/object_toryo.h"
+#include "objects/object_daiku/object_daiku.h"
+#include "objects/object_ge1/object_ge1.h"
+#include "objects/object_kz/object_kz.h"
+#include "objects/object_md/object_md.h"
+#include "objects/object_niw/object_niw.h"
+#include "objects/object_ds2/object_ds2.h"
+#include "objects/object_os/object_os.h"
+#include "objects/object_rs/object_rs.h"
+#include "objects/object_gm/object_gm.h"
+#include "objects/object_km1/object_km1.h"
+#include "objects/object_kw1/object_kw1.h"
+#include "objects/object_bji/object_bji.h"
+#include "objects/object_ahg/object_ahg.h"
+#include "objects/object_bob/object_bob.h"
+#include "objects/object_bba/object_bba.h"
+#include "objects/object_ane/object_ane.h"
 
 #define FLAGS 0x00000010
 
@@ -80,11 +101,41 @@ typedef enum {
 } DemoEcDrawconfig;
 
 static s16 sDrawObjects[] = {
-    OBJECT_IN,   OBJECT_TA,  OBJECT_FU,       OBJECT_KM1,      OBJECT_KW1,      OBJECT_BJI,      OBJECT_AHG,
-    OBJECT_BOB,  OBJECT_BBA, OBJECT_TORYO,    OBJECT_DAIKU,    OBJECT_DAIKU,    OBJECT_DAIKU,    OBJECT_DAIKU,
-    OBJECT_KM1,  OBJECT_KW1, OBJECT_GE1,      OBJECT_GE1,      OBJECT_GE1,      OBJECT_ZO,       OBJECT_KZ,
-    OBJECT_MD,   OBJECT_NIW, OBJECT_NIW,      OBJECT_NIW,      OBJECT_ANE,      OBJECT_DS2,      OBJECT_OS,
-    OBJECT_FISH, OBJECT_RS,  OBJECT_OF1D_MAP, OBJECT_OF1D_MAP, OBJECT_OF1D_MAP, OBJECT_OF1D_MAP, OBJECT_MA2,
+    /*  0 */ OBJECT_IN,
+    /*  1 */ OBJECT_TA,
+    /*  2 */ OBJECT_FU,
+    /*  3 */ OBJECT_KM1,
+    /*  4 */ OBJECT_KW1,
+    /*  5 */ OBJECT_BJI,
+    /*  6 */ OBJECT_AHG,
+    /*  7 */ OBJECT_BOB,
+    /*  8 */ OBJECT_BBA,
+    /*  9 */ OBJECT_TORYO,
+    /* 10 */ OBJECT_DAIKU,
+    /* 11 */ OBJECT_DAIKU,
+    /* 12 */ OBJECT_DAIKU,
+    /* 13 */ OBJECT_DAIKU,
+    /* 14 */ OBJECT_KM1,
+    /* 15 */ OBJECT_KW1,
+    /* 16 */ OBJECT_GE1,
+    /* 17 */ OBJECT_GE1,
+    /* 18 */ OBJECT_GE1,
+    /* 19 */ OBJECT_ZO,
+    /* 20 */ OBJECT_KZ,
+    /* 21 */ OBJECT_MD,
+    /* 22 */ OBJECT_NIW,
+    /* 23 */ OBJECT_NIW,
+    /* 24 */ OBJECT_NIW,
+    /* 25 */ OBJECT_ANE,
+    /* 26 */ OBJECT_DS2,
+    /* 27 */ OBJECT_OS,
+    /* 28 */ OBJECT_FISH,
+    /* 29 */ OBJECT_RS,
+    /* 30 */ OBJECT_OF1D_MAP,
+    /* 31 */ OBJECT_OF1D_MAP,
+    /* 32 */ OBJECT_OF1D_MAP,
+    /* 33 */ OBJECT_OF1D_MAP,
+    /* 34 */ OBJECT_MA2,
 };
 
 static s16 sAnimationObjects[] = {
@@ -94,73 +145,8 @@ static s16 sAnimationObjects[] = {
     OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_GM, OBJECT_MA2,
 };
 
-// skeletons (all from other objects)
-
-// Object_IN
-extern FlexSkeletonHeader D_06013B88;
-
-// Object_TA
-extern FlexSkeletonHeader D_0600B7B8;
-
-// Object_FU
-extern FlexSkeletonHeader D_06006C90;
-
-// Object_KM1, Object_KW1, Object_BJI, Objct_AHG, Object_BOB, Object_BBA, Object_ANE
-extern FlexSkeletonHeader D_060000F0;
-
-// Object_Toryo
-extern FlexSkeletonHeader D_06007150;
-
-// Object_Daiku
-extern FlexSkeletonHeader D_06007958;
-
-// Object_GE1
-extern FlexSkeletonHeader D_06000330;
-
-// Object_KZ
-extern FlexSkeletonHeader D_060086D0;
-
-// Object_MD
-extern FlexSkeletonHeader D_06007FB8;
-
-// Object_Niw
-extern FlexSkeletonHeader D_06002530;
-
-// Object_DS2
-extern FlexSkeletonHeader D_06004258;
-
-// Object_OS
-extern FlexSkeletonHeader D_06004658;
-
-// Object_RS
-extern FlexSkeletonHeader D_06004868;
-
-// Object_MA2
-extern FlexSkeletonHeader D_06008D90;
-
-// animations from other objects
-extern AnimationHeader D_060002B8;
-extern AnimationHeader D_06009EE0; // Object MA2
-extern AnimationHeader D_06004390;
-extern AnimationHeader D_060076C0;
-extern AnimationHeader D_06005F20;
-
-// mouth textures
-extern u8 D_06004350[];
-extern u8 D_06007AC0[];
-extern u8 D_06006920[];
-extern u8 D_060004C8[];
-extern u8 D_060035D8[];
-extern u8 D_06003770[];
-
-// PostLimbDraw display lists
-extern Gfx D_06005BD0[];
-extern Gfx D_06005AC0[];
-extern Gfx D_06005990[];
-extern Gfx D_06005880[];
-extern Gfx D_06009198[];
-extern Gfx D_06009430[];
-extern Gfx D_06009690[];
+extern FlexSkeletonHeader object_bji_Skel_0000F0;
+extern FlexSkeletonHeader object_ahg_Skel_0000F0;
 
 void DemoEc_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoEc* this = THIS;
@@ -367,7 +353,7 @@ void DemoEc_SetNpcActionPosRot(DemoEc* this, GlobalContext* globalCtx, s32 actio
 
 void DemoEc_InitIngo(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06013B88);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_in_Skel_013B88);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcIngoAnim, 0, 0.0f, false);
     func_8096D64C(this, globalCtx);
@@ -383,12 +369,12 @@ void DemoEc_UpdateIngo(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawIngo(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &D_06004390, &D_06004350, 0, 0);
+    DemoEc_DrawSkeleton(this, globalCtx, &object_in_Tex_004390, &object_in_Tex_004350, 0, 0);
 }
 
 void DemoEc_InitTalon(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_0600B7B8);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_ta_Skel_00B7B8);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcTalonAnim, 0, 0.0f, false);
     func_8096D64C(this, globalCtx);
@@ -404,12 +390,12 @@ void DemoEc_UpdateTalon(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawTalon(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &D_060076C0, &D_06007AC0, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, &object_ta_Tex_0076C0, &object_ta_Tex_007AC0, NULL, NULL);
 }
 
 void DemoEc_InitWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06006C90);
+    DemoEc_InitSkelAnime(this, globalCtx, &gWindmillManSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcWindmillManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -425,12 +411,12 @@ void DemoEc_UpdateWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &D_06005F20, &D_06006920, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, &gWindmillManEyeClosedTex, &gWindMillManMouthAngryTex, NULL, NULL);
 }
 
 void DemoEc_InitKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
+    DemoEc_InitSkelAnime(this, globalCtx, &gKm1Skel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcKokiriAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -441,7 +427,7 @@ void DemoEc_InitKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitDancingKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
+    DemoEc_InitSkelAnime(this, globalCtx, &gKm1Skel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcDancingKokiriAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -469,7 +455,7 @@ void DemoEc_DrawKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitKokiriGirl(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
+    DemoEc_InitSkelAnime(this, globalCtx, &gKw1Skel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcKokiriAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -480,7 +466,7 @@ void DemoEc_InitKokiriGirl(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitDancingKokiriGirl(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
+    DemoEc_InitSkelAnime(this, globalCtx, &gKw1Skel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcDancingKokiriAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -511,7 +497,7 @@ void DemoEc_DrawKokiriGirl(DemoEc* this, GlobalContext* globalCtx) {
 }
 void DemoEc_InitOldMan(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_bji_Skel_0000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -539,7 +525,7 @@ void DemoEc_DrawOldMan(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitBeardedMan(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_ahg_Skel_0000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -567,7 +553,7 @@ void DemoEc_DrawBeardedMan(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitWoman(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_bob_Skel_0000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -593,7 +579,7 @@ void DemoEc_DrawWoman(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitOldWoman(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_bba_Skel_0000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -609,12 +595,12 @@ void DemoEc_UpdateOldWoman(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawOldWoman(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &D_060004C8, NULL, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, &object_bba_Tex_0004C8, NULL, NULL, NULL);
 }
 
 void DemoEc_InitBossCarpenter(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06007150);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_toryo_Skel_007150);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcCarpenterAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -635,7 +621,7 @@ void DemoEc_DrawBossCarpenter(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitCarpenter(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06007958);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_daiku_Skel_007958);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcCarpenterAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -678,13 +664,13 @@ s32 DemoEc_CarpenterOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
 Gfx* DemoEc_GetCarpenterPostLimbDList(DemoEc* this) {
     switch (this->actor.params) {
         case 10:
-            return D_06005BD0;
+            return object_daiku_DL_005BD0;
         case 11:
-            return D_06005AC0;
+            return object_daiku_DL_005AC0;
         case 12:
-            return D_06005990;
+            return object_daiku_DL_005990;
         case 13:
-            return D_06005880;
+            return object_daiku_DL_005880;
         default:
             osSyncPrintf(VT_FGCOL(RED) "かつらが無い!!!!!!!!!!!!!!!!\n" VT_RST);
             return 0;
@@ -708,7 +694,7 @@ void DemoEc_DrawCarpenter(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitGerudo(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06000330);
+    DemoEc_InitSkelAnime(this, globalCtx, &gGerudoWhiteSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcGerudoAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -727,11 +713,11 @@ void DemoEc_UpdateGerudo(DemoEc* this, GlobalContext* globalCtx) {
 Gfx* DemoEc_GetGerudoPostLimbDList(DemoEc* this) {
     switch (this->actor.params) {
         case 16:
-            return D_06009198;
+            return gGerudoWhiteHairstyleBobDL;
         case 17:
-            return D_06009430;
+            return gGerudoWhiteHairstyleStraightFringeDL;
         case 18:
-            return D_06009690;
+            return gGerudoWhiteHairstyleSpikyDL;
         default:
             osSyncPrintf(VT_FGCOL(RED) "かつらが無い!!!!!!!!!!!!!!!!\n" VT_RST);
             return NULL;
@@ -785,7 +771,7 @@ void DemoEc_DrawDancingZora(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitKingZora(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060086D0);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_kz_Skel_0086D0);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcKingZoraAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -870,7 +856,7 @@ void DemoEc_DrawKingZora(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitMido(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06007FB8);
+    DemoEc_InitSkelAnime(this, globalCtx, &gMidoSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcMidoAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -937,7 +923,7 @@ void DemoEc_InitCucco(DemoEc* this, GlobalContext* globalCtx) {
     AnimationHeader* animation;
 
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06002530);
+    DemoEc_InitSkelAnime(this, globalCtx, &gCuccoSkel);
     DemoEc_UseAnimationObject(this, globalCtx);
 
     if (this->actor.params == 22) {
@@ -967,7 +953,7 @@ void DemoEc_DrawCucco(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitCuccoLady(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
+    DemoEc_InitSkelAnime(this, globalCtx, &gCuccoLadySkel);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcCuccoLadyAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -993,7 +979,7 @@ void DemoEc_DrawCuccoLady(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitPotionShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06004258);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_ds2_Skel_004258);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -1019,7 +1005,7 @@ void DemoEc_DrawPotionShopOwner(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06004658);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_os_Skel_004658);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -1035,7 +1021,7 @@ void DemoEc_UpdateMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
-    DemoEc_DrawSkeleton(this, globalCtx, &D_060035D8, NULL, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, &gOsEyeClosedTex, NULL, NULL, NULL);
 }
 
 void DemoEc_InitFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
@@ -1079,7 +1065,7 @@ void DemoEc_DrawFishingOwner(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06004868);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_rs_Skel_004868);
     DemoEc_UseAnimationObject(this, globalCtx);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
@@ -1096,7 +1082,8 @@ void DempEc_UpdateBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawBombchuShopOwner(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x06003968, 0x06003D68, 0x06004168 };
+    static void* eyeTextures[] = { gBombchuShopkeeperEyeOpenTex, gBombchuShopkeeperEyeHalfTex,
+                                   gBombchuShopkeeperEyeClosedTex };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
@@ -1124,7 +1111,7 @@ void DemoEc_InitGorons(DemoEc* this, GlobalContext* globalCtx) {
         goronScale = 15.0f;
     } else {
         goronScale = 5.0f;
-        animation = &D_060002B8;
+        animation = &object_gm_Anim_0002B8;
     }
 
     DemoEc_ChangeAnimation(this, animation, 0, 0.0f, false);
@@ -1156,9 +1143,9 @@ void DemoEc_DrawGorons(DemoEc* this, GlobalContext* globalCtx) {
 
 void DemoEc_InitMalon(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
-    DemoEc_InitSkelAnime(this, globalCtx, &D_06008D90);
+    DemoEc_InitSkelAnime(this, globalCtx, &object_ma2_Skel_008D90);
     DemoEc_UseAnimationObject(this, globalCtx);
-    DemoEc_ChangeAnimation(this, &D_06009EE0, 0, 0.0f, false);
+    DemoEc_ChangeAnimation(this, &object_ma2_Anim_009EE0, 0, 0.0f, false);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     this->updateMode = EC_UPDATE_MALON;
@@ -1173,49 +1160,49 @@ void DemoEc_UpdateMalon(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void DemoEc_DrawMalon(DemoEc* this, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x06002570, 0x06002C70, 0x06003070 };
+    static void* eyeTextures[] = { object_ma2_Tex_002570, object_ma2_Tex_002C70, object_ma2_Tex_003070 };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &D_06003770, NULL, NULL);
+    DemoEc_DrawSkeleton(this, globalCtx, eyeTexture, &object_ma2_Tex_003770, NULL, NULL);
 }
 
 static DemoEcInitFunc sInitFuncs[] = {
-    DemoEc_InitIngo,
-    DemoEc_InitTalon,
-    DemoEc_InitWindmillMan,
-    DemoEc_InitKokiriBoy,
-    DemoEc_InitKokiriGirl,
-    DemoEc_InitOldMan,
-    DemoEc_InitBeardedMan,
-    DemoEc_InitWoman,
-    DemoEc_InitOldWoman,
-    DemoEc_InitBossCarpenter,
-    DemoEc_InitCarpenter,
-    DemoEc_InitCarpenter,
-    DemoEc_InitCarpenter,
-    DemoEc_InitCarpenter,
-    DemoEc_InitDancingKokiriBoy,
-    DemoEc_InitDancingKokiriGirl,
-    DemoEc_InitGerudo,
-    DemoEc_InitGerudo,
-    DemoEc_InitGerudo,
-    DemoEc_InitDancingZora,
-    DemoEc_InitKingZora,
-    DemoEc_InitMido,
-    DemoEc_InitCucco,
-    DemoEc_InitCucco,
-    DemoEc_InitCucco,
-    DemoEc_InitCuccoLady,
-    DemoEc_InitPotionShopOwner,
-    DemoEc_InitMaskShopOwner,
-    DemoEc_InitFishingOwner,
-    DemoEc_InitBombchuShopOwner,
-    DemoEc_InitGorons,
-    DemoEc_InitGorons,
-    DemoEc_InitGorons,
-    DemoEc_InitGorons,
-    DemoEc_InitMalon,
+    /*  0 */ DemoEc_InitIngo,
+    /*  1 */ DemoEc_InitTalon,
+    /*  2 */ DemoEc_InitWindmillMan,
+    /*  3 */ DemoEc_InitKokiriBoy,
+    /*  4 */ DemoEc_InitKokiriGirl,
+    /*  5 */ DemoEc_InitOldMan,
+    /*  6 */ DemoEc_InitBeardedMan,
+    /*  7 */ DemoEc_InitWoman,
+    /*  8 */ DemoEc_InitOldWoman,
+    /*  9 */ DemoEc_InitBossCarpenter,
+    /* 10 */ DemoEc_InitCarpenter,
+    /* 11 */ DemoEc_InitCarpenter,
+    /* 12 */ DemoEc_InitCarpenter,
+    /* 13 */ DemoEc_InitCarpenter,
+    /* 14 */ DemoEc_InitDancingKokiriBoy,
+    /* 15 */ DemoEc_InitDancingKokiriGirl,
+    /* 16 */ DemoEc_InitGerudo,
+    /* 17 */ DemoEc_InitGerudo,
+    /* 18 */ DemoEc_InitGerudo,
+    /* 19 */ DemoEc_InitDancingZora,
+    /* 20 */ DemoEc_InitKingZora,
+    /* 21 */ DemoEc_InitMido,
+    /* 22 */ DemoEc_InitCucco,
+    /* 23 */ DemoEc_InitCucco,
+    /* 24 */ DemoEc_InitCucco,
+    /* 25 */ DemoEc_InitCuccoLady,
+    /* 26 */ DemoEc_InitPotionShopOwner,
+    /* 27 */ DemoEc_InitMaskShopOwner,
+    /* 28 */ DemoEc_InitFishingOwner,
+    /* 29 */ DemoEc_InitBombchuShopOwner,
+    /* 30 */ DemoEc_InitGorons,
+    /* 31 */ DemoEc_InitGorons,
+    /* 32 */ DemoEc_InitGorons,
+    /* 33 */ DemoEc_InitGorons,
+    /* 34 */ DemoEc_InitMalon,
 };
 
 void DemoEc_InitNpc(DemoEc* this, GlobalContext* globalCtx) {

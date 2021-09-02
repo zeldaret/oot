@@ -35,6 +35,4 @@ typedef enum {
     HONOTRAP_FLAME_DROP
 } EnHonotrapType;
 
-extern const ActorInit En_Honotrap_InitVars;
-
 #endif

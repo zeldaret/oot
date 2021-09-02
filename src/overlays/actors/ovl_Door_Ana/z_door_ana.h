@@ -14,6 +14,4 @@ typedef struct DoorAna {
     /* 0x0198 */ DoorAnaActionFunc actionFunc;
 } DoorAna; // size = 0x019C
 
-extern const ActorInit Door_Ana_InitVars;
-
 #endif

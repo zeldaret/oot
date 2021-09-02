@@ -59,7 +59,9 @@ static ColliderCylinderInit sCylinderInit = {
     },
     { 16, 10, -6, { 0, 0, 0 } },
 };
+
 static CollisionCheckInfoInit sColChkInfoInit = { 2, 45, 15, 100 };
+
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0x0),
@@ -95,7 +97,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 25, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x19, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 3, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
 };
@@ -181,7 +183,7 @@ void func_80B32660(EnWeiyer* this) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
-    this->collider.dim.height = sCylinderInit.dim.height + 0xF;
+    this->collider.dim.height = sCylinderInit.dim.height + 15;
     Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, 0x50);
     this->collider.base.atFlags &= ~AT_ON;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -278,7 +280,7 @@ void func_80B328E8(EnWeiyer* this, GlobalContext* globalCtx) {
                 Rand_ZeroOne() * ((this->actor.home.pos.y - this->actor.floorHeight) / 2.0f) + this->actor.floorHeight;
         }
     } else {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         if (this->actor.bgCheckFlags & 1) {
             this->unk_280 =
@@ -344,7 +346,7 @@ void func_80B32D30(EnWeiyer* this, GlobalContext* globalCtx) {
 }
 
 s16 func_80B32DEC(EnWeiyer* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f vec;
 
     vec.x = player->actor.world.pos.x;
@@ -355,7 +357,7 @@ s16 func_80B32DEC(EnWeiyer* this, GlobalContext* globalCtx) {
 }
 
 void func_80B32E34(EnWeiyer* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -512,7 +514,7 @@ void func_80B333B8(EnWeiyer* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a1;
     s32 phi_a0;
 

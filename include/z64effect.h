@@ -248,45 +248,15 @@ typedef struct {
 #define rgEnvColorA regs[10]
 #define rgObjBankIdx regs[11]
 
+#define DEFINE_EFFECT_SS(_0, enum) enum,
+#define DEFINE_EFFECT_SS_UNSET(enum) enum,
+
 typedef enum {
-    /* 0x00 */ EFFECT_SS_DUST,
-    /* 0x01 */ EFFECT_SS_KIRAKIRA,
-    /* 0x02 */ EFFECT_SS_BOMB,
-    /* 0x03 */ EFFECT_SS_BOMB2,
-    /* 0x04 */ EFFECT_SS_BLAST,
-    /* 0x05 */ EFFECT_SS_G_SPK,
-    /* 0x06 */ EFFECT_SS_D_FIRE,
-    /* 0x07 */ EFFECT_SS_BUBBLE,
-    /* 0x08 */ EFFECT_SS_UNSET,
-    /* 0x09 */ EFFECT_SS_G_RIPPLE,
-    /* 0x0A */ EFFECT_SS_G_SPLASH,
-    /* 0x0B */ EFFECT_SS_G_MAGMA,
-    /* 0x0C */ EFFECT_SS_G_FIRE,
-    /* 0x0D */ EFFECT_SS_LIGHTNING,
-    /* 0x0E */ EFFECT_SS_DT_BUBBLE,
-    /* 0x0F */ EFFECT_SS_HAHEN,
-    /* 0x10 */ EFFECT_SS_STICK,
-    /* 0x11 */ EFFECT_SS_SIBUKI,
-    /* 0x12 */ EFFECT_SS_SIBUKI2,
-    /* 0x13 */ EFFECT_SS_G_MAGMA2,
-    /* 0x14 */ EFFECT_SS_STONE1,
-    /* 0x15 */ EFFECT_SS_HITMARK,
-    /* 0x16 */ EFFECT_SS_FHG_FLASH,
-    /* 0x17 */ EFFECT_SS_K_FIRE,
-    /* 0x18 */ EFFECT_SS_SOLDER_SRCH_BALL,
-    /* 0x19 */ EFFECT_SS_KAKERA,
-    /* 0x1A */ EFFECT_SS_ICE_PIECE,
-    /* 0x1B */ EFFECT_SS_EN_ICE,
-    /* 0x1C */ EFFECT_SS_FIRE_TAIL,
-    /* 0x1D */ EFFECT_SS_EN_FIRE,
-    /* 0x1E */ EFFECT_SS_EXTRA,
-    /* 0x1F */ EFFECT_SS_FCIRCLE,
-    /* 0x20 */ EFFECT_SS_DEAD_DB,
-    /* 0x21 */ EFFECT_SS_DEAD_DD,
-    /* 0x22 */ EFFECT_SS_DEAD_DS,
-    /* 0x23 */ EFFECT_SS_DEAD_SOUND,
-    /* 0x24 */ EFFECT_SS_ICE_SMOKE,
+    #include "tables/effect_ss_table.h"
     /* 0x25 */ EFFECT_SS_TYPE_MAX // originally "EFFECT_SS2_TYPE_LAST_LABEL"
 } EffectSsType;
+
+#undef DEFINE_EFFECT_SS
+#undef DEFINE_EFFECT_SS_UNSET
 
 #endif

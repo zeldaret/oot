@@ -158,7 +158,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 19, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x13, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -4000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
 };
@@ -372,7 +372,7 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 rand;
     f32 sin;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((this->unk_258 != 0) ||
         ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (this->hurtCollider.base.oc == &player->actor)) ||
@@ -665,7 +665,7 @@ void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx) {
 }
 
 void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp158f = this->dyna.unk_158;
     s16 moveDir = 0;
 
@@ -907,7 +907,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
         if ((this->behavior >= 4) && (this->unk_264 > 0)) {
             if (!(this->hitCollider.base.atFlags & AT_BOUNCED)) {
                 if (this->hitCollider.base.atFlags & AT_HIT) {
-                    Player* player = PLAYER;
+                    Player* player = GET_PLAYER(globalCtx);
 
                     if (this->hitCollider.base.at == &player->actor) {
                         Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
@@ -936,7 +936,7 @@ void EnAm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     }
 }
 
-Vec3f sIcePosOffsets[] = {
+static Vec3f sIcePosOffsets[] = {
     { 20.0f, 40.0f, 0.0f },   { 10.0f, 60.0f, 10.0f },   { -10.0f, 60.0f, 10.0f }, { -20.0f, 40.0f, 0.0f },
     { 10.0f, 60.0f, -10.0f }, { -10.0f, 60.0f, -10.0f }, { 0.0f, 40.0f, -20.0f },  { 10.0f, 20.0f, 10.0f },
     { 10.0f, 20.0f, -10.0f }, { 0.0f, 40.0f, 20.0f },    { -10.0f, 20.0f, 10.0f }, { -10.0f, 20.0f, -10.0f },

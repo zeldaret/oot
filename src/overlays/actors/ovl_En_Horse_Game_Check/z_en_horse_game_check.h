@@ -62,6 +62,4 @@ typedef enum {
     /* 4 */ HORSEGAME_MALON_RACE
 } EnHorseGameCheckType;
 
-extern const ActorInit En_Horse_Game_Check_InitVars;
-
 #endif

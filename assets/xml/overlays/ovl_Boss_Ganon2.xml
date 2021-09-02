@@ -42,8 +42,8 @@
             <Vtx/>
         </Array>
         <DList Name="ovl_Boss_Ganon2_DL_00F188" Offset="0x00F188"/>
-        <Texture Name="ovl_Boss_Ganon2_Tex_00F208" OutName="tex_0000F208" Format="rgb5a1" Width="16" Height="16" Offset="0x00F208"/>
-        <Texture Name="ovl_Boss_Ganon2_Tex_00F408" OutName="tex_0000F408" Format="rgb5a1" Width="32" Height="32" Offset="0x00F408"/>
+        <Texture Name="ovl_Boss_Ganon2_Tex_00F208" OutName="tex_0000F208" Format="rgba16" Width="16" Height="16" Offset="0x00F208"/>
+        <Texture Name="ovl_Boss_Ganon2_Tex_00F408" OutName="tex_0000F408" Format="rgba16" Width="32" Height="32" Offset="0x00F408"/>
         <Array Name="ovl_Boss_Ganon2_Vtx_00FC08" Count="3" Offset="0x00FC08">
             <Vtx/>
         </Array>

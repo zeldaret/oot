@@ -99,6 +99,12 @@ wordReplace = {
     "func_80032C7C": "Enemy_StartFinishingBlow",
     "actorCtx.unk_00": "actorCtx.freezeFlashTimer",
     "func_800339B8": "Actor_TestFloorInDirection",
+    "Matrix_Reverse": "Matrix_Transpose",
+    "func_800D20CC": "Matrix_MtxFToYXZRotS",
+    "func_800D2264": "Matrix_MtxFToZYXRotS",
+    "func_800D23FC": "Matrix_RotateAxis",
+    "PLAYER": "GET_PLAYER(globalCtx)",
+    "ACTIVE_CAM": "GET_ACTIVE_CAM(globalCtx)",
 }
 
 # [a-zA-Z0-9_]

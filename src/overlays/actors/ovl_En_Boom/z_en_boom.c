@@ -122,7 +122,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     Vec3f hitPoint;
     s32 pad2;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     target = this->moveTo;
 
     // If the boomerang is moving toward a targeted actor, handle setting the proper x and y angle to fly toward it.
@@ -240,7 +240,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
 
 void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBoom* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(player->stateFlags1 & 0x20000000)) {
         this->actionFunc(this, globalCtx);

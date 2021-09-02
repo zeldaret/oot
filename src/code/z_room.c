@@ -329,7 +329,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     sp9C = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
@@ -384,7 +384,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     BgImage* bgImage;
     s32 i;
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     camId = camera->camDataIdx;
     // jfifid
     camId2 = func_80041C10(&globalCtx->colCtx, camId, BGCHECK_SCENE)[2].y;
@@ -392,7 +392,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
         camId = camId2;
     }
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     player->actor.params = (player->actor.params & 0xFF00) | camId;
 
     bgImage = SEGMENTED_TO_VIRTUAL(polygon1->multi.list);
@@ -424,7 +424,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     sp98 = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
@@ -498,7 +498,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     u32 roomSize;
     s32 i;
 
-    for (i = 0; i < globalCtx->nbRooms; i++) {
+    for (i = 0; i < globalCtx->numRooms; i++) {
         roomSize = roomList[i].vromEnd - roomList[i].vromStart;
         osSyncPrintf("ROOM%d size=%d\n", i, roomSize);
         if (maxRoomSize < roomSize) {
@@ -506,14 +506,14 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
         }
     }
 
-    if (globalCtx->nbTransitionActors != 0) {
+    if (globalCtx->transiActorCtx.numActors != 0) {
         s32 j;
         RomFile* roomList = globalCtx->roomList;
-        TransitionActorEntry* transitionActor = &globalCtx->transitionActorList[0];
+        TransitionActorEntry* transitionActor = &globalCtx->transiActorCtx.list[0];
 
-        LOG_NUM("game_play->room_rom_address.num", globalCtx->nbRooms, "../z_room.c", 912);
+        LOG_NUM("game_play->room_rom_address.num", globalCtx->numRooms, "../z_room.c", 912);
 
-        for (j = 0; j < globalCtx->nbTransitionActors; j++) {
+        for (j = 0; j < globalCtx->transiActorCtx.numActors; j++) {
             s8 frontRoom = transitionActor->sides[0].room;
             s8 backRoom = transitionActor->sides[1].room;
             u32 frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
@@ -563,7 +563,7 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
         roomCtx->curRoom.segment = NULL;
         roomCtx->status = 1;
 
-        ASSERT(roomNum < globalCtx->nbRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
+        ASSERT(roomNum < globalCtx->numRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
         size = globalCtx->roomList[roomNum].vromEnd - globalCtx->roomList[roomNum].vromStart;
         roomCtx->unk_34 = (void*)ALIGN16((s32)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
@@ -589,7 +589,7 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
             gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->unk_34);
 
             Scene_ExecuteCommands(globalCtx, roomCtx->curRoom.segment);
-            Player_SetBootData(globalCtx, PLAYER);
+            Player_SetBootData(globalCtx, GET_PLAYER(globalCtx));
             Actor_SpawnTransitionActors(globalCtx, &globalCtx->actorCtx);
 
             return 1;
@@ -619,5 +619,5 @@ void func_80097534(GlobalContext* globalCtx, RoomContext* roomCtx) {
     if (!((globalCtx->sceneNum >= SCENE_SPOT00) && (globalCtx->sceneNum <= SCENE_SPOT20))) {
         Map_SavePlayerInitialInfo(globalCtx);
     }
-    func_800F66C0(globalCtx->roomCtx.curRoom.echo);
+    Audio_SetEnvReverb(globalCtx->roomCtx.curRoom.echo);
 }

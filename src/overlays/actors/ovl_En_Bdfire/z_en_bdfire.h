@@ -27,6 +27,4 @@ typedef struct EnBdfire {
     /* 0x01D4 */ LightInfo lightInfoNoGlow;
 } EnBdfire; // size = 0x01E4
 
-extern const ActorInit En_Bdfire_InitVars;
-
 #endif

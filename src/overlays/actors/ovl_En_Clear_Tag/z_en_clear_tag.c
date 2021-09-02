@@ -319,7 +319,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
     s16 rotationScale;
     GlobalContext* globalCtx = globalCtx2;
     EnClearTag* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->frameCounter++;
 

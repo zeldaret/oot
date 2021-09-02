@@ -6,6 +6,7 @@
 
 #include "z_en_rl.h"
 #include "vt.h"
+#include "objects/object_rl/object_rl.h"
 
 #define FLAGS 0x00000010
 
@@ -28,12 +29,7 @@ void func_80AE7FD0(EnRl* this, GlobalContext* globalCtx);
 void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx);
 void func_80AE7D94(EnRl* this, GlobalContext* globalCtx);
 
-static UNK_PTR D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
-
-extern FlexSkeletonHeader D_06007B38;
-extern AnimationHeader D_06000A3C;
-extern AnimationHeader D_06000830;
-extern AnimationHeader D_0600040C;
+static void* D_80AE81A0[] = { object_rl_Tex_003620, object_rl_Tex_003960, object_rl_Tex_003B60 };
 
 void EnRl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnRl* this = THIS;
@@ -57,8 +53,8 @@ void func_80AE72D0(EnRl* this) {
 }
 
 void func_80AE7358(EnRl* this) {
-    Animation_Change(&this->skelAnime, &D_06000A3C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000A3C), ANIMMODE_LOOP,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &object_rl_Anim_000A3C, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&object_rl_Anim_000A3C), ANIMMODE_LOOP, 0.0f);
     this->action = 4;
     this->drawConfig = 0;
     this->alpha = 0;
@@ -115,7 +111,7 @@ s32 func_80AE74FC(EnRl* this, GlobalContext* globalCtx, u16 arg2, s32 arg3) {
 }
 
 void func_80AE7544(EnRl* this, GlobalContext* globalCtx) {
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_rl_Skel_007B38, &object_rl_Anim_000A3C, NULL, NULL, 0);
 }
 
 void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
@@ -127,7 +123,7 @@ void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != CS_STATE_IDLE &&
         globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 &&
         !this->lightMedallionGiven) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         pos.x = player->actor.world.pos.x;
         pos.y = player->actor.world.pos.y + 80.0f;
         pos.z = player->actor.world.pos.z;
@@ -138,7 +134,7 @@ void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE7668(EnRl* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->drawConfig = 1;
     this->action = 1;
@@ -151,8 +147,8 @@ void func_80AE7698(EnRl* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         csCmdActorAction = globalCtx->csCtx.npcActions[0];
         if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
-            Animation_Change(&this->skelAnime, &D_0600040C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600040C),
-                             ANIMMODE_ONCE, 0.0f);
+            Animation_Change(&this->skelAnime, &object_rl_Anim_00040C, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&object_rl_Anim_00040C), ANIMMODE_ONCE, 0.0f);
             this->action = 2;
         }
     }
@@ -160,8 +156,8 @@ void func_80AE7698(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE772C(EnRl* this, s32 arg1) {
     if (arg1) {
-        Animation_Change(&this->skelAnime, &D_06000830, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000830), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &object_rl_Anim_000830, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_rl_Anim_000830), ANIMMODE_LOOP, 0.0f);
         this->action = 3;
     }
 }
@@ -194,7 +190,7 @@ void func_80AE7838(EnRl* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE7878(EnRl* this, GlobalContext* globalCtx) {
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_rl_Skel_007B38, &object_rl_Anim_000A3C, NULL, NULL, 0);
     this->action = 4;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -246,8 +242,8 @@ void func_80AE79A4(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
     if (func_80AE74B4(this, globalCtx, 3, 0)) {
-        Animation_Change(&this->skelAnime, &D_0600040C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600040C), ANIMMODE_ONCE,
-                         -8.0f);
+        Animation_Change(&this->skelAnime, &object_rl_Anim_00040C, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_rl_Anim_00040C), ANIMMODE_ONCE, -8.0f);
         this->action = 6;
     } else if (func_80AE74FC(this, globalCtx, 4, 0)) {
         this->action = 5;
@@ -264,8 +260,8 @@ void func_80AE7AF8(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE7BF8(EnRl* this, s32 arg1) {
     if (arg1 != 0) {
-        Animation_Change(&this->skelAnime, &D_06000830, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000830), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &object_rl_Anim_000830, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&object_rl_Anim_000830), ANIMMODE_LOOP, 0.0f);
         this->action = 7;
     }
 }
@@ -304,15 +300,15 @@ void func_80AE7D40(EnRl* this, GlobalContext* globalCtx) {
 void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->eyeTextureIndex;
-    s32 addr = D_80AE81A0[temp];
+    void* tex = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rl_inKenjyanomaDemo02.c", 304);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(tex));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(tex));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
 
@@ -353,15 +349,15 @@ void func_80AE7FD0(EnRl* this, GlobalContext* globalCtx) {
 void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->eyeTextureIndex;
-    s32 addr = D_80AE81A0[temp];
+    void* tex = D_80AE81A0[temp];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rl.c", 416);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(tex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(tex));
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 

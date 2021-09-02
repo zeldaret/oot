@@ -18,7 +18,8 @@
         <Texture Name="object_in_Tex_0031D0" OutName="tex_000031D0" Format="ci8" Width="8" Height="8" Offset="0x31D0"/>
         <!-- <Blob Name="object_in_Blob_003210" Size="0x1F8" Offset="0x3210"/> -->
         <Texture Name="object_in_TLUT_003408" OutName="tlut_00003408" Format="rgba16" Width="100" Height="1" Offset="0x3408"/>
-        <!-- <Blob Name="object_in_Blob_003608" Size="0x388" Offset="0x3608" /> -->
+        <Texture Name="object_in_Tex_0034D0" OutName="tex_000034D0" Format="ci8" Width="8" Height="8" Offset="0x34D0"/>
+        <Texture Name="object_in_Tex_003590" OutName="tex_00003590" Format="ci8" Width="32" Height="32" Offset="0x3590"/>
         <Texture Name="object_in_Tex_003990" OutName="tex_00003990" Format="rgba16" Width="16" Height="16" Offset="0x3990"/>
         <Texture Name="object_in_Tex_003B90" OutName="tex_00003B90" Format="ci8" Width="16" Height="16" Offset="0x3B90"/>
         <Texture Name="object_in_Tex_003C90" OutName="tex_00003C90" Format="ci8" Width="16" Height="16" Offset="0x3C90"/>
@@ -28,9 +29,11 @@
         <Texture Name="object_in_Tex_0040D0" OutName="tex_000040D0" Format="rgba16" Width="8" Height="16" Offset="0x40D0"/>
         <Texture Name="object_in_Tex_0041D0" OutName="tex_000041D0" Format="ci8" Width="8" Height="16" Offset="0x41D0"/>
         <Texture Name="object_in_Tex_004250" OutName="tex_00004250" Format="ci8" Width="16" Height="16" Offset="0x4250"/>
-        <Blob Name="object_in_Blob_004350" Size="0x440" Offset="0x4350"/>
+        <Texture Name="object_in_Tex_004350" OutName="tex_00004350" Format="ci8" Width="8" Height="8" Offset="0x4350"/>
+        <Texture Name="object_in_Tex_004390" OutName="tex_00004390" Format="ci8" Width="32" Height="32" Offset="0x4390"/>
         <Texture Name="object_in_Tex_004790" OutName="tex_00004790" Format="ci8" Width="8" Height="8" Offset="0x4790"/>
-        <Blob Name="object_in_Blob_0047D0" Size="0x800" Offset="0x47D0"/>
+        <Texture Name="object_in_Tex_0047D0" OutName="tex_000047D0" Format="ci8" Width="32" Height="32" Offset="0x47D0"/>
+        <Texture Name="object_in_Tex_004BD0" OutName="tex_00004BD0" Format="ci8" Width="32" Height="32" Offset="0x4BD0"/>
         <DList Name="object_in_DL_006730" Offset="0x6730"/>
         <DList Name="object_in_DL_007398" Offset="0x7398"/>
         <DList Name="object_in_DL_0074C0" Offset="0x74C0"/>

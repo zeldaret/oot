@@ -37,6 +37,4 @@ typedef struct EnIk {
     /* 0x04D8 */ char unk_4D8[0x04];
 } EnIk; // size = 0x04DC
 
-extern const ActorInit En_Ik_InitVars;
-
 #endif
