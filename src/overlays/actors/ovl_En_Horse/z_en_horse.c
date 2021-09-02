@@ -3783,6 +3783,10 @@ void EnHorse_SkinCallback1(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* ski
             this->jntSph.elements[i].dim.modelSphere.radius * this->jntSph.elements[i].dim.scale;
     }
 
+    //! @bug Setting OC and AC in a draw function allows for duplicate entries to be added to their respective lists
+    //! under certain conditions, like when pausing and unpausing the game. Actors will draw but not update in this case, so
+    //! entries will keep being added to the list without it being cleared.
+    //! In the case of OC, this can cause unwanted effects such as a very large amount of displacement to be applied to a colliding actor.
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->jntSph.base);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->jntSph.base);
 }

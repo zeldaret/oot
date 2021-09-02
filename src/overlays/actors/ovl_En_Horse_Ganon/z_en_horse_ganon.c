@@ -318,6 +318,11 @@ void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
         this->colliderHead.elements[index].dim.worldSphere.radius =
             this->colliderHead.elements[index].dim.modelSphere.radius * this->colliderHead.elements[index].dim.scale;
     }
+
+    //! @bug Setting OC in a draw function allows for duplicate entries to be added to their respective lists
+    //! under certain conditions, like when pausing and unpausing the game. Actors will draw but not update in this case, so
+    //! entries will keep being added to the list without it being cleared.
+    //! In the case of OC, this can cause unwanted effects such as a very large amount of displacement to be applied to a colliding actor.
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderHead.base);
 }
 
