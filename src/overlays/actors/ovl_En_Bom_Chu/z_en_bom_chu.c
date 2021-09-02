@@ -171,15 +171,15 @@ void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* glob
             if (1) {}
 
             mf.xx = this->unk_16C.x;
-            mf.xy = this->unk_16C.y;
-            mf.xz = this->unk_16C.z;
+            mf.yx = this->unk_16C.y;
+            mf.zx = this->unk_16C.z;
 
-            mf.yx = sp84.x;
+            mf.xy = sp84.x;
             mf.yy = sp84.y;
-            mf.yz = sp84.z;
+            mf.zy = sp84.z;
 
-            mf.zx = this->unk_154.x;
-            mf.zy = this->unk_154.y;
+            mf.xz = this->unk_154.x;
+            mf.yz = this->unk_154.y;
             mf.zz = this->unk_154.z;
 
             Matrix_MtxFToYXZRotS(&mf, &this->actor.world.rot, 0);
@@ -190,7 +190,7 @@ void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* glob
 }
 
 void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->timer != 0) {
         this->timer--;
@@ -219,6 +219,8 @@ void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
         this->unk_16C.z = Math_CosS(this->actor.shape.rot.y + 0x4000);
 
         this->actor.speedXZ = 8.0f;
+        //! @bug there is no NULL check on the floor poly.  If the player is out of bounds the floor poly will be NULL
+        //! and will cause a crash inside this function.
         func_809C5BA8(this, this->actor.floorPoly, globalCtx);
         this->actor.flags |= 1; // make chu targetable
         func_8002F850(globalCtx, &this->actor);

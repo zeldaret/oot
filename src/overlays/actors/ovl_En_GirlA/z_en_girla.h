@@ -35,8 +35,6 @@ typedef struct EnGirlA {
     /* 0x01D0 */ EnGirlA3Func hiliteFunc;
 } EnGirlA; // size = 0x01D4
 
-extern const ActorInit En_GirlA_InitVars;
-
 typedef enum {
     /* 0x00 */ SI_DEKU_NUTS_5,
     /* 0x01 */ SI_ARROWS_30,

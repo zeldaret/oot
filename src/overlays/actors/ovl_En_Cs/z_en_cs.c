@@ -202,7 +202,7 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
 }
 
 s32 EnCs_GetTextID(EnCs* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 textId = Text_GetFaceReaction(globalCtx, 15);
 
     if (gSaveContext.itemGetInf[3] & 0x400) {
@@ -391,7 +391,7 @@ void EnCs_Wait(EnCs* this, GlobalContext* globalCtx) {
 }
 
 void EnCs_Talk(EnCs* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnCs_SetAnimFromIndex(this, this->currentAnimIndex, &this->currentAnimIndex);

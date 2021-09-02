@@ -32,6 +32,4 @@ typedef struct EnTrap {
     /* 0x01A0 */ ColliderCylinder collider;
 } EnTrap; // size = 0x01EC
 
-extern const ActorInit En_Trap_InitVars;
-
 #endif

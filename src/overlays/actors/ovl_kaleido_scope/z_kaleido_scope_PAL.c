@@ -2474,7 +2474,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     GameOverContext* gameOverCtx = &globalCtx->gameOverCtx;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Input* input = &globalCtx->state.input[0];
     u32 size;
     u32 size0;

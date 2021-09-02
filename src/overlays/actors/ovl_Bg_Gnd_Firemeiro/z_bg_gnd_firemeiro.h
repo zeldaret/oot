@@ -15,6 +15,4 @@ typedef struct BgGndFiremeiro {
     /* 0x0174 */ BgGndFiremeiroActionFunc actionFunc;
 } BgGndFiremeiro; // size = 0x0178
 
-extern const ActorInit Bg_Gnd_Firemeiro_InitVars;
-
 #endif

@@ -19,6 +19,4 @@ typedef struct DemoGo {
     /* 0x019C */ f32 unk_19C;
 } DemoGo; // size = 0x01A0
 
-extern const ActorInit Demo_Go_InitVars;
-
 #endif

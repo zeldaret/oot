@@ -12,6 +12,4 @@ typedef struct EnIt {
     /* 0x0150 */ ColliderCylinder collider;
 } EnIt; // size = 0x019C
 
-extern const ActorInit En_It_InitVars;
-
 #endif

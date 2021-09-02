@@ -280,7 +280,7 @@ void func_80B328E8(EnWeiyer* this, GlobalContext* globalCtx) {
                 Rand_ZeroOne() * ((this->actor.home.pos.y - this->actor.floorHeight) / 2.0f) + this->actor.floorHeight;
         }
     } else {
-        Player* player = PLAYER;
+        Player* player = GET_PLAYER(globalCtx);
 
         if (this->actor.bgCheckFlags & 1) {
             this->unk_280 =
@@ -346,7 +346,7 @@ void func_80B32D30(EnWeiyer* this, GlobalContext* globalCtx) {
 }
 
 s16 func_80B32DEC(EnWeiyer* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f vec;
 
     vec.x = player->actor.world.pos.x;
@@ -357,7 +357,7 @@ s16 func_80B32DEC(EnWeiyer* this, GlobalContext* globalCtx) {
 }
 
 void func_80B32E34(EnWeiyer* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -514,7 +514,7 @@ void func_80B333B8(EnWeiyer* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a1;
     s32 phi_a0;
 

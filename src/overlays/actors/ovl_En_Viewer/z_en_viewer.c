@@ -883,12 +883,12 @@ void EnViewer_UpdateGanonCape(GlobalContext* globalCtx, EnViewer* this) {
 
     if (TYPE == ENVIEWER_TYPE_5_GANON) {
         if (1) {}
-        sGanonCape->unk_16B0 = BREG(54) / 10.0f;
-        sGanonCape->unk_16B4 = (BREG(60) + 25) / 100.0f;
-        sGanonCape->unk_16B8 = (BREG(55) - 45) / 10.0f;
-        sGanonCape->unk_16AC = -10000.0f;
-        sGanonCape->unk_16D0 = 0.0f;
-        sGanonCape->unk_16C8 = (BREG(67) - 10) / 10.0f;
+        sGanonCape->backPush = BREG(54) / 10.0f;
+        sGanonCape->backSwayMagnitude = (BREG(60) + 25) / 100.0f;
+        sGanonCape->sideSwayMagnitude = (BREG(55) - 45) / 10.0f;
+        sGanonCape->minY = -10000.0f;
+        sGanonCape->minDist = 0.0f;
+        sGanonCape->gravity = (BREG(67) - 10) / 10.0f;
         vec1.x = KREG(16) - 13.0f;
         vec1.y = KREG(17) + 3.0f + Math_SinS(yOscillationPhase) * KREG(20);
         vec1.z = KREG(18) - 10.0f;
@@ -896,13 +896,13 @@ void EnViewer_UpdateGanonCape(GlobalContext* globalCtx, EnViewer* this) {
 
         Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&vec1, &vec2);
-        sGanonCape->unk_16D4.x = sUnkCapeVec.x + vec2.x;
-        sGanonCape->unk_16D4.y = sUnkCapeVec.y + vec2.y;
-        sGanonCape->unk_16D4.z = sUnkCapeVec.z + vec2.z;
+        sGanonCape->rightForearmPos.x = sUnkCapeVec.x + vec2.x;
+        sGanonCape->rightForearmPos.y = sUnkCapeVec.y + vec2.y;
+        sGanonCape->rightForearmPos.z = sUnkCapeVec.z + vec2.z;
         vec1.x = -(KREG(16) - 13.0f);
         Matrix_MultVec3f(&vec1, &vec2);
-        sGanonCape->unk_16E0.x = sUnkCapeVec.x + vec2.x;
-        sGanonCape->unk_16E0.y = sUnkCapeVec.y + vec2.y;
-        sGanonCape->unk_16E0.z = sUnkCapeVec.z + vec2.z;
+        sGanonCape->leftForearmPos.x = sUnkCapeVec.x + vec2.x;
+        sGanonCape->leftForearmPos.y = sUnkCapeVec.y + vec2.y;
+        sGanonCape->leftForearmPos.z = sUnkCapeVec.z + vec2.z;
     }
 }

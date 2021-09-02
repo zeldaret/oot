@@ -21,6 +21,4 @@ typedef struct EnExRuppy {
     /* 0x0160 */ f32 unk_160;
 } EnExRuppy; // size = 0x0164
 
-extern const ActorInit En_Ex_Ruppy_InitVars;
-
 #endif

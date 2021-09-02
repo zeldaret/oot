@@ -22,8 +22,6 @@ typedef struct EnTr {
     /* 0x02E4 */ AnimationHeader* animation;
 } EnTr; // size = 0x02E8
 
-extern const ActorInit En_Tr_InitVars;
-
 typedef enum {
     /* 0 */ TR_KOUME,
     /* 1 */ TR_KOTAKE

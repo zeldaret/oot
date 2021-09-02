@@ -339,8 +339,8 @@ void EnDntNomal_TargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_80106CCC(globalCtx);
-        func_8005B1A4(ACTIVE_CAM);
-        ACTIVE_CAM->csId = 0;
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
+        GET_ACTIVE_CAM(globalCtx)->csId = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = EnDntNomal_SetupTargetGivePrize;
     }
@@ -658,7 +658,7 @@ void EnDntNomal_SetupStageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
 }
 
 void EnDntNomal_StageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* nut;
     f32 frame = this->skelAnime.curFrame;
     f32 dz;

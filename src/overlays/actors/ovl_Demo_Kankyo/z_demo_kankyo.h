@@ -49,6 +49,4 @@ typedef struct DemoKankyo {
     /* 0x0600 */ DemoKankyoActionFunc actionFunc;
 } DemoKankyo; // size = 0x0604
 
-extern const ActorInit Demo_Kankyo_InitVars;
-
 #endif

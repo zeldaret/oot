@@ -55,6 +55,4 @@ typedef enum {
     /* 0x07 */ FAIRY_HEAL_BIG
 } FairyType;
 
-extern const ActorInit En_Elf_InitVars;
-
 #endif

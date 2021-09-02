@@ -34,6 +34,4 @@ typedef struct EnRd {
     /* 0x0320 */ ColliderCylinder collider;
 } EnRd; // size = 0x036C
 
-extern const ActorInit En_Rd_InitVars;
-
 #endif

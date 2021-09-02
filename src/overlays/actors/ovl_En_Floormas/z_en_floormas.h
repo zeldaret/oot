@@ -21,6 +21,4 @@ struct EnFloormas{
     /* 0x02C8 */ ColliderCylinder collider;
 }; // size = 0x0314
 
-extern const ActorInit En_Floormas_InitVars;
-
 #endif

@@ -16,6 +16,4 @@ typedef struct EnTuboTrap {
     /* 0x0160 */ ColliderCylinder collider;
 } EnTuboTrap; // size = 0x01AC
 
-extern const ActorInit En_Tubo_Trap_InitVars;
-
 #endif

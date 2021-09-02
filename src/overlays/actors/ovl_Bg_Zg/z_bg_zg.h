@@ -15,6 +15,4 @@ typedef struct BgZg {
     /* 0x0168 */ s32 drawConfig;
 } BgZg; // size = 0x016C
 
-extern const ActorInit Bg_Zg_InitVars;
-
 #endif

@@ -66,6 +66,4 @@ typedef struct EnFhgFire {
     /* 0x0200 */ f32 lensFlareScale;
 } EnFhgFire; // size = 0x0204
 
-extern const ActorInit En_Fhg_Fire_InitVars;
-
 #endif

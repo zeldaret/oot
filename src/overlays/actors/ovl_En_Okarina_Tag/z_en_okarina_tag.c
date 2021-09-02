@@ -112,7 +112,7 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     Player* player;
     u16 unk_152;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     this->unk_15A++;
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
         this->actor.flags &= ~1;
@@ -143,7 +143,7 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE == 4) {
         this->actionFunc = func_80ABEF2C;
@@ -186,7 +186,7 @@ void func_80ABF0CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->unk_15A++;
     if ((this->unk_152 != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
@@ -229,7 +229,7 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE == 4) {
         this->actionFunc = func_80ABF28C;

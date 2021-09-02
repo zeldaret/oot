@@ -14,6 +14,4 @@ typedef struct ItemOcarina {
     /* 0x0150 */ s16 spinRotOffset;
 } ItemOcarina; // size = 0x0154
 
-extern const ActorInit Item_Ocarina_InitVars;
-
 #endif

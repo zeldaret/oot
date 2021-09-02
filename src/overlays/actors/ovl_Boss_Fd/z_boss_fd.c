@@ -269,7 +269,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dy;
     f32 dz;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 angleToTarget;
     f32 pitchToTarget;
     Vec3f* holePosition1;
@@ -300,7 +300,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     //                                        Boss Intro Cutscene
 
     if (this->introState != BFD_CS_NONE) {
-        Player* player2 = PLAYER;
+        Player* player2 = GET_PLAYER(globalCtx);
         Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
         switch (this->introState) {
@@ -1428,7 +1428,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     BossFdEffect* effect = this->effects;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Color_RGB8 colors[4] = { { 255, 128, 0 }, { 255, 0, 0 }, { 255, 255, 0 }, { 255, 0, 0 } };
     Vec3f diff;
     s16 i1;

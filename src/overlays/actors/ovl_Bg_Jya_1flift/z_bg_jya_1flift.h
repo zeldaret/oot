@@ -18,6 +18,4 @@ typedef struct BgJya1flift {
     /* 0x01B8 */ u8 isLinkRiding;
 } BgJya1flift; // size = 0x01BC
 
-extern const ActorInit Bg_Jya_1flift_InitVars;
-
 #endif

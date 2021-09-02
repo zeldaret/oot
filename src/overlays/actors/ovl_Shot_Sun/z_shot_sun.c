@@ -121,7 +121,7 @@ void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx) {
 }
 
 void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s32 params = this->actor.params & 0xFF;
 
@@ -155,7 +155,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
 
 void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
     Vec3s cylinderPos;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     EnItem00* collectible;
     s32 pad;
     Vec3f spawnPos;

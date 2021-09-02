@@ -18,7 +18,4 @@ typedef struct EnMs {
     /* 0x024C */ s16 activeTimer;
 } EnMs; // size = 0x0250
 
-
-extern const ActorInit En_Ms_InitVars;
-
 #endif

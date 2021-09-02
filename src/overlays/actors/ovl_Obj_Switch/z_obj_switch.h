@@ -65,6 +65,4 @@ typedef struct ObjSwitch {
     };
 } ObjSwitch; // size = 0x0258
 
-extern const ActorInit Obj_Switch_InitVars;
-
 #endif
