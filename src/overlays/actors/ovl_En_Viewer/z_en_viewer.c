@@ -125,7 +125,7 @@ static EnViewerDrawFunc sDrawFuncs[] = {
 
 static EnGanonMant* sGanonCape;
 
-static Vec3f sUnkCapeVec;
+static Vec3f sGanonNeckWorldPos;
 
 void EnViewer_SetupAction(EnViewer* this, EnViewerActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -542,7 +542,7 @@ void EnViewer_Ganon9PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 void EnViewer_GanonPostLimbDrawUpdateCapeVec(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot,
                                              void* thisx) {
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&sZeroVec, &sUnkCapeVec);
+        Matrix_MultVec3f(&sZeroVec, &sGanonNeckWorldPos);
     }
 }
 
@@ -878,8 +878,8 @@ void EnViewer_DrawFireEffects(EnViewer* this2, GlobalContext* globalCtx) {
 
 void EnViewer_UpdateGanonCape(GlobalContext* globalCtx, EnViewer* this) {
     static s16 yOscillationPhase = 0;
-    Vec3f vec1;
-    Vec3f vec2;
+    Vec3f forearmModelOffset;
+    Vec3f forearmWorldOffset;
 
     if (TYPE == ENVIEWER_TYPE_5_GANON) {
         if (1) {}
@@ -889,20 +889,20 @@ void EnViewer_UpdateGanonCape(GlobalContext* globalCtx, EnViewer* this) {
         sGanonCape->minY = -10000.0f;
         sGanonCape->minDist = 0.0f;
         sGanonCape->gravity = (BREG(67) - 10) / 10.0f;
-        vec1.x = KREG(16) - 13.0f;
-        vec1.y = KREG(17) + 3.0f + Math_SinS(yOscillationPhase) * KREG(20);
-        vec1.z = KREG(18) - 10.0f;
+        forearmModelOffset.x = KREG(16) - 13.0f;
+        forearmModelOffset.y = KREG(17) + 3.0f + Math_SinS(yOscillationPhase) * KREG(20);
+        forearmModelOffset.z = KREG(18) - 10.0f;
         yOscillationPhase += KREG(19) * 0x1000 + 0x2000;
 
         Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
-        Matrix_MultVec3f(&vec1, &vec2);
-        sGanonCape->rightForearmPos.x = sUnkCapeVec.x + vec2.x;
-        sGanonCape->rightForearmPos.y = sUnkCapeVec.y + vec2.y;
-        sGanonCape->rightForearmPos.z = sUnkCapeVec.z + vec2.z;
-        vec1.x = -(KREG(16) - 13.0f);
-        Matrix_MultVec3f(&vec1, &vec2);
-        sGanonCape->leftForearmPos.x = sUnkCapeVec.x + vec2.x;
-        sGanonCape->leftForearmPos.y = sUnkCapeVec.y + vec2.y;
-        sGanonCape->leftForearmPos.z = sUnkCapeVec.z + vec2.z;
+        Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
+        sGanonCape->rightForearmPos.x = sGanonNeckWorldPos.x + forearmWorldOffset.x;
+        sGanonCape->rightForearmPos.y = sGanonNeckWorldPos.y + forearmWorldOffset.y;
+        sGanonCape->rightForearmPos.z = sGanonNeckWorldPos.z + forearmWorldOffset.z;
+        forearmModelOffset.x = -(KREG(16) - 13.0f);
+        Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
+        sGanonCape->leftForearmPos.x = sGanonNeckWorldPos.x + forearmWorldOffset.x;
+        sGanonCape->leftForearmPos.y = sGanonNeckWorldPos.y + forearmWorldOffset.y;
+        sGanonCape->leftForearmPos.z = sGanonNeckWorldPos.z + forearmWorldOffset.z;
     }
 }
