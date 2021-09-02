@@ -145,7 +145,7 @@ void EnBomChu_UpdateFloorPoly(EnBomChu* this, CollisionPoly* floorPoly, GlobalCo
     normal.y = COLPOLY_GET_NORMAL(floorPoly->normal.y);
     normal.z = COLPOLY_GET_NORMAL(floorPoly->normal.z);
 
-    normDotUp = (normal.x * this->axisUp.x) + (normal.y * this->axisUp.y) + (normal.z * this->axisUp.z);
+    normDotUp = DOTXYZ(normal, this->axisUp);
 
     if (!(fabsf(normDotUp) >= 1.0f)) {
         angle = Math_FAcosF(normDotUp);
