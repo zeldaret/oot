@@ -30,6 +30,4 @@ typedef struct ObjLightswitch {
     /* 0x01C2 */ u8 prevFrameACflags;
 } ObjLightswitch; // size = 0x01C4
 
-extern const ActorInit Obj_Lightswitch_InitVars;
-
 #endif

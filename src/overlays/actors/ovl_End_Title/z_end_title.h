@@ -13,6 +13,4 @@ typedef struct EndTitle {
     /* 0x014E */ u8 ootAlpha;
 } EndTitle; // size = 0x0150
 
-extern const ActorInit End_Title_InitVars;
-
 #endif

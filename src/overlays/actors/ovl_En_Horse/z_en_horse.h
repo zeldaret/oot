@@ -188,6 +188,4 @@ typedef struct EnHorse {
         ? true                       \
         : false)
 
-extern const ActorInit En_Horse_InitVars;
-
 #endif

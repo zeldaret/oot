@@ -51,7 +51,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     MtxF* mf;
     EndTitle* this = THIS;
     s32 frameCount = globalCtx->csCtx.frames;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     mf = &player->mf_9E0;
 

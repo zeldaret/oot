@@ -24,6 +24,4 @@ typedef struct ObjMure {
     /* 0x01A8 */ s16 unk_1A8;
 } ObjMure; // size = 0x01AC
 
-extern const ActorInit Obj_Mure_InitVars;
-
 #endif

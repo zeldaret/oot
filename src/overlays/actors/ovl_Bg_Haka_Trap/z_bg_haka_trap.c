@@ -208,7 +208,7 @@ void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx) {
     Vec3f sp28;
     f32 sine;
     f32 zNonNegative;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_8002DBD0(&this->dyna.actor, &sp28, &player->actor.world.pos);
 
@@ -230,7 +230,7 @@ void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx) {
 
 void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
     static UNK_TYPE D_80881018 = 0;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((D_80880F30 == 0) && (!Player_InCsMode(globalCtx))) {
         if (!Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x, 0.5f)) {
@@ -431,13 +431,13 @@ void func_808809B0(BgHakaTrap* this, GlobalContext* globalCtx) {
 }
 
 void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp18;
 
     func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.world.pos);
 
     if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
-        (PLAYER->currentBoots != PLAYER_BOOTS_IRON)) {
+        (GET_PLAYER(globalCtx)->currentBoots != PLAYER_BOOTS_IRON)) {
         player->windSpeed = ((500.0f - sp18.z) * 0.06f + 5.0f) * arg2 * (1.0f / 0x3A00) * (2.0f / 3.0f);
         player->windDirection = this->dyna.actor.shape.rot.y;
     }

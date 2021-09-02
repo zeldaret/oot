@@ -20,6 +20,4 @@ typedef struct BgHidanCurtain {
     /* 0x0158 */ ColliderCylinder collider;
 } BgHidanCurtain; // size = 0x01A4
 
-extern const ActorInit Bg_Hidan_Curtain_InitVars;
-
 #endif

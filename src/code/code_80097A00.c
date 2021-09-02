@@ -189,7 +189,7 @@ void Inventory_ChangeEquipment(s16 equipment, u16 value) {
 }
 
 u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     u16 sp26 = gSaveContext.equips.equipment & gEquipMasks[equipment];
 

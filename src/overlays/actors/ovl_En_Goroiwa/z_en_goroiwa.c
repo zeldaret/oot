@@ -379,7 +379,7 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, GlobalContext* globalCtx) 
     if (this->actor.velocity.y < 0.0f && this->actor.world.pos.y <= nextPointY) {
         if (this->bounceCount == 0) {
             if (this->actor.xzDistToPlayer < 600.0f) {
-                quakeIdx = Quake_Add(ACTIVE_CAM, 3);
+                quakeIdx = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
                 Quake_SetSpeed(quakeIdx, -0x3CB0);
                 Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
                 Quake_SetCountdown(quakeIdx, 7);
@@ -600,7 +600,7 @@ void EnGoroiwa_Roll(EnGoroiwa* this, GlobalContext* globalCtx) {
         osSyncPrintf("Player ぶっ飛ばし\n"); // "Player knocked down"
         osSyncPrintf(VT_RST);
         onHitSetupFuncs[(this->actor.params >> 10) & 1](this);
-        func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
+        func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {
             this->collisionDisabledTimer = 50;
         }
@@ -682,7 +682,7 @@ void EnGoroiwa_MoveUp(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 4);
-        func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
+        func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {
             this->collisionDisabledTimer = 50;
         }
@@ -707,7 +707,7 @@ void EnGoroiwa_MoveDown(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 4);
-        func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
+        func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {
             this->collisionDisabledTimer = 50;
         }
@@ -721,7 +721,7 @@ void EnGoroiwa_MoveDown(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     UNK_TYPE sp30;
 

@@ -83,8 +83,6 @@ typedef struct EnOssan {
     /* 0x02D4 */ f32 cameraFaceAngle; // stored in degrees
 } EnOssan; // size = 0x02D8
 
-extern const ActorInit En_Ossan_InitVars;
-
 typedef enum {
     /* 00 */ OSSAN_TYPE_KOKIRI,
     /* 01 */ OSSAN_TYPE_KAKARIKO_POTION,

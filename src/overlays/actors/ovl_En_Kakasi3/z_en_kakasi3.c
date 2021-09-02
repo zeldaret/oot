@@ -210,7 +210,7 @@ void func_80A91284(EnKakasi3* this, GlobalContext* globalCtx) {
 }
 
 void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
@@ -279,7 +279,7 @@ void func_80A915B8(EnKakasi3* this, GlobalContext* globalCtx) {
 }
 
 void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
         (globalCtx->msgCtx.msgMode == 0)) {
@@ -343,7 +343,7 @@ void func_80A9187C(EnKakasi3* this, GlobalContext* globalCtx) {
 }
 
 void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (BREG(3) != 0) {
         // No way!

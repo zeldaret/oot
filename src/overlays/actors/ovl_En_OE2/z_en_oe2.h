@@ -14,6 +14,4 @@ typedef struct EnOE2 {
     /* 0x0190 */ EnOE2ActionFunc actionFunc;
 } EnOE2; // size = 0x0194
 
-extern const ActorInit En_OE2_InitVars;
-
 #endif

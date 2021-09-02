@@ -17,6 +17,4 @@ typedef struct BgHidanFwbig {
     /* 0x0154 */ ColliderCylinder collider;
 } BgHidanFwbig; // size = 0x01A0
 
-extern const ActorInit Bg_Hidan_Fwbig_InitVars;
-
 #endif

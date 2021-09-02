@@ -19,6 +19,4 @@ typedef struct BgYdanSp {
     /* 0x0190 */ ColliderTrisElement trisColliderItems[2];
 } BgYdanSp; // size = 0x0248
 
-extern const ActorInit Bg_Ydan_Sp_InitVars;
-
 #endif

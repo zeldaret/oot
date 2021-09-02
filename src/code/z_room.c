@@ -326,7 +326,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     sp9C = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
@@ -381,7 +381,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     BgImage* bgImage;
     s32 i;
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     camId = camera->camDataIdx;
     // jfifid
     camId2 = func_80041C10(&globalCtx->colCtx, camId, BGCHECK_SCENE)[2].y;
@@ -389,7 +389,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
         camId = camId2;
     }
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     player->actor.params = (player->actor.params & 0xFF00) | camId;
 
     bgImage = SEGMENTED_TO_VIRTUAL(polygon1->multi.list);
@@ -421,7 +421,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     sp98 = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
@@ -586,7 +586,7 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
             gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->unk_34);
 
             Scene_ExecuteCommands(globalCtx, roomCtx->curRoom.segment);
-            Player_SetBootData(globalCtx, PLAYER);
+            Player_SetBootData(globalCtx, GET_PLAYER(globalCtx));
             Actor_SpawnTransitionActors(globalCtx, &globalCtx->actorCtx);
 
             return 1;
@@ -616,5 +616,5 @@ void func_80097534(GlobalContext* globalCtx, RoomContext* roomCtx) {
     if (!((globalCtx->sceneNum >= SCENE_SPOT00) && (globalCtx->sceneNum <= SCENE_SPOT20))) {
         Map_SavePlayerInitialInfo(globalCtx);
     }
-    func_800F66C0(globalCtx->roomCtx.curRoom.echo);
+    Audio_SetEnvReverb(globalCtx->roomCtx.curRoom.echo);
 }

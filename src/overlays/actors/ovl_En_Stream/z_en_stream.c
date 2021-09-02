@@ -82,7 +82,7 @@ s32 func_80B0B81C(Vec3f* vortexPosRot, Vec3f* playerPosRot, Vec3f* posDifference
 }
 
 void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad48;
     Vec3f posDifference;
     f32 xzDist;
@@ -113,7 +113,7 @@ void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
 }
 
 void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 pad;
     Vec3f temp;
 

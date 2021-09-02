@@ -14,6 +14,4 @@ typedef struct BgTokiSwd {
     /* 0x0150 */ ColliderCylinder collider;
 } BgTokiSwd; // size = 0x019C
 
-extern const ActorInit Bg_Toki_Swd_InitVars;
-
 #endif

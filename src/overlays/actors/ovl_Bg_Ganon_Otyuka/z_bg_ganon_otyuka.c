@@ -189,7 +189,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
 }
 
 void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 i;
     Vec3f pos;
     Vec3f velocity;

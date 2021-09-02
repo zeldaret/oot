@@ -16,6 +16,4 @@ typedef struct ObjSyokudai {
     /* 0x01EC */ LightInfo lightInfo;
 } ObjSyokudai; // size = 0x01FC
 
-extern const ActorInit Obj_Syokudai_InitVars;
-
 #endif

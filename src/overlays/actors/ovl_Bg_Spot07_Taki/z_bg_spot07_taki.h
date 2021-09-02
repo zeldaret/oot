@@ -13,6 +13,4 @@ typedef struct BgSpot07Taki {
     /* 0x0164 */ BgSpot07TakiActionFunc  actionFunc;
 } BgSpot07Taki; // size = 0x0168
 
-extern const ActorInit Bg_Spot07_Taki_InitVars;
-
 #endif

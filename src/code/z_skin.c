@@ -17,12 +17,12 @@ void func_800A57C0(MtxF* mtx, Struct_800A57C0* arg1, Struct_800A598C* arg2, Vtx*
         temp_s2->n.ob[0] = arg4->x;
         temp_s2->n.ob[1] = arg4->y;
         temp_s2->n.ob[2] = arg4->z;
-        temp_x = mtx->wx;
-        temp_y = mtx->wy;
-        temp_z = mtx->wz;
-        mtx->wz = 0.0f;
-        mtx->wy = 0.0f;
-        mtx->wx = 0.0f;
+        temp_x = mtx->xw;
+        temp_y = mtx->yw;
+        temp_z = mtx->zw;
+        mtx->zw = 0.0f;
+        mtx->yw = 0.0f;
+        mtx->xw = 0.0f;
         sp64.x = phi_s1->unk_6;
         sp64.y = phi_s1->unk_7;
         sp64.z = phi_s1->unk_8;
@@ -30,9 +30,9 @@ void func_800A57C0(MtxF* mtx, Struct_800A57C0* arg1, Struct_800A598C* arg2, Vtx*
         temp_s2->n.n[0] = sp70.x;
         temp_s2->n.n[1] = sp70.y;
         temp_s2->n.n[2] = sp70.z;
-        mtx->wx = temp_x;
-        mtx->wy = temp_y;
-        mtx->wz = temp_z;
+        mtx->xw = temp_x;
+        mtx->yw = temp_y;
+        mtx->zw = temp_z;
     }
 }
 

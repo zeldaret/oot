@@ -12,6 +12,4 @@ typedef struct EnMFire1 {
     /* 0x0198 */ f32 timer;
 } EnMFire1; // size = 0x019C
 
-extern const ActorInit En_M_Fire1_InitVars;
-
 #endif
