@@ -40,6 +40,4 @@ typedef struct EnZo {
     /* 0x067E */ s16 unk_67E[20];
 } EnZo; // size = 0x06A8
 
-extern const ActorInit En_Zo_InitVars;
-
 #endif

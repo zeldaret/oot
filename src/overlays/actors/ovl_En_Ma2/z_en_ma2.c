@@ -1,4 +1,5 @@
 #include "z_en_ma2.h"
+#include "objects/object_ma2/object_ma2.h"
 
 #define FLAGS 0x02000039
 
@@ -61,11 +62,6 @@ static struct_D_80AA1678 D_80AA2858[] = {
     { 0x06009EE0, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-extern Gfx D_06005420[];
-extern FlexSkeletonHeader D_06008D90;
-extern AnimationHeader D_060093BC;
-extern AnimationHeader D_06009EE0;
-
 u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 23);
     if (faceReaction != 0) {
@@ -119,10 +115,10 @@ s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 phi_a3;
 
-    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &D_06009EE0)) {
+    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &object_ma2_Anim_009EE0)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -159,7 +155,7 @@ u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA1C68(EnMa2* this) {
-    if (this->skelAnime.animation != &D_06009EE0) {
+    if (this->skelAnime.animation != &object_ma2_Anim_009EE0) {
         return 0;
     }
     if (this->unk_1E0.unk_00 != 0) {
@@ -191,7 +187,7 @@ void func_80AA1D44(EnMa2* this, s32 idx) {
 }
 
 void func_80AA1DB4(EnMa2* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animation == &D_06009EE0) {
+    if (this->skelAnime.animation == &object_ma2_Anim_009EE0) {
         if (this->unk_1E0.unk_00 == 0) {
             if (this->unk_20A != 0) {
                 func_800F6584(0);
@@ -211,7 +207,7 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ma2_Skel_008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
@@ -259,7 +255,7 @@ void func_80AA2018(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags2 & 0x1000000) {
         player->unk_6A8 = &this->actor;
@@ -272,7 +268,7 @@ void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA20E4(EnMa2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE >= 4) {
         this->actionFunc = func_80AA204C;
@@ -289,7 +285,7 @@ void func_80AA20E4(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (DECR(this->unk_208)) {
         player->stateFlags2 |= 0x800000;
@@ -356,8 +352,8 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if (limbIndex == 18) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
-    if ((limbIndex == 14) && (this->skelAnime.animation == &D_060093BC)) {
-        gSPDisplayList(POLY_OPA_DISP++, D_06005420);
+    if ((limbIndex == 14) && (this->skelAnime.animation == &object_ma2_Anim_0093BC)) {
+        gSPDisplayList(POLY_OPA_DISP++, object_ma2_DL_005420);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 927);
@@ -381,7 +377,7 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 955);
 
-    camera = ACTIVE_CAM;
+    camera = GET_ACTIVE_CAM(globalCtx);
     someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);

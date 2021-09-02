@@ -454,7 +454,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Push();
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 0);
             func_80B4F230(this, sp2C.x, 1);
@@ -464,7 +464,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-188.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[0], "../z_en_zl2.c", 1056);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 3);
             func_80B4F230(this, sp2C.x, 4);
@@ -473,7 +473,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-410.0f, -184.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[1], "../z_en_zl2.c", 1100);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 6);
             func_80B4F230(this, sp2C.x, 7);
@@ -485,7 +485,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 9);
             func_80B4F230(this, sp2C.x, 10);
@@ -495,7 +495,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-427.0f, -1.0f, -3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[3], "../z_en_zl2.c", 1145);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 12);
             func_80B4F230(this, sp2C.x, 13);
@@ -508,7 +508,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 15);
             func_80B4F230(this, sp2C.x, 16);
@@ -518,7 +518,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(-427.0f, -1.0f, 3.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[5], "../z_en_zl2.c", 1189);
         Matrix_Get(&sp34);
-        func_800D20CC(&sp34, &sp2C, 0);
+        Matrix_MtxFToYXZRotS(&sp34, &sp2C, 0);
         if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 18);
             func_80B4F230(this, sp2C.x, 19);
@@ -544,7 +544,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         }
 
         {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
             Matrix_Push();
             if (player->rightHandType == 0xFF) {
                 Matrix_Put(&player->shieldMf);
@@ -629,7 +629,7 @@ void EnZl2_GiveLightArrows(EnZl2* this, GlobalContext* globalCtx) {
     f32 posZ;
 
     if (this->unk_244 == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posX = player->actor.world.pos.x;
         posY = player->actor.world.pos.y + 80.0f;
         posZ = player->actor.world.pos.z;
@@ -1179,7 +1179,7 @@ void func_80B513A8(EnZl2* this, GlobalContext* globalCtx) {
     f32 posZ;
 
     if (this->unk_250 == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         posX = player->actor.world.pos.x;
         posY = player->actor.world.pos.y;
         posZ = player->actor.world.pos.z;
@@ -1605,7 +1605,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (thisx->params) {
         case 1:
-            func_800F7260(0x6F);
+            Audio_SetSoundBanksMute(0x6F);
             break;
         case 4:
             gSaveContext.timer2State = 0;

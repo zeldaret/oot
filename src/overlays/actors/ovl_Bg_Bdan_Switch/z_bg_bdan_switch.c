@@ -366,7 +366,7 @@ void func_8086D9F8(BgBdanSwitch* this) {
 }
 
 void func_8086DA1C(BgBdanSwitch* this, GlobalContext* globalCtx) {
-    Actor* heldActor = PLAYER->heldActor;
+    Actor* heldActor = GET_PLAYER(globalCtx)->heldActor;
 
     if (func_8004356C(&this->dyna)) {
         if (heldActor != NULL && heldActor->id == ACTOR_EN_RU1) {

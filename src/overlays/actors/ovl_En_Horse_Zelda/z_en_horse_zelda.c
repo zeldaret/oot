@@ -135,7 +135,7 @@ void func_80A6D918(EnHorseZelda* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
-    if (Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor) <= 300.0f) {
+    if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor) <= 300.0f) {
         if (this->actor.speedXZ < 12.0f) {
             this->actor.speedXZ += 1.0f;
         } else {

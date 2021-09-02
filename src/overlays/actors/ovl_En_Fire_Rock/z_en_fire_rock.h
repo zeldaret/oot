@@ -36,6 +36,4 @@ typedef struct EnFireRock {
     /* 0x0194 */ ColliderCylinder collider;
 } EnFireRock; // size = 0x01E0
 
-extern const ActorInit En_Fire_Rock_InitVars;
-
 #endif

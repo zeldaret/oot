@@ -52,6 +52,4 @@ typedef struct EnHeishi1 {
     /* 0x02AA */ s16 waypoint;
 } EnHeishi1; // size = 0x02AC
 
-extern const ActorInit En_Heishi1_InitVars;
-
 #endif

@@ -11,6 +11,4 @@ typedef struct BgSpot09Obj {
     /* 0x0164 */ char unk_164[0x04];
 } BgSpot09Obj; // size = 0x0168
 
-extern const ActorInit Bg_Spot09_Obj_InitVars;
-
 #endif

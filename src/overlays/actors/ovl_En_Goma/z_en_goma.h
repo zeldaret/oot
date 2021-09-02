@@ -77,6 +77,4 @@ typedef struct EnGoma {
     /* 0x358 */ ColliderCylinder colCyl2;
 } EnGoma; // size = 0x03A4
 
-extern const ActorInit En_Goma_InitVars;
-
 #endif

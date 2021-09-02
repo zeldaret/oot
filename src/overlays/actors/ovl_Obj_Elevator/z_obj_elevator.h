@@ -16,6 +16,4 @@ typedef struct ObjElevator {
     /* 0x0170 */ u8 unk_170;
 } ObjElevator; // size = 0x0174
 
-extern const ActorInit Obj_Elevator_InitVars;
-
 #endif

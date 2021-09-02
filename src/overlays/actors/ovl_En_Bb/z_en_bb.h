@@ -56,6 +56,4 @@ typedef enum {
     ENBB_KILL_TRAIL = 11
 } EnBbType;
 
-extern const ActorInit En_Bb_InitVars;
-
 #endif

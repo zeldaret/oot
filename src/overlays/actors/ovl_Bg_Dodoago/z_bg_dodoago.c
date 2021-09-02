@@ -212,7 +212,7 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
         D_80872824--;
         return;
     }
-    
+
     if (D_80872824 == 0x6C) {
         for (i = 10; i >= 0; i--) {
             currentPos.x = D_808725CC[i].x + this->dyna.actor.world.pos.x;

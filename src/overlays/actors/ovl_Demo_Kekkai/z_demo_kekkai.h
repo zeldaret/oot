@@ -21,8 +21,6 @@ typedef struct DemoKekkai {
     /* 0x01F8 */ DemoKekkaiUpdateFunc updateFunc;
 } DemoKekkai; // size = 0x01FC
 
-extern const ActorInit Demo_Kekkai_InitVars;
-
 typedef enum {
     /* 0 */ KEKKAI_TOWER,
     /* 1 */ KEKKAI_WATER,

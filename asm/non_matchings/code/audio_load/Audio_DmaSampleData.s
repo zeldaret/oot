@@ -4,7 +4,7 @@ glabel D_80149420
     .balign 4
 
 .text
-glabel func_800E12DC
+glabel Audio_DmaSampleData
 /* B5847C 800E12DC 27BDFFB0 */  addiu $sp, $sp, -0x50
 /* B58480 800E12E0 AFB10030 */  sw    $s1, 0x30($sp)
 /* B58484 800E12E4 AFB0002C */  sw    $s0, 0x2c($sp)

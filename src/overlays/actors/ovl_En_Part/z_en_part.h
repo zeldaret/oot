@@ -17,6 +17,4 @@ typedef struct EnPart {
     /* 0x158 */ f32 rotZSpeed;
 } EnPart; // size = 0x015C
 
-extern const ActorInit En_Part_InitVars;
-
 #endif

@@ -27,6 +27,4 @@ typedef struct EnDha {
     /* 0x0220 */ ColliderJntSphElement colliderItem[5];
 } EnDha; // size = 0x0360
 
-extern const ActorInit En_Dha_InitVars;
-
 #endif

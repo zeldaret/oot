@@ -36,6 +36,4 @@ typedef enum {
     /* 12 */ TAILPASARAN_HEAD_DYING
 } EnTpType;
 
-extern const ActorInit En_Tp_InitVars;
-
 #endif

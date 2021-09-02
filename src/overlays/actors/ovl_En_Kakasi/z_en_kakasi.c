@@ -6,6 +6,7 @@
 
 #include "z_en_kakasi.h"
 #include "vt.h"
+#include "objects/object_ka/object_ka.h"
 
 #define FLAGS 0x02000009
 
@@ -43,9 +44,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-extern FlexSkeletonHeader D_060065B0;
-extern AnimationHeader D_06000214;
-
 const ActorInit En_Kakasi_InitVars = {
     ACTOR_EN_KAKASI,
     ACTORCAT_NPC,
@@ -74,7 +72,7 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.targetMode = 6;
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
 
     this->rot = this->actor.world.rot;
     this->actor.flags |= 0x400;
@@ -175,9 +173,9 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
 }
 
 void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06000214);
+    f32 frameCount = Animation_GetLastFrame(&object_ka_Anim_000214);
 
-    Animation_Change(&this->skelanime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelanime, &object_ka_Anim_000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
 
     this->actor.textId = 0x4076;
     this->unk_196 = 6;
@@ -198,7 +196,7 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
 }
 
 void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     func_80A8F28C(this);
     SkelAnime_Update(&this->skelanime);
@@ -238,7 +236,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 }
 
 void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (globalCtx->msgCtx.unk_E3EE == 4 && globalCtx->msgCtx.msgMode == 0) {
         // end?

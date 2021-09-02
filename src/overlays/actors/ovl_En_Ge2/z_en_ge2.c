@@ -198,7 +198,7 @@ s32 Ge2_DetectPlayerInAction(GlobalContext* globalCtx, EnGe2* this) {
 }
 
 s32 Ge2_DetectPlayerInUpdate(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, s16 yRot, f32 yDetectRange) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f posResult;
     CollisionPoly* outPoly;
     f32 visionScale;

@@ -32,8 +32,6 @@ typedef struct EnKo {
     /* 0x0304 */ s16 unk_304[16];
 } EnKo; // size = 0x0324
 
-extern const ActorInit En_Ko_InitVars;
-
 typedef enum {
     ENKO_TYPE_CHILD_0,
     ENKO_TYPE_CHILD_1,

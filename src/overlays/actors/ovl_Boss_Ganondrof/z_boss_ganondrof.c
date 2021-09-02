@@ -486,7 +486,7 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 targetX;
     f32 targetY;
     f32 targetZ;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* playerx = &player->actor;
     Actor* thisx = &this->actor;
     f32 rand01;
@@ -797,7 +797,7 @@ void BossGanondrof_SetupCharge(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* playerx = &player->actor;
     Actor* thisx = &this->actor;
     f32 dxCenter = thisx->world.pos.x - GND_BOSSROOM_CENTER_X;
@@ -943,7 +943,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 camX;
     f32 camZ;
     f32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
 
     osSyncPrintf("PYP %f\n", player->actor.floorHeight);

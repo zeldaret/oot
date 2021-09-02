@@ -221,7 +221,7 @@ s32 func_80AADA70(void) {
 
 s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 sp1C = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -268,7 +268,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
 }
 
 s32 EnMm_GetTextId(EnMm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 textId;
 
     textId = Text_GetFaceReaction(globalCtx, 0x1C);
@@ -287,7 +287,7 @@ s32 EnMm_GetTextId(EnMm* this, GlobalContext* globalCtx) {
 }
 
 void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 yawDiff;
     s16 sp26;
     s16 sp24;

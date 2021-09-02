@@ -13,6 +13,4 @@ typedef struct BgSpot18Shutter {
     /* 0x0164 */ BgSpot18ShutterActionFunc actionFunc;
 } BgSpot18Shutter; // size = 0x0168
 
-extern const ActorInit Bg_Spot18_Shutter_InitVars;
-
 #endif

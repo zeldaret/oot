@@ -247,7 +247,7 @@ void EnTp_Head_SetupApproachPlayer(EnTp* this) {
 }
 
 void EnTp_Head_ApproachPlayer(EnTp* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 30.0f, 1.0f, 0.5f, 0.0f);
     Audio_PlaySoundGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -382,7 +382,7 @@ void EnTp_Head_SetupTakeOff(EnTp* this) {
  */
 void EnTp_Head_TakeOff(EnTp* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->horizontalVariation, 1.0f,
@@ -438,7 +438,7 @@ void EnTp_Head_SetupWait(EnTp* this) {
  * Awaken and rise from the ground when Player is closer than 200
  */
 void EnTp_Head_Wait(EnTp* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yaw;
 
     this->unk_15C--;
@@ -660,7 +660,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f kiraPos;
     Color_RGBA8 kiraPrimColor = { 0, 0, 255, 255 };
     Color_RGBA8 kiraEnvColor = { 0, 0, 0, 0 };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 yawToWall;
 
     if (player->stateFlags1 & 0x4000000) { // Shielding

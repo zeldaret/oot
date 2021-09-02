@@ -16,6 +16,4 @@ typedef struct BgHidanSima {
     /* 0x018C */ ColliderJntSphElement elements[2];
 } BgHidanSima; // size = 0x020C
 
-extern const ActorInit Bg_Hidan_Sima_InitVars;
-
 #endif
