@@ -393,14 +393,16 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
         switch (this->state) {
             case 0:
                 if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[0] != NULL &&
-                    globalCtx->csCtx.npcActions[0]->action == 6 && this->skin.skelAnime.animation != &object_opening_demo1_Anim_002574) {
+                    globalCtx->csCtx.npcActions[0]->action == 6 &&
+                    this->skin.skelAnime.animation != &object_opening_demo1_Anim_002574) {
                     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &object_opening_demo1_Anim_002574, 1.5f);
                     this->state++;
                 }
                 break;
             case 1:
                 if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[0] != NULL &&
-                    globalCtx->csCtx.npcActions[0]->action == 2 && this->skin.skelAnime.animation != &object_opening_demo1_Anim_0029CC) {
+                    globalCtx->csCtx.npcActions[0]->action == 2 &&
+                    this->skin.skelAnime.animation != &object_opening_demo1_Anim_0029CC) {
                     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &object_opening_demo1_Anim_0029CC, 3.0f);
                     this->state++;
                 }
