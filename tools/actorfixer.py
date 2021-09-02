@@ -153,7 +153,7 @@ wordReplace = {
     "func_800D20CC": "Matrix_MtxFToYXZRotS",
     "func_800D2264": "Matrix_MtxFToZYXRotS",
     "func_800D23FC": "Matrix_RotateAxis",
-    "PLAYER": "GET_PLAYER(globalCtx)",
+    "PLAYER": ("GET_PLAYER(globalCtx)", {"ignore": (-1, '"PLAYER"')}), # ignore "PLAYER" in sSoundBankNames
     "ACTIVE_CAM": "GET_ACTIVE_CAM(globalCtx)",
 }
 
@@ -175,6 +175,20 @@ def replace_single(file):
             srcdata = srcdata.replace(old, new)
 
     for old, new in wordReplace.items():
+        # `new` can be a tuple where the first element is what to replace `old` with,
+        # and the second element is a dict containing "custom behavior" properties.
+        if isinstance(new, tuple):
+            custom_behavior = True
+            new, custom_behavior_data = new
+            # The "ignore" data is a tuple where the first element is an offset relative to
+            # where `old` was found, and the string from that index must differ from the
+            # tuple's second element for the replacement to be done.
+            custom_behavior_ignore_data = custom_behavior_data.get("ignore")
+            custom_behavior_ignore = custom_behavior_ignore_data is not None
+            if custom_behavior_ignore:
+                custom_behavior_ignore_offset, custom_behavior_ignore_match = custom_behavior_ignore_data
+        else:
+            custom_behavior = False
         # replace `old` with `new` if the occurence of `old` is the whole word
         oldStartIdx = srcdata.find(old)
         if oldStartIdx >= 0:
@@ -193,6 +207,9 @@ def replace_single(file):
                     if oldEndIdx >= len(srcdata):
                         pass
                     elif is_word_char(srcdata[oldEndIdx]):
+                        replace = False
+                if replace and custom_behavior and custom_behavior_ignore:
+                    if srcdata[oldStartIdx + custom_behavior_ignore_offset:].startswith(custom_behavior_ignore_match):
                         replace = False
                 if replace:
                     srcdata = srcdata[:oldStartIdx] + new + srcdata[oldEndIdx:]
