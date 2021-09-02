@@ -147,7 +147,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
     EnBombf* bombFlower;
     s32 pad;
     s32 pad1;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
 
     if (this->flowerBombScale >= 1.0f) {
@@ -301,7 +301,7 @@ void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
 
         if ((player->stateFlags1 & 0x800) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;

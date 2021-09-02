@@ -95,7 +95,7 @@ static DamageTable sDamageTable[] = {
 };
 
 void EnAnubice_Hover(EnAnubice* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->hoverVelocityTimer += 1500.0f;
     this->targetHeight = player->actor.world.pos.y + this->playerHeightOffset;
@@ -109,7 +109,7 @@ void EnAnubice_SetFireballRot(EnAnubice* this, GlobalContext* globalCtx) {
     f32 x;
     f32 y;
     f32 z;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     x = player->actor.world.pos.x - this->fireballPos.x;
     y = player->actor.world.pos.y + 10.0f - this->fireballPos.y;
@@ -197,14 +197,14 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx) {
 void EnAnubice_SetupIdle(EnAnubice* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&gAnubiceIdleAnim);
 
-    Animation_Change(&this->skelAnime, &gAnubiceIdleAnim, 1.0f, 0.0f, (s16)lastFrame, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &gAnubiceIdleAnim, 1.0f, 0.0f, (s16)lastFrame, ANIMMODE_LOOP, -10.0f);
 
     this->actionFunc = EnAnubice_Idle;
     this->actor.velocity.x = this->actor.velocity.z = this->actor.gravity = 0.0f;
 }
 
 void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachZeroF(&this->actor.shape.yOffset, 0.5f, 300.0f);
@@ -262,7 +262,7 @@ void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&gAnubiceAttackingAnim);
 
     this->animLastFrame = lastFrame;
-    Animation_Change(&this->skelAnime, &gAnubiceAttackingAnim, 1.0f, 0.0f, lastFrame, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &gAnubiceAttackingAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = EnAnubis_ShootFireball;
     this->actor.velocity.x = this->actor.velocity.z = 0.0f;
 }
@@ -292,7 +292,7 @@ void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&gAnubiceFallDownAnim);
 
     this->animLastFrame = lastFrame;
-    Animation_Change(&this->skelAnime, &gAnubiceFallDownAnim, 1.0f, 0.0f, lastFrame, 2, -20.0f);
+    Animation_Change(&this->skelAnime, &gAnubiceFallDownAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -20.0f);
 
     this->unk_256 = false;
     this->unk_258 = 0;

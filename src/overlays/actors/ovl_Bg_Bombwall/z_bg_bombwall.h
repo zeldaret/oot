@@ -19,6 +19,4 @@ typedef struct BgBombwall {
     /* 0x02A3 */ u8 unk_2A3;
 } BgBombwall; // size = 0x02A4
 
-extern const ActorInit Bg_Bombwall_InitVars;
-
 #endif

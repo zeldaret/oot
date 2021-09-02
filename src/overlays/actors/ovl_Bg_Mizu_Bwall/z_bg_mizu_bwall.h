@@ -31,6 +31,4 @@ typedef enum {
     MIZUBWALL_STINGER_ROOM_2
 } BgMizuBwallType;
 
-extern const ActorInit Bg_Mizu_Bwall_InitVars;
-
 #endif

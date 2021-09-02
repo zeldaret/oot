@@ -38,6 +38,4 @@ typedef struct EnEncount2 {
     /* 0x0188 */ EnEncount2Particle particles[50];
 } EnEncount2; // size = 0x0A20
 
-extern const ActorInit En_Encount2_InitVars;
-
 #endif

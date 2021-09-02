@@ -119,13 +119,13 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->type != 5) {
-        if (((gSaveContext.dayTime < 0xB888) || (gSaveContext.nightFlag == 0)) && !(gSaveContext.eventChkInf[8] & 1)) {
+        if (((gSaveContext.dayTime < 0xB888) || IS_DAY) && !(gSaveContext.eventChkInf[8] & 1)) {
             this->actionFunc = EnHeishi1_SetupWalk;
         } else {
             Actor_Kill(&this->actor);
         }
     } else {
-        if ((gSaveContext.dayTime >= 0xB889) || (gSaveContext.nightFlag != 0) || (gSaveContext.eventChkInf[8] & 1)) {
+        if ((gSaveContext.dayTime >= 0xB889) || !IS_DAY || (gSaveContext.eventChkInf[8] & 1)) {
             this->actionFunc = EnHeishi1_SetupWaitNight;
         } else {
             Actor_Kill(&this->actor);
@@ -232,7 +232,7 @@ void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachF(&this->actor.world.pos.x, player->actor.world.pos.x, 1.0f, this->moveSpeed);
@@ -391,7 +391,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s16 path;
     u8 i;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
     Camera* activeCam;
 
@@ -407,7 +407,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->waypointTimer--;
     }
 
-    activeCam = ACTIVE_CAM;
+    activeCam = GET_ACTIVE_CAM(globalCtx);
 
     if (player->actor.freezeTimer == 0) {
 
@@ -451,7 +451,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         }
 
                         if (this->linkDetected) {
-                            // ! @bug This appears to be a check to make sure that link is standing on the ground
+                            //! @bug This appears to be a check to make sure that link is standing on the ground
                             // before getting caught. However this is an issue for two reasons:
                             // 1: When doing a backflip or falling from the upper path, links y velocity will reach
                             // less than -4.0 before even touching the ground.

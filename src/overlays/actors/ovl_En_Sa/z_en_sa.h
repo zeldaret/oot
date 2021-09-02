@@ -30,6 +30,4 @@ typedef struct EnSa {
     /* 0x0286 */ Vec3s morphTable[17];
 } EnSa; // size = 0x02EC
 
-extern const ActorInit En_Sa_InitVars;
-
 #endif

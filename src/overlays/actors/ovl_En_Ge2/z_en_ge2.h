@@ -30,6 +30,4 @@ typedef struct EnGe2 {
     /* 0x0308 */ EnGe2ActionFunc actionFunc;
 } EnGe2; // size = 0x030C
 
-extern const ActorInit En_Ge2_InitVars;
-
 #endif

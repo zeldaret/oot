@@ -15,6 +15,4 @@ typedef struct MagicDark {
     /* 0x0160 */ char unk_160[0x4];
 } MagicDark; // size = 0x0164
 
-extern const ActorInit Magic_Dark_InitVars;
-
 #endif

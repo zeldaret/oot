@@ -53,9 +53,9 @@ glabel func_800E5000
 /* B5C25C 800E50BC 24990001 */  addiu $t9, $a0, 1
 .L800E50C0:
 /* B5C260 800E50C0 14790003 */  bne   $v1, $t9, .L800E50D0
-/* B5C264 800E50C4 3C028013 */   lui   $v0, %hi(D_801304E4) # $v0, 0x8013
+/* B5C264 800E50C4 3C028013 */   lui   $v0, %hi(sWaitingAudioTask) # $v0, 0x8013
 /* B5C268 800E50C8 10000128 */  b     .L800E556C
-/* B5C26C 800E50CC 8C4204E4 */   lw    $v0, %lo(D_801304E4)($v0)
+/* B5C26C 800E50CC 8C4204E4 */   lw    $v0, %lo(sWaitingAudioTask)($v0)
 .L800E50D0:
 /* B5C270 800E50D0 10000126 */  b     .L800E556C
 /* B5C274 800E50D4 00001025 */   move  $v0, $zero
@@ -199,8 +199,8 @@ glabel func_800E5000
 /* B5C464 800E52C4 0C000C18 */  jal   osSendMesg
 /* B5C468 800E52C8 92453519 */   lbu   $a1, 0x3519($s2)
 .L800E52CC:
-/* B5C46C 800E52CC 3C018013 */  lui   $at, %hi(D_801304E4) # $at, 0x8013
-/* B5C470 800E52D0 AC2004E4 */  sw    $zero, %lo(D_801304E4)($at)
+/* B5C46C 800E52CC 3C018013 */  lui   $at, %hi(sWaitingAudioTask) # $at, 0x8013
+/* B5C470 800E52D0 AC2004E4 */  sw    $zero, %lo(sWaitingAudioTask)($at)
 /* B5C474 800E52D4 100000A5 */  b     .L800E556C
 /* B5C478 800E52D8 00001025 */   move  $v0, $zero
 /* B5C47C 800E52DC 8E4F2984 */  lw    $t7, 0x2984($s2)
@@ -309,10 +309,10 @@ glabel func_800E5000
 /* B5C5F8 800E5458 3C0F800E */  lui   $t7, %hi(func_800E4FE0) # $t7, 0x800e
 /* B5C5FC 800E545C 25EF4FE0 */  addiu $t7, %lo(func_800E4FE0) # addiu $t7, $t7, 0x4fe0
 /* B5C600 800E5460 3C018013 */  lui   $at, %hi(gWaveSamples+0x20) # $at, 0x8013
-/* B5C604 800E5464 3C068015 */  lui   $a2, %hi(D_80155C70) # $a2, 0x8015
-/* B5C608 800E5468 3C0A8015 */  lui   $t2, %hi(D_80155F50) # $t2, 0x8015
-/* B5C60C 800E546C 24C65C70 */  addiu $a2, %lo(D_80155C70) # addiu $a2, $a2, 0x5c70
-/* B5C610 800E5470 254A5F50 */  addiu $t2, %lo(D_80155F50) # addiu $t2, $t2, 0x5f50
+/* B5C604 800E5464 3C068015 */  lui   $a2, %hi(rspAspMainDataStart) # $a2, 0x8015
+/* B5C608 800E5468 3C0A8015 */  lui   $t2, %hi(rspAspMainDataEnd) # $t2, 0x8015
+/* B5C60C 800E546C 24C65C70 */  addiu $a2, %lo(rspAspMainDataStart) # addiu $a2, $a2, 0x5c70
+/* B5C610 800E5470 254A5F50 */  addiu $t2, %lo(rspAspMainDataEnd) # addiu $t2, $t2, 0x5f50
 /* B5C614 800E5474 3C048011 */  lui   $a0, %hi(D_801120C0) # $a0, 0x8011
 /* B5C618 800E5478 00006012 */  mflo  $t4
 /* B5C61C 800E547C AE4C297C */  sw    $t4, 0x297c($s2)
@@ -352,7 +352,7 @@ glabel func_800E5000
 /* B5C6A4 800E5504 AC600028 */  sw    $zero, 0x28($v1)
 /* B5C6A8 800E5508 AC60002C */  sw    $zero, 0x2c($v1)
 /* B5C6AC 800E550C 8F1928AC */  lw    $t9, 0x28ac($t8)
-/* B5C6B0 800E5510 3C0B8013 */  lui   $t3, %hi(D_801304E0) # $t3, 0x8013
+/* B5C6B0 800E5510 3C0B8013 */  lui   $t3, %hi(sMaxAbiCmdCnt) # $t3, 0x8013
 /* B5C6B4 800E5514 AC790030 */  sw    $t9, 0x30($v1)
 /* B5C6B8 800E5518 8FA90068 */  lw    $t1, 0x68($sp)
 /* B5C6BC 800E551C AC600038 */  sw    $zero, 0x38($v1)
@@ -360,11 +360,11 @@ glabel func_800E5000
 /* B5C6C4 800E5524 000950C0 */  sll   $t2, $t1, 3
 /* B5C6C8 800E5528 AC6A0034 */  sw    $t2, 0x34($v1)
 /* B5C6CC 800E552C 8FAC0068 */  lw    $t4, 0x68($sp)
-/* B5C6D0 800E5530 8D6B04E0 */  lw    $t3, %lo(D_801304E0)($t3)
+/* B5C6D0 800E5530 8D6B04E0 */  lw    $t3, %lo(sMaxAbiCmdCnt)($t3)
 /* B5C6D4 800E5534 016C082A */  slt   $at, $t3, $t4
 /* B5C6D8 800E5538 10200002 */  beqz  $at, .L800E5544
-/* B5C6DC 800E553C 3C018013 */   lui   $at, %hi(D_801304E0) # $at, 0x8013
-/* B5C6E0 800E5540 AC2C04E0 */  sw    $t4, %lo(D_801304E0)($at)
+/* B5C6DC 800E553C 3C018013 */   lui   $at, %hi(sMaxAbiCmdCnt) # $at, 0x8013
+/* B5C6E0 800E5540 AC2C04E0 */  sw    $t4, %lo(sMaxAbiCmdCnt)($at)
 .L800E5544:
 /* B5C6E4 800E5544 864D2848 */  lh    $t5, 0x2848($s2)
 /* B5C6E8 800E5548 24010001 */  li    $at, 1
@@ -374,9 +374,9 @@ glabel func_800E5000
 /* B5C6F8 800E5558 8E4228B8 */   lw    $v0, 0x28b8($s2)
 /* B5C6FC 800E555C 8E4F28B8 */  lw    $t7, 0x28b8($s2)
 .L800E5560:
-/* B5C700 800E5560 3C018013 */  lui   $at, %hi(D_801304E4) # $at, 0x8013
+/* B5C700 800E5560 3C018013 */  lui   $at, %hi(sWaitingAudioTask) # $at, 0x8013
 /* B5C704 800E5564 00001025 */  move  $v0, $zero
-/* B5C708 800E5568 AC2F04E4 */  sw    $t7, %lo(D_801304E4)($at)
+/* B5C708 800E5568 AC2F04E4 */  sw    $t7, %lo(sWaitingAudioTask)($at)
 .L800E556C:
 /* B5C70C 800E556C 8FBF0024 */  lw    $ra, 0x24($sp)
 /* B5C710 800E5570 8FB00018 */  lw    $s0, 0x18($sp)

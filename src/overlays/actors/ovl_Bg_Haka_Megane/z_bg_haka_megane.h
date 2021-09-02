@@ -16,6 +16,4 @@ typedef struct BgHakaMegane {
     /* 0x016A */ char unk_16A[0x2];
 } BgHakaMegane; // size = 0x016C
 
-extern const ActorInit Bg_Haka_Megane_InitVars;
-
 #endif

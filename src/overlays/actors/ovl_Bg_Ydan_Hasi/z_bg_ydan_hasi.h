@@ -21,6 +21,4 @@ typedef enum {
     /* 2 */ HASI_THREE_BLOCKS
 } HasiType;
 
-extern const ActorInit Bg_Ydan_Hasi_InitVars;
-
 #endif

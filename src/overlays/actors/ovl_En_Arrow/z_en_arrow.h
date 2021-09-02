@@ -41,6 +41,4 @@ typedef enum {
     /*  10 */ ARROW_NUT
 } ArrowType;
 
-extern const ActorInit En_Arrow_InitVars;
-
 #endif

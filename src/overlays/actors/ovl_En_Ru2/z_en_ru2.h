@@ -29,6 +29,4 @@ typedef struct EnRu2 {
     /* 0x02C8 */ ColliderCylinder collider;
 } EnRu2; // size = 0x0314
 
-extern const ActorInit En_Ru2_InitVars;
-
 #endif

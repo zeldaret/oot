@@ -9,6 +9,4 @@ struct BgSpot18Futa;
 typedef struct BgSpot18Futa {
     /* 0x0000 */ DynaPolyActor dyna;
 } BgSpot18Futa; // size = 0x0164
-
-extern const ActorInit Bg_Spot18_Futa_InitVars;
 #endif

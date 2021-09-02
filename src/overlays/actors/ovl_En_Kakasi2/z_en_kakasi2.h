@@ -20,6 +20,4 @@ typedef struct EnKakasi2 {
     /* 0x01AC */ ColliderCylinder collider;
 } EnKakasi2; // size = 0x01F8
 
-extern const ActorInit En_Kakasi2_InitVars;
-
 #endif

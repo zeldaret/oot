@@ -14,6 +14,4 @@ typedef struct BgTokiHikari {
     /* 0x0150 */ BgTokiHikariActionFunc actionFunc; 
 } BgTokiHikari; // size = 0x0154
 
-extern const ActorInit Bg_Toki_Hikari_InitVars;
-
 #endif

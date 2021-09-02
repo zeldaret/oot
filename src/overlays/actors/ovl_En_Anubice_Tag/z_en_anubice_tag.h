@@ -16,6 +16,4 @@ typedef struct EnAnubiceTag {
     /* 0x0154 */ f32 triggerRange;
 } EnAnubiceTag; // size = 0x0158
 
-extern const ActorInit En_Anubice_Tag_InitVars;
-
 #endif

@@ -366,7 +366,7 @@ void func_80B123A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 phi_f16 = 0.0f;
 
     player->actor.freezeTimer = 10;
