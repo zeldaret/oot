@@ -2,12 +2,7 @@
     <File Name="ovl_Arrow_Fire" BaseAddress="0x80865d10" RangeStart="0x9D0" RangeEnd="0x1DF0" Segment="128">    
         <Texture Name="sFireArrowTexture1" OutName="fire_tex_1" Format="ia8" Width="32" Height="64" Offset="0x9D0"/>
         <Texture Name="sFireArrowTexture2" OutName="fire_tex_2" Format="ia8" Width="32" Height="64" Offset="0x11D0"/>
-        <Array Name="sFireArrowVtx1" Count="31" Offset="0x19D0">
-            <Vtx/>
-        </Array>
-        <Array Name="sFireArrowVtx2" Count="12" Offset="0x1BC0">
-            <Vtx/>
-        </Array>
+
         <DList Name="sFireArrowTextureDL" Offset="0x1C80"/>
         <DList Name="sFireArrowVtxDL" Offset="0x1D30"/>
     </File>

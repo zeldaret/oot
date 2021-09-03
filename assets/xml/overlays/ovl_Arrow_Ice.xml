@@ -2,12 +2,7 @@
     <File Name="ovl_Arrow_Ice" BaseAddress="0x80867cd0" RangeStart="0x9F0" RangeEnd="0x1E10" Segment="128">    
         <Texture Name="sTexture1" OutName="ice_tex_1" Format="ia8" Width="32" Height="64" Offset="0x9F0"/>
         <Texture Name="sTexture2" OutName="ice_tex_2" Format="ia8" Width="32" Height="64" Offset="0x11F0"/>
-        <Array Name="sVtx1" Count="32" Offset="0x19F0">
-            <Vtx/>
-        </Array>
-        <Array Name="sVtx2" Count="11" Offset="0x1BF0">
-            <Vtx/>
-        </Array>
+
         <DList Name="sIceArrowDL" Offset="0x1CA0"/>
         <DList Name="sIceArrowVtxDL" Offset="0x1D50"/>
     </File>
