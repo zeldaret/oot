@@ -20,7 +20,7 @@ void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx);
 void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx);
 void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx);
 
-#include "z_arrow_fire_gfx.c"
+#include "overlays/ovl_Arrow_Fire/ovl_Arrow_Fire.c"
 
 const ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,
@@ -190,9 +190,9 @@ void ArrowFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     ArrowFire* this = THIS;
-    s32 pad;
+    GlobalContext* globalCtx = globalCtx2;
     u32 stateFrames;
     EnArrow* arrow;
     Actor* tranform;
@@ -237,11 +237,11 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 666),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+        gSPDisplayList(POLY_XLU_DISP++, sFireArrowTextureDL);
         gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
                                         255 - stateFrames % 256, 511 - (stateFrames * 10) % 512, 64, 64));
-        gSPDisplayList(POLY_XLU_DISP++, sVertexDL);
+        gSPDisplayList(POLY_XLU_DISP++, sFireArrowVtxDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 682);
     }
