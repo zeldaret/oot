@@ -362,7 +362,8 @@ void Gameplay_Init(GameState* thisx) {
     zAlloc = GameState_Alloc(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
     ZeldaArena_Init(zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
-    osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned, // "Zelda Heap"
+    // "Zelda Heap"
+    osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
                  (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
