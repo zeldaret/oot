@@ -8,6 +8,9 @@ extern u32 sAudioSeqCmds[0x100];
 extern u8 sSeqCmdRdPos;
 extern u8 sSeqCmdWrPos;
 extern u8 D_80133408;
+extern u8 D_80133418;
+extern u8 D_801333CC;
+extern u8 D_80133410[];
 
 // TODO: clean up these macros. They are similar to ones in code_800EC960.c but without casts.
 #define my_Audio_StartSeq(seqIdx, fadeTimer, seqId) Audio_QueueSeqCmd(0x00000000 | ((seqIdx) << 24) | ((fadeTimer) << 16) | (seqId))
@@ -17,6 +20,8 @@ extern u8 D_80133408;
 #define my_Audio_SeqCmd3(seqIdx, a) Audio_QueueSeqCmd(0x30000000 | ((seqIdx) << 24) | (a))
 #define my_Audio_SeqCmd5(seqIdx, a, b) Audio_QueueSeqCmd(0x50000000 | ((seqIdx) << 24) | ((a) << 16) | (b))
 #define my_Audio_SeqCmd4(seqIdx, a, b) Audio_QueueSeqCmd(0x40000000 | ((seqIdx) << 24) | ((a) << 16) | (b))
+#define Audio_SetVolScaleNow(seqIdx, volFadeTimer, volScale) \
+    Audio_ProcessSeqCmd(0x40000000 | ((u8)seqIdx << 24) | ((u8)volFadeTimer << 16) | ((u8)(volScale * 127.0f)));
 
 void func_800F9280(u8 seqIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
     u8 i;
@@ -81,9 +86,276 @@ typedef enum {
     CMDF
 } SeqCmdType;
 
-extern u32 D_8013340C;
-void Audio_ProcessSeqCmd(u32 cmd);
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/Audio_ProcessSeqCmd.s")
+typedef struct {
+    u8 unk_0;
+    u8 unk_1; // importance?
+} Something;
+extern Something D_8016E320[][5]; // sorted by unk_1, descending
+
+void Audio_ProcessSeqCmd(u32 cmd) {
+    s32 pad[2];
+    u16 fadeTimer;
+    u16 channelMask;
+    u16 val;
+    u8 oldSpec;
+    u8 spec;
+    u8 op;
+    u8 subOp;
+    u8 seqIdx;
+    u8 seqId;
+    u8 seqArgs;
+    u8 found;
+    u8 port;
+    u8 duration;
+    u8 chanIdx;
+    u8 i;
+    s32 new_var;
+    f32 freqScale;
+
+    if (D_8013340C && (cmd & 0xF0000000) != 0x70000000) {
+        AudioDebug_ScrPrt((const s8*)D_80133390, (cmd >> 16) & 0xFFFF); // "SEQ H"
+        AudioDebug_ScrPrt((const s8*)D_80133398, cmd & 0xFFFF);         // "    L"
+    }
+
+    op = cmd >> 28;
+    seqIdx = (cmd & 0xF000000) >> 24;
+
+    switch (op) {
+        case 0x0:
+            // play sequence immediately
+            seqId = cmd & 0xFF;
+            seqArgs = (cmd & 0xFF00) >> 8;
+            fadeTimer = (cmd & 0xFF0000) >> 13;
+            if ((D_8016E750[seqIdx].unk_260 == 0) && (seqArgs < 0x80)) {
+                func_800F9280(seqIdx, seqId, seqArgs, fadeTimer);
+            }
+            break;
+
+        case 0x1:
+            // disable seq player
+            fadeTimer = (cmd & 0xFF0000) >> 13;
+            func_800F9474(seqIdx, fadeTimer);
+            break;
+
+        case 0x2:
+            // queue sequence
+            seqId = cmd & 0xFF;
+            seqArgs = (cmd & 0xFF00) >> 8;
+            fadeTimer = (cmd & 0xFF0000) >> 13;
+            new_var = seqArgs;
+            for (i = 0; i < D_8016E348[seqIdx]; i++) {
+                if (D_8016E320[seqIdx][i].unk_0 == seqId) {
+                    if (i == 0) {
+                        func_800F9280(seqIdx, seqId, seqArgs, fadeTimer);
+                    }
+                    return;
+                }
+            }
+
+            found = D_8016E348[seqIdx];
+            for (i = 0; i < D_8016E348[seqIdx]; i++) {
+                if (D_8016E320[seqIdx][i].unk_1 <= new_var) {
+                    found = i;
+                    i = D_8016E348[seqIdx]; // "break;"
+                }
+            }
+
+            if (D_8016E348[seqIdx] < 5) {
+                D_8016E348[seqIdx]++;
+            }
+            for (i = D_8016E348[seqIdx] - 1; i != found; i--) {
+                D_8016E320[seqIdx][i].unk_1 = D_8016E320[seqIdx][i - 1].unk_1;
+                D_8016E320[seqIdx][i].unk_0 = D_8016E320[seqIdx][i - 1].unk_0;
+            }
+            D_8016E320[seqIdx][found].unk_1 = seqArgs;
+            D_8016E320[seqIdx][found].unk_0 = seqId;
+
+            if (found == 0) {
+                func_800F9280(seqIdx, seqId, seqArgs, fadeTimer);
+            }
+            break;
+
+        case 0x3:
+            // unqueue/stop sequence
+            seqId = cmd & 0xFF;
+            fadeTimer = (cmd & 0xFF0000) >> 13;
+
+            found = D_8016E348[seqIdx];
+            for (i = 0; i < D_8016E348[seqIdx]; i++) {
+                if (D_8016E320[seqIdx][i].unk_0 == seqId) {
+                    found = i;
+                    i = D_8016E348[seqIdx]; // "break;"
+                }
+            }
+
+            if (found != D_8016E348[seqIdx]) {
+                for (i = found; i < D_8016E348[seqIdx] - 1; i++) {
+                    D_8016E320[seqIdx][i].unk_1 = D_8016E320[seqIdx][i + 1].unk_1;
+                    D_8016E320[seqIdx][i].unk_0 = D_8016E320[seqIdx][i + 1].unk_0;
+                }
+                D_8016E348[seqIdx]--;
+            }
+
+            if (found == 0) {
+                func_800F9474(seqIdx, fadeTimer);
+                if (D_8016E348[seqIdx] != 0) {
+                    func_800F9280(seqIdx, D_8016E320[seqIdx][0].unk_0, D_8016E320[seqIdx][0].unk_1, fadeTimer);
+                }
+            }
+            break;
+
+        case 0x4:
+            // transition seq volume
+            duration = (cmd & 0xFF0000) >> 15;
+            val = cmd & 0xFF;
+            if (duration == 0) {
+                duration++;
+            }
+            D_8016E750[seqIdx].volTarget = (f32)val / 127.0f;
+            if (D_8016E750[seqIdx].volCur != D_8016E750[seqIdx].volTarget) {
+                D_8016E750[seqIdx].unk_08 = (D_8016E750[seqIdx].volCur - D_8016E750[seqIdx].volTarget) / (f32)duration;
+                D_8016E750[seqIdx].unk_0C = duration;
+            }
+            break;
+
+        case 0x5:
+            // transition freq scale for all channels
+            duration = (cmd & 0xFF0000) >> 15;
+            val = cmd & 0xFFFF;
+            if (duration == 0) {
+                duration++;
+            }
+            freqScale = (f32)val / 1000.0f;
+            for (i = 0; i < 16; i++) {
+                D_8016E750[seqIdx].unk_50[i].unk_14 = freqScale;
+                D_8016E750[seqIdx].unk_50[i].unk_1C = duration;
+                D_8016E750[seqIdx].unk_50[i].unk_18 = (D_8016E750[seqIdx].unk_50[i].unk_10 - freqScale) / (f32)duration;
+            }
+            D_8016E750[seqIdx].unk_250 = 0xFFFF;
+            break;
+
+        case 0xD:
+            // transition freq scale
+            duration = (cmd & 0xFF0000) >> 15;
+            chanIdx = (cmd & 0xF000) >> 12;
+            val = cmd & 0xFFF;
+            if (duration == 0) {
+                duration++;
+            }
+            freqScale = (f32)val / 1000.0f;
+            D_8016E750[seqIdx].unk_50[chanIdx].unk_14 = freqScale;
+            D_8016E750[seqIdx].unk_50[chanIdx].unk_18 =
+                (D_8016E750[seqIdx].unk_50[chanIdx].unk_10 - freqScale) / (f32)duration;
+            D_8016E750[seqIdx].unk_50[chanIdx].unk_1C = duration;
+            D_8016E750[seqIdx].unk_250 |= 1 << chanIdx;
+            break;
+
+        case 0x6:
+            // transition vol scale
+            duration = (cmd & 0xFF0000) >> 15;
+            chanIdx = (cmd & 0xF00) >> 8;
+            val = cmd & 0xFF;
+            if (duration == 0) {
+                duration++;
+            }
+            D_8016E750[seqIdx].unk_50[chanIdx].unk_04 = (f32)val / 127.0f;
+            if (D_8016E750[seqIdx].unk_50[chanIdx].unk_00 != D_8016E750[seqIdx].unk_50[chanIdx].unk_04) {
+                D_8016E750[seqIdx].unk_50[chanIdx].unk_08 =
+                    (D_8016E750[seqIdx].unk_50[chanIdx].unk_00 - D_8016E750[seqIdx].unk_50[chanIdx].unk_04) /
+                    (f32)duration;
+                D_8016E750[seqIdx].unk_50[chanIdx].unk_0C = duration;
+                D_8016E750[seqIdx].unk_252 |= 1 << chanIdx;
+            }
+            break;
+
+        case 0x7:
+            // set global io port
+            port = (cmd & 0xFF0000) >> 16;
+            val = cmd & 0xFF;
+            Audio_QueueCmdS8(0x46000000 | _SHIFTL(seqIdx, 16, 8) | _SHIFTL(port, 0, 8), val);
+            break;
+
+        case 0x8:
+            // set io port if channel masked
+            chanIdx = (cmd & 0xF00) >> 8;
+            port = (cmd & 0xFF0000) >> 16;
+            val = cmd & 0xFF;
+            if ((D_8016E750[seqIdx].unk_258 & (1 << chanIdx)) == 0) {
+                Audio_QueueCmdS8(0x06000000 | _SHIFTL(seqIdx, 16, 8) | _SHIFTL(chanIdx, 8, 8) | _SHIFTL(port, 0, 8),
+                                 val);
+            }
+            break;
+
+        case 0x9:
+            // set channel mask for command 0x8
+            D_8016E750[seqIdx].unk_258 = cmd & 0xFFFF;
+            break;
+
+        case 0xA:
+            // set channel stop mask
+            channelMask = cmd & 0xFFFF;
+            if (channelMask != 0) {
+                // with channel mask channelMask...
+                Audio_QueueCmdU16(0x90000000 | _SHIFTL(seqIdx, 16, 8), channelMask);
+                // stop channels
+                Audio_QueueCmdS8(0x08000000 | _SHIFTL(seqIdx, 16, 8) | 0xFF00, 1);
+            }
+            if ((channelMask ^ 0xFFFF) != 0) {
+                // with channel mask ~channelMask...
+                Audio_QueueCmdU16(0x90000000 | _SHIFTL(seqIdx, 16, 8), (channelMask ^ 0xFFFF));
+                // unstop channels
+                Audio_QueueCmdS8(0x08000000 | _SHIFTL(seqIdx, 16, 8) | 0xFF00, 0);
+            }
+            break;
+
+        case 0xB:
+            // update tempo
+            D_8016E750[seqIdx].unk_14 = cmd;
+            break;
+
+        case 0xC:
+            // start sequence with setup commands
+            subOp = (cmd & 0xF00000) >> 20;
+            if (subOp != 0xF) {
+                if (D_8016E750[seqIdx].unk_4D < 7) {
+                    found = D_8016E750[seqIdx].unk_4D++;
+                    if (found < 8) {
+                        D_8016E750[seqIdx].unk_2C[found] = cmd;
+                        D_8016E750[seqIdx].unk_4C = 2;
+                    }
+                }
+            } else {
+                D_8016E750[seqIdx].unk_4D = 0;
+            }
+            break;
+
+        case 0xE:
+            subOp = (cmd & 0xF00) >> 8;
+            val = cmd & 0xFF;
+            switch (subOp) {
+                case 0:
+                    // set sound mode
+                    Audio_QueueCmdS32(0xF0000000, D_80133410[val]);
+                    break;
+                case 1:
+                    // set sequence starting disabled?
+                    D_80133408 = val & 1;
+                    break;
+            }
+            break;
+
+        case 0xF:
+            // change spec
+            spec = cmd & 0xFF;
+            D_801333CC = (cmd & 0xFF00) >> 8;
+            oldSpec = gAudioSpecId;
+            gAudioSpecId = spec;
+            func_800E5F88(spec);
+            func_800F71BC(oldSpec);
+            Audio_QueueCmdS32(0xF8000000, 0);
+            break;
+    }
+}
 
 void Audio_QueueSeqCmd(u32 cmd) {
     sAudioSeqCmds[sSeqCmdWrPos++] = cmd;
@@ -122,15 +394,13 @@ void func_800FA18C(u8 arg0, u8 arg1) {
     u8 i;
 
     for (i = 0; i < D_8016E750[arg0].unk_4D; i++) {
-        u8 unkb = (D_8016E750[arg0].unk_2C[i] & 0xF00000) >> 0x14;
+        u8 unkb = (D_8016E750[arg0].unk_2C[i] & 0xF00000) >> 20;
 
         if (unkb == arg1) {
             D_8016E750[arg0].unk_2C[i] = 0xFF000000;
         }
     }
 }
-#define Audio_SetVolScaleNow(seqIdx, volFadeTimer, volScale) \
-    Audio_ProcessSeqCmd(0x40000000 | ((u8)seqIdx << 0x18) | ((u8)volFadeTimer << 0x10) | ((u8)(volScale * 127.0f)));
 
 void Audio_SetVolScale(u8 seqIdx, u8 scaleIdx, u8 targetVol, u8 volFadeTimer) {
     f32 volScale;
@@ -151,7 +421,6 @@ void Audio_SetVolScale(u8 seqIdx, u8 scaleIdx, u8 targetVol, u8 volFadeTimer) {
 }
 
 void func_800FA3DC(void) {
-    u32 temp_v0;
     u32 temp_a1;
     u16 temp_lo;
     u16 temp_v1;
@@ -161,7 +430,7 @@ void func_800FA3DC(void) {
     u8 temp_s1;
     u8 temp_s0_3;
     u8 temp_a3_3;
-    s32 pad[2];
+    s32 pad[3];
     u32 sp70;
     f32 phi_f0;
     u8 phi_t0;
@@ -258,6 +527,7 @@ void func_800FA3DC(void) {
             } else {
                 D_8016E750[i].unk_1C = D_8016E750[i].unk_20;
             }
+            // set tempo
             Audio_QueueCmdS32(0x47000000 | _SHIFTL(i, 16, 8), D_8016E750[i].unk_1C);
         }
 
@@ -271,6 +541,7 @@ void func_800FA3DC(void) {
                         D_8016E750[i].unk_50[k].unk_00 = D_8016E750[i].unk_50[k].unk_04;
                         D_8016E750[i].unk_252 ^= (1 << k);
                     }
+                    // CHAN_UPD_VOL_SCALE (i = seq, k = chan)
                     Audio_QueueCmdF32(0x01000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8), D_8016E750[i].unk_50[k].unk_00);
                 }
             }
@@ -286,6 +557,7 @@ void func_800FA3DC(void) {
                         D_8016E750[i].unk_50[k].unk_10 = D_8016E750[i].unk_50[k].unk_14;
                         D_8016E750[i].unk_250 ^= (1 << k);
                     }
+                    // CHAN_UPD_FREQ_SCALE
                     Audio_QueueCmdF32(0x04000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8),
                                       D_8016E750[i].unk_50[k].unk_10);
                 }
@@ -374,21 +646,18 @@ void func_800FA3DC(void) {
     }
 }
 
-extern u8 D_80133418;
-extern u8 D_801333CC;
-#define CMD46(a) (_SHIFTL(0x46, 24, 8) | _SHIFTL(a, 16, 8))
 u8 func_800FAD34(void) {
     if (D_80133418 != 0) {
         if (D_80133418 == 1) {
             if (func_800E5EDC() == 1) {
                 D_80133418 = 0;
-                Audio_QueueCmdS8(CMD46(2), D_801333CC);
+                Audio_QueueCmdS8(0x46020000, D_801333CC);
                 func_800F7170();
             }
         } else if (D_80133418 == 2) {
             while (func_800E5EDC() != 1) {}
             D_80133418 = 0;
-            Audio_QueueCmdS8(CMD46(2), D_801333CC);
+            Audio_QueueCmdS8(0x46020000, D_801333CC);
             func_800F7170();
         }
     }

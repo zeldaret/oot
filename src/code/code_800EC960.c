@@ -405,7 +405,6 @@ OcarinaSongInfo gOcarinaSongNotes[14] = {
 extern u8 D_801333F0;
 extern u8 gAudioSEFlagSwapOff;
 extern u8 D_80133408;
-extern u8 D_8013340C;
 extern u8 D_80133418;
 
 /**
