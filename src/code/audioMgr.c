@@ -44,7 +44,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
 }
 
 void AudioMgr_HandlePRENMI(AudioMgr* audioMgr) {
-    // Audio manager received OS_SC_PRE_NMI_MSG
+    // "Audio manager received OS_SC_PRE_NMI_MSG"
     osSyncPrintf("オーディオマネージャが OS_SC_PRE_NMI_MSG を受け取りました\n");
     Audio_PreNMI();
 }
@@ -54,8 +54,7 @@ void AudioMgr_ThreadEntry(void* arg0) {
     IrqMgrClient irqClient;
     s16* msg = NULL;
 
-    // Start running audio manager thread
-    osSyncPrintf("オーディオマネージャスレッド実行開始\n");
+    osSyncPrintf("オーディオマネージャスレッド実行開始\n"); // "Start running audio manager thread"
     func_800F70F8();
     func_800E301C(DmaMgr_DmaCallback0);
     func_800F711C();
