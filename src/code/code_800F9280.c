@@ -13,13 +13,14 @@ extern u8 D_801333CC;
 extern u8 D_80133410[];
 
 // TODO: clean up these macros. They are similar to ones in code_800EC960.c but without casts.
-#define my_Audio_StartSeq(seqIdx, fadeTimer, seqId) Audio_QueueSeqCmd(0x00000000 | ((seqIdx) << 24) | ((fadeTimer) << 16) | (seqId))
-#define my_Audio_SeqCmdA(seqIdx, a) Audio_QueueSeqCmd(0xA0000000 | ((seqIdx) << 24) | (a))
-#define my_Audio_SeqCmdB30(seqIdx, a, b) Audio_QueueSeqCmd(0xB0003000 | ((seqIdx) << 24) | ((a) << 16) | (b))
-#define my_Audio_SeqCmdB40(seqIdx, a, b) Audio_QueueSeqCmd(0xB0004000 | ((seqIdx) << 24) | ((a) << 16) | (b))
-#define my_Audio_SeqCmd3(seqIdx, a) Audio_QueueSeqCmd(0x30000000 | ((seqIdx) << 24) | (a))
-#define my_Audio_SeqCmd5(seqIdx, a, b) Audio_QueueSeqCmd(0x50000000 | ((seqIdx) << 24) | ((a) << 16) | (b))
-#define my_Audio_SeqCmd4(seqIdx, a, b) Audio_QueueSeqCmd(0x40000000 | ((seqIdx) << 24) | ((a) << 16) | (b))
+#define Audio_StartSeq(seqIdx, fadeTimer, seqId) \
+    Audio_QueueSeqCmd(0x00000000 | ((seqIdx) << 24) | ((fadeTimer) << 16) | (seqId))
+#define Audio_SeqCmdA(seqIdx, a) Audio_QueueSeqCmd(0xA0000000 | ((seqIdx) << 24) | (a))
+#define Audio_SeqCmdB30(seqIdx, a, b) Audio_QueueSeqCmd(0xB0003000 | ((seqIdx) << 24) | ((a) << 16) | (b))
+#define Audio_SeqCmdB40(seqIdx, a, b) Audio_QueueSeqCmd(0xB0004000 | ((seqIdx) << 24) | ((a) << 16) | (b))
+#define Audio_SeqCmd3(seqIdx, a) Audio_QueueSeqCmd(0x30000000 | ((seqIdx) << 24) | (a))
+#define Audio_SeqCmd5(seqIdx, a, b) Audio_QueueSeqCmd(0x50000000 | ((seqIdx) << 24) | ((a) << 16) | (b))
+#define Audio_SeqCmd4(seqIdx, a, b) Audio_QueueSeqCmd(0x40000000 | ((seqIdx) << 24) | ((a) << 16) | (b))
 #define Audio_SetVolScaleNow(seqIdx, volFadeTimer, volScale) \
     Audio_ProcessSeqCmd(0x40000000 | ((u8)seqIdx << 24) | ((u8)volFadeTimer << 16) | ((u8)(volScale * 127.0f)));
 
@@ -456,7 +457,7 @@ void func_800FA3DC(void) {
             for (j = 0; j < 4; j++) {
                 phi_f0 *= (D_8016E750[i].volScales[j] / 127.0f);
             }
-            my_Audio_SeqCmd4(i, D_8016E750[i].volFadeTimer, (u8)(phi_f0 * 127.0f));
+            Audio_SeqCmd4(i, D_8016E750[i].volFadeTimer, (u8)(phi_f0 * 127.0f));
             D_8016E750[i].fadeVolUpdate = 0;
         }
 
@@ -542,7 +543,8 @@ void func_800FA3DC(void) {
                         D_8016E750[i].unk_252 ^= (1 << k);
                     }
                     // CHAN_UPD_VOL_SCALE (i = seq, k = chan)
-                    Audio_QueueCmdF32(0x01000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8), D_8016E750[i].unk_50[k].unk_00);
+                    Audio_QueueCmdF32(0x01000000 | _SHIFTL(i, 16, 8) | _SHIFTL(k, 8, 8),
+                                      D_8016E750[i].unk_50[k].unk_00);
                 }
             }
         }
@@ -595,22 +597,22 @@ void func_800FA3DC(void) {
                         }
                         break;
                     case 1:
-                        my_Audio_SeqCmd3(i, D_8016E750[i].unk_254);
+                        Audio_SeqCmd3(i, D_8016E750[i].unk_254);
                         break;
                     case 2:
-                        my_Audio_StartSeq(temp_s1, 1, D_8016E750[temp_s1].unk_254);
+                        Audio_StartSeq(temp_s1, 1, D_8016E750[temp_s1].unk_254);
                         D_8016E750[temp_s1].fadeVolUpdate = 1;
                         D_8016E750[temp_s1].volScales[1] = 0x7F;
                         break;
                     case 3:
-                        my_Audio_SeqCmdB30(temp_s1, temp_s0_3, temp_a3_3);
+                        Audio_SeqCmdB30(temp_s1, temp_s0_3, temp_a3_3);
                         break;
                     case 4:
-                        my_Audio_SeqCmdB40(temp_s1, temp_a3_3, 0);
+                        Audio_SeqCmdB40(temp_s1, temp_a3_3, 0);
                         break;
                     case 5:
                         temp_v1 = D_8016E750[i].unk_2C[j] & 0xFFFF;
-                        my_Audio_StartSeq(temp_s1, D_8016E750[temp_s1].unk_4E, temp_v1);
+                        Audio_StartSeq(temp_s1, D_8016E750[temp_s1].unk_4E, temp_v1);
                         Audio_SetVolScale(temp_s1, 1, 0x7F, 0);
                         D_8016E750[temp_s1].unk_4E = 0;
                         break;
@@ -633,10 +635,10 @@ void func_800FA3DC(void) {
                         break;
                     case 9:
                         temp_v1 = D_8016E750[i].unk_2C[j] & 0xFFFF;
-                        my_Audio_SeqCmdA(temp_s1, temp_v1);
+                        Audio_SeqCmdA(temp_s1, temp_v1);
                         break;
                     case 10:
-                        my_Audio_SeqCmd5(temp_s1, temp_s0_3, (temp_a3_3 * 10) & 0xFFFF);
+                        Audio_SeqCmd5(temp_s1, temp_s0_3, (temp_a3_3 * 10) & 0xFFFF);
                         break;
                 }
             }
