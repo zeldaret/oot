@@ -22,9 +22,7 @@ s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, SkelCurv
     skelCurve->transforms = ZeldaArena_MallocDebug(sizeof(*skelCurve->transforms) * skelCurve->limbCount,
                                                    "../z_fcurve_data_skelanime.c", 125);
     ASSERT(skelCurve->transforms != NULL, "this->now_joint != NULL", "../z_fcurve_data_skelanime.c", 127);
-    do {
-        skelCurve->animCurFrame = 0.0f;
-    } while (0);
+    skelCurve->animCurFrame = 0.0f;
     return 1;
 }
 
