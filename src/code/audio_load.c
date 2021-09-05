@@ -49,9 +49,9 @@ void func_800E11F0(void) {
         if (req->ttl != 0) {
             req->ttl--;
             if ((req->ttl) == 0) {
-                req->reuseIndex = gAudioContext.sampleDmaReuseQueueHead1;
-                gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueueHead1] = i;
-                gAudioContext.sampleDmaReuseQueueHead1++;
+                req->reuseIndex = gAudioContext.sampleDmaReuseQueue1WrPos;
+                gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueue1WrPos] = i;
+                gAudioContext.sampleDmaReuseQueue1WrPos++;
             }
         }
     }
@@ -61,9 +61,9 @@ void func_800E11F0(void) {
         if (req->ttl != 0) {
             req->ttl--;
             if (req->ttl == 0) {
-                req->reuseIndex = gAudioContext.sampleDmaReuseQueueHead2;
-                gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueueHead2] = i;
-                gAudioContext.sampleDmaReuseQueueHead2++;
+                req->reuseIndex = gAudioContext.sampleDmaReuseQueue2WrPos;
+                gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueue2WrPos] = i;
+                gAudioContext.sampleDmaReuseQueue2WrPos++;
             }
         }
     }
@@ -88,16 +88,18 @@ void* Audio_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, s32 
             bufferPos = devAddr - dma->devAddr;
             if (0 <= bufferPos && (u32)bufferPos <= dma->size - size) {
                 // We already have a DMA request for this memory range.
-                if (dma->ttl == 0 && gAudioContext.sampleDmaReuseQueueTail2 != gAudioContext.sampleDmaReuseQueueHead2) {
+                if (dma->ttl == 0 &&
+                    gAudioContext.sampleDmaReuseQueue2RdPos != gAudioContext.sampleDmaReuseQueue2WrPos) {
                     // Move the DMA out of the reuse queue, by swapping it with the
-                    // tail, and then incrementing the tail.
-                    if (dma->reuseIndex != gAudioContext.sampleDmaReuseQueueTail2) {
+                    // read pos, and then incrementing the read pos.
+                    if (dma->reuseIndex != gAudioContext.sampleDmaReuseQueue2RdPos) {
                         gAudioContext.sampleDmaReuseQueue2[dma->reuseIndex] =
-                            gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueueTail2];
-                        gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueueTail2]].reuseIndex =
-                            dma->reuseIndex;
+                            gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueue2RdPos];
+                        gAudioContext
+                            .sampleDmaReqs[gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueue2RdPos]]
+                            .reuseIndex = dma->reuseIndex;
                     }
-                    gAudioContext.sampleDmaReuseQueueTail2++;
+                    gAudioContext.sampleDmaReuseQueue2RdPos++;
                 }
                 dma->ttl = 32;
                 *dmaIndexRef = (u8)i;
@@ -109,31 +111,32 @@ void* Audio_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, s32 
             goto search_short_lived;
         }
 
-        if (gAudioContext.sampleDmaReuseQueueTail2 != gAudioContext.sampleDmaReuseQueueHead2 && arg2 != 0) {
+        if (gAudioContext.sampleDmaReuseQueue2RdPos != gAudioContext.sampleDmaReuseQueue2WrPos && arg2 != 0) {
             // Allocate a DMA from reuse queue 2, unless full.
-            dmaIndex = gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueueTail2];
-            gAudioContext.sampleDmaReuseQueueTail2++;
+            dmaIndex = gAudioContext.sampleDmaReuseQueue2[gAudioContext.sampleDmaReuseQueue2RdPos];
+            gAudioContext.sampleDmaReuseQueue2RdPos++;
             dma = gAudioContext.sampleDmaReqs + dmaIndex;
             hasDma = true;
         }
     } else {
-search_short_lived:
+    search_short_lived:
         dma = gAudioContext.sampleDmaReqs + *dmaIndexRef;
         i = 0;
-again:
+    again:
         bufferPos = devAddr - dma->devAddr;
         if (0 <= bufferPos && (u32)bufferPos <= dma->size - size) {
             // We already have DMA for this memory range.
             if (dma->ttl == 0) {
                 // Move the DMA out of the reuse queue, by swapping it with the
-                // tail, and then incrementing the tail.
-                if (dma->reuseIndex != gAudioContext.sampleDmaReuseQueueTail1) {
+                // read pos, and then incrementing the read pos.
+                if (dma->reuseIndex != gAudioContext.sampleDmaReuseQueue1RdPos) {
                     gAudioContext.sampleDmaReuseQueue1[dma->reuseIndex] =
-                        gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueueTail1];
-                    gAudioContext.sampleDmaReqs[gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueueTail1]].reuseIndex =
-                        dma->reuseIndex;
+                        gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueue1RdPos];
+                    gAudioContext
+                        .sampleDmaReqs[gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueue1RdPos]]
+                        .reuseIndex = dma->reuseIndex;
                 }
-                gAudioContext.sampleDmaReuseQueueTail1++;
+                gAudioContext.sampleDmaReuseQueue1RdPos++;
             }
             dma->ttl = 2;
             return dma->ramAddr + (devAddr - dma->devAddr);
@@ -145,11 +148,11 @@ again:
     }
 
     if (!hasDma) {
-        if (gAudioContext.sampleDmaReuseQueueTail1 == gAudioContext.sampleDmaReuseQueueHead1) {
+        if (gAudioContext.sampleDmaReuseQueue1RdPos == gAudioContext.sampleDmaReuseQueue1WrPos) {
             return NULL;
         }
         // Allocate a DMA from reuse queue 1.
-        dmaIndex = gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueueTail1++];
+        dmaIndex = gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueue1RdPos++];
         dma = gAudioContext.sampleDmaReqs + dmaIndex;
         hasDma = true;
     }
@@ -159,8 +162,8 @@ again:
     dma->ttl = 3;
     dma->devAddr = dmaDevAddr;
     dma->sizeUnused = transfer;
-    Audio_DMA(&gAudioContext.currAudioFrameDmaIoMesgBufs[gAudioContext.currAudioFrameDmaCount++], OS_MESG_PRI_NORMAL, OS_READ,
-         dmaDevAddr, dma->ramAddr, transfer, &gAudioContext.currAudioFrameDmaQueue, medium, "SUPERDMA");
+    Audio_DMA(&gAudioContext.currAudioFrameDmaIoMesgBufs[gAudioContext.currAudioFrameDmaCount++], OS_MESG_PRI_NORMAL,
+              OS_READ, dmaDevAddr, dma->ramAddr, transfer, &gAudioContext.currAudioFrameDmaQueue, medium, "SUPERDMA");
     *dmaIndexRef = dmaIndex;
     return (devAddr - dmaDevAddr) + dma->ramAddr;
 }
@@ -201,8 +204,8 @@ void func_800E1618(s32 arg0) {
         gAudioContext.sampleDmaReuseQueue1[i] = 0;
     }
 
-    gAudioContext.sampleDmaReuseQueueTail1 = 0;
-    gAudioContext.sampleDmaReuseQueueHead1 = gAudioContext.sampleDmaReqCnt;
+    gAudioContext.sampleDmaReuseQueue1RdPos = 0;
+    gAudioContext.sampleDmaReuseQueue1WrPos = gAudioContext.sampleDmaReqCnt;
     gAudioContext.sampleDmaListSize1 = gAudioContext.sampleDmaReqCnt;
     gAudioContext.unk_288C = gAudioContext.unk_2878;
 
@@ -231,8 +234,8 @@ void func_800E1618(s32 arg0) {
         gAudioContext.sampleDmaReuseQueue2[i] = gAudioContext.sampleDmaListSize1;
     }
 
-    gAudioContext.sampleDmaReuseQueueTail2 = 0;
-    gAudioContext.sampleDmaReuseQueueHead2 = gAudioContext.sampleDmaReqCnt - gAudioContext.sampleDmaListSize1;
+    gAudioContext.sampleDmaReuseQueue2RdPos = 0;
+    gAudioContext.sampleDmaReuseQueue2WrPos = gAudioContext.sampleDmaReqCnt - gAudioContext.sampleDmaListSize1;
 }
 
 s32 Audio_IsBankLoadComplete(s32 bankId) {
@@ -1594,7 +1597,8 @@ void func_800E4198(s32 bankId, unk_ldr* mem, RelocInfo* relocInfo, s32 arg3) {
         switch (arg3) {
             case 0:
                 if (sample->medium == 1) {
-                    Audio_NoopCopy((u32)sample->sampleAddr, addr, sample->size, gAudioContext.audioTable->header.unk_02);
+                    Audio_NoopCopy((u32)sample->sampleAddr, addr, sample->size,
+                                   gAudioContext.audioTable->header.unk_02);
                     sample->sampleAddr = addr;
                     sample->medium = 0;
                 } else {
@@ -1741,7 +1745,7 @@ void func_800E48C0(AudioBankSound* sound) {
     }
 }
 
-void func_800E4918(s32 bankId, s32 arg1, RelocInfo *relocInfo) {
+void func_800E4918(s32 bankId, s32 arg1, RelocInfo* relocInfo) {
     s32 numDrums;
     s32 numInstruments;
     s32 numSfx;
@@ -1838,7 +1842,8 @@ void func_800E4918(s32 bankId, s32 arg1, RelocInfo *relocInfo) {
         switch (arg1) {
             case 0:
                 if (sample->medium == 1) {
-                    Audio_NoopCopy((u32)sample->sampleAddr, addr, sample->size, gAudioContext.audioTable->header.unk_02);
+                    Audio_NoopCopy((u32)sample->sampleAddr, addr, sample->size,
+                                   gAudioContext.audioTable->header.unk_02);
                     sample->sampleAddr = addr;
                     sample->medium = 0;
                 } else {

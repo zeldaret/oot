@@ -882,12 +882,12 @@ typedef struct {
     /* 0x2620 */ u32 sampleDmaReqCnt;
     /* 0x2624 */ u32 sampleDmaListSize1;
     /* 0x2628 */ s32 unk_2628;
-    /* 0x262C */ u8 sampleDmaReuseQueue1[0x100];
+    /* 0x262C */ u8 sampleDmaReuseQueue1[0x100]; // read pos <= write pos, wrapping mod 256
     /* 0x272C */ u8 sampleDmaReuseQueue2[0x100];
-    /* 0x282C */ u8 sampleDmaReuseQueueTail1;
-    /* 0x282D */ u8 sampleDmaReuseQueueTail2;
-    /* 0x282E */ u8 sampleDmaReuseQueueHead1;
-    /* 0x282F */ u8 sampleDmaReuseQueueHead2;
+    /* 0x282C */ u8 sampleDmaReuseQueue1RdPos;
+    /* 0x282D */ u8 sampleDmaReuseQueue2RdPos;
+    /* 0x282E */ u8 sampleDmaReuseQueue1WrPos;
+    /* 0x282F */ u8 sampleDmaReuseQueue2WrPos;
     /* 0x2830 */ SequenceTable* sequenceTable;
     /* 0x2834 */ AudioBankTable* audioBankTable;
     /* 0x2838 */ AudioTable* audioTable;
