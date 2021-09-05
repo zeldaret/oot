@@ -13,6 +13,4 @@ typedef struct BgPushbox {
     /* 0x0164 */ BgPushboxActionFunc actionFunc;
 } BgPushbox; // size = 0x0168
 
-extern const ActorInit Bg_Pushbox_InitVars;
-
 #endif

@@ -106,7 +106,7 @@ void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
 
     if (type == M_AUDTASK) {
         if (sLogScheduler) {
-            // You have entered an audio task
+            // "You have entered an audio task"
             osSyncPrintf("オーディオタスクをエントリしました\n");
         }
         if (sc->audioListTail != NULL) {
@@ -118,8 +118,7 @@ void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
         sc->doAudio = 1;
     } else {
         if (sLogScheduler) {
-            // Entered graph task
-            osSyncPrintf("グラフタスクをエントリしました\n");
+            osSyncPrintf("グラフタスクをエントリしました\n"); // "Entered graph task"
         }
 
         if (sc->gfxListTail != NULL) {
@@ -249,7 +248,7 @@ u32 Sched_IsComplete(SchedContext* sc, OSScTask* task) {
 void Sched_RunTask(SchedContext* sc, OSScTask* spTask, OSScTask* dpTask) {
     ASSERT(sc->curRSPTask == NULL, "sc->curRSPTask == NULL", "../sched.c", 663);
     if (spTask != NULL) {
-        if (spTask->list.t.type == 0) {
+        if (spTask->list.t.type == M_NULTASK) {
             if (spTask->flags & OS_SC_NEEDS_RSP) {
                 spTask->state &= ~OS_SC_SP;
                 sc->curRSPTask = NULL;

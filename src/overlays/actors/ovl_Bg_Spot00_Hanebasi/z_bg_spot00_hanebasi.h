@@ -16,6 +16,4 @@ typedef struct BgSpot00Hanebasi {
     /* 0x0170 */ LightInfo lightInfo;
 } BgSpot00Hanebasi; // size = 0x0180
 
-extern const ActorInit Bg_Spot00_Hanebasi_InitVars;
-
 #endif

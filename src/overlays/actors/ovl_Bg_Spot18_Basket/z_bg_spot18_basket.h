@@ -25,7 +25,5 @@ typedef struct BgSpot18Basket {
     /* 0x021B */ u8 unk_21B;
 } BgSpot18Basket; // size = 0x021C
 
-extern const ActorInit Bg_Spot18_Basket_InitVars;
-
 #endif
 

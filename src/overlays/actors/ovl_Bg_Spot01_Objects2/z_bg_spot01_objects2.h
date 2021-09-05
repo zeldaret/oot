@@ -16,6 +16,4 @@ typedef struct BgSpot01Objects2 {
     /* 0x017C */ s8 objBankIndex;
 } BgSpot01Objects2; // size = 0x0180
 
-extern const ActorInit Bg_Spot01_Objects2_InitVars;
-
 #endif

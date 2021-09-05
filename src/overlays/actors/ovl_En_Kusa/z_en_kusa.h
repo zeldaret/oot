@@ -16,6 +16,4 @@ typedef struct EnKusa {
     /* 0x019E */ s8 kusaTexObjIndex;
 } EnKusa; // size = 0x01A0
 
-extern const ActorInit En_Kusa_InitVars;
-
 #endif

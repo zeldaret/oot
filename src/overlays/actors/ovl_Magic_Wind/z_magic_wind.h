@@ -15,6 +15,4 @@ typedef struct MagicWind {
     /* 0x0170 */ MagicWindFunc actionFunc;
 } MagicWind; // size = 0x0174
 
-extern const ActorInit Magic_Wind_InitVars;
-
 #endif

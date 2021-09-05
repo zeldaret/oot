@@ -58,8 +58,7 @@ void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
-    // Translates to: "Disappearance"
-    LOG_STRING("消滅", "../z_arrow_ice.c", 415);
+    LOG_STRING("消滅", "../z_arrow_ice.c", 415); // "Disappearance"
 }
 
 void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
@@ -195,11 +194,9 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ArrowIce* this = THIS;
     s32 pad;
     Actor* tranform;
-    u32 stateFrames;
-    EnArrow* arrow;
+    u32 stateFrames = globalCtx->state.frames;
+    EnArrow* arrow = (EnArrow*)this->actor.parent;
 
-    stateFrames = globalCtx->state.frames;
-    arrow = (EnArrow*)this->actor.parent;
     if (1) {}
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {

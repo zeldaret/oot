@@ -5,6 +5,7 @@
  */
 
 #include "z_door_gerudo.h"
+#include "objects/object_door_gerudo/object_door_gerudo.h"
 
 #define FLAGS 0x00000000
 
@@ -36,8 +37,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_STOP),
 };
 
-extern Gfx D_06000040[];
-extern CollisionHeader D_06000170;
 extern UNK_TYPE D_80994B70;
 
 void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -46,7 +45,7 @@ void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    CollisionHeader_GetVirtual(&D_06000170, &colHeader);
+    CollisionHeader_GetVirtual(&gGerudoCellDoorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
@@ -65,7 +64,7 @@ void DoorGerudo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 f32 func_809946BC(GlobalContext* globalCtx, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg4) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f playerPos;
     Vec3f sp1C;
 
@@ -82,7 +81,7 @@ f32 func_809946BC(GlobalContext* globalCtx, DoorGerudo* this, f32 arg2, f32 arg3
 }
 
 s32 func_80994750(DoorGerudo* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp_f0;
     s16 rotYDiff;
 
@@ -111,7 +110,7 @@ void func_8099485C(DoorGerudo* this, GlobalContext* globalCtx) {
         s32 direction = func_80994750(this, globalCtx);
 
         if (direction != 0) {
-            Player* player = PLAYER;
+            Player* player = GET_PLAYER(globalCtx);
 
             if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                 player->naviTextId = -0x203;
@@ -154,7 +153,7 @@ void DoorGerudo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 365),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06000040);
+    gSPDisplayList(POLY_OPA_DISP++, gGerudoCellDoorDL);
 
     if (this->unk_166 != 0) {
         Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);

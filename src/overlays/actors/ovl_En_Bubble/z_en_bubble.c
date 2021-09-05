@@ -1,4 +1,5 @@
 #include "z_en_bubble.h"
+#include "objects/object_bubble/object_bubble.h"
 
 #define FLAGS 0x00000001
 
@@ -12,8 +13,6 @@ void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Wait(EnBubble* this, GlobalContext* globalCtx);
 void EnBubble_Pop(EnBubble* this, GlobalContext* globalCtx);
 void EnBubble_Regrow(EnBubble* this, GlobalContext* globalCtx);
-
-extern Gfx D_06001000[];
 
 const ActorInit En_Bubble_InitVars = {
     ACTOR_EN_BUBBLE,
@@ -426,7 +425,7 @@ void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1220),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06001000);
+        gSPDisplayList(POLY_XLU_DISP++, gBubbleDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1226);

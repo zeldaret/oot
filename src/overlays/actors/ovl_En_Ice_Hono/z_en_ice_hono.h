@@ -21,6 +21,4 @@ typedef struct EnIceHono {
     /* 0x01AC */ LightInfo lightInfo;
 } EnIceHono; // size = 0x01BC
 
-extern const ActorInit En_Ice_Hono_InitVars;
-
 #endif

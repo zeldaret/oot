@@ -30,13 +30,13 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
     u32 size;
 
     if (gOverlayLogSeverity >= 3) {
-        // Start loading dynamic link function
+        // "Start loading dynamic link function"
         osSyncPrintf("\nダイナミックリンクファンクションのロードを開始します\n");
     }
 
     if (gOverlayLogSeverity >= 3) {
         size = vRomEnd - vRomStart;
-        // DMA transfer of TEXT, DATA, RODATA + rel (%08x-%08x)
+        // "DMA transfer of TEXT, DATA, RODATA + rel (%08x-%08x)"
         osSyncPrintf("TEXT,DATA,RODATA+relをＤＭＡ転送します(%08x-%08x)\n", allocatedVRamAddr,
                      (u32)allocatedVRamAddr + size);
     }
@@ -54,8 +54,7 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
     }
 
     if (gOverlayLogSeverity >= 3) {
-        // Relocate
-        osSyncPrintf("リロケーションします\n");
+        osSyncPrintf("リロケーションします\n"); // "Relocate"
     }
 
     Overlay_Relocate(allocatedVRamAddr, ovl, vRamStart);
@@ -63,7 +62,7 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
     bssSize = ovl->bssSize;
     if (bssSize != 0) {
         if (gOverlayLogSeverity >= 3) {
-            // Clear BSS area (% 08x-% 08x)
+            // "Clear BSS area (% 08x-% 08x)"
             osSyncPrintf("BSS領域をクリアします(%08x-%08x)\n", end, end + ovl->bssSize);
         }
 
@@ -76,7 +75,7 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
 
     size = (u32)&ovl->relocations[ovl->nRelocations] - (u32)ovl;
     if (gOverlayLogSeverity >= 3) {
-        // Clear REL area (%08x-%08x)
+        // "Clear REL area (%08x-%08x)"
         osSyncPrintf("REL領域をクリアします(%08x-%08x)\n", ovl, (u32)ovl + size);
     }
 
@@ -87,7 +86,7 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
     osInvalICache(allocatedVRamAddr, size);
 
     if (gOverlayLogSeverity >= 3) {
-        // Finish loading dynamic link function
+        // "Finish loading dynamic link function"
         osSyncPrintf("ダイナミックリンクファンクションのロードを終了します\n\n");
     }
     return size;

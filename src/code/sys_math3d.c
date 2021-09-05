@@ -36,8 +36,8 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
     planeIntersectSeg.b.z = (planeIntersectLine.dir.z * 100.0f) + planeIntersectLine.point.z;
 
     // closestPoint is a point on planeIntersect, sp34 is a point on linePointA, linePointB
-    if (!Math3D_LineVsLineClosestTwoPoints(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB, closestPoint,
-                                       &sp34)) {
+    if (!Math3D_LineVsLineClosestTwoPoints(&planeIntersectSeg.a, &planeIntersectSeg.b, linePointA, linePointB,
+                                           closestPoint, &sp34)) {
         return false;
     }
     return true;
@@ -80,9 +80,9 @@ s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Ve
 
     compAAlongB = ((lineAx * lineBx) + (lineAy * lineBy) + (lineAz * lineBz)) * scaleB;
 
-    compBAAlongB = ((lineBx * (lineAPointA->x - lineBPointA->x)) +
-                    (lineBy * (lineAPointA->y - lineBPointA->y)) +
-                    (lineBz * (lineAPointA->z - lineBPointA->z))) * scaleB;
+    compBAAlongB = ((lineBx * (lineAPointA->x - lineBPointA->x)) + (lineBy * (lineAPointA->y - lineBPointA->y)) +
+                    (lineBz * (lineAPointA->z - lineBPointA->z))) *
+                   scaleB;
 
     lineAPerpB.x = lineAx - (lineBx * compAAlongB);
     lineAPerpB.y = lineAy - (lineBy * compAAlongB);
@@ -121,10 +121,9 @@ void Math3D_LineClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint) {
     dirVectorSize = Math3D_Vec3fMagnitudeSq(&line->b);
     if (IS_ZERO(dirVectorSize)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // Math3D_lineVsPosSuisenCross(): No straight line length
+        // "Math3D_lineVsPosSuisenCross(): No straight line length"
         osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
-        // Returns cross = pos.
-        osSyncPrintf("cross = pos を返します。\n");
+        osSyncPrintf("cross = pos を返します。\n"); // "Returns cross = pos."
         osSyncPrintf(VT_RST);
         Math_Vec3f_Copy(closestPoint, pos);
     }
@@ -626,7 +625,7 @@ s32 Math3D_PointRelativeToCubeVertices(Vec3f* point, Vec3f* min, Vec3f* max) {
         ret |= 0x10;
     }
 
-    // @BUG: The next 2 conditions are the same check.
+    //! @bug: The next 2 conditions are the same check.
     if ((-min->x - min->y + max->z) < (-point->x - point->y + point->z)) {
         ret |= 0x20;
     }
@@ -726,7 +725,7 @@ s32 Math3D_LineVsCube(Vec3f* min, Vec3f* max, Vec3f* a, Vec3f* b) {
     triVtx1.y = min->y;
     triVtx1.z = max->z;
     triVtx2.x = max->x;
-    // @Bug trVtx1.y should be triVtx2.y, prevents a tri on the cube from being checked.
+    //! @bug trVtx1.y should be triVtx2.y, prevents a tri on the cube from being checked.
     triVtx1.y = min->y;
     triVtx2.z = max->z;
     if (Math3D_TriLineIntersect(&triVtx0, &triVtx1, &triVtx2, 0.0f, 0.0f, 1.0f, -max->z, a, b, &intersectPoint, 0)) {
@@ -924,7 +923,7 @@ f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
     if (IS_ZERO(sqrtf(SQ(nx) + SQ(ny) + SQ(nz)))) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f
+        // "Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f"
         osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
         osSyncPrintf(VT_RST);
         return 0.0f;
@@ -942,7 +941,7 @@ f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
     normMagnitude = sqrtf(SQ(nx) + SQ(ny) + SQ(nz));
     if (IS_ZERO(normMagnitude)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f
+        // "Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f"
         osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
         osSyncPrintf(VT_RST);
         return 0.0f;

@@ -36,6 +36,10 @@ ZScalarType ZScalar::MapOutputTypeToScalarType(const std::string& type)
 	{
 		return ZScalarType::ZSCALAR_U8;
 	}
+	else if (type == "x8")
+	{
+		return ZScalarType::ZSCALAR_X8;
+	}
 	else if (type == "s16")
 	{
 		return ZScalarType::ZSCALAR_S16;
@@ -43,6 +47,10 @@ ZScalarType ZScalar::MapOutputTypeToScalarType(const std::string& type)
 	else if (type == "u16")
 	{
 		return ZScalarType::ZSCALAR_U16;
+	}
+	else if (type == "x16")
+	{
+		return ZScalarType::ZSCALAR_X16;
 	}
 	else if (type == "s32")
 	{
@@ -52,6 +60,10 @@ ZScalarType ZScalar::MapOutputTypeToScalarType(const std::string& type)
 	{
 		return ZScalarType::ZSCALAR_U32;
 	}
+	else if (type == "x32")
+	{
+		return ZScalarType::ZSCALAR_X32;
+	}
 	else if (type == "s64")
 	{
 		return ZScalarType::ZSCALAR_S64;
@@ -59,6 +71,10 @@ ZScalarType ZScalar::MapOutputTypeToScalarType(const std::string& type)
 	else if (type == "u64")
 	{
 		return ZScalarType::ZSCALAR_U64;
+	}
+	else if (type == "x64")
+	{
+		return ZScalarType::ZSCALAR_X64;
 	}
 	else if (type == "f32")
 	{
@@ -79,18 +95,22 @@ std::string ZScalar::MapScalarTypeToOutputType(const ZScalarType scalarType)
 	case ZScalarType::ZSCALAR_S8:
 		return "s8";
 	case ZScalarType::ZSCALAR_U8:
+	case ZScalarType::ZSCALAR_X8:
 		return "u8";
 	case ZScalarType::ZSCALAR_S16:
 		return "s16";
 	case ZScalarType::ZSCALAR_U16:
+	case ZScalarType::ZSCALAR_X16:
 		return "u16";
 	case ZScalarType::ZSCALAR_S32:
 		return "s32";
 	case ZScalarType::ZSCALAR_U32:
+	case ZScalarType::ZSCALAR_X32:
 		return "u32";
 	case ZScalarType::ZSCALAR_S64:
 		return "s64";
 	case ZScalarType::ZSCALAR_U64:
+	case ZScalarType::ZSCALAR_X64:
 		return "u64";
 	case ZScalarType::ZSCALAR_F32:
 		return "f32";
@@ -108,18 +128,22 @@ size_t ZScalar::MapTypeToSize(const ZScalarType scalarType)
 	case ZScalarType::ZSCALAR_S8:
 		return sizeof(scalarData.s8);
 	case ZScalarType::ZSCALAR_U8:
+	case ZScalarType::ZSCALAR_X8:
 		return sizeof(scalarData.u8);
 	case ZScalarType::ZSCALAR_S16:
 		return sizeof(scalarData.s16);
 	case ZScalarType::ZSCALAR_U16:
+	case ZScalarType::ZSCALAR_X16:
 		return sizeof(scalarData.u16);
 	case ZScalarType::ZSCALAR_S32:
 		return sizeof(scalarData.s32);
 	case ZScalarType::ZSCALAR_U32:
+	case ZScalarType::ZSCALAR_X32:
 		return sizeof(scalarData.u32);
 	case ZScalarType::ZSCALAR_S64:
 		return sizeof(scalarData.s64);
 	case ZScalarType::ZSCALAR_U64:
+	case ZScalarType::ZSCALAR_X64:
 		return sizeof(scalarData.u64);
 	case ZScalarType::ZSCALAR_F32:
 		return sizeof(scalarData.f32);
@@ -137,30 +161,35 @@ size_t ZScalar::GetRawDataSize() const
 
 void ZScalar::ParseRawData()
 {
+	const auto& rawData = parent->GetRawData();
 	switch (scalarType)
 	{
 	case ZScalarType::ZSCALAR_S8:
 		scalarData.s8 = BitConverter::ToInt8BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_U8:
+	case ZScalarType::ZSCALAR_X8:
 		scalarData.u8 = BitConverter::ToUInt8BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_S16:
 		scalarData.s16 = BitConverter::ToInt16BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_U16:
+	case ZScalarType::ZSCALAR_X16:
 		scalarData.u16 = BitConverter::ToUInt16BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_S32:
 		scalarData.s32 = BitConverter::ToInt32BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_U32:
+	case ZScalarType::ZSCALAR_X32:
 		scalarData.u32 = BitConverter::ToUInt32BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_S64:
 		scalarData.s64 = BitConverter::ToInt64BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_U64:
+	case ZScalarType::ZSCALAR_X64:
 		scalarData.u64 = BitConverter::ToUInt64BE(rawData, rawDataIndex);
 		break;
 	case ZScalarType::ZSCALAR_F32:
@@ -189,18 +218,26 @@ std::string ZScalar::GetBodySourceCode() const
 		return StringHelper::Sprintf("%hhd", scalarData.s8);
 	case ZScalarType::ZSCALAR_U8:
 		return StringHelper::Sprintf("%hhu", scalarData.u8);
+	case ZScalarType::ZSCALAR_X8:
+		return StringHelper::Sprintf("0x%02X", scalarData.u8);
 	case ZScalarType::ZSCALAR_S16:
 		return StringHelper::Sprintf("%hd", scalarData.s16);
 	case ZScalarType::ZSCALAR_U16:
 		return StringHelper::Sprintf("%hu", scalarData.u16);
+	case ZScalarType::ZSCALAR_X16:
+		return StringHelper::Sprintf("0x%04X", scalarData.u16);
 	case ZScalarType::ZSCALAR_S32:
 		return StringHelper::Sprintf("%d", scalarData.s32);
 	case ZScalarType::ZSCALAR_U32:
 		return StringHelper::Sprintf("%u", scalarData.u32);
+	case ZScalarType::ZSCALAR_X32:
+		return StringHelper::Sprintf("0x%08X", scalarData.u32);
 	case ZScalarType::ZSCALAR_S64:
 		return StringHelper::Sprintf("%lld", scalarData.s64);
 	case ZScalarType::ZSCALAR_U64:
 		return StringHelper::Sprintf("%llu", scalarData.u64);
+	case ZScalarType::ZSCALAR_X64:
+		return StringHelper::Sprintf("0x%016X", scalarData.u64);
 	case ZScalarType::ZSCALAR_F32:
 		return StringHelper::Sprintf("%f", scalarData.f32);
 	case ZScalarType::ZSCALAR_F64:

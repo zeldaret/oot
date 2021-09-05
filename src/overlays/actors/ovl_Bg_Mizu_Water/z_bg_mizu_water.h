@@ -17,8 +17,6 @@ typedef struct BgMizuWater {
     /* 0x015C */ s32 switchFlag; // only used for types 2-4
 } BgMizuWater; // size = 0x0160
 
-extern const ActorInit Bg_Mizu_Water_InitVars;
-
 #define WATER_TEMPLE_WATER_F3_Y 765.0f
 #define WATER_TEMPLE_WATER_F2_Y 445.0f
 #define WATER_TEMPLE_WATER_F1_Y -15.0f

@@ -17,6 +17,4 @@ typedef struct BgDdanJd {
     /* 0x016C */ f32 targetY;
 } BgDdanJd; // size = 0x0170
 
-extern const ActorInit Bg_Ddan_Jd_InitVars;
-
 #endif

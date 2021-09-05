@@ -18,6 +18,4 @@ typedef struct BgMoriIdomizu {
     /* 0x015C */ s8 moriTexObjIndex;
 } BgMoriIdomizu; // size = 0x0160
 
-extern const ActorInit Bg_Mori_Idomizu_InitVars;
-
 #endif

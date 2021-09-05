@@ -9,6 +9,10 @@
 #include "objects/object_ds2/object_ds2.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/object_masterkokiri/object_masterkokiri.h"
+#include "objects/object_km1/object_km1.h"
+#include "objects/object_mastergolon/object_mastergolon.h"
+#include "objects/object_masterzoora/object_masterzoora.h"
+#include "objects/object_masterkokirihead/object_masterkokirihead.h"
 
 #define FLAGS 0x00000019
 
@@ -24,11 +28,6 @@ void EnOssan_DrawBazaarShopkeeper(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_DrawZoraShopkeeper(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_DrawGoronShopkeeper(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, GlobalContext* globalCtx);
-
-extern FlexSkeletonHeader D_060000F0;
-extern AnimationHeader D_060000FC;
-extern AnimationHeader D_0600078C;
-extern Gfx D_06002820[];
 
 void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx);
 void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx);
@@ -547,7 +546,7 @@ void EnOssan_TalkHappyMaskShopkeeper(GlobalContext* globalCtx) {
 
 void EnOssan_UpdateCameraDirection(EnOssan* this, GlobalContext* globalCtx, f32 cameraFaceAngle) {
     this->cameraFaceAngle = cameraFaceAngle;
-    Camera_SetCameraData(ACTIVE_CAM, 0xC, NULL, NULL, cameraFaceAngle, 0, 0);
+    Camera_SetCameraData(GET_ACTIVE_CAM(globalCtx), 0xC, NULL, NULL, cameraFaceAngle, 0, 0);
 }
 
 s32 EnOssan_TryGetObjBankIndexes(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
@@ -647,7 +646,7 @@ void EnOssan_UpdateCursorPos(GlobalContext* globalCtx, EnOssan* this) {
 }
 
 void EnOssan_EndInteraction(GlobalContext* globalCtx, EnOssan* this) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     // "End of conversation!"
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d]:★★★ 会話終了！！ ★★★" VT_RST "\n", "../z_en_oB1.c", 1337);
@@ -1318,7 +1317,7 @@ void EnOssan_State_DisplayOnlyBombDialog(EnOssan* this, GlobalContext* globalCtx
 }
 
 void EnOssan_GiveItemWithFanfare(GlobalContext* globalCtx, EnOssan* this) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     osSyncPrintf("\n" VT_FGCOL(YELLOW) "初めて手にいれた！！" VT_RST "\n\n");
     func_8002F434(&this->actor, globalCtx, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
@@ -1991,7 +1990,7 @@ void EnOssan_InitBazaarShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
 }
 
 void EnOssan_InitKokiriShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gKm1Skel, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &object_masterkokiri_Anim_0004A8, 1.0f, 0.0f,
                      Animation_GetLastFrame(&object_masterkokiri_Anim_0004A8), 0, 0.0f);
@@ -2004,7 +2003,8 @@ void EnOssan_InitKokiriShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
 void EnOssan_InitGoronShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex3].segment);
-    Animation_Change(&this->skelAnime, &D_060000FC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000FC), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &gGoronShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGoronShopkeeperAnim),
+                     0, 0.0f);
     this->actor.draw = EnOssan_DrawGoronShopkeeper;
     this->obj3ToSeg6Func = EnOssan_Obj3ToSeg6;
 }
@@ -2012,7 +2012,8 @@ void EnOssan_InitGoronShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
 void EnOssan_InitZoraShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gZoraSkel, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex3].segment);
-    Animation_Change(&this->skelAnime, &D_0600078C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600078C), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &gZoraShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gZoraShopkeeperAnim),
+                     0, 0.0f);
     this->actor.draw = EnOssan_DrawZoraShopkeeper;
     this->obj3ToSeg6Func = EnOssan_Obj3ToSeg6;
 }
@@ -2197,7 +2198,7 @@ void EnOssan_Obj3ToSeg6(EnOssan* this, GlobalContext* globalCtx) {
 }
 
 void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->blinkFunc(this);
     EnOssan_UpdateJoystickInputState(globalCtx, this);
@@ -2372,7 +2373,7 @@ s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(GlobalContext* globalCtx, s32 limbI
     if (limbIndex == 15) {
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objBankIndex2].segment);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex2].segment);
-        *dList = D_06002820;
+        *dList = gKokiriShopkeeperHeadDL;
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sKokiriShopkeeperEyeTextures[this->eyeTextureIdx]));
     }
 

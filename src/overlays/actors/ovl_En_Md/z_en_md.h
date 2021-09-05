@@ -28,6 +28,4 @@ typedef struct EnMd {
     /* 0x02BE */ Vec3s morphTable[17];
 } EnMd; // size = 0x0324
 
-extern const ActorInit En_Md_InitVars;
-
 #endif

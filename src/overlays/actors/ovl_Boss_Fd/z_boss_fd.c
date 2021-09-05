@@ -61,7 +61,7 @@ const ActorInit Boss_Fd_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x21, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -189,7 +189,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
                    0);
     this->introState = BFD_CS_WAIT;
     if (this->introState == BFD_CS_NONE) {
-        Audio_SetBGM(0x6B);
+        Audio_QueueSeqCmd(0x6B);
     }
 
     this->actor.world.pos.x = this->actor.world.pos.z = 0.0f;
@@ -269,7 +269,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dy;
     f32 dz;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 angleToTarget;
     f32 pitchToTarget;
     Vec3f* holePosition1;
@@ -300,7 +300,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     //                                        Boss Intro Cutscene
 
     if (this->introState != BFD_CS_NONE) {
-        Player* player2 = PLAYER;
+        Player* player2 = GET_PLAYER(globalCtx);
         Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
         switch (this->introState) {
@@ -489,7 +489,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
                 }
                 if (this->timers[3] == 160) {
-                    Audio_SetBGM(0x6B);
+                    Audio_QueueSeqCmd(0x6B);
                 }
                 if ((this->timers[3] == 130) && !(gSaveContext.eventChkInf[7] & 8)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
@@ -744,7 +744,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->skinSegments != 0) {
                     this->skinSegments--;
                     if (this->skinSegments == 0) {
-                        Audio_SetBGM(0x21);
+                        Audio_QueueSeqCmd(0x21);
                     }
                 } else {
                     this->work[BFD_ACTION_STATE] = BOSSFD_BONES_FALL;
@@ -1428,7 +1428,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     BossFdEffect* effect = this->effects;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Color_RGB8 colors[4] = { { 255, 128, 0 }, { 255, 0, 0 }, { 255, 255, 0 }, { 255, 0, 0 } };
     Vec3f diff;
     s16 i1;
@@ -1510,7 +1510,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
 }
 
 void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
-    static u64* dustTex[] = {
+    static void* dustTex[] = {
         gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
     };
     u8 flag = false;
@@ -1804,7 +1804,11 @@ void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     }
 }
 
-static u64* sEyeTextures[] = { gVolvagiaEyeOpenTex, gVolvagiaEyeHalfTex, gVolvagiaEyeClosedTex };
+static void* sEyeTextures[] = {
+    gVolvagiaEyeOpenTex,
+    gVolvagiaEyeHalfTex,
+    gVolvagiaEyeClosedTex,
+};
 
 static Gfx* sBodyDLists[] = {
     gVolvagiaBodySeg1DL,  gVolvagiaBodySeg2DL,  gVolvagiaBodySeg3DL,  gVolvagiaBodySeg4DL,  gVolvagiaBodySeg5DL,
@@ -1907,7 +1911,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                     this->bodyFallApart[i] = 2;
                     Matrix_MultVec3f(&spF0, &spE4);
                     Matrix_Get(&spFC);
-                    func_800D20CC(&spFC, &spDC, 0);
+                    Matrix_MtxFToYXZRotS(&spFC, &spDC, 0);
                     bones =
                         (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
                                                       spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i + 200);

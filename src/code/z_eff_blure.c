@@ -18,7 +18,7 @@ void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2) {
     if (this != NULL) {
         numElements = this->numElements;
         if (numElements >= 16) {
-            // Translates to: "Blure vertex addition processing: Table over %d"
+            // "Blure vertex addition processing: Table over %d"
             osSyncPrintf("ブラ─頂点追加処理:テーブルオーバー %d\n", numElements);
             return;
         }
@@ -76,7 +76,7 @@ void EffectBlure_AddSpace(EffectBlure* this) {
     if (this != NULL) {
         numElements = this->numElements;
         if (numElements >= 16) {
-            // Translates to: "Blure space addition processing: Table over %d"
+            // "Blure space addition processing: Table over %d"
             osSyncPrintf("ブラ─空白追加処理:テーブルオーバー %d\n", numElements);
             return;
         }
@@ -189,8 +189,6 @@ void EffectBlure_Init2(void* thisx, void* initParamsx) {
 void EffectBlure_Destroy(void* thisx) {
 }
 
-#ifdef NON_MATCHING
-// single register swap (saved vs temp register)
 s32 EffectBlure_Update(void* thisx) {
     EffectBlure* this = (EffectBlure*)thisx;
     s32 i;
@@ -204,28 +202,28 @@ s32 EffectBlure_Update(void* thisx) {
     }
 
     while (true) {
-        if (this->elements[0].state != 0) {
+        if (this->elements[0].state == 0) {
+            for (i = 0; i < 15; i++) {
+                this->elements[i] = this->elements[i + 1];
+            }
+
+            this->elements[i].state = 2;
+            this->elements[i].p1.x = 0;
+            this->elements[i].p1.y = 0;
+            this->elements[i].p1.z = 0;
+            this->elements[i].p2.x = 0;
+            this->elements[i].p2.y = 0;
+            this->elements[i].p2.z = 0;
+            this->elements[i].flags = 0;
+            this->elements[i].timer = 0;
+
+            this->numElements--;
+            if (this->numElements <= 0) {
+                this->numElements = 0;
+                return 0;
+            }
+        } else {
             break;
-        }
-
-        for (i = 0; i < 15; i++) {
-            this->elements[i] = this->elements[i + 1];
-        }
-
-        this->elements[i].state = 2;
-        this->elements[i].p1.x = 0;
-        this->elements[i].p1.y = 0;
-        this->elements[i].p1.z = 0;
-        this->elements[i].p2.x = 0;
-        this->elements[i].p2.y = 0;
-        this->elements[i].p2.z = 0;
-        this->elements[i].flags = 0;
-        this->elements[i].timer = 0;
-
-        this->numElements--;
-        if (this->numElements <= 0) {
-            this->numElements = 0;
-            return 0;
         }
     }
 
@@ -263,9 +261,6 @@ s32 EffectBlure_Update(void* thisx) {
     this->addAngle += this->addAngleChange;
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_eff_blure/EffectBlure_Update.s")
-#endif
 
 void EffectBlure_UpdateFlags(EffectBlureElement* elem) {
     Vec3f sp64;
@@ -412,7 +407,7 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
 
     vtx = Graph_Alloc(gfxCtx, sizeof(Vtx[4]));
     if (vtx == NULL) {
-        // Translates to: "Vertices cannot be secured."
+        // "Vertices cannot be secured."
         osSyncPrintf("z_eff_blure.c::SQ_NoInterpolate_disp() 頂点確保できず。\n");
     } else {
         vtx[0].v = baseVtx;
@@ -573,7 +568,7 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
 
     vtx = Graph_Alloc(gfxCtx, sizeof(Vtx[16]));
     if (vtx == NULL) {
-        // Translates to: "Vertices cannot be secured."
+        // "Vertices cannot be secured."
         osSyncPrintf("z_eff_blure.c::SQ_HermiteInterpolate_disp() 頂点確保できず。\n");
     } else {
         Math_Vec3f_Diff(&sp1CC, &sp138, &sp158);
@@ -816,7 +811,7 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
 
                     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp94);
                     if (mtx == NULL) {
-                        // Translates to: "Forced termination because a matrix cannot be taken"
+                        // "Forced termination because a matrix cannot be taken"
                         osSyncPrintf("EffectBlureInfo2_disp_makeDisplayList()マトリックス取れないので,強制終了\n");
                         break;
                     }
@@ -868,7 +863,7 @@ void EffectBlure_DrawSimple(EffectBlure* this2, GraphicsContext* gfxCtx) {
 
         vtx = Graph_Alloc(gfxCtx, vtxCount * sizeof(Vtx));
         if (vtx == NULL) {
-            // Translates to: "Vertices cannot be secured. Forced termination"
+            // "Vertices cannot be secured. Forced termination"
             osSyncPrintf("ブラ─表示:頂点確保できず。強制終了\n");
             return;
         }
@@ -962,7 +957,7 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
             vtx = Graph_Alloc(gfxCtx, sizeof(Vtx[32]));
             if (vtx == NULL) {
-                // Translates to: "Blure display: Vertex table could not be secured"
+                // "Blure display: Vertex table could not be secured"
                 osSyncPrintf("ブラ─表示:頂点テーブル確保できず\n");
             } else {
                 j = 0;

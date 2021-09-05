@@ -30,6 +30,4 @@ typedef struct EnKakasi3 {
     /* 0x0208 */ s16 camId;
 } EnKakasi3; // size = 0x020C
 
-extern const ActorInit En_Kakasi3_InitVars;
-
 #endif
