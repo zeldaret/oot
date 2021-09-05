@@ -7021,13 +7021,13 @@ void Camera_PrintSettings(Camera* camera) {
             sp50[i++] = '-';
         }
 
-        // @bug: this code was clearly meaning to print camera->camDataIdx as a two-digit
-        // number, not i.
+        //! @bug: this code was clearly meaning to print `abs(camera->camDataIdx)` as a
+        //! one-or-two-digit number, instead of `i`.
         // "sp50[i++] = ..." matches here, but is undefined behavior due to conflicting
         // reads/writes between sequence points, triggering warnings. Work around by
         // putting i++ afterwards while on the same line.
         // clang-format off
-        if (camera->camDataIdx / 0xA != 0) {
+        if (camera->camDataIdx / 10 != 0) {
             sp50[i] = i / 10 + '0'; i++;
         }
         sp50[i] = i % 10 + '0'; i++;
