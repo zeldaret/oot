@@ -147,6 +147,7 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, GlobalContext* globalCtx) {
                                       this->actor.world.pos.z, 200, 255, 255, 255);
             Lights_PointNoGlowSetInfo(&this->lowerLightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                                       this->actor.world.pos.z, 200, 255, 255, 255);
+            break;
         case WARP_CLEAR_FLAG:
         case WARP_SAGES:
         case WARP_YELLOW:
