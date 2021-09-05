@@ -817,7 +817,7 @@ typedef struct {
     /* 0x04 */ u32 devAddr;
     /* 0x08 */ u16 sizeUnused;
     /* 0x0A */ u16 size;
-    /* 0x0C */ u8 unused2;
+    /* 0x0C */ u8 unused;
     /* 0x0D */ u8 reuseIndex; // position in sSampleDmaReuseQueue1/2, if ttl == 0
     /* 0x0E */ u8 ttl;        // duration after which the DMA can be discarded
 } SampleDmaReq; // size = 0x10
@@ -827,8 +827,8 @@ typedef struct {
     /* 0x04 */ s32 index2;
     /* 0x08 */ s32 baseAddr1;
     /* 0x0C */ s32 baseAddr2;
-    /* 0x10 */ u32 medium1; // medium1
-    /* 0x14 */ u32 medium2; // medium2
+    /* 0x10 */ u32 medium1;
+    /* 0x14 */ u32 medium2;
 } RelocInfo; // size = 0x18
 
 typedef enum {
@@ -900,7 +900,7 @@ typedef struct {
     /* 0x2898 */ s16 tempoInternalToExternal;
     /* 0x289A */ s8 soundMode;
     /* 0x289C */ s32 totalTaskCnt;
-    /* 0x28A0 */ s32 currAudioFrameDmaCount;
+    /* 0x28A0 */ s32 curAudioFrameDmaCount;
     /* 0x28A4 */ s32 rspTaskIdx;
     /* 0x28A8 */ s32 curAIBufIdx;
     /* 0x28AC */ Acmd* abiCmdBufs[2];

@@ -49,9 +49,10 @@ void func_800E11F0(void) {
 
     for (i = 0; i < gAudioContext.sampleDmaListSize1; i++) {
         SampleDmaReq* req = &gAudioContext.sampleDmaReqs[i];
+
         if (req->ttl != 0) {
             req->ttl--;
-            if ((req->ttl) == 0) {
+            if (req->ttl == 0) {
                 req->reuseIndex = gAudioContext.sampleDmaReuseQueue1WrPos;
                 gAudioContext.sampleDmaReuseQueue1[gAudioContext.sampleDmaReuseQueue1WrPos] = i;
                 gAudioContext.sampleDmaReuseQueue1WrPos++;
@@ -61,6 +62,7 @@ void func_800E11F0(void) {
 
     for (i = gAudioContext.sampleDmaListSize1; i < gAudioContext.sampleDmaReqCnt; i++) {
         SampleDmaReq* req = &gAudioContext.sampleDmaReqs[i];
+
         if (req->ttl != 0) {
             req->ttl--;
             if (req->ttl == 0) {
@@ -165,7 +167,7 @@ void* Audio_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, s32 
     dma->ttl = 3;
     dma->devAddr = dmaDevAddr;
     dma->sizeUnused = transfer;
-    Audio_DMA(&gAudioContext.currAudioFrameDmaIoMesgBufs[gAudioContext.currAudioFrameDmaCount++], OS_MESG_PRI_NORMAL,
+    Audio_DMA(&gAudioContext.currAudioFrameDmaIoMesgBufs[gAudioContext.curAudioFrameDmaCount++], OS_MESG_PRI_NORMAL,
               OS_READ, dmaDevAddr, dma->ramAddr, transfer, &gAudioContext.currAudioFrameDmaQueue, medium, "SUPERDMA");
     *dmaIndexRef = dmaIndex;
     return (devAddr - dmaDevAddr) + dma->ramAddr;
@@ -192,7 +194,7 @@ void func_800E1618(s32 arg0) {
             temp_s0->size = gAudioContext.unk_288C;
             temp_s0->devAddr = 0;
             temp_s0->sizeUnused = 0;
-            temp_s0->unused2 = 0;
+            temp_s0->unused = 0;
             temp_s0->ttl = 0;
             gAudioContext.sampleDmaReqCnt++;
         }
@@ -222,7 +224,7 @@ void func_800E1618(s32 arg0) {
             temp_s0->size = gAudioContext.unk_288C;
             temp_s0->devAddr = 0U;
             temp_s0->sizeUnused = 0;
-            temp_s0->unused2 = 0;
+            temp_s0->unused = 0;
             temp_s0->ttl = 0;
             gAudioContext.sampleDmaReqCnt++;
         }
@@ -1071,7 +1073,7 @@ void Audio_ContextInit(void* heap, u32 heapSize) {
     osCreateMesgQueue(&gAudioContext.currAudioFrameDmaQueue, gAudioContext.currAudioFrameDmaMesgBufs, 0x40);
     osCreateMesgQueue(&gAudioContext.unk_1E20, gAudioContext.unk_1E38, 0x10);
     osCreateMesgQueue(&gAudioContext.unk_1E78, gAudioContext.unk_1E90, 0x10);
-    gAudioContext.currAudioFrameDmaCount = 0;
+    gAudioContext.curAudioFrameDmaCount = 0;
     gAudioContext.sampleDmaReqCnt = 0;
     gAudioContext.cartHandle = osCartRomInit();
 
@@ -1505,7 +1507,7 @@ void func_800E3FB4(AsyncLoadReq* req, u32 size) {
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3) {
 }
 
-#define RELOC(v, base) (reloc = (void*)((u32)v + (u32)base))
+#define RELOC(v, base) (reloc = (void*)((u32)(v) + (u32)(base)))
 
 void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
     AudioBankSample* sample;

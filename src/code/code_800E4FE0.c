@@ -86,8 +86,8 @@ AudioTask* func_800E5000(void) {
         D_801755D0();
     }
 
-    sp5C = gAudioContext.currAudioFrameDmaCount;
-    for (i = 0; i < gAudioContext.currAudioFrameDmaCount; i++) {
+    sp5C = gAudioContext.curAudioFrameDmaCount;
+    for (i = 0; i < gAudioContext.curAudioFrameDmaCount; i++) {
         if (osRecvMesg(&gAudioContext.currAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK) == 0) {
             sp5C--;
         }
@@ -106,7 +106,7 @@ AudioTask* func_800E5000(void) {
         }
     }
 
-    gAudioContext.currAudioFrameDmaCount = 0;
+    gAudioContext.curAudioFrameDmaCount = 0;
     func_800E11F0();
     Audio_ProcessLoads(gAudioContext.resetStatus);
     func_800E4F58();
