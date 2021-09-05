@@ -152,8 +152,6 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     u8 sp1C4;
     f32 ratio;
 
-    if (1) {}
-
     OPEN_DISPS(gfxCtx, "../z_eff_spark.c", 293);
 
     if (this != NULL) {
