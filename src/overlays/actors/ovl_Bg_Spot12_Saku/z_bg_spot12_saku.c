@@ -42,7 +42,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
+void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;

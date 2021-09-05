@@ -463,9 +463,9 @@ void func_80A9C00C(EnKusa* this) {
 }
 
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
-    s32 sp24;
+    s32 sp24 = true;
 
-    sp24 = Math_StepToF(&this->actor.scale.y, 0.4f, 0.014f) & 1;
+    sp24 &= Math_StepToF(&this->actor.scale.y, 0.4f, 0.014f);
     sp24 &= Math_StepToF(&this->actor.scale.x, 0.4f, 0.011f);
     this->actor.scale.z = this->actor.scale.x;
 

@@ -6648,8 +6648,8 @@ s32 Camera_Special9(Camera* camera) {
     sCameraInterfaceFlags = params->interfaceFlags;
 
     switch (camera->animState) {
-        do {
-        } while (0);
+        if (1) {}
+
         case 0:
             camera->unk_14C &= ~(0x4 | 0x2);
             camera->animState++;
