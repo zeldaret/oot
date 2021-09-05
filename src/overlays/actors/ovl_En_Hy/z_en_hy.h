@@ -36,6 +36,4 @@ typedef struct EnHy {
     /* 0x0330 */ u16 unk_330;
 } EnHy; // size = 0x0334
 
-extern const ActorInit En_Hy_InitVars;
-
 #endif

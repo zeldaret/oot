@@ -15,6 +15,4 @@ typedef struct EnBlkobj {
     /* 0x0168 */ EnBlkobjActionFunc actionFunc;
 } EnBlkobj; // size = 0x016C
 
-extern const ActorInit En_Blkobj_InitVars;
-
 #endif

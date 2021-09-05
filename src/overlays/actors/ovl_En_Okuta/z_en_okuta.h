@@ -21,6 +21,4 @@ typedef struct EnOkuta {
     /* 0x0370 */ ColliderCylinder collider;
 } EnOkuta; // size = 0x03BC
 
-extern const ActorInit En_Okuta_InitVars;
-
 #endif

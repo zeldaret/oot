@@ -1,4 +1,5 @@
 #include "z_door_warp1.h"
+#include "objects/object_warp1/object_warp1.h"
 
 #define FLAGS 0x00000000
 
@@ -55,10 +56,6 @@ static InitChainEntry sInitChain[] = {
 static s16 D_8099CCA0;
 static s16 D_8099CCA2;
 
-extern Gfx D_060001A0[];
-extern AnimationHeader D_06001374;
-extern SkeletonHeader D_06002CA8;
-
 void DoorWarp1_SetupAction(DoorWarp1* this, DoorWarp1ActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -102,7 +99,7 @@ void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     this->scale = 0;
     this->unk_1AE = -0x8C;
@@ -178,7 +175,7 @@ void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.entranceIndex == 0x60C ||    // lake hylia
                 gSaveContext.entranceIndex == 0x610 ||    // desert colossus
                 gSaveContext.entranceIndex == 0x580) &&   // graveyard
-                gSaveContext.sceneSetupIndex < 4) || (PLAYER->actor.params & 0xF00) != 0x200) {
+                gSaveContext.sceneSetupIndex < 4) || (GET_PLAYER(globalCtx)->actor.params & 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
             }
             if (Actor_WorldDistXZToActor(&player->actor, &this->actor) > 100.0f) {
@@ -196,8 +193,8 @@ void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, NULL, NULL, 0);
-    Animation_ChangeImpl(&this->skelAnime, &D_06001374, 1.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 40.0f, 1);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gWarpCrystalSkel, &gWarpCrystalAnim, NULL, NULL, 0);
+    Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 1.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 40.0f, 1);
 
     this->scale = 0;
     this->unk_1AE = -0x8C;
@@ -230,12 +227,12 @@ void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
 void DoorWarp1_SetupBlueCrystal(DoorWarp1* this, GlobalContext* globalCtx) {
     s16 i;
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, NULL, NULL, 0);
-    Animation_ChangeImpl(&this->skelAnime, &D_06001374, 0, 
-            Animation_GetLastFrame(&D_06001374), 
-            Animation_GetLastFrame(&D_06001374), ANIMMODE_ONCE, 0.0f, 1);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gWarpCrystalSkel, &gWarpCrystalAnim, NULL, NULL, 0);
+    Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 0, 
+            Animation_GetLastFrame(&gWarpCrystalAnim), 
+            Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 0.0f, 1);
 
-    this->skelAnime.curFrame = Animation_GetLastFrame(&D_06001374);
+    this->skelAnime.curFrame = Animation_GetLastFrame(&gWarpCrystalAnim);
     this->scale = 0xA;
     this->unk_1AE = 0x78;
     this->unk_1B0 = 0xE6;
@@ -260,12 +257,12 @@ void DoorWarp1_SetupBlueCrystal(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void DoorWarp1_SetupPurpleCrystal(DoorWarp1* this, GlobalContext* globalCtx) {
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, NULL, NULL, 0);
-    Animation_ChangeImpl(&this->skelAnime, &D_06001374, 0, 
-            Animation_GetLastFrame(&D_06001374),
-            Animation_GetLastFrame(&D_06001374), ANIMMODE_ONCE, 0.0f, 1);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gWarpCrystalSkel, &gWarpCrystalAnim, NULL, NULL, 0);
+    Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 0, 
+            Animation_GetLastFrame(&gWarpCrystalAnim),
+            Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 0.0f, 1);
 
-    this->skelAnime.curFrame = Animation_GetLastFrame(&D_06001374);
+    this->skelAnime.curFrame = Animation_GetLastFrame(&gWarpCrystalAnim);
     this->unk_1AE = 0x78;
     this->unk_1B0 = 0xE6;
     this->unk_192 = 0xC8;
@@ -292,7 +289,7 @@ void DoorWarp1_SetupPurpleCrystal(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void DoorWarp1_SetPlayerPos(DoorWarp1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->actor.velocity.y = 0.0f;
     player->actor.world.pos.x = this->actor.world.pos.x;
@@ -334,7 +331,7 @@ void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void func_80999348(DoorWarp1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     DoorWarp1_SetPlayerPos(this, globalCtx);
 
@@ -353,7 +350,7 @@ void func_80999348(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void func_80999410(DoorWarp1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     player->actor.gravity = -0.1f;
 }
@@ -397,7 +394,7 @@ void DoorWarp1_ChooseInitialAction(DoorWarp1* this, GlobalContext* globalCtx) {
 void func_80999580(DoorWarp1* this, GlobalContext* globalCtx) {
     if (Flags_GetTempClear(globalCtx, this->actor.room)) {
         this->unk_192 = 0xC8;
-        Audio_SetBGM(0x21);
+        Audio_QueueSeqCmd(0x21);
         DoorWarp1_SetupAction(this, func_809995D4);
     }
 }
@@ -466,7 +463,7 @@ void func_809998A4(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80999938(DoorWarp1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 ret = false;
 
     if (fabsf(this->actor.xzDistToPlayer) < 60.0f) {
@@ -485,7 +482,7 @@ void func_809999A0(DoorWarp1* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 
     if (func_80999938(this, globalCtx)) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
 
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         OnePointCutscene_Init(globalCtx, 0x25E7, 999, &this->actor, 0);
@@ -499,7 +496,7 @@ void func_809999A0(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unk_1B2 >= 101) {
         if (player->actor.velocity.y < 10.0f) {
@@ -577,7 +574,7 @@ void func_80999E64(DoorWarp1* this, GlobalContext* globalCtx) {
 void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
     Vec3f sp34;
     Vec3f sp28;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unk_1EC == 3) {
         Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -611,7 +608,7 @@ void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void func_8099A098(DoorWarp1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unk_1B2 >= 61) {
         if (player->actor.velocity.y < 10.f) {
@@ -673,7 +670,7 @@ void func_8099A46C(DoorWarp1* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 
     if (func_80999938(this, globalCtx) != 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
 
         OnePointCutscene_Init(globalCtx, 0x25E8, 999, &this->actor, 0);
         func_8002DF54(globalCtx, &this->actor, 10);
@@ -685,23 +682,23 @@ void func_8099A46C(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void func_8099A508(DoorWarp1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (this->unk_1B2 != 0) {
         this->unk_1B2--;
         return;
     }
     Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    Animation_ChangeImpl(&this->skelAnime, &D_06001374, 1.0f, 
-            Animation_GetLastFrame(&D_06001374), 
-            Animation_GetLastFrame(&D_06001374), 2, 40.0f, 1);
+    Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 1.0f, 
+            Animation_GetLastFrame(&gWarpCrystalAnim), 
+            Animation_GetLastFrame(&gWarpCrystalAnim), 2, 40.0f, 1);
 
     this->unk_1B2 = 0x32;
     DoorWarp1_SetupAction(this, func_8099A5EC);
 }
 
 void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp_f0_2;
     
     if (this->unk_1B2 != 0) {
@@ -738,7 +735,7 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_FOREST;
             } else {
-                if (LINK_IS_CHILD) {
+                if (!LINK_IS_ADULT) {
                     globalCtx->nextEntranceIndex = 0x600;
                 } else {
                     globalCtx->nextEntranceIndex = 0x608;
@@ -752,7 +749,7 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
                 globalCtx->nextEntranceIndex = 0xDB;
                 gSaveContext.nextCutsceneIndex = 0xFFF3;
             } else {
-                if (LINK_IS_CHILD) {
+                if (!LINK_IS_ADULT) {
                     globalCtx->nextEntranceIndex = 0x4F6;
                 } else {
                     globalCtx->nextEntranceIndex = 0x564;
@@ -767,7 +764,7 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_WATER;
             } else {
-                if (LINK_IS_CHILD) {
+                if (!LINK_IS_ADULT) {
                     globalCtx->nextEntranceIndex = 0x604;
                 } else {
                     globalCtx->nextEntranceIndex = 0x60C;
@@ -781,7 +778,7 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_SPIRIT;
             } else {
-                if (LINK_IS_CHILD) {
+                if (!LINK_IS_ADULT) {
                     globalCtx->nextEntranceIndex = 0x1F1;
                 } else {
                     globalCtx->nextEntranceIndex = 0x610;
@@ -795,7 +792,7 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_SHADOW;
             } else {
-                if (LINK_IS_CHILD) {
+                if (!LINK_IS_ADULT) {
                     globalCtx->nextEntranceIndex = 0x568;
                 } else {
                     globalCtx->nextEntranceIndex = 0x580;
@@ -1009,7 +1006,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
     xzScale = (((f32) this->unk_1AE * spE8) / 100.0f) + 1.0f;
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
     gSPSegment(POLY_XLU_DISP++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2267));
-    gSPDisplayList(POLY_XLU_DISP++, D_060001A0);
+    gSPDisplayList(POLY_XLU_DISP++, gWarpPortalDL);
     Matrix_Pop();
 
     if (this->unk_1A0 > 0.0f) {
@@ -1047,7 +1044,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
         Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
 
         gSPSegment(POLY_XLU_DISP++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2336));
-        gSPDisplayList(POLY_XLU_DISP++, D_060001A0);
+        gSPDisplayList(POLY_XLU_DISP++, gWarpPortalDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2340);

@@ -1,0 +1,11 @@
+<Root>
+    <File Name="object_warp1" Segment="6">
+        <!-- Portal -->
+        <DList Name="gWarpPortalDL" Offset="0x01A0"/>
+        <Texture Name="gWarpPortalTex" OutName="warp_portal_tex" Format="i8" Width="64" Height="64" Offset="0x02C0"/>
+        <!-- Crystal -->
+        <Animation Name="gWarpCrystalAnim" Offset="0x1374"/>
+        <Texture Name="gWarpCrystalTex" OutName="warp_crystal_tex" Format="i8" Width="64" Height="64" Offset="0x1B58"/>
+        <Skeleton Name="gWarpCrystalSkel" Type="Normal" LimbType="Standard" Offset="0x2CA8"/>
+    </File>
+</Root>

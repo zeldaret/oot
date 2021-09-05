@@ -15,11 +15,9 @@ ZBackground::ZBackground(ZFile* nParent) : ZResource(nParent)
 {
 }
 
-ZBackground::ZBackground(const std::string& prefix, const std::vector<uint8_t>& nRawData,
-                         uint32_t nRawDataIndex, ZFile* nParent)
+ZBackground::ZBackground(const std::string& prefix, uint32_t nRawDataIndex, ZFile* nParent)
 	: ZResource(nParent)
 {
-	rawData.assign(nRawData.begin(), nRawData.end());
 	rawDataIndex = nRawDataIndex;
 	name = GetDefaultName(prefix.c_str(), rawDataIndex);
 	outName = name;
@@ -31,6 +29,7 @@ void ZBackground::ParseRawData()
 {
 	ZResource::ParseRawData();
 
+	const auto& rawData = parent->GetRawData();
 	size_t i = 0;
 	while (true)
 	{
@@ -50,10 +49,10 @@ void ZBackground::ParseRawData()
 void ZBackground::ParseBinaryFile(const std::string& inFolder, bool appendOutName)
 {
 	fs::path filepath(inFolder);
+
 	if (appendOutName)
-	{
 		filepath = filepath / (outName + "." + GetExternalExtension());
-	}
+
 	data = File::ReadAllBytes(filepath.string());
 
 	// Add padding.
@@ -61,10 +60,9 @@ void ZBackground::ParseBinaryFile(const std::string& inFolder, bool appendOutNam
 	CheckValidJpeg(filepath.generic_string());
 }
 
-void ZBackground::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                                 uint32_t nRawDataIndex, const std::string& nRelPath)
+void ZBackground::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
 {
-	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
+	ZResource::ExtractFromXML(reader, nRawDataIndex);
 	DeclareVar("", "");
 }
 
@@ -128,13 +126,13 @@ void ZBackground::CheckValidJpeg(const std::string& filepath)
 	}
 }
 
-size_t ZBackground::GetRawDataSize()
+size_t ZBackground::GetRawDataSize() const
 {
 	// Jpgs use the whole sceen buffer, which is a u16 matrix.
 	return Globals::Instance->cfg.bgScreenHeight * Globals::Instance->cfg.bgScreenWidth * 2;
 }
 
-void ZBackground::DeclareVar(const std::string& prefix, const std::string& bodyStr)
+void ZBackground::DeclareVar(const std::string& prefix, const std::string& bodyStr) const
 {
 	std::string auxName = name;
 
@@ -142,23 +140,23 @@ void ZBackground::DeclareVar(const std::string& prefix, const std::string& bodyS
 		auxName = GetDefaultName(prefix, rawDataIndex);
 
 	parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::Align8, GetRawDataSize(),
-	                            GetSourceTypeName(), auxName, 0, bodyStr);
+	                            GetSourceTypeName(), auxName, "SCREEN_WIDTH * SCREEN_HEIGHT / 4",
+	                            bodyStr);
 }
 
-bool ZBackground::IsExternalResource()
+bool ZBackground::IsExternalResource() const
 {
 	return true;
 }
 
-std::string ZBackground::GetExternalExtension()
+std::string ZBackground::GetExternalExtension() const
 {
 	return "jpg";
 }
 
-void ZBackground::Save(const std::string& outFolder)
+void ZBackground::Save(const fs::path& outFolder)
 {
-	fs::path folder(outFolder);
-	fs::path filepath = folder / (outName + "." + GetExternalExtension());
+	fs::path filepath = outFolder / (outName + "." + GetExternalExtension());
 	File::WriteAllBytes(filepath.string(), data);
 }
 
@@ -198,12 +196,12 @@ std::string ZBackground::GetDefaultName(const std::string& prefix, uint32_t addr
 	return StringHelper::Sprintf("%sBackground_%06X", prefix.c_str(), address);
 }
 
-std::string ZBackground::GetSourceTypeName()
+std::string ZBackground::GetSourceTypeName() const
 {
 	return "u64";
 }
 
-ZResourceType ZBackground::GetResourceType()
+ZResourceType ZBackground::GetResourceType() const
 {
 	return ZResourceType::Background;
 }

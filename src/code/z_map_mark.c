@@ -38,8 +38,8 @@ static u32 sLineBytesImageSizes[] = { 0, 1, 2, 2 };
 #define G_IM_SIZ_MARK_LINE_BYTES sLineBytesImageSizes[markInfo->imageSize]
 
 static MapMarkInfo sMapMarkInfoTable[] = {
-    { gHUDTreasureMarkerTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1024, 1024 }, // Chest Icon
-    { gHUDBossMarkerTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1024, 1024 },        // Boss Skull Icon
+    { gMapChestIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1 << 10, 1 << 10 }, // Chest Icon
+    { gMapBossIconTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1 << 10, 1 << 10 },     // Boss Skull Icon
 };
 
 static MapMarkDataOverlay sMapMarkDataOvl = {
@@ -74,7 +74,7 @@ void MapMark_ClearPointers(GlobalContext* globalCtx) {
     sLoadedMarkDataTable = NULL;
 }
 
-void MapMark_Draw(GlobalContext* globalCtx) {
+void MapMark_DrawForDungeon(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx;
     MapMarkIconData* mapMarkIconData;
     MapMarkPoint* markPoint;
@@ -86,8 +86,8 @@ void MapMark_Draw(GlobalContext* globalCtx) {
 
     interfaceCtx = &globalCtx->interfaceCtx;
 
-    if (gMapData != NULL && globalCtx->interfaceCtx.mapRoomNum >= gMapData->dgnMinimapCount[dungeon]) {
-        // Translates to: "ROOM NUMBER EXCEEDED, YIKES %d/%d  MapMarkDraw PROCESSING INTERRUPTED"
+    if ((gMapData != NULL) && (globalCtx->interfaceCtx.mapRoomNum >= gMapData->dgnMinimapCount[dungeon])) {
+        // "Room number exceeded, yikes %d/%d  MapMarkDraw processing interrupted"
         osSyncPrintf(VT_COL(RED, WHITE) "部屋番号がオーバーしてるで,ヤバイで %d/%d  \nMapMarkDraw の処理を中断します\n",
                      VT_RST, globalCtx->interfaceCtx.mapRoomNum, gMapData->dgnMinimapCount[dungeon]);
         return;
@@ -107,7 +107,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->minimapAlpha);
         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, interfaceCtx->minimapAlpha);
 
-        markPoint = mapMarkIconData->points;
+        markPoint = &mapMarkIconData->points[0];
         for (i = 0; i < mapMarkIconData->count; i++) {
             if ((mapMarkIconData->markType != MAP_MARK_CHEST) || !Flags_GetTreasure(globalCtx, markPoint->chestFlag)) {
                 markInfo = &sMapMarkInfoTable[mapMarkIconData->markType];
@@ -131,7 +131,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_map_mark.c", 339);
 }
 
-void MapMark_DrawConditionally(GlobalContext* globalCtx) {
+void MapMark_Draw(GlobalContext* globalCtx) {
     switch (globalCtx->sceneNum) {
         case SCENE_YDAN:
         case SCENE_DDAN:
@@ -148,6 +148,7 @@ void MapMark_DrawConditionally(GlobalContext* globalCtx) {
         case SCENE_BDAN_BOSS:
         case SCENE_MORIBOSSROOM:
         case SCENE_FIRE_BS:
-            MapMark_Draw(globalCtx);
+            MapMark_DrawForDungeon(globalCtx);
+            break;
     }
 }

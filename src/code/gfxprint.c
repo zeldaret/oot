@@ -222,10 +222,11 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
 
         if (this->flag & GFXPRINT_FLAG64) {
             gSPTextureRectangle(this->dlist++, (this->posX + 4) << 1, (this->posY + 4) << 1, (this->posX + 4 + 32) << 1,
-                                (this->posY + 4 + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 512, 512);
+                                (this->posY + 4 + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 9,
+                                1 << 9);
         } else {
             gSPTextureRectangle(this->dlist++, this->posX + 4, this->posY + 4, this->posX + 4 + 32, this->posY + 4 + 32,
-                                tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1024, 1024);
+                                tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
         }
 
         gDPSetPrimColorMod(this->dlist++, 0, 0, this->color.rgba);
@@ -233,10 +234,10 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
 
     if (this->flag & GFXPRINT_FLAG64) {
         gSPTextureRectangle(this->dlist++, (this->posX) << 1, (this->posY) << 1, (this->posX + 32) << 1,
-                            (this->posY + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 512, 512);
+                            (this->posY + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 9, 1 << 9);
     } else {
         gSPTextureRectangle(this->dlist++, this->posX, this->posY, this->posX + 32, this->posY + 32, tile,
-                            (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1024, 1024);
+                            (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
     }
 
     this->posX += 32;
@@ -360,13 +361,13 @@ Gfx* GfxPrint_Close(GfxPrint* this) {
     return ret;
 }
 
-void GfxPrint_VPrintf(GfxPrint* this, const char* fmt, va_list args) {
-    PrintUtils_VPrintf((PrintCallback*)&this->callback, fmt, args);
+s32 GfxPrint_VPrintf(GfxPrint* this, const char* fmt, va_list args) {
+    return PrintUtils_VPrintf((PrintCallback*)&this->callback, fmt, args);
 }
 
-void GfxPrint_Printf(GfxPrint* this, const char* fmt, ...) {
+s32 GfxPrint_Printf(GfxPrint* this, const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
-    GfxPrint_VPrintf(this, fmt, args);
+    return GfxPrint_VPrintf(this, fmt, args);
 }

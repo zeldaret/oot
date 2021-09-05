@@ -6,6 +6,7 @@
 
 #include "z_en_light.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -46,8 +47,6 @@ static FlameParams D_80A9E840[] = {
     { { 170, 255, 255, 255 }, { 0, 0, 255 }, 75 },   { { 170, 255, 255, 255 }, { 0, 150, 255 }, 75 },
 };
 
-extern Gfx D_05000440[];
-
 void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnLight* this = THIS;
     s16 yOffset;
@@ -80,7 +79,7 @@ void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnLight_UpdatePosRot(EnLight* this, GlobalContext* globalCtx) {
     // update yaw for billboard effect
-    this->actor.shape.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000;
+    this->actor.shape.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000;
 
     if (this->actor.parent != NULL) {
         Math_Vec3f_Copy(&this->actor.world.pos, &(this->actor.parent)->world.pos);
@@ -180,12 +179,13 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, ((this->timer * 2) & 63),
                                     (this->timer * -6) & 127 * 1, 16, 32));
 
-        dList = D_05000440;
+        dList = gUnusedCandleDL;
         gDPSetPrimColor(POLY_XLU_DISP++, 0xC0, 0xC0, 255, 200, 0, 0);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
     }
 
-    Matrix_RotateY((s16)((Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f),
+    Matrix_RotateY((s16)((Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y) + 0x8000) *
+                       (M_PI / 32768.0f),
                    MTXMODE_APPLY);
 
     if (this->actor.params & 1) {

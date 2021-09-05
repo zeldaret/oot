@@ -24,6 +24,4 @@ typedef enum {
     /* 3 */ BWALL_KD_LAVA_COVER // Spawned after the KD fight in order to cover the lava floor to disable damage
 } BombableWallType;
 
-extern const ActorInit Bg_Breakwall_InitVars;
-
 #endif

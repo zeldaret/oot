@@ -22,6 +22,4 @@ typedef struct EnDekunuts {
     /* 0x02C8 */ ColliderCylinder collider;
 } EnDekunuts; // size = 0x0314
 
-extern const ActorInit En_Dekunuts_InitVars;
-
 #endif

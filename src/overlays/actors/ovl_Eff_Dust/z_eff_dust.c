@@ -174,7 +174,7 @@ void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx) {
 
 void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
     s16 theta;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Actor* parent = this->actor.parent;
     f32* distanceTraveled = this->distanceTraveled;
     s32 i;
@@ -308,19 +308,17 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
     CLOSE_DISPS(gfxCtx, "../z_eff_dust.c", 458);
 }
 
-void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx) {
+void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
     EffDust* this = THIS;
-    GlobalContext* globalCtx2;
+    GlobalContext* globalCtx = globalCtx2;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32* distanceTraveled;
     Vec3f* initialPositions;
     s32 i;
     f32 aux;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     OPEN_DISPS(gfxCtx, "../z_eff_dust.c", 472);
-
-    globalCtx2 = globalCtx;
 
     func_80093D18(gfxCtx);
 
@@ -355,7 +353,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Scale(*distanceTraveled * this->scalingFactor, *distanceTraveled * this->scalingFactor,
                          *distanceTraveled * this->scalingFactor, MTXMODE_APPLY);
 
-            func_800D1FD4(&globalCtx2->mf_11DA0);
+            func_800D1FD4(&globalCtx->mf_11DA0);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 506),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

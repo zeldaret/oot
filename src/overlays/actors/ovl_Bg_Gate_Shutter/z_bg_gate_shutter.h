@@ -16,6 +16,4 @@ typedef struct BgGateShutter {
     /* 0x0178 */ s16 unk_178;
 } BgGateShutter; // size = 0x017C
 
-extern const ActorInit Bg_Gate_Shutter_InitVars;
-
 #endif

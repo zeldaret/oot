@@ -16,6 +16,4 @@ typedef struct ObjDekujr {
     /* 0x01A0 */ s32 unk_1A0;
 } ObjDekujr; // size = 0x01A4
 
-extern const ActorInit Obj_Dekujr_InitVars;
-
 #endif

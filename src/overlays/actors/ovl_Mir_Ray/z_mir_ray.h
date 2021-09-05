@@ -44,6 +44,4 @@ typedef struct MirRay {
     /* 0x02AE */ u8 unLit; // Conditioned on. set in Cobra?
 } MirRay; // size = 0x02B0
 
-extern const ActorInit Mir_Ray_InitVars;
-
 #endif

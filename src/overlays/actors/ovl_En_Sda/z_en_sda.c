@@ -130,7 +130,7 @@ void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         player = (Player*)this->actor.parent;
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
     }
 
     this->actor.world.pos = player->actor.world.pos;
@@ -148,7 +148,7 @@ void EnSda_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         player = (Player*)this->actor.parent;
     } else {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
     }
 
     player->actor.shape.shadowAlpha = 0;
@@ -175,7 +175,6 @@ void func_80AF8F60(Player* player, u8* shadowTexture, f32 arg2) {
     Vec3f sp7C;
 
     for (i = 0; i < 16; i++) {
-        //! @bug j is not initialized if arg2 == 0.0f, causing undefined behavior.
         if ((arg2 == 0.0f) || ((j = D_80AFA13C[i]) >= 0)) {
             if (arg2 > 0.0f) {
                 lerp.x = D_80AFA660[i].x + (D_80AFA660[j].x - D_80AFA660[i].x) * arg2;
@@ -308,7 +307,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
     }
     osSyncPrintf("SDA CONT 3\n");
     if (this->actor.params != 1) {
-        func_800D20CC(&player->shieldMf, &sp178, false);
+        Matrix_MtxFToYXZRotS(&player->shieldMf, &sp178, false);
         sp178.y += (KREG(87) << 0xF) + 0x8000;
         sp178.x *= (KREG(88) - 1);
         Matrix_Mult(&player->shieldMf, MTXMODE_NEW);

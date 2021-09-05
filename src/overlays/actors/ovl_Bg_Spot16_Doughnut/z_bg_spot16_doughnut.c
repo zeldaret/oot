@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot16_doughnut.h"
+#include "objects/object_efc_doughnut/object_efc_doughnut.h"
 #include "vt.h"
 
 #define FLAGS 0x00000000
@@ -41,9 +42,6 @@ static s16 sScales[] = {
     0, 0, 70, 210, 300,
 };
 
-extern Gfx D_06000660[];
-extern Gfx D_06000FC0[];
-
 void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Doughnut* this = THIS;
     s32 params;
@@ -74,7 +72,7 @@ void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx) {
                 break;
         }
         osSyncPrintf(VT_FGCOL(CYAN) "%f" VT_RST "\n", this->actor.scale.x);
-        if (LINK_IS_CHILD || gSaveContext.eventChkInf[2] & 0x8000) {
+        if (!LINK_IS_ADULT || gSaveContext.eventChkInf[2] & 0x8000) {
             this->fireFlag &= ~1;
         } else {
             this->fireFlag |= 1;
@@ -138,11 +136,11 @@ void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx) {
             POLY_XLU_DISP++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * (-1), 0, 16, 32, 1, scroll, scroll * (-2), 16, 32));
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, this->envColorAlpha);
-        gSPDisplayList(POLY_XLU_DISP++, D_06000660);
+        gSPDisplayList(POLY_XLU_DISP++, gDeathMountainCloudCircleFieryDL);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->envColorAlpha);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
-        gSPDisplayList(POLY_XLU_DISP++, D_06000FC0);
+        gSPDisplayList(POLY_XLU_DISP++, gDeathMountainCloudCircleNormalDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 238);
@@ -160,7 +158,7 @@ void BgSpot16Doughnut_DrawExpanding(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->envColorAlpha);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000FC0);
+    gSPDisplayList(POLY_XLU_DISP++, gDeathMountainCloudCircleNormalDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_doughnut.c", 256);
 }

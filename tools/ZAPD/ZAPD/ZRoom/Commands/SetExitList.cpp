@@ -1,71 +1,67 @@
 #include "SetExitList.h"
-#include "../../BitConverter.h"
-#include "../../StringHelper.h"
-#include "../../ZFile.h"
-#include "../ZRoom.h"
 
-using namespace std;
+#include "BitConverter.h"
+#include "StringHelper.h"
+#include "ZFile.h"
+#include "ZRoom/ZRoom.h"
 
-SetExitList::SetExitList(ZRoom* nZRoom, std::vector<uint8_t> rawData, uint32_t rawDataIndex)
-	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
+SetExitList::SetExitList(ZFile* nParent) : ZRoomCommand(nParent)
 {
-	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
-	exits = vector<uint16_t>();
-
-	if (segmentOffset != 0)
-		zRoom->parent->AddDeclarationPlaceholder(segmentOffset);
-
-	_rawData = rawData;
-	_rawDataIndex = rawDataIndex;
 }
 
-string SetExitList::GenerateSourceCodePass1(string roomName, uint32_t baseAddress)
+void SetExitList::DeclareReferences(const std::string& prefix)
 {
-	string sourceOutput =
-		StringHelper::Sprintf("%s 0x00, (u32)&%sExitList0x%06X",
-	                          ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
-	                          zRoom->GetName().c_str(), segmentOffset);
+	if (segmentOffset != 0)
+		parent->AddDeclarationPlaceholder(segmentOffset);
+}
 
+void SetExitList::ParseRawDataLate()
+{
 	// Parse Entrances and Generate Declaration
-	zRoom->parent->AddDeclarationPlaceholder(segmentOffset);  // Make sure this segment is defined
-	int32_t numEntrances = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 2;
+	int numEntrances = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 2;
 	uint32_t currentPtr = segmentOffset;
 
 	for (int32_t i = 0; i < numEntrances; i++)
 	{
-		uint16_t exit = BitConverter::ToInt16BE(_rawData, currentPtr);
+		uint16_t exit = BitConverter::ToUInt16BE(parent->GetRawData(), currentPtr);
 		exits.push_back(exit);
 
 		currentPtr += 2;
 	}
-
-	string declaration = "";
-
-	for (uint16_t exit : exits)
-		declaration += StringHelper::Sprintf("    0x%04X,\n", exit);
-	;
-
-	zRoom->parent->AddDeclarationArray(
-		segmentOffset, DeclarationAlignment::None, exits.size() * 2, "u16",
-		StringHelper::Sprintf("%sExitList0x%06X", zRoom->GetName().c_str(), segmentOffset),
-		exits.size(), declaration);
-
-	return sourceOutput;
 }
 
-string SetExitList::GenerateExterns()
+void SetExitList::DeclareReferencesLate(const std::string& prefix)
 {
-	return StringHelper::Sprintf("extern u16 %sExitList0x%06X[];\n", zRoom->GetName().c_str(),
-	                             segmentOffset);
-	;
+	if (!exits.empty())
+	{
+		std::string declaration = "";
+
+		for (size_t i = 0; i < exits.size(); i++)
+		{
+			declaration += StringHelper::Sprintf("    0x%04X,", exits.at(i));
+			if (i + 1 < exits.size())
+				declaration += "\n";
+		}
+
+		parent->AddDeclarationArray(
+			segmentOffset, DeclarationAlignment::Align4, exits.size() * 2, "u16",
+			StringHelper::Sprintf("%sExitList_%06X", zRoom->GetName().c_str(), segmentOffset),
+			exits.size(), declaration);
+	}
 }
 
-string SetExitList::GetCommandCName()
+std::string SetExitList::GetBodySourceCode() const
+{
+	std::string listName = parent->GetDeclarationPtrName(cmdArg2);
+	return StringHelper::Sprintf("SCENE_CMD_EXIT_LIST(%s)", listName.c_str());
+}
+
+std::string SetExitList::GetCommandCName() const
 {
 	return "SCmdExitList";
 }
 
-RoomCommand SetExitList::GetRoomCommand()
+RoomCommand SetExitList::GetRoomCommand() const
 {
 	return RoomCommand::SetExitList;
 }

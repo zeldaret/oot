@@ -21,6 +21,4 @@ typedef struct EnHs {
     /* 0x02AC */ EnHsActionFunc actionFunc;
 } EnHs; // size = 0x02B0
 
-extern const ActorInit En_Hs_InitVars;
-
 #endif

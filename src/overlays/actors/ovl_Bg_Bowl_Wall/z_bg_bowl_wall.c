@@ -5,9 +5,10 @@
  */
 
 #include "z_bg_bowl_wall.h"
-#include "vt.h"
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "objects/object_bowl/object_bowl.h"
+#include "vt.h"
 
 #define FLAGS 0x00000030
 
@@ -23,11 +24,6 @@ void BgBowlWall_WaitForHit(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_06000CB8;
-extern CollisionHeader D_06001B00;
-extern Gfx D_06000610[];
-extern Gfx D_06001390[];
 
 const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
@@ -59,9 +55,9 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
     if (this->dyna.actor.params == 0) {
-        CollisionHeader_GetVirtual(&D_06000CB8, &colHeader);
+        CollisionHeader_GetVirtual(&gBowlingFirstAndFinalRoundCol, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&D_06001B00, &colHeader);
+        CollisionHeader_GetVirtual(&gBowlingSecondRoundCol, &colHeader);
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -157,7 +153,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
             EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
         }
-        quakeIndex = Quake_Add(ACTIVE_CAM, 1);
+        quakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 1);
         Quake_SetSpeed(quakeIndex, 0x7FFF);
         Quake_SetQuakeValues(quakeIndex, 300, 0, 0, 0);
         Quake_SetCountdown(quakeIndex, 30);
@@ -202,25 +198,25 @@ void BgBowlWall_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     BgBowlWall* this = THIS;
     u32 frames;
 
-    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_bg_bowl_wall.c", 441);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_bowl_wall.c", 441);
 
-    func_80093D84(globalCtx2->state.gfxCtx);
+    func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x8,
-               Gfx_TexScroll(globalCtx2->state.gfxCtx, 0, -2 * (frames = globalCtx2->state.frames), 16, 16));
+               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, -2 * (frames = globalCtx->state.frames), 16, 16));
     gDPPipeSync(POLY_OPA_DISP++);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_bowl_wall.c", 453),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_bowl_wall.c", 453),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->dyna.actor.params == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, D_06000610);
+        gSPDisplayList(POLY_OPA_DISP++, gBowlingRound1WallDL);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, D_06001390);
+        gSPDisplayList(POLY_OPA_DISP++, gBowlingRound2WallDL);
     }
 
-    CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_bg_bowl_wall.c", 464);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_bowl_wall.c", 464);
 }

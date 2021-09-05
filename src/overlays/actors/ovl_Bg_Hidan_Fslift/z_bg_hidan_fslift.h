@@ -15,6 +15,4 @@ typedef struct BgHidanFslift {
     /* 0x016A */ s16 unk_16A;
 } BgHidanFslift; // size = 0x016C
 
-extern const ActorInit Bg_Hidan_Fslift_InitVars;
-
 #endif

@@ -11,6 +11,4 @@ typedef struct EnZf {
     /* 0x014C */ char unk_14C[0x41C];
 } EnZf; // size = 0x0568
 
-extern const ActorInit En_Zf_InitVars;
-
 #endif

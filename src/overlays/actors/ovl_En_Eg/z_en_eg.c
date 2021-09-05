@@ -54,7 +54,7 @@ void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
         // Void the player out
         Gameplay_TriggerRespawn(globalCtx);
         gSaveContext.respawnFlag = -2;
-        Audio_SetBGM(NA_BGM_STOP);
+        Audio_QueueSeqCmd(NA_BGM_STOP);
         globalCtx->fadeTransition = 2;
         EnEg_PlayVoidOutSFX();
         voided = true;
@@ -66,7 +66,7 @@ void EnEg_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 action = this->action;
 
     if (((action < 0) || (0 < action)) || (sActionFuncs[action] == NULL)) {
-        // Translates to: "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
+        // "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sActionFuncs[action](this, globalCtx);

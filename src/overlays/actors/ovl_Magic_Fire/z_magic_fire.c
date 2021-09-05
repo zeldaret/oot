@@ -341,7 +341,7 @@ void MagicFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx) {
     MagicFire* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((globalCtx->msgCtx.msgMode == 0xD) || (globalCtx->msgCtx.msgMode == 0x11)) {
         Actor_Kill(&this->actor);
@@ -358,7 +358,7 @@ void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx) {
 
 void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     MagicFire* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     if (1) {}

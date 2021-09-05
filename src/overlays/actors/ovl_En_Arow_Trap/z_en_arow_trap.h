@@ -13,6 +13,4 @@ typedef struct EnArowTrap {
     /* 0x0150 */ u32 attackTimer;
 } EnArowTrap; // size = 0x0154
 
-extern const ActorInit En_Arow_Trap_InitVars;
-
 #endif

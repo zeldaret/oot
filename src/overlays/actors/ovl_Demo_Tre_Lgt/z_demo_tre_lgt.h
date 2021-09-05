@@ -22,6 +22,4 @@ typedef enum {
     /* 0x01 */ DEMO_TRE_LGT_ACTION_ANIMATE
 } DemoTreLgtAction;
 
-extern const ActorInit Demo_Tre_Lgt_InitVars;
-
 #endif

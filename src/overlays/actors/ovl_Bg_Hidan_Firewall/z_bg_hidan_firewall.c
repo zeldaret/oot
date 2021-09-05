@@ -86,7 +86,7 @@ s32 BgHidanFirewall_CheckProximity(BgHidanFirewall* this, GlobalContext* globalC
     Player* player;
     Vec3f distance;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     func_8002DBD0(&this->actor, &distance, &player->actor.world.pos);
 
     if (fabsf(distance.x) < 100.0f && fabsf(distance.z) < 120.0f) {
@@ -129,11 +129,12 @@ void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx) {
 void BgHidanFirewall_Collide(BgHidanFirewall* this, GlobalContext* globalCtx) {
     s16 phi_a3;
 
-    if (func_8002E084(&this->actor, 0x4000) != 0) {
+    if (Actor_IsFacingPlayer(&this->actor, 0x4000)) {
         phi_a3 = this->actor.shape.rot.y;
     } else {
         phi_a3 = this->actor.shape.rot.y + 0x8000;
     }
+
     func_8002F71C(globalCtx, &this->actor, 5.0f, phi_a3, 1.0f);
 }
 
@@ -144,7 +145,7 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
     f32 sp28;
     f32 phi_f0;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
 
     func_8002DBD0(&this->actor, &sp30, &player->actor.world.pos);
     if (sp30.x < -70.0f) {
@@ -194,7 +195,7 @@ void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static u64* sFireballTexs[] = {
+static void* sFireballTexs[] = {
     gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
     gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
 };

@@ -33,6 +33,4 @@ typedef struct EnNwc {
     /* 0x0730 */ EnNwcUpdateFunc updateFunc;
 } EnNwc; // size = 0x0734
 
-extern const ActorInit En_Nwc_InitVars;
-
 #endif

@@ -32,6 +32,4 @@ typedef struct EnHorseNormal {
     /* 0x0324 */ s32 waypoint;
 } EnHorseNormal; // size = 0x0328
 
-extern const ActorInit En_Horse_Normal_InitVars;
-
 #endif

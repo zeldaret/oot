@@ -18,6 +18,4 @@ typedef enum {
     /* 1 */ BONGOFLOOR_HIT
 } BgSstFloorParams;
 
-extern const ActorInit Bg_Sst_Floor_InitVars;
-
 #endif

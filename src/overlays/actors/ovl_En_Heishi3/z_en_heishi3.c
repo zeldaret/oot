@@ -5,6 +5,7 @@
  */
 
 #include "z_en_heishi3.h"
+#include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
 #define FLAGS 0x00000000
@@ -23,10 +24,6 @@ void EnHeishi3_CatchStart(EnHeishi3* this, GlobalContext* globalCtx);
 void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx);
 void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx);
 void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx);
-
-extern SkeletonHeader D_0600BAC8;
-extern AnimationHeader D_06005C30; // EnHeishi3_IdleAnimation
-extern AnimationHeader D_06005880; // EnHeishi3_WalkAnimation
 
 static s16 sPlayerCaught = 0;
 
@@ -76,7 +73,8 @@ void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetScale(&this->actor, 0.01f);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTable, this->morphTable, 17);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable,
+                   17);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.targetMode = 6;
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -96,9 +94,9 @@ void EnHeishi3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi3_SetupGuardType(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     if (this->unk_278 == 0) {
         this->actionFunc = EnHeishi3_StandSentinelInGrounds;
     } else {
@@ -115,18 +113,18 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
     s16 yawDiffNew;
     f32 sightRange;
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
     SkelAnime_Update(&this->skelAnime);
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     yawDiffNew = ABS(yawDiff);
     if (yawDiffNew < 0x4300) {
-        if (gSaveContext.nightFlag == 0) {
+        if (IS_DAY) {
             sightRange = 250.0f;
         } else {
             sightRange = 200.0f;
         }
     } else {
-        if (gSaveContext.nightFlag == 0) {
+        if (IS_DAY) {
             sightRange = 150.0f;
         } else {
             sightRange = 100.0f;
@@ -147,7 +145,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
  * Handles the guards standing in front of Hyrule Castle.
  **/
 void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
     if ((player->actor.world.pos.x < -190.0f) && (player->actor.world.pos.x > -380.0f) &&
@@ -172,9 +170,9 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
 }
 
 void EnHeishi3_CatchStart(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005880);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiWalkAnim);
 
-    Animation_Change(&this->skelAnime, &D_06005880, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiWalkAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->caughtTimer = 20;
     this->actionFunc = func_80A55BD4;
     this->actor.speedXZ = 2.5f;
@@ -195,9 +193,9 @@ void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
+    Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A55D00;
 }
 

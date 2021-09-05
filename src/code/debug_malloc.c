@@ -83,7 +83,7 @@ void* DebugArena_Calloc(u32 num, u32 size) {
 }
 
 void DebugArena_Display(void) {
-    // Zelda heap display (devs forgot to change "Zelda" to "Debug" apparently)
+    // "Zelda heap display" (devs forgot to change "Zelda" to "Debug" apparently)
     osSyncPrintf("ゼルダヒープ表示\n");
     __osDisplayArena(&sDebugArena);
 }

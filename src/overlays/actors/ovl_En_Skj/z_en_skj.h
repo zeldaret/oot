@@ -37,6 +37,4 @@ typedef struct EnSkj {
     /* 0x02F4 */ Vec3f posCopy;
 } EnSkj; // size = 0x0300
 
-extern const ActorInit En_Skj_InitVars;
-
 #endif

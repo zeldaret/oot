@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mori_rakkatenjo.h"
+#include "objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0x00000030
 
@@ -25,9 +26,6 @@ void BgMoriRakkatenjo_SetupRest(BgMoriRakkatenjo* this);
 void BgMoriRakkatenjo_Rest(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_SetupRise(BgMoriRakkatenjo* this);
 void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_060087AC;
-extern Gfx D_06007690[];
 
 static s16 sCamSetting = 0;
 
@@ -75,7 +73,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    CollisionHeader_GetVirtual(&D_060087AC, &colHeader);
+    CollisionHeader_GetVirtual(&gMoriRakkatenjoCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     BgMoriRakkatenjo_SetupWaitForMoriTex(this);
     sCamSetting = 0;
@@ -89,13 +87,13 @@ void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 BgMoriRakkatenjo_IsLinkUnder(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    Vec3f* pos = &PLAYER->actor.world.pos;
+    Vec3f* pos = &GET_PLAYER(globalCtx)->actor.world.pos;
 
     return (-3300.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
 }
 
 s32 BgMoriRakkatenjo_IsLinkClose(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    Vec3f* pos = &PLAYER->actor.world.pos;
+    Vec3f* pos = &GET_PLAYER(globalCtx)->actor.world.pos;
 
     return (-3360.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
 }
@@ -166,7 +164,7 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
                 403.0f - (thisx->world.pos.y - 403.0f) * bounceVel[this->bounceCount] / fabsf(thisx->velocity.y);
             thisx->velocity.y = bounceVel[this->bounceCount];
             this->bounceCount++;
-            quake = Quake_Add(ACTIVE_CAM, 3);
+            quake = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
             Quake_SetSpeed(quake, 50000);
             Quake_SetQuakeValues(quake, 5, 0, 0, 0);
             Quake_SetCountdown(quake, 5);
@@ -233,7 +231,7 @@ void BgMoriRakkatenjo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_06007690);
+    gSPDisplayList(POLY_OPA_DISP++, gMoriRakkatenjoDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 506);
 }

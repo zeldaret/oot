@@ -41,7 +41,7 @@ glabel func_80B46AE0
 /* 02B00 80B46B50 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02B04 80B46B54 1501001C */  bne     $t0, $at, .L80B46BC8       
 /* 02B08 80B46B58 00000000 */  nop
-/* 02B0C 80B46B5C 0C00B821 */  jal     func_8002E084              
+/* 02B0C 80B46B5C 0C00B821 */  jal     Actor_IsFacingPlayer              
 /* 02B10 80B46B60 24051554 */  addiu   $a1, $zero, 0x1554         ## $a1 = 00001554
 /* 02B14 80B46B64 14400018 */  bne     $v0, $zero, .L80B46BC8     
 /* 02B18 80B46B68 00000000 */  nop
