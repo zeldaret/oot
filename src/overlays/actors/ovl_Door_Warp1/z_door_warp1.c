@@ -32,7 +32,7 @@ void func_8099A508(DoorWarp1* this, GlobalContext* globalCtx);
 void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx);
 void DoorWarp1_DoNothing(DoorWarp1* this, GlobalContext* globalCtx);
 void DoorWarp1_ChooseInitialAction(DoorWarp1* this, GlobalContext* globalCtx);
-void func_80999410(DoorWarp1* this, GlobalContext* globalCtx);
+void DoorWarp1_FloatPlayer(DoorWarp1* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,
@@ -295,16 +295,16 @@ void DoorWarp1_BlueCrystal(DoorWarp1* this, GlobalContext* globalCtx) {
 void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
     s32 temp_f4;
     f32 phi_f0;
-    s16 phi_v1;
+    s16 i;
 
     Math_SmoothStepToF(&this->crystalAlpha, 255.0f, 0.2f, 5.0f, 0.1f);
 
     phi_f0 = (f32)(40 - this->warpTimer) / 40.0f;
     phi_f0 = CLAMP_MIN(phi_f0, 0);
 
-    for (phi_v1 = 0; phi_v1 < 3; phi_v1++) {
-        globalCtx->envCtx.unk_8C[0][phi_v1] = globalCtx->envCtx.unk_8C[2][phi_v1] =
-            globalCtx->envCtx.unk_8C[1][phi_v1] = -255.0f * phi_f0;
+    for (i = 0; i < 3; i++) {
+        globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] =
+            globalCtx->envCtx.unk_8C[1][i] = -255.0f * phi_f0;
     }
     globalCtx->envCtx.unk_9E = -500.0f * phi_f0;
 
@@ -327,7 +327,7 @@ void func_80999348(DoorWarp1* this, GlobalContext* globalCtx) {
             player->actor.gravity = -0.1f;
         }
         if (this->crystalAlpha <= 0.0f) {
-            DoorWarp1_SetupAction(this, func_80999410);
+            DoorWarp1_SetupAction(this, DoorWarp1_FloatPlayer);
         }
     } else {
         this->warpTimer--;
@@ -335,7 +335,7 @@ void func_80999348(DoorWarp1* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += 0x320;
 }
 
-void func_80999410(DoorWarp1* this, GlobalContext* globalCtx) {
+void DoorWarp1_FloatPlayer(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     player->actor.gravity = -0.1f;
@@ -814,11 +814,11 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
 
     temp_f0_2 = 1.0f - (f32)(sWarpTimerTarget - this->warpTimer) / (sWarpTimerTarget - (sWarpTimerTarget - 100));
     if (temp_f0_2 > 0.0f) {
-        s16 phi_v1;
+        s16 i;
 
-        for (phi_v1 = 0; phi_v1 < 3; phi_v1++) {
-            globalCtx->envCtx.unk_8C[0][phi_v1] = globalCtx->envCtx.unk_8C[2][phi_v1] =
-                globalCtx->envCtx.unk_8C[1][phi_v1] = -255.0f * temp_f0_2;
+        for (i = 0; i < 3; i++) {
+            globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] =
+                globalCtx->envCtx.unk_8C[1][i] = -255.0f * temp_f0_2;
         }
 
         globalCtx->envCtx.unk_9E = -500.0f * temp_f0_2;
