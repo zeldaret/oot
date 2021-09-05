@@ -304,7 +304,8 @@ s32 EnGoroiwa_MoveAndFall(EnGoroiwa* this, GlobalContext* globalCtx) {
     func_8002D868(&this->actor);
     path = &globalCtx->setupPathList[this->actor.params & 0xFF];
     nextPointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->nextWaypoint;
-    result = Math_StepToF(&this->actor.world.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x)) & 1;
+    result = true;
+    result &= Math_StepToF(&this->actor.world.pos.x, nextPointPos->x, fabsf(this->actor.velocity.x));
     result &= Math_StepToF(&this->actor.world.pos.z, nextPointPos->z, fabsf(this->actor.velocity.z));
     this->actor.world.pos.y += this->actor.velocity.y;
     return result;
@@ -334,7 +335,8 @@ s32 EnGoroiwa_Move(EnGoroiwa* this, GlobalContext* globalCtx) {
     this->actor.velocity.x *= this->actor.speedXZ;
     this->actor.velocity.y *= this->actor.speedXZ;
     this->actor.velocity.z *= this->actor.speedXZ;
-    nextPointReached = Math_StepToF(&this->actor.world.pos.x, nextPointPosF.x, fabsf(this->actor.velocity.x)) & 1;
+    nextPointReached = true;
+    nextPointReached &= Math_StepToF(&this->actor.world.pos.x, nextPointPosF.x, fabsf(this->actor.velocity.x));
     nextPointReached &= Math_StepToF(&this->actor.world.pos.y, nextPointPosF.y, fabsf(this->actor.velocity.y));
     nextPointReached &= Math_StepToF(&this->actor.world.pos.z, nextPointPosF.z, fabsf(this->actor.velocity.z));
     return nextPointReached;
