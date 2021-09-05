@@ -90,8 +90,8 @@ typedef enum {
 typedef struct {
     u8 unk_0;
     u8 unk_1; // importance?
-} Something;
-extern Something D_8016E320[][5]; // sorted by unk_1, descending
+} Struct_8016E320;
+extern Struct_8016E320 D_8016E320[][5]; // sorted by unk_1, descending
 
 void Audio_ProcessSeqCmd(u32 cmd) {
     s32 pad[2];
