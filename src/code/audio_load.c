@@ -3,18 +3,21 @@
 
 typedef enum { LOAD_STATUS_WAITING, LOAD_STATUS_START, LOAD_STATUS_LOADING, LOAD_STATUS_DONE } SyncLoadStatus;
 
+// opaque type for unpatched audio bank data (should maybe get rid of this?)
+typedef void AudioBankData;
+
 /* forward declarations */
 s32 func_800E217C(s32 playerIndex, s32, s32);
-unk_ldr* func_800E2454(u32 bankId);
+AudioBankData* func_800E2454(u32 bankId);
 AudioBankSample* Audio_GetBankSample(s32 bankId, s32 sfxId);
 void Audio_ProcessAsyncLoads(s32 arg0);
 void Audio_HandleAsyncMsg(AsyncLoadReq* arg0, s32 arg1);
 void Audio_UpdateAsyncReq(AsyncLoadReq* arg0, s32 arg1);
-void func_800E4198(s32, unk_ldr*, RelocInfo*, s32);
+void func_800E4198(s32, AudioBankData*, RelocInfo*, s32);
 void Audio_SampleReloc(AudioBankSound* sound, u32, RelocInfo*);
 void func_800E202C(s32 arg0);
 u32 func_800E2338(u32 arg0, u32* arg1, s32 arg2);
-u8* func_800E2558(u32 tableType, u32 tableIdx, s32* didAllocate);
+void* func_800E2558(u32 tableType, u32 tableIdx, s32* didAllocate);
 u32 Audio_GetTableIndex(s32 tableType, u32 tableIdx);
 void* func_800E27A4(s32 tableType, s32 id);
 void* Audio_GetLoadTable(s32 tableType);
@@ -317,10 +320,10 @@ void Audio_InitAudioTable(AudioTable* table, u32 romAddr, u16 arg2) {
     }
 }
 
-unk_ldr* func_800E1B68(s32 arg0, u32* arg1) {
+AudioBankData* func_800E1B68(s32 arg0, u32* arg1) {
     char pad[0x8];
     s32 phi_s0;
-    unk_ldr* sp28;
+    AudioBankData* sp28;
     s32 phi_s1;
     s32 phi_s2;
     s32 i;
@@ -576,8 +579,8 @@ u32 func_800E2338(u32 arg0, u32* arg1, s32 arg2) {
     }
 }
 
-unk_ldr* func_800E2454(u32 bankId) {
-    u8* temp_ret;
+AudioBankData* func_800E2454(u32 bankId) {
+    AudioBankData* temp_ret;
     s32 unk02;
     s32 unk03;
     s32 sp38;
@@ -615,7 +618,7 @@ unk_ldr* func_800E2454(u32 bankId) {
     return temp_ret;
 }
 
-u8* func_800E2558(u32 tableType, u32 tableIdx, s32* didAllocate) {
+void* func_800E2558(u32 tableType, u32 tableIdx, s32* didAllocate) {
     u32 size;
     AudioTable* table;
     s32 pad;
@@ -623,7 +626,7 @@ u8* func_800E2558(u32 tableType, u32 tableIdx, s32* didAllocate) {
     s32 status;
     u32 romAddr;
     s32 sp24;
-    u8* ret;
+    void* ret;
     u32 id;
 
     id = Audio_GetTableIndex(tableType, tableIdx);
@@ -741,31 +744,31 @@ void* Audio_GetLoadTable(s32 tableType) {
 
 #define BASE_OFFSET(x, off) (void*)((u32)(x) + (u32)(off))
 
-void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2) {
+void func_800E283C(s32 bankId, AudioBankData* mem, RelocInfo* relocInfo) {
     u32 reloc;
     u32 reloc2;
     Instrument* inst;
     Drum* drum;
     AudioBankSound* sfx;
     s32 i;
-    s32 numDrums = gAudioContext.ctlEntries[arg0].numDrums;
-    s32 numInstruments = gAudioContext.ctlEntries[arg0].numInstruments;
-    s32 numSfx = gAudioContext.ctlEntries[arg0].numSfx;
-    void** ptrs = (void**)arg1;
+    s32 numDrums = gAudioContext.ctlEntries[bankId].numDrums;
+    s32 numInstruments = gAudioContext.ctlEntries[bankId].numInstruments;
+    s32 numSfx = gAudioContext.ctlEntries[bankId].numSfx;
+    void** ptrs = (void**)mem;
 
     reloc2 = ptrs[0];
     if (1) {}
     if ((reloc2 != 0) && (numDrums != 0)) {
-        ptrs[0] = BASE_OFFSET(reloc2, arg1);
+        ptrs[0] = BASE_OFFSET(reloc2, mem);
         for (i = 0; i < numDrums; i++) {
             reloc = ((Drum**)ptrs[0])[i];
             if (reloc != 0) {
-                reloc = BASE_OFFSET(reloc, arg1);
+                reloc = BASE_OFFSET(reloc, mem);
                 ((Drum**)ptrs[0])[i] = drum = reloc;
                 if (!drum->loaded) {
-                    Audio_SampleReloc(&drum->sound, arg1, arg2);
+                    Audio_SampleReloc(&drum->sound, mem, relocInfo);
                     reloc = drum->envelope;
-                    drum->envelope = BASE_OFFSET(reloc, arg1);
+                    drum->envelope = BASE_OFFSET(reloc, mem);
                     drum->loaded = 1;
                 }
             }
@@ -775,13 +778,13 @@ void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2) {
     reloc2 = ptrs[1];
     if (1) {}
     if ((reloc2 != 0) && (numSfx != 0)) {
-        ptrs[1] = BASE_OFFSET(reloc2, arg1);
+        ptrs[1] = BASE_OFFSET(reloc2, mem);
         for (i = 0; i < numSfx; i++) {
             reloc = (AudioBankSound*)ptrs[1] + i;
             if (reloc != 0) {
                 sfx = reloc;
                 if (sfx->sample != NULL) {
-                    Audio_SampleReloc(sfx, arg1, arg2);
+                    Audio_SampleReloc(sfx, mem, relocInfo);
                 }
             }
         }
@@ -793,27 +796,27 @@ void func_800E283C(s32 arg0, unk_ldr* arg1, RelocInfo* arg2) {
 
     for (i = 2; i <= 2 + numInstruments - 1; i++) {
         if (ptrs[i] != NULL) {
-            ptrs[i] = BASE_OFFSET(ptrs[i], arg1);
+            ptrs[i] = BASE_OFFSET(ptrs[i], mem);
             inst = ptrs[i];
             if (!inst->loaded) {
                 if (inst->normalRangeLo != 0) {
-                    Audio_SampleReloc(&inst->lowNotesSound, arg1, arg2);
+                    Audio_SampleReloc(&inst->lowNotesSound, mem, relocInfo);
                 }
-                Audio_SampleReloc(&inst->normalNotesSound, arg1, arg2);
+                Audio_SampleReloc(&inst->normalNotesSound, mem, relocInfo);
                 if (inst->normalRangeHi != 0x7F) {
-                    Audio_SampleReloc(&inst->highNotesSound, arg1, arg2);
+                    Audio_SampleReloc(&inst->highNotesSound, mem, relocInfo);
                 }
 
                 reloc = inst->envelope;
-                inst->envelope = BASE_OFFSET(reloc, arg1);
+                inst->envelope = BASE_OFFSET(reloc, mem);
                 inst->loaded = 1;
             }
         }
     }
 
-    gAudioContext.ctlEntries[arg0].drums = ptrs[0];
-    gAudioContext.ctlEntries[arg0].soundEffects = ptrs[1];
-    gAudioContext.ctlEntries[arg0].instruments = (Instrument**)(ptrs + 2);
+    gAudioContext.ctlEntries[bankId].drums = ptrs[0];
+    gAudioContext.ctlEntries[bankId].soundEffects = ptrs[1];
+    gAudioContext.ctlEntries[bankId].instruments = (Instrument**)(ptrs + 2);
 }
 
 #undef BASE_OFFSET
@@ -1537,7 +1540,7 @@ void Audio_SampleReloc(AudioBankSound* sound, u32 arg1, RelocInfo* arg2) {
 
 #undef RELOC
 
-void func_800E4198(s32 bankId, unk_ldr* mem, RelocInfo* relocInfo, s32 arg3) {
+void func_800E4198(s32 bankId, AudioBankData* mem, RelocInfo* relocInfo, s32 arg3) {
     AudioStruct0D68* item;
     AudioStruct0D68* item2;
     AudioBankSample* sample;

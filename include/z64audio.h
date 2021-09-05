@@ -837,14 +837,6 @@ typedef enum {
     /* 2 */ AUDIO_TABLE
 } AudioTableType;
 
-// This struct is parsed by hand by lots of manual pointer-casting, unclear whether it exists:
-// typedef struct {
-//     Drum** drums;
-//     AudioBankSound* sfx;
-//     Instrument* instruments[1];
-// } AudioBank;
-typedef u8 unk_ldr;
-
 typedef struct {
     /* 0x0000 */ char unk_0000;
     /* 0x0001 */ s8 numSynthesisReverbs;
