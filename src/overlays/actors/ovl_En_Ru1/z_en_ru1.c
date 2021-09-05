@@ -1069,7 +1069,7 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AED084(EnRu1* this, s32 state) {
-    if (this->blueWarp != NULL && this->blueWarp->unk_1EC == state) {
+    if (this->blueWarp != NULL && this->blueWarp->rutoWarpState == state) {
         return true;
     }
     return false;
@@ -1077,7 +1077,7 @@ s32 func_80AED084(EnRu1* this, s32 state) {
 
 void func_80AED0B0(EnRu1* this, s32 state) {
     if (this->blueWarp != NULL) {
-        this->blueWarp->unk_1EC = state;
+        this->blueWarp->rutoWarpState = state;
     }
 }
 
