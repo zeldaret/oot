@@ -7,21 +7,29 @@
 struct DoorWarp1;
 
 typedef enum {
-    WARP_BLUE_CRYSTAL = -2, // For spawning in at the destination scene from an adult dungeon warp
-    WARP_UNK_FFFF,          // ?
-    WARP_UNK_0,             // Normal
-    WARP_UNK_1,             // Nothing
-    WARP_UNK_2,             // Blue, Disappears
-    WARP_PURPLE_CRYSTAL,    // Purple Crystal (Zelda)
-    WARP_UNK_4,             // Yellow, Disappears
-    WARP_UNK_5,             // Blue, Does Nothing
-    WARP_UNK_6,             // Spawn in from child blue warp
-    WARP_UNK_7,             // Blue warp, warping anim
-    WARP_UNK_8,             // Tan, Disappears
-    WARP_UNK_9,             // Green, Disappears
-    WARP_UNK_A,             // Red, Disappears
-    WARP_UNK_B              // ?
+    WARP_BLUE_CRYSTAL = -2,
+    WARP_DUNGEON_ADULT,
+    WARP_DUNGEON_CHILD,
+    WARP_CLEAR_FLAG,        // Activate on temp clear flag
+    WARP_SAGES,             // Used by sages warping into chamber of sages during their cutscene
+    WARP_PURPLE_CRYSTAL,
+    WARP_YELLOW,            // The colored variants don't warp, they are cutscene setpieces
+    WARP_BLUE_RUTO,
+    WARP_DESTINATION,       // Spawning in after having taken a warp
+    WARP_UNK_7,
+    WARP_ORANGE,
+    WARP_GREEN,
+    WARP_RED
 } DoorWarp1Type;
+
+typedef enum {
+    WARP_BLUE_RUTO_STATE_INITIAL,   // initial, warp doesn't work yet
+    WARP_BLUE_RUTO_STATE_READY,     // set by ruto, warp can work now
+    WARP_BLUE_RUTO_STATE_ENTERED,   // set by warp, player has stepped into the warp
+    WARP_BLUE_RUTO_STATE_3,         // set by ruto, folding arms
+    WARP_BLUE_RUTO_STATE_TALKING,   // set by warp, dialog started
+    WARP_BLUE_RUTO_STATE_WARPING    // set by warp, after closing dialog
+} DoorWarp1RutoState;
 
 typedef void (*DoorWarp1ActionFunc)(struct DoorWarp1*, GlobalContext*);
 
@@ -29,11 +37,11 @@ typedef struct DoorWarp1 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ char unk_190[0x2];
-    /* 0x0192 */ u16 unk_192;
+    /* 0x0192 */ u16 warpTimer;
     /* 0x0194 */ f32 unk_194;
     /* 0x0198 */ f32 unk_198;
     /* 0x019C */ f32 unk_19C;
-    /* 0x01A0 */ f32 unk_1A0;
+    /* 0x01A0 */ f32 lightRayAlpha;
     /* 0x01A4 */ f32 warpAlpha;
     /* 0x01A8 */ f32 crystalAlpha;
     /* 0x01AC */ s16 scale;
@@ -45,11 +53,11 @@ typedef struct DoorWarp1 {
     /* 0x01BA */ u16 unk_1BA;
     /* 0x01BC */ f32 unk_1BC;
     /* 0x01C0 */ DoorWarp1ActionFunc actionFunc;
-    /* 0x01C4 */ LightNode* unk_1C4;
-    /* 0x01C8 */ LightInfo unk_1C8;
-    /* 0x01D8 */ LightNode* unk_1D8;
-    /* 0x01DC */ LightInfo unk_1DC;
-    /* 0x01EC */ s32 unk_1EC;
+    /* 0x01C4 */ LightNode* upperLight;
+    /* 0x01C8 */ LightInfo upperLightInfo;
+    /* 0x01D8 */ LightNode* lowerLight;
+    /* 0x01DC */ LightInfo lowerLightInfo;
+    /* 0x01EC */ s32 rutoWarpState; // for state communication with En_Ru1 using DoorWarp1RutoState values
 } DoorWarp1; // size = 0x01F0
 
 #endif

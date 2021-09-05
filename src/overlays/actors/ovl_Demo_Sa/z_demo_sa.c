@@ -6,6 +6,7 @@
 
 #include "z_demo_sa.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/object_sa/object_sa.h"
 
 #include "vt.h"
@@ -228,7 +229,7 @@ void func_8098E86C(DemoSa* this, GlobalContext* globalCtx) {
     f32 posY = world->y;
     f32 posZ = world->z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, WARP_SAGES);
 }
 
 void func_8098E8C8(DemoSa* this, GlobalContext* globalCtx) {

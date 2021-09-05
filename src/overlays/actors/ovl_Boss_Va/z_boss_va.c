@@ -630,7 +630,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     warpId = ACTOR_DOOR_WARP1;
                 }
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, warpId, this->actor.world.pos.x, this->actor.world.pos.y,
-                            this->actor.world.pos.z, 0, 0, 0, 0);
+                            this->actor.world.pos.z, 0, 0, 0, 0); //! params could be WARP_DUNGEON_CHILD however this can also spawn Ru1 
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 160.0f,
                             this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 sDoorState = 100;

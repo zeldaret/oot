@@ -786,7 +786,7 @@ void func_80B54F18(EnZl3* this, GlobalContext* globalCtx) {
         f32 posZ = this->actor.world.pos.z;
 
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
-                           0, 3);
+                           0, WARP_PURPLE_CRYSTAL);
         this->unk_2F8 = 1;
     }
 }
