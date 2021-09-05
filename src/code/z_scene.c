@@ -64,7 +64,7 @@ void Object_InitBank(GlobalContext* globalCtx, ObjectContext* objectCtx) {
     }
 
     osSyncPrintf(VT_FGCOL(GREEN));
-    // Translates to: "OBJECT EXCHANGE BANK DATA %8.3fKB"
+    // "Object exchange bank data %8.3fKB"
     osSyncPrintf("オブジェクト入れ替えバンク情報 %8.3fKB\n", spaceSize / 1024.0f);
     osSyncPrintf(VT_RST);
 
@@ -152,7 +152,7 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
 
     ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
-    // Translates to: "OBJECT EXCHANGE FREE SIZE=%08x"
+    // "Object exchange free size=%08x"
     osSyncPrintf("オブジェクト入れ替え空きサイズ=%08x\n", (s32)objectCtx->spaceEnd - (s32)nextPtr);
 
     return nextPtr;
@@ -174,8 +174,7 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
             gSceneCmdHandlers[cmdCode](globalCtx, sceneCmd);
         } else {
             osSyncPrintf(VT_FGCOL(RED));
-            // Translates to: "code VARIABLE IS ABNORMAL"
-            osSyncPrintf("code の値が異常です\n");
+            osSyncPrintf("code の値が異常です\n"); // "code variable is abnormal"
             osSyncPrintf(VT_RST);
         }
         sceneCmd++;
@@ -449,14 +448,14 @@ void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
             Scene_ExecuteCommands(globalCtx, SEGMENTED_TO_VIRTUAL(altHeader));
             (cmd + 1)->base.code = 0x14;
         } else {
-            // Translates to: "COUGHH! THERE IS NO SPECIFIED DATAAAAA!"
+            // "Coughh! There is no specified dataaaaa!"
             osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
 
             if (gSaveContext.sceneSetupIndex == 3) {
                 altHeader =
                     ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.segment))[gSaveContext.sceneSetupIndex - 2];
 
-                // Translates to: "USING ADULT DAY DATA THERE!"
+                // "Using adult day data there!"
                 osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");
 
                 if (altHeader != NULL) {

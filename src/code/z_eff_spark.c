@@ -11,8 +11,7 @@ void EffectSpark_Init(void* thisx, void* initParamsx) {
 
     if ((this != NULL) && (initParams != NULL)) {
         if ((initParams->uDiv == 0) || (initParams->vDiv == 0)) {
-            // Translates to: "u_div,v_div 0 is not good."
-            osSyncPrintf("spark():u_div,v_div 0では困る。\n");
+            osSyncPrintf("spark():u_div,v_div 0では困る。\n"); // "u_div,v_div 0 is not good."
             return;
         }
 
@@ -176,7 +175,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
         vertices = Graph_Alloc(gfxCtx, this->numElements * sizeof(Vtx[4]));
         if (vertices == NULL) {
-            // Translates to: "Memory Allocation Failure graph_malloc"
+            // "Memory Allocation Failure graph_malloc"
             osSyncPrintf("EffectSparkInfo_disp():メモリー確保失敗 graph_malloc\n");
             goto end;
         }

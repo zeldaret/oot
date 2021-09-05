@@ -244,7 +244,7 @@ s32 EnGoroiwa_GetAscendDirection(EnGoroiwa* this, GlobalContext* globalCtx) {
 
     if (nextPointPos->x == currentPointPos->x && nextPointPos->z == currentPointPos->z) {
         if (nextPointPos->y == currentPointPos->y) {
-            // Translation: Error: Invalid path data (points overlap)
+            // "Error: Invalid path data (points overlap)"
             osSyncPrintf("Error : レールデータ不正(点が重なっている)");
             osSyncPrintf("(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 559, this->actor.params);
         }
@@ -536,14 +536,14 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa_InitCollider(this, globalCtx);
     pathIdx = this->actor.params & 0xFF;
     if (pathIdx == 0xFF) {
-        // Translation: Error: Invalid arg_data
+        // "Error: Invalid arg_data"
         osSyncPrintf("Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 1033,
                      this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
     if (globalCtx->setupPathList[pathIdx].count < 2) {
-        // Translation: Error: Invalid Path Data
+        // "Error: Invalid Path Data"
         osSyncPrintf("Ｅｒｒｏｒ : レールデータ が不正(%s %d)\n", "../z_en_gr.c", 1043);
         Actor_Kill(&this->actor);
         return;
@@ -557,7 +557,7 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGoroiwa_InitRotation(this);
     EnGoroiwa_FaceNextWaypoint(this, globalCtx);
     EnGoroiwa_SetupRoll(this);
-    // Translation: (Goroiwa)
+    // "(Goroiwa)"
     osSyncPrintf("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params,
                  this->actor.params & 0xFF, (this->actor.params >> 8) & 3, (this->actor.params >> 10) & 1,
                  this->actor.home.rot.z & 1);
@@ -597,8 +597,7 @@ void EnGoroiwa_Roll(EnGoroiwa* this, GlobalContext* globalCtx) {
         }
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 0);
         osSyncPrintf(VT_FGCOL(CYAN));
-        // Translation: Player knocked down
-        osSyncPrintf("Player ぶっ飛ばし\n");
+        osSyncPrintf("Player ぶっ飛ばし\n"); // "Player knocked down"
         osSyncPrintf(VT_RST);
         onHitSetupFuncs[(this->actor.params >> 10) & 1](this);
         func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_PL_BODY_HIT);

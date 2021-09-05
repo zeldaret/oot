@@ -120,8 +120,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.dim.height = this->actor.world.rot.x * 0.13f;
         this->collider.dim.yShift = 0;
     } else if (this->actor.params == FHGFIRE_SPEAR_LIGHT) {
-        // "light spear"
-        osSyncPrintf("yari hikari ct 1\n");
+        osSyncPrintf("yari hikari ct 1\n"); // "light spear"
         EnFhgFire_SetUpdate(this, EnFhgFire_SpearLight);
         osSyncPrintf("yari hikari ct 2\n");
         this->work[FHGFIRE_TIMER] = this->actor.world.rot.x;

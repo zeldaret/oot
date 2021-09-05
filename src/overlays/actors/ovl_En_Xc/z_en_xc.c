@@ -2399,7 +2399,7 @@ void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
 
     if (this->drawMode < 0 || this->drawMode > 5 || sDrawFuncs[this->drawMode] == NULL) {
-        // "DRAW MODE IS ABNORMAL!!!!!!!!!!!!!!!!!!!!!!!!!"
+        // "Draw mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sDrawFuncs[this->drawMode](thisx, globalCtx);
