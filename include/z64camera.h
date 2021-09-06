@@ -191,6 +191,36 @@ typedef enum {
     /* 0x47 */ CAM_FUNC_MAX
 } CameraFuncType;
 
+typedef enum {
+    /* 0x00 */ CAM_DATA_Y_OFFSET,
+    /* 0x01 */ CAM_DATA_EYE_DIST,
+    /* 0x02 */ CAM_DATA_EYE_DIST_NEXT,
+    /* 0x03 */ CAM_DATA_PITCH_TARGET,
+    /* 0x04 */ CAM_DATA_YAW_UPDATE_RATE_TARGET,
+    /* 0x05 */ CAM_DATA_XZ_UPDATE_RATE_TARGET,
+    /* 0x06 */ CAM_DATA_MAX_YAW_UPDATE,
+    /* 0x07 */ CAM_DATA_FOV,
+    /* 0x08 */ CAM_DATA_AT_LERP_STEP_SCALE,
+    /* 0x09 */ CAM_DATA_FLAGS,
+    /* 0x0A */ CAM_DATA_YAW_TARGET,
+    /* 0x0B */ CAM_DATA_GROUND_Y_OFFSET,
+    /* 0x0C */ CAM_DATA_GROUND_AT_LERP_STEP_SCALE,
+    /* 0x0D */ CAM_DATA_SWING_YAW_INIT,
+    /* 0x0E */ CAM_DATA_SWING_YAW_FINAL,
+    /* 0x0F */ CAM_DATA_SWING_PITCH_INIT,
+    /* 0x10 */ CAM_DATA_SWING_PITCH_FINAL,
+    /* 0x11 */ CAM_DATA_SWING_PITCH_ADJ,
+    /* 0x12 */ CAM_DATA_MIN_MAX_DIST_FACTOR,
+    /* 0x13 */ CAM_DATA_AT_OFFSET_X,
+    /* 0x14 */ CAM_DATA_AT_OFFSET_Y,
+    /* 0x15 */ CAM_DATA_AT_OFFSET_Z,
+    /* 0x16 */ CAM_DATA_UNK_22,
+    /* 0x17 */ CAM_DATA_UNK_23,
+    /* 0x18 */ CAM_DATA_FOV_SCALE,
+    /* 0x19 */ CAM_DATA_YAW_SCALE,
+    /* 0x1A */ CAM_DATA_UNK_26
+} CameraDataType;
+
 typedef struct {
     /* 0x0000 */ Vec3f collisionClosePoint;
     /* 0x000C */ CollisionPoly* atEyePoly;
