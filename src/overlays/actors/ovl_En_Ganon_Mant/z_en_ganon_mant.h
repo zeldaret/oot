@@ -39,6 +39,4 @@ typedef struct EnGanonMant {
     /* 0x1706 */ u8 frameTimer;
 } EnGanonMant; // size = 0x1708
 
-extern const ActorInit En_Ganon_Mant_InitVars;
-
 #endif

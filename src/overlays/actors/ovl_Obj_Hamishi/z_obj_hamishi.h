@@ -17,6 +17,4 @@ typedef struct ObjHamishi {
     /* 0x01A6 */ s16 hitCount;
 } ObjHamishi; // size = 0x01A8
 
-extern const ActorInit Obj_Hamishi_InitVars;
-
 #endif

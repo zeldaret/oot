@@ -40,6 +40,4 @@ typedef struct EnZl2 {
     /* 0x027C */ f32 unk_27C;
 } EnZl2; // size = 0x0280
 
-extern const ActorInit En_Zl2_InitVars;
-
 #endif

@@ -35,6 +35,4 @@ typedef struct EnTite {
     /* 0x036C */ Vec3f backLeftFootPos;
 } EnTite; // size = 0x0378
 
-extern const ActorInit En_Tite_InitVars;
-
 #endif

@@ -15,6 +15,4 @@ typedef struct ItemBHeart {
     /* 0x0166 */ char unk_166[0x6];
 } ItemBHeart; // size = 0x016C
 
-extern const ActorInit Item_B_Heart_InitVars;
-
 #endif

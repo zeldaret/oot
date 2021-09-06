@@ -111,6 +111,4 @@ typedef enum {
     /* 5 */ STALFOS_TYPE_5
 } StalfosType;
 
-extern const ActorInit En_Test_InitVars;
-
 #endif

@@ -29,8 +29,6 @@ typedef struct EnExItem {
     /* 0x0180 */ EnExItemLightFunc unk_180;
 } EnExItem; // size = 0x0184
 
-extern const ActorInit En_Ex_Item_InitVars;
-
 typedef enum {
     /*  0 */ EXITEM_BOMB_BAG_BOWLING,
     /*  1 */ EXITEM_HEART_PIECE_BOWLING,

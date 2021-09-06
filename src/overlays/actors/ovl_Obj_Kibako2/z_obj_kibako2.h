@@ -15,6 +15,4 @@ typedef struct ObjKibako2 {
     /* 0x01B4 */ s16 collectibleFlag;
 } ObjKibako2; // size = 0x01B8
 
-extern const ActorInit Obj_Kibako2_InitVars;
-
 #endif

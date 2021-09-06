@@ -19,6 +19,4 @@ typedef struct BgPoEvent {
     /* 0x0190 */ ColliderTrisElement colliderItems[2];
 } BgPoEvent; // size = 0x0248
 
-extern const ActorInit Bg_Po_Event_InitVars;
-
 #endif

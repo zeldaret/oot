@@ -132,8 +132,7 @@ void func_808958F0(Vec3f* dest, Vec3f* src, f32 arg2, f32 arg3) {
     dest->z = (src->z * arg3) - (src->x * arg2);
 }
 
-void BgJyaCobra_InitDynapoly(BgJyaCobra* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                             DynaPolyMoveFlag flags) {
+void BgJyaCobra_InitDynapoly(BgJyaCobra* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -582,8 +581,6 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
     s16 params = this->dyna.actor.params & 3;
     Vec3f sp64;
     Vec3s* phi_a3;
-
-    if (1) {}
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 966);
 

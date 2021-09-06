@@ -58,7 +58,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     ShotSun* this = THIS;
     s32 params;
 
-    // Translation: Ocarina secret occurrence
+    // "Ocarina secret occurrence"
     osSyncPrintf("%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n", this->actor.params);
     params = this->actor.params & 0xFF;
     if (params == 0x40 || params == 0x41) {

@@ -20,6 +20,4 @@ typedef struct EnHintnuts {
     /* 0x0214 */ ColliderCylinder collider;
 } EnHintnuts; // size = 0x0260
 
-extern const ActorInit En_Hintnuts_InitVars;
-
 #endif

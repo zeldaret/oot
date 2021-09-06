@@ -41,6 +41,4 @@ typedef struct EnKanban {
 #define ENKANBAN_PIECE ((s16)0xFFDD)
 #define ENKANBAN_FISHING 0x300
 
-extern const ActorInit En_Kanban_InitVars;
-
 #endif

@@ -39,6 +39,4 @@ typedef struct EnBomBowlMan {
     /* 0x0260 */ EnExItem* exItem;
 } EnBomBowlMan; // size = 0x0264
 
-extern const ActorInit En_Bom_Bowl_Man_InitVars;
-
 #endif

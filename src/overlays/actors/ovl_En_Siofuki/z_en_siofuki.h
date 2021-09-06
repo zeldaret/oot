@@ -33,6 +33,4 @@ typedef struct EnSiofuki {
     /* 0x019C */ u8 sfxFlags;
 } EnSiofuki; // size = 0x01A0
 
-extern const ActorInit En_Siofuki_InitVars;
-
 #endif

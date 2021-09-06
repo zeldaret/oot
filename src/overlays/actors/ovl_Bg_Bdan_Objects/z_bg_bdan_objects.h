@@ -17,6 +17,4 @@ typedef struct BgBdanObjects {
     /* 0x01B8 */ s32 cameraSetting;
 } BgBdanObjects; // size = 0x01BC
 
-extern const ActorInit Bg_Bdan_Objects_InitVars;
-
 #endif

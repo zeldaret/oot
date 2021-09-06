@@ -23,6 +23,4 @@ typedef struct EnHorseLinkChild {
     /* 0x02A0 */ s32 unk_2A0;
 } EnHorseLinkChild; // size = 0x02A4
 
-extern const ActorInit En_Horse_Link_Child_InitVars;
-
 #endif

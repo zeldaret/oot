@@ -128,16 +128,7 @@ u8 sGfxPrintFontData[(16 * 256) / 2] = {
     0x00, 0xC1, 0xC2, 0x11, 0x00, 0x45, 0x0E, 0x27, 0x00, 0xD9, 0xC3, 0x00, 0x10, 0x07, 0xF8, 0x8D, 0x20, 0x01, 0x30,
     0x00, 0x10, 0xAC, 0x02, 0x25, 0xA0, 0x01, 0x22, 0x00, 0x10, 0x44, 0x20, 0x16, 0xA0, 0x13, 0x02, 0x00, 0x30, 0x04,
     0x1B, 0xAA, 0x40, 0x21, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-
 };
-
-#define gDPSetPrimColorMod(pkt, m, l, rgba)                                                    \
-    {                                                                                          \
-        Gfx* _g = (Gfx*)(pkt);                                                                 \
-                                                                                               \
-        _g->words.w0 = (_SHIFTL(G_SETPRIMCOLOR, 24, 8) | _SHIFTL(m, 8, 8) | _SHIFTL(l, 0, 8)); \
-        _g->words.w1 = (rgba);                                                                 \
-    }
 
 void GfxPrint_InitDlist(GfxPrint* this) {
     s32 width = 16;
@@ -160,7 +151,7 @@ void GfxPrint_InitDlist(GfxPrint* this) {
         gDPSetTileSize(this->dlist++, i * 2, 0, 0, 60, 1020);
     }
 
-    gDPSetPrimColorMod(this->dlist++, 0, 0, this->color.rgba);
+    gDPSetColor(this->dlist++, G_SETPRIMCOLOR, this->color.rgba);
 
     gDPLoadMultiTile_4b(this->dlist++, sGfxPrintUnkData, 0, 1, G_IM_FMT_CI, 2, 8, 0, 0, 1, 7, 4,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 1, 3, G_TX_NOLOD, G_TX_NOLOD);
@@ -180,7 +171,7 @@ void GfxPrint_SetColor(GfxPrint* this, u32 r, u32 g, u32 b, u32 a) {
     this->color.b = b;
     this->color.a = a;
     gDPPipeSync(this->dlist++);
-    gDPSetPrimColorMod(this->dlist++, 0, 0, this->color.rgba);
+    gDPSetColor(this->dlist++, G_SETPRIMCOLOR, this->color.rgba);
 }
 
 void GfxPrint_SetPosPx(GfxPrint* this, s32 x, s32 y) {
@@ -218,7 +209,7 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
     }
 
     if (this->flag & GFXPRINT_FLAG4) {
-        gDPSetPrimColorMod(this->dlist++, 0, 0, 0);
+        gDPSetColor(this->dlist++, G_SETPRIMCOLOR, 0);
 
         if (this->flag & GFXPRINT_FLAG64) {
             gSPTextureRectangle(this->dlist++, (this->posX + 4) << 1, (this->posY + 4) << 1, (this->posX + 4 + 32) << 1,
@@ -229,7 +220,7 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
                                 tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1 << 10, 1 << 10);
         }
 
-        gDPSetPrimColorMod(this->dlist++, 0, 0, this->color.rgba);
+        gDPSetColor(this->dlist++, G_SETPRIMCOLOR, this->color.rgba);
     }
 
     if (this->flag & GFXPRINT_FLAG64) {

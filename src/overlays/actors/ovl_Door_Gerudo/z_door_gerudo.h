@@ -15,6 +15,4 @@ typedef struct DoorGerudo {
     /* 0x0168 */ DoorGerudoActionFunc actionFunc;
 } DoorGerudo; // size = 0x016C
 
-extern const ActorInit Door_Gerudo_InitVars;
-
 #endif

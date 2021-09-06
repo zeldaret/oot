@@ -14,6 +14,4 @@ typedef struct BgJyaIronobj {
     /* 0x0168 */ ColliderCylinder colCylinder;
 } BgJyaIronobj; // size = 0x01B4
 
-extern const ActorInit Bg_Jya_Ironobj_InitVars;
-
 #endif
