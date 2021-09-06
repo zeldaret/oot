@@ -23,40 +23,40 @@ void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* 
 void* ZeldaArena_Malloc(u32 size) {
     void* ptr = __osMalloc(&sZeldaArena, size);
 
-    ZeldaArena_CheckPointer(ptr, size, "zelda_malloc", "確保"); // Secure
+    ZeldaArena_CheckPointer(ptr, size, "zelda_malloc", "確保"); // "Secure"
     return ptr;
 }
 
 void* ZeldaArena_MallocDebug(u32 size, const char* file, s32 line) {
     void* ptr = __osMallocDebug(&sZeldaArena, size, file, line);
 
-    ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_DEBUG", "確保"); // Secure
+    ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_DEBUG", "確保"); // "Secure"
     return ptr;
 }
 
 void* ZeldaArena_MallocR(u32 size) {
     void* ptr = __osMallocR(&sZeldaArena, size);
 
-    ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_r", "確保"); // Secure
+    ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_r", "確保"); // "Secure"
     return ptr;
 }
 
 void* ZeldaArena_MallocRDebug(u32 size, const char* file, s32 line) {
     void* ptr = __osMallocRDebug(&sZeldaArena, size, file, line);
 
-    ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_r_DEBUG", "確保"); // Secure
+    ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_r_DEBUG", "確保"); // "Secure"
     return ptr;
 }
 
 void* ZeldaArena_Realloc(void* ptr, u32 newSize) {
     ptr = __osRealloc(&sZeldaArena, ptr, newSize);
-    ZeldaArena_CheckPointer(ptr, newSize, "zelda_realloc", "再確保"); // Re-securing
+    ZeldaArena_CheckPointer(ptr, newSize, "zelda_realloc", "再確保"); // "Re-securing"
     return ptr;
 }
 
 void* ZeldaArena_ReallocDebug(void* ptr, u32 newSize, const char* file, s32 line) {
     ptr = __osReallocDebug(&sZeldaArena, ptr, newSize, file, line);
-    ZeldaArena_CheckPointer(ptr, newSize, "zelda_realloc_DEBUG", "再確保"); // Re-securing
+    ZeldaArena_CheckPointer(ptr, newSize, "zelda_realloc_DEBUG", "再確保"); // "Re-securing"
     return ptr;
 }
 
@@ -82,8 +82,7 @@ void* ZeldaArena_Calloc(u32 num, u32 size) {
 }
 
 void ZeldaArena_Display() {
-    // Zelda heap display
-    osSyncPrintf("ゼルダヒープ表示\n");
+    osSyncPrintf("ゼルダヒープ表示\n"); // "Zelda heap display"
     __osDisplayArena(&sZeldaArena);
 }
 

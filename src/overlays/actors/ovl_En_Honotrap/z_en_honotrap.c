@@ -364,7 +364,8 @@ void EnHonotrap_FlameMove(EnHonotrap* this, GlobalContext* globalCtx) {
     speed.x = fabsf(this->speedMod * this->actor.velocity.x);
     speed.y = fabsf(this->speedMod * this->actor.velocity.y);
     speed.z = fabsf(this->speedMod * this->actor.velocity.z);
-    ready = Math_StepToF(&this->actor.world.pos.x, this->targetPos.x, speed.x) & 1;
+    ready = true;
+    ready &= Math_StepToF(&this->actor.world.pos.x, this->targetPos.x, speed.x);
     ready &= Math_StepToF(&this->actor.world.pos.y, this->targetPos.y, speed.y);
     ready &= Math_StepToF(&this->actor.world.pos.z, this->targetPos.z, speed.z);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.0f, 10.0f, 0.0f, 0x1D);

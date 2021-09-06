@@ -406,8 +406,7 @@ void Graph_ThreadEntry(void* arg0) {
 
     nextOvl = &gGameStateOverlayTable[0];
 
-    // Start graphic thread execution
-    osSyncPrintf("グラフィックスレッド実行開始\n");
+    osSyncPrintf("グラフィックスレッド実行開始\n"); // "Start graphic thread execution"
     Graph_Init(&gfxCtx);
 
     while (nextOvl) {
@@ -415,14 +414,12 @@ void Graph_ThreadEntry(void* arg0) {
         Overlay_LoadGameState(ovl);
 
         size = ovl->instanceSize;
-        // Class size =%d bytes
-        osSyncPrintf("クラスサイズ＝%dバイト\n", size);
+        osSyncPrintf("クラスサイズ＝%dバイト\n", size); // "Class size = %d bytes"
 
         gameState = SystemArena_MallocDebug(size, "../graph.c", 1196);
 
         if (!gameState) {
-            // Failure to secure
-            osSyncPrintf("確保失敗\n");
+            osSyncPrintf("確保失敗\n"); // "Failure to secure"
 
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
             Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
@@ -439,8 +436,7 @@ void Graph_ThreadEntry(void* arg0) {
         Overlay_FreeGameState(ovl);
     }
     Graph_Destroy(&gfxCtx);
-    // End of graphic thread execution
-    osSyncPrintf("グラフィックスレッド実行終了\n");
+    osSyncPrintf("グラフィックスレッド実行終了\n"); // "End of graphic thread execution"
 }
 
 void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size) {

@@ -1,8 +1,8 @@
 #ifndef _Z64CAMERA_H_
 #define _Z64CAMERA_H_
 
-#include <ultra64.h>
-#include <z64cutscene.h>
+#include "ultra64.h"
+#include "z64cutscene.h"
 
 #define CAM_STAT_CUT        0
 #define CAM_STAT_WAIT       1
