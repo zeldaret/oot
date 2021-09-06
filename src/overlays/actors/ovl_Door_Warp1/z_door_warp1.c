@@ -916,8 +916,6 @@ void DoorWarp1_DrawPurpleCrystal(DoorWarp1* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 }
 
-#ifdef NON_MATCHING
-// Regalloc, small reorderings near the end of the first switch
 void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
     s32 pad;
     u32 pad1;
@@ -941,23 +939,23 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case WARP_YELLOW:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->warpAlpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, (u8)this->warpAlpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 255);
             break;
         case WARP_ORANGE:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->warpAlpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, (u8)this->warpAlpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 150, 0, 255);
             break;
         case WARP_GREEN:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->warpAlpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, (u8)this->warpAlpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 200, 0, 255);
             break;
         case WARP_RED:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->warpAlpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, (u8)this->warpAlpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 0, 255);
             break;
         default:
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255 * temp_f0, 255, 255, this->warpAlpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255 * temp_f0, 255, 255, (u8)this->warpAlpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255 * temp_f0, 255, 255);
             break;
     }
@@ -983,23 +981,23 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
     if (this->lightRayAlpha > 0.0f) {
         switch (this->actor.params) {
             case WARP_YELLOW:
-                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->warpAlpha);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, (u8)this->warpAlpha);
                 gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 255);
                 break;
             case WARP_ORANGE:
-                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->warpAlpha);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, (u8)this->warpAlpha);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 150, 0, 255);
                 break;
             case WARP_GREEN:
-                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->warpAlpha);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, (u8)this->warpAlpha);
                 gDPSetEnvColor(POLY_XLU_DISP++, 0, 200, 0, 255);
                 break;
             case WARP_RED:
-                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->warpAlpha);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, (u8)this->warpAlpha);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 0, 255);
                 break;
             default:
-                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255 * temp_f0, 255, 255, this->lightRayAlpha);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255 * temp_f0, 255, 255, (u8)this->lightRayAlpha);
                 gDPSetEnvColor(POLY_XLU_DISP++, 0, 255 * temp_f0, 255, 255);
                 break;
         }
@@ -1020,9 +1018,6 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2340);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_DrawWarp.s")
-#endif
 
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DoorWarp1* this = THIS;
