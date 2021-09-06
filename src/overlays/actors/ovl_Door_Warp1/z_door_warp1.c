@@ -930,10 +930,10 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
     temp_f0 = 1.0f - (2.0f - this->unk_194) / 1.7f;
     if (this->actor.params != WARP_YELLOW && this->actor.params != WARP_DESTINATION && this->actor.params != WARP_ORANGE &&
         this->actor.params != WARP_GREEN && this->actor.params != WARP_RED) {
-        this->unk_19C += (s16)(15.0f * temp_f0);
+        this->unk_19C += (s16)(temp_f0 * 15.0f);
     }
     if (this->actor.params == WARP_DESTINATION) {
-        this->unk_19C -= (s16)(2.0f * temp_f0);
+        this->unk_19C -= (s16)(temp_f0 * 2.0f);
     }
     func_80093D84(globalCtx->state.gfxCtx);
 
