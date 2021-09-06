@@ -10,8 +10,8 @@ void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void DoorWarp1_ActivateWarp(DoorWarp1* this, GlobalContext* globalCtx);
-void DoorWarp1_WarpIn(DoorWarp1* this, GlobalContext* globalCtx);
+void DoorWarp1_WarpAppear(DoorWarp1* this, GlobalContext* globalCtx);
+void DoorWarp1_Destination(DoorWarp1* this, GlobalContext* globalCtx);
 void func_8099B020(DoorWarp1* this, GlobalContext* globalCtx);
 void DoorWarp1_AwaitClearFlag(DoorWarp1* this, GlobalContext* globalCtx);
 void func_8099A3A4(DoorWarp1* this, GlobalContext* globalCtx);
@@ -175,13 +175,13 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, GlobalContext* globalCtx) {
             if (Actor_WorldDistXZToActor(&player->actor, &this->actor) > 100.0f) {
                 Actor_Kill(&this->actor);
             }
-            DoorWarp1_SetupAction(this, DoorWarp1_WarpIn);
+            DoorWarp1_SetupAction(this, DoorWarp1_Destination);
             break;
         case WARP_UNK_7:
             DoorWarp1_SetupAction(this, func_8099B020);
             break;
         default:
-            DoorWarp1_SetupAction(this, DoorWarp1_ActivateWarp);
+            DoorWarp1_SetupAction(this, DoorWarp1_WarpAppear);
             break;
     }
 }
@@ -396,12 +396,12 @@ void func_809995D4(DoorWarp1* this, GlobalContext* globalCtx) {
                                   this->actor.world.pos.z, 200, 255, 255, 255);
         Lights_PointNoGlowSetInfo(&this->lowerLightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                                   this->actor.world.pos.z, 200, 255, 255, 255);
-        DoorWarp1_SetupAction(this, DoorWarp1_ActivateWarp);
+        DoorWarp1_SetupAction(this, DoorWarp1_WarpAppear);
     }
     this->warpTimer--;
 }
 
-void DoorWarp1_ActivateWarp(DoorWarp1* this, GlobalContext* globalCtx) {
+void DoorWarp1_WarpAppear(DoorWarp1* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     Math_SmoothStepToF(&this->lightRayAlpha, 255.0f, 0.4f, 10.0f, 0.01f);
     Math_SmoothStepToF(&this->warpAlpha, 255.0f, 0.4f, 10.0f, 0.01f);
@@ -828,7 +828,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-void DoorWarp1_WarpIn(DoorWarp1* this, GlobalContext* globalCtx) {
+void DoorWarp1_Destination(DoorWarp1* this, GlobalContext* globalCtx) {
     f32 alphaFrac;
 
     this->warpTimer++;
@@ -930,10 +930,10 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
     temp_f0 = 1.0f - (2.0f - this->unk_194) / 1.7f;
     if (this->actor.params != WARP_YELLOW && this->actor.params != WARP_DESTINATION && this->actor.params != WARP_ORANGE &&
         this->actor.params != WARP_GREEN && this->actor.params != WARP_RED) {
-        this->unk_19C += (s16)(temp_f0 * 15.0f);
+        this->unk_19C += (s16)(15.0f * temp_f0);
     }
     if (this->actor.params == WARP_DESTINATION) {
-        this->unk_19C -= (s16)(temp_f0 + temp_f0);
+        this->unk_19C -= (s16)(2.0f * temp_f0);
     }
     func_80093D84(globalCtx->state.gfxCtx);
 
