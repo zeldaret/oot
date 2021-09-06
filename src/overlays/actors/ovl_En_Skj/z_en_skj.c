@@ -1618,7 +1618,7 @@ void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if ((limbIndex == 11) && (gSaveContext.itemGetInf[3] & 0x200)) {
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Push();
-        Matrix_RotateRPY(-0x4000, 0, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_skj.c", 2430),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gSKJskullMaskDL);

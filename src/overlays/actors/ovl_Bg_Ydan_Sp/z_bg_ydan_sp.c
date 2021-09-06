@@ -441,7 +441,7 @@ void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         for (i = 0; i < 8; i++) {
             Matrix_Put(&mtxF);
-            Matrix_RotateRPY(-0x5A0, i * 0x2000, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(-0x5A0, i * 0x2000, 0, MTXMODE_APPLY);
             Matrix_Translate(0.0f, 700.0f, -900.0f, MTXMODE_APPLY);
             Matrix_Scale(3.5f, 5.0f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 830),

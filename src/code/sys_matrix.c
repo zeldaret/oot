@@ -293,12 +293,12 @@ void Matrix_RotateZ(f32 z, u8 mode) {
 }
 
 /**
- * Rotates the top of the matrix stack by `z` degrees, then
- * rotates that matrix by `y` degrees, then rotates that matrix
- * by `x` degrees. (roll-pitch-yaw)
+ * Rotate using ZYX Tait-Bryan angles.
+ * This means a (column) vector is first rotated around X, then around Y, then around Z, then (if `mode` is
+ * `MTXMODE_APPLY`) gets transformed according to whatever the matrix was before adding the ZYX rotation.
  * Original Name: Matrix_RotateXYZ, changed to reflect rotation order.
  */
-void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
+void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp1;
     f32 temp2;
@@ -379,7 +379,7 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
             cmf->wz = temp2 * cos - temp1 * sin;
         }
     } else {
-        SkinMatrix_SetRotateRPY(cmf, x, y, z);
+        SkinMatrix_SetRotateZYX(cmf, x, y, z);
     }
 }
 

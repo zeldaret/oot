@@ -248,7 +248,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             Matrix_Translate(1999.0f, 1278.0f, -1821.0f, MTXMODE_NEW);
         }
-        Matrix_RotateRPY(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 652),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
