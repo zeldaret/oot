@@ -35,6 +35,4 @@ typedef enum {
     /* 1 */ LEEVER_BIG
 } LeeverParam;
 
-extern const ActorInit En_Reeba_InitVars;
-
 #endif

@@ -1658,7 +1658,7 @@ void Kankyo_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxC
     f32 temp2;
     Vec3f unused = { 0.0f, 0.0f, 0.0f };
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if (!(globalCtx->cameraPtrs[0]->unk_14C & 0x100) && (globalCtx->envCtx.unk_EE[2] == 0)) {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
@@ -2045,7 +2045,7 @@ void func_800758AC(GlobalContext* globalCtx) {
     osSyncPrintf("\n     エンブ=[%d]", globalCtx->soundCtx.nightSeqIndex);
     osSyncPrintf("\n     status=[%d]", globalCtx->envCtx.unk_E0);
 
-    func_800F66C0(globalCtx->roomCtx.curRoom.echo);
+    Audio_SetEnvReverb(globalCtx->roomCtx.curRoom.echo);
 }
 
 // updates bgm/sfx and other things as the day progresses
@@ -2136,7 +2136,7 @@ void Kankyo_DrawCustomLensFlare(GlobalContext* globalCtx) {
 
 void Kankyo_InitGameOverLights(GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     sGameOverLightsRGB = 0;
 
@@ -2152,7 +2152,7 @@ void Kankyo_InitGameOverLights(GlobalContext* globalCtx) {
 }
 
 void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 i;
 
     Lights_PointNoGlowSetInfo(&sNGameOverLightInfo, (s16)player->actor.world.pos.x - 10.0f,
@@ -2192,7 +2192,7 @@ void Kankyo_FadeInGameOverLights(GlobalContext* globalCtx) {
 }
 
 void Kankyo_FadeOutGameOverLights(GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s16 i;
 
     if (sGameOverLightsRGB >= 3) {

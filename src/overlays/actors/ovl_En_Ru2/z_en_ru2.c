@@ -251,7 +251,7 @@ void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 posX = player->actor.world.pos.x;
     f32 posY = player->actor.world.pos.y + 50.0f;
     f32 posZ = player->actor.world.pos.z;
@@ -266,7 +266,7 @@ void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx) {
     s16 temp;
 
     if ((gSaveContext.chamberCutsceneNum == 2) && (gSaveContext.sceneSetupIndex < 4)) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
         this->action = 1;
         globalCtx->csCtx.segment = &D_80AF411C;
         gSaveContext.cutsceneTrigger = 2;
@@ -620,7 +620,7 @@ void func_80AF37CC(EnRu2* this) {
 }
 
 s32 func_80AF383C(EnRu2* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 thisPosX = this->actor.world.pos.x;
     f32 playerPosX = player->actor.world.pos.x;
 
@@ -672,10 +672,10 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
             osSyncPrintf("おれが小松だ！ \n");
             this->unk_2C2++;
             if (this->unk_2C2 % 6 == 3) {
-                player = PLAYER;
+                player = GET_PLAYER(globalCtx);
                 // uorya-! (screeming sound)
                 osSyncPrintf("うおりゃー！ \n");
-                func_8005B1A4(ACTIVE_CAM);
+                func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
                 player->actor.world.pos.x = 820.0f;
                 player->actor.world.pos.y = 0.0f;
                 player->actor.world.pos.z = 180.0f;
@@ -686,7 +686,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C3 = dialogState;
     if (func_8010BDBC(msgCtx) == 2) {
         this->action = 18;
-        func_8005B1A4(ACTIVE_CAM);
+        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
     }
 }
 

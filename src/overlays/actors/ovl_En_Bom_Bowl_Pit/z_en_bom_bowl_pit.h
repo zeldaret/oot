@@ -35,6 +35,4 @@ typedef struct EnBomBowlPit {
     /* 0x01E4 */ char unk_1E4[0x3520];
 } EnBomBowlPit; // size = 0x3704
 
-extern const ActorInit En_Bom_Bowl_Pit_InitVars;
-
 #endif

@@ -26,6 +26,4 @@ typedef enum BgMizuShutterSize {
     BGMIZUSHUTTER_LARGE
 } BgMizuShutterSize;
 
-extern const ActorInit Bg_Mizu_Shutter_InitVars;
-
 #endif

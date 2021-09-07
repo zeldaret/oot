@@ -34,12 +34,12 @@ void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.params & 0x6000) == 0x4000) {
         osSyncPrintf(VT_FGCOL(BLUE));
-        // Translation: Gold Star Enemy(arg_data %x)
+        // "Gold Star Enemy(arg_data %x)"
         osSyncPrintf("金スタ発生敵(arg_data %x)\n", this->actor.params);
         osSyncPrintf(VT_RST);
     } else {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // Translation: Invalid Argument (arg_data %x)(%s %d)
+        // "Invalid Argument (arg_data %x)(%s %d)"
         osSyncPrintf("引数不正 (arg_data %x)(%s %d)\n", this->actor.params, "../z_obj_makekinsuta.c", 119);
         osSyncPrintf(VT_RST);
     }
@@ -48,7 +48,7 @@ void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx) {
     if (this->unk_152 != 0) {
-        if (this->timer >= 60 && !func_8002DEEC(PLAYER)) {
+        if (this->timer >= 60 && !func_8002DEEC(GET_PLAYER(globalCtx))) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, this->actor.world.pos.x, this->actor.world.pos.y,
                         this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0, (this->actor.params | 0x8000));
             this->actionFunc = ObjMakekinsuta_DoNothing;

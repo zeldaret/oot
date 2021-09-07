@@ -167,7 +167,7 @@ void EnFish_SetYOffset(EnFish* this) {
 
 s32 EnFish_InBottleRange(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     Vec3f sp1C;
 
     if (this->actor.xzDistToPlayer < 32.0f) {
@@ -321,7 +321,7 @@ void EnFish_Respawning_SetupApproachPlayer(EnFish* this) {
 
 void EnFish_Respawning_ApproachPlayer(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad2;
     Vec3f sp38;
     s16 yaw;

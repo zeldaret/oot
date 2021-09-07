@@ -49,6 +49,4 @@ typedef struct EnTk {
     /* 0x0310 */ EnTkEff    eff[20];
 } EnTk; // size = 0x0770
 
-extern const ActorInit En_Tk_InitVars;
-
 #endif

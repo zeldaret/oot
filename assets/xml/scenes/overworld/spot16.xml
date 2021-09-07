@@ -2,8 +2,10 @@
     <File Name="spot16_scene" Segment="2">
         <Cutscene Name="gDmtOwlCs" Offset="0x1E6A0"/>
         <Scene Name="spot16_scene" Offset="0x0"/>
+        <Texture Name="spot16_scene_Tex_01AE98" Format="i4" Width="64" Height="64" Offset="0x1AE98"/>
     </File>
     <File Name="spot16_room_0" Segment="3">
         <Room Name="spot16_room_0" Offset="0x0"/>
+        <DList Name="spot16_room_0DL_00AA48" Offset="0xAA48"/>
     </File>
 </Root>

@@ -44,6 +44,4 @@ typedef struct EnPeehat {
     /* 0x03AC */ ColliderQuad colQuad;
 } EnPeehat; // size = 0x042C
 
-extern const ActorInit En_Peehat_InitVars;
-
 #endif

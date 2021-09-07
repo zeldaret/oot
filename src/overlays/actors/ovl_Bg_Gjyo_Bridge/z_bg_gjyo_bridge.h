@@ -13,6 +13,4 @@ typedef struct BgGjyoBridge {
     /* 0x0164 */ BgGjyoBridgeActionFunc actionFunc;
 } BgGjyoBridge; // size = 0x0168
 
-extern const ActorInit Bg_Gjyo_Bridge_InitVars;
-
 #endif

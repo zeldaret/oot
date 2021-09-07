@@ -30,7 +30,7 @@ glabel D_8016C820
 glabel D_8016C8B0
     .space 0xF0
 
-glabel D_8016C9A0
+glabel sSoundRequests
     .space 0x1800
 
 glabel D_8016E1A0
@@ -48,19 +48,19 @@ glabel D_8016E1B8
 glabel D_8016E260
     .space 0x4
 
-glabel D_8016E264
+glabel gSoundBankMuted
     .space 0xC
 
 glabel D_8016E270
     .space 0x70
 
-glabel D_8016E2E0
+glabel gAudioSEFlagSwapSource
     .space 0x18
 
-glabel D_8016E2F8
+glabel gAudioSEFlagSwapTarget
     .space 0x18
 
-glabel D_8016E310
+glabel gAudioSEFlagSwapMode
     .space 0x10
 
 glabel D_8016E320

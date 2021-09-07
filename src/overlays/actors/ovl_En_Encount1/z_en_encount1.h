@@ -37,6 +37,4 @@ typedef enum {
     /* 3 */ SPAWNER_WOLFOS
 } EnEncount1type;
 
-extern const ActorInit En_Encount1_InitVars;
-
 #endif

@@ -29,7 +29,7 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     parameterSize = (u32)_parameter_staticSegmentRomEnd - (u32)_parameter_staticSegmentRomStart;
 
-    // Translates to: "Permanent PARAMETER Segment = %x"
+    // "Permanent PARAMETER Segment = %x"
     osSyncPrintf("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
 
     interfaceCtx->parameterSegment = GameState_Alloc(&globalCtx->state, parameterSize, "../z_construct.c", 159);
@@ -42,8 +42,7 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     interfaceCtx->doActionSegment = GameState_Alloc(&globalCtx->state, 0x480, "../z_construct.c", 166);
 
-    // Translates to: "DO Action Texture Initialization"
-    osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480);
+    osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480); // "DO Action Texture Initialization"
     osSyncPrintf("parameter->do_actionSegment=%x\n", interfaceCtx->doActionSegment);
 
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
@@ -72,7 +71,7 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     interfaceCtx->iconItemSegment = GameState_Alloc(&globalCtx->state, 0x4000, "../z_construct.c", 190);
 
-    // Translates to: "Icon Item Texture Initialization = %x"
+    // "Icon Item Texture Initialization = %x"
     osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 0x4000);
     osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
 
@@ -141,12 +140,11 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     if ((gSaveContext.timer1State >= 11) && (gSaveContext.timer1State < 16)) {
         gSaveContext.timer1State = 0;
-        // Translates to: "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
+        // "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timer1State);
     }
 
-    // Translates to: "Parameter Area = %x"
-    osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300);
+    osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300); // "Parameter Area = %x"
 
     HealthMeter_Init(globalCtx);
     Map_Init(globalCtx);
@@ -185,8 +183,7 @@ void func_80110F68(GlobalContext* globalCtx) {
 
     osSyncPrintf("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
 
-    // Translates to: "Textbox game_alloc=%x"
-    osSyncPrintf("吹き出しgame_alloc=%x\n", 0x2200);
+    osSyncPrintf("吹き出しgame_alloc=%x\n", 0x2200); // "Textbox game_alloc=%x"
     ASSERT(msgCtx->textboxSegment != NULL, "message->fukidashiSegment != NULL", "../z_construct.c", 352);
 
     Font_LoadOrderedFont(&globalCtx->msgCtx.font);

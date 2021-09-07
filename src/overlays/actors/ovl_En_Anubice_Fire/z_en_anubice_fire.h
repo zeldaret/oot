@@ -21,6 +21,4 @@ typedef struct EnAnubiceFire {
     /* 0x01A8 */ ColliderCylinder cylinder;
 } EnAnubiceFire; // size = 0x01F4
 
-extern const ActorInit En_Anubice_Fire_InitVars;
-
 #endif

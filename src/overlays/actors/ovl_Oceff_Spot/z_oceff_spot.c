@@ -67,7 +67,7 @@ void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
 void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     OceffSpot* this = THIS;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode1);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode2);
@@ -120,7 +120,7 @@ void OceffSpot_GrowCylinder(OceffSpot* this, GlobalContext* globalCtx) {
 void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffSpot* this = THIS;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 temp;
 
     temp = (1.0f - cosf(this->unk_174 * M_PI)) * 0.5f;

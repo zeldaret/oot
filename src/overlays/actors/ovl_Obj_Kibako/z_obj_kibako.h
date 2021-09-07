@@ -14,6 +14,4 @@ typedef struct ObjKibako {
     /* 0x0150 */ ColliderCylinder collider;
 } ObjKibako; // size = 0x019C
 
-extern const ActorInit Obj_Kibako_InitVars;
-
 #endif

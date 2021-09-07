@@ -22,6 +22,4 @@ typedef struct EnWonderTalk {
     /* 0x0164 */ u8  unk_164;
 } EnWonderTalk; // size = 0x0168
 
-extern const ActorInit En_Wonder_Talk_InitVars;
-
 #endif

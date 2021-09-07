@@ -122,7 +122,7 @@ void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
 
 void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
     s16 phi_v1_2;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     f32 distToBurn;
     BossDodongo* bossDodongo;
     s16 i;

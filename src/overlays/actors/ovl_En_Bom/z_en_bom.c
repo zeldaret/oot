@@ -206,7 +206,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 0) {
-        player = PLAYER;
+        player = GET_PLAYER(globalCtx);
 
         if ((player->stateFlags1 & 0x800) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;

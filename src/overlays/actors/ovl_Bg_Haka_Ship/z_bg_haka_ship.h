@@ -17,6 +17,4 @@ typedef struct BgHakaShip {
     /* 0x016C */ Vec3f bellSoundPos;
 } BgHakaShip; // size = 0x0178
 
-extern const ActorInit Bg_Haka_Ship_InitVars;
-
 #endif

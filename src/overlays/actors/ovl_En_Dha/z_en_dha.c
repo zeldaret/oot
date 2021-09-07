@@ -194,7 +194,7 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f armPosMultiplier1 = { 0.0f, 0.0f, 55.0f };
     Vec3f armPosMultiplier2 = { 0.0f, 0.0f, -54.0f };
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
     s32 pad2;
     Vec3f playerPos = player->actor.world.pos;
@@ -303,7 +303,7 @@ void EnDha_SetupTakeDamage(EnDha* this) {
 }
 
 void EnDha_TakeDamage(EnDha* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~0x80;
@@ -341,7 +341,7 @@ void EnDha_SetupDeath(EnDha* this) {
 void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     s16 angle;
     Vec3f vec;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~0x80;

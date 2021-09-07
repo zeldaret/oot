@@ -152,7 +152,7 @@ void func_80AACCA0(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
@@ -214,7 +214,7 @@ void func_80AAD014(EnMk* this, GlobalContext* globalCtx) {
 void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
     s16 angle;
     s32 swimFlag;
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 playerExchangeItem;
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {
@@ -306,7 +306,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->headRotation.y, 0, 6, 6200, 100);
     }
 
-    player = PLAYER;
+    player = GET_PLAYER(globalCtx);
 
     if (this->flags & 8) {
         if (!(player->stateFlags2 & 0x400)) {

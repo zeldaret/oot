@@ -17,6 +17,4 @@ typedef struct BossGanon {
     /* 0x071A */ char unk_71A[0x2];
 } BossGanon; // size = 0x071C
 
-extern const ActorInit Boss_Ganon_InitVars;
-
 #endif

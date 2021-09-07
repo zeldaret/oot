@@ -68,6 +68,4 @@ typedef struct EnZl3 {
     /* 0x03F8 */ struct_80034A14_arg1 unk_3F8;
 } EnZl3; // size = 0x0420
 
-extern const ActorInit En_Zl3_InitVars;
-
 #endif

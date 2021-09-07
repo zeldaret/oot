@@ -90,20 +90,20 @@ s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
     this->unk_37C.z = this->unk_37C.z * (1.0f / temp_f0);
     this->unk_364 = sp44;
     this->unk_3D8.xx = this->unk_370.x;
-    this->unk_3D8.xy = this->unk_370.y;
-    this->unk_3D8.xz = this->unk_370.z;
-    this->unk_3D8.xw = 0.0f;
-    this->unk_3D8.yx = this->unk_364.x;
-    this->unk_3D8.yy = this->unk_364.y;
-    this->unk_3D8.yz = this->unk_364.z;
-    this->unk_3D8.yw = 0.0f;
-    this->unk_3D8.zx = this->unk_37C.x;
-    this->unk_3D8.zy = this->unk_37C.y;
-    this->unk_3D8.zz = this->unk_37C.z;
-    this->unk_3D8.zw = 0.0f;
+    this->unk_3D8.yx = this->unk_370.y;
+    this->unk_3D8.zx = this->unk_370.z;
     this->unk_3D8.wx = 0.0f;
+    this->unk_3D8.xy = this->unk_364.x;
+    this->unk_3D8.yy = this->unk_364.y;
+    this->unk_3D8.zy = this->unk_364.z;
     this->unk_3D8.wy = 0.0f;
+    this->unk_3D8.xz = this->unk_37C.x;
+    this->unk_3D8.yz = this->unk_37C.y;
+    this->unk_3D8.zz = this->unk_37C.z;
     this->unk_3D8.wz = 0.0f;
+    this->unk_3D8.xw = 0.0f;
+    this->unk_3D8.yw = 0.0f;
+    this->unk_3D8.zw = 0.0f;
     this->unk_3D8.ww = 1.0f;
     Matrix_MtxFToYXZRotS(&this->unk_3D8, &this->actor.world.rot, 0);
     //! @bug: Does not return.
@@ -405,20 +405,20 @@ s32 func_80B0CCF4(EnSw* this, f32* arg1) {
     this->unk_37C.y *= temp_f0;
     this->unk_37C.z *= temp_f0;
     sp2C.xx = this->unk_370.x;
-    sp2C.xy = this->unk_370.y;
-    sp2C.xz = this->unk_370.z;
-    sp2C.xw = 0.0f;
-    sp2C.yx = this->unk_364.x;
-    sp2C.yy = this->unk_364.y;
-    sp2C.yz = this->unk_364.z;
-    sp2C.yw = 0.0f;
-    sp2C.zx = this->unk_37C.x;
-    sp2C.zy = this->unk_37C.y;
-    sp2C.zz = this->unk_37C.z;
-    sp2C.zw = 0.0f;
+    sp2C.yx = this->unk_370.y;
+    sp2C.zx = this->unk_370.z;
     sp2C.wx = 0.0f;
+    sp2C.xy = this->unk_364.x;
+    sp2C.yy = this->unk_364.y;
+    sp2C.zy = this->unk_364.z;
     sp2C.wy = 0.0f;
+    sp2C.xz = this->unk_37C.x;
+    sp2C.yz = this->unk_37C.y;
+    sp2C.zz = this->unk_37C.z;
     sp2C.wz = 0.0f;
+    sp2C.xw = 0.0f;
+    sp2C.yw = 0.0f;
+    sp2C.zw = 0.0f;
     sp2C.ww = 1.0f;
     Matrix_MtxFToYXZRotS(&sp2C, &this->actor.world.rot, 0);
     return true;
@@ -426,7 +426,7 @@ s32 func_80B0CCF4(EnSw* this, f32* arg1) {
 
 void func_80B0CEA8(EnSw* this, GlobalContext* globalCtx) {
     if (!(this->actor.scale.x < 0.0139999995f)) {
-        Camera* activeCam = ACTIVE_CAM;
+        Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
 
         if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) >= 380.0f)) {
             Audio_PlayActorSound2(&this->actor, ((this->actor.params & 0xE000) >> 0xD) > 0 ? NA_SE_EN_STALGOLD_ROLL
@@ -682,7 +682,7 @@ s16 func_80B0DE34(EnSw* this, Vec3f* arg1) {
 }
 
 s32 func_80B0DEA8(EnSw* this, GlobalContext* globalCtx, s32 arg2) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     CollisionPoly* sp58;
     s32 sp54;
     Vec3f sp48;
@@ -790,7 +790,7 @@ s32 func_80B0E430(EnSw* this, f32 arg1, s16 arg2, s32 arg3, GlobalContext* globa
         return 0;
     }
 
-    activeCam = ACTIVE_CAM;
+    activeCam = GET_ACTIVE_CAM(globalCtx);
 
     if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) < 380.0f) {
         if (DECR(this->unk_440) == 0) {
@@ -827,7 +827,7 @@ void func_80B0E5E0(EnSw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B0E728(EnSw* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
+    Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
     if (DECR(this->unk_442) != 0) {

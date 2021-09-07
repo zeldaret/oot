@@ -6,6 +6,4 @@
 
 // Uses the Player struct (from z64player.h)
 
-extern const ActorInit En_Torch2_InitVars;
-
 #endif

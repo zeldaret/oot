@@ -19,6 +19,4 @@ typedef struct BgJyaGoroiwa {
     /* 0x01B8 */ f32 yOffsetSpeed;
 } BgJyaGoroiwa; // size = 0x01BC
 
-extern const ActorInit Bg_Jya_Goroiwa_InitVars;
-
 #endif

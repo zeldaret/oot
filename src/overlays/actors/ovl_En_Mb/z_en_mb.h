@@ -50,6 +50,4 @@ typedef struct EnMb {
     /* 0x0454 */ ColliderTrisElement frontShieldingTris[2];
 } EnMb; // size = 0x050C
 
-extern const ActorInit En_Mb_InitVars;
-
 #endif
