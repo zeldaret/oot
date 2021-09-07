@@ -556,7 +556,6 @@ s32 DbgCamera_Enable(DbCamera* this, Camera* cam) {
     return func_800B4088(this, cam);
 }
 
-
 // asm line 415c: s0 s1 line swap
 // Everything else is down to t-registers
 #ifdef NON_MATCHING
@@ -567,10 +566,10 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     static s32 D_80161144; // bool
     Vec3f* sp124;
     f32 temp_f0_5; //
-    s16 yaw; //
+    s16 yaw;       //
     f32 pad;
     f32 temp_f2; //
-    s16 pitch; //
+    s16 pitch;   //
     s8 sp111;
     s8 sp110;
     f32 temp_f2_2; //
@@ -578,15 +577,15 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     VecSph spFC;
     VecSph spF4;
     PosRot* temp_s6; //
-    Vec3f* eye; //
-    Vec3f* at; //
-    Vec3f* phi_s0; //
+    Vec3f* eye;      //
+    Vec3f* at;       //
+    Vec3f* phi_s0;   //
     Vec3f spD8;
     s32 new_var; //
     Vec3f* sp90; //
     Vec3f* sp80; //
     Vec3f* sp7C; //
-    s32 i; //
+    s32 i;       //
     Vec3f spB8;
     Vec3f spAC;
     s16 spAA;
@@ -977,8 +976,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         // )
 
         OLib_Vec3fDiffToVecSphGeo(&spF4, sp80, sp7C);
-        DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, spF4.pitch, spF4.yaw,
-                                        DEGF_TO_BINANG(dbCamera->rollDegrees));
+        DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, spF4.pitch, spF4.yaw, DEGF_TO_BINANG(dbCamera->rollDegrees));
         if (dbCamera->unk_00 == 1) {
             if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_CRIGHT)) {
                 cam->inputDir = dbCamera->sub.unk_104A;
@@ -1091,7 +1089,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 D_8012CEE0[8][14] = ((dbCamera->sub.nPoints - 1) % 0xA) + 0x30;
                 func_8006376C(0xF, 0x1A, 1, D_8012CEE0[8]);
             }
-            
+
             switch (dbCamera->sub.unk_08) {
                 case 2:
                     dbCamera->unk_3C = false;
@@ -1822,7 +1820,7 @@ void DbCamera_Reset(Camera* cam, DbCamera* dbCam) {
 }
 
 /**
- * Matches except for bss reordering. 
+ * Matches except for bss reordering.
  * Reordering is due to in-function static bss in both DbCamera_Update and DbCamera_UpdateDemoControl
  * In addition to bss at the top of this file
  */
