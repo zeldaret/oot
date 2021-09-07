@@ -357,8 +357,13 @@ s32 GfxPrint_VPrintf(GfxPrint* this, const char* fmt, va_list args) {
 }
 
 s32 GfxPrint_Printf(GfxPrint* this, const char* fmt, ...) {
+    s32 ret;
     va_list args;
     va_start(args, fmt);
 
-    return GfxPrint_VPrintf(this, fmt, args);
+    ret = GfxPrint_VPrintf(this, fmt, args);
+
+    va_end(args);
+
+    return ret;
 }

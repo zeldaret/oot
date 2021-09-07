@@ -148,16 +148,16 @@ Vec3f* DbCamera_CalcUpFromPitchYawRoll(Vec3f* dest, s16 pitch, s16 yaw, s16 roll
     temp_f14 = 1.0f - cosNegRoll;
     cosPitchSinYaw = cosPitch * sinYaw;
     sp54 = SQ(cosPitchSinYaw);
-    sp4C = (cosPitchSinYaw * sinPitch) * (0, temp_f14);
+    sp4C = (cosPitchSinYaw * sinPitch) * ((void)0, temp_f14);
     cosPitchcosYaw = cosPitch * cosYaw;
     temp_f4_2 = ((1.0f - sp54) * cosNegRoll) + sp54;
     cosPitchCosYawSinRoll = cosPitchcosYaw * sinNegRoll;
-    temp_f6 = (cosPitchcosYaw * cosPitchSinYaw) * (0, temp_f14);
+    temp_f6 = (cosPitchcosYaw * cosPitchSinYaw) * ((void)0, temp_f14);
     temp_f10_2 = sinPitch * sinNegRoll;
     spA4.x = ((negSinPitchSinYaw * temp_f4_2) + (cosPitch * (sp4C - cosPitchCosYawSinRoll))) +
              (negSinPitchCosYaw * (temp_f6 + temp_f10_2));
     sp54 = SQ(sinPitch);
-    temp_f4_2 = (sinPitch * cosPitchcosYaw) * (0, temp_f14);
+    temp_f4_2 = (sinPitch * cosPitchcosYaw) * ((void)0, temp_f14);
     temp_f8_3 = cosPitchSinYaw * sinNegRoll;
     temp_f8 = sp4C + cosPitchCosYawSinRoll;
     spA4.y = ((negSinPitchSinYaw * temp_f8) + (cosPitch * (((1.0f - sp54) * cosNegRoll) + sp54))) +
